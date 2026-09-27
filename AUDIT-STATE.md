@@ -12753,3 +12753,41 @@ skipRechecks: true })` is how the slot and `pickSessionLesson` ask for that less
   - **Not checked yet**: whether the Level Check itself should read the review's per-unit
     first-try result (it does not — the review gates nothing, by design); a browser pass of
     the review at C2, whose lessons are longest.
+- [x] **Sweep 176 — the 180-lesson grammar census, and the E2E the level review broke (2026-09-27).**
+      The "Open" item sweep 175 left — no census of all 180 lessons for false grammar — was
+      run as a read of every lesson, then every finding re-read at its line before touching it.
+  - **The E2E audit for #758 missed a spec**: `course-walk.spec.js` asserted that finishing A1
+    puts "Unit 7 of 36" on Home; the level review now leads Home at the crossing, by design.
+    The audit grepped for the new test ids and for "review", not for the spec that walks the
+    crossing itself. Split into both halves of the new contract — the review first, then A2
+    Unit 1 once `reviews.A1` is recorded — each the other's control. 19/19 course specs green
+    on a CI-equivalent build (placeholder `VITE_FIREBASE_*`).
+  - **Marked real Croatian wrong** (the NEVER-DO 17 direction): `ako bih` / `ako bismo` taught
+    as "not a construction" in four B2 items and the curriculum objective, while the app's own
+    B2 formal-email lesson and dialogue bank use `ako biste`. Potential conditions with `ako` +
+    conditional are standard; the distractors are now genuinely wrong (`da bih` = in order to,
+    `Da znao sam`, `Kad smo`). Also: `Hugoa` (C2 table, example and a drill ANSWER — it is
+    `Huga`); `knjiga o Hillari Clinton` keyed correct (it is `o Hillary Clinton`); the A2 check
+    that keyed `kod` for motion to a doctor.
+  - **Taught false grammar**: `kod` + genitive for MOTION (A1, A2, exercises, two drills — `kod`
+    is location; motion is dative / `k` + dative), recast as location everywhere; `mliječni`
+    as the short-jat example (it keeps -ije-; now `rijeka → rječni`, B2 + C1); "every -ost
+    noun is feminine" (`gost`, `most`); `Mogli biste li` (li must lead the cluster — `Biste li
+mogli`, B1 ×6, B2, a drill); `Pasti će` → `Past će`; `ako bude padati` → `bude padala`;
+    `Sam sam sam` (three sams is not a sentence); the capital after `Poštovani,` (Croatian
+    continues lower-case after the comma); `je` last in the cluster stated for every auxiliary;
+    `nego` comma; comma before `jer`/`iako` after the main clause (the app's own zarez lesson
+    says none — C1 contradicted it); the vocative of -c nouns (-če); the gender, clitic, aspect,
+    comparative and genitive-possession rows listed in the diff.
+  - **False facts**: Gaj gave the alphabet `đ` (Daničić, later); Judita a "novel" "printed
+    1501" (an epic, printed 1521); `kaj` as "where"; `sz` = š in pre-Gaj spelling (it is s);
+    "Post-1991: vlak, tisuća, tjedan…" (they predate it); `Karlovci` as a Croatian town;
+    `u Oslu` as "uninflected"; the telescope ambiguity claimed absent in Croatian.
+  - **Checked and left**: `boli me`, `ni otac ni kćeri nisu došle`, `nemoj ostaviti` (sweep
+    175's reasons); `Gdi si bil` (čakavian, correct); `neću` / `ne ću` recast as both codified
+    rather than one "older".
+  - Lint 479 files, 0 findings; `lessonDepthCheck` + `lessonPracticeCheck` 0 at every level;
+    full unit suite green except `curriculum.test.js`'s etag pin, which was the LOCAL
+    gitignored `_etags.js` gone stale after the objective edit — regenerated, 14/14.
+  - **Not checked yet**: the 109 ModeDrill banks and ~100 hand-written drills against the same
+    classes (`kod` for motion was in two; `Hugoa` in one) — a census, not a spot fix.

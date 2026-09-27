@@ -1773,7 +1773,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'Punctuation',
-            text: 'A comma after the greeting; the message starts on a new line with a capital.',
+            text: 'A comma after the greeting; the message continues on a new line with a lower-case letter, since the comma does not end a sentence.',
           },
         ],
         answer: 'Poštovana gospođo Marić,',

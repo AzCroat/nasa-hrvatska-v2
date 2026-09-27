@@ -163,8 +163,8 @@ export const HEALTH_DRILL_DATA: ModeDrillItem[] = [
   // ── lijecnik ──────────────────────────────────────────────────────────────
   {
     mode: 'lijecnik',
-    q: 'Idem kod ____. (liječnik)',
-    en: 'I am going to the doctor.',
+    q: 'Sutra sam kod ____. (liječnik)',
+    en: "Tomorrow I am at the doctor's.",
     opts: ['liječnika', 'liječnik', 'liječniku', 'liječnikom'],
     answer: 'liječnika',
     tip: 'kod takes the GENITIVE: kod liječnika, kod zubara.',

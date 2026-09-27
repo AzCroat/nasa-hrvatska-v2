@@ -4351,10 +4351,24 @@ Level Check (`equivalency`).
   the mutation's. Re-run on a green baseline, all fourteen still fail; a mutation reported
   as "1 failed" on a red baseline is indistinguishable from a survivor. **Run the baseline
   before the mutations, and read counts only against a green one.**
+- **AND THE E2E AUDIT MISSED THE SPEC THAT WALKS THE CROSSING.** `course-walk.spec.js`
+  asserted "Unit 7 of 36" on Home after all of A1; the review now leads Home there, so CI
+  went red on #758. The audit had grepped for the new test ids and the word "review" — not
+  for the spec whose SCENARIO the change alters. When a change moves what a state SERVES,
+  grep the specs for the state (here, "finishing A1"), not only for the new names. The spec
+  now pins both halves: the review first, then Unit 7 once `reviews.A1` is recorded.
+- **THE GRAMMAR CENSUS OF ALL 180 LESSONS (sweep 176) found false grammar in shipped
+  lessons at every level**, and the worst direction was marking real Croatian wrong:
+  `ako bih` / `ako biste` + conditional is a standard potential condition (the app's own
+  formal-email lesson uses it), and four B2 items keyed it as an error. Distractors now fail
+  some other way (`da bih` = in order to). Others: `kod` + genitive for MOTION (location
+  only), `mliječni` as a short-jat example (it keeps -ije-), `Mogli biste li` (li leads the
+  cluster), `Hugoa` (`Huga`), Gaj and `đ`. The list is in AUDIT-STATE sweep 176.
 - NEVER: serve a level review inside a level the learner has started; count only
   `tested` units as a finished level; score the review or gate anything on it; report the
   corrected second pass as the result; merge authored Croatian because a checker passed
-  (read every distractor for real Croatian); let a practice hint contain its answer.
+  (read every distractor for real Croatian); let a practice hint contain its answer; teach
+  `kod` for motion; key `ako` + conditional as an error.
 
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 

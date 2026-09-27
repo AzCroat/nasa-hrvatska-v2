@@ -51,8 +51,8 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'How to Spot Them',
-        body: 'There is no reliable ending to look for, but there is a strong tendency: abstract nouns built from adjectives end in -ost and are all in this class — radost, mladost, ljubaznost, mogućnost, sposobnost. Beyond those, the common ones simply have to be learned as vocabulary, the way you learn any gender.',
-        highlight: '-ost is always in this class',
+        body: 'There is no reliable ending to look for, but there is a strong tendency: abstract nouns built from adjectives end in -ost and are all in this class — radost, mladost, ljubaznost, mogućnost, sposobnost. (Gost, guest, and most, bridge, only look similar: they are not built with the suffix, and both are masculine.) Beyond those, the common ones simply have to be learned as vocabulary, the way you learn any gender.',
+        highlight: 'abstract nouns built from adjectives end in -ost and are all in this class',
       },
       {
         type: 'table',
@@ -136,7 +136,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Postoji mogućnost da dođem.',
             en: 'There is a possibility that I will come.',
-            note: '-ost nouns are all in this class',
+            note: 'abstract -ost nouns are all in this class',
           },
         ],
       },
@@ -270,7 +270,7 @@ export const LESSONS_B2 = [
         title: 'The i-Declension — Key Takeaways',
         points: [
           'Feminine nouns ending in a consonant: stvar, noć, ljubav, riječ, misao',
-          'Every -ost noun belongs to this class',
+          'Every abstract -ost noun belongs to this class (gost and most are masculine)',
           'Genitive, dative and locative singular are all -i',
           'The accusative is identical to the nominative — nothing changes',
           'Adjectives still agree as feminine: velika stvar, duga noć',
@@ -1282,13 +1282,13 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Kad Bih Is the Same Thing',
-        body: '"Kad bih imao vremena, došao bih" means exactly what "Da imam vremena, došao bih" means. Both are standard; "da" is more common in speech and "kad bih" reads a shade more formal. What you cannot do is mix them — "ako bih" is not the construction, and it is a reliable marker of a learner.',
+        body: '"Kad bih imao vremena, došao bih" means what "Da imam vremena, došao bih" means. Both are standard; "da" is more common in speech and "kad bih" reads a shade more formal. "Ako bih imao vremena, došao bih" is Croatian too, but it offers the condition as merely possible — "if I were to have time" — rather than as untrue, so when you are saying something is NOT the case, reach for da or kad.',
         highlight: 'Kad bih imao…, došao bih.',
       },
       {
         type: 'rule',
         title: 'The Conditional Alone Is a Softener',
-        body: 'Outside conditions entirely, the same forms make any request or opinion gentler — which is why you met "htio bih" at A1 long before this lesson. Mogli biste li mi pomoći? Rekao bih da je to točno. Ja bih to drugačije riješio. At B2 this is less a grammar point than a register control: the conditional is how you avoid sounding blunt.',
+        body: 'Outside conditions entirely, the same forms make any request or opinion gentler — which is why you met "htio bih" at A1 long before this lesson. Biste li mi mogli pomoći? Rekao bih da je to točno. Ja bih to drugačije riješio. At B2 this is less a grammar point than a register control: the conditional is how you avoid sounding blunt.',
         highlight: 'Rekao bih da…',
       },
       {
@@ -1365,11 +1365,11 @@ export const LESSONS_B2 = [
         options: [
           'Ako imam vremena, došao bih.',
           'Da imam vremena, došao bih.',
-          'Ako bih imao vremena, došao bih.',
+          'Da bih imao vremena, došao bih.',
         ],
         correct: 1,
         explanation:
-          'A condition contrary to fact takes "da", not "ako". "Ako bih" is not a Croatian construction at all and is one of the clearest learner markers.',
+          'A condition you know is untrue takes "da" plus the present. "Ako imam" treats it as still open, which clashes with the conditional "došao bih", and "da bih" means "in order to", not "if".',
       },
       {
         type: 'quiz',
@@ -1383,7 +1383,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The most audible error is "ako bih": "Ako bih imao vremena, došao bih" — the unreal condition is Da imam vremena, došao bih, or Kad bih imao vremena, došao bih; "ako" never takes the conditional. The second is English tense logic: "Da sam imao vremena, došao sam" — the main clause must be conditional, došao bih. The third is losing the second-position clitic: "Da nisi zakasnio, bismo stigli" — the auxiliary sits second in its clause, stigli bismo.',
+        body: 'The most audible error is "da bih" for "if": "Da bih imao vremena, došao bih" — da bih means "in order to"; the unreal condition is Da imam vremena, došao bih, or Kad bih imao vremena, došao bih. (Ako bih imao vremena… is Croatian too, but it offers the condition as possible, not as untrue.) The second is English tense logic: "Da sam imao vremena, došao sam" — the main clause must be conditional, došao bih. The third is losing the second-position clitic: "Da nisi zakasnio, bismo stigli" — the auxiliary sits second in its clause, stigli bismo.',
         highlight: 'Da imam vremena, došao bih',
       },
       {
@@ -1399,22 +1399,22 @@ export const LESSONS_B2 = [
           },
           {
             q: 'Complete: "___ imali auto, otišli bismo na more." (If we had had a car, we would have gone to the sea.)',
-            options: ['Ako bismo', 'Da smo', 'Ako smo', 'Da bismo'],
+            options: ['Kad smo', 'Da smo', 'Ako smo', 'Da bismo'],
             correct: 1,
             explanation:
-              'A condition contrary to fact takes da plus the perfect: Da smo imali. "Ako bismo" is not a construction, "ako smo" marks a real condition, and "da bismo" means in order to.',
+              'A past condition contrary to fact takes da plus the perfect: Da smo imali. "Kad smo" means "when we had" — a real past time — "ako smo" marks a real condition, and "da bismo" means in order to.',
           },
           {
             q: 'Which sentence is correct?',
             options: [
               'Da sam znao, rekao bih ti.',
-              'Ako bih znao, rekao bih ti.',
+              'Da znao sam, rekao bih ti.',
               'Da sam znao, rekao sam ti.',
               'Da bih znao, rekao bih ti.',
             ],
             correct: 0,
             explanation:
-              'Da plus the perfect in the condition, the conditional in the main clause. "Ako bih" marks a learner instantly, and "rekao sam" turns the result into a plain past fact.',
+              'Da plus the perfect in the condition, the conditional in the main clause. "Da znao sam" pushes the clitic out of second position, "rekao sam" turns the result into a plain past fact, and "da bih" means in order to.',
           },
           {
             q: 'What is wrong with "Kad bih imao vremena, došao sam"?',
@@ -1450,14 +1450,14 @@ export const LESSONS_B2 = [
           {
             q: 'Which is the more formal alternative to "Da imam vremena, došao bih"?',
             options: [
-              'Ako bih imao vremena, došao bih.',
+              'Kad sam imao vremena, došao bih.',
               'Kad imam vremena, došao bih.',
               'Kad bih imao vremena, došao bih.',
               'Da bih imao vremena, došao bih.',
             ],
             correct: 2,
             explanation:
-              '"Kad bih" plus the participle means the same as "da" plus the present and reads a shade more formal. Only "ako" is excluded from the conditional, and "da bih" means in order to.',
+              '"Kad bih" plus the participle means the same as "da" plus the present and reads a shade more formal. "Kad imam" and "kad sam imao" state a real time, not a condition, and "da bih" means in order to.',
           },
         ],
       },
@@ -1467,7 +1467,7 @@ export const LESSONS_B2 = [
         points: [
           'ako = it may happen · da = it did not',
           'da + perfect, then bih / bi / bismo / biste plus the participle',
-          '"Ako bih" is not a construction — it marks a learner immediately',
+          '"Ako bih…" offers a condition as possible; for something untrue, use da or kad — and never "da bih", which means in order to',
           'Kad bih… means the same as Da… and reads slightly more formal',
           'The conditional alone softens any request or opinion',
         ],
@@ -3467,7 +3467,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Poštovani Is the Default',
-        body: '"Poštovani" — respected — is the standard opener and works when you do not know the recipient or their gender. It takes a comma, and the next line starts with a capital. Using "Dragi" to a stranger reads as over-familiar, and going straight into the message with no greeting reads as rude in a way it often does not in English.',
+        body: '"Poštovani" — respected — is the standard opener and works when you do not know the recipient or their gender. It takes a comma, and the letter then continues on a new line with a lower-case letter, because a comma does not end a sentence (after an exclamation mark — Poštovani! — it would be a capital). Using "Dragi" to a stranger reads as over-familiar, and going straight into the message with no greeting reads as rude in a way it often does not in English.',
         highlight: 'Poštovani,',
       },
       {
@@ -4835,7 +4835,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is the wrong preposition or case on a fixed verb: "ovisi na tome", "ovisi u tome" — the verb is ovisiti o plus the locative, ovisi o tome; and "odnosi se o" — odnositi se na plus the accusative, odnosi se na sve. The second is treating an -ost noun as masculine because it ends in a consonant: "važan odgovornost", "velik mogućnost" — every -ost noun is feminine and declines like stvar: velika odgovornost, bez mogućnosti. The third is the accusative for the quality after smatrati: "Smatram to važno" — the compact shape puts the quality in the instrumental, Smatram to važnim.',
+        body: 'The first error is the wrong preposition or case on a fixed verb: "ovisi na tome", "ovisi u tome" — the verb is ovisiti o plus the locative, ovisi o tome; and "odnosi se o" — odnositi se na plus the accusative, odnosi se na sve. The second is treating an -ost noun as masculine because it ends in a consonant: "važan odgovornost", "velik mogućnost" — every abstract -ost noun is feminine and declines like stvar: velika odgovornost, bez mogućnosti. The third is the accusative for the quality after smatrati: "Smatram to važno" — the compact shape puts the quality in the instrumental, Smatram to važnim.',
         highlight: 'ovisi o tome',
       },
       {
@@ -4878,7 +4878,7 @@ export const LESSONS_B2 = [
             ],
             correct: 1,
             explanation:
-              'Every -ost noun is feminine, so the adjective agrees: velika odgovornost. "Za" plus the accusative "mladog čovjeka" is right as it stands.',
+              'Every abstract -ost noun is feminine, so the adjective agrees: velika odgovornost. "Za" plus the accusative "mladog čovjeka" is right as it stands.',
           },
           {
             q: 'Which suffix builds "sigurnost" from "siguran", and what is the result?',
@@ -5455,13 +5455,13 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Ije, Je, E — the Yat Reflex',
-        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "mlijeko" but also "mliječni", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je-. The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
-        highlight: 'mlijeko → mliječni',
+        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "rijeka" but also "rječni", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je-. The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
+        highlight: 'rijeka → rječni',
       },
       {
         type: 'rule',
         title: 'The Illyrian Movement and Standardisation',
-        body: 'In the 1830s and 40s a group around Ljudevit Gaj set out to unify Croatian writing — Gaj gave the alphabet its diacritics, which is why it is called "gajica", and the movement settled on štokavski as the basis for a shared standard. Almost every spelling convention you have learned dates from that period rather than from anything older.',
+        body: 'In the 1830s and 40s a group around Ljudevit Gaj set out to unify Croatian writing — Gaj gave the alphabet most of its diacritics (č, ć, š, ž; đ came later), which is why it is called "gajica", and the movement settled on štokavski as the basis for a shared standard. Almost every spelling convention you have learned dates from that period rather than from anything older.',
         highlight: 'gajica — Gaj’s alphabet',
       },
       {
@@ -5526,9 +5526,9 @@ export const LESSONS_B2 = [
             note: 'čuvati se — a se-passive',
           },
           {
-            hr: 'Dijete pije mlijeko, a djeca vole mliječne proizvode: to je isti jat.',
-            en: 'A child drinks milk, and children love dairy products: that is the same jat.',
-            note: 'dijete → djeca, mlijeko → mliječni',
+            hr: 'Dijete se kupa u rijeci, a djeca love rječne ribe: to je isti jat.',
+            en: 'A child swims in the river, and the children catch river fish: that is the same jat.',
+            note: 'dijete → djeca, rijeka → rječni',
           },
           {
             hr: 'Umjesto stranih riječi Hrvati često grade svoje: zrakoplov, računalo, sveučilište.',
@@ -5563,19 +5563,19 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is treating the ije/je alternation as random and writing the long reflex everywhere: "mlijekni", "vrijemena", "lijepši" — the short reflex belongs in the derived and oblique forms, mliječni, vremena, ljepši. The second is placing the dialects by the wrong cue: kajkavski is Zagreb and the north-west, čakavski the coast and islands — a speaker saying kaj is not from Dalmatia. The third is assuming the international word is the only one: "kompjuter" is understood, but written Croatian prefers the built word, računalo.',
-        highlight: 'mliječni, vremena, ljepši',
+        body: 'The first error is treating the ije/je alternation as random and writing the long reflex everywhere: "dijeca", "vrijemena", "lijepši" — the short reflex belongs in the derived and oblique forms, djeca, vremena, ljepši. The second is placing the dialects by the wrong cue: kajkavski is Zagreb and the north-west, čakavski the coast and islands — a speaker saying kaj is not from Dalmatia. The third is assuming the international word is the only one: "kompjuter" is understood, but written Croatian prefers the built word, računalo.',
+        highlight: 'djeca, vremena, ljepši',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Volim ___ proizvode." (I like dairy products — from mlijeko.)',
-            options: ['mlijekne', 'mliječne', 'mlječne', 'mlijeko'],
+            q: 'Complete: "___ ribe žive u slatkoj vodi." (River fish live in fresh water — from rijeka.)',
+            options: ['Rijekne', 'Rječne', 'Rijeke', 'Rijekom'],
             correct: 1,
             explanation:
-              'In the derived adjective the jat is short: mliječni. "Mlijekne" keeps the long reflex where it does not belong, and "mlječne" drops the vowel entirely.',
+              'In the derived adjective the jat is short and k softens to č: rječni. "Rijekne" keeps both the long reflex and the k, and rijeke / rijekom are forms of the noun, not the adjective.',
           },
           {
             q: 'Complete: "Nemam ___ za kavu." (I have no time for coffee.)',
@@ -5618,7 +5618,7 @@ export const LESSONS_B2 = [
             ],
             correct: 3,
             explanation:
-              'Ljudevit Gaj gave the Latin alphabet its č, ć, đ, š, ž in the 1830s, and the resulting script carries his name. The tablet is the Bašćanska ploča.',
+              'Ljudevit Gaj gave the Latin alphabet its č, ć, š and ž in the 1830s, and the script carries his name; đ, which Gaj wrote as gj, came later, from Đuro Daničić. The tablet is the Bašćanska ploča.',
           },
           {
             q: 'Why does Croatian have "zrakoplov" beside "avion"?',
@@ -5649,7 +5649,7 @@ export const LESSONS_B2 = [
           'štokavski, čakavski, kajkavski — named for što, ča and kaj',
           'The standard is štokavski and ijekavian: mlijeko, vrijeme',
           'The ije/je alternation is the jat reflex, not an irregularity',
-          'Gaj gave the alphabet its diacritics in the 1830s — hence gajica',
+          'Gaj gave the alphabet most of its diacritics in the 1830s — hence gajica',
           'Building native words rather than borrowing is a deliberate tradition',
         ],
       },
@@ -5716,8 +5716,8 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'Marulić and the First European Novel in Croatian',
-        body: 'Marko Marulić of Split, writing around 1500, is called the father of Croatian literature — and he coined the word "psychology" in its modern sense in Latin. His "Judita" (1501) is the first substantial literary work printed in Croatian. You will not read it at B2, but every Croatian knows the name, and knowing why is worth more than the reading would be.',
+        title: 'Marulić and the First Croatian Epic',
+        body: 'Marko Marulić of Split, writing around 1500, is called the father of Croatian literature — and he coined the word "psychology" in its modern sense in Latin. His epic poem "Judita", finished in 1501 and printed in 1521, is counted the first great work of Croatian literature written in the vernacular. You will not read it at B2, but every Croatian knows the name, and knowing why is worth more than the reading would be.',
         highlight: 'Marulić — Judita, 1501',
       },
       {
@@ -5893,7 +5893,7 @@ export const LESSONS_B2 = [
             ],
             correct: 2,
             explanation:
-              'Marko Marulić of Split wrote Judita in 1501, the first substantial literary work printed in Croatian. Gaj reformed the alphabet; Krleža and Nazor are twentieth-century writers.',
+              'Marko Marulić of Split finished the epic poem Judita in 1501, the first great work of Croatian literature in the vernacular. Gaj reformed the alphabet; Krleža and Nazor are twentieth-century writers.',
           },
         ],
       },

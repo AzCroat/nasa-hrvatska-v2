@@ -1204,7 +1204,7 @@ export const CURRICULUM = [
     objectives: [
       'Say what would have happened if things had been different',
       'Choose da for the unreal where ako marks the real',
-      'Stop producing ako bih, which marks a learner immediately',
+      'Keep da bih (in order to) apart from the da of an unreal condition',
     ],
   },
   {

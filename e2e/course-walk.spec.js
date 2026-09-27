@@ -27,7 +27,7 @@ const WORDS =
   'Zovem se Ana i živim u Zagrebu. Imam brata i sestru. Moj brat je student, a moja sestra je učiteljica. ' +
   'Volim čitati knjige i piti kavu s prijateljima. Ovo je moja kuća i moj grad.';
 
-async function setup(page, done, units) {
+async function setup(page, done, units, reviews) {
   const errs = [];
   page.on('pageerror', (e) => errs.push(e.message));
   await seedAuth(page);
@@ -35,32 +35,44 @@ async function setup(page, done, units) {
   await mockTTS(page);
   await mockContent(page);
   await page.addInitScript(
-    ([ids, u]) => {
+    ([ids, u, r]) => {
       if (window.top !== window) return;
       if (sessionStorage.getItem('cw_seeded')) return;
       sessionStorage.setItem('cw_seeded', '1');
       const d = {};
       for (const id of ids) d[id] = '2026-09-01';
       localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: d }));
-      localStorage.setItem('nh_course_units', JSON.stringify({ units: u }));
+      localStorage.setItem(
+        'nh_course_units',
+        JSON.stringify(r ? { units: u, reviews: r } : { units: u }),
+      );
     },
-    [done, units],
+    [done, units, reviews],
   );
   return errs;
 }
 
-const unitState = (page, id) => page.getByTestId(`course-unit-${id}`).getAttribute('data-unit-state');
+const unitState = (page, id) =>
+  page.getByTestId(`course-unit-${id}`).getAttribute('data-unit-state');
 
 async function openMap(page) {
   await page.goto('/coursemap');
   await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
 }
 
-test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', async ({ page }) => {
+test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', async ({
+  page,
+}) => {
   test.setTimeout(180_000);
-  const errs = await setup(page, UNIT1, { 'A1-1': { passedAt: DAY, bestCorrect: 14, bestTotal: 15 } });
+  const errs = await setup(page, UNIT1, {
+    'A1-1': { passedAt: DAY, bestCorrect: 14, bestTotal: 15 },
+  });
   await page.route('**/api/correct', (r) =>
-    r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ score: 78, changes: [] }) }),
+    r.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({ score: 78, changes: [] }),
+    }),
   );
   await page.route('**/api/speaking-coach', (r) =>
     r.fulfill({
@@ -103,7 +115,9 @@ test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', 
 
 test('a refused evaluator names the cause and does not wall the course', async ({ page }) => {
   test.setTimeout(120_000);
-  const errs = await setup(page, UNIT1, { 'A1-1': { passedAt: DAY, bestCorrect: 14, bestTotal: 15 } });
+  const errs = await setup(page, UNIT1, {
+    'A1-1': { passedAt: DAY, bestCorrect: 14, bestTotal: 15 },
+  });
   await page.route('**/api/correct', (r) =>
     r.fulfill({
       status: 429,
@@ -126,8 +140,7 @@ test('a refused evaluator names the cause and does not wall the course', async (
   expect(errs).toEqual([]);
 });
 
-test('finishing A1 puts the learner in A2 Unit 1, on the map and on Home', async ({ page }) => {
-  test.setTimeout(120_000);
+function allA1Mastered() {
   const units = {};
   for (let i = 1; i <= 6; i++) {
     units[`A1-${i}`] = {
@@ -136,15 +149,42 @@ test('finishing A1 puts the learner in A2 Unit 1, on the map and on Home', async
       recheck: { stage: 2, dueAt: '2026-12-30', heldAt: DAY },
     };
   }
-  const errs = await setup(page, A1, units);
+  return units;
+}
+
+// Crossing a level serves the mixed review of the level just finished FIRST —
+// the course has opened A2, but the review is what Home leads with, once.
+test('finishing A1 opens A2 Unit 1 on the map, and Home leads with the A1 review', async ({
+  page,
+}) => {
+  test.setTimeout(120_000);
+  const errs = await setup(page, A1, allA1Mastered());
   await openMap(page);
   expect(await unitState(page, 'A1-6')).toBe('mastered');
   expect(await unitState(page, 'A2-1')).toBe('current');
   await expect(page.getByTestId('course-units-mastered')).toContainText('6 of 36');
+  await expect(page.getByTestId('course-level-review-A1')).toHaveAttribute('data-done', '0');
+
+  await page.goto('/');
+  const card = page.getByTestId('session-card');
+  await expect(card).toBeVisible({ timeout: 30_000 });
+  await expect(card).toContainText('A1 review', { timeout: 20_000 });
+  await expect(card).not.toContainText('Unit 7 of 36');
+  expect(errs).toEqual([]);
+});
+
+test('once the A1 review is done, Home teaches A2 Unit 1', async ({ page }) => {
+  test.setTimeout(120_000);
+  const errs = await setup(page, A1, allA1Mastered(), {
+    A1: { doneAt: DAY, firstTryCorrect: 16, total: 18 },
+  });
+  await openMap(page);
+  await expect(page.getByTestId('course-level-review-A1')).toHaveAttribute('data-done', '1');
 
   await page.goto('/');
   const card = page.getByTestId('session-card');
   await expect(card).toBeVisible({ timeout: 30_000 });
   await expect(card).toContainText('Unit 7 of 36', { timeout: 20_000 });
+  await expect(card).not.toContainText('A1 review');
   expect(errs).toEqual([]);
 });
