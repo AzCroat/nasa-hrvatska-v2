@@ -12609,3 +12609,20 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   anywhere whose ink is an accentInk mix. Analytics' number tiles route through it, its
   "✓ Earned" chip is a fixed #92400e on its fixed amber chip, "N/M earned" is --ink-warn.
   Mutation-verified: the darkening disabled fails 10 of accentInk.test.ts's 26.
+
+- [x] **Sweep 171 — the session drilled concepts the course had not taught (2026-09-27).**
+  Walking a Unit 1 learner's day in a browser, Home served "Genitive — you haven't
+  practised the genitive yet"; the genitive is taught in Unit 5. Measured with the real
+  builder, 40 builds per level, full spine: `genitivedrill` in 40/40 sessions at A2 on a
+  lesson day and at A1, A2, B1 and C1 on the unit-test day — the adaptive store's new-user
+  first pick, gated on CEFR only. `src/lib/courseGate.ts` derives the concept categories
+  taught only in unreached units (reached = lessons read, library included, plus every
+  lesson in an opened unit) and their route screens; P2's adaptive pick (also
+  getNextStep's discovery rung) and every pool draw through `entryServable` skip them.
+  MODALITY categories (writing/speaking/listening/reading) are never gated — without that
+  exclusion the B2 `formal-email` coupling would have removed Guided Writing from A1 in
+  11 of 40 sessions. No spine → nothing ahead. After: 0/40 everywhere, activity totals per
+  level unchanged. Pinned by `courseGate.test.ts` (18). Mutation-verified: the draw-site
+  gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
+  grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
+  adaptive skip removed fails 5; the reached-tag clause removed fails 1.

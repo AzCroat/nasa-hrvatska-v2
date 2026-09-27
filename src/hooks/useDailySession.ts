@@ -1,4 +1,5 @@
 // src/hooks/useDailySession.ts
+import { readCourseAhead, isAheadOfCourse, type CourseAhead } from '../lib/courseGate';
 import { useState, useCallback, useEffect } from 'react';
 import { getDueReviews, getServableReviewCount } from '../lib/srs';
 import { getDueCategoryQueue, CONJ_CATEGORIES, CATEGORY_MIN_CEFR } from '../lib/adaptive';
@@ -155,7 +156,9 @@ export function resolveAdaptiveActivity(
   usedScreens: Set<string>,
 ): SessionActivity | null {
   const queue = getDueCategoryQueue(6);
+  const ahead = readCourseAhead();
   for (const { category } of queue) {
+    if (ahead.categories.has(category)) continue; // not taught yet (lib/courseGate)
     const isConj = CONJ_LAB_ENABLED && CONJ_CATEGORIES.has(category);
     if (isConj) {
       const min = CATEGORY_MIN_CEFR[category];
@@ -285,18 +288,26 @@ function isGrammarStructure(category: SessionCategory): boolean {
 // micRequired contract. Compute the context once per draw site — a cheap
 // synchronous localStorage lookup. (The Wave 8 premium gate was removed
 // 2026-08 with the subscription system: every entry serves every user.)
+//
+// COURSE ORDER (2026-09-27): an entry drilling a concept the course teaches in a
+// unit the learner has not reached is not served — see lib/courseGate.ts.
 interface DrawCtx {
   micBlocked: boolean;
+  ahead: CourseAhead;
 }
 function drawCtx(): DrawCtx {
   const mic = readMicState();
   return {
     micBlocked: mic === 'denied' || mic === 'unsupported',
+    ahead: readCourseAhead(),
   };
 }
-function entryServable(ex: { micRequired?: boolean }, ctx: DrawCtx): boolean {
+function entryServable(
+  ex: { micRequired?: boolean; category?: string; screen: string },
+  ctx: DrawCtx,
+): boolean {
   if (ex.micRequired && ctx.micBlocked) return false;
-  return true;
+  return !isAheadOfCourse(ex, ctx.ahead);
 }
 
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
