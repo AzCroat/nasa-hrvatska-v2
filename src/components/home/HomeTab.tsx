@@ -285,7 +285,7 @@ export default function HomeTab({
   const completeNextStep = useMemo(
     () => (isComplete ? nextStepEngine.computeStep() : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- recompute on completion/queue change; computeStep reads storage fresh each call
-    [isComplete, dueCount],
+    [isComplete, dueCount, nextStepEngine.revision],
   );
   const xpThisWeek = (() => {
     try {
