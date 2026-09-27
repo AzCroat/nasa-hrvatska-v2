@@ -12386,3 +12386,22 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   grader FAILURE was reverted before commit — the shared once-only flag then swallowed the
   SCORE-based award of a retry that succeeds, and the existing "no double award" test
   stayed green because it counts calls, not amounts.
+- **After the session, "what next" is the course** (`8486bd38`): the next-step engine had
+  no course rung, so a Unit 1 learner who finished the day was sent to "Accusative —
+  least-recently practiced". Rung 3.7 reads `nextCourseStep`; the launcher makes the
+  unit-test/production handoff at tap time. Home's hero and NextUpCard computed once and
+  never recomputed when the spine landed (~5 s on a first load) — both now depend on the
+  engine's `revision` (bumps on `CURRICULUM_SPINE_EVENT`). Browser-verified.
+- **A learner who starts before the course loads** (`be3cf651`): the rebuild refused a
+  started plan (rightly), so a fast new learner got no lesson all day — a guest's first
+  activity was the Genitive drill. A started, unfinished plan now gets the teaching slots
+  INSERTED. And the rebuild could ERASE a finished activity: its completion is applied by
+  Home's mount effect after the retry reads the plan, so a finished drill vanished from the
+  card (measured). A pending session marker now counts as started, and the rebuild
+  re-checks `prev.completedIds` at execution time.
+- **OPEN — legacy guests get no course at all.** When anonymous Firebase sign-in is
+  unavailable (console setting, offline, outage), a guest has no `authUser`: App.tsx never
+  warms the spine, and every `/api/content/*` endpoint 401s without a Firebase uid —
+  core vocabulary included. Anonymous guests are unaffected. Whether anonymous sign-in is
+  enabled in production could not be checked from here without creating a real anonymous
+  account, which was not done.
