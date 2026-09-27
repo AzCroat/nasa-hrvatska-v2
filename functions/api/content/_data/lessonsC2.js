@@ -188,10 +188,10 @@ export const LESSONS_C2 = [
           },
           {
             q: 'Complete the formal report: "Uprava ___ odluku do petka."',
-            options: ['treba da donese', 'treba donijeti', 'trebala da donese', 'treba donositi'],
+            options: ['treba donositi', 'treba donijeti', 'trebaju donijeti', 'treba donesti'],
             correct: 1,
             explanation:
-              'The written norm prefers the infinitive after trebati. The da-constructions are marked in writing, and donositi is the wrong aspect for one decision by a deadline.',
+              'Treba donijeti: trebati + the perfective infinitive. One decision by a deadline is a single completed act, so donositi is the wrong aspect; uprava is singular, so not trebaju; and the infinitive is donijeti, not donesti.',
           },
           {
             q: 'Which sentence is the accepted standard form?',
@@ -294,7 +294,7 @@ export const LESSONS_C2 = [
           [
             'neću, nećeš',
             'ne ću, ne ćeš',
-            'Together is now standard; apart is the older prescription',
+            'Both have been codified: neću dominates in practice, and ne ću survives in some pravopisi and in conservative writing',
           ],
           ['pogreška', 'pogrješka', 'Both codified at times; pogreška dominates in practice'],
           ['strelica', 'strjelica', 'Same je/jě question after a consonant cluster'],
@@ -328,7 +328,7 @@ export const LESSONS_C2 = [
           [
             '„Dobar dan”, rekao je.',
             '"Good day," he said.',
-            'Comma inside the closing quotation mark',
+            'Comma after the closing quotation mark — English puts it inside',
           ],
           ['5. svibnja 2026.', '5 May 2026', 'Ordinal dots after day and year'],
           ['1.500,75', '1,500.75', 'Dot for thousands, comma for decimals'],
@@ -560,7 +560,7 @@ export const LESSONS_C2 = [
           ['Macron', 'Macrona', 'Consonant ending — declines like a normal masculine'],
           ['Shakespeare', 'Shakespearea', 'Silent final e — kept in writing, endings added after'],
           ['Kennedy', 'Kennedyja', 'Final -y takes a linking -j-'],
-          ['Hugo', 'Hugoa', 'Final -o after a vowel keeps the o and adds the ending'],
+          ['Hugo', 'Huga', 'A masculine in -o declines like Marko: Marko → Marka'],
           ['Zola', 'Zole', 'Final -a declines like a feminine, whoever bears it'],
           ['Merkel', 'Merkel', 'A woman’s surname in a consonant does not decline'],
         ],
@@ -601,7 +601,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Place Names Have Their Own Habits',
-        body: 'Some Croatian place names are plural in form and take plural agreement: Karlovci, Vinkovci — Vinkovci su lijepi. A two-word name declines in both parts: u Dugoj Resi, iz Slavonskog Broda. Foreign cities usually adapt: u Londonu, iz Pariza, prema Berlinu. Some resist and stay uninflected: u Oslu is standard, but u Peruu and u Maroku follow the ordinary masculine pattern. When in doubt, look it up rather than guess — this is a lookup problem, not a rule problem.',
+        body: 'Some Croatian place names are plural in form and take plural agreement: Vinkovci, Kaštela — Vinkovci su lijepi. A two-word name declines in both parts: u Dugoj Resi, iz Slavonskog Broda. Foreign cities adapt to the ordinary patterns: u Londonu, iz Pariza, prema Berlinu, and a neuter in -o like Oslo goes u Oslu, iz Osla. When in doubt, look it up rather than guess — this is a lookup problem, not a rule problem.',
         highlight: 'u Londonu, iz Pariza, prema Berlinu',
       },
       {
@@ -635,9 +635,9 @@ export const LESSONS_C2 = [
             note: "Macron declines (locative Macronu); the woman's consonant-final surname does not",
           },
           {
-            hr: 'Čitao sam intervju s Johnom Kennedyjem i članak o Victoru Hugou.',
+            hr: 'Čitao sam intervju s Johnom Kennedyjem i članak o Victoru Hugu.',
             en: 'I read an interview with John Kennedy and an article about Victor Hugo.',
-            note: 'Final -y takes the linking -j-; Hugo keeps its o and adds the ending',
+            note: 'Final -y takes the linking -j-; Hugo declines like Marko: o Hugu',
           },
           {
             hr: 'Ljudi su čekali satima, a djeca su se igrala na trgu.',
@@ -675,9 +675,9 @@ export const LESSONS_C2 = [
           'knjiga o Hillary Clintonu',
           'knjiga o Hillari Clintonovoj',
         ],
-        correct: 1,
+        correct: 0,
         explanation:
-          'The first name Hillary declines like a feminine noun (Hillari in the locative); the surname Clinton ends in a consonant and belongs to a woman, so it stays put. The third option gives her a masculine surname and the fourth adds a possessive suffix that modern usage has largely abandoned.',
+          'A woman\'s first name ending in a sound other than -a (Hillary ends in -i) does not decline, and a woman\'s surname ending in a consonant stays put too: o Hillary Clinton. "Hillari" respells the name, "Clintonu" gives her a masculine ending, and "Clintonovoj" adds a possessive suffix that modern usage has largely abandoned.',
       },
       {
         type: 'quiz',
@@ -2691,7 +2691,7 @@ export const LESSONS_C2 = [
         rows: [
           ['pas / pas', 'dog / belt (pojas, shortened)', 'Classic near-homonym setup'],
           ['sam / sam', 'I am / alone', 'Sam sam — "I am alone", two words one form'],
-          ['mir / mir', 'peace / a men’s name in vocative jokes', 'Wordplay on names'],
+          ['vila / vila', 'fairy / villa', 'Two words from different sources, one form'],
           ['grad / grad', 'city / hail', 'Pao je grad — the city fell, or it hailed'],
           ['luk / luk', 'onion / arch, bow', 'Same form, three meanings'],
           ['kosa / kosa', 'hair / scythe', 'Homographs with different accents'],
@@ -2706,7 +2706,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Case Endings Are a Punchline',
-        body: 'Because Croatian marks role by ending rather than order, a joke can hinge on which ending was used. "Vidio sam ga s teleskopom" is ambiguous in English about who had the telescope; Croatian can disambiguate — and a comedian will choose the reading you did not. Similarly, the vocative is a comic resource: calling someone by a mock-formal vocative is a joke in itself.',
+        body: 'Because Croatian marks role by ending rather than order, a joke can hinge on which ending was used. "Vidio sam čovjeka s teleskopom" is as ambiguous as the English — who had the telescope? — and a comedian will choose the reading you did not. The bare instrumental removes the doubt: "Vidio sam čovjeka teleskopom" can only mean I used it. Similarly, the vocative is a comic resource: calling someone by a mock-formal vocative is a joke in itself.',
         highlight: 'the ending, not the order, holds the trap',
       },
       {
@@ -2726,9 +2726,9 @@ export const LESSONS_C2 = [
         title: 'Jokes That Need the Grammar',
         items: [
           {
-            hr: 'Sam sam sam sastavio taj stol.',
-            en: 'I alone assembled that table by myself.',
-            note: 'Three sams: I-am, alone, alone-emphatic — the classic tongue-twister',
+            hr: 'Sam sam sastavio taj stol.',
+            en: 'I assembled that table by myself.',
+            note: 'Two sams: sam "alone" first, then sam "I am", the auxiliary, in second position',
           },
           {
             hr: 'Pao je grad. — Koji, Zagreb?',
@@ -2887,11 +2887,11 @@ export const LESSONS_C2 = [
               'The augmentative does the reverse of the diminutive: applied to something modest it produces the same mismatch from the other side.',
           },
           {
-            q: 'Complete: "Sam ___ sam sastavio stol." (I alone assembled it by myself)',
+            q: 'Complete: "Sam ___ sastavio stol." (I assembled the table by myself.)',
             options: ['sam', 'sama', 'samo', 'se'],
             correct: 0,
             explanation:
-              'Three sams: I am, alone, and the emphatic alone. sama would be feminine, samo means only, and se has no place in the phrase.',
+              'Two sams side by side: sam "alone", then sam "I am", the auxiliary, in second position. sama would be feminine, samo means only, and se has no place in the phrase.',
           },
         ],
       },
@@ -3871,7 +3871,11 @@ export const LESSONS_C2 = [
         title: 'What Looks Wrong and Is Not',
         headers: ['You see', 'It is', 'Note'],
         rows: [
-          ['cs, ch, sz', 'č, ć, š', 'Pre-Gaj spelling; digraphs for the diacritics'],
+          [
+            'cs, ch, s, sz',
+            'č, č / ć, š, s',
+            'Pre-Gaj spelling: cs and ch stood for č and ć, a plain s often for š, and sz for s',
+          ],
           ['ie, ye', 'ije, je', 'Older yat spellings'],
           ['bijah, bijaše', 'imperfect of biti', 'Dead in speech, everywhere in these texts'],
           ['reče, dođe', 'aorist', 'The default narrative tense'],
@@ -5327,8 +5331,8 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Ja sam ti to htio reći → Htio sam ti to reći.',
-            en: 'Clitic order; and the pronoun ja is redundant here.',
-            note: 'Two changes, both rule-based, both worth naming',
+            en: 'The clitic order was already right (sam ti to after the first word); the only change drops the pronoun ja, which adds emphasis the sentence does not need.',
+            note: 'A style change, not a correction — say which kind of note you are giving',
           },
           {
             hr: 'Odbor je odlučio da će razmotriti… → Odbor je odlučio razmotriti…',
@@ -5538,7 +5542,7 @@ export const LESSONS_C2 = [
           ],
           [
             'Tiha voda brijege dere.',
-            'Still water wears down the hills.',
+            'Still water wears away the banks.',
             'The quiet one to watch',
           ],
           [
@@ -5802,7 +5806,7 @@ export const LESSONS_C2 = [
         headers: ['Standard', 'Kajkavian', 'Čakavian'],
         rows: [
           ['Što radiš?', 'Kaj delaš?', 'Ča delaš?'],
-          ['Gdje si bio?', 'Gdje si bil?', 'Gdi si bil?'],
+          ['Gdje si bio?', 'Gde si bil?', 'Gdi si bil?'],
           ['Idem kući.', 'Idem domov.', 'Gren doma.'],
           ['Nisam znao.', 'Nis znal.', 'Nisan znal.'],
           ['Lijepo je.', 'Lepo je.', 'Lipo je.'],

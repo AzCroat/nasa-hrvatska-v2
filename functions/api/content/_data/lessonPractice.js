@@ -18,9 +18,21 @@
 // The check stays immediately before the summary (lessonDepthRules pins both).
 
 import { PRACTICE_A1 } from './lessonPracticeA1.js';
+import { PRACTICE_A2 } from './lessonPracticeA2.js';
+import { PRACTICE_B1 } from './lessonPracticeB1.js';
+import { PRACTICE_B2 } from './lessonPracticeB2.js';
+import { PRACTICE_C1 } from './lessonPracticeC1.js';
+import { PRACTICE_C2 } from './lessonPracticeC2.js';
 
 /** lesson id → { worked: WorkedSlide[], practice: PracticeSlide } */
-export const LESSON_PRACTICE = { ...PRACTICE_A1 };
+export const LESSON_PRACTICE = {
+  ...PRACTICE_A1,
+  ...PRACTICE_A2,
+  ...PRACTICE_B1,
+  ...PRACTICE_B2,
+  ...PRACTICE_C1,
+  ...PRACTICE_C2,
+};
 
 export function withPractice(lessons) {
   return lessons.map((lesson) => {

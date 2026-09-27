@@ -12188,6 +12188,7 @@ non-background `color:` — not touched, recorded here as the next census.
 files — including ModeDrill's `cur.en` gloss, i.e. under every question of all 109 engine
 drills, in the DEFAULT theme. `--ink-muted`'s DARK value is exactly `#94a3b8`, so the
 token swap is byte-identical in dark mode and lifts light mode to `#5f6b7d`.
+
 - 104 files converted. Held back on reading: TranslateDrillsScreen and
   ConstellationDoneMode paint a permanently dark background (`#0f172a` / the
   constellation gradient), where `#94a3b8` is correct in both themes; CroatiaAthletes:307
@@ -12215,6 +12216,7 @@ answers each lesson's six-item check CORRECTLY (answers taken from the same less
 modules the app serves, matched by the question on screen — a real pass at the real
 bar), sits the fifteen-item unit test and passes it, writes and speaks (typed, no mic)
 against mocked evaluators, and asserts the course moved them into Unit 2.
+
 - **Result: the path works.** 1 passed, 1.2 min, Desktop Chrome, against a
   CI-equivalent build. No defect found on it — said plainly, a ratchet, not a save.
 - It also pins the state between stages: after five lessons Unit 1 is still CURRENT
@@ -12237,6 +12239,7 @@ duplicated lines of screen code are replaced by `<ModeDrill …/>`: **5,440 line
 Each gains what the engine gives and the copies lacked: the wrong-answer explanation
 (`WrongAnswerHelp`), the "N of M needed" count on the result, and every future fix to
 the engine at once.
+
 - Skipped 67, recorded by reason: 44 "shape not recognised" (a concept intro, the AI
   explainer, custom modes or a different Props shape — the case drills are all here) and
   21 "body differs", plus 2 whose data section references a removed import. None was
@@ -12254,10 +12257,12 @@ the engine at once.
 painting UA black on the dark card — 214 findings fixed. It ALSO turned every button that
 paints its OWN light background into light-on-light in dark mode: the text now inherits
 the theme's near-white. A dark-mode browser sweep over all 430 routes (text luminance
+
 > 0.45 whose nearest opaque surface has luminance > 0.6) measured **662 elements on 36
-routes**, most of them answer options (`background: 'white'`, then `#dcfce7`/`#fee2e2`
-once answered). No source guard could see it: inkSurfaceAgreement's clause 1 looks for a
-themed ink TOKEN in the subtree, and inherited ink has none.
+> routes**, most of them answer options (`background: 'white'`, then `#dcfce7`/`#fee2e2`
+> once answered). No source guard could see it: inkSurfaceAgreement's clause 1 looks for a
+> themed ink TOKEN in the subtree, and inherited ink has none.
+
 - Fixed ~80 style objects: `white` → `var(--card)`; the answered tints → new tokens
   `--success-bg-strong` / `--error-bg-strong` (light values ARE `#dcfce7` / `#fee2e2`, so
   light mode is byte-identical; dark values translucent); `#f1f5f9` → `--surface-mute`;
@@ -12488,7 +12493,7 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   check-up WAS the teaching slot. Two per unit is ~2 days in 7, against P0's rule that a
   lesson comes every day. The slot is now check-up + the lesson behind it, without the
   lesson's coupled drill (same activity count as a lesson day). `nextCourseStep({
-  skipRechecks: true })` is how the slot and `pickSessionLesson` ask for that lesson — the
+skipRechecks: true })` is how the slot and `pickSessionLesson` ask for that lesson — the
   launcher's plain `nextCourseStep()` returned the check-up and would have fallen back to a
   rotation pick. Mutation-verified: each half reverted fails 1.
 - **FIXED — the session stranded on every unit-test outcome but a first pass.** The session
@@ -12613,79 +12618,79 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   Mutation-verified: the darkening disabled fails 10 of accentInk.test.ts's 26.
 
 - [x] **Sweep 171 — the session drilled concepts the course had not taught (2026-09-27).**
-  Walking a Unit 1 learner's day in a browser, Home served "Genitive — you haven't
-  practised the genitive yet"; the genitive is taught in Unit 5. Measured with the real
-  builder, 40 builds per level, full spine: `genitivedrill` in 40/40 sessions at A2 on a
-  lesson day and at A1, A2, B1 and C1 on the unit-test day — the adaptive store's new-user
-  first pick, gated on CEFR only. `src/lib/courseGate.ts` derives the concept categories
-  taught only in unreached units (reached = lessons read, library included, plus every
-  lesson in an opened unit) and their route screens; P2's adaptive pick (also
-  getNextStep's discovery rung) and every pool draw through `entryServable` skip them.
-  MODALITY categories (writing/speaking/listening/reading) are never gated — without that
-  exclusion the B2 `formal-email` coupling would have removed Guided Writing from A1 in
-  11 of 40 sessions. No spine → nothing ahead. After: 0/40 everywhere, activity totals per
-  level unchanged. Pinned by `courseGate.test.ts` (18). Mutation-verified: the draw-site
-  gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
-  grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
-  adaptive skip removed fails 5; the reached-tag clause removed fails 1.
+      Walking a Unit 1 learner's day in a browser, Home served "Genitive — you haven't
+      practised the genitive yet"; the genitive is taught in Unit 5. Measured with the real
+      builder, 40 builds per level, full spine: `genitivedrill` in 40/40 sessions at A2 on a
+      lesson day and at A1, A2, B1 and C1 on the unit-test day — the adaptive store's new-user
+      first pick, gated on CEFR only. `src/lib/courseGate.ts` derives the concept categories
+      taught only in unreached units (reached = lessons read, library included, plus every
+      lesson in an opened unit) and their route screens; P2's adaptive pick (also
+      getNextStep's discovery rung) and every pool draw through `entryServable` skip them.
+      MODALITY categories (writing/speaking/listening/reading) are never gated — without that
+      exclusion the B2 `formal-email` coupling would have removed Guided Writing from A1 in
+      11 of 40 sessions. No spine → nothing ahead. After: 0/40 everywhere, activity totals per
+      level unchanged. Pinned by `courseGate.test.ts` (18). Mutation-verified: the draw-site
+      gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
+      grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
+      adaptive skip removed fails 5; the reached-tag clause removed fails 1.
 
 - [x] **Sweep 172 — white text on data colours, and the contrast tail closed in both themes (2026-09-27).**
-  Fresh census over all 430 routes on master: light 66 elements on 17 routes, dark 194 on 43.
-  Tokens first: dark `--subtext` and `--ink-muted` #94a3b8 → #a8b4c6 (4.37:1 on the dark
-  `--warning-bg` tile, and the drills' #353e4f option rows), dark `--ink-error` → #fca5a5,
-  dark `--ink-mode` → #c4b5fd (4.42 on its own tint), light `--ink-red` #D40030 → #b8002a
-  (4.23 on the screen-header pill), `--fill-info` added. That alone took dark 194 → 70.
-  The rest was one class — white text on a DATA colour — plus a tail: `accentFill` (86 render
-  sites by codemod, arms paired with the white ink only when the ink is unconditional or its
-  ternary shares the background's condition, plus 7 wrapped by hand; 12 literal fills and 5
-  status-token fills rewritten by two narrower passes), literal fills
-  under white darkened or moved to `--fill-*`, the case badges' lightening pill, the
-  `.cefr-*` classes' own-tint inks, HNL medals (gold/silver take dark ink, bronze darkened —
-  a paired lookup, because `inlineInkContrast` cannot pair ternary arms), the athletes' filter
-  tabs (a fixed white slab with a themed count pill, 2.56:1 in dark), Baka Summer's chapter
-  dots and date line, the profession-gender header, the Unjumble answer slab
-  (`rgba(255,255,255,.65)` under themed ink, 1.69:1 in dark), the static privacy/terms
-  footers (#a8a29e on #f8fafc, 2.41) and their dark-mode links, `MapScreen`'s title (white on
-  the light header, 1.08:1), and GrammarTrackScreen's locked badge (raw `level.color` as ink).
-  **Result, all 430 routes: light 66 → 6, dark 194 → 6**; the six are postcard names over a
-  photo + 72% black gradient overlay (checked: ~9.9:1 worst case), and the nine touched
-  routes re-censused at 0 in both themes after the last fix. Guard `whiteTextFill.test.ts`
-  (4), mutation-verified three ways. Unit suite 674 files / 10,561 passed; dark-mode-ink +
-  accessibility E2E 35/35.
-  Also this sweep: #754's E2E red was mine — `ai-conversation.spec.js` clicked the centre of
-  the outermost `div` containing "Free Talk"; the wider column (right rail removed) moved
-  that point off the card. Now `getByRole('button', …)`; 32/32. #754 merged green (a6a920b2).
+      Fresh census over all 430 routes on master: light 66 elements on 17 routes, dark 194 on 43.
+      Tokens first: dark `--subtext` and `--ink-muted` #94a3b8 → #a8b4c6 (4.37:1 on the dark
+      `--warning-bg` tile, and the drills' #353e4f option rows), dark `--ink-error` → #fca5a5,
+      dark `--ink-mode` → #c4b5fd (4.42 on its own tint), light `--ink-red` #D40030 → #b8002a
+      (4.23 on the screen-header pill), `--fill-info` added. That alone took dark 194 → 70.
+      The rest was one class — white text on a DATA colour — plus a tail: `accentFill` (86 render
+      sites by codemod, arms paired with the white ink only when the ink is unconditional or its
+      ternary shares the background's condition, plus 7 wrapped by hand; 12 literal fills and 5
+      status-token fills rewritten by two narrower passes), literal fills
+      under white darkened or moved to `--fill-*`, the case badges' lightening pill, the
+      `.cefr-*` classes' own-tint inks, HNL medals (gold/silver take dark ink, bronze darkened —
+      a paired lookup, because `inlineInkContrast` cannot pair ternary arms), the athletes' filter
+      tabs (a fixed white slab with a themed count pill, 2.56:1 in dark), Baka Summer's chapter
+      dots and date line, the profession-gender header, the Unjumble answer slab
+      (`rgba(255,255,255,.65)` under themed ink, 1.69:1 in dark), the static privacy/terms
+      footers (#a8a29e on #f8fafc, 2.41) and their dark-mode links, `MapScreen`'s title (white on
+      the light header, 1.08:1), and GrammarTrackScreen's locked badge (raw `level.color` as ink).
+      **Result, all 430 routes: light 66 → 6, dark 194 → 6**; the six are postcard names over a
+      photo + 72% black gradient overlay (checked: ~9.9:1 worst case), and the nine touched
+      routes re-censused at 0 in both themes after the last fix. Guard `whiteTextFill.test.ts`
+      (4), mutation-verified three ways. Unit suite 674 files / 10,561 passed; dark-mode-ink +
+      accessibility E2E 35/35.
+      Also this sweep: #754's E2E red was mine — `ai-conversation.spec.js` clicked the centre of
+      the outermost `div` containing "Free Talk"; the wider column (right rail removed) moved
+      that point off the card. Now `getByRole('button', …)`; 32/32. #754 merged green (a6a920b2).
 
 - [x] **Sweep 173 — step 3, the course walked past the unit test (2026-09-27).**
-  Walked in a real browser against a CI-equivalent build: both Unit 1 production tasks
-  graded from the course map (Unit 1 → `cleared`, Unit 2 opens, Home leads with "Unit 2
-  of 36"); a refused evaluator (429 `monthly_budget_exhausted`) names the cause, records
-  `production.unavailable`, and Unit 2 opens as the screen promises; all six A1 units
-  held → map shows 6 of 36 and A2 Unit 1 current, Home opens `present`; a due 30-day
-  check-up is served first and a failed one keeps the unit and resets the ladder to
-  stage 0 due tomorrow. No page errors on any path.
-  **Two of my first "findings" were my seed**: `addInitScript` re-runs on every
-  `page.goto`, so writing `nh_course_units` unconditionally erased what the app had just
-  recorded — which read as "production never recorded" and "a refusal walls the course".
-  The committed spec seeds once behind a sessionStorage flag and says why.
-  **One real defect**: a plan committed before the spine arrives is composed with
-  NOTHING ahead (the no-spine contract), and when the learner has already started it the
-  retry SPLICES the teaching slots in rather than rebuilding — leaving the drills the
-  course gate would never have served (the genitive for a Unit 2 learner) beside the
-  inserted check-up and lesson. `withTeachingSlots` now drops UNSTARTED ahead-of-course
-  activities; a completed one keeps its place, and nothing is dropped while an activity
-  is in flight (a failed read counts as in flight). 3 tests in `courseGate.test.ts`;
-  mutation-verified three ways (prune removed, completed not protected, in-flight guard
-  removed — each fails 1). The untouched-plan path already rebuilds cleanly once the
-  spine lands (walked: 6 s shows the pre-spine plan, 16 s shows check-up + lesson).
-  **Still true and deliberate**: for the seconds before the spine lands on a device's
-  first load, Home shows the pre-course plan; returning devices read the cached spine.
-  `e2e/course-walk.spec.js` (3) pins production → next unit, refusal → next unit, and the
-  A1 → A2 boundary on map and Home; mutation-verified in the browser — a no-op
-  `markProductionUnavailable` fails the refusal walk (Unit 2 `locked`).
+      Walked in a real browser against a CI-equivalent build: both Unit 1 production tasks
+      graded from the course map (Unit 1 → `cleared`, Unit 2 opens, Home leads with "Unit 2
+      of 36"); a refused evaluator (429 `monthly_budget_exhausted`) names the cause, records
+      `production.unavailable`, and Unit 2 opens as the screen promises; all six A1 units
+      held → map shows 6 of 36 and A2 Unit 1 current, Home opens `present`; a due 30-day
+      check-up is served first and a failed one keeps the unit and resets the ladder to
+      stage 0 due tomorrow. No page errors on any path.
+      **Two of my first "findings" were my seed**: `addInitScript` re-runs on every
+      `page.goto`, so writing `nh_course_units` unconditionally erased what the app had just
+      recorded — which read as "production never recorded" and "a refusal walls the course".
+      The committed spec seeds once behind a sessionStorage flag and says why.
+      **One real defect**: a plan committed before the spine arrives is composed with
+      NOTHING ahead (the no-spine contract), and when the learner has already started it the
+      retry SPLICES the teaching slots in rather than rebuilding — leaving the drills the
+      course gate would never have served (the genitive for a Unit 2 learner) beside the
+      inserted check-up and lesson. `withTeachingSlots` now drops UNSTARTED ahead-of-course
+      activities; a completed one keeps its place, and nothing is dropped while an activity
+      is in flight (a failed read counts as in flight). 3 tests in `courseGate.test.ts`;
+      mutation-verified three ways (prune removed, completed not protected, in-flight guard
+      removed — each fails 1). The untouched-plan path already rebuilds cleanly once the
+      spine lands (walked: 6 s shows the pre-spine plan, 16 s shows check-up + lesson).
+      **Still true and deliberate**: for the seconds before the spine lands on a device's
+      first load, Home shows the pre-course plan; returning devices read the cached spine.
+      `e2e/course-walk.spec.js` (3) pins production → next unit, refusal → next unit, and the
+      A1 → A2 boundary on map and Home; mutation-verified in the browser — a no-op
+      `markProductionUnavailable` fails the refusal walk (Unit 2 `locked`).
 
 - [x] **Sweep 174 — the last hand-written drills onto the engine, and the "why" panel stopped lying (2026-09-27).**
-  Owner: "improve the feedback loop for learners"; run length decided at **12 for every drill**.
+      Owner: "improve the feedback loop for learners"; run length decided at **12 for every drill**.
   - 23 drills converted (7 case drills + clitics, present tense, word order with their concept
     card kept through a new `intro` slot and `explainType="case_drill"`; animate accusative
     with a `cue`, negation with a `lead`; conditional, fleeting-a, idioms, imperative,
@@ -12700,8 +12705,8 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   - **The engine said right/wrong by border colour only** (WCAG 1.4.1) in all 109 drills;
     it now says "✅ Correct!" / "❌ Incorrect." in words.
   - **The free contrast said false grammar across all engine drills** — found by probing
-    `contrastAnswers` with non-noun pairs before wiring it to verb drills: *stoga* "genitive",
-    *pisao* "nominative", *idi* "dative", *meni/mene* headline naming only the genitive, *si*
+    `contrastAnswers` with non-noun pairs before wiring it to verb drills: _stoga_ "genitive",
+    _pisao_ "nominative", _idi_ "dative", _meni/mene_ headline naming only the genitive, _si_
     glossed "to you". Gated to two forms of one declinable word; pronoun syncretism added;
     participle -ao/-io/-eo/-uo and neuter -e readings added; -om no longer a present ending.
     See CLAUDE.md "Wrong Answers Explain Themselves".
@@ -12719,3 +12724,89 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
     Idioms, Participles, Subordination) — they serve the same 12 each run, by choice.
   - **Next, owner-directed**: (1) deepen the 180 lessons — more worked examples and a guided-
     practice step before each check; (2) an end-of-level review unit before each Level Check.
+- [x] **Sweep 175 — learn it, work it, practise it; then review the level (2026-09-27).**
+      Owner: "do 1 & 2 not 3". CLAUDE.md "Increment 6" has the design; this is the record.
+  - (1) Worked examples + guided practice in all 180 lessons: 360 worked examples, 720
+    practice items, `lessonPractice{A1..C2}.js`, all six levels in `DEEPENED_LEVELS`.
+    A1 authored in-session (#757); A2–C2 by one agent per level, each run through
+    `lessonPracticeCheck.mjs` (problems 0) AND read by hand before wiring.
+  - **Review of agent output found what the checker cannot**: `treba da + present` ×3 in
+    C2 (NOT added to the blocklist — "koliko ti treba da dođeš" is correct Croatian, so a
+    rule would false-alarm); A2 lower-case `vam` marked wrong; `s Zoranom` marked wrong;
+    `puše` after `previše ljudi` marked wrong; "vozitelj does not exist" overclaimed.
+    All fixed. Not changed, with reasons: `boli me` vs `boli mi` (the A2 lesson's own
+    normative rule, and it names the dative as the slip); `ni otac ni kćeri nisu došle`
+    (C2 lesson's normative masculine agreement); `nemoj ostaviti` for a standing rule
+    (the aspect point the B2 lesson teaches); `sjeđaše`, `planína`, `pȃs/pȃsa`, `pȁs/psa`
+    (checked, correct).
+  - **Four false-grammar errors in SHIPPED lessons, found by the authors, fixed**:
+    `prema` as a genitive preposition; `za tjedan dana` as genitive `za`; `pričekati` as a
+    po- example; "Ona je liječnicom" as the normal formal pattern; plus the C2 quiz's
+    unlabelled `treba da donese` distractor. **Open**: no census of all 180 lessons for these
+    classes (a preposition filed under the wrong case, a prefix example with a different
+    prefix) has been run — these were found only where an author happened to read closely.
+  - Lint: 479 files, 0 findings; positive controls — `hleb` in an A2 `options` field and a
+    Cyrillic `а` in a B1 `hint` both caught.
+  - (2) Level review: `levelReview.ts`, `LevelReviewScreen`, route `levelreview`, map row,
+    session slot, next-step prompt, handoff re-arm, `reviews` in `nh_course_units` (synced,
+    additive). 14 mutations, all killed — on the SECOND run: the first was read against a red baseline (an end-of-course test the new C2 review legitimately changed), which added one failure to every count. E2E: two tests in `course-map.spec.js`.
+  - **Not checked yet**: whether the Level Check itself should read the review's per-unit
+    first-try result (it does not — the review gates nothing, by design); a browser pass of
+    the review at C2, whose lessons are longest.
+- [x] **Sweep 176 — the 180-lesson grammar census, and the E2E the level review broke (2026-09-27).**
+      The "Open" item sweep 175 left — no census of all 180 lessons for false grammar — was
+      run as a read of every lesson, then every finding re-read at its line before touching it.
+  - **The E2E audit for #758 missed a spec**: `course-walk.spec.js` asserted that finishing A1
+    puts "Unit 7 of 36" on Home; the level review now leads Home at the crossing, by design.
+    The audit grepped for the new test ids and for "review", not for the spec that walks the
+    crossing itself. Split into both halves of the new contract — the review first, then A2
+    Unit 1 once `reviews.A1` is recorded — each the other's control. 19/19 course specs green
+    on a CI-equivalent build (placeholder `VITE_FIREBASE_*`).
+  - **Marked real Croatian wrong** (the NEVER-DO 17 direction): `ako bih` / `ako bismo` taught
+    as "not a construction" in four B2 items and the curriculum objective, while the app's own
+    B2 formal-email lesson and dialogue bank use `ako biste`. Potential conditions with `ako` +
+    conditional are standard; the distractors are now genuinely wrong (`da bih` = in order to,
+    `Da znao sam`, `Kad smo`). Also: `Hugoa` (C2 table, example and a drill ANSWER — it is
+    `Huga`); `knjiga o Hillari Clinton` keyed correct (it is `o Hillary Clinton`); the A2 check
+    that keyed `kod` for motion to a doctor.
+  - **Taught false grammar**: `kod` + genitive for MOTION (A1, A2, exercises, two drills — `kod`
+    is location; motion is dative / `k` + dative), recast as location everywhere; `mliječni`
+    as the short-jat example (it keeps -ije-; now `rijeka → rječni`, B2 + C1); "every -ost
+    noun is feminine" (`gost`, `most`); `Mogli biste li` (li must lead the cluster — `Biste li
+mogli`, B1 ×6, B2, a drill); `Pasti će` → `Past će`; `ako bude padati` → `bude padala`;
+    `Sam sam sam` (three sams is not a sentence); the capital after `Poštovani,` (Croatian
+    continues lower-case after the comma); `je` last in the cluster stated for every auxiliary;
+    `nego` comma; comma before `jer`/`iako` after the main clause (the app's own zarez lesson
+    says none — C1 contradicted it); the vocative of -c nouns (-če); the gender, clitic, aspect,
+    comparative and genitive-possession rows listed in the diff.
+  - **False facts**: Gaj gave the alphabet `đ` (Daničić, later); Judita a "novel" "printed
+    1501" (an epic, printed 1521); `kaj` as "where"; `sz` = š in pre-Gaj spelling (it is s);
+    "Post-1991: vlak, tisuća, tjedan…" (they predate it); `Karlovci` as a Croatian town;
+    `u Oslu` as "uninflected"; the telescope ambiguity claimed absent in Croatian.
+  - **Checked and left**: `boli me`, `ni otac ni kćeri nisu došle`, `nemoj ostaviti` (sweep
+    175's reasons); `Gdi si bil` (čakavian, correct); `neću` / `ne ću` recast as both codified
+    rather than one "older".
+  - Lint 479 files, 0 findings; `lessonDepthCheck` + `lessonPracticeCheck` 0 at every level;
+    full unit suite green except `curriculum.test.js`'s etag pin, which was the LOCAL
+    gitignored `_etags.js` gone stale after the objective edit — regenerated, 14/14.
+  - **Census of the same classes outside the lessons (same day):**
+    - `kod` for motion: `ProductionDrillScreen`'s error-correction item marked standard
+      `Idem doktoru` WRONG (recast to location), `DiasporaNote` gave `Idem kod doktora` as the
+      "full" standard sentence, and a graded story + its vocab example (`Ide kod unuke`).
+    - **Future I misspelled as the TAUGHT form**: `FutureTenseLessonScreen`'s "10 common verbs,
+      tap to hear" list spoke `Raditi ćemo`, `Jesti ćemo`, `Piti će`… — eight of ten wrong (the
+      infinitive drops -i before ću); its Future II panel `jesti ćemo` and `uspijet` (uspjet).
+      Its never-rendered `wrong` column labelled standard `Kad završim, nazvat ću te` an error —
+      deleted, notes now say both are standard.
+    - Phrase of the Day (live) served `Jednog dana posjeti ću sva hrvatska otoka` — three
+      errors: `posjetit ću sve hrvatske otoke`.
+    - **Serbian fused futures as distractors or "bad" examples** (NEVER-DO 17): `Biće lijepo`
+      (both exercise copies), `čitaću`, `pisaću`, `Se tuširaću`. Now guarded by
+      `fusedFutureSpelling.test.ts`, which flags a fused form only when the corpus spells the
+      same stem as a two-word future — precise where a `[aei]ću` rule is 97 false alarms.
+      Its first draft used JS `\b` and misfired on `noću`; Unicode lookarounds fixed it.
+      Mutation-verified: `Se tuširaću` restored fails 2.
+    - Gibberish/misspelt distractors replaced: `budeš stizati ćeš`, `htjeti će`.
+  - **Not checked yet**: a per-item read of the 109 ModeDrill banks and ~100 hand-written drills
+    for the subtler classes (a real form keyed wrong, a case filed under the wrong preposition) —
+    the census above was pattern-driven, so it finds only the shapes it was told to look for.

@@ -1923,10 +1923,10 @@ export const PHRASE_OF_DAY_POOL = [
 
   // B1 — Aspirations & Dreams
   {
-    hr: 'Jednog dana posjeti ću sva hrvatska otoka.',
-    en: 'One day I will visit all Croatian islands.',
-    note: 'An admirable and achievable dream',
-    ph: 'YED-nohg DAH-nah poh-SYEH-tee CHOO SVAH HRVAHT-skah oh-TOH-kah',
+    hr: 'Jednog dana posjetit ću sve hrvatske otoke.',
+    en: 'One day I will visit all the Croatian islands.',
+    note: 'posjetit ću — the infinitive drops its -i before ću; otok → otoke (accusative plural)',
+    ph: 'YED-nohg DAH-nah POH-syeh-teet choo SVEH HRVAHT-skeh OH-toh-keh',
   },
   {
     hr: 'Moj san je naučiti tečno govoriti.',

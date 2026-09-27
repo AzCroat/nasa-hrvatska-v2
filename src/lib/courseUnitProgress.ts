@@ -80,8 +80,31 @@ export interface UnitRecord {
   recheck?: UnitRecheck;
 }
 
+/**
+ * The end-of-level review (2026-09-27): mixed practice across a level's six units,
+ * served once as the learner crosses into the next level — "so the learner is
+ * prepared rather than just tested" before the Level Check. PRACTICE, not a gate:
+ * it records that it was done and how the first tries went, and blocks nothing.
+ */
+export interface LevelReviewRecord {
+  /** ISO date (local) the review was first finished. Written once. */
+  doneAt: string;
+  /** Items right on the FIRST try, and how many there were — the readiness signal. */
+  firstTryCorrect: number;
+  total: number;
+  /**
+   * The app TRIED to build this review and the cached lesson bodies could not make
+   * one (the unit test's `insufficient`, one level up). Recorded so the course moves
+   * on rather than serving an unservable review every day; a real review later
+   * replaces it everywhere.
+   */
+  unavailable?: true;
+}
+
 export interface CourseUnitsStore {
   units: Record<string, UnitRecord>;
+  /** Level (A1…C2) → its review. Absent until a review is finished. */
+  reviews?: Record<string, LevelReviewRecord>;
 }
 
 /**
@@ -99,7 +122,8 @@ function readRaw(): CourseUnitsStore {
     const v = JSON.parse(raw) as CourseUnitsStore;
     if (!v || typeof v !== 'object' || !v.units || typeof v.units !== 'object')
       return { units: {} };
-    return { units: v.units };
+    const reviews = v.reviews && typeof v.reviews === 'object' ? v.reviews : undefined;
+    return reviews ? { units: v.units, reviews } : { units: v.units };
   } catch {
     return { units: {} };
   }
@@ -111,7 +135,9 @@ export function readCourseUnits(): CourseUnitsStore {
 
 export function writeCourseUnits(store: CourseUnitsStore): void {
   try {
-    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify({ units: store.units || {} }));
+    const out: CourseUnitsStore = { units: store.units || {} };
+    if (store.reviews && Object.keys(store.reviews).length > 0) out.reviews = store.reviews;
+    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify(out));
   } catch {
     /* a full quota must never break a finished test */
   }
@@ -358,7 +384,90 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     if (!passedAt && (a.insufficient || b.insufficient)) merged.insufficient = true;
     out[id] = merged;
   }
-  return { units: out };
+  const reviews = mergeReviews(local?.reviews, rStore?.reviews);
+  return reviews ? { units: out, reviews } : { units: out };
+}
+
+/** Reviews merge like passes: done on either device stays done, EARLIER date wins, better first-try score wins. */
+function mergeReviews(
+  a: Record<string, LevelReviewRecord> | undefined,
+  b: Record<string, LevelReviewRecord> | undefined,
+): Record<string, LevelReviewRecord> | undefined {
+  const l = a && typeof a === 'object' ? a : {};
+  const r = b && typeof b === 'object' ? b : {};
+  const out: Record<string, LevelReviewRecord> = {};
+  for (const lv of new Set([...Object.keys(l), ...Object.keys(r)])) {
+    const x = l[lv];
+    const y = r[lv];
+    const real = (v: LevelReviewRecord | undefined) =>
+      !!v && typeof v.doneAt === 'string' && Number.isFinite(v.total) && v.total > 0;
+    const marker = (v: LevelReviewRecord | undefined) =>
+      !!v && typeof v.doneAt === 'string' && v.unavailable === true;
+    if (!real(x) && !real(y)) {
+      // Neither device has a real review. An "unavailable" marker on either side is kept.
+      const m = marker(x) ? x! : marker(y) ? y! : null;
+      if (m) out[lv] = { doneAt: m.doneAt, firstTryCorrect: 0, total: 0, unavailable: true };
+      continue;
+    }
+    // A real review anywhere replaces a marker everywhere.
+    if (!real(x)) {
+      out[lv] = y!;
+      continue;
+    }
+    if (!real(y)) {
+      out[lv] = x!;
+      continue;
+    }
+    const better = y!.firstTryCorrect / y!.total > x!.firstTryCorrect / x!.total ? y! : x!;
+    out[lv] = {
+      doneAt: x!.doneAt < y!.doneAt ? x!.doneAt : y!.doneAt,
+      firstTryCorrect: better.firstTryCorrect,
+      total: better.total,
+    };
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
+/** Record a finished level review. The first date is kept; a better first-try score replaces a worse one. */
+export function recordLevelReview(
+  level: string,
+  firstTryCorrect: number,
+  total: number,
+  isoDate: string = localDateStr(),
+): void {
+  if (!level || !Number.isFinite(total) || total <= 0) return;
+  const store = readRaw();
+  const prior = store.reviews?.[level];
+  // An "unavailable" marker is not a review: the first real one replaces it whole.
+  const prev = prior && !prior.unavailable && prior.total > 0 ? prior : undefined;
+  const next: LevelReviewRecord = prev
+    ? {
+        doneAt: prev.doneAt,
+        ...(firstTryCorrect / total > prev.firstTryCorrect / prev.total
+          ? { firstTryCorrect, total }
+          : { firstTryCorrect: prev.firstTryCorrect, total: prev.total }),
+      }
+    : { doneAt: isoDate, firstTryCorrect, total };
+  writeCourseUnits({ ...store, reviews: { ...(store.reviews || {}), [level]: next } });
+}
+
+/** Record that a level's review could not be assembled. Never overwrites a real review. */
+export function markLevelReviewUnavailable(level: string, isoDate: string = localDateStr()): void {
+  if (!level) return;
+  const store = readRaw();
+  if (store.reviews?.[level]) return;
+  writeCourseUnits({
+    ...store,
+    reviews: {
+      ...(store.reviews || {}),
+      [level]: { doneAt: isoDate, firstTryCorrect: 0, total: 0, unavailable: true },
+    },
+  });
+}
+
+/** Levels whose review has been finished — or could not be built, which the course treats the same. */
+export function reviewedLevels(store: CourseUnitsStore = readRaw()): Set<string> {
+  return new Set(Object.keys(store.reviews || {}));
 }
 
 /**
@@ -395,7 +504,7 @@ function mergeProduction(
  *  clobber server history (the nh_journey pattern). */
 export function courseUnitsOrUndef(): CourseUnitsStore | undefined {
   const s = readRaw();
-  return Object.keys(s.units).length > 0 ? s : undefined;
+  return Object.keys(s.units).length > 0 || Object.keys(s.reviews || {}).length > 0 ? s : undefined;
 }
 
 // ── Which unit the test screen is about ─────────────────────────────────────
@@ -451,6 +560,41 @@ export function readUnitTestMode(): UnitTestMode {
 export function clearUnitTestRequest(): void {
   try {
     sessionStorage.removeItem(UNIT_TEST_REQUEST_KEY);
+  } catch {
+    /* nothing more to do */
+  }
+}
+
+// ── Which level the review screen is about ──────────────────────────────────
+// Same contract as the unit-test handoff above: ephemeral, read non-destructively,
+// cleared on leaving. The stored value is a member of the constant level list,
+// chosen by equality — never a string derived from the plan.
+
+export const LEVEL_REVIEW_REQUEST_KEY = 'nh_level_review';
+const REVIEW_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+
+export function requestLevelReview(level: string): void {
+  const lv = REVIEW_LEVELS.find((l) => l === level);
+  if (!lv) return;
+  try {
+    sessionStorage.setItem(LEVEL_REVIEW_REQUEST_KEY, lv);
+  } catch {
+    /* the screen will report that it has no level, rather than crash */
+  }
+}
+
+export function readLevelReviewRequest(): string | null {
+  try {
+    const raw = sessionStorage.getItem(LEVEL_REVIEW_REQUEST_KEY);
+    return REVIEW_LEVELS.find((l) => l === raw) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export function clearLevelReviewRequest(): void {
+  try {
+    sessionStorage.removeItem(LEVEL_REVIEW_REQUEST_KEY);
   } catch {
     /* nothing more to do */
   }

@@ -85,8 +85,8 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
     q: 'Djela ____. (Hugo)',
     en: 'the works of Hugo',
     opts: ['Hugoa', 'Huga', 'Hugo', 'Hugua'],
-    answer: 'Hugoa',
-    tip: 'A final -o after a vowel keeps the o and adds the ending.',
+    answer: 'Huga',
+    tip: 'A masculine name in -o declines like Marko → Marka: Hugo → Huga, djela Victora Huga.',
   },
   {
     mode: 'imena',

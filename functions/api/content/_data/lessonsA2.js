@@ -577,7 +577,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Endings',
-        body: 'Masculine and neuter take -om, or -em after a soft consonant (č, ć, đ, š, ž, j, lj, nj, c). brat → bratom. vlak → vlakom. prijatelj → prijateljem. more → morem. Feminine takes -om too: sestra → sestrom. olovka → olovkom. One ending covers almost everything.',
+        body: 'Masculine and neuter take -om, or -em after a soft consonant (č, ć, đ, š, ž, j, lj, nj, c) and for neuters in -e. brat → bratom. vlak → vlakom. selo → selom. prijatelj → prijateljem. more → morem. Feminine takes -om too: sestra → sestrom. olovka → olovkom. One ending covers almost everything.',
         highlight: '-om, or -em after a soft consonant',
       },
       {
@@ -2108,7 +2108,7 @@ export const LESSONS_A2 = [
         title: 'Adverbs at Work',
         items: [
           {
-            hr: 'Govorite li sporije, molim vas?',
+            hr: 'Možete li govoriti sporije, molim vas?',
             en: 'Could you speak more slowly, please?',
             note: 'the most useful sentence in this lesson',
           },
@@ -3350,7 +3350,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'At the Doctor and the Pharmacy',
-        body: '"Liječnik" is the standard word for doctor; "doktor" is just as common in speech. You go "kod liječnika" — the genitive after kod. A "ljekarna" is a pharmacy, a "recept" is a prescription, and "lijek" is medicine. Trebam liječnika. Idem u ljekarnu. Imate li nešto za glavobolju?',
+        body: '"Liječnik" is the standard word for doctor; "doktor" is just as common in speech. You are "kod liječnika" (at the doctor\'s) — the genitive after kod; you go "liječniku" or "k liječniku" (the dative). A "ljekarna" is a pharmacy, a "recept" is a prescription, and "lijek" is medicine. Trebam liječnika. Idem u ljekarnu. Imate li nešto za glavobolju?',
         highlight: 'kod liječnika · u ljekarnu',
       },
       {
@@ -3373,9 +3373,9 @@ export const LESSONS_A2 = [
             note: 'da introduces what you think',
           },
           {
-            hr: 'Trebam ići kod liječnika.',
+            hr: 'Trebam ići liječniku.',
             en: 'I need to go to the doctor.',
-            note: 'kod + genitive',
+            note: 'going to a person: the dative (or k + dative)',
           },
           {
             hr: 'Imate li nešto protiv kašlja?',
@@ -3504,11 +3504,11 @@ export const LESSONS_A2 = [
               '"Muka mi je" is nausea — I feel sick. Being in pain is "boli me…", tired is "umoran sam", and a cold is "prehlađen sam".',
           },
           {
-            q: 'Complete: "Idem ___ liječnika." (I am going to the doctor.)',
+            q: 'Complete: "Bio sam ___ liječnika." (I was at the doctor\'s.)',
             options: ['u', 'na', 'kod', 'k'],
             correct: 2,
             explanation:
-              '"Liječnika" is a genitive, and "kod" is the preposition that takes it for going to a person\'s place. "K" would need the dative "liječniku".',
+              '"Liječnika" is a genitive, and "kod" is the preposition that takes it for being at a person\'s place. "K" means going towards and takes the dative: k liječniku.',
           },
           {
             q: 'Which body part is always plural in Croatian?',
@@ -3527,7 +3527,7 @@ export const LESSONS_A2 = [
           'The verb counts the body part: boli glava, but bole leđa and bole oči',
           'leđa, usta, oči, uši and zubi are plural',
           'Ne osjećam se dobro / Imam temperaturu / Prehlađen sam',
-          'kod liječnika (genitive), u ljekarnu (accusative — you are going there)',
+          'kod liječnika (genitive — you are there), liječniku / k liječniku (dative — you are going), u ljekarnu (accusative — going into)',
           'Brzo ozdravi! — get well soon',
         ],
       },
@@ -3570,7 +3570,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Two of Them Are Always Plural',
-        body: '"Hlače" (trousers), "traperice" (jeans), "cipele" (shoes), "tenisice" and "čarape" are plural in Croatian just as they are in English — one pair, plural word. Hlače su nove. Cipele su mi male. Because they are feminine plural, adjectives take -e: nove hlače, crne cipele.',
+        body: '"Hlače" (trousers) and "traperice" (jeans) exist only in the plural, just as in English — one pair, plural word. "Cipele" (shoes), "tenisice" and "čarape" do have a singular (cipela, čarapa) but usually come in pairs. Hlače su nove. Cipele su mi male. Because they are feminine plural, adjectives take -e: nove hlače, crne cipele.',
         highlight: 'nove hlače · crne cipele',
       },
       {
@@ -3784,7 +3784,7 @@ export const LESSONS_A2 = [
         title: 'Clothes — Key Takeaways',
         points: [
           'majica, košulja, hlače, haljina, jakna, cipele, čarape',
-          'hlače, traperice, cipele, tenisice and čarape are always plural',
+          'hlače and traperice are always plural; cipele, tenisice and čarape usually come in pairs',
           'The verb is nositi, and what you wear takes the accusative',
           'Colours agree like any adjective: crvena majica, crne cipele',
           'Mogu li ovo probati? / Imate li veći broj? / Uzet ću ovo.',
@@ -4697,7 +4697,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Instrumental of Time',
-        body: 'You just met it three times. Putting a day or period into the instrumental means "on those days, regularly": subotom (on Saturdays), nedjeljom (on Sundays), vikendom (at weekends), ljeti and zimi. It is a compact pattern with no English equivalent — English needs a whole phrase where Croatian changes an ending.',
+        body: 'You just met it three times. Putting a day or period into the instrumental means "on those days, regularly": subotom (on Saturdays), nedjeljom (on Sundays), vikendom (at weekends), and, beside them, the adverbs ljeti and zimi (in summer, in winter). It is a compact pattern with no English equivalent — English needs a whole phrase where Croatian changes an ending.',
         highlight: 'subotom · vikendom',
       },
       {
@@ -4802,7 +4802,7 @@ export const LESSONS_A2 = [
           'baviti se + instrumental for a regular activity: Bavim se sportom.',
           'U slobodno vrijeme… opens the whole topic',
           'voljeti + infinitive: Volim kuhati.',
-          'The instrumental of time: subotom, vikendom, ljeti, zimi',
+          'The instrumental of time: subotom, vikendom — and the adverbs ljeti, zimi',
         ],
       },
     ],
@@ -5391,8 +5391,8 @@ export const LESSONS_A2 = [
             note: 'the two go together',
           },
           {
-            hr: 'Za Božić idemo kod bake.',
-            en: "For Christmas we go to my grandmother's.",
+            hr: 'Za Božić smo kod bake.',
+            en: "For Christmas we are at my grandmother's.",
             note: 'kod + genitive',
           },
           {

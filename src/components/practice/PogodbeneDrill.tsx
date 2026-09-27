@@ -39,7 +39,7 @@ const DATA = [
   {
     mode: 'realne',
     q: 'Nazovi me čim ____.',
-    opts: ['stigneš', 'ćeš stići', 'bi stigao', 'budeš stizati ćeš'],
+    opts: ['stigneš', 'ćeš stići', 'bi stigao', 'stići'],
     answer: 'stigneš',
     en: 'call me as soon as you arrive',
     tip: 'Čim + svršeni PREZENT (nikad futur I): čim stigneš.',

@@ -135,7 +135,7 @@ const DATA = [
   {
     mode: 'imperfekt',
     q: 'Imperfekt glagola „htjeti” u 3. licu jednine glasi:',
-    opts: ['htijaše', 'htjede', 'htio je', 'htjeti će'],
+    opts: ['htijaše', 'htjede', 'htio je', 'htjet će'],
     answer: 'htijaše',
     en: 'he/she wanted (imperfect)',
     tip: 'Htijah, htijaše; „htjede” je aorist.',

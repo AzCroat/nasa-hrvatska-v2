@@ -236,7 +236,7 @@ export const LESSONS_C1 = [
               '"Ovisiti" is unusable without "o" plus the locative: ovisi o vremenu. English "depend on" tempts "na", and a bare genitive drops the preposition that is part of the verb.',
           },
           {
-            q: 'What is wrong with "Radujem se putovanje, jer se bavim fotografija"?',
+            q: 'What is wrong with "Radujem se putovanje jer se bavim fotografija"?',
             options: [
               'nothing — both objects are correct',
               'both nouns need their case: putovanju (dative) and fotografijom (instrumental)',
@@ -3826,9 +3826,9 @@ export const LESSONS_C1 = [
         title: 'The Usual Suspects',
         headers: ['Check', 'Example'],
         rows: [
-          ['ije / je', 'vrijeme but vremena; mlijeko but mliječni'],
+          ['ije / je', 'vrijeme but vremena; rijeka but rječni'],
           ['č / ć', 'ručak, but voće'],
-          ['comma before što / koji', 'Znam da dolaziš — no comma'],
+          ['no comma before an object da', 'Znam da dolaziš — no comma'],
           ['s / sa', 'sa sestrom, but s bratom'],
           ['ne + verb spacing', 'ne znam, but nemam'],
           ['case after a preposition', 'unatoč kiši, not kiše'],
@@ -3837,13 +3837,13 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'The ije / je Alternation Is Regular',
-        body: 'The commonest native error and a frequent learner one. The rule from the language-history lesson applies: long jat gives -ije-, short gives -je-. vrijeme → vremena, mlijeko → mliječni, dijete → djeca, lijep → ljepota. When unsure, check whether the syllable is long — if the word has shortened, the -ije- almost always has too.',
+        body: 'The commonest native error and a frequent learner one. The rule from the language-history lesson applies: long jat gives -ije-, short gives -je-. vrijeme → vremena, rijeka → rječni, dijete → djeca, lijep → ljepota. When unsure, check whether the syllable is long — if the word has shortened, the -ije- almost always has too.',
         highlight: 'vrijeme → vremena',
       },
       {
         type: 'rule',
         title: 'The Comma Rule Learners Get Backwards',
-        body: 'English puts a comma before "that" almost never and Croatian learners often add one anyway. Croatian does NOT use a comma before "da" in an object clause: Znam da dolaziš. It DOES use one before an explanatory relative clause and before ali, a, nego, jer, iako. The test remains: could the second half stand alone as a sentence?',
+        body: 'English puts a comma before "that" almost never and Croatian learners often add one anyway. Croatian does NOT use a comma before "da" in an object clause: Znam da dolaziš. It DOES use one before ali, a, no, već and contrastive nego, and around an explanatory relative clause. A jer or kad clause that FOLLOWS its main clause takes none — Nisam došao jer sam bio bolestan — while one that comes FIRST is set off: Kad dođeš, javi se.',
         highlight: 'Znam da dolaziš — no comma',
       },
       {
@@ -3932,7 +3932,7 @@ export const LESSONS_C1 = [
         options: ['Znam, da dolaziš.', 'Znam da dolaziš.', 'Znam da, dolaziš.'],
         correct: 1,
         explanation:
-          'Croatian does not put a comma before "da" in an object clause. Commas belong before ali, a, nego, jer, iako and around an explanatory relative clause.',
+          'Croatian does not put a comma before "da" in an object clause. Commas belong before ali, a, no, već and contrastive nego, and around an explanatory relative clause.',
       },
       {
         type: 'quiz',
@@ -3963,7 +3963,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'No comma before "da" in an object clause. The comma belongs before ali, a, nego, jer, iako and around an explanatory relative clause.',
+              'No comma before "da" in an object clause. The comma belongs before ali, a, no, već and contrastive nego, and around an explanatory relative clause.',
           },
           {
             q: 'Complete: "Došao je ___ sestrom."',
@@ -5074,7 +5074,7 @@ export const LESSONS_C1 = [
           ['što', 'kaj', 'ča'],
           ['tanjur', 'tanjur', 'pjat'],
           ['kuhinja', 'kuhinja', 'kužina'],
-          ['gdje', 'gdje / kaj', 'di'],
+          ['gdje', 'gdje / di', 'di'],
           ['što ćeš raditi', 'kaj buš delal', 'ča ćeš delat'],
         ],
       },

@@ -78,7 +78,9 @@ export interface NextStep {
    */
   course?: {
     unitId: string;
-    request: 'lesson' | 'unit-test' | 'recheck' | 'production';
+    request: 'lesson' | 'unit-test' | 'recheck' | 'production' | 'level-review';
+    /** Kind 'level-review' only: the level whose review to open. */
+    level?: string;
     owed?: ProductionKind;
   };
 }
@@ -116,6 +118,14 @@ export function courseNextStep(c: CourseStep): NextStep {
       label: `Take the Unit ${n} test`,
       reason: c.reason,
       course: { unitId: c.unit.id, request: 'unit-test' },
+    };
+  if (c.kind === 'level-review')
+    return {
+      kind: 'course',
+      screen: 'levelreview',
+      label: `${c.level} review — get ready for the Level Check`,
+      reason: c.reason,
+      course: { unitId: c.unit.id, request: 'level-review', level: c.level },
     };
   if (c.kind === 'recheck')
     return {

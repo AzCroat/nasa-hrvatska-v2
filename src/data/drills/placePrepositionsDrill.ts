@@ -199,11 +199,11 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'genitiv',
-    q: 'Idem kod ____. (liječnik)',
-    en: 'I am going to the doctor.',
+    q: 'Danas sam kod ____. (liječnik)',
+    en: "Today I am at the doctor's.",
     opts: ['liječnika', 'liječnik', 'liječniku', 'liječnikom'],
     answer: 'liječnika',
-    tip: 'Kod stays genitive even for motion — that is what makes it worth memorising.',
+    tip: "Kod + genitive marks BEING at someone's place: kod liječnika. Going there is the dative: idem liječniku.",
   },
   {
     mode: 'genitiv',

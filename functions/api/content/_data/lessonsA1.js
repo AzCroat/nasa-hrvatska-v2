@@ -78,7 +78,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Short Masculine Nouns Grow',
-        body: 'One-syllable masculine nouns usually take an extra -ov- or -ev- before the -i. stol (table) → stolovi. grad (city) → gradovi. sin (son) → sinovi. After a soft consonant (č, ć, đ, š, ž, j, lj, nj, c) it is -ev-: muž (husband) → muževi, prijelaz → prijelazi. There is no shortcut here — learn the plural with the word, the way you learned der/die/das if you ever studied German.',
+        body: 'One-syllable masculine nouns usually take an extra -ov- or -ev- before the -i. stol (table) → stolovi. grad (city) → gradovi. sin (son) → sinovi. After a soft consonant (č, ć, đ, š, ž, j, lj, nj, c) it is -ev-: muž (husband) → muževi, nož (knife) → noževi, kralj (king) → kraljevi. There is no shortcut here — learn the plural with the word, the way you learned der/die/das if you ever studied German.',
         highlight: 'stol → stolovi',
       },
       {
@@ -1424,7 +1424,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Masculine: Is It Alive?',
-        body: 'Masculine nouns split in two, and the dividing line is whether the noun is alive. A LIVING masculine noun adds -a: brat → Vidim brata. pas (dog) → Vidim psa. prijatelj → Vidim prijatelja. A NON-LIVING masculine noun does not change at all: stol → Vidim stol. grad → Vidim grad. auto → Vidim auto. Croatian is the only common European language that makes you ask "is it alive?" before choosing an ending — but the question is easy, and the payoff is that half of all masculine nouns need no change.',
+        body: 'Masculine nouns split in two, and the dividing line is whether the noun is alive. A LIVING masculine noun adds -a: brat → Vidim brata. pas (dog) → Vidim psa. prijatelj → Vidim prijatelja. A NON-LIVING masculine noun does not change at all: stol → Vidim stol. grad → Vidim grad. auto → Vidim auto. Like Russian, Polish and the other Slavic languages, Croatian makes you ask "is it alive?" before choosing an ending — but the question is easy, and the payoff is that half of all masculine nouns need no change.',
         highlight: 'alive + -a · not alive unchanged',
       },
       {
@@ -2209,7 +2209,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Kod Is the One You Will Use Daily',
-        body: '"Kod" means "at the place of" and covers what English says with "at" plus a person or a business. Kod kuće sam. (I am at home.) Idem kod doktora. (I am going to the doctor\'s.) Bio sam kod bake. (I was at my grandmother\'s.) Note "kod kuće" for being at home, against "idem kući" for going home — two set phrases worth memorising exactly as they are.',
+        body: '"Kod" means "at the place of" and covers what English says with "at" plus a person or a business. Kod kuće sam. (I am at home.) Sutra sam kod doktora. (Tomorrow I am at the doctor\'s.) Bio sam kod bake. (I was at my grandmother\'s.) Kod is for BEING there; going to a person is a different construction you meet in A2 (Idem liječniku). Note "kod kuće" for being at home, against "idem kući" for going home — two set phrases worth memorising exactly as they are.',
         highlight: 'kod kuće = at home',
       },
       {
@@ -2364,16 +2364,16 @@ export const LESSONS_A1 = [
               '"Ispod" belongs to the genitive group, and the genitive of the masculine "stol" is stola. "Stolu" is the locative and "stolom" the instrumental — neither follows ispod.',
           },
           {
-            q: "Which sentence is correct? (I am going to the doctor's.)",
+            q: "Which sentence is correct? (I was at the doctor's.)",
             options: [
-              'Idem kod doktor.',
-              'Idem kod doktora.',
-              'Idem kod doktoru.',
-              'Idem u doktora.',
+              'Bio sam kod doktor.',
+              'Bio sam kod doktora.',
+              'Bio sam kod doktoru.',
+              'Bio sam u doktora.',
             ],
             correct: 1,
             explanation:
-              '"At the place of" a person is kod plus the genitive: kod doktora. It does not change for motion. "U doktora" mixes the wrong preposition with the right ending.',
+              '"At the place of" a person is kod plus the genitive: kod doktora. "U doktora" mixes the wrong preposition with the right ending.',
           },
           {
             q: 'Complete: "Idem ___ sestrom u kino." (I am going to the cinema with my sister.)',
@@ -2727,7 +2727,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'After a Soft Consonant, -u',
-        body: 'If the noun ends in a soft consonant — č, ć, đ, š, ž, j, lj, nj, c — it takes -u instead, simply because -e is awkward there. prijatelj → prijatelju! muž → mužu! kralj → kralju! You can hear why: "prijatelje" fights the tongue in a way "prijatelju" does not.',
+        body: 'If the noun ends in a soft consonant — č, ć, đ, š, ž, j, lj, nj — it takes -u instead, simply because -e is awkward there. prijatelj → prijatelju! muž → mužu! kralj → kralju! You can hear why: "prijatelje" fights the tongue in a way "prijatelju" does not. A noun in -c is the exception: it takes -e and c becomes č — stric → striče! otac → oče!',
         highlight: 'prijatelj → prijatelju',
       },
       {
@@ -2842,9 +2842,9 @@ export const LESSONS_A1 = [
             note: 'Petar → Petre: the a drops before -e',
           },
           {
-            hr: 'Gospodine Kovač, imate li trenutak?',
+            hr: 'Gospodine Kovaču, imate li trenutak?',
             en: 'Mr Kovač, do you have a moment?',
-            note: 'gospodine changes, the surname does not',
+            note: 'both change: gospodin → gospodine, Kovač → Kovaču',
           },
           {
             hr: 'Bako, kad je ručak?',
@@ -3286,7 +3286,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Saying "Do Not": nemoj',
-        body: 'Croatian does not negate the imperative with a plain "ne". It uses "nemoj" plus the infinitive: nemoj (one person), nemojmo (let us not), nemojte (plural or polite). Nemoj ići! (Do not go!) Nemojte se brinuti. (Do not worry.) Nemoj zaboraviti. (Do not forget.) One word to learn, and it works with every verb in the language.',
+        body: 'The safest way to forbid something is "nemoj" plus the infinitive: nemoj (one person), nemojmo (let us not), nemojte (plural or polite). Nemoj ići! (Do not go!) Nemojte se brinuti. (Do not worry.) Nemoj zaboraviti. (Do not forget.) One word to learn, and it works with every verb in the language. You will also hear "ne" + the imperative for bans and warnings (Ne brini! Ne zaboravi!) — also correct.',
         highlight: 'Nemoj ići!',
       },
       {
@@ -3390,10 +3390,10 @@ export const LESSONS_A1 = [
         type: 'quiz',
         title: 'One More',
         q: 'How do you say "Do not forget!" to a friend?',
-        options: ['Ne zaboravi!', 'Nemoj zaboraviti!', 'Ne zaboraviti!', 'Nemoj zaboravi!'],
+        options: ['Nemoj zaboraviš!', 'Nemoj zaboraviti!', 'Ne zaboraviti!', 'Nemoj zaboravi!'],
         correct: 1,
         explanation:
-          'A negative instruction is built with "nemoj" plus the infinitive: Nemoj zaboraviti! "Ne zaboravi" is heard, but "nemoj + infinitive" is the standard pattern and always safe.',
+          '"Nemoj" takes the infinitive: Nemoj zaboraviti! Not the present (zaboraviš) or the imperative (zaboravi). "Ne zaboravi!" also works, as a friendly reminder.',
       },
       {
         type: 'rule',

@@ -90,8 +90,16 @@ describe('the merge places the new slides where the teaching needs them', () => 
     for (const id of Object.keys(LESSON_PRACTICE)) expect(ids.has(id), id).toBe(true);
   });
 
-  it('every lesson in a deepened level is held to the rules — and A1 is deepened', () => {
-    expect(DEEPENED_LEVELS).toContain('A1');
+  it('every level is deepened, and every one of the 180 lessons has its entry', () => {
+    expect([...DEEPENED_LEVELS].sort()).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2']);
+    const missing = LESSONS.filter((l: { id: string }) => !LESSON_PRACTICE[l.id]).map(
+      (l: { id: string }) => l.id,
+    );
+    expect(missing, 'lessons with no worked examples or guided practice').toEqual([]);
+    expect(LESSONS.length).toBeGreaterThanOrEqual(180);
+  });
+
+  it('every lesson in a deepened level is held to the rules', () => {
     for (const l of LESSONS.filter((x: { level: string }) => DEEPENED_LEVELS.includes(x.level)))
       expect(lessonDepthProblems(l), l.id).toEqual([]);
   });

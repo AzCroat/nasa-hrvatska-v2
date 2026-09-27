@@ -10,7 +10,7 @@
 // are naming a person where the language names a state.
 //
 // The second half is the conditional, which is what keeps a complaint firm
-// without making it rude: *htio bih*, *mogli biste li*. A bare *hoću* or
+// without making it rude: *htio bih*, *biste li mogli*. A bare *hoću* or
 // *dajte* turns a request into an order at exactly the wrong moment.
 //
 // Three modes:
@@ -143,8 +143,8 @@ export const COMPLAINTS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'uljudnost',
     q: 'Najmekši oblik molbe je ____.',
     en: 'The softest request:',
-    opts: ['Mogli biste li…?', 'Možete li…?', 'Možete…', 'Morate…'],
-    answer: 'Mogli biste li…?',
+    opts: ['Biste li mogli…?', 'Možete li…?', 'Možete…', 'Morate…'],
+    answer: 'Biste li mogli…?',
     tip: 'Conditional plus question — as indirect as Croatian gets.',
   },
   {

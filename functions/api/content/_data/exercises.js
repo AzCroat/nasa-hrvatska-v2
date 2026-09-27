@@ -311,7 +311,7 @@ export const PLACE = [
     skill: 'grammar',
   },
   {
-    q: "'Idem kod mame.' — 'kod' takes which case?",
+    q: "'Bio sam kod mame.' — 'kod' takes which case?",
     o: ['Akuzativ', 'Lokativ', 'Genitiv'],
     c: 2,
     d: 3,
@@ -1653,7 +1653,7 @@ export const READ = {
     {
       title: 'Kod Liječnika',
       tEn: 'At the Doctor',
-      text: 'Danas se ne osjećam dobro. Imam temperaturu i boli me grlo. Idem kod liječnika. Liječnik me pregleda i kaže da imam anginu. Propisuje mi antibiotik i kaže da trebam piti puno tekućine i odmarati se. Idem u ljekarnu po lijekove. Ljekarnica mi objašnjava kako uzimati tablete — jednu ujutro i jednu navečer nakon jela.',
+      text: 'Danas se ne osjećam dobro. Imam temperaturu i boli me grlo. Idem liječniku. Liječnik me pregleda i kaže da imam anginu. Propisuje mi antibiotik i kaže da trebam piti puno tekućine i odmarati se. Idem u ljekarnu po lijekove. Ljekarnica mi objašnjava kako uzimati tablete — jednu ujutro i jednu navečer nakon jela.',
       vocab: [
         ['osjećam', 'I feel'],
         ['temperatura', 'fever'],
@@ -3113,8 +3113,8 @@ export const PREPS = [
   {
     prep: 'kod',
     cases: ['Genitiv'],
-    ex: ['Idem kod lije\u010dnika.'],
-    en: 'at / to (someone\u0027s place)',
+    ex: ['Bio sam kod lije\u010dnika.'],
+    en: 'at (someone\u0027s place)',
   },
   { prep: 's / sa', cases: ['Instrumental'], ex: ['Idem s mamom.'], en: 'with' },
   { prep: 'prema', cases: ['Dativ'], ex: ['Idem prema centru.'], en: 'towards' },
@@ -5413,7 +5413,7 @@ export const TRANSLATE_DRILLS = [
   {
     en: 'It will be beautiful.',
     hr: 'Bit će lijepo.',
-    opts: ['Bit će lijepo.', 'Biti će lijepo.', 'Biće lijepo.', 'Bit ću lijepo.'],
+    opts: ['Bit će lijepo.', 'Biti će lijepo.', 'Bi će lijepo.', 'Bit ću lijepo.'],
     level: 'B1',
   },
   {

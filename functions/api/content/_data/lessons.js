@@ -287,7 +287,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Rule 3 — Masculine Nouns',
-        body: "Nouns ending in a consonant are masculine. This is the default category. Note: some masculine nouns end in -o (loanwords like 'auto', 'radio') and a few neuter nouns end in a consonant — but these are rare exceptions.",
+        body: "Nouns ending in a consonant are masculine. This is the default category. Note: some masculine nouns end in -o (loanwords like 'auto', 'radio') and a large group of feminine nouns end in a consonant (noć, stvar, ljubav, and every abstract noun in -ost) — you learn those as you meet them.",
         highlight: 'consonant = masculine',
       },
       {
@@ -436,10 +436,10 @@ const LESSONS_CORE = [
           },
           {
             q: 'Which sentence has correct agreement?',
-            options: ['Auto je novo.', 'Auto je nova.', 'Auto je novi.', 'Auto je nove.'],
+            options: ['Auto je novo.', 'Auto je nova.', 'Auto je nov.', 'Auto je nove.'],
             correct: 2,
             explanation:
-              "'auto' is a masculine loanword despite its -o, so it takes masculine 'novi'. 'novo' would be neuter, 'nova' feminine, 'nove' plural.",
+              "'auto' is a masculine loanword despite its -o, so it takes the masculine — and after 'je' the short form, 'nov', as in 'Grad je velik'. 'novo' would be neuter, 'nova' feminine, 'nove' plural.",
           },
           {
             q: "Spot the error: 'Nikola je dobra kolegica.'",
@@ -1321,7 +1321,10 @@ const LESSONS_CORE = [
         headers: ['Position', 'Clitics'],
         rows: [
           ['1', 'bi (conditional auxiliary)'],
-          ['2', 'sam, si, je, smo, ste, su (biti — past-tense auxiliary)'],
+          [
+            '2',
+            'sam, si, smo, ste, su (biti — past-tense auxiliary; 3rd-person je goes LAST, after se)',
+          ],
           ['3', 'mi, ti, mu, joj, nam, vam, im (dative pronouns)'],
           ['4', 'me, te, ga, je, nas, vas, ih (accusative pronouns)'],
           ['5', 'se (reflexive)'],
@@ -1533,7 +1536,7 @@ const LESSONS_CORE = [
         points: [
           'Clitics are short unstressed words that must appear in second position',
           'Second position means after the first PHRASE (not just first word)',
-          'The chain order is fixed: bi → sam/si/je → dative (mu/mi) → accusative (ga/me) → se',
+          'The chain order is fixed: li → bi or sam/si/smo/ste/su → dative (mu/mi) → accusative (ga/me) → se → je',
           "Negation: 'nije' replaces 'je'; other clitics keep their positions",
           "Questions: 'Je li' is a special pattern; question-word questions use normal order",
         ],
@@ -2239,7 +2242,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Two Parts: Participle + Auxiliary',
-        body: "Past tense = L-PARTICIPLE + AUXILIARY (sam/si/je/smo/ste/su). The L-participle is named for its masculine singular ending in '-o' or '-ao/-io'. The auxiliary 'je' is clitic — in standard word order the participle comes first: 'Radio sam' (I worked), not 'Sam radio'.",
+        body: "Past tense = L-PARTICIPLE + AUXILIARY (sam/si/je/smo/ste/su). The L-participle is named for its -l- (radila, radili, radilo); in the masculine singular that -l has become -o (radio, pisao). The auxiliary 'je' is clitic — in standard word order the participle comes first: 'Radio sam' (I worked), not 'Sam radio'.",
         highlight: 'participle + sam/si/je/smo/ste/su',
       },
       {
@@ -2335,7 +2338,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Negative Past: Nisam / Nije / Nisu',
-        body: "To negate the past tense, replace the positive auxiliary with its negative: nisam, nisi, nije, nismo, niste, nisu. The participle is unchanged. Standard word order: negative auxiliary AFTER the participle. 'Nisam radio' (I didn't work). 'Ona nije išla' (She didn't go). 'Nisu mogli doći' (They couldn't come).",
+        body: "To negate the past tense, replace the positive auxiliary with its negative: nisam, nisi, nije, nismo, niste, nisu. The participle is unchanged. Standard word order: the negative auxiliary comes BEFORE the participle. 'Nisam radio' (I didn't work). 'Ona nije išla' (She didn't go). 'Nisu mogli doći' (They couldn't come).",
         highlight: 'nisam · nisi · nije · nismo · niste · nisu',
       },
       {
@@ -2495,7 +2498,7 @@ const LESSONS_CORE = [
             note: 'ići ću (a -ći verb never clips) | Long: ću ići',
           },
           {
-            hr: 'Što ćeš raditi vikend?',
+            hr: 'Što ćeš raditi za vikend?',
             en: 'What will you do this weekend?',
             note: 'Most common future question',
           },
@@ -2578,10 +2581,10 @@ const LESSONS_CORE = [
       {
         type: 'quiz',
         q: "'We will eat lunch' in Croatian?",
-        options: ['Ručat ćemo.', 'Ručamo.', 'Ručali smo.', 'Ručaće.'],
+        options: ['Ručat ćemo.', 'Ručamo.', 'Ručali smo.', 'Ručat će.'],
         correct: 0,
         explanation:
-          "'Ručati' → short stem 'ručat' + 'ćemo' (1st person plural future). 'Ručamo' = we eat (present). 'Ručali smo' = we ate (past). 'Ručaće' = they will eat (3rd person plural). Answer: 'Ručat ćemo.'",
+          "'Ručati' → short stem 'ručat' + 'ćemo' (1st person plural future). 'Ručamo' = we eat (present). 'Ručali smo' = we ate (past). 'Ručat će' = he, she or they will eat (3rd person). Answer: 'Ručat ćemo.'",
       },
       {
         type: 'quiz',
@@ -2727,7 +2730,7 @@ const LESSONS_CORE = [
             note: 'šetati (impf.) — often in past',
           },
           {
-            hr: 'Obično jem u podne.',
+            hr: 'Obično jedem u podne.',
             en: 'I usually eat at noon.',
             note: 'jesti (impf.) — usual routine',
           },
@@ -3282,9 +3285,9 @@ const LESSONS_CORE = [
       },
       {
         type: 'rule',
-        title: 'Rule 1: Negation Strongly Prefers Imperfective',
-        body: "When you negate an action in the past, the imperfective is almost always required — because negation cancels the action entirely, making completeness irrelevant. 'I didn't read' (nisam čitao — impf.) — the reading simply didn't happen. The perfective negative 'nisam pročitao' implies 'I didn't manage to finish reading' — a very specific meaning.",
-        highlight: 'nisam + imperfective = typical negation',
+        title: 'Rule 1: Negation and Aspect',
+        body: "Both aspects are negated, and they deny different things. A negated imperfective denies the ACTIVITY: 'Nisam čitao tu knjigu' — I have not read it at all, none of it. A negated perfective denies the RESULT: 'Nisam pročitao tu knjigu' — I have not read it through (I may have started). With events that happen in one go, the negated perfective is simply normal: 'Nije došao', 'Nisam kupio kruh', 'Nije platila račun'.",
+        highlight: 'nisam čitao = not at all · nisam pročitao = not through to the end',
       },
       {
         type: 'example',
@@ -3293,12 +3296,12 @@ const LESSONS_CORE = [
           {
             hr: 'Nisam čitao tu knjigu.',
             en: "I didn't read that book. (at all)",
-            note: 'čitati (impf.) — standard negation; reading never happened',
+            note: 'čitati (impf.) — denies the activity; no reading happened',
           },
           {
             hr: 'Nisam pročitao tu knjigu.',
-            en: "I didn't finish reading that book.",
-            note: "pročitati (pf.) — implies I started but didn't complete it",
+            en: "I haven't read that book (all the way through).",
+            note: 'pročitati (pf.) — denies the result; I may have started it',
           },
           {
             hr: 'Nije jela ništa.',
@@ -3355,9 +3358,9 @@ const LESSONS_CORE = [
         title: 'Permission & Request',
         items: [
           {
-            hr: 'Mogu li otvarati prozor? (impf.)',
+            hr: 'Mogu li otvoriti prozor?',
             en: 'May I open the window? (asking permission)',
-            note: 'impf. — requesting right to do the action',
+            note: 'pf. — permission for one act; the imperfective (Smijem li otvarati prozore?) asks about doing it generally',
           },
           {
             hr: 'Možeš li otvoriti prozor? (pf.)',
@@ -3506,16 +3509,16 @@ const LESSONS_CORE = [
               'nitko, ništa, nikad all require the verb to be negated as well: Nitko nije došao.',
           },
           {
-            q: "Why is 'Nisam čitao tu knjigu' the normal negation, not 'Nisam pročitao'?",
+            q: "What is the difference between 'Nisam čitao tu knjigu' and 'Nisam pročitao tu knjigu'?",
             options: [
-              'because čitati is more formal',
-              'because pročitati has no past tense',
-              'because tu knjigu needs the genitive',
-              'because negation cancels the action, so completeness is irrelevant — imperfective',
+              'čitao is more formal than pročitao',
+              'pročitao cannot be negated',
+              'they mean exactly the same',
+              'the first denies any reading; the second denies finishing it',
             ],
             correct: 3,
             explanation:
-              'If the reading never happened, there is no completion to mark. Nisam pročitao says specifically that I did not get to the end.',
+              'A negated imperfective denies the activity (none of it happened); a negated perfective denies the result (it was not completed).',
           },
           {
             q: "When is a negative PERFECTIVE imperative used, e.g. 'Nemoj pasti!'?",
@@ -3542,11 +3545,11 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Aspect in Negation & Commands',
         points: [
-          "Negation default: imperfective (action simply didn't happen)",
-          "Perfective negative: 'tried but failed to complete' — specific meaning",
+          'Negated imperfective denies the activity: Nisam čitao (none of it)',
+          'Negated perfective denies the result: Nisam pročitao (not to the end); for one-off events it is simply normal: Nije došao',
           'General imperative (advice/policy): imperfective',
           'Specific one-time command: perfective',
-          'Permission (May I?): imperfective | Request (Please do it): perfective',
+          'Permission for one act (Mogu li otvoriti…?): perfective | for doing it in general: imperfective',
           'Modal + impf. = activity/ability | Modal + pf. = specific goal',
         ],
       },
@@ -3842,7 +3845,7 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: "Genitive — The Case of 'Of'",
-        body: "The genitive answers the question 'koga/čega?' (of whom/what?). It's the second most common case after accusative, and it has four main jobs: showing possession ('the book of Ana'), negating existence ('there is no...'), expressing quantity ('a lot of water'), and appearing after dozens of prepositions (od, do, iz, bez, kod, za, s, prema...).",
+        body: "The genitive answers the question 'koga/čega?' (of whom/what?). It's the second most common case after accusative, and it has four main jobs: showing possession ('the book of Ana'), negating existence ('there is no...'), expressing quantity ('a lot of water'), and appearing after dozens of prepositions (od, do, iz, bez, kod, blizu, ispred, iza...).",
         icon: '📦',
       },
       {
@@ -3854,21 +3857,25 @@ const LESSONS_CORE = [
           ['Feminine (-a)', '-a', '-e', 'knjiga → knjige (of the book)'],
           ['Masculine', 'cons.', '-a', 'brat → brata (of the brother)'],
           ['Masculine', 'cons.', '-a', 'grad → grada (of the city)'],
-          ['Neuter (-o)', '-o', '-a', 'more → mora (of the sea)'],
+          ['Neuter (-o/-e)', '-o/-e', '-a', 'more → mora (of the sea)'],
           ['Neuter (-e)', '-e', '-a', 'polje → polja (of the field)'],
         ],
       },
       {
         type: 'rule',
         title: 'Use 1: Possession',
-        body: "To say something belongs to someone, put the owner in the genitive. There is no separate word for 'of' — the ending does the work. 'Kov Ana' (Ana's key) = 'ključ Ane'. 'The city's centre' = 'centar grada'. The genitive noun follows the thing possessed.",
+        body: "To say something belongs to someone, put the owner in the genitive. There is no separate word for 'of' — the ending does the work. With a noun phrase the owner goes in the genitive: 'ključ moje sestre' (my sister's key), 'centar grada' (the city's centre). The genitive noun follows the thing possessed. With a single name, Croatian usually prefers the possessive adjective: 'Anin ključ' (Ana's key).",
         highlight: 'owner → genitive',
       },
       {
         type: 'example',
         title: 'Possession in Genitive — Listen',
         items: [
-          { hr: 'ključ Ane', en: "Ana's key", note: 'Ana → Ane (fem. gen.)' },
+          {
+            hr: 'ključ moje sestre',
+            en: "my sister's key",
+            note: 'moja sestra → moje sestre (fem. gen.)',
+          },
           { hr: 'centar grada', en: 'the city centre', note: 'grad → grada (masc. gen.)' },
           { hr: 'boja mora', en: 'the colour of the sea', note: 'more → mora (neut. gen.)' },
           { hr: 'soba moje sestre', en: "my sister's room", note: 'sestra → sestre (fem. gen.)' },
@@ -3956,9 +3963,9 @@ const LESSONS_CORE = [
           ['iz', 'out of, from inside', 'iz Zagreba (from Zagreb — lived there)'],
           ['bez', 'without', 'bez šećera (without sugar)'],
           ['kod', "at (someone's place)", "kod bake (at grandma's)"],
-          ['za', 'for (genitive use)', 'za tjedan dana (in a week)'],
+          ['za', 'during, in the time of', 'za vrijeme rata (during the war)'],
           ['s/sa', 'from (off of)', 's mora (from the sea)'],
-          ['prema', 'toward, according to', 'prema gradu (toward the city)'],
+          ['blizu', 'near', 'blizu škole (near the school)'],
         ],
       },
       {
@@ -4018,7 +4025,7 @@ const LESSONS_CORE = [
               'A quantity word is followed by the genitive plural: puno knjiga. knjige is singular and knjigu accusative.',
           },
           {
-            q: "Spot the error: 'Idem kod prijatelj poslije posla.'",
+            q: "Spot the error: 'Bio sam kod prijatelj poslije posla.'",
             options: [
               'prijatelj should be prijatelja — kod takes the genitive',
               'kod should be u',
@@ -4061,11 +4068,11 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Genitive — Four Core Uses',
         points: [
-          "Possession: ključ Ane (Ana's key), centar grada (city centre)",
+          "Possession: ključ moje sestre (my sister's key), centar grada (city centre); with one name: Anin ključ",
           "Nema + genitive: Nema kave. (There's no coffee.)",
           'After quantity words: mnogo prijatelja, malo vremena',
           'After numbers 5+: pet boca, deset dana',
-          'After prepositions: od, do, iz, bez, kod, prema, s/sa',
+          'After prepositions: od, do, iz, bez, kod, blizu, s/sa',
           'Endings: fem. -e, masc./neut. -a (sg.)',
         ],
       },
@@ -4106,7 +4113,7 @@ const LESSONS_CORE = [
           ['Feminine (-a)', 'knjiga', '-i', 'knjizi (to/about the book)'],
           ['Masculine', 'brat', '-u', 'bratu (to/about the brother)'],
           ['Masculine', 'grad', '-u', 'gradu (to/in the city)'],
-          ['Neuter (-o)', 'more', '-u', 'moru (to/about the sea)'],
+          ['Neuter (-o/-e)', 'more', '-u', 'moru (to/about the sea)'],
           ['Neuter (-e)', 'polje', '-u', 'polju (to/about the field)'],
         ],
       },
@@ -4364,7 +4371,8 @@ const LESSONS_CORE = [
           ['Feminine (-a)', 'knjiga', '-om', 'knjigom (with a book)'],
           ['Masculine', 'brat', '-om', 'bratom (with brother)'],
           ['Masculine', 'stol', '-om', 'stolom (with the table)'],
-          ['Neuter (-o)', 'more', '-em', 'morem (by/with sea)'],
+          ['Neuter -o', 'selo', '-om', 'selom (by/with village)'],
+          ['Neuter -e', 'more', '-em', 'morem (by/with sea)'],
           ['Neuter (-e)', 'polje', '-em', 'poljem (across the field)'],
         ],
       },
@@ -4473,9 +4481,9 @@ const LESSONS_CORE = [
       },
       {
         type: 'rule',
-        title: 'Use 3: Profession / Characterization with biti',
-        body: "After the verb biti (to be) when stating what someone is by nature — profession, nationality, religion — Croatian often uses the instrumental. 'Ona je liječnicom' (She is a doctor). This is a formal/literary register; colloquially, nominative is also common: 'Ona je liječnik/liječnica.' You will encounter both.",
-        highlight: 'biti + profession → instrumental (formal)',
+        title: 'Use 3: The Role You Become',
+        body: "With verbs of becoming and naming — postati (become), proglasiti (declare), izabrati (elect), smatrati (consider) — the new role goes in the instrumental: 'Postala je liječnicom' (She became a doctor). The nominative is common here too ('Postala je liječnica'). After biti (to be) itself, the nominative is the normal form: 'Ona je liječnica.' The instrumental after biti ('bio je ministrom') survives only in formal writing, for a role held for a time.",
+        highlight: 'postati + role → instrumental',
       },
       {
         type: 'table',
@@ -4573,7 +4581,7 @@ const LESSONS_CORE = [
             ],
             correct: 1,
             explanation:
-              'postati and, in formal style, biti take the instrumental for a profession or role: postala je učiteljicom.',
+              'postati takes the instrumental for the new role: postala je učiteljicom. After biti itself the nominative is normal: ona je učiteljica.',
           },
         ],
       },
@@ -4584,8 +4592,8 @@ const LESSONS_CORE = [
           'Means/tool (no preposition): pisati olovkom, putovati vlakom, platiti karticom',
           's/sa + instrumental = with someone: s Anom, s prijateljem',
           'Other prepositions: pred, nad, pod, za, među + instrumental (između takes the genitive: između stolova)',
-          'Profession with biti (formal): Ona je liječnicom.',
-          'Endings: fem. -om, masc. -om, neut. -em (soft stems: -om → varies)',
+          'The role you become: postati + instrumental (Postala je liječnicom); after biti, the nominative (Ona je liječnica).',
+          'Endings: fem. -om, masc. -om (-em after a soft consonant), neut. -om for -o nouns, -em for -e nouns',
         ],
       },
     ],
@@ -4879,7 +4887,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Internal Order of Clitics',
-        body: "When multiple clitics appear together, they follow a strict internal order: (1) bi (conditional) → (2) auxiliary (je/sam/si/smo/ste/su) → (3) dative pronoun (mi/ti/mu/joj/nam/vam/im) → (4) accusative pronoun (me/te/ga/je/nas/vas/ih) → (5) se/si (reflexive) → (6) je again (if it's the verb 'biti' not auxiliary). Never change this order.",
+        body: 'When multiple clitics appear together, they follow a strict internal order: (1) li (question) → (2) bi (conditional) or the auxiliary sam/si/smo/ste/su → (3) dative pronoun (mi/ti/mu/joj/nam/vam/im) → (4) accusative pronoun (me/te/ga/je/nas/vas/ih) → (5) se (reflexive) → (6) je, the 3rd-person form of biti, which always comes last. Never change this order.',
         highlight: 'bi → aux → dat → acc → se → je',
       },
       {
@@ -4939,7 +4947,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: "The 'je' Problem — Auxiliary vs Verb",
-        body: "The clitic 'je' does double duty: it's both the 3rd person singular past auxiliary AND the present tense of 'biti' (to be). When 'je' means 'is' (not an auxiliary), it comes LAST in the clitic cluster, after all other clitics. When it's the past auxiliary (helping verb), it follows its normal slot. This is the subtlest rule in Croatian.",
+        body: "The clitic 'je' does double duty: it's both the 3rd person singular past auxiliary AND the present tense of 'biti' (to be). Either way it comes LAST in the clitic cluster, after all the other clitics: 'Dao mu ga je' (auxiliary), 'Drago mi je' (is). Unlike sam and si, it never goes ahead of the pronouns. This is the subtlest rule in Croatian.",
         highlight: 'je (aux.) = early slot | je (= is) = last',
       },
       {
@@ -5016,7 +5024,7 @@ const LESSONS_CORE = [
         ],
         correct: 2,
         explanation:
-          "'Ona mi ga je dala.' — Order: ona (first unit) → mi (dative) → ga (accusative) → je (auxiliary) → dala (participle). The rule: auxiliary comes after dative and accusative pronouns. 'Ona je mi ga dala' is wrong — je cannot precede mi/ga.",
+          "'Ona mi ga je dala.' — Order: ona (first unit) → mi (dative) → ga (accusative) → je (auxiliary) → dala (participle). The rule: the third-person auxiliary je comes after the dative and accusative pronouns (other auxiliaries — sam, si, smo, ste, su — come before them: Dao sam mu ga). 'Ona je mi ga dala' is wrong — je cannot precede mi/ga.",
       },
       {
         type: 'quiz',
@@ -5116,7 +5124,7 @@ const LESSONS_CORE = [
           'Clitics occupy second position — after the first stressed unit',
           'Internal order: bi → aux (je/sam...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
           'First unit can be any phrase — a word, NP, or adverb',
-          "je as auxiliary: normal slot | je meaning 'is': always last",
+          "je (auxiliary or 'is'): always last in the cluster",
           'Never place clitics at the start or end of a clause',
         ],
       },
@@ -5164,7 +5172,7 @@ const LESSONS_CORE = [
             'Putovanje širi horizonte. (Travel broadens horizons.)',
           ],
           ['misliti', 'mišljenje', 'thinking/opinion', 'Po mom mišljenju... (In my opinion...)'],
-          ['odlučiti', 'odlučivanje', 'deciding', 'Odlučivanje je teško. (Deciding is hard.)'],
+          ['odlučivati', 'odlučivanje', 'deciding', 'Odlučivanje je teško. (Deciding is hard.)'],
         ],
       },
       {
@@ -5262,7 +5270,7 @@ const LESSONS_CORE = [
             note: 'rastuća — present participle used as an adjective',
           },
           {
-            hr: 'Čitanje na glas poboljšava izgovor.',
+            hr: 'Čitanje naglas poboljšava izgovor.',
             en: 'Reading aloud improves pronunciation.',
             note: 'čitanje — verbal noun as subject',
           },
@@ -5412,7 +5420,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Formal vs Informal Register — The Key Signals',
-        body: "Croatian has clear register markers. Formal signals: vi-form (plural second person as polite address), longer verbal nouns instead of infinitives, passive voice, no contractions. Informal signals: ti-form, shortened forms ('kak si' instead of 'kako si'), dialects, diminutives everywhere (kavica, kolačić, slatko). Wrong register in the wrong context is socially jarring.",
+        body: "Croatian has clear register markers. Formal signals: vi-form (plural second person as polite address), longer verbal nouns instead of infinitives, passive voice, no contractions. Informal signals: ti-form, shortened forms ('kak si' instead of 'kako si'), dialects, diminutives everywhere (kavica, kolačić, pivce). Wrong register in the wrong context is socially jarring.",
         highlight: 'Vi (formal) vs Ti (informal) — more than just grammar',
       },
       {
@@ -5425,7 +5433,7 @@ const LESSONS_CORE = [
           ['Hvala lijepa.', 'Hvala! / Fala!', 'Thank you!'],
           ['Ne razumijem.', 'Ne kapim. / Nisam skužio.', "I don't understand."],
           ['Doviđenja.', 'Ćao! / Pa, ajde!', 'Goodbye!'],
-          ['Sjesti', 'Sjediti / Sjest', 'To sit (formal/colloquial)'],
+          ['Sjesti', 'Sjest', 'To sit down (standard / clipped colloquial infinitive)'],
           ['Pisati izvještaj', 'Sklepati izvještaj', 'To write a report (formal/slangy)'],
         ],
       },
@@ -5440,7 +5448,7 @@ const LESSONS_CORE = [
         title: 'Croatian Idioms — With Their Logic',
         items: [
           {
-            hr: 'Pala mu je mrak na oči.',
+            hr: 'Pao mu je mrak na oči.',
             en: 'He saw red / lost it.',
             note: "Lit: 'Darkness fell on his eyes' — rage",
           },
@@ -5699,7 +5707,7 @@ const LESSONS_CORE = [
           'Vi (formal) vs Ti (informal) — know which context demands which',
           'Discourse markers: znači, eto, pa, baš, ajde — use them, sound natural',
           'Diminutives (-ić/-ica/-ce) signal warmth and informality — use generously',
-          "Idioms: 'Svaka čast!' / 'Nije mu sve doma' / 'Pala mu mrak na oči'",
+          "Idioms: 'Svaka čast!' / 'Nije mu sve doma' / 'Pao mu je mrak na oči'",
           'Proverbs encode the culture — knowing a handful makes you culturally fluent',
           'Read news, watch HRT, listen to podcasts — register is learned through exposure',
         ],
@@ -5946,7 +5954,7 @@ const LESSONS_CORE = [
           ['ti', 'you (singular informal)', 'Use with friends, peers, children'],
           ['on', 'he', ''],
           ['ona', 'she', ''],
-          ['ono', 'it', 'Also: gender-neutral singular'],
+          ['ono', 'it', 'Refers to neuter nouns (dijete, selo)'],
           ['mi', 'we', ''],
           ['vi', 'you (plural or formal sing.)', 'Capital Vi = formal politeness'],
           ['oni / one / ona', 'they (m. / f. / n.)', ''],
@@ -6031,7 +6039,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Dropping Pronouns',
-        body: "Croatian is a pro-drop language — pronouns are often omitted because the verb ending already tells you who is doing the action. 'Jesam Hrvat.' means 'I am Croatian' — 'ja' (I) is not needed. Add the pronoun only for contrast or emphasis.",
+        body: "Croatian is a pro-drop language — pronouns are often omitted because the verb ending already tells you who is doing the action. 'Hrvat sam.' means 'I am Croatian' — 'ja' (I) is not needed. Add the pronoun only for contrast or emphasis.",
         highlight: 'pro-drop',
       },
       {
@@ -6201,7 +6209,11 @@ const LESSONS_CORE = [
           { hr: 'Koliko je sati?', en: 'What time is it?', note: 'The standard question' },
           { hr: 'Imate li sat?', en: 'Do you have a watch?', note: 'Alternative question' },
           { hr: 'U koliko sati?', en: 'At what time?', note: 'Asking when something happens' },
-          { hr: 'U sedam sati.', en: "At seven o'clock.", note: 'Stating a time (u + Genitive)' },
+          {
+            hr: 'U sedam sati.',
+            en: "At seven o'clock.",
+            note: 'u + accusative; sati is genitive plural after the number',
+          },
           { hr: 'Kasnim pet minuta.', en: 'I am five minutes late.', note: 'Very useful phrase' },
         ],
       },
@@ -6577,8 +6589,8 @@ const LESSONS_CORE = [
           ['dolaziti', 'doći', 'toward (coming, arriving)', 'Dolazi u 8. (He arrives at 8.)'],
           ['hodati', '—', 'walking (no direction)', 'Hodao sam sat vremena.'],
           ['trčati', 'istrčati', 'running', 'Trčim svaki dan.'],
-          ['voziti', 'odvoziti', 'driving', 'Vozim auto na posao.'],
-          ['letjeti', 'odletjeti', 'flying', 'Let odlijeće u podne.'],
+          ['voziti', 'odvesti', 'driving', 'Vozim auto na posao.'],
+          ['letjeti', 'odletjeti', 'flying', 'Letim u Zagreb sutra.'],
         ],
       },
       {
@@ -7071,7 +7083,7 @@ const LESSONS_CORE = [
           ['12:00', 'Dvanaest je sati', 'Twelve is hours'],
           ['3:30', 'Tri i pol', 'Three and a half'],
           ['6:15', 'Šest i četvrt', 'Six and a quarter'],
-          ['8:45', 'Tri četvrt do devet', 'Three quarters to nine'],
+          ['8:45', 'Četvrt do devet', 'A quarter to nine'],
         ],
       },
       {
@@ -8208,7 +8220,7 @@ const LESSONS_CORE = [
           [
             'brinuti se',
             'to worry about',
-            'instrumental/za+acc',
+            'za + accusative / o + locative',
             'Brinem se za tebe. (I worry about you.)',
           ],
         ],
@@ -8770,8 +8782,8 @@ const LESSONS_CORE = [
       },
       {
         type: 'rule',
-        title: 'Post-Independence Lexical Divergence from Serbian',
-        body: 'After independence in 1991, Croatian underwent deliberate lexical differentiation from Serbian. Words that had been shared were replaced with distinctly Croatian forms or revived historical terms. Examples: vlak (train) vs. Serbian voz; tisuća (thousand) vs. Serbian hiljada; tjedan (week) vs. Serbian nedelja; zrakoplov (airplane) vs. Serbian avion; sveučilište (university) vs. Serbian univerzitet. This was not arbitrary — it was a conscious assertion of distinct cultural identity after decades of pressure toward a unified "Serbo-Croatian".',
+        title: 'Old Words, New Emphasis after 1991',
+        body: 'Most of the words that separate Croatian from Serbian are old: vlak (train), tisuća (thousand), tjedan (week) and sveučilište (university) were standard Croatian long before 1991, against Serbian voz, hiljada, nedelja and univerzitet. What changed after independence in 1991 was emphasis: purism promoted native words such as zrakoplov beside the everyday avion, revived historical terms, and pushed back forms that had spread under a unified "Serbo-Croatian" standard. It was a conscious assertion of a distinct cultural identity after decades of pressure toward that single standard.',
         highlight: 'vlak / tisuća / tjedan / zrakoplov',
       },
       {
@@ -8895,13 +8907,13 @@ const LESSONS_CORE = [
         q: 'Why does Croatian use "vlak" instead of "voz" for train?',
         options: [
           '"Voz" is incorrect Croatian grammar',
-          '"Vlak" is a post-independence lexical choice to assert distinct Croatian identity from Serbian',
+          '"Vlak" has been the standard Croatian word for generations; "voz" is the Serbian one',
           '"Vlak" was borrowed from German',
           'There is no difference — both are used equally in Croatia',
         ],
         correct: 1,
         explanation:
-          '"Vlak" is the Croatian word for train, historically used and reinforced after 1991 independence as part of deliberate lexical differentiation from Serbian (which uses "voz"). This reflects a broader conscious effort to develop distinctly Croatian vocabulary, not a claim that "voz" is grammatically wrong.',
+          '"Vlak" is the Croatian word for train and was standard long before 1991; Serbian uses "voz". The difference is one of vocabulary, not grammar — the two standards simply chose different words.',
       },
       {
         type: 'quiz',
@@ -9014,7 +9026,7 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Croatian Language Identity — Complete!',
         points: [
-          'Post-1991: vlak, tisuća, tjedan, zrakoplov, sveučilište — deliberate Croatian lexical choices',
+          'Old words, new emphasis: vlak, tisuća, tjedan and sveučilište long predate 1991; after 1991 purism revived coinages such as zrakoplov',
           'Purism tradition: Šulek and the National Revival created hundreds of native Croatian words',
           'Glagolitic script (glagoljica): Croatian cultural identity anchor since the 9th century',
           'Čakavian and Kajkavian are treasured heritage dialects, not inferior forms',
@@ -10517,7 +10529,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Nominal Style — Verbs Turned to Stone',
-        body: "Administrative Croatian buries actions in verbal nouns: instead of 'kad podnesete zahtjev' it writes 'prilikom podnošenja zahtjeva' (upon the submission of the request). Decode by re-verbing: find the -nje/-ba noun, turn it back into a verb, and the sentence untangles: podnošenje → podnijeti, izdavanje → izdati, ostvarivanje → ostvariti.",
+        body: "Administrative Croatian buries actions in verbal nouns: instead of 'kad podnesete zahtjev' it writes 'prilikom podnošenja zahtjeva' (upon the submission of the request). Decode by re-verbing: find the -nje/-ba noun, turn it back into a verb, and the sentence untangles: podnošenje → podnositi, izdavanje → izdavati, ostvarivanje → ostvarivati.",
         highlight: 'prilikom podnošenja = kad podnosite — re-verb the noun',
       },
       {
@@ -10752,7 +10764,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Rule 2 — Contrast Conjunctions Always Take One',
-        body: "A comma always precedes the contrastive conjunctions a, ali, nego, no, već: 'Htio sam doći, ali nisam stigao.' 'Nije to kupio, nego posudio.' By contrast, the additive i and choice ili take NO comma in plain coordination: 'Kupio je kruh i mlijeko.'",
+        body: "A comma always precedes the contrastive conjunctions a, ali, nego, no, već: 'Htio sam doći, ali nisam stigao.' 'Nije to kupio, nego posudio.' Comparative nego takes none: 'Veći je nego ja.' By contrast, the additive i and choice ili take NO comma in plain coordination: 'Kupio je kruh i mlijeko.'",
         highlight: 'comma before a / ali / nego / no / već — never before plain i',
       },
       {
@@ -10936,10 +10948,10 @@ const LESSONS_CORE = [
           },
           {
             q: 'Which conjunction ALWAYS takes a comma before it?',
-            options: ['i', 'ili', 'nego', 'te'],
+            options: ['i', 'ili', 'ali', 'te'],
             correct: 2,
             explanation:
-              'The contrastive conjunctions a, ali, nego, no, već always take a comma; plain i, ili and te in simple coordination do not.',
+              'ali always takes a comma. nego takes one when it contrasts (Nije to kupio, nego posudio) but not when it compares (Veći je nego ja); plain i, ili and te in simple coordination take none.',
           },
           {
             q: "Complete: 'Kupio je kruh ___ mlijeko.'",
@@ -11260,7 +11272,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Regular Comparative: -iji, -ji, -ši',
-        body: 'Most adjectives form the comparative by adding -iji to the stem: jednostavan → jednostavniji (simpler), pametan → pametniji (smarter). Adjectives ending in a single consonant plus -k, -c, -h often drop it and add -ji, with the preceding consonant softening: lijep → ljepši (more beautiful), mlad → mlađi (younger), jak → jači (stronger). A smaller group uses -ši: lak → lakši (easier).',
+        body: 'Most adjectives form the comparative by adding -iji to the stem: jednostavan → jednostavniji (simpler), pametan → pametniji (smarter). Many short adjectives take -ji instead, which softens the consonant before it: mlad → mlađi (younger), jak → jači (stronger), tih → tiši (quieter). A smaller group takes -ši: lijep → ljepši (more beautiful), lak → lakši (easier), mek → mekši (softer).',
         highlight: 'jednostavan → jednostavniji',
       },
       {
@@ -11343,7 +11355,7 @@ const LESSONS_CORE = [
           {
             hr: 'On trči brže nego ja.',
             en: 'He runs faster than I do.',
-            note: 'nego required — comparing two clauses',
+            note: 'nego + nominative; "brže od mene" (od + genitive) says the same',
           },
         ],
       },
@@ -11472,7 +11484,7 @@ const LESSONS_CORE = [
             ],
             correct: 1,
             explanation:
-              "od works only before a noun or pronoun in the genitive. Comparing verbs, adverbs or prepositional phrases ('brže nego ja', 'skuplje nego u Splitu') needs nego.",
+              "od works only before a noun or pronoun in the genitive (brže od mene). Comparing prepositional phrases or whole clauses ('skuplje nego u Splitu', 'bolje nego prošle godine') needs nego.",
           },
           {
             q: "Complete: 'Ovo je ___ grad u Hrvatskoj.' (the biggest)",
@@ -11483,10 +11495,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Which is the correct comparative of 'loš' (bad)?",
-            options: ['lošiji', 'gori', 'najgori', 'loše'],
+            options: ['goriji', 'gori', 'najgori', 'loše'],
             correct: 1,
             explanation:
-              'loš is irregular: gori (worse), najgori (worst). lošiji is a learner regularisation.',
+              'loš has the irregular comparative gori (worse); lošiji is also standard. najgori is the superlative, goriji marks the comparison twice, and loše is the adverb.',
           },
         ],
       },

@@ -345,7 +345,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Four Prefixes Worth Knowing Cold',
-        body: '"Po-" often means a little, or briefly: pričekati (wait a bit), popiti (drink up), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
+        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), popiti (drink up), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
         highlight: 'po- a bit · pre- across/too much · raz- apart · za- begin',
       },
       {
@@ -1667,11 +1667,11 @@ export const LESSONS_B1 = [
               'The if-clause stays in the present even though it points forward: ako imaš. A future there is not standard, the past would refer to a finished event, and a bare infinitive has no subject.',
           },
           {
-            q: 'Complete: "Ako ___ padati kiša, ostat ćemo doma." (the dedicated future condition)',
+            q: 'Complete: "Ako ___ padala kiša, ostat ćemo doma." (the dedicated future condition)',
             options: ['bude', 'će', 'je', 'bio'],
             correct: 0,
             explanation:
-              'The budem-form is Croatian\'s own future condition: ako bude padati (or ako bude padala) kiša. "Će" would put an ordinary future in the if-clause, which Croatian avoids.',
+              'The budem-form (the future perfect) is Croatian\'s own future condition: ako bude padala kiša — bude plus the past participle, never bude plus the infinitive. "Će" would put an ordinary future in the if-clause, which Croatian avoids.',
           },
           {
             q: 'Which says "If it rains, the match is postponed" as a general rule?',
@@ -2620,7 +2620,7 @@ export const LESSONS_B1 = [
         options: [
           'Pala je kiša. (perfective)',
           'Padala je kiša. (imperfective)',
-          'Pasti će kiša. (future)',
+          'Past će kiša. (future)',
         ],
         correct: 1,
         explanation:
@@ -3028,8 +3028,8 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'The Conditional Softens Everything',
-        body: '"Htio bih" and "Htjela bih" turn a demand into a request, and "Mogli biste li…?" is softer still than "Možete li…?". This is the same conditional you met for ordering coffee at A1, doing more serious work. In a complaint it matters more than anywhere else: the conditional is what keeps you firm without being rude.',
-        highlight: 'Htio bih… / Mogli biste li…?',
+        body: '"Htio bih" and "Htjela bih" turn a demand into a request, and "Biste li mogli…?" is softer still than "Možete li…?". This is the same conditional you met for ordering coffee at A1, doing more serious work. In a complaint it matters more than anywhere else: the conditional is what keeps you firm without being rude.',
+        highlight: 'Htio bih… / Biste li mogli…?',
       },
       {
         type: 'example',
@@ -3082,9 +3082,9 @@ export const LESSONS_B1 = [
             note: 'pokvariti se — the object breaks by itself',
           },
           {
-            hr: 'Mogli biste li mi poslati novi račun e-poštom?',
+            hr: 'Biste li mi mogli poslati novi račun e-poštom?',
             en: 'Could you send me a new bill by email?',
-            note: 'the softest request form: mogli biste li',
+            note: 'the softest request form: biste li mogli',
           },
           {
             hr: 'Htjela bih zamijeniti ovu jaknu jer ima rupu na rukavu.',
@@ -3116,10 +3116,10 @@ export const LESSONS_B1 = [
         type: 'quiz',
         title: 'One More',
         q: 'Which is the softest way to ask for something to be checked?',
-        options: ['Provjerite to.', 'Možete li to provjeriti?', 'Mogli biste li to provjeriti?'],
+        options: ['Provjerite to.', 'Možete li to provjeriti?', 'Biste li to mogli provjeriti?'],
         correct: 2,
         explanation:
-          'The conditional "mogli biste li" is the gentlest of the three. A bare imperative is the most direct, and "možete li" sits between them — all three are usable, but in a complaint the softest wording works best.',
+          'The conditional "biste li mogli" is the gentlest of the three. A bare imperative is the most direct, and "možete li" sits between them — all three are usable, but in a complaint the softest wording works best.',
       },
       {
         type: 'rule',
@@ -3186,12 +3186,12 @@ export const LESSONS_B1 = [
             options: [
               'Provjerite račun.',
               'Možete li provjeriti račun?',
-              'Mogli biste li provjeriti račun?',
+              'Biste li mogli provjeriti račun?',
               'Hoću da provjerite račun.',
             ],
             correct: 2,
             explanation:
-              'The conditional "mogli biste li" is the gentlest. The imperative is the most direct, "možete li" sits in between, and "hoću da" is a blunt demand.',
+              'The conditional "biste li mogli" is the gentlest. The imperative is the most direct, "možete li" sits in between, and "hoću da" is a blunt demand.',
           },
           {
             q: 'Complete: "Ovo nije ___ sam naručio." (This is not what I ordered.)',
