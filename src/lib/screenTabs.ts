@@ -201,6 +201,7 @@ export const SCREEN_TAB: Record<string, string> = {
   learning_center: 'learn',
   coursemap: 'learn',
   unittest: 'learn',
+  levelreview: 'learn',
   unitproduction: 'learn',
   mistakes: 'practice',
   listeningpath: 'practice',

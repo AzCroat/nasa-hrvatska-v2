@@ -356,3 +356,82 @@ test.describe('Retention check-up', () => {
     expect(stored).toContain('wroteAt');
   });
 });
+
+/**
+ * THE END-OF-LEVEL REVIEW (2026-09-27): mixed practice across all six units of a level,
+ * before its Level Check. In a real browser because the round is assembled from thirty
+ * separately-fetched lesson bodies through the router, the lazy chunk and the content
+ * fetch — the chain the component test supplies for itself.
+ */
+test.describe('Level review', () => {
+  test.beforeEach(async ({ page }) => {
+    const { CURRICULUM } = await import('../functions/api/content/_data/curriculum.js');
+    const a1 = CURRICULUM.filter((e) => e.level === 'A1').map((e) => e.id);
+    await seedAuth(page);
+    await blockFirebase(page);
+    await mockTTS(page);
+    await mockContent(page);
+    await page.addInitScript((ids) => {
+      if (window.top !== window) return; // an init script runs in EVERY frame
+      try {
+        const done = {};
+        for (const id of ids) done[id] = '2026-09-01';
+        localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
+        // Every A1 unit has met the whole bar: test passed, both halves produced.
+        const units = {};
+        for (let i = 1; i <= 6; i++)
+          units[`A1-${i}`] = {
+            passedAt: '2026-09-10',
+            production: {
+              wroteAt: '2026-09-10',
+              writeScore: 80,
+              spokeAt: '2026-09-10',
+              speakScore: 0.8,
+            },
+          };
+        localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+      } catch {
+        /* storage blocked — the test fails visibly rather than silently */
+      }
+    }, a1);
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('is on the map once A1 is finished, and serves an eighteen-item mixed round', async ({
+    page,
+  }) => {
+    const row = page.getByTestId('course-level-review-A1');
+    await expect(row).toBeVisible();
+    await expect(row).toHaveAttribute('data-done', '0');
+    await page.getByTestId('course-level-review-open-A1').click();
+    await expect(page.getByTestId('level-review')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('level-review-progress')).toHaveText('Question 1 of 18');
+    await expect(page.getByText('practice, not scored')).toBeVisible();
+  });
+
+  test('a missed item comes back, and the round ends on a first-try count', async ({ page }) => {
+    await page.getByTestId('course-level-review-open-A1').click();
+    await expect(page.getByTestId('level-review')).toBeVisible({ timeout: 20_000 });
+    let sawRepeat = false;
+    for (let i = 0; i < 200; i++) {
+      if (await page.getByTestId('level-review-result').isVisible()) break;
+      const card = page.getByTestId('level-review');
+      if ((await card.getAttribute('data-repeat')) === '1') sawRepeat = true;
+      // The first option on screen: right about a quarter of the time, so some items miss.
+      await page.getByTestId('level-review-option').first().click();
+      await page.getByTestId('level-review-next').click();
+    }
+    await expect(page.getByTestId('level-review-result')).toBeVisible({ timeout: 20_000 });
+    expect(sawRepeat, 'a missed question must come back before the round ends').toBe(true);
+    await expect(page.getByTestId('level-review-first-try')).toContainText(
+      /\d+ of 18 right first time/,
+    );
+    const stored = await page.evaluate(() => localStorage.getItem('nh_course_units'));
+    expect(stored).toContain('"reviews"');
+    expect(stored).toContain('"A1"');
+
+    await page.getByTestId('level-review-level-check').click();
+    await expect(page).toHaveURL(/equivalency/, { timeout: 20_000 });
+  });
+});

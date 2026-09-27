@@ -137,6 +137,10 @@ const OUTSIDE_SESSION: string[] = [
   // needs a UNIT and a HALF (write or speak), which the session builder writes into
   // a handoff.
   'unitproduction',
+  // The end-of-level review, same shape again: served by P0's teaching slot once, at
+  // the crossing into the next level, never by the CEFR pool — it needs a LEVEL,
+  // which the session builder writes into a handoff.
+  'levelreview',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

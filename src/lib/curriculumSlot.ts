@@ -34,8 +34,9 @@ import {
   unitTestActivityId,
   unitProductionActivityId,
   unitRecheckActivityId,
+  levelReviewActivityId,
 } from './courseStep';
-import { requestUnitTest } from './courseUnitProgress';
+import { requestUnitTest, requestLevelReview } from './courseUnitProgress';
 import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 
@@ -78,6 +79,9 @@ export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | nu
 export function rearmCourseHandoff(activityId: string | undefined | null): void {
   if (!activityId) return;
   try {
+    for (const level of KNOWN_LEVELS) {
+      if (activityId === levelReviewActivityId(level)) return requestLevelReview(level);
+    }
     for (const unitId of KNOWN_UNIT_IDS) {
       if (activityId === `course_unit_recheck_${unitId}`) return requestUnitTest(unitId, 'recheck');
       if (activityId === `course_unit_test_${unitId}`) return requestUnitTest(unitId);
@@ -103,6 +107,8 @@ export function rearmCourseHandoff(activityId: string | undefined | null): void 
  * grows past 20 units a level would fall outside it, and the re-arm would then be a
  * no-op — the screen says "no unit test is open", never a wrong unit.
  */
+const KNOWN_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
+
 const KNOWN_UNIT_IDS: readonly string[] = (() => {
   const out: string[] = [];
   for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
@@ -287,6 +293,27 @@ export function buildCurriculumSlots(opts: {
         screen: 'animlesson',
         category: 'general',
         reason: behind.reason,
+      },
+    ];
+  }
+
+  // THE END-OF-LEVEL REVIEW IS A TEACHING SLOT (2026-09-27), served once at the
+  // crossing into the next level: mixed practice across the six units, so the learner
+  // meets the whole level side by side BEFORE the Level Check does it to them. Like
+  // the unit test it takes P0's slot and carries no follow-on drill.
+  if (course.kind === 'level-review') {
+    try {
+      requestLevelReview(course.level);
+    } catch {
+      /* the screen reports that it has no level rather than crashing */
+    }
+    return [
+      {
+        id: levelReviewActivityId(course.level),
+        label: `${course.level} review`,
+        screen: 'levelreview',
+        category: 'general',
+        reason: course.reason,
       },
     ];
   }

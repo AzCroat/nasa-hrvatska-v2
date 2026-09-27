@@ -577,6 +577,65 @@ describe('launchAnimLesson reports whether it opened anything', () => {
   });
 });
 
+// ── THE END-OF-LEVEL REVIEW'S DOOR ─────────────────────────────────────────
+describe('the level review is on the map once the level is finished', () => {
+  async function finishA1() {
+    const { recordUnitTest, recordUnitProduction } = await import('../lib/courseUnitProgress');
+    const a1 = UNITS.filter((u) => u.level === 'A1');
+    seedDone(a1.flatMap((u) => u.lessons.map((l) => l.id)));
+    for (const u of a1) {
+      recordUnitTest(u.id, 15, 15, true);
+      recordUnitProduction(u.id, 'write', 78);
+      recordUnitProduction(u.id, 'speak', 0.8);
+    }
+  }
+
+  it('is absent while any A1 unit is unfinished', async () => {
+    seedSpine();
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    await screen.findByTestId('course-map');
+    expect(screen.queryByTestId('course-level-review-A1')).toBeNull();
+  });
+
+  it('appears when every A1 unit has met the bar, and opens the review for A1', async () => {
+    seedSpine();
+    await finishA1();
+    const setScr = vi.fn();
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={setScr} />,
+    );
+    const row = await screen.findByTestId('course-level-review-A1');
+    expect(row.getAttribute('data-done')).toBe('0');
+    expect(screen.queryByTestId('course-level-review-A2')).toBeNull();
+    fireEvent.click(screen.getByTestId('course-level-review-open-A1'));
+    expect(sessionStorage.getItem('nh_level_review')).toBe('A1');
+    expect(setScr).toHaveBeenCalledWith('levelreview');
+  });
+
+  it('says it is done, with the first-try count, once taken', async () => {
+    seedSpine();
+    await finishA1();
+    const { recordLevelReview } = await import('../lib/courseUnitProgress');
+    recordLevelReview('A1', 14, 18);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    const row = await screen.findByTestId('course-level-review-A1');
+    expect(row.getAttribute('data-done')).toBe('1');
+    expect(row.textContent).toContain('14 of 18 right first time');
+  });
+
+  it('is routed by AppRouter and belongs to the Learn tab', async () => {
+    const router = strip(src('components/AppRouter.tsx'));
+    expect(router).toMatch(/import\('\.\/learn\/LevelReviewScreen'\)/);
+    expect(router).toMatch(/currentScreen === 'levelreview'/);
+    const { SCREEN_TAB } = await import('../lib/screenTabs');
+    expect(SCREEN_TAB.levelreview).toBe('learn');
+  });
+});
+
 // ── REACHABILITY ────────────────────────────────────────────────────────────
 // A component test that supplies its own props cannot see whether the app is
 // wired to it. Comments are stripped, or this file's own prose about the route

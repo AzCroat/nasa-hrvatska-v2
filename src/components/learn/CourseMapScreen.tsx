@@ -45,7 +45,12 @@ import {
   type UnitProgress,
 } from '../../lib/courseUnits';
 import { readCourseState } from '../../lib/courseStep';
-import { requestUnitTest, readCourseUnits, unitRecord } from '../../lib/courseUnitProgress';
+import {
+  requestUnitTest,
+  requestLevelReview,
+  readCourseUnits,
+  unitRecord,
+} from '../../lib/courseUnitProgress';
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
@@ -353,6 +358,16 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                 owedFor={owedFor}
               />
             ))}
+            {rows.every((r) => state.advanced.has(r.unit.id)) && (
+              <LevelReviewRow
+                level={level}
+                color={LEVEL_COLOR[level] || '#0e7490'}
+                onOpen={() => {
+                  requestLevelReview(level);
+                  setScr('levelreview');
+                }}
+              />
+            )}
           </div>
         );
       })}
@@ -668,6 +683,67 @@ function UnitRow({
           })}
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * THE END-OF-LEVEL REVIEW'S DOOR (2026-09-27). Shown once every unit of the level has
+ * met the bar — never before, because a review of units the learner has not finished
+ * is a preview, not a review. The course serves it once at the crossing; this row is
+ * how a learner takes it again, or takes it when they skipped past it.
+ */
+function LevelReviewRow({
+  level,
+  color,
+  onOpen,
+}: {
+  level: string;
+  color: string;
+  onOpen: () => void;
+}) {
+  const rec = readCourseUnits().reviews?.[level];
+  const done = !!rec && !rec.unavailable && rec.total > 0;
+  return (
+    <div
+      data-testid={`course-level-review-${level}`}
+      data-done={done ? '1' : '0'}
+      style={{
+        marginTop: 4,
+        padding: '12px 14px',
+        borderRadius: 14,
+        border: `1.5px dashed ${accentInk(color)}`,
+        background: 'var(--card)',
+      }}
+    >
+      <div style={{ fontSize: 13.5, fontWeight: 800, color: 'var(--heading)' }}>
+        {level} review — all six units, mixed
+      </div>
+      <div
+        style={{ fontSize: 12.5, color: 'var(--subtext)', lineHeight: 1.5, margin: '4px 0 10px' }}
+      >
+        {done
+          ? `Done — ${rec!.firstTryCorrect} of ${rec!.total} right first time. Practice before the Level Check; nothing is scored.`
+          : 'Practice across the whole level before the Level Check. A missed question comes back until you get it; nothing is scored.'}
+      </div>
+      <button
+        data-testid={`course-level-review-open-${level}`}
+        onClick={onOpen}
+        style={{
+          width: '100%',
+          padding: '11px 14px',
+          borderRadius: 10,
+          border: done ? '1.5px solid var(--card-b)' : 'none',
+          background: done ? 'transparent' : accentFill(color),
+          color: done ? 'var(--heading)' : '#fff',
+          fontSize: 13.5,
+          fontWeight: 800,
+          cursor: 'pointer',
+          fontFamily: "'Outfit',sans-serif",
+        }}
+      >
+        {done ? 'Review again →' : `Start the ${level} review →`}
+      </button>
     </div>
   );
 }

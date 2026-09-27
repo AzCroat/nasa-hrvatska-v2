@@ -17,7 +17,7 @@ import { getUserCefr } from '../lib/cefr.js';
 import { getContentUnlockLevel } from '../lib/cefrCertification.js';
 import { useContent } from './useContent.js';
 import { SESSION_SCREEN_IDS } from './useDailySession.js';
-import { requestUnitTest } from '../lib/courseUnitProgress';
+import { requestUnitTest, requestLevelReview } from '../lib/courseUnitProgress';
 import { requestUnitProduction } from '../lib/unitProductionRequest';
 import { CURRICULUM_SPINE_EVENT } from '../lib/curriculumProgress';
 import { rearmCourseHandoff } from '../lib/curriculumSlot';
@@ -122,6 +122,7 @@ export function useNextStepEngine(): NextStepEngine {
           const c = s.course;
           if (c.request === 'unit-test') requestUnitTest(c.unitId);
           else if (c.request === 'recheck') requestUnitTest(c.unitId, 'recheck');
+          else if (c.request === 'level-review' && c.level) requestLevelReview(c.level);
           else if (c.request === 'production' && c.owed) requestUnitProduction(c.unitId, c.owed);
         }
         if (s.kind === 'session' && s.activityId) {

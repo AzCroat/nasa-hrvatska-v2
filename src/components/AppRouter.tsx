@@ -437,6 +437,7 @@ const GrammarReference = lazyWithReload(() => import('./shared/GrammarReference'
 const LearningCenter = lazyWithReload(() => import('./learn/LearningCenter'));
 const CourseMapScreen = lazyWithReload(() => import('./learn/CourseMapScreen'));
 const UnitTestScreen = lazyWithReload(() => import('./learn/UnitTestScreen'));
+const LevelReviewScreen = lazyWithReload(() => import('./learn/LevelReviewScreen'));
 const UnitProductionScreen = lazyWithReload(() => import('./learn/UnitProductionScreen'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
@@ -3398,6 +3399,22 @@ export default function AppRouter(props: Record<string, any>) {
           currentScreen === 'unittest' && (
             <ScreenErrorBoundary key="unittest" name="unittest">
               <UnitTestScreen
+                goBack={goBack}
+                award={award}
+                onOpenLesson={launchAnimLesson}
+                setScr={setScr}
+              />
+            </ScreenErrorBoundary>
+          )
+        }
+        {
+          // ═══ LEVEL REVIEW ═══
+          // Mixed practice across a level's six units, served once at the crossing
+          // into the next level, before the Level Check. Which level comes from the
+          // sessionStorage handoff the map / session writes.
+          currentScreen === 'levelreview' && (
+            <ScreenErrorBoundary key="levelreview" name="levelreview">
+              <LevelReviewScreen
                 goBack={goBack}
                 award={award}
                 onOpenLesson={launchAnimLesson}

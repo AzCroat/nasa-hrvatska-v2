@@ -188,10 +188,10 @@ export const LESSONS_C2 = [
           },
           {
             q: 'Complete the formal report: "Uprava ___ odluku do petka."',
-            options: ['treba da donese', 'treba donijeti', 'trebala da donese', 'treba donositi'],
+            options: ['treba donositi', 'treba donijeti', 'trebaju donijeti', 'treba donesti'],
             correct: 1,
             explanation:
-              'The written norm prefers the infinitive after trebati. The da-constructions are marked in writing, and donositi is the wrong aspect for one decision by a deadline.',
+              'Treba donijeti: trebati + the perfective infinitive. One decision by a deadline is a single completed act, so donositi is the wrong aspect; uprava is singular, so not trebaju; and the infinitive is donijeti, not donesti.',
           },
           {
             q: 'Which sentence is the accepted standard form?',

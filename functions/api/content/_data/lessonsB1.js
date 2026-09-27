@@ -345,7 +345,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Four Prefixes Worth Knowing Cold',
-        body: '"Po-" often means a little, or briefly: pričekati (wait a bit), popiti (drink up), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
+        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), popiti (drink up), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
         highlight: 'po- a bit · pre- across/too much · raz- apart · za- begin',
       },
       {

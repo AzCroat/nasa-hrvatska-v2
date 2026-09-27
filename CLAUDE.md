@@ -918,23 +918,23 @@ this month — had nothing.
   default.
 - **THE CONTRAST WAS SAYING FALSE GRAMMAR IN ALL 109 DRILLS, AND ONLY A PROBE
   SHOWED IT (2026-09-27).** The ending rules read ANY string as a noun, so the panel
-  told learners the connector *stoga* is a genitive singular, the participle *pisao*
-  a nominative, the imperative *idi* a dative. Every test used case pairs, where it is
+  told learners the connector _stoga_ is a genitive singular, the participle _pisao_
+  a nominative, the imperative _idi_ a dative. Every test used case pairs, where it is
   right. It now speaks ONLY about two forms of one declinable word — both forms carry
   a case reading, they are not both verb forms, and they share a stem
-  (`nounStemKey`: known ending removed, fleeting *a* and sibilarized consonants
+  (`nounStemKey`: known ending removed, fleeting _a_ and sibilarized consonants
   folded), or both are closed-class pronouns. Anything else returns null and keeps the
   tip and the AI button. Three more falsehoods on the same path:
   - **the headline picked one reading of each form** ("the sentence needs genitive
-    singular" for *mene*); it now names every case each form permits;
-  - **the pronoun table listed one case per form**: *mene/tebe/njega/nas/vas/njih* and
-    *me/te/ga/je/ih* are genitive AND accusative, *meni/tebi/njemu/njoj/nama/vama/njima*
-    dative AND locative (the plurals instrumental too), and *si* was glossed "to you" —
-    it is the reflexive dative (*kupio si je auto*);
-  - **the analyser** missed the *-ao/-io/-eo/-uo* participle, the neuter nominative in
-    *-e* (*učenje*), and read *-om* as a present-tense ending.
-  A reading list cut at three now says "among others". Pinned by `wrongAnswerHelp.test.tsx`
-  (both directions: eight pairs that must say nothing, six that must compare).
+    singular" for _mene_); it now names every case each form permits;
+  - **the pronoun table listed one case per form**: _mene/tebe/njega/nas/vas/njih_ and
+    _me/te/ga/je/ih_ are genitive AND accusative, _meni/tebi/njemu/njoj/nama/vama/njima_
+    dative AND locative (the plurals instrumental too), and _si_ was glossed "to you" —
+    it is the reflexive dative (_kupio si je auto_);
+  - **the analyser** missed the _-ao/-io/-eo/-uo_ participle, the neuter nominative in
+    _-e_ (_učenje_), and read _-om_ as a present-tense ending.
+    A reading list cut at three now says "among others". Pinned by `wrongAnswerHelp.test.tsx`
+    (both directions: eight pairs that must say nothing, six that must compare).
 - NEVER: show a case contrast for two words the rules cannot prove are forms of one
   word; state one reading of an ambiguous form as the answer; list a capped set of
   readings as if complete; add a pronoun to the closed table with fewer cases than the
@@ -2927,15 +2927,16 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **474 files**, 2 of them walked structurally — the figure the lint
+Coverage is **479 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
 deleted the hero cluster three more pointed at, and up by one for
 `src/data/courseUnitTitles.ts` (sweep 151), and by one more for
-`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube"), then up by one for
-`functions/api/content/_data/lessonPracticeA1.js` (the A1 worked examples and guided practice,
-2026-09-27 — also walked structurally through the assembled LESSONS, both checks).
+`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube"), then up by six for
+the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
+… `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
+checks, positive-controlled in an `options` field and a `hint`).
 
 **AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
 control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was
@@ -4267,6 +4268,93 @@ means the bar was met with retention pending.
   check-up; start the ladder from a screen rather
   than from the course read; promise a learner a future check without rendering the
   control that serves it when it arrives; do calendar arithmetic with `toISOString`.
+
+### Increment 6 — learn it, work it, practise it, then review the level (2026-09-27)
+
+Owner: _"more learning and then reaffirming testing is needed at every level"_, then
+_"do 1 & 2"_ — (1) deepen the 180 lessons, (2) a review unit at the end of each level.
+
+**(1) EVERY LESSON NOW TEACHES A PROCEDURE, NOT ONLY A RESULT.** A lesson went
+explanation → finished example sentences → two quiz questions → the check; nothing in
+between showed the REASONING that produces a sentence, and nothing let the learner try
+with help. Two slide types, authored per level in `lessonPractice<LEVEL>.js` and placed
+by `withPractice` (`lessonPractice.js`) so the 180 lesson bodies are untouched:
+`worked` (a problem solved one revealed step at a time — "the verb takes an object →
+accusative → -a becomes -u → kavu"; two per lesson, Next held until the answer is seen)
+goes before the first formative quiz; `practice` (four items, a HINT and a second try
+before the answer, NOT scored) goes immediately before the check. **360 worked examples
+and 720 practice items across all six levels.** `DEEPENED_LEVELS` is all six and
+`lessonPracticeSlides.test.tsx` requires every one of the 180 lessons to have its entry.
+`lessonDepthRules.mjs` holds each to: ≥2 worked examples of ≥3 steps; one practice slide
+of ≥4 items before the check; four distinct options, answers over ≥2 positions, a hint
+and an explanation each, and **no hint that contains its own answer** (the
+answer-in-the-question class from the previous section, applied to the help text).
+`scripts/lessonPracticeCheck.mjs <LEVEL>` is the author's dry run.
+
+- **Authoring was fanned out one level per agent and REVIEWED, not merged on a green
+  checker.** The checker catches structure, Cyrillic and the blocklist; it cannot see a
+  distractor that is real Croatian. Review found and fixed: a `treba da + present`
+  Serbism in THREE C2 places (a worked example, a distractor, a translation option — the
+  blocklist has no rule for it because "koliko ti treba da dođeš" is correct Croatian, so
+  it cannot be added without false alarms); an A2 item marking lower-case `vam` wrong in a
+  letter (the capital is a courtesy, not grammar); `s Zoranom` marked wrong (widely
+  written; now `sa sestrom`, where `s` is genuinely impossible); `puše` after `previše
+ljudi` marked wrong (plural agreement is heard and accepted); "vozitelj does not exist"
+  (softened to what is certain).
+- **THE AGENTS ALSO FOUND FOUR ERRORS IN THE SHIPPED LESSONS**, each teaching false
+  grammar and each fixed: `prema` listed as a genitive preposition (it takes the dative —
+  now `blizu`); `za tjedan dana` given as a GENITIVE use of `za` (it is accusative — now
+  `za vrijeme rata`); `pričekati` given as a po- prefix example (the prefix is pri- — now
+  `popričati`); and "Ona je liječnicom" taught as the normal formal way to state a
+  profession (the instrumental belongs with postati; after biti the nominative is normal);
+  plus a C2 quiz offering `treba da donese` as an unlabelled distractor. **Writing new
+  content against old content is an audit of the old content**; ask authors to report
+  what they found, not only what they wrote.
+
+**(2) THE LEVEL REVIEW.** A unit test mixes five lessons; nothing mixed a whole LEVEL
+before the Level Check did it to the learner. `src/lib/levelReview.ts` +
+`LevelReviewScreen` (route `levelreview`): 18 items, three from each of the six units
+(from three different lessons of each), interleaved so no two neighbours share a unit.
+**It is PRACTICE**: every answer is explained, a miss is re-queued to the end of the
+round until it is right, and the result reports FIRST-TRY accuracy per unit — the honest
+readiness signal — with a tap into the lesson behind each shaky unit and a button to the
+Level Check (`equivalency`).
+
+- **Served ONCE, AT THE CROSSING.** `pickCourseStep` serves level L's review when the
+  course stands on the first unit of L+1 with nothing of it read and every unit of L
+  advanced (`levelReviewDue`). A learner who has started L+1 is never dragged back — the
+  map row stays. The LAST level has no crossing, so C2's review follows its final unit.
+- **"Advanced" is the GATE'S OWN SET** (`openUnits().advanced`, passed as `advanced`),
+  not `tested && !owed` — a unit let through on an escape hatch (an unassemblable test, a
+  refusing evaluator) would otherwise hold its level's review back for ever.
+- **A review that cannot be built records `unavailable`**, the unit test's `insufficient`
+  one level up, so the course moves on instead of serving a dead end daily; a real review
+  anywhere replaces the marker everywhere (store and merge).
+- It takes P0's teaching slot like the unit test, with a sessionStorage handoff
+  (`nh_level_review`, allowlisted levels) re-armed by `rearmCourseHandoff`; it frees its
+  session slot on reaching the result; it pays `LEVEL_REVIEW_XP` once, on the first real
+  review, from an effect on REACHING the result. Records sync additively in the
+  `nh_course_units` `reviews` map: earlier date, better first-try score.
+- **It gates nothing.** Level status is the Level Check's; advancement is the unit bar.
+- Pinned by `levelReview.test.ts` (build, due logic, storage-driven course steps, the
+  session slot, synthetic rows for the last level and the escape hatch, the merge),
+  `levelReviewScreen.test.tsx` (driven over the real A1 bodies: re-queue, first-try
+  count, pay-once, every dead end names itself), the map-row block in
+  `courseMapScreen.test.tsx`, and two E2E tests in `course-map.spec.js`.
+  Mutation-verified, fourteen, each failing 1–4: no re-queue; first-try overwritten by a
+  repeat; paid every review; no crossing; dragged back into a started level; later date
+  wins the merge; no last-level review; `advanced` ignored; the marker ignored; a marker
+  overwriting a real review; a blocked round; the slot block removed; the re-arm removed; the map row shown before the level is finished.
+  **The first mutation run was read against a RED baseline** — `courseStep.test.ts`'s
+  "is null when every unit has met the whole bar" was failing on the new behaviour (the
+  C2 review is the course's last step), so every count carried one failure that was not
+  the mutation's. Re-run on a green baseline, all fourteen still fail; a mutation reported
+  as "1 failed" on a red baseline is indistinguishable from a survivor. **Run the baseline
+  before the mutations, and read counts only against a green one.**
+- NEVER: serve a level review inside a level the learner has started; count only
+  `tested` units as a finished level; score the review or gate anything on it; report the
+  corrected second pass as the result; merge authored Croatian because a checker passed
+  (read every distractor for real Croatian); let a practice hint contain its answer.
 
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 

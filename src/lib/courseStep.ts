@@ -42,7 +42,9 @@ import {
   startUnitRetention,
   readCourseUnits,
   unitRecord,
+  reviewedLevels,
 } from './courseUnitProgress';
+import { levelReviewDue } from './levelReview';
 import { localDateStr } from './dateUtils';
 import {
   buildCourseUnits,
@@ -61,7 +63,13 @@ export type CourseStep =
   | { kind: 'lesson'; unit: CourseUnit; lesson: CurriculumEntry; reason: string }
   | { kind: 'unit-test'; unit: CourseUnit; reason: string }
   | { kind: 'production'; unit: CourseUnit; owed: ProductionKind; reason: string }
-  | { kind: 'recheck'; unit: CourseUnit; reason: string };
+  | { kind: 'recheck'; unit: CourseUnit; reason: string }
+  /**
+   * The end-of-level review (2026-09-27): mixed practice across the level's six
+   * units, served once at the crossing into the next level. `unit` is the level's
+   * LAST unit, so every consumer that reads `step.unit` keeps working.
+   */
+  | { kind: 'level-review'; unit: CourseUnit; level: string; reason: string };
 
 /**
  * The whole course state, read once.
@@ -160,7 +168,36 @@ export function pickCourseStep(input: {
   unitCount: number;
   /** Which production halves each unit still owes. Absent → owes nothing. */
   owed?: (unitId: string) => { write: boolean; speak: boolean } | null;
+  /** Levels whose end-of-level review is done. Absent → reviews are not offered. */
+  reviewed?: ReadonlySet<string>;
+  /**
+   * Units that met the whole bar — `openUnits().advanced`, the gate's own answer, so
+   * a unit let through on an escape hatch (a test that could not be assembled, an
+   * evaluator that refused) counts here exactly as it does for the gate and the map.
+   * Absent → derived from `tested` and `owed`, which is the gate's rule without them.
+   */
+  advanced?: ReadonlySet<string>;
 }): CourseStep | null {
+  const levelRows = (level: string) => input.rows.filter((r) => r.unit.level === level);
+  const levelAdvanced = (level: string) => {
+    const rows = levelRows(level);
+    if (rows.length === 0) return false;
+    return input.advanced
+      ? rows.every((r) => input.advanced!.has(r.unit.id))
+      : rows.every((r) => r.tested && !input.owed?.(r.unit.id));
+  };
+  const reviewStep = (level: string): CourseStep | null => {
+    const rows = levelRows(level);
+    const last = rows[rows.length - 1];
+    if (!last) return null;
+    return {
+      kind: 'level-review',
+      unit: last.unit,
+      level,
+      reason: `${level} review — all ${rows.length} units mixed, before the Level Check`,
+    };
+  };
+  const levels = [...new Set(input.rows.map((r) => r.unit.level))];
   for (const row of input.rows) {
     if (row.tested) {
       // ACCURACY IS DONE, OUTPUT MAY NOT BE. A unit whose test is passed but whose
@@ -181,6 +218,23 @@ export function pickCourseStep(input: {
     }
     if (row.state === 'locked') break;
     const unit = row.unit;
+    // AT THE CROSSING INTO A NEW LEVEL, the previous level's review comes first —
+    // once, and only while nothing of the new level has been started.
+    if (input.reviewed) {
+      const prev = levels[levels.indexOf(unit.level) - 1] ?? null;
+      const due = levelReviewDue({
+        current: {
+          level: unit.level,
+          indexInLevel: unit.indexInLevel,
+          lessonIds: unit.lessons.map((l) => l.id),
+        },
+        previousLevel: prev,
+        previousLevelAdvanced: prev ? levelAdvanced(prev) : false,
+        reviewed: input.reviewed,
+        completed: input.completed,
+      });
+      if (due) return reviewStep(due);
+    }
     const unread = unit.lessons.find((l) => !input.completed.has(l.id));
     if (unread) {
       return {
@@ -206,6 +260,11 @@ export function pickCourseStep(input: {
     }
     // Neither unread lessons nor a servable test: nothing this unit can offer.
     // `openUnits` has already let the course past it, so keep walking.
+  }
+  // The LAST level has no crossing: its review follows its final unit.
+  const lastLevel = levels[levels.length - 1];
+  if (input.reviewed && lastLevel && levelAdvanced(lastLevel) && !input.reviewed.has(lastLevel)) {
+    return reviewStep(lastLevel);
   }
   return null;
 }
@@ -256,6 +315,14 @@ export function nextCourseStep(opts: { skipRechecks?: boolean } = {}): CourseSte
     rows: state.rows,
     completed,
     unitCount: state.units.length,
+    advanced: state.advanced,
+    reviewed: (() => {
+      try {
+        return reviewedLevels();
+      } catch {
+        return new Set<string>();
+      }
+    })(),
     owed: (unitId) => {
       const rec = unitRecord(unitId);
       return productionOwed({
@@ -277,6 +344,11 @@ export function unitTestActivityId(unitId: string): string {
 /** Stable activity id for a retention re-check slot. */
 export function unitRecheckActivityId(unitId: string): string {
   return `course_unit_recheck_${unitId}`;
+}
+
+/** Stable activity id for a level-review slot. */
+export function levelReviewActivityId(level: string): string {
+  return `course_level_review_${level}`;
 }
 
 /** Stable activity id for a unit-production slot. */
