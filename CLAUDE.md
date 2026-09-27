@@ -6463,6 +6463,40 @@ non-idempotent formatter is a slow corruption with no error message.
 2. **Never amend published commits.** Create a new commit instead.
 3. **Never force-push to master.** Cloudflare deployment history can be corrupted.
 4. **Never skip hooks** (`--no-verify`). Fix the underlying issue instead.
+5. **ALWAYS MERGE A GREEN PR, and do it without being asked** (owner directive,
+   2026-09-27: _"always merge green PRs, even while continuing work."_). Asked
+   whether all green PRs were merged, the answer was **no** — seven dependabot
+   PRs were 14/14 green and open, the oldest thirteen days. Green work sitting
+   unmerged is the same class of waste as an unpushed commit (rule 1): it is
+   finished, it is verified, and no learner has it. This is a STANDING order, not
+   a per-occasion permission — merging is now part of noticing a PR is green, and
+   it does not wait for other work to finish.
+   **THE ORDER MATTERS WHEN THE PRs SHARE A LOCKFILE, and seven did.** Each
+   dependabot PR regenerates `package-lock.json` against the master it was cut
+   from, so merging one strands the rest. Simulated locally first with
+   `git merge-tree --write-tree` chained through `git commit-tree`, touching no
+   branch: **six chained clean and the seventh (#692) conflicted** on both
+   `package.json` and `package-lock.json` once the six had landed — which is what
+   happened in reality, exactly. The real merged master tree came out
+   **byte-identical to the simulation** (`8aed8ad5`), so that dry run is worth
+   doing rather than merging hopefully and reading the wreckage.
+   **A TEXTUALLY-CLEAN LOCKFILE MERGE CAN STILL BE A BROKEN ONE**, and git will
+   not say so: six lockfiles merging without a conflict marker says nothing about
+   whether the result agrees with `package.json`, and a disagreement fails
+   `npm ci` on master. Verified before merging, offline and with no install —
+   59/59 root ranges equal between the two files, no extra or missing entries,
+   and each of the six bumps' installed version satisfying its own merged range.
+   **THE CONFLICTED ONE IS NOT REBASED BY HAND.** `@dependabot rebase` is the
+   sanctioned mechanism; rewriting history on dependabot's branch is the
+   someone-else's-branch rule, and dependabot's own rebase regenerates the
+   lockfile correctly where a hand-resolved conflict would guess.
+   **`cancel-in-progress` MAKES RAPID SEQUENTIAL MERGES CHEAPER, NOT RISKIER.**
+   `ci.yml`'s concurrency group is per-ref, so six merges in three minutes
+   cancelled the five intermediate runs and left ONE run against the final
+   six-bump tree, and one deploy. That is the outcome you want; do not space the
+   merges out to "let each one go green" — the intermediate trees are not what
+   ships, and the PR's own green run was against a master up to 130 commits old
+   in any case. The run that matters is the push run on the final merge.
 
 ---
 

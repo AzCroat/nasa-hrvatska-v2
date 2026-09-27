@@ -11956,3 +11956,59 @@ None of them crash, so no sweep above can see any of them.
       sweep 27. Both removed; neither was a defect. The `onPass` class is now
       ratcheted by `routerOptionalProps.test.ts`, which also catches the
       historical `AlphabetScreen.award` instance.
+
+---
+
+## Sweep 159 — the green PRs nobody merged (owner directive, 2026-09-27)
+
+Owner: _"have we merged all green PRs?"_ then _"always merge green PRs, even
+while continuing work. thanks."_ The answer to the question was **no**: seven
+dependabot PRs sat open at **14/14 green**, the oldest thirteen days
+(#668 eslint 10.9.1→10.10.0, #670 @types/node 26.2.0→26.6.2, #671 dexie
+4.4.5→4.4.6, #672 posthog-js 1.427.1→1.429.5, #673 lint-staged 17.3.0→17.5.1,
+#674 @sentry/react 10.70.0→10.74.0, #692 the four-package testing group). Six are
+merged; #692 is rebasing. The directive is recorded in CLAUDE.md's Git Workflow
+rules as rule 5 so it outlives this session.
+
+- **THE SEVEN SHARED ONE FILE, WHICH IS WHY "MERGE THEM ALL" IS NOT SEVEN
+  INDEPENDENT ACTIONS.** Every dependabot PR regenerates `package-lock.json`
+  against the master it was cut from. Individually all seven reported
+  `merge-tree` CLEAN against current master — and that is the misleading
+  measurement, because it answers a question about seven separate futures. The
+  real question is the chain.
+- **SIMULATE THE CHAIN BEFORE TOUCHING A BRANCH.** `git merge-tree --write-tree`
+  gives a tree OID; `git commit-tree` turns it into a commit you can merge the
+  next branch into. Chaining those seven merges locally, with no branch, no
+  checkout and no push, predicted **six clean and #692 conflicting** on both
+  `package.json` and `package-lock.json` — which is exactly what happened. And
+  the real merged master tree came back **byte-identical to the simulation**
+  (`8aed8ad5`), so the dry run was not an approximation of the merge, it WAS the
+  merge.
+- **A CLEAN MERGE IS NOT A WORKING LOCKFILE, and this is the check that had no
+  mechanism.** Six lockfiles merging with no conflict marker says nothing about
+  whether the result still agrees with `package.json`; a disagreement fails
+  `npm ci` on master, which is a red deploy, not a subtle bug. Checked offline,
+  no install needed: the lock's root `dependencies`/`devDependencies` block must
+  equal `package.json`'s (**59/59 equal, no extras, none missing**) and each
+  bumped package's installed version must satisfy its own merged range (**6/6**).
+  Re-run against the REAL master after merging, not only the simulation.
+- **`cancel-in-progress` IS A FEATURE HERE.** Six merges in three minutes
+  cancelled five intermediate CI runs and left one — run #3456 on `99aba5e6`,
+  against the final six-bump tree — and one deploy. Spacing the merges out to
+  "let each go green" would buy nothing: the intermediate trees never ship, and
+  each PR's own green run was against a master **113–130 commits old** anyway.
+  The only run that means anything is the push run on the last merge.
+- **DEPENDABOT'S BRANCH IS SOMEONE ELSE'S BRANCH.** #692 is conflicted now;
+  the fix is a `@dependabot rebase` comment, not a local rebase and force-push.
+  Its rebase regenerates the lockfile from the real new master, where a
+  hand-resolved `package-lock.json` conflict is a guess at a generated file.
+- **WHAT THIS DOES NOT ESTABLISH:** whether the six bumps are actually
+  compatible with the tree. The lockfile is consistent and the merge is exact,
+  and neither of those is a passing test — `eslint 10.10.0` ships three new rule
+  behaviours and `@sentry/react` crossed four patch versions. Master CI on
+  `99aba5e6` is the evidence, and a red run there is a REAL incompatibility
+  rather than a merge artefact, which is precisely what the pre-merge lockfile
+  check buys: it removes the likeliest false explanation in advance.
+- **PR #753 is unaffected**, asserted rather than assumed: it still
+  `merge-tree`s clean into the new master and touches neither `package.json` nor
+  the lockfile.
