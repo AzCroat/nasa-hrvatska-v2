@@ -12203,3 +12203,23 @@ token swap is byte-identical in dark mode and lifts light mode to `#5f6b7d`.
   `var(--ink-muted)` on that dark header, i.e. dark-on-dark in light mode. `#94a3b8` is
   correct in both themes there, as ConstellationDoneMode's header note already says.
   A source pre-check for "is this surface dark" is a guess; the browser is the measure.
+
+### Sweep 162 — a new learner walks Unit 1 into Unit 2, nothing seeded (2026-09-27)
+
+Every course spec seeds the state its stage needs, so each STAGE was proved and the PATH
+between them never was. `e2e/course-walkthrough.spec.js` starts from an empty course and
+does what a learner does: opens the five A1-1 lessons from the map, reads every slide,
+answers each lesson's six-item check CORRECTLY (answers taken from the same lesson
+modules the app serves, matched by the question on screen — a real pass at the real
+bar), sits the fifteen-item unit test and passes it, writes and speaks (typed, no mic)
+against mocked evaluators, and asserts the course moved them into Unit 2.
+- **Result: the path works.** 1 passed, 1.2 min, Desktop Chrome, against a
+  CI-equivalent build. No defect found on it — said plainly, a ratchet, not a save.
+- It also pins the state between stages: after five lessons Unit 1 is still CURRENT
+  with its test as the `primary` offer; after the test alone Unit 2 is still LOCKED;
+  after both production tasks Unit 1 is `cleared` (retention pending) and Unit 2 current.
+- Mutation-verified in a real browser: `openUnits` advancing on the test alone (the
+  production half dropped) fails the walkthrough — Unit 2 reads `current` where it must
+  read `locked`.
+- A lesson check option's visible text carries a letter badge, so the harness reads the
+  option from its aria-label. Not a defect: the label is exact.
