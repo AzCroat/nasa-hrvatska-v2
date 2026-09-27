@@ -12140,3 +12140,16 @@ only value the reference ever takes.
 - My own first floors ("1,300+ files, 4,000+ refs") were written as measurements and
   were guesses: real values 999 files, 7,255 refs, 139 names. And the first
   "inline-defined" subject I named (`--bar-target`) is never defined at all.
+
+### Sweep 160b — the E2E the ink sweep failed (2026-09-27)
+
+`E2E Tests (Cross-Browser)` failed on 91240405: three axe `color-contrast` tests
+(Home, Practice, login), 292 passed. Two causes, both from the ink sweep:
+`--ink-muted` light `#64748b` is 4.40:1 on `--app-bg` (the guard checked white only),
+and GradTab's recommended pill lost its deliberate `#6b4e0a` to `--ink-warn`
+`#b45309` (4.44 on `#f7f1dd`). Fixed by darkening three light values
+(`--ink-muted` `#5f6b7d`, `--ink-muted-warm` `#6c6560`, `--ink-warn` `#a84d08`) and
+widening the guard to white + `--app-bg` + `--card` + `--surface-mute`. Verified
+locally against a real build: accessibility.spec 11/11 and dark-mode-ink.spec 14/14 in
+Desktop Chrome. Not covered by the unit guard: a translucent tint composited over a
+card (the pill) — only the browser measures that, which is why the E2E caught it.

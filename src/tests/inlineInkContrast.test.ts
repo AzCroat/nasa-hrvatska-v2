@@ -345,18 +345,30 @@ describe('an inline ink must read the theme', () => {
     expect(findDarkModeInk([f])).toEqual([]);
   });
 
-  it('the light half of every token is a colour that still reads on white', () => {
+  it('the light half of every token reads on every LIGHT SURFACE, not only on white', () => {
     // The fix must not trade a dark-mode failure for a light-mode one. Nothing else
     // checks this: the assertion above only ever looks at the dark card.
+    // WHITE WAS THE WRONG SURFACE, AND E2E SAID SO (2026-09-27): --ink-muted's light
+    // value was 4.76:1 on white and 4.40 on --app-bg, the page itself, so axe failed
+    // Home, Practice and login. Text sits on the page and on muted panels as often as on
+    // a card, so every light surface the theme defines is checked, read from :root.
     const css = readFileSync('src/index.css', 'utf8');
     const root = cssBlock(css, ':root');
+    const surfaces: Array<[string, [number, number, number]]> = [['white', [255, 255, 255]]];
+    for (const s of ['app-bg', 'card', 'surface-mute']) {
+      const c = parseColor(tokenIn(root, s)!);
+      expect(c, `--${s} must resolve to a colour`).toBeTruthy();
+      surfaces.push([`--${s}`, c!]);
+    }
     for (const t of INK_TOKENS) {
       const lv = parseColor(tokenIn(root, t)!);
       expect(lv, `--${t} light value must resolve`).toBeTruthy();
-      expect(
-        contrast(lv!, [255, 255, 255]),
-        `--${t} light (${tokenIn(root, t)}) must clear ${AA_NORMAL}:1 on white`,
-      ).toBeGreaterThanOrEqual(AA_NORMAL);
+      for (const [name, bg] of surfaces) {
+        expect(
+          contrast(lv!, bg),
+          `--${t} light (${tokenIn(root, t)}) must clear ${AA_NORMAL}:1 on ${name}`,
+        ).toBeGreaterThanOrEqual(AA_NORMAL);
+      }
     }
   });
 });

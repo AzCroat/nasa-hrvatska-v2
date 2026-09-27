@@ -4936,6 +4936,18 @@ from them was wrong:
   `#6b7280` folds into `--ink-muted` (31 uses, 4.83:1 → 4.76:1 on white), and the 49-literal
   tail folds into the same ten families, shifting **194 uses to a different shade of the
   same hue** — every one checked to stay at or above 4.5:1 on white.
+- **"BYTE-IDENTICAL IN LIGHT MODE" WAS TRUE AND NOT ENOUGH, AND E2E SAID SO (2026-09-27).**
+  Each token's light value was the literal it replaced, and each was checked at 4.5:1 on
+  WHITE — the wrong surface. Text also sits on the page (`--app-bg` `#f4f6f9`) and on
+  muted panels (`--surface-mute` `#f1f5f9`): `--ink-muted` `#64748b` measured 4.40 and
+  4.34 there, `--ink-muted-warm` 4.43/4.38, and axe failed Home, Practice and login. And
+  one folding was a straight regression: GradTab's "recommended" pill carried `#6b4e0a`
+  under a comment saying it existed to clear AA on its gold tint, and the sweep turned it
+  into `--ink-warn` `#b45309` at 4.44. Now `#5f6b7d`, `#6c6560` and `#a84d08` — darker
+  only, same hue, dark values untouched — and the light-token clause checks every light
+  surface `:root` defines, read from the stylesheet. Mutation-verified: `#64748b` back
+  fails and reports 4.395, axe's 4.39. **A codemod that folds a literal into a token must
+  read the comment beside the literal**: that one said why the colour was what it was.
 - **`--success` IS 3.30:1 ON WHITE AND FAILS AA AS TEXT.** The check that was going to fold
   51 dark greens onto it caught that; `--ink-green` (#166534, 7.13:1) exists because of it.
   The 49 sites already reading `--success` as ink are a pre-existing light-mode failure this

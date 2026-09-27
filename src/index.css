@@ -229,8 +229,11 @@ button,input,optgroup,select,textarea{
 
      The dark values are not invented where the app had already chosen one: the violet is
      the #a78bfa its own [data-theme="dark"] .card-grammar rule uses. */
-  --ink-muted:      #64748b;  /* cool grey secondary — the commonest ink in the app */
-  --ink-muted-warm: #78716c;  /* warm grey; kept apart from the cool one because mixing
+  --ink-muted:      #5f6b7d;  /* cool grey secondary — the commonest ink in the app. NOT the
+                                 #64748b it replaced: that is 4.76:1 on white and only 4.40
+                                 on --app-bg / 4.34 on --surface-mute, and axe failed Home,
+                                 Practice and login on exactly that (2026-09-27). */
+  --ink-muted-warm: #6c6560;  /* warm grey (was #78716c, 4.38 on --surface-mute); kept apart from the cool one because mixing
                                  stone and slate greys IS visible in aggregate */
   --ink-accent:     #0e7490;  /* the brand teal as body ink. NOT --accent, which is also
                                  14 backgrounds and 9 borders and so cannot go light */
@@ -240,7 +243,7 @@ button,input,optgroup,select,textarea{
   --ink-ink:        #1c1917;  /* the darkest body copy — its own token rather than folded
                                  into --ink-body, which would lighten 39 LIGHT-mode sites
                                  from 17.5:1 to 10.3:1 */
-  --ink-warn:       #b45309;
+  --ink-warn:       #a84d08;  /* was #b45309: 4.44:1 on GradTab's gold-tinted 'recommended' pill (#f7f1dd), which had carried #6b4e0a precisely to clear AA there; axe failed /practice on it (2026-09-27) */
   --ink-info:       #0369a1;
   --ink-flag:       #003DA5;  /* the Croatian flag blue used as ink */
   --ink-navy:       #002868;  /* and the navy — their own tokens rather than --error or
