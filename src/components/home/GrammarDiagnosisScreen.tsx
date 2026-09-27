@@ -752,7 +752,7 @@ export default function GrammarDiagnosisScreen({
 
                                   if (answered) {
                                     if (isCorrect) {
-                                      bg = '#f0fdf4';
+                                      bg = 'var(--success-bg)';
                                       border = '1.5px solid #86efac';
                                       color = '#166534';
                                     } else if (isChosen && !isCorrect) {

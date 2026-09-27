@@ -96,7 +96,7 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
@@ -172,7 +172,7 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
@@ -253,7 +253,7 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt.id === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.id === selected) {
@@ -314,7 +314,7 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt.aspect === 'pf') {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.aspect === selected) {

@@ -728,12 +728,12 @@ export default function MicroLessonScreen({
 
             if (answered) {
               if (i === q.answer) {
-                bg = '#f0fdf4';
+                bg = 'var(--success-bg)';
                 borderColor = '#86efac';
                 textColor = '#166534';
                 icon = '✓';
               } else if (i === selected && i !== q.answer) {
-                bg = '#fef2f2';
+                bg = 'var(--error-bg)';
                 borderColor = '#fca5a5';
                 textColor = '#dc2626';
                 icon = '✗';

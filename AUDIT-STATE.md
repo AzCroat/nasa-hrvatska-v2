@@ -12153,3 +12153,29 @@ widening the guard to white + `--app-bg` + `--card` + `--surface-mute`. Verified
 locally against a real build: accessibility.spec 11/11 and dark-mode-ink.spec 14/14 in
 Desktop Chrome. Not covered by the unit guard: a translucent tint composited over a
 card (the pill) — only the browser measures that, which is why the E2E caught it.
+
+### Sweep 161 — the answered option in every engine drill, invisible in dark mode (2026-09-27)
+
+`ModeDrill` (the engine behind all 109 practice-programme drills) painted an answered
+option `background: '#f0fdf4'` / `'#fef2f2'` with `color: 'var(--text)'` — near-white
+ink on a light tint in dark mode, so the correct/wrong answer disappeared the moment it
+was marked. Same hardcoded tint pair in 78 more component files (answer states, tips,
+chips). All background uses now read `var(--success-bg)` / `var(--error-bg)`, whose LIGHT
+values are the same literals (light mode byte-identical) and whose dark values are
+translucent tints. 24 literals remain, all in DATA fields (`bg:`, `light:`) or a
+non-background `color:` — not touched, recorded here as the next census.
+
+- **WHY NO GUARD SAW IT: `inkArms` returned a parenthesised arm whole.**
+  `showState ? (isCorrect ? '#f0fdf4' : '#fef2f2') : 'var(--card)'` came back as
+  `(isCorrect ? … )`, which no colour parser reads, so all three contrast guards skipped
+  it. It now unwraps a paren that spans the whole arm (not `(a) + (b)`), and has its own
+  test file for the first time (`inkArms.test.ts`, 4).
+- **The guard caught the compose regression the codemod created**: CroatiaToday's
+  summary toggle had its surface themed while its ink stayed `#15803d` (2.92:1 on the
+  dark card). Both arms of both properties now use tokens.
+- Mutation-verified: ModeDrill's slab restored fails `inkSurfaceAgreement` and names
+  `ModeDrill.tsx:233`; it passed all three guards before the `inkArms` fix.
+- Full suite 663 files / 10,451 tests, typecheck and lint clean. No E2E spec references
+  either colour.
+- NOT DONE, next: the 24 data-field literals; the `#94a3b8` gloss colour (121 sites) is
+  2.56:1 on white and fails AA in LIGHT mode — ModeDrill's `cur.en` line among them.

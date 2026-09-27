@@ -363,7 +363,11 @@ export default function KraticeDrill({ goBack, award }: Props) {
                       ? '2px solid #16a34a'
                       : '2px solid #dc2626'
                     : '1.5px solid var(--card-b)',
-                  background: showState ? (isCorrect ? '#f0fdf4' : '#fef2f2') : 'var(--card)',
+                  background: showState
+                    ? isCorrect
+                      ? 'var(--success-bg)'
+                      : 'var(--error-bg)'
+                    : 'var(--card)',
                   color: 'var(--text)',
                 }}
               >

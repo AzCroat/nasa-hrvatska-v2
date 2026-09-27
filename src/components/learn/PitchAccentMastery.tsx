@@ -1284,7 +1284,7 @@ export default function PitchAccentMastery({
                   color = 'var(--text)';
                 if (quizAnswered) {
                   if (isCorrect) {
-                    bg = '#f0fdf4';
+                    bg = 'var(--success-bg)';
                     border = '2px solid #16a34a';
                     color = '#166534';
                   } else if (isSelected && !isCorrect) {

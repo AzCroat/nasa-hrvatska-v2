@@ -598,7 +598,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           onClick={() => setShowSummary((s) => !s)}
           style={{
             width: '100%',
-            background: showSummary ? '#f0fdf4' : '#fafaf9',
+            background: showSummary ? 'var(--success-bg)' : 'var(--surface-mute)',
             border: `1.5px solid ${showSummary ? '#16a34a' : '#e7e5e4'}`,
             borderRadius: 12,
             padding: '12px 16px',
@@ -606,7 +606,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
             textAlign: 'left',
             fontSize: 14,
             fontWeight: 700,
-            color: showSummary ? '#15803d' : '#78716c',
+            color: showSummary ? 'var(--ink-green)' : 'var(--ink-muted-warm)',
             marginBottom: showSummary ? 0 : 16,
             display: 'flex',
             alignItems: 'center',

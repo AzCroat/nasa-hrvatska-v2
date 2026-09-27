@@ -71,5 +71,33 @@ export function inkArms(expr: string): string[] {
       ((before === '?' || before === ':') && (after === ':' || after === null));
     if (isValue) out.push(parts[i]!.trim());
   }
-  return [...new Set(out)].filter(Boolean);
+  // A PARENTHESISED ARM IS AN EXPRESSION, NOT A VALUE. `showState ? (isCorrect ? '#f0fdf4'
+  // : '#fef2f2') : 'var(--card)'` came back as the one arm `(isCorrect ? … )`, which no
+  // colour parser reads — so ModeDrill's answered-option slab, behind all 109 engine
+  // drills, was invisible to every guard built on this helper while it rendered
+  // near-white ink on a light tint in dark mode (2026-09-27).
+  return [...new Set(out.flatMap(unwrapParens))].filter(Boolean);
+}
+
+/** `( … )` spanning the whole arm → the arms of what is inside; anything else → itself. */
+function unwrapParens(arm: string): string[] {
+  const a = arm.trim();
+  if (!a.startsWith('(') || !a.endsWith(')')) return [a];
+  let depth = 0;
+  let q: string | null = null;
+  for (let i = 0; i < a.length; i++) {
+    const c = a[i]!;
+    if (q) {
+      if (c === q && a[i - 1] !== '\\') q = null;
+      continue;
+    }
+    if (c === '"' || c === "'" || c === '`') q = c;
+    else if (c === '(') depth++;
+    else if (c === ')') {
+      depth--;
+      // The opening paren closed before the end: `(a) + (b)`, not one wrapped arm.
+      if (depth === 0 && i < a.length - 1) return [a];
+    }
+  }
+  return inkArms(a.slice(1, -1));
 }

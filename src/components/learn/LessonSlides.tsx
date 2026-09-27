@@ -414,10 +414,20 @@ export function QuizSlide({
 
     // After reveal
     if (i === slide.correct) {
-      return { ...base, background: '#f0fdf4', border: '2px solid #16a34a', color: '#16a34a' };
+      return {
+        ...base,
+        background: 'var(--success-bg)',
+        border: '2px solid #16a34a',
+        color: '#16a34a',
+      };
     }
     if (selected === i && i !== slide.correct) {
-      return { ...base, background: '#fef2f2', border: '2px solid #dc2626', color: '#dc2626' };
+      return {
+        ...base,
+        background: 'var(--error-bg)',
+        border: '2px solid #dc2626',
+        color: '#dc2626',
+      };
     }
     return {
       ...base,

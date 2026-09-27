@@ -790,10 +790,10 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
             let border = '1px solid var(--card-b)';
             if (answered) {
               if (isCorrect) {
-                bg = '#f0fdf4';
+                bg = 'var(--success-bg)';
                 border = '2px solid #16a34a';
               } else if (isSelected) {
-                bg = '#fef2f2';
+                bg = 'var(--error-bg)';
                 border = '2px solid #dc2626';
               }
             }

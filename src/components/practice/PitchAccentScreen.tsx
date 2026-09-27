@@ -298,7 +298,7 @@ export default function PitchAccentScreen({
             let color = 'var(--heading)';
             if (answered) {
               if (a.id === correct) {
-                bg = '#f0fdf4';
+                bg = 'var(--success-bg)';
                 border = '#86efac';
                 color = '#166534';
               } else if (a.id === selected) {
