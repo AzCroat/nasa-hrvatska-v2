@@ -635,18 +635,31 @@ export default function MajaScreen() {
         } catch {
           // Invalid/truncated JSON (e.g. a reply longer than max_tokens). Salvage
           // the reply text so the learner never sees — or hears TTS speak — the raw
-          // JSON envelope. Matches a complete "reply" value, or one cut off mid-string.
-          const full = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
-          const partial = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)$/);
-          const salvaged = full?.[1] ?? partial?.[1];
-          if (salvaged != null) {
-            replyText = salvaged
-              .replace(/\\n/g, ' ')
-              .replace(/\\"/g, '"')
-              .replace(/\\\\/g, '\\')
-              .trim();
-          }
-          // else: model returned plain text (not an envelope) → streamedText is fine.
+          // JSON envelope.
+          //
+          // THIS USED TO DECODE THE ESCAPES ITSELF, AND THE LEARNER READ ONE STRING
+          // WHILE TTS SPOKE ANOTHER. The bubble's `content` is set from `replyText`
+          // (just below); the TTS flush thirty lines down already used
+          // `extractStreamingReply`. So there were two decoders live on one reply,
+          // feeding two different senses — and only the TTS one was correct. The
+          // chain here was `\n`→' ' then `\"`→'"' then `\\`→'\', which unescapes
+          // backslashes LAST, so measured: `C:\Users\nada` came out
+          // `C:\Users\ ada` (the n of "nada" eaten), `\\n` lost its n outright,
+          // and `\t` leaked raw. CodeQL calls it js/incomplete-sanitization; the
+          // real defect is that a duplicate existed at all.
+          //
+          // `extractStreamingReply` scans once, consuming the char after each
+          // backslash, so ordering cannot bite — and it covers BOTH shapes the two
+          // regexes here used to match, stopping at the closing quote or at the end
+          // of a value cut off mid-string. It returns '' when there is no `reply`
+          // field, which keeps the old fall-through to `streamedText`.
+          //
+          // Newlines are no longer flattened to spaces. That is deliberate: the
+          // streaming bubble showed real newlines for the whole reply and the TTS
+          // path already kept them, so flattening only on this path made the text
+          // jump at the final frame.
+          const salvaged = extractStreamingReply(streamedText);
+          if (salvaged) replyText = salvaged.trim();
         }
 
         setConversation((prev) =>

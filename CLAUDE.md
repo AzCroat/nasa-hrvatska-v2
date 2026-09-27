@@ -4600,6 +4600,61 @@ and the mic is dead until the learner leaves the screen.
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.
 
+**AND THE SAME SCREEN READ ONE STRING TO THE LEARNER WHILE SPEAKING ANOTHER
+(2026-09-27).** Found from the opposite end to every finding above: a CodeQL
+`js/incomplete-sanitization` alert on PR #753, on lines my branch did not write.
+`MajaScreen`'s JSON-parse `catch` salvages the `reply` value out of a truncated
+envelope (a reply longer than `max_tokens`) and **decoded the escapes itself**:
+`\n`→' ', then `\"`→'"', then `\\`→'\'. Unescaping backslashes LAST is
+order-dependent, and measured from a FILE rather than a shell — nested quoting
+silently doubles backslash fixtures and made my first two probes report nonsense —
+it is wrong on 3 of 8 cases: `C:\Users\nada` → `C:\Users\ ada`, **the n of
+"nada" eaten and replaced with a space**; `\n` (backslash then the letter n) loses
+its n outright; `\t` leaks raw.
+
+- **THE DEFECT IS THE DUPLICATE, NOT THE ESCAPING.** `extractStreamingReply` in
+  `MajaScreenUtils` does the same job, scans once consuming the character after
+  each backslash, and is **correct on all 8** — and the screen ALREADY imported it
+  and already used it two dozen lines below. So the bubble's `content` came from
+  the buggy chain while the **TTS flush came from the correct decoder**: two live
+  decoders on one reply, feeding two different senses. The fix is three lines —
+  call the one that was already right — and it also removes an inconsistency
+  nobody had noticed, because the streaming bubble showed real newlines for the
+  whole reply and only this final frame flattened them.
+- **SEVEN PASSING TESTS ON ONE COPY SAID NOTHING ABOUT THE OTHER.**
+  `extractStreamingReply` had seven tests throughout; the salvage chain had none,
+  and no test has ever covered the salvage path. A unit test on a shared helper
+  cannot see a private re-implementation inside a screen — which is why the guard
+  is a SOURCE PIN (`majaSalvageOneDecoder.test.ts`) forbidding any
+  `.replace(/\\…` in that file, beside the decoder's own behaviour tests.
+- **THE COMMENT STRIP IS LOAD-BEARING, and for once that is provable rather than
+  precautionary**: the fix's own comment QUOTES the chain it replaced, so an
+  unstripped matcher fails on the explanation instead of the code — the
+  `fixtureInitScriptFrames` shape, met deliberately. Mutation-verified: dropping
+  the strip fails 1.
+- **SAY WHAT IT COSTS, NOT THE STRONGEST CLAIM.** This needs a backslash or a tab
+  in a reply that ALSO overran `max_tokens`, so it is rare, and I have no evidence
+  it caused the owner's "wasn't always reading properly" report — that was the
+  recognizer, fixed above. Two of my own claims while chasing it were also wrong
+  and are worth recording: `extractStreamingReply` is NOT buggy (my "6 of 7 wrong"
+  was entirely bash quoting), and `\u010d` does not arise — `JSON.stringify('č')`
+  emits `č` literally, so no real encoder produces that escape and my worry about
+  a Croatian diacritic leaking was unfounded.
+- **A CODEQL ALERT ON LINES YOU DID NOT WRITE IS STILL YOURS WHEN YOUR PR TOUCHES
+  THE FILE.** These lines date from `e3f530f7` (2026-07-22); the alert surfaced
+  because the ink sweep touched the file, exactly as the check's own summary warns
+  ("Alerts not introduced by this pull request might have been detected because
+  the code changes were too large"). The alert count went 7 → 1 across my
+  `escapeRegExp` fixes, and that delta is what identified the survivor — the
+  check's `output.text` is empty and no MCP tool reads the security tab, so the
+  route was: read the delta, audit every escaping site in the diff, find the one
+  that is not mine.
+- NEVER: decode JSON string escapes with a chain of `.replace()` calls that
+  handles `\\` last (one pass, consuming the char after each backslash); leave two
+  decoders live on one value; measure backslash behaviour through nested shell
+  quoting — write the probe to a file; read a `grep`ped `Tests` line as a verdict
+  when a failed COLLECTION reports on the `Test Files` line instead.
+
 **AND THE OTHER HALF OF THAT REPORT WAS A PROMISE THAT NEVER SETTLES.** Ten
 screens carried this block, byte-identical:
 

@@ -12012,3 +12012,42 @@ rules as rule 5 so it outlives this session.
 - **PR #753 is unaffected**, asserted rather than assumed: it still
   `merge-tree`s clean into the new master and touches neither `package.json` nor
   the lockfile.
+
+### Sweep 159b — the CodeQL alert that was not mine, and the decoder that was
+
+CodeQL went red on PR #753 at head 602088f2 — the commit I had just told the
+owner FIXED CodeQL. It did fix six of seven (the `escapeRegExp` work); the
+survivor was `js/incomplete-sanitization` on `MajaScreen.tsx:644-646`, lines
+from `e3f530f7` (2026-07-22) that my branch merely touched.
+
+- **The route to it, since the alert itself is unreadable from here.** The check
+  run's `output.text` is empty, no MCP tool reads the security tab, and the one
+  review thread was resolved+outdated. What identified the survivor was the
+  **delta**: 7 alerts on e2ce58b7 → 1 on 602088f2. That bounded it to "an
+  escaping site in my diff that I did not fix", and auditing all four
+  `escapeRegExp` forms (all canonical) left exactly one candidate.
+- **Two decoders, one reply, two senses.** The bubble's `content` came from the
+  buggy `.replace()` chain; the TTS flush thirty lines below already used
+  `extractStreamingReply`, which is correct. So a truncated reply with a
+  backslash was READ as one string and SPOKEN as another. Fixed by calling the
+  correct one; 3 lines.
+- **MEASURE BACKSLASHES FROM A FILE.** My first two probes, written as `node -e`
+  with nested quoting, reported "5 of 8 wrong" then "6 of 7 wrong" for the
+  CORRECT decoder — pure shell artifact. Written to a file with `JSON.stringify`
+  fixtures the answer is: correct decoder 0/8 wrong, buggy chain 3/8. This is the
+  recorded nested-quoting lesson, and it cost two wrong readings before I applied it.
+- **Corrections to my own claims, recorded because they were stated out loud**:
+  `extractStreamingReply` is not buggy; and `\u010d` never arises, because
+  `JSON.stringify('č')` emits `č` — so the "Croatian diacritic leaks as an escape"
+  worry was unfounded and is withdrawn.
+- **A grep can hide a failed collection.** My path-rot mutation (M5) read as
+  "21 passed" because I grepped only the `Tests` line; the failure was on
+  `Test Files`. Re-read with both lines it fails loudly (ENOENT), so no extra
+  clause was needed — but the first reading was wrong.
+- Mutation-verified, five: the buggy chain restored fails 2; the comment strip
+  dropped fails 1 (and the strip is provably load-bearing — the fix's comment
+  quotes the chain); the backslash consumption broken fails 3; the fence strip
+  dropped fails 1; path rot fails the suite.
+- Gate: 661 files / 10,430 tests green, tsc clean, eslint zero-warnings,
+  prettier clean, Croatian lint 0/474. E2E audit: no spec asserts a `"reply"`
+  envelope, so nothing depended on the salvage decode.

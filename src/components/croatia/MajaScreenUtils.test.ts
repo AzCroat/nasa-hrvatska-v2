@@ -67,6 +67,25 @@ describe('extractStreamingReply — show words, never the JSON envelope', () => 
     expect(extractStreamingReply('Bog! Kako si?')).toBe('Bog! Kako si?');
   });
 
+  // The three cases a SECOND, private decoder in MajaScreen's parse-failure path
+  // used to get wrong: it unescaped backslashes LAST, so ordering bit. Measured
+  // before the fix — `C:\Users\nada` came out `C:\Users\ ada`, the n of "nada"
+  // eaten and replaced with a space; `\n` (backslash then the letter n) lost its
+  // n outright; `\t` leaked raw. This decoder consumes the character AFTER each
+  // backslash in one pass, so it cannot be order-dependent. The fixtures go
+  // through JSON.stringify, so no amount of quoting can mangle them.
+  const wire = (want: string) => `{"reply":"${JSON.stringify(want).slice(1, -1)}"}`;
+
+  it('decodes a literal backslash without eating the character after it', () => {
+    expect(extractStreamingReply(wire('C:\\Users\\nada'))).toBe('C:\\Users\\nada');
+    expect(extractStreamingReply(wire('b: \\n'))).toBe('b: \\n');
+    expect(extractStreamingReply(wire('back \\'))).toBe('back \\');
+  });
+
+  it('decodes a tab rather than leaking the raw escape', () => {
+    expect(extractStreamingReply(wire('tab\there'))).toBe('tab\there');
+  });
+
   it('never throws on empty input', () => {
     expect(extractStreamingReply('')).toBe('');
   });
