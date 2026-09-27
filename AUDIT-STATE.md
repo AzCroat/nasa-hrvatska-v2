@@ -12448,3 +12448,12 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   clause fails 1; the real-file mutation fails 1 and names the file.
 - **Checked non-defect**: TechVoc was recorded as "same shape as falsefr" in
   `dwellPreWriteSuppression`; it is not — it has a graded quiz paying `pts * 5`.
+- **CI red on `bd291a60`, and it was MY floor, not the False Friends change.**
+  `completionKeyRegistered`'s comment already said the non-vacuity floor must sit on the
+  UNION of direct `completeExercise` sites and ModeDrill ids, because converting a drill
+  moves its key from one population to the other — yet the per-population `keyed > 80`
+  stayed beside it, and the eight conversions of this stretch took it to 77. My earlier
+  full run caught it too; I read only its summary line and did not chase it before
+  pushing. The floor now sits on the keyed sites OUTSIDE the hand-written drills (53,
+  which no conversion can move); the union floor stays. Mutation-verified: collapsing the
+  non-drill sites fails the new floor alone (0 > 40).

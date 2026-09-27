@@ -108,9 +108,16 @@ describe('the derivation is real', () => {
     // prop, so direct sites fell 153 -> 119 while wrapper ids rose 109 -> 143. Each
     // key is still checked, by the second sweep below. A per-population floor read
     // that correct move as a collapse.
-    const keyed = sites.filter((s) => s.key).length;
-    expect(keyed).toBeGreaterThan(80);
-    expect(keyed + modeDrillIds().size).toBeGreaterThan(250);
+    //
+    // AND THE PER-POPULATION FLOOR STAYED BEHIND ANYWAY, and eight more correct
+    // conversions took it to 77 < 80 (2026-09-27). A floor that conversion can move
+    // is not a collapse detector. What conversion CANNOT move is the keyed sites
+    // outside the hand-written drills (measured: 53 of 77), so the matcher's own
+    // floor sits there, and the union floor still covers the population as a whole.
+    const keyedSites = sites.filter((s) => s.key);
+    const outsideDrills = keyedSites.filter((s) => !/practice\/\w+Drill\.tsx$/.test(s.file));
+    expect(outsideDrills.length).toBeGreaterThan(40);
+    expect(keyedSites.length + modeDrillIds().size).toBeGreaterThan(250);
   });
 
   it('finds the ModeDrill wrapper ids', () => {
