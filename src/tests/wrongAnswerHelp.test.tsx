@@ -67,9 +67,58 @@ describe('the contrast is derived and never invents a difference', () => {
   });
 
   it('does NOT claim a case difference when both endings permit the same cases', () => {
-    const c = contrastAnswers('gradovima', 'ženama');
-    // Both are D/L/I plural. Saying "wrong case" here would be false.
+    // Both are D/L/I plural of ONE noun. Saying "wrong case" here would be false.
+    const c = contrastAnswers('gradovima', 'gradima');
     expect(c!.headline).toMatch(/not what separates them/);
+  });
+
+  it('names EVERY case each form permits — it never picks one', () => {
+    // mene is the genitive AND the accusative; "the sentence needs the genitive"
+    // was the old headline, and in "Vidim ___" it needs the accusative.
+    const c = contrastAnswers('meni', 'mene')!;
+    expect(c.headline).toContain('meni can be the dative or the locative');
+    expect(c.headline).toContain('mene can be the genitive or the accusative');
+    expect(contrastAnswers('gradu', 'gradom')!.headline).toContain('gradom is the instrumental');
+  });
+});
+
+describe('the contrast speaks ONLY about two forms of one declinable word (2026-09-27)', () => {
+  // The ending rules read any string as a noun. Before this gate the panel told
+  // learners in 109 engine drills that these were noun cases.
+  it.each([
+    ['stoga', 'naime', 'two connectors'],
+    ['vožnja', 'vozač', 'two different nouns'],
+    ['učenje', 'učenik', 'two different nouns sharing a stem'],
+    ['pisao', 'pisala', 'two participles'],
+    ['pomogla', 'pomogle', 'two participles of one verb'],
+    ['radiš', 'radim', 'two present forms'],
+    ['idi', 'idite', 'imperative against present'],
+    ['bih', 'bi', 'two auxiliaries'],
+  ])('says nothing for %s / %s (%s)', (a, b) => {
+    expect(contrastAnswers(a, b)).toBeNull();
+  });
+
+  it.each([
+    ['brata', 'brat'],
+    ['psa', 'pas'], // fleeting a
+    ['knjizi', 'knjige'], // sibilarization
+    ['gradu', 'gradom'], // -om is not a present ending
+    ['stola', 'stolu'], // -la is not only a participle
+    ['ga', 'mu'], // closed-class pronouns
+  ])('compares %s / %s', (a, b) => {
+    expect(contrastAnswers(a, b)).not.toBeNull();
+  });
+
+  it('never lists a verb reading once the pair is a noun pair', () => {
+    const c = contrastAnswers('stola', 'stolu')!;
+    expect(c.chosen.readings.join(' ')).not.toMatch(/participle/);
+  });
+
+  it('says when a list is cut short', () => {
+    const c = contrastAnswers('knjige', 'knjigu')!;
+    expect(c.chosen.more).toBe(true);
+    renderPanel(<WrongAnswerHelp chosen="knjige" answer="knjigu" context="Čitam ___." />);
+    expect(screen.getByTestId('contrast-chosen').textContent).toContain('among others');
   });
 
   it('returns nothing at all for a multi-word option', () => {

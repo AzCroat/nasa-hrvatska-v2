@@ -1,24 +1,12 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-import { rnd } from '../../lib/random.js';
-import { retryNeedLabel } from '../../lib/lessonGate';
-
-function shLocal(a: any[]) {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j], b[i]];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // C1 — nominalization (glagolska imenica / deverbal nouns): forming the noun
 // from a verb, the backbone of formal "nominal style". Mostly -nje, but several
 // high-frequency deverbal nouns are irregular (dolazak, odluka, odgovor).
 const DATA = [
   {
+    mode: 'nje',
     q: 'čitati → ___ (the reading)',
     opts: ['čitanje', 'čitatelj', 'čitao', 'čitalac'],
     answer: 'čitanje',
@@ -26,6 +14,7 @@ const DATA = [
     tip: 'Verbal noun -nje from the passive participle stem: čita-nje.',
   },
   {
+    mode: 'nje',
     q: 'putovati → ___ (the travel/journey)',
     opts: ['putovanje', 'putnik', 'putovao', 'put'],
     answer: 'putovanje',
@@ -33,6 +22,7 @@ const DATA = [
     tip: 'putova-nje (verbal noun); "putnik" = traveller, "put" = road/trip.',
   },
   {
+    mode: 'nje',
     q: 'rješavati → ___ (the solving)',
     opts: ['rješavanje', 'rješenje', 'rješavač', 'riješen'],
     answer: 'rješavanje',
@@ -40,6 +30,7 @@ const DATA = [
     tip: 'Imperfective → process noun rješava-nje; "rješenje" = the solution (result).',
   },
   {
+    mode: 'nepravilne',
     q: 'dolaziti → ___ (the arrival)',
     opts: ['dolazak', 'dolaženje', 'dolazni', 'došao'],
     answer: 'dolazak',
@@ -47,6 +38,7 @@ const DATA = [
     tip: 'Irregular deverbal noun: "dolazak" (not the regular -nje form).',
   },
   {
+    mode: 'nepravilne',
     q: 'odlučiti → ___ (the decision)',
     opts: ['odluka', 'odlučivanje', 'odlučan', 'odlučio'],
     answer: 'odluka',
@@ -54,6 +46,7 @@ const DATA = [
     tip: '"odluka" = the decision (result); "odlučivanje" = the act of deciding.',
   },
   {
+    mode: 'nepravilne',
     q: 'odgovoriti → ___ (the answer)',
     opts: ['odgovor', 'odgovaranje', 'odgovoran', 'odgovorio'],
     answer: 'odgovor',
@@ -61,6 +54,7 @@ const DATA = [
     tip: 'Irregular deverbal noun "odgovor"; "odgovoran" = responsible (adjective).',
   },
   {
+    mode: 'nje',
     q: 'razmišljati → ___ (the thinking)',
     opts: ['razmišljanje', 'razmislio', 'mislilac', 'razuman'],
     answer: 'razmišljanje',
@@ -68,6 +62,7 @@ const DATA = [
     tip: 'razmišlja-nje (verbal noun).',
   },
   {
+    mode: 'nepravilne',
     q: 'graditi → ___ (the construction)',
     opts: ['gradnja', 'graditelj', 'građen', 'gradio'],
     answer: 'gradnja',
@@ -75,6 +70,7 @@ const DATA = [
     tip: '"gradnja" (deverbal noun); "graditelj" = builder.',
   },
   {
+    mode: 'nje',
     q: 'plivati → ___ (swimming)',
     opts: ['plivanje', 'plivač', 'plivao', 'pliva'],
     answer: 'plivanje',
@@ -82,13 +78,134 @@ const DATA = [
     tip: 'pliva-nje (verbal noun); "plivač" = swimmer.',
   },
   {
+    mode: 'nje',
     q: 'pisati → ___ (the writing)',
     opts: ['pisanje', 'pisac', 'pismo', 'pisao'],
     answer: 'pisanje',
     en: 'writing (the activity)',
     tip: 'pisa-nje (verbal noun); "pisac" = writer, "pismo" = letter.',
   },
+  {
+    mode: 'nje',
+    q: 'učiti → ___ (learning)',
+    opts: ['učenje', 'učenik', 'učio', 'učitelj'],
+    answer: 'učenje',
+    en: 'learning',
+    tip: '-iti verbs take -enje: uči-ti → uč-enje. "učenik" = pupil, "učitelj" = teacher.',
+  },
+  {
+    mode: 'nje',
+    q: 'pjevati → ___ (singing)',
+    opts: ['pjevanje', 'pjevač', 'pjevao', 'pjesma'],
+    answer: 'pjevanje',
+    en: 'singing',
+    tip: 'pjeva-nje (verbal noun); "pjevač" = singer, "pjesma" = song.',
+  },
+  {
+    mode: 'nepravilne',
+    q: 'voziti → ___ (the ride, driving)',
+    opts: ['vožnja', 'vozač', 'vozilo', 'vozio'],
+    answer: 'vožnja',
+    en: 'the ride, driving',
+    tip: 'The everyday noun is "vožnja", with z → ž; "vozač" = driver, "vozilo" = vehicle.',
+  },
+  {
+    mode: 'nepravilne',
+    q: 'odlaziti → ___ (the departure)',
+    opts: ['odlazak', 'odlaženje', 'odlazni', 'otišao'],
+    answer: 'odlazak',
+    en: 'departure',
+    tip: 'Like dolazak: "odlazak" = departure. "odlazni" is the adjective (odlazni let).',
+  },
+  {
+    mode: 'nepravilne',
+    q: 'prodati → ___ (the sale)',
+    opts: ['prodaja', 'prodavanje', 'prodavač', 'prodao'],
+    answer: 'prodaja',
+    en: 'sale',
+    tip: '"prodaja" = sale (the result, the word business uses); "prodavač" = seller.',
+  },
+  {
+    mode: 'nepravilne',
+    q: 'početi → ___ (the beginning)',
+    opts: ['početak', 'počinjanje', 'početni', 'počeo'],
+    answer: 'početak',
+    en: 'beginning',
+    tip: '"početak" = beginning; "početni" is the adjective (početni tečaj).',
+  },
+  {
+    mode: 'stil',
+    q: 'Kad je vlada donijela odluku, … → Nakon ___ odluke, …',
+    opts: ['donošenja', 'donošenje', 'donijeti', 'donesene'],
+    answer: 'donošenja',
+    en: 'After the decision was made, …',
+    tip: 'Nakon + genitive, so the verbal noun donošenje goes into the genitive: nakon donošenja odluke.',
+  },
+  {
+    mode: 'stil',
+    q: 'Zato što je cijena porasla, … → Zbog ___ cijene, …',
+    opts: ['porasta', 'porast', 'porasti', 'porasla'],
+    answer: 'porasta',
+    en: 'Because of the price rise, …',
+    tip: 'Zbog + genitive: porast → porasta. "Zbog porasta cijene" is the nominal form of "zato što je cijena porasla".',
+  },
+  {
+    mode: 'stil',
+    q: 'Dok su gradili most, … → Tijekom ___ mosta, …',
+    opts: ['gradnje', 'gradnja', 'graditi', 'gradnjom'],
+    answer: 'gradnje',
+    en: 'During the construction of the bridge, …',
+    tip: 'Tijekom + genitive: gradnja → gradnje.',
+  },
+  {
+    mode: 'stil',
+    q: 'Da bismo poboljšali uslugu, … → Radi ___ usluge, …',
+    opts: ['poboljšanja', 'poboljšanje', 'poboljšati', 'poboljšanom'],
+    answer: 'poboljšanja',
+    en: 'In order to improve the service, …',
+    tip: 'Radi + genitive states a purpose in nominal style: radi poboljšanja usluge.',
+  },
+  {
+    mode: 'stil',
+    q: 'Kad smo stigli u hotel, … → Po ___ u hotel, …',
+    opts: ['dolasku', 'dolazak', 'dolaska', 'dolaskom'],
+    answer: 'dolasku',
+    en: 'On arrival at the hotel, …',
+    tip: 'Po + locative = upon: po dolasku, po završetku — the formal way to say "when we arrived".',
+  },
+  {
+    mode: 'stil',
+    q: 'Ako ne platite na vrijeme, … → U slučaju ___ na vrijeme, …',
+    opts: ['neplaćanja', 'neplaćanje', 'neplaćanju', 'neplaćeno'],
+    answer: 'neplaćanja',
+    en: 'In case of non-payment on time, …',
+    tip: 'U slučaju + genitive; the negation joins the verbal noun as one word: neplaćanje → neplaćanja.',
+  },
+  {
+    mode: 'stil',
+    q: 'Knjižnica je zatvorena jer se obnavlja. → Knjižnica je zatvorena zbog ___.',
+    opts: ['obnove', 'obnova', 'obnoviti', 'obnovljena'],
+    answer: 'obnove',
+    en: 'The library is closed for renovation.',
+    tip: 'Zbog + genitive: obnova → obnove. Formal notices prefer the noun to a "jer" clause.',
+  },
+  {
+    mode: 'stil',
+    q: 'Nakon što je završio studij, … → Po ___ studija, …',
+    opts: ['završetku', 'završetak', 'završetka', 'završiti'],
+    answer: 'završetku',
+    en: 'After he finished his studies, …',
+    tip: 'Po + locative: završetak → završetku (the a drops: završet-ku). After "nakon" it would be the genitive: nakon završetka.',
+  },
 ];
+
+// Three question types, 8 each (expanded 2026-09-27 from a single 10-item list), so
+// the run is 4 of each — the same shape as every other engine drill.
+const MODE_LABEL: Record<string, string> = {
+  nje: '🔧 Glagolska imenica na -nje',
+  nepravilne: '🧩 Nepravilne imenice',
+  stil: '📄 Nominalni stil',
+};
 
 interface Props {
   goBack: () => void;
@@ -96,155 +213,20 @@ interface Props {
 }
 
 export default function NominalizationDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'nominalization',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🏛️ Nominalization', 'Verbal nouns and nominal style', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect! Nominal style mastered! 🏆'
-              : passed
-                ? 'Great work! 💪'
-                : 'Keep practising — deverbal nouns take time!'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🏛️ Nominalization', 'Verbal nouns and nominal style', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-muted)',
-            marginBottom: 6,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-          }}
-        >
-          Choose the noun derived from the verb
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
-          {cur.q}
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>{cur.en}</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
-          {cur.opts.map((opt: string) => {
-            return (
-              <button
-                key={opt}
-                className={
-                  'ob' +
-                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
-                }
-                style={{ fontSize: 13 }}
-                onClick={() => pick(opt)}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 14px',
-              background: 'var(--info-bg)',
-              borderRadius: 10,
-              border: '1px solid #bae6fd',
-              fontSize: 14,
-              color: 'var(--ink-info)',
-            }}
-          >
-            <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
-            {idx + 1 >= total ? 'See results' : 'Next →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="nominalization"
+      title={'🏛️ Nominalization'}
+      subtitle={'Verbal nouns and nominal style'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Perfect! Nominal style mastered! 🏆',
+        good: 'Great work! 💪',
+        more: 'Keep practising — deverbal nouns take time!',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

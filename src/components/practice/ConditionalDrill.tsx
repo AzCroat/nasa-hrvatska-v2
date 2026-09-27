@@ -1,18 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-import { rnd } from '../../lib/random.js';
-import { retryNeedLabel } from '../../lib/lessonGate';
-
-function shLocal(a: any[]) {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j], b[i]];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // B2 — conditional mood: kondicional I (bih/bi/bismo/biste + radni pridjev),
 // kondicional II (bio bih + radni pridjev = would have), and irrealis 'da'/'kad'
@@ -105,161 +92,30 @@ const DATA = [
   },
 ];
 
+// One question type, so the engine's run is 12 from the whole bank (DRILL_RUN_LENGTH).
+const MODE_LABEL: Record<string, string> = { fill: 'Choose the correct conditional form' };
+const BANK = DATA.map((item) => ({ ...item, mode: 'fill' }));
+
 interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 
 export default function ConditionalDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    shLocal(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'conditionaldrill',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🤔 Conditional', 'Kondicional I & II — "would" and "would have"', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect! Conditional mastered! 🏆'
-              : passed
-                ? 'Great work! 💪'
-                : 'Keep practising — the conditional takes time!'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🤔 Conditional', 'Kondicional I & II — "would" and "would have"', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-muted)',
-            marginBottom: 6,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-          }}
-        >
-          Choose the correct conditional form
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
-          {cur.q}
-        </div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>{cur.en}</div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
-          {cur.opts.map((opt: string) => {
-            return (
-              <button
-                key={opt}
-                className={
-                  'ob' +
-                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
-                }
-                style={{ fontSize: 13 }}
-                onClick={() => pick(opt)}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 14px',
-              background: 'var(--info-bg)',
-              borderRadius: 10,
-              border: '1px solid #bae6fd',
-              fontSize: 14,
-              color: 'var(--ink-info)',
-            }}
-          >
-            <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
-            {idx + 1 >= total ? 'See results' : 'Next →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="conditionaldrill"
+      title={'🤔 Conditional'}
+      subtitle={'Kondicional I & II — "would" and "would have"'}
+      modeLabels={MODE_LABEL}
+      data={BANK}
+      praise={{
+        perfect: 'Perfect! Conditional mastered! 🏆',
+        good: 'Great work! 💪',
+        more: 'Keep practising — the conditional takes time!',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

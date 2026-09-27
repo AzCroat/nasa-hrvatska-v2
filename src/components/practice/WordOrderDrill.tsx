@@ -1,3 +1,7 @@
+import React from 'react';
+import ModeDrill from './ModeDrill';
+import A1ConceptIntro from './A1ConceptIntro';
+
 // src/components/practice/WordOrderDrill.tsx
 //
 // A1 word-order practice — the second half of the gap found by the 2026-08-20
@@ -19,26 +23,6 @@
 // that a native could say with contrastive stress ("Hrvatski ne govorim") was
 // rejected as a distractor — an exercise that marks real Croatian wrong teaches
 // the learner to distrust their ear.
-
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import A1ConceptIntro from './A1ConceptIntro';
-import DrillExplainCard from './DrillExplainCard';
-import { useExplainError } from '../../hooks/useExplainError';
-import { getCurrentContentLevel } from '../../lib/cefrCertification';
-import { useStats } from '../../context/StatsContext';
-import { rnd } from '../../lib/random.js';
-import { retryNeedLabel } from '../../lib/lessonGate';
-
-function shLocal<T>(a: T[]): T[] {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j]!, b[i]!];
-  }
-  return b;
-}
 
 export interface WordOrderItem {
   /** The English meaning the learner is building. */
@@ -186,185 +170,32 @@ export const DATA: WordOrderItem[] = [
   },
 ];
 
+// One question type, so the engine's run is 12 from the whole bank (DRILL_RUN_LENGTH).
+const MODE_LABEL: Record<string, string> = { fill: 'How do you say this?' };
+const BANK = DATA.map((item) => ({ ...item, mode: 'fill' }));
+
 interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 
 export default function WordOrderDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    shLocal(DATA)
-      .slice(0, 10)
-      .map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
-  const {
-    explain,
-    request: requestExplain,
-    reset: resetExplain,
-  } = useExplainError('case_drill', getCurrentContentLevel());
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) {
-      setScore((s) => s + 1);
-    } else {
-      void requestExplain(opt, cur.answer, cur.q);
-    }
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'word-order',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-      resetExplain();
-    }
-  }
-
-  if (showIntro && !done) {
-    return (
-      <div className="scr-wrap">
-        {H('🧩 Word Order', 'What can move — and what never moves', goBack)}
-        <div style={{ marginTop: 12 }}>
-          <A1ConceptIntro conceptId="word-order" onStart={() => setShowIntro(false)} />
-        </div>
-      </div>
-    );
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🧩 Word Order', 'What can move — and what never moves', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect! The little words are in their seats. 🏆'
-              : passed
-                ? 'Nicely done — second position is starting to feel natural.'
-                : 'Keep going — sam, si, je, se and li all want the SECOND seat.'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🧩 Word Order', 'What can move — and what never moves', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-muted)',
-            marginBottom: 6,
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: 1,
-          }}
-        >
-          How do you say this?
-        </div>
-        <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.4 }}>
-          {cur.q}
-        </div>
-        <div style={{ display: 'grid', gap: 8, marginTop: 16 }}>
-          {cur.opts.map((opt: string) => {
-            return (
-              <button
-                key={opt}
-                className={
-                  'ob' +
-                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
-                }
-                style={{ textAlign: 'left' }}
-                onClick={() => pick(opt)}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 14px',
-              background: 'var(--info-bg)',
-              borderRadius: 10,
-              border: '1px solid #bae6fd',
-              fontSize: 14,
-              color: 'var(--ink-info)',
-            }}
-          >
-            <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}
-          </div>
-        )}
-        {answered && chosen !== cur.answer && <DrillExplainCard state={explain} />}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 16 }} onClick={next}>
-            {idx + 1 >= total ? 'See results' : 'Next →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="word-order"
+      title={'🧩 Word Order'}
+      subtitle={'What can move — and what never moves'}
+      modeLabels={MODE_LABEL}
+      data={BANK}
+      praise={{
+        perfect: 'Perfect! The little words are in their seats. 🏆',
+        good: 'Nicely done — second position is starting to feel natural.',
+        more: 'Keep going — sam, si, je, se and li all want the SECOND seat.',
+      }}
+      goBack={goBack}
+      award={award}
+      intro={(start) => <A1ConceptIntro conceptId="word-order" onStart={start} />}
+      explainType="case_drill"
+    />
   );
 }

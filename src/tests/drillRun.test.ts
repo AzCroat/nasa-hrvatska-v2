@@ -3,7 +3,7 @@
 // C2/B2 drill banks now sample a balanced 12-question run.
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { drawDrillRun, DRILL_RUN_PER_MODE } from '../lib/drillRun';
+import { drawDrillRun, DRILL_RUN_PER_MODE, DRILL_RUN_LENGTH } from '../lib/drillRun';
 
 const BANK = Array.from({ length: 24 }, (_, i) => ({
   mode: ['a', 'b', 'c'][i % 3]!,
@@ -19,6 +19,22 @@ describe('drawDrillRun', () => {
       expect(run.filter((x) => x.mode === m)).toHaveLength(DRILL_RUN_PER_MODE);
     }
     expect(new Set(run.map((x) => x.q)).size).toBe(12); // no duplicates
+  });
+
+  // Owner decision 2026-09-27: 12 questions for every drill. The older hand-written
+  // banks carry no modes, so the engine sees ONE mode — and at 4 per mode that would
+  // have been a 4-question drill. The share is derived from the run length now.
+  it('serves 12 from a single-mode bank, not 4', () => {
+    const one = Array.from({ length: 50 }, (_, i) => ({ mode: 'x', q: `q${i}` }));
+    const run = drawDrillRun(one);
+    expect(run).toHaveLength(DRILL_RUN_LENGTH);
+    expect(DRILL_RUN_LENGTH).toBe(12);
+    expect(new Set(run.map((x) => x.q)).size).toBe(12);
+  });
+
+  it('serves the whole bank when it is shorter than a run', () => {
+    const ten = Array.from({ length: 10 }, (_, i) => ({ mode: 'x', q: `q${i}` }));
+    expect(drawDrillRun(ten)).toHaveLength(10);
   });
 
   it('does not mutate the bank and tolerates small modes', () => {

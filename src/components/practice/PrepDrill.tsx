@@ -1,144 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { H, Bar, sh, PREPDRILL } from '../../data';
-import { useStats } from '../../context/StatsContext';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
+import React from 'react';
+import ModeDrill from './ModeDrill';
+import { PREPDRILL } from '../../data';
 
-export default function PrepDrill({
-  goBack,
-  award,
-}: {
+// Preposition drill: which preposition a sentence needs, and — since 2026-09-27 —
+// WHY, through a tip on every item naming the case the preposition governs. The
+// bank had no tips at all until then, so a wrong answer said nothing.
+const MODE_LABEL: Record<string, string> = { fill: 'Fill in the correct preposition' };
+const BANK = PREPDRILL.map(({ sentence, ...rest }) => ({ ...rest, q: sentence, mode: 'fill' }));
+
+interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
-}) {
-  const { stats, setStats, writeDelta } = useStats();
-  const [ppQ] = useState(() =>
-    sh(PREPDRILL)
-      .slice(0, 10)
-      .map((q) => ({ ...q, opts: sh([...(q as { opts: string[] }).opts]) })),
-  );
-  const [ppI, sPpI] = useState(0);
-  const [ppS, sPpS] = useState(0);
-  const [ppA, sPpA] = useState(false);
-  const [ppSl, sPpSl] = useState(-1);
-  const finishFired = useRef(false);
+}
 
-  const total = ppQ.length;
-
-  // CREDIT FOLLOWS THE WORK, NOT THE ACKNOWLEDGEMENT — the results view renders a
-  // Back button, so a learner who passed and left by it used to lose the whole
-  // award. Same condition as the Done button it replaces, so a failed run still
-  // credits nothing and keeps its retry; `total > 0` stops `0 >= 0` on an empty bank.
-  useEffect(() => {
-    if (total === 0 || ppI < total || !passedLesson(ppS, total) || finishFired.current) return;
-    finishFired.current = true;
-    completeExercise({
-      key: 'preposition',
-      score: ppS,
-      total,
-      xp: ppS * 5,
-      stats,
-      setStats,
-      writeDelta,
-      award,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ppI, total, ppS]);
-
-  if (!ppQ.length) return null;
-
-  if (ppI >= total) {
-    const passed = passedLesson(ppS, total);
-    return (
-      <div className="scr-wrap">
-        {H('📍 Preposition Drills', 'Fill in the correct preposition', goBack)}
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 64 }}>{passed ? '🏆' : '📚'}</div>
-          <h2>
-            {ppS} / {total}
-          </h2>
-          <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '8px 0 16px' }}>
-            +{ppS * 5} XP
-          </div>
-          {passed ? (
-            <button className="b bp" onClick={goBack}>
-              🏠 Done
-            </button>
-          ) : (
-            <>
-              <button
-                className="b bp"
-                data-testid="drill-retry"
-                style={{ marginBottom: 10 }}
-                onClick={() => {
-                  finishFired.current = false;
-                  sPpI(0);
-                  sPpS(0);
-                  sPpA(false);
-                  sPpSl(-1);
-                }}
-              >
-                {retryNeedLabel(total)}
-              </button>
-              <button className="b bs" onClick={goBack}>
-                ← Back
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  const q = ppQ[ppI];
-
+export default function PrepDrill({ goBack, award }: Props) {
   return (
-    <div className="scr-wrap">
-      {H('📍 Preposition Drills', 'Fill in the correct preposition', goBack)}
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <span>
-          {ppI + 1} / {total}
-        </span>
-        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {ppS}</span>
-      </div>
-      <Bar v={ppI + 1} mx={total} />
-      <div className="c" style={{ marginTop: 16 }}>
-        <div style={{ fontSize: 18 }}>{q.sentence}</div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{q.en}</div>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
-        {q.opts.map((o: string, oi: number) => (
-          <button
-            key={oi}
-            className={'ob' + (ppA ? (o === q.answer ? ' ok' : ppSl === oi ? ' no' : '') : '')}
-            style={{
-              textAlign: 'center',
-            }}
-            onClick={() => {
-              if (!ppA) {
-                sPpSl(oi);
-                sPpA(true);
-                if (o === q.answer) sPpS(ppS + 1);
-              }
-            }}
-          >
-            {o}
-          </button>
-        ))}
-      </div>
-      {ppA && (
-        <button
-          className="b bp"
-          style={{ width: '100%', marginTop: 16 }}
-          onClick={() => {
-            sPpI(ppI + 1);
-            sPpA(false);
-            sPpSl(-1);
-          }}
-        >
-          Next →
-        </button>
-      )}
-    </div>
+    <ModeDrill
+      id="preposition"
+      title={'📍 Preposition Drills'}
+      subtitle={'Fill in the correct preposition'}
+      modeLabels={MODE_LABEL}
+      data={BANK}
+      praise={{
+        perfect: 'Savršeno! 🏆',
+        good: 'Vrlo dobro! 💪',
+        more: 'Treba još vježbe.',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

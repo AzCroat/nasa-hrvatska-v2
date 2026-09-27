@@ -49,7 +49,10 @@ describe('the sheet a tap opens', () => {
     );
     expect(screen.getByTestId('local-morphology').textContent).toContain('What this ending can be');
     unmount();
-    render(<LocalOnlySheet word="ga" onClose={vi.fn()} explaining={false} />);
+    // "mu" is the dative and nothing else. (This used "ga", which the table listed as
+    // accusative only; it is the genitive too — "nema ga" — and since 2026-09-27 the
+    // table says so, which correctly makes "ga" ambiguous.)
+    render(<LocalOnlySheet word="mu" onClose={vi.fn()} explaining={false} />);
     expect(screen.getByTestId('local-morphology').textContent).toContain('What this is');
   });
 

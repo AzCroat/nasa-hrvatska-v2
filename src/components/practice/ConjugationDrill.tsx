@@ -6,6 +6,9 @@ import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { clickable } from '../../lib/clickable';
 import { accentInk, accentFill } from '../../lib/accentInk';
+import { DRILL_RUN_LENGTH } from '../../lib/drillRun';
+import WrongAnswerHelp from '../shared/WrongAnswerHelp';
+import { getCurrentContentLevel } from '../../lib/cefrCertification';
 
 interface ConjVerb {
   inf: string;
@@ -75,7 +78,8 @@ export default function ConjugationDrill({ goBack, award }: Props) {
         qs.push({ verb: v.inf, en: v.en, tense: v.tense, person: p, pi, answer: v.forms[pi] });
       });
     });
-    const picked = sh(qs).slice(0, 20);
+    // 12 questions, like every drill (owner decision 2026-09-27; was 20).
+    const picked = sh(qs).slice(0, DRILL_RUN_LENGTH);
     const first = picked[0]!;
     const wrongs = sh(CONJ.verbs.flatMap((v) => v.forms).filter((f) => f !== first.answer)).slice(
       0,
@@ -248,6 +252,27 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                   </button>
                 ))}
               </div>
+              {/* A wrong answer said nothing at all here — no tip, no form, no why
+                  (2026-09-27). Name the right form, then offer the explanation. */}
+              {cjA && cjSl !== ci && (
+                <div
+                  data-testid="conj-feedback"
+                  className="c"
+                  style={{ marginTop: 12, fontSize: 14 }}
+                >
+                  ✗ {q.person} {cjO[cjSl]} — {q.person} → {q.answer}
+                </div>
+              )}
+              {cjA && cjSl !== ci && (
+                <WrongAnswerHelp
+                  chosen={cjO[cjSl] ?? ''}
+                  answer={q.answer}
+                  context={`${q.verb} (${q.en}), ${q.tense}: ${q.person} ___`}
+                  type="drill"
+                  level={getCurrentContentLevel()}
+                  screen="conjugation"
+                />
+              )}
               {cjA && (
                 <button
                   className="b bp"

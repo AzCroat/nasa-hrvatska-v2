@@ -10,6 +10,15 @@ import { rnd } from './random.js';
 
 export const DRILL_RUN_PER_MODE = 4;
 
+/**
+ * The length of one run, whatever the bank's shape (owner decision, 2026-09-27:
+ * 12 questions for every drill). A three-mode bank serves 4 per mode, exactly as
+ * before; a single-mode bank — the older hand-written drills, now on the engine —
+ * serves 12 from its one pool instead of 4. The per-mode share is derived from
+ * this, so the length is one number rather than a product nobody states.
+ */
+export const DRILL_RUN_LENGTH = DRILL_RUN_PER_MODE * 3;
+
 function sh<T>(a: T[]): T[] {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -22,8 +31,9 @@ function sh<T>(a: T[]): T[] {
 /** Sample a balanced, shuffled run from a mode-tagged bank. Non-mutating. */
 export function drawDrillRun<T extends { mode: string }>(
   data: readonly T[],
-  perMode: number = DRILL_RUN_PER_MODE,
+  perMode?: number,
 ): T[] {
   const modes = [...new Set(data.map((d) => d.mode))];
-  return sh(modes.flatMap((m) => sh(data.filter((d) => d.mode === m)).slice(0, perMode)));
+  const share = perMode ?? Math.ceil(DRILL_RUN_LENGTH / Math.max(1, modes.length));
+  return sh(modes.flatMap((m) => sh(data.filter((d) => d.mode === m)).slice(0, share)));
 }

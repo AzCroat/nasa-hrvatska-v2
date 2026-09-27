@@ -96,12 +96,14 @@ export default function WrongAnswerHelp({
             label="You picked"
             word={contrast.chosen.word}
             readings={contrast.chosen.readings}
+            more={contrast.chosen.more}
           />
           <ContrastLine
             testid="contrast-answer"
             label="The answer"
             word={contrast.answer.word}
             readings={contrast.answer.readings}
+            more={contrast.answer.more}
           />
         </div>
       )}
@@ -159,11 +161,14 @@ function ContrastLine({
   label,
   word,
   readings,
+  more,
 }: {
   testid: string;
   label: string;
   word: string;
   readings: string[];
+  /** The list is capped; when the form permits more, the line says so. */
+  more?: boolean;
 }) {
   return (
     <div data-testid={testid} style={{ marginBottom: 4 }}>
@@ -172,7 +177,9 @@ function ContrastLine({
       {readings.length > 0 && (
         <span style={{ color: 'var(--subtext)' }}>
           {' — '}
-          {readings.length === 1 ? readings[0] : `can be ${readings.join(', or ')}`}
+          {readings.length === 1 && !more
+            ? readings[0]
+            : `can be ${readings.join(', or ')}${more ? ', among others' : ''}`}
         </span>
       )}
     </div>
