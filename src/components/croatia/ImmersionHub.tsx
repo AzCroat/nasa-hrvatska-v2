@@ -291,7 +291,7 @@ export default function ImmersionHub({
               padding: '8px 4px',
               border: 'none',
               borderRadius: 10,
-              background: activeTab === t.id ? 'white' : 'transparent',
+              background: activeTab === t.id ? 'var(--card)' : 'transparent',
               fontWeight: 700,
               fontSize: 12,
               color: activeTab === t.id ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',

@@ -210,8 +210,12 @@ export function findLightSlabThemedInk(list?: string[]): AgreementFinding[] {
     // the same per-arm lesson `inlineInkContrast` learned two clauses earlier.
     for (const m of src.matchAll(/(?:background|backgroundColor)\s*:\s*/g)) {
       const raw = valueOfProperty(src, m.index! + m[0].length);
+      // `'white'` IS A LIGHT SLAB TOO. Hex-only, ImmersionHub's active tab
+      // (`activeTab === id ? 'white' : 'transparent'` under a themed ink) passed this clause
+      // while the dark-mode browser sweep measured it light-on-light (2026-09-27).
       const lightHex = inkArms(raw)
-        .map((a) => /^(['"])(#[0-9a-fA-F]{3,6})\1$/.exec(a.trim())?.[2])
+        .map((a) => /^(['"])(#[0-9a-fA-F]{3,6}|white)\1$/.exec(a.trim())?.[2])
+        .map((h) => (h === 'white' ? '#ffffff' : h))
         .find((h) => h && lum(hexRgb(h)!) >= LIGHT_SURFACE_LUM);
       if (!lightHex) continue;
       const lt = src.lastIndexOf('<', m.index!);

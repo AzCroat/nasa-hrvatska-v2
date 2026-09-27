@@ -412,7 +412,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               cursor: 'pointer',
               fontSize: 12,
               fontWeight: 700,
-              background: tab === key ? 'white' : 'transparent',
+              background: tab === key ? 'var(--card)' : 'transparent',
               color: tab === key ? 'var(--ink-flag)' : 'var(--ink-muted-warm)',
               boxShadow: tab === key ? '0 1px 4px rgba(0,0,0,.12)' : 'none',
               transition: 'all .15s',
