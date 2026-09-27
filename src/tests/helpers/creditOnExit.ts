@@ -88,6 +88,22 @@ function blockEnd(src: string, open: number): number {
  * useCallback) that ALSO calls `goBack()` after it, is wired to an `onClick`, and is
  * called from no `useEffect` — i.e. pressing that one button is the only way it runs.
  */
+/**
+ * THE LEAVING CAN SIT AT THE CALL SITE INSTEAD OF IN THE HANDLER (2026-09-27):
+ * `onClick={() => { finish(); goBack(); }}` where `finish` holds the credit is the same
+ * pay-and-leave button, and the rule above only looked for `goBack()` inside the handler.
+ * Measured over the tree: zero members — False Friends was one mutation away from being
+ * the first — so this is a ratchet, pinned by a synthetic control.
+ */
+function callerArrowLeaves(src: string, name: string): boolean {
+  for (const m of src.matchAll(/onClick=\{\s*\(\)\s*=>\s*\{/g)) {
+    const open = src.indexOf('{', m.index! + m[0].length - 1);
+    const body = src.slice(open, blockEnd(src, open));
+    if (body.includes('goBack()') && new RegExp(`\\b${name}\\(`).test(body)) return true;
+  }
+  return false;
+}
+
 function namedHandlerCreditsOnExit(src: string, at: number): boolean {
   const heads = [
     ...src.matchAll(
@@ -101,8 +117,10 @@ function namedHandlerCreditsOnExit(src: string, at: number): boolean {
     if (open < 0 || open > at) continue;
     const end = blockEnd(src, open);
     if (end <= at) continue; // this function closed before the call — not ours
-    if (!src.slice(at, end).includes('goBack()')) return false;
-    const wired = new RegExp(`onClick=\\{\\s*(?:\\(\\)\\s*=>\\s*)?${name}\\b`).test(src);
+    const leavesItself = src.slice(at, end).includes('goBack()');
+    const wired = leavesItself
+      ? new RegExp(`onClick=\\{\\s*(?:\\(\\)\\s*=>\\s*)?${name}\\b`).test(src)
+      : callerArrowLeaves(src, name);
     if (!wired) return false;
     for (const e of src.matchAll(/useEffect\(/g)) {
       const b = src.indexOf('{', e.index!);

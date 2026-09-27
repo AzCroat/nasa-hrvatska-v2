@@ -106,12 +106,6 @@ const ADVANCE_CREDITERS = [
  * flagged (checked below), so a stale exemption cannot sit here suspending the rule.
  */
 const DECLARED_FINISH: Record<string, string> = {
-  // A reading list with no graded act. "Complete Lesson +30 XP" is the declaration
-  // that it was read; nothing else can say so. (Follow-up recorded in AUDIT-STATE:
-  // since 2026-09-23 it is also this screen's ONLY credit, because it left
-  // BLACK_HOLE_SCREENS on the premise of a built-in quiz it does not have.)
-  'src/components/learn/FalseFriendsScreen.tsx':
-    'reading list: the declaration is the only finish there is',
   // After the grader FAILED (or offline, where no submit ran), "Continue — your
   // writing counts ✓" is the learner declaring the ungraded finish. The session slot
   // is already freed at the failure; only the 5-XP participation credit rides on it.
@@ -232,6 +226,36 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
         ].join('\n'),
       );
       expect(creditGatedOnExit([rel]), 'an effect-called handler is flagged').toEqual([]);
+
+      // THE LEAVING AT THE CALL SITE (2026-09-27): the handler only credits, and the
+      // inline arrow that calls it also leaves — the same pay-and-leave button, which
+      // the rule missed because it looked for goBack() inside the handler alone.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function finish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '  }',
+          '  return <button onClick={() => { finish(); goBack(); }}>Done</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'leaving at the call site hides the defect').toEqual([rel]);
+
+      // …while a button that credits and STAYS, with a separate way back, is the fix.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function finish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '  }',
+          '  return <button onClick={finished ? goBack : finish}>Done</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'a credit that stays is flagged').toEqual([]);
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });
     }

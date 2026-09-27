@@ -12428,3 +12428,23 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   length, not a refactor — recorded, not done.
 - **Checked non-defect**: those modeless drills serving 10–24 items is not the "whole 24-item
   bank" defect `drawDrillRun` fixed — that was about MODED banks where each mode had 8.
+- **CLOSED — False Friends (sweep 166's OPEN item).** Two defects, not one: "Complete Lesson
+  +30 XP" was the ONLY credit AND also left the screen, so reading every entry and tapping
+  Back paid nothing and stranded a session slot; and it paid **30 XP on every visit**,
+  because its once-only guard was a per-mount ref. Now reaching the end of the list (an
+  IntersectionObserver sentinel) after `DWELL_MS` on screen credits through
+  `completeExercise` (registry row `falsefr: p('lc')` already existed): session signal, the
+  vocab quest once per exercise per day, `lc`+`vs` and the 30 XP once ever. The dwell is
+  load-bearing — on a tall display the end is visible the instant the screen opens. The
+  button declares the finish WITHOUT leaving; the next tap goes back. No score/total is
+  passed, so a reading list writes nothing to the mastery ledger. `DECLARED_FINISH` loses
+  its entry. `falseFriendsReadToEnd.test.tsx` drives it; mutation-verified (dwell dropped
+  fails 1; pay-and-leave button fails 1).
+- **`creditFollowsWork` had a gap that mutation found**: `onClick={() => { finish(); goBack(); }}`
+  with the credit inside `finish` — the leaving at the CALL SITE, not in the handler — passed
+  the named-handler rule, which looked for `goBack()` inside the handler only. Census over the
+  tree: zero members (validated by finding the mutated file), so it is a ratchet;
+  `callerArrowLeaves` closes it, with a synthetic control and its remedy twin. Removing the
+  clause fails 1; the real-file mutation fails 1 and names the file.
+- **Checked non-defect**: TechVoc was recorded as "same shape as falsefr" in
+  `dwellPreWriteSuppression`; it is not — it has a graded quiz paying `pts * 5`.

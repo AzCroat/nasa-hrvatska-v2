@@ -1,33 +1,75 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { H, speak } from '../../data';
 import { FALSEFR } from '../../data';
 import { useStats } from '../../context/StatsContext.tsx';
-import { markQuest } from '../../lib/quests.js';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
+import { DWELL_MS } from '../../lib/dwellCredit';
 
 interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
+
+// A READING LIST IS FINISHED WHEN IT HAS BEEN READ TO THE END (2026-09-27). Its only
+// credit used to be a "Complete Lesson +30 XP" button that ALSO left the screen, so a
+// learner who read every entry and tapped Back got nothing — and, launched from Today's
+// Session, left the slot stranded at N-1/N. The same button paid 30 XP on every visit,
+// because its once-only guard was a per-mount ref. Now reaching the end of the list
+// credits, through the completion authority (session signal, the vocab quest once per
+// exercise, `lc` + `vs` and the XP once ever), and the button only confirms it.
+// Reaching the end also needs DWELL_MS on the screen — the app's own measure of a read
+// page — because on a tall display the whole list fits and "the end is visible" would
+// otherwise be true the instant the screen opens.
 function FalseFriendsScreen({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
-  const completed = useRef(false);
+  const alreadyRead = !!stats.vs?.includes('falsefr');
+  const [finished, setFinished] = useState(false);
+  const finishFired = useRef(false);
+  const endRef = useRef<HTMLDivElement | null>(null);
 
-  function handleComplete() {
-    if (completed.current) return;
-    completed.current = true;
-    if (award) award(30, false, 'vocabulary');
-    markQuest('vocab');
-    // Replicate what the 20s dwell timer would do — grant LC credit so
-    // the LearnPath ck(s.lc>=20) check can pass without waiting for dwell.
-    if (!stats.vs?.includes('falsefr')) {
-      setStats((prev) => {
-        if (prev.vs?.includes('falsefr')) return prev;
-        return { ...prev, lc: (prev.lc || 0) + 1, vs: [...(prev.vs || []), 'falsefr'] };
-      });
-      if (writeDelta) writeDelta({ lc: 1, vs: ['falsefr'] });
-    }
-    goBack();
+  function finish() {
+    if (finishFired.current) return;
+    finishFired.current = true;
+    completeExercise({
+      key: 'falsefr',
+      xp: 30,
+      questKind: 'vocab',
+      activityType: 'vocabulary',
+      stats,
+      setStats,
+      writeDelta,
+      award,
+    });
+    setFinished(true);
   }
+  const finishRef = useRef(finish);
+  finishRef.current = finish;
+
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    let reachedEnd = false;
+    let dwelled = false;
+    const maybeFinish = () => {
+      if (reachedEnd && dwelled) finishRef.current();
+    };
+    const timer = setTimeout(() => {
+      dwelled = true;
+      maybeFinish();
+    }, DWELL_MS);
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        reachedEnd = true;
+        maybeFinish();
+      }
+    });
+    io.observe(el);
+    return () => {
+      clearTimeout(timer);
+      io.disconnect();
+    };
+  }, []);
 
   return (
     <div className="scr-wrap">
@@ -67,8 +109,10 @@ function FalseFriendsScreen({ goBack, award }: Props) {
         );
       })}
 
+      <div ref={endRef} data-testid="falsefr-end" aria-hidden="true" />
       <button
-        onClick={handleComplete}
+        data-testid="falsefr-done"
+        onClick={finished ? goBack : finish}
         style={{
           width: '100%',
           marginTop: 16,
@@ -82,7 +126,7 @@ function FalseFriendsScreen({ goBack, award }: Props) {
           cursor: 'pointer',
         }}
       >
-        {'Complete Lesson  +30 XP'}
+        {finished ? '✓ Read — back' : alreadyRead ? 'Mark as read' : 'Complete Lesson  +30 XP'}
       </button>
     </div>
   );
