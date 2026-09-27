@@ -19,7 +19,13 @@
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
-import { accentInk, INK_LIFT_VAR } from '../lib/accentInk';
+import {
+  accentInk,
+  INK_LIFT_VAR,
+  INK_TARGET_ON_WHITE,
+  contrastOnWhite,
+  inkSafeOnLight,
+} from '../lib/accentInk';
 
 describe('accentInk', () => {
   it('mixes a raw accent toward white by the theme-owned lift', () => {
@@ -92,5 +98,68 @@ describe('accentInk', () => {
     expect(css).toMatch(/--ink-lift:\s*62%/);
     // Exactly two declarations — a third would mean a scope nobody measured.
     expect([...css.matchAll(/--ink-lift\s*:/g)]).toHaveLength(2);
+  });
+});
+
+// ── light mode: a pale accent is darkened just enough (sweep 169) ─────────────────────
+//
+// The accents below are the ones the light-theme census measured under AA when painted
+// through accentInk: #16a34a 3.30 on white, #0d9488 3.74, #0891b2 3.68, #d97706 3.19,
+// #0284c7 4.10, #ea580c 3.56, #e85d04 3.50, #dc2626 4.83 (but 4.04 on its tint).
+describe('inkSafeOnLight', () => {
+  const PALE = [
+    '#16a34a',
+    '#0d9488',
+    '#0891b2',
+    '#d97706',
+    '#0284c7',
+    '#ea580c',
+    '#e85d04',
+    '#dc2626',
+    '#fcd34d',
+    '#fff',
+  ];
+  const DARK_ENOUGH = ['#003da5', '#1d1d1b', '#0f172a', '#166534', 'rgb(29, 29, 27)'];
+
+  it.each(PALE)('%s is darkened to read on white at the target', (c) => {
+    expect(contrastOnWhite(c)!).toBeLessThan(INK_TARGET_ON_WHITE);
+    const out = inkSafeOnLight(c);
+    expect(out).not.toBe(c);
+    expect(contrastOnWhite(out)!).toBeGreaterThanOrEqual(INK_TARGET_ON_WHITE);
+    // ...and not needlessly far: within 0.3 of the target
+    expect(contrastOnWhite(out)!).toBeLessThan(INK_TARGET_ON_WHITE + 0.3);
+  });
+
+  it.each(DARK_ENOUGH)('%s already reads, so it comes back as the SAME string', (c) => {
+    expect(inkSafeOnLight(c)).toBe(c);
+  });
+
+  it('keeps the hue: channels scale together toward black', () => {
+    const out = inkSafeOnLight('#16a34a'); // 22,163,74
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(out.slice(i, i + 2), 16));
+    // the ratios between channels survive the mix (to integer rounding)
+    expect(Math.abs(g! / r! - 163 / 22)).toBeLessThan(0.6);
+    expect(Math.abs(g! / b! - 163 / 74)).toBeLessThan(0.1);
+  });
+
+  it('passes an unparseable colour through unchanged', () => {
+    expect(inkSafeOnLight('rebeccapurple')).toBe('rebeccapurple');
+    expect(inkSafeOnLight('hsl(120 50% 50%)')).toBe('hsl(120 50% 50%)');
+  });
+
+  it('accentInk applies it inside the dark lift, and the lifted result still reads on the card', () => {
+    const out = accentInk('#16a34a');
+    expect(out).toBe(`color-mix(in srgb, ${inkSafeOnLight('#16a34a')}, #fff var(--ink-lift))`);
+    // dark mode: 62% toward white, measured on --card (#1e293b)
+    const base = inkSafeOnLight('#16a34a');
+    const ch = [1, 3, 5].map((i) => parseInt(base.slice(i, i + 2), 16));
+    const lifted = ch.map((v) => Math.round(v * 0.38 + 255 * 0.62));
+    const lum = (rgb: number[]) =>
+      rgb
+        .map((v) => v / 255)
+        .map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4))
+        .reduce((a, c, i) => a + c * [0.2126, 0.7152, 0.0722][i]!, 0);
+    const card = lum([0x1e, 0x29, 0x3b]);
+    expect((lum(lifted) + 0.05) / (card + 0.05)).toBeGreaterThanOrEqual(4.5);
   });
 });

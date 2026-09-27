@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { H, getMistakes, getDueReviews, getSR, getStreak, BADGES } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 import { readingPassagesDone } from '../../lib/appUtils';
 import type { Stats } from '../../types';
 
@@ -31,7 +32,7 @@ function MiniBar({
         <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
           {icon} {label}
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color }}>{value}</div>
+        <div style={{ fontSize: 13, fontWeight: 800, color: accentInk(color) }}>{value}</div>
       </div>
       <div
         style={{
@@ -80,7 +81,7 @@ function StatTile({
       }}
     >
       <div style={{ fontSize: 28, marginBottom: 4 }}>{icon}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
+      <div style={{ fontSize: 22, fontWeight: 800, color: accentInk(color) }}>{value}</div>
       <div style={{ fontSize: 11, color: 'var(--ink-muted)', fontWeight: 600 }}>{label}</div>
     </div>
   );
@@ -126,7 +127,7 @@ function BadgeRow({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#d97706',
+            color: '#92400e',
             background: '#fef3c7',
             borderRadius: 20,
             padding: '2px 8px',
@@ -346,7 +347,7 @@ export default function AnalyticsScreen({
           }}
         >
           <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)' }}>🏅 Badges</div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#d97706' }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-warn)' }}>
             {earnedBadges.size}/{BADGES.length} earned
           </div>
         </div>

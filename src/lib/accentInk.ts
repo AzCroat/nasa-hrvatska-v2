@@ -107,7 +107,7 @@ export function accentInk(
   if (twin) return twin;
   // Any other theme token is already correct in both themes — see the header.
   if (trimmed.startsWith('var(')) return color;
-  const lifted = `color-mix(in srgb, ${color}, #fff var(${INK_LIFT_VAR}))`;
+  const lifted = `color-mix(in srgb, ${inkSafeOnLight(color)}, #fff var(${INK_LIFT_VAR}))`;
   // A FADED ACCENT NEEDS ITS ALPHA INSIDE THE MIX, because `accentInk(c) + '99'` is
   // nonsense — you cannot append two hex digits to a `color-mix()` string. Seven sites
   // fade an accent as ink (`accent + '99'`, `+ '80'`, `+ 'cc'`), and the guard skipped
@@ -120,4 +120,77 @@ export function accentInk(
     return `color-mix(in srgb, ${lifted} ${Math.round(Math.max(0, alpha) * 100)}%, transparent)`;
   }
   return lifted;
+}
+
+// ── LIGHT MODE: A PALE ACCENT IS DARKENED JUST ENOUGH TO READ (2026-09-27) ──────────────
+//
+// The lift above fixes DARK mode and leaves light mode byte-identical on purpose — which
+// also left every accent that is too pale for white exactly as unreadable as it was.
+// Measured over all 430 routes in the light theme (sweep 169): the data accents painted
+// through this function were the largest group left under AA once the status tokens were
+// fixed — `#16a34a` (3.30:1 on white), `#0d9488` 3.74, `#0891b2` 3.68, `#d97706` 3.19, and
+// worse on the ~9% tint of themselves that most of these pills sit on (2.9–3.7).
+//
+// The value arrives as a literal at call time, so its luminance is KNOWABLE here — which is
+// exactly what CSS cannot do. A colour that already clears `INK_TARGET_ON_WHITE` is returned
+// as the SAME STRING (light mode byte-exact, as before); a paler one is mixed toward black in
+// sRGB, which keeps the hue, by the smallest amount that reaches the target. The dark lift is
+// then applied to THAT colour; a colour at the target luminance lifts to ~9:1 on the card, so
+// dark mode stays readable.
+//
+// 5.5, not 4.5, because the text usually sits on a tint of its own colour, not on white:
+// 5.5:1 on white is ~4.6:1 on #ebebeb, the palest tint the census measured.
+// Formats other than hex and rgb()/rgba() (a named colour, hsl()) pass through untouched.
+
+/** The contrast against pure white an accent must reach before it is used as ink. */
+export const INK_TARGET_ON_WHITE = 5.5;
+
+function channelsOf(c: string): [number, number, number] | null {
+  const s = c.trim();
+  let m = /^#([0-9a-f]{3})$/i.exec(s);
+  if (m)
+    return [0, 1, 2].map((i) => parseInt(m![1]![i]! + m![1]![i]!, 16)) as [number, number, number];
+  m = /^#([0-9a-f]{6})(?:[0-9a-f]{2})?$/i.exec(s);
+  if (m)
+    return [0, 2, 4].map((i) => parseInt(m![1]!.slice(i, i + 2), 16)) as [number, number, number];
+  m = /^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,[^)]*)?\)$/i.exec(s);
+  if (m) return [Number(m[1]), Number(m[2]), Number(m[3])];
+  return null;
+}
+
+function luminance([r, g, b]: [number, number, number]): number {
+  const f = (v: number) => {
+    const c = v / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+
+/** Contrast of a colour against white, or null when the format is not one we parse. */
+export function contrastOnWhite(color: string): number | null {
+  const ch = channelsOf(color);
+  return ch ? 1.05 / (luminance(ch) + 0.05) : null;
+}
+
+/**
+ * The colour itself when it already reads on white at `INK_TARGET_ON_WHITE`; otherwise the
+ * same hue mixed toward black by the least amount that does. Unparseable input is returned
+ * unchanged.
+ */
+export function inkSafeOnLight(color: string): string {
+  const ch = channelsOf(color);
+  if (!ch) return color;
+  const maxLum = 1.05 / INK_TARGET_ON_WHITE - 0.05;
+  if (luminance(ch) <= maxLum) return color;
+  let lo = 0;
+  let hi = 1;
+  for (let i = 0; i < 24; i++) {
+    const k = (lo + hi) / 2;
+    const mixed = ch.map((v) => v * (1 - k)) as [number, number, number];
+    if (luminance(mixed) <= maxLum) hi = k;
+    else lo = k;
+  }
+  // Round each channel DOWN so rounding can never put the result back over the line.
+  const out = ch.map((v) => Math.floor(v * (1 - hi)));
+  return '#' + out.map((v) => v.toString(16).padStart(2, '0')).join('');
 }

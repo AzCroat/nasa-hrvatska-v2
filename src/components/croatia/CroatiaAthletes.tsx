@@ -397,7 +397,7 @@ function PlayerCard({ p }: { p: Player }) {
             onClick={() => window.open(p.espn, '_blank', 'noopener,noreferrer')}
             style={{
               padding: '10px 14px',
-              background: '#ff6600',
+              background: '#c2410c', // white on #ff6600 is 2.9:1; on #c2410c 5.2:1
               color: 'white',
               border: 'none',
               borderRadius: 10,

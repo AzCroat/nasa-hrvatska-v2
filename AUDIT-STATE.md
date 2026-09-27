@@ -12598,3 +12598,14 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
 - **Light-theme census, all 430 routes, with the stashed accentInk darkening in the bundle:
   451 elements on 43 routes → 107 on 20**, and the accentInk change produced no new finding.
   It stays stashed until `inkSurfaceAgreement` is re-checked with it applied.
+- **`accentInk` now darkens a pale accent in LIGHT mode, only as far as it needs** (the
+  stashed change, committed after both themes were measured). The literal colour arrives at
+  call time, so its luminance is knowable in JS where CSS cannot branch on it: a colour
+  already at 5.5:1 on white comes back as the SAME string (light mode byte-exact, as before),
+  a paler one is mixed toward black in sRGB — hue kept — to the target; 5.5 because the text
+  usually sits on a ~9% tint of itself (5.5 on white ≈ 4.6 on #ebebeb). The dark lift then
+  applies to that colour. Measured, all 430 routes: LIGHT 451 → 107 elements with no finding
+  attributable to it; DARK on the 43 routes 178 → 164 with zero new, and zero findings
+  anywhere whose ink is an accentInk mix. Analytics' number tiles route through it, its
+  "✓ Earned" chip is a fixed #92400e on its fixed amber chip, "N/M earned" is --ink-warn.
+  Mutation-verified: the darkening disabled fails 10 of accentInk.test.ts's 26.
