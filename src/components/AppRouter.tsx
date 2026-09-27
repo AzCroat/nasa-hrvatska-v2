@@ -452,7 +452,6 @@ const GrammarReader = lazyWithReload(() => import('./learn/GrammarReader'));
 const KaficScreen = lazyWithReload(() => import('./croatia/KaficScreen'));
 const DiasporaNote = lazyWithReload(() => import('./croatia/DiasporaNote'));
 const TiViScreen = lazyWithReload(() => import('./learn/TiViScreen'));
-const GrammarVideos = lazyWithReload(() => import('./learn/GrammarVideos'));
 const LifeEventsScreen = lazyWithReload(() => import('./croatia/LifeEventsScreen'));
 const CivicScreen = lazyWithReload(() => import('./croatia/CivicScreen'));
 const EasterScreen = lazyWithReload(() => import('./croatia/EasterScreen'));
@@ -1538,11 +1537,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'aspect' && (
           <ScreenErrorBoundary key="aspect" name="aspect">
             <AspectScreen goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'grammarvideos' && (
-          <ScreenErrorBoundary key="grammarvideos" name="grammarvideos">
-            <GrammarVideos goBack={goBack} setScr={setScr} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'grammarexplainer' && (

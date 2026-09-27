@@ -327,7 +327,7 @@ export default function SceneExplorer({
               speak(item.hr);
             }}
             style={{
-              background: discovered.has(item.id) ? scene.bg : '#f5f5f4',
+              background: discovered.has(item.id) ? scene.bg : 'var(--surface-mute)',
               border: discovered.has(item.id)
                 ? `1.5px solid ${scene.color}55`
                 : '1.5px solid #e7e5e4',

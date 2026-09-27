@@ -323,25 +323,8 @@ export default function MediaDetailDrawer({
           {hasYT && (
             <div style={{ marginBottom: 16 }}>
               <YouTubeEmbed ytId={item.ytId!} color={item.color} />
-              {item.web && (
-                <button
-                  onClick={() => openUrl(item.web!)}
-                  style={{
-                    marginTop: 10,
-                    width: '100%',
-                    padding: '10px 0',
-                    borderRadius: 10,
-                    border: `1.5px solid ${item.color}50`,
-                    background: 'transparent',
-                    color: accentInk(item.color),
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Open on YouTube →
-                </button>
-              )}
+              {/* No button out to the YouTube site: the video plays here, and the app does not send
+                  learners out to YouTube (owner directive, 2026-09-09 and 2026-09-27). */}
             </div>
           )}
 

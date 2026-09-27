@@ -173,7 +173,6 @@ export const SCREEN_TAB: Record<string, string> = {
   phraseofday: 'croatia',
   maja: 'ai',
   tivicompare: 'learn',
-  grammarvideos: 'learn',
   grammarexplainer: 'learn',
   casetransformer: 'learn',
   vocabscenes: 'learn',

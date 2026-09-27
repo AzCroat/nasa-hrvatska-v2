@@ -130,7 +130,6 @@ const TARGETS = [
   'src/components/home/hostFamily.ts', // 5 Croatian strings, 80% seen
   'src/components/home/SpeedChallenge.tsx', // 4 Croatian strings, 100% seen
   'src/components/learn/GrammarReader.tsx', // 10 Croatian strings, 100% seen
-  'src/components/learn/GrammarVideos.tsx', // 2 Croatian strings, 100% seen
   'src/components/learn/LearnTab.tsx', // 2 Croatian strings, 50% seen
   'src/components/practice/AdaptiveReviewScreen.tsx', // 2 Croatian strings, 100% seen
   'src/components/practice/AspectDrillScreen.tsx', // 7 Croatian strings, 86% seen

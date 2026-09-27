@@ -113,7 +113,10 @@ describe('the unpooled-screen catalogue stays true', () => {
     // The floor is the migration measurement: seven screens had no other door
     // when BrowseContentModal was retired. It may GROW; it must not shrink
     // without someone deciding that a screen should become unreachable.
-    expect(UNPOOLED_SCREENS.length).toBeGreaterThanOrEqual(7);
+    // 7 → 6 (2026-09-27, owner directive "Remove YouTube"): Grammar Videos was a list of
+    // YouTube lessons and searches, and it was DELETED — screen, route and entry — not
+    // left unreachable. That is the decision this floor exists to force.
+    expect(UNPOOLED_SCREENS.length).toBeGreaterThanOrEqual(6);
   });
 
   it('gives every entry a label a learner can act on', () => {

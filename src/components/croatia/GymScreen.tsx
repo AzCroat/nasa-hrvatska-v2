@@ -150,7 +150,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
               <span
                 style={{
                   marginLeft: 6,
-                  background: isActive ? accent + '18' : '#f1f5f9',
+                  background: isActive ? accent + '18' : 'var(--surface-mute)',
                   color: isActive ? accentInk(accent) : 'var(--ink-muted-warm)',
                   fontSize: 10,
                   fontWeight: 700,

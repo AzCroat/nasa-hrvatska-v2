@@ -39,7 +39,6 @@ const OUTSIDE_SESSION: string[] = [
   'grammar_track',
   'grammar_unit_detail',
   'grammarmap',
-  'grammarvideos', // curated YouTube link-out list; no in-screen activity
   'heritage_mode',
   'heritage_path',
   'learnpath',

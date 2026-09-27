@@ -100,7 +100,7 @@ export default function TranslateDrillsScreen({
         <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 8 }}>
           {score}/{drills.length} correct
         </h2>
-        <p style={{ color: 'var(--ink-muted)', marginBottom: 32 }}>
+        <p style={{ color: '#94a3b8', marginBottom: 32 }}>
           {pct >= 80
             ? 'Excellent production!'
             : pct >= 60
@@ -188,9 +188,9 @@ export default function TranslateDrillsScreen({
         </button>
         <div style={{ flex: 1 }}>
           <p style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>Translate Production</p>
-          <p style={{ margin: 0, color: 'var(--ink-muted)', fontSize: 12 }}>English → Croatian</p>
+          <p style={{ margin: 0, color: '#94a3b8', fontSize: 12 }}>English → Croatian</p>
         </div>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)' }}>
+        <span style={{ fontSize: 13, color: '#94a3b8' }}>
           {idx + 1}/{drills.length}
         </span>
       </div>
@@ -251,7 +251,7 @@ export default function TranslateDrillsScreen({
             style={{
               margin: 0,
               fontSize: 13,
-              color: 'var(--ink-muted)',
+              color: '#94a3b8',
               marginBottom: 8,
               textTransform: 'uppercase',
               letterSpacing: '0.08em',
@@ -298,14 +298,10 @@ export default function TranslateDrillsScreen({
               >
                 {opt}
                 {chosen && correct && (
-                  <span style={{ float: 'right', color: 'var(--ink-green)', fontWeight: 700 }}>
-                    ✓
-                  </span>
+                  <span style={{ float: 'right', color: '#4ade80', fontWeight: 700 }}>✓</span>
                 )}
                 {chosen && isSelected && !correct && (
-                  <span style={{ float: 'right', color: 'var(--ink-error)', fontWeight: 700 }}>
-                    ✗
-                  </span>
+                  <span style={{ float: 'right', color: '#f87171', fontWeight: 700 }}>✗</span>
                 )}
               </button>
             );
@@ -316,7 +312,7 @@ export default function TranslateDrillsScreen({
         {chosen && (
           <div style={{ marginTop: 24, textAlign: 'center', width: '100%' }}>
             {!isCorrect && (
-              <p style={{ color: 'var(--ink-muted)', fontSize: 14, marginBottom: 12 }}>
+              <p style={{ color: '#94a3b8', fontSize: 14, marginBottom: 12 }}>
                 Correct: <strong style={{ color: '#f1f5f9' }}>{drill.hr}</strong>
               </p>
             )}

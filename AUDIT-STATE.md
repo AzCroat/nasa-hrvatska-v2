@@ -12551,3 +12551,50 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   text; a data field holding one is rendered through `accentInk`. Mutation-verified, five
   (raw token restored in a real file, `--ink-error` back to #dc2626, `--ink-green` dark
   drifting, the accentInk mapping removed, a CSS rule restored) — each fails 1.
+
+## Sweep 170 — "Remove YouTube": the 2026-09-09 removal reached one page of two (2026-09-27)
+
+- **Owner, 2026-09-27: "However, I believe we removed youTube as we don't want links to
+  competitive alternatives in our application did we not?" — then: "Remove YouTube".** The
+  2026-09-09 removal (#631) was real and was scoped to the MEDIA PAGE; its guard,
+  `mediaLinks.test.ts`, reads the `MEDIA` / `POPCULTURE` data and nothing else. So
+  **Grammar Videos** (`grammarvideos`, Learn tab, the Learning Center's "Watch Grammar
+  Lessons") kept five YouTube links for eighteen days: two playlists of someone else's
+  Croatian lessons, a teacher's channel, a "Find videos ↗" YouTube search on every grammar
+  topic, and a search for **CroatianPod101 — a paid competitor**.
+- **DELETED, not stripped.** Without YouTube the screen had nothing of its own: a topic list
+  linking to drills the course and the Learning Center already reach, under a title
+  promising videos. Screen, route, route key, tab mapping, Learning Center entry, session
+  exemption and lint target all removed. `unpooledScreens`' floor lowered 7 → 6 with the
+  reason — that floor exists to force exactly this decision. CLAUDE.md's lint count 474 → 473.
+- **I recoloured that YouTube button for contrast minutes before the owner asked**, which is
+  making a banned link easier to click. The recolour was never committed (it sat in a stash
+  with the unverified accentInk work) and is gone with the file.
+- **MediaDetailDrawer's "Open on YouTube →" button was DEAD** — it opened `item.web`, and
+  none of the ten embedded entries has one — and is removed. The EMBEDS stay: they play
+  inside the app (`youtube-nocookie.com/embed/`) and are Croatian songs (Oliver, Gibonni,
+  Thompson, Baby Lasagna, Let 3), an HRT documentary, a basketball documentary and
+  children's bedtime stories — not instruction, and #631 kept them deliberately. **Flagged to
+  the owner in case "Remove YouTube" meant these too.**
+- **`noOutboundLessonLinks.test.ts` scans every source file in `src/` and `functions/`**:
+  any youtube.com / youtu.be address except the embed host, the "Open on YouTube" label, and
+  the domains of fourteen language services. Competitor NAMES in code comments ("DuoLingo
+  best practice", eleven of them) are not links and are left alone. Mutation-verified,
+  three: a YouTube `web` link restored in media.js fails 1; the scan narrowed to `src/lib`
+  fails 1; the route restored fails 1.
+- **The general lesson is the one this file keeps finding**: a guard over ONE data file
+  reads exactly like a guard over the app. When an owner directive says "anywhere", scan
+  everywhere.
+- **TWO REGRESSIONS FROM SWEEP 169, FOUND AND FIXED THE SAME HOUR.** (1) The grey-literal
+  pass moved `#94a3b8` onto `--ink-muted` in `TranslateDrillsScreen`, which paints a
+  permanently dark `#0f172a` — so light mode put dark grey on navy (2.8–3.3:1). The full
+  light census over all 430 routes found it as the ONLY three new findings; the greys are
+  back to the fixed `#94a3b8`, and the same commit's ✓/✗ (symbol-only, so invisible to the
+  census) are fixed `#4ade80`/`#f87171`. (2) The same pass put `--ink-muted-warm` inside
+  three tiles painting a fixed light `#f1f5f9`/`#f5f5f4` (Basketball, Gym, SceneExplorer),
+  which `inkSurfaceAgreement` rightly failed — **I had run that guard before adding the
+  greys and not after.** Both halves are themed now (`--surface-mute` + `--ink-muted-warm`).
+  Full unit suite on the tree before this fix: 1 failure in 9,937, that one.
+- **Light-theme census, all 430 routes, with the stashed accentInk darkening in the bundle:
+  451 elements on 43 routes → 107 on 20**, and the accentInk change produced no new finding.
+  It stays stashed until `inkSurfaceAgreement` is re-checked with it applied.

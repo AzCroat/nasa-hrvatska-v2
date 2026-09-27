@@ -138,7 +138,6 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'grammarexplainer',
   'grammarmap',
   'grammarreader',
-  'grammarvideos',
   'grocery',
   'gym',
   'heritage',
