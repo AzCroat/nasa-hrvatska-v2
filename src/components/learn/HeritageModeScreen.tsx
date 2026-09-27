@@ -390,7 +390,7 @@ export default function HeritageModeScreen({
                         borderRadius: 8,
                         border: 'none',
                         cursor: 'pointer',
-                        background: 'var(--success)',
+                        background: 'var(--fill-success)',
                         color: '#fff',
                         fontWeight: 700,
                         fontSize: 11,
@@ -436,7 +436,7 @@ export default function HeritageModeScreen({
             }}
           >
             <div
-              style={{ fontSize: 18, fontWeight: 900, color: 'var(--success)', marginBottom: 6 }}
+              style={{ fontSize: 18, fontWeight: 900, color: 'var(--ink-green)', marginBottom: 6 }}
             >
               You recognised {knownCount} / {HERITAGE_WORDS.length} words
             </div>
@@ -460,7 +460,7 @@ export default function HeritageModeScreen({
                 borderRadius: 12,
                 border: 'none',
                 cursor: 'pointer',
-                background: 'var(--success)',
+                background: 'var(--fill-success)',
                 color: '#fff',
                 fontWeight: 800,
                 fontSize: 14,
@@ -981,7 +981,7 @@ export default function HeritageModeScreen({
                     fontFamily: "'Outfit',sans-serif",
                     border: `1.5px solid ${isSaved ? 'var(--success-b)' : 'var(--card-b)'}`,
                     background: isSaved ? 'var(--success-bg)' : 'var(--bar-bg)',
-                    color: isSaved ? 'var(--success)' : 'var(--subtext)',
+                    color: isSaved ? 'var(--ink-green)' : 'var(--subtext)',
                   }}
                 >
                   {isSaved ? '✓ Saved' : '+ Save'}
@@ -999,7 +999,7 @@ export default function HeritageModeScreen({
               left: '50%',
               transform: 'translateX(-50%)',
               background: 'var(--heading)',
-              color: 'var(--bg)',
+              color: 'var(--card)',
               padding: '10px 20px',
               borderRadius: 24,
               fontSize: 13,

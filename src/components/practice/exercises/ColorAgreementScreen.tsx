@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { COLORAGREE } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function ColorAgreementScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const singQuestions = shMemo('cs', COLORAGREE.singQuiz, undefined);
   const plurQuestions = shMemo('cp', COLORAGREE.plurQuiz, undefined);
   const total = singQuestions.length + plurQuestions.length;
@@ -45,9 +45,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'coloragree', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -64,9 +62,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'coloragree', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -94,8 +90,10 @@ function ColorAgreementScreen({ goBack, award }: Props) {
           <tbody>
             {COLORAGREE.colors.map(function (c2, ci) {
               return (
-                <tr key={ci} style={{ background: ci % 2 ? '#f0fdfa' : 'white' }}>
-                  <td style={{ padding: '4px', fontWeight: 700, color: '#164e63' }}>{c2.en}</td>
+                <tr key={ci} style={{ background: ci % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
+                  <td style={{ padding: '4px', fontWeight: 700, color: 'var(--ink-strong)' }}>
+                    {c2.en}
+                  </td>
                   {[c2.m, c2.f, c2.n, c2.mpl, c2.fpl, c2.npl].map(function (v, vi) {
                     return (
                       <td
@@ -150,12 +148,12 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         singChoices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : singChoices[qi] === o
                             ? o === q.color
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       cursor: singChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: singChoices[qi] !== undefined ? 'none' : 'auto',
@@ -204,12 +202,12 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         plurChoices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : plurChoices[qi] === o
                             ? o === q.color
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       cursor: plurChoices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: plurChoices[qi] !== undefined ? 'none' : 'auto',
@@ -235,7 +233,9 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

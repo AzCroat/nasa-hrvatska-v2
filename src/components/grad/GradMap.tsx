@@ -10,6 +10,7 @@ import {
 } from './gradModel';
 import CharacterPortrait from '../family/CharacterPortrait';
 import GradTownArt from './GradTownArt';
+import { accentInk } from '../../lib/accentInk';
 
 const TEAL = '#0e7490';
 const GOLD = '#C8980A';
@@ -170,7 +171,7 @@ export default function GradMap({
               fontWeight: 800,
               letterSpacing: '.13em',
               textTransform: 'uppercase',
-              color: GOLD,
+              color: accentInk(GOLD),
             }}
           >
             Danas
@@ -271,7 +272,7 @@ export default function GradMap({
                   color: 'var(--heading)',
                 }}
               >
-                {p.name} {mastered ? <span style={{ color: GOLD }}>★</span> : null}
+                {p.name} {mastered ? <span style={{ color: accentInk(GOLD) }}>★</span> : null}
               </span>
               <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)' }}>
                 {p.nameEn}
@@ -285,6 +286,7 @@ export default function GradMap({
                     height: 6,
                     borderRadius: 3,
                     background: '#eee6d6',
+                    color: '#1c1917',
                     marginTop: 7,
                     maxWidth: 150,
                     overflow: 'hidden',

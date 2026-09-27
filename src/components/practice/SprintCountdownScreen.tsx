@@ -20,7 +20,7 @@ export default function SprintCountdownScreen({ countdown }: Props) {
         style={{
           fontSize: 100,
           fontWeight: 900,
-          color: '#d4002d',
+          color: 'var(--ink-error)',
           animation: 'sprint-countdown 0.5s ease-out',
         }}
       >

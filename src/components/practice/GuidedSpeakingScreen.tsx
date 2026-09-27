@@ -78,6 +78,18 @@ export function phraseMatches(heard: string, target: string): boolean {
 }
 
 /** Rotate through the level's units across visits so content does not repeat. */
+/**
+ * The unit this learner is on at `level`. A READ, and only a read (2026-09-27).
+ *
+ * It used to advance the stored pointer as it read, and it is called when the screen
+ * MOUNTS — so opening a unit and backing out skipped it for the whole rotation, and a
+ * learner who backed out of their first unit never met it. The floors in this
+ * curriculum ladder by index on the premise that the rotation is sequential ("unit 0
+ * really is the learner's first"); advancing on open made that premise false for
+ * anyone who looked before committing. The pointer now moves in `advanceSpeakingUnit`, called
+ * from the graded finish — the same place the course coupling is discharged. Found
+ * walking a learner's day in a browser: reopening an abandoned unit served another.
+ */
 export function pickSpeakingUnit(level: string): SpeakingUnit {
   const pool = speakingUnitsForLevel(level as CefrLevel);
   const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
@@ -87,13 +99,19 @@ export function pickSpeakingUnit(level: string): SpeakingUnit {
   } catch {
     /* storage unavailable — first unit */
   }
-  const unit = units[((idx % units.length) + units.length) % units.length]!;
+  return units[((idx % units.length) + units.length) % units.length]!;
+}
+
+/** Move this level's pointer past the unit just FINISHED. Only a graded finish calls it. */
+export function advanceSpeakingUnit(level: string): void {
+  const pool = speakingUnitsForLevel(level as CefrLevel);
+  const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
   try {
+    const idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
     localStorage.setItem(`${UNIT_PTR_KEY}:${level}`, String((idx + 1) % units.length));
   } catch {
     /* storage unavailable — same unit next time */
   }
-  return unit;
 }
 
 export function checklistSatisfied(item: SpeakingChecklistItem, transcript: string): boolean {
@@ -140,7 +158,10 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const recRef = useRef<Recognizer | null>(null);
   const { isOnline } = useOnlineStatus();
 
-  const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(getCurrentContentLevel()));
+  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // The pointer moves once per unit finished, however many times the grade is re-run.
+  const advancedRef = useRef(false);
+  const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(unitLevel));
   const buildItems = unit.build ?? [];
   const [stage, setStage] = useState<Stage>('listen');
   const [showEn, setShowEn] = useState(false);
@@ -366,6 +387,10 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     // the same reason writing_guided and relpron each need this call (see
     // couplingClearingPath.test.ts). Only on the GRADED finish.
     recordScreenPractised('speaking_guided');
+    if (!advancedRef.current) {
+      advancedRef.current = true;
+      advanceSpeakingUnit(unitLevel);
+    }
     if (!finishFired.current) {
       finishFired.current = true;
       award(Math.round(res.data.overall * 10) + 5, false, 'speaking');
@@ -396,7 +421,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
 
   const card: React.CSSProperties = {
     background: 'var(--card, #fff)',
-    border: '1px solid var(--line, #e5e7eb)',
+    border: '1px solid var(--card-b)',
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,
@@ -404,7 +429,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const kicker: React.CSSProperties = {
     fontSize: 12,
     fontWeight: 800,
-    color: '#6b7280',
+    color: 'var(--ink-muted)',
     marginBottom: 8,
   };
 
@@ -435,12 +460,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
         <div
           data-testid="gs-tts-failed"
           style={{
-            background: '#fffbeb',
+            background: 'var(--warning-bg)',
             border: '1px solid #fde68a',
             borderRadius: 10,
             padding: '8px 12px',
             fontSize: 13,
-            color: '#92400e',
+            color: 'var(--ink-warn)',
             marginBottom: 12,
           }}
         >
@@ -453,7 +478,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={card} data-testid="gs-task">
             <div style={kicker}>THE TASK</div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280' }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)' }}>{unit.promptEn}</div>
           </div>
 
           <div style={card} data-testid="gs-model">
@@ -498,7 +523,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 style={{
                   width: '100%',
                   textAlign: 'left',
-                  background: openStructure === i ? '#fef2f2' : '#f9fafb',
+                  background: openStructure === i ? 'var(--error-bg)' : 'var(--surface-mute)',
                   border: '1px solid #e5e7eb',
                   borderRadius: 10,
                   padding: '10px 12px',
@@ -507,9 +532,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 }}
               >
                 <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
-                <div style={{ fontSize: 12, color: '#6b7280' }}>{st.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                 {openStructure === i && (
-                  <div style={{ fontSize: 13, color: '#991b1b', marginTop: 6 }}>{st.why}</div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
+                    {st.why}
+                  </div>
                 )}
               </button>
             ))}
@@ -534,8 +561,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.5, marginBottom: 4 }}>
             {phrase.hr}
           </div>
-          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 8 }}>{phrase.en}</div>
-          <div style={{ fontSize: 13, color: '#991b1b', marginBottom: 12 }}>💡 {phrase.why}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 8 }}>
+            {phrase.en}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--ink-error)', marginBottom: 12 }}>
+            💡 {phrase.why}
+          </div>
 
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
             <button
@@ -559,21 +590,26 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           </div>
 
           {heardPhrase && (
-            <div data-testid="gs-heard" style={{ fontSize: 13, color: '#374151', marginBottom: 8 }}>
+            <div
+              data-testid="gs-heard"
+              style={{ fontSize: 13, color: 'var(--text)', marginBottom: 8 }}
+            >
               Heard: „{heardPhrase}“
             </div>
           )}
           {phraseState === 'right' && (
-            <div style={{ fontSize: 13, color: '#16a34a', marginBottom: 8 }}>Točno! ✓</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-green)', marginBottom: 8 }}>Točno! ✓</div>
           )}
           {phraseState === 'again' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               Not quite what I heard — but the recogniser is not the judge here. Say it once more if
               you like, then move on.
             </div>
           )}
           {micError && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>{micError}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
+              {micError}
+            </div>
           )}
 
           {/* This stage TEACHES — it can always be advanced. */}
@@ -646,7 +682,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           {buildVerdict?.ok && (
             <div
               data-testid="gs-build-right"
-              style={{ fontSize: 14, color: '#16a34a', marginBottom: 8 }}
+              style={{ fontSize: 14, color: 'var(--ink-green)', marginBottom: 8 }}
             >
               Točno! ✓
             </div>
@@ -669,12 +705,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             </div>
           )}
           {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'not-yet' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               Not quite yet — try once more.
             </div>
           )}
           {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'empty' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               I did not catch anything — say it or type it.
             </div>
           )}
@@ -705,7 +741,9 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={card} data-testid="gs-your-turn">
             <div style={kicker}>YOUR TURN</div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 10 }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 10 }}>
+              {unit.promptEn}
+            </div>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
               {unit.usefulPhrases.map((p) => (
@@ -714,7 +752,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                   data-testid="gs-phrase-chip"
                   style={{
                     border: '1px solid #d1d5db',
-                    background: '#f9fafb',
+                    background: 'var(--surface-mute)',
                     borderRadius: 12,
                     padding: '3px 10px',
                     fontSize: 13,
@@ -757,11 +795,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 boxSizing: 'border-box',
               }}
             />
-            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4 }}>
               {wordCount} / {unit.minWords} words
             </div>
             {micError && (
-              <div style={{ fontSize: 13, color: '#b45309', marginTop: 6 }}>{micError}</div>
+              <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginTop: 6 }}>{micError}</div>
             )}
           </div>
 
@@ -778,7 +816,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                     alignItems: 'center',
                     fontSize: 14,
                     marginBottom: 6,
-                    color: done ? '#16a34a' : '#374151',
+                    color: done ? 'var(--ink-green)' : 'var(--text)',
                     fontWeight: done ? 700 : 500,
                   }}
                 >
@@ -793,12 +831,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             <div
               data-testid="gs-coach-failed"
               style={{
-                background: '#fef2f2',
+                background: 'var(--error-bg)',
                 border: '1px solid #fecaca',
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: '#991b1b',
+                color: 'var(--ink-error)',
                 marginBottom: 12,
               }}
             >
@@ -869,13 +907,13 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                   ['Task', coach.scores.task],
                 ] as Array<[string, number]>
               ).map(([label, v]) => (
-                <div key={label} style={{ fontSize: 13, color: '#374151' }}>
+                <div key={label} style={{ fontSize: 13, color: 'var(--text)' }}>
                   {label} <strong>{Math.round(v * 100)}%</strong>
                 </div>
               ))}
             </div>
             {coach.encouragement && (
-              <div style={{ fontSize: 14, color: '#374151', marginTop: 10 }}>
+              <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 10 }}>
                 {coach.encouragement}
               </div>
             )}
@@ -893,11 +931,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               <div style={kicker}>WHAT TO FIX</div>
               {coach.errors.map((e, i) => (
                 <div key={i} style={{ fontSize: 14, marginBottom: 8 }}>
-                  <span style={{ textDecoration: 'line-through', color: '#991b1b' }}>
+                  <span style={{ textDecoration: 'line-through', color: 'var(--ink-error)' }}>
                     {e.original}
                   </span>{' '}
                   → <strong>{e.corrected}</strong>
-                  <div style={{ fontSize: 12, color: '#6b7280' }}>{e.note}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{e.note}</div>
                 </div>
               ))}
             </div>

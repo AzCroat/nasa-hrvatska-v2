@@ -277,7 +277,7 @@ export default function RetentionCheckScreen({ lessons, goBack, award }: Props) 
             marginTop: 14,
             borderRadius: 12,
             padding: '12px 14px',
-            background: isCorrect ? '#f0fdf4' : '#fffbeb',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--warning-bg)',
             border: '1.5px solid ' + (isCorrect ? '#86efac' : '#fcd34d'),
           }}
         >
@@ -285,7 +285,7 @@ export default function RetentionCheckScreen({ lessons, goBack, award }: Props) 
             style={{
               fontSize: 13,
               fontWeight: 900,
-              color: isCorrect ? '#16a34a' : '#b45309',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >

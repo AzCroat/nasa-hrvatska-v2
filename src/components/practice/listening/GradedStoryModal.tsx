@@ -63,7 +63,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
       >
         <div
           style={{
-            background: 'var(--bg)',
+            background: 'var(--card)',
             borderRadius: 16,
             padding: '24px 20px',
             maxWidth: 380,
@@ -121,7 +121,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
           width: '100%',
           maxWidth: 520,
           maxHeight: '90vh',
-          background: 'var(--bg)',
+          background: 'var(--card)',
           borderRadius: '20px 20px 0 0',
           padding: '20px 18px 32px',
           overflowY: 'auto',
@@ -140,7 +140,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
               }}
@@ -281,7 +281,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
                     borderRadius: 12,
                     border: '1.5px solid var(--card-b)',
                     background: 'transparent',
-                    color: 'var(--body)',
+                    color: 'var(--text)',
                     fontSize: 14,
                     fontWeight: 700,
                     cursor: 'pointer',
@@ -377,7 +377,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
                 marginBottom: 12,
@@ -408,14 +408,14 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
                 const correct = story.quiz[quizIdx].correct;
                 let bg = 'var(--card)',
                   border = '1.5px solid var(--card-b)',
-                  color = 'var(--body)';
+                  color = 'var(--text)';
                 if (quizAnswer !== null) {
                   if (idx === correct) {
-                    bg = '#f0fdf4';
+                    bg = 'var(--success-bg)';
                     border = '1.5px solid #bbf7d0';
                     color = '#166534';
                   } else if (idx === quizAnswer) {
-                    bg = '#fff1f2';
+                    bg = 'var(--error-bg)';
                     border = '1.5px solid #fecaca';
                     color = '#b91c1c';
                   }

@@ -37,6 +37,16 @@ interface WritingScreenProps {
 
 // ── Word-count gate ───────────────────────────────────────────────────────────
 export const MIN_WORDS = 30;
+/**
+ * The floor for a prompt at `level`. A1 is 20, the Guided Writing curriculum's own A1
+ * floor; A2 and above keep 30, which already sits inside that curriculum's A2 range
+ * (30–35). One flat 30 asked an A1 learner told to "name three things in your room",
+ * in subject forms only, for more words than the GUIDED A1 units ask — so the only way
+ * to finish was to pad (found walking a learner's day, 2026-09-27).
+ */
+export function minWordsFor(level: string | undefined): number {
+  return level === 'A1' ? 20 : MIN_WORDS;
+}
 
 export function countWords(raw: string): number {
   return raw.trim().split(/\s+/).filter(Boolean).length;
@@ -82,7 +92,9 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       : prompt;
 
   const wordCount = countWords(text);
-  const meetsMinWords = wordCount >= MIN_WORDS;
+  const minWords = minWordsFor(
+    mode === 'free' ? getGenerationCefr(stats) : (prompt.level as string | undefined),
+  );
 
   async function checkWithAI() {
     if (!text.trim() || text.trim().length < 10) {
@@ -155,8 +167,9 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       // the ONLY completion signal was the award() behind the "✨ New Prompt"
       // button (result-gated + ≥30-words gated) — the natural gesture (read
       // feedback → Back) never fired it, permanently pinning the session at
-      // N-1/N (reported 2026-07-16, B2 user, twice). XP/vs credit stays on the
-      // button; only session progression is unblocked here.
+      // N-1/N (reported 2026-07-16, B2 user, twice). That fix unblocked the
+      // session and deliberately left XP/vs on the button — the same defect for
+      // the credit, closed 2026-09-27: the effect on `result` below pays it.
       signalSessionCompleteIfActive('writing');
       // Phase 2 mastery ledger: a graded writing evaluation is strong written-
       // production evidence at the user's practice level (weight 2).
@@ -236,6 +249,34 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       return next >= cur ? next + 1 : next;
     });
   }
+
+  // CREDIT ON REACHING THE GRADED RESULT, not on a button in it (2026-09-27). The
+  // whole payment — XP, the write quest, the `writing` path key and, through award(),
+  // the daily-session slot — used to sit in the results view's "✨ New Prompt" onClick.
+  // A learner who wrote the piece, got it graded, read the feedback and tapped Back
+  // (what "done" looks like) was paid nothing and left the session at N-1/N. The
+  // creditFollowsWork guard could not see it because that button RESETS the screen
+  // rather than navigating away; the effect on the learner is identical. Paid once per
+  // graded piece that met its floor; `newPrompt()` re-arms it for a fresh prompt.
+  const submittedWords = countWords(submittedText);
+  useEffect(() => {
+    if (!result || finishFired.current) return;
+    if (minWords <= 0 || submittedWords < minWords) return;
+    finishFired.current = true;
+    markQuest('write');
+    if (typeof award === 'function') {
+      const sc = result.score ?? 0;
+      award(sc > 0 ? Math.round(sc / 10) + 5 : 5, false, 'writing');
+    }
+    if (!stats.vs?.includes('writing')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('writing')) return prev;
+        return { ...prev, vs: [...(prev.vs || []), 'writing'] };
+      });
+      if (writeDelta) writeDelta({ vs: ['writing'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -487,14 +528,14 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           }}
         >
           <span data-testid="word-count-label" style={{ fontSize: 12, color: 'var(--subtext)' }}>
-            Word count: {wordCount} / {MIN_WORDS}
-            {wordCount > 0 && wordCount < MIN_WORDS && (
-              <span style={{ color: 'var(--error)' }}> (aim for {MIN_WORDS}+)</span>
+            Word count: {wordCount} / {minWords}
+            {wordCount > 0 && wordCount < minWords && (
+              <span style={{ color: 'var(--ink-error)' }}> (aim for {minWords}+)</span>
             )}
-            {wordCount >= MIN_WORDS && wordCount < 80 && (
+            {wordCount >= minWords && wordCount < 80 && (
               <span style={{ color: 'var(--info)' }}> ✓ good start</span>
             )}
-            {wordCount >= 80 && <span style={{ color: 'var(--success)' }}> ✓ great length</span>}
+            {wordCount >= 80 && <span style={{ color: 'var(--ink-green)' }}> ✓ great length</span>}
           </span>
           <button
             style={{
@@ -502,7 +543,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
               border: 'none',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#7c3aed',
+              color: 'var(--ink-mode)',
               fontWeight: 600,
             }}
             onClick={newPrompt}
@@ -510,7 +551,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             🔄 New Prompt
           </button>
         </div>
-        {error && <p style={{ color: 'var(--error)', fontSize: 13, marginTop: 8 }}>{error}</p>}
+        {error && <p style={{ color: 'var(--ink-error)', fontSize: 13, marginTop: 8 }}>{error}</p>}
         <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 10, lineHeight: 1.5 }}>
           🔒 Your text is sent to an AI for grammar feedback. It is not stored or used for training.
         </div>
@@ -630,7 +671,14 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           {/* Strengths */}
           {result.strengths && result.strengths.length > 0 && (
             <div style={{ marginBottom: 16 }}>
-              <p style={{ fontWeight: 700, fontSize: 13, color: '#15803d', marginBottom: 8 }}>
+              <p
+                style={{
+                  fontWeight: 700,
+                  fontSize: 13,
+                  color: 'var(--ink-green)',
+                  marginBottom: 8,
+                }}
+              >
                 ✅ What you did well:
               </p>
               {result.strengths.map((s, i) => (
@@ -670,7 +718,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                 borderRadius: 10,
                 padding: '12px 14px',
                 fontSize: 13,
-                color: '#14532d',
+                color: 'var(--ink-green)',
                 fontWeight: 600,
               }}
             >
@@ -678,52 +726,25 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             </div>
           )}
 
-          {!meetsMinWords && (
+          {submittedWords < minWords && (
             <p
               data-testid="word-count-warning"
               style={{
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontSize: 13,
                 marginTop: 12,
                 marginBottom: 0,
                 textAlign: 'center',
               }}
             >
-              Write at least {MIN_WORDS} words to mark this complete.
+              This piece had {submittedWords} words — write at least {minWords} to have it count.
             </p>
           )}
           <button
             data-testid="new-prompt-btn"
             className="b bp"
-            style={{
-              width: '100%',
-              marginTop: 16,
-              opacity: meetsMinWords ? 1 : 0.45,
-              cursor: meetsMinWords ? 'pointer' : 'not-allowed',
-            }}
-            disabled={!meetsMinWords}
-            onClick={() => {
-              if (!meetsMinWords) {
-                setError(`Write at least ${MIN_WORDS} words to mark this complete.`);
-                return;
-              }
-              if (finishFired.current) return;
-              finishFired.current = true;
-              markQuest('write');
-              if (typeof award === 'function') {
-                const sc = result.score ?? 0;
-                award(sc > 0 ? Math.round(sc / 10) + 5 : 5, false, 'writing');
-              }
-              if (!stats.vs?.includes('writing')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('writing')) return prev;
-                  return { ...prev, vs: [...(prev.vs || []), 'writing'] };
-                });
-                if (writeDelta) writeDelta({ vs: ['writing'] });
-              }
-              setText('');
-              setResult(null);
-            }}
+            style={{ width: '100%', marginTop: 16 }}
+            onClick={newPrompt}
           >
             ✨ New Prompt
           </button>

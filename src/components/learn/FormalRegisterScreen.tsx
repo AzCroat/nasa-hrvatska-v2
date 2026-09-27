@@ -4,6 +4,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
 import { completeLesson } from '../../hooks/useLessonCompletion';
 import { LESSON_PASS_THRESHOLD, itemsNeededToPass } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 interface QuizQuestion {
   q: string;
@@ -148,7 +149,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -256,7 +257,14 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                   borderLeft: '4px solid ' + color,
                 }}
               >
-                <div style={{ fontSize: 16, fontWeight: 800, color: color, marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 800,
+                    color: accentInk(color),
+                    marginBottom: 8,
+                  }}
+                >
                   {r.icon} {r.rule}
                 </div>
                 {r.examples.map(function (ex, ei) {
@@ -265,7 +273,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={ei}
                       style={{
                         fontSize: 13,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         lineHeight: 1.6,
                         paddingLeft: 8,
                         borderLeft: '2px solid ' + color + '44',
@@ -287,7 +295,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
-                <tr style={{ background: '#f1f5f9' }}>
+                <tr style={{ background: 'var(--surface-mute)' }}>
                   {['Situation', 'ti (informal)', 'Vi (formal)'].map((h) => (
                     <th
                       key={h}
@@ -295,7 +303,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         padding: '8px 10px',
                         textAlign: 'left',
                         fontWeight: 700,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         fontSize: 12,
                       }}
                     >
@@ -311,10 +319,16 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : '#fafaf9',
+                        background: i % 2 === 0 ? 'var(--card)' : 'var(--surface-mute)',
                       }}
                     >
-                      <td style={{ padding: '8px 10px', color: '#78716c', fontSize: 12 }}>
+                      <td
+                        style={{
+                          padding: '8px 10px',
+                          color: 'var(--ink-muted-warm)',
+                          fontSize: 12,
+                        }}
+                      >
                         {row.situation}
                       </td>
                       <td style={{ padding: '8px 10px' }}>
@@ -327,7 +341,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                               cursor: 'pointer',
                               fontFamily: "'Outfit',sans-serif",
                               fontWeight: 600,
-                              color: '#0e7490',
+                              color: 'var(--ink-accent)',
                               fontSize: 13,
                               padding: 0,
                               textAlign: 'left',
@@ -349,7 +363,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                             cursor: 'pointer',
                             fontFamily: "'Outfit',sans-serif",
                             fontWeight: 700,
-                            color: '#7c3aed',
+                            color: 'var(--ink-mode)',
                             fontSize: 13,
                             padding: 0,
                             textAlign: 'left',
@@ -377,7 +391,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(124,58,237,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#4c1d95',
+              color: 'var(--ink-mode)',
               lineHeight: 1.6,
             }}
           >
@@ -387,7 +401,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
-                <tr style={{ background: '#f1f5f9' }}>
+                <tr style={{ background: 'var(--surface-mute)' }}>
                   {['', 'biti', 'imati', 'ići', 'moći', 'htjeti', 'govoriti'].map((h) => (
                     <th
                       key={h}
@@ -395,7 +409,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         padding: '8px',
                         textAlign: 'left',
                         fontWeight: 700,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         fontSize: 11,
                       }}
                     >
@@ -411,14 +425,14 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : '#f8f4ff',
+                        background: i % 2 === 0 ? 'var(--card)' : 'var(--mode-bg)',
                       }}
                     >
                       <td
                         style={{
                           padding: '10px 8px',
                           fontWeight: 800,
-                          color: i === 0 ? '#0e7490' : '#7c3aed',
+                          color: i === 0 ? 'var(--ink-accent)' : 'var(--ink-mode)',
                           fontSize: 14,
                         }}
                       >
@@ -463,7 +477,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -485,11 +499,13 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 11, color: '#78716c', marginBottom: 3 }}>{p.label}</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 3 }}>
+                  {p.label}
+                </div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#16a34a', marginTop: 2 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-green)', marginTop: 2 }}>{p.en}</div>
               </button>
             );
           })}

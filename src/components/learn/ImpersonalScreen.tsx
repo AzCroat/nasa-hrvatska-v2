@@ -138,7 +138,7 @@ function QuizBlock({
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -232,7 +232,7 @@ function ImpersonalScreen({
                 key={i}
                 style={{
                   marginBottom: 12,
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid rgba(0,0,0,.07)',
                   overflow: 'hidden',
@@ -259,16 +259,25 @@ function ImpersonalScreen({
                       alignItems: 'baseline',
                     }}
                   >
-                    <span style={{ fontSize: 17, fontWeight: 800, color: '#0e7490' }}>
+                    <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink-accent)' }}>
                       {c.hr} <span aria-hidden="true">🔊</span>
                     </span>
-                    <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>{c.en}</span>
+                    <span style={{ fontSize: 13, color: 'var(--ink-green)', fontWeight: 600 }}>
+                      {c.en}
+                    </span>
                   </div>
                 </button>
                 <div
                   style={{ padding: '0 16px 12px', borderTop: '1px solid #f3f4f6', paddingTop: 8 }}
                 >
-                  <div style={{ fontSize: 12, color: '#78716c', lineHeight: 1.5, marginBottom: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-muted-warm)',
+                      lineHeight: 1.5,
+                      marginBottom: 6,
+                    }}
+                  >
                     {c.note}
                   </div>
                   <button
@@ -280,7 +289,7 @@ function ImpersonalScreen({
                       padding: '6px 12px',
                       fontSize: 13,
                       fontWeight: 600,
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       cursor: 'pointer',
                       fontFamily: "'Outfit',sans-serif",
                     }}
@@ -304,7 +313,7 @@ function ImpersonalScreen({
               background: 'rgba(14,116,144,.07)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -320,7 +329,7 @@ function ImpersonalScreen({
                     padding: '14px 12px',
                     borderRadius: 14,
                     border: '2px solid #e2e8f0',
-                    background: 'white',
+                    background: 'var(--card)',
                     cursor: 'pointer',
                     textAlign: 'center',
                     fontFamily: "'Outfit',sans-serif",
@@ -332,13 +341,15 @@ function ImpersonalScreen({
                     style={{
                       fontSize: 14,
                       fontWeight: 800,
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       letterSpacing: '.03em',
                     }}
                   >
                     {s.sign}
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginTop: 4 }}>{s.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
+                    {s.en}
+                  </div>
                 </button>
               );
             })}

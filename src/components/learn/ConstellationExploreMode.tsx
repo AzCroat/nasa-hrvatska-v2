@@ -43,7 +43,14 @@ export default function ConstellationExploreMode({
         </h1>
       </div>
 
-      <p style={{ color: '#94a3b8', fontSize: 14, margin: '0 0 18px 50px', lineHeight: 1.5 }}>
+      <p
+        style={{
+          color: '#94a3b8',
+          fontSize: 14,
+          margin: '0 0 18px 50px',
+          lineHeight: 1.5,
+        }}
+      >
         Croatian has 7 cases. Each one answers a different question. Tap a card to explore it.
       </p>
 

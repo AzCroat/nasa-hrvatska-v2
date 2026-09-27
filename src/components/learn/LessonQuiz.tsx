@@ -75,7 +75,7 @@ export default function LessonQuiz({
           <div style={{ fontSize: 22, fontWeight: 800 }}>
             {score}/{total} · {pct}%
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', margin: '8px 0 20px' }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', margin: '8px 0 20px' }}>
             {passed
               ? 'Passed — lesson complete!'
               : `Not passed — need ${itemsNeededToPass(total)} of ${total}. Review and try again.`}

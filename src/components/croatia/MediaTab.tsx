@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
+import { accentInk } from '../../lib/accentInk';
 
 interface MediaItem {
   name: string;
@@ -693,7 +694,7 @@ export default function MediaTab() {
               style={{
                 fontSize: 11,
                 fontWeight: 900,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
               }}
@@ -887,7 +888,7 @@ export default function MediaTab() {
                         style={{
                           fontSize: 11,
                           fontWeight: 800,
-                          color: meta.accent,
+                          color: accentInk(meta.accent),
                           fontStyle: 'italic',
                         }}
                       >
@@ -941,12 +942,12 @@ export default function MediaTab() {
                         padding: 12,
                       }}
                     >
-                      <span style={{ fontSize: 22, color: meta.accent }}>›</span>
+                      <span style={{ fontSize: 22, color: accentInk(meta.accent) }}>›</span>
                       <span
                         style={{
                           fontSize: 10,
                           fontWeight: 800,
-                          color: meta.accent,
+                          color: accentInk(meta.accent),
                           textAlign: 'center',
                           lineHeight: 1.3,
                         }}
@@ -983,7 +984,7 @@ export default function MediaTab() {
                     borderRadius: 10,
                     border: `1px solid ${meta.accent}30`,
                     background: 'transparent',
-                    color: meta.accent,
+                    color: accentInk(meta.accent),
                     fontSize: 12,
                     fontWeight: 700,
                     cursor: 'pointer',

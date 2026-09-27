@@ -283,7 +283,7 @@ export default function GradTab({
                 fontWeight: 900,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
-                color: '#c2410c',
+                color: 'var(--ink-warn)',
               }}
             >
               u grad
@@ -442,7 +442,7 @@ export default function GradTab({
           {launchError && (
             <p
               data-testid="grad-launch-error"
-              style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '8px 2px 0' }}
+              style={{ fontSize: 12, color: 'var(--ink-red)', margin: '8px 2px 0' }}
             >
               {launchError}
             </p>
@@ -588,7 +588,7 @@ export default function GradTab({
                     fontWeight: 700,
                     // #6b4e0a clears WCAG AA (>=4.5:1) on the gold-tinted pill;
                     // the lighter #9a7407 measured 3.81:1 (axe serious).
-                    color: recommended ? '#6b4e0a' : 'var(--subtext)',
+                    color: recommended ? 'var(--ink-warn)' : 'var(--subtext)',
                     background: recommended ? 'rgba(200,152,10,.14)' : 'transparent',
                     borderRadius: 8,
                     padding: recommended ? '2px 8px' : 0,

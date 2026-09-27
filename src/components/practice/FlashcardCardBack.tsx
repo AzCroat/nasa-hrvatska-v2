@@ -1,6 +1,7 @@
 import React from 'react';
 import { speak } from '../../lib/audio.js';
 import { getMemoryHook } from '../../lib/memoryHooks.js';
+import { accentInk } from '../../lib/accentInk';
 
 // Converts Croatian text to a simple English phonetic approximation.
 function getPronunciation(word: string) {
@@ -211,7 +212,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
             style={{
               fontSize: 12,
               fontStyle: 'italic',
-              color: 'var(--body)',
+              color: 'var(--text)',
               margin: 0,
               lineHeight: 1.5,
             }}
@@ -241,7 +242,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
           >
             Verb forms
           </div>
-          <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--body)', lineHeight: 1.5 }}>
+          <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.5 }}>
             {tip.hr}
           </div>
           <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{tip.en}</div>
@@ -272,7 +273,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
                   padding: '4px 12px',
                   fontSize: 12,
                   fontWeight: 700,
-                  color: genderColor,
+                  color: accentInk(genderColor),
                 }}
               >
                 {tip.gender} {tip.en}
@@ -297,7 +298,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
             style={{
               fontSize: 10,
               fontWeight: 800,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               textTransform: 'uppercase',
               letterSpacing: '0.08em',
               marginBottom: 6,
@@ -338,7 +339,14 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
                 {aiSentence.en}
               </div>
               {aiSentence.note && (
-                <div style={{ fontSize: 11, color: '#0e7490', marginTop: 4, fontWeight: 600 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-accent)',
+                    marginTop: 4,
+                    fontWeight: 600,
+                  }}
+                >
                   📌 {aiSentence.note}
                 </div>
               )}

@@ -187,11 +187,11 @@ export default function TensesScreen({
                 padding: '8px 20px',
                 borderRadius: 12,
                 border: '2px solid ' + (tnGender === 'm' ? '#0e7490' : '#e7e5e4'),
-                background: tnGender === 'm' ? 'rgba(14,116,144,.08)' : 'white',
+                background: tnGender === 'm' ? 'rgba(14,116,144,.08)' : 'var(--card)',
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
-                color: tnGender === 'm' ? '#0e7490' : '#78716c',
+                color: tnGender === 'm' ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               }}
               onClick={() => setTnGender('m')}
             >
@@ -202,11 +202,11 @@ export default function TensesScreen({
                 padding: '8px 20px',
                 borderRadius: 12,
                 border: '2px solid ' + (tnGender === 'f' ? '#dc2626' : '#e7e5e4'),
-                background: tnGender === 'f' ? 'rgba(220,38,38,.06)' : 'white',
+                background: tnGender === 'f' ? 'rgba(220,38,38,.06)' : 'var(--card)',
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
-                color: tnGender === 'f' ? '#dc2626' : '#78716c',
+                color: tnGender === 'f' ? 'var(--ink-error)' : 'var(--ink-muted-warm)',
               }}
               onClick={() => setTnGender('f')}
             >
@@ -312,7 +312,7 @@ export default function TensesScreen({
                             style={{
                               borderBottom: '1px solid #f3f4f6',
                               cursor: 'pointer',
-                              background: isSpeaker ? 'rgba(14,116,144,.03)' : 'white',
+                              background: isSpeaker ? 'rgba(14,116,144,.03)' : 'var(--card)',
                             }}
                             onClick={() => speak((TENSES.persons[fi] ?? '') + ' ' + f)}
                             onKeyDown={(e) => {
@@ -326,7 +326,7 @@ export default function TensesScreen({
                               style={{
                                 padding: '10px 14px',
                                 fontWeight: 700,
-                                color: '#7c3aed',
+                                color: 'var(--ink-mode)',
                                 width: '20%',
                                 fontSize: 14,
                               }}
@@ -341,14 +341,20 @@ export default function TensesScreen({
                                 color:
                                   fi <= 1 || fi === 4 || fi === 5
                                     ? tnGender === 'm'
-                                      ? '#0e7490'
-                                      : '#dc2626'
-                                    : '#44403c',
+                                      ? 'var(--ink-accent)'
+                                      : 'var(--ink-error)'
+                                    : 'var(--ink-body)',
                               }}
                             >
                               {f} <span aria-hidden="true">🔊</span>
                             </td>
-                            <td style={{ padding: '10px 14px', fontSize: 11, color: '#a8a29e' }}>
+                            <td
+                              style={{
+                                padding: '10px 14px',
+                                fontSize: 11,
+                                color: 'var(--ink-muted-warm)',
+                              }}
+                            >
                               {TENSES.personsEn[fi]}
                             </td>
                           </tr>
@@ -360,9 +366,13 @@ export default function TensesScreen({
                 {v.note && (
                   <div
                     className="c"
-                    style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb', marginTop: 8 }}
+                    style={{
+                      borderLeft: '4px solid #f59e0b',
+                      background: 'var(--warning-bg)',
+                      marginTop: 8,
+                    }}
                   >
-                    <div style={{ fontSize: 13, color: '#92400e' }}>💡 {v.note}</div>
+                    <div style={{ fontSize: 13, color: 'var(--ink-warn)' }}>💡 {v.note}</div>
                   </div>
                 )}
                 {tnTense === 'past' && (
@@ -370,12 +380,17 @@ export default function TensesScreen({
                     className="c"
                     style={{
                       marginTop: 12,
-                      background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+                      background: 'var(--grad-violet)',
                       borderLeft: '4px solid #7c3aed',
                     }}
                   >
                     <div
-                      style={{ fontSize: 13, fontWeight: 800, color: '#7c3aed', marginBottom: 8 }}
+                      style={{
+                        fontSize: 13,
+                        fontWeight: 800,
+                        color: 'var(--ink-mode)',
+                        marginBottom: 8,
+                      }}
                     >
                       ♂️ vs ♀️ Gender Comparison (ja + {v.inf})
                     </div>
@@ -393,7 +408,7 @@ export default function TensesScreen({
                           }
                         }}
                       >
-                        <div style={{ fontSize: 12, fontWeight: 700, color: '#0e7490' }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-accent)' }}>
                           👨 Male:
                         </div>
                         <div style={{ fontSize: 16, fontWeight: 800 }}>
@@ -413,7 +428,7 @@ export default function TensesScreen({
                           }
                         }}
                       >
-                        <div style={{ fontSize: 12, fontWeight: 700, color: '#dc2626' }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-error)' }}>
                           👩 Female:
                         </div>
                         <div style={{ fontSize: 16, fontWeight: 800 }}>
@@ -433,9 +448,13 @@ export default function TensesScreen({
         <React.Fragment>
           <div
             className="c"
-            style={{ marginBottom: 16, borderLeft: '4px solid #dc2626', background: '#fef2f2' }}
+            style={{
+              marginBottom: 16,
+              borderLeft: '4px solid #dc2626',
+              background: 'var(--error-bg)',
+            }}
           >
-            <div style={{ fontSize: 15, fontWeight: 800, color: '#dc2626' }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-error)' }}>
               Why Gender Matters
             </div>
             <div style={{ fontSize: 14, marginTop: 6, lineHeight: 1.7 }}>
@@ -447,8 +466,12 @@ export default function TensesScreen({
           </div>
           {TENSES.genderRules.map((r, i) => (
             <div key={i} className="c" style={{ marginBottom: 10 }}>
-              <div style={{ fontSize: 14, fontWeight: 800, color: '#164e63' }}>{r.rule}</div>
-              <div style={{ fontSize: 13, color: '#44403c', marginTop: 4, lineHeight: 1.6 }}>
+              <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-strong)' }}>
+                {r.rule}
+              </div>
+              <div
+                style={{ fontSize: 13, color: 'var(--ink-body)', marginTop: 4, lineHeight: 1.6 }}
+              >
                 {r.desc}
               </div>
             </div>
@@ -465,13 +488,13 @@ export default function TensesScreen({
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   Tense Quiz Complete!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
                   {tnS} / {total}
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', margin: '8px 0 4px' }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', margin: '8px 0 4px' }}>
                   {tnS / total >= LESSON_PASS_THRESHOLD
                     ? 'Passed — lesson complete!'
                     : `Not passed — need ${itemsNeededToPass(total)} of ${total}. Re-enter to try again.`}
@@ -489,7 +512,7 @@ export default function TensesScreen({
                 <span style={{ fontSize: 14, fontWeight: 700 }}>
                   {tnI + 1} / {total}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
                   Score: {tnS}
                 </span>
               </div>
@@ -505,6 +528,9 @@ export default function TensesScreen({
                           : q.tense === 'past'
                             ? '#fef3c7'
                             : '#dcfce7',
+                      // Three FIXED pale chips, so a FIXED dark ink: the pair reads the same
+                      // in both themes. Without it the text inherited the theme's near-white.
+                      color: '#1c1917',
                       borderRadius: 10,
                       fontSize: 12,
                       fontWeight: 700,
@@ -519,16 +545,23 @@ export default function TensesScreen({
                       borderRadius: 10,
                       fontSize: 12,
                       fontWeight: 700,
-                      color: q.gender === 'm' ? '#0e7490' : '#dc2626',
+                      color: q.gender === 'm' ? 'var(--ink-accent)' : 'var(--ink-error)',
                     }}
                   >
                     {q.gender === 'm' ? '👨 Male' : '👩 Female'}
                   </span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c' }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>
                   Conjugate: <b>{q.verb}</b> ({q.en})
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: '#164e63', marginTop: 8 }}>
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 800,
+                    color: 'var(--ink-strong)',
+                    marginTop: 8,
+                  }}
+                >
                   {q.person} + {q.verb} = ?
                 </div>
               </div>
@@ -536,23 +569,9 @@ export default function TensesScreen({
                 {tnO.map((o, oi) => (
                   <button
                     key={oi}
-                    className="ob"
-                    style={{
-                      background: tnA
-                        ? o === q.answer
-                          ? '#dcfce7'
-                          : tnSl === oi
-                            ? '#fee2e2'
-                            : 'white'
-                        : 'white',
-                      borderColor: tnA
-                        ? o === q.answer
-                          ? '#16a34a'
-                          : tnSl === oi
-                            ? '#dc2626'
-                            : 'rgba(14,116,144,.12)'
-                        : 'rgba(14,116,144,.12)',
-                    }}
+                    className={
+                      'ob' + (tnA ? (o === q.answer ? ' ok' : tnSl === oi ? ' no' : '') : '')
+                    }
                     onClick={() => {
                       if (!tnA) {
                         setTnSl(oi);

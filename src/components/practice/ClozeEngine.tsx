@@ -748,8 +748,8 @@ export default function ClozeEngine({ goBack, award }: Props) {
           padding: '2px 10px',
           borderRadius: 8,
           fontWeight: 900,
-          background: isCorrect ? '#dcfce7' : '#fee2e2',
-          color: isCorrect ? '#166534' : '#991b1b',
+          background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
+          color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
           display: 'inline-block',
         }}
       >
@@ -763,7 +763,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
           borderBottom: '2px solid #0e7490',
           margin: '0 4px',
           textAlign: 'center',
-          color: '#0e7490',
+          color: 'var(--ink-accent)',
           fontWeight: 700,
         }}
       >
@@ -886,7 +886,9 @@ export default function ClozeEngine({ goBack, award }: Props) {
           {qi + 1} / {questions.length}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 12, color: '#16a34a', fontWeight: 700 }}>✓ {score} correct</div>
+          <div style={{ fontSize: 12, color: 'var(--ink-green)', fontWeight: 700 }}>
+            ✓ {score} correct
+          </div>
           <button
             onClick={() => {
               setTypingMode((t) => !t);
@@ -993,7 +995,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
             border: 'none',
             cursor: 'pointer',
             fontSize: 12,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             fontWeight: 700,
             fontFamily: "'Outfit',sans-serif",
             marginBottom: 8,
@@ -1013,14 +1015,14 @@ export default function ClozeEngine({ goBack, award }: Props) {
                 : ''
           }
           style={{
-            background: isCorrect ? '#f0fdf4' : '#fff1f2',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
             border: `1.5px solid ${isCorrect ? '#86efac' : '#fca5a5'}`,
             borderRadius: 12,
             padding: '10px 14px',
             marginBottom: !isCorrect ? 8 : 12,
             fontSize: 12,
             fontWeight: 700,
-            color: isCorrect ? '#166534' : '#991b1b',
+            color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
           }}
         >
           {isCorrect ? '✓ Correct! ' : `✗ The answer was "${q.blank}". `}
@@ -1037,8 +1039,8 @@ export default function ClozeEngine({ goBack, award }: Props) {
             padding: '8px',
             borderRadius: 10,
             border: '1.5px solid #bae6fd',
-            background: '#f0f9ff',
-            color: '#0369a1',
+            background: 'var(--info-bg)',
+            color: 'var(--ink-info)',
             fontWeight: 700,
             fontSize: 12,
             cursor: 'pointer',
@@ -1053,11 +1055,11 @@ export default function ClozeEngine({ goBack, award }: Props) {
           style={{
             padding: '10px 14px',
             borderRadius: 10,
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             border: '1.5px solid #bae6fd',
             marginBottom: 12,
             fontSize: 12,
-            color: '#0369a1',
+            color: 'var(--ink-info)',
             fontWeight: 600,
           }}
         >
@@ -1069,7 +1071,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
           style={{
             padding: '12px 14px',
             borderRadius: 12,
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             border: '1.5px solid #bae6fd',
             marginBottom: 12,
           }}
@@ -1079,7 +1081,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#0369a1',
+                color: 'var(--ink-info)',
                 marginBottom: 4,
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
@@ -1102,7 +1104,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
             <div
               style={{
                 fontSize: 12,
-                color: '#0369a1',
+                color: 'var(--ink-info)',
                 fontStyle: 'italic',
                 borderTop: '1px solid #bae6fd',
                 paddingTop: 6,
@@ -1168,7 +1170,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
                   marginTop: 12,
                   padding: '14px 16px',
                   borderRadius: 12,
-                  background: '#f0f9ff',
+                  background: 'var(--info-bg)',
                   border: '1.5px solid #bae6fd',
                   textAlign: 'center',
                 }}
@@ -1187,7 +1189,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
                   style={{
                     fontSize: 22,
                     fontWeight: 900,
-                    color: '#0e7490',
+                    color: 'var(--ink-accent)',
                     fontFamily: "'Playfair Display',serif",
                   }}
                 >
@@ -1205,11 +1207,11 @@ export default function ClozeEngine({ goBack, award }: Props) {
               color = 'var(--heading)';
             if (isAnswered) {
               if (opt === q.blank) {
-                bg = '#dcfce7';
+                bg = 'var(--success-bg-strong)';
                 border = '#86efac';
                 color = '#166534';
               } else if (opt === selected) {
-                bg = '#fee2e2';
+                bg = 'var(--error-bg-strong)';
                 border = '#fca5a5';
                 color = '#991b1b';
               }

@@ -94,7 +94,7 @@ const TIP_BOX = ({ text }: { text: string }) => (
       padding: '10px 14px',
       marginBottom: 16,
       fontSize: 12,
-      color: '#44403c',
+      color: 'var(--ink-body)',
       lineHeight: 1.6,
     }}
   >
@@ -117,7 +117,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -125,7 +125,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -174,7 +174,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i]!] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
               }}
             >
@@ -229,7 +229,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               <div
                 key={i}
                 style={{
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 12,
                   padding: '10px 12px',
                   border: '1px solid rgba(0,0,0,.06)',
@@ -242,11 +242,18 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               >
                 <div style={{ fontSize: 22, flexShrink: 0 }}>{v.icon}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0891b2' }}>{v.hr}</div>
-                  <div style={{ fontSize: 11, color: '#78716c' }}>{v.en}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                    {v.hr}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
                   {v.note && (
                     <div
-                      style={{ fontSize: 10, color: '#0369a1', fontStyle: 'italic', marginTop: 1 }}
+                      style={{
+                        fontSize: 10,
+                        color: 'var(--ink-info)',
+                        fontStyle: 'italic',
+                        marginTop: 1,
+                      }}
                     >
                       {v.note}
                     </div>
@@ -255,14 +262,16 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               </div>
             ))}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 10 }}
+          >
             Opposites
           </div>
           {d.adjectives.map((a: any, i: number) => (
             <div
               key={i}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 10,
                 padding: '10px 14px',
                 marginBottom: 6,
@@ -274,22 +283,22 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
             >
               <div style={{ flex: 1 }}>
                 <span
-                  style={{ fontWeight: 700, color: '#0891b2', cursor: 'pointer' }}
+                  style={{ fontWeight: 700, color: 'var(--ink-accent)', cursor: 'pointer' }}
                   {...clickable(() => speak(a.hr), 'Hear ' + a.hr)}
                 >
                   {a.hr}
                 </span>{' '}
-                <span style={{ color: '#78716c', fontSize: 12 }}>— {a.en}</span>
+                <span style={{ color: 'var(--ink-muted-warm)', fontSize: 12 }}>— {a.en}</span>
               </div>
               <div style={{ color: '#d1d5db' }}>⟷</div>
               <div style={{ flex: 1 }}>
                 <span
-                  style={{ fontWeight: 700, color: '#0891b2', cursor: 'pointer' }}
+                  style={{ fontWeight: 700, color: 'var(--ink-accent)', cursor: 'pointer' }}
                   {...clickable(() => speak(a.hr2), 'Hear ' + a.hr2)}
                 >
                   {a.hr2}
                 </span>{' '}
-                <span style={{ color: '#78716c', fontSize: 12 }}>— {a.en2}</span>
+                <span style={{ color: 'var(--ink-muted-warm)', fontSize: 12 }}>— {a.en2}</span>
               </div>
             </div>
           ))}
@@ -302,7 +311,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
             <div
               key={i}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 14,
                 padding: '16px',
                 marginBottom: 12,
@@ -315,14 +324,16 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
                 <div style={{ fontSize: 36 }}>{s.icon}</div>
                 <div>
-                  <div style={{ fontSize: 17, fontWeight: 900, color: '#0891b2' }}>{s.hr}</div>
-                  <div style={{ fontSize: 13, color: '#78716c' }}>{s.en}</div>
+                  <div style={{ fontSize: 17, fontWeight: 900, color: 'var(--ink-accent)' }}>
+                    {s.hr}
+                  </div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{s.en}</div>
                 </div>
               </div>
-              <div style={{ fontSize: 11, color: '#44403c', marginBottom: 4 }}>
+              <div style={{ fontSize: 11, color: 'var(--ink-body)', marginBottom: 4 }}>
                 <strong>Adjective:</strong> {s.adj}
               </div>
-              <div style={{ fontSize: 11, color: '#44403c' }}>
+              <div style={{ fontSize: 11, color: 'var(--ink-body)' }}>
                 <strong>Months:</strong> {s.months}
               </div>
             </div>
@@ -339,7 +350,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
               tabIndex={0}
               aria-label={`Play audio: ${p.hr} — ${p.en}`}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 12,
                 padding: '12px 16px',
                 marginBottom: 8,
@@ -361,8 +372,10 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
                 🔊
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0891b2' }}>{p.hr}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{p.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                  {p.hr}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             </div>
           ))}

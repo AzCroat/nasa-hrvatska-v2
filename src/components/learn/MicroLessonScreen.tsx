@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, speak, getMistakes } from '../../data';
 import { useStats } from '../../context/StatsContext';
-import { markQuest } from '../../lib/quests.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { passedLesson, LESSON_PASS_THRESHOLD } from '../../lib/lessonGate';
@@ -44,7 +44,7 @@ function HighlightedSentence({ text, highlight }: { text: string; highlight?: st
   return (
     <>
       {text.slice(0, idx)}
-      <span style={{ color: '#0e7490', fontWeight: 800 }}>
+      <span style={{ color: 'var(--ink-accent)', fontWeight: 800 }}>
         {text.slice(idx, idx + highlight.length)}
       </span>
       {text.slice(idx + highlight.length)}
@@ -104,7 +104,7 @@ export default function MicroLessonScreen({
   award?: (pts: number, celebrate?: boolean, activityType?: string) => void;
   goFlashcards?: () => void;
 }) {
-  const { level, setStats, writeDelta } = useStats();
+  const { stats, level, setStats, writeDelta } = useStats();
   const [phase, setPhase] = useState('loading'); // loading | error | intro | quiz | results
   const [lesson, setLesson] = useState<MicroLesson | null>(null);
   const [weakWords, setWeakWords] = useState<WeakWord[]>([]);
@@ -159,11 +159,12 @@ export default function MicroLessonScreen({
       if (!passedLesson(correctCount, total)) return;
       const xpEarned = 10 + correctCount * 5;
       awardFn(xpEarned);
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'micro_lesson', xp: 0, stats, setStats, writeDelta });
     }
-  }, [phase, lesson, correctCount, awardFn, setStats, writeDelta]);
+    // `stats` is a dependency because the authority reads `stats.vs` to decide whether this
+    // completion has already been credited — a stale closure would see an older `vs` and
+    // could credit twice. Re-running is harmless: `xpFiredRef` gates the whole body.
+  }, [phase, lesson, correctCount, awardFn, stats, setStats, writeDelta]);
 
   // ── Fetch lesson ─────────────────────────────────────────────────────────────
   const fetchLesson = useCallback(async () => {
@@ -315,8 +316,8 @@ export default function MicroLessonScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      color: '#dc2626',
-                      background: '#fef2f2',
+                      color: 'var(--ink-error)',
+                      background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,
                       padding: '2px 9px',
@@ -472,7 +473,7 @@ export default function MicroLessonScreen({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 letterSpacing: '.08em',
                 textTransform: 'uppercase',
               }}
@@ -552,7 +553,7 @@ export default function MicroLessonScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       marginTop: 1,
                     }}
                   >
@@ -589,8 +590,8 @@ export default function MicroLessonScreen({
                       display: 'inline-block',
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#b45309',
-                      background: '#fffbeb',
+                      color: 'var(--ink-warn)',
+                      background: 'var(--warning-bg)',
                       border: '1px solid #fde68a',
                       borderRadius: 99,
                       padding: '3px 10px',
@@ -665,7 +666,7 @@ export default function MicroLessonScreen({
             style={{
               fontSize: 12,
               fontWeight: 800,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               background: 'rgba(14,116,144,.1)',
               border: '1px solid rgba(14,116,144,.2)',
               borderRadius: 99,
@@ -727,12 +728,12 @@ export default function MicroLessonScreen({
 
             if (answered) {
               if (i === q.answer) {
-                bg = '#f0fdf4';
+                bg = 'var(--success-bg)';
                 borderColor = '#86efac';
                 textColor = '#166534';
                 icon = '✓';
               } else if (i === selected && i !== q.answer) {
-                bg = '#fef2f2';
+                bg = 'var(--error-bg)';
                 borderColor = '#fca5a5';
                 textColor = '#dc2626';
                 icon = '✗';
@@ -812,7 +813,7 @@ export default function MicroLessonScreen({
               borderRadius: 14,
               padding: '14px 16px',
               marginBottom: 14,
-              background: isCorrect ? '#f0fdf4' : '#fef2f2',
+              background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
               border: `1.5px solid ${isCorrect ? '#86efac' : '#fca5a5'}`,
               animation: 'spring-in .3s ease',
             }}
@@ -822,7 +823,7 @@ export default function MicroLessonScreen({
                 fontSize: 15,
                 fontWeight: 900,
                 marginBottom: 4,
-                color: isCorrect ? '#16a34a' : '#dc2626',
+                color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
               }}
             >
               {isCorrect ? 'Točno! · Correct!' : 'Netočno · Incorrect'}
@@ -992,7 +993,7 @@ export default function MicroLessonScreen({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#b45309',
+                color: 'var(--ink-warn)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
                 marginBottom: 6,
@@ -1045,13 +1046,15 @@ export default function MicroLessonScreen({
                     padding: '5px 12px',
                   }}
                 >
-                  <span style={{ fontSize: 14, fontWeight: 800, color: '#0e7490' }}>{w.hr}</span>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-accent)' }}>
+                    {w.hr}
+                  </span>
                   <span
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
-                      color: '#dc2626',
-                      background: '#fef2f2',
+                      color: 'var(--ink-error)',
+                      background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,
                       padding: '1px 6px',

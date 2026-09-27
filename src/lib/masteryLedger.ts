@@ -395,14 +395,28 @@ const SKILL_LABELS: Record<SkillKey, string> = {
  * signal yet (never fabricate a reason). Names the most-needed skill:
  * lowest-scoring developing skill first, else the first untested one — the
  * same priorities the boost gives the composer.
+ *
+ * `among` RESTRICTS THE CHOICE TO SKILLS THE CALLER IS ACTUALLY SERVING, and
+ * both production callers pass it (2026-09-27). Without it the line named the
+ * weakest skill ANYWHERE, so Home read "Today leans into vocabulary" over a
+ * session of a lesson, the alphabet, a case drill, shadowing and a culture
+ * card — no vocabulary at all — and the next-step engine gave that same
+ * sentence as the reason for a SPEAKING exercise. "Leans into X" is a claim
+ * about what today contains, so it may only name an X today contains.
  */
-export function buildPlanReason(level: CefrLevel): string | null {
+export function buildPlanReason(
+  level: CefrLevel,
+  among?: Iterable<SkillKey | null | undefined>,
+): string | null {
   const profile = getMasteryProfile(level);
   const cells = Object.keys(profile);
   if (cells.length === 0) return null;
+  const allowed = among ? new Set([...among].filter((k): k is SkillKey => !!k)) : null;
+  if (allowed && allowed.size === 0) return null;
   let weakest: { skill: SkillKey; score: number } | null = null;
   let untested: SkillKey | null = null;
   for (const skill of LEDGER_SKILLS) {
+    if (allowed && !allowed.has(skill)) continue;
     const m = profile[skill];
     if (!m || !m.tested) {
       if (!untested) untested = skill;
@@ -416,9 +430,13 @@ export function buildPlanReason(level: CefrLevel): string | null {
     return `Today leans into ${SKILL_LABELS[weakest.skill]} — your practice says it needs the most work at ${level}.`;
   }
   if (untested) {
-    return `Today leans into ${SKILL_LABELS[untested]} — the least-practiced skill at ${level}.`;
+    return allowed
+      ? `Today leans into ${SKILL_LABELS[untested]} — your practice has not measured it enough at ${level} yet.`
+      : `Today leans into ${SKILL_LABELS[untested]} — the least-practiced skill at ${level}.`;
   }
-  return `All tracked skills look strong at ${level} — today keeps them sharp.`;
+  // "All tracked skills look strong" is a claim about EVERY skill; a restricted
+  // caller has only looked at some, so it says nothing rather than generalise.
+  return allowed ? null : `All tracked skills look strong at ${level} — today keeps them sharp.`;
 }
 
 // ── Cross-device sync ────────────────────────────────────────────────────────

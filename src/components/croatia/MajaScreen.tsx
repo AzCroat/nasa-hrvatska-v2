@@ -35,6 +35,7 @@ import {
   fmtElapsed,
   computeRelationshipLevel,
 } from './MajaScreenUtils.js';
+import { accentInk } from '../../lib/accentInk';
 
 // ─────────────────────────────────────────────
 // Types
@@ -634,18 +635,31 @@ export default function MajaScreen() {
         } catch {
           // Invalid/truncated JSON (e.g. a reply longer than max_tokens). Salvage
           // the reply text so the learner never sees — or hears TTS speak — the raw
-          // JSON envelope. Matches a complete "reply" value, or one cut off mid-string.
-          const full = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)"/);
-          const partial = streamedText.match(/"reply"\s*:\s*"((?:[^"\\]|\\.)*)$/);
-          const salvaged = full?.[1] ?? partial?.[1];
-          if (salvaged != null) {
-            replyText = salvaged
-              .replace(/\\n/g, ' ')
-              .replace(/\\"/g, '"')
-              .replace(/\\\\/g, '\\')
-              .trim();
-          }
-          // else: model returned plain text (not an envelope) → streamedText is fine.
+          // JSON envelope.
+          //
+          // THIS USED TO DECODE THE ESCAPES ITSELF, AND THE LEARNER READ ONE STRING
+          // WHILE TTS SPOKE ANOTHER. The bubble's `content` is set from `replyText`
+          // (just below); the TTS flush thirty lines down already used
+          // `extractStreamingReply`. So there were two decoders live on one reply,
+          // feeding two different senses — and only the TTS one was correct. The
+          // chain here was `\n`→' ' then `\"`→'"' then `\\`→'\', which unescapes
+          // backslashes LAST, so measured: `C:\Users\nada` came out
+          // `C:\Users\ ada` (the n of "nada" eaten), `\\n` lost its n outright,
+          // and `\t` leaked raw. CodeQL calls it js/incomplete-sanitization; the
+          // real defect is that a duplicate existed at all.
+          //
+          // `extractStreamingReply` scans once, consuming the char after each
+          // backslash, so ordering cannot bite — and it covers BOTH shapes the two
+          // regexes here used to match, stopping at the closing quote or at the end
+          // of a value cut off mid-string. It returns '' when there is no `reply`
+          // field, which keeps the old fall-through to `streamedText`.
+          //
+          // Newlines are no longer flattened to spaces. That is deliberate: the
+          // streaming bubble showed real newlines for the whole reply and the TTS
+          // path already kept them, so flattening only on this path made the text
+          // jump at the final frame.
+          const salvaged = extractStreamingReply(streamedText);
+          if (salvaged) replyText = salvaged.trim();
         }
 
         setConversation((prev) =>
@@ -1268,7 +1282,7 @@ export default function MajaScreen() {
                   padding: '12px 14px',
                   marginBottom: 14,
                   fontSize: 13,
-                  color: '#92400e',
+                  color: 'var(--warning-text)',
                   lineHeight: 1.5,
                 }}
               >
@@ -1309,7 +1323,7 @@ export default function MajaScreen() {
                   marginBottom: 12,
                 }}
               >
-                <p style={{ fontSize: 13, color: '#dc2626', margin: '0 0 8px' }}>
+                <p style={{ fontSize: 13, color: 'var(--ink-error)', margin: '0 0 8px' }}>
                   {errorMsg || 'Nepoznata greška.'}
                 </p>
                 <button
@@ -1437,13 +1451,13 @@ export default function MajaScreen() {
                     }}
                   >
                     {phase === 'listening' ? (
-                      <span style={{ color: personaCfg.listenColor, fontWeight: 600 }}>
+                      <span style={{ color: accentInk(personaCfg.listenColor), fontWeight: 600 }}>
                         Govoriš…
                       </span>
                     ) : phase === 'thinking' ? (
                       <span style={{ color: '#d97706', fontWeight: 600 }}>Obrađujem…</span>
                     ) : phase === 'maja-speaking' ? (
-                      <span style={{ color: personaCfg.speakingColor, fontWeight: 600 }}>
+                      <span style={{ color: accentInk(personaCfg.speakingColor), fontWeight: 600 }}>
                         {personaCfg.name.split(' ')[0]} govori…{' '}
                         <span style={{ opacity: 0.65, fontWeight: 500 }}>· dodirni za prekid</span>
                       </span>

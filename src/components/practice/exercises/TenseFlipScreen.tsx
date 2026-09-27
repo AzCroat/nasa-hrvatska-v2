@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, shMemo } from '../../../data';
 import { TENSEFLIP } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 import { useStats } from '../../../context/StatsContext';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function TenseFlipScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const items = shMemo('tf', TENSEFLIP, 10);
   const total = items.length * 2; // each item has perfekt + negative
   const handledRef = useRef(new Set<string>());
@@ -26,9 +26,7 @@ function TenseFlipScreen({ goBack, award }: Props) {
     recordTopicResult('past_tense', true);
     if (typeof award === 'function') award(3, false, 'grammar');
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'tenseflip', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -81,7 +79,7 @@ function TenseFlipScreen({ goBack, award }: Props) {
                   padding: '8px',
                   border: `2px solid ${perfRevealed ? '#16a34a' : '#d6d3d1'}`,
                   borderRadius: 10,
-                  background: perfRevealed ? '#dcfce7' : 'white',
+                  background: perfRevealed ? 'var(--success-bg-strong)' : 'var(--card)',
                   fontSize: 12,
                   cursor: perfRevealed ? 'default' : 'pointer',
                   pointerEvents: perfRevealed ? 'none' : 'auto',
@@ -97,7 +95,7 @@ function TenseFlipScreen({ goBack, award }: Props) {
                   padding: '8px',
                   border: `2px solid ${negRevealed ? '#dc2626' : '#d6d3d1'}`,
                   borderRadius: 10,
-                  background: negRevealed ? '#fee2e2' : 'white',
+                  background: negRevealed ? 'var(--error-bg-strong)' : 'var(--card)',
                   fontSize: 12,
                   cursor: negRevealed ? 'default' : 'pointer',
                   pointerEvents: negRevealed ? 'none' : 'auto',
@@ -114,7 +112,9 @@ function TenseFlipScreen({ goBack, award }: Props) {
       {done && (
         <div className="c" style={{ marginTop: 16, padding: '20px 16px', textAlign: 'center' }}>
           <div style={{ fontSize: 40, marginBottom: 8 }}>🏆</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             All {items.length} tenses revealed!
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

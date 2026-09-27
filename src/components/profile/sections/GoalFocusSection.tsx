@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { sh } from '../../../data';
 import { lsGet } from '../../../lib/safeStorage';
 import { poolLaunchBlock, POOL_LAUNCH_COPY } from '../../../lib/practiceLaunch';
+import { accentInk } from '../../../lib/accentInk';
 
 /**
  * Goal Focus cluster — extracted verbatim from SettingsTab as part of the 1a
@@ -176,7 +177,7 @@ export default function GoalFocusSection({
                           style={{
                             fontSize: 'var(--text-xs)',
                             fontWeight: 700,
-                            color: gf.color,
+                            color: accentInk(gf.color),
                             lineHeight: 1.2,
                           }}
                         >
@@ -192,7 +193,7 @@ export default function GoalFocusSection({
                   data-testid="goal-launch-error"
                   style={{
                     fontSize: 12,
-                    color: 'var(--danger, #b91c1c)',
+                    color: 'var(--ink-red)',
                     margin: '-12px 2px 20px',
                   }}
                 >

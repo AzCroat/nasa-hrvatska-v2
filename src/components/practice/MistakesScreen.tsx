@@ -43,7 +43,7 @@ function FlipCard({
             minHeight: 180,
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            background: 'linear-gradient(135deg,#eff6ff,#dbeafe)',
+            background: 'var(--grad-blue)',
             borderRadius: 20,
             border: '2px solid #bfdbfe',
             display: 'flex',
@@ -58,7 +58,7 @@ function FlipCard({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#6b7280',
+              color: 'var(--ink-muted)',
               letterSpacing: 1,
               marginBottom: 8,
             }}
@@ -69,7 +69,7 @@ function FlipCard({
             style={{
               fontSize: 32,
               fontWeight: 800,
-              color: '#1e40af',
+              color: 'var(--ink-flag)',
               marginBottom: 12,
               textAlign: 'center',
             }}
@@ -77,7 +77,14 @@ function FlipCard({
             {mistake.hr}
           </div>
           {mistake.q && (
-            <div style={{ fontSize: 13, color: '#4b5563', textAlign: 'center', marginBottom: 8 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: 'var(--ink-muted)',
+                textAlign: 'center',
+                marginBottom: 8,
+              }}
+            >
               "{mistake.q}"
             </div>
           )}
@@ -101,7 +108,9 @@ function FlipCard({
           >
             <span aria-hidden="true">🔊</span>
           </button>
-          <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 12 }}>Tap to reveal</div>
+          <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 12 }}>
+            Tap to reveal
+          </div>
         </div>
 
         {/* Back — English */}
@@ -113,7 +122,7 @@ function FlipCard({
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
-            background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+            background: 'var(--grad-green)',
             borderRadius: 20,
             border: '2px solid #bbf7d0',
             display: 'flex',
@@ -128,7 +137,7 @@ function FlipCard({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#6b7280',
+              color: 'var(--ink-muted)',
               letterSpacing: 1,
               marginBottom: 8,
             }}
@@ -139,7 +148,7 @@ function FlipCard({
             style={{
               fontSize: 28,
               fontWeight: 800,
-              color: '#15803d',
+              color: 'var(--ink-green)',
               marginBottom: 16,
               textAlign: 'center',
             }}
@@ -147,7 +156,7 @@ function FlipCard({
             {mistake.en || '—'}
           </div>
           {mistake.category && (
-            <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 16 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginBottom: 16 }}>
               Category: {mistake.category}
             </div>
           )}
@@ -163,7 +172,7 @@ function FlipCard({
                 background: 'rgba(239,68,68,.1)',
                 border: '2px solid rgba(239,68,68,.25)',
                 borderRadius: 14,
-                color: '#dc2626',
+                color: 'var(--ink-error)',
                 fontWeight: 700,
                 fontSize: 13,
                 cursor: 'pointer',
@@ -206,6 +215,7 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
         aria-label={`Play audio for ${mistake.hr}`}
         style={{
           background: '#eff6ff',
+          color: '#1c1917',
           border: 'none',
           borderRadius: 50,
           width: 36,
@@ -218,8 +228,8 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
         <span aria-hidden="true">🔊</span>
       </button>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 15, fontWeight: 700, color: '#1e40af' }}>{mistake.hr}</div>
-        <div style={{ fontSize: 13, color: '#6b7280' }}>{mistake.en}</div>
+        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-flag)' }}>{mistake.hr}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted)' }}>{mistake.en}</div>
       </div>
       {(() => {
         const conf = Math.max(10, 100 - mistake.count * 12);
@@ -255,7 +265,7 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
           border: 'none',
           fontSize: 18,
           cursor: 'pointer',
-          color: '#9ca3af',
+          color: 'var(--ink-muted)',
           flexShrink: 0,
         }}
       >
@@ -380,7 +390,7 @@ export default function MistakesScreen({
         <div
           style={{
             height: 6,
-            background: '#e2e8f0',
+            background: 'var(--surface-mute)',
             borderRadius: 3,
             marginBottom: 20,
             overflow: 'hidden',
@@ -401,7 +411,7 @@ export default function MistakesScreen({
             display: 'flex',
             justifyContent: 'space-between',
             fontSize: 12,
-            color: '#6b7280',
+            color: 'var(--ink-muted)',
             marginBottom: 16,
           }}
         >
@@ -422,7 +432,7 @@ export default function MistakesScreen({
             background: 'none',
             border: '1.5px solid #e2e8f0',
             borderRadius: 14,
-            color: '#6b7280',
+            color: 'var(--ink-muted)',
             fontSize: 13,
             cursor: 'pointer',
             marginTop: 8,
@@ -441,11 +451,11 @@ export default function MistakesScreen({
         {H('📚 Review Complete!', 'Great work!', goBack)}
         <div className="c" style={{ textAlign: 'center', padding: '32px 20px' }}>
           <div style={{ fontSize: 64, marginBottom: 16 }}>🎉</div>
-          <h3 style={{ color: '#15803d', marginBottom: 8 }}>Session Complete!</h3>
-          <div style={{ fontSize: 28, fontWeight: 800, color: '#1e40af', marginBottom: 8 }}>
+          <h3 style={{ color: 'var(--ink-green)', marginBottom: 8 }}>Session Complete!</h3>
+          <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--ink-flag)', marginBottom: 8 }}>
             +{mastered * 5} XP
           </div>
-          <p style={{ color: '#6b7280', fontSize: 14, marginBottom: 24 }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 14, marginBottom: 24 }}>
             You mastered <strong>{mastered}</strong> word{mastered !== 1 ? 's' : ''} this session.
             {getMistakes().length > 0 &&
               ` ${getMistakes().length} word${getMistakes().length !== 1 ? 's' : ''} remaining to review.`}
@@ -479,8 +489,8 @@ export default function MistakesScreen({
       {mistakes.length === 0 ? (
         <div className="c" style={{ textAlign: 'center', padding: '40px 20px' }}>
           <div style={{ fontSize: 56, marginBottom: 12 }}>🎉</div>
-          <h3 style={{ color: '#15803d', marginBottom: 8 }}>No Mistakes!</h3>
-          <p style={{ color: '#6b7280', fontSize: 14 }}>
+          <h3 style={{ color: 'var(--ink-green)', marginBottom: 8 }}>No Mistakes!</h3>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 14 }}>
             You haven't made any mistakes yet — or you've mastered them all. Keep practicing to
             build your vocabulary!
           </p>
@@ -494,7 +504,7 @@ export default function MistakesScreen({
           <div
             className="c"
             style={{
-              background: 'linear-gradient(135deg,#fff7ed,#fed7aa)',
+              background: 'var(--grad-orange)',
               borderLeft: '4px solid #f97316',
               marginBottom: 16,
             }}
@@ -508,10 +518,10 @@ export default function MistakesScreen({
               }}
             >
               <div>
-                <div style={{ fontSize: 18, fontWeight: 800, color: '#9a3412' }}>
+                <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-warn)' }}>
                   🔁 {mistakes.length} Word{mistakes.length !== 1 ? 's' : ''} to Review
                 </div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                   Tap a card to flip and reveal the meaning
                 </div>
               </div>
@@ -532,14 +542,21 @@ export default function MistakesScreen({
               alignItems: 'center',
             }}
           >
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', letterSpacing: 0.5 }}>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: 'var(--ink-muted)',
+                letterSpacing: 0.5,
+              }}
+            >
               ALL MISTAKES (most frequent first)
             </div>
             <button
               onClick={clearAll}
               style={{
                 fontSize: 11,
-                color: '#dc2626',
+                color: 'var(--ink-error)',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',

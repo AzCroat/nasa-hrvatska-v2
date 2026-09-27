@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, Bar } from '../../data';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { accentInk } from '../../lib/accentInk';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -12,6 +13,9 @@ function shLocal(a: any[]) {
   return b;
 }
 
+// `color` paints a FIXED pastel card and `text` is its FIXED dark ink: the pair is correct in
+// both themes, so the ink is never passed through accentInk() while it sits on that card —
+// lifting it for dark mode put light text on the same pastel (all six cards, 2026-09-27).
 const LEVELS = {
   A1: {
     label: 'A1 — Beginner',
@@ -853,7 +857,7 @@ export default function CefrTest({
 }: {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
   const [levelKey, setLevelKey] = useState<string | null>(null);
   // Shuffled questions for the active level — rebuilt each time a level is started
@@ -898,9 +902,7 @@ export default function CefrTest({
       if (!finishFired.current) {
         finishFired.current = true;
         if (award) award(score * 7, false, 'default');
-        markQuest('grammar');
-        setStats((s) => ({ ...s, gc: s.gc + 1 }));
-        writeDelta({ gc: 1 });
+        completeExercise({ key: 'cefrtest', xp: 0, stats, setStats, writeDelta });
       }
       setDone(true);
     } else {
@@ -952,7 +954,14 @@ export default function CefrTest({
                 >
                   {lv.label}
                 </div>
-                <div style={{ fontSize: 11, color: lv.text, opacity: 0.75, lineHeight: 1.4 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: lv.text,
+                    opacity: 0.75,
+                    lineHeight: 1.4,
+                  }}
+                >
                   {lv.desc}
                 </div>
                 <div
@@ -1020,7 +1029,9 @@ export default function CefrTest({
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>Score</span>
-            <span style={{ fontSize: 12, fontWeight: 800, color: level.text }}>{pct}%</span>
+            <span style={{ fontSize: 12, fontWeight: 800, color: accentInk(level.text) }}>
+              {pct}%
+            </span>
           </div>
           <div
             style={{
@@ -1115,11 +1126,11 @@ export default function CefrTest({
           const optAccepted = accepted.includes(i);
           if (answered) {
             if (optAccepted) {
-              bg = '#dcfce7';
+              bg = 'var(--success-bg-strong)';
               border = '1.5px solid #86efac';
               color = '#166534';
             } else if (i === selected) {
-              bg = '#fee2e2';
+              bg = 'var(--error-bg-strong)';
               border = '1.5px solid #fca5a5';
               color = '#991b1b';
             } else {
@@ -1186,7 +1197,7 @@ export default function CefrTest({
       {answered && (
         <div
           style={{
-            background: isCorrect ? '#dcfce7' : '#fef3c7',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--warning-bg)',
             border: `1.5px solid ${isCorrect ? '#86efac' : '#fcd34d'}`,
             borderRadius: 12,
             padding: '12px 14px',
@@ -1197,7 +1208,7 @@ export default function CefrTest({
             style={{
               fontSize: 13,
               fontWeight: 800,
-              color: isCorrect ? '#166534' : '#92400e',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >
@@ -1206,7 +1217,7 @@ export default function CefrTest({
           <div
             style={{
               fontSize: 13,
-              color: isCorrect ? '#15803d' : '#78350f',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               lineHeight: 1.5,
             }}
           >

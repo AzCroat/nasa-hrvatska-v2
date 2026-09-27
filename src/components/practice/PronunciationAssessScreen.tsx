@@ -7,6 +7,7 @@ import { markQuest } from '../../lib/quests.js';
 import { rnd } from '../../lib/random.js';
 import { logPronunciationWeakness } from '../../lib/pronunciationCurriculum';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Assessment phrase banks per CEFR level ──────────────────────────────────
 const PHRASES = {
@@ -194,7 +195,7 @@ function ScoreChip({ score }: ScoreChipProps) {
         border: `1px solid ${c}40`,
         fontSize: 13,
         fontWeight: 700,
-        color: c,
+        color: accentInk(c),
         fontVariantNumeric: 'tabular-nums',
       }}
     >
@@ -454,13 +455,20 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                 border: `2px solid ${grade.color}50`,
                 fontSize: 32,
                 fontWeight: 900,
-                color: grade.color,
+                color: accentInk(grade.color),
                 marginBottom: 12,
               }}
             >
               {grade.letter}
             </div>
-            <div style={{ fontSize: 28, fontWeight: 900, color: grade.color, marginBottom: 4 }}>
+            <div
+              style={{
+                fontSize: 28,
+                fontWeight: 900,
+                color: accentInk(grade.color),
+                marginBottom: 4,
+              }}
+            >
               {avgScore} / 100
             </div>
             <div
@@ -559,7 +567,9 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                 {s === undefined ? (
                   <span style={{ fontSize: 11, color: 'var(--subtext)' }}>—</span>
                 ) : s === null ? (
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#16a34a' }}>✓</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-green)' }}>
+                    ✓
+                  </span>
                 ) : (
                   <ScoreChip score={s} />
                 )}
@@ -577,7 +587,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
               borderRadius: 12,
               border: '1.5px solid rgba(212,0,45,0.4)',
               background: 'rgba(212,0,45,0.06)',
-              color: '#D4002D',
+              color: 'var(--ink-red)',
               fontSize: 15,
               fontWeight: 700,
               cursor: 'pointer',
@@ -735,7 +745,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                 </span>
               </>
             ) : (
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#16a34a' }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-green)' }}>
                 ✓ Recognized (accent not scored)
               </span>
             )}

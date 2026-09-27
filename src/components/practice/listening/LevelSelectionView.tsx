@@ -1,6 +1,7 @@
 import React from 'react';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
+import { accentInk } from '../../../lib/accentInk';
 
 /** Level-selection landing — the CEFR level cards. */
 export default function LevelSelectionView({
@@ -176,12 +177,12 @@ export default function LevelSelectionView({
                     }}
                   />
                 </div>
-                <div style={{ fontSize: 10, color: ld.color, fontWeight: 700 }}>
+                <div style={{ fontSize: 10, color: accentInk(ld.color), fontWeight: 700 }}>
                   {ld.sets.length} sets · {completed}/{total} questions
                   {complete && ' · Complete 🏆'}
                 </div>
               </div>
-              <div style={{ fontSize: 20, color: ld.color }}>→</div>
+              <div style={{ fontSize: 20, color: accentInk(ld.color) }}>→</div>
             </button>
           );
         })}

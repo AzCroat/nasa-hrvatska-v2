@@ -206,7 +206,7 @@ function TappableText({
               style={{
                 cursor: clean ? 'pointer' : 'default',
                 borderBottom: clean ? '1px dotted var(--subtext)' : 'none',
-                color: isTranslating ? 'var(--info)' : hasTooltip ? 'var(--success)' : 'inherit',
+                color: isTranslating ? 'var(--info)' : hasTooltip ? 'var(--ink-green)' : 'inherit',
                 transition: 'color .15s',
               }}
             >
@@ -253,7 +253,7 @@ function TappableText({
                   textAlign: 'center',
                 }}
               >
-                <strong style={{ color: 'var(--success)' }}>{tooltip.word}</strong>
+                <strong style={{ color: 'var(--ink-green)' }}>{tooltip.word}</strong>
                 {' = '}
                 {tooltip.translation}
                 {tooltip.note && (
@@ -532,7 +532,7 @@ function ArticleCard({
                   >
                     <strong style={{ color: 'var(--heading)' }}>{v.word}</strong>
                     <span style={{ color: 'var(--subtext)' }}>→</span>
-                    <span style={{ color: '#0e7490' }}>{v.meaning}</span>
+                    <span style={{ color: 'var(--ink-accent)' }}>{v.meaning}</span>
                   </div>
                 ))}
               </div>
@@ -773,7 +773,7 @@ export default function CroatianNewsScreen({
             alignItems: 'center',
             gap: 8,
             fontSize: 13,
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontWeight: 600,
           }}
         >
@@ -794,7 +794,7 @@ export default function CroatianNewsScreen({
             alignItems: 'center',
             gap: 8,
             fontSize: 13,
-            color: '#92400e',
+            color: 'var(--warning-text)',
             fontWeight: 600,
           }}
         >

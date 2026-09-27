@@ -33,7 +33,7 @@ export default function AlkaRing({
         style={{
           ...ring(size * 0.32, 'radial-gradient(circle,#FFE070,#C8980A)', '#fff'),
           boxShadow: '0 0 16px rgba(255,224,112,.7)',
-          color: '#3a2a00',
+          color: 'var(--ink-warn)',
           fontWeight: 900,
           fontSize: 13,
         }}

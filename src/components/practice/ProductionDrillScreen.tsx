@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { speak, sh } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
@@ -7,6 +7,7 @@ import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
 import { levelledBank } from '../../lib/levelledBank';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import type { CefrLevel } from '../../lib/cefr';
+import { accentInk } from '../../lib/accentInk';
 
 // Bounded round size (2026-07-21, owner-flagged): the banks grew for
 // cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
@@ -765,6 +766,13 @@ interface ModeDoneProps {
    * ever rendered them. Passing them up is what makes the declared gate real.
    */
   onDone: (score: number, total: number) => void;
+  /**
+   * Leave the results panel for the mode menu. It pays NOTHING: the round is
+   * credited through `onDone` when the panel is REACHED (2026-09-27). It used to be
+   * one button doing both, so the header's back arrow and the tab bar — two other
+   * exits from the same panel — lost the whole completion.
+   */
+  onBack: () => void;
   award?: (n: number, celebrate?: boolean, activityType?: string) => void;
   onCorrect?: () => void;
   onWrong?: () => void;
@@ -782,7 +790,7 @@ interface ModeDoneProps {
    */
   level: CefrLevel;
 }
-function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
+function ModeTransform({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
@@ -813,6 +821,13 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
     }
   }
 
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (done) {
     const pct = Math.round((score / total) * 100);
     const grade = pct >= 90 ? 'A' : pct >= 75 ? 'B' : pct >= 60 ? 'C' : 'D';
@@ -825,7 +840,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={() => onDone(score, total)} style={btnStyle('#7c3aed')}>
+        <button onClick={onBack} style={btnStyle('#7c3aed')}>
           Nazad na izbor
         </button>
       </div>
@@ -849,7 +864,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
       </div>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -899,7 +914,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
               gap: 10,
             }}
           >
-            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: '#059669' }}>
+            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: 'var(--ink-green)' }}>
               {item.target}
             </div>
             <button
@@ -924,7 +939,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
 }
 
 // ─── MODE B: TRANSLATE ───────────────────────────────────────────────────────
-function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
+function ModeTranslate({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [revealed, setRevealed] = useState(false);
   const [score, setScore] = useState(0);
@@ -955,6 +970,13 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
     }
   }
 
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (done) {
     const pct = Math.round((score / total) * 100);
     const grade = pct >= 90 ? 'A' : pct >= 75 ? 'B' : pct >= 60 ? 'C' : 'D';
@@ -967,7 +989,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={() => onDone(score, total)} style={btnStyle('#0e7490')}>
+        <button onClick={onBack} style={btnStyle('#0e7490')}>
           Nazad na izbor
         </button>
       </div>
@@ -991,7 +1013,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
       </div>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -1033,7 +1055,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
               gap: 10,
             }}
           >
-            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: '#0e7490' }}>
+            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: 'var(--ink-accent)' }}>
               {item.hr}
             </div>
             <button
@@ -1067,7 +1089,7 @@ interface BuildItem {
   target: string;
   en: string;
 }
-function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
+function ModeBuild({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [score, setScore] = useState(0);
   const [done, setDone] = useState(false);
@@ -1148,6 +1170,13 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
     }
   }
 
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (done) {
     const pct = Math.round((score / total) * 100);
     const grade = pct >= 90 ? 'A' : pct >= 75 ? 'B' : pct >= 60 ? 'C' : 'D';
@@ -1160,7 +1189,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={() => onDone(score, total)} style={btnStyle('#059669')}>
+        <button onClick={onBack} style={btnStyle('#059669')}>
           Nazad na izbor
         </button>
       </div>
@@ -1187,7 +1216,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
       <div
         style={{
           minHeight: 60,
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 14,
           border:
             feedback === 'correct'
@@ -1220,7 +1249,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
                 background: 'rgba(124,58,237,.1)',
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}
@@ -1246,7 +1275,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
           }}
         >
           <span style={{ fontSize: 18 }}>✅</span>
-          <span style={{ fontWeight: 800, color: '#059669', fontSize: 14 }}>Točno!</span>
+          <span style={{ fontWeight: 800, color: 'var(--ink-green)', fontSize: 14 }}>Točno!</span>
           <button
             onClick={() => speak(item.target)}
             style={{
@@ -1271,7 +1300,9 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
             marginBottom: 10,
           }}
         >
-          <div style={{ fontWeight: 800, color: '#dc2626', fontSize: 13, marginBottom: 4 }}>
+          <div
+            style={{ fontWeight: 800, color: 'var(--ink-error)', fontSize: 13, marginBottom: 4 }}
+          >
             Točan odgovor:
           </div>
           <div style={{ fontWeight: 700, color: 'var(--heading)', fontSize: 14 }}>
@@ -1294,7 +1325,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
                 background: 'rgba(14,116,144,.08)',
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}
@@ -1323,7 +1354,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
 }
 
 // ─── MODE D: ERROR CORRECTION ────────────────────────────────────────────────
-function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) {
+function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDoneProps) {
   const [idx, setIdx] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -1360,6 +1391,13 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
     }
   }
 
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (done) {
     const pct = Math.round((score / total) * 100);
     const grade = pct >= 90 ? 'A' : pct >= 75 ? 'B' : pct >= 60 ? 'C' : 'D';
@@ -1372,7 +1410,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
         <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>
           {score}/{total} točno · {pct}%
         </div>
-        <button onClick={() => onDone(score, total)} style={btnStyle('#d97706')}>
+        <button onClick={onBack} style={btnStyle('#d97706')}>
           Nazad na izbor
         </button>
       </div>
@@ -1402,7 +1440,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
 
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -1430,7 +1468,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
               border: '1.5px solid rgba(220,38,38,.4)',
               borderRadius: 6,
               padding: '1px 6px',
-              color: '#dc2626',
+              color: 'var(--ink-error)',
               fontWeight: 800,
             }}
           >
@@ -1442,7 +1480,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14 }}>
         {item.opts.map((opt, i) => {
-          let bg = 'var(--card-bg)';
+          let bg = 'var(--card)';
           let border = '1.5px solid rgba(0,0,0,.1)';
           let col = 'var(--heading)';
           if (chosen !== null) {
@@ -1494,7 +1532,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
           <div
             style={{
               fontWeight: 800,
-              color: chosen === item.correct ? '#059669' : '#dc2626',
+              color: chosen === item.correct ? 'var(--ink-green)' : 'var(--ink-error)',
               marginBottom: 4,
               fontSize: 13,
             }}
@@ -1634,6 +1672,9 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
     for (const [cat, accuracy] of Object.entries(summary) as Array<[string, number]>) {
       rateCategorySession(cat as Parameters<typeof rateCategorySession>[0], accuracy);
     }
+  }
+
+  function handleBack() {
     reset();
     setMode(null);
   }
@@ -1744,7 +1785,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                         style={{
                           fontSize: 10,
                           fontWeight: 800,
-                          color: m.color,
+                          color: accentInk(m.color),
                           background: `${m.color}18`,
                           padding: '2px 8px',
                           borderRadius: 99,
@@ -1757,7 +1798,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                       </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: 20, color: m.color, opacity: 0.7 }}>›</div>
+                  <div style={{ fontSize: 20, color: accentInk(m.color), opacity: 0.7 }}>›</div>
                 </button>
               ))}
             </div>
@@ -1768,6 +1809,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
           <ModeTransform
             level={level}
             onDone={handleDone}
+            onBack={handleBack}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
             onWrong={() => onWrong(currentCategory)}
@@ -1777,6 +1819,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
           <ModeTranslate
             level={level}
             onDone={handleDone}
+            onBack={handleBack}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
             onWrong={() => onWrong(currentCategory)}
@@ -1786,6 +1829,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
           <ModeBuild
             level={level}
             onDone={handleDone}
+            onBack={handleBack}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
             onWrong={() => onWrong(currentCategory)}
@@ -1795,6 +1839,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
           <ModeErrorCorrect
             level={level}
             onDone={handleDone}
+            onBack={handleBack}
             award={award}
             onCorrect={() => onCorrect(currentCategory)}
             onWrong={() => onWrong(currentCategory)}

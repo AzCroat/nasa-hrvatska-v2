@@ -1,4 +1,5 @@
 import React from 'react';
+import { accentInk } from '../../lib/accentInk';
 
 interface SprintPrompt {
   hr: string;
@@ -73,8 +74,8 @@ export default function SprintFeedbackPhase({
       title: 'Skipped',
       sub: 'No response recorded — listen and try next time!',
       color: 'var(--subtext)',
-      bg: 'var(--card-bg)',
-      border: 'var(--border)',
+      bg: 'var(--card)',
+      border: 'var(--card-b)',
     },
   };
   const cfg = gradeConfig[grade as keyof typeof gradeConfig] ?? gradeConfig.skip;
@@ -93,7 +94,9 @@ export default function SprintFeedbackPhase({
         }}
       >
         <div style={{ fontSize: 40, marginBottom: 8 }}>{cfg.emoji}</div>
-        <p style={{ fontSize: 22, fontWeight: 800, color: cfg.color, margin: '0 0 6px' }}>
+        <p
+          style={{ fontSize: 22, fontWeight: 800, color: accentInk(cfg.color), margin: '0 0 6px' }}
+        >
           {cfg.title}
         </p>
         <p style={{ fontSize: 14, color: 'var(--subtext)', margin: 0 }}>{cfg.sub}</p>
@@ -108,7 +111,7 @@ export default function SprintFeedbackPhase({
             borderRadius: 20,
             background: 'rgba(124,58,237,.1)',
             border: '1px solid rgba(124,58,237,.25)',
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             fontSize: 15,
             fontWeight: 800,
           }}
@@ -131,7 +134,7 @@ export default function SprintFeedbackPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#16a34a',
+            color: 'var(--ink-green)',
             display: 'block',
             marginBottom: 6,
           }}
@@ -158,7 +161,7 @@ export default function SprintFeedbackPhase({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               display: 'block',
               marginBottom: 6,
             }}
@@ -180,8 +183,8 @@ export default function SprintFeedbackPhase({
       ) : (
         <div
           style={{
-            background: 'var(--card-bg)',
-            border: '1px solid var(--border)',
+            background: 'var(--card)',
+            border: '1px solid var(--card-b)',
             borderRadius: 12,
             padding: '14px 18px',
             marginBottom: 14,
@@ -218,7 +221,7 @@ export default function SprintFeedbackPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             display: 'block',
             marginBottom: 6,
           }}
@@ -262,7 +265,7 @@ export default function SprintFeedbackPhase({
           width: '100%',
           padding: '12px 0',
           background: 'transparent',
-          border: '1px solid var(--border)',
+          border: '1px solid var(--card-b)',
           borderRadius: 12,
           color: 'var(--subtext)',
           fontSize: 15,

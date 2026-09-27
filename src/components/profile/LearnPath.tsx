@@ -287,7 +287,7 @@ export default function LearnPath({
           display: 'flex',
           alignItems: 'center',
           gap: 20,
-          background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+          background: 'var(--grad-sky)',
           border: '1.5px solid #7dd3fc',
         }}
       >
@@ -325,19 +325,21 @@ export default function LearnPath({
               justifyContent: 'center',
             }}
           >
-            <div style={{ fontSize: 18, fontWeight: 900, color: '#0e7490', lineHeight: 1 }}>
+            <div
+              style={{ fontSize: 18, fontWeight: 900, color: 'var(--ink-accent)', lineHeight: 1 }}
+            >
               {pathMissing ? '—' : `${pct}%`}
             </div>
-            <div style={{ fontSize: 9, color: '#64748b', fontWeight: 600 }}>done</div>
+            <div style={{ fontSize: 9, color: 'var(--ink-muted)', fontWeight: 600 }}>done</div>
           </div>
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--text)', marginBottom: 4 }}>
             {pathMissing ? 'Your learning path' : `${totalDone} / ${totalAll} milestones`}
           </div>
           <div
-            style={{ fontSize: 13, color: '#64748b', fontWeight: 500, lineHeight: 1.5 }}
+            style={{ fontSize: 13, color: 'var(--ink-muted)', fontWeight: 500, lineHeight: 1.5 }}
             data-testid={pathMissing ? 'learnpath-unavailable' : undefined}
           >
             {pathMissing
@@ -663,7 +665,7 @@ export default function LearnPath({
                                   fontWeight: 800,
                                   textTransform: 'uppercase',
                                   letterSpacing: '.08em',
-                                  color: '#0e7490',
+                                  color: 'var(--ink-accent)',
                                   marginBottom: 2,
                                 }}
                               >
@@ -690,7 +692,7 @@ export default function LearnPath({
                               <div
                                 style={{
                                   fontSize: 11,
-                                  color: '#0e7490',
+                                  color: 'var(--ink-accent)',
                                   fontWeight: 700,
                                   marginTop: 3,
                                   display: 'flex',
@@ -770,8 +772,8 @@ export default function LearnPath({
                   padding: '14px 18px',
                   borderRadius: 16,
                   background: passedCheckpoints.has(li)
-                    ? 'linear-gradient(135deg,#f0fdf4,#dcfce7)'
-                    : 'linear-gradient(135deg,#fef9c3,#fef3c7)',
+                    ? 'var(--grad-green)'
+                    : 'var(--grad-butter)',
                   border: passedCheckpoints.has(li) ? '2px solid #86efac' : '2px solid #fcd34d',
                   display: 'flex',
                   alignItems: 'center',
@@ -786,7 +788,7 @@ export default function LearnPath({
                     style={{
                       fontSize: 13,
                       fontWeight: 800,
-                      color: passedCheckpoints.has(li) ? '#166534' : '#92400e',
+                      color: passedCheckpoints.has(li) ? 'var(--ink-green)' : 'var(--warning-text)',
                     }}
                   >
                     {passedCheckpoints.has(li)
@@ -796,7 +798,9 @@ export default function LearnPath({
                   <div
                     style={{
                       fontSize: 11,
-                      color: passedCheckpoints.has(li) ? '#166534' : '#78716c',
+                      color: passedCheckpoints.has(li)
+                        ? 'var(--ink-green)'
+                        : 'var(--ink-muted-warm)',
                       marginTop: 2,
                       fontWeight: 500,
                     }}
@@ -836,15 +840,22 @@ export default function LearnPath({
                   marginTop: 4,
                   marginBottom: 20,
                   padding: '16px',
-                  background: 'linear-gradient(135deg, #f0f9ff, #e0f2fe)',
+                  background: 'var(--grad-sky)',
                   border: '2px solid #0e7490',
                   borderRadius: 12,
                 }}
               >
-                <div style={{ fontSize: 18, fontWeight: 700, color: '#0e7490', marginBottom: 6 }}>
+                <div
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 700,
+                    color: 'var(--ink-accent)',
+                    marginBottom: 6,
+                  }}
+                >
                   Level {lv.level} Quiz
                 </div>
-                <div style={{ fontSize: 14, color: '#475569', marginBottom: 12 }}>
+                <div style={{ fontSize: 14, color: 'var(--ink-muted)', marginBottom: 12 }}>
                   10 questions from items you have studied. Score 7/10 to unlock Level{' '}
                   {lv.level + 1}.
                 </div>
@@ -866,11 +877,11 @@ export default function LearnPath({
                   marginBottom: 12,
                   padding: '8px 14px',
                   borderRadius: 10,
-                  background: '#f0fdf4',
+                  background: 'var(--success-bg)',
                   border: '1.5px solid #86efac',
                   fontSize: 12,
                   fontWeight: 700,
-                  color: '#166534',
+                  color: 'var(--ink-green)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 6,
@@ -890,16 +901,16 @@ export default function LearnPath({
           style={{
             textAlign: 'center',
             padding: '32px',
-            background: 'linear-gradient(135deg,#fef3c7,#fde68a)',
+            background: 'var(--grad-gold)',
             border: '2px solid #f59e0b',
             animation: 'glow 3s ease-in-out infinite',
           }}
         >
           <div style={{ fontSize: 56, marginBottom: 8 }}>🏆</div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: '#92400e', marginBottom: 4 }}>
+          <div style={{ fontSize: 22, fontWeight: 900, color: 'var(--ink-warn)', marginBottom: 4 }}>
             Čestitamo!
           </div>
-          <div style={{ fontSize: 14, color: '#78716c', fontWeight: 500 }}>
+          <div style={{ fontSize: 14, color: 'var(--ink-muted-warm)', fontWeight: 500 }}>
             You have completed the entire learning path. You are truly Hrvat!
           </div>
         </div>

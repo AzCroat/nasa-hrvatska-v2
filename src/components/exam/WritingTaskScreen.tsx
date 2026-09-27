@@ -176,7 +176,7 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
           alignItems: 'center',
           margin: '8px 0 12px',
           fontSize: 12,
-          color: atTarget ? '#16a34a' : 'var(--subtext)',
+          color: atTarget ? 'var(--ink-green)' : 'var(--subtext)',
           fontWeight: 700,
         }}
       >
@@ -200,7 +200,7 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
             borderRadius: 10,
             padding: '10px 12px',
             fontSize: 13,
-            color: '#b91c1c',
+            color: 'var(--ink-error)',
             marginBottom: 12,
             lineHeight: 1.5,
           }}
@@ -215,7 +215,7 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
                   background: 'none',
                   border: 'none',
                   padding: 0,
-                  color: '#b91c1c',
+                  color: 'var(--ink-error)',
                   fontWeight: 800,
                   fontSize: 13,
                   cursor: 'pointer',

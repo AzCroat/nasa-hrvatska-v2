@@ -15,6 +15,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import { PITCH_ACCENT_LESSONS } from '../../data/pitchAccentContent.js';
 import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 // Map accent id → rich lesson data
 const LESSON_BY_ACCENT = {
@@ -45,7 +46,7 @@ const ACCENTS = [
     nameEn: 'Short-Falling',
     emoji: '⬇️',
     color: '#dc2626',
-    bg: '#fef2f2',
+    bg: 'var(--error-bg)',
     border: '#fecaca',
     rule: 'Short vowel, pitch drops sharply. Only on the FIRST syllable.',
     desc: `The kratkosilazni (short-falling) accent sounds like a quick, heavy drop in pitch. Think of how an English speaker says "NO!" when refusing something — that sudden downward punch. In Croatian, it always lands on the first syllable and the vowel is short. It cannot appear on any other syllable in standard speech.`,
@@ -129,7 +130,7 @@ const ACCENTS = [
     nameEn: 'Short-Rising',
     emoji: '⬆️',
     color: '#16a34a',
-    bg: '#f0fdf4',
+    bg: 'var(--success-bg)',
     border: '#bbf7d0',
     rule: 'Short vowel, pitch rises quickly. The MOST COMMON accent in Croatian.',
     desc: `The kratkouzlazni (short-rising) accent is the bread and butter of Croatian speech — you'll hear it constantly. It sounds like a quick, bright lift in pitch. Imagine an English speaker saying "really?" with genuine curiosity — that upward flick. In Croatian, it can appear on any syllable except the last one.`,
@@ -219,7 +220,7 @@ const ACCENTS = [
     nameEn: 'Long-Falling',
     emoji: '📉',
     color: '#d97706',
-    bg: '#fffbeb',
+    bg: 'var(--warning-bg)',
     border: '#fde68a',
     rule: 'Long vowel, pitch falls slowly. Sounds weighty and definitive. First syllable only.',
     desc: `The dugosilazni (long-falling) accent sounds authoritative and deliberate — like someone making a firm statement. The vowel is held longer before the pitch falls. Think of how a news anchor pronounces a city name: "ZAGREB" — that sustained, falling note. In Croatian formal speech and newsreader pronunciation, you hear this accent on key words.`,
@@ -303,7 +304,7 @@ const ACCENTS = [
     nameEn: 'Long-Rising',
     emoji: '📈',
     color: '#0e7490',
-    bg: '#f0f9ff',
+    bg: 'var(--info-bg)',
     border: '#bae6fd',
     rule: 'Long vowel, pitch rises slowly. Sounds musical, almost questioning. Any syllable except last.',
     desc: `The dugouzlazni (long-rising) accent is the most musical of the four — it sounds warm and almost questioning. Imagine someone saying "really?" with a long, rising lilt. The vowel is held longer while the pitch climbs. You hear it most clearly in Dalmatian Croatian, which has a distinctive sing-song quality that comes largely from this accent on key words.`,
@@ -383,7 +384,7 @@ const PRACTICAL = {
   subtitle: 'What actually matters for learners',
   emoji: '🗣️',
   color: '#7c3aed',
-  bg: '#f5f3ff',
+  bg: 'var(--mode-bg)',
   border: '#ddd6fe',
   sections: [
     {
@@ -577,7 +578,7 @@ export default function PitchAccentMastery({
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 26,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               fontWeight: 900,
               marginBottom: 8,
             }}
@@ -587,7 +588,7 @@ export default function PitchAccentMastery({
           <p
             style={{
               fontSize: 14,
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
               lineHeight: 1.6,
               maxWidth: 320,
               margin: '0 auto',
@@ -617,7 +618,7 @@ export default function PitchAccentMastery({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
                 marginBottom: 4,
@@ -625,7 +626,7 @@ export default function PitchAccentMastery({
             >
               prof. Kovač kaže
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.6 }}>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
               Pitch accent is why Croatian sounds like music to foreign ears. It&apos;s also why two
               words can be spelled identically but mean completely different things. Master this and
               your comprehension jumps a full level.
@@ -639,7 +640,7 @@ export default function PitchAccentMastery({
             style={{
               fontSize: 11,
               fontWeight: 900,
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
               textTransform: 'uppercase',
               letterSpacing: '.1em',
               marginBottom: 12,
@@ -667,7 +668,7 @@ export default function PitchAccentMastery({
                   style={{
                     fontSize: 13,
                     fontWeight: 800,
-                    color: a.color,
+                    color: accentInk(a.color),
                     display: 'flex',
                     alignItems: 'center',
                     gap: 6,
@@ -675,7 +676,7 @@ export default function PitchAccentMastery({
                   }}
                 >
                   {a.nameEn}{' '}
-                  <span style={{ fontWeight: 500, color: '#78716c', fontSize: 11 }}>
+                  <span style={{ fontWeight: 500, color: 'var(--ink-muted-warm)', fontSize: 11 }}>
                     ({a.name})
                   </span>
                   <span
@@ -684,13 +685,15 @@ export default function PitchAccentMastery({
                     {LESSON_BY_ACCENT[a.id as keyof typeof LESSON_BY_ACCENT]?.cefr ?? 'B1'}
                   </span>
                 </div>
-                <div style={{ fontSize: 11, color: '#78716c', marginTop: 1 }}>{a.rule}</div>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 1 }}>
+                  {a.rule}
+                </div>
               </div>
               <div
                 style={{
                   fontSize: 22,
                   fontWeight: 900,
-                  color: a.color,
+                  color: accentInk(a.color),
                   fontFamily: 'monospace',
                   flexShrink: 0,
                 }}
@@ -703,7 +706,7 @@ export default function PitchAccentMastery({
 
         <div
           style={{
-            background: 'linear-gradient(135deg,#fef3c7,#fde68a)',
+            background: 'var(--grad-gold)',
             border: '1px solid #fcd34d',
             borderRadius: 14,
             padding: '12px 16px',
@@ -714,7 +717,7 @@ export default function PitchAccentMastery({
             style={{
               fontSize: 11,
               fontWeight: 900,
-              color: '#92400e',
+              color: 'var(--ink-warn)',
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 6,
@@ -730,7 +733,7 @@ export default function PitchAccentMastery({
           ].map((item, i) => (
             <div key={i} style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
               <span style={{ color: '#d97706', fontWeight: 800, flexShrink: 0 }}>✓</span>
-              <span style={{ fontSize: 12, color: '#78350f' }}>{item}</span>
+              <span style={{ fontSize: 12, color: 'var(--ink-warn)' }}>{item}</span>
             </div>
           ))}
         </div>
@@ -820,7 +823,7 @@ export default function PitchAccentMastery({
             style={{
               fontSize: 28,
               fontWeight: 900,
-              color: accent.color,
+              color: accentInk(accent.color),
               fontFamily: 'monospace',
               letterSpacing: '.05em',
               marginBottom: 4,
@@ -828,20 +831,24 @@ export default function PitchAccentMastery({
           >
             {accent.symbol}
           </div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: accent.color }}>{accent.nameEn}</div>
-          <div style={{ fontSize: 13, fontWeight: 600, color: '#78716c', marginTop: 2 }}>
+          <div style={{ fontSize: 20, fontWeight: 900, color: accentInk(accent.color) }}>
+            {accent.nameEn}
+          </div>
+          <div
+            style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-muted-warm)', marginTop: 2 }}
+          >
             {accent.name}
           </div>
           <div
             style={{
               marginTop: 10,
               padding: '8px 16px',
-              background: 'white',
+              background: 'var(--card)',
               borderRadius: 12,
               display: 'inline-block',
               fontSize: 12,
               fontWeight: 700,
-              color: accent.color,
+              color: accentInk(accent.color),
             }}
           >
             {accent.rule}
@@ -897,7 +904,7 @@ export default function PitchAccentMastery({
                     padding: '16px',
                     marginBottom: 12,
                     fontSize: 14,
-                    color: 'var(--body)',
+                    color: 'var(--text)',
                     lineHeight: 1.8,
                   }}
                 >
@@ -921,7 +928,7 @@ export default function PitchAccentMastery({
                       style={{
                         fontSize: 11,
                         fontWeight: 900,
-                        color: accent.color,
+                        color: accentInk(accent.color),
                         textTransform: 'uppercase',
                         letterSpacing: '.08em',
                         marginBottom: 10,
@@ -940,11 +947,16 @@ export default function PitchAccentMastery({
                         }}
                       >
                         <div
-                          style={{ fontSize: 14, color: accent.color, flexShrink: 0, marginTop: 1 }}
+                          style={{
+                            fontSize: 14,
+                            color: accentInk(accent.color),
+                            flexShrink: 0,
+                            marginTop: 1,
+                          }}
                         >
                           •
                         </div>
-                        <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.55 }}>
+                        <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.55 }}>
                           {pt}
                         </div>
                       </div>
@@ -979,7 +991,7 @@ export default function PitchAccentMastery({
               style={{
                 fontSize: 11,
                 fontWeight: 900,
-                color: '#78716c',
+                color: 'var(--ink-muted-warm)',
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
                 marginBottom: 12,
@@ -1012,7 +1024,7 @@ export default function PitchAccentMastery({
                     style={{
                       fontSize: 22,
                       fontWeight: 900,
-                      color: accent.color,
+                      color: accentInk(accent.color),
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
@@ -1074,7 +1086,7 @@ export default function PitchAccentMastery({
               identical in everyday text but have different pitch accents — and therefore different
               meanings. Croatian accent marks are only used in dictionaries and linguistic texts, so
               spoken context is crucial.{' '}
-              <span style={{ fontStyle: 'italic', color: '#a16207' }}>
+              <span style={{ fontStyle: 'italic', color: 'var(--ink-warn)' }}>
                 Audio uses an approximate synthesized pitch contour — not a native recording, but
                 acoustically distinct between the two members.
               </span>
@@ -1116,13 +1128,15 @@ export default function PitchAccentMastery({
                       style={{
                         fontSize: 22,
                         fontWeight: 900,
-                        color: accent.color,
+                        color: accentInk(accent.color),
                         fontFamily: "'Playfair Display',serif",
                       }}
                     >
                       {pair.a.hr}
                     </div>
-                    <div style={{ fontSize: 12, color: '#78716c', marginTop: 3 }}>{pair.a.en}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                      {pair.a.en}
+                    </div>
                     <div style={{ fontSize: 18, marginTop: 4 }}>🔊</div>
                   </button>
                   <div
@@ -1130,7 +1144,7 @@ export default function PitchAccentMastery({
                       display: 'flex',
                       alignItems: 'center',
                       fontWeight: 900,
-                      color: '#78716c',
+                      color: 'var(--ink-muted-warm)',
                       fontSize: 20,
                     }}
                   >
@@ -1166,7 +1180,9 @@ export default function PitchAccentMastery({
                     >
                       {pair.b.hr}
                     </div>
-                    <div style={{ fontSize: 12, color: '#78716c', marginTop: 3 }}>{pair.b.en}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                      {pair.b.en}
+                    </div>
                     <div style={{ fontSize: 18, marginTop: 4 }}>🔊</div>
                   </button>
                 </div>
@@ -1177,7 +1193,7 @@ export default function PitchAccentMastery({
                     fontStyle: 'italic',
                     lineHeight: 1.5,
                     padding: '8px 12px',
-                    background: '#f9f9f9',
+                    background: 'var(--surface-mute)',
                     borderRadius: 8,
                   }}
                 >
@@ -1244,7 +1260,7 @@ export default function PitchAccentMastery({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: accent.color,
+                  color: accentInk(accent.color),
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 8,
@@ -1265,14 +1281,14 @@ export default function PitchAccentMastery({
                 const isSelected = quizSelected === i;
                 let bg = 'var(--card)',
                   border = '1.5px solid var(--card-b)',
-                  color = 'var(--body)';
+                  color = 'var(--text)';
                 if (quizAnswered) {
                   if (isCorrect) {
-                    bg = '#f0fdf4';
+                    bg = 'var(--success-bg)';
                     border = '2px solid #16a34a';
                     color = '#166534';
                   } else if (isSelected && !isCorrect) {
-                    bg = '#fff1f2';
+                    bg = 'var(--error-bg)';
                     border = '2px solid #dc2626';
                     color = '#9b1c1c';
                   }
@@ -1351,14 +1367,14 @@ export default function PitchAccentMastery({
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 22,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               fontWeight: 900,
               marginBottom: 4,
             }}
           >
             {PRACTICAL.title}
           </h2>
-          <p style={{ fontSize: 13, color: '#78716c' }}>{PRACTICAL.subtitle}</p>
+          <p style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{PRACTICAL.subtitle}</p>
         </div>
 
         {PRACTICAL.sections.map((s, i) => (
@@ -1373,10 +1389,12 @@ export default function PitchAccentMastery({
               marginBottom: 12,
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#5b21b6', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 6 }}
+            >
               {s.heading}
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.7 }}>{s.text}</div>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.7 }}>{s.text}</div>
           </div>
         ))}
 
@@ -1385,7 +1403,7 @@ export default function PitchAccentMastery({
             style={{
               fontSize: 11,
               fontWeight: 900,
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 10,
@@ -1400,14 +1418,16 @@ export default function PitchAccentMastery({
                 display: 'flex',
                 gap: 12,
                 padding: '10px 14px',
-                background: '#f5f3ff',
+                background: 'var(--mode-bg)',
                 border: '1px solid #ddd6fe',
                 borderRadius: 12,
                 marginBottom: 8,
               }}
             >
               <span style={{ fontSize: 22, flexShrink: 0 }}>{t.icon}</span>
-              <span style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{t.text}</span>
+              <span style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>
+                {t.text}
+              </span>
             </div>
           ))}
         </div>
@@ -1441,7 +1461,7 @@ export default function PitchAccentMastery({
         style={{
           fontFamily: "'Playfair Display',serif",
           fontSize: 26,
-          color: '#164e63',
+          color: 'var(--ink-strong)',
           fontWeight: 900,
           marginBottom: 8,
         }}
@@ -1451,7 +1471,7 @@ export default function PitchAccentMastery({
       <p
         style={{
           fontSize: 14,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           lineHeight: 1.6,
           maxWidth: 300,
           margin: '0 auto 24px',
@@ -1462,7 +1482,7 @@ export default function PitchAccentMastery({
       </p>
       <div
         style={{
-          background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+          background: 'var(--grad-violet)',
           border: '2px solid #c4b5fd',
           borderRadius: 20,
           padding: '20px',
@@ -1473,10 +1493,12 @@ export default function PitchAccentMastery({
           {ACCENTS.map((a) => (
             <div key={a.id} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 28 }}>{a.emoji}</div>
-              <div style={{ fontSize: 10, fontWeight: 800, color: a.color, marginTop: 2 }}>
+              <div
+                style={{ fontSize: 10, fontWeight: 800, color: accentInk(a.color), marginTop: 2 }}
+              >
                 {a.nameEn.split('-')[0]}
               </div>
-              <div style={{ fontSize: 18, color: '#16a34a', fontWeight: 900 }}>✓</div>
+              <div style={{ fontSize: 18, color: 'var(--ink-green)', fontWeight: 900 }}>✓</div>
             </div>
           ))}
         </div>

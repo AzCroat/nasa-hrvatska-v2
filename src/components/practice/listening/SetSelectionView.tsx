@@ -2,6 +2,7 @@ import React from 'react';
 import BonusStoryCard from './BonusStoryCard';
 import GradedStoryModal from './GradedStoryModal';
 import type { ListeningQuiz } from './useListeningQuiz';
+import { accentInk } from '../../../lib/accentInk';
 
 /** Set-selection screen for a chosen level — set list + bonus story. */
 export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
@@ -84,7 +85,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
             style={{
               width: pct + '%',
               height: '100%',
-              background: 'white',
+              background: 'var(--card)',
               borderRadius: 3,
               transition: 'width .4s ease',
             }}
@@ -113,8 +114,10 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
         >
           <div style={{ fontSize: 24 }}>🏆</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: '#166534' }}>Level complete!</div>
-            <div style={{ fontSize: 12, color: '#166534', opacity: 0.8 }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-green)' }}>
+              Level complete!
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', opacity: 0.8 }}>
               All sets finished. Review anytime.
             </div>
           </div>
@@ -157,7 +160,11 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
                 >
                   {set.title}
                   {complete && (
-                    <span style={{ marginLeft: 8, fontSize: 13, color: levelData.color }}>✓</span>
+                    <span
+                      style={{ marginLeft: 8, fontSize: 13, color: accentInk(levelData.color) }}
+                    >
+                      ✓
+                    </span>
                   )}
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 6 }}>
@@ -188,7 +195,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
                   {setDone}/{setTotal} done
                 </div>
               </div>
-              <div style={{ fontSize: 20, color: levelData.color }}>→</div>
+              <div style={{ fontSize: 20, color: accentInk(levelData.color) }}>→</div>
             </button>
           );
         })}

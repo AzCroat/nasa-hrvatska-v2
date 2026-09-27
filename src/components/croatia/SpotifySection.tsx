@@ -7,7 +7,7 @@ const SPOTIFY_PLAYLISTS = {
       name: 'This Is Oliver Dragojević',
       desc: 'The soul of Dalmatia — all the classics',
       icon: '🎤',
-      color: 'var(--info-dark, #0369a1)',
+      color: '#0369a1',
       tag: 'Legend',
     },
     {
@@ -15,7 +15,7 @@ const SPOTIFY_PLAYLISTS = {
       name: 'This Is Prljavo Kazalište',
       desc: "Croatia's greatest rock band — essential listening",
       icon: '🎸',
-      color: 'var(--error)',
+      color: '#dc2626',
       tag: 'Rock',
     },
     {
@@ -23,7 +23,7 @@ const SPOTIFY_PLAYLISTS = {
       name: 'Thompson',
       desc: 'Patriotic Croatian rock — Marko Perković Thompson',
       icon: '🇭🇷',
-      color: 'var(--error)',
+      color: '#dc2626',
       tag: 'Patriotic',
     },
     {
@@ -39,7 +39,7 @@ const SPOTIFY_PLAYLISTS = {
       name: 'Magazin',
       desc: "Croatia's beloved pop group — hits spanning 4 decades",
       icon: '💫',
-      color: 'var(--lavender, #9333ea)',
+      color: '#9333ea',
       tag: 'Pop',
     },
     {
@@ -81,7 +81,7 @@ const SPOTIFY_PLAYLISTS = {
       name: 'Ultra Europe 2025',
       desc: "The sound of Split's legendary festival",
       icon: '🎉',
-      color: 'var(--lavender, #7c3aed)',
+      color: '#7c3aed',
       tag: 'Festival',
     },
   ],

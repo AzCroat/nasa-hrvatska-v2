@@ -171,8 +171,9 @@ test.describe('route render sweep', () => {
    * nodes span at least eight palette colours (slate-400 211, green-600 181,
    * gray-400 107, stone-400 60, cyan-600 43 …), and 246 of them come from CSS
    * classes rather than inline styles. `--subtext` was already darkened to
-   * #555e6e for exactly this reason — its own comment in index.css says "WCAG
-   * AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small text)" — while
+   * #555e6e for exactly this reason — though its old comment in index.css claimed
+   * "#64748b = 4.0:1, failed", which is wrong: that colour measures 4.76:1 and
+   * PASSES AA for normal text (corrected 2026-09-27) — while
    * ~130 hardcoded `#94a3b8` literals never followed it. Repairing that is a
    * change to how the product LOOKS on most of its screens, which is an owner's
    * decision and not a test's. Asserting it here would either fail the workflow

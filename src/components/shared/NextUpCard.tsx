@@ -11,20 +11,22 @@
  * Recomputes on every mount — a tab visit is a fresh decision point.
  */
 
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { type NextStep } from '../../lib/nextStep.js';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine.js';
 import { useLaunchFailure } from '../../hooks/useLaunchFailure';
 import LaunchFailureNotice from './LaunchFailureNotice';
 
 export default function NextUpCard() {
-  const { computeStep, launch } = useNextStepEngine();
+  const { computeStep, launch, revision } = useNextStepEngine();
   // Tapping Start used to be a silent no-op when the launch failed — this card
   // is pinned atop the Practice tab and had no failure surface at all.
   const { reason: launchError, clear: clearLaunchError } = useLaunchFailure();
-  // Once per mount: the recommendation for THIS visit. (Lazy initializer —
-  // never recomputed on re-render, so the card can't flicker mid-visit.)
-  const [step] = useState<NextStep | null>(computeStep);
+  // The recommendation for THIS visit: never recomputed on an ordinary re-render, so
+  // the card cannot flicker mid-visit — but recomputed ONCE if the curriculum spine
+  // lands after mount, which on a first load it always does (2026-09-27).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const step = useMemo<NextStep | null>(() => computeStep(), [revision]);
 
   if (!step) return null;
 
@@ -91,8 +93,8 @@ export default function NextUpCard() {
           style={{
             flexShrink: 0,
             padding: '10px 16px',
-            background: '#fff',
-            color: '#0a5c73',
+            background: 'var(--card)',
+            color: 'var(--ink-accent)',
             border: 'none',
             borderRadius: 11,
             fontSize: 13,

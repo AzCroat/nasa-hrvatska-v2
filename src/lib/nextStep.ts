@@ -45,9 +45,18 @@ import {
   type SessionActivity,
 } from '../hooks/useDailySession.js';
 import { localDateStr } from './dateUtils.js';
+import { nextCourseStep, type CourseStep } from './courseStep';
+import type { ProductionKind } from './unitProduction';
 
 export type NextStepKind =
-  'verification' | 'session' | 'srs' | 'retention' | 'production' | 'discovery' | 'browse';
+  | 'verification'
+  | 'session'
+  | 'srs'
+  | 'retention'
+  | 'course'
+  | 'production'
+  | 'discovery'
+  | 'browse';
 
 export interface NextStep {
   kind: NextStepKind;
@@ -62,6 +71,16 @@ export interface NextStep {
   label: string;
   /** One human sentence on why THIS is the next step. */
   reason: string;
+  /**
+   * Kind 'course' only: the handoff the unit screens read. `getNextStep` stays
+   * read-only — the LAUNCHER makes this request, at tap time, exactly as the
+   * session's teaching slot does at build time.
+   */
+  course?: {
+    unitId: string;
+    request: 'lesson' | 'unit-test' | 'recheck' | 'production';
+    owed?: ProductionKind;
+  };
 }
 
 /** Read today's persisted daily session directly (pure; no hook instance). */
@@ -77,6 +96,42 @@ function readTodaySession(): DailySession | null {
   } catch {
     return null;
   }
+}
+
+/** The next-step form of a course step. Pure — the launcher makes the handoff. */
+export function courseNextStep(c: CourseStep): NextStep {
+  const n = c.unit.index;
+  if (c.kind === 'lesson')
+    return {
+      kind: 'course',
+      screen: 'animlesson',
+      label: `${c.lesson.title} — Unit ${n}`,
+      reason: c.reason,
+      course: { unitId: c.unit.id, request: 'lesson' },
+    };
+  if (c.kind === 'unit-test')
+    return {
+      kind: 'course',
+      screen: 'unittest',
+      label: `Take the Unit ${n} test`,
+      reason: c.reason,
+      course: { unitId: c.unit.id, request: 'unit-test' },
+    };
+  if (c.kind === 'recheck')
+    return {
+      kind: 'course',
+      screen: 'unittest',
+      label: `Unit ${n} check-up`,
+      reason: c.reason,
+      course: { unitId: c.unit.id, request: 'recheck' },
+    };
+  return {
+    kind: 'course',
+    screen: 'unitproduction',
+    label: `Unit ${n}: ${c.owed === 'speak' ? 'speak' : 'write'} what you learned`,
+    reason: c.reason,
+    course: { unitId: c.unit.id, request: 'production', owed: c.owed },
+  };
 }
 
 /**
@@ -171,6 +226,21 @@ export function getNextStep(opts: {
     /* retention store unreadable — fall through */
   }
 
+  // 3.7 — THE COURSE (2026-09-27). Once today's plan is done, a learner who wants
+  // to keep going is sent to their next lesson, unit test, owed production task or
+  // check-up — not to a least-recently-served drill. Found walking a learner's day in
+  // a browser: a Unit 1 learner who finished the session was told "Next up:
+  // Accusative", an unrelated drill, while their unit's next lesson sat unoffered —
+  // the "bounces around" the owner reported. It reads `nextCourseStep`, the same
+  // sequencer Home's teaching slot and the course map read, so the three cannot
+  // disagree. Below SRS and the lesson re-checks, which are time-sensitive decay.
+  try {
+    const c = nextCourseStep();
+    if (c) return courseNextStep(c);
+  } catch {
+    /* course data unreadable — fall through */
+  }
+
   // 4 — weakest evidenced production skill (the fluency lever).
   try {
     const weak = weakestProductionKind(userCefr as CefrLevel);
@@ -188,7 +258,7 @@ export function getNextStep(opts: {
           category: ex.category,
           label: ex.label,
           reason:
-            buildPlanReason(userCefr as CefrLevel) ??
+            buildPlanReason(userCefr as CefrLevel, [weak === 'speak' ? 'speaking' : 'writing']) ??
             `Fluency grows by ${weak === 'speak' ? 'speaking' : 'writing'} — this trains it.`,
         };
       }

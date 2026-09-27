@@ -4,30 +4,7 @@ import { markQuest } from '../../lib/quests.js';
 import { recordScreenPractised } from '../../lib/teachPractice';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext.tsx';
-
-interface AlphaQuizQuestion {
-  prompt: string;
-  promptEn: string;
-  ipa: string;
-  correct: string;
-  opts: string[];
-}
-
-// Build 10 quiz questions: hear a description → pick the letter
-function buildAlphaQuiz(alpha: string[][]): AlphaQuizQuestion[] {
-  // Pick 10 letters spread across the alphabet
-  const pool = sh([...alpha]).slice(0, 10);
-  return pool.map((letter: string[]) => {
-    const distractors = sh(alpha.filter((l: string[]) => l[0] !== letter[0])).slice(0, 3);
-    return {
-      prompt: letter[2] ?? '',
-      promptEn: letter[3] ?? '',
-      ipa: letter[1] ?? '',
-      correct: letter[0] ?? '',
-      opts: sh([letter[0] ?? '', ...distractors.map((d: string[]) => d[0] ?? '')]),
-    };
-  });
-}
+import { buildAlphaQuiz } from '../../lib/alphaQuiz';
 
 interface Props {
   goBack: () => void;
@@ -39,7 +16,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
   const [mode, setMode] = useState('reference'); // 'reference' | 'quiz'
 
   // Quiz state
-  const questions = useMemo(() => buildAlphaQuiz(ALPHA), []);
+  const questions = useMemo(() => buildAlphaQuiz(ALPHA, sh), []);
   const [qi, setQi] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -132,7 +109,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
     setAnswered(true);
     if (isCorrect) {
       setScore((s) => s + 1);
-      speak(q.prompt);
+      speak(q.word);
     }
   }
 
@@ -160,7 +137,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
               background: 'rgba(22,163,74,.08)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#15803d',
+              color: 'var(--ink-green)',
               fontWeight: 700,
             }}
           >
@@ -211,7 +188,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   style={{
                     fontSize: 22,
                     fontWeight: 800,
-                    color: learnedRef.current.has(l[0]) ? '#16a34a' : '#164e63',
+                    color: learnedRef.current.has(l[0]) ? 'var(--ink-green)' : 'var(--ink-strong)',
                     fontFamily: 'monospace',
                     minWidth: 55,
                   }}
@@ -220,11 +197,15 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   {learnedRef.current.has(l[0]) ? ' ✓' : ''}
                 </span>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>
-                    {l[4]} <span style={{ fontWeight: 400, color: '#78716c' }}>({l[1]})</span>
+                  <div style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                    {l[4]}{' '}
+                    <span style={{ fontWeight: 400, color: 'var(--ink-muted-warm)' }}>
+                      ({l[1]})
+                    </span>
                   </div>
                   <div style={{ fontSize: 13 }}>
-                    {l[2]} <span style={{ color: '#78716c', fontSize: 11 }}>({l[3]})</span>
+                    {l[2]}{' '}
+                    <span style={{ color: 'var(--ink-muted-warm)', fontSize: 11 }}>({l[3]})</span>
                   </div>
                 </div>
               </div>
@@ -255,10 +236,12 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 48, marginBottom: 12 }}>
             {pct >= 0.9 ? '🏆' : pct >= 0.7 ? '⭐' : '💪'}
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {score}/{questions.length} correct
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 24 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 24 }}>
             {pct >= 0.9
               ? 'You know the Croatian alphabet! Each letter → one sound.'
               : pct >= 0.7
@@ -318,7 +301,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 12,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             marginBottom: 8,
             fontWeight: 700,
             letterSpacing: '.05em',
@@ -326,16 +309,17 @@ export default function AlphabetScreen({ goBack, award }: Props) {
         >
           WHICH LETTER SOUNDS LIKE THIS?
         </div>
-        <div style={{ fontSize: 13, color: '#78716c', marginBottom: 6 }}>
-          The word <strong style={{ color: '#164e63' }}>{q.prompt}</strong> ({q.promptEn}) starts
-          with the sound:
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
+          The word{' '}
+          <strong style={{ color: 'var(--ink-strong)', letterSpacing: '.04em' }}>{q.masked}</strong>{' '}
+          ({q.promptEn}) starts with the sound:
         </div>
         <button
-          onClick={() => speak(q.prompt)}
+          onClick={() => speak(q.word)}
           style={{
             fontSize: 18,
             fontWeight: 900,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             background: 'rgba(14,116,144,.08)',
             border: '2px solid rgba(14,116,144,.2)',
             borderRadius: 12,
@@ -398,12 +382,12 @@ export default function AlphabetScreen({ goBack, award }: Props) {
             background: selected === q.correct ? 'rgba(22,163,74,.07)' : 'rgba(220,38,38,.06)',
             border: `1px solid ${selected === q.correct ? 'rgba(22,163,74,.2)' : 'rgba(220,38,38,.15)'}`,
             fontSize: 12,
-            color: '#44403c',
+            color: 'var(--ink-body)',
           }}
         >
           {selected === q.correct
             ? `✓ "${q.correct}" always sounds ${q.ipa}`
-            : `✗ It's "${q.correct}" — always sounds ${q.ipa}. In "${q.prompt}" (${q.promptEn}).`}
+            : `✗ It's "${q.correct}" — always sounds ${q.ipa}. In "${q.word}" (${q.promptEn}).`}
         </div>
       )}
 
@@ -422,7 +406,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           border: 'none',
           background: 'none',
           fontSize: 12,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           cursor: 'pointer',
           textDecoration: 'underline',
         }}

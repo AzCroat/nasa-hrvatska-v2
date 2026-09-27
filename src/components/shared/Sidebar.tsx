@@ -492,7 +492,11 @@ export default function Sidebar({
                 display: 'flex',
                 alignItems: 'center',
                 color:
-                  tab === t.id ? (t.id === 'croatia' ? '#D40030' : '#002868') : 'var(--nav-lbl)',
+                  tab === t.id
+                    ? t.id === 'croatia'
+                      ? 'var(--ink-red)'
+                      : 'var(--ink-navy)'
+                    : 'var(--nav-lbl)',
                 flexShrink: 0,
               }}
             >
@@ -549,7 +553,12 @@ export default function Sidebar({
               <line x1="21" y1="12" x2="9" y2="12" />
             </svg>
             <span
-              style={{ fontSize: 12, fontWeight: 700, color: '#b45309', letterSpacing: '.01em' }}
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: 'var(--ink-warn)',
+                letterSpacing: '.01em',
+              }}
             >
               Sign Out
             </span>

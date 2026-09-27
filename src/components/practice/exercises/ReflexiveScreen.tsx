@@ -6,6 +6,7 @@ import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
 import { retryNeedLabel } from '../../../lib/lessonGate';
+import { accentInk } from '../../../lib/accentInk';
 
 interface Props {
   goBack: () => void;
@@ -81,7 +82,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
           borderLeft: '3px solid #0e7490',
         }}
       >
-        <div style={{ fontSize: 13, color: '#164e63', lineHeight: 1.6 }}>{REFLEXIVE.intro}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-strong)', lineHeight: 1.6 }}>
+          {REFLEXIVE.intro}
+        </div>
       </div>
 
       {/* Tab bar */}
@@ -138,7 +141,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                 key={ri}
                 style={{
                   marginBottom: 12,
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid rgba(0,0,0,.07)',
                   overflow: 'hidden',
@@ -156,7 +159,9 @@ function ReflexiveScreen({ goBack, award }: Props) {
                   }}
                 >
                   <span style={{ fontSize: 18 }}>{r.icon}</span>
-                  <span style={{ fontSize: 13, fontWeight: 800, color: '#164e63' }}>{r.rule}</span>
+                  <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-strong)' }}>
+                    {r.rule}
+                  </span>
                 </div>
                 <div style={{ padding: '12px 16px' }}>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 8, flexWrap: 'wrap' }}>
@@ -165,17 +170,22 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         flex: 1,
                         minWidth: 140,
                         padding: '8px 12px',
-                        background: '#fee2e2',
+                        background: 'var(--error-bg-strong)',
                         borderRadius: 10,
                         fontSize: 12,
                       }}
                     >
                       <div
-                        style={{ fontSize: 10, fontWeight: 700, color: '#dc2626', marginBottom: 3 }}
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          color: 'var(--ink-error)',
+                          marginBottom: 3,
+                        }}
                       >
                         ✗ WRONG
                       </div>
-                      <div style={{ fontStyle: 'italic', color: '#7f1d1d' }}>{r.bad}</div>
+                      <div style={{ fontStyle: 'italic', color: 'var(--ink-error)' }}>{r.bad}</div>
                     </div>
                     <button
                       aria-label={`Play correct form: ${r.good}`}
@@ -183,7 +193,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         flex: 1,
                         minWidth: 140,
                         padding: '8px 12px',
-                        background: '#dcfce7',
+                        background: 'var(--success-bg)',
                         borderRadius: 10,
                         fontSize: 12,
                         border: 'none',
@@ -196,14 +206,21 @@ function ReflexiveScreen({ goBack, award }: Props) {
                       }}
                     >
                       <div
-                        style={{ fontSize: 10, fontWeight: 700, color: '#16a34a', marginBottom: 3 }}
+                        style={{
+                          fontSize: 10,
+                          fontWeight: 700,
+                          color: 'var(--ink-green)',
+                          marginBottom: 3,
+                        }}
                       >
                         ✓ CORRECT <span aria-hidden="true">🔊</span>
                       </div>
-                      <div style={{ fontWeight: 700, color: '#14532d' }}>{r.good}</div>
+                      <div style={{ fontWeight: 700, color: 'var(--ink-green)' }}>{r.good}</div>
                     </button>
                   </div>
-                  <div style={{ fontSize: 11, color: '#78716c', lineHeight: 1.5 }}>{r.note}</div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', lineHeight: 1.5 }}>
+                    {r.note}
+                  </div>
                 </div>
               </div>
             );
@@ -221,7 +238,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               lineHeight: 1.6,
             }}
           >
@@ -235,7 +252,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                 key={ei}
                 style={{
                   marginBottom: 16,
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid rgba(0,0,0,.07)',
                   overflow: 'hidden',
@@ -249,8 +266,12 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     borderBottom: '1px solid rgba(14,116,144,.08)',
                   }}
                 >
-                  <span style={{ fontSize: 14, fontWeight: 800, color: '#164e63' }}>{ex.verb}</span>
-                  <span style={{ fontSize: 12, color: '#78716c', marginLeft: 8 }}>— {ex.en}</span>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-strong)' }}>
+                    {ex.verb}
+                  </span>
+                  <span style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginLeft: 8 }}>
+                    — {ex.en}
+                  </span>
                 </div>
                 <div
                   style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}
@@ -278,7 +299,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         <span
                           style={{
                             background: c + '20',
-                            color: c,
+                            color: accentInk(c),
                             fontSize: 9,
                             fontWeight: 800,
                             padding: '3px 6px',
@@ -290,13 +311,15 @@ function ReflexiveScreen({ goBack, award }: Props) {
                           {row.label}
                         </span>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917' }}>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)' }}>
                             {row.data.hr}{' '}
                             <span style={{ fontSize: 12, opacity: 0.6 }} aria-hidden="true">
                               🔊
                             </span>
                           </div>
-                          <div style={{ fontSize: 11, color: '#78716c' }}>{row.data.en}</div>
+                          <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
+                            {row.data.en}
+                          </div>
                         </div>
                       </div>
                     );
@@ -323,8 +346,12 @@ function ReflexiveScreen({ goBack, award }: Props) {
                   }}
                 >
                   <div>
-                    <span style={{ fontSize: 16, fontWeight: 800, color: '#164e63' }}>{v.inf}</span>
-                    <span style={{ fontSize: 13, color: '#78716c', marginLeft: 8 }}>{v.en}</span>
+                    <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)' }}>
+                      {v.inf}
+                    </span>
+                    <span style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginLeft: 8 }}>
+                      {v.en}
+                    </span>
                   </div>
                   <button
                     aria-label={`Play audio for ${v.inf}`}
@@ -359,7 +386,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                           speak(formVal);
                         }, 'Hear ' + formVal)}
                       >
-                        <span style={{ fontWeight: 700, color: '#0e7490' }}>
+                        <span style={{ fontWeight: 700, color: 'var(--ink-accent)' }}>
                           {p}
                           {': '}
                         </span>
@@ -373,6 +400,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     style={{
                       padding: '4px 8px',
                       background: '#fef3c7',
+                      color: '#1c1917',
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}
@@ -387,6 +415,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     style={{
                       padding: '4px 8px',
                       background: '#fce7f3',
+                      color: '#1c1917',
                       borderRadius: 10,
                       cursor: 'pointer',
                     }}
@@ -414,7 +443,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct Croatian sentence. Pay attention to SE placement!
@@ -422,7 +451,14 @@ function ReflexiveScreen({ goBack, award }: Props) {
           {REFLEXIVE.quiz.map(function (q, qi) {
             return (
               <div key={qi} className="c" style={{ marginBottom: 12 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 10, color: '#1c1917' }}>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 700,
+                    marginBottom: 10,
+                    color: 'var(--ink-ink)',
+                  }}
+                >
                   {'🇬🇧 '}
                   {q.q}
                 </div>
@@ -469,7 +505,14 @@ function ReflexiveScreen({ goBack, award }: Props) {
                   );
                 })}
                 {answers[qi] !== undefined && (
-                  <div style={{ fontSize: 11, color: '#16a34a', marginTop: 4, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: 'var(--ink-green)',
+                      marginTop: 4,
+                      fontWeight: 700,
+                    }}
+                  >
                     {answers[qi] === q.a ? '✓ Correct! +5 XP' : '✗ Correct: ' + q.a}
                   </div>
                 )}
@@ -489,7 +532,14 @@ function ReflexiveScreen({ goBack, award }: Props) {
                     ? '⭐'
                     : '💪'}
               </div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: 800,
+                  color: 'var(--ink-strong)',
+                  marginBottom: 4,
+                }}
+              >
                 {REFLEXIVE.quiz.filter((q, i) => answers[i] === q.a).length}/{REFLEXIVE.quiz.length}{' '}
                 correct
               </div>

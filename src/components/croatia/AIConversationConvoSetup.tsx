@@ -2,6 +2,7 @@ import React from 'react';
 import { portraitSrc } from './SpeakingAvatar';
 import { deriveWeakAreas } from './ConversationScenarios.js';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface ConvoScenario {
   id: string;
@@ -150,7 +151,7 @@ export default function AIConversationConvoSetup({
             style={{
               fontSize: 14,
               fontWeight: 900,
-              color: scenario?.id === '__freetalk__' ? '#7c3aed' : 'var(--heading)',
+              color: scenario?.id === '__freetalk__' ? 'var(--ink-mode)' : 'var(--heading)',
             }}
           >
             Free Talk — No Script Needed
@@ -160,7 +161,9 @@ export default function AIConversationConvoSetup({
           </div>
         </div>
         {scenario?.id === '__freetalk__' ? (
-          <div style={{ fontSize: 18, color: '#7c3aed', fontWeight: 900, flexShrink: 0 }}>✓</div>
+          <div style={{ fontSize: 18, color: 'var(--ink-mode)', fontWeight: 900, flexShrink: 0 }}>
+            ✓
+          </div>
         ) : (
           <div style={{ fontSize: 18, color: 'var(--subtext)', opacity: 0.4, flexShrink: 0 }}>
             ›
@@ -451,7 +454,7 @@ export default function AIConversationConvoSetup({
                   <div
                     style={{
                       fontSize: 20,
-                      color: selected ? s.color : 'var(--subtext)',
+                      color: selected ? accentInk(s.color) : 'var(--subtext)',
                       opacity: selected ? 1 : 0.3,
                     }}
                   >
@@ -546,7 +549,7 @@ export default function AIConversationConvoSetup({
               Describe any situation — AI generates a scene image
             </div>
           </div>
-          <div style={{ fontSize: 18, color: '#7c3aed', opacity: 0.6 }}>
+          <div style={{ fontSize: 18, color: 'var(--ink-mode)', opacity: 0.6 }}>
             {showCustom ? '▾' : '›'}
           </div>
         </div>
@@ -629,7 +632,7 @@ export default function AIConversationConvoSetup({
                   borderRadius: 10,
                   fontSize: 12,
                   fontWeight: 700,
-                  color: '#7c3aed',
+                  color: 'var(--ink-mode)',
                 }}
               >
                 ✓ Custom scenario selected — start when ready
@@ -679,7 +682,7 @@ export default function AIConversationConvoSetup({
             padding: '12px 16px',
             marginBottom: 12,
             fontSize: 'var(--text-sm)',
-            color: 'var(--warning)',
+            color: 'var(--ink-warn)',
             fontWeight: 600,
             display: 'flex',
             gap: 10,

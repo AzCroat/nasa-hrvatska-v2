@@ -9,7 +9,7 @@
  * level, count SRS, set session credit markers, or route by kind.
  */
 
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../context/AppContext.jsx';
 import { getNextStep, type NextStep } from '../lib/nextStep.js';
 import { setSessionCategory } from '../lib/sessionCategory.js';
@@ -17,6 +17,10 @@ import { getUserCefr } from '../lib/cefr.js';
 import { getContentUnlockLevel } from '../lib/cefrCertification.js';
 import { useContent } from './useContent.js';
 import { SESSION_SCREEN_IDS } from './useDailySession.js';
+import { requestUnitTest } from '../lib/courseUnitProgress';
+import { requestUnitProduction } from '../lib/unitProductionRequest';
+import { CURRICULUM_SPINE_EVENT } from '../lib/curriculumProgress';
+import { rearmCourseHandoff } from '../lib/curriculumSlot';
 
 /** Same servable-vocab pool HomeTab builds — used for the SRS due count.
  *  Content is lazy-loaded (useContent); until it arrives the SRS rung of the
@@ -53,6 +57,13 @@ export interface NextStepEngine {
    *  (verification → Level Check, browse → Learn-tab library, session →
    *  credit markers first). */
   launch: (s: NextStep) => void;
+  /**
+   * Bumps when the curriculum spine lands. A surface that computes its step once
+   * (Home's completion hero, the Practice tab's NextUpCard) must include it, or a
+   * first load — where the spine arrives seconds after the first render — keeps the
+   * pre-spine answer (a random drill instead of the learner's next lesson) all day.
+   */
+  revision: number;
   /** Nav-identity key: changes whenever the user navigates. */
   navKey: string;
 }
@@ -64,6 +75,13 @@ export function useNextStepEngine(): NextStepEngine {
     () => buildPoolWords(content?.V as Record<string, unknown[][]> | undefined),
     [content?.V],
   );
+
+  const [revision, setRevision] = useState(0);
+  useEffect(() => {
+    const bump = () => setRevision((r) => r + 1);
+    window.addEventListener(CURRICULUM_SPINE_EVENT, bump);
+    return () => window.removeEventListener(CURRICULUM_SPINE_EVENT, bump);
+  }, []);
 
   const st = ctx?.st;
   const computeStep = useCallback((): NextStep | null => {
@@ -97,6 +115,15 @@ export function useNextStepEngine(): NextStepEngine {
           setScr?.('equivalency');
           return;
         }
+        if (s.kind === 'course' && s.course) {
+          // The unit screens read a one-shot handoff; make it at tap time, as the
+          // session's teaching slot does at build time. A lesson needs none —
+          // the lesson launcher resolves the course's next lesson itself.
+          const c = s.course;
+          if (c.request === 'unit-test') requestUnitTest(c.unitId);
+          else if (c.request === 'recheck') requestUnitTest(c.unitId, 'recheck');
+          else if (c.request === 'production' && c.owed) requestUnitProduction(c.unitId, c.owed);
+        }
         if (s.kind === 'session' && s.activityId) {
           // Credit today's plan on return — same markers HomeTab's start sets.
           // ALLOWLIST WRITE: the stored value is the matching member of the
@@ -112,6 +139,7 @@ export function useNextStepEngine(): NextStepEngine {
               if (id === s.screen) {
                 sessionStorage.setItem('nh_session_started', id);
                 setSessionCategory(s.activityId);
+                rearmCourseHandoff(s.activityId);
                 break;
               }
             }
@@ -134,6 +162,7 @@ export function useNextStepEngine(): NextStepEngine {
   return {
     computeStep,
     launch,
+    revision,
     navKey: `${ctx?.tab ?? ''}|${ctx?.currentScreen ?? ''}`,
   };
 }

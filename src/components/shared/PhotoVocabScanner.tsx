@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import { accentInk } from '../../lib/accentInk';
 
 // Detect desktop: has fine pointer (mouse) and hover capability
 function isDesktop() {
@@ -77,7 +78,7 @@ function VocabCard({
           style={{
             fontSize: 18,
             fontWeight: 800,
-            color: BRAND_RED,
+            color: accentInk(BRAND_RED),
             lineHeight: 1.2,
             marginBottom: 2,
             fontFamily: "'Playfair Display', serif",
@@ -104,7 +105,7 @@ function VocabCard({
             style={{
               fontSize: 12,
               fontStyle: 'italic',
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
               marginBottom: 6,
             }}
           >

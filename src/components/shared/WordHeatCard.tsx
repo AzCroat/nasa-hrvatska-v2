@@ -3,6 +3,7 @@
 import React from 'react';
 import { scoreColor } from './pronunciationUtils.js';
 import { PhonemeCell } from './PhonemeCell';
+import { accentInk } from '../../lib/accentInk';
 
 export interface PhonemePoint {
   phoneme: string;
@@ -66,7 +67,7 @@ export function WordHeatCard({ wordScore }: WordHeatCardProps): React.ReactEleme
           style={{
             ...STYLES.wordScore,
             background: `${color}22`,
-            color,
+            color: accentInk(color),
           }}
         >
           {score}%

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
-import { markQuest } from '../../lib/quests.js';
 import { useStats } from '../../context/StatsContext';
 import { passedLesson } from '../../lib/lessonGate';
 
@@ -15,7 +15,7 @@ interface QuizBlockProps {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
 function QuizBlock({ questions, award }: QuizBlockProps) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [score, setScore] = useState<number | null>(null);
 
@@ -30,9 +30,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
       setScore(pts);
       if (award) {
         award(pts * 5, false, 'grammar');
-        markQuest('grammar');
-        setStats((s) => ({ ...s, gc: s.gc + 1 }));
-        writeDelta({ gc: 1 });
+        completeExercise({ key: 'bureaucratic', xp: 0, stats, setStats, writeDelta });
       }
     }
   }
@@ -102,7 +100,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -202,7 +200,9 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
               );
             })}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)', marginBottom: 10 }}
+          >
             {cat?.icon} {cat?.name}
           </div>
           {(cat?.words ?? []).map(function (w: any, i: number) {
@@ -221,10 +221,10 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(w.hr)}
               >
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {w.hr} <span aria-hidden="true">🔊</span>
                 </span>
-                <span style={{ fontSize: 13, color: '#78716c' }}>{w.en}</span>
+                <span style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{w.en}</span>
               </button>
             );
           })}
@@ -240,7 +240,7 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -262,10 +262,12 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 3 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                  {p.en}
+                </div>
               </button>
             );
           })}

@@ -90,7 +90,11 @@ describe('PronounsScreen contract (Pattern X)', () => {
 
     answerAll(OPT_BORDER, ANSWERS, 'correct');
 
-    expect(markQuestMock).not.toHaveBeenCalled();
+    // THE DAILY QUEST IS MARKED ON A REPLAY (2026-09-26). It is DAY-scoped while `vs` is
+    // ONCE-EVER: an exercise finished last month must still count toward today's quest, and
+    // before this the further a learner progressed the fewer screens could advance one.
+    // What must not happen twice is the gc/vs write asserted below.
+    expect(markQuestMock).toHaveBeenCalled();
     expect(setStats).not.toHaveBeenCalled();
     expect(writeDelta).not.toHaveBeenCalled();
   });

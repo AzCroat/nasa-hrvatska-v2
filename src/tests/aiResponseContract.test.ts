@@ -38,6 +38,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync, readdirSync } from 'node:fs';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 
 const API = 'functions/api';
 const strip = (s: string) =>
@@ -54,7 +55,7 @@ const strip = (s: string) =>
     // block pass instead of becoming a runaway.
     .replace(/([^\S\n])\/\/(?:(?!\*\/)[^\n])*$/gm, '$1')
     .replace(/\/\*[\s\S]*?\*\//g, '');
-const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const esc = escapeRegExp;
 
 /**
  * A path start with NO closing quote required — a query string must not hide it —
@@ -347,13 +348,28 @@ type Subject = { file: string; path: string; keys: Set<string>; endpoints: strin
  * endpoint A but read off B's response. It still catches the `v.tip` class — a field
  * NO endpoint in the file sends — which is the failure that has actually shipped.
  */
+/** Library functions that ARE a call to one endpoint. Pinned by source below. */
+const ENDPOINT_HELPERS: Record<string, string> = {
+  requestSpeakingCoach: '/api/speaking-coach',
+};
+
 function attributable(): Subject[] {
   const eps = endpointFiles();
   const out: Subject[] = [];
   for (const f of globSync('src/**/*.{ts,tsx}')) {
     if (/(^|\/)(tests|__tests__)\//.test(f) || /\.test\./.test(f)) continue;
     const src = strip(readFileSync(f, 'utf8'));
-    const known = [...new Set([...src.matchAll(WIDE)].map((m) => m[1]!))].filter((p) => eps.has(p));
+    const paths = new Set([...src.matchAll(WIDE)].map((m) => m[1]!));
+    // A HELPER STANDS FOR ITS ROUTE. A file that posts one endpoint directly and
+    // reaches another through a named library function reads FIELDS OF BOTH, and the
+    // union has to contain both or this guard reports the second endpoint's keys as
+    // missing from the first. `UnitProductionScreen` is the case: it posts
+    // /api/correct and reads `.overall` off `requestSpeakingCoach`'s result. Same
+    // mechanism as `aiSurfaceClassifies`' ENDPOINT_HELPERS; pinned below.
+    for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
+      if (new RegExp(`\\b${esc(helper)}\\s*\\(`).test(src)) paths.add(route);
+    }
+    const known = [...paths].filter((p) => eps.has(p));
     if (known.length === 0) continue;
     const keys = new Set<string>();
     for (const p of known) for (const k of responseKeys(eps.get(p)!)) keys.add(k);
@@ -365,6 +381,24 @@ function attributable(): Subject[] {
 
 describe('an AI endpoint sends every field its clients read', () => {
   const subjects = attributable();
+
+  // A NAME IN A MATCHER GUARDS NOTHING UNTIL IT MATCHES A REAL USE (sweep 124).
+  it('every endpoint helper really posts the route claimed for it', () => {
+    const files = globSync('src/**/*.{ts,tsx}').filter(
+      (f) => !/(^|\/)(tests|__tests__)\//.test(f) && !/\.test\./.test(f),
+    );
+    for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
+      const home = files.find((f) =>
+        new RegExp(`function ${esc(helper)}\\b`).test(readFileSync(f, 'utf8')),
+      );
+      expect(home, `${helper} is not defined anywhere in src/`).toBeTruthy();
+      expect(readFileSync(home!, 'utf8'), `${helper} does not post ${route}`).toContain(route);
+      const callers = files.filter(
+        (f) => f !== home && new RegExp(`\\b${esc(helper)}\\s*\\(`).test(readFileSync(f, 'utf8')),
+      );
+      expect(callers.length, `${helper} matches no caller — it guards nothing`).toBeGreaterThan(0);
+    }
+  });
 
   it('the derivation is real and reaches the reshaping endpoints', () => {
     // 43 client files over 33 endpoints when written (31/20 before the union rule).

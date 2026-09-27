@@ -22,36 +22,94 @@
 // (A1 → 3, A2+ → 4, +2 in fluency mode) is unchanged by construction rather than
 // by a second cap that could drift from the first.
 //
-// NO SPINE, NO SLOT. getNextLesson returns null only when the curriculum has
-// never been fetched, and the session then composes exactly as it did before this
-// existed — a path that has never stranded anyone. Teaching is an addition to the
-// session, never a dependency of building one.
+// NO SPINE, NO SLOT. `courseStep.nextCourseStep` returns null only when the
+// curriculum has never been fetched, and the session then composes exactly as it
+// did before this existed — a path that has never stranded anyone. Teaching is an
+// addition to the session, never a dependency of building one.
 
 import type { SkillCategory } from './adaptive';
-import { getNextLesson, type CurriculumStep } from './curriculum';
-import { readCurriculumSpine, readCompletedLessons } from './curriculumProgress';
-import { getCertifiedLevel } from './cefrCertification';
+import type { CurriculumStep } from './curriculum';
+import {
+  nextCourseStep,
+  unitTestActivityId,
+  unitProductionActivityId,
+  unitRecheckActivityId,
+} from './courseStep';
+import { requestUnitTest } from './courseUnitProgress';
+import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 
 /**
- * The lesson to teach in today's session, or null when there is no curriculum
- * data to answer from. Never throws: a failure here must cost the teaching slot,
- * never the session.
+ * The lesson to teach in today's session, or null when the course has no lesson to
+ * serve — either because there is no curriculum data, or because the learner's open
+ * unit is read through and its TEST is the next step (see `buildCurriculumSlots`).
+ * Never throws: a failure here must cost the teaching slot, never the session.
+ *
+ * THE COURSE DECIDES, NOT THE CERTIFICATION INFERENCE (increment 3, 2026-09-26).
+ * This used to call `getNextLesson`, which treats everything below a learner's
+ * certified level as known and therefore serves a certified B1 learner their own
+ * level's first lesson — a unit the course map shows as locked. One path for
+ * everyone means position is positional, and it means Home and the map cannot
+ * disagree. `userCefr` is no longer read for the pick; it stays in the signature
+ * because the follow-on drill below is still CEFR-gated, which is about what the
+ * learner can OPEN rather than where they are.
  */
-export function resolveCurriculumLesson(userCefr: string): CurriculumStep | null {
+export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | null {
   try {
-    const spine = readCurriculumSpine();
-    if (spine.length === 0) return null;
-    return getNextLesson({
-      spine,
-      completed: readCompletedLessons(),
-      certifiedLevel: getCertifiedLevel(),
-      unlockedLevel: userCefr as never,
-    });
+    // A due check-up no longer displaces the day's lesson — it rides beside it.
+    const step = nextCourseStep({ skipRechecks: true });
+    if (!step || step.kind !== 'lesson') return null;
+    return { entry: step.lesson, isReview: false, reason: step.reason };
   } catch {
     return null;
   }
 }
+
+/**
+ * Re-arm the one-shot handoff a course activity's screen reads, from the activity id.
+ *
+ * THE HANDOFF WAS WRITTEN ONLY WHEN THE PLAN WAS BUILT, and the screens clear it on
+ * unmount so a later visit cannot land on a stale unit. So a learner who left a
+ * session's unit test part-way — or whose plan was persisted this morning and whose
+ * sessionStorage has since gone — pressed "Continue Session" and landed on a test
+ * screen with no unit (walked in a browser, 2026-09-27). The activity id already
+ * carries the unit, so the launcher re-arms it at tap time. Unknown ids are a no-op.
+ */
+export function rearmCourseHandoff(activityId: string | undefined | null): void {
+  if (!activityId) return;
+  try {
+    for (const unitId of KNOWN_UNIT_IDS) {
+      if (activityId === `course_unit_recheck_${unitId}`) return requestUnitTest(unitId, 'recheck');
+      if (activityId === `course_unit_test_${unitId}`) return requestUnitTest(unitId);
+      if (activityId === `course_unit_write_${unitId}`) {
+        return requestUnitProduction(unitId, 'write');
+      }
+      if (activityId === `course_unit_speak_${unitId}`) {
+        return requestUnitProduction(unitId, 'speak');
+      }
+    }
+  } catch {
+    /* the screen reports that it has no unit rather than crashing */
+  }
+}
+
+/**
+ * Every unit id the course can produce, built from CONSTANTS. The re-arm stores a
+ * member of this list chosen by equality — never a substring of the activity id —
+ * because the session plan is built from the learner's certified level and CodeQL's
+ * clear-text-storage query follows that value into anything derived from the plan
+ * (alerts #91/#92, 2026-09-27: the learner's own "A1-2" read as a credential). The
+ * same allowlist shape `useNextStepEngine` uses for its session marker. A spine that
+ * grows past 20 units a level would fall outside it, and the re-arm would then be a
+ * no-op — the screen says "no unit test is open", never a wrong unit.
+ */
+const KNOWN_UNIT_IDS: readonly string[] = (() => {
+  const out: string[] = [];
+  for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+    for (let i = 1; i <= 20; i++) out.push(`${level}-${i}`);
+  }
+  return out;
+})();
 
 /** Stable activity id for a curriculum lesson slot. */
 export function curriculumLessonId(lessonId: string): string {
@@ -129,8 +187,115 @@ export function buildCurriculumSlots(opts: {
   screenCefr: Record<string, string | undefined>;
   isUnlocked: (screenCefr: string, userCefr: string) => boolean;
 }): SlotActivity[] {
-  const step = resolveCurriculumLesson(opts.userCefr);
-  if (!step) return [];
+  let course: ReturnType<typeof nextCourseStep> = null;
+  try {
+    course = nextCourseStep();
+  } catch {
+    course = null;
+  }
+  if (!course) return [];
+
+  // THE UNIT TEST IS A TEACHING SLOT, and it has to be, or the course stalls.
+  // With the reading done, the alternative to serving the test is serving the NEXT
+  // unit's lesson — racing past the gate — or serving nothing, which leaves the
+  // course waiting on an action Home never asks for. It takes P0's slot exactly as
+  // a lesson does, and carries no follow-on drill: the test is the whole step.
+  //
+  // The handoff is written HERE rather than at launch, because the session builder
+  // is the only place that knows which unit the slot is about. It is idempotent and
+  // ephemeral (sessionStorage), and the screen reads it non-destructively.
+  if (course.kind === 'unit-test') {
+    try {
+      requestUnitTest(course.unit.id);
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    return [
+      {
+        id: unitTestActivityId(course.unit.id),
+        label: `Unit ${course.unit.index} test`,
+        screen: 'unittest',
+        category: 'general',
+        reason: course.reason,
+      },
+    ];
+  }
+
+  // PRODUCTION IS A TEACHING SLOT TOO, for the same reason the test is: with the
+  // test passed and production owed, serving the next unit's lesson would advance
+  // the learner past a bar they have not met, and serving nothing would leave the
+  // course waiting on an action Home never asks for.
+  if (course.kind === 'production') {
+    try {
+      requestUnitProduction(course.unit.id, course.owed);
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    return [
+      {
+        id: unitProductionActivityId(course.unit.id, course.owed),
+        label:
+          course.owed === 'write'
+            ? `Unit ${course.unit.index}: write`
+            : `Unit ${course.unit.index}: speak`,
+        screen: 'unitproduction',
+        category: 'general',
+        reason: course.reason,
+      },
+    ];
+  }
+
+  // A DUE RE-CHECK COMES FIRST, AND THE DAY'S LESSON STILL FOLLOWS IT (2026-09-27).
+  // It runs the unit's own test again on a fresh sample; the handoff carries the
+  // `recheck` marker so the screen records the ladder rather than a first pass.
+  //
+  // It used to BE the teaching slot, which meant no new lesson on a check-up day —
+  // walked in a browser, the session read "Unit 1 check-up | Genitive | Speaking | …"
+  // with the learner's next lesson nowhere. Two check-ups per unit at 7 and 30 days
+  // is roughly two days in seven at a unit a week, against the curriculum's own rule
+  // that a lesson comes every day. So the lesson rides behind the check-up, WITHOUT its
+  // coupled drill: check-up + lesson is two activities, the same as lesson + drill, so
+  // the session's length contract is untouched. When the step behind the check-up is
+  // a unit test it is NOT added — both use the one unit-test handoff, and the test
+  // will come tomorrow — and a production step is not added either, to keep the day's
+  // assessment to one.
+  if (course.kind === 'recheck') {
+    try {
+      requestUnitTest(course.unit.id, 'recheck');
+    } catch {
+      /* the screen reports that it has no unit rather than crashing */
+    }
+    const recheck: SlotActivity = {
+      id: unitRecheckActivityId(course.unit.id),
+      label: `Unit ${course.unit.index} check-up`,
+      screen: 'unittest',
+      category: 'general',
+      reason: course.reason,
+    };
+    let behind: ReturnType<typeof nextCourseStep> = null;
+    try {
+      behind = nextCourseStep({ skipRechecks: true });
+    } catch {
+      behind = null;
+    }
+    if (behind?.kind !== 'lesson') return [recheck];
+    return [
+      recheck,
+      {
+        id: curriculumLessonId(behind.lesson.id),
+        label: behind.lesson.title || 'Today\u2019s Lesson',
+        screen: 'animlesson',
+        category: 'general',
+        reason: behind.reason,
+      },
+    ];
+  }
+
+  const step: CurriculumStep = {
+    entry: course.lesson,
+    isReview: false,
+    reason: course.reason,
+  };
   const out: SlotActivity[] = [
     {
       id: curriculumLessonId(step.entry.id),
@@ -217,4 +382,43 @@ export function shouldRetryTeachingSlot(input: TeachingRetryInput): boolean {
   if (input.sessionDate !== input.today) return false;
   if (input.completedCount > 0) return false;
   return input.spineAvailable();
+}
+
+/**
+ * Whether a STARTED, unfinished plan committed before the curriculum arrived should
+ * have the teaching slots INSERTED into it (2026-09-27).
+ *
+ * The rebuild above refuses a started plan, rightly: re-rolling one is the
+ * 2026-05-21 incident. But that refusal left the documented cost as the ordinary
+ * case for a NEW learner — measured in a browser, a guest who landed on Home and
+ * tapped Begin within the first seconds had the Genitive case drill as their first
+ * ever activity, with no lesson anywhere in the day. Inserting is not re-rolling:
+ * nothing completed is touched or reordered, so the card cannot "forget". A FINISHED
+ * plan is left alone — the next-step engine's course rung answers "what next" there.
+ */
+export function shouldSpliceTeachingSlot(input: TeachingRetryInput & { total: number }): boolean {
+  if (input.spineSeen) return false;
+  if (input.sessionDate !== input.today) return false;
+  if (input.completedCount === 0) return false; // untouched — the rebuild owns it
+  if (input.completedCount >= input.total) return false; // finished — leave it
+  return input.spineAvailable();
+}
+
+/**
+ * Insert `slots` before the first unfinished activity, skipping any whose id or screen
+ * the plan already holds. Completed activities keep their place and their ids.
+ */
+export function spliceTeachingSlots<T extends { id: string; screen: string }>(
+  activities: readonly T[],
+  completedIds: readonly string[],
+  slots: readonly T[],
+): T[] {
+  const ids = new Set(activities.map((a) => a.id));
+  const screens = new Set(activities.map((a) => a.screen));
+  const add = slots.filter((s) => !ids.has(s.id) && !screens.has(s.screen));
+  if (add.length === 0) return [...activities];
+  const done = new Set(completedIds);
+  const at = activities.findIndex((a) => !done.has(a.id));
+  const i = at < 0 ? activities.length : at;
+  return [...activities.slice(0, i), ...add, ...activities.slice(i)];
 }

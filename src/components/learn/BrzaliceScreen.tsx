@@ -42,8 +42,8 @@ function BrzaliceScreen({ goBack }: Props) {
             >
               {b.hr} <span aria-hidden="true">🔊</span>
             </button>
-            <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{b.en}</div>
-            <div style={{ fontSize: 12, color: '#b45309', marginTop: 2 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{b.en}</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-warn)', marginTop: 2 }}>
               {'Target: '}
               {b.focus}
             </div>

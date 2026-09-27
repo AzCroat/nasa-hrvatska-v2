@@ -1,4 +1,5 @@
 import React, { useRef, useMemo, useEffect } from 'react';
+import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext.tsx';
 import { H, Bar, speak } from '../../data';
 import { recordTopicResult } from '../../lib/adaptive.js';
@@ -84,7 +85,7 @@ export default function GrammarScreen({
   award,
   setSt,
 }: GrammarScreenProps) {
-  const { writeDelta } = useStats();
+  const { stats, writeDelta } = useStats();
   const resultFired = useRef(false);
 
   // Knight coaching — entry tip on learn phase
@@ -152,7 +153,7 @@ export default function GrammarScreen({
             </div>
           )}
           <div className="c" style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 15, color: '#44403c', lineHeight: 1.7 }}>{gl.desc}</p>
+            <p style={{ fontSize: 15, color: 'var(--ink-body)', lineHeight: 1.7 }}>{gl.desc}</p>
           </div>
           {gl.exs.map((e, i) => (
             <button
@@ -243,10 +244,17 @@ export default function GrammarScreen({
                     resultFired.current = true;
                     if (typeof award === 'function')
                       award(Math.round((gs / qs.length) * 25) + 10, false, 'grammar');
-                    markQuest('grammar');
                     if (gs === qs.length) markQuest('perfect');
-                    setSt((s) => ({ ...s, gc: s.gc + 1 }));
-                    writeDelta({ gc: 1 });
+                    // The authority owns the completion (counter, the `grammar` quest and
+                    // the idempotent `vs` write); the award above is untouched. `setSt` is
+                    // AppRouter's own `setStats`, so this is the same setter.
+                    completeExercise({
+                      key: 'grammar',
+                      xp: 0,
+                      stats,
+                      setStats: setSt,
+                      writeDelta,
+                    });
                     sGp('result');
                   }
                 }}
@@ -260,7 +268,13 @@ export default function GrammarScreen({
       {gp === 'result' && (
         <div style={{ textAlign: 'center', paddingTop: 40 }}>
           <div style={{ fontSize: 64 }}>📝</div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, color: '#164e63' }}>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display',serif",
+              fontSize: 28,
+              color: 'var(--ink-strong)',
+            }}
+          >
             Score: {gs}/{qs.length}
           </h2>
           <button className="b bp" style={{ marginTop: 24 }} onClick={goBack}>

@@ -1,19 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-
-import { rnd } from '../../lib/random.js';
-import { drawDrillRun } from '../../lib/drillRun';
-import { retryNeedLabel } from '../../lib/lessonGate';
-function shLocal<T>(a: T[]): T[] {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j]!, b[i]!];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // B2 futur drugi drill — the taught-but-never-drilled gap: the futur-ii
 // grammar unit (grammarAdvanced) had no pool drill. Three modes: formation
@@ -228,156 +214,20 @@ interface Props {
 }
 
 export default function FuturDrugiDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    drawDrillRun(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'futur2',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🔮 Futur drugi', 'kad budem imao — the future before the future', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
-            {score === total
-              ? 'Savršeno — futur drugi je vaš! 🏆'
-              : passed
-                ? 'Vrlo dobro vladanje složenom budućnošću! 💪'
-                : 'Tvorba i surečenice traže još vježbe.'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🔮 Futur drugi', 'kad budem imao — the future before the future', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: '#7c3aed',
-            fontWeight: 700,
-            marginBottom: 8,
-          }}
-        >
-          {MODE_LABEL[cur.mode]}
-        </div>
-        <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 14 }}>{cur.en}</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {cur.opts.map((opt) => {
-            const isCorrect = opt === cur.answer;
-            const isChosen = opt === chosen;
-            return (
-              <button
-                key={opt}
-                className="ob"
-                onClick={() => pick(opt)}
-                style={{
-                  textAlign: 'left',
-                  ...(answered && isCorrect
-                    ? { borderColor: '#16a34a', background: 'rgba(22,163,74,.08)' }
-                    : answered && isChosen
-                      ? { borderColor: '#dc2626', background: 'rgba(220,38,38,.08)' }
-                      : {}),
-                }}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 12,
-              padding: '10px 12px',
-              borderRadius: 10,
-              background: 'var(--info-bg, rgba(56,189,248,.08))',
-              fontSize: 13.5,
-              lineHeight: 1.55,
-            }}
-          >
-            💡 {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>
-            {idx + 1 >= total ? 'Završi →' : 'Dalje →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="futur2"
+      title={'🔮 Futur drugi'}
+      subtitle={'kad budem imao — the future before the future'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Savršeno — futur drugi je vaš! 🏆',
+        good: 'Vrlo dobro vladanje složenom budućnošću! 💪',
+        more: 'Tvorba i surečenice traže još vježbe.',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

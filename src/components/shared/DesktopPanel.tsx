@@ -37,7 +37,7 @@ export default function DesktopPanel() {
         data-testid="desktop-cefr-badge"
         style={{
           background: 'var(--card)',
-          border: '1px solid var(--border)',
+          border: '1px solid var(--card-b)',
           borderRadius: 16,
           padding: '16px',
           marginBottom: 16,

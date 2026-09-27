@@ -412,7 +412,11 @@ describe('BojeGame — completion contract', () => {
     await playQuiz(container);
     expect(statsMock.setStats).not.toHaveBeenCalled();
     expect(statsMock.writeDelta).not.toHaveBeenCalled();
-    expect(questsMock.markQuest).not.toHaveBeenCalled();
+    // THE DAILY QUEST IS STILL MARKED (2026-09-26). It is DAY-scoped while `vs` is
+    // ONCE-EVER, so an exercise finished last month must count toward today's quest —
+    // before this the further a learner progressed the fewer screens could advance one.
+    // What must not happen twice is the gc/vs write asserted above.
+    expect(questsMock.markQuest).toHaveBeenCalled();
   });
 });
 

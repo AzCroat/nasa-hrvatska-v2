@@ -94,7 +94,14 @@ function ConvMatchScreen({ goBack, award }: Props) {
       {CONVMATCH.map(function (conv, ci) {
         return (
           <div key={ci} className="c" style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: 'var(--ink-strong)',
+                marginBottom: 10,
+              }}
+            >
               {'🗣️ '}
               {conv.title}
             </div>
@@ -114,7 +121,7 @@ function ConvMatchScreen({ goBack, award }: Props) {
                     style={{
                       fontSize: 13,
                       fontWeight: 700,
-                      color: '#164e63',
+                      color: 'var(--ink-strong)',
                       marginBottom: 6,
                       cursor: 'pointer',
                     }}
@@ -139,12 +146,12 @@ function ConvMatchScreen({ goBack, award }: Props) {
                             borderRadius: 10,
                             background:
                               chosen === undefined
-                                ? 'white'
+                                ? 'var(--card)'
                                 : chosen === o
                                   ? o === p.a
-                                    ? '#dcfce7'
-                                    : '#fee2e2'
-                                  : 'white',
+                                    ? 'var(--success-bg-strong)'
+                                    : 'var(--error-bg-strong)'
+                                  : 'var(--card)',
                             fontSize: 12,
                             textAlign: 'left',
                             cursor: chosen !== undefined ? 'default' : 'pointer',
@@ -174,7 +181,9 @@ function ConvMatchScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           {!passed && (

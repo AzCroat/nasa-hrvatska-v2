@@ -20,7 +20,7 @@ export default function AIConversationWriteResult({
     return (
       <div className="scr-wrap" style={{ textAlign: 'center', paddingTop: 40 }}>
         <div style={{ fontSize: 40, marginBottom: 12 }}>⚠️</div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--error)', marginBottom: 20 }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-error)', marginBottom: 20 }}>
           {writeEvalError || 'Could not load evaluation'}
         </div>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
@@ -93,7 +93,7 @@ export default function AIConversationWriteResult({
               style={{
                 fontSize: 'var(--text-base)',
                 fontWeight: 700,
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontFamily: "'Playfair Display',serif",
                 fontStyle: 'italic',
                 lineHeight: 1.55,
@@ -102,7 +102,7 @@ export default function AIConversationWriteResult({
             >
               "{ev.encouragement}"
             </div>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--success)', fontWeight: 600 }}>
+            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-green)', fontWeight: 600 }}>
               Tap to hear <span aria-hidden="true">🔊</span>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function AIConversationWriteResult({
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   letterSpacing: '.08em',
                   textTransform: 'uppercase',
                   marginBottom: 12,
@@ -192,7 +192,7 @@ export default function AIConversationWriteResult({
                     <span
                       style={{
                         fontSize: 'var(--text-sm)',
-                        color: 'var(--error)',
+                        color: 'var(--ink-error)',
                         textDecoration: 'line-through',
                         fontWeight: 600,
                       }}
@@ -203,7 +203,7 @@ export default function AIConversationWriteResult({
                     <span
                       style={{
                         fontSize: 'var(--text-sm)',
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                         fontWeight: 800,
                       }}
                     >
@@ -243,7 +243,7 @@ export default function AIConversationWriteResult({
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   letterSpacing: '.08em',
                   textTransform: 'uppercase',
                   marginBottom: 10,
@@ -256,7 +256,9 @@ export default function AIConversationWriteResult({
                   key={i}
                   style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}
                 >
-                  <span style={{ color: 'var(--success)', fontWeight: 900, flexShrink: 0 }}>•</span>
+                  <span style={{ color: 'var(--ink-green)', fontWeight: 900, flexShrink: 0 }}>
+                    •
+                  </span>
                   <span
                     style={{
                       fontSize: 'var(--text-base)',

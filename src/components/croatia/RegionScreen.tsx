@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { sh } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
+import { accentInk } from '../../lib/accentInk';
 
 interface Props {
   regionKey: string;
@@ -134,7 +135,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
               fontWeight: 700,
               fontSize: 12,
               background: tab === t.id ? accentColor : 'rgba(0,0,0,.06)',
-              color: tab === t.id ? 'white' : '#44403c',
+              color: tab === t.id ? 'white' : 'var(--ink-body)',
             }}
           >
             {t.icon} {t.label}
@@ -159,7 +160,14 @@ function RegionScreen({ regionKey, goBack }: Props) {
                   padding: '14px 16px',
                 }}
               >
-                <div style={{ fontSize: 14, fontWeight: 800, color: accentColor, marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 800,
+                    color: accentInk(accentColor),
+                    marginBottom: 8,
+                  }}
+                >
                   {s.hHr ?? s.h}
                 </div>
                 <div style={{ fontSize: 13, lineHeight: 1.8, color: 'var(--subtext)' }}>
@@ -241,7 +249,12 @@ function RegionScreen({ regionKey, goBack }: Props) {
                   />
                   <div style={{ flex: 1 }}>
                     <div
-                      style={{ fontSize: 12, fontWeight: 800, color: accentColor, marginBottom: 3 }}
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 800,
+                        color: accentInk(accentColor),
+                        marginBottom: 3,
+                      }}
                     >
                       {t.year}
                     </div>
@@ -310,7 +323,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--info)' }}>
                       {p.name}
                     </div>
-                    <div style={{ fontSize: 12, color: accentColor, fontWeight: 700 }}>
+                    <div style={{ fontSize: 12, color: accentInk(accentColor), fontWeight: 700 }}>
                       {p.years}
                     </div>
                     <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
@@ -368,7 +381,9 @@ function RegionScreen({ regionKey, goBack }: Props) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 900, color: accentColor }}>{v.hr}</span>
+                  <span style={{ fontSize: 16, fontWeight: 900, color: accentInk(accentColor) }}>
+                    {v.hr}
+                  </span>
                   <span style={{ fontSize: 13, color: 'var(--subtext)', fontWeight: 600 }}>
                     {v.en}
                   </span>
@@ -407,7 +422,7 @@ function RegionScreen({ regionKey, goBack }: Props) {
                 <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--info)' }}>
                   Question {quizI + 1} / {r.quiz.length}
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: accentColor }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: accentInk(accentColor) }}>
                   Score: {quizScore}
                 </div>
               </div>
@@ -487,7 +502,14 @@ function RegionScreen({ regionKey, goBack }: Props) {
                     ? '👏'
                     : '📚'}
               </div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: accentColor, marginBottom: 8 }}>
+              <div
+                style={{
+                  fontSize: 22,
+                  fontWeight: 900,
+                  color: accentInk(accentColor),
+                  marginBottom: 8,
+                }}
+              >
                 {quizScore} / {r.quiz.length}
               </div>
               <div style={{ fontSize: 15, color: 'var(--subtext)', marginBottom: 24 }}>

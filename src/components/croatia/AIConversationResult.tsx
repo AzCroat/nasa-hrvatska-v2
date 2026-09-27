@@ -85,7 +85,7 @@ export default function AIConversationResult({
     return (
       <div className="scr-wrap" style={{ textAlign: 'center', paddingTop: 40 }}>
         <div style={{ fontSize: 40, marginBottom: 12 }}>⚠️</div>
-        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--error)', marginBottom: 20 }}>
+        <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-error)', marginBottom: 20 }}>
           {evalError || 'Could not load evaluation'}
         </div>
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
@@ -166,7 +166,7 @@ export default function AIConversationResult({
               style={{
                 fontSize: 'var(--text-base)',
                 fontWeight: 700,
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontFamily: "'Playfair Display',serif",
                 fontStyle: 'italic',
                 lineHeight: 1.55,
@@ -175,7 +175,7 @@ export default function AIConversationResult({
             >
               "{ev.encouragement}"
             </div>
-            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--success)', fontWeight: 600 }}>
+            <div style={{ fontSize: 'var(--text-xs)', color: 'var(--ink-green)', fontWeight: 600 }}>
               Tap to hear <span aria-hidden="true">🔊</span>
             </div>
           </div>
@@ -196,7 +196,7 @@ export default function AIConversationResult({
             style={{
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
               letterSpacing: '.08em',
               textTransform: 'uppercase',
               marginBottom: 12,
@@ -210,7 +210,7 @@ export default function AIConversationResult({
               style={{ display: 'flex', gap: 10, marginBottom: 8, alignItems: 'flex-start' }}
             >
               <span
-                style={{ color: 'var(--success)', fontWeight: 900, flexShrink: 0, marginTop: 1 }}
+                style={{ color: 'var(--ink-green)', fontWeight: 900, flexShrink: 0, marginTop: 1 }}
               >
                 •
               </span>
@@ -238,7 +238,7 @@ export default function AIConversationResult({
             style={{
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               letterSpacing: '.08em',
               textTransform: 'uppercase',
               marginBottom: 12,
@@ -268,7 +268,7 @@ export default function AIConversationResult({
                 <span
                   style={{
                     fontSize: 'var(--text-sm)',
-                    color: 'var(--error)',
+                    color: 'var(--ink-error)',
                     textDecoration: 'line-through',
                     fontWeight: 600,
                   }}
@@ -277,7 +277,7 @@ export default function AIConversationResult({
                 </span>
                 <span style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)' }}>→</span>
                 <span
-                  style={{ fontSize: 'var(--text-sm)', color: 'var(--success)', fontWeight: 800 }}
+                  style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-green)', fontWeight: 800 }}
                 >
                   {m.correction}
                 </span>
@@ -407,7 +407,7 @@ export default function AIConversationResult({
             style={{
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
-              color: 'var(--warning)',
+              color: 'var(--ink-warn)',
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 6,
@@ -415,7 +415,7 @@ export default function AIConversationResult({
           >
             📚 Vocabulary
           </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--body)', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', lineHeight: 1.6 }}>
             {ev.vocabulary_feedback}
           </div>
         </div>
@@ -474,7 +474,7 @@ export default function AIConversationResult({
             style={{
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
-              color: '#7c3aed',
+              color: 'var(--ink-mode)',
               letterSpacing: '.08em',
               textTransform: 'uppercase',
               marginBottom: 12,
@@ -539,7 +539,7 @@ export default function AIConversationResult({
                   borderRadius: 20,
                   border: '1.5px solid #7c3aed',
                   background: savedVocab.has(i) ? '#7c3aed' : 'transparent',
-                  color: savedVocab.has(i) ? 'white' : '#7c3aed',
+                  color: savedVocab.has(i) ? 'white' : 'var(--ink-mode)',
                   cursor: savedVocab.has(i) ? 'default' : 'pointer',
                   flexShrink: 0,
                   transition: 'all .15s',

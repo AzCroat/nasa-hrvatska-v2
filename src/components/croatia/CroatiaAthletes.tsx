@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface Player {
   name: string;
@@ -208,7 +209,7 @@ function PlayerCard({ p }: { p: Player }) {
   return (
     <div
       style={{
-        background: 'white',
+        background: 'var(--card)',
         borderRadius: 18,
         overflow: 'hidden',
         marginBottom: 14,
@@ -281,10 +282,10 @@ function PlayerCard({ p }: { p: Player }) {
       <div style={{ padding: '12px 16px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 17, fontWeight: 900, color: '#0f172a', lineHeight: 1.2 }}>
+            <div style={{ fontSize: 17, fontWeight: 900, color: 'var(--text)', lineHeight: 1.2 }}>
               {p.name}
             </div>
-            <div style={{ fontSize: 12, color: '#64748b', marginTop: 3, fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 3, fontWeight: 600 }}>
               {p.jersey && `${p.jersey} · `}
               {p.pos} · {p.ht} / {p.wt}
             </div>
@@ -303,7 +304,7 @@ function PlayerCard({ p }: { p: Player }) {
             >
               {p.div}
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 4, fontWeight: 600 }}>
+            <div style={{ fontSize: 10, color: 'var(--ink-muted)', marginTop: 4, fontWeight: 600 }}>
               {p.yr}
             </div>
           </div>
@@ -315,8 +316,8 @@ function PlayerCard({ p }: { p: Player }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 5,
-            background: '#f0f9ff',
-            color: '#0369a1',
+            background: 'var(--info-bg)',
+            color: 'var(--ink-info)',
             border: '1px solid #bae6fd',
             borderRadius: 20,
             padding: '4px 12px',
@@ -337,7 +338,7 @@ function PlayerCard({ p }: { p: Player }) {
             padding: '8px 12px',
             fontSize: 12,
             fontWeight: 700,
-            color: '#1e293b',
+            color: 'var(--heading)',
             marginBottom: 10,
             fontFamily: "'Outfit',sans-serif",
           }}
@@ -349,7 +350,7 @@ function PlayerCard({ p }: { p: Player }) {
         <div
           style={{
             fontSize: 11.5,
-            color: '#44403c',
+            color: 'var(--ink-body)',
             lineHeight: 1.75,
             marginBottom: 14,
           }}
@@ -381,8 +382,8 @@ function PlayerCard({ p }: { p: Player }) {
             style={{
               flex: 1,
               padding: '10px 12px',
-              background: 'white',
-              color: p.schoolColor,
+              background: 'var(--card)',
+              color: accentInk(p.schoolColor),
               border: `2px solid ${p.schoolColor}40`,
               borderRadius: 10,
               fontSize: 12,
@@ -396,7 +397,7 @@ function PlayerCard({ p }: { p: Player }) {
             onClick={() => window.open(p.espn, '_blank', 'noopener,noreferrer')}
             style={{
               padding: '10px 14px',
-              background: '#ff6600',
+              background: '#c2410c', // white on #ff6600 is 2.9:1; on #c2410c 5.2:1
               color: 'white',
               border: 'none',
               borderRadius: 10,
@@ -539,7 +540,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           alignItems: 'center',
           gap: 12,
           padding: '13px 16px',
-          background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+          background: 'var(--grad-green)',
           borderRadius: 14,
           marginBottom: 16,
           border: '1.5px solid #86efac',
@@ -549,14 +550,14 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
       >
         <div style={{ fontSize: 28 }}>🔄</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#166534' }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
             Live Database — RealGM
           </div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#166534', opacity: 0.75 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-green)', opacity: 0.75 }}>
             Always up-to-date · All divisions · Updates automatically each season
           </div>
         </div>
-        <span style={{ fontSize: 18, color: '#16a34a', fontWeight: 800 }}>↗</span>
+        <span style={{ fontSize: 18, color: 'var(--ink-green)', fontWeight: 800 }}>↗</span>
       </div>
 
       {/* Division filter tabs */}
@@ -599,8 +600,8 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
               {t.label}
               <span
                 style={{
-                  background: active ? 'rgba(255,255,255,.25)' : '#e2e8f0',
-                  color: active ? 'white' : '#6b7280',
+                  background: active ? 'rgba(255,255,255,.25)' : 'var(--surface-mute)',
+                  color: active ? 'white' : 'var(--ink-muted)',
                   borderRadius: '50%',
                   width: 18,
                   height: 18,
@@ -646,7 +647,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                   style={{
                     fontSize: 10,
                     fontWeight: 900,
-                    color: dc?.badge ?? '#94a3b8',
+                    color: dc?.badge ?? 'var(--ink-muted)',
                     letterSpacing: '.1em',
                     background: dc?.bg,
                     padding: '3px 10px',
@@ -677,23 +678,25 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
         style={{
           marginTop: 8,
           padding: '14px 16px',
-          background: '#f8fafc',
+          background: 'var(--surface-mute)',
           borderRadius: 14,
           border: '1px solid #e2e8f0',
           fontSize: 11,
-          color: '#94a3b8',
+          color: 'var(--ink-muted)',
           lineHeight: 1.8,
           marginBottom: 16,
         }}
       >
-        <div style={{ fontWeight: 800, color: '#64748b', marginBottom: 4 }}>📋 About this list</div>
+        <div style={{ fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 4 }}>
+          📋 About this list
+        </div>
         Includes only Croatian-born players — not Croatian-heritage players born elsewhere. Data for{' '}
         {SEASON} season. Rosters change with the transfer portal every spring/summer.{'\n\n'}
-        <strong style={{ color: '#64748b' }}>D3 & NAIA note:</strong> Hundreds of Croatian players
-        compete at D3 and NAIA programs — they receive far less media coverage and are nearly
-        impossible to surface through news searches. The{' '}
-        <strong style={{ color: '#166534' }}>Live Database ↗</strong> above covers every division
-        and updates automatically.
+        <strong style={{ color: 'var(--ink-muted)' }}>D3 & NAIA note:</strong> Hundreds of Croatian
+        players compete at D3 and NAIA programs — they receive far less media coverage and are
+        nearly impossible to surface through news searches. The{' '}
+        <strong style={{ color: 'var(--ink-green)' }}>Live Database ↗</strong> above covers every
+        division and updates automatically.
       </div>
     </div>
   );

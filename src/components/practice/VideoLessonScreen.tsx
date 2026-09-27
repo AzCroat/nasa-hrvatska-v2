@@ -352,13 +352,15 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
             style={{
               padding: '12px 16px',
               borderRadius: 10,
-              background: '#fef2f2',
+              background: 'var(--error-bg)',
               border: '1px solid #fca5a5',
               marginBottom: 16,
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 13, color: '#dc2626', marginBottom: 10 }}>{errorMsg}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-error)', marginBottom: 10 }}>
+              {errorMsg}
+            </div>
             <button
               className="b bp"
               disabled={!topic}
@@ -405,8 +407,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontFamily: "'Outfit',sans-serif",
-                background:
-                  topic?.key === t.key ? 'var(--info-bg,#e0f2fe)' : 'var(--card-bg,#f8fafc)',
+                background: topic?.key === t.key ? 'var(--info-bg,#e0f2fe)' : 'var(--surface-mute)',
                 // Selection lives on box-shadow, not outline — an inline
                 // outline overrides the app's :focus-visible ring.
                 boxShadow:
@@ -655,7 +656,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     borderRadius: 10,
                     marginBottom: 6,
                     background:
-                      currentLine === i ? 'var(--info-bg,#e0f2fe)' : 'var(--card-bg,#f8fafc)',
+                      currentLine === i ? 'var(--info-bg,#e0f2fe)' : 'var(--surface-mute)',
                     border: `1.5px solid ${currentLine === i ? 'var(--info,#0284c7)' : 'var(--card-b,#e2e8f0)'}`,
                     transition: 'all .2s',
                   }}
@@ -773,7 +774,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
           style={{
             padding: '14px 16px',
             borderRadius: 14,
-            background: 'var(--card-bg,#f8fafc)',
+            background: 'var(--surface-mute)',
             border: '1px solid var(--card-b)',
             marginBottom: 16,
           }}
@@ -787,14 +788,14 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
           {q.options.map((opt: string, i: number) => {
             const isSelected = answered?.optIdx === i;
             const isCorrect = i === q.correct;
-            let bg = 'var(--card-bg,#f8fafc)';
+            let bg = 'var(--surface-mute)';
             let border = '1px solid var(--card-b)';
             if (answered) {
               if (isCorrect) {
-                bg = '#f0fdf4';
+                bg = 'var(--success-bg)';
                 border = '2px solid #16a34a';
               } else if (isSelected) {
-                bg = '#fef2f2';
+                bg = 'var(--error-bg)';
                 border = '2px solid #dc2626';
               }
             }
@@ -856,7 +857,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     padding: '10px 14px',
                     borderRadius: 12,
                     marginBottom: 8,
-                    background: a?.correct ? '#f0fdf4' : '#fef2f2',
+                    background: a?.correct ? 'var(--success-bg)' : 'var(--error-bg)',
                     border: `1.5px solid ${a?.correct ? '#86efac' : '#fca5a5'}`,
                   }}
                 >
@@ -864,7 +865,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     style={{
                       fontSize: 12,
                       fontWeight: 700,
-                      color: a?.correct ? '#166534' : '#dc2626',
+                      color: a?.correct ? 'var(--ink-green)' : 'var(--ink-error)',
                       marginBottom: 3,
                     }}
                   >
@@ -874,7 +875,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     {q.q}
                   </div>
                   {!a?.correct && (
-                    <div style={{ fontSize: 12, color: '#16a34a', marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
                       Correct answer: {q.options[q.correct]}
                     </div>
                   )}
@@ -933,4 +934,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
   }
 
   return null;
+  null;
+  null;
+  null;
 }

@@ -1,4 +1,5 @@
 // src/hooks/useDailySession.ts
+import { readCourseAhead, isAheadOfCourse, type CourseAhead } from '../lib/courseGate';
 import { useState, useCallback, useEffect } from 'react';
 import { getDueReviews, getServableReviewCount } from '../lib/srs';
 import { getDueCategoryQueue, CONJ_CATEGORIES, CATEGORY_MIN_CEFR } from '../lib/adaptive';
@@ -21,6 +22,7 @@ import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { pendingTaughtCategories, taughtAgeDays } from '../lib/teachPractice';
 import { selectRetentionSlot } from '../lib/retentionSlot';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
+import { withTeachingSlots } from '../lib/teachingSlotSplice';
 import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import {
@@ -154,7 +156,9 @@ export function resolveAdaptiveActivity(
   usedScreens: Set<string>,
 ): SessionActivity | null {
   const queue = getDueCategoryQueue(6);
+  const ahead = readCourseAhead();
   for (const { category } of queue) {
+    if (ahead.categories.has(category)) continue; // not taught yet (lib/courseGate)
     const isConj = CONJ_LAB_ENABLED && CONJ_CATEGORIES.has(category);
     if (isConj) {
       const min = CATEGORY_MIN_CEFR[category];
@@ -284,18 +288,25 @@ function isGrammarStructure(category: SessionCategory): boolean {
 // micRequired contract. Compute the context once per draw site — a cheap
 // synchronous localStorage lookup. (The Wave 8 premium gate was removed
 // 2026-08 with the subscription system: every entry serves every user.)
+//
+// COURSE ORDER (2026-09-27): an entry drilling a concept the course teaches in a
+// unit the learner has not reached is not served — see lib/courseGate.ts.
 interface DrawCtx {
   micBlocked: boolean;
+  ahead: CourseAhead;
 }
 function drawCtx(): DrawCtx {
   const mic = readMicState();
   return {
     micBlocked: mic === 'denied' || mic === 'unsupported',
+    ahead: readCourseAhead(),
   };
 }
-function entryServable(ex: { micRequired?: boolean }, ctx: DrawCtx): boolean {
-  if (ex.micRequired && ctx.micBlocked) return false;
-  return true;
+function entryServable(
+  ex: { micRequired?: boolean; category?: string; screen: string },
+  ctx: DrawCtx,
+): boolean {
+  return !(ex.micRequired && ctx.micBlocked) && !isAheadOfCourse(ex, ctx.ahead);
 }
 
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
@@ -499,13 +510,19 @@ export function buildSessionActivities(
   // Phase 3 journey engine: bias the production slot toward the less-
   // demonstrated of speaking vs writing (mastery ledger). kindBias is a
   // bias-not-filter — the selector still falls back per mic state.
-  const productionActivity = selectProductionExercise({
-    cefr: userCefr,
-    micState: readMicState(),
-    recentScreens: getRecentProduction(),
-    excludeScreens: [...usedScreens],
-    kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
-  });
+  // The course's own unit write/speak task IS this session's output (2026-09-27): a
+  // second writing task beside "Unit 1: write" was redundant, so P2.5 stands down
+  // and the P3 fill keeps the session the same length.
+  const courseProduces = activities.some((a) => a.screen === 'unitproduction');
+  const productionActivity = courseProduces
+    ? null
+    : selectProductionExercise({
+        cefr: userCefr,
+        micState: readMicState(),
+        recentScreens: getRecentProduction(),
+        excludeScreens: [...usedScreens],
+        kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
+      });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push({
       ...productionActivity,
@@ -966,11 +983,24 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     session,
     useCallback(() => {
       const activities = buildSessionActivities(userCefr, poolWords);
-      // completedIds is empty by construction: the guard refuses a started session.
-      const rebuilt = newSession(userCefr, activities, []);
-      persistSession(rebuilt);
-      setSession(rebuilt);
+      setSession((prev) => {
+        // Re-checked HERE, at execution time, not only in the guard: the guard read
+        // the plan as of the last render, and a completion Home applies in the same
+        // commit would be erased by a rebuild (the 2026-05-21 incident, via a race).
+        if (prev.completedIds.length > 0) return prev;
+        const rebuilt = newSession(userCefr, activities, []);
+        persistSession(rebuilt);
+        return rebuilt;
+      });
     }, [userCefr, poolWords]),
+    // A started, unfinished plan gets today's lesson INSERTED (lib/teachingSlotSplice).
+    useCallback(() => {
+      setSession((prev) => {
+        const next = withTeachingSlots(prev, userCefr);
+        persistSession(next);
+        return next;
+      });
+    }, [userCefr]),
   );
 
   const markDone = useCallback((screenOrId: string) => {

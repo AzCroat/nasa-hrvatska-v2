@@ -94,8 +94,10 @@ function PossessivesScreen({ goBack, award }: Props) {
           <tbody>
             {POSSESS.table.map(function (r, ri) {
               return (
-                <tr key={ri} style={{ background: ri % 2 ? '#f0fdfa' : 'white' }}>
-                  <td style={{ padding: '6px', fontWeight: 800, color: '#0e7490' }}>{r.person}</td>
+                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
+                  <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
+                    {r.person}
+                  </td>
                   {[r.m, r.f, r.n, r.en].map(function (v, vi) {
                     return (
                       <td
@@ -162,12 +164,12 @@ function PossessivesScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 11,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
                       pointerEvents: choices[qi] !== undefined ? 'none' : 'auto',
@@ -193,7 +195,9 @@ function PossessivesScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           {!passed && (

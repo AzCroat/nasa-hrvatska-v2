@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { SIBIL } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function SibilarizationScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = shMemo('sq', SIBIL.quiz, undefined);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -35,9 +35,7 @@ function SibilarizationScreen({ goBack, award }: Props) {
     }
 
     if (handledRef.current.size >= questions.length) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'sibil', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -72,7 +70,7 @@ function SibilarizationScreen({ goBack, award }: Props) {
                 {' → '}
                 {ex.lok}
               </div>
-              <div style={{ fontSize: 11, color: '#b45309' }}>{ex.rule}</div>
+              <div style={{ fontSize: 11, color: 'var(--ink-warn)' }}>{ex.rule}</div>
             </button>
           );
         })}
@@ -99,12 +97,12 @@ function SibilarizationScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
@@ -131,7 +129,9 @@ function SibilarizationScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

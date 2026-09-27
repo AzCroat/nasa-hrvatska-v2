@@ -44,12 +44,14 @@ export default function IdiomsScreen({ goBack }: IdiomsScreenProps) {
           aria-label={'Hear idiom: ' + idm.hr}
         >
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63' }}>
+            <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)' }}>
               {idm.hr} <span aria-hidden="true">🔊</span>
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#0e7490' }}>{idm.en}</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-accent)' }}>
+              {idm.en}
+            </div>
           </div>
-          <div style={{ fontSize: 12, color: '#78716c', marginTop: 4 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
             Literally: "{idm.lit}" — {idm.ctx}
           </div>
         </div>

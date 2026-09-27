@@ -6,6 +6,7 @@
 import React from 'react';
 import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
 import { itemsNeededToPass } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Summary slide ─────────────────────────────────────────────────────────────
 //
@@ -48,7 +49,7 @@ export function SummarySlide({
           style={{
             fontSize: 'var(--text-2xl)',
             fontWeight: 900,
-            color: lesson.color,
+            color: accentInk(lesson.color),
             marginBottom: 6,
             fontFamily: "'Playfair Display', serif",
           }}
@@ -75,7 +76,7 @@ export function SummarySlide({
           }}
         >
           <div
-            style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: lesson.color }}
+            style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: accentInk(lesson.color) }}
             data-testid="lesson-check-score"
           >
             {score}/{quizTotal}
@@ -140,7 +141,7 @@ export function SummarySlide({
         style={{
           fontSize: 'var(--text-2xl)',
           fontWeight: 900,
-          color: lesson.color,
+          color: accentInk(lesson.color),
           marginBottom: 6,
           fontFamily: "'Playfair Display', serif",
         }}
@@ -174,7 +175,7 @@ export function SummarySlide({
           style={{
             fontSize: 'var(--text-xs)',
             fontWeight: 800,
-            color: lesson.color,
+            color: accentInk(lesson.color),
             textTransform: 'uppercase',
             letterSpacing: '.08em',
             marginBottom: 10,
@@ -206,7 +207,7 @@ export function SummarySlide({
             >
               <span
                 style={{
-                  color: lesson.color,
+                  color: accentInk(lesson.color),
                   fontWeight: 900,
                   fontSize: 14,
                   marginTop: 1,
@@ -234,7 +235,13 @@ export function SummarySlide({
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: lesson.color }}>
+            <div
+              style={{
+                fontSize: 'var(--text-2xl)',
+                fontWeight: 900,
+                color: accentInk(lesson.color),
+              }}
+            >
               {score}/{quizTotal}
             </div>
             <div
@@ -252,7 +259,7 @@ export function SummarySlide({
         <div
           style={{
             flex: 1,
-            background: '#fffbeb',
+            background: 'var(--warning-bg)',
             borderRadius: 12,
             border: '1px solid #fcd34d',
             padding: '12px',

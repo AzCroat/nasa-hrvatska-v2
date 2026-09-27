@@ -37,7 +37,15 @@ describe('drawDrillRun', () => {
     'MotionVerbsDrill',
   ])('%s samples its run via drawDrillRun (never serves the whole 24-item bank)', (name) => {
     const src = readFileSync(`src/components/practice/${name}.tsx`, 'utf8');
-    expect(src).toContain('drawDrillRun(DATA)');
     expect(src).not.toContain('shLocal(DATA)');
+    // Either the drill draws its own run, or it is a thin ModeDrill wrapper handing
+    // the bank to the engine — which draws (pinned below), so it never serves all 24.
+    if (src.includes('<ModeDrill')) expect(src).toMatch(/data=\{DATA\}/);
+    else expect(src).toContain('drawDrillRun(DATA)');
+  });
+
+  it('the ModeDrill engine samples the bank it is handed via drawDrillRun', () => {
+    const src = readFileSync('src/components/practice/ModeDrill.tsx', 'utf8');
+    expect(src).toMatch(/drawDrillRun\(data as ModeDrillItem\[\]\)/);
   });
 });

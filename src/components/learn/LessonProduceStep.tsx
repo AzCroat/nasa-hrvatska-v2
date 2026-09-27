@@ -200,7 +200,7 @@ export default function LessonProduceStep({
             marginBottom: 10,
             padding: '10px 12px',
             borderRadius: 10,
-            background: '#fffbeb',
+            background: 'var(--warning-bg)',
             border: '1.5px solid #fcd34d',
             fontSize: 13,
             lineHeight: 1.6,

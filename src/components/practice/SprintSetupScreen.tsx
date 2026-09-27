@@ -26,7 +26,7 @@ export default function SprintSetupScreen({ level, onStart, onBack, isOnline = t
             borderRadius: 12,
             fontSize: 13,
             fontWeight: 600,
-            color: '#0e4f5c',
+            color: 'var(--ink-strong)',
             display: 'flex',
             gap: 10,
             alignItems: 'center',
@@ -51,7 +51,7 @@ export default function SprintSetupScreen({ level, onStart, onBack, isOnline = t
             borderRadius: 12,
             fontSize: 13,
             fontWeight: 600,
-            color: '#92400e',
+            color: 'var(--warning-text)',
             display: 'flex',
             gap: 10,
             alignItems: 'center',
@@ -87,8 +87,8 @@ export default function SprintSetupScreen({ level, onStart, onBack, isOnline = t
       {/* How it works */}
       <div
         style={{
-          background: 'var(--card-bg, #f8fafc)',
-          border: '1px solid var(--border, #e2e8f0)',
+          background: 'var(--surface-mute)',
+          border: '1px solid var(--card-b)',
           borderRadius: 16,
           padding: '20px 24px',
           marginBottom: 28,

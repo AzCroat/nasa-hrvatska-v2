@@ -25,7 +25,11 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import { shouldRetryTeachingSlot } from '../lib/curriculumSlot';
+import {
+  shouldRetryTeachingSlot,
+  shouldSpliceTeachingSlot,
+  spliceTeachingSlots,
+} from '../lib/curriculumSlot';
 import {
   CURRICULUM_SPINE_EVENT,
   writeCurriculumSpine,
@@ -167,7 +171,128 @@ describe('useTeachingSlotRetry', () => {
   });
 });
 
+// ── A STARTED plan gets the lesson INSERTED (2026-09-27) ─────────────────────────
+// Measured in a browser: a brand-new guest who tapped Begin within the first seconds
+// had the Genitive case drill as their first ever activity and no lesson all day,
+// because the rebuild (rightly) refuses a started plan. Inserting is not re-rolling.
+describe('a started, unfinished plan gets the teaching slots inserted', () => {
+  const base = { spineSeen: false, sessionDate: localDateStr(), today: localDateStr() };
+  const yes = () => true;
+
+  it('splices only a started, unfinished, same-day plan with a spine available', () => {
+    expect(
+      shouldSpliceTeachingSlot({ ...base, completedCount: 1, total: 4, spineAvailable: yes }),
+    ).toBe(true);
+    expect(
+      shouldSpliceTeachingSlot({ ...base, completedCount: 0, total: 4, spineAvailable: yes }),
+    ).toBe(false);
+    expect(
+      shouldSpliceTeachingSlot({ ...base, completedCount: 4, total: 4, spineAvailable: yes }),
+    ).toBe(false);
+    expect(
+      shouldSpliceTeachingSlot({
+        ...base,
+        spineSeen: true,
+        completedCount: 1,
+        total: 4,
+        spineAvailable: yes,
+      }),
+    ).toBe(false);
+    expect(
+      shouldSpliceTeachingSlot({
+        ...base,
+        completedCount: 1,
+        total: 4,
+        spineAvailable: () => false,
+      }),
+    ).toBe(false);
+  });
+
+  it('inserts before the first unfinished activity and moves nothing completed', () => {
+    const plan = [
+      { id: 'g', screen: 'genitivedrill' },
+      { id: 'w', screen: 'writing' },
+      { id: 'c', screen: 'cityofday' },
+    ];
+    const slots = [
+      { id: 'curriculum_alphabet', screen: 'animlesson' },
+      { id: 'curriculum_practice_alphabet', screen: 'alphabet' },
+    ];
+    const out = spliceTeachingSlots(plan, ['g'], slots);
+    expect(out.map((a) => a.id)).toEqual([
+      'g',
+      'curriculum_alphabet',
+      'curriculum_practice_alphabet',
+      'w',
+      'c',
+    ]);
+    // A slot whose screen the plan already holds is not added twice.
+    expect(
+      spliceTeachingSlots([...plan, { id: 'x', screen: 'alphabet' }], ['g'], slots).filter(
+        (a) => a.screen === 'alphabet',
+      ),
+    ).toHaveLength(1);
+  });
+
+  it('the hook splices a started plan when the spine lands — and never rebuilds it', () => {
+    const rebuild = vi.fn();
+    const splice = vi.fn();
+    renderHook(() =>
+      useTeachingSlotRetry(
+        { date: localDateStr(), completedIds: ['a'], activities: [1, 2, 3], spineSeen: false },
+        rebuild,
+        splice,
+      ),
+    );
+    act(() => writeCurriculumSpine(SPINE as never));
+    expect(splice).toHaveBeenCalledTimes(1);
+    expect(rebuild).not.toHaveBeenCalled();
+  });
+
+  // THE RACE (browser-measured): a drill finished while Home was unmounted; Home applies
+  // its completion in a mount effect, so the plan still READS untouched when the retry
+  // runs — and the old rebuild erased the finished drill from the card.
+  it('a pending session activity counts as started: splice, never rebuild', () => {
+    sessionStorage.setItem('nh_session_started', 'genitivedrill');
+    sessionStorage.setItem('nh_session_completed', 'genitivedrill');
+    const rebuild = vi.fn();
+    const splice = vi.fn();
+    renderHook(() =>
+      useTeachingSlotRetry(
+        { date: localDateStr(), completedIds: [], activities: [1, 2, 3], spineSeen: false },
+        rebuild,
+        splice,
+      ),
+    );
+    act(() => writeCurriculumSpine(SPINE as never));
+    expect(rebuild).not.toHaveBeenCalled();
+    expect(splice).toHaveBeenCalledTimes(1);
+    sessionStorage.clear();
+  });
+
+  it('a finished plan is left alone', () => {
+    const splice = vi.fn();
+    renderHook(() =>
+      useTeachingSlotRetry(
+        { date: localDateStr(), completedIds: ['a', 'b'], activities: [1, 2], spineSeen: false },
+        vi.fn(),
+        splice,
+      ),
+    );
+    act(() => writeCurriculumSpine(SPINE as never));
+    expect(splice).not.toHaveBeenCalled();
+  });
+});
+
 describe('the wiring is pinned by source, not by restating it', () => {
+  it('the rebuild re-checks the CURRENT plan at execution time and inserts via the lib', () => {
+    const src = readFileSync(join(root, 'src/hooks/useDailySession.ts'), 'utf8');
+    // The guard reads the plan as of the last render; a completion applied in the same
+    // commit must still stop a rebuild, so the updater checks `prev` itself.
+    expect(src).toMatch(/if \(prev\.completedIds\.length > 0\) return prev;/);
+    expect(src).toMatch(/withTeachingSlots\(prev, userCefr\)/);
+  });
+
   const read = (p: string) => readFileSync(join(root, p), 'utf8');
 
   it('the retry listens for the event the spine writer exports', () => {

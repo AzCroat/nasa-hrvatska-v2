@@ -122,7 +122,7 @@ export default function StoryScreens({
             <div style={{ fontSize: 36 }}>{i === 0 ? '☕' : i === 1 ? '🍒' : '🏖️'}</div>
             <div>
               <div style={{ fontSize: 16, fontWeight: 700 }}>{s.title}</div>
-              <div style={{ fontSize: 12, color: '#78716c' }}>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                 {s.tEn} · {s.scenes.length} scenes
               </div>
             </div>
@@ -300,7 +300,7 @@ export default function StoryScreens({
                 fontSize: 16,
                 fontWeight: 700,
                 lineHeight: 1.7,
-                color: '#1c1917',
+                color: 'var(--ink-ink)',
                 cursor: 'pointer',
               }}
               onClick={() => speak(scene.text)}
@@ -316,7 +316,7 @@ export default function StoryScreens({
             <div
               style={{
                 fontSize: 14,
-                color: '#78716c',
+                color: 'var(--ink-muted-warm)',
                 fontStyle: 'italic',
                 marginTop: 8,
                 lineHeight: 1.6,
@@ -327,7 +327,14 @@ export default function StoryScreens({
           </div>
           {scene.choices.length > 0 ? (
             <div style={{ marginTop: 16 }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490', marginBottom: 8 }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: 'var(--ink-accent)',
+                  marginBottom: 8,
+                }}
+              >
                 Što radiš? — What do you do?
               </div>
               {scene.choices.map((ch: { text: string; next: number }, ci: number) => (

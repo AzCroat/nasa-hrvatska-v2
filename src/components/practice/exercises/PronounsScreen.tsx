@@ -112,7 +112,7 @@ function PronounsScreen({ goBack, award }: Props) {
           <tbody>
             {PRONOUNCASE.table.map(function (r, ri) {
               return (
-                <tr key={ri} style={{ background: ri % 2 ? '#f0fdfa' : 'white' }}>
+                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
                   {[r.nom, r.gen, r.dat, r.aku, r.inst, r.lok].map(function (v, vi) {
                     return (
                       <td
@@ -122,7 +122,7 @@ function PronounsScreen({ goBack, award }: Props) {
                           borderBottom: '1px solid #e7e5e4',
                           cursor: 'pointer',
                           fontWeight: vi === 0 ? 700 : 400,
-                          color: vi === 0 ? '#0e7490' : '#44403c',
+                          color: vi === 0 ? 'var(--ink-accent)' : 'var(--ink-body)',
                         }}
                         {...clickable(function () {
                           speak(v);
@@ -176,12 +176,12 @@ function PronounsScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
@@ -208,7 +208,9 @@ function PronounsScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           {!passed && (

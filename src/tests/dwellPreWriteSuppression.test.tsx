@@ -21,7 +21,10 @@
  *   falsefr   — award is ungated; only the lc write is suppressed, and only when
  *               the learner finishes inside 20s (after which the dwell timer,
  *               cleared on navigation, never runs).
- *   techvoc   — same shape as falsefr.
+ *               (Since 2026-09-27 its credit runs through completeExercise, which
+ *               gates the XP on `vs` too — so a dwell pre-write would now suppress ALL
+ *               of it, the alphabet shape. Staying out of the dwell map matters more.)
+ *   techvoc   — the same lc suppression (it pays from a graded quiz, not a list).
  *   writing   — self-writes `vs` and NO counter, so the dwell strictly ADDS the
  *               lc it would never have written. Nothing is suppressed; it stays
  *               dwell-credited, and the census below pins that reason in both

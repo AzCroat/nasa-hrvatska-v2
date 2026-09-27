@@ -51,7 +51,7 @@ export default function SprintModelPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#16a34a',
+            color: 'var(--ink-green)',
             display: 'block',
             marginBottom: 8,
           }}
@@ -76,7 +76,7 @@ export default function SprintModelPhase({
         {ttsLoading ? (
           <p style={{ color: 'var(--subtext)', fontSize: 14 }}>Loading audio…</p>
         ) : ttsError ? (
-          <p style={{ color: '#dc2626', fontSize: 13 }}>{ttsError}</p>
+          <p style={{ color: 'var(--ink-error)', fontSize: 13 }}>{ttsError}</p>
         ) : audioUrl ? (
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button
@@ -95,7 +95,7 @@ export default function SprintModelPhase({
                 borderRadius: 10,
                 border: '1px solid rgba(22,163,74,.3)',
                 background: 'rgba(22,163,74,.1)',
-                color: '#16a34a',
+                color: 'var(--ink-green)',
                 fontSize: 14,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -112,8 +112,8 @@ export default function SprintModelPhase({
               style={{
                 padding: '10px 18px',
                 borderRadius: 10,
-                border: '1px solid var(--border)',
-                background: 'var(--card-bg)',
+                border: '1px solid var(--card-b)',
+                background: 'var(--card)',
                 color: 'var(--subtext)',
                 fontSize: 14,
                 cursor: 'pointer',
@@ -140,7 +140,7 @@ export default function SprintModelPhase({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               display: 'block',
               marginBottom: 6,
             }}

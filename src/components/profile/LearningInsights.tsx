@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Stats } from '../../types';
 import { lsGet } from '../../lib/safeStorage';
+import { accentInk } from '../../lib/accentInk';
 
 interface WeakWord {
   word: string;
@@ -146,7 +147,9 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             }}
           >
             <div style={{ fontSize: 18, marginBottom: 2 }}>{s.icon}</div>
-            <div style={{ fontWeight: 900, fontSize: 18, color: s.color }}>{s.value}</div>
+            <div style={{ fontWeight: 900, fontSize: 18, color: accentInk(s.color) }}>
+              {s.value}
+            </div>
             <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600 }}>{s.label}</div>
           </div>
         ))}
@@ -256,7 +259,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             >
               Vocabulary Mastery
             </span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--success)' }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-green)' }}>
               {vocab.mastered}/{vocab.total}
             </span>
           </div>
@@ -274,7 +277,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
             />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
-            <span style={{ fontSize: 11, color: 'var(--success)' }}>
+            <span style={{ fontSize: 11, color: 'var(--ink-green)' }}>
               ✅ {vocab.mastered} mastered
             </span>
             <span style={{ fontSize: 11, color: '#f59e0b' }}>📖 {vocab.learning} learning</span>
@@ -326,7 +329,7 @@ export default function LearningInsights({ st }: { st: Partial<Stats> }) {
               >
                 {w.word}
               </span>
-              <span style={{ fontSize: 11, color: 'var(--error)' }}>
+              <span style={{ fontSize: 11, color: 'var(--ink-error)' }}>
                 {w.wrong}× missed · {w.right}× right
               </span>
             </div>

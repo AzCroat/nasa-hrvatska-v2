@@ -157,12 +157,12 @@ export default function ModeDrill({
             {score} / {total}
           </div>
           {/* The count, not the percentage — see itemsNeededToPass. */}
-          <div style={{ fontSize: 13, color: '#64748b', marginBottom: 4 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 4 }}>
             {passed
               ? `Passed — ${itemsNeededToPass(total)} of ${total} needed`
               : `${itemsNeededToPass(total)} of ${total} needed to pass`}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {/* THE PRAISE TIER USED 0.8 WHILE THE GATE USES 0.75, so a learner at
                 exactly 9 of 12 — a PASS — read "needs more practice" (owner
                 report, 2026-09-25). Two thresholds in one component, one of them
@@ -199,17 +199,17 @@ export default function ModeDrill({
     <div className="scr-wrap">
       {H(title, subtitle, goBack)}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
       </div>
       <div className="c" style={{ marginTop: 16 }}>
-        <div style={{ fontSize: 13, color: '#7c3aed', fontWeight: 700, marginBottom: 8 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-mode)', fontWeight: 700, marginBottom: 8 }}>
           {modeLabels[cur.mode]}
         </div>
         <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 14 }}>{cur.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 14 }}>{cur.en}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {cur.opts.map((opt) => {
             const isCorrect = opt === cur.answer;
@@ -230,7 +230,11 @@ export default function ModeDrill({
                       ? '2px solid #16a34a'
                       : '2px solid #dc2626'
                     : '1.5px solid var(--card-b)',
-                  background: showState ? (isCorrect ? '#f0fdf4' : '#fef2f2') : 'var(--card)',
+                  background: showState
+                    ? isCorrect
+                      ? 'var(--success-bg)'
+                      : 'var(--error-bg)'
+                    : 'var(--card)',
                   color: 'var(--text)',
                 }}
               >

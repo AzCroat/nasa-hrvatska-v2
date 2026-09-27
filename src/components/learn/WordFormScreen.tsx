@@ -29,7 +29,9 @@ function WordFormScreen({ goBack, award }: Props) {
 
       {/* Primary base: ići and its prefixed forms */}
       <div className="c" style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+        <div
+          style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 10 }}
+        >
           Base: {WORDFORM.base}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
@@ -51,8 +53,8 @@ function WordFormScreen({ goBack, award }: Props) {
                   speak(p.verb);
                 }}
               >
-                <span style={{ fontWeight: 700, color: '#0e7490' }}>{p.prefix}</span>
-                <span style={{ fontWeight: 700, color: '#164e63' }}>{p.verb}</span>{' '}
+                <span style={{ fontWeight: 700, color: 'var(--ink-accent)' }}>{p.prefix}</span>
+                <span style={{ fontWeight: 700, color: 'var(--ink-strong)' }}>{p.verb}</span>{' '}
                 <span aria-hidden="true">🔊</span>
                 <br />
                 <span style={{ color: 'var(--subtext)', fontSize: 12 }}>{p.en}</span>
@@ -74,7 +76,8 @@ function WordFormScreen({ goBack, award }: Props) {
                   borderLeft: '2px solid #e0f2fe',
                 }}
               >
-                <span style={{ color: '#0e7490', fontWeight: 700 }}>{p.verb}:</span> {p.ex}
+                <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>{p.verb}:</span>{' '}
+                {p.ex}
               </div>
             );
           })}
@@ -85,7 +88,14 @@ function WordFormScreen({ goBack, award }: Props) {
       {WORDFORM.otherBases.map(function (b, bi) {
         return (
           <div key={bi} className="c" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: 'var(--ink-strong)',
+                marginBottom: 10,
+              }}
+            >
               Base: {b.base}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
@@ -107,7 +117,7 @@ function WordFormScreen({ goBack, award }: Props) {
                       speak(p[0] ?? '');
                     }}
                   >
-                    <span style={{ fontWeight: 700, color: '#0e7490' }}>{p[0]}</span>{' '}
+                    <span style={{ fontWeight: 700, color: 'var(--ink-accent)' }}>{p[0]}</span>{' '}
                     <span aria-hidden="true">🔊</span>
                     {' — '}
                     <span style={{ color: 'var(--subtext)', fontSize: 12 }}>{p[1]}</span>

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { ORDINALS, ORDQUIZ } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function OrdinalsScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = shMemo('oq', ORDQUIZ, 15);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -36,9 +36,7 @@ function OrdinalsScreen({ goBack, award }: Props) {
     }
 
     if (handledRef.current.size >= questions.length) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'ordinals', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -59,10 +57,12 @@ function OrdinalsScreen({ goBack, award }: Props) {
                 speak(o.hr);
               }, 'Hear ' + o.hr)}
             >
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#0e7490' }}>{o.num}.</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-accent)' }}>
+                {o.num}.
+              </div>
               <div style={{ fontSize: 13, fontWeight: 700 }}>{o.hr}</div>
-              <div style={{ fontSize: 11, color: '#78716c' }}>{o.en}</div>
-              <div style={{ fontSize: 10, color: '#b45309', marginTop: 2 }}>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{o.en}</div>
+              <div style={{ fontSize: 10, color: 'var(--ink-warn)', marginTop: 2 }}>
                 {'na '}
                 {o.loc}om
               </div>
@@ -92,12 +92,12 @@ function OrdinalsScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
@@ -124,7 +124,9 @@ function OrdinalsScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

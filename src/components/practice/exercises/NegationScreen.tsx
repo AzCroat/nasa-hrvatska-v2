@@ -193,6 +193,7 @@ function NegationScreen({ goBack, award }: Props) {
               marginBottom: 12,
               padding: '10px 14px',
               background: '#fef3c7',
+              color: '#1c1917',
               borderRadius: 12,
               fontSize: 12,
               borderLeft: '3px solid #ca8a04',
@@ -229,7 +230,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: '#16a34a',
+                      color: 'var(--ink-green)',
                       marginBottom: 2,
                       display: 'block',
                     }}
@@ -248,7 +249,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: '#dc2626',
+                      color: 'var(--ink-error)',
                       display: 'block',
                     }}
                     onClick={() => speak(n.neg)}
@@ -257,7 +258,14 @@ function NegationScreen({ goBack, award }: Props) {
                     {n.neg}
                   </button>
                 </div>
-                <div style={{ fontSize: 11, color: '#78716c', maxWidth: 140, textAlign: 'right' }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-muted-warm)',
+                    maxWidth: 140,
+                    textAlign: 'right',
+                  }}
+                >
                   {n.en}
                 </div>
               </div>
@@ -275,7 +283,7 @@ function NegationScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct negative form. {answeredCount}/{shuffledQuiz.length} answered.
@@ -285,7 +293,14 @@ function NegationScreen({ goBack, award }: Props) {
             const answered = selected !== undefined;
             return (
               <div key={qi} className="c" style={{ marginBottom: 10, padding: '10px 14px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 8, color: '#1c1917' }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    marginBottom: 8,
+                    color: 'var(--ink-ink)',
+                  }}
+                >
                   {q.q}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -326,12 +341,26 @@ function NegationScreen({ goBack, award }: Props) {
                   })}
                 </div>
                 {answered && selected !== q.a && (
-                  <div style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: '#dc2626' }}>
-                    ✗ Correct: <span style={{ color: '#16a34a' }}>{q.a}</span>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-error)',
+                    }}
+                  >
+                    ✗ Correct: <span style={{ color: 'var(--ink-green)' }}>{q.a}</span>
                   </div>
                 )}
                 {answered && selected === q.a && (
-                  <div style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: '#16a34a' }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-green)',
+                    }}
+                  >
                     ✓ Correct!
                   </div>
                 )}
@@ -347,7 +376,14 @@ function NegationScreen({ goBack, award }: Props) {
                     ? '⭐'
                     : '💪'}
               </div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: 800,
+                  color: 'var(--ink-strong)',
+                  marginBottom: 4,
+                }}
+              >
                 {correctCount}/{shuffledQuiz.length} correct
               </div>
               {!passed && (

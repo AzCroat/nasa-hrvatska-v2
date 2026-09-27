@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react';
 import { CASES } from './ConstellationData.js';
 import { sh } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 interface QuizItem {
   q: string;
@@ -64,7 +65,7 @@ export default function ConstellationQuizMode({
         </button>
         <div>
           <h1 style={{ margin: 0, color: '#f1f5f9', fontSize: 18, fontWeight: 800 }}>Case Quiz</h1>
-          <div style={{ color: '#64748b', fontSize: 13 }}>
+          <div style={{ color: '#94a3b8', fontSize: 13 }}>
             Question {quizIdx + 1} of {quizTotal}
           </div>
         </div>
@@ -182,7 +183,7 @@ export default function ConstellationQuizMode({
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: textColor,
+                  color: accentInk(textColor),
                   textTransform: 'capitalize',
                 }}
               >

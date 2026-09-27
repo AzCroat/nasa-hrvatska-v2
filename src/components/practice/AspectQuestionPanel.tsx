@@ -96,11 +96,11 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -172,11 +172,11 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -253,11 +253,11 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt.id === question.correct) {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.id === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -314,11 +314,11 @@ export default function AspectQuestionPanel({
               let color = 'var(--heading)';
               if (answered) {
                 if (opt.aspect === 'pf') {
-                  bg = '#f0fdf4';
+                  bg = 'var(--success-bg)';
                   border = '2px solid #86efac';
                   color = '#166534';
                 } else if (opt.aspect === selected) {
-                  bg = '#fff1f2';
+                  bg = 'var(--error-bg)';
                   border = '2px solid #fca5a5';
                   color = '#dc2626';
                 }
@@ -368,7 +368,7 @@ export default function AspectQuestionPanel({
         <div
           style={{
             marginTop: 4,
-            background: correct ? '#f0fdf4' : '#fff1f2',
+            background: correct ? 'var(--success-bg)' : 'var(--error-bg)',
             border: `1.5px solid ${correct ? '#86efac' : '#fca5a5'}`,
             borderRadius: 10,
             padding: '12px 14px',
@@ -379,7 +379,7 @@ export default function AspectQuestionPanel({
             style={{
               fontWeight: 800,
               fontSize: 13,
-              color: correct ? '#166534' : '#dc2626',
+              color: correct ? 'var(--ink-green)' : 'var(--ink-error)',
               margin: '0 0 6px',
             }}
           >

@@ -142,7 +142,7 @@ export default function PlaceScreen({
             borderRadius: 10,
             fontSize: 12,
             fontWeight: 800,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             padding: '6px 11px',
             cursor: 'pointer',
             fontFamily: "'Outfit',sans-serif",
@@ -383,7 +383,7 @@ export default function PlaceScreen({
       {launchError && (
         <p
           data-testid="grad-launch-error"
-          style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '0 2px 10px' }}
+          style={{ fontSize: 12, color: 'var(--ink-red)', margin: '0 2px 10px' }}
         >
           {launchError}
         </p>

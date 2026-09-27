@@ -69,7 +69,9 @@ function Example({ hr, en, note }: { hr: string; en: string; note?: string }) {
         {en}
       </div>
       {note && (
-        <div style={{ fontSize: 11, color: '#0e7490', paddingLeft: 13, marginTop: 3 }}>{note}</div>
+        <div style={{ fontSize: 11, color: 'var(--ink-accent)', paddingLeft: 13, marginTop: 3 }}>
+          {note}
+        </div>
       )}
     </div>
   );
@@ -98,7 +100,7 @@ function DeclensionPanel(): React.ReactElement {
           padding: '10px 14px',
           borderRadius: 10,
           border: '1.5px solid var(--card-b)',
-          background: 'var(--bg2, var(--card))',
+          background: 'var(--card)',
           color: 'var(--text)',
           fontSize: 15,
           fontFamily: "'Outfit',sans-serif",
@@ -232,7 +234,7 @@ function PrepositionPanel(): React.ReactElement {
             >
               <span
                 lang="hr"
-                style={{ fontWeight: 800, color: '#0e7490', minWidth: 58, flexShrink: 0 }}
+                style={{ fontWeight: 800, color: 'var(--ink-accent)', minWidth: 58, flexShrink: 0 }}
               >
                 {prep}
               </span>
@@ -260,7 +262,10 @@ function ConceptPanel({ id }: { id: string }): React.ReactElement {
   if (!c) return <p style={{ fontSize: 13, color: 'var(--subtext)' }}>Nothing here yet.</p>;
   return (
     <div>
-      <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700, marginBottom: 6 }} lang="hr">
+      <div
+        style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 700, marginBottom: 6 }}
+        lang="hr"
+      >
         {c.question}
       </div>
       <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--text)', margin: 0 }}>

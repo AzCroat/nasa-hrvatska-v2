@@ -56,7 +56,7 @@ export default function RazgovorTab({ setScr, sCurEx }: RazgovorTabProps) {
               fontWeight: 900,
               letterSpacing: '.16em',
               textTransform: 'uppercase',
-              color: '#c2410c',
+              color: 'var(--ink-warn)',
             }}
           >
             razgovor

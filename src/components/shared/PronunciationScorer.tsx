@@ -643,12 +643,12 @@ export default function PronunciationScorer({
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderRadius: 10,
             padding: '10px 16px',
             fontSize: 13,
             fontWeight: 700,
-            color: '#0369a1',
+            color: 'var(--ink-info)',
           }}
         >
           <span style={{ fontSize: 16 }}>⏳</span>

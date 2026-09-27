@@ -240,7 +240,7 @@ function ArticulationGuide({ opts }: ArticulationGuideProps) {
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: '#64748b',
+          color: 'var(--ink-muted)',
           textTransform: 'uppercase',
           letterSpacing: '0.06em',
           marginBottom: 8,
@@ -258,10 +258,10 @@ function ArticulationGuide({ opts }: ArticulationGuideProps) {
             marginBottom: i < pairs.length - 1 ? 6 : 0,
           }}
         >
-          <span style={{ fontSize: 14, fontWeight: 800, color: '#0e7490', minWidth: 20 }}>
+          <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-accent)', minWidth: 20 }}>
             {p.sound}
           </span>
-          <span style={{ fontSize: 12, color: '#475569' }}>{p.desc}</span>
+          <span style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{p.desc}</span>
         </div>
       ))}
     </div>
@@ -340,36 +340,24 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
         <span>
           {idx + 1} / {total}
         </span>
-        <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {score}</span>
+        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {score}</span>
       </div>
       <Bar v={idx + 1} mx={total} />
       <div className="c" style={{ marginTop: 16 }}>
         <div style={{ fontSize: 18, fontWeight: 600 }}>{q.q}</div>
-        <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{q.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{q.en}</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
         {q.opts.map((o: string, oi: number) => (
           <div key={oi} style={{ position: 'relative' }}>
             <button
-              className="ob"
+              className={
+                'ob' + (answered ? (o === q.answer ? ' ok' : selected === oi ? ' no' : '') : '')
+              }
               style={{
                 textAlign: 'center',
                 width: '100%',
                 paddingRight: 36,
-                background: answered
-                  ? o === q.answer
-                    ? '#dcfce7'
-                    : selected === oi
-                      ? '#fee2e2'
-                      : 'white'
-                  : 'white',
-                borderColor: answered
-                  ? o === q.answer
-                    ? '#16a34a'
-                    : selected === oi
-                      ? '#dc2626'
-                      : 'rgba(14,116,144,.12)'
-                  : 'rgba(14,116,144,.12)',
               }}
               onClick={() => {
                 if (!answered) {
@@ -398,7 +386,7 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
                 fontSize: 16,
                 padding: '4px',
                 lineHeight: 1,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 opacity: 0.75,
               }}
               title={`Hear "${o}"`}
@@ -412,17 +400,17 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
       {answered && (
         <div
           style={{
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderRadius: 12,
             padding: '12px 16px',
             marginTop: 12,
             border: '1.5px solid #bae6fd',
           }}
         >
-          <div style={{ fontSize: 12, fontWeight: 800, color: '#0369a1', marginBottom: 4 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-info)', marginBottom: 4 }}>
             📢 Pronunciation Guide
           </div>
-          <div style={{ fontSize: 13, color: '#075985' }}>{q.tip}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-info)' }}>{q.tip}</div>
         </div>
       )}
       {answered && <ArticulationGuide opts={q.opts} />}

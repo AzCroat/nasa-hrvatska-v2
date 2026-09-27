@@ -144,7 +144,7 @@ export default function ConjugationDrillEngine({ verbs, cells, onComplete, award
         <div style={{ fontSize: 22, fontWeight: 800, marginTop: 8 }}>
           {verb.inf} ({verb.en})
         </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#0e7490', marginTop: 8 }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', marginTop: 8 }}>
           {personLabel(cell)} ___?
         </div>
       </div>

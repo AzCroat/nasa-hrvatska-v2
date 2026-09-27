@@ -201,7 +201,7 @@ export default function SentenceTileScreen({
         <div
           style={{
             fontSize: 12,
-            color: '#64748b',
+            color: 'var(--ink-muted)',
             fontWeight: 700,
             marginBottom: 6,
             textTransform: 'uppercase',
@@ -210,7 +210,7 @@ export default function SentenceTileScreen({
         >
           Translate to Croatian:
         </div>
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', lineHeight: 1.3 }}>
+        <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)', lineHeight: 1.3 }}>
           "{q.en}"
         </div>
       </div>
@@ -235,7 +235,14 @@ export default function SentenceTileScreen({
         }}
       >
         {tray.length === 0 && !feedback && (
-          <div style={{ fontSize: 13, color: '#94a3b8', fontWeight: 600, alignSelf: 'center' }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--ink-muted)',
+              fontWeight: 600,
+              alignSelf: 'center',
+            }}
+          >
             ← Tap words to build sentence
           </div>
         )}
@@ -267,7 +274,7 @@ export default function SentenceTileScreen({
             border: '1.5px solid rgba(220,38,38,.2)',
             borderRadius: 12,
             fontSize: 13,
-            color: '#991b1b',
+            color: 'var(--ink-error)',
             fontWeight: 600,
           }}
         >

@@ -1873,7 +1873,7 @@ const Spk = ({ text, label }) => (
       borderRadius: 10,
       padding: '7px 12px',
       cursor: 'pointer',
-      color: '#0e7490',
+      color: 'var(--ink-accent)',
       display: 'inline-flex',
       alignItems: 'center',
       gap: 6,
@@ -1907,7 +1907,7 @@ class _ErrorBoundary extends React.Component {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg,#fef3c7,#fff7ed)',
+            background: 'var(--grad-peach)',
             padding: 24,
             textAlign: 'center',
           }}
@@ -1918,13 +1918,13 @@ class _ErrorBoundary extends React.Component {
               style={{
                 fontFamily: "'Playfair Display',serif",
                 fontSize: 24,
-                color: '#164e63',
+                color: 'var(--ink-strong)',
                 marginBottom: 8,
               }}
             >
               Something went wrong
             </h2>
-            <p style={{ color: '#78716c', marginBottom: 20, fontSize: 14 }}>
+            <p style={{ color: 'var(--ink-muted-warm)', marginBottom: 20, fontSize: 14 }}>
               The app hit an unexpected error. Your progress is saved.
             </p>
             <button

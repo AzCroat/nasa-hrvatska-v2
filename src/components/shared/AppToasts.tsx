@@ -446,8 +446,8 @@ export function AppToasts({
               }}
               style={{
                 flex: 1,
-                background: '#fff',
-                color: '#0e7490',
+                background: 'var(--card)',
+                color: 'var(--ink-accent)',
                 border: 'none',
                 borderRadius: 10,
                 padding: '10px',

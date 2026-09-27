@@ -146,7 +146,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -264,7 +264,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f1f5f9' }}>
+              <tr style={{ background: 'var(--surface-mute)' }}>
                 {['Pronoun', 'Conditional', 'English'].map((h) => (
                   <th
                     key={h}
@@ -273,7 +273,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                       textAlign: 'left',
                       fontSize: 12,
                       fontWeight: 700,
-                      color: '#44403c',
+                      color: 'var(--ink-body)',
                     }}
                   >
                     {h}
@@ -288,16 +288,25 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                     key={i}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: i % 2 === 0 ? 'white' : '#fafaf9',
+                      background: i % 2 === 0 ? 'var(--card)' : 'var(--surface-mute)',
                     }}
                   >
-                    <td style={{ padding: '10px', fontWeight: 700, color: '#0e7490' }}>{f.pro}</td>
+                    <td style={{ padding: '10px', fontWeight: 700, color: 'var(--ink-accent)' }}>
+                      {f.pro}
+                    </td>
                     <td
-                      style={{ padding: '10px', fontWeight: 800, fontSize: 16, color: '#0369a1' }}
+                      style={{
+                        padding: '10px',
+                        fontWeight: 800,
+                        fontSize: 16,
+                        color: 'var(--ink-info)',
+                      }}
                     >
                       {f.form}
                     </td>
-                    <td style={{ padding: '10px', color: '#78716c', fontSize: 13 }}>{f.en}</td>
+                    <td style={{ padding: '10px', color: 'var(--ink-muted-warm)', fontSize: 13 }}>
+                      {f.en}
+                    </td>
                   </tr>
                 );
               })}
@@ -314,7 +323,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                 key={i}
                 style={{
                   marginBottom: 12,
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid rgba(0,0,0,.07)',
                   overflow: 'hidden',
@@ -334,10 +343,17 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                   }}
                   onClick={() => speak(ex.hr)}
                 >
-                  <div style={{ fontSize: 16, fontWeight: 700, color: '#0369a1' }}>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--ink-info)' }}>
                     {ex.hr} <span aria-hidden="true">🔊</span>
                   </div>
-                  <div style={{ fontSize: 14, color: '#16a34a', fontWeight: 600, marginTop: 3 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      color: 'var(--ink-green)',
+                      fontWeight: 600,
+                      marginTop: 3,
+                    }}
+                  >
                     {ex.en}
                   </div>
                 </button>
@@ -345,7 +361,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                   style={{
                     padding: '0 16px 12px',
                     fontSize: 12,
-                    color: '#78716c',
+                    color: 'var(--ink-muted-warm)',
                     lineHeight: 1.5,
                     borderTop: '1px solid #f3f4f6',
                     paddingTop: 8,
@@ -368,7 +384,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 12,
               fontSize: 13,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -390,10 +406,12 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(ex.hr)}
               >
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {ex.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 3 }}>{ex.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                  {ex.en}
+                </div>
               </button>
             );
           })}
@@ -409,7 +427,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 12,
               fontSize: 13,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -435,17 +453,17 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                 onClick={() => speak(p.hr)}
               >
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 12, color: '#78716c', marginBottom: 3 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 3 }}>
                     {p.situation}
                   </div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#0369a1' }}>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-info)' }}>
                     {p.hr} <span aria-hidden="true">🔊</span>
                   </div>
                 </div>
                 <div
                   style={{
                     fontSize: 13,
-                    color: '#16a34a',
+                    color: 'var(--ink-green)',
                     fontWeight: 600,
                     minWidth: 100,
                     textAlign: 'right',

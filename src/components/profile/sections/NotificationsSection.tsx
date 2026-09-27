@@ -135,7 +135,7 @@ export default function NotificationsSection() {
               style={{
                 fontSize: 'var(--text-sm)',
                 fontWeight: 800,
-                color: notifPermission === 'granted' ? 'var(--success)' : 'var(--heading)',
+                color: notifPermission === 'granted' ? 'var(--ink-green)' : 'var(--heading)',
               }}
             >
               {notifPermission === 'granted'

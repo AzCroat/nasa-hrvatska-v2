@@ -47,7 +47,7 @@ function GroceryScreen({ goBack }: GroceryScreenProps) {
               style={{ textAlign: 'center', padding: '10px', borderTop: '3px solid ' + s.color }}
             >
               <div style={{ fontSize: 14, fontWeight: 800 }}>{s.name}</div>
-              <div style={{ fontSize: 11, color: '#78716c' }}>{s.desc}</div>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{s.desc}</div>
             </div>
           );
         })}
@@ -57,8 +57,10 @@ function GroceryScreen({ goBack }: GroceryScreenProps) {
         {GROCERY.brands.map(function (b, i) {
           return (
             <div key={i} className="c" style={{ padding: '8px 12px' }}>
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#164e63' }}>{b[0]}</div>
-              <div style={{ fontSize: 11, color: '#78716c' }}>{b[1]}</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-strong)' }}>
+                {b[0]}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{b[1]}</div>
             </div>
           );
         })}
@@ -76,7 +78,7 @@ function GroceryScreen({ goBack }: GroceryScreenProps) {
                 speak(w[0]!);
               }}
             >
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
                 {w[0]} <span aria-hidden="true">🔊</span>
               </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{w[1]}</div>

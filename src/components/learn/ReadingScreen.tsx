@@ -134,7 +134,7 @@ export default function ReadingScreen({
                 border: 'none',
                 fontSize: 13,
                 fontWeight: 600,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 cursor: 'pointer',
                 padding: 0,
                 width: '100%',
@@ -159,7 +159,7 @@ export default function ReadingScreen({
                   paddingTop: 10,
                 }}
               >
-                <p style={{ fontSize: 13, lineHeight: 1.75, margin: 0, color: '#44403c' }}>
+                <p style={{ fontSize: 13, lineHeight: 1.75, margin: 0, color: 'var(--ink-body)' }}>
                   {rp.text}
                 </p>
               </div>
@@ -273,7 +273,7 @@ export default function ReadingScreen({
           <p style={{ fontSize: 22, fontWeight: 700, marginTop: 12 }}>
             {rsc}/{rp.qs.length} correct
           </p>
-          <p style={{ color: '#78716c', marginTop: 4, fontSize: 14 }}>
+          <p style={{ color: 'var(--ink-muted-warm)', marginTop: 4, fontSize: 14 }}>
             {rsc === rp.qs.length
               ? 'Perfect score! Odlično!'
               : rsc >= Math.ceil(rp.qs.length / 2)

@@ -281,7 +281,7 @@ export default function WordFamilies({
         <span>
           {idx + 1} / {total}
         </span>
-        <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {score}</span>
+        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {score}</span>
       </div>
       <Bar v={idx + 1} mx={total} />
       <div className="c" style={{ marginTop: 16 }}>
@@ -302,29 +302,17 @@ export default function WordFamilies({
           </div>
         </div>
         <div style={{ fontSize: 17, fontWeight: 600 }}>{q.q}</div>
-        <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{q.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{q.en}</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
         {q.opts.map((o, oi) => (
           <button
             key={oi}
-            className="ob"
+            className={
+              'ob' + (answered ? (o === q.answer ? ' ok' : selected === oi ? ' no' : '') : '')
+            }
             style={{
               textAlign: 'center',
-              background: answered
-                ? o === q.answer
-                  ? '#dcfce7'
-                  : selected === oi
-                    ? '#fee2e2'
-                    : 'white'
-                : 'white',
-              borderColor: answered
-                ? o === q.answer
-                  ? '#16a34a'
-                  : selected === oi
-                    ? '#dc2626'
-                    : 'rgba(14,116,144,.12)'
-                : 'rgba(14,116,144,.12)',
             }}
             onClick={() => {
               if (!answered) {
@@ -341,17 +329,17 @@ export default function WordFamilies({
       {answered && (
         <div
           style={{
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderRadius: 12,
             padding: '12px 16px',
             marginTop: 12,
             border: '1.5px solid #bae6fd',
           }}
         >
-          <div style={{ fontSize: 12, fontWeight: 800, color: '#0369a1', marginBottom: 4 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-info)', marginBottom: 4 }}>
             💡 Word Family
           </div>
-          <div style={{ fontSize: 13, color: '#075985' }}>{q.tip}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-info)' }}>{q.tip}</div>
         </div>
       )}
       {answered && (

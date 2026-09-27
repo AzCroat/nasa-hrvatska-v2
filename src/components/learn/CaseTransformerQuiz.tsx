@@ -1,5 +1,6 @@
 import React from 'react';
 import { CT_STYLES } from './CaseTransformerData.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface Noun {
   hr: string;
@@ -165,7 +166,7 @@ export default function CaseTransformerQuiz({
             style={{
               fontSize: 'var(--text-base)',
               fontWeight: 800,
-              color: ci.color,
+              color: accentInk(ci.color),
               fontFamily: "'Outfit', sans-serif",
             }}
           >
@@ -226,11 +227,11 @@ export default function CaseTransformerQuiz({
           let color = 'var(--heading)';
           if (quizChosen !== null) {
             if (opt === q.correct) {
-              bg = '#dcfce7';
+              bg = 'var(--success-bg-strong)';
               border = '#16a34a';
               color = '#166534';
             } else if (opt === quizChosen && opt !== q.correct) {
-              bg = '#fee2e2';
+              bg = 'var(--error-bg-strong)';
               border = '#ef4444';
               color = '#991b1b';
             }
@@ -266,7 +267,7 @@ export default function CaseTransformerQuiz({
               marginBottom: 14,
               fontSize: 'var(--text-base)',
               fontWeight: 700,
-              color: quizChosen === q.correct ? '#166534' : '#991b1b',
+              color: quizChosen === q.correct ? 'var(--ink-green)' : 'var(--ink-error)',
               fontFamily: "'Outfit', sans-serif",
             }}
           >

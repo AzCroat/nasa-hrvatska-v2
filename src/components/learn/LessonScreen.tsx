@@ -22,11 +22,11 @@ import { recordTopicResult } from '../../lib/adaptive.js';
 import { lsGet } from '../../lib/safeStorage';
 
 const CONFETTI_COLORS = [
-  'var(--info-light, #38bdf8)',
-  'var(--gold, #fbbf24)',
-  'var(--success-light, #4ade80)',
-  'var(--error-light, #f87171)',
-  'var(--lavender-light, #a78bfa)',
+  '#38bdf8',
+  '#fbbf24',
+  '#4ade80',
+  '#f87171',
+  '#a78bfa',
   '#fb923c',
   '#34d399',
   '#e879f9',
@@ -575,7 +575,7 @@ export default function LessonScreen({
             }}
           >
             <span style={{ fontSize: 13 }}>⭐</span>
-            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--warning)' }}>
+            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-warn)' }}>
               {ls * 3} XP
             </span>
           </div>
@@ -790,7 +790,7 @@ export default function LessonScreen({
                   height: 36,
                   borderRadius: '50%',
                   flexShrink: 0,
-                  background: isCorrect ? 'var(--success)' : 'var(--error)',
+                  background: isCorrect ? 'var(--fill-success)' : 'var(--fill-error)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -806,7 +806,7 @@ export default function LessonScreen({
                   style={{
                     fontSize: 15,
                     fontWeight: 900,
-                    color: isCorrect ? 'var(--success)' : 'var(--error)',
+                    color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
                   }}
                 >
                   {isCorrect ? 'Točno! · Correct!' : 'Netočno · Incorrect'}
@@ -816,7 +816,7 @@ export default function LessonScreen({
                     style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2, fontWeight: 600 }}
                   >
                     Answer:{' '}
-                    <span style={{ color: 'var(--success)', fontWeight: 800 }}>
+                    <span style={{ color: 'var(--ink-green)', fontWeight: 800 }}>
                       {qi[lx].opts[qi[lx].ci]}
                     </span>
                   </div>
@@ -893,8 +893,7 @@ export default function LessonScreen({
       <div
         style={{
           minHeight: '80vh',
-          background:
-            'linear-gradient(160deg,var(--grad-start,#060e1e) 0%,var(--grad-mid,#0a2348) 45%,var(--grad-end,#0c3868) 100%)',
+          background: 'linear-gradient(160deg,#060e1e 0%,#0a2348 45%,#0c3868 100%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -1364,8 +1363,8 @@ export default function LessonScreen({
                 height: 56,
                 fontSize: 17,
                 fontWeight: 800,
-                background: 'white',
-                color: '#0a2348',
+                background: 'var(--card)',
+                color: 'var(--ink-flag)',
                 borderRadius: 16,
                 border: 'none',
                 cursor: 'pointer',

@@ -11,6 +11,7 @@ import { speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import CharacterPortrait from '../family/CharacterPortrait';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Heritage module data ──────────────────────────────────────────────────────
 
@@ -469,7 +470,7 @@ export default function HeritagePathScreen({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
                 marginBottom: 4,
@@ -477,7 +478,7 @@ export default function HeritagePathScreen({
             >
               Baka kaže
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.65 }}>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.65 }}>
               Heritage speakers are not beginners. You hear Croatian and understand the melody even
               if the words escape you. The goal here is not to learn — it&apos;s to{' '}
               <em>remember</em>. Big difference.
@@ -491,7 +492,7 @@ export default function HeritagePathScreen({
             marginBottom: 12,
             fontSize: 11,
             fontWeight: 900,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
             letterSpacing: '.1em',
           }}
@@ -559,7 +560,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 14,
                   fontWeight: 800,
-                  color: completed.has(mod.id) ? '#16a34a' : 'var(--heading)',
+                  color: completed.has(mod.id) ? 'var(--ink-green)' : 'var(--heading)',
                 }}
               >
                 {mod.title}
@@ -614,7 +615,7 @@ export default function HeritagePathScreen({
           style={{
             fontSize: 11,
             fontWeight: 900,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
             letterSpacing: '.08em',
             marginBottom: 4,
@@ -650,24 +651,24 @@ export default function HeritagePathScreen({
             style={{
               fontSize: 22,
               fontWeight: 900,
-              color: dialect.color,
+              color: accentInk(dialect.color),
               fontFamily: "'Playfair Display',serif",
               marginBottom: 4,
             }}
           >
             {dialect.name}
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 12 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 12 }}>
             Spoken in: {dialect.spoken}
           </div>
           <div
             style={{
               padding: '10px 14px',
-              background: 'white',
+              background: 'var(--card)',
               borderRadius: 12,
               fontSize: 13,
               fontWeight: 700,
-              color: dialect.color,
+              color: accentInk(dialect.color),
             }}
           >
             Key feature: {dialect.hallmark}
@@ -687,7 +688,7 @@ export default function HeritagePathScreen({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: dialect.color,
+              color: accentInk(dialect.color),
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 8,
@@ -713,7 +714,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 13,
                   fontWeight: 800,
-                  color: dialect.color,
+                  color: accentInk(dialect.color),
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -789,7 +790,7 @@ export default function HeritagePathScreen({
           style={{
             fontSize: 11,
             fontWeight: 900,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
             letterSpacing: '.08em',
             marginBottom: 4,
@@ -843,7 +844,7 @@ export default function HeritagePathScreen({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: mod.color,
+              color: accentInk(mod.color),
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 8,
@@ -878,7 +879,7 @@ export default function HeritagePathScreen({
           <div>
             <div
               style={{
-                background: '#f0fdf4',
+                background: 'var(--success-bg)',
                 border: '2px solid #16a34a',
                 borderRadius: 14,
                 padding: '16px',
@@ -889,7 +890,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: '#16a34a',
+                  color: 'var(--ink-green)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 6,
@@ -902,7 +903,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 20,
                   fontWeight: 900,
-                  color: '#166534',
+                  color: 'var(--ink-green)',
                   fontFamily: "'Playfair Display',serif",
                   background: 'none',
                   border: 'none',
@@ -915,14 +916,14 @@ export default function HeritagePathScreen({
                 {ex.answer} 🔊
               </button>
               {ex.alt?.length > 0 && (
-                <div style={{ fontSize: 12, color: '#4d7c56', marginTop: 6 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 6 }}>
                   Also accepted: {ex.alt.join(', ')}
                 </div>
               )}
               <div
                 style={{
                   fontSize: 12,
-                  color: '#4d7c56',
+                  color: 'var(--ink-green)',
                   marginTop: 8,
                   padding: '8px 12px',
                   background: 'rgba(22,163,74,.08)',
@@ -989,7 +990,7 @@ export default function HeritagePathScreen({
           style={{
             fontSize: 11,
             fontWeight: 900,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             textTransform: 'uppercase',
             letterSpacing: '.08em',
             marginBottom: 4,
@@ -1022,10 +1023,12 @@ export default function HeritagePathScreen({
             marginBottom: 12,
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 800, color: mod.color, marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 800, color: accentInk(mod.color), marginBottom: 4 }}
+          >
             {mod.icon} {mod.title}
           </div>
-          <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.65 }}>{mod.intro}</div>
+          <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.65 }}>{mod.intro}</div>
           <div
             style={{
               marginTop: 10,
@@ -1034,7 +1037,7 @@ export default function HeritagePathScreen({
               borderRadius: 10,
               fontFamily: 'monospace',
               fontSize: 12,
-              color: mod.color,
+              color: accentInk(mod.color),
               whiteSpace: 'pre-line',
             }}
           >
@@ -1055,7 +1058,7 @@ export default function HeritagePathScreen({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: mod.color,
+              color: accentInk(mod.color),
               textTransform: 'uppercase',
               letterSpacing: '.08em',
               marginBottom: 8,
@@ -1090,7 +1093,7 @@ export default function HeritagePathScreen({
           <div>
             <div
               style={{
-                background: '#f0fdf4',
+                background: 'var(--success-bg)',
                 border: '2px solid #16a34a',
                 borderRadius: 14,
                 padding: '16px',
@@ -1101,7 +1104,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: '#16a34a',
+                  color: 'var(--ink-green)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 6,
@@ -1109,13 +1112,20 @@ export default function HeritagePathScreen({
               >
                 Answer:
               </div>
-              <div style={{ fontSize: 15, fontWeight: 800, color: '#166534', lineHeight: 1.5 }}>
+              <div
+                style={{
+                  fontSize: 15,
+                  fontWeight: 800,
+                  color: 'var(--ink-green)',
+                  lineHeight: 1.5,
+                }}
+              >
                 {ex.correct}
               </div>
               <div
                 style={{
                   fontSize: 12,
-                  color: '#4d7c56',
+                  color: 'var(--ink-green)',
                   marginTop: 8,
                   padding: '8px 12px',
                   background: 'rgba(22,163,74,.08)',
@@ -1200,7 +1210,7 @@ export default function HeritagePathScreen({
                 style={{
                   flex: 1,
                   padding: '10px 12px',
-                  background: '#fffbeb',
+                  background: 'var(--warning-bg)',
                   border: '1px solid #fde68a',
                   borderRadius: 10,
                 }}
@@ -1209,7 +1219,7 @@ export default function HeritagePathScreen({
                   style={{
                     fontSize: 10,
                     fontWeight: 800,
-                    color: '#b45309',
+                    color: 'var(--ink-warn)',
                     textTransform: 'uppercase',
                     marginBottom: 2,
                   }}
@@ -1221,7 +1231,7 @@ export default function HeritagePathScreen({
                   style={{
                     fontSize: 16,
                     fontWeight: 900,
-                    color: '#92400e',
+                    color: 'var(--warning-text)',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
@@ -1236,7 +1246,7 @@ export default function HeritagePathScreen({
                   display: 'flex',
                   alignItems: 'center',
                   fontSize: 16,
-                  color: '#78716c',
+                  color: 'var(--ink-muted-warm)',
                   fontWeight: 700,
                 }}
               >
@@ -1246,7 +1256,7 @@ export default function HeritagePathScreen({
                 style={{
                   flex: 1,
                   padding: '10px 12px',
-                  background: '#f0f9ff',
+                  background: 'var(--info-bg)',
                   border: '1px solid #bae6fd',
                   borderRadius: 10,
                 }}
@@ -1255,7 +1265,7 @@ export default function HeritagePathScreen({
                   style={{
                     fontSize: 10,
                     fontWeight: 800,
-                    color: '#0e7490',
+                    color: 'var(--ink-accent)',
                     textTransform: 'uppercase',
                     marginBottom: 2,
                   }}
@@ -1267,7 +1277,7 @@ export default function HeritagePathScreen({
                   style={{
                     fontSize: 16,
                     fontWeight: 900,
-                    color: '#0c4a6e',
+                    color: 'var(--ink-info)',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer',
@@ -1323,7 +1333,7 @@ export default function HeritagePathScreen({
         style={{
           fontFamily: "'Playfair Display',serif",
           fontSize: 26,
-          color: '#164e63',
+          color: 'var(--ink-strong)',
           fontWeight: 900,
           marginBottom: 8,
         }}
@@ -1333,7 +1343,7 @@ export default function HeritagePathScreen({
       <p
         style={{
           fontSize: 14,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           lineHeight: 1.6,
           maxWidth: 300,
           margin: '0 auto 24px',

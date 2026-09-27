@@ -30,13 +30,13 @@ export default function WelcomeBackBanners({
         >
           <span style={{ fontSize: 32 }}>🎉</span>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--warning)' }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--ink-warn)' }}>
               Dobrodošli natrag! Welcome back!
             </div>
             <div
               style={{
                 fontSize: 12,
-                color: 'var(--warning)',
+                color: 'var(--ink-warn)',
                 marginTop: 2,
                 fontWeight: 600,
                 opacity: 0.85,

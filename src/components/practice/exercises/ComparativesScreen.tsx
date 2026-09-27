@@ -141,7 +141,7 @@ function ComparativesScreen({ goBack, award }: Props) {
                 padding: '6px',
                 fontSize: 12,
                 fontWeight: 700,
-                color: '#b45309',
+                color: 'var(--ink-warn)',
                 background: 'none',
                 border: 'none',
                 borderBottom: '1px solid #e7e5e4',
@@ -161,7 +161,7 @@ function ComparativesScreen({ goBack, award }: Props) {
                 padding: '6px',
                 fontSize: 12,
                 fontWeight: 700,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 background: 'none',
                 border: 'none',
                 borderBottom: '1px solid #e7e5e4',
@@ -200,12 +200,12 @@ function ComparativesScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
@@ -232,7 +232,9 @@ function ComparativesScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           {!passed && (

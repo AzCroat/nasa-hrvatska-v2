@@ -21,6 +21,7 @@ import {
   CATEGORY_META,
   SEASON_META,
 } from '../../data/bakaLetters';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Read-state persistence ─────────────────────────────────────────────────
 const READ_KEY = 'nh_baka_read';
@@ -95,7 +96,9 @@ function WordTile({ w, award }: WordTileProps): React.ReactElement {
         position: 'relative',
       }}
     >
-      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: '#0e7490' }}>{w.hr}</div>
+      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-accent)' }}>
+        {w.hr}
+      </div>
       <div
         style={{
           fontSize: 'var(--text-xs)',
@@ -174,7 +177,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
           fontSize: 10,
           fontWeight: 800,
           letterSpacing: '.12em',
-          color: meta.tint,
+          color: accentInk(meta.tint),
           textTransform: 'uppercase',
           marginBottom: 10,
         }}
@@ -187,7 +190,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
               padding: '1px 6px',
               borderRadius: 4,
               background: 'var(--success-bg)',
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
               fontSize: 9,
             }}
           >

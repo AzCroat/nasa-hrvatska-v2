@@ -240,7 +240,7 @@ export default function McQuestionArea({
                     ? {
                         background: 'var(--success-bg)',
                         borderColor: 'var(--success-b)',
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                       }
                     : {}),
                   ...(isGlowing

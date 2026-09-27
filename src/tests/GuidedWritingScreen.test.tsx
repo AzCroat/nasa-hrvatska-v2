@@ -5,6 +5,7 @@
 // graded submit feeding the same loops WritingScreen feeds.
 
 import React from 'react';
+import { getCurrentContentLevel } from '../lib/cefrCertification';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
@@ -31,6 +32,7 @@ vi.mock('../hooks/useOnlineStatus', () => ({ useOnlineStatus: () => ({ isOnline:
 import GuidedWritingScreen, {
   frameMatches,
   pickUnit,
+  advanceUnit,
 } from '../components/practice/GuidedWritingScreen';
 import { unitsForLevel } from '../data/writingCurriculum';
 
@@ -47,12 +49,19 @@ describe('frameMatches — accent/punctuation tolerance', () => {
 
 describe('pickUnit — rotation', () => {
   beforeEach(() => localStorage.clear());
-  it('rotates through the level units across visits', () => {
+  it('rotates through the level units across FINISHED units', () => {
     const a1 = unitsForLevel('A1');
     const first = pickUnit('A1');
+    advanceUnit('A1');
     const second = pickUnit('A1');
     expect(first.id).toBe(a1[0]!.id);
     expect(second.id).toBe(a1[1]!.id);
+  });
+
+  // Opening a unit and backing out used to skip it for the whole rotation (2026-09-27).
+  it('reading the current unit does not move the pointer — only a finish does', () => {
+    const first = pickUnit('A1').id;
+    expect(pickUnit('A1').id).toBe(first);
   });
 });
 
@@ -108,12 +117,17 @@ describe('GuidedWritingScreen — the three-stage ladder', () => {
       }),
     });
     const award = vi.fn();
+    const lv = getCurrentContentLevel();
+    const unitBefore = pickUnit(lv).id;
     render(<GuidedWritingScreen goBack={vi.fn()} award={award} />);
+    // Opening the unit does not move the rotation — only finishing it does.
+    expect(pickUnit(lv).id).toBe(unitBefore);
     advanceToWrite();
     const words = Array.from({ length: 30 }, (_, i) => `riječ${i}`).join(' ');
     fireEvent.change(screen.getByTestId('gw-text'), { target: { value: words } });
     fireEvent.click(screen.getByTestId('gw-submit'));
     await waitFor(() => expect(screen.getByTestId('gw-result')).toBeTruthy());
+    expect(pickUnit(lv).id).not.toBe(unitBefore);
     expect(recordMasteryEventMock).toHaveBeenCalledWith(
       expect.objectContaining({ skill: 'writing', weight: 2, score: 0.72 }),
     );
@@ -131,6 +145,8 @@ describe('GuidedWritingScreen — the three-stage ladder', () => {
     fireEvent.click(screen.getByTestId('gw-submit'));
     await waitFor(() => expect(signalMock).toHaveBeenCalledWith('writing_guided'));
     expect(recordMasteryEventMock).not.toHaveBeenCalled();
+    // Ungraded, so the unit comes back: the rotation has not moved.
+    expect(pickUnit('A1').id).toBe(unitsForLevel('A1')[0]!.id);
   });
 
   it('a failed grading NEVER gates the flow: continue-anyway appears, awards, and exits (owner field bug, 2026-08-19)', async () => {

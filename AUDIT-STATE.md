@@ -10780,10 +10780,10 @@ delegates to `ConjugationDrillEngine`, which `conjugation-engine.test.tsx` drive
 
 ## Sweep 148 — the questions were giving the answers away (owner reports, 2026-09-26)
 
-Two owner reports minutes apart, both about learning being impossible: *"In objektne
+Two owner reports minutes apart, both about learning being impossible: _"In objektne
 zamjenice you are giving the answers in the questions. What the fuck. How is someone
-going to learn if you give them the answers?"* and *"Verb aspect drill also gives the
-answer. You cannot learn if given the answers."*
+going to learn if you give them the answers?"_ and _"Verb aspect drill also gives the
+answer. You cannot learn if given the answers."_
 
 **One defect, 131 instances, 55 files.** A parenthetical cue after the sentence naming the
 word to use — in the very form the item asks for. Every one could be answered by copying
@@ -10861,7 +10861,781 @@ found all ten at once. Two rounds of reasoning about direction; one about the bo
 
 ---
 
+## Sweep 149 — the completion engine, increment 1 (owner directive, 2026-09-26)
+
+The owner authorised the restructuring: one completion engine, one drill engine, then a
+single-path unit course with a mastery gate. This is increment 1 of the first, and it found
+two live defects — each of which a per-screen fix would have had to make 10 and 140 times.
+
+**Census: 222 crediting components — 140 through the authority, 82 hand-rolled, 14 both**
+(per-answer XP plus a completion call, the legitimate incremental-payer shape).
+
+**DEFECT 1: ten exercises inflated the measured level on every replay.** `gc` incremented
+with no once-only mechanism; a `questFiredRef` in one of them does not survive a remount.
+Driven twice over one shared stats object: `gc` 1 → 2 on all of them, and `getCEFR` values
+each `gc` at 25 points. Routed through the authority, policy `effort` so today's
+credit-on-finish is preserved — the pass-gate question belongs to the course work.
+
+**DEFECT 2: the authority never credited a daily quest on a replay — 140 screens.** The mark
+sat below the already-credited return. A daily quest is DAY-scoped, `vs` is ONCE-EVER; the
+further a learner progressed the fewer screens could advance today's quests. One line, 140
+screens — the consolidation argument in its clearest form.
+
+Full write-up, including why a bare move above the return would have been wrong (tier 2 means
+two DISTINCT exercises) and why the guard had to live in the authority rather than in
+`quests.ts`, is in CLAUDE.md under **The Completion Engine — One Credit Path**.
+
+**THE PROCESS FINDINGS ARE THE REUSABLE PART, and there are four.**
+
+1. **94 test files `vi.mock` the quests module.** Adding an export the authority then CALLS
+   made it `undefined` in every one of them. Measure the mock surface before adding an export
+   to a module on a hot path — this is the `vi.mock` rule from sweep 138 at 94× the scale.
+2. **A guard's population must not be defined by the defect.** The idempotency suite derived
+   its subjects from files writing `s.gc + 1` by hand; routing all ten through the authority
+   emptied it, and ten named failures became one vacuous pass. It derives from the REGISTRY
+   now — the `effort` rows, via each file's own completion key.
+3. **This cohort cannot be driven to a pass, and that is good pedagogy.** A second attempt
+   tried to learn each answer key from the DOM. Measured: these screens colour only the
+   CHOSEN option, so a wrong answer leaves the right one unmarked. Three successive
+   populations (defect-derived → all counter-crediting → registry `effort` rows) and only the
+   last is both honest and non-vacuous. **A driver's reach is part of a guard's scope.**
+4. **One test's storage writes reached the next**, for the life of the suite. `setup.js` built
+   its polyfill once per FILE, so every `it` inherited the previous one's keys. Invisible
+   until production kept per-day state keyed on an exercise, at which point 38 tests failed
+   asserting something they were right to assert. Cleared globally now.
+
+**AND 13 TESTS ENCODED THE OLD CONTRACT, 14 SIBLINGS DID NOT.** The same assertion —
+`expect(markQuestMock).not.toHaveBeenCalled()` — appears in two situations: a REPLAY (now
+wrong, the quest must be marked) and a FAILING run (still right, the gate withholds credit).
+Classifying by the enclosing test name before patching is what kept the correct half intact;
+a blanket replace would have broken 14 true assertions to fix 13 false ones.
+
+**WHAT REMAINS OF THIS INCREMENT: 72 of the 82 hand-rolled screens.** The ten converted here
+were the ones with a demonstrated counter defect. The rest are varied — per-answer awards,
+custom XP shapes, screens whose `activityType` is deliberately not what the registry would
+give them — and each needs its payment fingerprinted before and after. That is mechanical but
+not blind.
+
+- Mutation-verified, four: the quest mark back below the return fails 1 and names it; an
+  unconditional mark fails the tier-2 clause; each converted screen reverted fails its own
+  idempotency test; the registry rows removed fail the derivation floor.
+- NEVER: increment a mastery counter without an idempotent flag; couple a DAY-scoped mark to
+  a ONCE-EVER flag; add an export to a heavily-mocked module the authority calls; define a
+  guard's population by the defect; let a test inherit the previous test's storage.
+
+---
+
+## Sweep 150 — step 1 finished: the mastery counter has one owner (2026-09-26)
+
+Continues sweep 149. The remaining hand-rolled screens were censused and split by WHAT they
+credit, because that decides whether conversion is a fix or a regression:
+
+| group                                           | count  | disposition                                                     |
+| ----------------------------------------------- | ------ | --------------------------------------------------------------- |
+| a once-ever COUNTER of their own                | 17 + 4 | **converted** (17) / exempted on a checked reason (4)           |
+| a `vs`/`writeDelta` completion, no counter      | 19     | left — a repeat writes a duplicate set entry, crediting nothing |
+| REPEATABLE DAILY activities, no once-ever state | 22     | left deliberately — see below                                   |
+| per-answer XP only, no completion to own        | 20     | nothing for the authority to own                                |
+
+**THE COUNTER CLASS IS NOW UNREPRESENTABLE**, which is what "finished" means here:
+`counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
+`src` outside four exempted files. The authority went from 140 to **157** of 222.
+
+**THE CONVERSION RULE IS A SPLIT, and it is why 17 edits are verifiable at all.** The
+authority owns the COMPLETION — counter, quest, idempotent `vs` — and each screen keeps its
+own `award(...)` exactly where it was (`xp: 0`, no `award` passed). Moving the award in too
+would have changed `useAward`'s behaviour: a server XP claim fires only when an activityType
+is supplied, and `MicroLessonScreen` calls `awardFn(xp)` with none. Different change,
+different blast radius.
+
+**CONVERTING A REPEATABLE ACTIVITY WOULD BE A REGRESSION, NOT A CONSOLIDATION.** Maja, the
+live tutor, AI conversation, story mode, guided writing and speaking award XP and mark a
+daily quest with NO once-ever state. Routing them through the authority would give each a
+`vs` flag and make a daily activity once-ever. **One credit path does not mean one credit
+policy** — that distinction is the reason the census split by what a screen credits rather
+than by how it credits.
+
+**TWO OF MY OWN EXEMPTIONS WERE BOGUS AND THE STALENESS CLAUSE CAUGHT BOTH.** I exempted the
+authority itself (it increments through a COMPUTED key, `next[statKind] = … + 1`, so the
+literal shape never matched) and `statsReducer.ts` (which does not touch these counters at
+all). Both were written by reasoning about which files "own" the counter rather than by
+checking which files match. **Require every exemption to still match the pattern it is
+excused from** — that clause has now caught three bogus entries across two sweeps.
+
+**ADDING A REGISTRY ROW BROKE AN INVARIANT TWO FILES AWAY, and the guard named it.**
+`registryMatchesScreen` failed twice: `GrammarScreen` also marks a second, CONDITIONAL quest
+(`perfect`, only on a flawless run) that one `questKind` cannot express — recorded in
+`DELIBERATE`; and giving `cefrtest` `activityType: 'default'` took the registry's distinct
+type count to 10, which is precisely the inequality `appUtils`' `distinctExercisesDone`
+comment rests on. The field was inert (no award is passed there), so the ROW was narrowed
+rather than the threshold raised. **A new registry row is not a local change.**
+
+**AND `LessonScreen` IS THE ONE PLACE THE AUTHORITY'S MODEL IS TOO NARROW** — its updater
+writes four stats in one call (`lc`, `pf`, `rs`, `ct`) while the authority owns `vs` plus a
+single counter. Recorded rather than papered over, and relevant to step 3: the course spine
+replaces that path, so the right time to widen the model is when the unit gate is built.
+
+- Mutation-verified, two: a converted screen reverted to writing the counter itself fails the
+  guard and names the file; a stale exemption (a file that no longer increments) fails the
+  staleness clause and names it.
+- Full suite green. NEXT: **step 3, the single-path unit course** (units, the accuracy +
+  production gate, retention confirmation, the daily session demoted to delivery), then step
+  2, the drill-engine conversion.
+
+---
+
+## Sweep 151 — step 3, increment 1: the course has units, and a map (2026-09-26)
+
+**OWNER INSTRUCTION: "step 3 go"**, after _"finish step 1, then step 3 and then
+step 2"_. Step 1 closed in sweep 150. This is the first increment of step 3, as
+stated to the owner: _"Unit grouping + the course map screen. No gating yet — the
+learner immediately sees a structure and where they are in it."_
+
+**WHAT SHIPPED**
+
+- `src/lib/courseUnits.ts` — units DERIVED by chunking the spine five at a time
+  within a level: 6 units per level, **36 over 180 lessons**, `courseProgress`
+  (done / current / upcoming), `nextCourseLesson`, `unitOfLesson`,
+  `courseMapBlock`.
+- `src/data/courseUnitTitles.ts` — the only authored part: 36 titles + subtitles,
+  in the spine's `objectives` voice. In the Croatian lint TARGETS (473 files now),
+  mutation-verified both directions.
+- `src/components/learn/CourseMapScreen.tsx` — route `coursemap`, door on the
+  Learn tab above the lookup, registered in `screenTabs` (learn + restore-safe),
+  `routeKeys` and `OUTSIDE_SESSION`.
+- `launchAnimLesson` now resolves `true`/`false` instead of `void`.
+
+**THE DESIGN DECISIONS WORTH KEEPING** (full record in CLAUDE.md, "The Course, In
+Units")
+
+1. **The course does not read a CEFR level.** Owner: _"all users follow the same
+   learning path… everyone starts at Unit 1."_ Pinned by SOURCE, because every
+   behavioural fixture is an A1-order spine and a certification-reading version
+   would pass all of them.
+2. **Units are chunked, never listed.** A second file naming 36 units and 180
+   lesson ids is the hand-maintained list this file keeps watching decay. Measured
+   first: the curriculum's thematic blocks fall at fives throughout, and A1's
+   boundary at 16 lands exactly on `cases`, its documented hinge.
+3. **The title boundary pin is frozen, deliberately not derived.** A derivation
+   agrees with whatever the spine says today, which is the thing under test. The
+   failure names the unit and quotes its title.
+4. **Only measured states render.** No `locked` (nothing gates yet — a padlock for
+   an unenforced rule is NEVER-DO 13 from the other side) and no `mastered`
+   (mastery needs the unit test and the re-checks; a tick meaning "you read five
+   lessons" must not claim more).
+5. **A live silent tap was found and fixed on the way.** `launchAnimLesson` fetched
+   the lesson body and did NOTHING when it was absent or the fetch threw — the "a
+   tap either opens it or says why" class, for the life of that launcher. The
+   boolean is driven to all three outcomes rather than pinned by source, because a
+   source pin on a return value is the dead-branch shape: a launcher that always
+   resolved truthy would make the failure notice unrenderable and it would read
+   exactly like coverage.
+6. **Two existing guards caught the screen before a learner could**, which is the
+   mechanism working: `routeKeys` (its own URL would have hit the not-found card)
+   and `session-coverage` (unclassified screen). The map is NAVIGATION and joins
+   `learning_center` in `OUTSIDE_SESSION` with the same stated reason.
+
+**VERIFICATION** — 81 new unit tests across three suites; mutation-verified ten
+ways, each failing 1–7 tests (deleted title 4; spine reorder 4, naming the unit;
+`currentIndex` from the last unfinished unit 7; remainder dropped 1;
+`getCertifiedLevel` imported 1; `loading` collapsed into `unavailable` 2; launcher
+always successful 2; route removed 1; door removed 1; spine listener removed 1).
+Lint mutation both directions. `e2e/course-map.spec.js` — 4 tests, green against a
+CI-equivalent build in a real browser, and mutation-verified in anger
+(`onOpenLesson` severed to `async () => false` fails it). Full suite 650 files /
+10,257 tests, typecheck, eslint, Croatian lint 0 findings.
+
+**WHAT IS NOT DONE, AND IS NEXT** — the unit test and the gate:
+
+- A cumulative unit test at the end of each unit's five lessons, at
+  `LESSON_PASS_THRESHOLD`-or-higher, sampling across the unit rather than one
+  lesson.
+- Advancement on accuracy AND production (one spoken, one written, rubric-graded
+  through the existing `/api/correct` and `/api/speaking-coach` paths).
+- Mastery confirmed LATER by retention at 7 and 30 days, reusing
+  `lessonRetention.ts`; a failed re-check re-opens practice and does NOT
+  un-advance.
+- The second unit state (`mastered`) and the `locked` state become renderable at
+  that point, and not before.
+- `LessonScreen` is where the completion authority's model is too narrow (four
+  stats in one updater — see sweep 150); the unit gate is when to widen it.
+
+## Sweep 152 — step 3, increment 2: the unit test, and mastery (2026-09-26)
+
+Increment 1 showed the learner a course; this one asks whether they got it. Full
+design record in CLAUDE.md, "The Course, In Units → Increment 2".
+
+**SHIPPED**
+
+- `src/lib/unitTest.ts` — 15 items, 3 per lesson, assembled ROUND-ROBIN so no two
+  consecutive items share a lesson; `UNIT_PASS_THRESHOLD` 0.85 (13 of 15) against a
+  lesson's 0.75; `unitItemsNeeded` so every surface states the COUNT.
+- `src/lib/courseUnitProgress.ts` (`nh_course_units`) — passes, every attempt, the
+  `insufficient` marker, and an additive merge. Synced four-point (snapshot, remote
+  apply, merge, absent-when-empty).
+- `src/components/learn/UnitTestScreen.tsx` (route `unittest`), reached from the
+  course map on a unit whose five lessons are read.
+- `UnitState` is now `mastered | current | cleared | upcoming`.
+
+**THE THINGS WORTH REMEMBERING**
+
+1. **Interleaved, not blocked, and round-robin rather than shuffled.** A shuffle
+   sometimes blocks three items from one lesson together — the exact condition the
+   test exists to avoid — and makes the property unverifiable.
+2. **A generic question stem is CORRECT in a mixed test.** Measured: "Which
+   sentence is correct?" is shared across lessons in 20 of 36 units. Naming the
+   topic would remove the discrimination the interleaving measures. Pinned so a
+   later reader does not "fix" it.
+3. **Item identity is (lesson, question).** A by-text comparison reported two
+   different lessons' items as a repeat and failed the retake assertion on correct
+   code.
+4. **Reading five lessons is not mastery**, so a read-through unit stays `current`.
+   Six existing assertions were rewritten to the new contract rather than patched.
+5. **MY SOURCE PIN SURVIVED ITS OWN MUTATION.** Sliced from the credit effect to
+   the END OF FILE, it also saw the retake button's onClick, so moving the award
+   there left it green — the nth fixed-window instance in this file. Bounded to the
+   effect's dependency array; both the moved-award and paid-twice mutations now
+   fail it.
+6. **A python patch that did not apply reported "98 passed" and meant nothing.**
+   M19's heredoc had a syntax error, the file was untouched, and the run looked
+   like a surviving mutation. Check WHERE a mutation landed before reading its
+   result — written down in this file twice already, met again.
+
+**VERIFICATION** — 54 new tests (unitTest 18, courseUnitProgress 23, unitTestScreen 13) plus 6 rewritten; mutation-verified thirteen more ways (M11–M23), each failing
+1–4 tests; two more E2E tests assembling a real fifteen-item paper from five
+separately-fetched lesson bodies in a browser.
+
+**NEXT, AND WHY IN THIS ORDER** — the LOCK ships with pointing the daily session's
+teaching slot at the course order. Shipping the lock alone would let the session
+teach a lesson from a unit the map shows as locked: two surfaces contradicting each
+other is worse than no lock. `getNextLesson`'s certification inference is what the
+session still uses, and is the thing to retire in that same increment. Then
+production (one spoken, one written, rubric-graded through `/api/correct` and
+`/api/speaking-coach`), then the 7/30-day retention re-checks that turn `mastered`
+into a claim about retention rather than one sitting.
+
+## Sweep 153 — step 3, increment 3: the gate, and one answer to "what next" (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 3". The short
+version: increment 2 left the daily session choosing lessons through the old
+CERTIFICATION INFERENCE while the map gated on unit mastery, so for a certified
+learner the two surfaces disagreed. That is why the gate and the session change
+shipped together.
+
+**SHIPPED**
+
+- `src/lib/courseStep.ts` — `nextCourseStep` / `pickCourseStep`, read by BOTH the
+  teaching slot (`resolveCurriculumLesson`) and the launcher (`pickSessionLesson`).
+- `openUnits` + `lockReason` + the `locked` state: the course opens one unit at a
+  time, on the unit test, with two escape hatches (a test that cannot be assembled,
+  and a unit whose lessons are all read).
+- `unitTestOffer` → `testout`: the same test at the same bar, offered before the
+  reading, which is what makes one path for everyone bearable.
+- The unit test as a teaching slot, with the handoff written by the session builder.
+- `getNextLesson` and `levelProgress` DELETED, and `curriculumEngine.test.ts` with
+  them. `curriculum.ts` is 65 lines of types plus the history of why the inference
+  existed.
+
+**THE FIVE THINGS WORTH REMEMBERING**
+
+1. **A unit both read-through and unassemblable was a STRAND**, found by a test I
+   wrote for something else: the gate let the course past it while the offer still
+   called it `primary`, so the teaching slot sent the learner to a dead-end screen
+   every day. `short` is on `UnitProgress` for that reason.
+2. **My own optional parameter contradicted its own docstring.** "Omit to lock
+   nothing" defaulted to an empty SET, which locked everything after the current
+   unit. `undefined` is the no-gate signal now.
+3. **The locked clause in the walk survived its mutation and is now exercisable.**
+   It is unreachable through storage (provably, across two modules), so the walk was
+   extracted as the pure `pickCourseStep` and given a synthetic control rather than
+   deleted — an invariant proved by cross-module reasoning is what breaks when one
+   module changes.
+4. **`firstPaintGraph` caught 9 KB of unit titles re-coupling the whole content
+   library**, exactly as its own comment predicts (`manualChunks` groups every
+   `src/data/*` file into one chunk). Names are passed in by the lazy screens now;
+   the session's reason line is positional.
+5. **A SURVIVING MUTATION MAY MEAN THE RUNNER IS TOO NARROW.** Gutting the
+   launcher's course pick passed my five-file runner and fails
+   `curriculumPick.test.ts`, which was not in it.
+
+**VERIFICATION** — mutation-verified twelve ways (M24–M35), each failing 1–10
+tests; full suite 653 files / 10,305 tests; `e2e/course-map.spec.js` at 8 tests
+(the lock, its sentence, the test-out, a real fifteen-item paper) green against a
+CI-equivalent build, plus `home`/`learn`/`navigation`/`sp4b-production-slot` (37)
+re-run because the teaching slot changed.
+
+**WHAT THIS COSTS, STATED** — every learner with a certification now starts the
+course at Unit 1 whatever their CEFR badge says. The owner's decision, in those
+words; test-out is what makes it cheap. Content unlock, the verification gate and
+every CEFR badge are untouched.
+
+**NEXT** — production in the gate (one spoken, one written, rubric-graded through
+`/api/correct` and `/api/speaking-coach`, 72 authored tasks — the first thing worth
+fanning agents at, behind the writing curriculum's existing "the model must pass
+its own checklist" rule), then the 7/30-day retention re-checks that turn
+`mastered` into a claim about RETENTION rather than one sitting. After that, step 2:
+the ~100 hand-written drills onto ModeDrill.
+
+## Sweep 154 — step 3, increment 4: production in the bar (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 4". The
+advancement rule is now the owner's whole rule: the unit test (recognition) AND
+production (one written, one spoken, rubric-graded).
+
+**SHIPPED**
+
+- `src/lib/unitProduction.ts` — the brief, built from the unit's five lessons' own
+  spine `objectives`; per-level word floors, spoken lower than written.
+- `courseUnitProgress` gains `production` (wroteAt/writeScore, spokeAt/speakScore,
+  `unavailable`) with an additive merge; `unitProductionRequest` is the handoff.
+- `UnitProductionScreen` (route `unitproduction`), graded by `/api/correct`
+  `writeeval` and `/api/speaking-coach` — the same evaluators everything else uses.
+- `openUnits` returns `{ open, advanced }`; `courseProgress` takes a gate OBJECT.
+- The teaching slot and the course map both offer the owed half.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **I PLANNED 72 AUTHORED TASKS AND A FAN-OUT, AND THE CONTENT ALREADY EXISTED.**
+   `LessonProduceStep` briefs production from a lesson's own objectives; a unit's
+   brief is the union of its five. Authoring 72 fresh tasks would have been a second
+   statement of what each unit teaches. **Check whether the content exists before
+   fanning agents at authoring it.**
+2. **I REMOVED MY OWN HATCH FROM ONE INCREMENT EARLIER.** The read-through hatch
+   ("five lessons read advances the unit") was added as anti-strand and was wrong: the
+   test is re-takeable and the library is open, so there was no dead end — the hatch
+   just let anyone skip the whole bar by paging through five lessons. Its absence is
+   now pinned.
+3. **THE POSITION AND THE MASTERY COUNT BOTH IGNORED THE NEW HALF, AND ONLY THE
+   BROWSER SAW IT.** The map called the next unit `current` while rendering it
+   `locked`, and printed "1 of 36 mastered" above a row it showed as current. No unit
+   test caught it; the E2E did.
+4. **THE SCORE DOES NOT GATE**, and the screen says so. A second threshold would
+   gate course progress on a model's judgement of a learner's prose.
+5. **A REFUSED EVALUATOR IS RECORDED AND EXCUSED** — course progress must not depend
+   on a live AI service the learner does not control.
+6. **TWO AI-CONTRACT GUARDS CAUGHT THE NEW SCREEN AND WERE RIGHT TO.** It posts one
+   endpoint directly and reaches another through a named helper, so `.overall` read as
+   a field the writing evaluator fails to send. Both guards now carry
+   `ENDPOINT_HELPERS`, each entry pinned to the route its source posts AND to having a
+   real caller. And a SpeechRecognition event named `ev` collided with those guards'
+   spelling of "a parsed response body" — renamed, because an exemption there would
+   assert something about the guard rather than the code.
+
+**VERIFICATION** — 27 new tests (unitProduction 12, unitProductionScreen 15) plus
+new gate coverage; mutation-verified nine ways (M36–M44); `e2e/course-map.spec.js`
+at 10 tests green against a CI-equivalent build, including a graded production
+submission recorded against the unit.
+
+**NEXT** — the 7/30-day retention re-checks, which turn `mastered` into a claim
+about RETENTION rather than one sitting (and will rename the state ladder honestly:
+`cleared` for the bar met, `mastered` for retention held). Then step 2: the ~100
+hand-written drills onto ModeDrill, which IS worth fanning — separable per drill,
+and four guards already grade them.
+
+## Sweep 155 — step 3, increment 5: mastery is retention (2026-09-26)
+
+Full design record in CLAUDE.md, "The Course, In Units → Increment 5". This closes
+step 3: the course now has units, a position, a two-half bar, and a claim about
+RETENTION rather than one sitting.
+
+**SHIPPED**
+
+- `src/lib/unitRetention.ts` — the 7/30-day ladder (`startRecheckLadder`,
+  `recheckDue`, `retentionHeld`, `afterRecheck`, `mergeRecheck`), pure and dateless
+  except for the ISO day it is handed.
+- `courseUnitProgress` gains `recheck` on the unit record with an additive merge,
+  plus `startUnitRetention`, `recordUnitRecheck`, `retainedUnits`, `dueRecheckUnits`.
+- `courseUnits` state ladder rewritten: `mastered` = bar met AND ladder held,
+  `cleared` = bar met with retention pending. The map's header count follows.
+- `courseStep` starts the ladder from `gate.advanced` and serves a due re-check
+  AHEAD of the next unit's lesson; `curriculumSlot` serves it as the teaching slot.
+- `UnitTestScreen` gains a `recheck` mode: a fresh paper, no XP, no pass record —
+  the ladder and nothing else.
+- `CourseMapScreen` gains `course-unit-recheck-<id>` and conditional holding copy.
+
+**THE FIVE THINGS WORTH REMEMBERING**
+
+1. **THE MAP PROMISED A CHECK-UP AND HAD NO DOOR WHEN THE DAY CAME.** The holding
+   line said "we will check it again in a few days" with no button at any point, so a
+   learner whose 7-day check came due met that same sentence for ever while the
+   session slot quietly served the check-up and the map's count stayed at zero. The
+   promise-without-a-door shape this repo already records for the verification gate's
+   CTA, arriving on a line I had written an hour earlier. **Only the E2E saw it** —
+   third time in three increments that the browser caught what the unit tests could
+   not, and all three were about a DERIVED display disagreeing with the mechanism.
+2. **MY OWN TEST COPY WENT STALE AGAINST MY OWN FIX, WITHIN THE SAME HOUR.** The
+   conditional wording I added to fix (1) broke the E2E assertion I had written
+   against the unconditional wording, on a unit whose seeded ladder was DUE. That was
+   a test defect, not a product one — and it is also the warning: two arms differing
+   only in wording is exactly where a test on one reads like coverage of both. Both
+   arms are driven now, and flattening the copy fails 1 E2E test.
+3. **`mastered` CHANGED MEANING AND EVERY COUNT HAD TO FOLLOW.** Before this, a
+   learner could finish 36 units and read "36 of 36 units mastered" having never been
+   re-asked a question. The map's progress object had already drifted twice in
+   increments 3 and 4 by deriving the count itself; it reads `state.progress` and the
+   count reads `retainedUnits`, from one derivation.
+4. **A GUARD CAUGHT MY CALENDAR ARITHMETIC AND WAS RIGHT TO.**
+   `localDayBoundary.test.ts` forbids `toISOString` in `src/`; my first `addDays` used
+   it and was calendar-safe **by accident** (it anchored at UTC midnight). Hand-format
+   the UTC parts: shorter, obviously timezone-independent, no exemption. A guard
+   against a class shipped five times should not need a reader to reason it out.
+5. **A FAILED CHECK-UP MOVES THE LADDER AND NOTHING ELSE**, and the mutation for that
+   is the one to keep: un-passing the unit on a failure fails 3 tests across three
+   files. Withdrawing a pass would be the app changing its mind about something it
+   measured.
+
+**VERIFICATION** — `unitRetention.test.ts` plus new blocks in `courseStep`,
+`courseUnitProgress`, `unitTestScreen`, `courseMapScreen` and
+`curriculumSessionSlot`; full suite **656 files / 10,396 tests green**, typecheck and
+eslint clean, Croatian lint 0 findings across 473 files. Mutation-verified **ten**
+(M45–M52 at the unit layer, M54–M55 at the E2E layer), each landing confirmed before
+the run: failed re-check keeps its rung (fails 1), `retentionHeld` true on any ladder
+(8), nothing ever due (5), merge takes remote `heldAt` (1), stage/`heldAt` may
+disagree (1), check-up draws the same paper (2), failed check-up un-passes (3), ladder
+never started (1), holding copy flattened (1 E2E), due button never rendered (2 E2E).
+`e2e/course-map.spec.js` at **13 tests green** against a CI-equivalent build.
+
+**NEXT** — step 2: the ~100 hand-written `src/components/practice/*Drill.tsx` onto
+ModeDrill. This IS worth fanning agents at — separable per drill, and four guards
+already grade the output (`answerNotInPrompt`, `answerKeyIntegrity`, the Croatian
+lint, `practiceProgrammeDrills`), which is the precondition sweep 136's city-corpus
+near-miss established: **the checker ships before the fan-out, and it has to be strong
+enough to catch the class you care about.**
+
+## Sweep 156 — the options were invisible in dark mode (2026-09-26)
+
+Full design record in CLAUDE.md, "A Themed Class Owns Both Halves Of Its Contrast".
+**Found while surveying step 2**, by asking what `ModeDrill` gives a learner that a
+hand-written drill does not — the answer included being able to read the options.
+
+**THE DEFECT** — `.ob` sets background AND colour from theme variables
+(`#1e293b` on `#e2e8f0` in dark). Thirty-two option buttons across thirty screens
+painted an opaque LIGHT background inline and left the class's light colour in
+place. Measured in Chrome: **1.23:1** on every resting option and **1.01:1** on the
+chosen wrong one, against the 4.5:1 AA floor. Thirty of them rested on `'white'`, so
+the options were gone before the learner answered. Dark mode is the DEFAULT for any
+learner whose OS is dark — `usePreferences` follows `prefers-color-scheme`.
+
+**SHIPPED** — all 32 moved onto the project's own `.ob.ok` / `.ob.no` classes, which
+set `color` beside their background and which twelve screens already used; the inline
+`background`/`borderColor` removed entirely. After, in Chrome: **11.87:1** resting,
+**4.57:1** correct, **5.30:1** wrong. `themedInlineBackground.test.ts` is the ratchet.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **A 430-ROUTE axe SWEEP WAS GREEN ACROSS ALL THIRTY-TWO.** `route-render-sweep`'s
+   axe test is titled "…contrast aside" and prints its `color-contrast` tally
+   `(not asserted)` — in the DEFAULT theme only. The dark half was outside both the
+   measurement and the assertion. **A green accessibility sweep is not a contrast
+   result** when the rule is counted rather than asserted.
+2. **MY GUARD SURVIVED ITS FIRST MUTATION AND MISSED 78% OF THE CORPUS.** It scanned
+   the TAG for literals; 25 of the 32 are `background: bg` with `let bg = 'white'`
+   above, which carries no literal in the tag. Restoring a real defective file left it
+   green. One hop through the local fixed it, pinned by a synthetic control because
+   the corpus is now clean.
+3. **NEITHER axe NOR A COMPUTED STYLE CAN JUDGE A GRADIENT.** `.ob.ok` paints
+   `linear-gradient`, so `backgroundColor` computes to `rgba(0,0,0,0)` and axe reports
+   _incomplete_. My own post-fix probe read 2.84:1 — the dark ink against the CARD
+   behind the gradient. Read the gradient's colour stops.
+4. **MY CODEMOD ORPHANED A BRACE IN 25 FILES AT ONCE** with a lazy
+   `\{[\s\S]*?\n[ \t]*\}` that stopped at an inner `else if`. This file already records
+   that lesson for `passThresholdStatedAsCount` and it was still my first reach.
+5. **THE FIX BROKE A HARNESS AND THE RIGHT ASSERTION CAUGHT IT.**
+   `driveHandWrittenDrill` read the success green off the inline `borderColor`, which
+   moved into a CSS class — and **jsdom applies no stylesheet**. 24 drills failed at
+   once instead of passing vacuously, because that helper asserts "marked a correct
+   option on only N". Three conventions now; all three read.
+6. **A BACKGROUND COMMAND THAT REPORTS EXIT 0 WITH NO OUTPUT HAS NOT RUN.** I put
+   `nohup … &` inside a backgrounded tool call, so exit 0 was the launcher. Same shape
+   as "a probe that prints nothing has not measured zero".
+
+**VERIFICATION** — full suite **657 files / 10,402 tests green**, typecheck and eslint
+clean, Croatian lint 0/473. `handWrittenDrills.contract.test.tsx` 103/103 after the
+harness fix. E2E: `lesson-complete`, `navigation`, `practice` = 32/32 against a
+CI-equivalent build; the suite's `.ob` selectors all keep matching (the base token
+survives) and `full-user-audit` already excluded `.ok`/`.no`. Mutation-verified four.
+
+## Sweep 157 — the inks, and axe was the wrong instrument (2026-09-27)
+
+Full design record in CLAUDE.md, "An Inline Ink Lands On Whatever The Theme Painted".
+The general form of sweep 156, at ~10x the size — and a correction to sweep 156's own
+evidence.
+
+**THE DEFECT** — 1,308 inline `color` literals across 288 files were hardcoded DARK
+brand hexes, so in dark mode they sat on `--card` (#1e293b) at 1.0–4.4:1 against the
+4.5:1 AA floor. The Croatian navy on the ACTIVE sidebar tab measured **1.05:1**, on
+every screen.
+
+**SHIPPED** — 13 `--ink-*` tokens in both themes (11 plus the two flag colours), each
+seeded with the literal it replaces so LIGHT MODE IS BYTE-IDENTICAL by construction;
+1,308 inline inks, 166 light container backgrounds, 58 ink/surface pairings, 120
+conditional inks, 17 CSS-class rules and one data-driven ink family converted;
+`inlineInkContrast.test.ts` as the source ratchet and **`e2e/dark-mode-ink.spec.js` as
+the instrument that actually works**.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **SWEEP 156'S APP-WIDE axe NUMBERS WERE WRONG AND I CORRECTED THEM IN PLACE.** Two
+   independent reasons: a 500 ms settle samples pages mid-transition (`frequency_track`
+   read **3,741 nodes at 500 ms and 0 at 1,500 ms**; eleven more routes the same way),
+   and **axe reports _incomplete_, not a violation, for an element over a gradient** —
+   which this app's page is. Measured on a 109-route sample: **478 violations against
+   3,564 INCOMPLETE**. The repo already records the mid-transition error for the
+   focus-ring sweep and I re-made it.
+2. **THE DEFINITIVE TEST OF MY OWN FIX WAS A NEGATIVE.** Same method both sides, 1,500 ms,
+   430 routes: baseline **1,680** nodes, after converting 1,308 inks **1,681**. The fix is
+   real — the tokens resolve and the elements render light, read off computed colours in
+   Chrome — and axe simply cannot see this class here. **Do not accept a tool's silence as
+   a measurement; establish that it can see the thing at all.**
+3. **THE INSTRUMENT THAT WORKS NEEDS NO BACKGROUND.** In dark mode the page is dark, so
+   its text is light: an element with DARK computed `color` and no light surface in its
+   own chain is a defect. That is decidable without compositing a gradient, and it found
+   every remaining shape — including four my codemods structurally could not see.
+4. **TWO CORRECT CODEMODS COMPOSED INTO A REGRESSION.** Elements painting a light
+   background are rightly exempt from the ink rule; converting those containers to themed
+   tints made their surfaces dark **while their dark ink stayed**, and 19 routes got
+   measurably worse. Caught by rendering, not by either rule alone.
+5. **`--success` IS 3.30:1 ON WHITE.** The light-side check caught it before 51 dark
+   greens were folded onto it. A semantic token is not automatically an accessible ink.
+6. **`color:` IS A SUBSTRING OF `border-color:`** — a CSS rewrite keyed on it changed the
+   wrong property once. The JS codemod had the `(?<![a-zA-Z])` guard; the CSS pass did not.
+
+**VERIFICATION** — full suite **658 files / 10,408 tests green**; typecheck, eslint and
+Croatian lint (0/473) clean; `dark-mode-ink.spec.js` 6/6; `inlineInkContrast` +
+`themedInlineBackground` 12/12. Mutation-verified four on the new guard. Static count of
+the class: **1,308 → 0**. Whole-app probe after: **131 distinct offending styles across
+61 of 430 routes**, characterised below.
+
+## Sweep 158 — the dark-ink tail, measured rather than reasoned about (2026-09-27)
+
+Sweep 157's recorded next step was "widen `e2e/dark-mode-ink.spec.js`'s ROUTES to every
+route". Done, and the census reordered everything: **437 offending elements across 35 of
+430 routes**, and the two biggest causes were not in any component's `color:` at all.
+
+**THE CENSUS IS THE DELIVERABLE AS MUCH AS THE FIXES.** Command:
+`npx playwright test e2e/zz-ink-tail.spec.js --project="Desktop Chrome"` over
+`AppRouter.tsx`'s own route list, dark mode, 1200ms settle, ~22 min. (Throwaway; the
+committed spec now carries 13 routes.) Note for the next person: a Playwright
+**project-name error exits 0**, so a background run reporting success may have run nothing
+— the real project names here are "Desktop Chrome" etc., not "chromium".
+
+| cause                                      | findings            | fix                |
+| ------------------------------------------ | ------------------- | ------------------ |
+| a `<button>` inheriting UA black           | **214**             | one CSS line       |
+| `body` had no base `color`                 | (the other 2)       | two declarations   |
+| `--text-2` referenced, never defined       | 4 sites             | one token          |
+| a light slab with themed ink inside        | 31 sites / 21 files | tint tokens        |
+| a translucent tint read as an own surface  | ~170                | guard fix + tokens |
+| data-driven accents (`team.color` as text) | 173 arms / 78 files | `accentInk()`      |
+
+- **HALF THE TAIL WAS FORM CONTROLS, AND THE FIRST FIX DID NOT TOUCH IT.** `body` set
+  `background: var(--app-bg)` and no `color`; adding one fixed 2 of 216 because the theme
+  class is a DIV _inside_ body, so `--text` resolved to its light value there, and because
+  **a `<button>` does not inherit `color` at all** — the UA gives it `buttontext`. Proved by
+  walking the ancestor chain, not inferred: `.dark` → `#e2e8f0`, every DIV inherited it,
+  the BUTTON read `rgb(0,0,0)` with no inline colour and no class. `/verbdrill` had 120
+  findings — every conjugated form on the screen. 214 → 0 and nine routes cleared.
+- **`inlineInkContrast` HAD FIVE VALUE-READING DEFECTS**, each found by fixing the previous
+  one and watching a route stay red: a translucent background read as opaque; a
+  comma-terminated value truncating `rgb(22, 163, 74)` (its OWN planted-defect fixture
+  caught the colour side, and applying the same fix to the BACKGROUND matcher unmasked 88
+  more real sites); opacity judged per-expression rather than per-arm; an alpha appended by
+  `+ '18'` (58 sites) or `` `${c}0d` `` (51 sites); and a newline treated as a value
+  terminator, which read a Prettier-wrapped background as just its condition.
+- **All four of those clauses survived their first mutation** and now carry a synthetic
+  pair each (the defective shape and its opaque twin) — the standard sweep 157's opacity
+  clause had to meet, met four more times.
+- **`accentInk()` closes the data-driven half with one CSS expression**:
+  `color-mix(in srgb, C, #fff var(--ink-lift))`, lift 0% light / 62% dark. **Light mode is
+  byte-exact** (verified in a browser per hex) and 55% already clears AA for the darkest
+  accent in the corpus, so 62% has head-room. `tsc` was the control on the 173-site
+  codemod — it named all seven sites where my arm splitter had wrapped a BOOLEAN.
+- **Mutation-verified, eleven**: a conditional ink restored (1 test); the opacity clause
+  reverted (1); each of the four value-reading clauses reverted (1 each, only after their
+  synthetic controls existed); both `inkSurfaceAgreement` clauses gutted (1 and 2); the
+  form-control normalisation removed (**3 E2E tests**, real browser); `accentInk` made a
+  no-op (**4 E2E tests**, naming exactly the four data-driven routes).
+- **A NESTED BASH/PYTHON MUTATION PRODUCED `'\\n'` INSTEAD OF `'\n'`** and therefore did
+  nothing, which read as "the clause is decoration". Write a mutation to a FILE and grep the
+  result before believing a survival — the rule this file already carries, met again.
+- **Committed guards**: `inkSurfaceAgreement.{ts,test.ts}` (the parent-slab/child-ink pair,
+  both directions in one guard because fixing the first creates the second),
+  `accentInk.test.ts`, `inkArms.ts`, and `dark-mode-ink.spec.js` widened to 13 routes plus a
+  dedicated form-control test.
+
+### The three shapes found AFTER the first census, each by fixing the one before
+
+The census reordered the work; then each fix revealed the next shape, and the last three
+were only visible because a route stayed red with every guard reporting clean.
+
+1. **31 → 40 → 6 light slabs, because clause 1 of the agreement guard was not per-arm.**
+   It wanted a bare quoted hex right after `background:`, so a TERNARY background was
+   invisible — and `background: catInfo ? catInfo.color + '18' : '#f3f4f6'` has an opaque
+   light arm. Widening it found 34 more, and two further rounds found the ones each fix
+   exposed. **Its own exemption then had to be widened twice for the same reason**: an
+   element that paints a light slab AND sets its own dark ink owns both halves, and
+   `WritingScreen`'s level badge — five opaque tints each with a measured dark ink (7.15,
+   6.49, 4.58, 4.51, 7.57) — was reported because the subtree scan reached a SIBLING's
+   `var(--subtext)`. Theming that slab would have broken correct, measured code.
+2. **COMMENTS INSIDE A VALUE BREAK THE VALUE SCAN.** That badge's own ink carries
+   `// blue-800 on #dbeafe, 7.15:1` between its arms, and a comma inside a comment ends the
+   scan — so the exemption saw a truncated expression, found no bare hex, and reported the
+   pair anyway. Stripping comments (line first, then block — sweep 72's order) fixed it.
+   The repo already carries this rule in the SATISFYING direction (prose matching a guard);
+   this is the BREAKING direction.
+3. **THE ES6 SHORTHAND `color,` HAS NO COLON AT ALL.** `{ background: color + '18', color }`
+   is `color: color`, and **54 sites** write it that way — the category chip on
+   `/croatia_today`, the level badges on `/immersion`, the phrase pills on `/phraseofday`.
+   No `color:` matcher can see it. 24 of the 54 sit on a non-opaque surface and are now
+   wrapped.
+4. **A TRANSLUCENT INK IS NOT A THEMED INK.** `parseColor` rejects anything under 0.9 alpha
+   on the stated reasoning that a translucent colour "composites over whatever the theme
+   painted and tracks it" — **true of a SURFACE, false of an INK**: a dark accent at 60%
+   over a dark card is still dark. Seven sites fade an accent as ink (`accent + '99'`,
+   `+ '80'`, `+ 'cc'`). `accentInk(c, alpha)` puts the alpha INSIDE the mix, because
+   `accentInk(c) + '99'` is nonsense — you cannot append hex digits to a `color-mix()`.
+   Byte-exact in light mode, verified in a browser.
+5. **AND THE GUARD THEN REPORTED THE LITERAL INSIDE `accentInk('#dc2626', 0.5)`.** The skip
+   is POSITIONAL, not per-expression: `cond ? accentInk(c) : '#78716c'` must still report
+   the raw arm, which a blanket "mentions accentInk" test would hide. Mutation-verified.
+
+### An extraction showed the Croatian lint had never seen a verb paradigm
+
+The ink tokens took `PastTenseLessonScreen.tsx` to **804 countable lines** against the hard
+800 cap (`var(--ink-accent)` is ten characters longer than `#0e7490`, so Prettier wrapped
+attributes). **The cap was not raised**; the data block became `pastTenseData.ts` and
+joined TARGETS — and its positive control **PASSED CLEAN**.
+
+`hleb` in an `mForm` was not caught, because a participle field is not a name
+`CRO_FIELD_RE` listed. So `inf` (infinitives), `aux` (sam/si/je) and
+`mForm`/`fForm`/`nForm` — the actual Croatian of every verb paradigm in the app — were
+unscanned wherever they occur. **This is the `lessons.js` finding a fourth time**: the file
+was there, the extension was deliberate, and only a control on the exact FIELD
+distinguished "clean" from "not looked at". Measured before widening per the
+123-false-positive rule: **+325 strings across TARGETS, ZERO new findings** — a ratchet.
+Mutation-verified in all four fields, with the widening reverted as the control.
+
+**AND THE NOTE EXPLAINING IT BROKE THE GUARD THAT READS TARGETS.**
+`croatianLintTargets.test.ts` derives the target list by parsing the array's SOURCE TEXT,
+so three comment lines between two entries — containing commas — took its count from 474 to
+**234** and reported **236 phantom duplicates**. The prose moved above the array. A guard
+that parses source is a constraint on how you may comment the source.
+
+### Triage of the owner's Sentry weekly report (Sept 18–25), 2026-09-27
+
+All three issues are known and all three have shipped mechanisms. Stated precisely because
+the Sentry issue stream itself is unreadable from here (the standing #644 blocker: the token
+lacks `event:read`), so this is reasoning from the code on master, not from the events.
+
+- **`Importing a module script failed` — 5 events, Ongoing.** NOT a defect, and the count
+  is the designed output of a working healer. `isChunkLoadError` matches that exact string,
+  `lazyWithReload` purges and reloads, and `chunkHealDisposition` in `main.tsx`'s
+  `beforeSend` DROPS the self-healed ones, TAGS budget-exhausted ones `chunk_heal:
+'exhausted'` and deliberately RETAINS the rest at `warning` — its own comment says so, so
+  that a SPIKE is visible. 5 events in a week against 940 spans is not a spike. **The signal
+  to watch is the `chunk_heal: exhausted` tag, not the count.**
+- **`ai_feedback_failed:drill-explain-error:server` — 1 event, NEW.** The fix shipped
+  `57c3a264`, **2026-09-25 — the last day of this window**, so one event is consistent with
+  pre-fix traffic. Verified on master: `'drill'` IS in `VALID_TYPES` (line 76) and the
+  `reject` path DOES call `refundPrecharge` (line 117), so both halves are live.
+- **`ai_feedback_failed:pronunciation-assess:server` — 1 event, NEW.** Same day, same
+  window. Verified on master: every failure path in `PronunciationScorer` is named —
+  `transportFailure` for a null transport (returning `network`, not `server`),
+  `failureFromStatus` with its 4xx branch for a response, `failureFromError` for a throw —
+  and the transport path now carries `attempts=`/`err=` context the old events had none of.
+- **WHAT MAKES NEXT WEEK ANSWERABLE RATHER THAN GUESSED:** every event carries a `release`
+  (`__BUILD_ID__`), so a `:server` tag on a build after `57c3a264` is a real 5xx and on an
+  earlier one is a mislabelled 4xx. **CLAUDE.md said the 4xx branch was "recorded as open"
+  when it had been closed the same day** — corrected, because a reader trusting that line
+  would have drawn the opposite conclusion from the same tag.
+
+### What this sweep did NOT close
+
+- **A referenced-but-undefined custom property has no guard.** `--text` was the first
+  instance (recorded in index.css), `--text-2` the second, found only by the render walk.
+  A check that every `var(--x)` in `src/` resolves to a definition in `index.css` — minus
+  the ones set inline (`--brand`, `--ink-lift`, `--L`) — is cheap and is not written.
+- **Both walkers see only a route's FIRST PAINT.** An expanded card, a results view, an
+  answered quiz are invisible to them. `ConstellationDoneMode`'s regression was found by
+  reading the diff, not by the census, for exactly this reason.
+- **The 25 theme-independent contrast failures** below are untouched, and so is
+  **`--success` failing AA as text on white (3.30:1)** with 49 inline sites reading it as
+  ink. Both are pre-existing and need an owner decision on the palette.
+- **A border is still a different question** (sweep 156's scope): e.g. `ProfileTab`'s
+  active-tab `borderBottom: '3px solid #047857'` is a dark green underline on a dark
+  surface. Decoration, with the now-readable label above it.
+
 ## NOT YET CHECKED — where the next field report will come from
+
+- [x] ~~**THE DARK-INK TAIL — 131 styles across 61 of 430 routes**~~ — ANSWERED, sweep 158.
+      Re-measured with the same instrument over all 430 routes: **437 elements across 35
+      routes**, and the four shapes recorded here were not where the weight was. **(a)
+      data-driven inks** are closed by `accentInk()` — 173 arms in 78 files, ONE CSS
+      expression, and NOT the `ConstellationData` pattern this entry proposed: an `ink`
+      field beside every `color` would have meant 743 data edits to serve 173 reads and
+      given every accent a second home to drift from. **(b) brand literals** folded into the
+      existing `--ink-*` families. **(c) light backgrounds** became tint tokens, and six of
+      them also held dark inks that had to move in the same change. **(d) named objects**
+      turned out to be mostly data, as suspected, and are moot: the render walk judges what
+      a browser computes, so a `color:` in a data file is either reached (and reported at
+      its render site) or it is not.
+      **What this entry MISSED, which was half the total**: 216 of 437 elements set no
+      `color` AT ALL and inherited UA black — 214 of them inside a `<button>`, which does
+      not inherit `color`. A source census keyed on `color:` cannot see an element that
+      does not write one. That is why the answer had to come from the browser.
+- [ ] **25 CONTRAST FAILURES THAT ARE THEME-INDEPENDENT** — measured with the
+      size-appropriate AA threshold (3:1 for ≥18px or ≥14px bold, else 4.5:1), and all 25
+      are small text: `#fff` on `#f59e0b` at **2.15:1** (`LearnPath`, the mic explainer),
+      `#94a3b8` on `#f1f5f9` at 2.34 (`ShadowingScreen`), seven sites of `#fff` on
+      `#16a34a` at 3.30, `#dc2626` on `#fee2e2` at 3.95 (four files). These are badges and
+      chips that own both halves of their own contrast and get it wrong in EITHER theme —
+      a much milder class than sweep 157's invisible ink, and a separate fix.
+- [ ] **`--success` FAILS AA AS TEXT ON WHITE (3.30:1)** and 49 inline sites read it as
+      ink. `--ink-green` (#166534, 7.13:1) exists for new work; the 49 are a pre-existing
+      light-mode failure sweep 157 neither introduced nor fixed. Changing `--success`
+      itself affects backgrounds and borders too, so it needs its own measurement.
+
+- [ ] **HARDCODED DARK BRAND COLOURS ARE UNREADABLE IN DARK MODE, ON 160 ROUTES** —
+      the general form of sweep 156, and much bigger. Measured with axe's
+      `color-contrast` rule alone over all 430 routes in BOTH themes (a throwaway
+      spec; re-runnable from the recipe below):
+      **dark 4,354 failing nodes across 348 routes; light 932 across 236** — so
+      **3,429 extra nodes across 160 routes are attributable to dark mode**. Sweep 156
+      fixed a hardcoded light BACKGROUND under a themed colour; this is the inverse and
+      far commoner — hardcoded DARK ink in an inline style on a dark surface:
+      `color: rgb(22,78,99)` (`#164e63`), `rgb(14,116,144)` (`#0e7490`),
+      `rgb(120,113,108)` (`#78716c`). Worst routes by dark-only excess: `proverbs`
+      **+730**, `verbdrill` +240, `readlist` +160, `alphabet` +145, `padezi` +123,
+      `padezifull` +107, `crmap` +89, `ordinals` +78, `grocery` +70, `coloragree` +66.
+      The palette looks small and closed (the app's brand hexes) and `--text` /
+      `--subtext` / `--accent` already flip by theme, so this may be a codemod over a
+      known palette rather than 160 screens of surgery — **measure the palette's size
+      first**, that is what decides it. The checker already exists (this census), which
+      is the precondition for fanning agents at it.
+      Method notes so it is not re-derived: axe's violation MESSAGE does not match
+      `/contrast of ([\d.]+):1/` (my ratios all came back as the 99 sentinel) — take the
+      ratio from each node's `data`, not its message; and axe reports _incomplete_, not a
+      violation, for any element carrying a `background-image`, so a gradient-painted
+      surface is outside these numbers entirely.
+- [ ] **STEP 2 ITSELF — the ~100 hand-written drills onto `ModeDrill`** — surveyed, not
+      started. The survey's own findings, worth keeping:
+      **~70 of the 101 are ALREADY the engine's shape** — same item fields
+      (`mode`/`q`/`opts`/`answer`/`en`/`tip`), same single-column themed render, same
+      Croatian copy ("Rezultat →" / "Dalje →"), byte-identical to `ModeDrill`'s own JSX
+      apart from the props. They were written in the engine's style and never converted,
+      so converting them is moving `DATA` + `MODE_LABEL` into `src/data/drills/` behind a
+      12-line wrapper. **The learner-visible gain is `WrongAnswerHelp`**: rec #7
+      (2026-09-07) mounted it once in the engine and reached 109 drills, and
+      **91 of the 101 hand-written drills still show only the item's `tip` on a wrong
+      answer — the same line they see when they get it RIGHT** (9 carry the older
+      `DrillExplainCard`). So step 2 is not tidying; it is the other half of that fix.
+      The remaining ~18 are the older two-column `.ob` style (converting them changes the
+      look), and a handful are genuinely different: `ConjugationDrill` (mic),
+      `ConjugationSessionDrill` (no `completeExercise`), the 7 case drills + `CliticDrill`
+      (`CaseConceptIntro` — an owner directive, teach-before-test, must not be lost).
+      Coverage consequence to plan for: `handWrittenDrills.contract.test.tsx` derives its
+      corpus from `src/components/practice/*Drill.tsx`, so a converted drill leaves that
+      glob and is covered by `modeDrillContract`'s single representative instead.
 
 - [x] ~~**IS THE CREDIT-ON-EXIT SHAPE ANYWHERE ELSE?**~~ — ANSWERED, sweep 139:
       **twenty-one screens** (twelve through `completeExercise`, nine hand-rolling the
@@ -11182,3 +11956,673 @@ None of them crash, so no sweep above can see any of them.
       sweep 27. Both removed; neither was a defect. The `onPass` class is now
       ratcheted by `routerOptionalProps.test.ts`, which also catches the
       historical `AlphabetScreen.award` instance.
+
+---
+
+## Sweep 159 — the green PRs nobody merged (owner directive, 2026-09-27)
+
+Owner: _"have we merged all green PRs?"_ then _"always merge green PRs, even
+while continuing work. thanks."_ The answer to the question was **no**: seven
+dependabot PRs sat open at **14/14 green**, the oldest thirteen days
+(#668 eslint 10.9.1→10.10.0, #670 @types/node 26.2.0→26.6.2, #671 dexie
+4.4.5→4.4.6, #672 posthog-js 1.427.1→1.429.5, #673 lint-staged 17.3.0→17.5.1,
+#674 @sentry/react 10.70.0→10.74.0, #692 the four-package testing group). Six are
+merged; #692 is rebasing. The directive is recorded in CLAUDE.md's Git Workflow
+rules as rule 5 so it outlives this session.
+
+- **THE SEVEN SHARED ONE FILE, WHICH IS WHY "MERGE THEM ALL" IS NOT SEVEN
+  INDEPENDENT ACTIONS.** Every dependabot PR regenerates `package-lock.json`
+  against the master it was cut from. Individually all seven reported
+  `merge-tree` CLEAN against current master — and that is the misleading
+  measurement, because it answers a question about seven separate futures. The
+  real question is the chain.
+- **SIMULATE THE CHAIN BEFORE TOUCHING A BRANCH.** `git merge-tree --write-tree`
+  gives a tree OID; `git commit-tree` turns it into a commit you can merge the
+  next branch into. Chaining those seven merges locally, with no branch, no
+  checkout and no push, predicted **six clean and #692 conflicting** on both
+  `package.json` and `package-lock.json` — which is exactly what happened. And
+  the real merged master tree came back **byte-identical to the simulation**
+  (`8aed8ad5`), so the dry run was not an approximation of the merge, it WAS the
+  merge.
+- **A CLEAN MERGE IS NOT A WORKING LOCKFILE, and this is the check that had no
+  mechanism.** Six lockfiles merging with no conflict marker says nothing about
+  whether the result still agrees with `package.json`; a disagreement fails
+  `npm ci` on master, which is a red deploy, not a subtle bug. Checked offline,
+  no install needed: the lock's root `dependencies`/`devDependencies` block must
+  equal `package.json`'s (**59/59 equal, no extras, none missing**) and each
+  bumped package's installed version must satisfy its own merged range (**6/6**).
+  Re-run against the REAL master after merging, not only the simulation.
+- **`cancel-in-progress` IS A FEATURE HERE.** Six merges in three minutes
+  cancelled five intermediate CI runs and left one — run #3456 on `99aba5e6`,
+  against the final six-bump tree — and one deploy. Spacing the merges out to
+  "let each go green" would buy nothing: the intermediate trees never ship, and
+  each PR's own green run was against a master **113–130 commits old** anyway.
+  The only run that means anything is the push run on the last merge.
+- **DEPENDABOT'S BRANCH IS SOMEONE ELSE'S BRANCH.** #692 is conflicted now;
+  the fix is a `@dependabot rebase` comment, not a local rebase and force-push.
+  Its rebase regenerates the lockfile from the real new master, where a
+  hand-resolved `package-lock.json` conflict is a guess at a generated file.
+- **WHAT THIS DOES NOT ESTABLISH:** whether the six bumps are actually
+  compatible with the tree. The lockfile is consistent and the merge is exact,
+  and neither of those is a passing test — `eslint 10.10.0` ships three new rule
+  behaviours and `@sentry/react` crossed four patch versions. Master CI on
+  `99aba5e6` is the evidence, and a red run there is a REAL incompatibility
+  rather than a merge artefact, which is precisely what the pre-merge lockfile
+  check buys: it removes the likeliest false explanation in advance.
+- **PR #753 is unaffected**, asserted rather than assumed: it still
+  `merge-tree`s clean into the new master and touches neither `package.json` nor
+  the lockfile.
+
+### Sweep 159b — the CodeQL alert that was not mine, and the decoder that was
+
+CodeQL went red on PR #753 at head 602088f2 — the commit I had just told the
+owner FIXED CodeQL. It did fix six of seven (the `escapeRegExp` work); the
+survivor was `js/incomplete-sanitization` on `MajaScreen.tsx:644-646`, lines
+from `e3f530f7` (2026-07-22) that my branch merely touched.
+
+- **The route to it, since the alert itself is unreadable from here.** The check
+  run's `output.text` is empty, no MCP tool reads the security tab, and the one
+  review thread was resolved+outdated. What identified the survivor was the
+  **delta**: 7 alerts on e2ce58b7 → 1 on 602088f2. That bounded it to "an
+  escaping site in my diff that I did not fix", and auditing all four
+  `escapeRegExp` forms (all canonical) left exactly one candidate.
+- **Two decoders, one reply, two senses.** The bubble's `content` came from the
+  buggy `.replace()` chain; the TTS flush thirty lines below already used
+  `extractStreamingReply`, which is correct. So a truncated reply with a
+  backslash was READ as one string and SPOKEN as another. Fixed by calling the
+  correct one; 3 lines.
+- **MEASURE BACKSLASHES FROM A FILE.** My first two probes, written as `node -e`
+  with nested quoting, reported "5 of 8 wrong" then "6 of 7 wrong" for the
+  CORRECT decoder — pure shell artifact. Written to a file with `JSON.stringify`
+  fixtures the answer is: correct decoder 0/8 wrong, buggy chain 3/8. This is the
+  recorded nested-quoting lesson, and it cost two wrong readings before I applied it.
+- **Corrections to my own claims, recorded because they were stated out loud**:
+  `extractStreamingReply` is not buggy; and `\u010d` never arises, because
+  `JSON.stringify('č')` emits `č` — so the "Croatian diacritic leaks as an escape"
+  worry was unfounded and is withdrawn.
+- **A grep can hide a failed collection.** My path-rot mutation (M5) read as
+  "21 passed" because I grepped only the `Tests` line; the failure was on
+  `Test Files`. Re-read with both lines it fails loudly (ENOENT), so no extra
+  clause was needed — but the first reading was wrong.
+- Mutation-verified, five: the buggy chain restored fails 2; the comment strip
+  dropped fails 1 (and the strip is provably load-bearing — the fix's comment
+  quotes the chain); the backslash consumption broken fails 3; the fence strip
+  dropped fails 1; path rot fails the suite.
+- Gate: 661 files / 10,430 tests green, tsc clean, eslint zero-warnings,
+  prettier clean, Croatian lint 0/474. E2E audit: no spec asserts a `"reply"`
+  envelope, so nothing depended on the salvage decode.
+
+### Sweep 159c — correction: sweep 159b named the wrong alert
+
+Sweep 159b says the survivor was `js/incomplete-sanitization` on
+`MajaScreen.tsx:644-646`. **It was not.** Head 91240405 carries that fix and CodeQL
+still reported exactly one new high alert. The attribution was made by elimination
+(the one escaping site in the diff that was not mine), which cannot see an answer
+outside the candidates considered. The decoder fix itself stands: it is a real
+defect, measured 3/8 wrong, and pinned.
+
+What was measured instead (all in the session scratchpad, re-runnable):
+
+- CodeQL CLI run locally with CI's suite (`javascript-security-extended.qls`) at
+  **2.26.4** over the PR head and over master `1055dd5a`: **17 alerts each,
+  identical by (rule, path, primaryLocationLineHash)**, zero on any of the 16,393
+  lines the PR adds.
+- The CI job log shows the runner used **2.27.1** from the toolcache (queries
+  `javascript-queries 2.4.6`), not the bundle the action pins. Re-run at 2.27.1 over
+  the PR head: the same 17, fingerprint for fingerprint, zero on added lines.
+- Timing: the PR's CodeQL verdict completed 05:33:04; master's own CodeQL run for
+  `1055dd5a` (the PR's base) completed 05:33:46. GitHub judged the PR before the
+  baseline it compares against existed.
+- **Timing was then tested and RULED OUT**: pushed 79ad8a17 against a baseline
+  that existed; CodeQL still counted one new high.
+- **Then READ, not inferred**: the check run's page
+  (`github.com/AzCroat/nasa-hrvatska-v2/runs/<id>`) is public for a public repo and
+  lists its annotation — `src/lib/dailySessionStore.ts:85`, "This stores sensitive
+  data returned by a call to getCertifiedLevel as clear text." That is **#78**, the
+  false positive CLAUDE.md records as dismissed-pending — "Dismissing #78 is a
+  Security-tab action" — and it was never dismissed. The PR changes only a comment
+  in that file (lines 37–40, the stale `getNextLesson` reference); GitHub's
+  "too large" fallback counts any open alert in a touched file. **Read the public
+  annotations page first next time** — it would have saved both wrong theories.
+- **Blocked, not fixed**: dismissing #78 is a Security-tab action with no API
+  reachable here, and automating a dismissal was refused as a security-state
+  change. Reverting the comment so the file leaves the diff would put a reference
+  to a deleted function back into the code to satisfy a scanner, so it is not done.
+  Owner decision needed: dismiss #78 as a false positive (recorded reason in
+  CLAUDE.md), or approve merging #753 with this one documented false positive red.
+
+**Found while waiting, recorded not fixed (queued):** 30+ component files build a
+colour by appending a hex alpha to a data field (`${x.color}cc`, `x.color + '18'`).
+Where that field holds `var(--…)` the result (`var(--error)cc`) is INVALID and the
+whole declaration is dropped — confirmed in `SpotifySection`, where four of ten
+playlist tiles rendered with no background at all (fixed in the CSS-token change).
+The census of which data fields hold `var()` AND flow into an alpha append is the
+next sweep; `inlineInkContrast` reads the hex form of this shape, never the var form.
+
+### Sweep 160 — a `var(--x)` nothing defines (2026-09-27)
+
+CSS treats a reference to an undefined custom property as invalid at computed-value
+time, silently: `color` inherits, `background`/`border` fall to transparent/none.
+Census over every source file (`src/tests/helpers/cssVarsDefined.ts`): **63
+fallback-less references to six never-defined names** (`--bg`, `--body`,
+`--border`, `--card-bg`, `--primary`, `--text-3`) in 23 files, and **38 more
+references WITH a fallback to 16 never-defined names** — where the fallback is the
+only value the reference ever takes.
+
+- Learner-visible, measured from the token table rather than guessed:
+  GrammarUnitDetail's next-drill button was `#fff` on no background (invisible on a
+  white card); HeritageModeScreen's copy toast was `--text` on `--heading`, the same
+  value in both themes (1:1); `ScreenHeader`'s back button (`var(--card-bg,#f8fafc)`)
+  was a near-white circle holding a near-white arrow in dark mode, on many screens;
+  CroatianKeyboard's č/ć/đ/š/ž keys and `.kb-key` were light chips under themed light
+  ink in dark mode; Home's DailyInputCard (`var(--bg,#fafafa)`) the same; four
+  "could not start" error lines were dark red (`var(--danger,#b91c1c)`) on the dark
+  card.
+- SpotifySection is a different defect found on the way: `${pl.color}cc` with
+  `pl.color = 'var(--error)'` is invalid CSS, so four of ten playlist tiles had NO
+  background at all. Fixed with literal accents. **The class (a var() colour field
+  flowing into an appended hex alpha) is NOT swept** — ~30 files append alpha to a
+  colour field; which of those fields can hold a var() is the next census.
+- Mapping: `--bg`→`--card`, `--body`→`--text` (no visual change), `--border`/`--line`
+  →`--card-b`, `--card-bg`→`--card` (was transparent) or `--surface-mute` (where it
+  had a light fallback), `--primary`→`--ink-accent`/`--accent`, `--text-3`→
+  `--ink-muted`, `--danger`→`--ink-red`, LessonScreen's constants on its own
+  permanently-dark gradient → their literal hex.
+- Five names are legitimate override HOOKS nobody sets (`--bar-target`,
+  `--ring-offset`, `--ring-clr`, `--mx`, `--my`) — exempted in `HOOKS` with reasons,
+  both staleness directions checked.
+- Guard `cssVarsDefined.test.ts`. Mutation-verified, nine: `--primary` restored fails
+  1 and names line 314; inline-object definitions not read fails 2; the scanner
+  returning [] fails 4; comments not stripped fails 1; the shared `^\s*//` strip
+  (which swallows a blank line and reported line 313 for 314) fails 1; a fallback
+  constant restored fails 1; a hook over a defined token fails 1; a hook entry dropped
+  fails 1; the fallback flag never set fails 3.
+- My own first floors ("1,300+ files, 4,000+ refs") were written as measurements and
+  were guesses: real values 999 files, 7,255 refs, 139 names. And the first
+  "inline-defined" subject I named (`--bar-target`) is never defined at all.
+
+### Sweep 160b — the E2E the ink sweep failed (2026-09-27)
+
+`E2E Tests (Cross-Browser)` failed on 91240405: three axe `color-contrast` tests
+(Home, Practice, login), 292 passed. Two causes, both from the ink sweep:
+`--ink-muted` light `#64748b` is 4.40:1 on `--app-bg` (the guard checked white only),
+and GradTab's recommended pill lost its deliberate `#6b4e0a` to `--ink-warn`
+`#b45309` (4.44 on `#f7f1dd`). Fixed by darkening three light values
+(`--ink-muted` `#5f6b7d`, `--ink-muted-warm` `#6c6560`, `--ink-warn` `#a84d08`) and
+widening the guard to white + `--app-bg` + `--card` + `--surface-mute`. Verified
+locally against a real build: accessibility.spec 11/11 and dark-mode-ink.spec 14/14 in
+Desktop Chrome. Not covered by the unit guard: a translucent tint composited over a
+card (the pill) — only the browser measures that, which is why the E2E caught it.
+
+### Sweep 161 — the answered option in every engine drill, invisible in dark mode (2026-09-27)
+
+`ModeDrill` (the engine behind all 109 practice-programme drills) painted an answered
+option `background: '#f0fdf4'` / `'#fef2f2'` with `color: 'var(--text)'` — near-white
+ink on a light tint in dark mode, so the correct/wrong answer disappeared the moment it
+was marked. Same hardcoded tint pair in 78 more component files (answer states, tips,
+chips). All background uses now read `var(--success-bg)` / `var(--error-bg)`, whose LIGHT
+values are the same literals (light mode byte-identical) and whose dark values are
+translucent tints. 24 literals remain, all in DATA fields (`bg:`, `light:`) or a
+non-background `color:` — not touched, recorded here as the next census.
+
+- **WHY NO GUARD SAW IT: `inkArms` returned a parenthesised arm whole.**
+  `showState ? (isCorrect ? '#f0fdf4' : '#fef2f2') : 'var(--card)'` came back as
+  `(isCorrect ? … )`, which no colour parser reads, so all three contrast guards skipped
+  it. It now unwraps a paren that spans the whole arm (not `(a) + (b)`), and has its own
+  test file for the first time (`inkArms.test.ts`, 4).
+- **The guard caught the compose regression the codemod created**: CroatiaToday's
+  summary toggle had its surface themed while its ink stayed `#15803d` (2.92:1 on the
+  dark card). Both arms of both properties now use tokens.
+- Mutation-verified: ModeDrill's slab restored fails `inkSurfaceAgreement` and names
+  `ModeDrill.tsx:233`; it passed all three guards before the `inkArms` fix.
+- Full suite 663 files / 10,451 tests, typecheck and lint clean. No E2E spec references
+  either colour.
+- NOT DONE, next: the 24 data-field literals; the `#94a3b8` gloss colour (121 sites) is
+  2.56:1 on white and fails AA in LIGHT mode — ModeDrill's `cur.en` line among them.
+
+### Sweep 161b — the grey English line under every drill question failed AA in light mode (2026-09-27)
+
+`color: '#94a3b8'` is 2.56:1 on white (AA needs 4.5) and sat on 121 inline sites in 106
+files — including ModeDrill's `cur.en` gloss, i.e. under every question of all 109 engine
+drills, in the DEFAULT theme. `--ink-muted`'s DARK value is exactly `#94a3b8`, so the
+token swap is byte-identical in dark mode and lifts light mode to `#5f6b7d`.
+- 104 files converted. Held back on reading: TranslateDrillsScreen and
+  ConstellationDoneMode paint a permanently dark background (`#0f172a` / the
+  constellation gradient), where `#94a3b8` is correct in both themes; CroatiaAthletes:307
+  sits on a per-division DATA tint (`dc.bg`) and belongs to the data-field census.
+- `inkSurfaceAgreement` caught one pair the swap created: ShadowingScreen's "No
+  recording" slab was `'#f1f5f9'` (fixed light) under the now-themed ink; the slab is
+  `var(--surface-mute)`, whose light value is that literal.
+- Guards + typecheck green. A light-mode browser sweep over every route (dark ink on a
+  permanently dark surface) was running at commit time; its result goes in the next entry.
+- **The light-mode browser sweep (430 routes) found exactly ONE site, and it was mine.**
+  `/grammarmap`'s intro line: the Grammar Constellation paints its dark gradient through
+  a shared constant, so my "does this file paint a dark background" pre-check could not
+  see it. Reverted on both constellation screens — and the revert fixed a PRE-EXISTING
+  defect beside it: ConstellationQuizMode's "Question X of Y" already read
+  `var(--ink-muted)` on that dark header, i.e. dark-on-dark in light mode. `#94a3b8` is
+  correct in both themes there, as ConstellationDoneMode's header note already says.
+  A source pre-check for "is this surface dark" is a guess; the browser is the measure.
+
+### Sweep 162 — a new learner walks Unit 1 into Unit 2, nothing seeded (2026-09-27)
+
+Every course spec seeds the state its stage needs, so each STAGE was proved and the PATH
+between them never was. `e2e/course-walkthrough.spec.js` starts from an empty course and
+does what a learner does: opens the five A1-1 lessons from the map, reads every slide,
+answers each lesson's six-item check CORRECTLY (answers taken from the same lesson
+modules the app serves, matched by the question on screen — a real pass at the real
+bar), sits the fifteen-item unit test and passes it, writes and speaks (typed, no mic)
+against mocked evaluators, and asserts the course moved them into Unit 2.
+- **Result: the path works.** 1 passed, 1.2 min, Desktop Chrome, against a
+  CI-equivalent build. No defect found on it — said plainly, a ratchet, not a save.
+- It also pins the state between stages: after five lessons Unit 1 is still CURRENT
+  with its test as the `primary` offer; after the test alone Unit 2 is still LOCKED;
+  after both production tasks Unit 1 is `cleared` (retention pending) and Unit 2 current.
+- Mutation-verified in a real browser: `openUnits` advancing on the test alone (the
+  production half dropped) fails the walkthrough — Unit 2 reads `current` where it must
+  read `locked`.
+- A lesson check option's visible text carries a letter badge, so the harness reads the
+  option from its aria-label. Not a defect: the label is exact.
+
+### Sweep 163 — step 2 begins: 34 hand-written drills onto the engine (2026-09-27)
+
+Of the 101 `src/components/practice/*Drill.tsx`, **34 are exact clones of the ModeDrill
+engine**, proved by a converter that abstracts the drill-specific literals (name, key,
+title/subtitle, praise triple, data and label identifiers) and requires the remaining
+component body to equal the reference byte for byte (whitespace-normalised). Those 34
+keep their file, their data, their exports and their completion key; only the ~150
+duplicated lines of screen code are replaced by `<ModeDrill …/>`: **5,440 lines removed**.
+Each gains what the engine gives and the copies lacked: the wrong-answer explanation
+(`WrongAnswerHelp`), the "N of M needed" count on the result, and every future fix to
+the engine at once.
+- Skipped 67, recorded by reason: 44 "shape not recognised" (a concept intro, the AI
+  explainer, custom modes or a different Props shape — the case drills are all here) and
+  21 "body differs", plus 2 whose data section references a removed import. None was
+  forced.
+- Verified: the 98-drill contract suite drives all 34 converted drills end to end
+  (credit, retry, both exits) and passes; answer-key integrity passes; typecheck clean;
+  Croatian lint 0 findings across 474 files; full suite green.
+- `completionKeyRegistered`'s non-vacuity floor moved to the UNION of direct call sites
+  and engine ids: direct sites fell 153 → 119 as wrapper ids rose 109 → 143, and the
+  per-population floor read that correct move as a collapse. Every key is still checked.
+
+### Sweep 164 — this PR made answer options invisible in dark mode, and the fix (2026-09-27)
+
+`602088f2` (this PR) gave form controls `color: inherit` so a bare `<button>` stopped
+painting UA black on the dark card — 214 findings fixed. It ALSO turned every button that
+paints its OWN light background into light-on-light in dark mode: the text now inherits
+the theme's near-white. A dark-mode browser sweep over all 430 routes (text luminance
+> 0.45 whose nearest opaque surface has luminance > 0.6) measured **662 elements on 36
+routes**, most of them answer options (`background: 'white'`, then `#dcfce7`/`#fee2e2`
+once answered). No source guard could see it: inkSurfaceAgreement's clause 1 looks for a
+themed ink TOKEN in the subtree, and inherited ink has none.
+- Fixed ~80 style objects: `white` → `var(--card)`; the answered tints → new tokens
+  `--success-bg-strong` / `--error-bg-strong` (light values ARE `#dcfce7` / `#fee2e2`, so
+  light mode is byte-identical; dark values translucent); `#f1f5f9` → `--surface-mute`;
+  pale tints with no token and a light-only surface → a FIXED dark ink `#1c1917`, the
+  pairing every sibling option screen already uses. Mixed sites (resting state already a
+  token) get tokens for their tints, never a fixed ink, which would break the resting arm.
+- **Clause 3 of inkSurfaceAgreement**: an element painting an opaque light background
+  that sets NO ink and holds TEXT. Two refinements, both forced by false positives: TEXT
+  not children (a progress bar holding its fill is not a subject), and ONE HOP through a
+  local (`let bg = 'white'` … `background: bg`) scoped to the NEAREST DECLARATION —
+  file-wide, it attributed another function's `bg = 'white'` to FormalRegisterScreen's
+  translucent card. It also reads the SHORTHAND `color,` as an own ink; missing that sent
+  a fix script to add a duplicate `color` to seven files, all reverted (tsc caught one).
+  One checked exemption: PlaceScreen's icon box, whose only child is an emoji.
+- Mutation-verified: OrdinalsScreen's white options restored fails clause 3 and names
+  line 89; QuestionWordsScreen's ink removed fails it through the local hop (line 141).
+- Measured after: the 36 routes → 13, 29 distinct styles. Full suite 663 / 10,453 green.
+- LEFT, next: civic / lifeevents / survival_dinner (data-tint buttons whose CHILD divs
+  set a themed ink, so the button's fixed ink does not reach them); football, immersion
+  (white slabs under accentInk / teal inks); listeningpath; postcard (UA buttonface under
+  photo text — likely a probe artifact of a background image); seven "grad" (gradient)
+  findings to classify.
+- **Sweep 164b — the tails (same day).** Civic / Life Events / Survival Dinner: a data tint
+  under CHILD elements with themed inks; the data field is only ever a background, so each
+  tint names its nearest theme token and the fixed button inks came out again. Four
+  `'white'` tab/chip arms under themed inks (Immersion, HNL, two Tenses chips): clause 1
+  read hex only and missed the keyword. HNL's table rows: `const bg = i % 2 ? 'white' : …`
+  — the local hop read only a bare literal initializer, now every quoted value in it.
+  **Pale gradients**: 41 sites paint a two-stop pastel; both clauses read hex only, so the
+  30 with a themed ink inside were invisible. Each pair is now a `--grad-*` token whose
+  light value IS the literal gradient (light mode byte-identical) and whose dark value is a
+  tint of the same hue; the new tokens joined clause 2's themed-surface list, so a later
+  dark literal ink on one fails. The app's own crash-fallback page was one of them.
+- **Measured over ALL 430 routes after: 3 routes, 9 distinct styles** (from 36 routes / 662
+  elements at the start of this sweep). Left: /analytics (a gradient whose second stop,
+  `#fed7aa`, sits just under the 0.75 light threshold), /listening_comprehension (level
+  cards from a gradient the source reads outside a style object), /postcard (white text on
+  UA buttonface — a photo thumbnail; probe artifact until shown otherwise). Suite
+  663 / 10,453 green.
+
+## Sweep 165 — the dark-mode check becomes permanent, and the tail it then found (2026-09-27)
+
+- **The light-on-light half was only ever measured by an uncommitted scratch probe**, so
+  nothing stopped it coming back. `e2e/dark-mode-ink.spec.js` now asserts BOTH halves per
+  route (dark ink on the dark page; light themed ink on a hardcoded light surface or an
+  all-light gradient): a named sample in the deploy gate, and all 430 routes weekly in a new
+  `dark-ink` job in `route-render-sweep.yml` (`DARK_SWEEP=1`). A separate job because the
+  render sweep is already near its 70-minute budget. The full-sweep asserts are
+  `expect.soft`, so one run reports both halves — the first run stopped at the first.
+- **"3 routes left" (sweep 164b) was an undercount.** The scratch probe parsed only
+  `rgb(...)`, and every `accentInk()` ink computes to `color(srgb …)`, so it could not see
+  a lifted accent on a pale tint at all. The committed check can; its first sample run found
+  /pitch_accent (five `bg` tints in data under accentInk inks).
+- **Fixed**: Analytics streak card + Mistakes summary (pale orange gradient → new
+  `--grad-orange`); Listening Comprehension (`bg` is DATA in `listening/exercises.ts` → six
+  `--grad-*` tokens, exact light matches); Pitch Accent (tints → the five `*-bg` tokens,
+  exact matches); Today's Discoveries' active tab label (rgb(146,64,14) on a translucent
+  tint → accentInk — it was dark-on-dark on dashboard, welcome and placement);
+  GuidedSpeaking's section labels (#6b7280 in a named `CSSProperties` const → --ink-muted);
+  MyWordsScreen's `S` table (five dark inks on translucent tints → accentInk); CefrTest's
+  level cards (accentInk had lifted a FIXED pastel card's FIXED dark ink → the fixed pair).
+- **`inkSurfaceAgreement`'s light threshold 0.75 → 0.6.** `#fed7aa` (0.72) read as
+  mid-tone. Measured before changing: exactly the two orange cards, nothing else.
+- **`inlineInkContrast` read only `style={{…}}`.** A named `React.CSSProperties` object —
+  and each leaf of a `Record<string, React.CSSProperties>` table — is now judged the same
+  way. It found MyWordsScreen's five on its first run; that screen renders EMPTY for a fresh
+  learner, so no browser sweep could have reached them. Mutation-verified: the grey kicker
+  and one MyWords ink restored fail the guard and name all three sites.
+- **Checked non-defect**: /postcard. White city names on a 72%-black overlay over a photo;
+  the overlay and the <img> are SIBLINGS of the text, never ancestors, so an ancestor walk
+  reads the button's UA background. The check skips text whose chain passes an element with
+  a media child, and /postcard stays in the sample as the control for that skip.
+- **The fixed-pair lesson, again**: a FIXED light slab wants a FIXED dark ink. Wrapping that
+  ink in accentInk() (correct on a themed surface) is wrong on a fixed one — CefrTest is the
+  inverse of every other finding in this sweep, and a comment on `LEVELS` now says so.
+- Full unit suite 663 / 10,453 green on `ddb329b9`. Commits: 75ff7437, ddb329b9, 4ae08d44.
+- **Confirmed at `4ae08d44`: the full 430-route dark sweep passes, both halves, zero
+  findings** (11.5 min; its `measured > 300` floor is what makes the zero mean something).
+  Down from 36 routes / 662 elements at the start of sweep 164. Plan item 2 (dark/light
+  unreadable text) is closed; the weekly `dark-ink` job keeps it closed.
+
+## Sweep 166 — walking a learner's day from Home, in a real browser (2026-09-27)
+
+Plan item 3. A seeded learner starts on Home and does what the session card says,
+activity by activity, in the CI-equivalent build. Every defect below was found by DOING
+the day, not by a derivation, and each is fixed with a behavioural test and a mutation.
+
+- **Today's lesson appears ~6 s late on a cold start, by design.** The plan is first built
+  before the curriculum spine lands, then rebuilt once (`useTeachingSlotRetry`). Verified:
+  the Unit 1 alphabet lesson leads the card from ~6 s. Recorded cost unchanged: a learner
+  who taps Begin inside that window loses the lesson for that day.
+- **The Alphabet quiz printed its own answer on every question** (`5a9969bf`): "The word
+  **čokolada** … starts with the sound cheh (hard)", options Č/Ć/C/Š. Every ALPHA example
+  word opens with its letter. The word is now blanked (`__okolada`); audio still says it.
+- **"Today leans into vocabulary" over a plan with no vocabulary** (`0ddf6047`): the line
+  was computed on every RENDER from the live ledger (the day's first graded drill rewrote
+  it) and named the weakest skill anywhere. Frozen on the plan at build, restricted to the
+  plan's own skills; next-step's production reason restricted the same way.
+- **Free Writing asked an A1 learner for 30 words** (`34676958`) — more than Guided
+  Writing's own A1 units (20). A1 is 20 now; A2+ unchanged.
+- **Free Writing paid only from "✨ New Prompt"** (`d38f1598`), so a learner who read the
+  feedback and tapped Back got nothing and the session sat at N-1/N — half-fixed on
+  2026-07-16, when the session was unblocked and the credit "deliberately" left on the
+  button. Credit now on the graded result.
+- **Guided Speaking/Writing advanced their unit rotation on OPEN** (`d4bb67f4`): backing
+  out skipped the unit for the whole rotation, breaking the floors ladder's premise. Now
+  advanced on the graded finish only.
+- **A census of credit-paying handlers on finished views** (subagent, verified by hand)
+  found three more, all fixed here: **Postcard** (credit only from Download/Share on step 3;
+  a failed correction stranded the session slot — now paid at the correction, and a failure
+  goes through `creditIfNoAuthoredFallback`), **Production Drill** (every mode's completion
+  only from "Nazad na izbor"; the header arrow and tabs lost it — split into an effect that
+  credits and a button that only returns), **Gender Drill** (its whole completion behind
+  "Finish & Save Progress →" in a NAMED handler; the retry also said "need N of <adjective
+  count>" while the gate is over all three sections).
+- **The guard's blind spot**: `creditFollowsWork` read inline `onClick={() => …}` only and
+  bailed at a `function` keyword, so `onClick={handleFinish}` was never judged. It now
+  follows a named handler to its body (flagged when it also leaves, is wired to an onClick
+  and no effect calls it). Real-world check: the pre-fix Gender Drill is flagged and the
+  fixed one is not. Three `DECLARED_FINISH` exemptions with reasons, staleness-checked.
+- **OPEN, recorded not fixed — False Friends**: a reading list whose only credit, since
+  2026-09-23, is "Complete Lesson +30 XP". It left `BLACK_HOLE_SCREENS` on the premise that
+  it "has a built-in quiz that writes its own vs key AND its own lc" — it has no quiz. In a
+  session, reading it and tapping Back strands the slot. The fix needs a decision about what
+  "finished reading" means (dwell, reaching the end), and the dwell pre-write interaction
+  that removal was about must be re-checked; not done under this sweep.
+- **Also recorded**: an attempt to pay the guided screens' 5-XP participation credit at the
+  grader FAILURE was reverted before commit — the shared once-only flag then swallowed the
+  SCORE-based award of a retry that succeeds, and the existing "no double award" test
+  stayed green because it counts calls, not amounts.
+- **After the session, "what next" is the course** (`8486bd38`): the next-step engine had
+  no course rung, so a Unit 1 learner who finished the day was sent to "Accusative —
+  least-recently practiced". Rung 3.7 reads `nextCourseStep`; the launcher makes the
+  unit-test/production handoff at tap time. Home's hero and NextUpCard computed once and
+  never recomputed when the spine landed (~5 s on a first load) — both now depend on the
+  engine's `revision` (bumps on `CURRICULUM_SPINE_EVENT`). Browser-verified.
+- **A learner who starts before the course loads** (`be3cf651`): the rebuild refused a
+  started plan (rightly), so a fast new learner got no lesson all day — a guest's first
+  activity was the Genitive drill. A started, unfinished plan now gets the teaching slots
+  INSERTED. And the rebuild could ERASE a finished activity: its completion is applied by
+  Home's mount effect after the retry reads the plan, so a finished drill vanished from the
+  card (measured). A pending session marker now counts as started, and the rebuild
+  re-checks `prev.completedIds` at execution time.
+- **OPEN — legacy guests get no course at all.** When anonymous Firebase sign-in is
+  unavailable (console setting, offline, outage), a guest has no `authUser`: App.tsx never
+  warms the spine, and every `/api/content/*` endpoint 401s without a Firebase uid —
+  core vocabulary included. Anonymous guests are unaffected. Whether anonymous sign-in is
+  enabled in production could not be checked from here without creating a real anonymous
+  account, which was not done.
+
+## Sweep 167 — step 2 reaches its honest end: 41 drills on the engine, 18 stay hand-written (2026-09-27)
+
+- **Converted this stretch (`37aea8f5`, `8147af29`)**: 8 more. Six differed from the engine
+  only in presentation (inline option styling, a "Završi →"/"Rezultat →" finish label, and
+  in C2Structure a fixed-colour explanation box) — keys, sampling, praise and exported banks
+  unchanged. Stupnjevanje and Želje were exact clones the converter had skipped because its
+  "data section still needs H/Bar" check matched letters inside Croatian strings
+  (`'H + j → š'`, `„Bar da”`). **The converter dropped C2Structure's trailing
+  `export { DATA as C2_DRILL_DATA }`**, the first file with code after the component; restored,
+  and the earlier 33 re-checked (none had any). `drillRun.test.ts`'s source pin now accepts a
+  wrapper's `data={DATA}` and separately pins that the engine samples what it is handed
+  (mutation-verified).
+- **THE 18 THAT REMAIN ARE NOT ENGINE CLONES, and converting them would change behaviour.**
+  Measured: they have NO `mode` field and serve their whole bank (10–50 items), while the
+  engine draws `DRILL_RUN_PER_MODE` (4) per mode — so a conversion would turn a 12–22
+  question drill into a 4-question one. Seven also open with `CaseConceptIntro` and/or call
+  `useExplainError` (Genitive, Accusative, Clitic, WordOrder, PresentTense, …), the concept
+  teaching the engine does not have. `Conjugation`, `ConjugationSession`, `Prep` and `Mode`
+  itself are different components. Converting any of them is a product decision about round
+  length, not a refactor — recorded, not done.
+- **Checked non-defect**: those modeless drills serving 10–24 items is not the "whole 24-item
+  bank" defect `drawDrillRun` fixed — that was about MODED banks where each mode had 8.
+- **CLOSED — False Friends (sweep 166's OPEN item).** Two defects, not one: "Complete Lesson
+  +30 XP" was the ONLY credit AND also left the screen, so reading every entry and tapping
+  Back paid nothing and stranded a session slot; and it paid **30 XP on every visit**,
+  because its once-only guard was a per-mount ref. Now reaching the end of the list (an
+  IntersectionObserver sentinel) after `DWELL_MS` on screen credits through
+  `completeExercise` (registry row `falsefr: p('lc')` already existed): session signal, the
+  vocab quest once per exercise per day, `lc`+`vs` and the 30 XP once ever. The dwell is
+  load-bearing — on a tall display the end is visible the instant the screen opens. The
+  button declares the finish WITHOUT leaving; the next tap goes back. No score/total is
+  passed, so a reading list writes nothing to the mastery ledger. `DECLARED_FINISH` loses
+  its entry. `falseFriendsReadToEnd.test.tsx` drives it; mutation-verified (dwell dropped
+  fails 1; pay-and-leave button fails 1).
+- **`creditFollowsWork` had a gap that mutation found**: `onClick={() => { finish(); goBack(); }}`
+  with the credit inside `finish` — the leaving at the CALL SITE, not in the handler — passed
+  the named-handler rule, which looked for `goBack()` inside the handler only. Census over the
+  tree: zero members (validated by finding the mutated file), so it is a ratchet;
+  `callerArrowLeaves` closes it, with a synthetic control and its remedy twin. Removing the
+  clause fails 1; the real-file mutation fails 1 and names the file.
+- **Checked non-defect**: TechVoc was recorded as "same shape as falsefr" in
+  `dwellPreWriteSuppression`; it is not — it has a graded quiz paying `pts * 5`.
+- **CI red on `bd291a60`, and it was MY floor, not the False Friends change.**
+  `completionKeyRegistered`'s comment already said the non-vacuity floor must sit on the
+  UNION of direct `completeExercise` sites and ModeDrill ids, because converting a drill
+  moves its key from one population to the other — yet the per-population `keyed > 80`
+  stayed beside it, and the eight conversions of this stretch took it to 77. My earlier
+  full run caught it too; I read only its summary line and did not chase it before
+  pushing. The floor now sits on the keyed sites OUTSIDE the hand-written drills (53,
+  which no conversion can move); the union floor stays. Mutation-verified: collapsing the
+  non-drill sites fails the new floor alone (0 > 40).
+
+## Sweep 168 — Unit 1's test and production, walked from Home in a real browser (2026-09-27)
+
+- **What works, verified end to end**: a learner with Unit 1's five lessons read opens
+  Home, the session's first activity is "Unit 1 test — all 5 lessons read", Begin opens a
+  fifteen-item paper, a 15/15 pass pays 50 XP and ticks the slot, and the session carries
+  on to the next activity. Production (spoken, typed) grades and says "this half of the unit
+  is done". No page errors.
+- **FIXED — a passed test said "Unit passed" and offered only a retake.** The result read
+  "Unit passed — you have shown you know this." above one button, "Take it again", while the
+  unit still owed a spoken and a written task that nothing on the screen mentioned — the
+  learner's next action was invisible at exactly the moment they earned it. It now says
+  "Test passed", names what finishes the unit ("one spoken and one written task" — only what
+  is still owed, read from the same `productionOwed` the map and the session use), makes
+  those tasks the primary buttons, and demotes the retake of a passed test to secondary.
+  `UnitTestScreen` takes `setScr` as a REQUIRED prop from the router, as the course map does.
+- **FIXED — "This unit does not have enough questions for a test yet", said about a unit
+  that had just served fifteen.** The test handoff is cleared on leaving, so pressing Back
+  from the production task re-mounted the test screen with no unit, and the no-unit branch
+  shared the `insufficient` copy. A missing unit is its own state now (`unit-test-missing`):
+  "No unit test is open right now" plus a button to the course map. The production screen
+  already handled its own missing handoff honestly.
+- Mutation-verified: `owed` forced null fails 3; the missing branch back to `insufficient`
+  fails 2. `e2e/course-map.spec.js` references neither string.
+- **FIXED — a check-up day taught no lesson.** Walked from Home: the session read "Unit 1
+  check-up | Genitive | Speaking | …" with the learner's next lesson nowhere, because a due
+  check-up WAS the teaching slot. Two per unit is ~2 days in 7, against P0's rule that a
+  lesson comes every day. The slot is now check-up + the lesson behind it, without the
+  lesson's coupled drill (same activity count as a lesson day). `nextCourseStep({
+  skipRechecks: true })` is how the slot and `pickSessionLesson` ask for that lesson — the
+  launcher's plain `nextCourseStep()` returned the check-up and would have fallen back to a
+  rotation pick. Mutation-verified: each half reverted fails 1.
+- **FIXED — the session stranded on every unit-test outcome but a first pass.** The session
+  slot was freed only by `award()`, and the test awards on a first pass alone — so a
+  FAILED test, a retake and every CHECK-UP left Today's Session at N-1/N, and the slot's
+  "Continue" re-opened a test screen with no unit. Walked: finish the check-up, go Home, the
+  slot is still open. `UnitTestScreen` now signals on reaching ANY result (credit still
+  gated), and `UnitProductionScreen` signals on an evaluator refusal (the learner produced;
+  the grader would not answer). Mutation-verified: 2 and 1 fail.
+- **FIXED — leaving a course activity part-way broke "Continue Session".** The unit-test /
+  production handoff is written when the plan is built and cleared on unmount, so leaving
+  and continuing opened a screen with no unit. `rearmCourseHandoff(activityId)` re-arms it
+  from the id (which carries the unit) in BOTH launchers — Home's `onStart` and the
+  next-step engine's session branch. Walked: answer two, leave, continue → the check-up
+  reopens in re-check mode.
+- **FIXED — the missing-unit state titled itself "Unit test / Unit test"** (`e7548fca`). The
+  subtitle fell back to the heading's own words; it names "Your course" now. Pinned, and
+  restoring the doubled title fails 1.
+- **The two CodeQL alerts `rearmCourseHandoff` introduced (#91, #92) are gone** on
+  `fa6fc1cc` — confirmed from the check run's public annotations, which list only the three
+  known lines (#58/#59/#66/#78 family). No new PR comment: the standing one covers them.
+
+## Sweep 169 — the light theme, measured: a status colour is a surface, not an ink (2026-09-27)
+
+- **THE INSTRUMENT.** A throwaway spec over all 430 routes in the LIGHT theme that
+  composites each text element's ink over its nearest opaque surface (walking translucent
+  layers, bailing on gradients and media) and applies the size-appropriate AA bar (3:1 for
+  ≥24px or ≥18.66px bold, else 4.5:1). Disabled controls and elements under 95% effective
+  opacity are skipped (WCAG exempts the first). Recipe kept in the scratchpad as
+  `zz-contrast.spec.js`; `ROUTES=a,b,c` narrows it, `THEME=dark` flips it.
+- **RESULT: 451 elements on 43 routes below the bar.** The largest single cause was not a
+  literal: `color: var(--success)` — #16a34a, 3.30:1 on white — about 190 of the 451,
+  including the answer feedback on VocativeScreen ("Marijo!"), BojeGame's colour words and
+  the drills' "✗ WRONG" labels. `--warning` as ink is 3.19:1 on white and `--error` 3.95:1
+  on its own tint.
+- **`inlineInkContrast` could not see it and was not meant to**: it judges LITERALS, and a
+  `var(--…)` is exactly what that guard tells you to write. The token was right for a badge
+  background and wrong for the text on it, and the name does not say which.
+- **FIXED as the ink tokens already work: each status token has an INK TWIN**
+  (`--ink-green`, `--ink-warn`, new `--ink-error` #b91c1c, `--ink-accent`) whose light
+  value clears AA on white AND on the token's own tints, and whose DARK value is the token's
+  own — so dark mode cannot move. 342 `color:` values in 139 files' `style={{…}}` blocks
+  plus 11 CSS rules. A codemod scoped to style blocks, because a data field named `color`
+  can be a BACKGROUND elsewhere (StatsTab paints `cefr.color` both ways): those 11 data
+  fields keep the surface token, and `accentInk` now maps a status token to its twin at the
+  render site (`STATUS_INK`).
+- **White text on a status-token background is its own shape** — 3.30:1 in light mode and
+  ~1.9:1 in dark, where `--success` turns light green (heritage_mode "I know this" measured
+  1.74). Six sites; new `--fill-success/-warning/-error` hold white at AA in both themes.
+- **The pale greys**: `#a8a29e` (2.52 on white) and `#94a3b8`/`#9ca3af` as text in 16 files
+  moved to `--ink-muted-warm` / `--ink-muted`, whose DARK values are exactly those literals,
+  so dark mode does not move. The Constellation screens are permanently dark and were left
+  alone on purpose; PersonaScreen's greyed start button is `disabled` (WCAG-exempt) and was
+  reverted after the codemod touched it.
+- **A CODEMOD OF MINE CORRUPTED A FILE AND ONLY A LINE-COUNT CHECK CAUGHT IT.** The block
+  rebuild for the fills did `pos = matchBrace(...)` without checking for -1, and one
+  unmatched brace re-appended 899 lines of HeritageModeScreen onto itself. A `--numstat`
+  sweep for lopsided add/delete counts found it; the file was restored from HEAD and the two
+  edits re-applied. Run that sweep after every multi-file rewrite.
+- `statusTokenInk.test.ts`: twins exist in both themes, dark == token dark, light clears
+  4.5 on white and on the token's tints; no style block or CSS rule paints a status token as
+  text; a data field holding one is rendered through `accentInk`. Mutation-verified, five
+  (raw token restored in a real file, `--ink-error` back to #dc2626, `--ink-green` dark
+  drifting, the accentInk mapping removed, a CSS rule restored) — each fails 1.
+
+## Sweep 170 — "Remove YouTube": the 2026-09-09 removal reached one page of two (2026-09-27)
+
+- **Owner, 2026-09-27: "However, I believe we removed youTube as we don't want links to
+  competitive alternatives in our application did we not?" — then: "Remove YouTube".** The
+  2026-09-09 removal (#631) was real and was scoped to the MEDIA PAGE; its guard,
+  `mediaLinks.test.ts`, reads the `MEDIA` / `POPCULTURE` data and nothing else. So
+  **Grammar Videos** (`grammarvideos`, Learn tab, the Learning Center's "Watch Grammar
+  Lessons") kept five YouTube links for eighteen days: two playlists of someone else's
+  Croatian lessons, a teacher's channel, a "Find videos ↗" YouTube search on every grammar
+  topic, and a search for **CroatianPod101 — a paid competitor**.
+- **DELETED, not stripped.** Without YouTube the screen had nothing of its own: a topic list
+  linking to drills the course and the Learning Center already reach, under a title
+  promising videos. Screen, route, route key, tab mapping, Learning Center entry, session
+  exemption and lint target all removed. `unpooledScreens`' floor lowered 7 → 6 with the
+  reason — that floor exists to force exactly this decision. CLAUDE.md's lint count 474 → 473.
+- **I recoloured that YouTube button for contrast minutes before the owner asked**, which is
+  making a banned link easier to click. The recolour was never committed (it sat in a stash
+  with the unverified accentInk work) and is gone with the file.
+- **MediaDetailDrawer's "Open on YouTube →" button was DEAD** — it opened `item.web`, and
+  none of the ten embedded entries has one — and is removed. The EMBEDS stay: they play
+  inside the app (`youtube-nocookie.com/embed/`) and are Croatian songs (Oliver, Gibonni,
+  Thompson, Baby Lasagna, Let 3), an HRT documentary, a basketball documentary and
+  children's bedtime stories — not instruction, and #631 kept them deliberately. **Flagged to
+  the owner in case "Remove YouTube" meant these too.**
+- **`noOutboundLessonLinks.test.ts` scans every source file in `src/` and `functions/`**:
+  any youtube.com / youtu.be address except the embed host, the "Open on YouTube" label, and
+  the domains of fourteen language services. Competitor NAMES in code comments ("DuoLingo
+  best practice", eleven of them) are not links and are left alone. Mutation-verified,
+  three: a YouTube `web` link restored in media.js fails 1; the scan narrowed to `src/lib`
+  fails 1; the route restored fails 1.
+- **The general lesson is the one this file keeps finding**: a guard over ONE data file
+  reads exactly like a guard over the app. When an owner directive says "anywhere", scan
+  everywhere.
+- **TWO REGRESSIONS FROM SWEEP 169, FOUND AND FIXED THE SAME HOUR.** (1) The grey-literal
+  pass moved `#94a3b8` onto `--ink-muted` in `TranslateDrillsScreen`, which paints a
+  permanently dark `#0f172a` — so light mode put dark grey on navy (2.8–3.3:1). The full
+  light census over all 430 routes found it as the ONLY three new findings; the greys are
+  back to the fixed `#94a3b8`, and the same commit's ✓/✗ (symbol-only, so invisible to the
+  census) are fixed `#4ade80`/`#f87171`. (2) The same pass put `--ink-muted-warm` inside
+  three tiles painting a fixed light `#f1f5f9`/`#f5f5f4` (Basketball, Gym, SceneExplorer),
+  which `inkSurfaceAgreement` rightly failed — **I had run that guard before adding the
+  greys and not after.** Both halves are themed now (`--surface-mute` + `--ink-muted-warm`).
+  Full unit suite on the tree before this fix: 1 failure in 9,937, that one.
+- **Light-theme census, all 430 routes, with the stashed accentInk darkening in the bundle:
+  451 elements on 43 routes → 107 on 20**, and the accentInk change produced no new finding.
+  It stays stashed until `inkSurfaceAgreement` is re-checked with it applied.
+- **`accentInk` now darkens a pale accent in LIGHT mode, only as far as it needs** (the
+  stashed change, committed after both themes were measured). The literal colour arrives at
+  call time, so its luminance is knowable in JS where CSS cannot branch on it: a colour
+  already at 5.5:1 on white comes back as the SAME string (light mode byte-exact, as before),
+  a paler one is mixed toward black in sRGB — hue kept — to the target; 5.5 because the text
+  usually sits on a ~9% tint of itself (5.5 on white ≈ 4.6 on #ebebeb). The dark lift then
+  applies to that colour. Measured, all 430 routes: LIGHT 451 → 107 elements with no finding
+  attributable to it; DARK on the 43 routes 178 → 164 with zero new, and zero findings
+  anywhere whose ink is an accentInk mix. Analytics' number tiles route through it, its
+  "✓ Earned" chip is a fixed #92400e on its fixed amber chip, "N/M earned" is --ink-warn.
+  Mutation-verified: the darkening disabled fails 10 of accentInk.test.ts's 26.
+
+- [x] **Sweep 171 — the session drilled concepts the course had not taught (2026-09-27).**
+  Walking a Unit 1 learner's day in a browser, Home served "Genitive — you haven't
+  practised the genitive yet"; the genitive is taught in Unit 5. Measured with the real
+  builder, 40 builds per level, full spine: `genitivedrill` in 40/40 sessions at A2 on a
+  lesson day and at A1, A2, B1 and C1 on the unit-test day — the adaptive store's new-user
+  first pick, gated on CEFR only. `src/lib/courseGate.ts` derives the concept categories
+  taught only in unreached units (reached = lessons read, library included, plus every
+  lesson in an opened unit) and their route screens; P2's adaptive pick (also
+  getNextStep's discovery rung) and every pool draw through `entryServable` skip them.
+  MODALITY categories (writing/speaking/listening/reading) are never gated — without that
+  exclusion the B2 `formal-email` coupling would have removed Guided Writing from A1 in
+  11 of 40 sessions. No spine → nothing ahead. After: 0/40 everywhere, activity totals per
+  level unchanged. Pinned by `courseGate.test.ts` (18). Mutation-verified: the draw-site
+  gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
+  grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
+  adaptive skip removed fails 5; the reached-tag clause removed fails 1.

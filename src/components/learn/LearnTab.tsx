@@ -256,6 +256,44 @@ export default function LearnTab({
         </div>
       </div>
 
+      {/* ── YOUR COURSE ──────────────────────────────────────────────────
+          The structural door, and it sits ABOVE the lookup on purpose: the
+          owner's report was that the app "seems to bounce around" with no sense
+          of progress through a syllabus. The course map is the answer to "where
+          am I", so it is the first thing under the hero. */}
+      <button
+        onClick={() => setScr('coursemap')}
+        data-testid="open-course-map"
+        aria-label="Open your course map"
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          padding: '13px 16px',
+          marginBottom: 10,
+          borderRadius: 14,
+          border: '1.5px solid var(--card-b)',
+          background: 'var(--card)',
+          cursor: 'pointer',
+          fontFamily: "'Outfit',sans-serif",
+          boxShadow: '0 2px 10px rgba(0,0,0,.05)',
+        }}
+      >
+        <span style={{ fontSize: 17, flexShrink: 0 }}>🗺️</span>
+        <span style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
+          <span
+            style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}
+          >
+            Your course
+          </span>
+          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+            Every unit from A1 to C2 — see exactly where you are
+          </span>
+        </span>
+        <span style={{ fontSize: 15, color: 'var(--subtext)', flexShrink: 0 }}>→</span>
+      </button>
+
       {/* ── LOOK SOMETHING UP ────────────────────────────────────────────
           The lookup door. Everything else on this tab answers "what next"; this
           is the only surface that answers "teach me X, now" — so it sits above

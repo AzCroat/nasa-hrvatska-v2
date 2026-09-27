@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { RELPRON } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { recordScreenPractised } from '../../../lib/teachPractice';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function RelativePronounsScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = shMemo('rp', RELPRON.quiz, 10);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -47,9 +47,7 @@ function RelativePronounsScreen({ goBack, award }: Props) {
       // XP semantics and is a separate decision. Found by
       // couplingClearingPath.test.ts.
       recordScreenPractised('relpron');
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'relpron', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -93,8 +91,8 @@ function RelativePronounsScreen({ goBack, award }: Props) {
             {(['m', 'f', 'n'] as const).map(function (g, gi) {
               const r = RELPRON.table[g];
               return (
-                <tr key={gi} style={{ background: gi % 2 ? '#f0fdfa' : 'white' }}>
-                  <td style={{ padding: '6px', fontWeight: 800, color: '#0e7490' }}>
+                <tr key={gi} style={{ background: gi % 2 ? 'var(--info-bg)' : 'var(--card)' }}>
+                  <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
                     {g === 'm' ? '♂ M' : g === 'f' ? '♀ F' : '⚧ N'}
                   </td>
                   {[r.nom, r.gen, r.dat, r.aku, r.lok].map(function (v, vi) {
@@ -138,12 +136,12 @@ function RelativePronounsScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[qi] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[qi] === o
                             ? o === q.a
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: choices[qi] !== undefined ? 'default' : 'pointer',
@@ -170,7 +168,9 @@ function RelativePronounsScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

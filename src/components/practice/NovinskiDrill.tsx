@@ -1,19 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-
-import { rnd } from '../../lib/random.js';
-import { drawDrillRun } from '../../lib/drillRun';
-import { retryNeedLabel } from '../../lib/lessonGate';
-function shLocal<T>(a: T[]): T[] {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j]!, b[i]!];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // C2 journalese drill (C2 tranche 6, 2026-08-15): headline grammar
 // (dropped auxiliaries, nominal and passive headlines, headline present),
@@ -244,162 +230,20 @@ interface Props {
 }
 
 export default function NovinskiDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    drawDrillRun(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'novinski',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('📰 Novinski stil', 'Vlada povisila mirovine — reading between the headlines', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
-            {score === total
-              ? 'Savršeno — novine su vaše! 🏆'
-              : passed
-                ? 'Vrlo dobro čitanje novinskoga stila! 💪'
-                : 'Novinski stil traži još vježbe.'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('📰 Novinski stil', 'Vlada povisila mirovine — reading between the headlines', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: '#7c3aed',
-            fontWeight: 700,
-            marginBottom: 8,
-          }}
-        >
-          {MODE_LABEL[cur.mode]}
-        </div>
-        <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 14 }}>{cur.en}</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {cur.opts.map((opt) => {
-            const isCorrect = opt === cur.answer;
-            const showState = answered && (isCorrect || opt === chosen);
-            return (
-              <button
-                key={opt}
-                onClick={() => pick(opt)}
-                style={{
-                  textAlign: 'left',
-                  padding: '12px 14px',
-                  borderRadius: 12,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: answered ? 'default' : 'pointer',
-                  border: showState
-                    ? isCorrect
-                      ? '2px solid #16a34a'
-                      : '2px solid #dc2626'
-                    : '1.5px solid var(--card-b)',
-                  background: showState ? (isCorrect ? '#f0fdf4' : '#fef2f2') : 'var(--card)',
-                  color: 'var(--text)',
-                }}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 14,
-              padding: '10px 12px',
-              borderRadius: 10,
-              background: 'var(--bar-bg)',
-              fontSize: 13,
-              color: 'var(--subtext)',
-            }}
-          >
-            💡 {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>
-            {idx + 1 >= total ? 'Rezultat →' : 'Dalje →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="novinski"
+      title={'📰 Novinski stil'}
+      subtitle={'Vlada povisila mirovine — reading between the headlines'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Savršeno — novine su vaše! 🏆',
+        good: 'Vrlo dobro čitanje novinskoga stila! 💪',
+        more: 'Novinski stil traži još vježbe.',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }

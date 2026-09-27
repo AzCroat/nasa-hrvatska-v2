@@ -92,11 +92,11 @@ export default function MatchGame({
           }}
         >
           <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--subtext)' }}>
-            <span style={{ color: 'var(--success)', fontWeight: 900 }}>{mm.length}</span> /{' '}
+            <span style={{ color: 'var(--ink-green)', fontWeight: 900 }}>{mm.length}</span> /{' '}
             {mp.length / 2} pairs found
           </div>
           {mm.length > 0 && (
-            <div style={{ fontSize: 12, color: 'var(--success)', fontWeight: 700 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', fontWeight: 700 }}>
               {'★'.repeat(mm.length)}
             </div>
           )}

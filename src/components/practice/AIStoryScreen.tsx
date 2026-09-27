@@ -297,7 +297,9 @@ export default function AIStoryScreen({
             textAlign: 'center',
           }}
         >
-          <div style={{ fontSize: 14, color: 'var(--error)', fontWeight: 700, marginBottom: 8 }}>
+          <div
+            style={{ fontSize: 14, color: 'var(--ink-error)', fontWeight: 700, marginBottom: 8 }}
+          >
             {!isOnline ? 'No connection — reconnect to generate a story.' : error}
           </div>
           <button className="b bp" onClick={generateStory} style={{ width: '100%' }}>
@@ -313,12 +315,12 @@ export default function AIStoryScreen({
             background: 'var(--card)',
             borderRadius: 16,
             padding: '20px',
-            border: '1px solid var(--border)',
+            border: '1px solid var(--card-b)',
             marginBottom: 16,
           }}
         >
           <div
-            style={{ fontSize: 15, color: 'var(--body)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}
+            style={{ fontSize: 15, color: 'var(--text)', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}
           >
             {rawReply}
           </div>
@@ -333,7 +335,7 @@ export default function AIStoryScreen({
               background: 'var(--card)',
               borderRadius: 20,
               padding: '20px 20px 24px',
-              border: '1px solid var(--border)',
+              border: '1px solid var(--card-b)',
               marginBottom: 16,
               boxShadow: '0 4px 20px rgba(0,0,0,.06)',
             }}
@@ -350,7 +352,7 @@ export default function AIStoryScreen({
             >
               Croatian Story
             </div>
-            <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--body)', margin: 0 }}>
+            <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text)', margin: 0 }}>
               {renderHighlightedStory(story, wordsUsed)}
             </p>
             <div
@@ -368,7 +370,7 @@ export default function AIStoryScreen({
                 style={{
                   width: '100%',
                   background: 'var(--bar-bg)',
-                  border: '1px solid var(--border)',
+                  border: '1px solid var(--card-b)',
                   borderRadius: 12,
                   padding: '12px 16px',
                   cursor: 'pointer',
@@ -397,7 +399,7 @@ export default function AIStoryScreen({
                     background: 'var(--bar-bg)',
                     borderRadius: '0 0 12px 12px',
                     padding: '14px 16px',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--card-b)',
                     borderTop: 'none',
                   }}
                 >
@@ -405,7 +407,7 @@ export default function AIStoryScreen({
                     style={{
                       fontSize: 14,
                       lineHeight: 1.8,
-                      color: 'var(--body)',
+                      color: 'var(--text)',
                       margin: 0,
                       fontStyle: 'italic',
                     }}
@@ -466,7 +468,7 @@ export default function AIStoryScreen({
                 borderRadius: 14,
                 padding: '14px 0',
                 background: 'var(--bar-bg)',
-                border: '1px solid var(--border)',
+                border: '1px solid var(--card-b)',
                 fontSize: 14,
                 fontWeight: 800,
                 color: 'var(--subtext)',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { useGrammar } from '../../hooks/useGrammar';
+import { accentInk } from '../../lib/accentInk';
 
 interface PhonologyShape {
   tip?: string;
@@ -135,7 +136,7 @@ function LetterList({
                 style={{
                   fontSize: 36,
                   fontWeight: 900,
-                  color: l.color,
+                  color: accentInk(l.color),
                   fontFamily: "'Playfair Display', Georgia, serif",
                   marginBottom: 6,
                 }}
@@ -148,7 +149,7 @@ function LetterList({
               <div
                 style={{
                   fontSize: 10,
-                  color: practiced ? l.color : 'var(--subtext)',
+                  color: practiced ? accentInk(l.color) : 'var(--subtext)',
                   fontWeight: 700,
                   marginTop: 4,
                 }}
@@ -324,7 +325,9 @@ function LetterLesson({
               marginBottom: 16,
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: l.color, marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: accentInk(l.color), marginBottom: 6 }}
+            >
               🧠 Memory Aid
             </div>
             <p
@@ -521,7 +524,7 @@ function highlightLetter(word: string, target: string, color: string) {
     parts.push(
       <span
         key={parts.length + 'h'}
-        style={{ color, textDecoration: 'underline', textDecorationColor: color }}
+        style={{ color: accentInk(color), textDecoration: 'underline', textDecorationColor: color }}
       >
         {remaining.slice(idx, idx + tLower.length)}
       </span>,

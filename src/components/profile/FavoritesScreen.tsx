@@ -24,7 +24,7 @@ export default function FavoritesScreen({
       {favs.length === 0 ? (
         <div className="c" style={{ textAlign: 'center', padding: '32px' }}>
           <div style={{ fontSize: 48 }}>⭐</div>
-          <div style={{ fontSize: 14, color: '#78716c', marginTop: 8 }}>
+          <div style={{ fontSize: 14, color: 'var(--ink-muted-warm)', marginTop: 8 }}>
             No favorites yet! Search for a word and tap it to navigate.
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function FavoritesScreen({
                   border: 'none',
                   fontSize: 16,
                   cursor: 'pointer',
-                  color: '#dc2626',
+                  color: 'var(--ink-error)',
                 }}
                 onClick={() => toggleFav(f)}
               >

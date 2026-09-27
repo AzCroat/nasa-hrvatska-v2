@@ -40,7 +40,9 @@ function FoodOrderScreen({ goBack }: FoodOrderScreenProps) {
       {[FOODORDER.bakery, FOODORDER.fastfood, FOODORDER.icecream].map(function (sec, si) {
         return (
           <div key={si} className="c" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 15, fontWeight: 800, color: '#b45309', marginBottom: 10 }}>
+            <div
+              style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 10 }}
+            >
               {sec.title}
             </div>
             <div
@@ -65,7 +67,7 @@ function FoodOrderScreen({ goBack }: FoodOrderScreenProps) {
                       speak(w[0]!);
                     }}
                   >
-                    <span style={{ fontWeight: 700, color: 'var(--accent,#0e7490)' }}>{w[0]}</span>
+                    <span style={{ fontWeight: 700, color: 'var(--ink-accent)' }}>{w[0]}</span>
                     {' — '}
                     {w[1]}
                   </button>
@@ -106,7 +108,7 @@ function FoodOrderScreen({ goBack }: FoodOrderScreenProps) {
         );
       })}
       <div className="c" style={{ borderLeft: '4px solid #f59e0b' }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#b45309' }}>💡 Tipping</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-warn)' }}>💡 Tipping</div>
         <div style={{ fontSize: 13 }}>{FOODORDER.restaurant.tip}</div>
       </div>
       <h3 className="sh" style={{ marginTop: 16 }}>

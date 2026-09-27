@@ -6,7 +6,7 @@ const SCENARIOS = [
     id: 'comprehension',
     icon: '🤔',
     title: "I Didn't Understand",
-    color: '#fff7ed',
+    color: 'var(--warning-bg)',
     border: '#fed7aa',
     phrases: [
       {
@@ -45,7 +45,7 @@ const SCENARIOS = [
     id: 'food',
     icon: '🍽️',
     title: 'At the Table',
-    color: '#f0fdf4',
+    color: 'var(--success-bg)',
     border: '#86efac',
     phrases: [
       {
@@ -90,7 +90,7 @@ const SCENARIOS = [
     id: 'social',
     icon: '😊',
     title: 'Being Polite',
-    color: '#f5f3ff',
+    color: 'var(--mode-bg)',
     border: '#c4b5fd',
     phrases: [
       { hr: 'Bog!', en: 'Hi! / Hello!', ph: 'boh', tip: 'The most natural Croatian greeting' },
@@ -130,7 +130,7 @@ const SCENARIOS = [
     id: 'topics',
     icon: '💬',
     title: 'Safe Conversation Topics',
-    color: '#f0f9ff',
+    color: 'var(--info-bg)',
     border: '#7dd3fc',
     phrases: [
       {
@@ -169,7 +169,7 @@ const SCENARIOS = [
     id: 'emergency',
     icon: '🆘',
     title: 'Emergency Phrases',
-    color: '#fff1f2',
+    color: 'var(--error-bg)',
     border: '#fca5a5',
     phrases: [
       {
@@ -208,7 +208,7 @@ const SCENARIOS = [
     id: 'hospitality',
     icon: '🫶',
     title: 'Croatian Hospitality',
-    color: '#f5f3ff',
+    color: 'var(--mode-bg)',
     border: '#c4b5fd',
     phrases: [
       {
@@ -355,7 +355,12 @@ export default function SurvivalDinner({ goBack }: Props) {
                       {p.hr}
                     </div>
                     <div
-                      style={{ fontSize: 13, color: '#0e7490', fontWeight: 700, marginBottom: 2 }}
+                      style={{
+                        fontSize: 13,
+                        color: 'var(--ink-accent)',
+                        fontWeight: 700,
+                        marginBottom: 2,
+                      }}
                     >
                       {p.en}
                     </div>
@@ -370,13 +375,18 @@ export default function SurvivalDinner({ goBack }: Props) {
                 style={{
                   width: '100%',
                   padding: '8px 16px 10px',
-                  background: revealed[`${activeScenario}_${i}`] ? sc.color : 'transparent',
+                  background: revealed[`${activeScenario}_${i}`]
+                    ? 'var(--surface-mute)'
+                    : 'transparent',
                   border: 'none',
                   borderTop: `1px solid ${sc.border}`,
                   cursor: 'pointer',
                   textAlign: 'left',
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 12,
+                  // The revealed row used the scenario's LIGHT data tint under this themed ink,
+                  // which went near-white on it in dark mode. It now reveals onto the themed
+                  // muted surface, so the surface and the ink follow the theme together.
                   color: 'var(--subtext)',
                   fontWeight: 600,
                   transition: 'all .2s',
@@ -401,7 +411,9 @@ export default function SurvivalDinner({ goBack }: Props) {
             border: '1.5px solid rgba(14,116,144,.2)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
+          >
             🇭🇷 Pro tip
           </div>
           <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.6 }}>

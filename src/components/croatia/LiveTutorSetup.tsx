@@ -156,7 +156,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#b91c1c',
+                color: 'var(--ink-error)',
                 marginBottom: 2,
               }}
             >
@@ -219,7 +219,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#1d4ed8',
+                color: 'var(--ink-flag)',
                 marginBottom: 2,
               }}
             >
@@ -253,7 +253,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#b91c1c',
+                color: 'var(--ink-error)',
                 marginBottom: 2,
               }}
             >
@@ -285,7 +285,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#92400e',
+                color: 'var(--ink-warn)',
                 marginBottom: 2,
               }}
             >
@@ -390,7 +390,7 @@ export default function LiveTutorSetup({
                   borderRadius: 10,
                   border: level === l ? '2px solid #D4002D' : '2px solid var(--card-b)',
                   background: level === l ? 'rgba(212,0,45,.08)' : 'var(--card)',
-                  color: level === l ? '#D4002D' : 'var(--subtext)',
+                  color: level === l ? 'var(--ink-red)' : 'var(--subtext)',
                   fontWeight: level === l ? 900 : 600,
                   fontSize: 'var(--text-sm)',
                   cursor: 'pointer',

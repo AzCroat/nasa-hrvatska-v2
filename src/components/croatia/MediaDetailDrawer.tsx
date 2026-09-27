@@ -9,6 +9,7 @@
  */
 import React, { useEffect, useRef, useCallback } from 'react';
 import RadioPlayer from './RadioPlayer';
+import { accentInk } from '../../lib/accentInk';
 
 interface MediaItem {
   ytId?: string;
@@ -115,7 +116,7 @@ function ExternalCard({
               borderRadius: 10,
               border: `1.5px solid ${m.color}50`,
               background: 'transparent',
-              color: m.color,
+              color: accentInk(m.color),
               fontSize: 13,
               fontWeight: 700,
               cursor: 'pointer',
@@ -233,7 +234,7 @@ export default function MediaDetailDrawer({
         style={{
           width: '100%',
           maxHeight: '92dvh',
-          background: 'var(--bg)',
+          background: 'var(--card)',
           borderRadius: '20px 20px 0 0',
           overflowY: 'auto',
           padding: '0 0 env(safe-area-inset-bottom,0px)',
@@ -284,7 +285,7 @@ export default function MediaDetailDrawer({
                   fontSize: 9,
                   fontWeight: 900,
                   letterSpacing: '.08em',
-                  color: item.color,
+                  color: accentInk(item.color),
                   background: `${item.color}18`,
                   padding: '2px 7px',
                   borderRadius: 6,
@@ -322,25 +323,8 @@ export default function MediaDetailDrawer({
           {hasYT && (
             <div style={{ marginBottom: 16 }}>
               <YouTubeEmbed ytId={item.ytId!} color={item.color} />
-              {item.web && (
-                <button
-                  onClick={() => openUrl(item.web!)}
-                  style={{
-                    marginTop: 10,
-                    width: '100%',
-                    padding: '10px 0',
-                    borderRadius: 10,
-                    border: `1.5px solid ${item.color}50`,
-                    background: 'transparent',
-                    color: item.color,
-                    fontSize: 13,
-                    fontWeight: 700,
-                    cursor: 'pointer',
-                  }}
-                >
-                  Open on YouTube →
-                </button>
-              )}
+              {/* No button out to the YouTube site: the video plays here, and the app does not send
+                  learners out to YouTube (owner directive, 2026-09-09 and 2026-09-27). */}
             </div>
           )}
 
@@ -369,7 +353,7 @@ export default function MediaDetailDrawer({
                 style={{
                   fontSize: 10,
                   fontWeight: 800,
-                  color: item.color,
+                  color: accentInk(item.color),
                   letterSpacing: '.08em',
                   textTransform: 'uppercase',
                   marginBottom: 6,

@@ -14,6 +14,7 @@ import {
 } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 interface Region {
@@ -257,7 +258,7 @@ function NarrativePart({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: accentColor,
+              color: accentInk(accentColor),
               backgroundColor: accentColor + '18',
               padding: '3px 10px',
               borderRadius: 20,
@@ -272,7 +273,7 @@ function NarrativePart({
           style={{
             fontSize: 17,
             fontWeight: 800,
-            color: accentColor,
+            color: accentInk(accentColor),
             marginBottom: 12,
             lineHeight: 1.35,
           }}
@@ -313,7 +314,9 @@ function PhraseCard({ phrase, accentColor }: { phrase: PhraseItem; accentColor: 
         marginBottom: 10,
       }}
     >
-      <div style={{ fontSize: 16, fontWeight: 700, color: accentColor, marginBottom: 4 }}>
+      <div
+        style={{ fontSize: 16, fontWeight: 700, color: accentInk(accentColor), marginBottom: 4 }}
+      >
         {phrase.croatian || phrase.hr}
       </div>
       <div style={{ fontSize: 14, color: 'var(--heading)', marginBottom: phrase.context ? 6 : 0 }}>
@@ -351,7 +354,7 @@ function WordCard({ word, accentColor }: { word: WordItem; accentColor: string }
         marginBottom: 8,
       }}
     >
-      <span style={{ fontWeight: 700, color: accentColor, fontSize: 14 }}>
+      <span style={{ fontWeight: 700, color: accentInk(accentColor), fontSize: 14 }}>
         {word.croatian || word.hr || word.word}
       </span>
       <span style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>
@@ -612,7 +615,9 @@ export default function HeritageStoryScreen({
                         fontSize: 14,
                         fontWeight: 700,
                         color:
-                          selectedRegion.name === region.name ? region.color : 'var(--heading)',
+                          selectedRegion.name === region.name
+                            ? accentInk(region.color)
+                            : 'var(--heading)',
                         lineHeight: 1.2,
                       }}
                     >
@@ -752,7 +757,7 @@ export default function HeritageStoryScreen({
               borderRadius: 10,
               backgroundColor: 'var(--error-bg)',
               border: '1px solid var(--error-b)',
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               fontSize: 14,
               marginBottom: 16,
             }}
@@ -891,7 +896,7 @@ export default function HeritageStoryScreen({
                   padding: '4px 10px',
                   borderRadius: 20,
                   backgroundColor: accentColor + '18',
-                  color: accentColor,
+                  color: accentInk(accentColor),
                   fontWeight: 600,
                 }}
               >
@@ -1070,7 +1075,7 @@ export default function HeritageStoryScreen({
                   style={{
                     fontSize: 13,
                     fontWeight: 800,
-                    color: accentColor,
+                    color: accentInk(accentColor),
                     marginBottom: 6,
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
@@ -1138,7 +1143,7 @@ export default function HeritageStoryScreen({
               borderRadius: 12,
               backgroundColor: saved ? 'var(--success-bg)' : 'var(--card)',
               border: `1.5px solid ${saved ? 'var(--success-b)' : 'var(--card-b)'}`,
-              color: saved ? 'var(--success)' : 'var(--heading)',
+              color: saved ? 'var(--ink-green)' : 'var(--heading)',
               fontWeight: 700,
               fontSize: 14,
             }}

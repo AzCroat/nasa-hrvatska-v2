@@ -9,6 +9,8 @@ import {
   failureFromError,
   reportAiFailure,
 } from '../../lib/aiFailure';
+import { accentInk } from '../../lib/accentInk';
+import { creditIfNoAuthoredFallback } from '../../lib/authoredFallback';
 
 const CITIES = [
   {
@@ -284,6 +286,7 @@ export default function PostcardScreen({
         const failure = await failureFromResponse(res);
         reportAiFailure('postcard-correction', failure);
         setError(failure.message);
+        creditIfNoAuthoredFallback('postcard');
         setLoading(false);
         return;
       }
@@ -294,16 +297,27 @@ export default function PostcardScreen({
         const failure = failureFromStatus(200, 'parse_failed');
         reportAiFailure('postcard-correction', failure);
         setError(failure.message);
+        creditIfNoAuthoredFallback('postcard');
         setLoading(false);
         return;
       }
       setCorrection(data);
       setCorrectedText(data.corrected_text);
       setStep(2);
+      // PAID HERE, at the correction — the act of finishing (2026-09-27). The whole
+      // credit, and through award() the daily-session slot, used to sit behind
+      // Download and Share on step 3: a learner who wrote the postcard, read the
+      // correction and left by Back or a tab was paid nothing and stranded the slot,
+      // and a canvas that never became ready kept both buttons disabled for ever.
+      if (!awardFired.current) {
+        awardFired.current = true;
+        if (typeof award === 'function') award(15, false, 'culture');
+      }
     } catch (e) {
       const failure = failureFromError(e);
       reportAiFailure('postcard-correction', failure);
       setError(failure.message);
+      creditIfNoAuthoredFallback('postcard');
     }
     setLoading(false);
   }
@@ -316,10 +330,6 @@ export default function PostcardScreen({
     link.download = `postcard-${selectedCity.name.toLowerCase().replace(/\s+/g, '-')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-    if (!awardFired.current) {
-      awardFired.current = true;
-      if (typeof award === 'function') award(15, false, 'culture');
-    }
   }
 
   // ─── Share / Copy ─────────────────────────────────────────────────────────
@@ -336,10 +346,6 @@ export default function PostcardScreen({
             text: correctedText,
             files: [file],
           });
-          if (!awardFired.current) {
-            awardFired.current = true;
-            if (typeof award === 'function') award(15, false, 'culture');
-          }
           return;
         }
       } catch (_) {
@@ -350,10 +356,6 @@ export default function PostcardScreen({
         await navigator.clipboard.writeText(`${correctedText}\n— Naša Hrvatska 🇭🇷`);
         setCopied(true);
         setTimeout(() => setCopied(false), 2500);
-        if (!awardFired.current) {
-          awardFired.current = true;
-          if (typeof award === 'function') award(15, false, 'culture');
-        }
       } catch (_) {
         setError('Could not copy to clipboard. Try downloading instead.');
       }
@@ -420,7 +422,7 @@ export default function PostcardScreen({
                   justifyContent: 'center',
                   fontSize: 13,
                   fontWeight: 800,
-                  color: done ? 'white' : active ? '#0e7490' : 'var(--subtext)',
+                  color: done ? 'white' : active ? 'var(--ink-accent)' : 'var(--subtext)',
                   transition: 'all .3s',
                 }}
               >
@@ -431,7 +433,11 @@ export default function PostcardScreen({
                   fontSize: 10,
                   fontWeight: 700,
                   marginTop: 4,
-                  color: active ? '#0e7490' : done ? '#0e7490' : 'var(--subtext)',
+                  color: active
+                    ? 'var(--ink-accent)'
+                    : done
+                      ? 'var(--ink-accent)'
+                      : 'var(--subtext)',
                   letterSpacing: '.04em',
                   textTransform: 'uppercase',
                 }}
@@ -708,7 +714,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -771,7 +777,9 @@ export default function PostcardScreen({
                 padding: '6px 20px',
               }}
             >
-              <span style={{ fontSize: 22, fontWeight: 900, color: scoreColor }}>{score}</span>
+              <span style={{ fontSize: 22, fontWeight: 900, color: accentInk(scoreColor) }}>
+                {score}
+              </span>
               <span style={{ fontSize: 14, color: 'var(--subtext)', fontWeight: 600 }}>/100</span>
             </div>
             {correction.encouragement && (
@@ -811,7 +819,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#dc2626',
+                      color: 'var(--ink-error)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -840,7 +848,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#16a34a',
+                      color: 'var(--ink-green)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -896,7 +904,7 @@ export default function PostcardScreen({
                     <span
                       style={{
                         fontSize: 12,
-                        color: '#dc2626',
+                        color: 'var(--ink-error)',
                         fontWeight: 700,
                         textDecoration: 'line-through',
                         flexShrink: 0,
@@ -906,7 +914,12 @@ export default function PostcardScreen({
                     </span>
                     <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>→</span>
                     <span
-                      style={{ fontSize: 12, color: '#16a34a', fontWeight: 700, flexShrink: 0 }}
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--ink-green)',
+                        fontWeight: 700,
+                        flexShrink: 0,
+                      }}
                     >
                       {ch.corrected}
                     </span>
@@ -927,7 +940,7 @@ export default function PostcardScreen({
                 borderRadius: 12,
                 padding: '14px 16px',
                 fontSize: 13,
-                color: '#16a34a',
+                color: 'var(--ink-green)',
                 fontWeight: 600,
                 textAlign: 'center',
               }}
@@ -984,7 +997,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -1092,7 +1105,7 @@ export default function PostcardScreen({
                 borderRadius: 12,
                 padding: '12px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -1115,7 +1128,7 @@ export default function PostcardScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   textTransform: 'uppercase',
                   letterSpacing: '.06em',
                   marginBottom: 6,
@@ -1157,7 +1170,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >

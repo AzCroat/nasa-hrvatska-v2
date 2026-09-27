@@ -161,6 +161,13 @@ function registryRows(): Map<string, Row> {
  * staleness directions below.
  */
 const DELIBERATE: Record<string, string> = {
+  grammar:
+    "The ROW carries questKind 'grammar' and the screen additionally marks 'perfect' itself, " +
+    'on purpose. A registry row holds ONE questKind, and `perfect` is a second, CONDITIONAL ' +
+    'mark — only on a flawless run (`gs === qs.length`) — so it cannot move into the row ' +
+    'without the row gaining a concept it does not have. The completion itself (the counter, ' +
+    'the `grammar` quest and the idempotent `vs` write) went through the authority on ' +
+    '2026-09-26; this is the residue the registry genuinely cannot model.',
   shadowing:
     "The ROW says activityType 'speaking' and the screen awards 'listening', on purpose. " +
     "`useAward` keys `recordListeningRep()` off the award's activityType and its own comment " +

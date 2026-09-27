@@ -16,6 +16,7 @@ import {
 } from '../../lib/cefr';
 import { getDisplayLevel, getVerificationGate } from '../../lib/cefrCertification';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 // LABEL AND COLOUR ARE THIS FILE'S; THE NUMBERS ARE NOT (2026-09-23).
 // `needed` and the floor map below used to carry their own copies of the CEFR
@@ -427,7 +428,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           <span style={{ fontSize: 24 }}>🧠</span>
           <div>
             <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--text)' }}>{styleLabel}</div>
-            <div style={{ fontSize: 11, color: 'var(--text-2)' }}>
+            <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
               Based on {stylePrefs?.dataPoints || 0} sessions
               {stylePrefs?.preferredTypes?.[0] ? ` · Loves ${stylePrefs.preferredTypes[0]}` : ''}
             </div>
@@ -501,7 +502,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                       data-testid="cefr-provisional-tag"
                       style={{
                         fontSize: 'var(--text-xs)',
-                        color: '#b45309',
+                        color: 'var(--ink-warn)',
                         fontWeight: 800,
                       }}
                     >
@@ -515,7 +516,13 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 'var(--text-xl)', fontWeight: 900, color: cefr.color }}>
+                  <div
+                    style={{
+                      fontSize: 'var(--text-xl)',
+                      fontWeight: 900,
+                      color: accentInk(cefr.color),
+                    }}
+                  >
                     {wordsLearned}
                   </div>
                   <div
@@ -770,7 +777,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
           style={{
             fontSize: 11,
             fontWeight: 800,
-            color: 'var(--text-2)',
+            color: 'var(--subtext)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
@@ -809,9 +816,9 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
               <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
                 {item.label}
               </div>
-              <div style={{ fontSize: 11, color: 'var(--text-2)' }}>{item.desc}</div>
+              <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{item.desc}</div>
             </div>
-            <span style={{ marginLeft: 'auto', color: 'var(--text-3)', fontSize: 14 }}>›</span>
+            <span style={{ marginLeft: 'auto', color: 'var(--ink-muted)', fontSize: 14 }}>›</span>
           </button>
         ))}
       </div>
@@ -836,12 +843,16 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       >
         <span style={{ fontSize: 20 }}>🐛</span>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#dc2626' }}>Report a Bug</div>
-          <div style={{ fontSize: 11, color: 'var(--text-2)' }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-error)' }}>
+            Report a Bug
+          </div>
+          <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
             Something not working? Let us know.
           </div>
         </div>
-        <span style={{ marginLeft: 'auto', color: 'rgba(220,38,38,0.5)', fontSize: 14 }}>›</span>
+        <span style={{ marginLeft: 'auto', color: accentInk('#dc2626', 0.5), fontSize: 14 }}>
+          ›
+        </span>
       </button>
     </React.Fragment>
   );

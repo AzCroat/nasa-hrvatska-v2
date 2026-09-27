@@ -1035,7 +1035,9 @@ of every check and where each lesson sits on its re-check ladder.
 
 The user must never hit a dead end — something is ALWAYS recommended next.
 
-- **Engine**: `src/lib/nextStep.ts` — `getNextStep({userCefr, poolWords})` returns exactly ONE recommendation, never null. Priority ladder: verification gate > unfinished daily session > servable SRS due > weakest production skill (mastery ledger) > least-recently-served discovery > library fallback. Pure read-only compute; every rung degrades to the next on error.
+- **Engine**: `src/lib/nextStep.ts` — `getNextStep({userCefr, poolWords})` returns exactly ONE recommendation, never null. Priority ladder: verification gate > unfinished daily session > servable SRS due > lesson retention > **the course's next step** (lesson, unit test, owed production, check-up — `nextCourseStep`) > weakest production skill (mastery ledger) > least-recently-served discovery > library fallback. Pure read-only compute; every rung degrades to the next on error.
+  **THE COURSE RUNG WAS MISSING, AND A FINISHED DAY BOUNCED THE LEARNER OUT OF THEIR COURSE (2026-09-27).** Walking a learner's day in a browser: a Unit 1 learner who finished the session met one hero, "Next up: Accusative — least-recently practiced", while their unit's next lesson went unoffered. The rung reads the same sequencer Home's teaching slot and the course map read, so the three cannot disagree. The unit-test / production handoff is made by the LAUNCHER at tap time (`useNextStepEngine`), never by `getNextStep`. And a surface that computes its step ONCE — Home's completion hero, the Practice `NextUpCard` — must depend on the engine's `revision`, which bumps on `CURRICULUM_SPINE_EVENT`: on a first load the spine lands seconds after the first render, and without it the pre-spine answer stood all day. Pinned by `nextStepCourseRung.test.tsx`.
+  NEVER: make a handoff inside `getNextStep`; compute a next-step surface once without depending on `revision`.
 - **Trigger**: `completeExercise` (the single completion authority) dispatches `EXERCISE_COMPLETE_EVENT` (`src/lib/sessionSignal.ts`) on EVERY graded finish, pass or fail — that is what makes the prompt universal across ~117 practice done-screens without per-screen edits. `REQUEST_NEXT_STEP_EVENT` lets any surface summon the prompt.
 - **UI**: `src/components/shared/NextStepPrompt.tsx`, mounted once in App.tsx. Appears ~700ms after a completion as a pill above the tab bar (`data-testid="next-up-bar"`); hides on ANY navigation (the landing surface's own prompting takes over); wrapper is `pointer-events:none` so only the pill is clickable — it can never intercept taps meant for content or the tab bar. Launches via `launchSessionActivity`; kind `session` also sets `nh_session_started` + `setSessionCategory` so the daily plan is credited on return; kind `browse` uses the `nh_open_browse` one-shot handoff.
 - **Persistent surfaces (owner correction, 2026-08-17)**: the pill alone was NOT what the owner intended — Home and Practice must prompt AT ALL TIMES, embedded in the page, not as a transient pop-up. All surfaces share `src/hooks/useNextStepEngine.ts` (compute + launch + navKey). Practice: `NextUpCard` pinned atop GradTab (`next-up-card`). Home: `SessionCard`'s complete state is a HERO-ONLY guided path (`next-up-primary` at Begin-Session weight) — when the engine supplies a step, the bonus-activities list and start-fresh option are NOT rendered (owner: "hero only - want a guided learning path"); they exist only in the legacy no-engine fallback.
@@ -2900,11 +2902,22 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **472 files**, 2 of them walked structurally — the figure the lint
+Coverage is **473 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
-deleted the hero cluster three more pointed at.
+deleted the hero cluster three more pointed at, and up by one for
+`src/data/courseUnitTitles.ts` (sweep 151), and by one more for
+`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube").
+
+**AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
+control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was
+not a name `CRO_FIELD_RE` listed — so `inf`, `aux` and `mForm`/`fForm`/`nForm`, the actual
+Croatian of every verb paradigm in the app, were unscanned wherever they occurred. This is
+the `lessons.js` finding a fourth time: the file was there, the extension was deliberate,
+and only a control on the exact FIELD distinguished "clean" from "not looked at". Widened
+after measuring (+325 strings, zero new findings — a ratchet) and mutation-verified in all
+four fields.
 
 **AND IT SAID 522 WHILE 470 DISTINCT FILES WERE COVERED, BECAUSE ALL THREE
 MECHANISMS AGREED ON THE SAME WRONG NUMBER (sweep 136, 2026-09-25).** `TARGETS`
@@ -3301,10 +3314,16 @@ transport read as a server error.
   `reconcileSafely(env, path, { input_tokens: 0 })` cannot do it, because
   `actualClaudeCostMicroUsd` returns null for an all-zero usage on purpose and a
   null actual refunds nothing. Any handler that 4xxs after the gate should refund.
-- **`failureFromStatus` HAS NO 4xx BRANCH**, so every client error becomes
+- **`failureFromStatus` HAD NO 4xx BRANCH**, so every client error became
   `build('server')`. That is the whole reason a malformed request read as
-  `ai_feedback_failed:drill-explain-error:server` and cost nineteen days. Recorded
-  as open: adding a branch changes learner-facing copy on every AI surface.
+  `ai_feedback_failed:drill-explain-error:server` and cost nineteen days.
+  **CLOSED THE SAME DAY, and this entry said "recorded as open" for two days after
+  (corrected 2026-09-27).** The branch is in `aiFailure.ts` with its own comment
+  ("A 4xx IS OUR DEFECT, AND FOR NINETEEN DAYS IT READ AS AN OUTAGE"), and the
+  learner-facing copy change it was deferred for was made with it. The stale word
+  matters because the tag is now DIAGNOSTIC: a `:server` event on a build after
+  `57c3a264` means a real 5xx, and on an earlier one means a mislabelled 4xx — a
+  reader who believed this line would have drawn the opposite conclusion.
 - **THE PASS GATE WAS RIGHT AND THE SCREEN WAS STILL WRONG.** 8/12 is 66.7%; 9 of
   12 is the mark and `passedLesson` uses `>=`, so exactly 75% passes. But the result
   printed `8 / 12` beside a button reading "need 75%" and left the learner to
@@ -3617,6 +3636,610 @@ Again" on last card: mode='done' (without awarding mastered)`, with a passing te
   the state; read agreeing PRINT and PAY expressions as proof the figure is paid (ask
   which paths reach the view); write a test whose scenario cannot distinguish a guard
   from the absence of the thing it guards.
+
+## Critical Architecture: The Completion Engine — One Credit Path (2026-09-26)
+
+The first increment of the consolidation the owner authorised: **credit belongs to one
+place, and the two defects found on the way are both things a per-screen fix would have
+had to fix 10 and 140 times.**
+
+Census of the 222 components that credit a learner: **140 route through the authority
+(`completeExercise`/`completeLesson`), 82 hand-roll it**, and 14 do both (per-answer XP
+plus a completion call — legitimate, the incremental-payer shape).
+
+### Defect 1 — ten exercises inflated the measured level on every replay
+
+`getCEFR(xp, lc, gc)` scores a learner `xp + lc * 15 + gc * 25`, and that score drives the
+Learn Path stage. Ten single-page grammar exercises incremented `gc` with **no once-only
+mechanism of any kind**: no `vs` flag, and where one had a ref (`questFiredRef`) a ref does
+not survive a remount. **Demonstrated, not inferred** — driven twice over one shared stats
+object, `gc` went 1 → 2 on all of them. Twenty-five CEFR points per replay of a
+fifteen-question sheet, in the one number a mastery course has to gate on.
+
+All ten now route through the authority, which owns an idempotent `vs` write. **Policy is
+`effort`, preserving today's credit-on-finish**: whether a grammar exercise's `gc` should
+require 75% is a COURSE decision, and changing both at once would make it impossible to say
+which change caused what. The per-answer XP is untouched.
+
+### Defect 2 — the authority never credited a daily quest on a replay, for 140 screens
+
+The quest mark sat BELOW the already-credited early return that `stats.vs` guards. **A daily
+quest is DAY-scoped and `vs` is ONCE-EVER** — the two were coupled to opposite lifetimes, so
+a learner who finished a drill last month and finished it again today got no quest credit at
+all, and the further they progressed the fewer screens could advance today's quests. Driven
+straight against the authority: first run marks `grammar`, replay marks nothing.
+
+- **A BARE MOVE ABOVE THE RETURN WOULD HAVE BEEN WRONG.** `markQuest` also counts per day
+  and auto-promotes the tier-2 quest on the second call, and tier 2 means "do TWO grammar
+  exercises today". Marking unconditionally on replay lets ONE drill, replayed, satisfy it.
+  `markQuestOnce(questKind, vsKey)` keys its guard on the EXERCISE: any finish advances
+  today's quest, and only DISTINCT exercises advance tier 2.
+- **THE GUARD LIVES IN THE AUTHORITY, NOT IN `quests.ts`, AND THAT IS A MEASUREMENT.** It was
+  first written there as a new export — and **94 test files `vi.mock` that module**, none of
+  which provides a function that did not exist when they were written. A partial mock makes a
+  new import `undefined`, so the authority threw a TypeError in all of them. Adding an export
+  to a heavily-mocked module that the authority then CALLS has a blast radius of 94 files, and
+  the next export repeats it. Keeping the call as plain `markQuest` leaves every mock valid.
+  (This is the `vi.mock` rule from **A Null Transport Now Says Why**, met at 94× the scale.)
+
+### What the fix exposed in the SUITE, and why the tests were right
+
+38 tests across 21 files then failed asserting `markQuest` fired — because an EARLIER test in
+the same file had already completed that exercise "today". The shared `setup.js` created its
+storage polyfill once per test FILE and every `it` inherited what the previous one wrote.
+**The tests were right and the isolation was missing**, invisible for as long as nothing in
+production kept per-day state keyed on an exercise. `setup.js` now clears both storages in a
+global `beforeEach` — one place, so the next piece of per-day state cannot re-open it.
+
+13 further tests asserted that a replay "writes nothing", which included the quest mark.
+Those encoded the OLD contract and are updated; the 14 sibling assertions about a FAILING run
+are untouched and still say the quest is not marked, which is correct — the gate withholds
+credit there. **Classify before patching**: a blanket replace would have broken the half that
+was right.
+
+- Pinned by `dailyQuestOnReplay.test.ts` (the lifetime contract, asserted through
+  localStorage because `markQuestOnce` calls `markQuest` module-locally and a namespace mock
+  cannot see it) and `masteryCounterIdempotent.test.tsx` (the ten screens, driven twice).
+- **THE POPULATION OF A GUARD MUST NOT BE DEFINED BY THE DEFECT.** The idempotency suite
+  first derived its subjects from files writing `s.gc + 1` themselves — and routing all ten
+  through the authority EMPTIED it, turning ten named failures into one vacuous pass. It now
+  derives from the registry: the `effort`-policy rows, found through each file's own
+  completion key.
+- **AND THE COHORT CANNOT BE DRIVEN TO A PASS, WHICH IS GOOD PEDAGOGY.** A second attempt
+  widened the population to every counter-crediting screen and tried to learn each answer key
+  from the DOM. Measured: these screens colour only the CHOSEN option, so a wrong answer
+  leaves the right one unmarked and no driver can discover it. That is why the population is
+  the `effort` rows — the ones a driver can honestly complete — with the gated ones left to
+  their own contract tests.
+- Mutation-verified, four: the quest mark back below the return fails 1 and names it; marking
+  unconditionally fails the tier-2 clause; each of the ten screens reverted fails its own
+  idempotency test; the registry rows removed fail the derivation floor.
+
+### Increment 1 finished: the counter class is now UNREPRESENTABLE
+
+`counterWritesGoThroughAuthority.test.ts` forbids `<counter>: x.<counter> + 1` anywhere in
+`src` outside a short exempted list. That is what turns "fixed in 17 places" into "cannot be
+written": the increment lives in one module, and a new screen either routes through
+`completeExercise` or fails the guard. **Seventeen screens are converted** (ten
+single-page exercises, then `bureaucratic`, `casetransformer`, `grammarexplainer`,
+`micro_lesson`, `phoneme_practice`, `grammar`, `cefrtest`); the authority went from **140 to
+157** of the 222 crediting components.
+
+**THE CONVERSION RULE IS A SPLIT, and it is what makes 17 edits verifiable: the authority
+owns the COMPLETION (counter, quest, idempotent `vs`), and each screen keeps its own
+`award(...)` call exactly where it was.** `xp: 0` and no `award` are passed, so no payment
+moves and the only thing that changes is idempotency. Reaching for "move the award in too"
+would have changed `useAward`'s activityType branches (a server XP claim fires only when an
+activityType is supplied), which is a different change with a different blast radius.
+
+**FOUR COUNTER WRITERS REMAIN, ALL EXEMPTED ON A CHECKED REASON** — and the reasons split
+two ways. Three are ALREADY idempotent by their own explicit test (`AnimatedLesson` checks
+`vs?.includes('al_' + lessonId)`, `PitchAccentMastery` `'pitch_accent'`, `SpeakingScreen`
+`'speaking'`), plus `dwellCredit`, whose `wasFirstVisit()` is assigned inside the caller's
+`vs` updater. `LessonScreen` is the one place **the authority's model is too narrow**: its
+updater writes FOUR stats in one call (`lc`, `pf`, `rs`, `ct`) and the authority owns `vs`
+plus a single counter. Worth remembering for the course spine, which replaces that path.
+
+- **TWO OF MY OWN EXEMPTIONS WERE BOGUS AND THE STALENESS CLAUSE CAUGHT BOTH.** I exempted
+  `useExerciseCompletion.ts` (it writes through a COMPUTED key, `next[statKind] = … + 1`, so
+  the literal shape never matched) and `statsReducer.ts` (which does not touch these counters
+  at all). An exemption that cannot fire is the stale-exemption shape with its reason written
+  in advance — which is why every entry must still match the pattern it is excused from.
+- **ADDING A REGISTRY ROW CAN BREAK AN INVARIANT TWO FILES AWAY.** `registryMatchesScreen`
+  failed on both new rows, correctly: `GrammarScreen` also marks a **second, conditional**
+  quest (`perfect`, only on a flawless run) that one `questKind` cannot express, now in
+  `DELIBERATE`; and giving `cefrtest` `activityType: 'default'` took the registry's distinct
+  type count to **10**, which is exactly the inequality `appUtils`' `distinctExercisesDone`
+  comment rests on ("a type-keyed count would cap below the 10- and 15-exercise badges").
+  The field was inert there — no `award` is passed — so the row was narrowed rather than the
+  threshold raised.
+- **WHAT IS LEFT HAND-ROLLED, AND WHY IT IS NOT THE SAME CLASS.** 19 screens write a
+  `vs`/`writeDelta` completion with NO counter: a repeat writes a duplicate `vs` entry (a
+  set union) and a duplicate delta, neither of which credits anything, so there is no
+  inflation to fix. 22 more are REPEATABLE DAILY activities — Maja, the live tutor, AI
+  conversation, story mode, guided writing and speaking — with no once-ever state at all;
+  routing those through the authority would give them a `vs` flag and make a daily activity
+  **once-ever**, which is a regression, not a consolidation. One credit path does not mean
+  one credit policy.
+
+- NEVER: increment a mastery counter without an idempotent flag (route it through the
+  authority — a ref does not survive a remount); move a screen's `award` into the authority
+  in the same change as its completion (the activityType decides whether a server XP claim
+  fires); convert a repeatable daily activity onto a once-ever `vs` key; couple a DAY-scoped mark to the ONCE-EVER
+  completion flag; mark a daily quest unconditionally on a replay (tier 2 means two DISTINCT
+  exercises); add an export to a heavily-mocked module that the authority calls; define a
+  guard's population by the defect it is written to catch; let one test's storage writes reach
+  the next.
+
+## Critical Architecture: The Course, In Units (owner directive, 2026-09-26)
+
+Step 3 of the structural overhaul. The owner's report, verbatim: _"I don't feel
+the application really provides a structured learning experience that moves the
+user along as they grasp subjects. It seems to bounce around, never really
+capturing if the user is grasping subjects… We need to make this much more like
+a course."_
+
+The spine already held 180 lessons in a defensible order. What a learner could
+not do was **see the shape they were inside**: 180 is a list, not a course. A
+course has units you finish and a position you hold in it. `src/lib/courseUnits.ts`
+is that shape, `src/components/learn/CourseMapScreen.tsx` renders it (route
+`coursemap`, door on the Learn tab above the lookup), and this increment
+deliberately stops there — the unit test and the gate come next.
+
+- **ONE PATH, EVERYONE STARTS AT UNIT 1** (owner: _"Fuck a heritage user, all
+  users follow the same learning path. If they are already somewhat familiar they
+  will be able to master easier subjects quickly."_). So the course does NOT read
+  the certification level, and that is the single most important property of the
+  module. `getNextLesson` infers that everything below a learner's certified level
+  is already known — correct for the question IT answers ("what do I teach today"
+  under the old CEFR-driven model) and wrong for "where am I in the course".
+  Position is POSITIONAL: the current unit is the first with an unfinished lesson,
+  for every learner, always. **A behavioural test cannot say this** — every fixture
+  is an A1-order spine, so a certification-reading version would pass all of them;
+  `courseUnits.test.ts` pins it by SOURCE (no `cefrCertification`, `getUserCefr`,
+  `getCertifiedLevel`, `getVerifiedLevel`, `getContentUnlockLevel`,
+  `getGenerationCefr`, and no `certifiedLevel`/`unlockedLevel` parameter).
+- **THE UNITS ARE DERIVED, NOT LISTED.** The obvious implementation is a second
+  data file naming 36 units and the five lesson ids in each — 180 ids restated, in
+  a codebase whose most-repeated lesson is that a hand-maintained list decays
+  exactly like one in production, and in defiance of the spine's own header, which
+  refuses to restate facts that have a home. A unit is a CHUNK: five consecutive
+  lessons of one level in spine order, so a reorder cannot desynchronise the units
+  from the spine. Measured: the curriculum was authored in thematic blocks and they
+  fall at fives throughout — A1's boundary at 16 lands exactly on `cases`, which
+  that file calls the hinge of the level, and where a block straddles (B1's aspect
+  sequence at 7–10) it sits wholly inside one unit.
+- **THE ONLY AUTHORED PART IS 36 NAMES, AND A NAME IS A CLAIM ABOUT FIVE
+  LESSONS.** "The Cases Begin" over a unit that no longer contains `cases` is the
+  CEFR-badge failure in miniature: a sentence consistent with nothing that matters,
+  with nothing able to notice. `courseUnitTitles.test.ts` therefore freezes each
+  unit's FIRST and LAST lesson id — **deliberately not derived**, because a
+  derivation agrees with whatever the spine says today, which is the thing under
+  test. A reorder fails and names the unit AND its title
+  (`unit A1-1 ("Sounds, Hellos and Naming Things") now spans alphabet…basic-questions
+instead of alphabet…plural-nouns`), which is a decision for a person.
+- **IT RENDERS ONLY WHAT WAS MEASURED.** No `locked` badge — this increment does
+  not gate, and a padlock for a rule the app does not enforce is NEVER-DO 13 from
+  the other side. No `mastered` badge — mastery needs the unit test and the spaced
+  re-checks, and a tick meaning "you read five lessons" must not be dressed up as
+  "you have mastered this". Three states only: `done`, `current`, `upcoming`.
+  There is no fourth state for "partly done but behind the current unit" because
+  it cannot occur — the first unit that is not done IS the current one, so a
+  learner who reached lesson 8 through search leaves unit 2 current at 3 of 5,
+  which is exactly true.
+- **A COUNT IS A CLAIM TOO**, so the map never renders "0 of 0 units" out of a
+  failed fetch. `courseMapBlock` gives the three answers `poolLaunchBlock`
+  established — pending / failed / settled-but-empty — and the screen FETCHES the
+  spine itself rather than waiting for App.tsx's fire-and-forget warm, precisely
+  because that warm swallows its failure by design and a listener could never tell
+  "still coming" from "never arriving".
+- **`launchAnimLesson` NOW REPORTS WHETHER IT OPENED ANYTHING**, and the boolean is
+  not decoration. The lesson body is a separate fetch, so an offline learner reached
+  `if (l)` with nothing and **the tap did nothing at all** — the "a tap either opens
+  it or says why" class, live for the life of that launcher. It returns false on a
+  missing lesson and on a throw (getLessons rejects on offline, auth and rate
+  limit); older callers ignore the result exactly as before. **A source pin on that
+  return would have been the dead-branch shape**: if the launcher always resolved
+  truthy the failure notice could never render and would read exactly like
+  coverage — so `courseMapScreen.test.tsx` drives the real launcher to all three
+  outcomes, and the screen separately to the notice.
+- **TWO EXISTING GUARDS CAUGHT THE SCREEN BEFORE A LEARNER COULD**, which is the
+  mechanism working rather than a defect: `routeKeys.test.ts` ("its own URL now
+  resolves to the not-found card") and `session-coverage.test.ts` ("register in
+  CEFR_EXERCISE_POOL or add to OUTSIDE_SESSION with a reason"). The map is
+  NAVIGATION and joins `learning_center` in `OUTSIDE_SESSION` for the same stated
+  reason: no bounded round, no finish line, and crediting a session slot for
+  looking at a map is the reading-a-table-as-a-lesson failure again.
+- Mutation-verified, ten, each failing 1–7 tests: a deleted unit title (4); a spine
+  reorder across a unit boundary (4, naming the unit); `currentIndex` from the LAST
+  unfinished unit instead of the first (7); the chunker dropping a short level's
+  remainder (1); the module importing `getCertifiedLevel` (1); `loading` collapsed
+  into `unavailable` (1 file, 2 tests); `launchAnimLesson` always reporting success
+  (2); the AppRouter route removed (1); the Learn-tab door removed (1); the
+  spine-event listener removed (1). Plus the lint in both directions (a `hleb` in a
+  unit title fails; the same word with the file out of TARGETS passes) and the E2E
+  in anger — `onOpenLesson` severed to `async () => false` fails
+  `course-map.spec.js`, against a CI-equivalent build in a real browser.
+- **What this does NOT do, stated:** it does not gate. Every unit is open and every
+  lesson tappable, because `launchAnimLesson` has always been ungated — the
+  Learning Center's header records that as what makes "look anything up, at any
+  time" true — and inventing a restriction one increment early would be a rule with
+  no test behind it. When the unit gate lands, a tap ahead of the learner's position
+  gets a reason, not silence.
+- NEVER: read a CEFR or certified level to decide a learner's position in the
+  course (one path, everyone from Unit 1); hand-list the units; derive the title
+  boundary pin from the spine it is checking; render a `locked` or `mastered` state
+  the app cannot yet evidence; render a unit or lesson count built from an absent
+  spine; add a course surface without a route key and an `OUTSIDE_SESSION` reason;
+  pin a launcher's success boolean by source instead of driving it.
+
+### Increment 2 — the unit test, and the second state (2026-09-26)
+
+Increment 1 showed the learner a course. It did not ask whether they had got any
+of it: each lesson's own mastery check (`lessonCheck.ts`, 75%) is taken minutes
+after reading that lesson, and it was the strongest thing the course could say.
+`src/lib/unitTest.ts` + `UnitTestScreen` (route `unittest`) add the cumulative
+test, and `src/lib/courseUnitProgress.ts` (`nh_course_units`) records it.
+
+- **INTERLEAVED, NOT BLOCKED, AND THAT IS THE WHOLE DESIGN.** Fifteen items, three
+  from each of the unit's five lessons, assembled ROUND-ROBIN so no two consecutive
+  items come from the same lesson. Five per-lesson checks taken after their own
+  lessons is maximally blocked practice, which inflates performance and depresses
+  retention (Bjork); and the hard part of Croatian is DISCRIMINATION — accusative
+  against genitive, perfective against imperfective — which a single-lesson check
+  cannot see, because only one of the confusable pair is in the room.
+  `lessonRetention.ts` makes the same argument for its weekly cumulative and made
+  it first. **Round-robin rather than a shuffle on purpose**: a shuffle sometimes
+  puts three items from one lesson together, which is the condition the test exists
+  to avoid, and it would make the interleaving unverifiable.
+- **THE GENERIC STEM IS CORRECT HERE, and it is pinned so it is not read as a
+  defect.** Measured: "Which sentence is correct?" is shared across lessons in 20
+  of the 36 units. In a single-lesson check naming the topic is harmless because the
+  lesson just taught it; in a MIXED test it must not, because knowing "this one is
+  about the genitive" removes the discrimination the interleaving measures. The
+  options carry the content, so every item stands alone. (No lesson repeats a
+  question inside its own check — also measured, 0 of 180.)
+- **ITEM IDENTITY IS (lesson, question), NOT the question text**, and getting that
+  wrong made the retake assertion fail on correct code. A by-text comparison reports
+  two DIFFERENT lessons' items as a repeat.
+- **THE BAR IS HIGHER THAN A LESSON'S: `UNIT_PASS_THRESHOLD` 0.85 against
+  `LESSON_PASS_THRESHOLD` 0.75** — 13 of 15. The unit test is what advancement will
+  be measured on, and a threshold a learner clears with two thirds of a unit
+  understood is not a mastery gate. **Every surface states the COUNT** (sweep 143's
+  rule): "13 of 15 needed", never "85%".
+- **A TEST WITH NO ITEMS IS NOT A TEST.** `unitTestPassed(0, 0)` is FALSE, because
+  `0 >= 0` is exactly how a credit for work nobody did has happened here before
+  (NEVER-DO 14, sweep 106). The screen's credit effect additionally requires
+  `total > 0`.
+- **A FAIL RECORDS THE ATTEMPT AND NOTHING ELSE** — no XP, no pass, no counter, no
+  `vs`, no quest. The attempt is a DIAGNOSTIC (`lessonAttempts`'s argument, applied
+  one level up: the event that proves a unit did not land is the one the gate's
+  "nothing is recorded" rule would otherwise throw away), and the result names which
+  of the five lessons the misses came from with a tap through to each. The store
+  touches only its own key, asserted.
+- **`passedAt` IS WRITTEN ONCE and a unit is never un-mastered by a bad day** — the
+  rule `lessonRetention` holds for a failed re-check. The XP is paid on the FIRST
+  pass only, from an effect on REACHING the result rather than from a button that
+  leaves it (`creditFollowsWork`).
+- **THE STALE-PAYLOAD PATH IS MEASURED, NOT INVENTED.** A unit whose cached lesson
+  bodies cannot assemble `UNIT_TEST_MIN_ITEMS` records `insufficient: true` — the app
+  TRIED and could not — so the coming gate can let the learner through rather than
+  walling them behind missing data, and nothing infers it. A real pass anywhere
+  clears the marker everywhere in the merge, because a device that assembled and
+  passed the test is better evidence than one with an old blob.
+- **THE STATE LADDER IS THE POINT.** `UnitState` is now
+  `mastered | current | cleared | upcoming`: reading five lessons leaves a unit
+  CURRENT, because reading is not the bar and its next action is the test. `cleared`
+  (read, untested, not current) is reachable when a learner works ahead through
+  search or the library, which stays deliberately open. The six tests whose
+  assertions changed were rewritten to state the new contract, not patched to green.
+- **THE SOURCE PIN ON THE CREDIT SURVIVED ITS OWN MUTATION AND WAS FIXED.** Written
+  as a slice from the effect to the END OF FILE, it therefore also saw the retake
+  button's onClick — so moving the award there left it green while the behavioural
+  test caught it. The nth instance of the fixed-window defect in this file
+  (`registryMatchesScreen`, `dwellContentGate`, `creditFollowsWork`'s own
+  positivity clause); it is bounded to the effect's dependency array now, and both
+  the moved-award and the paid-twice mutations fail it.
+- Mutation-verified, thirteen more (M11–M23), each failing 1–4 tests: an empty test
+  can pass; the paper flattened to blocked order; a retake serving the same sample;
+  the bar dropped to 0.75; a FAIL recorded as a pass; a fail paying XP; the merge
+  letting remote take a pass away; the merge keeping the LATER pass date; reading
+  five lessons counted as mastery; the test offered before every lesson is read; the
+  `insufficient` marker not recorded; the credit moved into the exit button; the
+  credit paid twice. `e2e/course-map.spec.js` grew two tests that assemble a real
+  fifteen-item paper from five separately-fetched lesson bodies in a browser.
+- **WHAT IS STILL NOT DONE, and why in this order.** Nothing LOCKS yet. The lock
+  belongs with pointing the daily session's teaching slot at the course order,
+  because shipping it alone would let the session teach a lesson from a unit the map
+  shows as locked — two surfaces contradicting each other, which is worse than no
+  lock. `getNextLesson`'s certification inference is what the session still uses and
+  is the thing to retire in that same increment. Production (one spoken, one
+  written, rubric-graded) and the 7/30-day retention re-checks follow.
+- NEVER: shuffle a cumulative test's items instead of interleaving them; label which
+  lesson a mixed item came from; compare two papers by question text alone; let a
+  failed unit test write anything but the attempt; un-master a unit on a later
+  failure; pay for a pass more than once, or from a control that navigates away;
+  infer `insufficient` instead of recording that the build was attempted; treat five
+  lessons read as mastery.
+
+### Increment 3 — the gate, the test-out, and one answer to "what next" (2026-09-26)
+
+Increment 2 shipped a unit test and a mastery state while the daily session was
+still choosing lessons through `getNextLesson`'s CERTIFICATION INFERENCE. **Two
+surfaces contradicting each other is worse than either rule alone**: the session
+served a certified B1 learner their own level's first lesson, and the course map
+would have shown that unit as locked. So the gate and the session change ship
+together, and the old sequencer is deleted.
+
+- **`src/lib/courseStep.ts` IS THE ONE ANSWER NOW.** `resolveCurriculumLesson`
+  (P0's teaching slot) and `pickSessionLesson` (the launcher that resolves which
+  lesson to open) both read `nextCourseStep`, so Home, the launcher and the map
+  cannot disagree. `getNextLesson` and `levelProgress` are **deleted, not
+  deprecated** — a second sequencer in the tree, unused but tested and plausible,
+  is the `SpeakingScreen` prompt-pool shape, and this one had just caused the
+  contradiction. `curriculum.ts` keeps its two TYPES (a dozen live modules import
+  `CurriculumEntry`) and its header now records the inference as history, including
+  WHY it existed: every learner had zero completions on the day the curriculum
+  shipped, and backfilling them would have been a lie in synced storage.
+- **THE GATE OPENS ONE UNIT AT A TIME**, and the bar is the unit test
+  (`openUnits`). What is gated is the PATH, not the content: every lesson stays
+  reachable from the Learning Center and from search, which is the owner's own
+  sentence in the same breath as asking for the course — _"You can do extra
+  studying if you want but there is a PROVEN set curriculum that guides the
+  learner."_ A locked unit is the course declining to walk you there.
+- **TWO ESCAPE HATCHES, because a lock must never strand anyone.** A unit whose
+  test could not be assembled (`insufficient`, measured) opens the next one; and so
+  does a unit whose five lessons are all READ, which is not the bar and does not
+  master it — a learner who has done the reading and cannot pass yet must not hit a
+  dead end. The unit stays un-mastered and the map keeps offering its test.
+- **TEST-OUT IS THE SAME TEST AT THE SAME BAR** (`unitTestOffer` → `testout`).
+  One path for everyone only works if a learner who already knows A1 can clear its
+  six units quickly, and the owner's directive says exactly that. `AnimatedLesson`
+  settled the identical question for a single lesson and its answer was ONE BAR,
+  NOT TWO — a stricter threshold for the same questions would be arbitrary and
+  unexplainable, and a failed attempt records nothing, so offering it early costs
+  the learner nothing. A passed test-out advances the course with the lessons
+  unread, which is honest: the map shows 0/5 and a mastered tick.
+- **THE UNIT TEST IS A TEACHING SLOT, and it has to be.** With the reading done,
+  the alternatives were serving the next unit's lesson (racing past the gate) or
+  serving nothing (a silent stall, the course waiting on an action Home never asks
+  for). It takes P0's slot as a lesson does and carries no follow-on drill. The
+  `OUTSIDE_SESSION` reason written for it one increment earlier — "it cannot be
+  served as a session activity" — became FALSE and is corrected in place; that is
+  the stale-exemption shape, met in a list I had just written.
+- **A UNIT BOTH READ-THROUGH AND UNASSEMBLABLE WAS A STRAND, found by a test.**
+  The gate lets the course past such a unit, but `unitTestOffer` still called it
+  `primary`, so the teaching slot sent the learner to a screen that cannot serve a
+  test — every day, for ever. `short` is now on `UnitProgress` for that reason: both
+  the map and the session must stop OFFERING a test they know cannot be served.
+- **MY OWN OPTIONAL PARAMETER CONTRADICTED ITS OWN DOCSTRING.**
+  `courseProgress`'s gate argument said "omit to lock nothing" and defaulted to an
+  empty SET, which locked every unit after the current one. `undefined` is the
+  no-gate signal now, distinguishable from an empty set (which legitimately means
+  the course has opened nothing). Mutation-verified.
+- **THE LOCKED CLAUSE IN THE WALK SURVIVED ITS MUTATION, AND IS NOW EXERCISABLE.**
+  Removing `if (row.state === 'locked') break;` changed nothing, because `openUnits`
+  stops the chain at the first unit that does not advance and such a unit has an
+  unread lesson the walk returns on — so the walk provably cannot reach a locked row
+  today. The clause STAYS (an invariant proved by reasoning across two modules is
+  what breaks when one changes), and the walk was extracted as the pure
+  `pickCourseStep` so a synthetic control can hand it a locked row. Both directions
+  now fail on that mutation.
+- **`firstPaintGraph` CAUGHT THE TITLES RE-COUPLING THE CONTENT LIBRARY**, which is
+  that guard's own comment landing on exactly the case it predicted: `manualChunks`
+  maps every `src/data/*` module into ONE chunk, so `courseUnits.ts` statically
+  importing 9 KB of authored names put the whole library on the first-paint path
+  (App.tsx → useScreenLauncher → sessionLessonPick → courseStep → courseUnits).
+  Names are PASSED IN now: the two lazily-loaded screens supply them, the session
+  path does not, and the session's reason line is positional (`Unit 1 of 36`) beside
+  a label that is already the lesson's own title.
+- **A MUTATION THAT "SURVIVES" MAY MEAN THE RUNNER'S FILE LIST IS TOO NARROW.**
+  Gutting `pickSessionLesson`'s course pick passed my five-file mutation runner and
+  fails `curriculumPick.test.ts`, which was not in it. Same family as "check where
+  the mutation landed": check what the runner RUNS before reading a survival.
+- Mutation-verified, twelve (M24–M35), each failing 1–10 tests: the gate opening
+  everything; a read-through unit not opening the next; the `insufficient` marker not
+  opening the next; no test-out; the teaching slot never serving the test; the slot
+  forgetting the handoff; the walk running past a locked row (with the control);
+  an unassemblable unit's test still offered; the lock reason going silent; the
+  launcher back to rotation only; the empty-set gate default; and the titles imported
+  back onto the first-paint path.
+- **WHAT THIS COSTS, STATED.** Every learner with a certification now starts the
+  course at Unit 1, whatever their CEFR badge says. That is the owner's decision,
+  made in those words, and the test-out offer is what makes it cheap. Nothing else
+  moved: content unlock, the verification gate and every CEFR badge still read what
+  they read.
+- NEVER: read a CEFR or certified level to decide what the course serves next;
+  leave a second sequencer in the tree; gate the LIBRARY (only the path); ship a
+  lock without an escape hatch for a test that cannot be assembled; offer a test the
+  app knows it cannot serve; let an optional parameter's default contradict its
+  docstring; import `src/data` from a module on the first-paint path (one small file
+  re-couples the whole content chunk); read a surviving mutation without checking
+  which files the runner ran.
+
+### Increment 4 — production in the bar (2026-09-26)
+
+The other half of the owner's advancement rule, verbatim: _"advance on accuracy
+(unit test at 85%) + production (one spoken, one written, rubric-graded)"_. The
+unit test is RECOGNITION — fifteen four-option items — and a learner can recognise
+the accusative in a list and be unable to reach for it in a sentence. Pushed
+output (Swain) is the mechanism; `LessonProduceStep` makes the same argument for a
+single lesson and made it first.
+
+- **NOTHING IS AUTHORED FOR IT, and that reversed a plan.** I had told the owner
+  this increment meant 72 authored tasks (one spoken, one written per unit) and that
+  it was the first thing worth fanning agents at. Reading `LessonProduceStep` first
+  showed the content already exists: it briefs production from a LESSON's own spine
+  `objectives`, so a UNIT's brief is the union of its five lessons' — and authoring
+  72 fresh tasks would have created a second statement of what each unit teaches,
+  which is the hand-maintained-list decay this file keeps rediscovering. **Check
+  whether the content exists before fanning agents at authoring it.**
+- **THE SCORE DOES NOT GATE, and the learner is told so.** Production is done when
+  they produced at the word floor and the evaluator graded it, whatever the score.
+  Two reasons: the accuracy bar is the unit test, which is deterministic and
+  re-takeable; and a second threshold here would gate a learner's course progress on
+  a language model's judgement of their prose. The score is recorded, shown, and fed
+  to the mastery ledger and the error taxonomy.
+- **TWO FLOORS, SPOKEN LOWER THAN WRITTEN AT EVERY LEVEL** (25→70 written, 15→50
+  spoken). Speech is produced under time pressure with no chance to revise, which is
+  why `speakingCurriculum`'s own floors already sit below the writing curriculum's.
+- **THE MIC IS NEVER REQUIRED.** The spoken task takes the browser recogniser when
+  there is one and TYPED Croatian otherwise, counting identically — the rule
+  `GuidedSpeakingScreen` holds, because the transcript is what the coach grades and
+  course progress must not depend on a learner's hardware.
+- **A REFUSED EVALUATOR IS RECORDED AND EXCUSED.** `markProductionUnavailable` says
+  the learner produced and the grader would not answer (budget paused, daily quota,
+  offline, a 502), and the gate lets that unit through — course progress must not
+  depend on a live AI service the learner does not control. A later successful grade
+  clears it, in the store AND in the merge. Same shape as `insufficient` for the test.
+- **THE READ-THROUGH HATCH FROM INCREMENT 3 IS REMOVED, and the reasoning that put
+  it there was wrong in a way that read as safety.** It let a unit advance once its
+  five lessons were read, to stop a learner who cannot pass the test hitting a dead
+  end. But the test is RE-TAKEABLE indefinitely with a different sample each time and
+  the library is open, so there was never a dead end; what the hatch did was let
+  anyone skip both halves of the bar by paging through five lessons — the gate the
+  owner asked for quietly not existing. Being stuck on a unit you have not mastered
+  is the gate working. Pinned by a test asserting its absence.
+- **THE POSITION AND THE MASTERY COUNT BOTH IGNORED THE NEW HALF, AND ONLY THE
+  BROWSER SAW IT.** `currentIndex` was "the first unit whose TEST is unpassed", which
+  equalled "not finished" only while the test was the whole bar: with production in
+  it, the map called the NEXT unit `current` while also rendering it `locked` — two
+  contradictory things about one row — and printed "1 of 36 units mastered" above a
+  row it was showing as current. `openUnits` returns `{ open, advanced }` now and
+  both the position and the count read `advanced`. **No unit test caught this; the
+  E2E did**, which is the component-test / wiring-test split landing on a derived
+  count.
+- **`courseProgress` TOOK A GATE OBJECT INSTEAD OF A FIFTH POSITIONAL SET.** The
+  signature had reached five arguments, one of which silently locked everything when
+  omitted, and the next would have been six. A named object means a caller cannot
+  pass the gate in the wrong slot.
+- **TWO AI-CONTRACT GUARDS REPORTED THE NEW SCREEN, AND BOTH WERE RIGHT TO.**
+  `aiResponseContract` and `promptContractKeys` attribute a file's field reads to the
+  endpoints it posts to — and this screen posts `/api/correct` directly while reaching
+  `/api/speaking-coach` through `requestSpeakingCoach`, so `.overall` was reported as
+  a field the writing evaluator fails to send. Both guards now carry
+  `ENDPOINT_HELPERS` (a helper stands for its route, the mechanism
+  `aiSurfaceClassifies` already had), each entry pinned to the route its own source
+  posts and to having a real caller. Separately, `ev.<field>` is those guards'
+  spelling of "a field off a parsed body", so my SpeechRecognition event named `ev`
+  had its DOM members reported: renaming it `speech` is the honest fix, because the
+  alternative is an exemption asserting something about a guard rather than the code.
+- Mutation-verified, nine (M36–M44), each failing 1–5 tests: the test alone
+  advancing; the read-through hatch restored; a refused evaluator not excusing
+  production; the screen swallowing a refusal; the teaching slot never serving
+  production; the walk advancing past an owed task; a grade not clearing the refusal;
+  the brief ignoring the unit's objectives; the merge keeping the later date. **M40
+  survived at first** — nothing asserted the SLOT serves production, which is the
+  silent stall the design is about; three assertions in
+  `curriculumSessionSlot.test.ts` fixed that and it fails now.
+- **AND THE GATE HAD A HOLE THE LIBRARY COULD WALK THROUGH.** `cleared` ("all five
+  lessons read") was tested BEFORE `locked` in the state ladder, and a learner can
+  read any unit's lessons through the Learning Center or search — both deliberately
+  open. So a locked unit whose lessons had been read rendered as `cleared`:
+  `lockReason` said nothing, `unitTestOffer` returned `primary`, and they could sit
+  unit 5's test while unit 2 was unmastered. `locked` is tested first now; it is about
+  the COURSE's position and outranks anything the learner did with the library.
+  (`current` can never be locked — `openUnits` adds a unit before deciding whether it
+  advances, so the first non-advanced unit is always open.) Mutation-verified: the old
+  order fails 1 test and names the unit.
+- NEVER: gate course progress on a score an AI model assigns; require a microphone
+  for it; swallow an evaluator's refusal (record it, and let the gate through);
+  advance a unit on reading alone; compute a learner's position from one half of a
+  two-half bar; grow a function past four positional sets; attribute a file's reads
+  to one endpoint when a named helper reaches another.
+
+### Increment 5 — mastery is retention (2026-09-26)
+
+The last line of the owner's design: _"mastery confirmed LATER by retention at 7 and
+30 days, where a failed re-check re-opens practice but does NOT un-advance."_
+Increments 2–4 built the bar. Passing it on one afternoon is evidence of learning and
+is **not yet** evidence that the learning stayed — two different claims, and not
+conflating them is what this whole overhaul has been about. `src/lib/unitRetention.ts`
+is the ladder; `mastered` now means the bar was met AND the ladder held, and `cleared`
+means the bar was met with retention pending.
+
+- **`mastered` CHANGED MEANING, AND THE COUNT HAD TO FOLLOW.** Before this increment
+  `mastered` was "the unit test is passed"; a learner could finish 36 units in six
+  weeks and read "36 of 36 units mastered" having never been re-asked a single
+  question. The map's header count, the per-unit state and the session's own choice of
+  what to serve all read `retainedUnits` now, from one derivation — which is the fix
+  the map's progress object needed twice already (it drifted in increments 3 and 4 by
+  counting `tested` and then the bar, while the ladder counted something else).
+- **TWO INTERVALS, NOT FOUR, AND THE NUMBERS ARE BORROWED ON PURPOSE.**
+  `lessonRetention` already runs 3/10/30/90 at LESSON scale. A unit is five lessons and
+  its instrument is a fifteen-item paper, so the first interval is later (7) and there
+  are two rungs: a fifth fifteen-item sitting per unit costs more attention than it
+  buys, and the lesson ladder is already re-asking the individual items underneath.
+- **A FAILED RE-CHECK MOVES THE LADDER AND NOTHING ELSE.** No XP, no pass record
+  rewritten, no production cleared, and above all no un-advancing: the learner DID meet
+  the bar, on evidence, and withdrawing that would be the app changing its mind about
+  something it measured. The ladder goes back to stage 0 and the unit returns tomorrow;
+  the unit simply stops being CALLED mastered until it is climbed again. Same rule
+  `lessonRetention` states for a lesson, one scale up.
+- **THE RE-CHECK DRAWS A FRESH PAPER**, seeded `attempt + 1 + stage`, so the 7-day and
+  30-day sittings differ from each other and from the original. A re-check of the same
+  fifteen items measures memory of the paper, which is the one thing a retention check
+  must not measure.
+- **THE LADDER IS STARTED IN `courseStep`, NOT BY WHICHEVER SCREEN FINISHED LAST.** A
+  unit meets the bar when its test AND its production are done — two screens, often two
+  days apart — so asking either to start the clock means one of them forgets it. The
+  start is idempotent (a running ladder is never restarted) and reading the course is
+  the one thing every surface already does. Mutation-verified: nothing starting it fails
+  1 test.
+- **A DUE RE-CHECK PREEMPTS THE NEXT LESSON AND GATES NOTHING.** It takes the teaching
+  slot because decay is time-sensitive — the argument `retentionSlot` makes for sitting
+  beside the SRS slot — but it never locks a unit: the course has already opened what
+  the learner earned, and a check-up that could take an open door away would make
+  advancement provisional, which is exactly what the NEVER above forbids.
+  **IT GOES FIRST, AND THE DAY'S LESSON STILL FOLLOWS IT (corrected 2026-09-27).** As
+  first written the check-up REPLACED the lesson, and walking Home in a browser showed
+  the cost: "Unit 1 check-up | Genitive | Speaking | …" with the next lesson nowhere.
+  Two check-ups per unit is about two days in seven at a unit a week, against P0's own
+  rule that a lesson comes every day. The slot is now check-up + the lesson behind it,
+  WITHOUT the lesson's coupled drill, so the day holds the same number of activities as
+  a lesson day. `nextCourseStep({ skipRechecks: true })` is how the slot AND the
+  launcher (`pickSessionLesson`) ask for that lesson — the launcher asked plain
+  `nextCourseStep()`, got the check-up, and would have fallen back to a rotation pick.
+  When the step behind is a unit test it is not added (one unit-test handoff key), nor
+  is a production step (one assessment a day). Mutation-verified: either half reverted
+  fails 1.
+- **THE MAP PROMISED A CHECK-UP AND HAD NO DOOR WHEN THE DAY CAME, AND ONLY THE E2E
+  SAW IT.** The holding line read "we will check it again in a few days to see it
+  stayed" and there was no button, at any point, so a learner whose 7-day check came due
+  met the identical sentence for ever while the session slot quietly served the check-up
+  and the map's own count stayed at zero. That is the promise-without-a-door shape this
+  file records for the verification gate's CTA, arriving on a line I had just written.
+  `course-unit-recheck-<id>` ("Check-up due — see if it stayed") appears exactly when
+  `dueRechecks` says so, and the copy is conditional: **"Passed. Time to check it
+  stayed."** when it is due, the waiting sentence when it is not. Both arms are driven,
+  because two arms differing only in wording is precisely the case where a test on one
+  reads like coverage of both. Mutation-verified: flattening the copy fails 1 E2E test,
+  never rendering the button fails 2.
+- **NO `toISOString`, AND THE GUARD WAS RIGHT TO FLAG THE FIRST VERSION.**
+  `localDayBoundary.test.ts` forbids it in `src/`, and my first `addDays` used it. That
+  version was calendar-safe by accident — it anchored the string at UTC midnight, so the
+  arithmetic was timezone-independent — but a guard against a class this app has shipped
+  five times should not need a reader to work that out. Formatting the UTC parts by hand
+  is shorter, obviously correct, and needs no exemption. The DATES still come from
+  `localDateStr`: what day it is, is a local question; how many days after that, is not.
+- **THE MERGE KEEPS A HELD LADDER HELD.** The LATER check wins the schedule and the
+  EARLIER `heldAt` is kept (`mergeLessonRetention`'s rule), and because `retentionHeld`
+  reads the STAGE, a merged `heldAt` also raises the stage — otherwise a device that is
+  behind can make a held unit present as unheld while carrying the proof that it was
+  held. Mutation-verified: both halves of that fail 1 test each.
+- Mutation-verified, eight (M45–M52) plus two at the E2E layer (M54–M55), each landing
+  confirmed before the run: a failed re-check keeping its rung (fails 1); `retentionHeld`
+  true the moment a ladder exists (8); nothing ever due (5); the merge taking the remote
+  `heldAt` unconditionally (1); stage and `heldAt` allowed to disagree (1); the check-up
+  drawing the same paper (2); a failed check-up un-passing the unit (3); the ladder never
+  started (1); the holding copy flattened (1 E2E); the due button never rendered (2 E2E).
+- NEVER: call a unit mastered on one sitting; un-pass a unit, clear its production, or
+  pay XP on a failed re-check; re-check a unit with the paper it already sat; let a
+  check-up lock a unit or take an opened one away; let a check-up REPLACE the day's
+  lesson, or open that lesson through a plain `nextCourseStep()` that returns the
+  check-up; start the ladder from a screen rather
+  than from the course read; promise a learner a future check without rendering the
+  control that serves it when it arrives; do calendar arithmetic with `toISOString`.
 
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
@@ -3993,6 +4616,74 @@ and the mic is dead until the learner leaves the screen.
   anywhere but the silence timer; restart without carrying the transcript
   forward; restart without a cap.
 
+**AND THE SAME SCREEN READ ONE STRING TO THE LEARNER WHILE SPEAKING ANOTHER
+(2026-09-27).** Found while chasing a CodeQL alert on PR #753 — and **it was not
+that alert; see the correction at the end of this entry.**
+`MajaScreen`'s JSON-parse `catch` salvages the `reply` value out of a truncated
+envelope (a reply longer than `max_tokens`) and **decoded the escapes itself**:
+`\n`→' ', then `\"`→'"', then `\\`→'\'. Unescaping backslashes LAST is
+order-dependent, and measured from a FILE rather than a shell — nested quoting
+silently doubles backslash fixtures and made my first two probes report nonsense —
+it is wrong on 3 of 8 cases: `C:\Users\nada` → `C:\Users\ ada`, **the n of
+"nada" eaten and replaced with a space**; `\n` (backslash then the letter n) loses
+its n outright; `\t` leaks raw.
+
+- **THE DEFECT IS THE DUPLICATE, NOT THE ESCAPING.** `extractStreamingReply` in
+  `MajaScreenUtils` does the same job, scans once consuming the character after
+  each backslash, and is **correct on all 8** — and the screen ALREADY imported it
+  and already used it two dozen lines below. So the bubble's `content` came from
+  the buggy chain while the **TTS flush came from the correct decoder**: two live
+  decoders on one reply, feeding two different senses. The fix is three lines —
+  call the one that was already right — and it also removes an inconsistency
+  nobody had noticed, because the streaming bubble showed real newlines for the
+  whole reply and only this final frame flattened them.
+- **SEVEN PASSING TESTS ON ONE COPY SAID NOTHING ABOUT THE OTHER.**
+  `extractStreamingReply` had seven tests throughout; the salvage chain had none,
+  and no test has ever covered the salvage path. A unit test on a shared helper
+  cannot see a private re-implementation inside a screen — which is why the guard
+  is a SOURCE PIN (`majaSalvageOneDecoder.test.ts`) forbidding any
+  `.replace(/\\…` in that file, beside the decoder's own behaviour tests.
+- **THE COMMENT STRIP IS LOAD-BEARING, and for once that is provable rather than
+  precautionary**: the fix's own comment QUOTES the chain it replaced, so an
+  unstripped matcher fails on the explanation instead of the code — the
+  `fixtureInitScriptFrames` shape, met deliberately. Mutation-verified: dropping
+  the strip fails 1.
+- **SAY WHAT IT COSTS, NOT THE STRONGEST CLAIM.** This needs a backslash or a tab
+  in a reply that ALSO overran `max_tokens`, so it is rare, and I have no evidence
+  it caused the owner's "wasn't always reading properly" report — that was the
+  recognizer, fixed above. Two of my own claims while chasing it were also wrong
+  and are worth recording: `extractStreamingReply` is NOT buggy (my "6 of 7 wrong"
+  was entirely bash quoting), and `\u010d` does not arise — `JSON.stringify('č')`
+  emits `č` literally, so no real encoder produces that escape and my worry about
+  a Croatian diacritic leaking was unfounded.
+- **CORRECTION: THE MAJA CHAIN WAS NOT THE COUNTED CODEQL ALERT.** I attributed
+  it by elimination — the count went 7 → 1 across my `escapeRegExp` fixes, and
+  the Maja chain was the one escaping site left in the diff that was not mine — and
+  the next head still reported exactly one high alert. So the decoder fix above is a
+  real, measured defect, and it is NOT what the check was counting. Then it was
+  MEASURED instead: CodeQL run locally with CI's suite, at 2.26.4 and again at
+  2.27.1 (the version the runner's toolcache actually used — the action's pinned
+  bundle is not what ran, and the job log says which), over the PR head AND master.
+  **Both produce the same 17 alerts, fingerprint for fingerprint, and none sits on a
+  line the PR added.** The alert was then READ, not inferred: the check run's own
+  page is public for a public repo, and its annotation names it —
+  `src/lib/dailySessionStore.ts:85`, clear-text storage of `getCertifiedLevel`, i.e.
+  **#78, the false positive the section below already records and never
+  dismissed.** The PR edits a comment forty lines above it; GitHub calls this diff
+  "too large" and, on that fallback, counts an open alert in any touched FILE. A
+  second theory of mine — that the PR was judged before master's baseline existed —
+  was tested by pushing again against a baseline that did exist, and the count did
+  not move. Elimination picks the most plausible candidate among the ones you
+  thought of; it cannot tell you the answer is outside that set, and the public
+  annotations page could have been read first.
+- NEVER: decode JSON string escapes with a chain of `.replace()` calls that
+  handles `\\` last (one pass, consuming the char after each backslash); leave two
+  decoders live on one value; measure backslash behaviour through nested shell
+  quoting — write the probe to a file; read a `grep`ped `Tests` line as a verdict
+  when a failed COLLECTION reports on the `Test Files` line instead; name the alert
+  a check is counting by elimination — run CodeQL locally at the version the job log
+  names, over BOTH the PR head and its base, and diff the fingerprints.
+
 **AND THE OTHER HALF OF THAT REPORT WAS A PROMISE THAT NEVER SETTLES.** Ten
 screens carried this block, byte-identical:
 
@@ -4073,6 +4764,354 @@ control could at least be reached.
   exemption stating why it must not be in the tab order; put a modal backdrop in
   the tab order; make every word of a passage focusable; use `role="button"` for
   something that is a range or a toggle group.
+
+## Critical Architecture: The Ink And The Surface Under It (2026-09-27)
+
+The tail the section below left, measured with its own instrument rather than reasoned
+about — `e2e/dark-mode-ink.spec.js` widened to all 430 routes in dark mode. **437 offending
+elements across 35 routes**, and the census reordered the work completely: the two biggest
+causes were not in any component's `color:` at all.
+
+- **HALF OF IT WAS `<button>`, AND NOTHING IN THE APP SET A BASE COLOUR.** `body` painted
+  `background: var(--app-bg)` and no `color`, so an element that sets none inherited UA
+  black — **216 of 437**, including EVERY conjugated form on `/verbdrill` (120, the whole
+  screen), every example word on `/alphabet` (30), `/boje`, `/diminutives`, `/emergency`,
+  `/school`, `/top100`, `/grammarexplainer`, `/unjumble`. This is the EXACT twin of the
+  `--text` note in index.css one layer out: that fix defined the token 104 sites
+  referenced and never asked what happens to the elements that reference nothing.
+  **Two declarations were needed and the first alone fixed nothing.** `body { color:
+var(--text) }` resolves the variable at BODY scope, and the theme class sits on a DIV
+  _inside_ body (`<div className={darkMode ? 'dark' : ''}>`), so `.dark`'s override does
+  not reach it — body alone paints the LIGHT value in both themes. Then **214 of the 216
+  were still black**, because a form control does not inherit `color` at all: the UA
+  stylesheet gives it `buttontext`. The ancestor chain is what settled it — `.dark`
+  resolved to `#e2e8f0`, every DIV inherited it, and the BUTTON read `rgb(0,0,0)` with no
+  inline colour and no class. `button,input,optgroup,select,textarea { color: inherit }`
+  is the normalisation normalize.css has carried for a decade, and it is the lowest
+  specificity that can fix it, so every `.b`, `.ob` and inline colour still wins.
+  **214 → 0, nine routes cleared, one line.** Mutation-verified against a real browser:
+  removing it fails 3 tests.
+- **`--text-2` WAS REFERENCED FOUR TIMES AND DEFINED NOWHERE**, on the Me tab. An
+  undefined custom property makes the declaration invalid at computed-value time, so
+  `color` falls back to inherit — the same defect the `--text` note records, still live in
+  a second token five months later, in the one file nobody re-read. A convention cannot
+  notice its own decay; nothing in the repo checks that a referenced token exists.
+- **A HARDCODED LIGHT SLAB WITH A THEMED INK INSIDE IT: 31 sites in 21 files.** The
+  surface is painted by a PARENT and the ink carried by a CHILD, so each element is
+  individually defensible and `inlineInkContrast`'s exemption ("does this element paint its
+  own background") sees neither half of the pair. Worst case
+  `GrammarConstellation`'s endings table at **1.13:1** — the point of that screen, and the
+  Croatian example sentences beside it, invisible in dark mode. Every slab colour mapped to
+  an existing tint token; **six of the 31 also held hardcoded DARK inks** that would break
+  the other way once the slab went dark, which is the compose regression sweep 157 shipped
+  on 19 routes, visible in the census output before a line was changed.
+  `inkSurfaceAgreement` is that as one guard with both clauses, because **the second
+  clause's only two subjects were CREATED by fixing the first** — a guard for either alone
+  would have shipped the other.
+- **AN UNLIT STAR WAS BRIGHTER THAN A LIT ONE, AND SWEEP 157 DID THAT.** `Constellation`'s
+  score display was `i < finalScore ? '#facc15' : '#334155'`; the token sweep made the
+  second arm `var(--text)`, which is `#e2e8f0` in dark mode — **11.87:1 against the lit
+  star's 9.55:1**, so 3 of 7 rendered as seven lit stars and the score became meaningless.
+  **`GrammarConstellation` paints `linear-gradient(160deg,#0f172a,#1e293b,#0c1a2e)`
+  unconditionally**, so it is dark in BOTH themes and its ink must be FIXED AND LIGHT; a
+  `--ink-*` token is dark in light mode and sits at 3.4:1 there. The unlit star is
+  `rgba(255,255,255,0.18)` — dim by construction whatever is behind it, and correctly
+  invisible to the guard, which ignores anything under 0.9 alpha because a translucent
+  colour composites over the theme instead of fighting it. A note at the top of the file
+  says so, because the next token sweep would otherwise re-theme them.
+  **My own first reading of this was WRONG and the git diff corrected it**: I reported
+  `#64748b` → `var(--ink-muted)` on that screen as a regression, and its light value IS
+  `#64748b`, so light mode did not move and dark mode improved. Read the diff before
+  calling something a regression.
+- **A GUARD SAID CLEAN WHILE THE BROWSER SAID 172, AND EVERY GAP WAS IN HOW IT READ A
+  VALUE.** Five defects in `inlineInkContrast`, each found by fixing the one before it and
+  watching a route stay red:
+  1. **A TRANSLUCENT BACKGROUND IS NOT AN OWN SURFACE.** The exemption was `no var( →
+exempt`, and the commonest chip in the app is a ~9% tint of its own ink
+     (`background:'rgba(14,116,144,0.09)'` with `color:'#0e7490'`). That has no `var(`, so
+     it was read as opaque — hiding `/readlist`'s level badges, `/crmap`'s pills,
+     `/croatia_today`'s topic chips, `/personas`, `/immersion`, `/football`'s link cards.
+     Only an OPAQUE background owns both halves, which is the same 0.9-alpha rule
+     `parseColor` already applied to inks.
+  2. **A COMMA-TERMINATED VALUE TRUNCATES `rgb(22, 163, 74)`** to `'rgb(22`, which is
+     unparseable and therefore silently no finding. The suite's OWN planted-defect fixture
+     caught this on the colour side, because it carries an rgb() form precisely because an
+     earlier codemod's pattern missed one. Applying the same fix to the BACKGROUND matcher
+     then unmasked **88 more real sites** in one go.
+  3. **PER ARM, NOT PER EXPRESSION.** `background: catInfo ? catInfo.color + '18' :
+'#f3f4f6'` was called opaque on the strength of the arm that does NOT render.
+  4. **THE ALPHA IS OFTEN APPENDED, IN TWO SPELLINGS** — `c + '18'` (58 sites) and
+     `` `${c}0d` `` (51 sites). The base is a variable, so the value is unparseable as a
+     colour and the fallback read it as opaque; `18` is 24/255 and `0d` is 13/255.
+     `/croatiaathletes` was the last route left red, on the template form.
+  5. **A NEWLINE IS NOT A TERMINATOR.** Prettier wraps a long value across lines, and
+     stopping at `\n` read `HNLScreen`'s position-circle background as just its condition
+     (`i === 0`) — unparseable, therefore "opaque", therefore exempt. Same family as the
+     reason-union matcher Prettier broke in sweep 130: **never let a matcher depend on
+     where the formatter chose to wrap.**
+     The matcher also required a quote immediately after `color:`, so a CONDITIONAL ink was
+     invisible — fourteen sites, including `/learn`'s correct/incorrect feedback and
+     LearnPath's checkpoint markers. Every quoted colour an expression can resolve to is
+     judged now, because a ternary paints both of them.
+- **ALL FOUR OF THOSE CLAUSES SURVIVED THEIR FIRST MUTATION, AND THAT IS NOT REDUNDANCY.**
+  Each was added because a real route stayed red; once every real subject is fixed the
+  corpus no longer proves them, so each has a synthetic pair (the defective shape AND its
+  opaque twin) that fails on the mutation. Same standard the opacity clause had to meet.
+- **`accentInk()` IS THE DATA-DRIVEN HALF: 173 arms in 78 files, one CSS expression, no
+  data edits.** `style={{ color: team.color }}` cannot be replaced by a token — the value
+  is the club's identity (Dinamo `#003da5`, Hajduk `#1d1d1b`, Osijek `#e85d04`) and the
+  SAME field is correctly a badge background two lines away. 173 render sites are fed by
+  743 `color:` declarations across 56 data modules, so fixing the data would mean 743 edits
+  to serve 173 reads and would give every accent a second home to drift from.
+  `color-mix(in srgb, C, #fff var(--ink-lift))` with the lift 0% in `:root` and 62% in
+  `.dark`:
+  **light mode is BYTE-EXACT, not approximately so** — verified in a real browser for every
+  hex in the corpus (`#003da5` → `color(srgb 0 0.239216 0.647059)`, rgb(0,61,165) exactly)
+  — and **55% already clears AA for the darkest accent in the corpus** (`#0f172a` at
+  4.99:1), so 62% has head-room at 6.2:1+ while keeping the hue. `in srgb` and not
+  `in oklab`, which computes to `oklab(...)` and puts `#333` off pure grey at 0%. The
+  uniform lift costs saturation on an accent that is already light (`#fcd34d` → `#feeebb`)
+  and that is the stated price: a pale accent on a dark card is cosmetic, dark-on-dark is
+  not. An engine without `color-mix` rejects the declaration and the element INHERITS a
+  themed colour — readable in both themes, losing only the hue, which is strictly better
+  than what it replaces.
+- **A `color-mix()` COMPUTES TO `color(srgb …)`, NOT `rgb(…)`**, so the walker's
+  `rgba?\(` parser returned null and SKIPPED every converted element. Teaching it that
+  form was the first thing done, before a single site was converted — otherwise the guard
+  would have gone green by going blind. Its light-mode value still reads DARK through the
+  parser (luminance 0.0605), which is the property that keeps it honest.
+- **THE TWO PASS-THROUGHS IN `accentInk` HAVE REAL CALLERS**, so they are not defensive
+  padding: a `var(--…)` arrives from `ConstellationData`'s `ink` field through the same prop
+  a raw accent would, and a falsy value arrives at the `||` sites, where a truthy invalid
+  mix would stop the fallback firing and the element would silently inherit.
+- **THE COMPILER WAS THE CONTROL ON A 173-SITE CODEMOD.** My arm splitter still read a
+  NESTED ternary's condition as a colour, and `tsc` named all seven —
+  `accentInk(isActive)`, `accentInk(isDone)`, `accentInk(writingLoading)`,
+  `accentInk(active)` — because a boolean is not assignable to `string`. A codemod over 78
+  files needs a type error to be possible; where one is not, re-measure instead.
+- **A TOKEN NOTHING DEFINES IS NOW A FAILING TEST, NOT A CONVENTION (sweep 160).**
+  `--text` and `--text-2` were each found by hand, months apart; six more undefined
+  names had accumulated meanwhile (63 references), plus 38 fallbacks on names nothing
+  defines, whose fallback is therefore the ONLY value — a light slab in dark mode.
+  `cssVarsDefined.test.ts` requires every `var(--x)` to resolve, fallback or not,
+  except five override HOOKS listed with reasons. It also records a strip hazard:
+  the shared `^\s*//` idiom lets `\s` swallow a preceding blank line, which is
+  harmless for a yes/no matcher and wrong for one reporting `file:line`.
+- NEVER: leave the app without a base `color` (and remember the theme class is a
+  DESCENDANT of body, so it needs its own declaration); assume a form control inherits
+  `color`; reference a custom property without defining it; put a themed ink on a
+  hardcoded light slab, or a hardcoded dark ink on a themed one; use a `--ink-*` token on a
+  screen that paints its own permanently-dark background; read a translucent background as
+  an element's own surface; terminate a style value at a newline; judge a background
+  expression as a whole when it has arms; miss an alpha appended by `+ 'hh'` or
+  `` `${x}hh` ``; add a `color-mix` to the tree without teaching every colour parser the
+  `color(srgb …)` form; wrap a theme token or a falsy value in `accentInk`; reference a
+  custom property nothing defines, or give a fallback to one (the fallback is then the
+  only value); append a hex alpha to a colour field that can hold `var(…)`.
+
+## Critical Architecture: An Inline Ink Lands On Whatever The Theme Painted (2026-09-27)
+
+The general form of the `.ob` finding one sweep earlier, and much larger: **1,308 inline
+`color` literals across 288 files were hardcoded DARK brand hexes**, so in dark mode they
+sat on `--card` (#1e293b) at 1.0–4.4:1 against the 4.5:1 AA floor. `#002868` — the
+Croatian navy on the ACTIVE sidebar tab, i.e. on every screen — measured **1.05:1**.
+
+**A CORRECTION FIRST, because the previous sweep's own record overstates its evidence.**
+Sweep 156's entry and commit message say axe measured "dark 4,354 failing nodes across 348
+routes, light 932 across 236". Both halves of that are unreliable and the conclusion drawn
+from them was wrong:
+
+- **The 500 ms settle sampled pages mid-transition.** `frequency_track` read **3,741 nodes
+  at 500 ms and 0 at 1,500 ms**; eleven more routes read non-zero then zero. This repo
+  already records the identical error for the focus-ring sweep ("217 of its 219 hits were
+  elements sampled mid-`transition`"), and I re-made it.
+- **axe cannot judge this class in this app at all.** Its `color-contrast` rule reports
+  _incomplete_, not a violation, for any element whose background it cannot resolve — and
+  this app paints its page with a `radial-gradient` on the `.dark` wrapper. Measured on a
+  109-route sample: **478 violation nodes against 3,564 INCOMPLETE ones.** So almost every
+  site this work fixed was in the bucket axe declines to judge.
+- **The proof: same method, both code states.** Baseline at the previous commit, 1,500 ms
+  settle, 430 routes: **1,680 nodes.** With 1,308 inks converted: **1,681.** Fixing every
+  one of them moved axe's violation count by a single node. The fix is real — the tokens
+  resolve and the elements render light, verified by reading computed colours in Chrome —
+  and **axe was simply the wrong instrument.** A 59% "reduction" I had in hand at one point
+  was the settle change plus the `.ob` fix, not this work.
+
+- **THE RIGHT INSTRUMENT NEEDS NO BACKGROUND AT ALL.** `e2e/dark-mode-ink.spec.js` asserts
+  the invariant instead: in dark mode the page is dark, so its text is light; an element
+  whose computed `color` is DARK is a defect unless something in its own chain paints an
+  opaque light surface under it. That is decidable without compositing a gradient, and it
+  is what found every remaining shape below. Measured over all 430 routes after the fix:
+  **131 distinct offending styles across 61 routes**, down from a tree-wide static count of
+  1,308 + 247 + 58.
+- **ELEVEN INK TOKENS, AND LIGHT MODE IS BYTE-IDENTICAL BY CONSTRUCTION.** Each token's
+  `:root` value IS the literal it replaces, which is what made a thousand-site codemod safe
+  to ship without re-reviewing every screen. The dark values are not invented where the app
+  had already chosen one — the violet is the `#a78bfa` its own
+  `[data-theme="dark"] .card-grammar` rule uses. Two deliberate light-mode costs, stated:
+  `#6b7280` folds into `--ink-muted` (31 uses, 4.83:1 → 4.76:1 on white), and the 49-literal
+  tail folds into the same ten families, shifting **194 uses to a different shade of the
+  same hue** — every one checked to stay at or above 4.5:1 on white.
+- **"BYTE-IDENTICAL IN LIGHT MODE" WAS TRUE AND NOT ENOUGH, AND E2E SAID SO (2026-09-27).**
+  Each token's light value was the literal it replaced, and each was checked at 4.5:1 on
+  WHITE — the wrong surface. Text also sits on the page (`--app-bg` `#f4f6f9`) and on
+  muted panels (`--surface-mute` `#f1f5f9`): `--ink-muted` `#64748b` measured 4.40 and
+  4.34 there, `--ink-muted-warm` 4.43/4.38, and axe failed Home, Practice and login. And
+  one folding was a straight regression: GradTab's "recommended" pill carried `#6b4e0a`
+  under a comment saying it existed to clear AA on its gold tint, and the sweep turned it
+  into `--ink-warn` `#b45309` at 4.44. Now `#5f6b7d`, `#6c6560` and `#a84d08` — darker
+  only, same hue, dark values untouched — and the light-token clause checks every light
+  surface `:root` defines, read from the stylesheet. Mutation-verified: `#64748b` back
+  fails and reports 4.395, axe's 4.39. **A codemod that folds a literal into a token must
+  read the comment beside the literal**: that one said why the colour was what it was.
+- **`--success` IS 3.30:1 ON WHITE AND FAILS AA AS TEXT.** The check that was going to fold
+  51 dark greens onto it caught that; `--ink-green` (#166534, 7.13:1) exists because of it.
+  The 49 sites already reading `--success` as ink are a pre-existing light-mode failure this
+  work neither introduced nor fixed.
+  **THOSE SITES ARE FIXED, AND THE CLASS WAS BIGGER THAN 49 (sweep 169, 2026-09-27).**
+  Measured in the LIGHT theme over all 430 routes, 451 text elements sat below AA and about
+  190 were a status token painted as ink — `--success` 3.30:1 on white, `--warning` 3.19:1,
+  `--error` 3.95:1 on its own tint. Each now has an ink twin (`--ink-green`, `--ink-warn`,
+  `--ink-error`, `--ink-accent`) whose DARK value is the token's own, so dark mode did not
+  move; 342 style-block values and 11 CSS rules moved onto them, `accentInk` maps a status
+  token handed to it through data (`STATUS_INK`), and white text on a status background uses
+  `--fill-success/-warning/-error`. Pinned by `statusTokenInk.test.ts`. NEVER paint
+  `--success`, `--warning`, `--error` or `--accent` as `color` — they are SURFACES.
+- **TWO CODEMODS THAT ARE EACH CORRECT COMPOSED INTO A REGRESSION.** Elements painting an
+  opaque LIGHT background are exempt from the ink rule — they own both halves. Converting
+  166 of those containers to themed tints made their surfaces go dark **while their dark ink
+  stayed**, and 19 routes got measurably worse. 58 sites had to be repaired in a third pass.
+  Only rendering the page shows this; no source rule for either change alone could.
+- **FOUR SHAPES THE FIRST CODEMOD COULD NOT SEE, each found by the probe and not by
+  reasoning**: a **conditional** ink (`color: earned ? '#78350f' : '#9ca3af'`, and the
+  sidebar's nested ternary — 120 sites); an ink in a **CSS class** rather than an inline
+  style (17 rules, including BOTH nav bars' active labels); a **data-driven** ink
+  (`ConstellationData`'s per-case colour used as a badge background AND as text — the data
+  now carries a separate `ink` token beside its `color`); and `var(--accent, #0e7490)` as
+  text, where **`--accent` has no dark override at all**. `--accent` is deliberately NOT
+  given one: it is also 14 backgrounds and 9 borders, and a light value there would paint
+  light slabs. Its three ink uses moved to `--ink-accent`.
+- **`color:` IS A SUBSTRING OF `border-color:`, AND THAT COST ONE WRONG EDIT.** A CSS rewrite
+  keyed on `color:` replaced `.bg:hover`'s `border-color` instead. The JS codemod had a
+  `(?<![a-zA-Z])` guard for exactly this and the CSS pass did not; a check for "a tokenised
+  border-color beside a still-hex color" found the one instance.
+- **A `var(--…)` IS INVISIBLE TO A LITERAL-COUNTING GUARD, so the tokens get their own
+  clause.** A token defined in `:root` and missing from `.dark` leaves every consumer as
+  broken as the literal it replaced while the literal assertion passes. Every ink token is
+  required in BOTH blocks, with its dark value clearing AA on the card and its light value
+  clearing AA on white.
+- **AN EMOJI IS NOT PAINTED BY `color`.** The probe's first run reported 25 flag spans on
+  `/countries` as black ink; it now requires a letter or a digit in an element's own text.
+- Mutation-verified, four on the source guard (a literal ink restored in a real file fails
+  1; `--ink-accent` dropped from `.dark` fails 1; a dark token below AA fails 1; a light
+  token below AA on white fails 1), plus the earlier four on `themedInlineBackground`.
+- **WHAT REMAINS, MEASURED (131 styles / 61 routes)**: data-driven inks on
+  `football`, `dialects`, `readlist`, `personas`, `phoneme_practice`, `crmap`, `immersion`,
+  `croatia_today`; ~36 brand literals outside the map (`#cc0000`, `#003da5`, `#2563eb`,
+  `#db2777`, `#d4002d`); 81 inline light backgrounds whose light value matches no existing
+  tint; and 165 dark `color:` fields in named objects that are data or SVG rather than
+  styles. Recorded in AUDIT-STATE with the probe that finds them.
+- NEVER: hardcode a colour as an inline `color:` — use an `--ink-*` token; give a token a
+  `:root` value without a `.dark` one; give `--accent` a light dark-mode value (it is also a
+  background); read axe's `color-contrast` as covering this app (it reports _incomplete_
+  over a gradient, and 7.5× more often than it reports a violation); sample a contrast
+  measurement before transitions finish; key a CSS rewrite on `color:` without excluding
+  `border-color:`; convert a container's background to a themed tint without converting the
+  ink of everything it paints under; judge an emoji's `color`.
+
+## Critical Architecture: A Themed Class Owns Both Halves Of Its Contrast (2026-09-26)
+
+Found while surveying step 2 (converting the hand-written drills onto `ModeDrill`), by
+asking what the engine gives a learner that a hand-written drill does not. The answer
+turned out to include _being able to read the options_.
+
+`.ob` is the option button on every multiple-choice surface in the app, and it sets
+**both** halves of its contrast from theme variables — dark mode `--ob-bg: #1e293b` on
+`--ob-c: #e2e8f0`. **Thirty-two option buttons across thirty screens overrode the
+background inline with an opaque LIGHT literal and left the class's light `color` in
+place.** Measured in Chrome, not reasoned from the CSS:
+
+| state                | before     | after       |
+| -------------------- | ---------- | ----------- |
+| resting option       | **1.23:1** | **11.87:1** |
+| the correct option   | 1.12:1     | 4.57:1      |
+| the chosen wrong one | **1.01:1** | 5.30:1      |
+
+Against the 4.5:1 WCAG AA floor, 1.01:1 is not "hard to read" — the option is
+**invisible**, and a learner in dark mode was answering a multiple-choice question whose
+answers they could not see. Thirty of the thirty-two rested on `'white'`, so every option
+was gone from the moment the question appeared; the two lesson screens
+(`FutureTenseLessonScreen`, `PastTenseLessonScreen`) rested on `var(--card)` and lost only
+the answered ones.
+
+- **DARK MODE IS NOT OPT-IN, which is what makes this a live defect rather than a corner.**
+  `usePreferences` follows `prefers-color-scheme` unless the learner has explicitly chosen
+  in the Me tab, so every learner whose OS is dark met this by default.
+- **THE PROJECT ALREADY HAD THE RIGHT ANSWER AND HALF THE APP USED IT.** `.ob.ok` /
+  `.ob.no` set `color` alongside their background, and twelve screens
+  (`PlacementTest`, `GrammarScreen`, `LessonQuiz`, `ReadingScreen`, `PadeziScreen`,
+  `ModalScreen`, `TextingScreen`, `RetentionCheckScreen`, `LessonScreen`…) already
+  expressed the state that way. The fix is to adopt the convention, not to invent one: the
+  inline `background` and `borderColor` go away entirely and the state goes on the
+  className. `--card` and `--ob-bg` are byte-identical in both themes, so the two lesson
+  screens' resting paint does not move at all. The one deliberate visual loss is
+  `C2StructureDrill`'s purple resting border, which becomes the neutral themed border.
+- **WHAT IS FORBIDDEN IS NARROW, AND THAT SCOPE IS MEASURED.** An inline background is
+  fine when it TRACKS THE THEME — a `var(...)`, or a translucent `rgba()` compositing over
+  whatever the class painted — and fine when the element sets `color` itself, because then
+  it owns both halves. Only an OPAQUE LIGHT literal with no inline `color` is a defect.
+  Widening the rule to "no inline background at all" would flag five correct translucent
+  sites and `VocativeScreen`; a rule that is mostly false alarms is one everybody learns
+  to ignore.
+- **axe COUNTS THIS RULE AND ASSERTS NOTHING ABOUT IT, AND ITS OWN TITLE SAYS SO.**
+  `route-render-sweep.spec.js`'s axe test is named "no screen has a serious or critical
+  WCAG violation, **contrast aside**": it tallies `color-contrast` violations and prints
+  them `(not asserted)`. It also runs in the DEFAULT theme, so the dark half was outside
+  both the measurement and the assertion. A 430-route accessibility sweep was green across
+  all thirty-two of these. **THE APP-WIDE NODE COUNTS THIS SECTION QUOTES ARE UNRELIABLE
+  AND THE SWEEP AFTER IT CORRECTS THEM**: they were taken at a 500 ms settle, which samples
+  pages mid-transition (one route read 3,741 nodes then 0), and axe declines to judge an
+  element over a gradient, which this app's page is. The `.ob` ratios in the table above
+  were measured DIRECTLY in Chrome and stand; the 4,354/932 figures do not.
+- **AND axe COULD NOT HAVE JUDGED THE FIX EITHER.** Its `color-contrast` rule reports
+  _incomplete_ for an element carrying a `background-image`, and `.ob.ok` paints a
+  `linear-gradient`. `getComputedStyle().backgroundColor` reads `rgba(0,0,0,0)` for the
+  same reason, which made my own first post-fix probe report 2.84:1 and 3.25:1 — the dark
+  ink measured against the CARD behind the gradient rather than the gradient that actually
+  paints. **Read the gradient's own colour stops**; they are literal colours in the
+  computed value, and against them the answered states are 4.57:1 and 5.30:1.
+- **THE GUARD SURVIVED ITS FIRST MUTATION, AND THE HOLE WAS 78% OF THE CORPUS.**
+  `themedInlineBackground.test.ts` first scanned the TAG for literals — and the commonest
+  shape by far is `background: bg` with `let bg = 'white'` computed in the `.map` callback
+  above, which carries no literal in the tag at all. Restoring a real defective file left
+  the guard green; 25 of the 32 defects were invisible to it. It follows a bare identifier
+  one hop to its assignments now (the same hop `aiResponseContract` needs through component
+  state), and because the corpus is clean a **synthetic control** pins that clause — the
+  measured blind spot, `className={variable}` with an inline background, is 0 of 12 such
+  elements today.
+- **MY CODEMOD ORPHANED A BRACE IN 25 FILES AT ONCE.** The first version matched the state
+  block with a lazy `\{[\s\S]*?\n[ \t]*\}` and stopped at the inner `else if`'s closing
+  brace. Brace-match, never regex, over anything containing nested blocks — this file
+  already says so about `passThresholdStatedAsCount` and it was still the first thing I
+  reached for. A second pass was a silent no-op because a refactor left a capture group
+  `undefined` and `String.replace(undefined, '')` replaces the literal text "undefined";
+  every downstream guard caught it, which is why they were written.
+- **THE FIX BROKE A TEST HARNESS, AND THE ASSERTION THAT CAUGHT IT IS THE ONE TO KEEP.**
+  `driveHandWrittenDrill`'s `markedCorrect()` read the success green off the inline
+  `borderColor`, which this change moves into a CSS class — and **jsdom applies no
+  stylesheet**, so `.ob.ok`'s border-color is empty there. 24 drills failed at once rather
+  than passing while proving nothing, because that helper asserts "marked a correct option
+  on only N". There are three conventions in the cohort now and the helper reads all three;
+  a class-based marker can never be read with `getComputedStyle`.
+- Mutation-verified, four: a real defective file restored fails 1 and names the file and
+  its literals (M56); the identifier hop dropped fails its synthetic control (M58); the
+  tag walker gutted fails the non-vacuity clause (M57); and `.ob.ok` stripped of its
+  `color` fails the clause asserting the remedy is a remedy.
+- NEVER: override a themed class's `background` inline with an opaque colour without also
+  setting `color`; read `getComputedStyle().backgroundColor` as "what is painted" when a
+  gradient may be involved; read a class-based marker with `getComputedStyle` in jsdom;
+  treat a green axe run as a contrast result (that rule is counted and not asserted, in one
+  theme); match a nested block with a lazy regex.
 
 ## Critical Architecture: An Inline Style Is Where The Focus Ring Goes To Die (2026-09-24)
 
@@ -5539,6 +6578,40 @@ non-idempotent formatter is a slow corruption with no error message.
 2. **Never amend published commits.** Create a new commit instead.
 3. **Never force-push to master.** Cloudflare deployment history can be corrupted.
 4. **Never skip hooks** (`--no-verify`). Fix the underlying issue instead.
+5. **ALWAYS MERGE A GREEN PR, and do it without being asked** (owner directive,
+   2026-09-27: _"always merge green PRs, even while continuing work."_). Asked
+   whether all green PRs were merged, the answer was **no** — seven dependabot
+   PRs were 14/14 green and open, the oldest thirteen days. Green work sitting
+   unmerged is the same class of waste as an unpushed commit (rule 1): it is
+   finished, it is verified, and no learner has it. This is a STANDING order, not
+   a per-occasion permission — merging is now part of noticing a PR is green, and
+   it does not wait for other work to finish.
+   **THE ORDER MATTERS WHEN THE PRs SHARE A LOCKFILE, and seven did.** Each
+   dependabot PR regenerates `package-lock.json` against the master it was cut
+   from, so merging one strands the rest. Simulated locally first with
+   `git merge-tree --write-tree` chained through `git commit-tree`, touching no
+   branch: **six chained clean and the seventh (#692) conflicted** on both
+   `package.json` and `package-lock.json` once the six had landed — which is what
+   happened in reality, exactly. The real merged master tree came out
+   **byte-identical to the simulation** (`8aed8ad5`), so that dry run is worth
+   doing rather than merging hopefully and reading the wreckage.
+   **A TEXTUALLY-CLEAN LOCKFILE MERGE CAN STILL BE A BROKEN ONE**, and git will
+   not say so: six lockfiles merging without a conflict marker says nothing about
+   whether the result agrees with `package.json`, and a disagreement fails
+   `npm ci` on master. Verified before merging, offline and with no install —
+   59/59 root ranges equal between the two files, no extra or missing entries,
+   and each of the six bumps' installed version satisfying its own merged range.
+   **THE CONFLICTED ONE IS NOT REBASED BY HAND.** `@dependabot rebase` is the
+   sanctioned mechanism; rewriting history on dependabot's branch is the
+   someone-else's-branch rule, and dependabot's own rebase regenerates the
+   lockfile correctly where a hand-resolved conflict would guess.
+   **`cancel-in-progress` MAKES RAPID SEQUENTIAL MERGES CHEAPER, NOT RISKIER.**
+   `ci.yml`'s concurrency group is per-ref, so six merges in three minutes
+   cancelled the five intermediate runs and left ONE run against the final
+   six-bump tree, and one deploy. That is the outcome you want; do not space the
+   merges out to "let each one go green" — the intermediate trees are not what
+   ships, and the PR's own green run was against a master up to 130 commits old
+   in any case. The run that matters is the push run on the final merge.
 
 ---
 
@@ -5576,7 +6649,7 @@ Storing learner progress in localStorage is this app's documented architecture (
 
 **A DISMISSAL IS KEYED TO A LOCATION, SO MOVING THE LINE LOSES IT (2026-09-22).** #78 is the statement `localStorage.setItem(SESSION_KEY, JSON.stringify(session))`, which was `useDailySession.ts:861` and is now `dailySessionStore.ts:84` — relocated verbatim by the 800-line split, not written. The file changed, so by this section's own rule it is a re-triage, and the dismissals already standing on `useDailySession.ts` do not carry across. Expect the list above to grow on any refactor that moves a flagged line; that is the scanner's bookkeeping, not a defect in the refactor. **The rationale recorded here was also incomplete**: the two heuristics named above are the `session` and `diagnosis` NAMES, and #78 names neither — its source is `getCertifiedLevel`. So the reason this rule fires in this codebase was only ever partly written down, and a reader re-triaging #58/#66 from the old text would have looked for the wrong thing.
 
-**What can and cannot be pinned.** `claudeMdPaths.test.ts` asserts every file named above exists and still performs a clear-text storage write, so a dismissal for a file that no longer does one fails CI. It would NOT have caught #78 — `useDailySession.ts` kept four other writes when this one left — and no test can, because the alert's location lives in GitHub's security tab and not in the repo. Dismissing #78 is a Security-tab action.
+**What can and cannot be pinned.** `claudeMdPaths.test.ts` asserts every file named above exists and still performs a clear-text storage write, so a dismissal for a file that no longer does one fails CI. It would NOT have caught #78 — `useDailySession.ts` kept four other writes when this one left — and no test can, because the alert's location lives in GitHub's security tab and not in the repo. Dismissing #78 is a Security-tab action — **and nobody took it, so it stayed OPEN** (2026-09-27): a PR whose diff GitHub calls too large counts every open alert in a file it touches, so any such PR that edits `dailySessionStore.ts` shows CodeQL red on this line until #78 is dismissed in the Security tab. It has no API reachable from a session here, and an automated dismissal is a security-state change that needs the owner's say-so.
 
 ---
 

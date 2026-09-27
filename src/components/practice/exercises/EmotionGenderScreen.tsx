@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh } from '../../../data';
 import { EMOGENDER } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function EmotionGenderScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const total = EMOGENDER.reduce(function (sum, eg) {
     return sum + eg.pairs.length;
   }, 0);
@@ -55,9 +55,7 @@ function EmotionGenderScreen({ goBack, award }: Props) {
       speak(spoken);
     }
     if (handledRef.current.size >= total) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'emogender', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -80,7 +78,14 @@ function EmotionGenderScreen({ goBack, award }: Props) {
       {EMOGENDER.map(function (eg, ei) {
         return (
           <div key={ei} className="c" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: 'var(--ink-strong)',
+                marginBottom: 10,
+              }}
+            >
               {eg.subj}
               {' ('}
               {eg.gender === 'm' ? '👨' : '👩'})
@@ -110,12 +115,12 @@ function EmotionGenderScreen({ goBack, award }: Props) {
                           borderRadius: 10,
                           background:
                             chosen === undefined
-                              ? 'white'
+                              ? 'var(--card)'
                               : chosen === o
                                 ? o === correct
-                                  ? '#dcfce7'
-                                  : '#fee2e2'
-                                : 'white',
+                                  ? 'var(--success-bg-strong)'
+                                  : 'var(--error-bg-strong)'
+                                : 'var(--card)',
                           fontSize: 13,
                           fontWeight: 600,
                           cursor: chosen !== undefined ? 'default' : 'pointer',
@@ -149,7 +154,9 @@ function EmotionGenderScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

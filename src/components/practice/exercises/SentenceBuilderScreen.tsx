@@ -106,7 +106,7 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
           padding: '10px 14px',
           background: 'rgba(14,116,144,.06)',
           fontSize: 12,
-          color: '#164e63',
+          color: 'var(--ink-strong)',
         }}
       >
         🇬🇧 Read the English sentence, then pick the correct Croatian translation.
@@ -114,7 +114,9 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
       {questions.map(function (s: { en: string; hr: string; opts: string[] }, i: number) {
         return (
           <div key={i} className="c" style={{ marginBottom: 10, padding: '10px 14px' }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#164e63', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-strong)', marginBottom: 6 }}
+            >
               {'🇬🇧 '}
               {s.en}
             </div>
@@ -139,12 +141,12 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
                       borderRadius: 10,
                       background:
                         choices[i] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[i] === o
                             ? o === s.hr
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 13,
                       textAlign: 'left',
                       cursor: choices[i] !== undefined ? 'default' : 'pointer',
@@ -172,7 +174,9 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           {!passed && (

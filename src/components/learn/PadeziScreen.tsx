@@ -134,12 +134,14 @@ export default function PadeziScreen({
                   marginBottom: 8,
                 }}
               >
-                <div style={{ fontSize: 17, fontWeight: 800, color: '#164e63' }}>
+                <div style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink-strong)' }}>
                   {i + 1}. {c.name}
                 </div>
-                <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>{c.q}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                  {c.q}
+                </div>
               </div>
-              <div style={{ fontSize: 13, color: '#78716c', marginBottom: 4 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 4 }}>
                 {c.en} — {c.use}
               </div>
               {c.exs.map((e, ei) => (
@@ -160,13 +162,27 @@ export default function PadeziScreen({
                   <span aria-hidden="true">🔊</span> {e}
                 </button>
               ))}
-              <div style={{ fontSize: 12, color: '#b45309', marginTop: 6, fontStyle: 'italic' }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: 'var(--ink-warn)',
+                  marginTop: 6,
+                  fontStyle: 'italic',
+                }}
+              >
                 💡 {c.tip}
               </div>
             </div>
           ))}
           <div className="c" style={{ marginTop: 16 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: 'var(--ink-accent)',
+                marginBottom: 10,
+              }}
+            >
               📌 Prepositions & Their Cases
             </div>
             {PREPS.map((p, i) => (
@@ -180,11 +196,13 @@ export default function PadeziScreen({
                   fontSize: 13,
                 }}
               >
-                <div style={{ minWidth: 60, fontWeight: 800, color: '#164e63' }}>{p.prep}</div>
-                <div style={{ minWidth: 90, color: '#b45309', fontWeight: 600 }}>
+                <div style={{ minWidth: 60, fontWeight: 800, color: 'var(--ink-strong)' }}>
+                  {p.prep}
+                </div>
+                <div style={{ minWidth: 90, color: 'var(--ink-warn)', fontWeight: 600 }}>
                   {p.cases.join(', ')}
                 </div>
-                <div style={{ color: '#78716c' }}>{p.en}</div>
+                <div style={{ color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             ))}
           </div>
@@ -210,10 +228,10 @@ export default function PadeziScreen({
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🏆' : '👍'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   Cases Quiz Complete!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
                   {czS} / {total}
                 </div>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 16 }}>

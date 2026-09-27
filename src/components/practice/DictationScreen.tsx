@@ -418,6 +418,8 @@ interface Props {
   goBack: () => void;
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }
+const TINT = { ok: 'var(--success-bg-strong)', no: 'var(--error-bg-strong)' } as const;
+
 export default function DictationScreen({ goBack, award }: Props) {
   const { stats, setStats, writeDelta } = useStats();
   const finishFired = useRef(false);
@@ -535,10 +537,12 @@ export default function DictationScreen({ goBack, award }: Props) {
         {H('🎧 Dictation', 'Listen and type what you hear', goBack)}
         <div style={{ textAlign: 'center', padding: '32px 16px' }} data-testid="dictation-no-audio">
           <div style={{ fontSize: 52, marginBottom: 8 }}>🔇</div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             No audio today
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 24 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 24 }}>
             None of the sentences could be played, so nothing was scored and nothing was credited.
             Come back when audio is working.
           </div>
@@ -560,10 +564,12 @@ export default function DictationScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 52, marginBottom: 8 }}>
             {pct >= 0.8 ? '🏆' : pct >= 0.6 ? '⭐' : '💪'}
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {score} / {answeredTotal} correct
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
             {pct >= 0.8
               ? 'Excellent ear! Your Croatian listening is sharp.'
               : pct >= 0.6
@@ -649,7 +655,7 @@ export default function DictationScreen({ goBack, award }: Props) {
           >
             {q.level}
           </span>
-          <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {score}</span>
+          <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {score}</span>
         </div>
       </div>
       <Bar v={idx + 1} mx={total} />
@@ -676,7 +682,7 @@ export default function DictationScreen({ goBack, award }: Props) {
         >
           ▶
         </button>
-        <div style={{ fontSize: 12, color: '#78716c', marginTop: 6 }}>
+        <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 6 }}>
           {gate.status === 'playing'
             ? 'Playing…'
             : gate.heard
@@ -738,7 +744,7 @@ export default function DictationScreen({ goBack, award }: Props) {
           border: checked
             ? `2px solid ${correct ? '#16a34a' : '#dc2626'}`
             : '2px solid rgba(14,116,144,.2)',
-          background: checked ? (correct ? '#dcfce7' : '#fee2e2') : 'white',
+          background: checked ? (correct ? TINT.ok : TINT.no) : 'var(--card)',
           outline: 'none',
           marginBottom: 8,
         }}
@@ -753,27 +759,29 @@ export default function DictationScreen({ goBack, award }: Props) {
           {correct ? (
             closeMatch ? (
               <div>
-                <div style={{ color: '#b45309', fontWeight: 700, fontSize: 15 }}>
+                <div style={{ color: 'var(--ink-warn)', fontWeight: 700, fontSize: 15 }}>
                   ✓ Close! Watch your diacritics ✍️
                 </div>
-                <div style={{ color: '#92400e', fontSize: 13, marginTop: 2 }}>
+                <div style={{ color: 'var(--ink-warn)', fontSize: 13, marginTop: 2 }}>
                   Correct: <strong>{q.text}</strong>
                 </div>
               </div>
             ) : (
-              <div style={{ color: '#166534', fontWeight: 700, fontSize: 15 }}>✓ Correct!</div>
+              <div style={{ color: 'var(--ink-green)', fontWeight: 700, fontSize: 15 }}>
+                ✓ Correct!
+              </div>
             )
           ) : (
             <div>
-              <div style={{ color: '#dc2626', fontSize: 13, marginBottom: 2 }}>
+              <div style={{ color: 'var(--ink-error)', fontSize: 13, marginBottom: 2 }}>
                 <strong>Your answer:</strong> {input}
               </div>
-              <div style={{ color: '#166534', fontSize: 13 }}>
+              <div style={{ color: 'var(--ink-green)', fontSize: 13 }}>
                 <strong>Correct answer:</strong> {q.text}
               </div>
             </div>
           )}
-          <div style={{ color: '#78716c', fontSize: 13, marginTop: 4 }}>{q.en}</div>
+          <div style={{ color: 'var(--ink-muted-warm)', fontSize: 13, marginTop: 4 }}>{q.en}</div>
           {!correct && !aiExplain && (
             <button
               onClick={() => fetchExplanation(input, q.text, q.level)}
@@ -784,8 +792,8 @@ export default function DictationScreen({ goBack, award }: Props) {
                 padding: '7px',
                 borderRadius: 9,
                 border: '1.5px solid #bae6fd',
-                background: '#f0f9ff',
-                color: '#0369a1',
+                background: 'var(--info-bg)',
+                color: 'var(--ink-info)',
                 fontWeight: 700,
                 fontSize: 12,
                 cursor: 'pointer',
@@ -801,10 +809,10 @@ export default function DictationScreen({ goBack, award }: Props) {
                 marginTop: 8,
                 padding: '8px 12px',
                 borderRadius: 9,
-                background: '#f0f9ff',
+                background: 'var(--info-bg)',
                 border: '1.5px solid #bae6fd',
                 fontSize: 12,
-                color: '#0369a1',
+                color: 'var(--ink-info)',
                 fontWeight: 600,
               }}
             >
@@ -817,7 +825,7 @@ export default function DictationScreen({ goBack, award }: Props) {
                 marginTop: 8,
                 padding: '10px 12px',
                 borderRadius: 10,
-                background: '#f0f9ff',
+                background: 'var(--info-bg)',
                 border: '1.5px solid #bae6fd',
               }}
             >
@@ -826,7 +834,7 @@ export default function DictationScreen({ goBack, award }: Props) {
                   style={{
                     fontSize: 11,
                     fontWeight: 800,
-                    color: '#0369a1',
+                    color: 'var(--ink-info)',
                     marginBottom: 3,
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
@@ -839,7 +847,14 @@ export default function DictationScreen({ goBack, award }: Props) {
                 {aiExplain.explanation}
               </div>
               {aiExplain.tip && (
-                <div style={{ fontSize: 12, color: '#0369a1', marginTop: 4, fontStyle: 'italic' }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--ink-info)',
+                    marginTop: 4,
+                    fontStyle: 'italic',
+                  }}
+                >
                   💡 {aiExplain.tip}
                 </div>
               )}

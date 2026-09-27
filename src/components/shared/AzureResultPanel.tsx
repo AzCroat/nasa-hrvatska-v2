@@ -108,7 +108,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: '#475569',
+              color: 'var(--ink-muted)',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               marginBottom: 6,
@@ -121,7 +121,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
               <div
                 key={w.word || `score-${w.score}`}
                 style={{
-                  background: '#fff',
+                  background: 'var(--card)',
                   borderRadius: 10,
                   border: `2px solid ${scoreColor(w.score)}40`,
                   padding: '6px 10px',
@@ -171,7 +171,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
           aria-label="Try pronunciation again"
           style={{
             background: 'none',
-            border: '1px solid var(--border,#e2e8f0)',
+            border: '1px solid var(--card-b)',
             borderRadius: 8,
             padding: '6px 14px',
             cursor: 'pointer',

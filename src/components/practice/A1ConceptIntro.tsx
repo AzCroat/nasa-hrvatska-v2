@@ -47,7 +47,7 @@ export default function A1ConceptIntro({ conceptId, onStart }: A1ConceptIntroPro
             fontWeight: 700,
             letterSpacing: 1,
             textTransform: 'uppercase',
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             marginBottom: 6,
           }}
         >
@@ -57,33 +57,37 @@ export default function A1ConceptIntro({ conceptId, onStart }: A1ConceptIntroPro
           {concept.title}
         </div>
 
-        <div style={{ fontSize: 15, fontWeight: 600, color: '#334155', marginBottom: 6 }}>
+        <div style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 6 }}>
           {concept.question}
         </div>
-        <div style={{ fontSize: 15, color: '#475569', lineHeight: 1.55, marginBottom: 14 }}>
+        <div
+          style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.55, marginBottom: 14 }}
+        >
           {concept.bridge}
         </div>
 
         <div
           style={{
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             border: '1px solid #bae6fd',
             borderRadius: 10,
             padding: '12px 14px',
             marginBottom: 14,
           }}
         >
-          <div style={{ fontSize: 17, fontWeight: 700, color: '#0369a1', lineHeight: 1.5 }}>
+          <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink-info)', lineHeight: 1.5 }}>
             {concept.example.hr}
           </div>
-          <div style={{ fontSize: 13, color: '#64748b', marginTop: 4 }}>{concept.example.en}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>
+            {concept.example.en}
+          </div>
         </div>
 
         <ul style={{ margin: '0 0 14px', paddingLeft: 20 }}>
           {concept.points.map((p) => (
             <li
               key={p}
-              style={{ fontSize: 14, color: '#475569', lineHeight: 1.55, marginBottom: 6 }}
+              style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.55, marginBottom: 6 }}
             >
               {p}
             </li>
@@ -92,19 +96,21 @@ export default function A1ConceptIntro({ conceptId, onStart }: A1ConceptIntroPro
 
         <div
           style={{
-            background: '#fff7ed',
+            background: 'var(--warning-bg)',
             border: '1px solid #fed7aa',
             borderRadius: 10,
             padding: '12px 14px',
           }}
         >
-          <div style={{ fontSize: 14, color: '#9a3412', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 14, color: 'var(--ink-warn)', lineHeight: 1.6 }}>
             <span style={{ textDecoration: 'line-through', opacity: 0.75 }}>
               {concept.counter.wrong}
             </span>{' '}
             → <strong>{concept.counter.right}</strong>
           </div>
-          <div style={{ fontSize: 13, color: '#c2410c', marginTop: 5 }}>{concept.counter.why}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginTop: 5 }}>
+            {concept.counter.why}
+          </div>
         </div>
       </div>
 

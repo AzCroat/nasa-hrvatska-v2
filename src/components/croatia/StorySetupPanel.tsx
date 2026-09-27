@@ -1,6 +1,7 @@
 import React from 'react';
 import { H } from '../../data';
 import { STORY_CITIES, LEVELS } from './StoryModeData.js';
+import { accentInk } from '../../lib/accentInk';
 
 const SETUP_CSS = `
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -85,7 +86,7 @@ export default function StorySetupPanel({
             padding: '12px 14px',
             borderRadius: 12,
             marginBottom: 16,
-            background: 'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #86efac',
           }}
         >
@@ -95,7 +96,7 @@ export default function StorySetupPanel({
               style={{
                 fontSize: 12,
                 fontWeight: 800,
-                color: '#15803d',
+                color: 'var(--ink-green)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
                 marginBottom: 2,
@@ -103,8 +104,10 @@ export default function StorySetupPanel({
             >
               Personalized for You · {goalMeta.label}
             </div>
-            <div style={{ fontSize: 13, color: '#166534', lineHeight: 1.5 }}>{goalMeta.tip}</div>
-            <div style={{ fontSize: 12, color: '#15803d', marginTop: 4 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-green)', lineHeight: 1.5 }}>
+              {goalMeta.tip}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
               Recommended: {goalMeta.cities?.join(', ') || 'Multiple cities'}
             </div>
           </div>
@@ -159,7 +162,7 @@ export default function StorySetupPanel({
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: selectedCity.name === city.name ? city.color : 'var(--heading)',
+                  color: selectedCity.name === city.name ? accentInk(city.color) : 'var(--heading)',
                 }}
               >
                 {city.name}
@@ -247,7 +250,7 @@ export default function StorySetupPanel({
             borderRadius: 10,
             backgroundColor: 'var(--error-bg)',
             border: '1px solid var(--error-b)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontSize: 14,
             marginBottom: 16,
           }}

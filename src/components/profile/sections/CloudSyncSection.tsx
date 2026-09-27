@@ -115,7 +115,11 @@ export default function CloudSyncSection({
             style={{
               fontSize: 'var(--text-sm)',
               fontWeight: 800,
-              color: syncErr ? 'var(--error)' : syncReady ? 'var(--success)' : 'var(--subtext)',
+              color: syncErr
+                ? 'var(--ink-error)'
+                : syncReady
+                  ? 'var(--ink-green)'
+                  : 'var(--subtext)',
             }}
           >
             {syncing

@@ -100,15 +100,30 @@ function modeDrillIds(): Map<string, string> {
 describe('the derivation is real', () => {
   it('finds the call sites and resolves their keys', () => {
     const sites = callSites();
-    expect(sites.length).toBeGreaterThan(120);
     // Nearly all are literal. If this collapses, the sweep below is vacuous.
-    expect(sites.filter((s) => s.key).length).toBeGreaterThan(120);
+    //
+    // THE FLOOR IS ON THE UNION, because the two populations trade members: when
+    // 34 hand-written drills were converted onto ModeDrill (2026-09-27) their keys
+    // moved from a direct `completeExercise({ key })` call into the engine's `id`
+    // prop, so direct sites fell 153 -> 119 while wrapper ids rose 109 -> 143. Each
+    // key is still checked, by the second sweep below. A per-population floor read
+    // that correct move as a collapse.
+    //
+    // AND THE PER-POPULATION FLOOR STAYED BEHIND ANYWAY, and eight more correct
+    // conversions took it to 77 < 80 (2026-09-27). A floor that conversion can move
+    // is not a collapse detector. What conversion CANNOT move is the keyed sites
+    // outside the hand-written drills (measured: 53 of 77), so the matcher's own
+    // floor sits there, and the union floor still covers the population as a whole.
+    const keyedSites = sites.filter((s) => s.key);
+    const outsideDrills = keyedSites.filter((s) => !/practice\/\w+Drill\.tsx$/.test(s.file));
+    expect(outsideDrills.length).toBeGreaterThan(40);
+    expect(keyedSites.length + modeDrillIds().size).toBeGreaterThan(250);
   });
 
   it('finds the ModeDrill wrapper ids', () => {
-    // One engine serves 109 drills, so an unregistered id here would be 109
-    // screens with the defect, not one.
-    expect(modeDrillIds().size).toBeGreaterThan(100);
+    // One engine serves every converted drill, so an unregistered id here would be
+    // that many screens with the defect, not one.
+    expect(modeDrillIds().size).toBeGreaterThan(130);
   });
 
   it('the registry is loaded', () => {

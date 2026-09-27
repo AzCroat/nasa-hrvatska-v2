@@ -146,7 +146,7 @@ export default function VocativeScreen({
                   padding: '2px 8px',
                   borderRadius: 20,
                   background: 'var(--warning-bg)',
-                  color: 'var(--warning)',
+                  color: 'var(--ink-warn)',
                   border: '1px solid var(--warning-b)',
                 }}
               >
@@ -177,7 +177,7 @@ export default function VocativeScreen({
                     <button
                       style={{
                         fontWeight: 800,
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                         background: 'none',
                         border: 'none',
                         cursor: 'pointer',
@@ -232,7 +232,7 @@ export default function VocativeScreen({
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               textTransform: 'uppercase',
               letterSpacing: 1,
               marginBottom: 6,
@@ -240,7 +240,7 @@ export default function VocativeScreen({
           >
             ✗ Common mistake
           </div>
-          <div style={{ fontSize: 17, color: 'var(--error)', fontWeight: 600 }}>{d.wrong}</div>
+          <div style={{ fontSize: 17, color: 'var(--ink-error)', fontWeight: 600 }}>{d.wrong}</div>
         </div>
 
         <div
@@ -255,7 +255,7 @@ export default function VocativeScreen({
             style={{
               fontSize: 12,
               fontWeight: 700,
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
               textTransform: 'uppercase',
               letterSpacing: 1,
               marginBottom: 6,
@@ -264,7 +264,7 @@ export default function VocativeScreen({
             ✓ Correct Croatian
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ fontSize: 17, color: 'var(--success)', fontWeight: 700 }}>
+            <div style={{ fontSize: 17, color: 'var(--ink-green)', fontWeight: 700 }}>
               {d.correct}
             </div>
             <button
@@ -383,9 +383,9 @@ export default function VocativeScreen({
                     : 'var(--card-b)',
                   color: answered
                     ? isCorrect
-                      ? 'var(--success)'
+                      ? 'var(--ink-green)'
                       : isSelected
-                        ? 'var(--error)'
+                        ? 'var(--ink-error)'
                         : 'var(--subtext)'
                     : 'var(--heading)',
                 }}
@@ -441,7 +441,7 @@ export default function VocativeScreen({
         <h2 style={{ fontSize: 28, fontWeight: 900, margin: '0 0 4px', color: 'var(--heading)' }}>
           {score} / {total}
         </h2>
-        <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--warning)', marginBottom: 8 }}>
+        <div style={{ fontSize: 32, fontWeight: 900, color: 'var(--ink-warn)', marginBottom: 8 }}>
           +{xpEarned} XP
         </div>
         <div
@@ -452,7 +452,7 @@ export default function VocativeScreen({
             borderRadius: 20,
             display: 'inline-block',
             background: passed ? 'var(--success-bg)' : 'var(--error-bg)',
-            color: passed ? 'var(--success)' : 'var(--error)',
+            color: passed ? 'var(--ink-green)' : 'var(--ink-error)',
             border: `1px solid ${passed ? 'var(--success-b)' : 'var(--error-b)'}`,
             marginBottom: 16,
           }}

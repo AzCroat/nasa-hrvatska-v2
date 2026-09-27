@@ -43,7 +43,7 @@ export default function HrvatskaTab({ setScr, sCurEx }: HrvatskaTabProps) {
               fontWeight: 900,
               letterSpacing: '.16em',
               textTransform: 'uppercase',
-              color: '#c2410c',
+              color: 'var(--ink-warn)',
             }}
           >
             istraži

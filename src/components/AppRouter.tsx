@@ -435,6 +435,9 @@ const MistakesScreen = lazyWithReload(() => import('./practice/MistakesScreen'))
 const AnalyticsScreen = lazyWithReload(() => import('./profile/AnalyticsScreen'));
 const GrammarReference = lazyWithReload(() => import('./shared/GrammarReference'));
 const LearningCenter = lazyWithReload(() => import('./learn/LearningCenter'));
+const CourseMapScreen = lazyWithReload(() => import('./learn/CourseMapScreen'));
+const UnitTestScreen = lazyWithReload(() => import('./learn/UnitTestScreen'));
+const UnitProductionScreen = lazyWithReload(() => import('./learn/UnitProductionScreen'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
 const SurvivalDinner = lazyWithReload(() => import('./croatia/SurvivalDinner'));
@@ -449,7 +452,6 @@ const GrammarReader = lazyWithReload(() => import('./learn/GrammarReader'));
 const KaficScreen = lazyWithReload(() => import('./croatia/KaficScreen'));
 const DiasporaNote = lazyWithReload(() => import('./croatia/DiasporaNote'));
 const TiViScreen = lazyWithReload(() => import('./learn/TiViScreen'));
-const GrammarVideos = lazyWithReload(() => import('./learn/GrammarVideos'));
 const LifeEventsScreen = lazyWithReload(() => import('./croatia/LifeEventsScreen'));
 const CivicScreen = lazyWithReload(() => import('./croatia/CivicScreen'));
 const EasterScreen = lazyWithReload(() => import('./croatia/EasterScreen'));
@@ -1535,11 +1537,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'aspect' && (
           <ScreenErrorBoundary key="aspect" name="aspect">
             <AspectScreen goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'grammarvideos' && (
-          <ScreenErrorBoundary key="grammarvideos" name="grammarvideos">
-            <GrammarVideos goBack={goBack} setScr={setScr} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'grammarexplainer' && (
@@ -3382,6 +3379,44 @@ export default function AppRouter(props: Record<string, any>) {
             <AnalyticsScreen goBack={goBack} stats={stats} name={name} />
           </ScreenErrorBoundary>
         )}
+        {
+          // ═══ UNIT PRODUCTION ═══
+          // The other half of the course's bar: one written and one spoken task per
+          // unit, briefed from its own lessons' objectives and graded by the same
+          // evaluators everything else uses.
+          currentScreen === 'unitproduction' && (
+            <ScreenErrorBoundary key="unitproduction" name="unitproduction">
+              <UnitProductionScreen goBack={goBack} award={award} />
+            </ScreenErrorBoundary>
+          )
+        }
+        {
+          // ═══ UNIT TEST ═══
+          // The cumulative test at the end of a course unit: fifteen items mixed
+          // across its five lessons, at UNIT_PASS_THRESHOLD. Which unit comes from
+          // the sessionStorage handoff the map writes.
+          currentScreen === 'unittest' && (
+            <ScreenErrorBoundary key="unittest" name="unittest">
+              <UnitTestScreen
+                goBack={goBack}
+                award={award}
+                onOpenLesson={launchAnimLesson}
+                setScr={setScr}
+              />
+            </ScreenErrorBoundary>
+          )
+        }
+        {
+          // ═══ COURSE MAP ═══
+          // The whole course in units, and where the learner is in it. Reads
+          // real completions only — no CEFR inference, per the one-path-for-
+          // everyone directive in src/lib/courseUnits.ts.
+          currentScreen === 'coursemap' && (
+            <ScreenErrorBoundary key="coursemap" name="coursemap">
+              <CourseMapScreen goBack={goBack} onOpenLesson={launchAnimLesson} setScr={setScr} />
+            </ScreenErrorBoundary>
+          )
+        }
         {
           // ═══ LEARNING CENTER ═══
           // Look-up, not scheduling: search + the whole syllabus. Opens content

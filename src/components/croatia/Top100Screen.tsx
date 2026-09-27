@@ -56,7 +56,9 @@ function Top100Screen({ goBack }: Props) {
           >
             ← All Categories
           </button>
-          <h3 style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 16 }}>
+          <h3
+            style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 16 }}
+          >
             {t1k}
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -71,7 +73,7 @@ function Top100Screen({ goBack }: Props) {
                     speak(w[0]!);
                   }}
                 >
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
                     {w[0]!} <span aria-hidden="true">🔊</span>
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{w[1]!}</div>

@@ -9,6 +9,7 @@
 // so no component hand-rolls completion logic. completeLesson is a thin wrapper (below).
 import { passedLesson } from '../lib/lessonGate';
 import { markQuest } from '../lib/quests';
+import { localDateStr } from '../lib/dateUtils';
 import { EXERCISE_COMPLETION, type StatKind } from '../lib/completion/exerciseRegistry';
 import { consumeSessionCategoryOutcome } from '../lib/sessionCategory';
 import { signalSessionCompleteIfActive, EXERCISE_COMPLETE_EVENT } from '../lib/sessionSignal';
@@ -52,6 +53,37 @@ interface CompleteExerciseArgs<S extends MinStats> {
    * doesn't quietly demote a per-run bonus to a once-ever one.
    */
   awardOnReplay?: boolean;
+}
+
+/**
+ * Mark a daily quest for one exercise, at most once per exercise per day.
+ *
+ * WHY THE GUARD LIVES HERE AND NOT IN `quests.ts`. It was first written there, as a new
+ * `markQuestForExercise` export — and **94 test files `vi.mock` that module**, none of
+ * which provides a function that did not exist when they were written. A partial mock
+ * makes a new import `undefined`, so the authority threw a TypeError in every one of them:
+ * adding an export to a heavily-mocked module that the authority then CALLS has a blast
+ * radius of 94 files, and the next export repeats it. Keeping the call as plain
+ * `markQuest` leaves every existing mock valid.
+ *
+ * WHY IT IS GUARDED PER EXERCISE RATHER THAN MARKED UNCONDITIONALLY. `markQuest` also
+ * counts per day and auto-promotes the tier-2 quest on the second call, and tier 2 means
+ * "do TWO grammar exercises today". An unconditional mark on replay would let one drill,
+ * replayed, satisfy it. Keyed on the exercise, any finish advances today's quest and only
+ * DISTINCT exercises advance tier 2.
+ *
+ * The key starts with `nh_quest_`, so `cleanupStaleQuestKeys` already sweeps it.
+ */
+function markQuestOnce(questKind: string, exerciseKey: string): void {
+  try {
+    const seen = `nh_quest_src_${questKind}_${exerciseKey}_${localDateStr()}`;
+    if (localStorage.getItem(seen)) return;
+    localStorage.setItem(seen, '1');
+  } catch {
+    // Storage unavailable (private mode, a cross-origin iframe): fall through and mark.
+    // Missing a quest a learner earned is worse than counting one of them twice.
+  }
+  markQuest(questKind);
 }
 
 export function completeExercise<S extends MinStats>(
@@ -120,6 +152,13 @@ export function completeExercise<S extends MinStats>(
     // writing_guided has no pool entry at all.
     recordScreenPractised(key);
   }
+  // A DAILY QUEST IS DAY-SCOPED AND `vs` IS ONCE-EVER, so the mark cannot sit below the
+  // already-credited return: a learner who finished this exercise last month and finishes
+  // it again today was getting NO quest credit at all, and the further they progressed the
+  // fewer screens could advance today's quests. 140 components route through here, so the
+  // fix is one line for all of them.
+  if (questKind) markQuestOnce(questKind, vsKey);
+
   if (stats.vs?.includes(vsKey)) {
     // Already credited — never a second gc/vs write. See awardOnReplay above for
     // why a few repeat-play drills still pay their finish XP here.
@@ -135,6 +174,5 @@ export function completeExercise<S extends MinStats>(
   });
   if (writeDelta) writeDelta({ [statKind]: 1, vs: [vsKey] });
   if (award) award(xp, args.celebrate ?? false, activityType);
-  if (questKind) markQuest(questKind);
   return { passed: true };
 }

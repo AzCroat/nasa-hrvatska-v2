@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { weekKey, prevWeekKey, localDateStr } from '../../lib/dateUtils';
+import { accentInk } from '../../lib/accentInk';
 
 interface BarDatum {
   value: number;
@@ -175,7 +176,9 @@ const ProgressCharts = React.memo(function ProgressCharts({
           },
         ].map(({ label, value, color }) => (
           <div key={label} className="c" style={{ textAlign: 'center', padding: '12px 8px' }}>
-            <div style={{ fontSize: 18, fontWeight: 900, color: color || 'var(--heading)' }}>
+            <div
+              style={{ fontSize: 18, fontWeight: 900, color: accentInk(color) || 'var(--heading)' }}
+            >
               {value}
             </div>
             <div style={{ fontSize: 10, color: 'var(--subtext)', fontWeight: 600, marginTop: 3 }}>

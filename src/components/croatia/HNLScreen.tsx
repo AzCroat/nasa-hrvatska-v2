@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FOOTBALL, speak } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 // ─── Static data (2024/25 HNL season – link to hnl.hr for live updates) ───────
 
@@ -375,7 +376,9 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
           >
             <div style={{ fontSize: 22, flexShrink: 0 }}>{l.icon}</div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: l.color }}>{l.label} ↗</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: accentInk(l.color) }}>
+                {l.label} ↗
+              </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{l.sub}</div>
             </div>
           </button>
@@ -409,8 +412,8 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               cursor: 'pointer',
               fontSize: 12,
               fontWeight: 700,
-              background: tab === key ? 'white' : 'transparent',
-              color: tab === key ? '#003da5' : '#78716c',
+              background: tab === key ? 'var(--card)' : 'transparent',
+              color: tab === key ? 'var(--ink-flag)' : 'var(--ink-muted-warm)',
               boxShadow: tab === key ? '0 1px 4px rgba(0,0,0,.12)' : 'none',
               transition: 'all .15s',
             }}
@@ -430,7 +433,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginBottom: 12,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               display: 'flex',
               gap: 8,
               alignItems: 'center',
@@ -469,7 +472,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
             </div>
             {HNL_TABLE.map((row, i) => {
               const gd = row.gf - row.ga;
-              const bg = i % 2 === 0 ? 'white' : 'rgba(0,0,0,.02)';
+              const bg = i % 2 === 0 ? 'var(--card)' : 'rgba(0,0,0,.02)';
               const borderLeft = row.cl
                 ? '3px solid #003da5'
                 : row.rel
@@ -492,7 +495,12 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   <div
                     style={{
                       fontWeight: 700,
-                      color: row.pos <= 4 ? '#003da5' : row.pos >= 8 ? '#dc2626' : '#44403c',
+                      color:
+                        row.pos <= 4
+                          ? 'var(--ink-flag)'
+                          : row.pos >= 8
+                            ? 'var(--ink-error)'
+                            : 'var(--ink-body)',
                     }}
                   >
                     {row.pos}
@@ -503,7 +511,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                       style={{
                         fontWeight: 600,
                         fontSize: 12,
-                        color: '#1c1917',
+                        color: 'var(--ink-ink)',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
@@ -512,18 +520,33 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                       {row.team}
                     </span>
                   </div>
-                  <div style={{ textAlign: 'center', color: '#78716c', fontSize: 12 }}>{row.p}</div>
                   <div
-                    style={{ textAlign: 'center', fontWeight: 600, color: '#16a34a', fontSize: 12 }}
+                    style={{ textAlign: 'center', color: 'var(--ink-muted-warm)', fontSize: 12 }}
                   >
-                    {row.w}
+                    {row.p}
                   </div>
-                  <div style={{ textAlign: 'center', color: '#78716c', fontSize: 12 }}>{row.d}</div>
-                  <div style={{ textAlign: 'center', color: '#dc2626', fontSize: 12 }}>{row.l}</div>
                   <div
                     style={{
                       textAlign: 'center',
-                      color: gd >= 0 ? '#16a34a' : '#dc2626',
+                      fontWeight: 600,
+                      color: 'var(--ink-green)',
+                      fontSize: 12,
+                    }}
+                  >
+                    {row.w}
+                  </div>
+                  <div
+                    style={{ textAlign: 'center', color: 'var(--ink-muted-warm)', fontSize: 12 }}
+                  >
+                    {row.d}
+                  </div>
+                  <div style={{ textAlign: 'center', color: 'var(--ink-error)', fontSize: 12 }}>
+                    {row.l}
+                  </div>
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      color: gd >= 0 ? 'var(--ink-green)' : 'var(--ink-error)',
                       fontSize: 12,
                       fontWeight: 600,
                     }}
@@ -532,7 +555,12 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     {gd}
                   </div>
                   <div
-                    style={{ textAlign: 'center', fontWeight: 800, color: '#1c1917', fontSize: 13 }}
+                    style={{
+                      textAlign: 'center',
+                      fontWeight: 800,
+                      color: 'var(--ink-ink)',
+                      fontSize: 13,
+                    }}
                   >
                     {row.pts}
                   </div>
@@ -546,15 +574,15 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 display: 'flex',
                 gap: 16,
                 fontSize: 10,
-                color: '#78716c',
+                color: 'var(--ink-muted-warm)',
                 borderTop: '1px solid rgba(0,0,0,.06)',
               }}
             >
               <span>
-                <span style={{ color: '#003da5', fontWeight: 700 }}>■</span> UCL qualifier
+                <span style={{ color: 'var(--ink-flag)', fontWeight: 700 }}>■</span> UCL qualifier
               </span>
               <span>
-                <span style={{ color: '#dc2626', fontWeight: 700 }}>■</span> Relegation
+                <span style={{ color: 'var(--ink-error)', fontWeight: 700 }}>■</span> Relegation
               </span>
             </div>
           </div>
@@ -571,7 +599,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '6px 12px',
               fontSize: 11,
               fontWeight: 700,
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
             }}
           >
             <div style={{ flex: 1 }}>Player</div>
@@ -608,14 +636,14 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   justifyContent: 'center',
                   fontSize: 11,
                   fontWeight: 800,
-                  color: i <= 2 ? 'white' : '#78716c',
+                  color: i <= 2 ? 'white' : 'var(--ink-muted-warm)',
                   flexShrink: 0,
                 }}
               >
                 {i + 1}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: 13, color: '#1c1917' }}>
+                <div style={{ fontWeight: 700, fontSize: 13, color: 'var(--ink-ink)' }}>
                   {s.flag} {s.name}
                 </div>
               </div>
@@ -623,7 +651,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 style={{
                   width: 80,
                   fontSize: 11,
-                  color: '#78716c',
+                  color: 'var(--ink-muted-warm)',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
@@ -637,7 +665,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   textAlign: 'center',
                   fontWeight: 900,
                   fontSize: 16,
-                  color: '#003da5',
+                  color: 'var(--ink-flag)',
                 }}
               >
                 {s.goals}
@@ -651,7 +679,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginTop: 4,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               display: 'flex',
               gap: 8,
               alignItems: 'center',
@@ -718,7 +746,9 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 onClick={() => window.open(l.url, '_blank', 'noopener,noreferrer')}
               >
                 <div style={{ fontSize: 26, marginBottom: 6 }}>{l.icon}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: l.color }}>{l.label} ↗</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: accentInk(l.color) }}>
+                  {l.label} ↗
+                </div>
               </button>
             ))}
           </div>
@@ -812,18 +842,31 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   {t.badge}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: t.color }}>{t.name}</div>
-                  <div style={{ fontSize: 11, color: '#78716c' }}>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: accentInk(t.color) }}>
+                    {t.name}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
                     {t.city} · Est. {t.founded} · {t.stadium} ({t.capacity})
                   </div>
                 </div>
                 <div style={{ textAlign: 'center', flexShrink: 0 }}>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: t.color }}>{t.titles}</div>
-                  <div style={{ fontSize: 9, color: '#78716c', fontWeight: 600 }}>TITLES</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: accentInk(t.color) }}>
+                    {t.titles}
+                  </div>
+                  <div style={{ fontSize: 9, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
+                    TITLES
+                  </div>
                 </div>
               </div>
 
-              <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.65, marginBottom: 10 }}>
+              <div
+                style={{
+                  fontSize: 13,
+                  color: 'var(--ink-body)',
+                  lineHeight: 1.65,
+                  marginBottom: 10,
+                }}
+              >
                 {t.desc}
               </div>
 
@@ -833,7 +876,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     key={j}
                     style={{
                       background: t.color + '12',
-                      color: t.color,
+                      color: accentInk(t.color),
                       fontSize: 11,
                       fontWeight: 600,
                       padding: '3px 8px',
@@ -846,15 +889,27 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               </div>
 
               <div style={{ background: 'rgba(0,0,0,.03)', borderRadius: 10, padding: '8px 12px' }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#78716c', marginBottom: 2 }}>
-                  🎵 Chant · Ultras: <span style={{ color: t.color }}>{t.ultras}</span>
+                <div
+                  style={{
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: 'var(--ink-muted-warm)',
+                    marginBottom: 2,
+                  }}
+                >
+                  🎵 Chant · Ultras: <span style={{ color: accentInk(t.color) }}>{t.ultras}</span>
                 </div>
                 <div
-                  style={{ fontSize: 12, fontStyle: 'italic', color: '#1c1917', marginBottom: 2 }}
+                  style={{
+                    fontSize: 12,
+                    fontStyle: 'italic',
+                    color: 'var(--ink-ink)',
+                    marginBottom: 2,
+                  }}
                 >
                   "{t.chant}"
                 </div>
-                <div style={{ fontSize: 11, color: '#78716c' }}>"{t.chantEn}"</div>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>"{t.chantEn}"</div>
               </div>
             </div>
           ))}
@@ -878,7 +933,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 style={{ padding: '10px 12px' }}
                 onClick={() => speak(w[0] ?? '')}
               >
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#003da5' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-flag)' }}>
                   {w[0]} <span aria-hidden="true">🔊</span>
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>
@@ -916,13 +971,13 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--heading)' }}>
                   {p[0]} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#0e7490' }}>{p[1]}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-accent)' }}>{p[1]}</div>
               </div>
               <div
                 style={{
                   fontSize: 10,
                   background: 'rgba(14,116,144,.1)',
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   padding: '3px 8px',
                   borderRadius: 20,
                   fontWeight: 600,
@@ -944,7 +999,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginBottom: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Croatia is a global water polo powerhouse — Jug Dubrovnik and Mladost Zagreb compete at
@@ -959,7 +1014,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 style={{ padding: '10px 12px' }}
                 onClick={() => speak(w[0] ?? '')}
               >
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490' }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
                   {w[0]} <span aria-hidden="true">🔊</span>
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w[1]}</div>

@@ -6,6 +6,7 @@ import { rnd } from '../../lib/random.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { knightFlash, knightSpeak } from '../../lib/knightSpeak.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface TimerDisplayProps {
   timeLeft: number;
@@ -17,7 +18,7 @@ const TimerDisplay = React.memo(function TimerDisplay({ timeLeft, color }: Timer
       style={{
         fontSize: 'var(--text-2xl)',
         fontWeight: 900,
-        color,
+        color: accentInk(color),
         fontVariantNumeric: 'tabular-nums',
         minWidth: 36,
         textAlign: 'center',
@@ -435,7 +436,7 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
               background: 'var(--warning-bg)',
             }}
           >
-            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--warning)' }}>
+            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-warn)' }}>
               🔥 {streak} streak! +{streak >= 5 ? 3 : 2} pts per answer
             </span>
           </div>
@@ -501,7 +502,7 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
             }}
           >
             <span
-              style={{ fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--success)' }}
+              style={{ fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-green)' }}
             >
               ✓ Correct! +{streak >= 5 ? 3 : streak >= 3 ? 2 : 1} pt{streak >= 3 ? 's' : ''}
             </span>
@@ -518,7 +519,9 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
               borderLeft: '4px solid var(--error)',
             }}
           >
-            <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--error)' }}>
+            <span
+              style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-error)' }}
+            >
               ✗ Answer: {q.answer}
             </span>
           </div>
@@ -580,7 +583,7 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
               >
                 <span style={{ fontWeight: 700, color: 'var(--heading)' }}>{r.q.word.hr}</span>
                 <span style={{ color: 'var(--subtext)' }}>→</span>
-                <span style={{ color: 'var(--success)', fontWeight: 600 }}>{r.q.word.en}</span>
+                <span style={{ color: 'var(--ink-green)', fontWeight: 600 }}>{r.q.word.en}</span>
               </div>
             ))}
         </div>

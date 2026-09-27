@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { H, getMistakes, getDueReviews, getSR, getStreak, BADGES } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 import { readingPassagesDone } from '../../lib/appUtils';
 import type { Stats } from '../../types';
 
@@ -28,12 +29,19 @@ function MiniBar({
           marginBottom: 4,
         }}
       >
-        <div style={{ fontSize: 13, fontWeight: 600, color: '#374151' }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
           {icon} {label}
         </div>
-        <div style={{ fontSize: 13, fontWeight: 800, color }}>{value}</div>
+        <div style={{ fontSize: 13, fontWeight: 800, color: accentInk(color) }}>{value}</div>
       </div>
-      <div style={{ height: 8, background: '#f1f5f9', borderRadius: 4, overflow: 'hidden' }}>
+      <div
+        style={{
+          height: 8,
+          background: 'var(--surface-mute)',
+          borderRadius: 4,
+          overflow: 'hidden',
+        }}
+      >
         <div
           style={{
             width: `${pct}%`,
@@ -64,7 +72,7 @@ function StatTile({
     <div
       style={{
         flex: 1,
-        background: '#fff',
+        background: 'var(--card)',
         borderRadius: 16,
         padding: '16px 12px',
         textAlign: 'center',
@@ -73,8 +81,8 @@ function StatTile({
       }}
     >
       <div style={{ fontSize: 28, marginBottom: 4 }}>{icon}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
-      <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: 22, fontWeight: 800, color: accentInk(color) }}>{value}</div>
+      <div style={{ fontSize: 11, color: 'var(--ink-muted)', fontWeight: 600 }}>{label}</div>
     </div>
   );
 }
@@ -96,24 +104,30 @@ function BadgeRow({
         padding: '10px 14px',
         borderRadius: 14,
         marginBottom: 8,
-        background: earned ? 'linear-gradient(135deg,#fefce8,#fef9c3)' : '#f8fafc',
+        background: earned ? 'var(--grad-lemon)' : 'var(--surface-mute)',
         border: earned ? '1.5px solid #fde047' : '1.5px solid #e2e8f0',
         opacity: earned ? 1 : 0.55,
       }}
     >
       <div style={{ fontSize: 24, flexShrink: 0 }}>{badge.i}</div>
       <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 13, fontWeight: 700, color: earned ? '#78350f' : '#9ca3af' }}>
+        <div
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: earned ? 'var(--ink-warn)' : 'var(--ink-muted)',
+          }}
+        >
           {badge.n}
         </div>
-        <div style={{ fontSize: 11, color: '#9ca3af' }}>{badge.d}</div>
+        <div style={{ fontSize: 11, color: 'var(--ink-muted)' }}>{badge.d}</div>
       </div>
       {earned && (
         <div
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#d97706',
+            color: '#92400e',
             background: '#fef3c7',
             borderRadius: 20,
             padding: '2px 8px',
@@ -201,7 +215,7 @@ export default function AnalyticsScreen({
 
       {/* SRS / Vocabulary mastery */}
       <div className="c" style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b', marginBottom: 14 }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', marginBottom: 14 }}>
           🧠 Vocabulary Mastery
         </div>
         <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
@@ -209,40 +223,48 @@ export default function AnalyticsScreen({
             style={{
               flex: 1,
               textAlign: 'center',
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               borderRadius: 12,
               padding: '12px 8px',
               border: '1px solid #bbf7d0',
             }}
           >
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#16a34a' }}>{s.srsTotal || 0}</div>
-            <div style={{ fontSize: 10, color: '#6b7280', fontWeight: 600 }}>REVIEWED</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-green)' }}>
+              {s.srsTotal || 0}
+            </div>
+            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>REVIEWED</div>
           </div>
           <div
             style={{
               flex: 1,
               textAlign: 'center',
-              background: '#eff6ff',
+              background: 'var(--info-bg)',
               borderRadius: 12,
               padding: '12px 8px',
               border: '1px solid #bfdbfe',
             }}
           >
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#2563eb' }}>{dueWords.length}</div>
-            <div style={{ fontSize: 10, color: '#6b7280', fontWeight: 600 }}>DUE TODAY</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-flag)' }}>
+              {dueWords.length}
+            </div>
+            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>
+              DUE TODAY
+            </div>
           </div>
           <div
             style={{
               flex: 1,
               textAlign: 'center',
-              background: '#fff7ed',
+              background: 'var(--warning-bg)',
               borderRadius: 12,
               padding: '12px 8px',
               border: '1px solid #fed7aa',
             }}
           >
-            <div style={{ fontSize: 22, fontWeight: 800, color: '#ea580c' }}>{mistakes.length}</div>
-            <div style={{ fontSize: 10, color: '#6b7280', fontWeight: 600 }}>MISTAKES</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-warn)' }}>
+              {mistakes.length}
+            </div>
+            <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>MISTAKES</div>
           </div>
         </div>
         {dueWords.length > 0 && (
@@ -263,7 +285,7 @@ export default function AnalyticsScreen({
 
       {/* Streak stats */}
       <div className="c" style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b', marginBottom: 14 }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', marginBottom: 14 }}>
           🔥 Streaks
         </div>
         {/*
@@ -281,21 +303,25 @@ export default function AnalyticsScreen({
             style={{
               flex: 1,
               textAlign: 'center',
-              background: 'linear-gradient(135deg,#fff7ed,#fed7aa)',
+              background: 'var(--grad-orange)',
               borderRadius: 12,
               padding: '14px 8px',
               border: '1px solid #fdba74',
             }}
           >
-            <div style={{ fontSize: 26, fontWeight: 800, color: '#c2410c' }}>{streak} 🔥</div>
-            <div style={{ fontSize: 11, color: '#78716c', fontWeight: 600 }}>CURRENT STREAK</div>
+            <div style={{ fontSize: 26, fontWeight: 800, color: 'var(--ink-warn)' }}>
+              {streak} 🔥
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
+              CURRENT STREAK
+            </div>
           </div>
         </div>
       </div>
 
       {/* Category breakdown */}
       <div className="c" style={{ marginBottom: 16 }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b', marginBottom: 14 }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', marginBottom: 14 }}>
           📈 Lessons by Category
         </div>
         {categoryBreakdown.map((cat) => (
@@ -320,8 +346,8 @@ export default function AnalyticsScreen({
             marginBottom: 14,
           }}
         >
-          <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b' }}>🏅 Badges</div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#d97706' }}>
+          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)' }}>🏅 Badges</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-warn)' }}>
             {earnedBadges.size}/{BADGES.length} earned
           </div>
         </div>
@@ -337,7 +363,7 @@ export default function AnalyticsScreen({
       {/* Top mistakes */}
       {mistakes.length > 0 && (
         <div className="c" style={{ marginBottom: 16 }}>
-          <div style={{ fontSize: 15, fontWeight: 800, color: '#1e293b', marginBottom: 12 }}>
+          <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--text)', marginBottom: 12 }}>
             ⚠️ Most Missed Words
           </div>
           {mistakes.slice(0, 5).map((m: { hr: string; en?: string; count: number }) => (
@@ -352,9 +378,13 @@ export default function AnalyticsScreen({
               }}
             >
               <div>
-                <span style={{ fontSize: 15, fontWeight: 700, color: '#1e40af' }}>{m.hr}</span>
+                <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-flag)' }}>
+                  {m.hr}
+                </span>
                 {m.en && (
-                  <span style={{ fontSize: 13, color: '#6b7280', marginLeft: 8 }}>— {m.en}</span>
+                  <span style={{ fontSize: 13, color: 'var(--ink-muted)', marginLeft: 8 }}>
+                    — {m.en}
+                  </span>
                 )}
               </div>
               <div

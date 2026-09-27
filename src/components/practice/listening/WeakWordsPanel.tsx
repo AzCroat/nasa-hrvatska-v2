@@ -27,7 +27,7 @@ export default function WeakWordsPanel({
         borderRadius: 14,
       }}
     >
-      <div style={{ fontSize: 13, fontWeight: 800, color: '#b91c1c', marginBottom: 12 }}>
+      <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-error)', marginBottom: 12 }}>
         📌 Words to review ({missedQuestions.length} missed)
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>

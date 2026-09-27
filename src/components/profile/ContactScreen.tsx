@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import type { Stats, AuthUser } from '../../types';
+import { accentInk } from '../../lib/accentInk';
 
 interface Ticket {
   id: string;
@@ -178,8 +179,10 @@ export default function ContactScreen({
         }}
       >
         <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
-        <h2 style={{ color: '#0f172a', fontWeight: 900, marginBottom: 8 }}>Ticket Submitted!</h2>
-        <div style={{ fontSize: 14, color: '#64748b', marginBottom: 12 }}>
+        <h2 style={{ color: 'var(--text)', fontWeight: 900, marginBottom: 8 }}>
+          Ticket Submitted!
+        </h2>
+        <div style={{ fontSize: 14, color: 'var(--ink-muted)', marginBottom: 12 }}>
           Your report has been sent to the administrator.
         </div>
 
@@ -190,7 +193,7 @@ export default function ContactScreen({
             alignItems: 'center',
             gap: 10,
             marginBottom: 24,
-            background: '#f8fafc',
+            background: 'var(--surface-mute)',
             border: '1px solid #e2e8f0',
             borderRadius: 10,
             padding: '10px 18px',
@@ -199,7 +202,7 @@ export default function ContactScreen({
           <span
             style={{
               fontSize: 12,
-              color: '#94a3b8',
+              color: 'var(--ink-muted)',
               fontFamily: 'monospace',
               letterSpacing: '.1em',
             }}
@@ -215,7 +218,7 @@ export default function ContactScreen({
               cursor: 'pointer',
               fontSize: 16,
               padding: '2px 4px',
-              color: copied ? '#16a34a' : '#64748b',
+              color: copied ? 'var(--ink-green)' : 'var(--ink-muted)',
             }}
           >
             {copied ? '✓' : '⎘'}
@@ -226,9 +229,9 @@ export default function ContactScreen({
           <div
             style={{
               fontSize: 13,
-              color: '#64748b',
+              color: 'var(--ink-muted)',
               marginBottom: 28,
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               border: '1px solid #86efac',
               borderRadius: 10,
               padding: '10px 20px',
@@ -256,17 +259,17 @@ export default function ContactScreen({
             border: 'none',
             fontSize: 22,
             cursor: 'pointer',
-            color: '#64748b',
+            color: 'var(--ink-muted)',
             padding: '4px 2px',
           }}
         >
           ←
         </button>
         <div>
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#0f172a' }}>
+          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: 'var(--text)' }}>
             Contact Support
           </h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 2 }}>
             Report a bug, suggest a feature, or ask a question
           </div>
         </div>
@@ -278,7 +281,7 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 10,
@@ -310,15 +313,17 @@ export default function ContactScreen({
                   style={{
                     fontSize: 14,
                     fontWeight: 700,
-                    color: type === t.id ? t.color : '#0f172a',
+                    color: type === t.id ? accentInk(t.color) : 'var(--heading)',
                   }}
                 >
                   {t.label}
                 </div>
-                <div style={{ fontSize: 12, color: '#64748b', marginTop: 1 }}>{t.desc}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 1 }}>
+                  {t.desc}
+                </div>
               </div>
               {type === t.id && (
-                <span style={{ color: t.color, fontSize: 18, fontWeight: 900 }}>✓</span>
+                <span style={{ color: accentInk(t.color), fontSize: 18, fontWeight: 900 }}>✓</span>
               )}
             </button>
           ))}
@@ -331,13 +336,13 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
           }}
         >
-          Subject <span style={{ color: '#dc2626' }}>*</span>
+          Subject <span style={{ color: 'var(--ink-error)' }}>*</span>
         </div>
         <input
           type="text"
@@ -360,7 +365,7 @@ export default function ContactScreen({
         <div
           style={{
             fontSize: 11,
-            color: subject.length > 100 ? '#f59e0b' : '#94a3b8',
+            color: subject.length > 100 ? '#f59e0b' : 'var(--ink-muted)',
             textAlign: 'right',
             marginTop: 4,
           }}
@@ -375,13 +380,13 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
           }}
         >
-          Description <span style={{ color: '#dc2626' }}>*</span>
+          Description <span style={{ color: 'var(--ink-error)' }}>*</span>
         </div>
         <textarea
           placeholder={
@@ -408,11 +413,18 @@ export default function ContactScreen({
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
           {descTooShort ? (
-            <span style={{ fontSize: 11, color: '#dc2626' }}>At least 10 characters required</span>
+            <span style={{ fontSize: 11, color: 'var(--ink-error)' }}>
+              At least 10 characters required
+            </span>
           ) : (
             <span />
           )}
-          <span style={{ fontSize: 11, color: description.length > 1800 ? '#f59e0b' : '#94a3b8' }}>
+          <span
+            style={{
+              fontSize: 11,
+              color: description.length > 1800 ? '#f59e0b' : 'var(--ink-muted)',
+            }}
+          >
             {description.length}/2000
           </span>
         </div>
@@ -424,14 +436,16 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
           }}
         >
           Your Email{' '}
-          <span style={{ color: '#94a3b8', fontWeight: 400 }}>(optional — for follow-up)</span>
+          <span style={{ color: 'var(--ink-muted)', fontWeight: 400 }}>
+            (optional — for follow-up)
+          </span>
         </div>
         <input
           type="email"
@@ -458,7 +472,7 @@ export default function ContactScreen({
             border: '1px solid rgba(220,38,38,.2)',
             borderRadius: 12,
             padding: '12px 16px',
-            color: '#dc2626',
+            color: 'var(--ink-error)',
             fontSize: 13,
             fontWeight: 600,
             marginBottom: 16,
@@ -482,7 +496,7 @@ export default function ContactScreen({
             : 'Send Report'}
       </button>
 
-      <div style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginTop: 12 }}>
+      <div style={{ fontSize: 11, color: 'var(--ink-muted)', textAlign: 'center', marginTop: 12 }}>
         Reports go directly to the administrator. Max 3 per hour.
       </div>
     </div>

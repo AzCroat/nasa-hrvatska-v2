@@ -64,7 +64,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
             href="https://www.anthropic.com/privacy"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#0e7490' }}
+            style={{ color: 'var(--ink-accent)' }}
           >
             privacy policy
           </a>
@@ -115,7 +115,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
         <p style={{ fontSize: 13, color: 'var(--rt-c)', lineHeight: 1.7, marginBottom: 10 }}>
           <strong>Your rights:</strong> You may request access to, correction of, or deletion of
           your personal data at any time. To exercise these rights, email{' '}
-          <a href="mailto:privacy@nasahrvatska.com" style={{ color: '#0e7490' }}>
+          <a href="mailto:privacy@nasahrvatska.com" style={{ color: 'var(--ink-accent)' }}>
             privacy@nasahrvatska.com
           </a>
           . We will process your request within 30 days.
@@ -146,7 +146,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
               href="https://www.bfdi.bund.de"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: '#0e7490' }}
+              style={{ color: 'var(--ink-accent)' }}
             >
               bfdi.bund.de
             </a>
@@ -187,7 +187,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
           knowingly collect data from children under 13 outside of a parent-managed family group. If
           you believe a child under 13 has registered independently without parental consent,
           contact us at{' '}
-          <a href="mailto:privacy@nasahrvatska.com" style={{ color: '#0e7490' }}>
+          <a href="mailto:privacy@nasahrvatska.com" style={{ color: 'var(--ink-accent)' }}>
             privacy@nasahrvatska.com
           </a>{' '}
           and we will promptly delete the account.
@@ -218,7 +218,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
             href="https://www.anthropic.com/privacy"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#0e7490' }}
+            style={{ color: 'var(--ink-accent)' }}
           >
             anthropic.com/privacy
           </a>
@@ -227,7 +227,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
             href="https://elevenlabs.io/privacy"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#0e7490' }}
+            style={{ color: 'var(--ink-accent)' }}
           >
             elevenlabs.io/privacy
           </a>
@@ -278,7 +278,7 @@ export default function PrivacyScreen({ goBack }: { goBack?: () => void }) {
 
       <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--subtext)', marginBottom: 24 }}>
         Questions? Email{' '}
-        <a href="mailto:privacy@nasahrvatska.com" style={{ color: '#0e7490' }}>
+        <a href="mailto:privacy@nasahrvatska.com" style={{ color: 'var(--ink-accent)' }}>
           privacy@nasahrvatska.com
         </a>
       </div>

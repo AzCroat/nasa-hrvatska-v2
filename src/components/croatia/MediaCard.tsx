@@ -9,6 +9,7 @@ import {
 } from './MediaPlayerUtils';
 import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY } from '../../lib/mediaDone';
 import { parseTombstones, recordTombstone } from '../../lib/tombstones';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Completion tracking (localStorage) ───────────────────────────────────────
 function getCompletedMedia() {
@@ -80,7 +81,7 @@ export function LearningModeToggle({
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: enabled ? '#D40030' : 'var(--subtext)',
+          color: enabled ? 'var(--ink-error)' : 'var(--subtext)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -106,7 +107,7 @@ export function LearningModeToggle({
             width: 14,
             height: 14,
             borderRadius: '50%',
-            background: 'white',
+            background: 'var(--card)',
             boxShadow: '0 1px 4px rgba(0,0,0,.25)',
             transition: 'left .2s',
           }}
@@ -122,7 +123,7 @@ export function GoalTag({ label }: { label: string }) {
     <span
       style={{
         background: 'rgba(212,0,48,.08)',
-        color: '#D40030',
+        color: 'var(--ink-red)',
         fontSize: 9,
         fontWeight: 800,
         padding: '2px 7px',
@@ -153,7 +154,7 @@ function VocabPreview({ cat }: { cat: string }) {
         style={{
           fontSize: 9,
           fontWeight: 900,
-          color: '#D40030',
+          color: 'var(--ink-error)',
           letterSpacing: '.08em',
           textTransform: 'uppercase',
           marginBottom: 6,
@@ -166,14 +167,14 @@ function VocabPreview({ cat }: { cat: string }) {
           <div
             key={w.hr}
             style={{
-              background: 'white',
+              background: 'var(--card)',
               border: '1px solid var(--card-b)',
               borderRadius: 8,
               padding: '4px 8px',
               fontSize: 10,
             }}
           >
-            <span style={{ fontWeight: 800, color: '#0e7490' }}>{w.hr}</span>
+            <span style={{ fontWeight: 800, color: 'var(--ink-accent)' }}>{w.hr}</span>
             <span style={{ color: 'var(--subtext)', marginLeft: 4 }}>{w.en}</span>
           </div>
         ))}
@@ -220,7 +221,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
         style={{
           fontSize: 9,
           fontWeight: 900,
-          color: '#0e7490',
+          color: 'var(--ink-accent)',
           letterSpacing: '.08em',
           textTransform: 'uppercase',
           marginBottom: 4,
@@ -228,11 +229,13 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
       >
         Comprehension Check
       </div>
-      <div style={{ fontSize: 11, color: 'var(--body)', lineHeight: 1.5, marginBottom: 8 }}>
+      <div style={{ fontSize: 11, color: 'var(--text)', lineHeight: 1.5, marginBottom: 8 }}>
         {q}
       </div>
       {done ? (
-        <span style={{ fontSize: 10, color: '#16a34a', fontWeight: 800 }}>✓ Completed</span>
+        <span style={{ fontSize: 10, color: 'var(--ink-green)', fontWeight: 800 }}>
+          ✓ Completed
+        </span>
       ) : (
         <button
           onClick={markDone}
@@ -358,7 +361,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: `${lc}18`,
-                  color: lc,
+                  color: accentInk(lc),
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -374,7 +377,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(220,38,38,.08)',
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -390,7 +393,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(14,116,144,.08)',
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -406,7 +409,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(220,38,38,.08)',
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -446,7 +449,7 @@ export default function MediaCard({
                 gap: 3,
                 marginTop: 5,
                 fontSize: 'var(--text-xs)',
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
               }}
             >
               <span>🔐</span>
@@ -503,7 +506,7 @@ export default function MediaCard({
                     width: 6,
                     height: 6,
                     borderRadius: '50%',
-                    background: 'white',
+                    background: 'var(--card)',
                     display: 'inline-block',
                     opacity: 0.9,
                     flexShrink: 0,
@@ -527,7 +530,7 @@ export default function MediaCard({
               borderRadius: 8,
               background: tipOpen ? 'rgba(14,116,144,.08)' : 'transparent',
               border: '1px solid ' + (tipOpen ? 'rgba(14,116,144,.2)' : 'rgba(0,0,0,.07)'),
-              color: tipOpen ? '#0e7490' : '#78716c',
+              color: tipOpen ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               flexShrink: 0,
             }}
           >
@@ -553,7 +556,7 @@ export default function MediaCard({
             style={{
               margin: 0,
               fontSize: 'var(--text-xs)',
-              color: 'var(--body)',
+              color: 'var(--text)',
               lineHeight: 1.75,
             }}
           >

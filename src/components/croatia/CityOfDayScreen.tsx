@@ -10,6 +10,7 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { loadCityHrBand, pickCityIntroHr, type CityHrEntries } from '../../lib/cityIntroHr';
 import type { CefrLevel } from '../../lib/cefr';
+import { accentInk } from '../../lib/accentInk';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. All 4 tabs (Overview / History / Vocab / Fast Facts) populated.
@@ -348,7 +349,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
                     padding: '5px 12px',
                     fontSize: 12,
                     fontWeight: 700,
-                    color: '#991b1b',
+                    color: 'var(--ink-error)',
                   }}
                 >
                   {/* Names the level only when it IS the learner's — an A2 or B2
@@ -405,7 +406,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
               <span
                 style={{
                   background: city.color + '18',
-                  color: city.color,
+                  color: accentInk(city.color),
                   fontSize: 12,
                   fontWeight: 700,
                   padding: '5px 12px',
@@ -447,7 +448,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
           <div
             style={{
               padding: '14px 16px',
-              background: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+              background: 'var(--grad-sky)',
               borderRadius: 14,
               borderLeft: '4px solid ' + city.color,
             }}
@@ -456,7 +457,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: city.color,
+                color: accentInk(city.color),
                 marginBottom: 6,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
@@ -562,7 +563,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
               background: city.color + '0e',
               borderRadius: 10,
               fontSize: 12,
-              color: city.color,
+              color: accentInk(city.color),
               fontWeight: 700,
             }}
           >
@@ -620,7 +621,12 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
                   />
                   <div style={{ flex: 1 }}>
                     <div
-                      style={{ fontSize: 17, fontWeight: 800, color: city.color, marginBottom: 3 }}
+                      style={{
+                        fontSize: 17,
+                        fontWeight: 800,
+                        color: accentInk(city.color),
+                        marginBottom: 3,
+                      }}
                     >
                       {v.hr}{' '}
                       <span aria-hidden="true" style={{ fontSize: 14, opacity: 0.5 }}>

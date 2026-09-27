@@ -5,6 +5,7 @@ import DialoguePlayer from './DialoguePlayer';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
+import { accentInk } from '../../../lib/accentInk';
 
 /** Extract key vocabulary words from the Croatian sentence (words ≥ 4 chars, skip common short words) */
 const STOP_WORDS = new Set([
@@ -248,7 +249,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           style={{
             fontSize: 10,
             fontWeight: 900,
-            color: ld.color,
+            color: accentInk(ld.color),
             textTransform: 'uppercase',
             letterSpacing: '.1em',
             marginBottom: 10,
@@ -295,14 +296,14 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           const isChosen = opt === chosen;
           let bg = 'var(--card)',
             border = '1.5px solid var(--card-b)',
-            color = 'var(--body)';
+            color = 'var(--text)';
           if (chosen !== null) {
             if (isCorrect) {
               bg = 'var(--success-bg, #f0fdf4)';
               border = '1.5px solid var(--success-b, #bbf7d0)';
               color = 'var(--success)';
             } else if (isChosen) {
-              bg = '#fff1f2';
+              bg = 'var(--error-bg)';
               border = '1.5px solid #fecaca';
               color = '#b91c1c';
             }

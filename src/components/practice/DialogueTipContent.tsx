@@ -23,7 +23,7 @@ export default function TipContent({ tip }: { tip?: string }) {
                 padding: '1px 8px',
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 marginLeft: 4,
                 verticalAlign: 'middle',
                 cursor: 'default',

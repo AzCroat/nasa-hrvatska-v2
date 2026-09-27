@@ -118,7 +118,10 @@ describe('a failed micro-lesson credits nothing', () => {
     expect(screen.getByTestId('micro-lesson-xp').textContent).toBe('+25');
     expect(award).toHaveBeenCalledWith(25);
     expect(setStats).toHaveBeenCalled();
-    expect(writeDelta).toHaveBeenCalledWith({ gc: 1 });
+    // The completion now goes through the authority (2026-09-26), which syncs the `vs`
+    // key alongside the counter — that key is what makes the credit once-only, so a
+    // delta of `{ gc: 1 }` alone would leave a second device free to count it again.
+    expect(writeDelta).toHaveBeenCalledWith({ gc: 1, vs: ['micro_lesson'] });
     expect(markQuest).toHaveBeenCalledWith('grammar');
   });
 

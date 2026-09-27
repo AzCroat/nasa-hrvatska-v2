@@ -27,6 +27,7 @@ import {
   CheckSlide,
   SummarySlide,
 } from './LessonSlides';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Inline keyframes injected once ──────────────────────────
 const SLIDE_ANIM_ID = 'nh-slide-anim';
@@ -551,7 +552,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
               padding: '6px 10px',
               cursor: 'pointer',
               fontSize: 15,
-              color: autoTTS ? lesson.color : 'var(--subtext)',
+              color: autoTTS ? accentInk(lesson.color) : 'var(--subtext)',
               fontFamily: 'inherit',
               display: 'flex',
               alignItems: 'center',
@@ -579,6 +580,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       {/* ── Navigation — fixed above the app nav bar so it's always visible ── */}
       {/* Lesson nav: position:fixed above app nav (≈60px) — never requires scrolling to reach */}
       <div
+        data-bottom-bar
         style={{
           position: 'fixed',
           bottom: 'calc(60px + env(safe-area-inset-bottom, 0px))',

@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { QWORDS } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../../lib/sessionSignal';
 import { useStats } from '../../../context/StatsContext';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function QuestionWordsScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = useMemo(() => shMemo('qw', QWORDS, undefined), []);
   const shuffledOpts = useMemo(
     () =>
@@ -40,9 +40,7 @@ function QuestionWordsScreen({ goBack, award }: Props) {
     // award() below is gated on xpEarned > 0, which stranded the session on a
     // zero-score run (2026-07-16 completion-matrix audit).
     signalSessionCompleteIfActive('qwords');
-    markQuest('grammar');
-    setStats((s) => ({ ...s, gc: s.gc + 1 }));
-    writeDelta({ gc: 1 });
+    completeExercise({ key: 'qwords', xp: 0, stats, setStats, writeDelta });
     try {
       sessionStorage.setItem('nh_grammar_unit_completed', 'true');
     } catch {}
@@ -121,7 +119,7 @@ function QuestionWordsScreen({ goBack, award }: Props) {
             <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
               {q.q}
               {' — '}
-              <span style={{ color: '#78716c', fontStyle: 'italic' }}>{q.en}</span>
+              <span style={{ color: 'var(--ink-muted-warm)', fontStyle: 'italic' }}>{q.en}</span>
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               {(shuffledOpts[qi] ?? []).map(function (o: string, oi: number) {
@@ -145,6 +143,10 @@ function QuestionWordsScreen({ goBack, award }: Props) {
                       border: `2px solid ${border}`,
                       borderRadius: 10,
                       background: bg,
+                      // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                      // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                      // white in dark mode once buttons followed the theme (2026-09-27).
+                      color: '#1c1917',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: state !== null ? 'default' : 'pointer',
@@ -158,7 +160,9 @@ function QuestionWordsScreen({ goBack, award }: Props) {
               })}
               {state === 'correct' && <span style={{ fontSize: 14 }}>✅</span>}
               {state === 'wrong' && (
-                <span style={{ fontSize: 13, color: '#0e7490', fontWeight: 700 }}>→ {q.a}</span>
+                <span style={{ fontSize: 13, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                  → {q.a}
+                </span>
               )}
             </div>
           </div>

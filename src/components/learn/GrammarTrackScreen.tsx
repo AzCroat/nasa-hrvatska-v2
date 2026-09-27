@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { accentInk } from '../../lib/accentInk';
 
 // ── A1→B2 Grammar Curriculum ─────────────────────────────────────────────────
 // Each unit links to an existing screen. Progress tracked per-unit in localStorage.
@@ -842,7 +843,7 @@ export default function GrammarTrackScreen({
                         marginLeft: 6,
                         fontSize: 9,
                         fontWeight: 900,
-                        color: level.color,
+                        color: accentInk(level.color),
                         background: level.color + '18',
                         padding: '2px 5px',
                         borderRadius: 4,
@@ -880,7 +881,11 @@ export default function GrammarTrackScreen({
                     : isNext
                       ? level.color + '15'
                       : 'var(--bar-bg)',
-                  color: isDone ? 'var(--success)' : isNext ? level.color : level.color,
+                  color: isDone
+                    ? 'var(--ink-green)'
+                    : isNext
+                      ? accentInk(level.color)
+                      : level.color,
                   border: `1px solid ${isDone ? 'var(--success-b)' : isNext ? level.color + '40' : level.border}`,
                   whiteSpace: 'nowrap',
                 }}
@@ -899,16 +904,18 @@ export default function GrammarTrackScreen({
             marginTop: 16,
             padding: '14px 16px',
             borderRadius: 14,
-            background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #bbf7d0',
             textAlign: 'center',
           }}
         >
           <div style={{ fontSize: 28, marginBottom: 6 }}>🎉</div>
-          <div style={{ fontSize: 15, fontWeight: 900, color: '#065f46', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 15, fontWeight: 900, color: 'var(--ink-green)', marginBottom: 4 }}
+          >
             {level.id} Complete!
           </div>
-          <div style={{ fontSize: 13, color: '#059669' }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-green)' }}>
             {activeLevel !== 'C2'
               ? `Move on to ${LEVELS[LEVELS.findIndex((l) => l.id === activeLevel) + 1]?.id} when ready`
               : "You've mastered Croatian grammar — Odlično!"}

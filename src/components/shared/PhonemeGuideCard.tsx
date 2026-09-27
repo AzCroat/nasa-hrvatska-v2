@@ -29,7 +29,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
           cursor: 'pointer',
           padding: '3px 0',
           fontSize: 11,
-          color: '#0e7490',
+          color: 'var(--ink-accent)',
           fontWeight: 700,
           fontFamily: "'Outfit',sans-serif",
           display: 'flex',
@@ -46,7 +46,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
             marginTop: 6,
             padding: '12px 14px',
             borderRadius: 10,
-            background: 'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+            background: 'var(--grad-sky)',
             border: '1.5px solid #bae6fd',
             fontSize: 12,
             lineHeight: 1.55,
@@ -76,29 +76,31 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
             >
               {guide.ipa}
             </span>
-            <span style={{ color: '#0369a1', fontWeight: 700 }}>{guide.approx}</span>
+            <span style={{ color: 'var(--ink-info)', fontWeight: 700 }}>{guide.approx}</span>
           </div>
           {/* Articulation */}
           <div style={{ marginBottom: 6 }}>
-            <span style={{ fontWeight: 800, color: '#0c4a6e' }}>Articulation: </span>
-            <span style={{ color: '#1e293b' }}>{guide.articulate}</span>
+            <span style={{ fontWeight: 800, color: 'var(--ink-info)' }}>Articulation: </span>
+            <span style={{ color: 'var(--text)' }}>{guide.articulate}</span>
           </div>
           {/* Contrast note */}
           {guide.contrast && (
             <div style={{ marginBottom: 6 }}>
-              <span style={{ fontWeight: 800, color: '#7c3aed' }}>vs. similar sounds: </span>
-              <span style={{ color: '#3730a3' }}>{guide.contrast}</span>
+              <span style={{ fontWeight: 800, color: 'var(--ink-mode)' }}>
+                vs. similar sounds:{' '}
+              </span>
+              <span style={{ color: 'var(--ink-mode)' }}>{guide.contrast}</span>
             </div>
           )}
           {/* Example words */}
           <div style={{ marginTop: 4 }}>
-            <span style={{ fontWeight: 800, color: '#065f46' }}>Examples: </span>
+            <span style={{ fontWeight: 800, color: 'var(--ink-green)' }}>Examples: </span>
             <span
               style={{
                 fontFamily: 'serif',
                 fontSize: 13,
                 fontWeight: 700,
-                color: '#064e3b',
+                color: 'var(--ink-green)',
                 fontStyle: 'italic',
               }}
             >
@@ -127,9 +129,9 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
                       fontWeight: 700,
                       padding: '2px 8px',
                       borderRadius: 20,
-                      background: '#f0fdf4',
+                      background: 'var(--success-bg)',
                       border: '1px solid #86efac',
-                      color: '#166534',
+                      color: 'var(--ink-green)',
                     }}
                   >
                     {label}: {value}

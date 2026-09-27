@@ -88,6 +88,7 @@ export default function AIConversationChat({
 }: AIConversationChatProps) {
   return (
     <div
+      data-bottom-bar
       style={{
         position: 'fixed',
         inset: 0,
@@ -294,7 +295,7 @@ export default function AIConversationChat({
               style={{
                 fontSize: 'var(--text-base)',
                 fontWeight: 800,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 marginBottom: 8,
               }}
             >
@@ -303,7 +304,7 @@ export default function AIConversationChat({
             <div
               style={{
                 fontSize: 'var(--text-sm)',
-                color: 'var(--body)',
+                color: 'var(--text)',
                 lineHeight: 1.65,
                 marginBottom: 16,
                 textAlign: 'left',
@@ -318,7 +319,7 @@ export default function AIConversationChat({
             <div
               style={{
                 fontSize: 'var(--text-sm)',
-                color: 'var(--body)',
+                color: 'var(--text)',
                 marginBottom: 14,
               }}
             >
@@ -374,7 +375,7 @@ export default function AIConversationChat({
                   borderRadius: 14,
                   padding: '12px 14px',
                   fontSize: 'var(--text-sm)',
-                  color: 'var(--body)',
+                  color: 'var(--text)',
                   lineHeight: 1.6,
                 }}
               >
@@ -470,19 +471,19 @@ export default function AIConversationChat({
                     fontSize: 'var(--text-sm)',
                   }}
                 >
-                  <span style={{ color: 'var(--success)', fontWeight: 800 }}>✏️ Better: </span>
-                  <span style={{ color: 'var(--success)', fontWeight: 900 }}>
+                  <span style={{ color: 'var(--ink-green)', fontWeight: 800 }}>✏️ Better: </span>
+                  <span style={{ color: 'var(--ink-green)', fontWeight: 900 }}>
                     {correction.corrected}
                   </span>
                   {(correction.explanation || correction.note) && (
-                    <div style={{ color: 'var(--success)', opacity: 0.75, marginTop: 2 }}>
+                    <div style={{ color: 'var(--ink-green)', opacity: 0.75, marginTop: 2 }}>
                       {correction.explanation || correction.note}
                     </div>
                   )}
                   {correction.echo && (
                     <div
                       style={{
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                         opacity: 0.85,
                         marginTop: 6,
                         paddingTop: 6,
@@ -509,7 +510,7 @@ export default function AIConversationChat({
               borderRadius: 12,
               padding: '12px 14px',
               fontSize: 'var(--text-sm)',
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               lineHeight: 1.6,
               display: 'flex',
               gap: 10,
@@ -527,7 +528,7 @@ export default function AIConversationChat({
                   padding: '4px 12px',
                   borderRadius: 8,
                   border: 'none',
-                  background: 'var(--error)',
+                  background: 'var(--fill-error)',
                   color: 'white',
                   fontSize: 'var(--text-xs)',
                   fontWeight: 700,
@@ -650,7 +651,7 @@ export default function AIConversationChat({
                 borderRadius: 12,
                 border: '1.5px solid var(--error-b)',
                 background: 'var(--error-bg)',
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 700,
                 fontSize: 'var(--text-sm)',
                 cursor: 'pointer',
@@ -794,7 +795,7 @@ export default function AIConversationChat({
                   color: isVoiceProcessing
                     ? 'var(--info)'
                     : listening
-                      ? 'var(--error)'
+                      ? 'var(--ink-error)'
                       : 'var(--subtext)',
                   animation:
                     listening || isVoiceProcessing ? 'pulse 1s ease-in-out infinite' : 'none',

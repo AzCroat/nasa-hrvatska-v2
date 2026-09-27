@@ -101,7 +101,7 @@ function RoleplayScreen({
           padding: '12px 16px',
           borderRadius: l.you ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
           background: l.you ? 'linear-gradient(135deg,#0e7490,#164e63)' : 'rgba(255,255,255,.85)',
-          color: l.you ? 'white' : '#1c1917',
+          color: l.you ? 'white' : 'var(--ink-ink)',
           border: l.you ? 'none' : '1px solid #e7e5e4',
         }}
       >
@@ -162,10 +162,10 @@ function RoleplayScreen({
         style={{
           marginBottom: 16,
           borderLeft: '4px solid #7c3aed',
-          background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+          background: 'var(--grad-violet)',
         }}
       >
-        <div style={{ fontSize: 16, fontWeight: 800, color: '#7c3aed' }}>{r.title}</div>
+        <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-mode)' }}>{r.title}</div>
         <div style={{ fontSize: 13, color: 'var(--subtext)' }}>{r.en}</div>
       </div>
 
@@ -184,7 +184,9 @@ function RoleplayScreen({
             background: 'rgba(14,116,144,.06)',
           }}
         >
-          <div style={{ fontSize: 12, fontWeight: 800, color: '#0e7490', marginBottom: 6 }}>
+          <div
+            style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 6 }}
+          >
             🎤 Your turn ({current.speaker}) — say it in Croatian:
           </div>
           <div style={{ fontSize: 15, fontWeight: 600, marginBottom: 10 }}>“{current.en}”</div>
@@ -198,7 +200,7 @@ function RoleplayScreen({
               style={{
                 fontSize: 15,
                 fontWeight: 700,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 cursor: 'pointer',
                 marginBottom: 10,
               }}

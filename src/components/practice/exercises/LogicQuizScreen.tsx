@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { LOGICQUIZ } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function LogicQuizScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const questions = shMemo('lq', LOGICQUIZ, undefined);
   const handledRef = useRef(new Set<number>());
   const [done, setDone] = useState(false);
@@ -32,9 +32,7 @@ function LogicQuizScreen({ goBack, award }: Props) {
       speak(o);
     }
     if (handledRef.current.size >= questions.length) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'logicquiz', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -98,12 +96,12 @@ function LogicQuizScreen({ goBack, award }: Props) {
                       border: `2px solid ${!answered ? '#d6d3d1' : isRight ? '#16a34a' : wasChosen ? '#dc2626' : '#d6d3d1'}`,
                       borderRadius: 10,
                       background: !answered
-                        ? 'white'
+                        ? 'var(--card)'
                         : isRight
-                          ? '#dcfce7'
+                          ? 'var(--success-bg-strong)'
                           : wasChosen
-                            ? '#fee2e2'
-                            : 'white',
+                            ? 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 12,
                       fontWeight: 600,
                       cursor: answered ? 'default' : 'pointer',
@@ -124,7 +122,9 @@ function LogicQuizScreen({ goBack, award }: Props) {
       {done && (
         <div className="c" style={{ marginTop: 16, padding: '20px 16px', textAlign: 'center' }}>
           <div style={{ fontSize: 40, marginBottom: 8 }}>🏆</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             All {questions.length} scenarios complete!
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

@@ -27,11 +27,15 @@ function PracticalScreen({ goBack }: Props) {
     <div className="scr-wrap">
       {H('💼 Practical Life in Croatia', 'Documents, customs, culture', goBack)}
       <div className="c" style={{ marginBottom: 12, borderLeft: '4px solid #dc2626' }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#dc2626' }}>{PRACTICAL.oib.title}</div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-error)' }}>
+          {PRACTICAL.oib.title}
+        </div>
         <div style={{ fontSize: 13, marginTop: 4 }}>{PRACTICAL.oib.desc}</div>
       </div>
       <div className="c" style={{ marginBottom: 12, borderLeft: '4px solid #0e7490' }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#0e7490' }}>{PRACTICAL.mbo.title}</div>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-accent)' }}>
+          {PRACTICAL.mbo.title}
+        </div>
         <div style={{ fontSize: 13, marginTop: 4 }}>{PRACTICAL.mbo.desc}</div>
       </div>
       <h3 className="sh">📄 Documents</h3>
@@ -50,13 +54,15 @@ function PracticalScreen({ goBack }: Props) {
               <div style={{ fontSize: 13, fontWeight: 700 }}>
                 {d[0]} <span aria-hidden="true">🔊</span>
               </div>
-              <div style={{ fontSize: 11, color: '#78716c' }}>{d[1]}</div>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{d[1]}</div>
             </button>
           );
         })}
       </div>
       <div className="c" style={{ marginTop: 16, borderLeft: '4px solid #f59e0b' }}>
-        <div style={{ fontSize: 14, fontWeight: 700, color: '#b45309' }}>📅 School Calendar</div>
+        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-warn)' }}>
+          📅 School Calendar
+        </div>
         <div style={{ fontSize: 13, marginTop: 4 }}>{PRACTICAL.schoolCalendar}</div>
       </div>
       <h3 className="sh" style={{ marginTop: 16 }}>
@@ -65,8 +71,10 @@ function PracticalScreen({ goBack }: Props) {
       {PRACTICAL.customs.map(function (c, i) {
         return (
           <div key={i} className="c" style={{ marginBottom: 8 }}>
-            <div style={{ fontSize: 14, fontWeight: 800, color: '#164e63' }}>{c.rule}</div>
-            <div style={{ fontSize: 13, color: '#44403c', marginTop: 4 }}>{c.desc}</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-strong)' }}>
+              {c.rule}
+            </div>
+            <div style={{ fontSize: 13, color: 'var(--ink-body)', marginTop: 4 }}>{c.desc}</div>
           </div>
         );
       })}

@@ -4,6 +4,7 @@ import { getSR } from '../../lib/srs.ts';
 import { useStats } from '../../context/StatsContext.tsx';
 import { recordSrsReview } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { accentInk } from '../../lib/accentInk';
 
 // ─── STYLES ──────────────────────────────────────────────────────────────────
 const STYLES = `
@@ -98,7 +99,7 @@ function SRSCardReview({ item, onResult }: { item: any; onResult: (correct: bool
     <div style={{ animation: 'ar-pop .22s ease both' }}>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 20,
           padding: 28,
           boxShadow: '0 4px 20px rgba(0,0,0,.1)',
@@ -140,7 +141,14 @@ function SRSCardReview({ item, onResult }: { item: any; onResult: (correct: bool
         {flipped && (
           <div style={{ animation: 'ar-slide .18s ease both' }}>
             {enHint && (
-              <div style={{ fontSize: 16, color: '#0e7490', fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  fontSize: 16,
+                  color: 'var(--ink-accent)',
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 {enHint}
               </div>
             )}
@@ -188,7 +196,7 @@ function MistakeCardReview({
     <div style={{ animation: 'ar-pop .22s ease both' }}>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 20,
           padding: 24,
           boxShadow: '0 4px 20px rgba(220,38,38,.1)',
@@ -205,7 +213,7 @@ function MistakeCardReview({
             style={{
               fontSize: 10,
               fontWeight: 800,
-              color: '#dc2626',
+              color: 'var(--ink-error)',
               background: 'rgba(220,38,38,.12)',
               padding: '2px 8px',
               borderRadius: 99,
@@ -248,7 +256,7 @@ function MistakeCardReview({
               marginTop: 8,
             }}
           >
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>{m.en}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>{m.en}</div>
             <button
               onClick={() => speak(m.hr)}
               style={{
@@ -313,7 +321,7 @@ function Pill({ label, color = '#7c3aed' }: { label: string; color?: string }) {
         marginRight: 6,
         marginBottom: 6,
         background: `${color}18`,
-        color,
+        color: accentInk(color),
         border: `1px solid ${color}33`,
       }}
     >
@@ -444,7 +452,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
           {/* Weak areas section */}
           <div
             style={{
-              background: 'var(--card-bg)',
+              background: 'var(--card)',
               borderRadius: 18,
               padding: 18,
               marginBottom: 14,
@@ -518,7 +526,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
                     style={{
                       fontSize: 13,
                       fontWeight: 800,
-                      color: '#7c3aed',
+                      color: 'var(--ink-mode)',
                       textTransform: 'capitalize',
                     }}
                   >
@@ -646,8 +654,10 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               {sessionIdx + 1} / {session.length}
             </div>
           </div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#059669' }}>✓ {correct}</div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#dc2626', marginLeft: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-green)' }}>
+            ✓ {correct}
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-error)', marginLeft: 8 }}>
             ✗ {wrong}
           </div>
         </div>
@@ -726,14 +736,21 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               <div
                 key={i}
                 style={{
-                  background: 'var(--card-bg)',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   padding: '14px 10px',
                   textAlign: 'center',
                   boxShadow: '0 2px 8px rgba(0,0,0,.06)',
                 }}
               >
-                <div style={{ fontSize: 20, fontWeight: 900, color: s.color, marginBottom: 2 }}>
+                <div
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 900,
+                    color: accentInk(s.color),
+                    marginBottom: 2,
+                  }}
+                >
                   {s.value}
                 </div>
                 <div
@@ -766,7 +783,9 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
           >
             <span style={{ fontSize: 20 }}>🧠</span>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#7c3aed', marginBottom: 2 }}>
+              <div
+                style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 2 }}
+              >
                 Preporuka za sljedeći put
               </div>
               <div style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.5 }}>

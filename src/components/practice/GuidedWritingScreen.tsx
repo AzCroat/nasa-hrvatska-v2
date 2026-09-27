@@ -73,6 +73,18 @@ export function frameMatches(input: string, answer: string, accept?: string[]): 
 }
 
 /** Rotate through the level's units across visits so content doesn't repeat. */
+/**
+ * The unit this learner is on at `level`. A READ, and only a read (2026-09-27).
+ *
+ * It used to advance the stored pointer as it read, and it is called when the screen
+ * MOUNTS — so opening a unit and backing out skipped it for the whole rotation, and a
+ * learner who backed out of their first unit never met it. The floors in this
+ * curriculum ladder by index on the premise that the rotation is sequential ("unit 0
+ * really is the learner's first"); advancing on open made that premise false for
+ * anyone who looked before committing. The pointer now moves in `advanceUnit`, called
+ * from the graded finish — the same place the course coupling is discharged. Found
+ * walking a learner's day in a browser: reopening an abandoned unit served another.
+ */
 export function pickUnit(level: string): WritingUnit {
   const pool = unitsForLevel(level as CefrLevel);
   const units = pool.length > 0 ? pool : WRITING_CURRICULUM.filter((u) => u.level === 'A1');
@@ -82,13 +94,19 @@ export function pickUnit(level: string): WritingUnit {
   } catch {
     /* storage unavailable — first unit */
   }
-  const unit = units[((idx % units.length) + units.length) % units.length]!;
+  return units[((idx % units.length) + units.length) % units.length]!;
+}
+
+/** Move this level's pointer past the unit just FINISHED. Only a graded finish calls it. */
+export function advanceUnit(level: string): void {
+  const pool = unitsForLevel(level as CefrLevel);
+  const units = pool.length > 0 ? pool : WRITING_CURRICULUM.filter((u) => u.level === 'A1');
   try {
+    const idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
     localStorage.setItem(`${UNIT_PTR_KEY}:${level}`, String((idx + 1) % units.length));
   } catch {
     /* storage unavailable — same unit next time */
   }
-  return unit;
 }
 
 type Stage = 'study' | 'frames' | 'write';
@@ -97,7 +115,10 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
   const mountedRef = useRef(true);
   const finishFired = useRef(false);
   const { isOnline } = useOnlineStatus();
-  const [unit] = useState<WritingUnit>(() => pickUnit(getCurrentContentLevel()));
+  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // The pointer moves once per unit finished, however many times the grade is re-run.
+  const advancedRef = useRef(false);
+  const [unit] = useState<WritingUnit>(() => pickUnit(unitLevel));
   const [stage, setStage] = useState<Stage>('study');
   const [showEn, setShowEn] = useState(false);
   const [openStructure, setOpenStructure] = useState<number | null>(null);
@@ -230,6 +251,10 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       // Only on the GRADED finish: the AI-failure and exit paths below are not
       // practice. Found by couplingClearingPath.test.ts.
       recordScreenPractised('writing_guided');
+      if (!advancedRef.current) {
+        advancedRef.current = true;
+        advanceUnit(unitLevel);
+      }
       if (typeof data.score === 'number') {
         // Graded free production at the UNIT's level — strong written evidence,
         // same weight WritingScreen uses.
@@ -316,7 +341,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
 
   const card: React.CSSProperties = {
     background: 'var(--card, #fff)',
-    border: '1px solid var(--line, #e5e7eb)',
+    border: '1px solid var(--card-b)',
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,
@@ -347,11 +372,13 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       {stage === 'study' && (
         <>
           <div style={card} data-testid="gw-study">
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 6 }}
+            >
               THE TASK
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280' }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)' }}>{unit.promptEn}</div>
           </div>
           <div style={card}>
             <div
@@ -362,7 +389,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                 marginBottom: 8,
               }}
             >
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280' }}>STUDY THE MODEL</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)' }}>
+                STUDY THE MODEL
+              </div>
               <button
                 onClick={() => setShowEn((v) => !v)}
                 data-testid="gw-toggle-en"
@@ -384,7 +413,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
             </p>
           </div>
           <div style={card}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 8 }}
+            >
               WHAT TO STEAL FROM IT
             </div>
             {unit.structures.map((st, i) => (
@@ -395,7 +426,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   style={{
                     width: '100%',
                     textAlign: 'left',
-                    background: openStructure === i ? '#fef2f2' : '#f9fafb',
+                    background: openStructure === i ? 'var(--error-bg)' : 'var(--surface-mute)',
                     border: '1px solid #e5e7eb',
                     borderRadius: 10,
                     padding: '10px 12px',
@@ -403,9 +434,11 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   }}
                 >
                   <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
-                  <div style={{ fontSize: 12, color: '#6b7280' }}>{st.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                   {openStructure === i && (
-                    <div style={{ fontSize: 13, color: '#991b1b', marginTop: 6 }}>{st.why}</div>
+                    <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
+                      {st.why}
+                    </div>
                   )}
                 </button>
               </div>
@@ -425,7 +458,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       {stage === 'frames' && frame && (
         <>
           <div style={card} data-testid="gw-frame">
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 8 }}
+            >
               COMPLETE THE SENTENCE ({frameIdx + 1}/{unit.frames.length})
             </div>
             <div style={{ fontSize: 16, lineHeight: 1.7, marginBottom: 10 }}>
@@ -459,7 +494,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               />
               <span> {frame.after}</span>
             </div>
-            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>💡 {frame.hint}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 12 }}>
+              💡 {frame.hint}
+            </div>
             {frameState === 'right' || revealed ? (
               <button
                 className="b bp"
@@ -499,12 +536,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               </div>
             )}
             {frameState === 'wrong' && !revealed && (
-              <div style={{ fontSize: 13, color: '#dc2626', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 8 }}>
                 Not quite — check the hint and try again.
               </div>
             )}
             {(frameState === 'right' || revealed) && (
-              <div style={{ fontSize: 13, color: '#16a34a', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-green)', marginTop: 8 }}>
                 {revealed ? `The answer: „${frame.answer}“ — say it once, then move on.` : 'Točno!'}
               </div>
             )}
@@ -517,11 +554,18 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
           {!result && (
             <>
               <div style={card}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 6 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: 'var(--ink-muted)',
+                    marginBottom: 6,
+                  }}
+                >
                   YOUR TURN
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{unit.prompt}</div>
-                <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 10 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 10 }}>
                   {unit.promptEn}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
@@ -532,7 +576,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                       data-testid="gw-connective"
                       style={{
                         border: '1px solid #d1d5db',
-                        background: '#f9fafb',
+                        background: 'var(--surface-mute)',
                         borderRadius: 12,
                         padding: '3px 10px',
                         fontSize: 13,
@@ -561,12 +605,19 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                     boxSizing: 'border-box',
                   }}
                 />
-                <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4 }}>
                   {wordCount} / {unit.minWords} words
                 </div>
               </div>
               <div style={card} data-testid="gw-checklist">
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: 'var(--ink-muted)',
+                    marginBottom: 8,
+                  }}
+                >
                   CHECKLIST
                 </div>
                 {unit.checklist.map((item) => {
@@ -580,7 +631,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                         alignItems: 'center',
                         fontSize: 14,
                         marginBottom: 6,
-                        color: done ? '#16a34a' : '#374151',
+                        color: done ? 'var(--ink-green)' : 'var(--text)',
                         fontWeight: done ? 700 : 500,
                       }}
                     >
@@ -593,12 +644,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               {error && (
                 <div
                   style={{
-                    background: '#fef2f2',
+                    background: 'var(--error-bg)',
                     border: '1px solid #fecaca',
                     borderRadius: 10,
                     padding: '10px 14px',
                     fontSize: 13,
-                    color: '#991b1b',
+                    color: 'var(--ink-error)',
                     marginBottom: 12,
                   }}
                 >
@@ -660,12 +711,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   <div style={{ fontSize: 26, fontWeight: 900 }}>
                     {typeof result.score === 'number' ? `${result.score}/100` : '—'}
                   </div>
-                  <div style={{ fontSize: 13, color: '#6b7280', alignSelf: 'center' }}>
+                  <div style={{ fontSize: 13, color: 'var(--ink-muted)', alignSelf: 'center' }}>
                     {result.level_demonstrated || ''}
                   </div>
                 </div>
                 {result.encouragement && (
-                  <div style={{ fontSize: 14, color: '#374151' }}>{result.encouragement}</div>
+                  <div style={{ fontSize: 14, color: 'var(--text)' }}>{result.encouragement}</div>
                 )}
               </div>
               {result.corrected_text && (

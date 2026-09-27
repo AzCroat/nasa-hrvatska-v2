@@ -121,7 +121,7 @@ export default function StreakProtectionSection({
             : `Buy Freeze — 50 XP (you have ${spendableXp})`}
         </button>
         {freezeMsg && (
-          <div style={{ marginTop: 8, fontSize: 12, color: 'var(--success)', fontWeight: 700 }}>
+          <div style={{ marginTop: 8, fontSize: 12, color: 'var(--ink-green)', fontWeight: 700 }}>
             {freezeMsg}
           </div>
         )}

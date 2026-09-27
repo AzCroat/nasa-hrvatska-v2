@@ -69,6 +69,7 @@ import {
 import ExamRunner, { type McqAcc } from '../exam/ExamRunner.js';
 import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
+import { accentInk } from '../../lib/accentInk';
 
 // Production sections (speaking + writing) run on every check that GRANTS B1
 // status or higher — i.e. levelTo >= B1 (A1→A2 samples are too short to score
@@ -149,7 +150,9 @@ function SkillBar({ icon, label, score }: { icon: string; label: string; score: 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
       <span style={{ fontSize: 16, width: 22, flexShrink: 0 }}>{icon}</span>
-      <span style={{ fontSize: 13, fontWeight: 700, color: '#374151', width: 76, flexShrink: 0 }}>
+      <span
+        style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', width: 76, flexShrink: 0 }}
+      >
         {label}
       </span>
       <div style={{ flex: 1, display: 'flex', gap: 2 }}>
@@ -166,7 +169,15 @@ function SkillBar({ icon, label, score }: { icon: string; label: string; score: 
           />
         ))}
       </div>
-      <span style={{ fontSize: 13, fontWeight: 700, color: colour, width: 56, textAlign: 'right' }}>
+      <span
+        style={{
+          fontSize: 13,
+          fontWeight: 700,
+          color: accentInk(colour),
+          width: 56,
+          textAlign: 'right',
+        }}
+      >
         {pct}%
       </span>
     </div>
@@ -462,7 +473,14 @@ export default function EquivalencyTestScreen({
     return (
       <div className="scr-wrap">
         <div style={{ padding: '18px 16px' }}>
-          <div style={{ fontSize: 11, fontWeight: 900, color: '#cc0000', letterSpacing: '.22em' }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 900,
+              color: 'var(--ink-error)',
+              letterSpacing: '.22em',
+            }}
+          >
             {verificationMode ? 'CEFR LEVEL VERIFICATION' : 'CEFR LEVEL CHECK'}
           </div>
           <h2
@@ -489,7 +507,7 @@ export default function EquivalencyTestScreen({
                 padding: '10px 14px',
                 marginBottom: 14,
                 fontSize: 13,
-                color: '#15803d',
+                color: 'var(--ink-green)',
                 fontWeight: 600,
               }}
             >
@@ -553,7 +571,7 @@ export default function EquivalencyTestScreen({
               padding: '12px 14px',
               marginBottom: 18,
               fontSize: 13,
-              color: '#a30000',
+              color: 'var(--ink-red)',
               lineHeight: 1.5,
             }}
           >
@@ -755,7 +773,7 @@ export default function EquivalencyTestScreen({
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
               margin: '8px 0 4px',
-              color: passed ? '#16a34a' : '#dc2626',
+              color: passed ? 'var(--ink-green)' : 'var(--ink-error)',
             }}
           >
             {passed
@@ -793,7 +811,7 @@ export default function EquivalencyTestScreen({
                 padding: '10px 14px',
                 marginBottom: 18,
                 fontSize: 13,
-                color: '#a30000',
+                color: 'var(--ink-red)',
                 lineHeight: 1.5,
                 textAlign: 'left',
               }}
@@ -879,7 +897,7 @@ export default function EquivalencyTestScreen({
                         {c.original}
                       </span>{' '}
                       →{' '}
-                      <b lang="hr" style={{ color: '#16a34a' }}>
+                      <b lang="hr" style={{ color: 'var(--ink-green)' }}>
                         {c.corrected}
                       </b>
                       {c.note ? ` — ${c.note}` : ''}

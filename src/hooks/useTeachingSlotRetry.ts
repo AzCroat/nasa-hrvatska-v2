@@ -29,11 +29,13 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { localDateStr } from '../lib/dateUtils';
 import { CURRICULUM_SPINE_EVENT, hasCurriculumSpine } from '../lib/curriculumProgress';
-import { shouldRetryTeachingSlot } from '../lib/curriculumSlot';
+import { shouldRetryTeachingSlot, shouldSpliceTeachingSlot } from '../lib/curriculumSlot';
+import { hasPendingSessionActivity } from '../lib/sessionSignal';
 
 interface RetryableSession {
   date: string;
   completedIds: string[];
+  activities?: readonly unknown[];
   spineSeen?: boolean;
 }
 
@@ -46,27 +48,38 @@ interface RetryableSession {
  * outright — re-rolling one is the 2026-05-21 "I did my activities but the card
  * forgot" incident, which is strictly worse than a missing lesson.
  */
-export function useTeachingSlotRetry(session: RetryableSession, rebuild: () => void): void {
+export function useTeachingSlotRetry(
+  session: RetryableSession,
+  rebuild: () => void,
+  /** A STARTED, unfinished plan gets the teaching slots inserted instead — see
+   *  shouldSpliceTeachingSlot. Optional so a caller without one keeps the old rule. */
+  splice?: () => void,
+): void {
   const retried = useRef(false);
-  const latest = useRef({ session, rebuild });
-  latest.current = { session, rebuild };
+  const latest = useRef({ session, rebuild, splice });
+  latest.current = { session, rebuild, splice };
 
   const attempt = useCallback(() => {
     if (retried.current) return;
-    const { session: s, rebuild: run } = latest.current;
-    if (
-      !shouldRetryTeachingSlot({
-        spineSeen: s.spineSeen,
-        sessionDate: s.date,
-        today: localDateStr(),
-        completedCount: s.completedIds.length,
-        spineAvailable: hasCurriculumSpine,
-      })
-    ) {
+    const { session: s, rebuild: run, splice: insert } = latest.current;
+    const input = {
+      spineSeen: s.spineSeen,
+      sessionDate: s.date,
+      today: localDateStr(),
+      // An activity in flight counts as started — its completion may be applied by
+      // Home's mount effect only AFTER this runs, and a rebuild would erase it.
+      completedCount: s.completedIds.length + (hasPendingSessionActivity() ? 1 : 0),
+      spineAvailable: hasCurriculumSpine,
+    };
+    if (shouldRetryTeachingSlot(input)) {
+      retried.current = true;
+      run();
       return;
     }
-    retried.current = true;
-    run();
+    if (insert && shouldSpliceTeachingSlot({ ...input, total: s.activities?.length ?? 0 })) {
+      retried.current = true;
+      insert();
+    }
   }, []);
 
   useEffect(() => {

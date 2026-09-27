@@ -1,9 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStats } from '../../../context/StatsContext.tsx';
 import { H, speak, sh } from '../../../data';
 import { GENDERDRILL } from '../../../data';
 import { completeExercise } from '../../../hooks/useExerciseCompletion';
-import { passedLesson, retryNeedLabel } from '../../../lib/lessonGate';
+import { passedLesson, retryNeedLabel, itemsNeededToPass } from '../../../lib/lessonGate';
 import { recordTopicResult } from '../../../lib/adaptive.js';
 
 interface GenderEntry {
@@ -63,8 +63,14 @@ function GenderDrillScreen({ goBack, award }: Props) {
     Object.values(adjAnswered).filter((v) => v.correct).length;
   const gTotal = words.length + plurals.length + GENDERDRILL.adjectives.length;
 
-  function handleFinish() {
-    if (completionFired.current) return;
+  // CREDIT ON REACHING THE COMPLETION VIEW, not on its button (2026-09-27). The whole
+  // completion — gc, the `gender` path key, the quest and the session slot — used to
+  // sit in "Finish & Save Progress →", so a learner who answered all three sections and
+  // left by the header's Back or the tab bar was paid nothing. creditFollowsWork could
+  // not see it: the call lived in a NAMED handler, and that guard read inline arrows
+  // only. `retry()` re-arms it, so a failed first run that is retried still credits.
+  useEffect(() => {
+    if (!allDone || gTotal <= 0 || completionFired.current) return;
     completionFired.current = true;
     completeExercise({
       key: 'gender',
@@ -78,8 +84,8 @@ function GenderDrillScreen({ goBack, award }: Props) {
       writeDelta,
       award,
     });
-    goBack();
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allDone]);
 
   function retry() {
     completionFired.current = false;
@@ -107,10 +113,18 @@ function GenderDrillScreen({ goBack, award }: Props) {
       {H('♂️♀️ Gender, Plurals & Adjectives', 'Master noun genders and endings', goBack)}
 
       {/* ─── Progress bar ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20, fontSize: 12, color: '#78716c' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          marginBottom: 20,
+          fontSize: 12,
+          color: 'var(--ink-muted-warm)',
+        }}
+      >
         <span
           style={{
-            background: sortDone ? '#dcfce7' : '#f1f5f9',
+            background: sortDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -120,7 +134,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         </span>
         <span
           style={{
-            background: pluralDone ? '#dcfce7' : '#f1f5f9',
+            background: pluralDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -130,7 +144,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         </span>
         <span
           style={{
-            background: adjDone ? '#dcfce7' : '#f1f5f9',
+            background: adjDone ? 'var(--success-bg-strong)' : 'var(--surface-mute)',
             padding: '3px 10px',
             borderRadius: 20,
             fontWeight: 600,
@@ -150,11 +164,13 @@ function GenderDrillScreen({ goBack, award }: Props) {
           style={{
             marginBottom: 12,
             padding: '14px 16px',
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderLeft: '3px solid #0e7490',
           }}
         >
-          <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: '#164e63' }}>
+          <p
+            style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: 'var(--ink-strong)' }}
+          >
             What gender is <strong style={{ fontSize: 16 }}>{words[selectedGenderIdx].word}</strong>
             ?
           </p>
@@ -167,7 +183,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
                   padding: '10px 0',
                   border: '2px solid ' + gColor[g].bc,
                   borderRadius: 10,
-                  background: 'white',
+                  background: 'var(--card)',
                   fontSize: 14,
                   fontWeight: 700,
                   color: gColor[g].tc,
@@ -217,6 +233,10 @@ function GenderDrillScreen({ goBack, award }: Props) {
                 border: '2px solid ' + bc,
                 borderRadius: 10,
                 background: bg,
+                // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                // white in dark mode once buttons followed the theme (2026-09-27).
+                color: '#1c1917',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: revealed ? 'default' : 'pointer',
@@ -238,7 +258,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -254,7 +274,9 @@ function GenderDrillScreen({ goBack, award }: Props) {
         const answered = pluralAnswered[i];
         return (
           <div key={i} className="c" style={{ marginBottom: 8, padding: '12px 14px' }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#164e63', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-strong)', marginBottom: 8 }}
+            >
               {p.s} → ?
             </div>
             <div
@@ -320,7 +342,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -339,7 +361,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         return (
           <div key={i} className="c" style={{ marginBottom: 8, padding: '10px 14px' }}>
             <div style={{ fontSize: 13, marginBottom: 8 }}>
-              <span style={{ fontWeight: 700, color: '#164e63' }}>{a.noun}</span>
+              <span style={{ fontWeight: 700, color: 'var(--ink-strong)' }}>{a.noun}</span>
               {' = '}
               {a.en}
               {' → _____ '}
@@ -373,6 +395,10 @@ function GenderDrillScreen({ goBack, award }: Props) {
                       border: '2px solid ' + bc,
                       borderRadius: 10,
                       background: bg,
+                      // bg is always a FIXED light tint (white, then #dcfce7 / #fee2e2), so the ink is fixed
+                      // too — as every sibling option screen pairs it. Inherited, it went near-white on
+                      // white in dark mode once buttons followed the theme (2026-09-27).
+                      color: '#1c1917',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: 'pointer',
@@ -406,7 +432,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 8,
             textAlign: 'center',
@@ -422,7 +448,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
           style={{
             textAlign: 'center',
             padding: '24px 16px',
-            background: '#f0fdf4',
+            background: 'var(--success-bg)',
             borderRadius: 12,
             margin: '16px 0',
             border: '1px solid #bbf7d0',
@@ -430,14 +456,15 @@ function GenderDrillScreen({ goBack, award }: Props) {
         >
           <div style={{ fontSize: 48 }}>🎉</div>
           <p style={{ fontWeight: 700, fontSize: 18, marginTop: 8 }}>All sections complete!</p>
-          <p style={{ color: '#4b5563', fontSize: 13, marginTop: 4 }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 13, marginTop: 4 }}>
             Sort {sortScore}/{words.length} · Plural {pluralScore}/{plurals.length} · Adjective{' '}
             {adjScore}/{GENDERDRILL.adjectives.length}
           </p>
           {!passedLesson(gScore(), gTotal) && (
             <>
-              <p style={{ color: '#b45309', fontSize: 13, fontWeight: 700, marginTop: 8 }}>
-                {gScore()}/{gTotal} overall — 75% is needed to earn credit.
+              <p style={{ color: 'var(--ink-warn)', fontSize: 13, fontWeight: 700, marginTop: 8 }}>
+                {gScore()}/{gTotal} overall — {itemsNeededToPass(gTotal)} of {gTotal} are needed to
+                earn credit.
               </p>
               <button
                 className="b bp"
@@ -445,12 +472,12 @@ function GenderDrillScreen({ goBack, award }: Props) {
                 style={{ width: '100%', marginTop: 12 }}
                 onClick={retry}
               >
-                {retryNeedLabel(GENDERDRILL.adjectives.length)}
+                {retryNeedLabel(gTotal)}
               </button>
             </>
           )}
-          <button className="b bp" style={{ marginTop: 16 }} onClick={handleFinish}>
-            Finish & Save Progress →
+          <button className="b bp" style={{ marginTop: 16 }} onClick={goBack}>
+            Done →
           </button>
         </div>
       ) : (

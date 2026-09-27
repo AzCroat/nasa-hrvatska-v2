@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { PROFGENDER } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface ProfItem {
@@ -40,7 +40,7 @@ interface Props {
 }
 
 function ProfessionGenderScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const [tab, setTab] = useState('learn');
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const questFiredRef = useRef(false);
@@ -61,9 +61,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
     }
     if (Object.keys(answers).length + 1 >= quiz.length && !questFiredRef.current) {
       questFiredRef.current = true;
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'profgender', xp: 0, stats, setStats, writeDelta });
     }
   }
 
@@ -107,7 +105,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             💡 In Croatian, every profession has both a masculine and feminine form. Common
@@ -159,7 +157,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 }}
                 onClick={() => speak(p.m)}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1e40af' }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-flag)' }}>
                   {'👨 '}
                   {p.m}
                 </div>
@@ -175,7 +173,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 }}
                 onClick={() => speak(p.f)}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#db2777' }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
                   {'👩 '}
                   {p.f}
                 </div>
@@ -194,7 +192,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct Croatian form for the given profession and gender.
@@ -203,9 +201,16 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
             const chosen = answers[qi];
             return (
               <div key={qi} className="c" style={{ marginBottom: 10, padding: '12px 14px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4, color: '#1c1917' }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    marginBottom: 4,
+                    color: 'var(--ink-ink)',
+                  }}
+                >
                   {q.gender === 'm' ? '👨' : '👩'} {q.gender === 'm' ? 'Male' : 'Female'} form of:{' '}
-                  <span style={{ color: '#0e7490' }}>{q.en}</span>
+                  <span style={{ color: 'var(--ink-accent)' }}>{q.en}</span>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
                   {q.opts.map((opt, oi) => {
@@ -245,7 +250,14 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                   })}
                 </div>
                 {chosen !== undefined && (
-                  <div style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: '#16a34a' }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-green)',
+                    }}
+                  >
                     ✓ {q.a}
                   </div>
                 )}
@@ -261,7 +273,14 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                     ? '⭐'
                     : '💪'}
               </div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: 800,
+                  color: 'var(--ink-strong)',
+                  marginBottom: 4,
+                }}
+              >
                 {correctCount}/{quiz.length} correct
               </div>
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

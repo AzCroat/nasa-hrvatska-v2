@@ -85,8 +85,8 @@ export default function EquivalencyTestCard({
         <div
           style={{
             display: 'inline-block',
-            background: '#ffffff',
-            color: '#7c2d12',
+            background: 'var(--card)',
+            color: 'var(--ink-warn)',
             padding: '6px 14px',
             borderRadius: 999,
             fontSize: 13,
@@ -118,7 +118,14 @@ export default function EquivalencyTestCard({
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
           <span style={{ fontSize: 22 }}>🎓</span>
-          <span style={{ fontSize: 11, fontWeight: 900, color: '#15803d', letterSpacing: '.2em' }}>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 900,
+              color: 'var(--ink-green)',
+              letterSpacing: '.2em',
+            }}
+          >
             CONFIRMED {certified}
           </span>
         </div>
@@ -178,8 +185,8 @@ export default function EquivalencyTestCard({
             // the red gradient card behind. The translucent white pill we had
             // before resolved to ~3.5:1 on the gradient and failed WCAG 2.1
             // AA on the Profile tab a11y check.
-            background: '#ffffff',
-            color: '#a30000',
+            background: 'var(--card)',
+            color: 'var(--ink-error)',
             padding: '6px 14px',
             borderRadius: 999,
             fontSize: 13,
@@ -213,7 +220,14 @@ export default function EquivalencyTestCard({
         }}
       >
         <span style={{ fontSize: 20 }}>🏅</span>
-        <span style={{ fontSize: 11, fontWeight: 900, color: '#15803d', letterSpacing: '.2em' }}>
+        <span
+          style={{
+            fontSize: 11,
+            fontWeight: 900,
+            color: 'var(--ink-green)',
+            letterSpacing: '.2em',
+          }}
+        >
           CONFIRMED {certified}
         </span>
       </div>

@@ -5,6 +5,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface ConjVerb {
   inf: string;
@@ -119,7 +120,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                 >
                   {t === 'all' ? 'All Tenses' : t + ' Tense'}
                 </div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                   {t === 'all'
                     ? CONJ.verbs.length + ' verbs'
                     : CONJ.verbs.filter((v) => v.tense === t).length + ' verbs'}
@@ -128,7 +129,14 @@ export default function ConjugationDrill({ goBack, award }: Props) {
             ))}
           </div>
           <div className="c" style={{ marginTop: 20 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 14,
+                fontWeight: 700,
+                color: 'var(--ink-accent)',
+                marginBottom: 10,
+              }}
+            >
               📖 Verb Reference
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
@@ -146,8 +154,10 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                     }}
                     {...clickable(() => speak(v.forms[0] ?? ''), 'Hear ' + (v.forms[0] ?? ''))}
                   >
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{v.inf}</div>
-                    <div style={{ fontSize: 11, color: '#78716c' }}>{v.en}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-strong)' }}>
+                      {v.inf}
+                    </div>
+                    <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
                   </div>
                 ))}
             </div>
@@ -163,10 +173,10 @@ export default function ConjugationDrill({ goBack, award }: Props) {
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🏆' : '👍'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   Conjugation Complete!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
                   {cjS} / {total}
                 </div>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 16 }}>
@@ -190,7 +200,9 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                 <div style={{ fontSize: 14, fontWeight: 700 }}>
                   {cjI + 1} / {total}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>Score: {cjS}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                  Score: {cjS}
+                </div>
               </div>
               <Bar v={cjI + 1} mx={total} color={tC} h={6} />
               <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
@@ -208,10 +220,10 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                 >
                   {tL}
                 </div>
-                <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63' }}>
+                <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)' }}>
                   {q.verb} ({q.en})
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: tC, marginTop: 8 }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: accentInk(tC), marginTop: 8 }}>
                   {q.person} ___?
                 </div>
               </div>

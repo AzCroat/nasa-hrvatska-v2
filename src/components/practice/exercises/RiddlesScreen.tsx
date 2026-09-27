@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
+import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { H, speak, sh, shMemo } from '../../../data';
 import { RIDDLES } from '../../../data';
-import { markQuest } from '../../../lib/quests.js';
 import { useStats } from '../../../context/StatsContext';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function RiddlesScreen({ goBack, award }: Props) {
-  const { setStats, writeDelta } = useStats();
+  const { stats, setStats, writeDelta } = useStats();
   const riddles = shMemo('rid', RIDDLES, 8);
   const handledRef = useRef(new Set<number>());
   const correctCountRef = useRef(0);
@@ -38,9 +38,7 @@ function RiddlesScreen({ goBack, award }: Props) {
     }
 
     if (handledRef.current.size >= riddles.length) {
-      markQuest('grammar');
-      setStats((s) => ({ ...s, gc: s.gc + 1 }));
-      writeDelta({ gc: 1 });
+      completeExercise({ key: 'riddles', xp: 0, stats, setStats, writeDelta });
       setDone(true);
     }
   }
@@ -59,7 +57,7 @@ function RiddlesScreen({ goBack, award }: Props) {
               style={{
                 fontSize: 14,
                 fontStyle: 'italic',
-                color: '#44403c',
+                color: 'var(--ink-body)',
                 marginBottom: 10,
                 lineHeight: 1.5,
                 background: 'none',
@@ -93,12 +91,12 @@ function RiddlesScreen({ goBack, award }: Props) {
                       borderRadius: 12,
                       background:
                         choices[ri] === undefined
-                          ? 'white'
+                          ? 'var(--card)'
                           : choices[ri] === o
                             ? o === r.answer
-                              ? '#dcfce7'
-                              : '#fee2e2'
-                            : 'white',
+                              ? 'var(--success-bg-strong)'
+                              : 'var(--error-bg-strong)'
+                            : 'var(--card)',
                       fontSize: 13,
                       fontWeight: 600,
                       cursor: choices[ri] !== undefined ? 'default' : 'pointer',
@@ -113,7 +111,7 @@ function RiddlesScreen({ goBack, award }: Props) {
                 );
               })}
             </div>
-            <div style={{ fontSize: 11, color: '#a8a29e', marginTop: 6 }}>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 6 }}>
               {'🇬🇧 '}
               {r.en}
             </div>
@@ -129,7 +127,9 @@ function RiddlesScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{riddles.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

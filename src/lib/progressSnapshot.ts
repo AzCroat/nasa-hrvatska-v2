@@ -13,6 +13,7 @@ import { snapshotMasteryLedger } from './masteryLedger.js';
 import { readCurriculumProgress } from './curriculumProgress';
 import { retentionOrUndef } from './lessonRetention';
 import { attemptsOrUndef } from './lessonAttempts';
+import { courseUnitsOrUndef } from './courseUnitProgress';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
 import { normalizePersonaKey } from './personaKey';
@@ -184,6 +185,11 @@ export function buildProgressSnapshot({
     // Synced so the record follows the learner across devices like the rest of
     // their own learning data; undefined when empty, same reason as above.
     nh_lesson_attempts: attemptsOrUndef(),
+    // Unit mastery (lib/courseUnitProgress, 2026-09-26): which of the course's 36
+    // units the learner has PASSED the cumulative test for, plus every attempt.
+    // A stronger and separate claim from nh_curriculum_progress, which only says a
+    // lesson was read. undefined when empty, same reason as above.
+    nh_course_units: courseUnitsOrUndef(),
     nh_daily_goal_xp: parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.

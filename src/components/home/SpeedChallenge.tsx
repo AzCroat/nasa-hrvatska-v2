@@ -6,6 +6,7 @@ import { poolLaunchBlock, type PoolLaunchBlock } from '../../lib/practiceLaunch'
 import { playCorrect, playWrong, haptic } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { lsGet, lsSet } from '../../lib/safeStorage';
+import { accentInk } from '../../lib/accentInk';
 
 const DURATION = 60; // seconds
 const XP_CORRECT = 3;
@@ -263,7 +264,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               style={{
                 fontSize: 13,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.06em',
                 marginBottom: 2,
@@ -310,7 +311,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               border: '1px solid rgba(220,38,38,0.25)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#b91c1c',
+              color: 'var(--ink-error)',
               fontWeight: 600,
             }}
           >
@@ -370,7 +371,9 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
         }}
       >
         <div style={{ fontSize: 36, marginBottom: 8 }}>⚡</div>
-        <div style={{ fontSize: 22, fontWeight: 900, color: grade.color, marginBottom: 4 }}>
+        <div
+          style={{ fontSize: 22, fontWeight: 900, color: accentInk(grade.color), marginBottom: 4 }}
+        >
           {grade.label}
         </div>
         <div
@@ -494,7 +497,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
           style={{
             fontSize: 16,
             fontWeight: 900,
-            color: timerColor,
+            color: accentInk(timerColor),
             minWidth: 28,
             textAlign: 'right',
             fontVariantNumeric: 'tabular-nums',
@@ -523,7 +526,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
             marginBottom: 8,
             fontSize: 12,
             fontWeight: 700,
-            color: '#ea580c',
+            color: 'var(--ink-warn)',
           }}
         >
           🔥 {streak} in a row!

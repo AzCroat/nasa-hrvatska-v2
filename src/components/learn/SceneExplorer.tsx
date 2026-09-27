@@ -17,6 +17,7 @@ import {
   Confetti,
   Toast,
 } from './VocabSceneComponents';
+import { accentInk } from '../../lib/accentInk';
 
 interface SceneItem {
   id: string;
@@ -165,12 +166,14 @@ export default function SceneExplorer({
             ← Back
           </button>
           <div style={{ flex: 1 }}>
-            <span style={{ fontSize: 17, fontWeight: 900, color: '#1c1917' }}>
+            <span style={{ fontSize: 17, fontWeight: 900, color: 'var(--ink-ink)' }}>
               {scene.icon} {scene.title}
             </span>
-            <span style={{ fontSize: 12, color: '#78716c', marginLeft: 6 }}>{scene.titleEn}</span>
+            <span style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginLeft: 6 }}>
+              {scene.titleEn}
+            </span>
           </div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: scene.color }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: accentInk(scene.color) }}>
             {discCount}/{total}
           </div>
         </div>
@@ -210,18 +213,18 @@ export default function SceneExplorer({
           <div
             style={{
               marginTop: 8,
-              background: '#f1f5f9',
+              background: 'var(--surface-mute)',
               borderRadius: 10,
               padding: '8px 12px',
               fontSize: 12,
               fontWeight: 600,
-              color: '#475569',
+              color: 'var(--ink-muted)',
               display: 'flex',
               gap: 16,
             }}
           >
-            <span style={{ color: '#15803d' }}>✓ Known: {quizScore.known}</span>
-            <span style={{ color: '#b91c1c' }}>✗ Missed: {quizScore.unknown}</span>
+            <span style={{ color: 'var(--ink-green)' }}>✓ Known: {quizScore.known}</span>
+            <span style={{ color: 'var(--ink-error)' }}>✗ Missed: {quizScore.unknown}</span>
           </div>
         )}
       </div>
@@ -305,7 +308,7 @@ export default function SceneExplorer({
           marginBottom: 8,
           fontSize: 12,
           fontWeight: 700,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           textTransform: 'uppercase',
           letterSpacing: '.06em',
         }}
@@ -324,7 +327,7 @@ export default function SceneExplorer({
               speak(item.hr);
             }}
             style={{
-              background: discovered.has(item.id) ? scene.bg : '#f5f5f4',
+              background: discovered.has(item.id) ? scene.bg : 'var(--surface-mute)',
               border: discovered.has(item.id)
                 ? `1.5px solid ${scene.color}55`
                 : '1.5px solid #e7e5e4',
@@ -333,7 +336,7 @@ export default function SceneExplorer({
               cursor: 'pointer',
               fontSize: 12,
               fontWeight: 700,
-              color: discovered.has(item.id) ? scene.color : '#a8a29e',
+              color: discovered.has(item.id) ? scene.color : 'var(--ink-muted-warm)',
             }}
           >
             {discovered.has(item.id) ? item.hr : '• • •'}

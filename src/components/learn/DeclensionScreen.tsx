@@ -210,7 +210,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                     key={ci}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: ci % 2 ? '#fafaf9' : 'white',
+                      background: ci % 2 ? 'var(--surface-mute)' : 'var(--card)',
                     }}
                     onClick={function () {
                       speak(n.cases[ci] ?? '');
@@ -226,12 +226,12 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                       style={{
                         padding: '10px 14px',
                         fontWeight: 700,
-                        color: '#0e7490',
+                        color: 'var(--ink-accent)',
                         fontSize: 13,
                         width: '40%',
                       }}
                     >
-                      <span style={{ fontSize: 11, color: '#b45309', display: 'block' }}>
+                      <span style={{ fontSize: 11, color: 'var(--ink-warn)', display: 'block' }}>
                         {ci + 1}.
                       </span>
                       {cs}
@@ -241,7 +241,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                         padding: '10px 14px',
                         fontWeight: 700,
                         fontSize: 17,
-                        color: '#164e63',
+                        color: 'var(--ink-strong)',
                       }}
                     >
                       {n.cases[ci]}{' '}
@@ -277,10 +277,12 @@ export default function DeclensionScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 48, marginBottom: 12 }}>
             {pct >= 0.8 ? '🏆' : pct >= 0.6 ? '⭐' : '💪'}
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {score}/{questions.length} correct
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
             {pct >= 0.8
               ? 'Case master! Your declension is solid.'
               : pct >= 0.6
@@ -350,7 +352,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 12,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             marginBottom: 4,
             fontWeight: 700,
             letterSpacing: '.05em',
@@ -358,10 +360,10 @@ export default function DeclensionScreen({ goBack, award }: Props) {
         >
           {q.caseNum}. {q.caseName.toUpperCase()} CASE
         </div>
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+        <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}>
           {q.noun}
         </div>
-        <div style={{ fontSize: 13, color: '#78716c' }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>
           ({q.en}) — pick the correct {q.caseName} form
         </div>
       </div>
@@ -439,7 +441,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
           border: 'none',
           background: 'none',
           fontSize: 12,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           cursor: 'pointer',
           textDecoration: 'underline',
         }}

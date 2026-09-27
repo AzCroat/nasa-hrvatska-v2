@@ -65,10 +65,9 @@ import {
   clearSessionCategory,
   consumeSessionCategoryOutcome,
 } from '../../lib/sessionCategory';
+import { rearmCourseHandoff } from '../../lib/curriculumSlot';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
-import { buildPlanReason } from '../../lib/masteryLedger';
-import type { CefrLevel } from '../../lib/cefr';
 import VerificationGateCard from './VerificationGateCard';
 import SessionCard from './SessionCard';
 import DailyGoalCard from './DailyGoalCard';
@@ -287,7 +286,7 @@ export default function HomeTab({
   const completeNextStep = useMemo(
     () => (isComplete ? nextStepEngine.computeStep() : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- recompute on completion/queue change; computeStep reads storage fresh each call
-    [isComplete, dueCount],
+    [isComplete, dueCount, nextStepEngine.revision],
   );
   const xpThisWeek = (() => {
     try {
@@ -436,8 +435,8 @@ export default function HomeTab({
             onClick={doSignUp}
             style={{
               flexShrink: 0,
-              background: '#fff',
-              color: '#0e7490',
+              background: 'var(--card)',
+              color: 'var(--ink-accent)',
               border: 'none',
               borderRadius: 10,
               padding: '8px 14px',
@@ -467,7 +466,7 @@ export default function HomeTab({
         progress={progress}
         nextActivity={nextActivity}
         tomorrowLabel={tomorrowLabel}
-        planReason={buildPlanReason(userCefr as CefrLevel)}
+        planReason={session.planReason ?? null}
         onStart={() => {
           if (nextActivity) {
             // Record the launched screen before navigation causes HomeTab to unmount.
@@ -480,6 +479,9 @@ export default function HomeTab({
             // Tag the adaptive category (cat_<category>) so completion advances
             // its schedule; clears for non-adaptive activities.
             setSessionCategory(nextActivity.id);
+            // A course activity's screen reads a one-shot handoff that is cleared on
+            // leaving; re-arm it so Continue never opens a test with no unit.
+            rearmCourseHandoff(nextActivity.id);
             if (launchActivity) {
               // launchActivity initialises pool data for exercises that need it
               // (flashcards, mcgame, match) before navigating — fixes the ScreenGuard

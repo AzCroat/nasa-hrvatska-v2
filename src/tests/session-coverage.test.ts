@@ -39,7 +39,6 @@ const OUTSIDE_SESSION: string[] = [
   'grammar_track',
   'grammar_unit_detail',
   'grammarmap',
-  'grammarvideos', // curated YouTube link-out list; no in-screen activity
   'heritage_mode',
   'heritage_path',
   'learnpath',
@@ -115,6 +114,29 @@ const OUTSIDE_SESSION: string[] = [
   // `reference: true` rule already guards against elsewhere. It has no bounded
   // round and no finish line by design.
   'learning_center',
+  // The course map is NAVIGATION, and belongs beside the Learning Center for the
+  // same reason: it shows a learner where they are in the course and has no
+  // bounded round and no finish line. Serving it as a session activity would
+  // credit a slot for looking at a map, which is the reading-a-table-as-a-lesson
+  // failure again. The lessons it links to are session-reachable on their own.
+  'coursemap',
+  // The unit test IS served in a session — by P0's teaching slot, once the open
+  // unit's lessons are all read (`buildCurriculumSlots`, increment 3) — but not by
+  // the CEFR POOL, which is what this list is about. It cannot be a pool entry: a
+  // pool entry is a screen the rotation may serve at any time, and this one needs
+  // a UNIT, whose identity the session builder writes into a handoff. Same shape
+  // as `animlesson`, which is also served by P0 and also carries its subject
+  // through a launcher rather than through the pool.
+  //
+  // (The reason recorded here in increment 2 said it "cannot be served as a session
+  // activity". That became false one increment later, which is the stale-exemption
+  // shape this file keeps finding in other people's lists.)
+  'unittest',
+  // Unit production, same shape as the unit test: served by P0's teaching slot once
+  // a unit's test is passed and its production is owed, never by the CEFR pool — it
+  // needs a UNIT and a HALF (write or speak), which the session builder writes into
+  // a handoff.
+  'unitproduction',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

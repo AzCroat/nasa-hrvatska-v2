@@ -154,7 +154,7 @@ export default function McResult({
 
       {/* ── Score section ── delay 0.1s */}
       <div style={{ animation: 'fade-up 0.5s ease both', animationDelay: '0.1s' }}>
-        <p style={{ color: '#78716c', marginTop: 8, fontSize: 20 }}>
+        <p style={{ color: 'var(--ink-muted-warm)', marginTop: 8, fontSize: 20 }}>
           {score}/{total}
         </p>
         <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 4 }}>
@@ -220,7 +220,7 @@ export default function McResult({
             borderRadius: 14,
           }}
         >
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#b45309', marginBottom: 4 }}>
+          <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink-warn)', marginBottom: 4 }}>
             ⚡ Quick Review — {mistakes.length} {mistakes.length === 1 ? 'Word' : 'Words'} to
             Reinforce
           </div>
@@ -244,7 +244,7 @@ export default function McResult({
                 borderRadius: 10,
                 border: '1.5px solid rgba(245,158,11,0.35)',
                 background: 'none',
-                color: '#92400e',
+                color: 'var(--warning-text)',
                 fontSize: 13,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -295,10 +295,10 @@ export default function McResult({
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#b45309' }}>
+            <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)' }}>
               ⚡ Mistake Review
             </span>
-            <span style={{ fontSize: 12, color: '#92400e', fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 600 }}>
               {reviewIdx + 1} / {mistakes.length}
             </span>
           </div>
@@ -339,7 +339,7 @@ export default function McResult({
                     borderRadius: 12,
                     border: '1.5px solid rgba(245,158,11,0.5)',
                     background: 'rgba(245,158,11,0.1)',
-                    color: '#b45309',
+                    color: 'var(--ink-warn)',
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: 'pointer',
@@ -389,7 +389,7 @@ export default function McResult({
                       borderRadius: 12,
                       border: '1.5px solid rgba(239,68,68,0.4)',
                       background: 'rgba(239,68,68,0.07)',
-                      color: '#dc2626',
+                      color: 'var(--ink-error)',
                       fontSize: 13,
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -406,7 +406,7 @@ export default function McResult({
                       borderRadius: 12,
                       border: '1.5px solid rgba(22,163,74,0.4)',
                       background: 'rgba(22,163,74,0.07)',
-                      color: '#16a34a',
+                      color: 'var(--ink-green)',
                       fontSize: 13,
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -436,7 +436,9 @@ export default function McResult({
           }}
         >
           <div style={{ fontSize: 22, marginBottom: 4 }}>🎉</div>
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#15803d', marginBottom: 4 }}>
+          <div
+            style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink-green)', marginBottom: 4 }}
+          >
             Great! You reviewed {mistakes.length} {mistakes.length === 1 ? 'word' : 'words'}. Keep
             going!
           </div>
@@ -449,7 +451,7 @@ export default function McResult({
               borderRadius: 20,
               fontSize: 12,
               fontWeight: 800,
-              color: '#16a34a',
+              color: 'var(--ink-green)',
             }}
           >
             +5 XP

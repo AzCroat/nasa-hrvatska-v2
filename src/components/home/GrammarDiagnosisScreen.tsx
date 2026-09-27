@@ -4,6 +4,7 @@ import type { AwardActivityType } from '../../types/index.js';
 import { H, getSR } from '../../data';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import { accentInk } from '../../lib/accentInk';
 
 interface GrammarDrill {
   prompt?: string;
@@ -287,11 +288,11 @@ export default function GrammarDiagnosisScreen({
                   gap: 6,
                   padding: '7px 13px',
                   borderRadius: 20,
-                  background: chip.active ? '#f0fdf4' : 'var(--bar-bg)',
+                  background: chip.active ? 'var(--success-bg)' : 'var(--bar-bg)',
                   border: `1.5px solid ${chip.active ? '#86efac' : 'var(--card-b)'}`,
                   fontSize: 13,
                   fontWeight: chip.active ? 600 : 400,
-                  color: chip.active ? '#15803d' : 'var(--subtext)',
+                  color: chip.active ? 'var(--ink-green)' : 'var(--subtext)',
                   transition: 'all 0.2s',
                 }}
               >
@@ -489,7 +490,7 @@ export default function GrammarDiagnosisScreen({
               border: 'none',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               fontWeight: 600,
               padding: '5px 8px',
             }}
@@ -626,6 +627,7 @@ export default function GrammarDiagnosisScreen({
                                 flex: 1,
                                 minWidth: 130,
                                 background: '#fff1f2',
+                                color: '#1c1917',
                                 border: '1.5px solid #fecdd3',
                                 borderRadius: 12,
                                 padding: '12px 14px',
@@ -635,20 +637,22 @@ export default function GrammarDiagnosisScreen({
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 700,
-                                  color: '#D4002D',
+                                  color: 'var(--ink-error)',
                                   marginBottom: 6,
                                 }}
                               >
                                 ❌ Wrong
                               </div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: '#9f1239' }}>
+                              <div
+                                style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-error)' }}
+                              >
                                 {exObj.wrong}
                               </div>
                               {exObj.wrong_en && (
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: '#be123c',
+                                    color: 'var(--ink-error)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -662,7 +666,7 @@ export default function GrammarDiagnosisScreen({
                               style={{
                                 flex: 1,
                                 minWidth: 130,
-                                background: '#f0fdf4',
+                                background: 'var(--success-bg)',
                                 border: '1.5px solid #86efac',
                                 borderRadius: 12,
                                 padding: '12px 14px',
@@ -672,20 +676,22 @@ export default function GrammarDiagnosisScreen({
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 700,
-                                  color: '#15803d',
+                                  color: 'var(--ink-green)',
                                   marginBottom: 6,
                                 }}
                               >
                                 ✅ Correct
                               </div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: '#166534' }}>
+                              <div
+                                style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-green)' }}
+                              >
                                 {exObj.correct}
                               </div>
                               {exObj.correct_en && (
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: '#16a34a',
+                                    color: 'var(--ink-green)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -749,16 +755,16 @@ export default function GrammarDiagnosisScreen({
 
                                   if (answered) {
                                     if (isCorrect) {
-                                      bg = '#f0fdf4';
+                                      bg = 'var(--success-bg)';
                                       border = '1.5px solid #86efac';
                                       color = '#166534';
                                     } else if (isChosen && !isCorrect) {
-                                      bg = '#fff1f2';
+                                      bg = 'var(--error-bg)';
                                       border = '1.5px solid #fecdd3';
                                       color = '#9f1239';
                                     }
                                   } else if (isChosen) {
-                                    bg = '#eff6ff';
+                                    bg = 'var(--info-bg)';
                                     border = '1.5px solid #93c5fd';
                                   }
 
@@ -818,7 +824,7 @@ export default function GrammarDiagnosisScreen({
                                       <span
                                         style={{
                                           fontSize: 14,
-                                          color,
+                                          color: accentInk(color),
                                           fontWeight: isChosen ? 600 : 400,
                                         }}
                                       >
@@ -837,8 +843,8 @@ export default function GrammarDiagnosisScreen({
                                     fontSize: 13,
                                     color:
                                       String(chosen) === String(drill.correct)
-                                        ? '#15803d'
-                                        : '#D4002D',
+                                        ? 'var(--ink-green)'
+                                        : 'var(--ink-red)',
                                     fontWeight: 600,
                                   }}
                                 >
@@ -864,7 +870,7 @@ export default function GrammarDiagnosisScreen({
       {xpAwarded && (
         <div
           style={{
-            background: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+            background: 'var(--grad-green)',
             border: '1.5px solid #86efac',
             borderRadius: 12,
             padding: '12px 16px',
@@ -876,8 +882,12 @@ export default function GrammarDiagnosisScreen({
         >
           <span style={{ fontSize: 22 }}>⭐</span>
           <div>
-            <div style={{ fontWeight: 700, color: '#15803d', fontSize: 14 }}>+10 XP earned!</div>
-            <div style={{ fontSize: 12, color: '#16a34a' }}>Great work on the drill questions</div>
+            <div style={{ fontWeight: 700, color: 'var(--ink-green)', fontSize: 14 }}>
+              +10 XP earned!
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)' }}>
+              Great work on the drill questions
+            </div>
           </div>
         </div>
       )}

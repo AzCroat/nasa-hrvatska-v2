@@ -205,7 +205,7 @@ export default function DebriefScreen({
                   lineHeight: 1.5,
                 }}
               >
-                <span style={{ color: '#D4002D', fontWeight: 700 }}>{v.hr}</span>
+                <span style={{ color: 'var(--ink-error)', fontWeight: 700 }}>{v.hr}</span>
                 <span style={{ color: 'var(--subtext)' }}> — </span>
                 <span style={{ color: 'var(--heading)' }}>{v.en}</span>
                 {v.used_in && (
@@ -233,14 +233,14 @@ export default function DebriefScreen({
           }}
         >
           <div style={{ fontSize: 28, marginBottom: 6 }}>🌟</div>
-          <div style={{ fontWeight: 800, fontSize: 15, color: '#7c3aed', marginBottom: 4 }}>
+          <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--ink-mode)', marginBottom: 4 }}>
             Ready to Level Up to {debrief.suggestLevelUpTo}?
           </div>
           {debrief.levelUpMessage && (
             <div
               style={{
                 fontSize: 13,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 opacity: 0.85,
                 fontStyle: 'italic',
                 marginBottom: 10,
@@ -249,7 +249,7 @@ export default function DebriefScreen({
               "{debrief.levelUpMessage}"
             </div>
           )}
-          <div style={{ fontSize: 12, color: '#7c3aed', opacity: 0.7 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-mode)', opacity: 0.7 }}>
             You can change your level in the conversation settings.
           </div>
         </div>

@@ -51,7 +51,7 @@ function WaveformSVG({ bars, color, label, width = 260, height = 70 }: WaveformS
   const visible = bars.slice(0, maxBars);
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>
+      <div style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}>
         {label}
       </div>
       <svg width={width} height={height} style={{ display: 'block', margin: '0 auto' }}>
@@ -115,7 +115,7 @@ function WaveformPanel({
       data-testid="shadowing-result"
       style={{
         marginTop: 20,
-        background: '#f8fafc',
+        background: 'var(--surface-mute)',
         border: '1.5px solid #e2e8f0',
         borderRadius: 14,
         padding: '16px 12px',
@@ -125,7 +125,7 @@ function WaveformPanel({
         style={{
           fontSize: 13,
           fontWeight: 700,
-          color: '#475569',
+          color: 'var(--ink-muted)',
           marginBottom: 14,
           textAlign: 'center',
         }}
@@ -138,7 +138,9 @@ function WaveformPanel({
           <WaveformSVG bars={userBars} color="var(--success, #16a34a)" label="Your attempt" />
         ) : (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 4 }}
+            >
               Your attempt
             </div>
             <div
@@ -148,9 +150,9 @@ function WaveformPanel({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: '#f1f5f9',
+                background: 'var(--surface-mute)',
                 borderRadius: 8,
-                color: '#94a3b8',
+                color: 'var(--ink-muted)',
                 fontSize: 12,
               }}
             >
@@ -162,7 +164,7 @@ function WaveformPanel({
       {acousticScore !== null ? (
         <div
           data-testid="shadowing-acoustic-score"
-          style={{ textAlign: 'center', marginTop: 12, fontSize: 13, color: '#475569' }}
+          style={{ textAlign: 'center', marginTop: 12, fontSize: 13, color: 'var(--ink-muted)' }}
         >
           Pronunciation score:{' '}
           <span
@@ -177,7 +179,7 @@ function WaveformPanel({
       ) : (
         <div
           data-testid="shadowing-no-score"
-          style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: '#94a3b8' }}
+          style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: 'var(--ink-muted)' }}
         >
           Recorded ✓ — compare to the model above
         </div>
@@ -185,13 +187,13 @@ function WaveformPanel({
       <div
         style={{
           marginTop: 14,
-          background: '#f0fdf4',
+          background: 'var(--success-bg)',
           border: '1.5px solid #bbf7d0',
           borderRadius: 10,
           padding: '10px 14px',
           textAlign: 'center',
           fontSize: 13,
-          color: '#166534',
+          color: 'var(--ink-green)',
           fontWeight: 600,
         }}
       >
@@ -279,8 +281,8 @@ function RecordingPanel({
         style={{
           marginTop: 12,
           fontSize: 13,
-          color: '#92400e',
-          background: '#fffbeb',
+          color: 'var(--ink-warn)',
+          background: 'var(--warning-bg)',
           border: '1.5px solid #fde68a',
           borderRadius: 10,
           padding: '10px 14px',
@@ -293,7 +295,7 @@ function RecordingPanel({
           style={{
             background: 'transparent',
             border: 'none',
-            color: '#0891b2',
+            color: 'var(--ink-info)',
             fontWeight: 700,
             cursor: 'pointer',
             textDecoration: 'underline',
@@ -326,7 +328,7 @@ function RecordingPanel({
           textAlign: 'center',
           fontSize: 15,
           fontWeight: 700,
-          color: '#0891b2',
+          color: 'var(--ink-accent)',
         }}
       >
         Get ready… {countdown}s
@@ -342,13 +344,13 @@ function RecordingPanel({
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            background: '#fee2e2',
+            background: 'var(--error-bg)',
             border: '1.5px solid #fca5a5',
             borderRadius: 10,
             padding: '8px 16px',
             fontSize: 14,
             fontWeight: 700,
-            color: '#dc2626',
+            color: 'var(--ink-error)',
           }}
         >
           <span
@@ -396,17 +398,17 @@ function RecordingPanel({
           gap: 10,
         }}
       >
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#16a34a' }}>Recorded ✓</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-green)' }}>Recorded ✓</div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             style={{
-              background: '#f0f9ff',
+              background: 'var(--info-bg)',
               border: '1.5px solid #bae6fd',
               borderRadius: 10,
               padding: '7px 14px',
               cursor: 'pointer',
               fontSize: 13,
-              color: '#0891b2',
+              color: 'var(--ink-accent)',
               fontWeight: 600,
             }}
             onClick={onPlayBack}
@@ -631,30 +633,34 @@ export default function ShadowingScreen({
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               marginTop: 8,
             }}
           >
             Session Complete!
           </h2>
-          <p style={{ color: '#78716c', marginTop: 8 }}>
+          <p style={{ color: 'var(--ink-muted-warm)', marginTop: 8 }}>
             You shadowed {items.length} Croatian sentences
           </p>
-          <p style={{ color: '#78716c', fontSize: 14, marginTop: 4 }}>Total repetitions: {reps}</p>
+          <p style={{ color: 'var(--ink-muted-warm)', fontSize: 14, marginTop: 4 }}>
+            Total repetitions: {reps}
+          </p>
           <div
             style={{
               marginTop: 24,
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               border: '1.5px solid #bbf7d0',
               borderRadius: 14,
               padding: '16px 20px',
               textAlign: 'left',
             }}
           >
-            <p style={{ fontWeight: 700, fontSize: 13, color: '#166534', marginBottom: 6 }}>
+            <p
+              style={{ fontWeight: 700, fontSize: 13, color: 'var(--ink-green)', marginBottom: 6 }}
+            >
               💡 Shadowing Tips:
             </p>
-            <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
               • Listen first, then speak simultaneously with the audio
               <br />
               • Focus on rhythm and melody, not perfect pronunciation
@@ -702,13 +708,13 @@ export default function ShadowingScreen({
       <div className="c" style={{ textAlign: 'center', marginTop: 16, padding: '24px 20px' }}>
         <div
           style={{
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             border: '1.5px solid #bae6fd',
             borderRadius: 12,
             padding: '12px 16px',
             marginBottom: 16,
             fontSize: 12,
-            color: '#0369a1',
+            color: 'var(--ink-info)',
             fontWeight: 600,
           }}
         >
@@ -725,7 +731,14 @@ export default function ShadowingScreen({
         >
           {item.hr}
         </p>
-        <p style={{ fontSize: 15, color: '#78716c', marginBottom: 20, fontStyle: 'italic' }}>
+        <p
+          style={{
+            fontSize: 15,
+            color: 'var(--ink-muted-warm)',
+            marginBottom: 20,
+            fontStyle: 'italic',
+          }}
+        >
           {item.en}
         </p>
 
@@ -754,7 +767,7 @@ export default function ShadowingScreen({
               padding: '7px 14px',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#0891b2',
+              color: 'var(--ink-info)',
               fontWeight: 700,
             }}
           >
@@ -762,7 +775,7 @@ export default function ShadowingScreen({
           </button>
         </div>
         {plays > 0 && (
-          <div style={{ marginBottom: 16, fontSize: 13, color: '#64748b' }}>
+          <div style={{ marginBottom: 16, fontSize: 13, color: 'var(--ink-muted)' }}>
             Listened {plays} time{plays !== 1 ? 's' : ''}
           </div>
         )}
@@ -823,7 +836,9 @@ export default function ShadowingScreen({
         )}
 
         {said && (
-          <div style={{ color: '#166534', fontSize: 16, fontWeight: 800, marginBottom: 12 }}>
+          <div
+            style={{ color: 'var(--ink-green)', fontSize: 16, fontWeight: 800, marginBottom: 12 }}
+          >
             ✓ Keep going — repetition builds fluency!
           </div>
         )}

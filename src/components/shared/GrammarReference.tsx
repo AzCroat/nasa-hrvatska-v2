@@ -226,8 +226,8 @@ export default function GrammarReference({ onClose }: GrammarReferenceProps) {
           width: '100%',
           padding: '12px 16px',
           borderRadius: 12,
-          border: '1.5px solid var(--border,#e2e8f0)',
-          background: 'var(--bg2,#f8fafc)',
+          border: '1.5px solid var(--card-b)',
+          background: 'var(--surface-mute)',
           color: 'var(--text,#1c1917)',
           fontSize: 14,
           fontFamily: "'Outfit',sans-serif",
@@ -280,7 +280,7 @@ export default function GrammarReference({ onClose }: GrammarReferenceProps) {
           </button>
 
           {openId === topic.id && (
-            <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--border,#e2e8f0)' }}>
+            <div style={{ padding: '0 16px 16px', borderTop: '1px solid var(--card-b)' }}>
               {topic.sections.map((s) => (
                 <div key={s.name} style={{ marginTop: 14 }}>
                   <div
@@ -311,7 +311,7 @@ export default function GrammarReference({ onClose }: GrammarReferenceProps) {
                     {s.example}
                   </div>
                   {s.tip && (
-                    <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 600 }}>
                       💡 {s.tip}
                     </div>
                   )}

@@ -7,6 +7,7 @@ import {
   GENDER_LABEL,
   CT_STYLES,
 } from './CaseTransformerData.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface Noun {
   hr: string;
@@ -213,7 +214,7 @@ export default function CaseTransformerDeclension({
                 style={{
                   fontSize: 'var(--text-xl)',
                   fontWeight: 800,
-                  color: ci.color,
+                  color: accentInk(ci.color),
                   fontFamily: "'Outfit', sans-serif",
                   letterSpacing: '-.01em',
                 }}
@@ -252,7 +253,9 @@ export default function CaseTransformerDeclension({
               {parts.length > 1 ? (
                 <>
                   {parts[0]}
-                  <strong style={{ color: ci.color, fontStyle: 'normal' }}>{form}</strong>
+                  <strong style={{ color: accentInk(ci.color), fontStyle: 'normal' }}>
+                    {form}
+                  </strong>
                   {parts.slice(1).join(form)}
                 </>
               ) : (

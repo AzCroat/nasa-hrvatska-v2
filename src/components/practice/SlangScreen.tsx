@@ -12,6 +12,7 @@ import SlangAgeGate from './SlangAgeGate';
 import SlangEntryCard from './SlangEntryCard';
 import SlangQuizPanel from './SlangQuizPanel';
 import { lsGet, lsSet, lsRemove } from '../../lib/safeStorage';
+import { accentInk } from '../../lib/accentInk';
 
 export default function SlangScreen({
   goBack,
@@ -289,7 +290,7 @@ export default function SlangScreen({
                   borderRadius: 20,
                   border: `1.5px solid ${activeSection === s.id ? s.color : 'var(--card-b)'}`,
                   background: activeSection === s.id ? s.light : 'var(--card)',
-                  color: activeSection === s.id ? s.color : 'var(--subtext)',
+                  color: activeSection === s.id ? accentInk(s.color) : 'var(--subtext)',
                   fontSize: 12,
                   fontWeight: 800,
                   cursor: 'pointer',
@@ -331,7 +332,9 @@ export default function SlangScreen({
               gap: 8,
             }}
           >
-            <div style={{ fontSize: 12, color: section.color, fontWeight: 700, flex: 1 }}>
+            <div
+              style={{ fontSize: 12, color: accentInk(section.color), fontWeight: 700, flex: 1 }}
+            >
               {section.subtitle}
             </div>
             {!quizMode && (
@@ -362,7 +365,7 @@ export default function SlangScreen({
                   border: `1px solid ${section.border}`,
                   cursor: 'pointer',
                   background: 'var(--card)',
-                  color: section.color,
+                  color: accentInk(section.color),
                   fontSize: 11,
                   fontWeight: 800,
                   flexShrink: 0,
@@ -436,7 +439,7 @@ export default function SlangScreen({
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 18, fontWeight: 900, color: '#16a34a' }}>
+              <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--ink-green)' }}>
                 {visitedSections.length}/{SECTIONS.length}
               </div>
               <div

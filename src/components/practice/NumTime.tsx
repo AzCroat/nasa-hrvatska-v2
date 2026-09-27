@@ -61,10 +61,10 @@ export default function NumTime({
         {H('🔢 Numbers & Time', 'Practice numbers, time, and currency in Croatian', goBack)}
         <div style={{ textAlign: 'center' }}>
           <div style={{ fontSize: 64 }}>{ntS >= total * 0.7 ? '🏆' : '👍'}</div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
             Numbers Complete!
           </h2>
-          <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+          <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
             {ntS} / {total}
           </div>
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '8px 0 16px' }}>

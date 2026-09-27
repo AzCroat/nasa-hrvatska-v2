@@ -687,7 +687,7 @@ export function StoryReader({
                     borderRadius: 50,
                     border: 'none',
                     background: playingIdx === i ? '#0e7490' : 'var(--info-bg)',
-                    color: playingIdx === i ? 'white' : '#0e7490',
+                    color: playingIdx === i ? 'white' : 'var(--ink-accent)',
                     fontSize: 16,
                     cursor: 'pointer',
                     display: 'flex',
@@ -762,7 +762,12 @@ export function StoryReader({
                         style={{
                           fontSize: 20,
                           fontWeight: 900,
-                          color: score >= 80 ? '#059669' : score >= 55 ? '#d97706' : '#dc2626',
+                          color:
+                            score >= 80
+                              ? 'var(--ink-green)'
+                              : score >= 55
+                                ? 'var(--ink-warn)'
+                                : 'var(--ink-error)',
                         }}
                       >
                         {score}

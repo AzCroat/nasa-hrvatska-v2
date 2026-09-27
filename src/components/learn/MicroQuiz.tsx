@@ -75,17 +75,21 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
   return (
     <div className="scr-wrap" style={{ maxWidth: 500, margin: '0 auto' }}>
       <div className="c" style={{ padding: '20px 16px' }}>
-        <div style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', marginBottom: 4 }}>
+        <div
+          style={{ fontSize: 12, color: 'var(--ink-muted)', textAlign: 'center', marginBottom: 4 }}
+        >
           Quick check {idx + 1} / {questions.length}
         </div>
-        <div style={{ fontSize: 14, color: '#475569', textAlign: 'center', marginBottom: 16 }}>
+        <div
+          style={{ fontSize: 14, color: 'var(--ink-muted)', textAlign: 'center', marginBottom: 16 }}
+        >
           What does this mean?
         </div>
         <div
           style={{
             fontSize: 28,
             fontWeight: 700,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             textAlign: 'center',
             marginBottom: 16,
           }}
@@ -94,22 +98,13 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           {cur.opts.map((opt) => {
-            let bg = 'white';
-            let bc = 'rgba(14,116,144,.12)';
-            if (answered) {
-              if (opt === cur.answer) {
-                bg = '#dcfce7';
-                bc = '#16a34a';
-              } else if (opt === chosen) {
-                bg = '#fee2e2';
-                bc = '#dc2626';
-              }
-            }
             return (
               <button
                 key={opt}
-                className="ob"
-                style={{ background: bg, borderColor: bc }}
+                className={
+                  'ob' +
+                  (answered ? (opt === cur.answer ? ' ok' : opt === chosen ? ' no' : '') : '')
+                }
                 onClick={() => pick(opt)}
               >
                 {opt}
@@ -119,7 +114,13 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
         </div>
         {answered && (
           <div style={{ marginTop: 14, textAlign: 'center' }}>
-            <div style={{ fontSize: 16, fontWeight: 600, color: correct ? '#16a34a' : '#64748b' }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 600,
+                color: correct ? 'var(--ink-green)' : 'var(--ink-muted)',
+              }}
+            >
               {correct ? '✓ Good!' : `Correct answer: ${cur.answer}`}
             </div>
             <button className="b bp" style={{ width: '100%', marginTop: 12 }} onClick={next}>

@@ -67,7 +67,7 @@ export default function ResetPassword({
                   : '1px solid var(--error-b)',
                 borderRadius: 10,
                 padding: '12px 16px',
-                color: authError.startsWith('✅') ? 'var(--success)' : 'var(--error)',
+                color: authError.startsWith('✅') ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontSize: 'var(--text-sm)',
                 fontWeight: 600,
                 marginBottom: 16,
@@ -76,7 +76,7 @@ export default function ResetPassword({
               {authError}
             </div>
           )}
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--body)', marginBottom: 16 }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', marginBottom: 16 }}>
             Enter the email address you used to create your account.
           </div>
           <label

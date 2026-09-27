@@ -99,34 +99,20 @@ export default function PrepDrill({
         <span>
           {ppI + 1} / {total}
         </span>
-        <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {ppS}</span>
+        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {ppS}</span>
       </div>
       <Bar v={ppI + 1} mx={total} />
       <div className="c" style={{ marginTop: 16 }}>
         <div style={{ fontSize: 18 }}>{q.sentence}</div>
-        <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{q.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{q.en}</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
         {q.opts.map((o: string, oi: number) => (
           <button
             key={oi}
-            className="ob"
+            className={'ob' + (ppA ? (o === q.answer ? ' ok' : ppSl === oi ? ' no' : '') : '')}
             style={{
               textAlign: 'center',
-              background: ppA
-                ? o === q.answer
-                  ? '#dcfce7'
-                  : ppSl === oi
-                    ? '#fee2e2'
-                    : 'white'
-                : 'white',
-              borderColor: ppA
-                ? o === q.answer
-                  ? '#16a34a'
-                  : ppSl === oi
-                    ? '#dc2626'
-                    : 'rgba(14,116,144,.12)'
-                : 'rgba(14,116,144,.12)',
             }}
             onClick={() => {
               if (!ppA) {

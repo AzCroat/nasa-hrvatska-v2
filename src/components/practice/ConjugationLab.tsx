@@ -122,10 +122,10 @@ export default function ConjugationLab({ goBack, award }: Props) {
               }}
             >
               <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#0e7490' }}>
+                <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-accent)' }}>
                   {u.cefr} · {u.title}
                 </div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{u.blurb}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{u.blurb}</div>
               </div>
               <div style={{ fontSize: 20 }}>{RING[m]}</div>
             </button>

@@ -19,9 +19,9 @@ interface Props {
 function scoreBadgeColor(s: number) {
   if (s >= 90)
     return { bg: 'var(--success-bg)', border: 'var(--success-b)', text: 'var(--success)' };
-  if (s >= 70) return { bg: '#fff7ed', border: '#fed7aa', text: '#c2410c' };
-  if (s >= 50) return { bg: '#fff7ed', border: '#fed7aa', text: '#ea580c' };
-  return { bg: '#fef2f2', border: '#fecaca', text: 'var(--error)' };
+  if (s >= 70) return { bg: 'var(--warning-bg)', border: '#fed7aa', text: '#c2410c' };
+  if (s >= 50) return { bg: 'var(--warning-bg)', border: '#fed7aa', text: '#ea580c' };
+  return { bg: 'var(--error-bg)', border: '#fecaca', text: 'var(--error)' };
 }
 function scoreBadgeLabel(s: number) {
   if (s >= 90) return `🟢 Excellent! ${s}%`;
@@ -69,10 +69,10 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 avg >= 90
                   ? 'var(--success-bg)'
                   : avg >= 70
-                    ? '#fff7ed'
+                    ? 'var(--warning-bg)'
                     : avg >= 50
-                      ? '#fff7ed'
-                      : '#fef2f2',
+                      ? 'var(--warning-bg)'
+                      : 'var(--error-bg)',
               border: `2px solid ${avg >= 90 ? 'var(--success-b)' : avg >= 70 ? '#fed7aa' : avg >= 50 ? '#fdba74' : '#fecaca'}`,
               borderRadius: 18,
             }}
@@ -83,12 +83,12 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 fontWeight: 900,
                 color:
                   avg >= 90
-                    ? 'var(--success)'
+                    ? 'var(--ink-green)'
                     : avg >= 70
-                      ? '#c2410c'
+                      ? 'var(--ink-warn)'
                       : avg >= 50
-                        ? '#ea580c'
-                        : 'var(--error)',
+                        ? 'var(--ink-warn)'
+                        : 'var(--ink-error)',
               }}
             >
               {avg}%
@@ -155,7 +155,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   marginBottom: 4,
                 }}
               >
@@ -173,7 +173,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   marginTop: 4,
                 }}
               >
@@ -186,7 +186,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 minWidth: 130,
                 padding: '12px 14px',
                 borderRadius: 14,
-                background: '#fef2f2',
+                background: 'var(--error-bg)',
                 border: '1.5px solid #fecaca',
               }}
             >
@@ -194,7 +194,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   marginBottom: 4,
                 }}
               >
@@ -212,7 +212,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   marginTop: 4,
                 }}
               >

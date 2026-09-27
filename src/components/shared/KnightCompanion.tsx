@@ -171,11 +171,28 @@ export default function KnightCompanion() {
     return () => window.removeEventListener('knight:celebrate', onCelebrate);
   }, []);
 
+  // A PERSISTENT BOTTOM BAR OWNS THE CORNER (2026-09-27). This circle is fixed above
+  // the tab bar at bottom-left, and on a phone it sat directly over the lesson's
+  // "← Prev" — measured in a browser at 393px, `elementFromPoint` at Prev's centre
+  // returned this avatar, so the tap opened the companion instead. A screen with a
+  // persistent bottom bar marks it `data-bottom-bar` and the companion stands aside
+  // while any is on screen: one rule a new screen opts into with an attribute, not a
+  // list of screen names that goes stale.
+  const [bottomBar, setBottomBar] = useState(false);
+  useEffect(() => {
+    if (typeof MutationObserver === 'undefined') return undefined;
+    const check = () => setBottomBar(!!document.querySelector('[data-bottom-bar]'));
+    check();
+    const mo = new MutationObserver(check);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
   // NOTE: no render-time logging here. A dbgInfo() call in the render body
   // shipped '[DBG] [Coach] render' to the production console on EVERY app
   // render (hundreds of lines during the 2026-07-15 quest-sync loop) and
   // dispatched an nh:debuglog window event each time — pure overhead.
-  if (isHome) return null;
+  if (isHome || bottomBar) return null;
 
   // Priority: flash (silent feedback) > active bubble mood > idle.
   const displayMood = flashMood ?? bubble?.mood ?? 'ready';
@@ -300,7 +317,7 @@ export default function KnightCompanion() {
                   fontWeight: 900,
                   letterSpacing: '.12em',
                   textTransform: 'uppercase',
-                  color: '#7c3aed',
+                  color: 'var(--ink-mode)',
                   marginBottom: 4,
                 }}
               >

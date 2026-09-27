@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MEDIA } from '../../data';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface JourneyItem {
   level: string;
@@ -260,13 +261,13 @@ export default function ImmersionHub({
           style={{
             fontFamily: "'Playfair Display',serif",
             fontSize: 26,
-            color: '#164e63',
+            color: 'var(--ink-strong)',
             fontWeight: 800,
           }}
         >
           Immersion Hub
         </h2>
-        <p style={{ color: '#78716c', fontSize: 14, marginTop: 4 }}>
+        <p style={{ color: 'var(--ink-muted-warm)', fontSize: 14, marginTop: 4 }}>
           Your structured path from first words to native fluency
         </p>
       </div>
@@ -290,10 +291,10 @@ export default function ImmersionHub({
               padding: '8px 4px',
               border: 'none',
               borderRadius: 10,
-              background: activeTab === t.id ? 'white' : 'transparent',
+              background: activeTab === t.id ? 'var(--card)' : 'transparent',
               fontWeight: 700,
               fontSize: 12,
-              color: activeTab === t.id ? '#0e7490' : '#78716c',
+              color: activeTab === t.id ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               cursor: 'pointer',
               boxShadow: activeTab === t.id ? '0 1px 4px rgba(0,0,0,.1)' : 'none',
               transition: 'all .2s',
@@ -316,10 +317,17 @@ export default function ImmersionHub({
               borderLeft: '4px solid #0e7490',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-strong)' }}>
               The Science of Language Acquisition
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', marginTop: 4, lineHeight: 1.6 }}>
+            <div
+              style={{
+                fontSize: 12,
+                color: 'var(--ink-muted-warm)',
+                marginTop: 4,
+                lineHeight: 1.6,
+              }}
+            >
               Research shows fluency comes from <strong>massive comprehensible input</strong> — not
               memorizing grammar rules. The app teaches structure; immersion builds instinct. Use
               both together.
@@ -342,7 +350,7 @@ export default function ImmersionHub({
               >
                 <div style={{ fontSize: 18 }}>{JOURNEY.find((j) => j.level === l)?.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 800, color: LC[l] }}>{l}</div>
-                <div style={{ fontSize: 9, color: '#78716c' }}>{LEVEL_LABELS[l]}</div>
+                <div style={{ fontSize: 9, color: 'var(--ink-muted-warm)' }}>{LEVEL_LABELS[l]}</div>
               </div>
             ))}
           </div>
@@ -357,7 +365,14 @@ export default function ImmersionHub({
         <div>
           {/* Level filter */}
           <div style={{ marginBottom: 12 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#78716c', marginBottom: 8 }}>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: 'var(--ink-muted-warm)',
+                marginBottom: 8,
+              }}
+            >
               FILTER BY LEVEL
             </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -380,7 +395,14 @@ export default function ImmersionHub({
           </div>
           {/* Category filter */}
           <div style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#78716c', marginBottom: 8 }}>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: 'var(--ink-muted-warm)',
+                marginBottom: 8,
+              }}
+            >
               FILTER BY TYPE
             </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -401,11 +423,11 @@ export default function ImmersionHub({
               ))}
             </div>
           </div>
-          <div style={{ fontSize: 12, color: '#78716c', marginBottom: 12 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 12 }}>
             {filtered.length} resources
           </div>
           {filtered.length === 0 && (
-            <div style={{ textAlign: 'center', padding: 32, color: '#a8a29e' }}>
+            <div style={{ textAlign: 'center', padding: 32, color: 'var(--ink-muted-warm)' }}>
               No resources match this filter.
             </div>
           )}
@@ -427,17 +449,24 @@ export default function ImmersionHub({
               background: 'rgba(22,163,74,.04)',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#166534' }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
               The 35-Minute Daily Habit
             </div>
-            <div style={{ fontSize: 12, color: '#4b7c59', marginTop: 4, lineHeight: 1.6 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4, lineHeight: 1.6 }}>
               Consistency beats intensity. 35 minutes every day produces far better results than 4
               hours on weekends. Build these micro-habits into your existing routine.
             </div>
           </div>
           {SCHEDULES.map((s, i) => (
             <div key={i} className="c" style={{ marginBottom: 12, padding: 16 }}>
-              <div style={{ fontSize: 14, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 800,
+                  color: 'var(--ink-strong)',
+                  marginBottom: 10,
+                }}
+              >
                 {s.time}
               </div>
               {s.items.map((item, j) => (
@@ -452,8 +481,12 @@ export default function ImmersionHub({
                     borderRadius: 10,
                   }}
                 >
-                  <span style={{ color: '#0e7490', fontWeight: 800, flexShrink: 0 }}>→</span>
-                  <span style={{ fontSize: 13, color: '#44403c', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: 'var(--ink-accent)', fontWeight: 800, flexShrink: 0 }}>
+                    →
+                  </span>
+                  <span style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.5 }}>
+                    {item}
+                  </span>
                 </div>
               ))}
             </div>
@@ -466,7 +499,9 @@ export default function ImmersionHub({
               borderLeft: '4px solid #0e7490',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#164e63', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 8 }}
+            >
               Weekly Immersion Rhythm
             </div>
             {[
@@ -485,7 +520,7 @@ export default function ImmersionHub({
                 <span
                   style={{
                     fontWeight: 800,
-                    color: '#0e7490',
+                    color: 'var(--ink-accent)',
                     width: 32,
                     flexShrink: 0,
                     fontSize: 12,
@@ -493,7 +528,7 @@ export default function ImmersionHub({
                 >
                   {d}
                 </span>
-                <span style={{ fontSize: 12, color: '#44403c' }}>{t}</span>
+                <span style={{ fontSize: 12, color: 'var(--ink-body)' }}>{t}</span>
               </div>
             ))}
           </div>
@@ -512,13 +547,13 @@ export default function ImmersionHub({
               background: 'rgba(180,83,9,.04)',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#92400e' }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)' }}>
               The #1 Rule of Language Learning
             </div>
             <div
               style={{
                 fontSize: 13,
-                color: '#78450e',
+                color: 'var(--ink-warn)',
                 marginTop: 4,
                 lineHeight: 1.6,
                 fontStyle: 'italic',
@@ -528,7 +563,7 @@ export default function ImmersionHub({
               Acquisition happens through exposure to meaningful, interesting content — not through
               study alone."
             </div>
-            <div style={{ fontSize: 11, color: '#a16207', marginTop: 4 }}>
+            <div style={{ fontSize: 11, color: 'var(--ink-warn)', marginTop: 4 }}>
               — Based on Stephen Krashen's Input Hypothesis
             </div>
           </div>
@@ -537,10 +572,19 @@ export default function ImmersionHub({
               <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                 <div style={{ fontSize: 28, flexShrink: 0 }}>{t.icon}</div>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: '#164e63', marginBottom: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 800,
+                      color: 'var(--ink-strong)',
+                      marginBottom: 6,
+                    }}
+                  >
                     {t.title}
                   </div>
-                  <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{t.tip}</div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>
+                    {t.tip}
+                  </div>
                 </div>
               </div>
             </div>
@@ -554,7 +598,9 @@ export default function ImmersionHub({
               marginTop: 4,
             }}
           >
-            <div style={{ fontSize: 14, fontWeight: 800, color: '#5b21b6', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 8 }}
+            >
               Advanced Grammar Gaps to Target
             </div>
             {[
@@ -588,10 +634,17 @@ export default function ImmersionHub({
                   borderRadius: 10,
                 }}
               >
-                <div style={{ fontSize: 13, fontWeight: 800, color: '#5b21b6', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 800,
+                    color: 'var(--ink-mode)',
+                    marginBottom: 4,
+                  }}
+                >
                   {g}
                 </div>
-                <div style={{ fontSize: 12, color: '#44403c', lineHeight: 1.5 }}>{d}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-body)', lineHeight: 1.5 }}>{d}</div>
               </div>
             ))}
           </div>
@@ -641,11 +694,13 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-            <span style={{ fontSize: 14, fontWeight: 800, color: '#164e63' }}>{j.title}</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-strong)' }}>
+              {j.title}
+            </span>
             <span
               style={{
                 background: `${color}20`,
-                color,
+                color: accentInk(color),
                 fontSize: 10,
                 fontWeight: 800,
                 padding: '2px 7px',
@@ -656,18 +711,27 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
               {j.level}
             </span>
           </div>
-          <div style={{ fontSize: 11, color: '#78716c' }}>
+          <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
             {j.weeks} · {j.desc.slice(0, 60)}...
           </div>
         </div>
-        <span style={{ color: '#a8a29e', fontSize: 18, flexShrink: 0 }}>{open ? '▲' : '▼'}</span>
+        <span style={{ color: 'var(--ink-muted-warm)', fontSize: 18, flexShrink: 0 }}>
+          {open ? '▲' : '▼'}
+        </span>
       </div>
       {open && (
         <div style={{ padding: '0 16px 16px', borderTop: '1px solid rgba(0,0,0,.06)' }}>
-          <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6, margin: '12px 0 10px' }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--ink-body)',
+              lineHeight: 1.6,
+              margin: '12px 0 10px',
+            }}
+          >
             {j.desc}
           </div>
-          <div style={{ fontSize: 12, fontWeight: 800, color, marginBottom: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: accentInk(color), marginBottom: 8 }}>
             GOALS AT THIS LEVEL
           </div>
           {j.goals.map((g: string, i: number) => (
@@ -682,8 +746,8 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
                 borderRadius: 8,
               }}
             >
-              <span style={{ color, fontWeight: 800, flexShrink: 0 }}>✓</span>
-              <span style={{ fontSize: 12, color: '#44403c' }}>{g}</span>
+              <span style={{ color: accentInk(color), fontWeight: 800, flexShrink: 0 }}>✓</span>
+              <span style={{ fontSize: 12, color: 'var(--ink-body)' }}>{g}</span>
             </div>
           ))}
           <div
@@ -695,8 +759,12 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
               borderLeft: `3px solid ${color}`,
             }}
           >
-            <div style={{ fontSize: 11, fontWeight: 800, color, marginBottom: 2 }}>DAILY HABIT</div>
-            <div style={{ fontSize: 12, color: '#44403c' }}>{j.habit}</div>
+            <div
+              style={{ fontSize: 11, fontWeight: 800, color: accentInk(color), marginBottom: 2 }}
+            >
+              DAILY HABIT
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-body)' }}>{j.habit}</div>
           </div>
         </div>
       )}
@@ -756,11 +824,13 @@ function MediaCard({
               flexWrap: 'wrap',
             }}
           >
-            <span style={{ fontSize: 14, fontWeight: 800, color: m.color }}>{m.name}</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: accentInk(m.color) }}>
+              {m.name}
+            </span>
             <span
               style={{
                 background: `${color}20`,
-                color,
+                color: accentInk(color),
                 fontSize: 10,
                 fontWeight: 800,
                 padding: '2px 7px',
@@ -771,7 +841,7 @@ function MediaCard({
               {m.level}
             </span>
           </div>
-          <div style={{ fontSize: 12, color: '#78716c' }}>{m.desc}</div>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{m.desc}</div>
         </div>
       </div>
       <div
@@ -782,10 +852,10 @@ function MediaCard({
           borderLeft: '3px solid rgba(14,116,144,.2)',
         }}
       >
-        <div style={{ fontSize: 11, fontWeight: 800, color: '#0e7490', marginBottom: 3 }}>
+        <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 3 }}>
           WHY THIS HELPS
         </div>
-        <div style={{ fontSize: 12, color: '#44403c', lineHeight: 1.5 }}>{m.tip}</div>
+        <div style={{ fontSize: 12, color: 'var(--ink-body)', lineHeight: 1.5 }}>{m.tip}</div>
       </div>
       {!m.scr && m.web && (
         <div
@@ -793,7 +863,7 @@ function MediaCard({
             marginTop: 10,
             textAlign: 'right',
             fontSize: 11,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             fontWeight: 700,
           }}
         >
@@ -822,11 +892,15 @@ function FilterBtn({
         padding: '5px 12px',
         borderRadius: 20,
         border: `2px solid ${active ? color : '#e7e5e4'}`,
-        background: active ? `${color}15` : 'white',
+        // BOTH HALVES MOVE TOGETHER. Theming the ink alone would put a light colour on
+        // the opaque `white` of the inactive arm in dark mode — the compose regression
+        // sweep 157 shipped on 19 routes. The active arm is an 8% tint of the accent, so
+        // it already follows the theme; the inactive one has to be told to.
+        background: active ? `${color}15` : 'var(--card)',
         fontSize: 11,
         fontWeight: 700,
         cursor: 'pointer',
-        color: active ? color : '#78716c',
+        color: active ? accentInk(color) : 'var(--ink-muted-warm)',
         transition: 'all .15s',
         whiteSpace: 'nowrap',
       }}

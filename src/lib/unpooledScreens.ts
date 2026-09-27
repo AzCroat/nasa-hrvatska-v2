@@ -56,12 +56,6 @@ export const UNPOOLED_SCREENS: readonly UnpooledScreen[] = [
     icon: '🗺️',
   },
   {
-    screen: 'grammarvideos',
-    label: 'Watch Grammar Lessons',
-    subtitle: 'Video explanations and AI-generated lessons',
-    icon: '🎬',
-  },
-  {
     screen: 'readlist',
     label: 'Reading Passages',
     subtitle: '30 stories · A1 to C1',

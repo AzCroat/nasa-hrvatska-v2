@@ -6,7 +6,7 @@ const CIVIC_SECTIONS = [
     id: 'government',
     icon: '🏛️',
     title: 'Government & Power',
-    color: '#f0f9ff',
+    color: 'var(--info-bg)',
     border: '#7dd3fc',
     vocab: [
       {
@@ -48,7 +48,7 @@ const CIVIC_SECTIONS = [
     id: 'elections',
     icon: '🗳️',
     title: 'Elections & Democracy',
-    color: '#f0fdf4',
+    color: 'var(--success-bg)',
     border: '#86efac',
     vocab: [
       { hr: 'glasati', en: 'to vote', ph: 'gla-sa-ti', note: null },
@@ -85,7 +85,7 @@ const CIVIC_SECTIONS = [
     id: 'eu',
     icon: '🇪🇺',
     title: 'Croatia & the EU',
-    color: '#faf5ff',
+    color: 'var(--mode-bg)',
     border: '#c4b5fd',
     vocab: [
       {
@@ -136,7 +136,7 @@ const CIVIC_SECTIONS = [
     id: 'economy',
     icon: '📊',
     title: 'Economy & Budget',
-    color: '#fff7ed',
+    color: 'var(--warning-bg)',
     border: '#fed7aa',
     vocab: [
       { hr: 'proračun', en: 'budget', ph: 'pro-ra-chun', note: 'državni proračun = state budget' },
@@ -253,7 +253,14 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                   >
                     {w.hr}
                   </div>
-                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginTop: 1 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-accent)',
+                      fontWeight: 600,
+                      marginTop: 1,
+                    }}
+                  >
                     {w.en}
                   </div>
                   <div
@@ -409,7 +416,12 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                   {h.hr}
                 </div>
                 <div
-                  style={{ fontSize: 11, color: '#0e7490', fontWeight: 600, fontStyle: 'italic' }}
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-accent)',
+                    fontWeight: 600,
+                    fontStyle: 'italic',
+                  }}
                 >
                   {h.en}
                 </div>

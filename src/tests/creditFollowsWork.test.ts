@@ -100,6 +100,23 @@ const ADVANCE_CREDITERS = [
   'src/components/practice/ZnamGame.tsx',
 ];
 
+/**
+ * Screens whose ONLY finish is the learner's own declaration, so the button that pays
+ * is the act of finishing rather than one exit of several. Each entry must still be
+ * flagged (checked below), so a stale exemption cannot sit here suspending the rule.
+ */
+const DECLARED_FINISH: Record<string, string> = {
+  // After the grader FAILED (or offline, where no submit ran), "Continue — your
+  // writing counts ✓" is the learner declaring the ungraded finish. The session slot
+  // is already freed at the failure; only the 5-XP participation credit rides on it.
+  // Paying it at the failure instead was tried and reverted: the shared once-only
+  // flag then swallowed the SCORE-based award of a retry that succeeds.
+  'src/components/practice/GuidedWritingScreen.tsx':
+    'ungraded finish after a dead grader: the declaration is the finish',
+  'src/components/practice/GuidedSpeakingScreen.tsx':
+    'ungraded finish after a dead coach: the declaration is the finish',
+};
+
 describe('an exercise is credited for the work, not for the acknowledgement', () => {
   const files = walk('src');
 
@@ -107,7 +124,16 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
     // A floor, so a walk or a matcher that silently stops finding anything cannot
     // make the judgement below vacuous.
     const callers = completionCallers(files);
-    expect(callers.length).toBeGreaterThan(100);
+    // Drills moved onto ModeDrill credit THROUGH the engine, so they leave the direct-
+    // caller set; the floor is on the union, or consolidating the drills would read as
+    // the population collapsing (86 direct + 67 engine wrappers after the 2026-09-27
+    // conversion). The engine itself must stay a direct caller.
+    const wrappers = files.filter((f) =>
+      fs.readFileSync(path.join(ROOT, f), 'utf8').includes('<ModeDrill'),
+    );
+    expect(callers).toContain('src/components/practice/ModeDrill.tsx');
+    expect(wrappers.length).toBeGreaterThan(60);
+    expect(callers.length + wrappers.length).toBeGreaterThan(140);
     for (const f of [
       'src/components/practice/TypingScreen.tsx',
       'src/hooks/useLessonCompletion.ts',
@@ -116,8 +142,14 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
   });
 
   it('no screen makes its credit conditional on which exit the learner takes', () => {
+    const flagged = creditGatedOnExit(files);
+    for (const f of Object.keys(DECLARED_FINISH))
+      expect(
+        flagged,
+        `DECLARED_FINISH lists ${f}, which is no longer flagged — delete it`,
+      ).toContain(f);
     expect(
-      creditGatedOnExit(files),
+      flagged.filter((f) => !(f in DECLARED_FINISH)),
       'these screens call completeExercise from the onClick of a control that also navigates ' +
         'away, so the credit is paid only if the learner leaves by that exact button. The ' +
         'results view also carries the Back button H(title, subtitle, goBack) draws — and often ' +
@@ -161,6 +193,69 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
         ].join('\n'),
       );
       expect(creditGatedOnExit([rel]), 'the rule flags the prescribed fix').toEqual([]);
+
+      // THE NAMED-HANDLER SHAPE (2026-09-27). The inline matcher bails at a `function`
+      // keyword, so `onClick={handleFinish}` was never judged — GenderDrillScreen
+      // shipped exactly this and a census found it, not this guard.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function handleFinish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '    goBack();',
+          '  }',
+          '  return <button onClick={handleFinish}>Finish</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'a named handler hides the defect again').toEqual([rel]);
+
+      // …and a named function an EFFECT calls is not a defect: it runs on arrival.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function handleFinish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '    goBack();',
+          '  }',
+          '  useEffect(() => { if (done) handleFinish(); }, [done]);',
+          '  return <button onClick={handleFinish}>Finish</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'an effect-called handler is flagged').toEqual([]);
+
+      // THE LEAVING AT THE CALL SITE (2026-09-27): the handler only credits, and the
+      // inline arrow that calls it also leaves — the same pay-and-leave button, which
+      // the rule missed because it looked for goBack() inside the handler alone.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function finish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '  }',
+          '  return <button onClick={() => { finish(); goBack(); }}>Done</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'leaving at the call site hides the defect').toEqual([rel]);
+
+      // …while a button that credits and STAYS, with a separate way back, is the fix.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function finish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '  }',
+          '  return <button onClick={finished ? goBack : finish}>Done</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'a credit that stays is flagged').toEqual([]);
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });
     }
