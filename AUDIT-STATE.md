@@ -12457,3 +12457,27 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   pushing. The floor now sits on the keyed sites OUTSIDE the hand-written drills (53,
   which no conversion can move); the union floor stays. Mutation-verified: collapsing the
   non-drill sites fails the new floor alone (0 > 40).
+
+## Sweep 168 — Unit 1's test and production, walked from Home in a real browser (2026-09-27)
+
+- **What works, verified end to end**: a learner with Unit 1's five lessons read opens
+  Home, the session's first activity is "Unit 1 test — all 5 lessons read", Begin opens a
+  fifteen-item paper, a 15/15 pass pays 50 XP and ticks the slot, and the session carries
+  on to the next activity. Production (spoken, typed) grades and says "this half of the unit
+  is done". No page errors.
+- **FIXED — a passed test said "Unit passed" and offered only a retake.** The result read
+  "Unit passed — you have shown you know this." above one button, "Take it again", while the
+  unit still owed a spoken and a written task that nothing on the screen mentioned — the
+  learner's next action was invisible at exactly the moment they earned it. It now says
+  "Test passed", names what finishes the unit ("one spoken and one written task" — only what
+  is still owed, read from the same `productionOwed` the map and the session use), makes
+  those tasks the primary buttons, and demotes the retake of a passed test to secondary.
+  `UnitTestScreen` takes `setScr` as a REQUIRED prop from the router, as the course map does.
+- **FIXED — "This unit does not have enough questions for a test yet", said about a unit
+  that had just served fifteen.** The test handoff is cleared on leaving, so pressing Back
+  from the production task re-mounted the test screen with no unit, and the no-unit branch
+  shared the `insufficient` copy. A missing unit is its own state now (`unit-test-missing`):
+  "No unit test is open right now" plus a button to the course map. The production screen
+  already handled its own missing handoff honestly.
+- Mutation-verified: `owed` forced null fails 3; the missing branch back to `insufficient`
+  fails 2. `e2e/course-map.spec.js` references neither string.

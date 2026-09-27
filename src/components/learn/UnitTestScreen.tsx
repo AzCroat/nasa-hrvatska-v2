@@ -26,7 +26,7 @@ import { H } from '../../data';
 import { getLessons } from '../../lib/contentClient';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import type { CurriculumEntry } from '../../lib/curriculum';
-import { buildCourseUnits, type CourseUnit } from '../../lib/courseUnits';
+import { buildCourseUnits, productionOwed, type CourseUnit } from '../../lib/courseUnits';
 import {
   readUnitTestRequest,
   readUnitTestMode,
@@ -35,7 +35,10 @@ import {
   recordUnitRecheck,
   markUnitTestInsufficient,
   unitRecord,
+  producedUnits,
+  productionBlockedUnits,
 } from '../../lib/courseUnitProgress';
+import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { UNIT_RECHECK_INTERVALS } from '../../lib/unitRetention';
 import {
   buildUnitTest,
@@ -54,7 +57,7 @@ import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
  *  does in a unit, and it is paid once — `passedAt` is written once. */
 export const UNIT_TEST_XP = 50;
 
-type Phase = 'loading' | 'failed' | 'insufficient' | 'running' | 'done';
+type Phase = 'loading' | 'failed' | 'insufficient' | 'missing' | 'running' | 'done';
 
 interface UnitTestScreenProps {
   goBack: () => void;
@@ -63,9 +66,16 @@ interface UnitTestScreenProps {
   award: (xp: number, kind?: string) => void;
   /** Opens a lesson for review. Resolves false when it could not be opened. */
   onOpenLesson: (lessonId: string) => Promise<boolean>;
+  /** Navigates — the passed result sends the learner on to the unit's owed tasks. */
+  setScr: (screen: string) => void;
 }
 
-export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTestScreenProps) {
+export default function UnitTestScreen({
+  goBack,
+  award,
+  onOpenLesson,
+  setScr,
+}: UnitTestScreenProps) {
   const unitId = useMemo(() => readUnitTestRequest(), []);
   // A RE-CHECK IS THE SAME TEST ON A FRESH SAMPLE. It records the retention LADDER,
   // not a first pass, and it can never un-advance the unit — see unitRetention.
@@ -89,8 +99,12 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     const u = unitId ? (units.find((x) => x.id === unitId) ?? null) : null;
     if (!u) {
       // No unit named, or a spine that does not contain it. Not a failure of the
-      // network, so it is not reported as one.
-      setPhase(units.length === 0 ? 'failed' : 'insufficient');
+      // network, so it is not reported as one — and NOT "this unit does not have
+      // enough questions" either, which it used to say (walked in a browser,
+      // 2026-09-27): the handoff is cleared on leaving, so pressing Back from the
+      // production task onto this screen arrived with no unit at all and told the
+      // learner a unit that had just served fifteen questions could not make a test.
+      setPhase(units.length === 0 ? 'failed' : 'missing');
       return;
     }
     setUnit(u);
@@ -206,6 +220,36 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     );
   }
 
+  if (phase === 'missing') {
+    return (
+      <div>
+        {H('Unit test', title, goBack)}
+        <Notice testId="unit-test-missing" tone="calm">
+          No unit test is open right now. Each unit&apos;s test is on the course map.
+        </Notice>
+        <button
+          data-testid="unit-test-open-map"
+          onClick={() => setScr('coursemap')}
+          style={{
+            width: '100%',
+            padding: '13px 16px',
+            borderRadius: 12,
+            border: 'none',
+            background: 'var(--accent,#0e7490)',
+            color: '#fff',
+            fontSize: 14,
+            fontWeight: 800,
+            cursor: 'pointer',
+            fontFamily: "'Outfit',sans-serif",
+            marginTop: 12,
+          }}
+        >
+          Open the course map →
+        </button>
+      </div>
+    );
+  }
+
   if (phase === 'insufficient') {
     return (
       <div>
@@ -223,6 +267,28 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
     const weak = breakdown.filter((b) => b.correct < b.total);
     const lessonTitle = (id: string) =>
       unit?.lessons.find((l) => l.id === id)?.title || spine.find((e) => e.id === id)?.title || id;
+    // A PASSED TEST IS HALF THE BAR, and this screen used to say otherwise (walked in a
+    // browser, 2026-09-27): "Unit passed — you have shown you know this." above a single
+    // button, "Take it again", while the spoken and written tasks the unit still owed
+    // were mentioned nowhere. The learner's next action is those tasks, so they are
+    // named here and are the primary controls; a retake of a passed test is secondary.
+    const owed =
+      mode !== 'recheck' && passed && unitId
+        ? productionOwed({
+            unitId,
+            producedUnitIds: producedUnits(),
+            wrote: !!unitRecord(unitId)?.production?.wroteAt,
+            spoke: !!unitRecord(unitId)?.production?.spokeAt,
+            blocked: productionBlockedUnits().has(unitId),
+          })
+        : null;
+    const owedKinds = owed ? (['speak', 'write'] as const).filter((k) => owed[k]) : [];
+    const owedPhrase =
+      owedKinds.length === 2
+        ? 'one spoken and one written task'
+        : owedKinds[0] === 'speak'
+          ? 'one spoken task'
+          : 'one written task';
     return (
       <div data-testid="unit-test-result" data-passed={passed ? '1' : '0'} data-mode={mode}>
         {H(mode === 'recheck' ? 'Check-up' : 'Unit test', title, goBack)}
@@ -247,7 +313,9 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
                 ? 'Still there — this unit is holding.'
                 : 'Slipped a little. Nothing is taken away.'
               : passed
-                ? 'Unit passed — you have shown you know this.'
+                ? owedKinds.length > 0
+                  ? 'Test passed — you have shown you know this.'
+                  : 'Unit passed — you have shown you know this.'
                 : 'Not yet.'}
           </div>
           {/* STATE THE COUNT, NEVER THE PERCENTAGE. */}
@@ -261,7 +329,45 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
                 ? 'Nothing here is taken away if a later attempt goes worse.'
                 : 'Nothing has been taken away — go back over the lessons below and try again.'}
           </div>
+          {owedKinds.length > 0 && (
+            <div
+              data-testid="unit-test-owed"
+              style={{ fontSize: 13, color: 'var(--heading)', marginTop: 10, lineHeight: 1.5 }}
+            >
+              To finish the unit: {owedPhrase}, using what these five lessons taught. Your score on
+              them does not hold you back — producing them is the step.
+            </div>
+          )}
         </div>
+
+        {owedKinds.map((k) => (
+          <button
+            key={k}
+            data-testid={`unit-test-produce-${k}`}
+            onClick={() => {
+              if (!unitId) return;
+              requestUnitProduction(unitId, k);
+              setScr('unitproduction');
+            }}
+            style={{
+              width: '100%',
+              padding: '13px 16px',
+              borderRadius: 12,
+              border: 'none',
+              background: 'var(--accent,#0e7490)',
+              color: '#fff',
+              fontSize: 14,
+              fontWeight: 800,
+              cursor: 'pointer',
+              fontFamily: "'Outfit',sans-serif",
+              marginBottom: 8,
+            }}
+          >
+            {k === 'write'
+              ? 'Now write what you have learned →'
+              : 'Now say what you have learned →'}
+          </button>
+        ))}
 
         {weak.length > 0 && (
           <div style={{ marginBottom: 18 }}>
@@ -324,9 +430,9 @@ export default function UnitTestScreen({ goBack, award, onOpenLesson }: UnitTest
             width: '100%',
             padding: '13px 16px',
             borderRadius: 12,
-            border: 'none',
-            background: 'var(--accent,#0e7490)',
-            color: '#fff',
+            border: passed ? '1.5px solid var(--card-b)' : 'none',
+            background: passed ? 'transparent' : 'var(--accent,#0e7490)',
+            color: passed ? 'var(--heading)' : '#fff',
             fontSize: 14,
             fontWeight: 800,
             cursor: 'pointer',

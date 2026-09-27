@@ -3403,7 +3403,12 @@ export default function AppRouter(props: Record<string, any>) {
           // the sessionStorage handoff the map writes.
           currentScreen === 'unittest' && (
             <ScreenErrorBoundary key="unittest" name="unittest">
-              <UnitTestScreen goBack={goBack} award={award} onOpenLesson={launchAnimLesson} />
+              <UnitTestScreen
+                goBack={goBack}
+                award={award}
+                onOpenLesson={launchAnimLesson}
+                setScr={setScr}
+              />
             </ScreenErrorBoundary>
           )
         }

@@ -55,11 +55,14 @@ function paper(unitId = 'A1-1', attempt = 0) {
   );
 }
 
-function mount(award = vi.fn(), onOpenLesson = vi.fn(async () => true)) {
+function mount(award = vi.fn(), onOpenLesson = vi.fn(async () => true), setScr = vi.fn()) {
   return {
     award,
     onOpenLesson,
-    ...render(<UnitTestScreen goBack={vi.fn()} award={award} onOpenLesson={onOpenLesson} />),
+    setScr,
+    ...render(
+      <UnitTestScreen goBack={vi.fn()} award={award} onOpenLesson={onOpenLesson} setScr={setScr} />,
+    ),
   };
 }
 
@@ -96,7 +99,8 @@ describe('a passing sitting', () => {
 
     const result = await screen.findByTestId('unit-test-result');
     expect(result.getAttribute('data-passed')).toBe('1');
-    expect(screen.getByTestId('unit-test-verdict').textContent).toMatch(/Unit passed/);
+    // Production is still owed on a first pass, so the TEST passed — not the unit.
+    expect(screen.getByTestId('unit-test-verdict').textContent).toMatch(/Test passed/);
     expect(screen.getByText(`${items.length} of ${items.length}`)).toBeTruthy();
     // STATE THE COUNT, NOT THE PERCENTAGE.
     expect(
@@ -120,6 +124,53 @@ describe('a passing sitting', () => {
     expect(award).not.toHaveBeenCalled();
     // The earlier pass date survives.
     expect(unitRecord('A1-1')!.passedAt).toBe('2026-09-01');
+  });
+});
+
+describe('a passed test is half the bar, and the result says what the other half is', () => {
+  // Walked in a browser (2026-09-27): the result read "Unit passed" above one button,
+  // "Take it again", while the unit still owed a spoken and a written task that
+  // nothing on the screen mentioned.
+  it('names the owed tasks and makes them the primary way on', async () => {
+    seed();
+    const { setScr } = mount();
+    await sit(paper());
+    await screen.findByTestId('unit-test-result');
+    expect(screen.getByTestId('unit-test-owed').textContent).toMatch(
+      /one spoken and one written task/,
+    );
+    const retake = screen.getByTestId('unit-test-retake');
+    const speak = screen.getByTestId('unit-test-produce-speak');
+    const write = screen.getByTestId('unit-test-produce-write');
+    // Order is the priority: the owed tasks come before a retake of a passed test.
+    expect(speak.compareDocumentPosition(retake) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    fireEvent.click(write);
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
+    expect(setScr).toHaveBeenCalledWith('unitproduction');
+  });
+
+  it('names only what is still owed, and says "unit passed" once nothing is', async () => {
+    seed();
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ units: { 'A1-1': { production: { spokeAt: '2026-09-01' } } } }),
+    );
+    mount();
+    await sit(paper());
+    await screen.findByTestId('unit-test-result');
+    expect(screen.getByTestId('unit-test-owed').textContent).toMatch(/one written task/);
+    expect(screen.queryByTestId('unit-test-produce-speak')).toBeNull();
+    expect(screen.getByTestId('unit-test-produce-write')).toBeTruthy();
+  });
+
+  it('offers no production after a FAILED test', async () => {
+    seed();
+    const items = paper();
+    mount();
+    await sit(items, 0);
+    await screen.findByTestId('unit-test-result');
+    expect(screen.queryByTestId('unit-test-owed')).toBeNull();
+    expect(screen.queryByTestId('unit-test-produce-write')).toBeNull();
   });
 });
 
@@ -214,7 +265,19 @@ describe('when the test cannot be served', () => {
     localStorage.setItem('nh_curriculum_spine', JSON.stringify(SPINE));
     sessionStorage.setItem('nh_unit_test', 'ZZ-9');
     mount();
-    expect(await screen.findByTestId('unit-test-insufficient')).toBeTruthy();
+    expect(await screen.findByTestId('unit-test-missing')).toBeTruthy();
+  });
+
+  // Pressing Back from the production task lands here with the handoff already
+  // cleared. That is not "this unit has too few questions", which is what it said.
+  it('with NO unit named, says so and offers the map — never "not enough questions"', async () => {
+    localStorage.setItem('nh_curriculum_spine', JSON.stringify(SPINE));
+    const { setScr } = mount();
+    expect(await screen.findByTestId('unit-test-missing')).toBeTruthy();
+    expect(screen.queryByTestId('unit-test-insufficient')).toBeNull();
+    fireEvent.click(screen.getByTestId('unit-test-open-map'));
+    expect(setScr).toHaveBeenCalledWith('coursemap');
+    expect(readCourseUnits().units).toEqual({});
   });
 });
 
