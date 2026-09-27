@@ -41,6 +41,7 @@ import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import { buildCourseUnits, type CourseUnit } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 import { recordUnitProduction, markProductionUnavailable } from '../../lib/courseUnitProgress';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import {
   readUnitProductionRequest,
   clearUnitProductionRequest,
@@ -107,6 +108,10 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           setFailure(f);
           reportAiFailure('unit-production-write', f);
           markProductionUnavailable(unit.id);
+          // The learner PRODUCED; the grader would not answer. That excuses the task
+          // (above) and must free the session slot too, or Today's Session sits at
+          // N-1/N — only `award` signalled it, and a refusal pays nothing.
+          signalSessionCompleteIfActive('unitproduction');
           return;
         }
         const data = (await res.json()) as { score?: number; changes?: Change[] };
@@ -115,6 +120,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           setFailure(f);
           reportAiFailure('unit-production-write', f);
           markProductionUnavailable(unit.id);
+          signalSessionCompleteIfActive('unitproduction');
           return;
         }
         recordUnitProduction(unit.id, 'write', data.score);
@@ -136,6 +142,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           const f = outcome?.ok === false ? outcome.failure : failureFromStatus(200, 'too_short');
           setFailure(f);
           markProductionUnavailable(unit.id);
+          signalSessionCompleteIfActive('unitproduction');
           return;
         }
         // The coach already recorded mastery and the error loops.
@@ -152,6 +159,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       setFailure(f);
       reportAiFailure(`unit-production-${kind}`, f);
       markProductionUnavailable(unit.id);
+      signalSessionCompleteIfActive('unitproduction');
     } finally {
       setBusy(false);
     }

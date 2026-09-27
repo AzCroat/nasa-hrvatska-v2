@@ -56,11 +56,36 @@ import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
  */
 export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | null {
   try {
-    const step = nextCourseStep();
+    // A due check-up no longer displaces the day's lesson — it rides beside it.
+    const step = nextCourseStep({ skipRechecks: true });
     if (!step || step.kind !== 'lesson') return null;
     return { entry: step.lesson, isReview: false, reason: step.reason };
   } catch {
     return null;
+  }
+}
+
+/**
+ * Re-arm the one-shot handoff a course activity's screen reads, from the activity id.
+ *
+ * THE HANDOFF WAS WRITTEN ONLY WHEN THE PLAN WAS BUILT, and the screens clear it on
+ * unmount so a later visit cannot land on a stale unit. So a learner who left a
+ * session's unit test part-way — or whose plan was persisted this morning and whose
+ * sessionStorage has since gone — pressed "Continue Session" and landed on a test
+ * screen with no unit (walked in a browser, 2026-09-27). The activity id already
+ * carries the unit, so the launcher re-arms it at tap time. Unknown ids are a no-op.
+ */
+export function rearmCourseHandoff(activityId: string | undefined | null): void {
+  if (!activityId) return;
+  try {
+    let m = /^course_unit_recheck_(.+)$/.exec(activityId);
+    if (m) return requestUnitTest(m[1]!, 'recheck');
+    m = /^course_unit_test_(.+)$/.exec(activityId);
+    if (m) return requestUnitTest(m[1]!);
+    m = /^course_unit_(write|speak)_(.+)$/.exec(activityId);
+    if (m) return requestUnitProduction(m[2]!, m[1] as 'write' | 'speak');
+  } catch {
+    /* the screen reports that it has no unit rather than crashing */
   }
 }
 
@@ -198,22 +223,48 @@ export function buildCurriculumSlots(opts: {
     ];
   }
 
-  // A DUE RE-CHECK IS THE TEACHING SLOT, ahead of the next lesson. It runs the unit's
-  // own test again on a fresh sample; the handoff carries the `recheck` marker so the
-  // screen records the ladder rather than a first pass.
+  // A DUE RE-CHECK COMES FIRST, AND THE DAY'S LESSON STILL FOLLOWS IT (2026-09-27).
+  // It runs the unit's own test again on a fresh sample; the handoff carries the
+  // `recheck` marker so the screen records the ladder rather than a first pass.
+  //
+  // It used to BE the teaching slot, which meant no new lesson on a check-up day —
+  // walked in a browser, the session read "Unit 1 check-up | Genitive | Speaking | …"
+  // with the learner's next lesson nowhere. Two check-ups per unit at 7 and 30 days
+  // is roughly two days in seven at a unit a week, against the curriculum's own rule
+  // that a lesson comes every day. So the lesson rides behind the check-up, WITHOUT its
+  // coupled drill: check-up + lesson is two activities, the same as lesson + drill, so
+  // the session's length contract is untouched. When the step behind the check-up is
+  // a unit test it is NOT added — both use the one unit-test handoff, and the test
+  // will come tomorrow — and a production step is not added either, to keep the day's
+  // assessment to one.
   if (course.kind === 'recheck') {
     try {
       requestUnitTest(course.unit.id, 'recheck');
     } catch {
       /* the screen reports that it has no unit rather than crashing */
     }
+    const recheck: SlotActivity = {
+      id: unitRecheckActivityId(course.unit.id),
+      label: `Unit ${course.unit.index} check-up`,
+      screen: 'unittest',
+      category: 'general',
+      reason: course.reason,
+    };
+    let behind: ReturnType<typeof nextCourseStep> = null;
+    try {
+      behind = nextCourseStep({ skipRechecks: true });
+    } catch {
+      behind = null;
+    }
+    if (behind?.kind !== 'lesson') return [recheck];
     return [
+      recheck,
       {
-        id: unitRecheckActivityId(course.unit.id),
-        label: `Unit ${course.unit.index} check-up`,
-        screen: 'unittest',
+        id: curriculumLessonId(behind.lesson.id),
+        label: behind.lesson.title || 'Today\u2019s Lesson',
+        screen: 'animlesson',
         category: 'general',
-        reason: course.reason,
+        reason: behind.reason,
       },
     ];
   }

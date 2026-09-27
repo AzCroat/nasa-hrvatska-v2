@@ -217,7 +217,7 @@ export function pickCourseStep(input: {
  * mastered. A unit whose reading is done gets its test; otherwise its next unread
  * lesson.
  */
-export function nextCourseStep(): CourseStep | null {
+export function nextCourseStep(opts: { skipRechecks?: boolean } = {}): CourseStep | null {
   let state: ReturnType<typeof readCourseState>;
   try {
     state = readCourseState();
@@ -237,7 +237,10 @@ export function nextCourseStep(): CourseStep | null {
   // that keeps being pushed behind new material is a re-check that never happens. It
   // is NOT a gate: the unit is already advanced and stays advanced whatever the
   // re-check says.
-  const dueId = state.dueRechecks[0];
+  // `skipRechecks` asks for the step BEHIND a due check-up. A check-up day still
+  // teaches a lesson (see curriculumSlot), so the slot and the launcher that opens
+  // that lesson both need the course's lesson, not the check-up in front of it.
+  const dueId = opts.skipRechecks ? undefined : state.dueRechecks[0];
   if (dueId) {
     const unit = state.units.find((u) => u.id === dueId);
     if (unit) {

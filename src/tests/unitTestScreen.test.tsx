@@ -175,6 +175,19 @@ describe('a passed test is half the bar, and the result says what the other half
 });
 
 describe('a failing sitting', () => {
+  // THE FLOW IS NOT GATED. Only `award` signalled the session, and it runs on a first
+  // pass alone — so a failed test, a retake and every check-up left Today's Session at
+  // N-1/N, and "Begin" re-opened a test screen with no unit (walked, 2026-09-27).
+  it('frees the session slot on a FAIL, while paying nothing', async () => {
+    seed();
+    sessionStorage.setItem('nh_session_started', 'unittest');
+    const { award } = mount();
+    await sit(paper(), 0);
+    await screen.findByTestId('unit-test-result');
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('unittest');
+    expect(award).not.toHaveBeenCalled();
+  });
+
   it('records the attempt and NOTHING else — no XP, no pass', async () => {
     seed();
     const items = paper();
@@ -354,6 +367,7 @@ describe('a retention re-check', () => {
     seed();
     barMet();
     sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    sessionStorage.setItem('nh_session_started', 'unittest');
     const { award } = mount();
     await sit(paper('A1-1', 1));
     const result = await screen.findByTestId('unit-test-result');
@@ -363,6 +377,8 @@ describe('a retention re-check', () => {
     // The XP was paid when the unit was first passed; a check-up is not a second wage.
     expect(award).not.toHaveBeenCalled();
     expect([...retainedUnits()]).toEqual([]);
+    // …and paying nothing must not strand the session's check-up slot.
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('unittest');
   });
 
   // THE CONTRACT: a failure moves the LADDER and nothing else.

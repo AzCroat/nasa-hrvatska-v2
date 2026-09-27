@@ -38,7 +38,15 @@ import { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } from '../hooks/u
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
 import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
 import { readCourseState } from '../lib/courseStep';
+import { pickSessionLesson } from '../lib/sessionLessonPick';
+import { rearmCourseHandoff } from '../lib/curriculumSlot';
+import {
+  unitTestActivityId,
+  unitRecheckActivityId,
+  unitProductionActivityId,
+} from '../lib/courseStep';
 import type { CurriculumEntry } from '../lib/curriculum';
+import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 
 // Real lesson ids, so the LESSON_TAUGHT_CATEGORY lookup exercises the real map
 // rather than a fixture that cannot drift with it.
@@ -169,6 +177,47 @@ describe('the lesson comes first', () => {
     // The handoff marks it a RE-CHECK, so the screen records the ladder and not a
     // first pass.
     expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1|recheck');
+  });
+
+  // A CHECK-UP DAY STILL TEACHES (2026-09-27). Walked in a browser, the session was
+  // "Unit 1 check-up | Genitive | Speaking | …" with the next lesson nowhere: the
+  // check-up WAS the teaching slot. Two per unit is about two days in seven.
+  it('teaches the next lesson behind a due check-up, at the same session length', () => {
+    const REAL = CURRICULUM as unknown as CurriculumEntry[];
+    writeCurriculumSpine(REAL);
+    const unit1 = REAL.filter((e) => e.level === 'A1')
+      .sort((a, b) => a.order - b.order)
+      .slice(0, 5);
+    for (const e of unit1) markLessonComplete(e.id, '2026-08-28');
+    recordUnitTest('A1-1', 15, 15, true);
+    recordUnitProduction('A1-1', 'write', 72);
+    recordUnitProduction('A1-1', 'speak', 0.8);
+    readCourseState(); // starts the ladder
+
+    const plain = buildSessionActivities('A1');
+    const lesson = plain[0]!;
+    expect(lesson.screen).toBe('animlesson');
+
+    const raw = JSON.parse(localStorage.getItem('nh_course_units')!) as {
+      units: Record<string, Record<string, unknown>>;
+    };
+    raw.units['A1-1']!.recheck = { stage: 0, dueAt: '2020-01-01' };
+    localStorage.setItem('nh_course_units', JSON.stringify(raw));
+    sessionStorage.clear();
+
+    const acts = buildSessionActivities('A1');
+    expect(acts[0]?.id).toBe('course_unit_recheck_A1-1');
+    expect(acts[1]?.id).toBe(lesson.id);
+    // Without the lesson's coupled drill, so the day is no longer than a lesson day.
+    expect(acts.filter((a) => a.id.startsWith('curriculum_practice_'))).toHaveLength(0);
+    expect(acts).toHaveLength(plain.length);
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-1|recheck');
+
+    // THE LAUNCHER MUST OPEN THAT LESSON, not a rotation pick: it asks the course
+    // which lesson is next, and on a check-up day the course's first answer is the
+    // check-up — which it used to read as "no course lesson" and fall back to rotation.
+    const bodies = REAL.map((e) => ({ id: e.id, level: e.level }));
+    expect(pickSessionLesson(bodies)?.id).toBe(lesson.id.replace(/^curriculum_/, ''));
   });
 
   it('carries no follow-on drill with the unit test — the test is the whole step', () => {
@@ -392,5 +441,38 @@ describe('no spine, no slot — the session composes as it always did', () => {
   it('still builds a full session when the spine is empty', () => {
     writeCurriculumSpine([]);
     expect(buildSessionActivities('A1').length).toBeGreaterThan(0);
+  });
+});
+
+// The handoff is written when the plan is BUILT and cleared when the screen unmounts,
+// so leaving a session's unit test part-way left "Continue Session" opening a test
+// with no unit. The launcher re-arms it from the activity id, which carries the unit.
+describe('re-arming a course activity\u2019s handoff at launch', () => {
+  it('re-arms a test, a check-up and each production half from the id', () => {
+    rearmCourseHandoff(unitTestActivityId('A1-2'));
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('A1-2');
+    rearmCourseHandoff(unitRecheckActivityId('B1-3'));
+    expect(sessionStorage.getItem('nh_unit_test')).toBe('B1-3|recheck');
+    rearmCourseHandoff(unitProductionActivityId('A2-1', 'speak'));
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A2-1|speak');
+    rearmCourseHandoff(unitProductionActivityId('A2-1', 'write'));
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A2-1|write');
+  });
+
+  it('leaves every other activity alone', () => {
+    sessionStorage.clear();
+    for (const id of ['curriculum_alphabet', 'cat_genitive', 'srsreview', '', undefined, null]) {
+      rearmCourseHandoff(id as string);
+    }
+    expect(sessionStorage.getItem('nh_unit_test')).toBeNull();
+    expect(sessionStorage.getItem('nh_unit_production')).toBeNull();
+  });
+
+  it('is what both launchers call', async () => {
+    const { readFileSync } = await import('node:fs');
+    for (const f of ['src/components/home/HomeTab.tsx', 'src/hooks/useNextStepEngine.ts']) {
+      const src = readFileSync(f, 'utf8').replace(/^\s*\/\/.*$/gm, '');
+      expect(src, f).toMatch(/rearmCourseHandoff\(/);
+    }
   });
 });

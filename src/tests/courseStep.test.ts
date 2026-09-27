@@ -205,6 +205,24 @@ describe('retention', () => {
     expect(step?.reason).toMatch(/checking it stayed/);
   });
 
+  it('can be asked for the step BEHIND a due check-up', () => {
+    writeCurriculumSpine(SPINE);
+    readUnit(0);
+    master('A1-1');
+    readCourseState();
+    const rec = unitRecord('A1-1')!;
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({
+        units: { 'A1-1': { ...rec, recheck: { stage: 0, dueAt: '2020-01-01' } } },
+      }),
+    );
+    expect(nextCourseStep()?.kind).toBe('recheck');
+    const behind = nextCourseStep({ skipRechecks: true });
+    expect(behind?.kind).toBe('lesson');
+    expect(behind?.unit.id).toBe('A1-2');
+  });
+
   it('goes back to the next lesson once nothing is due', () => {
     writeCurriculumSpine(SPINE);
     readUnit(0);

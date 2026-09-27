@@ -4191,6 +4191,18 @@ means the bar was met with retention pending.
   beside the SRS slot — but it never locks a unit: the course has already opened what
   the learner earned, and a check-up that could take an open door away would make
   advancement provisional, which is exactly what the NEVER above forbids.
+  **IT GOES FIRST, AND THE DAY'S LESSON STILL FOLLOWS IT (corrected 2026-09-27).** As
+  first written the check-up REPLACED the lesson, and walking Home in a browser showed
+  the cost: "Unit 1 check-up | Genitive | Speaking | …" with the next lesson nowhere.
+  Two check-ups per unit is about two days in seven at a unit a week, against P0's own
+  rule that a lesson comes every day. The slot is now check-up + the lesson behind it,
+  WITHOUT the lesson's coupled drill, so the day holds the same number of activities as
+  a lesson day. `nextCourseStep({ skipRechecks: true })` is how the slot AND the
+  launcher (`pickSessionLesson`) ask for that lesson — the launcher asked plain
+  `nextCourseStep()`, got the check-up, and would have fallen back to a rotation pick.
+  When the step behind is a unit test it is not added (one unit-test handoff key), nor
+  is a production step (one assessment a day). Mutation-verified: either half reverted
+  fails 1.
 - **THE MAP PROMISED A CHECK-UP AND HAD NO DOOR WHEN THE DAY CAME, AND ONLY THE E2E
   SAW IT.** The holding line read "we will check it again in a few days to see it
   stayed" and there was no button, at any point, so a learner whose 7-day check came due
@@ -4223,7 +4235,9 @@ means the bar was met with retention pending.
   started (1); the holding copy flattened (1 E2E); the due button never rendered (2 E2E).
 - NEVER: call a unit mastered on one sitting; un-pass a unit, clear its production, or
   pay XP on a failed re-check; re-check a unit with the paper it already sat; let a
-  check-up lock a unit or take an opened one away; start the ladder from a screen rather
+  check-up lock a unit or take an opened one away; let a check-up REPLACE the day's
+  lesson, or open that lesson through a plain `nextCourseStep()` that returns the
+  check-up; start the ladder from a screen rather
   than from the course read; promise a learner a future check without rendering the
   control that serves it when it arrives; do calendar arithmetic with `toISOString`.
 

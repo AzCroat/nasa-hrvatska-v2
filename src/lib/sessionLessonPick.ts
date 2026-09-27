@@ -78,7 +78,9 @@ export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | n
   // rather than returning null: the learner gets taught either way.
   const curriculumPick = (() => {
     try {
-      const step = nextCourseStep();
+      // The lesson BEHIND a due check-up: a check-up day still teaches one, and the
+      // session's lesson slot is that lesson, not a rotation pick.
+      const step = nextCourseStep({ skipRechecks: true });
       if (!step || step.kind !== 'lesson') return null;
       return unlocked.find((l) => l.id === step.lesson.id) ?? null;
     } catch {

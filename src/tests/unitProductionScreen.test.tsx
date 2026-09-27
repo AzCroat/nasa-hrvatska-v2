@@ -174,6 +174,7 @@ describe('a refused evaluator', () => {
   // told which refusal it was and that nothing was taken away.
   it('records unavailable, names the cause, and keeps the course moving', async () => {
     seed('write');
+    sessionStorage.setItem('nh_session_started', 'unitproduction');
     aiPost.mockResolvedValue({ ok: false, status: 503, json: async () => ({ error: 'budget' }) });
     mount();
     fireEvent.change(await screen.findByTestId('unit-production-input'), {
@@ -184,6 +185,9 @@ describe('a refused evaluator', () => {
     expect(notice.textContent).toMatch(/Nothing has been taken away/);
     expect([...productionBlockedUnits()]).toEqual(['A1-1']);
     expect([...producedUnits()]).toEqual([]);
+    // The session slot is freed too — a refusal pays nothing, and only the award
+    // used to signal it, so Today's Session sat at N-1/N.
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('unitproduction');
     // And it offers the retry rather than a dead end.
     expect(screen.getByTestId('unit-production-submit').textContent).toBe('Try again');
   });

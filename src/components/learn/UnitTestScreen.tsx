@@ -39,6 +39,7 @@ import {
   productionBlockedUnits,
 } from '../../lib/courseUnitProgress';
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { UNIT_RECHECK_INTERVALS } from '../../lib/unitRetention';
 import {
   buildUnitTest,
@@ -160,6 +161,13 @@ export default function UnitTestScreen({
     if (phase !== 'done' || !unit || total <= 0) return;
     if (recorded.current === `${unit.id}:${attempt}`) return;
     recorded.current = `${unit.id}:${attempt}`;
+    // THE SESSION IS A FLOW, SO REACHING THE RESULT FREES ITS SLOT — pass or fail.
+    // Only `award` used to signal it, and `award` runs only on a FIRST pass, so a
+    // failed test, a retake and every check-up left Today's Session stuck at N-1/N
+    // (walked in a browser, 2026-09-27: finish the check-up, go Home, the slot is
+    // still open and "Begin" re-opens a test screen that has no unit). Credit stays
+    // gated below; the flow does not. Same rule as a failed lesson check.
+    signalSessionCompleteIfActive('unittest');
     if (mode === 'recheck') {
       // A FAILED RE-CHECK MOVES THE LADDER AND NOTHING ELSE: no XP, no pass record,
       // and above all no un-advancing. The learner did meet the bar, on evidence.

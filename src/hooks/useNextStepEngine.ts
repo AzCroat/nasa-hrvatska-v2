@@ -20,6 +20,7 @@ import { SESSION_SCREEN_IDS } from './useDailySession.js';
 import { requestUnitTest } from '../lib/courseUnitProgress';
 import { requestUnitProduction } from '../lib/unitProductionRequest';
 import { CURRICULUM_SPINE_EVENT } from '../lib/curriculumProgress';
+import { rearmCourseHandoff } from '../lib/curriculumSlot';
 
 /** Same servable-vocab pool HomeTab builds — used for the SRS due count.
  *  Content is lazy-loaded (useContent); until it arrives the SRS rung of the
@@ -138,6 +139,7 @@ export function useNextStepEngine(): NextStepEngine {
               if (id === s.screen) {
                 sessionStorage.setItem('nh_session_started', id);
                 setSessionCategory(s.activityId);
+                rearmCourseHandoff(s.activityId);
                 break;
               }
             }

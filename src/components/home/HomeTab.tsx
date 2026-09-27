@@ -65,6 +65,7 @@ import {
   clearSessionCategory,
   consumeSessionCategoryOutcome,
 } from '../../lib/sessionCategory';
+import { rearmCourseHandoff } from '../../lib/curriculumSlot';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
 import VerificationGateCard from './VerificationGateCard';
@@ -478,6 +479,9 @@ export default function HomeTab({
             // Tag the adaptive category (cat_<category>) so completion advances
             // its schedule; clears for non-adaptive activities.
             setSessionCategory(nextActivity.id);
+            // A course activity's screen reads a one-shot handoff that is cleared on
+            // leaving; re-arm it so Continue never opens a test with no unit.
+            rearmCourseHandoff(nextActivity.id);
             if (launchActivity) {
               // launchActivity initialises pool data for exercises that need it
               // (flashcards, mcgame, match) before navigating — fixes the ScreenGuard

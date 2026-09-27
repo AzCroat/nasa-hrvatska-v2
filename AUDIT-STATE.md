@@ -12481,3 +12481,24 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   already handled its own missing handoff honestly.
 - Mutation-verified: `owed` forced null fails 3; the missing branch back to `insufficient`
   fails 2. `e2e/course-map.spec.js` references neither string.
+- **FIXED — a check-up day taught no lesson.** Walked from Home: the session read "Unit 1
+  check-up | Genitive | Speaking | …" with the learner's next lesson nowhere, because a due
+  check-up WAS the teaching slot. Two per unit is ~2 days in 7, against P0's rule that a
+  lesson comes every day. The slot is now check-up + the lesson behind it, without the
+  lesson's coupled drill (same activity count as a lesson day). `nextCourseStep({
+  skipRechecks: true })` is how the slot and `pickSessionLesson` ask for that lesson — the
+  launcher's plain `nextCourseStep()` returned the check-up and would have fallen back to a
+  rotation pick. Mutation-verified: each half reverted fails 1.
+- **FIXED — the session stranded on every unit-test outcome but a first pass.** The session
+  slot was freed only by `award()`, and the test awards on a first pass alone — so a
+  FAILED test, a retake and every CHECK-UP left Today's Session at N-1/N, and the slot's
+  "Continue" re-opened a test screen with no unit. Walked: finish the check-up, go Home, the
+  slot is still open. `UnitTestScreen` now signals on reaching ANY result (credit still
+  gated), and `UnitProductionScreen` signals on an evaluator refusal (the learner produced;
+  the grader would not answer). Mutation-verified: 2 and 1 fail.
+- **FIXED — leaving a course activity part-way broke "Continue Session".** The unit-test /
+  production handoff is written when the plan is built and cleared on unmount, so leaving
+  and continuing opened a screen with no unit. `rearmCourseHandoff(activityId)` re-arms it
+  from the id (which carries the unit) in BOTH launchers — Home's `onStart` and the
+  next-step engine's session branch. Walked: answer two, leave, continue → the check-up
+  reopens in re-check mode.
