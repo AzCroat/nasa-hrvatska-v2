@@ -103,7 +103,10 @@ async function openAIConvoFromAITab(page) {
 // ---------------------------------------------------------------------------
 async function startFreeTalkConversation(page) {
   // The ConvoSetup renders "Free Talk — No Script Needed" as the first option
-  const freeTalkCard = page.locator('div[role="button"], div').filter({ hasText: /Free Talk — No Script Needed/ }).first();
+  // The card itself (it carries role="button" via clickable()). Matching "the first div
+  // whose text includes it" picked an outer WRAPPER and clicked its centre, which lands on
+  // whatever the layout puts there — a wider content column moved it off the card (2026-09-27).
+  const freeTalkCard = page.getByRole('button', { name: /Free Talk — No Script Needed/ });
   // The free talk card is a div with onClick — use .click()
   await freeTalkCard.scrollIntoViewIfNeeded();
   await freeTalkCard.click();
@@ -338,7 +341,7 @@ test.describe('Conversation mode setup', () => {
   });
 
   test('selecting Free Talk enables the Start Conversation button', async ({ page }) => {
-    const freeTalk = page.locator('div').filter({ hasText: /Free Talk — No Script Needed/ }).first();
+    const freeTalk = page.getByRole('button', { name: /Free Talk — No Script Needed/ });
     await freeTalk.click();
     await expect(page.locator('button').filter({ hasText: /Start —/ })).toBeVisible({ timeout: 5_000 });
     await expect(page.locator('button').filter({ hasText: /Start —/ })).toBeEnabled({ timeout: 3_000 });
@@ -346,7 +349,7 @@ test.describe('Conversation mode setup', () => {
 
   test('selecting a regular scenario shows the level selector and Start button', async ({ page }) => {
     // Click the "At a Café" scenario card
-    const cafeCard = page.locator('div').filter({ hasText: /At a Café/ }).first();
+    const cafeCard = page.getByRole('button', { name: /At a Café/ }).first();
     await cafeCard.scrollIntoViewIfNeeded();
     await cafeCard.click();
     await page.waitForTimeout(300);
