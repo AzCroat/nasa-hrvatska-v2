@@ -310,3 +310,42 @@ export function shouldRetryTeachingSlot(input: TeachingRetryInput): boolean {
   if (input.completedCount > 0) return false;
   return input.spineAvailable();
 }
+
+/**
+ * Whether a STARTED, unfinished plan committed before the curriculum arrived should
+ * have the teaching slots INSERTED into it (2026-09-27).
+ *
+ * The rebuild above refuses a started plan, rightly: re-rolling one is the
+ * 2026-05-21 incident. But that refusal left the documented cost as the ordinary
+ * case for a NEW learner — measured in a browser, a guest who landed on Home and
+ * tapped Begin within the first seconds had the Genitive case drill as their first
+ * ever activity, with no lesson anywhere in the day. Inserting is not re-rolling:
+ * nothing completed is touched or reordered, so the card cannot "forget". A FINISHED
+ * plan is left alone — the next-step engine's course rung answers "what next" there.
+ */
+export function shouldSpliceTeachingSlot(input: TeachingRetryInput & { total: number }): boolean {
+  if (input.spineSeen) return false;
+  if (input.sessionDate !== input.today) return false;
+  if (input.completedCount === 0) return false; // untouched — the rebuild owns it
+  if (input.completedCount >= input.total) return false; // finished — leave it
+  return input.spineAvailable();
+}
+
+/**
+ * Insert `slots` before the first unfinished activity, skipping any whose id or screen
+ * the plan already holds. Completed activities keep their place and their ids.
+ */
+export function spliceTeachingSlots<T extends { id: string; screen: string }>(
+  activities: readonly T[],
+  completedIds: readonly string[],
+  slots: readonly T[],
+): T[] {
+  const ids = new Set(activities.map((a) => a.id));
+  const screens = new Set(activities.map((a) => a.screen));
+  const add = slots.filter((s) => !ids.has(s.id) && !screens.has(s.screen));
+  if (add.length === 0) return [...activities];
+  const done = new Set(completedIds);
+  const at = activities.findIndex((a) => !done.has(a.id));
+  const i = at < 0 ? activities.length : at;
+  return [...activities.slice(0, i), ...add, ...activities.slice(i)];
+}

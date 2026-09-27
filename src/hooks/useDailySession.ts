@@ -21,6 +21,7 @@ import { CROATIA_POOL, CITY_OF_DAY_SLOT_MAX_CEFR } from '../lib/croatiaPool';
 import { pendingTaughtCategories, taughtAgeDays } from '../lib/teachPractice';
 import { selectRetentionSlot } from '../lib/retentionSlot';
 import { buildCurriculumSlots } from '../lib/curriculumSlot';
+import { withTeachingSlots } from '../lib/teachingSlotSplice';
 import { skillGroupOf, SKILL_GROUP, type SkillGroup } from '../lib/skillGroups';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import {
@@ -966,11 +967,24 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     session,
     useCallback(() => {
       const activities = buildSessionActivities(userCefr, poolWords);
-      // completedIds is empty by construction: the guard refuses a started session.
-      const rebuilt = newSession(userCefr, activities, []);
-      persistSession(rebuilt);
-      setSession(rebuilt);
+      setSession((prev) => {
+        // Re-checked HERE, at execution time, not only in the guard: the guard read
+        // the plan as of the last render, and a completion Home applies in the same
+        // commit would be erased by a rebuild (the 2026-05-21 incident, via a race).
+        if (prev.completedIds.length > 0) return prev;
+        const rebuilt = newSession(userCefr, activities, []);
+        persistSession(rebuilt);
+        return rebuilt;
+      });
     }, [userCefr, poolWords]),
+    // A started, unfinished plan gets today's lesson INSERTED (lib/teachingSlotSplice).
+    useCallback(() => {
+      setSession((prev) => {
+        const next = withTeachingSlots(prev, userCefr);
+        persistSession(next);
+        return next;
+      });
+    }, [userCefr]),
   );
 
   const markDone = useCallback((screenOrId: string) => {

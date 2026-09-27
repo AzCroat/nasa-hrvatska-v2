@@ -101,3 +101,19 @@ export function signalSessionCompleteIfActive(screen?: string): void {
     // user can always advance the session manually.
   }
 }
+
+/**
+ * Whether a daily-session activity is in flight: launched and not yet handed back, or
+ * finished with its completion waiting for Home to apply it (2026-09-27). Home applies
+ * that completion in a mount effect, so for one commit a plan whose learner HAS
+ * finished something still reads as untouched — and the teaching-slot rebuild, which
+ * refuses only a started plan, re-rolled it and the finished activity vanished from
+ * the card (measured in a browser). A pending marker counts as started.
+ */
+export function hasPendingSessionActivity(): boolean {
+  try {
+    return !!(sessionStorage.getItem(STARTED_KEY) || sessionStorage.getItem(COMPLETED_KEY));
+  } catch {
+    return false;
+  }
+}
