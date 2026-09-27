@@ -240,12 +240,20 @@ export default function ModalScreen({
                           {p}
                         </td>
                         <td
-                          style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--success)' }}
+                          style={{
+                            padding: '10px 12px',
+                            fontWeight: 700,
+                            color: 'var(--ink-green)',
+                          }}
                         >
                           ✅ {v.forms[pi]}
                         </td>
                         <td
-                          style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--error)' }}
+                          style={{
+                            padding: '10px 12px',
+                            fontWeight: 700,
+                            color: 'var(--ink-error)',
+                          }}
                         >
                           ❌ {v.neg[pi]}
                         </td>

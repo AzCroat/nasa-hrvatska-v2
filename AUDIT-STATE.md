@@ -12502,3 +12502,52 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   from the id (which carries the unit) in BOTH launchers — Home's `onStart` and the
   next-step engine's session branch. Walked: answer two, leave, continue → the check-up
   reopens in re-check mode.
+- **FIXED — the missing-unit state titled itself "Unit test / Unit test"** (`e7548fca`). The
+  subtitle fell back to the heading's own words; it names "Your course" now. Pinned, and
+  restoring the doubled title fails 1.
+- **The two CodeQL alerts `rearmCourseHandoff` introduced (#91, #92) are gone** on
+  `fa6fc1cc` — confirmed from the check run's public annotations, which list only the three
+  known lines (#58/#59/#66/#78 family). No new PR comment: the standing one covers them.
+
+## Sweep 169 — the light theme, measured: a status colour is a surface, not an ink (2026-09-27)
+
+- **THE INSTRUMENT.** A throwaway spec over all 430 routes in the LIGHT theme that
+  composites each text element's ink over its nearest opaque surface (walking translucent
+  layers, bailing on gradients and media) and applies the size-appropriate AA bar (3:1 for
+  ≥24px or ≥18.66px bold, else 4.5:1). Disabled controls and elements under 95% effective
+  opacity are skipped (WCAG exempts the first). Recipe kept in the scratchpad as
+  `zz-contrast.spec.js`; `ROUTES=a,b,c` narrows it, `THEME=dark` flips it.
+- **RESULT: 451 elements on 43 routes below the bar.** The largest single cause was not a
+  literal: `color: var(--success)` — #16a34a, 3.30:1 on white — about 190 of the 451,
+  including the answer feedback on VocativeScreen ("Marijo!"), BojeGame's colour words and
+  the drills' "✗ WRONG" labels. `--warning` as ink is 3.19:1 on white and `--error` 3.95:1
+  on its own tint.
+- **`inlineInkContrast` could not see it and was not meant to**: it judges LITERALS, and a
+  `var(--…)` is exactly what that guard tells you to write. The token was right for a badge
+  background and wrong for the text on it, and the name does not say which.
+- **FIXED as the ink tokens already work: each status token has an INK TWIN**
+  (`--ink-green`, `--ink-warn`, new `--ink-error` #b91c1c, `--ink-accent`) whose light
+  value clears AA on white AND on the token's own tints, and whose DARK value is the token's
+  own — so dark mode cannot move. 342 `color:` values in 139 files' `style={{…}}` blocks
+  plus 11 CSS rules. A codemod scoped to style blocks, because a data field named `color`
+  can be a BACKGROUND elsewhere (StatsTab paints `cefr.color` both ways): those 11 data
+  fields keep the surface token, and `accentInk` now maps a status token to its twin at the
+  render site (`STATUS_INK`).
+- **White text on a status-token background is its own shape** — 3.30:1 in light mode and
+  ~1.9:1 in dark, where `--success` turns light green (heritage_mode "I know this" measured
+  1.74). Six sites; new `--fill-success/-warning/-error` hold white at AA in both themes.
+- **The pale greys**: `#a8a29e` (2.52 on white) and `#94a3b8`/`#9ca3af` as text in 16 files
+  moved to `--ink-muted-warm` / `--ink-muted`, whose DARK values are exactly those literals,
+  so dark mode does not move. The Constellation screens are permanently dark and were left
+  alone on purpose; PersonaScreen's greyed start button is `disabled` (WCAG-exempt) and was
+  reverted after the codemod touched it.
+- **A CODEMOD OF MINE CORRUPTED A FILE AND ONLY A LINE-COUNT CHECK CAUGHT IT.** The block
+  rebuild for the fills did `pos = matchBrace(...)` without checking for -1, and one
+  unmatched brace re-appended 899 lines of HeritageModeScreen onto itself. A `--numstat`
+  sweep for lopsided add/delete counts found it; the file was restored from HEAD and the two
+  edits re-applied. Run that sweep after every multi-file rewrite.
+- `statusTokenInk.test.ts`: twins exist in both themes, dark == token dark, light clears
+  4.5 on white and on the token's tints; no style block or CSS rule paints a status token as
+  text; a data field holding one is rendered through `accentInk`. Mutation-verified, five
+  (raw token restored in a real file, `--ink-error` back to #dc2626, `--ink-green` dark
+  drifting, the accentInk mapping removed, a CSS rule restored) — each fails 1.

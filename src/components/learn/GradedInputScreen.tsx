@@ -766,8 +766,8 @@ export function StoryReader({
                             score >= 80
                               ? 'var(--ink-green)'
                               : score >= 55
-                                ? 'var(--warning)'
-                                : 'var(--error)',
+                                ? 'var(--ink-warn)'
+                                : 'var(--ink-error)',
                         }}
                       >
                         {score}

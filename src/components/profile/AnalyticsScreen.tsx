@@ -81,7 +81,7 @@ function StatTile({
     >
       <div style={{ fontSize: 28, marginBottom: 4 }}>{icon}</div>
       <div style={{ fontSize: 22, fontWeight: 800, color }}>{value}</div>
-      <div style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>{label}</div>
+      <div style={{ fontSize: 11, color: 'var(--ink-muted)', fontWeight: 600 }}>{label}</div>
     </div>
   );
 }
@@ -111,11 +111,15 @@ function BadgeRow({
       <div style={{ fontSize: 24, flexShrink: 0 }}>{badge.i}</div>
       <div style={{ flex: 1 }}>
         <div
-          style={{ fontSize: 13, fontWeight: 700, color: earned ? 'var(--ink-warn)' : '#9ca3af' }}
+          style={{
+            fontSize: 13,
+            fontWeight: 700,
+            color: earned ? 'var(--ink-warn)' : 'var(--ink-muted)',
+          }}
         >
           {badge.n}
         </div>
-        <div style={{ fontSize: 11, color: '#9ca3af' }}>{badge.d}</div>
+        <div style={{ fontSize: 11, color: 'var(--ink-muted)' }}>{badge.d}</div>
       </div>
       {earned && (
         <div
@@ -224,7 +228,7 @@ export default function AnalyticsScreen({
               border: '1px solid #bbf7d0',
             }}
           >
-            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--success)' }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-green)' }}>
               {s.srsTotal || 0}
             </div>
             <div style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600 }}>REVIEWED</div>

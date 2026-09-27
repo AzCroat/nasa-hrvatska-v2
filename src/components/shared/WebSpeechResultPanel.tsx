@@ -85,7 +85,7 @@ export default function WebSpeechResultPanel({
         <div>
           {isUnscored ? (
             <>
-              <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--success)' }}>
+              <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--ink-green)' }}>
                 Recognized ✓ (accent not scored)
               </div>
               <div style={{ fontSize: 12, color: 'var(--subtext)' }}>

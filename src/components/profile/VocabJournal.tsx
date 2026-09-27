@@ -245,7 +245,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                 <span
                   style={{
                     fontSize: 11,
-                    color: 'var(--success)',
+                    color: 'var(--ink-green)',
                     fontWeight: 700,
                     padding: '4px 8px',
                     background: 'rgba(22,163,74,0.1)',
@@ -278,7 +278,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                   border: 'none',
                   fontSize: 16,
                   cursor: 'pointer',
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   padding: 4,
                 }}
                 onClick={() => {
@@ -317,7 +317,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     style={{
                       fontSize: 14,
                       fontWeight: 700,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       lineHeight: 1.4,
                     }}
                   >

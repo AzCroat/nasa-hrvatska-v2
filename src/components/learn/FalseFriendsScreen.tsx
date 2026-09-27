@@ -86,7 +86,7 @@ function FalseFriendsScreen({ goBack, award }: Props) {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--error)' }}>
+              <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-error)' }}>
                 {f.hr} <span aria-hidden="true">🔊</span>
               </span>
               <span style={{ fontSize: 14, color: 'var(--ink-muted-warm)' }}>
@@ -94,7 +94,7 @@ function FalseFriendsScreen({ goBack, award }: Props) {
                 {f.looks}
               </span>
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--success)', marginTop: 4 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-green)', marginTop: 4 }}>
               {'Actually means: '}
               {f.means}
             </div>

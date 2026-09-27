@@ -420,7 +420,7 @@ export default function McGame({
                 padding: '12px 20px',
                 borderRadius: 10,
                 border: 'none',
-                background: 'var(--error)',
+                background: 'var(--fill-error)',
                 color: '#fff',
                 fontSize: 12,
                 fontWeight: 800,

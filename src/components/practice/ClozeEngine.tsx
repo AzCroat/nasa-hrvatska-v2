@@ -749,7 +749,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
           borderRadius: 8,
           fontWeight: 900,
           background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
-          color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
+          color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
           display: 'inline-block',
         }}
       >
@@ -886,7 +886,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
           {qi + 1} / {questions.length}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ fontSize: 12, color: 'var(--success)', fontWeight: 700 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-green)', fontWeight: 700 }}>
             ✓ {score} correct
           </div>
           <button
@@ -1022,7 +1022,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
             marginBottom: !isCorrect ? 8 : 12,
             fontSize: 12,
             fontWeight: 700,
-            color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
+            color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
           }}
         >
           {isCorrect ? '✓ Correct! ' : `✗ The answer was "${q.blank}". `}

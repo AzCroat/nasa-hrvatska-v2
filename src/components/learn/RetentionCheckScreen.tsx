@@ -285,7 +285,7 @@ export default function RetentionCheckScreen({ lessons, goBack, award }: Props) 
             style={{
               fontSize: 13,
               fontWeight: 900,
-              color: isCorrect ? 'var(--success)' : 'var(--ink-warn)',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >

@@ -188,7 +188,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
                 borderRadius: 14,
                 border: '2px solid var(--success-b)',
                 background: 'var(--success-bg)',
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: 15,
                 fontWeight: 900,
@@ -237,7 +237,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
             <span style={{ fontSize: 13, color: 'var(--subtext)', fontWeight: 700 }}>
               Question {qIdx + 1} of {total}
             </span>
-            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)' }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-green)' }}>
               {scoreDisplay} correct
             </span>
           </div>
@@ -337,9 +337,9 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
         {answered && (
           <div style={{ textAlign: 'center', marginTop: 12, fontSize: 13, fontWeight: 700 }}>
             {isCorrect ? (
-              <span style={{ color: 'var(--success)' }}>Correct!</span>
+              <span style={{ color: 'var(--ink-green)' }}>Correct!</span>
             ) : (
-              <span style={{ color: 'var(--error)' }}>
+              <span style={{ color: 'var(--ink-error)' }}>
                 Correct answer: <em>{cur.correct}</em>
               </span>
             )}

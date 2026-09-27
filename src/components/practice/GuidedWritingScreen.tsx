@@ -436,7 +436,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
                   <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                   {openStructure === i && (
-                    <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 6 }}>
+                    <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
                       {st.why}
                     </div>
                   )}
@@ -536,12 +536,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               </div>
             )}
             {frameState === 'wrong' && !revealed && (
-              <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 8 }}>
                 Not quite — check the hint and try again.
               </div>
             )}
             {(frameState === 'right' || revealed) && (
-              <div style={{ fontSize: 13, color: 'var(--success)', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-green)', marginTop: 8 }}>
                 {revealed ? `The answer: „${frame.answer}“ — say it once, then move on.` : 'Točno!'}
               </div>
             )}
@@ -631,7 +631,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                         alignItems: 'center',
                         fontSize: 14,
                         marginBottom: 6,
-                        color: done ? 'var(--success)' : 'var(--text)',
+                        color: done ? 'var(--ink-green)' : 'var(--text)',
                         fontWeight: done ? 700 : 500,
                       }}
                     >
@@ -649,7 +649,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                     borderRadius: 10,
                     padding: '10px 14px',
                     fontSize: 13,
-                    color: 'var(--error)',
+                    color: 'var(--ink-error)',
                     marginBottom: 12,
                   }}
                 >

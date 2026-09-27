@@ -520,7 +520,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
             <div
               style={{
                 background: 'var(--card)',
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 borderRadius: '50%',
                 width: 28,
                 height: 28,
@@ -628,7 +628,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
                   <span
                     style={{
                       fontWeight: 700,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       fontSize: 14,
                       fontFamily: 'Georgia, serif',
                     }}
@@ -677,7 +677,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
           disabled={chapter === 0}
           style={{
             background: chapter === 0 ? '#e5e7eb' : '#fff',
-            color: chapter === 0 ? '#9ca3af' : '#374151',
+            color: chapter === 0 ? 'var(--ink-muted)' : '#374151',
             border: '2px solid',
             borderColor: chapter === 0 ? '#e5e7eb' : '#d1d5db',
             borderRadius: 20,

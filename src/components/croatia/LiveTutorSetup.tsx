@@ -156,7 +156,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 marginBottom: 2,
               }}
             >
@@ -253,7 +253,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 marginBottom: 2,
               }}
             >

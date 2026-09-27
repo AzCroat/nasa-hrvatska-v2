@@ -259,7 +259,7 @@ export default function DataAccountSection() {
           <div
             style={{
               fontSize: 'var(--text-xs)',
-              color: exportDone ? 'var(--success)' : exporting ? 'var(--info)' : 'var(--subtext)',
+              color: exportDone ? 'var(--ink-green)' : exporting ? 'var(--info)' : 'var(--subtext)',
               marginTop: 1,
               fontWeight: exportDone || exporting ? 700 : 500,
             }}
@@ -291,7 +291,7 @@ export default function DataAccountSection() {
             style={{
               fontSize: 'var(--text-md)',
               fontWeight: 700,
-              color: 'var(--warning)',
+              color: 'var(--ink-warn)',
               textAlign: 'center',
               marginBottom: 16,
             }}
@@ -344,7 +344,7 @@ export default function DataAccountSection() {
             border: '2px solid rgba(194,65,12,.15)',
             borderRadius: 14,
             background: 'rgba(194,65,12,.05)',
-            color: 'var(--warning)',
+            color: 'var(--ink-warn)',
             fontSize: 'var(--text-base)',
             fontWeight: 700,
             cursor: 'pointer',
@@ -361,7 +361,7 @@ export default function DataAccountSection() {
       )}
 
       {/* ── DANGER ZONE ── */}
-      <h3 className="sh" style={{ color: 'var(--error)', marginTop: 8 }}>
+      <h3 className="sh" style={{ color: 'var(--ink-error)', marginTop: 8 }}>
         Danger Zone
       </h3>
       {confirmDelete ? (
@@ -378,7 +378,7 @@ export default function DataAccountSection() {
             style={{
               fontSize: 'var(--text-md)',
               fontWeight: 700,
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               textAlign: 'center',
               marginBottom: 8,
             }}
@@ -443,7 +443,7 @@ export default function DataAccountSection() {
             border: '2px solid rgba(220,38,38,.15)',
             borderRadius: 14,
             background: 'rgba(220,38,38,.05)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontSize: 'var(--text-base)',
             fontWeight: 700,
             cursor: 'pointer',

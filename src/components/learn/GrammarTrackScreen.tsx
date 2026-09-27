@@ -881,7 +881,11 @@ export default function GrammarTrackScreen({
                     : isNext
                       ? level.color + '15'
                       : 'var(--bar-bg)',
-                  color: isDone ? 'var(--success)' : isNext ? accentInk(level.color) : level.color,
+                  color: isDone
+                    ? 'var(--ink-green)'
+                    : isNext
+                      ? accentInk(level.color)
+                      : level.color,
                   border: `1px solid ${isDone ? 'var(--success-b)' : isNext ? level.color + '40' : level.border}`,
                   whiteSpace: 'nowrap',
                 }}

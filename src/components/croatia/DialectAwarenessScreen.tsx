@@ -846,7 +846,7 @@ function QuizView({
                   {question.q}
                 </div>
                 {!answers[i] && (
-                  <div style={{ fontSize: 12, color: 'var(--success)', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-green)', fontWeight: 600 }}>
                     Correct: {question.options[question.ans]}
                   </div>
                 )}

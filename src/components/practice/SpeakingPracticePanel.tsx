@@ -138,7 +138,7 @@ export default function SpeakingPracticePanel({
             <div
               style={{
                 fontSize: 'var(--text-xs)',
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontWeight: 700,
                 marginTop: 2,
               }}
@@ -218,7 +218,7 @@ export default function SpeakingPracticePanel({
             padding: '7px 12px',
             cursor: 'pointer',
             fontSize: 'var(--text-sm)',
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             fontWeight: 700,
           }}
         >
@@ -282,7 +282,7 @@ export default function SpeakingPracticePanel({
               border: '1.5px solid var(--success-b)',
               fontWeight: 800,
               fontSize: 'var(--text-base)',
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
             }}
           >
             ✓ Recognized (accent not scored)
@@ -296,13 +296,13 @@ export default function SpeakingPracticePanel({
           <button
             onClick={listening ? onStopMic : onStartMic}
             style={{
-              background: listening ? 'var(--error)' : 'var(--success-bg)',
+              background: listening ? 'var(--fill-error)' : 'var(--success-bg)',
               border: `1.5px solid ${listening ? 'var(--error)' : 'var(--success-b)'}`,
               borderRadius: 12,
               padding: '10px 20px',
               cursor: 'pointer',
               fontSize: 'var(--text-base)',
-              color: listening ? '#fff' : 'var(--success)',
+              color: listening ? '#fff' : 'var(--ink-green)',
               fontWeight: 800,
               animation: listening ? 'pulse 1s infinite' : undefined,
               boxShadow: listening ? '0 0 0 4px rgba(239,68,68,.2)' : undefined,
@@ -325,7 +325,7 @@ export default function SpeakingPracticePanel({
           {recResult === 'match' && (
             <div
               style={{
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontSize: 'var(--text-md)',
                 fontWeight: 800,
                 marginTop: 10,
@@ -341,7 +341,7 @@ export default function SpeakingPracticePanel({
           {recResult === 'nomatch' && (
             <div
               style={{
-                color: 'var(--warning)',
+                color: 'var(--ink-warn)',
                 fontSize: 'var(--text-base)',
                 fontWeight: 600,
                 marginTop: 10,
@@ -468,7 +468,7 @@ export default function SpeakingPracticePanel({
                     <div
                       style={{
                         fontSize: 13,
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                         fontWeight: 600,
                         marginTop: 6,
                       }}
@@ -555,7 +555,7 @@ export default function SpeakingPracticePanel({
       {sr === 'ok' && (
         <div
           style={{
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             fontSize: 'var(--text-xl)',
             fontWeight: 800,
             marginTop: 12,

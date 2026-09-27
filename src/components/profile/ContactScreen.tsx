@@ -218,7 +218,7 @@ export default function ContactScreen({
               cursor: 'pointer',
               fontSize: 16,
               padding: '2px 4px',
-              color: copied ? 'var(--success)' : 'var(--ink-muted)',
+              color: copied ? 'var(--ink-green)' : 'var(--ink-muted)',
             }}
           >
             {copied ? '✓' : '⎘'}
@@ -342,7 +342,7 @@ export default function ContactScreen({
             marginBottom: 8,
           }}
         >
-          Subject <span style={{ color: 'var(--error)' }}>*</span>
+          Subject <span style={{ color: 'var(--ink-error)' }}>*</span>
         </div>
         <input
           type="text"
@@ -365,7 +365,7 @@ export default function ContactScreen({
         <div
           style={{
             fontSize: 11,
-            color: subject.length > 100 ? '#f59e0b' : '#94a3b8',
+            color: subject.length > 100 ? '#f59e0b' : 'var(--ink-muted)',
             textAlign: 'right',
             marginTop: 4,
           }}
@@ -386,7 +386,7 @@ export default function ContactScreen({
             marginBottom: 8,
           }}
         >
-          Description <span style={{ color: 'var(--error)' }}>*</span>
+          Description <span style={{ color: 'var(--ink-error)' }}>*</span>
         </div>
         <textarea
           placeholder={
@@ -413,13 +413,18 @@ export default function ContactScreen({
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
           {descTooShort ? (
-            <span style={{ fontSize: 11, color: 'var(--error)' }}>
+            <span style={{ fontSize: 11, color: 'var(--ink-error)' }}>
               At least 10 characters required
             </span>
           ) : (
             <span />
           )}
-          <span style={{ fontSize: 11, color: description.length > 1800 ? '#f59e0b' : '#94a3b8' }}>
+          <span
+            style={{
+              fontSize: 11,
+              color: description.length > 1800 ? '#f59e0b' : 'var(--ink-muted)',
+            }}
+          >
             {description.length}/2000
           </span>
         </div>
@@ -467,7 +472,7 @@ export default function ContactScreen({
             border: '1px solid rgba(220,38,38,.2)',
             borderRadius: 12,
             padding: '12px 16px',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontSize: 13,
             fontWeight: 600,
             marginBottom: 16,

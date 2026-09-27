@@ -213,7 +213,7 @@ function MistakeCardReview({
             style={{
               fontSize: 10,
               fontWeight: 800,
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               background: 'rgba(220,38,38,.12)',
               padding: '2px 8px',
               borderRadius: 99,
@@ -657,7 +657,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-green)' }}>
             ✓ {correct}
           </div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--error)', marginLeft: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-error)', marginLeft: 8 }}>
             ✗ {wrong}
           </div>
         </div>

@@ -140,7 +140,7 @@ function Row({
           }}
         >
           {done && (
-            <span aria-label="completed" title="Completed" style={{ color: 'var(--success)' }}>
+            <span aria-label="completed" title="Completed" style={{ color: 'var(--ink-green)' }}>
               ✓{' '}
             </span>
           )}

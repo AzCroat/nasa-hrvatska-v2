@@ -843,7 +843,9 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       >
         <span style={{ fontSize: 20 }}>🐛</span>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--error)' }}>Report a Bug</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-error)' }}>
+            Report a Bug
+          </div>
           <div style={{ fontSize: 11, color: 'var(--subtext)' }}>
             Something not working? Let us know.
           </div>

@@ -474,7 +474,12 @@ export default function EquivalencyTestScreen({
       <div className="scr-wrap">
         <div style={{ padding: '18px 16px' }}>
           <div
-            style={{ fontSize: 11, fontWeight: 900, color: 'var(--error)', letterSpacing: '.22em' }}
+            style={{
+              fontSize: 11,
+              fontWeight: 900,
+              color: 'var(--ink-error)',
+              letterSpacing: '.22em',
+            }}
           >
             {verificationMode ? 'CEFR LEVEL VERIFICATION' : 'CEFR LEVEL CHECK'}
           </div>
@@ -768,7 +773,7 @@ export default function EquivalencyTestScreen({
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
               margin: '8px 0 4px',
-              color: passed ? 'var(--success)' : 'var(--error)',
+              color: passed ? 'var(--ink-green)' : 'var(--ink-error)',
             }}
           >
             {passed
@@ -892,7 +897,7 @@ export default function EquivalencyTestScreen({
                         {c.original}
                       </span>{' '}
                       →{' '}
-                      <b lang="hr" style={{ color: 'var(--success)' }}>
+                      <b lang="hr" style={{ color: 'var(--ink-green)' }}>
                         {c.corrected}
                       </b>
                       {c.note ? ` — ${c.note}` : ''}

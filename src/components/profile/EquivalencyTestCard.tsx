@@ -186,7 +186,7 @@ export default function EquivalencyTestCard({
             // before resolved to ~3.5:1 on the gradient and failed WCAG 2.1
             // AA on the Profile tab a11y check.
             background: 'var(--card)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             padding: '6px 14px',
             borderRadius: 999,
             fontSize: 13,

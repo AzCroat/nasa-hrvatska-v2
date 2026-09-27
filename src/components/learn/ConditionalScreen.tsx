@@ -347,7 +347,12 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                     {ex.hr} <span aria-hidden="true">🔊</span>
                   </div>
                   <div
-                    style={{ fontSize: 14, color: 'var(--success)', fontWeight: 600, marginTop: 3 }}
+                    style={{
+                      fontSize: 14,
+                      color: 'var(--ink-green)',
+                      fontWeight: 600,
+                      marginTop: 3,
+                    }}
                   >
                     {ex.en}
                   </div>
@@ -458,7 +463,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                 <div
                   style={{
                     fontSize: 13,
-                    color: 'var(--success)',
+                    color: 'var(--ink-green)',
                     fontWeight: 600,
                     minWidth: 100,
                     textAlign: 'right',

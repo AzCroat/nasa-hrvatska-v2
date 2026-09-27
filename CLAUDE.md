@@ -4968,6 +4968,15 @@ from them was wrong:
   51 dark greens onto it caught that; `--ink-green` (#166534, 7.13:1) exists because of it.
   The 49 sites already reading `--success` as ink are a pre-existing light-mode failure this
   work neither introduced nor fixed.
+  **THOSE SITES ARE FIXED, AND THE CLASS WAS BIGGER THAN 49 (sweep 169, 2026-09-27).**
+  Measured in the LIGHT theme over all 430 routes, 451 text elements sat below AA and about
+  190 were a status token painted as ink — `--success` 3.30:1 on white, `--warning` 3.19:1,
+  `--error` 3.95:1 on its own tint. Each now has an ink twin (`--ink-green`, `--ink-warn`,
+  `--ink-error`, `--ink-accent`) whose DARK value is the token's own, so dark mode did not
+  move; 342 style-block values and 11 CSS rules moved onto them, `accentInk` maps a status
+  token handed to it through data (`STATUS_INK`), and white text on a status background uses
+  `--fill-success/-warning/-error`. Pinned by `statusTokenInk.test.ts`. NEVER paint
+  `--success`, `--warning`, `--error` or `--accent` as `color` — they are SURFACES.
 - **TWO CODEMODS THAT ARE EACH CORRECT COMPOSED INTO A REGRESSION.** Elements painting an
   opaque LIGHT background are exempt from the ink rule — they own both halves. Converting
   166 of those containers to themed tints made their surfaces go dark **while their dark ink

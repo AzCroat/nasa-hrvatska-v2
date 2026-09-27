@@ -320,7 +320,7 @@ export default function ListeningScreen({
             style={{
               fontSize: 13,
               fontWeight: 700,
-              color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
               marginBottom: 6,
             }}
           >

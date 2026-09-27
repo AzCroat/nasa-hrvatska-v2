@@ -258,7 +258,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -342,7 +342,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -432,7 +432,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             fontWeight: 600,
             marginBottom: 8,
             textAlign: 'center',

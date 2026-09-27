@@ -19,7 +19,7 @@ function EmergencyScreen({ goBack }: EmergencyScreenProps) {
           textAlign: 'center',
         }}
       >
-        <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--error)' }}>112</div>
+        <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--ink-error)' }}>112</div>
         <div style={{ fontSize: 14, fontWeight: 700 }}>{EMERGENCY.number}</div>
       </div>
       {EMERGENCY.phrases.map(function (p, i) {
@@ -38,7 +38,7 @@ function EmergencyScreen({ goBack }: EmergencyScreenProps) {
               speak(p[0]!);
             }}
           >
-            <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--error)' }}>
+            <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink-error)' }}>
               {p[0]} <span aria-hidden="true">🔊</span>
             </span>
             <span style={{ color: 'var(--subtext)', fontSize: 13 }}>{p[1]}</span>
@@ -71,7 +71,7 @@ function EmergencyScreen({ goBack }: EmergencyScreenProps) {
       {EMERGENCY.phoneNumbers.map(function (p, i) {
         return (
           <div key={i} style={{ display: 'flex', gap: 12, padding: '6px 0', fontSize: 14 }}>
-            <span style={{ fontWeight: 800, color: 'var(--error)', minWidth: 60 }}>{p[0]}</span>
+            <span style={{ fontWeight: 800, color: 'var(--ink-error)', minWidth: 60 }}>{p[0]}</span>
             <span>{p[1]}</span>
           </div>
         );

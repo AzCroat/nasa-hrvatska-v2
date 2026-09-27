@@ -108,7 +108,7 @@ export default function AIWordTooltip({ tooltip, onClose, onSave }: AIWordToolti
               borderRadius: 12,
               border: 'none',
               background: tooltip.saved ? 'var(--success-bg)' : 'var(--info)',
-              color: tooltip.saved ? 'var(--success)' : 'var(--card)',
+              color: tooltip.saved ? 'var(--ink-green)' : 'var(--card)',
               cursor: tooltip.saved ? 'default' : 'pointer',
               fontFamily: "'Outfit',sans-serif",
               width: '100%',

@@ -216,7 +216,7 @@ export default function PastTenseLessonScreen({
                     gender === g
                       ? g === 'm'
                         ? 'var(--ink-accent)'
-                        : 'var(--error)'
+                        : 'var(--ink-error)'
                       : 'var(--subtext)',
                 }}
                 onClick={() => setGender(g ?? 'm')}
@@ -287,7 +287,7 @@ export default function PastTenseLessonScreen({
                           padding: '10px 14px',
                           fontWeight: 700,
                           fontSize: 15,
-                          color: gender === 'm' ? 'var(--ink-accent)' : 'var(--error)',
+                          color: gender === 'm' ? 'var(--ink-accent)' : 'var(--ink-error)',
                         }}
                       >
                         {form} <span aria-hidden="true">🔊</span>
@@ -363,7 +363,9 @@ export default function PastTenseLessonScreen({
               background: 'var(--error-bg)',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-error)', marginBottom: 4 }}
+            >
               Why these matter
             </div>
             <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>

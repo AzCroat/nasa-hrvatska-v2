@@ -534,7 +534,9 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
                 <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                 {openStructure === i && (
-                  <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 6 }}>{st.why}</div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
+                    {st.why}
+                  </div>
                 )}
               </button>
             ))}
@@ -562,7 +564,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 8 }}>
             {phrase.en}
           </div>
-          <div style={{ fontSize: 13, color: 'var(--error)', marginBottom: 12 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-error)', marginBottom: 12 }}>
             💡 {phrase.why}
           </div>
 
@@ -596,7 +598,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             </div>
           )}
           {phraseState === 'right' && (
-            <div style={{ fontSize: 13, color: 'var(--success)', marginBottom: 8 }}>Točno! ✓</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-green)', marginBottom: 8 }}>Točno! ✓</div>
           )}
           {phraseState === 'again' && (
             <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
@@ -680,7 +682,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           {buildVerdict?.ok && (
             <div
               data-testid="gs-build-right"
-              style={{ fontSize: 14, color: 'var(--success)', marginBottom: 8 }}
+              style={{ fontSize: 14, color: 'var(--ink-green)', marginBottom: 8 }}
             >
               Točno! ✓
             </div>
@@ -814,7 +816,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                     alignItems: 'center',
                     fontSize: 14,
                     marginBottom: 6,
-                    color: done ? 'var(--success)' : 'var(--text)',
+                    color: done ? 'var(--ink-green)' : 'var(--text)',
                     fontWeight: done ? 700 : 500,
                   }}
                 >
@@ -834,7 +836,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 marginBottom: 12,
               }}
             >
@@ -929,7 +931,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               <div style={kicker}>WHAT TO FIX</div>
               {coach.errors.map((e, i) => (
                 <div key={i} style={{ fontSize: 14, marginBottom: 8 }}>
-                  <span style={{ textDecoration: 'line-through', color: 'var(--error)' }}>
+                  <span style={{ textDecoration: 'line-through', color: 'var(--ink-error)' }}>
                     {e.original}
                   </span>{' '}
                   → <strong>{e.corrected}</strong>

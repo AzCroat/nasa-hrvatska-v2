@@ -304,7 +304,7 @@ function PlayerCard({ p }: { p: Player }) {
             >
               {p.div}
             </div>
-            <div style={{ fontSize: 10, color: '#94a3b8', marginTop: 4, fontWeight: 600 }}>
+            <div style={{ fontSize: 10, color: 'var(--ink-muted)', marginTop: 4, fontWeight: 600 }}>
               {p.yr}
             </div>
           </div>
@@ -557,7 +557,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
             Always up-to-date · All divisions · Updates automatically each season
           </div>
         </div>
-        <span style={{ fontSize: 18, color: 'var(--success)', fontWeight: 800 }}>↗</span>
+        <span style={{ fontSize: 18, color: 'var(--ink-green)', fontWeight: 800 }}>↗</span>
       </div>
 
       {/* Division filter tabs */}
@@ -647,7 +647,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                   style={{
                     fontSize: 10,
                     fontWeight: 900,
-                    color: dc?.badge ?? '#94a3b8',
+                    color: dc?.badge ?? 'var(--ink-muted)',
                     letterSpacing: '.1em',
                     background: dc?.bg,
                     padding: '3px 10px',

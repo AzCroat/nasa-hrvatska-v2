@@ -28,7 +28,7 @@ function ColorQuirkScreen({ goBack }: Props) {
               {'Literal: '}
               {q.lit}
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--success)', marginTop: 2 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-green)', marginTop: 2 }}>
               {'Note: '}
               {q.note}
             </div>

@@ -27,7 +27,7 @@ function PracticalScreen({ goBack }: Props) {
     <div className="scr-wrap">
       {H('💼 Practical Life in Croatia', 'Documents, customs, culture', goBack)}
       <div className="c" style={{ marginBottom: 12, borderLeft: '4px solid #dc2626' }}>
-        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--error)' }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-error)' }}>
           {PRACTICAL.oib.title}
         </div>
         <div style={{ fontSize: 13, marginTop: 4 }}>{PRACTICAL.oib.desc}</div>

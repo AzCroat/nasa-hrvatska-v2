@@ -575,7 +575,7 @@ export default function LessonScreen({
             }}
           >
             <span style={{ fontSize: 13 }}>⭐</span>
-            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--warning)' }}>
+            <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-warn)' }}>
               {ls * 3} XP
             </span>
           </div>
@@ -790,7 +790,7 @@ export default function LessonScreen({
                   height: 36,
                   borderRadius: '50%',
                   flexShrink: 0,
-                  background: isCorrect ? 'var(--success)' : 'var(--error)',
+                  background: isCorrect ? 'var(--fill-success)' : 'var(--fill-error)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -806,7 +806,7 @@ export default function LessonScreen({
                   style={{
                     fontSize: 15,
                     fontWeight: 900,
-                    color: isCorrect ? 'var(--success)' : 'var(--error)',
+                    color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
                   }}
                 >
                   {isCorrect ? 'Točno! · Correct!' : 'Netočno · Incorrect'}
@@ -816,7 +816,7 @@ export default function LessonScreen({
                     style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 2, fontWeight: 600 }}
                   >
                     Answer:{' '}
-                    <span style={{ color: 'var(--success)', fontWeight: 800 }}>
+                    <span style={{ color: 'var(--ink-green)', fontWeight: 800 }}>
                       {qi[lx].opts[qi[lx].ci]}
                     </span>
                   </div>

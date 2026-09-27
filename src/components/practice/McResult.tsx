@@ -389,7 +389,7 @@ export default function McResult({
                       borderRadius: 12,
                       border: '1.5px solid rgba(239,68,68,0.4)',
                       background: 'rgba(239,68,68,0.07)',
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       fontSize: 13,
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -406,7 +406,7 @@ export default function McResult({
                       borderRadius: 12,
                       border: '1.5px solid rgba(22,163,74,0.4)',
                       background: 'rgba(22,163,74,0.07)',
-                      color: 'var(--success)',
+                      color: 'var(--ink-green)',
                       fontSize: 13,
                       fontWeight: 700,
                       cursor: 'pointer',
@@ -451,7 +451,7 @@ export default function McResult({
               borderRadius: 20,
               fontSize: 12,
               fontWeight: 800,
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
             }}
           >
             +5 XP

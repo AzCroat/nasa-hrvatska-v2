@@ -251,7 +251,12 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 </div>
                 {chosen !== undefined && (
                   <div
-                    style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: 'var(--success)' }}
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-green)',
+                    }}
                   >
                     ✓ {q.a}
                   </div>

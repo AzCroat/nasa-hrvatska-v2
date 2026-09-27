@@ -579,7 +579,7 @@ export default function Flashcards({
         <span key={idx} className="anim-fade-up" style={{ fontSize: 14, fontWeight: 700 }}>
           {idx + 1} / {activePool.length}
         </span>
-        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--success)' }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-green)' }}>
           ✅ Know: {known}
         </div>
       </div>
@@ -645,7 +645,7 @@ export default function Flashcards({
         <div
           style={{
             fontSize: 11,
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontWeight: 600,
             textAlign: 'center',
             marginTop: 6,
@@ -719,7 +719,7 @@ export default function Flashcards({
                 borderRadius: 14,
                 border: '2px solid var(--success-b)',
                 background: 'var(--success-bg)',
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: 14,
                 fontWeight: 900,

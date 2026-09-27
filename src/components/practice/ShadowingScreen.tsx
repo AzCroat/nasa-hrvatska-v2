@@ -350,7 +350,7 @@ function RecordingPanel({
             padding: '8px 16px',
             fontSize: 14,
             fontWeight: 700,
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
           }}
         >
           <span
@@ -398,7 +398,7 @@ function RecordingPanel({
           gap: 10,
         }}
       >
-        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--success)' }}>Recorded ✓</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-green)' }}>Recorded ✓</div>
         <div style={{ display: 'flex', gap: 8 }}>
           <button
             style={{

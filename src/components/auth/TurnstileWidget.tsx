@@ -112,7 +112,7 @@ export default function TurnstileWidget({
         role="alert"
         style={{
           fontSize: 'var(--text-xs)',
-          color: 'var(--error)',
+          color: 'var(--ink-error)',
           textAlign: 'center',
           margin: '12px 0',
         }}

@@ -1498,7 +1498,7 @@ export default function PitchAccentMastery({
               >
                 {a.nameEn.split('-')[0]}
               </div>
-              <div style={{ fontSize: 18, color: 'var(--success)', fontWeight: 900 }}>✓</div>
+              <div style={{ fontSize: 18, color: 'var(--ink-green)', fontWeight: 900 }}>✓</div>
             </div>
           ))}
         </div>

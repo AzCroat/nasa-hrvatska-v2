@@ -68,7 +68,7 @@ export default function FlashcardResultScreen({
           {missedCount === 0 ? 'Perfect round!' : 'Round complete!'}
         </h3>
         <p style={{ color: 'var(--subtext)', marginTop: 6, fontSize: 14 }}>
-          Known: <strong style={{ color: 'var(--success)' }}>{knownCount}</strong>
+          Known: <strong style={{ color: 'var(--ink-green)' }}>{knownCount}</strong>
           {missedCount > 0 && (
             <>
               {' '}
@@ -97,7 +97,7 @@ export default function FlashcardResultScreen({
               borderRadius: 12,
               fontSize: 13,
               fontWeight: 600,
-              color: accuracy >= 0.8 ? 'var(--success)' : 'var(--warning-text)',
+              color: accuracy >= 0.8 ? 'var(--ink-green)' : 'var(--warning-text)',
               lineHeight: 1.5,
             }}
           >

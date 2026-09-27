@@ -343,7 +343,7 @@ export default function PitchAccentScreen({
           <div style={{ marginBottom: 16 }}>
             <div
               style={{
-                color: selected === correct ? 'var(--ink-green)' : 'var(--error)',
+                color: selected === correct ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 800,
                 fontSize: 16,
                 marginBottom: 6,

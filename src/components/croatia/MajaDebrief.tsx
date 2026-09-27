@@ -205,7 +205,7 @@ export default function DebriefScreen({
                   lineHeight: 1.5,
                 }}
               >
-                <span style={{ color: 'var(--error)', fontWeight: 700 }}>{v.hr}</span>
+                <span style={{ color: 'var(--ink-error)', fontWeight: 700 }}>{v.hr}</span>
                 <span style={{ color: 'var(--subtext)' }}> — </span>
                 <span style={{ color: 'var(--heading)' }}>{v.en}</span>
                 {v.used_in && (

@@ -316,7 +316,7 @@ export default function MicroLessonScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,
@@ -823,7 +823,7 @@ export default function MicroLessonScreen({
                 fontSize: 15,
                 fontWeight: 900,
                 marginBottom: 4,
-                color: isCorrect ? 'var(--success)' : 'var(--error)',
+                color: isCorrect ? 'var(--ink-green)' : 'var(--ink-error)',
               }}
             >
               {isCorrect ? 'Točno! · Correct!' : 'Netočno · Incorrect'}
@@ -1053,7 +1053,7 @@ export default function MicroLessonScreen({
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,

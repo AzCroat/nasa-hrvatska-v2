@@ -274,14 +274,14 @@ export default function InsightsTab() {
                         fontWeight: 600,
                         marginTop: 2,
                         // Monotonic: lower accuracy = more urgent (red → orange).
-                        color: w.accuracy < 40 ? 'var(--error)' : 'var(--warning)',
+                        color: w.accuracy < 40 ? 'var(--ink-error)' : 'var(--ink-warn)',
                       }}
                     >
                       {w.accuracy}% accuracy · {w.attempts} attempts
                       <span
                         style={{
                           fontSize: 10,
-                          color: 'var(--warning)',
+                          color: 'var(--ink-warn)',
                           fontWeight: 700,
                           marginLeft: 4,
                         }}

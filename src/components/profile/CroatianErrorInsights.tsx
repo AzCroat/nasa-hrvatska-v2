@@ -349,8 +349,10 @@ function ErrorCard({
                 Example
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                <span style={{ fontSize: 13, color: 'var(--error)' }}>✗ {meta.example.wrong}</span>
-                <span style={{ fontSize: 13, color: 'var(--success)', fontWeight: 700 }}>
+                <span style={{ fontSize: 13, color: 'var(--ink-error)' }}>
+                  ✗ {meta.example.wrong}
+                </span>
+                <span style={{ fontSize: 13, color: 'var(--ink-green)', fontWeight: 700 }}>
                   ✓ {meta.example.right}
                 </span>
               </div>

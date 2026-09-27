@@ -427,7 +427,7 @@ export default function ImmersionHub({
             {filtered.length} resources
           </div>
           {filtered.length === 0 && (
-            <div style={{ textAlign: 'center', padding: 32, color: '#a8a29e' }}>
+            <div style={{ textAlign: 'center', padding: 32, color: 'var(--ink-muted-warm)' }}>
               No resources match this filter.
             </div>
           )}
@@ -715,7 +715,9 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
             {j.weeks} · {j.desc.slice(0, 60)}...
           </div>
         </div>
-        <span style={{ color: '#a8a29e', fontSize: 18, flexShrink: 0 }}>{open ? '▲' : '▼'}</span>
+        <span style={{ color: 'var(--ink-muted-warm)', fontSize: 18, flexShrink: 0 }}>
+          {open ? '▲' : '▼'}
+        </span>
       </div>
       {open && (
         <div style={{ padding: '0 16px 16px', borderTop: '1px solid rgba(0,0,0,.06)' }}>

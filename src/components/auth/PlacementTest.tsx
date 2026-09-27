@@ -592,7 +592,7 @@ export default function PlacementTest({ onComplete, onCancel }: PlacementTestPro
                 style={{
                   fontSize: 14,
                   fontWeight: 700,
-                  color: selected === q.answer ? 'var(--success)' : 'var(--subtext)',
+                  color: selected === q.answer ? 'var(--ink-green)' : 'var(--subtext)',
                 }}
               >
                 {selected === q.answer

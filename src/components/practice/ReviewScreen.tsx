@@ -496,7 +496,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                 style={{
                   fontSize: 22,
                   fontWeight: 900,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   fontFamily: "'Playfair Display',serif",
                   marginBottom: 6,
                 }}
@@ -623,7 +623,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             }}
           >
             <span style={{ fontSize: 18 }}>✓</span>
-            <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--success)' }}>
+            <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-green)' }}>
               Točno! · Correct!
             </span>
           </div>

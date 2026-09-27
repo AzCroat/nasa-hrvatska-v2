@@ -773,7 +773,7 @@ export default function DictationScreen({ goBack, award }: Props) {
             )
           ) : (
             <div>
-              <div style={{ color: 'var(--error)', fontSize: 13, marginBottom: 2 }}>
+              <div style={{ color: 'var(--ink-error)', fontSize: 13, marginBottom: 2 }}>
                 <strong>Your answer:</strong> {input}
               </div>
               <div style={{ color: 'var(--ink-green)', fontSize: 13 }}>

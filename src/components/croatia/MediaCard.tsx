@@ -81,7 +81,7 @@ export function LearningModeToggle({
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: enabled ? 'var(--error)' : 'var(--subtext)',
+          color: enabled ? 'var(--ink-error)' : 'var(--subtext)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -154,7 +154,7 @@ function VocabPreview({ cat }: { cat: string }) {
         style={{
           fontSize: 9,
           fontWeight: 900,
-          color: 'var(--error)',
+          color: 'var(--ink-error)',
           letterSpacing: '.08em',
           textTransform: 'uppercase',
           marginBottom: 6,
@@ -233,7 +233,9 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
         {q}
       </div>
       {done ? (
-        <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 800 }}>✓ Completed</span>
+        <span style={{ fontSize: 10, color: 'var(--ink-green)', fontWeight: 800 }}>
+          ✓ Completed
+        </span>
       ) : (
         <button
           onClick={markDone}
@@ -375,7 +377,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(220,38,38,.08)',
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -407,7 +409,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(220,38,38,.08)',
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -447,7 +449,7 @@ export default function MediaCard({
                 gap: 3,
                 marginTop: 5,
                 fontSize: 'var(--text-xs)',
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
               }}
             >
               <span>🔐</span>

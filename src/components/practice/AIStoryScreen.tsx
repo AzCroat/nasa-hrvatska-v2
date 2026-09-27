@@ -297,7 +297,9 @@ export default function AIStoryScreen({
             textAlign: 'center',
           }}
         >
-          <div style={{ fontSize: 14, color: 'var(--error)', fontWeight: 700, marginBottom: 8 }}>
+          <div
+            style={{ fontSize: 14, color: 'var(--ink-error)', fontWeight: 700, marginBottom: 8 }}
+          >
             {!isOnline ? 'No connection — reconnect to generate a story.' : error}
           </div>
           <button className="b bp" onClick={generateStory} style={{ width: '100%' }}>

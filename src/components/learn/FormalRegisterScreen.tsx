@@ -505,7 +505,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                 <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--success)', marginTop: 2 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-green)', marginTop: 2 }}>{p.en}</div>
               </button>
             );
           })}

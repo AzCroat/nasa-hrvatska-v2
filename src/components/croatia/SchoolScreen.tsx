@@ -14,7 +14,7 @@ function SchoolScreen({ goBack }: Props) {
         className="c"
         style={{ marginBottom: 16, borderLeft: '4px solid #dc2626', background: 'var(--error-bg)' }}
       >
-        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--error)' }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-error)' }}>
           {SCHOOL.grading.title}
         </div>
         <div style={{ fontSize: 14, marginTop: 4 }}>{SCHOOL.grading.desc}</div>

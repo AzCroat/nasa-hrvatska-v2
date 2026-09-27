@@ -83,12 +83,12 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 fontWeight: 900,
                 color:
                   avg >= 90
-                    ? 'var(--success)'
+                    ? 'var(--ink-green)'
                     : avg >= 70
                       ? 'var(--ink-warn)'
                       : avg >= 50
                         ? 'var(--ink-warn)'
-                        : 'var(--error)',
+                        : 'var(--ink-error)',
               }}
             >
               {avg}%
@@ -155,7 +155,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   marginBottom: 4,
                 }}
               >
@@ -173,7 +173,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   marginTop: 4,
                 }}
               >
@@ -194,7 +194,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   marginBottom: 4,
                 }}
               >
@@ -212,7 +212,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   marginTop: 4,
                 }}
               >

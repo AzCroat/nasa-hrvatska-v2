@@ -360,7 +360,7 @@ export default function PadezifullScreen({
                     style={{
                       fontSize: 16,
                       fontWeight: 700,
-                      color: pfO[pfSl] === q.answer ? 'var(--success)' : 'var(--error)',
+                      color: pfO[pfSl] === q.answer ? 'var(--ink-green)' : 'var(--ink-error)',
                     }}
                   >
                     {pfO[pfSl] === q.answer ? '✅ ' + q.answer : '❌ ' + q.answer}

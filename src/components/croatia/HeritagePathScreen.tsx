@@ -560,7 +560,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 14,
                   fontWeight: 800,
-                  color: completed.has(mod.id) ? 'var(--success)' : 'var(--heading)',
+                  color: completed.has(mod.id) ? 'var(--ink-green)' : 'var(--heading)',
                 }}
               >
                 {mod.title}
@@ -890,7 +890,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 6,
@@ -1104,7 +1104,7 @@ export default function HeritagePathScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: 'var(--success)',
+                  color: 'var(--ink-green)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 6,

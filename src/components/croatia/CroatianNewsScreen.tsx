@@ -206,7 +206,7 @@ function TappableText({
               style={{
                 cursor: clean ? 'pointer' : 'default',
                 borderBottom: clean ? '1px dotted var(--subtext)' : 'none',
-                color: isTranslating ? 'var(--info)' : hasTooltip ? 'var(--success)' : 'inherit',
+                color: isTranslating ? 'var(--info)' : hasTooltip ? 'var(--ink-green)' : 'inherit',
                 transition: 'color .15s',
               }}
             >
@@ -253,7 +253,7 @@ function TappableText({
                   textAlign: 'center',
                 }}
               >
-                <strong style={{ color: 'var(--success)' }}>{tooltip.word}</strong>
+                <strong style={{ color: 'var(--ink-green)' }}>{tooltip.word}</strong>
                 {' = '}
                 {tooltip.translation}
                 {tooltip.note && (
@@ -773,7 +773,7 @@ export default function CroatianNewsScreen({
             alignItems: 'center',
             gap: 8,
             fontSize: 13,
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontWeight: 600,
           }}
         >

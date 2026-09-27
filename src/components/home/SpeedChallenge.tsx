@@ -311,7 +311,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               border: '1px solid rgba(220,38,38,0.25)',
               borderRadius: 10,
               fontSize: 12,
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               fontWeight: 600,
             }}
           >

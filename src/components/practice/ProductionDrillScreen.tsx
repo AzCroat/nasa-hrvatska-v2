@@ -1300,7 +1300,9 @@ function ModeBuild({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDon
             marginBottom: 10,
           }}
         >
-          <div style={{ fontWeight: 800, color: 'var(--error)', fontSize: 13, marginBottom: 4 }}>
+          <div
+            style={{ fontWeight: 800, color: 'var(--ink-error)', fontSize: 13, marginBottom: 4 }}
+          >
             Točan odgovor:
           </div>
           <div style={{ fontWeight: 700, color: 'var(--heading)', fontSize: 14 }}>
@@ -1466,7 +1468,7 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
               border: '1.5px solid rgba(220,38,38,.4)',
               borderRadius: 6,
               padding: '1px 6px',
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               fontWeight: 800,
             }}
           >
@@ -1530,7 +1532,7 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
           <div
             style={{
               fontWeight: 800,
-              color: chosen === item.correct ? 'var(--ink-green)' : 'var(--error)',
+              color: chosen === item.correct ? 'var(--ink-green)' : 'var(--ink-error)',
               marginBottom: 4,
               fontSize: 13,
             }}

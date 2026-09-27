@@ -526,7 +526,7 @@ function AddWordForm({
       <div style={S.formTitle}>Add a New Word</div>
       <div style={S.fieldGroup}>
         <label style={S.label}>
-          Croatian word <span style={{ color: 'var(--error)' }}>*</span>
+          Croatian word <span style={{ color: 'var(--ink-error)' }}>*</span>
         </label>
         <input
           style={S.input}
@@ -539,7 +539,7 @@ function AddWordForm({
       </div>
       <div style={S.fieldGroup}>
         <label style={S.label}>
-          English meaning <span style={{ color: 'var(--error)' }}>*</span>
+          English meaning <span style={{ color: 'var(--ink-error)' }}>*</span>
         </label>
         <input
           style={S.input}

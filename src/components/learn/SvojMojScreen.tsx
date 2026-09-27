@@ -115,11 +115,16 @@ function SvojMojScreen({
                 }}
               >
                 <div
-                  style={{ fontSize: 10, fontWeight: 700, color: 'var(--error)', marginBottom: 4 }}
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: 'var(--ink-error)',
+                    marginBottom: 4,
+                  }}
                 >
                   ✗ SOUNDS FOREIGN
                 </div>
-                <div style={{ color: 'var(--error)', fontStyle: 'italic' }}>{p.wrong}</div>
+                <div style={{ color: 'var(--ink-error)', fontStyle: 'italic' }}>{p.wrong}</div>
               </div>
               <button
                 style={{
@@ -141,7 +146,7 @@ function SvojMojScreen({
                   style={{
                     fontSize: 10,
                     fontWeight: 700,
-                    color: 'var(--success)',
+                    color: 'var(--ink-green)',
                     marginBottom: 4,
                   }}
                 >

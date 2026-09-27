@@ -134,7 +134,7 @@ export default function SprintFeedbackPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: 'var(--success)',
+            color: 'var(--ink-green)',
             display: 'block',
             marginBottom: 6,
           }}

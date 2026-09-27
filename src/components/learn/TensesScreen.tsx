@@ -206,7 +206,7 @@ export default function TensesScreen({
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
-                color: tnGender === 'f' ? 'var(--error)' : 'var(--ink-muted-warm)',
+                color: tnGender === 'f' ? 'var(--ink-error)' : 'var(--ink-muted-warm)',
               }}
               onClick={() => setTnGender('f')}
             >
@@ -342,13 +342,19 @@ export default function TensesScreen({
                                   fi <= 1 || fi === 4 || fi === 5
                                     ? tnGender === 'm'
                                       ? 'var(--ink-accent)'
-                                      : 'var(--error)'
+                                      : 'var(--ink-error)'
                                     : 'var(--ink-body)',
                               }}
                             >
                               {f} <span aria-hidden="true">🔊</span>
                             </td>
-                            <td style={{ padding: '10px 14px', fontSize: 11, color: '#a8a29e' }}>
+                            <td
+                              style={{
+                                padding: '10px 14px',
+                                fontSize: 11,
+                                color: 'var(--ink-muted-warm)',
+                              }}
+                            >
                               {TENSES.personsEn[fi]}
                             </td>
                           </tr>
@@ -422,7 +428,7 @@ export default function TensesScreen({
                           }
                         }}
                       >
-                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--error)' }}>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-error)' }}>
                           👩 Female:
                         </div>
                         <div style={{ fontSize: 16, fontWeight: 800 }}>
@@ -448,7 +454,7 @@ export default function TensesScreen({
               background: 'var(--error-bg)',
             }}
           >
-            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--error)' }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-error)' }}>
               Why Gender Matters
             </div>
             <div style={{ fontSize: 14, marginTop: 6, lineHeight: 1.7 }}>
@@ -539,7 +545,7 @@ export default function TensesScreen({
                       borderRadius: 10,
                       fontSize: 12,
                       fontWeight: 700,
-                      color: q.gender === 'm' ? 'var(--ink-accent)' : 'var(--error)',
+                      color: q.gender === 'm' ? 'var(--ink-accent)' : 'var(--ink-error)',
                     }}
                   >
                     {q.gender === 'm' ? '👨 Male' : '👩 Female'}

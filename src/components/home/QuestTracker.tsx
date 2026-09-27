@@ -442,7 +442,7 @@ export default function QuestTracker({
                 style={{
                   fontSize: 12,
                   fontWeight: 900,
-                  color: done ? 'var(--success)' : 'var(--heading)',
+                  color: done ? 'var(--ink-green)' : 'var(--heading)',
                   lineHeight: 1.2,
                   marginBottom: 3,
                   fontFamily: 'var(--font-sans)',
@@ -467,7 +467,7 @@ export default function QuestTracker({
                 <div
                   style={{
                     fontSize: 12,
-                    color: 'var(--success)',
+                    color: 'var(--ink-green)',
                     fontWeight: 800,
                     fontFamily: 'var(--font-sans)',
                   }}

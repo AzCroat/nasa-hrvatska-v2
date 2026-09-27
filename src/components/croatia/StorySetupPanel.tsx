@@ -250,7 +250,7 @@ export default function StorySetupPanel({
             borderRadius: 10,
             backgroundColor: 'var(--error-bg)',
             border: '1px solid var(--error-b)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontSize: 14,
             marginBottom: 16,
           }}

@@ -499,7 +499,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                         row.pos <= 4
                           ? 'var(--ink-flag)'
                           : row.pos >= 8
-                            ? 'var(--error)'
+                            ? 'var(--ink-error)'
                             : 'var(--ink-body)',
                     }}
                   >
@@ -529,7 +529,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     style={{
                       textAlign: 'center',
                       fontWeight: 600,
-                      color: 'var(--success)',
+                      color: 'var(--ink-green)',
                       fontSize: 12,
                     }}
                   >
@@ -540,13 +540,13 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   >
                     {row.d}
                   </div>
-                  <div style={{ textAlign: 'center', color: 'var(--error)', fontSize: 12 }}>
+                  <div style={{ textAlign: 'center', color: 'var(--ink-error)', fontSize: 12 }}>
                     {row.l}
                   </div>
                   <div
                     style={{
                       textAlign: 'center',
-                      color: gd >= 0 ? 'var(--success)' : 'var(--error)',
+                      color: gd >= 0 ? 'var(--ink-green)' : 'var(--ink-error)',
                       fontSize: 12,
                       fontWeight: 600,
                     }}
@@ -582,7 +582,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 <span style={{ color: 'var(--ink-flag)', fontWeight: 700 }}>■</span> UCL qualifier
               </span>
               <span>
-                <span style={{ color: 'var(--error)', fontWeight: 700 }}>■</span> Relegation
+                <span style={{ color: 'var(--ink-error)', fontWeight: 700 }}>■</span> Relegation
               </span>
             </div>
           </div>

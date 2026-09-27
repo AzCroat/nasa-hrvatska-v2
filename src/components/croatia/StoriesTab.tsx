@@ -190,7 +190,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
               padding: '1px 6px',
               borderRadius: 4,
               background: 'var(--success-bg)',
-              color: 'var(--success)',
+              color: 'var(--ink-green)',
               fontSize: 9,
             }}
           >

@@ -1106,7 +1106,7 @@ export default function GrammarExplainer({
                           <div key={i} style={{ fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
                             <span
                               style={{
-                                color: 'var(--error)',
+                                color: 'var(--ink-error)',
                                 textDecoration: 'line-through',
                                 marginRight: 6,
                               }}
@@ -1114,7 +1114,7 @@ export default function GrammarExplainer({
                               {c.original}
                             </span>
                             <span
-                              style={{ color: 'var(--success)', fontWeight: 700, marginRight: 6 }}
+                              style={{ color: 'var(--ink-green)', fontWeight: 700, marginRight: 6 }}
                             >
                               → {c.corrected}
                             </span>
@@ -1173,7 +1173,7 @@ export default function GrammarExplainer({
                             }}
                           >
                             <span
-                              style={{ color: 'var(--success)', fontWeight: 900, flexShrink: 0 }}
+                              style={{ color: 'var(--ink-green)', fontWeight: 900, flexShrink: 0 }}
                             >
                               ✓
                             </span>

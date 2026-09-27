@@ -714,7 +714,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -819,7 +819,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -848,7 +848,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: 'var(--success)',
+                      color: 'var(--ink-green)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -904,7 +904,7 @@ export default function PostcardScreen({
                     <span
                       style={{
                         fontSize: 12,
-                        color: 'var(--error)',
+                        color: 'var(--ink-error)',
                         fontWeight: 700,
                         textDecoration: 'line-through',
                         flexShrink: 0,
@@ -916,7 +916,7 @@ export default function PostcardScreen({
                     <span
                       style={{
                         fontSize: 12,
-                        color: 'var(--success)',
+                        color: 'var(--ink-green)',
                         fontWeight: 700,
                         flexShrink: 0,
                       }}
@@ -940,7 +940,7 @@ export default function PostcardScreen({
                 borderRadius: 12,
                 padding: '14px 16px',
                 fontSize: 13,
-                color: 'var(--success)',
+                color: 'var(--ink-green)',
                 fontWeight: 600,
                 textAlign: 'center',
               }}
@@ -997,7 +997,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -1105,7 +1105,7 @@ export default function PostcardScreen({
                 borderRadius: 12,
                 padding: '12px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >
@@ -1170,7 +1170,7 @@ export default function PostcardScreen({
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 600,
               }}
             >

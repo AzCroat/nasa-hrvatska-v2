@@ -111,7 +111,7 @@ function RiddlesScreen({ goBack, award }: Props) {
                 );
               })}
             </div>
-            <div style={{ fontSize: 11, color: '#a8a29e', marginTop: 6 }}>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 6 }}>
               {'🇬🇧 '}
               {r.en}
             </div>

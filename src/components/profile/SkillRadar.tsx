@@ -278,7 +278,7 @@ export default function SkillRadar() {
                 style={{
                   fontSize: 9,
                   fontWeight: 800,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   whiteSpace: 'nowrap',
                 }}
               >

@@ -536,7 +536,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           >
             {art.category}
           </span>
-          <span style={{ color: '#a8a29e', fontSize: 12 }}>{art.date}</span>
+          <span style={{ color: 'var(--ink-muted-warm)', fontSize: 12 }}>{art.date}</span>
         </div>
 
         {/* Headline */}
@@ -856,7 +856,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                 >
                   {art.category}
                 </span>
-                <span style={{ color: '#a8a29e', fontSize: 11 }}>{art.date}</span>
+                <span style={{ color: 'var(--ink-muted-warm)', fontSize: 11 }}>{art.date}</span>
               </div>
               <p
                 style={{

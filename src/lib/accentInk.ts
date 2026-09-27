@@ -55,6 +55,15 @@
 // and the element INHERITS a themed colour — readable in both themes, losing only the
 // brand hue. That is strictly better than the dark-on-dark it replaces.
 
+/** Surface tokens that fail as text, mapped to the ink token that carries the same hue.
+ *  Exported so the guard can require every entry's twin to exist in both themes. */
+export const STATUS_INK: Readonly<Record<string, string>> = {
+  'var(--success)': 'var(--ink-green)',
+  'var(--warning)': 'var(--ink-warn)',
+  'var(--error)': 'var(--ink-error)',
+  'var(--accent)': 'var(--ink-accent)',
+};
+
 /** The theme-owned lift: 0% in light, 62% in dark. Defined in `src/index.css`. */
 export const INK_LIFT_VAR = '--ink-lift';
 
@@ -86,8 +95,18 @@ export function accentInk(
   // holding an invalid colour, so the fallback would never fire and the element would
   // silently inherit instead.
   if (typeof color !== 'string' || !color.trim()) return color;
-  // A theme token is already correct in both themes — see the header.
-  if (color.trim().startsWith('var(')) return color;
+  // A STATUS OR BRAND TOKEN IS A SURFACE COLOUR, AND IT HAS AN INK TWIN (2026-09-27).
+  // `--success` is 3.30:1 on white and `--warning` 3.19:1, so as TEXT both fail AA in
+  // light mode, and `--error` fails on its own tint (3.95:1 on --error-bg-strong); the
+  // `--accent` teal has no dark override at all. The same data field is correctly a
+  // badge BACKGROUND elsewhere (StatsTab paints `cefr.color` both ways), so the data
+  // must keep the surface token and the INK question is answered here, at the render
+  // site. Each twin's dark value equals the token's own, so dark mode does not move.
+  const trimmed = color.trim();
+  const twin = STATUS_INK[trimmed];
+  if (twin) return twin;
+  // Any other theme token is already correct in both themes — see the header.
+  if (trimmed.startsWith('var(')) return color;
   const lifted = `color-mix(in srgb, ${color}, #fff var(${INK_LIFT_VAR}))`;
   // A FADED ACCENT NEEDS ITS ALPHA INSIDE THE MIX, because `accentInk(c) + '99'` is
   // nonsense — you cannot append two hex digits to a `color-mix()` string. Seven sites

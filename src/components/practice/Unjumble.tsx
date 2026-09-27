@@ -157,9 +157,9 @@ export default function Unjumble({
             }}
           >
             {isCorrect ? (
-              <span style={{ color: 'var(--success)', fontWeight: 700 }}>✅ Correct!</span>
+              <span style={{ color: 'var(--ink-green)', fontWeight: 700 }}>✅ Correct!</span>
             ) : (
-              <span style={{ color: 'var(--error)' }}>
+              <span style={{ color: 'var(--ink-error)' }}>
                 ❌ Correct answer: <b>{q.correct}</b>
               </span>
             )}

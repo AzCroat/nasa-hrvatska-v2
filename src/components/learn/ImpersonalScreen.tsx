@@ -262,7 +262,7 @@ function ImpersonalScreen({
                     <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--ink-accent)' }}>
                       {c.hr} <span aria-hidden="true">🔊</span>
                     </span>
-                    <span style={{ fontSize: 13, color: 'var(--success)', fontWeight: 600 }}>
+                    <span style={{ fontSize: 13, color: 'var(--ink-green)', fontWeight: 600 }}>
                       {c.en}
                     </span>
                   </div>

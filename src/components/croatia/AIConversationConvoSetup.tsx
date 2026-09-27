@@ -682,7 +682,7 @@ export default function AIConversationConvoSetup({
             padding: '12px 16px',
             marginBottom: 12,
             fontSize: 'var(--text-sm)',
-            color: 'var(--warning)',
+            color: 'var(--ink-warn)',
             fontWeight: 600,
             display: 'flex',
             gap: 10,

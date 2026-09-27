@@ -108,7 +108,9 @@ function FlipCard({
           >
             <span aria-hidden="true">🔊</span>
           </button>
-          <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 12 }}>Tap to reveal</div>
+          <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 12 }}>
+            Tap to reveal
+          </div>
         </div>
 
         {/* Back — English */}
@@ -170,7 +172,7 @@ function FlipCard({
                 background: 'rgba(239,68,68,.1)',
                 border: '2px solid rgba(239,68,68,.25)',
                 borderRadius: 14,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontWeight: 700,
                 fontSize: 13,
                 cursor: 'pointer',
@@ -263,7 +265,7 @@ function MistakeListItem({ mistake, onClear }: { mistake: any; onClear: (hr: str
           border: 'none',
           fontSize: 18,
           cursor: 'pointer',
-          color: '#9ca3af',
+          color: 'var(--ink-muted)',
           flexShrink: 0,
         }}
       >
@@ -554,7 +556,7 @@ export default function MistakesScreen({
               onClick={clearAll}
               style={{
                 fontSize: 11,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',

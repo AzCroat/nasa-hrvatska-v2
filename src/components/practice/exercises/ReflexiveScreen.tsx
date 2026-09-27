@@ -179,13 +179,13 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         style={{
                           fontSize: 10,
                           fontWeight: 700,
-                          color: 'var(--error)',
+                          color: 'var(--ink-error)',
                           marginBottom: 3,
                         }}
                       >
                         ✗ WRONG
                       </div>
-                      <div style={{ fontStyle: 'italic', color: 'var(--error)' }}>{r.bad}</div>
+                      <div style={{ fontStyle: 'italic', color: 'var(--ink-error)' }}>{r.bad}</div>
                     </div>
                     <button
                       aria-label={`Play correct form: ${r.good}`}
@@ -209,7 +209,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         style={{
                           fontSize: 10,
                           fontWeight: 700,
-                          color: 'var(--success)',
+                          color: 'var(--ink-green)',
                           marginBottom: 3,
                         }}
                       >
@@ -506,7 +506,12 @@ function ReflexiveScreen({ goBack, award }: Props) {
                 })}
                 {answers[qi] !== undefined && (
                   <div
-                    style={{ fontSize: 11, color: 'var(--success)', marginTop: 4, fontWeight: 700 }}
+                    style={{
+                      fontSize: 11,
+                      color: 'var(--ink-green)',
+                      marginTop: 4,
+                      fontWeight: 700,
+                    }}
                   >
                     {answers[qi] === q.a ? '✓ Correct! +5 XP' : '✗ Correct: ' + q.a}
                   </div>

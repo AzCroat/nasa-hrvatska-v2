@@ -230,7 +230,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: 'var(--success)',
+                      color: 'var(--ink-green)',
                       marginBottom: 2,
                       display: 'block',
                     }}
@@ -249,7 +249,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: 'var(--error)',
+                      color: 'var(--ink-error)',
                       display: 'block',
                     }}
                     onClick={() => speak(n.neg)}
@@ -342,14 +342,24 @@ function NegationScreen({ goBack, award }: Props) {
                 </div>
                 {answered && selected !== q.a && (
                   <div
-                    style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: 'var(--error)' }}
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-error)',
+                    }}
                   >
-                    ✗ Correct: <span style={{ color: 'var(--success)' }}>{q.a}</span>
+                    ✗ Correct: <span style={{ color: 'var(--ink-green)' }}>{q.a}</span>
                   </div>
                 )}
                 {answered && selected === q.a && (
                   <div
-                    style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: 'var(--success)' }}
+                    style={{
+                      fontSize: 11,
+                      marginTop: 5,
+                      fontWeight: 700,
+                      color: 'var(--ink-green)',
+                    }}
                   >
                     ✓ Correct!
                   </div>

@@ -118,7 +118,7 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
               style={{
                 fontSize: 16,
                 fontWeight: 600,
-                color: correct ? 'var(--success)' : 'var(--ink-muted)',
+                color: correct ? 'var(--ink-green)' : 'var(--ink-muted)',
               }}
             >
               {correct ? '✓ Good!' : `Correct answer: ${cur.answer}`}

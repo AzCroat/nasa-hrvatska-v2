@@ -217,7 +217,9 @@ export default function ProfileScreen({
           {name}
         </h2>
         <p style={{ color: 'var(--ink-muted-warm)', fontSize: 14 }}>Level {level}</p>
-        {au && au.e && <p style={{ color: '#a8a29e', fontSize: 12, marginTop: 4 }}>{au.e}</p>}
+        {au && au.e && (
+          <p style={{ color: 'var(--ink-muted-warm)', fontSize: 12, marginTop: 4 }}>{au.e}</p>
+        )}
       </div>
       <div
         style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 24 }}
@@ -246,7 +248,7 @@ export default function ProfileScreen({
           Next Level
         </h3>
         <Bar v={(st.xp ?? 0) - lXP(level)} mx={nXP(level) - lXP(level)} />
-        <p style={{ fontSize: 12, color: '#a8a29e', marginTop: 8 }}>
+        <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 8 }}>
           {nXP(level) - (st.xp ?? 0)} XP to Level {level + 1}
         </p>
       </div>
@@ -298,7 +300,7 @@ export default function ProfileScreen({
             style={{
               background: 'none',
               border: 'none',
-              color: '#a8a29e',
+              color: 'var(--ink-muted-warm)',
               fontSize: 12,
               cursor: 'pointer',
               textDecoration: 'underline',
@@ -319,14 +321,18 @@ export default function ProfileScreen({
               background: 'rgba(185,28,28,.04)',
             }}
           >
-            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--error)', marginBottom: 8 }}>
+            <p
+              style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-error)', marginBottom: 8 }}
+            >
               Delete your account?
             </p>
             <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
               This permanently deletes all your progress, streaks, and data. This cannot be undone.
             </p>
             {deleteError && (
-              <p style={{ fontSize: 12, color: 'var(--error)', marginBottom: 10 }}>{deleteError}</p>
+              <p style={{ fontSize: 12, color: 'var(--ink-error)', marginBottom: 10 }}>
+                {deleteError}
+              </p>
             )}
             <div style={{ display: 'flex', gap: 10 }}>
               <button

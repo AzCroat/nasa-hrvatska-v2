@@ -276,6 +276,16 @@ button,input,optgroup,select,textarea{
   --ink-red:        #D40030;
   --ink-green:      #166534;  /* a dark green for ink — NOT --success (#16a34a), which is
                                  3.30:1 on white and fails AA as text */
+  --ink-error:      #b91c1c;  /* the red for ERROR ink — NOT --error (#dc2626), which is 3.95:1
+                                 on its own tint (--error-bg-strong) and fails AA as small
+                                 text there; NOT --ink-red either (4.47 on that tint). Its dark
+                                 value is --error's, so dark mode does not move. */
+  /* SOLID STATUS FILLS FOR WHITE TEXT — the same value in both themes. A status token as a
+     badge background under white text is 3.30:1 (--success) in light mode and ~1.9:1 in
+     dark, where --success turns light green. These hold white at AA in either theme. */
+  --fill-success:   #15803d;  /* white 5.02:1 */
+  --fill-warning:   #b45309;  /* white 5.02:1 */
+  --fill-error:     #b91c1c;  /* white 6.47:1 */
 
   /* ── TINTED SURFACES ──────────────────────────────────────────────────────
      A container painting an opaque LIGHT background inline stays light in dark mode, and
@@ -382,7 +392,7 @@ button,input,optgroup,select,textarea{
   background: var(--success-bg, #f0fdf4);
   color: var(--success, #16a34a);
 }
-.stat-chip.warning { background: var(--warning-bg); color: var(--warning); }
+.stat-chip.warning { background: var(--warning-bg); color: var(--ink-warn); }
 .stat-chip.info    { background: var(--info-bg); color: var(--info); }
 
 /* ── Section divider accents ─────────────────────────── */
@@ -588,6 +598,7 @@ button,input,optgroup,select,textarea{
   --ink-navy:       #93c5fd;  /* 8.11 on card, 9.64 on the nav */
   --ink-red:        #fca5a5;  /* 7.71 on card, 9.16 on the nav */
   --ink-green:      #4ade80;  /* 8.40 */
+  --ink-error:      #f87171;  /* 5.29 — the same value --error has in dark mode */
   /* Translucent so they composite over --card instead of painting a light slab. */
   --surface-mute:   rgba(255,255,255,.06);
   --mode-bg:        rgba(167,139,250,.12);
@@ -1657,9 +1668,9 @@ button.c{font-family:'Outfit',sans-serif;width:100%;cursor:pointer;display:block
   font-family:var(--font-sans);letter-spacing:.06em;
   line-height:1.4;flex-shrink:0;
 }
-.badge-success{color:var(--success);background:var(--success-bg);border:1px solid var(--success-b)}
-.badge-warning{color:var(--warning);background:var(--warning-bg);border:1px solid var(--warning-b)}
-.badge-error  {color:var(--error);  background:var(--error-bg);  border:1px solid var(--error-b)}
+.badge-success{color:var(--ink-green);background:var(--success-bg);border:1px solid var(--success-b)}
+.badge-warning{color:var(--ink-warn);background:var(--warning-bg);border:1px solid var(--warning-b)}
+.badge-error  {color:var(--ink-error);  background:var(--error-bg);  border:1px solid var(--error-b)}
 .badge-info   {color:var(--info);   background:var(--info-bg);   border:1px solid var(--info-b)}
 .badge-neutral{color:var(--subtext);background:var(--bar-bg);    border:1px solid var(--card-b)}
 
@@ -1689,9 +1700,9 @@ button.c{font-family:'Outfit',sans-serif;width:100%;cursor:pointer;display:block
   padding:var(--space-md) var(--space-lg);
   border-radius:var(--radius-md);border-width:1px;border-style:solid;
 }
-.alert-success{background:var(--success-bg);border-color:var(--success-b);color:var(--success)}
-.alert-warning{background:var(--warning-bg);border-color:var(--warning-b);color:var(--warning)}
-.alert-error  {background:var(--error-bg);  border-color:var(--error-b);  color:var(--error)}
+.alert-success{background:var(--success-bg);border-color:var(--success-b);color:var(--ink-green)}
+.alert-warning{background:var(--warning-bg);border-color:var(--warning-b);color:var(--ink-warn)}
+.alert-error  {background:var(--error-bg);  border-color:var(--error-b);  color:var(--ink-error)}
 .alert-info   {background:var(--info-bg);   border-color:var(--info-b);   color:var(--info)}
 
 /* ── Empty state — consistent design ── */
@@ -1708,9 +1719,9 @@ button.c{font-family:'Outfit',sans-serif;width:100%;cursor:pointer;display:block
 .text-heading{color:var(--heading);font-family:var(--font-sans)}
 .text-sub    {color:var(--subtext);font-family:var(--font-sans)}
 .text-brand  {color:var(--info)}
-.text-success{color:var(--success)}
-.text-warning{color:var(--warning)}
-.text-error  {color:var(--error)}
+.text-success{color:var(--ink-green)}
+.text-warning{color:var(--ink-warn)}
+.text-error  {color:var(--ink-error)}
 .fw-800{font-weight:800}.fw-700{font-weight:700}.fw-600{font-weight:600}
 .lh-tight {line-height:var(--leading-tight)}
 .lh-snug  {line-height:var(--leading-snug)}
@@ -3553,7 +3564,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
 }
 .quest-tile-icon { font-size: 17px; }
 .quest-tile-label { font-size: 10px; font-weight: 700; font-family: var(--font-sans); }
-.quest-tile--done .quest-tile-label { color: var(--success); }
+.quest-tile--done .quest-tile-label { color: var(--ink-green); }
 .quest-tile--pending .quest-tile-label { color: var(--subtext); }
 
 /* ── Milestone card (SRS review banner) ─────────────────── */

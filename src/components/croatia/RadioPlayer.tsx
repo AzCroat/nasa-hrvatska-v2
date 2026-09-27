@@ -181,7 +181,7 @@ export default function RadioPlayer({
       <div style={{ flex: 1, minWidth: 0 }}>
         {error ? (
           <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700 }}>
-            <span style={{ color: 'var(--error)' }}>Stream unavailable — tap ▶ to retry</span>
+            <span style={{ color: 'var(--ink-error)' }}>Stream unavailable — tap ▶ to retry</span>
             {webUrl && (
               <>
                 {' · '}
@@ -221,7 +221,7 @@ export default function RadioPlayer({
                 style={{
                   fontSize: 'var(--text-xs)',
                   fontWeight: 900,
-                  color: 'var(--error)',
+                  color: 'var(--ink-error)',
                   letterSpacing: '0.05em',
                 }}
               >

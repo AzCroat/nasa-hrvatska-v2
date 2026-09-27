@@ -80,7 +80,8 @@ export default function BojeGame({ goBack, award }: Props) {
             </div>
             <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
               <div>
-                🔴 <b>Feminine (-a):</b> Ruža je crven<b style={{ color: 'var(--error)' }}>a</b>.
+                🔴 <b>Feminine (-a):</b> Ruža je crven<b style={{ color: 'var(--ink-error)' }}>a</b>
+                .
               </div>
               <div>
                 🔵 <b>Neuter (-o):</b> Sunce je crven<b style={{ color: 'var(--ink-flag)' }}>o</b>.
@@ -90,7 +91,7 @@ export default function BojeGame({ goBack, award }: Props) {
               </div>
               <div style={{ marginTop: 8 }}>
                 📚 <b>Feminine plural (-e):</b> Ruže su crven
-                <b style={{ color: 'var(--error)' }}>e</b>.
+                <b style={{ color: 'var(--ink-error)' }}>e</b>.
               </div>
               <div>
                 📚 <b>Neuter plural (-a):</b> Sunca su crven
@@ -98,7 +99,7 @@ export default function BojeGame({ goBack, award }: Props) {
               </div>
               <div>
                 📚 <b>Masculine plural (-i):</b> Cvjetovi su crven
-                <b style={{ color: 'var(--success)' }}>i</b>.
+                <b style={{ color: 'var(--ink-green)' }}>i</b>.
               </div>
             </div>
           </div>
@@ -130,9 +131,9 @@ export default function BojeGame({ goBack, award }: Props) {
                   <span style={{ fontSize: 15, fontWeight: 700 }}>{c.en}</span>
                 </div>
                 <div style={{ fontSize: 12, display: 'flex', gap: 8 }}>
-                  <span style={{ color: 'var(--error)' }}>{c.f}</span>
+                  <span style={{ color: 'var(--ink-error)' }}>{c.f}</span>
                   <span style={{ color: 'var(--ink-flag)' }}>{c.n}</span>
-                  <span style={{ color: 'var(--success)' }}>{c.m}</span>
+                  <span style={{ color: 'var(--ink-green)' }}>{c.m}</span>
                 </div>
               </button>
             ))}

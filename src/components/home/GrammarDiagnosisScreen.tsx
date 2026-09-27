@@ -637,20 +637,22 @@ export default function GrammarDiagnosisScreen({
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 700,
-                                  color: 'var(--error)',
+                                  color: 'var(--ink-error)',
                                   marginBottom: 6,
                                 }}
                               >
                                 ❌ Wrong
                               </div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--error)' }}>
+                              <div
+                                style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-error)' }}
+                              >
                                 {exObj.wrong}
                               </div>
                               {exObj.wrong_en && (
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: 'var(--error)',
+                                    color: 'var(--ink-error)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -689,7 +691,7 @@ export default function GrammarDiagnosisScreen({
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: 'var(--success)',
+                                    color: 'var(--ink-green)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -883,7 +885,7 @@ export default function GrammarDiagnosisScreen({
             <div style={{ fontWeight: 700, color: 'var(--ink-green)', fontSize: 14 }}>
               +10 XP earned!
             </div>
-            <div style={{ fontSize: 12, color: 'var(--success)' }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)' }}>
               Great work on the drill questions
             </div>
           </div>

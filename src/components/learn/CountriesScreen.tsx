@@ -181,7 +181,8 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps3) => {
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--error)',
+                color:
+                  q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--ink-error)',
                 fontWeight: 700,
               }}
             >

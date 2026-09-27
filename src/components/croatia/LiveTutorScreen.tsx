@@ -1292,7 +1292,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
             borderRadius: 10,
             border: '1px solid rgba(220,38,38,.2)',
             fontSize: 'var(--text-xs)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             display: 'flex',
             alignItems: 'center',
             gap: 8,
@@ -1307,7 +1307,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               fontWeight: 800,
             }}
           >

@@ -60,7 +60,7 @@ export default function HeritageEntrySection({ setScr }: { setScr: (scr: string)
           <div
             style={{
               fontSize: 'var(--text-xs)',
-              color: active ? 'var(--success)' : 'var(--subtext)',
+              color: active ? 'var(--ink-green)' : 'var(--subtext)',
               marginTop: 1,
             }}
           >

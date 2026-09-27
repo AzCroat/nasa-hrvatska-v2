@@ -817,7 +817,7 @@ export default function GrammarReader({ goBack }: { goBack: () => void }) {
             borderRadius: 10,
             padding: '8px 16px',
             fontSize: 'var(--text-xs)',
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             zIndex: 300,
             boxShadow: '0 2px 8px rgba(0,0,0,.1)',
           }}

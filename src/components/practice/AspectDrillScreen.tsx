@@ -586,7 +586,14 @@ export default function AspectDrillScreen({
                 marginTop: 20,
               }}
             >
-              <p style={{ fontWeight: 800, fontSize: 13, color: 'var(--error)', marginBottom: 6 }}>
+              <p
+                style={{
+                  fontWeight: 800,
+                  fontSize: 13,
+                  color: 'var(--ink-error)',
+                  marginBottom: 6,
+                }}
+              >
                 📌 {mistakeIds.size} pair{mistakeIds.size !== 1 ? 's' : ''} to review:
               </p>
               <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', margin: 0 }}>
@@ -700,7 +707,7 @@ export default function AspectDrillScreen({
             cursor: 'pointer',
             border: mistakesOnly ? '1.5px solid #dc2626' : '1.5px solid var(--card-b)',
             background: mistakesOnly ? 'var(--error-bg)' : 'var(--card)',
-            color: mistakesOnly ? 'var(--error)' : 'var(--subtext)',
+            color: mistakesOnly ? 'var(--ink-error)' : 'var(--subtext)',
           }}
         >
           🎯 {mistakeIds.size > 0 ? `Mistakes (${mistakeIds.size})` : 'Mistakes only'}

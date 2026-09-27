@@ -56,7 +56,7 @@ export default function DailyGoalCard({ xp }: { xp: number }) {
             style={{
               fontSize: 12,
               fontWeight: 800,
-              color: goalDone ? 'var(--success)' : 'var(--heading)',
+              color: goalDone ? 'var(--ink-green)' : 'var(--heading)',
               letterSpacing: '.04em',
               textTransform: 'uppercase',
             }}
@@ -68,7 +68,7 @@ export default function DailyGoalCard({ xp }: { xp: number }) {
           style={{
             fontSize: 12,
             fontWeight: 900,
-            color: goalDone ? 'var(--success)' : 'var(--heading)',
+            color: goalDone ? 'var(--ink-green)' : 'var(--heading)',
             fontVariantNumeric: 'tabular-nums',
           }}
         >

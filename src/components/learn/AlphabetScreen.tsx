@@ -188,7 +188,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   style={{
                     fontSize: 22,
                     fontWeight: 800,
-                    color: learnedRef.current.has(l[0]) ? 'var(--success)' : 'var(--ink-strong)',
+                    color: learnedRef.current.has(l[0]) ? 'var(--ink-green)' : 'var(--ink-strong)',
                     fontFamily: 'monospace',
                     minWidth: 55,
                   }}

@@ -358,7 +358,9 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 13, color: 'var(--error)', marginBottom: 10 }}>{errorMsg}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-error)', marginBottom: 10 }}>
+              {errorMsg}
+            </div>
             <button
               className="b bp"
               disabled={!topic}
@@ -863,7 +865,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     style={{
                       fontSize: 12,
                       fontWeight: 700,
-                      color: a?.correct ? 'var(--ink-green)' : 'var(--error)',
+                      color: a?.correct ? 'var(--ink-green)' : 'var(--ink-error)',
                       marginBottom: 3,
                     }}
                   >
@@ -873,7 +875,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     {q.q}
                   </div>
                   {!a?.correct && (
-                    <div style={{ fontSize: 12, color: 'var(--success)', marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
                       Correct answer: {q.options[q.correct]}
                     </div>
                   )}

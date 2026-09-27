@@ -523,7 +523,9 @@ export default function FutureTenseLessonScreen({
               background: 'var(--error-bg)',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-error)', marginBottom: 4 }}
+            >
               What is Future II?
             </div>
             <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>
@@ -623,7 +625,7 @@ export default function FutureTenseLessonScreen({
                         padding: '10px 14px',
                         fontWeight: 700,
                         fontSize: 14,
-                        color: 'var(--error)',
+                        color: 'var(--ink-error)',
                       }}
                     >
                       {row.form} <span aria-hidden="true">🔊</span>
@@ -691,7 +693,9 @@ export default function FutureTenseLessonScreen({
               background: 'var(--error-bg)',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-error)', marginBottom: 4 }}
+            >
               Negative future: neću
             </div>
             <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>
@@ -745,7 +749,7 @@ export default function FutureTenseLessonScreen({
                       style={{
                         padding: '10px 14px',
                         fontWeight: 700,
-                        color: 'var(--error)',
+                        color: 'var(--ink-error)',
                         fontSize: 13,
                         width: '22%',
                       }}

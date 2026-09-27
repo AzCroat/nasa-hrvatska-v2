@@ -433,7 +433,9 @@ export default function AIListeningScreen({
               marginBottom: 16,
             }}
           >
-            <span style={{ fontSize: 14, color: 'var(--error)', fontWeight: 600, lineHeight: 1.4 }}>
+            <span
+              style={{ fontSize: 14, color: 'var(--ink-error)', fontWeight: 600, lineHeight: 1.4 }}
+            >
               ⚠️ {errorMsg}
             </span>
             <button
@@ -442,7 +444,7 @@ export default function AIListeningScreen({
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontSize: 18,
                 lineHeight: 1,
                 padding: '0 0 0 12px',
@@ -818,7 +820,7 @@ export default function AIListeningScreen({
               padding: '10px 14px',
               marginBottom: 14,
               fontSize: 14,
-              color: chosen === q.correct ? 'var(--ink-green)' : 'var(--error)',
+              color: chosen === q.correct ? 'var(--ink-green)' : 'var(--ink-error)',
               fontWeight: 600,
             }}
           >

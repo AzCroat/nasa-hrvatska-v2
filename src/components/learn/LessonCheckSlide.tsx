@@ -189,7 +189,7 @@ export function CheckSlide({
             style={{
               fontSize: 'var(--text-sm)',
               fontWeight: 900,
-              color: isCorrect ? 'var(--success)' : 'var(--ink-warn)',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >

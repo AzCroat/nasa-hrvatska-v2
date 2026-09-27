@@ -224,7 +224,7 @@ export default function SceneExplorer({
             }}
           >
             <span style={{ color: 'var(--ink-green)' }}>✓ Known: {quizScore.known}</span>
-            <span style={{ color: 'var(--error)' }}>✗ Missed: {quizScore.unknown}</span>
+            <span style={{ color: 'var(--ink-error)' }}>✗ Missed: {quizScore.unknown}</span>
           </div>
         )}
       </div>
@@ -336,7 +336,7 @@ export default function SceneExplorer({
               cursor: 'pointer',
               fontSize: 12,
               fontWeight: 700,
-              color: discovered.has(item.id) ? scene.color : '#a8a29e',
+              color: discovered.has(item.id) ? scene.color : 'var(--ink-muted-warm)',
             }}
           >
             {discovered.has(item.id) ? item.hr : '• • •'}

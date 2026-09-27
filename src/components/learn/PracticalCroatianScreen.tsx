@@ -594,7 +594,7 @@ function PhrasesTab({ phrases }: { phrases: Phrase[] }) {
               padding: '5px 9px',
               fontSize: 11,
               fontWeight: 700,
-              color: copied === i ? 'var(--success)' : 'var(--subtext)',
+              color: copied === i ? 'var(--ink-green)' : 'var(--subtext)',
               cursor: 'pointer',
               whiteSpace: 'nowrap',
               transition: 'background .2s, color .2s',
@@ -928,7 +928,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
                 <div style={{ fontWeight: 700, color: 'var(--heading)', marginBottom: 4 }}>
                   {i + 1}. {q.q}
                 </div>
-                <div style={{ color: isRight ? 'var(--ink-green)' : 'var(--error)' }}>
+                <div style={{ color: isRight ? 'var(--ink-green)' : 'var(--ink-error)' }}>
                   {isRight ? '✓ ' : '✗ '}
                   {isRight ? q.options[q.ans] : `Correct: ${q.options[q.ans]}`}
                 </div>
@@ -1122,7 +1122,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
               padding: '10px 14px',
               borderRadius: 10,
               background: selected === current.ans ? 'rgba(22,163,74,.1)' : 'rgba(220,38,38,.08)',
-              color: selected === current.ans ? 'var(--ink-green)' : 'var(--error)',
+              color: selected === current.ans ? 'var(--ink-green)' : 'var(--ink-error)',
               fontSize: 13,
               fontWeight: 600,
               marginBottom: 12,

@@ -530,12 +530,12 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           <span data-testid="word-count-label" style={{ fontSize: 12, color: 'var(--subtext)' }}>
             Word count: {wordCount} / {minWords}
             {wordCount > 0 && wordCount < minWords && (
-              <span style={{ color: 'var(--error)' }}> (aim for {minWords}+)</span>
+              <span style={{ color: 'var(--ink-error)' }}> (aim for {minWords}+)</span>
             )}
             {wordCount >= minWords && wordCount < 80 && (
               <span style={{ color: 'var(--info)' }}> ✓ good start</span>
             )}
-            {wordCount >= 80 && <span style={{ color: 'var(--success)' }}> ✓ great length</span>}
+            {wordCount >= 80 && <span style={{ color: 'var(--ink-green)' }}> ✓ great length</span>}
           </span>
           <button
             style={{
@@ -551,7 +551,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             🔄 New Prompt
           </button>
         </div>
-        {error && <p style={{ color: 'var(--error)', fontSize: 13, marginTop: 8 }}>{error}</p>}
+        {error && <p style={{ color: 'var(--ink-error)', fontSize: 13, marginTop: 8 }}>{error}</p>}
         <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 10, lineHeight: 1.5 }}>
           🔒 Your text is sent to an AI for grammar feedback. It is not stored or used for training.
         </div>
@@ -730,7 +730,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             <p
               data-testid="word-count-warning"
               style={{
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 fontSize: 13,
                 marginTop: 12,
                 marginBottom: 0,

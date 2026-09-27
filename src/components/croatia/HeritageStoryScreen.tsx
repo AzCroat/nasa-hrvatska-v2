@@ -757,7 +757,7 @@ export default function HeritageStoryScreen({
               borderRadius: 10,
               backgroundColor: 'var(--error-bg)',
               border: '1px solid var(--error-b)',
-              color: 'var(--error)',
+              color: 'var(--ink-error)',
               fontSize: 14,
               marginBottom: 16,
             }}
@@ -1143,7 +1143,7 @@ export default function HeritageStoryScreen({
               borderRadius: 12,
               backgroundColor: saved ? 'var(--success-bg)' : 'var(--card)',
               border: `1.5px solid ${saved ? 'var(--success-b)' : 'var(--card-b)'}`,
-              color: saved ? 'var(--success)' : 'var(--heading)',
+              color: saved ? 'var(--ink-green)' : 'var(--heading)',
               fontWeight: 700,
               fontSize: 14,
             }}

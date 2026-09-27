@@ -741,7 +741,7 @@ export default function PhraseOfDayScreen({
             padding: '9px 14px',
             marginBottom: 14,
             fontSize: 12,
-            color: 'var(--error)',
+            color: 'var(--ink-error)',
             fontWeight: 600,
           }}
         >
@@ -917,7 +917,7 @@ export default function PhraseOfDayScreen({
                   border: 'none',
                   cursor: 'pointer',
                   background: 'transparent',
-                  color: copied ? 'var(--success)' : accentInk(color),
+                  color: copied ? 'var(--ink-green)' : accentInk(color),
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 13,
                   fontWeight: 800,

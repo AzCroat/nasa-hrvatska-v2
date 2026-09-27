@@ -694,7 +694,7 @@ export default function MediaTab() {
               style={{
                 fontSize: 11,
                 fontWeight: 900,
-                color: 'var(--error)',
+                color: 'var(--ink-error)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
               }}
