@@ -28,6 +28,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { STATUS_INK, accentInk } from '../lib/accentInk';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 
 const CSS = readFileSync('src/index.css', 'utf8');
 
@@ -48,9 +49,7 @@ const ROOT = block(/^:root\s*\{/m);
 const DARK = block(/^\.dark\s*\{/m);
 
 function tokenValue(scope: string, name: string): string | undefined {
-  const m = new RegExp(`(?:^|[\\s;{])${name.replace(/[-]/g, '\\-')}\\s*:\\s*([^;]+);`, 'm').exec(
-    scope,
-  );
+  const m = new RegExp(`(?:^|[\\s;{])${escapeRegExp(name)}\\s*:\\s*([^;]+);`, 'm').exec(scope);
   return m ? m[1]!.trim() : undefined;
 }
 const nameOf = (v: string) => /var\((--[\w-]+)\)/.exec(v)![1]!;
