@@ -58,7 +58,7 @@ export default function BonusStoryCard({
         style={{
           fontSize: 11,
           fontWeight: 800,
-          color: '#7c3aed',
+          color: 'var(--ink-mode)',
           textTransform: 'uppercase',
           letterSpacing: '.1em',
           marginBottom: 8,

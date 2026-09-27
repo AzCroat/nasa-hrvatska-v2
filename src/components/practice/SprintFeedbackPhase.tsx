@@ -131,7 +131,7 @@ export default function SprintFeedbackPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#16a34a',
+            color: 'var(--success)',
             display: 'block',
             marginBottom: 6,
           }}
@@ -158,7 +158,7 @@ export default function SprintFeedbackPhase({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               display: 'block',
               marginBottom: 6,
             }}
@@ -218,7 +218,7 @@ export default function SprintFeedbackPhase({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             display: 'block',
             marginBottom: 6,
           }}

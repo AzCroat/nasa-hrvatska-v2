@@ -213,7 +213,9 @@ function TechVocScreen({
               );
             })}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)', marginBottom: 10 }}
+          >
             {cat.icon} {cat.name}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -226,7 +228,7 @@ function TechVocScreen({
                     padding: '10px 12px',
                     borderRadius: 12,
                     border: '1px solid #e2e8f0',
-                    background: 'white',
+                    background: 'var(--card)',
                     cursor: 'pointer',
                     textAlign: 'left',
                     fontFamily: "'Outfit',sans-serif",
@@ -234,10 +236,12 @@ function TechVocScreen({
                   }}
                   onClick={() => speak(w.hr)}
                 >
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                     {w.hr} <span aria-hidden="true">🔊</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginTop: 2 }}>{w.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                    {w.en}
+                  </div>
                 </button>
               );
             })}
@@ -262,10 +266,12 @@ function TechVocScreen({
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 3 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                  {p.en}
+                </div>
               </button>
             );
           })}

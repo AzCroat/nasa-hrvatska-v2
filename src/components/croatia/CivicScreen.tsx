@@ -253,7 +253,14 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                   >
                     {w.hr}
                   </div>
-                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginTop: 1 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-accent)',
+                      fontWeight: 600,
+                      marginTop: 1,
+                    }}
+                  >
                     {w.en}
                   </div>
                   <div
@@ -409,7 +416,12 @@ export default function CivicScreen({ goBack }: CivicScreenProps) {
                   {h.hr}
                 </div>
                 <div
-                  style={{ fontSize: 11, color: '#0e7490', fontWeight: 600, fontStyle: 'italic' }}
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-accent)',
+                    fontWeight: 600,
+                    fontStyle: 'italic',
+                  }}
                 >
                   {h.en}
                 </div>

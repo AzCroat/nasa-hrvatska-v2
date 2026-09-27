@@ -4665,6 +4665,95 @@ control could at least be reached.
   the tab order; make every word of a passage focusable; use `role="button"` for
   something that is a range or a toggle group.
 
+## Critical Architecture: An Inline Ink Lands On Whatever The Theme Painted (2026-09-27)
+
+The general form of the `.ob` finding one sweep earlier, and much larger: **1,308 inline
+`color` literals across 288 files were hardcoded DARK brand hexes**, so in dark mode they
+sat on `--card` (#1e293b) at 1.0–4.4:1 against the 4.5:1 AA floor. `#002868` — the
+Croatian navy on the ACTIVE sidebar tab, i.e. on every screen — measured **1.05:1**.
+
+**A CORRECTION FIRST, because the previous sweep's own record overstates its evidence.**
+Sweep 156's entry and commit message say axe measured "dark 4,354 failing nodes across 348
+routes, light 932 across 236". Both halves of that are unreliable and the conclusion drawn
+from them was wrong:
+
+- **The 500 ms settle sampled pages mid-transition.** `frequency_track` read **3,741 nodes
+  at 500 ms and 0 at 1,500 ms**; eleven more routes read non-zero then zero. This repo
+  already records the identical error for the focus-ring sweep ("217 of its 219 hits were
+  elements sampled mid-`transition`"), and I re-made it.
+- **axe cannot judge this class in this app at all.** Its `color-contrast` rule reports
+  _incomplete_, not a violation, for any element whose background it cannot resolve — and
+  this app paints its page with a `radial-gradient` on the `.dark` wrapper. Measured on a
+  109-route sample: **478 violation nodes against 3,564 INCOMPLETE ones.** So almost every
+  site this work fixed was in the bucket axe declines to judge.
+- **The proof: same method, both code states.** Baseline at the previous commit, 1,500 ms
+  settle, 430 routes: **1,680 nodes.** With 1,308 inks converted: **1,681.** Fixing every
+  one of them moved axe's violation count by a single node. The fix is real — the tokens
+  resolve and the elements render light, verified by reading computed colours in Chrome —
+  and **axe was simply the wrong instrument.** A 59% "reduction" I had in hand at one point
+  was the settle change plus the `.ob` fix, not this work.
+
+- **THE RIGHT INSTRUMENT NEEDS NO BACKGROUND AT ALL.** `e2e/dark-mode-ink.spec.js` asserts
+  the invariant instead: in dark mode the page is dark, so its text is light; an element
+  whose computed `color` is DARK is a defect unless something in its own chain paints an
+  opaque light surface under it. That is decidable without compositing a gradient, and it
+  is what found every remaining shape below. Measured over all 430 routes after the fix:
+  **131 distinct offending styles across 61 routes**, down from a tree-wide static count of
+  1,308 + 247 + 58.
+- **ELEVEN INK TOKENS, AND LIGHT MODE IS BYTE-IDENTICAL BY CONSTRUCTION.** Each token's
+  `:root` value IS the literal it replaces, which is what made a thousand-site codemod safe
+  to ship without re-reviewing every screen. The dark values are not invented where the app
+  had already chosen one — the violet is the `#a78bfa` its own
+  `[data-theme="dark"] .card-grammar` rule uses. Two deliberate light-mode costs, stated:
+  `#6b7280` folds into `--ink-muted` (31 uses, 4.83:1 → 4.76:1 on white), and the 49-literal
+  tail folds into the same ten families, shifting **194 uses to a different shade of the
+  same hue** — every one checked to stay at or above 4.5:1 on white.
+- **`--success` IS 3.30:1 ON WHITE AND FAILS AA AS TEXT.** The check that was going to fold
+  51 dark greens onto it caught that; `--ink-green` (#166534, 7.13:1) exists because of it.
+  The 49 sites already reading `--success` as ink are a pre-existing light-mode failure this
+  work neither introduced nor fixed.
+- **TWO CODEMODS THAT ARE EACH CORRECT COMPOSED INTO A REGRESSION.** Elements painting an
+  opaque LIGHT background are exempt from the ink rule — they own both halves. Converting
+  166 of those containers to themed tints made their surfaces go dark **while their dark ink
+  stayed**, and 19 routes got measurably worse. 58 sites had to be repaired in a third pass.
+  Only rendering the page shows this; no source rule for either change alone could.
+- **FOUR SHAPES THE FIRST CODEMOD COULD NOT SEE, each found by the probe and not by
+  reasoning**: a **conditional** ink (`color: earned ? '#78350f' : '#9ca3af'`, and the
+  sidebar's nested ternary — 120 sites); an ink in a **CSS class** rather than an inline
+  style (17 rules, including BOTH nav bars' active labels); a **data-driven** ink
+  (`ConstellationData`'s per-case colour used as a badge background AND as text — the data
+  now carries a separate `ink` token beside its `color`); and `var(--accent, #0e7490)` as
+  text, where **`--accent` has no dark override at all**. `--accent` is deliberately NOT
+  given one: it is also 14 backgrounds and 9 borders, and a light value there would paint
+  light slabs. Its three ink uses moved to `--ink-accent`.
+- **`color:` IS A SUBSTRING OF `border-color:`, AND THAT COST ONE WRONG EDIT.** A CSS rewrite
+  keyed on `color:` replaced `.bg:hover`'s `border-color` instead. The JS codemod had a
+  `(?<![a-zA-Z])` guard for exactly this and the CSS pass did not; a check for "a tokenised
+  border-color beside a still-hex color" found the one instance.
+- **A `var(--…)` IS INVISIBLE TO A LITERAL-COUNTING GUARD, so the tokens get their own
+  clause.** A token defined in `:root` and missing from `.dark` leaves every consumer as
+  broken as the literal it replaced while the literal assertion passes. Every ink token is
+  required in BOTH blocks, with its dark value clearing AA on the card and its light value
+  clearing AA on white.
+- **AN EMOJI IS NOT PAINTED BY `color`.** The probe's first run reported 25 flag spans on
+  `/countries` as black ink; it now requires a letter or a digit in an element's own text.
+- Mutation-verified, four on the source guard (a literal ink restored in a real file fails
+  1; `--ink-accent` dropped from `.dark` fails 1; a dark token below AA fails 1; a light
+  token below AA on white fails 1), plus the earlier four on `themedInlineBackground`.
+- **WHAT REMAINS, MEASURED (131 styles / 61 routes)**: data-driven inks on
+  `football`, `dialects`, `readlist`, `personas`, `phoneme_practice`, `crmap`, `immersion`,
+  `croatia_today`; ~36 brand literals outside the map (`#cc0000`, `#003da5`, `#2563eb`,
+  `#db2777`, `#d4002d`); 81 inline light backgrounds whose light value matches no existing
+  tint; and 165 dark `color:` fields in named objects that are data or SVG rather than
+  styles. Recorded in AUDIT-STATE with the probe that finds them.
+- NEVER: hardcode a colour as an inline `color:` — use an `--ink-*` token; give a token a
+  `:root` value without a `.dark` one; give `--accent` a light dark-mode value (it is also a
+  background); read axe's `color-contrast` as covering this app (it reports _incomplete_
+  over a gradient, and 7.5× more often than it reports a violation); sample a contrast
+  measurement before transitions finish; key a CSS rewrite on `color:` without excluding
+  `border-color:`; convert a container's background to a themed tint without converting the
+  ink of everything it paints under; judge an emoji's `color`.
+
 ## Critical Architecture: A Themed Class Owns Both Halves Of Its Contrast (2026-09-26)
 
 Found while surveying step 2 (converting the hand-written drills onto `ModeDrill`), by
@@ -4714,7 +4803,11 @@ the answered ones.
   WCAG violation, **contrast aside**": it tallies `color-contrast` violations and prints
   them `(not asserted)`. It also runs in the DEFAULT theme, so the dark half was outside
   both the measurement and the assertion. A 430-route accessibility sweep was green across
-  all thirty-two of these.
+  all thirty-two of these. **THE APP-WIDE NODE COUNTS THIS SECTION QUOTES ARE UNRELIABLE
+  AND THE SWEEP AFTER IT CORRECTS THEM**: they were taken at a 500 ms settle, which samples
+  pages mid-transition (one route read 3,741 nodes then 0), and axe declines to judge an
+  element over a gradient, which this app's page is. The `.ob` ratios in the table above
+  were measured DIRECTLY in Chrome and stand; the 4,354/932 figures do not.
 - **AND axe COULD NOT HAVE JUDGED THE FIX EITHER.** Its `color-contrast` rule reports
   _incomplete_ for an element carrying a `background-image`, and `.ob.ok` paints a
   `linear-gradient`. `getComputedStyle().backgroundColor` reads `rgba(0,0,0,0)` for the

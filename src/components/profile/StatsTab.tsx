@@ -501,7 +501,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
                       data-testid="cefr-provisional-tag"
                       style={{
                         fontSize: 'var(--text-xs)',
-                        color: '#b45309',
+                        color: 'var(--ink-warn)',
                         fontWeight: 800,
                       }}
                     >
@@ -836,7 +836,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
       >
         <span style={{ fontSize: 20 }}>🐛</span>
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#dc2626' }}>Report a Bug</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--error)' }}>Report a Bug</div>
           <div style={{ fontSize: 11, color: 'var(--text-2)' }}>
             Something not working? Let us know.
           </div>

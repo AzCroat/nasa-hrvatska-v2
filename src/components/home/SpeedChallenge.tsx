@@ -263,7 +263,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
               style={{
                 fontSize: 13,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.06em',
                 marginBottom: 2,
@@ -523,7 +523,7 @@ export default function SpeedChallenge({ onXP }: { onXP?: (xp: number) => void }
             marginBottom: 8,
             fontSize: 12,
             fontWeight: 700,
-            color: '#ea580c',
+            color: 'var(--ink-warn)',
           }}
         >
           🔥 {streak} in a row!

@@ -449,7 +449,7 @@ export default function GrammarExplainer({
         }}
       >
         <div style={{ fontSize: 64 }}>🎉</div>
-        <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'var(--accent)' }}>
+        <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'var(--ink-accent)' }}>
           +20 XP
         </div>
         <p style={{ color: 'var(--subtext)', fontSize: 'var(--text-base)' }}>Great work!</p>
@@ -1049,7 +1049,7 @@ export default function GrammarExplainer({
                     writingResult.corrected_text !== writingText.trim() && (
                       <div
                         style={{
-                          background: '#f0fdf4',
+                          background: 'var(--success-bg)',
                           border: '1px solid #86efac',
                           borderRadius: 10,
                           padding: '12px 14px',
@@ -1059,7 +1059,7 @@ export default function GrammarExplainer({
                           style={{
                             fontSize: 'var(--text-xs)',
                             fontWeight: 700,
-                            color: '#166534',
+                            color: 'var(--ink-green)',
                             textTransform: 'uppercase',
                             letterSpacing: '0.05em',
                             marginBottom: 6,
@@ -1071,7 +1071,7 @@ export default function GrammarExplainer({
                           style={{
                             margin: 0,
                             fontSize: 'var(--text-sm)',
-                            color: '#166534',
+                            color: 'var(--ink-green)',
                             lineHeight: 1.65,
                           }}
                         >
@@ -1106,14 +1106,16 @@ export default function GrammarExplainer({
                           <div key={i} style={{ fontSize: 'var(--text-sm)', lineHeight: 1.5 }}>
                             <span
                               style={{
-                                color: '#dc2626',
+                                color: 'var(--error)',
                                 textDecoration: 'line-through',
                                 marginRight: 6,
                               }}
                             >
                               {c.original}
                             </span>
-                            <span style={{ color: '#16a34a', fontWeight: 700, marginRight: 6 }}>
+                            <span
+                              style={{ color: 'var(--success)', fontWeight: 700, marginRight: 6 }}
+                            >
                               → {c.corrected}
                             </span>
                             {c.note && (
@@ -1170,7 +1172,9 @@ export default function GrammarExplainer({
                               lineHeight: 1.5,
                             }}
                           >
-                            <span style={{ color: '#16a34a', fontWeight: 900, flexShrink: 0 }}>
+                            <span
+                              style={{ color: 'var(--success)', fontWeight: 900, flexShrink: 0 }}
+                            >
                               ✓
                             </span>
                             {s}
@@ -1184,7 +1188,7 @@ export default function GrammarExplainer({
                   {writingResult.encouragement && (
                     <div
                       style={{
-                        background: '#fffbeb',
+                        background: 'var(--warning-bg)',
                         border: '1px solid #fde68a',
                         borderRadius: 10,
                         padding: '12px 14px',
@@ -1194,7 +1198,7 @@ export default function GrammarExplainer({
                         style={{
                           margin: 0,
                           fontSize: 'var(--text-sm)',
-                          color: '#78350f',
+                          color: 'var(--ink-warn)',
                           lineHeight: 1.6,
                           fontStyle: 'italic',
                         }}
@@ -1212,7 +1216,7 @@ export default function GrammarExplainer({
           {lesson.tip && (
             <div
               style={{
-                background: '#fffbeb',
+                background: 'var(--warning-bg)',
                 border: '1px solid #fde68a',
                 borderRadius: 14,
                 padding: '18px 20px',
@@ -1222,7 +1226,7 @@ export default function GrammarExplainer({
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 700,
-                  color: '#92400e',
+                  color: 'var(--ink-warn)',
                   marginBottom: 6,
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
@@ -1234,7 +1238,7 @@ export default function GrammarExplainer({
                 style={{
                   margin: 0,
                   fontSize: 'var(--text-base)',
-                  color: '#78350f',
+                  color: 'var(--ink-warn)',
                   lineHeight: 1.6,
                 }}
               >

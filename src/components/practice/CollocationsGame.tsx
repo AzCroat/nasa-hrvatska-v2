@@ -281,7 +281,7 @@ export default function CollocationsGame({ goBack, award }: Props) {
         <span>
           {idx + 1} / {total}
         </span>
-        <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {score}</span>
+        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {score}</span>
       </div>
       <Bar v={idx + 1} mx={total} />
       <div className="c" style={{ marginTop: 16 }}>
@@ -312,28 +312,28 @@ export default function CollocationsGame({ goBack, award }: Props) {
       {answered && (
         <div
           style={{
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderRadius: 12,
             padding: '12px 16px',
             marginTop: 12,
             border: '1.5px solid #bae6fd',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#0369a1', marginBottom: 2 }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-info)', marginBottom: 2 }}>
             ✅ {q.en}
           </div>
           <div
             style={{
               fontSize: 12,
               fontWeight: 800,
-              color: '#0369a1',
+              color: 'var(--ink-info)',
               marginBottom: 4,
               marginTop: 8,
             }}
           >
             💡 Tip
           </div>
-          <div style={{ fontSize: 13, color: '#075985' }}>{q.tip}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-info)' }}>{q.tip}</div>
         </div>
       )}
       {answered && (

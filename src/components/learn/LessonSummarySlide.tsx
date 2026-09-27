@@ -252,7 +252,7 @@ export function SummarySlide({
         <div
           style={{
             flex: 1,
-            background: '#fffbeb',
+            background: 'var(--warning-bg)',
             borderRadius: 12,
             border: '1px solid #fcd34d',
             padding: '12px',

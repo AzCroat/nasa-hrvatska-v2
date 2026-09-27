@@ -97,8 +97,12 @@ export default function CrMap({ goBack }: CrMapProps) {
                 style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
               >
                 <div>
-                  <div style={{ fontSize: 15, fontWeight: 700, color: '#164e63' }}>{p.name}</div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginTop: 2 }}>{p.desc}</div>
+                  <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-strong)' }}>
+                    {p.name}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                    {p.desc}
+                  </div>
                 </div>
                 <div
                   style={{

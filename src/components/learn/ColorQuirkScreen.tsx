@@ -24,11 +24,11 @@ function ColorQuirkScreen({ goBack }: Props) {
             <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--heading)' }}>
               {q.hr} <span aria-hidden="true">🔊</span>
             </div>
-            <div style={{ fontSize: 14, color: '#0e7490', marginTop: 2 }}>
+            <div style={{ fontSize: 14, color: 'var(--ink-accent)', marginTop: 2 }}>
               {'Literal: '}
               {q.lit}
             </div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#16a34a', marginTop: 2 }}>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--success)', marginTop: 2 }}>
               {'Note: '}
               {q.note}
             </div>

@@ -116,7 +116,7 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award }: Pro
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {passed
               ? `Level ${levelNumber + 1} unlocked!`
               : `Need 70% to pass. Review weak items and try again.`}
@@ -133,13 +133,13 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award }: Pro
     <div className="scr-wrap">
       {H(`Level ${levelNumber} Quiz`, `Show what you've learned`, goBack)}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
       </div>
       <div className="c" style={{ marginTop: 16 }}>
-        <div style={{ fontSize: 20, fontWeight: 700, color: '#0e7490', lineHeight: 1.4 }}>
+        <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.4 }}>
           {cur.q}
         </div>
         {cur.en && <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>{cur.en}</div>}
@@ -164,11 +164,11 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award }: Pro
             style={{
               marginTop: 14,
               padding: '10px 14px',
-              background: '#f0f9ff',
+              background: 'var(--info-bg)',
               borderRadius: 10,
               border: '1px solid #bae6fd',
               fontSize: 14,
-              color: '#0369a1',
+              color: 'var(--ink-info)',
             }}
           >
             <strong>{chosen === cur.answer ? 'Correct!' : 'Incorrect.'}</strong> {cur.tip}

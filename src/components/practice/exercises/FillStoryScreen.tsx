@@ -85,7 +85,14 @@ function FillStoryScreen({ goBack, award }: Props) {
       {FILL_STORIES.map(function (story, si) {
         return (
           <div key={si} className="c" style={{ marginBottom: 20 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: 'var(--ink-strong)',
+                marginBottom: 10,
+              }}
+            >
               {'📖 '}
               {story.title}
             </div>
@@ -94,7 +101,7 @@ function FillStoryScreen({ goBack, award }: Props) {
               const chosen = choices[flatIdx];
               return (
                 <div key={qi} style={{ marginBottom: 10 }}>
-                  <div style={{ fontSize: 13, color: '#44403c', marginBottom: 4 }}>
+                  <div style={{ fontSize: 13, color: 'var(--ink-body)', marginBottom: 4 }}>
                     {s.text.replace('_____', '______')}
                   </div>
                   <div
@@ -151,7 +158,9 @@ function FillStoryScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           {!passed && (

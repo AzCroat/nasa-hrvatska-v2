@@ -120,7 +120,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps2) => {
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -128,7 +128,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps2) => {
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -177,7 +177,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps2) => {
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i] as number] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -254,7 +254,9 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
               </button>
             ))}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#7c3aed', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 10 }}
+          >
             {cat?.icon} {cat?.cat}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -262,7 +264,7 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
               <div
                 key={i}
                 style={{
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 12,
                   padding: '10px 12px',
                   border: '1px solid rgba(0,0,0,.06)',
@@ -270,10 +272,17 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                 }}
                 {...clickable(() => speak(item.hr), 'Hear ' + item.hr)}
               >
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#7c3aed', marginBottom: 2 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: 'var(--ink-mode)',
+                    marginBottom: 2,
+                  }}
+                >
                   {item.hr}
                 </div>
-                <div style={{ fontSize: 11, color: '#78716c' }}>{item.en}</div>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{item.en}</div>
                 {item.gen && (
                   <div
                     style={{
@@ -291,7 +300,12 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                 )}
                 {item.note && (
                   <div
-                    style={{ fontSize: 10, color: '#0369a1', fontStyle: 'italic', marginTop: 2 }}
+                    style={{
+                      fontSize: 10,
+                      color: 'var(--ink-info)',
+                      fontStyle: 'italic',
+                      marginTop: 2,
+                    }}
                   >
                     {item.note}
                   </div>
@@ -311,7 +325,7 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
               tabIndex={0}
               aria-label={`Play audio: ${p.hr} — ${p.en}`}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 12,
                 padding: '12px 16px',
                 marginBottom: 8,
@@ -333,8 +347,10 @@ function ClothesScreen({ goBack }: ClothesScreenProps) {
                 🔊
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#7c3aed' }}>{p.hr}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{p.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
+                  {p.hr}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             </div>
           ))}

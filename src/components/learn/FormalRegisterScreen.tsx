@@ -265,7 +265,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={ei}
                       style={{
                         fontSize: 13,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         lineHeight: 1.6,
                         paddingLeft: 8,
                         borderLeft: '2px solid ' + color + '44',
@@ -295,7 +295,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         padding: '8px 10px',
                         textAlign: 'left',
                         fontWeight: 700,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         fontSize: 12,
                       }}
                     >
@@ -314,7 +314,13 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         background: i % 2 === 0 ? 'white' : '#fafaf9',
                       }}
                     >
-                      <td style={{ padding: '8px 10px', color: '#78716c', fontSize: 12 }}>
+                      <td
+                        style={{
+                          padding: '8px 10px',
+                          color: 'var(--ink-muted-warm)',
+                          fontSize: 12,
+                        }}
+                      >
                         {row.situation}
                       </td>
                       <td style={{ padding: '8px 10px' }}>
@@ -395,7 +401,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         padding: '8px',
                         textAlign: 'left',
                         fontWeight: 700,
-                        color: '#44403c',
+                        color: 'var(--ink-body)',
                         fontSize: 11,
                       }}
                     >
@@ -418,7 +424,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                         style={{
                           padding: '10px 8px',
                           fontWeight: 800,
-                          color: i === 0 ? '#0e7490' : '#7c3aed',
+                          color: i === 0 ? 'var(--ink-accent)' : 'var(--ink-mode)',
                           fontSize: 14,
                         }}
                       >
@@ -485,11 +491,13 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 11, color: '#78716c', marginBottom: 3 }}>{p.label}</div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 3 }}>
+                  {p.label}
+                </div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#16a34a', marginTop: 2 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--success)', marginTop: 2 }}>{p.en}</div>
               </button>
             );
           })}

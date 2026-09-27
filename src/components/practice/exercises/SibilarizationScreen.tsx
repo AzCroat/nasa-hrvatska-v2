@@ -70,7 +70,7 @@ function SibilarizationScreen({ goBack, award }: Props) {
                 {' → '}
                 {ex.lok}
               </div>
-              <div style={{ fontSize: 11, color: '#b45309' }}>{ex.rule}</div>
+              <div style={{ fontSize: 11, color: 'var(--ink-warn)' }}>{ex.rule}</div>
             </button>
           );
         })}
@@ -129,7 +129,9 @@ function SibilarizationScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

@@ -186,7 +186,7 @@ export default function SpeakingSummaryScreen({ wordScores, onDone }: Props) {
                 minWidth: 130,
                 padding: '12px 14px',
                 borderRadius: 14,
-                background: '#fef2f2',
+                background: 'var(--error-bg)',
                 border: '1.5px solid #fecaca',
               }}
             >

@@ -145,7 +145,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
               style={{
                 fontSize: 10,
                 fontWeight: 500,
-                color: '#5f6b7a',
+                color: 'var(--ink-muted)',
                 fontStyle: 'italic',
                 lineHeight: 1.4,
                 marginBottom: 10,

@@ -85,7 +85,7 @@ export default function WebSpeechResultPanel({
         <div>
           {isUnscored ? (
             <>
-              <div style={{ fontWeight: 800, fontSize: 15, color: '#16a34a' }}>
+              <div style={{ fontWeight: 800, fontSize: 15, color: 'var(--success)' }}>
                 Recognized ✓ (accent not scored)
               </div>
               <div style={{ fontSize: 12, color: 'var(--subtext)' }}>
@@ -159,7 +159,7 @@ export default function WebSpeechResultPanel({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: '#6d28d9',
+              color: 'var(--ink-mode)',
               marginBottom: 4,
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
@@ -194,7 +194,9 @@ export default function WebSpeechResultPanel({
           )}
           {coaching.drills && coaching.drills.length > 0 && (
             <div>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#6d28d9', marginBottom: 4 }}>
+              <div
+                style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-mode)', marginBottom: 4 }}
+              >
                 Practice these:
               </div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>

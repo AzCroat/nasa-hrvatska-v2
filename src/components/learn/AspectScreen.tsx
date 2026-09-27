@@ -113,7 +113,7 @@ function AspectScreen({ goBack, award }: Props) {
                 <span aria-hidden="true">{' 🔊'}</span>
               </button>
             </div>
-            <div style={{ fontSize: 13, color: '#78716c' }}>{p.en}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
           </div>
         );
       })}

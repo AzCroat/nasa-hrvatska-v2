@@ -559,7 +559,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                 {s === undefined ? (
                   <span style={{ fontSize: 11, color: 'var(--subtext)' }}>—</span>
                 ) : s === null ? (
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#16a34a' }}>✓</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--success)' }}>✓</span>
                 ) : (
                   <ScoreChip score={s} />
                 )}
@@ -735,7 +735,7 @@ export default function PronunciationAssessScreen({ goBack, award }: Pronunciati
                 </span>
               </>
             ) : (
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#16a34a' }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--success)' }}>
                 ✓ Recognized (accent not scored)
               </span>
             )}

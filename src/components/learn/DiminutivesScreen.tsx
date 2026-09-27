@@ -44,8 +44,8 @@ function DiminutivesScreen({ goBack, award }: Props) {
           >
             <div>
               <span style={{ fontSize: 15, fontWeight: 700 }}>{d.base}</span>
-              <span style={{ color: '#78716c' }}>{' → '}</span>
-              <span style={{ fontSize: 15, fontWeight: 700, color: '#16a34a' }}>
+              <span style={{ color: 'var(--ink-muted-warm)' }}>{' → '}</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--success)' }}>
                 {d.dim} <span aria-hidden="true">🔊</span>
               </span>
             </div>

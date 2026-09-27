@@ -119,7 +119,7 @@ function QuestionWordsScreen({ goBack, award }: Props) {
             <div style={{ fontSize: 13, fontWeight: 600, marginBottom: 4 }}>
               {q.q}
               {' — '}
-              <span style={{ color: '#78716c', fontStyle: 'italic' }}>{q.en}</span>
+              <span style={{ color: 'var(--ink-muted-warm)', fontStyle: 'italic' }}>{q.en}</span>
             </div>
             <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
               {(shuffledOpts[qi] ?? []).map(function (o: string, oi: number) {
@@ -156,7 +156,9 @@ function QuestionWordsScreen({ goBack, award }: Props) {
               })}
               {state === 'correct' && <span style={{ fontSize: 14 }}>✅</span>}
               {state === 'wrong' && (
-                <span style={{ fontSize: 13, color: '#0e7490', fontWeight: 700 }}>→ {q.a}</span>
+                <span style={{ fontSize: 13, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                  → {q.a}
+                </span>
               )}
             </div>
           </div>

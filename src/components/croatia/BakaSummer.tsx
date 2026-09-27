@@ -395,7 +395,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
             display: 'flex',
             justifyContent: 'space-between',
             fontSize: 12,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             marginBottom: 6,
           }}
         >
@@ -462,10 +462,10 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
           }}
         >
           <div style={{ fontSize: 36, marginBottom: 8 }}>🏆</div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#92400e', marginBottom: 6 }}>
+          <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 6 }}>
             Završili ste Bakino Ljeto!
           </div>
-          <div style={{ fontSize: 14, color: '#78350f', fontStyle: 'italic' }}>
+          <div style={{ fontSize: 14, color: 'var(--ink-warn)', fontStyle: 'italic' }}>
             You finished all 16 chapters of Baka's Summer. Bravo!
           </div>
         </div>
@@ -474,7 +474,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
       {/* Chapter card */}
       <div
         style={{
-          background: '#fffbeb',
+          background: 'var(--warning-bg)',
           borderRadius: 12,
           border: '1px solid #fde68a',
           boxShadow: '0 2px 12px rgba(180,96,0,0.08)',
@@ -511,8 +511,8 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
           {isCompleted && (
             <div
               style={{
-                background: '#fff',
-                color: '#b61800',
+                background: 'var(--card)',
+                color: 'var(--error)',
                 borderRadius: '50%',
                 width: 28,
                 height: 28,
@@ -536,7 +536,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
               fontFamily: 'Georgia, "Times New Roman", serif',
               fontSize: 15,
               lineHeight: 1.9,
-              color: '#292524',
+              color: 'var(--ink-ink)',
               marginBottom: 16,
             }}
           >
@@ -620,14 +620,16 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
                   <span
                     style={{
                       fontWeight: 700,
-                      color: '#b61800',
+                      color: 'var(--error)',
                       fontSize: 14,
                       fontFamily: 'Georgia, serif',
                     }}
                   >
                     {v.hr}
                   </span>
-                  <span style={{ color: '#44403c', fontSize: 13, textAlign: 'right' }}>{v.en}</span>
+                  <span style={{ color: 'var(--ink-body)', fontSize: 13, textAlign: 'right' }}>
+                    {v.en}
+                  </span>
                 </div>
               ))}
             </div>
@@ -650,7 +652,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
             style={{
               margin: 0,
               fontSize: 12,
-              color: '#0f766e',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
               fontStyle: 'italic',
             }}
@@ -718,7 +720,14 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
             Continue →
           </button>
         ) : (
-          <div style={{ fontSize: 13, color: '#6b7280', display: 'flex', alignItems: 'center' }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--ink-muted)',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             🏆 All chapters done!
           </div>
         )}

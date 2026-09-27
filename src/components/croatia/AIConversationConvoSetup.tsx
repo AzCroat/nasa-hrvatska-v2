@@ -160,7 +160,9 @@ export default function AIConversationConvoSetup({
           </div>
         </div>
         {scenario?.id === '__freetalk__' ? (
-          <div style={{ fontSize: 18, color: '#7c3aed', fontWeight: 900, flexShrink: 0 }}>✓</div>
+          <div style={{ fontSize: 18, color: 'var(--ink-mode)', fontWeight: 900, flexShrink: 0 }}>
+            ✓
+          </div>
         ) : (
           <div style={{ fontSize: 18, color: 'var(--subtext)', opacity: 0.4, flexShrink: 0 }}>
             ›
@@ -546,7 +548,7 @@ export default function AIConversationConvoSetup({
               Describe any situation — AI generates a scene image
             </div>
           </div>
-          <div style={{ fontSize: 18, color: '#7c3aed', opacity: 0.6 }}>
+          <div style={{ fontSize: 18, color: 'var(--ink-mode)', opacity: 0.6 }}>
             {showCustom ? '▾' : '›'}
           </div>
         </div>

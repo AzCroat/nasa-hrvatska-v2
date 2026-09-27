@@ -629,7 +629,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#92400e',
+            color: 'var(--ink-warn)',
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             marginBottom: 4,
@@ -637,7 +637,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
         >
           💡 Pro tip
         </div>
-        <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.5 }}>{dialect.tip}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-warn)', lineHeight: 1.5 }}>{dialect.tip}</div>
       </div>
 
       {/* Back button bottom */}
@@ -1103,8 +1103,8 @@ export default function DialectAwarenessScreen({
                 "what"
               </span>
               . Standard Croatian is based on{' '}
-              <span style={{ fontWeight: 700, color: '#2563eb' }}>Štokavian</span>, but the other
-              two are living dialects spoken by millions — and{' '}
+              <span style={{ fontWeight: 700, color: 'var(--ink-flag)' }}>Štokavian</span>, but the
+              other two are living dialects spoken by millions — and{' '}
               <span style={{ fontWeight: 700 }}>no other Croatian app teaches this</span>.
             </div>
 

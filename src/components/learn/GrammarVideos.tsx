@@ -370,7 +370,7 @@ function TopicCard({ topic, onInApp }: { topic: Topic; onInApp: (screen: string)
                 borderRadius: 10,
                 border: '1px solid var(--accent)',
                 background: 'none',
-                color: 'var(--accent)',
+                color: 'var(--ink-accent)',
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
                 cursor: 'pointer',

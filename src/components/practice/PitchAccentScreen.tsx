@@ -160,26 +160,26 @@ export default function PitchAccentScreen({
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               marginTop: 8,
             }}
           >
             {pct === 100 ? 'Perfect!' : pct >= 70 ? 'Great Job!' : 'Keep Practicing!'}
           </h2>
-          <p style={{ color: '#78716c', marginTop: 8, fontSize: 16 }}>
+          <p style={{ color: 'var(--ink-muted-warm)', marginTop: 8, fontSize: 16 }}>
             {score}/{items.length} correct
           </p>
           <div
             style={{
               marginTop: 24,
-              background: '#f0f9ff',
+              background: 'var(--info-bg)',
               border: '1.5px solid #bae6fd',
               borderRadius: 14,
               padding: '16px 20px',
               textAlign: 'left',
             }}
           >
-            <p style={{ fontWeight: 700, fontSize: 14, color: '#0369a1', marginBottom: 8 }}>
+            <p style={{ fontWeight: 700, fontSize: 14, color: 'var(--ink-info)', marginBottom: 8 }}>
               The 4 Croatian Accents:
             </p>
             {ACCENT_TYPES.map((a) => (
@@ -190,8 +190,10 @@ export default function PitchAccentScreen({
                 <span style={{ fontWeight: 800, color: a.color, fontSize: 16, minWidth: 24 }}>
                   {a.symbol}
                 </span>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#1e293b' }}>{a.label}</span>
-                <span style={{ fontSize: 12, color: '#64748b' }}>— {a.desc}</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
+                  {a.label}
+                </span>
+                <span style={{ fontSize: 12, color: 'var(--ink-muted)' }}>— {a.desc}</span>
               </div>
             ))}
           </div>
@@ -258,19 +260,26 @@ export default function PitchAccentScreen({
           Note: Synthetic voice approximates pitch accent — listen to native recordings for precise
           tones.
         </p>
-        <p style={{ fontSize: 14, color: '#78716c', marginBottom: 4, fontStyle: 'italic' }}>
+        <p
+          style={{
+            fontSize: 14,
+            color: 'var(--ink-muted-warm)',
+            marginBottom: 4,
+            fontStyle: 'italic',
+          }}
+        >
           {item.en}
         </p>
         {answered && (
-          <p style={{ fontSize: 22, fontWeight: 700, color: '#7c3aed', marginBottom: 4 }}>
+          <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--ink-mode)', marginBottom: 4 }}>
             {item.mark}
           </p>
         )}
         <p
           style={{
             fontSize: 13,
-            color: '#92400e',
-            background: '#fffbeb',
+            color: 'var(--ink-warn)',
+            background: 'var(--warning-bg)',
             borderRadius: 8,
             padding: '6px 12px',
             display: 'inline-block',
@@ -318,7 +327,9 @@ export default function PitchAccentScreen({
               >
                 <div style={{ fontSize: 20, marginBottom: 4, color: a.color }}>{a.symbol}</div>
                 <div style={{ fontSize: 13, fontWeight: 700, color }}>{a.label}</div>
-                <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{a.desc}</div>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 2 }}>
+                  {a.desc}
+                </div>
               </button>
             );
           })}
@@ -327,7 +338,7 @@ export default function PitchAccentScreen({
           <div style={{ marginBottom: 16 }}>
             <div
               style={{
-                color: selected === correct ? '#166534' : '#991b1b',
+                color: selected === correct ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 800,
                 fontSize: 16,
                 marginBottom: 6,

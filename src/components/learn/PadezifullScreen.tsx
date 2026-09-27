@@ -147,11 +147,18 @@ export default function PadezifullScreen({
                 style={{ marginBottom: 12, borderLeft: '4px solid ' + genderBorder(pfGender) }}
               >
                 <div style={{ fontSize: 15, fontWeight: 800 }}>{data.label}</div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
                   Endings: {data.endings.join(' / ')}
                 </div>
                 {data.note && (
-                  <div style={{ fontSize: 12, color: '#b45309', marginTop: 6, fontWeight: 600 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-warn)',
+                      marginTop: 6,
+                      fontWeight: 600,
+                    }}
+                  >
                     ⚠️ {data.note}
                   </div>
                 )}
@@ -197,7 +204,7 @@ export default function PadezifullScreen({
                             style={{
                               padding: '8px 10px',
                               fontSize: 11,
-                              color: '#78716c',
+                              color: 'var(--ink-muted-warm)',
                               width: '25%',
                             }}
                           >
@@ -239,10 +246,10 @@ export default function PadezifullScreen({
                 style={{ marginBottom: 12, borderLeft: '4px solid ' + genderBorder(pfGender) }}
               >
                 <div style={{ fontSize: 15, fontWeight: 800 }}>{data.label}</div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
                   Noun: {data.endings.join(' / ')}
                 </div>
-                <div style={{ fontSize: 13, color: '#7c3aed', marginTop: 2 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-mode)', marginTop: 2 }}>
                   Adj: {data.adjEnd.join(' / ')}
                 </div>
               </div>
@@ -320,11 +327,13 @@ export default function PadezifullScreen({
               <React.Fragment>
                 <Bar v={pfI + 1} mx={total} />
                 <div className="c" style={{ marginTop: 16 }}>
-                  <div style={{ fontSize: 12, color: '#b45309', fontWeight: 600 }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 600 }}>
                     Base: {q.base}
                   </div>
                   <div style={{ fontSize: 18, marginTop: 8 }}>{q.sentence}</div>
-                  <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{q.en}</div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
+                    {q.en}
+                  </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 16 }}>
                   {pfO.map((o, oi) => (
@@ -356,7 +365,9 @@ export default function PadezifullScreen({
                   >
                     {pfO[pfSl] === q.answer ? '✅ ' + q.answer : '❌ ' + q.answer}
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginTop: 8 }}>Which case?</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 8 }}>
+                    Which case?
+                  </div>
                 </div>
                 <div
                   style={{

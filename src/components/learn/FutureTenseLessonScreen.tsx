@@ -314,7 +314,7 @@ export default function FutureTenseLessonScreen({
               style={{
                 fontSize: 13,
                 fontWeight: 900,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 marginBottom: 6,
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
@@ -322,10 +322,12 @@ export default function FutureTenseLessonScreen({
             >
               Formula — Future I
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#4c1d95', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 8 }}
+            >
               Subject + ću/ćeš/će/ćemo/ćete/će + infinitive
             </div>
-            <div style={{ fontSize: 13, color: '#6d28d9', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-mode)', lineHeight: 1.7 }}>
               <b>Ja ću raditi.</b> &nbsp;·&nbsp; I will work
               <br />
               <b>Ona će doći.</b> &nbsp;·&nbsp; She will come
@@ -410,7 +412,7 @@ export default function FutureTenseLessonScreen({
                       style={{
                         padding: '10px 14px',
                         fontWeight: 700,
-                        color: '#7c3aed',
+                        color: 'var(--ink-mode)',
                         fontSize: 13,
                       }}
                     >
@@ -421,7 +423,7 @@ export default function FutureTenseLessonScreen({
                         padding: '10px 14px',
                         fontWeight: 700,
                         fontSize: 14,
-                        color: '#4c1d95',
+                        color: 'var(--ink-mode)',
                       }}
                     >
                       {row.full} <span aria-hidden="true">🔊</span>
@@ -430,7 +432,7 @@ export default function FutureTenseLessonScreen({
                       style={{
                         padding: '10px 14px',
                         fontSize: 13,
-                        color: '#059669',
+                        color: 'var(--ink-green)',
                         fontWeight: 700,
                       }}
                     >
@@ -445,12 +447,18 @@ export default function FutureTenseLessonScreen({
           {/* Short form explanation */}
           <div
             className="c"
-            style={{ marginBottom: 14, borderLeft: '4px solid #059669', background: '#f0fdf4' }}
+            style={{
+              marginBottom: 14,
+              borderLeft: '4px solid #059669',
+              background: 'var(--success-bg)',
+            }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#065f46', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)', marginBottom: 6 }}
+            >
               Short form — spoken Croatian
             </div>
-            <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.8 }}>
+            <div style={{ fontSize: 12, color: 'var(--text)', lineHeight: 1.8 }}>
               In everyday speech, the infinitive drops final <b>-i</b> and the clitic follows the
               first word of the clause:
               <br />
@@ -509,12 +517,16 @@ export default function FutureTenseLessonScreen({
         <div>
           <div
             className="c"
-            style={{ marginBottom: 14, borderLeft: '4px solid #dc2626', background: '#fef2f2' }}
+            style={{
+              marginBottom: 14,
+              borderLeft: '4px solid #dc2626',
+              background: 'var(--error-bg)',
+            }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#dc2626', marginBottom: 4 }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
               What is Future II?
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>
               Future II (futur egzaktni) expresses a future action that will be{' '}
               <b>completed before</b> another future action. It is used in subordinate clauses after{' '}
               <b>kad(a)</b> (when), <b>ako</b> (if), <b>čim</b> (as soon as), <b>dok</b>{' '}
@@ -537,7 +549,7 @@ export default function FutureTenseLessonScreen({
               style={{
                 fontSize: 13,
                 fontWeight: 900,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 marginBottom: 6,
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
@@ -545,10 +557,12 @@ export default function FutureTenseLessonScreen({
             >
               Formula — Future II
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#4c1d95', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 8 }}
+            >
               budem/budeš/bude/… + L-participle
             </div>
-            <div style={{ fontSize: 13, color: '#6d28d9', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-mode)', lineHeight: 1.7 }}>
               <b>Kad budem gotov, nazvat ću te.</b>
               <br />
               When I am done, I will call you.
@@ -597,7 +611,7 @@ export default function FutureTenseLessonScreen({
                       style={{
                         padding: '10px 14px',
                         fontWeight: 700,
-                        color: '#7c3aed',
+                        color: 'var(--ink-mode)',
                         fontSize: 13,
                         width: '28%',
                       }}
@@ -609,7 +623,7 @@ export default function FutureTenseLessonScreen({
                         padding: '10px 14px',
                         fontWeight: 700,
                         fontSize: 14,
-                        color: '#9f1239',
+                        color: 'var(--error)',
                       }}
                     >
                       {row.form} <span aria-hidden="true">🔊</span>
@@ -671,12 +685,16 @@ export default function FutureTenseLessonScreen({
         <div>
           <div
             className="c"
-            style={{ marginBottom: 14, borderLeft: '4px solid #dc2626', background: '#fef2f2' }}
+            style={{
+              marginBottom: 14,
+              borderLeft: '4px solid #dc2626',
+              background: 'var(--error-bg)',
+            }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#dc2626', marginBottom: 4 }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
               Negative future: neću
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>
               The negative future uses <b>neću/nećeš/neće/nećemo/nećete/neće</b> + infinitive.
               Unlike positive future, the negative form is one word — it does NOT split.
               <br />
@@ -727,7 +745,7 @@ export default function FutureTenseLessonScreen({
                       style={{
                         padding: '10px 14px',
                         fontWeight: 700,
-                        color: '#dc2626',
+                        color: 'var(--error)',
                         fontSize: 13,
                         width: '22%',
                       }}
@@ -789,11 +807,16 @@ export default function FutureTenseLessonScreen({
           </div>
 
           {/* Contrast card */}
-          <div className="c" style={{ borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}>
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#92400e', marginBottom: 6 }}>
+          <div
+            className="c"
+            style={{ borderLeft: '4px solid #f59e0b', background: 'var(--warning-bg)' }}
+          >
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 6 }}
+            >
               Key contrast to remember
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', lineHeight: 1.8 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.8 }}>
               Positive: <b>Ići ću</b> / <b>Ja ću ići</b> — two words, clitic second
               <br />
               Negative: <b>Neću ići</b> — one merged negative word + infinitive
@@ -821,7 +844,14 @@ export default function FutureTenseLessonScreen({
                 <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--heading)' }}>
                   Future Tense Quiz Done!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#7c3aed', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 32,
+                    fontWeight: 800,
+                    color: 'var(--ink-mode)',
+                    marginBottom: 4,
+                  }}
+                >
                   {score} / {total}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--subtext)', marginBottom: 16 }}>
@@ -837,10 +867,10 @@ export default function FutureTenseLessonScreen({
                       textAlign: 'left',
                     }}
                   >
-                    <div style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
                       Quest complete! +20 XP bonus
                     </div>
-                    <div style={{ fontSize: 12, color: '#059669', marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
                       Grammar quest marked. Keep building your streak!
                     </div>
                   </div>
@@ -873,7 +903,7 @@ export default function FutureTenseLessonScreen({
                 <span style={{ fontSize: 14, fontWeight: 700 }}>
                   {qi + 1} / {total}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#7c3aed' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
                   Score: {score}
                 </span>
               </div>

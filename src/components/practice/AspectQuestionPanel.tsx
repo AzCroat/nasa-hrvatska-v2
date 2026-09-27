@@ -379,7 +379,7 @@ export default function AspectQuestionPanel({
             style={{
               fontWeight: 800,
               fontSize: 13,
-              color: correct ? '#166534' : '#dc2626',
+              color: correct ? 'var(--ink-green)' : 'var(--error)',
               margin: '0 0 6px',
             }}
           >

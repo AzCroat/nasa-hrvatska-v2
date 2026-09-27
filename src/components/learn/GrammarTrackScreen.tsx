@@ -905,10 +905,12 @@ export default function GrammarTrackScreen({
           }}
         >
           <div style={{ fontSize: 28, marginBottom: 6 }}>🎉</div>
-          <div style={{ fontSize: 15, fontWeight: 900, color: '#065f46', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 15, fontWeight: 900, color: 'var(--ink-green)', marginBottom: 4 }}
+          >
             {level.id} Complete!
           </div>
-          <div style={{ fontSize: 13, color: '#059669' }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-green)' }}>
             {activeLevel !== 'C2'
               ? `Move on to ${LEVELS[LEVELS.findIndex((l) => l.id === activeLevel) + 1]?.id} when ready`
               : "You've mastered Croatian grammar — Odlično!"}

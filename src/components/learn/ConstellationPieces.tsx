@@ -108,7 +108,9 @@ export function EndingsTable({ endings }: EndingsTableProps) {
           <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600, marginBottom: 2 }}>
             {label}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1e293b', fontFamily: 'monospace' }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}
+          >
             {val}
           </div>
         </div>
@@ -126,6 +128,10 @@ interface CaseDataType {
   name: string;
   abbr: string;
   color: string;
+  /** The theme-aware token for this case's identity used as TEXT. The `color`
+   *  above is a BADGE background (white on it, correct in either theme); the same
+   *  hex as ink is dark-on-dark in dark mode, which is what this exists to avoid. */
+  ink: string;
   question: string;
   shortDesc: string;
   pattern: string;
@@ -139,13 +145,13 @@ interface CaseCardProps {
   onToggle: () => void;
 }
 export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
-  const { name, abbr, color, question, shortDesc, pattern, examples, tip, endings } = caseData;
+  const { name, abbr, color, ink, question, shortDesc, pattern, examples, tip, endings } = caseData;
 
   return (
     <div
       {...clickable(onToggle)}
       style={{
-        background: '#ffffff',
+        background: 'var(--card)',
         borderRadius: 12,
         overflow: 'hidden',
         boxShadow: expanded
@@ -188,15 +194,20 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
 
       {/* Question */}
       <div style={{ padding: '8px 12px 6px' }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: color, lineHeight: 1.3 }}>
-          {question}
-        </div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: ink, lineHeight: 1.3 }}>{question}</div>
       </div>
 
       {/* Expanded content */}
       {expanded && (
         <div style={{ padding: '0 12px 12px', borderTop: `1px solid #f1f5f9` }}>
-          <p style={{ margin: '8px 0 6px', fontSize: 13, color: '#475569', lineHeight: 1.5 }}>
+          <p
+            style={{
+              margin: '8px 0 6px',
+              fontSize: 13,
+              color: 'var(--ink-muted)',
+              lineHeight: 1.5,
+            }}
+          >
             {shortDesc}
           </p>
 
@@ -215,8 +226,8 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
                   padding: '5px 8px',
                 }}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1e293b' }}>{ex.hr}</div>
-                <div style={{ fontSize: 12, color: '#64748b' }}>{ex.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{ex.hr}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{ex.en}</div>
               </div>
             ))}
           </div>
@@ -231,11 +242,11 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
               borderRadius: 8,
               padding: '6px 10px',
               fontSize: 12,
-              color: '#374151',
+              color: 'var(--ink-body)',
               lineHeight: 1.5,
             }}
           >
-            <span style={{ fontWeight: 700, color: color }}>Tip: </span>
+            <span style={{ fontWeight: 700, color: ink }}>Tip: </span>
             {tip}
           </div>
         </div>

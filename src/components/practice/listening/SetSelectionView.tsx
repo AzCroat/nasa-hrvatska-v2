@@ -84,7 +84,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
             style={{
               width: pct + '%',
               height: '100%',
-              background: 'white',
+              background: 'var(--card)',
               borderRadius: 3,
               transition: 'width .4s ease',
             }}
@@ -113,8 +113,10 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
         >
           <div style={{ fontSize: 24 }}>🏆</div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 800, color: '#166534' }}>Level complete!</div>
-            <div style={{ fontSize: 12, color: '#166534', opacity: 0.8 }}>
+            <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-green)' }}>
+              Level complete!
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', opacity: 0.8 }}>
               All sets finished. Review anytime.
             </div>
           </div>

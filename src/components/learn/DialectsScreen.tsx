@@ -28,7 +28,7 @@ function DialectsScreen({ goBack }: Props) {
       {H('🗺️ Regional Dialects', 'Štokavski, Kajkavski, Čakavski', goBack)}
 
       {/* Intro */}
-      <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.7, marginBottom: 20 }}>
+      <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.7, marginBottom: 20 }}>
         {DIALECTS.intro}
       </p>
 
@@ -44,7 +44,9 @@ function DialectsScreen({ goBack }: Props) {
               <div style={{ fontSize: 16, fontWeight: 800 }}>{d.name}</div>
               <div style={{ fontSize: 13, fontWeight: 700, color: d.color }}>"{d.what}"</div>
             </div>
-            <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{d.region}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
+              {d.region}
+            </div>
             <div style={{ fontSize: 13, marginTop: 4, lineHeight: 1.6 }}>{d.desc}</div>
           </div>
         );
@@ -86,7 +88,7 @@ function DialectsScreen({ goBack }: Props) {
                     background: i % 2 === 0 ? 'transparent' : '#fafafa',
                   }}
                 >
-                  <td style={{ padding: '8px 10px', color: '#78716c' }}>{r.en}</td>
+                  <td style={{ padding: '8px 10px', color: 'var(--ink-muted-warm)' }}>{r.en}</td>
                   <td style={{ padding: '8px 10px', fontWeight: 600 }}>{r.std}</td>
                   <td style={{ padding: '8px 10px', fontWeight: 600 }}>{r.kaj}</td>
                   <td style={{ padding: '8px 10px', fontWeight: 600 }}>{r.cak}</td>
@@ -100,12 +102,16 @@ function DialectsScreen({ goBack }: Props) {
       {/* Čakavian note */}
       <div
         className="c"
-        style={{ marginBottom: 12, borderLeft: '4px solid #b45309', background: '#fffbeb' }}
+        style={{
+          marginBottom: 12,
+          borderLeft: '4px solid #b45309',
+          background: 'var(--warning-bg)',
+        }}
       >
-        <div style={{ fontSize: 13, fontWeight: 800, color: '#b45309', marginBottom: 6 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 6 }}>
           🏝️ Čakavian — The Coastal Dialect
         </div>
-        <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.7 }}>
           {DIALECTS.chakavianNote}
         </div>
       </div>
@@ -115,10 +121,10 @@ function DialectsScreen({ goBack }: Props) {
         className="c"
         style={{ marginBottom: 12, borderLeft: '4px solid #7c3aed', background: '#faf5ff' }}
       >
-        <div style={{ fontSize: 13, fontWeight: 800, color: '#7c3aed', marginBottom: 6 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 6 }}>
           🌍 Heritage Speakers (Diaspora)
         </div>
-        <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.7 }}>
           {DIALECTS.heritageNote}
         </div>
       </div>
@@ -126,12 +132,12 @@ function DialectsScreen({ goBack }: Props) {
       {/* Mutual intelligibility note */}
       <div
         className="c"
-        style={{ marginBottom: 20, borderLeft: '4px solid #0e7490', background: '#f0f9ff' }}
+        style={{ marginBottom: 20, borderLeft: '4px solid #0e7490', background: 'var(--info-bg)' }}
       >
-        <div style={{ fontSize: 13, fontWeight: 800, color: '#0e7490', marginBottom: 6 }}>
+        <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 6 }}>
           🤝 Mutual Intelligibility
         </div>
-        <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.7 }}>
           {DIALECTS.mutualIntelligibility}
         </div>
       </div>

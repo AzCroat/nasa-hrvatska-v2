@@ -293,10 +293,12 @@ export function ScenePicker({
                 </div>
               )}
               <div style={{ fontSize: 42, marginBottom: 8, lineHeight: 1 }}>{scene.icon}</div>
-              <div style={{ fontSize: 14, fontWeight: 800, color: '#1c1917', marginBottom: 2 }}>
+              <div
+                style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-ink)', marginBottom: 2 }}
+              >
                 {scene.title}
               </div>
-              <div style={{ fontSize: 11, color: '#78716c', marginBottom: 10 }}>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 10 }}>
                 {scene.titleEn}
               </div>
               <div style={{ fontSize: 11, color: scene.color, fontWeight: 700, marginBottom: 6 }}>
@@ -388,7 +390,7 @@ export function ItemButton({
           style={{
             fontSize: 8,
             fontWeight: 700,
-            color: '#1c1917',
+            color: 'var(--ink-ink)',
             lineHeight: 1,
             marginTop: 1,
             maxWidth: 42,
@@ -472,7 +474,7 @@ export function ItemPopup({
           left: 0,
           right: 0,
           zIndex: 7,
-          background: 'white',
+          background: 'var(--card)',
           borderRadius: '16px 16px 0 0',
           padding: '16px 20px 20px',
           boxShadow: '0 -4px 24px rgba(0,0,0,.16)',
@@ -503,7 +505,7 @@ export function ItemPopup({
           <div
             style={{
               fontSize: 12,
-              color: '#6366f1',
+              color: 'var(--ink-mode)',
               fontWeight: 700,
               marginBottom: 10,
               textAlign: 'center',
@@ -516,10 +518,14 @@ export function ItemPopup({
         <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
           <div style={{ fontSize: 48, lineHeight: 1 }}>{item.icon}</div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 26, fontWeight: 900, color: '#1c1917', lineHeight: 1.1 }}>
+            <div
+              style={{ fontSize: 26, fontWeight: 900, color: 'var(--ink-ink)', lineHeight: 1.1 }}
+            >
               {item.hr}
             </div>
-            <div style={{ fontSize: 14, color: '#78716c', marginTop: 3 }}>{item.en}</div>
+            <div style={{ fontSize: 14, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+              {item.en}
+            </div>
           </div>
           {/* Gender badge */}
           <div
@@ -660,7 +666,7 @@ export function SceneComplete({
     >
       <div
         style={{
-          background: 'white',
+          background: 'var(--card)',
           borderRadius: 20,
           padding: '32px 28px',
           textAlign: 'center',
@@ -671,10 +677,10 @@ export function SceneComplete({
         }}
       >
         <div style={{ fontSize: 52, marginBottom: 10 }}>🎉</div>
-        <div style={{ fontSize: 20, fontWeight: 900, color: '#1c1917', marginBottom: 6 }}>
+        <div style={{ fontSize: 20, fontWeight: 900, color: 'var(--ink-ink)', marginBottom: 6 }}>
           Scene Complete!
         </div>
-        <div style={{ fontSize: 13, color: '#78716c', marginBottom: 6 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
           You discovered all {scene.items.length} words in
         </div>
         <div style={{ fontSize: 16, fontWeight: 800, color: scene.color, marginBottom: 18 }}>

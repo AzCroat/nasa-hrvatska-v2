@@ -435,12 +435,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
         <div
           data-testid="gs-tts-failed"
           style={{
-            background: '#fffbeb',
+            background: 'var(--warning-bg)',
             border: '1px solid #fde68a',
             borderRadius: 10,
             padding: '8px 12px',
             fontSize: 13,
-            color: '#92400e',
+            color: 'var(--ink-warn)',
             marginBottom: 12,
           }}
         >
@@ -453,7 +453,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={card} data-testid="gs-task">
             <div style={kicker}>THE TASK</div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280' }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)' }}>{unit.promptEn}</div>
           </div>
 
           <div style={card} data-testid="gs-model">
@@ -507,9 +507,9 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 }}
               >
                 <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
-                <div style={{ fontSize: 12, color: '#6b7280' }}>{st.en}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                 {openStructure === i && (
-                  <div style={{ fontSize: 13, color: '#991b1b', marginTop: 6 }}>{st.why}</div>
+                  <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 6 }}>{st.why}</div>
                 )}
               </button>
             ))}
@@ -534,8 +534,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={{ fontSize: 18, fontWeight: 700, lineHeight: 1.5, marginBottom: 4 }}>
             {phrase.hr}
           </div>
-          <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 8 }}>{phrase.en}</div>
-          <div style={{ fontSize: 13, color: '#991b1b', marginBottom: 12 }}>💡 {phrase.why}</div>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 8 }}>
+            {phrase.en}
+          </div>
+          <div style={{ fontSize: 13, color: 'var(--error)', marginBottom: 12 }}>
+            💡 {phrase.why}
+          </div>
 
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
             <button
@@ -559,21 +563,26 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           </div>
 
           {heardPhrase && (
-            <div data-testid="gs-heard" style={{ fontSize: 13, color: '#374151', marginBottom: 8 }}>
+            <div
+              data-testid="gs-heard"
+              style={{ fontSize: 13, color: 'var(--text)', marginBottom: 8 }}
+            >
               Heard: „{heardPhrase}“
             </div>
           )}
           {phraseState === 'right' && (
-            <div style={{ fontSize: 13, color: '#16a34a', marginBottom: 8 }}>Točno! ✓</div>
+            <div style={{ fontSize: 13, color: 'var(--success)', marginBottom: 8 }}>Točno! ✓</div>
           )}
           {phraseState === 'again' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               Not quite what I heard — but the recogniser is not the judge here. Say it once more if
               you like, then move on.
             </div>
           )}
           {micError && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>{micError}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
+              {micError}
+            </div>
           )}
 
           {/* This stage TEACHES — it can always be advanced. */}
@@ -646,7 +655,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           {buildVerdict?.ok && (
             <div
               data-testid="gs-build-right"
-              style={{ fontSize: 14, color: '#16a34a', marginBottom: 8 }}
+              style={{ fontSize: 14, color: 'var(--success)', marginBottom: 8 }}
             >
               Točno! ✓
             </div>
@@ -669,12 +678,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             </div>
           )}
           {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'not-yet' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               Not quite yet — try once more.
             </div>
           )}
           {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'empty' && (
-            <div style={{ fontSize: 13, color: '#b45309', marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               I did not catch anything — say it or type it.
             </div>
           )}
@@ -705,7 +714,9 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           <div style={card} data-testid="gs-your-turn">
             <div style={kicker}>YOUR TURN</div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 10 }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 10 }}>
+              {unit.promptEn}
+            </div>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
               {unit.usefulPhrases.map((p) => (
@@ -757,11 +768,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                 boxSizing: 'border-box',
               }}
             />
-            <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4 }}>
               {wordCount} / {unit.minWords} words
             </div>
             {micError && (
-              <div style={{ fontSize: 13, color: '#b45309', marginTop: 6 }}>{micError}</div>
+              <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginTop: 6 }}>{micError}</div>
             )}
           </div>
 
@@ -778,7 +789,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                     alignItems: 'center',
                     fontSize: 14,
                     marginBottom: 6,
-                    color: done ? '#16a34a' : '#374151',
+                    color: done ? 'var(--success)' : 'var(--text)',
                     fontWeight: done ? 700 : 500,
                   }}
                 >
@@ -793,12 +804,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             <div
               data-testid="gs-coach-failed"
               style={{
-                background: '#fef2f2',
+                background: 'var(--error-bg)',
                 border: '1px solid #fecaca',
                 borderRadius: 10,
                 padding: '10px 14px',
                 fontSize: 13,
-                color: '#991b1b',
+                color: 'var(--error)',
                 marginBottom: 12,
               }}
             >
@@ -869,13 +880,13 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
                   ['Task', coach.scores.task],
                 ] as Array<[string, number]>
               ).map(([label, v]) => (
-                <div key={label} style={{ fontSize: 13, color: '#374151' }}>
+                <div key={label} style={{ fontSize: 13, color: 'var(--text)' }}>
                   {label} <strong>{Math.round(v * 100)}%</strong>
                 </div>
               ))}
             </div>
             {coach.encouragement && (
-              <div style={{ fontSize: 14, color: '#374151', marginTop: 10 }}>
+              <div style={{ fontSize: 14, color: 'var(--text)', marginTop: 10 }}>
                 {coach.encouragement}
               </div>
             )}
@@ -893,11 +904,11 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               <div style={kicker}>WHAT TO FIX</div>
               {coach.errors.map((e, i) => (
                 <div key={i} style={{ fontSize: 14, marginBottom: 8 }}>
-                  <span style={{ textDecoration: 'line-through', color: '#991b1b' }}>
+                  <span style={{ textDecoration: 'line-through', color: 'var(--error)' }}>
                     {e.original}
                   </span>{' '}
                   → <strong>{e.corrected}</strong>
-                  <div style={{ fontSize: 12, color: '#6b7280' }}>{e.note}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{e.note}</div>
                 </div>
               ))}
             </div>

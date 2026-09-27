@@ -542,7 +542,7 @@ export function QuizSlide({
             style={{
               fontSize: 'var(--text-sm)',
               fontWeight: 900,
-              color: isCorrect ? '#16a34a' : '#b45309',
+              color: isCorrect ? 'var(--success)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >

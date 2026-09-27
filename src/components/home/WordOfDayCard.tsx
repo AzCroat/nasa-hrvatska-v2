@@ -142,7 +142,7 @@ export default function WordOfDayCard({ word }: WordOfDayCardProps) {
                 style={{
                   fontSize: 8,
                   fontWeight: 700,
-                  color: '#5f6b7a',
+                  color: 'var(--ink-muted)',
                   letterSpacing: '.1em',
                   textTransform: 'uppercase',
                   fontFamily: "'Outfit', sans-serif",

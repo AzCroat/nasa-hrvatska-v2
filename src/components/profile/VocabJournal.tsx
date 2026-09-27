@@ -184,7 +184,9 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
           📚 Add All to SRS Study ({words.filter((w) => !inSRS[w.hr]).length} words)
         </button>
       )}
-      <div style={{ fontSize: 14, fontWeight: 700, color: '#78716c', marginBottom: 8 }}>
+      <div
+        style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-muted-warm)', marginBottom: 8 }}
+      >
         {words.length} words saved
       </div>
       {words.map((w) => (
@@ -311,14 +313,23 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
               </div>
               {(w.examples ?? []).map((ex, i) => (
                 <div key={i} style={{ marginBottom: i < (w.examples?.length ?? 0) - 1 ? 10 : 0 }}>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#D4002D', lineHeight: 1.4 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: 'var(--error)',
+                      lineHeight: 1.4,
+                    }}
+                  >
                     {ex.hr}
                   </div>
                   <div style={{ fontSize: 13, color: 'var(--subtext)', fontStyle: 'italic' }}>
                     {ex.en}
                   </div>
                   {ex.note && (
-                    <div style={{ fontSize: 11, color: '#78716c', marginTop: 2 }}>📝 {ex.note}</div>
+                    <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                      📝 {ex.note}
+                    </div>
                   )}
                 </div>
               ))}

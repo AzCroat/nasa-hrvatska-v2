@@ -687,7 +687,7 @@ export default function McGame({
               marginBottom: 8,
               fontSize: 11,
               fontWeight: 800,
-              color: '#7c3aed',
+              color: 'var(--ink-mode)',
               textTransform: 'uppercase',
               letterSpacing: '.08em',
             }}
@@ -722,7 +722,7 @@ export default function McGame({
             </div>
           )}
           {aiExplain.example && (
-            <div style={{ fontSize: 12, color: '#7c3aed', fontWeight: 700, marginTop: 6 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-mode)', fontWeight: 700, marginTop: 6 }}>
               e.g. {aiExplain.example}
             </div>
           )}

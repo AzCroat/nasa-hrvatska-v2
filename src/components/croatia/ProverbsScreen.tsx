@@ -58,10 +58,12 @@ export default function ProverbsScreen({ goBack }: Props) {
           }}
           aria-label={'Hear proverb: ' + p.hr}
         >
-          <div style={{ fontSize: 15, fontWeight: 700, color: '#92400e', fontStyle: 'italic' }}>
+          <div
+            style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-warn)', fontStyle: 'italic' }}
+          >
             {p.hr} <span aria-hidden="true">🔊</span>
           </div>
-          <div style={{ fontSize: 14, color: '#0e7490', fontWeight: 600, marginTop: 4 }}>
+          <div style={{ fontSize: 14, color: 'var(--ink-accent)', fontWeight: 600, marginTop: 4 }}>
             {p.en}
           </div>
         </div>

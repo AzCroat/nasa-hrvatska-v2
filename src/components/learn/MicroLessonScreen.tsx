@@ -44,7 +44,7 @@ function HighlightedSentence({ text, highlight }: { text: string; highlight?: st
   return (
     <>
       {text.slice(0, idx)}
-      <span style={{ color: '#0e7490', fontWeight: 800 }}>
+      <span style={{ color: 'var(--ink-accent)', fontWeight: 800 }}>
         {text.slice(idx, idx + highlight.length)}
       </span>
       {text.slice(idx + highlight.length)}
@@ -316,8 +316,8 @@ export default function MicroLessonScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 800,
-                      color: '#dc2626',
-                      background: '#fef2f2',
+                      color: 'var(--error)',
+                      background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,
                       padding: '2px 9px',
@@ -473,7 +473,7 @@ export default function MicroLessonScreen({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 letterSpacing: '.08em',
                 textTransform: 'uppercase',
               }}
@@ -590,8 +590,8 @@ export default function MicroLessonScreen({
                       display: 'inline-block',
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#b45309',
-                      background: '#fffbeb',
+                      color: 'var(--ink-warn)',
+                      background: 'var(--warning-bg)',
                       border: '1px solid #fde68a',
                       borderRadius: 99,
                       padding: '3px 10px',
@@ -993,7 +993,7 @@ export default function MicroLessonScreen({
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#b45309',
+                color: 'var(--ink-warn)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
                 marginBottom: 6,
@@ -1046,13 +1046,15 @@ export default function MicroLessonScreen({
                     padding: '5px 12px',
                   }}
                 >
-                  <span style={{ fontSize: 14, fontWeight: 800, color: '#0e7490' }}>{w.hr}</span>
+                  <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-accent)' }}>
+                    {w.hr}
+                  </span>
                   <span
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
-                      color: '#dc2626',
-                      background: '#fef2f2',
+                      color: 'var(--error)',
+                      background: 'var(--error-bg)',
                       border: '1px solid #fecaca',
                       borderRadius: 99,
                       padding: '1px 6px',

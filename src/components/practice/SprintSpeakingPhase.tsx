@@ -193,7 +193,7 @@ export default function SprintSpeakingPhase({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               display: 'block',
               marginBottom: 4,
             }}

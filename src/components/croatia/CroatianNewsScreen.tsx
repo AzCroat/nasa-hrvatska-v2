@@ -532,7 +532,7 @@ function ArticleCard({
                   >
                     <strong style={{ color: 'var(--heading)' }}>{v.word}</strong>
                     <span style={{ color: 'var(--subtext)' }}>→</span>
-                    <span style={{ color: '#0e7490' }}>{v.meaning}</span>
+                    <span style={{ color: 'var(--ink-accent)' }}>{v.meaning}</span>
                   </div>
                 ))}
               </div>

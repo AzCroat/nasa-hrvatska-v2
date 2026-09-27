@@ -300,7 +300,7 @@ export default function KnightCompanion() {
                   fontWeight: 900,
                   letterSpacing: '.12em',
                   textTransform: 'uppercase',
-                  color: '#7c3aed',
+                  color: 'var(--ink-mode)',
                   marginBottom: 4,
                 }}
               >

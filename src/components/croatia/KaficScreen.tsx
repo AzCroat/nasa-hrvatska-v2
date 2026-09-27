@@ -274,7 +274,7 @@ export default function KaficScreen({ goBack }: KaficScreenProps) {
                     style={{
                       fontSize: 14,
                       fontWeight: 800,
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
@@ -328,7 +328,14 @@ export default function KaficScreen({ goBack }: KaficScreenProps) {
                 >
                   {p.hr}
                 </div>
-                <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginTop: 1 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--ink-accent)',
+                    fontWeight: 600,
+                    marginTop: 1,
+                  }}
+                >
                   {p.en}
                 </div>
                 <div style={{ fontSize: 10, color: 'var(--subtext)', fontStyle: 'italic' }}>

@@ -117,7 +117,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -125,7 +125,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -174,7 +174,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: QuizItem[]; accent: string }) =>
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i]!] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -253,7 +253,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
               <div
                 key={i}
                 style={{
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 12,
                   padding: '12px 14px',
                   border: '1px solid rgba(0,0,0,.06)',
@@ -269,7 +269,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                         style={{
                           fontSize: 14,
                           fontWeight: 800,
-                          color: '#1d4ed8',
+                          color: 'var(--ink-flag)',
                           cursor: 'pointer',
                         }}
                         {...clickable(() => speak(j.m), 'Hear ' + j.m)}
@@ -281,7 +281,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                         style={{
                           fontSize: 14,
                           fontWeight: 800,
-                          color: '#7c3aed',
+                          color: 'var(--ink-mode)',
                           cursor: 'pointer',
                         }}
                         {...clickable(() => speak(j.f), 'Hear ' + j.f)}
@@ -289,12 +289,12 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                         ♀ {j.f}
                       </span>
                     </div>
-                    <div style={{ fontSize: 12, color: '#78716c' }}>{j.en}</div>
+                    <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{j.en}</div>
                     {j.note && (
                       <div
                         style={{
                           fontSize: 11,
-                          color: '#0369a1',
+                          color: 'var(--ink-info)',
                           fontStyle: 'italic',
                           marginTop: 3,
                         }}
@@ -319,7 +319,7 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
               tabIndex={0}
               aria-label={`Play audio: ${p.hr} — ${p.en}`}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 12,
                 padding: '12px 16px',
                 marginBottom: 8,
@@ -341,8 +341,10 @@ function ProfessionsScreen({ goBack }: { goBack: () => void }) {
                 🔊
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1d4ed8' }}>{p.hr}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{p.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-flag)' }}>
+                  {p.hr}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             </div>
           ))}

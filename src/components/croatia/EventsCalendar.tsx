@@ -94,7 +94,7 @@ function EventsCalendar({ goBack }: EventsCalendarProps) {
                 {e.name} <span aria-hidden="true">🔊</span>
               </button>
               {e.day > 0 && (
-                <div style={{ fontSize: 12, color: '#b45309', fontWeight: 700 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 700 }}>
                   {e.day}
                   {'. '}
                   {
@@ -117,10 +117,12 @@ function EventsCalendar({ goBack }: EventsCalendarProps) {
                 </div>
               )}
             </div>
-            <div style={{ fontSize: 13, color: '#0e7490', fontWeight: 600, marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 13, color: 'var(--ink-accent)', fontWeight: 600, marginBottom: 6 }}
+            >
               {e.en}
             </div>
-            <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{e.desc}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>{e.desc}</div>
           </div>
         );
       })}

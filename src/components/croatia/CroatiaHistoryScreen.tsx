@@ -139,7 +139,7 @@ function HimnaPlayer() {
         style={{
           fontSize: 11,
           fontWeight: 900,
-          color: '#991b1b',
+          color: 'var(--error)',
           letterSpacing: '0.07em',
           marginBottom: 10,
           textTransform: 'uppercase',
@@ -160,18 +160,18 @@ function HimnaPlayer() {
             style={{
               fontSize: 17,
               fontWeight: 900,
-              color: '#7f1d1d',
+              color: 'var(--error)',
               fontFamily: "'Playfair Display',serif",
             }}
           >
             Bojna Čavoglave
           </div>
-          <div style={{ fontSize: 12, color: '#b91c1c', fontWeight: 600, marginTop: 3 }}>
+          <div style={{ fontSize: 12, color: 'var(--error)', fontWeight: 600, marginTop: 3 }}>
             Marko Perković Thompson · 1991
           </div>
         </div>
       </div>
-      <div style={{ fontSize: 12, color: '#44403c', lineHeight: 1.7, marginBottom: 10 }}>
+      <div style={{ fontSize: 12, color: 'var(--ink-body)', lineHeight: 1.7, marginBottom: 10 }}>
         Written by Thompson while defending his village of Čavoglave in the Drniš area of
         Dalmatinska zagora, recorded on a cassette tape and passed hand-to-hand among soldiers and
         civilians. It became the battle himna of the Homeland War — sung in trenches, at funerals,
@@ -188,15 +188,15 @@ function HimnaPlayer() {
           borderRadius: 10,
         }}
       >
-        <strong style={{ color: '#991b1b' }}>Why "Thompson"?</strong> During the war, Marko Perković
-        carried a <em>Thompson M1A1</em> — the iconic American submachine gun, the same "Tommy gun"
-        used in World War II and familiar to Croatian fighters who had inherited or acquired
-        WWII-era surplus weapons. His fellow soldiers started calling him by the name of the gun he
-        never put down. He kept the nickname as his stage name, and Marko Perković Thompson has been
-        known simply as <em>Thompson</em> ever since.
+        <strong style={{ color: 'var(--error)' }}>Why "Thompson"?</strong> During the war, Marko
+        Perković carried a <em>Thompson M1A1</em> — the iconic American submachine gun, the same
+        "Tommy gun" used in World War II and familiar to Croatian fighters who had inherited or
+        acquired WWII-era surplus weapons. His fellow soldiers started calling him by the name of
+        the gun he never put down. He kept the nickname as his stage name, and Marko Perković
+        Thompson has been known simply as <em>Thompson</em> ever since.
       </div>
       {error ? (
-        <div style={{ fontSize: 12, color: '#991b1b', fontStyle: 'italic' }}>
+        <div style={{ fontSize: 12, color: 'var(--error)', fontStyle: 'italic' }}>
           ⚠️ Audio unavailable.
         </div>
       ) : (
@@ -262,7 +262,7 @@ function HimnaPlayer() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 fontSize: 11,
-                color: '#991b1b',
+                color: 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -308,7 +308,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
                 padding: '5px 12px',
                 fontSize: 12,
                 fontWeight: 700,
-                color: '#991b1b',
+                color: 'var(--error)',
                 marginBottom: 14,
               }}
             >
@@ -329,7 +329,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           background: 'linear-gradient(135deg,#fef2f2,#fee2e2)',
         }}
       >
-        <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
+        <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
           <BiText hr={intro?.text} en={HISTORY.intro} showEn={showEn} />
         </div>
       </div>
@@ -337,7 +337,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
         style={{
           fontSize: 13,
           fontWeight: 700,
-          color: '#dc2626',
+          color: 'var(--error)',
           marginBottom: 8,
           textTransform: 'uppercase',
           letterSpacing: 1,
@@ -358,12 +358,14 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
               <span style={{ fontSize: 24 }}>{e.emoji}</span>
               <div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#b45309' }}>{e.year}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-warn)' }}>
+                  {e.year}
+                </div>
                 <div
                   style={{
                     fontSize: 16,
                     fontWeight: 800,
-                    color: '#164e63',
+                    color: 'var(--ink-strong)',
                     fontFamily: "'Playfair Display',serif",
                   }}
                 >
@@ -371,7 +373,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: 14, lineHeight: 1.7, color: '#44403c' }}>
+            <p style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--ink-body)' }}>
               <BiText
                 hr={pickGradedHr(e, 'textHr', learnerLevel)?.text}
                 en={e.text}
@@ -387,11 +389,15 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
       {HISTORY.heroes.map(function (h, i) {
         return (
           <div key={i} className="c" style={{ marginBottom: 10, padding: '14px 20px' }}>
-            <div style={{ fontSize: 15, fontWeight: 800, color: '#164e63' }}>{h.name}</div>
-            <div style={{ fontSize: 12, color: '#b45309', fontWeight: 600, marginBottom: 4 }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-strong)' }}>
+              {h.name}
+            </div>
+            <div
+              style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 600, marginBottom: 4 }}
+            >
               {h.roleHr ?? h.role}
             </div>
-            <div style={{ fontSize: 13, color: '#44403c' }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-body)' }}>
               <BiText hr={h.descHr} en={h.desc} showEn={showEn} />
             </div>
           </div>
@@ -411,12 +417,12 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
               borderBottom: '1px solid rgba(0,0,0,.05)',
             }}
           >
-            <div style={{ minWidth: 140, fontSize: 13, fontWeight: 700, color: '#dc2626' }}>
+            <div style={{ minWidth: 140, fontSize: 13, fontWeight: 700, color: 'var(--error)' }}>
               {d[0]}
             </div>
             <div>
               <div style={{ fontSize: 14, fontWeight: 600 }}>{d[1]}</div>
-              <div style={{ fontSize: 12, color: '#78716c' }}>{d[2]}</div>
+              <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{d[2]}</div>
             </div>
           </div>
         );
@@ -436,7 +442,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
                 speak(v[0] ?? '');
               }}
             >
-              <div style={{ fontSize: 14, fontWeight: 700, color: '#991b1b' }}>
+              <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--error)' }}>
                 {v[0]} <span aria-hidden="true">🔊</span>
               </div>
               <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{v[1]}</div>
@@ -457,7 +463,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           style={{
             fontSize: 24,
             fontWeight: 800,
-            color: '#991b1b',
+            color: 'var(--error)',
             fontFamily: "'Playfair Display',serif",
             fontStyle: 'italic',
             marginBottom: 8,
@@ -469,7 +475,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
           style={{
             fontSize: 20,
             fontWeight: 700,
-            color: '#b91c1c',
+            color: 'var(--error)',
             fontFamily: "'Playfair Display',serif",
             fontStyle: 'italic',
           }}

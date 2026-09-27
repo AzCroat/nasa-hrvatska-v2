@@ -544,7 +544,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
             fontFamily: "'Playfair Display', serif",
             fontSize: 20,
             fontWeight: 800,
-            color: '#1c1917',
+            color: 'var(--ink-ink)',
             lineHeight: 1.3,
             marginBottom: 14,
           }}
@@ -556,7 +556,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         <p
           style={{
             fontSize: 15,
-            color: '#44403c',
+            color: 'var(--ink-body)',
             lineHeight: 1.7,
             fontWeight: 500,
             marginBottom: 20,
@@ -570,7 +570,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         {/* Body */}
         <div
           style={{
-            background: '#fff',
+            background: 'var(--card)',
             borderRadius: 16,
             padding: '20px 18px',
             boxShadow: '0 1px 8px rgba(0,0,0,.07)',
@@ -582,7 +582,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
               key={i}
               style={{
                 fontSize: 14,
-                color: '#292524',
+                color: 'var(--ink-ink)',
                 lineHeight: 1.85,
                 marginBottom: i < art.body.split('\n\n').length - 1 ? 14 : 0,
               }}
@@ -622,14 +622,14 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         {showSummary && (
           <div
             style={{
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               border: '1.5px solid #bbf7d0',
               borderRadius: '0 0 12px 12px',
               padding: '14px 16px',
               marginBottom: 16,
             }}
           >
-            <p style={{ fontSize: 13, color: '#166534', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontSize: 13, color: 'var(--ink-green)', lineHeight: 1.7, margin: 0 }}>
               {art.summary}
             </p>
           </div>
@@ -639,14 +639,16 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         <div style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <span style={{ fontSize: 16 }}>📚</span>
-            <span style={{ fontWeight: 800, fontSize: 14, color: '#292524' }}>Vocabulary</span>
+            <span style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink-ink)' }}>
+              Vocabulary
+            </span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {art.vocab.map((v, i) => (
               <div
                 key={i}
                 style={{
-                  background: '#fff',
+                  background: 'var(--card)',
                   border: `1px solid ${color}22`,
                   borderLeft: `3px solid ${color}`,
                   borderRadius: 10,
@@ -654,12 +656,16 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
-                  <span style={{ fontWeight: 800, fontSize: 15, color: '#1c1917' }}>{v.hr}</span>
-                  <span style={{ fontSize: 12, color: '#78716c', fontStyle: 'italic' }}>
+                  <span style={{ fontWeight: 800, fontSize: 15, color: 'var(--ink-ink)' }}>
+                    {v.hr}
+                  </span>
+                  <span
+                    style={{ fontSize: 12, color: 'var(--ink-muted-warm)', fontStyle: 'italic' }}
+                  >
                     {v.en}
                   </span>
                 </div>
-                <p style={{ fontSize: 12, color: '#57534e', margin: 0, lineHeight: 1.6 }}>
+                <p style={{ fontSize: 12, color: 'var(--ink-body)', margin: 0, lineHeight: 1.6 }}>
                   {v.example}
                 </p>
               </div>
@@ -699,7 +705,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           style={{
             fontSize: 11,
             fontWeight: 800,
-            color: '#0284c7',
+            color: 'var(--ink-info)',
             letterSpacing: '.06em',
             textTransform: 'uppercase',
             marginBottom: 8,
@@ -792,7 +798,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
         style={{
           fontSize: 11,
           fontWeight: 800,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           letterSpacing: '.06em',
           textTransform: 'uppercase',
           marginBottom: 12,
@@ -809,7 +815,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
               key={art.id}
               {...clickable(() => handleSelect(art.id))}
               style={{
-                background: '#fff',
+                background: 'var(--card)',
                 borderRadius: 14,
                 padding: '14px 16px',
                 cursor: 'pointer',
@@ -855,14 +861,16 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                 style={{
                   fontWeight: 700,
                   fontSize: 13,
-                  color: '#1c1917',
+                  color: 'var(--ink-ink)',
                   lineHeight: 1.4,
                   margin: '0 0 5px',
                 }}
               >
                 {art.headline}
               </p>
-              <p style={{ fontSize: 12, color: '#78716c', lineHeight: 1.5, margin: 0 }}>
+              <p
+                style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.5, margin: 0 }}
+              >
                 {art.lead.length > 100 ? art.lead.slice(0, 100) + '…' : art.lead}
               </p>
             </div>

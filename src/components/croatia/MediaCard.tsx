@@ -80,7 +80,7 @@ export function LearningModeToggle({
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: enabled ? '#D40030' : 'var(--subtext)',
+          color: enabled ? 'var(--error)' : 'var(--subtext)',
           whiteSpace: 'nowrap',
         }}
       >
@@ -106,7 +106,7 @@ export function LearningModeToggle({
             width: 14,
             height: 14,
             borderRadius: '50%',
-            background: 'white',
+            background: 'var(--card)',
             boxShadow: '0 1px 4px rgba(0,0,0,.25)',
             transition: 'left .2s',
           }}
@@ -153,7 +153,7 @@ function VocabPreview({ cat }: { cat: string }) {
         style={{
           fontSize: 9,
           fontWeight: 900,
-          color: '#D40030',
+          color: 'var(--error)',
           letterSpacing: '.08em',
           textTransform: 'uppercase',
           marginBottom: 6,
@@ -166,14 +166,14 @@ function VocabPreview({ cat }: { cat: string }) {
           <div
             key={w.hr}
             style={{
-              background: 'white',
+              background: 'var(--card)',
               border: '1px solid var(--card-b)',
               borderRadius: 8,
               padding: '4px 8px',
               fontSize: 10,
             }}
           >
-            <span style={{ fontWeight: 800, color: '#0e7490' }}>{w.hr}</span>
+            <span style={{ fontWeight: 800, color: 'var(--ink-accent)' }}>{w.hr}</span>
             <span style={{ color: 'var(--subtext)', marginLeft: 4 }}>{w.en}</span>
           </div>
         ))}
@@ -220,7 +220,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
         style={{
           fontSize: 9,
           fontWeight: 900,
-          color: '#0e7490',
+          color: 'var(--ink-accent)',
           letterSpacing: '.08em',
           textTransform: 'uppercase',
           marginBottom: 4,
@@ -232,7 +232,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
         {q}
       </div>
       {done ? (
-        <span style={{ fontSize: 10, color: '#16a34a', fontWeight: 800 }}>✓ Completed</span>
+        <span style={{ fontSize: 10, color: 'var(--success)', fontWeight: 800 }}>✓ Completed</span>
       ) : (
         <button
           onClick={markDone}
@@ -503,7 +503,7 @@ export default function MediaCard({
                     width: 6,
                     height: 6,
                     borderRadius: '50%',
-                    background: 'white',
+                    background: 'var(--card)',
                     display: 'inline-block',
                     opacity: 0.9,
                     flexShrink: 0,

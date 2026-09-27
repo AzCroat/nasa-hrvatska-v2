@@ -210,7 +210,7 @@ export default function DiasporaNote({ goBack }: DiasporaProps) {
                   <div
                     style={{
                       fontSize: 10,
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       fontWeight: 800,
                       textTransform: 'uppercase',
                       letterSpacing: '.06em',

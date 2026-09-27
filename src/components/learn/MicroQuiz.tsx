@@ -78,14 +78,16 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
         <div style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', marginBottom: 4 }}>
           Quick check {idx + 1} / {questions.length}
         </div>
-        <div style={{ fontSize: 14, color: '#475569', textAlign: 'center', marginBottom: 16 }}>
+        <div
+          style={{ fontSize: 14, color: 'var(--ink-muted)', textAlign: 'center', marginBottom: 16 }}
+        >
           What does this mean?
         </div>
         <div
           style={{
             fontSize: 28,
             fontWeight: 700,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             textAlign: 'center',
             marginBottom: 16,
           }}
@@ -110,7 +112,13 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
         </div>
         {answered && (
           <div style={{ marginTop: 14, textAlign: 'center' }}>
-            <div style={{ fontSize: 16, fontWeight: 600, color: correct ? '#16a34a' : '#64748b' }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 600,
+                color: correct ? 'var(--success)' : 'var(--ink-muted)',
+              }}
+            >
               {correct ? '✓ Good!' : `Correct answer: ${cur.answer}`}
             </div>
             <button className="b bp" style={{ width: '100%', marginTop: 12 }} onClick={next}>

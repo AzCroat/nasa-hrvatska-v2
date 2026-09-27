@@ -154,7 +154,7 @@ export default function McResult({
 
       {/* ── Score section ── delay 0.1s */}
       <div style={{ animation: 'fade-up 0.5s ease both', animationDelay: '0.1s' }}>
-        <p style={{ color: '#78716c', marginTop: 8, fontSize: 20 }}>
+        <p style={{ color: 'var(--ink-muted-warm)', marginTop: 8, fontSize: 20 }}>
           {score}/{total}
         </p>
         <div style={{ fontSize: 13, color: 'var(--subtext)', marginTop: 4 }}>
@@ -220,7 +220,7 @@ export default function McResult({
             borderRadius: 14,
           }}
         >
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#b45309', marginBottom: 4 }}>
+          <div style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink-warn)', marginBottom: 4 }}>
             ⚡ Quick Review — {mistakes.length} {mistakes.length === 1 ? 'Word' : 'Words'} to
             Reinforce
           </div>
@@ -295,10 +295,10 @@ export default function McResult({
               justifyContent: 'space-between',
             }}
           >
-            <span style={{ fontSize: 13, fontWeight: 800, color: '#b45309' }}>
+            <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)' }}>
               ⚡ Mistake Review
             </span>
-            <span style={{ fontSize: 12, color: '#92400e', fontWeight: 600 }}>
+            <span style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 600 }}>
               {reviewIdx + 1} / {mistakes.length}
             </span>
           </div>
@@ -436,7 +436,9 @@ export default function McResult({
           }}
         >
           <div style={{ fontSize: 22, marginBottom: 4 }}>🎉</div>
-          <div style={{ fontWeight: 800, fontSize: 14, color: '#15803d', marginBottom: 4 }}>
+          <div
+            style={{ fontWeight: 800, fontSize: 14, color: 'var(--ink-green)', marginBottom: 4 }}
+          >
             Great! You reviewed {mistakes.length} {mistakes.length === 1 ? 'word' : 'words'}. Keep
             going!
           </div>

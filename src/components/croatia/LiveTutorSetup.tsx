@@ -156,7 +156,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#b91c1c',
+                color: 'var(--error)',
                 marginBottom: 2,
               }}
             >
@@ -219,7 +219,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#1d4ed8',
+                color: 'var(--ink-flag)',
                 marginBottom: 2,
               }}
             >
@@ -253,7 +253,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#b91c1c',
+                color: 'var(--error)',
                 marginBottom: 2,
               }}
             >
@@ -285,7 +285,7 @@ export default function LiveTutorSetup({
               style={{
                 fontSize: 'var(--text-xs)',
                 fontWeight: 800,
-                color: '#92400e',
+                color: 'var(--ink-warn)',
                 marginBottom: 2,
               }}
             >

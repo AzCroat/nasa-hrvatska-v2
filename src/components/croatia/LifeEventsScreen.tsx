@@ -381,7 +381,12 @@ export default function LifeEventsScreen({ goBack }: Props) {
                         {item.hr}
                       </div>
                       <div
-                        style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginTop: 1 }}
+                        style={{
+                          fontSize: 12,
+                          color: 'var(--ink-accent)',
+                          fontWeight: 600,
+                          marginTop: 1,
+                        }}
                       >
                         {item.en}
                       </div>

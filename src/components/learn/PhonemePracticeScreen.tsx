@@ -746,7 +746,7 @@ export default function PhonemePracticeScreen({
                 style={{
                   fontSize: 10,
                   marginTop: 6,
-                  color: isMastered ? '#16a34a' : 'var(--info)',
+                  color: isMastered ? 'var(--success)' : 'var(--info)',
                   fontWeight: 700,
                 }}
               >

@@ -31,10 +31,14 @@ function ScenesScreen({ goBack }: Props) {
       {scenes.map(function (scene, si) {
         return (
           <div key={si} className="c" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+            >
               {scene.title}
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', marginBottom: 10 }}>{scene.desc}</div>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 10 }}>
+              {scene.desc}
+            </div>
             {scene.qs.map(function (q, qi) {
               return (
                 <div key={qi} style={{ marginBottom: 10 }}>
@@ -45,7 +49,7 @@ function ScenesScreen({ goBack }: Props) {
                     style={{
                       fontSize: 13,
                       fontWeight: 600,
-                      color: '#164e63',
+                      color: 'var(--ink-strong)',
                       cursor: 'pointer',
                       marginBottom: 4,
                     }}
@@ -62,7 +66,7 @@ function ScenesScreen({ goBack }: Props) {
                     <span aria-hidden="true">🔊</span> {q.q}
                     {q.hint ? ' (' + q.hint + ' ...):' : ''}
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c' }}>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                     {'🇬🇧 '}
                     {q.en}
                   </div>

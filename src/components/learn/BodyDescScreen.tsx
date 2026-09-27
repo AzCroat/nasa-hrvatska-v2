@@ -120,7 +120,7 @@ const QUIZ_SECTION = ({ quiz, accent }: QuizSectionProps) => {
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -128,7 +128,7 @@ const QUIZ_SECTION = ({ quiz, accent }: QuizSectionProps) => {
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -177,7 +177,7 @@ const QUIZ_SECTION = ({ quiz, accent }: QuizSectionProps) => {
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i] as number] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -263,7 +263,7 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
                 tabIndex={0}
                 aria-label={`Play audio: ${item.hr} — ${item.en}`}
                 style={{
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 12,
                   padding: '10px 14px',
                   border: '1px solid rgba(0,0,0,.06)',
@@ -284,13 +284,15 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
                   🔊
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0f766e' }}>{item.hr}</div>
-                  <div style={{ fontSize: 12, color: '#78716c' }}>{item.en}</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                    {item.hr}
+                  </div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{item.en}</div>
                   {item.note && (
                     <div
                       style={{
                         fontSize: 11,
-                        color: '#0369a1',
+                        color: 'var(--ink-info)',
                         fontStyle: 'italic',
                         marginTop: 2,
                       }}
@@ -314,7 +316,7 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
               tabIndex={0}
               aria-label={`Play audio: ${p.hr} — ${p.en}`}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 12,
                 padding: '12px 16px',
                 marginBottom: 8,
@@ -336,8 +338,10 @@ function BodyDescScreen({ goBack }: BodyDescScreenProps) {
                 🔊
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0f766e' }}>{p.hr}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{p.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                  {p.hr}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             </div>
           ))}

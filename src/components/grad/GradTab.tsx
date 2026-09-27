@@ -283,7 +283,7 @@ export default function GradTab({
                 fontWeight: 900,
                 letterSpacing: '.16em',
                 textTransform: 'uppercase',
-                color: '#c2410c',
+                color: 'var(--ink-warn)',
               }}
             >
               u grad

@@ -173,7 +173,7 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
                         speak(f);
                       }}
                     >
-                      <span style={{ fontWeight: 700, color: '#0e7490', minWidth: 50 }}>
+                      <span style={{ fontWeight: 700, color: 'var(--ink-accent)', minWidth: 50 }}>
                         {VBPERSONS[fi] ?? ''}
                       </span>
                       <span>{f}</span>

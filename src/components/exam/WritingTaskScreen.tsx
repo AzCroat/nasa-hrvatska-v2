@@ -176,7 +176,7 @@ export default function WritingTaskScreen({ task, level, onScore, onDefer }: Pro
           alignItems: 'center',
           margin: '8px 0 12px',
           fontSize: 12,
-          color: atTarget ? '#16a34a' : 'var(--subtext)',
+          color: atTarget ? 'var(--success)' : 'var(--subtext)',
           fontWeight: 700,
         }}
       >

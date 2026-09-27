@@ -28,6 +28,7 @@ import {
 import ListeningPathBanner from './listening/ListeningPathBanner';
 
 import { TOPICS } from './listening/aiListeningTopics';
+import AIListeningResults from './listening/AIListeningResults';
 
 export default function AIListeningScreen({
   goBack,
@@ -432,7 +433,7 @@ export default function AIListeningScreen({
               marginBottom: 16,
             }}
           >
-            <span style={{ fontSize: 14, color: '#dc2626', fontWeight: 600, lineHeight: 1.4 }}>
+            <span style={{ fontSize: 14, color: 'var(--error)', fontWeight: 600, lineHeight: 1.4 }}>
               ⚠️ {errorMsg}
             </span>
             <button
@@ -490,7 +491,7 @@ export default function AIListeningScreen({
                   style={{
                     fontWeight: 700,
                     fontSize: 14,
-                    color: sel ? '#0e7490' : 'var(--heading)',
+                    color: sel ? 'var(--ink-accent)' : 'var(--heading)',
                     marginTop: 4,
                   }}
                 >
@@ -561,7 +562,7 @@ export default function AIListeningScreen({
             style={{
               fontSize: 11,
               fontWeight: 700,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               marginBottom: 4,
               textTransform: 'uppercase',
               letterSpacing: 1,
@@ -709,7 +710,7 @@ export default function AIListeningScreen({
                     fontSize: 13,
                   }}
                 >
-                  <span style={{ fontWeight: 700, color: '#003DA5' }}>{v.hr}</span>
+                  <span style={{ fontWeight: 700, color: 'var(--ink-flag)' }}>{v.hr}</span>
                   <span style={{ color: 'var(--subtext)', margin: '0 4px' }}>·</span>
                   <span style={{ color: 'var(--subtext)' }}>{v.en}</span>
                 </span>
@@ -798,7 +799,7 @@ export default function AIListeningScreen({
                   transition: 'all 0.15s',
                 }}
               >
-                <span style={{ fontWeight: 700, marginRight: 8, color: '#0e7490' }}>
+                <span style={{ fontWeight: 700, marginRight: 8, color: 'var(--ink-accent)' }}>
                   {String.fromCharCode(65 + oi)}.
                 </span>
                 {opt}
@@ -838,83 +839,8 @@ export default function AIListeningScreen({
   // PHASE: RESULTS
   // ══════════════════════════════════════════════════════════════════════════
   if (phase === 'results' && content) {
-    const total = content.questions.length;
-    const xpEarned = 10 + score * 5;
-    const emoji = score === total ? '🏆' : score >= total * 0.6 ? '🎉' : '💪';
-
     return (
-      <div className="scr-wrap">
-        {H('📊 Results', 'AI Listening Exercise', goBack)}
-
-        <div className="c" style={{ textAlign: 'center', padding: '24px 16px', marginBottom: 16 }}>
-          <div style={{ fontSize: 52, marginBottom: 8 }}>{emoji}</div>
-          <div style={{ fontSize: 36, fontWeight: 900, color: '#0e7490', marginBottom: 4 }}>
-            {score} / {total}
-          </div>
-          <div style={{ color: 'var(--subtext)', fontSize: 14, marginBottom: 16 }}>
-            {score === total
-              ? 'Perfect score!'
-              : score >= total * 0.6
-                ? 'Good work!'
-                : 'Keep practising!'}
-          </div>
-          <div
-            style={{
-              display: 'inline-block',
-              background: 'linear-gradient(135deg, #d97706, #f59e0b)',
-              color: '#fff',
-              borderRadius: 20,
-              padding: '6px 20px',
-              fontSize: 18,
-              fontWeight: 900,
-            }}
-          >
-            +{xpEarned} XP
-          </div>
-        </div>
-
-        {/* Vocab recap */}
-        {content.vocab && content.vocab.length > 0 && (
-          <div className="c" style={{ marginBottom: 20 }}>
-            <div
-              style={{
-                fontSize: 12,
-                fontWeight: 700,
-                color: 'var(--subtext)',
-                textTransform: 'uppercase',
-                letterSpacing: 1,
-                marginBottom: 12,
-              }}
-            >
-              Vocabulary from this exercise
-            </div>
-            {content.vocab.map((v: any, i: number) => (
-              <div
-                key={i}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '8px 0',
-                  borderBottom: i < content.vocab.length - 1 ? '1px solid var(--bar-bg)' : 'none',
-                }}
-              >
-                <span style={{ fontWeight: 700, color: '#003DA5', fontSize: 15 }}>{v.hr}</span>
-                <span style={{ color: 'var(--subtext)', fontSize: 14 }}>{v.en}</span>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button className="b bg" style={{ flex: 1 }} onClick={resetToSetup}>
-            🔁 Try Another
-          </button>
-          <button className="b bp" style={{ flex: 1 }} onClick={goBack}>
-            ← Done
-          </button>
-        </div>
-      </div>
+      <AIListeningResults content={content} score={score} onRetry={resetToSetup} goBack={goBack} />
     );
   }
 

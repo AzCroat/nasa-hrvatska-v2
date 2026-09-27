@@ -1918,13 +1918,13 @@ class _ErrorBoundary extends React.Component {
               style={{
                 fontFamily: "'Playfair Display',serif",
                 fontSize: 24,
-                color: '#164e63',
+                color: 'var(--ink-strong)',
                 marginBottom: 8,
               }}
             >
               Something went wrong
             </h2>
-            <p style={{ color: '#78716c', marginBottom: 20, fontSize: 14 }}>
+            <p style={{ color: 'var(--ink-muted-warm)', marginBottom: 20, fontSize: 14 }}>
               The app hit an unexpected error. Your progress is saved.
             </p>
             <button

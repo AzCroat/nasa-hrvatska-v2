@@ -436,8 +436,8 @@ export default function HomeTab({
             onClick={doSignUp}
             style={{
               flexShrink: 0,
-              background: '#fff',
-              color: '#0e7490',
+              background: 'var(--card)',
+              color: 'var(--ink-accent)',
               border: 'none',
               borderRadius: 10,
               padding: '8px 14px',

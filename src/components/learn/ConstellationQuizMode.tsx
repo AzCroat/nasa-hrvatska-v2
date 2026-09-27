@@ -64,7 +64,7 @@ export default function ConstellationQuizMode({
         </button>
         <div>
           <h1 style={{ margin: 0, color: '#f1f5f9', fontSize: 18, fontWeight: 800 }}>Case Quiz</h1>
-          <div style={{ color: '#64748b', fontSize: 13 }}>
+          <div style={{ color: 'var(--ink-muted)', fontSize: 13 }}>
             Question {quizIdx + 1} of {quizTotal}
           </div>
         </div>

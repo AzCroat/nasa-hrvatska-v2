@@ -102,10 +102,16 @@ export default function ListeningScreen({
       <div className="scr-wrap">
         <div style={{ textAlign: 'center', paddingTop: 40 }} data-testid="listening-no-audio">
           <div style={{ fontSize: 64, marginBottom: 8 }}>🔇</div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63', marginBottom: 4 }}>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display',serif",
+              color: 'var(--ink-strong)',
+              marginBottom: 4,
+            }}
+          >
             No audio today
           </h2>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
             None of the sentences could be played, so nothing was scored and nothing was credited.
             Come back when audio is working.
           </div>
@@ -159,13 +165,21 @@ export default function ListeningScreen({
           <div style={{ fontSize: 64, marginBottom: 8 }}>
             {passed ? '🏆' : score >= answeredTotal * 0.6 ? '⭐' : '💪'}
           </div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63', marginBottom: 4 }}>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display',serif",
+              color: 'var(--ink-strong)',
+              marginBottom: 4,
+            }}
+          >
             Listening Complete!
           </h2>
-          <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
+          >
             {score} / {answeredTotal}
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
             {score === answeredTotal
               ? 'Perfect ear! You caught every sentence.'
               : score >= Math.ceil(answeredTotal * 0.7)
@@ -225,7 +239,7 @@ export default function ListeningScreen({
 
       {/* Audio controls */}
       <div className="c" style={{ marginTop: 16, textAlign: 'center', padding: '20px 16px' }}>
-        <div style={{ fontSize: 13, color: '#78716c', marginBottom: 12 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 12 }}>
           Listen carefully, then choose what the sentence means:
         </div>
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
@@ -257,7 +271,7 @@ export default function ListeningScreen({
         {gate.status === 'idle' && (
           <div
             data-testid="listening-hint"
-            style={{ fontSize: 12, color: '#78716c', marginTop: 10 }}
+            style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 10 }}
           >
             Play the sentence to unlock the answers.
           </div>
@@ -306,18 +320,18 @@ export default function ListeningScreen({
             style={{
               fontSize: 13,
               fontWeight: 700,
-              color: isCorrect ? '#15803d' : '#b91c1c',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
               marginBottom: 6,
             }}
           >
             {isCorrect ? '✓ Correct!' : '✗ The answer was: ' + correct}
           </div>
           {/* Show the Croatian sentence so brain connects sound → meaning */}
-          <div style={{ fontSize: 13, color: '#44403c', marginBottom: 4 }}>
-            <span style={{ fontWeight: 700, color: '#0e7490' }}>🇭🇷 </span>
+          <div style={{ fontSize: 13, color: 'var(--ink-body)', marginBottom: 4 }}>
+            <span style={{ fontWeight: 700, color: 'var(--ink-accent)' }}>🇭🇷 </span>
             {q.hr}
           </div>
-          <div style={{ fontSize: 12, color: '#78716c' }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
             <span style={{ fontWeight: 700 }}>🇬🇧 </span>
             {correct}
           </div>
@@ -357,7 +371,7 @@ export default function ListeningScreen({
             🔊 Listen again
           </button>
           {replayed && !isCorrect && (
-            <div style={{ fontSize: 11, color: '#0e7490', marginTop: 4 }}>
+            <div style={{ fontSize: 11, color: 'var(--ink-accent)', marginTop: 4 }}>
               Focus on the sound — then tap Next when ready
             </div>
           )}

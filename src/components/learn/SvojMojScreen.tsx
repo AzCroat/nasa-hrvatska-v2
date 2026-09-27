@@ -60,7 +60,9 @@ function SvojMojScreen({
           borderLeft: '3px solid #7c3aed',
         }}
       >
-        <div style={{ fontSize: 13, color: '#4c1d95', lineHeight: 1.7 }}>{SVOJMOJ.intro}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-mode)', lineHeight: 1.7 }}>
+          {SVOJMOJ.intro}
+        </div>
       </div>
 
       {/* The Core Rule */}
@@ -95,7 +97,7 @@ function SvojMojScreen({
             key={pi}
             style={{
               marginBottom: 12,
-              background: 'white',
+              background: 'var(--card)',
               borderRadius: 14,
               border: '1px solid rgba(0,0,0,.07)',
               overflow: 'hidden',
@@ -112,10 +114,12 @@ function SvojMojScreen({
                   fontSize: 13,
                 }}
               >
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#dc2626', marginBottom: 4 }}>
+                <div
+                  style={{ fontSize: 10, fontWeight: 700, color: 'var(--error)', marginBottom: 4 }}
+                >
                   ✗ SOUNDS FOREIGN
                 </div>
-                <div style={{ color: '#7f1d1d', fontStyle: 'italic' }}>{p.wrong}</div>
+                <div style={{ color: 'var(--error)', fontStyle: 'italic' }}>{p.wrong}</div>
               </div>
               <button
                 style={{
@@ -133,14 +137,26 @@ function SvojMojScreen({
                   speak(p.right);
                 }}
               >
-                <div style={{ fontSize: 10, fontWeight: 700, color: '#16a34a', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: 'var(--success)',
+                    marginBottom: 4,
+                  }}
+                >
                   ✓ NATIVE <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ color: '#14532d', fontWeight: 700 }}>{p.right}</div>
+                <div style={{ color: 'var(--ink-green)', fontWeight: 700 }}>{p.right}</div>
               </button>
             </div>
             <div
-              style={{ padding: '0 14px 12px', fontSize: 11, color: '#78716c', lineHeight: 1.5 }}
+              style={{
+                padding: '0 14px 12px',
+                fontSize: 11,
+                color: 'var(--ink-muted-warm)',
+                lineHeight: 1.5,
+              }}
             >
               {p.note}
             </div>
@@ -164,7 +180,7 @@ function SvojMojScreen({
                       padding: '6px 8px',
                       textAlign: 'left',
                       fontWeight: 700,
-                      color: '#44403c',
+                      color: 'var(--ink-body)',
                       fontSize: 11,
                     }}
                   >
@@ -185,14 +201,19 @@ function SvojMojScreen({
                   }}
                 >
                   <td
-                    style={{ padding: '6px 8px', fontWeight: 700, color: '#7c3aed', fontSize: 11 }}
+                    style={{
+                      padding: '6px 8px',
+                      fontWeight: 700,
+                      color: 'var(--ink-mode)',
+                      fontSize: 11,
+                    }}
                   >
                     {row.case}
                   </td>
-                  <td style={{ padding: '6px 8px', color: '#1c1917' }}>{row.m}</td>
-                  <td style={{ padding: '6px 8px', color: '#1c1917' }}>{row.f}</td>
-                  <td style={{ padding: '6px 8px', color: '#1c1917' }}>{row.n}</td>
-                  <td style={{ padding: '6px 8px', color: '#1c1917' }}>{row.pl}</td>
+                  <td style={{ padding: '6px 8px', color: 'var(--ink-ink)' }}>{row.m}</td>
+                  <td style={{ padding: '6px 8px', color: 'var(--ink-ink)' }}>{row.f}</td>
+                  <td style={{ padding: '6px 8px', color: 'var(--ink-ink)' }}>{row.n}</td>
+                  <td style={{ padding: '6px 8px', color: 'var(--ink-ink)' }}>{row.pl}</td>
                 </tr>
               );
             })}
@@ -244,7 +265,9 @@ function SvojMojScreen({
       {SVOJMOJ.quiz.map(function (q, qi) {
         return (
           <div key={qi} className="c" style={{ marginBottom: 12 }}>
-            <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: '#1c1917' }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 700, marginBottom: 8, color: 'var(--ink-ink)' }}
+            >
               {'🇬🇧 '}
               {q.q}
             </div>

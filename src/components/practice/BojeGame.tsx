@@ -66,34 +66,44 @@ export default function BojeGame({ goBack, award }: Props) {
         <React.Fragment>
           <div
             className="c"
-            style={{ marginBottom: 16, borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}
+            style={{
+              marginBottom: 16,
+              borderLeft: '4px solid #f59e0b',
+              background: 'var(--warning-bg)',
+            }}
           >
-            <div style={{ fontSize: 15, fontWeight: 800, color: '#92400e', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 8 }}
+            >
               🎨 How Colors Change by Gender
             </div>
-            <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
+            <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
               <div>
-                🔴 <b>Feminine (-a):</b> Ruža je crven<b style={{ color: '#dc2626' }}>a</b>.
+                🔴 <b>Feminine (-a):</b> Ruža je crven<b style={{ color: 'var(--error)' }}>a</b>.
               </div>
               <div>
-                🔵 <b>Neuter (-o):</b> Sunce je crven<b style={{ color: '#2563eb' }}>o</b>.
+                🔵 <b>Neuter (-o):</b> Sunce je crven<b style={{ color: 'var(--ink-flag)' }}>o</b>.
               </div>
               <div>
                 🟢 <b>Masculine (∅):</b> Cvijet je crven.
               </div>
               <div style={{ marginTop: 8 }}>
-                📚 <b>Feminine plural (-e):</b> Ruže su crven<b style={{ color: '#dc2626' }}>e</b>.
+                📚 <b>Feminine plural (-e):</b> Ruže su crven
+                <b style={{ color: 'var(--error)' }}>e</b>.
               </div>
               <div>
-                📚 <b>Neuter plural (-a):</b> Sunca su crven<b style={{ color: '#2563eb' }}>a</b>.
+                📚 <b>Neuter plural (-a):</b> Sunca su crven
+                <b style={{ color: 'var(--ink-flag)' }}>a</b>.
               </div>
               <div>
                 📚 <b>Masculine plural (-i):</b> Cvjetovi su crven
-                <b style={{ color: '#16a34a' }}>i</b>.
+                <b style={{ color: 'var(--success)' }}>i</b>.
               </div>
             </div>
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)', marginBottom: 10 }}
+          >
             All Colors — Tap to hear:
           </div>
           <div
@@ -119,9 +129,9 @@ export default function BojeGame({ goBack, award }: Props) {
                   <span style={{ fontSize: 15, fontWeight: 700 }}>{c.en}</span>
                 </div>
                 <div style={{ fontSize: 12, display: 'flex', gap: 8 }}>
-                  <span style={{ color: '#dc2626' }}>{c.f}</span>
-                  <span style={{ color: '#2563eb' }}>{c.n}</span>
-                  <span style={{ color: '#16a34a' }}>{c.m}</span>
+                  <span style={{ color: 'var(--error)' }}>{c.f}</span>
+                  <span style={{ color: 'var(--ink-flag)' }}>{c.n}</span>
+                  <span style={{ color: 'var(--success)' }}>{c.m}</span>
                 </div>
               </button>
             ))}
@@ -148,10 +158,10 @@ export default function BojeGame({ goBack, award }: Props) {
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🎨' : '👍'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   Colors Quiz Complete!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
                   {bjSc} / {total}
                 </div>
                 <div
@@ -198,14 +208,16 @@ export default function BojeGame({ goBack, award }: Props) {
                 <div style={{ fontSize: 14, fontWeight: 700 }}>
                   {bjIdx + 1} / {total}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>Score: {bjSc}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                  Score: {bjSc}
+                </div>
               </div>
               <Bar v={bjIdx + 1} mx={total} color={gColor} h={6} />
               <div className="c" style={{ marginTop: 16 }}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: gColor, marginBottom: 4 }}>
                   ({gLabel})
                 </div>
-                <div style={{ fontSize: 18, color: '#1c1917' }}>
+                <div style={{ fontSize: 18, color: 'var(--ink-ink)' }}>
                   <b>{q.noun}</b>
                   {' je '}
                   <span
@@ -220,7 +232,14 @@ export default function BojeGame({ goBack, award }: Props) {
                     {bjAns ? q.answer : '___?'}
                   </span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', fontStyle: 'italic', marginTop: 8 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: 'var(--ink-muted-warm)',
+                    fontStyle: 'italic',
+                    marginTop: 8,
+                  }}
+                >
                   {q.en}
                 </div>
               </div>

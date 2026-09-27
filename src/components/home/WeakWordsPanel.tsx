@@ -234,7 +234,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
                     {total} reviews
                   </div>
                   {lapses > 0 && (
-                    <div style={{ fontSize: 10, color: '#dc2626', fontWeight: 700 }}>
+                    <div style={{ fontSize: 10, color: 'var(--error)', fontWeight: 700 }}>
                       {lapses} lapse{lapses !== 1 ? 's' : ''}
                     </div>
                   )}

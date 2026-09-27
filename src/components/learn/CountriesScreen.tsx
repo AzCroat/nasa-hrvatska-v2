@@ -124,7 +124,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps3) => {
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -132,7 +132,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps3) => {
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -181,7 +181,7 @@ const QUIZ_SECTION = ({ quiz, accent: _accent }: QuizSectionProps3) => {
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i] as number] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i] as number] === q.a ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -229,7 +229,14 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
 
       {tab === 'Countries' && (
         <div>
-          <div style={{ fontSize: 11, color: '#78716c', marginBottom: 12, lineHeight: 1.6 }}>
+          <div
+            style={{
+              fontSize: 11,
+              color: 'var(--ink-muted-warm)',
+              marginBottom: 12,
+              lineHeight: 1.6,
+            }}
+          >
             Tap the flag to hear the country name. Nationality adjectives:{' '}
             <strong>m / f / n</strong>. Demonyms: person of that nationality.
           </div>
@@ -237,7 +244,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
             <div
               key={i}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 14,
                 padding: '14px 16px',
                 marginBottom: 10,
@@ -271,18 +278,18 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                       marginBottom: 4,
                     }}
                   >
-                    <span style={{ fontSize: 15, fontWeight: 800, color: '#0369a1' }}>
+                    <span style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-info)' }}>
                       {c.country}
                     </span>
-                    <span style={{ fontSize: 11, color: '#78716c' }}>{c.en}</span>
+                    <span style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{c.en}</span>
                   </div>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 4 }}>
                     {[c.adj_m, c.adj_f, c.adj_n].map((adj, ai) => (
                       <span
                         key={ai}
                         style={{
-                          background: '#f0f9ff',
-                          color: '#0369a1',
+                          background: 'var(--info-bg)',
+                          color: 'var(--ink-info)',
                           fontSize: 11,
                           fontWeight: 700,
                           padding: '2px 8px',
@@ -296,7 +303,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                     ))}
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 11, color: '#44403c' }}>
+                    <span style={{ fontSize: 11, color: 'var(--ink-body)' }}>
                       👤 {c.dem_m} / {c.dem_f}
                     </span>
                   </div>
@@ -305,7 +312,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                       style={{
                         marginTop: 4,
                         fontSize: 11,
-                        color: '#78716c',
+                        color: 'var(--ink-muted-warm)',
                         fontStyle: 'italic',
                       }}
                     >
@@ -328,7 +335,7 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
               tabIndex={0}
               aria-label={`Play audio: ${p.hr} — ${p.en}`}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 12,
                 padding: '12px 16px',
                 marginBottom: 8,
@@ -350,8 +357,10 @@ function CountriesScreen({ goBack }: CountriesScreenProps) {
                 🔊
               </div>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>{p.hr}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>{p.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
+                  {p.hr}
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>{p.en}</div>
               </div>
             </div>
           ))}

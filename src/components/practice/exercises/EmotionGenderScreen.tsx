@@ -78,7 +78,14 @@ function EmotionGenderScreen({ goBack, award }: Props) {
       {EMOGENDER.map(function (eg, ei) {
         return (
           <div key={ei} className="c" style={{ marginBottom: 16 }}>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63', marginBottom: 10 }}>
+            <div
+              style={{
+                fontSize: 16,
+                fontWeight: 800,
+                color: 'var(--ink-strong)',
+                marginBottom: 10,
+              }}
+            >
               {eg.subj}
               {' ('}
               {eg.gender === 'm' ? '👨' : '👩'})
@@ -147,7 +154,9 @@ function EmotionGenderScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

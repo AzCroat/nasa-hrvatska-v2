@@ -311,7 +311,7 @@ export default function GrammarReference({ onClose }: GrammarReferenceProps) {
                     {s.example}
                   </div>
                   {s.tip && (
-                    <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 600 }}>
                       💡 {s.tip}
                     </div>
                   )}

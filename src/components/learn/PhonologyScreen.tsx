@@ -158,7 +158,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: PhonQuizItem[]; accent: string }
         <div
           key={i}
           style={{
-            background: 'white',
+            background: 'var(--card)',
             borderRadius: 14,
             padding: 16,
             marginBottom: 12,
@@ -166,7 +166,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: PhonQuizItem[]; accent: string }
             boxShadow: '0 1px 3px rgba(0,0,0,.04)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', marginBottom: 10 }}>
+          <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-ink)', marginBottom: 10 }}>
             {i + 1}. {q.q}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -215,7 +215,7 @@ const QUIZ_SECTION = ({ quiz, accent }: { quiz: PhonQuizItem[]; accent: string }
               style={{
                 marginTop: 8,
                 fontSize: 11,
-                color: q.opts[answers[i]!] === q.a ? '#15803d' : '#b91c1c',
+                color: q.opts[answers[i]!] === q.a ? 'var(--ink-green)' : 'var(--error)',
                 fontWeight: 700,
               }}
             >
@@ -310,7 +310,7 @@ function PhonologyScreen({
               return (
                 <div
                   style={{
-                    background: 'white',
+                    background: 'var(--card)',
                     borderRadius: 16,
                     padding: 20,
                     border: `2px solid ${l.color}30`,
@@ -336,13 +336,24 @@ function PhonologyScreen({
                     </div>
                     <div>
                       <div style={{ fontSize: 16, fontWeight: 900, color: l.color }}>{l.name}</div>
-                      <div style={{ fontSize: 12, color: '#78716c', fontFamily: 'monospace' }}>
+                      <div
+                        style={{
+                          fontSize: 12,
+                          color: 'var(--ink-muted-warm)',
+                          fontFamily: 'monospace',
+                        }}
+                      >
                         {l.ipa}
                       </div>
                     </div>
                   </div>
                   <div
-                    style={{ fontSize: 13, color: '#44403c', marginBottom: 10, lineHeight: 1.6 }}
+                    style={{
+                      fontSize: 13,
+                      color: 'var(--ink-body)',
+                      marginBottom: 10,
+                      lineHeight: 1.6,
+                    }}
                   >
                     {l.like}
                   </div>
@@ -359,7 +370,14 @@ function PhonologyScreen({
                   >
                     🧠 {l.memory}
                   </div>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#164e63', marginBottom: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: 'var(--ink-strong)',
+                      marginBottom: 6,
+                    }}
+                  >
                     Examples:
                   </div>
                   <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -375,7 +393,7 @@ function PhonologyScreen({
                         {...clickable(() => speak(ex.hr), 'Hear ' + ex.hr)}
                       >
                         <div style={{ fontSize: 14, fontWeight: 700, color: l.color }}>{ex.hr}</div>
-                        <div style={{ fontSize: 11, color: '#78716c' }}>{ex.en}</div>
+                        <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{ex.en}</div>
                       </div>
                     ))}
                   </div>
@@ -383,7 +401,14 @@ function PhonologyScreen({
               );
             })()}
           {selLetter === null && (
-            <div style={{ textAlign: 'center', padding: '20px', color: '#78716c', fontSize: 13 }}>
+            <div
+              style={{
+                textAlign: 'center',
+                padding: '20px',
+                color: 'var(--ink-muted-warm)',
+                fontSize: 13,
+              }}
+            >
               Tap any letter above to see its pronunciation guide
             </div>
           )}
@@ -392,14 +417,21 @@ function PhonologyScreen({
 
       {tab === 'Confusing Pairs' && (
         <div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 14, lineHeight: 1.6 }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--ink-muted-warm)',
+              marginBottom: 14,
+              lineHeight: 1.6,
+            }}
+          >
             These letter pairs cause the most confusion. Tap each word to hear the difference.
           </div>
           {d.confusedPairs.map((p, i) => (
             <div
               key={i}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 14,
                 padding: 16,
                 marginBottom: 12,
@@ -422,11 +454,20 @@ function PhonologyScreen({
                     'Hear ' + p.example_a,
                   )}
                 >
-                  <div style={{ fontSize: 26, fontWeight: 900, color: '#b45309' }}>{p.a}</div>
-                  <div style={{ fontSize: 11, color: '#44403c', marginTop: 4 }}>{p.example_a}</div>
+                  <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--ink-warn)' }}>
+                    {p.a}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-body)', marginTop: 4 }}>
+                    {p.example_a}
+                  </div>
                 </div>
                 <div
-                  style={{ display: 'flex', alignItems: 'center', color: '#78716c', fontSize: 16 }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    color: 'var(--ink-muted-warm)',
+                    fontSize: 16,
+                  }}
                 >
                   vs
                 </div>
@@ -444,8 +485,12 @@ function PhonologyScreen({
                     'Hear ' + p.example_b,
                   )}
                 >
-                  <div style={{ fontSize: 26, fontWeight: 900, color: '#b45309' }}>{p.b}</div>
-                  <div style={{ fontSize: 11, color: '#44403c', marginTop: 4 }}>{p.example_b}</div>
+                  <div style={{ fontSize: 26, fontWeight: 900, color: 'var(--ink-warn)' }}>
+                    {p.b}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--ink-body)', marginTop: 4 }}>
+                    {p.example_b}
+                  </div>
                 </div>
               </div>
               <div
@@ -471,7 +516,7 @@ function PhonologyScreen({
             <div
               key={i}
               style={{
-                background: 'white',
+                background: 'var(--card)',
                 borderRadius: 14,
                 padding: 16,
                 marginBottom: 10,
@@ -498,10 +543,19 @@ function PhonologyScreen({
                   {i + 1}
                 </div>
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: '#b45309', marginBottom: 4 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 800,
+                      color: 'var(--ink-warn)',
+                      marginBottom: 4,
+                    }}
+                  >
                     {r.rule}
                   </div>
-                  <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>{r.detail}</div>
+                  <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>
+                    {r.detail}
+                  </div>
                 </div>
               </div>
             </div>

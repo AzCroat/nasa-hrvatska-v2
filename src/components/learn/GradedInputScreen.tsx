@@ -687,7 +687,7 @@ export function StoryReader({
                     borderRadius: 50,
                     border: 'none',
                     background: playingIdx === i ? '#0e7490' : 'var(--info-bg)',
-                    color: playingIdx === i ? 'white' : '#0e7490',
+                    color: playingIdx === i ? 'white' : 'var(--ink-accent)',
                     fontSize: 16,
                     cursor: 'pointer',
                     display: 'flex',

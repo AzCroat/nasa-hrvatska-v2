@@ -157,7 +157,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 }}
                 onClick={() => speak(p.m)}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#1e40af' }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-flag)' }}>
                   {'👨 '}
                   {p.m}
                 </div>
@@ -173,7 +173,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                 }}
                 onClick={() => speak(p.f)}
               >
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#db2777' }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
                   {'👩 '}
                   {p.f}
                 </div>
@@ -201,9 +201,16 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
             const chosen = answers[qi];
             return (
               <div key={qi} className="c" style={{ marginBottom: 10, padding: '12px 14px' }}>
-                <div style={{ fontSize: 13, fontWeight: 700, marginBottom: 4, color: '#1c1917' }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    marginBottom: 4,
+                    color: 'var(--ink-ink)',
+                  }}
+                >
                   {q.gender === 'm' ? '👨' : '👩'} {q.gender === 'm' ? 'Male' : 'Female'} form of:{' '}
-                  <span style={{ color: '#0e7490' }}>{q.en}</span>
+                  <span style={{ color: 'var(--ink-accent)' }}>{q.en}</span>
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
                   {q.opts.map((opt, oi) => {
@@ -243,7 +250,9 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                   })}
                 </div>
                 {chosen !== undefined && (
-                  <div style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: '#16a34a' }}>
+                  <div
+                    style={{ fontSize: 11, marginTop: 5, fontWeight: 700, color: 'var(--success)' }}
+                  >
                     ✓ {q.a}
                   </div>
                 )}
@@ -259,7 +268,14 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
                     ? '⭐'
                     : '💪'}
               </div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+              <div
+                style={{
+                  fontSize: 18,
+                  fontWeight: 800,
+                  color: 'var(--ink-strong)',
+                  marginBottom: 4,
+                }}
+              >
                 {correctCount}/{quiz.length} correct
               </div>
               <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

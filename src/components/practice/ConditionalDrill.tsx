@@ -164,7 +164,7 @@ export default function ConditionalDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {score === total
               ? 'Perfect! Conditional mastered! 🏆'
               : passed
@@ -200,7 +200,7 @@ export default function ConditionalDrill({ goBack, award }: Props) {
     <div className="scr-wrap">
       {H('🤔 Conditional', 'Kondicional I & II — "would" and "would have"', goBack)}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
@@ -209,7 +209,7 @@ export default function ConditionalDrill({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 13,
-            color: '#64748b',
+            color: 'var(--ink-muted)',
             marginBottom: 6,
             fontWeight: 600,
             textTransform: 'uppercase',
@@ -218,7 +218,7 @@ export default function ConditionalDrill({ goBack, award }: Props) {
         >
           Choose the correct conditional form
         </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#0e7490', lineHeight: 1.5 }}>
+        <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
           {cur.q}
         </div>
         <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>{cur.en}</div>
@@ -244,11 +244,11 @@ export default function ConditionalDrill({ goBack, award }: Props) {
             style={{
               marginTop: 14,
               padding: '10px 14px',
-              background: '#f0f9ff',
+              background: 'var(--info-bg)',
               borderRadius: 10,
               border: '1px solid #bae6fd',
               fontSize: 14,
-              color: '#0369a1',
+              color: 'var(--ink-info)',
             }}
           >
             <strong>{chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}</strong> {cur.tip}

@@ -83,7 +83,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
               background: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
             }}
           >
-            <div style={{ fontSize: 14, lineHeight: 1.8, color: '#1c1917' }}>
+            <div style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-ink)' }}>
               <BiText hr={KINGS.introHr} en={KINGS.intro} showEn={showEn} />
             </div>
           </div>
@@ -105,14 +105,14 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                     style={{
                       fontSize: 17,
                       fontWeight: 800,
-                      color: '#164e63',
+                      color: 'var(--ink-strong)',
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
                     {e.titleHr ?? e.title}
                   </div>
                 </div>
-                <p style={{ fontSize: 14, lineHeight: 1.8, color: '#44403c' }}>
+                <p style={{ fontSize: 14, lineHeight: 1.8, color: 'var(--ink-body)' }}>
                   <BiText hr={e.textHr} en={e.text} showEn={showEn} />
                 </p>
               </div>
@@ -132,10 +132,12 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                   borderBottom: '1px solid rgba(0,0,0,.05)',
                 }}
               >
-                <div style={{ minWidth: 60, fontSize: 14, fontWeight: 800, color: '#b45309' }}>
+                <div
+                  style={{ minWidth: 60, fontSize: 14, fontWeight: 800, color: 'var(--ink-warn)' }}
+                >
                   {f[0]!}
                 </div>
-                <div style={{ fontSize: 14, color: '#44403c' }}>{f[1]!}</div>
+                <div style={{ fontSize: 14, color: 'var(--ink-body)' }}>{f[1]!}</div>
               </div>
             );
           })}
@@ -152,7 +154,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
               style={{
                 fontSize: 20,
                 fontWeight: 800,
-                color: '#92400e',
+                color: 'var(--ink-warn)',
                 fontFamily: "'Playfair Display',serif",
                 fontStyle: 'italic',
                 marginBottom: 6,
@@ -160,7 +162,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
             >
               {KINGS.quote}
             </div>
-            <div style={{ fontSize: 14, color: '#78716c', fontStyle: 'italic' }}>
+            <div style={{ fontSize: 14, color: 'var(--ink-muted-warm)', fontStyle: 'italic' }}>
               {KINGS.quoteEn}
             </div>
           </div>
@@ -170,7 +172,11 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
         <React.Fragment>
           <div
             className="c"
-            style={{ marginBottom: 16, background: '#fffbeb', borderLeft: '4px solid #f59e0b' }}
+            style={{
+              marginBottom: 16,
+              background: 'var(--warning-bg)',
+              borderLeft: '4px solid #f59e0b',
+            }}
           >
             <div style={{ fontSize: 14, lineHeight: 1.7 }}>
               Before Croatia became a kingdom in 925, it was ruled by dukes (knezovi) who built the
@@ -197,16 +203,25 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                     marginBottom: 6,
                   }}
                 >
-                  <div style={{ fontSize: 16, fontWeight: 800, color: '#164e63' }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-strong)' }}>
                     {'🏰 '}
                     {d.name} <span aria-hidden="true">🔊</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#b45309', fontWeight: 700 }}>{d.years}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 700 }}>
+                    {d.years}
+                  </div>
                 </div>
-                <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 600, marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    color: 'var(--ink-accent)',
+                    fontWeight: 600,
+                    marginBottom: 4,
+                  }}
+                >
                   {d.title}
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>
                   <BiText hr={d.descHr} en={d.desc} showEn={showEn} />
                 </div>
               </button>
@@ -253,25 +268,27 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                     style={{
                       fontSize: 17,
                       fontWeight: 800,
-                      color: k.color || '#164e63',
+                      color: k.color || 'var(--ink-strong)',
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
                     {k.emoji} {k.name} <span aria-hidden="true">🔊</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#b45309', fontWeight: 700 }}>{k.years}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-warn)', fontWeight: 700 }}>
+                    {k.years}
+                  </div>
                 </div>
                 <div
                   style={{
                     fontSize: 12,
-                    color: k.color || '#0e7490',
+                    color: k.color || 'var(--ink-accent)',
                     fontWeight: 700,
                     marginBottom: 4,
                   }}
                 >
                   {k.title}
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.7 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.7 }}>
                   <BiText hr={k.descHr} en={k.desc} showEn={showEn} />
                 </div>
               </button>
@@ -298,11 +315,11 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                   speak(c.name);
                 }}
               >
-                <div style={{ fontSize: 16, fontWeight: 800, color: '#7c3aed' }}>
+                <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-mode)' }}>
                   {'🏙️ '}
                   {c.name} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.6 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.6 }}>
                   <BiText hr={c.descHr} en={c.desc} showEn={showEn} />
                 </div>
               </button>
@@ -312,7 +329,9 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
       )}
       {kgTab === 'vocab' && (
         <React.Fragment>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490', marginBottom: 12 }}>
+          <div
+            style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)', marginBottom: 12 }}
+          >
             📚 Medieval Croatian Vocabulary — Tap to hear:
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
@@ -327,7 +346,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                     speak(v[0]!);
                   }}
                 >
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#b45309' }}>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-warn)' }}>
                     {v[0]!} <span aria-hidden="true">🔊</span>
                   </div>
                   <div style={{ fontSize: 12, color: 'var(--subtext)' }}>{v[1]!}</div>

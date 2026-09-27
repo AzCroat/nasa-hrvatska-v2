@@ -1195,7 +1195,7 @@ export default function CefrTest({
             style={{
               fontSize: 13,
               fontWeight: 800,
-              color: isCorrect ? '#166534' : '#92400e',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >
@@ -1204,7 +1204,7 @@ export default function CefrTest({
           <div
             style={{
               fontSize: 13,
-              color: isCorrect ? '#15803d' : '#78350f',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               lineHeight: 1.5,
             }}
           >

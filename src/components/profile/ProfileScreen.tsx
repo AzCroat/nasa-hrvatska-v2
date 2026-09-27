@@ -114,7 +114,7 @@ export default function ProfileScreen({
               width: 22,
               height: 22,
               borderRadius: '50%',
-              background: '#fff',
+              background: 'var(--card)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -207,10 +207,16 @@ export default function ProfileScreen({
             )}
           </div>
         )}
-        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 26, color: '#164e63' }}>
+        <h2
+          style={{
+            fontFamily: "'Playfair Display',serif",
+            fontSize: 26,
+            color: 'var(--ink-strong)',
+          }}
+        >
           {name}
         </h2>
-        <p style={{ color: '#78716c', fontSize: 14 }}>Level {level}</p>
+        <p style={{ color: 'var(--ink-muted-warm)', fontSize: 14 }}>Level {level}</p>
         {au && au.e && <p style={{ color: '#a8a29e', fontSize: 12, marginTop: 4 }}>{au.e}</p>}
       </div>
       <div
@@ -224,12 +230,19 @@ export default function ProfileScreen({
           <div key={idx} className="c" style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 24 }}>{i}</div>
             <div style={{ fontSize: 20, fontWeight: 800, marginTop: 4 }}>{v}</div>
-            <div style={{ fontSize: 11, color: '#78716c' }}>{l}</div>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{l}</div>
           </div>
         ))}
       </div>
       <div className="c" style={{ marginBottom: 16 }}>
-        <h3 style={{ fontSize: 14, fontWeight: 700, color: '#78716c', marginBottom: 12 }}>
+        <h3
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            color: 'var(--ink-muted-warm)',
+            marginBottom: 12,
+          }}
+        >
           Next Level
         </h3>
         <Bar v={(st.xp ?? 0) - lXP(level)} mx={nXP(level) - lXP(level)} />
@@ -306,14 +319,14 @@ export default function ProfileScreen({
               background: 'rgba(185,28,28,.04)',
             }}
           >
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#991b1b', marginBottom: 8 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--error)', marginBottom: 8 }}>
               Delete your account?
             </p>
-            <p style={{ fontSize: 12, color: '#78716c', marginBottom: 16 }}>
+            <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
               This permanently deletes all your progress, streaks, and data. This cannot be undone.
             </p>
             {deleteError && (
-              <p style={{ fontSize: 12, color: '#b91c1c', marginBottom: 10 }}>{deleteError}</p>
+              <p style={{ fontSize: 12, color: 'var(--error)', marginBottom: 10 }}>{deleteError}</p>
             )}
             <div style={{ display: 'flex', gap: 10 }}>
               <button
@@ -326,11 +339,11 @@ export default function ProfileScreen({
                   padding: '10px',
                   border: '2px solid #e5e7eb',
                   borderRadius: 10,
-                  background: '#fff',
+                  background: 'var(--card)',
                   fontSize: 13,
                   fontWeight: 700,
                   cursor: 'pointer',
-                  color: '#374151',
+                  color: 'var(--text)',
                 }}
                 disabled={deleteStep === 2}
               >

@@ -1309,7 +1309,7 @@ export default function MajaScreen() {
                   marginBottom: 12,
                 }}
               >
-                <p style={{ fontSize: 13, color: '#dc2626', margin: '0 0 8px' }}>
+                <p style={{ fontSize: 13, color: 'var(--error)', margin: '0 0 8px' }}>
                   {errorMsg || 'Nepoznata greška.'}
                 </p>
                 <button

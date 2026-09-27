@@ -355,7 +355,12 @@ export default function SurvivalDinner({ goBack }: Props) {
                       {p.hr}
                     </div>
                     <div
-                      style={{ fontSize: 13, color: '#0e7490', fontWeight: 700, marginBottom: 2 }}
+                      style={{
+                        fontSize: 13,
+                        color: 'var(--ink-accent)',
+                        fontWeight: 700,
+                        marginBottom: 2,
+                      }}
                     >
                       {p.en}
                     </div>
@@ -401,7 +406,9 @@ export default function SurvivalDinner({ goBack }: Props) {
             border: '1.5px solid rgba(14,116,144,.2)',
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
+          >
             🇭🇷 Pro tip
           </div>
           <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.6 }}>

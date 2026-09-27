@@ -201,7 +201,7 @@ export default function SentenceTileScreen({
         <div
           style={{
             fontSize: 12,
-            color: '#64748b',
+            color: 'var(--ink-muted)',
             fontWeight: 700,
             marginBottom: 6,
             textTransform: 'uppercase',
@@ -210,7 +210,7 @@ export default function SentenceTileScreen({
         >
           Translate to Croatian:
         </div>
-        <div style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', lineHeight: 1.3 }}>
+        <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--text)', lineHeight: 1.3 }}>
           "{q.en}"
         </div>
       </div>

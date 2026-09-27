@@ -12,18 +12,24 @@ function SchoolScreen({ goBack }: Props) {
       {H('🏫 School Survival Kit', 'Everything for Croatian school', goBack)}
       <div
         className="c"
-        style={{ marginBottom: 16, borderLeft: '4px solid #dc2626', background: '#fef2f2' }}
+        style={{ marginBottom: 16, borderLeft: '4px solid #dc2626', background: 'var(--error-bg)' }}
       >
-        <div style={{ fontSize: 15, fontWeight: 800, color: '#dc2626' }}>
+        <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--error)' }}>
           {SCHOOL.grading.title}
         </div>
         <div style={{ fontSize: 14, marginTop: 4 }}>{SCHOOL.grading.desc}</div>
       </div>
       <div
         className="c"
-        style={{ marginBottom: 12, borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}
+        style={{
+          marginBottom: 12,
+          borderLeft: '4px solid #f59e0b',
+          background: 'var(--warning-bg)',
+        }}
       >
-        <div style={{ fontSize: 13, fontWeight: 700, color: '#b45309' }}>⚠️ Formal Rules</div>
+        <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-warn)' }}>
+          ⚠️ Formal Rules
+        </div>
         <div style={{ fontSize: 13, marginTop: 4 }}>{SCHOOL.formal}</div>
       </div>
       <h3 className="sh">📚 Classroom Vocabulary</h3>
@@ -62,7 +68,7 @@ function SchoolScreen({ goBack }: Props) {
                 speak(w[0]!);
               }}
             >
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#7c3aed' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-mode)' }}>
                 {w[0]!} <span aria-hidden="true">🔊</span>
               </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{w[1]!}</div>

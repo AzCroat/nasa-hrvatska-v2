@@ -200,7 +200,9 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
               );
             })}
           </div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#0e7490', marginBottom: 10 }}>
+          <div
+            style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-accent)', marginBottom: 10 }}
+          >
             {cat?.icon} {cat?.name}
           </div>
           {(cat?.words ?? []).map(function (w: any, i: number) {
@@ -219,10 +221,10 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(w.hr)}
               >
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0369a1' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {w.hr} <span aria-hidden="true">🔊</span>
                 </span>
-                <span style={{ fontSize: 13, color: '#78716c' }}>{w.en}</span>
+                <span style={{ fontSize: 13, color: 'var(--ink-muted-warm)' }}>{w.en}</span>
               </button>
             );
           })}
@@ -260,10 +262,12 @@ function BureaucraticScreen({ goBack, award }: ScreenProps) {
                 }}
                 onClick={() => speak(p.hr)}
               >
-                <div style={{ fontSize: 15, fontWeight: 700, color: '#0369a1' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-info)' }}>
                   {p.hr} <span aria-hidden="true">🔊</span>
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', marginTop: 3 }}>{p.en}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 3 }}>
+                  {p.en}
+                </div>
               </button>
             );
           })}

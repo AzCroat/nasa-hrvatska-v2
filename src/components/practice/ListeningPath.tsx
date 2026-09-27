@@ -92,7 +92,7 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
         <div style={{ fontWeight: 800, fontSize: 14, color: meta.color, marginBottom: 6 }}>
           {activeLevel} — {meta.label}
         </div>
-        <div style={{ fontSize: 13, color: '#44403c', lineHeight: 1.65 }}>{meta.tip}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.65 }}>{meta.tip}</div>
       </div>
 
       {levelMedia.length > 0 ? (
@@ -112,15 +112,21 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
                   >
                     {m.name}
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginBottom: m.tip ? 6 : 0 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-muted-warm)',
+                      marginBottom: m.tip ? 6 : 0,
+                    }}
+                  >
                     {m.desc}
                   </div>
                   {m.tip && (
                     <div
                       style={{
                         fontSize: 12,
-                        color: '#0369a1',
-                        background: '#f0f9ff',
+                        color: 'var(--ink-info)',
+                        background: 'var(--info-bg)',
                         border: '1px solid #bae6fd',
                         borderRadius: 8,
                         padding: '8px 10px',
@@ -139,7 +145,7 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
                       style={{
                         display: 'inline-block',
                         fontSize: 12,
-                        color: '#0e7490',
+                        color: 'var(--ink-accent)',
                         fontWeight: 600,
                         textDecoration: 'none',
                       }}
@@ -147,7 +153,9 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
                       🔗 Open →
                     </a>
                   ) : m.scr ? (
-                    <span style={{ fontSize: 12, color: '#78716c', fontStyle: 'italic' }}>
+                    <span
+                      style={{ fontSize: 12, color: 'var(--ink-muted-warm)', fontStyle: 'italic' }}
+                    >
                       Available in the app
                     </span>
                   ) : null}
@@ -157,7 +165,10 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
           );
         })
       ) : (
-        <div className="c" style={{ textAlign: 'center', color: '#78716c', padding: '32px 16px' }}>
+        <div
+          className="c"
+          style={{ textAlign: 'center', color: 'var(--ink-muted-warm)', padding: '32px 16px' }}
+        >
           No resources at this level yet.
         </div>
       )}

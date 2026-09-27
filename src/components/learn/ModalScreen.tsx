@@ -137,13 +137,15 @@ export default function ModalScreen({
               background: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
             }}
           >
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#5b21b6', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 8 }}
+            >
               🔮 What are Modal Verbs?
             </div>
             <div style={{ fontSize: 14, lineHeight: 1.7 }}>
               Modal verbs express ability, obligation, permission, need, and desire. They combine
-              with infinitives: <b style={{ color: '#7c3aed' }}>Mogu čitati</b> (I can read),{' '}
-              <b style={{ color: '#7c3aed' }}>Moram ići</b> (I must go).
+              with infinitives: <b style={{ color: 'var(--ink-mode)' }}>Mogu čitati</b> (I can
+              read), <b style={{ color: 'var(--ink-mode)' }}>Moram ići</b> (I must go).
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
@@ -158,8 +160,10 @@ export default function ModalScreen({
                 })}
               >
                 <div style={{ fontSize: 28 }}>{v.icon}</div>
-                <div style={{ fontSize: 14, fontWeight: 800, color: '#5b21b6' }}>{v.inf}</div>
-                <div style={{ fontSize: 11, color: '#78716c' }}>{v.en}</div>
+                <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--ink-mode)' }}>
+                  {v.inf}
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
               </div>
             ))}
           </div>
@@ -191,13 +195,13 @@ export default function ModalScreen({
                       style={{
                         fontSize: 24,
                         fontWeight: 800,
-                        color: '#5b21b6',
+                        color: 'var(--ink-mode)',
                         fontFamily: "'Playfair Display',serif",
                       }}
                     >
                       {v.inf}
                     </div>
-                    <div style={{ fontSize: 15, color: '#78716c' }}>{v.en}</div>
+                    <div style={{ fontSize: 15, color: 'var(--ink-muted-warm)' }}>{v.en}</div>
                   </div>
                   <Spk text={v.inf} label={v.inf} />
                 </div>
@@ -229,16 +233,20 @@ export default function ModalScreen({
                           style={{
                             padding: '10px 12px',
                             fontWeight: 600,
-                            color: '#78716c',
+                            color: 'var(--ink-muted-warm)',
                             width: '30%',
                           }}
                         >
                           {p}
                         </td>
-                        <td style={{ padding: '10px 12px', fontWeight: 700, color: '#16a34a' }}>
+                        <td
+                          style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--success)' }}
+                        >
                           ✅ {v.forms[pi]}
                         </td>
-                        <td style={{ padding: '10px 12px', fontWeight: 700, color: '#dc2626' }}>
+                        <td
+                          style={{ padding: '10px 12px', fontWeight: 700, color: 'var(--error)' }}
+                        >
                           ❌ {v.neg[pi]}
                         </td>
                       </tr>
@@ -248,12 +256,23 @@ export default function ModalScreen({
               </div>
               <div
                 className="c"
-                style={{ marginBottom: 16, borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}
+                style={{
+                  marginBottom: 16,
+                  borderLeft: '4px solid #f59e0b',
+                  background: 'var(--warning-bg)',
+                }}
               >
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#b45309', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: 'var(--ink-warn)',
+                    marginBottom: 4,
+                  }}
+                >
                   💡 TIP
                 </div>
-                <div style={{ fontSize: 13, color: '#92400e' }}>{v.tip}</div>
+                <div style={{ fontSize: 13, color: 'var(--ink-warn)' }}>{v.tip}</div>
               </div>
               <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
                 {m7v > 0 && (
@@ -303,10 +322,10 @@ export default function ModalScreen({
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   Fill Blanks Complete!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#7c3aed' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-mode)' }}>
                   {m7s} / {total}
                 </div>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginTop: 16 }}>
@@ -349,11 +368,20 @@ export default function ModalScreen({
                 <div style={{ fontSize: 14, fontWeight: 700 }}>
                   {m7i + 1} / {total}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#7c3aed' }}>Score: {m7s}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
+                  Score: {m7s}
+                </div>
               </div>
               <Bar v={m7i + 1} mx={total} color="#7c3aed" h={6} />
               <div className="c" style={{ marginTop: 16 }}>
-                <div style={{ fontSize: 11, color: '#7c3aed', fontWeight: 700, marginBottom: 6 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-mode)',
+                    fontWeight: 700,
+                    marginBottom: 6,
+                  }}
+                >
                   Verb: {q.v}
                 </div>
                 <div style={{ fontSize: 17, lineHeight: 1.8 }}>
@@ -362,7 +390,7 @@ export default function ModalScreen({
                     style={{
                       borderBottom: '3px solid #7c3aed',
                       fontWeight: 800,
-                      color: '#7c3aed',
+                      color: 'var(--ink-mode)',
                       padding: '0 4px',
                     }}
                   >
@@ -370,7 +398,14 @@ export default function ModalScreen({
                   </span>
                   {pts[1] || ''}
                 </div>
-                <div style={{ fontSize: 13, color: '#78716c', fontStyle: 'italic', marginTop: 8 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    color: 'var(--ink-muted-warm)',
+                    fontStyle: 'italic',
+                    marginTop: 8,
+                  }}
+                >
                   {q.en}
                 </div>
               </div>
@@ -434,10 +469,10 @@ export default function ModalScreen({
             return (
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontSize: 64 }}>{pct >= 80 ? '🌟' : '👍'}</div>
-                <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+                <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                   {pct >= 80 ? 'Modal Master!' : 'Keep Practicing!'}
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#7c3aed' }}>
+                <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-mode)' }}>
                   {m7s} / {total}
                 </div>
                 {pct >= 70 && (
@@ -483,7 +518,9 @@ export default function ModalScreen({
                 <div style={{ fontSize: 14, fontWeight: 700 }}>
                   🏆 {m7i + 1}/{total}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#7c3aed' }}>Score: {m7s}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-mode)' }}>
+                  Score: {m7s}
+                </div>
               </div>
               <Bar v={m7i + 1} mx={total} color="#7c3aed" h={6} />
               <div className="c" style={{ marginTop: 16 }}>

@@ -111,7 +111,9 @@ html{
      moves from pure black to the design system's own text colour, which is
      18.1:1 on white and imperceptibly different. */
   --text:#0f172a;
-  --subtext:#555e6e; /* WCAG AA: ~5.3:1 on white (was #64748b = 4.0:1, failed for small text) */
+  --subtext:#555e6e; /* WCAG AA: ~5.3:1 on white. Darkened from #64748b, which measures
+                        4.76:1 — it PASSES AA for normal text; the "4.0:1, failed" this
+                        comment used to claim was wrong (measured 2026-09-27). */
   --sh-c:#5c6370; /* WCAG AA: ~5.1:1 on white (was #94a3b8 = 2.4:1, failed) */
   --rt-c:#374151;
 
@@ -184,6 +186,48 @@ html{
   --cta-h:        72px;
   --header-h:     56px;
   --safe-bottom:  env(safe-area-inset-bottom, 0px);
+
+  /* ── INLINE INKS ──────────────────────────────────────────────────────────
+     A colour set inline as `color:` lands on whatever the THEME painted, and 1,308 of
+     them across 288 files were hardcoded DARK brand hexes — so in dark mode they sat on
+     --card (#1e293b) at 1.0-4.4:1 against the 4.5:1 AA floor. #002868 on the ACTIVE
+     sidebar tab measured 1.05:1, on every screen.
+
+     EVERY LIGHT VALUE HERE IS THE LITERAL IT REPLACES, so light mode is byte-identical
+     by construction and only the dark half moves. That property is what made a
+     thousand-site codemod safe to ship without re-reviewing every screen.
+
+     The dark values are not invented where the app had already chosen one: the violet is
+     the #a78bfa its own [data-theme="dark"] .card-grammar rule uses. */
+  --ink-muted:      #64748b;  /* cool grey secondary — the commonest ink in the app */
+  --ink-muted-warm: #78716c;  /* warm grey; kept apart from the cool one because mixing
+                                 stone and slate greys IS visible in aggregate */
+  --ink-accent:     #0e7490;  /* the brand teal as body ink. NOT --accent, which is also
+                                 14 backgrounds and 9 borders and so cannot go light */
+  --ink-strong:     #164e63;  /* the darker teal, used for headings */
+  --ink-mode:       #7c3aed;  /* the violet on a drill's mode label */
+  --ink-body:       #44403c;  /* warm near-black body copy */
+  --ink-ink:        #1c1917;  /* the darkest body copy — its own token rather than folded
+                                 into --ink-body, which would lighten 39 LIGHT-mode sites
+                                 from 17.5:1 to 10.3:1 */
+  --ink-warn:       #b45309;
+  --ink-info:       #0369a1;
+  --ink-flag:       #003DA5;  /* the Croatian flag blue used as ink */
+  --ink-navy:       #002868;  /* and the navy — their own tokens rather than --error or
+                                 --ink-info, because a nav label is not an error and a
+                                 semantic token would be reworded out from under them */
+  --ink-red:        #D40030;
+  --ink-green:      #166534;  /* a dark green for ink — NOT --success (#16a34a), which is
+                                 3.30:1 on white and fails AA as text */
+
+  /* ── TINTED SURFACES ──────────────────────────────────────────────────────
+     A container painting an opaque LIGHT background inline stays light in dark mode, and
+     then the light ink its children now use lands light-on-light: 19 routes measurably
+     got WORSE from the ink change alone before these existed. These two complete the set
+     beside --card, --info-bg, --warning-bg, --success-bg and --error-bg, whose light
+     values already matched the literals in use byte for byte. */
+  --surface-mute:   #f1f5f9;  /* the neutral slate tint behind a quiet panel */
+  --mode-bg:        #f5f3ff;  /* the violet tint behind a drill's mode header */
 }
 
 /* ── Card accent variants ─────────────────────────────── */
@@ -304,10 +348,10 @@ html{
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-.type-badge-history  { background: rgba(124,58,237,.1);  color: #7c3aed; }
-.type-badge-reading  { background: rgba(22,163,74,.1);   color: #16a34a; }
-.type-badge-culture  { background: rgba(194,65,12,.1);   color: #c2410c; }
-.type-badge-language { background: rgba(14,116,144,.1);  color: #0e7490; }
+.type-badge-history  { background: rgba(124,58,237,.1);  color: var(--ink-mode); }
+.type-badge-reading  { background: rgba(22,163,74,.1);   color: var(--ink-green); }
+.type-badge-culture  { background: rgba(194,65,12,.1);   color: var(--ink-warn); }
+.type-badge-language { background: rgba(14,116,144,.1);  color: var(--ink-accent); }
 .type-badge-new      { background: #dc2626; color: white; }
 
 /* ── Growth opportunity (replaces weak area) ─────────── */
@@ -439,6 +483,25 @@ html{
   /* Warning text — dark mode */
   --warning-text: #fcd34d;
   --warning-bg: rgba(245, 158, 11, 0.15);
+
+  /* Inline inks — see the :root note. Each clears 4.5:1 on BOTH --card (#1e293b) and the
+     page behind it (#0f172a); measured, not chosen by eye. */
+  --ink-muted:      #94a3b8;  /* 5.71:1 on card */
+  --ink-muted-warm: #a8a29e;  /* 5.80 */
+  --ink-accent:     #5eead4;  /* 9.89 */
+  --ink-strong:     #a5f3fc;  /* 11.72 */
+  --ink-mode:       #a78bfa;  /* 5.38 — the app's own dark violet */
+  --ink-body:       #e2e8f0;  /* 11.87 */
+  --ink-ink:        #e2e8f0;  /* 11.87 */
+  --ink-warn:       #fbbf24;  /* 8.76 */
+  --ink-info:       #7dd3fc;  /* 8.77 */
+  --ink-flag:       #93c5fd;  /* 8.11 */
+  --ink-navy:       #93c5fd;  /* 8.11 on card, 9.64 on the nav */
+  --ink-red:        #fca5a5;  /* 7.71 on card, 9.16 on the nav */
+  --ink-green:      #4ade80;  /* 8.40 */
+  /* Translucent so they composite over --card instead of painting a light slab. */
+  --surface-mute:   rgba(255,255,255,.06);
+  --mode-bg:        rgba(167,139,250,.12);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -845,7 +908,7 @@ html{
   border:1.5px solid var(--ghost-b);
   box-shadow:0 1px 4px rgba(0,0,0,.06);
 }
-.bg:hover{background:var(--ob-hbg);border-color:#0e7490;color:#0e7490}
+.bg:hover{background:var(--ob-hbg);border-color:var(--ink-accent);color:var(--ink-accent)}
 
 /* Gold accent button */
 .bgold{
@@ -892,7 +955,7 @@ input:focus,textarea:focus{
    leave the field with no focus indicator at all. */
 .search-inp{box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .write-area{border:1.5px solid var(--card-b);box-shadow:0 1px 4px rgba(0,0,0,.05)}
-input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG AA: ~4.6:1 on white */
+input::placeholder,textarea::placeholder{color:var(--ink-muted);font-weight:400} /* WCAG AA: ~4.6:1 on white */
 
 /* ═══════════════════════════════════════════════════════════
    QUIZ OPTIONS — the most-used interactive element
@@ -965,7 +1028,7 @@ input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG 
 ═══════════════════════════════════════════════════════════ */
 .rt{font-size:17px;line-height:1.6;color:var(--rt-c)}
 .rt .w{cursor:pointer;border-radius:4px;padding:1px 4px;transition:all .15s}
-.rt .w:hover{background:rgba(14,116,144,.12);color:#0e7490}
+.rt .w:hover{background:rgba(14,116,144,.12);color:var(--ink-accent)}
 
 /* ═══════════════════════════════════════════════════════════
    MAIN CONTENT AREA — padding-bottom clears the fixed nav bar
@@ -1012,7 +1075,7 @@ input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG 
   transition:color .18s,font-weight .18s;
 }
 .nav-btn.active .nav-icon{transform:scale(1.06) translateY(-1px)}
-.nav-btn.active .nav-label{font-weight:800;color:#0e7490}
+.nav-btn.active .nav-label{font-weight:800;color:var(--ink-accent)}
 /* Dot indicator under active tab */
 .nav-btn.active::after{
   content:'';
@@ -1068,11 +1131,11 @@ input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG 
 .sb-btn:hover{background:var(--bar-bg)}
 .sb-btn.active{
   background:rgba(0,40,104,.08);
-  color:#002868;font-weight:700;
+  color:var(--ink-navy);font-weight:700;
 }
 .sb-btn.active.croatia-tab{
   background:rgba(204,0,0,.07);
-  color:#CC0000;
+  color:var(--ink-red);
 }
 .sb-badge{
   background:linear-gradient(135deg,#e11d48,#be123c);
@@ -1200,14 +1263,14 @@ input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG 
 .tile.selected{
   background:linear-gradient(135deg,#dbeafe,#bfdbfe);
   border-color:#3b82f6;
-  color:#1d4ed8;
+  color:var(--ink-flag);
   box-shadow:0 3px 0 rgba(59,130,246,.3);
   animation:tileSnap .2s ease;
 }
 .tile.placed{
   background:linear-gradient(135deg,#dcfce7,#bbf7d0);
   border-color:#16a34a;
-  color:#15803d;
+  color:var(--ink-green);
 }
 .tile.wrong{animation:tileShake .3s ease}
 
@@ -1341,7 +1404,7 @@ input::placeholder,textarea::placeholder{color:#6b7280;font-weight:400} /* WCAG 
 .sr-item{padding:12px 16px;border-bottom:1px solid var(--card-b);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .1s}
 .sr-item:hover,.sr-item:active{background:var(--ob-hbg)}
 .sr-close{padding:10px;text-align:center;font-size:12px;color:var(--subtext);cursor:pointer;border-top:1px solid var(--card-b)}
-.sr-close:hover{color:#0e7490}
+.sr-close:hover{color:var(--ink-accent)}
 
 /* Croatian identity utility */
 .milestone-border { border-left: 3px solid var(--color-croatian) !important; }
@@ -2675,7 +2738,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
   border-radius:20px;
   background:rgba(212,0,45,.1);
   border:1px solid rgba(212,0,45,.25);
-  color:#d4002d;
+  color:var(--ink-red);
   font-size:12px;font-weight:700;
   white-space:nowrap;flex-shrink:0;
 }
@@ -2710,7 +2773,7 @@ img, video, canvas, .skeleton, [class*="anim-"], [style*="animation"] {
 .pill-filter.active{
   background:rgba(212,0,45,.1);
   border-color:rgba(212,0,45,.4);
-  color:#d4002d;
+  color:var(--ink-red);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -3714,7 +3777,7 @@ body {
   box-shadow: 0 0 0 1.5px rgba(255, 255, 255, .6), 0 0 0 3px rgba(185, 148, 62, .45), 0 6px 20px rgba(0, 0, 0, .18);
 }
 .cp-crest > i { display: block }
-.cp-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: .16em; color: var(--accent); margin-bottom: 8px }
+.cp-eyebrow { font-size: 10px; font-weight: 900; letter-spacing: .16em; color: var(--ink-accent); margin-bottom: 8px }
 .cp-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 800; color: var(--heading); line-height: 1.15; margin-bottom: 4px }
 .cp-subtitle { font-size: 13px; color: var(--subtext); margin-bottom: 14px }
 .cp-lede { font-size: 14px; line-height: 1.6; color: var(--subtext); margin-bottom: 16px }
@@ -3723,7 +3786,7 @@ body {
 .cp-bullets li::before {
   content: '✓'; position: absolute; left: 0; top: 0;
   width: 19px; height: 19px; border-radius: 50%;
-  background: var(--info-bg); color: var(--accent);
+  background: var(--info-bg); color: var(--ink-accent);
   font-size: 11px; font-weight: 900;
   display: flex; align-items: center; justify-content: center;
 }
@@ -3757,7 +3820,7 @@ body {
 .exam-cta { padding: 14px 20px 22px; padding-bottom: max(22px, env(safe-area-inset-bottom)) }
 .exam-cta .b { width: 100% }
 
-.q-skill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 9999px; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; background: var(--info-bg); color: #002868; border: 1px solid var(--info-b); margin: 14px 0 0 }
+.q-skill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 9999px; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; background: var(--info-bg); color: var(--ink-navy); border: 1px solid var(--info-b); margin: 14px 0 0 }
 .q-skill.violet { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe }
 .q-passage { background: var(--card); border: 1px solid var(--card-b); border-left: 4px solid #002868; border-radius: 16px; padding: 16px 18px; font-size: 15px; line-height: 1.65; color: var(--heading); margin: 14px 0 18px }
 .q-stem { font-size: 19px; font-weight: 800; color: var(--heading); line-height: 1.35; margin: 14px 0 18px }
@@ -3772,7 +3835,7 @@ body {
 .cp-result { display: flex; flex-direction: column; align-items: center; text-align: center }
 .cp-badge { width: 104px; height: 104px; border-radius: 50%; background: conic-gradient(from 220deg, #0e7490, #0a5c73, #164e63, #0e7490); display: flex; align-items: center; justify-content: center; margin-bottom: 22px; box-shadow: 0 12px 36px rgba(14, 116, 144, .35); animation: rise .4s var(--motion-spring) }
 .cp-badge.warn { background: conic-gradient(from 220deg, #f59e0b, #d97706, #b45309, #f59e0b); box-shadow: 0 12px 36px rgba(217, 119, 6, .32) }
-.cp-badge .core { width: 84px; height: 84px; border-radius: 50%; background: var(--card); color: var(--accent); font-size: 40px; font-weight: 900; display: flex; align-items: center; justify-content: center }
+.cp-badge .core { width: 84px; height: 84px; border-radius: 50%; background: var(--card); color: var(--ink-accent); font-size: 40px; font-weight: 900; display: flex; align-items: center; justify-content: center }
 .cp-badge.warn .core { color: #d97706 }
 .cp-result-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 800; color: var(--heading); margin-bottom: 8px }
 .cp-result-sub { font-size: 14px; line-height: 1.6; color: var(--subtext); max-width: 320px; margin-bottom: 24px }

@@ -92,7 +92,7 @@ function RelativePronounsScreen({ goBack, award }: Props) {
               const r = RELPRON.table[g];
               return (
                 <tr key={gi} style={{ background: gi % 2 ? '#f0fdfa' : 'white' }}>
-                  <td style={{ padding: '6px', fontWeight: 800, color: '#0e7490' }}>
+                  <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
                     {g === 'm' ? '♂ M' : g === 'f' ? '♀ F' : '⚧ N'}
                   </td>
                   {[r.nom, r.gen, r.dat, r.aku, r.lok].map(function (v, vi) {
@@ -168,7 +168,9 @@ function RelativePronounsScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

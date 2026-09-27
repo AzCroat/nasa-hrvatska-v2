@@ -52,10 +52,10 @@ export default function Unjumble({
         {H('🧩 Word Order', 'Arrange words to form correct Croatian sentences', goBack)}
         <div style={{ textAlign: 'center', padding: 40 }}>
           <div style={{ fontSize: 64 }}>{ujS >= total * 0.8 ? '🌟' : '👍'}</div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+          <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
             Word Order Complete!
           </h2>
-          <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+          <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
             {ujS} / {ujQ.length}
           </div>
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '12px 0 20px' }}>
@@ -89,10 +89,12 @@ export default function Unjumble({
       {H('🧩 Word Order', 'Arrange words to form correct Croatian sentences', goBack)}
       <Bar v={ujI + 1} mx={total} h={6} />
       <div className="c" style={{ marginTop: 16 }}>
-        <div style={{ fontSize: 13, color: '#78716c', marginBottom: 8 }}>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 8 }}>
           Translate to Croatian:
         </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: '#164e63', marginBottom: 16 }}>
+        <div
+          style={{ fontSize: 18, fontWeight: 700, color: 'var(--ink-strong)', marginBottom: 16 }}
+        >
           "{q.en}"
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
@@ -155,9 +157,9 @@ export default function Unjumble({
             }}
           >
             {isCorrect ? (
-              <span style={{ color: '#16a34a', fontWeight: 700 }}>✅ Correct!</span>
+              <span style={{ color: 'var(--success)', fontWeight: 700 }}>✅ Correct!</span>
             ) : (
-              <span style={{ color: '#dc2626' }}>
+              <span style={{ color: 'var(--error)' }}>
                 ❌ Correct answer: <b>{q.correct}</b>
               </span>
             )}

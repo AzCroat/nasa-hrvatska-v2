@@ -11355,7 +11355,90 @@ harness fix. E2E: `lesson-complete`, `navigation`, `practice` = 32/32 against a
 CI-equivalent build; the suite's `.ob` selectors all keep matching (the base token
 survives) and `full-user-audit` already excluded `.ok`/`.no`. Mutation-verified four.
 
+## Sweep 157 — the inks, and axe was the wrong instrument (2026-09-27)
+
+Full design record in CLAUDE.md, "An Inline Ink Lands On Whatever The Theme Painted".
+The general form of sweep 156, at ~10x the size — and a correction to sweep 156's own
+evidence.
+
+**THE DEFECT** — 1,308 inline `color` literals across 288 files were hardcoded DARK
+brand hexes, so in dark mode they sat on `--card` (#1e293b) at 1.0–4.4:1 against the
+4.5:1 AA floor. The Croatian navy on the ACTIVE sidebar tab measured **1.05:1**, on
+every screen.
+
+**SHIPPED** — 13 `--ink-*` tokens in both themes (11 plus the two flag colours), each
+seeded with the literal it replaces so LIGHT MODE IS BYTE-IDENTICAL by construction;
+1,308 inline inks, 166 light container backgrounds, 58 ink/surface pairings, 120
+conditional inks, 17 CSS-class rules and one data-driven ink family converted;
+`inlineInkContrast.test.ts` as the source ratchet and **`e2e/dark-mode-ink.spec.js` as
+the instrument that actually works**.
+
+**THE SIX THINGS WORTH REMEMBERING**
+
+1. **SWEEP 156'S APP-WIDE axe NUMBERS WERE WRONG AND I CORRECTED THEM IN PLACE.** Two
+   independent reasons: a 500 ms settle samples pages mid-transition (`frequency_track`
+   read **3,741 nodes at 500 ms and 0 at 1,500 ms**; eleven more routes the same way),
+   and **axe reports _incomplete_, not a violation, for an element over a gradient** —
+   which this app's page is. Measured on a 109-route sample: **478 violations against
+   3,564 INCOMPLETE**. The repo already records the mid-transition error for the
+   focus-ring sweep and I re-made it.
+2. **THE DEFINITIVE TEST OF MY OWN FIX WAS A NEGATIVE.** Same method both sides, 1,500 ms,
+   430 routes: baseline **1,680** nodes, after converting 1,308 inks **1,681**. The fix is
+   real — the tokens resolve and the elements render light, read off computed colours in
+   Chrome — and axe simply cannot see this class here. **Do not accept a tool's silence as
+   a measurement; establish that it can see the thing at all.**
+3. **THE INSTRUMENT THAT WORKS NEEDS NO BACKGROUND.** In dark mode the page is dark, so
+   its text is light: an element with DARK computed `color` and no light surface in its
+   own chain is a defect. That is decidable without compositing a gradient, and it found
+   every remaining shape — including four my codemods structurally could not see.
+4. **TWO CORRECT CODEMODS COMPOSED INTO A REGRESSION.** Elements painting a light
+   background are rightly exempt from the ink rule; converting those containers to themed
+   tints made their surfaces dark **while their dark ink stayed**, and 19 routes got
+   measurably worse. Caught by rendering, not by either rule alone.
+5. **`--success` IS 3.30:1 ON WHITE.** The light-side check caught it before 51 dark
+   greens were folded onto it. A semantic token is not automatically an accessible ink.
+6. **`color:` IS A SUBSTRING OF `border-color:`** — a CSS rewrite keyed on it changed the
+   wrong property once. The JS codemod had the `(?<![a-zA-Z])` guard; the CSS pass did not.
+
+**VERIFICATION** — full suite **658 files / 10,408 tests green**; typecheck, eslint and
+Croatian lint (0/473) clean; `dark-mode-ink.spec.js` 6/6; `inlineInkContrast` +
+`themedInlineBackground` 12/12. Mutation-verified four on the new guard. Static count of
+the class: **1,308 → 0**. Whole-app probe after: **131 distinct offending styles across
+61 of 430 routes**, characterised below.
+
 ## NOT YET CHECKED — where the next field report will come from
+
+- [ ] **THE DARK-INK TAIL — 131 styles across 61 of 430 routes** — measured after sweep
+      157 by `e2e/dark-mode-ink.spec.js`, which is the tool to re-run (widen its `ROUTES`
+      to every route; it took ~14 min). Four shapes, none reachable by the codemods used:
+      **(a) DATA-DRIVEN inks** — the biggest group: a per-item brand colour used both as a
+      badge background (correct, white on it) and as text (`football`, `dialects`,
+      `readlist`, `personas`, `phoneme_practice`, `crmap`, `immersion`, `croatia_today`).
+      The pattern that fixed the one instance already done is in `ConstellationData.js`:
+      keep `color` for the badge, add an `ink` token beside it.
+      **(b) ~36 brand literals outside the map** — `#cc0000`, `#003da5`, `#2563eb`,
+      `#db2777`, `#d4002d`, `#1e3a5f`, `#003087`, `#9d174d`, `#7e22ce`; several are
+      national-identity colours and want their own token like `--ink-navy`/`--ink-red`
+      rather than a semantic one.
+      **(c) 81 inline light BACKGROUNDS whose light value matches no existing tint** —
+      `#f1f5f9` (11), `#fee2e2` (11), `#f8fafc` (8), `#dcfce7` (7), `#f5f3ff` (5),
+      `#eff6ff` (4), `#f0fdfa` (3), `#f5f5f4` (3), `#fff1f2` (3). `--surface-mute` and
+      `--mode-bg` were added for the first two families and are the shape to follow.
+      **(d) 165 dark `color:` fields in NAMED objects** — mostly DATA, not styles
+      (`hrvatska/doors.ts` 32, `illustrations/CelebrationScene.tsx` 8), so they need
+      classifying per file before any rewrite; `DiffSpan.tsx` (9) and `HNLScreen.tsx` (18)
+      are the ones most likely to be real text.
+- [ ] **25 CONTRAST FAILURES THAT ARE THEME-INDEPENDENT** — measured with the
+      size-appropriate AA threshold (3:1 for ≥18px or ≥14px bold, else 4.5:1), and all 25
+      are small text: `#fff` on `#f59e0b` at **2.15:1** (`LearnPath`, the mic explainer),
+      `#94a3b8` on `#f1f5f9` at 2.34 (`ShadowingScreen`), seven sites of `#fff` on
+      `#16a34a` at 3.30, `#dc2626` on `#fee2e2` at 3.95 (four files). These are badges and
+      chips that own both halves of their own contrast and get it wrong in EITHER theme —
+      a much milder class than sweep 157's invisible ink, and a separate fix.
+- [ ] **`--success` FAILS AA AS TEXT ON WHITE (3.30:1)** and 49 inline sites read it as
+      ink. `--ink-green` (#166534, 7.13:1) exists for new work; the 49 are a pre-existing
+      light-mode failure sweep 157 neither introduced nor fixed. Changing `--success`
+      itself affects backgrounds and borders too, so it needs its own measurement.
 
 - [ ] **HARDCODED DARK BRAND COLOURS ARE UNREADABLE IN DARK MODE, ON 160 ROUTES** —
       the general form of sweep 156, and much bigger. Measured with axe's

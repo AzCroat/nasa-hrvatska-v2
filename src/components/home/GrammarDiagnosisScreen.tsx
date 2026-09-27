@@ -291,7 +291,7 @@ export default function GrammarDiagnosisScreen({
                   border: `1.5px solid ${chip.active ? '#86efac' : 'var(--card-b)'}`,
                   fontSize: 13,
                   fontWeight: chip.active ? 600 : 400,
-                  color: chip.active ? '#15803d' : 'var(--subtext)',
+                  color: chip.active ? 'var(--ink-green)' : 'var(--subtext)',
                   transition: 'all 0.2s',
                 }}
               >
@@ -635,20 +635,20 @@ export default function GrammarDiagnosisScreen({
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 700,
-                                  color: '#D4002D',
+                                  color: 'var(--error)',
                                   marginBottom: 6,
                                 }}
                               >
                                 ❌ Wrong
                               </div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: '#9f1239' }}>
+                              <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--error)' }}>
                                 {exObj.wrong}
                               </div>
                               {exObj.wrong_en && (
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: '#be123c',
+                                    color: 'var(--error)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -662,7 +662,7 @@ export default function GrammarDiagnosisScreen({
                               style={{
                                 flex: 1,
                                 minWidth: 130,
-                                background: '#f0fdf4',
+                                background: 'var(--success-bg)',
                                 border: '1.5px solid #86efac',
                                 borderRadius: 12,
                                 padding: '12px 14px',
@@ -672,20 +672,22 @@ export default function GrammarDiagnosisScreen({
                                 style={{
                                   fontSize: 11,
                                   fontWeight: 700,
-                                  color: '#15803d',
+                                  color: 'var(--ink-green)',
                                   marginBottom: 6,
                                 }}
                               >
                                 ✅ Correct
                               </div>
-                              <div style={{ fontSize: 15, fontWeight: 700, color: '#166534' }}>
+                              <div
+                                style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-green)' }}
+                              >
                                 {exObj.correct}
                               </div>
                               {exObj.correct_en && (
                                 <div
                                   style={{
                                     fontSize: 12,
-                                    color: '#16a34a',
+                                    color: 'var(--success)',
                                     marginTop: 4,
                                     fontStyle: 'italic',
                                   }}
@@ -876,8 +878,12 @@ export default function GrammarDiagnosisScreen({
         >
           <span style={{ fontSize: 22 }}>⭐</span>
           <div>
-            <div style={{ fontWeight: 700, color: '#15803d', fontSize: 14 }}>+10 XP earned!</div>
-            <div style={{ fontSize: 12, color: '#16a34a' }}>Great work on the drill questions</div>
+            <div style={{ fontWeight: 700, color: 'var(--ink-green)', fontSize: 14 }}>
+              +10 XP earned!
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--success)' }}>
+              Great work on the drill questions
+            </div>
           </div>
         </div>
       )}

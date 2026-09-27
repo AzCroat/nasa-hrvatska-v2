@@ -352,13 +352,13 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
             style={{
               padding: '12px 16px',
               borderRadius: 10,
-              background: '#fef2f2',
+              background: 'var(--error-bg)',
               border: '1px solid #fca5a5',
               marginBottom: 16,
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 13, color: '#dc2626', marginBottom: 10 }}>{errorMsg}</div>
+            <div style={{ fontSize: 13, color: 'var(--error)', marginBottom: 10 }}>{errorMsg}</div>
             <button
               className="b bp"
               disabled={!topic}
@@ -864,7 +864,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     style={{
                       fontSize: 12,
                       fontWeight: 700,
-                      color: a?.correct ? '#166534' : '#dc2626',
+                      color: a?.correct ? 'var(--ink-green)' : 'var(--error)',
                       marginBottom: 3,
                     }}
                   >
@@ -874,7 +874,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     {q.q}
                   </div>
                   {!a?.correct && (
-                    <div style={{ fontSize: 12, color: '#16a34a', marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--success)', marginTop: 4 }}>
                       Correct answer: {q.options[q.correct]}
                     </div>
                   )}
@@ -933,4 +933,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
   }
 
   return null;
+  null;
+  null;
+  null;
 }

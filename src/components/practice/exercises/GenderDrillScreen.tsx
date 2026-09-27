@@ -107,7 +107,15 @@ function GenderDrillScreen({ goBack, award }: Props) {
       {H('♂️♀️ Gender, Plurals & Adjectives', 'Master noun genders and endings', goBack)}
 
       {/* ─── Progress bar ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 20, fontSize: 12, color: '#78716c' }}>
+      <div
+        style={{
+          display: 'flex',
+          gap: 8,
+          marginBottom: 20,
+          fontSize: 12,
+          color: 'var(--ink-muted-warm)',
+        }}
+      >
         <span
           style={{
             background: sortDone ? '#dcfce7' : '#f1f5f9',
@@ -150,11 +158,13 @@ function GenderDrillScreen({ goBack, award }: Props) {
           style={{
             marginBottom: 12,
             padding: '14px 16px',
-            background: '#f0f9ff',
+            background: 'var(--info-bg)',
             borderLeft: '3px solid #0e7490',
           }}
         >
-          <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: '#164e63' }}>
+          <p
+            style={{ fontSize: 14, fontWeight: 600, marginBottom: 10, color: 'var(--ink-strong)' }}
+          >
             What gender is <strong style={{ fontSize: 16 }}>{words[selectedGenderIdx].word}</strong>
             ?
           </p>
@@ -167,7 +177,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
                   padding: '10px 0',
                   border: '2px solid ' + gColor[g].bc,
                   borderRadius: 10,
-                  background: 'white',
+                  background: 'var(--card)',
                   fontSize: 14,
                   fontWeight: 700,
                   color: gColor[g].tc,
@@ -238,7 +248,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--success)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -254,7 +264,9 @@ function GenderDrillScreen({ goBack, award }: Props) {
         const answered = pluralAnswered[i];
         return (
           <div key={i} className="c" style={{ marginBottom: 8, padding: '12px 14px' }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#164e63', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-strong)', marginBottom: 8 }}
+            >
               {p.s} → ?
             </div>
             <div
@@ -320,7 +332,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--success)',
             fontWeight: 600,
             marginBottom: 16,
             textAlign: 'center',
@@ -339,7 +351,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         return (
           <div key={i} className="c" style={{ marginBottom: 8, padding: '10px 14px' }}>
             <div style={{ fontSize: 13, marginBottom: 8 }}>
-              <span style={{ fontWeight: 700, color: '#164e63' }}>{a.noun}</span>
+              <span style={{ fontWeight: 700, color: 'var(--ink-strong)' }}>{a.noun}</span>
               {' = '}
               {a.en}
               {' → _____ '}
@@ -406,7 +418,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
         <p
           style={{
             fontSize: 13,
-            color: '#16a34a',
+            color: 'var(--success)',
             fontWeight: 600,
             marginBottom: 8,
             textAlign: 'center',
@@ -422,7 +434,7 @@ function GenderDrillScreen({ goBack, award }: Props) {
           style={{
             textAlign: 'center',
             padding: '24px 16px',
-            background: '#f0fdf4',
+            background: 'var(--success-bg)',
             borderRadius: 12,
             margin: '16px 0',
             border: '1px solid #bbf7d0',
@@ -430,13 +442,13 @@ function GenderDrillScreen({ goBack, award }: Props) {
         >
           <div style={{ fontSize: 48 }}>🎉</div>
           <p style={{ fontWeight: 700, fontSize: 18, marginTop: 8 }}>All sections complete!</p>
-          <p style={{ color: '#4b5563', fontSize: 13, marginTop: 4 }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: 13, marginTop: 4 }}>
             Sort {sortScore}/{words.length} · Plural {pluralScore}/{plurals.length} · Adjective{' '}
             {adjScore}/{GENDERDRILL.adjectives.length}
           </p>
           {!passedLesson(gScore(), gTotal) && (
             <>
-              <p style={{ color: '#b45309', fontSize: 13, fontWeight: 700, marginTop: 8 }}>
+              <p style={{ color: 'var(--ink-warn)', fontSize: 13, fontWeight: 700, marginTop: 8 }}>
                 {gScore()}/{gTotal} overall — 75% is needed to earn credit.
               </p>
               <button

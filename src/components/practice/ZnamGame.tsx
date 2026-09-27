@@ -68,7 +68,7 @@ export default function ZnamGame({
               </div>
               <div>
                 <div style={{ fontSize: 15, fontWeight: 700 }}>{sec.name}</div>
-                <div style={{ fontSize: 12, color: '#78716c' }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)' }}>
                   {sec.sentences.length} sentences
                 </div>
               </div>
@@ -88,14 +88,18 @@ export default function ZnamGame({
                 <div style={{ fontSize: 14, fontWeight: 700 }}>
                   {sec.name} — {znIdx + 1}/{sec.sentences.length}
                 </div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>Score: {znSc}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
+                  Score: {znSc}
+                </div>
               </div>
               <Bar v={znIdx + 1} mx={sec.sentences.length} h={6} />
               <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-                <div style={{ fontSize: 12, color: '#78716c', marginBottom: 6 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
                   Translate to Croatian:
                 </div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: '#1c1917' }}>"{sent.en}"</div>
+                <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--ink-ink)' }}>
+                  "{sent.en}"
+                </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
                 {znOpts.map((o, oi) => (
@@ -165,16 +169,18 @@ export default function ZnamGame({
           return (
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 64 }}>{pct >= 80 ? '🏆' : pct >= 50 ? '👍' : '📚'}</div>
-              <h2 style={{ fontFamily: "'Playfair Display',serif", color: '#164e63' }}>
+              <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--ink-strong)' }}>
                 {sec.name} Complete!
               </h2>
-              <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490' }}>
+              <div style={{ fontSize: 32, fontWeight: 800, color: 'var(--ink-accent)' }}>
                 {znSc} / {sec.sentences.length}
               </div>
               <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '8px 0 4px' }}>
                 +{znSc * 5} XP
               </div>
-              <div style={{ fontSize: 14, color: '#78716c', marginBottom: 24 }}>{pct}% correct</div>
+              <div style={{ fontSize: 14, color: 'var(--ink-muted-warm)', marginBottom: 24 }}>
+                {pct}% correct
+              </div>
               <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
                 <button className="b bg" onClick={() => startSection(znSec)}>
                   🔄 Retry

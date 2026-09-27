@@ -51,7 +51,7 @@ export default function MicPermissionDeniedExplainer({ onRetry }: Props) {
         padding: 16,
         border: '1px solid #f59e0b',
         borderRadius: 12,
-        background: '#fffbeb',
+        background: 'var(--warning-bg)',
         marginTop: 12,
       }}
     >
@@ -59,7 +59,7 @@ export default function MicPermissionDeniedExplainer({ onRetry }: Props) {
         style={{
           fontWeight: 700,
           fontSize: 15,
-          color: '#92400e',
+          color: 'var(--ink-warn)',
           marginBottom: 8,
         }}
       >
@@ -68,7 +68,7 @@ export default function MicPermissionDeniedExplainer({ onRetry }: Props) {
       <div
         style={{
           fontSize: 14,
-          color: '#78350f',
+          color: 'var(--ink-warn)',
           marginBottom: 12,
         }}
       >

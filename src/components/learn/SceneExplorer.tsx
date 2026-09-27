@@ -165,10 +165,12 @@ export default function SceneExplorer({
             ← Back
           </button>
           <div style={{ flex: 1 }}>
-            <span style={{ fontSize: 17, fontWeight: 900, color: '#1c1917' }}>
+            <span style={{ fontSize: 17, fontWeight: 900, color: 'var(--ink-ink)' }}>
               {scene.icon} {scene.title}
             </span>
-            <span style={{ fontSize: 12, color: '#78716c', marginLeft: 6 }}>{scene.titleEn}</span>
+            <span style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginLeft: 6 }}>
+              {scene.titleEn}
+            </span>
           </div>
           <div style={{ fontSize: 12, fontWeight: 700, color: scene.color }}>
             {discCount}/{total}
@@ -220,8 +222,8 @@ export default function SceneExplorer({
               gap: 16,
             }}
           >
-            <span style={{ color: '#15803d' }}>✓ Known: {quizScore.known}</span>
-            <span style={{ color: '#b91c1c' }}>✗ Missed: {quizScore.unknown}</span>
+            <span style={{ color: 'var(--ink-green)' }}>✓ Known: {quizScore.known}</span>
+            <span style={{ color: 'var(--error)' }}>✗ Missed: {quizScore.unknown}</span>
           </div>
         )}
       </div>
@@ -305,7 +307,7 @@ export default function SceneExplorer({
           marginBottom: 8,
           fontSize: 12,
           fontWeight: 700,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           textTransform: 'uppercase',
           letterSpacing: '.06em',
         }}

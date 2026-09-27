@@ -153,7 +153,7 @@ export default function GrammarScreen({
             </div>
           )}
           <div className="c" style={{ marginBottom: 16 }}>
-            <p style={{ fontSize: 15, color: '#44403c', lineHeight: 1.7 }}>{gl.desc}</p>
+            <p style={{ fontSize: 15, color: 'var(--ink-body)', lineHeight: 1.7 }}>{gl.desc}</p>
           </div>
           {gl.exs.map((e, i) => (
             <button
@@ -268,7 +268,13 @@ export default function GrammarScreen({
       {gp === 'result' && (
         <div style={{ textAlign: 'center', paddingTop: 40 }}>
           <div style={{ fontSize: 64 }}>📝</div>
-          <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, color: '#164e63' }}>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display',serif",
+              fontSize: 28,
+              color: 'var(--ink-strong)',
+            }}
+          >
             Score: {gs}/{qs.length}
           </h2>
           <button className="b bp" style={{ marginTop: 24 }} onClick={goBack}>

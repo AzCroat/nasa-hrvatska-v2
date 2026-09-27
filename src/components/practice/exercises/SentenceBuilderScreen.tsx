@@ -114,7 +114,9 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
       {questions.map(function (s: { en: string; hr: string; opts: string[] }, i: number) {
         return (
           <div key={i} className="c" style={{ marginBottom: 10, padding: '10px 14px' }}>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#164e63', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-strong)', marginBottom: 6 }}
+            >
               {'🇬🇧 '}
               {s.en}
             </div>
@@ -172,7 +174,9 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           {!passed && (

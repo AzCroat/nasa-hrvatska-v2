@@ -83,7 +83,7 @@ export default function PartnerScreen({
             borderRadius: 10,
             fontSize: 12,
             fontWeight: 800,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             padding: '6px 11px',
             cursor: 'pointer',
             fontFamily: "'Outfit',sans-serif",

@@ -176,7 +176,7 @@ export default function CertificateScreen({
       <div
         ref={certRef}
         style={{
-          background: '#fff',
+          background: 'var(--card)',
           borderRadius: 24,
           overflow: 'hidden',
           boxShadow: '0 8px 40px rgba(0,0,0,.12)',
@@ -237,7 +237,7 @@ export default function CertificateScreen({
           <div
             style={{
               fontSize: 13,
-              color: '#64748b',
+              color: 'var(--ink-muted)',
               fontWeight: 600,
               marginBottom: 6,
               letterSpacing: '.08em',
@@ -250,14 +250,16 @@ export default function CertificateScreen({
             style={{
               fontSize: 32,
               fontWeight: 900,
-              color: '#0f172a',
+              color: 'var(--text)',
               fontFamily: "'Playfair Display',serif",
               marginBottom: 6,
             }}
           >
             {name || 'Learner'}
           </div>
-          <div style={{ fontSize: 14, color: '#475569', marginBottom: 24, fontWeight: 500 }}>
+          <div
+            style={{ fontSize: 14, color: 'var(--ink-muted)', marginBottom: 24, fontWeight: 500 }}
+          >
             has demonstrated dedicated study of the Croatian language
           </div>
 
@@ -291,7 +293,7 @@ export default function CertificateScreen({
                 }}
               >
                 <div style={{ fontSize: 22, marginBottom: 4 }}>{s.icon}</div>
-                <div style={{ fontSize: 15, fontWeight: 900, color: '#0f172a' }}>{s.val}</div>
+                <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--text)' }}>{s.val}</div>
                 <div
                   style={{
                     fontSize: 10,
@@ -310,10 +312,12 @@ export default function CertificateScreen({
           {/* Level progress */}
           <div style={{ marginBottom: 28 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>
+              <span style={{ fontSize: 12, color: 'var(--ink-muted)', fontWeight: 600 }}>
                 Progress to Level {level + 1}
               </span>
-              <span style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>{xpPct}%</span>
+              <span style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                {xpPct}%
+              </span>
             </div>
             <div style={{ height: 8, background: '#e2e8f0', borderRadius: 4, overflow: 'hidden' }}>
               <div

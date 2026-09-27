@@ -339,7 +339,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
             {isCorrect ? (
               <span style={{ color: 'var(--success)' }}>Correct!</span>
             ) : (
-              <span style={{ color: '#dc2626' }}>
+              <span style={{ color: 'var(--error)' }}>
                 Correct answer: <em>{cur.correct}</em>
               </span>
             )}

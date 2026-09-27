@@ -420,7 +420,7 @@ export default function PostcardScreen({
                   justifyContent: 'center',
                   fontSize: 13,
                   fontWeight: 800,
-                  color: done ? 'white' : active ? '#0e7490' : 'var(--subtext)',
+                  color: done ? 'white' : active ? 'var(--ink-accent)' : 'var(--subtext)',
                   transition: 'all .3s',
                 }}
               >
@@ -431,7 +431,11 @@ export default function PostcardScreen({
                   fontSize: 10,
                   fontWeight: 700,
                   marginTop: 4,
-                  color: active ? '#0e7490' : done ? '#0e7490' : 'var(--subtext)',
+                  color: active
+                    ? 'var(--ink-accent)'
+                    : done
+                      ? 'var(--ink-accent)'
+                      : 'var(--subtext)',
                   letterSpacing: '.04em',
                   textTransform: 'uppercase',
                 }}
@@ -811,7 +815,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#dc2626',
+                      color: 'var(--error)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -840,7 +844,7 @@ export default function PostcardScreen({
                     style={{
                       fontSize: 11,
                       fontWeight: 700,
-                      color: '#16a34a',
+                      color: 'var(--success)',
                       marginBottom: 5,
                       textTransform: 'uppercase',
                       letterSpacing: '.05em',
@@ -896,7 +900,7 @@ export default function PostcardScreen({
                     <span
                       style={{
                         fontSize: 12,
-                        color: '#dc2626',
+                        color: 'var(--error)',
                         fontWeight: 700,
                         textDecoration: 'line-through',
                         flexShrink: 0,
@@ -906,7 +910,12 @@ export default function PostcardScreen({
                     </span>
                     <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>→</span>
                     <span
-                      style={{ fontSize: 12, color: '#16a34a', fontWeight: 700, flexShrink: 0 }}
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--success)',
+                        fontWeight: 700,
+                        flexShrink: 0,
+                      }}
                     >
                       {ch.corrected}
                     </span>
@@ -1115,7 +1124,7 @@ export default function PostcardScreen({
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   textTransform: 'uppercase',
                   letterSpacing: '.06em',
                   marginBottom: 6,

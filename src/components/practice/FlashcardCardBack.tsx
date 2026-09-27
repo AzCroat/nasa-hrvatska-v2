@@ -297,7 +297,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
             style={{
               fontSize: 10,
               fontWeight: 800,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               textTransform: 'uppercase',
               letterSpacing: '0.08em',
               marginBottom: 6,
@@ -338,7 +338,14 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
                 {aiSentence.en}
               </div>
               {aiSentence.note && (
-                <div style={{ fontSize: 11, color: '#0e7490', marginTop: 4, fontWeight: 600 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-accent)',
+                    marginTop: 4,
+                    fontWeight: 600,
+                  }}
+                >
                   📌 {aiSentence.note}
                 </div>
               )}

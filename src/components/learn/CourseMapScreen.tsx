@@ -615,7 +615,7 @@ function UnitRow({
               style={{
                 fontSize: 11.5,
                 fontWeight: 700,
-                color: 'rgb(22, 163, 74)',
+                color: 'var(--ink-green)',
                 padding: '6px 2px 2px',
               }}
             >

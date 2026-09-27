@@ -172,10 +172,12 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
         }}
       >
         <div>
-          <div style={{ fontSize: 16, fontWeight: 800, color: '#1c1917' }}>
+          <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-ink)' }}>
             {section.icon} {section.title}
           </div>
-          <div style={{ fontSize: 11, color: '#78716c', marginTop: 2, fontWeight: 500 }}>
+          <div
+            style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginTop: 2, fontWeight: 500 }}
+          >
             {section.en} &nbsp;·&nbsp; {section.phrases.length} items
           </div>
         </div>
@@ -207,7 +209,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                   playPhrase(p.hr, key);
                 }}
                 style={{
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid ' + (isPlaying ? accent : 'rgba(0,0,0,.06)'),
                   boxShadow: isPlaying ? '0 0 0 3px ' + accent + '25' : '0 1px 4px rgba(0,0,0,.05)',
@@ -249,10 +251,24 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                     🔊
                   </span>
                 </div>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#1c1917', lineHeight: 1.3 }}>
+                <div
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: 'var(--ink-ink)',
+                    lineHeight: 1.3,
+                  }}
+                >
                   {p.hr}
                 </div>
-                <div style={{ fontSize: 11, color: '#78716c', marginTop: 3, lineHeight: 1.4 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: 'var(--ink-muted-warm)',
+                    marginTop: 3,
+                    lineHeight: 1.4,
+                  }}
+                >
                   {p.en}
                 </div>
               </button>
@@ -275,7 +291,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                 style={{
                   display: 'flex',
                   alignItems: 'stretch',
-                  background: 'white',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   border: '1px solid ' + (isPlaying ? accent : 'rgba(0,0,0,.06)'),
                   boxShadow: isPlaying ? '0 0 0 3px ' + accent + '22' : '0 2px 6px rgba(0,0,0,.05)',
@@ -310,14 +326,16 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                     style={{
                       fontSize: 15,
                       fontWeight: 800,
-                      color: '#1c1917',
+                      color: 'var(--ink-ink)',
                       lineHeight: 1.3,
                       marginBottom: 4,
                     }}
                   >
                     {p.hr}
                   </div>
-                  <div style={{ fontSize: 12, color: '#44403c', lineHeight: 1.4 }}>{p.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-body)', lineHeight: 1.4 }}>
+                    {p.en}
+                  </div>
                   {p.note && (
                     <div
                       style={{

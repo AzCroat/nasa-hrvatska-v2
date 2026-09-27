@@ -347,11 +347,13 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       {stage === 'study' && (
         <>
           <div style={card} data-testid="gw-study">
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 6 }}
+            >
               THE TASK
             </div>
             <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 4 }}>{unit.prompt}</div>
-            <div style={{ fontSize: 13, color: '#6b7280' }}>{unit.promptEn}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)' }}>{unit.promptEn}</div>
           </div>
           <div style={card}>
             <div
@@ -362,7 +364,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                 marginBottom: 8,
               }}
             >
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280' }}>STUDY THE MODEL</div>
+              <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)' }}>
+                STUDY THE MODEL
+              </div>
               <button
                 onClick={() => setShowEn((v) => !v)}
                 data-testid="gw-toggle-en"
@@ -384,7 +388,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
             </p>
           </div>
           <div style={card}>
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 8 }}
+            >
               WHAT TO STEAL FROM IT
             </div>
             {unit.structures.map((st, i) => (
@@ -403,9 +409,11 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   }}
                 >
                   <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
-                  <div style={{ fontSize: 12, color: '#6b7280' }}>{st.en}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                   {openStructure === i && (
-                    <div style={{ fontSize: 13, color: '#991b1b', marginTop: 6 }}>{st.why}</div>
+                    <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 6 }}>
+                      {st.why}
+                    </div>
                   )}
                 </button>
               </div>
@@ -425,7 +433,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
       {stage === 'frames' && frame && (
         <>
           <div style={card} data-testid="gw-frame">
-            <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 8 }}
+            >
               COMPLETE THE SENTENCE ({frameIdx + 1}/{unit.frames.length})
             </div>
             <div style={{ fontSize: 16, lineHeight: 1.7, marginBottom: 10 }}>
@@ -459,7 +469,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               />
               <span> {frame.after}</span>
             </div>
-            <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 12 }}>💡 {frame.hint}</div>
+            <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 12 }}>
+              💡 {frame.hint}
+            </div>
             {frameState === 'right' || revealed ? (
               <button
                 className="b bp"
@@ -499,12 +511,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               </div>
             )}
             {frameState === 'wrong' && !revealed && (
-              <div style={{ fontSize: 13, color: '#dc2626', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--error)', marginTop: 8 }}>
                 Not quite — check the hint and try again.
               </div>
             )}
             {(frameState === 'right' || revealed) && (
-              <div style={{ fontSize: 13, color: '#16a34a', marginTop: 8 }}>
+              <div style={{ fontSize: 13, color: 'var(--success)', marginTop: 8 }}>
                 {revealed ? `The answer: „${frame.answer}“ — say it once, then move on.` : 'Točno!'}
               </div>
             )}
@@ -517,11 +529,18 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
           {!result && (
             <>
               <div style={card}>
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 6 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: 'var(--ink-muted)',
+                    marginBottom: 6,
+                  }}
+                >
                   YOUR TURN
                 </div>
                 <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 2 }}>{unit.prompt}</div>
-                <div style={{ fontSize: 13, color: '#6b7280', marginBottom: 10 }}>
+                <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 10 }}>
                   {unit.promptEn}
                 </div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
@@ -561,12 +580,19 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                     boxSizing: 'border-box',
                   }}
                 />
-                <div style={{ fontSize: 12, color: '#6b7280', marginTop: 4 }}>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4 }}>
                   {wordCount} / {unit.minWords} words
                 </div>
               </div>
               <div style={card} data-testid="gw-checklist">
-                <div style={{ fontSize: 12, fontWeight: 800, color: '#6b7280', marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 800,
+                    color: 'var(--ink-muted)',
+                    marginBottom: 8,
+                  }}
+                >
                   CHECKLIST
                 </div>
                 {unit.checklist.map((item) => {
@@ -580,7 +606,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                         alignItems: 'center',
                         fontSize: 14,
                         marginBottom: 6,
-                        color: done ? '#16a34a' : '#374151',
+                        color: done ? 'var(--success)' : 'var(--text)',
                         fontWeight: done ? 700 : 500,
                       }}
                     >
@@ -593,12 +619,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
               {error && (
                 <div
                   style={{
-                    background: '#fef2f2',
+                    background: 'var(--error-bg)',
                     border: '1px solid #fecaca',
                     borderRadius: 10,
                     padding: '10px 14px',
                     fontSize: 13,
-                    color: '#991b1b',
+                    color: 'var(--error)',
                     marginBottom: 12,
                   }}
                 >
@@ -660,12 +686,12 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   <div style={{ fontSize: 26, fontWeight: 900 }}>
                     {typeof result.score === 'number' ? `${result.score}/100` : '—'}
                   </div>
-                  <div style={{ fontSize: 13, color: '#6b7280', alignSelf: 'center' }}>
+                  <div style={{ fontSize: 13, color: 'var(--ink-muted)', alignSelf: 'center' }}>
                     {result.level_demonstrated || ''}
                   </div>
                 </div>
                 {result.encouragement && (
-                  <div style={{ fontSize: 14, color: '#374151' }}>{result.encouragement}</div>
+                  <div style={{ fontSize: 14, color: 'var(--text)' }}>{result.encouragement}</div>
                 )}
               </div>
               {result.corrected_text && (

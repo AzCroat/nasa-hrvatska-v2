@@ -140,7 +140,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
               }}
@@ -377,7 +377,7 @@ export default function GradedStoryModal({ story, onClose }: { story: any; onClo
               style={{
                 fontSize: 11,
                 fontWeight: 800,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 textTransform: 'uppercase',
                 letterSpacing: '.1em',
                 marginBottom: 12,

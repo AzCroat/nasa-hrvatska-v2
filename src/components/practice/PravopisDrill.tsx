@@ -315,7 +315,7 @@ export default function PravopisDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {score === total
               ? 'Savršeno — pišete besprijekorno! 🏆'
               : passed
@@ -355,7 +355,7 @@ export default function PravopisDrill({ goBack, award }: Props) {
         goBack,
       )}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
@@ -364,7 +364,7 @@ export default function PravopisDrill({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 13,
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             fontWeight: 700,
             marginBottom: 8,
           }}

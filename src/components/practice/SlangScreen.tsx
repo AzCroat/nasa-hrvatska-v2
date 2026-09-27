@@ -436,7 +436,7 @@ export default function SlangScreen({
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 18, fontWeight: 900, color: '#16a34a' }}>
+              <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--success)' }}>
                 {visitedSections.length}/{SECTIONS.length}
               </div>
               <div

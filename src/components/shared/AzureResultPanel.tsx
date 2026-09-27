@@ -108,7 +108,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: '#475569',
+              color: 'var(--ink-muted)',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
               marginBottom: 6,
@@ -121,7 +121,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
               <div
                 key={w.word || `score-${w.score}`}
                 style={{
-                  background: '#fff',
+                  background: 'var(--card)',
                   borderRadius: 10,
                   border: `2px solid ${scoreColor(w.score)}40`,
                   padding: '6px 10px',

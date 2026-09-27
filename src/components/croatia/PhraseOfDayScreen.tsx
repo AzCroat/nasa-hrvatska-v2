@@ -970,7 +970,7 @@ export default function PhraseOfDayScreen({
                   fontSize: 12,
                   fontWeight: 800,
                   letterSpacing: '.04em',
-                  color: '#92400e',
+                  color: 'var(--ink-warn)',
                   marginBottom: 8,
                   display: 'flex',
                   alignItems: 'center',
@@ -979,7 +979,7 @@ export default function PhraseOfDayScreen({
               >
                 <span>🏛️</span> CULTURAL NOTE
               </div>
-              <div style={{ fontSize: 13, color: '#78350f', lineHeight: 1.7 }}>
+              <div style={{ fontSize: 13, color: 'var(--ink-warn)', lineHeight: 1.7 }}>
                 {phraseData.cultural_note}
               </div>
             </div>

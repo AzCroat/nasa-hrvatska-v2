@@ -273,7 +273,7 @@ export default function PastTenseLessonScreen({
               style={{
                 fontSize: 13,
                 fontWeight: 900,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 marginBottom: 6,
                 textTransform: 'uppercase',
                 letterSpacing: '.08em',
@@ -281,10 +281,12 @@ export default function PastTenseLessonScreen({
             >
               Formula
             </div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#4c1d95', marginBottom: 8 }}>
+            <div
+              style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 8 }}
+            >
               Subject + auxiliary (biti) + L-participle
             </div>
-            <div style={{ fontSize: 13, color: '#6d28d9', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-mode)', lineHeight: 1.7 }}>
               <b>Ja sam radio.</b> &nbsp;·&nbsp; I worked (male)
               <br />
               <b>Ona je radila.</b> &nbsp;·&nbsp; She worked (female)
@@ -418,7 +420,7 @@ export default function PastTenseLessonScreen({
                         style={{
                           padding: '10px 14px',
                           fontWeight: 700,
-                          color: '#7c3aed',
+                          color: 'var(--ink-mode)',
                           fontSize: 13,
                           width: '30%',
                         }}
@@ -471,12 +473,23 @@ export default function PastTenseLessonScreen({
             <div
               key={i}
               className="c"
-              style={{ marginBottom: 8, borderLeft: '4px solid #f59e0b', background: '#fffbeb' }}
+              style={{
+                marginBottom: 8,
+                borderLeft: '4px solid #f59e0b',
+                background: 'var(--warning-bg)',
+              }}
             >
-              <div style={{ fontSize: 13, fontWeight: 800, color: '#92400e' }}>
+              <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-warn)' }}>
                 {r.icon} {r.title}
               </div>
-              <div style={{ fontSize: 12, color: '#78716c', marginTop: 4, lineHeight: 1.6 }}>
+              <div
+                style={{
+                  fontSize: 12,
+                  color: 'var(--ink-muted-warm)',
+                  marginTop: 4,
+                  lineHeight: 1.6,
+                }}
+              >
                 {r.text}
               </div>
             </div>
@@ -489,12 +502,16 @@ export default function PastTenseLessonScreen({
         <div>
           <div
             className="c"
-            style={{ marginBottom: 14, borderLeft: '4px solid #dc2626', background: '#fef2f2' }}
+            style={{
+              marginBottom: 14,
+              borderLeft: '4px solid #dc2626',
+              background: 'var(--error-bg)',
+            }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#dc2626', marginBottom: 4 }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--error)', marginBottom: 4 }}>
               Why these matter
             </div>
-            <div style={{ fontSize: 12, color: '#78716c', lineHeight: 1.7 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', lineHeight: 1.7 }}>
               These 8 verbs are among the most common in Croatian. Their L-participles cannot be
               predicted by regular rules — they must be memorised. Tap any cell to hear it.
             </div>
@@ -502,7 +519,14 @@ export default function PastTenseLessonScreen({
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             {IRREGULAR_VERBS.map((v, i) => (
               <div key={i} className="c" style={{ borderLeft: '4px solid #0e7490', padding: 12 }}>
-                <div style={{ fontSize: 14, fontWeight: 900, color: '#164e63', marginBottom: 2 }}>
+                <div
+                  style={{
+                    fontSize: 14,
+                    fontWeight: 900,
+                    color: 'var(--ink-strong)',
+                    marginBottom: 2,
+                  }}
+                >
                   {v.inf}
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--subtext)', marginBottom: 8 }}>{v.en}</div>
@@ -548,10 +572,12 @@ export default function PastTenseLessonScreen({
               borderLeft: '4px solid #7c3aed',
             }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#7c3aed', marginBottom: 6 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 6 }}
+            >
               Mnemonic pattern
             </div>
-            <div style={{ fontSize: 12, color: '#6d28d9', lineHeight: 1.8 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-mode)', lineHeight: 1.8 }}>
               <b>ić- verbs:</b> ići → išao, naći → našao, doći → došao (suppletive stem)
               <br />
               <b>reći group:</b> reći → rekao, peći → pekao (k-stem retained)
@@ -567,12 +593,18 @@ export default function PastTenseLessonScreen({
         <div>
           <div
             className="c"
-            style={{ marginBottom: 14, borderLeft: '4px solid #059669', background: '#f0fdf4' }}
+            style={{
+              marginBottom: 14,
+              borderLeft: '4px solid #059669',
+              background: 'var(--success-bg)',
+            }}
           >
-            <div style={{ fontSize: 13, fontWeight: 800, color: '#065f46', marginBottom: 4 }}>
+            <div
+              style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)', marginBottom: 4 }}
+            >
               10 authentic sentences
             </div>
-            <div style={{ fontSize: 12, color: '#059669', lineHeight: 1.6 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', lineHeight: 1.6 }}>
               All from real Croatian life contexts. Tap the speaker button to hear each sentence.
             </div>
           </div>
@@ -646,7 +678,14 @@ export default function PastTenseLessonScreen({
                 <h2 style={{ fontFamily: "'Playfair Display',serif", color: 'var(--heading)' }}>
                   Past Tense Quiz Done!
                 </h2>
-                <div style={{ fontSize: 32, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 32,
+                    fontWeight: 800,
+                    color: 'var(--ink-accent)',
+                    marginBottom: 4,
+                  }}
+                >
                   {score} / {total}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--subtext)', marginBottom: 16 }}>
@@ -662,10 +701,10 @@ export default function PastTenseLessonScreen({
                       textAlign: 'left',
                     }}
                   >
-                    <div style={{ fontSize: 13, fontWeight: 800, color: '#065f46' }}>
+                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
                       Quest complete! +20 XP bonus
                     </div>
-                    <div style={{ fontSize: 12, color: '#059669', marginTop: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
                       Grammar quest marked. Keep building your streak!
                     </div>
                   </div>
@@ -687,7 +726,7 @@ export default function PastTenseLessonScreen({
                 <span style={{ fontSize: 14, fontWeight: 700 }}>
                   {qi + 1} / {total}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>
                   Score: {score}
                 </span>
               </div>

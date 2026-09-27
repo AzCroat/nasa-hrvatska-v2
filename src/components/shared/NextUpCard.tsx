@@ -91,8 +91,8 @@ export default function NextUpCard() {
           style={{
             flexShrink: 0,
             padding: '10px 16px',
-            background: '#fff',
-            color: '#0a5c73',
+            background: 'var(--card)',
+            color: 'var(--ink-accent)',
             border: 'none',
             borderRadius: 11,
             fontSize: 13,

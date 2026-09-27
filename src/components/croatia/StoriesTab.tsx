@@ -95,7 +95,9 @@ function WordTile({ w, award }: WordTileProps): React.ReactElement {
         position: 'relative',
       }}
     >
-      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: '#0e7490' }}>{w.hr}</div>
+      <div style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--ink-accent)' }}>
+        {w.hr}
+      </div>
       <div
         style={{
           fontSize: 'var(--text-xs)',

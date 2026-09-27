@@ -77,10 +77,10 @@ export default function ResultsView({ quiz }: { quiz: ListeningQuiz }) {
             }}
           >
             <div style={{ fontSize: 28, marginBottom: 6 }}>🏆</div>
-            <div style={{ fontSize: 15, fontWeight: 800, color: '#166534' }}>
+            <div style={{ fontSize: 15, fontWeight: 800, color: 'var(--ink-green)' }}>
               {selectedLevel} Level Complete!
             </div>
-            <div style={{ fontSize: 13, color: '#166534', opacity: 0.8, marginTop: 4 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-green)', opacity: 0.8, marginTop: 4 }}>
               You have finished all exercises at this level.
             </div>
           </div>

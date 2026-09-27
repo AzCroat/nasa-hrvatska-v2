@@ -327,7 +327,7 @@ export default function GerundDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {score === total
               ? 'Besprijekorno — prilozi su vaši! 🏆'
               : passed
@@ -363,7 +363,7 @@ export default function GerundDrill({ goBack, award }: Props) {
     <div className="scr-wrap">
       {H('✍️ Glagolski prilozi', 'radeći · napisavši — the literary gerunds', goBack)}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
@@ -372,7 +372,7 @@ export default function GerundDrill({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 13,
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             fontWeight: 700,
             marginBottom: 8,
           }}

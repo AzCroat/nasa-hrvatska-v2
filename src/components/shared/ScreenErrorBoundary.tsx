@@ -82,7 +82,9 @@ export default class ScreenErrorBoundary extends React.Component<
             }}
           >
             <div style={{ flex: 1, background: '#D40030' }} />
-            <div style={{ flex: 1, background: '#fff', border: '0.5px solid rgba(0,0,0,.08)' }} />
+            <div
+              style={{ flex: 1, background: 'var(--card)', border: '0.5px solid rgba(0,0,0,.08)' }}
+            />
             <div style={{ flex: 1, background: '#003DA5' }} />
           </div>
 

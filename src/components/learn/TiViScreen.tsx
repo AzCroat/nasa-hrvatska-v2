@@ -123,15 +123,17 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div
             style={{
-              background: '#f0f9ff',
+              background: 'var(--info-bg)',
               borderRadius: 12,
               padding: '12px 14px',
               textAlign: 'center',
             }}
           >
             <div style={{ fontSize: 24, marginBottom: 4 }}>😊</div>
-            <div style={{ fontSize: 14, fontWeight: 900, color: '#0369a1' }}>Ti (informal)</div>
-            <div style={{ fontSize: 11, color: '#64748b', marginTop: 4, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--ink-info)' }}>
+              Ti (informal)
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
               Friends, family, peers, children, younger people
             </div>
           </div>
@@ -144,8 +146,10 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
             }}
           >
             <div style={{ fontSize: 24, marginBottom: 4 }}>🤝</div>
-            <div style={{ fontSize: 14, fontWeight: 900, color: '#7c3aed' }}>Vi (formal)</div>
-            <div style={{ fontSize: 11, color: '#64748b', marginTop: 4, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--ink-mode)' }}>
+              Vi (formal)
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 4, lineHeight: 1.4 }}>
               Strangers, elders, officials, doctors, teachers
             </div>
           </div>
@@ -233,7 +237,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
-                      color: '#0369a1',
+                      color: 'var(--ink-info)',
                       textTransform: 'uppercase',
                       letterSpacing: '.06em',
                       marginBottom: 6,
@@ -264,7 +268,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                         style={{
                           fontSize: 15,
                           fontWeight: 800,
-                          color: '#0369a1',
+                          color: 'var(--ink-info)',
                           fontFamily: "'Playfair Display',serif",
                         }}
                       >
@@ -288,7 +292,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                     style={{
                       fontSize: 10,
                       fontWeight: 800,
-                      color: '#7c3aed',
+                      color: 'var(--ink-mode)',
                       textTransform: 'uppercase',
                       letterSpacing: '.06em',
                       marginBottom: 6,
@@ -319,7 +323,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
                         style={{
                           fontSize: 15,
                           fontWeight: 800,
-                          color: '#7c3aed',
+                          color: 'var(--ink-mode)',
                           fontFamily: "'Playfair Display',serif",
                         }}
                       >

@@ -208,7 +208,7 @@ function PlayerCard({ p }: { p: Player }) {
   return (
     <div
       style={{
-        background: 'white',
+        background: 'var(--card)',
         borderRadius: 18,
         overflow: 'hidden',
         marginBottom: 14,
@@ -281,10 +281,10 @@ function PlayerCard({ p }: { p: Player }) {
       <div style={{ padding: '12px 16px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 10 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: 17, fontWeight: 900, color: '#0f172a', lineHeight: 1.2 }}>
+            <div style={{ fontSize: 17, fontWeight: 900, color: 'var(--text)', lineHeight: 1.2 }}>
               {p.name}
             </div>
-            <div style={{ fontSize: 12, color: '#64748b', marginTop: 3, fontWeight: 600 }}>
+            <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 3, fontWeight: 600 }}>
               {p.jersey && `${p.jersey} · `}
               {p.pos} · {p.ht} / {p.wt}
             </div>
@@ -315,8 +315,8 @@ function PlayerCard({ p }: { p: Player }) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 5,
-            background: '#f0f9ff',
-            color: '#0369a1',
+            background: 'var(--info-bg)',
+            color: 'var(--ink-info)',
             border: '1px solid #bae6fd',
             borderRadius: 20,
             padding: '4px 12px',
@@ -349,7 +349,7 @@ function PlayerCard({ p }: { p: Player }) {
         <div
           style={{
             fontSize: 11.5,
-            color: '#44403c',
+            color: 'var(--ink-body)',
             lineHeight: 1.75,
             marginBottom: 14,
           }}
@@ -381,7 +381,7 @@ function PlayerCard({ p }: { p: Player }) {
             style={{
               flex: 1,
               padding: '10px 12px',
-              background: 'white',
+              background: 'var(--card)',
               color: p.schoolColor,
               border: `2px solid ${p.schoolColor}40`,
               borderRadius: 10,
@@ -549,14 +549,14 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
       >
         <div style={{ fontSize: 28 }}>🔄</div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 13, fontWeight: 800, color: '#166534' }}>
+          <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-green)' }}>
             Live Database — RealGM
           </div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#166534', opacity: 0.75 }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--ink-green)', opacity: 0.75 }}>
             Always up-to-date · All divisions · Updates automatically each season
           </div>
         </div>
-        <span style={{ fontSize: 18, color: '#16a34a', fontWeight: 800 }}>↗</span>
+        <span style={{ fontSize: 18, color: 'var(--success)', fontWeight: 800 }}>↗</span>
       </div>
 
       {/* Division filter tabs */}
@@ -686,14 +686,16 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           marginBottom: 16,
         }}
       >
-        <div style={{ fontWeight: 800, color: '#64748b', marginBottom: 4 }}>📋 About this list</div>
+        <div style={{ fontWeight: 800, color: 'var(--ink-muted)', marginBottom: 4 }}>
+          📋 About this list
+        </div>
         Includes only Croatian-born players — not Croatian-heritage players born elsewhere. Data for{' '}
         {SEASON} season. Rosters change with the transfer portal every spring/summer.{'\n\n'}
-        <strong style={{ color: '#64748b' }}>D3 & NAIA note:</strong> Hundreds of Croatian players
-        compete at D3 and NAIA programs — they receive far less media coverage and are nearly
-        impossible to surface through news searches. The{' '}
-        <strong style={{ color: '#166534' }}>Live Database ↗</strong> above covers every division
-        and updates automatically.
+        <strong style={{ color: 'var(--ink-muted)' }}>D3 & NAIA note:</strong> Hundreds of Croatian
+        players compete at D3 and NAIA programs — they receive far less media coverage and are
+        nearly impossible to surface through news searches. The{' '}
+        <strong style={{ color: 'var(--ink-green)' }}>Live Database ↗</strong> above covers every
+        division and updates automatically.
       </div>
     </div>
   );

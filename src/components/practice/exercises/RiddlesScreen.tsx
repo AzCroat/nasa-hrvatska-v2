@@ -127,7 +127,9 @@ function RiddlesScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{riddles.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

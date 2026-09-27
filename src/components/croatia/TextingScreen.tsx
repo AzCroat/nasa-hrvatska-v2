@@ -75,7 +75,13 @@ export default function TextingScreen({ goBack, award }: Props) {
     return (
       <div className="scr-wrap" style={{ textAlign: 'center', paddingTop: 40 }}>
         <div style={{ fontSize: 64 }}>📱</div>
-        <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, color: '#164e63' }}>
+        <h2
+          style={{
+            fontFamily: "'Playfair Display',serif",
+            fontSize: 28,
+            color: 'var(--ink-strong)',
+          }}
+        >
           Score: {score}/{questions.length}
         </h2>
         <p style={{ color: 'var(--subtext)', fontSize: 14 }}>
@@ -135,7 +141,9 @@ export default function TextingScreen({ goBack, award }: Props) {
           </button>
         </div>
         <div className="c" style={{ marginTop: 8 }}>
-          <p style={{ fontSize: 22, fontWeight: 800, marginBottom: 20, color: '#7c3aed' }}>{q.q}</p>
+          <p style={{ fontSize: 22, fontWeight: 800, marginBottom: 20, color: 'var(--ink-mode)' }}>
+            {q.q}
+          </p>
           {q.o.map((o, i) => (
             <button
               key={i}
@@ -172,10 +180,12 @@ export default function TextingScreen({ goBack, award }: Props) {
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: 16, fontWeight: 800, color: '#7c3aed' }}>
+              <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-mode)' }}>
                 {t.slang} <span aria-hidden="true">🔊</span>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: '#0e7490' }}>{t.means}</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-accent)' }}>
+                {t.means}
+              </div>
             </div>
             <div style={{ fontSize: 12, color: 'var(--subtext)', marginTop: 2 }}>{t.ctx}</div>
           </button>

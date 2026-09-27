@@ -266,7 +266,7 @@ export default function CaseTransformerQuiz({
               marginBottom: 14,
               fontSize: 'var(--text-base)',
               fontWeight: 700,
-              color: quizChosen === q.correct ? '#166534' : '#991b1b',
+              color: quizChosen === q.correct ? 'var(--ink-green)' : 'var(--error)',
               fontFamily: "'Outfit', sans-serif",
             }}
           >

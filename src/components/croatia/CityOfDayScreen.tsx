@@ -348,7 +348,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
                     padding: '5px 12px',
                     fontSize: 12,
                     fontWeight: 700,
-                    color: '#991b1b',
+                    color: 'var(--error)',
                   }}
                 >
                   {/* Names the level only when it IS the learner's — an A2 or B2

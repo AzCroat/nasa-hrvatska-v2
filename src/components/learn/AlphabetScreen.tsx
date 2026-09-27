@@ -211,7 +211,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   style={{
                     fontSize: 22,
                     fontWeight: 800,
-                    color: learnedRef.current.has(l[0]) ? '#16a34a' : '#164e63',
+                    color: learnedRef.current.has(l[0]) ? 'var(--success)' : 'var(--ink-strong)',
                     fontFamily: 'monospace',
                     minWidth: 55,
                   }}
@@ -220,11 +220,15 @@ export default function AlphabetScreen({ goBack, award }: Props) {
                   {learnedRef.current.has(l[0]) ? ' ✓' : ''}
                 </span>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 12, color: '#0e7490', fontWeight: 700 }}>
-                    {l[4]} <span style={{ fontWeight: 400, color: '#78716c' }}>({l[1]})</span>
+                  <div style={{ fontSize: 12, color: 'var(--ink-accent)', fontWeight: 700 }}>
+                    {l[4]}{' '}
+                    <span style={{ fontWeight: 400, color: 'var(--ink-muted-warm)' }}>
+                      ({l[1]})
+                    </span>
                   </div>
                   <div style={{ fontSize: 13 }}>
-                    {l[2]} <span style={{ color: '#78716c', fontSize: 11 }}>({l[3]})</span>
+                    {l[2]}{' '}
+                    <span style={{ color: 'var(--ink-muted-warm)', fontSize: 11 }}>({l[3]})</span>
                   </div>
                 </div>
               </div>
@@ -255,10 +259,12 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           <div style={{ fontSize: 48, marginBottom: 12 }}>
             {pct >= 0.9 ? '🏆' : pct >= 0.7 ? '⭐' : '💪'}
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {score}/{questions.length} correct
           </div>
-          <div style={{ fontSize: 13, color: '#78716c', marginBottom: 24 }}>
+          <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 24 }}>
             {pct >= 0.9
               ? 'You know the Croatian alphabet! Each letter → one sound.'
               : pct >= 0.7
@@ -318,7 +324,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 12,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             marginBottom: 8,
             fontWeight: 700,
             letterSpacing: '.05em',
@@ -326,9 +332,9 @@ export default function AlphabetScreen({ goBack, award }: Props) {
         >
           WHICH LETTER SOUNDS LIKE THIS?
         </div>
-        <div style={{ fontSize: 13, color: '#78716c', marginBottom: 6 }}>
-          The word <strong style={{ color: '#164e63' }}>{q.prompt}</strong> ({q.promptEn}) starts
-          with the sound:
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
+          The word <strong style={{ color: 'var(--ink-strong)' }}>{q.prompt}</strong> ({q.promptEn})
+          starts with the sound:
         </div>
         <button
           onClick={() => speak(q.prompt)}

@@ -97,7 +97,7 @@ export default function MajaOrb({ phase, waveform, liveTranscript, personaCfg }:
                   width: 10,
                   height: 10,
                   borderRadius: '50%',
-                  background: '#fff',
+                  background: 'var(--card)',
                   animation: `maja-dot 0.9s ease-in-out ${delay}s infinite`,
                 }}
               />

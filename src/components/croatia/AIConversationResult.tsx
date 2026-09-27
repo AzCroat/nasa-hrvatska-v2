@@ -474,7 +474,7 @@ export default function AIConversationResult({
             style={{
               fontSize: 'var(--text-xs)',
               fontWeight: 800,
-              color: '#7c3aed',
+              color: 'var(--ink-mode)',
               letterSpacing: '.08em',
               textTransform: 'uppercase',
               marginBottom: 12,

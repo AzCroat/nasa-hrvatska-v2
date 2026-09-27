@@ -131,7 +131,14 @@ export default function ReadingList({
           onStart={startRecommendedReading}
         />
       )}
-      <div style={{ textAlign: 'center', fontSize: 13, color: '#78716c', marginBottom: 16 }}>
+      <div
+        style={{
+          textAlign: 'center',
+          fontSize: 13,
+          color: 'var(--ink-muted-warm)',
+          marginBottom: 16,
+        }}
+      >
         {totalPassages} passages across {levelCount} levels — choose one to read and quiz
       </div>
       {filteredEntries.map(([level, passages]) => {
@@ -159,7 +166,7 @@ export default function ReadingList({
               >
                 {meta.badge}
               </span>
-              <span style={{ fontSize: 12, color: '#78716c', marginLeft: 'auto' }}>
+              <span style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginLeft: 'auto' }}>
                 {passages.length} passages
               </span>
             </div>
@@ -211,7 +218,9 @@ export default function ReadingList({
                   >
                     {p.title}
                   </div>
-                  <div style={{ fontSize: 12, color: '#78716c', marginTop: 2 }}>{p.tEn}</div>
+                  <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
+                    {p.tEn}
+                  </div>
                   <div style={{ fontSize: 11, marginTop: 4, color: meta.color, fontWeight: 700 }}>
                     {meta.badge} · Read &amp; Quiz
                   </div>

@@ -178,8 +178,10 @@ export default function ContactScreen({
         }}
       >
         <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
-        <h2 style={{ color: '#0f172a', fontWeight: 900, marginBottom: 8 }}>Ticket Submitted!</h2>
-        <div style={{ fontSize: 14, color: '#64748b', marginBottom: 12 }}>
+        <h2 style={{ color: 'var(--text)', fontWeight: 900, marginBottom: 8 }}>
+          Ticket Submitted!
+        </h2>
+        <div style={{ fontSize: 14, color: 'var(--ink-muted)', marginBottom: 12 }}>
           Your report has been sent to the administrator.
         </div>
 
@@ -226,9 +228,9 @@ export default function ContactScreen({
           <div
             style={{
               fontSize: 13,
-              color: '#64748b',
+              color: 'var(--ink-muted)',
               marginBottom: 28,
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               border: '1px solid #86efac',
               borderRadius: 10,
               padding: '10px 20px',
@@ -263,10 +265,10 @@ export default function ContactScreen({
           ←
         </button>
         <div>
-          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#0f172a' }}>
+          <h2 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: 'var(--text)' }}>
             Contact Support
           </h2>
-          <div style={{ fontSize: 12, color: '#64748b', marginTop: 2 }}>
+          <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 2 }}>
             Report a bug, suggest a feature, or ask a question
           </div>
         </div>
@@ -315,7 +317,9 @@ export default function ContactScreen({
                 >
                   {t.label}
                 </div>
-                <div style={{ fontSize: 12, color: '#64748b', marginTop: 1 }}>{t.desc}</div>
+                <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 1 }}>
+                  {t.desc}
+                </div>
               </div>
               {type === t.id && (
                 <span style={{ color: t.color, fontSize: 18, fontWeight: 900 }}>✓</span>
@@ -337,7 +341,7 @@ export default function ContactScreen({
             marginBottom: 8,
           }}
         >
-          Subject <span style={{ color: '#dc2626' }}>*</span>
+          Subject <span style={{ color: 'var(--error)' }}>*</span>
         </div>
         <input
           type="text"
@@ -381,7 +385,7 @@ export default function ContactScreen({
             marginBottom: 8,
           }}
         >
-          Description <span style={{ color: '#dc2626' }}>*</span>
+          Description <span style={{ color: 'var(--error)' }}>*</span>
         </div>
         <textarea
           placeholder={
@@ -408,7 +412,9 @@ export default function ContactScreen({
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
           {descTooShort ? (
-            <span style={{ fontSize: 11, color: '#dc2626' }}>At least 10 characters required</span>
+            <span style={{ fontSize: 11, color: 'var(--error)' }}>
+              At least 10 characters required
+            </span>
           ) : (
             <span />
           )}

@@ -180,7 +180,7 @@ export default function AppearanceSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}

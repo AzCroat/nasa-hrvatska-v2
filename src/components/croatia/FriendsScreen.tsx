@@ -24,7 +24,7 @@ function FriendsScreen({ goBack }: FriendsScreenProps) {
             <div style={{ fontSize: 15, fontWeight: 700, color: 'var(--heading)' }}>
               {f.hr} <span aria-hidden="true">🔊</span>
             </div>
-            <div style={{ fontSize: 14, color: '#0e7490', marginTop: 2 }}>{f.en}</div>
+            <div style={{ fontSize: 14, color: 'var(--ink-accent)', marginTop: 2 }}>{f.en}</div>
           </button>
         );
       })}

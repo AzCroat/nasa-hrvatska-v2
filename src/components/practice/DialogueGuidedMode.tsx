@@ -58,7 +58,9 @@ export default function DialogueGuidedMode({
             flex: 1,
           }}
         >
-          <div style={{ fontSize: 11, fontWeight: 800, color: '#0e7490', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 11, fontWeight: 800, color: 'var(--ink-accent)', marginBottom: 4 }}
+          >
             {turn.speaker}
           </div>
           <div style={{ fontSize: 16, fontWeight: 600, color: 'var(--heading)', lineHeight: 1.5 }}>
@@ -166,7 +168,7 @@ export default function DialogueGuidedMode({
                 style={{
                   fontSize: 13,
                   fontWeight: 800,
-                  color: freeResult.matched ? '#166534' : '#92400e',
+                  color: freeResult.matched ? 'var(--ink-green)' : 'var(--ink-warn)',
                   marginBottom: 6,
                 }}
               >
@@ -176,7 +178,7 @@ export default function DialogueGuidedMode({
                 <div
                   style={{
                     fontSize: 13,
-                    color: '#78350f',
+                    color: 'var(--ink-warn)',
                     marginBottom: 6,
                     lineHeight: 1.5,
                   }}
@@ -189,7 +191,7 @@ export default function DialogueGuidedMode({
               <div
                 style={{
                   fontSize: 13,
-                  color: freeResult.matched ? '#15803d' : '#78350f',
+                  color: freeResult.matched ? 'var(--ink-green)' : 'var(--ink-warn)',
                   lineHeight: 1.5,
                 }}
               >
@@ -297,13 +299,19 @@ export default function DialogueGuidedMode({
             style={{
               fontSize: 13,
               fontWeight: 800,
-              color: isCorrect ? '#166534' : '#92400e',
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
               marginBottom: 4,
             }}
           >
             {isCorrect ? '✅ Correct!' : '💡 Better choice:'}
           </div>
-          <div style={{ fontSize: 13, color: isCorrect ? '#15803d' : '#78350f', lineHeight: 1.5 }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: isCorrect ? 'var(--ink-green)' : 'var(--ink-warn)',
+              lineHeight: 1.5,
+            }}
+          >
             <TipContent tip={turn.tip} />
           </div>
         </div>

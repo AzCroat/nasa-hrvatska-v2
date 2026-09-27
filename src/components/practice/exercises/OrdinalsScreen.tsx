@@ -57,10 +57,12 @@ function OrdinalsScreen({ goBack, award }: Props) {
                 speak(o.hr);
               }, 'Hear ' + o.hr)}
             >
-              <div style={{ fontSize: 18, fontWeight: 800, color: '#0e7490' }}>{o.num}.</div>
+              <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-accent)' }}>
+                {o.num}.
+              </div>
               <div style={{ fontSize: 13, fontWeight: 700 }}>{o.hr}</div>
-              <div style={{ fontSize: 11, color: '#78716c' }}>{o.en}</div>
-              <div style={{ fontSize: 10, color: '#b45309', marginTop: 2 }}>
+              <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{o.en}</div>
+              <div style={{ fontSize: 10, color: 'var(--ink-warn)', marginTop: 2 }}>
                 {'na '}
                 {o.loc}om
               </div>
@@ -122,7 +124,9 @@ function OrdinalsScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{questions.length} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

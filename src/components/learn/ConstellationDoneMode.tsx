@@ -28,7 +28,7 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
             <span
               key={i}
               style={{
-                color: i < finalScore ? '#facc15' : '#334155',
+                color: i < finalScore ? '#facc15' : 'var(--text)',
                 filter: i < finalScore ? 'drop-shadow(0 0 6px #facc15)' : 'none',
               }}
             >
@@ -47,14 +47,16 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
           }}
         >
           {finalScore}
-          <span style={{ fontSize: 24, color: '#64748b', fontWeight: 400 }}>/7</span>
+          <span style={{ fontSize: 24, color: 'var(--ink-muted)', fontWeight: 400 }}>/7</span>
         </div>
 
         <div style={{ color: '#cbd5e1', fontSize: 18, fontWeight: 600, marginBottom: 6 }}>
           {getDoneMessage(finalScore)}
         </div>
 
-        <div style={{ color: '#64748b', fontSize: 13 }}>+{finalScore * 10} points earned</div>
+        <div style={{ color: 'var(--ink-muted)', fontSize: 13 }}>
+          +{finalScore * 10} points earned
+        </div>
       </div>
 
       {/* Case summary — quick reminder */}
@@ -105,7 +107,7 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
               {c.abbr}
             </span>
             <span style={{ color: '#cbd5e1', fontSize: 13, flex: 1 }}>{c.name}</span>
-            <span style={{ color: '#475569', fontSize: 11 }}>
+            <span style={{ color: 'var(--ink-muted)', fontSize: 11 }}>
               {(c.question.split('(')[0] ?? '').trim()}
             </span>
           </div>

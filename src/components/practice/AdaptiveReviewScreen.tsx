@@ -140,7 +140,14 @@ function SRSCardReview({ item, onResult }: { item: any; onResult: (correct: bool
         {flipped && (
           <div style={{ animation: 'ar-slide .18s ease both' }}>
             {enHint && (
-              <div style={{ fontSize: 16, color: '#0e7490', fontWeight: 700, marginBottom: 8 }}>
+              <div
+                style={{
+                  fontSize: 16,
+                  color: 'var(--ink-accent)',
+                  fontWeight: 700,
+                  marginBottom: 8,
+                }}
+              >
                 {enHint}
               </div>
             )}
@@ -248,7 +255,7 @@ function MistakeCardReview({
               marginTop: 8,
             }}
           >
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0e7490' }}>{m.en}</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--ink-accent)' }}>{m.en}</div>
             <button
               onClick={() => speak(m.hr)}
               style={{
@@ -518,7 +525,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
                     style={{
                       fontSize: 13,
                       fontWeight: 800,
-                      color: '#7c3aed',
+                      color: 'var(--ink-mode)',
                       textTransform: 'capitalize',
                     }}
                   >
@@ -646,8 +653,10 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               {sessionIdx + 1} / {session.length}
             </div>
           </div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#059669' }}>✓ {correct}</div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#dc2626', marginLeft: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--ink-green)' }}>
+            ✓ {correct}
+          </div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: 'var(--error)', marginLeft: 8 }}>
             ✗ {wrong}
           </div>
         </div>
@@ -766,7 +775,9 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
           >
             <span style={{ fontSize: 20 }}>🧠</span>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 800, color: '#7c3aed', marginBottom: 2 }}>
+              <div
+                style={{ fontSize: 12, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 2 }}
+              >
                 Preporuka za sljedeći put
               </div>
               <div style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.5 }}>

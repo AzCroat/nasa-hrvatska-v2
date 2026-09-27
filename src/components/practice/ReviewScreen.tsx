@@ -193,13 +193,13 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 24,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               marginTop: 12,
             }}
           >
             All caught up!
           </h2>
-          <p style={{ color: '#78716c', marginTop: 8, lineHeight: 1.6 }}>
+          <p style={{ color: 'var(--ink-muted-warm)', marginTop: 8, lineHeight: 1.6 }}>
             No reviews due right now.
             <br />
             Words you&apos;ve practiced will appear here when it&apos;s time to review them.
@@ -207,7 +207,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
           {nextReviewETA && (
             <div
               style={{
-                background: '#f0f9ff',
+                background: 'var(--info-bg)',
                 border: '1.5px solid #bae6fd',
                 borderRadius: 12,
                 padding: '12px 16px',
@@ -218,7 +218,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
               }}
             >
               <span style={{ fontSize: 18 }}>⏰</span>
-              <span style={{ fontSize: 13, fontWeight: 700, color: '#0369a1' }}>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-info)' }}>
                 Next review:{' '}
                 {nextReviewETA.toLocaleDateString([], {
                   weekday: 'short',
@@ -231,7 +231,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
           )}
           <div
             style={{
-              background: '#f0fdf4',
+              background: 'var(--success-bg)',
               border: '1.5px solid #bbf7d0',
               borderRadius: 14,
               padding: '16px',
@@ -239,10 +239,12 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
               textAlign: 'left',
             }}
           >
-            <p style={{ fontWeight: 700, fontSize: 13, color: '#166534', marginBottom: 6 }}>
+            <p
+              style={{ fontWeight: 700, fontSize: 13, color: 'var(--ink-green)', marginBottom: 6 }}
+            >
               💡 How spaced repetition works:
             </p>
-            <p style={{ fontSize: 13, color: '#374151', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
               Words you practice are scheduled for review at increasing intervals: 1 day → 3 days →
               7 days → 14 days → 30 days. Come back tomorrow to review today&apos;s words!
             </p>
@@ -383,7 +385,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
   return (
     <div className="scr-wrap">
       {H('🔁 Review Due', 'Your spaced repetition cards', goBack)}
-      <p style={{ fontSize: 12, color: '#78716c', marginBottom: 8, fontWeight: 500 }}>
+      <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginBottom: 8, fontWeight: 500 }}>
         {dueWords.length} words due ·{' '}
         <span style={{ opacity: 0.6 }}>keys 1-4 to answer, Space to continue</span>
       </p>
@@ -402,7 +404,9 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
             {q.word[0]}
           </p>
         </div>
-        <p style={{ fontSize: 13, color: '#78716c', marginBottom: 16 }}>What does this mean?</p>
+        <p style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 16 }}>
+          What does this mean?
+        </p>
         {q.opts.map((opt, i) => {
           let cls = 'ob';
           if (answered) {
@@ -554,7 +558,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                     marginBottom: 8,
                     fontSize: 11,
                     fontWeight: 800,
-                    color: '#7c3aed',
+                    color: 'var(--ink-mode)',
                     textTransform: 'uppercase',
                     letterSpacing: '.08em',
                   }}
@@ -589,7 +593,14 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                   </div>
                 )}
                 {(aiExplain as AiExplanation).example && (
-                  <div style={{ fontSize: 12, color: '#7c3aed', fontWeight: 700, marginTop: 6 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: 'var(--ink-mode)',
+                      fontWeight: 700,
+                      marginTop: 6,
+                    }}
+                  >
                     e.g. {(aiExplain as AiExplanation).example}
                   </div>
                 )}

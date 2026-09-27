@@ -104,7 +104,7 @@ function VocabCard({
             style={{
               fontSize: 12,
               fontStyle: 'italic',
-              color: '#78716c',
+              color: 'var(--ink-muted-warm)',
               marginBottom: 6,
             }}
           >

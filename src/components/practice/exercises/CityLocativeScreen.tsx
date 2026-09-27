@@ -112,8 +112,10 @@ function CityLocativeScreen({ goBack, award }: Props) {
                 speak('Živim u ' + c2.lok);
               }, 'Hear Živim u ' + c2.lok)}
             >
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{c2.nom}</div>
-              <div style={{ fontSize: 12, color: '#0e7490' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-strong)' }}>
+                {c2.nom}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--ink-accent)' }}>
                 {'→ u '}
                 {c2.lok}
               </div>
@@ -133,8 +135,10 @@ function CityLocativeScreen({ goBack, award }: Props) {
                 speak(c2.nom + ' - u ' + c2.lok);
               }, 'Hear ' + c2.nom)}
             >
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#164e63' }}>{c2.nom}</div>
-              <div style={{ fontSize: 12, color: '#b45309' }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ink-strong)' }}>
+                {c2.nom}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--ink-warn)' }}>
                 {'→ u '}
                 {c2.lok}
               </div>
@@ -209,7 +213,9 @@ function CityLocativeScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{quizCities.length} correct
           </div>
           {!passed && (

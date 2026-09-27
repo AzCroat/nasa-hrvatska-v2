@@ -167,7 +167,9 @@ export function AppModals({
                     fontFamily: "'Outfit',sans-serif",
                   }}
                 >
-                  <span style={{ fontSize: 16, fontWeight: 800, color: '#0e7490' }}>{hr}</span>
+                  <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--ink-accent)' }}>
+                    {hr}
+                  </span>
                   <span style={{ fontSize: 14, color: 'var(--subtext)' }}>{en}</span>
                   <span style={{ fontSize: 18 }}>🔊</span>
                 </button>

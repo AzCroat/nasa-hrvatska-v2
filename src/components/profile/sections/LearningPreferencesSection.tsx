@@ -117,7 +117,7 @@ export default function LearningPreferencesSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}
@@ -177,7 +177,7 @@ export default function LearningPreferencesSection() {
               overflowY: 'auto',
             }}
           >
-            <div style={{ color: '#888', marginBottom: 4, fontSize: 9 }}>
+            <div style={{ color: 'var(--ink-muted)', marginBottom: 4, fontSize: 9 }}>
               Audio Debug Log — {JSON.stringify(getAudioDebugState())}
             </div>
             {audioDebugLines.map((e, i) => (
@@ -246,7 +246,7 @@ export default function LearningPreferencesSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}
@@ -300,7 +300,7 @@ export default function LearningPreferencesSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}
@@ -356,7 +356,7 @@ export default function LearningPreferencesSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}
@@ -412,7 +412,7 @@ export default function LearningPreferencesSection() {
               width: 20,
               height: 20,
               borderRadius: '50%',
-              background: 'white',
+              background: 'var(--card)',
               transition: 'left .2s',
               boxShadow: '0 1px 4px rgba(0,0,0,.2)',
             }}

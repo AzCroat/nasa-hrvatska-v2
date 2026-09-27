@@ -298,10 +298,12 @@ export default function TranslateDrillsScreen({
               >
                 {opt}
                 {chosen && correct && (
-                  <span style={{ float: 'right', color: '#16a34a', fontWeight: 700 }}>✓</span>
+                  <span style={{ float: 'right', color: 'var(--success)', fontWeight: 700 }}>
+                    ✓
+                  </span>
                 )}
                 {chosen && isSelected && !correct && (
-                  <span style={{ float: 'right', color: '#dc2626', fontWeight: 700 }}>✗</span>
+                  <span style={{ float: 'right', color: 'var(--error)', fontWeight: 700 }}>✗</span>
                 )}
               </button>
             );

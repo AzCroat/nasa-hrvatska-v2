@@ -99,12 +99,12 @@ export default function PrepDrill({
         <span>
           {ppI + 1} / {total}
         </span>
-        <span style={{ color: '#0e7490', fontWeight: 700 }}>Score: {ppS}</span>
+        <span style={{ color: 'var(--ink-accent)', fontWeight: 700 }}>Score: {ppS}</span>
       </div>
       <Bar v={ppI + 1} mx={total} />
       <div className="c" style={{ marginTop: 16 }}>
         <div style={{ fontSize: 18 }}>{q.sentence}</div>
-        <div style={{ fontSize: 13, color: '#78716c', marginTop: 4 }}>{q.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>{q.en}</div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
         {q.opts.map((o: string, oi: number) => (

@@ -363,7 +363,7 @@ export default function C2StructureDrill({ goBack, award }: Props) {
           <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
             {score} / {total}
           </div>
-          <div style={{ fontSize: 15, color: '#64748b', marginBottom: 16 }}>
+          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
             {score === total
               ? 'Bez pogreške — vladate strukturom! 🏆'
               : passed
@@ -399,7 +399,7 @@ export default function C2StructureDrill({ goBack, award }: Props) {
     <div className="scr-wrap">
       {H('🎓 C2 Structure Drill', 'Literary tenses · nominal style · the comma', goBack)}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: '#64748b', whiteSpace: 'nowrap' }}>
+        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
           {idx + 1} / {total}
         </span>
         <Bar v={idx + 1} mx={total} />
@@ -408,7 +408,7 @@ export default function C2StructureDrill({ goBack, award }: Props) {
         <div
           style={{
             fontSize: 13,
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             marginBottom: 6,
             fontWeight: 700,
             textTransform: 'uppercase',
@@ -417,7 +417,7 @@ export default function C2StructureDrill({ goBack, award }: Props) {
         >
           {MODE_LABEL[cur.mode]}
         </div>
-        <div style={{ fontSize: 17, fontWeight: 700, color: '#0e7490', lineHeight: 1.5 }}>
+        <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.5 }}>
           {cur.q}
         </div>
         <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>{cur.en}</div>

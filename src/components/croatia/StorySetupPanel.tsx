@@ -95,7 +95,7 @@ export default function StorySetupPanel({
               style={{
                 fontSize: 12,
                 fontWeight: 800,
-                color: '#15803d',
+                color: 'var(--ink-green)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.05em',
                 marginBottom: 2,
@@ -103,8 +103,10 @@ export default function StorySetupPanel({
             >
               Personalized for You · {goalMeta.label}
             </div>
-            <div style={{ fontSize: 13, color: '#166534', lineHeight: 1.5 }}>{goalMeta.tip}</div>
-            <div style={{ fontSize: 12, color: '#15803d', marginTop: 4 }}>
+            <div style={{ fontSize: 13, color: 'var(--ink-green)', lineHeight: 1.5 }}>
+              {goalMeta.tip}
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--ink-green)', marginTop: 4 }}>
               Recommended: {goalMeta.cities?.join(', ') || 'Multiple cities'}
             </div>
           </div>

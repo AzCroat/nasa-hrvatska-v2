@@ -91,7 +91,9 @@ function ColorAgreementScreen({ goBack, award }: Props) {
             {COLORAGREE.colors.map(function (c2, ci) {
               return (
                 <tr key={ci} style={{ background: ci % 2 ? '#f0fdfa' : 'white' }}>
-                  <td style={{ padding: '4px', fontWeight: 700, color: '#164e63' }}>{c2.en}</td>
+                  <td style={{ padding: '4px', fontWeight: 700, color: 'var(--ink-strong)' }}>
+                    {c2.en}
+                  </td>
                   {[c2.m, c2.f, c2.n, c2.mpl, c2.fpl, c2.npl].map(function (v, vi) {
                     return (
                       <td
@@ -231,7 +233,9 @@ function ColorAgreementScreen({ goBack, award }: Props) {
                 ? '⭐'
                 : '💪'}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 800, color: '#164e63', marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-strong)', marginBottom: 4 }}
+          >
             {correctCountRef.current}/{total} correct
           </div>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>

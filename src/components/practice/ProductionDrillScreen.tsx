@@ -899,7 +899,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
               gap: 10,
             }}
           >
-            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: '#059669' }}>
+            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: 'var(--ink-green)' }}>
               {item.target}
             </div>
             <button
@@ -1033,7 +1033,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
               gap: 10,
             }}
           >
-            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: '#0e7490' }}>
+            <div style={{ flex: 1, fontSize: 16, fontWeight: 800, color: 'var(--ink-accent)' }}>
               {item.hr}
             </div>
             <button
@@ -1246,7 +1246,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
           }}
         >
           <span style={{ fontSize: 18 }}>✅</span>
-          <span style={{ fontWeight: 800, color: '#059669', fontSize: 14 }}>Točno!</span>
+          <span style={{ fontWeight: 800, color: 'var(--ink-green)', fontSize: 14 }}>Točno!</span>
           <button
             onClick={() => speak(item.target)}
             style={{
@@ -1271,7 +1271,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
             marginBottom: 10,
           }}
         >
-          <div style={{ fontWeight: 800, color: '#dc2626', fontSize: 13, marginBottom: 4 }}>
+          <div style={{ fontWeight: 800, color: 'var(--error)', fontSize: 13, marginBottom: 4 }}>
             Točan odgovor:
           </div>
           <div style={{ fontWeight: 700, color: 'var(--heading)', fontSize: 14 }}>
@@ -1494,7 +1494,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
           <div
             style={{
               fontWeight: 800,
-              color: chosen === item.correct ? '#059669' : '#dc2626',
+              color: chosen === item.correct ? 'var(--ink-green)' : 'var(--error)',
               marginBottom: 4,
               fontSize: 13,
             }}

@@ -566,7 +566,7 @@ export default function AspectDrillScreen({
             style={{
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               marginTop: 8,
             }}
           >
@@ -586,17 +586,17 @@ export default function AspectDrillScreen({
                 marginTop: 20,
               }}
             >
-              <p style={{ fontWeight: 800, fontSize: 13, color: '#dc2626', marginBottom: 6 }}>
+              <p style={{ fontWeight: 800, fontSize: 13, color: 'var(--error)', marginBottom: 6 }}>
                 📌 {mistakeIds.size} pair{mistakeIds.size !== 1 ? 's' : ''} to review:
               </p>
-              <p style={{ fontSize: 12, color: '#78716c', margin: 0 }}>
+              <p style={{ fontSize: 12, color: 'var(--ink-muted-warm)', margin: 0 }}>
                 {[...mistakeIds].join(' · ')}
               </p>
             </div>
           )}
           <div
             style={{
-              background: '#fffbeb',
+              background: 'var(--warning-bg)',
               border: '1.5px solid #fde68a',
               borderRadius: 14,
               padding: '16px 20px',
@@ -604,7 +604,9 @@ export default function AspectDrillScreen({
               marginTop: 20,
             }}
           >
-            <p style={{ fontWeight: 800, fontSize: 13, color: '#92400e', marginBottom: 10 }}>
+            <p
+              style={{ fontWeight: 800, fontSize: 13, color: 'var(--ink-warn)', marginBottom: 10 }}
+            >
               🔑 The 6 rules in brief:
             </p>
             {ASPECT_RULES.map((r) => (
@@ -613,7 +615,7 @@ export default function AspectDrillScreen({
                 style={{ display: 'flex', gap: 8, marginBottom: 6, alignItems: 'flex-start' }}
               >
                 <span style={{ fontSize: 14, flexShrink: 0 }}>{r.icon}</span>
-                <span style={{ fontSize: 12, color: '#78350f', lineHeight: 1.45 }}>
+                <span style={{ fontSize: 12, color: 'var(--ink-warn)', lineHeight: 1.45 }}>
                   <strong>{r.label}:</strong> {r.short}
                 </span>
               </div>
