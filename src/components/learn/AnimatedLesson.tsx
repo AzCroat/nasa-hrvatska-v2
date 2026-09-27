@@ -580,6 +580,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       {/* ── Navigation — fixed above the app nav bar so it's always visible ── */}
       {/* Lesson nav: position:fixed above app nav (≈60px) — never requires scrolling to reach */}
       <div
+        data-bottom-bar
         style={{
           position: 'fixed',
           bottom: 'calc(60px + env(safe-area-inset-bottom, 0px))',

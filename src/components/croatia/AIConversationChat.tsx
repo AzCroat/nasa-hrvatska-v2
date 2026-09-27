@@ -88,6 +88,7 @@ export default function AIConversationChat({
 }: AIConversationChatProps) {
   return (
     <div
+      data-bottom-bar
       style={{
         position: 'fixed',
         inset: 0,
