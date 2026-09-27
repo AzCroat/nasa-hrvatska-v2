@@ -11617,7 +11617,9 @@ lacks `event:read`), so this is reasoning from the code on master, not from the 
       ratio from each node's `data`, not its message; and axe reports _incomplete_, not a
       violation, for any element carrying a `background-image`, so a gradient-painted
       surface is outside these numbers entirely.
-- [ ] **STEP 2 ITSELF — the ~100 hand-written drills onto `ModeDrill`** — surveyed, not
+- [x] **STEP 2 ITSELF — the ~100 hand-written drills onto `ModeDrill`** — DONE (sweeps 163
+      and 174: every multiple-choice `*Drill.tsx` except the two conjugation drills now runs on
+      the engine). Originally surveyed, not
       started. The survey's own findings, worth keeping:
       **~70 of the 101 are ALREADY the engine's shape** — same item fields
       (`mode`/`q`/`opts`/`answer`/`en`/`tip`), same single-column themed render, same
@@ -12681,3 +12683,39 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   `e2e/course-walk.spec.js` (3) pins production → next unit, refusal → next unit, and the
   A1 → A2 boundary on map and Home; mutation-verified in the browser — a no-op
   `markProductionUnavailable` fails the refusal walk (Unit 2 `locked`).
+
+- [x] **Sweep 174 — the last hand-written drills onto the engine, and the "why" panel stopped lying (2026-09-27).**
+  Owner: "improve the feedback loop for learners"; run length decided at **12 for every drill**.
+  - 23 drills converted (7 case drills + clitics, present tense, word order with their concept
+    card kept through a new `intro` slot and `explainType="case_drill"`; animate accusative
+    with a `cue`, negation with a `lead`; conditional, fleeting-a, idioms, imperative,
+    numbers+cases, participles, passive, subordination, prepositions). `drawDrillRun` derives
+    its per-type share from `DRILL_RUN_LENGTH` (12) — a single-type bank would otherwise have
+    run 4 questions. Nine drills had been running 18–24 questions against the 12–15 cap.
+  - Discourse, Nominalization, Register: 10 → 24 items, three types each (42 new Croatian
+    items, lint 0, positive controls caught both an injected Serbism and a homoglyph).
+    PrepDrill's 40 items had NO explanation; each now names the case its preposition takes.
+    ConjugationDrill printed nothing on a wrong answer and ran 20; now names the form, offers
+    the explanation, runs 12; the shared conjugation engine gets the panel too.
+  - **The engine said right/wrong by border colour only** (WCAG 1.4.1) in all 109 drills;
+    it now says "✅ Correct!" / "❌ Incorrect." in words.
+  - **The free contrast said false grammar across all engine drills** — found by probing
+    `contrastAnswers` with non-noun pairs before wiring it to verb drills: *stoga* "genitive",
+    *pisao* "nominative", *idi* "dative", *meni/mene* headline naming only the genitive, *si*
+    glossed "to you". Gated to two forms of one declinable word; pronoun syncretism added;
+    participle -ao/-io/-eo/-uo and neuter -e readings added; -om no longer a present ending.
+    See CLAUDE.md "Wrong Answers Explain Themselves".
+  - Tests: 12 per-drill files that asserted the retired hand-written screen replaced by
+    `engineDrillFeedback.test.tsx`, derived over every engine drill in the directory (98):
+    12-question run, verdict in words, tip, "why" panel on a wrong answer only, options
+    locked. Credit is already driven for all of them by `handWrittenDrills.contract`.
+    Mutation-verified four ways (single-type bank back to 4 → 22 fail; verdict words removed
+    → 98; lock removed → 98 — **this one SURVIVED the first draft**, which clicked a second
+    option that could share the first one's verdict; cue line removed → 1). Full suite
+    663 files / 10,459 green. Browser: post-answer feedback text on six drills passes AA in
+    both themes (one flag was the probe not seeing the dark page gradient; checked by
+    screenshot, ~9:1).
+  - **Owner decision recorded**: do NOT expand the four 12-question banks (Conditional,
+    Idioms, Participles, Subordination) — they serve the same 12 each run, by choice.
+  - **Next, owner-directed**: (1) deepen the 180 lessons — more worked examples and a guided-
+    practice step before each check; (2) an end-of-level review unit before each Level Check.

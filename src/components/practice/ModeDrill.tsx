@@ -278,6 +278,8 @@ export default function ModeDrill({
             return (
               <button
                 key={opt}
+                data-testid="drill-option"
+                data-verdict={showState ? (isCorrect ? 'correct' : 'wrong') : undefined}
                 onClick={() => pick(opt)}
                 style={{
                   textAlign: 'left',
@@ -315,6 +317,12 @@ export default function ModeDrill({
               color: 'var(--subtext)',
             }}
           >
+            {/* The verdict in WORDS (2026-09-27). The engine said right and wrong
+                with a border colour alone, which a colour-blind learner cannot
+                read (WCAG 1.4.1); the hand-written drills it replaced said it. */}
+            <strong data-testid="drill-verdict">
+              {chosen === cur.answer ? '✅ Correct!' : '❌ Incorrect.'}
+            </strong>{' '}
             💡 {cur.tip}
           </div>
         )}
@@ -336,7 +344,12 @@ export default function ModeDrill({
           />
         )}
         {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>
+          <button
+            className="b bp"
+            data-testid="drill-next"
+            style={{ width: '100%', marginTop: 14 }}
+            onClick={next}
+          >
             {idx + 1 >= total ? 'Rezultat →' : 'Dalje →'}
           </button>
         )}

@@ -2,6 +2,7 @@ import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { StatsProvider } from '../context/StatsContext';
+import AppContext from '../context/AppContext';
 import type { Stats, StatsContextValue } from '../types';
 
 // Freeze Fisher-Yates shuffle so opts[0] stays in place (no swaps occur).
@@ -123,6 +124,23 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
     ) as HTMLElement | null;
     if (introStart) {
       fireEvent.click(introStart);
+      if (!progressed()) break;
+      continue;
+    }
+
+    // The shared drill engine (ModeDrill) marks its controls by test id rather than
+    // by class or English copy ("Dalje →"), so it is driven through those first.
+    const engineNext = document.querySelector('[data-testid="drill-next"]') as HTMLElement | null;
+    if (engineNext) {
+      fireEvent.click(engineNext);
+      if (!progressed()) break;
+      continue;
+    }
+    const engineOption = document.querySelector(
+      '[data-testid="drill-option"]',
+    ) as HTMLElement | null;
+    if (engineOption) {
+      fireEvent.click(engineOption);
       if (!progressed()) break;
       continue;
     }
@@ -467,9 +485,11 @@ describe('Exercise Contract -- gold-pattern drills', () => {
     const goBack = vi.fn();
 
     render(
-      <StatsProvider value={value}>
-        <DativeDrill goBack={goBack} award={award} />
-      </StatsProvider>,
+      <AppContext.Provider value={{ setScr: vi.fn() } as never}>
+        <StatsProvider value={value}>
+          <DativeDrill goBack={goBack} award={award} />
+        </StatsProvider>
+      </AppContext.Provider>,
     );
 
     await completeDrill(award);
@@ -578,9 +598,11 @@ async function assertContract(drill: (typeof FULL_CONTRACT_DRILLS)[number]): Pro
   const goBack = vi.fn();
 
   render(
-    <StatsProvider value={value}>
-      <ComponentToRender goBack={goBack} award={award} />
-    </StatsProvider>,
+    <AppContext.Provider value={{ setScr: vi.fn() } as never}>
+      <StatsProvider value={value}>
+        <ComponentToRender goBack={goBack} award={award} />
+      </StatsProvider>
+    </AppContext.Provider>,
   );
 
   await completeDrill(award);

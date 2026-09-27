@@ -916,6 +916,29 @@ this month — had nothing.
   when both endings permit the case; build a contrast from a multi-word option;
   import an AI module into `ModeDrill`; add a fourth layer that costs a turn by
   default.
+- **THE CONTRAST WAS SAYING FALSE GRAMMAR IN ALL 109 DRILLS, AND ONLY A PROBE
+  SHOWED IT (2026-09-27).** The ending rules read ANY string as a noun, so the panel
+  told learners the connector *stoga* is a genitive singular, the participle *pisao*
+  a nominative, the imperative *idi* a dative. Every test used case pairs, where it is
+  right. It now speaks ONLY about two forms of one declinable word — both forms carry
+  a case reading, they are not both verb forms, and they share a stem
+  (`nounStemKey`: known ending removed, fleeting *a* and sibilarized consonants
+  folded), or both are closed-class pronouns. Anything else returns null and keeps the
+  tip and the AI button. Three more falsehoods on the same path:
+  - **the headline picked one reading of each form** ("the sentence needs genitive
+    singular" for *mene*); it now names every case each form permits;
+  - **the pronoun table listed one case per form**: *mene/tebe/njega/nas/vas/njih* and
+    *me/te/ga/je/ih* are genitive AND accusative, *meni/tebi/njemu/njoj/nama/vama/njima*
+    dative AND locative (the plurals instrumental too), and *si* was glossed "to you" —
+    it is the reflexive dative (*kupio si je auto*);
+  - **the analyser** missed the *-ao/-io/-eo/-uo* participle, the neuter nominative in
+    *-e* (*učenje*), and read *-om* as a present-tense ending.
+  A reading list cut at three now says "among others". Pinned by `wrongAnswerHelp.test.tsx`
+  (both directions: eight pairs that must say nothing, six that must compare).
+- NEVER: show a case contrast for two words the rules cannot prove are forms of one
+  word; state one reading of an ambiguous form as the answer; list a capped set of
+  readings as if complete; add a pronoun to the closed table with fewer cases than the
+  form carries.
 
 ## Critical Architecture: Tap Any Word (owner recommendation 6, 2026-09-07)
 
@@ -6193,10 +6216,12 @@ concepts, not just drill them (pinned by `caseConceptTeaching.test.tsx`):
   the learner already says in English (he/him/his, who/whom, "the dog's
   bone", "give HIM the book"). New grammar content must gloss every
   technical term in plain words — never an unglossed "genitive".
-- **Wrong answers teach**: the case drills call `/api/explain-error`
-  (type `case_drill`) via the shared `useExplainError` hook +
-  `DrillExplainCard`; the endpoint's prompt now assumes NO formal grammar
-  background. Fail-soft — the static tip always remains.
+- **Wrong answers teach**: the case drills run on the shared engine (since
+  2026-09-27) with `explainType="case_drill"`, so "Explain this one to me" sends the
+  prompt that assumes NO formal grammar background. It is behind the button now,
+  not fired on every wrong answer — the free contrast ("those two forms can never be
+  the same case") answers first, and the concept card still opens every drill via
+  ModeDrill's `intro` slot. Fail-soft — the static tip always remains.
 - **The primer lesson is A1**: the `cases` lesson in
   `functions/api/content/_data/lessons.js` is `level: 'A1'` — the app's only
   "what is a case" explanation must never again sit above the level of the

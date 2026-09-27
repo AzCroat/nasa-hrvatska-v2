@@ -44,7 +44,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, walk, completionCallers, creditGatedOnExit } from './helpers/creditOnExit';
 
-/** The twelve that route through `completeExercise`. */
+/**
+ * The screens that route through `completeExercise` themselves. PrepDrill was one of
+ * the original twelve; since 2026-09-27 it is a ModeDrill wrapper, crediting through
+ * the engine, and the engine's own contract (modeDrillContract) plus the derived
+ * hand-written-drill cohort drive it end to end, so it left this list.
+ */
 const FIXED = [
   'src/components/learn/ModalScreen.tsx',
   'src/components/learn/PadeziScreen.tsx',
@@ -52,7 +57,6 @@ const FIXED = [
   'src/components/practice/AspectDrillScreen.tsx',
   'src/components/practice/CollocationsGame.tsx',
   'src/components/practice/NumTime.tsx',
-  'src/components/practice/PrepDrill.tsx',
   'src/components/practice/TypingScreen.tsx',
   'src/components/practice/Unjumble.tsx',
   'src/components/practice/VocativeScreen.tsx',
@@ -261,9 +265,9 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
     }
   });
 
-  it('the twelve fixed screens still credit, and credit from an effect', () => {
+  it('the fixed screens still credit, and credit from an effect', () => {
     // The rule above is satisfied by a screen that stopped calling completeExercise
-    // at all. These twelve must still credit, and from an effect — the shape that
+    // at all. These must still credit, and from an effect — the shape that
     // makes both exits equivalent.
     for (const f of FIXED) {
       const src = fs.readFileSync(path.join(ROOT, f), 'utf8');

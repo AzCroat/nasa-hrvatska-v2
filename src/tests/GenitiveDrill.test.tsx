@@ -1,7 +1,8 @@
 /**
  * GenitiveDrill.test.tsx — Smoke tests for the GenitiveDrill component.
  *
- * Uses the mock pattern from prep-drill.test.tsx (canonical).
+ * Uses the Firebase/quests/rnd mock pattern the per-drill tests shared (their files were
+ * retired 2026-09-27 for engineDrillFeedback.test.tsx when the drills moved onto ModeDrill).
  * Full contract compliance is verified in exerciseContract.test.tsx.
  *
  * With rnd()=0.99, shuffle is identity — DATA[0].opts[0] === DATA[0].answer.
@@ -83,24 +84,25 @@ describe('GenitiveDrill — smoke tests', () => {
     expect(screen.getByText('📖 Genitive Case')).toBeTruthy();
   });
 
-  it('opens with the concept teaching phase, then shows progress 1 / 10', () => {
+  it('opens with the concept teaching phase, then shows progress 1 / 12', () => {
     render(<GenitiveDrill goBack={vi.fn()} award={vi.fn()} />);
     // Concept-teaching (2026-08-18): the drill teaches before it tests.
     expect(screen.getByTestId('case-concept-intro')).toBeTruthy();
     fireEvent.click(screen.getByTestId('case-intro-start'));
-    expect(screen.getByText(/1 \/ 10/)).toBeTruthy();
+    expect(screen.getByText(/1 \/ 12/)).toBeTruthy();
   });
 
-  it('advances to 2 / 10 after clicking the correct answer and Next', () => {
+  it('advances to 2 / 12 after clicking the correct answer and Next', () => {
     const { container } = render(<GenitiveDrill goBack={vi.fn()} award={vi.fn()} />);
     fireEvent.click(screen.getByTestId('case-intro-start'));
+    // The run is 12 questions since 2026-09-27 (the shared engine's DRILL_RUN_LENGTH).
     // With rnd()=0.99, shuffle is identity — opts[0] === answer
-    const firstOpt = container.querySelector('button.ob');
+    const firstOpt = container.querySelector('[data-testid="drill-option"]');
     expect(firstOpt).toBeTruthy();
     fireEvent.click(firstOpt!);
-    const nextBtn = container.querySelector('button.b.bp');
+    const nextBtn = container.querySelector('[data-testid="drill-next"]');
     expect(nextBtn).toBeTruthy();
     fireEvent.click(nextBtn!);
-    expect(screen.getByText(/2 \/ 10/)).toBeTruthy();
+    expect(screen.getByText(/2 \/ 12/)).toBeTruthy();
   });
 });
