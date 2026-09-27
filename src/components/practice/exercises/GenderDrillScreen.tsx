@@ -487,9 +487,9 @@ function GenderDrillScreen({ goBack, award }: Props) {
             width: '100%',
             marginTop: 16,
             marginBottom: 8,
-            background: '#f1f5f9',
-            color: '#64748b',
-            border: '1px solid #e2e8f0',
+            background: 'var(--surface-mute)',
+            color: 'var(--ink-muted)',
+            border: '1px solid var(--card-b)',
           }}
           onClick={goBack}
         >

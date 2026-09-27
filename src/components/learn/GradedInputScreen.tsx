@@ -709,7 +709,11 @@ export function StoryReader({
                     borderRadius: 50,
                     border: 'none',
                     background:
-                      recordingIdx === i ? '#dc2626' : result ? '#059669' : 'var(--card-b)',
+                      recordingIdx === i
+                        ? '#dc2626'
+                        : result
+                          ? 'var(--fill-success)'
+                          : 'var(--card-b)',
                     color: recordingIdx === i ? 'white' : result ? 'white' : 'var(--subtext)',
                     fontSize: 16,
                     cursor: 'pointer',

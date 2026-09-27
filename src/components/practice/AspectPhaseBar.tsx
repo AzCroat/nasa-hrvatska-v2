@@ -22,9 +22,9 @@ export default function AspectPhaseBar({ phase, total }: Props) {
             letterSpacing: '.04em',
             background:
               i < phase
-                ? 'var(--success,#16a34a)'
+                ? 'var(--fill-success)'
                 : i === phase
-                  ? 'var(--info,#0284c7)'
+                  ? 'var(--fill-info)'
                   : 'var(--bar-bg)',
             color: i <= phase ? '#fff' : 'var(--subtext)',
             transition: 'all .25s',

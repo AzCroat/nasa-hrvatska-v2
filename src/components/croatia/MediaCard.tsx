@@ -9,7 +9,7 @@ import {
 } from './MediaPlayerUtils';
 import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY } from '../../lib/mediaDone';
 import { parseTombstones, recordTombstone } from '../../lib/tombstones';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ── Completion tracking (localStorage) ───────────────────────────────────────
 function getCompletedMedia() {
@@ -488,7 +488,7 @@ export default function MediaCard({
                 alignItems: 'center',
                 gap: 5,
                 padding: '8px 14px',
-                background: btnBg,
+                background: accentFill(btnBg),
                 color: 'white',
                 border: 'none',
                 borderRadius: 10,

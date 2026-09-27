@@ -10,7 +10,7 @@ import { ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface WordBreakdown {
   word: string;
@@ -718,7 +718,7 @@ export default function PhraseOfDayScreen({
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: 12,
                 fontWeight: 700,
-                background: active ? catColor : 'var(--card)',
+                background: active ? accentFill(catColor) : 'var(--card)',
                 color: active ? '#fff' : 'var(--subtext)',
                 border: `1.5px solid ${active ? catColor : 'var(--card-b)'}`,
                 transition: 'all .18s',
@@ -1021,7 +1021,7 @@ export default function PhraseOfDayScreen({
                           height: 30,
                           borderRadius: '50%',
                           flexShrink: 0,
-                          background: isA ? color : 'var(--card-b)',
+                          background: isA ? accentFill(color) : 'var(--card-b)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -1244,7 +1244,7 @@ export default function PhraseOfDayScreen({
                           fontSize: 13,
                           lineHeight: 1.55,
                           fontWeight: 500,
-                          background: msg.role === 'user' ? color : 'var(--bar-bg)',
+                          background: msg.role === 'user' ? accentFill(color) : 'var(--bar-bg)',
                           color: msg.role === 'user' ? '#fff' : 'var(--heading)',
                           borderBottomRightRadius: msg.role === 'user' ? 3 : 12,
                           borderBottomLeftRadius: msg.role === 'maja' ? 3 : 12,
@@ -1315,7 +1315,7 @@ export default function PhraseOfDayScreen({
                       padding: '9px 14px',
                       borderRadius: 10,
                       border: 'none',
-                      background: chatInput.trim() ? color : 'var(--bar-bg)',
+                      background: chatInput.trim() ? accentFill(color) : 'var(--bar-bg)',
                       color: chatInput.trim() ? '#fff' : 'var(--subtext)',
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,

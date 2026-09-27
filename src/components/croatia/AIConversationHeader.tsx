@@ -1,4 +1,5 @@
 import React from 'react';
+import { accentFill } from '../../lib/accentInk.js';
 
 interface Scenario {
   cat: string;
@@ -26,7 +27,7 @@ export default function AIConversationHeader({
   return (
     <div
       style={{
-        background: _headerBg,
+        background: accentFill(_headerBg),
         borderRadius: 22,
         padding: '22px 20px',
         marginBottom: 22,

@@ -35,7 +35,7 @@ import {
   fmtElapsed,
   computeRelationshipLevel,
 } from './MajaScreenUtils.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ─────────────────────────────────────────────
 // Types
@@ -1397,7 +1397,7 @@ export default function MajaScreen() {
                   disabled={!fallbackText.trim() || phase === 'thinking'}
                   style={{
                     borderRadius: 10,
-                    background: fallbackText.trim() && phase !== 'thinking' ? '#D4002D' : '#ccc',
+                    background: fallbackText.trim() && phase !== 'thinking' ? '#D4002D' : '#6b7280',
                     color: '#fff',
                     border: 'none',
                     padding: '0 16px',
@@ -1421,7 +1421,7 @@ export default function MajaScreen() {
                     width: '100%',
                     height: 52,
                     borderRadius: 12,
-                    background: personaCfg.accentColor,
+                    background: accentFill(personaCfg.accentColor),
                     color: '#fff',
                     border: 'none',
                     fontSize: 17,

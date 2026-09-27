@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { normalizePersonaKey } from '../../lib/personaKey';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ─────────────────────────────────────────────
 // PERSONA DATA
@@ -126,7 +126,7 @@ function PersonaCard({ persona, selected, onSelect }: PersonaCardProps) {
             width: 22,
             height: 22,
             borderRadius: '50%',
-            background: persona.color,
+            background: accentFill(persona.color),
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -195,7 +195,7 @@ function PersonaCard({ persona, selected, onSelect }: PersonaCardProps) {
             fontWeight: 700,
             padding: '2px 8px',
             borderRadius: 20,
-            background: selected ? persona.color : persona.color + '18',
+            background: selected ? accentFill(persona.color) : persona.color + '18',
             color: selected ? '#fff' : accentInk(persona.color),
             marginBottom: 6,
             transition: 'background 0.2s, color 0.2s',
@@ -390,7 +390,7 @@ export default function PersonaScreen({ goBack, setScr }: Props) {
           width: '100%',
           height: 52,
           borderRadius: 12,
-          background: selected ? btnColor : '#e5e7eb',
+          background: selected ? accentFill(btnColor) : '#e5e7eb',
           color: selected ? '#fff' : '#9ca3af',
           border: 'none',
           fontSize: 17,

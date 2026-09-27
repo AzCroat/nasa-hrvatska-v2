@@ -7,7 +7,7 @@ import {
   GENDER_LABEL,
   CT_STYLES,
 } from './CaseTransformerData.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Noun {
   hr: string;
@@ -173,7 +173,10 @@ export default function CaseTransformerDeclension({
                 flexWrap: 'wrap',
               }}
             >
-              <span className="ct-badge" style={{ background: ci.color, color: '#fff' }}>
+              <span
+                className="ct-badge"
+                style={{ background: accentFill(ci.color), color: '#fff' }}
+              >
                 {ci.abbr}
               </span>
               <span

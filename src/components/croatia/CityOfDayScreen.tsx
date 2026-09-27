@@ -10,7 +10,7 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import { loadCityHrBand, pickCityIntroHr, type CityHrEntries } from '../../lib/cityIntroHr';
 import type { CefrLevel } from '../../lib/cefr';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. All 4 tabs (Overview / History / Vocab / Fast Facts) populated.
@@ -529,7 +529,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
                         width: 26,
                         height: 26,
                         borderRadius: '50%',
-                        background: city.color,
+                        background: accentFill(city.color),
                         color: 'white',
                         display: 'flex',
                         alignItems: 'center',

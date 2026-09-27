@@ -11,7 +11,7 @@ import { speak } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import CharacterPortrait from '../family/CharacterPortrait';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ── Heritage module data ──────────────────────────────────────────────────────
 
@@ -757,7 +757,7 @@ export default function HeritagePathScreen({
           style={{
             width: '100%',
             padding: '13px',
-            background: dialect.color,
+            background: accentFill(dialect.color),
             color: '#fff',
             border: 'none',
             borderRadius: 14,
@@ -863,7 +863,7 @@ export default function HeritagePathScreen({
             style={{
               width: '100%',
               padding: '13px',
-              background: mod.color,
+              background: accentFill(mod.color),
               color: '#fff',
               border: 'none',
               borderRadius: 14,
@@ -951,7 +951,7 @@ export default function HeritagePathScreen({
               style={{
                 width: '100%',
                 padding: '13px',
-                background: mod.color,
+                background: accentFill(mod.color),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,
@@ -1077,7 +1077,7 @@ export default function HeritagePathScreen({
             style={{
               width: '100%',
               padding: '13px',
-              background: mod.color,
+              background: accentFill(mod.color),
               color: '#fff',
               border: 'none',
               borderRadius: 14,
@@ -1153,7 +1153,7 @@ export default function HeritagePathScreen({
               style={{
                 width: '100%',
                 padding: '13px',
-                background: mod.color,
+                background: accentFill(mod.color),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,
@@ -1309,7 +1309,7 @@ export default function HeritagePathScreen({
           style={{
             width: '100%',
             padding: '13px',
-            background: '#16a34a',
+            background: 'var(--fill-success)',
             color: '#fff',
             border: 'none',
             borderRadius: 14,

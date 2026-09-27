@@ -1,6 +1,6 @@
 import React from 'react';
 import { CT_STYLES } from './CaseTransformerData.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Noun {
   hr: string;
@@ -159,7 +159,7 @@ export default function CaseTransformerQuiz({
         style={{ borderLeft: `4px solid ${ci.color}`, marginBottom: 16, background: ci.bg }}
       >
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 6 }}>
-          <span className="ct-badge" style={{ background: ci.color, color: '#fff' }}>
+          <span className="ct-badge" style={{ background: accentFill(ci.color), color: '#fff' }}>
             {ci.abbr}
           </span>
           <span

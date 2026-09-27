@@ -5,7 +5,7 @@ import DialoguePlayer from './DialoguePlayer';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
-import { accentInk } from '../../../lib/accentInk';
+import { accentInk, accentFill } from '../../../lib/accentInk';
 
 /** Extract key vocabulary words from the Croatian sentence (words ≥ 4 chars, skip common short words) */
 const STOP_WORDS = new Set([
@@ -155,7 +155,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           style={{
             padding: '3px 10px',
             borderRadius: 20,
-            background: ld.headerBg,
+            background: accentFill(ld.headerBg),
             fontSize: 11,
             fontWeight: 800,
             color: 'white',
@@ -345,7 +345,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
             width: '100%',
             padding: '14px',
             borderRadius: 14,
-            background: ld.color,
+            background: accentFill(ld.color),
             color: 'white',
             border: 'none',
             cursor: 'pointer',

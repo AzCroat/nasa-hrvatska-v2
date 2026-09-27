@@ -4,7 +4,7 @@ import type { AwardActivityType } from '../../types/index.js';
 import { H, getSR } from '../../data';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface GrammarDrill {
   prompt?: string;
@@ -539,7 +539,7 @@ export default function GrammarDiagnosisScreen({
                     flexShrink: 0,
                     padding: '3px 8px',
                     borderRadius: 6,
-                    background: sev.color,
+                    background: accentFill(sev.color),
                     color: '#fff',
                     fontSize: 10,
                     fontWeight: 800,

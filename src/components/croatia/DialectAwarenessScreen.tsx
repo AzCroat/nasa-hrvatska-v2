@@ -5,7 +5,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { lsGet, lsSet } from '../../lib/safeStorage';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ─── Dialect Data ────────────────────────────────────────────────────────────
 
@@ -265,7 +265,7 @@ function DialectCard({ dialect, onTap }: { dialect: Dialect; onTap: (d: Dialect)
             {dialect.standard && (
               <span
                 style={{
-                  background: dialect.color,
+                  background: accentFill(dialect.color),
                   color: '#fff',
                   fontSize: 10,
                   fontWeight: 700,
@@ -472,7 +472,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
             <span
               style={{
                 marginLeft: 'auto',
-                background: dialect.color,
+                background: accentFill(dialect.color),
                 color: '#fff',
                 fontSize: 11,
                 fontWeight: 700,

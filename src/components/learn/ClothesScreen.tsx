@@ -3,6 +3,7 @@ import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import ContentStateNotice from '../shared/ContentStateNotice';
 import { clickable } from '../../lib/clickable';
+import { accentFill } from '../../lib/accentInk.js';
 
 interface BackBtnProps {
   goBack: () => void;
@@ -74,7 +75,7 @@ const TAB_NAV = ({ tabs, active, setActive, accent }: TabNavProps) => (
           cursor: 'pointer',
           fontSize: 12,
           fontWeight: 700,
-          background: active === t ? accent : '#f5f5f4',
+          background: active === t ? accentFill(accent) : '#f5f5f4',
           color: active === t ? 'white' : '#44403c',
         }}
       >

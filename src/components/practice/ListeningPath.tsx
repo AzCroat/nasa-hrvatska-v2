@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { H, MEDIA } from '../../data';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
@@ -70,7 +70,7 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
                 border: '2px solid ' + (activeLevel === lv ? m.color : '#e2e8f0'),
                 borderRadius: 10,
                 cursor: 'pointer',
-                background: activeLevel === lv ? m.color : 'var(--card)',
+                background: activeLevel === lv ? accentFill(m.color) : 'var(--card)',
                 color: activeLevel === lv ? '#fff' : 'var(--heading)',
                 transition: 'all .15s',
               }}

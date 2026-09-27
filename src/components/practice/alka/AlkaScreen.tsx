@@ -5,6 +5,7 @@ import AlkaResult from './AlkaResult';
 import { useAlkaRide } from './useAlkaRide';
 import { selectQuestions } from '../../../lib/gamification/exerciseSource';
 import { useStats } from '../../../context/StatsContext';
+import { accentFill } from '../../../lib/accentInk.js';
 
 export default function AlkaScreen({
   goBack,
@@ -144,7 +145,7 @@ export default function AlkaScreen({
                   display: 'block',
                   width: '100%',
                   textAlign: 'left',
-                  background: bg,
+                  background: accentFill(bg),
                   border,
                   borderRadius: 9,
                   padding: '9px 12px',

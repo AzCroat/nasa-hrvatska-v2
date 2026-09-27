@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { H } from '../../data';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ─── Scenario data ────────────────────────────────────────────────────────────
 
@@ -460,7 +460,7 @@ function DiffBadge({ level }: { level: string }) {
         fontSize: 10,
         fontWeight: 800,
         color: '#fff',
-        background: (DIFF_COLOR as Record<string, string>)[level] || '#64748b',
+        background: accentFill((DIFF_COLOR as Record<string, string>)[level] || '#64748b'),
         borderRadius: 6,
         padding: '2px 7px',
         letterSpacing: '.05em',
@@ -638,7 +638,7 @@ function DialogueTab({ dialogue }: { dialogue: DialogueLine[] }) {
             <div
               style={{
                 maxWidth: '82%',
-                background: isA ? 'var(--info)' : 'var(--card)',
+                background: isA ? 'var(--fill-info)' : 'var(--card)',
                 color: isA ? '#fff' : 'var(--heading)',
                 borderRadius: isA ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
                 padding: '10px 14px',
@@ -749,7 +749,7 @@ function LearnView({
               padding: '9px 0',
               borderRadius: 10,
               border: tab === t ? `2px solid ${scenario.color}` : '2px solid var(--card-b)',
-              background: tab === t ? scenario.color : 'var(--card)',
+              background: tab === t ? accentFill(scenario.color) : 'var(--card)',
               color: tab === t ? '#fff' : 'var(--subtext)',
               fontSize: 13,
               fontWeight: 700,
@@ -777,7 +777,7 @@ function LearnView({
           padding: '14px 0',
           borderRadius: 14,
           border: 'none',
-          background: scenario.color,
+          background: accentFill(scenario.color),
           color: '#fff',
           fontSize: 15,
           fontWeight: 800,
@@ -968,7 +968,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
               padding: '12px 0',
               borderRadius: 12,
               border: 'none',
-              background: scenario.color,
+              background: accentFill(scenario.color),
               color: '#fff',
               fontSize: 13,
               fontWeight: 700,
@@ -1140,7 +1140,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
               padding: '13px 0',
               borderRadius: 13,
               border: 'none',
-              background: scenario.color,
+              background: accentFill(scenario.color),
               color: '#fff',
               fontSize: 14,
               fontWeight: 800,

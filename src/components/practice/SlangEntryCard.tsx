@@ -1,7 +1,7 @@
 import React from 'react';
 import { speak } from '../../data';
 import { ipaFor } from './slangPronunciation';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface SlangVariant {
   hr: string;
@@ -175,7 +175,7 @@ export default function SlangEntryCard({
                       height: 28,
                       borderRadius: 8,
                       border: 'none',
-                      background: color,
+                      background: accentFill(color),
                       color: '#fff',
                       fontSize: 12,
                       cursor: 'pointer',

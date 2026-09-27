@@ -27,7 +27,7 @@ import {
   CheckSlide,
   SummarySlide,
 } from './LessonSlides';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // ── Inline keyframes injected once ──────────────────────────
 const SLIDE_ANIM_ID = 'nh-slide-anim';
@@ -693,7 +693,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                 padding: '13px 16px',
                 borderRadius: 12,
                 border: 'none',
-                background: canGoNext ? lesson.color : 'var(--bar-bg)',
+                background: canGoNext ? accentFill(lesson.color) : 'var(--bar-bg)',
                 color: canGoNext ? '#fff' : 'var(--subtext)',
                 cursor: canGoNext ? 'pointer' : 'not-allowed',
                 fontFamily: 'inherit',

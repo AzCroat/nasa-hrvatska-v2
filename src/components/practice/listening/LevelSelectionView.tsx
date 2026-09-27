@@ -1,7 +1,7 @@
 import React from 'react';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
-import { accentInk } from '../../../lib/accentInk';
+import { accentInk, accentFill } from '../../../lib/accentInk';
 
 /** Level-selection landing — the CEFR level cards. */
 export default function LevelSelectionView({
@@ -104,7 +104,7 @@ export default function LevelSelectionView({
                   height: 52,
                   borderRadius: 14,
                   flexShrink: 0,
-                  background: ld.headerBg,
+                  background: accentFill(ld.headerBg),
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',

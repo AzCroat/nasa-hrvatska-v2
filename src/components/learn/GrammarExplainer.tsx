@@ -6,6 +6,7 @@ import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { useStats } from '../../context/StatsContext';
 import { getUserCefr } from '../../lib/cefr.js';
+import { accentFill } from '../../lib/accentInk.js';
 
 const TOPICS = [
   {
@@ -657,7 +658,7 @@ export default function GrammarExplainer({
                       style={{
                         display: 'inline-block',
                         marginTop: 8,
-                        background: 'var(--info)',
+                        background: 'var(--fill-info)',
                         color: '#fff',
                         borderRadius: 20,
                         padding: '2px 10px',
@@ -769,7 +770,7 @@ export default function GrammarExplainer({
               {quizSubmitted && (
                 <span
                   style={{
-                    background: scoreColor,
+                    background: accentFill(scoreColor),
                     color: '#fff',
                     borderRadius: 20,
                     padding: '4px 14px',

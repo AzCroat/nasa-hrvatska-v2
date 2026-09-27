@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { speak, speakSlow, stopAudio } from '../../../lib/audio.ts';
-import { accentInk } from '../../../lib/accentInk';
+import { accentInk, accentFill } from '../../../lib/accentInk';
 
 export default function AudioControls({
   text,
@@ -73,7 +73,7 @@ export default function AudioControls({
           padding: '8px 14px',
           borderRadius: 10,
           border: 'none',
-          background: isActive ? '#fee2e2' : accentColor,
+          background: isActive ? '#fee2e2' : accentFill(accentColor),
           color: isActive ? '#b91c1c' : 'white',
           fontSize: 13,
           fontWeight: 700,

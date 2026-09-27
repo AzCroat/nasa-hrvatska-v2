@@ -118,7 +118,8 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               gap: 4,
               marginBottom: 8,
               padding: '6px 10px',
-              background: '#0e7490',
+              // #164e63, not #0e7490: the pale blue and pink labels were 2.97:1 on the lighter teal.
+              background: '#164e63',
               borderRadius: 8,
             }}
           >

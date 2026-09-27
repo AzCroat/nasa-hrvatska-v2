@@ -7,7 +7,7 @@ import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
 import { levelledBank } from '../../lib/levelledBank';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import type { CefrLevel } from '../../lib/cefr';
-import { accentInk } from '../../lib/accentInk';
+import { accentFill, accentInk } from '../../lib/accentInk';
 
 // Bounded round size (2026-07-21, owner-flagged): the banks grew for
 // cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
@@ -747,7 +747,7 @@ function LevelBadge({ level }: LevelBadgeProps) {
         fontWeight: 800,
         padding: '2px 7px',
         borderRadius: 99,
-        background: colors[level] || '#6b7280',
+        background: accentFill(colors[level] || '#6b7280'),
         color: '#fff',
         letterSpacing: '.06em',
       }}

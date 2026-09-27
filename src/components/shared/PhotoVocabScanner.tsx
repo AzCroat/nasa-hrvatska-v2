@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // Detect desktop: has fine pointer (mouse) and hover capability
 function isDesktop() {
@@ -65,7 +65,7 @@ function VocabCard({
         style={{
           width: 5,
           alignSelf: 'stretch',
-          background: BRAND_RED,
+          background: accentFill(BRAND_RED),
           flexShrink: 0,
           borderRadius: '14px 0 0 14px',
         }}
@@ -182,7 +182,7 @@ function Toast({ message }: { message: string }) {
         bottom: 80,
         left: '50%',
         transform: 'translateX(-50%)',
-        background: '#16a34a',
+        background: 'var(--fill-success)',
         color: '#fff',
         fontWeight: 700,
         fontSize: 14,
@@ -473,7 +473,7 @@ export default function PhotoVocabScanner({
                 gap: 10,
                 width: '100%',
                 height: 52,
-                background: BRAND_RED,
+                background: accentFill(BRAND_RED),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,
@@ -559,7 +559,7 @@ export default function PhotoVocabScanner({
               gap: 8,
               width: '100%',
               height: 52,
-              background: BRAND_RED,
+              background: accentFill(BRAND_RED),
               color: '#fff',
               border: 'none',
               borderRadius: 14,
@@ -694,7 +694,7 @@ export default function PhotoVocabScanner({
                 gap: 8,
                 width: '100%',
                 height: 52,
-                background: selectedCount === 0 ? 'rgba(212,0,45,0.35)' : BRAND_RED,
+                background: selectedCount === 0 ? 'rgba(212,0,45,0.35)' : accentFill(BRAND_RED),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,

@@ -15,7 +15,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import { PITCH_ACCENT_LESSONS } from '../../data/pitchAccentContent.js';
 import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // Map accent id → rich lesson data
 const LESSON_BY_ACCENT = {
@@ -871,7 +871,7 @@ export default function PitchAccentMastery({
                 padding: '8px 4px',
                 border: `1px solid ${lessonPhase === tab.id ? accent.color : 'var(--card-b)'}`,
                 borderRadius: 10,
-                background: lessonPhase === tab.id ? accent.color : 'var(--card)',
+                background: lessonPhase === tab.id ? accentFill(accent.color) : 'var(--card)',
                 color: lessonPhase === tab.id ? '#fff' : 'var(--subtext)',
                 fontWeight: 700,
                 fontSize: 11,
@@ -968,7 +968,7 @@ export default function PitchAccentMastery({
                   style={{
                     width: '100%',
                     padding: '13px',
-                    background: accent.color,
+                    background: accentFill(accent.color),
                     color: '#fff',
                     border: 'none',
                     borderRadius: 14,
@@ -1051,7 +1051,7 @@ export default function PitchAccentMastery({
               style={{
                 width: '100%',
                 padding: '13px',
-                background: accent.color,
+                background: accentFill(accent.color),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,
@@ -1212,7 +1212,7 @@ export default function PitchAccentMastery({
               style={{
                 width: '100%',
                 padding: '13px',
-                background: accent.color,
+                background: accentFill(accent.color),
                 color: '#fff',
                 border: 'none',
                 borderRadius: 14,
@@ -1326,7 +1326,7 @@ export default function PitchAccentMastery({
                 style={{
                   width: '100%',
                   padding: '13px',
-                  background: accent.color,
+                  background: accentFill(accent.color),
                   color: '#fff',
                   border: 'none',
                   borderRadius: 14,

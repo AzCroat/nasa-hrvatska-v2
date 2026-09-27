@@ -2,7 +2,7 @@ import React from 'react';
 import { portraitSrc } from './SpeakingAvatar';
 import { deriveWeakAreas } from './ConversationScenarios.js';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface ConvoScenario {
   id: string;
@@ -241,7 +241,7 @@ export default function AIConversationConvoSetup({
               transition: 'all .15s',
               whiteSpace: 'nowrap',
               borderColor: activeCat === c ? 'var(--info)' : 'var(--card-b)',
-              background: activeCat === c ? 'var(--info)' : 'var(--card)',
+              background: activeCat === c ? 'var(--fill-info)' : 'var(--card)',
               color: activeCat === c ? 'white' : 'var(--subtext)',
             }}
           >
@@ -398,7 +398,7 @@ export default function AIConversationConvoSetup({
                         top: 8,
                         left: 10,
                         zIndex: 2,
-                        background: s.color,
+                        background: accentFill(s.color),
                         borderRadius: 20,
                         padding: '3px 10px',
                         fontSize: 10,
@@ -442,7 +442,7 @@ export default function AIConversationConvoSetup({
                             fontWeight: 800,
                             padding: '2px 7px',
                             borderRadius: 10,
-                            background: l === level ? s.color : 'var(--bar-bg)',
+                            background: l === level ? accentFill(s.color) : 'var(--bar-bg)',
                             color: l === level ? 'white' : 'var(--subtext)',
                           }}
                         >

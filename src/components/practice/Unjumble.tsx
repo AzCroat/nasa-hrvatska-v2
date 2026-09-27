@@ -123,7 +123,9 @@ export default function Unjumble({
             border:
               '2px solid ' + (ujA ? (isCorrect ? '#16a34a' : '#dc2626') : 'rgba(14,116,144,.12)'),
             borderRadius: 14,
-            background: 'rgba(255,255,255,.65)',
+            // var(--card), not a 65% white: in dark mode that slab sat under the themed light
+            // ink at 1.69:1 and the placeholder vanished.
+            background: 'var(--card)',
             fontSize: 16,
             fontWeight: 600,
           }}

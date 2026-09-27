@@ -12626,3 +12626,58 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   gate removed fails 1 (it SURVIVED the session tests alone — on lesson days P2 supplies
   grammar so P2.7 never draws; a direct `selectGuaranteedGrammar` test closed it); the
   adaptive skip removed fails 5; the reached-tag clause removed fails 1.
+
+- [x] **Sweep 172 — white text on data colours, and the contrast tail closed in both themes (2026-09-27).**
+  Fresh census over all 430 routes on master: light 66 elements on 17 routes, dark 194 on 43.
+  Tokens first: dark `--subtext` and `--ink-muted` #94a3b8 → #a8b4c6 (4.37:1 on the dark
+  `--warning-bg` tile, and the drills' #353e4f option rows), dark `--ink-error` → #fca5a5,
+  dark `--ink-mode` → #c4b5fd (4.42 on its own tint), light `--ink-red` #D40030 → #b8002a
+  (4.23 on the screen-header pill), `--fill-info` added. That alone took dark 194 → 70.
+  The rest was one class — white text on a DATA colour — plus a tail: `accentFill` (86 render
+  sites by codemod, arms paired with the white ink only when the ink is unconditional or its
+  ternary shares the background's condition, plus 7 wrapped by hand; 12 literal fills and 5
+  status-token fills rewritten by two narrower passes), literal fills
+  under white darkened or moved to `--fill-*`, the case badges' lightening pill, the
+  `.cefr-*` classes' own-tint inks, HNL medals (gold/silver take dark ink, bronze darkened —
+  a paired lookup, because `inlineInkContrast` cannot pair ternary arms), the athletes' filter
+  tabs (a fixed white slab with a themed count pill, 2.56:1 in dark), Baka Summer's chapter
+  dots and date line, the profession-gender header, the Unjumble answer slab
+  (`rgba(255,255,255,.65)` under themed ink, 1.69:1 in dark), the static privacy/terms
+  footers (#a8a29e on #f8fafc, 2.41) and their dark-mode links, `MapScreen`'s title (white on
+  the light header, 1.08:1), and GrammarTrackScreen's locked badge (raw `level.color` as ink).
+  **Result, all 430 routes: light 66 → 6, dark 194 → 6**; the six are postcard names over a
+  photo + 72% black gradient overlay (checked: ~9.9:1 worst case), and the nine touched
+  routes re-censused at 0 in both themes after the last fix. Guard `whiteTextFill.test.ts`
+  (4), mutation-verified three ways. Unit suite 674 files / 10,561 passed; dark-mode-ink +
+  accessibility E2E 35/35.
+  Also this sweep: #754's E2E red was mine — `ai-conversation.spec.js` clicked the centre of
+  the outermost `div` containing "Free Talk"; the wider column (right rail removed) moved
+  that point off the card. Now `getByRole('button', …)`; 32/32. #754 merged green (a6a920b2).
+
+- [x] **Sweep 173 — step 3, the course walked past the unit test (2026-09-27).**
+  Walked in a real browser against a CI-equivalent build: both Unit 1 production tasks
+  graded from the course map (Unit 1 → `cleared`, Unit 2 opens, Home leads with "Unit 2
+  of 36"); a refused evaluator (429 `monthly_budget_exhausted`) names the cause, records
+  `production.unavailable`, and Unit 2 opens as the screen promises; all six A1 units
+  held → map shows 6 of 36 and A2 Unit 1 current, Home opens `present`; a due 30-day
+  check-up is served first and a failed one keeps the unit and resets the ladder to
+  stage 0 due tomorrow. No page errors on any path.
+  **Two of my first "findings" were my seed**: `addInitScript` re-runs on every
+  `page.goto`, so writing `nh_course_units` unconditionally erased what the app had just
+  recorded — which read as "production never recorded" and "a refusal walls the course".
+  The committed spec seeds once behind a sessionStorage flag and says why.
+  **One real defect**: a plan committed before the spine arrives is composed with
+  NOTHING ahead (the no-spine contract), and when the learner has already started it the
+  retry SPLICES the teaching slots in rather than rebuilding — leaving the drills the
+  course gate would never have served (the genitive for a Unit 2 learner) beside the
+  inserted check-up and lesson. `withTeachingSlots` now drops UNSTARTED ahead-of-course
+  activities; a completed one keeps its place, and nothing is dropped while an activity
+  is in flight (a failed read counts as in flight). 3 tests in `courseGate.test.ts`;
+  mutation-verified three ways (prune removed, completed not protected, in-flight guard
+  removed — each fails 1). The untouched-plan path already rebuilds cleanly once the
+  spine lands (walked: 6 s shows the pre-spine plan, 16 s shows check-up + lesson).
+  **Still true and deliberate**: for the seconds before the spine lands on a device's
+  first load, Home shows the pre-course plan; returning devices read the cached spine.
+  `e2e/course-walk.spec.js` (3) pins production → next unit, refusal → next unit, and the
+  A1 → A2 boundary on map and Home; mutation-verified in the browser — a no-op
+  `markProductionUnavailable` fails the refusal walk (Unit 2 `locked`).

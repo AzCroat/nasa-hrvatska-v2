@@ -17,7 +17,7 @@ import {
   Confetti,
   Toast,
 } from './VocabSceneComponents';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface SceneItem {
   id: string;
@@ -198,7 +198,7 @@ export default function SceneExplorer({
                 cursor: 'pointer',
                 fontSize: 12,
                 fontWeight: 700,
-                background: viewMode === mode ? scene.color : '#f5f5f4',
+                background: viewMode === mode ? accentFill(scene.color) : '#f5f5f4',
                 color: viewMode === mode ? 'white' : '#44403c',
                 transition: 'background 0.2s',
               }}

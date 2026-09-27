@@ -9,7 +9,7 @@
  */
 import React, { useEffect, useRef, useCallback } from 'react';
 import RadioPlayer from './RadioPlayer';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface MediaItem {
   ytId?: string;
@@ -158,7 +158,7 @@ function ExternalCard({
             padding: '14px 0',
             borderRadius: 12,
             border: 'none',
-            background: m.color,
+            background: accentFill(m.color),
             color: '#fff',
             fontSize: 15,
             fontWeight: 800,

@@ -4,7 +4,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import LessonQuiz from './LessonQuiz';
 import { LESSON_QUIZ_BANKS } from '../../lib/lessonQuizBanks';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface PhonExample {
   hr: string;
@@ -119,7 +119,7 @@ const TAB_NAV = ({
           cursor: 'pointer',
           fontSize: 12,
           fontWeight: 700,
-          background: active === t ? accent : '#f5f5f4',
+          background: active === t ? accentFill(accent) : '#f5f5f4',
           color: active === t ? 'white' : '#44403c',
         }}
       >
@@ -290,7 +290,7 @@ function PhonologyScreen({
                 key={i}
                 onClick={() => setSelLetter(selLetter === i ? null : i)}
                 style={{
-                  background: selLetter === i ? l.color : l.color + '15',
+                  background: selLetter === i ? accentFill(l.color) : l.color + '15',
                   color: selLetter === i ? 'white' : accentInk(l.color),
                   border: `2px solid ${l.color}30`,
                   borderRadius: 12,

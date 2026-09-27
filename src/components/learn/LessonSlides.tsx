@@ -4,7 +4,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { speak } from '../../lib/audio.js';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 // Shared shapes live in lessonSlideTypes.ts; re-exported so existing imports hold.
 export type { LessonMeta, SlideItem, BaseSlide } from './lessonSlideTypes';
@@ -312,7 +312,7 @@ export function TableSlide({ slide, lesson }: { slide: BaseSlide; lesson: Lesson
                 <th
                   key={i}
                   style={{
-                    background: lesson.color,
+                    background: accentFill(lesson.color),
                     color: '#fff',
                     fontWeight: 800,
                     fontSize: 'var(--text-xs)',
@@ -524,7 +524,7 @@ export function QuizSlide({
             marginTop: 4,
             borderRadius: 12,
             border: 'none',
-            background: hasSelected ? lesson.color : 'var(--bar-bg)',
+            background: hasSelected ? accentFill(lesson.color) : 'var(--bar-bg)',
             color: hasSelected ? '#fff' : 'var(--subtext)',
             fontFamily: 'inherit',
             fontSize: 'var(--text-base)',

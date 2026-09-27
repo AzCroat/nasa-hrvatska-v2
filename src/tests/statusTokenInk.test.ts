@@ -65,6 +65,21 @@ function ratio(a: string, b: string): number {
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05);
 }
 const isHex = (v: string | undefined): v is string => !!v && /^#[0-9a-f]{6}$/i.test(v);
+/** An `rgba(r,g,b,a)` tint painted over an opaque hex, as the browser composites it. */
+function composite(tint: string, under: string): string | undefined {
+  if (isHex(tint)) return tint;
+  const m = /rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([\d.]+)\s*\)/.exec(tint);
+  if (!m || !isHex(under)) return undefined;
+  const a = parseFloat(m[4]!);
+  const u = [1, 3, 5].map((i) => parseInt(under.slice(i, i + 2), 16));
+  return (
+    '#' +
+    [1, 2, 3]
+      .map((i, k) => Math.round(Number(m[i]) * a + u[k]! * (1 - a)))
+      .map((v) => v.toString(16).padStart(2, '0'))
+      .join('')
+  );
+}
 
 describe('status tokens have ink twins that clear AA', () => {
   it('maps every status token, and accentInk returns the twin', () => {
@@ -87,11 +102,24 @@ describe('status tokens have ink twins that clear AA', () => {
       const dark = tokenValue(DARK, w);
       expect(light, `${w} missing from :root`).toBeTruthy();
       expect(dark, `${w} missing from .dark`).toBeTruthy();
-      // Dark mode must not move: where the status token has its own dark value, the twin
-      // carries it exactly (--accent has none, which is why its twin exists at all).
-      const tokenDark = tokenValue(DARK, t);
-      if (tokenDark)
-        expect(dark!.toLowerCase(), `${w} dark must equal ${t} dark`).toBe(tokenDark.toLowerCase());
+      // DARK: the twin clears AA on the dark card AND on the status token's own tints
+      // composited over it — which is where the ink actually sits. This used to pin
+      // "dark equals the token's dark value", which kept dark mode from moving in the
+      // sweep that introduced the twins, and it pinned --ink-error at #f87171: 3.93:1
+      // on its own tint ("✗ WRONG", 24 elements, measured 2026-09-27). Pin the
+      // measurement, not the value.
+      expect(isHex(dark), `${w} dark value should be a hex`).toBe(true);
+      const card = tokenValue(DARK, '--card');
+      expect(isHex(card), '--card dark').toBe(true);
+      const darkSurfaces = [
+        card!,
+        ...['-bg', '-bg-strong']
+          .map((sfx) => tokenValue(DARK, t + sfx))
+          .map((v) => (v ? composite(v, card!) : undefined)),
+      ].filter(isHex);
+      for (const bg of darkSurfaces) {
+        expect(ratio(dark!, bg), `${w} dark ${dark} on ${bg}`).toBeGreaterThanOrEqual(4.5);
+      }
       // Light value clears AA as small text on white and on the token's own light tints.
       expect(isHex(light), `${w} light value should be a hex`).toBe(true);
       const surfaces = [

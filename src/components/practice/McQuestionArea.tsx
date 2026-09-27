@@ -263,11 +263,11 @@ export default function McQuestionArea({
                     fontWeight: 800,
                     flexShrink: 0,
                     background: isCorrect
-                      ? 'var(--success)'
+                      ? 'var(--fill-success)'
                       : isWrong
-                        ? 'var(--error)'
+                        ? 'var(--fill-error)'
                         : isRevealedCorrect
-                          ? 'var(--success)'
+                          ? 'var(--fill-success)'
                           : 'var(--bar-bg)',
                     color: isCorrect || isWrong || isRevealedCorrect ? '#fff' : 'var(--subtext)',
                     transition: 'all .2s',

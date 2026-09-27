@@ -169,7 +169,7 @@ function RecipesScreen({ goBack }: Props) {
                 width: 28,
                 height: 28,
                 borderRadius: '50%',
-                background: 'var(--info)',
+                background: 'var(--fill-info)',
                 color: 'white',
                 display: 'flex',
                 alignItems: 'center',

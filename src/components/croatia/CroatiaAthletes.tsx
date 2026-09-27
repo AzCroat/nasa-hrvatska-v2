@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { clickable } from '../../lib/clickable';
-import { accentInk } from '../../lib/accentInk';
+import { accentInk, accentFill } from '../../lib/accentInk';
 
 interface Player {
   name: string;
@@ -365,7 +365,7 @@ function PlayerCard({ p }: { p: Player }) {
             style={{
               flex: 1,
               padding: '10px 12px',
-              background: p.schoolColor,
+              background: accentFill(p.schoolColor),
               color: 'white',
               border: 'none',
               borderRadius: 10,
@@ -585,9 +585,9 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                 flexShrink: 0,
                 padding: '7px 14px',
                 borderRadius: 20,
-                border: active ? 'none' : '1.5px solid #e2e8f0',
-                background: active ? '#003da5' : 'white',
-                color: active ? 'white' : '#44403c',
+                border: active ? 'none' : '1.5px solid var(--card-b)',
+                background: active ? '#003da5' : 'var(--card)',
+                color: active ? 'white' : 'var(--text)',
                 fontSize: 11.5,
                 fontWeight: 700,
                 cursor: 'pointer',
@@ -647,7 +647,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
                   style={{
                     fontSize: 10,
                     fontWeight: 900,
-                    color: dc?.badge ?? 'var(--ink-muted)',
+                    color: dc?.text ?? 'var(--ink-muted)',
                     letterSpacing: '.1em',
                     background: dc?.bg,
                     padding: '3px 10px',

@@ -4910,6 +4910,35 @@ exempt`, and the commonest chip in the app is a ~9% tint of its own ink
   `color(srgb …)` form; wrap a theme token or a falsy value in `accentInk`; reference a
   custom property nothing defines, or give a fallback to one (the fallback is then the
   only value); append a hex alpha to a colour field that can hold `var(…)`.
+- **WHITE TEXT ON A DATA COLOUR IS THE MIRROR CLASS, AND IT WAS THE LARGEST GROUP LEFT
+  (sweep 172).** `<span style={{ background: level.color, color: 'white' }}>` — the level
+  palettes, the grammar map's case colours, scenario, dialect and persona colours. White on
+  `#16a34a` is 3.30:1, on `#ca8a04` 2.94, the vocative green 2.43. `accentFill(c)` answers it
+  at the render site the way `accentInk` does for ink: the least darkening, same hue, that
+  puts white at 5.5:1 (contrast of white ON a colour equals that colour ON white, so it is
+  `inkSafeOnLight`), identical in both themes, and a translucent value (`#rrggbbaa`, `rgba()`)
+  passes through because it is a tint with dark text on it. 93 render sites (86 by codemod, 7 by hand); a status token
+  under white text uses its `--fill-*` twin (`--fill-info` added). Census, all 430 routes:
+  **light 66 → 6, dark 194 → 6**, and the six are postcard city names over a photo with a
+  72% black gradient overlay the census cannot composite (white on the worst case, `#efefef`
+  under the overlay, is ~9.9:1). `whiteTextFill.test.ts` pins every UNCONDITIONALLY-white
+  block (a data arm must go through `accentFill`; a hex arm must clear 4.5:1) and that
+  `accentFill` clears 5.4:1 on every data colour in the tree without ever lightening one.
+  Mutation-verified: a raw `meta.color` restored fails 1; `accentFill` made the identity
+  fails 2; a `#ccc` fill restored fails 1. A white-text block whose ink is itself a ternary is
+  out of the source rule's scope — an arm there may carry dark text — and the census is its
+  arbiter.
+- **A PILL THAT LIGHTENS ITS OWN SURFACE UNDOES ANY FILL UNDER IT.** The case badges put
+  `rgba(255,255,255,.25)` behind white abbreviations, which composited every case colour to
+  2.4–3.6:1 whatever the colour underneath; `rgba(0,0,0,.22)` keeps the pill visible and
+  darkens instead. Same shape: the CEFR badge classes (`.cefr-a1…`) carried their own hue as
+  ink on a 5% tint of it (3.1–4.4:1), and a header that paints `--app-bg` inherited a white
+  ink from a permanently dark screen shell (`MapScreen`'s title at 1.08:1) —
+  `.screen-header` now sets `color: var(--text)`, because an element that paints its own
+  surface owns its ink too.
+- NEVER: paint white text on a data colour without `accentFill`; put a LIGHTENING overlay
+  behind white text on a coloured surface; let an element that paints its own background
+  inherit its ink from an ancestor that paints a different one.
 
 ## Critical Architecture: An Inline Ink Lands On Whatever The Theme Painted (2026-09-27)
 
