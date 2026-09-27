@@ -15,6 +15,7 @@ import { recordMasteryPass } from '../../lib/lessonRetention';
 import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
+import { WorkedSlide, GuidedPracticeSlide } from './LessonPracticeSlides';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
@@ -87,6 +88,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [slide, setSlide] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
+  // Worked examples seen through / guided practice resolved, by slide index.
+  const [practiceDone, setPracticeDone] = useState<Set<number>>(() => new Set());
+  const markPracticeDone = (i: number) =>
+    setPracticeDone((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
   const [score, setScore] = useState(0);
   // Mastery check (lib/lessonCheck, 2026-09-07): answers by item index, in
   // SOURCE option order; `attempt` reshuffles presentation and remounts the
@@ -349,7 +354,12 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const isSummary = currentSlide.type === 'summary';
   const quizRevealed = quizResults[slide] !== undefined;
   const failedSummary = isSummary && !passed;
-  const canGoNext = isCheck ? checkAllAnswered : !isQuiz || quizRevealed;
+  const isPractice = currentSlide.type === 'worked' || currentSlide.type === 'practice';
+  const canGoNext = isCheck
+    ? checkAllAnswered
+    : isPractice
+      ? practiceDone.has(slide)
+      : !isQuiz || quizRevealed;
   const isLastSlide = slide === totalSlides - 1;
 
   // ── Render slide content ─────────────────────────────────
@@ -416,6 +426,28 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             quizResults={quizResults}
             onAnswer={handleAnswer}
             onCheck={handleCheck}
+          />
+        );
+
+      case 'worked':
+        return (
+          <WorkedSlide
+            key={slide}
+            slide={cs}
+            lesson={lesson!}
+            done={practiceDone.has(slide)}
+            onComplete={() => markPracticeDone(slide)}
+          />
+        );
+
+      case 'practice':
+        return (
+          <GuidedPracticeSlide
+            key={slide}
+            slide={cs}
+            lesson={lesson!}
+            done={practiceDone.has(slide)}
+            onComplete={() => markPracticeDone(slide)}
           />
         );
 

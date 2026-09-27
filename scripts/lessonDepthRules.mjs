@@ -113,5 +113,89 @@ export function lessonDepthProblems(l) {
   }
   const quizzes = slides.filter((s) => s.type === 'quiz').length;
   if (quizzes < 1) out.push('needs >= 1 formative quiz slide');
+  if (DEEPENED_LEVELS.includes(l.level)) out.push(...practiceProblems(l));
+  return out;
+}
+
+// ── Worked examples and guided practice (owner request, 2026-09-27) ──────────
+// "More learning and then reaffirming testing at every level." A lesson went
+// explanation → finished example sentences → two single-shot questions → check.
+// Between the explanation and the check it now also WORKS problems through step by
+// step and gives PRACTICE with a hint and a second try. Rolled out level by level:
+// a level joins DEEPENED_LEVELS when every lesson in it has been authored, and
+// from then on the build holds every lesson in it to these rules.
+export const DEEPENED_LEVELS = ['A1'];
+export const MIN_WORKED = 2;
+export const MIN_WORKED_STEPS = 3;
+export const MIN_PRACTICE_ITEMS = 4;
+
+/** Every worked/practice rule this lesson violates. */
+export function practiceProblems(l) {
+  const out = [];
+  const slides = l.slides || [];
+  const worked = slides.filter((s) => s.type === 'worked');
+  const practice = slides.filter((s) => s.type === 'practice');
+  if (worked.length < MIN_WORKED)
+    out.push(`needs >= ${MIN_WORKED} worked examples (has ${worked.length})`);
+  worked.forEach((w, i) => {
+    if (typeof w.problem !== 'string' || !w.problem.trim())
+      out.push(`worked ${i}: problem missing`);
+    if (typeof w.answer !== 'string' || !w.answer.trim()) out.push(`worked ${i}: answer missing`);
+    if (typeof w.en !== 'string' || !w.en.trim()) out.push(`worked ${i}: en missing`);
+    const steps = Array.isArray(w.steps) ? w.steps : [];
+    if (steps.length < MIN_WORKED_STEPS)
+      out.push(`worked ${i}: needs >= ${MIN_WORKED_STEPS} steps`);
+    steps.forEach((st, k) => {
+      if (typeof st?.text !== 'string' || !st.text.trim())
+        out.push(`worked ${i} step ${k}: text missing`);
+    });
+  });
+  if (practice.length !== 1)
+    out.push(`exactly one guided-practice slide (found ${practice.length})`);
+  const checkIdx = slides.findIndex((s) => s.type === 'check');
+  const practiceIdx = slides.findIndex((s) => s.type === 'practice');
+  if (practice.length === 1 && practiceIdx !== checkIdx - 1) {
+    out.push('guided practice must sit immediately before the check');
+  }
+  const lastWorked = slides.map((s) => s.type).lastIndexOf('worked');
+  if (worked.length && practiceIdx >= 0 && lastWorked > practiceIdx) {
+    out.push('worked examples must come before the guided practice');
+  }
+  if (practice.length === 1) {
+    const items = Array.isArray(practice[0].items) ? practice[0].items : [];
+    if (items.length < MIN_PRACTICE_ITEMS) {
+      out.push(`guided practice needs >= ${MIN_PRACTICE_ITEMS} items (has ${items.length})`);
+    }
+    const corrects = new Set();
+    items.forEach((it, i) => {
+      if (typeof it.q !== 'string' || !it.q.trim()) out.push(`practice item ${i}: q missing`);
+      if (!Array.isArray(it.options) || it.options.length !== CHECK_OPTIONS) {
+        out.push(`practice item ${i}: needs exactly ${CHECK_OPTIONS} options`);
+      } else if (new Set(it.options.map((o) => String(o).trim())).size !== CHECK_OPTIONS) {
+        out.push(`practice item ${i}: duplicate options`);
+      }
+      if (!Number.isInteger(it.correct) || it.correct < 0 || it.correct >= CHECK_OPTIONS) {
+        out.push(`practice item ${i}: correct index out of range`);
+      } else corrects.add(it.correct);
+      if (typeof it.hint !== 'string' || !it.hint.trim())
+        out.push(`practice item ${i}: hint missing`);
+      if (typeof it.explanation !== 'string' || !it.explanation.trim()) {
+        out.push(`practice item ${i}: explanation missing`);
+      }
+      // A hint that contains the answer is the answer, not a hint.
+      const ans = Array.isArray(it.options) ? String(it.options[it.correct] ?? '') : '';
+      if (
+        ans &&
+        typeof it.hint === 'string' &&
+        it.hint.toLowerCase().includes(ans.toLowerCase()) &&
+        ans.length > 2
+      ) {
+        out.push(`practice item ${i}: hint gives the answer away (${ans})`);
+      }
+    });
+    if (items.length >= MIN_PRACTICE_ITEMS && corrects.size < 2) {
+      out.push('guided practice correct indices must use >= 2 distinct positions');
+    }
+  }
   return out;
 }

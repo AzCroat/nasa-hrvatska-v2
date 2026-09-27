@@ -2927,13 +2927,15 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **473 files**, 2 of them walked structurally — the figure the lint
+Coverage is **474 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
 deleted the hero cluster three more pointed at, and up by one for
 `src/data/courseUnitTitles.ts` (sweep 151), and by one more for
-`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube").
+`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube"), then up by one for
+`functions/api/content/_data/lessonPracticeA1.js` (the A1 worked examples and guided practice,
+2026-09-27 — also walked structurally through the assembled LESSONS, both checks).
 
 **AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
 control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was

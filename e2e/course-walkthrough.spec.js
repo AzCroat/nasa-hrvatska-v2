@@ -43,7 +43,7 @@ async function readLesson(page, id) {
   await page.getByTestId(`course-lesson-${id}`).click();
   await expect(page.getByTestId('lesson-nav-next')).toBeVisible({ timeout: 20_000 });
 
-  for (let step = 0; step < 80; step++) {
+  for (let step = 0; step < 160; step++) {
     if (await page.getByTestId('lesson-complete').isVisible()) return;
 
     const checkQ = page.getByTestId('lesson-check-question');
@@ -64,6 +64,27 @@ async function readLesson(page, id) {
         await more.click();
         continue;
       }
+    }
+
+    // A worked example (2026-09-27): reveal every step; Next waits for the last one.
+    const step = page.getByTestId('worked-next-step');
+    if (await step.isVisible()) {
+      await step.click();
+      continue;
+    }
+
+    // Guided practice: answer each item, taking the second try when the hint shows
+    // (it is not scored), then move to the next item; Next waits for the last one.
+    const practice = page.getByTestId('practice-option');
+    if ((await practice.count()) && !(await page.getByTestId('practice-explanation').isVisible())) {
+      const open = practice.locator(':scope:not([disabled])');
+      await open.first().click();
+      continue;
+    }
+    const moreItems = page.getByTestId('practice-next-item');
+    if (await moreItems.isVisible()) {
+      await moreItems.click();
+      continue;
     }
 
     // A formative quiz slide: any answer, then Check Answer — it gates nothing.
