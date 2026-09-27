@@ -12405,3 +12405,26 @@ the day, not by a derivation, and each is fixed with a behavioural test and a mu
   core vocabulary included. Anonymous guests are unaffected. Whether anonymous sign-in is
   enabled in production could not be checked from here without creating a real anonymous
   account, which was not done.
+
+## Sweep 167 — step 2 reaches its honest end: 41 drills on the engine, 18 stay hand-written (2026-09-27)
+
+- **Converted this stretch (`37aea8f5`, `8147af29`)**: 8 more. Six differed from the engine
+  only in presentation (inline option styling, a "Završi →"/"Rezultat →" finish label, and
+  in C2Structure a fixed-colour explanation box) — keys, sampling, praise and exported banks
+  unchanged. Stupnjevanje and Želje were exact clones the converter had skipped because its
+  "data section still needs H/Bar" check matched letters inside Croatian strings
+  (`'H + j → š'`, `„Bar da”`). **The converter dropped C2Structure's trailing
+  `export { DATA as C2_DRILL_DATA }`**, the first file with code after the component; restored,
+  and the earlier 33 re-checked (none had any). `drillRun.test.ts`'s source pin now accepts a
+  wrapper's `data={DATA}` and separately pins that the engine samples what it is handed
+  (mutation-verified).
+- **THE 18 THAT REMAIN ARE NOT ENGINE CLONES, and converting them would change behaviour.**
+  Measured: they have NO `mode` field and serve their whole bank (10–50 items), while the
+  engine draws `DRILL_RUN_PER_MODE` (4) per mode — so a conversion would turn a 12–22
+  question drill into a 4-question one. Seven also open with `CaseConceptIntro` and/or call
+  `useExplainError` (Genitive, Accusative, Clitic, WordOrder, PresentTense, …), the concept
+  teaching the engine does not have. `Conjugation`, `ConjugationSession`, `Prep` and `Mode`
+  itself are different components. Converting any of them is a product decision about round
+  length, not a refactor — recorded, not done.
+- **Checked non-defect**: those modeless drills serving 10–24 items is not the "whole 24-item
+  bank" defect `drawDrillRun` fixed — that was about MODED banks where each mode had 8.
