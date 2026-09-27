@@ -3,6 +3,7 @@ import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { H, Bar } from '../../data';
 import { useStats } from '../../context/StatsContext';
 import { rnd } from '../../lib/random.js';
+import { accentInk } from '../../lib/accentInk';
 function shLocal(a: any[]) {
   const b = [...a];
   for (let i = b.length - 1; i > 0; i--) {
@@ -943,14 +944,21 @@ export default function CefrTest({
                   style={{
                     fontSize: 13,
                     fontWeight: 900,
-                    color: lv.text,
+                    color: accentInk(lv.text),
                     lineHeight: 1.3,
                     marginBottom: 4,
                   }}
                 >
                   {lv.label}
                 </div>
-                <div style={{ fontSize: 11, color: lv.text, opacity: 0.75, lineHeight: 1.4 }}>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: accentInk(lv.text),
+                    opacity: 0.75,
+                    lineHeight: 1.4,
+                  }}
+                >
                   {lv.desc}
                 </div>
                 <div
@@ -958,7 +966,7 @@ export default function CefrTest({
                     marginTop: 10,
                     fontSize: 10,
                     fontWeight: 700,
-                    color: lv.text,
+                    color: accentInk(lv.text),
                     opacity: 0.6,
                   }}
                 >
@@ -994,10 +1002,14 @@ export default function CefrTest({
           }}
         >
           <div style={{ fontSize: 48, marginBottom: 12 }}>{icon}</div>
-          <div style={{ fontSize: 32, fontWeight: 900, color: level.text, marginBottom: 4 }}>
+          <div
+            style={{ fontSize: 32, fontWeight: 900, color: accentInk(level.text), marginBottom: 4 }}
+          >
             {finalScore} / {total}
           </div>
-          <div style={{ fontSize: 15, color: level.text, opacity: 0.75, marginBottom: 16 }}>
+          <div
+            style={{ fontSize: 15, color: accentInk(level.text), opacity: 0.75, marginBottom: 16 }}
+          >
             {pct}% correct
           </div>
           <div
@@ -1007,7 +1019,7 @@ export default function CefrTest({
               padding: '12px 16px',
               fontSize: 15,
               fontWeight: 700,
-              color: level.text,
+              color: accentInk(level.text),
             }}
           >
             {msg}
@@ -1018,7 +1030,9 @@ export default function CefrTest({
         <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
             <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>Score</span>
-            <span style={{ fontSize: 12, fontWeight: 800, color: level.text }}>{pct}%</span>
+            <span style={{ fontSize: 12, fontWeight: 800, color: accentInk(level.text) }}>
+              {pct}%
+            </span>
           </div>
           <div
             style={{
@@ -1082,7 +1096,7 @@ export default function CefrTest({
           style={{
             fontSize: 11,
             fontWeight: 800,
-            color: level.text,
+            color: accentInk(level.text),
             opacity: 0.7,
             marginBottom: 8,
             textTransform: 'uppercase',
@@ -1095,7 +1109,7 @@ export default function CefrTest({
           style={{
             fontSize: 16,
             fontWeight: 700,
-            color: level.text,
+            color: accentInk(level.text),
             lineHeight: 1.5,
           }}
         >
@@ -1184,7 +1198,7 @@ export default function CefrTest({
       {answered && (
         <div
           style={{
-            background: isCorrect ? '#dcfce7' : '#fef3c7',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--warning-bg)',
             border: `1.5px solid ${isCorrect ? '#86efac' : '#fcd34d'}`,
             borderRadius: 12,
             padding: '12px 14px',

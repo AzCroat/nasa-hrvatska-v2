@@ -578,7 +578,7 @@ export default function AspectDrillScreen({
           {mistakeIds.size > 0 && (
             <div
               style={{
-                background: '#fff1f2',
+                background: 'var(--error-bg)',
                 border: '1.5px solid #fecdd3',
                 borderRadius: 12,
                 padding: '12px 16px',
@@ -699,8 +699,8 @@ export default function AspectDrillScreen({
             fontWeight: 700,
             cursor: 'pointer',
             border: mistakesOnly ? '1.5px solid #dc2626' : '1.5px solid var(--card-b)',
-            background: mistakesOnly ? '#fff1f2' : 'var(--card)',
-            color: mistakesOnly ? '#dc2626' : 'var(--subtext)',
+            background: mistakesOnly ? 'var(--error-bg)' : 'var(--card)',
+            color: mistakesOnly ? 'var(--error)' : 'var(--subtext)',
           }}
         >
           🎯 {mistakeIds.size > 0 ? `Mistakes (${mistakeIds.size})` : 'Mistakes only'}

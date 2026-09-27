@@ -1205,7 +1205,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
                       borderRadius: 8,
                       border: '1px solid rgba(245,158,11,.25)',
                       fontSize: 'var(--text-xs)',
-                      color: '#92400e',
+                      color: 'var(--warning-text)',
                     }}
                   >
                     ✏️ {msg.correction}
@@ -1399,7 +1399,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
             background: 'rgba(245,158,11,.08)',
             border: '1px solid rgba(245,158,11,.3)',
             fontSize: 'var(--text-xs)',
-            color: '#92400e',
+            color: 'var(--warning-text)',
             display: 'flex',
             alignItems: 'center',
             gap: 8,
@@ -1425,7 +1425,7 @@ export default function LiveTutorScreen({ goBack, award }: Props) {
               background: 'none',
               border: 'none',
               cursor: 'pointer',
-              color: '#92400e',
+              color: 'var(--warning-text)',
               fontWeight: 800,
               flexShrink: 0,
             }}

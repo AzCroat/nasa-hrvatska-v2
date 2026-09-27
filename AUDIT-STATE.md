@@ -11406,28 +11406,183 @@ Croatian lint (0/473) clean; `dark-mode-ink.spec.js` 6/6; `inlineInkContrast` +
 the class: **1,308 → 0**. Whole-app probe after: **131 distinct offending styles across
 61 of 430 routes**, characterised below.
 
+## Sweep 158 — the dark-ink tail, measured rather than reasoned about (2026-09-27)
+
+Sweep 157's recorded next step was "widen `e2e/dark-mode-ink.spec.js`'s ROUTES to every
+route". Done, and the census reordered everything: **437 offending elements across 35 of
+430 routes**, and the two biggest causes were not in any component's `color:` at all.
+
+**THE CENSUS IS THE DELIVERABLE AS MUCH AS THE FIXES.** Command:
+`npx playwright test e2e/zz-ink-tail.spec.js --project="Desktop Chrome"` over
+`AppRouter.tsx`'s own route list, dark mode, 1200ms settle, ~22 min. (Throwaway; the
+committed spec now carries 13 routes.) Note for the next person: a Playwright
+**project-name error exits 0**, so a background run reporting success may have run nothing
+— the real project names here are "Desktop Chrome" etc., not "chromium".
+
+| cause                                      | findings            | fix                |
+| ------------------------------------------ | ------------------- | ------------------ |
+| a `<button>` inheriting UA black           | **214**             | one CSS line       |
+| `body` had no base `color`                 | (the other 2)       | two declarations   |
+| `--text-2` referenced, never defined       | 4 sites             | one token          |
+| a light slab with themed ink inside        | 31 sites / 21 files | tint tokens        |
+| a translucent tint read as an own surface  | ~170                | guard fix + tokens |
+| data-driven accents (`team.color` as text) | 173 arms / 78 files | `accentInk()`      |
+
+- **HALF THE TAIL WAS FORM CONTROLS, AND THE FIRST FIX DID NOT TOUCH IT.** `body` set
+  `background: var(--app-bg)` and no `color`; adding one fixed 2 of 216 because the theme
+  class is a DIV _inside_ body, so `--text` resolved to its light value there, and because
+  **a `<button>` does not inherit `color` at all** — the UA gives it `buttontext`. Proved by
+  walking the ancestor chain, not inferred: `.dark` → `#e2e8f0`, every DIV inherited it,
+  the BUTTON read `rgb(0,0,0)` with no inline colour and no class. `/verbdrill` had 120
+  findings — every conjugated form on the screen. 214 → 0 and nine routes cleared.
+- **`inlineInkContrast` HAD FIVE VALUE-READING DEFECTS**, each found by fixing the previous
+  one and watching a route stay red: a translucent background read as opaque; a
+  comma-terminated value truncating `rgb(22, 163, 74)` (its OWN planted-defect fixture
+  caught the colour side, and applying the same fix to the BACKGROUND matcher unmasked 88
+  more real sites); opacity judged per-expression rather than per-arm; an alpha appended by
+  `+ '18'` (58 sites) or `` `${c}0d` `` (51 sites); and a newline treated as a value
+  terminator, which read a Prettier-wrapped background as just its condition.
+- **All four of those clauses survived their first mutation** and now carry a synthetic
+  pair each (the defective shape and its opaque twin) — the standard sweep 157's opacity
+  clause had to meet, met four more times.
+- **`accentInk()` closes the data-driven half with one CSS expression**:
+  `color-mix(in srgb, C, #fff var(--ink-lift))`, lift 0% light / 62% dark. **Light mode is
+  byte-exact** (verified in a browser per hex) and 55% already clears AA for the darkest
+  accent in the corpus, so 62% has head-room. `tsc` was the control on the 173-site
+  codemod — it named all seven sites where my arm splitter had wrapped a BOOLEAN.
+- **Mutation-verified, eleven**: a conditional ink restored (1 test); the opacity clause
+  reverted (1); each of the four value-reading clauses reverted (1 each, only after their
+  synthetic controls existed); both `inkSurfaceAgreement` clauses gutted (1 and 2); the
+  form-control normalisation removed (**3 E2E tests**, real browser); `accentInk` made a
+  no-op (**4 E2E tests**, naming exactly the four data-driven routes).
+- **A NESTED BASH/PYTHON MUTATION PRODUCED `'\\n'` INSTEAD OF `'\n'`** and therefore did
+  nothing, which read as "the clause is decoration". Write a mutation to a FILE and grep the
+  result before believing a survival — the rule this file already carries, met again.
+- **Committed guards**: `inkSurfaceAgreement.{ts,test.ts}` (the parent-slab/child-ink pair,
+  both directions in one guard because fixing the first creates the second),
+  `accentInk.test.ts`, `inkArms.ts`, and `dark-mode-ink.spec.js` widened to 13 routes plus a
+  dedicated form-control test.
+
+### The three shapes found AFTER the first census, each by fixing the one before
+
+The census reordered the work; then each fix revealed the next shape, and the last three
+were only visible because a route stayed red with every guard reporting clean.
+
+1. **31 → 40 → 6 light slabs, because clause 1 of the agreement guard was not per-arm.**
+   It wanted a bare quoted hex right after `background:`, so a TERNARY background was
+   invisible — and `background: catInfo ? catInfo.color + '18' : '#f3f4f6'` has an opaque
+   light arm. Widening it found 34 more, and two further rounds found the ones each fix
+   exposed. **Its own exemption then had to be widened twice for the same reason**: an
+   element that paints a light slab AND sets its own dark ink owns both halves, and
+   `WritingScreen`'s level badge — five opaque tints each with a measured dark ink (7.15,
+   6.49, 4.58, 4.51, 7.57) — was reported because the subtree scan reached a SIBLING's
+   `var(--subtext)`. Theming that slab would have broken correct, measured code.
+2. **COMMENTS INSIDE A VALUE BREAK THE VALUE SCAN.** That badge's own ink carries
+   `// blue-800 on #dbeafe, 7.15:1` between its arms, and a comma inside a comment ends the
+   scan — so the exemption saw a truncated expression, found no bare hex, and reported the
+   pair anyway. Stripping comments (line first, then block — sweep 72's order) fixed it.
+   The repo already carries this rule in the SATISFYING direction (prose matching a guard);
+   this is the BREAKING direction.
+3. **THE ES6 SHORTHAND `color,` HAS NO COLON AT ALL.** `{ background: color + '18', color }`
+   is `color: color`, and **54 sites** write it that way — the category chip on
+   `/croatia_today`, the level badges on `/immersion`, the phrase pills on `/phraseofday`.
+   No `color:` matcher can see it. 24 of the 54 sit on a non-opaque surface and are now
+   wrapped.
+4. **A TRANSLUCENT INK IS NOT A THEMED INK.** `parseColor` rejects anything under 0.9 alpha
+   on the stated reasoning that a translucent colour "composites over whatever the theme
+   painted and tracks it" — **true of a SURFACE, false of an INK**: a dark accent at 60%
+   over a dark card is still dark. Seven sites fade an accent as ink (`accent + '99'`,
+   `+ '80'`, `+ 'cc'`). `accentInk(c, alpha)` puts the alpha INSIDE the mix, because
+   `accentInk(c) + '99'` is nonsense — you cannot append hex digits to a `color-mix()`.
+   Byte-exact in light mode, verified in a browser.
+5. **AND THE GUARD THEN REPORTED THE LITERAL INSIDE `accentInk('#dc2626', 0.5)`.** The skip
+   is POSITIONAL, not per-expression: `cond ? accentInk(c) : '#78716c'` must still report
+   the raw arm, which a blanket "mentions accentInk" test would hide. Mutation-verified.
+
+### An extraction showed the Croatian lint had never seen a verb paradigm
+
+The ink tokens took `PastTenseLessonScreen.tsx` to **804 countable lines** against the hard
+800 cap (`var(--ink-accent)` is ten characters longer than `#0e7490`, so Prettier wrapped
+attributes). **The cap was not raised**; the data block became `pastTenseData.ts` and
+joined TARGETS — and its positive control **PASSED CLEAN**.
+
+`hleb` in an `mForm` was not caught, because a participle field is not a name
+`CRO_FIELD_RE` listed. So `inf` (infinitives), `aux` (sam/si/je) and
+`mForm`/`fForm`/`nForm` — the actual Croatian of every verb paradigm in the app — were
+unscanned wherever they occur. **This is the `lessons.js` finding a fourth time**: the file
+was there, the extension was deliberate, and only a control on the exact FIELD
+distinguished "clean" from "not looked at". Measured before widening per the
+123-false-positive rule: **+325 strings across TARGETS, ZERO new findings** — a ratchet.
+Mutation-verified in all four fields, with the widening reverted as the control.
+
+**AND THE NOTE EXPLAINING IT BROKE THE GUARD THAT READS TARGETS.**
+`croatianLintTargets.test.ts` derives the target list by parsing the array's SOURCE TEXT,
+so three comment lines between two entries — containing commas — took its count from 474 to
+**234** and reported **236 phantom duplicates**. The prose moved above the array. A guard
+that parses source is a constraint on how you may comment the source.
+
+### Triage of the owner's Sentry weekly report (Sept 18–25), 2026-09-27
+
+All three issues are known and all three have shipped mechanisms. Stated precisely because
+the Sentry issue stream itself is unreadable from here (the standing #644 blocker: the token
+lacks `event:read`), so this is reasoning from the code on master, not from the events.
+
+- **`Importing a module script failed` — 5 events, Ongoing.** NOT a defect, and the count
+  is the designed output of a working healer. `isChunkLoadError` matches that exact string,
+  `lazyWithReload` purges and reloads, and `chunkHealDisposition` in `main.tsx`'s
+  `beforeSend` DROPS the self-healed ones, TAGS budget-exhausted ones `chunk_heal:
+'exhausted'` and deliberately RETAINS the rest at `warning` — its own comment says so, so
+  that a SPIKE is visible. 5 events in a week against 940 spans is not a spike. **The signal
+  to watch is the `chunk_heal: exhausted` tag, not the count.**
+- **`ai_feedback_failed:drill-explain-error:server` — 1 event, NEW.** The fix shipped
+  `57c3a264`, **2026-09-25 — the last day of this window**, so one event is consistent with
+  pre-fix traffic. Verified on master: `'drill'` IS in `VALID_TYPES` (line 76) and the
+  `reject` path DOES call `refundPrecharge` (line 117), so both halves are live.
+- **`ai_feedback_failed:pronunciation-assess:server` — 1 event, NEW.** Same day, same
+  window. Verified on master: every failure path in `PronunciationScorer` is named —
+  `transportFailure` for a null transport (returning `network`, not `server`),
+  `failureFromStatus` with its 4xx branch for a response, `failureFromError` for a throw —
+  and the transport path now carries `attempts=`/`err=` context the old events had none of.
+- **WHAT MAKES NEXT WEEK ANSWERABLE RATHER THAN GUESSED:** every event carries a `release`
+  (`__BUILD_ID__`), so a `:server` tag on a build after `57c3a264` is a real 5xx and on an
+  earlier one is a mislabelled 4xx. **CLAUDE.md said the 4xx branch was "recorded as open"
+  when it had been closed the same day** — corrected, because a reader trusting that line
+  would have drawn the opposite conclusion from the same tag.
+
+### What this sweep did NOT close
+
+- **A referenced-but-undefined custom property has no guard.** `--text` was the first
+  instance (recorded in index.css), `--text-2` the second, found only by the render walk.
+  A check that every `var(--x)` in `src/` resolves to a definition in `index.css` — minus
+  the ones set inline (`--brand`, `--ink-lift`, `--L`) — is cheap and is not written.
+- **Both walkers see only a route's FIRST PAINT.** An expanded card, a results view, an
+  answered quiz are invisible to them. `ConstellationDoneMode`'s regression was found by
+  reading the diff, not by the census, for exactly this reason.
+- **The 25 theme-independent contrast failures** below are untouched, and so is
+  **`--success` failing AA as text on white (3.30:1)** with 49 inline sites reading it as
+  ink. Both are pre-existing and need an owner decision on the palette.
+- **A border is still a different question** (sweep 156's scope): e.g. `ProfileTab`'s
+  active-tab `borderBottom: '3px solid #047857'` is a dark green underline on a dark
+  surface. Decoration, with the now-readable label above it.
+
 ## NOT YET CHECKED — where the next field report will come from
 
-- [ ] **THE DARK-INK TAIL — 131 styles across 61 of 430 routes** — measured after sweep
-      157 by `e2e/dark-mode-ink.spec.js`, which is the tool to re-run (widen its `ROUTES`
-      to every route; it took ~14 min). Four shapes, none reachable by the codemods used:
-      **(a) DATA-DRIVEN inks** — the biggest group: a per-item brand colour used both as a
-      badge background (correct, white on it) and as text (`football`, `dialects`,
-      `readlist`, `personas`, `phoneme_practice`, `crmap`, `immersion`, `croatia_today`).
-      The pattern that fixed the one instance already done is in `ConstellationData.js`:
-      keep `color` for the badge, add an `ink` token beside it.
-      **(b) ~36 brand literals outside the map** — `#cc0000`, `#003da5`, `#2563eb`,
-      `#db2777`, `#d4002d`, `#1e3a5f`, `#003087`, `#9d174d`, `#7e22ce`; several are
-      national-identity colours and want their own token like `--ink-navy`/`--ink-red`
-      rather than a semantic one.
-      **(c) 81 inline light BACKGROUNDS whose light value matches no existing tint** —
-      `#f1f5f9` (11), `#fee2e2` (11), `#f8fafc` (8), `#dcfce7` (7), `#f5f3ff` (5),
-      `#eff6ff` (4), `#f0fdfa` (3), `#f5f5f4` (3), `#fff1f2` (3). `--surface-mute` and
-      `--mode-bg` were added for the first two families and are the shape to follow.
-      **(d) 165 dark `color:` fields in NAMED objects** — mostly DATA, not styles
-      (`hrvatska/doors.ts` 32, `illustrations/CelebrationScene.tsx` 8), so they need
-      classifying per file before any rewrite; `DiffSpan.tsx` (9) and `HNLScreen.tsx` (18)
-      are the ones most likely to be real text.
+- [x] ~~**THE DARK-INK TAIL — 131 styles across 61 of 430 routes**~~ — ANSWERED, sweep 158.
+      Re-measured with the same instrument over all 430 routes: **437 elements across 35
+      routes**, and the four shapes recorded here were not where the weight was. **(a)
+      data-driven inks** are closed by `accentInk()` — 173 arms in 78 files, ONE CSS
+      expression, and NOT the `ConstellationData` pattern this entry proposed: an `ink`
+      field beside every `color` would have meant 743 data edits to serve 173 reads and
+      given every accent a second home to drift from. **(b) brand literals** folded into the
+      existing `--ink-*` families. **(c) light backgrounds** became tint tokens, and six of
+      them also held dark inks that had to move in the same change. **(d) named objects**
+      turned out to be mostly data, as suspected, and are moot: the render walk judges what
+      a browser computes, so a `color:` in a data file is either reached (and reported at
+      its render site) or it is not.
+      **What this entry MISSED, which was half the total**: 216 of 437 elements set no
+      `color` AT ALL and inherited UA black — 214 of them inside a `<button>`, which does
+      not inherit `color`. A source census keyed on `color:` cannot see an element that
+      does not write one. That is why the answer had to come from the browser.
 - [ ] **25 CONTRAST FAILURES THAT ARE THEME-INDEPENDENT** — measured with the
       size-appropriate AA threshold (3:1 for ≥18px or ≥14px bold, else 4.5:1), and all 25
       are small text: `#fff` on `#f59e0b` at **2.15:1** (`LearnPath`, the mic explainer),

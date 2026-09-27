@@ -1,6 +1,7 @@
 import React from 'react';
 import { speak } from '../../lib/audio.js';
 import { getMemoryHook } from '../../lib/memoryHooks.js';
+import { accentInk } from '../../lib/accentInk';
 
 // Converts Croatian text to a simple English phonetic approximation.
 function getPronunciation(word: string) {
@@ -272,7 +273,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
                   padding: '4px 12px',
                   fontSize: 12,
                   fontWeight: 700,
-                  color: genderColor,
+                  color: accentInk(genderColor),
                 }}
               >
                 {tip.gender} {tip.en}

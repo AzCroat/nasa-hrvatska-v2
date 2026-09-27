@@ -18,6 +18,7 @@ import {
   themedClasses,
   isOpaqueLight,
 } from './helpers/themedInlineBackground';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 
 describe('a themed class owns both halves of its contrast', () => {
   it('no element overrides a themed background with an opaque light literal', () => {
@@ -134,7 +135,10 @@ describe('a themed class owns both halves of its contrast', () => {
     // guard would be pointing at the same defect it forbids.
     const css = readFileSync('src/index.css', 'utf8');
     for (const cls of ['ob.ok', 'ob.no']) {
-      const m = new RegExp(`\\.${cls.replace('.', '\\.')}\\s*\\{([^}]*)\\}`).exec(css);
+      // `cls.replace('.', '\\.')` was a PARTIAL escape: a STRING pattern replaces only
+      // the FIRST occurrence and nothing but `.`, which is the `js/incomplete-sanitization`
+      // shape CodeQL flagged on this branch. Escape the whole thing.
+      const m = new RegExp(`\\.${escapeRegExp(cls)}\\s*\\{([^}]*)\\}`).exec(css);
       expect(
         m,
         `.${cls} must exist — it is what the failure message tells people to use`,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { normalizePersonaKey } from '../../lib/personaKey';
+import { accentInk } from '../../lib/accentInk';
 
 // ─────────────────────────────────────────────
 // PERSONA DATA
@@ -195,7 +196,7 @@ function PersonaCard({ persona, selected, onSelect }: PersonaCardProps) {
             padding: '2px 8px',
             borderRadius: 20,
             background: selected ? persona.color : persona.color + '18',
-            color: selected ? '#fff' : persona.color,
+            color: selected ? '#fff' : accentInk(persona.color),
             marginBottom: 6,
             transition: 'background 0.2s, color 0.2s',
           }}

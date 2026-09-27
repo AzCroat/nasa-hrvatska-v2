@@ -1,6 +1,7 @@
 import React from 'react';
 import { H } from '../../data';
 import { useContent } from '../../hooks/useContent';
+import { accentInk } from '../../lib/accentInk';
 
 interface Props {
   goBack: () => void;
@@ -42,7 +43,9 @@ function DialectsScreen({ goBack }: Props) {
           >
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
               <div style={{ fontSize: 16, fontWeight: 800 }}>{d.name}</div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: d.color }}>"{d.what}"</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: accentInk(d.color) }}>
+                "{d.what}"
+              </div>
             </div>
             <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginTop: 4 }}>
               {d.region}
@@ -85,7 +88,7 @@ function DialectsScreen({ goBack }: Props) {
                   key={i}
                   style={{
                     borderBottom: '1px solid #f3f4f6',
-                    background: i % 2 === 0 ? 'transparent' : '#fafafa',
+                    background: i % 2 === 0 ? 'transparent' : 'var(--surface-mute)',
                   }}
                 >
                   <td style={{ padding: '8px 10px', color: 'var(--ink-muted-warm)' }}>{r.en}</td>
@@ -119,7 +122,7 @@ function DialectsScreen({ goBack }: Props) {
       {/* Heritage speaker note */}
       <div
         className="c"
-        style={{ marginBottom: 12, borderLeft: '4px solid #7c3aed', background: '#faf5ff' }}
+        style={{ marginBottom: 12, borderLeft: '4px solid #7c3aed', background: 'var(--mode-bg)' }}
       >
         <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink-mode)', marginBottom: 6 }}>
           🌍 Heritage Speakers (Diaspora)

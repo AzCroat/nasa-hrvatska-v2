@@ -24,7 +24,13 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 
-/** Routes chosen to span the surfaces the ink change touched. */
+/**
+ * Routes chosen to span the surfaces the ink change touched, PLUS every route a
+ * whole-app run of this same detector actually found broken (2026-09-27). The first six
+ * were picked by reading the diff; the rest were picked by the browser, which is the
+ * only reason they are here — a sample chosen from source cannot know that /verbdrill
+ * had 120 unreadable elements.
+ */
 const ROUTES = [
   'discourse', // an engine-shaped drill: mode label, gloss, tip
   'countries', // a themed tint with a badge on it — the pairing case
@@ -32,6 +38,13 @@ const ROUTES = [
   'analytics', // the densest numeric surface in the app
   'imenicame', // a pre-engine drill
   'grammarmap', // a table-heavy reference screen
+  'verbdrill', // 120 findings: every conjugated form, in a <button> inheriting UA black
+  'alphabet', // 30, the same shape
+  'readlist', // 63: level badges, ink on a ~9% tint of itself
+  'crmap', // 20: category pills, same shape
+  'negation', // 15: a bare <button> that DOES set its own dark ink
+  'football', // 14: per-club identity colours used as text
+  'croatiaathletes', // 11: a per-athlete accent on a 5% tint
 ];
 
 test.describe('dark mode paints light ink', () => {
@@ -51,6 +64,42 @@ test.describe('dark mode paints light ink', () => {
     });
   });
 
+  /**
+   * THE SINGLE BIGGEST INSTANCE OF THIS CLASS WAS FORM CONTROLS, AND IT NEEDS ITS OWN
+   * ASSERTION because the route walk below can only say a page is clean today.
+   *
+   * A <button> does not inherit `color` — the UA stylesheet gives it `buttontext` — so
+   * setting a base colour on body and on the theme wrapper fixed nothing for them.
+   * Measured over all 430 routes in dark mode, 214 of 437 offending elements were text
+   * inside a button that sets no colour of its own. This pins the normalisation that
+   * fixes it, at the level that matters: what a real engine computes.
+   */
+  test('a <button> with no colour of its own follows the theme', async ({ page }) => {
+    test.setTimeout(90_000);
+    await page.goto('/verbdrill');
+    await page.waitForLoadState('networkidle').catch(() => {});
+    await page.waitForTimeout(1200);
+    const black = await page.evaluate(() => {
+      const out = [];
+      for (const el of document.body.querySelectorAll('button,input,select,textarea')) {
+        if ((el.getAttribute('style') || '').match(/(?:^|;)\s*color\s*:/)) continue;
+        const c = getComputedStyle(el).color;
+        const m = /rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(c);
+        if (!m) continue;
+        if (+m[1] < 40 && +m[2] < 40 && +m[3] < 40) out.push(c);
+      }
+      return [...new Set(out)];
+    });
+    expect(
+      black,
+      'A form control that sets no colour of its own must INHERIT the theme. The UA ' +
+        'stylesheet gives it `buttontext`, which is black, so in dark mode it is black ' +
+        'on a dark card — that was 214 of 437 offending elements app-wide, including ' +
+        'every conjugated form on this screen. `button,input,optgroup,select,textarea ' +
+        '{ color: inherit }` in index.css is what fixes it.',
+    ).toEqual([]);
+  });
+
   for (const route of ROUTES) {
     test(`/${route} has no dark ink on a dark surface`, async ({ page }) => {
       test.setTimeout(90_000);
@@ -68,6 +117,17 @@ test.describe('dark mode paints light ink', () => {
           return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
         };
         const parse = (s) => {
+          // A `color-mix()` computes to `color(srgb r g b / a)` with channels in 0..1,
+          // NOT to `rgb(...)`. A parser that only knows `rgba?(` returns null for it and
+          // this walker then SKIPS the element — so the moment any ink is expressed as a
+          // mix, the guard stops seeing it while still reading green. Both forms here.
+          const cf = /color\(\s*srgb\s+([\d.eE+-]+)\s+([\d.eE+-]+)\s+([\d.eE+-]+)(?:\s*\/\s*([\d.eE+-]+))?\s*\)/.exec(
+            s || '',
+          );
+          if (cf) {
+            const rgb = [1, 2, 3].map((i) => parseFloat(cf[i]) * 255);
+            return { rgb, a: cf[4] === undefined ? 1 : parseFloat(cf[4]) };
+          }
           const m = /rgba?\(([^)]+)\)/.exec(s || '');
           if (!m) return null;
           const p = m[1].split(',').map((v) => parseFloat(v));

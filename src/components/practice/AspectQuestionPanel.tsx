@@ -368,7 +368,7 @@ export default function AspectQuestionPanel({
         <div
           style={{
             marginTop: 4,
-            background: correct ? '#f0fdf4' : '#fff1f2',
+            background: correct ? 'var(--success-bg)' : 'var(--error-bg)',
             border: `1.5px solid ${correct ? '#86efac' : '#fca5a5'}`,
             borderRadius: 10,
             padding: '12px 14px',

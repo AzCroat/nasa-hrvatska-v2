@@ -1,5 +1,6 @@
 import React from 'react';
 import MemoryChips from './MemoryChips';
+import { accentInk } from '../../lib/accentInk';
 
 interface PersonaCfg {
   name?: string;
@@ -152,7 +153,7 @@ export default function MajaIdleCard({
         <span
           style={{
             fontSize: 11,
-            color: personaCfg.accentColor,
+            color: accentInk(personaCfg.accentColor),
             background: personaCfg.accentColor + '14',
             border: `1px solid ${personaCfg.accentColor}33`,
             borderRadius: 10,

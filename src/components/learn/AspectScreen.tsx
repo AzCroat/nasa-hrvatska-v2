@@ -80,7 +80,7 @@ function AspectScreen({ goBack, award }: Props) {
                 aria-label={`Play imperfective: ${p.impf}`}
                 style={{
                   fontWeight: 700,
-                  color: '#dc2626',
+                  color: 'var(--error)',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -98,7 +98,7 @@ function AspectScreen({ goBack, award }: Props) {
                 aria-label={`Play perfective: ${p.perf}`}
                 style={{
                   fontWeight: 700,
-                  color: '#16a34a',
+                  color: 'var(--success)',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',

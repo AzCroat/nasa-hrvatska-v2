@@ -156,7 +156,7 @@ export default function DialogueGuidedMode({
               role="alert"
               aria-live="assertive"
               style={{
-                background: freeResult.matched ? '#dcfce7' : '#fef3c7',
+                background: freeResult.matched ? 'var(--success-bg)' : 'var(--warning-bg)',
                 border: `1.5px solid ${freeResult.matched ? '#86efac' : '#fcd34d'}`,
                 borderRadius: 12,
                 padding: '12px 14px',
@@ -288,7 +288,7 @@ export default function DialogueGuidedMode({
           role="alert"
           aria-live="assertive"
           style={{
-            background: isCorrect ? '#dcfce7' : '#fef3c7',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--warning-bg)',
             border: `1.5px solid ${isCorrect ? '#86efac' : '#fcd34d'}`,
             borderRadius: 12,
             padding: '12px 14px',

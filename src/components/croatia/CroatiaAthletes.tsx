@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface Player {
   name: string;
@@ -337,7 +338,7 @@ function PlayerCard({ p }: { p: Player }) {
             padding: '8px 12px',
             fontSize: 12,
             fontWeight: 700,
-            color: '#1e293b',
+            color: 'var(--heading)',
             marginBottom: 10,
             fontFamily: "'Outfit',sans-serif",
           }}
@@ -382,7 +383,7 @@ function PlayerCard({ p }: { p: Player }) {
               flex: 1,
               padding: '10px 12px',
               background: 'var(--card)',
-              color: p.schoolColor,
+              color: accentInk(p.schoolColor),
               border: `2px solid ${p.schoolColor}40`,
               borderRadius: 10,
               fontSize: 12,
@@ -599,8 +600,8 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
               {t.label}
               <span
                 style={{
-                  background: active ? 'rgba(255,255,255,.25)' : '#e2e8f0',
-                  color: active ? 'white' : '#6b7280',
+                  background: active ? 'rgba(255,255,255,.25)' : 'var(--surface-mute)',
+                  color: active ? 'white' : 'var(--ink-muted)',
                   borderRadius: '50%',
                   width: 18,
                   height: 18,
@@ -677,7 +678,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
         style={{
           marginTop: 8,
           padding: '14px 16px',
-          background: '#f8fafc',
+          background: 'var(--surface-mute)',
           borderRadius: 14,
           border: '1px solid #e2e8f0',
           fontSize: 11,

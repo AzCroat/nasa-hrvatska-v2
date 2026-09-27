@@ -139,7 +139,7 @@ export default function TiViScreen({ goBack }: { goBack: () => void }) {
           </div>
           <div
             style={{
-              background: '#faf5ff',
+              background: 'var(--mode-bg)',
               borderRadius: 12,
               padding: '12px 14px',
               textAlign: 'center',

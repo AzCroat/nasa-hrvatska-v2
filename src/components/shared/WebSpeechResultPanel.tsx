@@ -150,7 +150,7 @@ export default function WebSpeechResultPanel({
           style={{
             padding: '12px 14px',
             borderRadius: 10,
-            background: '#f5f3ff',
+            background: 'var(--mode-bg)',
             border: '1.5px solid #c4b5fd',
             marginBottom: 8,
           }}

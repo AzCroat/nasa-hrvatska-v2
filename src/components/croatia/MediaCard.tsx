@@ -9,6 +9,7 @@ import {
 } from './MediaPlayerUtils';
 import { MEDIA_DONE_KEY, MEDIA_DONE_DELETED_KEY } from '../../lib/mediaDone';
 import { parseTombstones, recordTombstone } from '../../lib/tombstones';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Completion tracking (localStorage) ───────────────────────────────────────
 function getCompletedMedia() {
@@ -122,7 +123,7 @@ export function GoalTag({ label }: { label: string }) {
     <span
       style={{
         background: 'rgba(212,0,48,.08)',
-        color: '#D40030',
+        color: 'var(--ink-red)',
         fontSize: 9,
         fontWeight: 800,
         padding: '2px 7px',
@@ -358,7 +359,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: `${lc}18`,
-                  color: lc,
+                  color: accentInk(lc),
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -390,7 +391,7 @@ export default function MediaCard({
               <span
                 style={{
                   background: 'rgba(14,116,144,.08)',
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   fontSize: 9,
                   fontWeight: 800,
                   padding: '2px 6px',
@@ -527,7 +528,7 @@ export default function MediaCard({
               borderRadius: 8,
               background: tipOpen ? 'rgba(14,116,144,.08)' : 'transparent',
               border: '1px solid ' + (tipOpen ? 'rgba(14,116,144,.2)' : 'rgba(0,0,0,.07)'),
-              color: tipOpen ? '#0e7490' : '#78716c',
+              color: tipOpen ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               flexShrink: 0,
             }}
           >

@@ -95,7 +95,7 @@ export default function SprintModelPhase({
                 borderRadius: 10,
                 border: '1px solid rgba(22,163,74,.3)',
                 background: 'rgba(22,163,74,.1)',
-                color: '#16a34a',
+                color: 'var(--success)',
                 fontSize: 14,
                 fontWeight: 700,
                 cursor: 'pointer',

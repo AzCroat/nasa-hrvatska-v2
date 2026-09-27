@@ -35,6 +35,7 @@ import {
   fmtElapsed,
   computeRelationshipLevel,
 } from './MajaScreenUtils.js';
+import { accentInk } from '../../lib/accentInk';
 
 // ─────────────────────────────────────────────
 // Types
@@ -1268,7 +1269,7 @@ export default function MajaScreen() {
                   padding: '12px 14px',
                   marginBottom: 14,
                   fontSize: 13,
-                  color: '#92400e',
+                  color: 'var(--warning-text)',
                   lineHeight: 1.5,
                 }}
               >
@@ -1437,13 +1438,13 @@ export default function MajaScreen() {
                     }}
                   >
                     {phase === 'listening' ? (
-                      <span style={{ color: personaCfg.listenColor, fontWeight: 600 }}>
+                      <span style={{ color: accentInk(personaCfg.listenColor), fontWeight: 600 }}>
                         Govoriš…
                       </span>
                     ) : phase === 'thinking' ? (
                       <span style={{ color: '#d97706', fontWeight: 600 }}>Obrađujem…</span>
                     ) : phase === 'maja-speaking' ? (
-                      <span style={{ color: personaCfg.speakingColor, fontWeight: 600 }}>
+                      <span style={{ color: accentInk(personaCfg.speakingColor), fontWeight: 600 }}>
                         {personaCfg.name.split(' ')[0]} govori…{' '}
                         <span style={{ opacity: 0.65, fontWeight: 500 }}>· dodirni za prekid</span>
                       </span>

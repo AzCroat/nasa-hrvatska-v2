@@ -101,7 +101,7 @@ function RoleplayScreen({
           padding: '12px 16px',
           borderRadius: l.you ? '16px 16px 4px 16px' : '16px 16px 16px 4px',
           background: l.you ? 'linear-gradient(135deg,#0e7490,#164e63)' : 'rgba(255,255,255,.85)',
-          color: l.you ? 'white' : '#1c1917',
+          color: l.you ? 'white' : 'var(--ink-ink)',
           border: l.you ? 'none' : '1px solid #e7e5e4',
         }}
       >

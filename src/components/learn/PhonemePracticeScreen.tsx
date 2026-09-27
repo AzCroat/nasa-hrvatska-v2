@@ -5,6 +5,7 @@ import { useStats } from '../../context/StatsContext';
 import { knightSpeak } from '../../lib/knightSpeak.js';
 import { orderByWeakness, getWeakPhonemes } from '../../lib/pronunciationCurriculum';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { accentInk } from '../../lib/accentInk';
 
 const STORAGE_KEY = 'nh_phonemes_mastered';
 
@@ -385,7 +386,9 @@ export default function PhonemePracticeScreen({
                   {w.hr}
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{w.en}</div>
-                <div style={{ fontSize: 10, color: p.color, marginTop: 4, fontWeight: 700 }}>
+                <div
+                  style={{ fontSize: 10, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
+                >
                   ▶ tap to hear
                 </div>
               </button>
@@ -439,7 +442,7 @@ export default function PhonemePracticeScreen({
                   style={{
                     fontSize: 22,
                     fontWeight: 900,
-                    color: p.color,
+                    color: accentInk(p.color),
                     fontFamily: "'Playfair Display', serif",
                   }}
                 >
@@ -448,7 +451,9 @@ export default function PhonemePracticeScreen({
                 <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 4 }}>
                   {p.minimalPair.aEn}
                 </div>
-                <div style={{ fontSize: 10, color: p.color, marginTop: 4, fontWeight: 700 }}>
+                <div
+                  style={{ fontSize: 10, color: accentInk(p.color), marginTop: 4, fontWeight: 700 }}
+                >
                   ▶ play
                 </div>
               </button>
@@ -539,7 +544,7 @@ export default function PhonemePracticeScreen({
             >
               {p.sentence.en}
             </div>
-            <div style={{ fontSize: 11, color: p.color, marginTop: 6, fontWeight: 700 }}>
+            <div style={{ fontSize: 11, color: accentInk(p.color), marginTop: 6, fontWeight: 700 }}>
               ▶ tap to hear full sentence
             </div>
           </button>
@@ -554,7 +559,7 @@ export default function PhonemePracticeScreen({
               borderRadius: 14,
               padding: '16px 18px',
               textAlign: 'center',
-              color: '#15803d',
+              color: 'var(--ink-green)',
               fontWeight: 800,
               fontSize: 15,
             }}
@@ -723,7 +728,7 @@ export default function PhonemePracticeScreen({
                 style={{
                   fontSize: 44,
                   fontWeight: 900,
-                  color: p.color,
+                  color: accentInk(p.color),
                   fontFamily: "'Playfair Display', Georgia, serif",
                   lineHeight: 1,
                   marginBottom: 6,

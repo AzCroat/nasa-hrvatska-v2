@@ -105,7 +105,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             💡 In Croatian, every profession has both a masculine and feminine form. Common
@@ -192,7 +192,7 @@ function ProfessionGenderScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct Croatian form for the given profession and gender.

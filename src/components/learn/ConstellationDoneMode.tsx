@@ -1,4 +1,11 @@
 // ── GrammarConstellation — Done/results mode ──────────────────
+//
+// THIS SCREEN IS DARK IN BOTH THEMES. `GrammarConstellation` paints
+// `linear-gradient(160deg,#0f172a,#1e293b,#0c1a2e)` unconditionally, so its ink must be
+// FIXED AND LIGHT — a `--ink-*` token is dark in light mode and would sit at 3.4:1 on
+// that gradient. #f1f5f9, #cbd5e1 and #94a3b8 below are deliberate for that reason, not
+// leftovers a token sweep missed. Anything that paints `var(--card)` (the case cards in
+// ConstellationPieces) IS theme-following and keeps its tokens.
 import React from 'react';
 import { CASES, getDoneMessage } from './ConstellationData.js';
 
@@ -28,7 +35,15 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
             <span
               key={i}
               style={{
-                color: i < finalScore ? '#facc15' : 'var(--text)',
+                // AN UNLIT STAR MUST STAY DIM, AND A THEME TOKEN CANNOT DO THAT HERE.
+                // GrammarConstellation paints its own permanently-dark gradient in BOTH
+                // themes, so `var(--text)` resolved to #e2e8f0 in dark mode — 11.87:1 on
+                // that gradient, BRIGHTER than the lit star's #facc15 at 9.55:1, so a
+                // score of 3/7 showed seven lit stars. A translucent white is dim by
+                // construction whatever is behind it, and it is correctly invisible to
+                // `inlineInkContrast`, which ignores anything under 0.9 alpha because a
+                // translucent colour composites over the theme instead of fighting it.
+                color: i < finalScore ? '#facc15' : 'rgba(255,255,255,0.18)',
                 filter: i < finalScore ? 'drop-shadow(0 0 6px #facc15)' : 'none',
               }}
             >
@@ -47,16 +62,14 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
           }}
         >
           {finalScore}
-          <span style={{ fontSize: 24, color: 'var(--ink-muted)', fontWeight: 400 }}>/7</span>
+          <span style={{ fontSize: 24, color: '#94a3b8', fontWeight: 400 }}>/7</span>
         </div>
 
         <div style={{ color: '#cbd5e1', fontSize: 18, fontWeight: 600, marginBottom: 6 }}>
           {getDoneMessage(finalScore)}
         </div>
 
-        <div style={{ color: 'var(--ink-muted)', fontSize: 13 }}>
-          +{finalScore * 10} points earned
-        </div>
+        <div style={{ color: '#94a3b8', fontSize: 13 }}>+{finalScore * 10} points earned</div>
       </div>
 
       {/* Case summary — quick reminder */}
@@ -107,7 +120,7 @@ export default function ConstellationDoneMode({ finalScore, onReviewCases, goBac
               {c.abbr}
             </span>
             <span style={{ color: '#cbd5e1', fontSize: 13, flex: 1 }}>{c.name}</span>
-            <span style={{ color: 'var(--ink-muted)', fontSize: 11 }}>
+            <span style={{ color: '#94a3b8', fontSize: 11 }}>
               {(c.question.split('(')[0] ?? '').trim()}
             </span>
           </div>

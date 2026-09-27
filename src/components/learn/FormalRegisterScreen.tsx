@@ -4,6 +4,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
 import { completeLesson } from '../../hooks/useLessonCompletion';
 import { LESSON_PASS_THRESHOLD, itemsNeededToPass } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 interface QuizQuestion {
   q: string;
@@ -148,7 +149,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -256,7 +257,14 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                   borderLeft: '4px solid ' + color,
                 }}
               >
-                <div style={{ fontSize: 16, fontWeight: 800, color: color, marginBottom: 8 }}>
+                <div
+                  style={{
+                    fontSize: 16,
+                    fontWeight: 800,
+                    color: accentInk(color),
+                    marginBottom: 8,
+                  }}
+                >
                   {r.icon} {r.rule}
                 </div>
                 {r.examples.map(function (ex, ei) {
@@ -287,7 +295,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
-                <tr style={{ background: '#f1f5f9' }}>
+                <tr style={{ background: 'var(--surface-mute)' }}>
                   {['Situation', 'ti (informal)', 'Vi (formal)'].map((h) => (
                     <th
                       key={h}
@@ -311,7 +319,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : '#fafaf9',
+                        background: i % 2 === 0 ? 'white' : 'var(--surface-mute)',
                       }}
                     >
                       <td
@@ -333,7 +341,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                               cursor: 'pointer',
                               fontFamily: "'Outfit',sans-serif",
                               fontWeight: 600,
-                              color: '#0e7490',
+                              color: 'var(--ink-accent)',
                               fontSize: 13,
                               padding: 0,
                               textAlign: 'left',
@@ -355,7 +363,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                             cursor: 'pointer',
                             fontFamily: "'Outfit',sans-serif",
                             fontWeight: 700,
-                            color: '#7c3aed',
+                            color: 'var(--ink-mode)',
                             fontSize: 13,
                             padding: 0,
                             textAlign: 'left',
@@ -383,7 +391,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(124,58,237,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#4c1d95',
+              color: 'var(--ink-mode)',
               lineHeight: 1.6,
             }}
           >
@@ -393,7 +401,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
               <thead>
-                <tr style={{ background: '#f1f5f9' }}>
+                <tr style={{ background: 'var(--surface-mute)' }}>
                   {['', 'biti', 'imati', 'ići', 'moći', 'htjeti', 'govoriti'].map((h) => (
                     <th
                       key={h}
@@ -417,7 +425,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
                       key={i}
                       style={{
                         borderBottom: '1px solid #f3f4f6',
-                        background: i % 2 === 0 ? 'white' : '#f8f4ff',
+                        background: i % 2 === 0 ? 'white' : 'var(--mode-bg)',
                       }}
                     >
                       <td
@@ -469,7 +477,7 @@ function FormalRegisterScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >

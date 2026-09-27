@@ -141,7 +141,7 @@ export default function ConversationBubble({ msg, personaCfg }: ConversationBubb
             borderRadius: 8,
             background: 'rgba(245,158,11,0.12)',
             border: '1px solid rgba(245,158,11,0.35)',
-            color: '#92400e',
+            color: 'var(--warning-text)',
             display: 'flex',
             alignItems: 'center',
             gap: 6,

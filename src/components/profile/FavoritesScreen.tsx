@@ -75,7 +75,7 @@ export default function FavoritesScreen({
                   border: 'none',
                   fontSize: 16,
                   cursor: 'pointer',
-                  color: '#dc2626',
+                  color: 'var(--error)',
                 }}
                 onClick={() => toggleFav(f)}
               >

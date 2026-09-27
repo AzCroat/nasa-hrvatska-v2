@@ -29,7 +29,7 @@ export default function PhonemeGuideCard({ phoneme }: { phoneme: string }) {
           cursor: 'pointer',
           padding: '3px 0',
           fontSize: 11,
-          color: '#0e7490',
+          color: 'var(--ink-accent)',
           fontWeight: 700,
           fontFamily: "'Outfit',sans-serif",
           display: 'flex',

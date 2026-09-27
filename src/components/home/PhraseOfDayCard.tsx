@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import type { PhraseOfDay } from '../../lib/wordOfDay';
+import { accentInk } from '../../lib/accentInk';
 
 const CROATIAN_BLUE = '#002868';
 
@@ -39,8 +40,8 @@ function PronunciationChips({ ph }: { ph: string }) {
                     fontWeight: stressed ? 800 : 600,
                     padding: '2px 5px',
                     borderRadius: 5,
-                    background: stressed ? 'rgba(0,40,104,.08)' : '#f1f5f9',
-                    color: stressed ? CROATIAN_BLUE : '#5f6b7a',
+                    background: stressed ? 'rgba(0,40,104,.08)' : 'var(--surface-mute)',
+                    color: stressed ? accentInk(CROATIAN_BLUE) : 'var(--ink-muted)',
                     border: stressed ? '1px solid rgba(0,40,104,.2)' : '1px solid #e2e8f0',
                     letterSpacing: '.04em',
                     textTransform: 'uppercase',
@@ -96,7 +97,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
               style={{
                 fontSize: 8,
                 fontWeight: 900,
-                color: CROATIAN_BLUE,
+                color: accentInk(CROATIAN_BLUE),
                 letterSpacing: '.22em',
                 textTransform: 'uppercase',
                 fontFamily: "'Outfit', sans-serif",
@@ -171,7 +172,7 @@ export default function PhraseOfDayCard({ phrase }: PhraseOfDayCardProps) {
               padding: '5px 10px',
               fontSize: 9,
               fontWeight: 900,
-              color: playing ? '#fff' : CROATIAN_BLUE,
+              color: playing ? '#fff' : accentInk(CROATIAN_BLUE),
               cursor: 'pointer',
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '.1em',

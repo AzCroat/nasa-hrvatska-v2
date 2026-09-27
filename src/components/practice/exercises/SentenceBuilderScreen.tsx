@@ -106,7 +106,7 @@ function SentenceBuilderScreen({ goBack, award }: Props) {
           padding: '10px 14px',
           background: 'rgba(14,116,144,.06)',
           fontSize: 12,
-          color: '#164e63',
+          color: 'var(--ink-strong)',
         }}
       >
         🇬🇧 Read the English sentence, then pick the correct Croatian translation.

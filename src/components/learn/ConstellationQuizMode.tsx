@@ -2,6 +2,7 @@
 import React, { useMemo } from 'react';
 import { CASES } from './ConstellationData.js';
 import { sh } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 interface QuizItem {
   q: string;
@@ -182,7 +183,7 @@ export default function ConstellationQuizMode({
                 style={{
                   fontSize: 14,
                   fontWeight: 600,
-                  color: textColor,
+                  color: accentInk(textColor),
                   textTransform: 'capitalize',
                 }}
               >

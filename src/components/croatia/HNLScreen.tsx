@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FOOTBALL, speak } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 // ─── Static data (2024/25 HNL season – link to hnl.hr for live updates) ───────
 
@@ -375,7 +376,9 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
           >
             <div style={{ fontSize: 22, flexShrink: 0 }}>{l.icon}</div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: l.color }}>{l.label} ↗</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: accentInk(l.color) }}>
+                {l.label} ↗
+              </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{l.sub}</div>
             </div>
           </button>
@@ -410,7 +413,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               fontSize: 12,
               fontWeight: 700,
               background: tab === key ? 'white' : 'transparent',
-              color: tab === key ? '#003da5' : '#78716c',
+              color: tab === key ? 'var(--ink-flag)' : 'var(--ink-muted-warm)',
               boxShadow: tab === key ? '0 1px 4px rgba(0,0,0,.12)' : 'none',
               transition: 'all .15s',
             }}
@@ -430,7 +433,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginBottom: 12,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               display: 'flex',
               gap: 8,
               alignItems: 'center',
@@ -492,7 +495,12 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   <div
                     style={{
                       fontWeight: 700,
-                      color: row.pos <= 4 ? '#003da5' : row.pos >= 8 ? '#dc2626' : '#44403c',
+                      color:
+                        row.pos <= 4
+                          ? 'var(--ink-flag)'
+                          : row.pos >= 8
+                            ? 'var(--error)'
+                            : 'var(--ink-body)',
                     }}
                   >
                     {row.pos}
@@ -628,7 +636,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   justifyContent: 'center',
                   fontSize: 11,
                   fontWeight: 800,
-                  color: i <= 2 ? 'white' : '#78716c',
+                  color: i <= 2 ? 'white' : 'var(--ink-muted-warm)',
                   flexShrink: 0,
                 }}
               >
@@ -671,7 +679,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginTop: 4,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               display: 'flex',
               gap: 8,
               alignItems: 'center',
@@ -738,7 +746,9 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 onClick={() => window.open(l.url, '_blank', 'noopener,noreferrer')}
               >
                 <div style={{ fontSize: 26, marginBottom: 6 }}>{l.icon}</div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: l.color }}>{l.label} ↗</div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: accentInk(l.color) }}>
+                  {l.label} ↗
+                </div>
               </button>
             ))}
           </div>
@@ -832,13 +842,17 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                   {t.badge}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 15, fontWeight: 800, color: t.color }}>{t.name}</div>
+                  <div style={{ fontSize: 15, fontWeight: 800, color: accentInk(t.color) }}>
+                    {t.name}
+                  </div>
                   <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>
                     {t.city} · Est. {t.founded} · {t.stadium} ({t.capacity})
                   </div>
                 </div>
                 <div style={{ textAlign: 'center', flexShrink: 0 }}>
-                  <div style={{ fontSize: 18, fontWeight: 900, color: t.color }}>{t.titles}</div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: accentInk(t.color) }}>
+                    {t.titles}
+                  </div>
                   <div style={{ fontSize: 9, color: 'var(--ink-muted-warm)', fontWeight: 600 }}>
                     TITLES
                   </div>
@@ -862,7 +876,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     key={j}
                     style={{
                       background: t.color + '12',
-                      color: t.color,
+                      color: accentInk(t.color),
                       fontSize: 11,
                       fontWeight: 600,
                       padding: '3px 8px',
@@ -883,7 +897,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                     marginBottom: 2,
                   }}
                 >
-                  🎵 Chant · Ultras: <span style={{ color: t.color }}>{t.ultras}</span>
+                  🎵 Chant · Ultras: <span style={{ color: accentInk(t.color) }}>{t.ultras}</span>
                 </div>
                 <div
                   style={{
@@ -963,7 +977,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
                 style={{
                   fontSize: 10,
                   background: 'rgba(14,116,144,.1)',
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                   padding: '3px 8px',
                   borderRadius: 20,
                   fontWeight: 600,
@@ -985,7 +999,7 @@ export default function HNLScreen({ goBack }: { goBack: () => void }) {
               padding: '10px 14px',
               marginBottom: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Croatia is a global water polo powerhouse — Jug Dubrovnik and Mladost Zagreb compete at

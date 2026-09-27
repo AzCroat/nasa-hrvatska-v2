@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { CITY_PHOTOS } from './StoryModeData.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface Token {
   type: 'word' | 'space';
@@ -339,7 +340,7 @@ export default function StoryViewPanel({
           style={{
             fontSize: 12,
             fontWeight: 600,
-            color: accentColor,
+            color: accentInk(accentColor),
             marginBottom: 12,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
@@ -385,7 +386,7 @@ export default function StoryViewPanel({
               gap: 6,
             }}
           >
-            <span style={{ color: accentColor }}>●</span>
+            <span style={{ color: accentInk(accentColor) }}>●</span>
             {tappedWords} word{tappedWords !== 1 ? 's' : ''} looked up
             {tappedWords >= 5 && ' · Keep reading to unlock XP!'}
           </div>
@@ -447,7 +448,14 @@ export default function StoryViewPanel({
             marginBottom: 12,
           }}
         >
-          <div style={{ fontSize: 13, fontWeight: 700, color: accentColor, marginBottom: 6 }}>
+          <div
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: accentInk(accentColor),
+              marginBottom: 6,
+            }}
+          >
             📝 Cultural Note
           </div>
           <div style={{ fontSize: 14, color: 'var(--heading)', lineHeight: 1.7 }}>
@@ -501,7 +509,7 @@ export default function StoryViewPanel({
                     transition: 'background 0.15s',
                   }}
                 >
-                  <span style={{ fontWeight: 700, color: accentColor, fontSize: 15 }}>
+                  <span style={{ fontWeight: 700, color: accentInk(accentColor), fontSize: 15 }}>
                     {v.hr || v.croatian || v.word}
                   </span>
                   <span style={{ fontSize: 14, color: 'var(--subtext)' }}>
@@ -560,7 +568,7 @@ export default function StoryViewPanel({
                     lineHeight: 1.6,
                   }}
                 >
-                  <span style={{ fontWeight: 700, color: accentColor }}>{i + 1}. </span>
+                  <span style={{ fontWeight: 700, color: accentInk(accentColor) }}>{i + 1}. </span>
                   {q}
                 </div>
               ))}

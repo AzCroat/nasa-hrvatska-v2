@@ -281,7 +281,7 @@ export default function ProfileScreen({
           border: '2px solid rgba(194,65,12,.15)',
           borderRadius: 14,
           background: 'rgba(194,65,12,.05)',
-          color: '#c2410c',
+          color: 'var(--ink-warn)',
           fontSize: 15,
           fontWeight: 700,
           cursor: 'pointer',

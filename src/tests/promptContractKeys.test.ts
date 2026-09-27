@@ -25,6 +25,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync, globSync } from 'node:fs';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 
 const PROMPTS = readFileSync('functions/api/_evalPrompts.js', 'utf8');
 
@@ -96,7 +97,7 @@ function endpointsIn(file: string): Set<string> {
   // `/api/speaking-coach`. Same mechanism as `aiSurfaceClassifies`' ENDPOINT_HELPERS,
   // and each entry is pinned below to the route its own source actually posts to.
   for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
-    if (new RegExp(`\\b${helper}\\s*\\(`).test(s)) found.add(route);
+    if (new RegExp(`\\b${escapeRegExp(helper)}\\s*\\(`).test(s)) found.add(route);
   }
   return found;
 }
@@ -161,12 +162,14 @@ describe('the writing evaluator promises what its consumers read', () => {
     );
     for (const [helper, route] of Object.entries(ENDPOINT_HELPERS)) {
       const home = files.find((f) =>
-        new RegExp(`function ${helper}\\b`).test(readFileSync(f, 'utf8')),
+        new RegExp(`function ${escapeRegExp(helper)}\\b`).test(readFileSync(f, 'utf8')),
       );
       expect(home, `${helper} is not defined anywhere in src/`).toBeTruthy();
       expect(readFileSync(home!, 'utf8'), `${helper} does not post ${route}`).toContain(route);
       const callers = files.filter(
-        (f) => f !== home && new RegExp(`\\b${helper}\\s*\\(`).test(readFileSync(f, 'utf8')),
+        (f) =>
+          f !== home &&
+          new RegExp(`\\b${escapeRegExp(helper)}\\s*\\(`).test(readFileSync(f, 'utf8')),
       );
       expect(callers.length, `${helper} matches no caller — it guards nothing`).toBeGreaterThan(0);
     }

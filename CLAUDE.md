@@ -2900,12 +2900,22 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **473 files**, 2 of them walked structurally — the figure the lint
+Coverage is **474 files**, 2 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
 deleted the hero cluster three more pointed at, and up by one for
-`src/data/courseUnitTitles.ts` (sweep 151).
+`src/data/courseUnitTitles.ts` (sweep 151), and by one more for
+`src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap).
+
+**AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
+control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was
+not a name `CRO_FIELD_RE` listed — so `inf`, `aux` and `mForm`/`fForm`/`nForm`, the actual
+Croatian of every verb paradigm in the app, were unscanned wherever they occurred. This is
+the `lessons.js` finding a fourth time: the file was there, the extension was deliberate,
+and only a control on the exact FIELD distinguished "clean" from "not looked at". Widened
+after measuring (+325 strings, zero new findings — a ratchet) and mutation-verified in all
+four fields.
 
 **AND IT SAID 522 WHILE 470 DISTINCT FILES WERE COVERED, BECAUSE ALL THREE
 MECHANISMS AGREED ON THE SAME WRONG NUMBER (sweep 136, 2026-09-25).** `TARGETS`
@@ -3302,10 +3312,16 @@ transport read as a server error.
   `reconcileSafely(env, path, { input_tokens: 0 })` cannot do it, because
   `actualClaudeCostMicroUsd` returns null for an all-zero usage on purpose and a
   null actual refunds nothing. Any handler that 4xxs after the gate should refund.
-- **`failureFromStatus` HAS NO 4xx BRANCH**, so every client error becomes
+- **`failureFromStatus` HAD NO 4xx BRANCH**, so every client error became
   `build('server')`. That is the whole reason a malformed request read as
-  `ai_feedback_failed:drill-explain-error:server` and cost nineteen days. Recorded
-  as open: adding a branch changes learner-facing copy on every AI surface.
+  `ai_feedback_failed:drill-explain-error:server` and cost nineteen days.
+  **CLOSED THE SAME DAY, and this entry said "recorded as open" for two days after
+  (corrected 2026-09-27).** The branch is in `aiFailure.ts` with its own comment
+  ("A 4xx IS OUR DEFECT, AND FOR NINETEEN DAYS IT READ AS AN OUTAGE"), and the
+  learner-facing copy change it was deferred for was made with it. The stale word
+  matters because the tag is now DIAGNOSTIC: a `:server` event on a build after
+  `57c3a264` means a real 5xx, and on an earlier one means a mislabelled 4xx — a
+  reader who believed this line would have drawn the opposite conclusion.
 - **THE PASS GATE WAS RIGHT AND THE SCREEN WAS STILL WRONG.** 8/12 is 66.7%; 9 of
   12 is the mark and `passedLesson` uses `>=`, so exactly 75% passes. But the result
   printed `8 / 12` beside a button reading "need 75%" and left the learner to
@@ -4664,6 +4680,140 @@ control could at least be reached.
   exemption stating why it must not be in the tab order; put a modal backdrop in
   the tab order; make every word of a passage focusable; use `role="button"` for
   something that is a range or a toggle group.
+
+## Critical Architecture: The Ink And The Surface Under It (2026-09-27)
+
+The tail the section below left, measured with its own instrument rather than reasoned
+about — `e2e/dark-mode-ink.spec.js` widened to all 430 routes in dark mode. **437 offending
+elements across 35 routes**, and the census reordered the work completely: the two biggest
+causes were not in any component's `color:` at all.
+
+- **HALF OF IT WAS `<button>`, AND NOTHING IN THE APP SET A BASE COLOUR.** `body` painted
+  `background: var(--app-bg)` and no `color`, so an element that sets none inherited UA
+  black — **216 of 437**, including EVERY conjugated form on `/verbdrill` (120, the whole
+  screen), every example word on `/alphabet` (30), `/boje`, `/diminutives`, `/emergency`,
+  `/school`, `/top100`, `/grammarexplainer`, `/unjumble`. This is the EXACT twin of the
+  `--text` note in index.css one layer out: that fix defined the token 104 sites
+  referenced and never asked what happens to the elements that reference nothing.
+  **Two declarations were needed and the first alone fixed nothing.** `body { color:
+var(--text) }` resolves the variable at BODY scope, and the theme class sits on a DIV
+  _inside_ body (`<div className={darkMode ? 'dark' : ''}>`), so `.dark`'s override does
+  not reach it — body alone paints the LIGHT value in both themes. Then **214 of the 216
+  were still black**, because a form control does not inherit `color` at all: the UA
+  stylesheet gives it `buttontext`. The ancestor chain is what settled it — `.dark`
+  resolved to `#e2e8f0`, every DIV inherited it, and the BUTTON read `rgb(0,0,0)` with no
+  inline colour and no class. `button,input,optgroup,select,textarea { color: inherit }`
+  is the normalisation normalize.css has carried for a decade, and it is the lowest
+  specificity that can fix it, so every `.b`, `.ob` and inline colour still wins.
+  **214 → 0, nine routes cleared, one line.** Mutation-verified against a real browser:
+  removing it fails 3 tests.
+- **`--text-2` WAS REFERENCED FOUR TIMES AND DEFINED NOWHERE**, on the Me tab. An
+  undefined custom property makes the declaration invalid at computed-value time, so
+  `color` falls back to inherit — the same defect the `--text` note records, still live in
+  a second token five months later, in the one file nobody re-read. A convention cannot
+  notice its own decay; nothing in the repo checks that a referenced token exists.
+- **A HARDCODED LIGHT SLAB WITH A THEMED INK INSIDE IT: 31 sites in 21 files.** The
+  surface is painted by a PARENT and the ink carried by a CHILD, so each element is
+  individually defensible and `inlineInkContrast`'s exemption ("does this element paint its
+  own background") sees neither half of the pair. Worst case
+  `GrammarConstellation`'s endings table at **1.13:1** — the point of that screen, and the
+  Croatian example sentences beside it, invisible in dark mode. Every slab colour mapped to
+  an existing tint token; **six of the 31 also held hardcoded DARK inks** that would break
+  the other way once the slab went dark, which is the compose regression sweep 157 shipped
+  on 19 routes, visible in the census output before a line was changed.
+  `inkSurfaceAgreement` is that as one guard with both clauses, because **the second
+  clause's only two subjects were CREATED by fixing the first** — a guard for either alone
+  would have shipped the other.
+- **AN UNLIT STAR WAS BRIGHTER THAN A LIT ONE, AND SWEEP 157 DID THAT.** `Constellation`'s
+  score display was `i < finalScore ? '#facc15' : '#334155'`; the token sweep made the
+  second arm `var(--text)`, which is `#e2e8f0` in dark mode — **11.87:1 against the lit
+  star's 9.55:1**, so 3 of 7 rendered as seven lit stars and the score became meaningless.
+  **`GrammarConstellation` paints `linear-gradient(160deg,#0f172a,#1e293b,#0c1a2e)`
+  unconditionally**, so it is dark in BOTH themes and its ink must be FIXED AND LIGHT; a
+  `--ink-*` token is dark in light mode and sits at 3.4:1 there. The unlit star is
+  `rgba(255,255,255,0.18)` — dim by construction whatever is behind it, and correctly
+  invisible to the guard, which ignores anything under 0.9 alpha because a translucent
+  colour composites over the theme instead of fighting it. A note at the top of the file
+  says so, because the next token sweep would otherwise re-theme them.
+  **My own first reading of this was WRONG and the git diff corrected it**: I reported
+  `#64748b` → `var(--ink-muted)` on that screen as a regression, and its light value IS
+  `#64748b`, so light mode did not move and dark mode improved. Read the diff before
+  calling something a regression.
+- **A GUARD SAID CLEAN WHILE THE BROWSER SAID 172, AND EVERY GAP WAS IN HOW IT READ A
+  VALUE.** Five defects in `inlineInkContrast`, each found by fixing the one before it and
+  watching a route stay red:
+  1. **A TRANSLUCENT BACKGROUND IS NOT AN OWN SURFACE.** The exemption was `no var( →
+exempt`, and the commonest chip in the app is a ~9% tint of its own ink
+     (`background:'rgba(14,116,144,0.09)'` with `color:'#0e7490'`). That has no `var(`, so
+     it was read as opaque — hiding `/readlist`'s level badges, `/crmap`'s pills,
+     `/croatia_today`'s topic chips, `/personas`, `/immersion`, `/football`'s link cards.
+     Only an OPAQUE background owns both halves, which is the same 0.9-alpha rule
+     `parseColor` already applied to inks.
+  2. **A COMMA-TERMINATED VALUE TRUNCATES `rgb(22, 163, 74)`** to `'rgb(22`, which is
+     unparseable and therefore silently no finding. The suite's OWN planted-defect fixture
+     caught this on the colour side, because it carries an rgb() form precisely because an
+     earlier codemod's pattern missed one. Applying the same fix to the BACKGROUND matcher
+     then unmasked **88 more real sites** in one go.
+  3. **PER ARM, NOT PER EXPRESSION.** `background: catInfo ? catInfo.color + '18' :
+'#f3f4f6'` was called opaque on the strength of the arm that does NOT render.
+  4. **THE ALPHA IS OFTEN APPENDED, IN TWO SPELLINGS** — `c + '18'` (58 sites) and
+     `` `${c}0d` `` (51 sites). The base is a variable, so the value is unparseable as a
+     colour and the fallback read it as opaque; `18` is 24/255 and `0d` is 13/255.
+     `/croatiaathletes` was the last route left red, on the template form.
+  5. **A NEWLINE IS NOT A TERMINATOR.** Prettier wraps a long value across lines, and
+     stopping at `\n` read `HNLScreen`'s position-circle background as just its condition
+     (`i === 0`) — unparseable, therefore "opaque", therefore exempt. Same family as the
+     reason-union matcher Prettier broke in sweep 130: **never let a matcher depend on
+     where the formatter chose to wrap.**
+     The matcher also required a quote immediately after `color:`, so a CONDITIONAL ink was
+     invisible — fourteen sites, including `/learn`'s correct/incorrect feedback and
+     LearnPath's checkpoint markers. Every quoted colour an expression can resolve to is
+     judged now, because a ternary paints both of them.
+- **ALL FOUR OF THOSE CLAUSES SURVIVED THEIR FIRST MUTATION, AND THAT IS NOT REDUNDANCY.**
+  Each was added because a real route stayed red; once every real subject is fixed the
+  corpus no longer proves them, so each has a synthetic pair (the defective shape AND its
+  opaque twin) that fails on the mutation. Same standard the opacity clause had to meet.
+- **`accentInk()` IS THE DATA-DRIVEN HALF: 173 arms in 78 files, one CSS expression, no
+  data edits.** `style={{ color: team.color }}` cannot be replaced by a token — the value
+  is the club's identity (Dinamo `#003da5`, Hajduk `#1d1d1b`, Osijek `#e85d04`) and the
+  SAME field is correctly a badge background two lines away. 173 render sites are fed by
+  743 `color:` declarations across 56 data modules, so fixing the data would mean 743 edits
+  to serve 173 reads and would give every accent a second home to drift from.
+  `color-mix(in srgb, C, #fff var(--ink-lift))` with the lift 0% in `:root` and 62% in
+  `.dark`:
+  **light mode is BYTE-EXACT, not approximately so** — verified in a real browser for every
+  hex in the corpus (`#003da5` → `color(srgb 0 0.239216 0.647059)`, rgb(0,61,165) exactly)
+  — and **55% already clears AA for the darkest accent in the corpus** (`#0f172a` at
+  4.99:1), so 62% has head-room at 6.2:1+ while keeping the hue. `in srgb` and not
+  `in oklab`, which computes to `oklab(...)` and puts `#333` off pure grey at 0%. The
+  uniform lift costs saturation on an accent that is already light (`#fcd34d` → `#feeebb`)
+  and that is the stated price: a pale accent on a dark card is cosmetic, dark-on-dark is
+  not. An engine without `color-mix` rejects the declaration and the element INHERITS a
+  themed colour — readable in both themes, losing only the hue, which is strictly better
+  than what it replaces.
+- **A `color-mix()` COMPUTES TO `color(srgb …)`, NOT `rgb(…)`**, so the walker's
+  `rgba?\(` parser returned null and SKIPPED every converted element. Teaching it that
+  form was the first thing done, before a single site was converted — otherwise the guard
+  would have gone green by going blind. Its light-mode value still reads DARK through the
+  parser (luminance 0.0605), which is the property that keeps it honest.
+- **THE TWO PASS-THROUGHS IN `accentInk` HAVE REAL CALLERS**, so they are not defensive
+  padding: a `var(--…)` arrives from `ConstellationData`'s `ink` field through the same prop
+  a raw accent would, and a falsy value arrives at the `||` sites, where a truthy invalid
+  mix would stop the fallback firing and the element would silently inherit.
+- **THE COMPILER WAS THE CONTROL ON A 173-SITE CODEMOD.** My arm splitter still read a
+  NESTED ternary's condition as a colour, and `tsc` named all seven —
+  `accentInk(isActive)`, `accentInk(isDone)`, `accentInk(writingLoading)`,
+  `accentInk(active)` — because a boolean is not assignable to `string`. A codemod over 78
+  files needs a type error to be possible; where one is not, re-measure instead.
+- NEVER: leave the app without a base `color` (and remember the theme class is a
+  DESCENDANT of body, so it needs its own declaration); assume a form control inherits
+  `color`; reference a custom property without defining it; put a themed ink on a
+  hardcoded light slab, or a hardcoded dark ink on a themed one; use a `--ink-*` token on a
+  screen that paints its own permanently-dark background; read a translucent background as
+  an element's own surface; terminate a style value at a newline; judge a background
+  expression as a whole when it has arms; miss an alpha appended by `+ 'hh'` or
+  `` `${x}hh` ``; add a `color-mix` to the tree without teaching every colour parser the
+  `color(srgb …)` form; wrap a theme token or a falsy value in `accentInk`.
 
 ## Critical Architecture: An Inline Ink Lands On Whatever The Theme Painted (2026-09-27)
 

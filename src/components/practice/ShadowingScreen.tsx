@@ -115,7 +115,7 @@ function WaveformPanel({
       data-testid="shadowing-result"
       style={{
         marginTop: 20,
-        background: '#f8fafc',
+        background: 'var(--surface-mute)',
         border: '1.5px solid #e2e8f0',
         borderRadius: 14,
         padding: '16px 12px',
@@ -295,7 +295,7 @@ function RecordingPanel({
           style={{
             background: 'transparent',
             border: 'none',
-            color: '#0891b2',
+            color: 'var(--ink-info)',
             fontWeight: 700,
             cursor: 'pointer',
             textDecoration: 'underline',
@@ -344,13 +344,13 @@ function RecordingPanel({
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            background: '#fee2e2',
+            background: 'var(--error-bg)',
             border: '1.5px solid #fca5a5',
             borderRadius: 10,
             padding: '8px 16px',
             fontSize: 14,
             fontWeight: 700,
-            color: '#dc2626',
+            color: 'var(--error)',
           }}
         >
           <span
@@ -767,7 +767,7 @@ export default function ShadowingScreen({
               padding: '7px 14px',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#0891b2',
+              color: 'var(--ink-info)',
               fontWeight: 700,
             }}
           >

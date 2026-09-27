@@ -58,7 +58,7 @@ export default function ResultsView({ quiz }: { quiz: ListeningQuiz }) {
               border: '1px solid rgba(245,158,11,.25)',
               borderRadius: 12,
               fontSize: 13,
-              color: '#92400e',
+              color: 'var(--warning-text)',
               fontWeight: 600,
             }}
           >

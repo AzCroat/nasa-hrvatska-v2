@@ -96,7 +96,7 @@ function BadgeRow({
         padding: '10px 14px',
         borderRadius: 14,
         marginBottom: 8,
-        background: earned ? 'linear-gradient(135deg,#fefce8,#fef9c3)' : '#f8fafc',
+        background: earned ? 'linear-gradient(135deg,#fefce8,#fef9c3)' : 'var(--surface-mute)',
         border: earned ? '1.5px solid #fde047' : '1.5px solid #e2e8f0',
         opacity: earned ? 1 : 0.55,
       }}
@@ -226,7 +226,7 @@ export default function AnalyticsScreen({
             style={{
               flex: 1,
               textAlign: 'center',
-              background: '#eff6ff',
+              background: 'var(--info-bg)',
               borderRadius: 12,
               padding: '12px 8px',
               border: '1px solid #bfdbfe',
@@ -243,7 +243,7 @@ export default function AnalyticsScreen({
             style={{
               flex: 1,
               textAlign: 'center',
-              background: '#fff7ed',
+              background: 'var(--warning-bg)',
               borderRadius: 12,
               padding: '12px 8px',
               border: '1px solid #fed7aa',

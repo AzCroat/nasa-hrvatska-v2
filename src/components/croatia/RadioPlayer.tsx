@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { markImmersionToday } from './MediaPlayerUtils';
 import { API_BASE, openUrl } from '../../lib/platform.ts';
+import { accentInk } from '../../lib/accentInk';
 
 interface Props {
   src: string;
@@ -158,7 +159,7 @@ export default function RadioPlayer({
           borderRadius: '50%',
           background: playing || buffering ? color : `${color}18`,
           border: `2px solid ${color}50`,
-          color: playing || buffering ? 'white' : color,
+          color: playing || buffering ? 'white' : accentInk(color),
           fontSize: 16,
           cursor: 'pointer',
           display: 'flex',
@@ -190,7 +191,7 @@ export default function RadioPlayer({
                     background: 'none',
                     border: 'none',
                     padding: 0,
-                    color,
+                    color: accentInk(color),
                     fontWeight: 800,
                     fontSize: 'var(--text-xs)',
                     cursor: 'pointer',
@@ -228,7 +229,14 @@ export default function RadioPlayer({
               </span>
               <Bars />
             </div>
-            <div style={{ fontSize: 9, color: color, fontWeight: 700, letterSpacing: '.02em' }}>
+            <div
+              style={{
+                fontSize: 9,
+                color: accentInk(color),
+                fontWeight: 700,
+                letterSpacing: '.02em',
+              }}
+            >
               Authentic Croatian! 🇭🇷
             </div>
           </div>

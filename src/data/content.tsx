@@ -1873,7 +1873,7 @@ const Spk = ({ text, label }) => (
       borderRadius: 10,
       padding: '7px 12px',
       cursor: 'pointer',
-      color: '#0e7490',
+      color: 'var(--ink-accent)',
       display: 'inline-flex',
       alignItems: 'center',
       gap: 6,

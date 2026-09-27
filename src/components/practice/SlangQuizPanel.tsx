@@ -1,5 +1,6 @@
 import React from 'react';
 import { speak } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 interface SlangSection {
   color: string;
@@ -62,7 +63,7 @@ export default function SlangQuizPanel({
           style={{
             fontSize: 22,
             fontWeight: 900,
-            color: section.color,
+            color: accentInk(section.color),
             fontFamily: "'Playfair Display',serif",
             marginBottom: 6,
           }}
@@ -116,7 +117,7 @@ export default function SlangQuizPanel({
               borderRadius: 12,
               border: `1.5px solid ${section.border}`,
               background: 'var(--card)',
-              color: section.color,
+              color: accentInk(section.color),
               fontSize: 13,
               fontWeight: 800,
               cursor: 'pointer',
@@ -162,7 +163,7 @@ export default function SlangQuizPanel({
         >
           Question {quizIdx + 1} of {quizQuestions.length}
         </div>
-        <div style={{ fontSize: 13, fontWeight: 900, color: section.color }}>
+        <div style={{ fontSize: 13, fontWeight: 900, color: accentInk(section.color) }}>
           {quizScore} / {quizIdx} ✓
         </div>
       </div>
@@ -205,7 +206,7 @@ export default function SlangQuizPanel({
           style={{
             fontSize: 22,
             fontWeight: 900,
-            color: section.color,
+            color: accentInk(section.color),
             fontFamily: "'Playfair Display',serif",
             lineHeight: 1.3,
           }}

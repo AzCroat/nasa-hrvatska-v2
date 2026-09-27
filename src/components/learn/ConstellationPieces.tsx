@@ -1,6 +1,7 @@
 // ── GrammarConstellation — shared UI sub-components ───────────
 import React from 'react';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 export function ConstellationBackground() {
   const points = [
@@ -99,13 +100,15 @@ export function EndingsTable({ endings }: EndingsTableProps) {
           key={label}
           style={{
             flex: 1,
-            background: '#f1f5f9',
+            background: 'var(--surface-mute)',
             borderRadius: 6,
             padding: '4px 0',
             textAlign: 'center',
           }}
         >
-          <div style={{ fontSize: 10, color: '#94a3b8', fontWeight: 600, marginBottom: 2 }}>
+          <div
+            style={{ fontSize: 10, color: 'var(--ink-muted)', fontWeight: 600, marginBottom: 2 }}
+          >
             {label}
           </div>
           <div
@@ -194,7 +197,9 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
 
       {/* Question */}
       <div style={{ padding: '8px 12px 6px' }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: ink, lineHeight: 1.3 }}>{question}</div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: accentInk(ink), lineHeight: 1.3 }}>
+          {question}
+        </div>
       </div>
 
       {/* Expanded content */}
@@ -211,7 +216,14 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
             {shortDesc}
           </p>
 
-          <div style={{ fontSize: 11, color: '#94a3b8', marginBottom: 6, fontStyle: 'italic' }}>
+          <div
+            style={{
+              fontSize: 11,
+              color: 'var(--ink-muted)',
+              marginBottom: 6,
+              fontStyle: 'italic',
+            }}
+          >
             {pattern}
           </div>
 
@@ -220,7 +232,7 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
               <div
                 key={i}
                 style={{
-                  background: '#f8fafc',
+                  background: 'var(--surface-mute)',
                   borderLeft: `3px solid ${color}`,
                   borderRadius: '0 6px 6px 0',
                   padding: '5px 8px',
@@ -246,7 +258,7 @@ export function CaseCard({ caseData, expanded, onToggle }: CaseCardProps) {
               lineHeight: 1.5,
             }}
           >
-            <span style={{ fontWeight: 700, color: ink }}>Tip: </span>
+            <span style={{ fontWeight: 700, color: accentInk(ink) }}>Tip: </span>
             {tip}
           </div>
         </div>

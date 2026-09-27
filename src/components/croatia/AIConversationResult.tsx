@@ -539,7 +539,7 @@ export default function AIConversationResult({
                   borderRadius: 20,
                   border: '1.5px solid #7c3aed',
                   background: savedVocab.has(i) ? '#7c3aed' : 'transparent',
-                  color: savedVocab.has(i) ? 'white' : '#7c3aed',
+                  color: savedVocab.has(i) ? 'white' : 'var(--ink-mode)',
                   cursor: savedVocab.has(i) ? 'default' : 'pointer',
                   flexShrink: 0,
                   transition: 'all .15s',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { H, MEDIA } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1'];
 
@@ -89,7 +90,9 @@ export default function ListeningPath({ goBack }: { goBack: () => void }) {
           border: '1.5px solid ' + meta.border,
         }}
       >
-        <div style={{ fontWeight: 800, fontSize: 14, color: meta.color, marginBottom: 6 }}>
+        <div
+          style={{ fontWeight: 800, fontSize: 14, color: accentInk(meta.color), marginBottom: 6 }}
+        >
           {activeLevel} — {meta.label}
         </div>
         <div style={{ fontSize: 13, color: 'var(--ink-body)', lineHeight: 1.65 }}>{meta.tip}</div>

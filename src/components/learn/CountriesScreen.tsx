@@ -98,7 +98,7 @@ const TIP_BOX = ({ text }: TipBoxProps3) => (
       padding: '10px 14px',
       marginBottom: 16,
       fontSize: 12,
-      color: '#44403c',
+      color: 'var(--ink-body)',
       lineHeight: 1.6,
     }}
   >

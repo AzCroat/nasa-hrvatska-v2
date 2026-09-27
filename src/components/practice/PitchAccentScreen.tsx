@@ -6,6 +6,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { useStats } from '../../context/StatsContext.tsx';
 import { markQuest } from '../../lib/quests.js';
 import { recordScreenPractised } from '../../lib/teachPractice';
+import { accentInk } from '../../lib/accentInk';
 
 interface PitchAccentItem {
   hr: string;
@@ -187,7 +188,9 @@ export default function PitchAccentScreen({
                 key={a.id}
                 style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 6 }}
               >
-                <span style={{ fontWeight: 800, color: a.color, fontSize: 16, minWidth: 24 }}>
+                <span
+                  style={{ fontWeight: 800, color: accentInk(a.color), fontSize: 16, minWidth: 24 }}
+                >
                   {a.symbol}
                 </span>
                 <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
@@ -325,7 +328,9 @@ export default function PitchAccentScreen({
                   if (a.id === correct) setScore((s) => s + 1);
                 }}
               >
-                <div style={{ fontSize: 20, marginBottom: 4, color: a.color }}>{a.symbol}</div>
+                <div style={{ fontSize: 20, marginBottom: 4, color: accentInk(a.color) }}>
+                  {a.symbol}
+                </div>
                 <div style={{ fontSize: 13, fontWeight: 700, color }}>{a.label}</div>
                 <div style={{ fontSize: 11, color: 'var(--ink-muted)', marginTop: 2 }}>
                   {a.desc}

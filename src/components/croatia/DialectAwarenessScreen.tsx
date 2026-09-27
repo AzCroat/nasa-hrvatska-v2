@@ -5,6 +5,7 @@ import { useStats } from '../../context/StatsContext.tsx';
 import { H } from '../../data';
 import { markQuest } from '../../lib/quests.js';
 import { lsGet, lsSet } from '../../lib/safeStorage';
+import { accentInk } from '../../lib/accentInk';
 
 // ─── Dialect Data ────────────────────────────────────────────────────────────
 
@@ -286,7 +287,7 @@ function DialectCard({ dialect, onTap }: { dialect: Dialect; onTap: (d: Dialect)
       <div
         style={{
           fontSize: 13,
-          color: dialect.color,
+          color: accentInk(dialect.color),
           fontWeight: 600,
           marginBottom: 8,
         }}
@@ -299,7 +300,7 @@ function DialectCard({ dialect, onTap }: { dialect: Dialect; onTap: (d: Dialect)
         style={{
           display: 'inline-block',
           background: `${dialect.color}18`,
-          color: dialect.color,
+          color: accentInk(dialect.color),
           fontSize: 11,
           fontWeight: 600,
           padding: '3px 9px',
@@ -456,7 +457,14 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
             >
               {dialect.name}
             </div>
-            <div style={{ fontSize: 14, color: dialect.color, fontWeight: 600, marginTop: 2 }}>
+            <div
+              style={{
+                fontSize: 14,
+                color: accentInk(dialect.color),
+                fontWeight: 600,
+                marginTop: 2,
+              }}
+            >
               {dialect.nameEn} · {dialect.speakers}
             </div>
           </div>
@@ -484,7 +492,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
           style={{
             display: 'inline-block',
             background: `${dialect.color}18`,
-            color: dialect.color,
+            color: accentInk(dialect.color),
             fontSize: 12,
             fontWeight: 600,
             padding: '4px 10px',
@@ -564,7 +572,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: dialect.color,
+            color: accentInk(dialect.color),
             textTransform: 'uppercase',
             letterSpacing: '0.06em',
             marginBottom: 8,
@@ -618,7 +626,7 @@ function DetailView({ dialect, onBack }: { dialect: Dialect; onBack: () => void 
       {/* Pro tip */}
       <div
         style={{
-          background: '#fef9c3',
+          background: 'var(--warning-bg)',
           border: '1px solid #fde047',
           borderRadius: 12,
           padding: '12px 14px',
@@ -1123,7 +1131,7 @@ export default function DialectAwarenessScreen({
                   style={{
                     background: `${d.color}18`,
                     border: `1px solid ${d.color}60`,
-                    color: d.color,
+                    color: accentInk(d.color),
                     borderRadius: 20,
                     padding: '5px 14px',
                     fontSize: 15,

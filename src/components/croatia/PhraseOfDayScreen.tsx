@@ -10,6 +10,7 @@ import { ttsFetch, blobToDataUrl, ttsReadError } from '../../lib/audio.js';
 import { getVoicePreference } from '../../lib/soundSettings.js';
 import { localDateStr } from '../../lib/dateUtils';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface WordBreakdown {
   word: string;
@@ -869,7 +870,7 @@ export default function PhraseOfDayScreen({
                   border: 'none',
                   cursor: playing ? 'default' : 'pointer',
                   background: 'transparent',
-                  color: playing ? 'var(--subtext)' : color,
+                  color: playing ? 'var(--subtext)' : accentInk(color),
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 13,
                   fontWeight: 800,
@@ -898,7 +899,7 @@ export default function PhraseOfDayScreen({
                   border: 'none',
                   cursor: 'pointer',
                   background: 'transparent',
-                  color,
+                  color: accentInk(color),
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 13,
                   fontWeight: 800,
@@ -916,7 +917,7 @@ export default function PhraseOfDayScreen({
                   border: 'none',
                   cursor: 'pointer',
                   background: 'transparent',
-                  color: copied ? '#16a34a' : color,
+                  color: copied ? 'var(--success)' : accentInk(color),
                   fontFamily: "'Outfit',sans-serif",
                   fontSize: 13,
                   fontWeight: 800,
@@ -1103,7 +1104,9 @@ export default function PhraseOfDayScreen({
                               : 'none',
                         }}
                       >
-                        <td style={{ padding: '8px 10px', fontWeight: 800, color: color }}>
+                        <td
+                          style={{ padding: '8px 10px', fontWeight: 800, color: accentInk(color) }}
+                        >
                           {row.word}
                         </td>
                         <td
@@ -1155,7 +1158,7 @@ export default function PhraseOfDayScreen({
                       border: `1px solid ${color}33`,
                       fontSize: 12,
                       fontWeight: 700,
-                      color,
+                      color: accentInk(color),
                     }}
                   >
                     {phrase}
@@ -1175,7 +1178,7 @@ export default function PhraseOfDayScreen({
                 borderRadius: 14,
                 border: `1.5px solid ${color}44`,
                 background: showPracticeChat ? `${color}22` : `${color}0d`,
-                color,
+                color: accentInk(color),
                 fontFamily: "'Outfit',sans-serif",
                 fontSize: 14,
                 fontWeight: 800,
@@ -1204,7 +1207,7 @@ export default function PhraseOfDayScreen({
                     borderBottom: `1px solid ${color}22`,
                     fontSize: 12,
                     fontWeight: 700,
-                    color,
+                    color: accentInk(color),
                     display: 'flex',
                     alignItems: 'center',
                     gap: 6,

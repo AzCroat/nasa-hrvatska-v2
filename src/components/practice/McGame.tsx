@@ -617,7 +617,7 @@ export default function McGame({
             border: '1px solid rgba(245,158,11,0.3)',
             borderRadius: 10,
             fontSize: 12,
-            color: '#92400e',
+            color: 'var(--warning-text)',
             fontWeight: 600,
             textAlign: 'center',
           }}
@@ -636,7 +636,7 @@ export default function McGame({
             border: '1.5px solid rgba(99,102,241,0.25)',
             borderRadius: 12,
             fontSize: 12,
-            color: '#3730a3',
+            color: 'var(--ink-flag)',
             fontWeight: 600,
             lineHeight: 1.5,
             animation: 'bounce-in 0.3s cubic-bezier(0.34,1.56,0.64,1)',

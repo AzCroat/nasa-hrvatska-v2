@@ -5,6 +5,7 @@ import { markQuest } from '../../lib/quests.js';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
+import { accentInk } from '../../lib/accentInk';
 
 interface KingsSt {
   hi?: number;
@@ -268,7 +269,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                     style={{
                       fontSize: 17,
                       fontWeight: 800,
-                      color: k.color || 'var(--ink-strong)',
+                      color: accentInk(k.color) || 'var(--ink-strong)',
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
@@ -281,7 +282,7 @@ export default function KingsScreen({ goBack, award, setSt }: Props) {
                 <div
                   style={{
                     fontSize: 12,
-                    color: k.color || 'var(--ink-accent)',
+                    color: accentInk(k.color) || 'var(--ink-accent)',
                     fontWeight: 700,
                     marginBottom: 4,
                   }}

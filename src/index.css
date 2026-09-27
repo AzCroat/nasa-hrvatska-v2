@@ -11,9 +11,39 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   background:var(--app-bg);
+  /* NOTHING SET A BASE COLOUR, SO AN ELEMENT THAT SETS NONE INHERITED UA BLACK, AND IN
+     DARK MODE THAT IS #000 ON #0b1120. Measured over all 430 routes in dark mode: 216 of
+     437 offending elements — HALF the whole tail — set no `color` at all and were pure
+     black: every conjugated form on /verbdrill (120), every example word on /alphabet
+     (30), /boje and /diminutives (25), /emergency, /school, /top100.
+     This is the EXACT twin of the --text note below, one layer out: that fix defined the
+     token the 104 `color: var(--text)` sites referenced, and never asked what happens to
+     the elements that reference nothing. On white the change is #000 -> #0f172a, 21:1 to
+     18.1:1, imperceptible; in dark mode it is the whole fix.
+     THE SECOND DECLARATION IN `.dark` IS NOT REDUNDANT. The theme class sits on a DIV
+     inside body (App.tsx renders `<div className={darkMode ? 'dark' : ''}>`), so `--text`
+     resolves here at BODY scope, where .dark's override does not reach — body alone would
+     paint the LIGHT value in both themes. The wrapper has to set it again for the
+     variable to resolve in its own scope. */
+  color:var(--text);
 }
 html{
   background:var(--app-bg);
+}
+/* FORM CONTROLS DO NOT INHERIT `color` — the UA stylesheet gives them `buttontext`, and
+   that is why setting a base colour on body and on the theme wrapper fixed nothing for
+   them. Measured over all 430 routes in dark mode, 214 of 437 offending elements were
+   text inside a <button> that sets no colour of its own: EVERY conjugated form on
+   /verbdrill (120 — the whole screen), every example word on /alphabet (30), /boje,
+   /diminutives, /emergency, /school, /top100, /grammarexplainer, /unjumble. The ancestor
+   chain proved it: .dark resolved to #e2e8f0 and every DIV inherited it, then the BUTTON
+   read rgb(0,0,0) with no inline colour and no class.
+   This is the normalisation normalize.css has carried for a decade. It is the LOWEST
+   specificity that can fix it, so every `.b`, `.ob` and inline colour still wins; a
+   control with no colour of its own now follows the theme, which is what it was always
+   meant to do. In light mode it is #000 -> #0f172a, imperceptible. */
+button,input,optgroup,select,textarea{
+  color:inherit;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -228,6 +258,18 @@ html{
      values already matched the literals in use byte for byte. */
   --surface-mute:   #f1f5f9;  /* the neutral slate tint behind a quiet panel */
   --mode-bg:        #f5f3ff;  /* the violet tint behind a drill's mode header */
+
+  /* ── ACCENT-AS-INK LIFT ───────────────────────────────────────────────────
+     The tail the --ink-* tokens cannot reach: an accent that arrives from DATA
+     (`style={{ color: team.color }}`), so no token can replace it and no static rule can
+     name its value. `accentInk()` (src/lib/accentInk.ts) mixes it toward white by THIS
+     percentage, which is the only half that varies by theme.
+
+     0% is not a no-op by convention — it is byte-exact. A 0% srgb mix computes to the
+     input's own channels, verified in a browser for every hex in the corpus, so light
+     mode cannot move. 62% puts the darkest accent measured (#0f172a) at 6.4:1 on --card
+     and keeps the hue; 55% is where AA is first cleared, so this has head-room. */
+  --ink-lift: 0%;
 }
 
 /* ── Card accent variants ─────────────────────────────── */
@@ -441,6 +483,9 @@ html{
   --ghost-b:#334155;
   --heading:#e2e8f0;
   --text:#e2e8f0; /* see the :root note — undefined here meant black on #1e293b */
+  /* Re-declared as a PROPERTY, not just a token: see the body rule. The wrapper is a
+     descendant of body, so this is where --text resolves to the dark value. */
+  color:var(--text);
   --subtext:#94a3b8;
   --sh-c:#8899b0;
   --rt-c:#cbd5e1;
@@ -502,6 +547,10 @@ html{
   /* Translucent so they composite over --card instead of painting a light slab. */
   --surface-mute:   rgba(255,255,255,.06);
   --mode-bg:        rgba(167,139,250,.12);
+
+  /* The accent-as-ink lift — see the :root note. This one number is the whole dark half
+     of `accentInk()`, so every data-driven accent in the app follows it. */
+  --ink-lift: 62%;
 }
 
 /* ═══════════════════════════════════════════════════════════

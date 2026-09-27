@@ -138,7 +138,7 @@ function QuizBlock({
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -289,7 +289,7 @@ function ImpersonalScreen({
                       padding: '6px 12px',
                       fontSize: 13,
                       fontWeight: 600,
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       cursor: 'pointer',
                       fontFamily: "'Outfit',sans-serif",
                     }}
@@ -313,7 +313,7 @@ function ImpersonalScreen({
               background: 'rgba(14,116,144,.07)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import { BASKETBALL } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 interface SportPhrase {
   hr: string;
@@ -136,7 +137,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                 background: 'transparent',
                 fontSize: 12,
                 fontWeight: isActive ? 800 : 500,
-                color: isActive ? accent : '#78716c',
+                color: isActive ? accentInk(accent) : 'var(--ink-muted-warm)',
                 cursor: 'pointer',
                 transition: 'all .18s',
                 whiteSpace: 'nowrap',
@@ -150,7 +151,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                 style={{
                   marginLeft: 6,
                   background: isActive ? accent + '18' : '#f1f5f9',
-                  color: isActive ? accent : '#a8a29e',
+                  color: isActive ? accentInk(accent) : '#a8a29e',
                   fontSize: 10,
                   fontWeight: 700,
                   padding: '1px 6px',
@@ -234,7 +235,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                     style={{
                       fontSize: 10,
                       fontWeight: 700,
-                      color: accent + '99',
+                      color: accentInk(accent, 0.6),
                       fontVariantNumeric: 'tabular-nums',
                     }}
                   >
@@ -314,7 +315,7 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                     justifyContent: 'center',
                     fontSize: 11,
                     fontWeight: 800,
-                    color: isPlaying ? 'white' : accent + '80',
+                    color: isPlaying ? 'white' : accentInk(accent, 0.5),
                     transition: 'all .18s',
                     fontVariantNumeric: 'tabular-nums',
                   }}
@@ -348,8 +349,12 @@ function SportScreen({ data, accent, heroGradient, heroIcon }: SportScreenProps)
                         padding: '3px 8px',
                       }}
                     >
-                      <span style={{ fontSize: 10, color: accent, fontWeight: 700 }}>ⓘ</span>
-                      <span style={{ fontSize: 10, color: accent + 'cc', lineHeight: 1.4 }}>
+                      <span style={{ fontSize: 10, color: accentInk(accent), fontWeight: 700 }}>
+                        ⓘ
+                      </span>
+                      <span
+                        style={{ fontSize: 10, color: accentInk(accent, 0.8), lineHeight: 1.4 }}
+                      >
                         {p.note}
                       </span>
                     </div>
@@ -412,7 +417,7 @@ function BasketballScreen({ goBack }: { goBack?: () => void }) {
             cursor: 'pointer',
             fontSize: 13,
             fontWeight: 700,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             padding: '12px 16px 0',
             fontFamily: "'Outfit',sans-serif",
           }}

@@ -4,6 +4,7 @@ import type { AwardActivityType } from '../../types/index.js';
 import { H, getSR } from '../../data';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
+import { accentInk } from '../../lib/accentInk';
 
 interface GrammarDrill {
   prompt?: string;
@@ -287,7 +288,7 @@ export default function GrammarDiagnosisScreen({
                   gap: 6,
                   padding: '7px 13px',
                   borderRadius: 20,
-                  background: chip.active ? '#f0fdf4' : 'var(--bar-bg)',
+                  background: chip.active ? 'var(--success-bg)' : 'var(--bar-bg)',
                   border: `1.5px solid ${chip.active ? '#86efac' : 'var(--card-b)'}`,
                   fontSize: 13,
                   fontWeight: chip.active ? 600 : 400,
@@ -489,7 +490,7 @@ export default function GrammarDiagnosisScreen({
               border: 'none',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               fontWeight: 600,
               padding: '5px 8px',
             }}
@@ -820,7 +821,7 @@ export default function GrammarDiagnosisScreen({
                                       <span
                                         style={{
                                           fontSize: 14,
-                                          color,
+                                          color: accentInk(color),
                                           fontWeight: isChosen ? 600 : 400,
                                         }}
                                       >
@@ -839,8 +840,8 @@ export default function GrammarDiagnosisScreen({
                                     fontSize: 13,
                                     color:
                                       String(chosen) === String(drill.correct)
-                                        ? '#15803d'
-                                        : '#D4002D',
+                                        ? 'var(--ink-green)'
+                                        : 'var(--ink-red)',
                                     fontWeight: 600,
                                   }}
                                 >

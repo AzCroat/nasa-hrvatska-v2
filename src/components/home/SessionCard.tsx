@@ -4,6 +4,7 @@ import type { DailySession, SessionActivity } from '../../hooks/useDailySession'
 import { useLaunchFailure } from '../../hooks/useLaunchFailure';
 import LaunchFailureNotice from '../shared/LaunchFailureNotice';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 // Croatian identity palette — single source of truth for brand colors used in this card
 const CROATIAN_RED = '#CC0000';
@@ -274,7 +275,12 @@ export default function SessionCard({
             {completedCount} of {totalCount} activities done
             {wordsdue > 0 && (
               <span
-                style={{ display: 'block', marginTop: 4, color: CROATIAN_BLUE, fontWeight: 700 }}
+                style={{
+                  display: 'block',
+                  marginTop: 4,
+                  color: accentInk(CROATIAN_BLUE),
+                  fontWeight: 700,
+                }}
               >
                 prof. Kovač: {wordsdue} phrase{wordsdue !== 1 ? 's' : ''} to review
               </span>
@@ -359,7 +365,7 @@ export default function SessionCard({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: CROATIAN_RED,
+                  color: accentInk(CROATIAN_RED),
                   letterSpacing: '.18em',
                   textTransform: 'uppercase',
                   marginBottom: 8,
@@ -409,7 +415,7 @@ export default function SessionCard({
                 marginBottom: 10,
                 fontSize: 13,
                 fontWeight: 800,
-                color: '#15803d',
+                color: 'var(--ink-green)',
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}

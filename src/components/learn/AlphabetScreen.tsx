@@ -160,7 +160,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
               background: 'rgba(22,163,74,.08)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#15803d',
+              color: 'var(--ink-green)',
               fontWeight: 700,
             }}
           >
@@ -341,7 +341,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           style={{
             fontSize: 18,
             fontWeight: 900,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             background: 'rgba(14,116,144,.08)',
             border: '2px solid rgba(14,116,144,.2)',
             borderRadius: 12,
@@ -404,7 +404,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
             background: selected === q.correct ? 'rgba(22,163,74,.07)' : 'rgba(220,38,38,.06)',
             border: `1px solid ${selected === q.correct ? 'rgba(22,163,74,.2)' : 'rgba(220,38,38,.15)'}`,
             fontSize: 12,
-            color: '#44403c',
+            color: 'var(--ink-body)',
           }}
         >
           {selected === q.correct
@@ -428,7 +428,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           border: 'none',
           background: 'none',
           fontSize: 12,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           cursor: 'pointer',
           textDecoration: 'underline',
         }}

@@ -97,7 +97,7 @@ export default function FlashcardResultScreen({
               borderRadius: 12,
               fontSize: 13,
               fontWeight: 600,
-              color: accuracy >= 0.8 ? 'var(--success)' : '#92400e',
+              color: accuracy >= 0.8 ? 'var(--success)' : 'var(--warning-text)',
               lineHeight: 1.5,
             }}
           >

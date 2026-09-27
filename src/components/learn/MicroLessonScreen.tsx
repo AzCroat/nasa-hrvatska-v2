@@ -553,7 +553,7 @@ export default function MicroLessonScreen({
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#0e7490',
+                      color: 'var(--ink-accent)',
                       marginTop: 1,
                     }}
                   >
@@ -666,7 +666,7 @@ export default function MicroLessonScreen({
             style={{
               fontSize: 12,
               fontWeight: 800,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               background: 'rgba(14,116,144,.1)',
               border: '1px solid rgba(14,116,144,.2)',
               borderRadius: 99,
@@ -813,7 +813,7 @@ export default function MicroLessonScreen({
               borderRadius: 14,
               padding: '14px 16px',
               marginBottom: 14,
-              background: isCorrect ? '#f0fdf4' : '#fef2f2',
+              background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
               border: `1.5px solid ${isCorrect ? '#86efac' : '#fca5a5'}`,
               animation: 'spring-in .3s ease',
             }}
@@ -823,7 +823,7 @@ export default function MicroLessonScreen({
                 fontSize: 15,
                 fontWeight: 900,
                 marginBottom: 4,
-                color: isCorrect ? '#16a34a' : '#dc2626',
+                color: isCorrect ? 'var(--success)' : 'var(--error)',
               }}
             >
               {isCorrect ? 'Točno! · Correct!' : 'Netočno · Incorrect'}

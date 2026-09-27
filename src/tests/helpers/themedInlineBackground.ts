@@ -30,6 +30,7 @@
 
 import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
+import { escapeRegExp } from './emptyClaimSurfaces';
 
 /** Classes whose CSS rule sets background AND color from theme variables. */
 export function themedClasses(css: string): Set<string> {
@@ -137,7 +138,8 @@ export function findThemedInlineBackgrounds(files?: string[]): Finding[] {
       const sources = [expr];
       const ident = /^\s*([A-Za-z_$][\w$]*)\s*$/.exec(expr);
       if (ident) {
-        for (const a of src.matchAll(new RegExp(`\\b${ident[1]!}\\s*=\\s*([^;\n]+)`, 'g')))
+        const esc = escapeRegExp(ident[1]!);
+        for (const a of src.matchAll(new RegExp(`\\b${esc}\\s*=\\s*([^;\n]+)`, 'g')))
           sources.push(a[1]!);
       }
       const literals = sources

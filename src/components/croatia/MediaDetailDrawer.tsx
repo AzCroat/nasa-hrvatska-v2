@@ -9,6 +9,7 @@
  */
 import React, { useEffect, useRef, useCallback } from 'react';
 import RadioPlayer from './RadioPlayer';
+import { accentInk } from '../../lib/accentInk';
 
 interface MediaItem {
   ytId?: string;
@@ -115,7 +116,7 @@ function ExternalCard({
               borderRadius: 10,
               border: `1.5px solid ${m.color}50`,
               background: 'transparent',
-              color: m.color,
+              color: accentInk(m.color),
               fontSize: 13,
               fontWeight: 700,
               cursor: 'pointer',
@@ -284,7 +285,7 @@ export default function MediaDetailDrawer({
                   fontSize: 9,
                   fontWeight: 900,
                   letterSpacing: '.08em',
-                  color: item.color,
+                  color: accentInk(item.color),
                   background: `${item.color}18`,
                   padding: '2px 7px',
                   borderRadius: 6,
@@ -332,7 +333,7 @@ export default function MediaDetailDrawer({
                     borderRadius: 10,
                     border: `1.5px solid ${item.color}50`,
                     background: 'transparent',
-                    color: item.color,
+                    color: accentInk(item.color),
                     fontSize: 13,
                     fontWeight: 700,
                     cursor: 'pointer',
@@ -369,7 +370,7 @@ export default function MediaDetailDrawer({
                 style={{
                   fontSize: 10,
                   fontWeight: 800,
-                  color: item.color,
+                  color: accentInk(item.color),
                   letterSpacing: '.08em',
                   textTransform: 'uppercase',
                   marginBottom: 6,

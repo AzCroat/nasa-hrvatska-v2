@@ -748,8 +748,8 @@ export default function ClozeEngine({ goBack, award }: Props) {
           padding: '2px 10px',
           borderRadius: 8,
           fontWeight: 900,
-          background: isCorrect ? '#dcfce7' : '#fee2e2',
-          color: isCorrect ? '#166534' : '#991b1b',
+          background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
+          color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
           display: 'inline-block',
         }}
       >
@@ -995,7 +995,7 @@ export default function ClozeEngine({ goBack, award }: Props) {
             border: 'none',
             cursor: 'pointer',
             fontSize: 12,
-            color: '#0e7490',
+            color: 'var(--ink-accent)',
             fontWeight: 700,
             fontFamily: "'Outfit',sans-serif",
             marginBottom: 8,
@@ -1015,14 +1015,14 @@ export default function ClozeEngine({ goBack, award }: Props) {
                 : ''
           }
           style={{
-            background: isCorrect ? '#f0fdf4' : '#fff1f2',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--error-bg)',
             border: `1.5px solid ${isCorrect ? '#86efac' : '#fca5a5'}`,
             borderRadius: 12,
             padding: '10px 14px',
             marginBottom: !isCorrect ? 8 : 12,
             fontSize: 12,
             fontWeight: 700,
-            color: isCorrect ? '#166534' : '#991b1b',
+            color: isCorrect ? 'var(--ink-green)' : 'var(--error)',
           }}
         >
           {isCorrect ? '✓ Correct! ' : `✗ The answer was "${q.blank}". `}

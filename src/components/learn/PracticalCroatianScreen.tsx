@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
 import { H } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 // ─── Scenario data ────────────────────────────────────────────────────────────
 
@@ -520,7 +521,7 @@ function MenuView({ onSelect }: { onSelect: (s: Scenario) => void }) {
               display: 'inline-block',
               fontSize: 11,
               fontWeight: 700,
-              color: s.color,
+              color: accentInk(s.color),
               borderTop: `2px solid ${s.color}`,
               paddingTop: 6,
             }}
@@ -587,7 +588,7 @@ function PhrasesTab({ phrases }: { phrases: Phrase[] }) {
             aria-label={`Copy "${p.hr}" to clipboard`}
             style={{
               flexShrink: 0,
-              background: copied === i ? '#dcfce7' : 'var(--card-b)',
+              background: copied === i ? 'var(--success-bg)' : 'var(--card-b)',
               border: 'none',
               borderRadius: 8,
               padding: '5px 9px',
@@ -916,7 +917,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
               <div
                 key={i}
                 style={{
-                  background: isRight ? '#dcfce7' : '#fee2e2',
+                  background: isRight ? 'var(--success-bg)' : 'var(--error-bg)',
                   border: `1px solid ${isRight ? '#16a34a' : '#dc2626'}`,
                   borderRadius: 12,
                   padding: '10px 14px',
@@ -1121,7 +1122,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
               padding: '10px 14px',
               borderRadius: 10,
               background: selected === current.ans ? 'rgba(22,163,74,.1)' : 'rgba(220,38,38,.08)',
-              color: selected === current.ans ? '#14532d' : '#7f1d1d',
+              color: selected === current.ans ? 'var(--ink-green)' : 'var(--error)',
               fontSize: 13,
               fontWeight: 600,
               marginBottom: 12,
@@ -1201,7 +1202,7 @@ export default function PracticalCroatianScreen({ goBack, stats }: PCSProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 12,
               fontSize: 12,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >

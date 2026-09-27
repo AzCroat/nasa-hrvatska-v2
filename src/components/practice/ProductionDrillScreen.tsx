@@ -7,6 +7,7 @@ import { useAdaptiveSession } from '../../hooks/useAdaptiveSession';
 import { levelledBank } from '../../lib/levelledBank';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import type { CefrLevel } from '../../lib/cefr';
+import { accentInk } from '../../lib/accentInk';
 
 // Bounded round size (2026-07-21, owner-flagged): the banks grew for
 // cross-day VARIETY (43/30/15/16 items), but each mode served its whole bank
@@ -1220,7 +1221,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
                 background: 'rgba(124,58,237,.1)',
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#7c3aed',
+                color: 'var(--ink-mode)',
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}
@@ -1294,7 +1295,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
                 background: 'rgba(14,116,144,.08)',
                 fontSize: 14,
                 fontWeight: 700,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 cursor: 'pointer',
                 fontFamily: "'Outfit',sans-serif",
               }}
@@ -1430,7 +1431,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
               border: '1.5px solid rgba(220,38,38,.4)',
               borderRadius: 6,
               padding: '1px 6px',
-              color: '#dc2626',
+              color: 'var(--error)',
               fontWeight: 800,
             }}
           >
@@ -1744,7 +1745,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                         style={{
                           fontSize: 10,
                           fontWeight: 800,
-                          color: m.color,
+                          color: accentInk(m.color),
                           background: `${m.color}18`,
                           padding: '2px 8px',
                           borderRadius: 99,
@@ -1757,7 +1758,7 @@ export default function ProductionDrillScreen({ goBack, award }: ProductionDrill
                       </span>
                     </div>
                   </div>
-                  <div style={{ fontSize: 20, color: m.color, opacity: 0.7 }}>›</div>
+                  <div style={{ fontSize: 20, color: accentInk(m.color), opacity: 0.7 }}>›</div>
                 </button>
               ))}
             </div>

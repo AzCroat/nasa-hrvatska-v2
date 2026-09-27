@@ -337,7 +337,7 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
             background: selected === q.correct ? 'rgba(22,163,74,.07)' : 'rgba(220,38,38,.06)',
             border: `1px solid ${selected === q.correct ? 'rgba(22,163,74,.2)' : 'rgba(220,38,38,.15)'}`,
             fontSize: 12,
-            color: '#44403c',
+            color: 'var(--ink-body)',
           }}
         >
           {selected === q.correct
@@ -361,7 +361,7 @@ export default function VerbDrillScreen({ goBack, award }: Props) {
           border: 'none',
           background: 'none',
           fontSize: 12,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           cursor: 'pointer',
           textDecoration: 'underline',
         }}

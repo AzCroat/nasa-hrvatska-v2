@@ -91,7 +91,7 @@ function RelativePronounsScreen({ goBack, award }: Props) {
             {(['m', 'f', 'n'] as const).map(function (g, gi) {
               const r = RELPRON.table[g];
               return (
-                <tr key={gi} style={{ background: gi % 2 ? '#f0fdfa' : 'white' }}>
+                <tr key={gi} style={{ background: gi % 2 ? 'var(--info-bg)' : 'white' }}>
                   <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
                     {g === 'm' ? '♂ M' : g === 'f' ? '♀ F' : '⚧ N'}
                   </td>

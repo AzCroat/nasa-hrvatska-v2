@@ -9,6 +9,7 @@ import {
   failureFromError,
   reportAiFailure,
 } from '../../lib/aiFailure';
+import { accentInk } from '../../lib/accentInk';
 
 const CITIES = [
   {
@@ -775,7 +776,9 @@ export default function PostcardScreen({
                 padding: '6px 20px',
               }}
             >
-              <span style={{ fontSize: 22, fontWeight: 900, color: scoreColor }}>{score}</span>
+              <span style={{ fontSize: 22, fontWeight: 900, color: accentInk(scoreColor) }}>
+                {score}
+              </span>
               <span style={{ fontSize: 14, color: 'var(--subtext)', fontWeight: 600 }}>/100</span>
             </div>
             {correction.encouragement && (
@@ -936,7 +939,7 @@ export default function PostcardScreen({
                 borderRadius: 12,
                 padding: '14px 16px',
                 fontSize: 13,
-                color: '#16a34a',
+                color: 'var(--success)',
                 fontWeight: 600,
                 textAlign: 'center',
               }}

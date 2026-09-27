@@ -1,4 +1,5 @@
 import React from 'react';
+import { accentInk } from '../../lib/accentInk';
 
 interface SprintPrompt {
   hr: string;
@@ -93,7 +94,9 @@ export default function SprintFeedbackPhase({
         }}
       >
         <div style={{ fontSize: 40, marginBottom: 8 }}>{cfg.emoji}</div>
-        <p style={{ fontSize: 22, fontWeight: 800, color: cfg.color, margin: '0 0 6px' }}>
+        <p
+          style={{ fontSize: 22, fontWeight: 800, color: accentInk(cfg.color), margin: '0 0 6px' }}
+        >
           {cfg.title}
         </p>
         <p style={{ fontSize: 14, color: 'var(--subtext)', margin: 0 }}>{cfg.sub}</p>
@@ -108,7 +111,7 @@ export default function SprintFeedbackPhase({
             borderRadius: 20,
             background: 'rgba(124,58,237,.1)',
             border: '1px solid rgba(124,58,237,.25)',
-            color: '#7c3aed',
+            color: 'var(--ink-mode)',
             fontSize: 15,
             fontWeight: 800,
           }}

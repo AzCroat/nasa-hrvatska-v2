@@ -1,6 +1,7 @@
 import React from 'react';
 import { H } from '../../data';
 import { STORY_CITIES, LEVELS } from './StoryModeData.js';
+import { accentInk } from '../../lib/accentInk';
 
 const SETUP_CSS = `
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -161,7 +162,7 @@ export default function StorySetupPanel({
                 style={{
                   fontSize: 11,
                   fontWeight: 700,
-                  color: selectedCity.name === city.name ? city.color : 'var(--heading)',
+                  color: selectedCity.name === city.name ? accentInk(city.color) : 'var(--heading)',
                 }}
               >
                 {city.name}

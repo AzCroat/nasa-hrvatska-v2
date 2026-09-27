@@ -794,7 +794,7 @@ export default function CroatianNewsScreen({
             alignItems: 'center',
             gap: 8,
             fontSize: 13,
-            color: '#92400e',
+            color: 'var(--warning-text)',
             fontWeight: 600,
           }}
         >

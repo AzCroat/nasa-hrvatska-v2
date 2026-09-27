@@ -856,7 +856,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     padding: '10px 14px',
                     borderRadius: 12,
                     marginBottom: 8,
-                    background: a?.correct ? '#f0fdf4' : '#fef2f2',
+                    background: a?.correct ? 'var(--success-bg)' : 'var(--error-bg)',
                     border: `1.5px solid ${a?.correct ? '#86efac' : '#fca5a5'}`,
                   }}
                 >

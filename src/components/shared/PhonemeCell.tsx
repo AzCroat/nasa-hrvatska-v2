@@ -6,6 +6,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { scoreColor, PHONEME_HINTS } from './pronunciationUtils.js';
 import PhonemeGuideCard from './PhonemeGuideCard';
+import { accentInk } from '../../lib/accentInk';
 
 export interface PhonemeCellProps {
   phoneme: string;
@@ -94,7 +95,7 @@ export function PhonemeCell({ phoneme, score }: PhonemeCellProps): React.ReactEl
         ...STYLES.cell,
         background: `${color}1f`,
         border: `1.5px solid ${color}66`,
-        color,
+        color: accentInk(color),
       }}
       onClick={(e) => {
         e.stopPropagation();

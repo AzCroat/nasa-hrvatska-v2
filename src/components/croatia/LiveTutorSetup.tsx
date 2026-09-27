@@ -390,7 +390,7 @@ export default function LiveTutorSetup({
                   borderRadius: 10,
                   border: level === l ? '2px solid #D4002D' : '2px solid var(--card-b)',
                   background: level === l ? 'rgba(212,0,45,.08)' : 'var(--card)',
-                  color: level === l ? '#D4002D' : 'var(--subtext)',
+                  color: level === l ? 'var(--ink-red)' : 'var(--subtext)',
                   fontWeight: level === l ? 900 : 600,
                   fontSize: 'var(--text-sm)',
                   cursor: 'pointer',

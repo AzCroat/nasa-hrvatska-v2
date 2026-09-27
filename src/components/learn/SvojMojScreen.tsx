@@ -125,7 +125,7 @@ function SvojMojScreen({
                 style={{
                   flex: 1,
                   padding: '8px 12px',
-                  background: '#dcfce7',
+                  background: 'var(--success-bg)',
                   borderRadius: 10,
                   fontSize: 13,
                   cursor: 'pointer',
@@ -171,7 +171,7 @@ function SvojMojScreen({
       <div style={{ overflowX: 'auto', marginBottom: 16 }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
-            <tr style={{ background: '#f1f5f9' }}>
+            <tr style={{ background: 'var(--surface-mute)' }}>
               {['Case', 'Masc', 'Fem', 'Neut', 'Plural'].map(function (h) {
                 return (
                   <th
@@ -197,7 +197,7 @@ function SvojMojScreen({
                   key={ri}
                   style={{
                     borderBottom: '1px solid #f3f4f6',
-                    background: ri % 2 === 0 ? 'white' : '#fafaf9',
+                    background: ri % 2 === 0 ? 'white' : 'var(--surface-mute)',
                   }}
                 >
                   <td
@@ -257,7 +257,7 @@ function SvojMojScreen({
           background: 'rgba(124,58,237,.06)',
           borderRadius: 10,
           fontSize: 12,
-          color: '#4c1d95',
+          color: 'var(--ink-mode)',
         }}
       >
         Choose <strong>svoj/svoja/svoje/svoje</strong> or the possessive that fits the sentence.
@@ -322,7 +322,7 @@ function SvojMojScreen({
                   padding: '6px 10px',
                   background: 'rgba(124,58,237,.05)',
                   borderRadius: 8,
-                  color: '#4c1d95',
+                  color: 'var(--ink-mode)',
                 }}
               >
                 {quizAnswers[qi].chosen === q.a ? '✓ Correct! ' : '✗ Answer: ' + q.a + ' — '}

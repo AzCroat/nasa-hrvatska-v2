@@ -1,5 +1,6 @@
 import React from 'react';
 import { CT_STYLES } from './CaseTransformerData.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface Noun {
   hr: string;
@@ -165,7 +166,7 @@ export default function CaseTransformerQuiz({
             style={{
               fontSize: 'var(--text-base)',
               fontWeight: 800,
-              color: ci.color,
+              color: accentInk(ci.color),
               fontFamily: "'Outfit', sans-serif",
             }}
           >

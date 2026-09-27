@@ -2,6 +2,7 @@ import React from 'react';
 import BonusStoryCard from './BonusStoryCard';
 import GradedStoryModal from './GradedStoryModal';
 import type { ListeningQuiz } from './useListeningQuiz';
+import { accentInk } from '../../../lib/accentInk';
 
 /** Set-selection screen for a chosen level — set list + bonus story. */
 export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
@@ -159,7 +160,11 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
                 >
                   {set.title}
                   {complete && (
-                    <span style={{ marginLeft: 8, fontSize: 13, color: levelData.color }}>✓</span>
+                    <span
+                      style={{ marginLeft: 8, fontSize: 13, color: accentInk(levelData.color) }}
+                    >
+                      ✓
+                    </span>
                   )}
                 </div>
                 <div style={{ fontSize: 12, color: 'var(--subtext)', marginBottom: 6 }}>
@@ -190,7 +195,7 @@ export default function SetSelectionView({ quiz }: { quiz: ListeningQuiz }) {
                   {setDone}/{setTotal} done
                 </div>
               </div>
-              <div style={{ fontSize: 20, color: levelData.color }}>→</div>
+              <div style={{ fontSize: 20, color: accentInk(levelData.color) }}>→</div>
             </button>
           );
         })}

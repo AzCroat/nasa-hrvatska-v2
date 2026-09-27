@@ -588,7 +588,7 @@ export default function GradTab({
                     fontWeight: 700,
                     // #6b4e0a clears WCAG AA (>=4.5:1) on the gold-tinted pill;
                     // the lighter #9a7407 measured 3.81:1 (axe serious).
-                    color: recommended ? '#6b4e0a' : 'var(--subtext)',
+                    color: recommended ? 'var(--ink-warn)' : 'var(--subtext)',
                     background: recommended ? 'rgba(200,152,10,.14)' : 'transparent',
                     borderRadius: 8,
                     padding: recommended ? '2px 8px' : 0,

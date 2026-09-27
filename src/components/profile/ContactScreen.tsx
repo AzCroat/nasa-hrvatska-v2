@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { apiFetch } from '../../lib/apiFetch.js';
 import type { Stats, AuthUser } from '../../types';
+import { accentInk } from '../../lib/accentInk';
 
 interface Ticket {
   id: string;
@@ -192,7 +193,7 @@ export default function ContactScreen({
             alignItems: 'center',
             gap: 10,
             marginBottom: 24,
-            background: '#f8fafc',
+            background: 'var(--surface-mute)',
             border: '1px solid #e2e8f0',
             borderRadius: 10,
             padding: '10px 18px',
@@ -201,7 +202,7 @@ export default function ContactScreen({
           <span
             style={{
               fontSize: 12,
-              color: '#94a3b8',
+              color: 'var(--ink-muted)',
               fontFamily: 'monospace',
               letterSpacing: '.1em',
             }}
@@ -217,7 +218,7 @@ export default function ContactScreen({
               cursor: 'pointer',
               fontSize: 16,
               padding: '2px 4px',
-              color: copied ? '#16a34a' : '#64748b',
+              color: copied ? 'var(--success)' : 'var(--ink-muted)',
             }}
           >
             {copied ? '✓' : '⎘'}
@@ -258,7 +259,7 @@ export default function ContactScreen({
             border: 'none',
             fontSize: 22,
             cursor: 'pointer',
-            color: '#64748b',
+            color: 'var(--ink-muted)',
             padding: '4px 2px',
           }}
         >
@@ -312,7 +313,7 @@ export default function ContactScreen({
                   style={{
                     fontSize: 14,
                     fontWeight: 700,
-                    color: type === t.id ? t.color : '#0f172a',
+                    color: type === t.id ? accentInk(t.color) : 'var(--heading)',
                   }}
                 >
                   {t.label}
@@ -322,7 +323,7 @@ export default function ContactScreen({
                 </div>
               </div>
               {type === t.id && (
-                <span style={{ color: t.color, fontSize: 18, fontWeight: 900 }}>✓</span>
+                <span style={{ color: accentInk(t.color), fontSize: 18, fontWeight: 900 }}>✓</span>
               )}
             </button>
           ))}
@@ -464,7 +465,7 @@ export default function ContactScreen({
             border: '1px solid rgba(220,38,38,.2)',
             borderRadius: 12,
             padding: '12px 16px',
-            color: '#dc2626',
+            color: 'var(--error)',
             fontSize: 13,
             fontWeight: 600,
             marginBottom: 16,

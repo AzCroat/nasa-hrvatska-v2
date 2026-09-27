@@ -9,6 +9,7 @@ import {
 } from '../../lib/readingCurriculum';
 import ReadingPathBanner from './ReadingPathBanner';
 import { ssRemove } from '../../lib/safeStorage';
+import { accentInk } from '../../lib/accentInk';
 
 const LEVEL_META = {
   beginner: { badge: 'A1/A2', color: '#16a34a', label: 'Beginner' },
@@ -221,11 +222,18 @@ export default function ReadingList({
                   <div style={{ fontSize: 12, color: 'var(--ink-muted-warm)', marginTop: 2 }}>
                     {p.tEn}
                   </div>
-                  <div style={{ fontSize: 11, marginTop: 4, color: meta.color, fontWeight: 700 }}>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      marginTop: 4,
+                      color: accentInk(meta.color),
+                      fontWeight: 700,
+                    }}
+                  >
                     {meta.badge} · Read &amp; Quiz
                   </div>
                 </div>
-                <span style={{ fontSize: 18, color: meta.color, flexShrink: 0 }}>›</span>
+                <span style={{ fontSize: 18, color: accentInk(meta.color), flexShrink: 0 }}>›</span>
               </button>
             ))}
           </React.Fragment>

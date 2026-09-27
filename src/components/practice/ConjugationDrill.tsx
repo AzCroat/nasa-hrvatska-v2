@@ -5,6 +5,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface ConjVerb {
   inf: string;
@@ -222,7 +223,7 @@ export default function ConjugationDrill({ goBack, award }: Props) {
                 <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--ink-strong)' }}>
                   {q.verb} ({q.en})
                 </div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: tC, marginTop: 8 }}>
+                <div style={{ fontSize: 18, fontWeight: 700, color: accentInk(tC), marginTop: 8 }}>
                   {q.person} ___?
                 </div>
               </div>

@@ -77,7 +77,7 @@ export default function ProfileTab({
               border: 'none',
               background: 'transparent',
               cursor: 'pointer',
-              color: ptab === t.id ? '#047857' : 'var(--subtext)',
+              color: ptab === t.id ? 'var(--ink-green)' : 'var(--subtext)',
               borderBottom: ptab === t.id ? '3px solid #047857' : '3px solid transparent',
               transition: 'color .15s, border-color .15s',
               fontFamily: "'Outfit',sans-serif",

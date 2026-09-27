@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HighlightedTranscript from './HighlightedTranscript';
+import { accentInk } from '../../../lib/accentInk';
 
 export default function TranscriptToggle({
   text,
@@ -44,7 +45,7 @@ export default function TranscriptToggle({
             style={{
               fontSize: 11,
               fontWeight: 800,
-              color: accentColor,
+              color: accentInk(accentColor),
               textTransform: 'uppercase',
               letterSpacing: '.1em',
               marginBottom: 8,
@@ -74,7 +75,7 @@ export default function TranscriptToggle({
                     border: '1px solid rgba(251,191,36,.5)',
                     fontSize: 12,
                     fontWeight: 700,
-                    color: '#92400e',
+                    color: 'var(--warning-text)',
                   }}
                 >
                   {w}

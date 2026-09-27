@@ -320,7 +320,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
         data-testid="unit-production-count"
         style={{
           fontSize: 11.5,
-          color: enough ? 'rgb(22, 163, 74)' : 'var(--subtext)',
+          color: enough ? 'var(--success)' : 'var(--subtext)',
           fontWeight: 700,
           margin: '6px 2px 12px',
         }}

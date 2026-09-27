@@ -229,7 +229,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: '#16a34a',
+                      color: 'var(--success)',
                       marginBottom: 2,
                       display: 'block',
                     }}
@@ -248,7 +248,7 @@ function NegationScreen({ goBack, award }: Props) {
                       fontFamily: "'Outfit',sans-serif",
                       fontSize: 13,
                       fontWeight: 700,
-                      color: '#dc2626',
+                      color: 'var(--error)',
                       display: 'block',
                     }}
                     onClick={() => speak(n.neg)}
@@ -282,7 +282,7 @@ function NegationScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct negative form. {answeredCount}/{shuffledQuiz.length} answered.

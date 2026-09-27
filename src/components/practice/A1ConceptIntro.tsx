@@ -96,7 +96,7 @@ export default function A1ConceptIntro({ conceptId, onStart }: A1ConceptIntroPro
 
         <div
           style={{
-            background: '#fff7ed',
+            background: 'var(--warning-bg)',
             border: '1px solid #fed7aa',
             borderRadius: 10,
             padding: '12px 14px',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { accentInk } from '../../lib/accentInk';
 
 // ── A1→B2 Grammar Curriculum ─────────────────────────────────────────────────
 // Each unit links to an existing screen. Progress tracked per-unit in localStorage.
@@ -842,7 +843,7 @@ export default function GrammarTrackScreen({
                         marginLeft: 6,
                         fontSize: 9,
                         fontWeight: 900,
-                        color: level.color,
+                        color: accentInk(level.color),
                         background: level.color + '18',
                         padding: '2px 5px',
                         borderRadius: 4,
@@ -880,7 +881,7 @@ export default function GrammarTrackScreen({
                     : isNext
                       ? level.color + '15'
                       : 'var(--bar-bg)',
-                  color: isDone ? 'var(--success)' : isNext ? level.color : level.color,
+                  color: isDone ? 'var(--success)' : isNext ? accentInk(level.color) : level.color,
                   border: `1px solid ${isDone ? 'var(--success-b)' : isNext ? level.color + '40' : level.border}`,
                   whiteSpace: 'nowrap',
                 }}

@@ -401,7 +401,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                   style={{
                     width: '100%',
                     textAlign: 'left',
-                    background: openStructure === i ? '#fef2f2' : '#f9fafb',
+                    background: openStructure === i ? 'var(--error-bg)' : 'var(--surface-mute)',
                     border: '1px solid #e5e7eb',
                     borderRadius: 10,
                     padding: '10px 12px',
@@ -551,7 +551,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                       data-testid="gw-connective"
                       style={{
                         border: '1px solid #d1d5db',
-                        background: '#f9fafb',
+                        background: 'var(--surface-mute)',
                         borderRadius: 12,
                         padding: '3px 10px',
                         fontSize: 13,

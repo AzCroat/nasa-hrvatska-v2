@@ -69,6 +69,7 @@ import {
 import ExamRunner, { type McqAcc } from '../exam/ExamRunner.js';
 import WritingTaskScreen from '../exam/WritingTaskScreen.js';
 import type { RunnerQuestion } from '../../lib/checkpointExam.js';
+import { accentInk } from '../../lib/accentInk';
 
 // Production sections (speaking + writing) run on every check that GRANTS B1
 // status or higher — i.e. levelTo >= B1 (A1→A2 samples are too short to score
@@ -168,7 +169,15 @@ function SkillBar({ icon, label, score }: { icon: string; label: string; score: 
           />
         ))}
       </div>
-      <span style={{ fontSize: 13, fontWeight: 700, color: colour, width: 56, textAlign: 'right' }}>
+      <span
+        style={{
+          fontSize: 13,
+          fontWeight: 700,
+          color: accentInk(colour),
+          width: 56,
+          textAlign: 'right',
+        }}
+      >
         {pct}%
       </span>
     </div>
@@ -493,7 +502,7 @@ export default function EquivalencyTestScreen({
                 padding: '10px 14px',
                 marginBottom: 14,
                 fontSize: 13,
-                color: '#15803d',
+                color: 'var(--ink-green)',
                 fontWeight: 600,
               }}
             >
@@ -557,7 +566,7 @@ export default function EquivalencyTestScreen({
               padding: '12px 14px',
               marginBottom: 18,
               fontSize: 13,
-              color: '#a30000',
+              color: 'var(--ink-red)',
               lineHeight: 1.5,
             }}
           >
@@ -759,7 +768,7 @@ export default function EquivalencyTestScreen({
               fontFamily: "'Playfair Display',serif",
               fontSize: 28,
               margin: '8px 0 4px',
-              color: passed ? '#16a34a' : '#dc2626',
+              color: passed ? 'var(--success)' : 'var(--error)',
             }}
           >
             {passed
@@ -797,7 +806,7 @@ export default function EquivalencyTestScreen({
                 padding: '10px 14px',
                 marginBottom: 18,
                 fontSize: 13,
-                color: '#a30000',
+                color: 'var(--ink-red)',
                 lineHeight: 1.5,
                 textAlign: 'left',
               }}

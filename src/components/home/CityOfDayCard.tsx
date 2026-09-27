@@ -13,6 +13,7 @@
 
 import React from 'react';
 import { getCityOfDay } from '../../lib/dailyPickers';
+import { accentInk } from '../../lib/accentInk';
 // Direct import of the full 365-city pool from the client bundle — same data
 // the server endpoint serves, but always available regardless of auth/hydration
 // state. Cities + tagline + intro + history + vocab + facts all bundled.
@@ -101,7 +102,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
               style={{
                 fontSize: 8,
                 fontWeight: 900,
-                color: CROATIAN_RED,
+                color: accentInk(CROATIAN_RED),
                 letterSpacing: '.22em',
                 textTransform: 'uppercase',
                 fontFamily: "'Outfit', sans-serif",
@@ -173,7 +174,7 @@ export default function CityOfDayCard({ setScr }: CityOfDayCardProps) {
               padding: '5px 10px',
               fontSize: 9,
               fontWeight: 900,
-              color: CROATIAN_RED,
+              color: accentInk(CROATIAN_RED),
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '.1em',
               textTransform: 'uppercase',

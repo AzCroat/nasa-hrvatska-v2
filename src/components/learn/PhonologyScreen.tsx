@@ -4,6 +4,7 @@ import { useGrammar } from '../../hooks/useGrammar';
 import LessonQuiz from './LessonQuiz';
 import { LESSON_QUIZ_BANKS } from '../../lib/lessonQuizBanks';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface PhonExample {
   hr: string;
@@ -136,7 +137,7 @@ const TIP_BOX = ({ text }: { text: string }) => (
       padding: '10px 14px',
       marginBottom: 16,
       fontSize: 12,
-      color: '#44403c',
+      color: 'var(--ink-body)',
       lineHeight: 1.6,
     }}
   >
@@ -290,7 +291,7 @@ function PhonologyScreen({
                 onClick={() => setSelLetter(selLetter === i ? null : i)}
                 style={{
                   background: selLetter === i ? l.color : l.color + '15',
-                  color: selLetter === i ? 'white' : l.color,
+                  color: selLetter === i ? 'white' : accentInk(l.color),
                   border: `2px solid ${l.color}30`,
                   borderRadius: 12,
                   padding: '12px 4px',
@@ -329,13 +330,15 @@ function PhonologyScreen({
                         justifyContent: 'center',
                         fontSize: 30,
                         fontWeight: 900,
-                        color: l.color,
+                        color: accentInk(l.color),
                       }}
                     >
                       {l.letter}
                     </div>
                     <div>
-                      <div style={{ fontSize: 16, fontWeight: 900, color: l.color }}>{l.name}</div>
+                      <div style={{ fontSize: 16, fontWeight: 900, color: accentInk(l.color) }}>
+                        {l.name}
+                      </div>
                       <div
                         style={{
                           fontSize: 12,
@@ -364,7 +367,7 @@ function PhonologyScreen({
                       borderRadius: 10,
                       padding: '8px 12px',
                       marginBottom: 12,
-                      color: l.color,
+                      color: accentInk(l.color),
                       fontWeight: 700,
                     }}
                   >
@@ -385,14 +388,16 @@ function PhonologyScreen({
                       <div
                         key={j}
                         style={{
-                          background: '#f5f5f4',
+                          background: 'var(--surface-mute)',
                           borderRadius: 10,
                           padding: '6px 12px',
                           cursor: 'pointer',
                         }}
                         {...clickable(() => speak(ex.hr), 'Hear ' + ex.hr)}
                       >
-                        <div style={{ fontSize: 14, fontWeight: 700, color: l.color }}>{ex.hr}</div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: accentInk(l.color) }}>
+                          {ex.hr}
+                        </div>
                         <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)' }}>{ex.en}</div>
                       </div>
                     ))}
@@ -444,7 +449,7 @@ function PhonologyScreen({
                   style={{
                     flex: 1,
                     textAlign: 'center',
-                    background: '#fef3c7',
+                    background: 'var(--warning-bg)',
                     borderRadius: 10,
                     padding: '10px',
                     cursor: 'pointer',
@@ -475,7 +480,7 @@ function PhonologyScreen({
                   style={{
                     flex: 1,
                     textAlign: 'center',
-                    background: '#fef3c7',
+                    background: 'var(--warning-bg)',
                     borderRadius: 10,
                     padding: '10px',
                     cursor: 'pointer',

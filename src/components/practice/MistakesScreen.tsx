@@ -170,7 +170,7 @@ function FlipCard({
                 background: 'rgba(239,68,68,.1)',
                 border: '2px solid rgba(239,68,68,.25)',
                 borderRadius: 14,
-                color: '#dc2626',
+                color: 'var(--error)',
                 fontWeight: 700,
                 fontSize: 13,
                 cursor: 'pointer',
@@ -387,7 +387,7 @@ export default function MistakesScreen({
         <div
           style={{
             height: 6,
-            background: '#e2e8f0',
+            background: 'var(--surface-mute)',
             borderRadius: 3,
             marginBottom: 20,
             overflow: 'hidden',
@@ -429,7 +429,7 @@ export default function MistakesScreen({
             background: 'none',
             border: '1.5px solid #e2e8f0',
             borderRadius: 14,
-            color: '#6b7280',
+            color: 'var(--ink-muted)',
             fontSize: 13,
             cursor: 'pointer',
             marginTop: 8,
@@ -553,7 +553,7 @@ export default function MistakesScreen({
               onClick={clearAll}
               style={{
                 fontSize: 11,
-                color: '#dc2626',
+                color: 'var(--error)',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',

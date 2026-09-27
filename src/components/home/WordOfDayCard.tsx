@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { speak } from '../../data';
 import type { WordOfDay } from '../../lib/wordOfDay';
+import { accentInk } from '../../lib/accentInk';
 
 const CROATIAN_RED = '#CC0000';
 
@@ -63,8 +64,8 @@ function PronunciationChips({ ph }: { ph: string }) {
                     fontWeight: stressed ? 800 : 600,
                     padding: '2px 5px',
                     borderRadius: 5,
-                    background: stressed ? 'rgba(204,0,0,.08)' : '#f1f5f9',
-                    color: stressed ? CROATIAN_RED : '#5f6b7a',
+                    background: stressed ? 'rgba(204,0,0,.08)' : 'var(--surface-mute)',
+                    color: stressed ? accentInk(CROATIAN_RED) : 'var(--ink-muted)',
                     border: stressed ? '1px solid rgba(204,0,0,.2)' : '1px solid #e2e8f0',
                     letterSpacing: '.04em',
                     textTransform: 'uppercase',
@@ -129,7 +130,7 @@ export default function WordOfDayCard({ word }: WordOfDayCardProps) {
               style={{
                 fontSize: 8,
                 fontWeight: 900,
-                color: CROATIAN_RED,
+                color: accentInk(CROATIAN_RED),
                 letterSpacing: '.22em',
                 textTransform: 'uppercase',
                 fontFamily: "'Outfit', sans-serif",
@@ -202,7 +203,7 @@ export default function WordOfDayCard({ word }: WordOfDayCardProps) {
               padding: '5px 10px',
               fontSize: 9,
               fontWeight: 900,
-              color: playing ? '#fff' : CROATIAN_RED,
+              color: playing ? '#fff' : accentInk(CROATIAN_RED),
               cursor: 'pointer',
               fontFamily: "'Outfit', sans-serif",
               letterSpacing: '.1em',

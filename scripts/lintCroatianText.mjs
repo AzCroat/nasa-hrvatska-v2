@@ -305,6 +305,7 @@ const TARGETS = [
   'src/components/croatia/HeritagePathScreen.tsx',
   'src/components/auth/PlacementTest.tsx',
   'src/components/learn/PastTenseLessonScreen.tsx',
+  'src/components/learn/pastTenseData.ts',
   'src/components/learn/FutureTenseLessonScreen.tsx',
   'src/components/croatia/EasterScreen.tsx',
   'src/components/learn/CaseTransformerData.js',
@@ -650,8 +651,26 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // 96,799 strings scanned, zero new findings; mutation-verified in seven
 // positions (textHr, titleHr with a Cyrillic homoglyph, descHr, tHr, eventHr,
 // a factsHr entry, an alHr entry) — every one fails now, every one passed before.
+// `pastTenseData.ts` is in TARGETS below because it was EXTRACTED from
+// PastTenseLessonScreen.tsx, which is in TARGETS: a data file that leaves a linted parent
+// and does not join the list is a file everybody believes is linted and is not.
+// A NOTE LIKE THIS GOES HERE, NOT INSIDE THE ARRAY — `croatianLintTargets.test.ts` derives
+// the target list by parsing the array's source text, so a comma inside a comment between
+// two entries turns into garbage entries. Putting these three lines in the array took the
+// test's count from 474 to 234 and reported 236 phantom duplicates.
+// THE VERB-PARADIGM FIELDS WERE INVISIBLE, AND EXTRACTING A FILE IS WHAT SHOWED IT
+// (2026-09-27). `pastTenseData.ts` joined TARGETS and its positive control PASSED CLEAN:
+// `hleb` in an `mForm` was not caught, because a participle field is not a name this
+// regex listed. So `inf` (infinitives), `aux` (sam/si/je) and `mForm`/`fForm`/`nForm`
+// (the m/f/n participles) — the actual Croatian of every verb paradigm in the app — were
+// unscanned wherever they occur. Measured before widening, per the 123-false-positive
+// rule: +325 strings across TARGETS and ZERO new findings, so it is a ratchet, not a
+// repair. Mutation-verified in all four fields, with the widening reverted as the control.
+//
+// A TARGET PASSING IS NOT EVIDENCE OF COVERAGE — run a positive control on the exact
+// FIELD, which is the only thing that distinguishes "clean" from "not looked at".
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|target|sentence|explanation|error|correct|src|instruction|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|target|sentence|explanation|error|correct|src|instruction|inf|aux|[mfn]Form|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 // A `+ '…'` continuation directly after a matched literal. Sticky, so it can
 // only match at the position handed to it — never skip ahead to an unrelated

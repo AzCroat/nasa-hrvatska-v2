@@ -1,5 +1,6 @@
 import React from 'react';
 import CroatianGrb from '../shared/CroatianGrb';
+import { accentInk } from '../../lib/accentInk';
 
 interface PersonaCfg {
   name?: string;
@@ -161,7 +162,7 @@ export default function MajaOrb({ phase, waveform, liveTranscript, personaCfg }:
             <span style={{ fontSize: 24, userSelect: 'none' }}>🎙️</span>
           </div>
         </div>
-        <span style={{ fontSize: 13, color: speakColor, fontWeight: 600 }}>
+        <span style={{ fontSize: 13, color: accentInk(speakColor), fontWeight: 600 }}>
           {(cfg.name as string | undefined)?.split(' ')[0]} govori...
         </span>
       </div>
@@ -226,7 +227,7 @@ export default function MajaOrb({ phase, waveform, liveTranscript, personaCfg }:
           ))}
         </div>
 
-        <span style={{ fontSize: 13, color: listenColor, fontWeight: 600 }}>
+        <span style={{ fontSize: 13, color: accentInk(listenColor), fontWeight: 600 }}>
           Tvoj red... Govori!
         </span>
 

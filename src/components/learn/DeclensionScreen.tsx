@@ -210,7 +210,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
                     key={ci}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: ci % 2 ? '#fafaf9' : 'white',
+                      background: ci % 2 ? 'var(--surface-mute)' : 'white',
                     }}
                     onClick={function () {
                       speak(n.cases[ci] ?? '');
@@ -441,7 +441,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
           border: 'none',
           background: 'none',
           fontSize: 12,
-          color: '#78716c',
+          color: 'var(--ink-muted-warm)',
           cursor: 'pointer',
           textDecoration: 'underline',
         }}

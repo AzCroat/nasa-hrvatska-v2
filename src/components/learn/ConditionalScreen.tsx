@@ -146,7 +146,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
                   padding: '6px 10px',
                   background: 'rgba(14,116,144,.07)',
                   borderRadius: 8,
-                  color: '#0e7490',
+                  color: 'var(--ink-accent)',
                 }}
               >
                 {ans === q.a ? '✓ Correct!' : '✗ Correct answer: ' + q.a}
@@ -264,7 +264,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
           </div>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
-              <tr style={{ background: '#f1f5f9' }}>
+              <tr style={{ background: 'var(--surface-mute)' }}>
                 {['Pronoun', 'Conditional', 'English'].map((h) => (
                   <th
                     key={h}
@@ -288,7 +288,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
                     key={i}
                     style={{
                       borderBottom: '1px solid #f3f4f6',
-                      background: i % 2 === 0 ? 'white' : '#fafaf9',
+                      background: i % 2 === 0 ? 'white' : 'var(--surface-mute)',
                     }}
                   >
                     <td style={{ padding: '10px', fontWeight: 700, color: 'var(--ink-accent)' }}>
@@ -379,7 +379,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 12,
               fontSize: 13,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >
@@ -422,7 +422,7 @@ function ConditionalScreen({ goBack, award }: ScreenProps) {
               background: 'rgba(14,116,144,.07)',
               borderRadius: 12,
               fontSize: 13,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               lineHeight: 1.6,
             }}
           >

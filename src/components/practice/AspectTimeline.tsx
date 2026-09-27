@@ -1,4 +1,5 @@
 import React from 'react';
+import { accentInk } from '../../lib/accentInk';
 
 interface Props {
   aspect: string;
@@ -27,7 +28,7 @@ export default function AspectTimeline({ aspect, dimmed }: Props) {
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color,
+            color: accentInk(color),
             textTransform: 'uppercase',
             letterSpacing: '.05em',
           }}

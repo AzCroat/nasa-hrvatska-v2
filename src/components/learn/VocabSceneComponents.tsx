@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { H } from '../../data';
 import { SCENES } from './VocabSceneData.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface SceneItem {
   id: string;
@@ -301,7 +302,14 @@ export function ScenePicker({
               <div style={{ fontSize: 11, color: 'var(--ink-muted-warm)', marginBottom: 10 }}>
                 {scene.titleEn}
               </div>
-              <div style={{ fontSize: 11, color: scene.color, fontWeight: 700, marginBottom: 6 }}>
+              <div
+                style={{
+                  fontSize: 11,
+                  color: accentInk(scene.color),
+                  fontWeight: 700,
+                  marginBottom: 6,
+                }}
+              >
                 {disc} / {total} discovered
               </div>
               <ProgressBar value={disc} max={total} color={scene.color} height={5} />
@@ -378,7 +386,7 @@ export function ItemButton({
         aria-label={`${item.hr} — ${item.en}`}
         style={{
           ...baseStyle,
-          background: isActive ? '#fff' : 'rgba(255,255,255,0.92)',
+          background: isActive ? 'var(--card)' : 'rgba(255,255,255,0.92)',
           boxShadow: isActive
             ? '0 0 0 3px #f59e0b, 0 4px 16px rgba(0,0,0,.18)'
             : '0 2px 8px rgba(0,0,0,.14)',
@@ -493,7 +501,7 @@ export function ItemPopup({
             border: 'none',
             cursor: 'pointer',
             fontSize: 20,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             lineHeight: 1,
             padding: 4,
           }}
@@ -683,7 +691,9 @@ export function SceneComplete({
         <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
           You discovered all {scene.items.length} words in
         </div>
-        <div style={{ fontSize: 16, fontWeight: 800, color: scene.color, marginBottom: 18 }}>
+        <div
+          style={{ fontSize: 16, fontWeight: 800, color: accentInk(scene.color), marginBottom: 18 }}
+        >
           {scene.icon} {scene.title}
         </div>
         <div

@@ -267,7 +267,7 @@ export default function SentenceTileScreen({
             border: '1.5px solid rgba(220,38,38,.2)',
             borderRadius: 12,
             fontSize: 13,
-            color: '#991b1b',
+            color: 'var(--error)',
             fontWeight: 600,
           }}
         >

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MEDIA } from '../../data';
 import { LEVEL_COLORS } from './MediaPlayerUtils';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface JourneyItem {
   level: string;
@@ -293,7 +294,7 @@ export default function ImmersionHub({
               background: activeTab === t.id ? 'white' : 'transparent',
               fontWeight: 700,
               fontSize: 12,
-              color: activeTab === t.id ? '#0e7490' : '#78716c',
+              color: activeTab === t.id ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               cursor: 'pointer',
               boxShadow: activeTab === t.id ? '0 1px 4px rgba(0,0,0,.1)' : 'none',
               transition: 'all .2s',
@@ -699,7 +700,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
             <span
               style={{
                 background: `${color}20`,
-                color,
+                color: accentInk(color),
                 fontSize: 10,
                 fontWeight: 800,
                 padding: '2px 7px',
@@ -728,7 +729,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
           >
             {j.desc}
           </div>
-          <div style={{ fontSize: 12, fontWeight: 800, color, marginBottom: 8 }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: accentInk(color), marginBottom: 8 }}>
             GOALS AT THIS LEVEL
           </div>
           {j.goals.map((g: string, i: number) => (
@@ -743,7 +744,7 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
                 borderRadius: 8,
               }}
             >
-              <span style={{ color, fontWeight: 800, flexShrink: 0 }}>✓</span>
+              <span style={{ color: accentInk(color), fontWeight: 800, flexShrink: 0 }}>✓</span>
               <span style={{ fontSize: 12, color: 'var(--ink-body)' }}>{g}</span>
             </div>
           ))}
@@ -756,7 +757,11 @@ function JourneyCard({ j, color }: { j: JourneyItem; color: string }) {
               borderLeft: `3px solid ${color}`,
             }}
           >
-            <div style={{ fontSize: 11, fontWeight: 800, color, marginBottom: 2 }}>DAILY HABIT</div>
+            <div
+              style={{ fontSize: 11, fontWeight: 800, color: accentInk(color), marginBottom: 2 }}
+            >
+              DAILY HABIT
+            </div>
             <div style={{ fontSize: 12, color: 'var(--ink-body)' }}>{j.habit}</div>
           </div>
         </div>
@@ -817,11 +822,13 @@ function MediaCard({
               flexWrap: 'wrap',
             }}
           >
-            <span style={{ fontSize: 14, fontWeight: 800, color: m.color }}>{m.name}</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: accentInk(m.color) }}>
+              {m.name}
+            </span>
             <span
               style={{
                 background: `${color}20`,
-                color,
+                color: accentInk(color),
                 fontSize: 10,
                 fontWeight: 800,
                 padding: '2px 7px',
@@ -883,11 +890,15 @@ function FilterBtn({
         padding: '5px 12px',
         borderRadius: 20,
         border: `2px solid ${active ? color : '#e7e5e4'}`,
-        background: active ? `${color}15` : 'white',
+        // BOTH HALVES MOVE TOGETHER. Theming the ink alone would put a light colour on
+        // the opaque `white` of the inactive arm in dark mode — the compose regression
+        // sweep 157 shipped on 19 routes. The active arm is an 8% tint of the accent, so
+        // it already follows the theme; the inactive one has to be told to.
+        background: active ? `${color}15` : 'var(--card)',
         fontSize: 11,
         fontWeight: 700,
         cursor: 'pointer',
-        color: active ? color : '#78716c',
+        color: active ? accentInk(color) : 'var(--ink-muted-warm)',
         transition: 'all .15s',
         whiteSpace: 'nowrap',
       }}

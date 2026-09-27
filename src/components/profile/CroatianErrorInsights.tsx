@@ -4,6 +4,7 @@ import { getWeakTopics, weakTopicEvidence } from '../../lib/adaptive.js';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from '../../lib/categoryRoutes';
 import type { SkillCategory } from '../../lib/adaptive';
 import { useApp } from '../../context/AppContext';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Error code → friendly explanation mapping ─────────────────────────────────
 interface ErrorMetaEntry {
@@ -295,7 +296,7 @@ function ErrorCard({
             }}
           >
             <CategoryBadge category={error.category} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: urgencyColor }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: accentInk(urgencyColor) }}>
               {error.count}× caught
             </span>
           </div>
@@ -516,7 +517,15 @@ function WeakTopicCard({
               }}
             />
           </div>
-          <span style={{ fontSize: 11, fontWeight: 800, color, minWidth: 32, textAlign: 'right' }}>
+          <span
+            style={{
+              fontSize: 11,
+              fontWeight: 800,
+              color: accentInk(color),
+              minWidth: 32,
+              textAlign: 'right',
+            }}
+          >
             {pct}%
           </span>
         </div>
@@ -531,7 +540,7 @@ function WeakTopicCard({
           style={{
             background: `${color}18`,
             border: `1.5px solid ${color}50`,
-            color,
+            color: accentInk(color),
             borderRadius: 10,
             padding: '7px 12px',
             fontSize: 12,

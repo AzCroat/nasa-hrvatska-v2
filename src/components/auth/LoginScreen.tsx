@@ -635,7 +635,7 @@ export default function LoginScreen({
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: 'var(--text-sm)',
-                color: '#4b5563',
+                color: 'var(--ink-muted)',
                 fontWeight: 600,
                 fontFamily: "'Outfit',sans-serif",
                 padding: '8px 16px',

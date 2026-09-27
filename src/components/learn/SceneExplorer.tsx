@@ -17,6 +17,7 @@ import {
   Confetti,
   Toast,
 } from './VocabSceneComponents';
+import { accentInk } from '../../lib/accentInk';
 
 interface SceneItem {
   id: string;
@@ -172,7 +173,7 @@ export default function SceneExplorer({
               {scene.titleEn}
             </span>
           </div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: scene.color }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: accentInk(scene.color) }}>
             {discCount}/{total}
           </div>
         </div>
@@ -212,12 +213,12 @@ export default function SceneExplorer({
           <div
             style={{
               marginTop: 8,
-              background: '#f1f5f9',
+              background: 'var(--surface-mute)',
               borderRadius: 10,
               padding: '8px 12px',
               fontSize: 12,
               fontWeight: 600,
-              color: '#475569',
+              color: 'var(--ink-muted)',
               display: 'flex',
               gap: 16,
             }}

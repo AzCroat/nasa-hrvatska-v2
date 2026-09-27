@@ -134,7 +134,7 @@ export default function ReadingScreen({
                 border: 'none',
                 fontSize: 13,
                 fontWeight: 600,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 cursor: 'pointer',
                 padding: 0,
                 width: '100%',

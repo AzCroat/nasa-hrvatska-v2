@@ -2,6 +2,7 @@ import React from 'react';
 import { portraitSrc } from './SpeakingAvatar';
 import { deriveWeakAreas } from './ConversationScenarios.js';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 interface ConvoScenario {
   id: string;
@@ -150,7 +151,7 @@ export default function AIConversationConvoSetup({
             style={{
               fontSize: 14,
               fontWeight: 900,
-              color: scenario?.id === '__freetalk__' ? '#7c3aed' : 'var(--heading)',
+              color: scenario?.id === '__freetalk__' ? 'var(--ink-mode)' : 'var(--heading)',
             }}
           >
             Free Talk — No Script Needed
@@ -453,7 +454,7 @@ export default function AIConversationConvoSetup({
                   <div
                     style={{
                       fontSize: 20,
-                      color: selected ? s.color : 'var(--subtext)',
+                      color: selected ? accentInk(s.color) : 'var(--subtext)',
                       opacity: selected ? 1 : 0.3,
                     }}
                   >
@@ -631,7 +632,7 @@ export default function AIConversationConvoSetup({
                   borderRadius: 10,
                   fontSize: 12,
                   fontWeight: 700,
-                  color: '#7c3aed',
+                  color: 'var(--ink-mode)',
                 }}
               >
                 ✓ Custom scenario selected — start when ready

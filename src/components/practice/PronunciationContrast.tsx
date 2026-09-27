@@ -386,7 +386,7 @@ export default function PronunciationContrast({ goBack, award }: PronunciationCo
                 fontSize: 16,
                 padding: '4px',
                 lineHeight: 1,
-                color: '#0e7490',
+                color: 'var(--ink-accent)',
                 opacity: 0.75,
               }}
               title={`Hear "${o}"`}

@@ -21,6 +21,7 @@ import {
   CATEGORY_META,
   SEASON_META,
 } from '../../data/bakaLetters';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Read-state persistence ─────────────────────────────────────────────────
 const READ_KEY = 'nh_baka_read';
@@ -176,7 +177,7 @@ function TodaysLetterSpotlight({ letter, isRead, onOpen }: SpotlightProps): Reac
           fontSize: 10,
           fontWeight: 800,
           letterSpacing: '.12em',
-          color: meta.tint,
+          color: accentInk(meta.tint),
           textTransform: 'uppercase',
           marginBottom: 10,
         }}

@@ -5,6 +5,7 @@ import DialoguePlayer from './DialoguePlayer';
 import TranscriptToggle from './TranscriptToggle';
 import { EXERCISES } from './exercises';
 import type { ListeningQuiz } from './useListeningQuiz';
+import { accentInk } from '../../../lib/accentInk';
 
 /** Extract key vocabulary words from the Croatian sentence (words ≥ 4 chars, skip common short words) */
 const STOP_WORDS = new Set([
@@ -248,7 +249,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           style={{
             fontSize: 10,
             fontWeight: 900,
-            color: ld.color,
+            color: accentInk(ld.color),
             textTransform: 'uppercase',
             letterSpacing: '.1em',
             marginBottom: 10,

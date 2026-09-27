@@ -112,7 +112,7 @@ function PronounsScreen({ goBack, award }: Props) {
           <tbody>
             {PRONOUNCASE.table.map(function (r, ri) {
               return (
-                <tr key={ri} style={{ background: ri % 2 ? '#f0fdfa' : 'white' }}>
+                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'white' }}>
                   {[r.nom, r.gen, r.dat, r.aku, r.inst, r.lok].map(function (v, vi) {
                     return (
                       <td
@@ -122,7 +122,7 @@ function PronounsScreen({ goBack, award }: Props) {
                           borderBottom: '1px solid #e7e5e4',
                           cursor: 'pointer',
                           fontWeight: vi === 0 ? 700 : 400,
-                          color: vi === 0 ? '#0e7490' : '#44403c',
+                          color: vi === 0 ? 'var(--ink-accent)' : 'var(--ink-body)',
                         }}
                         {...clickable(function () {
                           speak(v);

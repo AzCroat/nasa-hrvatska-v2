@@ -762,7 +762,12 @@ export function StoryReader({
                         style={{
                           fontSize: 20,
                           fontWeight: 900,
-                          color: score >= 80 ? '#059669' : score >= 55 ? '#d97706' : '#dc2626',
+                          color:
+                            score >= 80
+                              ? 'var(--ink-green)'
+                              : score >= 55
+                                ? 'var(--warning)'
+                                : 'var(--error)',
                         }}
                       >
                         {score}

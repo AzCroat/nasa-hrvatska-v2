@@ -788,7 +788,7 @@ export default function LearnPath({
                     style={{
                       fontSize: 13,
                       fontWeight: 800,
-                      color: passedCheckpoints.has(li) ? '#166534' : '#92400e',
+                      color: passedCheckpoints.has(li) ? 'var(--ink-green)' : 'var(--warning-text)',
                     }}
                   >
                     {passedCheckpoints.has(li)

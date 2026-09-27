@@ -6,6 +6,7 @@ import { rnd } from '../../lib/random.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
 import { knightFlash, knightSpeak } from '../../lib/knightSpeak.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface TimerDisplayProps {
   timeLeft: number;
@@ -17,7 +18,7 @@ const TimerDisplay = React.memo(function TimerDisplay({ timeLeft, color }: Timer
       style={{
         fontSize: 'var(--text-2xl)',
         fontWeight: 900,
-        color,
+        color: accentInk(color),
         fontVariantNumeric: 'tabular-nums',
         minWidth: 36,
         textAlign: 'center',

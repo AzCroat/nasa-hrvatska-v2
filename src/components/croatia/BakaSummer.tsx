@@ -374,7 +374,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
             border: 'none',
             cursor: 'pointer',
             fontSize: 22,
-            color: '#b61800',
+            color: 'var(--ink-red)',
             padding: '4px 8px',
             borderRadius: 6,
             lineHeight: 1,
@@ -592,7 +592,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
               cursor: 'pointer',
               fontSize: 13,
               fontWeight: 700,
-              color: '#92400e',
+              color: 'var(--warning-text)',
               padding: 0,
               display: 'flex',
               alignItems: 'center',
@@ -611,7 +611,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'baseline',
-                    background: '#fef9ee',
+                    background: 'var(--warning-bg)',
                     borderRadius: 6,
                     padding: '6px 10px',
                     gap: 8,
@@ -639,7 +639,7 @@ export default function BakaSummer({ goBack, award }: BakaSummerProps) {
         {/* Cultural note */}
         <div
           style={{
-            background: '#f0fdfa',
+            background: 'var(--info-bg)',
             borderTop: '1px solid #99f6e4',
             padding: '10px 16px',
             display: 'flex',

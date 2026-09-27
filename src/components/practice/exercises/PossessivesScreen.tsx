@@ -94,7 +94,7 @@ function PossessivesScreen({ goBack, award }: Props) {
           <tbody>
             {POSSESS.table.map(function (r, ri) {
               return (
-                <tr key={ri} style={{ background: ri % 2 ? '#f0fdfa' : 'white' }}>
+                <tr key={ri} style={{ background: ri % 2 ? 'var(--info-bg)' : 'white' }}>
                   <td style={{ padding: '6px', fontWeight: 800, color: 'var(--ink-accent)' }}>
                     {r.person}
                   </td>

@@ -57,7 +57,7 @@ function RiddlesScreen({ goBack, award }: Props) {
               style={{
                 fontSize: 14,
                 fontStyle: 'italic',
-                color: '#44403c',
+                color: 'var(--ink-body)',
                 marginBottom: 10,
                 lineHeight: 1.5,
                 background: 'none',

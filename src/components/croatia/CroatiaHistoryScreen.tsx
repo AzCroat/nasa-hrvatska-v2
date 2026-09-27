@@ -180,7 +180,7 @@ function HimnaPlayer() {
       <div
         style={{
           fontSize: 12,
-          color: '#44403c',
+          color: 'var(--ink-body)',
           lineHeight: 1.7,
           marginBottom: 16,
           padding: '10px 14px',

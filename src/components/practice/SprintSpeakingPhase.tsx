@@ -149,7 +149,7 @@ export default function SprintSpeakingPhase({
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: isRecording ? '#d4002d' : 'var(--subtext)',
+              color: isRecording ? 'var(--ink-red)' : 'var(--subtext)',
             }}
           >
             {isRecording ? 'Recording… speak now' : 'Tap "Start Recording" to begin'}

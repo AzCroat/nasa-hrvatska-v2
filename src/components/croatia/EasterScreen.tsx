@@ -3,6 +3,7 @@ import type { AwardActivityType } from '../../types/index.js';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { markQuest } from '../../lib/quests.js';
+import { accentInk } from '../../lib/accentInk';
 
 interface VShape {
   easter?: Array<[string, string] | string[]>;
@@ -375,7 +376,7 @@ export default function EasterScreen({
               fontFamily: "'Outfit',sans-serif",
               fontSize: 11,
               fontWeight: 700,
-              color: tab === t.id ? ACCENT : 'var(--subtext)',
+              color: tab === t.id ? accentInk(ACCENT) : 'var(--subtext)',
               boxShadow: tab === t.id ? '0 1px 4px rgba(0,0,0,.1)' : 'none',
               transition: 'all .2s',
             }}
@@ -467,7 +468,7 @@ export default function EasterScreen({
                   style={{
                     fontSize: 16,
                     flexShrink: 0,
-                    color: ACCENT,
+                    color: accentInk(ACCENT),
                   }}
                 >
                   🔊
@@ -483,7 +484,14 @@ export default function EasterScreen({
                   >
                     {hr}
                   </div>
-                  <div style={{ fontSize: 12, color: ACCENT, fontWeight: 600, marginTop: 1 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: accentInk(ACCENT),
+                      fontWeight: 600,
+                      marginTop: 1,
+                    }}
+                  >
                     {en}
                   </div>
                   {ph && (
@@ -540,7 +548,9 @@ export default function EasterScreen({
                   >
                     {r.title}
                   </div>
-                  <div style={{ fontSize: 11, color: ACCENT, fontWeight: 700 }}>{r.subtitle}</div>
+                  <div style={{ fontSize: 11, color: accentInk(ACCENT), fontWeight: 700 }}>
+                    {r.subtitle}
+                  </div>
                 </div>
               </div>
               <div style={{ padding: '12px 16px' }}>
@@ -575,7 +585,9 @@ export default function EasterScreen({
                       <span aria-hidden="true" style={{ fontSize: 10 }}>
                         🔊
                       </span>
-                      <span style={{ fontSize: 12, fontWeight: 700, color: ACCENT }}>{kw.hr}</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: accentInk(ACCENT) }}>
+                        {kw.hr}
+                      </span>
                       <span style={{ fontSize: 11, color: 'var(--subtext)', fontWeight: 500 }}>
                         {kw.en}
                       </span>
@@ -766,7 +778,12 @@ export default function EasterScreen({
                         </div>
                         {!answers[qi] && (
                           <div
-                            style={{ fontSize: 11, color: ACCENT, fontWeight: 700, marginTop: 2 }}
+                            style={{
+                              fontSize: 11,
+                              color: accentInk(ACCENT),
+                              fontWeight: 700,
+                              marginTop: 2,
+                            }}
                           >
                             {qq.correct}
                           </div>

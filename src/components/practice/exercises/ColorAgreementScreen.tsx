@@ -90,7 +90,7 @@ function ColorAgreementScreen({ goBack, award }: Props) {
           <tbody>
             {COLORAGREE.colors.map(function (c2, ci) {
               return (
-                <tr key={ci} style={{ background: ci % 2 ? '#f0fdfa' : 'white' }}>
+                <tr key={ci} style={{ background: ci % 2 ? 'var(--info-bg)' : 'white' }}>
                   <td style={{ padding: '4px', fontWeight: 700, color: 'var(--ink-strong)' }}>
                     {c2.en}
                   </td>

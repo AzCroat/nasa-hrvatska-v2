@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { getSR } from '../../lib/srs.js';
 import { speak } from '../../data';
+import { accentInk } from '../../lib/accentInk';
 
 // Reads FSRS data and surfaces the words with the highest error rate + difficulty.
 // Gives users a real, actionable insight: "practice these 10 words today."
@@ -220,7 +221,7 @@ export default function WeakWordsPanel({ setScr }: { setScr?: (screen: string) =
                       style={{
                         fontSize: 10,
                         fontWeight: 700,
-                        color: barColor,
+                        color: accentInk(barColor),
                         flexShrink: 0,
                         minWidth: 32,
                       }}

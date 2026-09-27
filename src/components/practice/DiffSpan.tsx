@@ -4,6 +4,7 @@
 // When `note` is present, becomes a keyboard-accessible button that toggles a popover.
 import React, { useState, useRef, useEffect } from 'react';
 import type { ErrorType } from './correctionDiff.types';
+import { accentInk } from '../../lib/accentInk';
 
 export interface DiffSpanProps {
   original: string;
@@ -172,7 +173,7 @@ export function DiffSpan({
                 fontWeight: 700,
                 textTransform: 'uppercase',
                 letterSpacing: '0.04em',
-                color: meta.color,
+                color: accentInk(meta.color),
                 background: meta.color + '14', // ~8% alpha tint
                 padding: '2px 6px',
                 borderRadius: 4,

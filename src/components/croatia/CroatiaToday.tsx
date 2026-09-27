@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { H } from '../../data';
 import { clickable } from '../../lib/clickable';
+import { accentInk } from '../../lib/accentInk';
 
 const CAT_COLORS = {
   Sport: '#dc2626',
@@ -512,7 +513,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
             cursor: 'pointer',
             fontSize: 13,
             fontWeight: 700,
-            color: '#78716c',
+            color: 'var(--ink-muted-warm)',
             marginBottom: 16,
             padding: '4px 0',
           }}
@@ -525,7 +526,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
           <span
             style={{
               background: color + '18',
-              color,
+              color: accentInk(color),
               fontWeight: 800,
               fontSize: 11,
               padding: '3px 10px',
@@ -831,7 +832,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                     top: 10,
                     right: 12,
                     background: color + '18',
-                    color,
+                    color: accentInk(color),
                     fontSize: 9,
                     fontWeight: 800,
                     padding: '2px 7px',
@@ -846,7 +847,7 @@ export default function CroatiaToday({ goBack }: { goBack?: () => void }) {
                 <span
                   style={{
                     background: color + '18',
-                    color,
+                    color: accentInk(color),
                     fontWeight: 800,
                     fontSize: 10,
                     padding: '2px 8px',

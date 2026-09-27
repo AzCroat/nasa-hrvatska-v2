@@ -15,6 +15,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import { PITCH_ACCENT_LESSONS } from '../../data/pitchAccentContent.js';
 import PassGateNotice from '../shared/PassGateNotice';
 import { passedLesson } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 // Map accent id → rich lesson data
 const LESSON_BY_ACCENT = {
@@ -667,7 +668,7 @@ export default function PitchAccentMastery({
                   style={{
                     fontSize: 13,
                     fontWeight: 800,
-                    color: a.color,
+                    color: accentInk(a.color),
                     display: 'flex',
                     alignItems: 'center',
                     gap: 6,
@@ -692,7 +693,7 @@ export default function PitchAccentMastery({
                 style={{
                   fontSize: 22,
                   fontWeight: 900,
-                  color: a.color,
+                  color: accentInk(a.color),
                   fontFamily: 'monospace',
                   flexShrink: 0,
                 }}
@@ -822,7 +823,7 @@ export default function PitchAccentMastery({
             style={{
               fontSize: 28,
               fontWeight: 900,
-              color: accent.color,
+              color: accentInk(accent.color),
               fontFamily: 'monospace',
               letterSpacing: '.05em',
               marginBottom: 4,
@@ -830,7 +831,9 @@ export default function PitchAccentMastery({
           >
             {accent.symbol}
           </div>
-          <div style={{ fontSize: 20, fontWeight: 900, color: accent.color }}>{accent.nameEn}</div>
+          <div style={{ fontSize: 20, fontWeight: 900, color: accentInk(accent.color) }}>
+            {accent.nameEn}
+          </div>
           <div
             style={{ fontSize: 13, fontWeight: 600, color: 'var(--ink-muted-warm)', marginTop: 2 }}
           >
@@ -845,7 +848,7 @@ export default function PitchAccentMastery({
               display: 'inline-block',
               fontSize: 12,
               fontWeight: 700,
-              color: accent.color,
+              color: accentInk(accent.color),
             }}
           >
             {accent.rule}
@@ -925,7 +928,7 @@ export default function PitchAccentMastery({
                       style={{
                         fontSize: 11,
                         fontWeight: 900,
-                        color: accent.color,
+                        color: accentInk(accent.color),
                         textTransform: 'uppercase',
                         letterSpacing: '.08em',
                         marginBottom: 10,
@@ -944,7 +947,12 @@ export default function PitchAccentMastery({
                         }}
                       >
                         <div
-                          style={{ fontSize: 14, color: accent.color, flexShrink: 0, marginTop: 1 }}
+                          style={{
+                            fontSize: 14,
+                            color: accentInk(accent.color),
+                            flexShrink: 0,
+                            marginTop: 1,
+                          }}
                         >
                           •
                         </div>
@@ -1016,7 +1024,7 @@ export default function PitchAccentMastery({
                     style={{
                       fontSize: 22,
                       fontWeight: 900,
-                      color: accent.color,
+                      color: accentInk(accent.color),
                       fontFamily: "'Playfair Display',serif",
                     }}
                   >
@@ -1120,7 +1128,7 @@ export default function PitchAccentMastery({
                       style={{
                         fontSize: 22,
                         fontWeight: 900,
-                        color: accent.color,
+                        color: accentInk(accent.color),
                         fontFamily: "'Playfair Display',serif",
                       }}
                     >
@@ -1185,7 +1193,7 @@ export default function PitchAccentMastery({
                     fontStyle: 'italic',
                     lineHeight: 1.5,
                     padding: '8px 12px',
-                    background: '#f9f9f9',
+                    background: 'var(--surface-mute)',
                     borderRadius: 8,
                   }}
                 >
@@ -1252,7 +1260,7 @@ export default function PitchAccentMastery({
                 style={{
                   fontSize: 11,
                   fontWeight: 800,
-                  color: accent.color,
+                  color: accentInk(accent.color),
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                   marginBottom: 8,
@@ -1410,7 +1418,7 @@ export default function PitchAccentMastery({
                 display: 'flex',
                 gap: 12,
                 padding: '10px 14px',
-                background: '#f5f3ff',
+                background: 'var(--mode-bg)',
                 border: '1px solid #ddd6fe',
                 borderRadius: 12,
                 marginBottom: 8,
@@ -1485,7 +1493,9 @@ export default function PitchAccentMastery({
           {ACCENTS.map((a) => (
             <div key={a.id} style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 28 }}>{a.emoji}</div>
-              <div style={{ fontSize: 10, fontWeight: 800, color: a.color, marginTop: 2 }}>
+              <div
+                style={{ fontSize: 10, fontWeight: 800, color: accentInk(a.color), marginTop: 2 }}
+              >
                 {a.nameEn.split('-')[0]}
               </div>
               <div style={{ fontSize: 18, color: 'var(--success)', fontWeight: 900 }}>✓</div>

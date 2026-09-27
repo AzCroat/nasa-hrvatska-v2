@@ -191,7 +191,7 @@ export default function TensesScreen({
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
-                color: tnGender === 'm' ? '#0e7490' : '#78716c',
+                color: tnGender === 'm' ? 'var(--ink-accent)' : 'var(--ink-muted-warm)',
               }}
               onClick={() => setTnGender('m')}
             >
@@ -206,7 +206,7 @@ export default function TensesScreen({
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
-                color: tnGender === 'f' ? '#dc2626' : '#78716c',
+                color: tnGender === 'f' ? 'var(--error)' : 'var(--ink-muted-warm)',
               }}
               onClick={() => setTnGender('f')}
             >
@@ -341,9 +341,9 @@ export default function TensesScreen({
                                 color:
                                   fi <= 1 || fi === 4 || fi === 5
                                     ? tnGender === 'm'
-                                      ? '#0e7490'
-                                      : '#dc2626'
-                                    : '#44403c',
+                                      ? 'var(--ink-accent)'
+                                      : 'var(--error)'
+                                    : 'var(--ink-body)',
                               }}
                             >
                               {f} <span aria-hidden="true">🔊</span>
@@ -536,7 +536,7 @@ export default function TensesScreen({
                       borderRadius: 10,
                       fontSize: 12,
                       fontWeight: 700,
-                      color: q.gender === 'm' ? '#0e7490' : '#dc2626',
+                      color: q.gender === 'm' ? 'var(--ink-accent)' : 'var(--error)',
                     }}
                   >
                     {q.gender === 'm' ? '👨 Male' : '👩 Female'}

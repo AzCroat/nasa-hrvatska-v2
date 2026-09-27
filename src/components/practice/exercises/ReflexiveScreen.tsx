@@ -6,6 +6,7 @@ import { completeExercise } from '../../../hooks/useExerciseCompletion';
 import { useStats } from '../../../context/StatsContext';
 import { clickable } from '../../../lib/clickable';
 import { retryNeedLabel } from '../../../lib/lessonGate';
+import { accentInk } from '../../../lib/accentInk';
 
 interface Props {
   goBack: () => void;
@@ -192,7 +193,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         flex: 1,
                         minWidth: 140,
                         padding: '8px 12px',
-                        background: '#dcfce7',
+                        background: 'var(--success-bg)',
                         borderRadius: 10,
                         fontSize: 12,
                         border: 'none',
@@ -237,7 +238,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
               lineHeight: 1.6,
             }}
           >
@@ -298,7 +299,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
                         <span
                           style={{
                             background: c + '20',
-                            color: c,
+                            color: accentInk(c),
                             fontSize: 9,
                             fontWeight: 800,
                             padding: '3px 6px',
@@ -440,7 +441,7 @@ function ReflexiveScreen({ goBack, award }: Props) {
               background: 'rgba(14,116,144,.06)',
               borderRadius: 10,
               fontSize: 12,
-              color: '#164e63',
+              color: 'var(--ink-strong)',
             }}
           >
             Choose the correct Croatian sentence. Pay attention to SE placement!

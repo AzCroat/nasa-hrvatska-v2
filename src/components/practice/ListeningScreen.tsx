@@ -339,7 +339,7 @@ export default function ListeningScreen({
             <div
               style={{
                 fontSize: 11,
-                color: '#b45309',
+                color: 'var(--ink-warn)',
                 marginTop: 6,
                 padding: '6px 10px',
                 background: 'rgba(245,158,11,.08)',
@@ -363,7 +363,7 @@ export default function ListeningScreen({
               background: 'rgba(14,116,144,.1)',
               border: '1px solid rgba(14,116,144,.25)',
               borderRadius: 8,
-              color: '#0e7490',
+              color: 'var(--ink-accent)',
               cursor: 'pointer',
               width: '100%',
             }}

@@ -49,6 +49,7 @@ import { requestUnitTest, readCourseUnits, unitRecord } from '../../lib/courseUn
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
+import { accentInk } from '../../lib/accentInk';
 
 const LEVEL_COLOR: Record<string, string> = {
   A1: '#0e7490',
@@ -432,7 +433,7 @@ function UnitRow({
             placeItems: 'center',
             fontSize: 12,
             fontWeight: 900,
-            color: state === 'mastered' ? '#fff' : color,
+            color: state === 'mastered' ? '#fff' : accentInk(color),
             background: state === 'mastered' ? color : `${color}1a`,
           }}
         >
@@ -469,7 +470,7 @@ function UnitRow({
             flexShrink: 0,
             fontSize: 11,
             fontWeight: 800,
-            color: state === 'current' ? color : 'var(--subtext)',
+            color: state === 'current' ? accentInk(color) : 'var(--subtext)',
           }}
         >
           {done}/{total}
@@ -516,7 +517,7 @@ function UnitRow({
                 borderRadius: 10,
                 border: offer === 'primary' ? 'none' : `1.5px solid ${color}`,
                 background: offer === 'primary' ? color : 'transparent',
-                color: offer === 'primary' ? '#fff' : color,
+                color: offer === 'primary' ? '#fff' : accentInk(color),
                 fontSize: 13,
                 fontWeight: 800,
                 cursor: 'pointer',
@@ -582,7 +583,7 @@ function UnitRow({
                 borderRadius: 10,
                 border: `1.5px solid ${color}`,
                 background: 'transparent',
-                color,
+                color: accentInk(color),
                 fontSize: 13,
                 fontWeight: 800,
                 cursor: 'pointer',

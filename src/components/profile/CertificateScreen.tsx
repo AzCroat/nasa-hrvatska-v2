@@ -286,7 +286,7 @@ export default function CertificateScreen({
               <div
                 key={s.label}
                 style={{
-                  background: '#f8fafc',
+                  background: 'var(--surface-mute)',
                   borderRadius: 14,
                   padding: '14px 10px',
                   border: '1px solid #e2e8f0',

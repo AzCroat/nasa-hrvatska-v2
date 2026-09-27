@@ -227,7 +227,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     borderRadius: 20,
                     fontSize: 11,
                     fontWeight: 700,
-                    color: expandedWord === w.id ? '#D4002D' : 'var(--subtext)',
+                    color: expandedWord === w.id ? 'var(--ink-red)' : 'var(--subtext)',
                     padding: '4px 10px',
                     cursor: 'pointer',
                   }}
@@ -245,7 +245,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                 <span
                   style={{
                     fontSize: 11,
-                    color: '#16a34a',
+                    color: 'var(--success)',
                     fontWeight: 700,
                     padding: '4px 8px',
                     background: 'rgba(22,163,74,0.1)',
@@ -262,7 +262,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                     borderRadius: 20,
                     fontSize: 11,
                     fontWeight: 700,
-                    color: '#0e7490',
+                    color: 'var(--ink-accent)',
                     padding: '4px 10px',
                     cursor: 'pointer',
                   }}
@@ -278,7 +278,7 @@ export default function VocabJournal({ goBack }: { goBack: () => void }) {
                   border: 'none',
                   fontSize: 16,
                   cursor: 'pointer',
-                  color: '#dc2626',
+                  color: 'var(--error)',
                   padding: 4,
                 }}
                 onClick={() => {

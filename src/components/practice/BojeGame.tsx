@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { H, Bar, speak, sh, BOJE } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { useStats } from '../../context/StatsContext';
+import { accentInk } from '../../lib/accentInk';
 
 interface Props {
   goBack: () => void;
@@ -214,7 +215,14 @@ export default function BojeGame({ goBack, award }: Props) {
               </div>
               <Bar v={bjIdx + 1} mx={total} color={gColor} h={6} />
               <div className="c" style={{ marginTop: 16 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, color: gColor, marginBottom: 4 }}>
+                <div
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 700,
+                    color: accentInk(gColor),
+                    marginBottom: 4,
+                  }}
+                >
                   ({gLabel})
                 </div>
                 <div style={{ fontSize: 18, color: 'var(--ink-ink)' }}>
@@ -224,7 +232,7 @@ export default function BojeGame({ goBack, award }: Props) {
                     style={{
                       borderBottom: '3px solid ' + gColor,
                       fontWeight: 800,
-                      color: gColor,
+                      color: accentInk(gColor),
                       fontSize: 20,
                       padding: '0 4px',
                     }}

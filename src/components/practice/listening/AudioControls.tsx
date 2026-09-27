@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { speak, speakSlow, stopAudio } from '../../../lib/audio.ts';
+import { accentInk } from '../../../lib/accentInk';
 
 export default function AudioControls({
   text,
@@ -94,7 +95,7 @@ export default function AudioControls({
           borderRadius: 10,
           border: `1.5px solid ${accentColor}`,
           background: 'transparent',
-          color: accentColor,
+          color: accentInk(accentColor),
           fontSize: 13,
           fontWeight: 700,
           cursor: isActive ? 'default' : 'pointer',

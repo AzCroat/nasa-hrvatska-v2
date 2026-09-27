@@ -67,10 +67,20 @@ export function CheckSlide({
     };
     if (!revealed) return base;
     if (source === item!.correct) {
-      return { ...base, background: '#f0fdf4', border: '2px solid #16a34a', color: '#16a34a' };
+      return {
+        ...base,
+        background: 'var(--success-bg)',
+        border: '2px solid #16a34a',
+        color: '#16a34a',
+      };
     }
     if (source === chosen) {
-      return { ...base, background: '#fef2f2', border: '2px solid #dc2626', color: '#dc2626' };
+      return {
+        ...base,
+        background: 'var(--error-bg)',
+        border: '2px solid #dc2626',
+        color: '#dc2626',
+      };
     }
     return { ...base, color: 'var(--subtext)', opacity: 0.6 };
   }
@@ -168,7 +178,7 @@ export function CheckSlide({
             marginTop: 12,
             borderRadius: 12,
             padding: '14px 16px',
-            background: isCorrect ? '#f0fdf4' : '#fffbeb',
+            background: isCorrect ? 'var(--success-bg)' : 'var(--warning-bg)',
             border: '1.5px solid ' + (isCorrect ? '#86efac' : '#fcd34d'),
             animation: 'slideIn .3s ease forwards',
           }}

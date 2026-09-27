@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { speak, stopAudio } from '../../../lib/audio.ts';
+import { accentInk } from '../../../lib/accentInk';
 
 export interface DialogueLine {
   /** Speaker tag — 'A' plays in the set narrator's voice, 'B' in the other native voice. */
@@ -95,7 +96,7 @@ export default function DialoguePlayer({
         <div style={{ flex: 1, fontSize: 12, fontWeight: 700, color: 'var(--subtext)' }}>
           🎭 Two-voice conversation — listen to the whole exchange, then answer line by line
           {playing && lineIdx !== null && (
-            <span style={{ marginLeft: 6, color: accentColor }}>
+            <span style={{ marginLeft: 6, color: accentInk(accentColor) }}>
               ({lineIdx + 1}/{lines.length})
             </span>
           )}

@@ -502,7 +502,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
               border: 'none',
               cursor: 'pointer',
               fontSize: 12,
-              color: '#7c3aed',
+              color: 'var(--ink-mode)',
               fontWeight: 600,
             }}
             onClick={newPrompt}
