@@ -112,8 +112,8 @@ export default function SprintModelPhase({
               style={{
                 padding: '10px 18px',
                 borderRadius: 10,
-                border: '1px solid var(--border)',
-                background: 'var(--card-bg)',
+                border: '1px solid var(--card-b)',
+                background: 'var(--card)',
                 color: 'var(--subtext)',
                 fontSize: 14,
                 cursor: 'pointer',

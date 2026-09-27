@@ -171,7 +171,7 @@ export default function AzureResultPanel({ azureResult, onRetry }: AzureResultPa
           aria-label="Try pronunciation again"
           style={{
             background: 'none',
-            border: '1px solid var(--border,#e2e8f0)',
+            border: '1px solid var(--card-b)',
             borderRadius: 8,
             padding: '6px 14px',
             cursor: 'pointer',

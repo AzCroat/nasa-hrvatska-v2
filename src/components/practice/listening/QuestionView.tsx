@@ -296,7 +296,7 @@ export default function QuestionView({ quiz }: { quiz: ListeningQuiz }) {
           const isChosen = opt === chosen;
           let bg = 'var(--card)',
             border = '1.5px solid var(--card-b)',
-            color = 'var(--body)';
+            color = 'var(--text)';
           if (chosen !== null) {
             if (isCorrect) {
               bg = 'var(--success-bg, #f0fdf4)';

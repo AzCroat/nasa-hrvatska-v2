@@ -478,7 +478,7 @@ export default function HeritagePathScreen({
             >
               Baka kaže
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.65 }}>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.65 }}>
               Heritage speakers are not beginners. You hear Croatian and understand the melody even
               if the words escape you. The goal here is not to learn — it&apos;s to{' '}
               <em>remember</em>. Big difference.
@@ -1028,7 +1028,7 @@ export default function HeritagePathScreen({
           >
             {mod.icon} {mod.title}
           </div>
-          <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.65 }}>{mod.intro}</div>
+          <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.65 }}>{mod.intro}</div>
           <div
             style={{
               marginTop: 10,

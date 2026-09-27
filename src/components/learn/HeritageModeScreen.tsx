@@ -999,7 +999,7 @@ export default function HeritageModeScreen({
               left: '50%',
               transform: 'translateX(-50%)',
               background: 'var(--heading)',
-              color: 'var(--bg)',
+              color: 'var(--card)',
               padding: '10px 20px',
               borderRadius: 24,
               fontSize: 13,

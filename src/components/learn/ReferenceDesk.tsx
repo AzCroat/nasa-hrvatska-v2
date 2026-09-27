@@ -100,7 +100,7 @@ function DeclensionPanel(): React.ReactElement {
           padding: '10px 14px',
           borderRadius: 10,
           border: '1.5px solid var(--card-b)',
-          background: 'var(--bg2, var(--card))',
+          background: 'var(--card)',
           color: 'var(--text)',
           fontSize: 15,
           fontFamily: "'Outfit',sans-serif",

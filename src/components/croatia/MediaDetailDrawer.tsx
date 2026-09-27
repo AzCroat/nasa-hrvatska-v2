@@ -234,7 +234,7 @@ export default function MediaDetailDrawer({
         style={{
           width: '100%',
           maxHeight: '92dvh',
-          background: 'var(--bg)',
+          background: 'var(--card)',
           borderRadius: '20px 20px 0 0',
           overflowY: 'auto',
           padding: '0 0 env(safe-area-inset-bottom,0px)',

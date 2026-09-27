@@ -329,7 +329,7 @@ export default function LearningCenter({
       {launchError && (
         <p
           data-testid="lc-launch-error"
-          style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', marginBottom: 10 }}
+          style={{ fontSize: 12, color: 'var(--ink-red)', marginBottom: 10 }}
         >
           {launchError}
         </p>

@@ -383,7 +383,7 @@ export default function TabBar({
                       height: 8,
                       background: '#dc2626',
                       borderRadius: '50%',
-                      border: '1.5px solid var(--bg, #fff)',
+                      border: '1.5px solid var(--card)',
                       pointerEvents: 'none',
                     }}
                   />

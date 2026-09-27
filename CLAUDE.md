@@ -4873,6 +4873,14 @@ exempt`, and the commonest chip in the app is a ~9% tint of its own ink
   `accentInk(isActive)`, `accentInk(isDone)`, `accentInk(writingLoading)`,
   `accentInk(active)` — because a boolean is not assignable to `string`. A codemod over 78
   files needs a type error to be possible; where one is not, re-measure instead.
+- **A TOKEN NOTHING DEFINES IS NOW A FAILING TEST, NOT A CONVENTION (sweep 160).**
+  `--text` and `--text-2` were each found by hand, months apart; six more undefined
+  names had accumulated meanwhile (63 references), plus 38 fallbacks on names nothing
+  defines, whose fallback is therefore the ONLY value — a light slab in dark mode.
+  `cssVarsDefined.test.ts` requires every `var(--x)` to resolve, fallback or not,
+  except five override HOOKS listed with reasons. It also records a strip hazard:
+  the shared `^\s*//` idiom lets `\s` swallow a preceding blank line, which is
+  harmless for a yes/no matcher and wrong for one reporting `file:line`.
 - NEVER: leave the app without a base `color` (and remember the theme class is a
   DESCENDANT of body, so it needs its own declaration); assume a form control inherits
   `color`; reference a custom property without defining it; put a themed ink on a
@@ -4881,7 +4889,9 @@ exempt`, and the commonest chip in the app is a ~9% tint of its own ink
   an element's own surface; terminate a style value at a newline; judge a background
   expression as a whole when it has arms; miss an alpha appended by `+ 'hh'` or
   `` `${x}hh` ``; add a `color-mix` to the tree without teaching every colour parser the
-  `color(srgb …)` form; wrap a theme token or a falsy value in `accentInk`.
+  `color(srgb …)` form; wrap a theme token or a falsy value in `accentInk`; reference a
+  custom property nothing defines, or give a fallback to one (the fallback is then the
+  only value); append a hex alpha to a colour field that can hold `var(…)`.
 
 ## Critical Architecture: An Inline Ink Lands On Whatever The Theme Painted (2026-09-27)
 

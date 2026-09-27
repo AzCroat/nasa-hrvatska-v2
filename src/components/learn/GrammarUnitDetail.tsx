@@ -61,7 +61,7 @@ const STYLES = {
   back: {
     background: 'none',
     border: 'none',
-    color: 'var(--primary)',
+    color: 'var(--ink-accent)',
     cursor: 'pointer',
     fontSize: 14,
     marginBottom: 12,
@@ -311,7 +311,7 @@ export default function GrammarUnitDetail({
                 style={{
                   marginTop: 12,
                   padding: '8px 16px',
-                  background: 'var(--primary)',
+                  background: 'var(--accent)',
                   color: '#fff',
                   border: 'none',
                   borderRadius: 8,

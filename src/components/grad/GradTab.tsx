@@ -442,7 +442,7 @@ export default function GradTab({
           {launchError && (
             <p
               data-testid="grad-launch-error"
-              style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '8px 2px 0' }}
+              style={{ fontSize: 12, color: 'var(--ink-red)', margin: '8px 2px 0' }}
             >
               {launchError}
             </p>

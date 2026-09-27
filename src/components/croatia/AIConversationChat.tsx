@@ -303,7 +303,7 @@ export default function AIConversationChat({
             <div
               style={{
                 fontSize: 'var(--text-sm)',
-                color: 'var(--body)',
+                color: 'var(--text)',
                 lineHeight: 1.65,
                 marginBottom: 16,
                 textAlign: 'left',
@@ -318,7 +318,7 @@ export default function AIConversationChat({
             <div
               style={{
                 fontSize: 'var(--text-sm)',
-                color: 'var(--body)',
+                color: 'var(--text)',
                 marginBottom: 14,
               }}
             >
@@ -374,7 +374,7 @@ export default function AIConversationChat({
                   borderRadius: 14,
                   padding: '12px 14px',
                   fontSize: 'var(--text-sm)',
-                  color: 'var(--body)',
+                  color: 'var(--text)',
                   lineHeight: 1.6,
                 }}
               >

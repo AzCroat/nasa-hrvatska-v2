@@ -818,7 +818,7 @@ export default function StatsTab({ onSyncNow }: { onSyncNow?: () => void }) {
               </div>
               <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{item.desc}</div>
             </div>
-            <span style={{ marginLeft: 'auto', color: 'var(--text-3)', fontSize: 14 }}>›</span>
+            <span style={{ marginLeft: 'auto', color: 'var(--ink-muted)', fontSize: 14 }}>›</span>
           </button>
         ))}
       </div>

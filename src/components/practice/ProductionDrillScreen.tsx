@@ -850,7 +850,7 @@ function ModeTransform({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
       </div>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -992,7 +992,7 @@ function ModeTranslate({ onDone, award, onCorrect, onWrong, level }: ModeDonePro
       </div>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -1188,7 +1188,7 @@ function ModeBuild({ onDone, award, onCorrect, onWrong, level }: ModeDoneProps) 
       <div
         style={{
           minHeight: 60,
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 14,
           border:
             feedback === 'correct'
@@ -1403,7 +1403,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
 
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 16,
           padding: 20,
           marginBottom: 16,
@@ -1443,7 +1443,7 @@ function ModeErrorCorrect({ onDone, award, onCorrect, onWrong, level }: ModeDone
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14 }}>
         {item.opts.map((opt, i) => {
-          let bg = 'var(--card-bg)';
+          let bg = 'var(--card)';
           let border = '1.5px solid rgba(0,0,0,.1)';
           let col = 'var(--heading)';
           if (chosen !== null) {

@@ -626,7 +626,7 @@ export default function PitchAccentMastery({
             >
               prof. Kovač kaže
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.6 }}>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.6 }}>
               Pitch accent is why Croatian sounds like music to foreign ears. It&apos;s also why two
               words can be spelled identically but mean completely different things. Master this and
               your comprehension jumps a full level.
@@ -904,7 +904,7 @@ export default function PitchAccentMastery({
                     padding: '16px',
                     marginBottom: 12,
                     fontSize: 14,
-                    color: 'var(--body)',
+                    color: 'var(--text)',
                     lineHeight: 1.8,
                   }}
                 >
@@ -956,7 +956,7 @@ export default function PitchAccentMastery({
                         >
                           •
                         </div>
-                        <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.55 }}>
+                        <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.55 }}>
                           {pt}
                         </div>
                       </div>
@@ -1281,7 +1281,7 @@ export default function PitchAccentMastery({
                 const isSelected = quizSelected === i;
                 let bg = 'var(--card)',
                   border = '1.5px solid var(--card-b)',
-                  color = 'var(--body)';
+                  color = 'var(--text)';
                 if (quizAnswered) {
                   if (isCorrect) {
                     bg = '#f0fdf4';
@@ -1394,7 +1394,7 @@ export default function PitchAccentMastery({
             >
               {s.heading}
             </div>
-            <div style={{ fontSize: 13, color: 'var(--body)', lineHeight: 1.7 }}>{s.text}</div>
+            <div style={{ fontSize: 13, color: 'var(--text)', lineHeight: 1.7 }}>{s.text}</div>
           </div>
         ))}
 

@@ -383,7 +383,7 @@ export default function PlaceScreen({
       {launchError && (
         <p
           data-testid="grad-launch-error"
-          style={{ fontSize: 12, color: 'var(--danger, #b91c1c)', margin: '0 2px 10px' }}
+          style={{ fontSize: 12, color: 'var(--ink-red)', margin: '0 2px 10px' }}
         >
           {launchError}
         </p>

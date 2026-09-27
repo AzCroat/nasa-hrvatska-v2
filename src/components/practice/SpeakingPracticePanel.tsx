@@ -195,7 +195,7 @@ export default function SpeakingPracticePanel({
       )}
       <p
         data-testid="speaking-gloss"
-        style={{ fontSize: 'var(--text-lg)', color: 'var(--body)', marginBottom: 16 }}
+        style={{ fontSize: 'var(--text-lg)', color: 'var(--text)', marginBottom: 16 }}
       >
         {sw[1]}
       </p>

@@ -124,7 +124,7 @@ export default function DailyInputCard({
               gap: 12,
               width: '100%',
               textAlign: 'left',
-              background: 'var(--bg, #fafafa)',
+              background: 'var(--surface-mute)',
               border: '1px solid var(--card-b)',
               borderRadius: 12,
               padding: '11px 13px',

@@ -415,7 +415,7 @@ export default function AIConversationResult({
           >
             📚 Vocabulary
           </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--body)', lineHeight: 1.6 }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text)', lineHeight: 1.6 }}>
             {ev.vocabulary_feedback}
           </div>
         </div>

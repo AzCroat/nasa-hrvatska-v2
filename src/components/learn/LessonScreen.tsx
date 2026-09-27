@@ -22,11 +22,11 @@ import { recordTopicResult } from '../../lib/adaptive.js';
 import { lsGet } from '../../lib/safeStorage';
 
 const CONFETTI_COLORS = [
-  'var(--info-light, #38bdf8)',
-  'var(--gold, #fbbf24)',
-  'var(--success-light, #4ade80)',
-  'var(--error-light, #f87171)',
-  'var(--lavender-light, #a78bfa)',
+  '#38bdf8',
+  '#fbbf24',
+  '#4ade80',
+  '#f87171',
+  '#a78bfa',
   '#fb923c',
   '#34d399',
   '#e879f9',
@@ -893,8 +893,7 @@ export default function LessonScreen({
       <div
         style={{
           minHeight: '80vh',
-          background:
-            'linear-gradient(160deg,var(--grad-start,#060e1e) 0%,var(--grad-mid,#0a2348) 45%,var(--grad-end,#0c3868) 100%)',
+          background: 'linear-gradient(160deg,#060e1e 0%,#0a2348 45%,#0c3868 100%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

@@ -229,7 +229,7 @@ function ComprehensionCard({ cat, itemId }: { cat: string; itemId: string }) {
       >
         Comprehension Check
       </div>
-      <div style={{ fontSize: 11, color: 'var(--body)', lineHeight: 1.5, marginBottom: 8 }}>
+      <div style={{ fontSize: 11, color: 'var(--text)', lineHeight: 1.5, marginBottom: 8 }}>
         {q}
       </div>
       {done ? (
@@ -554,7 +554,7 @@ export default function MediaCard({
             style={{
               margin: 0,
               fontSize: 'var(--text-xs)',
-              color: 'var(--body)',
+              color: 'var(--text)',
               lineHeight: 1.75,
             }}
           >

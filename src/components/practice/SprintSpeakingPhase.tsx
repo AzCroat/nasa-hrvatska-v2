@@ -51,8 +51,8 @@ export default function SprintSpeakingPhase({
       {/* Croatian prompt */}
       <div
         style={{
-          background: 'var(--card-bg, #f8fafc)',
-          border: '1px solid var(--border, #e2e8f0)',
+          background: 'var(--surface-mute)',
+          border: '1px solid var(--card-b)',
           borderRadius: 16,
           padding: '28px 24px',
           marginBottom: 12,
@@ -95,11 +95,11 @@ export default function SprintSpeakingPhase({
               boxSizing: 'border-box',
               padding: '12px 14px',
               borderRadius: 10,
-              border: '1px solid var(--border, #e2e8f0)',
+              border: '1px solid var(--card-b)',
               fontSize: 15,
               fontFamily: 'inherit',
               resize: 'vertical',
-              background: 'var(--card-bg)',
+              background: 'var(--card)',
               color: 'var(--text)',
             }}
           />

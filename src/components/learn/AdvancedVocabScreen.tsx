@@ -338,7 +338,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
                       height: 34,
                       borderRadius: 10,
                       border: '1.5px solid var(--card-b)',
-                      background: 'var(--bg)',
+                      background: 'var(--card)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
@@ -359,7 +359,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
                       border: isLearned ? 'none' : '1.5px solid var(--card-b)',
                       background: isLearned
                         ? 'linear-gradient(135deg, #059669, #047857)'
-                        : 'var(--bg)',
+                        : 'var(--card)',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',

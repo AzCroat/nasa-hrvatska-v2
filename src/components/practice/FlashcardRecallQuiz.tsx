@@ -246,7 +246,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
             style={{
               height: 4,
               borderRadius: 4,
-              background: 'var(--border)',
+              background: 'var(--bar-bg)',
               overflow: 'hidden',
               marginBottom: 20,
             }}
@@ -291,7 +291,7 @@ export default function FlashcardRecallQuiz({ pool, knownCount, onComplete }: Pr
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {cur.opts.map((opt, i) => {
-            let borderColor = 'var(--border)';
+            let borderColor = 'var(--card-b)';
             let bgColor = 'var(--card)';
             let textColor = 'var(--text)';
             if (answered) {

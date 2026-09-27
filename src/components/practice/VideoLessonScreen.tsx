@@ -405,8 +405,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                 cursor: 'pointer',
                 textAlign: 'left',
                 fontFamily: "'Outfit',sans-serif",
-                background:
-                  topic?.key === t.key ? 'var(--info-bg,#e0f2fe)' : 'var(--card-bg,#f8fafc)',
+                background: topic?.key === t.key ? 'var(--info-bg,#e0f2fe)' : 'var(--surface-mute)',
                 // Selection lives on box-shadow, not outline — an inline
                 // outline overrides the app's :focus-visible ring.
                 boxShadow:
@@ -655,7 +654,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
                     borderRadius: 10,
                     marginBottom: 6,
                     background:
-                      currentLine === i ? 'var(--info-bg,#e0f2fe)' : 'var(--card-bg,#f8fafc)',
+                      currentLine === i ? 'var(--info-bg,#e0f2fe)' : 'var(--surface-mute)',
                     border: `1.5px solid ${currentLine === i ? 'var(--info,#0284c7)' : 'var(--card-b,#e2e8f0)'}`,
                     transition: 'all .2s',
                   }}
@@ -773,7 +772,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
           style={{
             padding: '14px 16px',
             borderRadius: 14,
-            background: 'var(--card-bg,#f8fafc)',
+            background: 'var(--surface-mute)',
             border: '1px solid var(--card-b)',
             marginBottom: 16,
           }}
@@ -787,7 +786,7 @@ export default function VideoLessonScreen({ goBack, award }: VideoLessonProps) {
           {q.options.map((opt: string, i: number) => {
             const isSelected = answered?.optIdx === i;
             const isCorrect = i === q.correct;
-            let bg = 'var(--card-bg,#f8fafc)';
+            let bg = 'var(--surface-mute)';
             let border = '1px solid var(--card-b)';
             if (answered) {
               if (isCorrect) {

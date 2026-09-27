@@ -99,7 +99,7 @@ function SRSCardReview({ item, onResult }: { item: any; onResult: (correct: bool
     <div style={{ animation: 'ar-pop .22s ease both' }}>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 20,
           padding: 28,
           boxShadow: '0 4px 20px rgba(0,0,0,.1)',
@@ -196,7 +196,7 @@ function MistakeCardReview({
     <div style={{ animation: 'ar-pop .22s ease both' }}>
       <div
         style={{
-          background: 'var(--card-bg)',
+          background: 'var(--card)',
           borderRadius: 20,
           padding: 24,
           boxShadow: '0 4px 20px rgba(220,38,38,.1)',
@@ -452,7 +452,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
           {/* Weak areas section */}
           <div
             style={{
-              background: 'var(--card-bg)',
+              background: 'var(--card)',
               borderRadius: 18,
               padding: 18,
               marginBottom: 14,
@@ -736,7 +736,7 @@ export default function AdaptiveReviewScreen({ goBack, award }: Props) {
               <div
                 key={i}
                 style={{
-                  background: 'var(--card-bg)',
+                  background: 'var(--card)',
                   borderRadius: 14,
                   padding: '14px 10px',
                   textAlign: 'center',

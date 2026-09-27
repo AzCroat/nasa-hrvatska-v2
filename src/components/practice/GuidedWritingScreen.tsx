@@ -316,7 +316,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
 
   const card: React.CSSProperties = {
     background: 'var(--card, #fff)',
-    border: '1px solid var(--line, #e5e7eb)',
+    border: '1px solid var(--card-b)',
     borderRadius: 14,
     padding: 16,
     marginBottom: 14,

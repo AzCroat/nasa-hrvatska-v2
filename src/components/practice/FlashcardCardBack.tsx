@@ -212,7 +212,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
             style={{
               fontSize: 12,
               fontStyle: 'italic',
-              color: 'var(--body)',
+              color: 'var(--text)',
               margin: 0,
               lineHeight: 1.5,
             }}
@@ -242,7 +242,7 @@ export default function FlashcardCardBack({ card, aiLoading, aiSentence, aiError
           >
             Verb forms
           </div>
-          <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--body)', lineHeight: 1.5 }}>
+          <div style={{ fontSize: 12, fontStyle: 'italic', color: 'var(--text)', lineHeight: 1.5 }}>
             {tip.hr}
           </div>
           <div style={{ fontSize: 11, color: 'var(--subtext)', marginTop: 2 }}>{tip.en}</div>

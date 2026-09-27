@@ -12098,3 +12098,45 @@ whole declaration is dropped — confirmed in `SpotifySection`, where four of te
 playlist tiles rendered with no background at all (fixed in the CSS-token change).
 The census of which data fields hold `var()` AND flow into an alpha append is the
 next sweep; `inlineInkContrast` reads the hex form of this shape, never the var form.
+
+### Sweep 160 — a `var(--x)` nothing defines (2026-09-27)
+
+CSS treats a reference to an undefined custom property as invalid at computed-value
+time, silently: `color` inherits, `background`/`border` fall to transparent/none.
+Census over every source file (`src/tests/helpers/cssVarsDefined.ts`): **63
+fallback-less references to six never-defined names** (`--bg`, `--body`,
+`--border`, `--card-bg`, `--primary`, `--text-3`) in 23 files, and **38 more
+references WITH a fallback to 16 never-defined names** — where the fallback is the
+only value the reference ever takes.
+
+- Learner-visible, measured from the token table rather than guessed:
+  GrammarUnitDetail's next-drill button was `#fff` on no background (invisible on a
+  white card); HeritageModeScreen's copy toast was `--text` on `--heading`, the same
+  value in both themes (1:1); `ScreenHeader`'s back button (`var(--card-bg,#f8fafc)`)
+  was a near-white circle holding a near-white arrow in dark mode, on many screens;
+  CroatianKeyboard's č/ć/đ/š/ž keys and `.kb-key` were light chips under themed light
+  ink in dark mode; Home's DailyInputCard (`var(--bg,#fafafa)`) the same; four
+  "could not start" error lines were dark red (`var(--danger,#b91c1c)`) on the dark
+  card.
+- SpotifySection is a different defect found on the way: `${pl.color}cc` with
+  `pl.color = 'var(--error)'` is invalid CSS, so four of ten playlist tiles had NO
+  background at all. Fixed with literal accents. **The class (a var() colour field
+  flowing into an appended hex alpha) is NOT swept** — ~30 files append alpha to a
+  colour field; which of those fields can hold a var() is the next census.
+- Mapping: `--bg`→`--card`, `--body`→`--text` (no visual change), `--border`/`--line`
+  →`--card-b`, `--card-bg`→`--card` (was transparent) or `--surface-mute` (where it
+  had a light fallback), `--primary`→`--ink-accent`/`--accent`, `--text-3`→
+  `--ink-muted`, `--danger`→`--ink-red`, LessonScreen's constants on its own
+  permanently-dark gradient → their literal hex.
+- Five names are legitimate override HOOKS nobody sets (`--bar-target`,
+  `--ring-offset`, `--ring-clr`, `--mx`, `--my`) — exempted in `HOOKS` with reasons,
+  both staleness directions checked.
+- Guard `cssVarsDefined.test.ts`. Mutation-verified, nine: `--primary` restored fails
+  1 and names line 314; inline-object definitions not read fails 2; the scanner
+  returning [] fails 4; comments not stripped fails 1; the shared `^\s*//` strip
+  (which swallows a blank line and reported line 313 for 314) fails 1; a fallback
+  constant restored fails 1; a hook over a defined token fails 1; a hook entry dropped
+  fails 1; the fallback flag never set fails 3.
+- My own first floors ("1,300+ files, 4,000+ refs") were written as measurements and
+  were guesses: real values 999 files, 7,255 refs, 139 names. And the first
+  "inline-defined" subject I named (`--bar-target`) is never defined at all.

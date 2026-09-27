@@ -193,7 +193,7 @@ export default function GoalFocusSection({
                   data-testid="goal-launch-error"
                   style={{
                     fontSize: 12,
-                    color: 'var(--danger, #b91c1c)',
+                    color: 'var(--ink-red)',
                     margin: '-12px 2px 20px',
                   }}
                 >
