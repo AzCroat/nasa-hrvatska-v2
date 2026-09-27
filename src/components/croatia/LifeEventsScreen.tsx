@@ -7,7 +7,7 @@ const EVENTS = [
     icon: '💒',
     title: 'Vjenčanje',
     subtitle: 'Wedding',
-    color: '#fff7ed',
+    color: 'var(--warning-bg)',
     border: '#fed7aa',
     intro:
       'Croatian weddings are multi-day events. The kum (best man) and kuma (maid of honor) have sacred roles — they are the godparents of the marriage. Toasts happen constantly. Know these.',
@@ -81,7 +81,7 @@ const EVENTS = [
     icon: '🕯️',
     title: 'Sprovod',
     subtitle: 'Funeral',
-    color: '#f8fafc',
+    color: 'var(--surface-mute)',
     border: '#cbd5e1',
     intro:
       'Expressing condolences correctly matters deeply. Getting it right shows cultural understanding and respect. The phrases below are what Croatians actually say.',
@@ -149,7 +149,7 @@ const EVENTS = [
     icon: '🕊️',
     title: 'Krštenje',
     subtitle: 'Baptism & Godparents',
-    color: '#f0f9ff',
+    color: 'var(--info-bg)',
     border: '#bae6fd',
     intro:
       'The kumstvo (godparent relationship) is one of the most important social bonds in Croatian culture. Being asked to be kum or kuma is a profound honor — and a lifelong responsibility.',
@@ -215,7 +215,7 @@ const EVENTS = [
     icon: '🎂',
     title: 'Rođendan & Obljetnica',
     subtitle: 'Birthday & Anniversary',
-    color: '#fdf4ff',
+    color: 'var(--mode-bg)',
     border: '#e9d5ff',
     intro:
       'Croatian birthday culture: the birthday person typically buys treats or hosts — not the other way around! Anniversaries (obljetnica) are taken seriously.',
@@ -318,7 +318,7 @@ export default function LifeEventsScreen({ goBack }: Props) {
             padding: '14px 16px',
             marginBottom: 20,
             fontSize: 13,
-            color: '#555e6e', // --subtext's light value: the data tint stays light in both themes
+            color: 'var(--subtext)',
             lineHeight: 1.6,
           }}
         >
@@ -457,7 +457,6 @@ export default function LifeEventsScreen({ goBack }: Props) {
               gap: 14,
               padding: '16px 18px',
               background: ev.color,
-              color: '#1c1917', // the data tint is always light, in both themes
               border: `1.5px solid ${ev.border}`,
               borderRadius: 14,
               cursor: 'pointer',
