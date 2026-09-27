@@ -37,6 +37,16 @@ interface WritingScreenProps {
 
 // ── Word-count gate ───────────────────────────────────────────────────────────
 export const MIN_WORDS = 30;
+/**
+ * The floor for a prompt at `level`. A1 is 20, the Guided Writing curriculum's own A1
+ * floor; A2 and above keep 30, which already sits inside that curriculum's A2 range
+ * (30–35). One flat 30 asked an A1 learner told to "name three things in your room",
+ * in subject forms only, for more words than the GUIDED A1 units ask — so the only way
+ * to finish was to pad (found walking a learner's day, 2026-09-27).
+ */
+export function minWordsFor(level: string | undefined): number {
+  return level === 'A1' ? 20 : MIN_WORDS;
+}
 
 export function countWords(raw: string): number {
   return raw.trim().split(/\s+/).filter(Boolean).length;
@@ -82,7 +92,10 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       : prompt;
 
   const wordCount = countWords(text);
-  const meetsMinWords = wordCount >= MIN_WORDS;
+  const minWords = minWordsFor(
+    mode === 'free' ? getGenerationCefr(stats) : (prompt.level as string | undefined),
+  );
+  const meetsMinWords = wordCount >= minWords;
 
   async function checkWithAI() {
     if (!text.trim() || text.trim().length < 10) {
@@ -487,11 +500,11 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
           }}
         >
           <span data-testid="word-count-label" style={{ fontSize: 12, color: 'var(--subtext)' }}>
-            Word count: {wordCount} / {MIN_WORDS}
-            {wordCount > 0 && wordCount < MIN_WORDS && (
-              <span style={{ color: 'var(--error)' }}> (aim for {MIN_WORDS}+)</span>
+            Word count: {wordCount} / {minWords}
+            {wordCount > 0 && wordCount < minWords && (
+              <span style={{ color: 'var(--error)' }}> (aim for {minWords}+)</span>
             )}
-            {wordCount >= MIN_WORDS && wordCount < 80 && (
+            {wordCount >= minWords && wordCount < 80 && (
               <span style={{ color: 'var(--info)' }}> ✓ good start</span>
             )}
             {wordCount >= 80 && <span style={{ color: 'var(--success)' }}> ✓ great length</span>}
@@ -696,7 +709,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                 textAlign: 'center',
               }}
             >
-              Write at least {MIN_WORDS} words to mark this complete.
+              Write at least {minWords} words to mark this complete.
             </p>
           )}
           <button
@@ -711,7 +724,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             disabled={!meetsMinWords}
             onClick={() => {
               if (!meetsMinWords) {
-                setError(`Write at least ${MIN_WORDS} words to mark this complete.`);
+                setError(`Write at least ${minWords} words to mark this complete.`);
                 return;
               }
               if (finishFired.current) return;

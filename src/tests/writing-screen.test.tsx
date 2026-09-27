@@ -117,7 +117,11 @@ vi.mock('../lib/random.js', () => ({ rnd: () => 0 }));
 // ── learnerErrors mock ────────────────────────────────────────────────────────
 vi.mock('../lib/learnerErrors.js', () => ({ logError: vi.fn() }));
 
-import WritingScreen, { countWords, MIN_WORDS } from '../components/practice/WritingScreen';
+import WritingScreen, {
+  countWords,
+  MIN_WORDS,
+  minWordsFor,
+} from '../components/practice/WritingScreen';
 
 afterEach(() => {
   vi.clearAllMocks();
@@ -227,21 +231,31 @@ describe('MIN_WORDS', () => {
   it('is 30', () => {
     expect(MIN_WORDS).toBe(30);
   });
+
+  // A1 asks 20 — the Guided Writing curriculum's own A1 floor. A flat 30 asked an A1
+  // learner told to "name three things in your room" for more words than the GUIDED A1
+  // units ask, so finishing meant padding (2026-09-27). A2 and above are unchanged.
+  it('scales by the prompt level: A1 20, everything else 30', () => {
+    expect(minWordsFor('A1')).toBe(20);
+    for (const lv of ['A2', 'B1', 'B2', 'C1', 'C2', undefined]) expect(minWordsFor(lv)).toBe(30);
+  });
 });
 
 // ─── Phase 2.5: live word counter render ──────────────────────────────────────
 
 describe('WritingScreen — word count display', () => {
-  it('shows "Word count: 0 / 30" initially', () => {
+  // This suite's learner carries no stats, so getGenerationCefr() is A1 and every
+  // prompt served is A1 — whose floor is 20.
+  it('shows "Word count: 0 / 20" initially for an A1 learner', () => {
     render(<WritingScreen goBack={vi.fn()} award={vi.fn()} />);
-    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 0 / 30');
+    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 0 / 20');
   });
 
   it('updates live counter when user types 5 words', () => {
     render(<WritingScreen goBack={vi.fn()} award={vi.fn()} />);
     const textarea = screen.getByPlaceholderText(/Piši na hrvatskom/);
     fireEvent.change(textarea, { target: { value: 'jedan dva tri četiri pet' } });
-    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 5 / 30');
+    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 5 / 20');
   });
 
   it('updates live counter when user types exactly 30 words', () => {
@@ -249,7 +263,7 @@ describe('WritingScreen — word count display', () => {
     const textarea = screen.getByPlaceholderText(/Piši na hrvatskom/);
     const thirtyWords = Array(30).fill('riječ').join(' ');
     fireEvent.change(textarea, { target: { value: thirtyWords } });
-    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 30 / 30');
+    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 30 / 20');
   });
 
   it('updates live counter when user types 31 words', () => {
@@ -257,7 +271,7 @@ describe('WritingScreen — word count display', () => {
     const textarea = screen.getByPlaceholderText(/Piši na hrvatskom/);
     const thirtyOneWords = Array(31).fill('riječ').join(' ');
     fireEvent.change(textarea, { target: { value: thirtyOneWords } });
-    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 31 / 30');
+    expect(screen.getByTestId('word-count-label').textContent).toContain('Word count: 31 / 20');
   });
 });
 
