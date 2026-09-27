@@ -12073,10 +12073,23 @@ What was measured instead (all in the session scratchpad, re-runnable):
 - Timing: the PR's CodeQL verdict completed 05:33:04; master's own CodeQL run for
   `1055dd5a` (the PR's base) completed 05:33:46. GitHub judged the PR before the
   baseline it compares against existed.
-- **NOT established**: which alert GitHub counted. The check's `output.text` is
-  empty, no review comment was posted (GitHub posts one only for a diff line), and
-  nothing reachable from here reads the Security tab. Next push tests the timing
-  explanation: if the count persists with a current baseline, it is not timing.
+- **Timing was then tested and RULED OUT**: pushed 79ad8a17 against a baseline
+  that existed; CodeQL still counted one new high.
+- **Then READ, not inferred**: the check run's page
+  (`github.com/AzCroat/nasa-hrvatska-v2/runs/<id>`) is public for a public repo and
+  lists its annotation — `src/lib/dailySessionStore.ts:85`, "This stores sensitive
+  data returned by a call to getCertifiedLevel as clear text." That is **#78**, the
+  false positive CLAUDE.md records as dismissed-pending — "Dismissing #78 is a
+  Security-tab action" — and it was never dismissed. The PR changes only a comment
+  in that file (lines 37–40, the stale `getNextLesson` reference); GitHub's
+  "too large" fallback counts any open alert in a touched file. **Read the public
+  annotations page first next time** — it would have saved both wrong theories.
+- **Blocked, not fixed**: dismissing #78 is a Security-tab action with no API
+  reachable here, and automating a dismissal was refused as a security-state
+  change. Reverting the comment so the file leaves the diff would put a reference
+  to a deleted function back into the code to satisfy a scanner, so it is not done.
+  Owner decision needed: dismiss #78 as a false positive (recorded reason in
+  CLAUDE.md), or approve merging #753 with this one documented false positive red.
 
 **Found while waiting, recorded not fixed (queued):** 30+ component files build a
 colour by appending a hex alpha to a data field (`${x.color}cc`, `x.color + '18'`).

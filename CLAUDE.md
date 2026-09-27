@@ -4649,11 +4649,17 @@ its n outright; `\t` leaks raw.
   2.27.1 (the version the runner's toolcache actually used — the action's pinned
   bundle is not what ran, and the job log says which), over the PR head AND master.
   **Both produce the same 17 alerts, fingerprint for fingerprint, and none sits on a
-  line the PR added.** Whatever GitHub counts as new is a difference in ITS state,
-  not in the code — and the timestamps show one: the PR's verdict was computed at
-  05:33:04, and master's own analysis of the commit it was compared against finished
-  at 05:33:46. Elimination picks the most plausible candidate among the ones you
-  thought of; it cannot tell you the answer is outside that set.
+  line the PR added.** The alert was then READ, not inferred: the check run's own
+  page is public for a public repo, and its annotation names it —
+  `src/lib/dailySessionStore.ts:85`, clear-text storage of `getCertifiedLevel`, i.e.
+  **#78, the false positive the section below already records and never
+  dismissed.** The PR edits a comment forty lines above it; GitHub calls this diff
+  "too large" and, on that fallback, counts an open alert in any touched FILE. A
+  second theory of mine — that the PR was judged before master's baseline existed —
+  was tested by pushing again against a baseline that did exist, and the count did
+  not move. Elimination picks the most plausible candidate among the ones you
+  thought of; it cannot tell you the answer is outside that set, and the public
+  annotations page could have been read first.
 - NEVER: decode JSON string escapes with a chain of `.replace()` calls that
   handles `\\` last (one pass, consuming the char after each backslash); leave two
   decoders live on one value; measure backslash behaviour through nested shell
@@ -6596,7 +6602,7 @@ Storing learner progress in localStorage is this app's documented architecture (
 
 **A DISMISSAL IS KEYED TO A LOCATION, SO MOVING THE LINE LOSES IT (2026-09-22).** #78 is the statement `localStorage.setItem(SESSION_KEY, JSON.stringify(session))`, which was `useDailySession.ts:861` and is now `dailySessionStore.ts:84` — relocated verbatim by the 800-line split, not written. The file changed, so by this section's own rule it is a re-triage, and the dismissals already standing on `useDailySession.ts` do not carry across. Expect the list above to grow on any refactor that moves a flagged line; that is the scanner's bookkeeping, not a defect in the refactor. **The rationale recorded here was also incomplete**: the two heuristics named above are the `session` and `diagnosis` NAMES, and #78 names neither — its source is `getCertifiedLevel`. So the reason this rule fires in this codebase was only ever partly written down, and a reader re-triaging #58/#66 from the old text would have looked for the wrong thing.
 
-**What can and cannot be pinned.** `claudeMdPaths.test.ts` asserts every file named above exists and still performs a clear-text storage write, so a dismissal for a file that no longer does one fails CI. It would NOT have caught #78 — `useDailySession.ts` kept four other writes when this one left — and no test can, because the alert's location lives in GitHub's security tab and not in the repo. Dismissing #78 is a Security-tab action.
+**What can and cannot be pinned.** `claudeMdPaths.test.ts` asserts every file named above exists and still performs a clear-text storage write, so a dismissal for a file that no longer does one fails CI. It would NOT have caught #78 — `useDailySession.ts` kept four other writes when this one left — and no test can, because the alert's location lives in GitHub's security tab and not in the repo. Dismissing #78 is a Security-tab action — **and nobody took it, so it stayed OPEN** (2026-09-27): a PR whose diff GitHub calls too large counts every open alert in a file it touches, so any such PR that edits `dailySessionStore.ts` shows CodeQL red on this line until #78 is dismissed in the Security tab. It has no API reachable from a session here, and an automated dismissal is a security-state change that needs the owner's say-so.
 
 ---
 
