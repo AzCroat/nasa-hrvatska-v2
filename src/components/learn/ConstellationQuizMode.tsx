@@ -65,7 +65,7 @@ export default function ConstellationQuizMode({
         </button>
         <div>
           <h1 style={{ margin: 0, color: '#f1f5f9', fontSize: 18, fontWeight: 800 }}>Case Quiz</h1>
-          <div style={{ color: 'var(--ink-muted)', fontSize: 13 }}>
+          <div style={{ color: '#94a3b8', fontSize: 13 }}>
             Question {quizIdx + 1} of {quizTotal}
           </div>
         </div>
@@ -219,7 +219,7 @@ export default function ConstellationQuizMode({
               {selected === currentQ.answer ? '✓ Correct!' : '✗ Not quite'}
             </div>
             {selected !== currentQ.answer && (
-              <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 2 }}>
+              <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>
                 Answer:{' '}
                 <span style={{ color: '#f1f5f9', fontWeight: 600, textTransform: 'capitalize' }}>
                   {currentQ.answer}

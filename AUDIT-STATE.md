@@ -12195,3 +12195,11 @@ token swap is byte-identical in dark mode and lifts light mode to `#5f6b7d`.
   `var(--surface-mute)`, whose light value is that literal.
 - Guards + typecheck green. A light-mode browser sweep over every route (dark ink on a
   permanently dark surface) was running at commit time; its result goes in the next entry.
+- **The light-mode browser sweep (430 routes) found exactly ONE site, and it was mine.**
+  `/grammarmap`'s intro line: the Grammar Constellation paints its dark gradient through
+  a shared constant, so my "does this file paint a dark background" pre-check could not
+  see it. Reverted on both constellation screens — and the revert fixed a PRE-EXISTING
+  defect beside it: ConstellationQuizMode's "Question X of Y" already read
+  `var(--ink-muted)` on that dark header, i.e. dark-on-dark in light mode. `#94a3b8` is
+  correct in both themes there, as ConstellationDoneMode's header note already says.
+  A source pre-check for "is this surface dark" is a guess; the browser is the measure.

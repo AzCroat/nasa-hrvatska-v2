@@ -45,7 +45,7 @@ export default function ConstellationExploreMode({
 
       <p
         style={{
-          color: 'var(--ink-muted)',
+          color: '#94a3b8',
           fontSize: 14,
           margin: '0 0 18px 50px',
           lineHeight: 1.5,
