@@ -17,11 +17,11 @@
  *   - Button enabled at exactly 30 words
  *   - Button enabled at 31 words
  *
- * Note: WritingScreen completion occurs on "New Prompt" button click
- * which only renders after AI result is received. The completion guard
- * logic is tested via pure updater-function unit tests that mirror
- * the onClick implementation. Full integration requires an AI mock
- * flow which is covered by the session smoke test (T16).
+ * Note: this header used to say "completion occurs on 'New Prompt' button click",
+ * and that was the defect, not the contract: a learner who got graded and tapped
+ * Back was paid nothing. Completion now happens when the graded result ARRIVES,
+ * and writingCreditOnResult.test.tsx drives the real flow to prove it (2026-09-27).
+ * The updater-function tests below still check the setStats shape.
  */
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';

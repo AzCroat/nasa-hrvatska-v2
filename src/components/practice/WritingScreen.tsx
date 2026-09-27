@@ -95,7 +95,6 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
   const minWords = minWordsFor(
     mode === 'free' ? getGenerationCefr(stats) : (prompt.level as string | undefined),
   );
-  const meetsMinWords = wordCount >= minWords;
 
   async function checkWithAI() {
     if (!text.trim() || text.trim().length < 10) {
@@ -249,6 +248,34 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       return next >= cur ? next + 1 : next;
     });
   }
+
+  // CREDIT ON REACHING THE GRADED RESULT, not on a button in it (2026-09-27). The
+  // whole payment — XP, the write quest, the `writing` path key and, through award(),
+  // the daily-session slot — used to sit in the results view's "✨ New Prompt" onClick.
+  // A learner who wrote the piece, got it graded, read the feedback and tapped Back
+  // (what "done" looks like) was paid nothing and left the session at N-1/N. The
+  // creditFollowsWork guard could not see it because that button RESETS the screen
+  // rather than navigating away; the effect on the learner is identical. Paid once per
+  // graded piece that met its floor; `newPrompt()` re-arms it for a fresh prompt.
+  const submittedWords = countWords(submittedText);
+  useEffect(() => {
+    if (!result || finishFired.current) return;
+    if (minWords <= 0 || submittedWords < minWords) return;
+    finishFired.current = true;
+    markQuest('write');
+    if (typeof award === 'function') {
+      const sc = result.score ?? 0;
+      award(sc > 0 ? Math.round(sc / 10) + 5 : 5, false, 'writing');
+    }
+    if (!stats.vs?.includes('writing')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('writing')) return prev;
+        return { ...prev, vs: [...(prev.vs || []), 'writing'] };
+      });
+      if (writeDelta) writeDelta({ vs: ['writing'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   useEffect(() => {
     mountedRef.current = true;
@@ -698,7 +725,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             </div>
           )}
 
-          {!meetsMinWords && (
+          {submittedWords < minWords && (
             <p
               data-testid="word-count-warning"
               style={{
@@ -709,41 +736,14 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
                 textAlign: 'center',
               }}
             >
-              Write at least {minWords} words to mark this complete.
+              This piece had {submittedWords} words — write at least {minWords} to have it count.
             </p>
           )}
           <button
             data-testid="new-prompt-btn"
             className="b bp"
-            style={{
-              width: '100%',
-              marginTop: 16,
-              opacity: meetsMinWords ? 1 : 0.45,
-              cursor: meetsMinWords ? 'pointer' : 'not-allowed',
-            }}
-            disabled={!meetsMinWords}
-            onClick={() => {
-              if (!meetsMinWords) {
-                setError(`Write at least ${minWords} words to mark this complete.`);
-                return;
-              }
-              if (finishFired.current) return;
-              finishFired.current = true;
-              markQuest('write');
-              if (typeof award === 'function') {
-                const sc = result.score ?? 0;
-                award(sc > 0 ? Math.round(sc / 10) + 5 : 5, false, 'writing');
-              }
-              if (!stats.vs?.includes('writing')) {
-                setStats((prev) => {
-                  if (prev.vs?.includes('writing')) return prev;
-                  return { ...prev, vs: [...(prev.vs || []), 'writing'] };
-                });
-                if (writeDelta) writeDelta({ vs: ['writing'] });
-              }
-              setText('');
-              setResult(null);
-            }}
+            style={{ width: '100%', marginTop: 16 }}
+            onClick={newPrompt}
           >
             ✨ New Prompt
           </button>
