@@ -11,6 +11,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ALPHA } from '../data/vocabulary.js';
 import { buildAlphaQuiz, maskOpening } from '../lib/alphaQuiz';
+import { escapeRegExp } from './helpers/emptyClaimSurfaces';
 
 vi.mock('../context/StatsContext.tsx', () => ({
   useStats: () => ({ stats: { vs: [] }, setStats: vi.fn(), dispatch: vi.fn() }),
@@ -56,6 +57,19 @@ describe('alphabet quiz — no answer in the question', () => {
     expect(shownWord.startsWith('_'), `question shows "${shownWord}"`).toBe(true);
     const row = (ALPHA as string[][]).find((r) => maskOpening(r[2]!, r[0]!) === shownWord);
     expect(row, `no ALPHA row masks to "${shownWord}"`).toBeTruthy();
-    expect(text).not.toContain(row![2]!);
+    expect(text).not.toMatch(asWholeWord(row![2]!));
+  });
+
+  // WHOLE WORD, NOT SUBSTRING. The English gloss sits beside the masked word, and a
+  // cognate contains it: "_os (nose)" holds "nos". A substring check failed there on
+  // correct output, and only when the random question happened to be that row.
+  it('the whole-word check tells a leaked word from a gloss that contains it', () => {
+    expect('The word _os (nose) starts with the sound').not.toMatch(asWholeWord('nos'));
+    expect('The word nos (nose) starts with the sound').toMatch(asWholeWord('nos'));
+    expect('The word Nos, then').toMatch(asWholeWord('nos'));
   });
 });
+
+function asWholeWord(word: string): RegExp {
+  return new RegExp(`(?<!\\p{L})${escapeRegExp(word)}(?!\\p{L})`, 'iu');
+}
