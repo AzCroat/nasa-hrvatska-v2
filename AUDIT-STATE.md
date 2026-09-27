@@ -12179,3 +12179,19 @@ non-background `color:` — not touched, recorded here as the next census.
   either colour.
 - NOT DONE, next: the 24 data-field literals; the `#94a3b8` gloss colour (121 sites) is
   2.56:1 on white and fails AA in LIGHT mode — ModeDrill's `cur.en` line among them.
+
+### Sweep 161b — the grey English line under every drill question failed AA in light mode (2026-09-27)
+
+`color: '#94a3b8'` is 2.56:1 on white (AA needs 4.5) and sat on 121 inline sites in 106
+files — including ModeDrill's `cur.en` gloss, i.e. under every question of all 109 engine
+drills, in the DEFAULT theme. `--ink-muted`'s DARK value is exactly `#94a3b8`, so the
+token swap is byte-identical in dark mode and lifts light mode to `#5f6b7d`.
+- 104 files converted. Held back on reading: TranslateDrillsScreen and
+  ConstellationDoneMode paint a permanently dark background (`#0f172a` / the
+  constellation gradient), where `#94a3b8` is correct in both themes; CroatiaAthletes:307
+  sits on a per-division DATA tint (`dc.bg`) and belongs to the data-field census.
+- `inkSurfaceAgreement` caught one pair the swap created: ShadowingScreen's "No
+  recording" slab was `'#f1f5f9'` (fixed light) under the now-themed ink; the slab is
+  `var(--surface-mute)`, whose light value is that literal.
+- Guards + typecheck green. A light-mode browser sweep over every route (dark ink on a
+  permanently dark surface) was running at commit time; its result goes in the next entry.

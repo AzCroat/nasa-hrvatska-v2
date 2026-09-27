@@ -347,7 +347,7 @@ export default function GlagoliGovorenjaDrill({ goBack, award }: Props) {
           {MODE_LABEL[cur.mode]}
         </div>
         <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 14 }}>{cur.en}</div>
+        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 14 }}>{cur.en}</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {cur.opts.map((opt) => {
             const isCorrect = opt === cur.answer;

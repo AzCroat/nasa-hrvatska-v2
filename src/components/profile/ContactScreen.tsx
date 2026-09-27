@@ -281,7 +281,7 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 10,
@@ -336,7 +336,7 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
@@ -380,7 +380,7 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
@@ -431,14 +431,16 @@ export default function ContactScreen({
           style={{
             fontSize: 11,
             fontWeight: 700,
-            color: '#94a3b8',
+            color: 'var(--ink-muted)',
             letterSpacing: '.08em',
             textTransform: 'uppercase',
             marginBottom: 8,
           }}
         >
           Your Email{' '}
-          <span style={{ color: '#94a3b8', fontWeight: 400 }}>(optional — for follow-up)</span>
+          <span style={{ color: 'var(--ink-muted)', fontWeight: 400 }}>
+            (optional — for follow-up)
+          </span>
         </div>
         <input
           type="email"
@@ -489,7 +491,7 @@ export default function ContactScreen({
             : 'Send Report'}
       </button>
 
-      <div style={{ fontSize: 11, color: '#94a3b8', textAlign: 'center', marginTop: 12 }}>
+      <div style={{ fontSize: 11, color: 'var(--ink-muted)', textAlign: 'center', marginTop: 12 }}>
         Reports go directly to the administrator. Max 3 per hour.
       </div>
     </div>

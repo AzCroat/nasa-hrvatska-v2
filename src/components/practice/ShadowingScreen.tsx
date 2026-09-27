@@ -150,9 +150,9 @@ function WaveformPanel({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: '#f1f5f9',
+                background: 'var(--surface-mute)',
                 borderRadius: 8,
-                color: '#94a3b8',
+                color: 'var(--ink-muted)',
                 fontSize: 12,
               }}
             >
@@ -179,7 +179,7 @@ function WaveformPanel({
       ) : (
         <div
           data-testid="shadowing-no-score"
-          style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: '#94a3b8' }}
+          style={{ textAlign: 'center', marginTop: 12, fontSize: 12, color: 'var(--ink-muted)' }}
         >
           Recorded ✓ — compare to the model above
         </div>

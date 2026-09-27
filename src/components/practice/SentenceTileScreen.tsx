@@ -235,7 +235,14 @@ export default function SentenceTileScreen({
         }}
       >
         {tray.length === 0 && !feedback && (
-          <div style={{ fontSize: 13, color: '#94a3b8', fontWeight: 600, alignSelf: 'center' }}>
+          <div
+            style={{
+              fontSize: 13,
+              color: 'var(--ink-muted)',
+              fontWeight: 600,
+              alignSelf: 'center',
+            }}
+          >
             ← Tap words to build sentence
           </div>
         )}

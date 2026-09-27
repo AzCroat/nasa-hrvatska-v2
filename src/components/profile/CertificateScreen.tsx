@@ -297,7 +297,7 @@ export default function CertificateScreen({
                 <div
                   style={{
                     fontSize: 10,
-                    color: '#94a3b8',
+                    color: 'var(--ink-muted)',
                     fontWeight: 600,
                     textTransform: 'uppercase',
                     letterSpacing: '.05em',
@@ -334,7 +334,7 @@ export default function CertificateScreen({
           <div
             style={{
               fontSize: 12,
-              color: '#94a3b8',
+              color: 'var(--ink-muted)',
               borderTop: '1px solid #e2e8f0',
               paddingTop: 16,
             }}

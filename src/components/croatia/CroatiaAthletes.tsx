@@ -682,7 +682,7 @@ export default function CroatiaAthletes({ goBack }: { goBack: () => void }) {
           borderRadius: 14,
           border: '1px solid #e2e8f0',
           fontSize: 11,
-          color: '#94a3b8',
+          color: 'var(--ink-muted)',
           lineHeight: 1.8,
           marginBottom: 16,
         }}

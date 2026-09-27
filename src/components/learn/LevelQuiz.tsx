@@ -142,7 +142,9 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award }: Pro
         <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--ink-accent)', lineHeight: 1.4 }}>
           {cur.q}
         </div>
-        {cur.en && <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 4 }}>{cur.en}</div>}
+        {cur.en && (
+          <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginTop: 4 }}>{cur.en}</div>
+        )}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 16 }}>
           {cur.opts.map((opt) => {
             return (

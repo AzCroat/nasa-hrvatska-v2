@@ -75,7 +75,9 @@ export default function MicroQuiz({ items, distractors, onComplete, award }: Pro
   return (
     <div className="scr-wrap" style={{ maxWidth: 500, margin: '0 auto' }}>
       <div className="c" style={{ padding: '20px 16px' }}>
-        <div style={{ fontSize: 12, color: '#94a3b8', textAlign: 'center', marginBottom: 4 }}>
+        <div
+          style={{ fontSize: 12, color: 'var(--ink-muted)', textAlign: 'center', marginBottom: 4 }}
+        >
           Quick check {idx + 1} / {questions.length}
         </div>
         <div
