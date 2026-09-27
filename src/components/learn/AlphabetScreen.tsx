@@ -4,30 +4,7 @@ import { markQuest } from '../../lib/quests.js';
 import { recordScreenPractised } from '../../lib/teachPractice';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { useStats } from '../../context/StatsContext.tsx';
-
-interface AlphaQuizQuestion {
-  prompt: string;
-  promptEn: string;
-  ipa: string;
-  correct: string;
-  opts: string[];
-}
-
-// Build 10 quiz questions: hear a description → pick the letter
-function buildAlphaQuiz(alpha: string[][]): AlphaQuizQuestion[] {
-  // Pick 10 letters spread across the alphabet
-  const pool = sh([...alpha]).slice(0, 10);
-  return pool.map((letter: string[]) => {
-    const distractors = sh(alpha.filter((l: string[]) => l[0] !== letter[0])).slice(0, 3);
-    return {
-      prompt: letter[2] ?? '',
-      promptEn: letter[3] ?? '',
-      ipa: letter[1] ?? '',
-      correct: letter[0] ?? '',
-      opts: sh([letter[0] ?? '', ...distractors.map((d: string[]) => d[0] ?? '')]),
-    };
-  });
-}
+import { buildAlphaQuiz } from '../../lib/alphaQuiz';
 
 interface Props {
   goBack: () => void;
@@ -39,7 +16,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
   const [mode, setMode] = useState('reference'); // 'reference' | 'quiz'
 
   // Quiz state
-  const questions = useMemo(() => buildAlphaQuiz(ALPHA), []);
+  const questions = useMemo(() => buildAlphaQuiz(ALPHA, sh), []);
   const [qi, setQi] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
@@ -132,7 +109,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
     setAnswered(true);
     if (isCorrect) {
       setScore((s) => s + 1);
-      speak(q.prompt);
+      speak(q.word);
     }
   }
 
@@ -333,11 +310,12 @@ export default function AlphabetScreen({ goBack, award }: Props) {
           WHICH LETTER SOUNDS LIKE THIS?
         </div>
         <div style={{ fontSize: 13, color: 'var(--ink-muted-warm)', marginBottom: 6 }}>
-          The word <strong style={{ color: 'var(--ink-strong)' }}>{q.prompt}</strong> ({q.promptEn})
-          starts with the sound:
+          The word{' '}
+          <strong style={{ color: 'var(--ink-strong)', letterSpacing: '.04em' }}>{q.masked}</strong>{' '}
+          ({q.promptEn}) starts with the sound:
         </div>
         <button
-          onClick={() => speak(q.prompt)}
+          onClick={() => speak(q.word)}
           style={{
             fontSize: 18,
             fontWeight: 900,
@@ -409,7 +387,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
         >
           {selected === q.correct
             ? `✓ "${q.correct}" always sounds ${q.ipa}`
-            : `✗ It's "${q.correct}" — always sounds ${q.ipa}. In "${q.prompt}" (${q.promptEn}).`}
+            : `✗ It's "${q.correct}" — always sounds ${q.ipa}. In "${q.word}" (${q.promptEn}).`}
         </div>
       )}
 

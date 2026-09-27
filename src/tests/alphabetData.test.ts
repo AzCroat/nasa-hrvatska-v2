@@ -108,10 +108,14 @@ describe('AlphabetScreen — tapping a letter pronounces the letter', () => {
   });
 
   it('the QUIZ still speaks the word alone — the letter is the answer there', () => {
-    // Naming the letter in the quiz prompt would give the answer away. Both
-    // quiz call sites read q.prompt, which buildAlphaQuiz sets to the example
-    // word (letter[2]) and never to the name.
-    expect(SRC).toMatch(/prompt: letter\[2\] \?\? ''/);
-    expect(SRC).not.toMatch(/prompt: letter\[4\]/);
+    // Naming the letter in the quiz prompt would give the answer away. The quiz
+    // speaks q.word, which buildAlphaQuiz sets to the example word (letter[2])
+    // and never to the name (letter[4]). The builder lives in lib/alphaQuiz since
+    // the PRINTED word was found giving the answer away too (2026-09-27) — see
+    // alphaQuizNoLeak.test.tsx.
+    const QUIZ = readFileSync('src/lib/alphaQuiz.ts', 'utf8');
+    expect(QUIZ).toMatch(/const word = letter\[2\] \?\? ''/);
+    expect(QUIZ).not.toMatch(/letter\[4\]/);
+    expect(SRC).toMatch(/speak\(q\.word\)/);
   });
 });
