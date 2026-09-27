@@ -306,8 +306,7 @@ function entryServable(
   ex: { micRequired?: boolean; category?: string; screen: string },
   ctx: DrawCtx,
 ): boolean {
-  if (ex.micRequired && ctx.micBlocked) return false;
-  return !isAheadOfCourse(ex, ctx.ahead);
+  return !(ex.micRequired && ctx.micBlocked) && !isAheadOfCourse(ex, ctx.ahead);
 }
 
 // G2: pick one guaranteed grammar/structure drill from the unlocked pool. It is
@@ -511,13 +510,19 @@ export function buildSessionActivities(
   // Phase 3 journey engine: bias the production slot toward the less-
   // demonstrated of speaking vs writing (mastery ledger). kindBias is a
   // bias-not-filter — the selector still falls back per mic state.
-  const productionActivity = selectProductionExercise({
-    cefr: userCefr,
-    micState: readMicState(),
-    recentScreens: getRecentProduction(),
-    excludeScreens: [...usedScreens],
-    kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
-  });
+  // The course's own unit write/speak task IS this session's output (2026-09-27): a
+  // second writing task beside "Unit 1: write" was redundant, so P2.5 stands down
+  // and the P3 fill keeps the session the same length.
+  const courseProduces = activities.some((a) => a.screen === 'unitproduction');
+  const productionActivity = courseProduces
+    ? null
+    : selectProductionExercise({
+        cefr: userCefr,
+        micState: readMicState(),
+        recentScreens: getRecentProduction(),
+        excludeScreens: [...usedScreens],
+        kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
+      });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push({
       ...productionActivity,

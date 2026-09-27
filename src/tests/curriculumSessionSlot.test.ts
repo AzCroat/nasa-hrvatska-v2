@@ -34,7 +34,11 @@ vi.mock('../lib/cefrCertification', () => ({
   getContentUnlockLevel: vi.fn((l: string) => l),
 }));
 
-import { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } from '../hooks/useDailySession';
+import {
+  buildSessionActivities,
+  GRAMMAR_STRUCTURE_CATEGORIES,
+  PRODUCTION_SCREEN_IDS,
+} from '../hooks/useDailySession';
 import { writeCurriculumSpine, markLessonComplete } from '../lib/curriculumProgress';
 import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
 import { readCourseState } from '../lib/courseStep';
@@ -127,6 +131,32 @@ describe('the lesson comes first', () => {
     expect(first?.reason).toMatch(/write what you have learned/);
     // The handoff names the unit AND the half.
     expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
+  });
+
+  // ONE OUTPUT TASK, NOT TWO (2026-09-27). Walked in a browser after a test-out:
+  // "Unit 1: write" and a separate "Guided Writing" in the same day. The course's
+  // own production task is the session's output, so the P2.5 production slot
+  // stands down and the fill keeps the length.
+  it('on a course production day the unit task is the only production activity', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    const lessonDayLength = buildSessionActivities('A1').length;
+    localStorage.clear();
+    writeCurriculumSpine(SPINE);
+    markLessonComplete('alphabet', '2026-08-28');
+    markLessonComplete('present-tense-verbs', '2026-08-29');
+    recordUnitTest('A1-1', 15, 15, true);
+    for (let r = 0; r < 20; r++) {
+      const acts = buildSessionActivities('A1');
+      expect(acts[0]?.screen).toBe('unitproduction');
+      const others = acts.slice(1).filter((a) => PRODUCTION_SCREEN_IDS.has(a.screen));
+      expect(
+        others.map((a) => a.screen),
+        'a second production task beside the unit one',
+      ).toEqual([]);
+      expect(acts.length).toBe(lessonDayLength);
+    }
   });
 
   it('serves the spoken half once the written one is graded', () => {
