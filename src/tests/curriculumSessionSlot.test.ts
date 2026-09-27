@@ -461,7 +461,16 @@ describe('re-arming a course activity\u2019s handoff at launch', () => {
 
   it('leaves every other activity alone', () => {
     sessionStorage.clear();
-    for (const id of ['curriculum_alphabet', 'cat_genitive', 'srsreview', '', undefined, null]) {
+    for (const id of [
+      'curriculum_alphabet',
+      'cat_genitive',
+      'srsreview',
+      'course_unit_test_Z9-1', // not a unit the course can produce
+      'course_unit_test_A1-1; x',
+      '',
+      undefined,
+      null,
+    ]) {
       rearmCourseHandoff(id as string);
     }
     expect(sessionStorage.getItem('nh_unit_test')).toBeNull();

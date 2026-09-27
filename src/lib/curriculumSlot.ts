@@ -78,16 +78,38 @@ export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | nu
 export function rearmCourseHandoff(activityId: string | undefined | null): void {
   if (!activityId) return;
   try {
-    let m = /^course_unit_recheck_(.+)$/.exec(activityId);
-    if (m) return requestUnitTest(m[1]!, 'recheck');
-    m = /^course_unit_test_(.+)$/.exec(activityId);
-    if (m) return requestUnitTest(m[1]!);
-    m = /^course_unit_(write|speak)_(.+)$/.exec(activityId);
-    if (m) return requestUnitProduction(m[2]!, m[1] as 'write' | 'speak');
+    for (const unitId of KNOWN_UNIT_IDS) {
+      if (activityId === `course_unit_recheck_${unitId}`) return requestUnitTest(unitId, 'recheck');
+      if (activityId === `course_unit_test_${unitId}`) return requestUnitTest(unitId);
+      if (activityId === `course_unit_write_${unitId}`) {
+        return requestUnitProduction(unitId, 'write');
+      }
+      if (activityId === `course_unit_speak_${unitId}`) {
+        return requestUnitProduction(unitId, 'speak');
+      }
+    }
   } catch {
     /* the screen reports that it has no unit rather than crashing */
   }
 }
+
+/**
+ * Every unit id the course can produce, built from CONSTANTS. The re-arm stores a
+ * member of this list chosen by equality — never a substring of the activity id —
+ * because the session plan is built from the learner's certified level and CodeQL's
+ * clear-text-storage query follows that value into anything derived from the plan
+ * (alerts #91/#92, 2026-09-27: the learner's own "A1-2" read as a credential). The
+ * same allowlist shape `useNextStepEngine` uses for its session marker. A spine that
+ * grows past 20 units a level would fall outside it, and the re-arm would then be a
+ * no-op — the screen says "no unit test is open", never a wrong unit.
+ */
+const KNOWN_UNIT_IDS: readonly string[] = (() => {
+  const out: string[] = [];
+  for (const level of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const) {
+    for (let i = 1; i <= 20; i++) out.push(`${level}-${i}`);
+  }
+  return out;
+})();
 
 /** Stable activity id for a curriculum lesson slot. */
 export function curriculumLessonId(lessonId: string): string {
