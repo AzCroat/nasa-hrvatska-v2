@@ -12336,3 +12336,53 @@ themed ink TOKEN in the subtree, and inherited ink has none.
   findings** (11.5 min; its `measured > 300` floor is what makes the zero mean something).
   Down from 36 routes / 662 elements at the start of sweep 164. Plan item 2 (dark/light
   unreadable text) is closed; the weekly `dark-ink` job keeps it closed.
+
+## Sweep 166 — walking a learner's day from Home, in a real browser (2026-09-27)
+
+Plan item 3. A seeded learner starts on Home and does what the session card says,
+activity by activity, in the CI-equivalent build. Every defect below was found by DOING
+the day, not by a derivation, and each is fixed with a behavioural test and a mutation.
+
+- **Today's lesson appears ~6 s late on a cold start, by design.** The plan is first built
+  before the curriculum spine lands, then rebuilt once (`useTeachingSlotRetry`). Verified:
+  the Unit 1 alphabet lesson leads the card from ~6 s. Recorded cost unchanged: a learner
+  who taps Begin inside that window loses the lesson for that day.
+- **The Alphabet quiz printed its own answer on every question** (`5a9969bf`): "The word
+  **čokolada** … starts with the sound cheh (hard)", options Č/Ć/C/Š. Every ALPHA example
+  word opens with its letter. The word is now blanked (`__okolada`); audio still says it.
+- **"Today leans into vocabulary" over a plan with no vocabulary** (`0ddf6047`): the line
+  was computed on every RENDER from the live ledger (the day's first graded drill rewrote
+  it) and named the weakest skill anywhere. Frozen on the plan at build, restricted to the
+  plan's own skills; next-step's production reason restricted the same way.
+- **Free Writing asked an A1 learner for 30 words** (`34676958`) — more than Guided
+  Writing's own A1 units (20). A1 is 20 now; A2+ unchanged.
+- **Free Writing paid only from "✨ New Prompt"** (`d38f1598`), so a learner who read the
+  feedback and tapped Back got nothing and the session sat at N-1/N — half-fixed on
+  2026-07-16, when the session was unblocked and the credit "deliberately" left on the
+  button. Credit now on the graded result.
+- **Guided Speaking/Writing advanced their unit rotation on OPEN** (`d4bb67f4`): backing
+  out skipped the unit for the whole rotation, breaking the floors ladder's premise. Now
+  advanced on the graded finish only.
+- **A census of credit-paying handlers on finished views** (subagent, verified by hand)
+  found three more, all fixed here: **Postcard** (credit only from Download/Share on step 3;
+  a failed correction stranded the session slot — now paid at the correction, and a failure
+  goes through `creditIfNoAuthoredFallback`), **Production Drill** (every mode's completion
+  only from "Nazad na izbor"; the header arrow and tabs lost it — split into an effect that
+  credits and a button that only returns), **Gender Drill** (its whole completion behind
+  "Finish & Save Progress →" in a NAMED handler; the retry also said "need N of <adjective
+  count>" while the gate is over all three sections).
+- **The guard's blind spot**: `creditFollowsWork` read inline `onClick={() => …}` only and
+  bailed at a `function` keyword, so `onClick={handleFinish}` was never judged. It now
+  follows a named handler to its body (flagged when it also leaves, is wired to an onClick
+  and no effect calls it). Real-world check: the pre-fix Gender Drill is flagged and the
+  fixed one is not. Three `DECLARED_FINISH` exemptions with reasons, staleness-checked.
+- **OPEN, recorded not fixed — False Friends**: a reading list whose only credit, since
+  2026-09-23, is "Complete Lesson +30 XP". It left `BLACK_HOLE_SCREENS` on the premise that
+  it "has a built-in quiz that writes its own vs key AND its own lc" — it has no quiz. In a
+  session, reading it and tapping Back strands the slot. The fix needs a decision about what
+  "finished reading" means (dwell, reaching the end), and the dwell pre-write interaction
+  that removal was about must be re-checked; not done under this sweep.
+- **Also recorded**: an attempt to pay the guided screens' 5-XP participation credit at the
+  grader FAILURE was reverted before commit — the shared once-only flag then swallowed the
+  SCORE-based award of a retry that succeeds, and the existing "no double award" test
+  stayed green because it counts calls, not amounts.

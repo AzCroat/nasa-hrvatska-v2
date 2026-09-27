@@ -167,8 +167,9 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
       // the ONLY completion signal was the award() behind the "✨ New Prompt"
       // button (result-gated + ≥30-words gated) — the natural gesture (read
       // feedback → Back) never fired it, permanently pinning the session at
-      // N-1/N (reported 2026-07-16, B2 user, twice). XP/vs credit stays on the
-      // button; only session progression is unblocked here.
+      // N-1/N (reported 2026-07-16, B2 user, twice). That fix unblocked the
+      // session and deliberately left XP/vs on the button — the same defect for
+      // the credit, closed 2026-09-27: the effect on `result` below pays it.
       signalSessionCompleteIfActive('writing');
       // Phase 2 mastery ledger: a graded writing evaluation is strong written-
       // production evidence at the user's practice level (weight 2).

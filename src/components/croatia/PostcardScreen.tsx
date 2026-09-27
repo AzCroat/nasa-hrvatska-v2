@@ -10,6 +10,7 @@ import {
   reportAiFailure,
 } from '../../lib/aiFailure';
 import { accentInk } from '../../lib/accentInk';
+import { creditIfNoAuthoredFallback } from '../../lib/authoredFallback';
 
 const CITIES = [
   {
@@ -285,6 +286,7 @@ export default function PostcardScreen({
         const failure = await failureFromResponse(res);
         reportAiFailure('postcard-correction', failure);
         setError(failure.message);
+        creditIfNoAuthoredFallback('postcard');
         setLoading(false);
         return;
       }
@@ -295,16 +297,27 @@ export default function PostcardScreen({
         const failure = failureFromStatus(200, 'parse_failed');
         reportAiFailure('postcard-correction', failure);
         setError(failure.message);
+        creditIfNoAuthoredFallback('postcard');
         setLoading(false);
         return;
       }
       setCorrection(data);
       setCorrectedText(data.corrected_text);
       setStep(2);
+      // PAID HERE, at the correction — the act of finishing (2026-09-27). The whole
+      // credit, and through award() the daily-session slot, used to sit behind
+      // Download and Share on step 3: a learner who wrote the postcard, read the
+      // correction and left by Back or a tab was paid nothing and stranded the slot,
+      // and a canvas that never became ready kept both buttons disabled for ever.
+      if (!awardFired.current) {
+        awardFired.current = true;
+        if (typeof award === 'function') award(15, false, 'culture');
+      }
     } catch (e) {
       const failure = failureFromError(e);
       reportAiFailure('postcard-correction', failure);
       setError(failure.message);
+      creditIfNoAuthoredFallback('postcard');
     }
     setLoading(false);
   }
@@ -317,10 +330,6 @@ export default function PostcardScreen({
     link.download = `postcard-${selectedCity.name.toLowerCase().replace(/\s+/g, '-')}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-    if (!awardFired.current) {
-      awardFired.current = true;
-      if (typeof award === 'function') award(15, false, 'culture');
-    }
   }
 
   // ─── Share / Copy ─────────────────────────────────────────────────────────
@@ -337,10 +346,6 @@ export default function PostcardScreen({
             text: correctedText,
             files: [file],
           });
-          if (!awardFired.current) {
-            awardFired.current = true;
-            if (typeof award === 'function') award(15, false, 'culture');
-          }
           return;
         }
       } catch (_) {
@@ -351,10 +356,6 @@ export default function PostcardScreen({
         await navigator.clipboard.writeText(`${correctedText}\n— Naša Hrvatska 🇭🇷`);
         setCopied(true);
         setTimeout(() => setCopied(false), 2500);
-        if (!awardFired.current) {
-          awardFired.current = true;
-          if (typeof award === 'function') award(15, false, 'culture');
-        }
       } catch (_) {
         setError('Could not copy to clipboard. Try downloading instead.');
       }

@@ -100,6 +100,29 @@ const ADVANCE_CREDITERS = [
   'src/components/practice/ZnamGame.tsx',
 ];
 
+/**
+ * Screens whose ONLY finish is the learner's own declaration, so the button that pays
+ * is the act of finishing rather than one exit of several. Each entry must still be
+ * flagged (checked below), so a stale exemption cannot sit here suspending the rule.
+ */
+const DECLARED_FINISH: Record<string, string> = {
+  // A reading list with no graded act. "Complete Lesson +30 XP" is the declaration
+  // that it was read; nothing else can say so. (Follow-up recorded in AUDIT-STATE:
+  // since 2026-09-23 it is also this screen's ONLY credit, because it left
+  // BLACK_HOLE_SCREENS on the premise of a built-in quiz it does not have.)
+  'src/components/learn/FalseFriendsScreen.tsx':
+    'reading list: the declaration is the only finish there is',
+  // After the grader FAILED (or offline, where no submit ran), "Continue — your
+  // writing counts ✓" is the learner declaring the ungraded finish. The session slot
+  // is already freed at the failure; only the 5-XP participation credit rides on it.
+  // Paying it at the failure instead was tried and reverted: the shared once-only
+  // flag then swallowed the SCORE-based award of a retry that succeeds.
+  'src/components/practice/GuidedWritingScreen.tsx':
+    'ungraded finish after a dead grader: the declaration is the finish',
+  'src/components/practice/GuidedSpeakingScreen.tsx':
+    'ungraded finish after a dead coach: the declaration is the finish',
+};
+
 describe('an exercise is credited for the work, not for the acknowledgement', () => {
   const files = walk('src');
 
@@ -116,8 +139,14 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
   });
 
   it('no screen makes its credit conditional on which exit the learner takes', () => {
+    const flagged = creditGatedOnExit(files);
+    for (const f of Object.keys(DECLARED_FINISH))
+      expect(
+        flagged,
+        `DECLARED_FINISH lists ${f}, which is no longer flagged — delete it`,
+      ).toContain(f);
     expect(
-      creditGatedOnExit(files),
+      flagged.filter((f) => !(f in DECLARED_FINISH)),
       'these screens call completeExercise from the onClick of a control that also navigates ' +
         'away, so the credit is paid only if the learner leaves by that exact button. The ' +
         'results view also carries the Back button H(title, subtitle, goBack) draws — and often ' +
@@ -161,6 +190,39 @@ describe('an exercise is credited for the work, not for the acknowledgement', ()
         ].join('\n'),
       );
       expect(creditGatedOnExit([rel]), 'the rule flags the prescribed fix').toEqual([]);
+
+      // THE NAMED-HANDLER SHAPE (2026-09-27). The inline matcher bails at a `function`
+      // keyword, so `onClick={handleFinish}` was never judged — GenderDrillScreen
+      // shipped exactly this and a census found it, not this guard.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function handleFinish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '    goBack();',
+          '  }',
+          '  return <button onClick={handleFinish}>Finish</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'a named handler hides the defect again').toEqual([rel]);
+
+      // …and a named function an EFFECT calls is not a defect: it runs on arrival.
+      fs.writeFileSync(
+        path.join(ROOT, rel),
+        [
+          'export default function Probe({ goBack }) {',
+          '  function handleFinish() {',
+          "    completeExercise({ key: 'probe', score, total, stats, setStats });",
+          '    goBack();',
+          '  }',
+          '  useEffect(() => { if (done) handleFinish(); }, [done]);',
+          '  return <button onClick={handleFinish}>Finish</button>;',
+          '}',
+        ].join('\n'),
+      );
+      expect(creditGatedOnExit([rel]), 'an effect-called handler is flagged').toEqual([]);
     } finally {
       fs.rmSync(dir, { recursive: true, force: true });
     }

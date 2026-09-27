@@ -12,7 +12,8 @@
  *   - Error correction mode: award(3) called only on correct answer
  *   - Build mode: word tiles visible; tile tap moves to placed area; check correct → "Točno!"
  *   - Build mode: award(5) called on correct build
- *   - handleDone ("Nazad na izbor"): markQuest("grammar") called, mode resets to selection
+ *   - A round is credited on REACHING its results panel (handleDone via an effect);
+ *     "Nazad na izbor" only returns to mode selection (2026-09-27)
  *   - Back button from initial screen calls goBack()
  *   - Back button from active mode returns to mode selection (not goBack)
  *

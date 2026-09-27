@@ -64,8 +64,15 @@ function playTransform(verdict: '✓ Točno' | '✗ Pogrešno'): void {
   expect(played).toBe(MAX_ROUND);
   // Non-vacuity: the round really ended and rendered its results panel.
   expect(screen.getByText('Nazad na izbor')).toBeTruthy();
+  // ORDERED: the round's completion has already been decided on REACHING this panel —
+  // before the learner picks an exit. Asserted here, not after the click, because
+  // after the click it cannot tell "credited on finishing" from "credited by that
+  // button", and the header arrow and the tab bar are exits too (2026-09-27).
+  creditedBeforeExit = markQuestMock.mock.calls.length;
   clickText('Nazad na izbor');
+  expect(markQuestMock.mock.calls.length).toBe(creditedBeforeExit);
 }
+let creditedBeforeExit = -1;
 
 describe('ProductionDrillScreen — completion gate', () => {
   beforeEach(() => {
@@ -83,6 +90,7 @@ describe('ProductionDrillScreen — completion gate', () => {
     render(withStats(ctx, <ProductionDrillScreen goBack={vi.fn()} award={award} />));
     playTransform('✓ Točno');
 
+    expect(creditedBeforeExit).toBe(1);
     expect(markQuestMock).toHaveBeenCalledWith('grammar');
 
     expect(setStats).toHaveBeenCalled();

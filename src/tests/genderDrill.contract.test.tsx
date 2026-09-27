@@ -107,11 +107,11 @@ describe('GenderDrillScreen — completion gate', () => {
     playThrough('correct');
 
     // Non-vacuity: all three sections really completed.
-    expect(screen.getByText('Finish & Save Progress →')).toBeTruthy();
+    expect(screen.getByText('Done →')).toBeTruthy();
     expect(screen.queryByTestId('drill-retry')).toBeNull();
 
-    fireEvent.click(screen.getByText('Finish & Save Progress →'));
-
+    // The credit has ALREADY landed — before any button on the completion view is
+    // pressed — so leaving by the header's Back or a tab loses nothing (2026-09-27).
     expect(markQuestMock).toHaveBeenCalledWith('grammar');
     const calls = award.mock.calls as [number, boolean, string][];
     expect(calls.find((c) => c[0] === 15 && c[2] === 'grammar')).toBeDefined();
@@ -125,7 +125,11 @@ describe('GenderDrillScreen — completion gate', () => {
     expect(writeDelta).toHaveBeenCalledWith(
       expect.objectContaining({ gc: 1, vs: expect.arrayContaining(['gender']) }),
     );
+    expect(goBack).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByText('Done →'));
     expect(goBack).toHaveBeenCalled();
+    // Done pays nothing more — it only leaves.
+    expect(markQuestMock).toHaveBeenCalledTimes(1);
   });
 
   it('credits nothing on an all-wrong run — the gate the registry declares', async () => {
@@ -142,7 +146,14 @@ describe('GenderDrillScreen — completion gate', () => {
     // screen offers a retry. This is exactly the run that used to earn full credit.
     expect(screen.getByTestId('drill-retry')).toBeTruthy();
 
-    fireEvent.click(screen.getByText('Finish & Save Progress →'));
+    // The retry states the count over ALL THREE sections, not the adjective section.
+    const overall = /\d+\/(\d+) overall/.exec(document.body.textContent ?? '')?.[1];
+    const retryOf = /need \d+ of (\d+)/.exec(
+      screen.getByTestId('drill-retry').textContent ?? '',
+    )?.[1];
+    expect(overall).toBeTruthy();
+    expect(retryOf).toBe(overall);
+    fireEvent.click(screen.getByText('Done →'));
 
     expect(markQuestMock).not.toHaveBeenCalled();
     expect(setStats).not.toHaveBeenCalled();
