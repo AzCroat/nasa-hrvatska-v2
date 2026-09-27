@@ -1,19 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { H, Bar } from '../../data';
-import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { useStats } from '../../context/StatsContext';
-
-import { rnd } from '../../lib/random.js';
-import { drawDrillRun } from '../../lib/drillRun';
-import { retryNeedLabel } from '../../lib/lessonGate';
-function shLocal<T>(a: T[]): T[] {
-  const b = [...a];
-  for (let i = b.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [b[i], b[j]] = [b[j]!, b[i]!];
-  }
-  return b;
-}
+import React from 'react';
+import ModeDrill from './ModeDrill';
 
 // B2 verbs-of-motion drill (glagoli kretanja) — the verbs-of-motion grammar
 // unit had no pool drill. Three modes: prefix semantics (u-/iz-/pre-/do-/ob-/
@@ -228,156 +214,20 @@ interface Props {
 }
 
 export default function MotionVerbsDrill({ goBack, award }: Props) {
-  const { stats, setStats, writeDelta } = useStats();
-  const finishFired = useRef(false);
-  const [q] = useState(() =>
-    drawDrillRun(DATA).map((item) => ({ ...item, opts: shLocal([...item.opts]) })),
-  );
-  const total = q.length;
-  const [idx, setIdx] = useState(0);
-  const [chosen, setChosen] = useState<string | null>(null);
-  const [score, setScore] = useState(0);
-  const [done, setDone] = useState(false);
-  const [passed, setPassed] = useState(false);
-
-  const cur = q[idx]!;
-  const answered = chosen !== null;
-
-  function pick(opt: string) {
-    if (answered) return;
-    setChosen(opt);
-    if (opt === cur.answer) setScore((s) => s + 1);
-  }
-
-  function next() {
-    if (idx + 1 >= total) {
-      if (!finishFired.current) {
-        finishFired.current = true;
-        const res = completeExercise({
-          key: 'kretanje',
-          score,
-          total,
-          xp: score * 5,
-          stats,
-          setStats,
-          writeDelta,
-          award,
-        });
-        setPassed(res.passed);
-      }
-      setDone(true);
-    } else {
-      setIdx((i) => i + 1);
-      setChosen(null);
-    }
-  }
-
-  if (done) {
-    return (
-      <div className="scr-wrap">
-        {H('🚶 Glagoli kretanja', 'doći · otići · prijeći — prefixes in motion', goBack)}
-        <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 8 }}>{passed ? '🎉' : '📚'}</div>
-          <div style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>
-            {score} / {total}
-          </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-muted)', marginBottom: 16 }}>
-            {score === total
-              ? 'Savršena orijentacija — svi smjerovi točni! 🏆'
-              : passed
-                ? 'Vrlo dobro snalaženje u prefiksima! 💪'
-                : 'Prefiksi i rekcija traže još vježbe.'}
-          </div>
-          {!passed && (
-            <button
-              className="b bp"
-              data-testid="drill-retry"
-              style={{ width: '100%', marginBottom: 10 }}
-              onClick={() => {
-                finishFired.current = false;
-                setIdx(0);
-                setChosen(null);
-                setScore(0);
-                setPassed(false);
-                setDone(false);
-              }}
-            >
-              {retryNeedLabel(total)}
-            </button>
-          )}
-          <button className="b bp" style={{ width: '100%' }} onClick={goBack}>
-            ← Back
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="scr-wrap">
-      {H('🚶 Glagoli kretanja', 'doći · otići · prijeći — prefixes in motion', goBack)}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
-        <span style={{ fontSize: 13, color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
-          {idx + 1} / {total}
-        </span>
-        <Bar v={idx + 1} mx={total} />
-      </div>
-      <div className="c" style={{ marginTop: 16 }}>
-        <div
-          style={{
-            fontSize: 13,
-            color: 'var(--ink-mode)',
-            fontWeight: 700,
-            marginBottom: 8,
-          }}
-        >
-          {MODE_LABEL[cur.mode]}
-        </div>
-        <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>{cur.q}</div>
-        <div style={{ fontSize: 13, color: 'var(--ink-muted)', marginBottom: 14 }}>{cur.en}</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {cur.opts.map((opt) => {
-            const isCorrect = opt === cur.answer;
-            const isChosen = opt === chosen;
-            return (
-              <button
-                key={opt}
-                className="ob"
-                onClick={() => pick(opt)}
-                style={{
-                  textAlign: 'left',
-                  ...(answered && isCorrect
-                    ? { borderColor: '#16a34a', background: 'rgba(22,163,74,.08)' }
-                    : answered && isChosen
-                      ? { borderColor: '#dc2626', background: 'rgba(220,38,38,.08)' }
-                      : {}),
-                }}
-              >
-                {opt}
-              </button>
-            );
-          })}
-        </div>
-        {answered && (
-          <div
-            style={{
-              marginTop: 12,
-              padding: '10px 12px',
-              borderRadius: 10,
-              background: 'var(--info-bg, rgba(56,189,248,.08))',
-              fontSize: 13.5,
-              lineHeight: 1.55,
-            }}
-          >
-            💡 {cur.tip}
-          </div>
-        )}
-        {answered && (
-          <button className="b bp" style={{ width: '100%', marginTop: 14 }} onClick={next}>
-            {idx + 1 >= total ? 'Završi →' : 'Dalje →'}
-          </button>
-        )}
-      </div>
-    </div>
+    <ModeDrill
+      id="kretanje"
+      title={'🚶 Glagoli kretanja'}
+      subtitle={'doći · otići · prijeći — prefixes in motion'}
+      modeLabels={MODE_LABEL}
+      data={DATA}
+      praise={{
+        perfect: 'Savršena orijentacija — svi smjerovi točni! 🏆',
+        good: 'Vrlo dobro snalaženje u prefiksima! 💪',
+        more: 'Prefiksi i rekcija traže još vježbe.',
+      }}
+      goBack={goBack}
+      award={award}
+    />
   );
 }
