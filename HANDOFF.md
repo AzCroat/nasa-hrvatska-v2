@@ -103,7 +103,18 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   (SIGNED OFF later the same day — all five §8 decisions answered by the owner:
   course-unit level for everyone; adaptive pick kept, taught categories only;
   conversation gated on the course reaching B1; production on lesson days only;
-  corrective day approved. No code yet; increment 0 is next).** Central finding, read from code: only
+  corrective day approved.)**
+- **UPDATE 2: increments 0 and 1 are DONE** (AUDIT-STATE sweeps 180–181; CLAUDE.md
+  "The Session Is Built At The Course's Level"). Increment 0 measured the gap and
+  overturned the design's first G1 (it is the production/conversation slots' level,
+  not concept drills). Increment 1 builds and SIZES the session at the course unit's
+  level (`src/lib/sessionLevel.ts`) and points the guided speaking/writing screens and
+  `DialogueSim` at it when session-launched. **Next: increment 2** — production on
+  lesson days becomes the lesson's own produce step (decision 4). Also installed on
+  this machine since §4 was written: Playwright's Chromium (`npx playwright install
+chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
+  project) against a build made with CI's placeholder `VITE_FIREBASE_*` values
+  (see `.github/workflows/ci.yml` ~line 254). Central finding, read from code: only
   the lesson slot (P0) follows course position; every other slot is chosen by
   `getContentUnlockLevel(getUserCefr(xp, lc, gc))`, so learners ahead by XP (everyone
   with pre-2026-09-26 progress, all now at Unit 1) get activities on material the

@@ -219,12 +219,33 @@ first build step.**
   material is the production and conversation slots, whose level the SCREENS choose
   from XP; no concept drill outside P0 exists on a lesson day. The order below was
   changed by that result.
-- **Increment 1 — course-level production and conversation (decisions 1, 3).** The
-  two guided screens and the dialogue gate read the course-unit level when launched
-  from the session (a session handoff, like the unit test's), instead of
-  `getCurrentContentLevel()`. Tabs-launched practice is untouched. This is the whole
-  of the measured G1. Ratchet: the probe gains an assertion that the skill slots'
-  level equals the course level.
+- **Increment 1 — DONE 2026-09-28: the session is built at the course's level
+  (decisions 1, 3).** `src/lib/sessionLevel.ts`: `sessionLevel(xp)` is the current
+  course unit's level (XP when there is no spine or the course is finished);
+  `buildSessionActivities` uses it for every slot after P0 — the teach→practice
+  gate, the adaptive pick, the conversation anchor (now a COURSE-B1 fact), the
+  production pool, the grammar and input guarantees, the fill and the discovery slot
+  — **and for the length contract**. The culture slot (P4) alone still reads XP.
+  `launchedLevel(screen, xp)` gives the guided speaking / writing screens and
+  `DialogueSim` the course level when the SESSION launched them; from the Practice
+  tab they keep the learner's own. **The length rule was not in the plan and the
+  ratchet forced it**: with the length still XP-sized, a B1-XP learner on Unit 1 had
+  a 4-slot session where every A1 learner has 3, and the fourth slot filled with a
+  drill for a lesson in their unit they had not yet read (`present-tense`, 40/40).
+  Sizing at the course level removes that slot; the cost, stated: a learner ahead by
+  XP gets an A1-length session (3 activities) while on A1 units. Same composition
+  for every XP level at a given unit, measured (probe table in the test).
+  Found on the way: `DialogueSim` destructured a `level` `useStats()` never had, so
+  the AI conversation was always requested at A2 and the menu ordered for A1 — fixed
+  by the same line. Ratchets in `sessionTaughtSetProbe.test.ts`: zero untaught
+  concept drills; skill slots per session 1 below the B1 unit and 2 from it, at every
+  XP level; every production screen served unlocked at the course level.
+  `sp4b-production-slot.spec.js` now stands its B1 learner on the first B1 unit.
+  **A looseness to know about**: the builder's existing taught filter
+  (`courseGate.courseAhead`) treats every lesson of the OPEN unit as reached, so on
+  a unit-test day the concept drill can be for a lesson of the current unit; §6's
+  stricter definition (completed lessons + advanced units) is what increment 3's mix
+  should apply.
 - **Increment 2 — stage 3, production on today's concept (decision 4).** On lesson
   days the production slot becomes the lesson's own produce step, so the day's output
   is about the day's concept; the unit's production requirement is unchanged.

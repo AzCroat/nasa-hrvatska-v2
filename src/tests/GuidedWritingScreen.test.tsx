@@ -171,3 +171,29 @@ describe('GuidedWritingScreen — the three-stage ladder', () => {
     expect(recordMasteryEventMock).not.toHaveBeenCalled(); // never fake evidence
   });
 });
+
+// ── Redesign increment 1 (2026-09-28): the unit is the COURSE's level when the
+// daily session launched this screen; the learner's own level otherwise. The
+// cefrCertification mock above pins the XP level at A1, so the course is put at
+// Unit 7 — the first A2 unit — to make the two levels differ.
+describe('the unit level follows the course when launched from the session', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+  });
+
+  it('session-launched: an A1-XP learner standing on an A2 unit writes at A2', async () => {
+    const { seedCourseAt } = await import('./helpers/courseSeed');
+    seedCourseAt(7);
+    sessionStorage.setItem('nh_session_started', 'writing_guided');
+    render(<GuidedWritingScreen goBack={vi.fn()} award={vi.fn()} />);
+    expect(screen.getByTestId('gw-study')).toHaveTextContent(unitsForLevel('A2')[0]!.prompt);
+  });
+
+  it('opened from the Practice tab: the same learner keeps their own A1 unit', async () => {
+    const { seedCourseAt } = await import('./helpers/courseSeed');
+    seedCourseAt(7);
+    render(<GuidedWritingScreen goBack={vi.fn()} award={vi.fn()} />);
+    expect(screen.getByTestId('gw-study')).toHaveTextContent(unitsForLevel('A1')[0]!.prompt);
+  });
+});

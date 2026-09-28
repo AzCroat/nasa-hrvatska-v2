@@ -3,6 +3,37 @@ import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 import { forceCefr } from './fixtures/forceCefr.js';
 import { mockRnd } from './fixtures/mockRnd.js';
+import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
+
+// THE SESSION IS BUILT AT THE COURSE'S LEVEL (Daily Session redesign, increment 1,
+// 2026-09-28). `forceCefr(page, 'B1')` alone no longer makes a B1 session: with
+// `mockContent` serving the real spine every learner stands on Unit 1 (A1), where the
+// conversation anchor does not fire and the production pool is A1's. The intent of
+// these pins — a B1 learner's session carries a conversation and a B1 production
+// slot — is preserved by standing the learner on the first B1 unit: every A1 and A2
+// unit advanced (lessons read, test passed, both production halves done) and both
+// level reviews recorded, in the shapes `course-walk.spec.js` seeds.
+const DAY = '2026-09-01';
+const BELOW_B1 = CURRICULUM.filter((e) => e.level === 'A1' || e.level === 'A2');
+const DONE = Object.fromEntries(BELOW_B1.map((e) => [e.id, DAY]));
+const ADVANCED_UNITS = Object.fromEntries(
+  ['A1', 'A2'].flatMap((lv) =>
+    [1, 2, 3, 4, 5, 6].map((i) => [
+      `${lv}-${i}`,
+      {
+        passedAt: DAY,
+        bestCorrect: 20,
+        bestTotal: 20,
+        attempts: [{ at: DAY, correct: 20, total: 20, passed: true }],
+        production: { wroteAt: DAY, spokeAt: DAY, writeScore: 0.9, speakScore: 0.9 },
+      },
+    ]),
+  ),
+);
+const REVIEWS = {
+  A1: { doneAt: DAY, firstTryCorrect: 18, total: 18 },
+  A2: { doneAt: DAY, firstTryCorrect: 18, total: 18 },
+};
 
 test.describe('SP4b — production slot in daily session', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,6 +43,14 @@ test.describe('SP4b — production slot in daily session', () => {
     await mockContent(page);
     await forceCefr(page, 'B1'); // deterministic CEFR
     await mockRnd(page, 0); // deterministic selectProductionExercise pick
+    await page.addInitScript(
+      ([done, units, reviews]) => {
+        if (window.top !== window) return;
+        localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
+        localStorage.setItem('nh_course_units', JSON.stringify({ units, reviews }));
+      },
+      [DONE, ADVANCED_UNITS, REVIEWS],
+    );
   });
 
   test('daily session contains the expected production exercise (mic available)', async ({

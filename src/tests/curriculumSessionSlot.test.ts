@@ -332,7 +332,13 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
         localStorage.clear();
         const without = buildSessionActivities(level).length;
         localStorage.clear();
-        writeCurriculumSpine(spine);
+        // The spine is written AT THE LEARNER'S LEVEL (redesign increment 1,
+        // 2026-09-28): the session is built — and SIZED — at the course's level, so
+        // an A1 spine under a B1 learner is a 3-slot A1 session by design, and the
+        // contract this test pins is about a lesson day at the learner's own level.
+        writeCurriculumSpine(
+          spine.map((e) => ({ ...e, level: level as CurriculumEntry['level'] })),
+        );
         const withSpine = buildSessionActivities(level).length;
         expect(
           withSpine,
@@ -355,7 +361,8 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
     // should be an assertion rather than a paragraph.
     for (const spine of [VOCAB_COUPLED, GRAMMAR_COUPLED]) {
       localStorage.clear();
-      writeCurriculumSpine(spine);
+      // At the learner's level (increment 1) — see the length test above.
+      writeCurriculumSpine(spine.map((e) => ({ ...e, level: 'A2' as const })));
       expect(
         buildSessionActivities('A2').some((a) => a.id.startsWith('cat_')),
         'A2 lost its adaptive pick — conjugation.spec.js depends on it',
@@ -371,9 +378,18 @@ describe('THE LENGTH CONTRACT: the lesson costs a fill slot, not an extra one', 
     // "is there grammar?" check. This pins the actual saving: on a level with no
     // spare slot, a vocab-coupled day ends with NEITHER the adaptive pick nor a
     // forced grammar drill.
+    //
+    // THE SPINE IS WRITTEN AT THE LEARNER'S LEVEL (redesign increment 1,
+    // 2026-09-28). The session is now built at the COURSE's level, and this
+    // fixture used to put a B1 learner on an A1 spine — which is exactly the case
+    // where the conversation anchor now stands down (the course is at A1), so the
+    // session HAS a spare slot and the premise "a level with no spare slot" is
+    // false. A one-lesson spine at the learner's own level restores it.
     for (const level of ['B1', 'B2', 'C1', 'C2']) {
       localStorage.clear();
-      writeCurriculumSpine(VOCAB_COUPLED);
+      writeCurriculumSpine(
+        VOCAB_COUPLED.map((e) => ({ ...e, level: level as CurriculumEntry['level'] })),
+      );
       const acts = buildSessionActivities(level);
       expect(
         acts.some((a) => a.id.startsWith('cat_')),

@@ -4450,6 +4450,71 @@ Level Check (`equivalency`).
   (read every distractor for real Croatian); let a practice hint contain its answer; teach
   `kod` for motion; key `ako` + conditional as an error.
 
+## Critical Architecture: The Session Is Built At The Course's Level (Daily Session redesign, increment 1, 2026-09-28)
+
+Design: `docs/daily-session-redesign.md` (signed off by the owner the same day; five
+decisions in its §8). The finding it acts on was MEASURED before anything changed
+(`src/tests/sessionTaughtSetProbe.test.ts`, increment 0): only the teaching slot (P0)
+knew where the learner stood in the course; every other slot — and the production
+screens' own choice of unit — read `getContentUnlockLevel(getUserCefr(xp, lc, gc))`,
+the XP level the course deliberately ignores ("one path, everyone starts at Unit 1").
+So a Unit-1 learner with B1 XP read the A1 alphabet lesson and was then handed a B1
+speaking unit and a free B1 AI conversation. **The concept-drill half of that fear
+was FALSE**: on a lesson day the lesson pair plus the guaranteed production slot(s)
+spend the whole length budget, so the adaptive pick, the grammar backstop and the fill
+never fire (zero concept drills outside P0 in 480 sessions). The skill slots were the
+whole of it.
+
+- **`src/lib/sessionLevel.ts` is the one fact.** `courseUnitLevel()` is the level of
+  the unit the learner stands on (`readCourseState().currentIndex`, which is
+  `unit.index`, 1-based); null with no spine or a finished course. `sessionLevel(xp)`
+  is what `buildSessionActivities` gates EVERY slot after P0 on — teach→practice,
+  adaptive, the B1 conversation anchor (a COURSE-B1 fact now), the production pool and
+  its ledger bias, the grammar and input guarantees, fill, discovery — **and the
+  length contract** (`getSessionFillTarget`). `launchedLevel(screen, xp)` returns the
+  course level only when `nh_session_started` names THAT screen; the guided speaking
+  and writing screens and `DialogueSim` use it, so Practice-tab visits keep the
+  learner's own level. P4 (culture) alone still reads XP — decision-1 residue,
+  recorded in the design doc.
+- **THE LENGTH RULE WAS FORCED BY THE RATCHET, NOT PLANNED.** With the length still
+  XP-sized, a B1-XP learner on Unit 1 had a 4th slot no A1 learner has, and it filled
+  with `conjpractice` for `present-tense` — a lesson in their own unit they had not
+  reached (40 of 40 sessions). Sizing at the course level removed the slot. Cost,
+  stated: a learner ahead by XP gets a 3-activity session while on A1 units. Same
+  composition at a given unit for every XP level, measured.
+- **The module reads `sessionStorage` itself and imports nothing from
+  `sessionSignal` or `cefrCertification`**: fourteen test files partially `vi.mock`
+  the first and the guided-screen tests partially mock the second, and a new named
+  import from a partially mocked module is `undefined` at the call site.
+- **`DialogueSim` had destructured a `level` `useStats()` never had.** `userLevel` was
+  `undefined` for the screen's whole life: `/api/dialogue` was always asked for `'A2'`
+  and the menu always ordered for `'A1'`. Fixed by the same line that made it read
+  the course level.
+- **The probe is now the ratchet**: zero untaught concept drills (lesson and unit-test
+  days, positions 1/3/7/13 × XP A1/B1/C1 × 40); skill slots per session exactly 1
+  below the B1 unit and 2 from it, at every XP level; every production screen served
+  unlocked at the course level. Listening/reading are MODALITY categories like
+  speaking/writing and are counted apart — the first table called `graded_input` an
+  untaught concept drill, measuring the predicate, not the app. Mutation-verified,
+  four: builder back to XP fails 2, length back to XP fails 1, `launchedLevel` always
+  fallback fails 4, course level always null fails 9.
+- **Fixtures had to move to the learner's level, with reasons.**
+  `curriculumSessionSlot`'s one-lesson A1 spine under a B1 learner is now, BY DESIGN,
+  a 3-slot A1 session with no conversation anchor — so "a level with no spare slot"
+  needs the spine written at that level; `sp4b-production-slot.spec.js`'s
+  `forceCefr(B1)` alone no longer makes a B1 session under the real spine, and it now
+  seeds Units A1-1…A2-6 advanced plus both level reviews in `course-walk`'s shapes.
+- **A looseness to know about**: the builder's existing taught filter
+  (`courseGate.courseAhead`) treats every lesson of the OPEN unit as reached, so a
+  unit-test day's concept drill can be for a lesson of the current unit. The design's
+  §6 (completed lessons + advanced units) is stricter and belongs to increment 3.
+- NEVER: gate a session slot on `userCefr` when `level` is in scope (the two differ
+  for every learner ahead of the course by XP); let a screen the session launches
+  read `getCurrentContentLevel()` for its content without `launchedLevel`; import
+  from `sessionSignal` or `cefrCertification` inside `sessionLevel.ts`; size the
+  session at one level and fill it at another; force a level in an E2E spec and
+  assume the course is there too — seed the course position.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

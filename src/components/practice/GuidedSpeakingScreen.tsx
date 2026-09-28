@@ -36,6 +36,7 @@ import { recordScreenPractised } from '../../lib/teachPractice';
 import { markQuest } from '../../lib/quests.js';
 import { gradeBuild, type BuildVerdict } from '../../lib/sentenceBuild';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
+import { launchedLevel } from '../../lib/sessionLevel';
 import { requestSpeakingCoach, COACH_MIN_WORDS } from '../../lib/speakingCoach';
 import type { CoachResult } from '../../lib/speakingCoach';
 import type { AiFailure } from '../../lib/aiFailure';
@@ -158,7 +159,10 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const recRef = useRef<Recognizer | null>(null);
   const { isOnline } = useOnlineStatus();
 
-  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // Launched from the daily session, the unit is the COURSE's level (redesign
+  // increment 1, owner decision 1): a Unit-1 learner with B1 XP spoke at B1 here
+  // for as long as the screen existed. From the Practice tab it is the learner's own.
+  const [unitLevel] = useState(() => launchedLevel('speaking_guided', getCurrentContentLevel()));
   // The pointer moves once per unit finished, however many times the grade is re-run.
   const advancedRef = useRef(false);
   const [unit] = useState<SpeakingUnit>(() => pickSpeakingUnit(unitLevel));

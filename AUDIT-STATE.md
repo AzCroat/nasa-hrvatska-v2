@@ -12899,3 +12899,32 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     `fusedFutureSpelling` (a real noun, `daća` = feudal levy) added to `HOMONYMS`; the lost
     production-units patch recorded in `HANDOFF.md`; `seasonalCampaign.test.ts` found
     timezone-dependent (fails under CEST, passes `TZ=UTC`) — not fixed.
+- [x] **Sweep 181 — Daily Session redesign, increment 1: the session is built at the course's level (2026-09-28).**
+  - Owner decisions 1 and 3 applied. `src/lib/sessionLevel.ts` (`courseUnitLevel`,
+    `sessionLevel`, `launchedLevel`); `buildSessionActivities` gates every post-P0 slot AND
+    the length contract on the course unit's level (P4 culture alone still reads XP);
+    `GuidedSpeakingScreen`, `GuidedWritingScreen` and `DialogueSim` read the course level
+    only when `nh_session_started` names them. No product screen opened from a tab changes.
+  - **The ratchet drove a change the plan did not have.** The first cut kept the length on
+    XP; the probe then showed a B1/C1-XP learner on Unit 1 with a 4th slot — filled by
+    `conjpractice` for `present-tense`, a lesson in their unit they had not read (40/40),
+    which no A1-XP learner at the same unit got. The slot came from the XP-sized length, so
+    the length follows the course too. Cost stated in the design doc.
+  - **Found on the way, fixed**: `DialogueSim` destructured `level` from `useStats()`, which
+    has no such field — `userLevel` was `undefined` for the screen's whole life, so
+    `/api/dialogue` was always asked for `'A2'` and the menu always ordered for `'A1'`.
+  - **Two probe corrections**: listening/reading (`graded_input`) are MODALITY categories
+    like speaking/writing and were being counted as untaught concept drills; and the
+    `sp4b` E2E spec's `forceCefr(B1)` alone no longer makes a B1 session under the real
+    spine — it now seeds Units A1-1…A2-6 advanced plus both level reviews. Intent preserved.
+  - Tests moved with stated reasons: `curriculumSessionSlot` writes its one-lesson fixtures
+    at the learner's level (an A1 spine under a B1 learner is now a 3-slot A1 session BY
+    DESIGN, so "a level with no spare slot" needs the spine at that level);
+    `sessionInputSlot`'s source pin follows `level` and pins its derivation.
+  - Full unit suite green: 669 files, 10,553 tests. Mutation-verified (M1 builder back to
+    XP, M2 length back to XP, M3 `launchedLevel` always fallback, M4 course level always
+    null) — counts recorded in the commit message.
+  - **Not checked / open**: the E2E pass of the redesign on the CI runner (run locally on
+    Desktop Chrome only); `courseAhead` admits the whole OPEN unit as reached (§6 is
+    stricter — increment 3); the culture slot (P4) still on XP; the vocabulary deck
+    (`vocabLevel`) still on XP, deliberately out of scope.

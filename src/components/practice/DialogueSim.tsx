@@ -5,6 +5,7 @@ import { useApp } from '../../context/AppContext';
 import { rnd } from '../../lib/random.js';
 import { markQuest } from '../../lib/quests.js';
 import { getUserCefr, cefrRank } from '../../lib/cefr';
+import { launchedLevel } from '../../lib/sessionLevel';
 import { ssGet } from '../../lib/safeStorage';
 
 import DialogueScenarioMenu from './DialogueScenarioMenu';
@@ -52,16 +53,25 @@ export default function DialogueSim({
 }: {
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
 }) {
-  const { level: userLevel, stats } = useStats();
+  const { stats } = useStats();
+  // THE LEVEL THIS SCREEN WORKS AT. `useStats()` exposes no `level`, so the
+  // destructured `userLevel` this line used to read was `undefined` for the life of
+  // the screen: the AI conversation was always requested at 'A2' and the menu always
+  // ordered for 'A1' (found 2026-09-28 while wiring the course level). It is now the
+  // learner's XP level — or, when the DAILY SESSION launched this screen, the
+  // COURSE's level (redesign increment 1, owner decisions 1 and 3), so a Unit-1
+  // learner with B1 XP is not dropped into a free B1 conversation.
+  const xpLevel = getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0);
+  const userLevel = launchedLevel('dialogue', xpLevel);
   // Spontaneous-conversation default (owner directive 2026-08-14): when the
   // DAILY SESSION launches the conversation anchor at B1+, open the AI
   // conversation directly — the budget raise + ledger reconciliation exist to
   // fund exactly this. Guided stays one tap away and remains the default for
   // Practice-tab visits, A1/A2, and whenever AI limits answer 429 (the client
-  // already degrades calmly via classifyAiLimit).
+  // already degrades calmly via classifyAiLimit). "B1+" is the COURSE's level when
+  // the session launched us (decision 3): the session only serves the anchor there.
   const sessionAiFirst =
-    ssGet('nh_session_started') === 'dialogue' &&
-    cefrRank(getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0)) >= cefrRank('B1');
+    ssGet('nh_session_started') === 'dialogue' && cefrRank(userLevel) >= cefrRank('B1');
   const { setScr, sCurEx } = useApp();
   const finishFired = useRef(false);
   const [scenario, setScenario] = useState<any>(null);

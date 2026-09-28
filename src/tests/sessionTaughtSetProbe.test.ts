@@ -23,45 +23,21 @@ vi.mock('../lib/cefrCertification', () => ({
   getContentUnlockLevel: vi.fn((l: string) => l),
 }));
 
-import { buildSessionActivities, SESSION_AUTOCOMPLETE_SCREENS } from '../hooks/useDailySession';
 import {
-  writeCurriculumSpine,
-  markLessonComplete,
-  readCompletedLessons,
-} from '../lib/curriculumProgress';
-import { recordUnitTest, recordUnitProduction, recordLevelReview } from '../lib/courseUnitProgress';
+  buildSessionActivities,
+  SESSION_AUTOCOMPLETE_SCREENS,
+  PRODUCTION_POOL,
+} from '../hooks/useDailySession';
+import { isUnlocked, cefrRank } from '../lib/cefr';
+import { readCompletedLessons } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
-import type { CurriculumEntry } from '../lib/curriculum';
-import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
+import { seedCourseAt, readWholeUnit } from './helpers/courseSeed';
 
-const SPINE = CURRICULUM as unknown as CurriculumEntry[];
 const RUNS = 40;
 /** 1-based course unit the learner stands on (all earlier units fully advanced). */
 const POSITIONS = [1, 3, 7, 13] as const;
 const XP_LEVELS = ['A1', 'B1', 'C1'] as const;
-
-function advanceTo(unitIndex: number): void {
-  const { units } = readCourseState();
-  const finishedLevels = new Set<string>();
-  for (const u of units) {
-    if (u.index >= unitIndex) break;
-    for (const l of u.lessons) markLessonComplete(l.id, '2026-09-01');
-    recordUnitTest(u.id, 20, 20, true, '2026-09-01');
-    recordUnitProduction(u.id, 'write', 0.9, '2026-09-01');
-    recordUnitProduction(u.id, 'speak', 0.9, '2026-09-01');
-    finishedLevels.add(u.level);
-  }
-  // A level whose units are all advanced serves its LEVEL REVIEW at the crossing
-  // (increment 6) — record it as done so P0 is the lesson, which is the scenario
-  // the table describes. The level the learner is now IN is not finished.
-  const standing = units.find((u) => u.index === unitIndex);
-  for (const lv of finishedLevels) {
-    if (lv !== standing?.level) recordLevelReview(lv, 18, 18, '2026-09-01');
-  }
-  // Retention starts on the first read of the state and the 7-day re-check must
-  // not be due today, or P0 would be a check-up rather than the lesson.
-}
 
 function taughtSet(): Set<string> {
   const { units, advanced } = readCourseState();
@@ -86,6 +62,12 @@ function taughtSet(): Set<string> {
  * Counted separately so the concept figure is honest.
  */
 const SKILL_CATEGORIES = new Set(['speaking', 'writing']);
+/**
+ * Listening and reading are the other two MODALITY categories (`courseGate`'s
+ * `MODALITY_CATEGORIES`): comprehension of graded input, not a lesson's concept, so
+ * they are neither a concept drill nor a production slot here. Counted apart.
+ */
+const INPUT_CATEGORIES = new Set(['listening', 'reading']);
 
 function isP0(id: string): boolean {
   return /^(curriculum_|unit_|level_review)/.test(id);
@@ -96,7 +78,6 @@ describe('increment 0 — how much of the session is on material the course has 
     localStorage.clear();
     sessionStorage.clear();
     vi.clearAllMocks();
-    writeCurriculumSpine(SPINE);
   });
 
   /** Two day shapes: a LESSON day (P0 = lesson + drill) and a UNIT-TEST day (P0 = test only). */
@@ -105,22 +86,37 @@ describe('increment 0 — how much of the session is on material the course has 
   function seed(pos: number, day: Day): void {
     localStorage.clear();
     sessionStorage.clear();
-    writeCurriculumSpine(SPINE);
-    advanceTo(pos);
-    if (day === 'unit-test') {
-      const unit = readCourseState().units.find((u) => u.index === pos)!;
-      for (const l of unit.lessons) markLessonComplete(l.id, '2026-09-10');
-    }
+    seedCourseAt(pos);
+    if (day === 'unit-test') readWholeUnit(pos);
   }
 
-  function measure(day: Day): { rows: string[]; concept: number; skill: number } {
+  interface Cell {
+    pos: number;
+    lv: string;
+    concept: number;
+    conceptUntaught: number;
+    skill: number;
+    /** Screens served in skill slots across all runs. */
+    skillScreens: Set<string>;
+  }
+
+  function measure(day: Day): {
+    rows: string[];
+    cells: Cell[];
+    concept: number;
+    conceptUntaught: number;
+    skill: number;
+  } {
     const rows: string[] = [];
+    const cells: Cell[] = [];
     let conceptTotal = 0;
+    let untaughtTotal = 0;
     let skillTotal = 0;
     for (const pos of POSITIONS) {
       for (const lv of XP_LEVELS) {
         seed(pos, day);
         const taught = taughtSet();
+        const skillScreens = new Set<string>();
         // Anchor: P0 must be the shape this table claims, or the row describes
         // some other day.
         const first = buildSessionActivities(lv)[0];
@@ -131,6 +127,7 @@ describe('increment 0 — how much of the session is on material the course has 
         let concept = 0;
         let conceptUntaught = 0;
         let skill = 0;
+        let input = 0;
         const offenders = new Map<string, number>();
         const shapes = new Map<string, number>();
         for (let i = 0; i < RUNS; i++) {
@@ -144,6 +141,11 @@ describe('increment 0 — how much of the session is on material the course has 
             if (a.category === 'general') continue;
             if (SKILL_CATEGORIES.has(a.category)) {
               skill++;
+              skillScreens.add(a.screen);
+              continue;
+            }
+            if (INPUT_CATEGORIES.has(a.category)) {
+              input++;
               continue;
             }
             concept++;
@@ -154,7 +156,9 @@ describe('increment 0 — how much of the session is on material the course has 
           }
         }
         conceptTotal += concept;
+        untaughtTotal += conceptUntaught;
         skillTotal += skill;
+        cells.push({ pos, lv, concept, conceptUntaught, skill, skillScreens });
         const top = [...offenders.entries()]
           .sort((a, b) => b[1] - a[1])
           .slice(0, 4)
@@ -162,16 +166,23 @@ describe('increment 0 — how much of the session is on material the course has 
           .join(', ');
         const commonest = [...shapes.entries()].sort((a, b) => b[1] - a[1])[0]!;
         rows.push(
-          `unit ${String(pos).padStart(2)} | xp ${lv} | taught ${String(taught.size).padStart(2)} | concept drills/run ${(concept / RUNS).toFixed(2)}, untaught ${String(Math.round((100 * conceptUntaught) / Math.max(1, concept))).padStart(3)}% [${top || '—'}] | skill slots/run ${(skill / RUNS).toFixed(2)} | shape ${commonest[1]}/${RUNS}: ${commonest[0]}`,
+          `unit ${String(pos).padStart(2)} | xp ${lv} | taught ${String(taught.size).padStart(2)} | concept drills/run ${(concept / RUNS).toFixed(2)}, untaught ${String(Math.round((100 * conceptUntaught) / Math.max(1, concept))).padStart(3)}% [${top || '—'}] | skill slots/run ${(skill / RUNS).toFixed(2)} | input/run ${(input / RUNS).toFixed(2)} | shape ${commonest[1]}/${RUNS}: ${commonest[0]}`,
         );
       }
     }
-    return { rows, concept: conceptTotal, skill: skillTotal };
+    return {
+      rows,
+      cells,
+      concept: conceptTotal,
+      conceptUntaught: untaughtTotal,
+      skill: skillTotal,
+    };
   }
 
+  const lesson = measure('lesson');
+  const test = measure('unit-test');
+
   it('measures, for a LESSON day and a UNIT-TEST day, per course position × XP level', () => {
-    const lesson = measure('lesson');
-    const test = measure('unit-test');
     console.log(
       [
         '',
@@ -186,8 +197,37 @@ describe('increment 0 — how much of the session is on material the course has 
         '',
       ].join('\n'),
     );
-    // Non-vacuity only: both populations must have been reached.
+    // Non-vacuity: both populations must have been reached.
     expect(lesson.skill + test.skill).toBeGreaterThan(0);
     expect(test.concept).toBeGreaterThan(0);
+  });
+
+  // ── THE RATCHET (increment 1, 2026-09-28). Increment 0 measured; from here the
+  // numbers are held. Each clause names the decision it enforces.
+  it('no concept drill outside P0 is on a category the course has not taught (decision 1)', () => {
+    expect(lesson.conceptUntaught + test.conceptUntaught).toBe(0);
+  });
+
+  it('the skill slots follow the COURSE level, not XP (decisions 1 and 3)', () => {
+    const unlockedAt = (screen: string, level: string) => {
+      const entry = PRODUCTION_POOL.find((p) => p.screen === screen);
+      return !!entry && isUnlocked(entry.cefr, level);
+    };
+    for (const c of [...lesson.cells, ...test.cells]) {
+      const courseLevel = c.pos >= 13 ? 'B1' : c.pos >= 7 ? 'A2' : 'A1';
+      // The conversation anchor is a COURSE-B1 fact: absent at A1/A2 units whatever
+      // the XP says, present at a B1 unit even for an A1-XP learner.
+      const anchored = cefrRank(courseLevel) >= cefrRank('B1');
+      expect(c.skill / RUNS, `unit ${c.pos} / xp ${c.lv}: skill slots per session`).toBe(
+        anchored ? 2 : 1,
+      );
+      // Every production/conversation screen served is unlocked at the course level.
+      for (const s of c.skillScreens) {
+        expect(
+          unlockedAt(s, courseLevel),
+          `unit ${c.pos} / xp ${c.lv}: ${s} at ${courseLevel}`,
+        ).toBe(true);
+      }
+    }
   });
 });
