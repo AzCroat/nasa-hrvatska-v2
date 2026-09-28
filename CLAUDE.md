@@ -2927,7 +2927,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **479 files**, 2 of them walked structurally — the figure the lint
+Coverage is **480 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -2937,6 +2937,19 @@ deleted the hero cluster three more pointed at, and up by one for
 the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
 … `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
 checks, positive-controlled in an `options` field and a `hint`).
+
+**THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
+A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither
+regex pass could see one word of the core deck (2,357), the B2/C1/C2 tiers (2,163) or TOP100:
+11,664 Croatian strings, the headwords and example sentences on every flashcard. Found by
+positive control before adding ~1,300 advanced words (`hleb` as a C2 headword and inside a C2
+example both passed clean). `vocabStrings` now walks both copies by POSITION — headword and
+example both checks, the English gloss and the `MO-ći` syllable guide encoding only — and is
+the third structured entry, which is why the count rose by one with no new file: the
+structured entries are counted on top of TARGETS, as `lessons.js` already was. Walked: zero
+findings, so a ratchet. **This is the fifth time "in TARGETS" has meant nothing**, and every
+time the tell was the SHAPE of the data, not the file list: ask how a file stores its Croatian
+before believing a lint reads it.
 
 **AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
 control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was

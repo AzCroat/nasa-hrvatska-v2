@@ -91,6 +91,23 @@ describe('LISTEN pool', () => {
     expect(upper.length).toBeGreaterThanOrEqual(20);
   });
 
+  it('every level has ≥20 sentences of its OWN level (2026-09-28)', () => {
+    // A round is 8 sentences. Before this the own-level counts were A1 7, A2 8,
+    // B1 11, B2 10, C1 5, C2 4: an A1 round was nearly the whole A1 bank every
+    // time, and a C2 round was mostly sentences from lower levels, because
+    // levelledBank serves everything AT OR BELOW the learner. The ≥B1 total
+    // above could not see either — it passed at 30 with C2 holding four.
+    for (const lv of CEFR) {
+      const n = LISTEN.filter((x) => x.level === lv).length;
+      expect(n, `${lv} has ${n} own-level listening sentences`).toBeGreaterThanOrEqual(20);
+    }
+  });
+
+  it('no Croatian sentence contains a numeral (TTS reads it unpredictably)', () => {
+    const digits = LISTEN.filter((x) => /\d/.test(x.hr)).map((x) => x.hr);
+    expect(digits).toEqual([]);
+  });
+
   it('(hr, en) pairs are unique', () => {
     const keys = LISTEN.map((x) => `${x.hr} ${x.en}`);
     const dupes = keys.filter((k, i) => keys.indexOf(k) !== i);
