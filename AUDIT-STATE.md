@@ -13002,3 +13002,29 @@ culture` at every level, because P0's two slots plus the guaranteed production s
   - **CodeQL #97 = #96 one line-move later.** #772's CodeQL check failed on a fresh alert at
     `lessonProduceRequest.ts:59` — the same `sessionStorage.setItem`, moved by 2b's kind
     suffix. Dismissed as the same false positive; CLAUDE.md's dismissal list names both.
+- [x] **Sweep 184 — /review crashed on its highest-volume path for three days, and the lint that would have said so was off for TypeScript (owner's Sentry report, 2026-09-28).**
+  - Sentry 21022c33, `Rendered more hooks than during the previous render` at
+    `ReviewScreen`, `boundary:review`. Cause: sweep 102 (2026-09-24) gave the screen early
+    returns for loading / unavailable / empty; sweep 139 (2026-09-25) added the credit
+    `useEffect` BELOW them. Open `/review` before the vocabulary payload lands → the loading
+    branch renders with fewer hooks; the render after the payload registers one more → React
+    throws into the screen boundary. Live from 2026-09-25 until today's fix; every learner
+    who opened Review cold met it. Fix: the effect moved above the early returns (its own
+    guard makes it a no-op before the finish). `reviewScreenHooksOrder.test.tsx` drives the
+    REAL transition (loading → loaded) and reproduces the exact error on the original file.
+  - **WHY NO LINT CAUGHT IT.** `react-hooks/rules-of-hooks` is `error` for `.js/.jsx` and was
+    ABSENT from the `src/**/*.{ts,tsx}` block, whose comment says it "mirrors the .js/.jsx
+    block above". Verified before turning it on: the rule flags a synthetic hook-after-return
+    AND the original `ReviewScreen` (267:3); the project config flagged neither. Now `error`
+    for TS too.
+  - **Turning it on found a second live instance**: `ProductionDrillScreen`, six hooks after
+    `if (!item) return null;` across its four mode components (the same 2026-09-27 credit
+    effect, plus two `useState` in ModeBuild). Latent — `round` is stable per mount, so the
+    branch never flips mid-life — and fixed the same way.
+  - **MY CENSUS PROBE WAS BROKEN AND READ AS ZERO.** `eslint -f unix` is not in ESLint 10 core;
+    the command errored, `grep -c` counted 0, and I reported "0 violations" across the tree
+    — the "a probe that prints nothing has not measured zero" rule, again, on a lint run. A
+    synthetic control (a file that MUST be flagged) is what exposed it.
+  - **Not checked**: `.js/.jsx` screens for the same shape are covered by the rule already; the
+    E2E route sweep could not have seen this (it renders each route once, never the loading →
+    loaded transition), and no E2E was added — the unit test drives the transition directly.

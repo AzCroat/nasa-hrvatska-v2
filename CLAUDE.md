@@ -4585,6 +4585,34 @@ listening and never submits), and `/api/speaking-coach` grades the transcript.
   the microphone; parse a produce id without the kind-less 2a fallback while any
   persisted session may still carry one.
 
+## Critical Architecture: A Hook After An Early Return Is A Crash Waiting For The Second Render (owner's Sentry report, 2026-09-28)
+
+`/review` — the highest-volume daily action — threw "Rendered more hooks than during
+the previous render" into its screen boundary for three days. Sweep 102 gave
+`ReviewScreen` early returns (loading / unavailable / empty); sweep 139 then put the
+credit `useEffect` BELOW them. Opened before the vocabulary payload landed, the screen
+rendered the loading branch with fewer hooks, and the render after the payload
+registered one more. Sentry 21022c33; AUDIT-STATE sweep 184.
+
+- **`react-hooks/rules-of-hooks` was `error` for JavaScript files and ABSENT for
+  `src/**/*.{ts,tsx}`** — under a comment saying that block mirrors the JS one. Verified
+  before turning it on: the rule flags a synthetic hook-after-return and the original
+  `ReviewScreen` at 267:3; the project config flagged neither. It is `error` for TS now,
+  and turning it on found one more live instance (`ProductionDrillScreen`, six hooks in
+  four mode components, latent because its `round` never changes per mount). Both fixed
+  by moving the hooks above the return — their own guards already make them no-ops
+  before the finish.
+- **Pinned behaviourally, not only by lint**: `reviewScreenHooksOrder.test.tsx` drives
+  the REAL loading → loaded transition and reproduces the error on the original file.
+  The E2E route sweep renders each route once and can never see a second render.
+- **A census probe that errors reads as zero.** `eslint -f unix` is not in ESLint 10;
+  the census command failed and `grep -c` said 0 across the tree. A synthetic control
+  — a file that MUST be flagged — is the check that caught it.
+- NEVER: place a hook below a `return` in a component (the sweep-139 credit effects are
+  the recurring shape — they belong with the other hooks, guarded by `done`); run a
+  lint census without a positive control; claim a lint block "mirrors" another without
+  a test that reads both rule sets.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

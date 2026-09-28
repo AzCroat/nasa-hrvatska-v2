@@ -166,6 +166,41 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
   // derivation, which is exactly the disagreement the vocab-deck work exists to
   // make impossible; the window was the one place it could still happen.
   // `poolLaunchBlock` is the one classifier (sweep 97) — content decides first.
+  // HOOKS BEFORE ANY EARLY RETURN. This effect used to sit below the two returns
+  // that follow (loading / unavailable / empty), so a learner who opened /review
+  // before the vocabulary payload landed rendered fewer hooks than the next render
+  // — "Rendered more hooks than during the previous render", Sentry 21022c33,
+  // 2026-09-28, live since 8edbe532 (2026-09-25) on the app's highest-volume
+  // screen. Its own guard (`!done || questions.length === 0`) already makes it a
+  // no-op on every render before the finish, so it costs nothing up here.
+  // Credit on REACHING the done view, not on acknowledging it. The TabBar is mounted
+  // on every screen and this view also carries the Back button H(..., goBack) draws,
+  // so "Continue →" was one exit of several — and it was the ONLY one that paid. A
+  // learner who reviewed every due card and tapped a tab, or Back, lost the XP, the
+  // `rc` counter, `vs: srsreview`, the SRS-review quest count and the practice
+  // timestamp. This is the app's highest-volume daily action. `questions.length > 0`
+  // is required, or an empty queue would credit a review nobody did (NEVER-DO 14).
+  useEffect(() => {
+    if (!done || questions.length === 0 || finishFired.current) return;
+    finishFired.current = true;
+    markPracticed();
+    haptic.award();
+    if (typeof award === 'function') award(score * 5 + 5, false, 'review');
+    // `master` is the SRS-review quest and is the one that counts. It takes the
+    // COUNT — the quest reads "Review 5+ SRS words" and a bare markQuest('master')
+    // cleared it for a one-card session, and through TIER2_MAP's second-mark
+    // promotion cleared "Review 15+" for two.
+    recordSrsReview(questions.length);
+    if (!stats.vs?.includes('srsreview')) {
+      setStats((prev) => {
+        if (prev.vs?.includes('srsreview')) return prev;
+        return { ...prev, rc: (prev.rc || 0) + 1, vs: [...(prev.vs || []), 'srsreview'] };
+      });
+      if (writeDelta) writeDelta({ rc: 1, vs: ['srsreview'] });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, questions.length, score]);
+
   const reviewBlock = poolLaunchBlock(content, contentLoading, dueWords);
   if (reviewBlock && reviewBlock !== 'empty') {
     return (
@@ -256,34 +291,6 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
       </div>
     );
   }
-
-  // Credit on REACHING the done view, not on acknowledging it. The TabBar is mounted
-  // on every screen and this view also carries the Back button H(..., goBack) draws,
-  // so "Continue →" was one exit of several — and it was the ONLY one that paid. A
-  // learner who reviewed every due card and tapped a tab, or Back, lost the XP, the
-  // `rc` counter, `vs: srsreview`, the SRS-review quest count and the practice
-  // timestamp. This is the app's highest-volume daily action. `questions.length > 0`
-  // is required, or an empty queue would credit a review nobody did (NEVER-DO 14).
-  useEffect(() => {
-    if (!done || questions.length === 0 || finishFired.current) return;
-    finishFired.current = true;
-    markPracticed();
-    haptic.award();
-    if (typeof award === 'function') award(score * 5 + 5, false, 'review');
-    // `master` is the SRS-review quest and is the one that counts. It takes the
-    // COUNT — the quest reads "Review 5+ SRS words" and a bare markQuest('master')
-    // cleared it for a one-card session, and through TIER2_MAP's second-mark
-    // promotion cleared "Review 15+" for two.
-    recordSrsReview(questions.length);
-    if (!stats.vs?.includes('srsreview')) {
-      setStats((prev) => {
-        if (prev.vs?.includes('srsreview')) return prev;
-        return { ...prev, rc: (prev.rc || 0) + 1, vs: [...(prev.vs || []), 'srsreview'] };
-      });
-      if (writeDelta) writeDelta({ rc: 1, vs: ['srsreview'] });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [done, questions.length, score]);
 
   if (done) {
     const pct = Math.round((score / questions.length) * 100);
