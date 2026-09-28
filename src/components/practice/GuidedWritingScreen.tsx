@@ -29,6 +29,7 @@ import { recordScreenPractised } from '../../lib/teachPractice';
 import { addWordToSRS } from '../../lib/srs.js';
 import { recordMasteryEvent } from '../../lib/masteryLedger';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
+import { launchedLevel } from '../../lib/sessionLevel';
 import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
@@ -115,7 +116,9 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
   const mountedRef = useRef(true);
   const finishFired = useRef(false);
   const { isOnline } = useOnlineStatus();
-  const [unitLevel] = useState(() => getCurrentContentLevel());
+  // Launched from the daily session, the unit is the COURSE's level (redesign
+  // increment 1, owner decision 1). From the Practice tab it is the learner's own.
+  const [unitLevel] = useState(() => launchedLevel('writing_guided', getCurrentContentLevel()));
   // The pointer moves once per unit finished, however many times the grade is re-run.
   const advancedRef = useRef(false);
   const [unit] = useState<WritingUnit>(() => pickUnit(unitLevel));

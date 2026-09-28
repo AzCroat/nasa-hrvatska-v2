@@ -375,8 +375,9 @@ describe('the wiring — buildSessionActivities really calls the slot', () => {
     expect(src).toMatch(
       /activities\.length < fillTarget && !activities\.some\(\(a\) => inputKindOf\(a\.category\)\)/,
     );
-    expect(src).toMatch(
-      /selectGuaranteedInput\(userCefr, usedScreens, recentScreens, drawCtx\(\)\)/,
-    );
+    // `level` is the COURSE's level (redesign increment 1, 2026-09-28) — pinned
+    // to its derivation so the slot cannot quietly go back to the XP level.
+    expect(src).toMatch(/const level = sessionLevel\(userCefr\);/);
+    expect(src).toMatch(/selectGuaranteedInput\(level, usedScreens, recentScreens, drawCtx\(\)\)/);
   });
 });

@@ -38,6 +38,7 @@ import {
 import { lsGet } from '../lib/safeStorage';
 import { selectGuaranteedInput, inputKindOf } from '../lib/inputSlot';
 import { readServedMap, SERVED_KEY } from '../lib/sessionServed';
+import { sessionLevel } from '../lib/sessionLevel';
 // Re-exported so tests keep one import path for the session's guaranteed slots.
 export { selectGuaranteedInput } from '../lib/inputSlot';
 export type { InputKind } from '../lib/inputSlot';
@@ -344,6 +345,19 @@ export function buildSessionActivities(
   userCefr: string,
   poolWords?: Set<string>,
 ): SessionActivity[] {
+  // THE SESSION IS BUILT AT THE COURSE'S LEVEL (redesign increment 1, 2026-09-28,
+  // owner decision 1). `userCefr` is the XP-derived unlock level HomeTab passes in;
+  // the course ignores it ("one path, everyone starts at Unit 1"), and until this
+  // line so did nothing else here — every graded pick below was gated on XP while
+  // P0 served the course, so a Unit-1 learner with B1 XP got the alphabet lesson
+  // and then a B1 speaking task. `level` is the current course unit's level, or
+  // `userCefr` when there is no spine or the course is finished. The LENGTH
+  // contract reads it too: increment 0's ratchet showed that an XP-sized (4-slot)
+  // session on an A1 course unit opens a slot no A1 learner has, and the drill that
+  // fills it is a lesson the learner has not reached. Only the culture slot (P4)
+  // still reads `userCefr`; recorded as decision-1 residue in the design doc.
+  const level = sessionLevel(userCefr);
+
   const activities: SessionActivity[] = [];
 
   // ── Priority 0: TODAY'S LESSON (Wave 1, 2026-08-28) ─────────────────────────
@@ -353,7 +367,7 @@ export function buildSessionActivities(
   // contract does not move. Empty when there is no curriculum data. Resolution,
   // and the reasons it works this way, live in lib/curriculumSlot.
   const curriculumSlots = buildCurriculumSlots({
-    userCefr,
+    userCefr: level,
     screenMap: CATEGORY_SCREEN_MAP,
     easierMap: CATEGORY_EASIER_SCREEN,
     screenCefr: SCREEN_CEFR,
@@ -372,7 +386,7 @@ export function buildSessionActivities(
   // Use the servable (orphan-filtered) count ONLY when poolWords is actually
   // populated. On a cold app-open the pool is empty on the first render (content
   // loads async) — treating that as "0 due" silently dropped the Word Review slot
-  // from the whole day's session (it's built once, keyed on userCefr). Fall back to
+  // from the whole day's session (it's built once, keyed on level). Fall back to
   // the raw FSRS due count when the pool isn't ready, so due reviews still get a slot.
   const dueCount =
     poolWords && poolWords.size > 0 ? getServableReviewCount(poolWords) : getDueReviews().length;
@@ -399,7 +413,7 @@ export function buildSessionActivities(
   // lesson changed nothing about the next session, which is also how the A1 verb
   // hole stayed invisible: taught at A1, drillable only from A2.
   const taughtActivity = resolveTaughtPracticeActivity(
-    userCefr,
+    level,
     new Set(activities.map((a) => a.screen)),
   );
   if (taughtActivity) {
@@ -463,11 +477,11 @@ export function buildSessionActivities(
   // reading: on a vocab-coupled lesson day P2.7 never fired at all. The extra
   // activity was this pick. Making only the grammar guarantee yield would have
   // changed nothing.
-  const fillTarget = getSessionFillTarget(userCefr, readFluencyMode());
-  const reservedAfterAdaptive = 1 + (cefrRank(userCefr) >= cefrRank('B1') ? 1 : 0);
+  const fillTarget = getSessionFillTarget(level, readFluencyMode());
+  const reservedAfterAdaptive = 1 + (cefrRank(level) >= cefrRank('B1') ? 1 : 0);
   const roomForAdaptive = activities.length + reservedAfterAdaptive < fillTarget;
   const adaptiveActivity = roomForAdaptive
-    ? resolveAdaptiveActivity(userCefr, new Set(activities.map((a) => a.screen)))
+    ? resolveAdaptiveActivity(level, new Set(activities.map((a) => a.screen)))
     : null;
   if (adaptiveActivity) {
     activities.push({
@@ -488,9 +502,9 @@ export function buildSessionActivities(
   // degrades into a non-conversation. A1/A2 skip this — they get a single
   // combined output slot via P2.5 — keeping early sessions light (Rec #3 will
   // formalise the per-level shape).
-  if (cefrRank(userCefr) >= cefrRank('B1')) {
+  if (cefrRank(level) >= cefrRank('B1')) {
     const conversation = selectProductionExercise({
-      cefr: userCefr,
+      cefr: level,
       micState: readMicState(),
       recentScreens: [],
       excludeScreens: [...usedScreens],
@@ -517,17 +531,17 @@ export function buildSessionActivities(
   const productionActivity = courseProduces
     ? null
     : selectProductionExercise({
-        cefr: userCefr,
+        cefr: level,
         micState: readMicState(),
         recentScreens: getRecentProduction(),
         excludeScreens: [...usedScreens],
-        kindBias: weakestProductionKind(userCefr as CefrLevel) ?? undefined,
+        kindBias: weakestProductionKind(level as CefrLevel) ?? undefined,
       });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push({
       ...productionActivity,
       ...withReason(
-        productionReason(weakestProductionKind(userCefr as CefrLevel), userCefr as CefrLevel),
+        productionReason(weakestProductionKind(level as CefrLevel), level as CefrLevel),
       ),
     });
     usedScreens.add(productionActivity.screen);
@@ -588,7 +602,7 @@ export function buildSessionActivities(
   // P2.7 was built for.
   const roomForGuaranteedGrammar = !isLessonDay || activities.length < fillTarget;
   if (roomForGuaranteedGrammar && !activities.some((a) => isGrammarStructure(a.category))) {
-    const grammar = selectGuaranteedGrammar(userCefr, usedScreens, recentScreens);
+    const grammar = selectGuaranteedGrammar(level, usedScreens, recentScreens);
     if (grammar) {
       activities.push({ ...grammar, ...withReason(grammarSlotReason()) });
       usedScreens.add(grammar.screen);
@@ -610,7 +624,7 @@ export function buildSessionActivities(
   //     That is the owner's earlier G2 directive; measured, it costs input on
   //     no non-lesson day at any level (see sessionInputSlot.test.ts).
   if (activities.length < fillTarget && !activities.some((a) => inputKindOf(a.category))) {
-    const input = selectGuaranteedInput(userCefr, usedScreens, recentScreens, drawCtx());
+    const input = selectGuaranteedInput(level, usedScreens, recentScreens, drawCtx());
     if (input) {
       const { kind: _kind, ...activity } = input;
       activities.push(activity);
@@ -622,7 +636,7 @@ export function buildSessionActivities(
   const ctx = drawCtx();
   let pool = CEFR_EXERCISE_POOL.filter(
     (ex) =>
-      isUnlocked(ex.cefr, userCefr) &&
+      isUnlocked(ex.cefr, level) &&
       entryServable(ex, ctx) &&
       !recentScreens.includes(ex.screen) &&
       !usedScreens.has(ex.screen),
@@ -631,8 +645,7 @@ export function buildSessionActivities(
   // Fallback: if recency filter leaves nothing, use full unlocked pool
   if (pool.length === 0) {
     pool = CEFR_EXERCISE_POOL.filter(
-      (ex) =>
-        isUnlocked(ex.cefr, userCefr) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
+      (ex) => isUnlocked(ex.cefr, level) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
     );
   }
 
@@ -640,13 +653,13 @@ export function buildSessionActivities(
   // a random tiebreak so same-tier types still rotate for variety (recency
   // already rotates day to day). Replaces the prior pure shuffle so difficulty
   // actually scales with the user (defect #1: difficulty was inert).
-  const targetTier = CEFR_TIER[userCefr] ?? 3;
+  const targetTier = CEFR_TIER[level] ?? 3;
   // Phase 3 journey engine: within the same difficulty distance, activities
   // whose skill the mastery ledger marks untested/developing serve first.
   // Deliberately a TIE-BREAK behind `dist` so the difficulty contract (a B2
   // session contains no tier-1 games) is untouched; with an empty ledger every
   // boost is equal and ordering degrades to the pre-Phase-3 random tiebreak.
-  const skillBoost = makeSessionSkillBoost(userCefr as CefrLevel);
+  const skillBoost = makeSessionSkillBoost(level as CefrLevel);
   const orderFill = (list: typeof pool) =>
     [...list]
       .map((ex) => ({
@@ -703,8 +716,7 @@ export function buildSessionActivities(
   // widened list pass 2 draws from.
   const orderedAll = orderFill(
     CEFR_EXERCISE_POOL.filter(
-      (ex) =>
-        isUnlocked(ex.cefr, userCefr) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
+      (ex) => isUnlocked(ex.cefr, level) && entryServable(ex, ctx) && !usedScreens.has(ex.screen),
     ),
   );
   const fillPass = (list: typeof ordered, newFamilyOnly: boolean): void => {
