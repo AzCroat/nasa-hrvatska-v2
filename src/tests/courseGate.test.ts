@@ -120,11 +120,29 @@ describe('readCourseAhead — from storage', () => {
     expect(a.categories.size + a.screens.size).toBe(0);
   });
 
-  it('a new learner: the open unit is reached even before a lesson is read', () => {
+  it('a new learner: TODAY’S lesson is reached; the rest of the open unit is not until read (increment 3)', () => {
+    // Until redesign increment 3 (2026-09-28) the whole open unit counted as reached,
+    // read or not, so a free slot could drill lesson 4's concept on lesson 1's day.
+    // Now only the lesson the course serves today is reached ahead of being read —
+    // its coupled drill sits in the plan beside it and must not be spliced out.
     writeCurriculumSpine(SPINE);
     const a = readCourseAhead();
     expect(a.categories.has('genitive')).toBe(true);
-    expect(a.categories.has(LESSON_TAUGHT_CATEGORY['pronouns-biti']!)).toBe(false);
+    const [first, ...rest] = UNITS[0]!.lessons;
+    const todayCat = LESSON_TAUGHT_CATEGORY[first!.id];
+    if (todayCat) expect(a.categories.has(todayCat)).toBe(false);
+    // A later lesson of the open unit whose category NO reached lesson teaches is ahead.
+    const later = rest
+      .map((l) => LESSON_TAUGHT_CATEGORY[l.id])
+      .find((c) => c && !MODALITY_CATEGORIES.has(c) && c !== todayCat);
+    expect(later).toBeTruthy();
+    expect(a.categories.has(later!)).toBe(true);
+    // Reading lesson 1 moves "today" to lesson 2, which is then reached.
+    markLessonComplete(first!.id, DAY);
+    const b = readCourseAhead();
+    const secondCat = LESSON_TAUGHT_CATEGORY[rest[0]!.id];
+    if (secondCat && !MODALITY_CATEGORIES.has(secondCat))
+      expect(b.categories.has(secondCat)).toBe(false);
   });
 
   it('a lesson read through the LIBRARY counts as taught', () => {

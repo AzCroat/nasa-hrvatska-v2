@@ -4613,6 +4613,58 @@ registered one more. Sentry 21022c33; AUDIT-STATE sweep 184.
   lint census without a positive control; claim a lint block "mirrors" another without
   a test that reads both rule sets.
 
+### Increment 3 — the taught rule is the design's, and the Lesson Review is the mix (2026-09-28)
+
+Measured before building (real builder, one lesson a day at A1): from day 4 the Lesson
+Review slot fires every day — the 3-day re-check plus missed items — which IS
+interleaved retrieval across recent concepts, so no mix slot was added and no session
+lengthened. What changed is the session's "taught" rule: `courseGate.readCourseAhead`
+counted every lesson of the OPEN unit as reached, read or not (a free slot could drill
+lesson 4's concept on lesson 1's day); it now counts completed lessons, lessons of
+advanced units, and **the one lesson the course serves today**. Today's stays reached
+because its coupled drill sits in the plan and `teachingSlotSplice` drops what is
+ahead. Stated gap: no re-practice on days 1–3 after a lesson, and the review grades
+rather than practises — a mixed-bank drill runner would close both if wanted.
+
+- NEVER: count an unread lesson of the open unit as taught (only today's); drop today's
+  lesson from the reached set (the splice would then remove its drill from the plan).
+
+### Increment 4 — the corrective day (2026-09-28)
+
+Owner decision 5. Bloom's mastery learning is corrective instruction, then the test
+again — not a plain retry, which is all a failed lesson check used to produce (the
+spine served the same lesson again from slide 0). `src/lib/correctiveDay.ts`: a lesson
+is CORRECTIVE when its latest real check attempt (`kind: 'lesson'`; a failed test-out
+is the answer to "should I read this?", not a failed lesson) was a fail and the lesson
+is still incomplete — until the check is passed. On such a day the teaching slot reads
+"Again: <lesson>", says why (`correctiveReason`), writes the `nh_lesson_corrective`
+handoff (re-armed by `rearmCourseHandoff` for the plain `curriculum_<lesson>` id, so a
+same-day relaunch from Home meets it), and its coupled drill prefers the EASIER route
+(`preferEasier`). `AnimatedLesson` opens at `firstWorkedSlide(slides)` — the
+reasoning, the hinted practice and the check again, without the explanation already
+read — in an unconditional effect above every return. A body with no worked slide
+opens at 0. The mastery gate is untouched; the day is still a lesson day.
+
+- NEVER: make a failed test-out corrective; place the corrective start below a return
+  in `AnimatedLesson`; lower the check's bar on a corrective day; carry the corrective
+  state in the activity id (it is recomputed from the stores at launch on purpose, so a
+  plan built before the fail still opens corrected).
+
+### Increment 5 — the plan line names the day's concept (2026-09-28)
+
+On a lesson day the session card's plan line said "Today leans into <weakest skill>" —
+the ledger's sentence, about slots a lesson day no longer contains (the pool pick is
+the produce step; the adaptive pick does not fire). `conceptPlanReason(activities)`
+now runs first in `planReasonFor`: a leading day-lesson slot gives "Today: <lesson> —
+learn it, drill it, then use it." (", again — a shorter re-teach, then the check." on
+a corrective day), built from the slot the builder composed, so it can only state what
+the day is; every other first slot gives null and the ledger sentence stands under
+`planReasonHonest`'s rules. The coupled drill's reason names its category. This closed
+the redesign's five increments; what was listed and not built is in the design doc.
+
+- NEVER: build the plan line from anything but the composed activities; let the ledger
+  sentence describe a lesson day.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What
@@ -6799,6 +6851,12 @@ Found from outside the code: the owner reported the Sentry project was receiving
 
 **THE FREE KV TIER IS A DAILY WRITE BUDGET OF 1,000, AND ONE ENDPOINT SPENT IT
 ALL (owner report, 2026-09-25 — "KV operations are nearing the daily cap").**
+**UPDATE 2026-09-28: the account is on the Workers PAID plan** (owner, after a
+second "50% of the daily KV free tier" alert the day the C1/C2 vocabulary and 72
+dialogues shipped — first-time TTS generations each write their audio to KV once).
+The paid write budget is ~1,000,000/day, so the cap below is history, not a live
+constraint. The D1-first rule stands anyway: it is the right shape, and a plan can
+be downgraded.
 Reads are 100,000/day and were never the constraint. `/api/award` was the app's
 only UNCONDITIONAL per-request KV writer — two keys per XP award — so the free
 tier allowed **~500 XP awards per day across every learner combined**, about ten
@@ -7047,7 +7105,7 @@ Alerts fixed in code that session: #70 (stack-trace exposure — `/api/backup-pr
 - Anything named `session` (`nh_session_started`, `nh_session_served`, `nh_recent_exercises`, `sessionCategory`, `sessionSignal`) is read as an **auth session token**. It is the daily LEARNING session — lesson plans, screen keys, recent-exercise ids. No credential, token, or secret is ever stored there.
 - `nh_grammar_diagnosis` (#62) trips the **medical-data** heuristic on the word "diagnosis". It caches AI-generated grammar-weakness feedback.
 - `getCertifiedLevel()` (#78) reads as a **credential**. It returns one of six strings, `A1`–`C2` — the learner's own demonstrated Croatian level, which every badge in the app already displays to them.
-- **#96 and #97 (2026-09-28, `src/lib/lessonProduceRequest.ts`) are the #78 heuristic again** — #97 is #96 re-raised on the SAME statement after increment 2b moved it from line 39 to line 59, which is the location-keyed-dismissal rule above landing within one day: "stores sensitive data returned by a call to getCertifiedLevel". The write is `sessionStorage.setItem('nh_lesson_produce', '<lessonId>|<write|speak>')` — the day's lesson id and which modality the produce step asks for — reached, by the scanner's flow, from the course level the session is built at. Nothing in it is a credential. Dismissed as a false positive in the Security tab; no inline suppression.
+- **#96, #97 and #99 (2026-09-28; `src/lib/lessonProduceRequest.ts` twice, then `src/lib/correctiveDay.ts`) are the #78 heuristic again** — #97 is #96 re-raised on the SAME statement after increment 2b moved it from line 39 to line 59, which is the location-keyed-dismissal rule above landing within one day: "stores sensitive data returned by a call to getCertifiedLevel". The write is `sessionStorage.setItem('nh_lesson_produce', '<lessonId>|<write|speak>')` — the day's lesson id and which modality the produce step asks for — reached, by the scanner's flow, from the course level the session is built at. #99 is the corrective-day handoff (`nh_lesson_corrective` = a lesson id), same flow. Nothing in any of them is a credential. Dismissed as false positives in the Security tab; no inline suppression. **Every sessionStorage handoff keyed off the course will raise this alert once** — expect it, dismiss it, list it here.
 
 Storing learner progress in localStorage is this app's documented architecture (localStorage is authoritative, Firestore syncs it) — there is nothing to encrypt, and the only "fix" would be renaming identifiers to dodge a scanner. Do NOT add inline `// codeql[...]` suppressions to production files for these, and do NOT add a repo-wide `query-filters` config to mute the rule: the first pollutes eight source files and the second drops a real security query over the whole tree, both to silence a heuristic the UI dismissal already records. Re-triage only if an alert's FILE or DATA changes — not because the alert reappears.
 

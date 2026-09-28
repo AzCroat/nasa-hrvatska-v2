@@ -11,6 +11,11 @@ import { recordLessonTaught } from '../../lib/teachPractice';
 import { markLessonComplete } from '../../lib/curriculumProgress';
 import { localDateStr } from '../../lib/dateUtils';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import {
+  readCorrectiveLessonRequest,
+  clearCorrectiveLessonRequest,
+  firstWorkedSlide,
+} from '../../lib/correctiveDay';
 import { recordMasteryPass } from '../../lib/lessonRetention';
 import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
@@ -134,6 +139,20 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   }, [lessonId]);
   const alreadyComplete = !!lessonId && !!stats?.vs?.includes('al_' + lessonId);
   const slides = lesson?.slides || [];
+
+  // THE CORRECTIVE DAY (redesign increment 4, owner decision 5). Opened from a
+  // corrective session slot — the last real check on THIS lesson failed — the
+  // sitting starts at the first worked example: the reasoning, the hinted practice
+  // and the check again, without the explanation already read. The handoff is read
+  // once and cleared; a lesson with no worked slide (an older cached body) opens at 0.
+  // Unconditional hook, above every return (the /review lesson of 2026-09-28).
+  useEffect(() => {
+    if (!lessonId || readCorrectiveLessonRequest() !== lessonId) return;
+    clearCorrectiveLessonRequest();
+    const start = firstWorkedSlide(slides);
+    if (start !== null) setSlide(start);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lessonId]);
   const totalSlides = slides.length;
   const currentSlide = slides[slide];
 

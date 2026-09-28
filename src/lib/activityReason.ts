@@ -204,6 +204,55 @@ export function produceReason(lessonTitle: string, kind: 'write' | 'speak' = 'wr
     : `Use what “${lessonTitle}” taught — two or three sentences of your own, graded like any writing.`;
 }
 
+/**
+ * The corrective day (redesign increment 4, owner decision 5). Both lines state only
+ * what the attempt store recorded and what the slot will do.
+ */
+export function correctiveReason(): string {
+  return 'Your last check on this lesson didn’t land — a shorter re-teach from the worked examples, then the check again.';
+}
+export function correctiveDrillReason(category?: SkillCategory): string {
+  return category
+    ? `An easier drill on ${categoryLabel(category)} first.`
+    : 'An easier drill on the same point first.';
+}
+
+/**
+ * THE PLAN LINE NAMES THE DAY'S CONCEPT (redesign increment 5, 2026-09-28). On a lesson
+ * day the session is one concept's day — learn it, drill it, use it — and the plan
+ * line used to say "Today leans into <weakest skill>", a ledger sentence about slots
+ * a lesson day no longer contains. This states what the day IS, from the slot the
+ * builder actually composed; on every other day shape (test, production, check-up,
+ * review, no spine) it returns null and the ledger sentence stands.
+ */
+export function conceptPlanReason(
+  activities: ReadonlyArray<{ id: string; screen: string; label: string }>,
+): string | null {
+  const first = activities[0];
+  if (!first || first.screen !== 'animlesson') return null;
+  if (!first.id.startsWith('curriculum_') || first.id.startsWith('curriculum_practice_'))
+    return null;
+  const again = first.label.startsWith('Again: ');
+  const title = again ? first.label.slice('Again: '.length) : first.label;
+  // The slot falls back to a generic label when the spine entry carries no title
+  // (an older cached spine); "Today: Today's Lesson" would be nonsense, so the line
+  // then names the shape without the name.
+  const generic = !title || title === 'Today\u2019s Lesson';
+  if (again) {
+    return generic
+      ? 'Today’s lesson, again — a shorter re-teach, then the check.'
+      : `Today: ${title}, again — a shorter re-teach, then the check.`;
+  }
+  return generic
+    ? 'Today’s lesson — learn it, drill it, then use it.'
+    : `Today: ${title} — learn it, drill it, then use it.`;
+}
+
+/** Why the coupled drill is here: it names WHAT it drills (increment 5). */
+export function practiceReason(category: SkillCategory): string {
+  return `Practising ${categoryLabel(category)} — what today’s lesson taught.`;
+}
+
 /** Why the conversation anchor is here (B1+ guarantee — true by construction). */
 export function conversationReason(): string {
   return 'B1 and up gets a conversation every session — the part recognition cannot replace.';

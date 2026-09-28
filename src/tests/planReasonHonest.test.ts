@@ -34,7 +34,13 @@ describe('the plan reason names only a skill the plan contains', () => {
     recordMasteryEvent({ level: 'A2', skill: 'grammar', score: 0.4 });
     // Unrestricted, the ledger's first untested skill is vocabulary — the old line.
     expect(buildPlanReason('A2')).toContain('vocabulary');
-    const s = newSession('A2', PLAN, []);
+    // A plan LED BY THE DAY'S LESSON names the concept, not a skill (redesign
+    // increment 5, 2026-09-28): a lesson day is one concept's day, and the ledger's
+    // sentence described slots such a day no longer holds.
+    const led = newSession('A2', PLAN, []);
+    expect(led.planReason).toBe('Today: Alphabet lesson — learn it, drill it, then use it.');
+    // Without the lesson, the ledger sentence stands — restricted to the plan's skills.
+    const s = newSession('A2', PLAN.slice(1), []);
     expect(s.planReason ?? '').not.toContain('vocabulary');
     expect(s.planReason).toMatch(/grammar|speaking/);
   });
@@ -64,10 +70,15 @@ describe('the plan reason names only a skill the plan contains', () => {
   });
 
   it('the reason is FROZEN on the plan: later practice does not rewrite it', () => {
-    const s = newSession('A2', PLAN, []);
+    const s = newSession('A2', PLAN.slice(1), []);
     expect(s.planReason).toBeUndefined(); // empty ledger at build → nothing claimed
     recordMasteryEvent({ level: 'A2', skill: 'grammar', score: 0.3 });
     expect(s.planReason).toBeUndefined(); // the stored plan did not change
+    // The concept line is frozen the same way: built once from the composed slots.
+    const led = newSession('A2', PLAN, []);
+    const line = led.planReason;
+    recordMasteryEvent({ level: 'A2', skill: 'speaking', score: 0.2 });
+    expect(led.planReason).toBe(line);
   });
 
   it('Home reads the stored reason, not a live ledger computation', () => {

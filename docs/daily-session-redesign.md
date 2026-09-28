@@ -282,13 +282,48 @@ first build step.**
   the handoff. Either modality settles the slot — the work is production on the
   concept. Cost 2a stated is closed: a lesson-day learner now alternates writing and
   speaking about the day's concept.
-- **Increment 3 — stage 4, the mix (decision 2).** A concept stays in a rolling
-  practice set across several days instead of clearing on first practice (G2); the
-  adaptive pick survives inside that set, restricted to taught categories. Length
-  contract unchanged, so at A1 this needs the budget rule stated in §5.
-- **Increment 4 — the corrective day (decision 5; G5).**
-- **Increment 5 — the session's reason lines and Home copy** name the day's concept,
-  so the one-subject shape is visible (G4).
+- **Increment 3 — DONE 2026-09-28, in its SMALL form (decision 2; owner said "start
+  increment 3" without choosing among the three shapes offered, so the recommended
+  one was taken and is recorded here).** Measured first, through the real builder, one
+  lesson passed per day at A1: days 1–3 are `lesson · drill · write/say it · culture`;
+  from day 4 the Lesson Review slot (P1.2 — the 3-day re-check of an earlier lesson
+  plus any items missed since) fires EVERY day, so an A1 lesson day is already four
+  activities plus culture. That review IS interleaved retrieval across recent concepts
+  — most of what stage 4 set out to add — so no mix slot was added and no session
+  lengthened. What changed: the session's "taught" rule is now the design's §6. The
+  course gate (`courseGate.readCourseAhead`) counted EVERY lesson of the open unit as
+  reached, read or not, so a free slot could drill lesson 4's concept on lesson 1's
+  day; it now counts completed lessons, lessons of advanced units, and the one lesson
+  the course serves today (its coupled drill sits in the plan beside it, and the plan
+  splice drops what is ahead). The adaptive pick, the grammar and input guarantees,
+  the fill and the discovery slot all read that set. **What this does NOT give**:
+  re-practice of a concept on days 1–3 after its lesson (G2's gap before the 3-day
+  re-check), and the review GRADES rather than practises. Both are recorded as the
+  cost of keeping session length; a fold-into-the-drill mix (a mixed-bank runner)
+  remains the way to close them if the owner wants it.
+- **Increment 4 — DONE 2026-09-28: the corrective day (decision 5; G5).**
+  `src/lib/correctiveDay.ts`. A lesson is CORRECTIVE when its latest real check
+  attempt (`kind: 'lesson'` — a failed test-out is not a failed lesson) was a fail and
+  the lesson is still incomplete; that holds until the check is passed. On such a day
+  the teaching slot is labelled "Again: <lesson>", states why, and the lesson opens at
+  its first WORKED EXAMPLE (a handoff written at build time and re-armed at launch, so a
+  same-day relaunch from Home meets it too): the reasoning, the hinted practice and
+  the check again, without the explanation already read. Its coupled drill prefers
+  the EASIER route (`preferEasier` on `curriculumPracticeActivity`). The mastery gate
+  is untouched — the check is still the bar; the rest of the day composes as any
+  lesson day (still a lesson day: the produce step stays). A body with no worked
+  slide (an older cache) opens at 0. Bloom's rule, as built: corrective instruction,
+  then the test again — never a plain retry.
+- **Increment 5 — DONE 2026-09-28: the plan line and the drill's reason name the
+  day's concept (G4).** On a lesson day the card's plan line said "Today leans into
+  <weakest skill>" — the ledger's sentence about slots a lesson day no longer holds. It
+  now reads "Today: <lesson> — learn it, drill it, then use it." (or ", again — a
+  shorter re-teach, then the check." on a corrective day), built from the slot the
+  builder composed (`conceptPlanReason`), so it can only say what the day is. Every
+  other day shape keeps the ledger sentence under its existing honesty rules. The
+  coupled drill's reason names what it drills ("Practising the genitive — what
+  today's lesson taught."; "An easier drill on … first." when corrective). No new UI
+  element: the copy carries the shape. **This closes the redesign's five increments.**
 
 Each increment: unit tests through the real builder, mutation-verified, E2E audit of
 the specs that pin session composition (`sp4b-production-slot.spec.js`,

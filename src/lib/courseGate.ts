@@ -23,9 +23,16 @@
 //   * the LIBRARY stays open — this gates the path, exactly as the unit lock does.
 //
 // "REACHED" is a lesson the learner has read (the library counts — reading it IS
-// being taught it) or any lesson in a unit the course has opened. A category is
-// reached when ANY lesson teaching it is reached, so a concept revisited at a
-// higher level (`genitive-deep`) never re-locks what `genitive-intro` taught.
+// being taught it), any lesson in a unit the course has ADVANCED them past, or the
+// one lesson the course serves TODAY. Until redesign increment 3 (2026-09-28) every
+// lesson of the OPEN unit counted, read or not — so on a free slot the session could
+// drill lesson 4's concept while the learner stood on lesson 1 (the design's §6,
+// owner decision 2: graded picks come from what has been taught). Today's lesson
+// stays reached because its coupled drill sits in the plan beside it, and the plan
+// splice (`teachingSlotSplice`) drops what is ahead — the drill for the lesson being
+// taught today is not ahead. A category is reached when ANY lesson teaching it is
+// reached, so a concept revisited at a higher level (`genitive-deep`) never re-locks
+// what `genitive-intro` taught.
 //
 // NO SPINE MEANS NOTHING IS AHEAD, so the session composes exactly as it did before
 // the course existed — the same null contract every course surface keeps.
@@ -94,8 +101,12 @@ export function readCourseAhead(): CourseAhead {
     if (state.units.length === 0) return NOTHING_AHEAD;
     const reached = new Set(readCompletedLessons());
     for (const u of state.units) {
-      if (state.open.has(u.id)) for (const l of u.lessons) reached.add(l.id);
+      if (state.advanced.has(u.id)) for (const l of u.lessons) reached.add(l.id);
     }
+    // Today's lesson: the first unread lesson of the unit the learner stands on.
+    const current = state.units.find((u) => u.index === state.currentIndex);
+    const today = current?.lessons.find((l) => !reached.has(l.id));
+    if (today) reached.add(today.id);
     return courseAhead(state.units, reached);
   } catch {
     return NOTHING_AHEAD;
