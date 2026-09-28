@@ -13269,11 +13269,24 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     Node ≥ 20.19 floor; the app calls `init`, `captureException`, `replayIntegration` and
     `browserTracingIntegration` only, and CI builds on Node 22. `size-limit` 13 → 14
     (#764): dev-only, and the size job ran green in the chain.
-  - **#763 (vitest 4 → 5) was RED on a master ~25 commits old and is NOT merged.** Its
-    failed-job log showed only the stderr noise a green run also prints (the AudioContext
-    stubs, `reportError` lines); the failure itself was not legible from it. `@dependabot
-rebase` requested; the rebased head (`595a3a1f`) is mergeable and running. It merges on
-    green like the others — a green 10,600-test run against current master IS the review
-    the major needs; a red one gets read properly.
+  - **#763 (vitest 4 → 5) WAS RED AGAINST CURRENT MASTER TOO, AND THE CAUSE WAS ONE LINE
+    THE CI LOG CUT OFF.** Dependabot rebased it on request; the fresh run failed Unit Tests
+    with "Vitest caught 674 unhandled errors" — one per test file — and the job log ended at
+    the `Unhandled Rejection` header, so the message itself was never captured. Reproduced
+    in an isolated worktree with its own `npm ci`: two files WITHOUT coverage were clean; the
+    same two WITH `--coverage` (what CI runs) raised one unhandled rejection each —
+    `TypeError: Expected string coverage payload, received object` — because the coverage
+    provider protocol changed with the major and `@vitest/coverage-v8` was still 4.1.11.
+    Bumping the provider beside vitest: full suite with coverage green, 0 unhandled errors.
+    **A Dependabot bump of `vitest` alone is broken under coverage; the provider moves with
+    it** — and Dependabot's grouping did not know that. #763 is CLOSED as superseded by
+    #780, which bumps both to 5.0.2 (Dependabot's branch is not rewritten).
+  - **AND #780 AS FIRST PUSHED DOWNGRADED SEVEN PACKAGES.** I copied `package.json` and the
+    lockfile from the reproduction worktree — checked out at #763's head, a master from
+    BEFORE the seven merges above — so the diff quietly reverted Capacitor, Sentry, posthog,
+    eslint and size-limit. Caught by reading the pushed diff, fixed in a second commit
+    (master's files + only the two bumps; 59/59 ranges re-verified; full suite with coverage
+    on the corrected base 674 files / 10,653 tests, 0 unhandled). **A worktree's lockfile is
+    computed against ITS base; copy nothing from it** — re-apply the change on the branch.
   - **Not checked**: nothing runtime-visible — every bump here is a client library or dev
     tool, and the deploy run's E2E is the only behavioural evidence taken.
