@@ -12999,3 +12999,6 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     CodeQL #96 (`js/clear-text-storage-of-sensitive-data`, `lessonProduceRequest.ts`) is the
     #78 `getCertifiedLevel` heuristic on the produce handoff; dismissed as a false positive
     per the standing policy and listed in CLAUDE.md.
+  - **CodeQL #97 = #96 one line-move later.** #772's CodeQL check failed on a fresh alert at
+    `lessonProduceRequest.ts:59` — the same `sessionStorage.setItem`, moved by 2b's kind
+    suffix. Dismissed as the same false positive; CLAUDE.md's dismissal list names both.
