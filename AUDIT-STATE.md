@@ -12990,3 +12990,12 @@ culture` at every level, because P0's two slots plus the guaranteed production s
   - **Not checked**: the recogniser in a real browser on this screen (jsdom has none; the
     typed path is what the tests drive) — the same code as `UnitProductionScreen`, which the
     course-walk E2E drives through its typed path too; a real-mic pass is owed to both.
+  - **#771's CI went red on the CLEAN 2a tree — `cssVarsDefined` on the two undefined tokens
+    the 2b sweep above had already found.** A local full-suite run had read green for 2a; CI
+    is the authority, and the local artifact of that run was not kept, so which side was
+    wrong is not established. Fixed on #771's branch (`53cc56da`). That commit's message says
+    it "also records CodeQL #96"; it does not — the CLAUDE.md anchor failed to match and the
+    script aborted after the token fix — the record is in THIS branch's commit instead.
+    CodeQL #96 (`js/clear-text-storage-of-sensitive-data`, `lessonProduceRequest.ts`) is the
+    #78 `getCertifiedLevel` heuristic on the produce handoff; dismissed as a false positive
+    per the standing policy and listed in CLAUDE.md.
