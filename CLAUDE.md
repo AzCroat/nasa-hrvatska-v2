@@ -6851,6 +6851,12 @@ Found from outside the code: the owner reported the Sentry project was receiving
 
 **THE FREE KV TIER IS A DAILY WRITE BUDGET OF 1,000, AND ONE ENDPOINT SPENT IT
 ALL (owner report, 2026-09-25 — "KV operations are nearing the daily cap").**
+**UPDATE 2026-09-28: the account is on the Workers PAID plan** (owner, after a
+second "50% of the daily KV free tier" alert the day the C1/C2 vocabulary and 72
+dialogues shipped — first-time TTS generations each write their audio to KV once).
+The paid write budget is ~1,000,000/day, so the cap below is history, not a live
+constraint. The D1-first rule stands anyway: it is the right shape, and a plan can
+be downgraded.
 Reads are 100,000/day and were never the constraint. `/api/award` was the app's
 only UNCONDITIONAL per-request KV writer — two keys per XP award — so the free
 tier allowed **~500 XP awards per day across every learner combined**, about ten

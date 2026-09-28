@@ -13083,3 +13083,8 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     and did NOT build, stated: the mixed-bank drill runner (increment 3's fuller shape), a
     second-fail escalation on the corrective day, and a Home hero that names the concept
     beyond the plan line.
+  - **KV, 2026-09-28**: a "50% of the daily Workers KV free tier" alert arrived the day the
+    C1/C2 deck and 72 dialogues deployed — first-time TTS generations each write once to the
+    90-day cache, and `tts.js` swallows a refused put (`.catch(() => {})`), so a capped day
+    costs regeneration, never audio. The owner moved the account to the Workers PAID plan
+    the same evening; CLAUDE.md's KV note records it.
