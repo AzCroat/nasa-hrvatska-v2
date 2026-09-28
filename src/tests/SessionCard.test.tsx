@@ -201,3 +201,95 @@ describe('SessionCard — fresh-session off-ramp (bug #1)', () => {
 
 // (Removed "relational progress voice" tests — the host-voiced progress line was
 // deleted from SessionCard entirely on 2026-06-21 per user request.)
+
+// ── THE STRETCH (redesign increment 6, 2026-09-28) ───────────────────────────
+//
+// After the core session the card is the next Stretch's hero — the same shape as
+// Begin Session, one button — and the complete state renders only when the bar is
+// met. Without the `stretch` prop the card behaves exactly as before (every test
+// above is that contract).
+describe('SessionCard — the Stretch hero (increment 6)', () => {
+  const S1: SessionActivity = {
+    id: 's1',
+    label: 'Word Review',
+    screen: 'review',
+    category: 'vocab-a2',
+    stretch: 1,
+  };
+  const S2: SessionActivity = {
+    id: 's2',
+    label: 'Dictation',
+    screen: 'dictation',
+    category: 'writing',
+    stretch: 1,
+  };
+  const stretched = (completed: string[]): DailySession => ({
+    date: '2026-05-13',
+    activities: [ACT_A, ACT_B, S1, S2],
+    completedIds: completed,
+    estimatedMinutes: 20,
+    stretchTarget: 2,
+  });
+
+  it('with the core done and a Stretch open it is the Stretch hero, not the complete state', () => {
+    render(
+      <SessionCard
+        {...BASE_PROPS}
+        session={stretched(['a1', 'a2'])}
+        nextActivity={S1}
+        stretch={{ coreComplete: true, index: 1, target: 2 }}
+      />,
+    );
+    expect(screen.getByTestId('stretch-hero')).toHaveAttribute('data-stretch', '1');
+    expect(screen.getByText('STRETCH 1 OF 2')).toBeTruthy();
+    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Begin Stretch 1 of 2');
+    // The core collapses to one done chip; only the Stretch's activities are listed.
+    expect(screen.getByTestId('stretch-core-chip')).toBeTruthy();
+    expect(screen.queryByText(/Flashcards/)).toBeNull();
+    expect(screen.getByText(/Word Review/)).toBeTruthy();
+    expect(screen.queryByText(/Complete!/)).toBeNull();
+    // The bar is the app's (decision 6a), and the card says so.
+    expect(screen.getByTestId('stretch-reason').textContent).toMatch(
+      /every stretch your results call for/,
+    );
+  });
+
+  it('a started Stretch says Continue Stretch', () => {
+    render(
+      <SessionCard
+        {...BASE_PROPS}
+        session={stretched(['a1', 'a2', 's1'])}
+        nextActivity={S2}
+        stretch={{ coreComplete: true, index: 1, target: 2 }}
+      />,
+    );
+    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Continue Stretch');
+  });
+
+  it('the complete state names the whole day once the bar is met', () => {
+    render(
+      <SessionCard
+        {...BASE_PROPS}
+        session={stretched(['a1', 'a2', 's1', 's2'])}
+        isComplete
+        nextActivity={null}
+        stretch={{ coreComplete: true, index: 1, target: 1 }}
+      />,
+    );
+    expect(screen.getByTestId('session-complete-title').textContent).toBe('Day Complete!');
+    expect(screen.getByText(/Core session \+ 1 stretch ·/)).toBeTruthy();
+    expect(screen.queryByTestId('stretch-hero')).toBeNull();
+  });
+
+  it('without the prop the card is unchanged: the complete state still says Session Complete!', () => {
+    render(
+      <SessionCard
+        {...BASE_PROPS}
+        session={makeSession(['a1', 'a2'])}
+        isComplete
+        nextActivity={null}
+      />,
+    );
+    expect(screen.getByTestId('session-complete-title').textContent).toBe('Session Complete!');
+  });
+});

@@ -13176,3 +13176,81 @@ vikenada`; `sat → pet sata`; `suradnik`/`biciklist` inanimate; `pješak → pj
     settled); `brijeg → bregovi` (r + je → re, a third yat shape, not listed — the plain rule
     gives `brijegovi`); the vocative of `-a` masculines outside the three listed (`gazdo` is
     the computed default); animacy of any noun outside the list.
+- [x] **Sweep 190 — the Stretch: decision 6 of the Daily Session redesign (owner report, 2026-09-28).**
+  - Owner: a finished session reads as a finished day ("Users, like my son, often
+    complete the daily session, and without further prompting or guidance, feel they have
+    completed enough studying"). Measured what Home does at completion: every meter says
+    100% (`DAILY_XP_GOAL` 50 is what the session pays), `SessionCard` says "Session
+    Complete! 🎉", and the engine's one next step is a pill after a five-slot session.
+  - **A preset picker was proposed and REJECTED** — "I don't want a user selecting a time;
+    if they are unmotivated they may select what is easy. We should assume you are using
+    the application to become fluent." So the bar is the app's: core + every Stretch the
+    evidence justifies, floor 1, cap 3; the Stretch is a SECOND GUIDED SESSION as the hero
+    (hero-only directive intact); ties resolve to speaking/listening for everyone.
+    Recorded as §8 decision 6 and §9 increment 6 (PLANNED) in
+    `docs/daily-session-redesign.md`. No product code changed in this sweep.
+  - **Not checked**: the AI cost of a production slot in up to three extra sessions a day
+    is stated as a risk in the plan, not measured — it needs a week of ledger at the new
+    rate; the plan names the fallback (free sentence-build rung for Stretch 2–3).
+- [x] **Sweep 191 — the Stretch is BUILT: increment 6 of the Daily Session redesign (2026-09-28).**
+  - `src/lib/stretchSession.ts` + `stretch` on `useDailySession`'s return + the Stretch hero
+    in `SessionCard` + rung 2 of `getNextStep` naming a Stretch activity. The bar (decision
+    6a): core + `clamp(ceil(measured / 4), 1, 3)` Stretches, decided ONCE when the core
+    completes, from evidence the app already holds — word reviews due, lesson re-checks and
+    missed items (`retentionStatus`), concept-map `shaky`/`due` lessons routed to their
+    coupled drill (easier route when the primary is locked), the ledger's weakest production
+    and receptive skills when it has a verdict, adaptive categories MEASURED below the pass
+    mark among taught categories. A learner with nothing measured owes one Stretch from the
+    path ahead (production, comprehension, the current unit's drills, a grammar backstop, LRS
+    graded entries), whose reasons state the guarantee, never a measurement. Ties resolve
+    toward speaking and listening (6c) inside the rank, never over a measured weakness.
+  - **THE STRETCH LIVES IN THE SAME `activities` ARRAY, tagged `stretch: k`**, not in the
+    `stretches` array the plan proposed: the launch handshake, `markDone`, the SRS auto-skip,
+    the produce credit, the date/CEFR invalidation and the next-step engine's rung 2 all work
+    unchanged. The one consequence is load-bearing and pinned: `markDone` matches the FIRST
+    activity with a screen, so **a screen may appear once per day** — every Stretch excludes
+    every screen already in the plan.
+  - **`isComplete` is now `stretch.complete`.** Two hook tests encoded the old contract
+    ("completing every activity reaches the complete state") and were rewritten to finish the
+    core, assert the Stretch appeared instead, then finish every Stretch owed — the property
+    they guard (a real, persisting complete state, no silent regeneration) is unchanged.
+    `recordSessionComplete` (the `nh_session_history` calendar) stays keyed to the CORE
+    session; the day's history means "a session was done", the card means "the day is done".
+  - **The 800-line cap held**: the hook went to 840 countable lines; the mic-state and
+    production-recency block (`readMicState`, `getRecentProduction`,
+    `recordProductionExercise`) moved to `src/lib/productionRecency.ts`, re-exported from the
+    hook so no caller moved. `selectProduction`/`selectGrammar` are INJECTED into the module
+    (they live in the hook, which imports the module — a direct import is a cycle).
+  - **Measured (the probe in `stretchSession.test.ts`, `--reporter=verbose`)**: no evidence →
+    target 1, measured share 0, first Stretch `speaking · listening_comprehension · fillstory ·
+flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0.25, the
+    listening quiz leads with the ledger's own sentence; four shaky A1 lessons + 12 reviews →
+    target 2, first Stretch 100% measured (`review · alphabet · pozdravi · genderdrill`).
+  - E2E (`e2e/stretch-session.spec.js`, CI-equivalent build, real browser): a persisted
+    finished core → `stretch-hero` with `data-stretch="1"`, "Begin Stretch 1 of N", the core
+    collapsed to one chip, no complete card, the plan persisted WITH the Stretch, every screen
+    once, no lesson; the bar met → "Day Complete!". 13/13 with `home.spec` and `course-walk`.
+  - **Mutation-verified, ten run, nine fail 1–8, ONE EQUIVALENT — recorded, not hidden**: the
+    Stretch never appended (8); the floor removed (8); the cap removed (1); the spoken
+    tie-break removed (1 — after a second test, because the first tie scenario had the spoken
+    candidate first by insertion order and could not see the sort); screen dedup removed (2);
+    an empty core counting as complete (1); a locked drill allowed (1 — after a test that FINDS
+    a lesson whose primary route is gated at its own level, `clitics → clitic (B2) / objekt
+(A2)`, rather than naming one); the card ignoring the prop (2); the rung-2 label (1). The
+    equivalent one: `isComplete` back to `completedIds.length >= activities.length` — because
+    `markDone` appends the Stretch SYNCHRONOUSLY, the two definitions differ only for a legacy
+    blob before the settle effect's first run, which no test can observe after `renderHook`
+    flushes effects. `stretch.complete` stays as the definition; the synchronous extension is
+    what makes the old expression harmless.
+  - **THE MUTATION HARNESS PRINTED NOTHING TEN TIMES, AND THE BASELINE SAID SO.** `$SUITES`
+    in zsh does not word-split, so vitest received one filter with spaces, ran no files, and
+    the grep on `Tests` matched nothing — for the baseline too, which is the only reason it was
+    caught before a single "landed" line was read as a result. An array fixed it. The
+    "a probe that prints nothing has not measured zero" rule, on the mutation runner itself.
+  - **Flagged for the owner, not changed**: `DailyGoalCard` still measures XP against a goal
+    the learner CHOSE at onboarding (`nh_daily_goal_xp`) — the kind of self-set target
+    decision 6a rejected. Changing an onboarding feature's meaning is a product decision.
+  - **Not checked**: the AI cost of a production slot in up to three extra sessions per learner
+    per day (the plan's stated risk; read the ledger after a week — the fallback is the free
+    sentence-build rung for Stretches 2–3); a real learner's Stretch distribution (the probe is
+    seeded).

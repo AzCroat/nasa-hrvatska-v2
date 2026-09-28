@@ -185,3 +185,27 @@ describe('getNextStep priority ladder', () => {
     expect(step.kind).toBe('browse');
   });
 });
+
+// ── THE STRETCH (redesign increment 6, 2026-09-28) ───────────────────────────
+describe('rung 2 names a Stretch activity as one', () => {
+  it('"Stretch k of N — <label>" once the core is done and a Stretch is open', () => {
+    localStorage.setItem(
+      'nh_daily_session',
+      JSON.stringify({
+        date: localDateStr(),
+        activities: [
+          { id: 'a1', label: 'SRS Review', screen: 'review', category: 'vocab' },
+          { id: 's1', label: 'Dictation', screen: 'dictation', category: 'writing', stretch: 1 },
+        ],
+        completedIds: ['a1'],
+        estimatedMinutes: 10,
+        stretchTarget: 2,
+      }),
+    );
+    const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
+    expect(step.kind).toBe('session');
+    expect(step.activityId).toBe('s1');
+    expect(step.label).toBe('Stretch 1 of 2 — Dictation');
+    expect(step.reason).toMatch(/^Core done\./);
+  });
+});

@@ -259,12 +259,32 @@ describe('useDailySession — rotation memory + completion (hook)', () => {
     // The session used to rebuild itself the instant the last activity was done,
     // erasing the "Session Complete!" moment and making it feel endless. The
     // complete state must now persist so the celebration + next-steps render.
+    //
+    // THE STRETCH (redesign increment 6, 2026-09-28) changed what "every
+    // activity" means: finishing the CORE grows the plan by one evidence-set
+    // Stretch (never fewer than one), and the day completes only when the last
+    // owed Stretch is done. So this test finishes the core, asserts the Stretch
+    // appeared instead of the complete state, then finishes every Stretch it is
+    // handed. The property it guards — a real, persisting complete state with no
+    // silent regeneration — is unchanged.
     const { result } = renderHook(() => useDailySession('A2'));
-    const firstIds = result.current.session.activities.map((a) => a.id);
-    expect(firstIds.length).toBeGreaterThan(0);
+    const coreIds = result.current.session.activities.map((a) => a.id);
+    expect(coreIds.length).toBeGreaterThan(0);
     act(() => {
-      firstIds.forEach((id) => result.current.markDone(id));
+      coreIds.forEach((id) => result.current.markDone(id));
     });
+    expect(result.current.stretch.coreComplete).toBe(true);
+    expect(result.current.isComplete).toBe(false);
+    expect(result.current.stretch.index).toBe(1);
+    expect(result.current.session.activities.length).toBeGreaterThan(coreIds.length);
+    for (let guard = 0; guard < 4 && !result.current.isComplete; guard++) {
+      const open = result.current.session.activities
+        .filter((a) => !result.current.session.completedIds.includes(a.id))
+        .map((a) => a.id);
+      act(() => {
+        open.forEach((id) => result.current.markDone(id));
+      });
+    }
     expect(result.current.isComplete).toBe(true);
     expect(result.current.progress).toBe(1);
     // Bonus next-steps surface only once complete.
@@ -301,10 +321,16 @@ describe('useDailySession — rotation memory + completion (hook)', () => {
 
   it('startFreshSession builds a new non-empty set on demand (the explicit "keep going" path)', () => {
     const { result } = renderHook(() => useDailySession('A2'));
-    const firstIds = result.current.session.activities.map((a) => a.id);
-    act(() => {
-      firstIds.forEach((id) => result.current.markDone(id));
-    });
+    // Finish the core and every Stretch the day owes (increment 6 — see the
+    // regression test above for why the core alone no longer completes it).
+    for (let guard = 0; guard < 5 && !result.current.isComplete; guard++) {
+      const open = result.current.session.activities
+        .filter((a) => !result.current.session.completedIds.includes(a.id))
+        .map((a) => a.id);
+      act(() => {
+        open.forEach((id) => result.current.markDone(id));
+      });
+    }
     expect(result.current.isComplete).toBe(true);
     act(() => {
       result.current.startFreshSession();

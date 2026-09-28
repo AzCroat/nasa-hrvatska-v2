@@ -63,6 +63,14 @@ interface SessionCardProps {
   nextStep?: { label: string; reason: string } | null;
   /** Launches the nextStep recommendation. */
   onNextStart?: () => void;
+  /**
+   * THE STRETCH (redesign increment 6, owner decision 6): where the day stands
+   * against the app-set bar. When the core is done and a Stretch is open, the
+   * card is that Stretch's hero — same shape as Begin Session, one button — and
+   * the complete state renders only once every owed Stretch is done. Absent
+   * (older callers, tests) the card behaves exactly as before.
+   */
+  stretch?: { coreComplete: boolean; index: number; target: number | undefined } | null;
 }
 
 // ── Šahovnica Croatian coat of arms crest ──
@@ -229,10 +237,22 @@ export default function SessionCard({
   planReason = null,
   nextStep = null,
   onNextStart,
+  stretch = null,
 }: SessionCardProps) {
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
-  const inProgress = completedCount > 0 && !isComplete;
+  // Stretch mode: the core is done and the plan holds an open Stretch. The card
+  // shows THAT Stretch's activities (the core collapses to one done chip) and its
+  // own progress, so "Begin" is a fresh session's Begin, not a 6-of-10 Continue.
+  const stretchMode = !!stretch && stretch.coreComplete && stretch.index > 0 && !isComplete;
+  const visibleActivities = stretchMode
+    ? session.activities.filter((a) => a.stretch === stretch!.index)
+    : session.activities;
+  const visibleDone = visibleActivities.filter((a) => session.completedIds.includes(a.id)).length;
+  const inProgress = stretchMode ? visibleDone > 0 : completedCount > 0 && !isComplete;
+  const stretchLabel = stretch
+    ? `Stretch ${stretch.index}${stretch.target ? ` of ${stretch.target}` : ''}`
+    : '';
 
   // P0 (2026-07-18): a session launch must never be a silent no-op. The
   // launcher broadcasts failures (lazy-chunk load error, empty pool); we show
@@ -262,6 +282,7 @@ export default function SessionCard({
         >
           <div style={{ fontSize: 36, marginBottom: 6 }}>🎉</div>
           <div
+            data-testid="session-complete-title"
             style={{
               fontSize: 18,
               fontWeight: 900,
@@ -269,10 +290,12 @@ export default function SessionCard({
               marginBottom: 4,
             }}
           >
-            Session Complete!
+            {stretch ? 'Day Complete!' : 'Session Complete!'}
           </div>
           <div style={{ fontSize: 13, color: 'var(--subtext)', marginBottom: 16 }}>
-            {completedCount} of {totalCount} activities done
+            {stretch
+              ? `Core session + ${stretch.index} stretch${stretch.index === 1 ? '' : 'es'} · ${completedCount} activities done`
+              : `${completedCount} of ${totalCount} activities done`}
             {wordsdue > 0 && (
               <span
                 style={{
@@ -428,8 +451,10 @@ export default function SessionCard({
           </div>
         </div>
       ) : (
-        /* ── STATE A (fresh) + STATE B (in-progress) ── */
+        /* ── STATE A (fresh) + STATE B (in-progress) — or the STRETCH hero ── */
         <div
+          data-testid={stretchMode ? 'stretch-hero' : undefined}
+          data-stretch={stretchMode ? stretch!.index : undefined}
           style={{
             position: 'relative',
             borderRadius: 20,
@@ -470,7 +495,7 @@ export default function SessionCard({
                     marginBottom: 4,
                   }}
                 >
-                  TODAY&apos;S SESSION
+                  {stretchMode ? stretchLabel.toUpperCase() : "TODAY'S SESSION"}
                 </div>
                 <div
                   style={{
@@ -482,7 +507,7 @@ export default function SessionCard({
                     marginBottom: 4,
                   }}
                 >
-                  Dnevna Vježba
+                  {stretchMode ? 'Dodatna Vježba' : 'Dnevna Vježba'}
                 </div>
                 <div
                   style={{
@@ -491,9 +516,28 @@ export default function SessionCard({
                     color: 'rgba(255,255,255,.48)',
                   }}
                 >
-                  ~{session.estimatedMinutes} min · {totalCount} activities
+                  {stretchMode
+                    ? `Core done · ~${visibleActivities.length * 5} min · ${visibleActivities.length} activities`
+                    : `~${session.estimatedMinutes} min · ${totalCount} activities`}
                 </div>
-                {planReason && (
+                {stretchMode && (
+                  // Owner decision 6a: the bar is the app's. True by construction —
+                  // the target was set from the evidence when the core finished.
+                  <div
+                    data-testid="stretch-reason"
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 600,
+                      color: 'rgba(255,255,255,.62)',
+                      marginTop: 3,
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    Done for today means the core session plus every stretch your results call for —
+                    this is {stretchLabel.toLowerCase()}.
+                  </div>
+                )}
+                {!stretchMode && planReason && (
                   <div
                     data-testid="session-plan-reason"
                     style={{
@@ -512,7 +556,23 @@ export default function SessionCard({
 
             {/* Activity chips — always shown in States A and B */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
-              {session.activities.map((act) => {
+              {stretchMode && (
+                <div
+                  data-testid="stretch-core-chip"
+                  style={{
+                    padding: '5px 12px',
+                    borderRadius: 100,
+                    fontSize: 10,
+                    fontWeight: 700,
+                    background: 'rgba(255,255,255,.14)',
+                    color: 'rgba(255,255,255,.65)',
+                    border: '1px solid rgba(255,255,255,.1)',
+                  }}
+                >
+                  ✓ Core session
+                </div>
+              )}
+              {visibleActivities.map((act) => {
                 const isDone = session.completedIds.includes(act.id);
                 const isNext = act.id === nextActivity?.id;
 
@@ -676,7 +736,13 @@ export default function SessionCard({
                   : 'none',
               }}
             >
-              {inProgress ? 'Continue Session →' : '▶ Begin Session →'}
+              {stretchMode
+                ? inProgress
+                  ? 'Continue Stretch →'
+                  : `▶ Begin ${stretchLabel} →`
+                : inProgress
+                  ? 'Continue Session →'
+                  : '▶ Begin Session →'}
             </button>
           </div>
         </div>

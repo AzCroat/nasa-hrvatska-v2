@@ -138,6 +138,14 @@ chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
 
 ### 3c. Other open items
 
+- **The Stretch (Daily Session redesign, increment 6) — DECIDED AND BUILT
+  (2026-09-28; AUDIT-STATE sweeps 190–191).** Owner: a finished session reads as a finished day; a learner-chosen
+  time target was REJECTED. The bar is the app's — core + 1–3 evidence-justified Stretch
+  sessions, the Stretch as a second guided session in the Home hero, spoken/aural on
+  ties. Full plan in `docs/daily-session-redesign.md` §8 decision 6 / §9 increment 6;
+  AUDIT-STATE sweeps 190–191. Open: the AI cost of up to three extra production slots a
+  day (read the ledger after a week), and `DailyGoalCard`'s onboarding-chosen XP goal, which
+  decision 6a's reasoning argues against — an owner decision.
 - **Dependabot PRs #760–#767** open, unreviewed. Two are MAJOR bumps needing real
   attention: vitest 4 → 5 (#763) and @sentry/react 10 → 11 (#767). Also size-limit 14
   (#764, major, dev-only).
