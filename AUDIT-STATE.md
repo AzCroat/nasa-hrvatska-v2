@@ -13254,3 +13254,39 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     per day (the plan's stated risk; read the ledger after a week — the fallback is the free
     sentence-build rung for Stretches 2–3); a real learner's Stretch distribution (the probe is
     seeded).
+- [x] **Sweep 192 — the eight Dependabot PRs, seven merged on the recorded method (2026-09-28).**
+  - Standing order (CLAUDE.md git rule 5): merge green PRs without being asked, simulating
+    the shared-lockfile chain first. Done as recorded: `git merge-tree --write-tree` chained
+    through `git commit-tree` over #760 → #761 → #762 → #764 → #765 → #766 → #767 on the
+    post-#778 master, touching no branch — **seven of seven chained clean**; then the
+    textual-clean-is-not-correct check on the simulated tree: **59/59 root ranges equal
+    between package.json and the lockfile, every bump installed within its merged range, no
+    extra or missing root entry.** Merged in that order in under three minutes;
+    `cancel-in-progress` collapsed the intermediate runs and ONE master run
+    (lint, typecheck, unit, emulator, E2E, Build & Deploy) went green.
+  - **Two were majors and each got the attention HANDOFF asked for.** `@sentry/react`
+    10 → 11 (#767): the breaking list is span-attribute renames, Astro/hono removals and a
+    Node ≥ 20.19 floor; the app calls `init`, `captureException`, `replayIntegration` and
+    `browserTracingIntegration` only, and CI builds on Node 22. `size-limit` 13 → 14
+    (#764): dev-only, and the size job ran green in the chain.
+  - **#763 (vitest 4 → 5) WAS RED AGAINST CURRENT MASTER TOO, AND THE CAUSE WAS ONE LINE
+    THE CI LOG CUT OFF.** Dependabot rebased it on request; the fresh run failed Unit Tests
+    with "Vitest caught 674 unhandled errors" — one per test file — and the job log ended at
+    the `Unhandled Rejection` header, so the message itself was never captured. Reproduced
+    in an isolated worktree with its own `npm ci`: two files WITHOUT coverage were clean; the
+    same two WITH `--coverage` (what CI runs) raised one unhandled rejection each —
+    `TypeError: Expected string coverage payload, received object` — because the coverage
+    provider protocol changed with the major and `@vitest/coverage-v8` was still 4.1.11.
+    Bumping the provider beside vitest: full suite with coverage green, 0 unhandled errors.
+    **A Dependabot bump of `vitest` alone is broken under coverage; the provider moves with
+    it** — and Dependabot's grouping did not know that. #763 is CLOSED as superseded by
+    #780, which bumps both to 5.0.2 (Dependabot's branch is not rewritten).
+  - **AND #780 AS FIRST PUSHED DOWNGRADED SEVEN PACKAGES.** I copied `package.json` and the
+    lockfile from the reproduction worktree — checked out at #763's head, a master from
+    BEFORE the seven merges above — so the diff quietly reverted Capacitor, Sentry, posthog,
+    eslint and size-limit. Caught by reading the pushed diff, fixed in a second commit
+    (master's files + only the two bumps; 59/59 ranges re-verified; full suite with coverage
+    on the corrected base 674 files / 10,653 tests, 0 unhandled). **A worktree's lockfile is
+    computed against ITS base; copy nothing from it** — re-apply the change on the branch.
+  - **Not checked**: nothing runtime-visible — every bump here is a client library or dev
+    tool, and the deploy run's E2E is the only behavioural evidence taken.
