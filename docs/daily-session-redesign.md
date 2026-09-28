@@ -159,12 +159,19 @@ verification gate; the next-step engine's contract (always one recommendation).
 
 ## 8. Decisions needed from the owner
 
+Owner answers recorded 2026-09-28 (Claude Code in Terminal, one at a time):
+
 1. **Session level.** Course-unit level for everyone (recommended — follows the
    one-path directive), or keep `userCefr` for learners well ahead?
+   **DECIDED: yes — course-unit level for everyone.**
 2. **The adaptive weakness pick.** Keep it, restricted to taught categories, as one
    stage-4 item (recommended), or remove it from the session entirely?
+   **DECIDED: yes — keep it, restricted to taught categories, one stage-4 item.**
 3. **Conversation at B1+ (P2.4).** Keep as a stage-5 option once the course reaches B1,
    or keep it by XP level as today?
+   **DECIDED: yes — gated on the COURSE reaching B1, not XP.** (The owner answered
+   "yes" to an either/or; read as the first option, consistent with decision 1. If
+   that reading is wrong, this line is the place to correct it.)
 4. **Production every day, or every unit?** Stage 3 daily costs one AI evaluation per
    session against the $10/month ceiling; the alternative is daily on lesson days
    only, with the unit's production requirement unchanged.
