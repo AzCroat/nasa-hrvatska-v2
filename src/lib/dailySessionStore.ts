@@ -9,6 +9,7 @@ import type { SkillCategory } from './adaptive';
 import { localDateStr } from './dateUtils';
 import { hasCurriculumSpine } from './curriculumProgress';
 import { buildPlanReason, skillForCategory } from './masteryLedger';
+import { conceptPlanReason } from './activityReason';
 import type { CefrLevel } from './cefr.js';
 
 export type SessionCategory = SkillCategory | 'culture' | 'practical' | 'general';
@@ -82,6 +83,10 @@ export function newSession(
 
 function planReasonFor(userCefr: string, activities: SessionActivity[]): { planReason?: string } {
   try {
+    // A lesson day is one concept's day, and the plan line says which (redesign
+    // increment 5); the ledger's weakest-skill sentence is for the other day shapes.
+    const concept = conceptPlanReason(activities);
+    if (concept) return { planReason: concept };
     const r = buildPlanReason(
       userCefr as CefrLevel,
       activities.map((a) => skillForCategory(a.category)),

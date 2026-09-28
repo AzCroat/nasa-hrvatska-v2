@@ -4629,6 +4629,42 @@ rather than practises — a mixed-bank drill runner would close both if wanted.
 - NEVER: count an unread lesson of the open unit as taught (only today's); drop today's
   lesson from the reached set (the splice would then remove its drill from the plan).
 
+### Increment 4 — the corrective day (2026-09-28)
+
+Owner decision 5. Bloom's mastery learning is corrective instruction, then the test
+again — not a plain retry, which is all a failed lesson check used to produce (the
+spine served the same lesson again from slide 0). `src/lib/correctiveDay.ts`: a lesson
+is CORRECTIVE when its latest real check attempt (`kind: 'lesson'`; a failed test-out
+is the answer to "should I read this?", not a failed lesson) was a fail and the lesson
+is still incomplete — until the check is passed. On such a day the teaching slot reads
+"Again: <lesson>", says why (`correctiveReason`), writes the `nh_lesson_corrective`
+handoff (re-armed by `rearmCourseHandoff` for the plain `curriculum_<lesson>` id, so a
+same-day relaunch from Home meets it), and its coupled drill prefers the EASIER route
+(`preferEasier`). `AnimatedLesson` opens at `firstWorkedSlide(slides)` — the
+reasoning, the hinted practice and the check again, without the explanation already
+read — in an unconditional effect above every return. A body with no worked slide
+opens at 0. The mastery gate is untouched; the day is still a lesson day.
+
+- NEVER: make a failed test-out corrective; place the corrective start below a return
+  in `AnimatedLesson`; lower the check's bar on a corrective day; carry the corrective
+  state in the activity id (it is recomputed from the stores at launch on purpose, so a
+  plan built before the fail still opens corrected).
+
+### Increment 5 — the plan line names the day's concept (2026-09-28)
+
+On a lesson day the session card's plan line said "Today leans into <weakest skill>" —
+the ledger's sentence, about slots a lesson day no longer contains (the pool pick is
+the produce step; the adaptive pick does not fire). `conceptPlanReason(activities)`
+now runs first in `planReasonFor`: a leading day-lesson slot gives "Today: <lesson> —
+learn it, drill it, then use it." (", again — a shorter re-teach, then the check." on
+a corrective day), built from the slot the builder composed, so it can only state what
+the day is; every other first slot gives null and the ledger sentence stands under
+`planReasonHonest`'s rules. The coupled drill's reason names its category. This closed
+the redesign's five increments; what was listed and not built is in the design doc.
+
+- NEVER: build the plan line from anything but the composed activities; let the ledger
+  sentence describe a lesson day.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

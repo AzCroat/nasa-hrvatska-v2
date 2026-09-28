@@ -118,9 +118,12 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   produce step spoken (`kind: 'speak'`, transcript → `/api/speaking-coach`),
   alternating with writing by the ledger's weaker production skill, else by the last
   graded kind. Increment 3 DONE in its small form (sweep 185): the taught rule tightened to
-  completed + advanced + today's lesson; the Lesson Review is the mix. **Next:
-  increment 4 (the corrective day, decision 5) and increment 5 (reason lines / Home
-  copy name the day's concept).** Also installed on
+  completed + advanced + today's lesson; the Lesson Review is the mix. Increment 4 DONE (sweep 186): the corrective day — a failed check makes the next
+  sitting open at the worked examples with the easier drill first. Increment 5 DONE (sweep 187): the plan line names the day's concept. **The
+  redesign's five increments are complete.** Remaining candidates, in the owner's
+  order of choosing: the production-units rewrite (§3a), the eight Dependabot PRs
+  (two major), the design's unbuilt items (mixed-bank drill runner; second-fail
+  escalation), the timezone-dependent test. Also installed on
   this machine since §4 was written: Playwright's Chromium (`npx playwright install
 chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
   project) against a build made with CI's placeholder `VITE_FIREBASE_*` values

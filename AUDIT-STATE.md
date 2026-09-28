@@ -13047,3 +13047,39 @@ culture` at every level, because P0's two slots plus the guaranteed production s
   - **Not done, stated**: no re-practice of a concept on days 1–3 after its lesson; the
     review grades rather than practises. A mixed-bank drill runner is the way to close both
     if wanted; not built. Increments 4 (corrective day) and 5 (reason lines) remain.
+- [x] **Sweep 186 — Daily Session redesign, increment 4: the corrective day (2026-09-28).**
+  - Owner decision 5. `src/lib/correctiveDay.ts`: a lesson whose latest REAL check attempt
+    failed (`lessonAttempts`, `kind: 'lesson'`; a test-out fail is excluded) and which is still
+    incomplete is corrective until passed. `buildCurriculumSlots` labels the slot "Again: …",
+    gives it `correctiveReason()`, writes `nh_lesson_corrective`, and asks
+    `curriculumPracticeActivity` for the EASIER route first (`preferEasier`).
+    `rearmCourseHandoff` recomputes the handoff for a plain `curriculum_<lesson>` id at
+    launch, so a same-day relaunch from Home also opens at the worked examples.
+    `AnimatedLesson` reads the handoff once in an UNCONDITIONAL effect above every return
+    (sweep 184's rule), jumps to `firstWorkedSlide(slides)` (0 when the body has none), and
+    clears it.
+  - `correctiveDay.test.tsx` (9): what makes a lesson corrective; the builder on a corrective
+    day (label, reason, handoff, still a lesson day, same length, the drill's reason); the
+    easier-route preference on synthetic maps; the rearm for the lesson id and only it; the
+    REAL AnimatedLesson opening on `lesson-worked` with the handoff, at the intro without or
+    with another lesson's, and at the intro for a body with no worked slide. 9 suites around
+    the lesson slot green (478). Mutation counts in the commit message.
+  - **Not done, stated**: the corrective day changes what the teaching slot serves, not the
+    check itself — a learner who fails twice meets the same shorter re-teach again (the
+    second fail could reasonably escalate to the full lesson; left for a field report).
+    Home's card copy for the day ("Again: …") is the only surface that names it —
+    increment 5's reason-line pass will decide whether the hero should too.
+- [x] **Sweep 187 — Daily Session redesign, increment 5: the plan line names the day's concept (2026-09-28).**
+  - `conceptPlanReason(activities)` (activityReason) → `planReasonFor` tries it first: a
+    leading day-lesson slot yields "Today: <lesson> — learn it, drill it, then use it." /
+    "…, again — a shorter re-teach, then the check."; any other first slot yields null and
+    the ledger sentence stands (planReasonHonest's rules untouched; its PLAN fixture has no
+    lesson, so its cases are unchanged). The coupled drill's reason names its category
+    (`practiceReason`, `correctiveDrillReason(category)`).
+  - `conceptPlanReason.test.ts` (5) through the real builder and `newSession`. No E2E pins
+    the plan line (`session-plan-reason` appears in no spec); `home.spec`'s `te čeka` is
+    elsewhere on the card.
+  - **This closes the redesign's five increments** (design doc §9). What the design listed
+    and did NOT build, stated: the mixed-bank drill runner (increment 3's fuller shape), a
+    second-fail escalation on the corrective day, and a Home hero that names the concept
+    beyond the plan line.

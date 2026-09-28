@@ -301,9 +301,29 @@ first build step.**
   re-check), and the review GRADES rather than practises. Both are recorded as the
   cost of keeping session length; a fold-into-the-drill mix (a mixed-bank runner)
   remains the way to close them if the owner wants it.
-- **Increment 4 — the corrective day (decision 5; G5).**
-- **Increment 5 — the session's reason lines and Home copy** name the day's concept,
-  so the one-subject shape is visible (G4).
+- **Increment 4 — DONE 2026-09-28: the corrective day (decision 5; G5).**
+  `src/lib/correctiveDay.ts`. A lesson is CORRECTIVE when its latest real check
+  attempt (`kind: 'lesson'` — a failed test-out is not a failed lesson) was a fail and
+  the lesson is still incomplete; that holds until the check is passed. On such a day
+  the teaching slot is labelled "Again: <lesson>", states why, and the lesson opens at
+  its first WORKED EXAMPLE (a handoff written at build time and re-armed at launch, so a
+  same-day relaunch from Home meets it too): the reasoning, the hinted practice and
+  the check again, without the explanation already read. Its coupled drill prefers
+  the EASIER route (`preferEasier` on `curriculumPracticeActivity`). The mastery gate
+  is untouched — the check is still the bar; the rest of the day composes as any
+  lesson day (still a lesson day: the produce step stays). A body with no worked
+  slide (an older cache) opens at 0. Bloom's rule, as built: corrective instruction,
+  then the test again — never a plain retry.
+- **Increment 5 — DONE 2026-09-28: the plan line and the drill's reason name the
+  day's concept (G4).** On a lesson day the card's plan line said "Today leans into
+  <weakest skill>" — the ledger's sentence about slots a lesson day no longer holds. It
+  now reads "Today: <lesson> — learn it, drill it, then use it." (or ", again — a
+  shorter re-teach, then the check." on a corrective day), built from the slot the
+  builder composed (`conceptPlanReason`), so it can only say what the day is. Every
+  other day shape keeps the ledger sentence under its existing honesty rules. The
+  coupled drill's reason names what it drills ("Practising the genitive — what
+  today's lesson taught."; "An easier drill on … first." when corrective). No new UI
+  element: the copy carries the shape. **This closes the redesign's five increments.**
 
 Each increment: unit tests through the real builder, mutation-verified, E2E audit of
 the specs that pin session composition (`sp4b-production-slot.spec.js`,

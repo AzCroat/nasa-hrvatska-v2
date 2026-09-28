@@ -40,6 +40,8 @@ import { requestUnitTest, requestLevelReview } from './courseUnitProgress';
 import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 import { lessonIdOfProduceActivity, requestLessonProduce } from './lessonProduceRequest';
+import { isCorrectiveLesson, requestCorrectiveLesson } from './correctiveDay';
+import { correctiveReason, correctiveDrillReason, practiceReason } from './activityReason';
 
 /**
  * The lesson to teach in today's session, or null when the course has no lesson to
@@ -84,6 +86,13 @@ export function rearmCourseHandoff(activityId: string | undefined | null): void 
     // the activity id, so the handoff needs no unit table.
     const produce = lessonIdOfProduceActivity(activityId);
     if (produce) return requestLessonProduce(produce.lessonId, produce.kind);
+    // The day's lesson (`curriculum_<lessonId>`, never the practice or produce ids):
+    // on a corrective day the handoff is recomputed from the stores, so a same-day
+    // relaunch from Home opens at the worked examples too.
+    if (activityId.startsWith('curriculum_') && !activityId.startsWith('curriculum_practice_')) {
+      const lessonId = activityId.slice('curriculum_'.length);
+      if (lessonId && isCorrectiveLesson(lessonId)) return requestCorrectiveLesson(lessonId);
+    }
     for (const level of KNOWN_LEVELS) {
       if (activityId === levelReviewActivityId(level)) return requestLevelReview(level);
     }
@@ -159,10 +168,15 @@ export function curriculumPracticeActivity(opts: {
   easierMap: Partial<Record<SkillCategory, string>>;
   screenCefr: Record<string, string | undefined>;
   isUnlocked: (screenCefr: string, userCefr: string) => boolean;
+  /** Corrective day (increment 4): try the EASIER route first, then the mapped one. */
+  preferEasier?: boolean;
 }): { id: string; label: string; screen: string; category: SkillCategory } | null {
   const taught = curriculumPracticeCategory(opts.lessonId);
   if (!taught) return null;
-  for (const screen of [opts.screenMap[taught], opts.easierMap[taught]]) {
+  const routes = opts.preferEasier
+    ? [opts.easierMap[taught], opts.screenMap[taught]]
+    : [opts.screenMap[taught], opts.easierMap[taught]];
+  for (const screen of routes) {
     if (!screen || opts.used.has(screen)) continue;
     const cefr = opts.screenCefr[screen];
     if (cefr && !opts.isUnlocked(cefr, opts.userCefr)) continue;
@@ -328,13 +342,26 @@ export function buildCurriculumSlots(opts: {
     isReview: false,
     reason: course.reason,
   };
+  // THE CORRECTIVE DAY (redesign increment 4, owner decision 5): the latest real
+  // check on this lesson failed and it is still not complete, so the sitting is a
+  // shorter re-teach — the lesson opens at its worked examples (handoff written
+  // here and re-armed at launch) — with the EASIER drill first. See lib/correctiveDay.
+  const corrective = isCorrectiveLesson(step.entry.id);
+  if (corrective) {
+    try {
+      requestCorrectiveLesson(step.entry.id);
+    } catch {
+      /* the lesson simply opens from the start */
+    }
+  }
+  const title = step.entry.title || 'Today\u2019s Lesson';
   const out: SlotActivity[] = [
     {
       id: curriculumLessonId(step.entry.id),
-      label: step.entry.title || 'Today\u2019s Lesson',
+      label: corrective ? `Again: ${title}` : title,
       screen: 'animlesson',
       category: 'general',
-      reason: step.reason,
+      reason: corrective ? correctiveReason() : step.reason,
     },
   ];
   const practice = curriculumPracticeActivity({
@@ -345,8 +372,16 @@ export function buildCurriculumSlots(opts: {
     easierMap: opts.easierMap,
     screenCefr: opts.screenCefr,
     isUnlocked: opts.isUnlocked,
+    preferEasier: corrective,
   });
-  if (practice) out.push({ ...practice, reason: 'Practising what today\u2019s lesson taught' });
+  if (practice) {
+    out.push({
+      ...practice,
+      reason: corrective
+        ? correctiveDrillReason(practice.category)
+        : practiceReason(practice.category),
+    });
+  }
   return out;
 }
 
