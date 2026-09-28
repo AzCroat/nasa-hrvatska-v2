@@ -1039,9 +1039,70 @@ function* lessonStrings() {
   }
 }
 
+// ── The vocabulary deck: positional word entries ─────────────────────────────
+//
+// Both vocabulary.js copies have been in TARGETS since the first wave, which
+// made them look covered, and neither regex pass could see a single word in
+// them: a deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako
+// si?']` — with no field name for CRO_FIELD_RE to match and no `opts:`-style
+// key for ARRAY_FIELD_RE. So the core deck (2,357 words), the B2/C1/C2 tiers
+// (2,163) and TOP100 — the headwords and example sentences a learner meets on
+// every flashcard, review and quiz — were unscanned. Found 2026-09-28 by
+// positive control while preparing to add ~1,300 advanced words: `hleb` as a
+// C2 headword and inside a C2 example both passed clean.
+//
+// Position decides the kind, exactly as `answer` does for the dialogue bank:
+//   [hr, en]                 hr Croatian · en gloss
+//   [hr, en, example]        example Croatian
+//   [hr, en, syllables, ex]  the syllable guide ("MO-ći") is a pronunciation
+//                            aid, not a sentence: encoding only
+import * as VOCAB_SERVER from '../functions/api/content/_data/vocabulary.js';
+import * as VOCAB_CLIENT from '../src/data/vocabulary.js';
+
+const VOCAB_KINDS_3 = [
+  ['hr', 'croatian'],
+  ['en', 'gloss'],
+  ['example', 'croatian'],
+];
+const VOCAB_KINDS_4 = [
+  ['hr', 'croatian'],
+  ['en', 'gloss'],
+  ['syllables', 'gloss'],
+  ['example', 'croatian'],
+];
+
+function* vocabStrings() {
+  for (const [modName, mod] of [
+    ['functions/vocabulary', VOCAB_SERVER],
+    ['src/vocabulary', VOCAB_CLIENT],
+  ]) {
+    for (const [exportName, bank] of Object.entries(mod)) {
+      if (!bank || typeof bank !== 'object' || Array.isArray(bank)) continue;
+      for (const [cat, entries] of Object.entries(bank)) {
+        if (!Array.isArray(entries)) continue;
+        for (let i = 0; i < entries.length; i++) {
+          const e = entries[i];
+          if (!Array.isArray(e) || !e.every((x) => typeof x === 'string')) continue;
+          const kinds = e.length === 4 ? VOCAB_KINDS_4 : VOCAB_KINDS_3;
+          for (let j = 0; j < e.length; j++) {
+            const [field, kind] = kinds[j] ?? ['extra', 'croatian'];
+            yield {
+              loc: `${modName}.${exportName}[${JSON.stringify(cat)}][${i}].${field}`,
+              field,
+              content: e[j],
+              kind,
+            };
+          }
+        }
+      }
+    }
+  }
+}
+
 const STRUCTURED = [
   { rel: 'src/components/practice/dialogueScenarios.js', strings: dialogueStrings },
   { rel: 'lessons.js + per-level lesson files (tables)', strings: lessonStrings },
+  { rel: 'vocabulary.js ×2 (positional deck entries)', strings: vocabStrings },
 ];
 
 function checkStructured() {

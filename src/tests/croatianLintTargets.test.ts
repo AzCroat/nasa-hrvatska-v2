@@ -374,6 +374,24 @@ describe('the contrastive carve-out stays honest', () => {
     expect(walk).toMatch(/field: 'q',\s*content: it\.q,/);
   });
 
+  it('walks the vocabulary deck positionally — headword, gloss, example', () => {
+    // 2026-09-28: both vocabulary.js copies sat in TARGETS and NEITHER regex
+    // pass could see a word in them, because a deck entry is a positional array
+    // (`['Bog', 'Hello/Hi', 'Bog, kako si?']`) with no field name to match. The
+    // core deck, the B2/C1/C2 tiers and TOP100 — 11,664 Croatian strings, the
+    // headwords and examples on every flashcard — were unscanned. Measured when
+    // walked: zero findings (a ratchet, not a save). Mutation-verified: `hleb`
+    // as a C2 headword, `hleb` in a C2 example and a Cyrillic `а` in a core
+    // example each fail the lint with this walk; an English gloss saying `hleb`
+    // stays exempt.
+    const walk = LINT_SRC.match(/function\* vocabStrings\(\)[\s\S]*?\n\}\n/)![0]!;
+    expect(walk).toMatch(/VOCAB_SERVER/);
+    expect(walk).toMatch(/VOCAB_CLIENT/);
+    expect(LINT_SRC).toMatch(/\['example', 'croatian'\]/);
+    expect(LINT_SRC).toMatch(/\['hr', 'croatian'\]/);
+    expect(LINT_SRC).toMatch(/strings: vocabStrings/);
+  });
+
   it('every encoding call site passes a field name', () => {
     // The carve-out is field-scoped, so a call site that forgets the field
     // silently applies the STRICTEST behaviour — which is safe — but one that

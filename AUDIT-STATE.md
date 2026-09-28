@@ -12810,3 +12810,34 @@ mogli`, B1 ×6, B2, a drill); `Pasti će` → `Past će`; `ako bude padati` → 
   - **Not checked yet**: a per-item read of the 109 ModeDrill banks and ~100 hand-written drills
     for the subtler classes (a real form keyed wrong, a case filed under the wrong preposition) —
     the census above was pattern-driven, so it finds only the shapes it was told to look for.
+- [x] **Sweep 177 — content expansion per level: listening, dialogues, and the deck the lint never read (2026-09-28).**
+  - **Census first** (probe test, deleted after): lessons 30/level; stories 31–39; dialogues
+    12/level; writing and speaking units 8/level; LISTEN own-level A1 7 · A2 8 · B1 11 · B2 10 ·
+    C1 5 · C2 4; advanced deck C1 900 (771 new vs lower bands) and C2 300 (250 new).
+    Owner chose: 1 dialogues 12 → 24, 2 LISTEN → 20/level, 3 C1 +600 / C2 +700 words, 4 writing +
+    speaking 8 → 12.
+  - **LISTEN**: +75 items, every level exactly 20. Three existing items fixed: `bez suvlasnika`
+    glossed "co-tenant" (suvlasnik = co-owner) → `Ne mogu si priuštiti taj stan bez cimera`;
+    the one numeral (`2013.`) written out for TTS; `IT sektoru` → `informatičkom sektoru`.
+    New `nema nikakvo osiguranje` → genitive. Ratchets in `listening-banks.test.ts`: ≥20 own-level
+    per level (the old "≥20 at B1 or above" passed with C2 at FOUR), no numerals.
+  - **THE VOCABULARY DECK WAS NEVER LINTED.** Both vocabulary.js copies in TARGETS; entries are
+    positional arrays, so no regex pass saw a word: 11,664 Croatian strings (core V, B2/C1/C2
+    tiers, TOP100). Positive controls: `hleb` as a C2 headword and inside a C2 example both passed.
+    `vocabStrings` walks both copies by position (headword + example both checks; gloss and the
+    `MO-ći` syllable guide encoding only). Walked: 0 findings — a ratchet. Controls now fail as
+    they should; Cyrillic `а` in a core example fails; `hleb` in an English gloss stays exempt.
+    Coverage 479 → 480 (3 structured). Mutation: walker unregistered fails 2 tests.
+  - **Not checked**: whether a numeral or abbreviation elsewhere in TTS-read content (dictation,
+    graded stories) reads badly — only LISTEN is pinned.
+  - **Dialogues 12 → 24 per level (+72), 19 turns corrected on review**: two wrong
+    MODEL answers (štrukli is masculine plural; the tip said feminine) and distractors
+    marking native-spoken forms wrong (vocative-as-nominative with names, s mnom, sa njom,
+    me smeta, imaš li vrijeme, singular participle with Vi, savjetovati + A, delayed
+    clitic). Four such distractors fixed in EXISTING scenarios too: `vođenje dva
+projekta`, `postane problemom` (tip called it archaic — false), `Hvala vam za` ×2,
+    `Idem istuširati se`. Id collisions from parallel agents (B2/C1, B2/C2) renamed.
+    Kept, deliberately: `bi li mogli` for 1pl (non-standard; tip names `bismo`), and the
+    C2 pragmatic distractors in `posredovanje_odbor` & co. (tact is the C2 skill).
+  - **Not checked**: whether the Maja/AI conversation mode behaves well on the 72 new
+    server contexts — the parity test proves each has one, not that the persona works.

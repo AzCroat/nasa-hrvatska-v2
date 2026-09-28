@@ -2815,6 +2815,26 @@ roditelja` therefore showed the family emoji whole in the icon slot and again,
   decorative**: "the icon contains an emoji" is satisfied by a title written
   with no space (`👵Kod bake` → icon `👵Kod`, heading `bake`), and it survived
   the mutation. It now also asserts the icon contains no letters or digits.
+- **24 PER LEVEL, 144 IN ALL (2026-09-28).** From B1 up a conversation is in every
+  session, so 12 scenarios came round about every two weeks and answers began to be
+  remembered rather than produced. The 72 new ones keep each level's method: A1/A2
+  register follows the person (six ti, six Vi), B1–C2 are six formal/informal PAIRS of
+  speech acts the level had not paired (congratulate, ask permission, advise, recommend,
+  complain, report a problem; warn, extend a deadline, clear up a misunderstanding,
+  remind; set a boundary, defend a decision, ask for a reference, answer an accusation;
+  toast, answer irony, withdraw, concede). Floor ratcheted to 24 at every level.
+  **Authored by one agent per level, then read line by line — and review changed 19
+  turns.** Two of the agents' MODEL answers were wrong: `štrukli` is masculine plural
+  (`najbolji su`), and the tip taught the opposite. The rest were distractors marking
+  real Croatian wrong, in one class worth naming: **the nominative used to address a
+  person (`Josip!`, `baka!`), `s mnom`, `sa njom`, `me smeta`, `imaš li vrijeme`, a
+  singular participle with polite Vi, `savjetovati nekoga`, and delayed clitics after a
+  heavy subject are all heard from natives**, so none is the error a distractor tests.
+  The agents' notes also caught four such distractors in the EXISTING bank, fixed here:
+  `vođenje dva projekta` and `postane problemom` (both standard, the second tipped as
+  "archaic"), `Hvala vam za …` twice, and `Idem istuširati se`.
+  **Parallel authoring collides on ids** — each agent checked uniqueness against the file,
+  not against the others, and B2/C1 and B2/C2 picked the same two ids. Renamed at merge.
 - NEVER: add a scenario without its server context; put the correct option
   anywhere but index 0; make a distractor wrong by being Serbian or by being
   a merely-marked variant a native would say; split an emoji off a title by
@@ -2927,7 +2947,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **479 files**, 2 of them walked structurally — the figure the lint
+Coverage is **480 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -2937,6 +2957,19 @@ deleted the hero cluster three more pointed at, and up by one for
 the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
 … `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
 checks, positive-controlled in an `options` field and a `hint`).
+
+**THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
+A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither
+regex pass could see one word of the core deck (2,357), the B2/C1/C2 tiers (2,163) or TOP100:
+11,664 Croatian strings, the headwords and example sentences on every flashcard. Found by
+positive control before adding ~1,300 advanced words (`hleb` as a C2 headword and inside a C2
+example both passed clean). `vocabStrings` now walks both copies by POSITION — headword and
+example both checks, the English gloss and the `MO-ći` syllable guide encoding only — and is
+the third structured entry, which is why the count rose by one with no new file: the
+structured entries are counted on top of TARGETS, as `lessons.js` already was. Walked: zero
+findings, so a ratchet. **This is the fifth time "in TARGETS" has meant nothing**, and every
+time the tell was the SHAPE of the data, not the file list: ask how a file stores its Croatian
+before believing a lint reads it.
 
 **AND A TARGET IN THE LIST STILL PROVED NOTHING (sweep 158).** That new file's positive
 control PASSED CLEAN: `hleb` in an `mForm` was not caught, because a participle field was
