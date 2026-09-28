@@ -99,10 +99,13 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   delivery"). The redesign is therefore mostly about what the REST of the session does
   around that lesson (P1–P4 in "The Daily Session Recommender" are still
   weakness/rotation driven, not concept-staged).
-- **Next step:** write `docs/daily-session-redesign.md` — current session composition
-  (from `buildSessionActivities` in `src/hooks/useDailySession.ts`), what the course
-  increments already do, the proposed PPP staging per session, each decision tagged
-  with its principle — and get owner sign-off before code.
+- **UPDATE, same day: the design is written — `docs/daily-session-redesign.md`
+  (DRAFT, awaiting owner sign-off; no code).** Central finding, read from code: only
+  the lesson slot (P0) follows course position; every other slot is chosen by
+  `getContentUnlockLevel(getUserCefr(xp, lc, gc))`, so learners ahead by XP (everyone
+  with pre-2026-09-26 progress, all now at Unit 1) get activities on material the
+  course has not taught them. §8 lists five owner decisions; increment 0 (measure that
+  gap through the real builder) is the first build step once they are made.
 
 ### 3c. Other open items
 
