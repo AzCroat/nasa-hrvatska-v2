@@ -12858,3 +12858,14 @@ projekta`, `postane problemom` (tip called it archaic — false), `Hvala vam za`
   - **Not checked**: loanword vocatives in -ng (`treninže`); the long/short plural of every
     other polysyllable (`golub → golubovi`, `galeb → galebovi` still get the short plural);
     animacy of nouns outside the list (the note states the rule for those).
+
+- [x] **Sweep 179 — the advanced vocabulary, and what the authors found in the shipped deck (2026-09-28).**
+  - V_C1 900 → 1,679 entries, V_C2 300 → 1,158; SERVED at the band (no lower tier carries
+    the lemma): C1 1,551, C2 1,108. Pinned per band in `vocabulary-coverage.test.ts`.
+  - 13 slices authored in parallel, deduped against every tier and each other (25 dropped),
+    then each read by an independent reviewer: 26 fixes, mostly doubtful factual claims.
+  - ~30 existing entries fixed (listed in the CLAUDE.md vocabulary-deck bullet); B2 floor
+    962 because `kognitivni pristranak` is not a term. New Serbism rule `sused`.
+  - **Not checked**: the older C1/C2 examples that are verbless fragments or under six words
+    (reported by three authors; a style gap, not an error); `Za dom, za narod` in C1
+    'Croatian cultural expressions' is left for the owner (its example is unnatural).

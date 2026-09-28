@@ -53,7 +53,8 @@ const counts = {
 // Minimum unique headwords per tier.
 // C2 is the newly-seeded mastery tier (near-native register); its floor reflects
 // the initial seed bank and is a hard regression guard like the others.
-const TARGET = { core: 1200, B2: 900, C1: 600, C2: 90 } as const;
+// C1 and C2 were raised on 2026-09-28 (C1 900 → 1,600+, C2 300 → 1,150+).
+const TARGET = { core: 1200, B2: 900, C1: 1500, C2: 1000 } as const;
 type Tier = keyof typeof TARGET;
 
 // Tiers below target today (green-but-tracked debt; ratchet forces removal once
@@ -76,6 +77,40 @@ console.log(
       .join('\n') +
     `\n  Known gaps (tracked debt): ${[...KNOWN_GAPS].join(', ') || 'none'}\n`,
 );
+
+// A lemma is SERVED at the lowest band that carries it (vocabPool), so a tier
+// entry that repeats a lower tier's lemma is dead weight — it adds nothing a
+// learner at that band meets. The tier sizes above count entries; this counts
+// what each advanced band actually contributes, which is the number the
+// 2026-09-28 expansion was asked for (C1 ≥ 1,500, C2 ≥ 1,000 new lemmas).
+function served(bank: Record<string, unknown>, lower: Record<string, unknown>[]): number {
+  const below = new Set<string>();
+  for (const b of lower)
+    for (const v of Object.values(b)) {
+      if (!Array.isArray(v)) continue;
+      for (const e of v)
+        if (Array.isArray(e) && typeof e[0] === 'string') below.add(e[0].trim().toLowerCase());
+    }
+  const own = new Set<string>();
+  for (const v of Object.values(bank)) {
+    if (!Array.isArray(v)) continue;
+    for (const e of v)
+      if (Array.isArray(e) && typeof e[0] === 'string') own.add(e[0].trim().toLowerCase());
+  }
+  return [...own].filter((w) => !below.has(w)).length;
+}
+
+describe('lemmas each advanced band actually serves', () => {
+  const core = V as Record<string, unknown>;
+  const b2 = V_B2 as Record<string, unknown>;
+  const c1 = V_C1 as Record<string, unknown>;
+  it('C1 serves at least 1,500 lemmas no lower band carries', () => {
+    expect(served(c1, [core, b2])).toBeGreaterThanOrEqual(1500);
+  });
+  it('C2 serves at least 1,000 lemmas no lower band carries', () => {
+    expect(served(V_C2 as Record<string, unknown>, [core, b2, c1])).toBeGreaterThanOrEqual(1000);
+  });
+});
 
 describe('vocabulary coverage', () => {
   it('every CEFR tier bank is non-empty (banks didn’t move or break)', () => {

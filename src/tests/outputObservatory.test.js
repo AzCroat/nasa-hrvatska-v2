@@ -118,6 +118,9 @@ describe('_serbisms.js — the one blocklist', () => {
     expect(findSerbism('Kupio sam hleb u pekari')).toMatchObject({ use: 'kruh' });
     expect(findSerbism('Vreme je lepo danas')).toBeTruthy();
     expect(findSerbism('pozorište u centru')).toMatchObject({ use: 'kazalište' });
+    // 2026-09-28: an ekavian `sused` sat in a C2 vocabulary example.
+    expect(findSerbism('Bio je uzoran sused.')).toMatchObject({ use: 'susjed' });
+    expect(findSerbism('u susednoj ulici')).toMatchObject({ use: 'susjed' });
   });
 
   it('never flags standard Croatian (the 123-false-positive lesson)', () => {
@@ -125,6 +128,10 @@ describe('_serbisms.js — the one blocklist', () => {
     expect(findSerbism('Nemam vremena za to')).toBeNull(); // oblique of vrijeme
     expect(findSerbism('On reče da dolazi')).toBeNull(); // aorist of reći
     expect(findSerbism('Vrijeme je lijepo')).toBeNull();
+    // The Kajkavian place name Susedgrad is real Croatian and must survive.
+    expect(findSerbism('Susedgrad je utvrda kraj Zagreba.')).toBeNull();
+    expect(findSerbism('susedgradsko-stubičko vlastelinstvo')).toBeNull();
+    expect(findSerbism('Moj susjed je liječnik.')).toBeNull();
   });
 
   it('the content lint imports THESE rules (no fork)', () => {
