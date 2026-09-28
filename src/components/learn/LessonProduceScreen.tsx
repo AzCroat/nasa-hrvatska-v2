@@ -40,8 +40,8 @@ interface Props {
 }
 
 const card: React.CSSProperties = {
-  background: 'var(--surface)',
-  border: '1px solid var(--border)',
+  background: 'var(--card)',
+  border: '1px solid var(--card-b)',
   borderRadius: 14,
   padding: 16,
   marginTop: 12,
