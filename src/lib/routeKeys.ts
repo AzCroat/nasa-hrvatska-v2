@@ -216,6 +216,7 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'lektor',
   'lektura',
   'lesson',
+  'lessonproduce',
   'lessonreview',
   'levelquiz',
   'levelreview',

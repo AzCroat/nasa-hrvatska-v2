@@ -30,6 +30,7 @@ import { applyWritingErrorsToAdaptive } from '../../lib/adaptiveFeedback';
 import { markLessonProduced } from '../../lib/lessonRetention';
 import type { CefrLevel } from '../../lib/cefr';
 import { markQuest } from '../../lib/quests.js';
+import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -93,6 +94,9 @@ export default function LessonProduceStep({
         const f = await failureFromResponse(res);
         setFailure(f);
         reportAiFailure('lesson-produce', f);
+        // The learner WROTE; the grader would not answer. Never strand the session
+        // slot on the evaluator (the unit-production rule). Nothing is recorded.
+        signalSessionCompleteIfActive('lessonproduce');
         return;
       }
       const data = (await res.json()) as CorrectResult;
@@ -104,6 +108,11 @@ export default function LessonProduceStep({
       }
       setResult(data);
       markLessonProduced(lessonId, data.score);
+      // Standing on its own as the session's production slot (redesign increment
+      // 2a) the step frees the slot here; inside a lesson the started screen is
+      // 'animlesson' and this is a no-op — the Home effect credits the slot from
+      // the `produced` record instead.
+      signalSessionCompleteIfActive('lessonproduce');
       // Written evidence at the lesson's level, same weight and taxonomy the
       // other rubric-graded writing surfaces use — so one loop, not a third.
       recordMasteryEvent({

@@ -109,8 +109,13 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   overturned the design's first G1 (it is the production/conversation slots' level,
   not concept drills). Increment 1 builds and SIZES the session at the course unit's
   level (`src/lib/sessionLevel.ts`) and points the guided speaking/writing screens and
-  `DialogueSim` at it when session-launched. **Next: increment 2** — production on
-  lesson days becomes the lesson's own produce step (decision 4). Also installed on
+  `DialogueSim` at it when session-launched. #770 merged and deployed.
+- **UPDATE 3: increment 2a is DONE** (sweep 182; CLAUDE.md "Increment 2a"): on a
+  lesson day the production slot is the lesson's own WRITTEN produce step, credited
+  from the record wherever it was written; standalone route `lessonproduce`.
+  **Next: increment 2b** — the same step spoken (transcript → `/api/speaking-coach`),
+  alternating with writing by the ledger's weaker production skill; then increment 3
+  (the mix). Owner chose the 2a-then-2b path. Also installed on
   this machine since §4 was written: Playwright's Chromium (`npx playwright install
 chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
   project) against a build made with CI's placeholder `VITE_FIREBASE_*` values

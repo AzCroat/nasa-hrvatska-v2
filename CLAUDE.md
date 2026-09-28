@@ -4515,6 +4515,47 @@ whole of it.
   session at one level and fill it at another; force a level in an E2E spec and
   assume the course is there too — seed the course position.
 
+### Increment 2a — the day's production is the lesson's produce step (2026-09-28)
+
+Owner decision 4: "production on lesson days". `LessonProduceStep` (two or three
+sentences using the lesson's own objectives, graded by the same `/api/correct` rubric
+as Guided Writing) already sat on the passed lesson summary, optional and easy to
+skip, while P2.5 rotated writing and speaking units about something else. On a day
+whose course step IS a lesson, P2.5 is now that step: `src/lib/produceSlot.ts`
+(`selectLessonProduceSlot`, `creditProducedSlots`), handoff in
+`lessonProduceRequest.ts`, standalone route `lessonproduce` (`LessonProduceScreen`).
+
+- **Credit follows the work.** The step records `produced` on a graded submission
+  wherever it was written; a hook effect credits the session slot from that record
+  (the SRS auto-skip's precedent), so a learner who wrote it on the lesson page is not
+  asked twice. A SKIPPED step records nothing and the slot stays — the honest state.
+  Standing alone, the step frees the slot on a graded submission and on an evaluator
+  refusal (the learner wrote); inside a lesson that signal is a no-op because the
+  started screen is `animlesson`.
+- **Scope is the decision's**: the day is a lesson day iff P0's FIRST slot is the
+  lesson. A check-up day (lesson second, behind the re-check), a unit-test, production
+  or level-review day keeps the pool pick, so no day carries two production tasks.
+- **The standalone screen has four honest states** — no handoff; lesson not yet read
+  ("finish today's lesson first", the lesson one tap away — production before the
+  teaching is the untaught test the redesign removes); already written (the score,
+  slot freed on open); the step.
+- **The 800-line cap held.** `useDailySession.ts` went to 848 countable lines; the slot
+  logic lives in `produceSlot.ts` and `markDoneInSession` / `recordSessionComplete`
+  moved to `dailySessionStore.ts` (re-exported from the hook for `StatsTab` and the
+  tests). Prettier had also expanded one import into seven counted lines.
+- **Cost, stated**: the step is WRITTEN. An A1 learner's three slots on a lesson day
+  are lesson, drill, written production — no spoken Croatian in the session until
+  increment 2b (the same step spoken, graded by the transcript-in speaking coach).
+- Pinned by `produceSlot.test.tsx` (14) and the probe's lesson-day / unit-test-day
+  ratchets. Mutation-verified, four: slot never selected fails 7; credit never granted
+  fails 3; the step's slot signal removed fails 2; rearm forgets the handoff fails 1.
+  `sp4b-production-slot.spec.js`'s two pool-pick pins stand on a UNIT-TEST day now,
+  because the pool pick no longer runs on a lesson day — intent preserved.
+- NEVER: serve the produce step on a day whose first P0 slot is not the lesson; credit
+  the produce slot from anything but a RECORDED production; let the step strand the
+  session slot on an evaluator refusal; add a session activity whose id starts with
+  `curriculum_` without teaching the probe's `isP0` which kind it is.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

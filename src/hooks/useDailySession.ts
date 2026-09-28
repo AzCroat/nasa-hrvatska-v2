@@ -8,6 +8,7 @@ import { CONJ_LAB_ENABLED } from '../lib/conjugation/conjugationConfig';
 import { isUnlocked, cefrRank } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
 import { loadPersistedSession, newSession, persistSession } from '../lib/dailySessionStore';
+import { markDoneInSession, recordSessionComplete } from '../lib/dailySessionStore';
 import type { DailySession, SessionActivity, SessionCategory } from '../lib/dailySessionStore';
 
 // Re-exported so existing importers (SessionCard) are unchanged by the split.
@@ -39,6 +40,7 @@ import { lsGet } from '../lib/safeStorage';
 import { selectGuaranteedInput, inputKindOf } from '../lib/inputSlot';
 import { readServedMap, SERVED_KEY } from '../lib/sessionServed';
 import { sessionLevel } from '../lib/sessionLevel';
+import { selectLessonProduceSlot, creditProducedSlots } from '../lib/produceSlot';
 // Re-exported so tests keep one import path for the session's guaranteed slots.
 export { selectGuaranteedInput } from '../lib/inputSlot';
 export type { InputKind } from '../lib/inputSlot';
@@ -85,7 +87,6 @@ export interface UseDailySessionReturn {
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
-const HISTORY_KEY = 'nh_session_history';
 const RECENT_KEY = 'nh_recent_exercises';
 const FLUENCY_MODE_KEY = 'nh_fluency_mode';
 
@@ -528,15 +529,24 @@ export function buildSessionActivities(
   // second writing task beside "Unit 1: write" was redundant, so P2.5 stands down
   // and the P3 fill keeps the session the same length.
   const courseProduces = activities.some((a) => a.screen === 'unitproduction');
-  const productionActivity = courseProduces
-    ? null
-    : selectProductionExercise({
-        cefr: level,
-        micState: readMicState(),
-        recentScreens: getRecentProduction(),
-        excludeScreens: [...usedScreens],
-        kindBias: weakestProductionKind(level as CefrLevel) ?? undefined,
-      });
+  // ON A LESSON DAY THE PRODUCTION SLOT IS THE LESSON'S OWN PRODUCE STEP (redesign
+  // increment 2a, owner decision 4). Policy and rationale in lib/produceSlot; null
+  // on every other day shape, when the pool pick below runs as before.
+  const produceActivity = selectLessonProduceSlot(curriculumSlots);
+  if (produceActivity) {
+    activities.push(produceActivity);
+    usedScreens.add(produceActivity.screen);
+  }
+  const productionActivity =
+    courseProduces || produceActivity
+      ? null
+      : selectProductionExercise({
+          cefr: level,
+          micState: readMicState(),
+          recentScreens: getRecentProduction(),
+          excludeScreens: [...usedScreens],
+          kindBias: weakestProductionKind(level as CefrLevel) ?? undefined,
+        });
   if (productionActivity && !usedScreens.has(productionActivity.screen)) {
     activities.push({
       ...productionActivity,
@@ -845,21 +855,7 @@ export function buildSessionActivities(
   return activities;
 }
 
-export function markDoneInSession(session: DailySession, id: string): DailySession {
-  if (session.completedIds.includes(id)) return session; // idempotent
-  return { ...session, completedIds: [...session.completedIds, id] };
-}
-
-export function recordSessionComplete(date: string): void {
-  try {
-    const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}') as Record<
-      string,
-      boolean
-    >;
-    history[date] = true;
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-  } catch {}
-}
+export { markDoneInSession, recordSessionComplete } from '../lib/dailySessionStore';
 
 // Wave 1: the served map (screen key → last date it appeared in a built
 // session) lives in lib/sessionServed — the discovery slot and the P2.8
@@ -1082,6 +1078,13 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
       return updated;
     });
   }, [session, poolWords]);
+
+  // THE PRODUCE SLOT IS CREDITED FOR WORK DONE ON THE LESSON PAGE (redesign
+  // increment 2a) — the SRS auto-skip above is the precedent for a slot the
+  // session settles on its own evidence. Rule and rationale in lib/produceSlot.
+  useEffect(() => {
+    setSession((prev) => creditProducedSlots(prev));
+  }, [session]);
 
   const isComplete = session.completedIds.length >= session.activities.length;
   const progress =
