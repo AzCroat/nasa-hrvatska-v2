@@ -175,6 +175,9 @@ Owner answers recorded 2026-09-28 (Claude Code in Terminal, one at a time):
 4. **Production every day, or every unit?** Stage 3 daily costs one AI evaluation per
    session against the $10/month ceiling; the alternative is daily on lesson days
    only, with the unit's production requirement unchanged.
+   **DECIDED: lesson days only.** Stage 3 runs on days whose course step is a
+   lesson; test, production, check-up and level-review days do not add a second
+   production task. The unit's own production requirement is unchanged.
 5. **Corrective day.** Approve the shape in §5 ("Hold"), or retry the lesson as today?
 
 ## 9. Increments — each shippable alone, each measured before and after
