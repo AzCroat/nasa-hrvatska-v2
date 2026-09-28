@@ -38,6 +38,8 @@ const HOMONYMS: Record<string, string> = {
   braće: 'genitive/plural of brat, "brother"',
   braću: 'accusative of braća, "brothers"',
   radiću: 'vocative of the surname Radić',
+  // `Vlastelin je … tražio tlaku i daće` (C2 vocabulary): `dat će` makes `da` a stem.
+  daće: 'accusative plural of daća, "feudal levy, tribute" (hist.)',
 };
 
 function corpus(): Map<string, string> {
