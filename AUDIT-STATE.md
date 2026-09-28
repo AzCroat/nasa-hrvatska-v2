@@ -12841,3 +12841,20 @@ projekta`, `postane problemom` (tip called it archaic — false), `Hvala vam za`
     C2 pragmatic distractors in `posredovanje_odbor` & co. (tact is the C2 skill).
   - **Not checked**: whether the Maja/AI conversation mode behaves well on the 72 new
     server contexts — the parity test proves each has one, not that the persona works.
+- [x] **Sweep 178 — the declension engine was wrong for common words (2026-09-28).**
+  - Source: the step-4 production agents, verifying build sentences against `decline()`,
+    reported ~20 words it declines wrongly. Every one was PROBED before fixing, and the probe
+    found more of the same families (`točci`, `patci`, `snasi`, `musi`, `zecovi`, `svraha`,
+    `momka`/`borca` as genitive plurals, `hrvatovi` from syllabic r uncounted).
+  - Fix: rules where Croatian has one, lists where it is lexical (`croatianLexicalClasses.ts`),
+    `sudac` as an attested irregular, `knownGender()` so ReferenceDesk's gender switch appears
+    only for words the engine cannot know. 9 new written-out tests; 6 mutations each fail.
+  - Second pass, same day (the de-duplication agent's report, each form probed): a polysyllabic
+    masculine ending in a cluster inserts an a in the genitive plural (`studenata`, `projekata`,
+    `klijenata`, `koncerata`, `bicikala`) — the engine gave the genitive SINGULAR there; a
+    feminine consonant + lj/nj stem takes -i (`šetnji`, `vožnji`) where it gave the nominative
+    singular; `jakna → jakni`, `lopta → lopti` (the rule gave `lopata`, a shovel) and
+    `zemlja → zemalja` are listed. Two more mutations, each fails 1.
+  - **Not checked**: loanword vocatives in -ng (`treninže`); the long/short plural of every
+    other polysyllable (`golub → golubovi`, `galeb → galebovi` still get the short plural);
+    animacy of nouns outside the list (the note states the rule for those).

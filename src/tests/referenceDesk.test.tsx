@@ -148,9 +148,10 @@ describe('the declension panel is honest about what it knows', () => {
 
   it('ASKS for the gender of a consonant-final noun instead of guessing', () => {
     const input = openDeclension();
-    fireEvent.change(input, { target: { value: 'stvar' } });
-    // The whole point: left to guess, the engine returns `stvara` / `stvarovi`
-    // for a real feminine noun. The control must be offered.
+    // `zob` (oats) is feminine and in no list the engine keeps, so the spelling
+    // is all it has — and left to guess it returns `zoba` / `zobovi`, invented
+    // forms for a real word. The control must be offered.
+    fireEvent.change(input, { target: { value: 'zob' } });
     expect(screen.getByTestId('rd-gender-choice')).toBeTruthy();
     expect(screen.getByTestId('rd-gender-m')).toBeTruthy();
     expect(screen.getByTestId('rd-gender-f')).toBeTruthy();
@@ -158,15 +159,26 @@ describe('the declension panel is honest about what it knows', () => {
 
   it('gives the i-declension once the learner says it is feminine', () => {
     const input = openDeclension();
-    fireEvent.change(input, { target: { value: 'stvar' } });
+    fireEvent.change(input, { target: { value: 'zob' } });
     fireEvent.click(screen.getByTestId('rd-gender-f'));
     const f = formsFor();
-    expect(f.Nsg).toBe('stvar');
-    expect(f.Gsg).toBe('stvari');
-    expect(f.Ipl).toBe('stvarima');
+    expect(f.Nsg).toBe('zob');
+    expect(f.Gsg).toBe('zobi');
+    expect(f.Ipl).toBe('zobima');
     // The masculine invention must be nowhere on screen.
-    expect(Object.values(f)).not.toContain('stvara');
-    expect(Object.values(f)).not.toContain('stvarovi');
+    expect(Object.values(f)).not.toContain('zoba');
+    expect(Object.values(f)).not.toContain('zobovi');
+  });
+
+  it('does NOT ask about a noun whose gender the engine knows (2026-09-28)', () => {
+    // Asking forced masculine on it until the learner flipped the switch, so
+    // `pomoć` showed "pomoća". The engine now knows the common feminine i-nouns.
+    const input = openDeclension();
+    fireEvent.change(input, { target: { value: 'pomoć' } });
+    expect(screen.queryByTestId('rd-gender-choice')).toBeNull();
+    const f = formsFor();
+    expect(f.Gsg).toBe('pomoći');
+    expect(Object.values(f)).not.toContain('pomoća');
   });
 
   it('says when a table came from the rules rather than the record', () => {

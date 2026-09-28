@@ -16,6 +16,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   decline,
+  knownGender,
   analyzeForm,
   describeReading,
   CASE_NAME,
@@ -183,9 +184,11 @@ describe('feminine nouns', () => {
     expect(decline('stvar', 'f')!.paradigm).toBe('i-feminine');
   });
 
-  it('a consonant-final noun is masculine unless the caller says otherwise', () => {
-    expect(decline('stvar')!.gender).toBe('m');
-    expect(decline('stvar', 'f')!.gender).toBe('f');
+  it('an UNKNOWN consonant-final noun is masculine unless the caller says otherwise', () => {
+    // `zob` is feminine and deliberately in no list: the spelling alone cannot say.
+    expect(decline('zob')!.gender).toBe('m');
+    expect(decline('zob', 'f')!.gender).toBe('f');
+    expect(knownGender('zob')).toBeNull();
   });
 });
 
@@ -538,5 +541,170 @@ describe('the fleeting -a in -ak is LEXICAL in BOTH directions (2026-09-23)', ()
     expect(f('naglasak').Gsg).toBe('naglaska');
     expect(f('zaključak').Isg).toBe('zaključkom');
     expect(f('grad').Gsg).toBe('grada');
+  });
+});
+
+// ── Wrong forms found by the speaking-curriculum authors (2026-09-28) ─────────
+//
+// Each was reported while verifying build sentences against decline(), then
+// probed. The tap-a-word sheet and the Reference Desk had been showing every one
+// of these to learners. Forms are written out in full, never recomputed.
+describe('the lexical classes and the rules that read them (2026-09-28)', () => {
+  const f = (w: string, g?: 'm' | 'f' | 'n') => decline(w, g)!.forms;
+
+  it('a person or animal takes the genitive-shaped accusative; a thing does not', () => {
+    expect(f('prijatelj').Asg).toBe('prijatelja');
+    expect(f('djed').Asg).toBe('djeda');
+    expect(f('gost').Asg).toBe('gosta');
+    expect(f('borac').Asg).toBe('borca');
+    expect(f('orao').Asg).toBe('orla');
+    expect(f('grad').Asg).toBe('grad');
+    expect(f('sponzor').Asg).toBe('sponzora');
+    expect(f('stol').Asg).toBe('stol');
+    expect(decline('prijatelj')!.note).toMatch(/person or an animal/);
+  });
+
+  it('family words, -čk/-tk/-šk stems and h after a vowel keep their consonant', () => {
+    expect(f('baka')).toMatchObject({ Dsg: 'baki', Lsg: 'baki' });
+    expect(f('seka').Dsg).toBe('seki');
+    expect(f('mačka').Dsg).toBe('mački');
+    expect(f('točka').Lsg).toBe('točki');
+    expect(f('patka').Dsg).toBe('patki');
+    expect(f('kruška').Lsg).toBe('kruški');
+    expect(f('juha').Lsg).toBe('juhi');
+    expect(f('snaha').Dsg).toBe('snahi');
+    // …and the rule still fires where it belongs.
+    expect(f('knjiga').Dsg).toBe('knjizi');
+    expect(f('djevojka').Dsg).toBe('djevojci');
+    expect(f('majka').Dsg).toBe('majci');
+    expect(f('svrha').Dsg).toBe('svrsi');
+  });
+
+  it('a polysyllabic noun ending in a cluster inserts an a in the genitive plural', () => {
+    // Without it the cell read "studenta" — the genitive SINGULAR.
+    expect(f('student').Gpl).toBe('studenata');
+    expect(f('projekt').Gpl).toBe('projekata');
+    expect(f('klijent').Gpl).toBe('klijenata');
+    expect(f('koncert').Gpl).toBe('koncerata');
+    expect(f('dokument').Gpl).toBe('dokumenata');
+    expect(f('bicikl').Gpl).toBe('bicikala');
+    // …and it stays out of the clusters Croatian keeps, and of single consonants.
+    expect(f('turist').Gpl).toBe('turista');
+    expect(f('kontrast').Gpl).toBe('kontrasta');
+    expect(f('prijatelj').Gpl).toBe('prijatelja');
+    expect(f('problem').Gpl).toBe('problema');
+    expect(f('stručnjak').Gpl).toBe('stručnjaka');
+    // …and it does not touch the other cells.
+    expect(f('student')).toMatchObject({ Gsg: 'studenta', Apl: 'studente', Npl: 'studenti' });
+  });
+
+  it('feminine genitive plurals the epenthetic a gets wrong', () => {
+    expect(f('šetnja').Gpl).toBe('šetnji');
+    expect(f('vožnja').Gpl).toBe('vožnji');
+    expect(f('zemlja').Gpl).toBe('zemalja');
+    expect(f('jakna').Gpl).toBe('jakni');
+    expect(f('lopta').Gpl).toBe('lopti');
+    // …and the epenthesis still fires where it belongs.
+    expect(f('sestra').Gpl).toBe('sestara');
+    expect(f('daska').Gpl).toBe('dasaka');
+    expect(f('karta').Gpl).toBe('karata');
+    expect(f('nedjelja').Gpl).toBe('nedjelja');
+  });
+
+  it('-ao is a masculine l-stem: posao → posla, poslovi', () => {
+    expect(f('posao')).toMatchObject({
+      Gsg: 'posla',
+      Dsg: 'poslu',
+      Isg: 'poslom',
+      Npl: 'poslovi',
+      Gpl: 'poslova',
+      Lpl: 'poslovima',
+    });
+    expect(decline('posao')!.gender).toBe('m');
+  });
+
+  it('known feminine i-nouns decline as feminine without being told', () => {
+    expect(f('pomoć')).toMatchObject({ Gsg: 'pomoći', Isg: 'pomoću', Dpl: 'pomoćima' });
+    expect(f('noć').Gsg).toBe('noći');
+    expect(f('radost').Gsg).toBe('radosti'); // the -ost rule
+    expect(f('gost').Gsg).toBe('gosta'); // a monosyllabic -ost is not the suffix
+    expect(knownGender('pomoć')).toBe('f');
+    expect(knownGender('radost')).toBe('f');
+  });
+
+  it('plural exceptions both ways, and c softens before -evi', () => {
+    expect(f('dan')).toMatchObject({ Npl: 'dani', Gpl: 'dana', Dpl: 'danima' });
+    expect(f('gost').Npl).toBe('gosti');
+    expect(f('tečaj')).toMatchObject({ Npl: 'tečajevi', Gpl: 'tečajeva' });
+    expect(f('stric')).toMatchObject({ Npl: 'stričevi', Gpl: 'stričeva' });
+    expect(f('zec').Npl).toBe('zečevi');
+    expect(f('hrvat').Npl).toBe('hrvati'); // syllabic r: two syllables, short plural
+    expect(f('vrt').Npl).toBe('vrtovi'); // one syllable, long plural
+  });
+
+  it('the a stays in rođak and ujak, and returns in every genitive plural', () => {
+    expect(f('rođak')).toMatchObject({ Gsg: 'rođaka', Npl: 'rođaci', Gpl: 'rođaka' });
+    expect(f('ujak').Gsg).toBe('ujaka');
+    expect(f('momak').Gpl).toBe('momaka');
+    expect(f('borac').Gpl).toBe('boraca');
+    expect(f('početak').Gpl).toBe('početaka');
+    expect(f('sudac')).toMatchObject({ Gsg: 'suca', Gpl: 'sudaca' });
+  });
+
+  it('feminine genitive plurals: consonant + b takes -i, syllabic r takes nothing', () => {
+    expect(f('glazba').Gpl).toBe('glazbi');
+    expect(f('molba').Gpl).toBe('molbi');
+    expect(f('majka').Gpl).toBe('majki');
+    expect(f('svrha').Gpl).toBe('svrha');
+    expect(f('sestra').Gpl).toBe('sestara'); // the epenthesis still fires
+    expect(f('djevojka').Gpl).toBe('djevojaka');
+  });
+
+  it('the i-declension instrumental fuses its j: radošću, noću, ljubavlju, riječju', () => {
+    expect(f('radost').Isg).toBe('radošću');
+    expect(f('noć').Isg).toBe('noću');
+    expect(f('ljubav').Isg).toBe('ljubavlju');
+    expect(f('riječ').Isg).toBe('riječju');
+    expect(f('stvar').Isg).toBe('stvari'); // no certain fusion: keeps -i
+    expect(f('sućut').Gsg).toBe('sućuti');
+    expect(f('gost').Gpl).toBe('gostiju');
+  });
+
+  it('adjectival country names decline like adjectives', () => {
+    expect(f('hrvatska')).toMatchObject({
+      Gsg: 'hrvatske',
+      Dsg: 'hrvatskoj',
+      Asg: 'hrvatsku',
+      Lsg: 'hrvatskoj',
+      Isg: 'hrvatskom',
+    });
+    expect(f('njemačka').Lsg).toBe('njemačkoj');
+    expect(decline('hrvatska')!.paradigm).toBe('adjectival');
+  });
+
+  it('every new form is clean Croatian', () => {
+    const words = [
+      'prijatelj',
+      'baka',
+      'mačka',
+      'juha',
+      'posao',
+      'pomoć',
+      'dan',
+      'tečaj',
+      'stric',
+      'rođak',
+      'borac',
+      'sudac',
+      'glazba',
+      'majka',
+      'hrvatska',
+      'njemačka',
+    ];
+    for (const w of words)
+      for (const form of Object.values(decline(w)!.forms)) {
+        expect(findSerbism(form), `${w}: ${form}`).toBeFalsy();
+        expect(containsCyrillic(form), `${w}: ${form}`).toBe(false);
+      }
   });
 });
