@@ -13088,3 +13088,19 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     90-day cache, and `tts.js` swallows a refused put (`.catch(() => {})`), so a capped day
     costs regeneration, never audio. The owner moved the account to the Workers PAID plan
     the same evening; CLAUDE.md's KV note records it.
+- [x] **Sweep 190 — the Stretch: decision 6 of the Daily Session redesign (owner report, 2026-09-28).**
+  - Owner: a finished session reads as a finished day ("Users, like my son, often
+    complete the daily session, and without further prompting or guidance, feel they have
+    completed enough studying"). Measured what Home does at completion: every meter says
+    100% (`DAILY_XP_GOAL` 50 is what the session pays), `SessionCard` says "Session
+    Complete! 🎉", and the engine's one next step is a pill after a five-slot session.
+  - **A preset picker was proposed and REJECTED** — "I don't want a user selecting a time;
+    if they are unmotivated they may select what is easy. We should assume you are using
+    the application to become fluent." So the bar is the app's: core + every Stretch the
+    evidence justifies, floor 1, cap 3; the Stretch is a SECOND GUIDED SESSION as the hero
+    (hero-only directive intact); ties resolve to speaking/listening for everyone.
+    Recorded as §8 decision 6 and §9 increment 6 (PLANNED) in
+    `docs/daily-session-redesign.md`. No product code changed in this sweep.
+  - **Not checked**: the AI cost of a production slot in up to three extra sessions a day
+    is stated as a risk in the plan, not measured — it needs a week of ledger at the new
+    rate; the plan names the fallback (free sentence-build rung for Stretch 2–3).

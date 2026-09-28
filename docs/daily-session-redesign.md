@@ -210,6 +210,29 @@ Owner answers recorded 2026-09-28 (Claude Code in Terminal, one at a time):
 **All five decided, 2026-09-28. The design is signed off; increment 0 (§9) is the
 first build step.**
 
+6. **After the session — the Stretch (owner report, 2026-09-28, later the same day).**
+   _"Users, like my son, often complete the daily session, and without further
+   prompting or guidance, feel they have completed enough studying. 30 minutes a day
+   isn't likely enough for a kid who has moved to Croatia and needs to grasp the
+   language quickly."_ Three sub-decisions, each put to the owner as options:
+   - **6a — the bar is set by the app, not chosen by the learner.** A preset picker
+     (30/60/90) was proposed and REJECTED: _"I don't want a user selecting a time; if
+     they are unmotivated they may select what is easy. We should assume you are using
+     the application to become fluent in Croatian."_ **DECIDED: evidence-driven,
+     floored and capped** — done for today = the core session + every Stretch session
+     the mastery ledger, the concept map and the retention scheduler can justify,
+     never fewer than ONE stretch and never more than THREE (~90 minutes of graded
+     work). Time is never the goal shown; the ring measures sessions.
+   - **6b — the Stretch is a SECOND GUIDED SESSION**, offered as the Home hero with one
+     Begin button ("Stretch 1 of 2 · 4 activities · your weak spots"), the shape the
+     learner already follows and the 2026-08-17 hero-only directive intact. **DECIDED.**
+     The alternatives (a list beside the hero; a hero plus one progress line) were
+     declined.
+   - **6c — spoken and aural on ties, for everyone.** When the weakness evidence
+     cannot separate two candidates, the Stretch resolves toward speaking and
+     listening (the coach, dictation, dialogue) over a grammar drill, because fluency
+     is production and comprehension. Measured weaknesses still come first. **DECIDED.**
+
 ## 9. Increments — each shippable alone, each measured before and after
 
 - **Increment 0 — DONE 2026-09-28: measure G1 before changing anything.**
@@ -324,6 +347,54 @@ first build step.**
   coupled drill's reason names what it drills ("Practising the genitive — what
   today's lesson taught."; "An easier drill on … first." when corrective). No new UI
   element: the copy carries the shape. **This closes the redesign's five increments.**
+- **Increment 6 — PLANNED 2026-09-28: the Stretch (decision 6; the owner's report
+  that a finished session reads as a finished day).** What Home does today when the
+  core session completes: every meter says 100% (`DAILY_XP_GOAL` is 50 XP, which the
+  session itself reaches), `SessionCard` says "Session Complete! 🎉", and the
+  next-step engine offers ONE pill-sized step — a small card after a structured
+  five-slot session, which reads as optional. Nothing names how much is left or why.
+  - **The bar** (`src/lib/stretch.ts`, pure): `stretchesJustified()` counts the
+    distinct pieces of MEASURED evidence the app already holds — retention cards and
+    lesson re-checks due (`retentionStatus`), concept-map `shaky`/`due` lessons with a
+    coupled drill (`practiceFor`), the ledger's weakest production and receptive
+    skills when it has a verdict (`weakestProductionKind`, `weakestReceptiveKind`),
+    adaptive categories measured below par among TAUGHT categories (decision 2) — and
+    returns `clamp(ceil(evidence / STRETCH_LENGTH), 1, 3)`. A learner with no measured
+    weakness owes one stretch on the path ahead: the current unit's coupled drills,
+    SRS, production and a comprehension activity at the course level — never a lesson
+    from a locked unit (the gate is untouched). Every stretch activity carries the
+    honesty rule's reason naming the measurement ("Your accusative check on Tuesday:
+    4 of 6"; "Listening: 3 of 5 on the last quiz"), and none where there is none.
+  - **Composition**: a Stretch is built by the same builder shape as the core session
+    at `sessionLevel`, without P0 (no lesson) and without a second culture slot;
+    length `STRETCH_LENGTH` (4). Ties resolve toward speaking/listening (6c) inside the
+    candidate ranking, not by overriding a measured weakness. Each Stretch is
+    recomputed at the moment the previous one completes — never cached across
+    completions (the next-step rule).
+  - **Surfaces**: `SessionCard`'s complete state becomes the Stretch hero until the bar
+    is met ("Core done — 32 min. Stretch 1 of 2 · your weak spots" + Begin); the 🎉
+    and "complete" copy appear only at the bar. `getNextStep`'s rung 2 (unfinished
+    session) extends to the open Stretch so the pill, `NextUpCard` and Home agree by
+    construction. The Home ring measures sessions against the bar, not XP against 50.
+  - **Storage**: the Stretch sessions persist beside the core session in
+    `nh_daily_session` (a `stretches` array on `DailySession`, absent for older
+    blobs), so the existing invalidation (date, CEFR change) covers them and no second
+    store is invented. `DAILY_XP_GOAL` is NOT changed: `VERIFICATION_RETURN_XP` is
+    pinned at 7 × it, and the streak/quest surfaces read it.
+  - **Cost, stated before building**: a production slot in every Stretch is one more
+    AI evaluation per stretch per learner per day (up to 3) against the $10/month
+    ceiling; the coach is transcript-in and `/api/correct` reconciles, but the ledger
+    must be re-read after a week at the new rate. If it is too much, Stretch 2 and 3
+    take their production from the free rung (the sentence-build stage) rather than
+    the rubric.
+  - **Measured before and after**, with a probe in the shape of
+    `sessionTaughtSetProbe`: over seeded ledgers (no evidence / one weak skill / three
+    shaky lessons / everything due) the stretch count, the share of stretch activities
+    justified by a measurement, and the modality share on ties. Ratchets: no stretch
+    activity without a reason when evidence exists; never a locked-unit lesson; the
+    floor of one and the cap of three.
+  - **Not in scope**: a push notification for an unmet bar (the reminder worker could
+    carry it later); any learner-facing time target (decision 6a).
 
 Each increment: unit tests through the real builder, mutation-verified, E2E audit of
 the specs that pin session composition (`sp4b-production-slot.spec.js`,
