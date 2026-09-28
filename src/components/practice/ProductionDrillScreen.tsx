@@ -801,6 +801,18 @@ function ModeTransform({ onDone, onBack, award, onCorrect, onWrong, level }: Mod
   );
   const total = round.length;
   const item = round[idx];
+  // HOOKS BEFORE THE EARLY RETURN. The credit effect used to sit below
+  // `if (!item) return null;` — a hook after a conditional return, the shape that
+  // crashed /review on 2026-09-28 ("Rendered more hooks than during the previous
+  // render"). Latent here because `round` is stable per mount, but the rule is the
+  // rule, and rules-of-hooks now enforces it for .tsx.
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -820,13 +832,6 @@ function ModeTransform({ onDone, onBack, award, onCorrect, onWrong, level }: Mod
       setRevealed(false);
     }
   }
-
-  // The round is credited on REACHING its results panel, whichever way the learner
-  // then leaves it (2026-09-27).
-  useEffect(() => {
-    if (done && total > 0) onDone(score, total);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [done]);
 
   if (done) {
     const pct = Math.round((score / total) * 100);
@@ -950,6 +955,18 @@ function ModeTranslate({ onDone, onBack, award, onCorrect, onWrong, level }: Mod
   );
   const total = round.length;
   const item = round[idx];
+  // HOOKS BEFORE THE EARLY RETURN. The credit effect used to sit below
+  // `if (!item) return null;` — a hook after a conditional return, the shape that
+  // crashed /review on 2026-09-28 ("Rendered more hooks than during the previous
+  // render"). Latent here because `round` is stable per mount, but the rule is the
+  // rule, and rules-of-hooks now enforces it for .tsx.
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (!item) return null;
 
   function advance(correct: boolean) {
@@ -969,13 +986,6 @@ function ModeTranslate({ onDone, onBack, award, onCorrect, onWrong, level }: Mod
       setRevealed(false);
     }
   }
-
-  // The round is credited on REACHING its results panel, whichever way the learner
-  // then leaves it (2026-09-27).
-  useEffect(() => {
-    if (done && total > 0) onDone(score, total);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [done]);
 
   if (done) {
     const pct = Math.round((score / total) * 100);
@@ -1101,12 +1111,23 @@ function ModeBuild({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDon
   );
   const total = round.length;
   const item = round[idx];
-  if (!item) return null;
+  // HOOKS BEFORE THE EARLY RETURN. The credit effect used to sit below
+  // `if (!item) return null;` — a hook after a conditional return, the shape that
+  // crashed /review on 2026-09-28 ("Rendered more hooks than during the previous
+  // render"). Latent here because `round` is stable per mount, but the rule is the
+  // rule, and rules-of-hooks now enforces it for .tsx.
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
 
   const [placed, setPlaced] = useState<Tile[]>([]);
   const [remaining, setRemaining] = useState<Tile[]>(() =>
-    (sh([...item.words]) as string[]).map((w: string, i: number) => ({ w, i })),
+    (sh([...(item?.words ?? [])]) as string[]).map((w: string, i: number) => ({ w, i })),
   );
+  if (!item) return null;
 
   function resetForItem(newItem: BuildItem) {
     const arr: Tile[] = (sh([...newItem.words]) as string[]).map((w: string) => ({
@@ -1169,13 +1190,6 @@ function ModeBuild({ onDone, onBack, award, onCorrect, onWrong, level }: ModeDon
       resetForItem(nextItem);
     }
   }
-
-  // The round is credited on REACHING its results panel, whichever way the learner
-  // then leaves it (2026-09-27).
-  useEffect(() => {
-    if (done && total > 0) onDone(score, total);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [done]);
 
   if (done) {
     const pct = Math.round((score / total) * 100);
@@ -1365,6 +1379,18 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
   );
   const total = round.length;
   const item = round[idx];
+  // HOOKS BEFORE THE EARLY RETURN. The credit effect used to sit below
+  // `if (!item) return null;` — a hook after a conditional return, the shape that
+  // crashed /review on 2026-09-28 ("Rendered more hooks than during the previous
+  // render"). Latent here because `round` is stable per mount, but the rule is the
+  // rule, and rules-of-hooks now enforces it for .tsx.
+  // The round is credited on REACHING its results panel, whichever way the learner
+  // then leaves it (2026-09-27).
+  useEffect(() => {
+    if (done && total > 0) onDone(score, total);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
+
   if (!item) return null;
 
   function pick(opt: string) {
@@ -1390,13 +1416,6 @@ function ModeErrorCorrect({ onDone, onBack, award, onCorrect, onWrong, level }: 
       setChosen(null);
     }
   }
-
-  // The round is credited on REACHING its results panel, whichever way the learner
-  // then leaves it (2026-09-27).
-  useEffect(() => {
-    if (done && total > 0) onDone(score, total);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [done]);
 
   if (done) {
     const pct = Math.round((score / total) * 100);

@@ -135,6 +135,10 @@ chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
 - **Dependabot PRs #760–#767** open, unreviewed. Two are MAJOR bumps needing real
   attention: vitest 4 → 5 (#763) and @sentry/react 10 → 11 (#767). Also size-limit 14
   (#764, major, dev-only).
+- **Production hotfix 2026-09-28 (sweep 184)**: `/review` crashed on its loading →
+  loaded render (a hook after an early return); fixed, regression-tested, and
+  `react-hooks/rules-of-hooks` turned on for TypeScript (it was JS-only). Watch Sentry
+  21022c33 for recurrence after deploy.
 - **`src/lib/__tests__/seasonalCampaign.test.ts` is timezone-dependent** (found this
   session, not fixed): under CEST it computes Palm Sunday 2026 as Mar 28, not Mar 29,
   so it fails on any machine east of UTC; passes with `TZ=UTC` (CI runs UTC). Minor

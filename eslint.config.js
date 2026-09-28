@@ -76,13 +76,13 @@ export default [
     rules: {
       // ── React core ──────────────────────────────────────────────────────
       ...reactPlugin.configs.recommended.rules,
-      'react/react-in-jsx-scope': 'off',        // React 17+ auto-import
-      'react/display-name': 'off',              // HOC display names are optional
+      'react/react-in-jsx-scope': 'off', // React 17+ auto-import
+      'react/display-name': 'off', // HOC display names are optional
       'react/no-unknown-property': 'error',
-      'react/jsx-key': 'error',                 // Missing key= in lists — runtime error
-      'react/no-array-index-key': 'off',        // Many list items have no stable ID
-      'react/prop-types': 'off',                // TypeScript/JSDoc covers this
-      'react/no-unescaped-entities': 'off',     // Croatian strings contain apostrophes — harmless
+      'react/jsx-key': 'error', // Missing key= in lists — runtime error
+      'react/no-array-index-key': 'off', // Many list items have no stable ID
+      'react/prop-types': 'off', // TypeScript/JSDoc covers this
+      'react/no-unescaped-entities': 'off', // Croatian strings contain apostrophes — harmless
 
       // ── React Hooks ─────────────────────────────────────────────────────
       // These two rules catch the class of bugs that burned us:
@@ -91,23 +91,26 @@ export default [
       'react-hooks/exhaustive-deps': 'warn',
 
       // ── General quality ─────────────────────────────────────────────────
-      'no-unused-vars': ['warn', {
-        // Don't check function args — components often accept props they don't always use
-        args: 'none',
-        // Ignore vars/destructured values starting with _ (intentional placeholder)
-        varsIgnorePattern: '^_',
-        // ESLint 9 changed caughtErrors default to 'all'; ignore _ and e in catch blocks
-        caughtErrors: 'all',
-        caughtErrorsIgnorePattern: '^_|^e$',
-      }],
+      'no-unused-vars': [
+        'warn',
+        {
+          // Don't check function args — components often accept props they don't always use
+          args: 'none',
+          // Ignore vars/destructured values starting with _ (intentional placeholder)
+          varsIgnorePattern: '^_',
+          // ESLint 9 changed caughtErrors default to 'all'; ignore _ and e in catch blocks
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_|^e$',
+        },
+      ],
       'no-console': ['warn', { allow: ['error', 'warn'] }],
       'no-debugger': 'error',
       'no-undef': 'error',
-      'eqeqeq': ['error', 'always', { null: 'ignore' }],
-      'no-var': 'off',              // Legacy code — cleanup deferred
-      'prefer-const': 'off',        // Style preference — deferred
-      'no-empty': 'off',            // Intentional empty catch blocks exist throughout
-      'no-useless-escape': 'off',   // Escaped characters in Croatian data strings — harmless
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
+      'no-var': 'off', // Legacy code — cleanup deferred
+      'prefer-const': 'off', // Style preference — deferred
+      'no-empty': 'off', // Intentional empty catch blocks exist throughout
+      'no-useless-escape': 'off', // Escaped characters in Croatian data strings — harmless
       // SP3a: cap new files at 800 lines (excluding blank + comment lines).
       // Grandfathered offenders are in their own override block at the bottom.
       'max-lines': ['error', { max: 800, skipBlankLines: true, skipComments: true }],
@@ -140,7 +143,7 @@ export default [
   },
 
   // TypeScript source files — type-aware linting for converted .ts/.tsx files
-  ...tseslint.configs.recommended.map(cfg => ({
+  ...tseslint.configs.recommended.map((cfg) => ({
     ...cfg,
     files: ['src/**/*.{ts,tsx}'],
   })),
@@ -148,14 +151,20 @@ export default [
     files: ['src/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unused-vars': ['warn', {
-        args: 'none',
-        varsIgnorePattern: '^_',
-        caughtErrors: 'all',
-        caughtErrorsIgnorePattern: '^_|^e$',
-      }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          args: 'none',
+          varsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_|^e$',
+        },
+      ],
       // Allow .js extensions in imports (Vite resolves .ts transparently)
-      '@typescript-eslint/consistent-type-imports': ['warn', { prefer: 'type-imports', fixStyle: 'inline-type-imports' }],
+      '@typescript-eslint/consistent-type-imports': [
+        'warn',
+        { prefer: 'type-imports', fixStyle: 'inline-type-imports' },
+      ],
       // Migration: @ts-nocheck marks files with pre-existing type violations being
       // progressively fixed. Banning it during migration would force 2000+ type fixes
       // before any TypeScript coverage is possible. Remove this override once all
@@ -179,6 +188,14 @@ export default [
       'react-hooks': reactHooks,
     },
     rules: {
+      // THIS BLOCK SAID IT MIRRORED THE .js/.jsx ONE AND DID NOT: rules-of-hooks was
+      // 'error' there and absent here, so a hook placed after an early return in a
+      // .tsx screen reached production unflagged — "Rendered more hooks than during
+      // the previous render" on /review, Sentry 21022c33, 2026-09-28, live from
+      // 2026-09-25. The rule catches exactly that shape (verified on the original
+      // file and on a synthetic before turning it on). Turning it on found one more
+      // live instance, ProductionDrillScreen (six hooks), fixed in the same commit.
+      'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
       'no-empty': 'off',
     },
