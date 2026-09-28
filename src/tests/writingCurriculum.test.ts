@@ -13,12 +13,13 @@ const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 const CYRILLIC_RE = /[Ѐ-ӿԀ-ԯ]/;
 
 describe('writingCurriculum — CEFR completeness', () => {
-  it('every level A1–C2 has at least 8 units (3 → 8 on 2026-09-05; A1 had no writing content before 2026-08-18)', () => {
+  it('every level A1–C2 has at least 12 units (3 → 8 on 2026-09-05, 8 → 12 on 2026-09-28; A1 had no writing content before 2026-08-18)', () => {
     // At three units a level's writing was exhausted in three sessions and the
-    // rotation served the same model again on the fourth. Eight is the floor
-    // of the "8–10 per level" target from the 2026-09-04 content census.
+    // rotation served the same model again on the fourth. Eight was the floor of
+    // the "8–10 per level" target from the 2026-09-04 content census; twelve is
+    // the owner's 2026-09-28 content-expansion choice (item 4 of sweep 177).
     for (const level of LEVELS) {
-      expect(unitsForLevel(level).length, `${level} units`).toBeGreaterThanOrEqual(8);
+      expect(unitsForLevel(level).length, `${level} units`).toBeGreaterThanOrEqual(12);
     }
   });
 

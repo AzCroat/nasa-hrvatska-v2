@@ -51,6 +51,8 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   recorded nowhere as done or saved. Sweep 178 shows its authoring agents RAN ("the
   step-4 production agents, verifying build sentences against `decline()`…"), and their
   reports produced the declension-engine fix in #768.
+- **DONE 2026-09-28 (sweep 188): rewritten from scratch, 48 units, read and spliced; both
+  guards raised to 12.** The paragraph below records the loss as it stood.
 - **The patch is lost.** An earlier session said it was "rebased and staged in the
   `wt-prod-next` worktree, uncommitted". No such worktree, directory, branch, stash or
   record exists on this machine or on GitHub (checked: every remote branch, the stash,

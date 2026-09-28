@@ -117,7 +117,8 @@ describe('the authored build sentences', () => {
     // 'speak'` branch is a GUARD-RAIL rather than a live path: this assertion is
     // what keeps it that way, and it fails before a learner could ever meet the
     // empty stage it protects against.
-    expect(SPEAKING_CURRICULUM.length).toBe(48);
+    // 48 → 72 on 2026-09-28: four units per level joined, each with its build sentences.
+    expect(SPEAKING_CURRICULUM.length).toBe(72);
     for (const u of SPEAKING_CURRICULUM)
       expect(u.build?.length ?? 0, `${u.id} has no build sentences`).toBeGreaterThanOrEqual(3);
     // Every item drills a checkable point — one with no focus would grade by

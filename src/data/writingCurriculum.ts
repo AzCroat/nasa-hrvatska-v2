@@ -22,7 +22,8 @@
 // the greeting `bog` (2026-07 owner decision). This file is scanned by
 // scripts/lintCroatianText.mjs — keep it clean.
 //
-// Every level A1–C2 has ≥8 units (writingCurriculum.test.ts pins this): A1
+// Every level A1–C2 has ≥12 units (writingCurriculum.test.ts pins this; 8 → 12 on
+// 2026-09-28, the owner's content-expansion item 4): A1
 // deliberately included — before this file A1 learners had NO writing content.
 // 3 → 8 per level on 2026-09-05 (content expansion item 4): at three units a
 // learner exhausted a level's writing in three sessions and the rotation
@@ -608,6 +609,281 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     ],
   },
 
+  // ── opinion / description ──────────────────────────────────────────────────
+  {
+    id: 'a1-season',
+    level: 'A1',
+    title: 'My favourite season',
+    prompt:
+      'Napiši koje godišnje doba najviše voliš: kakvo je vrijeme, što tada radiš i zašto ti se sviđa.',
+    promptEn:
+      'Write which season you like most: what the weather is like, what you do then and why you like it.',
+    minWords: 20,
+    model:
+      'Moje najdraže godišnje doba je ljeto. Ljeti je toplo i sunčano. ' +
+      'Idem na more i plivam svaki dan. Volim sladoled i duge večeri. ' +
+      'Zimu ne volim jer je hladno i pada snijeg. ' +
+      'Jesen je lijepa, ali kratka. A proljeće? Proljeće je dobro za šetnju.',
+    modelEn:
+      'My favourite season is summer. In summer it is warm and sunny. ' +
+      'I go to the seaside and swim every day. I like ice cream and long evenings. ' +
+      'I do not like winter because it is cold and it snows. ' +
+      'Autumn is beautiful, but short. And spring? Spring is good for a walk.',
+    structures: [
+      {
+        hr: 'Moje najdraže godišnje doba je ljeto.',
+        en: 'My favourite season is summer.',
+        why: '"najdraže" is the superlative of "drag" (dear) — the everyday way to say "favourite". It agrees with the neuter "doba".',
+      },
+      {
+        hr: 'Idem na more',
+        en: 'I go to the seaside',
+        why: '"na" + accusative for movement TOWARDS a place: more stays "more" here because neuter nouns look the same in the accusative.',
+      },
+      {
+        hr: 'Zimu ne volim jer je hladno',
+        en: 'I do not like winter because it is cold',
+        why: 'What you (do not) like is the object, so it takes the accusative: zima → zimu. "jer" then gives the reason.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Ljeti je',
+        answer: 'toplo',
+        accept: ['vruće', 'sunčano', 'lijepo'],
+        after: 'i sunčano.',
+        hint: 'A weather word in the neuter form — Croatian says "it is warm" with just the adjective.',
+      },
+      {
+        before: 'Ne volim',
+        answer: 'zimu',
+        accept: ['jesen', 'kišu'],
+        after: 'jer je hladno.',
+        hint: 'The season you do not like is the object — accusative: zima → ...',
+      },
+      {
+        before: 'Zimi pada',
+        answer: 'snijeg',
+        accept: ['kiša'],
+        after: 'i ne idem van.',
+        hint: 'What falls in winter? The subject stays in the dictionary form.',
+      },
+    ],
+    connectives: ['i', 'ali', 'jer', 'a', 'svaki dan'],
+    checklist: [
+      { id: 'len', label: 'At least 20 words', minWords: 20 },
+      {
+        id: 'season',
+        label: 'Name a season (ljeto, zima, jesen, proljeće)',
+        words: ['ljeto', 'zim', 'jesen', 'proljeće'],
+      },
+      { id: 'why', label: 'Give a reason with "jer"', words: ['jer'] },
+    ],
+  },
+  // ── transactional ─────────────────────────────────────────────────────────
+  {
+    id: 'a1-shopping',
+    level: 'A1',
+    title: 'A shopping note',
+    prompt:
+      'Napiši kratku poruku nekome kod kuće: što treba kupiti u dućanu, koliko i gdje je novac.',
+    promptEn:
+      'Write a short note to someone at home: what needs buying at the shop, how much, and where the money is.',
+    minWords: 20,
+    model:
+      'Bog, Marko! Idem na posao. Molim te, idi u dućan. ' +
+      'Trebamo kruh, mlijeko i šest jaja. Kupi i sir i dvije jabuke za mene. ' +
+      'Nemamo kave! Novac je na stolu u kuhinji. ' +
+      'Vidimo se navečer. Pusa, Ana',
+    modelEn:
+      'Hi, Marko! I am going to work. Please go to the shop. ' +
+      'We need bread, milk and six eggs. Buy cheese too, and two apples for me. ' +
+      'We have no coffee! The money is on the table in the kitchen. ' +
+      'See you this evening. Kiss, Ana',
+    structures: [
+      {
+        hr: 'Molim te, idi u dućan.',
+        en: 'Please go to the shop.',
+        why: '"idi" is the imperative of "ići" — how you ask someone you say "ti" to. "u" + accusative because it is movement INTO the shop.',
+      },
+      {
+        hr: 'Trebamo kruh, mlijeko i šest jaja.',
+        en: 'We need bread, milk and six eggs.',
+        why: 'After five and above the noun goes into the genitive plural: jaje → šest jaja. Two to four take a different form (dvije jabuke).',
+      },
+      {
+        hr: 'Nemamo kave!',
+        en: 'We have no coffee!',
+        why: '"nemati" (not to have) takes the genitive, not the accusative: kava → nemamo kave. The same rule gives "nema kruha".',
+      },
+    ],
+    frames: [
+      {
+        before: 'Molim te, kupi',
+        answer: 'kruh',
+        accept: ['sir', 'mlijeko', 'kavu', 'jabuke'],
+        after: 'i mlijeko.',
+        hint: 'What to buy is the object of "kupi" — accusative; "kruh" does not change.',
+      },
+      {
+        before: 'Nemamo',
+        answer: 'mlijeka',
+        accept: ['kruha', 'kave', 'sira'],
+        after: ', molim te kupi.',
+        hint: '"nemati" takes the genitive: mlijeko → ...',
+      },
+      {
+        before: 'Novac je na',
+        answer: 'stolu',
+        accept: ['polici', 'prozoru'],
+        after: 'u kuhinji.',
+        hint: '"na" for WHERE something is takes the locative: stol → ...',
+      },
+    ],
+    connectives: ['i', 'molim te', 'za mene', 'navečer', 'vidimo se'],
+    checklist: [
+      { id: 'len', label: 'At least 20 words', minWords: 20 },
+      {
+        id: 'items',
+        label: 'Name at least one thing to buy (kruh, mlijeko, jaja, sir, kava)',
+        words: ['kruh', 'mlijek', 'jaj', 'sir', 'kav'],
+      },
+      { id: 'please', label: 'Ask politely with "molim"', words: ['molim'] },
+    ],
+  },
+  // ── personal / formulaic ──────────────────────────────────────────────────
+  {
+    id: 'a1-thanks',
+    level: 'A1',
+    title: 'A thank-you note',
+    prompt:
+      'Napiši kratku zahvalu rodbini u Hrvatskoj: na čemu zahvaljuješ, kako ste vi i kada se vidite.',
+    promptEn:
+      'Write a short thank-you note to relatives in Croatia: what you are thanking them for, how you all are, and when you will see each other.',
+    minWords: 20,
+    model:
+      'Draga teto Marija, hvala na poklonu! Knjiga je jako lijepa i čitam je svaki dan. ' +
+      'Hvala i na ručku u nedjelju. Juha je bila odlična. ' +
+      'Kod nas je sve dobro. Mama i tata te pozdravljaju. ' +
+      'Vidimo se uskoro! Pusa, Ivana',
+    modelEn:
+      'Dear Aunt Marija, thank you for the present! The book is very beautiful and I read it every day. ' +
+      'Thank you also for lunch on Sunday. The soup was excellent. ' +
+      'Everything is fine with us. Mum and Dad send their greetings. ' +
+      'See you soon! Kiss, Ivana',
+    structures: [
+      {
+        hr: 'hvala na poklonu',
+        en: 'thank you for the present',
+        why: 'You thank someone "na" + locative in Croatian, not "za": poklon → hvala na poklonu, ručak → hvala na ručku.',
+      },
+      {
+        hr: 'Kod nas je sve dobro.',
+        en: 'Everything is fine with us.',
+        why: '"kod" + genitive means "at somebody\'s place / with us": kod nas, kod bake. It is for WHERE, never for going somewhere.',
+      },
+      {
+        hr: 'Mama i tata te pozdravljaju.',
+        en: 'Mum and Dad send you their greetings.',
+        why: 'The short pronoun "te" (you) sits in second position, right after the first phrase — never at the very start of the sentence.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Hvala na',
+        answer: 'poklonu',
+        accept: ['ručku', 'pomoći', 'pozivu', 'večeri'],
+        after: ', jako mi se sviđa.',
+        hint: '"hvala na" + locative: poklon → ...',
+      },
+      {
+        before: 'Kod',
+        answer: 'nas',
+        accept: ['bake', 'mene'],
+        after: 'je sve dobro.',
+        hint: '"kod" + genitive of "mi" (we) — the form you also hear in "kod nas doma".',
+      },
+      {
+        before: 'Vidimo',
+        answer: 'se',
+        after: 'uskoro!',
+        hint: 'The little reflexive word "vidjeti se" needs — "we see each other".',
+      },
+    ],
+    connectives: ['i', 'jako', 'uskoro', 'svaki dan', 'kod nas'],
+    checklist: [
+      { id: 'len', label: 'At least 20 words', minWords: 20 },
+      { id: 'thanks', label: 'Thank them with "hvala na"', words: ['hvala na'] },
+      { id: 'address', label: 'Open with "Draga" or "Dragi"', words: ['draga', 'dragi'] },
+    ],
+  },
+  // ── description / narrative ───────────────────────────────────────────────
+  {
+    id: 'a1-pet',
+    level: 'A1',
+    title: 'My pet',
+    prompt:
+      'Opiši svog ljubimca (ili ljubimca koga poznaješ): kako se zove, kakav je i što voli raditi.',
+    promptEn:
+      'Describe your pet (or a pet you know): its name, what it is like and what it likes doing.',
+    minWords: 20,
+    model:
+      'Imam psa. Zove se Lola i ima tri godine. Lola je mala i smeđa. ' +
+      'Voli trčati u parku i spavati na krevetu. Svaki dan idemo u šetnju. ' +
+      'Ona jede meso i pije puno vode. ' +
+      'Nemam mačku, ali moja sestra ima dvije mačke.',
+    modelEn:
+      'I have a dog. Her name is Lola and she is three years old. Lola is small and brown. ' +
+      'She likes running in the park and sleeping on the bed. Every day we go for a walk. ' +
+      'She eats meat and drinks a lot of water. ' +
+      'I do not have a cat, but my sister has two cats.',
+    structures: [
+      {
+        hr: 'Imam psa.',
+        en: 'I have a dog.',
+        why: '"imati" takes the accusative, and for a living masculine noun the accusative looks like the genitive: pas → imam psa (but imam stan).',
+      },
+      {
+        hr: 'trčati u parku',
+        en: 'running in the park',
+        why: '"u" + locative for WHERE something happens: park → u parku. Compare "idem u park" (going INTO it) with the accusative.',
+      },
+      {
+        hr: 'pije puno vode',
+        en: 'drinks a lot of water',
+        why: 'After a quantity word like "puno" or "malo" the noun takes the genitive: voda → puno vode.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Imam',
+        answer: 'psa',
+        accept: ['mačku', 'zeca', 'papigu', 'ribicu'],
+        after: '. Zove se Rex.',
+        hint: 'A living masculine noun after "imati" takes the genitive-looking accusative: pas → ...',
+      },
+      {
+        before: 'Voli spavati na',
+        answer: 'krevetu',
+        accept: ['kauču', 'podu', 'suncu'],
+        after: '.',
+        hint: '"na" for WHERE takes the locative: krevet → ...',
+      },
+      {
+        before: 'Pije puno',
+        answer: 'vode',
+        accept: ['mlijeka'],
+        after: 'svaki dan.',
+        hint: 'After "puno" the noun takes the genitive: voda → ...',
+      },
+    ],
+    connectives: ['i', 'ali', 'svaki dan', 'puno', 'malo'],
+    checklist: [
+      { id: 'len', label: 'At least 20 words', minWords: 20 },
+      { id: 'have', label: 'Say what you have with "imam"', words: ['imam'] },
+      { id: 'name', label: 'Give the name with "zove se"', words: ['zove se'] },
+    ],
+  },
   // ── A2 ──────────────────────────────────────────────────────────────────────
   {
     id: 'a2-invite',
@@ -1161,6 +1437,345 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     ],
   },
 
+  // ── personal: a thank-you letter after a stay ─────────────────────────────
+  {
+    id: 'a2-thanks',
+    level: 'A2',
+    title: 'A thank-you letter after a visit',
+    prompt:
+      'Bio si ili bila si tjedan dana kod tete u Hrvatskoj. Napiši joj kratko pismo: zahvali na svemu, napiši što ti se najviše svidjelo i pozovi je k sebi.',
+    promptEn:
+      'You spent a week at your aunt’s in Croatia. Write her a short letter: thank her for everything, say what you liked most and invite her to visit you.',
+    minWords: 30,
+    model:
+      'Draga teta Ana, hvala ti na svemu! Kod tebe sam se osjećala kao kod kuće. ' +
+      'Najviše su mi se svidjeli izleti na more i tvoje palačinke s orasima. ' +
+      'Puno sam naučila i sada bolje razumijem hrvatski. ' +
+      'Sljedeće ljeto dođi k nama u Kanadu! Pozdravi djeda i Luku. Voli te Marija.',
+    modelEn:
+      'Dear Aunt Ana, thank you for everything! At your place I felt at home. ' +
+      'I liked the trips to the sea and your pancakes with walnuts most of all. ' +
+      'I learned a lot and now I understand Croatian better. ' +
+      'Next summer, come to us in Canada! Say hello to Grandpa and Luka. Love, Marija.',
+    structures: [
+      {
+        hr: 'hvala ti na svemu',
+        en: 'thank you for everything',
+        why: '"hvala na" takes the locative — you thank someone ON a thing, so "sve" becomes "svemu".',
+      },
+      {
+        hr: 'Kod tebe sam se osjećala kao kod kuće',
+        en: 'At your place I felt at home',
+        why: '"kod" + genitive says WHERE you are (at someone’s place); "osjećala" ends in -la because the writer is a woman.',
+      },
+      {
+        hr: 'dođi k nama',
+        en: 'come to us',
+        why: 'Movement TO a person is "k" + dative ("nama"), never "kod" — "kod" only says where something is.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Hvala ti na',
+        answer: 'svemu',
+        after: '!',
+        hint: 'The locative of "sve" — "hvala na" always takes the locative.',
+      },
+      {
+        before: 'Kod tebe sam se',
+        answer: 'osjećala',
+        accept: ['osjećao'],
+        after: 'kao kod kuće.',
+        hint: 'Past participle of "osjećati se" — feminine or masculine, agreeing with you.',
+      },
+      {
+        before: 'Sljedeće ljeto dođi',
+        answer: 'k nama',
+        accept: ['nama'],
+        after: 'u Kanadu!',
+        hint: 'Movement towards a person: "k" plus the dative pronoun.',
+      },
+    ],
+    connectives: ['hvala na', 'najviše', 'i', 'sada', 'sljedeće ljeto'],
+    checklist: [
+      { id: 'len', label: 'At least 30 words', minWords: 30 },
+      {
+        id: 'thanks',
+        label: 'Thank them with "hvala na"',
+        words: ['hvala na', 'hvala ti', 'hvala vam'],
+      },
+      {
+        id: 'past',
+        label: 'Say what you did in the past tense',
+        words: [' sam ', ' smo ', ' su '],
+      },
+      {
+        id: 'invite',
+        label: 'Invite them to visit you',
+        words: ['dođi', 'dođite', 'k nama', 'posjeti'],
+      },
+    ],
+  },
+  // ── transactional / formal: enquiring about a flat to rent ────────────────
+  {
+    id: 'a2-flat-enquiry',
+    level: 'A2',
+    title: 'Asking about a flat to rent',
+    prompt:
+      'Vidio si ili vidjela si oglas za stan u Splitu. Napiši poruku vlasniku: predstavi se, pitaj tri stvari o stanu i predloži kada bi ga mogao ili mogla pogledati.',
+    promptEn:
+      'You saw an advert for a flat in Split. Write to the owner: introduce yourself, ask three things about the flat and suggest when you could view it.',
+    minWords: 30,
+    model:
+      'Poštovani gospodine Marić, zovem se Ivan Novak i javljam se zbog oglasa za stan na Bačvicama. ' +
+      'Zanima me je li stan još slobodan i koliko košta najam mjesečno. ' +
+      'Jesu li režije uključene u cijenu? Ima li stan parkirno mjesto? ' +
+      'Htio bih doći pogledati stan u petak poslije podne, ako Vam odgovara. ' +
+      'Unaprijed hvala na odgovoru. S poštovanjem, Ivan Novak',
+    modelEn:
+      'Dear Mr Marić, my name is Ivan Novak and I am writing about the advert for the flat in Bačvice. ' +
+      'I would like to know whether the flat is still available and how much the rent is per month. ' +
+      'Are the utilities included in the price? Does the flat have a parking space? ' +
+      'I would like to come and see the flat on Friday afternoon, if that suits you. ' +
+      'Thank you in advance for your reply. Yours faithfully, Ivan Novak',
+    structures: [
+      {
+        hr: 'javljam se zbog oglasa',
+        en: 'I am writing about the advert',
+        why: '"zbog" (because of, regarding) always takes the genitive — "oglas" becomes "oglasa".',
+      },
+      {
+        hr: 'Zanima me je li stan još slobodan',
+        en: 'I would like to know whether the flat is still free',
+        why: '"Zanima me" (it interests me) + "je li" makes a polite indirect question; "me" sits in second position.',
+      },
+      {
+        hr: 'Htio bih doći pogledati stan',
+        en: 'I would like to come and see the flat',
+        why: '"htio bih" (a woman writes "htjela bih") is the polite conditional for a request; the infinitives follow it directly.',
+      },
+      {
+        hr: 'ako Vam odgovara',
+        en: 'if that suits you',
+        why: 'Formal "Vam" with a capital V, in the dative — "odgovarati" means to suit SOMEONE, so the person is dative.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Javljam se',
+        answer: 'zbog',
+        after: 'oglasa za stan.',
+        hint: '"because of / regarding" — the preposition that takes the genitive.',
+      },
+      {
+        before: 'Zanima me je',
+        answer: 'li',
+        after: 'stan još slobodan.',
+        hint: 'The question particle that follows "je" in an indirect question.',
+      },
+      {
+        before: 'Htio',
+        answer: 'bih',
+        after: 'doći pogledati stan u petak.',
+        hint: 'The conditional auxiliary for "I would" — first person singular.',
+      },
+      {
+        before: 'Unaprijed hvala na',
+        answer: 'odgovoru',
+        after: '.',
+        hint: 'The locative of "odgovor" (reply) after "hvala na".',
+      },
+    ],
+    connectives: ['zanima me', 'je li', 'ako', 'unaprijed', 's poštovanjem'],
+    checklist: [
+      { id: 'len', label: 'At least 30 words', minWords: 30 },
+      {
+        id: 'formal',
+        label: 'Open and close formally',
+        words: ['poštovani', 'poštovana', 's poštovanjem'],
+      },
+      { id: 'ask', label: 'Ask at least one question with "li"', words: [' li '] },
+      {
+        id: 'request',
+        label: 'Make a polite request with "htio bih" or "htjela bih"',
+        words: ['htio bih', 'htjela bih'],
+      },
+    ],
+  },
+  // ── narrative: a family celebration in the past tense ─────────────────────
+  {
+    id: 'a2-celebration',
+    level: 'A2',
+    title: 'A family celebration',
+    prompt:
+      'Napiši kratku priču o proslavi u svojoj obitelji, na primjer o bakinu rođendanu: tko je došao, što ste jeli i što se dogodilo.',
+    promptEn:
+      'Write a short story about a celebration in your family, for example your grandmother’s birthday: who came, what you ate and what happened.',
+    minWords: 30,
+    model:
+      'Prošle subote baka je slavila osamdeseti rođendan. ' +
+      'Došla je cijela obitelj: tetke, stričevi i desetak rođaka iz Zagreba i Australije. ' +
+      'Mama je ispekla veliku tortu, a djed je otvorio bocu domaće rakije. ' +
+      'Nakon ručka pjevali smo stare pjesme i baka je zaplakala od sreće. ' +
+      'Bio je to najljepši dan u godini.',
+    modelEn:
+      'Last Saturday grandma celebrated her eightieth birthday. ' +
+      'The whole family came: aunts, uncles and about ten cousins from Zagreb and Australia. ' +
+      'Mum baked a big cake, and grandpa opened a bottle of home-made rakija. ' +
+      'After lunch we sang old songs and grandma cried with happiness. ' +
+      'It was the most beautiful day of the year.',
+    structures: [
+      {
+        hr: 'Prošle subote baka je slavila',
+        en: 'Last Saturday grandma celebrated',
+        why: 'Time "when" goes in the genitive ("prošle subote"); the participle "slavila" ends in -la because "baka" is feminine.',
+      },
+      {
+        hr: 'desetak rođaka iz Zagreba',
+        en: 'about ten cousins from Zagreb',
+        why: 'After a quantity ("desetak", or any number from five up) the noun is in the genitive plural; "iz" also takes the genitive.',
+      },
+      {
+        hr: 'pjevali smo stare pjesme',
+        en: 'we sang old songs',
+        why: 'The past tense for "we": participle in -li plus "smo" in second position, right after the first word.',
+      },
+      {
+        hr: 'zaplakala od sreće',
+        en: 'cried with happiness',
+        why: 'The cause of a feeling is "od" + genitive — "sreća" becomes "sreće".',
+      },
+    ],
+    frames: [
+      {
+        before: 'Prošle subote baka je',
+        answer: 'slavila',
+        after: 'rođendan.',
+        hint: 'Past participle of "slaviti", feminine singular to agree with "baka".',
+      },
+      {
+        before: 'Došlo je desetak',
+        answer: 'rođaka',
+        after: 'iz Zagreba.',
+        hint: 'After "desetak" (about ten) the noun takes the genitive plural.',
+      },
+      {
+        before: 'Nakon ručka',
+        answer: 'pjevali smo',
+        accept: ['smo pjevali'],
+        after: 'stare pjesme.',
+        hint: 'Past tense for "we": participle in -li plus "smo".',
+      },
+      {
+        before: 'Baka je zaplakala od',
+        answer: 'sreće',
+        after: '.',
+        hint: '"od" + genitive gives the cause — the genitive of "sreća".',
+      },
+    ],
+    connectives: ['prošle subote', 'nakon', 'a', 'i', 'zatim'],
+    checklist: [
+      { id: 'len', label: 'At least 30 words', minWords: 30 },
+      { id: 'past', label: 'Tell it in the past tense', words: [' je ', ' smo ', ' su '] },
+      {
+        id: 'who',
+        label: 'Say who came',
+        words: ['došla', 'došao', 'došli', 'obitelj', 'rođaci', 'rođaka'],
+      },
+      {
+        id: 'when',
+        label: 'Say when it happened',
+        words: ['prošle', 'prošli', 'prošlog', 'jučer', 'u subotu', 'u nedjelju'],
+      },
+    ],
+  },
+  // ── argumentative: city or countryside, with reasons ──────────────────────
+  {
+    id: 'a2-city-village',
+    level: 'A2',
+    title: 'City or countryside?',
+    prompt:
+      'Tvoj prijatelj želi znati gdje bi ti radije živio ili živjela: u gradu ili na selu. Napiši mu što misliš i objasni zašto, s barem dva razloga.',
+    promptEn:
+      'Your friend wants to know where you would rather live: in the city or in the countryside. Write what you think and explain why, with at least two reasons.',
+    minWords: 30,
+    model:
+      'Ja bih radije živjela na selu nego u gradu. ' +
+      'Na selu je mirno i zrak je čist, a ljudi se poznaju i pomažu jedni drugima. ' +
+      'U gradu ima više posla i sve je blizu, ali je prometno i skupo. ' +
+      'Meni je najvažnije imati vrt i vrijeme za obitelj. ' +
+      'Zato mislim da je život na selu bolji, iako nije uvijek lak.',
+    modelEn:
+      'I would rather live in the countryside than in the city. ' +
+      'In the countryside it is peaceful and the air is clean, and people know each other and help one another. ' +
+      'In the city there is more work and everything is close, but it is busy and expensive. ' +
+      'For me the most important thing is to have a garden and time for family. ' +
+      'So I think life in the countryside is better, even if it is not always easy.',
+    structures: [
+      {
+        hr: 'Ja bih radije živjela na selu nego u gradu',
+        en: 'I would rather live in the countryside than in the city',
+        why: '"bih radije ... nego" states a preference; "na selu" and "u gradu" are both locative because they say where.',
+      },
+      {
+        hr: 'U gradu ima više posla',
+        en: 'In the city there is more work',
+        why: '"ima" means "there is", and after "više" (more) the noun goes into the genitive — "posao" becomes "posla".',
+      },
+      {
+        hr: 'Zato mislim da je',
+        en: 'That is why I think that',
+        why: '"Zato" (therefore) draws the conclusion; "mislim da" opens the opinion clause, with "je" straight after "da".',
+      },
+      {
+        hr: 'iako nije uvijek lak',
+        en: 'even though it is not always easy',
+        why: '"iako" (although) admits the other side — it makes an opinion sound balanced rather than stubborn.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Ja bih radije živio na',
+        answer: 'selu',
+        after: 'nego u gradu.',
+        hint: 'Locative of "selo" after "na" — it says where.',
+      },
+      {
+        before: 'U gradu ima više',
+        answer: 'posla',
+        after: 'i sve je blizu.',
+        hint: 'After "više" the noun is in the genitive — "posao" changes its ending.',
+      },
+      {
+        before: 'Zato mislim',
+        answer: 'da',
+        after: 'je život na selu bolji.',
+        hint: 'The little word that introduces "I think THAT ...".',
+      },
+      {
+        before: 'Na selu je mirno,',
+        answer: 'ali',
+        accept: ['no', 'a'],
+        after: 'nema puno posla.',
+        hint: 'The word for "but" that introduces the other side.',
+      },
+    ],
+    connectives: ['radije', 'nego', 'zato', 'ali', 'iako'],
+    checklist: [
+      { id: 'len', label: 'At least 30 words', minWords: 30 },
+      {
+        id: 'pref',
+        label: 'State your preference with "radije" or "više volim"',
+        words: ['radije', 'više volim', 'draže mi je'],
+      },
+      { id: 'reason', label: 'Give a reason with "jer" or "zato"', words: ['jer', 'zato', 'zbog'] },
+      {
+        id: 'other',
+        label: 'Mention the other side with "ali" or "iako"',
+        words: ['ali', 'iako', 's druge strane'],
+      },
+    ],
+  },
   // ── B1 ──────────────────────────────────────────────────────────────────────
   {
     id: 'b1-city',
@@ -1756,6 +2371,385 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     ],
   },
 
+  // ── formal / transactional ─────────────────────────────────────────────────
+  {
+    id: 'b1-enquiry',
+    level: 'B1',
+    title: 'An enquiry about a course',
+    prompt:
+      'Želite upisati ljetni tečaj hrvatskoga jezika. Napišite upit školi: što Vas zanima, koja pitanja imate i zamolite za odgovor.',
+    promptEn:
+      'You want to enrol in a summer Croatian course. Write an enquiry to the school: what interests you, what questions you have, and ask for a reply.',
+    minWords: 50,
+    model:
+      'Poštovani, zanima me ljetni tečaj hrvatskoga jezika koji organizirate u srpnju. ' +
+      'Učim hrvatski već dvije godine i htio bih ga poboljšati prije posjeta obitelji u Hrvatskoj. ' +
+      'Biste li mi mogli poslati raspored nastave i cijenu tečaja? ' +
+      'Također me zanima je li smještaj uključen u cijenu ili ga moram sam tražiti. ' +
+      'Ako postoji popust za rane prijave, bio bih Vam zahvalan na informaciji. ' +
+      'Unaprijed hvala na odgovoru. S poštovanjem, Marko Kovač',
+    modelEn:
+      'Dear Sir or Madam, I am interested in the summer Croatian course you are organising in July. ' +
+      'I have been learning Croatian for two years and would like to improve it before visiting family in Croatia. ' +
+      'Could you send me the class timetable and the price of the course? ' +
+      'I would also like to know whether accommodation is included in the price or whether I have to find it myself. ' +
+      'If there is a discount for early registration, I would be grateful for the information. ' +
+      'Thank you in advance for your reply. Respectfully, Marko Kovač',
+    structures: [
+      {
+        hr: 'tečaj hrvatskoga jezika koji organizirate',
+        en: 'the Croatian course which you are organising',
+        why: 'The relative pronoun "koji" agrees with "tečaj" (masculine singular) and lets you add detail without starting a new sentence.',
+      },
+      {
+        hr: 'Biste li mi mogli poslati',
+        en: 'Could you send me',
+        why: 'In a polite question the particle "li" comes straight after "Biste" and the short pronoun "mi" follows it — the whole cluster sits in second position.',
+      },
+      {
+        hr: 'bio bih Vam zahvalan na informaciji',
+        en: 'I would be grateful to you for the information',
+        why: '"zahvalan na" takes the locative (informacija → informaciji), and the capitalised "Vam" keeps the formal register.',
+      },
+      {
+        hr: 'Poštovani, ... S poštovanjem',
+        en: 'Dear Sir or Madam, ... Respectfully',
+        why: 'The formal frame every official email needs: the opening and the closing belong together.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Biste',
+        answer: 'li',
+        after: 'mi mogli poslati raspored?',
+        hint: 'The question particle — it comes right after "Biste", never after "mogli".',
+      },
+      {
+        before: 'Zanima me tečaj',
+        answer: 'koji',
+        after: 'organizirate u srpnju.',
+        hint: 'The relative pronoun "which" for a masculine singular noun (tečaj).',
+      },
+      {
+        before: 'Unaprijed hvala na',
+        answer: 'odgovoru',
+        accept: ['informaciji', 'pomoći'],
+        after: '.',
+        hint: '"hvala na" takes the locative: odgovor → ...',
+      },
+      {
+        before: 'Htio bih',
+        answer: 'ga',
+        after: 'poboljšati prije ljeta.',
+        hint: 'The short accusative pronoun "it" (hrvatski is masculine), placed right after "bih".',
+      },
+    ],
+    connectives: ['također', 'zanima me', 'je li', 'ako', 'unaprijed'],
+    checklist: [
+      { id: 'len', label: 'At least 50 words', minWords: 50 },
+      {
+        id: 'formal',
+        label: 'Open with "Poštovani" and close with "S poštovanjem"',
+        words: ['poštovani'],
+      },
+      {
+        id: 'polite-q',
+        label: 'Ask at least one polite question with "Biste li" or "Molim Vas"',
+        words: ['biste li', 'molim vas'],
+      },
+      {
+        id: 'relative',
+        label: 'Use a relative clause with "koji / koja / koje"',
+        words: ['koji', 'koja', 'koje'],
+      },
+    ],
+  },
+
+  // ── personal ───────────────────────────────────────────────────────────────
+  {
+    id: 'b1-invitation',
+    level: 'B1',
+    title: 'Invite a friend to a celebration',
+    prompt:
+      'Slaviš rođendan. Napiši prijateljici poruku s pozivom: kada i gdje se okupljate, što planirate i do kada ti treba javiti.',
+    promptEn:
+      'You are celebrating your birthday. Write a friend an invitation: when and where you are meeting, what you plan and by when she should let you know.',
+    minWords: 50,
+    model:
+      'Draga Petra, sljedeće subote slavim trideseti rođendan i bilo bi mi jako drago da dođeš. ' +
+      'Okupljamo se kod mene oko sedam, a poslije idemo u restoran koji si mi preporučila prošle godine. ' +
+      'Ako ti odgovara, mogla bi doći malo ranije pa da mi pomogneš s tortom. ' +
+      'Ne moraš ništa donositi — dovoljno je da dođeš. ' +
+      'Javi mi do četvrtka možeš li, jer moram rezervirati stol. ' +
+      'Radujem se našem druženju! Puno pozdrava, Ana',
+    modelEn:
+      'Dear Petra, next Saturday I am celebrating my thirtieth birthday and I would be really glad if you came. ' +
+      'We are gathering at my place around seven, and afterwards we are going to the restaurant you recommended to me last year. ' +
+      'If it suits you, you could come a little earlier and help me with the cake. ' +
+      'You do not have to bring anything — it is enough that you come. ' +
+      'Let me know by Thursday whether you can, because I have to book a table. ' +
+      'I am looking forward to our get-together! Lots of love, Ana',
+    structures: [
+      {
+        hr: 'bilo bi mi jako drago da dođeš',
+        en: 'I would be really glad if you came',
+        why: 'The conditional "bilo bi mi drago" followed by a "da" clause in the present tense — Croatian says "that you come", not "if you came".',
+      },
+      {
+        hr: 'restoran koji si mi preporučila',
+        en: 'the restaurant you recommended to me',
+        why: 'A relative clause with two clitics in second position: the auxiliary "si" comes before the dative pronoun "mi".',
+      },
+      {
+        hr: 'Radujem se našem druženju',
+        en: 'I am looking forward to our get-together',
+        why: '"radovati se" takes the dative — druženje → druženju, and the possessive "naš" agrees: našem.',
+      },
+      {
+        hr: 'Draga Petra, ... Puno pozdrava',
+        en: 'Dear Petra, ... Lots of love',
+        why: 'The personal frame: "Draga/Dragi" plus the first name to open, and a warm closing instead of "S poštovanjem".',
+      },
+    ],
+    frames: [
+      {
+        before: 'Bilo bi mi drago da',
+        answer: 'dođeš',
+        accept: ['dođete'],
+        after: '.',
+        hint: 'After "da" the verb is in the present tense — the "you" form of "doći".',
+      },
+      {
+        before: 'Radujem se',
+        answer: 'druženju',
+        accept: ['zabavi', 'proslavi', 'rođendanu'],
+        after: '.',
+        hint: '"radovati se" takes the dative: druženje → ...',
+      },
+      {
+        before: 'To je restoran',
+        answer: 'koji',
+        after: 'si mi preporučila.',
+        hint: 'The relative pronoun for a masculine singular noun (restoran).',
+      },
+      {
+        before: 'Javi mi možeš',
+        answer: 'li',
+        after: 'doći.',
+        hint: 'The yes/no particle — it comes straight after the verb it asks about.',
+      },
+    ],
+    connectives: ['a poslije', 'ako', 'pa', 'jer', 'dovoljno je'],
+    checklist: [
+      { id: 'len', label: 'At least 50 words', minWords: 50 },
+      {
+        id: 'personal',
+        label: 'Open with "Draga" or "Dragi" and the name',
+        words: ['draga', 'dragi'],
+      },
+      {
+        id: 'invite',
+        label: 'Invite with "bilo bi mi (jako) drago da" or "pozivam te"',
+        words: ['bilo bi mi', 'pozivam te', 'pozivam vas'],
+      },
+      {
+        id: 'reply',
+        label: 'Ask for a reply: "javi mi" or "možeš li"',
+        words: ['javi mi', 'možeš li'],
+      },
+    ],
+  },
+
+  // ── descriptive / evaluative ──────────────────────────────────────────────
+  {
+    id: 'b1-restaurant',
+    level: 'B1',
+    title: 'A restaurant review',
+    prompt:
+      'Bili ste u restoranu. Napišite kratku recenziju: što ste naručili, kakva je bila usluga, što vam se svidjelo i što ne, i biste li ga preporučili.',
+    promptEn:
+      'You went to a restaurant. Write a short review: what you ordered, what the service was like, what you liked and did not, and whether you would recommend it.',
+    minWords: 50,
+    model:
+      'Prošle subote bili smo na večeri u konobi Dalmatino, koja se nalazi blizu stare tržnice. ' +
+      'Ambijent je ugodan, a konobar koji nas je posluživao bio je vrlo ljubazan i strpljiv. ' +
+      'Naručili smo crni rižot i pečenu ribu; riba je bila svježa, ali rižot je, po mom mišljenju, bio preslan. ' +
+      'Čekali smo glavno jelo gotovo četrdeset minuta, što je predugo za poluprazan restoran. ' +
+      'Cijene su umjerene, a porcije velike. ' +
+      'Unatoč sporoj usluzi, preporučila bih ovu konobu svima koji vole domaću kuhinju, ali bih rezervirala stol i došla ranije.',
+    modelEn:
+      'Last Saturday we had dinner at the tavern Dalmatino, which is located near the old market. ' +
+      'The atmosphere is pleasant, and the waiter who served us was very kind and patient. ' +
+      'We ordered black risotto and grilled fish; the fish was fresh, but the risotto was, in my opinion, too salty. ' +
+      'We waited almost forty minutes for the main course, which is too long for a half-empty restaurant. ' +
+      'The prices are moderate and the portions large. ' +
+      'Despite the slow service, I would recommend this tavern to everyone who loves home cooking, but I would book a table and arrive earlier.',
+    structures: [
+      {
+        hr: 'konobar koji nas je posluživao',
+        en: 'the waiter who served us',
+        why: 'A relative clause with "koji"; inside it the clitics keep their order — the pronoun "nas" comes before the auxiliary "je".',
+      },
+      {
+        hr: 'Unatoč sporoj usluzi',
+        en: 'Despite the slow service',
+        why: '"unatoč" takes the DATIVE, not the genitive — usluga → usluzi, and the adjective follows: sporoj.',
+      },
+      {
+        hr: 'preporučila bih ovu konobu svima koji vole',
+        en: 'I would recommend this tavern to everyone who loves',
+        why: 'A recommendation in the conditional ("bih"), with "svima koji" — dative "to everyone" plus a relative clause.',
+      },
+      {
+        hr: 'po mom mišljenju',
+        en: 'in my opinion',
+        why: 'The standard way to mark an opinion as yours, so a critical remark reads as fair rather than rude.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Konobar',
+        answer: 'koji',
+        after: 'nas je posluživao bio je ljubazan.',
+        hint: 'The relative pronoun for a masculine singular noun (konobar).',
+      },
+      {
+        before: 'Unatoč sporoj',
+        answer: 'usluzi',
+        accept: ['cijeni', 'glazbi'],
+        after: ', vratila bih se.',
+        hint: '"unatoč" takes the dative: usluga → ...',
+      },
+      {
+        before: 'Preporučila',
+        answer: 'bih',
+        accept: ['bi'],
+        after: 'ovaj restoran svima.',
+        hint: 'The conditional helper for "I" — it turns "recommend" into "would recommend".',
+      },
+      {
+        before: 'Naručili smo dvije',
+        answer: 'porcije',
+        after: 'rižota.',
+        hint: 'After "dvije" the noun takes the genitive singular: porcija → ...',
+      },
+    ],
+    connectives: ['po mom mišljenju', 'unatoč', 'što je', 'ali', 'svima koji'],
+    checklist: [
+      { id: 'len', label: 'At least 50 words', minWords: 50 },
+      {
+        id: 'opinion',
+        label: 'Mark an opinion: "po mom mišljenju", "mislim da" or "čini mi se"',
+        words: ['po mom mišljenju', 'mislim da', 'čini mi se'],
+      },
+      {
+        id: 'relative',
+        label: 'Use a relative clause with "koji / koja / koje"',
+        words: ['koji', 'koja', 'koje'],
+      },
+      {
+        id: 'recommend',
+        label: 'Say whether you would recommend it: "preporučio/preporučila bih"',
+        words: ['preporučila bih', 'preporučio bih', 'ne bih preporučila', 'ne bih preporučio'],
+      },
+    ],
+  },
+
+  // ── argumentative / semi-formal ────────────────────────────────────────────
+  {
+    id: 'b1-proposal',
+    level: 'B1',
+    title: 'A suggestion to your colleagues',
+    prompt:
+      'Na poslu Vam nešto smeta. Napišite kolegama poruku: opišite problem, predložite konkretno rješenje i zamolite ih za mišljenje.',
+    promptEn:
+      'Something at work bothers you. Write your colleagues a message: describe the problem, propose a concrete solution and ask for their opinion.',
+    minWords: 50,
+    model:
+      'Dragi kolege, već nekoliko mjeseci primjećujem da naši sastanci često traju predugo i da na kraju nemamo vremena za najvažnije teme. ' +
+      'Predlažem da svaki sastanak počne točno u devet i da traje najviše četrdeset pet minuta. ' +
+      'Osim toga, bilo bi korisno da dnevni red dobijemo dan ranije, kako bismo se mogli pripremiti. ' +
+      'Znam da nije lako promijeniti navike, ali vjerujem da bismo tako uštedjeli vrijeme i radili mirnije. ' +
+      'Što mislite o tome? Ako se slažete, mogli bismo pokušati već od sljedećeg tjedna. ' +
+      'Hvala vam na pažnji, Ivan',
+    modelEn:
+      'Dear colleagues, for several months I have noticed that our meetings often run too long and that in the end we have no time for the most important topics. ' +
+      'I propose that every meeting start at nine sharp and last at most forty-five minutes. ' +
+      'Besides that, it would be useful to receive the agenda a day earlier, so that we could prepare. ' +
+      'I know it is not easy to change habits, but I believe we would save time this way and work more calmly. ' +
+      'What do you think about it? If you agree, we could try from next week. ' +
+      'Thank you for your attention, Ivan',
+    structures: [
+      {
+        hr: 'Predlažem da svaki sastanak počne',
+        en: 'I propose that every meeting start',
+        why: 'After "predlažem" Croatian uses "da" plus the PRESENT tense (a perfective verb) — never an infinitive as English might suggest.',
+      },
+      {
+        hr: 'kako bismo se mogli pripremiti',
+        en: 'so that we could prepare',
+        why: 'A purpose clause: "kako" plus the conditional "bismo", with the reflexive "se" tucked in right after it.',
+      },
+      {
+        hr: 'vjerujem da bismo tako uštedjeli vrijeme',
+        en: 'I believe we would save time this way',
+        why: 'The conditional for "we" (bismo + the l-participle in the plural) states a likely result without promising it.',
+      },
+      {
+        hr: 'Što mislite o tome?',
+        en: 'What do you think about it?',
+        why: '"misliti o" takes the locative (to → tome); asking for their view is what turns a complaint into a proposal.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Predlažem da sastanak',
+        answer: 'počne',
+        accept: ['započne'],
+        after: 'u devet.',
+        hint: 'After "predlažem da" the verb is in the present tense (perfective) — never the infinitive.',
+      },
+      {
+        before: 'Bilo bi korisno da dnevni red',
+        answer: 'dobijemo',
+        accept: ['dobivamo', 'imamo'],
+        after: 'dan ranije.',
+        hint: '"da" + present tense: the "we" form of "dobiti".',
+      },
+      {
+        before: 'Tako',
+        answer: 'bismo',
+        after: 'uštedjeli vrijeme.',
+        hint: 'The conditional helper for "we".',
+      },
+      {
+        before: 'Hvala vam na',
+        answer: 'pažnji',
+        accept: ['vremenu', 'strpljenju', 'razumijevanju'],
+        after: '.',
+        hint: '"hvala na" takes the locative: pažnja → ...',
+      },
+    ],
+    connectives: ['predlažem da', 'osim toga', 'kako bismo', 'ako se slažete', 'što mislite'],
+    checklist: [
+      { id: 'len', label: 'At least 50 words', minWords: 50 },
+      {
+        id: 'propose',
+        label: 'Propose with "predlažem da" or "bilo bi dobro / korisno da"',
+        words: ['predlažem da', 'bilo bi dobro da', 'bilo bi korisno da'],
+      },
+      {
+        id: 'cond',
+        label: 'Use the conditional: "bismo", "bih" or "bi"',
+        words: ['bismo', 'bih', 'bilo bi'],
+      },
+      {
+        id: 'ask',
+        label: 'Ask for their view: "što mislite" or "slažete li se"',
+        words: ['što mislite', 'slažete li se'],
+      },
+    ],
+  },
   // ── B2 ──────────────────────────────────────────────────────────────────────
   {
     id: 'b2-remote-work',
@@ -2400,6 +3394,418 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     ],
   },
 
+  // ── formal / transactional: a consumer complaint ─────────────────────────
+  {
+    id: 'b2-refund',
+    level: 'B2',
+    title: 'A complaint to an online shop',
+    prompt:
+      'Naručili ste proizvod preko interneta. Stigao je kasno i oštećen, a na Vašu prvu pritužbu nitko nije odgovorio. Napišite službenu poruku trgovini: opišite što se dogodilo, pozovite se na svoja prava i zatražite zamjenu ili povrat novca u određenom roku.',
+    promptEn:
+      'You ordered a product online. It arrived late and damaged, and nobody answered your first complaint. Write a formal message to the shop: describe what happened, refer to your rights and request a replacement or a refund within a set deadline.',
+    minWords: 80,
+    model:
+      'Poštovani, obraćam Vam se u vezi s narudžbom broj 4471, koju sam platila 3. rujna. ' +
+      'Paket je isporučen tek nakon dva tjedna, a kada sam ga otvorila, vidjela sam da je proizvod oštećen: ekran je bio napuknut, a kutija zgužvana. ' +
+      'Unatoč mojoj pritužbi poslanoj istoga dana, do danas nisam dobila nikakav odgovor. ' +
+      'S obzirom na to da je roba stigla oštećena, prema Zakonu o zaštiti potrošača imam pravo na zamjenu ili povrat novca. ' +
+      'Stoga Vas molim da mi u roku od osam dana potvrdite kako će reklamacija biti riješena. ' +
+      'Ako odgovor ne bih dobila ni tada, bit ću prisiljena obratiti se inspekciji. ' +
+      'S poštovanjem, Ana Jurić',
+    modelEn:
+      'Dear Sir or Madam, I am writing to you regarding order number 4471, which I paid for on 3 September. ' +
+      'The parcel was delivered only after two weeks, and when I opened it I saw that the product was damaged: the screen was cracked and the box crushed. ' +
+      'Despite my complaint sent the same day, to this day I have received no reply at all. ' +
+      'Given that the goods arrived damaged, under the Consumer Protection Act I am entitled to a replacement or a refund. ' +
+      'I therefore ask you to confirm within eight days how the claim will be resolved. ' +
+      'If I were not to receive a reply even then, I will be forced to turn to the inspectorate. ' +
+      'Respectfully, Ana Jurić',
+    structures: [
+      {
+        hr: 'Paket je isporučen tek nakon dva tjedna',
+        en: 'The parcel was delivered only after two weeks',
+        why: 'A passive participle agrees with its subject like an adjective: "paket" is masculine, so "isporučen" — a feminine "roba" would be "isporučena".',
+      },
+      {
+        hr: 'Unatoč mojoj pritužbi poslanoj istoga dana',
+        en: 'Despite my complaint sent the same day',
+        why: '"unatoč" takes the DATIVE, not the genitive — and the participle "poslanoj" follows the noun into the dative too.',
+      },
+      {
+        hr: 'S obzirom na to da je roba stigla oštećena',
+        en: 'Given that the goods arrived damaged',
+        why: '"s obzirom na" governs the accusative; "to da" turns a whole clause into the thing you are taking into account.',
+      },
+      {
+        hr: 'Ako odgovor ne bih dobila ni tada',
+        en: 'If I were not to receive a reply even then',
+        why: '"ako" + the conditional (bih) states a possible future outcome more cautiously than the present would — correct standard Croatian, not a mistake.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Unatoč mojoj',
+        answer: 'pritužbi',
+        after: 'do danas nisam dobila odgovor.',
+        hint: 'The noun "pritužba" (complaint) in the case "unatoč" governs — the dative, not the genitive.',
+      },
+      {
+        before: 'Paket je',
+        answer: 'isporučen',
+        accept: ['dostavljen'],
+        after: 'tek nakon dva tjedna.',
+        hint: 'The passive participle of "isporučiti" (deliver), agreeing with the masculine subject.',
+      },
+      {
+        before: 'S obzirom',
+        answer: 'na',
+        after: 'to da je roba stigla oštećena, tražim povrat novca.',
+        hint: 'The preposition that completes "s obzirom ___" — it takes the accusative.',
+      },
+      {
+        before: 'Molim Vas da mi potvrdite kako će reklamacija biti',
+        answer: 'riješena',
+        after: 'u roku od osam dana.',
+        hint: 'The passive participle of "riješiti" (resolve), agreeing with the feminine subject "reklamacija".',
+      },
+    ],
+    connectives: ['u vezi s', 'unatoč', 's obzirom na', 'stoga', 'u protivnom', 'u roku od'],
+    checklist: [
+      { id: 'len', label: 'At least 80 words', minWords: 80 },
+      {
+        id: 'formal',
+        label: 'Open and close formally ("Poštovani", "S poštovanjem")',
+        words: ['poštovani', 's poštovanjem'],
+      },
+      {
+        id: 'passive',
+        label: 'Use a passive participle that agrees ("isporučen", "oštećena", "riješena")',
+        words: ['isporučen', 'dostavljen', 'oštećen', 'riješen'],
+      },
+      {
+        id: 'concession',
+        label: 'Concede or frame with "unatoč", "iako" or "s obzirom na"',
+        words: ['unatoč', 'iako', 's obzirom na'],
+      },
+      {
+        id: 'deadline',
+        label: 'Set a deadline ("u roku od", "najkasnije")',
+        words: ['u roku od', 'najkasnije'],
+      },
+    ],
+  },
+
+  // ── personal: advice to a friend ─────────────────────────────────────────
+  {
+    id: 'b2-advice',
+    level: 'B2',
+    title: 'Advice to a friend facing a choice',
+    prompt:
+      'Prijatelj se dvoumi između sigurnog posla u rodnom gradu i rizičnije ponude u inozemstvu. Napišite mu pismo: pokažite da razumijete obje strane, iznesite svoje mišljenje i predložite kako da odluči.',
+    promptEn:
+      'A friend is torn between a safe job in his home town and a riskier offer abroad. Write him a letter: show you understand both sides, give your opinion and suggest how he should decide.',
+    minWords: 80,
+    model:
+      'Dragi Luka, dugo sam razmišljao o onome što si mi rekao u petak. ' +
+      'Razumijem zašto te ponuda iz Berlina privlači: plaća je bolja, a posao zanimljiviji od svega što si dosad radio. ' +
+      'Iako je odlazak veliki rizik, mislim da bi ti bilo gore ostati i poslije se pitati što bi bilo da si otišao. ' +
+      'Međutim, ne želim da odlučiš samo zbog novca. ' +
+      'Što više razmišljam o tome, to mi se više čini da je pravo pitanje kako se osjećaš kad zamisliš sebe ondje za godinu dana. ' +
+      'Ako bi ti se pokazalo da to ipak nije za tebe, uvijek se možeš vratiti; posao u Zagrebu nikamo ne bježi. ' +
+      'Rekao si mi da ti je Marta rekla kako će te podržati u svakom slučaju, a to nije malo. ' +
+      'Nazovi me kad odlučiš. Grli te, Ivan',
+    modelEn:
+      'Dear Luka, I have thought for a long time about what you told me on Friday. ' +
+      'I understand why the offer from Berlin attracts you: the pay is better and the work more interesting than anything you have done so far. ' +
+      'Although leaving is a big risk, I think it would be worse for you to stay and later wonder what would have happened had you gone. ' +
+      'However, I do not want you to decide only because of the money. ' +
+      'The more I think about it, the more it seems to me that the real question is how you feel when you picture yourself there a year from now. ' +
+      'If it were to turn out that it is not for you after all, you can always come back; the job in Zagreb is not going anywhere. ' +
+      'You told me Marta said she will support you whatever happens, and that is not nothing. ' +
+      'Call me when you decide. Hugs, Ivan',
+    structures: [
+      {
+        hr: 'Iako je odlazak veliki rizik, mislim da bi ti bilo gore ostati',
+        en: 'Although leaving is a big risk, I think it would be worse for you to stay',
+        why: '"iako" grants the other side its point first; the main clause then takes yours — the B2 way to disagree without dismissing.',
+      },
+      {
+        hr: 'Što više razmišljam o tome, to mi se više čini',
+        en: 'The more I think about it, the more it seems to me',
+        why: 'The correlative "što … to" links two comparatives that move together — "the more …, the more …".',
+      },
+      {
+        hr: 'Ako bi ti se pokazalo da to ipak nije za tebe',
+        en: 'If it were to turn out that it is not for you after all',
+        why: '"ako" + the conditional (bi) for an outcome that is possible but uncertain — softer than the present, and fully standard Croatian.',
+      },
+      {
+        hr: 'Rekao si mi da ti je Marta rekla kako će te podržati',
+        en: 'You told me Marta said she will support you',
+        why: 'Reported speech nests with "da" and "kako", and Croatian keeps the tense that was actually spoken — no shift to the past as in English.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Što više razmišljam,',
+        answer: 'to',
+        after: 'mi se više čini da već znaš odgovor.',
+        hint: 'The word that answers "što" in the "the more …, the more …" pattern.',
+      },
+      {
+        before: 'Ako',
+        answer: 'bi',
+        after: 'ti se pokazalo da to nije za tebe, uvijek se možeš vratiti.',
+        hint: 'The conditional auxiliary (third person) after "ako" — a possible outcome, not an impossible one.',
+      },
+      {
+        before: 'Marta ti je rekla',
+        answer: 'kako',
+        accept: ['da'],
+        after: 'će te podržati u svakom slučaju.',
+        hint: 'The conjunction that introduces what someone said, after a verb of saying.',
+      },
+      {
+        before: 'Unatoč',
+        answer: 'riziku',
+        after: 'mislim da trebaš otići.',
+        hint: 'The noun "rizik" (risk) in the case "unatoč" demands — the dative.',
+      },
+    ],
+    connectives: ['iako', 'međutim', 'što … to', 'ako bi', 'ipak', 'u svakom slučaju'],
+    checklist: [
+      { id: 'len', label: 'At least 80 words', minWords: 80 },
+      {
+        id: 'personal',
+        label: 'Open and close like a friend ("Dragi/Draga", "Grli te")',
+        words: ['dragi', 'draga', 'grli te', 'pozdrav'],
+      },
+      {
+        id: 'concession',
+        label: 'Grant the other side a point ("iako", "međutim", "unatoč")',
+        words: ['iako', 'međutim', 'unatoč'],
+      },
+      {
+        id: 'conditional',
+        label: 'Use "ako" with the conditional ("ako bi …")',
+        words: ['ako bi', 'ako bih', 'ako biste'],
+      },
+      {
+        id: 'reported',
+        label: 'Report what someone said ("rekao si da", "rekla je kako")',
+        words: ['rekao si', 'rekla si', 'rekao je', 'rekla je', 'rekao mi je', 'rekla mi je'],
+      },
+    ],
+  },
+
+  // ── report / narrative: minutes with reported speech ─────────────────────
+  {
+    id: 'b2-minutes',
+    level: 'B2',
+    title: 'Minutes of a residents’ meeting',
+    prompt:
+      'Bili ste na sastanku suvlasnika zgrade o obnovi krova. Napišite kratak zapisnik za susjede koji nisu došli: tko je što rekao, koje su odluke donesene i što slijedi.',
+    promptEn:
+      'You attended a meeting of the building’s co-owners about renovating the roof. Write short minutes for the neighbours who did not come: who said what, which decisions were taken and what happens next.',
+    minWords: 80,
+    model:
+      'Zapisnik sa sastanka suvlasnika održanog 12. listopada. ' +
+      'Sastanku je prisustvovalo dvadeset suvlasnika, a vodio ga je predstavnik stanara, gospodin Barić. ' +
+      'Na početku je objasnio da je krov pregledan i da je stanje gore nego što se očekivalo: dvije grede su oštećene, a izolacija je gotovo posve dotrajala. ' +
+      'Gospođa Novak pitala je hoće li se obnova moći platiti iz pričuve, na što je odgovoreno da pričuva pokriva otprilike polovicu troška. ' +
+      'Iako je nekoliko suvlasnika bilo protiv dodatnih uplata, većina se složila da se posao ne smije odgađati. ' +
+      'S obzirom na visinu troškova, odlučeno je da se prikupe još dvije ponude prije konačne odluke. ' +
+      'Zaključeno je da će se sljedeći sastanak održati za mjesec dana, a ponude će suvlasnicima biti poslane e-poštom najkasnije do kraja tjedna.',
+    modelEn:
+      'Minutes of the co-owners’ meeting held on 12 October. ' +
+      'Twenty co-owners attended, and the meeting was chaired by the residents’ representative, Mr Barić. ' +
+      'At the start he explained that the roof had been inspected and that its condition is worse than expected: two beams are damaged and the insulation has almost completely worn out. ' +
+      'Mrs Novak asked whether the renovation could be paid from the reserve fund, to which the answer was that the fund covers roughly half the cost. ' +
+      'Although several co-owners were against additional payments, the majority agreed that the work must not be postponed. ' +
+      'Given the size of the costs, it was decided to collect two more quotes before a final decision. ' +
+      'It was concluded that the next meeting will be held in a month, and the quotes will be sent to the co-owners by e-mail no later than the end of the week.',
+    structures: [
+      {
+        hr: 'Zapisnik sa sastanka suvlasnika održanog 12. listopada',
+        en: 'Minutes of the co-owners’ meeting held on 12 October',
+        why: 'A passive participle can trail its noun like an adjective and takes its case: "sastanka" is genitive, so "održanog". Note "sa" before an s-.',
+      },
+      {
+        hr: 'Gospođa Novak pitala je hoće li se obnova moći platiti',
+        en: 'Mrs Novak asked whether the renovation could be paid',
+        why: 'A reported yes/no question keeps "li" — "pitala je hoće li" — with the future exactly as it was asked; Croatian does not shift the tense.',
+      },
+      {
+        hr: 'odlučeno je da se prikupe još dvije ponude',
+        en: 'it was decided to collect two more quotes',
+        why: 'The impersonal passive (neuter participle + "je") states a decision without naming who took it — the register of minutes and reports.',
+      },
+      {
+        hr: 'S obzirom na visinu troškova',
+        en: 'Given the size of the costs',
+        why: '"s obzirom na" governs the accusative ("visinu"), and "troškova" is the genitive plural saying whose size.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Krov je',
+        answer: 'pregledan',
+        after: 'i stanje je gore nego što se očekivalo.',
+        hint: 'The passive participle of "pregledati" (inspect), agreeing with the masculine subject.',
+      },
+      {
+        before: 'Gospođa Novak pitala je',
+        answer: 'hoće li',
+        accept: ['može li'],
+        after: 'se obnova moći platiti iz pričuve.',
+        hint: 'A reported yes/no question: the future auxiliary followed by the question particle.',
+      },
+      {
+        before: 'S obzirom na',
+        answer: 'visinu',
+        after: 'troškova, odlučeno je da se prikupe još dvije ponude.',
+        hint: 'The noun "visina" (amount) in the case "s obzirom na" governs — the accusative.',
+      },
+      {
+        before: 'Sljedeći sastanak održat će se za mjesec',
+        answer: 'dana',
+        after: ', o čemu će svi biti obaviješteni.',
+        hint: 'The word for "days" that follows "mjesec" in the idiom for "in a month" — genitive plural.',
+      },
+    ],
+    connectives: ['na početku', 'na što', 'iako', 's obzirom na', 'odlučeno je', 'zaključeno je'],
+    checklist: [
+      { id: 'len', label: 'At least 80 words', minWords: 80 },
+      {
+        id: 'reported',
+        label: 'Report what was said or asked ("objasnio je da", "pitala je hoće li")',
+        words: [
+          'rekao je da',
+          'rekla je da',
+          'objasnio je da',
+          'objasnila je da',
+          'pitao je',
+          'pitala je',
+          'hoće li',
+        ],
+      },
+      {
+        id: 'passive',
+        label: 'State a decision in the passive ("odlučeno je", "zaključeno je")',
+        words: ['odlučeno je', 'zaključeno je', 'dogovoreno je', 'odgovoreno je'],
+      },
+      {
+        id: 'next',
+        label: 'Say what happens next and by when ("najkasnije", "sljedeći sastanak")',
+        words: ['najkasnije', 'do kraja', 'sljedeći sastanak', 'za mjesec'],
+      },
+    ],
+  },
+
+  // ── argumentative: a policy essay ─────────────────────────────────────────
+  {
+    id: 'b2-car-free',
+    level: 'B2',
+    title: 'Cars out of the city centre?',
+    prompt:
+      'Gradska uprava predlaže da se središte grada zatvori za automobile. Napišite kratak esej: iznesite argumente za i protiv, priznajte protuargument i zauzmite stav.',
+    promptEn:
+      'The city council proposes closing the city centre to cars. Write a short essay: give the arguments for and against, acknowledge the counter-argument and take a position.',
+    minWords: 80,
+    model:
+      'Prijedlog da se središte grada zatvori za automobile podijelio je građane. ' +
+      'Zagovornici ističu da bi središte bez prometa bilo tiše, sigurnije i ugodnije za pješake: što je manje automobila, to je zrak čistiji. ' +
+      'Protivnici, međutim, upozoravaju da bi trgovci mogli izgubiti kupce, a stariji ljudi teže doći do liječnika ili ljekarne. ' +
+      'Iako su ti strahovi opravdani, iskustva drugih gradova pokazuju da promet u trgovinama nakon zatvaranja obično raste, jer ljudi ondje provode više vremena. ' +
+      'S obzirom na to da je javni prijevoz već sada dobro organiziran, smatram da prijedlog treba prihvatiti, ali postupno. ' +
+      'Ako bi se središte zatvorilo odjednom, otpor bi bio prevelik; ako se zatvara ulica po ulica, građani se mogu naviknuti. ' +
+      'Unatoč prosvjedima, dugoročna korist za sve veća je od kratkoročne neugodnosti.',
+    modelEn:
+      'The proposal to close the city centre to cars has divided the citizens. ' +
+      'Supporters point out that a centre without traffic would be quieter, safer and more pleasant for pedestrians: the fewer cars, the cleaner the air. ' +
+      'Opponents, however, warn that shopkeepers could lose customers, and older people would find it harder to reach a doctor or a pharmacy. ' +
+      'Although those fears are justified, the experience of other cities shows that footfall in shops usually rises after a closure, because people spend more time there. ' +
+      'Given that public transport is already well organised, I believe the proposal should be accepted, but gradually. ' +
+      'If the centre were closed all at once, the resistance would be too great; if it is closed street by street, people can get used to it. ' +
+      'Despite the protests, the long-term benefit for everyone outweighs the short-term inconvenience.',
+    structures: [
+      {
+        hr: 'što je manje automobila, to je zrak čistiji',
+        en: 'the fewer cars, the cleaner the air',
+        why: 'The correlative "što … to" pairs two comparatives; after "manje" the counted noun stands in the genitive plural ("automobila").',
+      },
+      {
+        hr: 'Protivnici, međutim, upozoravaju da',
+        en: 'Opponents, however, warn that',
+        why: '"međutim" sits inside the sentence between commas — its natural essay position, not only at the start.',
+      },
+      {
+        hr: 'Iako su ti strahovi opravdani, iskustva drugih gradova pokazuju',
+        en: 'Although those fears are justified, the experience of other cities shows',
+        why: 'Concede with "iako", then answer with evidence; "opravdani" is a passive participle used as a predicate and agrees in the masculine plural.',
+      },
+      {
+        hr: 'Ako bi se središte zatvorilo odjednom, otpor bi bio prevelik',
+        en: 'If the centre were closed all at once, the resistance would be too great',
+        why: '"ako" with the conditional in both clauses describes a possible policy and its likely result — standard Croatian, never an error.',
+      },
+      {
+        hr: 'Unatoč prosvjedima',
+        en: 'Despite the protests',
+        why: '"unatoč" takes the dative — here the dative plural "prosvjedima", not a genitive "prosvjeda".',
+      },
+    ],
+    frames: [
+      {
+        before: 'Što je manje automobila,',
+        answer: 'to',
+        after: 'je zrak čistiji.',
+        hint: 'The word that answers "što" in the "the fewer …, the cleaner …" pattern.',
+      },
+      {
+        before: 'Unatoč',
+        answer: 'prosvjedima',
+        after: 'korist je veća od neugodnosti.',
+        hint: 'The noun "prosvjed" (protest) in the plural, in the case "unatoč" governs — the dative.',
+      },
+      {
+        before: 'Ako',
+        answer: 'bi',
+        after: 'se središte zatvorilo odjednom, građani se ne mogu naviknuti.',
+        hint: 'The conditional auxiliary after "ako" for a possible outcome — correct Croatian, not an error.',
+      },
+      {
+        before: 'Iako su ti strahovi',
+        answer: 'opravdani',
+        after: ', iskustva drugih gradova govore drugačije.',
+        hint: 'The participle "justified" agreeing with the masculine plural subject "strahovi".',
+      },
+    ],
+    connectives: ['međutim', 'iako', 'što … to', 's obzirom na', 'unatoč', 'smatram da'],
+    checklist: [
+      { id: 'len', label: 'At least 80 words', minWords: 80 },
+      {
+        id: 'sides',
+        label: 'Name both sides ("zagovornici", "protivnici", "s jedne strane")',
+        words: ['zagovornici', 'protivnici', 's jedne strane', 'za i protiv'],
+      },
+      {
+        id: 'concession',
+        label: 'Concede a point ("iako", "međutim", "unatoč")',
+        words: ['iako', 'međutim', 'unatoč'],
+      },
+      {
+        id: 'correlative',
+        label: 'Use "što …, to …" ("što je manje …, to je …")',
+        words: ['što je manje', 'što je više', 'što više', 'što manje'],
+      },
+      {
+        id: 'stance',
+        label: 'Take a position ("smatram da", "mislim da")',
+        words: ['smatram da', 'mislim da', 'po mojem mišljenju', 'po mom mišljenju'],
+      },
+    ],
+  },
   // ── C1 ──────────────────────────────────────────────────────────────────────
   {
     id: 'c1-uniforms',
@@ -3089,6 +4495,368 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     ],
   },
 
+  {
+    id: 'c1-recommendation',
+    level: 'C1',
+    title: 'A letter of recommendation',
+    prompt:
+      'Bivša suradnica moli vas za pismo preporuke za mjesto voditeljice projekata. Napišite ga: navedite u kojem ste svojstvu surađivali, potkrijepite ocjenu konkretnim primjerom i zaključite jasnom preporukom.',
+    promptEn:
+      'A former colleague asks you for a letter of recommendation for a project-manager post. Write it: state in what capacity you worked together, back your assessment with a concrete example and close with a clear recommendation.',
+    minWords: 100,
+    model:
+      'Poštovani, s velikim zadovoljstvom preporučujem kolegicu Ivanu Barić za mjesto voditeljice projekata u Vašoj ustanovi. ' +
+      'Tijekom trogodišnje suradnje u našem odjelu pokazala se kao osoba koja preuzima odgovornost prije nego što to itko od nje zatraži. ' +
+      'Vodeći tim od šest suradnika, uspjela je skratiti rokove isporuke, a pritom nije narušila kvalitetu rada. ' +
+      'Naime, u razdoblju kad je odjel ostao bez dvoje iskusnih suradnika, ona je preuzela njihove zadatke bez ijedne primjedbe i završila ih u roku. ' +
+      'Posebno ističem njezinu sposobnost da složene probleme svede na nekoliko jasnih pitanja, zahvaljujući čemu su sastanci koje je vodila trajali upola kraće. ' +
+      'Držim stoga da bi Vaša ustanova njezinim dolaskom dobila stručnjakinju koja ne čeka upute, nego ih oblikuje. ' +
+      'Stojim Vam na raspolaganju za sve dodatne obavijesti. S poštovanjem, dr. sc. Marko Horvat',
+    modelEn:
+      'Dear Sir or Madam, it is with great pleasure that I recommend my colleague Ivana Barić for the post of project manager at your institution. ' +
+      'During three years of working together in our department she proved to be someone who takes responsibility before anyone asks it of her. ' +
+      'Leading a team of six, she managed to shorten delivery deadlines without compromising the quality of the work. ' +
+      'Indeed, in the period when the department lost two experienced staff, she took over their tasks without a single complaint and finished them on time. ' +
+      'I would single out her ability to reduce complex problems to a few clear questions, thanks to which the meetings she chaired took half as long. ' +
+      'I therefore hold that with her arrival your institution would gain a professional who does not wait for instructions but shapes them. ' +
+      'I remain at your disposal for any further information. Respectfully, Dr Marko Horvat',
+    structures: [
+      {
+        hr: 'Vodeći tim od šest suradnika, uspjela je skratiti rokove isporuke',
+        en: 'Leading a team of six, she managed to shorten delivery deadlines',
+        why: 'The present verbal adverb ("vodeći") condenses a whole clause into one word, and "šest suradnika" shows the genitive plural after a number above four.',
+      },
+      {
+        hr: 'zahvaljujući čemu su sastanci koje je vodila trajali upola kraće',
+        en: 'thanks to which the meetings she chaired took half as long',
+        why: '"zahvaljujući" takes the dative — here the pronoun "čemu" links a whole result back to the cause without starting a new sentence.',
+      },
+      {
+        hr: 'Držim stoga da bi Vaša ustanova njezinim dolaskom dobila stručnjakinju',
+        en: 'I therefore hold that with her arrival your institution would gain a professional',
+        why: 'Condensation at C1: the instrumental "njezinim dolaskom" replaces a whole "if she came" clause, and "stoga" sits in second position after the verb.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Tijekom trogodišnje',
+        answer: 'suradnje',
+        after: 'pokazala se kao iznimno pouzdana osoba.',
+        hint: 'The noun "cooperation / working together" in the genitive — "tijekom" always takes the genitive.',
+      },
+      {
+        before: 'Sastanci su trajali kraće zahvaljujući njezinoj',
+        answer: 'sposobnosti',
+        after: 'da složene probleme svede na jasna pitanja.',
+        hint: 'The dative of the feminine i-noun "ability" — "zahvaljujući" governs the dative.',
+      },
+      {
+        before: 'Držim',
+        answer: 'stoga',
+        accept: ['zato', 'dakle'],
+        after: 'da bi Vaša ustanova njezinim dolaskom mnogo dobila.',
+        hint: 'The formal connector "therefore", placed in second position right after the verb.',
+      },
+    ],
+    connectives: [
+      'tijekom',
+      'pritom',
+      'naime',
+      'zahvaljujući čemu',
+      'držim stoga da',
+      'stojim na raspolaganju',
+    ],
+    checklist: [
+      { id: 'len', label: 'At least 100 words', minWords: 100 },
+      {
+        id: 'open',
+        label: 'Open formally ("Poštovani") and close with "S poštovanjem"',
+        words: ['poštovani'],
+      },
+      {
+        id: 'recommend',
+        label: 'State the recommendation ("preporučujem" / "ističem")',
+        words: ['preporuč', 'ističem'],
+      },
+      {
+        id: 'cause',
+        label: 'Link an example to its result ("zahvaljujući", "pritom", "stoga")',
+        words: ['zahvaljujući', 'pritom', 'stoga'],
+      },
+    ],
+  },
+  {
+    id: 'c1-advice-letter',
+    level: 'C1',
+    title: 'Advice on a hard decision',
+    prompt:
+      'Prijatelj u Hrvatskoj pita vas treba li preuzeti očev obrt ili ostati na sigurnom poslu. Napišite mu pismo: odvagnite obje strane, recite što biste vi učinili i zašto, ne skrivajući da odluka ima cijenu.',
+    promptEn:
+      'A friend in Croatia asks whether he should take over his father’s workshop or stay in a secure job. Write him a letter: weigh both sides, say what you would do and why, without hiding that the decision has a cost.',
+    minWords: 100,
+    model:
+      'Dragi Marko, dugo sam razmišljao o tvome pitanju i neću se praviti da imam jednostavan odgovor. ' +
+      'Preuzeti očev obrt znači preuzeti i sve ono što uz njega ide: dugove koje ti nije spominjao, kupce koji su navikli na njega, a ne na tebe, i selo koje će svaku tvoju promjenu mjeriti prema onome kako je bilo prije. ' +
+      'S druge strane, da sam na tvome mjestu, teško bih podnio da radionica u kojoj smo odrasli završi kao skladište. ' +
+      'Naime, nije riječ samo o poslu, nego o tome hoćeš li za deset godina žaliti što nisi pokušao. ' +
+      'Odluka stoga ne ovisi o brojkama, koliko god ih pregledavao, nego o tome jesi li spreman prvih nekoliko godina raditi za manje nego sada. ' +
+      'Ako jesi, javi mi — pomoći ću ti koliko mogu. Tvoj Ivan',
+    modelEn:
+      'Dear Marko, I have thought about your question for a long time and I will not pretend to have a simple answer. ' +
+      'Taking over your father’s workshop means taking over everything that comes with it: the debts he never mentioned to you, the customers who are used to him and not to you, and a village that will measure every change you make against how it used to be. ' +
+      'On the other hand, if I were in your place, I would find it hard to bear the workshop we grew up in ending as a storeroom. ' +
+      'Because this is not only about a job, but about whether in ten years you will regret not having tried. ' +
+      'So the decision does not depend on the figures, however often you go over them, but on whether you are prepared to earn less than now for the first few years. ' +
+      'If you are, let me know — I will help as much as I can. Yours, Ivan',
+    structures: [
+      {
+        hr: 'da sam na tvome mjestu, teško bih podnio',
+        en: 'if I were in your place, I would find it hard to bear',
+        why: 'The unreal conditional: "da" + present of "biti" sets up the hypothesis, and the conditional "bih podnio" carries the consequence — the way to give advice without giving orders.',
+      },
+      {
+        hr: 'nije riječ samo o poslu, nego o tome hoćeš li',
+        en: 'this is not only about a job, but about whether',
+        why: '"riječ je o" + locative names what something is really about; "o tome" + an embedded question lets a whole clause take the locative slot.',
+      },
+      {
+        hr: 'Odluka stoga ne ovisi o brojkama',
+        en: 'So the decision does not depend on the figures',
+        why: '"ovisiti o" governs the locative — a verb-government point learners get wrong — and "stoga" takes second position after the subject.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Da sam na tvome',
+        answer: 'mjestu',
+        after: ', ne bih žurio s odlukom.',
+        hint: 'The locative of "place" after "na" — the "if I were you" formula.',
+      },
+      {
+        before: 'Nije riječ samo o',
+        answer: 'poslu',
+        after: ', nego o obitelji.',
+        hint: 'The locative of "posao" after "o" — the fleeting "a" drops before the ending.',
+      },
+      {
+        before: 'Odluka ne ovisi o',
+        answer: 'brojkama',
+        after: ', nego o tome jesi li spreman raditi za manje.',
+        hint: '"ovisiti o" + locative — the plural of "brojka" (figure).',
+      },
+    ],
+    connectives: ['s druge strane', 'naime', 'stoga', 'koliko god', 'riječ je o', 'ovisi o'],
+    checklist: [
+      { id: 'len', label: 'At least 100 words', minWords: 100 },
+      {
+        id: 'open',
+        label: 'Open personally ("Dragi" / "Draga")',
+        words: ['dragi', 'draga'],
+      },
+      {
+        id: 'weigh',
+        label: 'Weigh both sides ("s druge strane", "naime")',
+        words: ['s druge strane', 's jedne strane', 'naime'],
+      },
+      {
+        id: 'advise',
+        label: 'Give advice conditionally ("da sam na tvome mjestu", "ovisi o")',
+        words: ['da sam na tvome mjestu', 'da sam na tvom mjestu', 'ovisi o'],
+      },
+    ],
+  },
+  {
+    id: 'c1-abstract',
+    level: 'C1',
+    title: 'An academic abstract',
+    prompt:
+      'Napišite sažetak istraživačkog rada o radu od kuće u malim tvrtkama: predmet, metodu, glavni nalaz, njegovo tumačenje i ograničenje istraživanja — u bezličnom akademskom registru.',
+    promptEn:
+      'Write the abstract of a research paper on working from home in small firms: subject, method, main finding, its interpretation and the study’s limitation — in impersonal academic register.',
+    minWords: 100,
+    model:
+      'U radu se analizira utjecaj rada od kuće na produktivnost zaposlenika u malim hrvatskim tvrtkama. ' +
+      'Polazeći od pretpostavke da se učinak ne može mjeriti samo brojem odrađenih sati, autori su proveli anketu među 214 zaposlenika i dvanaest intervjua s upravama tvrtki. ' +
+      'Rezultati pokazuju da produktivnost ne ovisi toliko o mjestu rada koliko o jasnoći zadataka: zaposlenici s precizno određenim ciljevima postizali su usporedive rezultate bez obzira na to jesu li radili od kuće ili u uredu. ' +
+      'Pritom se pokazalo da uprave koje inzistiraju na stalnom nadzoru bilježe veću fluktuaciju radnika. ' +
+      'Naime, nadzor se u razgovorima dosljedno tumačio kao nepovjerenje. ' +
+      'Stoga se zaključuje da bi ulaganje u definiranje zadataka donijelo više nego ulaganje u sustave praćenja. ' +
+      'Ograničenje istraživanja jest usmjerenost na jedan sektor, zbog čega se nalazi ne mogu bez ograda poopćiti.',
+    modelEn:
+      'The paper analyses the effect of working from home on employee productivity in small Croatian firms. ' +
+      'Starting from the assumption that performance cannot be measured by hours worked alone, the authors surveyed 214 employees and conducted twelve interviews with company managements. ' +
+      'The results show that productivity depends less on the place of work than on the clarity of tasks: employees with precisely defined goals achieved comparable results regardless of whether they worked from home or in the office. ' +
+      'It further emerged that managements which insist on constant supervision record higher staff turnover. ' +
+      'In the interviews, supervision was consistently read as distrust. ' +
+      'It is therefore concluded that investing in task definition would yield more than investing in monitoring systems. ' +
+      'The study’s limitation is its focus on a single sector, for which reason the findings cannot be generalised without reservation.',
+    structures: [
+      {
+        hr: 'U radu se analizira utjecaj rada od kuće na produktivnost',
+        en: 'The paper analyses the effect of working from home on productivity',
+        why: 'Academic Croatian hides the author: the "se" passive ("analizira se") plus the nominalisation "utjecaj X na Y" turns a whole sentence into a noun phrase.',
+      },
+      {
+        hr: 'Polazeći od pretpostavke da se učinak ne može mjeriti',
+        en: 'Starting from the assumption that performance cannot be measured',
+        why: 'The present verbal adverb "polazeći od" + genitive frames the method in one breath; "da" then unpacks the assumption.',
+      },
+      {
+        hr: 'ne ovisi toliko o mjestu rada koliko o jasnoći zadataka',
+        en: 'depends less on the place of work than on the clarity of tasks',
+        why: '"ne toliko … koliko" ranks two causes; both sit in the locative because "ovisiti o" governs it.',
+      },
+      {
+        hr: 'uprave koje inzistiraju na stalnom nadzoru',
+        en: 'managements which insist on constant supervision',
+        why: '"inzistirati na" takes the locative — the same government as "hvala na" and one of the C1 verb-government points.',
+      },
+    ],
+    frames: [
+      {
+        before: 'U radu se',
+        answer: 'analizira',
+        accept: ['istražuje', 'razmatra', 'ispituje'],
+        after: 'utjecaj rada od kuće na produktivnost.',
+        hint: 'The impersonal "se" form of "to analyse" — the academic way of saying "the paper analyses".',
+      },
+      {
+        before: 'Uprave koje inzistiraju na stalnom',
+        answer: 'nadzoru',
+        after: 'bilježe veću fluktuaciju radnika.',
+        hint: '"inzistirati na" + locative — the masculine noun for "supervision".',
+      },
+      {
+        before: 'Produktivnost ne ovisi o mjestu rada, nego o',
+        answer: 'jasnoći',
+        after: 'zadataka.',
+        hint: 'The locative of "jasnoća" (clarity) after "ovisi o".',
+      },
+    ],
+    connectives: [
+      'polazeći od',
+      'rezultati pokazuju da',
+      'pritom',
+      'naime',
+      'stoga se zaključuje',
+      'zbog čega',
+    ],
+    checklist: [
+      { id: 'len', label: 'At least 100 words', minWords: 100 },
+      {
+        id: 'impersonal',
+        label: 'Use the impersonal "se" form ("analizira se", "zaključuje se")',
+        words: ['se analizira', 'analizira se', 'se istražuje', 'se zaključuje', 'zaključuje se'],
+      },
+      {
+        id: 'finding',
+        label: 'Report the finding ("rezultati pokazuju da", "pokazalo se da")',
+        words: ['rezultati pokazuju', 'pokazalo se', 'utvrđeno je'],
+      },
+      {
+        id: 'connect',
+        label: 'Connect precisely ("pritom", "naime", "stoga")',
+        words: ['pritom', 'naime', 'stoga'],
+      },
+    ],
+  },
+  {
+    id: 'c1-incident-report',
+    level: 'C1',
+    title: 'An incident report',
+    prompt:
+      'U skladištu se dogodio manji incident bez ozlijeđenih. Kao voditelj napišite službeno izvješće: točan slijed događaja, što je utvrđeno pregledom, što je poduzeto i što predlažete da se ne ponovi.',
+    promptEn:
+      'A minor incident with no injuries has occurred in the warehouse. As the manager, write the official report: the exact sequence of events, what the inspection established, what was done and what you propose so it does not recur.',
+    minWords: 100,
+    model:
+      'Predmet: izvješće o incidentu u skladištu, 14. svibnja. ' +
+      'Dana 14. svibnja oko 9.30 sati viličar kojim je upravljao djelatnik M. K. zahvatio je regal u trećem redu, nakon čega su se s gornje police srušile tri palete ambalaže. ' +
+      'Ozlijeđenih nije bilo, budući da se u tom trenutku u prolazu nitko nije nalazio. ' +
+      'Došavši na mjesto događaja, voditelj smjene isključio je struju u tom dijelu skladišta i zatražio da se prolaz zatvori dok se regal ne provjeri. ' +
+      'Pregledom je utvrđeno da je regal bio preopterećen, a da je označena nosivost premašena za približno četrdeset posto. ' +
+      'Djelatnik je saslušan i izjavio je da ga nitko nije upozorio na ograničenje. ' +
+      'Predlažem stoga da se nosivost vidljivo označi na svakom regalu i da se sve smjene ponovno upoznaju s pravilima slaganja tereta. ' +
+      'Izvješće sastavio: Tomislav Perić, voditelj skladišta.',
+    modelEn:
+      'Subject: report on the incident in the warehouse, 14 May. ' +
+      'On 14 May at about 9.30 a forklift driven by employee M. K. struck a rack in the third row, after which three pallets of packaging fell from the top shelf. ' +
+      'There were no injuries, since nobody was in the aisle at that moment. ' +
+      'On arriving at the scene, the shift leader switched off the power in that part of the warehouse and asked for the aisle to be closed until the rack had been checked. ' +
+      'The inspection established that the rack had been overloaded and that the marked load capacity had been exceeded by roughly forty per cent. ' +
+      'The employee was interviewed and stated that nobody had warned him of the limit. ' +
+      'I therefore propose that the load capacity be visibly marked on every rack and that all shifts be briefed again on the rules for stacking goods. ' +
+      'Report compiled by: Tomislav Perić, warehouse manager.',
+    structures: [
+      {
+        hr: 'viličar kojim je upravljao djelatnik',
+        en: 'a forklift driven by an employee',
+        why: 'The relative pronoun takes the case its own verb demands: "upravljati" governs the instrumental, so "kojim" — literally "which the employee was operating".',
+      },
+      {
+        hr: 'Došavši na mjesto događaja, voditelj smjene isključio je struju',
+        en: 'On arriving at the scene, the shift leader switched off the power',
+        why: 'The past verbal adverb "došavši" orders two actions by one person without "kad je došao" — the compact chronology a report needs.',
+      },
+      {
+        hr: 'Pregledom je utvrđeno da je regal bio preopterećen',
+        en: 'The inspection established that the rack had been overloaded',
+        why: 'The instrumental of means ("pregledom" = by inspection) plus the impersonal passive "utvrđeno je" state a finding without naming who found it.',
+      },
+      {
+        hr: 'Predlažem stoga da se nosivost vidljivo označi',
+        en: 'I therefore propose that the load capacity be visibly marked',
+        why: '"predlažem da se" + present is how a proposal is phrased — the "se" passive keeps the focus on what should happen, not on who does it.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Viličar',
+        answer: 'kojim',
+        after: 'je upravljao djelatnik zahvatio je regal.',
+        hint: 'The relative pronoun in the instrumental — "upravljati" (to operate) takes the instrumental.',
+      },
+      {
+        before: 'Došavši na mjesto',
+        answer: 'događaja',
+        after: ', voditelj smjene isključio je struju.',
+        hint: 'The genitive of "događaj" (event) — "the scene OF the event".',
+      },
+      {
+        before: 'Pregledom je',
+        answer: 'utvrđeno',
+        accept: ['ustanovljeno'],
+        after: 'da je regal bio preopterećen.',
+        hint: 'The neuter passive participle for "established" — the impersonal "it was established".',
+      },
+    ],
+    connectives: [
+      'dana',
+      'nakon čega',
+      'budući da',
+      'došavši',
+      'pregledom je utvrđeno',
+      'predlažem stoga da',
+    ],
+    checklist: [
+      { id: 'len', label: 'At least 100 words', minWords: 100 },
+      {
+        id: 'time',
+        label: 'Fix the time precisely ("dana", "oko … sati", "nakon čega")',
+        words: ['dana', 'oko', 'nakon čega'],
+      },
+      {
+        id: 'passive',
+        label: 'Report findings impersonally ("utvrđeno je", "saslušan je")',
+        words: ['utvrđeno', 'ustanovljeno', 'saslušan'],
+      },
+      {
+        id: 'propose',
+        label: 'Propose a measure ("predlažem da se")',
+        words: ['predlažem', 'predlaže se'],
+      },
+    ],
+  },
   // ── C2 ──────────────────────────────────────────────────────────────────────
   {
     id: 'c2-diaspora',
@@ -3789,6 +5557,369 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         id: 'time',
         label: 'Anchor the scene in a time of day',
         words: ['ujutro', 'navečer', 'u sedam', 'u podne', 'sat'],
+      },
+    ],
+  },
+
+  {
+    id: 'c2-open-letter',
+    level: 'C2',
+    title: 'An open letter',
+    prompt:
+      'Napišite otvoreno pismo gradskoj vlasti o odluci koja pogađa vaš kvart. Recite zašto pišete javno, iznesite činjenice i brojke, priznajte što protivnoj strani stoji, pa zatražite konkretnu odgodu ili izmjenu — službeno, bez povišenog tona.',
+    promptEn:
+      'Write an open letter to the city authorities about a decision that affects your neighbourhood. Say why you are writing publicly, give the facts and figures, concede what the other side has right, then ask for a specific postponement or amendment — formally, without raising your voice.',
+    minWords: 120,
+    model:
+      'Poštovani gradonačelniče, poštovani vijećnici, ' +
+      'obraćam Vam se javno jer su privatni dopisi u posljednjih šest mjeseci ostali bez odgovora. ' +
+      'Riječ je o najavljenom zatvaranju knjižnice u Trnju, koje se u obrazloženju naziva „racionalizacijom mreže“. ' +
+      'Više od dvije tisuće građana potpisalo je peticiju protiv te odluke, a među njima je i dvjestotinjak učenika obližnje škole, kojima je ta čitaonica jedino mirno mjesto za učenje. ' +
+      'Unatoč tomu, prijedlog je upućen na glasovanje bez javne rasprave. ' +
+      'Ne osporavam da grad mora štedjeti; osporavam da se štedi ondje gdje je ušteda najmanja, a šteta najveća. ' +
+      'Da je uprava objavila brojke, o njima bismo mogli razgovarati; ovako možemo samo nagađati. ' +
+      'Stoga Vas molim da odluku odgodite dok se ne provede javno savjetovanje i dok se ne razmotri prijedlog udruge stanara o zajedničkom financiranju. ' +
+      'Knjižnica koja se jednom zatvori više se ne otvara. ' +
+      'S poštovanjem, Ana Kovač, u ime Inicijative za Trnje',
+    modelEn:
+      'Dear Mayor, dear Councillors, ' +
+      'I am addressing you publicly because private letters over the past six months have gone unanswered. ' +
+      'This concerns the announced closure of the library in Trnje, which the explanatory note calls a “rationalisation of the network”. ' +
+      'More than two thousand residents have signed a petition against that decision, among them some two hundred pupils of the nearby school, for whom that reading room is the only quiet place to study. ' +
+      'Despite this, the proposal has been sent to a vote without public consultation. ' +
+      'I do not dispute that the city must save; I dispute that it is saving where the saving is smallest and the damage greatest. ' +
+      'Had the administration published the figures, we could discuss them; as it is, we can only guess. ' +
+      'I therefore ask you to postpone the decision until a public consultation has been held and until the residents’ association’s proposal for joint funding has been considered. ' +
+      'A library that closes does not reopen. ' +
+      'Yours faithfully, Ana Kovač, on behalf of the Trnje Initiative',
+    structures: [
+      {
+        hr: 'Više od dvije tisuće građana potpisalo je peticiju',
+        en: 'More than two thousand residents have signed a petition',
+        why: 'A quantity subject ("više od dvije tisuće građana") takes a NEUTER SINGULAR verb — potpisalo je — however many people it names.',
+      },
+      {
+        hr: 'Unatoč tomu, prijedlog je upućen na glasovanje bez javne rasprave',
+        en: 'Despite this, the proposal has been sent to a vote without public consultation',
+        why: '"unatoč" governs the DATIVE (tomu), never the genitive; the passive participle "upućen" keeps the letter impersonal and the blame unspoken.',
+      },
+      {
+        hr: 'Da je uprava objavila brojke, o njima bismo mogli razgovarati',
+        en: 'Had the administration published the figures, we could discuss them',
+        why: 'The past counterfactual: "da" + perfect in the condition, the conditional ("bismo mogli") in the result — a reproach delivered as a hypothesis.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Unatoč',
+        answer: 'tomu',
+        accept: ['tome'],
+        after: ', prijedlog je upućen na glasovanje.',
+        hint: 'The dative of "to" — "unatoč" takes the dative, never the genitive.',
+      },
+      {
+        before: 'Više od dvije tisuće građana',
+        answer: 'potpisalo je',
+        accept: ['je potpisalo'],
+        after: 'peticiju.',
+        hint: 'Neuter singular agreement after a quantity expression.',
+      },
+      {
+        before: 'Da je uprava objavila brojke, o njima',
+        answer: 'bismo',
+        after: 'mogli razgovarati.',
+        hint: 'The conditional auxiliary, first person plural, in second position.',
+      },
+    ],
+    connectives: ['riječ je o', 'unatoč tomu', 'ne osporavam da', 'stoga', 'dok se ne', 'u ime'],
+    checklist: [
+      { id: 'len', label: 'At least 120 words', minWords: 120 },
+      {
+        id: 'formal',
+        label: 'Open and close formally ("Poštovani" … "S poštovanjem")',
+        words: ['poštovani', 's poštovanjem'],
+      },
+      {
+        id: 'concede',
+        label: 'Concede what the other side has right ("ne osporavam da", "unatoč")',
+        words: ['ne osporavam', 'priznajem', 'unatoč'],
+      },
+      {
+        id: 'ask',
+        label: 'Ask for something specific with a condition ("molim da … dok se ne")',
+        words: ['molim', 'dok se ne', 'odgod'],
+      },
+    ],
+  },
+  {
+    id: 'c2-review',
+    level: 'C2',
+    title: 'A theatre review',
+    prompt:
+      'Napišite kazališnu kritiku predstave koju ste (stvarno ili izmišljeno) gledali. Opišite redateljski postupak, recite što je najbolje, a što slabije, i završite ocjenom koja obvezuje — bez prepričavanja radnje.',
+    promptEn:
+      'Write a theatre review of a production you have (really or fictionally) seen. Describe the director’s approach, say what is best and what is weaker, and end with a verdict that commits you — without retelling the plot.',
+    minWords: 120,
+    model:
+      'Nova produkcija zagrebačkoga nezavisnog kazališta „Skladište“ traje sat i četrdeset minuta i u tom vremenu ne dopušta nijedan udoban trenutak. ' +
+      'Redateljica je klasični tekst o obiteljskom nasljedstvu smjestila u praznu dvoranu s jednim stolom, a glumcima uskratila sve čime se obično prikriva slab tekst: kostime, glazbu, svjetlosne efekte. ' +
+      'Ostale su samo riječi i stanke. ' +
+      'Upravo su stanke ono najbolje u predstavi: u njima se čuje da likovi jedni drugima ne vjeruju ni kad govore istinu. ' +
+      'Slabiji je drugi dio, u kojem redateljica, kao da se uplašila vlastite strogosti, dopušta dvije scene vike koje objašnjavaju ono što je publika već shvatila. ' +
+      'Da je predstava završila dvadeset minuta ranije, bila bi gotovo savršena. ' +
+      'Ovako je vrlo dobra, što je u sezoni prosječnih premijera više nego dovoljno. ' +
+      'Preporučujem je onima koji od kazališta ne traže utjehu.',
+    modelEn:
+      'The new production by the Zagreb independent theatre “Skladište” runs an hour and forty minutes and in that time allows not one comfortable moment. ' +
+      'The director has set a classic text about a family inheritance in an empty hall with a single table, and denied the actors everything that usually hides a weak script: costumes, music, lighting effects. ' +
+      'Only words and pauses remain. ' +
+      'The pauses are precisely what is best in the production: in them you can hear that the characters do not believe one another even when they tell the truth. ' +
+      'The second part is weaker; in it the director, as if frightened by her own severity, allows two shouting scenes that explain what the audience has already understood. ' +
+      'Had the production ended twenty minutes earlier, it would have been almost perfect. ' +
+      'As it is, it is very good, which in a season of average premieres is more than enough. ' +
+      'I recommend it to those who do not go to the theatre for comfort.',
+    structures: [
+      {
+        hr: 'glumcima uskratila sve čime se obično prikriva slab tekst',
+        en: 'denied the actors everything that usually hides a weak script',
+        why: 'The relative "čime" is the INSTRUMENTAL of "što" — "with which"; the case is carried by the relative pronoun, not by a preposition.',
+      },
+      {
+        hr: 'Upravo su stanke ono najbolje u predstavi',
+        en: 'The pauses are precisely what is best in the production',
+        why: 'Fronting "upravo" pins the emphasis on one word, and the enclitic "su" still lands in second position — after "upravo", not after the subject.',
+      },
+      {
+        hr: 'Da je predstava završila dvadeset minuta ranije, bila bi gotovo savršena',
+        en: 'Had the production ended twenty minutes earlier, it would have been almost perfect',
+        why: 'The critic’s counterfactual: "da" + perfect states what did not happen, and the conditional "bila bi" states the verdict it cost.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Redateljica je glumcima uskratila sve',
+        answer: 'čime',
+        after: 'se obično prikriva slab tekst.',
+        hint: 'The instrumental of the relative "što" — "with which".',
+      },
+      {
+        before: 'Upravo',
+        answer: 'su',
+        after: 'stanke ono najbolje u predstavi.',
+        hint: 'The enclitic auxiliary in second position — right after the fronted "upravo".',
+      },
+      {
+        before: 'Da je predstava završila ranije,',
+        answer: 'bila bi',
+        after: 'gotovo savršena.',
+        hint: 'The conditional in the main clause of a counterfactual — "would have been".',
+      },
+    ],
+    connectives: ['upravo', 'slabiji je', 'kao da', 'ovako', 'više nego dovoljno', 'preporučujem'],
+    checklist: [
+      { id: 'len', label: 'At least 120 words', minWords: 120 },
+      {
+        id: 'both',
+        label: 'Judge in both directions — what is best and what is weaker',
+        words: ['najbolje', 'slabij', 'najslabij', 'nedostaje'],
+      },
+      {
+        id: 'cond',
+        label: 'Use a counterfactual or a "kao da" comparison',
+        words: ['da je', 'bila bi', 'bio bi', 'kao da'],
+      },
+      {
+        id: 'verdict',
+        label: 'End with a verdict that commits you ("preporučujem")',
+        words: ['preporučujem', 'ne preporučujem', 'vrijedi'],
+      },
+    ],
+  },
+  {
+    id: 'c2-three-styles',
+    level: 'C2',
+    title: 'One event, three styles',
+    prompt:
+      'Isti događaj — pucanje vodovodne cijevi, kvar, nesreća bez žrtava — opišite tri puta: administrativnim, novinarskim i književnim stilom. Svaki dio označite i neka se razlikuju rječnikom, rečenicom i onim što smiju reći.',
+    promptEn:
+      'Describe the same event — a burst water main, a breakdown, an accident without casualties — three times: in administrative, journalistic and literary style. Label each part and make them differ in vocabulary, sentence shape and what they are allowed to say.',
+    minWords: 120,
+    model:
+      'Administrativni stil: Obavještavaju se građani da je zbog puknuća vodovodne cijevi promet Ilicom od Frankopanske do Gundulićeve ulice obustavljen do daljnjega. ' +
+      'Radovi se izvode u nadležnosti gradskoga komunalnog poduzeća, a završetak se predviđa u roku od četrdeset osam sati. ' +
+      'Novinarski stil: Ilica je od jutros zatvorena. ' +
+      'Cijev je pukla oko pet sati, a voda je do dolaska ekipa poplavila tri podruma. ' +
+      'Stanari kažu da su kvar prijavljivali još prošle zime. ' +
+      'Iz poduzeća poručuju da će ulica biti prohodna do petka. ' +
+      'Književni stil: Ulica se probudila s rijekom umjesto pločnika. ' +
+      'Voda je tekla polako, gotovo pristojno, zaobilazeći stupove kao da se ispričava, i nosila je sa sobom sve ono što grad inače uspješno skriva: pikule, jedan ključ, cipelu bez para. ' +
+      'Ljudi su stajali na rubu i gledali kao da ih se ne tiče, dok im je voda već bila do koljena.',
+    modelEn:
+      'Administrative style: Citizens are informed that, owing to a burst water main, traffic along Ilica between Frankopanska and Gundulićeva Street is suspended until further notice. ' +
+      'The works are being carried out under the authority of the municipal utility company, and completion is expected within forty-eight hours. ' +
+      'Journalistic style: Ilica has been closed since this morning. ' +
+      'The pipe burst at around five o’clock, and by the time the crews arrived the water had flooded three basements. ' +
+      'Residents say they had been reporting the fault since last winter. ' +
+      'The company says the street will be passable by Friday. ' +
+      'Literary style: The street woke up with a river in place of a pavement. ' +
+      'The water flowed slowly, almost politely, skirting the lampposts as if apologising, and carried with it everything the city otherwise hides so well: marbles, a single key, a shoe without its pair. ' +
+      'People stood at the edge and watched as if it were none of their business, while the water was already up to their knees.',
+    structures: [
+      {
+        hr: 'Obavještavaju se građani da je ... promet ... obustavljen do daljnjega',
+        en: 'Citizens are informed that ... traffic ... is suspended until further notice',
+        why: 'The administrative voice: an impersonal reflexive passive ("obavještavaju se") with no one doing the informing, and the frozen genitive formula "do daljnjega".',
+      },
+      {
+        hr: 'Iz poduzeća poručuju da će ulica biti prohodna do petka',
+        en: 'The company says the street will be passable by Friday',
+        why: 'Journalistic attribution: "iz" + genitive names the source and a bare third-person plural ("poručuju") stands in for the unnamed spokesperson.',
+      },
+      {
+        hr: 'Voda je tekla polako, gotovo pristojno, zaobilazeći stupove kao da se ispričava',
+        en: 'The water flowed slowly, almost politely, skirting the lampposts as if apologising',
+        why: 'The literary voice: a present gerund ("zaobilazeći") hangs a second action on the first, and "kao da" lets the water have manners without anyone claiming it does.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Promet je obustavljen do',
+        answer: 'daljnjega',
+        accept: ['daljnjeg'],
+        after: '.',
+        hint: 'The frozen genitive in the administrative formula "until further notice".',
+      },
+      {
+        before: 'Radovi se izvode u',
+        answer: 'nadležnosti',
+        after: 'gradskoga komunalnog poduzeća.',
+        hint: 'The locative of "nadležnost" after "u" — the administrative way of saying who is responsible.',
+      },
+      {
+        before: 'Voda je tekla polako,',
+        answer: 'zaobilazeći',
+        after: 'stupove kao da se ispričava.',
+        hint: 'The present gerund of "zaobilaziti" — the literary way to attach a second action to the first.',
+      },
+    ],
+    connectives: [
+      'obavještavaju se',
+      'do daljnjega',
+      'u roku od',
+      'poručuju da',
+      'kao da',
+      'umjesto',
+    ],
+    checklist: [
+      { id: 'len', label: 'At least 120 words', minWords: 120 },
+      {
+        id: 'admin',
+        label: 'An administrative marker ("obavještavaju se", "do daljnjega", "u roku od")',
+        words: ['obavještava', 'do daljnjega', 'u roku od', 'nadležnost'],
+      },
+      {
+        id: 'press',
+        label: 'A journalistic attribution ("kažu da", "poručuju", "prema")',
+        words: ['kažu da', 'poručuju', 'prema ', 'izvor'],
+      },
+      {
+        id: 'lit',
+        label: 'A literary device — a gerund ("-ći"), "kao da" or "umjesto"',
+        words: ['kao da', 'ći ', 'umjesto'],
+      },
+    ],
+  },
+  {
+    id: 'c2-counterfactual',
+    level: 'C2',
+    title: 'A counterfactual essay',
+    prompt:
+      'Napišite esej koji polazi od pitanja „Što bi bilo da …?“ o jednoj povijesnoj ili jezičnoj odluci. Ne nabrajajte posljedice — argumentirajte ih, dopustite protuargument i završite zaključkom koji nešto tvrdi.',
+    promptEn:
+      'Write an essay that starts from the question “What if …?” about one historical or linguistic decision. Do not list the consequences — argue them, allow a counter-argument, and end with a conclusion that asserts something.',
+    minWords: 120,
+    model:
+      'Što bi bilo da je Ljudevit Gaj u tridesetim godinama devetnaestoga stoljeća za osnovicu književnoga jezika izabrao kajkavski, govor vlastitoga grada, a ne štokavski, govor većine? ' +
+      'Pitanje nije samo igra: ono pokazuje koliko je toga u jeziku odluka, a koliko sudbina. ' +
+      'Zagreb bi danas pisao onako kako govori, i „kaj“ ne bi bilo obilježje zavičaja, nego norme. ' +
+      'Dalmacija i Slavonija učile bi školski jezik kao nešto tuđe, kao što danas Zagorje uči svoj. ' +
+      'Vjerojatno bismo imali manje zajedničkoga sa susjedima, ali i manje nesporazuma oko toga čiji je jezik čiji. ' +
+      'Bismo li bili bogatiji? Teško je reći. ' +
+      'Jezik koji nitko ne mora učiti brzo se prestaje razvijati, a jezik koji svi moraju učiti nikome nije posve svoj. ' +
+      'Gaj je izabrao većinu, i to je bio politički, a ne jezični izbor. ' +
+      'Da je izabrao drukčije, ne bismo bili drugi narod; bili bismo isti narod s drugim pravopisom svojih svađa.',
+    modelEn:
+      'What if Ljudevit Gaj, in the 1830s, had chosen as the basis of the literary language Kajkavian, the speech of his own city, rather than Štokavian, the speech of the majority? ' +
+      'The question is not merely a game: it shows how much in a language is decision and how much is fate. ' +
+      'Zagreb would today write the way it speaks, and “kaj” would be a mark not of home but of the norm. ' +
+      'Dalmatia and Slavonia would learn the school language as something foreign, as Zagorje today learns its own. ' +
+      'We would probably have less in common with our neighbours, but also fewer misunderstandings about whose language is whose. ' +
+      'Would we be richer? Hard to say. ' +
+      'A language nobody has to learn soon stops developing, and a language everybody has to learn is never entirely anyone’s own. ' +
+      'Gaj chose the majority, and that was a political, not a linguistic, choice. ' +
+      'Had he chosen otherwise, we would not be a different nation; we would be the same nation with a different spelling for its quarrels.',
+    structures: [
+      {
+        hr: 'Što bi bilo da je Ljudevit Gaj ... izabrao kajkavski',
+        en: 'What if Ljudevit Gaj had chosen Kajkavian',
+        why: 'The counterfactual question shape: impersonal "što bi bilo" + "da" + the perfect — the whole essay hangs on a condition that never happened.',
+      },
+      {
+        hr: 'Dalmacija i Slavonija učile bi školski jezik kao nešto tuđe',
+        en: 'Dalmatia and Slavonia would learn the school language as something foreign',
+        why: 'Two feminine subjects joined by "i" take a feminine PLURAL participle (učile), and the conditional "bi" sits in second position after the whole subject.',
+      },
+      {
+        hr: 'Da je izabrao drukčije, ne bismo bili drugi narod',
+        en: 'Had he chosen otherwise, we would not be a different nation',
+        why: 'The negated conditional: "ne" attaches to the auxiliary ("ne bismo"), and the concession it introduces is what keeps the essay from being a fantasy.',
+      },
+    ],
+    frames: [
+      {
+        before: 'Što bi',
+        answer: 'bilo',
+        after: 'da je Gaj izabrao kajkavski?',
+        hint: 'The neuter participle of "biti" in the impersonal "what would have been".',
+      },
+      {
+        before: 'Dalmacija i Slavonija',
+        answer: 'učile bi',
+        accept: ['bi učile'],
+        after: 'školski jezik kao nešto tuđe.',
+        hint: 'Two feminine subjects take a feminine plural participle, and the conditional "bi" follows in second position.',
+      },
+      {
+        before: 'Da je izabrao drukčije, ne',
+        answer: 'bismo',
+        after: 'bili drugi narod.',
+        hint: 'The first-person-plural conditional auxiliary, right after the negation.',
+      },
+    ],
+    connectives: [
+      'što bi bilo da',
+      'vjerojatno bismo',
+      'teško je reći',
+      'a ne',
+      'bili bismo',
+      'oko toga',
+    ],
+    checklist: [
+      { id: 'len', label: 'At least 120 words', minWords: 120 },
+      {
+        id: 'cond',
+        label: 'A counterfactual condition ("da je …", "da nije …")',
+        words: ['da je', 'da nije', 'da se'],
+      },
+      {
+        id: 'result',
+        label: 'A conditional result ("bismo", "bi")',
+        words: ['bismo', 'bi '],
+      },
+      {
+        id: 'question',
+        label: 'Pose at least one open question ("bismo li …?")',
+        words: ['bismo li', 'bi li', 'je li', '?'],
       },
     ],
   },
