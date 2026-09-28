@@ -100,7 +100,10 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
   around that lesson (P1–P4 in "The Daily Session Recommender" are still
   weakness/rotation driven, not concept-staged).
 - **UPDATE, same day: the design is written — `docs/daily-session-redesign.md`
-  (DRAFT, awaiting owner sign-off; no code).** Central finding, read from code: only
+  (SIGNED OFF later the same day — all five §8 decisions answered by the owner:
+  course-unit level for everyone; adaptive pick kept, taught categories only;
+  conversation gated on the course reaching B1; production on lesson days only;
+  corrective day approved. No code yet; increment 0 is next).** Central finding, read from code: only
   the lesson slot (P0) follows course position; every other slot is chosen by
   `getContentUnlockLevel(getUserCefr(xp, lc, gc))`, so learners ahead by XP (everyone
   with pre-2026-09-26 progress, all now at Unit 1) get activities on material the

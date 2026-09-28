@@ -1,6 +1,7 @@
 # Daily Session redesign — one concept a day, taught, practised, used, held
 
-Status: **DRAFT for owner sign-off. No code has been written.** Written 2026-09-28.
+Status: **SIGNED OFF by the owner, 2026-09-28 (all five decisions in §8). No code has
+been written yet; increment 0 in §9 is next.** Written 2026-09-28.
 Every "today" statement below was read from the code on `claude/handoff-2026-09-28`
 (based on `0fbc2083`), with the file named. Statements that are inference rather
 than measurement say so.
@@ -179,6 +180,10 @@ Owner answers recorded 2026-09-28 (Claude Code in Terminal, one at a time):
    lesson; test, production, check-up and level-review days do not add a second
    production task. The unit's own production requirement is unchanged.
 5. **Corrective day.** Approve the shape in §5 ("Hold"), or retry the lesson as today?
+   **DECIDED: yes — the corrective day as shaped in §5.**
+
+**All five decided, 2026-09-28. The design is signed off; increment 0 (§9) is the
+first build step.**
 
 ## 9. Increments — each shippable alone, each measured before and after
 
