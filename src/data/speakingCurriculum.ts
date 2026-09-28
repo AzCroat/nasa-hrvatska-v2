@@ -64,7 +64,8 @@
 // is exactly the shape that made `connectives` invisible in the writing
 // curriculum for eighteen days. Mutation-verified, both directions.
 //
-// Every level A1–C2 has ≥8 units (speakingCurriculum.test.ts pins it), with a
+// Every level A1–C2 has ≥12 units (speakingCurriculum.test.ts pins it; 8 → 12 on
+// 2026-09-28, the owner's content-expansion item 4), with a
 // genre spread rather than eight variations on one register: A1 survival and
 // self, A2 narrative and transaction, B1 opinion and account, B2 argument and
 // negotiation, C1 structured reasoning, C2 nuance and register play.
@@ -852,6 +853,414 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
   },
 
+  // ── transaction ───────────────────────────────────────────────────────────
+  {
+    id: 'a1-ticket',
+    level: 'A1',
+    title: 'Buy a bus ticket',
+    prompt:
+      'Kupi kartu na autobusnom kolodvoru: reci kamo putuješ, pitaj koliko košta i kada ide autobus.',
+    promptEn:
+      'Buy a ticket at the bus station: say where you are travelling, ask how much it costs and when the bus leaves.',
+    minWords: 15,
+    model:
+      'Dobar dan! Molim Vas jednu kartu do Splita. Koliko košta? ' +
+      'Deset eura, dobro. A kada ide autobus? U deset sati? Super. ' +
+      'Evo, izvolite. Hvala Vam. A gdje je peron pet?',
+    modelEn:
+      'Good day! One ticket to Split, please. How much is it? ' +
+      'Ten euros, fine. And when does the bus leave? At ten o’clock? Great. ' +
+      'Here you are. Thank you. And where is platform five?',
+    structures: [
+      {
+        hr: 'Molim Vas jednu kartu do Splita.',
+        en: 'One ticket to Split, please.',
+        why: '"Molim Vas" is the polite "please" to a stranger; what you want is the object (accusative: jednu kartu) and "do" + genitive says where to: Split → do Splita.',
+      },
+      {
+        hr: 'Koliko košta?',
+        en: 'How much is it?',
+        why: 'Two words, and it works for anything you are buying. Add "karta" if you need to be clear: "Koliko košta karta?"',
+      },
+      {
+        hr: 'A kada ide autobus?',
+        en: 'And when does the bus leave?',
+        why: '"A" at the start is how a native adds the next question. "ide" (goes) is the everyday verb for buses and trains leaving.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Molim Vas jednu kartu do Splita.',
+        en: 'One ticket to Split, please.',
+        why: 'The whole request in one breath — polite "Vas", accusative "jednu kartu", genitive "Splita".',
+      },
+      {
+        hr: 'Koliko košta karta?',
+        en: 'How much is the ticket?',
+        why: 'Ask the price before you pay — "koliko košta" plus the thing in the dictionary form.',
+      },
+      {
+        hr: 'Kada ide autobus za Zagreb?',
+        en: 'When does the bus for Zagreb leave?',
+        why: '"za" + accusative names the destination on a sign or a timetable — Zagreb does not change here.',
+      },
+    ],
+    usefulPhrases: [
+      'Dobar dan!',
+      'Jednu kartu do…, molim.',
+      'Koliko košta?',
+      'Kada ide autobus?',
+      'Gdje je peron…?',
+      'Hvala Vam.',
+    ],
+    build: [
+      {
+        cue: 'Say: I would like one ticket, please.',
+        answer: 'Želim jednu kartu, molim.',
+        accept: ['Molim Vas jednu kartu.', 'Jednu kartu, molim.'],
+        focus: {
+          lemma: 'karta',
+          requiredCase: 'A',
+          why: 'The ticket is what you want — the object, so karta becomes kartu.',
+        },
+      },
+      {
+        cue: 'Say: I am travelling from Zagreb to Split.',
+        answer: 'Putujem iz Zagreba u Split.',
+        accept: ['Idem iz Zagreba u Split.'],
+        focus: {
+          lemma: 'Zagreb',
+          requiredCase: 'G',
+          why: '"iz" (from) always takes the genitive: Zagreb → iz Zagreba.',
+        },
+      },
+      {
+        cue: 'Say: I am waiting at the station.',
+        answer: 'Čekam na kolodvoru.',
+        focus: {
+          lemma: 'kolodvor',
+          requiredCase: 'L',
+          why: '"na" for WHERE you are takes the locative: kolodvor → na kolodvoru.',
+        },
+      },
+    ],
+    checklist: [
+      { id: 'ticket', label: 'Ask for a ticket with "kartu"', words: ['kartu'] },
+      { id: 'price', label: 'Ask the price with "koliko košta"', words: ['koliko košta'] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── survival ──────────────────────────────────────────────────────────────
+  {
+    id: 'a1-repeat',
+    level: 'A1',
+    title: 'Say you don’t understand',
+    prompt:
+      'Netko ti brzo nešto govori. Reci da ne razumiješ, zamoli da ponovi i govori sporije, i pitaj što znači jedna riječ.',
+    promptEn:
+      'Someone is talking to you fast. Say you do not understand, ask them to repeat and speak more slowly, and ask what one word means.',
+    minWords: 15,
+    model:
+      'Oprostite, ne razumijem. Možete li ponoviti, molim Vas? ' +
+      'Govorite malo sporije. Učim hrvatski, znate. ' +
+      'Što znači „peron”? Aha, sad razumijem. Hvala Vam puno. ' +
+      'A govorite li engleski?',
+    modelEn:
+      'Sorry, I do not understand. Could you repeat that, please? ' +
+      'Speak a little more slowly. I am learning Croatian, you know. ' +
+      'What does “peron” mean? Ah, now I understand. Thank you very much. ' +
+      'And do you speak English?',
+    structures: [
+      {
+        hr: 'Možete li ponoviti, molim Vas?',
+        en: 'Could you repeat that, please?',
+        why: 'A polite question is verb + "li": "možete li" (can you). The "li" comes right after the verb, and "molim Vas" softens it.',
+      },
+      {
+        hr: 'Govorite malo sporije.',
+        en: 'Speak a little more slowly.',
+        why: '"Govorite" is the polite (Vi) imperative — the same form as "you speak". "sporije" is the comparative of "sporo".',
+      },
+      {
+        hr: 'Što znači „peron”?',
+        en: 'What does “peron” mean?',
+        why: 'The one question that unlocks every other: "što znači" + the word you did not catch. Natives will happily explain.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Oprostite, ne razumijem.',
+        en: 'Sorry, I do not understand.',
+        why: 'Say it early and without embarrassment — "ne" goes straight before the verb.',
+      },
+      {
+        hr: 'Možete li ponoviti, molim Vas?',
+        en: 'Could you repeat that, please?',
+        why: 'Verb first, then "li" — the polite question shape you will use every day.',
+      },
+      {
+        hr: 'Govorite malo sporije, molim.',
+        en: 'Speak a little more slowly, please.',
+        why: 'The polite imperative "govorite" plus a comparative — asking for less speed, not less talk.',
+      },
+    ],
+    usefulPhrases: [
+      'Oprostite, ne razumijem.',
+      'Možete li ponoviti?',
+      'Malo sporije, molim.',
+      'Što znači…?',
+      'Aha, sad razumijem.',
+      'Govorite li engleski?',
+    ],
+    build: [
+      {
+        cue: 'Say: I am learning Croatian at home.',
+        answer: 'Učim hrvatski kod kuće.',
+        accept: ['Ja učim hrvatski kod kuće.'],
+        focus: {
+          lemma: 'kuća',
+          requiredCase: 'G',
+          why: '"kod" (at somebody’s place) takes the genitive: kuća → kod kuće.',
+        },
+      },
+      {
+        cue: 'Say: I do not understand the sentence.',
+        answer: 'Ne razumijem rečenicu.',
+        accept: ['Ne razumijem tu rečenicu.'],
+        focus: {
+          lemma: 'rečenica',
+          requiredCase: 'A',
+          why: 'What you do not understand is the object — accusative: rečenica → rečenicu.',
+        },
+      },
+      {
+        cue: 'Say: I am from Australia.',
+        answer: 'Ja sam iz Australije.',
+        accept: ['Dolazim iz Australije.'],
+        focus: {
+          lemma: 'Australija',
+          requiredCase: 'G',
+          why: '"iz" (from) always takes the genitive: Australija → iz Australije.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'notunderstand',
+        label: 'Say you do not understand with "ne razumijem"',
+        words: ['ne razumijem'],
+      },
+      { id: 'repeat', label: 'Ask them to repeat or slow down', words: ['ponovi', 'sporije'] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── small talk / opinion ──────────────────────────────────────────────────
+  {
+    id: 'a1-weather',
+    level: 'A1',
+    title: 'Talk about the weather',
+    prompt:
+      'Počni razgovor o vremenu: kakvo je danas, kakvo je kod tebe doma i koje godišnje doba voliš.',
+    promptEn:
+      'Start a conversation about the weather: what it is like today, what it is like back home, and which season you like.',
+    minWords: 15,
+    model:
+      'Baš je lijepo danas, zar ne? Sunčano je i toplo. ' +
+      'U Kanadi je sada hladno i pada snijeg. ' +
+      'Ja volim ljeto jer volim more i sunce. Zimu baš ne volim. ' +
+      'A ti, koje godišnje doba voliš?',
+    modelEn:
+      'It is really nice today, isn’t it? It is sunny and warm. ' +
+      'In Canada it is cold now and it is snowing. ' +
+      'I like summer because I like the sea and the sun. I really do not like winter. ' +
+      'And you, which season do you like?',
+    structures: [
+      {
+        hr: 'Baš je lijepo danas, zar ne?',
+        en: 'It is really nice today, isn’t it?',
+        why: '"zar ne?" tacked on the end turns any statement into a friendly question — the Croatian "isn’t it?". "baš" means "really".',
+      },
+      {
+        hr: 'U Kanadi je sada hladno',
+        en: 'In Canada it is cold now',
+        why: '"u" + locative for WHERE: Kanada → u Kanadi. Weather has no "it" in Croatian — just "hladno je".',
+      },
+      {
+        hr: 'Ja volim ljeto jer volim more i sunce.',
+        en: 'I like summer because I like the sea and the sun.',
+        why: '"jer" joins your opinion to its reason. "ljeto", "more" and "sunce" are neuter, so they look the same as objects.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Sunčano je i toplo.',
+        en: 'It is sunny and warm.',
+        why: 'Weather is said with the neuter adjective and "je" — no subject word at all.',
+      },
+      {
+        hr: 'U Kanadi je sada hladno.',
+        en: 'In Canada it is cold now.',
+        why: '"u" + locative for the place: Kanada → u Kanadi, Australija → u Australiji.',
+      },
+      {
+        hr: 'A ti, koje godišnje doba voliš?',
+        en: 'And you, which season do you like?',
+        why: 'Hand the topic back with "a ti" — small talk is a rally, not a report.',
+      },
+    ],
+    usefulPhrases: [
+      'Baš je lijepo danas.',
+      'Sunčano je i toplo.',
+      'Hladno je i pada kiša.',
+      'Volim ljeto jer…',
+      'Zar ne?',
+      'A ti?',
+    ],
+    build: [
+      {
+        cue: 'Say: I do not like winter.',
+        answer: 'Ne volim zimu.',
+        accept: ['Ja ne volim zimu.', 'Zimu ne volim.'],
+        focus: {
+          lemma: 'zima',
+          requiredCase: 'A',
+          why: 'What you (do not) like is the object — accusative: zima → zimu.',
+        },
+      },
+      {
+        cue: 'Say: In summer I am by the sea.',
+        answer: 'Ljeti sam na moru.',
+        accept: ['U ljeto sam na moru.'],
+        focus: {
+          lemma: 'more',
+          requiredCase: 'L',
+          why: '"na" for WHERE you are takes the locative: more → na moru.',
+        },
+      },
+      {
+        cue: 'Say: It is cold in Canada now.',
+        answer: 'U Kanadi je sada hladno.',
+        accept: ['Sada je u Kanadi hladno.', 'U Kanadi je hladno.'],
+        focus: {
+          lemma: 'Kanada',
+          requiredCase: 'L',
+          why: '"u" for WHERE takes the locative: Kanada → u Kanadi.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'weather',
+        label: 'Say what the weather is like (sunčano, toplo, hladno, kiša, snijeg)',
+        words: ['sunčano', 'toplo', 'hladno', 'kiša', 'snijeg'],
+      },
+      { id: 'back', label: 'Hand the question back with "a ti"', words: ['a ti'] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── register: family, "ti" ────────────────────────────────────────────────
+  {
+    id: 'a1-call-baka',
+    level: 'A1',
+    title: 'Phone your grandmother',
+    prompt: 'Nazovi baku u Hrvatskoj: pozdravi je, pitaj kako je, reci što radiš i kada dolaziš.',
+    promptEn:
+      'Phone your grandmother in Croatia: greet her, ask how she is, say what you are doing and when you are coming.',
+    minWords: 15,
+    model:
+      'Bog, bako! Kako si? Ja sam dobro. ' +
+      'Danas učim hrvatski i pišem ti pismo. ' +
+      'Ovdje je hladno, a kod vas? Pozdravi djeda. ' +
+      'Znaš, ljetos dolazim u Hrvatsku. Volim te puno. Čujemo se!',
+    modelEn:
+      'Hi, Grandma! How are you? I am fine. ' +
+      'Today I am learning Croatian and writing you a letter. ' +
+      'It is cold here, and at your place? Say hello to Grandpa. ' +
+      'You know, this summer I am coming to Croatia. I love you lots. Talk soon!',
+    structures: [
+      {
+        hr: 'Bog, bako! Kako si?',
+        en: 'Hi, Grandma! How are you?',
+        why: 'Family gets "ti", so it is "kako si", not "kako ste". "bako" is the vocative — the form for calling someone.',
+      },
+      {
+        hr: 'Ovdje je hladno, a kod vas?',
+        en: 'It is cold here, and at your place?',
+        why: '"a kod vas?" bounces the question back — "kod" + genitive means at somebody’s place. "vas" because grandma and grandpa are two people.',
+      },
+      {
+        hr: 'ljetos dolazim u Hrvatsku',
+        en: 'this summer I am coming to Croatia',
+        why: '"u" + accusative for going TO a place: Hrvatska → u Hrvatsku. In Croatia would be "u Hrvatskoj". The present tense is fine for a fixed plan.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Bog, bako! Kako si?',
+        en: 'Hi, Grandma! How are you?',
+        why: 'The vocative "bako" and the "ti" question — the family register in five syllables.',
+      },
+      {
+        hr: 'Ovdje je hladno, a kod vas?',
+        en: 'It is cold here, and at your place?',
+        why: '"a kod vas?" is the natural way to pass the turn — "kod" always with the genitive.',
+      },
+      {
+        hr: 'Ljetos dolazim u Hrvatsku.',
+        en: 'This summer I am coming to Croatia.',
+        why: 'Movement TO a place: "u" + accusative, Hrvatska → Hrvatsku.',
+      },
+    ],
+    usefulPhrases: [
+      'Bog, bako!',
+      'Kako si?',
+      'Ja sam dobro.',
+      'A kod vas?',
+      'Pozdravi djeda.',
+      'Čujemo se!',
+    ],
+    build: [
+      {
+        cue: 'Say: I am talking with Grandma.',
+        answer: 'Razgovaram s bakom.',
+        accept: ['Pričam s bakom.'],
+        focus: {
+          lemma: 'baka',
+          requiredCase: 'I',
+          why: '"s" (with) takes the instrumental: baka → s bakom.',
+        },
+      },
+      {
+        cue: 'Say: This summer I am coming to Croatia.',
+        answer: 'Ljetos dolazim u Hrvatsku.',
+        accept: ['Dolazim u Hrvatsku ljetos.', 'Ovo ljeto dolazim u Hrvatsku.'],
+        focus: {
+          lemma: 'Hrvatska',
+          requiredCase: 'A',
+          why: '"u" for going TO a place takes the accusative: Hrvatska → u Hrvatsku.',
+        },
+      },
+      {
+        cue: 'Say: Say hello to Grandpa.',
+        answer: 'Pozdravi djeda.',
+        accept: ['Pozdravi mi djeda.'],
+        focus: {
+          lemma: 'djed',
+          requiredCase: 'A',
+          why: 'Grandpa is the object, and for a living masculine noun the accusative looks like the genitive: djed → djeda.',
+        },
+      },
+    ],
+    checklist: [
+      { id: 'greet', label: 'Greet her with "bog" and ask "kako si"', words: ['kako si'] },
+      {
+        id: 'back',
+        label: 'Ask about them with "a kod vas" or "a ti"',
+        words: ['kod vas', 'a ti'],
+      },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
   // ── A2 — narrative and transaction ──────────────────────────────────────────
   {
     id: 'a2-weekend',
@@ -1588,6 +1997,442 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
   },
 
+  // ── transaction / survival: buying a train ticket ─────────────────────────
+  {
+    id: 'a2-train-ticket',
+    level: 'A2',
+    title: 'Buy a train ticket',
+    prompt:
+      'Na kolodvoru si. Kupi kartu za Split: reci kamo putuješ i kada, pitaj koliko košta i s kojeg perona polazi vlak.',
+    promptEn:
+      'You are at the station. Buy a ticket to Split: say where you are travelling and when, ask how much it costs and which platform the train leaves from.',
+    minWords: 15,
+    model:
+      'Dobar dan. Htio bih jednu kartu za Split, molim Vas, za sutra ujutro. ' +
+      'Povratnu, da, vraćam se za pet dana. ' +
+      'Koliko košta? Aha, može, platit ću karticom. ' +
+      'A s kojeg perona polazi vlak? Hvala lijepa, doviđenja!',
+    modelEn:
+      'Good day. I would like one ticket to Split, please, for tomorrow morning. ' +
+      'A return, yes, I am coming back in five days. ' +
+      'How much is it? Right, fine, I will pay by card. ' +
+      'And which platform does the train leave from? Thanks a lot, goodbye!',
+    structures: [
+      {
+        hr: 'Htio bih jednu kartu za Split',
+        en: 'I would like one ticket to Split',
+        why: 'The polite conditional "htio bih" (a woman says "htjela bih") plus the accusative "kartu" — what you want is the object.',
+      },
+      {
+        hr: 'vraćam se za pet dana',
+        en: 'I am coming back in five days',
+        why: '"za" + a length of time means "in (that much time) from now"; after five the noun is in the genitive plural, "dana".',
+      },
+      {
+        hr: 'platit ću karticom',
+        en: 'I will pay by card',
+        why: 'Futur I is two words — the infinitive drops its final -i, then "ću"; the instrumental "karticom" says what you pay WITH.',
+      },
+      {
+        hr: 's kojeg perona polazi vlak',
+        en: 'which platform does the train leave from',
+        why: '"s" + genitive for movement away FROM a place — "kojeg perona" is the genitive of "koji peron".',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Htio bih jednu kartu za Split.',
+        en: 'I would like one ticket to Split.',
+        why: 'The polite request with an accusative object — the sentence every ticket window starts with.',
+      },
+      {
+        hr: 'Vraćam se za pet dana.',
+        en: 'I am coming back in five days.',
+        why: 'Five and up push the counted noun into the genitive plural.',
+      },
+      {
+        hr: 'S kojeg perona polazi vlak?',
+        en: 'Which platform does the train leave from?',
+        why: 'A "from where" question with "s" + genitive, verb before subject.',
+      },
+    ],
+    usefulPhrases: [
+      'Htio bih…',
+      'povratna karta',
+      'u jednom smjeru',
+      'za pet dana',
+      'platit ću karticom',
+      'peron',
+    ],
+    build: [
+      {
+        cue: 'Say: I would like one ticket to Split.',
+        answer: 'Htio bih jednu kartu za Split.',
+        accept: ['Htjela bih jednu kartu za Split.'],
+        focus: {
+          lemma: 'karta',
+          requiredCase: 'A',
+          why: 'What you want after "htio bih" is the object, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am coming back in five days.',
+        answer: 'Vraćam se za pet dana.',
+        focus: {
+          lemma: 'dan',
+          requiredCase: 'G',
+          number: 'pl',
+          why: 'After five or more, the thing counted stands in the genitive plural.',
+        },
+      },
+      {
+        cue: 'Say: I will pay by card.',
+        answer: 'Platit ću karticom.',
+        focus: {
+          lemma: 'kartica',
+          requiredCase: 'I',
+          why: 'The thing you pay WITH takes the instrumental, with no preposition.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'dest',
+        label: 'Say where you are going',
+        words: ['kartu za', 'karta za', 'putujem u', 'idem u'],
+      },
+      {
+        id: 'price',
+        label: 'Ask how much it costs',
+        words: ['koliko košta', 'koliko stoji', 'cijena'],
+      },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── register / negotiation: asking an older neighbour for a favour (Vi) ───
+  {
+    id: 'a2-favour',
+    level: 'A2',
+    title: 'Ask a neighbour for a favour',
+    prompt:
+      'Ideš na put na pet dana. Zamoli stariju susjedu, na Vi, da ti nahrani mačku i zalije cvijeće, i reci gdje je ključ.',
+    promptEn:
+      'You are going away for five days. Ask your older neighbour, politely in the Vi form, to feed your cat and water the flowers, and say where the key is.',
+    minWords: 15,
+    model:
+      'Dobar dan, gospođo Kovač, imate li minutu? Idem u Zagreb na pet dana, znate, bit ću kod sestre. ' +
+      'Biste li mogli nahraniti moju mačku i zaliti cvijeće? ' +
+      'Samo jednom dnevno, nije puno posla. Ključ je kod susjede Marije, na drugom katu. ' +
+      'Puno Vam hvala na pomoći, donijet ću Vam nešto iz Zagreba!',
+    modelEn:
+      'Good day, Mrs Kovač, do you have a minute? I am going to Zagreb for five days, you know, I will be staying at my sister’s. ' +
+      'Could you feed my cat and water the flowers? ' +
+      'Just once a day, it is not much work. The key is with our neighbour Marija, on the second floor. ' +
+      'Thank you very much for your help, I will bring you something from Zagreb!',
+    structures: [
+      {
+        hr: 'Biste li mogli nahraniti moju mačku',
+        en: 'Could you feed my cat',
+        why: 'The polite conditional question: "biste li" opens it ("li" leads the cluster), and "mogli" is plural because Vi is grammatically plural.',
+      },
+      {
+        hr: 'bit ću kod sestre',
+        en: 'I will be staying at my sister’s',
+        why: '"kod" + genitive says WHERE you are, at someone’s place — never where you are going.',
+      },
+      {
+        hr: 'Ključ je kod susjede Marije',
+        en: 'The key is with the neighbour Marija',
+        why: 'Again "kod" + genitive for a location with a person; both the noun and the name change their ending.',
+      },
+      {
+        hr: 'Puno Vam hvala na pomoći',
+        en: 'Thank you very much for your help',
+        why: '"hvala na" takes the locative — "pomoć" is a feminine noun ending in a consonant, so its locative is "pomoći".',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Biste li mogli nahraniti moju mačku?',
+        en: 'Could you feed my cat?',
+        why: 'The softest way to ask an older person for a favour — conditional plus Vi.',
+      },
+      {
+        hr: 'Ključ je kod susjede.',
+        en: 'The key is with the neighbour.',
+        why: 'Location with a person: "kod" plus the genitive, no movement.',
+      },
+      {
+        hr: 'Idem u Zagreb na pet dana.',
+        en: 'I am going to Zagreb for five days.',
+        why: '"u" + accusative for the destination, and the genitive plural after five.',
+      },
+    ],
+    usefulPhrases: [
+      'Imate li minutu?',
+      'Biste li mogli…?',
+      'kod susjede',
+      'na pet dana',
+      'jednom dnevno',
+      'hvala na pomoći',
+    ],
+    build: [
+      {
+        cue: 'Ask politely: Could you feed my cat?',
+        answer: 'Biste li mogli nahraniti moju mačku?',
+        accept: ['Možete li nahraniti moju mačku?'],
+        focus: {
+          lemma: 'mačka',
+          requiredCase: 'A',
+          why: 'The cat is what gets fed — the object, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: The key is with the neighbour (a woman).',
+        answer: 'Ključ je kod susjede.',
+        focus: {
+          lemma: 'susjeda',
+          requiredCase: 'G',
+          why: '"kod" (at someone’s) takes the genitive, and it means location only.',
+        },
+      },
+      {
+        cue: 'Say: Thank you for your help.',
+        answer: 'Hvala Vam na pomoći.',
+        accept: ['Hvala na pomoći.', 'Puno Vam hvala na pomoći.'],
+        focus: {
+          lemma: 'pomoć',
+          gender: 'f',
+          requiredCase: 'L',
+          why: '"hvala na" takes the locative; a feminine noun ending in a consonant takes -i there.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'polite',
+        label: 'Ask with "biste li" or "možete li"',
+        words: ['biste li', 'možete li'],
+      },
+      { id: 'where', label: 'Say where the key is with "kod"', words: ['kod '] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── narrative / heritage: how your grandparents lived ─────────────────────
+  {
+    id: 'a2-village',
+    level: 'A2',
+    title: 'Your grandparents’ village',
+    prompt:
+      'Ispričaj kako su živjeli tvoji baka i djed u Hrvatskoj: gdje su živjeli, što su radili i kako si ti provodio ili provodila ljeta kod njih.',
+    promptEn:
+      'Tell how your grandparents lived in Croatia: where they lived, what they did, and how you spent your summers at their place.',
+    minWords: 15,
+    model:
+      'Moji baka i djed živjeli su u malom selu blizu Imotskog. ' +
+      'Djed je radio u vinogradu, a baka je imala kokoši i veliki vrt. ' +
+      'Svako ljeto išli smo baki na dva mjeseca. ' +
+      'Ujutro smo brali smokve, a poslije podne smo se kupali u rijeci. ' +
+      'Znaš, tamo sam naučio hrvatski. A ti, jesi li ikad bio na selu?',
+    modelEn:
+      'My grandma and grandpa lived in a small village near Imotski. ' +
+      'Grandpa worked in the vineyard, and grandma had chickens and a big garden. ' +
+      'Every summer we went to grandma’s for two months. ' +
+      'In the morning we picked figs, and in the afternoon we swam in the river. ' +
+      'You know, that is where I learned Croatian. And you, have you ever been to the countryside?',
+    structures: [
+      {
+        hr: 'živjeli su u malom selu',
+        en: 'they lived in a small village',
+        why: 'Past tense for "they": participle in -li plus "su"; "u" + locative says where, and the adjective agrees — "malom selu".',
+      },
+      {
+        hr: 'išli smo baki',
+        en: 'we went to grandma’s',
+        why: 'Going TO a person is the dative, "baki", with no preposition (or "k baki") — never "kod", which only says where you are.',
+      },
+      {
+        hr: 'na dva mjeseca',
+        en: 'for two months',
+        why: 'After two, three and four the noun takes a special form that looks like the genitive singular — "mjeseca".',
+      },
+      {
+        hr: 'jesi li ikad bio na selu',
+        en: 'have you ever been to the countryside',
+        why: 'A past-tense yes/no question: the long form "jesi" comes first so that "li" has something to lean on.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Djed je radio u vinogradu.',
+        en: 'Grandpa worked in the vineyard.',
+        why: 'Masculine past participle in -o, then "u" + locative for where.',
+      },
+      {
+        hr: 'Svako ljeto išli smo baki.',
+        en: 'Every summer we went to grandma’s.',
+        why: 'Motion towards a person is the bare dative — the commonest "kod" mistake avoided.',
+      },
+      {
+        hr: 'Kupali smo se u rijeci.',
+        en: 'We swam in the river.',
+        why: 'Reflexive past: "smo se" in second position, then the locative.',
+      },
+    ],
+    usefulPhrases: [
+      'živjeli su',
+      'blizu…',
+      'svako ljeto',
+      'išli smo baki',
+      'kupali smo se',
+      'A ti?',
+    ],
+    build: [
+      {
+        cue: 'Say: Grandpa worked in the vineyard.',
+        answer: 'Djed je radio u vinogradu.',
+        focus: {
+          lemma: 'vinograd',
+          requiredCase: 'L',
+          why: 'Where something happened, after "u", is the locative.',
+        },
+      },
+      {
+        cue: 'Say: Every summer we went to grandma’s.',
+        answer: 'Svako ljeto išli smo baki.',
+        accept: ['Svako ljeto smo išli baki.', 'Svako ljeto išli smo k baki.'],
+        focus: {
+          lemma: 'baka',
+          requiredCase: 'D',
+          why: 'Going to a person takes the dative — "kod" is only for where you already are.',
+        },
+      },
+      {
+        cue: 'Say: They lived in a small village.',
+        answer: 'Živjeli su u malom selu.',
+        focus: {
+          lemma: 'selo',
+          requiredCase: 'L',
+          why: '"u" for a location takes the locative, and "selo" is neuter.',
+        },
+      },
+    ],
+    checklist: [
+      { id: 'past', label: 'Tell it in the past tense', words: [' su ', ' je ', ' smo '] },
+      { id: 'where', label: 'Say where they lived with "u" or "na"', words: ['u ', 'na '] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
+  // ── opinion: your favourite Croatian dish and why ─────────────────────────
+  {
+    id: 'a2-food-opinion',
+    level: 'A2',
+    title: 'Your favourite Croatian dish',
+    prompt:
+      'Reci koje hrvatsko jelo najviše voliš i zašto, tko ga u tvojoj obitelji najbolje priprema i kada ga jedete.',
+    promptEn:
+      'Say which Croatian dish you like most and why, who in your family makes it best, and when you eat it.',
+    minWords: 15,
+    model:
+      'Pa, najviše volim sarmu, zapravo ju obožavam. ' +
+      'Baka ju radi s kiselim kupusom i puno mesa, i uvijek je bolja drugi dan. ' +
+      'Jedemo ju zimi, obično za Božić, kad se skupi cijela obitelj. ' +
+      'Više ju volim od pizze, iskreno, jer me podsjeća na djetinjstvo. ' +
+      'A koje je tvoje omiljeno jelo?',
+    modelEn:
+      'Well, I like sarma most, actually I adore it. ' +
+      'Grandma makes it with sauerkraut and lots of meat, and it is always better the next day. ' +
+      'We eat it in winter, usually at Christmas, when the whole family gets together. ' +
+      'I like it more than pizza, honestly, because it reminds me of my childhood. ' +
+      'And what is your favourite dish?',
+    structures: [
+      {
+        hr: 'najviše volim sarmu',
+        en: 'I like sarma most',
+        why: 'What you like is the object of "voljeti", so it takes the accusative — "sarma" becomes "sarmu".',
+      },
+      {
+        hr: 's kiselim kupusom i puno mesa',
+        en: 'with sauerkraut and lots of meat',
+        why: '"s" + instrumental for what goes WITH it ("kiselim kupusom"), then "puno" + genitive for a quantity ("mesa").',
+      },
+      {
+        hr: 'Više ju volim od pizze',
+        en: 'I like it more than pizza',
+        why: 'A comparison: "više ... od" + genitive — the thing you compare against gets the genitive ending.',
+      },
+      {
+        hr: 'jer me podsjeća na djetinjstvo',
+        en: 'because it reminds me of my childhood',
+        why: '"podsjećati na" takes the accusative; "jer" gives the reason and "me" sits in second position.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Najviše volim sarmu.',
+        en: 'I like sarma most.',
+        why: 'Accusative object after "voljeti" — the shape of every food opinion.',
+      },
+      {
+        hr: 'Baka ju radi s kiselim kupusom.',
+        en: 'Grandma makes it with sauerkraut.',
+        why: '"s" + instrumental for the ingredient it goes with; "ju" is the short "it" for a feminine noun.',
+      },
+      {
+        hr: 'Više ju volim od pizze.',
+        en: 'I like it more than pizza.',
+        why: 'Comparing with "više ... od" and the genitive of the loser.',
+      },
+    ],
+    usefulPhrases: [
+      'najviše volim…',
+      'obožavam',
+      's kiselim kupusom',
+      'drugi dan',
+      'više … od',
+      'A tvoje omiljeno jelo?',
+    ],
+    build: [
+      {
+        cue: 'Say: I like sarma (stuffed cabbage rolls) most.',
+        answer: 'Najviše volim sarmu.',
+        focus: {
+          lemma: 'sarma',
+          requiredCase: 'A',
+          why: 'What you like is the object, so it takes the accusative.',
+        },
+      },
+      {
+        cue: 'Say: Grandma makes it with sauerkraut.',
+        answer: 'Baka ju radi s kiselim kupusom.',
+        accept: ['Baka je radi s kiselim kupusom.'],
+        focus: {
+          lemma: 'kupus',
+          requiredCase: 'I',
+          why: 'What it is made WITH takes the instrumental after "s".',
+        },
+      },
+      {
+        cue: 'Say: I like it more than pizza.',
+        answer: 'Više ju volim od pizze.',
+        accept: ['Više je volim od pizze.', 'Volim ju više od pizze.'],
+        focus: {
+          lemma: 'pizza',
+          requiredCase: 'G',
+          why: 'After "od" in a comparison the noun takes the genitive.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'like',
+        label: 'Say what you like most with "najviše volim"',
+        words: ['najviše volim', 'obožavam', 'najdraže'],
+      },
+      { id: 'why', label: 'Give a reason with "jer"', words: ['jer', 'zato što'] },
+      { id: 'len', label: 'Speak at least 15 words', minWords: 15 },
+    ],
+  },
   // ── B1 — opinion and account ────────────────────────────────────────────────
   {
     id: 'b1-opinion',
@@ -2358,6 +3203,473 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
   },
 
+  // ── transaction, formal register ───────────────────────────────────────────
+  {
+    id: 'b1-appointment',
+    level: 'B1',
+    title: 'Reschedule an appointment by phone',
+    prompt:
+      'Nazovi ordinaciju i pomakni termin: reci tko si i kad je pregled, objasni zašto ne možeš doći i zamoli za drugi termin.',
+    promptEn:
+      'Call the clinic and move your appointment: say who you are and when the check-up is, explain why you cannot come and ask for another slot.',
+    minWords: 20,
+    model:
+      'Dobar dan, ovdje Marko Kovač. Zovem zbog pregleda koji imam u utorak u deset. ' +
+      'Nažalost, baš tada imam sastanak na poslu koji ne mogu pomaknuti. ' +
+      'Biste li mogli pregled prebaciti na neki drugi dan? ' +
+      'Meni odgovara bilo koji dan poslije posla, znači poslije četiri. ' +
+      'Ako je moguće, radije bih došao ovaj tjedan. Hvala Vam na strpljenju.',
+    modelEn:
+      'Good day, this is Marko Kovač. I am calling about the check-up I have on Tuesday at ten. ' +
+      'Unfortunately, right then I have a meeting at work that I cannot move. ' +
+      'Could you move the check-up to some other day? ' +
+      'Any day after work suits me, meaning after four. ' +
+      'If possible, I would rather come this week. Thank you for your patience.',
+    structures: [
+      {
+        hr: 'Zovem zbog pregleda koji imam u utorak',
+        en: 'I am calling about the check-up I have on Tuesday',
+        why: '"zbog" takes the genitive (pregled → pregleda), and "koji" lets you say WHICH appointment without a second sentence.',
+      },
+      {
+        hr: 'Biste li mogli pregled prebaciti',
+        en: 'Could you move the check-up',
+        why: 'The V-form conditional question: "li" comes straight after "Biste", never after "mogli". Learn the opening as one block.',
+      },
+      {
+        hr: 'radije bih došao ovaj tjedan',
+        en: 'I would rather come this week',
+        why: '"radije bih" states a preference politely — you are not demanding a day, you are saying which you would prefer.',
+      },
+      {
+        hr: 'Hvala Vam na strpljenju',
+        en: 'Thank you for your patience',
+        why: '"hvala na" takes the locative (strpljenje → strpljenju); closing a request with thanks keeps the receptionist on your side.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Zovem zbog pregleda.',
+        en: 'I am calling about the check-up.',
+        why: '"zbog" + genitive — the reason for the call in three words.',
+      },
+      {
+        hr: 'Biste li mogli pregled prebaciti na drugi dan?',
+        en: 'Could you move the check-up to another day?',
+        why: 'The polite V-form question with "li" leading the cluster.',
+      },
+      {
+        hr: 'Radije bih došao ovaj tjedan.',
+        en: 'I would rather come this week.',
+        why: 'A preference in the conditional, said without pressure.',
+      },
+      {
+        hr: 'Hvala Vam na strpljenju.',
+        en: 'Thank you for your patience.',
+        why: '"hvala na" + locative, in the capitalised V-form.',
+      },
+    ],
+    usefulPhrases: [
+      'Ovdje…',
+      'Zovem zbog…',
+      'Biste li mogli…',
+      'Meni odgovara…',
+      'Radije bih…',
+      'Hvala Vam na…',
+    ],
+    build: [
+      {
+        cue: 'Say: I am calling about the check-up.',
+        answer: 'Zovem zbog pregleda.',
+        focus: {
+          lemma: 'pregled',
+          requiredCase: 'G',
+          why: '"zbog" always takes the genitive — the reason for a call is stated in this case.',
+        },
+      },
+      {
+        cue: 'Say: I can come after work.',
+        answer: 'Mogu doći poslije posla.',
+        focus: {
+          lemma: 'posao',
+          requiredCase: 'G',
+          why: '"poslije" takes the genitive, and "posao" loses its "a": posla, not "posaa".',
+        },
+      },
+      {
+        cue: 'Say: Thank you for your patience.',
+        answer: 'Hvala Vam na strpljenju.',
+        accept: ['Hvala na strpljenju.'],
+        focus: {
+          lemma: 'strpljenje',
+          requiredCase: 'L',
+          why: '"hvala na" takes the locative — a neuter noun in -e ends in -u here.',
+        },
+      },
+    ],
+    checklist: [
+      { id: 'reason', label: 'Say why you cannot come', words: ['zbog', 'nažalost', 'ne mogu'] },
+      {
+        id: 'request',
+        label: 'Ask politely in the V-form',
+        words: ['biste li', 'bih', 'molim vas'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── negotiation, informal register ─────────────────────────────────────────
+  {
+    id: 'b1-favour',
+    level: 'B1',
+    title: 'Ask a friend for a favour',
+    prompt:
+      'Zamoli prijatelja za uslugu: objasni situaciju, reci točno što trebaš, ponudi nešto u zamjenu i zahvali mu.',
+    promptEn:
+      'Ask a friend for a favour: explain the situation, say exactly what you need, offer something in return and thank him.',
+    minWords: 20,
+    model:
+      'Bog, Luka, imam jednu molbu, pa mi reci slobodno ako ne možeš. ' +
+      'Znaš da se sljedeći tjedan selim? E, u subotu trebam pomoć sa selidbom, samo par sati, uglavnom kutije. ' +
+      'A ako ti nije problem, možeš li mi pričuvati psa dok nosimo stvari? ' +
+      'Zapravo bih ti bio jako zahvalan. Naravno, ja plaćam pizzu i pivo poslije. ' +
+      'Što kažeš, možeš li?',
+    modelEn:
+      'Hi Luka, I have a favour to ask, so feel free to tell me if you cannot. ' +
+      'You know I am moving next week? Well, on Saturday I need help with the move, just a couple of hours, mostly boxes. ' +
+      'And if it is no trouble, could you look after my dog while we carry things? ' +
+      'Honestly I would be really grateful. Of course, pizza and beer afterwards are on me. ' +
+      'What do you say, can you?',
+    structures: [
+      {
+        hr: 'možeš li mi pričuvati psa',
+        en: 'could you look after my dog',
+        why: 'The informal request: "li" right after the verb, then the dative "mi"; "pas" is animate, so the accusative is "psa", not "pas".',
+      },
+      {
+        hr: 'trebam pomoć sa selidbom',
+        en: 'I need help with the move',
+        why: '"s" becomes "sa" before a word starting with s, š, z or ž — and the noun after it is in the instrumental.',
+      },
+      {
+        hr: 'bih ti bio jako zahvalan',
+        en: 'I would be really grateful to you',
+        why: 'The same conditional you use on officials, in the "ti" register: "ti" instead of "Vam" is the whole difference.',
+      },
+      {
+        hr: 'reci slobodno ako ne možeš',
+        en: 'feel free to tell me if you cannot',
+        why: 'Giving the other person a way out first is how a favour is asked between friends — it makes a yes easier.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Imam jednu molbu.',
+        en: 'I have a favour to ask.',
+        why: 'The opener that signals a request is coming.',
+      },
+      {
+        hr: 'Trebam pomoć sa selidbom.',
+        en: 'I need help with the move.',
+        why: '"sa" before s-, and the instrumental after it.',
+      },
+      {
+        hr: 'Možeš li mi pričuvati psa?',
+        en: 'Could you look after my dog?',
+        why: 'Informal "možeš li" plus the animate accusative "psa".',
+      },
+      {
+        hr: 'Bio bih ti jako zahvalan.',
+        en: 'I would be really grateful to you.',
+        why: 'The conditional thank-you, "ti" form.',
+      },
+    ],
+    usefulPhrases: [
+      'Imam jednu molbu',
+      'Možeš li mi…',
+      'Ako ti nije problem',
+      'Bio bih ti zahvalan',
+      'Ja plaćam…',
+      'Što kažeš?',
+    ],
+    build: [
+      {
+        cue: 'Say: Could you look after my dog?',
+        answer: 'Možeš li pričuvati mog psa?',
+        accept: ['Možeš li mi pričuvati psa?'],
+        focus: {
+          lemma: 'pas',
+          requiredCase: 'A',
+          why: 'A living being in the accusative takes the genitive ending — psa, never "pas".',
+        },
+      },
+      {
+        cue: 'Say: I need help with the move.',
+        answer: 'Trebam pomoć sa selidbom.',
+        focus: {
+          lemma: 'selidba',
+          requiredCase: 'I',
+          why: '"s/sa" takes the instrumental, and before an s- it is spelt "sa".',
+        },
+      },
+      {
+        cue: 'Say: Tomorrow I am going to the dentist.',
+        answer: 'Sutra idem k zubaru.',
+        accept: ['Sutra idem zubaru.'],
+        focus: {
+          lemma: 'zubar',
+          requiredCase: 'D',
+          why: 'Going TO a person is the dative (with or without "k") — "kod zubara" would mean you are already there.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'ask',
+        label: 'Ask with "možeš li" or "bi li"',
+        words: ['možeš li', 'bi li', 'može li'],
+      },
+      { id: 'thanks', label: 'Thank them', words: ['zahvalan', 'zahvalna', 'hvala'] },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── opinion / negotiation ─────────────────────────────────────────────────
+  {
+    id: 'b1-suggest',
+    level: 'B1',
+    title: 'Propose a plan to the group',
+    prompt:
+      'Dogovaraš zajednički vikend s prijateljima: predloži kamo ići i kada krenuti, objasni zašto i pitaj ostale što misle.',
+    promptEn:
+      'You are arranging a weekend away with friends: propose where to go and when to leave, explain why, and ask the others what they think.',
+    minWords: 20,
+    model:
+      'Evo, ja bih predložio da odemo u Istru, znači na dva dana. ' +
+      'Predlažem da krenemo u petak poslije posla, jer je subotom ujutro velika gužva na autocesti. ' +
+      'Mogli bismo spavati u Rovinju, a u subotu obići Pulu i Motovun. ' +
+      'Zapravo se bojim samo gužve i vrućine, pa bih radije išao krajem rujna. ' +
+      'Ja se stvarno radujem putovanju. Što mislite, odgovara li vam to?',
+    modelEn:
+      'Right, I would suggest we go to Istria, so for two days. ' +
+      'I propose we leave on Friday after work, because on Saturday morning there is heavy traffic on the motorway. ' +
+      'We could sleep in Rovinj, and on Saturday see Pula and Motovun. ' +
+      'Actually I am only afraid of the crowds and the heat, so I would rather go at the end of September. ' +
+      'I am really looking forward to the trip. What do you think, does that suit you?',
+    structures: [
+      {
+        hr: 'Predlažem da krenemo u petak',
+        en: 'I propose we leave on Friday',
+        why: '"predlažem da" + present tense — the plan is stated as something we DO, not as an infinitive.',
+      },
+      {
+        hr: 'Mogli bismo spavati u Rovinju',
+        en: 'We could sleep in Rovinj',
+        why: '"mogli bismo" is the soft "we could" — an option on the table, not a decision; "u" + locative for the place.',
+      },
+      {
+        hr: 'se bojim samo gužve i vrućine',
+        en: 'I am only afraid of the crowds and the heat',
+        why: '"bojati se" takes the genitive — gužva → gužve, vrućina → vrućine; the reflexive "se" sits in second position after "Zapravo".',
+      },
+      {
+        hr: 'odgovara li vam to',
+        en: 'does that suit you',
+        why: 'Handing the decision back: "li" straight after the verb, and "vam" — the group is plural, so the dative is "vam".',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Predlažem da krenemo u petak.',
+        en: 'I propose we leave on Friday.',
+        why: '"predlažem da" with a present-tense verb.',
+      },
+      {
+        hr: 'Mogli bismo spavati u Rovinju.',
+        en: 'We could sleep in Rovinj.',
+        why: 'The conditional "we could" plus "u" + locative.',
+      },
+      {
+        hr: 'Bojim se samo gužve.',
+        en: 'I am only afraid of the crowds.',
+        why: '"bojati se" + genitive, the government this level drills.',
+      },
+      {
+        hr: 'Odgovara li vam to?',
+        en: 'Does that suit you?',
+        why: 'The question back that keeps it a proposal, not an order.',
+      },
+    ],
+    usefulPhrases: [
+      'Predlažem da…',
+      'Mogli bismo…',
+      'Bojim se…',
+      'Radije bih…',
+      'Što mislite?',
+      'Odgovara li vam?',
+    ],
+    build: [
+      {
+        cue: 'Say: We could sleep in Rovinj.',
+        answer: 'Mogli bismo spavati u Rovinju.',
+        accept: ['Mogli bismo prenoćiti u Rovinju.'],
+        focus: {
+          lemma: 'rovinj',
+          requiredCase: 'L',
+          why: '"u" for WHERE you are takes the locative — "u Rovinj" (accusative) would mean going there.',
+        },
+      },
+      {
+        cue: 'Say: I am afraid of the crowd.',
+        answer: 'Bojim se gužve.',
+        focus: {
+          lemma: 'gužva',
+          requiredCase: 'G',
+          why: '"bojati se" always takes the genitive — this is where learners reach for the accusative.',
+        },
+      },
+      {
+        cue: 'Say: I am looking forward to the trip.',
+        answer: 'Radujem se putovanju.',
+        focus: {
+          lemma: 'putovanje',
+          requiredCase: 'D',
+          why: '"radovati se" takes the dative — a neuter noun in -e ends in -u.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'propose',
+        label: 'Propose with "predlažem da" or "mogli bismo"',
+        words: ['predlažem', 'mogli bismo', 'bih predložio', 'bih predložila'],
+      },
+      {
+        id: 'ask',
+        label: 'Ask the group what they think',
+        words: ['što mislite', 'odgovara li', 'što kažete'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── personal account: plans and hopes ─────────────────────────────────────
+  {
+    id: 'b1-plans',
+    level: 'B1',
+    title: 'Talk about your plans for the year',
+    prompt:
+      'Ispričaj prijatelju što planiraš ove godine: što ćeš raditi, čega se raduješ, čega se bojiš i zašto, i pitaj ga za njegove planove.',
+    promptEn:
+      'Tell a friend what you are planning this year: what you will do, what you are looking forward to, what you are afraid of and why, and ask about his plans.',
+    minWords: 20,
+    model:
+      'Pa, ove godine imam dosta planova. U lipnju polažem ispit iz hrvatskoga, pa učim svaki dan, iskreno se malo bojim ispita. ' +
+      'Poslije toga putovat ću s prijateljima po Dalmaciji, prvi put bez roditelja, i tome se najviše radujem. ' +
+      'Htio bih i naučiti više o povijesti, zato čitam jednu knjigu o Dubrovniku. ' +
+      'A ti? Što bi ti najradije radio ove godine?',
+    modelEn:
+      'Well, this year I have quite a few plans. In June I am sitting a Croatian exam, so I study every day; honestly I am a little afraid of the exam. ' +
+      'After that I will travel with friends around Dalmatia, for the first time without parents, and that is what I am looking forward to most. ' +
+      'I would also like to learn more about history, so I am reading a book about Dubrovnik. ' +
+      'And you? What would you most like to do this year?',
+    structures: [
+      {
+        hr: 'putovat ću s prijateljima',
+        en: 'I will travel with friends',
+        why: 'The future tense is TWO words in Croatian: the infinitive drops its final -i ("putovat") and "ću" follows. "s" + instrumental for company.',
+      },
+      {
+        hr: 'iskreno se malo bojim ispita',
+        en: 'honestly I am a little afraid of the exam',
+        why: '"bojati se" takes the genitive (ispit → ispita), and the reflexive "se" jumps to second position, right after "iskreno".',
+      },
+      {
+        hr: 'tome se najviše radujem',
+        en: 'that is what I am looking forward to most',
+        why: '"radovati se" takes the dative — "tome" is the dative of "to"; putting it first is how speech stresses it.',
+      },
+      {
+        hr: 'Što bi ti najradije radio',
+        en: 'What would you most like to do',
+        why: 'A conditional question back ("bi" + the l-participle) — the natural way to hand the conversation over.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Malo se bojim ispita.',
+        en: 'I am a little afraid of the exam.',
+        why: '"bojati se" + genitive, with "se" in second position.',
+      },
+      {
+        hr: 'Putovat ću s prijateljima po Dalmaciji.',
+        en: 'I will travel with friends around Dalmatia.',
+        why: 'The two-word future and "s" + instrumental plural.',
+      },
+      {
+        hr: 'Tome se najviše radujem.',
+        en: 'That is what I am looking forward to most.',
+        why: '"radovati se" + dative, with the object fronted for emphasis.',
+      },
+      {
+        hr: 'Što bi ti najradije radio?',
+        en: 'What would you most like to do?',
+        why: 'The conditional question that passes the turn.',
+      },
+    ],
+    usefulPhrases: [
+      'Ove godine planiram…',
+      'Bojim se…',
+      'Radujem se…',
+      'Htio bih…',
+      'Putovat ću…',
+      'A ti?',
+    ],
+    build: [
+      {
+        cue: 'Say: I am afraid of the exam.',
+        answer: 'Bojim se ispita.',
+        focus: {
+          lemma: 'ispit',
+          requiredCase: 'G',
+          why: '"bojati se" always takes the genitive — never the accusative "ispit".',
+        },
+      },
+      {
+        cue: 'Say: I want to learn more about history.',
+        answer: 'Želim naučiti više o povijesti.',
+        focus: {
+          lemma: 'povijest',
+          gender: 'f',
+          requiredCase: 'L',
+          why: '"o" takes the locative; "povijest" is a feminine consonant-final noun, so the ending is -i.',
+        },
+      },
+      {
+        cue: 'Say: I will travel with friends.',
+        answer: 'Putovat ću s prijateljima.',
+        focus: {
+          lemma: 'prijatelj',
+          requiredCase: 'I',
+          number: 'pl',
+          why: '"s" + instrumental for company — and in the plural the ending is -ima.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'future',
+        label: 'Use the future: "ću", "ćemo" or "planiram"',
+        words: ['ću', 'ćemo', 'planiram'],
+      },
+      {
+        id: 'feeling',
+        label: 'Say what you look forward to or fear',
+        words: ['bojim', 'radujem', 'veselim'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
   // ── B2 — argument, negotiation, register ────────────────────────────────────
   {
     id: 'b2-argument',
@@ -3169,6 +4481,479 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
   },
 
+  // ── register: a job interview ────────────────────────────────────────────
+  {
+    id: 'b2-interview',
+    level: 'B2',
+    title: 'Answer a tough interview question',
+    prompt:
+      'Na razgovoru za posao pitaju te zašto bi baš tebe trebali zaposliti i koja ti je najveća slabost. Odgovori uvjerljivo, na Vi, s konkretnim primjerom.',
+    promptEn:
+      'At a job interview they ask why they should hire you of all people, and what your biggest weakness is. Answer convincingly, in the formal register, with a concrete example.',
+    minWords: 20,
+    model:
+      'Pa, mislim da me za ovo mjesto preporučuje iskustvo. ' +
+      'U prethodnoj tvrtki vodio sam tim od pet ljudi, a projekt smo, unatoč kratkom roku, završili na vrijeme. ' +
+      'Što se slabosti tiče — znate, teško mi je reći ne. ' +
+      'Zbog toga sam prije preuzimao previše, ali sam naučio planirati tjedan i jasno reći što mogu, a što ne. ' +
+      'Smijem li Vas nešto pitati: kako kod Vas izgleda prvi mjesec?',
+    modelEn:
+      'Well, I think what recommends me for this position is experience. ' +
+      'In my previous company I led a team of five, and despite the short deadline we finished the project on time. ' +
+      'As for weaknesses — you know, I find it hard to say no. ' +
+      'Because of that I used to take on too much, but I have learned to plan my week and say clearly what I can and cannot do. ' +
+      'May I ask you something: what does the first month look like with you?',
+    structures: [
+      {
+        hr: 'Što se slabosti tiče',
+        en: 'As far as weaknesses are concerned',
+        why: '"što se + genitive + tiče" frames a topic before you speak about it — it buys a second before an awkward answer and sounds composed.',
+      },
+      {
+        hr: 'unatoč kratkom roku',
+        en: 'despite the short deadline',
+        why: '"unatoč" takes the dative, and the adjective agrees with the noun: "kratkom roku", never a genitive "kratkog roka".',
+      },
+      {
+        hr: 'Smijem li Vas nešto pitati',
+        en: 'May I ask you something',
+        why: '"li" leads the clitic cluster right after the verb, then the formal "Vas" — and asking a question back shows you are interested in them.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Mislim da me preporučuje iskustvo.',
+        en: 'I think experience recommends me.',
+        why: 'A "da" clause with the accusative clitic "me" in second position.',
+      },
+      {
+        hr: 'Što se slabosti tiče, teško mi je reći ne.',
+        en: 'As for weaknesses, I find it hard to say no.',
+        why: 'The topic frame plus a dative experiencer ("mi je teško").',
+      },
+      {
+        hr: 'Smijem li Vas nešto pitati?',
+        en: 'May I ask you something?',
+        why: '"li" first in the cluster, "Vas" after it — polite and correctly ordered.',
+      },
+    ],
+    usefulPhrases: [
+      'Mislim da me preporučuje…',
+      'U prethodnoj tvrtki…',
+      'Što se … tiče…',
+      'Naučio/naučila sam…',
+      'Smijem li Vas pitati…',
+    ],
+    build: [
+      {
+        cue: 'Say: Thanks to my experience, I work quickly.',
+        answer: 'Zahvaljujući iskustvu radim brzo.',
+        focus: {
+          lemma: 'iskustvo',
+          requiredCase: 'D',
+          why: 'zahvaljujući takes the DATIVE — like unatoč, not the genitive.',
+        },
+      },
+      {
+        cue: 'Say: In my previous company I led a team.',
+        answer: 'U prethodnoj tvrtki vodio sam tim.',
+        accept: ['U prethodnoj tvrtki vodila sam tim.', 'U prijašnjoj tvrtki vodio sam tim.'],
+        focus: {
+          lemma: 'tvrtka',
+          requiredCase: 'L',
+          why: 'u for a place you are IN takes the locative: tvrtka, tvrtki.',
+        },
+      },
+      {
+        cue: 'Say: I am not afraid of stress.',
+        answer: 'Ne bojim se stresa.',
+        focus: {
+          lemma: 'stres',
+          requiredCase: 'G',
+          why: 'bojati se governs the genitive — what you fear.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'formal',
+        label: 'Stay in the formal register ("Vi", "Vas", "Vam")',
+        words: ['vas', 'vam', 'vi '],
+      },
+      {
+        id: 'example',
+        label: 'Give a concrete example ("u prethodnoj tvrtki", "projekt", "tim")',
+        words: ['u prethodnoj', 'u prijašnjoj', 'na primjer', 'projekt', 'tim'],
+      },
+      {
+        id: 'weakness',
+        label: 'Name a weakness and what you learned',
+        words: ['slabost', 'teško mi je', 'naučio sam', 'naučila sam'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── informal negotiation: talk a friend round ────────────────────────────
+  {
+    id: 'b2-persuade',
+    level: 'B2',
+    title: 'Talk a friend into a plan',
+    prompt:
+      'Želiš da prijatelj pođe s tobom na tjedan dana na otok, ali on se koleba zbog novca i posla. Uvjeri ga: priznaj njegove razloge, ponudi rješenje i zaključi dogovor.',
+    promptEn:
+      'You want a friend to come with you to an island for a week, but he is hesitating over money and work. Talk him round: acknowledge his reasons, offer a solution and close the deal.',
+    minWords: 20,
+    model:
+      'Znam, znam, skupo je i imaš posla preko glave. ' +
+      'Ali slušaj: što prije rezerviramo, to je jeftinije, a ja sam već našao apartman koji nas dvojicu ne košta više od hotela za jednoga. ' +
+      'Unatoč cijeni karte, na kraju bi te to koštalo manje nego jedan vikend u Zagrebu. ' +
+      'A za posao — pa, sam si rekao da ti šef duguje slobodne dane. ' +
+      'Ako bi ti bilo lakše, možemo ići u rujnu, kad je mirnije. ' +
+      'Provest ćemo tjedan na otoku, kupati se i ništa ne raditi. Daj, što kažeš?',
+    modelEn:
+      'I know, I know, it is expensive and you are up to your ears in work. ' +
+      'But listen: the sooner we book, the cheaper it is, and I have already found an apartment that costs the two of us no more than a hotel for one. ' +
+      'Despite the price of the ticket, in the end it would cost you less than one weekend in Zagreb. ' +
+      'And as for work — well, you said yourself that your boss owes you days off. ' +
+      'If it would be easier for you, we can go in September, when it is quieter. ' +
+      'We will spend a week on the island, swim and do nothing. Come on, what do you say?',
+    structures: [
+      {
+        hr: 'što prije rezerviramo, to je jeftinije',
+        en: 'the sooner we book, the cheaper it is',
+        why: 'The correlative "što … to" is how spoken Croatian says "the sooner, the better" — two comparatives that rise together.',
+      },
+      {
+        hr: 'Unatoč cijeni karte',
+        en: 'Despite the price of the ticket',
+        why: '"unatoč" takes the dative even in casual speech ("cijeni"), and "karte" is the genitive saying what the price is of.',
+      },
+      {
+        hr: 'sam si rekao da ti šef duguje slobodne dane',
+        en: 'you said yourself that your boss owes you days off',
+        why: 'Quoting someone back to themselves is reported speech with "da"; the tense stays exactly as it was spoken.',
+      },
+      {
+        hr: 'Ako bi ti bilo lakše',
+        en: 'If it would be easier for you',
+        why: '"ako" + the conditional makes a soft, real offer — the dative "ti" says who it would be easier for.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Što prije rezerviramo, to je jeftinije.',
+        en: 'The sooner we book, the cheaper it is.',
+        why: 'The correlative with two comparatives, said as one breath.',
+      },
+      {
+        hr: 'Sam si rekao da ti šef duguje slobodne dane.',
+        en: 'You said yourself your boss owes you days off.',
+        why: 'Reported speech aimed back at the listener, dative "ti" inside it.',
+      },
+      {
+        hr: 'Ako bi ti bilo lakše, možemo ići u rujnu.',
+        en: 'If it would be easier for you, we can go in September.',
+        why: 'A conditional offer with a dative experiencer and "u" + locative for the month.',
+      },
+    ],
+    usefulPhrases: [
+      'Znam, ali slušaj…',
+      'Što prije…, to…',
+      'Sam si rekao/rekla da…',
+      'Ako bi ti bilo lakše…',
+      'Daj, što kažeš?',
+    ],
+    build: [
+      {
+        cue: 'Say: Despite the price, it is worth it.',
+        answer: 'Unatoč cijeni, vrijedi.',
+        accept: ['Unatoč cijeni, isplati se.'],
+        focus: {
+          lemma: 'cijena',
+          requiredCase: 'D',
+          why: 'unatoč takes the DATIVE: cijena, cijeni — not a genitive cijene.',
+        },
+      },
+      {
+        cue: 'Say: We will spend a week on the island.',
+        answer: 'Provest ćemo tjedan na otoku.',
+        focus: {
+          lemma: 'otok',
+          requiredCase: 'L',
+          why: 'na for where you ARE takes the locative: otok, otoku.',
+        },
+      },
+      {
+        cue: 'Say: After work we can talk about the plan.',
+        answer: 'Nakon posla možemo razgovarati o planu.',
+        focus: {
+          lemma: 'posao',
+          requiredCase: 'G',
+          why: 'nakon takes the genitive — and posao changes shape: posao, posla.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'their',
+        label: 'Acknowledge their reasons first ("znam", "razumijem")',
+        words: ['znam', 'razumijem', 'imaš pravo'],
+      },
+      {
+        id: 'correlative',
+        label: 'Use "što …, to …" ("što prije, to bolje")',
+        words: ['što prije', 'što više', 'to je', 'to bolje'],
+      },
+      {
+        id: 'close',
+        label: 'Close the deal with a question ("što kažeš?", "jesi li za?")',
+        words: ['što kažeš', 'jesi li za', 'dogovoreno', 'može'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── narrative: retell the news with reported speech ──────────────────────
+  {
+    id: 'b2-retell-news',
+    level: 'B2',
+    title: 'Retell a news story',
+    prompt:
+      'Prepričaj prijatelju vijest koju si jutros čuo ili pročitao: što se dogodilo, tko je što rekao i što ti misliš o tome. Upotrijebi neupravni govor.',
+    promptEn:
+      'Retell to a friend a news story you heard or read this morning: what happened, who said what and what you think about it. Use reported speech.',
+    minWords: 20,
+    model:
+      'Jesi li čuo za onu cestu prema plaži? ' +
+      'Gradonačelnik je jučer rekao da će biti zatvorena cijelo ljeto. ' +
+      'Navodno je odluka donesena tijekom sastanka u petak, a novinari su pitali koliko će radovi trajati. ' +
+      'Prema gradonačelniku, radovi će trajati oko dva mjeseca, iako, znaš, kod nas to obično znači dvostruko. ' +
+      'Govorili su i o trošku radova, ali brojku nisu htjeli reći. ' +
+      'Meni je, zapravo, u redu da se cesta popravi, samo ne razumijem zašto baš usred sezone. A ti, što misliš?',
+    modelEn:
+      'Have you heard about that road to the beach? ' +
+      'The mayor said yesterday that it will be closed all summer. ' +
+      'Apparently the decision was taken during a meeting on Friday, and journalists asked how long the works will last. ' +
+      'According to the mayor, the works will last about two months, although, you know, here that usually means double. ' +
+      'They also talked about the cost of the works, but they did not want to give a figure. ' +
+      'To be honest, I am fine with the road being repaired, I just do not understand why in the middle of the season. And you, what do you think?',
+    structures: [
+      {
+        hr: 'rekao da će biti zatvorena cijelo ljeto',
+        en: 'said that it will be closed all summer',
+        why: 'Reported speech keeps the future exactly as spoken — no shift to "would" — and the participle "zatvorena" agrees with the feminine "cesta".',
+      },
+      {
+        hr: 'odluka donesena tijekom sastanka',
+        en: 'the decision taken during the meeting',
+        why: 'A passive participle agrees with its subject ("odluka" → "donesena"), and "tijekom" governs the genitive ("sastanka").',
+      },
+      {
+        hr: 'Prema gradonačelniku',
+        en: 'According to the mayor',
+        why: '"prema" meaning "according to" takes the dative — the same case as "prema" for direction.',
+      },
+      {
+        hr: 'novinari su pitali koliko će radovi trajati',
+        en: 'journalists asked how long the works will last',
+        why: 'A reported question keeps its question word ("koliko") and the original tense; nothing else changes.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Rekao je da će cesta biti zatvorena.',
+        en: 'He said the road will be closed.',
+        why: 'Reported speech with a feminine passive participle agreeing with "cesta".',
+      },
+      {
+        hr: 'Odluka je donesena tijekom sastanka.',
+        en: 'The decision was taken during the meeting.',
+        why: 'Passive with agreement, then "tijekom" + genitive.',
+      },
+      {
+        hr: 'Prema gradonačelniku, radovi će trajati dva mjeseca.',
+        en: 'According to the mayor, the works will last two months.',
+        why: '"prema" + dative, and Futur I in two words: "će trajati".',
+      },
+    ],
+    usefulPhrases: [
+      'Jesi li čuo/čula za…',
+      'Rekao je da…',
+      'Navodno…',
+      'Prema…',
+      'Pitali su koliko…',
+      'A ti, što misliš?',
+    ],
+    build: [
+      {
+        cue: 'Say: According to the mayor, the works will last a month.',
+        answer: 'Prema gradonačelniku radovi će trajati mjesec.',
+        focus: {
+          lemma: 'gradonačelnik',
+          requiredCase: 'D',
+          why: 'prema ("according to") takes the dative.',
+        },
+      },
+      {
+        cue: 'Say: They talked about the cost of the works.',
+        answer: 'Govorili su o trošku radova.',
+        focus: {
+          lemma: 'trošak',
+          requiredCase: 'L',
+          why: 'o takes the locative — and trošak drops its a: trošak, trošku.',
+        },
+      },
+      {
+        cue: 'Say: They said the decision was taken during the meeting.',
+        answer: 'Rekli su da je odluka donesena tijekom sastanka.',
+        focus: {
+          lemma: 'sastanak',
+          requiredCase: 'G',
+          why: 'tijekom takes the genitive: sastanak, sastanka.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'reported',
+        label: 'Report what was said ("rekao je da", "navodno", "pitali su")',
+        words: ['rekao je da', 'rekla je da', 'rekao da', 'rekla da', 'navodno', 'pitali su'],
+      },
+      {
+        id: 'source',
+        label: 'Name your source ("prema", "čuo sam", "pročitala sam")',
+        words: ['prema', 'kažu da', 'čuo sam', 'čula sam', 'pročitao sam', 'pročitala sam'],
+      },
+      {
+        id: 'opinion',
+        label: 'Give your own view ("meni je", "mislim da")',
+        words: ['meni je', 'mislim da', 'ne razumijem', 'po meni'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
+
+  // ── survival / transaction: at the doctor, in detail ─────────────────────
+  {
+    id: 'b2-doctor',
+    level: 'B2',
+    title: 'Describe a health problem in detail',
+    prompt:
+      'Kod liječnika si zbog glavobolja koje traju tjednima. Opiši simptome, što si već pokušao, svoju povijest bolesti i pitaj što dalje.',
+    promptEn:
+      'You are at the doctor’s because of headaches that have lasted for weeks. Describe the symptoms, what you have already tried, your medical history, and ask what happens next.',
+    minWords: 20,
+    model:
+      'Dobar dan, doktorice. Došao sam zbog glavobolja koje traju već tri tjedna. ' +
+      'Bol je najjača ujutro, a unatoč terapiji koju sam kupio bez recepta, ništa se nije promijenilo. ' +
+      'Iako spavam dovoljno, ujutro sam umoran, a pred očima mi se ponekad zamagli. ' +
+      'Prije dvije godine operiran sam zbog sinusa; nalazi su tada bili uredni. ' +
+      'Nisam bio kod liječnika godinu dana. ' +
+      'S obzirom na to da se stanje pogoršava, biste li me mogli uputiti na pretrage, ili je za to još prerano?',
+    modelEn:
+      'Good afternoon, doctor. I have come because of headaches that have lasted three weeks now. ' +
+      'The pain is worst in the morning, and despite the therapy I bought over the counter, nothing has changed. ' +
+      'Although I sleep enough, I am tired in the morning, and my vision sometimes blurs. ' +
+      'Two years ago I had an operation on my sinuses; the results then were normal. ' +
+      'I have not been to a doctor for a year. ' +
+      'Given that the condition is getting worse, could you refer me for tests, or is it still too early for that?',
+    structures: [
+      {
+        hr: 'unatoč terapiji koju sam kupio bez recepta',
+        en: 'despite the therapy I bought over the counter',
+        why: '"unatoč" takes the dative ("terapiji"); the relative "koju" then agrees with "terapija" in the accusative because it is the object of "kupio".',
+      },
+      {
+        hr: 'Prije dvije godine operiran sam zbog sinusa',
+        en: 'Two years ago I had an operation on my sinuses',
+        why: 'A passive participle as predicate ("operiran sam") agrees with the speaker — a woman says "operirana sam"; "zbog" takes the genitive.',
+      },
+      {
+        hr: 'biste li me mogli uputiti na pretrage',
+        en: 'could you refer me for tests',
+        why: '"li" leads the cluster, then the accusative "me"; the conditional "biste" makes the request polite — the register for a doctor.',
+      },
+      {
+        hr: 'S obzirom na to da se stanje pogoršava',
+        en: 'Given that the condition is getting worse',
+        why: '"s obzirom na" + accusative, with "to da" turning the whole reason into a clause.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Došao sam zbog glavobolja koje traju tri tjedna.',
+        en: 'I have come because of headaches that have lasted three weeks.',
+        why: '"zbog" + genitive plural, then a relative clause describing it.',
+      },
+      {
+        hr: 'Prije dvije godine operiran sam zbog sinusa.',
+        en: 'Two years ago I had a sinus operation.',
+        why: 'The passive participle agreeing with the speaker, plus "zbog" + genitive.',
+      },
+      {
+        hr: 'Biste li me mogli uputiti na pretrage?',
+        en: 'Could you refer me for tests?',
+        why: '"li" first in the cluster, then the accusative "me" — a polite conditional request.',
+      },
+    ],
+    usefulPhrases: [
+      'Došao/došla sam zbog…',
+      'Bol je najjača…',
+      'Unatoč terapiji…',
+      'Operiran/operirana sam…',
+      'Biste li me mogli…',
+      'Je li za to prerano?',
+    ],
+    build: [
+      {
+        cue: 'Say: Despite the therapy, my head still hurts.',
+        answer: 'Unatoč terapiji i dalje me boli glava.',
+        focus: {
+          lemma: 'terapija',
+          requiredCase: 'D',
+          why: 'unatoč takes the DATIVE: terapija, terapiji.',
+        },
+      },
+      {
+        cue: 'Say: I have not been to the doctor for a year.',
+        answer: 'Nisam bio kod liječnika godinu dana.',
+        accept: ['Nisam bila kod liječnika godinu dana.'],
+        focus: {
+          lemma: 'liječnik',
+          requiredCase: 'G',
+          why: 'kod means being AT someone’s and takes the genitive — never for motion towards.',
+        },
+      },
+      {
+        cue: 'Say: After the operation I feel worse.',
+        answer: 'Nakon operacije osjećam se lošije.',
+        focus: {
+          lemma: 'operacija',
+          requiredCase: 'G',
+          why: 'nakon takes the genitive: operacija, operacije.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'symptoms',
+        label: 'Describe the symptoms ("boli me", "glavobolja", "umoran")',
+        words: ['boli', 'glavobolj', 'umoran', 'umorna', 'bol je'],
+      },
+      {
+        id: 'history',
+        label: 'Give your history ("operiran sam", "nalazi", "kod liječnika")',
+        words: ['operiran', 'operirana', 'nalazi', 'prije dvije godine', 'kod liječnika'],
+      },
+      {
+        id: 'ask',
+        label: 'Ask what happens next ("biste li", "što dalje")',
+        words: ['biste li', 'mogu li', 'što dalje', 'trebam li'],
+      },
+      { id: 'len', label: 'Speak at least 20 words', minWords: 20 },
+    ],
+  },
   // ── C1 — structured reasoning ───────────────────────────────────────────────
   {
     id: 'c1-thesis',
@@ -4009,6 +5794,464 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
   },
 
+  {
+    id: 'c1-deadline',
+    level: 'C1',
+    title: 'Negotiate a deadline',
+    prompt:
+      'Klijent traži da projekt bude gotov za dva tjedna, a vi znate da vam realno treba mjesec dana. Pregovarajte o roku: priznajte pritisak, recite što dobiva ako popusti i ponudite međukorak.',
+    promptEn:
+      'A client wants the project finished in two weeks and you know you realistically need a month. Negotiate the deadline: acknowledge the pressure, say what they gain by giving ground, and offer an intermediate step.',
+    minWords: 30,
+    model:
+      'Razumijem da vam se žuri, i ne kažem da rok nije važan. ' +
+      'Ali ako inzistirate na dva tjedna, dobit ćete pola posla, a to, iskreno, ne želite ni vi. ' +
+      'Pa evo što predlažem: za dva tjedna isporučimo prvu, radnu verziju, a konačnu za mjesec dana. ' +
+      'Time vi dobivate nešto opipljivo odmah, a mi dovoljno vremena da to napravimo kako treba. ' +
+      'Zar vam to ne bi odgovaralo više nego cijela isporuka sa zakašnjenjem? ' +
+      'Ako ne, recite mi što je zapravo prioritet, pa ćemo krenuti od toga.',
+    modelEn:
+      'I understand you are in a hurry, and I am not saying the deadline does not matter. ' +
+      'But if you insist on two weeks, you will get half the job, and honestly, you do not want that either. ' +
+      'So here is what I propose: in two weeks we deliver a first, working version, and the final one in a month. ' +
+      'That way you get something tangible right away, and we get enough time to do it properly. ' +
+      'Would that not suit you better than a whole delivery that arrives late? ' +
+      'If not, tell me what the real priority is, and we will start from there.',
+    structures: [
+      {
+        hr: 'ako inzistirate na dva tjedna, dobit ćete pola posla',
+        en: 'if you insist on two weeks, you will get half the job',
+        why: '"inzistirati na" governs the locative, and the future is two words — "dobit ćete", never one — which is what a real condition sounds like.',
+      },
+      {
+        hr: 'Time vi dobivate nešto opipljivo odmah',
+        en: 'That way you get something tangible right away',
+        why: '"time" is the instrumental of "to" — "by that means" — and it lets you name the benefit of your own proposal in one word.',
+      },
+      {
+        hr: 'Zar vam to ne bi odgovaralo više nego',
+        en: 'Would that not suit you better than',
+        why: '"zar" + a negated conditional is the polite rhetorical question: it invites agreement while sounding like a genuine question.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Razumijem da vam se žuri.',
+        en: 'I understand you are in a hurry.',
+        why: 'Concede the pressure first — the reflexive "žuri se" takes the dative of the person.',
+      },
+      {
+        hr: 'Ako inzistirate na tom roku, dobit ćete pola posla.',
+        en: 'If you insist on that deadline, you will get half the job.',
+        why: 'Locative after "inzistirati na", then the two-word future in the main clause.',
+      },
+      {
+        hr: 'Pa evo što predlažem.',
+        en: 'So here is what I propose.',
+        why: 'Two particles in a row — "pa evo" — turn a formal proposal into something spoken.',
+      },
+    ],
+    usefulPhrases: [
+      'Razumijem da vam se žuri…',
+      'Ne kažem da…',
+      'Pa evo što predlažem:',
+      'Time vi dobivate…',
+      'Zar vam to ne bi odgovaralo?',
+      'Što je zapravo prioritet?',
+    ],
+    build: [
+      {
+        cue: 'Say: I insist on a realistic deadline.',
+        answer: 'Inzistiram na realnom roku.',
+        accept: ['Inzistiram na realnome roku.'],
+        focus: {
+          lemma: 'rok',
+          requiredCase: 'L',
+          why: '"inzistirati na" takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: Everything depends on the delivery.',
+        answer: 'Sve ovisi o isporuci.',
+        focus: {
+          lemma: 'isporuka',
+          requiredCase: 'L',
+          why: '"ovisiti o" takes the locative — and k softens to c before -i.',
+        },
+      },
+      {
+        cue: 'Say: Thanks to the client we have time.',
+        answer: 'Zahvaljujući klijentu imamo vremena.',
+        focus: {
+          lemma: 'klijent',
+          requiredCase: 'D',
+          why: '"zahvaljujući" takes the dative.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'acknowledge',
+        label: 'Acknowledge the pressure before you push back',
+        words: ['razumijem', 'ne kažem da', 'jasno mi je'],
+      },
+      {
+        id: 'propose',
+        label: 'Propose a concrete intermediate step',
+        words: ['predlažem', 'evo što', 'prvu verziju'],
+      },
+      {
+        id: 'ask',
+        label: 'Hand the decision back with a question',
+        words: ['zar', 'što je zapravo', 'odgovara li vam'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c1-feedback',
+    level: 'C1',
+    title: 'Give critical feedback tactfully',
+    prompt:
+      'Suradnik vam je poslao izvještaj koji je temeljit, ali predug i bez jasnog zaključka. Recite mu što valja, što treba promijeniti i zašto — bez uvijanja, ali i bez uvrede.',
+    promptEn:
+      'A colleague has sent you a report that is thorough but too long and without a clear conclusion. Tell him what works, what needs to change and why — without hedging, but without offence.',
+    minWords: 30,
+    model:
+      'Prije svega, hvala na izvještaju — vidi se da si u njega uložio puno rada, i podaci su baš temeljiti. ' +
+      'Ono što mi nedostaje jest zaključak: čitatelj na kraju ne zna što mu zapravo predlažeš. ' +
+      'Pa ja bih, da sam na tvome mjestu, prve dvije stranice sažeo na pola, a na kraj stavio tri rečenice: što smo utvrdili, što to znači i što predlažemo. ' +
+      'Nije riječ o tome da je nešto pogrešno, nego o tome da se dobro razmišljanje ne vidi od količine teksta. ' +
+      'Slažeš li se s tim, ili misliš da bi se nešto izgubilo?',
+    modelEn:
+      'First of all, thank you for the report — you can see you put a lot of work into it, and the data are really thorough. ' +
+      'What I miss is a conclusion: at the end the reader does not know what you are actually proposing. ' +
+      'So if I were you, I would cut the first two pages by half and put three sentences at the end: what we found, what it means and what we propose. ' +
+      'It is not that anything is wrong; it is that the good thinking cannot be seen for the amount of text. ' +
+      'Do you agree with that, or do you think something would be lost?',
+    structures: [
+      {
+        hr: 'hvala na izvještaju',
+        en: 'thank you for the report',
+        why: '"hvala na" takes the locative, not the accusative — the commonest verb-government slip in polite Croatian, and the first thing the listener hears.',
+      },
+      {
+        hr: 'ja bih, da sam na tvome mjestu, prve dvije stranice sažeo na pola',
+        en: 'if I were you, I would cut the first two pages by half',
+        why: 'The conditional "bih" stays in second position even when the "da sam na tvome mjestu" clause is dropped into the middle — advice, not an order.',
+      },
+      {
+        hr: 'Nije riječ o tome da je nešto pogrešno, nego o tome da',
+        en: 'It is not that anything is wrong; it is that',
+        why: '"nije riječ o tome da … nego o tome da" separates a fault from a judgement — the frame that makes criticism hearable.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Hvala na izvještaju, vidi se puno rada.',
+        en: 'Thank you for the report, a lot of work shows.',
+        why: 'Locative after "hvala na", then the impersonal "vidi se" for what is evident.',
+      },
+      {
+        hr: 'Ono što mi nedostaje jest zaključak.',
+        en: 'What I miss is a conclusion.',
+        why: '"ono što … jest" fronts the missing thing; the full form "jest" carries the emphasis "is".',
+      },
+      {
+        hr: 'Slažeš li se s tim?',
+        en: 'Do you agree with that?',
+        why: '"li" leads the clitic cluster after the verb; "slagati se s" takes the instrumental.',
+      },
+    ],
+    usefulPhrases: [
+      'Prije svega, hvala na…',
+      'Ono što mi nedostaje jest…',
+      'Da sam na tvome mjestu…',
+      'Nije riječ o tome da…',
+      'Slažeš li se s tim?',
+    ],
+    build: [
+      {
+        cue: 'Say: Thank you for the remark.',
+        answer: 'Hvala na primjedbi.',
+        accept: ['Hvala ti na primjedbi.', 'Hvala Vam na primjedbi.'],
+        focus: {
+          lemma: 'primjedba',
+          requiredCase: 'L',
+          why: '"hvala na" takes the locative.',
+        },
+      },
+      {
+        cue: 'Say: In principle I agree with the proposal.',
+        answer: 'Načelno se slažem s prijedlogom.',
+        accept: ['U načelu se slažem s prijedlogom.'],
+        focus: {
+          lemma: 'prijedlog',
+          requiredCase: 'I',
+          why: '"slagati se s" takes the instrumental.',
+        },
+      },
+      {
+        cue: 'Say: That depends on the result.',
+        answer: 'To ovisi o rezultatu.',
+        focus: {
+          lemma: 'rezultat',
+          requiredCase: 'L',
+          why: '"ovisiti o" takes the locative.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'credit',
+        label: 'Name what is good first ("hvala na", "vidi se")',
+        words: ['hvala na', 'vidi se', 'temeljit'],
+      },
+      {
+        id: 'change',
+        label: 'Say concretely what to change',
+        words: ['nedostaje', 'sažeo', 'sažela', 'skratio', 'skratila', 'predlažem'],
+      },
+      {
+        id: 'ask',
+        label: 'Check whether they agree',
+        words: ['slažeš li se', 'misliš li', 'što ti misliš'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c1-mediate',
+    level: 'C1',
+    title: 'Mediate between two colleagues',
+    prompt:
+      'Dvoje kolega ne razgovaraju otkako je jedno od njih preuzelo zadatak drugoga bez dogovora. Oboje su vam se požalili. Posredujte: recite kako svatko vidi događaj, odvojite činjenice od tumačenja i predložite pravilo za ubuduće.',
+    promptEn:
+      'Two colleagues have stopped speaking since one took over the other’s task without agreement. Both have complained to you. Mediate: say how each sees the event, separate facts from interpretation, and propose a rule for the future.',
+    minWords: 30,
+    model:
+      'Znate, ja tu ne vidim dvoje krivaca, nego dvoje ljudi koji su isti događaj pročitali potpuno drukčije. ' +
+      'Ti si, Ana, preuzela zadatak jer je rok gorio i mislila si da pomažeš. ' +
+      'Ti si, Marko, to doživio kao poruku da ti se ne vjeruje. ' +
+      'Oboje ste, zapravo, u pravu, i baš zato se ne možete dogovoriti. ' +
+      'Držimo se stoga činjenica: zadatak je završen, nitko nije oštećen, a ono što nedostaje jest pravilo. ' +
+      'Pa predlažem jednostavno: tko preuzima tuđi posao, prvo pita, makar porukom. ' +
+      'Možete li se složiti barem oko toga?',
+    modelEn:
+      'You know, I do not see two culprits here, but two people who read the same event completely differently. ' +
+      'You, Ana, took over the task because the deadline was burning and you thought you were helping. ' +
+      'You, Marko, experienced it as a message that you are not trusted. ' +
+      'You are both, in fact, right, and that is exactly why you cannot agree. ' +
+      'So let us stick to the facts: the task is finished, nobody was harmed, and what is missing is a rule. ' +
+      'So I propose something simple: whoever takes over someone else’s work asks first, even if only by message. ' +
+      'Can you agree on that much at least?',
+    structures: [
+      {
+        hr: 'ne vidim dvoje krivaca, nego dvoje ljudi koji',
+        en: 'I do not see two culprits, but two people who',
+        why: 'The collective numeral "dvoje" is used for a mixed group and takes the genitive plural — "dvoje ljudi", never "dva ljudi".',
+      },
+      {
+        hr: 'Držimo se stoga činjenica',
+        en: 'So let us stick to the facts',
+        why: '"držati se" governs the genitive — "činjenica" is genitive plural — and the first-person plural imperative makes it a shared rule, not an order.',
+      },
+      {
+        hr: 'tko preuzima tuđi posao, prvo pita',
+        en: 'whoever takes over someone else’s work asks first',
+        why: 'A bare "tko" clause states a general rule for anyone — the way a policy is phrased aloud, with the present tense in both halves.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Oboje ste, zapravo, u pravu.',
+        en: 'You are both, in fact, right.',
+        why: '"oboje" for a mixed pair, and the particle "zapravo" softening a verdict.',
+      },
+      {
+        hr: 'Držimo se činjenica.',
+        en: 'Let us stick to the facts.',
+        why: 'Genitive after "držati se"; the "-mo" imperative includes yourself.',
+      },
+      {
+        hr: 'Možete li se složiti barem oko toga?',
+        en: 'Can you agree on that much at least?',
+        why: '"li" leads the cluster, "se" follows it; "složiti se oko" + genitive.',
+      },
+    ],
+    usefulPhrases: [
+      'Znate, ja tu vidim…',
+      'Oboje ste u pravu.',
+      'Držimo se činjenica.',
+      'Ono što nedostaje jest pravilo.',
+      'Pa predlažem jednostavno:',
+      'Možete li se složiti oko toga?',
+    ],
+    build: [
+      {
+        cue: 'Say: I understand both sides.',
+        answer: 'Razumijem obje strane.',
+        focus: {
+          lemma: 'strana',
+          requiredCase: 'A',
+          number: 'pl',
+          why: 'The sides are what is understood — accusative plural.',
+        },
+      },
+      {
+        cue: 'Say: Let us stick to the agreement.',
+        answer: 'Držimo se dogovora.',
+        focus: {
+          lemma: 'dogovor',
+          requiredCase: 'G',
+          why: '"držati se" takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: There is no compromise without trust.',
+        answer: 'Nema kompromisa bez povjerenja.',
+        focus: {
+          lemma: 'kompromis',
+          requiredCase: 'G',
+          why: '"nema" (there is no) takes the genitive.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'both',
+        label: 'Name both views without picking a side',
+        words: ['oboje', 'obje strane', 'i jedno i drugo', 'drukčije'],
+      },
+      {
+        id: 'facts',
+        label: 'Separate the facts ("držimo se činjenica")',
+        words: ['držimo se', 'činjenic'],
+      },
+      {
+        id: 'rule',
+        label: 'Propose a rule for next time',
+        words: ['predlažem', 'pravilo', 'ubuduće'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c1-interview-failure',
+    level: 'C1',
+    title: 'Talk about a failure in an interview',
+    prompt:
+      'Na razgovoru za posao pitaju vas o profesionalnom neuspjehu. Ispričajte konkretan slučaj: što je pošlo po zlu, što ste vi propustili i što danas radite drukčije — bez izgovora i bez samosažaljenja.',
+    promptEn:
+      'In a job interview you are asked about a professional failure. Tell a concrete case: what went wrong, what you yourself missed, and what you do differently today — without excuses and without self-pity.',
+    minWords: 30,
+    model:
+      'Pa, najiskrenije: prije dvije godine vodio sam projekt koji je kasnio tri mjeseca, i to nije bilo zbog tima, nego zbog mene. ' +
+      'Preuzeo sam odgovornost za rokove, a da nisam provjerio ovisi li isporuka o dobavljaču na kojeg nismo mogli utjecati. ' +
+      'Kad je zapelo, predugo sam vjerovao da ću to riješiti sam. ' +
+      'Naučio sam iz toga dvije stvari: prvo, rizik se imenuje na početku, a ne kad postane problem, i drugo, tražiti pomoć nije slabost, nego dio posla. ' +
+      'Zahvaljujući tom iskustvu danas svaki plan počinjem pitanjem što sve može poći po zlu. ' +
+      'Zanima li vas kako je taj projekt na kraju završio?',
+    modelEn:
+      'Well, most honestly: two years ago I led a project that ran three months late, and that was not because of the team but because of me. ' +
+      'I took responsibility for the deadlines without checking whether the delivery depended on a supplier we could not influence. ' +
+      'When it got stuck, I believed for too long that I would sort it out on my own. ' +
+      'I learned two things from it: first, a risk is named at the start, not when it becomes a problem, and second, asking for help is not weakness but part of the job. ' +
+      'Thanks to that experience I now begin every plan with the question of what could go wrong. ' +
+      'Would you like to know how that project ended in the end?',
+    structures: [
+      {
+        hr: 'a da nisam provjerio ovisi li isporuka o dobavljaču',
+        en: 'without checking whether the delivery depended on a supplier',
+        why: '"a da nisam" + past is the Croatian "without having done" — and inside it "ovisiti o" takes the locative and "li" opens the embedded question.',
+      },
+      {
+        hr: 'tražiti pomoć nije slabost, nego dio posla',
+        en: 'asking for help is not weakness but part of the job',
+        why: 'An infinitive can be a subject; "nije X, nego Y" corrects the listener’s likely assumption in one breath.',
+      },
+      {
+        hr: 'Zahvaljujući tom iskustvu danas svaki plan počinjem pitanjem',
+        en: 'Thanks to that experience I now begin every plan with the question',
+        why: '"zahvaljujući" takes the dative ("tom iskustvu"), and "pitanjem" is the instrumental of means — the tool you begin with.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'To nije bilo zbog tima, nego zbog mene.',
+        en: 'That was not because of the team but because of me.',
+        why: '"zbog" + genitive twice, and the "nije … nego" correction that owns the fault.',
+      },
+      {
+        hr: 'Naučio sam iz toga dvije stvari.',
+        en: 'I learned two things from it.',
+        why: '"iz" + genitive for the source of a lesson; "dvije stvari" — feminine "two".',
+      },
+      {
+        hr: 'Zahvaljujući tom iskustvu danas planiram drukčije.',
+        en: 'Thanks to that experience I now plan differently.',
+        why: 'Dative after "zahvaljujući", then the present for what you do now.',
+      },
+    ],
+    usefulPhrases: [
+      'Najiskrenije:…',
+      'Preuzeo sam odgovornost za…',
+      '… a da nisam provjerio …',
+      'Naučio sam iz toga…',
+      'Zahvaljujući tom iskustvu…',
+      'Zanima li vas…?',
+    ],
+    build: [
+      {
+        cue: 'Say: I learned the most from that failure.',
+        answer: 'Najviše sam naučio iz tog neuspjeha.',
+        accept: ['Najviše sam naučila iz tog neuspjeha.'],
+        focus: {
+          lemma: 'neuspjeh',
+          requiredCase: 'G',
+          why: '"iz" takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: Thanks to the experience I now plan differently.',
+        answer: 'Zahvaljujući iskustvu sada planiram drukčije.',
+        accept: ['Zahvaljujući iskustvu danas planiram drukčije.'],
+        focus: {
+          lemma: 'iskustvo',
+          requiredCase: 'D',
+          why: '"zahvaljujući" takes the dative.',
+        },
+      },
+      {
+        cue: 'Say: I took responsibility for the mistake.',
+        answer: 'Preuzeo sam odgovornost za pogrešku.',
+        accept: ['Preuzela sam odgovornost za pogrešku.'],
+        focus: {
+          lemma: 'pogreška',
+          requiredCase: 'A',
+          why: '"za" meaning "for" takes the accusative.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'own',
+        label: 'Own the fault without excuses ("zbog mene", "odgovornost")',
+        words: ['zbog mene', 'odgovornost', 'propustio', 'propustila', 'moja pogreška'],
+      },
+      {
+        id: 'lesson',
+        label: 'Name what you learned and do differently',
+        words: ['naučio', 'naučila', 'zahvaljujući', 'danas'],
+      },
+      {
+        id: 'ask',
+        label: 'Offer to say more with a question',
+        words: ['zanima li vas', 'želite li', 'mogu li'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
   // ── C2 — nuance and register play ───────────────────────────────────────────
   {
     id: 'c2-nuance',
@@ -4836,6 +7079,438 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         id: 'concede',
         label: 'Say when it does not matter',
         words: ['nije važno', 'ne bih inzistirao', 'doduše'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+
+  {
+    id: 'c2-escalate',
+    level: 'C2',
+    title: 'Escalate a complaint without raising your voice',
+    prompt:
+      'Treći put zoveš zbog istoga kvara. Sugovornik je ljubazan i nemoćan. Zatraži da razgovaraš s nekim tko odlučuje, bez povišenog tona, i reci točno što očekuješ i do kada.',
+    promptEn:
+      'You are calling for the third time about the same fault. The person on the line is polite and powerless. Ask to speak to someone who decides, without raising your voice, and say exactly what you expect and by when.',
+    minWords: 30,
+    model:
+      'Razumijem da vi to ne možete riješiti, i nemam ništa protiv vas osobno. ' +
+      'Ali evo, ovo je treći poziv zbog istoga kvara, a rok koji ste mi dali prošao je prije tjedan dana. ' +
+      'Zato bih vas zamolio da me spojite s nekim tko može donijeti odluku. ' +
+      'Ako to danas nije moguće, molim vas ime te osobe i broj predmeta, pa ću se obratiti pismeno. ' +
+      'Nije mi do svađe, nego do rezultata. Možemo li se tako dogovoriti?',
+    modelEn:
+      'I understand that you cannot solve this, and I have nothing against you personally. ' +
+      'But look, this is the third call about the same fault, and the deadline you gave me passed a week ago. ' +
+      'So I would ask you to put me through to someone who can make a decision. ' +
+      'If that is not possible today, please give me that person’s name and the case number, and I will write in. ' +
+      'I am not after an argument, I am after a result. Can we agree on that?',
+    structures: [
+      {
+        hr: 'nemam ništa protiv vas osobno',
+        en: 'I have nothing against you personally',
+        why: '"protiv" + genitive (vas) separates the person from the problem out loud — the sentence that makes the rest of the call possible.',
+      },
+      {
+        hr: 'Zato bih vas zamolio da me spojite s nekim tko može donijeti odluku',
+        en: 'So I would ask you to put me through to someone who can make a decision',
+        why: 'The conditional request ("bih vas zamolio", clitics in second position) plus a relative clause naming the person by their power, not their title.',
+      },
+      {
+        hr: 'Nije mi do svađe, nego do rezultata',
+        en: 'I am not after an argument, I am after a result',
+        why: 'The idiom "nije mi do" takes the genitive; "nego" corrects rather than adds — the calm sentence that says what you want without threatening.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Nemam ništa protiv vas osobno.',
+        en: 'I have nothing against you personally.',
+        why: '"protiv" + genitive, said before anything else — it lowers the temperature.',
+      },
+      {
+        hr: 'Rok koji ste mi dali prošao je prije tjedan dana.',
+        en: 'The deadline you gave me passed a week ago.',
+        why: 'A relative clause as subject, then "je" after the participle — a fact stated, not a feeling.',
+      },
+      {
+        hr: 'Možemo li se tako dogovoriti?',
+        en: 'Can we agree on that?',
+        why: '"li" leads the clitic cluster (možemo li se) — the question that hands the next move back.',
+      },
+    ],
+    usefulPhrases: [
+      'Razumijem da…',
+      'Evo, ovo je treći put…',
+      'Zamolio bih vas da…',
+      'Nije mi do…, nego do…',
+      'Možemo li se dogovoriti?',
+    ],
+    build: [
+      {
+        cue: 'Say: Despite the deadline, nothing has been done.',
+        answer: 'Unatoč roku ništa nije učinjeno.',
+        focus: {
+          lemma: 'rok',
+          requiredCase: 'D',
+          why: 'unatoč takes the dative, not the genitive.',
+        },
+      },
+      {
+        cue: 'Say: I insist on a written answer.',
+        answer: 'Inzistiram na pisanom odgovoru.',
+        focus: {
+          lemma: 'odgovor',
+          requiredCase: 'L',
+          why: 'inzistirati na + locative.',
+        },
+      },
+      {
+        cue: 'Say: I will turn directly to the director.',
+        answer: 'Obratit ću se izravno ravnatelju.',
+        accept: ['Izravno ću se obratiti ravnatelju.'],
+        focus: {
+          lemma: 'ravnatelj',
+          requiredCase: 'D',
+          why: 'obratiti se + dative — the person you turn to.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'escalate',
+        label: 'Ask for someone who can decide ("spojite me s nekim tko…")',
+        words: ['spojite', 'nadređen', 'nekim tko', 'odluku'],
+      },
+      {
+        id: 'specific',
+        label: 'Name what you expect and by when (a deadline, a case number, a written reply)',
+        words: ['rok', 'do ', 'broj predmeta', 'pismeno'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c2-anecdote',
+    level: 'C2',
+    title: 'Tell an anecdote and land the ending',
+    prompt:
+      'Ispričaj kratku istinitu zgodu u društvu: postavi prizor u dvije riječi, uspori pred poantom i završi jednom rečenicom — bez objašnjavanja zašto je smiješno.',
+    promptEn:
+      'Tell a short true story in company: set the scene in two words, slow down before the punchline and end on a single sentence — without explaining why it is funny.',
+    minWords: 30,
+    model:
+      'Znate onu priču o mom djedu i računu? ' +
+      'Dakle, Split, ljeto, konobar donese račun, a djed ga gleda, gleda, pa kaže: „Sinko, ovo je greška.“ ' +
+      'Konobar se zacrveni, ode, vrati se, i kaže da je sve točno. ' +
+      'A djed, sasvim mirno: „Znam. Greška je što sam došao.“ ' +
+      'I to je to. Nitko za stolom nije rekao ni riječi — samo je baka platila. ' +
+      'Jeste li vi imali takvog djeda?',
+    modelEn:
+      'Do you know the one about my grandfather and the bill? ' +
+      'So — Split, summer, the waiter brings the bill, and grandad looks at it, and looks, and says: “Son, this is a mistake.” ' +
+      'The waiter goes red, leaves, comes back, and says everything is correct. ' +
+      'And grandad, perfectly calm: “I know. The mistake is that I came.” ' +
+      'And that is that. Nobody at the table said a word — grandma just paid. ' +
+      'Did you have a grandfather like that?',
+    structures: [
+      {
+        hr: 'konobar donese račun, a djed ga gleda, gleda, pa kaže',
+        en: 'the waiter brings the bill, and grandad looks at it, and looks, and says',
+        why: 'The perfective PRESENT (donese, kaže) is the spoken narrative tense, and repeating "gleda, gleda" slows the tempo right before the line that matters.',
+      },
+      {
+        hr: 'A djed, sasvim mirno: „Znam.',
+        en: 'And grandad, perfectly calm: “I know.',
+        why: 'No verb of speaking at all — the comma, the adverb and the colon deliver the punchline, and the pause is where the laugh sits.',
+      },
+      {
+        hr: 'Nitko za stolom nije rekao ni riječi',
+        en: 'Nobody at the table said a word',
+        why: 'Croatian stacks its negatives: "nitko … nije … ni riječi" is one negation, and the genitive after "ni" is what makes "not a word" idiomatic.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Znate onu priču o mom djedu i računu?',
+        en: 'Do you know the one about my grandfather and the bill?',
+        why: '"o" + locative for the subject of a story, as an opening that asks permission to tell it.',
+      },
+      {
+        hr: 'Konobar se zacrveni, ode, vrati se.',
+        en: 'The waiter goes red, leaves, comes back.',
+        why: 'Three perfective presents in a row — each one a complete movement, no "and" between them.',
+      },
+      {
+        hr: 'I to je to.',
+        en: 'And that is that.',
+        why: 'The closing formula that forbids an explanation — say it and stop.',
+      },
+    ],
+    usefulPhrases: [
+      'Znate onu priču o…?',
+      'Dakle, …',
+      'gleda, gleda, pa kaže…',
+      'A on, sasvim mirno: …',
+      'I to je to.',
+    ],
+    build: [
+      {
+        cue: 'Say: At the beginning nobody knew him.',
+        answer: 'Na početku ga nitko nije poznavao.',
+        accept: ['Na početku nitko ga nije poznavao.'],
+        focus: {
+          lemma: 'početak',
+          requiredCase: 'L',
+          why: 'na + locative for a point in time — and the fleeting a drops.',
+        },
+      },
+      {
+        cue: 'Say: After an hour the waiter brought the bill.',
+        answer: 'Nakon jednog sata konobar je donio račun.',
+        focus: {
+          lemma: 'sat',
+          requiredCase: 'G',
+          why: 'nakon takes the genitive.',
+        },
+      },
+      {
+        cue: 'Say: The point of the story is in the last sentence.',
+        answer: 'Poanta priče je u zadnjoj rečenici.',
+        accept: ['Poanta je priče u zadnjoj rečenici.'],
+        focus: {
+          lemma: 'priča',
+          requiredCase: 'G',
+          why: 'The genitive of belonging — the point OF the story.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'open',
+        label: 'Open with a frame ("Znate onu priču…", "Dakle…")',
+        words: ['znate onu', 'jeste li čuli', 'dakle'],
+      },
+      {
+        id: 'tempo',
+        label:
+          'Narrate in the perfective present and slow down before the point ("gleda, gleda, pa kaže")',
+        words: ['pa kaže', 'gleda, gleda', 'ode', 'vrati se'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c2-concede',
+    level: 'C2',
+    title: 'Concede a point and keep the argument',
+    prompt:
+      'U raspravi ti sugovornik iznese činjenicu koja je točna i ide protiv tebe. Priznaj je jasno, bez „ali“ u istom dahu, pa objasni zašto tvoj zaključak ipak stoji.',
+    promptEn:
+      'In a debate the other person puts a fact to you that is true and goes against you. Concede it clearly, without a “but” in the same breath, then explain why your conclusion still stands.',
+    minWords: 30,
+    model:
+      'Dobro, tu ste u pravu i neću se praviti da niste: brojke iz prošle godine govore protiv mene. ' +
+      'Priznajem to bez zadrške. ' +
+      'Pa ipak, pogledajmo što one zapravo mjere. Mjere jednu godinu, a ja govorim o desetljeću. ' +
+      'Kad se uzme cijelo razdoblje, slika je drukčija, i to ne malo. ' +
+      'Znači, slažem se s vama u činjenici, a ne slažem se u zaključku. ' +
+      'Jesam li vas barem ovdje uvjerio?',
+    modelEn:
+      'All right, you are right about that and I will not pretend you are not: last year’s figures speak against me. ' +
+      'I concede that without reservation. ' +
+      'And yet, let us look at what they actually measure. They measure one year, and I am talking about a decade. ' +
+      'Take the whole period and the picture is different — and not by a little. ' +
+      'So I agree with you on the fact, and I disagree on the conclusion. ' +
+      'Have I convinced you at least on that?',
+    structures: [
+      {
+        hr: 'tu ste u pravu i neću se praviti da niste',
+        en: 'you are right about that and I will not pretend you are not',
+        why: 'A full concession has no escape hatch: "u pravu ste" with nothing after it, and "neću se praviti" (clitic "se" after the negated auxiliary) closes the door on pretending.',
+      },
+      {
+        hr: 'slažem se s vama u činjenici, a ne slažem se u zaključku',
+        en: 'I agree with you on the fact, and I disagree on the conclusion',
+        why: '"slagati se s" + instrumental for WHOM, "u" + locative for WHAT — and "a ne" splits the concession from the argument in one sentence.',
+      },
+      {
+        hr: 'Kad se uzme cijelo razdoblje, slika je drukčija, i to ne malo',
+        en: 'Take the whole period and the picture is different — and not by a little',
+        why: 'Impersonal "se" with the perfective present in a "kad" clause, then "i to ne malo" — the understatement that makes the reframing land harder than an adjective would.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Tu ste u pravu.',
+        en: 'You are right about that.',
+        why: 'The concession said whole, with a full stop after it — no "ali".',
+      },
+      {
+        hr: 'Priznajem to bez zadrške.',
+        en: 'I concede that without reservation.',
+        why: '"bez" + genitive; the phrase that makes a concession sound chosen, not forced.',
+      },
+      {
+        hr: 'Slažem se s vama u činjenici, a ne u zaključku.',
+        en: 'I agree with you on the fact, and not on the conclusion.',
+        why: 'Instrumental for the person, locative for the matter, "a ne" for the turn.',
+      },
+    ],
+    usefulPhrases: [
+      'Tu ste u pravu.',
+      'Priznajem to bez zadrške.',
+      'Pa ipak, …',
+      'Kad se uzme cijelo razdoblje, …',
+      'Slažem se u činjenici, a ne u zaključku.',
+    ],
+    build: [
+      {
+        cue: 'Say: I agree with my opponent on one point.',
+        answer: 'Slažem se s protivnikom u jednoj točki.',
+        focus: {
+          lemma: 'protivnik',
+          requiredCase: 'I',
+          why: 'slagati se s + instrumental.',
+        },
+      },
+      {
+        cue: 'Say: That changes nothing in my conclusion.',
+        answer: 'To ne mijenja ništa u mom zaključku.',
+        accept: ['To ništa ne mijenja u mom zaključku.'],
+        focus: {
+          lemma: 'zaključak',
+          requiredCase: 'L',
+          why: 'u + locative for where — and the fleeting a drops.',
+        },
+      },
+      {
+        cue: 'Say: Thanks to the facts, the debate is shorter.',
+        answer: 'Zahvaljujući činjenicama rasprava je kraća.',
+        focus: {
+          lemma: 'činjenica',
+          requiredCase: 'D',
+          number: 'pl',
+          why: 'zahvaljujući takes the dative.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'concede',
+        label: 'Concede the fact in full ("u pravu ste", "priznajem")',
+        words: ['u pravu', 'priznajem', 'slažem se'],
+      },
+      {
+        id: 'turn',
+        label: 'Turn back to your argument after a pause ("pa ipak", "međutim")',
+        words: ['pa ipak', 'međutim', 'ipak'],
+      },
+      { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
+    ],
+  },
+  {
+    id: 'c2-layperson',
+    level: 'C2',
+    title: 'Explain your field to a layperson',
+    prompt:
+      'Objasni nešto iz svojega posla ili struke nekome tko o tome ne zna ništa: bez stručnih riječi, s jednom usporedbom iz svakodnevice, i provjeri je li te razumio.',
+    promptEn:
+      'Explain something from your work or field to someone who knows nothing about it: no technical terms, one comparison from everyday life, and check whether they have understood you.',
+    minWords: 30,
+    model:
+      'Pa evo, pokušat ću bez stručnih riječi. ' +
+      'Zamislite da je jezik kuća u kojoj svi stanari premještaju namještaj, ali nitko ne smije pomaknuti zidove. ' +
+      'Riječi su namještaj: dolaze, odlaze, mijenjaju se svake godine. Padeži su zidovi. ' +
+      'Zato ćete od bake čuti riječi kojih više nema, ali nikad rečenicu u kojoj zidovi stoje krivo. ' +
+      'Je li to jasnije? Ako nije, recite gdje sam vas izgubio, pa ću uzeti drugu usporedbu.',
+    modelEn:
+      'Well, let me try without technical words. ' +
+      'Imagine that a language is a house in which all the tenants move the furniture around, but nobody is allowed to move the walls. ' +
+      'Words are the furniture: they come, they go, they change every year. Cases are the walls. ' +
+      'That is why you will hear from your grandmother words that no longer exist, but never a sentence in which the walls stand wrong. ' +
+      'Is that clearer? If not, tell me where I lost you and I will take another comparison.',
+    structures: [
+      {
+        hr: 'Zamislite da je jezik kuća u kojoj svi stanari premještaju namještaj',
+        en: 'Imagine that a language is a house in which all the tenants move the furniture around',
+        why: 'The V-form imperative "zamislite" opens an analogy, and "u kojoj" carries the locative into the relative clause — the whole explanation lives inside that picture.',
+      },
+      {
+        hr: 'od bake čuti riječi kojih više nema',
+        en: 'hear from your grandmother words that no longer exist',
+        why: '"nema" takes the genitive, and the genitive is carried by the relative pronoun "kojih" — a case ending doing the work of a whole clause.',
+      },
+      {
+        hr: 'recite gdje sam vas izgubio, pa ću uzeti drugu usporedbu',
+        en: 'tell me where I lost you and I will take another comparison',
+        why: 'The comprehension check puts the failure on the SPEAKER ("gdje sam vas izgubio"), never on the listener — the register that keeps a layperson listening.',
+      },
+    ],
+    rehearse: [
+      {
+        hr: 'Pokušat ću bez stručnih riječi.',
+        en: 'Let me try without technical words.',
+        why: 'Futur I in two words (pokušat ću), then "bez" + genitive plural.',
+      },
+      {
+        hr: 'Zamislite da je jezik kuća.',
+        en: 'Imagine that a language is a house.',
+        why: 'The V-form imperative that opens an analogy — "da" + present after it.',
+      },
+      {
+        hr: 'Recite gdje sam vas izgubio.',
+        en: 'Tell me where I lost you.',
+        why: '"sam vas" — auxiliary before pronoun in the clitic cluster, inside an indirect question.',
+      },
+    ],
+    usefulPhrases: [
+      'Pokušat ću bez stručnih riječi.',
+      'Zamislite da…',
+      'To vam je kao…',
+      'Je li to jasnije?',
+      'Recite gdje sam vas izgubio.',
+    ],
+    build: [
+      {
+        cue: 'Say: I will explain it with an example from the kitchen.',
+        answer: 'Objasnit ću to primjerom iz kuhinje.',
+        focus: {
+          lemma: 'primjer',
+          requiredCase: 'I',
+          why: 'Means — the bare instrumental, no preposition.',
+        },
+      },
+      {
+        cue: 'Say: Everything depends on one rule.',
+        answer: 'Sve ovisi o jednom pravilu.',
+        focus: {
+          lemma: 'pravilo',
+          requiredCase: 'L',
+          why: 'ovisiti o + locative.',
+        },
+      },
+      {
+        cue: 'Say: I am speaking to laypeople, not to experts.',
+        answer: 'Govorim laicima, a ne stručnjacima.',
+        focus: {
+          lemma: 'laik',
+          requiredCase: 'D',
+          number: 'pl',
+          why: 'Dative plural — and k softens to c before -ima.',
+        },
+      },
+    ],
+    checklist: [
+      {
+        id: 'analogy',
+        label: 'Use one everyday comparison ("zamislite da…", "to vam je kao…")',
+        words: ['zamislite', 'kao da', 'to vam je kao', 'usporedb'],
+      },
+      {
+        id: 'check',
+        label: 'Check they understood ("je li to jasnije?", "gdje sam vas izgubio")',
+        words: ['je li to jasnije', 'jasno', 'razumijete', 'izgubio'],
       },
       { id: 'len', label: 'Speak at least 30 words', minWords: 30 },
     ],

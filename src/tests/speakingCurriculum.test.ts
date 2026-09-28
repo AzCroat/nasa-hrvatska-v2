@@ -44,10 +44,10 @@ function modelShows(model: string, hr: string): boolean {
 }
 
 describe('speaking curriculum — coverage', () => {
-  it('has at least 8 units at every CEFR level', () => {
+  it('has at least 12 units at every CEFR level (8 → 12 on 2026-09-28, owner content-expansion item 4)', () => {
     for (const level of LEVELS) {
       const units = speakingUnitsForLevel(level);
-      expect(units.length, `${level} has ${units.length} units`).toBeGreaterThanOrEqual(8);
+      expect(units.length, `${level} has ${units.length} units`).toBeGreaterThanOrEqual(12);
     }
   });
 

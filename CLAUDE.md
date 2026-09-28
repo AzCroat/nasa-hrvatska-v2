@@ -2458,7 +2458,7 @@ unschedulable, and daily speaking fed nothing back to the mastery ledger (so
   `src/data/writingCurriculum.ts`): study a native model → complete guided
   frames (local check, zero AI) → free production against a checklist, graded
   by the SAME `/api/correct` rubric the exam uses. Curriculum is CEFR-complete
-  A1–C2 (**≥8 units/level** as of 2026-09-05, was 3; pinned by
+  A1–C2 (**≥12 units/level** as of 2026-09-28, was 8 from 2026-09-05 and 3 before; pinned by
   `writingCurriculum.test.ts`) — A1 had NO writing content before. At three
   units a level's writing was exhausted in three sessions and `pickUnit`'s
   rotation served the same model on the fourth; each level now spans personal,
@@ -2689,7 +2689,7 @@ a rule would produce `mornra`, the same damage in a new place.
   checking `decline()` produces the cell (a wrong required form teaches a wrong
   ending); let the button before it name a stage it does not lead to.
 
-**Guided Speaking** (`src/data/speakingCurriculum.ts`, 48 units at 8 per level;
+**Guided Speaking** (`src/data/speakingCurriculum.ts`, 72 units at 12 per level since 2026-09-28, 48 at 8 before;
 `GuidedSpeakingScreen`; `PRODUCTION_POOL` id `speaking_guided`, A1+, keyboard-safe)
 is the writing curriculum's twin and a REACHABLE entry point to the coach:
 LISTEN (model + TTS) → REHEARSE (say the load-bearing phrases) → SPEAK (free

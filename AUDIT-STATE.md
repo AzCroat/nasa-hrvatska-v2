@@ -13088,3 +13088,38 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     90-day cache, and `tts.js` swallows a refused put (`.catch(() => {})`), so a capped day
     costs regeneration, never audio. The owner moved the account to the Workers PAID plan
     the same evening; CLAUDE.md's KV note records it.
+- [x] **Sweep 188 — production units 8 → 12 per level: 48 units authored, read, and spliced (2026-09-28).**
+  - Owner content-expansion item 4 (sweep 177), the patch an earlier desktop session wrote
+    and lost (HANDOFF §3a). Rewritten from scratch: four Guided Writing + four Guided Speaking
+    units per level, A1–C2, authored by one agent per level under one written brief
+    (`/tmp/prod-units/BRIEF.md`: the two unit shapes, the guards' rules, the Croatian
+    standard, `decline()` + `gradeBuild()` verification on every build sentence). Every
+    agent's Croatian was then READ by the lead before splicing — the rule that a checker
+    passing is not the bar. One edit on that read: C1's `ono što fali jest pravilo` →
+    `nedostaje` (the directive is standard Croatian; `fali` is colloquial). Kept as standard
+    and noted: `ju` for the feminine accusative clitic (A2), `greška` in spoken register (C2),
+    `Draga teta` beside `Draga teto` (both in use), lowercase `vas/vi` in spoken models.
+  - Guards raised, not loosened: `writingCurriculum.test.ts` / `speakingCurriculum.test.ts`
+    floors 8 → 12; `sentenceBuild.test.ts` coverage 48 → 72 (every new speaking unit
+    carries three build sentences). Croatian lint 0 findings across 480 files (both files in
+    TARGETS); eslint / tsc clean.
+  - **THE DECLENSION ENGINE, PROBED BY SIX AUTHORS ON ~300 LEMMAS, IS WRONG FOR THESE — none
+    used in a build cell; a batch for `croatianMorphology`/`croatianLexicalClasses` (the
+    sweep-178 shape):** `kćer` (treated as m.; expected G/D/L `kćeri`, I `kćeri/kćerju`);
+    `snijeg` pl `snijezi` → `snjegovi`; `vikend` Gpl `vikenada` → `vikenda`; `auto`/`euro`
+    labelled neuter (Npl `auta`/`eura` → `auti`/`euri`); `vrata`, `leđa` declined as f. sg
+    (pluralia tantum); `djeca` as f. sg; `tata` gender label f (forms right); `ručak` V
+    `ručče` → `ručku`; `pizza` Gpl `pizaza` (zz cluster) → `pizza`/`pizzi`; `sarma` Gpl
+    `sarama` (doubtful); `suradnik` A `suradnik` → `suradnika` (animate); `pogreška`/
+    `podrška` DL `-ški` → `-šci`; `zadatak` Npl `zadatci` (both allowed) and V `zadatče`;
+    `pojam` G/D `pojama`/`pojamu` → `pojma`/`pojmu`; `mozak` G `mozka` → `mozga`; `kolega`
+    gender f and DL `kolezi` → `kolegi`; `poanta` Gpl `poanata`; `vijest` treated as m.
+    (→ f. i-stem `vijesti`, `viješću`); `pješak` fleeting a applied (→ `pješaka`, `pješaci`);
+    `biciklist` A inanimate (→ `biciklista`); `lijek` pl `lijeci` → `lijekovi`; `bol` m.
+    only (pain is f., G `boli`); `zadar` G `zadara` → `Zadra` (the `centar` class); `sat` Gpl
+    `sata` → `sati`; `povijest` m. without a gender (→ f.). Recorded, not fixed here — the
+    tap-a-word sheet shows these paradigms, so it is a real batch and the next declension
+    sweep's list.
+  - **Not checked**: a real-mic pass of the new speaking units (the typed path is what the
+    guards drive); the units in a browser (the screens are unchanged; the rotation reaches
+    them from index 8 of each level).
