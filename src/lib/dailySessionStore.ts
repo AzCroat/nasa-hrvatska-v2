@@ -27,6 +27,13 @@ export interface SessionActivity {
    * the reason it was picked this morning, not a line that rewrites itself.
    */
   reason?: string;
+  /**
+   * Which Stretch this activity belongs to (1..STRETCH_MAX); absent on the core
+   * session's own activities. The Stretch (redesign increment 6) lives in this
+   * same array so every mechanism keyed on it — the launch handshake, markDone,
+   * the SRS auto-skip, the next-step engine — works unchanged. See lib/stretchSession.
+   */
+  stretch?: number;
 }
 
 export interface DailySession {
@@ -52,6 +59,13 @@ export interface DailySession {
    * nothing: honest, and what a missing reason has always meant here.
    */
   planReason?: string;
+  /**
+   * How many Stretch sessions the day owes after the core — decided ONCE, when
+   * the core completes, from the evidence the app holds at that moment (floor 1,
+   * cap 3; lib/stretchSession). Absent until then, and on plans written before
+   * the Stretch existed, which reads as "not yet decided".
+   */
+  stretchTarget?: number;
   activities: SessionActivity[];
   completedIds: string[];
   estimatedMinutes: number;

@@ -41,6 +41,19 @@ import { selectGuaranteedInput, inputKindOf } from '../lib/inputSlot';
 import { readServedMap, SERVED_KEY } from '../lib/sessionServed';
 import { sessionLevel } from '../lib/sessionLevel';
 import { selectLessonProduceSlot, creditProducedSlots } from '../lib/produceSlot';
+import { extendWithStretch, stretchState, type StretchState } from '../lib/stretchSession';
+import {
+  readMicState,
+  getRecentProduction,
+  recordProductionExercise,
+} from '../lib/productionRecency';
+import type { MicState } from '../lib/productionRecency';
+export {
+  readMicState,
+  getRecentProduction,
+  recordProductionExercise,
+} from '../lib/productionRecency';
+export type { MicState } from '../lib/productionRecency';
 // Re-exported so tests keep one import path for the session's guaranteed slots.
 export { selectGuaranteedInput } from '../lib/inputSlot';
 export type { InputKind } from '../lib/inputSlot';
@@ -83,6 +96,12 @@ export interface UseDailySessionReturn {
    * auto-regenerates, which used to hide the completion moment).
    */
   startFreshSession: () => void;
+  /**
+   * Where the day stands against the bar (redesign increment 6): the core done,
+   * which Stretch is open, how many the evidence owes. `isComplete` is
+   * `stretch.complete` — the core session alone no longer completes the day.
+   */
+  stretch: StretchState;
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -1011,30 +1030,72 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     }, [userCefr]),
   );
 
-  const markDone = useCallback((screenOrId: string) => {
-    setSession((prev) => {
-      // Match by id or by screen name
-      const match = prev.activities.find((a) => a.id === screenOrId || a.screen === screenOrId);
-      if (!match) return prev;
-      if (prev.completedIds.includes(match.id)) return prev;
-      const updated = markDoneInSession(prev, match.id);
-      persistSession(updated);
-      // Record the screen so the daily session's skip-recent filter rotates it
-      // out next time (the write path that was missing for non-Practice users).
-      recordRecentExercise(match.screen);
-      // SP4b: track production exercises for recent-exclusion rotation. (The
-      // Rec-#6 production-rep COUNT lives in useAward now — the central completion
-      // point — so it captures Practice-tab production too, not just sessions.)
-      if (PRODUCTION_SCREEN_IDS.has(match.screen)) {
-        recordProductionExercise(match.screen);
-      }
-      // Check for session completion
-      if (updated.completedIds.length === updated.activities.length) {
-        recordSessionComplete(updated.date);
-      }
-      return updated;
-    });
-  }, []);
+  // THE STRETCH (redesign increment 6): once the core is done the plan grows by
+  // one Stretch at a time until the evidence-set bar is met. Applied on every
+  // completion path — here synchronously, so the card never renders a finished
+  // core as a finished day — and in the settle effect below for the paths that
+  // complete a slot without a tap (the SRS auto-skip, the produce credit).
+  const stretchDeps = useCallback(
+    () => ({
+      dueReviews:
+        poolWords && poolWords.size > 0
+          ? getServableReviewCount(poolWords)
+          : getDueReviews().length,
+      micBlocked: readMicState() === 'denied' || readMicState() === 'unsupported',
+      recentScreens: ((): string[] => {
+        try {
+          return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]') as string[];
+        } catch {
+          return [];
+        }
+      })(),
+      selectProduction: (o: {
+        cefr: string;
+        excludeScreens: string[];
+        kindBias?: 'speak' | 'write' | 'converse';
+      }) =>
+        selectProductionExercise({
+          ...o,
+          micState: readMicState(),
+          recentScreens: getRecentProduction(),
+        }),
+      selectGrammar: selectGuaranteedGrammar,
+    }),
+    [poolWords],
+  );
+  const stretched = useCallback(
+    (s: DailySession) => extendWithStretch(s, sessionLevel(userCefr), stretchDeps()),
+    [userCefr, stretchDeps],
+  );
+
+  const markDone = useCallback(
+    (screenOrId: string) => {
+      setSession((prev) => {
+        // Match by id or by screen name
+        const match = prev.activities.find((a) => a.id === screenOrId || a.screen === screenOrId);
+        if (!match) return prev;
+        if (prev.completedIds.includes(match.id)) return prev;
+        const updated = stretched(markDoneInSession(prev, match.id));
+        persistSession(updated);
+        // Record the screen so the daily session's skip-recent filter rotates it
+        // out next time (the write path that was missing for non-Practice users).
+        recordRecentExercise(match.screen);
+        // SP4b: track production exercises for recent-exclusion rotation. (The
+        // Rec-#6 production-rep COUNT lives in useAward now — the central completion
+        // point — so it captures Practice-tab production too, not just sessions.)
+        if (PRODUCTION_SCREEN_IDS.has(match.screen)) {
+          recordProductionExercise(match.screen);
+        }
+        // The day's history records the CORE session's completion — the Stretch
+        // appended above makes `activities` longer, so this asks the core directly.
+        if (stretchState(updated).coreComplete) {
+          recordSessionComplete(updated.date);
+        }
+        return updated;
+      });
+    },
+    [stretched],
+  );
 
   // 2026-05-20 BUG FIX: auto-skip SRS review activity when nothing is due.
   //
@@ -1070,23 +1131,32 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     // Use the same setter path markDone uses (persist + history side-effects).
     setSession((prev) => {
       if (prev.completedIds.includes(srsActivity.id)) return prev;
-      const updated = markDoneInSession(prev, srsActivity.id);
+      const updated = stretched(markDoneInSession(prev, srsActivity.id));
       persistSession(updated);
-      if (updated.completedIds.length === updated.activities.length) {
+      if (stretchState(updated).coreComplete) {
         recordSessionComplete(updated.date);
       }
       return updated;
     });
-  }, [session, poolWords]);
+  }, [session, poolWords, stretched]);
 
   // THE PRODUCE SLOT IS CREDITED FOR WORK DONE ON THE LESSON PAGE (redesign
   // increment 2a) — the SRS auto-skip above is the precedent for a slot the
   // session settles on its own evidence. Rule and rationale in lib/produceSlot.
+  // The same pass then asks whether a Stretch is owed (increment 6), so a core
+  // finished by a credit rather than a tap still grows the plan — and so a plan
+  // persisted before the Stretch existed, or finished before this render, is
+  // extended on load.
   useEffect(() => {
-    setSession((prev) => creditProducedSlots(prev));
-  }, [session]);
+    setSession((prev) => {
+      const next = stretched(creditProducedSlots(prev));
+      if (next !== prev) persistSession(next);
+      return next;
+    });
+  }, [session, stretched]);
 
-  const isComplete = session.completedIds.length >= session.activities.length;
+  const stretch = stretchState(session);
+  const isComplete = stretch.complete;
   const progress =
     session.activities.length === 0 ? 0 : session.completedIds.length / session.activities.length;
   const nextActivity = session.activities.find((a) => !session.completedIds.includes(a.id)) ?? null;
@@ -1166,75 +1236,8 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     tomorrowLabel,
     bonusActivities,
     startFreshSession,
+    stretch,
   };
-}
-
-// ── Mic-state persistence (SP4b) ─────────────────────────────────────────────
-// useRecorder writes 'available' | 'denied' | 'unsupported' on terminal state
-// transitions. selectProductionExercise reads this to decide whether
-// mic-required exercises are eligible. Unknown values fail-open to 'unknown'.
-const MIC_STATE_KEY = 'nh_mic_state';
-const VALID_MIC_STATES = new Set(['available', 'denied', 'unsupported']);
-export type MicState = 'available' | 'denied' | 'unsupported' | 'unknown';
-
-export function readMicState(): MicState {
-  try {
-    const v = localStorage.getItem(MIC_STATE_KEY);
-    if (v && VALID_MIC_STATES.has(v)) return v as MicState;
-  } catch (_) {
-    // localStorage unavailable (iOS private browsing) — fall through
-  }
-  return 'unknown';
-}
-
-// ── Recent-production tracking (SP4b) ────────────────────────────────────────
-// Tracks which production exercises the user has done in the last 3 days to
-// avoid back-to-back repeats. Device-local by design — cross-device sync is
-// out of scope per SP4b spec.
-const PRODUCTION_RECENT_KEY = 'nh_recent_production';
-const PRODUCTION_RECENT_WINDOW_DAYS = 3;
-
-interface RecentProductionEntry {
-  screen: string;
-  date: string; // YYYY-MM-DD
-}
-
-function _todayStr(): string {
-  // Delegates to the canonical local-date helper. This file already used
-  // localDateStr() in nine places for the session's own day-keying; this helper
-  // was the one UTC holdout, so the recent-production window boundary sat up to
-  // a day away from the learner's own day.
-  return localDateStr();
-}
-
-function _daysBetween(a: string, b: string): number {
-  // Returns absolute day difference between two YYYY-MM-DD strings.
-  // ISO-string parse is timezone-stable for date-only values.
-  const aMs = new Date(a + 'T00:00:00Z').getTime();
-  const bMs = new Date(b + 'T00:00:00Z').getTime();
-  return Math.round(Math.abs(aMs - bMs) / 86400000);
-}
-
-export function getRecentProduction(): string[] {
-  try {
-    const raw = localStorage.getItem(PRODUCTION_RECENT_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    const today = _todayStr();
-    return parsed
-      .filter(
-        (e): e is RecentProductionEntry =>
-          e &&
-          typeof e === 'object' &&
-          typeof e.screen === 'string' &&
-          typeof e.date === 'string' &&
-          _daysBetween(today, e.date) < PRODUCTION_RECENT_WINDOW_DAYS,
-      )
-      .map((e) => e.screen);
-  } catch (_) {
-    return [];
-  }
 }
 
 // ── Production pool (SP4b; expanded — Session-Rec #1/#2) ──────────────────────
@@ -1457,33 +1460,4 @@ export function selectProductionExercise(opts: {
     screen: picked.screen,
     category: picked.category,
   };
-}
-
-export function recordProductionExercise(screen: string): void {
-  if (!screen || typeof screen !== 'string') return;
-  try {
-    const raw = localStorage.getItem(PRODUCTION_RECENT_KEY);
-    const arr: RecentProductionEntry[] = (() => {
-      try {
-        const parsed = raw ? JSON.parse(raw) : [];
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
-    })();
-    const today = _todayStr();
-    // Same-day re-record doesn't duplicate
-    const existsToday = arr.some((e) => e.screen === screen && e.date === today);
-    if (!existsToday) arr.push({ screen, date: today });
-    // Prune entries older than the window before saving
-    const pruned = arr.filter(
-      (e) =>
-        e &&
-        typeof e.date === 'string' &&
-        _daysBetween(today, e.date) < PRODUCTION_RECENT_WINDOW_DAYS,
-    );
-    localStorage.setItem(PRODUCTION_RECENT_KEY, JSON.stringify(pruned));
-  } catch (_) {
-    // QuotaExceededError or localStorage unavailable — non-fatal
-  }
 }

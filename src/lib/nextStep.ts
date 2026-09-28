@@ -186,13 +186,21 @@ export function getNextStep(opts: {
     );
     if (next) {
       const done = session.completedIds.length;
+      // A Stretch activity (redesign increment 6) is named as one: the core is
+      // done and the plan has grown, so "continue today's session" would read as
+      // the app forgetting the learner finished it.
+      const stretch = next.stretch;
       return {
         kind: 'session',
         screen: next.screen,
         category: next.category,
         activityId: next.id,
-        label: `Continue today's session — ${next.label}`,
-        reason: `${done} of ${session.activities.length} done. Finish the plan, then explore.`,
+        label: stretch
+          ? `Stretch ${stretch}${session.stretchTarget ? ` of ${session.stretchTarget}` : ''} — ${next.label}`
+          : `Continue today's session — ${next.label}`,
+        reason: stretch
+          ? `Core done. ${done} of ${session.activities.length} done today — the stretch is built from your results.`
+          : `${done} of ${session.activities.length} done. Finish the plan, then explore.`,
       };
     }
   }

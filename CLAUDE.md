@@ -4609,6 +4609,61 @@ listening and never submits), and `/api/speaking-coach` grades the transcript.
   the microphone; parse a produce id without the kind-less 2a fallback while any
   persisted session may still carry one.
 
+### Increment 6 — the Stretch: a finished session is not a finished day (owner report, 2026-09-28)
+
+Owner: _"Users, like my son, often complete the daily session, and without further
+prompting or guidance, feel they have completed enough studying. 30 minutes a day isn't
+likely enough for a kid who has moved to Croatia."_ Measured on Home at completion: every
+meter said 100% (`DAILY_XP_GOAL` is what the session pays), the card said "Session
+Complete! 🎉", and the engine's one next step was a pill after a five-slot session.
+
+- **THE BAR IS THE APP'S, NOT THE LEARNER'S.** A 30/60/90-minute preset picker was
+  proposed and REJECTED — _"if they are unmotivated they may select what is easy. We
+  should assume you are using the application to become fluent."_ Done-for-today is the
+  core session plus every Stretch the evidence justifies: `clamp(ceil(measured / 4), 1, 3)`
+  (`src/lib/stretchSession.ts`), decided ONCE when the core completes. Time is never the
+  goal shown; the card counts sessions.
+- **A STRETCH IS A SECOND GUIDED SESSION** — four activities, offered as the Home hero
+  ("STRETCH 1 OF 2 · Begin Stretch 1 of 2", `stretch-hero`) with the core collapsed to one
+  done chip, the hero-only directive intact; the complete card ("Day Complete!") renders
+  only at the bar. `getNextStep`'s rung 2 names a Stretch activity as one.
+- **ONLY MEASURED EVIDENCE IS CALLED EVIDENCE.** Word reviews due, lesson re-checks and
+  missed items, concept-map `shaky`/`due` lessons routed to their coupled drill (the
+  EASIER route when the primary is locked — pinned by a test that FINDS such a lesson in
+  the spine rather than naming one), the ledger's weakest production/receptive skill when it
+  has a verdict, adaptive categories MEASURED below the pass mark among taught categories.
+  Each carries the reason its slot machinery already writes ("Your Genitive check: 2 of
+  6."). A learner with nothing measured owes one Stretch from the path ahead, whose reasons
+  state the guarantee and never a number. **Never a lesson** (the course gate is untouched),
+  never a browse entry. **Ties resolve toward speaking and listening**, for everyone, inside
+  the rank — a measured weakness still outranks the tie.
+- **IT LIVES IN THE SAME `activities` ARRAY, tagged `stretch: k`**, so the launch
+  handshake, `markDone`, the SRS auto-skip, the produce credit, the invalidation and the
+  engine all work unchanged. The consequence: `markDone` matches the FIRST activity with a
+  screen, so **a screen appears once per day** — every Stretch excludes every screen already
+  in the plan (pinned in the module and the hook tests and the E2E).
+- **`isComplete` is `stretch.complete`**, and `markDone` appends the next Stretch
+  SYNCHRONOUSLY so the card never renders a finished core as a finished day; the settle
+  effect covers the tap-less paths and a plan persisted before the Stretch existed. The
+  `nh_session_history` calendar still records the CORE session.
+- **The 800-line cap held**: `readMicState` / `getRecentProduction` /
+  `recordProductionExercise` moved to `src/lib/productionRecency.ts` (re-exported by the
+  hook); `selectProduction`/`selectGrammar` are INJECTED into the module because they live
+  in the hook, which imports it.
+- Measured with a seeded probe (no evidence → 1 Stretch, all path, spoken first; one weak
+  skill → 1, that skill leads; four shaky lessons + reviews → 2, the first 100% measured),
+  driven in a real browser (`e2e/stretch-session.spec.js`), mutation-verified ten ways —
+  nine fail 1–8, and one is EQUIVALENT in steady state (`isComplete` back to all-done, only
+  because the extension is synchronous), recorded rather than hidden. The mutation harness
+  itself printed nothing on its first run: zsh does not word-split `$SUITES`, so vitest ran
+  no files — caught because the BASELINE printed nothing too.
+- **Flagged, not changed**: `DailyGoalCard` measures XP against an onboarding-CHOSEN goal —
+  the self-set target 6a rejected. An owner decision.
+- NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
+  activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
+  Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the
+  target more than once a day; raise the 800-line cap to keep the recency block in the hook.
+
 ## Critical Architecture: A Hook After An Early Return Is A Crash Waiting For The Second Render (owner's Sentry report, 2026-09-28)
 
 `/review` — the highest-volume daily action — threw "Rendered more hooks than during
