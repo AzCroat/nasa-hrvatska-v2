@@ -2815,6 +2815,26 @@ roditelja` therefore showed the family emoji whole in the icon slot and again,
   decorative**: "the icon contains an emoji" is satisfied by a title written
   with no space (`👵Kod bake` → icon `👵Kod`, heading `bake`), and it survived
   the mutation. It now also asserts the icon contains no letters or digits.
+- **24 PER LEVEL, 144 IN ALL (2026-09-28).** From B1 up a conversation is in every
+  session, so 12 scenarios came round about every two weeks and answers began to be
+  remembered rather than produced. The 72 new ones keep each level's method: A1/A2
+  register follows the person (six ti, six Vi), B1–C2 are six formal/informal PAIRS of
+  speech acts the level had not paired (congratulate, ask permission, advise, recommend,
+  complain, report a problem; warn, extend a deadline, clear up a misunderstanding,
+  remind; set a boundary, defend a decision, ask for a reference, answer an accusation;
+  toast, answer irony, withdraw, concede). Floor ratcheted to 24 at every level.
+  **Authored by one agent per level, then read line by line — and review changed 19
+  turns.** Two of the agents' MODEL answers were wrong: `štrukli` is masculine plural
+  (`najbolji su`), and the tip taught the opposite. The rest were distractors marking
+  real Croatian wrong, in one class worth naming: **the nominative used to address a
+  person (`Josip!`, `baka!`), `s mnom`, `sa njom`, `me smeta`, `imaš li vrijeme`, a
+  singular participle with polite Vi, `savjetovati nekoga`, and delayed clitics after a
+  heavy subject are all heard from natives**, so none is the error a distractor tests.
+  The agents' notes also caught four such distractors in the EXISTING bank, fixed here:
+  `vođenje dva projekta` and `postane problemom` (both standard, the second tipped as
+  "archaic"), `Hvala vam za …` twice, and `Idem istuširati se`.
+  **Parallel authoring collides on ids** — each agent checked uniqueness against the file,
+  not against the others, and B2/C1 and B2/C2 picked the same two ids. Renamed at merge.
 - NEVER: add a scenario without its server context; put the correct option
   anywhere but index 0; make a distractor wrong by being Serbian or by being
   a merely-marked variant a native would say; split an emoji off a title by

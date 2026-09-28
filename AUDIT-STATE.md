@@ -12830,3 +12830,14 @@ mogli`, B1 ×6, B2, a drill); `Pasti će` → `Past će`; `ako bude padati` → 
     Coverage 479 → 480 (3 structured). Mutation: walker unregistered fails 2 tests.
   - **Not checked**: whether a numeral or abbreviation elsewhere in TTS-read content (dictation,
     graded stories) reads badly — only LISTEN is pinned.
+  - **Dialogues 12 → 24 per level (+72), 19 turns corrected on review**: two wrong
+    MODEL answers (štrukli is masculine plural; the tip said feminine) and distractors
+    marking native-spoken forms wrong (vocative-as-nominative with names, s mnom, sa njom,
+    me smeta, imaš li vrijeme, singular participle with Vi, savjetovati + A, delayed
+    clitic). Four such distractors fixed in EXISTING scenarios too: `vođenje dva
+projekta`, `postane problemom` (tip called it archaic — false), `Hvala vam za` ×2,
+    `Idem istuširati se`. Id collisions from parallel agents (B2/C1, B2/C2) renamed.
+    Kept, deliberately: `bi li mogli` for 1pl (non-standard; tip names `bismo`), and the
+    C2 pragmatic distractors in `posredovanje_odbor` & co. (tact is the C2 skill).
+  - **Not checked**: whether the Maja/AI conversation mode behaves well on the 72 new
+    server contexts — the parity test proves each has one, not that the persona works.
