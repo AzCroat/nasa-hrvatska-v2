@@ -198,8 +198,10 @@ export function productionReason(weakest: 'speak' | 'write' | null, level: CefrL
  * owner decision 4). True by construction: the slot exists only on a lesson day
  * and names that lesson.
  */
-export function produceReason(lessonTitle: string): string {
-  return `Use what “${lessonTitle}” taught — two or three sentences of your own, graded like any writing.`;
+export function produceReason(lessonTitle: string, kind: 'write' | 'speak' = 'write'): string {
+  return kind === 'speak'
+    ? `Use what “${lessonTitle}” taught — say two or three sentences of your own; the speaking coach grades the transcript.`
+    : `Use what “${lessonTitle}” taught — two or three sentences of your own, graded like any writing.`;
 }
 
 /** Why the conversation anchor is here (B1+ guarantee — true by construction). */

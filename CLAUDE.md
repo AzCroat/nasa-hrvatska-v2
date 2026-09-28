@@ -4556,6 +4556,35 @@ whose course step IS a lesson, P2.5 is now that step: `src/lib/produceSlot.ts`
   session slot on an evaluator refusal; add a session activity whose id starts with
   `curriculum_` without teaching the probe's `isP0` which kind it is.
 
+### Increment 2b — the same step, spoken (2026-09-28)
+
+2a's stated cost was that the step is written, so an A1 learner spoke no Croatian in
+the session on lesson days. `LessonProduceStep` now takes `kind: 'write' | 'speak'`
+(default write — the lesson summary is unchanged). SPEAK asks for the same two or
+three sentences aloud: the hr-HR continuous recogniser feeds the SAME text box the
+learner can type into (a mic-blocked learner is not shut out; `onend` only stops
+listening and never submits), and `/api/speaking-coach` grades the transcript.
+
+- **The coach records its own evidence.** `requestSpeakingCoach` → `applyCoachLoops`
+  writes the speaking mastery event and the error types; the step must not record a
+  second event for it. It awards `round(overall × 10) + 5` as `speaking`, marks the
+  speak quest, records `produced.kind = 'speak'`, and frees the session slot on a
+  graded submission and on a coach refusal.
+- **Which kind today** (`produceSlot.pickProduceKind`): the ledger's weaker production
+  skill when it has a verdict; otherwise ALTERNATE from the last graded produce step
+  (`produced.kind`, new on the retention record — kept by the sanitiser, passed whole
+  by the merge), opening on write. The activity id carries it
+  (`curriculum_produce_<kind>_<lesson>`) and so does the handoff (`lesson|kind`); a
+  2a-shaped id or handoff still in a persisted session reads as write.
+- **Either modality settles the slot.** The work is production on the concept; a
+  learner who wrote it on the lesson summary has done a speak slot's work too.
+- Pinned by `produceSlot.test.tsx` (20). Mutation-verified, four: kind always write
+  fails 3; the spoken step records no kind fails 1; it never frees the slot fails 2;
+  the sanitiser drops the kind fails 3.
+- NEVER: record a second mastery event from the spoken step; gate the spoken step on
+  the microphone; parse a produce id without the kind-less 2a fallback while any
+  persisted session may still carry one.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

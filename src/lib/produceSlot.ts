@@ -30,8 +30,12 @@ import {
   lessonIdOfProduceActivity,
   requestLessonProduce,
   lessonProduced,
+  lastProducedKind,
+  type ProduceKind,
 } from './lessonProduceRequest';
 import { produceReason } from './activityReason';
+import { weakestProductionKind } from './masteryLedger';
+import type { CefrLevel } from './cefr';
 
 interface SlotLike {
   id: string;
@@ -46,23 +50,37 @@ interface SlotLike {
  */
 export function selectLessonProduceSlot(
   curriculumSlots: readonly SlotLike[],
+  level: string,
 ): (SessionActivity & { reason: string }) | null {
   const first = curriculumSlots[0];
   if (!first || first.screen !== 'animlesson') return null;
   const lessonId = first.id.replace(/^curriculum_/, '');
   if (!lessonId || lessonId === first.id) return null;
+  const kind = pickProduceKind(level);
   try {
-    requestLessonProduce(lessonId);
+    requestLessonProduce(lessonId, kind);
   } catch {
     /* the screen reports that it has no lesson rather than crashing */
   }
   return {
-    id: lessonProduceActivityId(lessonId),
-    label: `Write it: ${first.label}`,
+    id: lessonProduceActivityId(lessonId, kind),
+    label: `${kind === 'speak' ? 'Say it' : 'Write it'}: ${first.label}`,
     screen: 'lessonproduce',
-    category: 'writing',
-    reason: produceReason(first.label),
+    category: kind === 'speak' ? 'speaking' : 'writing',
+    reason: produceReason(first.label, kind),
   };
+}
+
+/**
+ * WRITE or SPEAK today (increment 2b). The ledger's weaker production skill decides
+ * when it has a verdict; with none it ALTERNATES from the last graded produce step,
+ * opening on WRITE — so a learner meets both modalities on the day's concept rather
+ * than writing every day (the cost 2a stated).
+ */
+export function pickProduceKind(level: string): ProduceKind {
+  const weakest = weakestProductionKind(level as CefrLevel);
+  if (weakest) return weakest;
+  return lastProducedKind() === 'write' ? 'speak' : 'write';
 }
 
 /**
@@ -73,8 +91,9 @@ export function creditProducedSlots(session: DailySession): DailySession {
   let updated = session;
   for (const a of session.activities) {
     if (a.screen !== 'lessonproduce' || updated.completedIds.includes(a.id)) continue;
-    const lessonId = lessonIdOfProduceActivity(a.id);
-    if (!lessonId || !lessonProduced(lessonId)) continue;
+    const named = lessonIdOfProduceActivity(a.id);
+    // Either modality settles the slot: the work is production on the concept.
+    if (!named || !lessonProduced(named.lessonId)) continue;
     updated = markDoneInSession(updated, a.id);
   }
   if (updated === session) return session;

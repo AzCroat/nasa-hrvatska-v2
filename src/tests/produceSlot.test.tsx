@@ -23,13 +23,15 @@ import {
   PRODUCTION_SCREEN_IDS,
 } from '../hooks/useDailySession';
 import { newSession } from '../lib/dailySessionStore';
-import { creditProducedSlots, selectLessonProduceSlot } from '../lib/produceSlot';
+import { creditProducedSlots, selectLessonProduceSlot, pickProduceKind } from '../lib/produceSlot';
+import { recordMasteryEvent } from '../lib/masteryLedger';
 import {
   lessonProduceActivityId,
   lessonIdOfProduceActivity,
   readLessonProduceRequest,
   requestLessonProduce,
   LESSON_PRODUCE_REQUEST_KEY,
+  lastProducedKind,
 } from '../lib/lessonProduceRequest';
 import { rearmCourseHandoff } from '../lib/curriculumSlot';
 import { recordMasteryPass, markLessonProduced } from '../lib/lessonRetention';
@@ -68,7 +70,7 @@ describe('the builder — which day shapes carry the produce step', () => {
     // No pool production beside it.
     expect(acts.filter((a) => PRODUCTION_SCREEN_IDS.has(a.screen))).toEqual([]);
     // The handoff names the lesson.
-    expect(readLessonProduceRequest()).toBe(lessonId);
+    expect(readLessonProduceRequest()).toEqual({ lessonId, kind: 'write' });
   });
 
   it('a B1 unit’s lesson day keeps its conversation anchor beside the produce step (decision 3)', () => {
@@ -98,31 +100,50 @@ describe('the builder — which day shapes carry the produce step', () => {
   });
 
   it('selectLessonProduceSlot is null unless the FIRST P0 slot is the lesson', () => {
-    expect(selectLessonProduceSlot([])).toBeNull();
+    expect(selectLessonProduceSlot([], 'A1')).toBeNull();
     expect(
-      selectLessonProduceSlot([
-        { id: 'course_unit_test_A1-1', label: 'Unit 1 test', screen: 'unittest' },
-      ]),
+      selectLessonProduceSlot(
+        [{ id: 'course_unit_test_A1-1', label: 'Unit 1 test', screen: 'unittest' }],
+        'A1',
+      ),
     ).toBeNull();
     // A re-check day puts the lesson SECOND — no produce step (decision 4's scope).
     expect(
-      selectLessonProduceSlot([
-        { id: 'course_unit_recheck_A1-1', label: 'Unit 1 check-up', screen: 'unittest' },
-        { id: 'curriculum_alphabet', label: 'Alphabet', screen: 'animlesson' },
-      ]),
+      selectLessonProduceSlot(
+        [
+          { id: 'course_unit_recheck_A1-1', label: 'Unit 1 check-up', screen: 'unittest' },
+          { id: 'curriculum_alphabet', label: 'Alphabet', screen: 'animlesson' },
+        ],
+        'A1',
+      ),
     ).toBeNull();
-    const slot = selectLessonProduceSlot([
-      { id: 'curriculum_alphabet', label: 'Alphabet', screen: 'animlesson' },
-    ]);
-    expect(slot?.id).toBe('curriculum_produce_alphabet');
+    const slot = selectLessonProduceSlot(
+      [{ id: 'curriculum_alphabet', label: 'Alphabet', screen: 'animlesson' }],
+      'A1',
+    );
+    expect(slot?.id).toBe('curriculum_produce_write_alphabet');
   });
 });
 
 describe('the handoff', () => {
   it('rearmCourseHandoff re-arms the produce request from the activity id', () => {
+    rearmCourseHandoff('curriculum_produce_speak_present-tense-verbs');
+    expect(sessionStorage.getItem(LESSON_PRODUCE_REQUEST_KEY)).toBe('present-tense-verbs|speak');
+    // A 2a-shaped id (no kind) is a WRITE step — that is what it was.
     rearmCourseHandoff('curriculum_produce_present-tense-verbs');
-    expect(sessionStorage.getItem(LESSON_PRODUCE_REQUEST_KEY)).toBe('present-tense-verbs');
-    expect(lessonIdOfProduceActivity('curriculum_produce_x')).toBe('x');
+    expect(sessionStorage.getItem(LESSON_PRODUCE_REQUEST_KEY)).toBe('present-tense-verbs|write');
+    expect(lessonIdOfProduceActivity('curriculum_produce_write_x')).toEqual({
+      lessonId: 'x',
+      kind: 'write',
+    });
+    expect(lessonIdOfProduceActivity('curriculum_produce_speak_x')).toEqual({
+      lessonId: 'x',
+      kind: 'speak',
+    });
+    expect(lessonIdOfProduceActivity('curriculum_produce_x')).toEqual({
+      lessonId: 'x',
+      kind: 'write',
+    });
     expect(lessonIdOfProduceActivity('curriculum_practice_x')).toBeNull();
     expect(lessonIdOfProduceActivity('curriculum_produce_')).toBeNull();
   });
@@ -271,5 +292,132 @@ describe('the standalone screen — four honest states', () => {
     fireEvent.click(screen.getByTestId('produce-submit'));
     await waitFor(() => expect(screen.getByTestId('produce-result')).toBeTruthy());
     expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
+  });
+});
+
+// ── Increment 2b: the same step, SPOKEN — and which modality the day asks for.
+describe('2b — write or speak', () => {
+  it('opens on WRITE, then alternates from the last graded step when the ledger has no verdict', () => {
+    expect(lastProducedKind()).toBeNull();
+    expect(pickProduceKind('A1')).toBe('write');
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    passLesson(lessonId);
+    markLessonProduced(lessonId, 80, '2026-09-27', 'write');
+    expect(lastProducedKind()).toBe('write');
+    expect(pickProduceKind('A1')).toBe('speak');
+    markLessonProduced(lessonId, 70, '2026-09-28', 'speak');
+    expect(pickProduceKind('A1')).toBe('write');
+  });
+
+  it('the ledger’s weaker production skill decides when it has one', () => {
+    // Enough WRITING evidence to be tested and strong; no speaking at all → the
+    // ledger names speaking as weakest (an unmeasured skill scores maximum need).
+    for (let i = 0; i < 6; i++) {
+      recordMasteryEvent({ level: 'A1', skill: 'writing', score: 0.9, weight: 2 });
+      recordMasteryEvent({ level: 'A1', skill: 'speaking', score: 0.3, weight: 2 });
+    }
+    expect(pickProduceKind('A1')).toBe('speak');
+  });
+
+  it('a SPEAK slot carries category speaking, a "Say it" label, and its kind in the handoff', () => {
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    passLesson(lessonId);
+    markLessonProduced(lessonId, 80, '2026-09-27', 'write'); // last was write → speak today
+    localStorage.removeItem('nh_daily_session');
+    const acts = buildSessionActivities('A1');
+    const produce = acts.find((a) => a.screen === 'lessonproduce')!;
+    expect(produce.category).toBe('speaking');
+    expect(produce.label.startsWith('Say it: ')).toBe(true);
+    expect(readLessonProduceRequest()?.kind).toBe('speak');
+    expect(lessonIdOfProduceActivity(produce.id)?.kind).toBe('speak');
+  });
+
+  it('a written step settles a SPEAK slot too — the work is production on the concept', () => {
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    const session = newSession(
+      'A1',
+      [
+        {
+          id: lessonProduceActivityId(lessonId, 'speak'),
+          label: 'Say it',
+          screen: 'lessonproduce',
+          category: 'speaking',
+        },
+      ],
+      [],
+    );
+    passLesson(lessonId);
+    markLessonProduced(lessonId, 80, undefined, 'write');
+    expect(creditProducedSlots(session).completedIds).toContain(
+      lessonProduceActivityId(lessonId, 'speak'),
+    );
+  });
+
+  it('the spoken step: typed transcript → the speaking coach; awards speaking, records the kind, frees the slot', async () => {
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    passLesson(lessonId);
+    requestLessonProduce(lessonId, 'speak');
+    sessionStorage.setItem('nh_session_started', 'lessonproduce');
+    aiPostMock.mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        scores: { range: 0.8, accuracy: 0.7, fluency: 0.75, task: 0.9 },
+        overall: 0.79,
+        errors: [],
+        advice: 'Pazi na akuzativ.',
+        encouragement: 'Bravo!',
+      }),
+    });
+    const award = vi.fn();
+    render(<LessonProduceScreen goBack={vi.fn()} award={award} />);
+    expect(screen.getByText('Now say it')).toBeTruthy();
+    // jsdom has no recogniser: no mic button, and the typed path counts the same.
+    expect(screen.queryByTestId('produce-mic')).toBeNull();
+    fireEvent.change(screen.getByTestId('produce-input'), {
+      target: {
+        value: 'Zovem se Ana i živim u Zagrebu. Imam brata i sestru i volim učiti hrvatski jezik.',
+      },
+    });
+    fireEvent.click(screen.getByTestId('produce-submit'));
+    await waitFor(() => expect(screen.getByTestId('produce-result')).toBeTruthy());
+    expect(aiPostMock.mock.calls[0]![0]).toBe('/api/speaking-coach');
+    expect(screen.getByTestId('produce-advice')).toHaveTextContent('Pazi na akuzativ.');
+    expect(award).toHaveBeenCalledWith(13, false, 'speaking');
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('lessonproduce');
+    expect(lastProducedKind()).toBe('speak');
+  });
+
+  it('a coach refusal on the spoken step names its cause and frees the slot', async () => {
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    passLesson(lessonId);
+    requestLessonProduce(lessonId, 'speak');
+    sessionStorage.setItem('nh_session_started', 'lessonproduce');
+    aiPostMock.mockResolvedValue({
+      ok: false,
+      status: 429,
+      headers: { get: () => 'application/json' },
+      json: async () => ({ error: 'daily_limit' }),
+      text: async () => '{"error":"daily_limit"}',
+      clone() {
+        return this;
+      },
+    });
+    const award = vi.fn();
+    render(<LessonProduceScreen goBack={vi.fn()} award={award} />);
+    fireEvent.change(screen.getByTestId('produce-input'), {
+      target: {
+        value: 'Zovem se Ana i živim u Zagrebu. Imam brata i sestru i volim učiti hrvatski jezik.',
+      },
+    });
+    fireEvent.click(screen.getByTestId('produce-submit'));
+    await waitFor(() => expect(screen.getByTestId('produce-failed')).toBeTruthy());
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('lessonproduce');
+    expect(award).not.toHaveBeenCalled();
+    expect(lastProducedKind()).toBeNull();
   });
 });

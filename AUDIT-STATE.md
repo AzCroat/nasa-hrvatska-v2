@@ -12957,3 +12957,36 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     "Skip for now" on the standalone screen — a skip there leaves the slot pending, which is
     the honest state, but the wording could say so); whether Home's session card should show
     the produce slot as "done on the lesson page" rather than a plain tick.
+- [x] **Sweep 183 — Daily Session redesign, increment 2b: the produce step, spoken (2026-09-28).**
+  - `LessonProduceStep` gains `kind: 'write' | 'speak'` (default write, so the lesson summary
+    is unchanged). SPEAK: hr-HR continuous recogniser feeding the same text box (typed
+    fallback; `onend` only stops listening), graded by `requestSpeakingCoach`, which already
+    records the speaking mastery event and error types — the step records nothing twice.
+    Award `round(overall×10)+5` as speaking, `markQuest('speak')`, slot freed on a graded
+    submission and on a coach refusal.
+  - Kind selection (`produceSlot.pickProduceKind`): ledger's weaker production skill, else
+    alternate from `produced.kind` (new field on the retention record — sanitiser keeps it,
+    merge passes the object whole), opening on write. Id `curriculum_produce_<kind>_<lesson>`;
+    handoff `lesson|kind`; a 2a-shaped id or handoff reads as write (persisted sessions).
+  - Tests: `produceSlot.test.tsx` 14 → 20 (alternation, ledger verdict, speak slot shape, a
+    written step settling a speak slot, the spoken screen path, a coach refusal). Probe
+    ratchets unchanged and green (category `speaking` is a skill slot).
+  - Mutation-verified (counts in the commit message): kind always write; spoken step records
+    no kind; spoken step never frees the slot; sanitiser drops the kind.
+  - **Two guards fired on the clean-tree run, both real.** `cssVarsDefined`: the new
+    `LessonProduceScreen` used `--surface` and `--border`, which the app never defines (its
+    tokens are `--card` / `--card-b`) — fixed. `promptContractKeys`: `LessonProduceStep` now
+    reaches TWO endpoints (writeeval, and the coach through `requestSpeakingCoach`), so it
+    leaves the guard's attributable set exactly as `UnitProductionScreen` did on 2026-09-26;
+    keeping it attributable would report the coach's `data.overall` as an undeclared key of
+    the WRITING prompt. Floors moved 4 → 3 attributable / ≤ 4 excluded, with the reason in
+    the test; the per-file "really multi-endpoint" clause still holds every exclusion.
+    **A guard that fires on a correct change is doing its job — read it before moving it.**
+  - **A tainted run, discarded.** The first full-suite and build ran concurrently with the
+    mutation checks, which edit source files in place for seconds at a time; a worker
+    importing a mutated module would report a failure that is not the tree's. Both were
+    stopped and re-run on the restored tree. NEVER run mutations beside a suite you intend
+    to read.
+  - **Not checked**: the recogniser in a real browser on this screen (jsdom has none; the
+    typed path is what the tests drive) — the same code as `UnitProductionScreen`, which the
+    course-walk E2E drives through its typed path too; a real-mic pass is owed to both.

@@ -97,8 +97,9 @@ export interface LessonRetentionRecord {
    *  rotating sample so successive re-checks ask different items. */
   checks: number;
   last: { at: string; score: number; total: number; kind: RetentionKind };
-  /** The "use it now" production step, when it was graded. */
-  produced?: { at: string; score: number };
+  /** The "use it now" production step, when it was graded. `kind` is which
+   *  modality produced it (increment 2b); absent on records from before it. */
+  produced?: { at: string; score: number; kind?: 'write' | 'speak' };
 }
 
 export interface RetentionStore {
@@ -190,7 +191,15 @@ export function sanitizeRetention(v: unknown): RetentionStore {
               r.last.kind === 'retention' || r.last.kind === 'cumulative' ? r.last.kind : 'mastery',
           },
           ...(r.produced && typeof r.produced.at === 'string'
-            ? { produced: { at: r.produced.at, score: Number(r.produced.score) || 0 } }
+            ? {
+                produced: {
+                  at: r.produced.at,
+                  score: Number(r.produced.score) || 0,
+                  ...(r.produced.kind === 'write' || r.produced.kind === 'speak'
+                    ? { kind: r.produced.kind }
+                    : {}),
+                },
+              }
             : {}),
         };
       }
@@ -322,11 +331,16 @@ export function recordCumulativeServed(at: string = localDateStr()): void {
 }
 
 /** The "use it now" production step was graded. */
-export function markLessonProduced(lessonId: string, score: number, at: string = localDateStr()) {
+export function markLessonProduced(
+  lessonId: string,
+  score: number,
+  at: string = localDateStr(),
+  kind?: 'write' | 'speak',
+) {
   const store = readRetention();
   const rec = store.lessons[lessonId];
   if (!rec) return;
-  rec.produced = { at, score };
+  rec.produced = { at, score, ...(kind ? { kind } : {}) };
   writeRetention(store);
 }
 
@@ -571,7 +585,7 @@ export function mergeLessonRetention(local: RetentionStore, remote: unknown): Re
     const remoteNewer = rr.last.at > lr.last.at;
     const winner = remoteNewer ? rr : lr;
     const produced = [lr.produced, rr.produced]
-      .filter((p): p is { at: string; score: number } => !!p)
+      .filter((p): p is NonNullable<LessonRetentionRecord['produced']> => !!p)
       .sort((a, b) => (a.at > b.at ? -1 : 1))[0];
     out.lessons[id] = {
       ...winner,

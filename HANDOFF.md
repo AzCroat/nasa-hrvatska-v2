@@ -113,9 +113,13 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
 - **UPDATE 3: increment 2a is DONE** (sweep 182; CLAUDE.md "Increment 2a"): on a
   lesson day the production slot is the lesson's own WRITTEN produce step, credited
   from the record wherever it was written; standalone route `lessonproduce`.
-  **Next: increment 2b** — the same step spoken (transcript → `/api/speaking-coach`),
-  alternating with writing by the ledger's weaker production skill; then increment 3
-  (the mix). Owner chose the 2a-then-2b path. Also installed on
+  #771 (2a) opened; owner's standing instruction is merge-on-green.
+- **UPDATE 4: increment 2b is DONE** (sweep 183; CLAUDE.md "Increment 2b"): the
+  produce step spoken (`kind: 'speak'`, transcript → `/api/speaking-coach`),
+  alternating with writing by the ledger's weaker production skill, else by the last
+  graded kind. **Next: increment 3** — stage 4, the mix (decision 2): a concept stays
+  in a rolling practice set across several days instead of clearing on first
+  practice; the adaptive pick survives inside it, restricted to taught categories. Also installed on
   this machine since §4 was written: Playwright's Chromium (`npx playwright install
 chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
   project) against a build made with CI's placeholder `VITE_FIREBASE_*` values
