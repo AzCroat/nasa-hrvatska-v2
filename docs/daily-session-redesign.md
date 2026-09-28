@@ -246,9 +246,33 @@ first build step.**
   a unit-test day the concept drill can be for a lesson of the current unit; §6's
   stricter definition (completed lessons + advanced units) is what increment 3's mix
   should apply.
-- **Increment 2 — stage 3, production on today's concept (decision 4).** On lesson
-  days the production slot becomes the lesson's own produce step, so the day's output
-  is about the day's concept; the unit's production requirement is unchanged.
+- **Increment 2a — DONE 2026-09-28: production on today's concept, written
+  (decision 4).** On a day whose course step IS a lesson, the production slot (P2.5)
+  is the lesson's own produce step (`LessonProduceStep`: two or three sentences using
+  that lesson's objectives, graded by the same `/api/correct` rubric as Guided
+  Writing) instead of a rotated writing/speaking unit. `src/lib/produceSlot.ts`
+  (`selectLessonProduceSlot`, `creditProducedSlots`); handoff module
+  `lessonProduceRequest.ts`; standalone screen `lessonproduce`
+  (`LessonProduceScreen`) with four honest states — no handoff, lesson not yet read
+  ("finish the lesson first", lesson one tap away), already written (the score, slot
+  freed), or the step. **Credit follows the work**: a step written on the lesson
+  summary records `produced`, and the session credits the slot from that record (a
+  hook effect, the SRS auto-skip's precedent); a skipped step records nothing and the
+  slot stays. An evaluator refusal frees the slot (the learner wrote) and records
+  nothing. Check-up, test, production and level-review days keep the pool pick, so
+  no day carries two production tasks. Length contract unchanged (the step takes the
+  pool pick's slot). **Cost, stated**: the step is WRITTEN, so on lesson days an A1
+  learner (3 slots) produces no spoken Croatian in the session until 2b; spoken
+  production comes on the other day shapes and from the unit's own speaking task.
+  `useDailySession.ts` hit its 800-line cap and the cap was not raised: the slot
+  logic lives in `produceSlot.ts`, and `markDoneInSession` /
+  `recordSessionComplete` moved to `dailySessionStore.ts` (re-exported from the hook
+  for the two existing importers).
+- **Increment 2b — NEXT: the same step, spoken.** "Say it instead": the browser
+  recogniser's transcript (typed fallback), graded by `/api/speaking-coach`
+  (transcript-in, no STT cost), recorded as `speaking` evidence; the slot alternates
+  write/speak by the ledger's weaker production skill, so both modalities are about
+  the day's concept.
 - **Increment 3 — stage 4, the mix (decision 2).** A concept stays in a rolling
   practice set across several days instead of clearing on first practice (G2); the
   adaptive pick survives inside that set, restricted to taught categories. Length

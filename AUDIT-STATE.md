@@ -12928,3 +12928,32 @@ culture` at every level, because P0's two slots plus the guaranteed production s
     Desktop Chrome only); `courseAhead` admits the whole OPEN unit as reached (§6 is
     stricter — increment 3); the culture slot (P4) still on XP; the vocabulary deck
     (`vocabLevel`) still on XP, deliberately out of scope.
+- [x] **Sweep 182 — Daily Session redesign, increment 2a: the day's production is the lesson's produce step (2026-09-28).**
+  - Owner decision 4 ("production on lesson days"). `src/lib/produceSlot.ts`,
+    `src/lib/lessonProduceRequest.ts`, `LessonProduceScreen` (route `lessonproduce`), builder
+    P2.5 on a lesson day → `curriculum_produce_<lessonId>` (category `writing`, label
+    "Write it: <lesson>"), the pool pick stands down; `rearmCourseHandoff` re-arms the
+    lesson id; `LessonProduceStep` frees the session slot on a graded submission and on an
+    evaluator refusal; the hook credits the slot from the `produced` record when the step
+    was written on the lesson page. Route key, session-coverage list updated.
+  - **The 800-line cap held.** `useDailySession.ts` went to 848 countable lines; the slot
+    logic moved to `produceSlot.ts` and `markDoneInSession`/`recordSessionComplete` to
+    `dailySessionStore.ts` (re-exported), landing at 797. Prettier had also expanded one
+    import into seven counted lines — split into two.
+  - **Ratchets** in `sessionTaughtSetProbe.test.ts`: every lesson-day cell serves
+    `lessonproduce` and no pool production beside it (the B1 conversation anchor excepted);
+    no unit-test-day cell serves it. `produceSlot.test.tsx` (14): builder day shapes, handoff,
+    credit-follows-the-work (pure + the real hook), the screen's four states, graded and
+    refused submissions, and the in-lesson no-op.
+  - **E2E audit**: `sp4b`'s two pool-pick pins (mic honoured) now stand on a UNIT-TEST day,
+    because on a lesson day the pool pick no longer runs — intent preserved; the
+    conversation pin is untouched. `course-walk`'s `not.toContainText('Unit 1: write')`
+    does not collide with "Write it: …".
+  - **Cost, stated** (design doc): the step is written; A1 learners produce no spoken Croatian
+    in the session on lesson days until increment 2b (spoken variant), which is next.
+  - Mutation-verified (counts in the commit message): produce slot never selected; credit
+    never granted; the step's slot signal removed; rearm forgets the handoff.
+  - **Not checked**: the produce step's own copy in the SESSION context (it still says
+    "Skip for now" on the standalone screen — a skip there leaves the slot pending, which is
+    the honest state, but the wording could say so); whether Home's session card should show
+    the produce slot as "done on the lesson page" rather than a plain tick.

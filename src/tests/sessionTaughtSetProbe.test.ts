@@ -70,7 +70,9 @@ const SKILL_CATEGORIES = new Set(['speaking', 'writing']);
 const INPUT_CATEGORIES = new Set(['listening', 'reading']);
 
 function isP0(id: string): boolean {
-  return /^(curriculum_|unit_|level_review)/.test(id);
+  // `curriculum_produce_<lesson>` is the lesson-day PRODUCTION slot (increment 2a),
+  // not a P0 teaching slot — it is counted as the skill slot it is.
+  return /^(curriculum_(?!produce_)|unit_|level_review)/.test(id);
 }
 
 describe('increment 0 — how much of the session is on material the course has not taught', () => {
@@ -221,13 +223,39 @@ describe('increment 0 — how much of the session is on material the course has 
       expect(c.skill / RUNS, `unit ${c.pos} / xp ${c.lv}: skill slots per session`).toBe(
         anchored ? 2 : 1,
       );
-      // Every production/conversation screen served is unlocked at the course level.
+      // Every POOL production/conversation screen served is unlocked at the course
+      // level. The lesson's produce step is not a pool entry: it is tied to the
+      // day's lesson, which is at the course level by construction.
       for (const s of c.skillScreens) {
+        if (s === 'lessonproduce') continue;
         expect(
           unlockedAt(s, courseLevel),
           `unit ${c.pos} / xp ${c.lv}: ${s} at ${courseLevel}`,
         ).toBe(true);
       }
+    }
+  });
+
+  // ── Increment 2a (owner decision 4): on a LESSON day the production slot IS the
+  // lesson's produce step; on every other day shape the pool pick runs as before.
+  it('a lesson day’s production is the lesson’s own produce step, and only a lesson day’s', () => {
+    for (const c of lesson.cells) {
+      expect(
+        c.skillScreens.has('lessonproduce'),
+        `unit ${c.pos} / xp ${c.lv}: lesson day without the produce step`,
+      ).toBe(true);
+      // No POOL production pick beside it — the conversation anchor at a B1 unit is
+      // the one other skill slot a lesson day may carry.
+      const pool = [...c.skillScreens].filter((s) => s !== 'lessonproduce' && s !== 'dialogue');
+      expect(pool, `unit ${c.pos} / xp ${c.lv}: pool production beside the produce step`).toEqual(
+        [],
+      );
+    }
+    for (const c of test.cells) {
+      expect(
+        c.skillScreens.has('lessonproduce'),
+        `unit ${c.pos} / xp ${c.lv}: produce step on a unit-test day`,
+      ).toBe(false);
     }
   });
 });

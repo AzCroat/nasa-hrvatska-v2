@@ -109,3 +109,24 @@ export function persistSession(session: DailySession): void {
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   } catch {}
 }
+
+/** Where completed session dates are kept (`{ [localDate]: true }`). */
+const HISTORY_KEY = 'nh_session_history';
+
+export function markDoneInSession(session: DailySession, id: string): DailySession {
+  if (session.completedIds.includes(id)) return session; // idempotent
+  return { ...session, completedIds: [...session.completedIds, id] };
+}
+
+export function recordSessionComplete(date: string): void {
+  try {
+    const history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}') as Record<
+      string,
+      boolean
+    >;
+    history[date] = true;
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+  } catch {
+    /* history is best-effort */
+  }
+}

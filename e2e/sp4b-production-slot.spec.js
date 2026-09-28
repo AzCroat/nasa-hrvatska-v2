@@ -35,6 +35,28 @@ const REVIEWS = {
   A2: { doneAt: DAY, firstTryCorrect: 18, total: 18 },
 };
 
+// THE POOL PICK RUNS ON NON-LESSON DAYS ONLY (redesign increment 2a, owner decision
+// 4): on a lesson day the production slot is the lesson's own produce step. The two
+// pins below are about the POOL pick honouring the mic state, so they stand the
+// learner on a UNIT-TEST day — every lesson of B1's first unit read, its test not yet
+// passed — where P0 is the test and P2.5 is the pool pick as before.
+const B1_UNIT1 = CURRICULUM.filter((e) => e.level === 'B1')
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 5)
+  .map((e) => e.id);
+async function unitTestDay(page) {
+  await page.addInitScript(
+    ([ids, day]) => {
+      if (window.top !== window) return;
+      const raw = JSON.parse(localStorage.getItem('nh_curriculum_progress') || '{}');
+      const done = { ...(raw.done || {}) };
+      for (const id of ids) done[id] = day;
+      localStorage.setItem('nh_curriculum_progress', JSON.stringify({ ...raw, done }));
+    },
+    [B1_UNIT1, '2026-09-10'],
+  );
+}
+
 test.describe('SP4b — production slot in daily session', () => {
   test.beforeEach(async ({ page }) => {
     await seedAuth(page);
@@ -102,6 +124,7 @@ test.describe('SP4b — production slot in daily session', () => {
     // production option (the follow-up that auto-routes it); the launcher
     // initialises its vocab pool so it can't render blank (render path covered
     // by pronunciation.spec.js + the verbatim launchSpeaking init reuse).
+    await unitTestDay(page);
     await mockRnd(page, 0.5);
     await page.addInitScript(() => {
       localStorage.setItem('nh_mic_state', 'available');
@@ -130,6 +153,7 @@ test.describe('SP4b — production slot in daily session', () => {
   test('mic-denied user gets a keyboard production slot; mic-required exercises are filtered out', async ({
     page,
   }) => {
+    await unitTestDay(page);
     await page.addInitScript(() => {
       localStorage.setItem('nh_mic_state', 'denied');
       // Lock-in profile.st.xp=2000 (B1) so HomeTab's production selector sees a

@@ -39,6 +39,7 @@ import {
 import { requestUnitTest, requestLevelReview } from './courseUnitProgress';
 import { requestUnitProduction } from './unitProductionRequest';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
+import { lessonIdOfProduceActivity, requestLessonProduce } from './lessonProduceRequest';
 
 /**
  * The lesson to teach in today's session, or null when the course has no lesson to
@@ -79,6 +80,10 @@ export function resolveCurriculumLesson(_userCefr?: string): CurriculumStep | nu
 export function rearmCourseHandoff(activityId: string | undefined | null): void {
   if (!activityId) return;
   try {
+    // The lesson-day produce step (redesign increment 2a) carries its lesson id in
+    // the activity id, so the handoff needs no unit table.
+    const produceLesson = lessonIdOfProduceActivity(activityId);
+    if (produceLesson) return requestLessonProduce(produceLesson);
     for (const level of KNOWN_LEVELS) {
       if (activityId === levelReviewActivityId(level)) return requestLevelReview(level);
     }

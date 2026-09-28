@@ -439,6 +439,7 @@ const CourseMapScreen = lazyWithReload(() => import('./learn/CourseMapScreen'));
 const UnitTestScreen = lazyWithReload(() => import('./learn/UnitTestScreen'));
 const LevelReviewScreen = lazyWithReload(() => import('./learn/LevelReviewScreen'));
 const UnitProductionScreen = lazyWithReload(() => import('./learn/UnitProductionScreen'));
+const LessonProduceScreen = lazyWithReload(() => import('./learn/LessonProduceScreen'));
 const BakaSummer = lazyWithReload(() => import('./croatia/BakaSummer'));
 const CroatiaToday = lazyWithReload(() => import('./croatia/CroatiaToday'));
 const SurvivalDinner = lazyWithReload(() => import('./croatia/SurvivalDinner'));
@@ -3388,6 +3389,18 @@ export default function AppRouter(props: Record<string, any>) {
           currentScreen === 'unitproduction' && (
             <ScreenErrorBoundary key="unitproduction" name="unitproduction">
               <UnitProductionScreen goBack={goBack} award={award} />
+            </ScreenErrorBoundary>
+          )
+        }
+        {
+          // ═══ THE LESSON'S PRODUCE STEP, ON ITS OWN ═══
+          // The daily session's production slot on a lesson day (redesign increment
+          // 2a): two or three sentences using today's lesson, for a learner who left
+          // the lesson summary without writing them. Which lesson comes from the
+          // sessionStorage handoff the session builder writes.
+          currentScreen === 'lessonproduce' && (
+            <ScreenErrorBoundary key="lessonproduce" name="lessonproduce">
+              <LessonProduceScreen goBack={goBack} award={award} onOpenLesson={launchAnimLesson} />
             </ScreenErrorBoundary>
           )
         }

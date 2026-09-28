@@ -193,6 +193,15 @@ export function productionReason(weakest: 'speak' | 'write' | null, level: CefrL
   }
 }
 
+/**
+ * Why the day's production is the LESSON's produce step (redesign increment 2a,
+ * owner decision 4). True by construction: the slot exists only on a lesson day
+ * and names that lesson.
+ */
+export function produceReason(lessonTitle: string): string {
+  return `Use what “${lessonTitle}” taught — two or three sentences of your own, graded like any writing.`;
+}
+
 /** Why the conversation anchor is here (B1+ guarantee — true by construction). */
 export function conversationReason(): string {
   return 'B1 and up gets a conversation every session — the part recognition cannot replace.';

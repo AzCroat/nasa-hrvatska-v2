@@ -137,6 +137,10 @@ const OUTSIDE_SESSION: string[] = [
   // needs a UNIT and a HALF (write or speak), which the session builder writes into
   // a handoff.
   'unitproduction',
+  // The lesson's produce step on its own (redesign increment 2a): the production
+  // slot on a LESSON day, served by P2.5 with the day's lesson id in a handoff —
+  // never by the pool, which cannot know which lesson today teaches.
+  'lessonproduce',
   // The end-of-level review, same shape again: served by P0's teaching slot once, at
   // the crossing into the next level, never by the CEFR pool — it needs a LEVEL,
   // which the session builder writes into a handoff.
