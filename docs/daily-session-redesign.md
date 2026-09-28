@@ -74,19 +74,44 @@ Already built and NOT to be rebuilt:
 
 ## 4. The gaps
 
-**G1 — Only one slot knows where the learner is in the course.** P0 is positional;
-every other slot is chosen by `userCefr`, an XP- and certification-derived level. The
-course deliberately ignores that level ("one path, everyone starts at Unit 1"), so the
-two can be far apart. **Every learner with progress from before 2026-09-26 is in this
-state**: at Unit 1 of the course, with sessions whose other activities are chosen for
-their old level. Result (inference from the code, to be measured in increment 0): a
-learner on Unit 2 of A1 can be served a B1 dialogue, a B1 production task and a
-genitive drill in the same session as the A1 alphabet lesson. That breaks P-TAUGHT
-and it breaks P-SAT, because the session does not practise the thing it just taught.
+**G1 — Only one slot knows where the learner is in the course — and increment 0
+MEASURED what that costs, which is not what this paragraph first claimed.** P0 is
+positional; every other slot is chosen by `userCefr`, the XP-derived unlock level,
+which the course deliberately ignores ("one path, everyone starts at Unit 1"). Every
+learner with progress from before 2026-09-26 is at Unit 1 with an XP level above it.
 
-**G2 — A concept is practised once, then dropped.** The teach → practice queue
-clears on the first practice (`teachPractice.ts`), so a lesson gets one follow-on
-drill. Lesson retention brings the lesson's check back at 3, 10, 30 and 90 days —
+The first draft of this paragraph inferred that such a learner "can be served a B1
+dialogue, a B1 production task and a genitive drill in the same session as the A1
+alphabet lesson". `src/tests/sessionTaughtSetProbe.test.ts` drove the real builder
+(course positions 1/3/7/13 × XP A1/B1/C1, 40 sessions per cell, lesson days and
+unit-test days) and found:
+
+- **The concept-drill half is FALSE on lesson days.** At every position and level the
+  lesson day is `lesson | its drill | production (| conversation at B1+) | culture`.
+  The adaptive pick, the grammar backstop and the fill slots never fire, because the
+  lesson pair plus the guaranteed production slot(s) spend the whole length budget
+  (3 at A1, 4 from A2). Zero concept drills outside P0, in 480 lesson-day sessions.
+  On a unit-test day (P0 is one slot) exactly one concept drill appears; with a fresh
+  adaptive store it was inside the taught set every time, but the probe has no
+  adaptive HISTORY, so that cell says nothing about a real learner's store.
+- **The skill half is TRUE, and it is the whole of G1.** The production slot fires
+  every day and the conversation anchor every day at B1+ XP, and their CONTENT level
+  is chosen in the screen from XP, not by the session: `GuidedSpeakingScreen` /
+  `GuidedWritingScreen` pick their unit with `getCurrentContentLevel()`
+  (= `getContentUnlockLevel(getUserCefr(xp, lc, gc))`), and `DialogueSim` opens the
+  free AI conversation when that same level is ≥ B1. So a Unit-1 learner with B1 XP
+  reads the A1 alphabet lesson and is then asked to speak or write at B1, or to hold a
+  free B1 conversation — a task about nothing the course has taught them (P-TAUGHT),
+  and not about today's concept (P-SAT). At A1 XP the same learner gets A1 production
+  that is still unrelated to the day's lesson.
+
+Increment 1 is therefore aimed at the two skill screens and the conversation gate,
+not at the adaptive pick (§9).
+
+**G2 — A concept is practised once, then dropped.** Confirmed by increment 0: on a
+lesson day the ONLY concept drill in the session is the lesson's own coupled drill.
+The teach → practice queue clears on the first practice (`teachPractice.ts`), so a
+lesson gets one follow-on drill and no other slot ever brings a concept back. Lesson retention brings the lesson's check back at 3, 10, 30 and 90 days —
 that is a _test_, not practice. Nothing between those points gives the repeated,
 increasingly varied practice that turns a known rule into an automatic one (P-SAT's
 second stage).
@@ -187,18 +212,27 @@ first build step.**
 
 ## 9. Increments — each shippable alone, each measured before and after
 
-- **Increment 0 — measure G1 before changing anything.** A composition harness over
-  the real builder: course positions (Unit 1, 3, 7, 13) × XP levels (A1, B1, C1),
-  40 sessions each; count graded activities whose category the learner has not been
-  taught. This turns G1 from inference into a number, and it is the baseline every
-  later increment is measured against.
-- **Increment 1 — the taught-set rule and course-level gating** (§6) on P1.5, P2,
-  P2.7 and P3. Target: zero untaught graded activities in the harness.
-- **Increment 2 — stage 3, production on today's concept.**
-- **Increment 3 — stage 4, interleaved mix of recent concepts**, replacing the
-  weakness/rotation picks; plus the staged practice count for G2 (a concept stays in
-  the mix across several days instead of clearing on first practice).
-- **Increment 4 — the corrective day** (G5).
+- **Increment 0 — DONE 2026-09-28: measure G1 before changing anything.**
+  `src/tests/sessionTaughtSetProbe.test.ts` drives the real builder over course
+  positions × XP levels × day shapes and prints the composition table (run it with
+  `--reporter=verbose`; it asserts only non-vacuity). Result in §4 G1: the untaught
+  material is the production and conversation slots, whose level the SCREENS choose
+  from XP; no concept drill outside P0 exists on a lesson day. The order below was
+  changed by that result.
+- **Increment 1 — course-level production and conversation (decisions 1, 3).** The
+  two guided screens and the dialogue gate read the course-unit level when launched
+  from the session (a session handoff, like the unit test's), instead of
+  `getCurrentContentLevel()`. Tabs-launched practice is untouched. This is the whole
+  of the measured G1. Ratchet: the probe gains an assertion that the skill slots'
+  level equals the course level.
+- **Increment 2 — stage 3, production on today's concept (decision 4).** On lesson
+  days the production slot becomes the lesson's own produce step, so the day's output
+  is about the day's concept; the unit's production requirement is unchanged.
+- **Increment 3 — stage 4, the mix (decision 2).** A concept stays in a rolling
+  practice set across several days instead of clearing on first practice (G2); the
+  adaptive pick survives inside that set, restricted to taught categories. Length
+  contract unchanged, so at A1 this needs the budget rule stated in §5.
+- **Increment 4 — the corrective day (decision 5; G5).**
 - **Increment 5 — the session's reason lines and Home copy** name the day's concept,
   so the one-subject shape is visible (G4).
 

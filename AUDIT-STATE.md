@@ -12869,3 +12869,33 @@ projekta`, `postane problemom` (tip called it archaic — false), `Hvala vam za`
   - **Not checked**: the older C1/C2 examples that are verbless fragments or under six words
     (reported by three authors; a style gap, not an error); `Za dom, za narod` in C1
     'Croatian cultural expressions' is left for the owner (its example is unnatural).
+- [x] **Sweep 180 — Daily Session redesign: design signed off, and increment 0 measured the gap (2026-09-28).**
+  - `docs/daily-session-redesign.md` written and SIGNED OFF by the owner the same day (all five
+    §8 decisions: course-unit level for everyone; adaptive pick kept, taught categories only;
+    conversation gated on the course reaching B1; production on lesson days only; corrective
+    day approved). No product code changed.
+  - **Increment 0 overturned the design's own G1 as first written.** `sessionTaughtSetProbe.test.ts`
+    drove the REAL `buildSessionActivities` over course positions 1/3/7/13 × XP A1/B1/C1 × lesson
+    day / unit-test day, 40 sessions per cell. On a LESSON day: **zero concept drills outside
+    P0 in 480 sessions** — the shape is `lesson | drill | production (| dialogue at B1+) |
+culture` at every level, because P0's two slots plus the guaranteed production slot(s)
+    spend the whole `fillTarget`; the adaptive pick, P2.7 and P3 never fire. The inferred
+    "a Unit-2 learner gets a B1 genitive drill" does not happen. What DOES happen daily is the
+    skill slots, whose content level the screens choose from XP: `GuidedSpeakingScreen` /
+    `GuidedWritingScreen` → `getCurrentContentLevel()`; `DialogueSim` opens the free AI
+    conversation at ≥ B1 XP. That is the measured G1, and increment 1 is re-aimed at it.
+  - **Two harness corrections worth keeping.** (1) At unit 7 (first A2 unit) the anchor
+    assertion failed with `levelreview` — correct course behaviour (increment 6); the
+    scenario must `recordLevelReview` for finished levels. (2) A taught-set predicate counts
+    `speaking`/`writing` as "untaught" for ever, since no lesson's category is a skill —
+    100% untaught in the first table, which measured the predicate, not the app. Skill slots
+    are counted separately.
+  - **What the probe cannot see, stated:** it runs with an EMPTY adaptive store and no
+    teach→practice queue, so unit-test-day concept picks reflect the seeded default (in the
+    taught set every time here) and say nothing about a real learner's history; and it cannot
+    see the LEVEL of production content, only that the slot is present — the level claim is
+    read from the screens' source.
+  - Also this sweep: #769 merged on green (`942f59b3`); the `daće` false positive in
+    `fusedFutureSpelling` (a real noun, `daća` = feudal levy) added to `HOMONYMS`; the lost
+    production-units patch recorded in `HANDOFF.md`; `seasonalCampaign.test.ts` found
+    timezone-dependent (fails under CEST, passes `TZ=UTC`) — not fixed.
