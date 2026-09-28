@@ -117,9 +117,10 @@ Branch this note lives on: `claude/handoff-2026-09-28` (based on #769's head,
 - **UPDATE 4: increment 2b is DONE** (sweep 183; CLAUDE.md "Increment 2b"): the
   produce step spoken (`kind: 'speak'`, transcript → `/api/speaking-coach`),
   alternating with writing by the ledger's weaker production skill, else by the last
-  graded kind. **Next: increment 3** — stage 4, the mix (decision 2): a concept stays
-  in a rolling practice set across several days instead of clearing on first
-  practice; the adaptive pick survives inside it, restricted to taught categories. Also installed on
+  graded kind. Increment 3 DONE in its small form (sweep 185): the taught rule tightened to
+  completed + advanced + today's lesson; the Lesson Review is the mix. **Next:
+  increment 4 (the corrective day, decision 5) and increment 5 (reason lines / Home
+  copy name the day's concept).** Also installed on
   this machine since §4 was written: Playwright's Chromium (`npx playwright install
 chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
   project) against a build made with CI's placeholder `VITE_FIREBASE_*` values

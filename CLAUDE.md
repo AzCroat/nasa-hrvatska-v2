@@ -4613,6 +4613,22 @@ registered one more. Sentry 21022c33; AUDIT-STATE sweep 184.
   lint census without a positive control; claim a lint block "mirrors" another without
   a test that reads both rule sets.
 
+### Increment 3 — the taught rule is the design's, and the Lesson Review is the mix (2026-09-28)
+
+Measured before building (real builder, one lesson a day at A1): from day 4 the Lesson
+Review slot fires every day — the 3-day re-check plus missed items — which IS
+interleaved retrieval across recent concepts, so no mix slot was added and no session
+lengthened. What changed is the session's "taught" rule: `courseGate.readCourseAhead`
+counted every lesson of the OPEN unit as reached, read or not (a free slot could drill
+lesson 4's concept on lesson 1's day); it now counts completed lessons, lessons of
+advanced units, and **the one lesson the course serves today**. Today's stays reached
+because its coupled drill sits in the plan and `teachingSlotSplice` drops what is
+ahead. Stated gap: no re-practice on days 1–3 after a lesson, and the review grades
+rather than practises — a mixed-bank drill runner would close both if wanted.
+
+- NEVER: count an unread lesson of the open unit as taught (only today's); drop today's
+  lesson from the reached set (the splice would then remove its drill from the plan).
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What

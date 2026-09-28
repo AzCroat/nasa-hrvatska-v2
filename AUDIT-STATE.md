@@ -13028,3 +13028,22 @@ culture` at every level, because P0's two slots plus the guaranteed production s
   - **Not checked**: `.js/.jsx` screens for the same shape are covered by the rule already; the
     E2E route sweep could not have seen this (it renders each route once, never the loading →
     loaded transition), and no E2E was added — the unit test drives the transition directly.
+- [x] **Sweep 185 — Daily Session redesign, increment 3 in its small form: the taught rule is the design's, and the Lesson Review is the mix (2026-09-28).**
+  - Owner said "start increment 3" without choosing among the three shapes offered
+    (Lesson Review as the mix / fold into the drill / a fifth slot); the recommended first
+    was taken, stated in the design doc §9.
+  - **Measured first**, real builder, one lesson passed per day at A1 (temp probe, deleted):
+    days 1–3 `lesson · drill · write/say it · culture`; from day 4 the Lesson Review (P1.2)
+    fires every day — the 3-day re-check plus missed items — so a lesson day is already
+    4 + culture. Interleaved retrieval across recent concepts exists from day 4.
+  - **Change**: `courseGate.readCourseAhead` counted every lesson of the OPEN unit as
+    reached; now completed lessons + advanced units' lessons + TODAY's lesson (the first
+    unread lesson of the current unit). Today's lesson stays reached because its coupled
+    drill sits in the plan and `teachingSlotSplice` drops what is ahead — dropping the
+    drill for the lesson being taught would have been the new defect. The old pin ("the
+    open unit is reached even before a lesson is read") is inverted with the reason.
+  - 16 gate-consumer suites green (951); mutation (gate back to `open`) counts in the
+    commit message. Probe ratchets unchanged.
+  - **Not done, stated**: no re-practice of a concept on days 1–3 after its lesson; the
+    review grades rather than practises. A mixed-bank drill runner is the way to close both
+    if wanted; not built. Increments 4 (corrective day) and 5 (reason lines) remain.
