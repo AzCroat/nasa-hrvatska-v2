@@ -33,6 +33,11 @@ const HOMONYMS: Record<string, string> = {
   kupaće: 'adjective kupaći, "bathing" (kupaće gaće)',
   piće: 'noun "a drink"',
   piću: 'dative/locative of piće',
+  // 2026-09-28: `Brat će se oženiti` (a listening sentence) made `bra` a stem, and
+  // `Radić` (a surname in a dialogue) collides with `radit ću`.
+  braće: 'genitive/plural of brat, "brother"',
+  braću: 'accusative of braća, "brothers"',
+  radiću: 'vocative of the surname Radić',
 };
 
 function corpus(): Map<string, string> {
