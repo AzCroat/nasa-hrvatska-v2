@@ -13123,3 +13123,56 @@ culture` at every level, because P0's two slots plus the guaranteed production s
   - **Not checked**: a real-mic pass of the new speaking units (the typed path is what the
     guards drive); the units in a browser (the screens are unchanged; the rotation reaches
     them from index 8 of each level).
+- [x] **Sweep 189 — the second declension batch: 46 wrong forms across ~30 common words (2026-09-28).**
+  - Source: the production-unit authors (sweep 188), who had to verify 144 build sentences
+    against `decline()` and reported the words they could not use. Every word was PROBED
+    first (a temporary test printing the whole table, deleted), and the probe found the
+    families behind the reports: `kćer` masculine (`kćera`); `vijest`/`povijest`/`bol`
+    masculine (`vijesta`); `tata`/`kolega` feminine with `kolezi`; `pojam`/`sajam`/`ritam`/
+    `Zadar` keeping their a (`pojama`, `Zadara`); `mozak → mozka`; `snijeg → snijezi` and
+    `lijek → lijeci` (short plural + sibilarization); `auto`/`euro`/`radio` neuter (`auta` as
+    plural, `radia`); `vrata`/`leđa`/`usta`/`prsa` as feminine singulars (`vrate`) and
+    `hlače`/`novine` as neuter singulars (`hlačem`); `djeca` with an invented plural;
+    `ručak → ručče`; `pizza → pizaza`; `sarma → sarama`; `poanta → poanata`; `vikend →
+vikenada`; `sat → pet sata`; `suradnik`/`biciklist` inanimate; `pješak → pješka`.
+  - Fix, rules where Croatian has one and lists where it is lexical (the sweep-178 split):
+    RULES — a `-čak/-ćak` vocative takes `-u` (ručku, mačku); a doubled consonant is spelling,
+    not a cluster (pizza); consonant + m takes the `-i` genitive plural like consonant + b
+    (sarmi, formi, firmi); a masculine `-io` loan takes a j (radija); a masculine noun in `-a`
+    declines on the e-endings with NO sibilarization (new `declineMasculineA`, paradigm
+    `e-masculine`); a plurale tantum has one table in every cell (`declinePluraleTantum`).
+    LISTS (`croatianLexicalClasses.ts`) — `FEMININE_CONSONANT` +8 (vijest, povijest,
+    obavijest, svijest, savjest, bolest, strast, bol), `ANIMATE_MASCULINE` +33, `KEEPS_A` +3
+    (pješak, divljak, zemljak), `LONG_PLURAL` +12 (the -am fleeting-a nouns and the long-yat
+    monosyllables), new `FLEETING_A` (pojam, sajam, ritam, najam, zajam, zadar, svekar, vepar),
+    `YAT_SHORTENS_IN_PLURAL` (snijeg, svijet, cvijet, vijek, bijeg), `MASCULINE_O`,
+    `MASCULINE_A` + `VOCATIVE_IS_NOMINATIVE`, `PLURALIA_TANTUM_N/F`, `GENITIVE_PLURAL`
+    +3 (poanta, sat, vikend). ATTESTED (`croatianIrregulars.ts`) — mozak, djeca, braća, kćer.
+  - **THE FIRST YAT FIX WAS A RULE, AND IT BROKE `klijent`.** Counting `ije` as one syllable
+    (which it IS, in snijeg/lijek/svijet) made `klijent` a monosyllable — its `ije` is a real
+    i-je across a syllable boundary — and the existing test read `klijentova` for the genitive
+    plural. The spelling cannot tell the yat from the hiatus, so the counter is unchanged and
+    the yat monosyllables are LISTED in `LONG_PLURAL`; `grijeh → grijesi` (short) confirms the
+    counter's reading is the safe default. A rule that is right for the reported words and
+    wrong for one the suite already knew is the reason the suite runs before the record.
+  - `bol` is listed FEMININE though the norm admits both genders: the app's content uses
+    `boli`, and `decline('bol', 'm')` still gives `bola`. `knownGender('test')` stays null —
+    `-est` is not a rule (`gost`, `test`).
+  - **Checked non-defect**: `pogreška`/`podrška` DL `-ški` — both `pogreški` and `pogrešci`
+    are standard; the engine's -šk blocking rule (kruška → kruški) stands and nothing moved.
+  - The lint-target ratchet flagged `croatianMorphology.ts` (10 Croatian strings, 50% seen)
+    because two new English `note`s quote an example; it is now in `CENSUS_EXEMPT` with the
+    reason CLAUDE.md already gives (its Croatian is the PRODUCED forms, swept in-test), which
+    the sweep-178 note about these files had described as the design and never encoded.
+  - 12 new tests, every expected form written out (`croatianMorphology.test.ts`, 96 in the
+    file + `sentenceBuild` 81). Mutation-verified, ten, each landed and each fails 1–2: the -a
+    masculine dispatch reverted; the yat shortening removed; the pluralia dispatch removed; the
+    -io j dropped; the geminate guard dropped; the -čak vocative dropped; consonant + m back to b
+    only (the FIRST run of this one did not land — a `$` mis-escaped in sed — and was re-run
+    with the replacement count printed); `FLEETING_A` emptied; the yat words dropped from
+    `LONG_PLURAL`; and the ije-as-one-syllable counter restored, which fails 2 (klijent and
+    the list assertion).
+  - **Not checked**: the genitive plural of `metro` (left off `MASCULINE_O` because it is not
+    settled); `brijeg → bregovi` (r + je → re, a third yat shape, not listed — the plain rule
+    gives `brijegovi`); the vocative of `-a` masculines outside the three listed (`gazdo` is
+    the computed default); animacy of any noun outside the list.

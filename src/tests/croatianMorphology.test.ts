@@ -25,6 +25,7 @@ import {
   PREPOSITION_CASE,
 } from '../lib/croatianMorphology';
 import { IRREGULAR } from '../lib/croatianIrregulars';
+import { LONG_PLURAL, YAT_SHORTENS_IN_PLURAL } from '../lib/croatianLexicalClasses';
 import { CLOSED } from '../lib/croatianClosedClass';
 import { findSerbism } from '../../functions/api/_serbisms.js';
 import { containsCyrillic } from '../../functions/api/_croatianGuard.js';
@@ -700,6 +701,292 @@ describe('the lexical classes and the rules that read them (2026-09-28)', () => 
       'majka',
       'hrvatska',
       'njemačka',
+    ];
+    for (const w of words)
+      for (const form of Object.values(decline(w)!.forms)) {
+        expect(findSerbism(form), `${w}: ${form}`).toBeFalsy();
+        expect(containsCyrillic(form), `${w}: ${form}`).toBe(false);
+      }
+  });
+});
+
+// ── The second batch (2026-09-28): what the production-unit authors could not use ──
+//
+// Reported while verifying 144 build sentences against decline(); each word was
+// PROBED before anything was changed, and the wrong form is named beside the
+// right one. Forms are written out in full, never recomputed from the engine.
+describe('the second declension batch (2026-09-28)', () => {
+  const f = (w: string, g?: 'm' | 'f' | 'n') => decline(w, g)!.forms as Record<string, string>;
+
+  it('vijest, povijest, bol and bolest are feminine i-nouns (they came out masculine: vijesta)', () => {
+    expect(f('vijest')).toMatchObject({
+      Gsg: 'vijesti',
+      Isg: 'viješću',
+      Gpl: 'vijesti',
+      Dpl: 'vijestima',
+    });
+    expect(f('povijest')).toMatchObject({ Gsg: 'povijesti', Lsg: 'povijesti', Isg: 'poviješću' });
+    expect(f('bolest')).toMatchObject({ Gsg: 'bolesti', Isg: 'bolešću' });
+    expect(f('bol')).toMatchObject({ Gsg: 'boli', Lsg: 'boli', Npl: 'boli' });
+    expect(decline('bol')!.gender).toBe('f');
+    expect(f('bol', 'm').Gsg).toBe('bola'); // the masculine reading is still one call away
+    expect(knownGender('vijest')).toBe('f');
+    expect(knownGender('test')).toBeNull(); // -est is NOT a rule
+  });
+
+  it('masculine nouns in -a decline like žena, agree as masculine, and never soften (kolezi)', () => {
+    expect(f('kolega')).toMatchObject({
+      Gsg: 'kolege',
+      Dsg: 'kolegi',
+      Asg: 'kolegu',
+      Vsg: 'kolega',
+      Lsg: 'kolegi',
+      Isg: 'kolegom',
+      Npl: 'kolege',
+      Gpl: 'kolega',
+      Dpl: 'kolegama',
+    });
+    expect(decline('kolega')!.gender).toBe('m');
+    expect(decline('kolega')!.paradigm).toBe('e-masculine');
+    expect(f('tata')).toMatchObject({
+      Gsg: 'tate',
+      Dsg: 'tati',
+      Asg: 'tatu',
+      Vsg: 'tata',
+      Gpl: 'tata',
+    });
+    expect(f('gazda').Vsg).toBe('gazdo'); // the vocative is lexical within the class
+    // A masculine NAME in -a, supplied as masculine, takes the same table.
+    expect(f('luka', 'm')).toMatchObject({ Dsg: 'luki', Asg: 'luku' });
+    // …and the feminine rule is untouched beside it.
+    expect(f('knjiga').Dsg).toBe('knjizi');
+  });
+
+  it('the -am nouns have a fleeting a and the long plural (pojama → pojma, pojmovi)', () => {
+    expect(f('pojam')).toMatchObject({
+      Gsg: 'pojma',
+      Dsg: 'pojmu',
+      Vsg: 'pojme',
+      Isg: 'pojmom',
+      Npl: 'pojmovi',
+      Gpl: 'pojmova',
+      Dpl: 'pojmovima',
+      Apl: 'pojmove',
+    });
+    expect(f('sajam')).toMatchObject({ Gsg: 'sajma', Lsg: 'sajmu', Npl: 'sajmovi' });
+    expect(f('ritam')).toMatchObject({ Gsg: 'ritma', Isg: 'ritmom', Gpl: 'ritmova' });
+    // Zadar and svekar: the same fleeting a in -ar, outside the centar tables.
+    expect(f('zadar')).toMatchObject({
+      Gsg: 'zadra',
+      Dsg: 'zadru',
+      Lsg: 'zadru',
+      Isg: 'zadrom',
+      Vsg: 'zadre',
+    });
+    expect(f('svekar')).toMatchObject({
+      Gsg: 'svekra',
+      Asg: 'svekra',
+      Npl: 'svekri',
+      Gpl: 'svekara',
+    });
+    // …and mozak uncovers a g, which no rule can know.
+    expect(f('mozak')).toMatchObject({
+      Gsg: 'mozga',
+      Lsg: 'mozgu',
+      Isg: 'mozgom',
+      Npl: 'mozgovi',
+      Gpl: 'mozgova',
+    });
+    expect(decline('mozak')!.attested).toBe(true);
+  });
+
+  it('the long-yat monosyllables take the long plural, and a listed few shorten (snjegovi)', () => {
+    // The counter reads ije as two syllables (klijent really has two), so snijeg
+    // took the short plural AND sibilarized: "snijezi". The list is the mechanism.
+    for (const w of YAT_SHORTENS_IN_PLURAL)
+      expect(LONG_PLURAL.has(w), `${w} shortens its yat but is not in LONG_PLURAL`).toBe(true);
+    expect(f('klijent').Npl).toBe('klijenti'); // the spelled-alike disyllable is untouched
+    expect(f('snijeg')).toMatchObject({
+      Gsg: 'snijega',
+      Isg: 'snijegom',
+      Npl: 'snjegovi',
+      Gpl: 'snjegova',
+      Dpl: 'snjegovima',
+      Apl: 'snjegove',
+    });
+    expect(f('svijet')).toMatchObject({ Gsg: 'svijeta', Npl: 'svjetovi', Gpl: 'svjetova' });
+    expect(f('cvijet')).toMatchObject({ Npl: 'cvjetovi', Lpl: 'cvjetovima' });
+    expect(f('vijek').Npl).toBe('vjekovi');
+    // Keeps its yat — the shortening is lexical, not a rule.
+    expect(f('lijek')).toMatchObject({ Gsg: 'lijeka', Npl: 'lijekovi', Gpl: 'lijekova' });
+    // A monosyllable on the SHORT plural, sibilarized: grijesi, never grijehovi.
+    expect(f('grijeh')).toMatchObject({ Npl: 'grijesi', Gpl: 'grijeha', Dpl: 'grijesima' });
+  });
+
+  it('masculine loans in -o: auti, euri, radija — not the neuter auta / radia', () => {
+    expect(f('auto')).toMatchObject({
+      Gsg: 'auta',
+      Dsg: 'autu',
+      Asg: 'auto',
+      Vsg: 'auto',
+      Isg: 'autom',
+      Npl: 'auti',
+      Gpl: 'auta',
+      Dpl: 'autima',
+      Apl: 'aute',
+    });
+    expect(decline('auto')!.gender).toBe('m');
+    expect(f('euro')).toMatchObject({ Gsg: 'eura', Npl: 'euri', Gpl: 'eura', Lpl: 'eurima' });
+    // An -io stem takes a j in every oblique form.
+    expect(f('radio')).toMatchObject({
+      Gsg: 'radija',
+      Lsg: 'radiju',
+      Isg: 'radijem',
+      Npl: 'radiji',
+      Gpl: 'radija',
+    });
+    expect(f('studio')).toMatchObject({ Gsg: 'studija', Dsg: 'studiju' });
+    expect(f('video')).toMatchObject({ Gsg: 'videa', Npl: 'videi' });
+    // kino is neuter and must stay so.
+    expect(f('kino')).toMatchObject({ Gsg: 'kina', Npl: 'kina' });
+    expect(decline('kino')!.gender).toBe('n');
+  });
+
+  it('plural-only nouns have one table and no invented singular (vrate, hlačem)', () => {
+    expect(f('vrata')).toMatchObject({
+      Nsg: 'vrata',
+      Gsg: 'vrata',
+      Dsg: 'vratima',
+      Asg: 'vrata',
+      Lsg: 'vratima',
+      Isg: 'vratima',
+    });
+    expect(f('vrata').Npl).toBe('vrata');
+    expect(decline('vrata')!.gender).toBe('n');
+    expect(f('leđa')).toMatchObject({ Gsg: 'leđa', Lsg: 'leđima' });
+    expect(f('usta')).toMatchObject({ Gsg: 'usta', Isg: 'ustima' });
+    expect(f('prsa').Lsg).toBe('prsima');
+    expect(f('hlače')).toMatchObject({
+      Nsg: 'hlače',
+      Gsg: 'hlača',
+      Dsg: 'hlačama',
+      Asg: 'hlače',
+      Isg: 'hlačama',
+    });
+    expect(decline('hlače')!.gender).toBe('f');
+    expect(f('novine')).toMatchObject({ Gsg: 'novina', Lsg: 'novinama' });
+    expect(f('naočale')).toMatchObject({ Gsg: 'naočala', Isg: 'naočalama' });
+    // A supplied gender cannot conjure a singular for them.
+    expect(f('vrata', 'f').Gsg).toBe('vrata');
+    expect(decline('vrata')!.note).toMatch(/plural-only/);
+  });
+
+  it('djeca and braća are collectives: a feminine singular in form, in every cell', () => {
+    expect(f('djeca')).toMatchObject({
+      Gsg: 'djece',
+      Dsg: 'djeci',
+      Asg: 'djecu',
+      Vsg: 'djeco',
+      Isg: 'djecom',
+      Npl: 'djeca',
+      Gpl: 'djece',
+      Dpl: 'djeci',
+      Ipl: 'djecom',
+    });
+    expect(f('braća')).toMatchObject({ Gsg: 'braće', Asg: 'braću', Isg: 'braćom', Npl: 'braća' });
+    // kćer (the spoken nominative) resolves to the kći paradigm, not a masculine table.
+    expect(f('kćer')).toMatchObject({
+      Gsg: 'kćeri',
+      Asg: 'kćer',
+      Isg: 'kćeri',
+      Npl: 'kćeri',
+      Dpl: 'kćerima',
+    });
+    expect(decline('kćer')!.gender).toBe('f');
+  });
+
+  it('a -čak/-ćak noun takes the vocative -u: ručku, mačku — never ručče', () => {
+    expect(f('ručak')).toMatchObject({ Gsg: 'ručka', Vsg: 'ručku', Npl: 'ručci', Gpl: 'ručaka' });
+    expect(f('mačak').Vsg).toBe('mačku');
+    // …while -ak after another consonant still palatalizes: momče, junače.
+    expect(f('momak').Vsg).toBe('momče');
+    expect(f('junak').Vsg).toBe('junače');
+  });
+
+  it('genitive plurals: pizza, sarmi, formi, poanti, vikenda, sati', () => {
+    expect(f('pizza').Gpl).toBe('pizza'); // a doubled consonant is spelling, not a cluster: never pizaza
+    expect(f('sarma').Gpl).toBe('sarmi'); // consonant + m takes -i, like consonant + b
+    expect(f('forma').Gpl).toBe('formi');
+    expect(f('firma').Gpl).toBe('firmi');
+    expect(f('poanta').Gpl).toBe('poanti'); // lexical: the rule gave poanata
+    expect(f('vikend').Gpl).toBe('vikenda'); // lexical: the cluster rule gave vikenada
+    expect(f('sat').Gpl).toBe('sati'); // pet sati, never pet sata
+    // …and the rules still fire where they belong.
+    expect(f('karta').Gpl).toBe('karata');
+    expect(f('student').Gpl).toBe('studenata');
+    expect(f('sat').Gsg).toBe('sata');
+  });
+
+  it('animacy and the kept a: suradnika, biciklista, pješaka', () => {
+    expect(f('suradnik')).toMatchObject({ Asg: 'suradnika', Npl: 'suradnici' });
+    expect(f('biciklist').Asg).toBe('biciklista');
+    expect(f('pješak')).toMatchObject({
+      Gsg: 'pješaka',
+      Asg: 'pješaka',
+      Npl: 'pješaci',
+      Gpl: 'pješaka',
+    });
+    expect(f('crv').Asg).toBe('crva');
+    // A thing is untouched.
+    expect(f('rječnik').Asg).toBe('rječnik');
+  });
+
+  it('every second-batch form is clean Croatian', () => {
+    const words = [
+      'vijest',
+      'povijest',
+      'bol',
+      'bolest',
+      'kolega',
+      'tata',
+      'gazda',
+      'pojam',
+      'sajam',
+      'ritam',
+      'zadar',
+      'svekar',
+      'mozak',
+      'snijeg',
+      'svijet',
+      'cvijet',
+      'vijek',
+      'lijek',
+      'grijeh',
+      'auto',
+      'euro',
+      'radio',
+      'studio',
+      'video',
+      'vrata',
+      'leđa',
+      'usta',
+      'prsa',
+      'hlače',
+      'novine',
+      'naočale',
+      'djeca',
+      'braća',
+      'kćer',
+      'ručak',
+      'mačak',
+      'pizza',
+      'sarma',
+      'poanta',
+      'vikend',
+      'sat',
+      'suradnik',
+      'biciklist',
+      'pješak',
     ];
     for (const w of words)
       for (const form of Object.values(decline(w)!.forms)) {

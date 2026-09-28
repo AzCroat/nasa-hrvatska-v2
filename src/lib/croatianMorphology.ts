@@ -51,11 +51,18 @@ import {
   ADJECTIVAL_FEMININE,
   ANIMATE_MASCULINE,
   FEMININE_CONSONANT,
+  FLEETING_A,
   GENITIVE_PLURAL,
   KEEPS_A,
   LONG_PLURAL,
+  MASCULINE_A,
+  MASCULINE_O,
   NO_SIBILARIZATION,
+  PLURALIA_TANTUM_F,
+  PLURALIA_TANTUM_N,
   SHORT_PLURAL,
+  VOCATIVE_IS_NOMINATIVE,
+  YAT_SHORTENS_IN_PLURAL,
 } from './croatianLexicalClasses';
 
 // ── Sound classes ───────────────────────────────────────────────────────────
@@ -129,6 +136,9 @@ function epenthesize(stem: string): string {
   const a = stem[stem.length - 2]!;
   const b = stem[stem.length - 1]!;
   if (VOWELS.has(a) || VOWELS.has(b)) return stem;
+  // A doubled consonant is a loanword's spelling, not a cluster: pizza → pizza,
+  // never "pizaza".
+  if (a === b) return stem;
   // A syllabic r is already the syllable's nucleus: svrha → svrha, srna → srna.
   // Breaking it gave "svraha".
   if (a === 'r' && stem.length >= 3 && !VOWELS.has(stem[stem.length - 3]!)) return stem;
@@ -137,7 +147,10 @@ function epenthesize(stem: string): string {
 
 const isVowel = (ch: string | undefined) => !!ch && VOWELS.has(ch);
 /** Vowels plus SYLLABIC r — `prst`, `vrt` and `Hrvat` each have one r-syllable.
- *  Counting vowels alone made `Hrvat` a monosyllable, and so `hrvatovi`. */
+ *  Counting vowels alone made `Hrvat` a monosyllable, and so `hrvatovi`. The long
+ *  yat `ije` (snijeg, lijek) is spoken as one syllable and counted here as TWO,
+ *  on purpose: `klijent` is spelled the same way and really has two, so the
+ *  spelling cannot say which — the yat monosyllables are listed in LONG_PLURAL. */
 const syllables = (w: string) =>
   [...w].filter((c) => VOWELS.has(c)).length +
   (w.match(/(?:^|[^aeiou])r(?=[^aeiou]|$)/g) ?? []).length;
@@ -149,7 +162,13 @@ export interface Declension {
   gender: Gender;
   /** 'a' = the masculine/neuter a-declension, 'e' = feminine -a, 'i' = feminine
    *  consonant-final. Named the way Croatian grammars name them. */
-  paradigm: 'a-masculine' | 'a-neuter' | 'e-feminine' | 'i-feminine' | 'adjectival';
+  paradigm:
+    | 'a-masculine'
+    | 'a-neuter'
+    | 'e-feminine'
+    | 'e-masculine' // kolega, tata: e-declension endings, masculine agreement
+    | 'i-feminine'
+    | 'adjectival';
   forms: Table;
   /** True when the table came from the irregular list rather than the rules. */
   attested: boolean;
@@ -166,7 +185,17 @@ export function knownGender(lemma: string): Gender | null {
   const w = lemma.trim().toLowerCase();
   if (IRREGULAR[w]) return IRREGULAR[w]!.gender;
   if (FEMININE_CONSONANT.has(w) || (w.endsWith('ost') && syllables(w) >= 2)) return 'f';
-  if (ANIMATE_MASCULINE.has(w) || KEEPS_A.has(w) || SHORT_PLURAL.has(w) || LONG_PLURAL.has(w))
+  if (PLURALIA_TANTUM_F.has(w)) return 'f';
+  if (PLURALIA_TANTUM_N.has(w)) return 'n';
+  if (
+    ANIMATE_MASCULINE.has(w) ||
+    KEEPS_A.has(w) ||
+    FLEETING_A.has(w) ||
+    SHORT_PLURAL.has(w) ||
+    LONG_PLURAL.has(w) ||
+    MASCULINE_O.has(w) ||
+    MASCULINE_A.has(w)
+  )
     return 'm';
   return null;
 }
@@ -174,7 +203,11 @@ export function knownGender(lemma: string): Gender | null {
 function guessGender(lemma: string): Gender {
   // Known lexically, or by a productive suffix (radost, mladost). A monosyllabic
   // -ost is not the suffix: gost and most are masculine.
-  if (FEMININE_CONSONANT.has(lemma)) return 'f';
+  if (FEMININE_CONSONANT.has(lemma) || PLURALIA_TANTUM_F.has(lemma)) return 'f';
+  if (PLURALIA_TANTUM_N.has(lemma)) return 'n';
+  // A masculine loan in -o (auto) or a masculine noun in -a (kolega): the final
+  // vowel says neuter / feminine, and the word is neither.
+  if (MASCULINE_O.has(lemma) || MASCULINE_A.has(lemma)) return 'm';
   if (lemma.endsWith('ost') && syllables(lemma) >= 2) return 'f';
   // -ao is a masculine l-stem (posao, orao, kotao): read as a neuter -o it gave
   // "posaa" for posla.
@@ -213,21 +246,85 @@ export function decline(lemma: string, gender?: Gender): Declension | null {
     };
   }
 
+  // A plural-only noun has one table whatever gender a caller supplies.
+  if (PLURALIA_TANTUM_N.has(word)) return declinePluraleTantum(word, 'n');
+  if (PLURALIA_TANTUM_F.has(word)) return declinePluraleTantum(word, 'f');
   const g = gender ?? guessGender(word);
   if (ADJECTIVAL_FEMININE.has(word) && g === 'f') return declineAdjectivalFeminine(word);
   if (g === 'f' && word.endsWith('a')) return declineFeminineA(word);
   if (g === 'f') return declineFeminineI(word);
   if (g === 'n') return declineNeuter(word);
-  if (word.endsWith('a')) return declineFeminineA(word); // a masculine name in -a still declines this way
+  // A masculine noun or name in -a (kolega, tata, Luka) takes the e-declension
+  // endings WITHOUT sibilarization: kolegi, Luki — never kolezi.
+  if (word.endsWith('a')) return declineMasculineA(word);
   return declineMasculine(word);
+}
+
+function declineMasculineA(lemma: string): Declension {
+  const stem = lemma.slice(0, -1);
+  return {
+    lemma,
+    gender: 'm',
+    paradigm: 'e-masculine',
+    attested: false,
+    forms: {
+      Nsg: lemma,
+      Gsg: stem + 'e',
+      Dsg: stem + 'i',
+      Asg: stem + 'u',
+      Vsg: VOCATIVE_IS_NOMINATIVE.has(lemma) ? lemma : stem + 'o',
+      Lsg: stem + 'i',
+      Isg: stem + 'om',
+      Npl: stem + 'e',
+      Gpl: GENITIVE_PLURAL[lemma] ?? stem + 'a',
+      Dpl: stem + 'ama',
+      Apl: stem + 'e',
+      Vpl: stem + 'e',
+      Lpl: stem + 'ama',
+      Ipl: stem + 'ama',
+    },
+    note: 'A masculine noun with feminine-looking endings: it declines like žena but agrees as masculine (moj kolega, dobar tata), and its k/g never softens before -i.',
+  };
+}
+
+function declinePluraleTantum(lemma: string, g: 'n' | 'f'): Declension {
+  const stem = lemma.slice(0, -1);
+  const gen = g === 'n' ? lemma : stem + 'a';
+  const obl = stem + (g === 'n' ? 'ima' : 'ama');
+  const pl = { N: lemma, G: gen, D: obl, A: lemma, V: lemma, L: obl, I: obl };
+  const forms: Table = {};
+  for (const [c, form] of Object.entries(pl)) {
+    forms[`${c}sg`] = form;
+    forms[`${c}pl`] = form;
+  }
+  return {
+    lemma,
+    gender: g,
+    paradigm: g === 'n' ? 'a-neuter' : 'e-feminine',
+    attested: false,
+    forms,
+    note: `A plural-only noun (plurale tantum): there is no singular, so ${lemma} takes plural agreement even for one — and every cell here is the plural form.`,
+  };
 }
 
 function declineMasculine(lemma: string): Declension {
   // -ao is an l-stem whose a is fleeting: posao → posl-, orao → orl-.
   const isAo = lemma.endsWith('ao');
+  // A masculine loan in -o (auto, radio) declines on the stem without its vowel;
+  // an -io stem takes a j (radij-a, studij-u). `base` is the nominative minus
+  // that vowel, and it is what the genitive-plural rule compares the stem to.
+  const isO = !isAo && lemma.endsWith('o');
+  const base = isO ? (lemma.endsWith('io') ? lemma.slice(0, -1) + 'j' : lemma.slice(0, -1)) : lemma;
   // The oblique stem loses a fleeting a: otac → oc-, momak → momk- — except the
-  // words that keep it (rođak → rođaka), which only a list can know.
-  const stem = isAo ? lemma.slice(0, -2) + 'l' : KEEPS_A.has(lemma) ? lemma : dropFleetingA(lemma);
+  // words that keep it (rođak → rođaka), which only a list can know; and a listed
+  // few lose one OUTSIDE the -ac/-ak scope (pojam → pojm-, Zadar → Zadr-).
+  const stem = isAo
+    ? lemma.slice(0, -2) + 'l'
+    : KEEPS_A.has(lemma)
+      ? lemma
+      : FLEETING_A.has(lemma)
+        ? lemma.slice(0, -2) + lemma.slice(-1)
+        : dropFleetingA(base);
   const pal = endsPalatal(stem);
   const om = softForInstrumental(stem) ? 'em' : 'om';
   // Monosyllables take the long plural: grad → gradovi, muž → muževi. So does an
@@ -235,10 +332,12 @@ function declineMasculine(lemma: string): Declension {
   // way are lexical (dan → dani, tečaj → tečajevi).
   const long =
     LONG_PLURAL.has(lemma) || (!SHORT_PLURAL.has(lemma) && (syllables(lemma) === 1 || isAo));
-  // Before the long plural a final c softens to č: stric → stričevi, zec → zečevi.
+  // Before the long plural a final c softens to č: stric → stričevi, zec → zečevi
+  // — and a listed long yat shortens: snijeg → snjegovi, svijet → svjetovi.
   const cToC = long && finalConsonant(stem) === 'c';
   const infix = pal || cToC ? 'ev' : 'ov';
-  const longStem = cToC ? stem.slice(0, -1) + 'č' : stem;
+  const yatStem = YAT_SHORTENS_IN_PLURAL.has(lemma) ? stem.replace('ije', 'je') : stem;
+  const longStem = cToC ? yatStem.slice(0, -1) + 'č' : yatStem;
   const animate = ANIMATE_MASCULINE.has(lemma);
   // SIBILARIZATION reaches the nominative/vocative plural and the -ima cases,
   // and NOT the genitive or accusative plural: junaci, junacima, but junaka and
@@ -258,13 +357,15 @@ function declineMasculine(lemma: string): Declension {
   // Monosyllables take the long plural and never reach this branch.
   const gpl =
     GENITIVE_PLURAL[lemma] ??
-    (!long && stem !== lemma && !isAo
+    (!long && stem !== base && !isAo
       ? lemma + 'a'
       : !long && syllables(stem) >= 2
         ? epenthesize(plPlain) + 'a'
         : plPlain + 'a');
-  // Vocative: -u after a palatal, otherwise -e with k/g/h/c palatalized.
-  const voc = pal ? stem + 'u' : palatalize(stem) + 'e';
+  // Vocative: -u after a palatal, otherwise -e with k/g/h/c palatalized — except
+  // that a -čak/-ćak noun takes -u (ručku, mačku): palatalizing gave "ručče".
+  // A masculine -o loan keeps its nominative (auto!).
+  const voc = isO ? lemma : pal || /[čć]k$/.test(stem) ? stem + 'u' : palatalize(stem) + 'e';
   return {
     lemma,
     gender: 'm',
@@ -335,14 +436,15 @@ function declineFeminineA(lemma: string): Declension {
     /(čk|ćk|tk|šk|zg)$/.test(stem) ||
     (stem.endsWith('h') && isVowel(stem[stem.length - 2]));
   const dl = (noSib ? stem : sibilarize(stem)) + 'i';
-  // Genitive plural: a consonant + b stem takes -i (glazba → glazbi, molba →
-  // molbi); the epenthetic a gave "glazaba". So does a consonant + lj/nj stem
-  // (šetnja → šetnji, vožnja → vožnji): epenthesize leaves those digraphs alone,
-  // so the plain rule gave "šetnja", the nominative SINGULAR in the plural cell.
-  // A few are lexical either way (majka → majki, zemlja → zemalja, jakna → jakni).
+  // Genitive plural: a consonant + b/m stem takes -i (glazba → glazbi, molba →
+  // molbi, sarma → sarmi, forma → formi); the epenthetic a gave "glazaba" and
+  // "sarama". So does a consonant + lj/nj stem (šetnja → šetnji, vožnja →
+  // vožnji): epenthesize leaves those digraphs alone, so the plain rule gave
+  // "šetnja", the nominative SINGULAR in the plural cell. A few are lexical either
+  // way (majka → majki, zemlja → zemalja, jakna → jakni, poanta → poanti).
   const gpl =
     GENITIVE_PLURAL[lemma] ??
-    (/[^aeiou]b$/.test(stem) || /[^aeiou](lj|nj)$/.test(stem)
+    (/[^aeiou][bm]$/.test(stem) || /[^aeiou](lj|nj)$/.test(stem)
       ? stem + 'i'
       : epenthesize(stem) + 'a');
   // -ica takes the vocative -e (Marice), other -a nouns take -o (ženo).

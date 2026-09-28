@@ -92,6 +92,10 @@ export const CENSUS_EXEMPT = new Map([
     'functions/api/_croatianGuard.js',
     'CROATIAN_SCRIPT_RULE quotes the forbidden forms by name — naming them IS the rule',
   ],
+  [
+    'src/lib/croatianMorphology.ts',
+    'the declension engine: its Croatian is the PRODUCED forms, guarded in croatianMorphology.test.ts by running findSerbism/containsCyrillic over every table; what the matcher sees here is the English `note` prose quoting an example (CLAUDE.md: adding it to TARGETS is the false-confidence trap)',
+  ],
 ]);
 
 export async function censusRows() {
