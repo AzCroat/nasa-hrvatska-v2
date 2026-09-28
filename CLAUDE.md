@@ -1032,6 +1032,30 @@ app's own Concept Teaching directive says so.
     form because nothing about it looks wrong.
     **Not verified**: the masculine vocative of loanwords in -ng (`treninže`); left
     as the rule computes it and recorded, because the right form is not certain.
+    **THE SECOND BATCH (2026-09-28), from the production-unit authors — 46 wrong forms
+    across ~30 common words**, each probed before it was touched: `kćer`, `vijest`,
+    `povijest`, `bol` masculine; `tata`, `kolega` feminine with `kolezi`; `pojam`,
+    `sajam`, `ritam`, `Zadar`, `svekar` keeping their a; `mozak → mozka`; `snijeg →
+snijezi`, `lijek → lijeci`; `auto`, `euro`, `radio` neuter; `vrata`, `leđa`, `usta`
+    as feminine singulars and `hlače`, `novine` as neuter singulars; `djeca` with a
+    plural; `ručak → ručče`; `pizza → pizaza`; `sarma → sarama`; `vikend → vikenada`;
+    `pet sata`; `suradnik`, `biciklist` inanimate; `pješak → pješka`. Same split as
+    before: RULES for the -čak vocative, the doubled consonant, consonant + m, the -io
+    j, the masculine -a noun (`declineMasculineA`, paradigm `e-masculine`, never
+    sibilarized) and the plurale tantum (one table in every cell); LISTS for the rest
+    (`FLEETING_A`, `YAT_SHORTENS_IN_PLURAL`, `MASCULINE_O`, `MASCULINE_A`,
+    `PLURALIA_TANTUM_N/F`, and additions to the existing sets); attested tables for
+    `mozak`, `djeca`, `braća`, `kćer`.
+    **THE YAT IS A LIST, NOT A SYLLABLE RULE, AND THE RULE VERSION BROKE A WORD THE
+    SUITE ALREADY KNEW.** `ije` is one spoken syllable in `snijeg` and two in
+    `klijent`, spelled identically; counting it as one gave `klijentova`. The counter
+    is unchanged and the long-yat monosyllables sit in `LONG_PLURAL` (`grijeh →
+grijesi` is the short-plural control). `bol` is listed feminine (`boli`; the
+    masculine is one explicit argument away). `pogreška → pogreški` is a checked
+    non-defect: both forms are standard. `croatianMorphology.ts` is now in the census's
+    `CENSUS_EXEMPT` with the reason this section already states. Mutation-verified, ten,
+    each fails 1–2 — one did not land on its first run (a `$` mis-escaped in sed) and
+    was re-run with the replacement count printed.
 - NEVER: name a single case for an ambiguous ending; present a computed
   paradigm as attested; make a word tap cost an AI turn; return null from the
   word sheet when the AI is unavailable; add these files to the lint TARGETS
