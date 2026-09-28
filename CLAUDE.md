@@ -4556,6 +4556,35 @@ whose course step IS a lesson, P2.5 is now that step: `src/lib/produceSlot.ts`
   session slot on an evaluator refusal; add a session activity whose id starts with
   `curriculum_` without teaching the probe's `isP0` which kind it is.
 
+### Increment 2b — the same step, spoken (2026-09-28)
+
+2a's stated cost was that the step is written, so an A1 learner spoke no Croatian in
+the session on lesson days. `LessonProduceStep` now takes `kind: 'write' | 'speak'`
+(default write — the lesson summary is unchanged). SPEAK asks for the same two or
+three sentences aloud: the hr-HR continuous recogniser feeds the SAME text box the
+learner can type into (a mic-blocked learner is not shut out; `onend` only stops
+listening and never submits), and `/api/speaking-coach` grades the transcript.
+
+- **The coach records its own evidence.** `requestSpeakingCoach` → `applyCoachLoops`
+  writes the speaking mastery event and the error types; the step must not record a
+  second event for it. It awards `round(overall × 10) + 5` as `speaking`, marks the
+  speak quest, records `produced.kind = 'speak'`, and frees the session slot on a
+  graded submission and on a coach refusal.
+- **Which kind today** (`produceSlot.pickProduceKind`): the ledger's weaker production
+  skill when it has a verdict; otherwise ALTERNATE from the last graded produce step
+  (`produced.kind`, new on the retention record — kept by the sanitiser, passed whole
+  by the merge), opening on write. The activity id carries it
+  (`curriculum_produce_<kind>_<lesson>`) and so does the handoff (`lesson|kind`); a
+  2a-shaped id or handoff still in a persisted session reads as write.
+- **Either modality settles the slot.** The work is production on the concept; a
+  learner who wrote it on the lesson summary has done a speak slot's work too.
+- Pinned by `produceSlot.test.tsx` (20). Mutation-verified, four: kind always write
+  fails 3; the spoken step records no kind fails 1; it never frees the slot fails 2;
+  the sanitiser drops the kind fails 3.
+- NEVER: record a second mastery event from the spoken step; gate the spoken step on
+  the microphone; parse a produce id without the kind-less 2a fallback while any
+  persisted session may still carry one.
+
 ## Critical Architecture: A Question Must Not Contain Its Own Answer (owner reports, 2026-09-26)
 
 Owner, on the object-pronoun drill: _"you are giving the answers in the questions. What
@@ -6990,6 +7019,7 @@ Alerts fixed in code that session: #70 (stack-trace exposure — `/api/backup-pr
 - Anything named `session` (`nh_session_started`, `nh_session_served`, `nh_recent_exercises`, `sessionCategory`, `sessionSignal`) is read as an **auth session token**. It is the daily LEARNING session — lesson plans, screen keys, recent-exercise ids. No credential, token, or secret is ever stored there.
 - `nh_grammar_diagnosis` (#62) trips the **medical-data** heuristic on the word "diagnosis". It caches AI-generated grammar-weakness feedback.
 - `getCertifiedLevel()` (#78) reads as a **credential**. It returns one of six strings, `A1`–`C2` — the learner's own demonstrated Croatian level, which every badge in the app already displays to them.
+- **#96 and #97 (2026-09-28, `src/lib/lessonProduceRequest.ts`) are the #78 heuristic again** — #97 is #96 re-raised on the SAME statement after increment 2b moved it from line 39 to line 59, which is the location-keyed-dismissal rule above landing within one day: "stores sensitive data returned by a call to getCertifiedLevel". The write is `sessionStorage.setItem('nh_lesson_produce', '<lessonId>|<write|speak>')` — the day's lesson id and which modality the produce step asks for — reached, by the scanner's flow, from the course level the session is built at. Nothing in it is a credential. Dismissed as a false positive in the Security tab; no inline suppression.
 
 Storing learner progress in localStorage is this app's documented architecture (localStorage is authoritative, Firestore syncs it) — there is nothing to encrypt, and the only "fix" would be renaming identifiers to dodge a scanner. Do NOT add inline `// codeql[...]` suppressions to production files for these, and do NOT add a repo-wide `query-filters` config to mute the rule: the first pollutes eight source files and the second drops a real security query over the whole tree, both to silence a heuristic the UI dismissal already records. Re-triage only if an alert's FILE or DATA changes — not because the alert reappears.
 

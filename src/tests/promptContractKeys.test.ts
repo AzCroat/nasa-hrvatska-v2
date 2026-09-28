@@ -180,19 +180,23 @@ describe('the writing evaluator promises what its consumers read', () => {
     expect(declared.size).toBeGreaterThanOrEqual(7);
     expect(declared.has('score')).toBe(true);
     expect(declared.has('corrected_text')).toBe(true);
-    // Six surfaces post writeeval; four are attributable, two are multi-endpoint.
+    // Six surfaces post writeeval; THREE are attributable, three are multi-endpoint
+    // (the count was four attributable until 2026-09-28 — see the bound below).
     const all = writeevalSurfaces();
     expect(all.length).toBeGreaterThanOrEqual(6);
-    expect(consumers.length).toBeGreaterThanOrEqual(4);
+    expect(consumers.length).toBeGreaterThanOrEqual(3);
     const excluded = all.filter((f) => !consumers.includes(f));
     // Every exclusion must really be multi-endpoint — the scope cannot widen by
     // a file merely dropping out of the matcher.
     for (const f of excluded) expect(endpointsIn(f).size).toBeGreaterThan(1);
-    // THREE, not two: `UnitProductionScreen` (2026-09-26) posts writeeval AND reaches
-    // /api/speaking-coach through `requestSpeakingCoach`, so it is legitimately
-    // multi-endpoint. The bound exists so the scope cannot widen by a file quietly
-    // dropping out of the matcher, which the clause above already checks per file.
-    expect(excluded.length).toBeLessThanOrEqual(3);
+    // FOUR, not three: `UnitProductionScreen` (2026-09-26) and `LessonProduceStep`
+    // (2026-09-28, redesign increment 2b — the produce step spoken) each post
+    // writeeval AND reach /api/speaking-coach through `requestSpeakingCoach`, so both
+    // are legitimately multi-endpoint; their `data.overall` is the COACH's field, and
+    // attributing it to the writing prompt would manufacture a finding. The bound
+    // exists so the scope cannot widen by a file quietly dropping out of the matcher,
+    // which the clause above already checks per file.
+    expect(excluded.length).toBeLessThanOrEqual(4);
   });
 
   it('every field a consumer reads is a key the prompt declares', () => {
@@ -216,7 +220,8 @@ describe('the writing evaluator promises what its consumers read', () => {
     // so the stated range is pinned HERE, next to the consumers that assume it.
     expect(PROMPTS).toMatch(/Score 0-100 based on/);
     const normalising = consumers.filter((f) => /\/\s*100\b/.test(readFileSync(f, 'utf8')));
-    expect(normalising.length).toBeGreaterThanOrEqual(4);
+    // Three attributable consumers since 2026-09-28 (see the scope pin above).
+    expect(normalising.length).toBeGreaterThanOrEqual(3);
   });
 
   it('every LEGACY_TOLERATED key is still read and still undeclared', () => {

@@ -268,11 +268,20 @@ first build step.**
   logic lives in `produceSlot.ts`, and `markDoneInSession` /
   `recordSessionComplete` moved to `dailySessionStore.ts` (re-exported from the hook
   for the two existing importers).
-- **Increment 2b — NEXT: the same step, spoken.** "Say it instead": the browser
-  recogniser's transcript (typed fallback), graded by `/api/speaking-coach`
-  (transcript-in, no STT cost), recorded as `speaking` evidence; the slot alternates
-  write/speak by the ledger's weaker production skill, so both modalities are about
-  the day's concept.
+- **Increment 2b — DONE 2026-09-28: the same step, spoken.** `LessonProduceStep`
+  takes `kind: 'write' | 'speak'`. SPEAK asks for the same two or three sentences
+  aloud: the browser recogniser's transcript (hr-HR, continuous, `onend` only stops
+  listening — it never submits) lands in the same box the learner can type into, so a
+  mic-blocked learner is not shut out; `/api/speaking-coach` grades it (transcript-in,
+  no STT cost) and records the speaking evidence and error types itself
+  (`applyCoachLoops`), so the step does not record a second event. The slot's kind
+  (`pickProduceKind`): the ledger's weaker production skill when it has a verdict,
+  else ALTERNATE from the last graded produce step (`produced.kind`, new on the
+  retention record; sanitised and merged), opening on WRITE. The activity id carries
+  it (`curriculum_produce_<kind>_<lesson>`; a 2a-shaped id reads as write), so does
+  the handoff. Either modality settles the slot — the work is production on the
+  concept. Cost 2a stated is closed: a lesson-day learner now alternates writing and
+  speaking about the day's concept.
 - **Increment 3 — stage 4, the mix (decision 2).** A concept stays in a rolling
   practice set across several days instead of clearing on first practice (G2); the
   adaptive pick survives inside that set, restricted to taught categories. Length

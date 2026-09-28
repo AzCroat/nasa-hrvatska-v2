@@ -82,8 +82,8 @@ export function rearmCourseHandoff(activityId: string | undefined | null): void 
   try {
     // The lesson-day produce step (redesign increment 2a) carries its lesson id in
     // the activity id, so the handoff needs no unit table.
-    const produceLesson = lessonIdOfProduceActivity(activityId);
-    if (produceLesson) return requestLessonProduce(produceLesson);
+    const produce = lessonIdOfProduceActivity(activityId);
+    if (produce) return requestLessonProduce(produce.lessonId, produce.kind);
     for (const level of KNOWN_LEVELS) {
       if (activityId === levelReviewActivityId(level)) return requestLevelReview(level);
     }

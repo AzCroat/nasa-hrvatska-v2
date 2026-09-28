@@ -16,7 +16,12 @@
 // A failure names its cause (lib/aiFailure), offers Try again, and lets the
 // learner move on with their pass intact — this step can only ever ADD.
 
-import React, { useRef, useState } from 'react';
+// SAID OR WRITTEN (redesign increment 2b, 2026-09-28): `kind: 'speak'` asks for the
+// same two or three sentences ALOUD — the browser recogniser's transcript (typed
+// fallback, so a mic-blocked learner is not shut out) graded by `/api/speaking-coach`,
+// which is transcript-in (no STT cost) and records the speaking evidence itself
+// (`applyCoachLoops`), so this step must NOT record a second mastery event for it.
+import React, { useCallback, useRef, useState } from 'react';
 import { _aiPost } from '../../lib/aiPost';
 import {
   failureFromResponse,
@@ -31,6 +36,8 @@ import { markLessonProduced } from '../../lib/lessonRetention';
 import type { CefrLevel } from '../../lib/cefr';
 import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
+import { requestSpeakingCoach, type CoachResult } from '../../lib/speakingCoach';
+import type { ProduceKind } from '../../lib/lessonProduceRequest';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -59,6 +66,8 @@ interface Props {
   objectives: string[];
   award?: (xp: number, celebrate?: boolean, activityType?: string) => void;
   onDone: () => void;
+  /** WRITE (default; the lesson summary) or SPEAK (the session's spoken produce slot). */
+  kind?: ProduceKind;
 }
 
 export default function LessonProduceStep({
@@ -68,22 +77,55 @@ export default function LessonProduceStep({
   objectives,
   award,
   onDone,
+  kind = 'write',
 }: Props) {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CorrectResult | null>(null);
+  const [spoken, setSpoken] = useState<CoachResult | null>(null);
   const [failure, setFailure] = useState<AiFailure | null>(null);
+  const [listening, setListening] = useState(false);
   const awarded = useRef(false);
+  const recRef = useRef<{ stop: () => void } | null>(null);
 
   const words = text.trim().split(/\s+/).filter(Boolean).length;
   const enough = words >= MIN_PRODUCE_WORDS;
   const brief = objectives.slice(0, 2).join(' ');
+
+  async function submitSpoken() {
+    const outcome = await requestSpeakingCoach({
+      prompt: `Use what "${lessonTitle}" taught: ${brief}`,
+      transcript: text.trim(),
+      level,
+    });
+    if (!outcome || !outcome.ok) {
+      const f = outcome?.ok === false ? outcome.failure : failureFromStatus(200, 'too_short');
+      setFailure(f);
+      // The learner SPOKE; the coach would not answer. Never strand the session slot.
+      signalSessionCompleteIfActive('lessonproduce');
+      return;
+    }
+    const overall = Math.max(0, Math.min(1, outcome.data.overall));
+    setSpoken(outcome.data);
+    markLessonProduced(lessonId, Math.round(overall * 100), undefined, 'speak');
+    // The coach already recorded the speaking evidence and the error types.
+    signalSessionCompleteIfActive('lessonproduce');
+    if (!awarded.current && award) {
+      awarded.current = true;
+      award(Math.round(overall * 10) + 5, false, 'speaking');
+      markQuest('speak');
+    }
+  }
 
   async function submit() {
     if (!enough || loading) return;
     setLoading(true);
     setFailure(null);
     try {
+      if (kind === 'speak') {
+        await submitSpoken();
+        return;
+      }
       const res = await _aiPost('/api/correct', {
         mode: 'writeeval',
         prompt: `Use what "${lessonTitle}" taught: ${brief}`,
@@ -107,7 +149,7 @@ export default function LessonProduceStep({
         return;
       }
       setResult(data);
-      markLessonProduced(lessonId, data.score);
+      markLessonProduced(lessonId, data.score, undefined, 'write');
       // Standing on its own as the session's production slot (redesign increment
       // 2a) the step frees the slot here; inside a lesson the started screen is
       // 'animlesson' and this is a no-op — the Home effect credits the slot from
@@ -137,6 +179,73 @@ export default function LessonProduceStep({
     } finally {
       setLoading(false);
     }
+  }
+
+  // The browser recogniser, hr-HR, continuous; the transcript lands in the same
+  // text box the learner can type into. `onend` only stops listening — it never
+  // submits (a recogniser ending is not a learner finishing).
+  const toggleMic = useCallback(() => {
+    const w = window as unknown as {
+      SpeechRecognition?: new () => any;
+      webkitSpeechRecognition?: new () => any;
+    };
+    const SR = w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SR) return;
+    if (listening) {
+      try {
+        recRef.current?.stop();
+      } catch {
+        /* already stopped */
+      }
+      setListening(false);
+      return;
+    }
+    try {
+      const rec = new SR();
+      rec.lang = 'hr-HR';
+      rec.continuous = true;
+      rec.interimResults = false;
+      rec.onresult = (speech: any) => {
+        let said = '';
+        for (let i = speech.resultIndex; i < speech.results.length; i++) {
+          said += speech.results[i][0].transcript + ' ';
+        }
+        setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
+      };
+      rec.onend = () => setListening(false);
+      rec.onerror = () => setListening(false);
+      recRef.current = rec;
+      rec.start();
+      setListening(true);
+    } catch {
+      setListening(false);
+    }
+  }, [listening]);
+  const micAvailable =
+    typeof window !== 'undefined' &&
+    !!((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition);
+
+  if (spoken) {
+    return (
+      <div data-testid="produce-result" style={{ textAlign: 'left' }}>
+        <div style={{ fontSize: 22, fontWeight: 900, textAlign: 'center' }}>
+          {Math.round(Math.max(0, Math.min(1, spoken.overall)) * 100)}/100
+        </div>
+        {spoken.advice && (
+          <p data-testid="produce-advice" style={{ fontSize: 13, lineHeight: 1.6 }}>
+            {spoken.advice}
+          </p>
+        )}
+        {spoken.encouragement && (
+          <p style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6 }}>
+            {spoken.encouragement}
+          </p>
+        )}
+        <button className="b bp" style={{ width: '100%', marginTop: 12 }} onClick={onDone}>
+          Done
+        </button>
+      </div>
+    );
   }
 
   if (result) {
@@ -175,10 +284,13 @@ export default function LessonProduceStep({
 
   return (
     <div data-testid="produce-step" style={{ textAlign: 'left' }}>
-      <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>Now use it</div>
+      <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>
+        {kind === 'speak' ? 'Now say it' : 'Now use it'}
+      </div>
       <p style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6, margin: '0 0 10px' }}>
-        Write two or three sentences in Croatian using what this lesson taught. Recognising a form
-        and producing one are different skills — this trains the second.
+        {kind === 'speak'
+          ? 'Say two or three sentences in Croatian using what this lesson taught — the speaking coach grades what you said. No microphone? Type them instead; it counts the same.'
+          : 'Write two or three sentences in Croatian using what this lesson taught. Recognising a form and producing one are different skills — this trains the second.'}
       </p>
       {brief && (
         <p
@@ -199,6 +311,18 @@ export default function LessonProduceStep({
       <div style={{ fontSize: 12, color: 'var(--subtext)', margin: '4px 0 10px' }}>
         {words} / {MIN_PRODUCE_WORDS} words
       </div>
+      {kind === 'speak' && micAvailable && (
+        <button
+          type="button"
+          className="b"
+          data-testid="produce-mic"
+          aria-pressed={listening}
+          style={{ width: '100%', marginBottom: 10 }}
+          onClick={toggleMic}
+        >
+          {listening ? '⏹ Stop listening' : '🎙️ Speak'}
+        </button>
+      )}
 
       {failure && (
         <div

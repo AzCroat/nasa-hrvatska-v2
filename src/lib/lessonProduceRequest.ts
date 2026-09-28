@@ -18,33 +18,76 @@
 
 import { readRetention } from './lessonRetention';
 
+/**
+ * Which modality the day's produce step asks for (increment 2b). WRITE is graded by
+ * `/api/correct`; SPEAK by `/api/speaking-coach` on the browser's transcript (typed
+ * fallback), so both are about the day's concept and both feed the mastery ledger.
+ */
+export type ProduceKind = 'write' | 'speak';
+
 export const LESSON_PRODUCE_REQUEST_KEY = 'nh_lesson_produce';
 const ACTIVITY_PREFIX = 'curriculum_produce_';
 
-/** The session activity id for a lesson's produce step. */
-export function lessonProduceActivityId(lessonId: string): string {
-  return ACTIVITY_PREFIX + lessonId;
+/** The session activity id for a lesson's produce step: `curriculum_produce_<kind>_<lesson>`. */
+export function lessonProduceActivityId(lessonId: string, kind: ProduceKind = 'write'): string {
+  return `${ACTIVITY_PREFIX}${kind}_${lessonId}`;
 }
 
-/** The lesson id an activity id names, or null when it is not a produce activity. */
-export function lessonIdOfProduceActivity(activityId: string | undefined | null): string | null {
+/**
+ * The lesson and kind an activity id names, or null when it is not a produce
+ * activity. An id from before the kind existed (`curriculum_produce_<lesson>`, the
+ * 2a shape, still in some persisted sessions) reads as WRITE — that is what it was.
+ */
+export function lessonIdOfProduceActivity(
+  activityId: string | undefined | null,
+): { lessonId: string; kind: ProduceKind } | null {
   if (!activityId || !activityId.startsWith(ACTIVITY_PREFIX)) return null;
-  const id = activityId.slice(ACTIVITY_PREFIX.length);
-  return id || null;
+  const rest = activityId.slice(ACTIVITY_PREFIX.length);
+  if (!rest) return null;
+  for (const kind of ['write', 'speak'] as const) {
+    if (rest.startsWith(`${kind}_`)) {
+      const lessonId = rest.slice(kind.length + 1);
+      return lessonId ? { lessonId, kind } : null;
+    }
+  }
+  return { lessonId: rest, kind: 'write' };
 }
 
-export function requestLessonProduce(lessonId: string): void {
+export function requestLessonProduce(lessonId: string, kind: ProduceKind = 'write'): void {
   if (!lessonId) return;
   try {
-    sessionStorage.setItem(LESSON_PRODUCE_REQUEST_KEY, lessonId);
+    sessionStorage.setItem(LESSON_PRODUCE_REQUEST_KEY, `${lessonId}|${kind}`);
   } catch {
     /* the screen reports that it has no lesson rather than crashing */
   }
 }
 
-export function readLessonProduceRequest(): string | null {
+export function readLessonProduceRequest(): { lessonId: string; kind: ProduceKind } | null {
   try {
-    return sessionStorage.getItem(LESSON_PRODUCE_REQUEST_KEY) || null;
+    const raw = sessionStorage.getItem(LESSON_PRODUCE_REQUEST_KEY);
+    if (!raw) return null;
+    const [lessonId, kind] = raw.split('|');
+    if (!lessonId) return null;
+    return { lessonId, kind: kind === 'speak' ? 'speak' : 'write' };
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The modality of the most recently graded produce step across all lessons, or
+ * null when none carries a kind — used to ALTERNATE when the ledger has no verdict
+ * on which production skill is weaker.
+ */
+export function lastProducedKind(): ProduceKind | null {
+  try {
+    let best: { at: string; kind: ProduceKind } | null = null;
+    for (const rec of Object.values(readRetention().lessons)) {
+      const p = rec.produced;
+      if (!p || (p.kind !== 'write' && p.kind !== 'speak')) continue;
+      if (!best || p.at > best.at) best = { at: p.at, kind: p.kind };
+    }
+    return best?.kind ?? null;
   } catch {
     return null;
   }

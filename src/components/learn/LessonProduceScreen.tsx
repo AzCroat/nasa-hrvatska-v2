@@ -48,7 +48,10 @@ const card: React.CSSProperties = {
 };
 
 export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Props) {
-  const lessonId = useMemo(() => readLessonProduceRequest(), []);
+  const request = useMemo(() => readLessonProduceRequest(), []);
+  const lessonId = request?.lessonId ?? null;
+  const kind = request?.kind ?? 'write';
+  const icon = kind === 'speak' ? '🎙️ Say it' : '✍️ Write it';
   const entry = useMemo<CurriculumEntry | null>(() => {
     if (!lessonId) return null;
     try {
@@ -80,7 +83,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
   if (!lessonId || !entry) {
     return (
       <div className="scr-wrap">
-        {H('✍️ Write it', 'Use what today’s lesson taught', goBack)}
+        {H(icon, 'Use what today’s lesson taught', goBack)}
         <div style={card} data-testid="lesson-produce-none">
           <div style={{ fontWeight: 700, marginBottom: 6 }}>No lesson to write about</div>
           <div style={{ fontSize: 14, color: 'var(--ink-muted)' }}>
@@ -97,7 +100,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
   if (!read) {
     return (
       <div className="scr-wrap">
-        {H('✍️ Write it', title, goBack)}
+        {H(icon, title, goBack)}
         <div style={card} data-testid="lesson-produce-unread">
           <div style={{ fontWeight: 700, marginBottom: 6 }}>Finish today’s lesson first</div>
           <div style={{ fontSize: 14, color: 'var(--ink-muted)' }}>
@@ -124,7 +127,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
   if (produced) {
     return (
       <div className="scr-wrap">
-        {H('✍️ Write it', title, goBack)}
+        {H(icon, title, goBack)}
         <div style={card} data-testid="lesson-produce-done">
           <div style={{ fontWeight: 700, marginBottom: 6 }}>Already written ✓</div>
           <div style={{ fontSize: 14, color: 'var(--ink-muted)' }}>
@@ -141,7 +144,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
 
   return (
     <div className="scr-wrap">
-      {H('✍️ Write it', title, goBack)}
+      {H(icon, title, goBack)}
       <div style={card}>
         <LessonProduceStep
           lessonId={lessonId}
@@ -150,6 +153,7 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
           objectives={entry.objectives ?? []}
           award={award}
           onDone={goBack}
+          kind={kind}
         />
       </div>
     </div>

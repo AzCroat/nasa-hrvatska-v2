@@ -532,7 +532,7 @@ export function buildSessionActivities(
   // ON A LESSON DAY THE PRODUCTION SLOT IS THE LESSON'S OWN PRODUCE STEP (redesign
   // increment 2a, owner decision 4). Policy and rationale in lib/produceSlot; null
   // on every other day shape, when the pool pick below runs as before.
-  const produceActivity = selectLessonProduceSlot(curriculumSlots);
+  const produceActivity = selectLessonProduceSlot(curriculumSlots, level);
   if (produceActivity) {
     activities.push(produceActivity);
     usedScreens.add(produceActivity.screen);
