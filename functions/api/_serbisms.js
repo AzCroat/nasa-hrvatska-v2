@@ -66,6 +66,11 @@ export const SERBISM_RULES = [
   { re: sb('dete'), use: 'dijete' },
   { re: sb('čovek(a|u|om)?'), use: 'čovjek' },
   { re: sb('reč|reči'), use: 'riječ' },
+  // `susjed` (2026-09-28). A C2 vocabulary example read `uzoran sused` and
+  // passed: the deck had never been linted, and when it was, this rule did not
+  // exist. The enumeration keeps the Kajkavian place name `Susedgrad` (and
+  // `susedgradsko-stubičko`) safe — a letter follows, so the lookaround rejects.
+  { re: sb('sused(a|u|om|e|i|ima|ovi|ova|ove)?|susedn\\p{L}*|susedstv\\p{L}*'), use: 'susjed' },
   // `rijeka`. The commonest ekavica noun of them all, and it was missing: a
   // City of the Day vocab entry read `{ hr: 'reka Una' }` in a file that has
   // been in the lint's TARGETS since the first wave, in a field the matcher

@@ -2,7 +2,8 @@
  * vocab-structure.test.ts — Guards for the Batch 6a vocabulary structure work:
  * every core V category CEFR-tagged via V_LEVELS, the rescued essential
  * key-word categories in circulation, the stale client V_B2/V_C1/V_C2 copies
- * gone for good, and the server C2 tier at its new 300-word floor.
+ * gone for good, and the server C1/C2 tiers at their 2026-09-28 floors
+ * (C1 ≥ 1,500 entries, C2 ≥ 1,000).
  */
 import { describe, it, expect } from 'vitest';
 import * as clientVocab from '../data/vocabulary.js';
@@ -45,10 +46,10 @@ describe('stale client advanced-vocab copies', () => {
 });
 
 describe('server advanced tiers', () => {
-  it('V_C2 has ≥300 words across ≥16 categories with unique lemmas', () => {
+  it('V_C2 has ≥1000 words across ≥60 categories with unique lemmas', () => {
     const counts = Object.values(V_C2).map((arr) => arr.length);
-    expect(Object.keys(V_C2).length).toBeGreaterThanOrEqual(16);
-    expect(counts.reduce((a, b) => a + b, 0)).toBeGreaterThanOrEqual(300);
+    expect(Object.keys(V_C2).length).toBeGreaterThanOrEqual(60);
+    expect(counts.reduce((a, b) => a + b, 0)).toBeGreaterThanOrEqual(1000);
     const seen = new Set<string>();
     for (const arr of Object.values(V_C2)) {
       for (const entry of arr) {
@@ -70,8 +71,10 @@ describe('server advanced tiers', () => {
   it('B2/C1 tiers keep their audited floors', () => {
     const count = (tier: Record<string, unknown[][]>) =>
       Object.values(tier).reduce((n, arr) => n + arr.length, 0);
-    expect(count(V_B2 as never)).toBeGreaterThanOrEqual(963);
-    expect(count(V_C1 as never)).toBeGreaterThanOrEqual(900);
+    // 962, not 963: 2026-09-28 removed 'kognitivni pristranak', which is not a
+    // Croatian term and duplicated 'kognitivna pristranost' in the same tier.
+    expect(count(V_B2 as never)).toBeGreaterThanOrEqual(962);
+    expect(count(V_C1 as never)).toBeGreaterThanOrEqual(1500);
   });
 
   it('no tier contains duplicate lemmas (B2 legacy dups fixed in Batch 6c)', () => {

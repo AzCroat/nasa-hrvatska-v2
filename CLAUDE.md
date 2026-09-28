@@ -1745,6 +1745,24 @@ exactly the rate the content it restates grows.
   the derivation tests cannot replace. Mutation-verified: six mutations (launcher
   back to flatMap, tiers dropped, ascending order, tracked-above dropped,
   `V_LEVELS` off the payload, acquisition = whole pool) fail 1–6 tests each.
+- **THE ADVANCED TIERS ROSE TO C1 1,679 / C2 1,158 ENTRIES (2026-09-28), AND THE
+  NUMBER THAT MATTERS IS WHAT EACH BAND SERVES.** A lemma is served at the LOWEST band
+  that carries it, so a tier entry repeating a lower tier's lemma adds nothing a
+  learner meets there: of the original 900 C1 entries about 130 were such dead copies,
+  and the first merge reached 1,600 C1 entries while SERVING 1,491 — under the 1,500
+  asked for. `vocabulary-coverage.test.ts` now pins the served count per band (C1 ≥
+  1,500, C2 ≥ 1,000; measured 1,551 and 1,108) beside the tier sizes, and it failed at
+  1,491 before one more slice was authored. Thirteen theme slices were written in
+  parallel and each READ by a separate reviewer: 26 corrections in 1,671 entries, most
+  of them factual claims in examples (Croatia leads organ donation PER MILLION, not in
+  absolute numbers; the notice period depends on the contract and length of service;
+  a `podružnica` is a branch, not a subsidiary) rather than grammar. The authors also
+  reported ~30 defects in entries ALREADY SHIPPING, all fixed: Serbian or non-standard
+  forms (`otadžbina`, `šta se dere?`, `sused`, a Serbian film title given as Croatian),
+  two invented idioms, agreement and case errors, and legal definitions that were
+  simply wrong (a `prekršaj` described as a criminal offence). `sused` also became a
+  Serbism rule — `Susedgrad`, a real Kajkavian place name, is kept safe by the
+  letter lookahead and pinned.
 - NEVER: reintroduce a hardcoded category list anywhere a deck is built; rank a
   category by anything but `V_LEVELS`; gate `vocabPool` differently from
   `vocabPoolWords` (Home and Review must agree by construction); let an absent
