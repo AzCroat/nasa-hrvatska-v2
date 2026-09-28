@@ -11,7 +11,9 @@ test.describe('Learn tab', () => {
     await mockContent(page);
     // Navigate directly to /learn to avoid post-auth navigate('/') race on tab click.
     await page.goto('/learn');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
+      timeout: 10_000,
+    });
     // The readiness anchor used to be 'Your Path', the header above the Learn
     // path widget. That widget is retired; this testid is the surface's own
     // stable handle and does not depend on copy.
@@ -30,7 +32,6 @@ test.describe('Learn tab', () => {
     test('shows Grammar Ref button in hero', async ({ page }) => {
       await expect(page.getByText('📖 Ref')).toBeVisible();
     });
-
   });
 
   // ── THE SCREENS THE RETIRED MODAL WAS THE ONLY DOOR TO ───────────────────
@@ -63,12 +64,12 @@ test.describe('Learn tab', () => {
 
     test('launching a relocated screen navigates without error', async ({ page }) => {
       const errors = [];
-      page.on('pageerror', e => errors.push(e.message));
+      page.on('pageerror', (e) => errors.push(e.message));
       await find(page, 'grammar track');
       await page.getByText('Grammar Track A1→C2').click();
       await page.waitForTimeout(500);
       const unexpected = errors.filter(
-        e => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),
+        (e) => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),
       );
       expect(unexpected).toHaveLength(0);
     });
@@ -109,8 +110,9 @@ test.describe('Learn tab', () => {
       await expect(page.getByTestId('lc-row').first()).toBeVisible();
       // The owner's own example, and the reason this screen exists: the query
       // must reach LESSONS, not only the one drill screen it used to find.
-      await expect(page.locator('[data-testid="lc-row"][data-kind="lesson"]').first())
-        .toBeVisible({ timeout: 10_000 });
+      await expect(page.locator('[data-testid="lc-row"][data-kind="lesson"]').first()).toBeVisible({
+        timeout: 10_000,
+      });
     });
 
     test('the diacritic-free spelling searches the same', async ({ page }) => {
@@ -141,13 +143,27 @@ test.describe('Learn tab', () => {
       await openCenter(page);
       await page.getByTestId('lc-mode-reference').click();
       await page.getByTestId('rd-panel-declension-table').click();
-      await page.getByTestId('rd-declension-input').fill('stvar');
-      // Left to guess, the engine returns `stvara` for a real feminine noun.
+      // `zob` (oats) is feminine and on no list the engine keeps, so the spelling
+      // is all it has. `stvar` was the example until the engine learned the
+      // feminine i-nouns (2026-09-28) — it no longer asks about a word it knows.
+      await page.getByTestId('rd-declension-input').fill('zob');
+      // Left to guess, the engine returns `zoba` for a real feminine noun.
       await expect(page.getByTestId('rd-gender-choice')).toBeVisible();
       await page.getByTestId('rd-gender-f').click();
       await expect(page.locator('[data-testid="rd-case-row"][data-case="G"]')).toContainText(
+        'zobi',
+      );
+    });
+
+    test('a noun whose gender the engine knows is declined without asking', async ({ page }) => {
+      await openCenter(page);
+      await page.getByTestId('lc-mode-reference').click();
+      await page.getByTestId('rd-panel-declension-table').click();
+      await page.getByTestId('rd-declension-input').fill('stvar');
+      await expect(page.locator('[data-testid="rd-case-row"][data-case="G"]')).toContainText(
         'stvari',
       );
+      await expect(page.getByTestId('rd-gender-choice')).toHaveCount(0);
     });
 
     test('searching a Croatian case name opens its concept card in place', async ({ page }) => {

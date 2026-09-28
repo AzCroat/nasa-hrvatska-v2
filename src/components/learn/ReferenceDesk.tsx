@@ -28,6 +28,7 @@
 import React, { useMemo, useState } from 'react';
 import {
   decline,
+  knownGender,
   CASES,
   CASE_NAME,
   CASE_QUESTION,
@@ -43,11 +44,14 @@ import {
   PREPOSITIONS_ID,
 } from '../../lib/referenceDesk';
 
-/** A consonant-final lemma could be masculine or feminine i-declension. */
+/** A consonant-final lemma could be masculine or feminine i-declension —
+ *  unless the engine KNOWS which (noć, pomoć, radost, prijatelj). Asking about a
+ *  known word forced masculine on it until the learner flipped the switch, and
+ *  so showed "pomoća" for a word the engine declines correctly. */
 function isAmbiguousGender(lemma: string): boolean {
   const w = lemma.trim().toLowerCase();
   if (!w) return false;
-  return !'aeiou'.includes(w.slice(-1));
+  return !'aeiou'.includes(w.slice(-1)) && knownGender(w) === null;
 }
 
 function Example({ hr, en, note }: { hr: string; en: string; note?: string }) {

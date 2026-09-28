@@ -1003,6 +1003,35 @@ app's own Concept Teaching directive says so.
   the general fleeting-a rule, the sibilarized stem in the genitive plural,
   neuter softness off the consonant, the epenthesis dropped, one reading instead
   of every reading, and the tap going straight back to the AI call.
+- **THE RULES WERE WRONG FOR COMMON WORDS, AND THE TAP SHEET SHOWED IT (2026-09-28).**
+  Found by the speaking-curriculum authors, who had to verify every build sentence
+  against `decline()` and reported the words they could not use:
+  - animate accusative missing: `vidim prijatelj`;
+  - sibilarization over-applied: `na baci`, `u mačci`, `u jusi`;
+  - wrong class: `posao` read as neuter (`posaa`), `pomoć` as masculine (`pomoća`),
+    `Hrvatska` as a noun (`u hrvatsci`);
+  - plurals: `danovi`, `gostovi`, `stricovi`, `tečaji`;
+  - fleeting a: `rođka`, and it never came back in the genitive plural (`momka` —
+    a real form in the wrong cell);
+  - genitive plural: `glazaba`, `svraha`;
+  - syllabic r uncounted, so `Hrvat` was a monosyllable.
+    Fixed as RULES where Croatian has one (the -ao l-stem, -čk/-tk/-šk/-zg and h after
+    a vowel blocking sibilarization, the fleeting a returning in the genitive
+    plural, consonant + b taking -i, syllabic r) and as LISTS where the class is
+    lexical (`croatianLexicalClasses.ts`: animacy, feminine i-nouns, kept a, plural
+    exceptions both ways, the family words, adjectival country names). A word absent
+    from a list gets the rule exactly as before. `knownGender()` lets ReferenceDesk
+    stop asking about words the engine knows. The old test that used `stvar` as
+    "unknown gender" now uses `zob`, which no list names. Mutation-verified, six, each
+    fails 1–2.
+    **The genitive plural needed two more rules the same day**: a polysyllabic
+    masculine ending in a consonant cluster inserts an a (`studenata`, `projekata` —
+    it gave `studenta`, the genitive SINGULAR), and a feminine consonant + lj/nj stem
+    takes -i (`šetnji` — it gave `šetnja`, the nominative singular). Both are the
+    "real form in the wrong cell" failure, which is worse than an obviously broken
+    form because nothing about it looks wrong.
+    **Not verified**: the masculine vocative of loanwords in -ng (`treninže`); left
+    as the rule computes it and recorded, because the right form is not certain.
 - NEVER: name a single case for an ambiguous ending; present a computed
   paradigm as attested; make a word tap cost an AI turn; return null from the
   word sheet when the AI is unavailable; add these files to the lint TARGETS
