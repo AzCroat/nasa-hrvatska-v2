@@ -13254,3 +13254,26 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     per day (the plan's stated risk; read the ledger after a week — the fallback is the free
     sentence-build rung for Stretches 2–3); a real learner's Stretch distribution (the probe is
     seeded).
+- [x] **Sweep 192 — the eight Dependabot PRs, seven merged on the recorded method (2026-09-28).**
+  - Standing order (CLAUDE.md git rule 5): merge green PRs without being asked, simulating
+    the shared-lockfile chain first. Done as recorded: `git merge-tree --write-tree` chained
+    through `git commit-tree` over #760 → #761 → #762 → #764 → #765 → #766 → #767 on the
+    post-#778 master, touching no branch — **seven of seven chained clean**; then the
+    textual-clean-is-not-correct check on the simulated tree: **59/59 root ranges equal
+    between package.json and the lockfile, every bump installed within its merged range, no
+    extra or missing root entry.** Merged in that order in under three minutes;
+    `cancel-in-progress` collapsed the intermediate runs and ONE master run
+    (lint, typecheck, unit, emulator, E2E, Build & Deploy) went green.
+  - **Two were majors and each got the attention HANDOFF asked for.** `@sentry/react`
+    10 → 11 (#767): the breaking list is span-attribute renames, Astro/hono removals and a
+    Node ≥ 20.19 floor; the app calls `init`, `captureException`, `replayIntegration` and
+    `browserTracingIntegration` only, and CI builds on Node 22. `size-limit` 13 → 14
+    (#764): dev-only, and the size job ran green in the chain.
+  - **#763 (vitest 4 → 5) was RED on a master ~25 commits old and is NOT merged.** Its
+    failed-job log showed only the stderr noise a green run also prints (the AudioContext
+    stubs, `reportError` lines); the failure itself was not legible from it. `@dependabot
+rebase` requested; the rebased head (`595a3a1f`) is mergeable and running. It merges on
+    green like the others — a green 10,600-test run against current master IS the review
+    the major needs; a red one gets read properly.
+  - **Not checked**: nothing runtime-visible — every bump here is a client library or dev
+    tool, and the deploy run's E2E is the only behavioural evidence taken.
