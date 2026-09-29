@@ -595,7 +595,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Two Plurals, Two Meanings',
-        body: 'A handful of nouns have kept a short plural and a long plural with different senses. Sat: dva sata (two hours) but dva satova is wrong — satovi means clocks or lessons. Godina: pet godina (years) but godišta for year-groups. Oko: oči for the eyes in your head, oka for the eyes of a net or spots of fat in soup. Choosing the wrong plural produces a sentence that is grammatical and about the wrong thing.',
+        body: 'A handful of nouns have kept a short plural and a long plural with different senses. Sat: dva sata (two hours) but dva satova is wrong — satovi means clocks or lessons. Oko: oči for the eyes in your head, oka for the eyes of a net or spots of fat in soup. Choosing the wrong plural produces a sentence that is grammatical and about the wrong thing.',
         highlight: 'dva sata (hours) · dva sata na zidu → dva satova ✗ / dva sata ✓',
       },
       {
@@ -765,7 +765,7 @@ export const LESSONS_C2 = [
           'Foreign names decline; leaving them uninflected is an error, not a style',
           "A woman's consonant-final surname does not decline — only her first name does",
           'čovjek/ljudi, dijete/djeca, brat/braća are suppletive or collective',
-          'sat, godina and oko have two plurals with two different meanings',
+          'sat and oko have two plurals with two different meanings',
           'Place-name declension is a lookup problem — check rather than guess',
         ],
       },
@@ -1864,11 +1864,11 @@ export const LESSONS_C2 = [
               'bili bismo došli: the conditional of biti in second position, then the main participle. Clitic-first is impossible, bili smo došli is the pluperfect and did happen, and bi is the wrong person for we.',
           },
           {
-            q: 'Complete: "Ana ___ pismo, ali nije imala adresu." (would have sent)',
+            q: 'Complete: "___ pismo, ali nije imala adresu." (she would have sent)',
             options: ['bio bi poslao', 'bila bi poslala', 'bila bi poslao', 'bio bih poslala'],
             correct: 1,
             explanation:
-              'Both participles agree with Ana: bila bi poslala. The other options mix genders or the person of the auxiliary.',
+              'Both participles agree with the feminine subject that nije imala shows: bila bi poslala. (After a named subject the clitic would come second: Ana bi bila poslala.) The other options mix genders or the person of the auxiliary.',
           },
           {
             q: 'Complete: "___ rekao, ali nisi bio tu." (I would have told you)',
@@ -4607,7 +4607,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Znati and Poznavati Are Not Interchangeable',
-        body: 'Znam da dolazi — I know that he is coming, a fact. Poznajem ga — I know him, acquaintance. Poznaje gradivo — he knows the material, in the sense of being at home in it. A learner who uses znati for people produces "Znam Ivana", which is understood and immediately marks them as foreign. English collapses the distinction; most of Europe does not.',
+        body: 'Znam da dolazi — I know that he is coming, a fact. Poznajem ga — I know him, acquaintance. Poznaje gradivo — he knows the material, in the sense of being at home in it. Znati is also heard for people in everyday speech — "Znam ga iz škole" is ordinary Croatian — but poznavati is the precise verb for acquaintance and the one careful writing prefers, while a fact can only ever be znati: "Poznajem da dolazi" is impossible. English collapses the distinction; Croatian keeps it where it matters.',
         highlight: 'Znam da… (fact) · Poznajem ga (person)',
       },
       {
@@ -4688,10 +4688,10 @@ export const LESSONS_C2 = [
       {
         type: 'quiz',
         q: 'How do you say "I know Ana" in Croatian?',
-        options: ['Znam Anu.', 'Poznajem Anu.', 'Znam za Anu.', 'Umijem Anu.'],
+        options: ['Znam o Ani.', 'Poznajem Anu.', 'Znam za Anu.', 'Umijem Anu.'],
         correct: 1,
         explanation:
-          'Poznavati is for people and fields you are acquainted with; znati is for facts. "Znam Anu" is understood and instantly marks a speaker as foreign, and "znam za Anu" says something different again — I know of her.',
+          'Poznavati is the precise verb for a person you are acquainted with. "Znam o Ani" is knowing facts about her, "znam za Anu" is knowing of her, and umjeti is a skill.',
       },
       {
         type: 'quiz',
@@ -4704,8 +4704,8 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three word choices that mark a speaker as foreign. First, znati for a person: Poznajem Ivana, ne "znam Ivana" — znati is for facts, poznavati for people and fields. Second, moći for a learned skill: "Mogu plivati" says the water is available; the acquired ability is Znam plivati. Third, a collocation translated from English: "napraviti odluku" — decisions are donijeti odluku, questions postaviti pitanje, and care is voditi računa.',
-        highlight: 'Poznajem Ivana, ne "znam Ivana"',
+        body: 'Three word choices that mark a speaker as foreign. First, poznavati for a fact: Znam da dolazi, ne "poznajem da dolazi" — a fact is always znati, and poznavati is the precise verb for people and fields. Second, moći for a learned skill: "Mogu plivati" says the water is available; the acquired ability is Znam plivati. Third, a collocation translated from English: "napraviti odluku" — decisions are donijeti odluku, questions postaviti pitanje, and care is voditi računa.',
+        highlight: 'Znam da dolazi, ne "poznajem da dolazi"',
       },
       {
         type: 'check',
@@ -4713,10 +4713,10 @@ export const LESSONS_C2 = [
         items: [
           {
             q: 'Complete: "___ ga još iz škole." (I have known him)',
-            options: ['Znam', 'Poznajem', 'Umijem', 'Znam za'],
+            options: ['Upoznajem', 'Poznajem', 'Umijem', 'Znam za'],
             correct: 1,
             explanation:
-              'Acquaintance with a person is poznavati. znati is for facts, znam za means I know of him, and umjeti is a skill.',
+              'Acquaintance with a person is poznavati. upoznajem is "I am getting to know", which cannot run on since school, znam za means I know of him, and umjeti is a skill.',
           },
           {
             q: 'Complete: "___ plivati, naučila sam kao dijete."',
@@ -4781,7 +4781,7 @@ export const LESSONS_C2 = [
         type: 'summary',
         title: 'Finer Shades — What to Keep',
         points: [
-          'znati for facts, poznavati for people and fields',
+          'a fact is always znati; poznavati is the precise verb for people and fields',
           "znati plivati is the learned skill; moći plivati is today's circumstances",
           'Register is part of meaning: liječnik and doktor are not interchangeable',
           'Test by collocation rather than by definition — it is faster and more reliable',
@@ -5946,10 +5946,10 @@ export const LESSONS_C2 = [
           },
           {
             q: 'Which sentence is standard štokavian?',
-            options: ['Kaj delaš?', 'Ča delaš?', 'Što radiš?', 'Gren doma.'],
+            options: ['Kaj radiš?', 'Ča je to?', 'Što radiš?', 'Gren doma.'],
             correct: 2,
             explanation:
-              'što is the standard interrogative and radiš the standard verb. kaj and ča name the other two dialects, and gren doma is čakavian.',
+              'Što radiš? is the standard sentence. kaj and ča are the interrogatives that name the other two dialects, and gren doma is čakavian.',
           },
           {
             q: 'A Hvar fisherman says "mliko". Which conclusion is the mistake?',
