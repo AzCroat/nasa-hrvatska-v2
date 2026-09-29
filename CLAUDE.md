@@ -4501,6 +4501,12 @@ Level Check (`equivalency`).
   some other way (`da bih` = in order to). Others: `kod` + genitive for MOTION (location
   only), `mliječni` as a short-jat example (it keeps -ije-), `Mogli biste li` (li leads the
   cluster), `Hugoa` (`Huga`), Gaj and `đ`. The list is in AUDIT-STATE sweep 176.
+- **EVERY LESSON NOW CARRIES FORM B, TYPED PRACTICE AND ITS OWN WORDS (2026-09-29).**
+  `PRODUCTIVE_LEVELS` is all six; the depth gate holds each lesson to a parallel check
+  (`itemsB`), 12 practice items with at least 4 typed, and 8 vocabulary rows. Each unit has
+  2–3 can-do statements (`src/data/canDo/*.ts`, indexed by `courseUnitCanDo.ts`), shown on
+  the course map and the unit production brief; their Croatian is checked in
+  `courseUnitCanDo.test.tsx`, not by the lint. The depth rules also reject a sparse item array.
 - NEVER: serve a level review inside a level the learner has started; count only
   `tested` units as a finished level; score the review or gate anything on it; report the
   corrected second pass as the result; merge authored Croatian because a checker passed

@@ -55,6 +55,7 @@ import {
 } from '../../lib/unitProduction';
 import type { CefrLevel } from '../../lib/cefr';
 import type { CurriculumEntry } from '../../lib/curriculum';
+import { canDoFor } from '../../data/courseUnitCanDo';
 
 /** XP for a graded production task. Paid once per task per unit. */
 export const UNIT_PRODUCTION_XP = 30;
@@ -269,9 +270,10 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           Show that you can:
         </div>
         <ul style={{ margin: 0, paddingLeft: 18 }}>
-          {brief.objectives.map((o) => (
+          {(canDoFor(unit.id).length ? canDoFor(unit.id) : brief.objectives).map((o) => (
             <li
               key={o}
+              data-testid="unit-production-cando"
               style={{ fontSize: 12.5, color: 'var(--heading)', lineHeight: 1.55, marginBottom: 3 }}
             >
               {o}

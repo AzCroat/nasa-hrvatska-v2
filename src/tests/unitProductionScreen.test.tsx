@@ -37,6 +37,7 @@ import UnitProductionScreen, { UNIT_PRODUCTION_XP } from '../components/learn/Un
 import { unitRecord, producedUnits, productionBlockedUnits } from '../lib/courseUnitProgress';
 import { UNIT_WRITE_FLOOR, UNIT_SPEAK_FLOOR } from '../lib/unitProduction';
 import type { CurriculumEntry } from '../lib/curriculum';
+import { canDoFor } from '../data/courseUnitCanDo';
 
 const SPINE = CURRICULUM as unknown as CurriculumEntry[];
 
@@ -70,9 +71,11 @@ describe('the written task', () => {
     expect(screen.getByTestId('unit-production-count').textContent).toBe(
       `0 of ${UNIT_WRITE_FLOOR.A1} words`,
     );
-    // An objective of the unit's first lesson, verbatim from the spine.
-    const objective = SPINE.find((e) => e.id === 'alphabet')!.objectives[0]!;
-    expect(screen.getByText(objective)).toBeTruthy();
+    // The learner reads the unit's can-do statements (recommendation 6); the grader's
+    // prompt is still built from the spine objectives (asserted below, on the post).
+    const shown = screen.getAllByTestId('unit-production-cando').map((li) => li.textContent);
+    expect(shown).toEqual([...canDoFor('A1-1')]);
+    expect(shown.length).toBeGreaterThan(0);
   });
 
   it('will not submit below the floor', async () => {
@@ -120,6 +123,9 @@ describe('the written task', () => {
     expect(path).toBe('/api/correct');
     expect((body as { mode: string }).mode).toBe('writeeval');
     expect((body as { prompt: string }).prompt).toContain('Show that you can:');
+    // The grader is briefed from the spine objectives, not the learner-facing can-dos.
+    const objective = SPINE.find((e) => e.id === 'alphabet')!.objectives[0]!;
+    expect((body as { prompt: string }).prompt).toContain(objective);
   });
 
   // THE SCORE DOES NOT GATE, and the learner is told so rather than left to guess.

@@ -167,6 +167,21 @@ describe('guided practice gives a hint and a second try before the answer', () =
     }).textContent;
     return p.items.find((it: { q: string }) => it.q === q).correct;
   };
+  // A practice item may be TYPED (academic programme, 2026-09-29): answer it in the box.
+  const curAnswer = (): string => {
+    const p = lesson().slides.find((s: { type: string }) => s.type === 'practice');
+    const q = within(screen.getByTestId('lesson-practice')).getByText(/./, {
+      selector: 'p',
+    }).textContent;
+    return p.items.find((it: { q: string }) => it.q === q)?.answer ?? '';
+  };
+  const typed = (text: string): boolean => {
+    const inp = screen.queryByTestId('practice-typed-input');
+    if (!inp) return false;
+    fireEvent.change(inp, { target: { value: text } });
+    fireEvent.click(screen.getByTestId('practice-typed-submit'));
+    return true;
+  };
 
   it('a first wrong answer shows a hint and strikes the option; the second resolves it', () => {
     toPractice();
@@ -195,7 +210,7 @@ describe('guided practice gives a hint and a second try before the answer', () =
     const n = lesson().slides.find((s: { type: string }) => s.type === 'practice').items.length;
     for (let i = 0; i < n; i++) {
       expect(nextDisabled()).toBe(true);
-      fireEvent.click(opts()[correctIdx()]!);
+      if (!typed(curAnswer())) fireEvent.click(opts()[correctIdx()]!);
       const more = screen.queryByTestId('practice-next-item');
       if (more) fireEvent.click(more);
     }
@@ -218,10 +233,14 @@ describe('guided practice gives a hint and a second try before the answer', () =
     const n = lesson().slides.find((s: { type: string }) => s.type === 'practice').items.length;
     for (let i = 0; i < n; i++) {
       // Two wrong answers on every item.
-      const c = correctIdx();
-      const wrong = [0, 1, 2, 3].filter((k) => k !== c);
-      fireEvent.click(opts()[wrong[0]!]!);
-      fireEvent.click(opts()[wrong[1]!]!);
+      if (typed('xxxx')) {
+        typed('yyyy');
+      } else {
+        const c = correctIdx();
+        const wrong = [0, 1, 2, 3].filter((k) => k !== c);
+        fireEvent.click(opts()[wrong[0]!]!);
+        fireEvent.click(opts()[wrong[1]!]!);
+      }
       const more = screen.queryByTestId('practice-next-item');
       if (more) fireEvent.click(more);
     }

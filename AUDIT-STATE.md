@@ -13458,3 +13458,32 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
     status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
     removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
+- [x] **Sweep 205 — the academic content lands at every level (recommendations 1, 2 and 6,
+      2026-09-29).**
+  - Six authoring agents, one per level, each on its own branch, merged into one: per level
+    180 form-B check items, 240 added practice items (about half typed), 240–346 lesson
+    vocabulary rows and 18 can-do statements. `PRODUCTIVE_LEVELS` is now all six, so the
+    depth gate holds every lesson to form B, 12 practice items with at least 4 typed, and 8
+    vocabulary rows. The checker reports 0 problems at every level and the lint 0 findings.
+  - **Writing against the old lessons audited them.** Errors fixed in shipped lessons:
+    `dvjesta` → `dvjesto`; a vocative item marking `tata` wrong; the clitic `je` described
+    as an early-slot auxiliary (it is last); `smatrati … kao` taught as standard;
+    `aspect-negation` teaching the imperfective for permission against its own examples; the
+    Baška tablet called the oldest Croatian monument; a yat rule contradicted by `rječnik`;
+    `godišta` given as a plural of `godina`; a C2 check keyed to a third-position clitic;
+    `Znam Ivana` taught as wrong; bare ekavian forms in a dialect check option.
+  - **Can-do statements are rendered** on the expanded course-map unit row and as the unit
+    production brief's "Show that you can" list. The grader's prompt still reads the spine
+    objectives. The files are English with Croatian in running text, which no lint field
+    matcher reads, so `courseUnitCanDo.test.tsx` runs the shared Serbism and Cyrillic checks.
+  - **A sparse array passed every rule.** A double comma made each practice list 13 long with
+    one hole, and `forEach` skipped it. The rules now report an empty slot.
+  - `lessonPracticeSlides.test.tsx` drove every practice item as multiple choice and broke on
+    the first typed one; it now answers a typed item in the box.
+  - Mutation-verified: a level dropped from the can-do index (fails 1), the sparse rule off
+    (1), the map not rendering the statements (1, a source pin). E2E: 47 lesson and course
+    tests pass on a CI-shaped build.
+  - **Flagged for the owner, not changed**: `dva djeteta`, `nekoliko studenata su došli`,
+    `Što li si rekao`, `cijelog dana`, `Radi kao crv`, `za vrijeme rata` as a genitive use
+    of `za`, `od strane` taught as formal style, the č/ć tongue-position description, `3,5
+postotna boda`, and several lesson positions stricter than everyday speech.
