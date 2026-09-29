@@ -31,7 +31,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: '„____ idemo na plivanje.” (nedjelja, redovito)',
-    opts: ['Nedjeljom', 'Nedjelje', 'U nedjelje', 'Nedjelji'],
+    opts: ['Nedjeljom', 'Nedjelje', 'Nedjeljni', 'Nedjelji'],
     answer: 'Nedjeljom',
     en: 'on Sundays we go swimming',
     tip: 'Ponavljanje → INSTRUMENTAL: nedjeljom, jutrom.',
@@ -190,11 +190,11 @@ const DATA = [
   },
   {
     mode: 'izrazi',
-    q: '„Dan ____ dan sve je bolje.”',
+    q: '„Dan ____ danom sve je bolje.”',
     opts: ['za', 'po', 'uz', 'na'],
     answer: 'za',
-    en: 'day by day it gets better',
-    tip: 'Dan za danom / dan za dan — postupnost.',
+    en: 'day after day it gets better',
+    tip: 'Dan za danom — postupnost.',
   },
   {
     mode: 'izrazi',

@@ -38,7 +38,7 @@ const DATA = [
   {
     mode: 'imenice',
     q: 'Onaj koji čita:',
-    opts: ['čitatelj', 'čitalac', 'čitač', 'čitar'],
+    opts: ['čitatelj', 'čitaonica', 'čitač', 'čitar'],
     answer: 'čitatelj',
     en: 'a reader (standard Croatian agentive)',
     tip: 'Hrvatski standard daje prednost -telj: čitatelj, slušatelj, gledatelj.',
@@ -70,7 +70,7 @@ const DATA = [
   {
     mode: 'imenice',
     q: 'Stanje onoga tko je umoran:',
-    opts: ['umor', 'umornost', 'umaranje', 'umorstvo'],
+    opts: ['umor', 'umorac', 'umaranje', 'umorstvo'],
     answer: 'umor',
     en: 'tiredness — fatigue',
     tip: 'Umor = stanje; umaranje = proces; UMORSTVO = ubojstvo (lažni prijatelj!).',
@@ -96,12 +96,12 @@ const DATA = [
     q: 'Povjerenstvo će ____ sve kandidate. (jednoga po jednoga, redom)',
     opts: ['popisati', 'prepisati', 'napisati', 'upisati'],
     answer: 'popisati',
-    en: 'list/register all the candidates one by one',
+    en: 'list all the candidates one by one',
     tip: 'Po- distributivno: popisati (sve redom), pozatvarati, pogasiti.',
   },
   {
     mode: 'prefiksi',
-    q: '„____ je čašu do vrha.” (previše)',
+    q: '„____ je čašu.” (napunio ju je previše, preko ruba)',
     opts: ['Prelio', 'Ulio', 'Izlio', 'Zalio'],
     answer: 'Prelio',
     en: 'he overfilled the glass',
@@ -110,10 +110,10 @@ const DATA = [
   {
     mode: 'prefiksi',
     q: 'Suprotno od „zaključati”:',
-    opts: ['otključati', 'isključati', 'razključati', 'odključati'],
+    opts: ['otključati', 'isključati', 'razključati', 'nadključati'],
     answer: 'otključati',
     en: 'to unlock',
-    tip: 'Ot- (od-) poništava radnju: otključati, otpakirati, otkriti.',
+    tip: 'Ot- (od-) poništava radnju: otključati, otkopčati, otkriti.',
   },
   {
     mode: 'prefiksi',
@@ -150,7 +150,7 @@ const DATA = [
   {
     mode: 'izrazajno',
     q: 'Uvećanica od „kuća” (golema, često ružna kuća):',
-    opts: ['kućerina', 'kućetina', 'kućara', 'kućište'],
+    opts: ['kućerina', 'kućica', 'kućara', 'kućište'],
     answer: 'kućerina',
     en: 'a hulking great house',
     tip: 'Augmentativ -erina: kućerina (kućište je tehnički pojam!).',
@@ -158,7 +158,7 @@ const DATA = [
   {
     mode: 'izrazajno',
     q: 'Umanjenica od „knjiga”:',
-    opts: ['knjižica', 'knjigica', 'knjižić', 'knjigara'],
+    opts: ['knjižica', 'knjižurina', 'knjižić', 'knjigara'],
     answer: 'knjižica',
     en: 'a little book, booklet',
     tip: 'Palatalizacija g→ž + -ica: knjižica (knjižara = trgovina).',
@@ -182,7 +182,7 @@ const DATA = [
   {
     mode: 'izrazajno',
     q: 'Prisno, od milja za „brat”:',
-    opts: ['braco', 'bratić', 'bratac', 'brale'],
+    opts: ['braco', 'bratić', 'bratski', 'bratovština'],
     answer: 'braco',
     en: 'an affectionate word for brother',
     tip: 'Hipokoristik: braco (bratić = rođak, sin strica/ujaka!).',
@@ -190,7 +190,7 @@ const DATA = [
   {
     mode: 'izrazajno',
     q: 'Pridjev za nešto „poput svile”:',
-    opts: ['svilenkast', 'svilov', 'svilast', 'posvilen'],
+    opts: ['svilenkast', 'svilov', 'svilarski', 'posvilen'],
     answer: 'svilenkast',
     en: 'silky, silk-like',
     tip: '-kast izriče sličnost/ublaženost: svilenkast, plavkast, slatkast.',

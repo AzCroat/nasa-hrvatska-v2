@@ -74,12 +74,12 @@ const DATA = [
     opts: ['prijedlog (sa mnom)', 'enklitički položaj', 'nastavak -om', 'veliko slovo'],
     answer: 'prijedlog (sa mnom)',
     en: 'mnom needs a preposition',
-    tip: 'Instrumental zamjenica ide s prijedlogom: sa mnom, s njim.',
+    tip: 'Kraći oblik „mnom” stoji iza prijedloga (sa mnom); bez prijedloga: mnome (ponosi se mnome).',
   },
   {
     mode: 'naglaseni',
     q: 'Iza prijedloga dolazi ____ oblik: „za ____ ”. (ja)',
-    opts: ['mene', 'me', 'mi', 'mnom'],
+    opts: ['mene', 'meni', 'mi', 'mnom'],
     answer: 'mene',
     en: 'after prepositions use the stressed form',
     tip: 'Prijedlog + naglašeni oblik: za mene, kod njega.',
@@ -129,7 +129,7 @@ const DATA = [
     q: '„Misle samo na ____ .” (oni)',
     opts: ['njih', 'ih', 'im', 'njima'],
     answer: 'njih',
-    en: 'they think only of themselves/them',
+    en: 'they think only about them',
     tip: 'Na + akuzativ, naglašeno: na njih.',
   },
   {
@@ -143,7 +143,7 @@ const DATA = [
   {
     mode: 'recenica',
     q: 'Daj ____ tu knjigu. (ja)',
-    opts: ['mi', 'meni', 'me', 'mnom'],
+    opts: ['mi', 'mene', 'me', 'mnom'],
     answer: 'mi',
     en: 'give me that book',
     tip: 'Neutralno mjesto → enklitika: daj mi.',
@@ -151,10 +151,10 @@ const DATA = [
   {
     mode: 'recenica',
     q: 'Jesi li ____ vidio? (ona)',
-    opts: ['je', 'ju je', 'joj', 'nju'],
+    opts: ['je', 'ju je', 'joj', 'ona'],
     answer: 'je',
     en: 'have you seen her?',
-    tip: 'A od ona: je (iza „je” pomoćnoga bira se ju: vidio ju je).',
+    tip: 'A od ona: je (ispred pomoćnoga „je” rabi se ju: vidio ju je).',
   },
   {
     mode: 'recenica',

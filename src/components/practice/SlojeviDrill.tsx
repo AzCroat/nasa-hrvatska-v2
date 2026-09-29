@@ -17,7 +17,7 @@ const DATA = [
     q: 'Arhaizam „kadšto” danas znači:',
     opts: ['katkad, ponekad', 'nikad', 'odmah', 'zauvijek'],
     answer: 'katkad, ponekad',
-    en: 'kadsto = sometimes (archaic)',
+    en: 'kadšto = sometimes (archaic)',
     tip: 'Živ u starijoj prozi.',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: 'Arhaizam „jamačno” znači:',
     opts: ['sigurno, zacijelo', 'možda', 'nikako', 'glasno'],
     answer: 'sigurno, zacijelo',
-    en: 'jamacno = surely (archaic)',
+    en: 'jamačno = surely (archaic)',
     tip: 'Od jamčiti — jamačno će doći.',
   },
   {
@@ -86,7 +86,7 @@ const DATA = [
     q: '„Uspješnica” je novotvorenica za:',
     opts: ['hit, bestseler', 'uspjeh', 'sretnu osobu', 'pjesmu samo'],
     answer: 'hit, bestseler',
-    en: 'uspjesnica = bestseller',
+    en: 'uspješnica = bestseller',
     tip: 'Domaća zamjena za bestseler.',
   },
   {
@@ -169,7 +169,7 @@ const DATA = [
     opts: ['poljubac', 'cijelost', 'pozdrav', 'zagrljaj'],
     answer: 'poljubac',
     en: 'cjelov = kiss (poetic)',
-    tip: 'Ljubić i lirika 19. st.',
+    tip: 'Riječ lirike 19. st.; usp. cjelivati.',
   },
   {
     mode: 'stilemi',
@@ -184,7 +184,7 @@ const DATA = [
     q: '„Žitelj” prema „stanovnik” pripada:',
     opts: ['administrativno-svečanomu sloju', 'žargonu', 'dijalektu', 'dječjem govoru'],
     answer: 'administrativno-svečanomu sloju',
-    en: 'zitelj = inhabitant (formal)',
+    en: 'žitelj = inhabitant (formal)',
     tip: 'Žitelji općine — svečano-službeno.',
   },
   {
