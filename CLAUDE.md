@@ -2489,6 +2489,26 @@ every level from A2 up** (A1 has nothing below it), pinned.
   another band at the same city — a whole-text duplicate check does not catch
   it, and neither does anything else.
 
+- **NO READING SURFACE OFFERS MORE THAN A HANDFUL OF PARTS PER SCREEN (owner
+  decision, 2026-09-29).** _"We can't have 16 letters for the user to read through,
+  that is just too much … 4 different lessons of 4 … make sure we aren't
+  overwhelming the user in any lesson. We can always be more repetitive."_
+  Bakino Ljeto (`BakaSummer`) is FOUR BOOKS OF FOUR LETTERS — `bakaBooks.ts`
+  chunks the one `CHAPTERS` array in `bakaChapters.ts`; a book is never a second
+  list of chapter ids. Books unlock in order and a locked one says why (the door
+  card and the screen both name the book to finish first, with a button to it).
+  The pool's ONE entry, `baka_summer`, RESUMES on the learner's current book when
+  the session launched it (`nh_session_started`, the `launchedLevel` rule); from
+  the Priče door the same key is book 1 and books 2–4 have their own keys
+  (`baka_berba`, `baka_zima`, `baka_pisma`, `OUTSIDE_SESSION`). Progress keys
+  (`nh_baka_done`, `nh_baka_ch`) are unchanged; 20 XP a letter, 25 a book, the
+  legacy 100 XP flag counts as every book paid. **The letters' `croatian` field
+  had never been scanned by the lint** — sixth instance of "in TARGETS meant
+  nothing"; the field is in `CRO_FIELD_RE` now (+16 strings, 0 findings, the body
+  positive-controlled). Pinned by `bakaBooks.test.tsx`; AUDIT-STATE sweep 196.
+  NEVER: show a learner "N od 16" or sixteen dots; add a book's key to
+  `croatiaPool.ts` (the P4 composition is measured); pay a book bonus to a learner
+  holding `nh_baka_done_bonus`; render a locked book as an ordinary card.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
@@ -3045,7 +3065,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **480 files**, 3 of them walked structurally — the figure the lint
+Coverage is **482 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136

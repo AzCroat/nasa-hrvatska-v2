@@ -13469,3 +13469,101 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     complete attempt locks; attempts stop being written at `MAX_ATTEMPTS_PER_LESSON` (10), so
     the shuffle seed plateaus after the tenth opening. E2E: the walkthrough always answers
     correctly and never meets the fail path; no spec named the retake.
+- [x] **Sweep 196 — Bakino Ljeto is four books of four letters (owner decision, 2026-09-29).**
+  - Owner, verbatim: _"In the lesson Bakino Ljeto we can't have 16 letters for the user to
+    read through that is just too much. It probably should be broken down into 4 different
+    lessons of 4. Let's make sure we aren't overwhelming the user in any lesson. We can
+    always be more repetitive."_ Then: _"split into four letters - bakino ljeto"_. (Sweeps
+    194 and 195 are on in-flight branches; this is the next number on master.)
+  - **Measured before building**: `BakaSummer.tsx` (745 lines) was one screen over a
+    16-entry `CHAPTERS` array — header "Poglavlje N od 16", sixteen progress dots, 20 XP a
+    chapter, one 100 XP bonus at 16/16 (`nh_baka_done_bonus`), progress in `nh_baka_done`
+    (global 0-based indices) and `nh_baka_ch`; neither key in the snapshot, so nothing about
+    it syncs. Letters 13–16 are the longest (140–166 Croatian words). One route
+    (`baka_summer`), one pool entry (P4 culture slot, B1), one door card ("16-chapter
+    story"), one search entry.
+  - **Built**: `bakaChapters.ts` holds the sixteen letters verbatim (moved, not rewritten);
+    `bakaBooks.ts` is four names over four CHUNKS of that array (`chapterRange(n)`), never a
+    second list of ids — Book 1 _Ljeto počinje_ (`baka_summer`, "Baka's Summer"), Book 2
+    _Fešta i berba_ (`baka_berba`, "Baka's Harvest"), Book 3 _Od bure do Božića_
+    (`baka_zima`, "Baka's Winter"), Book 4 _Pisma iz drugih krajeva_ (`baka_pisma`,
+    "Letters from Afar"). The screen presents ONE book: header names it, "Pismo k od 4",
+    four dots, its own completion card with a "next book" button; the letter title is
+    shown without its global "Poglavlje N:" prefix. Books unlock in order (book n opens
+    when every letter of n−1 is done — the existing chapter gating already produces that
+    order, now stated); a locked book renders "Ova knjiga je još zaključana", the reason
+    ("Finish Baka's Summer first") and a button to the previous book, never the letters.
+    The Priče door has four cards in reading order, the locked ones with 🔒 and the same
+    reason in place of the subtitle (`bakaDoorLock`). `BakaSummer.tsx` is 526 lines; the
+    cap held without an override.
+  - **XP**: 20 a letter unchanged; the 100 end bonus is 25 per completed book (4 × 25),
+    paid from an effect keyed on the letters (credit follows the work — `creditFollowsWork`'s
+    rule; `total > 0` guarded; a per-mount ref plus the persisted set is the latch),
+    recorded in `nh_baka_book_bonus` (JSON array of book numbers). A learner holding the
+    legacy flag is paid nothing more — `bookBonusPaid` reads it. **Not synced**, following
+    `nh_baka_done`'s own treatment (no snapshot field, no merge); a second device paying a
+    bonus once more is the direction a learner survives. **Cost, stated**: a learner who
+    finished books before the split and has no legacy flag is paid each finished book's 25
+    the first time the screen sees it complete — up to 75 XP in one open — which is what
+    "total unchanged" means for them.
+  - **THE POOL ENTRY RESUMES, AND HOW IT KNOWS TO.** `baka_summer` is both the pool's
+    culture entry and the door's book-1 card, and the router cannot tell the two taps
+    apart. The screen does what `launchedLevel` does: the session writes the screen it
+    launched into `nh_session_started` before navigating, so `resolveLaunchBook` opens
+    the first unfinished book when that key names `baka_summer` and book 1 otherwise. The
+    three new keys are NOT pool entries (that would change the measured P4 composition) —
+    they are `OUTSIDE_SESSION` with the reason, reached through the resume screen's next-book
+    button and the door.
+  - **THE LETTERS' PROSE HAD NEVER BEEN LINTED.** `BakaSummer.tsx` sat in TARGETS; its
+    Croatian is in a `croatian:` field, which `CRO_FIELD_RE` did not list. Positive control
+    before adding the new files: `hleb` in a vocab `hr` was caught, `hleb` in a letter body
+    was NOT. Sixth instance of "in TARGETS meant nothing" (`lessons.js` rows, the writing
+    curriculum's `model`, the `*Hr` layer, the JSON-quoted key, the vocab deck, the verb
+    paradigm fields). `croatian` is in the matcher now: census 136,646 → 136,662 (+16 —
+    one per letter — with the two new files already in TARGETS), zero findings; the same
+    body control then fails and names line 144. `croatian:` occurs as a field in no other
+    content file (the other five hits are prompt variables and a tab id), so the widening
+    is exactly the sixteen strings.
+  - **Reading the sixteen letters found eleven errors, fixed in nine of them** (prose only,
+    nothing rewritten beyond the error): `janje se pečelo` → `peklo`; `Na Svetu Jakobu` →
+    `Na Svetog Jakova`; `Zapalila sam kaminu` → `kamin`; `boja breskve` → `boje breskve`;
+    `neko starije` → `netko stariji` (the Serbian/colloquial `neko`, which the blocklist
+    cannot carry because `neko vrijeme` is correct Croatian); `pripreman kulen` →
+    `pripremam`; `kao ludi` → `kao ludo`; `s daleka` → `izdaleka`; `kruharom punim` →
+    `košarom punom` (no such noun as `kruhara`); `umak se gušća` → `zgušnjava`; `Sretna
+Nova Godina` → `sretna Nova godina`. Left as the grandmother's voice: `dadne`,
+    `podsjeti` (narrative present), `spravljene`, `Bog ti daj zdravlje`, `Pravo je tako`,
+    the singular `Znaš` inside a letter to `djeco`, and Baka Vera's `ti da sve što trebaš`.
+  - **Guard**: `bakaBooks.test.tsx` (18) drives the real screen and the real door: the
+    partition (four books of four, every index once, the owner's split by title), routes /
+    tab / door order / must-not-orphan / exactly one pool entry, distinct door titles with
+    no title a substring of another, the router's `book` props by source, four dots and
+    never "od 16" or "Poglavlje N" (also with all sixteen read), sequential reachability
+    within a book, the locked view and its button, the bonus once and not on remount, the
+    legacy flag on every book, the pre-split learner paid each finished book once, the
+    session resume / door book-1 / everything-read cases, and the door's lock state before
+    and after book 1.
+  - **Mutation-verified, six, each confirmed landed**: a book of five (`CHAPTERS_PER_BOOK =
+5`) fails 11; the bonus paid twice (the `bookBonusPaid` check dropped) fails 3; the
+    legacy flag ignored fails 1; the locked screen rendering the letters fails 3; sixteen
+    dots (`CHAPTERS.map`) fails 3; the pool launch ignoring progress fails 3. **The first
+    mutation runner reverted M3 onto the wrong line**: its replacement string `return
+false;` also occurs in `bookComplete`, three functions earlier, so the revert restored
+    `legacyBonusPaid`'s body into the wrong function and left the baseline at 2 failed — the
+    "check where the mutation landed" rule, met on the REVERT rather than the mutation. M4–M6
+    were re-run on a green baseline with every from/to string checked unique in its file
+    first; the second runner then broke on a `/*M3*/` marker inside a perl `s///`. Both
+    recorded because the pattern is general: a mutation harness needs its strings unique and
+    its delimiters escaped, or its "reverted" line is a claim.
+  - **E2E**: the CI-equivalent build (placeholder `VITE_FIREBASE_*`) ran `croatia.spec.js`
+    in a real browser. Its Baka assertion changed to exact matching in the same commit —
+    with books 2–4 locked, "Finish Baka's Summer first" is on the page and the substring
+    `getByText("Baka's Summer")` resolves to two elements — and MY OWN added
+    `getByText("Baka's Harvest")` tripped the identical strict-mode violation on the first
+    run, because book 3's card says "Finish Baka's Harvest first". The spec now pins the
+    locked card by test id and attribute. Doors, region cards, Povijest and back all green.
+  - **Not checked**: the P4 culture-slot rotation was not re-measured (the pool entry is
+    byte-identical, so the composition cannot have moved); the Firefox/WebKit smoke
+    projects; a real learner mid-book-3 whose `nh_baka_ch` pointer sits outside the book
+    they open (the screen falls to the first unread letter in range, covered by the
+    reachability test but not by a pointer-outside-range fixture).

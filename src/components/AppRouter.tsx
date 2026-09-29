@@ -3022,9 +3022,28 @@ export default function AppRouter(props: Record<string, any>) {
             <SlangScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
+        {/* Bakino Ljeto is four books of four letters (2026-09-29). `baka_summer` carries
+            no `book` prop on purpose: the daily-session pool launches it and must land on
+            the learner's CURRENT book, while the Priče door's book-1 card launches the same
+            key and must open book 1 — the screen tells them apart (resolveLaunchBook). */}
         {currentScreen === 'baka_summer' && (
           <ScreenErrorBoundary key="baka_summer" name="baka_summer">
             <BakaSummer goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_berba' && (
+          <ScreenErrorBoundary key="baka_berba" name="baka_berba">
+            <BakaSummer goBack={goBack} award={award} book={2} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_zima' && (
+          <ScreenErrorBoundary key="baka_zima" name="baka_zima">
+            <BakaSummer goBack={goBack} award={award} book={3} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_pisma' && (
+          <ScreenErrorBoundary key="baka_pisma" name="baka_pisma">
+            <BakaSummer goBack={goBack} award={award} book={4} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'croatia_today' && (

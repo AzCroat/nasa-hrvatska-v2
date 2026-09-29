@@ -496,6 +496,8 @@ describe('no key is read that nothing writes', () => {
     nh_streak_freezes:
       'a legacy store (Settings → Streak Protection, pre-2026-07) read once and deleted by the uFreeze migration in getStreakFreezes — writing it again would resurrect a store nothing consumes',
     uSR: 'the pre-nh_sr SRS deck, read once by the getSR migration when nh_sr is empty and never written again — the same shape as nh_streak_freezes, and invisible here until the sweep left the nh_ namespace',
+    nh_baka_done_bonus:
+      'the pre-2026-09-29 Bakino Ljeto completion flag (one 100 XP bonus for all sixteen letters). The four-book split pays 25 XP per book instead and READS this flag so a learner already paid the old bonus is not paid the book bonuses on top — writing it again would re-create the single-bonus store the split replaced',
     fbBackupConfirmed:
       'the dismissal flag of the cloud-backup banner, which 2b838fdb ("Remove all unprompted user interruptions", 2026-04-08) deleted from AppToasts — the read survives in useSyncManager and is permanently true, but it can only set a state whose props that component destructures and renders nothing with. Recorded, not repaired: the removal was deliberate, and deleting the residue is a refactor rather than a fix',
   };
@@ -645,7 +647,7 @@ describe('no key is read that nothing writes', () => {
   });
 
   it('the exemption list is not silently emptied', () => {
-    expect(Object.keys(NO_WRITER_BY_DESIGN)).toHaveLength(4);
+    expect(Object.keys(NO_WRITER_BY_DESIGN)).toHaveLength(5);
   });
 });
 
