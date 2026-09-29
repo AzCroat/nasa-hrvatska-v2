@@ -13331,3 +13331,98 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not checked**: the three heavy-user E2E specs match `/daily goal|goal|target|minutes/i`
     against Settings text with an `info` fallback — they cannot fail on this and assert
     nothing about the card, so they were not changed.
+- [x] **Sweep 197 — the English `en` as a NOTE that names the answer (owner report, 2026-09-29).**
+  - Owner, verbatim: _"We are still giving answers to the user - nominative case practice
+    states zene in the question below which is the answer. We need to make sure this isn't
+    happening so the user truly learns and doesn't learn to cheat."_ The item:
+    `NominativeDrill.tsx` `q: 'Ženski rod (nom pl): ___'`, `opts: ['žene','žena','ženama','ženu']`,
+    `en: 'Feminine (nom pl): žene (women).'` `ModeDrill` renders `{cur.en}` under the question
+    and above the options, before any answer, so the note handed over the answer. The
+    2026-09-26 guard (`glossGivesAnswer`) knew ONE shape, `money → lova`, and its census had
+    recorded "89 of the 101 whole-word hits are correct" — a judgement, not a measurement
+    against the owner's bar.
+  - **Census, measured with the scanner over `src/data`, `src/components` and the served
+    content: 5,331 multiple-choice items carry an `en` and an answer; 93 have the answer
+    whole-word in `en`.** Read one by one: **60 real leaks, all fixed; 25 in
+    `CollocationsGame` (its `en` is rendered inside `{answered && (…)}` — feedback, exempt);
+    8 legitimate and left** — five clitics coinciding with English `me` (`Uhvatila ____ je
+fjaka.`, `Pozvao ___ je na kavu.`, `Boji ____ se.`, reported speech, the unstressed-form
+    item), `m²`, the connector `no`, and `Što je "referendum"?` (a definition item whose
+    answer IS the English cognate; the question itself names it, which is the prose class
+    the cue rule deliberately leaves alone).
+  - **The 60, by shape.** (1) `PronunciationContrast` — 25 items of `kruh = bread`; the brief
+    asked me to check whether that screen renders `en` before the answer and exempt it if
+    not: it renders `{q.en}` directly under `{q.q}`, above the option grid, so all 25 were
+    live leaks and are now the bare English gloss (`to read`, `bread`). (2) Grammar NOTES in
+    `en` (12): `the preposition of purpose is radi`, `negative causes take zbog`,
+    `so-called = tzv.`, `Marko! (vocative = nominative)`, `of Ines — indeclinable`,
+    `a mixed group of three = troje`, `at the moment when = kad`, `sucelje = interface`,
+    `zapozorje = backstage`, `Luka — the name, capitalized`, `the clipped obzirom da is
+nonstandard`, `gdje? takes the instrumental with pod/nad/pred/za` — each rewritten to
+    describe the question without naming the answer (`the preposition that expresses
+purpose, not cause`), the explanation already living in `tip`, which the engine renders
+    only inside the answered verdict block. (3) `NominativeDrill`'s six notes
+    (`Masculine (nom sg): brat.` …) → `Masculine, nominative singular (brother).` — the
+    English gloss of the word is legitimate, the Croatian form is not. (4) **An English
+    sentence naming a proper noun or loanword whose case forms are the options** (17):
+    `Zagreb is the capital of Croatia.` / `Zagreb Zagreba Zagrebu Zagrebom`, `Marko runs in
+the park.`, `Ana reads a book.`, `I am connected to the internet.`, `We talked about
+Angela Merkel.`, `I am travelling to London.`, `the train to Zagreb`, `Croatia adopted the
+euro`, `The main argument is the price.`, `five kuna`, `one student`, `I'm watching the
+film`, `I walk through the park.`, `She is watching a film.`, `I put the laptop on the
+table.`, `the journalists are talking with Mrs Kovač`. The earlier census called these
+    correct because "you cannot translate the sentence without the word" — true, and the
+    English still hands over the form the drill tests, which is the owner's bar. Reworded
+    without the word: `___ is the capital of Croatia.`, `He runs in the park.`, `I am
+online.`, `the German chancellor`, `the British capital`, `a movie`, `the computer`,
+    `Mrs K.`. (5) `wordplayDrill`'s `"Sam sam." Što to znači?` answered `sam sam` was a
+    broken item as well as a leak (the question quoted its own answer); it now asks
+    `Kako se kaže „I am alone”?` and tests the phrase against `samo sam` / `sami smo`.
+  - **Three rules beside the arrow (`glossRule` in `promptCues.ts`)**, each keyed to
+    something a note shares and a translation does not: GLOSS PUNCTUATION — the answer
+    adjacent to `=`, `:`, `—`, `–` or `!`, or after `is` / `take(s)` (+ optional article) /
+    `kažemo`, or before `is`; FORM — the answer whole-word in `en` while another option
+    shares its three-letter prefix (two for a three-letter answer, or `Ana / Anu / Ane`
+    escapes it); DIACRITIC — a lowercase č/ć/đ/š/ž word whole-word in English prose. Scoped
+    to two or more options and an answer of three or more characters, so the clitics, `no`
+    and `m²` are out by construction. The article is admitted after `take(s)` only: after
+    `is` it turned `What is a referendum?` into a "gloss", which is how that boundary was
+    found. **Three of the 60 were outside the rules as first specified** and each widened
+    one edge: `Ana` (prefix length), `takes the instrumental` (the article), `obzirom da is
+nonstandard` (the answer before `is`).
+  - **The exemption is file-scoped and pinned in both directions.** `GLOSS_IS_FEEDBACK`
+    holds `CollocationsGame.tsx`; the test requires every `.en}` render in an exempt file to
+    sit inside an `{answered && (` block (found by `lastIndexOf` AND a paren-depth walk —
+    each clause has its own mutation, because a render inserted after a CLOSED block passes
+    the first and only the second sees it), and requires the scanner with the exemption
+    removed to still flag the file, so an entry over a clean file is stale. `ModeDrill` and
+    `PronunciationContrast` are pinned OUT of the list.
+  - **Mutations, each landing confirmed**: the owner's `žene` item re-injected into
+    `NominativeDrill` fails 1 and names `NominativeDrill.tsx:139 … (rule: gloss)`; a stale
+    exemption over `NominativeDrill` fails 1 ("renders en somewhere"); `CollocationsGame`'s
+    `en` rendered before the first answered block fails 1; rendered after a closed block
+    fails 1 on the depth clause. **Rule knockouts, measured against the PRE-FIX copies of
+    the 23 content files** (the real leaks, not synthetics): full rules 60 of 60; gloss
+    removed → 49 (11 undetected); form removed → 41 (19 undetected); **diacritic removed →
+    60 (0 undetected)**. The diacritic rule catches nothing on this corpus the other two do
+    not — every diacritic-bearing leak was also an `X = gloss` or a form drill. It is kept
+    as a backstop for a note with no punctuation (`slušati glazbu` is that shape, in the
+    exempt file) and is held by two synthetic controls; by this file's own standard that is
+    a clause with a control, not coverage, and it is recorded as such rather than counted.
+  - **A control of mine was wrong and the rule was right.** I wrote `Zagreb is the capital of
+Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary item), and
+    the `X is` clause flagged it. Reading it again: an English sentence naming the answer
+    among four cities is a leak whatever the drill is called. The assertion now says
+    `gloss`. The `internet` boundary is the honest one: over `internet / mobitel / računalo`
+    it is a translation that cannot avoid the word and is not flagged; over its case forms
+    it is a form test the English answers, and the item is fixed.
+  - E2E audit: all 61 replaced `en`/`q` strings grepped against `e2e/` — zero hits. The specs
+    that name these screens navigate to them and assert headings, never the `en` line.
+  - **Not covered, stated**: an answer appearing in the QUESTION's own prose (the cue rule
+    is scoped to parentheticals on purpose — `Vokativ imena „Marko” glasi:` has to name the
+    word); a loanword answer over DIFFERENT-word options where the English cannot avoid it
+    (`internet` over `mobitel`) — the census says one such shape survives, `referendum`, and
+    it is a definition item; a Croatian note inside `tip` on a screen that renders `tip`
+    before the answer — measured for the twelve `ModeDrill` wrappers and
+    `PronunciationContrast` touched here (all render `tip` behind `answered`), not for every
+    screen in the tree.

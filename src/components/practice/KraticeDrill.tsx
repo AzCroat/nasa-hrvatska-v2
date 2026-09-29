@@ -121,7 +121,7 @@ const DATA = [
     q: 'Žensko strano ime „Ines” u genitivu:',
     opts: ['Ines', 'Inese', 'Ines-e', 'Inesi'],
     answer: 'Ines',
-    en: 'of Ines — indeclinable',
+    en: 'of this foreign female name (genitive)',
     tip: 'Ženska imena na suglasnik ne sklanjaju se.',
   },
   {
@@ -177,7 +177,7 @@ const DATA = [
     q: 'Kratica za „takozvani” piše se:',
     opts: ['tzv.', 't.z.v.', 'TZV', 'tzv'],
     answer: 'tzv.',
-    en: 'so-called = tzv.',
+    en: 'the abbreviation for "so-called"',
     tip: 'Tzv. s točkom, malim slovom.',
   },
   {

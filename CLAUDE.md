@@ -4831,6 +4831,42 @@ satu`, so the cue identifies nothing the learner cannot see and only lets them c
   eleven real fixes and twenty false ones.
   **And I first deferred this class on an unmeasured magnitude** ("a blunt rule would flag
   hundreds"), which is the same failure as inflating one to justify doing work. It was 101.
+- **THE ARROW WAS ONE SHAPE OF THREE, AND THE OWNER FOUND THE SECOND (2026-09-29):**
+  _"nominative case practice states zene in the question below which is the answer. We
+  need to make sure this isn't happening so the user truly learns and doesn't learn to
+  cheat."_ The item was `q: 'Ženski rod (nom pl): ___'` with
+  `en: 'Feminine (nom pl): žene (women).'` — an `en` that is not a translation of anything
+  but an explanatory NOTE, and the note names the answer. The paragraph above said "89 of
+  those are correct" about the whole-word census; re-read item by item under the owner's
+  bar, **60 of the 93 were leaks** — the Sound Contrast drill's 25 `kruh = bread` glosses
+  (rendered above the options, before any answer), a dozen grammar notes (`the preposition
+of purpose is radi`, `negative causes take zbog`, `so-called = tzv.`, `Marko! (vocative =
+nominative)`), and a class the census had explicitly waved through: an English sentence
+  naming a proper noun or loanword **whose case forms are the options** — `Zagreb is the
+capital of Croatia.` over `Zagreb / Zagreba / Zagrebu / Zagrebom`, `I am connected to the
+internet.` over `internet / interneta / internetu / internetom`. "You cannot translate the
+  sentence without the word" was true and beside the point: the English hands over the
+  form the drill exists to test. Fixed in the CONTENT (`I am online.`, `___ is the capital
+of Croatia.`, `He runs in the park.`, `to read`), never by excusing the rule. `glossRule`
+  in `promptCues.ts` now has three rules beside the arrow — GLOSS PUNCTUATION (the answer
+  against `=`, `:`, a dash or `!`, or after `is` / `take(s) [the]` / `kažemo`, or before
+  `is`), FORM (the answer whole-word in `en` while another option shares its prefix) and
+  DIACRITIC (a lowercase č/ć/đ/š/ž word in English prose) — scoped to items with two or
+  more options and an answer of three or more characters, so the clitics (`me`), `no` and
+  `m²` stay out. **The diacritic rule catches nothing on the real corpus the other two do
+  not** (knockouts on the pre-fix tree: gloss 11 undetected, form 19, diacritic 0); it is
+  a backstop held by synthetic controls and is recorded as exactly that. Eight legitimate
+  whole-word hits remain and are pinned as negatives: five clitics coinciding with English
+  `me`, `m²`, `no`, and `Što je "referendum"?` — a definition item whose answer IS the
+  English cognate. `CollocationsGame` is the one file-scoped exemption (`GLOSS_IS_FEEDBACK`):
+  its `en` renders inside `{answered && (…)}`, the test pins that render position (both
+  clauses mutation-verified) and its staleness. `PronunciationContrast` looked like the
+  same shape and IS NOT exempt — its `{q.en}` sits directly under the question.
+- NEVER: write an `en` that is a NOTE naming the Croatian answer (`X = bread`,
+  `Feminine (nom pl): X`, `the preposition of purpose is X`) — translate it, or move the
+  explanation to `tip`, which renders after the answer; translate a sentence with the very
+  word whose case forms are the options; exempt a file from the gloss rule without pinning
+  that its `en` renders behind `answered`.
 - Pinned by `answerNotInPrompt.test.ts` over `helpers/promptCues.ts`. **The non-vacuity
   clause counts the items the scan REACHES (5,666)**, because zero leaks is also what a
   walk that stopped descending reports, and the two are otherwise indistinguishable — the

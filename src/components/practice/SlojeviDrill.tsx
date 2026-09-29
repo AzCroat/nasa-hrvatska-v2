@@ -94,7 +94,7 @@ const DATA = [
     q: '„Sučelje” je hrvatska riječ za:',
     opts: ['interface', 'sukob', 'lice', 'prozor'],
     answer: 'interface',
-    en: 'sucelje = interface',
+    en: 'a Croatian coinage from computing',
     tip: 'Računalno nazivlje.',
   },
   {
@@ -110,7 +110,7 @@ const DATA = [
     q: '„Zapozorje” je kazališna novotvorenica za:',
     opts: ['backstage', 'pozornicu', 'gledalište', 'zastor'],
     answer: 'backstage',
-    en: 'zapozorje = backstage',
+    en: 'a Croatian theatre coinage',
     tip: 'Za + pozornica → zapozorje.',
   },
   {
