@@ -13801,3 +13801,43 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     casual `Dolaziš?` (a register item, honestly explained); C1 `se je` (the standard drops je
     after se).
   - Lint 0 findings; depth checker 0 problems at every level; full suite 679 files green.
+- [x] **Sweep 207 — Guided Speaking checks the recording, not the transcript (owner report,
+      2026-09-29).** Owner: _"the speaking exercises are not properly recording to provide the
+      user critical feedback that is accurate in what they said."_ REHEARSE and BUILD graded the
+      browser recogniser's transcript, and that recogniser is a language model that writes the
+      likeliest Croatian. A learner who says `Imam sestra` can read back `Imam sestru`, and BUILD
+      then praises the ending it exists to check.
+  - Built: `AssessedMic` records the take and `/api/pronunciation-assess` scores it against
+    the target (Azure scripted assessment, miscue detection). REHEARSE's reference is the
+    phrase and BUILD's is the model answer. `lib/spokenCheck` turns the per-word verdicts into
+    a readout (clear / not clear / not heard / extra). It also enforces two rules: a word the
+    learner left out holds back "right" on REHEARSE, and a BUILD pass on the required form
+    must be heard in the recording, or it comes back as the new `unclear` verdict naming the
+    word.
+  - The endpoint dropped Azure's `ErrorType` and now forwards it as `error`.
+  - Never a gate: no MediaRecorder, a blocked mic or a failed assessment shows the old
+    recogniser button with a notice naming why. A `not_configured` answer is remembered for
+    the session. Devices with MediaRecorder but no Web Speech (Android WebView, Firefox) can
+    now say REHEARSE and BUILD aloud where before they could only type.
+  - **The ledger would have paid ~$0.18 a sitting for ~2¢ of audio.** The endpoint
+    pre-charged a one-minute ceiling (15,000 µ$) and nothing refunded it. It now reconciles
+    to Azure's reported duration at $1.50/audio-hour (`reconcileAudioSeconds`), and refunds
+    the whole pre-charge when nothing reaches Azure (not configured, any 400).
+  - `GuidedSpeakingScreen` sat at exactly 800 countable lines. Its private copy of
+    `phraseMatches` duplicated `lib/spokenMatch` word for word and became a re-export, which
+    paid for the wiring. The cap was not raised.
+  - Pinned by `spokenCheck.test.tsx` (the rules and the real screen with a fake recorder),
+    `pronunciationAssessMiscue.test.js` (the real handler: miscues forwarded, refunds) and
+    `e2e/guided-speaking-assessed.spec.js` (Chromium's fake microphone and the real
+    MediaRecorder). The route mocks Azure, and the spec checks the phrase and real audio
+    bytes are sent. Mutation-verified, ten, each failing 1–3. One survived first:
+    `not_configured` not remembered passed, because within one stage the component keeps its
+    own fallback; the test now crosses into BUILD, where a fresh mic mounts.
+  - **Not covered, stated**:
+    - SPEAK (free production) has no target, so it still grades the recogniser transcript.
+      The next step would be verifying that transcript against its own audio.
+    - Azure's real miscue behaviour on Croatian learner speech is not measured from here;
+      the mock fixes its shape, not its accuracy.
+    - Final devoicing (`bog` said [bok]) may score a correct word "not clear".
+    - iOS records audio/mp4, which Azure's short-audio REST API may not accept; that device
+      then falls back.

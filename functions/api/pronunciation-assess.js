@@ -5,6 +5,9 @@
 
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
+import { refundPrecharge, reconcileAudioSeconds } from './_aiBudget.js';
+
+const PATH = '/api/pronunciation-assess';
 
 function ok(body, origin) {
   return new Response(JSON.stringify(body), {
@@ -65,6 +68,13 @@ function parseAzureResponse(azureData) {
   const word_scores = (nbest.Words || []).map((w) => ({
     word: w.Word || '',
     score: Math.round(w.PronunciationAssessment?.AccuracyScore ?? 0),
+    // Miscue detection (EnableMiscue) marks each word None / Omission / Insertion /
+    // Mispronunciation. Guided Speaking reads it to tell the learner what was really
+    // said (lib/spokenCheck); it was computed by Azure and dropped here until 2026-09-29.
+    error:
+      typeof w.PronunciationAssessment?.ErrorType === 'string'
+        ? w.PronunciationAssessment.ErrorType
+        : 'None',
     phonemes: (w.Phonemes || []).map((p) => ({
       phoneme: p.Phoneme || '',
       score: Math.round(p.PronunciationAssessment?.AccuracyScore ?? 0),
@@ -110,27 +120,34 @@ export async function onRequestPost(context) {
   const AZURE_KEY = env.AZURE_SPEECH_KEY || env.AZURE_TTS_KEY;
   const AZURE_REGION = env.AZURE_SPEECH_REGION || env.AZURE_TTS_REGION;
   if (!AZURE_KEY || !AZURE_REGION) {
+    // Nothing is sent to Azure, so nothing is kept (the 4xx-refund rule, 2026-09-25).
+    await refundPrecharge(env, PATH);
     return ok({ ok: false, error: 'not_configured' }, origin);
   }
+  // A body rejected below never reaches Azure either: every 400 gives the pre-charge back.
+  const reject = async (msg) => {
+    await refundPrecharge(env, PATH);
+    return err(400, msg, origin);
+  };
 
   // Parse body
   const ct = request.headers.get('content-type') || '';
-  if (!ct.includes('application/json')) return err(400, 'Expected application/json', origin);
+  if (!ct.includes('application/json')) return reject('Expected application/json');
 
   let body;
   try {
     body = await request.json();
   } catch {
-    return err(400, 'Invalid JSON', origin);
+    return reject('Invalid JSON');
   }
 
   const { audioBase64, referenceText, locale = 'hr-HR', audioMimeType = 'audio/wav' } = body;
 
   if (typeof audioBase64 !== 'string' || !audioBase64) {
-    return err(400, 'Missing audioBase64', origin);
+    return reject('Missing audioBase64');
   }
   if (typeof referenceText !== 'string' || !referenceText.trim()) {
-    return err(400, 'Missing referenceText', origin);
+    return reject('Missing referenceText');
   }
 
   // Validate locale to an allowlist (Croatian + common fallbacks)
@@ -143,13 +160,13 @@ export async function onRequestPost(context) {
   try {
     audioBytes = base64ToUint8Array(audioBase64);
   } catch {
-    return err(400, 'Invalid base64 audio', origin);
+    return reject('Invalid base64 audio');
   }
 
   // Validate size: Azure REST accepts up to ~60 s of audio; WAV is typically
   // ~88 kB/s at 44 kHz mono 16-bit. Cap at 8 MB to be safe.
   if (audioBytes.byteLength > 8 * 1024 * 1024) {
-    return err(400, 'Audio too large (max 8 MB)', origin);
+    return reject('Audio too large (max 8 MB)');
   }
 
   // Map the client's recorded MIME type to the Content-Type Azure accepts.
@@ -248,5 +265,7 @@ export async function onRequestPost(context) {
     return err(502, 'parse_failed', origin);
   }
 
+  // Book the audio Azure actually processed, not the one-minute ceiling.
+  await reconcileAudioSeconds(env, PATH, Number(azureData?.Duration) / 1e7);
   return ok({ ok: true, ...parsed }, origin);
 }

@@ -72,7 +72,9 @@ export type BuildVerdict =
   | { ok: true }
   | { ok: false; kind: 'empty' }
   | { ok: false; kind: 'not-yet' }
-  | { ok: false; kind: 'wrong-form'; said: string; required: string; message: string };
+  | { ok: false; kind: 'wrong-form'; said: string; required: string; message: string }
+  /** The transcript had the form but the RECORDING did not bear it out (lib/spokenCheck). */
+  | { ok: false; kind: 'unclear'; said: string; required: string; message: string };
 
 /** Every case/number cell whose form equals `surface`.
  *

@@ -35,6 +35,8 @@ import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { recordScreenPractised } from '../../lib/teachPractice';
 import { markQuest } from '../../lib/quests.js';
 import { gradeBuild, type BuildVerdict } from '../../lib/sentenceBuild';
+import { rehearseRight, verifyBuild, type SpokenCheck } from '../../lib/spokenCheck';
+import AssessedMic, { HeardWords } from './AssessedMic';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { launchedLevel } from '../../lib/sessionLevel';
 import { requestSpeakingCoach, COACH_MIN_WORDS } from '../../lib/speakingCoach';
@@ -55,28 +57,9 @@ export function countSpokenWords(raw: string): number {
   return raw.trim().split(/\s+/).filter(Boolean).length;
 }
 
-/** Accent-and-punctuation-tolerant compare for the rehearsal stage. A recogniser
- *  drops diacritics and punctuation constantly; refusing the learner over that
- *  would punish the microphone, not the speaker. */
-export function phraseMatches(heard: string, target: string): boolean {
-  const norm = (s: string) =>
-    s
-      .toLowerCase()
-      .replace(/[.,!?;:„“”"'—–-]/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  const a = norm(heard);
-  const b = norm(target);
-  if (!a) return false;
-  if (a === b) return true;
-  // Partial credit: most of the target's words present, in any order. The point
-  // of this stage is to get the phrase out of the mouth, not to win a dictation.
-  const want = b.split(' ').filter((w) => w.length > 2);
-  if (want.length === 0) return a.includes(b);
-  const got = new Set(a.split(' '));
-  const hits = want.filter((w) => got.has(w)).length;
-  return hits / want.length >= 0.6;
-}
+// The rehearsal compare lives in lib/spokenMatch (one rule, shared with the build
+// grader); re-exported here for the callers that import it from this screen.
+export { phraseMatches } from '../../lib/spokenMatch';
 
 /** Rotate through the level's units across visits so content does not repeat. */
 /**
@@ -176,6 +159,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const [phraseIdx, setPhraseIdx] = useState(0);
   const [phraseState, setPhraseState] = useState<'idle' | 'right' | 'again'>('idle');
   const [heardPhrase, setHeardPhrase] = useState('');
+  const [spoken, setSpoken] = useState<SpokenCheck | null>(null);
 
   // Build stage (2.5) — one sentence at a time, graded locally.
   const [buildIdx, setBuildIdx] = useState(0);
@@ -318,16 +302,18 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     }
   }
 
-  function checkPhrase(heard: string) {
+  function checkPhrase(heard: string, check: SpokenCheck | null = null) {
     setHeardPhrase(heard);
+    setSpoken(check);
     if (!phrase) return;
-    setPhraseState(phraseMatches(heard, phrase.hr) ? 'right' : 'again');
+    setPhraseState(rehearseRight(heard, phrase.hr, check) ? 'right' : 'again');
   }
 
   function nextPhrase() {
     stopRecognizer();
     setPhraseState('idle');
     setHeardPhrase('');
+    setSpoken(null);
     setRecording(false);
     if (phraseIdx + 1 >= unit.rehearse.length) {
       // ABSENCE DEGRADES TO THE OLD FLOW. A unit with no authored build
@@ -337,11 +323,13 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     } else setPhraseIdx((i) => i + 1);
   }
 
-  function checkBuild(heard: string) {
+  function checkBuild(heard: string, check: SpokenCheck | null = null) {
     setBuildHeard(heard);
+    setSpoken(check);
     const item = buildItems[buildIdx];
     if (!item) return;
-    const v = gradeBuild(heard, item);
+    // The audio check confirms a pass rests on a form that was really HEARD.
+    const v = verifyBuild(gradeBuild(heard, item), check, item);
     setBuildVerdict(v);
     if (!v.ok) setBuildTries((t) => t + 1);
   }
@@ -350,6 +338,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     stopRecognizer();
     setBuildVerdict(null);
     setBuildHeard('');
+    setSpoken(null);
     setBuildTries(0);
     setRecording(false);
     if (buildIdx + 1 >= buildItems.length) setStage('speak');
@@ -581,16 +570,18 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             >
               ▶︎ Hear it
             </button>
-            {srSupported && (
-              <button
-                className="b bp"
-                onClick={() => (recording ? stopRecognizer() : listenOnce(checkPhrase))}
-                data-testid="gs-record-phrase"
-                style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
-              >
-                {recording ? '■ Stop' : '🎙️ Say it'}
-              </button>
-            )}
+            <AssessedMic reference={phrase.hr} onHeard={checkPhrase} testId="gs-assess-phrase">
+              {srSupported && (
+                <button
+                  className="b bp"
+                  onClick={() => (recording ? stopRecognizer() : listenOnce(checkPhrase))}
+                  data-testid="gs-record-phrase"
+                  style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
+                >
+                  {recording ? '■ Stop' : '🎙️ Say it'}
+                </button>
+              )}
+            </AssessedMic>
           </div>
 
           {heardPhrase && (
@@ -601,6 +592,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               Heard: „{heardPhrase}“
             </div>
           )}
+          <HeardWords check={spoken} />
           {phraseState === 'right' && (
             <div style={{ fontSize: 13, color: 'var(--ink-green)', marginBottom: 8 }}>Točno! ✓</div>
           )}
@@ -646,17 +638,20 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-            {srSupported && (
-              <button
-                className="b bp"
-                onClick={() => (recording ? stopRecognizer() : listenOnce(checkBuild))}
-                data-testid="gs-build-record"
-                style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
-              >
-                {recording ? '■ Stop' : '🎙️ Say it'}
-              </button>
-            )}
+            <AssessedMic reference={buildItem.answer} onHeard={checkBuild} testId="gs-assess-build">
+              {srSupported && (
+                <button
+                  className="b bp"
+                  onClick={() => (recording ? stopRecognizer() : listenOnce(checkBuild))}
+                  data-testid="gs-build-record"
+                  style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
+                >
+                  {recording ? '■ Stop' : '🎙️ Say it'}
+                </button>
+              )}
+            </AssessedMic>
           </div>
+          <HeardWords check={spoken} />
 
           {/* TYPED FALLBACK — counts identically. A mic-blocked learner must not
               be shut out of the only stage that teaches case endings. */}
@@ -691,23 +686,25 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
               Točno! ✓
             </div>
           )}
-          {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'wrong-form' && (
-            <div
-              data-testid="gs-build-contrast"
-              style={{
-                fontSize: 13,
-                lineHeight: 1.6,
-                color: '#7c2d12',
-                background: '#fff7ed',
-                border: '1px solid #fed7aa',
-                borderRadius: 10,
-                padding: '10px 12px',
-                marginBottom: 8,
-              }}
-            >
-              {buildVerdict.message}
-            </div>
-          )}
+          {buildVerdict &&
+            !buildVerdict.ok &&
+            (buildVerdict.kind === 'wrong-form' || buildVerdict.kind === 'unclear') && (
+              <div
+                data-testid="gs-build-contrast"
+                style={{
+                  fontSize: 13,
+                  lineHeight: 1.6,
+                  color: '#7c2d12',
+                  background: '#fff7ed',
+                  border: '1px solid #fed7aa',
+                  borderRadius: 10,
+                  padding: '10px 12px',
+                  marginBottom: 8,
+                }}
+              >
+                {buildVerdict.message}
+              </div>
+            )}
           {buildVerdict && !buildVerdict.ok && buildVerdict.kind === 'not-yet' && (
             <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginBottom: 8 }}>
               Not quite yet — try once more.
