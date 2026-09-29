@@ -173,6 +173,27 @@ export async function azureAssess(
     return { ok: false, error: 'parse_failed' };
   }
 
+  // AZURE HEARD NO SPEECH, AND THAT IS NOT A SERVER FAULT (Sentry
+  // ai_feedback_failed:guided-speaking-assess:server, 2026-09-29). A recording
+  // with no recognisable speech comes back 200 with RecognitionStatus NoMatch /
+  // InitialSilenceTimeout / BabbleTimeout and no NBest, which fell through to
+  // `unexpected_shape` and a 502 — so the learner read "the evaluation service is
+  // temporarily unavailable" about a recording that simply held no speech, and
+  // the report said the server was down. It is named now, and the client files it
+  // under `stt` ("we couldn't transcribe the recording"), still reported, because
+  // a silent capture can also be our own recording defect.
+  const status =
+    typeof azureData?.RecognitionStatus === 'string' ? azureData.RecognitionStatus : '';
+  if (status && status !== 'Success') {
+    console.warn('pronunciation-assess.js: no speech recognised:', status);
+    return {
+      ok: false,
+      error: 'no_speech',
+      recognitionStatus: status,
+      durationS: Number(azureData?.Duration) / 1e7,
+    };
+  }
+
   const parsed = parseAzureResponse(azureData);
   if (!parsed) {
     console.error(
@@ -290,6 +311,11 @@ export async function onRequestPost(context) {
     safeReferenceText,
     safeLocale,
   );
+  if (!out.ok && out.error === 'no_speech') {
+    // Azure still processed (and billed) the audio; book what it measured.
+    await reconcileAudioSeconds(env, PATH, out.durationS);
+    return err(422, 'no_speech', origin);
+  }
   if (!out.ok) return err(502, out.error, origin);
   const { parsed, durationS } = out;
 

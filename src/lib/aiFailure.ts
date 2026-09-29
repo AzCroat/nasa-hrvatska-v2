@@ -65,7 +65,7 @@ const UNUSABLE_CODES = new Set([
   'empty_reply',
   'upstream_not_json',
 ]);
-const STT_CODES = new Set(['stt_failed', 'stt_not_configured', 'bad_audio']);
+const STT_CODES = new Set(['stt_failed', 'stt_not_configured', 'bad_audio', 'no_speech']);
 
 /** The sentence for a kind, in the app's one voice. */
 export function describeAiFailure(f: Pick<AiFailure, 'kind' | 'resetAt'>): string {

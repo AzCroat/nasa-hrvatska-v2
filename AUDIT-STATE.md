@@ -14132,3 +14132,19 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     lesson); Lesson Review serves at most its queue caps per sitting, so a large backlog
     recurs block after block by design; the next-step pill shown on an exercise screen still
     reads the plan before Home has applied that completion (pre-existing).
+- [x] **Sweep 218 — a recording with no speech read as a server outage (Sentry, 2026-09-29).**
+      `ai_feedback_failed:guided-speaking-assess:server` on `/speaking_guided`, minutes after
+      the recording check (#795/#796) shipped.
+  - When Azure hears no speech it answers 200 with `RecognitionStatus` `NoMatch`,
+    `InitialSilenceTimeout` or `BabbleTimeout` and no `NBest`. `parseAzureResponse`
+    returned null, which became `unexpected_shape` and a 502, so the learner read "the
+    evaluation service is temporarily unavailable" and Sentry said `server`.
+  - Now it is a 422 `no_speech`: the audio Azure measured is booked, and the client files it
+    under `stt` ("We couldn't transcribe the recording. Check the microphone and try
+    again."). It is still reported, because a silent capture can be our own defect.
+  - NOT established: whether this event was a silent recording or another 5xx. The tag was
+    truncated before its code and the Cloudflare log cannot be read from here. If the next
+    event reads `:stt code=no_speech` on Guided Speaking, suspect the recording taken
+    alongside the browser's recogniser first.
+  - Pinned by `pronunciationAssessMiscue.test.js` (three Azure statuses plus the client
+    classification). Mutation-verified: removing the branch fails 3.
