@@ -89,10 +89,10 @@ const DATA = [
   },
   {
     q: 'Ne pijem ___.',
-    opts: ['kave', 'kava', 'kavu', 'kavom'],
+    opts: ['kave', 'kava', 'kavi', 'kavom'],
     answer: 'kave',
     en: "I don't drink coffee.",
-    tip: "Negation takes genitive — fem 'kava' -> 'kave'.",
+    tip: "Negation can take the genitive — fem 'kava' -> 'kave' (the accusative 'ne pijem kavu' is just as common).",
   },
   {
     q: 'Nema ___ u kuhinji.',
@@ -299,10 +299,10 @@ const DATA = [
   },
   {
     q: 'Ne vidim ___.',
-    opts: ['problema', 'problem', 'problemu', 'problemom'],
+    opts: ['problema', 'problemi', 'problemu', 'problemom'],
     answer: 'problema',
     en: "I don't see a problem.",
-    tip: "Negation takes genitive — 'problem' -> 'problema'.",
+    tip: "Negation can take the genitive — 'problem' -> 'problema' ('ne vidim problem' is also said).",
   },
   {
     q: 'Nemamo ___.',
@@ -312,11 +312,11 @@ const DATA = [
     tip: "Negation takes genitive — fem 'struja' -> 'struje'.",
   },
   {
-    q: 'Ne razumijem ___.',
+    q: 'Nemam više ___.',
     opts: ['pitanja', 'pitanje', 'pitanju', 'pitanjem'],
     answer: 'pitanja',
-    en: "I don't understand the question.",
-    tip: "Negation takes genitive — neut 'pitanje' -> 'pitanja'.",
+    en: 'I have no more questions.',
+    tip: "'nemati' takes the genitive — here plural: neut 'pitanje' -> 'pitanja'.",
   },
   {
     q: 'To je torba moje ___.',

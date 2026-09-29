@@ -17,7 +17,7 @@ const DATA = [
     q: 'Glagol „istražiti” → imenica:',
     opts: ['istraživanje', 'istražitelj', 'istraženo', 'istražljivost'],
     answer: 'istraživanje',
-    en: 'to research → research (noun)',
+    en: 'which noun names the activity?',
     tip: 'Glagolske imenice na -nje nose akademski stil.',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: 'Glagol „zaključiti” → imenica:',
     opts: ['zaključak', 'zaključenje svega', 'zaključivač', 'zaključnost'],
     answer: 'zaključak',
-    en: 'to conclude → conclusion',
+    en: 'which noun names the result?',
     tip: 'Zaključak rada; donijeti zaključak.',
   },
   {
@@ -33,7 +33,7 @@ const DATA = [
     q: 'Glagol „primijeniti” → imenica:',
     opts: ['primjena', 'primjenjivač', 'primijenjenost', 'primjenba'],
     answer: 'primjena',
-    en: 'to apply → application',
+    en: 'which noun names the activity?',
     tip: 'Primjena metode, u primjeni.',
   },
   {
@@ -41,12 +41,12 @@ const DATA = [
     q: 'Glagol „objasniti” → imenica:',
     opts: ['objašnjenje', 'objasnidba', 'objasnitelj', 'objašnjivost'],
     answer: 'objašnjenje',
-    en: 'to explain → explanation',
+    en: 'which noun names the result?',
     tip: 'Ponuditi objašnjenje; uz objašnjenje.',
   },
   {
     mode: 'nominalizacija',
-    q: '„Rad se bavi time što ljudi sele” akademski: „Rad se bavi ____ stanovništva.”',
+    q: '„Rad se bavi time što se ljudi iseljavaju” akademski: „Rad se bavi ____ stanovništva.”',
     opts: ['iseljavanjem', 'iseliti', 'iseljeni', 'iseljenicima'],
     answer: 'iseljavanjem',
     en: 'the paper deals with the emigration of the population',
@@ -57,7 +57,7 @@ const DATA = [
     q: '„Cijene rastu” nominalizirano: „____ cijena”',
     opts: ['rast', 'rastenje', 'rastućost', 'porastlost'],
     answer: 'rast',
-    en: 'prices rise → the rise of prices',
+    en: 'turn the clause into a noun phrase',
     tip: 'Rast cijena, pad potražnje — imenički stil.',
   },
   {
@@ -65,7 +65,7 @@ const DATA = [
     q: '„Uvesti novu metodu” → „____ nove metode”',
     opts: ['uvođenje', 'uvedba', 'uvoz', 'uvedenost'],
     answer: 'uvođenje',
-    en: 'introducing the new method',
+    en: 'turn the verb phrase into a noun phrase',
     tip: 'Uvođenje + genitiv objekta.',
   },
   {
@@ -139,7 +139,7 @@ const DATA = [
       'čitateljevu ulogu',
     ],
     answer: 'radnju i rezultat, a ne vršitelja',
-    en: 'the passive foregrounds action and result',
+    en: 'what does the passive put in the foreground?',
     tip: 'Tko je mjerio, nevažno — važno je ŠTO je izmjereno.',
   },
   {
@@ -155,15 +155,15 @@ const DATA = [
     q: 'Oprezna tvrdnja: „Rezultati ____ upućivati na vezu.”',
     opts: ['mogli bi', 'moraju', 'hoće', 'jesu'],
     answer: 'mogli bi',
-    en: 'the results might point to a link',
+    en: 'hedged: the results ___ point to a link',
     tip: 'Kondicional ublažava: mogli bi upućivati.',
   },
   {
     mode: 'ograda',
-    q: '„____ se pretpostaviti da je uzorak reprezentativan.”',
-    opts: ['Može', 'Mora', 'Hoće', 'Smije'],
+    q: 'Oprezna tvrdnja: „____ se pretpostaviti da je uzorak reprezentativan.”',
+    opts: ['Može', 'Mora', 'Hoće', 'Mogu'],
     answer: 'Može',
-    en: 'it can be assumed that…',
+    en: 'hedged: it ___ be assumed that the sample is representative',
     tip: 'Može se pretpostaviti / čini se — akademske ograde.',
   },
   {
@@ -187,7 +187,7 @@ const DATA = [
     q: 'Glagol „sugerirati” u odnosu na „dokazivati” je:',
     opts: ['oprezniji', 'snažniji', 'jednak', 'netočan'],
     answer: 'oprezniji',
-    en: 'suggest is weaker than prove',
+    en: '"sugerirati" compared with "dokazivati"',
     tip: 'Rezultati sugeriraju < pokazuju < dokazuju.',
   },
   {
@@ -213,7 +213,7 @@ const DATA = [
       '„Ovo isključuje sve…”',
     ],
     answer: '„Ovo upućuje na…”',
-    en: 'this points to… (hedged)',
+    en: 'a more cautious alternative to "this proves…"',
     tip: 'Upućivati na, sugerirati, govoriti u prilog.',
   },
   {
@@ -221,7 +221,7 @@ const DATA = [
     q: '„Nije isključeno da…” znači:',
     opts: ['moguće je da', 'sigurno je da', 'nemoguće je da', 'zabranjeno je da'],
     answer: 'moguće je da',
-    en: 'it cannot be ruled out that…',
+    en: 'what does "nije isključeno da" amount to?',
     tip: 'Dvostruka negacija kao blaga mogućnost.',
   },
 ];

@@ -17,7 +17,7 @@ const DATA = [
     q: 'Koji je glagol dvovidan (i svršen i nesvršen)?',
     opts: ['ručati', 'pisati', 'napisati', 'čitati'],
     answer: 'ručati',
-    en: 'rucati is biaspectual',
+    en: 'which verb is biaspectual?',
     tip: 'Ručati, večerati, doručkovati — oba vida u istom obliku.',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: '„Čuti” je:',
     opts: ['dvovidan', 'samo svršen', 'samo nesvršen', 'bezličan'],
     answer: 'dvovidan',
-    en: 'cuti works in both aspects',
+    en: 'what aspect is čuti?',
     tip: 'Čujem sad (nesvršeno) / čuo sam prasak (svršeno).',
   },
   {
@@ -33,7 +33,7 @@ const DATA = [
     q: '„Vidjeti” je:',
     opts: ['dvovidan', 'samo svršen', 'samo nesvršen', 'pomoćni'],
     answer: 'dvovidan',
-    en: 'vidjeti is biaspectual',
+    en: 'what aspect is vidjeti?',
     tip: 'Vidim te (sada) / vidio sam ga jučer (jednom).',
   },
   {
@@ -41,7 +41,7 @@ const DATA = [
     q: 'Posuđenice na „-irati” najčešće su:',
     opts: ['dvovidne', 'samo svršene', 'samo nesvršene', 'neprelazne'],
     answer: 'dvovidne',
-    en: 'borrowed -irati verbs are biaspectual',
+    en: 'the aspect of loan verbs in -irati',
     tip: 'Organizirati, telefonirati, analizirati — oba vida.',
   },
   {
@@ -49,7 +49,7 @@ const DATA = [
     q: 'Koji glagol NIJE dvovidan?',
     opts: ['pročitati', 'organizirati', 'ručati', 'čuti'],
     answer: 'pročitati',
-    en: 'procitati is purely perfective',
+    en: 'which verb is NOT biaspectual?',
     tip: 'Prefiks pro- fiksira svršenost.',
   },
   {
@@ -57,7 +57,7 @@ const DATA = [
     q: '„Krstiti” (i svršeno i nesvršeno) potvrđuje da su dvovidni:',
     opts: ['i neki domaći glagoli', 'samo posuđenice', 'samo glagoli jela', 'samo povratni'],
     answer: 'i neki domaći glagoli',
-    en: 'native verbs can be biaspectual too',
+    en: 'what does krstiti show?',
     tip: 'Krstiti, ručati, čuti, vidjeti — domaći dvovidni.',
   },
   {
@@ -65,7 +65,7 @@ const DATA = [
     q: '„Analizirati” u „upravo analiziramo podatke” ima vid:',
     opts: ['nesvršeni', 'svršeni', 'oba istodobno', 'nijedan'],
     answer: 'nesvršeni',
-    en: 'right now = imperfective reading',
+    en: 'which aspect reading is this?',
     tip: 'Kontekst bira vid dvovidnoga glagola.',
   },
   {
@@ -73,7 +73,7 @@ const DATA = [
     q: '„Analizirati” u „sutra ćemo analizirati sve uzorke do kraja” čita se:',
     opts: ['svršeno', 'nesvršeno', 'bezlično', 'pasivno'],
     answer: 'svršeno',
-    en: 'to completion = perfective reading',
+    en: 'which aspect reading is this?',
     tip: 'Do kraja + rok → svršeno čitanje.',
   },
   {
@@ -145,7 +145,7 @@ const DATA = [
     q: 'Kad kontekst mora razlikovati vid, jeziku pomažu:',
     opts: ['prilozi i veznici (upravo, čim, dok)', 'samo intonacija', 'padeži', 'navodnici'],
     answer: 'prilozi i veznici (upravo, čim, dok)',
-    en: 'adverbs disambiguate biaspectuals',
+    en: 'what helps context mark the aspect?',
     tip: 'Upravo analiziramo (ns) vs čim analiziramo (sv).',
   },
   {
@@ -153,7 +153,7 @@ const DATA = [
     q: 'Za jasno nesvršeno od „organizirati” govornici katkad rabe:',
     opts: ['organizirati uz priloge trajanja', 'izorganizirati', 'sorganizirati', 'naorganizirati'],
     answer: 'organizirati uz priloge trajanja',
-    en: 'duration adverbs mark the imperfective',
+    en: 'how speakers mark a clear imperfective',
     tip: 'Trenutačno organiziramo — prilog nosi vid.',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: 'Prefiks uz dvovidni glagol (npr. „isprogramirati”):',
     opts: ['naglašava svršenost', 'čini ga nesvršenim', 'ne mijenja ništa', 'briše značenje'],
     answer: 'naglašava svršenost',
-    en: 'prefixes force the perfective',
+    en: 'what does a prefix do to a biaspectual verb?',
     tip: 'Isprogramirati, odreagirati — razgovorno pojačana svršenost.',
   },
   {
@@ -177,7 +177,7 @@ const DATA = [
     q: '„Jesi li večerao?” pita o:',
     opts: ['dovršenoj radnji (svršeno)', 'navici', 'trajanju', 'budućnosti'],
     answer: 'dovršenoj radnji (svršeno)',
-    en: 'have you had dinner? (result)',
+    en: 'have you had dinner?',
     tip: 'Perfekt dvovidnoga: rezultatsko čitanje.',
   },
   {
@@ -185,7 +185,7 @@ const DATA = [
     q: 'Futur II. od dvovidnoga („budem ručao”) signalizira:',
     opts: ['nesvršenu nijansu u zavisnoj', 'svršenu prošlost', 'zapovijed', 'pasiv'],
     answer: 'nesvršenu nijansu u zavisnoj',
-    en: 'budem rucao leans imperfective',
+    en: 'what does the future II of a biaspectual verb signal?',
     tip: 'Ako budem ručao kad nazoveš…',
   },
   {
@@ -201,7 +201,7 @@ const DATA = [
     q: 'Dvovidnost je u rječnicima označena:',
     opts: ['dv. (dvovidan)', 'ns. samo', 'sv. samo', 'nema oznake'],
     answer: 'dv. (dvovidan)',
-    en: 'dictionaries tag dv.',
+    en: 'how dictionaries mark biaspectual verbs',
     tip: 'Oznaka dv. uz ručati, čuti, organizirati.',
   },
 ];
