@@ -39,6 +39,8 @@ import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { requestSpeakingCoach, type CoachResult } from '../../lib/speakingCoach';
 import type { ProduceKind } from '../../lib/lessonProduceRequest';
 import { heardCroatian } from '../../lib/heardCroatian';
+import SpeakCheck from '../practice/SpeakCheck';
+import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -86,6 +88,9 @@ export default function LessonProduceStep({
   const [spoken, setSpoken] = useState<CoachResult | null>(null);
   const [failure, setFailure] = useState<AiFailure | null>(null);
   const [listening, setListening] = useState(false);
+  const [recFailed, setRecFailed] = useState(false);
+  // The spoken answer, checked against its own recording (components/practice/SpeakCheck).
+  const [speakCheck, setSpeakCheck] = useState<SpokenCheck | null>(null);
   const awarded = useRef(false);
   const recRef = useRef<{ stop: () => void } | null>(null);
 
@@ -98,6 +103,7 @@ export default function LessonProduceStep({
       prompt: `Use what "${lessonTitle}" taught: ${brief}`,
       transcript: text.trim(),
       level,
+      unconfirmed: unconfirmedWords(speakCheck),
     });
     if (!outcome || !outcome.ok) {
       const f = outcome?.ok === false ? outcome.failure : failureFromStatus(200, 'too_short');
@@ -214,9 +220,13 @@ export default function LessonProduceStep({
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };
       rec.onend = () => setListening(false);
-      rec.onerror = () => setListening(false);
+      rec.onerror = () => {
+        setListening(false);
+        setRecFailed(true);
+      };
       recRef.current = rec;
       rec.start();
+      setRecFailed(false);
       setListening(true);
     } catch {
       setListening(false);
@@ -312,6 +322,15 @@ export default function LessonProduceStep({
       <div style={{ fontSize: 12, color: 'var(--subtext)', margin: '4px 0 10px' }}>
         {words} / {MIN_PRODUCE_WORDS} words
       </div>
+      {kind === 'speak' && (
+        <SpeakCheck
+          listening={listening}
+          transcript={text}
+          recognizerFailed={recFailed}
+          onCheck={setSpeakCheck}
+          appends
+        />
+      )}
       {kind === 'speak' && micAvailable && (
         <button
           type="button"

@@ -43,14 +43,36 @@ interface Props {
   recognizerFailed: boolean;
   /** The current check, or null when there is none (or it no longer applies). */
   onCheck: (check: SpokenCheck | null) => void;
+  /**
+   * The screen's recogniser APPENDS each take to the text (the unit and lesson production
+   * steps) instead of replacing it (Guided Speaking). A take's recording then covers only
+   * the words it added, so that part alone is scored, and the checks of successive takes
+   * accumulate.
+   */
+  appends?: boolean;
 }
 
-export default function SpeakCheck({ listening, transcript, recognizerFailed, onCheck }: Props) {
+/** Final results can land just after Stop; the transcript is read once it has settled. */
+const SETTLE_MS = 700;
+
+export default function SpeakCheck({
+  listening,
+  transcript,
+  recognizerFailed,
+  onCheck,
+  appends = false,
+}: Props) {
   const rec = useRecorder();
   const [enabled] = useState(() => canRecordTakes() && !assessUnconfigured() && !alongsideBroke);
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
-  const [checked, setChecked] = useState<{ ref: string; check: SpokenCheck } | null>(null);
+  // `full` is the whole text the check describes; any other text makes it stale.
+  const [checked, setChecked] = useState<{ full: string; check: SpokenCheck } | null>(null);
+  const checkedRef = useRef(checked);
+  checkedRef.current = checked;
+  const baseRef = useRef('');
+  // A take is in progress or settling: the text is still moving, so it is not an edit.
+  const [pending, setPending] = useState(false);
   const sentRef = useRef<Blob | null>(null);
   const discardRef = useRef(false);
   const mountedRef = useRef(true);
@@ -73,8 +95,12 @@ export default function SpeakCheck({ listening, transcript, recognizerFailed, on
     if (listening && !recording) {
       discardRef.current = false;
       sentRef.current = null;
-      setChecked(null);
-      onCheckRef.current(null);
+      baseRef.current = appends ? transcriptRef.current.trim() : '';
+      setPending(true);
+      if (!appends) {
+        setChecked(null);
+        onCheckRef.current(null);
+      }
       rec.startRecording({
         countdown: 0,
         maxDurationMs: MAX_TAKE_MS,
@@ -91,6 +117,7 @@ export default function SpeakCheck({ listening, transcript, recognizerFailed, on
     if (!recognizerFailed || !recording) return;
     alongsideBroke = true;
     discardRef.current = true;
+    setPending(false);
     rec.stopRecording();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recognizerFailed]);
@@ -100,26 +127,49 @@ export default function SpeakCheck({ listening, transcript, recognizerFailed, on
     const blob = rec.audioBlob;
     if (rec.state !== 'done' || !blob || sentRef.current === blob) return;
     sentRef.current = blob;
-    if (discardRef.current) return;
-    const ref = transcriptRef.current.trim();
-    if (ref.split(/\s+/).filter(Boolean).length < 2) return;
-    setBusy(true);
-    void assessTake(blob, rec.mimeType || blob.type || 'audio/webm', ref, SURFACE).then((out) => {
+    if (discardRef.current) {
+      setPending(false);
+      return;
+    }
+    const mime = rec.mimeType || blob.type || 'audio/webm';
+    const t = setTimeout(() => {
       if (!mountedRef.current) return;
-      setBusy(false);
-      if (!out.ok) {
-        setNotice(`Recording check unavailable — ${out.message}`);
+      const full = transcriptRef.current.trim();
+      const base = baseRef.current;
+      const ref = appends && base && full.startsWith(base) ? full.slice(base.length).trim() : full;
+      if (ref.split(/\s+/).filter(Boolean).length < 2) {
+        setPending(false);
         return;
       }
-      setNotice(null);
-      setChecked({ ref, check: out.check });
-      onCheckRef.current(out.check);
-    });
+      setBusy(true);
+      void assessTake(blob, mime, ref, SURFACE).then((out) => {
+        if (!mountedRef.current) return;
+        setBusy(false);
+        setPending(false);
+        if (!out.ok) {
+          setNotice(`Recording check unavailable — ${out.message}`);
+          return;
+        }
+        setNotice(null);
+        // Appending: this take's words join the earlier takes' check, if it still applies.
+        const prev = checkedRef.current;
+        const check =
+          appends && prev && prev.full === base
+            ? {
+                recognized: `${prev.check.recognized} ${out.check.recognized}`.trim(),
+                words: [...prev.check.words, ...out.check.words],
+              }
+            : out.check;
+        setChecked({ full, check });
+        onCheckRef.current(check);
+      });
+    }, SETTLE_MS);
+    return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rec.state, rec.audioBlob]);
 
   // An edit after the check means the check no longer describes the text.
-  const stale = !!checked && checked.ref !== transcript.trim();
+  const stale = !!checked && !pending && checked.full !== transcript.trim();
   useEffect(() => {
     if (stale) onCheckRef.current(null);
   }, [stale]);

@@ -270,3 +270,90 @@ describe('SPEAK: the transcript is checked against its own recording', () => {
     expect(FakeRec.starts).toBe(2);
   });
 });
+
+// ── The unit and lesson production steps: a recogniser that APPENDS each take ──────
+import SpeakCheck from '../components/practice/SpeakCheck';
+import fs from 'node:fs';
+
+function Harness({ onCheck }: { onCheck: (c: unknown) => void }) {
+  const [listening, setListening] = React.useState(false);
+  const [text, setText] = React.useState('');
+  return (
+    <div>
+      <button data-testid="h-start" onClick={() => setListening(true)} />
+      <button data-testid="h-stop" onClick={() => setListening(false)} />
+      <input data-testid="h-text" value={text} onChange={(e) => setText(e.target.value)} />
+      <SpeakCheck
+        listening={listening}
+        transcript={text}
+        recognizerFailed={false}
+        onCheck={onCheck}
+        appends
+      />
+    </div>
+  );
+}
+
+describe('SpeakCheck appending: each take is scored on the words it added', () => {
+  it('scores only the new words, and the checks of two takes accumulate', async () => {
+    postMock.mockImplementation(async (_u: string, body: { referenceText: string }) =>
+      azureFor(body.referenceText, 'Zagrebu'),
+    );
+    const onCheck = vi.fn();
+    render(<Harness onCheck={onCheck} />);
+    const take = async (words: string) => {
+      fireEvent.click(screen.getByTestId('h-start'));
+      const input = screen.getByTestId('h-text') as HTMLInputElement;
+      fireEvent.change(input, { target: { value: `${input.value} ${words}`.trim() } });
+      fireEvent.click(screen.getByTestId('h-stop'));
+      await act(async () => {});
+      await waitFor(() => expect(postMock).toHaveBeenCalledTimes(take.n + 1), { timeout: 2000 });
+      take.n += 1;
+      await act(async () => {});
+    };
+    take.n = 0;
+    await take('Živim u Zagrebu');
+    await take('i volim more');
+    expect(postMock.mock.calls[0]![1]).toMatchObject({ referenceText: 'Živim u Zagrebu' });
+    expect(postMock.mock.calls[1]![1]).toMatchObject({ referenceText: 'i volim more' });
+    await waitFor(() => expect(screen.getByTestId('gs-speak-words')).toBeTruthy());
+    const last = onCheck.mock.calls.filter((c) => c[0]).pop()![0] as { words: { word: string }[] };
+    expect(last.words.map((w) => w.word)).toEqual(['Živim', 'u', 'Zagrebu', 'i', 'volim', 'more']);
+    expect(unconfirmedWords(last as never)).toEqual(['Zagrebu']);
+    // Mid-take text is not an edit; a real edit afterwards is.
+    expect(screen.queryByTestId('gs-speak-check-stale')).toBeNull();
+    fireEvent.change(screen.getByTestId('h-text'), { target: { value: 'nešto drugo' } });
+    expect(screen.getByTestId('gs-speak-check-stale')).toBeTruthy();
+  });
+
+  it('text arriving during a later take is not read as an edit', async () => {
+    postMock.mockImplementation(async (_u: string, body: { referenceText: string }) =>
+      azureFor(body.referenceText, ''),
+    );
+    render(<Harness onCheck={vi.fn()} />);
+    fireEvent.click(screen.getByTestId('h-start'));
+    fireEvent.change(screen.getByTestId('h-text'), { target: { value: 'Živim u Zagrebu' } });
+    fireEvent.click(screen.getByTestId('h-stop'));
+    await waitFor(() => expect(screen.getByTestId('gs-speak-words')).toBeTruthy(), {
+      timeout: 2000,
+    });
+    // A second take begins and the recogniser appends to the text.
+    fireEvent.click(screen.getByTestId('h-start'));
+    fireEvent.change(screen.getByTestId('h-text'), {
+      target: { value: 'Živim u Zagrebu i volim more' },
+    });
+    expect(screen.queryByTestId('gs-speak-check-stale')).toBeNull();
+  });
+
+  it('both production steps send the unconfirmed words to the coach and mount the check', () => {
+    for (const f of [
+      'src/components/learn/UnitProductionScreen.tsx',
+      'src/components/learn/LessonProduceStep.tsx',
+    ]) {
+      const src = fs.readFileSync(f, 'utf8');
+      expect(src, f).toMatch(/unconfirmed: unconfirmedWords\(speakCheck\)/);
+      expect(src, f).toMatch(/<SpeakCheck[\s\S]*?onCheck=\{setSpeakCheck\}[\s\S]*?appends/);
+      expect(src, f).toMatch(/setRecFailed\(true\)/);
+    }
+  });
+});

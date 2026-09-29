@@ -57,6 +57,8 @@ import type { CefrLevel } from '../../lib/cefr';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import { canDoFor } from '../../data/courseUnitCanDo';
 import { heardCroatian } from '../../lib/heardCroatian';
+import SpeakCheck from '../practice/SpeakCheck';
+import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
 
 /** XP for a graded production task. Paid once per task per unit. */
 export const UNIT_PRODUCTION_XP = 30;
@@ -84,6 +86,9 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
   const [failure, setFailure] = useState<AiFailure | null>(null);
   const [score, setScore] = useState<number | null>(null);
   const [listening, setListening] = useState(false);
+  const [recFailed, setRecFailed] = useState(false);
+  // The spoken answer, checked against its own recording (components/practice/SpeakCheck).
+  const [speakCheck, setSpeakCheck] = useState<SpokenCheck | null>(null);
   const paid = useRef(false);
 
   const recRef = useRef<any>(null);
@@ -139,6 +144,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
           prompt: briefPrompt(brief),
           transcript: text.trim(),
           level: brief.level,
+          unconfirmed: unconfirmedWords(speakCheck),
         });
         if (!outcome || !outcome.ok) {
           const f = outcome?.ok === false ? outcome.failure : failureFromStatus(200, 'too_short');
@@ -165,7 +171,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
     } finally {
       setBusy(false);
     }
-  }, [brief, unit, busy, enough, kind, text, award]);
+  }, [brief, unit, busy, enough, kind, text, award, speakCheck]);
 
   const toggleMic = useCallback(() => {
     const w = window as any;
@@ -200,9 +206,13 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };
       rec.onend = () => setListening(false);
-      rec.onerror = () => setListening(false);
+      rec.onerror = () => {
+        setListening(false);
+        setRecFailed(true);
+      };
       recRef.current = rec;
       rec.start();
+      setRecFailed(false);
       setListening(true);
     } catch {
       setListening(false);
@@ -338,6 +348,15 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       >
         {words} of {brief.minWords} words
       </div>
+      {kind === 'speak' && (
+        <SpeakCheck
+          listening={listening}
+          transcript={text}
+          recognizerFailed={recFailed}
+          onCheck={setSpeakCheck}
+          appends
+        />
+      )}
 
       {failure && (
         <Box tone="bad" testId="unit-production-failed">
