@@ -14,7 +14,11 @@ vi.mock('../lib/cefrCertification', () => ({
   // Quiet period (2026-08-18): default NOT quiet so the verification-rung
   // tests keep their original meaning; the quiet behavior has its own test.
   isVerificationQuiet: vi.fn(() => false),
+  getLatestAttempt: vi.fn(() => null),
 }));
+// The course-timing rule has its own suite (verificationTiming.test.ts); here the
+// ladder's ORDER is under test, so the prompt is taken as due.
+vi.mock('../lib/verificationTiming', () => ({ verificationPromptReady: vi.fn(() => true) }));
 vi.mock('../lib/srs', () => ({
   getServableReviewCount: vi.fn(() => 0),
 }));
@@ -72,6 +76,7 @@ describe('getNextStep priority ladder', () => {
       required: true,
       target: 'B1',
       options: ['B1', 'A2'],
+      nextCheck: 'A2',
     } as never);
     seedSession([]); // even with a fresh session waiting
     const step = getNextStep({ userCefr: 'B1', poolWords: POOL });

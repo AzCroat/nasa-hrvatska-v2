@@ -39,6 +39,24 @@ import {
 } from '../lib/cefrCertification';
 import { DAILY_XP_GOAL } from '../lib/appUtils';
 import VerificationGateCard from '../components/home/VerificationGateCard';
+import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
+
+/** The card waits for the course level its check tests (lib/verificationTiming,
+ *  owner 2026-09-29), so the card tests stand on a course finished long ago. */
+function seedFinishedCourse() {
+  const spine = [...CURRICULUM].sort((a, b) => a.order - b.order);
+  localStorage.setItem('nh_curriculum_spine', JSON.stringify(spine));
+  localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: {} }));
+  const at = '2026-01-05';
+  const units: Record<string, unknown> = {};
+  for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
+    for (let i = 1; i <= 6; i++)
+      units[`${lv}-${i}`] = {
+        passedAt: at,
+        production: { wroteAt: at, writeScore: 80, spokeAt: at, speakScore: 0.8 },
+      };
+  localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+}
 
 const KEY = 'nh_cefr_certifications';
 const DAY = 24 * 60 * 60 * 1000;
@@ -286,6 +304,8 @@ describe('the baseline is WIRED, not just supported', () => {
 });
 
 describe('VerificationGateCard — hero vs nothing', () => {
+  beforeEach(() => seedFinishedCourse());
+
   it('the CTA names the check it actually STARTS, not the top of the stack', () => {
     // OWNER REPORT, 2026-09-23: "a 'Verify your C1 now' badge across the top … It
     // is not correct". It was not. On a carried-over stack the button rendered
@@ -336,8 +356,10 @@ describe('VerificationGateCard — hero vs nothing', () => {
   });
 
   it('after VERIFICATION_RETURN_XP of practice the hero returns and SAYS what brought it back', () => {
+    // The attempt is over a week old: the course-timing rule (lib/verificationTiming)
+    // holds the prompt for a week after any attempt, whatever XP has been earned.
     seedState({
-      attempts: [{ level: 'B2', passed: false, takenAt: Date.now() - DAY, xp: 5000 }],
+      attempts: [{ level: 'B2', passed: false, takenAt: Date.now() - 9 * DAY, xp: 5000 }],
     });
     render(
       <VerificationGateCard
@@ -351,6 +373,20 @@ describe('VerificationGateCard — hero vs nothing', () => {
     expect(screen.getByTestId('verification-gate-returning').textContent).toContain(
       `${VERIFICATION_RETURN_XP + 20} XP`,
     );
+  });
+
+  it('XP earned within a week of an attempt does not bring it back (owner, 2026-09-29)', () => {
+    seedState({
+      attempts: [{ level: 'B2', passed: false, takenAt: Date.now() - 2 * DAY, xp: 5000 }],
+    });
+    const { container } = render(
+      <VerificationGateCard
+        gate={GATE}
+        currentXp={5000 + VERIFICATION_RETURN_XP + 20}
+        onStartVerification={() => {}}
+      />,
+    );
+    expect(container.innerHTML).toBe('');
   });
 
   it('the pre-hydration render (xp 0) shows nothing rather than flashing the hero', () => {
