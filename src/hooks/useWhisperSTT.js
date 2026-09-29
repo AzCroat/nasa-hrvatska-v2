@@ -28,6 +28,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { stopAudio, getAudioContext, unlockAudio, blobToBase64 } from '../lib/audio.ts';
 import { _nativePost } from '../lib/nativePost.js';
 import { isNative } from '../lib/platform.js';
+import { heardCroatian } from '../lib/heardCroatian';
 
 // ── VAD tuning constants ──────────────────────────────────────────────────────
 // 2026-08 speech-cutoff fix. Three of these were cutting users off mid-speech:
@@ -447,7 +448,7 @@ export default function useWhisperSTT({
       let finalChunk = '',
         interimChunk = '';
       for (let i = e.resultIndex; i < e.results.length; i++) {
-        const t = e.results[i][0].transcript;
+        const t = heardCroatian(e.results[i][0].transcript);
         if (e.results[i].isFinal) finalChunk += t;
         else interimChunk += t;
       }

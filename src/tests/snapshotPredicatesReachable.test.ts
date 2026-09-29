@@ -246,14 +246,31 @@ describe('progressSnapshot boolean predicates are reachable from the device', ()
   });
 
   it('NEGATIVE CONTROL — one dead alternative does not condemn a reachable field', () => {
-    // nh_placement_done reads the legacy `placement_done` key, which is only
-    // ever written as '1' and so can never satisfy `=== 'true'`. The field is
-    // still fine, because its other alternative works. If this ever starts
-    // failing, the guard has become per-comparison and will demand exemptions.
-    const legacy = verdictFor({ key: 'placement_done', want: 'true' }, WRITERS);
-    expect(legacy).toBe('UNREACHABLE');
-    const { unreachable, noWriter } = report(FIELDS, WRITERS);
-    expect([...unreachable, ...noWriter].join('\n')).not.toMatch(/nh_placement_done/);
+    // This used to run on real data: nh_placement_done read the legacy
+    // `placement_done` key, written only as '1' and so never `=== 'true'`. Sweep
+    // 194 removed that key's last writer AND the snapshot's alternative, so the
+    // control is SYNTHETIC now — a field with one dead alternative (a key written
+    // only as '1') and one live one. If this ever starts failing, the guard has
+    // become per-comparison and will demand exemptions.
+    const writers = new Map<string, Set<string>>([
+      ['probe_legacy', new Set(['1'])],
+      ['probe_live', new Set(['true'])],
+    ]);
+    expect(verdictFor({ key: 'probe_legacy', want: 'true' }, writers)).toBe('UNREACHABLE');
+    const fields = new Map<string, Alt[]>([
+      [
+        'probe_field',
+        [
+          { key: 'probe_legacy', want: 'true' },
+          { key: 'probe_live', want: 'true' },
+        ],
+      ],
+    ]);
+    const { unreachable, noWriter } = report(fields, writers);
+    expect([...unreachable, ...noWriter]).toEqual([]);
+    // And the real field the control was written about is still reachable.
+    const real = report(FIELDS, WRITERS);
+    expect([...real.unreachable, ...real.noWriter].join('\n')).not.toMatch(/nh_placement_done/);
   });
 
   it('NEGATIVE CONTROL — applyRemoteProgress alone cannot make a field look reachable', () => {

@@ -76,8 +76,8 @@ export const WORDPLAY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'naglasak',
-    q: '"Sam sam." Što to znači?',
-    en: 'What does Sam sam mean?',
+    q: 'Kako se kaže „I am alone”?',
+    en: 'Which sentence means "I am alone"?',
     opts: ['sam sam', 'jesam ja', 'samo sam', 'sami smo'],
     answer: 'sam sam',
     tip: 'I am alone — two identical words, two different grammars.',

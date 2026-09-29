@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
-import { sh, PLACE, speak } from '../../data';
+import { useState } from 'react';
 import CroatianGrb from '../shared/CroatianGrb';
 import { lsGet, lsSet } from '../../lib/safeStorage';
 import CharacterPortrait from '../family/CharacterPortrait';
@@ -11,11 +10,6 @@ interface WelcomeScreenProps {
   st: Stats;
   setScr: (screen: string) => void;
   setName: (name: string) => void;
-  setPlacementQ: (q: unknown[]) => void;
-  setPlacementIdx: (idx: number) => void;
-  setPlacementScore: (score: number) => void;
-  setPlacementAnswers: (answers: boolean) => void;
-  setPlacementXp: (xp: number) => void;
 }
 
 const GOALS = [
@@ -58,91 +52,34 @@ const GOALS = [
   },
 ];
 
-export default function WelcomeScreen({
-  name,
-  au,
-  st,
-  setScr,
-  setName,
-  setPlacementQ,
-  setPlacementIdx,
-  setPlacementScore,
-  setPlacementAnswers,
-  setPlacementXp,
-}: WelcomeScreenProps) {
-  const [step, setStep] = useState(0); // 0=hero, 1=goal, 2=daily, 3=heritage/partner
+/** Goals whose learner is asked one more, optional question: the heritage region. */
+const HERITAGE_GOALS = new Set(['heritage', 'family', 'partner', 'elders']);
+
+export default function WelcomeScreen({ name, au, st, setScr, setName }: WelcomeScreenProps) {
+  const [step, setStep] = useState(0); // 0=hero, 1=goal, 2=heritage/family (heritage goals only)
   const [goal, setGoal] = useState('');
-  const [showSpeakModal, setShowSpeakModal] = useState(false);
   const [selectedGen, setSelectedGen] = useState(lsGet('nh_heritage_gen') || '');
 
-  // Focus trap refs for the speak modal
-  const modalRef = useRef<HTMLDivElement | null>(null);
-  const triggerRefStep2 = useRef<HTMLButtonElement | null>(null);
-  const triggerRefStep3 = useRef<HTMLButtonElement | null>(null);
-
-  // Move focus into modal and trap it when open
-  useEffect(() => {
-    if (!showSpeakModal) return undefined;
-    const focusable = modalRef.current?.querySelectorAll<HTMLElement>(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-    );
-    if (focusable?.length) focusable[0]?.focus();
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
-      const elements = focusable ? Array.from(focusable) : [];
-      const first = elements[0];
-      const last = elements[elements.length - 1];
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last?.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first?.focus();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [showSpeakModal]);
-
-  // Return focus to trigger when modal closes
-  useEffect(() => {
-    if (!showSpeakModal) {
-      const trigger = step === 2 ? triggerRefStep2.current : triggerRefStep3.current;
-      if (trigger) (trigger as HTMLElement).focus();
-    }
-  }, [showSpeakModal, step]);
-
-  function startPlacement() {
+  // ONBOARDING ENDS ON THE COURSE (owner decision, 2026-09-29): name → goal →
+  // (heritage region, for heritage goals) → Home, whose Begin Session IS Unit 1,
+  // lesson 1. The placement test used to sit here — 15 questions before any
+  // teaching — and since the course became one path for everyone its `nh_level`
+  // decided nothing about the course, only the Practice tab's content level (a
+  // B1 placement meant Unit 1 in the session and B1 flashcards on the tab). "I
+  // already know some Croatian" is the course's own test-out, at the same bar.
+  // Guarded throughout: a single throwing write (site data blocked / quota full)
+  // used to abort the rest and leave a brand-new user stuck on this screen.
+  function finishOnboarding() {
     if (!name && au) setName(au.d);
-    // Guarded throughout: this is the onboarding "start" button. A single
-    // throwing write (site data blocked / quota full) used to abort the rest of
-    // the function, so `onboarded` was never set and placement never began —
-    // leaving a brand-new user permanently stuck on the welcome screen.
     if (goal) {
       lsSet('nh_goal', goal);
       lsSet('nh_goal_set', '1');
-      // `nh_goal_set_date` was written here and read by nothing, anywhere, and
-      // was not in the sync snapshot either — so it could not even serve a
-      // future reader on another device.
     }
     if (lsGet('nh_heritage_region')) {
       lsSet('nh_heritage_saved', 'true');
     }
     lsSet('onboarded', 'true');
-    const b = sh(PLACE.filter((x) => x.d === 1)).slice(0, 5);
-    const m = sh(PLACE.filter((x) => x.d === 2)).slice(0, 5);
-    const a = sh(PLACE.filter((x) => x.d === 3)).slice(0, 5);
-    const q = [...b, ...m, ...a].map((q) => {
-      const c = q.o[q.c];
-      const o = sh([...q.o]);
-      return { ...q, o, c: o.indexOf(c) };
-    });
-    setPlacementQ(q);
-    setPlacementIdx(0);
-    setPlacementScore(0);
-    setPlacementAnswers(false);
-    setPlacementXp(-1);
-    setScr('placement');
+    setScr('dashboard');
   }
 
   // ── Step 0: Hero ──────────────────────────────────────────────────────────
@@ -409,7 +346,7 @@ export default function WelcomeScreen({
               opacity: goal ? 1 : 0.5,
             }}
             disabled={!goal}
-            onClick={() => setStep(2)}
+            onClick={() => (HERITAGE_GOALS.has(goal) ? setStep(2) : finishOnboarding())}
           >
             Continue →
           </button>
@@ -417,7 +354,7 @@ export default function WelcomeScreen({
       </div>
     );
 
-  // ── Step 2: Daily goal ────────────────────────────────────────────────────
+  // ── Step 2: Heritage Profile (heritage/family goal only) ─────────────────
   if (step === 2)
     return (
       <div
@@ -434,243 +371,6 @@ export default function WelcomeScreen({
       >
         <div style={{ maxWidth: 460, width: '100%', animation: 'rise .4s' }}>
           <StepDots step={2} />
-          <span style={{ display: 'block', textAlign: 'center', margin: '0 auto 8px' }}>
-            <CharacterPortrait name="baka" size={72} />
-          </span>
-          <h2
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: 26,
-              color: 'var(--heading)',
-              fontWeight: 900,
-              marginBottom: 6,
-              textAlign: 'center',
-            }}
-          >
-            Let’s find your level
-          </h2>
-          <p
-            style={{
-              color: 'var(--subtext)',
-              fontSize: 'var(--text-base)',
-              textAlign: 'center',
-              marginBottom: 24,
-            }}
-          >
-            One path for everyone — a quick check finds where you start on it.
-          </p>
-          <div
-            style={{
-              background: 'rgba(14,116,144,0.15)',
-              border: '1px solid rgba(14,116,144,0.3)',
-              borderRadius: 10,
-              padding: '10px 14px',
-              marginBottom: 20,
-              fontSize: 'var(--text-sm)',
-              color: 'rgba(255,255,255,0.85)',
-              fontWeight: 600,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            📊 Quick level check: 15 questions, ~3 minutes — places you at the right starting point
-          </div>
-          <button
-            ref={triggerRefStep2}
-            className="b bp"
-            style={{
-              fontSize: 'var(--text-lg)',
-              padding: '14px',
-              width: '100%',
-              marginBottom: 12,
-            }}
-            onClick={() => {
-              if (
-                goal === 'heritage' ||
-                goal === 'family' ||
-                goal === 'partner' ||
-                goal === 'elders'
-              ) {
-                setStep(3);
-              } else {
-                setShowSpeakModal(true);
-              }
-            }}
-          >
-            Take the placement test →
-          </button>
-          <button
-            onClick={() => {
-              lsSet('nh_placement_done', 'true');
-              startPlacement();
-            }}
-            style={{
-              background: 'none',
-              border: '1px solid var(--card-b)',
-              borderRadius: 10,
-              padding: '12px 20px',
-              color: 'var(--subtext)',
-              fontSize: 'var(--text-sm)',
-              cursor: 'pointer',
-              marginTop: 8,
-              width: '100%',
-              fontFamily: 'inherit',
-            }}
-          >
-            Skip test — start as beginner
-          </button>
-          {showSpeakModal && (
-            <div
-              ref={modalRef}
-              role="dialog"
-              aria-modal="true"
-              aria-label="Say your first Croatian word"
-              style={{
-                position: 'fixed',
-                inset: 0,
-                background: 'rgba(0,0,0,.65)',
-                zIndex: 100,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 20,
-              }}
-            >
-              <div
-                style={{
-                  background: 'var(--card)',
-                  borderRadius: 24,
-                  padding: '32px 24px',
-                  maxWidth: 360,
-                  width: '100%',
-                  textAlign: 'center',
-                  animation: 'rise .4s',
-                  fontFamily: "'Outfit',sans-serif",
-                }}
-              >
-                <div style={{ fontSize: 52, marginBottom: 8 }}>🎤</div>
-                <h2
-                  style={{
-                    fontFamily: "'Playfair Display',serif",
-                    fontSize: 22,
-                    color: 'var(--heading)',
-                    marginBottom: 6,
-                  }}
-                >
-                  Say your first word
-                </h2>
-                <p
-                  style={{
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--subtext)',
-                    marginBottom: 20,
-                    lineHeight: 1.5,
-                  }}
-                >
-                  Before we start, let's say the most important word in Croatian:
-                </p>
-                <button
-                  onClick={() => speak('Bog')}
-                  style={{
-                    width: '100%',
-                    padding: '20px',
-                    borderRadius: 16,
-                    marginBottom: 16,
-                    cursor: 'pointer',
-                    background: 'linear-gradient(135deg,#0e7490,#164e63)',
-                    border: 'none',
-                    fontFamily: "'Outfit',sans-serif",
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: 4,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: 36,
-                      fontWeight: 900,
-                      color: '#fff',
-                      fontFamily: "'Playfair Display',serif",
-                    }}
-                  >
-                    Bog
-                  </span>
-                  <span
-                    style={{
-                      fontSize: 'var(--text-base)',
-                      color: 'rgba(255,255,255,.8)',
-                      fontWeight: 600,
-                    }}
-                  >
-                    Hello / Hi — tap to hear it <span aria-hidden="true">🔊</span>
-                  </span>
-                </button>
-                <p
-                  style={{
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--subtext)',
-                    marginBottom: 20,
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Now you say it! Repeat after the audio.
-                </p>
-                <button
-                  className="b bp"
-                  style={{ width: '100%', fontSize: 'var(--text-md)', padding: '14px' }}
-                  onClick={() => {
-                    setShowSpeakModal(false);
-                    startPlacement();
-                  }}
-                >
-                  I said it! Take the test →
-                </button>
-                <button
-                  onClick={() => {
-                    setShowSpeakModal(false);
-                    startPlacement();
-                  }}
-                  style={{
-                    background: 'none',
-                    border: '1px solid var(--card-b)',
-                    borderRadius: 10,
-                    padding: '12px 20px',
-                    color: 'var(--subtext)',
-                    fontSize: 'var(--text-sm)',
-                    cursor: 'pointer',
-                    marginTop: 8,
-                    width: '100%',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  Skip speaking — continue to test
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    );
-
-  // ── Step 3: Heritage Profile (heritage/family goal only) ─────────────────
-  if (step === 3)
-    return (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: '100vh',
-          padding: 'clamp(14px, 4vw, 24px)',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        <div style={{ maxWidth: 460, width: '100%', animation: 'rise .4s' }}>
-          <StepDots step={3} />
           <h2
             style={{
               fontFamily: "'Playfair Display',serif",
@@ -859,15 +559,14 @@ export default function WelcomeScreen({
           </div>
 
           <button
-            ref={triggerRefStep3}
             className="b bp"
             style={{ fontSize: 'var(--text-md)', padding: '14px', width: '100%', marginBottom: 10 }}
-            onClick={() => (goal === 'elders' ? setShowSpeakModal(true) : startPlacement())}
+            onClick={() => finishOnboarding()}
           >
-            Continue to test →
+            Start learning →
           </button>
           <button
-            onClick={() => startPlacement()}
+            onClick={() => finishOnboarding()}
             style={{
               background: 'none',
               border: '1px solid var(--card-b)',
@@ -883,226 +582,6 @@ export default function WelcomeScreen({
           >
             Skip this step
           </button>
-          {showSpeakModal && (
-            <div
-              ref={modalRef}
-              role="dialog"
-              aria-modal="true"
-              aria-label={
-                goal === 'elders' ? 'Your first Croatian phrase' : 'Say your first Croatian word'
-              }
-              style={{
-                position: 'fixed',
-                inset: 0,
-                background: 'rgba(0,0,0,.65)',
-                zIndex: 100,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 20,
-              }}
-            >
-              <div
-                style={{
-                  background: 'var(--card)',
-                  borderRadius: 24,
-                  padding: '32px 24px',
-                  maxWidth: 380,
-                  width: '100%',
-                  textAlign: 'center',
-                  animation: 'rise .4s',
-                  fontFamily: "'Outfit',sans-serif",
-                }}
-              >
-                {goal === 'elders' ? (
-                  <>
-                    <div style={{ fontSize: 52, marginBottom: 8 }}>❤️</div>
-                    <h2
-                      style={{
-                        fontFamily: "'Playfair Display',serif",
-                        fontSize: 22,
-                        color: 'var(--heading)',
-                        marginBottom: 10,
-                      }}
-                    >
-                      Your first phrase
-                    </h2>
-                    <div
-                      style={{
-                        background: 'rgba(14,116,144,0.12)',
-                        border: '1px solid rgba(14,116,144,0.3)',
-                        borderRadius: 14,
-                        padding: '16px 18px',
-                        marginBottom: 16,
-                        textAlign: 'left',
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: 'var(--text-md)',
-                          fontWeight: 800,
-                          color: 'var(--heading)',
-                          marginBottom: 4,
-                          fontStyle: 'italic',
-                          lineHeight: 1.4,
-                        }}
-                      >
-                        "Učim hrvatski kako bih mogao razgovarati s bakom i djedom."
-                      </p>
-                      <p
-                        style={{
-                          fontSize: 'var(--text-sm)',
-                          color: 'var(--subtext)',
-                          fontWeight: 500,
-                          marginBottom: 0,
-                        }}
-                      >
-                        I'm learning Croatian so I can talk with my grandparents.
-                      </p>
-                    </div>
-                    <button
-                      onClick={() =>
-                        speak('Učim hrvatski kako bih mogao razgovarati s bakom i djedom')
-                      }
-                      style={{
-                        width: '100%',
-                        padding: '14px 18px',
-                        borderRadius: 14,
-                        marginBottom: 14,
-                        cursor: 'pointer',
-                        background: 'linear-gradient(135deg,#0e7490,#164e63)',
-                        border: 'none',
-                        fontFamily: "'Outfit',sans-serif",
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: 8,
-                        color: '#fff',
-                        fontSize: 'var(--text-sm)',
-                        fontWeight: 700,
-                      }}
-                    >
-                      <span aria-hidden="true">🔊</span> Hear it in Croatian
-                    </button>
-                    <p
-                      style={{
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--subtext)',
-                        marginBottom: 20,
-                        lineHeight: 1.5,
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      Svaki razgovor je dragocjen — every conversation is precious.
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div style={{ fontSize: 52, marginBottom: 8 }}>🎤</div>
-                    <h2
-                      style={{
-                        fontFamily: "'Playfair Display',serif",
-                        fontSize: 22,
-                        color: 'var(--heading)',
-                        marginBottom: 6,
-                      }}
-                    >
-                      Say your first word
-                    </h2>
-                    <p
-                      style={{
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--subtext)',
-                        marginBottom: 20,
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      Before we start, let's say the most important word in Croatian:
-                    </p>
-                    <button
-                      onClick={() => speak('Bog')}
-                      style={{
-                        width: '100%',
-                        padding: '20px',
-                        borderRadius: 16,
-                        marginBottom: 16,
-                        cursor: 'pointer',
-                        background: 'linear-gradient(135deg,#0e7490,#164e63)',
-                        border: 'none',
-                        fontFamily: "'Outfit',sans-serif",
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        gap: 4,
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 36,
-                          fontWeight: 900,
-                          color: '#fff',
-                          fontFamily: "'Playfair Display',serif",
-                        }}
-                      >
-                        Bog
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 'var(--text-base)',
-                          color: 'rgba(255,255,255,.8)',
-                          fontWeight: 600,
-                        }}
-                      >
-                        Hello / Hi — tap to hear it <span aria-hidden="true">🔊</span>
-                      </span>
-                    </button>
-                    <p
-                      style={{
-                        fontSize: 'var(--text-sm)',
-                        color: 'var(--subtext)',
-                        marginBottom: 20,
-                        fontStyle: 'italic',
-                      }}
-                    >
-                      Now you say it! Repeat after the audio.
-                    </p>
-                  </>
-                )}
-                <button
-                  className="b bp"
-                  style={{ width: '100%', fontSize: 'var(--text-md)', padding: '14px' }}
-                  onClick={() => {
-                    setShowSpeakModal(false);
-                    startPlacement();
-                  }}
-                >
-                  {goal === 'elders'
-                    ? "Let's begin — take the test →"
-                    : 'I said it! Take the test →'}
-                </button>
-                <button
-                  onClick={() => {
-                    setShowSpeakModal(false);
-                    startPlacement();
-                  }}
-                  style={{
-                    background: 'none',
-                    border: '1px solid var(--card-b)',
-                    borderRadius: 10,
-                    padding: '12px 20px',
-                    color: 'var(--subtext)',
-                    fontSize: 'var(--text-sm)',
-                    cursor: 'pointer',
-                    marginTop: 8,
-                    width: '100%',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  Skip speaking — continue to test
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );
@@ -1114,7 +593,7 @@ export default function WelcomeScreen({
 function StepDots({ step, dark = false }: { step: number; dark?: boolean }) {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 24 }}>
-      {[0, 1, 2, 3].map((i) => (
+      {[0, 1, 2].map((i) => (
         <div
           key={i}
           style={{

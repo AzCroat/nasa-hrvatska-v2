@@ -38,6 +38,7 @@ import { markQuest } from '../../lib/quests.js';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { requestSpeakingCoach, type CoachResult } from '../../lib/speakingCoach';
 import type { ProduceKind } from '../../lib/lessonProduceRequest';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -208,7 +209,7 @@ export default function LessonProduceStep({
       rec.onresult = (speech: any) => {
         let said = '';
         for (let i = speech.resultIndex; i < speech.results.length; i++) {
-          said += speech.results[i][0].transcript + ' ';
+          said += heardCroatian(speech.results[i][0].transcript) + ' ';
         }
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };

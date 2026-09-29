@@ -73,7 +73,7 @@ const DATA = [
     q: 'Nadimak „____ ” (slavni Modrić) piše se:',
     opts: ['Luka', 'luka', 'LUKA', 'lúka'],
     answer: 'Luka',
-    en: 'Luka — the name, capitalized',
+    en: "Modrić's nickname — how is it written?",
     tip: 'Imena i nadimci velikim slovom; luka = harbour.',
   },
   {

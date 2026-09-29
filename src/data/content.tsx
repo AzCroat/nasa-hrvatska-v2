@@ -1702,6 +1702,19 @@ function buildSearchIndex() {
     },
     { hr: 'Povijest', en: 'history Croatia historical', type: 'screen', go: 'history' },
     { hr: 'Baka', en: 'baka grandmother letters stories', type: 'screen', go: 'baka_summer' },
+    { hr: 'Bakina berba', en: 'baka harvest letters book two', type: 'screen', go: 'baka_berba' },
+    {
+      hr: 'Bakina zima',
+      en: 'baka winter christmas letters book three',
+      type: 'screen',
+      go: 'baka_zima',
+    },
+    {
+      hr: 'Bakina pisma',
+      en: 'baka letters slavonija zagorje baranja istra book four',
+      type: 'screen',
+      go: 'baka_pisma',
+    },
     {
       hr: 'Izgovor',
       en: 'pronunciation contrast sounds phoneme',

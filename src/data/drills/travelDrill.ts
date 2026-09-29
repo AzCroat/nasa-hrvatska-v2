@@ -119,7 +119,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zaiz',
     q: 'Vlak za ____.',
-    en: 'the train to Zagreb',
+    en: 'the train to the capital',
     opts: ['Zagreb', 'Zagreba', 'Zagrebu', 'Zagrebom'],
     answer: 'Zagreb',
     tip: 'za plus the accusative, which for Zagreb looks like the nominative.',
