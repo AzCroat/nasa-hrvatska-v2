@@ -29,7 +29,7 @@ export const DATA = [
   {
     q: 'Ona gleda ___.',
     nom: 'film (film)',
-    en: 'She is watching a film.',
+    en: 'She is watching a movie.',
     opts: ['film', 'filma', 'filmu', 'filmom'],
     answer: 'film',
     tip: 'film is INANIMATE → accusative = nominative: film (no change)',
@@ -382,7 +382,7 @@ export const DATA = [
   {
     q: 'Stavljam ___ na stol.',
     nom: 'laptop (laptop)',
-    en: 'I put the laptop on the table.',
+    en: 'I put the computer on the table.',
     opts: ['laptop', 'laptopa', 'laptopu', 'laptopom'],
     answer: 'laptop',
     tip: 'INANIMATE loanword: acc = nom → laptop.',
@@ -398,7 +398,7 @@ export const DATA = [
   {
     q: 'Obitelj gleda ___ zajedno.',
     nom: 'film (film)',
-    en: 'The family watches the film together.',
+    en: 'The family watches a movie together.',
     opts: ['film', 'filma', 'filmu', 'filmom'],
     answer: 'film',
     tip: 'INANIMATE: acc = nom → film.',

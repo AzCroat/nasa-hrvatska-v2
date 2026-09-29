@@ -193,7 +193,7 @@ const DATA = [
     q: 'Koji je oblik NEPRAVILAN (česta pogreška)?',
     opts: ['obzirom da', 's obzirom na to da', 'budući da', 'zato što'],
     answer: 'obzirom da',
-    en: 'the clipped obzirom da is nonstandard',
+    en: 'which form is the clipped, nonstandard one (a common mistake)?',
     tip: 'Pravilno je samo: s obzirom na to da.',
   },
   {

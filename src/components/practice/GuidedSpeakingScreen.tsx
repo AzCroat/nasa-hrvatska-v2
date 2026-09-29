@@ -47,7 +47,7 @@ import {
   type SpeakingChecklistItem,
 } from '../../data/speakingCurriculum';
 import type { CefrLevel } from '../../lib/cefr.js';
-import { accumulateTranscript, decideOnRecognizerEnd } from '../../lib/speechTurn';
+import { accumulateTranscript, decideOnRecognizerEnd, heardCroatian } from '../../lib/speechTurn';
 
 const UNIT_PTR_KEY = 'nh_guided_speaking_idx';
 
@@ -259,7 +259,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
       let out = '';
       for (let i = 0; i < e.results.length; i++) {
         const alt = e.results[i]?.[0];
-        if (alt) out += alt.transcript;
+        if (alt) out += heardCroatian(alt.transcript);
       }
       full = accumulateTranscript(base, out);
       if (mountedRef.current) onText(full);

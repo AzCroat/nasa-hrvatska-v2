@@ -2495,6 +2495,26 @@ every level from A2 up** (A1 has nothing below it), pinned.
   another band at the same city — a whole-text duplicate check does not catch
   it, and neither does anything else.
 
+- **NO READING SURFACE OFFERS MORE THAN A HANDFUL OF PARTS PER SCREEN (owner
+  decision, 2026-09-29).** _"We can't have 16 letters for the user to read through,
+  that is just too much … 4 different lessons of 4 … make sure we aren't
+  overwhelming the user in any lesson. We can always be more repetitive."_
+  Bakino Ljeto (`BakaSummer`) is FOUR BOOKS OF FOUR LETTERS — `bakaBooks.ts`
+  chunks the one `CHAPTERS` array in `bakaChapters.ts`; a book is never a second
+  list of chapter ids. Books unlock in order and a locked one says why (the door
+  card and the screen both name the book to finish first, with a button to it).
+  The pool's ONE entry, `baka_summer`, RESUMES on the learner's current book when
+  the session launched it (`nh_session_started`, the `launchedLevel` rule); from
+  the Priče door the same key is book 1 and books 2–4 have their own keys
+  (`baka_berba`, `baka_zima`, `baka_pisma`, `OUTSIDE_SESSION`). Progress keys
+  (`nh_baka_done`, `nh_baka_ch`) are unchanged; 20 XP a letter, 25 a book, the
+  legacy 100 XP flag counts as every book paid. **The letters' `croatian` field
+  had never been scanned by the lint** — sixth instance of "in TARGETS meant
+  nothing"; the field is in `CRO_FIELD_RE` now (+16 strings, 0 findings, the body
+  positive-controlled). Pinned by `bakaBooks.test.tsx`; AUDIT-STATE sweep 196.
+  NEVER: show a learner "N od 16" or sixteen dots; add a book's key to
+  `croatiaPool.ts` (the P4 composition is measured); pay a book bonus to a learner
+  holding `nh_baka_done_bonus`; render a locked book as an ordinary card.
 - NEVER: go back to a single LRS over the whole unlocked pool; add a deep-dive
   essay without its pool entry and route (the derivation test names it); tag a
   Croatia entry `adaptive` unless its screen actually reads the learner's level;
@@ -3051,7 +3071,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **480 files**, 3 of them walked structurally — the figure the lint
+Coverage is **482 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -4501,6 +4521,16 @@ Level Check (`equivalency`).
   some other way (`da bih` = in order to). Others: `kod` + genitive for MOTION (location
   only), `mliječni` as a short-jat example (it keeps -ije-), `Mogli biste li` (li leads the
   cluster), `Hugoa` (`Huga`), Gaj and `đ`. The list is in AUDIT-STATE sweep 176.
+- **AN ENDING NOTE MUST NAME THE WORD IT IS ABOUT (owner report, 2026-09-29; sweep 195).**
+  `Grad je velik. Gradovi su veliki.` — `short masculine takes -ovi`: true of the noun, read
+  as a claim about the adjective, because the example changes two words and the note named
+  neither. Sweep 176's hand census passed it, because each note IS correct about the word
+  its author meant. Three mechanical censuses over all 180 lessons (plural arrows vs
+  `decline()`, Singular/Plural table rows, `(-suf)` claims vs the form beside them) found
+  ZERO further false endings; the sibling item on the same slide had the same attribution
+  shape and both are fixed. `exampleNoteNamesItsWord.test.ts` pins the rule. NEVER write an
+  ending note on a two-change example without naming the word; NEVER read a hand census's
+  "correct" as covering what a reader will ATTRIBUTE the note to.
 - NEVER: serve a level review inside a level the learner has started; count only
   `tested` units as a finished level; score the review or gate anything on it; report the
   corrected second pass as the result; merge authored Croatian because a checker passed
@@ -4764,13 +4794,17 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   fluent."_ `nh_daily_goal_xp` has no writer, reader, snapshot field or merge; the modal
   asks ONE question (the goal, which the app reads). NEVER offer a learner a choice of how
   much to study — the bar is the app's.
-- **AND ONBOARDING IS BEING STRIPPED TO name → goal → (heritage region, optional) → Unit 1
-  lesson 1 (owner decision, 2026-09-29; queued).** The placement test's `nh_level` no
+- **AND ONBOARDING IS name → goal → (heritage region, optional) → Unit 1 lesson 1 (owner
+  decision, 2026-09-29; BUILT the same day — AUDIT-STATE sweep 194).** The placement test's `nh_level` no
   longer decides the course; it sets the level the Practice tab and the deck serve at
   (twelve screens via `getGenerationCefr`), so a B1 placement meant Unit 1 in the session
   and B1 flashcards on the Practice tab. The test and the "say your first word" mic moment
-  leave onboarding — test-out on the map is the same bar — and the Practice tab and deck
-  will follow the COURSE level as the next increment. AUDIT-STATE sweep 193.
+  left onboarding — test-out on the map is the same bar — together with the App.tsx timer
+  that pushed a 0-XP learner into `new-placement`, the onboarding-only `placement` route,
+  `nh_placement_declined` and the legacy `placement_done`. The Me tab's retake stays. The
+  Practice tab and deck follow the COURSE level as the next increment. NEVER put a test in
+  front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
+  anywhere but the course.
 - NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
   activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
   Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the
@@ -4929,6 +4963,42 @@ satu`, so the cue identifies nothing the learner cannot see and only lets them c
   eleven real fixes and twenty false ones.
   **And I first deferred this class on an unmeasured magnitude** ("a blunt rule would flag
   hundreds"), which is the same failure as inflating one to justify doing work. It was 101.
+- **THE ARROW WAS ONE SHAPE OF THREE, AND THE OWNER FOUND THE SECOND (2026-09-29):**
+  _"nominative case practice states zene in the question below which is the answer. We
+  need to make sure this isn't happening so the user truly learns and doesn't learn to
+  cheat."_ The item was `q: 'Ženski rod (nom pl): ___'` with
+  `en: 'Feminine (nom pl): žene (women).'` — an `en` that is not a translation of anything
+  but an explanatory NOTE, and the note names the answer. The paragraph above said "89 of
+  those are correct" about the whole-word census; re-read item by item under the owner's
+  bar, **60 of the 93 were leaks** — the Sound Contrast drill's 25 `kruh = bread` glosses
+  (rendered above the options, before any answer), a dozen grammar notes (`the preposition
+of purpose is radi`, `negative causes take zbog`, `so-called = tzv.`, `Marko! (vocative =
+nominative)`), and a class the census had explicitly waved through: an English sentence
+  naming a proper noun or loanword **whose case forms are the options** — `Zagreb is the
+capital of Croatia.` over `Zagreb / Zagreba / Zagrebu / Zagrebom`, `I am connected to the
+internet.` over `internet / interneta / internetu / internetom`. "You cannot translate the
+  sentence without the word" was true and beside the point: the English hands over the
+  form the drill exists to test. Fixed in the CONTENT (`I am online.`, `___ is the capital
+of Croatia.`, `He runs in the park.`, `to read`), never by excusing the rule. `glossRule`
+  in `promptCues.ts` now has three rules beside the arrow — GLOSS PUNCTUATION (the answer
+  against `=`, `:`, a dash or `!`, or after `is` / `take(s) [the]` / `kažemo`, or before
+  `is`), FORM (the answer whole-word in `en` while another option shares its prefix) and
+  DIACRITIC (a lowercase č/ć/đ/š/ž word in English prose) — scoped to items with two or
+  more options and an answer of three or more characters, so the clitics (`me`), `no` and
+  `m²` stay out. **The diacritic rule catches nothing on the real corpus the other two do
+  not** (knockouts on the pre-fix tree: gloss 11 undetected, form 19, diacritic 0); it is
+  a backstop held by synthetic controls and is recorded as exactly that. Eight legitimate
+  whole-word hits remain and are pinned as negatives: five clitics coinciding with English
+  `me`, `m²`, `no`, and `Što je "referendum"?` — a definition item whose answer IS the
+  English cognate. `CollocationsGame` is the one file-scoped exemption (`GLOSS_IS_FEEDBACK`):
+  its `en` renders inside `{answered && (…)}`, the test pins that render position (both
+  clauses mutation-verified) and its staleness. `PronunciationContrast` looked like the
+  same shape and IS NOT exempt — its `{q.en}` sits directly under the question.
+- NEVER: write an `en` that is a NOTE naming the Croatian answer (`X = bread`,
+  `Feminine (nom pl): X`, `the preposition of purpose is X`) — translate it, or move the
+  explanation to `tip`, which renders after the answer; translate a sentence with the very
+  word whose case forms are the options; exempt a file from the gloss rule without pinning
+  that its `en` renders behind `answered`.
 - Pinned by `answerNotInPrompt.test.ts` over `helpers/promptCues.ts`. **The non-vacuity
   clause counts the items the scan REACHES (5,666)**, because zero leaks is also what a
   walk that stopped descending reports, and the two are otherwise indistinguishable — the
@@ -7121,6 +7191,18 @@ Own the correctness — every authored line must meet native-standard Croatian:
   case errors, word-order errors learners actually make) — never gibberish
 - The greeting is `bog` (not `bok`) per the 2026-07 owner decision; the idiom
   `bok uz bok` (side by side) is the one deliberate exception
+- **The recognisers do not know that, so every transcript is corrected at birth
+  (owner report, 2026-09-29: _"I said Bog and it wrote bok"_).** The browser's hr-HR
+  model, Deepgram and Whisper all write the greeting `bok` (the two are homophones:
+  final devoicing makes /bog/ [bok]), so a learner who said the app's greeting was
+  shown the other spelling and, on REHEARSE and BUILD, graded against `Bog` with `bok`.
+  `heardCroatian` (`src/lib/heardCroatian.ts`, server twin `functions/api/_heardCroatian.js`)
+  turns the bare word into `bog` with its case kept and leaves `bok uz bok` and the
+  inflected noun (`boka`, `boku`) alone; it runs at every browser `onresult` and on every
+  provider `transcribeCroatian` returns. `heardCroatian.test.ts` DERIVES the recogniser
+  sites and requires each to wrap its transcript, and runs both copies over the same
+  cases. Stated cost: a bare `bok` meaning "side" (`s boka na bok`) is read as the
+  greeting. NEVER read a recogniser's `.transcript` without `heardCroatian`.
 
 Do not gate content delivery on external review by default — write it right,
 self-verify against the rules above, and ship it through the normal test
