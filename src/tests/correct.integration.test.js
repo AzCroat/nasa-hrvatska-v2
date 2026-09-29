@@ -147,3 +147,41 @@ describe('correct.js — the evaluation reaches the learner', () => {
     expect(reconcileSafely).toHaveBeenCalledWith(ctx.env, '/api/correct', USAGE);
   });
 });
+
+// Owner directive, 2026-09-29: punctuation is never graded in writing. Learners
+// type on a Croatian keyboard where the marks are hard to find; the grade is
+// sentence structure, grammar and vocabulary.
+describe('punctuation is never graded', () => {
+  it('the evaluator prompt says so, and scores structure, grammar and vocabulary', async () => {
+    await onRequestPost(makeReq(baseBody));
+    const system = JSON.stringify(capturedClaudeBody.system);
+    expect(system).toMatch(/DO NOT grade punctuation/);
+    expect(system).toMatch(/sentence structure, grammar accuracy, vocabulary/);
+  });
+
+  it('a change that differs only in punctuation never reaches the learner', async () => {
+    claudeReplyText = JSON.stringify({
+      corrected_text: 'Imam mamu i tatu.',
+      score: 70,
+      changes: [
+        { original: 'mama', corrected: 'mamu', errorType: 'case' },
+        { original: 'Imam mamu i tatu', corrected: 'Imam mamu i tatu.', errorType: 'other' },
+        { original: 'Kako si', corrected: 'Kako si?', errorType: 'other' },
+        { original: 'Mislim da', corrected: 'Mislim, da', errorType: 'other' },
+      ],
+    });
+    const res = await onRequestPost(makeReq(baseBody));
+    const body = await res.json();
+    expect(body.changes.map((c) => c.corrected)).toEqual(['mamu']);
+  });
+
+  it('a change that also fixes a letter is kept', async () => {
+    claudeReplyText = JSON.stringify({
+      corrected_text: 'Idem u Zagreb.',
+      score: 80,
+      changes: [{ original: 'u zagreb', corrected: 'u Zagreb.', errorType: 'spelling' }],
+    });
+    const body = await (await onRequestPost(makeReq(baseBody))).json();
+    expect(body.changes).toHaveLength(1);
+  });
+});

@@ -44,7 +44,8 @@ Analyze their Croatian text and respond with ONLY valid JSON (no markdown, no co
   "encouragement": "One encouraging sentence about their progress"
 }
 
-Score 0-100 based on grammar accuracy, vocabulary, and natural expression.
+Score 0-100 based on sentence structure, grammar accuracy, vocabulary, and natural expression.
+DO NOT grade punctuation. Students type on a Croatian keyboard where punctuation marks are hard to find, so missing or misplaced commas, full stops, question marks, exclamation marks, quotation marks, dashes and colons must never lower the score and must never appear in "changes", "improvements" or "level_demonstrated". You may punctuate "corrected_text" normally, but do not comment on it.
 level_demonstrated: A1 (Beginner), A2 (Elementary), B1 (Intermediate), B2 (Upper-Intermediate), C1 (Advanced).
 List up to 5 most important changes. List 1-3 strengths and 1-2 improvements. Be encouraging and specific.
 
@@ -62,6 +63,31 @@ If unsure, use "other". This field is required.`,
   // reworded rule moves this version.
   { alsoVersion: CROATIAN_SCRIPT_RULE },
 );
+
+/** Punctuation the writing evaluator must never grade (owner directive, 2026-09-29). */
+const PUNCTUATION_RE = /[.,;:!?¿¡"'„“”‚‘’«»()[\]{}…–—\-]/g;
+
+/** A text with its punctuation removed and its spacing collapsed, for comparison. */
+export function withoutPunctuation(text) {
+  return String(text ?? '')
+    .replace(PUNCTUATION_RE, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Drop every "change" whose only difference is punctuation. The prompt forbids
+ * grading punctuation; this holds the rule when the model lists one anyway, so a
+ * learner is never shown a comma as a mistake. A change that also fixes a letter
+ * (a capital, a case ending) is kept; one that only adds a full stop is gone.
+ */
+export function dropPunctuationOnlyChanges(result) {
+  if (!result || !Array.isArray(result.changes)) return result;
+  const changes = result.changes.filter(
+    (c) => withoutPunctuation(c?.original) !== withoutPunctuation(c?.corrected),
+  );
+  return changes.length === result.changes.length ? result : { ...result, changes };
+}
 
 /** Build the writing-evaluator system prompt. `safePrompt` must already be
  *  sanitized by the caller (sanitizeParam).

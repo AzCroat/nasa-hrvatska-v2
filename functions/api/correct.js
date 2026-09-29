@@ -5,7 +5,11 @@ import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { sanitizeParam } from './_helpers.js';
-import { writingEvalSystemPrompt, WRITING_EVAL_PROMPT } from './_evalPrompts.js';
+import {
+  writingEvalSystemPrompt,
+  WRITING_EVAL_PROMPT,
+  dropPunctuationOnlyChanges,
+} from './_evalPrompts.js';
 import { promptHeaders } from './_promptRegistry.js';
 import { parseModelJson } from './_modelJson.js';
 import { reconcileSafely } from './_aiBudget.js';
@@ -161,7 +165,8 @@ export async function onRequestPost(context) {
     return new Response(JSON.stringify({ error: 'eval_unparseable' }), { status: 502, headers });
   }
 
-  return new Response(JSON.stringify(result), {
+  // Punctuation is never graded (owner directive, 2026-09-29); see _evalPrompts.js.
+  return new Response(JSON.stringify(dropPunctuationOnlyChanges(result)), {
     status: 200,
     // The prompt tag rides out on the success response only; the middleware
     // records it against this observation and strips it before the client.
