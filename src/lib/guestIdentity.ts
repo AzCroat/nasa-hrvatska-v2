@@ -11,8 +11,9 @@
  * `.ts`/`.js` PAIR whose two resolvers disagree: TypeScript resolves
  * `'./constants/storage.js'` to `storage.ts` while Vite bundles `storage.js`
  * (see `noUnreachableModules.test.ts`, which records the `.ts` as unreachable at
- * runtime). The pair has already drifted — `PLACEMENT_DECLINED` exists only in
- * the `.js` — so a constant added there is bundled but invisible to the
- * typechecker, or vice versa. A new shared fact needs an unambiguous home.
+ * runtime). The pair had already drifted once (`PLACEMENT_DECLINED` existed only
+ * in the `.js` until sweep 194 deleted it) — so a constant added there is bundled
+ * but invisible to the typechecker, or vice versa. A new shared fact needs an
+ * unambiguous home.
  */
 export const GUEST_UID = 'guest';

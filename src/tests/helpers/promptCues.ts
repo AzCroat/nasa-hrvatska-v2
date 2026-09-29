@@ -176,11 +176,99 @@ export function cueGivesOrder(cue: string, answer: string): boolean {
  * `napraviti`) — but it renders that block inside `{answered && (…)}`, so it is FEEDBACK.
  * Ask when a field is rendered, not only whether it contains the answer.
  */
-export function glossGivesAnswer(en: string, answer: string): boolean {
+export function glossGivesAnswer(en: string, answer: string, opts?: readonly string[]): boolean {
   const m = en.match(/(?:→|->)\s*(.+)$/);
-  if (!m) return false;
-  const tail = m[1]!.replace(/\s*\(.*?\)\s*$/, '').trim();
-  return tail.toLowerCase() === answer.trim().toLowerCase();
+  if (m) {
+    const tail = m[1]!.replace(/\s*\(.*?\)\s*$/, '').trim();
+    if (tail.toLowerCase() === answer.trim().toLowerCase()) return true;
+  }
+  return glossRule(en, answer, opts) !== null;
+}
+
+/**
+ * THE ARROW WAS ONE SHAPE OF THREE, AND THE OWNER FOUND THE SECOND (2026-09-29):
+ * *"nominative case practice states zene in the question below which is the answer."*
+ * The item was `q: 'Ženski rod (nom pl): ___'` with `en: 'Feminine (nom pl): žene
+ * (women).'` — an `en` that is not a translation of anything but an explanatory NOTE, and
+ * the note names the answer. The arrow rule above could not see it, nor `kruh = bread`
+ * (25 items in the Sound Contrast drill), nor `the preposition of purpose is radi`, nor
+ * `Zagreb is the capital of Croatia` over options `Zagreb / Zagreba / Zagrebu / Zagrebom`.
+ *
+ * Three rules, each keyed to something the leaking shapes share and a translation does not:
+ *
+ *  - 'gloss'     the answer sits beside gloss PUNCTUATION — `=`, `:`, `—`, `–` or `!` on
+ *                either side — or follows ` is ` / ` take(s) ` / `kažemo `. English prose
+ *                does not put a colon or an equals sign against a word; a note does.
+ *  - 'form'      the answer appears whole-word in `en` AND another option shares a
+ *                three-letter prefix with it, so the OPTIONS are case forms of one word and
+ *                the base form in the English IS the answer. `Zagreb is the capital of
+ *                Croatia` over `Zagreb/Zagreba/…` is answered by copying the English. (That
+ *                sentence also trips the `X is` gloss clause, correctly, whatever the
+ *                options.) This is the rule that decided `internet`: the 2026-09-26 census
+ *                called `I am connected to the internet.` a legitimate translation, and over
+ *                `internet/mobitel/računalo` it is one and is not flagged — but its options
+ *                were `internet/interneta/internetu/internetom`, so the learner copies the
+ *                word and the case test is gone. Fixed in the content, not excused in the
+ *                rule.
+ *  - 'diacritic' a lowercase answer carrying č/ć/đ/š/ž appears whole-word in `en`. English
+ *                prose does not contain Croatian words except as glosses.
+ *
+ * SCOPE: at least two options and an answer of three or more characters. Clitics (`me`,
+ * `ga`) and `no` coincide with English words and are the exercise, not the leak.
+ *
+ * The 2026-09-26 census counted 89 correct items whose `en` contained their answer as a
+ * whole word. Re-read under these rules: the ones that survive are loanwords in
+ * VOCABULARY drills (the options are different words), a `Što je "referendum"?` definition
+ * item, `m²`, and the clitics — every one outside all three rules by construction.
+ */
+export type GlossRule = 'gloss' | 'form' | 'diacritic';
+
+/**
+ * Files whose `en` is rendered only AFTER the learner answers, so a Croatian answer in
+ * it is FEEDBACK and not a leak. File-scoped, and the guard pins the render: the `en`
+ * must sit inside an `{answered && (…)}` block, or the exemption is forbidden.
+ *
+ * `PronunciationContrast` is deliberately NOT here. Its 25 `kruh = bread` glosses looked
+ * like the same shape, and the screen renders `{q.en}` directly under the question, above
+ * the options, before any answer — so they were 25 real leaks and are fixed in the data.
+ */
+export const GLOSS_IS_FEEDBACK: readonly string[] = [
+  'src/components/practice/CollocationsGame.tsx',
+];
+
+const PUNCT = '[=:—–!]';
+
+export function glossRule(en: string, answer: string, opts?: readonly string[]): GlossRule | null {
+  const a = answer.trim();
+  if (!opts || opts.length < 2 || a.length < 3) return null;
+  const A = esc(a);
+  const wordCI = new RegExp(`(?<![${W}])${A}(?![${W}])`, 'iu');
+  if (!wordCI.test(en)) return null;
+
+  // (a) GLOSS PUNCTUATION on either side, or an explanatory verb: `… is X`, `… takes X`,
+  // `… takes the X`, `kažemo X`, and `X is …` (the clipped obzirom da is nonstandard).
+  // The article is admitted after `take(s)` ONLY: after `is` it would turn the plain
+  // English question `What is a referendum?` — a definition item whose answer IS the
+  // cognate — into a "gloss".
+  const before = new RegExp(
+    `(?:${PUNCT}\\s*|\\sis\\s+|\\stakes?\\s+(?:an?\\s+|the\\s+)?|kažemo\\s+)${A}(?![${W}])`,
+    'u',
+  );
+  const after = new RegExp(`(?<![${W}])${A}(?:\\s*${PUNCT}|\\s+is\\s)`, 'u');
+  if (before.test(en) || after.test(en)) return 'gloss';
+
+  // (b) FORM: the options are forms of the answer's own word. Three letters of prefix,
+  // or two for a three-letter answer — `Ana / Anu / Ane / Anom` share only `an`.
+  const pre = a.toLowerCase().slice(0, Math.min(3, a.length - 1));
+  const siblings = opts.filter(
+    (o) => o.trim().toLowerCase() !== a.toLowerCase() && o.trim().toLowerCase().startsWith(pre),
+  );
+  if (siblings.length >= 1) return 'form';
+
+  // (c) DIACRITIC: a Croatian word in English prose is a gloss.
+  if (a === a.toLowerCase() && /[čćđšž]/.test(a) && containsWord(en, a)) return 'diacritic';
+
+  return null;
 }
 
 export interface CueLeak {
@@ -191,6 +279,8 @@ export interface CueLeak {
   cue: string;
   /** 'cue' — a parenthetical in the question; 'gloss' — the English `en` line. */
   via?: 'cue' | 'gloss';
+  /** For a gloss leak, which rule saw it. */
+  rule?: GlossRule | 'arrow';
 }
 
 function walk(root: string, dir: string, out: string[] = []): string[] {
@@ -282,6 +372,8 @@ export function countScannedItems(
 export function findCueLeaks(
   root: string,
   roots = ['src/data', 'src/components', 'functions/api/content/_data'],
+  /** Files whose `en` is rendered only AFTER the learner answers — see GLOSS_IS_FEEDBACK. */
+  exemptFiles: readonly string[] = GLOSS_IS_FEEDBACK,
 ): CueLeak[] {
   const files = roots
     .flatMap((r) => {
@@ -317,9 +409,18 @@ export function findCueLeaks(
         }
       }
       if (found) continue;
+      if (exemptFiles.some((x) => f.endsWith(x))) continue;
       const en = field(lit.text, ['en']);
-      if (en && glossGivesAnswer(en, a)) {
-        leaks.push({ file: f, line, q, answer: a, cue: en, via: 'gloss' });
+      if (en && glossGivesAnswer(en, a, opts)) {
+        leaks.push({
+          file: f,
+          line,
+          q,
+          answer: a,
+          cue: en,
+          via: 'gloss',
+          rule: glossRule(en, a, opts) ?? 'arrow',
+        });
       }
     }
   }

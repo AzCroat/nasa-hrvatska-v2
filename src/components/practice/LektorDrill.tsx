@@ -232,7 +232,7 @@ const DATA = [
     q: 'Vokativ imena „Marko” glasi:',
     opts: ['Marko', 'Marku', 'Marče', 'Markone'],
     answer: 'Marko',
-    en: 'Marko! (vocative = nominative)',
+    en: 'calling out to him by name',
     tip: 'Imena na -o imaju V = N: Marko! Ivo!',
   },
 ];

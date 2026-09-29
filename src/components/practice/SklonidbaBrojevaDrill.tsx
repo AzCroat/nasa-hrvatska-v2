@@ -182,7 +182,7 @@ const DATA = [
     q: 'Za skupinu od dva muškarca i jedne žene kažemo:',
     opts: ['troje', 'trojica', 'tri', 'trima'],
     answer: 'troje',
-    en: 'a mixed group of three = troje',
+    en: 'a mixed group of three (men and women)',
     tip: 'Čim je u skupini žena, -ica otpada: troje.',
   },
   {

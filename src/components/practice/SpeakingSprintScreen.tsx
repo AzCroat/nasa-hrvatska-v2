@@ -18,6 +18,7 @@ import SprintModelPhase from './SprintModelPhase';
 import SprintFeedbackPhase from './SprintFeedbackPhase';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import { accumulateTranscript, decideOnRecognizerEnd } from '../../lib/speechTurn';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 // ─────────────────────────────────────────────
 // KEYFRAME STYLES
@@ -458,7 +459,7 @@ export default function SpeakingSprintScreen({ goBack, award }: Props) {
     rec.onresult = (e: any) => {
       let full = '';
       for (let i = 0; i < e.results.length; i++) {
-        full += e.results[i][0].transcript;
+        full += heardCroatian(e.results[i][0].transcript);
       }
       transcriptRef.current = accumulateTranscript(base, full);
       setLiveTranscript(transcriptRef.current);

@@ -56,6 +56,7 @@ import {
 import type { CefrLevel } from '../../lib/cefr';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import { canDoFor } from '../../data/courseUnitCanDo';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 /** XP for a graded production task. Paid once per task per unit. */
 export const UNIT_PRODUCTION_XP = 30;
@@ -194,7 +195,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       rec.onresult = (speech: any) => {
         let said = '';
         for (let i = speech.resultIndex; i < speech.results.length; i++) {
-          said += speech.results[i][0].transcript + ' ';
+          said += heardCroatian(speech.results[i][0].transcript) + ' ';
         }
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };

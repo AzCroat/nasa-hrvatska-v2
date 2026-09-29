@@ -151,7 +151,7 @@ export const ARGUMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'utomesto',
     q: 'Glavni ____ je cijena.',
-    en: 'The main argument is the price.',
+    en: 'The main point is the price.',
     opts: ['argument', 'argumenta', 'argumentu', 'argumentom'],
     answer: 'argument',
     tip: 'The subject stays nominative.',
