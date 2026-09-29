@@ -49,7 +49,7 @@ const DATA = [
     q: 'Kratica „dr. sc.” znači:',
     opts: ['doktor znanosti', 'dragi suradnik', 'doktor scene', 'državni savjetnik'],
     answer: 'doktor znanosti',
-    en: 'doctor of science (PhD)',
+    en: 'what dr. sc. stands for',
     tip: 'Dr. sc. = doktor znanosti; dr. med. = doktor medicine.',
   },
   {
@@ -57,7 +57,7 @@ const DATA = [
     q: 'Kratice poput „npr.” i „itd.” pišu se:',
     opts: ['malim slovom s točkom', 'velikim slovima', 'bez točke', 'sa spojnicom'],
     answer: 'malim slovom s točkom',
-    en: 'npr. and itd. are lowercase with periods',
+    en: 'how npr. and itd. are written',
     tip: 'Opće kratice: npr., itd., tzv., str.',
   },
   {
@@ -65,7 +65,7 @@ const DATA = [
     q: 'Množina od „CD” u rečenici „Kupio sam tri ____ ”:',
     opts: ['CD-a', 'CD-ova', 'CDa', 'CD'],
     answer: 'CD-a',
-    en: 'three CDs (gen. sg. after 3)',
+    en: 'three CDs',
     tip: 'Uz brojeve 2-4: genitiv jednine — tri CD-a.',
   },
   {
@@ -73,8 +73,8 @@ const DATA = [
     q: 'Kratica „gđa” (gospođa) piše se:',
     opts: ['bez točke (gđa)', 's točkom (gđa.)', 'velikim (GĐA)', 'sa spojnicom (g-đa)'],
     answer: 'bez točke (gđa)',
-    en: 'Mrs — no period (contraction)',
-    tip: 'Sažete kratice bez točke: gđa, dr (u dr. je točka jer je odsječena).',
+    en: 'writing the abbreviation for Mrs',
+    tip: 'Sažete kratice (početak i kraj riječi) pišu se bez točke: gđa, gđica; kratice koje odsijecaju kraj riječi imaju točku: dr., prof., npr.',
   },
   {
     mode: 'strana',
@@ -137,7 +137,7 @@ const DATA = [
     q: 'Pridjev od „New York” glasi:',
     opts: ['njujorški', 'newyorški', 'new-yorški', 'New Yorški'],
     answer: 'njujorški',
-    en: 'New York (adj) — phonetized',
+    en: 'the adjective from New York',
     tip: 'Odnosni pridjevi od stranih imena fonetiziraju se: njujorški, minhenski.',
   },
   {
@@ -145,7 +145,7 @@ const DATA = [
     q: 'Posuđenica „e-mail” u hrvatskome standardu najbolje:',
     opts: ['e-pošta', 'imejl uvijek', 'E-mail', 'mejl u dopisu'],
     answer: 'e-pošta',
-    en: 'e-mail → e-posta (standard)',
+    en: 'e-mail in the standard',
     tip: 'Standard voli domaću zamjenu: e-pošta, e-adresa.',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: 'Strana OSOBNA imena u hrvatskome se pišu:',
     opts: ['izvorno (Shakespeare)', 'fonetski (Šekspir)', 'velikim slovima', 'prevedeno'],
     answer: 'izvorno (Shakespeare)',
-    en: 'foreign personal names keep original spelling',
+    en: 'how foreign personal names are written',
     tip: 'Hrvatski čuva izvorni lik: Shakespeare, New York (za razliku od srpskoga).',
   },
   {
@@ -169,7 +169,7 @@ const DATA = [
     q: 'Naziv „internet” kao mreža općenito piše se:',
     opts: ['malim slovom', 'velikim slovom uvijek', 'u navodnicima', 'sa spojnicom'],
     answer: 'malim slovom',
-    en: 'the internet — lowercase',
+    en: 'writing internet (the network)',
     tip: 'Danas opća imenica: internet, na internetu.',
   },
   {
@@ -185,7 +185,7 @@ const DATA = [
     q: '„SMS poruka” — bolji je oblik:',
     opts: ['SMS-poruka', 'SMS poruka je jedino', 'esemes', 'S.M.S.'],
     answer: 'SMS-poruka',
-    en: 'SMS message with a hyphen',
+    en: 'writing SMS message',
     tip: 'Kratica + imenica vezuju se spojnicom: SMS-poruka, TV-program.',
   },
   {

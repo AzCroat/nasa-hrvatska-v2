@@ -47,7 +47,7 @@ const DATA = [
   {
     mode: 'realne',
     q: 'Ako ____ pitanja, slobodno ih postavite.',
-    opts: ['imate', 'budete imati', 'biste imali', 'imali'],
+    opts: ['imate', 'budete imati', 'imat ćete', 'imali'],
     answer: 'imate',
     en: 'if you have questions, feel free to ask them',
     tip: 'Ako + prezent za opću/sadašnju pogodbu.',
@@ -71,7 +71,7 @@ const DATA = [
   {
     mode: 'realne',
     q: 'Uzmi kišobran ako ____ van.',
-    opts: ['ideš', 'ćeš ići', 'bi išao', 'pođeš li ćeš'],
+    opts: ['ideš', 'ćeš ići', 'išao', 'pođeš li ćeš'],
     answer: 'ideš',
     en: 'take an umbrella if you are going out',
     tip: 'Ako + prezent; futur I ne dolazi iza ako.',
@@ -95,7 +95,7 @@ const DATA = [
   {
     mode: 'potencijalne',
     q: 'Što ____ da osvojiš milijun?',
-    opts: ['bi učinio', 'ćeš učiniti', 'učiniš', 'budeš učinio'],
+    opts: ['bi učinio', 'bi učiniti', 'učiniš', 'budeš učinio'],
     answer: 'bi učinio',
     en: 'what would you do if you won a million?',
     tip: 'Hipotetsko pitanje: kondicional I.',

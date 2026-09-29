@@ -42,10 +42,10 @@ const DATA = [
   {
     mode: 'glagolske',
     q: '„Tko će ____ posljedice za ovu pogrešku?”',
-    opts: ['snositi', 'nositi', 'trpjeti', 'imati'],
+    opts: ['snositi', 'iznositi', 'donositi', 'imati'],
     answer: 'snositi',
     en: 'Who will bear the consequences of this mistake?',
-    tip: 'Snositi posljedice/odgovornost/troškove — bez prefiksa s- sveza gubi pravno-formalni ton.',
+    tip: 'Snositi posljedice/odgovornost/troškove — ustaljena sveza.',
   },
   {
     mode: 'glagolske',
@@ -58,7 +58,7 @@ const DATA = [
   {
     mode: 'glagolske',
     q: '„Nezadovoljni stanari ____ su žalbu na odluku.”',
-    opts: ['uložili', 'stavili', 'poslali', 'učinili'],
+    opts: ['uložili', 'stavili', 'položili', 'učinili'],
     answer: 'uložili',
     en: 'The dissatisfied tenants lodged an appeal against the decision.',
     tip: 'Uložiti žalbu/prigovor/napor/novac — službena sveza.',
@@ -148,7 +148,7 @@ const DATA = [
   {
     mode: 'nijanse',
     q: '„Cijene su znatno ____ u odnosu na prošlu godinu.”',
-    opts: ['porasle', 'narasle', 'uzrasle', 'izrasle'],
+    opts: ['porasle', 'dorasle', 'uzrasle', 'izrasle'],
     answer: 'porasle',
     en: 'Prices have risen considerably compared to last year.',
     tip: 'Cijene/troškovi/kamate porastu; djeca narastu, biljke izrastu.',
@@ -164,10 +164,10 @@ const DATA = [
   {
     mode: 'nijanse',
     q: '„Ova odluka ____ za sobom ozbiljne posljedice.”',
-    opts: ['povlači', 'vuče', 'nosi', 'tegli'],
+    opts: ['povlači', 'odvlači', 'navlači', 'tegli'],
     answer: 'povlači',
     en: 'This decision entails serious consequences.',
-    tip: 'Povlačiti za sobom posljedice — preneseno; vući je doslovno.',
+    tip: 'Povlačiti za sobom posljedice — ustaljena sveza.',
   },
   {
     mode: 'nijanse',
@@ -204,7 +204,7 @@ const DATA = [
   {
     mode: 'nijanse',
     q: '„Rezultati ____ da je metoda učinkovita.”',
-    opts: ['pokazuju', 'ukazuju', 'prikazuju', 'iskazuju'],
+    opts: ['pokazuju', 'nalažu', 'prikazuju', 'iskazuju'],
     answer: 'pokazuju',
     en: 'The results show that the method is effective.',
     tip: 'Pokazati DA + surečenica; ukazivati NA što (ukazuju na problem); prikazati film.',

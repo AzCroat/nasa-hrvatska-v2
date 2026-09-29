@@ -18,7 +18,7 @@ const DATA = [
     q: 'Naslov „Vlada povisila mirovine” izostavlja:',
     opts: ['pomoćni glagol (je)', 'subjekt', 'objekt', 'prijedlog'],
     answer: 'pomoćni glagol (je)',
-    en: 'headline drops the auxiliary',
+    en: 'what the headline leaves out',
     tip: 'Novinski perfekt bez je: Vlada (je) povisila.',
   },
   {
@@ -26,7 +26,7 @@ const DATA = [
     q: 'Naslov „Dinamo prvak!” izostavlja:',
     opts: ['glagol biti (je postao)', 'subjekt', 'pridjev', 'veznik'],
     answer: 'glagol biti (je postao)',
-    en: 'headline drops the copula',
+    en: 'what the headline leaves out',
     tip: 'Imenski naslov: Dinamo (je) prvak.',
   },
   {
@@ -47,7 +47,7 @@ const DATA = [
     q: 'Naslov „U tijeku pregovori o plaćama” počiva na:',
     opts: ['imenskom (bezglagolskom) izrazu', 'aoristu', 'imperativu', 'kondicionalu'],
     answer: 'imenskom (bezglagolskom) izrazu',
-    en: 'a verbless nominal headline',
+    en: 'what this headline is built on',
     tip: 'Pregovori su u tijeku → U tijeku pregovori.',
   },
   {
@@ -63,7 +63,7 @@ const DATA = [
     q: 'Upitni naslov „Kraj krize?” sugerira:',
     opts: ['neizvjesnost i poziv na čitanje', 'potvrdu činjenice', 'zapovijed', 'ispriku'],
     answer: 'neizvjesnost i poziv na čitanje',
-    en: 'a question headline hooks the reader',
+    en: 'a headline as a question',
     tip: 'Upitnik prodaje neizvjesnost.',
   },
   {
@@ -71,7 +71,7 @@ const DATA = [
     q: '„Uhićen osumnjičeni za prijevaru” — oblik „uhićen” je:',
     opts: ['trpni pridjev bez pomoćnoga glagola', 'aorist', 'prilog', 'imperativ'],
     answer: 'trpni pridjev bez pomoćnoga glagola',
-    en: 'arrested: passive with dropped aux',
+    en: 'the form uhićen in a headline',
     tip: '(Je) uhićen — pasivni naslov bez je.',
   },
   {
@@ -79,7 +79,7 @@ const DATA = [
     q: 'Zašto naslovi vole pasiv („Zakon izglasan”)?',
     opts: ['vršitelj je nevažan ili poznat', 'pasiv je duži', 'zabranjen je aktiv', 'zbog rime'],
     answer: 'vršitelj je nevažan ili poznat',
-    en: 'passives foreground the event',
+    en: 'why headlines like the passive',
     tip: 'Bitno je ŠTO se dogodilo, ne tko je digao ruku.',
   },
   {
@@ -87,7 +87,7 @@ const DATA = [
     q: '„Sabor dao zeleno svjetlo proračunu” znači:',
     opts: ['odobrio je proračun', 'ugasio je svjetla', 'vratio je proračun', 'odgodio je sjednicu'],
     answer: 'odobrio je proračun',
-    en: 'gave the green light = approved',
+    en: 'a traffic-light metaphor in a headline',
     tip: 'Novinska metafora odobravanja.',
   },
   {
@@ -95,7 +95,7 @@ const DATA = [
     q: '„Cijene idu u nebo” znači:',
     opts: ['naglo rastu', 'padaju', 'miruju', 'ukinute su'],
     answer: 'naglo rastu',
-    en: 'prices are skyrocketing',
+    en: 'prices go into the sky',
     tip: 'Metafora vertikale: u nebo = strmoglav rast.',
   },
   {
@@ -103,7 +103,7 @@ const DATA = [
     q: '„Pregovori na mrtvoj točki” znači:',
     opts: ['zastali su bez pomaka', 'uspješno su završeni', 'tek počinju', 'tajni su'],
     answer: 'zastali su bez pomaka',
-    en: 'talks at a standstill',
+    en: 'talks at the dead point',
     tip: 'Mrtva točka = zastoj.',
   },
   {
@@ -116,7 +116,7 @@ const DATA = [
       'vlada je raspuštena',
     ],
     answer: 'javnost je pomno promatra',
-    en: 'under public scrutiny',
+    en: 'the government under the magnifying glass of the public',
     tip: 'Pod povećalom = pod strogim nadzorom.',
   },
   {
@@ -124,7 +124,7 @@ const DATA = [
     q: '„Rekordna berba oborila sve rekorde” je primjer:',
     opts: ['pleonazma (nepotrebna ponavljanja)', 'metafore', 'arhaizma', 'eufemizma'],
     answer: 'pleonazma (nepotrebna ponavljanja)',
-    en: 'a tautology in journalism',
+    en: 'what figure of speech is this?',
     tip: 'Rekordna + oborila rekorde = dvaput isto.',
   },
   {
@@ -140,7 +140,7 @@ const DATA = [
     q: '„U žiži interesa” znači:',
     opts: ['u središtu pozornosti', 'na rubu', 'u tajnosti', 'izvan teme'],
     answer: 'u središtu pozornosti',
-    en: 'in the spotlight',
+    en: 'a set phrase with žiža',
     tip: 'Žiža = fokus.',
   },
   {
@@ -148,7 +148,7 @@ const DATA = [
     q: '„Ministar odbacio optužbe” — „odbacio” ovdje znači:',
     opts: ['zanijekao je', 'bacio je u koš', 'prihvatio je', 'proslijedio je'],
     answer: 'zanijekao je',
-    en: 'dismissed the accusations',
+    en: 'the minister threw away the accusations',
     tip: 'Odbaciti optužbe = zanijekati.',
   },
   {
@@ -156,7 +156,7 @@ const DATA = [
     q: 'Novinski stil od standarda traži:',
     opts: ['sažetost i provjerljivost', 'žargon', 'osobne uvrede', 'duge rečenice'],
     answer: 'sažetost i provjerljivost',
-    en: 'concision and verifiability',
+    en: 'what news style demands',
     tip: 'Kratko, točno, provjerljivo.',
   },
   {
@@ -164,7 +164,7 @@ const DATA = [
     q: '„Navodno” u vijesti signalizira:',
     opts: ['nepotvrđenu tvrdnju', 'sigurnu činjenicu', 'ironiju', 'zapovijed'],
     answer: 'nepotvrđenu tvrdnju',
-    en: 'allegedly = unconfirmed',
+    en: 'navodno in a news report',
     tip: 'Ograda od neprovjerenoga.',
   },
   {
@@ -172,7 +172,7 @@ const DATA = [
     q: 'Lead (glava vijesti) odgovara na:',
     opts: ['tko, što, kada, gdje, zašto', 'samo zašto', 'samo tko', 'ništa od toga'],
     answer: 'tko, što, kada, gdje, zašto',
-    en: 'the 5W lead',
+    en: 'what the lead answers',
     tip: 'Pet novinarskih pitanja u prvom odlomku.',
   },
   {
@@ -180,7 +180,7 @@ const DATA = [
     q: '„Kako doznajemo” u vijesti je:',
     opts: ['novinarska formula ekskluzivnosti', 'citat čitatelja', 'zakon', 'pravopisno pravilo'],
     answer: 'novinarska formula ekskluzivnosti',
-    en: 'as we have learned (exclusive)',
+    en: 'kako doznajemo in a news report',
     tip: 'Signal vlastita izvora redakcije.',
   },
   {
@@ -196,7 +196,7 @@ const DATA = [
     q: '„Priopćenje za javnost” je:',
     opts: ['službena pisana izjava institucije', 'trač', 'anonimno pismo', 'oglas'],
     answer: 'službena pisana izjava institucije',
-    en: 'a press release',
+    en: 'what a priopćenje za javnost is',
     tip: 'Institucionalni izvor vijesti.',
   },
   {
@@ -204,7 +204,7 @@ const DATA = [
     q: 'Kondicional u „Porezi bi mogli rasti” izriče:',
     opts: ['oprez prema neprovjerenom', 'sigurnost', 'prošlost', 'zapovijed'],
     answer: 'oprez prema neprovjerenom',
-    en: 'taxes might rise — hedged',
+    en: 'taxes might rise',
     tip: 'Novinarski kondicional ograde.',
   },
   {
@@ -217,7 +217,7 @@ const DATA = [
       'nema razlike',
     ],
     answer: 'vijest iznosi činjenice, komentar stav',
-    en: 'news reports, commentary opines',
+    en: 'news vs commentary',
     tip: 'Odvajanje informacije od mišljenja.',
   },
 ];

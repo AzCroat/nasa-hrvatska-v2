@@ -31,10 +31,10 @@ const DATA = [
     opts: ['Čuvši', 'Čujući', 'Čula', 'Čuti'],
     answer: 'Čuvši',
     en: 'Having heard the news, she started crying.',
-    tip: 'Past adverbial participle: perfective ču-ti → ču-vši.',
+    tip: 'Past adverbial participle (the hearing came first): ču-ti → ču-vši.',
   },
   {
-    q: '___ se na klupi, odmarao je. (sjediti — while sitting)',
+    q: '___ na klupi, odmarao se. (sjediti — while sitting)',
     opts: ['Sjedeći', 'Sjedivši', 'Sjedio', 'Sjediti'],
     answer: 'Sjedeći',
     en: 'Sitting on the bench, he was resting.',
