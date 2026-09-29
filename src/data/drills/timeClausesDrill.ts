@@ -143,9 +143,9 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prezent',
-    q: 'Koje vrijeme ide u glavnu rečenicu?',
-    en: 'And which tense in the main clause?',
-    opts: ['futur', 'prezent', 'perfekt', 'imperativ'],
+    q: 'Koje je vrijeme u glavnoj rečenici "Kad dođem, javit ću ti"?',
+    en: 'And which tense is the main clause here?',
+    opts: ['futur', 'prezent', 'perfekt', 'aorist'],
     answer: 'futur',
     tip: 'Kad dođem (present), javit ću ti (future). The two halves differ on purpose.',
   },

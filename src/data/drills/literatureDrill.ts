@@ -107,8 +107,8 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'knjiga',
-    q: 'Što je "lik"?',
-    en: 'What is a lik?',
+    q: 'Što je "lik" u knjizi?',
+    en: 'What is a lik in a book?',
     opts: ['character', 'face', 'image', 'figure of speech'],
     answer: 'character',
     tip: 'Glavni lik is the main character.',
@@ -131,11 +131,11 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'knjiga',
-    q: 'O čemu se ____ radi? (knjiga)',
+    q: 'O čemu se radi u ____? (knjiga)',
     en: 'What is the book about?',
     opts: ['knjizi', 'knjigu', 'knjige', 'knjigom'],
     answer: 'knjizi',
-    tip: 'o plus the locative — and knjiga becomes knjizi.',
+    tip: 'u plus the locative — and knjiga becomes knjizi.',
   },
   {
     mode: 'knjiga',
@@ -196,7 +196,7 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'citanje',
-    q: 'Čitam ____ rječnika. (bez)',
+    q: 'Čitam ____.',
     en: 'I read without a dictionary.',
     opts: ['bez rječnika', 'bez rječnik', 'bez rječniku', 'bez rječnikom'],
     answer: 'bez rječnika',

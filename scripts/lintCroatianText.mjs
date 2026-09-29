@@ -174,7 +174,6 @@ const TARGETS = [
   'src/components/practice/AccusativeDrill.tsx',
   'src/components/practice/AdministrativniDrill.tsx',
   'src/components/practice/AkademskiDrill.tsx',
-  'src/components/practice/AnimateAccDrill.tsx',
   'src/components/practice/AoristImperfektDrill.tsx',
   'src/components/practice/BezlicneDrill.tsx',
   'src/components/practice/C2StructureDrill.tsx',
@@ -576,7 +575,6 @@ const TARGETS = [
   // about. Every file below is one the widened matcher sees at least half of,
   // and most of them all of. The comment on each is cro=Croatian strings the
   // file holds, %=share of them the lint scans.
-  'functions/api/content/_data/seasonalCampaigns.js', // 1cro 100%
   'functions/api/flux-generate.js', // 1cro 100%
   'src/components/learn/GrammarExplainer.tsx', // 4cro 50%
 ];

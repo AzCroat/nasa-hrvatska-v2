@@ -140,7 +140,7 @@ export const DIRECTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'upute',
-    q: '____ na prvom uglu. (skrenuti)',
+    q: '____ na prvom uglu. (skrenuti, uljudno)',
     en: 'Turn at the first corner.',
     opts: ['Skrenite', 'Skreni', 'Skrenuo', 'Skretati'],
     answer: 'Skrenite',

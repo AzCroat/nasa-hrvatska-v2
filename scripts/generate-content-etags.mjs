@@ -124,9 +124,8 @@ async function main() {
   const curriculum = await computeEtag({ spine: CURRICULUM, bodies: curriculumLessons });
 
   const coreMod = await import(pathToFileURL(corePath).href);
-  // SP11d + SP11e: 27 high-IP-density exports. LEARN_PATH (97 items, ckRule JSON DSL)
-  // and SEASONAL_CAMPAIGNS (4 entries, windowKind discriminator) added in SP11e
-  // — both now serialize cleanly via the function/data split documented in
+  // SP11d + SP11e: high-IP-density exports. LEARN_PATH (97 items, ckRule JSON DSL)
+  // added in SP11e — serializes cleanly via the function/data split documented in
   // docs/superpowers/specs/2026-05-16-sp11e-final-closure-design.md.
   // One definition, in _data/core.js — see CORE_PAYLOAD_KEYS there. This was a
   // hand-written copy; the three copies had already diverged by one key.

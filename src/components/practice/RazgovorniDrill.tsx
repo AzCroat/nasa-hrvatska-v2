@@ -57,7 +57,7 @@ const DATA = [
     q: '„Kužiš?” u standardu glasi:',
     opts: ['Razumiješ?', 'Čuješ?', 'Vidiš?', 'Trčiš?'],
     answer: 'Razumiješ?',
-    en: 'kuziš = do you get it?',
+    en: 'kužiš = do you get it?',
     tip: 'Kužiti = razumjeti, shvaćati.',
   },
   {
@@ -73,7 +73,7 @@ const DATA = [
     q: '„Štreber” je razgovorni naziv za:',
     opts: ['pretjerano marljiva učenika', 'lijenog radnika', 'dobrog kuhara', 'starog susjeda'],
     answer: 'pretjerano marljiva učenika',
-    en: 'streber = an overzealous student',
+    en: 'štreber = an overzealous student',
     tip: 'Blago podrugljivo: uči više nego što itko traži.',
   },
   {
@@ -81,13 +81,13 @@ const DATA = [
     q: '„Razumiješ li?” najprirodnije razgovorno glasi:',
     opts: ['Kužiš?', 'Izvolite?', 'Molim?', 'Dakako?'],
     answer: 'Kužiš?',
-    en: 'standard do you understand → colloquial kuziš',
+    en: 'standard do you understand → colloquial kužiš',
     tip: 'Najčešći razgovorni ekvivalent.',
   },
   {
     mode: 'obrnuto',
     q: '„Novac” u žargonu je:',
-    opts: ['lova', 'roba', 'kusur', 'marka'],
+    opts: ['lova', 'roba', 'blagajna', 'marka'],
     answer: 'lova',
     en: 'money',
     tip: 'Lova, kinta, pare — žargonski nazivi za novac.',
@@ -103,7 +103,7 @@ const DATA = [
   {
     mode: 'obrnuto',
     q: '„Izvrsno!” mladi razgovorno kažu:',
-    opts: ['mrak', 'mrak i po', 'svjetlo', 'sjena'],
+    opts: ['mrak', 'mračno', 'svjetlo', 'sjena'],
     answer: 'mrak',
     en: 'excellent',
     tip: 'Mrak = super, odlično (žargon pohvale).',
@@ -208,7 +208,7 @@ const DATA = [
     q: 'Koja rečenica pripada razgovornomu stilu?',
     opts: [
       'Daj mi pet minuta, frka mi je.',
-      'Molim Vas pričekajte pet minuta.',
+      'Molim Vas, pričekajte pet minuta.',
       'Ljubazno molim za kratku odgodu.',
       'Zamolio bih Vas za strpljenje.',
     ],

@@ -165,8 +165,8 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'pojmovi',
     q: 'Što znači "čežnja"?',
     en: 'What is čežnja?',
-    opts: ['gorko-slatka duboka čežnja', 'obična tuga', 'ljutnja', 'dosada'],
-    answer: 'gorko-slatka duboka čežnja',
+    opts: ['duboka, gorko-slatka žudnja', 'obična tuga', 'ljutnja', 'dosada'],
+    answer: 'duboka, gorko-slatka žudnja',
     tip: 'A deep bittersweet longing. English has no single word for it.',
   },
   {

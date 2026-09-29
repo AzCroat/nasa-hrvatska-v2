@@ -76,98 +76,10 @@ export function nXP(l: number): number {
   return [0, 50, 150, 300, 500, 800, 1200, 1800, 2500, 3500, 5000][l] ?? 5000;
 }
 
-// SP11e: Seasonal-campaigns data + getActiveCampaign moved to
-// functions/api/content/_data/seasonalCampaigns.js (server) and
-// src/lib/seasonalCampaign.ts (client utilities). Easter math
-// (easterSunday — Meeus/Jones/Butcher) and the active-window resolver
-// also live in seasonalCampaign.ts. lXPgain below takes campaignMultiplier
-// as an argument now.
-
-// ─── XP Boost ────────────────────────────────────────────────────────────────
-/**
- * NOTHING CAN BUY THIS TODAY, and nothing can buy the streak restore below
- * either (sweep 136, 2026-09-25). The multiplier is live — `lXPgain` reads
- * `nh_xp_boost_expires` and doubles the award, `progressSnapshot` uploads it and
- * `applyRemoteProgress` merges it — but the ONLY caller of `activateXPBoost` and
- * of `spendXp(STREAK_RESTORE_COST)` was `home/useHeroRewards`, part of the hero
- * cluster that had been unrendered since 2026-04-25 and was deleted with it. So
- * `nh_xp_boost_expires` can never be non-zero for any learner, and the paid
- * streak restore cannot be reached at all.
- *
- * Sweep 111's rule needs one more hop to have caught it: a producer that is
- * itself UNREACHABLE is not a producer — the same correction sweep 130 made for
- * endpoints. These constants and functions are kept, unlike the dead screen,
- * because re-adding a purchase surface is a PRODUCT decision for the owner (the
- * campaign multiplier is recorded the same way) and this is the only remaining
- * record of what the two rewards cost.
- */
-export const XP_BOOST_COST = 100;
-export const XP_BOOST_DURATION_MS = 30 * 60 * 1000;
-export const XP_BOOST_MULTIPLIER = 2;
-
-// ─── Streak Restore ──────────────────────────────────────────────────────────
-/**
- * Price of recovering a broken streak.
- *
- * Lives here, next to XP_BOOST_COST, because the price has to be one number.
- * It used to be written three times — a local const in useHeroRewards (what the
- * learner was charged), a bare `xp >= 200` in the RewardsPanel visibility gate,
- * and the literal "200 XP" in the button label. The other two rewards already
- * shared a constant between their charge and their display; this one did not,
- * so changing the price in the obvious place would have left the panel still
- * gating at the old number and still advertising it while charging the new one.
- *
- * Both of those sites were in the hero cluster and are gone (sweep 136); see the
- * XP_BOOST_COST note above for why the price itself is kept.
- */
-export const STREAK_RESTORE_COST = 200;
-
-export function getXPBoost(): { active: boolean; expiresAt: number; msRemaining: number } {
-  try {
-    const exp = parseInt(localStorage.getItem('nh_xp_boost_expires') || '0', 10);
-    if (exp > Date.now()) return { active: true, expiresAt: exp, msRemaining: exp - Date.now() };
-  } catch {}
-  return { active: false, expiresAt: 0, msRemaining: 0 };
-}
-
-export function canActivateXPBoost(): boolean {
-  try {
-    const last = parseInt(localStorage.getItem('nh_xp_boost_last_activated') || '0', 10);
-    return Date.now() - last >= 24 * 60 * 60 * 1000;
-  } catch {
-    return true;
-  }
-}
-
-export function activateXPBoost(): number {
-  const now = Date.now();
-  const expires = now + XP_BOOST_DURATION_MS;
-  try {
-    localStorage.setItem('nh_xp_boost_expires', String(expires));
-    localStorage.setItem('nh_xp_boost_last_activated', String(now));
-  } catch {}
-  return expires;
-}
-
-/**
- * Apply XP multipliers (campaign + boost). SP11e: campaign multiplier is now
- * passed in by the caller (resolved from useContent + getActiveCampaign), not
- * pulled from the deleted appUtils SEASONAL_CAMPAIGNS array.
- *
- * Boost and campaign DO NOT stack — take the higher of the two.
- */
-export function lXPgain(xp: number, campaignMultiplier?: number): number {
-  if (xp <= 0) return xp;
-  let multiplier = 1;
-  if (campaignMultiplier && campaignMultiplier > 1) {
-    multiplier = campaignMultiplier;
-  }
-  try {
-    const boostExp = parseInt(localStorage.getItem('nh_xp_boost_expires') || '0', 10);
-    if (boostExp > Date.now()) multiplier = Math.max(multiplier, XP_BOOST_MULTIPLIER);
-  } catch {}
-  return Math.round(xp * multiplier);
-}
+// XP multipliers — REMOVED (owner decision, 2026-09-29). The XP boost, the paid
+// streak restore and the seasonal-campaign multiplier all lived here; none had a
+// reachable purchase or announcement surface, so an award is now exactly the
+// amount the exercise pays.
 
 // ─── Streak & freeze ─────────────────────────────────────────────────────────
 interface StreakData {

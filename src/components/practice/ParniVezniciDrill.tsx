@@ -31,7 +31,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: '„____ jedni ____ drugi nisu došli.”',
-    opts: ['Ni … ni', 'I … i', 'Ili … ili', 'Čas … čas'],
+    opts: ['Ni … ni', 'Što … to', 'Ili … ili', 'Čas … čas'],
     answer: 'Ni … ni',
     en: 'neither the ones nor the others came',
     tip: 'Ni…ni uz niječni glagol.',
@@ -63,7 +63,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: '„____ roditelji ____ učitelji podupiru projekt.”',
-    opts: ['I … i', 'Ni … ni', 'Ili … ili', 'Čas … čas'],
+    opts: ['I … i', 'Ni … ni', 'Što … to', 'Čas … čas'],
     answer: 'I … i',
     en: 'both parents and teachers support it',
     tip: 'I…i = zbrajanje obiju strana.',
@@ -81,7 +81,7 @@ const DATA = [
     q: 'Uz „ni…ni” glagol je:',
     opts: ['niječan (ni on ni ona NISU došli)', 'potvrdan', 'u infinitivu', 'u imperativu'],
     answer: 'niječan (ni on ni ona NISU došli)',
-    en: 'ni...ni requires a negated verb',
+    en: 'the verb with ni…ni',
     tip: 'Dvostruka negacija je u hrvatskome obvezna.',
   },
   {
@@ -94,7 +94,7 @@ const DATA = [
       'niti je zastarjelo',
     ],
     answer: 'niti stoji uz glagol bez ne',
-    en: 'niti carries its own negation',
+    en: 'niti vs ni',
     tip: 'Niti jede niti spava (bez ne); ni on NE jede.',
   },
   {
@@ -115,12 +115,12 @@ const DATA = [
     q: '„I…i” s jedninama slaže glagol u:',
     opts: ['množini (i Ivan i Marko dolaze)', 'jednini uvijek', 'srednjem rodu', 'infinitivu'],
     answer: 'množini (i Ivan i Marko dolaze)',
-    en: 'i...i takes a plural verb',
+    en: 'the verb with i…i',
     tip: 'Zbrojeni subjekti → množina.',
   },
   {
     mode: 'slaganje',
-    q: '„Ili Ivan ili Marko ____ prvi.” (doći će)',
+    q: '„Ili Ivan ili Marko ____ prvi.” (doći, futur I.)',
     opts: ['će doći', 'će doći njih dvojica', 'dolaze obojica', 'došli su'],
     answer: 'će doći',
     en: 'either Ivan or Marko will come first',
@@ -137,9 +137,9 @@ const DATA = [
   {
     mode: 'slaganje',
     q: '„Kamoli” u „ne zna hodati, a kamoli trčati” znači:',
-    opts: ['a još manje', 'a pogotovo', 'ali ipak', 'baš zato'],
+    opts: ['a još manje', 'a još više', 'ali ipak', 'baš zato'],
     answer: 'a još manje',
-    en: 'let alone run',
+    en: 'what kamoli means here',
     tip: 'Negacija + kamoli = a još manje.',
   },
   {
@@ -147,7 +147,7 @@ const DATA = [
     q: '„Nekmoli” je knjiška inačica od:',
     opts: ['kamoli', 'nego', 'nikako', 'makar'],
     answer: 'kamoli',
-    en: 'nekmoli = let alone (bookish)',
+    en: 'what nekmoli is a bookish variant of',
     tip: 'Stariji tekstovi: ne zna čitati, nekmoli pisati.',
   },
   {
@@ -163,7 +163,7 @@ const DATA = [
     q: '„Bilo kamo krenuo, prati ga sreća.” — „bilo” + upitna riječ daje:',
     opts: ['opću dopusnost (kamo god)', 'mjesto', 'vrijeme', 'uzrok'],
     answer: 'opću dopusnost (kamo god)',
-    en: 'bilo kamo = wherever',
+    en: 'bilo + a question word',
     tip: 'Bilo tko/što/kamo = tko god/što god/kamo god.',
   },
   {
@@ -171,7 +171,7 @@ const DATA = [
     q: '„Kako-tako” (spojeno crticom) znači:',
     opts: ['osrednje, s mukom prihvatljivo', 'izvrsno', 'nikako', 'brzo'],
     answer: 'osrednje, s mukom prihvatljivo',
-    en: 'kako-tako = so-so',
+    en: 'what kako-tako means',
     tip: 'Prošao je kako-tako.',
   },
   {
@@ -187,7 +187,7 @@ const DATA = [
     q: '„Htio-ne htio, morat ćeš.” — sklop izriče:',
     opts: ['neizbježnost bez obzira na volju', 'želju', 'zabranu', 'pitanje'],
     answer: 'neizbježnost bez obzira na volju',
-    en: 'willy-nilly',
+    en: 'what htio-ne htio expresses',
     tip: 'Parni sklop suprotnosti: htio-ne htio.',
   },
   {
@@ -195,7 +195,7 @@ const DATA = [
     q: '„Manje-više” znači:',
     opts: ['otprilike, uglavnom', 'nikako', 'sve', 'ništa'],
     answer: 'otprilike, uglavnom',
-    en: 'manje-vise = more or less',
+    en: 'what manje-više means',
     tip: 'Parna priložna sveza.',
   },
   {
@@ -203,7 +203,7 @@ const DATA = [
     q: '„Kad-tad” znači:',
     opts: ['jednom sigurno, prije ili poslije', 'nikad', 'odmah', 'rijetko'],
     answer: 'jednom sigurno, prije ili poslije',
-    en: 'kad-tad = sooner or later',
+    en: 'what kad-tad means',
     tip: 'Kad-tad će se saznati.',
   },
   {
@@ -211,7 +211,7 @@ const DATA = [
     q: '„Ovako ili onako, odluka pada danas.”',
     opts: ['na ovaj ili onaj način', 'nikako', 'polako', 'netočno'],
     answer: 'na ovaj ili onaj način',
-    en: 'one way or another',
+    en: 'what ovako ili onako means',
     tip: 'Parna formula neizbježnosti.',
   },
 ];

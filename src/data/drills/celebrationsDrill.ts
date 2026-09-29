@@ -141,7 +141,7 @@ export const CELEBRATIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kalendar',
-    q: 'U kojem je mjesecu Uskrs?',
+    q: 'U koje je doba godine Uskrs?',
     en: 'Which season is Easter in?',
     opts: ['u proljeće', 'u jesen', 'zimi', 'ljeti'],
     answer: 'u proljeće',

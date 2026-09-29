@@ -38,8 +38,8 @@ export const WORDPLAY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'naglasak',
     q: '"Pao je grad." Koja su dva čitanja?',
     en: 'What are the two readings?',
-    opts: ['grad je pao ili je tuklo tuču', 'samo jedno', 'grad i vrt', 'grad i brod'],
-    answer: 'grad je pao ili je tuklo tuču',
+    opts: ['grad je pao ili je pala tuča', 'samo jedno', 'grad i vrt', 'grad i brod'],
+    answer: 'grad je pao ili je pala tuča',
     tip: 'The city fell, or it hailed. Only the accent separates them.',
   },
   {

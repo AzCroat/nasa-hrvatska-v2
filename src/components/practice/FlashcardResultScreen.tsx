@@ -28,17 +28,9 @@ export default function FlashcardResultScreen({
   onStudyMissed,
 }: Props) {
   const { setScr } = useApp();
-  // Mark practiced + campaign quest uskrs_q2 ("Practice family vocab") done on first flashcard completion
+  // Mark practiced on first flashcard completion
   useEffect(() => {
     markPracticed();
-    try {
-      const key = 'nh_cq_easter_uskrs_q2';
-      if (!localStorage.getItem(key)) {
-        localStorage.setItem(key, '1');
-        // Notify HomeTab to re-read campaign quest state from localStorage
-        window.dispatchEvent(new CustomEvent('nh-campaign-quest-done'));
-      }
-    } catch (_) {}
   }, []);
   const knownCount = activePool.length - missed.length;
   const missedCount = missed.length;

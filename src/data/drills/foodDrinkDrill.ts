@@ -200,7 +200,7 @@ export const FOOD_DRINK_DRILL_DATA: ModeDrillItem[] = [
     mode: 'kafic',
     q: 'Vedro "da" u kafiću je ____.',
     en: 'The cheerful yes:',
-    opts: ['Može', 'Dobro', 'Da', 'Naravno'],
+    opts: ['Može', 'Možda', 'Nikako', 'Oprostite'],
     answer: 'Može',
     tip: 'Može! — literally "it can", and it is everywhere in spoken Croatian.',
   },

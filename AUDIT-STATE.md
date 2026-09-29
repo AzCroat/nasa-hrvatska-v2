@@ -13906,3 +13906,245 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Mutation-verified, four, each failing 1. One survived first (mid-take text read as an
     edit); a test now covers it. Full suite 687 files green; 29 course and speaking E2E
     tests green on a CI-shaped build.
+- [x] **Sweep 210 — does Azure actually catch a wrong ending? Probes in the STT calibration
+      (2026-09-29).** Guided Speaking now relies on Azure's scripted assessment to say whether a
+      learner produced the required ending, and every test so far mocked Azure. The monthly
+      `stt-calibration.yml` run now carries four probes (`ASSESS_PROBES`). Each is a correct
+      sentence and the same sentence with a typical learner error:
+  - nominative for accusative: `Imam sestra`;
+  - inanimate for animate accusative: `Vidim prijatelj`;
+  - nominative for locative: `Živim u Zagreb`;
+  - nominative for accusative: `Pijem kava s mlijekom`.
+    Both are spoken by the production voice as 16 kHz WAV (the format the app now sends) and
+    both are scored against the CORRECT sentence through the production call, now exported
+    from the endpoint as `azureAssess`. The correct take must leave the focus word clear; the
+    wrong one must flag it, by the app's own rule (`assessFocusFlagged`, held to
+    `spokenCheck.checkedWords`). Two or more wrong halves fail the workflow red.
+  - The extraction moved two duplicated error codes out of `err()` calls where
+    `errorCodeDistinct` could see them, so each failure got its own code instead
+    (`azure_body_unreadable`, `unexpected_shape`) and the debt list fell 30 → 28.
+  - `tryAzure` gained an `outputFormat` option; learners still get mp3. The run's budget
+    ceiling rose to (6 + 8) × (4k + 15k) µ$ ≈ $0.27 worst case.
+  - Pinned by `assessProbes.test.js`: every wrong form differs from its reference at exactly
+    the focus word; the verdict rule matches the app's; the run scores both halves against
+    the reference as WAV; it reports drift when Azure does not discriminate; and the workflow
+    fails on it. Mutation-verified, five, each failing 1–2. Full suite 688 files green.
+  - **The result comes from the first real run, after this deploys**: dispatch
+    `stt-calibration.yml` and read the `assessment` block.
+- [x] **Sweep 211 — the owner's removals: three uncalled endpoints, two unreachable
+      purchases, one silent bonus (owner decision, 2026-09-29).** _"If not needed, remove and
+      delete. … Remove. … Remove."_
+  - **Deleted endpoints**: `/api/daily-culture`, `/api/daily-plan`, `/api/adaptive-insights`,
+    the three metered AI endpoints nothing in the app called (sweep 130). Handlers, ceiling
+    rows, prompts, and the tests that existed only for them are gone. The `_promptCache.js`
+    contract they were the example for is now pinned against `/api/news`.
+    `meteredEndpointsHaveCallers` has no stranded entry left, and fails if any of the three
+    comes back without a caller. `INSTRUMENTED` is 26 → 22, and `errorCodeDistinct`'s
+    recorded debt drops by the three groups those files carried.
+  - **The XP boost and the paid streak restore** had no purchase surface since the hero
+    cluster was deleted (sweep 136). `XP_BOOST_MULTIPLIER`, `activateXPBoost`,
+    `STREAK_RESTORE_COST` and the `nh_xp_boost_*` sync fields are removed. An award now pays
+    exactly what the exercise pays.
+  - **The seasonal campaign multiplier** (1.5× during Easter, announced nowhere since
+    `CampaignBanner` went) is removed: the multiplier, `seasonalCampaigns.js`, its
+    `/api/content/core` key, the client resolver and the Easter quest flags nothing
+    displayed. The Easter screen and its quiz-done flag stay. Lint coverage is 482 → 481
+    files.
+  - Built as two branches by two agents and merged here. Full suite green on the merge.
+- [x] **Sweep 212 — the AI ledger report could not read the ledger (2026-09-29).** Its first
+      run (#799, dispatched after merge) was refused on the Cloudflare D1 listing,
+      "Authentication error": CI's API token has no D1 scope, and the setup script never
+      touches D1, so nothing had ever proved it did.
+  - The report now calls a read-only route, `/api/ai-ledger`. The route reads the ledger
+    through the Pages binding the budget already uses (`getBudgetStatus`, which now takes a
+    month and also returns `spentMicroUsd`). It sits behind the credential the observatory
+    and calibration sweeps use, so there is no new secret and no owner action.
+  - It returns the current and previous month plus the current daily rate, which is the
+    comparison the October 5 reading needs.
+  - Pinned by `aiLedgerWorkflow.test.js`: dispatch-only, one request, a 503 with no secret,
+    a 401 on a wrong secret, both months reported, and no statement but a SELECT.
+    Full suite green.
+- [x] **Sweep 213 — every item of every practice drill, read (2026-09-29).** Six agents read
+      all ~190 drill banks (`src/data/drills/*` and the hand-written
+      `src/components/practice/*Drill.tsx`) line by line, one batch each. This was review,
+      not a derivation. About 700 edits across 173 files.
+  - **Keyed answers that produced wrong Croatian**, about 30. Examples:
+    - `Biste li mi dodati` (needs the participle);
+    - `hoće li će doći`;
+    - `Penjete se li`;
+    - `Dao mu ga je ga je`;
+    - `protiv rješenje`;
+    - `Sviđa mi se gradu`;
+    - `raspravljalo se` in third position;
+    - `ustavši se`;
+    - past tenses missing `je` in all ten FleetingA items.
+  - **Distractors that were also correct Croatian**, about 250. The biggest class, and the
+    one this file already names: native forms marked wrong. Examples: `postati liječnik`,
+    `ne razumijem pitanje` (accusative after negation), `ako biste imali pitanja`, the -i
+    instrumental of i-nouns, emphatic long pronouns, `Mora biti da…`, `dati ostavku`,
+    `iz dva razloga`, `sav dan`, `Da li` (now removed as a Serbism rather than used as a
+    distractor). Each was replaced with an option wrong in the way the item tests.
+  - **English glosses that gave the answer away**, about 330. `ModeDrill` renders `en`
+    above the options. Found in bulk once missing diacritics were restored, because the
+    diacritics had been all that kept `answerNotInPrompt` from matching.
+  - **False tips**, about 60: `auto` is indeclinable, `jer` never opens a clause, čuti is
+    perfective, Vukovsko → Wackernagelovo pravilo, the ni…ni agreement, and others.
+  - Serbisms removed from options: `Italijan`, `studentkinja`, `poseti`, `čitalac`,
+    `kusur`, `uprkos`, `pomogni`, `Da li` (the reported-speech tips still name it).
+  - **Checked and kept**: regionalDrill's new `kaj bum delal` is wrong by person
+    (kajkavian 1sg for 2sg), not by being Serbian. The yat in `delal` was already in the
+    keyed answer.
+  - **Left for the owner, per the agents' notes**: `ždrijebe → ždrebeta`; a handful of
+    unverifiable tips (`brzoglas`, `zapozorje`); level placement (CliticDrill's
+    three-clitic clusters as a beginner drill; AccusativeDrill and AnimateAccDrill
+    duplicate each other; RegisterDrill and SubordinationDrill ask in English).
+  - Lint 0 findings across 482 files; full suite green on the merged branch; item
+    structure unchanged (ids, modes, four options, answer among them).
+- [x] **Sweep 215 — the four drill questions the reviewers left open, decided (owner, 2026-09-29).**
+      _"Verify tips. If drill is misplaced remove or place in proper CEFR level, two drills that
+      repeat are not needed either merge or choose best for learner."_
+  - **`ždrijebe → ždrebeta`** is correct. The oblique cases shorten the yat
+    (ždrijebe, ždrebeta, ždrebetu). Left as it is.
+  - **Tips checked and corrected:**
+    - `nad grad` taught nad + accusative as the only form. It is the form for DIRECTION,
+      and the tip now gives the instrumental for location (`nad gradom`) beside it.
+    - `zapozorje` could not be attested as a coinage, so the item is now `sučelje`
+      (interface), a coinage that took hold.
+    - `brzoglas` was dated to NDH purism. The date is not safe; what matters is that it
+      failed, and the tip now says that.
+    - `popita` was a distractor, but it is heard beside `popijena`. It is now `popijela`.
+    - Three unverifiable statistics in `dialectsDeepDrill` ("about half speak non-standard
+      at home", "almost nobody speaks only one variety", čakavian = `bil`) were replaced
+      with claims that are true as stated: where the standard is used, code-switching is
+      ordinary, and many čakavian varieties keep `bil` while some southern ones say `bija`.
+    - Kept: tourism at about a fifth of GDP (the commonly cited figure), kajkavian loans
+      from German and Hungarian, `knjižurina`.
+  - **CliticDrill is B2 everywhere except one place.** The pool, the grammar track and
+    `categoryRoutes` all place it at B2, but the Practice-tab catalogue said `B1+`. The
+    catalogue now says B2. A2 learners already reach clitics through `objekt`
+    (`CATEGORY_EASIER_SCREEN.clitics`).
+  - **AnimateAccDrill is retired; AccusativeDrill is kept.** AccusativeDrill is the A1
+    foundation and already drills the animate/inanimate contrast (brata, psa, prijatelja,
+    sina, oca, konja against stol, auto, film, ključ, kaput). About a third of
+    AnimateAccDrill's 50 answers are the same words.
+    - Removed: the route, the route key, the pool entry, the catalogue card, the places
+      map, the difficulty row, the tab map, the lint target and the tests of the file.
+    - KEPT: the `exerciseRegistry` row. `distinctExercisesDone` counts `vs` keys that are
+      registry keys, so a learner who finished it keeps that badge credit. The
+      exercise-contract doc records this.
+    - Lint coverage is 482 → 481.
+  - Full suite 682 files green; lint 0 findings.
+- [x] **Sweep 214 — the AI conversation contexts, read against their guided scenarios
+      (2026-09-29).** The 72 new dialogue scenarios got server contexts in `dialogue.js`, and
+      those contexts had never been compared with the guided scenes they stand for. All 144
+      were read, the 72 new ones first; about 55 changed.
+  - **18 contexts named no register**, so the NPC chose ti or Vi by chance. Each now names
+    the register the guided model answers use. `na_ti` starts in Vi and makes the switch,
+    and `telefonski_poziv` switches from the mother to Ivan mid-call.
+  - **Seven gave the NPC a different gender** from the guided speaker, which changes every
+    past-tense verb the NPC says. Three had English-only labels.
+  - **Two level instructions contradicted each other**: 81 contexts stated the scenario's
+    CEFR level while the endpoint injected the learner's, so an A1 learner in a C1 scene
+    was told both "max 10 words" and "nuanced C1 register". The levels are out of the
+    contexts. The client sends `scenarioLevel`, and the NPC speaks at the lower of the two
+    levels. An older client behaves as before.
+  - **The prompt version did not move when a context changed.** `dialogue-npc` versioned
+    its template only. The contexts, level guidance and script rule now go into
+    `alsoVersion`, serialised to JSON so that objects do not hash as "[object Object]".
+  - The "I didn't understand" line was formal in every ti scene. It now follows the
+    register and the NPC's gender. New rules: hold the scene's register, let the learner
+    do the task, and do not assume the learner's gender.
+  - Pinned by `dialogueContexts.test.ts` (12 tests, driving the real endpoint).
+    Mutation-verified, three. **Not established**: whether Haiku holds all of this over a
+    long conversation. That needs live turns, not a static read.
+  - Left: `DialogueAiMode`'s header shows `turns[0].speaker`, which for `koliko_je_sati`
+    and `rodendan` is a stage direction, not a character.
+- [x] **Sweep 217 — writing is never graded on punctuation (owner directive, 2026-09-29).**
+      _"Punctuation should not be graded in writing. We are using a Croatian keyboard to have
+      the correct alphabet and punctuation is difficult to find properly. Let's focus on
+      whether the user had proper sentence structure, grammar and vocabulary."_
+  - The writing evaluator (`WRITING_EVAL_PROMPT`, used by Guided Writing, the unit and
+    lesson produce steps, the Level Check and the golden calibration) never mentioned
+    punctuation, so the model graded it implicitly. It now scores "sentence structure,
+    grammar accuracy, vocabulary, and natural expression" and states that punctuation must
+    never lower the score or appear in `changes`, `improvements` or `level_demonstrated`.
+    The prompt version moves by itself.
+  - `/api/correct` also drops every change whose only difference is punctuation
+    (`dropPunctuationOnlyChanges`), so a model that lists one anyway cannot show it. A
+    change that also fixes a letter (a capital, an ending) is kept: capitals were not part
+    of the directive.
+  - The local checks already ignored punctuation: Guided Writing's frames compare, typed
+    practice (`typedAnswer`) and the rehearsal compare (`spokenMatch`).
+  - Pinned by `correct.integration.test.js`, which drives the real handler.
+    Mutation-verified: the filter removed fails 1.
+  - The next calibration run re-measures the golden set against the new prompt version.
+- [x] **Sweep 216 — Keep Learning replaces the Stretch: after the session, review what is
+      not proven, with no end screen (owner reports and decisions, 2026-09-29).** Owner:
+      _"I just completed the Daily Session, why isn't there prompts to have me work on my
+      weak points of Croatian?"_, then _"I don't like stretch design, its not guiding the
+      learner to keep learning"_, then _"not try to teach new concepts but review those
+      that the learner has not proven mastery."_
+  - **Measured first, with the real hook** (throwaway probe, deleted): the hypothesis that
+    an empty candidate list silently became "Day Complete" is FALSE in every realistic
+    early-course state — Unit 1 new, Unit 1 with 2–3 passed, Units 2, 3, 7, 13, 25, 36, no
+    spine, with and without ledger evidence or due words, at XP A1, B1 and C1: a Stretch was
+    built every time (1 or 2 owed). What WAS wrong is what it held. A learner with B2 history
+    whom the course started at Unit 1 (speaking scored 45%, listening 50%, genitive 40%) got a
+    Stretch with ZERO measured items — `speaking_guided`, `listening_comprehension`,
+    `flashcards`, `mcgame`, under reasons like "Every session includes one activity…". The
+    ledger was read at the COURSE level (A1) only, where that learner has no cells; the
+    weak categories were correctly excluded as untaught; the due words were already spent by
+    the core. And the path drills said "what today's lesson taught" of lessons read on other
+    days. So the owner met a Stretch that did not look like weak-point work, then "Day
+    Complete!".
+  - **The design as built** (`src/lib/keepLearning.ts`, `git mv` of `stretchSession.ts`): one
+    new lesson a day stays in the core; after it, KEEP LEARNING · Unit N — blocks of about
+    four, appended as each finishes, no target and no terminal state. Order: (1) a failed
+    check's lesson as its drill (or its due missed items), (2) Lesson Review, (3) shaky and due
+    concepts (easier route when locked) then measured weak taught categories, (4) passed-not-
+    retained lessons and units, (5) due words, (6) the weakest measured production/receptive
+    skill read across every ledger level (`ledgerEvidenceLevels`), (7) only when nothing is
+    unproven: the fluency round, then guided speaking and writing, which always serve.
+    Progress line from the same concept map. `getNextStep` names block items "Keep learning —
+    …", and after the core its course rung offers no new lesson. Plans written by the Stretch
+    build migrate (`migrateStretchPlan`).
+  - **The credit-matching trap**: `markDone` took the first activity with the id or screen,
+    finished or not, so a second Word Review, Lesson Review or `writing_guided` in a day would
+    have credited nothing; the SRS auto-skip looked only at the first `review`. Both now take
+    the first UNFINISHED match (id, then screen); Home launches only the first unfinished
+    activity, so the credited one is the launched one.
+  - **Measured after** (same probe): the veteran's first blocks hold Unit-1 drills "Unit 1 is
+    passed; its check-up has not confirmed it stayed yet.", then "Speaking is the skill your
+    practice says needs the most work." (from the B2 cell); a brand-new learner gets guided
+    speaking and writing; every state ran eight blocks with nothing untaught, no lesson and
+    no terminal state.
+  - Mutation-verified, ten (five suites, 114 tests): first-match markDone fails 2; ledger at
+    course level only fails 3; a failed lesson re-served as the lesson fails 1; words ranked
+    above failed lessons fails 1; a cap at block 3 fails 11; `isComplete` = core complete
+    fails 11 (the `index === 0` spelling is EQUIVALENT — the extension is synchronous —
+    recorded, not hidden); the auto-skip on the first review fails 1; the course rung offering
+    a lesson after the session fails 1; the progress line ignoring unretained units fails 1;
+    tier 7 always offered fails 1. Full suite 684 files green; tsc and eslint clean;
+    `keep-learning.spec.js`, `home`, `course-walk`, `course-map`, `sp4b` and `practice` specs
+    pass in Chrome against a production build.
+  - **Stated gaps**: a measured weak category that the course has not yet taught is still not
+    served (the taught-only rule — a veteran's genitive weakness waits for the genitive
+    lesson); Lesson Review serves at most its queue caps per sitting, so a large backlog
+    recurs block after block by design; the next-step pill shown on an exercise screen still
+    reads the plan before Home has applied that completion (pre-existing).
+- [x] **Sweep 218 — a recording with no speech read as a server outage (Sentry, 2026-09-29).**
+      `ai_feedback_failed:guided-speaking-assess:server` on `/speaking_guided`, minutes after
+      the recording check (#795/#796) shipped.
+  - When Azure hears no speech it answers 200 with `RecognitionStatus` `NoMatch`,
+    `InitialSilenceTimeout` or `BabbleTimeout` and no `NBest`. `parseAzureResponse`
+    returned null, which became `unexpected_shape` and a 502, so the learner read "the
+    evaluation service is temporarily unavailable" and Sentry said `server`.
+  - Now it is a 422 `no_speech`: the audio Azure measured is booked, and the client files it
+    under `stt` ("We couldn't transcribe the recording. Check the microphone and try
+    again."). It is still reported, because a silent capture can be our own defect.
+  - NOT established: whether this event was a silent recording or another 5xx. The tag was
+    truncated before its code and the Cloudflare log cannot be read from here. If the next
+    event reads `:stt code=no_speech` on Guided Speaking, suspect the recording taken
+    alongside the browser's recogniser first.
+  - Pinned by `pronunciationAssessMiscue.test.js` (three Azure statuses plus the client
+    classification). Mutation-verified: removing the branch fails 3.

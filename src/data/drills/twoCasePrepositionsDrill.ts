@@ -81,11 +81,11 @@ export const TWO_CASE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'za',
-    q: 'Za vrijeme ____ nije radio. (rat)',
-    en: 'During the war he did not work.',
-    opts: ['rata', 'rat', 'ratom', 'ratu'],
-    answer: 'rata',
-    tip: 'za vrijeme plus the genitive — during.',
+    q: 'Za ____ je napisao deset knjiga. (život)',
+    en: 'In his lifetime he wrote ten books.',
+    opts: ['života', 'život', 'životom', 'životu'],
+    answer: 'života',
+    tip: 'za plus the genitive — during: za života.',
   },
   {
     mode: 'za',

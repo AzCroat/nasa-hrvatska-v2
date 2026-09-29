@@ -31,9 +31,9 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
   // ── tvrtka ────────────────────────────────────────────────────────────────
   {
     mode: 'tvrtka',
-    q: 'Koja je hrvatska riječ za "company"?',
+    q: 'Koja je standardna riječ za "company"?',
     en: 'company',
-    opts: ['tvrtka', 'firma', 'kompanija', 'ustanova'],
+    opts: ['tvrtka', 'firma', 'radnja', 'ustanova'],
     answer: 'tvrtka',
     tip: 'tvrtka or poduzeće. Firma is spoken and informal.',
   },
@@ -99,7 +99,7 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'brojke',
     q: 'Koja je hrvatska riječ za "profit"?',
     en: 'profit',
-    opts: ['dobit', 'profit', 'zarada od', 'prihod'],
+    opts: ['dobit', 'korist', 'zarada od', 'prihod'],
     answer: 'dobit',
     tip: 'dobit. Prihod is revenue — the money in, before costs.',
   },
@@ -131,7 +131,7 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'brojke',
     q: 'Što je "proračun"?',
     en: 'What is a proračun?',
-    opts: ['budget', 'calculation', 'forecast', 'estimate'],
+    opts: ['budget', 'balance sheet', 'forecast', 'estimate'],
     answer: 'budget',
     tip: 'From računati. The state budget is državni proračun.',
   },
@@ -163,9 +163,9 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
   // ── sezona ────────────────────────────────────────────────────────────────
   {
     mode: 'sezona',
-    q: 'Koja je hrvatska riječ za "the economy"?',
+    q: 'Koja je standardna riječ za "the economy"?',
     en: 'the economy',
-    opts: ['gospodarstvo', 'ekonomija', 'privreda', 'financije'],
+    opts: ['gospodarstvo', 'ekonomija', 'poslovanje', 'financije'],
     answer: 'gospodarstvo',
     tip: 'Ekonomija is the academic discipline; gospodarstvo is the economy itself.',
   },

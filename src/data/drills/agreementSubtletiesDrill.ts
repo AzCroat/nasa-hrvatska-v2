@@ -142,7 +142,7 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Twenty-two people were present.',
     opts: ['su', 'je', 'jesu', 'bilo'],
     answer: 'su',
-    tip: 'The behaviour follows the LAST digit — 22 ends in two.',
+    tip: 'The behaviour follows the LAST WORD of the numeral — dvadeset i dva ends in dva.',
   },
   {
     mode: 'dvapet',
@@ -156,9 +156,9 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'dvapet',
     q: 'Što određuje ponašanje složenog broja?',
     en: 'What decides for a compound number?',
-    opts: ['zadnja znamenka', 'prva znamenka', 'ukupna veličina', 'rod imenice'],
-    answer: 'zadnja znamenka',
-    tip: 'Which is why 102 behaves like two and 105 like five.',
+    opts: ['posljednja riječ broja', 'prva riječ broja', 'ukupna veličina', 'rod imenice'],
+    answer: 'posljednja riječ broja',
+    tip: 'Which is why sto dva behaves like two and sto pet like five — and dvanaest, one word, like five.',
   },
 
   // ── sastavljeno ───────────────────────────────────────────────────────────
@@ -174,7 +174,7 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'sastavljeno',
     q: 'Ana i Marija su ____.',
     en: 'Ana and Marija came.',
-    opts: ['došle', 'došli', 'došla', 'doš'],
+    opts: ['došle', 'došli', 'došla', 'došlo'],
     answer: 'došle',
     tip: 'All feminine → feminine plural.',
   },

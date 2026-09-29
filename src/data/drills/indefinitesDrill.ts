@@ -176,7 +176,7 @@ export const INDEFINITES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nijekanje',
     q: 'Koja je rečenica točna?',
     en: 'Which is correct?',
-    opts: ['Nitko ništa ne zna.', 'Nitko ništa zna.', 'Netko ništa ne zna.', 'Nitko nešto ne zna.'],
+    opts: ['Nitko ništa ne zna.', 'Nitko ništa zna.', 'Nitko ne ništa zna.', 'Nitko nešto ne zna.'],
     answer: 'Nitko ništa ne zna.',
     tip: 'Two ni- words and the negated verb — three negatives, one meaning.',
   },

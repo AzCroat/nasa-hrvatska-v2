@@ -16,7 +16,7 @@ const DATA = [
     q: '„Obećavao je brda i doline.” — to znači da je obećavao:',
     opts: ['previše i nerealno', 'izlete u prirodu', 'kupnju zemljišta', 'malo, ali sigurno'],
     answer: 'previše i nerealno',
-    en: 'he promised the moon (lit. hills and valleys)',
+    en: 'lit. he promised hills and valleys',
     tip: 'Obećavati brda i doline = davati velika, neostvariva obećanja.',
   },
   {
@@ -29,7 +29,7 @@ const DATA = [
       'govori tiho i nejasno',
     ],
     answer: 'vara praznim pričama',
-    en: 'he is selling smoke — empty promises',
+    en: 'lit. that politician only sells fog',
     tip: 'Prodavati maglu = obmanjivati bez pokrića.',
   },
   {
@@ -42,7 +42,7 @@ const DATA = [
       'dobili novi posao',
     ],
     answer: 'financijski stali na noge',
-    en: 'we finally got back on our feet financially',
+    en: 'lit. we finally reached the green branch',
     tip: 'Doći na zelenu granu = izaći iz neimaštine, prosperirati.',
   },
   {
@@ -50,7 +50,7 @@ const DATA = [
     q: '„Cijeli sastanak mlatili smo praznu slamu.” — raspravljali smo:',
     opts: ['bez ikakve koristi', 'o poljoprivredi', 'vrlo žustro', 'o nevažnim ljudima'],
     answer: 'bez ikakve koristi',
-    en: 'we were threshing empty straw — talking to no purpose',
+    en: 'lit. we threshed empty straw the whole meeting',
     tip: 'Mlatiti praznu slamu = govoriti mnogo, a reći ništa.',
   },
   {
@@ -58,7 +58,7 @@ const DATA = [
     q: '„Radili su bok uz bok cijelu noć.” — radili su:',
     opts: ['jedan uz drugoga, zajedno', 'jedan protiv drugoga', 'u smjenama', 'bez odmora'],
     answer: 'jedan uz drugoga, zajedno',
-    en: 'they worked side by side all night',
+    en: 'lit. they worked flank to flank all night',
     tip: 'Bok uz bok = rame uz rame, u neposrednoj suradnji.',
   },
   {
@@ -66,7 +66,7 @@ const DATA = [
     q: '„Kvantna fizika za mene je špansko selo.” — to mi je:',
     opts: ['posve nepoznato područje', 'omiljena tema', 'daleko putovanje', 'seoska idila'],
     answer: 'posve nepoznato područje',
-    en: 'it is all Greek to me (lit. a Spanish village)',
+    en: 'lit. quantum physics is a Spanish village to me',
     tip: 'Špansko selo = nešto o čemu ne znamo ništa.',
   },
   {
@@ -82,7 +82,7 @@ const DATA = [
     q: '„On ima putra na glavi.” — on:',
     opts: ['i sam nosi dio krivnje', 'voli dobro jesti', 'lako se uvrijedi', 'bogat je'],
     answer: 'i sam nosi dio krivnje',
-    en: 'he has butter on his head — he is not innocent himself',
+    en: 'lit. he has butter on his head',
     tip: 'Imati putra na glavi = ne biti bez grijeha, pa bolje šutjeti.',
   },
   {
@@ -90,7 +90,7 @@ const DATA = [
     q: 'Tko pod drugim jamu kopa, sam u nju ____.',
     opts: ['pada', 'skače', 'gleda', 'sjedne'],
     answer: 'pada',
-    en: 'who digs a pit for another falls into it himself',
+    en: 'who digs a pit for another ___ into it himself',
     tip: 'Poslovica o zlobi koja se vraća počinitelju.',
   },
   {
@@ -98,7 +98,7 @@ const DATA = [
     q: 'Bez muke nema ____.',
     opts: ['nauke', 'kruha', 'sreće', 'plaće'],
     answer: 'nauke',
-    en: 'no pain, no gain (no learning without effort)',
+    en: 'no pain, no gain (lit. without effort there is no ___)',
     tip: 'Rimovana poslovica: muke — nauke.',
   },
   {
@@ -106,7 +106,7 @@ const DATA = [
     q: 'Vuk dlaku mijenja, ali ____ nikada.',
     opts: ['ćud', 'zube', 'ime', 'šumu'],
     answer: 'ćud',
-    en: 'a wolf changes his coat but never his nature',
+    en: 'a wolf changes his coat but never his ___',
     tip: 'Ćud = narav; ljudi se u biti ne mijenjaju.',
   },
   {
@@ -114,7 +114,7 @@ const DATA = [
     q: 'Ispeci pa ____.',
     opts: ['reci', 'jedi', 'šuti', 'kreni'],
     answer: 'reci',
-    en: 'bake it, then say it — think before you speak',
+    en: 'bake it, then ___ it — think before you speak',
     tip: 'Poziv na promišljanje prije izjave.',
   },
   {
@@ -122,7 +122,7 @@ const DATA = [
     q: 'Krv nije ____.',
     opts: ['voda', 'vino', 'more', 'sok'],
     answer: 'voda',
-    en: 'blood is thicker than water',
+    en: 'lit. blood is not ___',
     tip: 'Obiteljske veze jače su od ostalih.',
   },
   {
@@ -130,7 +130,7 @@ const DATA = [
     q: 'Željezo se kuje dok je ____.',
     opts: ['vruće', 'novo', 'meko', 'sjajno'],
     answer: 'vruće',
-    en: 'strike while the iron is hot',
+    en: 'lit. iron is forged while it is ___',
     tip: 'Priliku valja iskoristiti odmah.',
   },
   {
@@ -138,7 +138,7 @@ const DATA = [
     q: 'Tiha voda ____ dere.',
     opts: ['brege', 'kamen', 'korito', 'obale'],
     answer: 'brege',
-    en: 'still waters run deep (quiet water wears down hills)',
+    en: 'still waters run deep (lit. quiet water wears down the ___)',
     tip: 'Frazem čuva stariji lik „brege” (brjegove).',
   },
   {
@@ -146,7 +146,7 @@ const DATA = [
     q: 'Što možeš danas, ne ostavljaj za ____.',
     opts: ['sutra', 'poslije', 'druge', 'starost'],
     answer: 'sutra',
-    en: 'do not put off until tomorrow what you can do today',
+    en: 'what you can do today, do not leave for ___',
     tip: 'Ustaljeni oblik završava na „sutra”.',
   },
   {
@@ -154,7 +154,7 @@ const DATA = [
     q: 'U svečanom govoru: „Zahvaljujem svima koji su nam ____ ruku u teškim trenucima.”',
     opts: ['pružili', 'dali', 'digli', 'stisnuli'],
     answer: 'pružili',
-    en: 'thanks to all who extended a hand in hard times',
+    en: 'thanks to all who ___ us a hand in hard times',
     tip: 'Pružiti (komu) ruku = ponuditi pomoć; svečano-neutralan izraz.',
   },
   {
@@ -162,7 +162,7 @@ const DATA = [
     q: '„Nakon deset godina uzaludnih pokušaja, ____ je koplje u trnje.”',
     opts: ['bacio', 'stavio', 'zabio', 'spustio'],
     answer: 'bacio',
-    en: 'after ten futile years he threw in the towel',
+    en: 'after ten futile years he gave up (lit. he ___ the spear into the thorns)',
     tip: 'Baciti koplje u trnje = odustati od borbe.',
   },
   {
@@ -170,7 +170,7 @@ const DATA = [
     q: 'Njegov uspjeh mnogima je bio ____ u oku.',
     opts: ['trn', 'prst', 'kamen', 'dim'],
     answer: 'trn',
-    en: 'his success was a thorn in many an eye',
+    en: 'his success was a ___ in many an eye',
     tip: 'Biti komu trn u oku = smetati, izazivati zavist.',
   },
   {
@@ -186,7 +186,7 @@ const DATA = [
     q: 'Kad su svi oklijevali, ona je uzela stvar u svoje ____.',
     opts: ['ruke', 'noge', 'srce', 'okvire'],
     answer: 'ruke',
-    en: 'she took matters into her own hands',
+    en: 'she took matters into her own ___',
     tip: 'Uzeti stvar u svoje ruke = preuzeti inicijativu.',
   },
   {
@@ -194,7 +194,7 @@ const DATA = [
     q: 'Obećao je i, kao uvijek, ____ riječ.',
     opts: ['održao', 'izdao', 'primio', 'čuvao'],
     answer: 'održao',
-    en: 'he promised and, as always, kept his word',
+    en: 'he promised and, as always, ___ his word',
     tip: 'Održati riječ = ispuniti obećanje (prekršiti = pogaziti riječ).',
   },
   {

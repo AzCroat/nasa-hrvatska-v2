@@ -48,7 +48,7 @@ const DATA = [
     q: 'Samo određeni vid imaju pridjevi na:',
     opts: ['-ski (hrvatski)', '-an (dobar)', '-ov (bratov)', '-in (mamin)'],
     answer: '-ski (hrvatski)',
-    en: 'adjectives in -ski have only the definite form',
+    en: 'which adjectives have only the definite form?',
     tip: 'Odnosni pridjevi na -ski/-nji/-ji: samo određeni vid.',
   },
   {
@@ -56,7 +56,7 @@ const DATA = [
     q: 'Samo NEODREĐENI oblik u N jd. imaju pridjevi:',
     opts: ['posvojni na -ov/-in', 'opisni', 'na -ski', 'redni brojevi'],
     answer: 'posvojni na -ov/-in',
-    en: 'possessives in -ov/-in have only the indefinite nominative',
+    en: 'which adjectives have only the indefinite nominative?',
     tip: 'Bratov, mamin, sestrin — bez određenoga N oblika.',
   },
   {
@@ -64,7 +64,7 @@ const DATA = [
     q: 'U rječniku se opisni pridjev navodi u ____ vidu.',
     opts: ['neodređenom', 'određenom', 'srednjem', 'množinskom'],
     answer: 'neodređenom',
-    en: 'dictionaries cite adjectives in the indefinite form',
+    en: 'the form dictionaries cite',
     tip: 'Natuknica: dobar, star, nov (neodređeni vid).',
   },
   {
@@ -72,7 +72,7 @@ const DATA = [
     q: 'Redni brojevi imaju ____ vid: „na trećem katu”.',
     opts: ['samo određeni', 'samo neodređeni', 'oba', 'nijedan'],
     answer: 'samo određeni',
-    en: 'ordinals are always definite',
+    en: 'the form of ordinal numbers',
     tip: 'Treći, peti, stoti — uvijek određena sklonidba.',
   },
   {
@@ -149,7 +149,7 @@ const DATA = [
       'ironiju bez iznimke',
     ],
     answer: 'točno određenog, poznatog čovjeka',
-    en: 'THE good man — a specific, known man',
+    en: 'dobri čovjek (definite form)',
     tip: 'Određeni vid = poznat, već spomenut, jedini takav.',
   },
   {
@@ -157,7 +157,7 @@ const DATA = [
     q: 'Neodređeni vid odgovara na pitanje:',
     opts: ['kakav?', 'koji?', 'čiji?', 'koliki?'],
     answer: 'kakav?',
-    en: 'the indefinite form answers what kind?',
+    en: 'the question the indefinite form answers',
     tip: 'Kakav je? — nov, star, dobar.',
   },
   {
@@ -165,7 +165,7 @@ const DATA = [
     q: 'Određeni vid odgovara na pitanje:',
     opts: ['koji?', 'kakav?', 'čiji?', 'što?'],
     answer: 'koji?',
-    en: 'the definite form answers which one?',
+    en: 'the question the definite form answers',
     tip: 'Koji? — novi, stari, dobri.',
   },
   {
@@ -207,11 +207,11 @@ const DATA = [
   },
   {
     mode: 'znacenje',
-    q: '„Pas lutalica” vs „taj ____ pas” — dopuni određenim vidom.',
-    opts: ['lutavi', 'lutav', 'lutalica', 'lutajuć'],
-    answer: 'lutavi',
-    en: 'that stray dog',
-    tip: 'Uz taj: određeni oblik pridjeva.',
+    q: '„Pas je gladan” vs „taj ____ pas” — dopuni određenim vidom.',
+    opts: ['gladni', 'gladan', 'gladnoga', 'gladnim'],
+    answer: 'gladni',
+    en: 'the dog is hungry vs that hungry dog',
+    tip: 'Uz taj: određeni oblik pridjeva — taj gladni pas (u predikatu: pas je gladan).',
   },
 ];
 

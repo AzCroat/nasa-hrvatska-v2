@@ -223,7 +223,7 @@ export const OLD_TEXTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: 'Kakav je bio status čakavskoga kod Marulića?',
-    en: 'What was Marulić čakavian?',
+    en: 'What status did čakavian have for Marulić?',
     opts: ['književni standard', 'dijalekt bez ugleda', 'govorni jezik samo', 'strani utjecaj'],
     answer: 'književni standard',
     tip: 'A literary language, not a curiosity — which reframes the whole tradition.',

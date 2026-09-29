@@ -152,9 +152,9 @@ export const HUMOUR_DRILL_DATA: ModeDrillItem[] = [
     mode: 'podcijeni',
     q: 'Što znači "Može proći."?',
     en: 'What does Može proći mean?',
-    opts: ['sasvim je u redu', 'jedva prolazi', 'može proći pored', 'dopušteno je'],
+    opts: ['sasvim je u redu', 'izvrsno je', 'može proći pored', 'dopušteno je'],
     answer: 'sasvim je u redu',
-    tip: 'Another understatement — it is fine, and rather better than fine.',
+    tip: 'It will do — acceptable, said without enthusiasm. The tone decides how warm it is.',
   },
   {
     mode: 'podcijeni',
@@ -162,7 +162,7 @@ export const HUMOUR_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which is strongest in this register?',
     opts: ['Nije loše.', 'Dobro je.', 'U redu je.', 'Prolazi.'],
     answer: 'Nije loše.',
-    tip: 'The double negative outranks the plain positive. That is the whole style.',
+    tip: 'Litotes — denying the negative — outranks the plain positive. That is the whole style.',
   },
   {
     mode: 'podcijeni',

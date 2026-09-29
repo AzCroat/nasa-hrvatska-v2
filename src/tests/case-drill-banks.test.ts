@@ -7,7 +7,6 @@
  */
 import { describe, it, expect } from 'vitest';
 import { DATA as NOM } from '../components/practice/NominativeDrill';
-import { DATA as ANIM } from '../components/practice/AnimateAccDrill';
 import { DATA as INSTR } from '../components/practice/InstrumentalDrill';
 import { DATA as DAT } from '../components/practice/DativeDrill';
 
@@ -22,7 +21,6 @@ interface DrillItem {
 
 const BANKS: Array<[string, DrillItem[]]> = [
   ['NominativeDrill', NOM],
-  ['AnimateAccDrill', ANIM],
   ['InstrumentalDrill', INSTR],
   ['DativeDrill', DAT],
 ];
@@ -59,13 +57,5 @@ describe.each(BANKS)('%s bank', (name, bank) => {
   it('contains plural-form coverage (post-expansion requirement)', () => {
     const pluralTagged = bank.filter((i) => /PLURAL/i.test(i.tip));
     expect(pluralTagged.length, `${name}: plural items`).toBeGreaterThanOrEqual(5);
-  });
-});
-
-describe('AnimateAccDrill extras', () => {
-  it('every item carries the nom (dictionary form) field', () => {
-    for (const item of ANIM) {
-      expect(item.nom, `nom missing for "${item.q}"`).toBeTruthy();
-    }
   });
 });

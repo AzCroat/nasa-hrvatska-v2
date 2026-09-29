@@ -39,14 +39,14 @@ const DATA = [
   },
   {
     q: "'Be quiet!' (informal, biti tih)",
-    opts: ['Budi tih!', 'Budite tih!', 'Budi tiho!', 'Budi tiha!'],
-    answer: 'Budi tiho!',
-    en: 'Be quiet! (neuter/command)',
-    tip: "biti → budi (sg) / budite (pl). 'tiho' is the adverb form here",
+    opts: ['Budimo tih!', 'Biti tih!', 'Budi tih!', 'Budeš tih!'],
+    answer: 'Budi tih!',
+    en: 'Be quiet! (to one boy or man)',
+    tip: 'biti → budi (sg) / budite (pl). The adjective agrees with the person: budi tih (m), budi tiha (f)',
   },
   {
     q: "'Go home!' (informal, ići)",
-    opts: ['Idi kući!', 'Idite kući!', 'Idem kući!', 'Idi doma!'],
+    opts: ['Idi kući!', 'Idite kući!', 'Idem kući!', 'Ići kući!'],
     answer: 'Idi kući!',
     en: 'Go home! (to one person)',
     tip: 'ići → irregular: idi (sg) / idite (pl)',
@@ -67,10 +67,10 @@ const DATA = [
   },
   {
     q: "'Don't worry!' (informal, brinuti se)",
-    opts: ['Nemoj se brinuti!', 'Ne brini se!', 'Ne briniš se!', 'Nemoj brinuti!'],
+    opts: ['Nemoj se brinuti!', 'Nemoj se brineš!', 'Ne briniš se!', 'Nemoj brinuti!'],
     answer: 'Nemoj se brinuti!',
     en: "Don't worry!",
-    tip: 'Negative: nemoj + infinitive (nemoj se brinuti) is preferred',
+    tip: 'Negative: nemoj + infinitive (nemoj se brinuti); "ne brini se" is equally standard',
   },
   {
     q: "'Open the door!' (informal, otvoriti)",
@@ -102,7 +102,7 @@ const DATA = [
   },
   {
     q: "'Don't forget!' (informal, zaboraviti)",
-    opts: ['Nemoj zaboraviti!', 'Ne zaboravi!', 'Zaboraviš ne!', 'Ne zaboravljaj!'],
+    opts: ['Nemoj zaboraviti!', 'Nemoj zaboravi!', 'Zaboraviš ne!', 'Nemoj zaboraviš!'],
     answer: 'Nemoj zaboraviti!',
     en: "Don't forget!",
     tip: "Negative imperative with 'nemoj' + infinitive",
@@ -116,7 +116,7 @@ const DATA = [
   },
   {
     q: "'Help me!' (informal, pomoći)",
-    opts: ['Pomozi mi!', 'Pomozite mi!', 'Pomaži mi!', 'Pomogni mi!'],
+    opts: ['Pomozi mi!', 'Pomozite mi!', 'Pomaži mi!', 'Pomoći mi!'],
     answer: 'Pomozi mi!',
     en: 'Help me! (to one person)',
     tip: 'pomoći → irregular: pomozi (sg) / pomozite (pl)',
@@ -151,7 +151,7 @@ const DATA = [
   },
   {
     q: "'Don't be late!' (formal/plural, kasniti)",
-    opts: ['Nemojte kasniti!', 'Nemoj kasniti!', 'Ne kasnite!', 'Ne kasni!'],
+    opts: ['Nemojte kasniti!', 'Nemoj kasniti!', 'Nemojte kasnite!', 'Ne kasni!'],
     answer: 'Nemojte kasniti!',
     en: "Don't be late! (formal/plural)",
     tip: 'Plural negative: nemojte + infinitive',

@@ -45,8 +45,8 @@ const DATA = [
   },
   {
     mode: 'sav',
-    q: '„Radio je ____ dan.”',
-    opts: ['cijeli', 'sav', 'svaki', 'sam'],
+    q: '„Radio je ____ dan.” (od jutra do mraka)',
+    opts: ['cijeli', 'cijela', 'svaki', 'sam'],
     answer: 'cijeli',
     en: 'he worked the whole day',
     tip: 'Uz vremenske jedinice birano: cijeli dan (sav dan je razgovorno).',
@@ -207,7 +207,7 @@ const DATA = [
   },
   {
     mode: 'sam',
-    q: 'U „na samom početku” „sami” znači:',
+    q: 'U „na samom početku” riječ „samom” znači:',
     opts: ['baš, upravo (na početku)', 'usamljen', 'jedini', 'cijeli'],
     answer: 'baš, upravo (na početku)',
     en: 'at the very beginning',

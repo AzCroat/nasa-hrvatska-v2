@@ -41,7 +41,7 @@ const DATA = [
     q: 'Aorist se u pravilu tvori od:',
     opts: ['svršenih glagola', 'nesvršenih glagola', 'samo povratnih glagola', 'pomoćnih glagola'],
     answer: 'svršenih glagola',
-    en: 'from perfective verbs',
+    en: 'which verbs normally form the aorist?',
     tip: 'Aorist = svršena prošla radnja; imperfekt uzima nesvršene.',
   },
   {
@@ -105,7 +105,7 @@ const DATA = [
     q: 'Imperfekt se tvori od:',
     opts: ['nesvršenih glagola', 'svršenih glagola', 'samo pomoćnih glagola', 'glagola kretanja'],
     answer: 'nesvršenih glagola',
-    en: 'from imperfective verbs',
+    en: 'which verbs form the imperfect?',
     tip: 'Imperfekt = trajanje u prošlosti, pa traži nesvršeni vid.',
   },
   {
@@ -130,7 +130,7 @@ const DATA = [
     opts: ['imaše', 'imade', 'imala je', 'imahe'],
     answer: 'imaše',
     en: 'he/she had (imperfect)',
-    tip: 'Imah, imaše, imahu; „imade” je aoristni oblik.',
+    tip: 'Imah, imaše, imahu; „imade” je (regionalni) oblik prezenta, ne imperfekt.',
   },
   {
     mode: 'imperfekt',
@@ -150,7 +150,7 @@ const DATA = [
       'vremenskoj prognozi',
     ],
     answer: 'književnosti i pripovijedanju',
-    en: 'in literature and storytelling',
+    en: 'where are they most common today?',
     tip: 'U govoru ih je zamijenio perfekt; u prozi čuvaju ritam pripovijedanja.',
   },
   {
@@ -166,7 +166,7 @@ const DATA = [
     q: 'Kojim oblikom u razgovoru zamjenjujemo „stigoh”?',
     opts: ['stigao sam', 'stizah', 'bio bih stigao', 'stignem'],
     answer: 'stigao sam',
-    en: 'I arrived (everyday perfect)',
+    en: 'I arrived (in everyday speech)',
     tip: 'Perfekt je preuzeo ulogu aorista u govoru.',
   },
   {
@@ -187,7 +187,7 @@ const DATA = [
       'planirana u budućnosti',
     ],
     answer: 'svršena, često nagla i u nizu',
-    en: 'a completed, often sudden past action',
+    en: 'what kind of action does the aorist express?',
     tip: 'Aorist gura pripovijedanje naprijed: uđe, sjedne, reče.',
   },
   {
@@ -200,7 +200,7 @@ const DATA = [
       'uvjetovana',
     ],
     answer: 'trajala ili se ponavljala u prošlosti',
-    en: 'an ongoing or repeated past action',
+    en: 'what kind of action does the imperfect express?',
     tip: 'Imperfekt slika pozadinu: sunce zalažaše, ljudi šetahu.',
   },
   {
@@ -208,7 +208,7 @@ const DATA = [
     q: 'U porukama se aorist vraća („stigoh!”) jer je:',
     opts: ['kraći od perfekta', 'službeniji od perfekta', 'jedini pravilan oblik', 'stran jezik'],
     answer: 'kraći od perfekta',
-    en: 'shorter than the perfect — texting revival',
+    en: 'why the aorist comes back in text messages',
     tip: '„Stigoh” štedi znakove naspram „stigao sam” — živa renesansa aorista.',
   },
   {

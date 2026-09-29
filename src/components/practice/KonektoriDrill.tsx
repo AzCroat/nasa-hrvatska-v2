@@ -15,9 +15,9 @@ const DATA = [
   {
     mode: 'znacenje',
     q: 'Kasnio je na vlak; ____ je propustio i sastanak.',
-    opts: ['stoga', 'premda', 'naime', 'štoviše'],
+    opts: ['stoga', 'premda', 'naime', 'uoči'],
     answer: 'stoga',
-    en: 'he was late for the train; therefore he missed the meeting too',
+    en: 'he was late for the train; ___ he missed the meeting too',
     tip: 'Stoga = posljedica (therefore).',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: 'Nije došao na proslavu, ____ se bio najavio.',
     opts: ['premda', 'stoga', 'dakle', 'naime'],
     answer: 'premda',
-    en: 'he did not come to the party, although he had said he would',
+    en: 'he did not come to the party, ___ he had said he would',
     tip: 'Premda/iako = dopusnost (although).',
   },
   {
@@ -33,7 +33,7 @@ const DATA = [
     q: 'Sve je skuplje; ____, cijene energije naglo rastu.',
     opts: ['naime', 'stoga', 'ipak', 'potom'],
     answer: 'naime',
-    en: 'everything is pricier; namely, energy costs are soaring',
+    en: 'everything is pricier; ___, energy costs are soaring',
     tip: 'Naime uvodi objašnjenje ili pojašnjenje.',
   },
   {
@@ -41,15 +41,15 @@ const DATA = [
     q: 'Nije samo pametan; ____, izuzetno je marljiv.',
     opts: ['štoviše', 'premda', 'doduše', 'inače'],
     answer: 'štoviše',
-    en: 'he is not just smart; moreover, he is extremely hardworking',
+    en: 'he is not just smart; ___, he is extremely hardworking',
     tip: 'Štoviše pojačava prethodnu tvrdnju.',
   },
   {
     mode: 'znacenje',
     q: 'Plan nije uspio; ____ moramo pokušati ponovno.',
-    opts: ['unatoč tomu', 'naime', 'potom', 'štoviše'],
+    opts: ['unatoč tomu', 'naime', 'premda', 'štoviše'],
     answer: 'unatoč tomu',
-    en: 'the plan failed; nevertheless we must try again',
+    en: 'the plan failed; ___ we must try again',
     tip: 'Unatoč tomu = usprkos rečenomu (nevertheless).',
   },
   {
@@ -57,15 +57,15 @@ const DATA = [
     q: 'Prvo dovršimo izvještaj; ____ možemo na kavu.',
     opts: ['potom', 'naime', 'premda', 'doduše'],
     answer: 'potom',
-    en: 'first we finish the report; then we can go for coffee',
+    en: 'first we finish the report; ___ we can go for coffee',
     tip: 'Potom/zatim = vremenski slijed.',
   },
   {
     mode: 'znacenje',
     q: 'Posao je, ____, naporan, ali izvrsno plaćen.',
-    opts: ['doduše', 'stoga', 'potom', 'dakle'],
+    opts: ['doduše', 'stoga', 'potom', 'premda'],
     answer: 'doduše',
-    en: 'the job is, admittedly, exhausting, but superbly paid',
+    en: 'the job is, ___, exhausting, but superbly paid',
     tip: 'Doduše priznaje ograničenje prije suprotstavljanja.',
   },
   {
@@ -73,7 +73,7 @@ const DATA = [
     q: 'Misliš, ____, da nemamo drugog izbora?',
     opts: ['dakle', 'naime', 'premda', 'uoči'],
     answer: 'dakle',
-    en: 'so you think we have no other choice?',
+    en: 'you think, ___, that we have no other choice?',
     tip: 'Dakle izvodi zaključak iz rečenoga.',
   },
   {
@@ -81,7 +81,7 @@ const DATA = [
     q: 'Zaključak je jasan: ____, moramo štedjeti.',
     opts: ['dakle', 'naime', 'doduše', 'premda'],
     answer: 'dakle',
-    en: 'the conclusion is clear: therefore, we must save',
+    en: 'the conclusion is clear: ___, we must save',
     tip: 'Dakle = zaključak; naime = objašnjenje. Ovdje zaključujemo.',
   },
   {
@@ -89,7 +89,7 @@ const DATA = [
     q: 'Nešto ću ti priznati: ____, nikad nisam volio ovaj posao.',
     opts: ['naime', 'dakle', 'stoga', 'potom'],
     answer: 'naime',
-    en: 'I will confess something: namely, I never liked this job',
+    en: 'I will confess something: ___, I never liked this job',
     tip: 'Najava objašnjenja → naime.',
   },
   {
@@ -97,7 +97,7 @@ const DATA = [
     q: 'Obećao je doći; ____, nije se pojavio.',
     opts: ['međutim', 'stoga', 'naime', 'potom'],
     answer: 'međutim',
-    en: 'he promised to come; however, he did not show up',
+    en: 'he promised to come; ___, he did not show up',
     tip: 'Suprotnost očekivanju → međutim.',
   },
   {
@@ -105,7 +105,7 @@ const DATA = [
     q: '____ je padala kiša, izašli smo u šetnju.',
     opts: ['Iako', 'Zato što', 'Budući da', 'Naime'],
     answer: 'Iako',
-    en: 'although it was raining, we went for a walk',
+    en: '___ it was raining, we went for a walk',
     tip: 'Dopusnost (unatoč kiši) → iako.',
   },
   {
@@ -113,7 +113,7 @@ const DATA = [
     q: 'Nisam došao ____ sam bio bolestan.',
     opts: ['zato što', 'iako', 'međutim', 'štoviše'],
     answer: 'zato što',
-    en: 'I did not come because I was ill',
+    en: 'I did not come ___ I was ill',
     tip: 'Uzrok → zato što / jer.',
   },
   {
@@ -121,7 +121,7 @@ const DATA = [
     q: '____ nije bilo struje, nastava je otkazana.',
     opts: ['Budući da', 'Jer', 'Međutim', 'Štoviše'],
     answer: 'Budući da',
-    en: 'since there was no electricity, classes were cancelled',
+    en: '___ there was no electricity, classes were cancelled',
     tip: 'Na početku rečenice uzrok uvodi BUDUĆI DA — ne „jer”.',
   },
   {
@@ -129,7 +129,7 @@ const DATA = [
     q: 'Automobil nije crn, ____ tamnoplav.',
     opts: ['nego', 'no', 'ali', 'već da'],
     answer: 'nego',
-    en: 'the car is not black but dark blue',
+    en: 'the car is not black, ___ dark blue',
     tip: 'Iza niječnice ispravak uvodi NEGO (ili već).',
   },
   {
@@ -137,7 +137,7 @@ const DATA = [
     q: 'Trudio se svim silama, ____ rezultata nije bilo.',
     opts: ['no', 'nego', 'naime', 'potom'],
     answer: 'no',
-    en: 'he tried his hardest, yet there were no results',
+    en: 'he tried his hardest, ___ there were no results',
     tip: 'No = ali (blaža suprotnost); nego traži niječnicu ispred.',
   },
   {
@@ -145,7 +145,7 @@ const DATA = [
     q: 'Razgovorno „al” u eseju postaje:',
     opts: ['međutim', 'fakat', 'pa', 'ma'],
     answer: 'međutim',
-    en: 'colloquial but → formal however',
+    en: 'colloquial al in an essay',
     tip: 'U formalnom tekstu: no, ali, međutim.',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: 'U službenom dopisu „isto tako” bolje je zamijeniti s:',
     opts: ['nadalje', 'kužiš', 'e da', 'usput'],
     answer: 'nadalje',
-    en: 'furthermore (formal linking)',
+    en: 'formal linking in an official letter',
     tip: 'Nadalje, također, povrh toga — formalni dodavači.',
   },
   {
@@ -169,7 +169,7 @@ const DATA = [
     q: '„Slijedom navedenoga” u dopisu znači:',
     opts: ['u skladu s onim što je rečeno', 'suprotno rečenomu', 'bez obzira na sve', 'na brzinu'],
     answer: 'u skladu s onim što je rečeno',
-    en: 'pursuant to the foregoing',
+    en: 'an administrative connector',
     tip: 'Administrativni konektor posljedice/nadovezivanja.',
   },
   {
@@ -177,7 +177,7 @@ const DATA = [
     q: 'Za zaključni odlomak eseja prikladan je konektor:',
     opts: ['naposljetku', 'frka je', 'eto', 'aha'],
     answer: 'naposljetku',
-    en: 'finally / in conclusion',
+    en: 'a connector for the closing paragraph',
     tip: 'Naposljetku, zaključno, na kraju — zaključni signali.',
   },
   {
@@ -185,7 +185,7 @@ const DATA = [
     q: 'Razgovorno potvrdno „nego šta” u standardu glasi:',
     opts: ['dakako', 'ma daj', 'nema frke', 'aha'],
     answer: 'dakako',
-    en: 'colloquial sure thing → standard certainly',
+    en: 'colloquial nego šta in the standard',
     tip: 'Dakako, svakako, naravno — standardne potvrde.',
   },
   {
@@ -201,7 +201,7 @@ const DATA = [
     q: 'Razgovorni uvod „što se tiče” u formalnom stilu:',
     opts: ['glede', 'kužiš', 'ono', 'ma'],
     answer: 'glede',
-    en: 'regarding (formal)',
+    en: 'što se tiče in formal style',
     tip: 'Glede / u pogledu / u vezi s — formalne inačice.',
   },
 ];

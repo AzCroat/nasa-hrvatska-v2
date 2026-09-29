@@ -127,7 +127,7 @@ export function buildAzureSsml(
 // calibration audio is exactly what learners hear.
 export async function tryAzure(
   text,
-  { slow, prosody, phoneme, voiceName },
+  { slow, prosody, phoneme, voiceName, outputFormat },
   azureKey,
   primaryRegion,
 ) {
@@ -164,7 +164,9 @@ export async function tryAzure(
           headers: {
             Authorization: 'Bearer ' + token,
             'Content-Type': 'application/ssml+xml',
-            'X-Microsoft-OutputFormat': 'audio-24khz-160kbitrate-mono-mp3',
+            // The assessment calibration asks for 16 kHz PCM WAV — the format the app now
+            // sends to pronunciation assessment (src/lib/audioWav). Learners always get mp3.
+            'X-Microsoft-OutputFormat': outputFormat || 'audio-24khz-160kbitrate-mono-mp3',
             'User-Agent': 'NasaHrvatska/1.0',
           },
           body: ssml,

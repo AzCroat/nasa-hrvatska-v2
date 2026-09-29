@@ -78,10 +78,10 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: '„Auto moga brata” uz samo ime kraće kažemo:',
+    q: 'Umjesto „auto od brata” standard kaže:',
     opts: ['bratov auto', 'brata auto', 'bratski auto', 'auto od brat'],
     answer: 'bratov auto',
-    en: 'my brother\u2019s car — possessive adjective',
+    en: 'my brother\u2019s car',
     tip: 'Jednorječni posjednik → posvojni pridjev.',
   },
   {
@@ -94,7 +94,7 @@ const DATA = [
       'imenica počinje samoglasnikom',
     ],
     answer: 'je posjednik proširen (moga starijeg brata)',
-    en: 'possessive adjectives fail with expanded possessors',
+    en: 'when the possessive adjective cannot be used',
     tip: 'Auto moga starijeg brata — mora genitiv.',
   },
   {
@@ -102,7 +102,7 @@ const DATA = [
     q: 'Birani standard preferira:',
     opts: ['Ivanov auto', 'auto Ivana', 'auto od Ivana', 'Ivana auto'],
     answer: 'Ivanov auto',
-    en: 'the possessive adjective beats the genitive',
+    en: 'Ivan\u2019s car (formal)',
     tip: 'Uz neprošireno ime: pridjev, ne genitiv.',
   },
   {
@@ -126,7 +126,7 @@ const DATA = [
     q: '„Stan ____ ” (naša baka — prošireni posjednik):',
     opts: ['naše bake', 'naš bakin', 'naše bakin', 'našin bake'],
     answer: 'naše bake',
-    en: 'our grandmother\u2019s flat — genitive',
+    en: 'our grandmother\u2019s flat',
     tip: 'Prošireni posjednik → genitiv: stan naše bake.',
   },
   {
@@ -139,7 +139,7 @@ const DATA = [
       'gube završni samoglasnik',
     ],
     answer: 'normalno tvore posvojni pridjev',
-    en: 'foreign names form possessives too',
+    en: 'a possessive from a foreign name',
     tip: 'Shakespeareov, Goetheov, Camusov.',
   },
   {
@@ -147,7 +147,7 @@ const DATA = [
     q: 'Od imenica na -a posvojni je nastavak:',
     opts: ['-in (mamin)', '-ov (mamov)', '-ev (mamev)', '-ji (mamji)'],
     answer: '-in (mamin)',
-    en: 'a-stem nouns take -in',
+    en: 'the possessive ending for nouns in -a',
     tip: 'Mama → mamin, tata → tatin, Luka → Lukin.',
   },
   {
@@ -168,12 +168,12 @@ const DATA = [
       'ne sklanjaju se',
     ],
     answer: 'neodređenoj (imeničkoj) sklonidbi',
-    en: 'possessives decline like nouns (indefinite)',
-    tip: 'Ivanova, Ivanovu, s Ivanovim — bez -oga/-omu.',
+    en: 'how possessives in -ov/-in decline',
+    tip: 'Birano: Ivanova, Ivanovu, s Ivanovim (u govoru i Ivanovog, Ivanovom).',
   },
   {
     mode: 'sklonidba',
-    q: 'Vidio sam ____ brata. (Markov)',
+    q: 'Vidio sam ____ brata. (Markov, birano)',
     opts: ['Markova', 'Markovog', 'Markovoga', 'Markovu'],
     answer: 'Markova',
     en: 'I saw Marko\u2019s brother',
@@ -192,12 +192,12 @@ const DATA = [
     q: '„U Ivanovom autu” u biranom stilu glasi:',
     opts: ['u Ivanovu autu', 'u Ivanovome autu', 'u Ivanova auta', 'u Ivanov autu'],
     answer: 'u Ivanovu autu',
-    en: 'formal register drops -om',
+    en: 'u Ivanovom autu in formal style',
     tip: 'Neodređeni L jd.: Ivanovu (bez -om/-ome).',
   },
   {
     mode: 'sklonidba',
-    q: 'Genitiv od „Anin stan” glasi:',
+    q: 'Genitiv od „Anin stan” u biranom stilu glasi:',
     opts: ['Anina stana', 'Aninog stana', 'Aninoga stana', 'Anine stane'],
     answer: 'Anina stana',
     en: 'of Ana\u2019s flat (formal)',
@@ -205,7 +205,7 @@ const DATA = [
   },
   {
     mode: 'sklonidba',
-    q: 'Dali smo ____ psu hranu. (susjedov)',
+    q: 'Dali smo ____ psu hranu. (susjedov, birano)',
     opts: ['susjedovu', 'susjedovom', 'susjedovome', 'susjedova'],
     answer: 'susjedovu',
     en: 'we fed the neighbour\u2019s dog',

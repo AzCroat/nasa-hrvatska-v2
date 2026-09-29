@@ -219,9 +219,9 @@ export const PREPOSITION_CASE_DRILL_DATA: ModeDrillItem[] = [
     mode: 'sasa',
     q: 'Dođi ____ mnom.',
     en: 'Come with me.',
-    opts: ['sa', 's', 'od', 'kod'],
+    opts: ['sa', 'k', 'od', 'kod'],
     answer: 'sa',
-    tip: 'sa mnom is fixed. S mnom is hard to say and nobody says it.',
+    tip: 'sa mnom is the standard form — the norm writes sa before mnom.',
   },
   {
     mode: 'sasa',

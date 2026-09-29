@@ -139,11 +139,11 @@ export const NEGATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'fuzija',
-    q: 'Koji oblik NE postoji?',
-    en: 'Which form does NOT exist?',
+    q: 'Koji se od ovih oblika piše odvojeno?',
+    en: 'Which one is written as two words?',
     opts: ['ne znam', 'nisam', 'nemam', 'neću'],
     answer: 'ne znam',
-    tip: 'Trick: ne znam is correct — but written APART, so it is not one of the fused forms.',
+    tip: 'ne znam — ne stays a separate word before every verb except the fused nisam, neću, nemam and nemoj.',
   },
   {
     mode: 'fuzija',
@@ -195,7 +195,7 @@ export const NEGATION_DRILL_DATA: ModeDrillItem[] = [
       'Nitko nije ništa rekao.',
       'Nitko je ništa rekao.',
       'Nitko nije nešto rekao.',
-      'Netko nije ništa rekao.',
+      'Nitko ništa rekao.',
     ],
     answer: 'Nitko nije ništa rekao.',
     tip: 'Three negatives in one clause is normal Croatian: nitko, nije, ništa.',

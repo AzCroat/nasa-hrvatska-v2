@@ -22,19 +22,23 @@
  * generate path, still carries a prompt id and a script rule, and is still
  * covered by four test suites — with no product behind it.
  *
- * All three are superseded rather than missing, which is why this guard RECORDS
- * them instead of demanding they be wired: the daily plan is what
+ * All three were superseded rather than missing: the daily plan is what
  * `buildSessionActivities` composes deterministically, the insights are what the
  * mastery ledger, the concept map and InsightsTab present from measured data, and
  * the culture fact is what the P4 slot, CULTURE_DEEP_DIVES and City of the Day
- * serve. Deleting them is a decision about a working endpoint, queued in
- * AUDIT-STATE; this file makes a FOURTH one impossible to acquire silently.
+ * serve. This guard first RECORDED them; on 2026-09-29 the owner decided ("If not
+ * needed, remove and delete") and all three handlers, their ceiling entries and
+ * their prompts were DELETED. The guard stays, and now has no stranded entry at
+ * all: a FOURTH one cannot be acquired silently.
  *
  * TWO THINGS THE MATCHER HAS TO GET RIGHT, both learned the hard way elsewhere:
  *
- * 1. **A MENTION IS NOT A CALL.** Every one of the three shows "server hits" for
+ * 1. **A MENTION IS NOT A CALL.** Every one of the three showed "server hits" for
  *    its own path — in `_aiBudget.js`'s ceiling table, in `_requireAuth.js`'s
- *    doc comment, in `_promptCache.js`'s header. Those are data and prose about
+ *    doc comment, in `_promptCache.js`'s header. With them deleted the clause is
+ *    driven on real data (the calibration endpoints the ceiling table names) and
+ *    on a FABRICATED set of files, so it cannot depend on a stranded endpoint
+ *    existing. Those are data and prose about
  *    the endpoint, not traffic to it. Comments are stripped and the endpoint's
  *    own handler is excluded; the ceiling table is excluded by construction
  *    because it is the SUBJECT list.
@@ -116,13 +120,22 @@ function clientCallers(
   return files.filter(([f, t]) => reachable.has(f) && callsIt(t, ep)).map(([f]) => f);
 }
 
+/** The server half, injectable for the same reason as `clientCallers`. */
+function serverCallers(
+  ep: string,
+  files: [string, string][] = SERVER_FILES,
+  notTraffic: Set<string> = NOT_TRAFFIC,
+): string[] {
+  const handler = `functions/api/${ep.slice('/api/'.length)}.js`;
+  return files
+    .filter(([f, t]) => f !== handler && !notTraffic.has(f) && callsIt(t, ep))
+    .map(([f]) => f);
+}
+
 /** Where each endpoint is called from, by kind of caller. */
 function callersOf(ep: string): { client: string[]; server: string[]; ci: string[] } {
-  const handler = `functions/api/${ep.slice('/api/'.length)}.js`;
   const client = clientCallers(ep);
-  const server = SERVER_FILES.filter(
-    ([f, t]) => f !== handler && !NOT_TRAFFIC.has(f) && callsIt(t, ep),
-  ).map(([f]) => f);
+  const server = serverCallers(ep);
   const ci = CI_FILES.filter(([, t]) => callsIt(t, ep)).map(([f]) => f);
   return { client, server, ci };
 }
@@ -141,8 +154,11 @@ const CI_FILES: [string, string][] = walkFiles('.github/workflows', ['.yml', '.y
 ]);
 
 /**
- * Endpoints with no CLIENT caller, each with the reason. Two kinds only:
- * dispatched-by-CI (a real caller, just not a learner), and STRANDED.
+ * Endpoints with no CLIENT caller, each with the reason. Two kinds were allowed:
+ * dispatched-by-CI (a real caller, just not a learner), and STRANDED. The three
+ * stranded entries were deleted with their endpoints on 2026-09-29, so only the
+ * first kind remains — a new stranded endpoint needs a stated reason here, or
+ * (better) deleting.
  */
 const NO_CLIENT_CALLER: Record<string, string> = {
   '/api/golden-calibration':
@@ -153,21 +169,6 @@ const NO_CLIENT_CALLER: Record<string, string> = {
     'BY DESIGN: dispatch-only + monthly, run from stt-calibration.yml behind the same ' +
     'CRON_SECRET/CALIBRATION_SECRET gate. Calibrates the transcription stage in front ' +
     'of the rubric golden set; zero Claude calls.',
-  '/api/daily-culture':
-    'STRANDED since 2026-03-29. `4afa7673` ("Remove Croatia Today postcard from Home ' +
-    'page") removed its only caller from HomeTab; CroatiaPostcard.tsx itself was deleted ' +
-    'later by #682. Superseded by the P4 culture slot, CULTURE_DEEP_DIVES and City of ' +
-    'the Day, so it is recorded rather than re-wired — but it still authenticates and ' +
-    'still charges the ledger on its generate path. Deletion queued in AUDIT-STATE.',
-  '/api/daily-plan':
-    'STRANDED by #682, which correctly deleted `home/DailyPlanCard.tsx` — its only ' +
-    'caller — as part of 31 unreachable modules, with nothing to notice that a deleted ' +
-    "client was an endpoint's last caller. Superseded by buildSessionActivities, which " +
-    'composes the daily plan deterministically and cannot fail to generate.',
-  '/api/adaptive-insights':
-    'STRANDED by #682, same mechanism: `profile/AdaptiveInsightsCard.tsx` was its only ' +
-    'caller. Superseded by the mastery ledger, the concept map and InsightsTab, which ' +
-    'present MEASURED data instead of asking a model to characterise the learner.',
 };
 
 describe('every metered AI endpoint has a caller', () => {
@@ -189,11 +190,44 @@ describe('every metered AI endpoint has a caller', () => {
   });
 
   it('a MENTION in the ceiling table or a doc comment is not a caller', () => {
-    // All three stranded endpoints are named in _aiBudget.js and two in prose.
-    // Driven through the real reader so a widened NOT_TRAFFIC cannot hide traffic.
+    // Real data: the ceiling table names both calibration endpoints, and neither
+    // is called from any server file. Driven through the real reader so a
+    // widened NOT_TRAFFIC cannot hide traffic.
+    const budgetSrc = SERVER_FILES.find(([f]) => f === BUDGET)?.[1] ?? '';
+    for (const ep of ['/api/golden-calibration', '/api/stt-calibration']) {
+      expect(
+        callsIt(budgetSrc, ep),
+        `${ep} fixture moved: the ceiling table no longer names it`,
+      ).toBe(true);
+      expect(callersOf(ep).server, `${ep} should have no server caller`).toEqual([]);
+    }
+
+    // Fabricated: a ceiling-table row, a doc comment and one real call. Only the
+    // call counts — and with the exclusions defeated, the table row counts too,
+    // which is the bug this clause exists to prevent.
+    const ep = '/api/__fabricated-endpoint';
+    const files: [string, string][] = [
+      [BUDGET, `export const ENDPOINT_CEILING_MICROUSD = { '${ep}': 1 };`],
+      [
+        'functions/api/_requireAuth.js',
+        strip(`// cache-served endpoints ('${ep}') charge later\n`),
+      ],
+      ['functions/api/__caller.js', `await fetch('${ep}', { method: 'POST' });`],
+    ];
+    expect(serverCallers(ep, files)).toEqual(['functions/api/__caller.js']);
+    expect(serverCallers(ep, files, new Set())).toEqual([BUDGET, 'functions/api/__caller.js']);
+  });
+
+  it('the three endpoints deleted on 2026-09-29 stay deleted', () => {
+    // Owner decision: /api/daily-culture, /api/daily-plan and
+    // /api/adaptive-insights had no caller and were removed. A handler or a
+    // ceiling row coming back without a caller must be a decision, not a revert.
     for (const ep of ['/api/daily-culture', '/api/daily-plan', '/api/adaptive-insights']) {
-      const { client, server, ci } = callersOf(ep);
-      expect([...client, ...server, ...ci], `${ep} should have no caller at all`).toEqual([]);
+      expect(endpoints, `${ep} is back in the ceiling table`).not.toContain(ep);
+      expect(
+        fs.existsSync(path.join(ROOT, `functions/api/${ep.slice('/api/'.length)}.js`)),
+        `${ep}: handler is back`,
+      ).toBe(false);
     }
   });
 
@@ -232,7 +266,7 @@ describe('every metered AI endpoint has a caller', () => {
       'these metered AI endpoints have no reachable caller in the app. Each one still ' +
         'authenticates and can still charge the monthly ledger, with no product behind it. ' +
         'Wire it, delete it, or record it in NO_CLIENT_CALLER with the reason — deleting a ' +
-        'dead client module is how the last two acquired this state, and nothing noticed.',
+        'dead client module is how three acquired this state, and nothing noticed.',
     ).toEqual([]);
   });
 
@@ -257,8 +291,5 @@ describe('every metered AI endpoint has a caller', () => {
     // actually calls it. Asserted, not taken on the reason's word.
     for (const ep of ['/api/golden-calibration', '/api/stt-calibration'])
       expect(callersOf(ep).ci.length, `${ep} claims CI dispatch — prove it`).toBeGreaterThan(0);
-    // And the stranded three must NOT be dispatched by anything.
-    for (const ep of ['/api/daily-culture', '/api/daily-plan', '/api/adaptive-insights'])
-      expect(callersOf(ep).ci.length, `${ep} is dispatched after all`).toBe(0);
   });
 });

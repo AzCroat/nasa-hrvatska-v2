@@ -83,7 +83,7 @@ function twins(): Twin[] {
     const candidate = [ALIAS[mod], `src/data/${mod}.js`, `src/data/cultural/${base}.js`].find(
       (c) => c && existsSync(c),
     );
-    if (!candidate) continue; // genuinely server-only module (learnPath, seasonalCampaigns)
+    if (!candidate) continue; // genuinely server-only module (learnPath)
     out.push({
       mod,
       client: candidate,
@@ -154,16 +154,17 @@ describe('a twinned data module agrees on every export the payload actually serv
     }
   });
 
-  it('the two genuinely server-only modules are NOT silently dropped as twins', () => {
-    // `learnPath` and `seasonalCampaigns` have no client copy, so `continue`
-    // skips them — which is correct and is also how a RENAMED twin would vanish
-    // from this guard without a word. Pinned by name so a client copy appearing
-    // for either, or a third module losing its twin, fails here.
+  it('the one genuinely server-only module is NOT silently dropped as a twin', () => {
+    // `learnPath` has no client copy, so `continue` skips it — which is correct
+    // and is also how a RENAMED twin would vanish from this guard without a
+    // word. Pinned by name so a client copy appearing for it, or a second module
+    // losing its twin, fails here. (`seasonalCampaigns` was the other member
+    // until the campaign feature was removed, 2026-09-29.)
     const core = readFileSync(CORE, 'utf8');
     const imported = [
       ...core.matchAll(/import\s*\{[^}]+\}\s*from\s*'\.\/([A-Za-z0-9_/]+)\.js'/g),
     ].map((m) => m[1]!);
     const untwinned = imported.filter((m) => !found.some((t) => t.mod === m));
-    expect(untwinned.sort()).toEqual(['learnPath', 'seasonalCampaigns']);
+    expect(untwinned.sort()).toEqual(['learnPath']);
   });
 });

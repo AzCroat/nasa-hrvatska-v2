@@ -60,21 +60,11 @@ export function claudeCeiling(maxTokens) {
  */
 export const ENDPOINT_CEILING_MICROUSD = {
   // ── Claude (Haiku 4.5) ────────────────────────────────────────────────────
-  '/api/adaptive-insights': claudeCeiling(800),
   '/api/ai-chat': claudeCeiling(1200),
   '/api/assess-speaking': claudeCeiling(100) + 15_000, // + Whisper/Deepgram STT
   '/api/conversation': claudeCeiling(2000),
   '/api/conversational-tutor': claudeCeiling(1024),
   '/api/correct': claudeCeiling(2600),
-  // ── SELF-METERED endpoints (ceiling 0) ────────────────────────────────────
-  // These serve mostly from caches; charging the gate per REQUEST would burn
-  // the ledger on free cache hits (a thousand cached TTS plays would cost the
-  // budget $4 of nothing). Their gate ceiling is 0 — passed through even at
-  // the cap so cached content keeps serving — and they charge their
-  // ':generate' entry internally on the cache miss that actually spends.
-  '/api/daily-culture': 0,
-  '/api/daily-culture:generate': claudeCeiling(400),
-  '/api/daily-plan': claudeCeiling(700),
   '/api/dialogue': claudeCeiling(2000),
   '/api/explain-error': claudeCeiling(400),
   '/api/flash-context': claudeCeiling(300),
@@ -90,6 +80,12 @@ export const ENDPOINT_CEILING_MICROUSD = {
   '/api/maja': claudeCeiling(1024),
   '/api/maja-debrief': claudeCeiling(1500),
   '/api/micro-lesson': claudeCeiling(1100),
+  // ── SELF-METERED (ceiling 0): news here, tts below ───────────────────────
+  // These serve mostly from caches; charging the gate per REQUEST would burn
+  // the ledger on free cache hits (a thousand cached TTS plays would cost the
+  // budget $4 of nothing). Their gate ceiling is 0 — passed through even at
+  // the cap so cached content keeps serving — and they charge their
+  // ':generate' entry internally on the cache miss that actually spends.
   // news fans out into FOUR simplifyArticle calls per generation — the
   // ':generate' ceiling is 4x a single call so the ledger never understates.
   '/api/news': 0,
@@ -113,7 +109,8 @@ export const ENDPOINT_CEILING_MICROUSD = {
   // whole run pre-charged before any provider call (golden-calibration
   // pattern). No Claude calls. TTS is KV-cached, so real repeat cost is ~6
   // STT calls; the ceiling stays worst-case honest.
-  '/api/stt-calibration': 6 * (4_000 + 15_000),
+  // + 4 assessment probes × 2 halves (TTS + Azure assessment), 2026-09-29.
+  '/api/stt-calibration': (6 + 4 * 2) * (4_000 + 15_000),
   '/api/pronunciation-assess': 15_000, // Azure pronunciation assessment
   '/api/translate': 500, // MyMemory (free) — near-zero
 };
@@ -417,11 +414,14 @@ export async function reconcileAudioSeconds(env, pathname, seconds) {
   }
 }
 
-/** Current month's ledger, for the status endpoint. Read-only. */
-export async function getBudgetStatus(env) {
+/**
+ * A month's ledger, for the status endpoints. Read-only. Defaults to the current
+ * month; `/api/ai-ledger` also asks for the previous one, so a change in the daily
+ * rate can be read against a baseline.
+ */
+export async function getBudgetStatus(env, month = monthUTC()) {
   const db = env.AI_QUOTA_DB || null;
   const kv = env.PUSH_SUBSCRIPTIONS || null;
-  const month = monthUTC();
   let spentMicroUsd = 0;
   if (db) {
     try {
@@ -442,6 +442,7 @@ export async function getBudgetStatus(env) {
   return {
     month,
     spentUsd: Math.round(spentMicroUsd / 10_000) / 100,
+    spentMicroUsd,
     budgetUsd: MONTHLY_BUDGET_MICROUSD / 1_000_000,
     resetAt: firstOfNextMonthUTC(),
   };

@@ -41,7 +41,7 @@ const DATA = [
     opts: ['nad', 'na', 'o', 'u'],
     answer: 'nad',
     en: 'clouds gathered over the city',
-    tip: 'Smjer → nad + akuzativ: nad grad.',
+    tip: 'Smjer → nad + akuzativ (nad grad); mjesto → nad + instrumental (nad gradom).',
   },
   {
     mode: 'kamo',
@@ -198,7 +198,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: 'Bio sam ____ liječnika.',
-    opts: ['kod', 'k', 'u', 'od'],
+    opts: ['kod', 'k', 'na', 'od'],
     answer: 'kod',
     en: 'I was at the doctor',
     tip: 'Mjesto kod osobe: kod + genitiv.',

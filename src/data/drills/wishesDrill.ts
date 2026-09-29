@@ -59,7 +59,7 @@ export const WISHES_DRILL_DATA: ModeDrillItem[] = [
     en: 'I should have studied.',
     opts: ['sam', 'bih', 'ću', 'bi'],
     answer: 'sam',
-    tip: 'The perfect turns it into regret. ONE VOWEL, and the chance is gone.',
+    tip: 'The perfect turns it into regret. ONE AUXILIARY, and the chance is gone.',
   },
   {
     mode: 'bihsam',
@@ -96,7 +96,7 @@ export const WISHES_DRILL_DATA: ModeDrillItem[] = [
       'upozorava',
     ],
     answer: 'dodaje cijeli glagol "have"',
-    tip: '"should" against "should have" — a whole word apart. Croatian moves one vowel.',
+    tip: '"should" against "should have" — a whole word apart. Croatian swaps one short auxiliary.',
   },
   {
     mode: 'bihsam',
@@ -194,7 +194,7 @@ export const WISHES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zaljenje',
     q: 'Žao mi je ____ to čujem.',
     en: 'I am sorry to hear that.',
-    opts: ['što', 'da', 'ako', 'jer'],
+    opts: ['što', 'kako', 'ako', 'jer'],
     answer: 'što',
     tip: 'The same rule — the thing being regretted is real.',
   },

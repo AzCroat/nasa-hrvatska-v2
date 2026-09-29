@@ -17,7 +17,7 @@ const DATA = [
     q: 'Birani standard: „Želim ____ .”',
     opts: ['otputovati', 'da otputujem', 'da ću otputovati', 'otputovanje da'],
     answer: 'otputovati',
-    en: 'I want to travel (infinitive!)',
+    en: 'I want to travel',
     tip: 'Uz isti subjekt hrvatski standard voli INFINITIV.',
   },
   {
@@ -62,7 +62,7 @@ const DATA = [
       'ne postoji',
     ],
     answer: 'obilježje je razgovornoga stila i istočnih idioma',
-    en: 'da-construction is colloquial/eastern',
+    en: 'da + present instead of the infinitive, same subject',
     tip: 'Standard: želim raditi (ne „želim da radim”).',
   },
   {
@@ -94,7 +94,7 @@ const DATA = [
     q: 'Kad su subjekti različiti, koristi se:',
     opts: ['da + prezent', 'infinitiv', 'glagolski prilog', 'trpni pridjev'],
     answer: 'da + prezent',
-    en: 'different subjects require da + present',
+    en: 'what is used when the subjects differ?',
     tip: 'Molim te da dođeš; želim da uspijete.',
   },
   {
@@ -172,7 +172,7 @@ const DATA = [
   {
     mode: 'izbor',
     q: '„Očekujem ____ na vrijeme.” (oni — stići)',
-    opts: ['da stignu', 'stići', 'stizanje', 'da će stići birano'],
+    opts: ['da stignu', 'stići', 'stizanje', 'da stigli'],
     answer: 'da stignu',
     en: 'I expect them to arrive on time',
     tip: 'Različiti subjekti → da + prezent: očekujem da stignu.',
@@ -188,7 +188,7 @@ const DATA = [
   {
     mode: 'izbor',
     q: '„Zabranjeno je ____ po travi.”',
-    opts: ['hodati', 'da se hoda', 'hodanje da', 'da hodaš'],
+    opts: ['hodati', 'da hodati', 'hodanje da', 'da hodaš'],
     answer: 'hodati',
     en: 'walking on the grass is forbidden',
     tip: 'Bezlične zabrane + infinitiv: zabranjeno je hodati.',

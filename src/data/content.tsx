@@ -50,7 +50,6 @@ import {
   lvl,
   lXP,
   nXP,
-  lXPgain,
   getStreak,
   getStreakFreezes,
   updateStreak,
@@ -153,7 +152,7 @@ function sh(a) {
   }
   return b;
 }
-// lvl, lXP, nXP, lXPgain, getActiveCampaign — imported from ../lib/appUtils.js
+// lvl, lXP, nXP — imported from ../lib/appUtils.js
 // ═══════════════════════════════════════
 // ═══════════════════════════════════════
 // ═══ TOP 100 WORDS BY SITUATION ═══
@@ -1992,7 +1991,6 @@ class _ErrorBoundary extends React.Component {
 // getDueReviews is already imported above — this comment block keeps the
 // section heading visible for orientation while reading this file.
 
-// SEASONAL_CAMPAIGNS, getActiveCampaign — imported from ../lib/appUtils.js
 // SP11d: LEVEL_NARRATIVE moved server-side; consumers read
 // useContent().LEVEL_NARRATIVE. The local `_LEVEL_NARRATIVE` fallback copy kept
 // "for the migration window" was deleted 2026-09-12 — it was non-exported and
@@ -2005,7 +2003,7 @@ class _ErrorBoundary extends React.Component {
 // CLOTHES, BODYDESC, TECH_VOC, BUREAUCRATIC, PROVERBS, IDIOMS, BRZALICE,
 // HISTORY, EVENTS, KINGS, REGIONS, DIALECTS, CROATIAN_CITIES, FOODORDER,
 // TRANSPORT, GROCERY, RECIPES, PRACTICAL, SCENES, LEVEL_NARRATIVE, SHADOWING,
-// LEARN_PATH, SEASONAL_CAMPAIGNS.
+// LEARN_PATH. (SEASONAL_CAMPAIGNS was removed entirely, 2026-09-29.)
 export {
   HIST_FACTS,
   MEDIA,
@@ -2112,7 +2110,6 @@ export {
   lvl,
   lXP,
   nXP,
-  lXPgain,
   getSR,
   saveSR,
   srMark,

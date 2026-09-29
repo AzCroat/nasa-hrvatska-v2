@@ -167,7 +167,6 @@ export const PLACE_ASSIGNMENTS: Record<string, { place: BucketId; subgroup?: str
   accusativedrill: { place: 'soba', subgroup: 'padezi' },
   numcases: { place: 'soba', subgroup: 'padezi' },
   neggen: { place: 'soba', subgroup: 'padezi' },
-  animateacc: { place: 'soba', subgroup: 'padezi' },
   instrumental: { place: 'soba', subgroup: 'padezi' },
   dative: { place: 'soba', subgroup: 'padezi' },
   // soba / glagoli

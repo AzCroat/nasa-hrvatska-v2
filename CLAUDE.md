@@ -88,8 +88,7 @@ functions/
     ├── tts.js                 # Croatian TTS — edge/KV cached, self-metered
     ├── correct.js             # Writing evaluation (the shared rubric)
     ├── contact.js             # Contact form → Resend
-    ├── daily-culture.js       # Daily cultural fact generation — NO CALLER since
-    │                          # 2026-03-29; see "An Endpoint Nobody Calls"
+    ├── news.js                # Graded news — KV cached per (level, 6h), self-metered
     └── ...                    # 15+ other API endpoints
 
 public/                        # Static assets, SW, icons
@@ -257,13 +256,13 @@ path, each invisible from the others; all four are fixed and pinned.
    when the audio had been generated months ago and cost the budget nothing.
    A day of ordinary practice could reach the ceiling; from then until
    midnight UTC every audio request 429'd, Level Check included. `/api/news`
-   (cost 4 per 6-hour-old cached read) and `/api/daily-culture` had the same
-   shape. **The rule now mirrors the budget's:** the gate takes `cost: 0`
+   (cost 4 per 6-hour-old cached read) and `/api/daily-culture` (deleted
+   2026-09-29, uncalled) had the same shape. **The rule now mirrors the budget's:** the gate takes `cost: 0`
    (auth + per-IP rate limit only; `requireAuthedAI` skips the quota entirely
    at cost 0) and each endpoint calls `checkAIQuota` itself on the path that
    GENERATES, before `checkAndChargeBudget`. Quota first, so a refused learner
    is told "daily limit", not "budget paused". Pinned by
-   `cachedEndpointQuota.test.js`, which drives the three REAL handlers.
+   `cachedEndpointQuota.test.js`, which drives the REAL handlers.
    NEVER charge a per-user quota at the gate of a cache-served endpoint; a new
    one must take `cost: 0` and charge on its miss.
 2. **A 5xx came back as `null`.** `_nativePost` swallowed server errors into
@@ -3032,9 +3031,9 @@ Two outcomes, both enforced in code: **every AI feature always answers** (cached
 2. **Prompt caching**: the 7 conversational call sites (ai-chat ×3, maja ×2, conversation, conversational-tutor) send `system` as the cached-array shape. Integration tests assert the `cache_control` marker — removing it silently 10×'s input cost.
 3. **Per-user quota** (`_aiQuota.js`): 300 turns/day (doubled with the 2026-08-14 budget raise), sized against the budget, not just abuse.
 4. **Global monthly governor** (`_aiBudget.js`; the `ai_month_spend` schema is `CREATE_LEDGER_SQL` in `_aiBudget.js` itself and SELF-MIGRATES on first use, so nobody runs SQL by hand; there is no migration file for it): every metered call pre-charges its worst-case ceiling against one D1 ledger; at $9.00 the gate answers `429 monthly_budget_exhausted` ($1 head-room under the $10 mandate for providers billed outside the ledger). EVERY non-streaming Claude endpoint RECONCILES after the response (`reconcileSafely` refunds ceiling minus actual usage — never charges more, failure leaves the ceiling charged; until 2026-09-07 only three did, and the other twenty-one booked ~5x real cost — see "Feedback Must Work Every Time"), so the ledger records real spend and the budget funds ~5-10x more calls than ceilings alone would. Ceilings are derived from each endpoint's `max_tokens`; `aiBudget.test.js` re-reads them from source and **fails the build on drift**. Unknown endpoints get a default ceiling — never free.
-5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts`, `/api/daily-culture`, `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
-6. **Shared generation**: daily-culture is one Claude call per day globally (KV date key) — **and nothing in the app has called it since 2026-03-29, so in practice it is zero; the mechanism is described here because it is the pattern a future cached endpoint must follow, not because a learner meets this one (see "An Endpoint Nobody Calls")**; news is one 4-article simplification per (level, 6h window); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
-7. **Prompt version on cached content** (`_promptCache.js`): a cache-served 200 replays text generated hours ago, so it is tagged with the version stored **beside** the body in KV metadata — never the current one, which would attribute old text to a new prompt. The stored VALUE stays byte-identical (that is why metadata, not an envelope), and an entry written before tagging carries no tag and is served **untagged** rather than guessed. Applies to `/api/daily-culture` and `/api/news`; any future cached AI content must do the same.
+5. **Self-metered endpoints** (ceiling 0 + `:generate` entry): `/api/tts` and `/api/news` serve from KV caches and charge the ledger only on the cache miss that actually generates. Ceiling-0 requests pass even at the cap so **cached content keeps serving when live generation is paused**.
+6. **Shared generation**: news is one 4-article simplification per (level, 6h window) shared by the whole userbase through one KV key — the pattern a future cached endpoint must follow (`/api/daily-culture`, one call per day globally, was its first instance and was deleted uncalled on 2026-09-29; see "An Endpoint Nobody Calls"); TTS audio is generated once per unique phrase (KV, 90 days) — repeats are ~0ms and free.
+7. **Prompt version on cached content** (`_promptCache.js`): a cache-served 200 replays text generated hours ago, so it is tagged with the version stored **beside** the body in KV metadata — never the current one, which would attribute old text to a new prompt. The stored VALUE stays byte-identical (that is why metadata, not an envelope), and an entry written before tagging carries no tag and is served **untagged** rather than guessed. Applies to `/api/news` (and did to `/api/daily-culture` until its deletion); any future cached AI content must do the same.
 8. **Croatian script rule** (`CROATIAN_SCRIPT_RULE` in `_croatianGuard.js`): any endpoint whose Claude output can contain Croatian must state the alphabet — appended to the system prompt at request time, and carried in `alsoVersion` so rewording the rule moves the prompt's version. `latinizeResponseBody` is the net, NOT the fix: it transliterates Cyrillic before a learner sees it, which means a prompt with no script rule fails silently and forever. `/api/explain-error` proved this on 2026-08-21 (caught by the weekly observatory, `explain-error@72630bad`). Coverage is ratcheted by `croatianScriptRule.test.js`; `KNOWN_GAP` there is empty as of 2026-08-25 and can only shrink. One trap: `/api/correct` gets the rule inside `writingEvalSystemPrompt` rather than at its own call site, because `/api/golden-calibration` runs that same builder — appending at the call site would make the drift detector measure a prompt production no longer uses.
 9. **Multi-prompt responses** (`promptListHeaders` / `parsePromptTagList`): a response produced by MORE than one prompt sends every tag, comma-separated. The middleware records one tag as `promptId`/`promptVersion` exactly as before, and two or more as `prompts: [...]` — never one of them as _the_ prompt, which would attribute the whole response to a prompt that produced part of it. `/api/golden-calibration` is the case (both evaluators, one dispatch); it derives the list from the rows it actually produced, so a trimmed golden set cannot make it claim a prompt that never ran. The observatory groups such records under the joined tags, not under `(uninstrumented)`.
 10. **Client behavior**: `classifyAiLimit` (src/lib/aiLimit.ts) distinguishes `burst`/`daily`/`budget`; every AI surface renders the budget pause as a calm message (`BUDGET_PAUSE_EN`/`_HR`), never a retryable error. TTS budget-refusal is a 503 → the client falls back to on-device speech synthesis.
@@ -3087,7 +3086,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **482 files**, 3 of them walked structurally — the figure the lint
+Coverage is **480 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -3096,7 +3095,9 @@ deleted the hero cluster three more pointed at, and up by one for
 `src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube"), then up by six for
 the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
 … `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
-checks, positive-controlled in an `options` field and a `hint`).
+checks, positive-controlled in an `options` field and a `hint`), then down by one when the
+seasonal-campaign data file was deleted and by one more when AnimateAccDrill was retired as
+a duplicate of AccusativeDrill (both 2026-09-29, owner decisions).
 
 **THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
 A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither
@@ -3408,9 +3409,9 @@ whole `home/` hero cluster.
     So sweep 111's "a conduit is not a producer" needs one more hop: **a producer
     that is itself UNREACHABLE is not a producer**, the same correction sweep 130
     made for endpoints, and `deadKeyReaders`'s `NO_PRODUCER` cannot see it because
-    appUtils does contain the write. Recorded at the constants for the owner, not
-    patched — re-adding a purchase surface is a product decision, like the campaign
-    multiplier.
+    appUtils did contain the write. **Both were REMOVED on 2026-09-29 by owner
+    decision**, with the campaign multiplier: an award now pays exactly what the
+    exercise pays, and the `nh_xp_boost_*` keys are no longer synced.
   - **`LEVEL_NARRATIVE` is a key in the 1.4 MB `/api/content/core` payload whose ONE
     client consumer was HeroSection**, so #655's September fix to its level-7 rung
     was a fix to the reading of a payload nobody reads. It is still shipped. The
@@ -3452,7 +3453,7 @@ canonical AI-endpoint list), **three of thirty**:
   mastery ledger, the concept map and InsightsTab present from MEASURED data
   instead of asking a model to characterise the learner, and the culture fact is
   what the P4 slot, `CULTURE_DEEP_DIVES` and City of the Day serve. Deleting them
-  is a decision about a working endpoint, queued in `AUDIT-STATE.md`.
+  was a decision about a working endpoint, and the owner took it (below).
 - **A MENTION IS NOT A CALL.** All three are named in `_aiBudget.js`'s ceiling
   table and two in `_requireAuth.js` / `_promptCache.js` doc comments. A first
   census read those as "server callers" and reported zero stranded endpoints.
@@ -3474,8 +3475,8 @@ canonical AI-endpoint list), **three of thirty**:
 - **"BY DESIGN" IS ASSERTED, NOT TAKEN ON THE REASON'S WORD.** Two endpoints have
   no client caller legitimately — `/api/golden-calibration` and
   `/api/stt-calibration` are dispatch-only behind the CRON/CALIBRATION secret — so
-  the guard requires a workflow to actually dispatch them, and requires the
-  stranded three to be dispatched by nothing. A reason that cannot be checked is
+  the guard requires a workflow to actually dispatch them (and, until their
+  deletion, required the stranded three to be dispatched by nothing). A reason that cannot be checked is
   the `idioms` exemption again.
 - Mutation-verified, five, each failing 1 test: an entry dropped; the reachability
   filter removed; the helper's `appReachable()` re-seeded with the tests; the
@@ -3487,6 +3488,14 @@ canonical AI-endpoint list), **three of thirty**:
   a caller without checking the caller itself is reachable; record an endpoint as
   "dispatched by CI" without a workflow that dispatches it; leave a metered
   endpoint callable with no product behind it and no record of why.
+
+**THE THREE WERE DELETED ON 2026-09-29, BY OWNER DECISION** (_"If not needed,
+remove and delete."_). Handlers, ceiling rows, prompts and the tests that existed
+only for them are gone; the `_promptCache.js` contract they exemplified is now
+pinned against `/api/news`. The guard remains, with no stranded entry left in
+`NO_CLIENT_CALLER`: its "mention is not a call" clause runs on the calibration rows
+and a fabricated file set, and a separate clause fails if any of the three comes
+back without a caller.
 
 ## Critical Architecture: Five Reports, One Shape (owner reports, 2026-09-25)
 
@@ -4615,9 +4624,9 @@ paper; a lesson's own words never reached review.
   round over check items from PASSED lessons only (held ones first, interleaved), reporting
   correct answers per minute and a personal best (`nh_fluency_best`, local). Not a test:
   nothing about the course moves on it; a miss becomes a Lesson Review card (never a ladder
-  move). Offered as a rank-1 measured Stretch candidate from three passed lessons, reason
-  stating the count; lesson days have no free core slot, which is why the Stretch is its
-  door. Pays `min(20, correct)` once from an effect on reaching the result; an empty round
+  move). Offered from three passed lessons as a tier-7 Keep Learning item (sweep 216 — once
+  nothing unproven remains), reason stating the count; lesson days have no free core slot,
+  which is why Keep Learning is its door. Pays `min(20, correct)` once from an effect on reaching the result; an empty round
   pays nothing. Pinned by `fluencyRound.test.tsx`; mutation-verified, four.
 - NEVER: retake a failed check on the same paper when a form B exists; judge a typed
   answer by edit distance; accept a missing diacritic as right; file a form-B item under a
@@ -4759,54 +4768,58 @@ listening and never submits), and `/api/speaking-coach` grades the transcript.
   the microphone; parse a produce id without the kind-less 2a fallback while any
   persisted session may still carry one.
 
-### Increment 6 — the Stretch: a finished session is not a finished day (owner report, 2026-09-28)
+### Increment 6 — Keep Learning: a finished session leads into review, never to an end screen (owner decisions, 2026-09-28 → 2026-09-29)
 
-Owner: _"Users, like my son, often complete the daily session, and without further
-prompting or guidance, feel they have completed enough studying. 30 minutes a day isn't
-likely enough for a kid who has moved to Croatia."_ Measured on Home at completion: every
-meter said 100% (`DAILY_XP_GOAL` is what the session pays), the card said "Session
-Complete! 🎉", and the engine's one next step was a pill after a five-slot session.
+Owner, 2026-09-28: _"Users, like my son, often complete the daily session, and without
+further prompting or guidance, feel they have completed enough studying."_ The first
+answer was the Stretch — a second evidence-set session, floor 1, cap 3, then "Day
+Complete!". Owner, 2026-09-29: _"I don't like stretch design, its not guiding the learner
+to keep learning. We need to keep users engaged do we not?"_ — then, on what the extra time
+is for: _"I think we need to not try to teach new concepts but review those that the
+learner has not proven mastery."_ **Keep Learning replaced the Stretch** (`src/lib/keepLearning.ts`,
+AUDIT-STATE sweep 216).
 
-- **THE BAR IS THE APP'S, NOT THE LEARNER'S.** A 30/60/90-minute preset picker was
-  proposed and REJECTED — _"if they are unmotivated they may select what is easy. We
-  should assume you are using the application to become fluent."_ Done-for-today is the
-  core session plus every Stretch the evidence justifies: `clamp(ceil(measured / 4), 1, 3)`
-  (`src/lib/stretchSession.ts`), decided ONCE when the core completes. Time is never the
-  goal shown; the card counts sessions.
-- **A STRETCH IS A SECOND GUIDED SESSION** — four activities, offered as the Home hero
-  ("STRETCH 1 OF 2 · Begin Stretch 1 of 2", `stretch-hero`) with the core collapsed to one
-  done chip, the hero-only directive intact; the complete card ("Day Complete!") renders
-  only at the bar. `getNextStep`'s rung 2 names a Stretch activity as one.
-- **ONLY MEASURED EVIDENCE IS CALLED EVIDENCE.** Word reviews due, lesson re-checks and
-  missed items, concept-map `shaky`/`due` lessons routed to their coupled drill (the
-  EASIER route when the primary is locked — pinned by a test that FINDS such a lesson in
-  the spine rather than naming one), the ledger's weakest production/receptive skill when it
-  has a verdict, adaptive categories MEASURED below the pass mark among taught categories.
-  Each carries the reason its slot machinery already writes ("Your Genitive check: 2 of
-  6."). A learner with nothing measured owes one Stretch from the path ahead, whose reasons
-  state the guarantee and never a number. **Never a lesson** (the course gate is untouched),
-  never a browse entry. **Ties resolve toward speaking and listening**, for everyone, inside
-  the rank — a measured weakness still outranks the tie.
-- **IT LIVES IN THE SAME `activities` ARRAY, tagged `stretch: k`**, so the launch
-  handshake, `markDone`, the SRS auto-skip, the produce credit, the invalidation and the
-  engine all work unchanged. The consequence: `markDone` matches the FIRST activity with a
-  screen, so **a screen appears once per day** — every Stretch excludes every screen already
-  in the plan (pinned in the module and the hook tests and the E2E).
-- **`isComplete` is `stretch.complete`**, and `markDone` appends the next Stretch
-  SYNCHRONOUSLY so the card never renders a finished core as a finished day; the settle
-  effect covers the tap-less paths and a plan persisted before the Stretch existed. The
-  `nh_session_history` calendar still records the CORE session.
-- **The 800-line cap held**: `readMicState` / `getRecentProduction` /
-  `recordProductionExercise` moved to `src/lib/productionRecency.ts` (re-exported by the
-  hook); `selectProduction`/`selectGrammar` are INJECTED into the module because they live
-  in the hook, which imports it.
-- Measured with a seeded probe (no evidence → 1 Stretch, all path, spoken first; one weak
-  skill → 1, that skill leads; four shaky lessons + reviews → 2, the first 100% measured),
-  driven in a real browser (`e2e/stretch-session.spec.js`), mutation-verified ten ways —
-  nine fail 1–8, and one is EQUIVALENT in steady state (`isComplete` back to all-done, only
-  because the extension is synchronous), recorded rather than hidden. The mutation harness
-  itself printed nothing on its first run: zsh does not word-split `$SUITES`, so vitest ran
-  no files — caught because the BASELINE printed nothing too.
+- **ONE NEW LESSON A DAY, STILL.** P0 in the core session is unchanged, and so is the core's
+  composition and `nh_session_history` (it records the CORE). After the core, Home's hero is
+  KEEP LEARNING · Unit N (`keep-learning-hero`, `keep-core-chip` "✓ Today's session done",
+  one Continue button, `keep-progress` "N concepts still to prove in Unit N"). A block holds
+  about four items (`KEEP_BLOCK_LENGTH`); finishing it appends the next at once. **There is no
+  target, no last block and no "Day Complete" card** — `isComplete` is true only if a finished
+  core could not be followed, which tier 7 makes unreachable.
+- **ONLY TAUGHT MATERIAL NOT YET PROVEN, in the owner's order**: (1) a lesson whose latest real
+  check failed (`notpassed`) as its coupled drill, or its missed items in Lesson Review; (2)
+  open missed items and due re-checks; (3) `shaky` and `due` concepts as their drill (the
+  EASIER route when the primary is locked above the course level), then adaptive categories
+  measured below the pass mark among TAUGHT categories; (4) passed-not-retained lessons
+  (`passed`) and units (advanced, check-ups not yet held) as their drills; (5) SRS words due;
+  (6) the weakest MEASURED production or receptive skill, done at the course level; (7) only
+  when nothing above remains — the fluency round, then guided speaking and writing, which
+  always serve and repeat. Never a lesson, a unit test or a check: a closed check
+  (`checkLock`) is served as its drill only, and its missed items are not due until tomorrow,
+  which is what the lock promises.
+- **A LEDGER VERDICT AT ANOTHER LEVEL IS STILL A VERDICT** (`ledgerEvidenceLevels`). One path
+  from Unit 1 means a learner with B2 history stands on A1 units while every production and
+  comprehension measurement sits in B2 cells; asking only the course level reported nothing
+  measured for a learner the ledger scored at 45% in speaking (measured with the real hook,
+  sweep 216 — the Stretch served them the path ahead). The activity is served at the course
+  level; its reason is written from the cell that holds the verdict.
+- **CREDIT MATCHES THE FIRST UNFINISHED ACTIVITY, BY ID THEN BY SCREEN.** Lesson Review, Word
+  Review and guided production recur (their ids carry the block number), and a core
+  activity's id can equal a screen name (`writing_guided`). `markDone` used to take the FIRST
+  activity with that id or screen, finished or not, and credited nothing for the second one;
+  the SRS auto-skip likewise looked only at the first `review`. Home launches only the first
+  unfinished activity, so the first unfinished one with the returning screen is the one that
+  was launched. A concept's drill is once a day (`keep_drill_<lesson>`): doing a drill does
+  not move the concept map, so re-serving it would be the same prompt for ever.
+- **`getNextStep` agrees**: rung 2 names a block item "Keep learning — <label>" with the item's
+  own reason, and once today's core is done the course rung offers no NEW lesson (a unit test,
+  production or check-up still). A plan written by the Stretch build is read through
+  `migrateStretchPlan` (`stretch: k` → `keep: k`, `stretchTarget` dropped) in both readers.
+- Pinned by `keepLearning.test.ts` (the order, the easier route, the cross-level verdict, tier 7,
+  the closed check, ten realistic learners driven through the real hook to eight blocks with
+  no terminal state and nothing untaught, and both repeated-screen credit cases),
+  `SessionCard.test.tsx`, `nextStep.test.ts`, `nextStepCourseRung.test.tsx` and
+  `e2e/keep-learning.spec.js`.
 - **`DailyGoalCard` AND BOTH TIME-COMMITMENT ONBOARDING STEPS ARE GONE (owner decision,
   2026-09-29).** The card drew XP against a target the learner CHOSE at onboarding (5/15/30
   minutes in the goal modal; 5–20 on the Welcome page, which gated Start) and turned green
@@ -4827,10 +4840,12 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   Practice tab and deck follow the COURSE level as the next increment. NEVER put a test in
   front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
   anywhere but the course.
-- NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
-  activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
-  Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the
-  target more than once a day; raise the 800-line cap to keep the recency block in the hook.
+- NEVER: let a learner choose the bar; render a "Day Complete" or any terminal state after the
+  core session; serve a lesson, a unit test or a check in Keep Learning (one new lesson a day,
+  in the core); serve untaught material; re-open a check `checkLock` has closed; call an item
+  "measured" the stores do not measure; read the ledger at the course level only; credit a
+  repeated screen to the first activity that has it rather than the first UNFINISHED one;
+  re-serve a concept's drill the same day; raise the 800-line cap to keep a block in the hook.
 
 ## Critical Architecture: A Hook After An Early Return Is A Crash Waiting For The Second Render (owner's Sentry report, 2026-09-28)
 
@@ -6406,8 +6421,9 @@ comparisons would have been `undefined === undefined` and passed while checking
   nothing. Mutating one English field in one served export, and watching the
   failure NAME it, is the only thing that distinguishes the two.
 - **A LIST OF SUBJECTS SKIPPED BY `continue` NEEDS PINNING BY NAME.** The twin
-  derivation skips a module with no client copy — correct for `learnPath` and
-  `seasonalCampaigns`, and also exactly how a RENAMED twin would leave the guard
+  derivation skips a module with no client copy — correct for `learnPath` (and
+  `seasonalCampaigns`, until the campaign feature was removed on 2026-09-29), and also
+  exactly how a RENAMED twin would leave the guard
   without a word. The set of skipped modules is asserted, not assumed.
 - **AN EFFECT FIRES ON MOUNT; A HANDLER NEEDS A CONTROL — which is why the same
   credit shape is harmless in 152 handlers and was a defect in one effect** (sweep
@@ -6757,7 +6773,10 @@ reachable` ("Including it would close the loop on every field"), plus
   name, icon, colours, blurb and quests still ship in `/api/content/core` — so a learner
   in a campaign window earns 1.5× and is never told why. HomeTab's dead copies of that
   computation are removed; re-adding a Home section would run against the deliberate
-  strip-down, so this is recorded for a decision rather than fixed.
+  strip-down, so this is recorded for a decision rather than fixed. **Decided 2026-09-29:
+  REMOVED** — the multiplier, the campaign data and its payload key, the client resolver,
+  and the Easter quest flags nothing displayed. The Easter screen and its quiz-done flag
+  stay.
 - NEVER: silence an unused COMPUTED value with `void` — delete it, or record why it is
   waiting; write a `void` for a name the file actually uses (the comment then describes
   nothing and the dead names beside it go unread); gate a screen's credit without
@@ -6967,7 +6986,7 @@ now have identity. Pinned by `promptRegistry.test.js`.
 - **Coverage is tracked in THREE categories** in `promptRegistry.test.js`, and a
   test asserts they partition `ENDPOINT_CEILING_MICROUSD` exactly — no endpoint
   can hide in a gap, and none can appear twice:
-  1. `INSTRUMENTED` (26) — tags its 200. A test fails if one doesn't.
+  1. `INSTRUMENTED` (22 since the 2026-09-29 deletion of three uncalled endpoints) — tags its 200. A test fails if one doesn't.
   2. `NO_CLAUDE_PROMPT` (7) — makes no Claude call, so there is nothing to
      version (`tts`, `stt`, `translate`, `flux-generate`, `pronunciation-assess`,
      …). **Not debt.** A test fails if one of these starts calling Claude,
@@ -6991,7 +7010,7 @@ now have identity. Pinned by `promptRegistry.test.js`.
     `parsePromptTagList`, layer 9 of the AI-cost section) instead of the
     endpoint learning to guess; two or more tags are recorded as `prompts: [...]`
     and never as _the_ prompt.
-  - **Cache-served** (`daily-culture`, `news`, plus their `:generate` halves)
+  - **Cache-served** (`news` and the since-deleted `daily-culture`, plus their `:generate` halves)
     could not tag a 200 that usually replays content generated hours earlier —
     the CURRENT version would attribute old text to a new prompt, a lie inside
     the exact report this exists to make trustworthy. `_promptCache.js` stores
@@ -7127,10 +7146,10 @@ Found from outside the code: the owner reported the Sentry project was receiving
 
 ### KV namespace bindings (Cloudflare Pages → Settings → Functions)
 
-| Variable             | Namespace ID                       | Purpose                                                                                                                                                                                                                             |
-| -------------------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage — ALSO the KV fallback for rate limits, quotas, the budget ledger, and content caches (TTS audio, daily-culture, news) when a dedicated binding is absent. `tts.js` prefers `env.KV` if bound. |
-| `XP_VELOCITY`        | provisioned by CI                  | **Fallback only** for the per-user XP velocity + daily cap (`_xpVelocityStore.js`); D1 `xp_velocity` is primary. Created and bound by `scripts/setup-cf-resources.mjs` on every deploy, so it needs no dashboard step.              |
+| Variable             | Namespace ID                       | Purpose                                                                                                                                                                                                                |
+| -------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PUSH_SUBSCRIPTIONS` | `4652e2388967424db09395a2be0aad81` | Push notification subscriber storage — ALSO the KV fallback for rate limits, quotas, the budget ledger, and content caches (TTS audio, news) when a dedicated binding is absent. `tts.js` prefers `env.KV` if bound.   |
+| `XP_VELOCITY`        | provisioned by CI                  | **Fallback only** for the per-user XP velocity + daily cap (`_xpVelocityStore.js`); D1 `xp_velocity` is primary. Created and bound by `scripts/setup-cf-resources.mjs` on every deploy, so it needs no dashboard step. |
 
 **THE FREE KV TIER IS A DAILY WRITE BUDGET OF 1,000, AND ONE ENDPOINT SPENT IT
 ALL (owner report, 2026-09-25 — "KV operations are nearing the daily cap").**

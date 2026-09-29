@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import type { AwardActivityType } from '../../types/index.js';
 import { speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
@@ -27,9 +27,6 @@ function _shuffleOpts(opts: string[]) {
 }
 
 const KVIZ_DONE_KEY = 'nh_uskrs_kviz_done';
-// Campaign quest keys — written on completion so the banner shows them as done
-const CQ_VOCAB_KEY = 'nh_cq_easter_uskrs_q1'; // "Learn 5 Easter words"
-const CQ_KVIZ_KEY = 'nh_cq_easter_uskrs_q3'; // "Easter challenge"
 
 const TRADITIONS = [
   {
@@ -245,18 +242,6 @@ export default function EasterScreen({
     [],
   );
 
-  // Mark "Learn 5 Easter words" campaign quest when user browses vocab tab
-  useEffect(() => {
-    if (tab === 'pozdravite' && easterVocab.length >= 5) {
-      try {
-        if (!localStorage.getItem(CQ_VOCAB_KEY)) {
-          localStorage.setItem(CQ_VOCAB_KEY, '1');
-          window.dispatchEvent(new CustomEvent('nh-campaign-quest-done'));
-        }
-      } catch {}
-    }
-  }, [tab, easterVocab.length]);
-
   if (error) return <ErrorState message="Couldn't load content - please retry." />;
   if (loading || !content) return <LoadingState />;
 
@@ -278,10 +263,6 @@ export default function EasterScreen({
           if (xpEarned > 0 && award) award(xpEarned, false, 'culture');
           try {
             localStorage.setItem(KVIZ_DONE_KEY, '1');
-            if (!localStorage.getItem(CQ_KVIZ_KEY)) {
-              localStorage.setItem(CQ_KVIZ_KEY, '1');
-              window.dispatchEvent(new CustomEvent('nh-campaign-quest-done'));
-            }
           } catch {}
         }
       } else {

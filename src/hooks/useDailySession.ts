@@ -1,6 +1,6 @@
 // src/hooks/useDailySession.ts
 import { readCourseAhead, isAheadOfCourse, type CourseAhead } from '../lib/courseGate';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { getDueReviews, getServableReviewCount } from '../lib/srs';
 import { getDueCategoryQueue, CONJ_CATEGORIES, CATEGORY_MIN_CEFR } from '../lib/adaptive';
 import type { SkillCategory } from '../lib/adaptive';
@@ -41,7 +41,12 @@ import { selectGuaranteedInput, inputKindOf } from '../lib/inputSlot';
 import { readServedMap, SERVED_KEY } from '../lib/sessionServed';
 import { sessionLevel } from '../lib/sessionLevel';
 import { selectLessonProduceSlot, creditProducedSlots } from '../lib/produceSlot';
-import { extendWithStretch, stretchState, type StretchState } from '../lib/stretchSession';
+import {
+  extendWithKeepLearning,
+  keepState,
+  keepProgress,
+  type KeepState,
+} from '../lib/keepLearning';
 import {
   readMicState,
   getRecentProduction,
@@ -97,11 +102,11 @@ export interface UseDailySessionReturn {
    */
   startFreshSession: () => void;
   /**
-   * Where the day stands against the bar (redesign increment 6): the core done,
-   * which Stretch is open, how many the evidence owes. `isComplete` is
-   * `stretch.complete` — the core session alone no longer completes the day.
+   * Keep Learning (sweep 216): the core done, which review block is open, and the
+   * hero's progress line. There is no last block, so `isComplete` stays false once
+   * the flow has begun — it is true only if a finished core could not be followed.
    */
-  stretch: StretchState;
+  keep: KeepState & { unitIndex: number | null; progressLine: string | null };
 }
 
 // ── Constants ────────────────────────────────────────────────────────────────
@@ -1030,12 +1035,12 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     }, [userCefr]),
   );
 
-  // THE STRETCH (redesign increment 6): once the core is done the plan grows by
-  // one Stretch at a time until the evidence-set bar is met. Applied on every
+  // KEEP LEARNING (sweep 216): once the core is done the plan grows by one review
+  // block at a time, for as long as the learner keeps going. Applied on every
   // completion path — here synchronously, so the card never renders a finished
   // core as a finished day — and in the settle effect below for the paths that
   // complete a slot without a tap (the SRS auto-skip, the produce credit).
-  const stretchDeps = useCallback(
+  const keepDeps = useCallback(
     () => ({
       dueReviews:
         poolWords && poolWords.size > 0
@@ -1059,23 +1064,28 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
           micState: readMicState(),
           recentScreens: getRecentProduction(),
         }),
-      selectGrammar: selectGuaranteedGrammar,
     }),
     [poolWords],
   );
-  const stretched = useCallback(
-    (s: DailySession) => extendWithStretch(s, sessionLevel(userCefr), stretchDeps()),
-    [userCefr, stretchDeps],
+  const extended = useCallback(
+    (s: DailySession) => extendWithKeepLearning(s, sessionLevel(userCefr), keepDeps()),
+    [userCefr, keepDeps],
   );
 
   const markDone = useCallback(
     (screenOrId: string) => {
       setSession((prev) => {
-        // Match by id or by screen name
-        const match = prev.activities.find((a) => a.id === screenOrId || a.screen === screenOrId);
+        // THE FIRST UNFINISHED match, by id and then by screen (sweep 216). Keep
+        // Learning serves one screen more than once a day (Lesson Review, Word
+        // Review, guided production), and the old rule — the first activity with
+        // that id or screen, finished or not — found the finished one and credited
+        // nothing. Home launches only the first unfinished activity, so the first
+        // unfinished one with the returning screen is the one that was launched.
+        const open = prev.activities.filter((a) => !prev.completedIds.includes(a.id));
+        const match =
+          open.find((a) => a.id === screenOrId) ?? open.find((a) => a.screen === screenOrId);
         if (!match) return prev;
-        if (prev.completedIds.includes(match.id)) return prev;
-        const updated = stretched(markDoneInSession(prev, match.id));
+        const updated = extended(markDoneInSession(prev, match.id));
         persistSession(updated);
         // Record the screen so the daily session's skip-recent filter rotates it
         // out next time (the write path that was missing for non-Practice users).
@@ -1086,15 +1096,15 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
         if (PRODUCTION_SCREEN_IDS.has(match.screen)) {
           recordProductionExercise(match.screen);
         }
-        // The day's history records the CORE session's completion — the Stretch
-        // appended above makes `activities` longer, so this asks the core directly.
-        if (stretchState(updated).coreComplete) {
+        // The day's history records the CORE session's completion — the blocks
+        // appended above make `activities` longer, so this asks the core directly.
+        if (keepState(updated).coreComplete) {
           recordSessionComplete(updated.date);
         }
         return updated;
       });
     },
-    [stretched],
+    [extended],
   );
 
   // 2026-05-20 BUG FIX: auto-skip SRS review activity when nothing is due.
@@ -1115,9 +1125,12 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
   // Re-checks on every session change so a user who's clearing reviews
   // *during* the session is caught the moment the queue empties.
   useEffect(() => {
-    const srsActivity = session.activities.find((a) => a.screen === 'review');
+    // The first UNFINISHED review: Keep Learning can hold a second one after the
+    // core's is done (sweep 216), and "the first review" would be the finished one.
+    const srsActivity = session.activities.find(
+      (a) => a.screen === 'review' && !session.completedIds.includes(a.id),
+    );
     if (!srsActivity) return;
-    if (session.completedIds.includes(srsActivity.id)) return;
     // Use the same pool-aware count buildSessionActivities now uses, so the
     // skip decision agrees with what ReviewScreen will actually serve.
     // Use the servable (orphan-filtered) count ONLY when poolWords is actually
@@ -1131,35 +1144,43 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     // Use the same setter path markDone uses (persist + history side-effects).
     setSession((prev) => {
       if (prev.completedIds.includes(srsActivity.id)) return prev;
-      const updated = stretched(markDoneInSession(prev, srsActivity.id));
+      const updated = extended(markDoneInSession(prev, srsActivity.id));
       persistSession(updated);
-      if (stretchState(updated).coreComplete) {
+      if (keepState(updated).coreComplete) {
         recordSessionComplete(updated.date);
       }
       return updated;
     });
-  }, [session, poolWords, stretched]);
+  }, [session, poolWords, extended]);
 
   // THE PRODUCE SLOT IS CREDITED FOR WORK DONE ON THE LESSON PAGE (redesign
   // increment 2a) — the SRS auto-skip above is the precedent for a slot the
   // session settles on its own evidence. Rule and rationale in lib/produceSlot.
-  // The same pass then asks whether a Stretch is owed (increment 6), so a core
-  // finished by a credit rather than a tap still grows the plan — and so a plan
-  // persisted before the Stretch existed, or finished before this render, is
-  // extended on load.
+  // The same pass then appends the next Keep Learning block when one is owed, so a
+  // core finished by a credit rather than a tap still grows the plan — and so a
+  // plan persisted earlier, or finished before this render, is extended on load.
   useEffect(() => {
     setSession((prev) => {
-      const next = stretched(creditProducedSlots(prev));
+      const next = extended(creditProducedSlots(prev));
       if (next !== prev) persistSession(next);
       return next;
     });
-  }, [session, stretched]);
+  }, [session, extended]);
 
-  const stretch = stretchState(session);
-  const isComplete = stretch.complete;
+  const nextActivity = session.activities.find((a) => !session.completedIds.includes(a.id)) ?? null;
+  const ks = keepState(session);
+  // Read while the flow is open (it names the unit and counts what is unproven);
+  // keyed on the plan so a finished item refreshes it.
+  const progressLine = useMemo(
+    () => (ks.coreComplete ? keepProgress() : { unitIndex: null, line: null }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- reads stores fresh; the plan is the trigger
+    [session, ks.coreComplete],
+  );
+  const keep = { ...ks, unitIndex: progressLine.unitIndex, progressLine: progressLine.line };
+  // No terminal state: complete only if a finished core could not be followed.
+  const isComplete = ks.coreComplete && nextActivity === null;
   const progress =
     session.activities.length === 0 ? 0 : session.completedIds.length / session.activities.length;
-  const nextActivity = session.activities.find((a) => !session.completedIds.includes(a.id)) ?? null;
   const tomorrowLabel = readFluencyMode() ? '6–8 activities tomorrow' : '4–6 activities tomorrow';
 
   // Build a brand-new session ON DEMAND — the user taps "Start a fresh session"
@@ -1236,7 +1257,7 @@ export function useDailySession(userCefr: string, poolWords?: Set<string>): UseD
     tomorrowLabel,
     bonusActivities,
     startFreshSession,
-    stretch,
+    keep,
   };
 }
 

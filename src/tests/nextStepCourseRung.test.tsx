@@ -45,14 +45,22 @@ beforeEach(() => {
 });
 
 describe('the next-step engine offers the course once the session is done', () => {
-  it('a Unit 1 learner is sent to their unit’s next lesson', () => {
+  it('with no session built today, a Unit 1 learner is sent to their unit’s next lesson', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete(UNITS[0]!.lessons[0]!.id, '2026-09-27');
-    finishTodaysSession();
     const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
     expect(step.kind).toBe('course');
     expect(step.screen).toBe('animlesson');
     expect(step.label).toContain(UNITS[0]!.lessons[1]!.title);
+  });
+
+  it('once today’s session is done it offers NO new lesson (owner, 2026-09-29: review, not new concepts)', () => {
+    writeCurriculumSpine(SPINE);
+    markLessonComplete(UNITS[0]!.lessons[0]!.id, '2026-09-27');
+    finishTodaysSession();
+    const step = getNextStep({ userCefr: 'A2', poolWords: new Set() });
+    expect(step.screen).not.toBe('animlesson');
+    expect(step.kind).not.toBe('course');
   });
 
   it('with the unit read, it offers the unit test — and the handoff waits for the tap', () => {

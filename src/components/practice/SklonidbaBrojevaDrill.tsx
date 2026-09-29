@@ -47,10 +47,10 @@ const DATA = [
   {
     mode: 'dvatri',
     q: 'Iz ____ razloga odustajem. (dva)',
-    opts: ['dvaju', 'dva', 'dvama', 'dvojih'],
+    opts: ['dvaju', 'dvoju', 'dvama', 'dvojih'],
     answer: 'dvaju',
     en: 'I am withdrawing for two reasons',
-    tip: 'Formalni stil sklanja broj: iz dvaju razloga.',
+    tip: 'Formalni stil sklanja broj: iz dvaju razloga (nesklonjeno i: iz dva razloga).',
   },
   {
     mode: 'dvatri',
@@ -196,7 +196,7 @@ const DATA = [
   {
     mode: 'brojevne',
     q: 'Došla su ____ radnika. (4 muškarca)',
-    opts: ['četvorica', 'četvero', 'četiri', 'četirima'],
+    opts: ['četvorica', 'četvero', 'četvoricu', 'četirima'],
     answer: 'četvorica',
     en: 'four (male) workers arrived',
     tip: 'Muška skupina: četvorica radnika.',

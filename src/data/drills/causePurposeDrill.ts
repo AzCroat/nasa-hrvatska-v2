@@ -65,7 +65,7 @@ export const CAUSE_PURPOSE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Can jer open a sentence?',
     opts: ['ne', 'da', 'samo u pitanju', 'samo u pismu'],
     answer: 'ne',
-    tip: 'Jer never opens one. Zato što and budući da can.',
+    tip: 'A jer-clause follows the main clause (it stands alone only as an answer to Zašto?). Zato što and budući da can come first.',
   },
   {
     mode: 'uzrok',
@@ -113,9 +113,9 @@ export const CAUSE_PURPOSE_DRILL_DATA: ModeDrillItem[] = [
     mode: 'namjera',
     q: 'Idem u dućan ____ kruh.',
     en: 'I am going to the shop to buy bread.',
-    opts: ['kupiti', 'da kupim kruha', 'jer kupujem', 'zbog kupnje'],
+    opts: ['kupiti', 'kupim', 'jer kupujem', 'zbog kupnje'],
     answer: 'kupiti',
-    tip: 'After a verb of MOTION, purpose takes the bare infinitive: idem kupiti kruh.',
+    tip: 'After a verb of MOTION, purpose can take the bare infinitive: idem kupiti kruh (or da kupim kruh).',
   },
   {
     mode: 'namjera',

@@ -71,8 +71,8 @@ describe('requireAuthedAI', () => {
   });
 
   it('cost 0 skips the per-user quota entirely — for cache-served endpoints that charge on generation (2026-09-06)', async () => {
-    // The quota is not consulted at all: /api/tts, /api/news and
-    // /api/daily-culture call checkAIQuota themselves after their cache misses.
+    // The quota is not consulted at all: /api/tts and /api/news call
+    // checkAIQuota themselves after their cache misses.
     // (No mockResolvedValueOnce here on purpose — a queued value that the code
     // correctly never consumes would leak into the next test.)
     const g = await requireAuthedAI(ctx('Bearer good'), { cost: 0, rateLimit: 60 });

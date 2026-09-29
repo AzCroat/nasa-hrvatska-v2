@@ -137,7 +137,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
     en: 'Are those the same?',
     opts: ['nije isto', 'isto je', 'oba su pogrešna', 'ovisi o naglasku'],
     answer: 'nije isto',
-    tip: 'Nisu svi došli = not all came. Svi nisu došli = none came. Position decides.',
+    tip: 'Nisu svi došli = not all came. Svi nisu došli leans towards none came, but in speech it is often ambiguous — write nitko nije došao if that is what you mean.',
   },
   {
     mode: 'opseg',
@@ -169,7 +169,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
     mode: 'konstrukcije',
     q: 'Nemam ____ plan.',
     en: 'I have no plan whatsoever.',
-    opts: ['nikakav', 'nijedan', 'nikoji', 'nijedanput'],
+    opts: ['nikakav', 'ništa', 'nikoji', 'nijedanput'],
     answer: 'nikakav',
     tip: 'Nikakav denies the whole CATEGORY — stronger than nijedan, which counts.',
   },

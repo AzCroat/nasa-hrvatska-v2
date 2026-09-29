@@ -61,10 +61,10 @@ const DATA = [
   },
   {
     mode: 'zarez',
-    q: 'Ispred kojih veznika u pravilu piše zarez?',
+    q: 'Ispred kojih se veznika u pravilu piše zarez?',
     opts: ['ali, nego, no, već', 'i, pa, te', 'ili, iliti', 'da, kako'],
     answer: 'ali, nego, no, već',
-    en: 'before adversative conjunctions',
+    en: 'which conjunctions take a comma?',
     tip: 'Suprotni veznici traže zarez: Došao je, ali nije ostao.',
   },
   {
@@ -90,7 +90,7 @@ const DATA = [
       'piše se u zagradama',
     ],
     answer: 'odvaja se zarezima s obje strane',
-    en: 'parenthetical dakle takes commas on both sides',
+    en: 'dakle in the middle of a sentence',
     tip: 'Umetnute riječi: Rezultat je, dakle, jasan.',
   },
   {
@@ -229,7 +229,7 @@ const DATA = [
   {
     mode: 'sastavljeno',
     q: 'Pozdrav pri odlasku pišemo:',
-    opts: ['doviđenja', 'do viđenja', 'do-viđenja', 'doviđenja!'],
+    opts: ['doviđenja', 'do viđenja', 'do-viđenja', 'dovidjenja'],
     answer: 'doviđenja',
     en: 'goodbye',
     tip: 'Pozdrav doviđenja srastao je u jednu riječ.',

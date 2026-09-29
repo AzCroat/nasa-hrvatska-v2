@@ -15,7 +15,7 @@ const DATA = [
   {
     mode: 'prefiksi',
     q: '„____ smo u kuću čim je počela kiša.”',
-    opts: ['Ušli', 'Izašli', 'Prešli', 'Sišli'],
+    opts: ['Ušli', 'Izašli', 'Obišli', 'Sišli'],
     answer: 'Ušli',
     en: 'We went into the house as soon as the rain started.',
     tip: 'u- = kretanje prema unutra: ući u + akuzativ.',
@@ -23,7 +23,7 @@ const DATA = [
   {
     mode: 'prefiksi',
     q: '„____ je s posla u pet.”',
-    opts: ['Otišla', 'Došla', 'Ušla', 'Prišla'],
+    opts: ['Otišla', 'Obišla', 'Ušla', 'Prišla'],
     answer: 'Otišla',
     en: 'She left work at five.',
     tip: 'ot- = udaljavanje: otići s posla.',
@@ -39,7 +39,7 @@ const DATA = [
   {
     mode: 'prefiksi',
     q: '„Kad ____ do križanja, skrenite desno.”',
-    opts: ['dođete', 'odete', 'uđete', 'siđete'],
+    opts: ['dođete', 'obiđete', 'uđete', 'siđete'],
     answer: 'dođete',
     en: 'When you reach the crossroads, turn right.',
     tip: 'do- = dosezanje cilja: doći do + genitiv.',
@@ -95,7 +95,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: '„Svako jutro ____ iz kuće u sedam.” (navika)',
-    opts: ['izlazim', 'izađem', 'izaći ću', 'izašao sam'],
+    opts: ['izlazim', 'izađoh', 'izaći ću', 'izašao sam'],
     answer: 'izlazim',
     en: 'Every morning I leave the house at seven.',
     tip: 'Navika/ponavljanje → nesvršeni prezent: izlazim.',
@@ -159,7 +159,7 @@ const DATA = [
   {
     mode: 'rekcija',
     q: '„Došli smo ____.”',
-    opts: ['do mora', 'do more', 'u moru', 's mora'],
+    opts: ['do mora', 'do more', 'u moru', 'na moru'],
     answer: 'do mora',
     en: 'We reached the sea.',
     tip: 'doći DO + GENITIV: do mora.',
@@ -175,7 +175,7 @@ const DATA = [
   {
     mode: 'rekcija',
     q: '„Prošli smo ____ stari dio grada.”',
-    opts: ['kroz', 'preko', 'po', 'uz'],
+    opts: ['kroz', 'preko', 'po', 'iz'],
     answer: 'kroz',
     en: 'We passed through the old part of town.',
     tip: 'proći KROZ + AKUZATIV: kroz stari dio grada.',

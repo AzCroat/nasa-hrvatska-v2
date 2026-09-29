@@ -136,7 +136,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
     en: 'After a preposition you use:',
     opts: ['dugi oblik', 'kratki oblik', 'oba', 'nijedan'],
     answer: 'dugi oblik',
-    tip: 'Za mene, s njim, o njoj — never za me.',
+    tip: 'Za mene, s njim, o njoj. (Short forms such as za me also exist, but they are literary.)',
   },
   {
     mode: 'mjesto',
@@ -158,7 +158,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   // ── redanje ───────────────────────────────────────────────────────────────
   {
     mode: 'redanje',
-    q: 'Dao ____ je knjigu. (nju + meni)',
+    q: 'Dao ____ je. (nju + meni)',
     en: 'He gave it to me.',
     opts: ['mi ju', 'ju mi', 'mi je', 'je mi'],
     answer: 'mi ju',
@@ -195,7 +195,7 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'redanje',
-    q: 'Poslao ____ pismo. (njega + njemu)',
+    q: 'Poslao ____. (njega + njemu)',
     en: 'He sent it to him.',
     opts: ['mu ga je', 'ga mu je', 'je mu ga', 'mu je ga'],
     answer: 'mu ga je',

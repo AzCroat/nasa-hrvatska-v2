@@ -118,11 +118,6 @@ describe('every engine drill says what happened, and why', () => {
 });
 
 describe('what the converted drills carried with them', () => {
-  it('the animate-accusative drill still shows the nominative to transform', async () => {
-    await mount('../components/practice/AnimateAccDrill.tsx');
-    expect(screen.getByText('brat (brother)')).toBeTruthy();
-  });
-
   it('the negation drill still shows the sentence being negated', async () => {
     await mount('../components/practice/NegationGenDrill.tsx');
     expect(screen.getByTestId('drill-lead').textContent).toContain('Imam brata.');

@@ -30,7 +30,6 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'alphabet',
   'analizamedija',
   'analytics',
-  'animateacc',
   'animlesson',
   'aoristimperfekt',
   'apstraktno',

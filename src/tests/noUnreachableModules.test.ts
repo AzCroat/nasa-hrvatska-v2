@@ -118,7 +118,7 @@ function unreachableModules(): { files: string[]; dead: string[]; reachable: num
  *     `spendXp` was this hook. Sweep 111's "a conduit is not a producer" needs one
  *     more hop — a producer that is itself UNREACHABLE is not a producer, which is
  *     exactly what sweep 130 established for endpoints. Recorded for the owner,
- *     not patched: re-adding a purchase surface is a product decision.
+ *     who decided on 2026-09-29 to REMOVE both (and the campaign multiplier).
  *   - `LEVEL_NARRATIVE`, a key in the 1.4 MB `/api/content/core` payload, had
  *     `HeroSection` as its ONE client consumer — so #655's September fix to the
  *     level-7 rung was a fix to the reading of a payload nobody reads.

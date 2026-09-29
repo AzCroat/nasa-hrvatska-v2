@@ -30,7 +30,7 @@ const DATA = [
     q: 'Umjesto „to pravi smisao” standard kaže:',
     opts: ['to ima smisla', 'to čini smisao', 'to izrađuje smisao', 'smisleno pravi'],
     answer: 'to ima smisla',
-    en: 'that makes sense → ima smisla',
+    en: 'that makes sense',
     tip: 'Make sense ≠ praviti smisao.',
   },
   {
@@ -59,7 +59,7 @@ const DATA = [
     q: 'Umjesto „trčati kampanju” standard kaže:',
     opts: ['voditi kampanju', 'trčati izbore', 'juriti kampanju', 'hodati kampanju'],
     answer: 'voditi kampanju',
-    en: 'to run a campaign → voditi',
+    en: 'to run a campaign',
     tip: 'Run ≠ trčati u prenesenu značenju.',
   },
   {
@@ -73,7 +73,7 @@ const DATA = [
     ],
     answer: 'imati pravo / biti u pravu',
     en: 'to have a point',
-    tip: 'Imaš pravo — ne imaš poentu.',
+    tip: 'Kaže se „imaš pravo”, a ne „imaš poentu”.',
   },
   {
     mode: 'glagoli',
@@ -85,7 +85,7 @@ const DATA = [
       'poslati aplikaciju kožnu',
     ],
     answer: 'prijaviti se za posao',
-    en: 'to apply for a job → prijaviti se',
+    en: 'to apply for a job',
     tip: 'Aplicirati je nanositi (boju, kremu); za posao se prijavljujemo.',
   },
   {
@@ -93,7 +93,7 @@ const DATA = [
     q: 'Umjesto „fokusirati se na” u biranom stilu:',
     opts: ['usredotočiti se na', 'fokus staviti', 'žarištiti se', 'centrirati se'],
     answer: 'usredotočiti se na',
-    en: 'to focus on → usredotočiti se',
+    en: 'to focus on',
     tip: 'Domaći glagol pokriva isto.',
   },
   {
@@ -106,15 +106,15 @@ const DATA = [
       'najbolji od ikad',
     ],
     answer: 'najbolji dosad / svih vremena',
-    en: 'best ever → najbolji dosad',
-    tip: 'Ikad je upitno-odnosni prilog, ne pojačivač.',
+    en: 'best ever',
+    tip: 'Ikad je neodređeni prilog (je li ikad…?), ne pojačivač.',
   },
   {
     mode: 'izrazi',
     q: 'Umjesto „na kraju dana” (zaključno) standard kaže:',
     opts: ['na koncu / u konačnici', 'kad padne mrak', 'na kraju radnog dana', 'dok dan traje'],
     answer: 'na koncu / u konačnici',
-    en: 'at the end of the day → na koncu',
+    en: 'at the end of the day (in conclusion)',
     tip: 'Kalk iz engleske retorike.',
   },
   {
@@ -122,7 +122,7 @@ const DATA = [
     q: 'Umjesto „u roku od odmah” razgovorno-kalkiranog „ASAP”:',
     opts: ['što prije / čim prije', 'asapno', 'u asapu', 'brzo-brzo službeno'],
     answer: 'što prije / čim prije',
-    en: 'ASAP → sto prije',
+    en: 'ASAP',
     tip: 'Molim odgovor što prije.',
   },
   {
@@ -130,7 +130,7 @@ const DATA = [
     q: 'Umjesto „biti u mogućnosti” jednostavnije je:',
     opts: ['moći', 'imati mogućnost moći', 'biti sposoban za moći', 'mogućiti'],
     answer: 'moći',
-    en: 'to be in a position to → moci',
+    en: 'to be in a position to',
     tip: 'Birokratska perifraza → običan glagol.',
   },
   {
@@ -146,7 +146,7 @@ const DATA = [
     q: 'Umjesto „dati podršku” jednostavnije je:',
     opts: ['poduprijeti / podržati', 'darovati podršku', 'dati potporni stup', 'podrškovati'],
     answer: 'poduprijeti / podržati',
-    en: 'to give support → podrzati',
+    en: 'to give support',
     tip: 'Analitička perifraza → jedan glagol.',
   },
   {
@@ -159,7 +159,7 @@ const DATA = [
       'nijedno ne postoji',
     ],
     answer: 'imati na umu je standard',
-    en: 'keep in mind → imati na umu',
+    en: 'keep in mind',
     tip: 'Domaći frazem već postoji — kalk je suvišan.',
   },
   {
@@ -167,7 +167,7 @@ const DATA = [
     q: 'Umjesto „praviti novac” standard kaže:',
     opts: ['zarađivati', 'kovati novac doslovno', 'izrađivati novčanice', 'novčiti'],
     answer: 'zarađivati',
-    en: 'to make money → zaradjivati',
+    en: 'to make money',
     tip: 'Novac se zarađuje (kuje ga kovnica).',
   },
   {
@@ -180,7 +180,7 @@ const DATA = [
       'doći ću bez sumnje',
     ],
     answer: 'definitivno ću doći (svakako)',
-    en: 'definitely — the anglicism',
+    en: 'which adverb is the anglicism?',
     tip: 'Definitivno = konačno; za sigurnost: svakako.',
   },
   {
@@ -193,7 +193,7 @@ const DATA = [
       'nisam ljubitelj toga',
     ],
     answer: 'to nije moja šalica čaja',
-    en: 'not my cup of tea — calque',
+    en: 'which idiom is translated word for word?',
     tip: 'Doslovni prijevod engleskoga frazema.',
   },
   {
@@ -206,7 +206,7 @@ const DATA = [
       'dvojiti',
     ],
     answer: 'imati druge misli (predomišljanje)',
-    en: 'to have second thoughts — calque',
+    en: 'to have second thoughts',
     tip: 'Standard: predomisliti se, dvojiti.',
   },
   {
@@ -214,7 +214,7 @@ const DATA = [
     q: 'Koji je izraz kalk za tremu?',
     opts: ['leptirići u trbuhu', 'trema', 'uzbuđenje', 'žmarci'],
     answer: 'leptirići u trbuhu',
-    en: 'butterflies in the stomach — calque',
+    en: 'which expression is the calque?',
     tip: 'Doslovan prijevod; domaće: trema, žmarci.',
   },
   {
@@ -227,7 +227,7 @@ const DATA = [
       'nemaju zamjene',
     ],
     answer: 'prilagođuju se ili zamjenjuju (podijeliti)',
-    en: 'adapting social-media loans',
+    en: 'social-media loanwords in the standard',
     tip: 'Šerati → podijeliti; lajkati → sviđati se/označiti sviđanje.',
   },
   {
@@ -235,7 +235,7 @@ const DATA = [
     q: '„Event” u poslovnom žargonu standard zamjenjuje:',
     opts: ['događanje / priredba', 'ivent malim slovom', 'evenat', 'skup jedino'],
     answer: 'događanje / priredba',
-    en: 'event → dogadjanje',
+    en: 'event (business jargon)',
     tip: 'Poslovni anglizmi imaju domaće parnjake.',
   },
   {

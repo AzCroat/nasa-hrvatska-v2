@@ -93,6 +93,119 @@ function parseAzureResponse(azureData) {
   return { overall, accuracy, fluency, completeness, word_scores, recognized };
 }
 
+/**
+ * One Azure pronunciation assessment: scripted, miscue detection on, phoneme granularity.
+ * Exported so the STT calibration (stt-calibration.js) probes the EXACT production call
+ * rather than a copy of it. Returns the parsed result and the processed audio seconds,
+ * or a named error; it never throws.
+ */
+export async function azureAssess(
+  key,
+  region,
+  audioBytes,
+  contentType,
+  referenceText,
+  locale = 'hr-HR',
+) {
+  // Build the Pronunciation-Assessment header value.
+  // Azure requires this as a base64-encoded JSON object.
+  const assessmentConfig = {
+    ReferenceText: referenceText,
+    GradingSystem: 'HundredMark',
+    Granularity: 'Phoneme',
+    EnableMiscue: true,
+  };
+  const assessmentHeader = btoa(JSON.stringify(assessmentConfig));
+
+  // Call Azure Cognitive Services Pronunciation Assessment REST API.
+  const azureUrl = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=${locale}&format=detailed`;
+
+  // Block 1: fetch — catches network errors only
+  let azureRes;
+  try {
+    azureRes = await fetch(azureUrl, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': key,
+        'Content-Type': contentType,
+        Accept: 'application/json',
+        'Pronunciation-Assessment': assessmentHeader,
+      },
+      body: audioBytes,
+      signal: AbortSignal.timeout(20000),
+    });
+  } catch (fetchErr) {
+    console.error('pronunciation-assess.js: Azure fetch error:', fetchErr?.message);
+    return { ok: false, error: 'azure_unavailable' };
+  }
+
+  // Block 2: read body — catches body-read failures
+  let rawBody;
+  try {
+    rawBody = await azureRes.text();
+  } catch (bodyErr) {
+    console.error('pronunciation-assess.js: failed to read response body:', bodyErr?.message);
+    return { ok: false, error: 'azure_body_unreadable' };
+  }
+
+  // Block 3: check res.ok
+  if (!azureRes.ok) {
+    let errMsg;
+    try {
+      errMsg = JSON.parse(rawBody)?.error?.message;
+    } catch {
+      /* not JSON */
+    }
+    console.error(
+      'pronunciation-assess.js: Azure HTTP error:',
+      azureRes.status,
+      errMsg || rawBody.slice(0, 300),
+    );
+    return { ok: false, error: 'azure_error' };
+  }
+
+  // Block 4: parse JSON
+  let azureData;
+  try {
+    azureData = JSON.parse(rawBody);
+  } catch {
+    console.error('pronunciation-assess.js: JSON parse failed:', rawBody.slice(0, 200));
+    return { ok: false, error: 'parse_failed' };
+  }
+
+  // AZURE HEARD NO SPEECH, AND THAT IS NOT A SERVER FAULT (Sentry
+  // ai_feedback_failed:guided-speaking-assess:server, 2026-09-29). A recording
+  // with no recognisable speech comes back 200 with RecognitionStatus NoMatch /
+  // InitialSilenceTimeout / BabbleTimeout and no NBest, which fell through to
+  // `unexpected_shape` and a 502 — so the learner read "the evaluation service is
+  // temporarily unavailable" about a recording that simply held no speech, and
+  // the report said the server was down. It is named now, and the client files it
+  // under `stt` ("we couldn't transcribe the recording"), still reported, because
+  // a silent capture can also be our own recording defect.
+  const status =
+    typeof azureData?.RecognitionStatus === 'string' ? azureData.RecognitionStatus : '';
+  if (status && status !== 'Success') {
+    console.warn('pronunciation-assess.js: no speech recognised:', status);
+    return {
+      ok: false,
+      error: 'no_speech',
+      recognitionStatus: status,
+      durationS: Number(azureData?.Duration) / 1e7,
+    };
+  }
+
+  const parsed = parseAzureResponse(azureData);
+  if (!parsed) {
+    console.error(
+      'pronunciation-assess.js: unexpected Azure response shape:',
+      JSON.stringify(azureData).slice(0, 300),
+    );
+    return { ok: false, error: 'unexpected_shape' };
+  }
+
+  return { ok: true, parsed, durationS: Number(azureData?.Duration) / 1e7 };
+}
+
 // ── Preflight ─────────────────────────────────────────────────────────────────
 export async function onRequestOptions({ request }) {
   const origin = request.headers.get('origin') || '';
@@ -190,82 +303,23 @@ export async function onRequestPost(context) {
   const normMime = String(audioMimeType).toLowerCase().replace(/\s+/g, ' ').trim();
   const azureContentType = ALLOWED_MIME_TYPES.has(normMime) ? normMime : 'audio/wav';
 
-  // Build the Pronunciation-Assessment header value.
-  // Azure requires this as a base64-encoded JSON object.
-  const assessmentConfig = {
-    ReferenceText: safeReferenceText,
-    GradingSystem: 'HundredMark',
-    Granularity: 'Phoneme',
-    EnableMiscue: true,
-  };
-  const assessmentHeader = btoa(JSON.stringify(assessmentConfig));
-
-  // Call Azure Cognitive Services Pronunciation Assessment REST API.
-  const azureUrl = `https://${AZURE_REGION}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=${safeLocale}&format=detailed`;
-
-  // Block 1: fetch — catches network errors only
-  let azureRes;
-  try {
-    azureRes = await fetch(azureUrl, {
-      method: 'POST',
-      headers: {
-        'Ocp-Apim-Subscription-Key': AZURE_KEY,
-        'Content-Type': azureContentType,
-        Accept: 'application/json',
-        'Pronunciation-Assessment': assessmentHeader,
-      },
-      body: audioBytes,
-      signal: AbortSignal.timeout(20000),
-    });
-  } catch (fetchErr) {
-    console.error('pronunciation-assess.js: Azure fetch error:', fetchErr?.message);
-    return err(502, 'azure_unavailable', origin);
+  const out = await azureAssess(
+    AZURE_KEY,
+    AZURE_REGION,
+    audioBytes,
+    azureContentType,
+    safeReferenceText,
+    safeLocale,
+  );
+  if (!out.ok && out.error === 'no_speech') {
+    // Azure still processed (and billed) the audio; book what it measured.
+    await reconcileAudioSeconds(env, PATH, out.durationS);
+    return err(422, 'no_speech', origin);
   }
-
-  // Block 2: read body — catches body-read failures
-  let rawBody;
-  try {
-    rawBody = await azureRes.text();
-  } catch (bodyErr) {
-    console.error('pronunciation-assess.js: failed to read response body:', bodyErr?.message);
-    return err(502, 'azure_unavailable', origin);
-  }
-
-  // Block 3: check res.ok
-  if (!azureRes.ok) {
-    let errMsg;
-    try {
-      errMsg = JSON.parse(rawBody)?.error?.message;
-    } catch {
-      /* not JSON */
-    }
-    console.error(
-      'pronunciation-assess.js: Azure HTTP error:',
-      azureRes.status,
-      errMsg || rawBody.slice(0, 300),
-    );
-    return err(502, 'azure_error', origin);
-  }
-
-  // Block 4: parse JSON
-  let azureData;
-  try {
-    azureData = JSON.parse(rawBody);
-  } catch {
-    console.error('pronunciation-assess.js: JSON parse failed:', rawBody.slice(0, 200));
-    return err(502, 'parse_failed', origin);
-  }
-
-  const parsed = parseAzureResponse(azureData);
-  if (!parsed) {
-    console.error(
-      'pronunciation-assess.js: unexpected Azure response shape:',
-      JSON.stringify(azureData).slice(0, 300),
-    );
-    return err(502, 'parse_failed', origin);
-  }
+  if (!out.ok) return err(502, out.error, origin);
+  const { parsed, durationS } = out;
 
   // Book the audio Azure actually processed, not the one-minute ceiling.
-  await reconcileAudioSeconds(env, PATH, Number(azureData?.Duration) / 1e7);
+  await reconcileAudioSeconds(env, PATH, durationS);
   return ok({ ok: true, ...parsed }, origin);
 }

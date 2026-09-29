@@ -76,14 +76,14 @@ const DATA = [
     tip: "Indirect question uses 'zašto' (why); 'jer' only answers, never asks.",
   },
   {
-    q: 'Radit ću ___ ti pomognem. (in order to)',
+    q: 'Radit ću ___ ti pomogao. (in order to)',
     opts: ['kako bih', 'jer', 'iako', 'dok'],
     answer: 'kako bih',
     en: 'I will work in order to help you.',
     tip: "Purpose with conditional: 'kako bih' + participle = in order to (1sg).",
   },
   {
-    q: 'Ne znam ___ će doći. (whether/if)',
+    q: 'Ne znam ___ doći. (whether/if)',
     opts: ['hoće li', 'ako', 'iako', 'jer'],
     answer: 'hoće li',
     en: "I don't know whether he will come.",

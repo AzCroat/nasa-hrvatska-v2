@@ -52,17 +52,17 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'tvorba',
     q: 'Od čega je složeno "sveučilište"?',
     en: 'What is sveučilište built from?',
-    opts: ['sve + učiti', 'svet + učilište', 'svega + lište', 'svečano + učilište'],
-    answer: 'sve + učiti',
+    opts: ['sve + učilište', 'svet + učilište', 'svega + lište', 'svečano + učilište'],
+    answer: 'sve + učilište',
     tip: 'An all-learning-place. The parts give the meaning away.',
   },
   {
     mode: 'tvorba',
     q: 'Odakle riječ "tisuća"?',
     en: 'Where does tisuća come from?',
-    opts: ['iz staroslavenskoga', 'iz latinskoga', 'iz njemačkoga', 'iz talijanskoga'],
-    answer: 'iz staroslavenskoga',
-    tip: 'An Old Slavic inheritance, not a coinage — and it is the standard form.',
+    opts: ['iz praslavenskoga', 'iz latinskoga', 'iz njemačkoga', 'iz talijanskoga'],
+    answer: 'iz praslavenskoga',
+    tip: 'Inherited from Proto-Slavic, not coined — and it is the standard form.',
   },
   {
     mode: 'tvorba',
@@ -142,11 +142,11 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bastina',
-    q: 'Tko je dao slova č, ć, š, ž, đ?',
+    q: 'Tko je u hrvatsku latinicu uveo slova č, ć, š i ž?',
     en: 'Who gave the alphabet its diacritics?',
     opts: ['Ljudevit Gaj', 'Bogoslav Šulek', 'Marko Marulić', 'Bartol Kašić'],
     answer: 'Ljudevit Gaj',
-    tip: 'In the 1830s — hence gajica.',
+    tip: 'In the 1830s — hence gajica. The đ came later, from Đuro Daničić.',
   },
   {
     mode: 'bastina',
@@ -163,7 +163,7 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bastina',
-    q: 'Što je "kisik" prije bila?',
+    q: 'Što je riječ "kisik" izvorno bila?',
     en: 'What was kisik before?',
     opts: ['Šulekova kovanica', 'stara narodna riječ', 'posuđenica', 'dijalektizam'],
     answer: 'Šulekova kovanica',
@@ -171,7 +171,7 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bastina',
-    q: 'Koja je latinska osnova hrvatskoga pisma danas?',
+    q: 'Kojim se pismom danas piše hrvatski?',
     en: 'Which script does Croatian use?',
     opts: ['latinica', 'glagoljica', 'oboje jednako', 'ovisi o kraju'],
     answer: 'latinica',
@@ -250,7 +250,7 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'stav',
     q: 'Kako se odgovara nekomu tko se ispričava za svoj hrvatski?',
-    en: 'Answering an apology for someone Croatian:',
+    en: 'Answering someone who apologises for their Croatian:',
     opts: [
       'Ma odlično govorite!',
       'Da, malo se čuje.',

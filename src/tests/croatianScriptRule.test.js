@@ -36,13 +36,10 @@ const src = (name) =>
 
 /** Endpoints that state the alphabet — via the shared constant or their own text. */
 const APPLIES_RULE = [
-  'adaptive-insights',
   'ai-chat',
   'conversation',
   'conversational-tutor',
   'correct', // via writingEvalSystemPrompt — see the shared-helper note below
-  'daily-culture',
-  'daily-plan',
   'dialogue',
   'explain-error', // added 2026-08-25 after the incident above
   'flash-context',
@@ -176,10 +173,7 @@ describe('the rule is version-tracked, not just appended', () => {
    * with alsoVersion present, version !== promptHash(text) alone.
    */
   const CARRIES_RULE_IN_VERSION = [
-    ['adaptive-insights', 'adaptive-insights'],
     ['correct', 'writing-eval'],
-    ['daily-culture', 'daily-culture-card'],
-    ['daily-plan', 'daily-plan'],
     ['explain-error', 'explain-error'],
     ['flash-context', 'flash-context'],
     ['grammar-diagnosis', 'grammar-diagnosis'],

@@ -12,7 +12,6 @@ import { resolve } from 'node:path';
 // ── Mock all external dependencies used by useAward ──────────────────────────
 
 vi.mock('../lib/appUtils.js', () => ({
-  lXPgain: vi.fn((x: number) => x), // identity: return what's passed
   lvl: vi.fn(() => 1),
   BADGES: [],
   updateStreak: vi.fn(() => ({ count: 1, milestone: null, freezeUsed: false })),
@@ -404,6 +403,25 @@ describe('useAward — state setters', () => {
 // ── Hook: award() calls setStats ──────────────────────────────────────────────
 
 describe('useAward — award() behaviour', () => {
+  // The XP boost and the seasonal-campaign multiplier were removed on 2026-09-29
+  // (owner decision). An award pays exactly what the exercise pays — a stale
+  // boost timestamp left in storage by an old build must not double it.
+  it('award(50) credits exactly 50 XP, ignoring a leftover boost timestamp', async () => {
+    localStorage.setItem('nh_xp_boost_expires', String(Date.now() + 60 * 60 * 1000));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const results: any[] = [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const setStats = vi.fn((fn: any) => results.push(fn({ ...DS })));
+    const { result } = renderHook(() =>
+      useAward({ curEx: 'exact_award_exercise', stats: { ...DS }, setStats }),
+    );
+    await act(async () => {
+      await result.current.award(50);
+    });
+    expect(results.length).toBeGreaterThan(0);
+    expect(results[0].xp).toBe(50);
+  });
+
   it('award(50) calls setStats at least once', async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const setStats = vi.fn((fn: any) => fn({ ...DS }));

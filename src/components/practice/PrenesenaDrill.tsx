@@ -17,7 +17,7 @@ const DATA = [
     q: '„Pao je na ispitu” znači:',
     opts: ['nije položio ispit', 'fizički se srušio', 'zaspao je', 'pobijedio je'],
     answer: 'nije položio ispit',
-    en: 'he failed the exam',
+    en: 'he fell at the exam',
     tip: 'Pasti na ispitu = ne položiti.',
   },
   {
@@ -38,7 +38,7 @@ const DATA = [
       'vozilo je došlo',
     ],
     answer: 'nesreća se dogodila',
-    en: 'an accident occurred',
+    en: 'it came to an accident',
     tip: 'Doći do + G = dogoditi se.',
   },
   {
@@ -54,7 +54,7 @@ const DATA = [
     q: '„Držati riječ” znači:',
     opts: ['ispuniti obećanje', 'glasno govoriti', 'šutjeti', 'pisati govor'],
     answer: 'ispuniti obećanje',
-    en: 'to keep one\u2019s word',
+    en: 'to hold one\u2019s word',
     tip: 'Držati = pridržavati se obećanoga.',
   },
   {
@@ -62,7 +62,7 @@ const DATA = [
     q: '„Nositi se s problemom” znači:',
     opts: ['suočavati se s njim', 'nositi ga u torbi', 'izbjegavati ga', 'prodavati ga'],
     answer: 'suočavati se s njim',
-    en: 'to cope with a problem',
+    en: 'to carry oneself with a problem',
     tip: 'Nositi se s čim = boriti se, izlaziti na kraj.',
   },
   {
@@ -70,7 +70,7 @@ const DATA = [
     q: '„Pustiti nekoga na miru” znači:',
     opts: ['ne uznemiravati ga', 'osloboditi iz zatvora', 'poslati na odmor', 'zaboraviti ime'],
     answer: 'ne uznemiravati ga',
-    en: 'to leave someone alone',
+    en: 'to let someone be in peace',
     tip: 'Na miru = bez uznemiravanja.',
   },
   {
@@ -78,7 +78,7 @@ const DATA = [
     q: '„Voda je provrila, a i on je proključao” — drugi dio znači:',
     opts: ['naglo se razljutio', 'skuhao je čaj', 'oznojio se', 'utopio se'],
     answer: 'naglo se razljutio',
-    en: 'he boiled over with anger',
+    en: 'the water boiled, and he boiled up too',
     tip: 'Proključati = planuti od bijesa.',
   },
   {
@@ -203,7 +203,7 @@ const DATA = [
     q: '„Zlatne ruke” znači:',
     opts: ['iznimna spretnost u poslu', 'nakit', 'bogatstvo', 'žute rukavice'],
     answer: 'iznimna spretnost u poslu',
-    en: 'golden hands = great skill',
+    en: 'golden hands',
     tip: 'Zlatan = dragocjen, vrstan.',
   },
   {
