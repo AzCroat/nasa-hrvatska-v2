@@ -13363,6 +13363,11 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     retake reusing the shuffle; no `notpassed` state; the closed check stranding the session
     (this one SURVIVED at first — the test saw the first sitting's signal — and was fixed by
     clearing the mock between openings).
+  - **The copy was corrected the same hour**: a first miss is due exactly 24 hours later
+    (measured over 200 draws of `sm2`), so the missed questions are in Lesson Review
+    TOMORROW, the corrective day — the first wording ("are in your Lesson Review") was
+    true only a day later. The one test that queried the queue at exactly one day raced the
+    scheduler's clock by milliseconds and failed intermittently; it now asks two days on.
   - **Not covered, stated**: the retake is still the same six items in new positions until
     each lesson carries a second form (recommendation 2, next); a learner who answers FIVE of
     six and leaves has seen five explanations and meets a fresh check next time — only a

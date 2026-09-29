@@ -109,8 +109,14 @@ describe('2. the missed items become Lesson Review cards, and no ladder starts',
       results: [0, 1, 2, 3, 4, 5].map((idx) => ({ idx, correct: idx > 1 })),
       now,
     });
-    // Due within the day at the latest; ask the queue a day on.
-    const queue = buildRetentionQueue([lesson('cases')], readRetention(), TODAY, now + 86_400_000);
+    // A first miss is due 24 hours after the scheduler's own clock (measured), so ask
+    // two days on — asking at exactly one day raced the scheduler by milliseconds.
+    const queue = buildRetentionQueue(
+      [lesson('cases')],
+      readRetention(),
+      TODAY,
+      now + 2 * 86_400_000,
+    );
     expect(queue.map((q) => `${q.lessonId}#${q.idx}:${q.part}`).sort()).toEqual([
       'cases#0:card',
       'cases#1:card',

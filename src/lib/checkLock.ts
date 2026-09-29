@@ -47,7 +47,7 @@ export function checkLockedToday(lessonId: string, today: string = localDateStr(
 /** The learner-facing sentence for a closed check. One definition, so the summary
  *  and the locked check slide cannot say two different things. */
 export const CHECK_LOCKED_COPY =
-  'The check opens again tomorrow. Study the lesson and the questions you missed in your Lesson Review — tomorrow’s session brings this lesson back with a shorter re-teach before the check.';
+  'The check opens again tomorrow. Study the lesson now; tomorrow your Lesson Review asks the questions you missed, and the session brings this lesson back with a shorter re-teach before the check.';
 
 /**
  * How many checks this lesson has been through, ANY kind — the first attempt number of

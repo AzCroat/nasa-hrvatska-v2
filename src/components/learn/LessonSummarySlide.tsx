@@ -112,7 +112,7 @@ export function SummarySlide({
         >
           {`You needed ${itemsNeededToPass(quizTotal)} of ${quizTotal} to pass. This lesson is now one of your focus areas`}
           {missed > 0
-            ? ` — the ${missed === 1 ? 'question' : `${missed} questions`} you missed ${missed === 1 ? 'is' : 'are'} in your Lesson Review.`
+            ? ` — the ${missed === 1 ? 'question' : `${missed} questions`} you missed ${missed === 1 ? 'goes' : 'go'} into your Lesson Review for tomorrow.`
             : '.'}
         </p>
         <p

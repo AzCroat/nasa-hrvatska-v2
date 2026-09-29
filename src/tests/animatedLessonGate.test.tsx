@@ -203,7 +203,7 @@ describe('AnimatedLesson mastery gate', () => {
     expect(screen.queryByTestId('lesson-check-retake')).toBeNull();
     expect(screen.getByTestId('lesson-check-focus').textContent).toMatch(/focus areas/);
     expect(screen.getByTestId('lesson-check-focus').textContent).toMatch(
-      /2 questions you missed are in your Lesson Review/,
+      /2 questions you missed go into your Lesson Review for tomorrow/,
     );
     expect(screen.getByTestId('lesson-check-locked-copy').textContent).toMatch(/tomorrow/);
     expect(screen.getByTestId('lesson-nav-next').textContent).toContain('Finish');
