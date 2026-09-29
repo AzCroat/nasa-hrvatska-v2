@@ -74,7 +74,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Č vs Ć — The Classic Challenge',
-        body: "Č (hard) and Ć (soft) are the most confusing pair for learners. Č sounds like 'ch' in 'church' — the tongue is against the hard palate. Ć is softer — the tongue is positioned further forward, near the teeth ridge, producing a 'ty'-like sound (think the English 'tune' said quickly as 'tyoon'). Native speakers always distinguish them.",
+        body: "Č (hard) and Ć (soft) are the most confusing pair for learners. Č sounds like 'ch' in 'church' — the tip of the tongue is raised just behind the ridge above the upper teeth, with the lips slightly rounded. Ć is softer — the tip rests low behind the lower teeth and the middle of the tongue presses up against the hard palate, producing a 'ty'-like sound (think the English 'tune' said quickly as 'tyoon'). Native speakers always distinguish them.",
         highlight: 'Č vs Ć',
       },
       {
@@ -3796,10 +3796,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Čekao sam te ___.' (the whole day)",
-            options: ['cijeli dan', 'cijelog dana', 'cijelom danu', 'cijelim danom'],
+            options: ['cijeli dan', 'cijelu dan', 'cijelom danu', 'cijelim danom'],
             correct: 0,
             explanation:
-              'Duration of time is expressed with the accusative: cijeli dan, cijelu noć, tjedan dana.',
+              'Duration of time is expressed with the accusative: cijeli dan, cijelu noć, tjedan dana. "Cijelu" is feminine and dan is masculine. (The genitive cijelog dana is also heard for "all day".)',
           },
           {
             q: 'Which pair correctly contrasts motion and location?',
@@ -3963,7 +3963,7 @@ const LESSONS_CORE = [
           ['iz', 'out of, from inside', 'iz Zagreba (from Zagreb — lived there)'],
           ['bez', 'without', 'bez šećera (without sugar)'],
           ['kod', "at (someone's place)", "kod bake (at grandma's)"],
-          ['za', 'during, in the time of', 'za vrijeme rata (during the war)'],
+          ['za', 'during, in the time of', 'za života (in his lifetime)'],
           ['s/sa', 'from (off of)', 's mora (from the sea)'],
           ['blizu', 'near', 'blizu škole (near the school)'],
         ],
@@ -5538,9 +5538,9 @@ const LESSONS_CORE = [
             note: 'zažmiriti na jedno oko — an idiom usable at work',
           },
           {
-            hr: 'Radi kao crv, ali plaća mu je za plakanje.',
+            hr: 'Radi kao konj, ali plaća mu je za plakanje.',
             en: 'He works like a dog, but his salary is a joke.',
-            note: 'raditi kao crv (like a worm = tirelessly); za plakanje — colloquial',
+            note: 'raditi kao konj (like a horse = very hard); za plakanje — colloquial',
           },
           {
             hr: 'Ako Vam nije teško, javite mi do petka.',
@@ -8151,10 +8151,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Imaju ___.' (two children)",
-            options: ['dva djeteta', 'dvije djece', 'dvoje djece', 'dva djece'],
+            options: ['dvoje djeca', 'dvije djece', 'dvoje djece', 'dva djece'],
             correct: 2,
             explanation:
-              'Children are counted with the collective number plus the genitive of djeca: dvoje djece.',
+              'Children are counted with the collective number plus the genitive of djeca: dvoje djece. (Dva djeteta is also heard in speech; dvoje djece is the standard choice.)',
           },
           {
             q: "Which verb form follows 'Pet učenika'?",
@@ -8491,8 +8491,8 @@ const LESSONS_CORE = [
           ],
           [
             'Formal',
-            'Zakon je izmijenjen od strane Vlade.',
-            'Passive, nominalized, agent in prepositional phrase',
+            'Zakon je izmijenjen odlukom Vlade.',
+            'Passive, nominalized, agent through a noun (not the calque "od strane")',
           ],
           ['Informal', 'Tražim posao.', 'First-person, direct'],
           ['Journalistic', 'Stopa nezaposlenosti raste.', 'Impersonal, nominalized subject'],
@@ -9840,7 +9840,7 @@ const LESSONS_CORE = [
           {
             hr: 'Imaju dvoje djece.',
             en: 'They have two children.',
-            note: 'dvoje + genitive djece — never dva djeteta',
+            note: 'dvoje + genitive djece — the standard choice; dva djeteta is heard in speech',
           },
           {
             hr: 'Dvojica prijatelja otvorila su kafić.',
@@ -9914,14 +9914,14 @@ const LESSONS_CORE = [
         type: 'quiz',
         q: "A couple has two children. 'They have two children' is:",
         options: [
-          'Imaju dva djeteta.',
+          'Imaju dvoje djeca.',
           'Imaju dvije djece.',
           'Imaju dvoje djece.',
           'Imaju dvojicu djece.',
         ],
         correct: 2,
         explanation:
-          "Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: 'Imaju dvoje djece.' dvojica would mean two grown men, and 'dva djeteta' is not standard Croatian.",
+          "Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: 'Imaju dvoje djece.' dvojica would mean two grown men, and djeca must be in the genitive. ('Imaju dva djeteta' is also heard in speech, but the collective is the standard way.)",
       },
       {
         type: 'quiz',

@@ -3578,7 +3578,7 @@ export const LESSONS_C1 = [
           ['simpatičan', 'likeable, nice', 'sympathetic'],
           ['patetičan', 'pompous, overblown', 'pathetic'],
           ['kontrola', 'a check, inspection', 'control (power over)'],
-          ['fabrika / fabula', 'plot (fabula)', 'factory'],
+          ['fabula', 'plot (of a story)', 'fable'],
           ['pretendirati', 'to lay claim to', 'to pretend'],
         ],
       },
@@ -3615,7 +3615,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Structures That Do Not Transfer',
-        body: 'Three English habits to unlearn. The progressive — "I am reading" is simply "čitam", never a compound. The possessive with body parts and family — "my head hurts" is "boli me glava", with a dative or accusative rather than a possessive. And existential "there is" — "ima" or "nema", not a construction built on "biti".',
+        body: 'Three English habits to unlearn. The progressive — "I am reading" is simply "čitam", never a compound. The possessive with body parts and family — "my head hurts" is "boli me glava", with a dative or accusative rather than a possessive. And existential "there is" — usually "ima" or "nema" (Ima li mlijeka? Nema vremena.), and "there" is never translated: "tamo je problem" means the problem is over there.',
         highlight: 'čitam · boli me glava · ima / nema',
       },
       {

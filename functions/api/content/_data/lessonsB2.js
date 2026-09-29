@@ -1997,7 +1997,7 @@ export const LESSONS_B2 = [
           ['accusative', 'for, intended for', 'Ovo je za tebe.'],
           ['accusative', 'in (time from now)', 'Vraćam se za sat.'],
           ['instrumental', 'at, behind', 'Sjedimo za stolom.'],
-          ['genitive', 'during', 'za vrijeme rata'],
+          ['genitive', 'during', 'za života'],
         ],
       },
       {
@@ -2177,16 +2177,16 @@ export const LESSONS_B2 = [
               'Nobody is moving towards the house, so pred takes the instrumental: pred kućom. "Za sat vremena" is the correct accusative for time from now.',
           },
           {
-            q: '"za vrijeme rata" — which case, and which meaning?',
+            q: '"za života" — which case, and which meaning?',
             options: [
-              'accusative — for the war',
-              'genitive — during the war',
-              'instrumental — behind the war',
-              'locative — about the war',
+              'accusative — for life',
+              "genitive — during (one's) lifetime",
+              'instrumental — behind life',
+              'locative — about life',
             ],
             correct: 1,
             explanation:
-              '"Za" plus the genitive means during: za vrijeme rata. The accusative would be for, and the instrumental at or behind.',
+              '"Za" plus the genitive means during: za života (in one\'s lifetime), za dana (while it is still light). The accusative would be for, and the instrumental at or behind.',
           },
           {
             q: 'What is the difference between "s krova" and "s bratom"?',

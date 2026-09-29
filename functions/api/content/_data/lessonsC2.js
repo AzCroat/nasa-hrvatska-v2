@@ -828,7 +828,7 @@ export const LESSONS_C2 = [
           ['Cijena iznosi 1.250,00 eura.', 'The price is 1,250.00 euros.'],
           ['Rok je 30 dana od primitka.', 'The deadline is 30 days from receipt.'],
           ['Sastanak počinje u 9 i 30.', 'The meeting starts at half past nine.'],
-          ['Udio je porastao za 3,5 postotna boda.', 'The share rose by 3.5 percentage points.'],
+          ['Udio je porastao za 3,5 postotnog boda.', 'The share rose by 3.5 percentage points.'],
           ['Površina je 120 m².', 'The area is 120 m².'],
         ],
       },
@@ -943,14 +943,14 @@ export const LESSONS_C2 = [
           {
             q: 'Which is correctly written for a report?',
             options: [
-              'Udio je porastao za 3,5 postotna boda.',
-              'Udio je porastao za 3.5 postotna boda.',
+              'Udio je porastao za 3,5 postotnog boda.',
+              'Udio je porastao za 3.5 postotnog boda.',
               'Udio je porastao za 3,5 postotni bod.',
               'Udio je porastao za 3,5 postotnih boda.',
             ],
             correct: 0,
             explanation:
-              'The decimal mark is a comma, and after a decimal the noun stands in the genitive singular: 3,5 postotna boda. The second option has an English decimal point, the others the wrong case.',
+              'The decimal mark is a comma, and after a decimal the noun stands in the genitive singular: 3,5 postotnog boda. The second option has an English decimal point, the others the wrong case.',
           },
           {
             q: 'Which sentence breaks a codified rule?',
