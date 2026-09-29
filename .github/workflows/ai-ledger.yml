@@ -1,0 +1,63 @@
+# Read-only report of the AI budget ledger (2026-09-29).
+#
+# The monthly ledger (`ai_month_spend` in the AI_QUOTA_DB D1 database, see
+# functions/api/_aiBudget.js) was readable only through /api/ai-quota-status, which needs a
+# signed-in learner's token. Measuring a change in AI spend — e.g. whether the Stretch's
+# extra production slots raised the daily rate — needs the ledger itself. This prints the
+# last three months' booked spend and the daily rate for the current month.
+#
+# READ-ONLY by construction: one SELECT against the D1 query API. It changes nothing.
+# Dispatch only. Uses the same credential pattern as cf-d1-bind.yml.
+name: AI budget ledger
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ledger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Read ai_month_spend
+        env:
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_GLOBAL_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CF_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+        run: |
+          set -euo pipefail
+          DB_NAME=nasa-hrvatska-ai-quota
+          TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
+          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT"
+          if [ -n "${CF_GLOBAL_KEY:-}" ] && [ -n "${CF_EMAIL:-}" ]; then
+            auth=(-H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_GLOBAL_KEY" -H "Content-Type: application/json")
+          else
+            auth=(-H "Authorization: Bearer $TOK" -H "Content-Type: application/json")
+          fi
+          curl -sS "${auth[@]}" "$API/d1/database?per_page=100" > dbs.json
+          DB_ID=$(jq -r --arg n "$DB_NAME" '[.result[]? | select(.name==$n)][0].uuid // empty' dbs.json)
+          if [ -z "$DB_ID" ]; then
+            echo "::error::D1 database $DB_NAME not found (or the credential lacks D1 read scope)"
+            jq -c '{success, errors}' dbs.json
+            exit 1
+          fi
+          curl -sS -X POST "${auth[@]}" "$API/d1/database/$DB_ID/query" \
+            -d '{"sql":"SELECT month, microusd FROM ai_month_spend ORDER BY month DESC LIMIT 3"}' > q.json
+          if ! jq -e '.success==true' q.json >/dev/null; then
+            echo "::error::ledger query failed"; jq -c '.errors' q.json; exit 1
+          fi
+          python3 - q.json <<'PY'
+          import json, sys, datetime
+          rows = json.load(open(sys.argv[1]))['result'][0]['results']
+          today = datetime.datetime.now(datetime.timezone.utc)
+          print('month    booked (USD)  of $9.00 cap')
+          for r in rows:
+              usd = r['microusd'] / 1e6
+              line = f"{r['month']}  ${usd:9.4f}    {usd / 9 * 100:5.1f}%"
+              if r['month'] == today.strftime('%Y-%m'):
+                  line += f"   ≈ ${usd / today.day:.4f}/day over {today.day} day(s)"
+              print(line)
+          PY
