@@ -180,7 +180,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slaganje',
     q: 'Jedan ____.',
-    en: 'one student',
+    en: 'one undergraduate',
     opts: ['student', 'studenta', 'studenti', 'studenata'],
     answer: 'student',
     tip: 'One takes the plain nominative singular.',

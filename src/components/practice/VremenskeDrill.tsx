@@ -198,7 +198,7 @@ const DATA = [
     q: '„U trenutku kad” možemo kraće reći:',
     opts: ['kad', 'otkako', 'dok ne', 'pošto ne'],
     answer: 'kad',
-    en: 'at the moment when = kad',
+    en: 'a shorter way to say "at the moment when"',
     tip: 'Kad je ušao, svi su ustali.',
   },
   {
