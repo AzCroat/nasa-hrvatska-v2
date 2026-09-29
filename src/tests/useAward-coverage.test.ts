@@ -30,7 +30,6 @@ import { getReadingReps } from '../lib/readingMetric';
 // ── Mocks (must match useAward.test.ts exactly) ───────────────────────────────
 
 vi.mock('../lib/appUtils.js', () => ({
-  lXPgain: vi.fn((x: number) => x),
   lvl: vi.fn(() => 1),
   BADGES: [],
   updateStreak: vi.fn(() => ({ count: 1, milestone: null, freezeUsed: false })),
@@ -130,7 +129,6 @@ beforeEach(() => {
   (appUtils.applyStreakEarnBack as ReturnType<typeof vi.fn>).mockReturnValue(0);
   (appUtils.getStreakEarnBack as ReturnType<typeof vi.fn>).mockReturnValue(null);
   (appUtils.lvl as ReturnType<typeof vi.fn>).mockReturnValue(1);
-  (appUtils.lXPgain as ReturnType<typeof vi.fn>).mockImplementation((x: number) => x);
   (appUtils.getStreak as ReturnType<typeof vi.fn>).mockReturnValue({ count: 1 });
 });
 
@@ -171,7 +169,6 @@ async function runAward(
 
 describe('comeback bonus', () => {
   it('adds 50 XP when comebackBonus is true and not yet used today', async () => {
-    (appUtils.lXPgain as ReturnType<typeof vi.fn>).mockImplementation((x: number) => x);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const setStats = vi.fn((fn: any) => fn({ ...DS }));
     const { result } = renderHook(() =>

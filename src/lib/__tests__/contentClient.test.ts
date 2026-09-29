@@ -406,7 +406,6 @@ describe('contentClient.getContent', () => {
     LEVEL_NARRATIVE: { heritage: ['First Words'] },
     SHADOWING: [],
     LEARN_PATH: [],
-    SEASONAL_CAMPAIGNS: [],
     V_B2: {},
     V_C1: {},
     V_C2: {},

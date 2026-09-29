@@ -8,9 +8,9 @@ import { resolve } from 'node:path';
 import { seedAuth, blockFirebase, mockTTS } from './fixtures/seed-auth.js';
 import { forceCefr } from './fixtures/forceCefr.js';
 
-// 18 distinctive curriculum strings from the now-server-side data files
+// Distinctive curriculum strings from the now-server-side data files
 // (5 SP11 stories/grammar-units + 3 SP11b grammar + 3 SP11c lessons +
-// 2 SP11d core content + 5 SP11e LEARN_PATH/SEASONAL_CAMPAIGNS). If any
+// 2 SP11d core content + 2 SP11e LEARN_PATH + 4 SP11f). If any
 // turn up in dist/assets/*.js, the closure has regressed and curriculum
 // is leaking back into the public bundle.
 const NEEDLES = [
@@ -28,17 +28,11 @@ const NEEDLES = [
   // SP11d
   'Long before foreign powers ruled over Croatian lands',
   'Domovinski Rat — Homeland War',
-  // SP11e — LEARN_PATH item-specific descriptions and SEASONAL_CAMPAIGNS
-  // blurbs/dynamicWindow that only existed in the deleted client-side blocks.
-  // Server side ships these via /api/content/core. (Strings like 'Uskrs u
-  // Hrvatskoj' and 'uskrs_q1' are NOT used as needles because they're also
-  // hardcoded in EasterScreen/CultureTab/quest-tracking — pick uniquely
-  // worded blurbs and item descs instead.)
+  // SP11e — LEARN_PATH item-specific descriptions that only existed in the
+  // deleted client-side blocks. Server side ships these via /api/content/core.
+  // (The SEASONAL_CAMPAIGNS needles went with that feature, removed 2026-09-29.)
   'lp_listen_basics',
   'Train your ear — listen to basic Croatian phrases',
-  'Learn Easter traditions — pisanice, lamb, holiday greetings',
-  'Celebrate Midsummer with bonfire traditions and Croatian folklore',
-  'dynamicWindow',
   // SP11f — V_B2 / V_C1 advanced-vocab category keys (orphans from SP11d).
   // AdvancedVocabScreen now consumes them via useContent, so the production
   // bundle should not contain these category names anymore.
@@ -157,9 +151,13 @@ test.describe('SP11 — content endpoints + bundle audit', () => {
     // in run 26348850121 — chunk loads dominate the budget.
     const requestPromise = page.waitForRequest('**/api/content/grammar', { timeout: 60_000 });
     await page.goto('/');
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({ timeout: 10_000 });
-    await page.getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice' }).click();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
+      timeout: 10_000,
+    });
+    await page
+      .getByRole('navigation', { name: 'Main navigation' })
+      .getByRole('button', { name: 'Practice' })
+      .click();
     // Phase 6: Grad replaced Practice. Reach Aspect Drill via Kovaceva soba ->
     // Glagoli; mounting AspectDrillScreen lazily fetches /api/content/grammar.
     // 35s margin for the lazy GradTab cold-render on CI.
@@ -169,10 +167,7 @@ test.describe('SP11 — content endpoints + bundle audit', () => {
       .getByText(/Glagoli/)
       .first()
       .click();
-    await page
-      .getByText('Aspect Drill', { exact: false })
-      .first()
-      .click();
+    await page.getByText('Aspect Drill', { exact: false }).first().click();
     await requestPromise; // throws if no /api/content/grammar request fires within 60s
   });
 
@@ -191,9 +186,7 @@ test.describe('SP11 — content endpoints + bundle audit', () => {
       test.skip(true, 'dist/ not built — run `npm run build` before this spec');
       return;
     }
-    const contents = await Promise.all(
-      files.map((f) => readFile(resolve(distDir, f), 'utf8')),
-    );
+    const contents = await Promise.all(files.map((f) => readFile(resolve(distDir, f), 'utf8')));
     const combined = contents.join('\n');
     for (const needle of NEEDLES) {
       expect(combined, `needle "${needle}" must NOT appear in built bundle`).not.toContain(needle);

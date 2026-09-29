@@ -13931,3 +13931,23 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     fails on it. Mutation-verified, five, each failing 1–2. Full suite 688 files green.
   - **The result comes from the first real run, after this deploys**: dispatch
     `stt-calibration.yml` and read the `assessment` block.
+- [x] **Sweep 211 — the owner's removals: three uncalled endpoints, two unreachable
+      purchases, one silent bonus (owner decision, 2026-09-29).** _"If not needed, remove and
+      delete. … Remove. … Remove."_
+  - **Deleted endpoints**: `/api/daily-culture`, `/api/daily-plan`, `/api/adaptive-insights`,
+    the three metered AI endpoints nothing in the app called (sweep 130). Handlers, ceiling
+    rows, prompts, and the tests that existed only for them are gone. The `_promptCache.js`
+    contract they were the example for is now pinned against `/api/news`.
+    `meteredEndpointsHaveCallers` has no stranded entry left, and fails if any of the three
+    comes back without a caller. `INSTRUMENTED` is 26 → 22, and `errorCodeDistinct`'s
+    recorded debt drops by the three groups those files carried.
+  - **The XP boost and the paid streak restore** had no purchase surface since the hero
+    cluster was deleted (sweep 136). `XP_BOOST_MULTIPLIER`, `activateXPBoost`,
+    `STREAK_RESTORE_COST` and the `nh_xp_boost_*` sync fields are removed. An award now pays
+    exactly what the exercise pays.
+  - **The seasonal campaign multiplier** (1.5× during Easter, announced nowhere since
+    `CampaignBanner` went) is removed: the multiplier, `seasonalCampaigns.js`, its
+    `/api/content/core` key, the client resolver and the Easter quest flags nothing
+    displayed. The Easter screen and its quiz-done flag stay. Lint coverage is 482 → 481
+    files.
+  - Built as two branches by two agents and merged here. Full suite green on the merge.

@@ -225,11 +225,8 @@ export function buildProgressSnapshot({
         return {};
       }
     })(),
-    // Seasonal / campaign quest completion flags — additive: true is never overwritten by false.
+    // Easter quiz completion — additive: true is never overwritten by false.
     nh_uskrs_kviz_done: lsGet('nh_uskrs_kviz_done') === '1',
-    nh_cq_easter_uskrs_q1: lsGet('nh_cq_easter_uskrs_q1') === '1',
-    nh_cq_easter_uskrs_q2: lsGet('nh_cq_easter_uskrs_q2') === '1',
-    nh_cq_easter_uskrs_q3: lsGet('nh_cq_easter_uskrs_q3') === '1',
     // Game state — sync so all devices share the same live/prestige/checkpoint status
     nh_hearts: (() => {
       try {
@@ -325,9 +322,6 @@ export function buildProgressSnapshot({
         return null;
       }
     })(),
-    // ── XP boost state (hero-rewards 2x boost, bought with XP) ────────────────
-    nh_xp_boost_expires: parseInt(lsGet('nh_xp_boost_expires') || '0', 10) || 0,
-    nh_xp_boost_last_activated: parseInt(lsGet('nh_xp_boost_last_activated') || '0', 10) || 0,
     // ── Today's daily XP — for daily-goal UI on fresh devices ────────────────
     // Stored as a value+date pair so applyRemoteProgress can write the correct key.
     nh_daily_xp_today: parseInt(lsGet('nh_daily_xp_' + _todayStr()) || '0', 10),

@@ -60,18 +60,11 @@ describe('GET /api/content/core', () => {
     expect(typeof firstItem.ck).toBe('undefined');
   });
 
-  it('SP11e: response includes SEASONAL_CAMPAIGNS with windowKind discriminator', async () => {
+  it('SEASONAL_CAMPAIGNS is gone from the payload (removed 2026-09-29, owner decision)', async () => {
     getFirebaseUid.mockResolvedValueOnce('uid_test');
     const res = await onRequestGet(makeContext({ auth: 'Bearer fake' }));
     const json = await res.json();
-    const sc = json.data.SEASONAL_CAMPAIGNS;
-    expect(Array.isArray(sc)).toBe(true);
-    expect(sc.length).toBe(4);
-    const easter = sc.find((c) => c.id === 'easter');
-    expect(easter.windowKind).toBe('easterRelative');
-    expect(easter.windowOffsets).toEqual([-7, 1]);
-    expect(typeof easter.dynamicWindow).toBe('undefined');
-    expect(sc.filter((c) => c.windowKind === 'fixed').length).toBe(3);
+    expect('SEASONAL_CAMPAIGNS' in json.data).toBe(false);
   });
 
   it('SP11e: V composition applied — topic aliases populated', async () => {

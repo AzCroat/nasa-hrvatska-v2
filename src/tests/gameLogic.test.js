@@ -1,7 +1,7 @@
 /**
  * gameLogic.test.js — Integration tests for the 5 core game systems:
  *   a) Streak calculation
- *   b) XP award (lXPgain / lvl / badge detection)
+ *   b) XP award (lvl / badge detection)
  *   c) SRS scheduling (FSRS-4.5 via getSRScore)
  *   d) Week key generation (dateUtils.weekKey)
  *   e) Badge conditions (BADGES array)
@@ -54,7 +54,6 @@ import {
   getStreakFreezes,
   earnFreeze,
   spendFreeze,
-  lXPgain,
   lvl,
   BADGES,
 } from '../data';
@@ -257,52 +256,6 @@ describe('Streak calculation — d) streak freeze', () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 // b) XP AWARD
 // ═══════════════════════════════════════════════════════════════════════════════
-
-describe('XP award — lXPgain (campaign-aware)', () => {
-  // lXPgain applies a seasonal campaign multiplier (>= 1x) when a campaign
-  // is active. Campaigns are date-based; tests must not assume no campaign.
-  // Contract invariants that hold regardless of active campaign:
-  //   • lXPgain(0) === 0
-  //   • lXPgain(xp) >= xp  (multiplier is always >= 1)
-  //   • lXPgain(xp) is a whole integer (Math.round applied)
-  //   • lXPgain(xp) is deterministic within the same test run
-
-  it('returns 0 when given 0 (regardless of campaign multiplier)', () => {
-    // 0 * anything = 0, and Math.round(0) = 0
-    expect(lXPgain(0)).toBe(0);
-  });
-
-  it('returns a positive number for positive XP input', () => {
-    expect(lXPgain(20)).toBeGreaterThan(0);
-    expect(lXPgain(50)).toBeGreaterThan(0);
-  });
-
-  it('result is always >= the raw XP (multiplier is always >= 1)', () => {
-    expect(lXPgain(10)).toBeGreaterThanOrEqual(10);
-    expect(lXPgain(100)).toBeGreaterThanOrEqual(100);
-    expect(lXPgain(1)).toBeGreaterThanOrEqual(1);
-  });
-
-  it('result is always a whole integer (no fractional XP)', () => {
-    expect(Number.isInteger(lXPgain(10))).toBe(true);
-    expect(Number.isInteger(lXPgain(7))).toBe(true);
-    expect(Number.isInteger(lXPgain(33))).toBe(true);
-  });
-
-  it('XP accumulates as a sum of per-award values (total >= raw total)', () => {
-    const awards = [10, 20, 15, 50];
-    const rawTotal = awards.reduce((a, b) => a + b, 0); // 95
-    const total = awards.reduce((acc, xp) => acc + lXPgain(xp), 0);
-    expect(total).toBeGreaterThanOrEqual(rawTotal);
-    expect(Number.isInteger(total)).toBe(true);
-  });
-
-  it('is deterministic: same XP input gives same output within one run', () => {
-    const a = lXPgain(25);
-    const b = lXPgain(25);
-    expect(a).toBe(b);
-  });
-});
 
 describe('XP award — lvl (XP → level)', () => {
   // Thresholds: [0,50,150,300,500,800,1200,1800,2500,3500] → levels 1–10

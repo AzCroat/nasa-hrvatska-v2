@@ -1,6 +1,7 @@
 // SP11d + SP11e: aggregator for 27 high-IP-density "core" content exports.
 // 8 vocab + 9 cultural + 5 situational + 1 scenes + 1 misc (LEVEL_NARRATIVE)
-// + 1 LEARN_PATH (SP11e) + 1 SEASONAL_CAMPAIGNS (SP11e) + 2 composed names = 27.
+// + 1 LEARN_PATH (SP11e) + 2 composed names. (SEASONAL_CAMPAIGNS removed 2026-09-29,
+// owner decision: nothing in the app read it once the XP multiplier went.)
 //
 // SP11e composition: V is mutated at module load with TOP100 spread + B2
 // aliases + LEARN_PATH topic aliases. Composition runs once at function cold
@@ -42,7 +43,6 @@ import {
 } from './scenarios.js';
 import { SCENES } from './vocabScenes.js';
 import { LEARN_PATH } from './learnPath.js';
-import { SEASONAL_CAMPAIGNS } from './seasonalCampaigns.js';
 
 // SP11e: V composition. Mutates V_RAW in place at module load — runs once at
 // cold start. Composition logic moved verbatim from src/data/content.tsx
@@ -141,7 +141,6 @@ export {
   PRACTICAL,
   SCENES,
   LEARN_PATH,
-  SEASONAL_CAMPAIGNS,
   V_B2,
   V_C1,
   V_C2,
@@ -202,7 +201,6 @@ export const CORE_PAYLOAD_KEYS = [
   'SHADOWING',
   // SP11e: function/data split shipped — both names now serialize cleanly.
   'LEARN_PATH',
-  'SEASONAL_CAMPAIGNS',
   // SP11f: advanced-vocab tiers (consumed by AdvancedVocabScreen).
   'V_B2',
   'V_C1',

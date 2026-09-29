@@ -6,7 +6,6 @@
  */
 import { useState, useCallback } from 'react';
 import {
-  lXPgain,
   lvl,
   BADGES,
   updateStreak,
@@ -17,8 +16,6 @@ import {
   recordJourneyMilestone,
 } from '../lib/appUtils.js';
 import { lsGet, lsSet, lsRemove, ssGet, ssSet, ssRemove } from '../lib/safeStorage';
-import { useContent } from './useContent';
-import { getActiveCampaign } from '../lib/seasonalCampaign';
 import { trackComplete } from '../lib/learnerStyle.js';
 import {
   trackLessonComplete,
@@ -180,12 +177,6 @@ export function useAward({
   const [nB, setNB] = useState<{ id: string; n: string; d: string } | null>(null);
   const [sB, setSB] = useState(false);
 
-  // SP11e: active campaign multiplier comes from server-shipped SEASONAL_CAMPAIGNS
-  // via useContent → getActiveCampaign. Passed into lXPgain so the utility stays
-  // pure (no module-level data dependency).
-  const { content } = useContent();
-  const activeMultiplier = getActiveCampaign(content?.SEASONAL_CAMPAIGNS ?? [])?.multiplier;
-
   const award = useCallback(
     async (
       amt: number,
@@ -265,13 +256,14 @@ export function useAward({
       }
       // XP rebalance (fluency initiative #3, 2026-08-14): production screens pay
       // a premium — speaking a sentence must beat tapping one. Same screen-id
-      // check as the production-rep count above; applied to the base amount so
-      // campaign multipliers stack on top of it, not under it.
+      // check as the production-rep count above. There is no other multiplier: the
+      // XP boost and the seasonal-campaign bonus were removed on 2026-09-29 (owner
+      // decision). The rounding is what lXPgain did with no multiplier active.
       const _prodAmt =
         _effectiveEx && PRODUCTION_SCREEN_IDS.has(_effectiveEx)
           ? Math.round(amt * PRODUCTION_XP_MULTIPLIER)
           : amt;
-      let totalAmt = lXPgain(_prodAmt, activeMultiplier);
+      let totalAmt = _prodAmt > 0 ? Math.round(_prodAmt) : _prodAmt;
       const _today = _localDateStr();
       if (
         comebackBonus &&
@@ -281,7 +273,7 @@ export function useAward({
       ) {
         _awardComebackUsed = _today;
         lsSet('nh_comeback_used_' + _today, '1');
-        totalAmt = totalAmt + 50; // Bonus is flat, not subject to campaign multiplier
+        totalAmt = totalAmt + 50; // Bonus is flat
       }
       setXpA(totalAmt);
       setShowXP(true);
@@ -627,7 +619,7 @@ export function useAward({
             } catch {}
           }
           // `nh_last_active` was written here on every award. Its only reader
-          // was `/api/daily-plan`, which removed it deliberately ("a raw epoch
+          // was `/api/daily-plan` (deleted 2026-09-29, uncalled), which removed it deliberately ("a raw epoch
           // timestamp the model cannot use and which `streak` already
           // expresses") — leaving the write behind with nothing to consume it,
           // and a test asserting only that the write happened.
@@ -650,7 +642,7 @@ export function useAward({
         }
       }
     },
-    [curEx, comebackBonus, setStats, stats, writeDelta, activeMultiplier],
+    [curEx, comebackBonus, setStats, stats, writeDelta],
   );
 
   return {
