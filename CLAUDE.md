@@ -4468,6 +4468,16 @@ Level Check (`equivalency`).
   some other way (`da bih` = in order to). Others: `kod` + genitive for MOTION (location
   only), `mliječni` as a short-jat example (it keeps -ije-), `Mogli biste li` (li leads the
   cluster), `Hugoa` (`Huga`), Gaj and `đ`. The list is in AUDIT-STATE sweep 176.
+- **AN ENDING NOTE MUST NAME THE WORD IT IS ABOUT (owner report, 2026-09-29; sweep 195).**
+  `Grad je velik. Gradovi su veliki.` — `short masculine takes -ovi`: true of the noun, read
+  as a claim about the adjective, because the example changes two words and the note named
+  neither. Sweep 176's hand census passed it, because each note IS correct about the word
+  its author meant. Three mechanical censuses over all 180 lessons (plural arrows vs
+  `decline()`, Singular/Plural table rows, `(-suf)` claims vs the form beside them) found
+  ZERO further false endings; the sibling item on the same slide had the same attribution
+  shape and both are fixed. `exampleNoteNamesItsWord.test.ts` pins the rule. NEVER write an
+  ending note on a two-change example without naming the word; NEVER read a hand census's
+  "correct" as covering what a reader will ATTRIBUTE the note to.
 - NEVER: serve a level review inside a level the learner has started; count only
   `tested` units as a finished level; score the review or gate anything on it; report the
   corrected second pass as the result; merge authored Croatian because a checker passed
