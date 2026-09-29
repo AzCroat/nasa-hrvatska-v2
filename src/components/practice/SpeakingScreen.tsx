@@ -12,6 +12,7 @@ import { isNative } from '../../lib/platform.js';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { recordTopicResult } from '../../lib/adaptive.js';
 import { charOverlapPct } from '../../lib/text/similarity';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 const SPEAKING_TIPS = [
   {
@@ -454,7 +455,9 @@ export default function SpeakingScreen({
       stopRecording();
       stopWaveform();
       if (!e.results || !e.results.length) return;
-      const alts = Array.from(e.results[0]).map((r: any) => r.transcript.toLowerCase().trim());
+      const alts = Array.from(e.results[0]).map((r: any) =>
+        heardCroatian(r.transcript).toLowerCase().trim(),
+      );
       const target = (sw[0] as string).toLowerCase().trim();
       // Generous matching: exact, contains, or at least 60% character overlap
       // (charOverlapPct returns 0..100; >= 60 reproduces the old levenshteinClose threshold)

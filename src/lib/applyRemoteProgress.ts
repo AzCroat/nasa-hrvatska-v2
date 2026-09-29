@@ -314,7 +314,6 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
   }
   if (fp.nh_placement_done) {
     _safeSet('nh_placement_done', 'true');
-    _safeSet('placement_done', 'true');
   }
   // `nh_grammar_track_done` is NOT a flag — see the note in progressSnapshot.ts.
   // It holds the array of completed unit ids, and this line used to write the

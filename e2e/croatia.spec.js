@@ -38,7 +38,14 @@ test.describe('Hrvatska tab (doors)', () => {
   test('Priče embeds the Stories letters', async ({ page }) => {
     await openDoor(page, 'Priče');
     await expect(page.getByText('← Hrvatska')).toBeVisible({ timeout: 8_000 });
-    await expect(page.getByText("Baka's Summer")).toBeVisible();
+    // Exact: books 2–4 are locked for a fresh learner and each card's line reads
+    // "Finish <previous book> first" (2026-09-29), so a substring match on any
+    // book title resolves to two elements and trips strict mode — the first
+    // run of this assertion did exactly that on "Baka's Harvest".
+    await expect(page.getByText("Baka's Summer", { exact: true })).toBeVisible();
+    const locked = page.getByTestId('door-item-baka_berba');
+    await expect(locked).toHaveAttribute('data-locked', 'true');
+    await expect(locked).toContainText("Finish Baka's Summer first");
   });
 
   test('Povijest i jezik shows the Domovinski Rat card and opens history', async ({ page }) => {

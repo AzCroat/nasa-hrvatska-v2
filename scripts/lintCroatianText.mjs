@@ -294,6 +294,8 @@ const TARGETS = [
   'src/components/learn/VocabSceneData.js',
   'src/components/practice/ClozeEngine.tsx',
   'src/components/croatia/BakaSummer.tsx',
+  'src/components/croatia/bakaChapters.ts', // the sixteen letters, extracted 2026-09-29
+  'src/components/croatia/bakaBooks.ts', // the four book titles
   'src/components/learn/PracticalCroatianScreen.tsx',
   'src/components/learn/PitchAccentMastery.tsx',
   'src/components/practice/PronunciationContrast.tsx',
@@ -675,7 +677,7 @@ const BAD_CHARS_RE = /[Ѐ-ӿԀ-ԯŢ-ţŞ-şĞ-ğİ-ı­]/g;
 // A TARGET PASSING IS NOT EVIDENCE OF COVERAGE — run a positive control on the exact
 // FIELD, which is the only thing that distinguishes "clean" from "not looked at".
 const CRO_FIELD_RE =
-  /(hr|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|target|sentence|explanation|error|correct|src|instruction|inf|aux|[mfn]Form|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
+  /(hr|croatian|text|paragraphs|q|a|answer|prompt|response|tagline|intro|history|didYouKnow|name|title|en|note|exs?|ex|perfect|good|more|subtitle|label|desc|example|line|blurb|word|phrase|audio|pair|chant|content|full|mixed|role|model|before|after|target|sentence|explanation|error|correct|src|instruction|inf|aux|[mfn]Form|[a-zA-Z]*Hr[ABC]?[12]?)['"`]?\s*(?::|=)\s*(['"`])((?:[^\\]|\\.)*?)\2/g;
 
 // A `+ '…'` continuation directly after a matched literal. Sticky, so it can
 // only match at the position handed to it — never skip ahead to an unrelated

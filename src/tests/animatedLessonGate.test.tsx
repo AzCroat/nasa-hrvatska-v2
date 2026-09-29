@@ -23,6 +23,8 @@ vi.mock('../lib/teachPractice', () => ({
 const markLessonComplete = vi.fn();
 vi.mock('../lib/curriculumProgress', () => ({
   markLessonComplete: (...a: unknown[]) => markLessonComplete(...a),
+  readCompletedLessons: () => new Set<string>(),
+  readCurriculumSpine: () => [],
 }));
 const signalSessionCompleteIfActive = vi.fn();
 vi.mock('../lib/sessionSignal', () => ({
@@ -105,7 +107,19 @@ function answerCheck(wrongItems: number[]) {
   }
 }
 
+/** Move every stored check attempt to yesterday — the next day's opening. */
+function ageAttemptsToYesterday() {
+  const raw = JSON.parse(localStorage.getItem('nh_lesson_attempts') || '{}');
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  const y = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  for (const rec of Object.values(raw.lessons ?? {}) as Array<{ attempts: Array<{ at: string }> }>)
+    for (const a of rec.attempts) a.at = y;
+  localStorage.setItem('nh_lesson_attempts', JSON.stringify(raw));
+}
+
 beforeEach(() => {
+  localStorage.clear();
   setStats.mockClear();
   writeDelta.mockClear();
   markQuest.mockClear();
@@ -183,24 +197,64 @@ describe('AnimatedLesson mastery gate', () => {
     expect(setStats).not.toHaveBeenCalled();
     expect(signalSessionCompleteIfActive).toHaveBeenCalledTimes(1);
     expect(signalSessionCompleteIfActive).toHaveBeenCalledWith('animlesson');
-    // The nav's last button is now the retake, not Finish.
-    expect(screen.getByTestId('lesson-nav-next').textContent).toContain('Retake');
+    // A failed LESSON check is not retaken on the spot (owner directive,
+    // 2026-09-29): there is no retake, the learner is told it is a focus area and
+    // that the missed items are in Lesson Review, and the nav ends the sitting.
+    expect(screen.queryByTestId('lesson-check-retake')).toBeNull();
+    expect(screen.getByTestId('lesson-check-focus').textContent).toMatch(/focus areas/);
+    expect(screen.getByTestId('lesson-check-focus').textContent).toMatch(
+      /2 questions you missed go into your Lesson Review for tomorrow/,
+    );
+    expect(screen.getByTestId('lesson-check-locked-copy').textContent).toMatch(/tomorrow/);
+    expect(screen.getByTestId('lesson-nav-next').textContent).toContain('Finish');
   });
 
-  it('after a fail, retaking and passing credits exactly once', () => {
-    const award = vi.fn();
-    render(<AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={award} />);
+  it('after a fail the check is CLOSED for today, even on a fresh opening', () => {
+    const goBack = vi.fn();
+    const first = render(
+      <AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />,
+    );
     next();
     next();
     answerFormative(true, 'yes');
     next();
     answerCheck([1, 2, 3]);
+    first.unmount();
+    signalSessionCompleteIfActive.mockClear(); // the reopen must signal on its own
+    // The same day, the lesson opened again: the teaching is open, the check is not.
+    render(<AnimatedLesson lesson={lessonWithCheck()} goBack={goBack} award={vi.fn()} />);
+    expect(screen.queryByTestId('lesson-test-out')).toBeNull(); // no test-out door either
     next();
-    expect(screen.getByTestId('lesson-check-failed')).toBeTruthy();
-    fireEvent.click(screen.getByTestId('lesson-check-retake'));
-    // Back on the check, fresh attempt, nothing answered.
+    next();
+    answerFormative(true, 'yes');
+    next();
+    expect(screen.getByTestId('lesson-check-closed')).toBeTruthy();
+    expect(signalSessionCompleteIfActive).toHaveBeenCalledWith('animlesson'); // the flow moves on
+    expect(screen.queryByTestId('lesson-check')).toBeNull();
+    expect(screen.getByTestId('lesson-nav-next').textContent).toContain('Finish');
+    next();
+    expect(goBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('the NEXT day the check reopens, and passing it credits exactly once', () => {
+    const award = vi.fn();
+    const first = render(
+      <AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={award} />,
+    );
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
+    answerCheck([1, 2, 3]);
+    first.unmount();
+    ageAttemptsToYesterday();
+    render(<AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={award} />);
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
     const check = screen.getByTestId('lesson-check');
-    expect(check.getAttribute('data-attempt')).toBe('1');
+    expect(check.getAttribute('data-attempt')).toBe('1'); // a new paper, not attempt 0 again
     expect(within(check).getByTestId('lesson-check-progress').textContent).toBe('1 / 6');
     answerCheck([]);
     next();
@@ -210,7 +264,7 @@ describe('AnimatedLesson mastery gate', () => {
     expect(signalSessionCompleteIfActive).toHaveBeenCalledTimes(1); // the fail, not the pass
   });
 
-  it('"Review the lesson first" returns to the content with the attempt reset', () => {
+  it('"Study the lesson again" returns to the content and KEEPS the failed answers', () => {
     render(<AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />);
     next();
     next();
@@ -221,10 +275,18 @@ describe('AnimatedLesson mastery gate', () => {
     fireEvent.click(screen.getByTestId('lesson-check-review'));
     expect(screen.getByText('Rule')).toBeTruthy();
     expect(screen.getByText('2 / 5')).toBeTruthy();
+    // Paging forward reaches the SAME result, not a fresh check to re-answer.
+    next();
+    next();
+    next();
+    expect(screen.getByTestId('lesson-check-score').textContent).toBe('3/6');
+    expect(screen.queryByTestId('lesson-check-retake')).toBeNull();
   });
 
-  it('options are presented in a different order on the retake', () => {
-    render(<AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />);
+  it('options are presented in a different order on the next day’s retake', () => {
+    const first = render(
+      <AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />,
+    );
     next();
     next();
     answerFormative(true, 'yes');
@@ -234,8 +296,13 @@ describe('AnimatedLesson mastery gate', () => {
       .map((o) => o.getAttribute('data-source'))
       .join('');
     answerCheck([1, 2, 3, 4]);
+    first.unmount();
+    ageAttemptsToYesterday();
+    render(<AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />);
     next();
-    fireEvent.click(screen.getByTestId('lesson-check-retake'));
+    next();
+    answerFormative(true, 'yes');
+    next();
     const secondOrder = screen
       .getAllByTestId('lesson-check-option')
       .map((o) => o.getAttribute('data-source'))

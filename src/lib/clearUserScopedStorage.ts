@@ -110,7 +110,6 @@ export const USER_SCOPED_LEGACY_KEYS: readonly string[] = [
   // when lc===0 && xp===0 && none of the three are set. The next account was
   // never placed, and never had its level calibrated. applyRemoteProgress writes
   // this one too, so it is effectively synced state.
-  'placement_done',
   // Per-topic accuracy. Feeds getWeakTopics() -> InsightsTab and
   // CroatianErrorInsights, and the personalised lesson path — so the incoming
   // user's "your weak areas" panel is built from the previous user's mistakes.

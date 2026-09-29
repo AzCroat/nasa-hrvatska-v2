@@ -42,6 +42,7 @@ const STATE_STYLE: Record<string, { label: string; fg: string; bg: string }> = {
   passed: { label: 'Passed', fg: '#0e7490', bg: '#cffafe' },
   due: { label: 'Due', fg: '#b45309', bg: '#fef3c7' },
   shaky: { label: 'Slipping', fg: '#b91c1c', bg: '#fee2e2' },
+  notpassed: { label: 'Not passed yet', fg: '#9a3412', bg: '#ffedd5' },
   untaught: { label: 'Not yet', fg: 'var(--subtext)', bg: 'var(--bar-bg)' },
 };
 
@@ -70,6 +71,7 @@ export default function ConceptMapCard({ setScr, spine }: Props) {
       ['passed', map.counts.passed],
       ['due', map.counts.due],
       ['shaky', map.counts.shaky],
+      ['notpassed', map.counts.notpassed],
     ] as const
   ).filter(([, n]) => n > 0);
 

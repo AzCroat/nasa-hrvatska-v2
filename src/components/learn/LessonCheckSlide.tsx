@@ -6,6 +6,8 @@ import React, { useMemo, useState } from 'react';
 import { shuffledOrder, type LessonCheckItem } from '../../lib/lessonCheck';
 import type { LessonMeta } from './lessonSlideTypes';
 import { itemsNeededToPass } from '../../lib/lessonGate';
+import { CHECK_LOCKED_COPY } from '../../lib/checkLock';
+import { accentInk } from '../../lib/accentInk';
 
 // ── Mastery check slide ───────────────────────────────────────────────────────
 //
@@ -231,6 +233,32 @@ export function CheckSlide({
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+// ── The closed check (lib/checkLock, 2026-09-29) ──────────────────────────────
+//
+// Shown in place of the check when the learner already failed it today on an
+// earlier opening. The teaching slides stay open; only the graded check waits for
+// tomorrow, when the corrective day brings the lesson back.
+export function LockedCheckNotice({ lesson }: { lesson: LessonMeta }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '8px 4px' }} data-testid="lesson-check-closed">
+      <div style={{ fontSize: 48, lineHeight: 1, marginBottom: 12 }}>🔒</div>
+      <h2
+        style={{
+          fontSize: 'var(--text-xl)',
+          fontWeight: 900,
+          color: accentInk(lesson.color),
+          marginBottom: 8,
+        }}
+      >
+        You did not pass this check today
+      </h2>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)', lineHeight: 1.6 }}>
+        {CHECK_LOCKED_COPY}
+      </p>
     </div>
   );
 }

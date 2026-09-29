@@ -84,12 +84,42 @@ export const DOORS: Door[] = [
 
 export const DOOR_ITEMS: DoorItem[] = [
   // ── PRIČE (baka) ──
+  // Bakino Ljeto is FOUR BOOKS OF FOUR LETTERS (owner decision, 2026-09-29): four cards, in
+  // reading order, the first keeping the historical key and title. A book whose predecessor
+  // is unfinished renders LOCKED here (DoorScreen asks `bakaDoorLock`) — a lock glyph and
+  // "Finish <previous book> first", never a card that looks open. The four titles are
+  // distinct and none contains another, because `e2e/croatia.spec.js` matches
+  // "Baka's Summer" as a substring and must keep finding exactly one card.
   {
     id: 'baka_summer',
     doorId: 'price',
     icon: '📖',
     title: "Baka's Summer",
-    sub: '16-chapter story',
+    sub: 'Letters 1–4 · Ljeto počinje',
+    color: '#b45309',
+  },
+  {
+    id: 'baka_berba',
+    doorId: 'price',
+    icon: '🍇',
+    title: "Baka's Harvest",
+    sub: 'Letters 5–8 · Fešta i berba',
+    color: '#b45309',
+  },
+  {
+    id: 'baka_zima',
+    doorId: 'price',
+    icon: '🕯️',
+    title: "Baka's Winter",
+    sub: 'Letters 9–12 · Od bure do Božića',
+    color: '#b45309',
+  },
+  {
+    id: 'baka_pisma',
+    doorId: 'price',
+    icon: '✉️',
+    title: 'Letters from Afar',
+    sub: 'Letters 13–16 · Pisma iz drugih krajeva',
     color: '#b45309',
   },
   {
@@ -426,6 +456,9 @@ export const DOOR_ITEMS: DoorItem[] = [
 export const MUST_NOT_ORPHAN: string[] = [
   // Stories & News (old CultureTab) + Language & Culture story cards
   'baka_summer',
+  'baka_berba', // books 2–4 of Bakino Ljeto (2026-09-29) — the door is their only browse entry
+  'baka_zima',
+  'baka_pisma',
   'survival_dinner',
   'storymode',
   'heritage',

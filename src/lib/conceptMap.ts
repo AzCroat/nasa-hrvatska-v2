@@ -33,8 +33,9 @@ import { LESSON_PASS_THRESHOLD } from './lessonCheck';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from './categoryRoutes';
 import { localDateStr } from './dateUtils';
+import { readAttempts, type AttemptsStore } from './lessonAttempts';
 
-export type ConceptState = 'solid' | 'passed' | 'due' | 'shaky' | 'untaught';
+export type ConceptState = 'solid' | 'passed' | 'due' | 'shaky' | 'notpassed' | 'untaught';
 
 export interface ConceptEntry {
   lessonId: string;
@@ -81,6 +82,7 @@ export function buildConceptMap(
   store: RetentionStore = readRetention(),
   today: string = localDateStr(),
   now: number = Date.now(),
+  attempts: AttemptsStore = readAttempts(),
 ): ConceptMap {
   const entries: ConceptEntry[] = [];
   const counts: Record<ConceptState, number> = {
@@ -88,6 +90,7 @@ export function buildConceptMap(
     passed: 0,
     due: 0,
     shaky: 0,
+    notpassed: 0,
     untaught: 0,
   };
 
@@ -96,7 +99,22 @@ export function buildConceptMap(
     let state: ConceptState;
     let openMisses = 0;
 
-    if (!rec) {
+    // NOT PASSED (2026-09-29): taught and checked, and the check failed — measured,
+    // unlike `untaught`, and the one state that is a focus area before any pass.
+    // A failed test-out does not count: it is taken before the lesson is taught.
+    const failedLast = (() => {
+      const list = attempts.lessons[s.id]?.attempts ?? [];
+      for (let i = list.length - 1; i >= 0; i--) {
+        if (list[i]!.kind === 'lesson') return !list[i]!.passed;
+      }
+      return false;
+    })();
+    if (!rec && failedLast) {
+      state = 'notpassed';
+      openMisses = Object.entries(store.items).filter(
+        ([key, card]) => key.startsWith(`${s.id}#`) && card.due <= now,
+      ).length;
+    } else if (!rec) {
       state = 'untaught';
     } else {
       // An OPEN miss is a missed item the scheduler says is due again. A card
@@ -132,9 +150,16 @@ export function buildConceptMap(
     });
   }
 
-  const rank: Record<ConceptState, number> = { shaky: 0, due: 1, passed: 2, solid: 3, untaught: 4 };
+  const rank: Record<ConceptState, number> = {
+    notpassed: 0,
+    shaky: 1,
+    due: 2,
+    passed: 3,
+    solid: 4,
+    untaught: 5,
+  };
   const needsWork = entries
-    .filter((e) => e.state === 'shaky' || e.state === 'due')
+    .filter((e) => e.state === 'notpassed' || e.state === 'shaky' || e.state === 'due')
     .sort((a, b) => rank[a.state] - rank[b.state] || b.openMisses - a.openMisses);
 
   return { entries, counts, total: entries.length, needsWork };
@@ -144,6 +169,10 @@ export function buildConceptMap(
  *  hold, and says nothing at all before there is anything to say. */
 export function conceptSummaryLine(map: ConceptMap): string | null {
   const learned = map.counts.solid + map.counts.passed + map.counts.due + map.counts.shaky;
+  if (map.counts.notpassed > 0) {
+    const n = map.counts.notpassed;
+    return `${n} lesson${n === 1 ? '' : 's'} not passed yet — ${n === 1 ? 'it is' : 'they are'} your focus before the next check.`;
+  }
   if (learned === 0) return null;
   if (map.counts.shaky > 0) {
     return `${map.counts.shaky} of your ${learned} concept${learned === 1 ? '' : 's'} ${map.counts.shaky === 1 ? 'is' : 'are'} slipping.`;

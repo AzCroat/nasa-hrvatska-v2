@@ -17,7 +17,7 @@
  * `GUEST_UID` moved to `lib/guestIdentity` because two places must agree on it.
  * NOT into `lib/constants/storage`: that is a `.ts`/`.js` pair whose resolvers
  * disagree (TypeScript reads `storage.ts`, Vite bundles `storage.js`, and the two
- * have already drifted by `PLACEMENT_DECLINED`) — measured the hard way, by adding
+ * had drifted by `PLACEMENT_DECLINED`, since deleted) — measured the hard way, by adding
  * the constant there first and watching `tsc` fail to see it.
  */
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
