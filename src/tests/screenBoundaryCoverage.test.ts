@@ -80,8 +80,10 @@ describe('every routed screen is wrapped in a named boundary', () => {
 
   it('the three that were bare are specifically covered', () => {
     // Named explicitly because of WHAT they are: onboarding, the placement
-    // test, and the Level Check that decides a learner's CEFR standing.
-    for (const s of ['welcome', 'placement', 'equivalency']) expect(NAMED.has(s)).toBe(true);
+    // test (the Me tab's retake — onboarding no longer routes to a `placement`
+    // screen, 2026-09-29), and the Level Check that decides a learner's CEFR
+    // standing.
+    for (const s of ['welcome', 'new-placement', 'equivalency']) expect(NAMED.has(s)).toBe(true);
   });
 });
 

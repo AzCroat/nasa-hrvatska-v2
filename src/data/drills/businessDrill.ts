@@ -225,7 +225,7 @@ export const BUSINESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'sezona',
     q: 'Hrvatska je uvela ____ 2023.',
-    en: 'Croatia adopted the euro in 2023.',
+    en: 'Croatia adopted the common European currency in 2023.',
     opts: ['euro', 'eura', 'euru', 'eurom'],
     answer: 'euro',
     tip: 'Accusative after uvesti — and Schengen came the same year.',

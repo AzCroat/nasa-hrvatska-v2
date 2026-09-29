@@ -59,7 +59,6 @@ const OUTSIDE_SESSION: string[] = [
   'equivalency', // CEFR certification exam (own store, setScr-only exit) — regrouped from reference in Wave 4
   'grammar_diagnosis',
   'levelquiz',
-  'placement',
   // ── Reference / browse screens ──
   // Wave 4 (2026-07) registered 26 of the original 35: 13 with real quiz+award
   // completion joined the graded pool, 11 bounded bilingual browse screens
@@ -149,6 +148,13 @@ const OUTSIDE_SESSION: string[] = [
   // the crossing into the next level, never by the CEFR pool — it needs a LEVEL,
   // which the session builder writes into a handoff.
   'levelreview',
+  // Bakino Ljeto's books 2–4 (2026-09-29). The POOL serves `baka_summer`, which resumes
+  // on the learner's current book, so one pool entry covers all four and adding these
+  // would change the measured P4 culture-slot composition. They are reached through the
+  // resume screen's own "next book" button and the Priče door.
+  'baka_berba',
+  'baka_zima',
+  'baka_pisma',
   'photo_vocab', // no completion signal; AI-vision cost 2/use; camera-centric utility
   // ── App chrome / account / legal ──
   'contact',

@@ -635,12 +635,7 @@ export default function AppRouter(props: Record<string, any>) {
 
   // Direct props: high-frequency lesson/exercise screen state
   const {
-    // Placement
-    setPlacementQ,
-    setPlacementIdx,
-    setPlacementScore,
-    setPlacementAnswers,
-    setPlacementXp,
+    // Placement (the Me tab's retake; onboarding no longer routes here)
     getPlacementCt,
     setShowFirstWords,
     // Lesson screen state
@@ -768,71 +763,7 @@ export default function AppRouter(props: Record<string, any>) {
       >
         {currentScreen === 'welcome' && (
           <ScreenErrorBoundary key="welcome" name="welcome">
-            <WelcomeScreen
-              name={name}
-              au={authUser}
-              st={stats}
-              setScr={setScr}
-              setName={setName}
-              setPlacementQ={setPlacementQ}
-              setPlacementIdx={setPlacementIdx}
-              setPlacementScore={setPlacementScore}
-              setPlacementAnswers={setPlacementAnswers}
-              setPlacementXp={setPlacementXp}
-            />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'placement' && (
-          <ScreenErrorBoundary key="placement" name="placement">
-            <PlacementTest
-              onComplete={async function (level: number) {
-                lsSet('placement_done', '1');
-                // ALSO flag user as onboarded so Firebase sync persists this
-                // across devices. buildProgressSnapshot reads `onboarded` and
-                // `nh_placement_done` from localStorage and writes them into
-                // the Firebase profile; applyRemoteProgress on a new device
-                // sets localStorage from those fields, which short-circuits
-                // the App.tsx:1303 placement-trigger check. Without these two
-                // writes, a user who completed placement on device A would be
-                // re-prompted on device B until Firebase MERGE_REMOTE happened
-                // to land xp > 0 before the 1200ms placement timer fired.
-                lsSet('nh_placement_done', 'true');
-                lsSet('onboarded', 'true');
-                // getPlacementCt is async (LEARN_PATH ships from /api/content/core).
-                // It MUST be awaited: assigning the raw Promise to `ct` set stats.ct
-                // to a Promise (breaking every `[...stats.ct]` spread and the
-                // firebase.ts arrayUnion filter → sync crash) and made
-                // `lc = Math.max(prev.lc, undefined)` = NaN. Resolve once, and fall
-                // back to no pre-credit if content can't load (offline) rather than
-                // stranding the user on the placement screen.
-                let ct: string[] = [];
-                try {
-                  ct = await getPlacementCt(level);
-                } catch {
-                  ct = [];
-                }
-                setStats(function (prev) {
-                  return {
-                    ...prev,
-                    ct,
-                    lc: Math.max(prev.lc, ct.length),
-                  };
-                });
-                if (typeof award === 'function') award(25);
-                setShowFirstWords(true);
-                setTab('learn');
-              }}
-              onCancel={function () {
-                // Record the DECLINE, not a completion — see the guard in
-                // App.tsx. This path is additionally protected today because
-                // WelcomeScreen sets `onboarded` before routing here, but a
-                // guard that holds only because a different screen happened to
-                // write an unrelated flag first is the incidental coupling this
-                // repo keeps getting caught by.
-                lsSet('nh_placement_declined', '1');
-                setTab('learn');
-              }}
-            />
+            <WelcomeScreen name={name} au={authUser} st={stats} setScr={setScr} setName={setName} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'equivalency' && (
@@ -3097,9 +3028,28 @@ export default function AppRouter(props: Record<string, any>) {
             <SlangScreen goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
+        {/* Bakino Ljeto is four books of four letters (2026-09-29). `baka_summer` carries
+            no `book` prop on purpose: the daily-session pool launches it and must land on
+            the learner's CURRENT book, while the Priče door's book-1 card launches the same
+            key and must open book 1 — the screen tells them apart (resolveLaunchBook). */}
         {currentScreen === 'baka_summer' && (
           <ScreenErrorBoundary key="baka_summer" name="baka_summer">
             <BakaSummer goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_berba' && (
+          <ScreenErrorBoundary key="baka_berba" name="baka_berba">
+            <BakaSummer goBack={goBack} award={award} book={2} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_zima' && (
+          <ScreenErrorBoundary key="baka_zima" name="baka_zima">
+            <BakaSummer goBack={goBack} award={award} book={3} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'baka_pisma' && (
+          <ScreenErrorBoundary key="baka_pisma" name="baka_pisma">
+            <BakaSummer goBack={goBack} award={award} book={4} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'croatia_today' && (
@@ -3517,7 +3467,6 @@ export default function AppRouter(props: Record<string, any>) {
             <ScreenErrorBoundary key="new-placement" name="new-placement">
               <PlacementTest
                 onComplete={async function (level: number) {
-                  lsSet('placement_done', '1');
                   // ALSO flag user as onboarded so Firebase sync persists this
                   // across devices. buildProgressSnapshot reads `onboarded` and
                   // `nh_placement_done` from localStorage and writes them into
@@ -3551,11 +3500,10 @@ export default function AppRouter(props: Record<string, any>) {
                   setTimeout(() => setTab('learn'), 300);
                 }}
                 onCancel={function () {
-                  // THE LOOP WAS HERE. Without this write the App.tsx effect
-                  // re-armed its 1200 ms timer the moment this navigation
-                  // changed `currentScreen`, so Exit returned the learner to
-                  // this very screen, forever, until they earned XP.
-                  lsSet('nh_placement_declined', '1');
+                  // Declining writes nothing: the App.tsx effect that once re-armed
+                  // a 1200 ms timer to send a 0-XP learner back here is gone
+                  // (2026-09-29 — onboarding ends on the course), and this screen is
+                  // reached only from the Me tab's "retake placement".
                   setScr('dashboard');
                 }}
               />

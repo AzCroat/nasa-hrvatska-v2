@@ -42,5 +42,4 @@ export const StorageKeys = {
   // writing either would claim a placement that never happened (NEVER-DO 13).
   // It exists solely to stop App.tsx's 1200 ms auto-offer re-firing — see
   // `placementDeclined.test.tsx`.
-  PLACEMENT_DECLINED: 'nh_placement_declined',
 };
