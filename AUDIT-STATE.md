@@ -13331,3 +13331,43 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not checked**: the three heavy-user E2E specs match `/daily goal|goal|target|minutes/i`
     against Settings text with an `info` fallback — they cannot fail on this and assert
     nothing about the card, so they were not changed.
+- [x] **Sweep 195 — an ending note must name the word it is about (owner report, 2026-09-29).**
+  - Owner, on the A1 plural lesson's "Singular and Plural Side by Side" slide: _"you state
+    that Velik should add ovi, when it is simply just adding i. This is incorrect learning
+    material … Do we have more of this throughout the application?"_ The item was
+    `Grad je velik. Gradovi su veliki.` with the note `short masculine takes -ovi`. The note
+    is TRUE of the word its author meant (grad → gradovi) and the example changes two
+    words, so a reader attaches -ovi to the adjective. The sibling item on the same slide
+    had the same shape: `More je toplo. Mora su topla.` — `neuter -e → -a`, while toplo →
+    topla is -o → -a. Both notes now name their word. The lesson does teach -ovi correctly
+    elsewhere (rule slide, table row `grad / gradovi / add -ovi`, `Sinovi rade u Njemačkoj`).
+  - **How many more, measured three ways over all 180 lessons, reading every hit by hand:**
+    (1) every `X → Y` in plural context against `decline(X).forms.Npl` — 67 arrows, 15 exact
+    matches, 52 disagreements, ALL false positives (genitive/dative plurals in a plural
+    lesson, vocatives, comparatives, verbs, English words, and `\b`-split fragments like
+    `ena → žene`); (2) every Singular/Plural table row — 20, the 12 disagreements all verb
+    conjugation tables and the `stvar` i-declension rows, correct; (3) every "X → Y (-suf)"
+    / "adds -suf → Y" claim — 25, 7 disagreements, all false positives (`-a becomes -i`,
+    `-im class`, `-ov- before the -i`). **Zero further false endings.** The class that
+    produced the owner's report is ATTRIBUTION, not a false claim, and sweep 176's hand
+    census read both notes as correct because each is correct about the word its author
+    meant — which is exactly why it needed a mechanical question: "which word will the
+    reader attach this to?" Of 274 example/practice items with an ending note, 13 have a
+    note naming no word of the example while ≥2 words change; 11 are guided-practice or
+    mastery-check items whose "second sentence" is an English cue and whose note states the
+    answer form (correct by construction), and the two remaining were the two fixed.
+  - Pinned by `exampleNoteNamesItsWord.test.ts`: an `example` item whose note states a bare
+    `-suffix` and whose two sentences differ in more than one word (the copula je → su does
+    not count) must name a word of the example; positive control is the shipped defect
+    verbatim, with the one-change and the naming-note shapes as negatives. Mutation-verified
+    against the REAL data: reverting the `More je toplo` note fails 1 and names the item.
+    Population is 7 two-sentence ending-note items across the curriculum, so the floor is 5
+    and the control carries the predicate.
+  - **"Throughout the application", not only the lessons**: the same `(-suf)` / "adds -suf →
+    Y" census over `src/data` (the drill banks), `src/components/practice`,
+    `src/components/learn` and the culture data — 22 claims, 5 disagreements, all false
+    positives (`-en-` as an infix, `-a → -in`, "add -u or -e"). Zero false endings there
+    either. Not censused: free-prose tips with no arrow and no bare `-suffix`, which only a
+    reading finds (sweep 176 is the last full read).
+  - The onboarding branch (sweep 194) was cut with this note fix in its working tree; the
+    fix ships here, on its own branch off master, so the two decisions do not share a PR.
