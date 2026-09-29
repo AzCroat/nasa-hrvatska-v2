@@ -14059,3 +14059,22 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     long conversation. That needs live turns, not a static read.
   - Left: `DialogueAiMode`'s header shows `turns[0].speaker`, which for `koliko_je_sati`
     and `rodendan` is a stage direction, not a character.
+- [x] **Sweep 217 — writing is never graded on punctuation (owner directive, 2026-09-29).**
+      _"Punctuation should not be graded in writing. We are using a Croatian keyboard to have
+      the correct alphabet and punctuation is difficult to find properly. Let's focus on
+      whether the user had proper sentence structure, grammar and vocabulary."_
+  - The writing evaluator (`WRITING_EVAL_PROMPT`, used by Guided Writing, the unit and
+    lesson produce steps, the Level Check and the golden calibration) never mentioned
+    punctuation, so the model graded it implicitly. It now scores "sentence structure,
+    grammar accuracy, vocabulary, and natural expression" and states that punctuation must
+    never lower the score or appear in `changes`, `improvements` or `level_demonstrated`.
+    The prompt version moves by itself.
+  - `/api/correct` also drops every change whose only difference is punctuation
+    (`dropPunctuationOnlyChanges`), so a model that lists one anyway cannot show it. A
+    change that also fixes a letter (a capital, an ending) is kept: capitals were not part
+    of the directive.
+  - The local checks already ignored punctuation: Guided Writing's frames compare, typed
+    practice (`typedAnswer`) and the rehearsal compare (`spokenMatch`).
+  - Pinned by `correct.integration.test.js`, which drives the real handler.
+    Mutation-verified: the filter removed fails 1.
+  - The next calibration run re-measures the golden set against the new prompt version.
