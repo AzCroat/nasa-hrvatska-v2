@@ -176,7 +176,7 @@ describe('/api/news tags the body it actually served', () => {
   it('a generated 200 carries the current prompt tag and stores it beside the body', async () => {
     const kv = kvWithMetadata();
     globalThis.fetch = vi.fn(async (url) =>
-      String(url).startsWith('https://api.anthropic.com')
+      new URL(String(url)).host === 'api.anthropic.com'
         ? new Response(ANTHROPIC_ARTICLE, { status: 200 })
         : new Response(RSS_XML, { status: 200 }),
     );
