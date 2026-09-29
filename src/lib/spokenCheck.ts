@@ -73,14 +73,18 @@ export function checkedWords(raw: unknown): CheckedWord[] {
   const out: CheckedWord[] = [];
   for (const r of raw as RawWordScore[]) {
     if (!r || typeof r.word !== 'string' || !r.word.trim()) continue;
-    const score = typeof r.score === 'number' && Number.isFinite(r.score) ? r.score : 0;
+    // An ABSENT score is not a low one: the endpoint sends null when Azure did not
+    // score the word (2026-09-29), and "unclear" must never be claimed on no
+    // measurement. Such a word is judged by Azure's miscue verdict alone.
+    const measured = typeof r.score === 'number' && Number.isFinite(r.score);
+    const score = measured ? (r.score as number) : 0;
     const error = typeof r.error === 'string' ? r.error : 'None';
     const status: WordStatus =
       error === 'Omission'
         ? 'missing'
         : error === 'Insertion'
           ? 'extra'
-          : (error === 'Mispronunciation' || score < UNCLEAR_BELOW) &&
+          : (error === 'Mispronunciation' || (measured && score < UNCLEAR_BELOW)) &&
               !onlyFinalDevoiced(r.word, r.phonemes)
             ? 'unclear'
             : 'good';

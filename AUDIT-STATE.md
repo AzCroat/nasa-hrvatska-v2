@@ -14148,3 +14148,29 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     alongside the browser's recogniser first.
   - Pinned by `pronunciationAssessMiscue.test.js` (three Azure statuses plus the client
     classification). Mutation-verified: removing the branch fails 3.
+- [x] **Sweep 219 — the first calibration run found the recording check blind and crashing
+      (2026-09-29).** `stt-calibration.yml`, run after #808 deployed, reported 3 of 6 probe
+      halves wrong, for two separate reasons:
+  - **Every word scored 0, including correctly spoken ones.** Azure heard "Imam sestru."
+    exactly, and each word came back `score: 0, error: None`. `parseAzureResponse` read the
+    Speech SDK's NESTED shape (`PronunciationAssessment.AccuracyScore`), but the REST
+    short-audio endpoint this file calls returns the scores FLAT on the NBest entry, the
+    word and the phoneme. So Guided Speaking's word check called every word unclear, and it
+    could never see a real miscue. The wrong-ending probes "passed" only because 0 is below
+    60. Both shapes are read now, flat first.
+    - An ABSENT score is `null`, never 0. `checkedWords` and `assessFocusFlagged` then judge
+      the word by Azure's miscue verdict alone, and never call it unclear on no measurement.
+    - The calibration reports `scored` per take, so the next run says whether Azure scores
+      hr-HR at all.
+  - **Any Croatian reference with č ć đ š ž crashed the endpoint.** The
+    `Pronunciation-Assessment` header was `btoa(JSON)`, and `btoa` is Latin-1 only, so it
+    threw an uncaught 500 (`Živim u Zagrebu` was never evaluated). This is almost certainly
+    the owner's Sentry `ai_feedback_failed:guided-speaking-assess:server`, and plausibly the
+    older unexplained `pronunciation-assess:server` too, since the pronunciation scorer uses
+    the same endpoint. It is now base64 of the UTF-8 bytes.
+  - Pinned in `pronunciationAssessMiscue.test.js`: the flat shape, null for an absent
+    score, a measured low score still unclear, a UTF-8 round trip, and the handler
+    surviving a diacritic reference. Mutation-verified: a nested-only read fails 1, and
+    `btoa` restored fails 1.
+  - **Re-run `stt-calibration.yml` after this deploys.** If `scored` is false, Azure does not
+    score hr-HR, and the check stands on miscue detection plus the recogniser's transcript.

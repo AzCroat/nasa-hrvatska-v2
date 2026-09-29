@@ -52,34 +52,59 @@ function base64ToUint8Array(b64) {
 }
 
 // ── Parse Azure NBest Pronunciation Assessment response ───────────────────────
-// Azure REST response shape (NBest[0]):
-//   PronunciationAssessment: { AccuracyScore, FluencyScore, CompletenessScore, PronScore }
-//   Words: [{ Word, PronunciationAssessment: { AccuracyScore }, Phonemes: [{ Phoneme, PronunciationAssessment: { AccuracyScore } }] }]
-function parseAzureResponse(azureData) {
+// THE REST ANSWER IS FLAT, AND THIS PARSER READ THE SDK's NESTED SHAPE (2026-09-29).
+// The Speech SDK nests every score under `PronunciationAssessment`; the REST short-audio
+// endpoint this file calls puts them directly on the NBest entry, the word and the
+// phoneme (`NBest[0].AccuracyScore`, `Words[i].AccuracyScore`, `Words[i].ErrorType`).
+// Reading only the nested form made every score 0 and every ErrorType the 'None'
+// default — the first calibration run heard "Imam sestru." perfectly and scored each
+// word 0, so Guided Speaking's check called every correctly-said word unclear and could
+// never see a real miscue. Both shapes are read now, flat first.
+//
+// A score that is ABSENT is null, never 0: "Azure did not score this" and "Azure
+// scored it badly" are different facts, and the client must not call a word unclear
+// on no measurement (NEVER-DO 13).
+function num(...candidates) {
+  for (const c of candidates) if (typeof c === 'number' && Number.isFinite(c)) return Math.round(c);
+  return null;
+}
+function str(...candidates) {
+  for (const c of candidates) if (typeof c === 'string' && c) return c;
+  return null;
+}
+/** Base64 of a string's UTF-8 bytes (btoa alone is Latin-1 only). */
+export function utf8Base64(text) {
+  const bytes = new TextEncoder().encode(text);
+  let bin = '';
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin);
+}
+
+export function parseAzureResponse(azureData) {
   const nbest = azureData?.NBest?.[0];
   if (!nbest) return null;
 
   const pa = nbest.PronunciationAssessment || {};
-  const overall = Math.round(pa.PronScore ?? 0);
-  const accuracy = Math.round(pa.AccuracyScore ?? 0);
-  const fluency = Math.round(pa.FluencyScore ?? 0);
-  const completeness = Math.round(pa.CompletenessScore ?? 0);
+  const overall = num(nbest.PronScore, pa.PronScore) ?? 0;
+  const accuracy = num(nbest.AccuracyScore, pa.AccuracyScore) ?? 0;
+  const fluency = num(nbest.FluencyScore, pa.FluencyScore) ?? 0;
+  const completeness = num(nbest.CompletenessScore, pa.CompletenessScore) ?? 0;
 
   const word_scores = (nbest.Words || []).map((w) => ({
     word: w.Word || '',
-    score: Math.round(w.PronunciationAssessment?.AccuracyScore ?? 0),
+    score: num(w.AccuracyScore, w.PronunciationAssessment?.AccuracyScore),
     // Miscue detection (EnableMiscue) marks each word None / Omission / Insertion /
     // Mispronunciation. Guided Speaking reads it to tell the learner what was really
-    // said (lib/spokenCheck); it was computed by Azure and dropped here until 2026-09-29.
-    error:
-      typeof w.PronunciationAssessment?.ErrorType === 'string'
-        ? w.PronunciationAssessment.ErrorType
-        : 'None',
+    // said (lib/spokenCheck).
+    error: str(w.ErrorType, w.PronunciationAssessment?.ErrorType) ?? 'None',
     phonemes: (w.Phonemes || []).map((p) => ({
       phoneme: p.Phoneme || '',
-      score: Math.round(p.PronunciationAssessment?.AccuracyScore ?? 0),
+      score: num(p.AccuracyScore, p.PronunciationAssessment?.AccuracyScore),
     })),
   }));
+  // Whether Azure scored anything at all — the calibration reports it, because a locale
+  // Azure recognises but does not score reads exactly like perfect silence otherwise.
+  const scored = word_scores.some((w) => w.score !== null);
 
   // THE RECOGNISED TEXT WAS DROPPED HERE, AND THE COACH PAID FOR IT (2026-09-25).
   // Azure returns what it actually heard; nothing forwarded it, so the client had
@@ -90,7 +115,7 @@ function parseAzureResponse(azureData) {
   // changed after that."
   const recognized = nbest.Display || nbest.Lexical || '';
 
-  return { overall, accuracy, fluency, completeness, word_scores, recognized };
+  return { overall, accuracy, fluency, completeness, word_scores, recognized, scored };
 }
 
 /**
@@ -115,7 +140,11 @@ export async function azureAssess(
     Granularity: 'Phoneme',
     EnableMiscue: true,
   };
-  const assessmentHeader = btoa(JSON.stringify(assessmentConfig));
+  // The reference sentence is Croatian, and btoa() accepts Latin-1 only: any č ć đ š ž
+  // threw "btoa() can only operate on characters in the Latin1 range", an uncaught 500
+  // (Sentry ai_feedback_failed:guided-speaking-assess:server, found by the calibration's
+  // `Živim u Zagrebu` probe). Base64 of the UTF-8 bytes is what Azure expects.
+  const assessmentHeader = utf8Base64(JSON.stringify(assessmentConfig));
 
   // Call Azure Cognitive Services Pronunciation Assessment REST API.
   const azureUrl = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=${locale}&format=detailed`;
