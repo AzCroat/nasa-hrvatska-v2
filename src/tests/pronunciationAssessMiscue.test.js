@@ -139,3 +139,43 @@ describe('the assessment reconciles the budget ledger', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 });
+
+// ── A recording with no speech is named, not reported as a server fault ──
+// Sentry ai_feedback_failed:guided-speaking-assess:server (2026-09-29): Azure's
+// NoMatch / InitialSilenceTimeout answer carries no NBest, which read as an
+// unexpected shape and a 502.
+describe('no recognisable speech', () => {
+  it.each(['NoMatch', 'InitialSilenceTimeout', 'BabbleTimeout'])(
+    'Azure %s is a 422 no_speech, not a 502',
+    async (RecognitionStatus) => {
+      vi.stubGlobal(
+        'fetch',
+        vi.fn(
+          async () =>
+            new Response(JSON.stringify({ RecognitionStatus, Duration: 30000000 }), {
+              status: 200,
+            }),
+        ),
+      );
+      const request = new Request('https://x/api/pronunciation-assess', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ audioBase64: 'eA==', referenceText: 'Imam sestru.' }),
+      });
+      const res = await onRequestPost({
+        request,
+        env: { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope' },
+      });
+      expect(res.status).toBe(422);
+      expect((await res.json()).error).toBe('no_speech');
+    },
+  );
+
+  it('the client files it under stt, with its own sentence', async () => {
+    const { failureFromStatus } = await import('../lib/aiFailure');
+    const f = failureFromStatus(422, 'no_speech');
+    expect(f.kind).toBe('stt');
+    expect(f.code).toBe('no_speech');
+    expect(f.message).toMatch(/transcribe the recording/);
+  });
+});
