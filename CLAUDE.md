@@ -4540,6 +4540,18 @@ paper; a lesson's own words never reached review.
   concept still has to be there; the report labels them "from an earlier unit". Unit 1
   keeps fifteen of its own. Pinned over every real unit in `unitTest.test.ts` and at the
   screen in `unitTestScreen.test.tsx` (missing only the spiral items costs the pass).
+- **A LESSON'S WORDS GO INTO REVIEW** (`lib/lessonWords`, recommendation 3): on a PASS,
+  `enrolLessonVocab` records the lesson's `vocab` rows (`nh_lesson_words`, synced
+  additively, earlier enrolment wins) and adds each headword to SRS; `vocabPool` serves the
+  rows like any tracked word (so Home's count and Review agree) and `acquisitionPool` leads
+  with them. A fail enrols nothing.
+- **THE PRACTICE TAB AND THE DECK FOLLOW THE COURSE** (owner decision, 2026-09-29):
+  `getGenerationCefr` returns `courseContentLevel()` — the current unit's level, C2 once the
+  course is finished — and keeps its old answer (placement or earned) only when there is no
+  curriculum data. Every caller follows: the deck, the levelled banks, the generators. The
+  Practice tab's CARD LOCKS still read content unlock (certification), untouched — a door
+  and what is served behind it are different questions. So the Me tab's placement retake now
+  moves nothing while a spine exists; recorded for the owner.
 - NEVER: retake a failed check on the same paper when a form B exists; judge a typed
   answer by edit distance; accept a missing diacritic as right; file a form-B item under a
   form-A index; list a level in `PRODUCTIVE_LEVELS` before every lesson in it passes the

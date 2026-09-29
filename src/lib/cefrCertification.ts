@@ -45,6 +45,7 @@
 
 import type { CefrLevel } from './cefr.js';
 import { CEFR_ORDER, cefrRank, getEffectiveLevel, getUserCefr, levelBelow } from './cefr.js';
+import { courseContentLevel } from './sessionLevel';
 
 // ── Feature flag ──────────────────────────────────────────────────────────────
 //
@@ -1143,6 +1144,13 @@ function _readProfileStats(): { xp: number; lc: number; gc: number } {
  * runtime, so this deepens C1/C2 with no authored content.
  */
 export function getGenerationCefr(stats?: { xp?: number; lc?: number; gc?: number }): CefrLevel {
+  // THE COURSE LEVEL (owner decision, 2026-09-29). One path, everyone from Unit 1: the
+  // Practice tab, the deck and the generators serve the level of the unit the learner
+  // stands on, as the daily session already does — so a Unit-1 learner with B1 XP or a
+  // B1 placement is not handed B1 flashcards beside an A1 course. With no curriculum
+  // data the old answer below stands (absence degrades to the old width, never to none).
+  const course = courseContentLevel();
+  if (course) return course;
   // When no live stats are passed, read xp/lc/gc from the persisted profile —
   // the same source buildUserContext uses — so callers without StatsContext
   // (McGame, Flashcards, GrammarDiagnosis, DailyPlanCard) can use this with no

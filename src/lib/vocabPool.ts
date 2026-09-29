@@ -54,6 +54,7 @@
 import { CEFR_ORDER, cefrRank, type CefrLevel } from './cefr';
 import { getGenerationCefr } from './cefrCertification';
 import { getSR } from './srs';
+import { lessonWordRows } from './lessonWords';
 
 /** `[hr, en, example?]` — the row shape shared by V and the advanced tiers. */
 export type VocabRow = string[];
@@ -72,6 +73,8 @@ export interface PoolOptions {
   cats?: string[] | null;
   /** SRS lemmas; defaults to the live map. Injectable for tests. */
   tracked?: Set<string>;
+  /** A passed lesson's words (lib/lessonWords); defaults to the live store. */
+  lessonWords?: VocabRow[];
 }
 
 /** The level every vocabulary deck is gated on — one function so Home's count
@@ -186,7 +189,19 @@ export function vocabPool(
       out.push(...bandRows(src, band).filter((w) => tracked.has(w[0]!)));
     }
   }
+  // A passed lesson's own words (lib/lessonWords) — enrolled as SRS cards, so they
+  // must be servable here or Review could never ask them. A row the payload already
+  // carries is deduped in favour of the payload's.
+  out.push(...(opts?.lessonWords ?? safeLessonWordRows()));
   return dedupe(out);
+}
+
+function safeLessonWordRows(): VocabRow[] {
+  try {
+    return lessonWordRows() as VocabRow[];
+  } catch {
+    return [];
+  }
 }
 
 /** Lemmas of `vocabPool` — what Home counts servable reviews against. */
@@ -213,7 +228,9 @@ export function acquisitionPool(
   const own = bandRows(src, level);
   if (!own.length) return vocabPool(src, level, opts);
   const tracked = trackedLemmas(opts);
-  const out = [...own];
+  // The words of lessons just passed lead the acquisition pool: they are what the
+  // learner is being taught now.
+  const out = [...(opts?.lessonWords ?? safeLessonWordRows()), ...own];
   if (tracked.size) {
     for (const band of CEFR_ORDER) {
       if (band === level) continue;

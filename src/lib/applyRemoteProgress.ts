@@ -27,6 +27,7 @@ import {
 import { mergeRemoteCertifications } from './cefrCertification.js';
 import { mergeLessonRetention, readRetention, writeRetention } from './lessonRetention';
 import { readAttempts, writeAttempts, mergeLessonAttempts } from './lessonAttempts';
+import { applyRemoteLessonWords } from './lessonWords';
 import { readCourseUnits, writeCourseUnits, mergeCourseUnits } from './courseUnitProgress';
 import { mergeRemoteMasteryLedger } from './masteryLedger.js';
 import { mergeDaySets, computeStreak, seedDaysFromStreak, type DaySet } from './streakDays.js';
@@ -378,6 +379,10 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       // Attempts are HISTORY: the merge unions them and keeps the EARLIEST,
       // because the first attempt is the entire signal.
       writeAttempts(mergeLessonAttempts(readAttempts(), fp.nh_lesson_attempts));
+    }
+    // A passed lesson's words (2026-09-29): union, the EARLIER enrolment wins.
+    if (fp.nh_lesson_words && typeof fp.nh_lesson_words === 'object') {
+      applyRemoteLessonWords(fp.nh_lesson_words);
     }
     // Unit mastery (2026-09-26). Additive: a unit passed on either device stays
     // passed and the EARLIER pass date wins; attempts are unioned oldest-first so

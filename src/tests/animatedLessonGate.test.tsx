@@ -283,6 +283,38 @@ describe('AnimatedLesson mastery gate', () => {
     expect(screen.queryByTestId('lesson-check-retake')).toBeNull();
   });
 
+  it('a PASS enrols the lesson’s own words in review; a FAIL enrols none', () => {
+    const withVocab = () => ({
+      ...lessonWithCheck(),
+      vocab: [
+        ['knjiga', 'book', 'Čitam knjigu.'],
+        ['stol', 'table', 'Knjiga je na stolu.'],
+      ],
+    });
+    const failed = render(<AnimatedLesson lesson={withVocab()} goBack={vi.fn()} award={vi.fn()} />);
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
+    answerCheck([1, 2, 3]);
+    next();
+    expect(localStorage.getItem('nh_lesson_words')).toBeNull();
+    failed.unmount();
+    ageAttemptsToYesterday();
+    render(<AnimatedLesson lesson={withVocab()} goBack={vi.fn()} award={vi.fn()} />);
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
+    answerCheck([]);
+    next();
+    const words = JSON.parse(localStorage.getItem('nh_lesson_words') || '{}');
+    expect(Object.keys(words).sort()).toEqual(['knjiga', 'stol']);
+    expect(Object.keys(JSON.parse(localStorage.getItem('nh_sr') || '{}'))).toEqual(
+      expect.arrayContaining(['knjiga', 'stol']),
+    );
+  });
+
   it('the next day’s retake sits FORM B — a parallel paper, not the same six items', () => {
     const withB = () => {
       const l = lessonWithCheck();

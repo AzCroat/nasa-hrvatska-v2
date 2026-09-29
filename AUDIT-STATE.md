@@ -13407,3 +13407,19 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     earlier lessons (SURVIVED first — the test compared items, not lessons; it now compares
     lessons and fails 1). A fifth was EQUIVALENT: trimming the unit's own items before
     interleaving is already done by the final slice, so the line was redundant and is gone.
+- [x] **Sweep 202 — a lesson's words go into review, and the Practice tab follows the course (recommendation 3, 2026-09-29).**
+  - Measured: the deck was one global pool levelled by XP/placement band; nothing tied a
+    lesson's words to it, and a Unit-1 learner with B1 XP or a B1 placement got B1 flashcards
+    beside an A1 course (the owner's decision of sweep 194, queued as "the next increment").
+  - Built: `lib/lessonWords` (enrol on PASS into SRS + a synced store the deck serves;
+    acquisition leads with them); `getGenerationCefr` → `courseContentLevel()` (unit level;
+    C2 when finished; old answer only without curriculum data).
+  - Mutation-verified, seven, each failing 1–3: the pass enrolling nothing; the deck ignoring
+    lesson words; words never becoming SRS cards; the merge keeping the later date; the
+    generation level ignoring the course; a finished course falling back to XP; remote words
+    dropped. Full unit suite green.
+  - **Not covered, stated**: no lesson carries `vocab` until the content lands; the Practice
+    tab's card LOCKS still follow certification (a Unit-1 learner with B1 XP sees a B1 card
+    unlocked and, inside it, A1 content where the bank has it, the whole bank where it does
+    not — `levelledBank`'s floor); the Me-tab placement retake no longer moves the served level
+    while a spine exists. Both are owner decisions, not defects, and are recorded as such.
