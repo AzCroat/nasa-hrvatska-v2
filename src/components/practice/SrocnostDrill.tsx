@@ -70,7 +70,7 @@ const DATA = [
       '-e (braća su došle)',
     ],
     answer: '-a (braća su došla)',
-    en: 'the participle after braca ends in -a',
+    en: 'the participle after braća ends in -a',
     tip: 'Braća, djeca, gospoda: su + -a.',
   },
   {
@@ -78,7 +78,7 @@ const DATA = [
     q: 'Dvoja vrata ____ otvorena.',
     opts: ['su', 'je', 'ste', 'bi'],
     answer: 'su',
-    en: 'both doors are open',
+    en: 'two doors are open',
     tip: 'Pluralia tantum: vrata su; brojimo dvoja/troja vrata.',
   },
   {
@@ -209,10 +209,10 @@ const DATA = [
   {
     mode: 'mjesovito',
     q: 'Ni Ivan ni Marko ____ na sastanak. (doći, niječno)',
-    opts: ['nisu došli', 'nije došao', 'nisu došle', 'nije došlo'],
+    opts: ['nisu došli', 'nismo došli', 'nisu došle', 'nije došlo'],
     answer: 'nisu došli',
     en: 'neither Ivan nor Marko came to the meeting',
-    tip: 'Ni…ni s množinom: nisu došli.',
+    tip: 'Ni…ni obično s množinom: nisu došli.',
   },
 ];
 

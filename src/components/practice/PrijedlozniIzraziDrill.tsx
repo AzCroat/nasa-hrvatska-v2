@@ -87,7 +87,7 @@ const DATA = [
   {
     mode: 'razlike',
     q: 'Ostavi rezervni ključ ____ susjede.',
-    opts: ['kod', 'pri', 'u', 'pored'],
+    opts: ['kod', 'pri', 'na', 'pored'],
     answer: 'kod',
     en: 'leave the spare key with the neighbour',
     tip: 'Kod + G = u čijem domu/čuvanju.',
@@ -95,7 +95,7 @@ const DATA = [
   {
     mode: 'razlike',
     q: '„____ ruci imam samo staru kartu grada.”',
-    opts: ['Pri', 'Kod', 'U', 'Na'],
+    opts: ['Pri', 'Kod', 'Po', 'Na'],
     answer: 'Pri',
     en: 'I only have an old city map at hand',
     tip: 'Pri ruci = nadohvat — ustaljeni izraz s pri + L.',
@@ -103,7 +103,7 @@ const DATA = [
   {
     mode: 'razlike',
     q: 'Standardno: „Sastanak je ____ ponedjeljak u devet.”',
-    opts: ['u', 'na', 'za', 'po'],
+    opts: ['u', 'na', 'o', 'po'],
     answer: 'u',
     en: 'the meeting is on Monday at nine',
     tip: 'Dani u tjednu: u ponedjeljak, u petak (u + A).',

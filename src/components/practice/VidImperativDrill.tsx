@@ -14,7 +14,7 @@ const MODE_LABEL: Record<string, string> = {
 const DATA = [
   {
     mode: 'zapovijed',
-    q: '____ mi tu knjigu! (dodati — jednokratno)',
+    q: '____ mi tu knjigu! (dodavati / dodati — jednokratno)',
     opts: ['Dodaj', 'Dodavaj', 'Dodajući', 'Dodat'],
     answer: 'Dodaj',
     en: 'pass me that book!',
@@ -22,7 +22,7 @@ const DATA = [
   },
   {
     mode: 'zapovijed',
-    q: '____ pismo do sutra! (napisati)',
+    q: '____ pismo do sutra! (pisati / napisati)',
     opts: ['Napiši', 'Piši', 'Pisao', 'Napisat'],
     answer: 'Napiši',
     en: 'write the letter by tomorrow!',
@@ -38,7 +38,7 @@ const DATA = [
   },
   {
     mode: 'zapovijed',
-    q: '____ vrata, molim te! (zatvoriti)',
+    q: '____ vrata, molim te! (zatvarati / zatvoriti)',
     opts: ['Zatvori', 'Zatvaraj', 'Zatvorivši', 'Zatvarao'],
     answer: 'Zatvori',
     en: 'close the door, please!',
@@ -46,7 +46,7 @@ const DATA = [
   },
   {
     mode: 'zapovijed',
-    q: '____ svaki dan pola sata! (vježbati — navika)',
+    q: '____ svaki dan pola sata! (vježbati / izvježbati — navika)',
     opts: ['Vježbaj', 'Izvježbaj', 'Uvježbaj', 'Provježbaj'],
     answer: 'Vježbaj',
     en: 'exercise half an hour every day!',
@@ -54,7 +54,7 @@ const DATA = [
   },
   {
     mode: 'zapovijed',
-    q: '____ ovaj obrazac, molim. (ispuniti, Vi)',
+    q: '____ ovaj obrazac, molim. (ispunjavati / ispuniti, Vi)',
     opts: ['Ispunite', 'Ispunjavajte', 'Ispunili', 'Ispunit ćete'],
     answer: 'Ispunite',
     en: 'please fill in this form',
@@ -75,7 +75,7 @@ const DATA = [
   },
   {
     mode: 'zapovijed',
-    q: '____ me sutra u osam! (probuditi)',
+    q: '____ me sutra u osam! (buditi / probuditi)',
     opts: ['Probudi', 'Budi', 'Buđaše', 'Probudivši'],
     answer: 'Probudi',
     en: 'wake me at eight tomorrow!',
@@ -91,7 +91,7 @@ const DATA = [
   },
   {
     mode: 'zabrana',
-    q: 'Ne ____ tu knjigu! (dirati)',
+    q: 'Ne ____ tu knjigu! (dirati / dirnuti)',
     opts: ['diraj', 'dirni', 'dirao', 'dirnuvši'],
     answer: 'diraj',
     en: 'do not touch that book!',
@@ -108,18 +108,18 @@ const DATA = [
   {
     mode: 'zabrana',
     q: 'Nemoj to ____!',
-    opts: ['raditi', 'uraditi', 'radio', 'uradivši'],
+    opts: ['raditi', 'radi', 'radio', 'uradivši'],
     answer: 'raditi',
     en: 'do not do that!',
     tip: 'Nemoj + nesvršeni infinitiv: nemoj raditi.',
   },
   {
     mode: 'zabrana',
-    q: 'Ne ____ prozor! (otvarati)',
+    q: 'Ne ____ prozor! (otvarati / otvoriti)',
     opts: ['otvaraj', 'otvori', 'otvorivši', 'otvarao'],
     answer: 'otvaraj',
     en: 'do not open the window!',
-    tip: 'Ne + nesvršeni: ne otvaraj (ne otvori je pogrešno).',
+    tip: 'Ne + nesvršeni: ne otvaraj („ne otvori” bilo bi upozorenje, ne zabrana).',
   },
   {
     mode: 'zabrana',

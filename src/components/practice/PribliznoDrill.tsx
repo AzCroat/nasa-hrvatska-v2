@@ -49,7 +49,7 @@ const DATA = [
     q: 'Približnost izričemo i udvajanjem: „dva-____ dana”.',
     opts: ['tri', 'dva', 'četiri-pet uz dva', 'deset'],
     answer: 'tri',
-    en: 'two or three days',
+    en: 'a couple of days (approximation)',
     tip: 'Susjedni brojevi sa spojnicom: dva-tri, pet-šest.',
   },
   {
@@ -121,10 +121,10 @@ const DATA = [
   {
     mode: 'razlomci',
     q: '„Sat i ____ ” (90 minuta)',
-    opts: ['pol', 'pola', 'polak', 'polu'],
+    opts: ['pol', 'polom', 'polak', 'polu'],
     answer: 'pol',
     en: 'an hour and a half',
-    tip: 'Sat i pol (uz sat: pol, ne pola).',
+    tip: 'Ustaljeno: sat i pol, dva i pol.',
   },
   {
     mode: 'razlomci',

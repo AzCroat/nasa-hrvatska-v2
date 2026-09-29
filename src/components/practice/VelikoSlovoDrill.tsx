@@ -70,10 +70,10 @@ const DATA = [
   },
   {
     mode: 'imena',
-    q: 'Nadimak „____ ” (slavni Modrić) piše se:',
+    q: 'Ime „____ ” (slavni Modrić) piše se:',
     opts: ['Luka', 'luka', 'LUKA', 'lúka'],
     answer: 'Luka',
-    en: "Modrić's nickname — how is it written?",
+    en: "Modrić's first name — how is it written?",
     tip: 'Imena i nadimci velikim slovom; luka = harbour.',
   },
   {
@@ -182,7 +182,7 @@ const DATA = [
     q: '„Trg ____ Jelačića” (ban):',
     opts: ['bana', 'Bana', 'BANA', 'banova'],
     answer: 'bana',
-    en: 'Ban Jelacic Square',
+    en: 'Ban Jelačić Square',
     tip: 'Unutar imena trga opće imenice malim: Trg bana Jelačića.',
   },
   {

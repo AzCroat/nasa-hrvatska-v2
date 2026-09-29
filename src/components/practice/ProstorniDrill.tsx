@@ -198,7 +198,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: 'Bio sam ____ liječnika.',
-    opts: ['kod', 'k', 'u', 'od'],
+    opts: ['kod', 'k', 'na', 'od'],
     answer: 'kod',
     en: 'I was at the doctor',
     tip: 'Mjesto kod osobe: kod + genitiv.',

@@ -206,7 +206,7 @@ const DATA = [
   {
     mode: 'oslovljavanje',
     q: 'Završna formula formalne poruke:',
-    opts: ['S poštovanjem,', 'Vidimo se!', 'Pusa!', 'Aj bok'],
+    opts: ['S poštovanjem,', 'Vidimo se!', 'Pusa!', 'Aj bog'],
     answer: 'S poštovanjem,',
     en: 'Yours faithfully',
     tip: 'S poštovanjem / Srdačan pozdrav.',

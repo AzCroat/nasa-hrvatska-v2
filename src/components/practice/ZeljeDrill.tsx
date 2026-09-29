@@ -22,7 +22,7 @@ const DATA = [
   },
   {
     mode: 'dabar',
-    q: '„Da bar ____ ovdje!” (on, sada — nestvarno)',
+    q: '„Da ____ bar ovdje!” (on, sada — nestvarno)',
     opts: ['je', 'bude', 'bio bi', 'će biti'],
     answer: 'je',
     en: 'if only he were here!',
@@ -103,7 +103,7 @@ const DATA = [
   {
     mode: 'neka',
     q: '„____ ti je sretan put!” (blagoslov)',
-    opts: ['Neka', 'Da li', 'Zar', 'Dok'],
+    opts: ['Neka', 'Kad', 'Zar', 'Dok'],
     answer: 'Neka',
     en: 'may your journey be blessed',
     tip: 'Neka + biti u željama-blagoslovima.',
@@ -150,7 +150,7 @@ const DATA = [
   },
   {
     mode: 'kondicional',
-    q: '„____ li mi dodati sol?” (najuljudnije)',
+    q: '„____ li mi dodali sol?” (najuljudnije)',
     opts: ['Biste', 'Hoćete', 'Možete odmah', 'Dajte'],
     answer: 'Biste',
     en: 'would you pass me the salt?',
@@ -166,7 +166,7 @@ const DATA = [
   },
   {
     mode: 'kondicional',
-    q: '„Bilo bi lijepo ____ nas posjetili.”',
+    q: '„Bilo bi lijepo ____ nas posjetite.”',
     opts: ['da', 'kad ne', 'što', 'jer'],
     answer: 'da',
     en: 'it would be nice if you visited us',
@@ -174,7 +174,7 @@ const DATA = [
   },
   {
     mode: 'kondicional',
-    q: '„Ne bih ____ smetao, ali imam pitanje.” (ograda)',
+    q: '„Ne bih ____ smetati, ali imam pitanje.” (ograda)',
     opts: ['htio', 'hoću', 'morao bit', 'smio bi'],
     answer: 'htio',
     en: 'I would not want to intrude, but…',

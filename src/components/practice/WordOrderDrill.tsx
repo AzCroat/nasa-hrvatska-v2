@@ -98,7 +98,7 @@ export const DATA: WordOrderItem[] = [
   },
   {
     q: 'Where is Ana?',
-    opts: ['Gdje je Ana?', 'Gdje Ana je?', 'Je gdje Ana?', 'Ana gdje je?'],
+    opts: ['Gdje je Ana?', 'Gdje Ana je?', 'Je gdje Ana?', 'Je Ana gdje?'],
     answer: 'Gdje je Ana?',
     tip: 'The question word opens, then "je" takes the second seat: Gdje je...?',
   },

@@ -142,7 +142,7 @@ const DATA = [
     q: '„Duž” u „duž obale” traži:',
     opts: ['genitiv', 'akuzativ', 'instrumental', 'dativ'],
     answer: 'genitiv',
-    en: 'duz (along) takes the genitive',
+    en: 'duž (along) takes the genitive',
     tip: 'Duž obale, duž rijeke, uzduž ceste.',
   },
   {
@@ -158,7 +158,7 @@ const DATA = [
     q: '„Među prijateljima” prema „između dva prijatelja”:',
     opts: ['među za mnoštvo, između za dvoje', 'obrnuto', 'isti padež', 'među je zastarjelo'],
     answer: 'među za mnoštvo, između za dvoje',
-    en: 'medju (among) vs izmedju (between)',
+    en: 'među (among) vs između (between)',
     tip: 'Među + I (mnoštvo); između + G (obično dvoje).',
   },
   {
