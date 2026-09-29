@@ -13322,5 +13322,11 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     against the REAL data: reverting the `More je toplo` note fails 1 and names the item.
     Population is 7 two-sentence ending-note items across the curriculum, so the floor is 5
     and the control carries the predicate.
+  - **"Throughout the application", not only the lessons**: the same `(-suf)` / "adds -suf →
+    Y" census over `src/data` (the drill banks), `src/components/practice`,
+    `src/components/learn` and the culture data — 22 claims, 5 disagreements, all false
+    positives (`-en-` as an infix, `-a → -in`, "add -u or -e"). Zero false endings there
+    either. Not censused: free-prose tips with no arrow and no bare `-suffix`, which only a
+    reading finds (sweep 176 is the last full read).
   - The onboarding branch (sweep 194) was cut with this note fix in its working tree; the
     fix ships here, on its own branch off master, so the two decisions do not share a PR.
