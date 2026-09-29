@@ -192,7 +192,13 @@ Progression is gated on DEMONSTRATED competency, not activity. Source of truth: 
   the test then contradicts**, and localStorage survives `page.reload()` while
   init scripts re-run on top of it. Seed by CLEARING what the setup may have
   written, not only by writing what the test needs.
-  NEVER: restore the always-on hero; render ANYTHING for the gate on Home while quiet (no chip, no date); measure the quiet period in calendar time; let the quiet period unlock gated CONTENT; stash a baseline the exam did not actually pass (pinned by `verificationQuietPeriod.test.tsx` + `verification-gate.spec.js`).
+  **AND THE PROMPT WAITS FOR THE COURSE LEVEL (owner, 2026-09-29): "not something the user
+  sees every other day".** `lib/verificationTiming.ts` holds the Home prompt (card and
+  next-step rung) until every unit of the course level the check tests has met the bar,
+  then a week more, and a week after any attempt; the XP cadence above still applies on top.
+  An absent spine HOLDS the prompt (it is almost always "not loaded yet"), and the card
+  re-renders on `CURRICULUM_SPINE_EVENT`. The gate and the Me tab's check are untouched.
+  NEVER: restore the always-on hero; render ANYTHING for the gate on Home while quiet (no chip, no date); measure the XP quiet period in calendar time (the course week is a separate rule on top); prompt a Level Check before its course level is finished and a week old; let the quiet period unlock gated CONTENT; stash a baseline the exam did not actually pass (pinned by `verificationQuietPeriod.test.tsx` + `verification-gate.spec.js`).
 - **B1+ checks require speaking AND writing** (`SPEAKING_ENFORCEMENT_DATE` / `WRITING_ENFORCEMENT_DATE`). A B1+ attempt without those scores cannot pass (`computePassed` requireSpeaking/requireWriting). Writing is scored via `/api/correct` mode `writeeval` (0–100 → normalise /100); tasks live in `src/data/writingTasks.ts`.
 - **Sections are resumable, never falsely failed**: an unfinished required section (no mic, evaluator unavailable) parks the attempt in `nh_cefr_verification_partial` (48h TTL) instead of recording a failure. Only complete attempts reach `recordEquivalencyAttempt`.
 - **Merge rules**: pass merge is additive with `writing` in the per-skill max block; a merged pass stays provisional only if BOTH sides are provisional (an old device's unmarked blob can never wash the flag off; a real pass anywhere clears it everywhere).

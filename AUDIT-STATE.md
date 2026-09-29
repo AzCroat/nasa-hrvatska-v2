@@ -13434,3 +13434,27 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     the test advances tick by tick.
   - **Not covered, stated**: not in the CEFR rotation or on the Practice tab list (reachable
     by search and the Stretch); typed items are not in the round yet.
+- [x] **Sweep 204 — the Level Check waits for the level (owner report, 2026-09-29).**
+  - Owner: "we need to not have the verification test pop up every two days … It is
+    something that should come up a week or more after completing an entire CEFR level with
+    mastery." Measured: the Home prompt showed whenever a provisional level was waiting and
+    350 XP had been earned since the last attempt, which for a daily learner is every few
+    days, whatever the course position.
+  - Built `lib/verificationTiming.ts`: the prompt for status L waits until every unit of the
+    course level its check tests (L−1) has met the bar, then `VERIFICATION_WAIT_DAYS` (7)
+    more, and a week after any attempt. The XP cadence still applies on top. Both Home
+    surfaces ask it (the card and `getNextStep`'s verification rung). The GATE (locked
+    content) is untouched, and the Me tab still offers the check.
+  - **The first version fell back to the old rule when the spine was absent, and an E2E
+    mutation showed it**: with no course seeded, the spec still passed, because the card
+    rendered in the seconds before the spine landed. An absent spine now holds the prompt,
+    and the card re-renders on `CURRICULUM_SPINE_EVENT`.
+  - **`verification-gate.spec.js` never installed the content mocks**, so no spine ever
+    existed there. It now calls `mockContent` and seeds a finished A1. Its hero-returns test
+    moved its attempt from an hour ago to eight days ago, because the week now applies.
+  - **A local E2E build without CI's placeholder `VITE_FIREBASE_*` never fetches content**,
+    which made a probe show zero requests. Build with CI's placeholders before reading a
+    content-dependent spec.
+  - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
+    status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
+    removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
