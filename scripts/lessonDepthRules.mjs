@@ -138,6 +138,23 @@ export function practiceProblems(l) {
   const practice = slides.filter((s) => s.type === 'practice');
   if (worked.length < MIN_WORKED)
     out.push(`needs >= ${MIN_WORKED} worked examples (has ${worked.length})`);
+  // A SPARSE ARRAY IS NOT A LIST OF ITEMS (C1 authoring, 2026-09-29): a stray double
+  // comma gives an array whose length counts a hole that forEach skips, so every rule
+  // below read "problems 0" over a slot a learner would reach as undefined.
+  for (const s of practice) {
+    for (const field of ['items']) {
+      const arr = s[field];
+      if (Array.isArray(arr) && Object.keys(arr).length !== arr.length)
+        out.push(`practice ${field}: has an empty slot (sparse array)`);
+    }
+  }
+  for (const s of slides.filter((x) => x.type === 'check')) {
+    for (const field of ['items', 'itemsB']) {
+      const arr = s[field];
+      if (Array.isArray(arr) && Object.keys(arr).length !== arr.length)
+        out.push(`check ${field}: has an empty slot (sparse array)`);
+    }
+  }
   worked.forEach((w, i) => {
     if (typeof w.problem !== 'string' || !w.problem.trim())
       out.push(`worked ${i}: problem missing`);
@@ -211,7 +228,7 @@ export function practiceProblems(l) {
 // check had one paper, and a lesson's words never reached review. A level joins
 // PRODUCTIVE_LEVELS once every lesson in it carries all three, and from then on the
 // build holds it to them. `scripts/lessonPracticeCheck.mjs <LEVEL>` is the dry run.
-export const PRODUCTIVE_LEVELS = [];
+export const PRODUCTIVE_LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
 export const MIN_PRODUCTIVE_PRACTICE = 12;
 export const MIN_TYPED_PRACTICE = 4;
 export const MIN_LESSON_VOCAB = 8;

@@ -1987,16 +1987,16 @@ export const LESSONS_A2 = [
               'The auxiliary is a clitic and sits in second position: Jučer sam radio. It can never open a sentence, and pushing it to third place is equally wrong.',
           },
           {
-            q: 'What is wrong with "Što li si rekao?"',
+            q: 'What is wrong with "Što rekao si?"',
             options: [
               'Nothing — it is correct',
-              '"Li" belongs only in yes/no questions — it should be "Što si rekao?"',
+              'The clitic si must stand second, right after the question word: "Što si rekao?"',
               '"Si" should be "jesi"',
-              'It should be "Što rekao si?"',
+              'It needs "li": "Što li rekao si?"',
             ],
             correct: 1,
             explanation:
-              'A question word already makes it a question, so "li" is dropped and the clitic follows straight after it: Što si rekao?',
+              'The auxiliary si is a clitic, so it sits in second position — straight after the question word: Što si rekao? A question word already makes the sentence a question, so no li is needed.',
           },
           {
             q: 'Which question asks "Did Ana come?"',

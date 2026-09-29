@@ -13760,3 +13760,58 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
   - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
     status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
     removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
+- [x] **Sweep 205 — the academic content lands at every level (recommendations 1, 2 and 6,
+      2026-09-29).**
+  - Six authoring agents, one per level, each on its own branch, merged into one: per level
+    180 form-B check items, 240 added practice items (about half typed), 240–346 lesson
+    vocabulary rows and 18 can-do statements. `PRODUCTIVE_LEVELS` is now all six, so the
+    depth gate holds every lesson to form B, 12 practice items with at least 4 typed, and 8
+    vocabulary rows. The checker reports 0 problems at every level and the lint 0 findings.
+  - **Writing against the old lessons audited them.** Errors fixed in shipped lessons:
+    `dvjesta` → `dvjesto`; a vocative item marking `tata` wrong; the clitic `je` described
+    as an early-slot auxiliary (it is last); `smatrati … kao` taught as standard;
+    `aspect-negation` teaching the imperfective for permission against its own examples; the
+    Baška tablet called the oldest Croatian monument; a yat rule contradicted by `rječnik`;
+    `godišta` given as a plural of `godina`; a C2 check keyed to a third-position clitic;
+    `Znam Ivana` taught as wrong; bare ekavian forms in a dialect check option.
+  - **Can-do statements are rendered** on the expanded course-map unit row and as the unit
+    production brief's "Show that you can" list. The grader's prompt still reads the spine
+    objectives. The files are English with Croatian in running text, which no lint field
+    matcher reads, so `courseUnitCanDo.test.tsx` runs the shared Serbism and Cyrillic checks.
+  - **A sparse array passed every rule.** A double comma made each practice list 13 long with
+    one hole, and `forEach` skipped it. The rules now report an empty slot.
+  - `lessonPracticeSlides.test.tsx` drove every practice item as multiple choice and broke on
+    the first typed one; it now answers a typed item in the box.
+  - Mutation-verified: a level dropped from the can-do index (fails 1), the sparse rule off
+    (1), the map not rendering the statements (1, a source pin). E2E: 47 lesson and course
+    tests pass on a CI-shaped build.
+  - **Flagged for the owner, not changed**: `dva djeteta`, `nekoliko studenata su došli`,
+    `Što li si rekao`, `cijelog dana`, `Radi kao crv`, `za vrijeme rata` as a genitive use
+    of `za`, `od strane` taught as formal style, the č/ć tongue-position description, `3,5
+postotna boda`, and several lesson positions stricter than everyday speech.
+- [x] **Sweep 206 — the flagged Croatian, decided (owner: "your training … technical enough
+      to decide which is correct", 2026-09-29).** The rule throughout: a distractor must be
+      genuinely wrong, and a form natives use is taught as usage, not marked as an error.
+  - `Što li si rekao?` is GRAMMATICAL (emphatic li after a question word) and an A2 item
+    keyed it wrong. The item now tests clitic position: `Što rekao si?` → `Što si rekao?`.
+  - `cijelog dana` (genitive of time) is standard, so it is no longer a distractor for
+    `cijeli dan`; the distractor is `cijelu dan` and the explanation names both.
+  - `dva djeteta` is grammatical and common; `dvoje djece` is the standard choice. Two items
+    stop offering it as wrong, and "never" / "not standard" become "heard in speech".
+  - `Bio sam u doktora` (regional u + genitive) is replaced as a distractor by `kod doktorom`.
+  - `za vrijeme rata` was taught as za + genitive, though za governs the accusative
+    `vrijeme`; the examples are `za života` in both tables and the B2 item.
+  - Decimals take the genitive singular: `3,5 postotnog boda`. The C2 lesson said "genitive
+    singular" beside the paucal `postotna boda`, and `numberNormDrill` keyed the paucal; both
+    fixed. `dva/tri postotna boda` is correct and stays.
+  - `od strane Vlade` is no longer the model of formal style (a discouraged calque):
+    `Zakon je izmijenjen odlukom Vlade`. `registersDrill` already calls it heavy officialese.
+  - `Radi kao crv` → `Radi kao konj`; the `fabrika / fabula` row → `fabula` / fable; C1's
+    "there is is never built on biti" → "usually ima/nema, and 'there' is not translated".
+  - The alphabet lesson had č and ć roughly reversed; it now says č = tongue tip behind the
+    upper ridge, ć = tip low and the tongue body against the hard palate.
+  - Kept, with reasons: `nekoliko studenata je došlo` (the standard agreement is what the A2
+    and C2 lessons teach); C2 `Vam` in a letter (the lesson teaches the norm explicitly); C2
+    casual `Dolaziš?` (a register item, honestly explained); C1 `se je` (the standard drops je
+    after se).
+  - Lint 0 findings; depth checker 0 problems at every level; full suite 679 files green.

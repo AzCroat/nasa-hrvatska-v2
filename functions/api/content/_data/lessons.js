@@ -74,7 +74,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Č vs Ć — The Classic Challenge',
-        body: "Č (hard) and Ć (soft) are the most confusing pair for learners. Č sounds like 'ch' in 'church' — the tongue is against the hard palate. Ć is softer — the tongue is positioned further forward, near the teeth ridge, producing a 'ty'-like sound (think the English 'tune' said quickly as 'tyoon'). Native speakers always distinguish them.",
+        body: "Č (hard) and Ć (soft) are the most confusing pair for learners. Č sounds like 'ch' in 'church' — the tip of the tongue is raised just behind the ridge above the upper teeth, with the lips slightly rounded. Ć is softer — the tip rests low behind the lower teeth and the middle of the tongue presses up against the hard palate, producing a 'ty'-like sound (think the English 'tune' said quickly as 'tyoon'). Native speakers always distinguish them.",
         highlight: 'Č vs Ć',
       },
       {
@@ -1200,10 +1200,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Svako jutro ___ novine.' (I read the paper every morning.)",
-            options: ['pročitam', 'pročitao sam', 'pročitat ću', 'čitam'],
+            options: ['pročitati', 'pročitao sam', 'pročitat ću', 'čitam'],
             correct: 3,
             explanation:
-              "'Svako jutro' marks a habit, so the imperfective present čitam is required. The perfective forms describe one completed reading.",
+              "'Svako jutro' marks a habit, and the imperfective present čitam says it plainly. pročitao sam and pročitat ću put the reading in the past or the future, and pročitati is a bare infinitive.",
           },
           {
             q: "Complete: 'Jučer sam ___ cijelu knjigu.' (finished the whole book)",
@@ -2889,10 +2889,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Svake subote ___ na tržnicu.' (we go)",
-            options: ['odemo', 'otišli smo', 'otići ćemo', 'idemo'],
+            options: ['otići', 'otišli smo', 'otići ćemo', 'idemo'],
             correct: 3,
             explanation:
-              "'Svake subote' marks repetition, so the imperfective present idemo is needed. The perfective forms describe a single trip.",
+              "'Svake subote' marks repetition, and the imperfective present idemo says it plainly. otišli smo and otići ćemo move it to the past or the future, and otići is a bare infinitive.",
           },
           {
             q: "Complete: 'Kad si nazvao, ___ ručak.' (I was cooking lunch)",
@@ -3350,8 +3350,8 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Rule 3: Asking Permission vs Requesting Action',
-        body: "When asking for permission to do something ('May I open the window?') — use imperfective. When making a specific request for someone else to do something ('Could you open the window?') — use perfective. This distinction is subtle but immediately audible to native speakers.",
-        highlight: 'permission = impf.; request = pf.',
+        body: "When asking permission for one specific act ('May I open the window?'), the perfective is normal: Mogu li otvoriti prozor? When asking whether an activity is allowed in general ('May I smoke here?'), use the imperfective: Smijem li pušiti ovdje? A request for someone else to do something once ('Could you close the door?') is perfective too. This distinction is subtle but immediately audible to native speakers.",
+        highlight: 'one act = pf.; the activity in general = impf.',
       },
       {
         type: 'example',
@@ -3796,10 +3796,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Čekao sam te ___.' (the whole day)",
-            options: ['cijeli dan', 'cijelog dana', 'cijelom danu', 'cijelim danom'],
+            options: ['cijeli dan', 'cijelu dan', 'cijelom danu', 'cijelim danom'],
             correct: 0,
             explanation:
-              'Duration of time is expressed with the accusative: cijeli dan, cijelu noć, tjedan dana.',
+              'Duration of time is expressed with the accusative: cijeli dan, cijelu noć, tjedan dana. "Cijelu" is feminine and dan is masculine. (The genitive cijelog dana is also heard for "all day".)',
           },
           {
             q: 'Which pair correctly contrasts motion and location?',
@@ -3963,7 +3963,7 @@ const LESSONS_CORE = [
           ['iz', 'out of, from inside', 'iz Zagreba (from Zagreb — lived there)'],
           ['bez', 'without', 'bez šećera (without sugar)'],
           ['kod', "at (someone's place)", "kod bake (at grandma's)"],
-          ['za', 'during, in the time of', 'za vrijeme rata (during the war)'],
+          ['za', 'during, in the time of', 'za života (in his lifetime)'],
           ['s/sa', 'from (off of)', 's mora (from the sea)'],
           ['blizu', 'near', 'blizu škole (near the school)'],
         ],
@@ -4948,7 +4948,7 @@ const LESSONS_CORE = [
         type: 'rule',
         title: "The 'je' Problem — Auxiliary vs Verb",
         body: "The clitic 'je' does double duty: it's both the 3rd person singular past auxiliary AND the present tense of 'biti' (to be). Either way it comes LAST in the clitic cluster, after all the other clitics: 'Dao mu ga je' (auxiliary), 'Drago mi je' (is). Unlike sam and si, it never goes ahead of the pronouns. This is the subtlest rule in Croatian.",
-        highlight: 'je (aux.) = early slot | je (= is) = last',
+        highlight: "je = last in the cluster, as auxiliary and as 'is'",
       },
       {
         type: 'example',
@@ -5122,7 +5122,7 @@ const LESSONS_CORE = [
         title: 'Clitic Mastery — The Complete Rules',
         points: [
           'Clitics occupy second position — after the first stressed unit',
-          'Internal order: bi → aux (je/sam...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
+          'Internal order: bi → aux (sam/si/smo...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
           'First unit can be any phrase — a word, NP, or adverb',
           "je (auxiliary or 'is'): always last in the cluster",
           'Never place clitics at the start or end of a clause',
@@ -5538,9 +5538,9 @@ const LESSONS_CORE = [
             note: 'zažmiriti na jedno oko — an idiom usable at work',
           },
           {
-            hr: 'Radi kao crv, ali plaća mu je za plakanje.',
+            hr: 'Radi kao konj, ali plaća mu je za plakanje.',
             en: 'He works like a dog, but his salary is a joke.',
-            note: 'raditi kao crv (like a worm = tirelessly); za plakanje — colloquial',
+            note: 'raditi kao konj (like a horse = very hard); za plakanje — colloquial',
           },
           {
             hr: 'Ako Vam nije teško, javite mi do petka.',
@@ -6178,7 +6178,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Pattern: Tens & Hundreds',
-        body: "Tens: add '-deset' after the base: tri+deset = trideset (30), četr+deset = četrdeset (40). Compounds: dvadeset jedan (21), trideset pet (35). Hundreds: sto (100), dvjesta (200), tristo (300), četiristo (400), petsto (500), tisuću (1000).",
+        body: "Tens: add '-deset' after the base: tri+deset = trideset (30), četr+deset = četrdeset (40). Compounds: dvadeset jedan (21), trideset pet (35). Hundreds: sto (100), dvjesto (200), tristo (300), četiristo (400), petsto (500), tisuću (1000).",
         highlight: '-deset',
       },
       {
@@ -6722,10 +6722,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Marko ___ na posao svaki dan u osam.' (goes)",
-            options: ['ode', 'otiđe', 'ide', 'otišao'],
+            options: ['otići', 'odlazio', 'ide', 'otišao'],
             correct: 2,
             explanation:
-              'A daily habit is imperfective: ide. ode is a perfective present and otišao a participle without its auxiliary.',
+              'A daily habit in the present: ide. otići is a bare infinitive, and odlazio and otišao are participles without their auxiliary.',
           },
           {
             q: "Complete: 'Kad ___, javi se.' (when you arrive)",
@@ -8151,10 +8151,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Imaju ___.' (two children)",
-            options: ['dva djeteta', 'dvije djece', 'dvoje djece', 'dva djece'],
+            options: ['dvoje djeca', 'dvije djece', 'dvoje djece', 'dva djece'],
             correct: 2,
             explanation:
-              'Children are counted with the collective number plus the genitive of djeca: dvoje djece.',
+              'Children are counted with the collective number plus the genitive of djeca: dvoje djece. (Dva djeteta is also heard in speech; dvoje djece is the standard choice.)',
           },
           {
             q: "Which verb form follows 'Pet učenika'?",
@@ -8491,8 +8491,8 @@ const LESSONS_CORE = [
           ],
           [
             'Formal',
-            'Zakon je izmijenjen od strane Vlade.',
-            'Passive, nominalized, agent in prepositional phrase',
+            'Zakon je izmijenjen odlukom Vlade.',
+            'Passive, nominalized, agent through a noun (not the calque "od strane")',
           ],
           ['Informal', 'Tražim posao.', 'First-person, direct'],
           ['Journalistic', 'Stopa nezaposlenosti raste.', 'Impersonal, nominalized subject'],
@@ -9840,7 +9840,7 @@ const LESSONS_CORE = [
           {
             hr: 'Imaju dvoje djece.',
             en: 'They have two children.',
-            note: 'dvoje + genitive djece — never dva djeteta',
+            note: 'dvoje + genitive djece — the standard choice; dva djeteta is heard in speech',
           },
           {
             hr: 'Dvojica prijatelja otvorila su kafić.',
@@ -9914,14 +9914,14 @@ const LESSONS_CORE = [
         type: 'quiz',
         q: "A couple has two children. 'They have two children' is:",
         options: [
-          'Imaju dva djeteta.',
+          'Imaju dvoje djeca.',
           'Imaju dvije djece.',
           'Imaju dvoje djece.',
           'Imaju dvojicu djece.',
         ],
         correct: 2,
         explanation:
-          "Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: 'Imaju dvoje djece.' dvojica would mean two grown men, and 'dva djeteta' is not standard Croatian.",
+          "Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: 'Imaju dvoje djece.' dvojica would mean two grown men, and djeca must be in the genitive. ('Imaju dva djeteta' is also heard in speech, but the collective is the standard way.)",
       },
       {
         type: 'quiz',

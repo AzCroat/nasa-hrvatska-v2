@@ -2369,11 +2369,11 @@ export const LESSONS_A1 = [
               'Bio sam kod doktor.',
               'Bio sam kod doktora.',
               'Bio sam kod doktoru.',
-              'Bio sam u doktora.',
+              'Bio sam kod doktorom.',
             ],
             correct: 1,
             explanation:
-              '"At the place of" a person is kod plus the genitive: kod doktora. "U doktora" mixes the wrong preposition with the right ending.',
+              '"At the place of" a person is kod plus the genitive: kod doktora. "Doktor" is the nominative, "doktoru" the dative or locative and "doktorom" the instrumental — kod takes none of them.',
           },
           {
             q: 'Complete: "Idem ___ sestrom u kino." (I am going to the cinema with my sister.)',

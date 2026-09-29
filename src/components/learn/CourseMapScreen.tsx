@@ -54,6 +54,7 @@ import {
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
+import { canDoFor } from '../../data/courseUnitCanDo';
 import { accentInk, accentFill } from '../../lib/accentInk';
 
 const LEVEL_COLOR: Record<string, string> = {
@@ -494,6 +495,22 @@ function UnitRow({
 
       {expanded && (
         <div style={{ padding: '0 14px 12px 14px' }}>
+          {/* WHAT THE UNIT PROMISES (recommendation 6): the can-do statements the
+              unit test and production are there to check. */}
+          {canDoFor(unit.id).length > 0 && (
+            <div data-testid={`course-unit-cando-${unit.id}`} style={{ padding: '2px 2px 8px' }}>
+              <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--subtext)' }}>
+                By the end of this unit you can:
+              </div>
+              <ul style={{ margin: '4px 0 0', paddingLeft: 18 }}>
+                {canDoFor(unit.id).map((c) => (
+                  <li key={c} style={{ fontSize: 12, color: 'var(--heading)', lineHeight: 1.5 }}>
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           {/* WHY THE COURSE HAS NOT OPENED THIS YET — never silence. The library
               is untouched, and the sentence says so. */}
           {locked && (

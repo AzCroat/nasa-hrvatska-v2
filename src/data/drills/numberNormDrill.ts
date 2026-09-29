@@ -200,9 +200,9 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
     mode: 'bodovi',
     q: 'Udio je porastao za 3,5 ____.',
     en: 'The share rose by 3.5 percentage points.',
-    opts: ['postotna boda', 'postotnih bodova', 'posto', 'postotka'],
-    answer: 'postotna boda',
-    tip: 'Three and a half takes the paucal: 3,5 postotna boda.',
+    opts: ['postotnog boda', 'postotnih bodova', 'posto', 'postotka'],
+    answer: 'postotnog boda',
+    tip: 'After a decimal the noun stands in the genitive singular: 3,5 postotnog boda.',
   },
   {
     mode: 'bodovi',

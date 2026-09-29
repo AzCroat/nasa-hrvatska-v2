@@ -1321,7 +1321,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Kao Does Not Change the Case',
-        body: 'A point worth stating because learners over-decline. "Kao" is a conjunction, not a preposition, so what follows keeps the case it would have anyway: Radi kao konobar (nominative, because he IS one). Smatram ga kao prijatelja — accusative, matching "ga". "Poput" is a real preposition and takes the genitive, which is why the two behave differently.',
+        body: 'A point worth stating because learners over-decline. "Kao" is a conjunction, not a preposition, so what follows keeps the case it would have anyway: Radi kao konobar (nominative, because he IS one). Doživljavam ga kao prijatelja — accusative, matching "ga". "Poput" is a real preposition and takes the genitive, which is why the two behave differently.',
         highlight: 'kao + no case change · poput + genitive',
       },
       {
@@ -3578,7 +3578,7 @@ export const LESSONS_C1 = [
           ['simpatičan', 'likeable, nice', 'sympathetic'],
           ['patetičan', 'pompous, overblown', 'pathetic'],
           ['kontrola', 'a check, inspection', 'control (power over)'],
-          ['fabrika / fabula', 'plot (fabula)', 'factory'],
+          ['fabula', 'plot (of a story)', 'fable'],
           ['pretendirati', 'to lay claim to', 'to pretend'],
         ],
       },
@@ -3615,7 +3615,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Structures That Do Not Transfer',
-        body: 'Three English habits to unlearn. The progressive — "I am reading" is simply "čitam", never a compound. The possessive with body parts and family — "my head hurts" is "boli me glava", with a dative or accusative rather than a possessive. And existential "there is" — "ima" or "nema", not a construction built on "biti".',
+        body: 'Three English habits to unlearn. The progressive — "I am reading" is simply "čitam", never a compound. The possessive with body parts and family — "my head hurts" is "boli me glava", with a dative or accusative rather than a possessive. And existential "there is" — usually "ima" or "nema" (Ima li mlijeka? Nema vremena.), and "there" is never translated: "tamo je problem" means the problem is over there.',
         highlight: 'čitam · boli me glava · ima / nema',
       },
       {
