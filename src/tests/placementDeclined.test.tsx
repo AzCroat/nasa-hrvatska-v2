@@ -36,6 +36,16 @@
 // first, and that is load-bearing here: the comments written alongside this fix
 // NAME both keys, so an unstripped match would pass on prose alone.
 
+//
+// THE LOOP'S MECHANISM IS GONE (sweep 194, 2026-09-29). Onboarding no longer routes
+// to a placement test at all — name → goal → (heritage region) → Unit 1 — and the
+// App.tsx auto-offer effect, the onboarding-only `placement` route, and the decline
+// key it consulted are DELETED. What survives is the Me tab's retake
+// (`new-placement`), reached by a deliberate tap and never by a timer, so a cancel
+// there cannot loop: it navigates and writes nothing. This file keeps the two
+// contracts that are still true — Exit claims no placement, Skip records one — and
+// pins the ABSENCE of the auto-offer, because restoring it is what would re-open
+// the loop, now with no decline flag to stop it.
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
@@ -43,7 +53,6 @@ import React from 'react';
 import PlacementTest from '../components/auth/PlacementTest';
 import { StorageKeys } from '../lib/constants/storage.js';
 
-const DECLINED = 'nh_placement_declined';
 /** The three flags the guard reads as "placement has been dealt with". */
 const COMPLETION_FLAGS = ['placement_done', 'nh_placement_done', 'onboarded'];
 
@@ -55,21 +64,6 @@ const strip = (s: string) =>
 
 const APP = strip(readFileSync('src/App.tsx', 'utf8'));
 
-/**
- * The auto-offer's OWN predicate, not the whole file.
- *
- * The first draft of the anti-vacuity test below matched `stats.xp === 0`
- * anywhere in App.tsx — and that string occurs more than once, so deleting the
- * clause FROM THIS GUARD left the assertion green. Mutation caught it. Slice
- * the effect body out and assert inside it, or "the guard still checks X" means
- * only "some line somewhere checks X".
- */
-const OFFER_GUARD = (() => {
-  const end = APP.indexOf("setScr('new-placement')");
-  if (end < 0) return '';
-  const open = APP.lastIndexOf('if (', end);
-  return open < 0 ? '' : APP.slice(open, end);
-})();
 const ROUTER = strip(readFileSync('src/components/AppRouter.tsx', 'utf8'));
 
 describe('declining the placement test is recorded, and is not a completion', () => {
@@ -106,52 +100,32 @@ describe('declining the placement test is recorded, and is not a completion', ()
     expect(localStorage.getItem('nh_level')).toBe('A1');
   });
 
-  it('BOTH cancel handlers in the router record the decline', () => {
-    // Two live mounts — `placement` (from WelcomeScreen) and `new-placement`
-    // (the App auto-offer and the Me tab retake). The second is where the loop
-    // was; the first is protected today only because WelcomeScreen happens to
-    // set `onboarded` before routing, which is incidental coupling, so it
-    // records the decline too.
+  it('the router has exactly ONE PlacementTest mount — the Me tab retake — and its cancel writes no flag', () => {
+    // Before sweep 194 there were two mounts (`placement` from WelcomeScreen and
+    // `new-placement` from the App.tsx auto-offer). The onboarding one is gone;
+    // a second mount reappearing here means a test has been put back in front of
+    // a learner before their first lesson, which the owner ruled out.
     const cancels = [...ROUTER.matchAll(/onCancel=\{function \(\) \{([\s\S]*?)\}\}/g)].map(
       (m) => m[1],
     );
-    expect(cancels.length, 'expected two PlacementTest cancel handlers in AppRouter').toBe(2);
-    for (const body of cancels) {
-      expect(body, `a cancel handler does not record the decline:\n${body}`).toMatch(
-        new RegExp(`lsSet\\(\\s*['"]${DECLINED}['"]`),
-      );
-      // And it must not quietly promote itself to a completion.
-      for (const k of COMPLETION_FLAGS)
-        expect(body, `a cancel handler writes the completion flag ${k}`).not.toMatch(
-          new RegExp(`lsSet\\(\\s*['"]${k}['"]`),
-        );
-    }
-  });
-
-  it("App.tsx's auto-offer consults the decline flag", () => {
-    expect(OFFER_GUARD, 'the auto-offer guard does not consult the decline flag').toMatch(
-      new RegExp(`!lsGet\\(\\s*['"]${DECLINED}['"]\\s*\\)`),
+    expect(cancels.length, 'expected exactly one PlacementTest cancel handler in AppRouter').toBe(
+      1,
     );
-  });
-
-  it('...and still consults everything it consulted before (anti-vacuity)', () => {
-    // A guard rewritten to drop `xp === 0` would let the offer fire at a
-    // learner with progress, and the assertion above would not notice. The
-    // whole predicate is the subject, not the one clause this change added.
-    expect(OFFER_GUARD, 'could not locate the auto-offer guard in App.tsx').not.toBe('');
     for (const k of COMPLETION_FLAGS)
-      expect(OFFER_GUARD, `the guard stopped reading ${k}`).toMatch(
-        new RegExp(`!lsGet\\(\\s*['"]${k}['"]\\s*\\)`),
+      expect(cancels[0], `the cancel handler writes the completion flag ${k}`).not.toMatch(
+        new RegExp(`lsSet\\(\\s*['"]${k}['"]`),
       );
-    expect(OFFER_GUARD, 'the guard stopped requiring zero lessons').toMatch(/stats\.lc === 0/);
-    expect(OFFER_GUARD, 'the guard stopped requiring zero XP').toMatch(/stats\.xp === 0/);
-    // The timer this whole file is about must still exist, or there is nothing
-    // to loop and every assertion here is trivially satisfied.
-    expect(APP).toMatch(/setScr\('new-placement'\)/);
+    // And it does not record a decline either — there is nothing left to consult it.
+    expect(cancels[0]).not.toMatch(/nh_placement_declined/);
   });
 
-  it('the decline key is registered and is distinct from every completion flag', () => {
-    expect(StorageKeys.PLACEMENT_DECLINED).toBe(DECLINED);
-    expect(COMPLETION_FLAGS).not.toContain(StorageKeys.PLACEMENT_DECLINED);
+  it('App.tsx no longer offers the placement test on a timer (the loop cannot recur)', () => {
+    expect(APP).not.toMatch(/setScr\('new-placement'\)/);
+    expect(APP).not.toMatch(/nh_placement_declined/);
+  });
+
+  it('the decline key is gone from the storage constants — nothing reads or writes it', () => {
+    expect((StorageKeys as Record<string, string>).PLACEMENT_DECLINED).toBeUndefined();
+    expect(COMPLETION_FLAGS).toEqual(['placement_done', 'nh_placement_done', 'onboarded']);
   });
 });
