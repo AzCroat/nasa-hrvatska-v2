@@ -5475,8 +5475,8 @@ export const LESSONS_B2 = [
         title: 'Hearing the History',
         items: [
           {
-            hr: 'Bašćanska ploča najstariji je hrvatski spomenik.',
-            en: 'The Baška tablet is the oldest Croatian monument of its kind.',
+            hr: 'Bašćanska ploča jedan je od najstarijih hrvatskih spomenika.',
+            en: 'The Baška tablet is one of the oldest Croatian monuments.',
             note: 'the participle-free "je" in second position',
           },
           {

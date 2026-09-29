@@ -3350,8 +3350,8 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Rule 3: Asking Permission vs Requesting Action',
-        body: "When asking for permission to do something ('May I open the window?') — use imperfective. When making a specific request for someone else to do something ('Could you open the window?') — use perfective. This distinction is subtle but immediately audible to native speakers.",
-        highlight: 'permission = impf.; request = pf.',
+        body: "When asking permission for one specific act ('May I open the window?'), the perfective is normal: Mogu li otvoriti prozor? When asking whether an activity is allowed in general ('May I smoke here?'), use the imperfective: Smijem li pušiti ovdje? A request for someone else to do something once ('Could you close the door?') is perfective too. This distinction is subtle but immediately audible to native speakers.",
+        highlight: 'one act = pf.; the activity in general = impf.',
       },
       {
         type: 'example',
