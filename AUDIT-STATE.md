@@ -13891,3 +13891,18 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     (all Azure answers are mocked), and WebKit's recording path (the fake-microphone flags
     are Chromium-only). The Unit production and lesson produce speaking steps still grade
     the transcript alone.
+- [x] **Sweep 209 — the unit and lesson speaking steps get the recording check (2026-09-29).**
+      The last "not covered" item of sweep 208. `UnitProductionScreen` and `LessonProduceStep`
+      mount `SpeakCheck` on their speaking task and send its unconfirmed words to the coach.
+  - **Their recogniser APPENDS each take** to the text rather than replacing it, so a take's
+    recording covers only the words it added. `SpeakCheck` gained an `appends` mode: it
+    scores just the new part and accumulates the checks of successive takes. Text that
+    arrives during a take is not treated as an edit (a `pending` state); an edit made after
+    the takes still withdraws the check.
+  - These recognisers deliver FINAL results only, which can land just after Stop, so the
+    transcript is read 700 ms after the take ends.
+  - Both screens now note a recogniser error (`setRecFailed`), so recording alongside can
+    stand down as it does on Guided Speaking.
+  - Mutation-verified, four, each failing 1. One survived first (mid-take text read as an
+    edit); a test now covers it. Full suite 687 files green; 29 course and speaking E2E
+    tests green on a CI-shaped build.
