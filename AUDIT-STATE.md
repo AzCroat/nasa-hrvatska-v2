@@ -13371,3 +13371,25 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     reading finds (sweep 176 is the last full read).
   - The onboarding branch (sweep 194) was cut with this note fix in its working tree; the
     fix ships here, on its own branch off master, so the two decisions do not share a PR.
+- [x] **Sweep 199 — the recognisers write `bok`; the app's greeting is `bog` (owner report, 2026-09-29).**
+  - Owner: _"Guided speaking I said Bog and it wrote bok. We don't use communist greetings
+    in this application."_ Measured: nothing normalised a transcript anywhere. The greeting
+    is a homophone pair in speech (final devoicing), and every recogniser's language model
+    spells it `bok`, so the learner's own correct greeting came back in the other spelling
+    and was marked "again" by `phraseMatches` against `Bog` on REHEARSE and by `gradeBuild`.
+  - Built: `heardCroatian` (client) and `_heardCroatian.js` (server), one rule — the bare
+    word `bok` becomes `bog` with its case kept; `bok uz bok` and the inflected noun are
+    untouched. Applied at the eight browser sites that read `.transcript` (Guided Speaking,
+    Maja, Speaking Sprint, Speaking, the pronunciation scorer, the lesson and unit
+    production steps, the Whisper hook's Web Speech path) and to all three provider returns
+    in `transcribeCroatian`. `GuidedSpeakingScreen` was at the 800-line cap, so it imports
+    the rule through `speechTurn`'s re-export on the line it already had; the cap was not
+    raised.
+  - Pinned by `heardCroatian.test.ts` (15): both copies over one case table; every
+    recogniser site derived from source and required to wrap; every provider return
+    required to wrap. Mutation-verified, five, each failing 1–2: Guided Speaking bare,
+    the pronunciation scorer bare, Deepgram bare, the server twin dropping the idiom, the
+    client losing capitalisation. Full unit suite green.
+  - **Not covered, stated**: a bare `bok` meaning "side" is read as the greeting; the Azure
+    pronunciation-assessment path returns WORD scores against the learner's reference text
+    and was not changed; transcripts already stored (attempt evidence) keep their spelling.
