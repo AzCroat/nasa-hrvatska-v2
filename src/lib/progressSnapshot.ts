@@ -13,6 +13,7 @@ import { snapshotMasteryLedger } from './masteryLedger.js';
 import { readCurriculumProgress } from './curriculumProgress';
 import { retentionOrUndef } from './lessonRetention';
 import { attemptsOrUndef } from './lessonAttempts';
+import { lessonWordsOrUndef } from './lessonWords';
 import { courseUnitsOrUndef } from './courseUnitProgress';
 import { lsGet } from './safeStorage.js';
 import type { Stats } from '../types/index.js';
@@ -185,6 +186,9 @@ export function buildProgressSnapshot({
     // Synced so the record follows the learner across devices like the rest of
     // their own learning data; undefined when empty, same reason as above.
     nh_lesson_attempts: attemptsOrUndef(),
+    // A passed lesson's own words (lib/lessonWords, 2026-09-29): the rows the deck
+    // serves beside the SRS cards they are enrolled as. undefined when empty.
+    nh_lesson_words: lessonWordsOrUndef(),
     // Unit mastery (lib/courseUnitProgress, 2026-09-26): which of the course's 36
     // units the learner has PASSED the cumulative test for, plus every attempt.
     // A stronger and separate claim from nh_curriculum_progress, which only says a

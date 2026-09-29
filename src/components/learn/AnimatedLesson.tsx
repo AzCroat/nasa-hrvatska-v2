@@ -18,6 +18,7 @@ import {
 } from '../../lib/correctiveDay';
 import { recordMasteryPass, recordCheckFailure } from '../../lib/lessonRetention';
 import { checkLockedToday, priorAttemptCount } from '../../lib/checkLock';
+import { enrolLessonVocab } from '../../lib/lessonWords';
 import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
@@ -260,6 +261,9 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             })),
           });
         }
+        // The lesson's own words into spaced review (lib/lessonWords) — on a PASS
+        // only; a lesson not yet learned has not taught its words either.
+        enrolLessonVocab(lessonId, (lesson as { vocab?: unknown }).vocab);
       }
       if (typeof award === 'function') {
         award(25, false, 'lesson');
