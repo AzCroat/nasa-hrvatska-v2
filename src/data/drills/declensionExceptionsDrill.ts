@@ -67,7 +67,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'imena',
     q: 'Razgovarali smo o Angeli ____.',
-    en: 'We talked about Angela Merkel.',
+    en: 'We talked about Angela, the German chancellor.',
     opts: ['Merkel', 'Merkelovoj', 'Merkeli', 'Merkelu'],
     answer: 'Merkel',
     tip: 'A woman consonant-final surname does not decline. Only the first name does.',
@@ -91,7 +91,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'imena',
     q: 'Putujem u ____.',
-    en: 'I am travelling to London.',
+    en: 'I am travelling to the British capital.',
     opts: ['London', 'Londonu', 'Londona', 'Londonom'],
     answer: 'London',
     tip: 'Accusative for motion; u Londonu once you are there.',

@@ -303,7 +303,7 @@ function App() {
   const setScr = useCallback(
     (s: string) => {
       _setCurrentScreen(s);
-      if (s === 'welcome' || s === 'placement' || s === 'new-placement') return;
+      if (s === 'welcome' || s === 'new-placement') return;
       // Persist restorable screens per tab so browser-back / no-history goBack() can resume them.
       if (RESTORE_SAFE_SCREENS.has(s)) {
         const t = SCREEN_TAB[s];
@@ -349,15 +349,10 @@ function App() {
   // ── Screen + exercise state ─────────────────────────────────────────────────
   const {
     placementIdx: _pIdx,
-    setPlacementIdx,
     placementScore: _pScore,
-    setPlacementScore,
     placementAnswers: _pAnswers,
-    setPlacementAnswers,
     placementXp: _pXp,
-    setPlacementXp,
     placementQ: _pQ,
-    setPlacementQ,
     getPlacementCt,
   } = usePlacement();
   const {
@@ -1196,42 +1191,6 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authScreen, authUser, stats.lc, stats.ct]);
 
-  // Show new-placement for brand-new zero-progress users.
-  // CRITICAL: gate on _syncReady so we never redirect before Firebase data has loaded.
-  // Without this guard, returning users on a new browser get sent to placement because
-  // stats start at DS defaults (lc=0) and Firebase may take >1.2s to hydrate.
-  useEffect(() => {
-    if (authScreen !== 'app') return undefined;
-    if (!_syncReady) return undefined; // wait for Firebase to confirm user state
-    if (
-      currentScreen === 'welcome' ||
-      currentScreen === 'placement' ||
-      currentScreen === 'new-placement'
-    )
-      return undefined;
-    if (
-      stats.lc === 0 &&
-      stats.xp === 0 &&
-      !lsGet('placement_done') &&
-      !lsGet('nh_placement_done') &&
-      !lsGet('onboarded') &&
-      // "Exit placement test" USED TO BE A LOOP. This effect re-runs on every
-      // `currentScreen` change and its own cancel handler navigates, so a
-      // learner who exited landed on the dashboard, satisfied every condition
-      // above again (cancel writes no flag, by design — they did not take the
-      // test), and was thrown back into placement 1.2 s later, for as long as
-      // they had no XP. That is precisely the brand-new learner this offer is
-      // FOR. Declining is now recorded, and the Me tab's "retake placement"
-      // remains the way back in.
-      !lsGet('nh_placement_declined')
-    ) {
-      const t = setTimeout(() => setScr('new-placement'), 1200);
-      return () => clearTimeout(t);
-    }
-    return undefined;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [authScreen, _syncReady, stats.lc, stats.xp, currentScreen]);
-
   // Weekly digest (Sunday only)
   useEffect(() => {
     if (!authUser) return;
@@ -1746,7 +1705,7 @@ function App() {
           <a href="#main-content" className="skip-link">
             Skip to main content
           </a>
-          {authScreen === 'app' && currentScreen !== 'welcome' && currentScreen !== 'placement' && (
+          {authScreen === 'app' && currentScreen !== 'welcome' && (
             <Sidebar
               tab={tab}
               setTab={setTab}
@@ -1767,11 +1726,9 @@ function App() {
               landmark; without it, <main> is not focusable, and Lighthouse
               flagged "Skip links are not focusable". */}
           <main className="app-content" id="main-content" tabIndex={-1}>
-            {authScreen === 'app' &&
-              currentScreen !== 'welcome' &&
-              currentScreen !== 'placement' && (
-                <AppHeader name={name} onProfile={() => setTab('profile')} />
-              )}
+            {authScreen === 'app' && currentScreen !== 'welcome' && (
+              <AppHeader name={name} onProfile={() => setTab('profile')} />
+            )}
             <Suspense
               fallback={
                 <div
@@ -1877,11 +1834,6 @@ function App() {
               />
               <div className="app-layout">
                 <AppRouter
-                  setPlacementQ={setPlacementQ}
-                  setPlacementIdx={setPlacementIdx}
-                  setPlacementScore={setPlacementScore}
-                  setPlacementAnswers={setPlacementAnswers}
-                  setPlacementXp={setPlacementXp}
                   getPlacementCt={getPlacementCt}
                   setShowFirstWords={setShowFirstWords}
                   lt={lt}
@@ -1947,17 +1899,15 @@ function App() {
                   curEx={curEx}
                 />
               </div>
-              {authScreen === 'app' &&
-                currentScreen !== 'welcome' &&
-                currentScreen !== 'placement' && (
-                  <TabBar
-                    tab={tab}
-                    setTab={setTab}
-                    setScr={setScr}
-                    launchPathItem={launchPathItem}
-                    badges={badges}
-                  />
-                )}
+              {authScreen === 'app' && currentScreen !== 'welcome' && (
+                <TabBar
+                  tab={tab}
+                  setTab={setTab}
+                  setScr={setScr}
+                  launchPathItem={launchPathItem}
+                  badges={badges}
+                />
+              )}
 
               <KnightCompanion />
               <OfflineBanner />
