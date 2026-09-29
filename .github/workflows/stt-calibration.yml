@@ -8,9 +8,14 @@
 # word-error rate must stay inside band. Fails red on drift (2+ samples out
 # of band) so a broken speech stage is machine-found, not child-found.
 #
-# Cost: ~$0.11 worst-case per run (6 × TTS+STT; TTS is KV-cached after the
-# first run, so repeats are ~6 STT calls ≈ $0.09). Cheap enough to run
-# monthly on schedule; dispatch any time.
+# Since 2026-09-29 it also runs four PRONUNCIATION-ASSESSMENT probes: a sentence and the
+# same sentence with a wrong case ending, both scored against the correct one. A right
+# ending must come back clear and a wrong one flagged, or the recording check Guided
+# Speaking relies on cannot be trusted. Fails red on 2+ wrong probe halves.
+#
+# Cost: ~$0.27 worst-case per run (14 × TTS + speech call; TTS is KV-cached after the
+# first run, so repeats are ~14 short speech calls). Cheap enough to run monthly on
+# schedule; dispatch any time.
 #
 # AUTH: the same self-provisioned credential as calibration.yml — HMAC-SHA256
 # of "nh-calibration-v1" keyed by CLOUDFLARE_API_TOKEN; the endpoint accepts
@@ -77,8 +82,24 @@ jobs:
                   print(f"::warning::{s['id']}: not evaluated ({s.get('error')})")
               elif not s.get('ok'):
                   print(f"::warning::{s['id']}: WER {s.get('wer')} outside band {s.get('band')} — heard: \"{s.get('transcript','')[:120]}\"")
+          failed = False
           if report.get('drift'):
               print('::error::STT drift detected — 2+ golden phrases transcribed outside band')
+              failed = True
+          # Pronunciation-assessment probes: a wrong case ending must be flagged, a right one not.
+          a = report.get('assessment') or {}
+          for p in a.get('probes', []):
+              for half, want in (('control', 'clear'), ('miscue', 'flagged')):
+                  h = p.get(half) or {}
+                  if not h.get('evaluated'):
+                      print(f"::warning::{p.get('id')} {half}: not evaluated ({h.get('error') or p.get('error')})")
+                  elif not h.get('ok'):
+                      print(f"::warning::{p.get('id')} {half}: expected '{p.get('focus')}' {want}, got {json.dumps(h.get('focus'), ensure_ascii=False)} — heard \"{h.get('recognized','')}\"")
+          if a.get('drift'):
+              print(f"::error::Assessment drift — {a.get('failed')}/{a.get('total')} probe halves wrong: the recording check cannot be trusted to tell a wrong ending from a right one")
+              failed = True
+          if failed:
               sys.exit(1)
+          print(f"Assessment probes OK: {a.get('total', 0) - a.get('failed', 0)}/{a.get('total', 0)} halves as expected")
           print(f"STT calibration OK: {report.get('withinBand')}/{report.get('evaluated')} within band (band {report.get('band')})")
           EOF

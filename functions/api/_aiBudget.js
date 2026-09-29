@@ -113,7 +113,8 @@ export const ENDPOINT_CEILING_MICROUSD = {
   // whole run pre-charged before any provider call (golden-calibration
   // pattern). No Claude calls. TTS is KV-cached, so real repeat cost is ~6
   // STT calls; the ceiling stays worst-case honest.
-  '/api/stt-calibration': 6 * (4_000 + 15_000),
+  // + 4 assessment probes × 2 halves (TTS + Azure assessment), 2026-09-29.
+  '/api/stt-calibration': (6 + 4 * 2) * (4_000 + 15_000),
   '/api/pronunciation-assess': 15_000, // Azure pronunciation assessment
   '/api/translate': 500, // MyMemory (free) — near-zero
 };

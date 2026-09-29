@@ -23,7 +23,10 @@
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { transcribeCroatian } from './_transcribe.js';
 import { tryAzure } from './tts.js';
+import { azureAssess } from './pronunciation-assess.js';
 import {
+  ASSESS_PROBES,
+  assessFocusFlagged,
   STT_GOLDEN_PHRASES,
   STT_WER_BAND,
   STT_DRIFT_THRESHOLD,
@@ -96,6 +99,67 @@ async function goldenAudio(env, kv, phrase) {
   return { buffer, cached: false };
 }
 
+/** Production-voice audio for a probe sentence, as the 16 kHz WAV the app now sends. */
+async function probeAudio(env, kv, key, text) {
+  if (kv) {
+    try {
+      const cached = await kv.get(key);
+      if (cached) return b64ToBuf(cached);
+    } catch {
+      /* synthesize below */
+    }
+  }
+  const buffer = await tryAzure(
+    text,
+    { slow: false, outputFormat: 'riff-16khz-16bit-mono-pcm' },
+    env.AZURE_TTS_KEY,
+    env.AZURE_TTS_REGION,
+  );
+  if (buffer && kv) {
+    try {
+      await kv.put(key, bufToB64(buffer), { expirationTtl: AUDIO_CACHE_TTL_S });
+    } catch {
+      /* uncached — harmless */
+    }
+  }
+  return buffer;
+}
+
+/** One probe: the correct sentence and the wrong one, both scored against the correct one. */
+async function assessProbe(env, kv, probe) {
+  const key = env.AZURE_SPEECH_KEY || env.AZURE_TTS_KEY;
+  const region = env.AZURE_SPEECH_REGION || env.AZURE_TTS_REGION;
+  const half = async (variant, text) => {
+    const audio = await probeAudio(env, kv, `sttcal:assess:${probe.id}:${variant}`, text);
+    if (!audio) return { evaluated: false, error: 'tts_unavailable' };
+    const out = await azureAssess(key, region, new Uint8Array(audio), 'audio/wav', probe.reference);
+    if (!out.ok) return { evaluated: false, error: out.error };
+    const focusWord = out.parsed.word_scores.find(
+      (w) => w.word.toLowerCase() === probe.focus.toLowerCase(),
+    );
+    return {
+      evaluated: true,
+      recognized: out.parsed.recognized,
+      focus: focusWord || null,
+      flagged: assessFocusFlagged(out.parsed.word_scores, probe.focus),
+    };
+  };
+  try {
+    const control = await half('control', probe.reference);
+    const miscue = await half('miscue', probe.wrong);
+    return {
+      id: probe.id,
+      reference: probe.reference,
+      wrong: probe.wrong,
+      focus: probe.focus,
+      control: { ...control, ok: control.evaluated ? !control.flagged : undefined },
+      miscue: { ...miscue, ok: miscue.evaluated ? miscue.flagged : undefined },
+    };
+  } catch (e) {
+    return { id: probe.id, error: String(e?.message || e).slice(0, 200) };
+  }
+}
+
 async function calibrateSample(env, kv, phrase) {
   const base = { id: phrase.id, expected: phrase.text, band: STT_WER_BAND };
   try {
@@ -150,6 +214,12 @@ export async function onRequestPost(context) {
     samples.push(await calibrateSample(env, kv, phrase));
   }
 
+  // Pronunciation-assessment probes: can Azure tell a wrong ending from a right one?
+  const probes = [];
+  for (const probe of ASSESS_PROBES) probes.push(await assessProbe(env, kv, probe));
+  const halves = probes.flatMap((p) => [p.control, p.miscue]).filter((h) => h?.evaluated);
+  const probeFailures = halves.filter((h) => !h.ok).length;
+
   const evaluated = samples.filter((s) => s.evaluated);
   const outOfBand = evaluated.filter((s) => !s.ok);
   const drift = outOfBand.length >= STT_DRIFT_THRESHOLD;
@@ -164,5 +234,12 @@ export async function onRequestPost(context) {
     outOfBand: outOfBand.length,
     drift,
     samples,
+    assessment: {
+      total: halves.length,
+      failed: probeFailures,
+      // Same rule as the transcript samples: two or more failed halves is drift.
+      drift: probeFailures >= STT_DRIFT_THRESHOLD,
+      probes,
+    },
   });
 }

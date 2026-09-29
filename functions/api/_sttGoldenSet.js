@@ -43,6 +43,61 @@ export const STT_GOLDEN_PHRASES = [
   },
 ];
 
+/**
+ * PRONUNCIATION-ASSESSMENT PROBES (2026-09-29). Guided Speaking now trusts Azure's
+ * scripted assessment to say whether a learner really said the required case ending
+ * (src/lib/spokenCheck, components/practice/AssessedMic + SpeakCheck), and until now no
+ * run had ever shown that Azure can. Each probe is one sentence and the same sentence with
+ * the wrong ending, both spoken by the production voice, both scored against the CORRECT
+ * sentence:
+ *   - the control (said correctly) must leave the focus word clear, or the check nags
+ *     learners who were right;
+ *   - the miscue (said wrong) must flag the focus word, or the check cannot catch the
+ *     mistake it exists for.
+ * The wrong forms are ordinary learner errors: a nominative where the accusative or
+ * locative is required, and an inanimate accusative for an animate noun.
+ */
+export const ASSESS_PROBES = [
+  { id: 'assess-accusative', reference: 'Imam sestru.', wrong: 'Imam sestra.', focus: 'sestru' },
+  {
+    id: 'assess-animate',
+    reference: 'Vidim prijatelja.',
+    wrong: 'Vidim prijatelj.',
+    focus: 'prijatelja',
+  },
+  {
+    id: 'assess-locative',
+    reference: 'Živim u Zagrebu.',
+    wrong: 'Živim u Zagreb.',
+    focus: 'Zagrebu',
+  },
+  {
+    id: 'assess-object',
+    reference: 'Pijem kavu s mlijekom.',
+    wrong: 'Pijem kava s mlijekom.',
+    focus: 'kavu',
+  },
+];
+
+/** The app's own threshold for an unclear word (src/lib/spokenCheck UNCLEAR_BELOW). */
+export const ASSESS_UNCLEAR_BELOW = 60;
+
+/**
+ * Did the assessment flag this word, by the rule the app applies? Missing from the
+ * scored words, omitted, mispronounced or scored below the threshold all count; an
+ * Insertion is an extra word, not the focus word. Mirrors src/lib/spokenCheck's
+ * `checkedWords` (a test holds the two to the same verdicts).
+ */
+export function assessFocusFlagged(wordScores, focus) {
+  const want = String(focus).toLowerCase();
+  const w = (Array.isArray(wordScores) ? wordScores : []).find(
+    (x) => String(x?.word || '').toLowerCase() === want && x?.error !== 'Insertion',
+  );
+  if (!w) return true;
+  if (w.error === 'Omission' || w.error === 'Mispronunciation') return true;
+  return !(typeof w.score === 'number' && w.score >= ASSESS_UNCLEAR_BELOW);
+}
+
 /** Max acceptable word-error rate per sample. Synthetic studio-clean audio
  *  through a healthy provider chain lands near 0; a sample above this means
  *  the STT stage broke for real speech too. Widening it is an owner-visible

@@ -79,7 +79,7 @@ describe('endpoint — production-path and cost pins', () => {
 
   it('pre-charges the whole run at the budget gate before any provider call', () => {
     expect(endpointSrc).toContain("checkAndChargeBudget(env, '/api/stt-calibration')");
-    expect(ENDPOINT_CEILING_MICROUSD['/api/stt-calibration']).toBe(6 * (4_000 + 15_000));
+    expect(ENDPOINT_CEILING_MICROUSD['/api/stt-calibration']).toBe((6 + 4 * 2) * (4_000 + 15_000));
   });
 
   it('makes zero Claude calls', () => {

@@ -127,8 +127,6 @@ const KNOWN_DUPLICATES = {
   'maja.js 502 Service temporarily unavailable': 3,
   'micro-lesson.js 502 Service temporarily unavailable': 2,
   'micro-lesson.js 502 parse_failed': 2,
-  'pronunciation-assess.js 502 azure_unavailable': 2,
-  'pronunciation-assess.js 502 parse_failed': 2,
   'pronunciation-coach.js 502 Service temporarily unavailable': 2,
   'push-send.js 403 forbidden': 2,
   'srs-sync.js 502 Service temporarily unavailable': 2,
@@ -195,6 +193,7 @@ describe('no endpoint gains a new indistinguishable failure', () => {
 
   it('the debt list is not empty and not silently emptied', () => {
     // `it.each` over an empty set registers nothing; a count keeps this honest.
-    expect(Object.keys(KNOWN_DUPLICATES).length).toBe(30);
+    // 28 since 2026-09-29: pronunciation-assess split its two duplicated codes.
+    expect(Object.keys(KNOWN_DUPLICATES).length).toBe(28);
   });
 });

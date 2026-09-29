@@ -13892,3 +13892,28 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Mutation-verified, four, each failing 1. One survived first (mid-take text read as an
     edit); a test now covers it. Full suite 687 files green; 29 course and speaking E2E
     tests green on a CI-shaped build.
+- [x] **Sweep 210 — does Azure actually catch a wrong ending? Probes in the STT calibration
+      (2026-09-29).** Guided Speaking now relies on Azure's scripted assessment to say whether a
+      learner produced the required ending, and every test so far mocked Azure. The monthly
+      `stt-calibration.yml` run now carries four probes (`ASSESS_PROBES`). Each is a correct
+      sentence and the same sentence with a typical learner error:
+  - nominative for accusative: `Imam sestra`;
+  - inanimate for animate accusative: `Vidim prijatelj`;
+  - nominative for locative: `Živim u Zagreb`;
+  - nominative for accusative: `Pijem kava s mlijekom`.
+    Both are spoken by the production voice as 16 kHz WAV (the format the app now sends) and
+    both are scored against the CORRECT sentence through the production call, now exported
+    from the endpoint as `azureAssess`. The correct take must leave the focus word clear; the
+    wrong one must flag it, by the app's own rule (`assessFocusFlagged`, held to
+    `spokenCheck.checkedWords`). Two or more wrong halves fail the workflow red.
+  - The extraction moved two duplicated error codes out of `err()` calls where
+    `errorCodeDistinct` could see them, so each failure got its own code instead
+    (`azure_body_unreadable`, `unexpected_shape`) and the debt list fell 30 → 28.
+  - `tryAzure` gained an `outputFormat` option; learners still get mp3. The run's budget
+    ceiling rose to (6 + 8) × (4k + 15k) µ$ ≈ $0.27 worst case.
+  - Pinned by `assessProbes.test.js`: every wrong form differs from its reference at exactly
+    the focus word; the verdict rule matches the app's; the run scores both halves against
+    the reference as WAV; it reports drift when Azure does not discriminate; and the workflow
+    fails on it. Mutation-verified, five, each failing 1–2. Full suite 688 files green.
+  - **The result comes from the first real run, after this deploys**: dispatch
+    `stt-calibration.yml` and read the `assessment` block.
