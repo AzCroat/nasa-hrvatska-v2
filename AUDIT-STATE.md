@@ -13746,3 +13746,23 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
   - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
     status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
     removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
+- [x] **Sweep 211 — the owner's removals: three uncalled endpoints, two unreachable
+      purchases, one silent bonus (owner decision, 2026-09-29).** _"If not needed, remove and
+      delete. … Remove. … Remove."_
+  - **Deleted endpoints**: `/api/daily-culture`, `/api/daily-plan`, `/api/adaptive-insights`,
+    the three metered AI endpoints nothing in the app called (sweep 130). Handlers, ceiling
+    rows, prompts, and the tests that existed only for them are gone. The `_promptCache.js`
+    contract they were the example for is now pinned against `/api/news`.
+    `meteredEndpointsHaveCallers` has no stranded entry left, and fails if any of the three
+    comes back without a caller. `INSTRUMENTED` is 26 → 22, and `errorCodeDistinct`'s
+    recorded debt drops by the three groups those files carried.
+  - **The XP boost and the paid streak restore** had no purchase surface since the hero
+    cluster was deleted (sweep 136). `XP_BOOST_MULTIPLIER`, `activateXPBoost`,
+    `STREAK_RESTORE_COST` and the `nh_xp_boost_*` sync fields are removed. An award now pays
+    exactly what the exercise pays.
+  - **The seasonal campaign multiplier** (1.5× during Easter, announced nowhere since
+    `CampaignBanner` went) is removed: the multiplier, `seasonalCampaigns.js`, its
+    `/api/content/core` key, the client resolver and the Easter quest flags nothing
+    displayed. The Easter screen and its quiz-done flag stay. Lint coverage is 482 → 481
+    files.
+  - Built as two branches by two agents and merged here. Full suite green on the merge.
