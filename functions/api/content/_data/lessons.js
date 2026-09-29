@@ -1200,10 +1200,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Svako jutro ___ novine.' (I read the paper every morning.)",
-            options: ['pročitam', 'pročitao sam', 'pročitat ću', 'čitam'],
+            options: ['pročitati', 'pročitao sam', 'pročitat ću', 'čitam'],
             correct: 3,
             explanation:
-              "'Svako jutro' marks a habit, so the imperfective present čitam is required. The perfective forms describe one completed reading.",
+              "'Svako jutro' marks a habit, and the imperfective present čitam says it plainly. pročitao sam and pročitat ću put the reading in the past or the future, and pročitati is a bare infinitive.",
           },
           {
             q: "Complete: 'Jučer sam ___ cijelu knjigu.' (finished the whole book)",
@@ -2889,10 +2889,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Svake subote ___ na tržnicu.' (we go)",
-            options: ['odemo', 'otišli smo', 'otići ćemo', 'idemo'],
+            options: ['otići', 'otišli smo', 'otići ćemo', 'idemo'],
             correct: 3,
             explanation:
-              "'Svake subote' marks repetition, so the imperfective present idemo is needed. The perfective forms describe a single trip.",
+              "'Svake subote' marks repetition, and the imperfective present idemo says it plainly. otišli smo and otići ćemo move it to the past or the future, and otići is a bare infinitive.",
           },
           {
             q: "Complete: 'Kad si nazvao, ___ ručak.' (I was cooking lunch)",
@@ -6722,10 +6722,10 @@ const LESSONS_CORE = [
         items: [
           {
             q: "Complete: 'Marko ___ na posao svaki dan u osam.' (goes)",
-            options: ['ode', 'otiđe', 'ide', 'otišao'],
+            options: ['otići', 'odlazio', 'ide', 'otišao'],
             correct: 2,
             explanation:
-              'A daily habit is imperfective: ide. ode is a perfective present and otišao a participle without its auxiliary.',
+              'A daily habit in the present: ide. otići is a bare infinitive, and odlazio and otišao are participles without their auxiliary.',
           },
           {
             q: "Complete: 'Kad ___, javi se.' (when you arrive)",
