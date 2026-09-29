@@ -118,7 +118,7 @@ export const QUESTIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'li',
     q: '____ ovo tvoja torba?',
     en: 'Is this your bag?',
-    opts: ['Je li', 'Li je', 'Jesi li', 'Je'],
+    opts: ['Je li', 'Li je', 'Jesi li', 'Jesu li'],
     answer: 'Je li',
     tip: 'For "is it …?" the pair is je li — the verb je, then li.',
   },
@@ -148,7 +148,7 @@ export const QUESTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'li',
-    q: '____ znaš gdje je kolodvor?',
+    q: '____ gdje je kolodvor?',
     en: 'Do you know where the station is?',
     opts: ['Znaš li', 'Li znaš', 'Je li znaš', 'Znaš da'],
     answer: 'Znaš li',
@@ -182,7 +182,7 @@ export const QUESTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'odgovori',
-    q: 'Kako se kaže "što znači …?"',
+    q: 'Kako se pita što neka riječ znači?',
     en: 'How do you ask what something means?',
     opts: ['Što znači …?', 'Kako znači …?', 'Tko znači …?', 'Koliko znači …?'],
     answer: 'Što znači …?',

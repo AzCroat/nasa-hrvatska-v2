@@ -77,7 +77,7 @@ export const POLITENESS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kada',
-    q: 'Kolegi ste iste dobi i radite zajedno godinama. Što rabite?',
+    q: 'S kolegom ste iste dobi i radite zajedno godinama. Što rabite?',
     en: 'A colleague your own age, for years:',
     opts: ['ti', 'Vi', 'Vi u uredu, ti izvan njega', 'oboje svejedno'],
     answer: 'ti',
@@ -137,7 +137,7 @@ export const POLITENESS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'oblici',
     q: 'Obraćate se jednoj ženi: Vi ste ____.',
     en: 'To one woman: You have come.',
-    opts: ['došli', 'došla', 'došle', 'došao'],
+    opts: ['došli', 'došlo', 'došle', 'došao'],
     answer: 'došli',
     tip: 'The standard written form keeps the participle plural with the polite Vi.',
   },

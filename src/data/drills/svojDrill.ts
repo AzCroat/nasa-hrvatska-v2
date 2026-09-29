@@ -79,10 +79,10 @@ export const SVOJ_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izbor',
     q: 'Oni su prodali ____ kuću. (susjedovu)',
-    en: 'They sold their house. (the neighbour’s)',
-    opts: ['njihovu', 'svoju', 'njegovu', 'našu'],
-    answer: 'njihovu',
-    tip: 'Not the subject’s house → njihovu.',
+    en: 'They sold his house. (the neighbour’s)',
+    opts: ['njegovu', 'svoju', 'njihovu', 'našu'],
+    answer: 'njegovu',
+    tip: 'The house is the neighbour’s, not the subject’s → njegovu, not svoju.',
   },
   {
     mode: 'izbor',
@@ -114,7 +114,7 @@ export const SVOJ_DRILL_DATA: ModeDrillItem[] = [
     mode: 'oblici',
     q: 'Nemam ____ auta. (svoj)',
     en: 'I do not have my own car.',
-    opts: ['svog', 'svoj', 'svojem', 'svojim'],
+    opts: ['svog', 'svoja', 'svojem', 'svojim'],
     answer: 'svog',
     tip: 'Genitive after nemati: svog auta.',
   },

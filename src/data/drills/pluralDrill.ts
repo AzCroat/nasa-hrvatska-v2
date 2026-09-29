@@ -30,8 +30,8 @@ export const PLURAL_DRILL_DATA: ModeDrillItem[] = [
   // ── osnovno: the regular endings ──────────────────────────────────────────
   {
     mode: 'osnovno',
-    q: 'jedan stol → dva ____',
-    en: 'one table → two tables',
+    q: 'Koja je množina od "stol"?',
+    en: 'What is the plural of "table"?',
     opts: ['stolovi', 'stoli', 'stole', 'stola'],
     answer: 'stolovi',
     tip: 'Stol is a one-syllable masculine, so it takes the LONG plural: stolovi.',
@@ -66,7 +66,7 @@ export const PLURAL_DRILL_DATA: ModeDrillItem[] = [
     en: 'one woman → two women',
     opts: ['žene', 'ženi', 'žena', 'ženama'],
     answer: 'žene',
-    tip: 'Two, three and four take the genitive SINGULAR, which for žena looks like žene.',
+    tip: 'After dva, tri, četiri a feminine noun takes the form of its nominative plural: dvije žene.',
   },
   {
     mode: 'osnovno',
@@ -90,7 +90,7 @@ export const PLURAL_DRILL_DATA: ModeDrillItem[] = [
     en: 'one sister → two sisters',
     opts: ['sestre', 'sestri', 'sestara', 'sestrama'],
     answer: 'sestre',
-    tip: 'Dvije takes the genitive singular: sestre. Sestara is the genitive PLURAL, for five and above.',
+    tip: 'After dvije a feminine noun looks like its nominative plural: sestre. Sestara is the genitive PLURAL, for five and above.',
   },
 
   // ── nepravilno: the ones that break the rule ──────────────────────────────
@@ -108,7 +108,7 @@ export const PLURAL_DRILL_DATA: ModeDrillItem[] = [
     en: 'one child → three children',
     opts: ['djece', 'djeteta', 'djetovi', 'dijeta'],
     answer: 'djece',
-    tip: 'Djeca is a collective: it looks plural but agrees as a feminine singular — djeca je došla.',
+    tip: 'Djeca is a collective: it declines like a feminine singular (s djecom), but the verb goes in the plural — djeca su došla.',
   },
   {
     mode: 'nepravilno',
@@ -220,7 +220,7 @@ export const PLURAL_DRILL_DATA: ModeDrillItem[] = [
     mode: 'umnozak',
     q: 'Koja je množina od "put" (u značenju "cesta")?',
     en: 'What is the plural of "put" (meaning road)?',
-    opts: ['putovi', 'puti', 'putevi', 'puta'],
+    opts: ['putovi', 'puti', 'pute', 'puta'],
     answer: 'putovi',
     tip: 'Putovi for roads. Puta is what you use for counting times: tri puta.',
   },
