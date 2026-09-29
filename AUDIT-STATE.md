@@ -13760,3 +13760,28 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
   - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
     status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
     removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
+- [x] **Sweep 214 — the AI conversation contexts, read against their guided scenarios
+      (2026-09-29).** The 72 new dialogue scenarios got server contexts in `dialogue.js`, and
+      those contexts had never been compared with the guided scenes they stand for. All 144
+      were read, the 72 new ones first; about 55 changed.
+  - **18 contexts named no register**, so the NPC chose ti or Vi by chance. Each now names
+    the register the guided model answers use. `na_ti` starts in Vi and makes the switch,
+    and `telefonski_poziv` switches from the mother to Ivan mid-call.
+  - **Seven gave the NPC a different gender** from the guided speaker, which changes every
+    past-tense verb the NPC says. Three had English-only labels.
+  - **Two level instructions contradicted each other**: 81 contexts stated the scenario's
+    CEFR level while the endpoint injected the learner's, so an A1 learner in a C1 scene
+    was told both "max 10 words" and "nuanced C1 register". The levels are out of the
+    contexts. The client sends `scenarioLevel`, and the NPC speaks at the lower of the two
+    levels. An older client behaves as before.
+  - **The prompt version did not move when a context changed.** `dialogue-npc` versioned
+    its template only. The contexts, level guidance and script rule now go into
+    `alsoVersion`, serialised to JSON so that objects do not hash as "[object Object]".
+  - The "I didn't understand" line was formal in every ti scene. It now follows the
+    register and the NPC's gender. New rules: hold the scene's register, let the learner
+    do the task, and do not assume the learner's gender.
+  - Pinned by `dialogueContexts.test.ts` (12 tests, driving the real endpoint).
+    Mutation-verified, three. **Not established**: whether Haiku holds all of this over a
+    long conversation. That needs live turns, not a static read.
+  - Left: `DialogueAiMode`'s header shows `turns[0].speaker`, which for `koliko_je_sati`
+    and `rodendan` is a stage direction, not a character.
