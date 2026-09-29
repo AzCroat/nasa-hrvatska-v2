@@ -454,18 +454,11 @@ describe('the observatory attributes findings to prompts', () => {
 describe('prompt instrumentation coverage', () => {
   // Endpoints whose authored prompt now carries a version and tags its 200.
   const INSTRUMENTED = [
-    '/api/adaptive-insights',
     '/api/ai-chat',
     '/api/assess-speaking',
     '/api/conversation',
     '/api/conversational-tutor',
     '/api/correct',
-    // Cache-served, and tagged with the version stored BESIDE the cached body
-    // (functions/api/_promptCache.js) rather than the current one — the reason
-    // these two sat on the debt list until 2026-08-23.
-    '/api/daily-culture',
-    '/api/daily-culture:generate',
-    '/api/daily-plan',
     '/api/dialogue',
     '/api/explain-error',
     '/api/flash-context',
@@ -476,6 +469,10 @@ describe('prompt instrumentation coverage', () => {
     '/api/maja',
     '/api/maja-debrief',
     '/api/micro-lesson',
+    // Cache-served, and tagged with the version stored BESIDE the cached body
+    // (functions/api/_promptCache.js) rather than the current one — the reason
+    // news (and /api/daily-culture, deleted uncalled 2026-09-29) sat on the
+    // debt list until 2026-08-23.
     '/api/news',
     '/api/news:generate',
     '/api/photo-vocab',

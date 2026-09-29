@@ -286,7 +286,7 @@ describe('reminder notification personalisation', () => {
 //                          tooltip's `N XP` branch was unreachable — measured at
 //                          42 active days, one shade, zero XP figures.
 //   nh_session_flashcards_ the four `recentActivity` counters in the
-//   nh_session_listening_  /api/daily-plan payload. Every learner told the
+//   nh_session_listening_  /api/daily-plan payload (endpoint deleted 2026-09-29). Every learner told the
 //   nh_session_speaking_   planning model "0 flashcards, 0 listening, 0
 //   nh_session_writing_    speaking, 0 writing" on every request, forever.
 //   nh_last_practice_date  scheduleLocalReminder's "already practised today"

@@ -28,11 +28,9 @@ vi.mock('../../functions/api/_verifyToken.js', () => ({
   getFirebaseUid: vi.fn(async () => 'u1'),
 }));
 
-import { onRequestPost as adaptiveInsights } from '../../functions/api/adaptive-insights.js';
 import { onRequestPost as contact } from '../../functions/api/contact.js';
 import { onRequestPost as conversation } from '../../functions/api/conversation.js';
 import { onRequestPost as conversationalTutor } from '../../functions/api/conversational-tutor.js';
-import { onRequestPost as dailyPlan } from '../../functions/api/daily-plan.js';
 import { onRequestPost as dialogue } from '../../functions/api/dialogue.js';
 import { onRequestPost as microLesson } from '../../functions/api/micro-lesson.js';
 import { onRequestPost as stt } from '../../functions/api/stt.js';
@@ -85,20 +83,6 @@ describe('null holes in client-supplied arrays do not crash the endpoint', () =>
     expect(res.status).not.toBe(500);
   });
 
-  it('adaptive-insights survives [null] entries in errorLog and srsWeakWords', async () => {
-    const upstream = stubUpstream();
-    const res = await adaptiveInsights({
-      request: jsonReq('https://x/api/adaptive-insights', {
-        level: 'B1',
-        errorLog: [null, { type: 'case', context: 'genitive' }],
-        srsWeakWords: [null, { word: 'pas', missCount: 3 }],
-      }),
-      env: AI_ENV,
-    });
-    expect(upstream).toHaveBeenCalled();
-    expect(res.status).not.toBe(500);
-  });
-
   it('dialogue survives a [null] entry in history', async () => {
     const upstream = stubUpstream();
     const res = await dialogue({
@@ -126,25 +110,6 @@ describe('null holes in client-supplied arrays do not crash the endpoint', () =>
     });
     expect(upstream).toHaveBeenCalled();
     expect(res.status).not.toBe(500);
-  });
-
-  it('daily-plan survives a non-array stylePreferences.preferredTypes', async () => {
-    const upstream = stubUpstream();
-    // daily-plan has no outer try/catch, so pre-fix this call REJECTED with a
-    // TypeError rather than returning any Response at all.
-    const res = await dailyPlan({
-      request: jsonReq('https://x/api/daily-plan', {
-        level: 'A2',
-        goal: 'fluent',
-        // dataPoints >= 5 is the gate that lets these two reach .slice().map()
-        stylePreferences: { dataPoints: 9, preferredTypes: 123, avoidedTypes: { a: 1 } },
-      }),
-      env: AI_ENV,
-    });
-    expect(res).toBeInstanceOf(Response);
-    // Reaching the upstream call is the proof; the status here reflects the
-    // stubbed (planless) upstream body, not the input guard.
-    expect(upstream).toHaveBeenCalled();
   });
 });
 

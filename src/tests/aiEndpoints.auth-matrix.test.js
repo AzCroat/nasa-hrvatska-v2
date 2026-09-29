@@ -66,9 +66,7 @@ const POST_ENDPOINTS = [
   'maja',
   'maja-debrief',
   'grammar-diagnosis',
-  'daily-plan',
   'live-tutor-summary',
-  'adaptive-insights',
   'photo-vocab',
   'stt',
   'pronunciation-assess',
@@ -81,7 +79,7 @@ const POST_ENDPOINTS = [
 ];
 
 // All endpoints that expose onRequestGet.
-const GET_ENDPOINTS = ['news', 'daily-culture', 'ai-quota-status'];
+const GET_ENDPOINTS = ['news', 'ai-quota-status'];
 
 // ── Request builder ────────────────────────────────────────────────────────────
 

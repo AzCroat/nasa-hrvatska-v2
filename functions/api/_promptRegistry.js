@@ -291,7 +291,7 @@ export function promptListHeaders(prompts) {
  *
  * A cached 200 replays text generated hours ago. Tagging it with the CURRENT
  * version would attribute old text to a new prompt — the precise reason
- * daily-culture and news stayed uninstrumented while every live endpoint was
+ * news (and the since-deleted daily-culture) stayed uninstrumented while every live endpoint was
  * tagged. The cache stores the tag that produced its body and this emits THAT.
  *
  * The tag comes back from KV, so it is validated the same way the middleware

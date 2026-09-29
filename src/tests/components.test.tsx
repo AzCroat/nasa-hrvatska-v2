@@ -6,8 +6,10 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 
 // ── Mock apiFetch ─────────────────────────────────────────────────────────────
-// DailyPlanCard fires apiFetch('/api/daily-plan') in a useEffect on mount.
-// Without this mock the call is made but never resolves in jsdom, causing React
+// Written for DailyPlanCard, which fired apiFetch('/api/daily-plan') on mount;
+// both are gone (#682 and 2026-09-29). Kept as a harmless default so any
+// component here that calls apiFetch cannot make a call that never resolves in
+// jsdom, causing React
 // to dispatch a state update (setPhase) outside act() — which produces the
 // "Should be wrapped in act()" console warning.
 // We return a non-ok response so the card goes to its error state synchronously

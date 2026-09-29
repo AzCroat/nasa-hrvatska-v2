@@ -1,8 +1,9 @@
 /**
  * promptCache.test.js — prompt versions for cache-served content (2026-08-23).
  *
- * /api/daily-culture and /api/news serve nearly every request from KV, replaying
- * text generated hours earlier. They were the last entries on the prompt-
+ * /api/news serves nearly every request from KV, replaying text generated
+ * hours earlier. It (and /api/daily-culture, deleted uncalled on 2026-09-29 —
+ * these cases used to run against it) were the last entries on the prompt-
  * instrumentation debt list for a specific reason: tagging a replay with the
  * CURRENT version would assert, in a header the middleware records, that a body
  * came from a prompt that never produced it. Editing a template would then look
@@ -34,7 +35,6 @@ vi.mock('../../functions/api/_aiQuota.js', () => ({
   checkAIQuota: async () => ({ allowed: true, remaining: 299, resetAt: 'x' }),
 }));
 
-const { onRequestGet: dailyCulture } = await import('../../functions/api/daily-culture.js');
 const { onRequestGet: news } = await import('../../functions/api/news.js');
 
 /** KV double WITH metadata support, recording what each put was given. */
@@ -72,23 +72,32 @@ function kvPlain(seed = {}) {
   };
 }
 
-const ANTHROPIC_CARD = JSON.stringify({
+/** A simplified article, as the model returns it inside the Messages envelope. */
+const ANTHROPIC_ARTICLE = JSON.stringify({
   content: [
     {
       text: JSON.stringify({
-        phrase: 'Dobar dan',
-        translation: 'Good day',
-        pronunciation: 'DOH-bar dahn',
-        culturalFact: 'Fact.',
-        tip: 'Tip.',
-        category: 'Greetings',
+        title: 'Dobar dan, Zagreb',
+        summary: 'Kratki sažetak.',
+        en_summary: 'A short summary.',
       }),
     },
   ],
 });
 
-function req(url = 'https://nasahrvatska.com/api/daily-culture') {
-  return new Request(url, { headers: { origin: 'https://nasahrvatska.com' } });
+/** One RSS item, so the generating miss has something to simplify. */
+const RSS_XML =
+  '<rss><channel><item><title>Naslov vijesti</title>' +
+  '<description>Opis vijesti za učenike.</description></item></channel></rss>';
+
+const newsUrl = (level) => `https://nasahrvatska.com/api/news?level=${level}`;
+const newsReq = (level) =>
+  new Request(newsUrl(level), { headers: { origin: 'https://nasahrvatska.com' } });
+
+/** The KV key news.js uses for this level in the current 6-hour window. */
+function newsKey(level) {
+  const now = new Date();
+  return `news:v1:${level}:${now.toISOString().slice(0, 10)}:h${Math.floor(now.getUTCHours() / 6)}`;
 }
 
 let realFetch;
@@ -104,7 +113,7 @@ afterEach(() => {
 
 describe('promptCacheMetadata', () => {
   it('names the prompt that produced the body', () => {
-    const p = getPrompt('daily-culture-card');
+    const p = getPrompt('news-simplify');
     expect(promptCacheMetadata(p)).toEqual({ metadata: { promptTag: p.tag } });
   });
 
@@ -163,73 +172,62 @@ describe('promptTagHeaders — a replayed tag is validated, not trusted', () => 
   });
 });
 
-describe('/api/daily-culture tags the body it actually served', () => {
+describe('/api/news tags the body it actually served', () => {
   it('a generated 200 carries the current prompt tag and stores it beside the body', async () => {
     const kv = kvWithMetadata();
-    globalThis.fetch = vi.fn(async () => new Response(ANTHROPIC_CARD, { status: 200 }));
+    globalThis.fetch = vi.fn(async (url) =>
+      String(url).startsWith('https://api.anthropic.com')
+        ? new Response(ANTHROPIC_ARTICLE, { status: 200 })
+        : new Response(RSS_XML, { status: 200 }),
+    );
 
-    const res = await dailyCulture({
-      request: req(),
+    const res = await news({
+      request: newsReq('B1'),
       env: { ANTHROPIC_API_KEY: 'k', KV: kv },
       waitUntil: (p) => p,
     });
 
-    const tag = getPrompt('daily-culture-card').tag;
+    const tag = getPrompt('news-simplify').tag;
     expect(res.status).toBe(200);
     expect(res.headers.get(PROMPT_HEADER)).toBe(tag);
 
     const put = kv.puts.at(-1);
+    expect(put, 'the generating miss wrote nothing to KV').toBeTruthy();
+    expect(put.key).toBe(newsKey('B1'));
     expect(put.options.metadata).toEqual({ promptTag: tag });
-    // The stored VALUE is unchanged from what shipped before tagging — the tag
-    // rides in metadata precisely so existing entries stay readable.
-    expect(JSON.parse(put.value).phrase).toBe('Dobar dan');
+    // The stored VALUE carries no tag — it rides in metadata precisely so
+    // entries written before tagging existed stay readable unchanged.
+    const stored = JSON.parse(put.value);
+    expect(stored.source).toBe('live');
+    expect(stored.articles[0].en_summary).toBe('A short summary.');
     expect(put.value).not.toContain('promptTag');
   });
 
   it('a cache hit replays the STORED tag, not the current one', async () => {
     // The whole point. A body generated under an older template keeps naming
-    // that template, so an edit today cannot claim credit for yesterday's text.
-    const stale = 'daily-culture-card@00000000';
-    const date = new Date().toISOString().slice(0, 10);
+    // that template, so an edit today cannot claim credit for earlier text.
+    const stale = 'news-simplify@00000000';
     const kv = kvWithMetadata({
-      [`daily:culture:${date}`]: {
-        value: JSON.stringify({ phrase: 'cached' }),
+      [newsKey('B1')]: {
+        value: JSON.stringify({ articles: [{ title: 'cached' }], source: 'live' }),
         metadata: { promptTag: stale },
       },
     });
     globalThis.fetch = vi.fn(); // must not be called
 
-    const res = await dailyCulture({ request: req(), env: { ANTHROPIC_API_KEY: 'k', KV: kv } });
+    const res = await news({ request: newsReq('B1'), env: { ANTHROPIC_API_KEY: 'k', KV: kv } });
 
     expect(globalThis.fetch).not.toHaveBeenCalled();
     expect(res.headers.get(PROMPT_HEADER)).toBe(stale);
-    expect(res.headers.get(PROMPT_HEADER)).not.toBe(getPrompt('daily-culture-card').tag);
-    expect((await res.json()).phrase).toBe('cached');
-  });
-
-  it('an entry written before tagging existed is served UNTAGGED', async () => {
-    const date = new Date().toISOString().slice(0, 10);
-    const kv = kvWithMetadata({
-      [`daily:culture:${date}`]: { value: JSON.stringify({ phrase: 'old' }), metadata: null },
-    });
-    globalThis.fetch = vi.fn();
-
-    const res = await dailyCulture({ request: req(), env: { ANTHROPIC_API_KEY: 'k', KV: kv } });
-
-    expect(res.status).toBe(200);
-    expect(res.headers.has(PROMPT_HEADER)).toBe(false);
-    expect((await res.json()).phrase).toBe('old');
+    expect(res.headers.get(PROMPT_HEADER)).not.toBe(getPrompt('news-simplify').tag);
+    expect((await res.json()).articles[0].title).toBe('cached');
   });
 });
 
 describe('/api/news tags per level', () => {
-  const newsUrl = (level) => `https://nasahrvatska.com/api/news?level=${level}`;
-
   function cachedNewsKv(level, tag) {
-    const now = Date.now();
-    const bucket = `${new Date(now).toISOString().slice(0, 10)}:h${Math.floor(new Date(now).getUTCHours() / 6)}`;
     return kvWithMetadata({
-      [`news:v1:${level}:${bucket}`]: {
+      [newsKey(level)]: {
         value: JSON.stringify({ articles: [{ title: 'cached' }], source: 'live' }),
         metadata: tag ? { promptTag: tag } : null,
       },

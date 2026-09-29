@@ -7,8 +7,8 @@
  * flashcard, every dialogue line cost a turn even when the audio had been
  * generated months ago and cost nothing. A day of ordinary practice could
  * reach the ceiling, after which every audio request 429'd until midnight
- * UTC, exam included. /api/news (cost 4 per cached read) and
- * /api/daily-culture had the same shape.
+ * UTC, exam included. /api/news (cost 4 per cached read) had the same shape,
+ * as did /api/daily-culture (deleted 2026-09-29: nothing called it).
  *
  * The contract now mirrors the budget's: the gate authenticates and
  * rate-limits with cost 0, and the quota is charged ONLY on the path that
@@ -32,7 +32,7 @@ vi.mock('../../functions/api/_aiQuota.js', () => ({
 vi.mock('../../functions/api/_aiBudget.js', () => ({
   reconcileSafely: async () => {},
   checkAndChargeBudget: vi.fn(async () => ({ allowed: false, spentMicroUsd: 0, resetAt: 'y' })),
-  // news.js / daily-culture.js import nothing else from here at module scope.
+  // news.js imports nothing else from here at module scope.
 }));
 vi.mock('../../functions/api/_promptCache.js', () => ({
   readCachedWithPromptTag: vi.fn(async () => ({ value: null, tag: null })),
@@ -45,7 +45,6 @@ import { checkAndChargeBudget } from '../../functions/api/_aiBudget.js';
 import { readCachedWithPromptTag } from '../../functions/api/_promptCache.js';
 import { onRequestPost as ttsPost } from '../../functions/api/tts.js';
 import { onRequestGet as newsGet } from '../../functions/api/news.js';
-import { onRequestGet as cultureGet } from '../../functions/api/daily-culture.js';
 
 const ORIGIN = 'https://nasahrvatska.com';
 
@@ -152,32 +151,6 @@ describe('/api/news — quota charged only on the generating miss', () => {
     const body = await res.json();
     expect(body.source).toBe('curated');
     expect(checkAIQuota).toHaveBeenCalledWith(expect.anything(), env, 'uid-1', 4);
-    expect(checkAndChargeBudget).not.toHaveBeenCalled();
-    expect(fetch).not.toHaveBeenCalled();
-  });
-});
-
-describe('/api/daily-culture — quota charged only on the generating miss', () => {
-  const req = () => new Request(`${ORIGIN}/api/daily-culture`, { headers: { origin: ORIGIN } });
-  const env = { ANTHROPIC_API_KEY: 'k', KV: kvWith(null) };
-
-  it('gate cost is 0 and a cached card is served without charging the quota', async () => {
-    readCachedWithPromptTag.mockResolvedValueOnce({
-      value: JSON.stringify({ fact: 'x' }),
-      tag: null,
-    });
-    const res = await cultureGet({ request: req(), env, waitUntil: () => {} });
-    expect(res.status).toBe(200);
-    expect(requireAuthedAI.mock.calls[0][1]).toMatchObject({ cost: 0 });
-    expect(checkAIQuota).not.toHaveBeenCalled();
-  });
-
-  it('a miss charges cost 1 and a refusal is a 429 daily_quota_exceeded', async () => {
-    checkAIQuota.mockResolvedValueOnce({ allowed: false, remaining: 0, resetAt: 'x' });
-    const res = await cultureGet({ request: req(), env, waitUntil: () => {} });
-    expect(res.status).toBe(429);
-    expect((await res.json()).error).toBe('daily_quota_exceeded');
-    expect(checkAIQuota).toHaveBeenCalledWith(expect.anything(), env, 'uid-1', 1);
     expect(checkAndChargeBudget).not.toHaveBeenCalled();
     expect(fetch).not.toHaveBeenCalled();
   });

@@ -3,9 +3,9 @@
 // PROMPT VERSIONS FOR CACHE-SERVED CONTENT (2026-08-23).
 //
 // Every live AI endpoint tags its 200 with the prompt that produced it
-// (_promptRegistry.js). Three endpoints could not: /api/daily-culture and
-// /api/news serve almost every request from KV, replaying text generated hours
-// earlier. Tagging those with the CURRENT version would be worse than not
+// (_promptRegistry.js). Cache-served endpoints could not: /api/news serves
+// almost every request from KV, replaying text generated hours earlier (as did
+// /api/daily-culture until it was deleted, uncalled, on 2026-09-29). Tagging those with the CURRENT version would be worse than not
 // tagging at all — it would state, in a machine-readable header the middleware
 // records, that a body was produced by a prompt it never saw. Editing a
 // template would then appear to change output that was written before the edit.

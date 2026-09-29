@@ -20,7 +20,7 @@ import { isAllowedOrigin, corsHeaders } from './_helpers.js';
  * bounds the SUM. Clients treat `monthly_budget_exhausted` as "serve cached".
  *
  * `cost: 0` SKIPS the per-user quota (burst + daily) entirely — for
- * CACHE-SERVED endpoints (/api/tts, /api/news, /api/daily-culture), which
+ * CACHE-SERVED endpoints (/api/tts, /api/news), which
  * must charge the learner's quota only on the path that actually GENERATES
  * (they call checkAIQuota themselves after their cache misses). Until
  * 2026-09-06 every one of them charged the quota at the gate, BEFORE the
