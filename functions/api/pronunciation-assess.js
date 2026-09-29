@@ -352,3 +352,41 @@ export async function onRequestPost(context) {
   await reconcileAudioSeconds(env, PATH, durationS);
   return ok({ ok: true, ...parsed }, origin);
 }
+
+/**
+ * A plain Azure transcription of the same audio: no reference sentence, so nothing pulls
+ * the recogniser towards the expected answer (2026-09-29). The scripted assessment above
+ * is given the CORRECT sentence and hears to match it — the calibration played it
+ * "Imam sestra." and it reported "Imam sestru." at 100 — so it cannot judge a case
+ * ending. This is the unbiased second opinion for that one word. Never throws.
+ */
+export async function azureTranscribe(key, region, audioBytes, contentType, locale = 'hr-HR') {
+  const url = `https://${region}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=${locale}&format=detailed`;
+  let res;
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Ocp-Apim-Subscription-Key': key,
+        'Content-Type': contentType,
+        Accept: 'application/json',
+      },
+      body: audioBytes,
+      signal: AbortSignal.timeout(20000),
+    });
+  } catch {
+    return { ok: false, error: 'azure_unavailable' };
+  }
+  let data;
+  try {
+    data = await res.json();
+  } catch {
+    return { ok: false, error: 'azure_body_unreadable' };
+  }
+  if (!res.ok) return { ok: false, error: 'azure_error' };
+  const status = typeof data?.RecognitionStatus === 'string' ? data.RecognitionStatus : '';
+  if (status && status !== 'Success') return { ok: false, error: 'no_speech' };
+  const nbest = data?.NBest?.[0];
+  const text = nbest?.Display || nbest?.Lexical || data?.DisplayText || '';
+  return { ok: true, text, durationS: Number(data?.Duration) / 1e7 };
+}

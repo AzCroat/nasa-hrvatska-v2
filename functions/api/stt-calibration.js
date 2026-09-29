@@ -23,9 +23,10 @@
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { transcribeCroatian } from './_transcribe.js';
 import { tryAzure } from './tts.js';
-import { azureAssess } from './pronunciation-assess.js';
+import { azureAssess, azureTranscribe } from './pronunciation-assess.js';
 import {
   ASSESS_PROBES,
+  endingHeard,
   assessFocusFlagged,
   STT_GOLDEN_PHRASES,
   STT_WER_BAND,
@@ -125,6 +126,40 @@ async function probeAudio(env, kv, key, text) {
   return buffer;
 }
 
+function unbiasedSummary(probes) {
+  const tally = { azure: { right: 0, total: 0 }, chain: { right: 0, total: 0 } };
+  for (const p of probes) {
+    for (const [half, want] of [
+      ['control', 'correct'],
+      ['miscue', 'wrong'],
+    ]) {
+      const u = p?.[half]?.unbiased;
+      for (const src of ['azure', 'chain']) {
+        if (!u?.[src]?.heard) continue;
+        tally[src].total++;
+        if (u[src].heard === want) tally[src].right++;
+      }
+    }
+  }
+  return tally;
+}
+
+/** Plain Azure and the production chain, each asked which form of the focus word it heard. */
+async function unbiasedHeard(env, key, region, audio, probe) {
+  const out = {};
+  const az = await azureTranscribe(key, region, new Uint8Array(audio), 'audio/wav');
+  out.azure = az.ok
+    ? { text: az.text, heard: endingHeard(az.text, probe.focus, probe.wrongFocus) }
+    : { error: az.error };
+  try {
+    const { text, provider } = await transcribeCroatian(audio, 'audio/wav', env);
+    out.chain = { text, provider, heard: endingHeard(text, probe.focus, probe.wrongFocus) };
+  } catch (e) {
+    out.chain = { error: String(e?.message || e).slice(0, 120) };
+  }
+  return out;
+}
+
 /** One probe: the correct sentence and the wrong one, both scored against the correct one. */
 async function assessProbe(env, kv, probe) {
   const key = env.AZURE_SPEECH_KEY || env.AZURE_TTS_KEY;
@@ -145,6 +180,9 @@ async function assessProbe(env, kv, probe) {
       scored: out.parsed.scored,
       focus: focusWord || null,
       flagged: assessFocusFlagged(out.parsed.word_scores, probe.focus),
+      // UNBIASED second opinions on the same audio (2026-09-29): which ending does a
+      // transcriber with no reference sentence hear? Measured before the app relies on it.
+      unbiased: await unbiasedHeard(env, key, region, audio, probe),
     };
   };
   try {
@@ -244,5 +282,9 @@ export async function onRequestPost(context) {
       drift: probeFailures >= STT_DRIFT_THRESHOLD,
       probes,
     },
+    // Can a transcriber with NO reference sentence tell the endings apart? A control half
+    // is right when it hears the correct form, a miscue half when it hears the wrong one.
+    // Reported, not gated: this is the measurement the app's ending check will rest on.
+    unbiased: unbiasedSummary(probes),
   });
 }

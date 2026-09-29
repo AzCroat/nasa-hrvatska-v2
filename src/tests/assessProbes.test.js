@@ -9,13 +9,28 @@ import fs from 'node:fs';
 
 const assessMock = vi.fn();
 const ttsMock = vi.fn(async () => new Uint8Array([82, 73, 70, 70]).buffer);
+// Plain transcriptions are asked in probe order, control then miscue; each mock hands
+// back the next sentence it "heard" from its own script.
+const plainAzureMock = vi.fn();
+const chainMock = vi.fn();
 vi.mock('../../functions/api/pronunciation-assess.js', () => ({
   azureAssess: (...a) => assessMock(...a),
+  azureTranscribe: (...a) => plainAzureMock(...a),
 }));
 vi.mock('../../functions/api/tts.js', () => ({ tryAzure: (...a) => ttsMock(...a) }));
 vi.mock('../../functions/api/_transcribe.js', () => ({
-  transcribeCroatian: async () => ({ text: 'x', provider: 'mock' }),
+  transcribeCroatian: (...a) => chainMock(...a),
 }));
+
+/** A transcriber that hears each probe half as `script(probe, half)`. */
+function scripted(script, wrap) {
+  let n = 0;
+  return async () => {
+    const i = n++;
+    const probe = ASSESS_PROBES[Math.floor(i / 2) % ASSESS_PROBES.length];
+    return wrap(script(probe, i % 2 === 0 ? 'control' : 'miscue'));
+  };
+}
 vi.mock('../../functions/api/_aiBudget.js', async (orig) => ({
   ...(await orig()),
   checkAndChargeBudget: async () => ({ allowed: true }),
@@ -25,6 +40,7 @@ import {
   ASSESS_PROBES,
   ASSESS_UNCLEAR_BELOW,
   assessFocusFlagged,
+  endingHeard,
 } from '../../functions/api/_sttGoldenSet.js';
 import { onRequestPost } from '../../functions/api/stt-calibration.js';
 import { UNCLEAR_BELOW, checkedWords } from '../lib/spokenCheck';
@@ -70,6 +86,16 @@ function azureHearing(flagWrong = true) {
 beforeEach(() => {
   assessMock.mockReset();
   ttsMock.mockClear();
+  // Default: both transcribers hear exactly what was spoken.
+  const said = (p, half) => (half === 'control' ? p.reference : p.wrong);
+  plainAzureMock.mockReset().mockImplementation(scripted(said, (text) => ({ ok: true, text })));
+  // The chain also transcribes the golden phrases (MP3); only the probes are WAV.
+  const probeChain = scripted(said, (text) => ({ text, provider: 'mock' }));
+  chainMock
+    .mockReset()
+    .mockImplementation((audio, mime) =>
+      mime === 'audio/wav' ? probeChain() : Promise.resolve({ text: 'x', provider: 'mock' }),
+    );
 });
 
 describe('the probes', () => {
@@ -126,9 +152,49 @@ describe('the calibration run', () => {
     expect(report.assessment.probes.every((p) => p.miscue.ok === false && p.control.ok)).toBe(true);
   });
 
+  it('asks both unbiased transcribers about every half, and tallies which ending they heard', async () => {
+    assessMock.mockImplementation(azureHearing(false));
+    const report = await run();
+    // The golden phrases also go through the chain, so count only the probe calls here.
+    expect(plainAzureMock).toHaveBeenCalledTimes(ASSESS_PROBES.length * 2);
+    expect(report.unbiased.azure).toEqual({ right: 8, total: 8 });
+    const probe = report.assessment.probes[0];
+    expect(probe.miscue.unbiased.azure.heard).toBe('wrong');
+    expect(probe.control.unbiased.chain.heard).toBe('correct');
+  });
+
+  it('a transcriber that hears the reference every time scores only the controls', async () => {
+    assessMock.mockImplementation(azureHearing(false));
+    plainAzureMock.mockImplementation(async () => ({ ok: true, text: 'Imam sestru.' }));
+    const report = await run();
+    // Only the accusative probe's control carries 'sestru'; every other half hears neither.
+    expect(report.unbiased.azure.right).toBe(1);
+  });
+
   it('the workflow fails red on assessment drift', () => {
     const wf = fs.readFileSync('.github/workflows/stt-calibration.yml', 'utf8');
     expect(wf).toMatch(/if a\.get\('drift'\):[\s\S]*?failed = True/);
     expect(wf).toMatch(/if failed:\s*\n\s*sys\.exit\(1\)/);
+  });
+});
+
+describe('which ending a transcript carries', () => {
+  it('names the correct form, the wrong form, or neither', () => {
+    expect(endingHeard('Imam sestru.', 'sestru', 'sestra')).toBe('correct');
+    expect(endingHeard('imam SESTRA', 'sestru', 'sestra')).toBe('wrong');
+    expect(endingHeard('Imam brata.', 'sestru', 'sestra')).toBe('neither');
+  });
+
+  it('compares whole words, so a longer word does not count', () => {
+    expect(endingHeard('Imam sestrama.', 'sestru', 'sestra')).toBe('neither');
+  });
+
+  it('every probe carries a wrong form different from its focus, present in its wrong sentence', () => {
+    for (const p of ASSESS_PROBES) {
+      expect(p.wrongFocus).toBeTruthy();
+      expect(p.wrongFocus).not.toBe(p.focus);
+      expect(endingHeard(p.wrong, p.focus, p.wrongFocus)).toBe('wrong');
+      expect(endingHeard(p.reference, p.focus, p.wrongFocus)).toBe('correct');
+    }
   });
 });
