@@ -111,9 +111,6 @@ const KNOWN_DUPLICATES = {
   'ai-chat.js 400 Unknown mode: ': 2,
   'ai-chat.js 502 Invalid response from AI': 2,
   'conversational-tutor.js 502 server_error': 2,
-  'daily-culture.js 502 AI temporarily unavailable': 2,
-  'daily-culture.js 502 AI unavailable': 2,
-  'daily-plan.js 502 Service temporarily unavailable': 2,
   'dialogue.js 502 Service temporarily unavailable': 2,
   'explain-error.js 502 Service temporarily unavailable': 2,
   'flash-context.js 502 Service temporarily unavailable': 2,
@@ -142,7 +139,9 @@ describe('the derivation is real', () => {
     const { viaHelper, viaRaw } = errorReturns();
     // A sweep that sees only `err(` misses a third of the surface — including
     // correct.js entirely, which is the endpoint this change fixes.
-    expect(viaHelper).toBeGreaterThan(200);
+    // Floor, not a count: 194 measured after the three uncalled endpoints
+    // (daily-culture, daily-plan, adaptive-insights) were deleted on 2026-09-29.
+    expect(viaHelper).toBeGreaterThan(180);
     expect(viaRaw).toBeGreaterThan(50);
   });
 });
@@ -195,6 +194,6 @@ describe('no endpoint gains a new indistinguishable failure', () => {
 
   it('the debt list is not empty and not silently emptied', () => {
     // `it.each` over an empty set registers nothing; a count keeps this honest.
-    expect(Object.keys(KNOWN_DUPLICATES).length).toBe(30);
+    expect(Object.keys(KNOWN_DUPLICATES).length).toBe(27);
   });
 });

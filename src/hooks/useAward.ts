@@ -619,7 +619,7 @@ export function useAward({
             } catch {}
           }
           // `nh_last_active` was written here on every award. Its only reader
-          // was `/api/daily-plan`, which removed it deliberately ("a raw epoch
+          // was `/api/daily-plan` (deleted 2026-09-29, uncalled), which removed it deliberately ("a raw epoch
           // timestamp the model cannot use and which `streak` already
           // expresses") — leaving the write behind with nothing to consume it,
           // and a test asserting only that the write happened.
