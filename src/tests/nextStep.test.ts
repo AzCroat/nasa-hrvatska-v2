@@ -191,9 +191,36 @@ describe('getNextStep priority ladder', () => {
   });
 });
 
-// ── THE STRETCH (redesign increment 6, 2026-09-28) ───────────────────────────
-describe('rung 2 names a Stretch activity as one', () => {
-  it('"Stretch k of N — <label>" once the core is done and a Stretch is open', () => {
+// ── KEEP LEARNING (sweep 216) ────────────────────────────────────────────────
+describe('rung 2 names a Keep Learning item as one', () => {
+  it('"Keep learning — <label>" with the item\'s own reason once the core is done', () => {
+    localStorage.setItem(
+      'nh_daily_session',
+      JSON.stringify({
+        date: localDateStr(),
+        activities: [
+          { id: 'a1', label: 'SRS Review', screen: 'review', category: 'vocab' },
+          {
+            id: 'keep_drill_x',
+            label: 'Genitive',
+            screen: 'genitivedrill',
+            category: 'genitive',
+            reason: 'Your Genitive check: 2 of 6.',
+            keep: 1,
+          },
+        ],
+        completedIds: ['a1'],
+        estimatedMinutes: 10,
+      }),
+    );
+    const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
+    expect(step.kind).toBe('session');
+    expect(step.activityId).toBe('keep_drill_x');
+    expect(step.label).toBe('Keep learning — Genitive');
+    expect(step.reason).toBe('Your Genitive check: 2 of 6.');
+  });
+
+  it('a plan written by the Stretch build reads its tags as Keep Learning blocks', () => {
     localStorage.setItem(
       'nh_daily_session',
       JSON.stringify({
@@ -208,9 +235,6 @@ describe('rung 2 names a Stretch activity as one', () => {
       }),
     );
     const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
-    expect(step.kind).toBe('session');
-    expect(step.activityId).toBe('s1');
-    expect(step.label).toBe('Stretch 1 of 2 — Dictation');
-    expect(step.reason).toMatch(/^Core done\./);
+    expect(step.label).toBe('Keep learning — Dictation');
   });
 });

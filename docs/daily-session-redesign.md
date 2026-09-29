@@ -403,6 +403,13 @@ first build step.**
     the CORE session. `DailyGoalCard` (an onboarding-chosen XP goal) was flagged for the owner and
     REMOVED the next day with both time-commitment onboarding steps (AUDIT-STATE sweep
     193): no learner chooses how much to study. Measured, tested and mutation-verified in AUDIT-STATE sweep 191.
+  - **SUPERSEDED 2026-09-29 by Keep Learning (AUDIT-STATE sweep 216).** Owner: _"I don't
+    like stretch design, its not guiding the learner to keep learning"_, then _"not try to
+    teach new concepts but review those that the learner has not proven mastery."_ After the
+    core, `src/lib/keepLearning.ts` appends review blocks of taught, unproven material in a
+    fixed order, one after another, with no target, no cap and no "Day Complete". The
+    screen-once-per-day invariant is gone: `markDone` credits the first UNFINISHED activity.
+    CLAUDE.md "Increment 6 — Keep Learning" is the current record.
 
 Each increment: unit tests through the real builder, mutation-verified, E2E audit of
 the specs that pin session composition (`sp4b-production-slot.spec.js`,

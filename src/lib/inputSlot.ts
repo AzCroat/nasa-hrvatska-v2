@@ -72,7 +72,7 @@ export function selectGuaranteedInput(
   userCefr: string,
   usedScreens: Set<string>,
   recentScreens: string[],
-  ctx: { micBlocked: boolean },
+  ctx: { micBlocked: boolean; prefer?: InputKind },
 ): InputActivity | null {
   const eligible = CEFR_EXERCISE_POOL.filter(
     (ex) =>
@@ -95,7 +95,10 @@ export function selectGuaranteedInput(
       }, '');
   const listenLast = lastServed('listening');
   const readLast = lastServed('reading');
-  const preferred: InputKind = weakest ?? (listenLast <= readLast ? 'listening' : 'reading');
+  // `prefer` lets Keep Learning steer by a weakness the ledger measured at ANOTHER
+  // level (sweep 216) — the session itself never passes it.
+  const preferred: InputKind =
+    ctx.prefer ?? weakest ?? (listenLast <= readLast ? 'listening' : 'reading');
   const order: InputKind[] =
     preferred === 'listening' ? ['listening', 'reading'] : ['reading', 'listening'];
 

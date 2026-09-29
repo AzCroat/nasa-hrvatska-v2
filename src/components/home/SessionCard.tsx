@@ -64,13 +64,17 @@ interface SessionCardProps {
   /** Launches the nextStep recommendation. */
   onNextStart?: () => void;
   /**
-   * THE STRETCH (redesign increment 6, owner decision 6): where the day stands
-   * against the app-set bar. When the core is done and a Stretch is open, the
-   * card is that Stretch's hero — same shape as Begin Session, one button — and
-   * the complete state renders only once every owed Stretch is done. Absent
+   * KEEP LEARNING (owner decision, 2026-09-29 — sweep 216): when the core is done
+   * and a review block is open, the card is that block's hero — same shape as Begin
+   * Session, one Continue button — and there is no "Day Complete" state. Absent
    * (older callers, tests) the card behaves exactly as before.
    */
-  stretch?: { coreComplete: boolean; index: number; target: number | undefined } | null;
+  keep?: {
+    coreComplete: boolean;
+    index: number;
+    unitIndex: number | null;
+    progressLine: string | null;
+  } | null;
 }
 
 // ── Šahovnica Croatian coat of arms crest ──
@@ -237,22 +241,20 @@ export default function SessionCard({
   planReason = null,
   nextStep = null,
   onNextStart,
-  stretch = null,
+  keep = null,
 }: SessionCardProps) {
   const completedCount = session.completedIds.length;
   const totalCount = session.activities.length;
-  // Stretch mode: the core is done and the plan holds an open Stretch. The card
-  // shows THAT Stretch's activities (the core collapses to one done chip) and its
-  // own progress, so "Begin" is a fresh session's Begin, not a 6-of-10 Continue.
-  const stretchMode = !!stretch && stretch.coreComplete && stretch.index > 0 && !isComplete;
-  const visibleActivities = stretchMode
-    ? session.activities.filter((a) => a.stretch === stretch!.index)
+  // Keep Learning mode: the core is done and the plan holds an open review block.
+  // The card shows THAT block's items (the core collapses to one done chip) and
+  // its own progress, so the button is the block's Continue, not a 6-of-10.
+  const keepMode = !!keep && keep.coreComplete && keep.index > 0 && !isComplete;
+  const visibleActivities = keepMode
+    ? session.activities.filter((a) => a.keep === keep!.index)
     : session.activities;
   const visibleDone = visibleActivities.filter((a) => session.completedIds.includes(a.id)).length;
-  const inProgress = stretchMode ? visibleDone > 0 : completedCount > 0 && !isComplete;
-  const stretchLabel = stretch
-    ? `Stretch ${stretch.index}${stretch.target ? ` of ${stretch.target}` : ''}`
-    : '';
+  const inProgress = keepMode ? visibleDone > 0 : completedCount > 0 && !isComplete;
+  const keepLabel = keep?.unitIndex ? `Keep learning · Unit ${keep.unitIndex}` : 'Keep learning';
 
   // P0 (2026-07-18): a session launch must never be a silent no-op. The
   // launcher broadcasts failures (lazy-chunk load error, empty pool); we show
@@ -290,12 +292,10 @@ export default function SessionCard({
               marginBottom: 4,
             }}
           >
-            {stretch ? 'Day Complete!' : 'Session Complete!'}
+            Session Complete!
           </div>
           <div style={{ fontSize: 13, color: 'var(--subtext)', marginBottom: 16 }}>
-            {stretch
-              ? `Core session + ${stretch.index} stretch${stretch.index === 1 ? '' : 'es'} · ${completedCount} activities done`
-              : `${completedCount} of ${totalCount} activities done`}
+            {`${completedCount} of ${totalCount} activities done`}
             {wordsdue > 0 && (
               <span
                 style={{
@@ -451,10 +451,10 @@ export default function SessionCard({
           </div>
         </div>
       ) : (
-        /* ── STATE A (fresh) + STATE B (in-progress) — or the STRETCH hero ── */
+        /* ── STATE A (fresh) + STATE B (in-progress) — or the KEEP LEARNING hero ── */
         <div
-          data-testid={stretchMode ? 'stretch-hero' : undefined}
-          data-stretch={stretchMode ? stretch!.index : undefined}
+          data-testid={keepMode ? 'keep-learning-hero' : undefined}
+          data-keep={keepMode ? keep!.index : undefined}
           style={{
             position: 'relative',
             borderRadius: 20,
@@ -495,7 +495,7 @@ export default function SessionCard({
                     marginBottom: 4,
                   }}
                 >
-                  {stretchMode ? stretchLabel.toUpperCase() : "TODAY'S SESSION"}
+                  {keepMode ? keepLabel.toUpperCase() : "TODAY'S SESSION"}
                 </div>
                 <div
                   style={{
@@ -507,7 +507,7 @@ export default function SessionCard({
                     marginBottom: 4,
                   }}
                 >
-                  {stretchMode ? 'Dodatna Vježba' : 'Dnevna Vježba'}
+                  {keepMode ? 'Nastavi učiti' : 'Dnevna Vježba'}
                 </div>
                 <div
                   style={{
@@ -516,15 +516,14 @@ export default function SessionCard({
                     color: 'rgba(255,255,255,.48)',
                   }}
                 >
-                  {stretchMode
-                    ? `Core done · ~${visibleActivities.length * 5} min · ${visibleActivities.length} activities`
+                  {keepMode
+                    ? `Reviewing what you have not proven yet · ${visibleActivities.length} activities`
                     : `~${session.estimatedMinutes} min · ${totalCount} activities`}
                 </div>
-                {stretchMode && (
-                  // Owner decision 6a: the bar is the app's. True by construction —
-                  // the target was set from the evidence when the core finished.
+                {keepMode && keep!.progressLine && (
+                  // Counted from the same concept map the block is drawn from.
                   <div
-                    data-testid="stretch-reason"
+                    data-testid="keep-progress"
                     style={{
                       fontSize: 10,
                       fontWeight: 600,
@@ -533,11 +532,10 @@ export default function SessionCard({
                       lineHeight: 1.4,
                     }}
                   >
-                    Done for today means the core session plus every stretch your results call for —
-                    this is {stretchLabel.toLowerCase()}.
+                    {keep!.progressLine}
                   </div>
                 )}
-                {!stretchMode && planReason && (
+                {!keepMode && planReason && (
                   <div
                     data-testid="session-plan-reason"
                     style={{
@@ -556,9 +554,9 @@ export default function SessionCard({
 
             {/* Activity chips — always shown in States A and B */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 18 }}>
-              {stretchMode && (
+              {keepMode && (
                 <div
-                  data-testid="stretch-core-chip"
+                  data-testid="keep-core-chip"
                   style={{
                     padding: '5px 12px',
                     borderRadius: 100,
@@ -569,7 +567,7 @@ export default function SessionCard({
                     border: '1px solid rgba(255,255,255,.1)',
                   }}
                 >
-                  ✓ Core session
+                  ✓ Today's session done
                 </div>
               )}
               {visibleActivities.map((act) => {
@@ -736,13 +734,7 @@ export default function SessionCard({
                   : 'none',
               }}
             >
-              {stretchMode
-                ? inProgress
-                  ? 'Continue Stretch →'
-                  : `▶ Begin ${stretchLabel} →`
-                : inProgress
-                  ? 'Continue Session →'
-                  : '▶ Begin Session →'}
+              {keepMode ? 'Continue →' : inProgress ? 'Continue Session →' : '▶ Begin Session →'}
             </button>
           </div>
         </div>

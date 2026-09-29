@@ -202,83 +202,73 @@ describe('SessionCard — fresh-session off-ramp (bug #1)', () => {
 // (Removed "relational progress voice" tests — the host-voiced progress line was
 // deleted from SessionCard entirely on 2026-06-21 per user request.)
 
-// ── THE STRETCH (redesign increment 6, 2026-09-28) ───────────────────────────
+// ── KEEP LEARNING (owner decision, 2026-09-29 — sweep 216) ───────────────────
 //
-// After the core session the card is the next Stretch's hero — the same shape as
-// Begin Session, one button — and the complete state renders only when the bar is
-// met. Without the `stretch` prop the card behaves exactly as before (every test
-// above is that contract).
-describe('SessionCard — the Stretch hero (increment 6)', () => {
-  const S1: SessionActivity = {
-    id: 's1',
+// After the core session the card is the open review block's hero — the same shape
+// as Begin Session, one Continue button — and there is no "Day Complete" card.
+// Without the `keep` prop the card behaves exactly as before (every test above is
+// that contract).
+describe('SessionCard — the Keep Learning hero', () => {
+  const K1: SessionActivity = {
+    id: 'keep_srs_1',
     label: 'Word Review',
     screen: 'review',
     category: 'vocab-a2',
-    stretch: 1,
+    reason: '6 words are due for review today.',
+    keep: 1,
   };
-  const S2: SessionActivity = {
-    id: 's2',
-    label: 'Dictation',
-    screen: 'dictation',
-    category: 'writing',
-    stretch: 1,
+  const K2: SessionActivity = {
+    id: 'keep_drill_accusative-intro',
+    label: 'Accusative',
+    screen: 'accdrill',
+    category: 'accusative',
+    keep: 1,
   };
-  const stretched = (completed: string[]): DailySession => ({
+  const kept = (completed: string[]): DailySession => ({
     date: '2026-05-13',
-    activities: [ACT_A, ACT_B, S1, S2],
+    activities: [ACT_A, ACT_B, K1, K2],
     completedIds: completed,
     estimatedMinutes: 20,
-    stretchTarget: 2,
   });
+  const KEEP = {
+    coreComplete: true,
+    index: 1,
+    unitIndex: 2,
+    progressLine: '3 concepts still to prove in Unit 2',
+  };
 
-  it('with the core done and a Stretch open it is the Stretch hero, not the complete state', () => {
+  it('with the core done and a block open it is the Keep Learning hero, never a complete state', () => {
     render(
-      <SessionCard
-        {...BASE_PROPS}
-        session={stretched(['a1', 'a2'])}
-        nextActivity={S1}
-        stretch={{ coreComplete: true, index: 1, target: 2 }}
-      />,
+      <SessionCard {...BASE_PROPS} session={kept(['a1', 'a2'])} nextActivity={K1} keep={KEEP} />,
     );
-    expect(screen.getByTestId('stretch-hero')).toHaveAttribute('data-stretch', '1');
-    expect(screen.getByText('STRETCH 1 OF 2')).toBeTruthy();
-    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Begin Stretch 1 of 2');
-    // The core collapses to one done chip; only the Stretch's activities are listed.
-    expect(screen.getByTestId('stretch-core-chip')).toBeTruthy();
+    expect(screen.getByTestId('keep-learning-hero')).toHaveAttribute('data-keep', '1');
+    expect(screen.getByText('KEEP LEARNING · UNIT 2')).toBeTruthy();
+    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Continue');
+    // The core collapses to one done chip; only the block's items are listed.
+    expect(screen.getByTestId('keep-core-chip').textContent).toContain("Today's session done");
     expect(screen.queryByText(/Flashcards/)).toBeNull();
     expect(screen.getByText(/Word Review/)).toBeTruthy();
+    expect(screen.getByTestId('keep-progress').textContent).toBe(
+      '3 concepts still to prove in Unit 2',
+    );
+    // The first item's honest reason sits with the button.
+    expect(screen.getByTestId('next-activity-reason').textContent).toBe(
+      '6 words are due for review today.',
+    );
     expect(screen.queryByText(/Complete!/)).toBeNull();
-    // The bar is the app's (decision 6a), and the card says so.
-    expect(screen.getByTestId('stretch-reason').textContent).toMatch(
-      /every stretch your results call for/,
-    );
+    expect(screen.queryByText(/Stretch/)).toBeNull();
   });
 
-  it('a started Stretch says Continue Stretch', () => {
+  it('a started block still says Continue', () => {
     render(
       <SessionCard
         {...BASE_PROPS}
-        session={stretched(['a1', 'a2', 's1'])}
-        nextActivity={S2}
-        stretch={{ coreComplete: true, index: 1, target: 2 }}
+        session={kept(['a1', 'a2', 'keep_srs_1'])}
+        nextActivity={K2}
+        keep={KEEP}
       />,
     );
-    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Continue Stretch');
-  });
-
-  it('the complete state names the whole day once the bar is met', () => {
-    render(
-      <SessionCard
-        {...BASE_PROPS}
-        session={stretched(['a1', 'a2', 's1', 's2'])}
-        isComplete
-        nextActivity={null}
-        stretch={{ coreComplete: true, index: 1, target: 1 }}
-      />,
-    );
-    expect(screen.getByTestId('session-complete-title').textContent).toBe('Day Complete!');
-    expect(screen.getByText(/Core session \+ 1 stretch ·/)).toBeTruthy();
-    expect(screen.queryByTestId('stretch-hero')).toBeNull();
+    expect(screen.getByTestId('session-begin-cta').textContent).toContain('Continue');
   });
 
   it('without the prop the card is unchanged: the complete state still says Session Complete!', () => {

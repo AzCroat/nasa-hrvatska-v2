@@ -2,7 +2,7 @@
 //
 // THE FLUENCY ROUND (academic recommendation 4, owner go-ahead 2026-09-29): 90 seconds
 // of questions drawn only from PASSED lessons, answered fast; a rate and a personal
-// best; a miss goes back into Lesson Review; offered through the Stretch once three
+// best; a miss goes back into Lesson Review; offered through Keep Learning once three
 // lessons are passed.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -141,27 +141,25 @@ describe('the screen', () => {
   });
 });
 
-describe('the Stretch offers it', () => {
-  it('is a Stretch candidate from three passed lessons, with a reason that states the count', async () => {
-    const { gatherStretchCandidates } = await import('../lib/stretchSession');
+describe('Keep Learning offers it (sweep 216)', () => {
+  it('is a tier-7 item from three passed lessons, once nothing unproven remains, with a reason that states the count', async () => {
+    const { gatherKeepCandidates } = await import('../lib/keepLearning');
     const deps = {
       dueReviews: 0,
       micBlocked: false,
       recentScreens: [],
       selectProduction: () => null,
-      selectGrammar: () => null,
     };
+    const plan = { activities: [] };
     expect(
-      gatherStretchCandidates('A1', new Set(), deps as never).some(
-        (c) => c.activity.screen === 'fluency',
-      ),
+      gatherKeepCandidates('A1', plan, 1, deps).some((c) => c.activity.screen === 'fluency'),
     ).toBe(false);
     ['a', 'b', 'c'].forEach(pass);
-    const c = gatherStretchCandidates('A1', new Set(), deps as never).find(
+    const c = gatherKeepCandidates('A1', plan, 1, deps).find(
       (x) => x.activity.screen === 'fluency',
     );
     expect(c).toBeTruthy();
     expect(c!.activity.reason).toMatch(/3 lessons you have passed/);
-    expect(c!.evidence).toBe('measured');
+    expect(c!.tier).toBe(7);
   });
 });
