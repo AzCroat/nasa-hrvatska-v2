@@ -1,5 +1,4 @@
 import type { LearnPathLevel } from '../lib/learnPathRules';
-import type { SeasonalCampaign } from '../lib/seasonalCampaign';
 
 // Display metadata only — full body lives behind /api/content/stories/{id}.
 export interface StoryCatalogEntry {
@@ -124,9 +123,9 @@ export interface Lesson {
   slides: LessonSlide[];
 }
 
-// SP11d + SP11e: 27 high-IP-density "core" content exports. SP11e added
-// LEARN_PATH (97 items with ckRule JSON DSL) and SEASONAL_CAMPAIGNS (4 entries
-// with windowKind discriminator) via the function/data split.
+// SP11d + SP11e: high-IP-density "core" content exports. SP11e added
+// LEARN_PATH (97 items with ckRule JSON DSL) via the function/data split.
+// (SEASONAL_CAMPAIGNS was removed on 2026-09-29, owner decision.)
 // Loose Record/unknown[] per field; consumers narrow at consumption.
 export interface Content {
   V: Record<string, unknown>;
@@ -158,7 +157,6 @@ export interface Content {
   LEVEL_NARRATIVE: Record<string, string[]>;
   SHADOWING: unknown[];
   LEARN_PATH: LearnPathLevel[];
-  SEASONAL_CAMPAIGNS: SeasonalCampaign[];
   // SP11f: advanced-vocab tiers consumed by AdvancedVocabScreen.
   V_B2: Record<string, unknown>;
   V_C1: Record<string, unknown>;

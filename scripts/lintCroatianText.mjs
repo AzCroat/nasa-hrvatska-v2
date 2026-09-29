@@ -576,7 +576,6 @@ const TARGETS = [
   // about. Every file below is one the widened matcher sees at least half of,
   // and most of them all of. The comment on each is cro=Croatian strings the
   // file holds, %=share of them the lint scans.
-  'functions/api/content/_data/seasonalCampaigns.js', // 1cro 100%
   'functions/api/flux-generate.js', // 1cro 100%
   'src/components/learn/GrammarExplainer.tsx', // 4cro 50%
 ];

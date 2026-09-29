@@ -38,7 +38,6 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 
 vi.mock('../lib/appUtils.js', () => ({
-  lXPgain: (x: number) => x,
   lvl: () => 1,
   BADGES: [],
   updateStreak: () => ({ count: 1, milestone: null, freezeUsed: false }),
