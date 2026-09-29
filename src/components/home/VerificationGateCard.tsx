@@ -6,14 +6,17 @@
 // the only way forward is through the verification — but practice below the
 // gate stays open, so the card informs and directs rather than walls off.
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import type { VerificationGate, SkillKey } from '../../lib/cefrCertification';
 import {
   getLastVerificationRollback,
   verificationQuietStatus,
   VERIFICATION_RETURN_XP,
+  getLatestAttempt,
 } from '../../lib/cefrCertification';
 import { readinessForVerification } from '../../lib/masteryLedger';
+import { verificationPromptReady } from '../../lib/verificationTiming';
+import { CURRICULUM_SPINE_EVENT } from '../../lib/curriculumProgress';
 
 const SKILL_LABEL: Record<SkillKey, string> = {
   vocab: 'Vocabulary',
@@ -33,7 +36,19 @@ interface Props {
 }
 
 export default function VerificationGateCard({ gate, currentXp, onStartVerification }: Props) {
+  // The readiness rule reads the course, and the spine arrives after first paint:
+  // re-check when it lands, or a card held back on a fresh load never appears.
+  const [, setSpineRev] = useState(0);
+  useEffect(() => {
+    const bump = () => setSpineRev((n) => n + 1);
+    window.addEventListener(CURRICULUM_SPINE_EVENT, bump);
+    return () => window.removeEventListener(CURRICULUM_SPINE_EVENT, bump);
+  }, []);
   if (!gate.required || !gate.target || !gate.nextCheck) return null;
+  // THE CHECK COMES AFTER THE LEVEL (owner directive, 2026-09-29; lib/verificationTiming):
+  // only once the course level it tests is finished, a week on, and a week after a
+  // failed attempt — never "every two days".
+  if (!verificationPromptReady(gate.nextCheck, getLatestAttempt()?.takenAt)) return null;
   // QUIET PERIOD (owner directives, 2026-08-18 + 2026-09-07): any verification
   // attempt — pass or fail — takes the prompt OFF Home entirely until the
   // learner has EARNED VERIFICATION_RETURN_XP since. Nothing is rendered while

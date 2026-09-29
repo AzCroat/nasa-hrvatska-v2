@@ -32,7 +32,8 @@
  */
 
 import type { CefrLevel } from './cefr.js';
-import { getVerificationGate, isVerificationQuiet } from './cefrCertification.js';
+import { getVerificationGate, isVerificationQuiet, getLatestAttempt } from './cefrCertification.js';
+import { verificationPromptReady } from './verificationTiming';
 import { getServableReviewCount } from './srs';
 import { retentionStatus } from './lessonRetention';
 import { weakestProductionKind, buildPlanReason } from './masteryLedger.js';
@@ -166,7 +167,12 @@ export function getNextStep(opts: {
   // actually let them pass, and the practice that brings the rung back.
   try {
     const gate = getVerificationGate();
-    if (gate.required && gate.target && !isVerificationQuiet(xp ?? 0)) {
+    if (
+      gate.required &&
+      gate.target &&
+      !isVerificationQuiet(xp ?? 0) &&
+      verificationPromptReady(gate.nextCheck, getLatestAttempt()?.takenAt)
+    ) {
       return {
         kind: 'verification',
         screen: 'equivalency',

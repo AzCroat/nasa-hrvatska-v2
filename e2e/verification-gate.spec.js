@@ -8,7 +8,7 @@
 // to put the account behind the gate.
 
 import { test, expect } from '@playwright/test';
-import { seedAuth, blockFirebase, mockTTS } from './fixtures/seed-auth.js';
+import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 
 /** Overwrite seedAuth's verified certification with provisional (grandfather-
  *  signature) passes at A2+B1 — the state every pre-Phase-1 user wakes up in. */
@@ -49,6 +49,21 @@ function seedProvisional(page) {
     // scripts re-run on every navigation, the reload included — means only the
     // attempt-driven half, which is what this file tests, decides.
     localStorage.removeItem('nh_cefr_prompt_baseline');
+    // THE CHECK COMES AFTER THE LEVEL (owner directive, 2026-09-29): Home prompts the
+    // A2 check only once every A1 unit of the course has met the bar and a week has
+    // passed (lib/verificationTiming). mockContent serves the real spine, so the course
+    // state decides — seed A1 finished long ago, in course-walk's shapes.
+    const DONE = '2026-01-05';
+    const units = {};
+    for (let i = 1; i <= 6; i++)
+      units[`A1-${i}`] = {
+        passedAt: DONE,
+        bestCorrect: 14,
+        bestTotal: 15,
+        production: { wroteAt: DONE, writeScore: 80, spokeAt: DONE, speakScore: 0.8 },
+      };
+    localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: {} }));
+    localStorage.setItem('nh_course_units', JSON.stringify({ units }));
   });
 }
 
@@ -58,6 +73,9 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     await seedProvisional(page); // runs after seedAuth → its blob wins
     await blockFirebase(page);
     await mockTTS(page);
+    // The spine: the card waits for the course (lib/verificationTiming), so the
+    // course must exist for it to appear at all.
+    await mockContent(page);
     await page.goto('/');
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 10_000,
@@ -139,8 +157,9 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
     page,
   }) => {
     // Same attempt, recorded 400 XP ago (fixture xp 1500, baseline 1100): the
-    // learning is done, so the prompt is back — an hour after the attempt,
-    // because it waits for work, not for a date.
+    // learning is done, so the prompt is back. The attempt is EIGHT DAYS old: since
+    // 2026-09-29 the prompt also waits a week after any attempt (owner: "not
+    // something the user sees every other day"), so both the work and the week count.
     await page.addInitScript(() => {
       const raw = localStorage.getItem('nh_cefr_certifications');
       const state = raw ? JSON.parse(raw) : {};
@@ -148,7 +167,7 @@ test.describe('Verification gate (provisional CEFR levels)', () => {
         {
           level: 'B1',
           passed: false,
-          takenAt: Date.now() - 60 * 60 * 1000,
+          takenAt: Date.now() - 8 * 24 * 60 * 60 * 1000,
           scores: { vocab: 0.5, grammar: 0.5, reading: 0.5 },
           xp: 1100,
         },
