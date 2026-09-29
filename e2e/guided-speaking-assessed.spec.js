@@ -160,3 +160,63 @@ test('SPEAK checks the transcript against its own recording, and tells the learn
   // The button came back: a second take is possible.
   await expect(page.getByTestId('gs-record')).toHaveText(/Start speaking/);
 });
+
+// THE SCRIPTED ASSESSMENT HEARS TO MATCH ITS REFERENCE (calibration, 2026-09-29): played
+// "Imam sestra." it reported "Imam sestru." at 100. The build stage must grade the
+// UNBIASED transcript of the take, so a wrong ending is named, not credited.
+test('BUILD grades the unbiased transcript: a wrong ending is named even when the scripted text is right', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'the fake-microphone flags are Chromium-only');
+  test.setTimeout(120_000);
+  await context.grantPermissions(['microphone']);
+  await blockFirebase(page);
+  await seedAuth(page, { xp: 200 });
+  await mockContent(page);
+  await mockTTS(page);
+
+  const sentBodies = [];
+  await page.route('**/api/pronunciation-assess', async (route) => {
+    const sent = JSON.parse(route.request().postData() || '{}');
+    sentBodies.push(sent);
+    const words = String(sent.referenceText || '')
+      .replace(/[.,!?]/g, '')
+      .split(/\s+/)
+      .filter(Boolean);
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ok: true,
+        // What the biased assessment reports: the reference, perfectly.
+        recognized: sent.referenceText,
+        word_scores: words.map((w) => ({ word: w, score: 100, error: 'None' })),
+        // What was actually said: the nominative.
+        ...(sent.unbiased ? { unbiased: 'Imam sestra.', unbiasedError: null } : {}),
+      }),
+    });
+  });
+
+  await page.goto('/speaking_guided', { waitUntil: 'domcontentloaded' });
+  await page.getByTestId('gs-to-rehearse').click({ timeout: 20_000 });
+  for (let i = 0; i < 12; i++) {
+    if (await page.getByTestId('gs-build').isVisible()) break;
+    await page.getByTestId('gs-phrase-next').click();
+  }
+  await expect(page.getByTestId('gs-build')).toBeVisible();
+
+  const mic = page.getByTestId('gs-assess-build');
+  await mic.click();
+  await page.waitForTimeout(1500);
+  await mic.click();
+
+  const contrast = page.getByTestId('gs-build-contrast');
+  await expect(contrast).toBeVisible({ timeout: 15_000 });
+  await expect(contrast).toContainText('sestra');
+  await expect(contrast).toContainText('sestru');
+  await expect(page.getByTestId('gs-build-right')).toHaveCount(0);
+  // The build take asked for the unbiased transcript.
+  expect(sentBodies.some((b) => b.unbiased === true && /sestru/.test(b.referenceText))).toBe(true);
+});

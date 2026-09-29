@@ -14198,3 +14198,23 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     Speaking build stage asks it about the focus word and says what was heard. If neither
     does, the ending check stays with the browser recogniser and this is recorded as the
     limit.
+- [x] **Sweep 221 — the build stage graded Azure's biased text, so a wrong ending passed
+      (2026-09-29).** `AssessedMic` handed `out.check.recognized` to `checkBuild`: the text
+      of the SCRIPTED assessment, which hears to match its reference. So with the recording
+      path working, a learner who said "Imam sestra." was graded on "Imam sestru." and
+      credited. The earlier note that "the check can only revoke a pass" was wrong for this
+      path.
+  - `/api/pronunciation-assess` now takes `unbiased: true` and returns a plain Azure
+    transcript of the same take (`azureTranscribe`, no reference sentence). A failed plain
+    pass is named (`unbiasedError`) and never replaced by the scripted text. Both passes are
+    reconciled to the audio seconds processed; the ceiling rose to 30,000 µ$.
+  - The build stage passes `unbiased` and grades that transcript, so `gradeBuild` names a
+    wrong form ("You said “sestra” …"). With no unbiased transcript it falls back to the
+    browser recogniser. REHEARSE is unchanged.
+  - Pinned: two screen tests (the wrong ending is named even when the scripted text is
+    right; no unbiased transcript never grades the scripted text), two endpoint tests, and
+    an E2E test of the build stage. The two BUILD screen tests and the ledger tests were
+    updated to the new contract.
+  - Whether plain Azure or the production chain hears endings more reliably is what sweep
+    220's calibration measures. If the chain wins, the endpoint's plain pass is swapped;
+    the grading path is the same either way.

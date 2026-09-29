@@ -12,6 +12,7 @@ vi.mock('../../functions/api/_requireAuth.js', () => ({
 }));
 
 import { onRequestPost } from '../../functions/api/pronunciation-assess.js';
+import { ENDPOINT_CEILING_MICROUSD } from '../../functions/api/_aiBudget.js';
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -65,6 +66,8 @@ describe('the assessment forwards what Azure marked each word as', () => {
   });
 });
 
+const CEILING = ENDPOINT_CEILING_MICROUSD['/api/pronunciation-assess'];
+
 // ── The ledger records the audio Azure processed, not the one-minute ceiling ──
 function ledger() {
   const refunds = [];
@@ -110,7 +113,7 @@ describe('the assessment reconciles the budget ledger', () => {
       request: post({ audioBase64: 'eA==', referenceText: 'Bog.' }),
       env: env(l.db),
     });
-    expect(l.refunds).toEqual([15_000 - 5 * 420]);
+    expect(l.refunds).toEqual([CEILING - 5 * 420]);
   });
 
   it('keeps the ceiling when Azure reports no duration (the safe direction)', async () => {
@@ -131,11 +134,11 @@ describe('the assessment reconciles the budget ledger', () => {
       request: post({ audioBase64: 'eA==', referenceText: 'Bog.' }),
       env: { AI_QUOTA_DB: a.db },
     });
-    expect(a.refunds).toEqual([15_000]); // not configured
+    expect(a.refunds).toEqual([CEILING]); // not configured
     const b = ledger();
     const res = await onRequestPost({ request: post({ referenceText: 'Bog.' }), env: env(b.db) });
     expect(res.status).toBe(400);
-    expect(b.refunds).toEqual([15_000]); // missing audio
+    expect(b.refunds).toEqual([CEILING]); // missing audio
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 });
@@ -261,5 +264,68 @@ describe('Azure REST shape and Croatian references', () => {
       env: { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope' },
     });
     expect(res.status).toBe(200);
+  });
+});
+
+// ── The build stage's unbiased transcript: the same audio, no reference sentence ──
+describe('the unbiased transcript', () => {
+  function req(extra) {
+    return new Request('https://x/api/pronunciation-assess', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ audioBase64: 'eA==', referenceText: 'Imam sestru.', ...extra }),
+    });
+  }
+  const scripted = {
+    RecognitionStatus: 'Success',
+    NBest: [
+      {
+        Display: 'Imam sestru.',
+        AccuracyScore: 100,
+        Words: [{ Word: 'sestru', AccuracyScore: 100 }],
+      },
+    ],
+  };
+  const plain = { RecognitionStatus: 'Success', NBest: [{ Display: 'Imam sestra.' }] };
+
+  it('is asked for only when requested, without the assessment header, and returned beside the scores', async () => {
+    const fetchMock = vi.fn(
+      async (_u, init) =>
+        new Response(JSON.stringify(init.headers['Pronunciation-Assessment'] ? scripted : plain), {
+          status: 200,
+        }),
+    );
+    vi.stubGlobal('fetch', fetchMock);
+    const env = { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope' };
+    const withIt = await (await onRequestPost({ request: req({ unbiased: true }), env })).json();
+    expect(withIt.recognized).toBe('Imam sestru.');
+    expect(withIt.unbiased).toBe('Imam sestra.');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[1][1].headers['Pronunciation-Assessment']).toBeUndefined();
+
+    fetchMock.mockClear();
+    const without = await (await onRequestPost({ request: req({}), env })).json();
+    expect(without).not.toHaveProperty('unbiased');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('a failed plain pass is named, never replaced by the scripted text', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_u, init) =>
+        init.headers['Pronunciation-Assessment']
+          ? new Response(JSON.stringify(scripted), { status: 200 })
+          : new Response('{}', { status: 500 }),
+      ),
+    );
+    const body = await (
+      await onRequestPost({
+        request: req({ unbiased: true }),
+        env: { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope' },
+      })
+    ).json();
+    expect(body.ok).toBe(true);
+    expect(body.unbiased).toBeNull();
+    expect(body.unbiasedError).toBe('azure_error');
   });
 });

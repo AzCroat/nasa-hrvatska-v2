@@ -604,7 +604,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
           </div>
 
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
-            <AssessedMic reference={buildItem.answer} onHeard={checkBuild} testId="gs-assess-build">
+            <AssessedMic
+              reference={buildItem.answer}
+              onHeard={checkBuild}
+              testId="gs-assess-build"
+              unbiased
+            >
               {srSupported && (
                 <button
                   className="b bp"

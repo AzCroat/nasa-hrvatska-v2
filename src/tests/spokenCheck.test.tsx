@@ -69,7 +69,13 @@ const UNIT = speakingUnitsForLevel('A1')[0]!;
 const PHRASE = UNIT.rehearse[0]!.hr; // 'Zovem se Ivana i dolazim iz Kanade.'
 const BUILD = (UNIT.build ?? [])[0] as BuildSentence; // Imam sestru. (sestra, accusative)
 
-function azure(recognized: string, words: [string, number, string?][]) {
+/** A mocked assessment. `unbiased` is the plain transcript the build stage asks for:
+ *  it defaults to the scripted text; `null` means the plain pass failed. */
+function azure(
+  recognized: string,
+  words: [string, number, string?][],
+  unbiased: string | null = recognized,
+) {
   return {
     ok: true,
     status: 200,
@@ -77,6 +83,8 @@ function azure(recognized: string, words: [string, number, string?][]) {
       ok: true,
       recognized,
       word_scores: words.map(([word, score, error]) => ({ word, score, error: error ?? 'None' })),
+      unbiased,
+      unbiasedError: unbiased === null ? 'azure_error' : null,
     }),
   };
 }
@@ -230,6 +238,64 @@ describe('the screen, recording checked against the target', () => {
     }
     await sayIt('gs-assess-build');
     await waitFor(() => expect(screen.getByTestId('gs-build-right')).toBeTruthy());
+  });
+
+  it('BUILD grades the UNBIASED transcript: a wrong ending is named though the scripted text is right', async () => {
+    // Calibration, 2026-09-29: the scripted assessment hears to match its reference.
+    postMock.mockResolvedValue(
+      azure(
+        'Imam sestru.',
+        [
+          ['Imam', 100],
+          ['sestru', 100],
+        ],
+        'Imam sestra.',
+      ),
+    );
+    toRehearse();
+    for (;;) {
+      const n = screen.queryByTestId('gs-phrase-next');
+      if (!n) break;
+      fireEvent.click(n);
+    }
+    await sayIt('gs-assess-build');
+    await waitFor(() => expect(screen.getByTestId('gs-build-contrast')).toBeTruthy());
+    expect(screen.getByTestId('gs-build-contrast').textContent).toMatch(/You said “sestra”/);
+    expect(screen.queryByTestId('gs-build-right')).toBeNull();
+    expect(postMock.mock.calls[0]![1]).toMatchObject({ unbiased: true });
+  });
+
+  it('BUILD never grades the scripted text: no unbiased transcript falls back to the recogniser', async () => {
+    postMock.mockResolvedValue(
+      azure(
+        'Imam sestru.',
+        [
+          ['Imam', 100],
+          ['sestru', 100],
+        ],
+        null,
+      ),
+    );
+    toRehearse();
+    for (;;) {
+      const n = screen.queryByTestId('gs-phrase-next');
+      if (!n) break;
+      fireEvent.click(n);
+    }
+    await sayIt('gs-assess-build');
+    await waitFor(() => expect(screen.getByTestId('gs-assess-build-notice')).toBeTruthy());
+    expect(screen.getByTestId('gs-assess-build-notice').textContent).toMatch(
+      /transcribed on its own/,
+    );
+    expect(screen.queryByTestId('gs-build-right')).toBeNull();
+  });
+
+  it('REHEARSE does not ask for the unbiased transcript', async () => {
+    postMock.mockResolvedValue(azure(PHRASE, []));
+    toRehearse();
+    await sayIt('gs-assess-phrase');
+    await waitFor(() => expect(postMock).toHaveBeenCalled());
+    expect(postMock.mock.calls[0]![1]).not.toHaveProperty('unbiased');
   });
 
   it('an unconfigured service falls back to the old path, says so, and is not retried', async () => {

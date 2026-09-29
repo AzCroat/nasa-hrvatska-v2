@@ -41,9 +41,17 @@ interface Props {
   /** The stage's own recogniser button, used whenever this path is unavailable. */
   children?: React.ReactNode;
   testId: string;
+  /**
+   * Grade on an UNBIASED transcript of the take (the build stage). The scripted
+   * assessment hears to match its reference, so its `recognized` text would credit a
+   * wrong case ending (calibration, 2026-09-29). When this is set and no unbiased
+   * transcript comes back, the stage's own recogniser takes over; the biased text is
+   * never graded.
+   */
+  unbiased?: boolean;
 }
 
-export default function AssessedMic({ reference, onHeard, children, testId }: Props) {
+export default function AssessedMic({ reference, onHeard, children, testId, unbiased }: Props) {
   const rec = useRecorder();
   const [fallback, setFallback] = useState(() => assessUnconfigured() || !canRecordTakes());
   const [busy, setBusy] = useState(false);
@@ -87,12 +95,14 @@ export default function AssessedMic({ reference, onHeard, children, testId }: Pr
 
   async function assess(blob: Blob, mimeType: string) {
     setBusy(true);
-    const out = await assessTake(blob, mimeType, refText.current, SURFACE);
+    const out = await assessTake(blob, mimeType, refText.current, SURFACE, { unbiased });
     if (!out.ok) return giveUp(out.message);
     if (!mountedRef.current) return;
+    if (unbiased && !out.check.unbiased)
+      return giveUp('the recording could not be transcribed on its own.');
     setBusy(false);
     setNotice(null);
-    onHeardRef.current(out.check.recognized, out.check);
+    onHeardRef.current(unbiased ? (out.check.unbiased as string) : out.check.recognized, out.check);
   }
 
   if (fallback) {
