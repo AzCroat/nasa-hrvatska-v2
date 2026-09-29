@@ -76,17 +76,16 @@ export function withoutPunctuation(text) {
 }
 
 /**
- * Drop every "change" whose only difference is punctuation. The prompt forbids
- * grading punctuation; this holds the rule when the model lists one anyway, so a
- * learner is never shown a comma as a mistake. A change that also fixes a letter
- * (a capital, a case ending) is kept; one that only adds a full stop is gone.
+ * The changes worth showing: every "change" whose only difference is
+ * punctuation is dropped. The prompt forbids grading punctuation; this holds the
+ * rule when the model lists one anyway, so a learner is never shown a comma as a
+ * mistake. A change that also fixes a letter (a capital, a case ending) is kept;
+ * one that only adds a full stop is gone.
  */
-export function dropPunctuationOnlyChanges(result) {
-  if (!result || !Array.isArray(result.changes)) return result;
-  const changes = result.changes.filter(
+export function gradedChanges(changes) {
+  return changes.filter(
     (c) => withoutPunctuation(c?.original) !== withoutPunctuation(c?.corrected),
   );
-  return changes.length === result.changes.length ? result : { ...result, changes };
 }
 
 /** Build the writing-evaluator system prompt. `safePrompt` must already be
