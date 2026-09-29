@@ -190,7 +190,6 @@ export function buildProgressSnapshot({
     // A stronger and separate claim from nh_curriculum_progress, which only says a
     // lesson was read. undefined when empty, same reason as above.
     nh_course_units: courseUnitsOrUndef(),
-    nh_daily_goal_xp: parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0,
     // UI / accessibility preferences — null means "never explicitly set; use system default"
     // Storing the raw string (null | 'true' | 'false') preserves the three-state semantic.
     darkMode: lsGet('darkMode'),

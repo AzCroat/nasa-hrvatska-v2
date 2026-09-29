@@ -13290,6 +13290,47 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     computed against ITS base; copy nothing from it** — re-apply the change on the branch.
   - **Not checked**: nothing runtime-visible — every bump here is a client library or dev
     tool, and the deploy run's E2E is the only behavioural evidence taken.
+- [x] **Sweep 193 — no learner chooses a time commitment (owner decision, 2026-09-29).**
+  - Asked what `DailyGoalCard` does and how it helps fluency. Measured: it drew today's XP
+    against `nh_daily_goal_xp`, a target the learner CHOSE at onboarding — 5 / 15 / 30
+    minutes ("Casual · 10 XP", "Regular · 30", "Serious · 60") in `GoalSetterModal`'s second
+    step, and 5–20 minutes (× 2 XP) on `WelcomeScreen`'s "How much time each day?" page,
+    which also GATED the Start button — and turned green with "Today's goal — complete!" at
+    or before the moment the core session ended, whatever was chosen (the core pays ≥ 60).
+    That is the "every meter says 100%" signal the Stretch (sweep 191) exists to remove, one
+    card below the Stretch hero, and the choice itself is the self-set floor decision 6a
+    rejected. Owner: _"remove it, and the commitment step in onboarding"_, then _"Let's
+    remove any selection choice by the user about time commitment."_
+  - Removed: `DailyGoalCard` and its test; the modal's commitment step (it asks ONE question
+    now, the goal, which `nh_goal` readers use); the Welcome page's minutes picker, its
+    "pick a goal to continue" gate and its write (the page now introduces the level check,
+    Start always enabled); `getDailyXPGoal`; the `nh_daily_goal_xp` snapshot field and its
+    `Math.max` remote merge (an older device's blob still carrying the field is ignored —
+    additive, nothing reduced). `DAILY_XP_GOAL` (50) stays: `VERIFICATION_RETURN_XP` is
+    pinned at 7 × it. Nothing paid or gated on the goal, so no learner's progress moves.
+  - Tests: five suites rewritten to the new contract with the reason stated; `deadStorageWrites`
+    gains `nh_daily_goal_xp` in its GONE list and its non-vacuity key moved to `nh_goal`;
+    `onboardingAsksOnlyWhatItUses` pins that no time-commitment choice survives in either
+    onboarding surface by source. Two harness slips on the way, both caught by the run: a
+    block-removal script asserted before writing and so wrote NOTHING for six files (the
+    failures it then reported were the old contract, not a defect), and an off-by-one on a
+    `  });` cut the `}` off the next describe.
+  - **THE ONBOARDING QUESTION THIS OPENED, DECIDED THE SAME HOUR.** Asked what onboarding does
+    for a new learner: hero + name → goal (READ by Story Mode/media) → the level page →
+    heritage region (heritage goals; read by Heritage Story) → a "say your first word" mic
+    moment → a 15-question placement test or "skip as beginner". The placement's output,
+    `nh_level`, no longer decides the COURSE (one path, Unit 1 for everyone) — it sets the
+    level the Practice tab and the vocabulary deck serve at (twelve screens via
+    `getGenerationCefr`), so a learner who places B1 starts Unit 1 in the session and gets B1
+    flashcards on the Practice tab: two levels in one app, after three minutes of testing
+    before any teaching. **DECIDED**: (a) onboarding is name → goal → (heritage region,
+    skippable, heritage goals only) → Unit 1 lesson 1; the placement test and the mic
+    moment leave onboarding — "I already know some Croatian" is the course's own test-out at
+    the same 85% bar; (b) the Practice tab and the deck follow the COURSE level, as the
+    session already does, as the next increment. Not built in this sweep; queued.
+  - **Not checked**: the three heavy-user E2E specs match `/daily goal|goal|target|minutes/i`
+    against Settings text with an `info` fallback — they cannot fail on this and assert
+    nothing about the card, so they were not changed.
 - [x] **Sweep 195 — an ending note must name the word it is about (owner report, 2026-09-29).**
   - Owner, on the A1 plural lesson's "Singular and Plural Side by Side" slide: _"you state
     that Velik should add ovi, when it is simply just adding i. This is incorrect learning

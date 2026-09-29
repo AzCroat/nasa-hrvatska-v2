@@ -71,7 +71,7 @@ src/
 │   │   └── storage.js          # All localStorage key names in one place
 │   └── ...                    # 25+ other lib modules
 ├── components/
-│   ├── home/                  # HomeTab, SessionCard, QuestTracker, DailyGoalCard, etc.
+│   ├── home/                  # HomeTab, SessionCard, QuestTracker, WelcomeScreen, etc.
 │   │                          # (the hero cluster was deleted in sweep 136 — see below)
 │   ├── learn/                 # All lesson screens (70+), LearnTab, AnimatedLesson, GrammarTrackScreen
 │   ├── practice/              # Flashcards, McGame, DialogueSim, SpeakingScreen, GuidedWritingScreen, ModeDrill, etc.
@@ -4667,8 +4667,22 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   because the extension is synchronous), recorded rather than hidden. The mutation harness
   itself printed nothing on its first run: zsh does not word-split `$SUITES`, so vitest ran
   no files — caught because the BASELINE printed nothing too.
-- **Flagged, not changed**: `DailyGoalCard` measures XP against an onboarding-CHOSEN goal —
-  the self-set target 6a rejected. An owner decision.
+- **`DailyGoalCard` AND BOTH TIME-COMMITMENT ONBOARDING STEPS ARE GONE (owner decision,
+  2026-09-29).** The card drew XP against a target the learner CHOSE at onboarding (5/15/30
+  minutes in the goal modal; 5–20 on the Welcome page, which gated Start) and turned green
+  at or before the end of the core session whatever was chosen — the self-set floor 6a
+  rejected, one card below the Stretch hero. Owner: _"remove any selection choice by the
+  user about time commitment. The user should be using [it] to learn Croatian and become
+  fluent."_ `nh_daily_goal_xp` has no writer, reader, snapshot field or merge; the modal
+  asks ONE question (the goal, which the app reads). NEVER offer a learner a choice of how
+  much to study — the bar is the app's.
+- **AND ONBOARDING IS BEING STRIPPED TO name → goal → (heritage region, optional) → Unit 1
+  lesson 1 (owner decision, 2026-09-29; queued).** The placement test's `nh_level` no
+  longer decides the course; it sets the level the Practice tab and the deck serve at
+  (twelve screens via `getGenerationCefr`), so a B1 placement meant Unit 1 in the session
+  and B1 flashcards on the Practice tab. The test and the "say your first word" mic moment
+  leave onboarding — test-out on the map is the same bar — and the Practice tab and deck
+  will follow the COURSE level as the next increment. AUDIT-STATE sweep 193.
 - NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
   activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
   Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the

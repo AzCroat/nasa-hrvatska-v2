@@ -170,8 +170,10 @@ describe('progressSnapshot boolean predicates are reachable from the device', ()
   });
 
   it('the writer scan does not swallow a nearby second write (regex form)', () => {
-    // The real spacing in WelcomeScreen: two writes about 58 characters apart,
-    // with an `if` line between them.
+    // The spacing WelcomeScreen HAD until 2026-09-29 (the first write went with the
+    // time-commitment step): two writes about 58 characters apart, with an `if`
+    // line between them. A synthetic fixture now, kept because it is the shape the
+    // consuming-regex defect needs.
     const fixture = [
       "      lsSet('nh_daily_goal_xp', String(dailyMin * 2));",
       '    }',

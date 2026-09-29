@@ -400,8 +400,9 @@ first build step.**
     recorded on the plan once the core completes — so every existing mechanism keyed on the
     plan works unchanged, at the cost of one invariant now pinned: a screen appears once per
     day. `isComplete` is `stretch.complete`; the `nh_session_history` calendar still records
-    the CORE session. `DailyGoalCard` (an onboarding-chosen XP goal) was NOT changed and is
-    flagged for the owner. Measured, tested and mutation-verified in AUDIT-STATE sweep 191.
+    the CORE session. `DailyGoalCard` (an onboarding-chosen XP goal) was flagged for the owner and
+    REMOVED the next day with both time-commitment onboarding steps (AUDIT-STATE sweep
+    193): no learner chooses how much to study. Measured, tested and mutation-verified in AUDIT-STATE sweep 191.
 
 Each increment: unit tests through the real builder, mutation-verified, E2E audit of
 the specs that pin session composition (`sp4b-production-slot.spec.js`,

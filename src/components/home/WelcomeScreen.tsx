@@ -58,13 +58,6 @@ const GOALS = [
   },
 ];
 
-const DAILY_GOALS = [
-  { id: 5, label: '5 min', sub: 'Light — just a few words a day' },
-  { id: 10, label: '10 min', sub: 'Steady — the most popular choice' },
-  { id: 15, label: '15 min', sub: "Committed — you'll be conversational faster" },
-  { id: 20, label: '20 min', sub: 'Serious — your fastest path to real Croatian' },
-];
-
 export default function WelcomeScreen({
   name,
   au,
@@ -79,7 +72,6 @@ export default function WelcomeScreen({
 }: WelcomeScreenProps) {
   const [step, setStep] = useState(0); // 0=hero, 1=goal, 2=daily, 3=heritage/partner
   const [goal, setGoal] = useState('');
-  const [dailyMin, setDailyMin] = useState(0);
   const [showSpeakModal, setShowSpeakModal] = useState(false);
   const [selectedGen, setSelectedGen] = useState(lsGet('nh_heritage_gen') || '');
 
@@ -132,18 +124,6 @@ export default function WelcomeScreen({
       // `nh_goal_set_date` was written here and read by nothing, anywhere, and
       // was not in the sync snapshot either — so it could not even serve a
       // future reader on another device.
-    }
-    if (dailyMin) {
-      // `nh_daily_min` was written here and read by nothing, anywhere — the same
-      // shape as the `nh_goal_set_date` removed three lines above, and missed by
-      // the same sweep, which was scoped to GoalSetterModal. This screen is a
-      // SECOND surface asking the same commitment question.
-      //
-      // The learner's answer is not lost: the line below is what makes the
-      // minutes choice measurable (2 XP/min — the same rate GoalSetterModal's
-      // options use), and `nh_daily_goal_xp` IS read (DailyGoalCard,
-      // appUtils.getDailyGoal) and synced both ways.
-      lsSet('nh_daily_goal_xp', String(dailyMin * 2));
     }
     if (lsGet('nh_heritage_region')) {
       lsSet('nh_heritage_saved', 'true');
@@ -467,7 +447,7 @@ export default function WelcomeScreen({
               textAlign: 'center',
             }}
           >
-            How much time each day?
+            Let’s find your level
           </h2>
           <p
             style={{
@@ -477,53 +457,8 @@ export default function WelcomeScreen({
               marginBottom: 24,
             }}
           >
-            Consistency beats intensity every time
+            One path for everyone — a quick check finds where you start on it.
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 24 }}>
-            {DAILY_GOALS.map((g) => (
-              <button
-                key={g.id}
-                onClick={() => setDailyMin(g.id)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 14,
-                  padding: '14px 18px',
-                  borderRadius: 14,
-                  border: dailyMin === g.id ? '2px solid var(--info)' : '2px solid var(--card-b)',
-                  background: dailyMin === g.id ? 'rgba(14,116,144,.1)' : 'var(--card)',
-                  cursor: 'pointer',
-                  textAlign: 'left',
-                  transition: 'all .18s',
-                  fontFamily: "'Outfit',sans-serif",
-                  transform: dailyMin === g.id ? 'scale(1.02)' : 'scale(1)',
-                  boxShadow: dailyMin === g.id ? '0 0 0 3px rgba(14,116,144,0.5)' : 'none',
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 22,
-                    fontWeight: 900,
-                    color: dailyMin === g.id ? 'var(--info)' : 'var(--subtext)',
-                    minWidth: 44,
-                    textAlign: 'center',
-                  }}
-                >
-                  {g.label}
-                </span>
-                <div>
-                  <div
-                    style={{ fontSize: 'var(--text-sm)', color: 'var(--subtext)', fontWeight: 600 }}
-                  >
-                    {g.sub}
-                  </div>
-                </div>
-                {dailyMin === g.id && (
-                  <span style={{ marginLeft: 'auto', color: 'var(--info)', fontSize: 18 }}>✓</span>
-                )}
-              </button>
-            ))}
-          </div>
           <div
             style={{
               background: 'rgba(14,116,144,0.15)',
@@ -541,19 +476,6 @@ export default function WelcomeScreen({
           >
             📊 Quick level check: 15 questions, ~3 minutes — places you at the right starting point
           </div>
-          {!dailyMin && (
-            <p
-              style={{
-                fontSize: 12,
-                color: 'var(--subtext)',
-                textAlign: 'center',
-                marginBottom: 8,
-                opacity: 0.8,
-              }}
-            >
-              👆 Pick a daily goal above to continue
-            </p>
-          )}
           <button
             ref={triggerRefStep2}
             className="b bp"
@@ -562,9 +484,7 @@ export default function WelcomeScreen({
               padding: '14px',
               width: '100%',
               marginBottom: 12,
-              opacity: dailyMin ? 1 : 0.5,
             }}
-            disabled={!dailyMin}
             onClick={() => {
               if (
                 goal === 'heritage' ||
