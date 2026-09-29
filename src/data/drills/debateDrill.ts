@@ -144,7 +144,7 @@ export const DEBATE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'okvir',
-    q: 'Kako se vraća raspravu na temu?',
+    q: 'Kako vratiti raspravu na temu?',
     en: 'Bringing it back:',
     opts: ['Vratimo se na…', 'Vratimo na…', 'Vraćamo se u…', 'Vrati se na…'],
     answer: 'Vratimo se na…',

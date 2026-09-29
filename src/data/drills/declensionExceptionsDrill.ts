@@ -116,11 +116,11 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Kojeg je roda "djeca" u slaganju?',
-    en: 'What gender does djeca agree as?',
+    q: 'Kojeg je roda "djeca" u slaganju s pridjevom?',
+    en: 'What gender does djeca take with an adjective?',
     opts: ['ženskog jednine', 'srednjeg množine', 'muškog množine', 'srednjeg jednine'],
     answer: 'ženskog jednine',
-    tip: 'A collective: ova djeca, and the participle follows the collective pattern.',
+    tip: 'Feminine singular with the attribute: ova mala djeca, ove male djece. The participle goes neuter plural: djeca su došla.',
   },
   {
     mode: 'supletivi',

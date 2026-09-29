@@ -142,7 +142,7 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does čakavian do with final -m?',
     opts: ['prelazi u -n', 'ispada', 'udvostručuje se', 'ništa'],
     answer: 'prelazi u -n',
-    tip: 'nisan, san — and it is the feature that settles čakavian fastest.',
+    tip: 'nisan, san — though coastal štokavian has it too, so it narrows the field; ča is what settles it.',
   },
   {
     mode: 'osobine',
@@ -244,12 +244,12 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     q: 'Zašto je za slušanje korisno znati crte narječja?',
     en: 'Why is knowing the features useful?',
     opts: [
-      'razgovor postaje pratljiv, ne samo prepoznatljiv',
+      'razgovor se može pratiti, a ne samo prepoznati',
       'radi ispravljanja',
       'radi pisanja',
       'nije korisno',
     ],
-    answer: 'razgovor postaje pratljiv, ne samo prepoznatljiv',
+    answer: 'razgovor se može pratiti, a ne samo prepoznati',
     tip: 'C1 taught you to recognise them. This is the step from recognising to following.',
   },
 ];
