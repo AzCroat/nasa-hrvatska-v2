@@ -6178,7 +6178,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Pattern: Tens & Hundreds',
-        body: "Tens: add '-deset' after the base: tri+deset = trideset (30), četr+deset = četrdeset (40). Compounds: dvadeset jedan (21), trideset pet (35). Hundreds: sto (100), dvjesta (200), tristo (300), četiristo (400), petsto (500), tisuću (1000).",
+        body: "Tens: add '-deset' after the base: tri+deset = trideset (30), četr+deset = četrdeset (40). Compounds: dvadeset jedan (21), trideset pet (35). Hundreds: sto (100), dvjesto (200), tristo (300), četiristo (400), petsto (500), tisuću (1000).",
         highlight: '-deset',
       },
       {
