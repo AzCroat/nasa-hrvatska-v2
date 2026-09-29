@@ -58,26 +58,52 @@ export const STT_GOLDEN_PHRASES = [
  * locative is required, and an inanimate accusative for an animate noun.
  */
 export const ASSESS_PROBES = [
-  { id: 'assess-accusative', reference: 'Imam sestru.', wrong: 'Imam sestra.', focus: 'sestru' },
+  {
+    id: 'assess-accusative',
+    reference: 'Imam sestru.',
+    wrong: 'Imam sestra.',
+    focus: 'sestru',
+    wrongFocus: 'sestra',
+  },
   {
     id: 'assess-animate',
     reference: 'Vidim prijatelja.',
     wrong: 'Vidim prijatelj.',
     focus: 'prijatelja',
+    wrongFocus: 'prijatelj',
   },
   {
     id: 'assess-locative',
     reference: 'Živim u Zagrebu.',
     wrong: 'Živim u Zagreb.',
     focus: 'Zagrebu',
+    wrongFocus: 'Zagreb',
   },
   {
     id: 'assess-object',
     reference: 'Pijem kavu s mlijekom.',
     wrong: 'Pijem kava s mlijekom.',
     focus: 'kavu',
+    wrongFocus: 'kava',
   },
 ];
+
+/**
+ * Which form of the focus word a transcript carries: 'correct' (the required ending),
+ * 'wrong' (the probe's wrong ending), or 'neither' (the word was not heard as either).
+ * Words are compared whole, case- and punctuation-insensitive; diacritics count, because
+ * in Croatian they change the word.
+ */
+export function endingHeard(transcript, focus, wrongFocus) {
+  const words = String(transcript || '')
+    .toLowerCase()
+    .replace(/[.,;:!?„“”"'()]/g, ' ')
+    .split(/\s+/)
+    .filter(Boolean);
+  if (words.includes(String(focus).toLowerCase())) return 'correct';
+  if (wrongFocus && words.includes(String(wrongFocus).toLowerCase())) return 'wrong';
+  return 'neither';
+}
 
 /** The app's own threshold for an unclear word (src/lib/spokenCheck UNCLEAR_BELOW). */
 export const ASSESS_UNCLEAR_BELOW = 60;

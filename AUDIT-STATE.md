@@ -14174,3 +14174,27 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     `btoa` restored fails 1.
   - **Re-run `stt-calibration.yml` after this deploys.** If `scored` is false, Azure does not
     score hr-HR, and the check stands on miscue detection plus the recogniser's transcript.
+- [x] **Sweep 220 — proof first: can an unbiased transcriber hear a wrong ending? (owner,
+      2026-09-29).** The second calibration run (sweep 219's fix live) scored correct speech
+      at 100. But it heard every wrong-ending probe as the CORRECT sentence: "Imam sestra."
+      was reported as "Imam sestru." at 100. Scripted assessment is given the reference and
+      hears to match it, so it cannot judge a case ending (4 of 4 missed).
+    The check can only REVOKE a build pass, never grant one, so no wrong ending is credited
+    by it; it simply adds nothing for endings.
+  - Owner's decision: get a second, unbiased transcript of the same recording and use it
+    only for the focus word, with proof first. This change is the proof.
+    - `azureTranscribe` is the same Azure endpoint with no reference sentence.
+    - Each calibration probe half is transcribed by it AND by the production chain
+      (`transcribeCroatian`: Deepgram → Whisper → Workers AI). `endingHeard` says whether
+      the transcript carries the correct form, the wrong one (`wrongFocus`), or neither.
+    - The report's `unbiased` block tallies, per transcriber, the halves that heard the
+      ending actually spoken. It is reported, not gated, until the numbers are in.
+  - The run's budget ceiling rises by 16 × 15,000 µ$ for the extra transcriptions.
+  - Pinned in `assessProbes.test.js`: both transcribers are asked about every half; the
+    tally; a transcriber that always hears the reference scores only the controls; the
+    rule's whole-word comparison; every probe carries a usable wrong form.
+    Mutation-verified: the 'wrong' branch removed fails 3.
+  - **Next, depending on the result:** if one transcriber hears the endings, the Guided
+    Speaking build stage asks it about the focus word and says what was heard. If neither
+    does, the ending check stays with the browser recogniser and this is recorded as the
+    limit.

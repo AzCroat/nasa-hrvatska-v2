@@ -95,6 +95,17 @@ jobs:
                       print(f"::warning::{p.get('id')} {half}: not evaluated ({h.get('error') or p.get('error')})")
                   elif not h.get('ok'):
                       print(f"::warning::{p.get('id')} {half}: expected '{p.get('focus')}' {want}, got {json.dumps(h.get('focus'), ensure_ascii=False)} — heard \"{h.get('recognized','')}\"")
+          # Unbiased transcription of the same probe audio: which ending was heard?
+          u = report.get('unbiased') or {}
+          for src in ('azure', 'chain'):
+              t = u.get(src) or {}
+              print(f"Unbiased {src}: {t.get('right', 0)}/{t.get('total', 0)} halves heard the ending actually spoken")
+          for p in a.get('probes', []):
+              for half in ('control', 'miscue'):
+                  ub = (p.get(half) or {}).get('unbiased') or {}
+                  for src in ('azure', 'chain'):
+                      r = ub.get(src) or {}
+                      print(f"  {p.get('id')} {half} {src}: {r.get('heard') or r.get('error')} — \"{r.get('text', '')}\"")
           if a.get('drift'):
               print(f"::error::Assessment drift — {a.get('failed')}/{a.get('total')} probe halves wrong: the recording check cannot be trusted to tell a wrong ending from a right one")
               failed = True
