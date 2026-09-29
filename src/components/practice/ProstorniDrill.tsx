@@ -136,7 +136,7 @@ const DATA = [
     q: 'Na pitanje „gdje?” prijedlozi pod/nad/pred/za traže:',
     opts: ['instrumental', 'akuzativ', 'lokativ', 'genitiv'],
     answer: 'instrumental',
-    en: 'gdje? takes the instrumental with pod/nad/pred/za',
+    en: 'for "where?" (location), which case do pod/nad/pred/za govern?',
     tip: 'Pod krevetom, nad gradom, pred kućom, za stolom.',
   },
   {

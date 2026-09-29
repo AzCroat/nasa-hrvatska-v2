@@ -149,7 +149,7 @@ const DATA = [
     q: 'Prijedlog koji izriče NAMJERU (a ne uzrok) jest:',
     opts: ['radi', 'zbog', 'od', 'iz'],
     answer: 'radi',
-    en: 'the preposition of purpose is radi',
+    en: 'the preposition that expresses purpose, not cause',
     tip: 'Radi = namjera, zbog = uzrok.',
   },
   {

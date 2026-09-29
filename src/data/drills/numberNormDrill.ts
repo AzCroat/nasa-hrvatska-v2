@@ -104,7 +104,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'sklonidba',
     q: 'Pet ____.',
-    en: 'five kuna',
+    en: 'five of the old Croatian currency',
     opts: ['kuna', 'kune', 'kunu', 'kunama'],
     answer: 'kuna',
     tip: 'Five and above take the GENITIVE PLURAL.',

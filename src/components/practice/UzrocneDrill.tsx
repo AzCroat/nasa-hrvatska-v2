@@ -73,7 +73,7 @@ const DATA = [
     q: 'Za negativan uzrok umjesto „zahvaljujući” kažemo:',
     opts: ['zbog', 'radi', 'pomoću', 'unatoč'],
     answer: 'zbog',
-    en: 'negative causes take zbog',
+    en: 'the preposition for a negative cause',
     tip: 'Zahvaljujući pobjedi, ali ZBOG ozljede.',
   },
   {
