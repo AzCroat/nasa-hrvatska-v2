@@ -13746,3 +13746,39 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
   - Mutation-verified: the week check removed (fails 1), level completion ignored (3), the
     status→level mapping off by one (4), absent spine back to "ready" (1), the spine listener
     removed (1, unit; the E2E alone could not see it), no course seeded in the spec (E2E fails).
+- [x] **Sweep 213 — every item of every practice drill, read (2026-09-29).** Six agents read
+      all ~190 drill banks (`src/data/drills/*` and the hand-written
+      `src/components/practice/*Drill.tsx`) line by line, one batch each. This was review,
+      not a derivation. About 700 edits across 173 files.
+  - **Keyed answers that produced wrong Croatian**, about 30. Examples:
+    - `Biste li mi dodati` (needs the participle);
+    - `hoće li će doći`;
+    - `Penjete se li`;
+    - `Dao mu ga je ga je`;
+    - `protiv rješenje`;
+    - `Sviđa mi se gradu`;
+    - `raspravljalo se` in third position;
+    - `ustavši se`;
+    - past tenses missing `je` in all ten FleetingA items.
+  - **Distractors that were also correct Croatian**, about 250. The biggest class, and the
+    one this file already names: native forms marked wrong. Examples: `postati liječnik`,
+    `ne razumijem pitanje` (accusative after negation), `ako biste imali pitanja`, the -i
+    instrumental of i-nouns, emphatic long pronouns, `Mora biti da…`, `dati ostavku`,
+    `iz dva razloga`, `sav dan`, `Da li` (now removed as a Serbism rather than used as a
+    distractor). Each was replaced with an option wrong in the way the item tests.
+  - **English glosses that gave the answer away**, about 330. `ModeDrill` renders `en`
+    above the options. Found in bulk once missing diacritics were restored, because the
+    diacritics had been all that kept `answerNotInPrompt` from matching.
+  - **False tips**, about 60: `auto` is indeclinable, `jer` never opens a clause, čuti is
+    perfective, Vukovsko → Wackernagelovo pravilo, the ni…ni agreement, and others.
+  - Serbisms removed from options: `Italijan`, `studentkinja`, `poseti`, `čitalac`,
+    `kusur`, `uprkos`, `pomogni`, `Da li` (the reported-speech tips still name it).
+  - **Checked and kept**: regionalDrill's new `kaj bum delal` is wrong by person
+    (kajkavian 1sg for 2sg), not by being Serbian. The yat in `delal` was already in the
+    keyed answer.
+  - **Left for the owner, per the agents' notes**: `ždrijebe → ždrebeta`; a handful of
+    unverifiable tips (`brzoglas`, `zapozorje`); level placement (CliticDrill's
+    three-clitic clusters as a beginner drill; AccusativeDrill and AnimateAccDrill
+    duplicate each other; RegisterDrill and SubordinationDrill ask in English).
+  - Lint 0 findings across 482 files; full suite green on the merged branch; item
+    structure unchanged (ids, modes, four options, answer among them).
