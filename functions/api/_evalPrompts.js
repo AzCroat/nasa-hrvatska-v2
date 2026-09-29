@@ -130,6 +130,7 @@ Be rigorous but kind: a sparse or off-topic answer scores low even if grammatica
 List up to 5 most important errors from the transcript. For each, set "errorType" to exactly one of:
 "case", "aspect", "agreement", "tense", "word_order", "vocab", "spelling", "other".
 (The transcript cannot show pronunciation — never invent pronunciation errors; judge only what is written.)
+If the message lists UNCONFIRMED words, the learner's recording did not bear those words out: the speech recogniser may have written a correct form the learner did not actually say. Never praise or count those words as correct. If one of them carries a grammatical point (a case ending, an agreement), say in "advice" that you could not confirm it from the recording and name the exact form to check.
 If the transcript has no errors worth teaching, return an empty "errors" array.
 "advice" must name a concrete pattern (e.g. "after 'idem u' put the place in the accusative"), never generic tips.`,
 );

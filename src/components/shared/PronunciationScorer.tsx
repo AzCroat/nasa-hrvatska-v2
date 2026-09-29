@@ -7,6 +7,7 @@ import { _nativePost, getLastTransportFailure } from '../../lib/nativePost.js';
 import { isNative } from '../../lib/platform.js';
 import { similarityPct } from '../../lib/text/similarity';
 import { useRecorder } from '../../hooks/useRecorder';
+import { toWav16k } from '../../lib/audioWav';
 import {
   failureFromStatus,
   failureFromError,
@@ -279,7 +280,12 @@ export default function PronunciationScorer({
     rec.stopRecording();
   }
 
-  async function submitToAzure(blob: Blob, mimeType = 'audio/webm') {
+  async function submitToAzure(recorded: Blob, recordedMime = 'audio/webm') {
+    // Send 16 kHz WAV, the format Azure's short-audio API is documented for; an iPhone
+    // records only audio/mp4 (lib/audioWav). The original goes if conversion fails.
+    const wav = await toWav16k(recorded);
+    const blob = wav ?? recorded;
+    const mimeType = wav ? 'audio/wav' : recordedMime;
     // Convert Blob → base64 using chunked approach (avoids O(n²) concatenation and apply stack overflow)
     let audioBase64;
     try {

@@ -44,6 +44,27 @@ interface RawWordScore {
   word?: unknown;
   score?: unknown;
   error?: unknown;
+  phonemes?: unknown;
+}
+
+/** Voiced obstruents a Croatian speaker commonly devoices at the end of a word. */
+const DEVOICABLE_FINAL = /(?:b|d|g|z|ž|đ|dž)$/i;
+
+/**
+ * FINAL DEVOICING IS NOT A MISTAKE (2026-09-29). Many speakers say `Bog` as [bok] and
+ * `grad` as [grat]; Azure scores the reference phoneme /g/ or /d/ and can mark the word
+ * unclear for it. A word whose ONLY weak sound is its final voiced obstruent — every
+ * earlier phoneme clear — is heard, not unclear. This can never excuse a case ending:
+ * Croatian endings are vowels or end in a sonorant (-u, -a, -om, -ima, -ama), never a
+ * voiced obstruent, so the rule does not touch what BUILD checks.
+ */
+export function onlyFinalDevoiced(word: string, phonemes: unknown): boolean {
+  if (!DEVOICABLE_FINAL.test(word.trim()) || !Array.isArray(phonemes) || phonemes.length < 2)
+    return false;
+  const scores = (phonemes as { score?: unknown }[]).map((p) =>
+    typeof p?.score === 'number' && Number.isFinite(p.score) ? p.score : 0,
+  );
+  return scores.slice(0, -1).every((x) => x >= UNCLEAR_BELOW);
 }
 
 /** Azure word scores → the readout. Unknown shapes are skipped, never guessed at. */
@@ -59,7 +80,8 @@ export function checkedWords(raw: unknown): CheckedWord[] {
         ? 'missing'
         : error === 'Insertion'
           ? 'extra'
-          : error === 'Mispronunciation' || score < UNCLEAR_BELOW
+          : (error === 'Mispronunciation' || score < UNCLEAR_BELOW) &&
+              !onlyFinalDevoiced(r.word, r.phonemes)
             ? 'unclear'
             : 'good';
     out.push({ word: r.word, status, score });
@@ -71,6 +93,22 @@ export function checkedWords(raw: unknown): CheckedWord[] {
 export function missingWords(check: SpokenCheck | null): string[] {
   if (!check) return [];
   return check.words.filter((w) => w.status === 'missing' && w.word.length > 2).map((w) => w.word);
+}
+
+/**
+ * Words of the learner's own transcript the recording did not bear out (SPEAK). The
+ * recogniser may have written a likelier, correct form that was not said; the coach is
+ * told not to credit these, and the learner sees them marked before submitting.
+ */
+export function unconfirmedWords(check: SpokenCheck | null): string[] {
+  if (!check) return [];
+  return [
+    ...new Set(
+      check.words
+        .filter((w) => (w.status === 'unclear' || w.status === 'missing') && w.word.length > 1)
+        .map((w) => w.word),
+    ),
+  ].slice(0, 12);
 }
 
 /**

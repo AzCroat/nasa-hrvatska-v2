@@ -13841,3 +13841,39 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     - Final devoicing (`bog` said [bok]) may score a correct word "not clear".
     - iOS records audio/mp4, which Azure's short-audio REST API may not accept; that device
       then falls back.
+- [x] **Sweep 208 — SPEAK checked against its own recording; devoicing; one WAV format; a
+      Stop button that never came back (2026-09-29).** The three open items of sweep 207.
+  - **SPEAK has no target, so its reference is the learner's own transcript.** `SpeakCheck`
+    records while the recogniser listens. When it stops, Azure scores the recording against
+    what was written (`lib/assessTake`). Words the recording does not bear out are marked
+    ("not clear in your recording — the text may show a form you did not say") and sent to
+    the coach as UNCONFIRMED. The coach prompt says never to credit them and to name the form
+    to check. An edit after the check withdraws it from the screen and from the coach.
+  - Recording alongside the recogniser may take the mic from it on some devices. If the
+    recogniser fails during such a take, the take is discarded and recording alongside stops
+    for the session; the recogniser keeps working.
+  - **Final devoicing** (`Bog` said [bok], `grad` [grat]): a word whose ONLY weak sound is a
+    final voiced obstruent, every earlier phoneme clear, counts as clear. It cannot excuse a
+    case ending: Croatian endings are vowels or end in a sonorant (-u, -a, -om, -ima).
+  - **One format**: every take is decoded in the browser and re-encoded as 16 kHz mono PCM
+    WAV (`lib/audioWav`), the format Azure's short-audio API is documented for, before it is
+    sent. An iPhone records only audio/mp4. This applies to Guided Speaking and the
+    pronunciation scorer; if conversion fails, the original goes as before.
+  - **Found on the way, live on every Guided Speaking stage: Stop never cleared the
+    recording flag.** A deliberate stop nulls `onend` first, so nothing reset it. The button
+    stayed on "■ Stop", pressing it again did nothing, and a second take was impossible until
+    the stage changed, while REHEARSE's copy invites "say it once more". `stopRecognizer`
+    clears it now.
+  - `GuidedSpeakingScreen` was at 799 lines; the unit rotation and checklist helpers moved
+    to `lib/speakingUnits` (re-exported, behaviour unchanged). The cap was not raised.
+  - Pinned by `speakCheck.test.tsx` (the screen with a fake recogniser and recorder, the WAV
+    encoder and conversion, devoicing), `speakingCoachUnconfirmed.test.js` (the real
+    handler: the list reaches the model as words only) and two E2E tests on Chromium's fake
+    microphone. Real Chrome sends `audio/wav` with a RIFF header; SPEAK marks the flagged
+    word and the button comes back. Mutation-verified, ten, each failing 1–3. One survived
+    first (the converted WAV not preferred), because jsdom cannot convert; a fake Web Audio
+    context now drives it.
+  - **Still not measured from here**: Azure's real behaviour on Croatian learner speech
+    (all Azure answers are mocked), and WebKit's recording path (the fake-microphone flags
+    are Chromium-only). The Unit production and lesson produce speaking steps still grade
+    the transcript alone.

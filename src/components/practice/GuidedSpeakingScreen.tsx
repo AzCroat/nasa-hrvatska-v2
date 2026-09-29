@@ -35,77 +35,38 @@ import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { recordScreenPractised } from '../../lib/teachPractice';
 import { markQuest } from '../../lib/quests.js';
 import { gradeBuild, type BuildVerdict } from '../../lib/sentenceBuild';
-import { rehearseRight, verifyBuild, type SpokenCheck } from '../../lib/spokenCheck';
+import {
+  rehearseRight,
+  unconfirmedWords,
+  verifyBuild,
+  type SpokenCheck,
+} from '../../lib/spokenCheck';
 import AssessedMic, { HeardWords } from './AssessedMic';
+import SpeakCheck from './SpeakCheck';
 import { getCurrentContentLevel } from '../../lib/cefrCertification';
 import { launchedLevel } from '../../lib/sessionLevel';
 import { requestSpeakingCoach, COACH_MIN_WORDS } from '../../lib/speakingCoach';
 import type { CoachResult } from '../../lib/speakingCoach';
 import type { AiFailure } from '../../lib/aiFailure';
-import {
-  SPEAKING_CURRICULUM,
-  speakingUnitsForLevel,
-  type SpeakingUnit,
-  type SpeakingChecklistItem,
-} from '../../data/speakingCurriculum';
-import type { CefrLevel } from '../../lib/cefr.js';
+import type { SpeakingUnit } from '../../data/speakingCurriculum';
 import { accumulateTranscript, decideOnRecognizerEnd, heardCroatian } from '../../lib/speechTurn';
-
-const UNIT_PTR_KEY = 'nh_guided_speaking_idx';
-
-export function countSpokenWords(raw: string): number {
-  return raw.trim().split(/\s+/).filter(Boolean).length;
-}
 
 // The rehearsal compare lives in lib/spokenMatch (one rule, shared with the build
 // grader); re-exported here for the callers that import it from this screen.
 export { phraseMatches } from '../../lib/spokenMatch';
 
-/** Rotate through the level's units across visits so content does not repeat. */
-/**
- * The unit this learner is on at `level`. A READ, and only a read (2026-09-27).
- *
- * It used to advance the stored pointer as it read, and it is called when the screen
- * MOUNTS — so opening a unit and backing out skipped it for the whole rotation, and a
- * learner who backed out of their first unit never met it. The floors in this
- * curriculum ladder by index on the premise that the rotation is sequential ("unit 0
- * really is the learner's first"); advancing on open made that premise false for
- * anyone who looked before committing. The pointer now moves in `advanceSpeakingUnit`, called
- * from the graded finish — the same place the course coupling is discharged. Found
- * walking a learner's day in a browser: reopening an abandoned unit served another.
- */
-export function pickSpeakingUnit(level: string): SpeakingUnit {
-  const pool = speakingUnitsForLevel(level as CefrLevel);
-  const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
-  let idx = 0;
-  try {
-    idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
-  } catch {
-    /* storage unavailable — first unit */
-  }
-  return units[((idx % units.length) + units.length) % units.length]!;
-}
-
-/** Move this level's pointer past the unit just FINISHED. Only a graded finish calls it. */
-export function advanceSpeakingUnit(level: string): void {
-  const pool = speakingUnitsForLevel(level as CefrLevel);
-  const units = pool.length > 0 ? pool : SPEAKING_CURRICULUM.filter((u) => u.level === 'A1');
-  try {
-    const idx = parseInt(localStorage.getItem(`${UNIT_PTR_KEY}:${level}`) || '0', 10) || 0;
-    localStorage.setItem(`${UNIT_PTR_KEY}:${level}`, String((idx + 1) % units.length));
-  } catch {
-    /* storage unavailable — same unit next time */
-  }
-}
-
-export function checklistSatisfied(item: SpeakingChecklistItem, transcript: string): boolean {
-  if (typeof item.minWords === 'number') return countSpokenWords(transcript) >= item.minWords;
-  if (item.words && item.words.length > 0) {
-    const low = transcript.toLowerCase();
-    return item.words.some((w) => low.includes(w.toLowerCase()));
-  }
-  return false;
-}
+export {
+  countSpokenWords,
+  pickSpeakingUnit,
+  advanceSpeakingUnit,
+  checklistSatisfied,
+} from '../../lib/speakingUnits';
+import {
+  countSpokenWords,
+  pickSpeakingUnit,
+  advanceSpeakingUnit,
+  checklistSatisfied,
+} from '../../lib/speakingUnits';
 
 interface Recognizer {
   lang: string;
@@ -160,6 +121,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const [phraseState, setPhraseState] = useState<'idle' | 'right' | 'again'>('idle');
   const [heardPhrase, setHeardPhrase] = useState('');
   const [spoken, setSpoken] = useState<SpokenCheck | null>(null);
+  const [speakCheck, setSpeakCheck] = useState<SpokenCheck | null>(null);
 
   // Build stage (2.5) — one sentence at a time, graded locally.
   const [buildIdx, setBuildIdx] = useState(0);
@@ -182,6 +144,9 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
   const buildItem = buildItems[buildIdx];
 
   const stopRecognizer = useCallback(() => {
+    // A deliberate stop nulls onend (below), so nothing else would clear the flag: the
+    // button stayed on "Stop" and a second take was impossible until the stage changed.
+    setRecording(false);
     const rec = recRef.current;
     if (!rec) return;
     recRef.current = null;
@@ -354,6 +319,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
       prompt: unit.promptEn,
       transcript,
       level: unit.level,
+      unconfirmed: unconfirmedWords(speakCheck),
     });
     if (!mountedRef.current) return;
     setLoading(false);
@@ -799,6 +765,12 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginTop: 4 }}>
               {wordCount} / {unit.minWords} words
             </div>
+            <SpeakCheck
+              listening={recording}
+              transcript={transcript}
+              recognizerFailed={!!micError}
+              onCheck={setSpeakCheck}
+            />
             {micError && (
               <div style={{ fontSize: 13, color: 'var(--ink-warn)', marginTop: 6 }}>{micError}</div>
             )}

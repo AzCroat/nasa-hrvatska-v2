@@ -16,29 +16,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRecorder } from '../../hooks/useRecorder';
 import { AZURE_MIME_PRIORITY } from '../shared/PronunciationScorer';
-import { blobToDataUrl } from '../../lib/audio';
-import { _nativePost, getLastTransportFailure } from '../../lib/nativePost.js';
-import { failureFromStatus, reportAiFailure, transportFailure } from '../../lib/aiFailure';
-import { heardCroatian } from '../../lib/heardCroatian';
-import { checkedWords, type SpokenCheck, type WordStatus } from '../../lib/spokenCheck';
+import {
+  assessTake,
+  assessUnconfigured,
+  canRecordTakes,
+  _resetAssessTake,
+} from '../../lib/assessTake';
+import type { SpokenCheck, WordStatus } from '../../lib/spokenCheck';
 
 const SURFACE = 'guided-speaking-assess';
 /** A REHEARSE phrase or BUILD sentence is one short sentence. */
 const MAX_TAKE_MS = 15000;
 
-let unconfigured = false;
 /** Test seam: forget a remembered "not configured" answer. */
 export function _resetAssessedMic(): void {
-  unconfigured = false;
-}
-
-function canRecord(): boolean {
-  return (
-    typeof window !== 'undefined' &&
-    typeof (window as { MediaRecorder?: unknown }).MediaRecorder !== 'undefined' &&
-    typeof navigator !== 'undefined' &&
-    !!navigator.mediaDevices?.getUserMedia
-  );
+  _resetAssessTake();
 }
 
 interface Props {
@@ -53,7 +45,7 @@ interface Props {
 
 export default function AssessedMic({ reference, onHeard, children, testId }: Props) {
   const rec = useRecorder();
-  const [fallback, setFallback] = useState(() => unconfigured || !canRecord());
+  const [fallback, setFallback] = useState(() => assessUnconfigured() || !canRecordTakes());
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const sentRef = useRef<Blob | null>(null);
@@ -95,47 +87,12 @@ export default function AssessedMic({ reference, onHeard, children, testId }: Pr
 
   async function assess(blob: Blob, mimeType: string) {
     setBusy(true);
-    const dataUrl = await blobToDataUrl(blob);
-    const audioBase64 = dataUrl ? dataUrl.slice(dataUrl.indexOf(',') + 1) : '';
-    if (!audioBase64) return giveUp('the recording could not be read.');
-    const res = await _nativePost('/api/pronunciation-assess', {
-      audioBase64,
-      referenceText: refText.current,
-      locale: 'hr-HR',
-      audioMimeType: mimeType,
-    });
-    if (!res) {
-      const t = getLastTransportFailure();
-      const failure = transportFailure(t ? t.reason : 'transport_null');
-      reportAiFailure(SURFACE, failure, t ? `attempts=${t.attempts}` : undefined);
-      return giveUp(failure.message);
-    }
-    let data: Record<string, unknown> = {};
-    try {
-      data = (await res.json()) as Record<string, unknown>;
-    } catch {
-      /* an unreadable body is classified by its status below */
-    }
-    if (!res.ok || !data['ok']) {
-      const code = typeof data['error'] === 'string' ? (data['error'] as string) : '';
-      if (code === 'not_configured') unconfigured = true;
-      const failure = failureFromStatus(
-        res.status,
-        code,
-        typeof data['resetAt'] === 'string' ? (data['resetAt'] as string) : undefined,
-        data['ok'],
-      );
-      reportAiFailure(SURFACE, failure);
-      return giveUp(failure.message);
-    }
+    const out = await assessTake(blob, mimeType, refText.current, SURFACE);
+    if (!out.ok) return giveUp(out.message);
     if (!mountedRef.current) return;
-    const check: SpokenCheck = {
-      recognized: heardCroatian(typeof data['recognized'] === 'string' ? data['recognized'] : ''),
-      words: checkedWords(data['word_scores']),
-    };
     setBusy(false);
     setNotice(null);
-    onHeardRef.current(check.recognized, check);
+    onHeardRef.current(out.check.recognized, out.check);
   }
 
   if (fallback) {
@@ -186,11 +143,17 @@ const STATUS_STYLE: Record<WordStatus, { color: string; label: string }> = {
 };
 
 /** The word-by-word readout of one assessed take. Renders nothing without one. */
-export function HeardWords({ check }: { check: SpokenCheck | null }) {
+export function HeardWords({
+  check,
+  testId = 'gs-heard-words',
+}: {
+  check: SpokenCheck | null;
+  testId?: string;
+}) {
   if (!check || check.words.length === 0) return null;
   const flagged = check.words.filter((w) => w.status !== 'good').length;
   return (
-    <div data-testid="gs-heard-words" style={{ marginBottom: 8 }}>
+    <div data-testid={testId} style={{ marginBottom: 8 }}>
       <div style={{ fontSize: 12, color: 'var(--ink-muted)', marginBottom: 4 }}>
         {flagged === 0
           ? 'Word by word, from your recording: every word came through clearly.'

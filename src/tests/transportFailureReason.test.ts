@@ -174,8 +174,8 @@ describe('the reason vocabulary is closed', () => {
 describe('every _nativePost caller names the reason', () => {
   const CALLERS = [
     'components/shared/PronunciationScorer.tsx',
-    // Guided Speaking's word-by-word check (2026-09-29).
-    'components/practice/AssessedMic.tsx',
+    // Guided Speaking's recording checks (2026-09-29): REHEARSE/BUILD and SPEAK share it.
+    'lib/assessTake.ts',
     'components/croatia/LiveTutorScreen.tsx',
     'components/learn/GradedInputScreen.tsx',
     'lib/speaking/whisperClaudeScorer.ts',
