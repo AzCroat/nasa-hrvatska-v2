@@ -64,7 +64,7 @@ export const LITERARY_STYLE_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does the imperfect convey?',
     opts: ['trajno stanje u prošlosti', 'jednokratan čin', 'budućnost u prošlosti', 'pretpostavku'],
     answer: 'trajno stanje u prošlosti',
-    tip: 'Sjedaše i šutjaše — he sat and was silent, at length.',
+    tip: 'Čitaše i pjevaše — she read and sang, at length.',
   },
   {
     mode: 'vremena',
@@ -148,7 +148,7 @@ export const LITERARY_STYLE_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is an archaism?',
     opts: ['zastarjela riječ', 'dijalektizam', 'posuđenica', 'kovanica'],
     answer: 'zastarjela riječ',
-    tip: 'vazda, tja, spomen — and they signal distance in time.',
+    tip: 'vazda, tja, jur — and they signal distance in time.',
   },
   {
     mode: 'glas',
