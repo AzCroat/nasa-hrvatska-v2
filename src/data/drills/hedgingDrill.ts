@@ -64,7 +64,7 @@ export const HEDGING_DRILL_DATA: ModeDrillItem[] = [
       'nudi stav umjesto činjenice',
       'skraćuje rečenicu',
       'mijenja vrijeme',
-      'dodaje uljudnost',
+      'pojačava tvrdnju',
     ],
     answer: 'nudi stav umjesto činjenice',
     tip: 'It offers the claim rather than asserting it — and costs one verb form.',
@@ -200,7 +200,7 @@ export const HEDGING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pripisati',
-    q: 'Prema ____ , stanje se popravlja. (izvor)',
+    q: 'Prema ____, stanje se popravlja. (izvor)',
     en: 'According to the source, things are improving.',
     opts: ['izvoru', 'izvora', 'izvor', 'izvorom'],
     answer: 'izvoru',

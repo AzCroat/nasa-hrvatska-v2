@@ -130,7 +130,7 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'jat',
-    q: 'Zašto "mlijeko", a "mliječni"?',
+    q: 'Zašto "mlijeko", a "mljekara"?',
     en: 'Why the change?',
     opts: ['dugi jat daje ije, kratki je', 'nepravilnost je', 'pravopisna promjena', 'dijalekt'],
     answer: 'dugi jat daje ije, kratki je',
@@ -208,7 +208,7 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is gajica?',
     opts: ['latinica s dijakriticima', 'glagoljica', 'ćirilica', 'narječje'],
     answer: 'latinica s dijakriticima',
-    tip: 'Gaj gave the alphabet č, ć, š, ž and đ in the 1830s — hence the name.',
+    tip: 'Gaj gave the alphabet č, ć, š and ž in the 1830s — hence the name. The đ came later, from Đuro Daničić.',
   },
   {
     mode: 'pismo',
@@ -227,7 +227,7 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'pismo',
     q: 'Od čega je složeno "zrakoplov"?',
     en: 'What is zrakoplov built from?',
-    opts: ['zrak + ploviti', 'zrak + plov', 'zra + koplje', 'zora + plov'],
+    opts: ['zrak + ploviti', 'zrak + plovak', 'zra + koplje', 'zora + plov'],
     answer: 'zrak + ploviti',
     tip: 'Air plus sail — built rather than borrowed, and deliberately so.',
   },
@@ -258,6 +258,6 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which letters did gajica add?',
     opts: ['č ć š ž đ', 'q w x y', 'ć đ samo', 'ph th ch'],
     answer: 'č ć š ž đ',
-    tip: 'The diacritics that make Croatian spelling one sound to one letter.',
+    tip: 'The diacritics that make Croatian spelling one sound to one letter (the đ joined the set later, via Daničić).',
   },
 ];

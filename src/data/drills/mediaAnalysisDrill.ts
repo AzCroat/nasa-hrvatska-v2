@@ -176,7 +176,7 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ograde',
-    q: 'Prema ____ , broj raste. (izvještaj)',
+    q: 'Prema ____, broj raste. (izvještaj)',
     en: 'According to the report…',
     opts: ['izvještaju', 'izvještaja', 'izvještaj', 'izvještajem'],
     answer: 'izvještaju',

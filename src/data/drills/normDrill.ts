@@ -105,7 +105,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'I am going with my sister.',
     opts: ['sa', 's', 'so', 'su'],
     answer: 'sa',
-    tip: 'sa before s, š, z, ž. Writing s sestrom is the hypercorrection.',
+    tip: 'sa before s, š, z, ž: sa sestrom. Using sa everywhere because it sounds more careful is the hypercorrection — see the next item.',
   },
   {
     mode: 'hiperkor',
@@ -117,7 +117,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'hiperkor',
-    q: 'Idem ____ mnom.',
+    q: 'Dođi ____ mnom.',
     en: 'Come with me.',
     opts: ['sa', 's', 'so', 'su'],
     answer: 'sa',
@@ -164,7 +164,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     mode: 'hiperkor',
     q: 'Radim ____ školi.',
     en: 'I work at a school.',
-    opts: ['u', 'na', 'kod', 'po'],
+    opts: ['u', 'na', 'kod', 'za'],
     answer: 'u',
     tip: 'u školi — and reaching for na because it sounds more careful is the same error class.',
   },
@@ -217,7 +217,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dosljedno',
-    q: 'Koliko Hrvatskih jezika C2 govornik ima?',
+    q: 'Koliko hrvatskih jezika C2 govornik ima?',
     en: 'How many Croatians does a C2 speaker have?',
     opts: ['više, i bira među njima', 'jedan ispravan', 'dva', 'ovisi o kraju'],
     answer: 'više, i bira među njima',

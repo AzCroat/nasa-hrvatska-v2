@@ -68,9 +68,9 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'naslovi',
     q: 'Što je "naslov"?',
     en: 'What is a naslov?',
-    opts: ['headline, title', 'article', 'address', 'report'],
+    opts: ['headline, title', 'article', 'paragraph', 'report'],
     answer: 'headline, title',
-    tip: 'A false friend — it also means the title of a book, not an address.',
+    tip: 'Headline, and the title of a book too. (Older administrative style also used it for the address on a letter.)',
   },
   {
     mode: 'naslovi',
@@ -84,7 +84,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'naslovi',
     q: 'Što je "dnevnik"?',
     en: 'What is the dnevnik?',
-    opts: ['TV news bulletin', 'daily paper', 'diary only', 'weather report'],
+    opts: ['TV news bulletin', 'a weekly magazine', 'diary only', 'weather report'],
     answer: 'TV news bulletin',
     tip: 'It also means a diary, but on television it is the evening news.',
   },
@@ -116,10 +116,10 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prenosenje',
-    q: 'Što Hrvatski NE radi pri prenošenju?',
+    q: 'Što hrvatski NE radi pri prenošenju?',
     en: 'What does Croatian not do?',
-    opts: ['ne pomiče vrijeme', 'ne mijenja zamjenice', 'ne rabi da', 'ne rabi prošlo'],
-    answer: 'ne pomiče vrijeme',
+    opts: ['pomiče vrijeme', 'mijenja zamjenice', 'rabi veznik da', 'mijenja priložne oznake'],
+    answer: 'pomiče vrijeme',
     tip: 'Tenses stay. Pronouns and time words DO shift.',
   },
   {
@@ -132,7 +132,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prenosenje',
-    q: 'Rekla je: "Bio sam ovdje jučer." Što se mijenja?',
+    q: 'Rekla je: "Bila sam ovdje jučer." Što se mijenja?',
     en: 'What changes?',
     opts: ['zamjenice i priložne oznake', 'samo vrijeme', 'ništa', 'samo padež'],
     answer: 'zamjenice i priložne oznake',
@@ -156,7 +156,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prenosenje',
-    q: 'Zašto se hrvatski govornici ovdje "prepravljaju"?',
+    q: 'Zašto učenici ovdje ipak pomiču vrijeme?',
     en: 'Why do learners over-correct here?',
     opts: [
       'primjenjuju englesko pravilo',
@@ -195,7 +195,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izvor',
-    q: 'Prema ____ , broj raste. (izvještaj)',
+    q: 'Prema ____, broj raste. (izvještaj)',
     en: 'According to the report, the number is rising.',
     opts: ['izvještaju', 'izvještaja', 'izvještaj', 'izvještajem'],
     answer: 'izvještaju',
@@ -219,9 +219,9 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izvor',
-    q: 'Nisam siguran ____ je to točno.',
+    q: 'Nisam siguran ____ to točno.',
     en: 'I am not sure whether that is true.',
-    opts: ['je li', 'da li', 'ako', 'što'],
+    opts: ['je li', 'li je', 'ako', 'što'],
     answer: 'je li',
     tip: 'Je li introduces an indirect yes-no question. ako is a conditional if.',
   },
@@ -229,7 +229,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'izvor',
     q: 'Što znači "objaviti"?',
     en: 'What does objaviti mean?',
-    opts: ['to publish', 'to explain', 'to announce a name', 'to broadcast live'],
+    opts: ['to publish', 'to explain', 'to object', 'to broadcast live'],
     answer: 'to publish',
     tip: 'And javiti is to report or let someone know.',
   },

@@ -127,9 +127,9 @@ export const IRONY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'podcijenjeno',
     q: 'Što je jače: "Odlično je" ili "Nije loše"?',
     en: 'Which is stronger in this register?',
-    opts: ['Nije loše', 'Odlično je', 'jednako su', 'ovisi o tonu'],
-    answer: 'Nije loše',
-    tip: 'The double negative outranks the plain positive. That is the style.',
+    opts: ['Odlično je', 'Nije loše', 'jednako su', 'ovisi o tonu'],
+    answer: 'Odlično je',
+    tip: 'Odlično je says more — but nije loše, said warmly, is real praise too, not faint praise.',
   },
   {
     mode: 'podcijenjeno',
@@ -143,9 +143,9 @@ export const IRONY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'podcijenjeno',
     q: 'Što znači "Može proći"?',
     en: 'What does Može proći mean?',
-    opts: ['sasvim je dobro', 'jedva prolazi', 'može se propustiti', 'dopušteno je'],
-    answer: 'sasvim je dobro',
-    tip: 'Another understatement, and rather warmer than it sounds.',
+    opts: ['prihvatljivo je', 'odlično je', 'može se propustiti', 'dopušteno je'],
+    answer: 'prihvatljivo je',
+    tip: 'It will do — acceptable, neither praise nor complaint. The tone decides which way it leans.',
   },
   {
     mode: 'podcijenjeno',
@@ -172,7 +172,7 @@ export const IRONY_DRILL_DATA: ModeDrillItem[] = [
   // ── pisano ────────────────────────────────────────────────────────────────
   {
     mode: 'pisano',
-    q: 'Na čemu jaše ironija u pisanju?',
+    q: 'Što nosi ironiju u pisanju?',
     en: 'What carries written irony?',
     opts: ['deminutiv, navodnici i neslaganje registra', 'uskličnik', 'kurziv', 'duljina rečenice'],
     answer: 'deminutiv, navodnici i neslaganje registra',
