@@ -194,11 +194,11 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razgledavanje',
-    q: 'Kako se zove najmoprimac na hrvatskom?',
+    q: 'Kako se zove osoba koja unajmljuje stan?',
     en: 'The person renting IN:',
     opts: ['najmoprimac', 'najmodavac', 'vlasnik', 'stanar broja'],
     answer: 'najmoprimac',
-    tip: 'najmoprimac takes, najmodavac gives. Two letters apart in the contract.',
+    tip: 'najmoprimac takes, najmodavac gives. Easy to confuse in a contract.',
   },
   {
     mode: 'razgledavanje',

@@ -207,7 +207,7 @@ export const QUANTITY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which verb number after mnogo?',
     opts: ['jednina', 'množina', 'oba su točna', 'ovisi o rodu'],
     answer: 'jednina',
-    tip: 'Mnogo turista dolazi — never dolaze. This is the error that survives to C1.',
+    tip: 'Mnogo turista dolazi is the standard form; dolaze is heard in speech. This is the error that survives to C1.',
   },
   {
     mode: 'slaganje',

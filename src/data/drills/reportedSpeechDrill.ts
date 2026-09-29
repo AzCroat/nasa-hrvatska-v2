@@ -72,7 +72,7 @@ export const REPORTED_SPEECH_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'vrijeme',
-    q: '"Radim."→ Rekla mi je da ____.',
+    q: '"Radim." → Rekla mi je da ____.',
     en: 'She told me she was working.',
     opts: ['radi', 'je radila', 'će raditi', 'radim'],
     answer: 'radi',
@@ -159,7 +159,7 @@ export const REPORTED_SPEECH_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osobe',
-    q: '"Bio sam jučer." (rečeno danas) → Rekao je da je bio ____.',
+    q: '"Bio sam tamo jučer." (rečeno prošli tjedan) → Rekao je da je tamo bio ____.',
     en: 'He said he had been there the day before.',
     opts: ['dan prije', 'jučer', 'sutra', 'danas'],
     answer: 'dan prije',
@@ -177,11 +177,11 @@ export const REPORTED_SPEECH_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pitanja',
-    q: '"Dolaziš li?" → Pitao je ____ dolazim.',
+    q: '"Dolaziš li?" → Pitao je ____.',
     en: 'He asked whether I was coming.',
-    opts: ['je li', 'da', 'što', 'kako'],
-    answer: 'je li',
-    tip: 'A yes/no question is reported with je li (or li after the verb).',
+    opts: ['dolazim li', 'da dolazim', 'što dolazim', 'kako dolazim'],
+    answer: 'dolazim li',
+    tip: 'A yes/no question is reported with the verb + li: pitao je dolazim li. Je li is used only with biti: pitao je je li gotovo.',
   },
   {
     mode: 'pitanja',

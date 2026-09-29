@@ -130,7 +130,7 @@ export const VERBAL_ADVERBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'izbor',
     q: '____ na posao, sreo je prijatelja. (ići, usput)',
     en: 'Going to work, he met a friend.',
-    opts: ['Idući', 'Otišavši', 'Išavši', 'Odlazeći'],
+    opts: ['Idući', 'Otišavši', 'Išavši', 'Išući'],
     answer: 'Idući',
     tip: 'On the way — simultaneous, so the present adverb.',
   },
