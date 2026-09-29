@@ -305,6 +305,11 @@ export function croatiaReason(atLevel = false): string {
  * reason" and "has an empty reason" indistinguishable downstream. Omitting the
  * property keeps the honesty rule visible in the data itself.
  */
+/** The fluency round's line: states only the count of passed lessons it draws from. */
+export function fluencyReason(passed: number): string {
+  return `90 seconds on the ${passed} lessons you have passed — speed with what you know.`;
+}
+
 export function withReason(reason: string | null | undefined): { reason?: string } {
   return reason ? { reason } : {};
 }

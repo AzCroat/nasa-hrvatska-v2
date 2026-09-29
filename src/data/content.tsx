@@ -1690,6 +1690,12 @@ function buildSearchIndex() {
   const screenEntries = [
     { hr: 'Šatrovački Slang', en: 'slang urban street language', type: 'screen', go: 'slang' },
     { hr: 'Poslovice', en: 'proverbs Croatian sayings', type: 'screen', go: 'proverbs' },
+    {
+      hr: 'Brzo prisjećanje',
+      en: 'quick recall fluency speed round',
+      type: 'screen',
+      go: 'fluency',
+    },
     { hr: 'Sjenovni govor', en: 'shadowing speaking practice', type: 'screen', go: 'shadowing' },
     { hr: 'Diktat', en: 'dictation listen and type', type: 'screen', go: 'dictation' },
     { hr: 'Dijalog', en: 'dialogue conversation simulation', type: 'screen', go: 'dialogue' },

@@ -132,6 +132,10 @@ const OUTSIDE_SESSION: string[] = [
   // activity". That became false one increment later, which is the stale-exemption
   // shape this file keeps finding in other people's lists.)
   'unittest',
+  // The fluency round (recommendation 4, 2026-09-29): served by the STRETCH once three
+  // lessons are passed — it draws only from passed lessons, so the CEFR rotation, which
+  // serves anything at level to anyone, is the wrong door for it.
+  'fluency',
   // Unit production, same shape as the unit test: served by P0's teaching slot once
   // a unit's test is passed and its production is owed, never by the CEFR pool — it
   // needs a UNIT and a HALF (write or speak), which the session builder writes into
