@@ -13487,3 +13487,29 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     `Što li si rekao`, `cijelog dana`, `Radi kao crv`, `za vrijeme rata` as a genitive use
     of `za`, `od strane` taught as formal style, the č/ć tongue-position description, `3,5
 postotna boda`, and several lesson positions stricter than everyday speech.
+- [x] **Sweep 206 — the flagged Croatian, decided (owner: "your training … technical enough
+      to decide which is correct", 2026-09-29).** The rule throughout: a distractor must be
+      genuinely wrong, and a form natives use is taught as usage, not marked as an error.
+  - `Što li si rekao?` is GRAMMATICAL (emphatic li after a question word) and an A2 item
+    keyed it wrong. The item now tests clitic position: `Što rekao si?` → `Što si rekao?`.
+  - `cijelog dana` (genitive of time) is standard, so it is no longer a distractor for
+    `cijeli dan`; the distractor is `cijelu dan` and the explanation names both.
+  - `dva djeteta` is grammatical and common; `dvoje djece` is the standard choice. Two items
+    stop offering it as wrong, and "never" / "not standard" become "heard in speech".
+  - `Bio sam u doktora` (regional u + genitive) is replaced as a distractor by `kod doktorom`.
+  - `za vrijeme rata` was taught as za + genitive, though za governs the accusative
+    `vrijeme`; the examples are `za života` in both tables and the B2 item.
+  - Decimals take the genitive singular: `3,5 postotnog boda`. The C2 lesson said "genitive
+    singular" beside the paucal `postotna boda`, and `numberNormDrill` keyed the paucal; both
+    fixed. `dva/tri postotna boda` is correct and stays.
+  - `od strane Vlade` is no longer the model of formal style (a discouraged calque):
+    `Zakon je izmijenjen odlukom Vlade`. `registersDrill` already calls it heavy officialese.
+  - `Radi kao crv` → `Radi kao konj`; the `fabrika / fabula` row → `fabula` / fable; C1's
+    "there is is never built on biti" → "usually ima/nema, and 'there' is not translated".
+  - The alphabet lesson had č and ć roughly reversed; it now says č = tongue tip behind the
+    upper ridge, ć = tip low and the tongue body against the hard palate.
+  - Kept, with reasons: `nekoliko studenata je došlo` (the standard agreement is what the A2
+    and C2 lessons teach); C2 `Vam` in a letter (the lesson teaches the norm explicitly); C2
+    casual `Dolaziš?` (a register item, honestly explained); C1 `se je` (the standard drops je
+    after se).
+  - Lint 0 findings; depth checker 0 problems at every level; full suite 679 files green.
