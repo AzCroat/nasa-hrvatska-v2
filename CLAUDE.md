@@ -3071,7 +3071,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **482 files**, 3 of them walked structurally — the figure the lint
+Coverage is **481 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -3080,7 +3080,8 @@ deleted the hero cluster three more pointed at, and up by one for
 `src/components/learn/pastTenseData.ts` (sweep 158, extracted off the 800-line cap), then down by one when Grammar Videos was deleted (2026-09-27, "Remove YouTube"), then up by six for
 the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
 … `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
-checks, positive-controlled in an `options` field and a `hint`).
+checks, positive-controlled in an `options` field and a `hint`), then down by one when the
+seasonal-campaign data file was deleted (2026-09-29, owner decision).
 
 **THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
 A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither
@@ -3392,9 +3393,9 @@ whole `home/` hero cluster.
     So sweep 111's "a conduit is not a producer" needs one more hop: **a producer
     that is itself UNREACHABLE is not a producer**, the same correction sweep 130
     made for endpoints, and `deadKeyReaders`'s `NO_PRODUCER` cannot see it because
-    appUtils does contain the write. Recorded at the constants for the owner, not
-    patched — re-adding a purchase surface is a product decision, like the campaign
-    multiplier.
+    appUtils did contain the write. **Both were REMOVED on 2026-09-29 by owner
+    decision**, with the campaign multiplier: an award now pays exactly what the
+    exercise pays, and the `nh_xp_boost_*` keys are no longer synced.
   - **`LEVEL_NARRATIVE` is a key in the 1.4 MB `/api/content/core` payload whose ONE
     client consumer was HeroSection**, so #655's September fix to its level-7 rung
     was a fix to the reading of a payload nobody reads. It is still shipped. The
@@ -6384,8 +6385,9 @@ comparisons would have been `undefined === undefined` and passed while checking
   nothing. Mutating one English field in one served export, and watching the
   failure NAME it, is the only thing that distinguishes the two.
 - **A LIST OF SUBJECTS SKIPPED BY `continue` NEEDS PINNING BY NAME.** The twin
-  derivation skips a module with no client copy — correct for `learnPath` and
-  `seasonalCampaigns`, and also exactly how a RENAMED twin would leave the guard
+  derivation skips a module with no client copy — correct for `learnPath` (and
+  `seasonalCampaigns`, until the campaign feature was removed on 2026-09-29), and also
+  exactly how a RENAMED twin would leave the guard
   without a word. The set of skipped modules is asserted, not assumed.
 - **AN EFFECT FIRES ON MOUNT; A HANDLER NEEDS A CONTROL — which is why the same
   credit shape is harmless in 152 handlers and was a defect in one effect** (sweep
@@ -6735,7 +6737,10 @@ reachable` ("Including it would close the loop on every field"), plus
   name, icon, colours, blurb and quests still ship in `/api/content/core` — so a learner
   in a campaign window earns 1.5× and is never told why. HomeTab's dead copies of that
   computation are removed; re-adding a Home section would run against the deliberate
-  strip-down, so this is recorded for a decision rather than fixed.
+  strip-down, so this is recorded for a decision rather than fixed. **Decided 2026-09-29:
+  REMOVED** — the multiplier, the campaign data and its payload key, the client resolver,
+  and the Easter quest flags nothing displayed. The Easter screen and its quiz-done flag
+  stay.
 - NEVER: silence an unused COMPUTED value with `void` — delete it, or record why it is
   waiting; write a `void` for a name the file actually uses (the comment then describes
   nothing and the dead names beside it go unread); gate a screen's credit without

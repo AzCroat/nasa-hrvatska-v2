@@ -446,49 +446,14 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     }
   }
 
-  // ── Seasonal/campaign quest completion — additive ─────────────────────────
-  // Capture prior LOCAL state BEFORE writing the flags: the quest-done event
-  // must fire only on a genuine false→true transition (a completion newly
-  // arriving from another device). Dispatching unconditionally created a
-  // self-sustaining write loop for any user with a completed quest: watcher
-  // snapshot → applyRemoteProgress → event → App.tsx onQuestDone → doSyncNow
-  // → Firestore write → watcher snapshot → … which flooded the client write
-  // queue (resource-exhausted: "Write stream exhausted maximum allowed queued
-  // writes") and re-rendered the app in a loop. Flags remain additive — true
-  // is never overwritten by false.
-  let _q1Was = false;
-  let _q2Was = false;
-  let _q3Was = false;
-  try {
-    _q1Was = lsGet('nh_cq_easter_uskrs_q1') === '1';
-    _q2Was = lsGet('nh_cq_easter_uskrs_q2') === '1';
-    _q3Was = lsGet('nh_cq_easter_uskrs_q3') === '1';
-  } catch (_) {}
+  // ── Easter quiz completion — additive (true is never overwritten by false) ──
+  // The seasonal-campaign quest flags (nh_cq_easter_uskrs_q1..q3) and their
+  // nh-campaign-quest-done event were removed with the campaign feature on
+  // 2026-09-29 (owner decision): nothing ever displayed them.
   if (fp.nh_uskrs_kviz_done === true)
     try {
       _safeSet('nh_uskrs_kviz_done', '1');
     } catch (_) {}
-  if (fp.nh_cq_easter_uskrs_q1 === true)
-    try {
-      _safeSet('nh_cq_easter_uskrs_q1', '1');
-    } catch (_) {}
-  if (fp.nh_cq_easter_uskrs_q2 === true)
-    try {
-      _safeSet('nh_cq_easter_uskrs_q2', '1');
-    } catch (_) {}
-  if (fp.nh_cq_easter_uskrs_q3 === true)
-    try {
-      _safeSet('nh_cq_easter_uskrs_q3', '1');
-    } catch (_) {}
-  const _questNewlyDone =
-    (fp.nh_cq_easter_uskrs_q1 === true && !_q1Was) ||
-    (fp.nh_cq_easter_uskrs_q2 === true && !_q2Was) ||
-    (fp.nh_cq_easter_uskrs_q3 === true && !_q3Was);
-  if (_questNewlyDone) {
-    try {
-      window.dispatchEvent(new CustomEvent('nh-campaign-quest-done'));
-    } catch (_) {}
-  }
 
   // ── Hearts — remote wins only when its lastRegen is newer ────────────────
   if (fp.nh_hearts !== null && fp.nh_hearts !== undefined) {
@@ -639,23 +604,6 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       ) {
         _safeSet('nh_earn_back', JSON.stringify(fp.nh_earn_back));
       }
-    } catch (_) {}
-  }
-
-  // ── XP boost — Math.max for both timestamps ───────────────────────────────────
-  if (fp.nh_xp_boost_expires > 0) {
-    const lExp = parseInt(lsGet('nh_xp_boost_expires') || '0', 10);
-    try {
-      _safeSet('nh_xp_boost_expires', String(Math.max(lExp, fp.nh_xp_boost_expires as number)));
-    } catch (_) {}
-  }
-  if (fp.nh_xp_boost_last_activated > 0) {
-    const lAct = parseInt(lsGet('nh_xp_boost_last_activated') || '0', 10);
-    try {
-      _safeSet(
-        'nh_xp_boost_last_activated',
-        String(Math.max(lAct, fp.nh_xp_boost_last_activated as number)),
-      );
     } catch (_) {}
   }
 

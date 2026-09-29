@@ -45,14 +45,8 @@ describe('generate-content-etags', () => {
   });
 
   it('SP11e: ETag changes when LEARN_PATH content changes', async () => {
-    const base = { V: {}, LEARN_PATH: [{ level: 1, items: [{ id: 'lp1' }] }], SEASONAL_CAMPAIGNS: [] };
-    const mutated = { V: {}, LEARN_PATH: [{ level: 1, items: [{ id: 'lp2' }] }], SEASONAL_CAMPAIGNS: [] };
-    expect(await computeEtag(base)).not.toBe(await computeEtag(mutated));
-  });
-
-  it('SP11e: ETag changes when SEASONAL_CAMPAIGNS content changes', async () => {
-    const base = { V: {}, LEARN_PATH: [], SEASONAL_CAMPAIGNS: [{ id: 'easter', windowKind: 'easterRelative' }] };
-    const mutated = { V: {}, LEARN_PATH: [], SEASONAL_CAMPAIGNS: [{ id: 'midsummer', windowKind: 'fixed' }] };
+    const base = { V: {}, LEARN_PATH: [{ level: 1, items: [{ id: 'lp1' }] }] };
+    const mutated = { V: {}, LEARN_PATH: [{ level: 1, items: [{ id: 'lp2' }] }] };
     expect(await computeEtag(base)).not.toBe(await computeEtag(mutated));
   });
 });
