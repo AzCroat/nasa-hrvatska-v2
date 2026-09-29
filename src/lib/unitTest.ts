@@ -124,7 +124,9 @@ export function buildUnitTest(lessons: readonly LessonBodyLike[], attempt = 0): 
   for (const lesson of lessons) {
     const slides = Array.isArray(lesson?.slides) ? lesson.slides : [];
     const found = findCheckSlide(slides);
-    const items = found?.items ?? [];
+    // Both forms: a unit test and its retakes sample from every check item the
+    // lesson has, so a retake meets fresh questions where they exist.
+    const items = found?.pool ?? [];
     if (items.length === 0) {
       perLesson.push([]);
       continue;

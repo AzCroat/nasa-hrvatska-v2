@@ -44,7 +44,12 @@
 import { localDateStr } from './dateUtils';
 import { sm2 } from './srs';
 import { recordLessonTaught } from './teachPractice';
-import { LESSON_PASS_THRESHOLD, MIN_CHECK_ITEMS, shuffledOrder } from './lessonCheck';
+import {
+  LESSON_PASS_THRESHOLD,
+  MIN_CHECK_ITEMS,
+  shuffledOrder,
+  findCheckSlide,
+} from './lessonCheck';
 import type { LessonCheckItem } from './lessonCheck';
 
 export const LESSON_RETENTION_KEY = 'nh_lesson_retention';
@@ -424,16 +429,10 @@ export interface RetentionQueueItem {
   part: RetentionPart;
 }
 
+/** Both check forms, A then B — the index space retention cards use. */
 function checkItemsOf(lesson: LessonWithCheck): LessonCheckItem[] {
-  const slide = (lesson.slides ?? []).find((s) => s && s.type === 'check');
-  const raw = slide && Array.isArray(slide.items) ? (slide.items as unknown[]) : [];
-  return raw.filter(
-    (it): it is LessonCheckItem =>
-      !!it &&
-      typeof it === 'object' &&
-      typeof (it as LessonCheckItem).q === 'string' &&
-      Array.isArray((it as LessonCheckItem).options) &&
-      Number.isInteger((it as LessonCheckItem).correct),
+  return (
+    findCheckSlide((lesson.slides ?? []) as Array<{ type?: string; items?: unknown }>)?.pool ?? []
   );
 }
 

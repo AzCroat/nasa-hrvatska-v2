@@ -24,7 +24,7 @@ import { PRACTICE_B2 } from './lessonPracticeB2.js';
 import { PRACTICE_C1 } from './lessonPracticeC1.js';
 import { PRACTICE_C2 } from './lessonPracticeC2.js';
 
-/** lesson id → { worked: WorkedSlide[], practice: PracticeSlide } */
+/** lesson id → { worked, practice, checkB?, vocab? } */
 export const LESSON_PRACTICE = {
   ...PRACTICE_A1,
   ...PRACTICE_A2,
@@ -48,6 +48,15 @@ export function withPractice(lessons) {
       const at = slides.findIndex((s) => s.type === 'check');
       slides.splice(at >= 0 ? at : slides.length, 0, { type: 'practice', ...extra.practice });
     }
-    return { ...lesson, slides };
+    // FORM B of the mastery check (academic recommendation 2, 2026-09-29): a parallel
+    // paper on the same objectives, served on the next opening after a fail.
+    if (Array.isArray(extra.checkB) && extra.checkB.length) {
+      const at = slides.findIndex((s) => s.type === 'check');
+      if (at >= 0) slides[at] = { ...slides[at], itemsB: extra.checkB };
+    }
+    // The lesson's own target words (recommendation 3): enrolled in review on a pass.
+    return Array.isArray(extra.vocab) && extra.vocab.length
+      ? { ...lesson, slides, vocab: extra.vocab }
+      : { ...lesson, slides };
   });
 }

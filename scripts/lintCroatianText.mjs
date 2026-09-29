@@ -952,6 +952,17 @@ const CONTRASTIVE_LESSONS = new Set(['language-identity', 'dijalekti-dubinski'])
 
 function* lessonStrings() {
   for (const l of LESSONS) {
+    // A lesson's own target words (2026-09-29): [hr, en, example]. The headword and
+    // the example are Croatian — both checks; the English gloss is skipped.
+    for (let v = 0; v < (Array.isArray(l.vocab) ? l.vocab : []).length; v++) {
+      const row = l.vocab[v];
+      if (!Array.isArray(row)) continue;
+      const kindV = CONTRASTIVE_LESSONS.has(l.id) ? 'gloss' : 'croatian';
+      if (typeof row[0] === 'string')
+        yield { loc: `${l.id}.vocab[${v}].hr`, field: 'vocab', content: row[0], kind: kindV };
+      if (typeof row[2] === 'string')
+        yield { loc: `${l.id}.vocab[${v}].example`, field: 'vocab', content: row[2], kind: kindV };
+    }
     for (let i = 0; i < (l.slides || []).length; i++) {
       const s = l.slides[i];
       const at = `${l.id}.slides[${i}]`;
@@ -1008,9 +1019,12 @@ function* lessonStrings() {
         for (let k = 0; k < items.length; k++) {
           const it = items[k] || {};
           const where = `${at}.items[${k}]`;
-          for (const f of ['q', 'hint', 'explanation']) {
+          for (const f of ['q', 'hint', 'explanation', 'answer']) {
             if (typeof it[f] === 'string')
               yield { loc: `${where}.${f}`, field: f, content: it[f], kind };
+          }
+          for (const acc of Array.isArray(it.accept) ? it.accept : []) {
+            yield { loc: `${where}.accept`, field: 'accept', content: acc, kind };
           }
           for (const o of Array.isArray(it.options) ? it.options : []) {
             yield { loc: `${where}.options`, field: 'options', content: o, kind };
@@ -1018,7 +1032,12 @@ function* lessonStrings() {
         }
       }
       if (s.type === 'check') {
-        const items = Array.isArray(s.items) ? s.items : [];
+        // Both forms (2026-09-29): form B is a second paper and is read exactly as
+        // form A is.
+        const items = [
+          ...(Array.isArray(s.items) ? s.items : []),
+          ...(Array.isArray(s.itemsB) ? s.itemsB : []),
+        ];
         for (let k = 0; k < items.length; k++) {
           const it = items[k] || {};
           const where = `${at}.items[${k}]`;

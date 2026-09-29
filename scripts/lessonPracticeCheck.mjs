@@ -10,7 +10,7 @@
 // once the level joins DEEPENED_LEVELS; this is how a level gets there.
 
 import { LESSONS } from '../functions/api/content/_data/lessons.js';
-import { practiceProblems } from './lessonDepthRules.mjs';
+import { practiceProblems, productiveProblems } from './lessonDepthRules.mjs';
 import { findSerbism } from '../functions/api/_serbisms.js';
 import { containsCyrillic } from '../functions/api/_croatianGuard.js';
 
@@ -35,7 +35,13 @@ function place(lesson, extra) {
   slides.splice(firstQuiz >= 0 ? firstQuiz : checkAt, 0, ...worked);
   const at = slides.findIndex((s) => s.type === 'check');
   slides.splice(at, 0, { type: 'practice', ...extra.practice });
-  return { ...lesson, slides };
+  if (Array.isArray(extra.checkB)) {
+    const c = slides.findIndex((s) => s.type === 'check');
+    slides[c] = { ...slides[c], itemsB: extra.checkB };
+  }
+  return Array.isArray(extra.vocab)
+    ? { ...lesson, slides, vocab: extra.vocab }
+    : { ...lesson, slides };
 }
 
 const lessons = LESSONS.filter((l) => l.level === level);
@@ -47,7 +53,12 @@ for (const l of lessons) {
     findings.push(`${l.id}: no entry`);
     continue;
   }
-  for (const p of practiceProblems(place(l, map[l.id]))) findings.push(`${l.id}: ${p}`);
+  const placed = place(l, map[l.id]);
+  for (const p of practiceProblems(placed)) findings.push(`${l.id}: ${p}`);
+  // --productive: also hold the level to the parallel-form, typed-practice and
+  // vocabulary rules it must meet before it joins PRODUCTIVE_LEVELS.
+  if (process.argv.includes('--productive'))
+    for (const p of productiveProblems(placed)) findings.push(`${l.id}: ${p}`);
 }
 
 function* strings(x, path) {

@@ -73,6 +73,15 @@ async function readLesson(page, id) {
       continue;
     }
 
+    // A TYPED practice item (2026-09-29): it is not scored, so two misses resolve it
+    // and show the answer — the walk needs only to move through it.
+    const typedIn = page.getByTestId('practice-typed-input');
+    if (await typedIn.isVisible()) {
+      await typedIn.fill('x');
+      await page.getByTestId('practice-typed-submit').click();
+      continue;
+    }
+
     // Guided practice: answer each item, taking the second try when the hint shows
     // (it is not scored), then move to the next item; Next waits for the last one.
     const practice = page.getByTestId('practice-option');

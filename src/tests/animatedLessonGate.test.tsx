@@ -283,6 +283,56 @@ describe('AnimatedLesson mastery gate', () => {
     expect(screen.queryByTestId('lesson-check-retake')).toBeNull();
   });
 
+  it('the next day’s retake sits FORM B — a parallel paper, not the same six items', () => {
+    const withB = () => {
+      const l = lessonWithCheck();
+      const check = l.slides.find((sl) => sl.type === 'check') as { itemsB?: unknown };
+      check.itemsB = [7, 8, 9, 10, 11, 12].map((n) => ({
+        q: `Parallel ${n}`,
+        options: [`${n}-a`, `${n}-b`, `${n}-c`, `${n}-d`],
+        correct: n % 4,
+        explanation: `Rule ${n}`,
+      }));
+      return l;
+    };
+    const first = render(<AnimatedLesson lesson={withB()} goBack={vi.fn()} award={vi.fn()} />);
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
+    expect(screen.getByTestId('lesson-check-question').textContent).toMatch(/^Question/);
+    answerCheck([1, 2, 3]);
+    first.unmount();
+    ageAttemptsToYesterday();
+    render(<AnimatedLesson lesson={withB()} goBack={vi.fn()} award={vi.fn()} />);
+    next();
+    next();
+    answerFormative(true, 'yes');
+    next();
+    expect(screen.getByTestId('lesson-check-question').textContent).toMatch(/^Parallel/);
+    // Answer the parallel paper with the first option shown each time, then check
+    // WHERE the misses were filed: form B's items are pool indices 6..11, so a card at
+    // 0..5 would send tomorrow's review a form-A question the learner never missed.
+    for (let k = 0; k < 6; k++) {
+      const check = screen.getByTestId('lesson-check');
+      fireEvent.click(within(check).getAllByTestId('lesson-check-option')[0]!);
+      const more = within(check).queryByTestId('lesson-check-next');
+      if (more) fireEvent.click(more);
+    }
+    const cards = Object.keys(
+      (JSON.parse(localStorage.getItem('nh_lesson_retention') || '{}').items ?? {}) as object,
+    );
+    const formBCards = cards.map((k) => Number(k.split('#')[1])).filter((i) => i >= 6);
+    expect(formBCards.length).toBeGreaterThan(0);
+    // Every day-2 miss is a form-B index; day 1's misses (form A: items 1-3) stay below 6.
+    expect(
+      cards
+        .map((k) => Number(k.split('#')[1]))
+        .filter((i) => i < 6)
+        .sort(),
+    ).toEqual([0, 1, 2]);
+  });
+
   it('options are presented in a different order on the next day’s retake', () => {
     const first = render(
       <AnimatedLesson lesson={lessonWithCheck()} goBack={vi.fn()} award={vi.fn()} />,
