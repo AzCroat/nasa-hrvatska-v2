@@ -192,7 +192,6 @@ const ListeningPath = lazyWithReload(() => import('./practice/ListeningPath'));
 const AspectDrillScreen = lazyWithReload(() => import('./practice/AspectDrillScreen'));
 const TranslateDrillsScreen = lazyWithReload(() => import('./practice/TranslateDrillsScreen'));
 const CliticDrill = lazyWithReload(() => import('./practice/CliticDrill'));
-const AnimateAccDrill = lazyWithReload(() => import('./practice/AnimateAccDrill'));
 const PassiveDrill = lazyWithReload(() => import('./practice/PassiveDrill'));
 const InstrumentalDrill = lazyWithReload(() => import('./practice/InstrumentalDrill'));
 const DativeDrill = lazyWithReload(() => import('./practice/DativeDrill'));
@@ -2906,11 +2905,6 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'neggen' && (
           <ScreenErrorBoundary key="neggen" name="neggen">
             <NegationGenDrill goBack={goBack} award={award} />
-          </ScreenErrorBoundary>
-        )}
-        {currentScreen === 'animateacc' && (
-          <ScreenErrorBoundary key="animateacc" name="animateacc">
-            <AnimateAccDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'passive' && (

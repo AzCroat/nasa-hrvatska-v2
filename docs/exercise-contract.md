@@ -73,7 +73,7 @@ If you add a new file under `src/components/practice/` (top-level OR `exercises/
 
 | Tag | Reason locked |
 |---|---|
-| `animateacc` | Dual-use: also the screen-ID for `AnimateAccDrill` |
+| `animateacc` | Persisted in `vs`; the screen was retired 2026-09-29, the registry row stays |
 | `falsefr` | Dual-use: also a screen-ID |
 | `fleetinga` | Dual-use: also the screen-ID for `FleetingADrill` |
 | `formalregister` | Dual-use: also a screen-ID |

@@ -143,6 +143,9 @@ const RAW: Record<string, ExerciseEntry> = {
 
   // ── Gated score-bearing grammar drills (Phases 1–2) ──
   accusative: g('gc', 'grammar', 'grammar'),
+  // Screen retired 2026-09-29 (it repeated AccusativeDrill, which already drills the
+  // animate/inanimate contrast). The row stays: `distinctExercisesDone` counts `vs`
+  // keys that are registry keys, so learners who finished it keep that credit.
   animateacc: g('gc', 'grammar', 'grammar'),
   aspect: g('gc', 'grammar', 'grammar'), // shared by AspectScreen (lesson) + AspectDrillScreen — both gated
   clitic: g('gc', 'grammar', 'grammar'),

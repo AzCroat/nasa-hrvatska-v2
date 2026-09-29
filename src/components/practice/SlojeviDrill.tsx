@@ -107,11 +107,11 @@ const DATA = [
   },
   {
     mode: 'novotvorenice',
-    q: '„Zapozorje” je kazališna novotvorenica za:',
-    opts: ['backstage', 'pozornicu', 'gledalište', 'zastor'],
-    answer: 'backstage',
-    en: 'a Croatian theatre coinage',
-    tip: 'Za + pozornica → zapozorje.',
+    q: '„Sučelje” je novotvorenica za:',
+    opts: ['interface', 'surface', 'meeting', 'face'],
+    answer: 'interface',
+    en: 'a Croatian computing coinage',
+    tip: 'Su- + lice → sučelje; zaživjelo je.',
   },
   {
     mode: 'novotvorenice',
@@ -132,7 +132,7 @@ const DATA = [
     opts: ['telefon', 'radio', 'brzinu', 'glasnoću'],
     answer: 'telefon',
     en: 'brzoglas = telephone (failed coinage)',
-    tip: 'NDH-in purizam; nije zaživio.',
+    tip: 'Puristička zamjena; nije zaživjela.',
   },
   {
     mode: 'novotvorenice',
@@ -238,7 +238,7 @@ export default function SlojeviDrill({ goBack, award }: Props) {
     <ModeDrill
       id="slojevi"
       title={'🏺 Slojevi leksika'}
-      subtitle={'kadšto, uspješnica, zapozorje — words with a time stamp'}
+      subtitle={'kadšto, uspješnica, sučelje — words with a time stamp'}
       modeLabels={MODE_LABEL}
       data={DATA}
       praise={{

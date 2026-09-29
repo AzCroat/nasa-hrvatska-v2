@@ -166,7 +166,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: '„Kava je ____ .” (popiti)',
-    opts: ['popijena', 'popita', 'popivena', 'popila'],
+    opts: ['popijena', 'popijela', 'popivena', 'popila'],
     answer: 'popijena',
     en: 'the coffee has been drunk',
     tip: 'Popiti → popijen, -a (piti → pijen).',
