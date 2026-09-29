@@ -36,6 +36,7 @@ import {
   computeRelationshipLevel,
 } from './MajaScreenUtils.js';
 import { accentInk, accentFill } from '../../lib/accentInk';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 // ─────────────────────────────────────────────
 // Types
@@ -875,7 +876,7 @@ export default function MajaScreen() {
       const se = e as unknown as { results: SpeechRecognitionResultList };
       let full = '';
       for (let i = 0; i < se.results.length; i++) {
-        if (se.results[i]?.[0]) full += se.results[i]![0]!.transcript;
+        if (se.results[i]?.[0]) full += heardCroatian(se.results[i]![0]!.transcript);
       }
       const merged = accumulateTranscript(transcriptBaseRef.current, full);
       transcriptRef.current = merged;

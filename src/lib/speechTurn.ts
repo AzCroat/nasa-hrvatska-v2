@@ -11,6 +11,10 @@
  * that an ordinary pause-heavy answer never exhausts it, low enough that a
  * browser whose speech service is refusing to run cannot spin forever.
  */
+// The spelling rule every recogniser transcript passes through (heardCroatian.ts),
+// re-exported beside the other recogniser helpers.
+export { heardCroatian } from './heardCroatian';
+
 export const MAX_TURN_RESTARTS = 8;
 
 /**

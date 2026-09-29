@@ -7037,6 +7037,18 @@ Own the correctness — every authored line must meet native-standard Croatian:
   case errors, word-order errors learners actually make) — never gibberish
 - The greeting is `bog` (not `bok`) per the 2026-07 owner decision; the idiom
   `bok uz bok` (side by side) is the one deliberate exception
+- **The recognisers do not know that, so every transcript is corrected at birth
+  (owner report, 2026-09-29: _"I said Bog and it wrote bok"_).** The browser's hr-HR
+  model, Deepgram and Whisper all write the greeting `bok` (the two are homophones:
+  final devoicing makes /bog/ [bok]), so a learner who said the app's greeting was
+  shown the other spelling and, on REHEARSE and BUILD, graded against `Bog` with `bok`.
+  `heardCroatian` (`src/lib/heardCroatian.ts`, server twin `functions/api/_heardCroatian.js`)
+  turns the bare word into `bog` with its case kept and leaves `bok uz bok` and the
+  inflected noun (`boka`, `boku`) alone; it runs at every browser `onresult` and on every
+  provider `transcribeCroatian` returns. `heardCroatian.test.ts` DERIVES the recogniser
+  sites and requires each to wrap its transcript, and runs both copies over the same
+  cases. Stated cost: a bare `bok` meaning "side" (`s boka na bok`) is read as the
+  greeting. NEVER read a recogniser's `.transcript` without `heardCroatian`.
 
 Do not gate content delivery on external review by default — write it right,
 self-verify against the rules above, and ship it through the normal test
