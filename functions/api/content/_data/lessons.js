@@ -4948,7 +4948,7 @@ const LESSONS_CORE = [
         type: 'rule',
         title: "The 'je' Problem — Auxiliary vs Verb",
         body: "The clitic 'je' does double duty: it's both the 3rd person singular past auxiliary AND the present tense of 'biti' (to be). Either way it comes LAST in the clitic cluster, after all the other clitics: 'Dao mu ga je' (auxiliary), 'Drago mi je' (is). Unlike sam and si, it never goes ahead of the pronouns. This is the subtlest rule in Croatian.",
-        highlight: 'je (aux.) = early slot | je (= is) = last',
+        highlight: "je = last in the cluster, as auxiliary and as 'is'",
       },
       {
         type: 'example',
@@ -5122,7 +5122,7 @@ const LESSONS_CORE = [
         title: 'Clitic Mastery — The Complete Rules',
         points: [
           'Clitics occupy second position — after the first stressed unit',
-          'Internal order: bi → aux (je/sam...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
+          'Internal order: bi → aux (sam/si/smo...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
           'First unit can be any phrase — a word, NP, or adverb',
           "je (auxiliary or 'is'): always last in the cluster",
           'Never place clitics at the start or end of a clause',

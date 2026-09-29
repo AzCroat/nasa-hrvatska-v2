@@ -1321,7 +1321,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Kao Does Not Change the Case',
-        body: 'A point worth stating because learners over-decline. "Kao" is a conjunction, not a preposition, so what follows keeps the case it would have anyway: Radi kao konobar (nominative, because he IS one). Smatram ga kao prijatelja — accusative, matching "ga". "Poput" is a real preposition and takes the genitive, which is why the two behave differently.',
+        body: 'A point worth stating because learners over-decline. "Kao" is a conjunction, not a preposition, so what follows keeps the case it would have anyway: Radi kao konobar (nominative, because he IS one). Doživljavam ga kao prijatelja — accusative, matching "ga". "Poput" is a real preposition and takes the genitive, which is why the two behave differently.',
         highlight: 'kao + no case change · poput + genitive',
       },
       {
