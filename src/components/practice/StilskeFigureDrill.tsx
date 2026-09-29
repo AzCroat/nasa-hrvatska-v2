@@ -62,7 +62,7 @@ const DATA = [
   },
   {
     mode: 'prepoznaj',
-    q: '„Zuji, zveči, zvoni, zvuči” (Nazor) sadrži:',
+    q: '„Zuji, zveči, zvoni, zvuči” sadrži:',
     opts: ['onomatopeju i aliteraciju', 'ironiju', 'litotu', 'metonimiju'],
     answer: 'onomatopeju i aliteraciju',
     en: 'buzzing, clanging — sound figures',
@@ -82,7 +82,7 @@ const DATA = [
     opts: ['nema poredbene riječi (kao)', 'duža je', 'ima rimu', 'uvijek je smiješna'],
     answer: 'nema poredbene riječi (kao)',
     en: 'metaphor drops the like',
-    tip: 'Lav je (kao) junak → on je lav.',
+    tip: 'Hrabar je kao lav (poredba) → on je lav (metafora).',
   },
   {
     mode: 'razlike',
@@ -151,7 +151,7 @@ const DATA = [
   {
     mode: 'citanje',
     q: 'Naslov „Tišina koja govori” počiva na:',
-    opts: ['paradoksu/oksimoronu', 'anafori', 'asindetonu', 'epiteti'],
+    opts: ['paradoksu/oksimoronu', 'anafori', 'asindetonu', 'epitetu'],
     answer: 'paradoksu/oksimoronu',
     en: 'the silence that speaks',
     tip: 'Proturječje s dubljim smislom.',

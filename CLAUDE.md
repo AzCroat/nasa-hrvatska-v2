@@ -3086,7 +3086,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **481 files**, 3 of them walked structurally — the figure the lint
+Coverage is **480 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -3096,7 +3096,8 @@ deleted the hero cluster three more pointed at, and up by one for
 the per-level worked examples and guided practice, `functions/api/content/_data/lessonPracticeA1.js`
 … `lessonPracticeC2.js` (2026-09-27 — also walked structurally through the assembled LESSONS, both
 checks, positive-controlled in an `options` field and a `hint`), then down by one when the
-seasonal-campaign data file was deleted (2026-09-29, owner decision).
+seasonal-campaign data file was deleted and by one more when AnimateAccDrill was retired as
+a duplicate of AccusativeDrill (both 2026-09-29, owner decisions).
 
 **THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
 A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither

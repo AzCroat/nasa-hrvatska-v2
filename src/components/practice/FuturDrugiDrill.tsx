@@ -31,7 +31,7 @@ const DATA = [
   {
     mode: 'tvorba',
     q: 'Dopuni: „Ako ____ (ti) sutra slobodna, nazovi me.”',
-    opts: ['budeš', 'bit ćeš', 'budeš biti', 'si'],
+    opts: ['budeš', 'bit ćeš', 'budeš biti', 'bi'],
     answer: 'budeš',
     en: "If you're free tomorrow, call me.",
     tip: "Iza 'ako' za budućnost dolazi svršeni prezent glagola biti: ako budeš slobodna.",
@@ -86,11 +86,11 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: '„Ako ne ____ kišiti, idemo na izlet.”',
-    opts: ['bude', 'hoće', 'je', 'bi'],
+    q: '„Ako ne ____ kišilo, idemo na izlet.”',
+    opts: ['bude', 'hoće', 'je', 'će'],
     answer: 'bude',
     en: "If it doesn't rain, we're going on a trip.",
-    tip: 'Pogodbena surečenica o budućnosti: ako ne bude kišilo / ako ne bude kišiti.',
+    tip: 'Pogodbena surečenica o budućnosti: ako ne bude kišilo (bude + pridjev radni).',
   },
   {
     mode: 'uporaba',
@@ -103,7 +103,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: '„Ako ____ pitanja, slobodno ih postavite.”',
-    opts: ['bude', 'budu', 'će biti', 'jesu'],
+    opts: ['bude', 'bi', 'će biti', 'jesu'],
     answer: 'bude',
     en: 'If there are any questions, feel free to ask them.',
     tip: "Bezlično 'ako bude pitanja' — futur drugi glagola biti + genitiv.",
@@ -127,7 +127,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: '„Ako sutra ____ sunčano, idemo na plažu.”',
-    opts: ['bude', 'će biti', 'je', 'bi bilo'],
+    opts: ['bude', 'će biti', 'budu', 'bi bilo'],
     answer: 'bude',
     en: "If it's sunny tomorrow, we're going to the beach.",
     tip: "Iza 'ako' nikad futur prvi — dolazi futur drugi (bude sunčano).",
@@ -151,10 +151,10 @@ const DATA = [
   {
     mode: 'izbor',
     q: '„Javi mi čim ____.”',
-    opts: ['stigneš', 'budeš stigao', 'stići ćeš', 'stigao si'],
+    opts: ['stigneš', 'budeš stići', 'stići ćeš', 'stigao si'],
     answer: 'stigneš',
     en: 'Let me know as soon as you arrive.',
-    tip: 'Uz svršene glagole u vremenskoj surečenici standard radije bira prezent (čim stigneš); futur drugi tu zvuči obilježeno.',
+    tip: 'Uz svršene glagole u vremenskoj surečenici standard radije bira prezent (čim stigneš); moguće je i „čim budeš stigao”, a futur prvi ondje ne dolazi.',
   },
   {
     mode: 'izbor',
@@ -167,7 +167,7 @@ const DATA = [
   {
     mode: 'izbor',
     q: '„Ako ____ išta trebali, nazovite nas.”',
-    opts: ['budete', 'ćete', 'biste', 'jeste'],
+    opts: ['budete', 'ćete', 'bili', 'jeste'],
     answer: 'budete',
     en: 'If you need anything, call us.',
     tip: 'Pogodba o budućnosti → futur drugi: ako budete trebali.',

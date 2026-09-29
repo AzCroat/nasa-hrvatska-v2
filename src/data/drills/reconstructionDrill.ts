@@ -202,9 +202,9 @@ export const RECONSTRUCTION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'granica',
     q: 'Toliko o ____ stajalištu. (njegov)',
     en: 'So much for his position.',
-    opts: ['njegovu', 'njegovom', 'njegova', 'njegovim'],
+    opts: ['njegovu', 'njegovo', 'njegova', 'njegovim'],
     answer: 'njegovu',
-    tip: 'The definite adjective in the locative: njegovu stajalištu.',
+    tip: 'Locative after o: njegovu stajalištu (njegovom is equally standard).',
   },
   {
     mode: 'granica',

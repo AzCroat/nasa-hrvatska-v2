@@ -42,7 +42,7 @@ const DATA = [
     opts: ['vidjevši', 'videći', 'vidjeći', 'vidjavši'],
     answer: 'vidjevši',
     en: 'having seen',
-    tip: 'Vidje- + -vši; „videći” bio bi (nestandardni) prilog sadašnji.',
+    tip: 'Vidje- + -vši → vidjevši; „videći” je prilog SADAŠNJI (vide → videći).',
   },
   {
     mode: 'tvorba',
@@ -65,7 +65,7 @@ const DATA = [
     q: 'Od kojih se glagola tvori glagolski prilog sadašnji?',
     opts: ['samo od nesvršenih', 'samo od svršenih', 'od svih glagola', 'samo od povratnih'],
     answer: 'samo od nesvršenih',
-    en: 'only from imperfective verbs',
+    en: 'which verbs form the present verbal adverb?',
     tip: 'Prilog sadašnji traži nesvršeni vid: čitajući, ali ne *pročitajući.',
   },
   {
@@ -108,7 +108,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: '____ da je kasno, požurili smo.',
-    opts: ['Vidjevši', 'Videći', 'Gledavši', 'Vidjeći'],
+    opts: ['Vidjevši', 'Vidivši', 'Gledavši', 'Vidjeći'],
     answer: 'Vidjevši',
     en: 'having seen it was late, we hurried',
     tip: 'Uvid prethodi žurbi → prilog prošli: vidjevši.',
@@ -123,7 +123,7 @@ const DATA = [
       'samo u budućnosti',
     ],
     answer: 'istodobno s glavnom radnjom',
-    en: 'simultaneously with the main action',
+    en: 'when does its action take place?',
     tip: 'Sadašnji = istodobnost; prošli = prethodnost.',
   },
   {
@@ -152,7 +152,7 @@ const DATA = [
       'samo u sadašnjosti',
     ],
     answer: 'prije glavne radnje',
-    en: 'before the main action',
+    en: 'when does its action take place?',
     tip: 'Prošli prilog = prethodnost: pročitavši pismo, spalio ga je.',
   },
   {
@@ -182,10 +182,10 @@ const DATA = [
   {
     mode: 'zamjena',
     q: '„Kad je čula vijest, briznula je u plač.” = „____ vijest, briznula je u plač.”',
-    opts: ['Čuvši', 'Čujući', 'Slušajući', 'Čuvavši'],
+    opts: ['Čuvši', 'Začujući', 'Slušajući', 'Čuvavši'],
     answer: 'Čuvši',
     en: 'on hearing the news, she burst into tears',
-    tip: 'Čuti je svršen: čuvši (prilog prošli).',
+    tip: 'Radnja prethodi (kad je čula) → prilog prošli: čuvši.',
   },
   {
     mode: 'zamjena',

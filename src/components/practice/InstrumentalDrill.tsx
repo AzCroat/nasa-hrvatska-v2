@@ -82,14 +82,14 @@ export const DATA = [
   },
   {
     q: 'Želi postati ___.',
-    opts: ['liječnikom', 'liječnik', 'liječnika', 'liječniku'],
+    opts: ['liječnikom', 'liječnicima', 'liječnika', 'liječniku'],
     answer: 'liječnikom',
     en: 'He wants to become a doctor.',
     tip: "'postati' + instrumental for professions: liječnik + -om → liječnikom",
   },
   {
     q: 'Postala je ___.',
-    opts: ['učiteljicom', 'učiteljica', 'učiteljice', 'učiteljici'],
+    opts: ['učiteljicom', 'učiteljicama', 'učiteljice', 'učiteljici'],
     answer: 'učiteljicom',
     en: 'She became a teacher.',
     tip: "'postati' + instrumental: učiteljica (fem) → drop -a + -om → učiteljicom",
@@ -230,7 +230,7 @@ export const DATA = [
   },
   {
     q: 'Djeca se igraju ___.',
-    opts: ['igračkama', 'igračke', 'igračaka', 'igračkom'],
+    opts: ['igračkama', 'igračke', 'igračaka', 'igračkima'],
     answer: 'igračkama',
     en: 'The children play with toys.',
     tip: 'PLURAL feminine: igračke → igračkama (-ama).',
@@ -307,7 +307,7 @@ export const DATA = [
   },
   {
     q: 'On je postao ___.',
-    opts: ['liječnikom', 'liječnik', 'liječnika', 'liječniku'],
+    opts: ['liječnikom', 'liječnicima', 'liječnika', 'liječniku'],
     answer: 'liječnikom',
     en: 'He became a doctor.',
     tip: "'Postati' takes the instrumental for the new role: liječnik → liječnikom.",

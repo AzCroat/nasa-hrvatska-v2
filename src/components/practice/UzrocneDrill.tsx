@@ -39,7 +39,7 @@ const DATA = [
   {
     mode: 'uzrok',
     q: 'Pocrvenjela je ____ srama.',
-    opts: ['od', 'zbog', 'iz', 'za'],
+    opts: ['od', 'uz', 'iz', 'za'],
     answer: 'od',
     en: 'she blushed with shame',
     tip: 'Neposredni fiziološki uzrok: od + G (od srama, od hladnoće).',
@@ -47,7 +47,7 @@ const DATA = [
   {
     mode: 'uzrok',
     q: 'Učinio je to ____ ljubavi.',
-    opts: ['iz', 'od', 'zbog', 'po'],
+    opts: ['iz', 'od', 'za', 'po'],
     answer: 'iz',
     en: 'he did it out of love',
     tip: 'Unutarnja pobuda: iz + G (iz ljubavi, iz znatiželje).',
@@ -57,7 +57,7 @@ const DATA = [
     q: '„Zato što” najčešće dolazi:',
     opts: ['iza glavne surečenice', 'na početku rečenice', 'umjesto posljedice', 'uz imperativ'],
     answer: 'iza glavne surečenice',
-    en: 'zato sto follows the main clause',
+    en: 'zato što follows the main clause',
     tip: 'Ostao sam kod kuće zato što pada kiša.',
   },
   {
@@ -119,7 +119,7 @@ const DATA = [
   {
     mode: 'posljedica',
     q: 'Radi ____ da mu nitko ništa ne može prigovoriti.',
-    opts: ['tako', 'toliko', 'onako', 'ovako da'],
+    opts: ['tako', 'jer', 'onako', 'ovako da'],
     answer: 'tako',
     en: 'he works in such a way that no one can fault him',
     tip: 'Tako + da: način s posljedicom.',
@@ -201,7 +201,7 @@ const DATA = [
   {
     mode: 'razlika',
     q: 'Birani veznik uzroka za formalne tekstove:',
-    opts: ['budući da', 'pošto', 'jerbo', 'kako'],
+    opts: ['budući da', 'pošto', 'jerbo', 'ako'],
     answer: 'budući da',
     en: 'the formal causal conjunction',
     tip: 'Pošto je vremensko; jerbo arhaično; budući da birano.',

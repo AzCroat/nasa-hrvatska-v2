@@ -44,7 +44,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'faza',
     q: 'Nastavili smo ____.',
     en: 'We carried on working.',
-    opts: ['raditi', 'uraditi', 'odraditi', 'radeći'],
+    opts: ['raditi', 'izraditi', 'odraditi', 'radeći'],
     answer: 'raditi',
     tip: 'Nastaviti + imperfective.',
   },
@@ -71,9 +71,9 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'faza',
-    q: 'Počelo je ____.',
+    q: 'Počela je ____ kiša.',
     en: 'It started raining.',
-    opts: ['padati', 'pasti', 'popadati', 'padnuti'],
+    opts: ['padati', 'pasti', 'popadati', 'opasti'],
     answer: 'padati',
     tip: 'padati (imperfective), not pasti.',
   },
@@ -89,9 +89,9 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'faza',
     q: 'Svaki dan ____ novine. (čitati)',
     en: 'Every day I read the paper.',
-    opts: ['čitam', 'pročitam', 'pročitat ću', 'čitajući'],
+    opts: ['čitam', 'čitao', 'pročitat ću', 'čitajući'],
     answer: 'čitam',
-    tip: 'Anything REPEATED goes imperfective, whatever the surrounding frame.',
+    tip: 'A habit is imperfective by default: svaki dan čitam. (The perfective present can also count repeated completed acts — svako jutro popijem kavu.)',
   },
 
   // ── ishod ─────────────────────────────────────────────────────────────────
@@ -211,8 +211,8 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'modalni',
-    q: 'Želim ____ hrvatski.',
-    en: 'I want to learn Croatian.',
+    q: 'Želim ____ hrvatski za godinu dana.',
+    en: 'I want to learn Croatian within a year.',
     opts: ['naučiti', 'učiti', 'učeći', 'učim'],
     answer: 'naučiti',
     tip: 'The goal is the finished state of knowing it: perfective.',

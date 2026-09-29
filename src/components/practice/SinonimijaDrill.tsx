@@ -31,10 +31,10 @@ const DATA = [
   {
     mode: 'paronimi',
     q: 'Od neugode se počela ____.',
-    opts: ['crvenjeti', 'crveniti', 'crvenati', 'zacrvenjivati'],
+    opts: ['crvenjeti', 'crvenjati', 'crvenati', 'crvenovati'],
     answer: 'crvenjeti',
     en: 'she began to blush with embarrassment',
-    tip: 'Crvenjeti (se) = postajati crven; crveniti = činiti što crvenim.',
+    tip: 'Crvenjeti (se) = postajati crven (može i: crveniti se); crveniti = činiti što crvenim. Crvenjati, crvenati, crvenovati ne postoje.',
   },
   {
     mode: 'paronimi',
@@ -47,7 +47,7 @@ const DATA = [
   {
     mode: 'paronimi',
     q: 'Ponuđeno mu je mjesto ministra, ali se uljudno ____.',
-    opts: ['zahvalio', 'zahvalio njima', 'ispričao se', 'odbio se'],
+    opts: ['zahvalio', 'zahvalio njima', 'hvalio', 'odbio se'],
     answer: 'zahvalio',
     en: 'he was offered the minister post but politely declined',
     tip: 'Zahvaliti SE = uljudno odbiti; zahvaliti (komu na čemu) = izraziti hvalu.',
@@ -55,10 +55,10 @@ const DATA = [
   {
     mode: 'paronimi',
     q: 'Ušli su na ____ vrata zgrade.',
-    opts: ['stražnja', 'zadnja', 'posljednja', 'krajnja'],
+    opts: ['stražnja', 'straga', 'posljednja', 'krajnja'],
     answer: 'stražnja',
     en: 'they entered through the back door',
-    tip: 'Standard: stražnji = koji je straga; posljednji = konačni u nizu.',
+    tip: 'Stražnji (i: zadnji) = koji je straga; posljednji = konačni u nizu; straga je prilog.',
   },
   {
     mode: 'paronimi',
@@ -79,10 +79,10 @@ const DATA = [
   {
     mode: 'registar',
     q: 'U znanstvenom radu: „U analizi smo ____ tri metode.”',
-    opts: ['rabili', 'koristili', 'trošili', 'uzimali'],
+    opts: ['rabili', 'služili', 'trošili', 'uzimali'],
     answer: 'rabili',
     en: 'in the analysis we used three methods',
-    tip: 'Standardni jezik u formalnom stilu preferira rabiti/upotrijebiti.',
+    tip: 'Formalni stil voli rabiti/upotrijebiti (i: koristiti); služiti se traži instrumental: služili smo se trima metodama.',
   },
   {
     mode: 'registar',
@@ -111,7 +111,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'U službenom pozivu: „Molimo vas da ____ dolazak do petka.”',
-    opts: ['potvrdite', 'javite', 'šapnete', 'signalizirate'],
+    opts: ['potvrdite', 'potvrđujete', 'šapnete', 'signalizirate'],
     answer: 'potvrdite',
     en: 'please confirm your attendance by Friday',
     tip: 'Potvrditi dolazak — ustaljena formalna formulacija pozivnica.',
@@ -119,7 +119,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'Neutralno-standardno za razgovorno „frka”:',
-    opts: ['gužva', 'strka', 'jurnjava', 'zbrka-frka'],
+    opts: ['gužva', 'buka', 'jurnjava', 'zbrka-frka'],
     answer: 'gužva',
     en: 'the neutral word for commotion/rush',
     tip: 'Frka je žargon; gužva neutralno pokriva većinu značenja.',
@@ -134,7 +134,7 @@ const DATA = [
   },
   {
     mode: 'registar',
-    q: 'Publicistički klišej koji lektori križaju: „____ rečeno, projekt kasni.”',
+    q: 'Prihvatljiv publicistički izraz (ostale lektori križaju): „____ rečeno, projekt kasni.”',
     opts: ['Najblaže', 'Iskreno da ti kažem', 'Da se razumijemo', 'Ono'],
     answer: 'Najblaže',
     en: 'to put it mildly, the project is late',
@@ -143,7 +143,7 @@ const DATA = [
   {
     mode: 'nijanse',
     q: 'Standard daje prednost: „Hvala vam na ____.” (dolazak u posjet)',
-    opts: ['posjetu', 'posjeti', 'poseti', 'posjedu'],
+    opts: ['posjetu', 'posjeti', 'posjetom', 'posjedu'],
     answer: 'posjetu',
     en: 'thank you for the visit',
     tip: 'Standard: POSJET (m. roda) — na posjetu; posjed = imanje.',
@@ -151,7 +151,7 @@ const DATA = [
   {
     mode: 'nijanse',
     q: '„Inflacija je pala na jednoznamenkastu ____.” (napisan broj)',
-    opts: ['brojku', 'broj', 'cifru', 'količinu'],
+    opts: ['brojku', 'broj', 'znamenku', 'količinu'],
     answer: 'brojku',
     en: 'inflation fell to a single-digit figure',
     tip: 'Brojka = zapisani znak/iznos; broj = matematički pojam.',
@@ -183,10 +183,10 @@ const DATA = [
   {
     mode: 'nijanse',
     q: '„Sud je ____ zastarjelu odredbu.” (učinio nevažećom)',
-    opts: ['ukinuo', 'dokinuo', 'otkinuo', 'skinuo'],
+    opts: ['ukinuo', 'zakinuo', 'otkinuo', 'skinuo'],
     answer: 'ukinuo',
     en: 'the court repealed the outdated provision',
-    tip: 'Ukinuti = pravno staviti izvan snage; dokinuti knjiški, otkinuti fizički.',
+    tip: 'Ukinuti = pravno staviti izvan snage; zakinuti = uskratiti komu što; otkinuti = fizički.',
   },
   {
     mode: 'nijanse',

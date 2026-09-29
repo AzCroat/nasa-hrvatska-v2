@@ -142,7 +142,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: 'Izvještaj je ____ jučer. (predati)',
-    opts: ['predan', 'predat', 'predajen', 'predavan'],
+    opts: ['predan', 'predavši', 'predajen', 'predavan'],
     answer: 'predan',
     en: 'the report was submitted yesterday',
     tip: 'Pasiv perfekta: je + trpni pridjev.',
@@ -161,12 +161,12 @@ const DATA = [
     opts: ['poznati glumac (od poznati)', 'trčati brzo', 'pjevajući ptić', 'otišavši gost'],
     answer: 'poznati glumac (od poznati)',
     en: 'participles become plain adjectives',
-    tip: 'Poznat, otvoren, umoran — pridjevska služba.',
+    tip: 'Poznat, otvoren, zatvoren — pridjevska služba.',
   },
   {
     mode: 'uporaba',
     q: '„Kava je ____ .” (popiti)',
-    opts: ['popijena', 'popita', 'popivena', 'popila'],
+    opts: ['popijena', 'popijela', 'popivena', 'popila'],
     answer: 'popijena',
     en: 'the coffee has been drunk',
     tip: 'Popiti → popijen, -a (piti → pijen).',
@@ -190,7 +190,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: 'Stan je ____ prošle godine. (prodati)',
-    opts: ['prodan', 'prodat', 'prodavan', 'prodajen'],
+    opts: ['prodan', 'prodavši', 'prodavan', 'prodajen'],
     answer: 'prodan',
     en: 'the flat was sold last year',
     tip: 'Prodati → prodan (prodavan = nesvršeno, više puta).',
@@ -201,7 +201,7 @@ const DATA = [
     opts: ['Obaviješteni', 'Obavijestili', 'Obavještavani stalno', 'Obavijestivši'],
     answer: 'Obaviješteni',
     en: 'we have been informed of the changes',
-    tip: 'St + j → šte: obaviješten.',
+    tip: 'St + j → št: obaviješten.',
   },
 ];
 

@@ -62,10 +62,10 @@ const DATA = [
   {
     mode: 'izrazi',
     q: 'Na sjednici ____ o novom proračunu.',
-    opts: ['raspravljalo se', 'raspravljali se', 'se raspravljala', 'raspravljano'],
-    answer: 'raspravljalo se',
+    opts: ['se raspravljalo', 'raspravljali se', 'se raspravljala', 'raspravljano'],
+    answer: 'se raspravljalo',
     en: 'the new budget was discussed at the session',
-    tip: 'Bezlični se-oblik u prošlosti: raspravljalo se (sr. rod jd.).',
+    tip: 'Bezlični se-oblik u prošlosti (sr. rod jd.); se stoji na drugome mjestu: na sjednici se raspravljalo.',
   },
   {
     mode: 'izrazi',

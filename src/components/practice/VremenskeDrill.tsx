@@ -78,7 +78,7 @@ const DATA = [
   },
   {
     mode: 'vid',
-    q: 'Čim ____ , javit ću ti. (stići)',
+    q: 'Čim ____ , javit ću ti. (stizati / stići)',
     opts: ['stignem', 'stižem', 'stigao', 'stizat ću'],
     answer: 'stignem',
     en: 'as soon as I arrive, I will let you know',
@@ -86,7 +86,7 @@ const DATA = [
   },
   {
     mode: 'vid',
-    q: 'Dok ____ , ne ometaj me. (raditi)',
+    q: 'Dok ____ , ne ometaj me. (raditi / uraditi)',
     opts: ['radim', 'uradim', 'radio', 'uradit ću'],
     answer: 'radim',
     en: 'while I am working, do not disturb me',
@@ -94,7 +94,7 @@ const DATA = [
   },
   {
     mode: 'vid',
-    q: 'Dok ne ____ zadaću, ne izlaziš. (napisati)',
+    q: 'Dok ne ____ zadaću, ne izlaziš. (pisati / napisati)',
     opts: ['napišeš', 'pišeš', 'napisao', 'pisat ćeš'],
     answer: 'napišeš',
     en: 'no going out until you finish your homework',
@@ -105,12 +105,12 @@ const DATA = [
     q: 'Veznik „čim” traži prezent kojega vida?',
     opts: ['svršenoga', 'nesvršenoga', 'obaju podjednako', 'nijednoga'],
     answer: 'svršenoga',
-    en: 'cim takes the perfective present',
+    en: 'čim takes the perfective present',
     tip: 'Čim stignem, čim završim, čim čuješ.',
   },
   {
     mode: 'vid',
-    q: 'Kad ____ velik, bit ću pilot. (narasti)',
+    q: 'Kad ____ velik, bit ću pilot. (rasti / narasti)',
     opts: ['narastem', 'rastem', 'narastao', 'rast ću'],
     answer: 'narastem',
     en: 'when I grow up, I will be a pilot',
@@ -122,7 +122,7 @@ const DATA = [
     opts: ['vidim', 'ugledam jednom', 'vidio', 'vidjet ću'],
     answer: 'vidim',
     en: 'every time I see him, I smile',
-    tip: 'Ponavljanje → nesvršeni prezent.',
+    tip: 'Ponavljanje: kad ga vidim (vidjeti je dvovidan) — a i svršeni prezent izriče ponavljani čin: nasmijem se.',
   },
   {
     mode: 'vid',
@@ -134,7 +134,7 @@ const DATA = [
   },
   {
     mode: 'vid',
-    q: 'Prije nego što ____ , provjeri adresu. (krenuti)',
+    q: 'Prije nego što ____ , provjeri adresu. (kretati / krenuti)',
     opts: ['kreneš', 'krećeš', 'krenuo', 'krenut ćeš'],
     answer: 'kreneš',
     en: 'before you set off, check the address',

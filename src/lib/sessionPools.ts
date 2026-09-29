@@ -34,7 +34,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     // Cases are the core challenge for English speakers (no case system in
     // English), so the full padež system is introduced from A1 — every case
     // drill unlocks at A1 and reinforces at every level above (unlock is
-    // cumulative). Deeper case applications (prepdrill/negation/dative/animateacc)
+    // cumulative). Deeper case applications (prepdrill/negation/dative)
     // still phase in higher up.
     cefr: 'A1',
     category: 'genitive',
@@ -337,13 +337,6 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     category: 'instrumental',
   },
   { id: 'dative', label: 'Dative Case', screen: 'dative', cefr: 'B1', category: 'dative-locative' },
-  {
-    id: 'animateacc',
-    label: 'Animate Accusative',
-    screen: 'animateacc',
-    cefr: 'B1',
-    category: 'accusative',
-  },
   // C1 — idiomatic, discourse-level and register/style competence.
   { id: 'idiomdrill', label: 'Idioms', screen: 'idiomdrill', cefr: 'C1', category: 'idioms' },
   {

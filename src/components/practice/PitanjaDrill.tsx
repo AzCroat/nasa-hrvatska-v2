@@ -38,7 +38,7 @@ const DATA = [
   {
     mode: 'rijeci',
     q: '„____ ideš?” (cilj kretanja)',
-    opts: ['Kamo', 'Gdje', 'Kuda', 'Otkud'],
+    opts: ['Kamo', 'Kome', 'Kakav', 'Čime'],
     answer: 'Kamo',
     en: 'where are you going (to)?',
     tip: 'Kamo = cilj; gdje = mjesto; kuda = put.',
@@ -78,7 +78,7 @@ const DATA = [
   {
     mode: 'cestice',
     q: 'Neutralno pitanje s glagolom: „____ sutra?” (raditi, ti)',
-    opts: ['Radiš li', 'Da li radiš', 'Jel radiš', 'Radiš da li'],
+    opts: ['Radiš li', 'Li radiš', 'Radi li', 'Radiš da li'],
     answer: 'Radiš li',
     en: 'are you working tomorrow?',
     tip: 'Birano: glagol + li.',
@@ -86,7 +86,7 @@ const DATA = [
   {
     mode: 'cestice',
     q: 'Pitanje s „je”: „____ to istina?”',
-    opts: ['Je li', 'Da li je', 'Jel', 'Li je'],
+    opts: ['Je li', 'Jeli', 'Jesi li', 'Li je'],
     answer: 'Je li',
     en: 'is that true?',
     tip: 'Je li + rečenica — standardni upitni okvir.',
@@ -112,7 +112,7 @@ const DATA = [
     q: 'Čestica „li” stoji:',
     opts: ['odmah iza glagola', 'na početku', 'na kraju', 'iza subjekta'],
     answer: 'odmah iza glagola',
-    en: 'li clings to the verb',
+    en: 'where the particle li stands',
     tip: 'Dolaziš li? Znate li? Hoćemo li?',
   },
   {
@@ -120,7 +120,7 @@ const DATA = [
     q: '„Da li” u biranom standardu:',
     opts: ['zamjenjuje se s glagol + li', 'obvezno je', 'stoji na kraju', 'ne postoji'],
     answer: 'zamjenjuje se s glagol + li',
-    en: 'da li → verb + li',
+    en: 'da li in the formal standard',
     tip: 'Da li dolaziš → Dolaziš li.',
   },
   {
@@ -157,8 +157,8 @@ const DATA = [
   },
   {
     mode: 'neizravna',
-    q: '„Reci mi ____ dolaziš.” (da/ne pitanje)',
-    opts: ['dolaziš li', 'da li', 'zar', 'kada li'],
+    q: '„Reci mi ____.” (dolaziti, ti — da/ne pitanje)',
+    opts: ['dolaziš li', 'li dolaziš', 'dolaziš da', 'zar dolaziš'],
     answer: 'dolaziš li',
     en: 'tell me whether you are coming',
     tip: 'Neizravno da/ne pitanje: glagol + li.',
@@ -174,7 +174,7 @@ const DATA = [
   {
     mode: 'neizravna',
     q: '„Provjeri ____ su vrata zaključana.”',
-    opts: ['jesu li', 'da li', 'zar', 'li jesu'],
+    opts: ['jesu li', 'je li', 'zar', 'li jesu'],
     answer: 'jesu li',
     en: 'check whether the door is locked',
     tip: 'Jesu li + subjekt u neizravnom pitanju.',
@@ -189,7 +189,7 @@ const DATA = [
       'ide u zagrade',
     ],
     answer: 'se ne piše (Pitam se tko je došao.)',
-    en: 'indirect questions drop the question mark',
+    en: 'the question mark in an indirect question',
     tip: 'Rečenica je izjavna, upitnost je unutra.',
   },
   {

@@ -84,7 +84,7 @@ const DATA = [
   {
     mode: 'pitanja',
     q: '„Dolaziš li sutra?” → Pitala me ____ sutra.',
-    opts: ['dolazim li', 'da li dolazim', 'ako dolazim', 'li dolazim'],
+    opts: ['dolazim li', 'da dolazim li', 'ako dolazim', 'li dolazim'],
     answer: 'dolazim li',
     en: 'She asked me whether I was coming tomorrow.',
     tip: "Neizravno da/ne pitanje uvodi 'li' iza glagola; „da li” nije preporučeno u standardu.",
@@ -100,7 +100,7 @@ const DATA = [
   {
     mode: 'pitanja',
     q: '„Jesi li gladan?” → Zanimalo ju je ____ gladan.',
-    opts: ['jesam li', 'da li sam', 'sam li', 'ako sam'],
+    opts: ['jesam li', 'budem li', 'sam li', 'ako sam'],
     answer: 'jesam li',
     en: 'She wondered whether I was hungry.',
     tip: 'Naglašeni oblik + li: jesam li. Nenaglašeno „sam li” nije moguće.',
@@ -179,7 +179,7 @@ const DATA = [
   },
   {
     mode: 'zapovijedi',
-    q: '„Požuri!” → Viknuo je da ____.',
+    q: '„Požuri!” → Viknuo mi je da ____.',
     opts: ['požurim', 'požuri', 'ću požuriti', 'požurivši'],
     answer: 'požurim',
     en: 'He shouted at me to hurry.',

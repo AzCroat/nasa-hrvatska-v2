@@ -25,11 +25,11 @@ export const DATA = [
     tip: 'Indirect object: učitelj (soft -lj) → dative: učitelju',
   },
   {
-    q: 'Sviđa mi se ___.',
-    opts: ['gradu', 'grad', 'grada', 'gradom'],
-    answer: 'gradu',
-    en: 'I like the city. (The city pleases me.)',
-    tip: "'sviđati se' uses dative for subject: grad + -u → gradu",
+    q: 'Ovaj grad se sviđa ___.',
+    opts: ['bratu', 'brat', 'brata', 'bratom'],
+    answer: 'bratu',
+    en: 'My brother likes this city. (The city pleases my brother.)',
+    tip: "'sviđati se': the thing liked is the subject (grad); the person who likes it is dative: brat → bratu",
   },
   {
     q: 'Pišem pismo ___.',
@@ -89,7 +89,7 @@ export const DATA = [
   },
   {
     q: 'Hvala ___!',
-    opts: ['svima', 'svi', 'sve', 'svakom'],
+    opts: ['svima', 'svi', 'sve', 'svih'],
     answer: 'svima',
     en: 'Thank you to everyone!',
     tip: "'hvala' takes dative: svi → dative plural: svima",
@@ -170,7 +170,7 @@ export const DATA = [
     opts: ['baki', 'baku', 'baka', 'bakom'],
     answer: 'baki',
     en: "I am going to grandma's.",
-    tip: 'Direction to a person: k/ka + dative. Sibilarization: baka → baki.',
+    tip: 'Direction to a person: k/ka + dative: baka → baki (no sibilarization in this family word — not baci).',
   },
   {
     q: 'Vjerujem svom ___.',
@@ -181,7 +181,7 @@ export const DATA = [
   },
   {
     q: 'Ovaj kaput pripada ___.',
-    opts: ['susjedi', 'susjedu', 'susjeda', 'susjedom'],
+    opts: ['susjedi', 'susjede', 'susjeda', 'susjedom'],
     answer: 'susjedi',
     en: 'This coat belongs to the (female) neighbour.',
     tip: "'Pripadati' + dative. Feminine susjeda → susjedi.",
@@ -258,14 +258,14 @@ export const DATA = [
   },
   {
     q: 'Učiteljica objašnjava zadatak ___.',
-    opts: ['učenicima', 'učenike', 'učenika', 'učenici'],
+    opts: ['učenicima', 'učenike', 'učenikom', 'učenici'],
     answer: 'učenicima',
     en: 'The teacher explains the task to the pupils.',
     tip: 'PLURAL dative: učenici → učenicima.',
   },
   {
     q: 'Nosimo poklone ___.',
-    opts: ['djevojčicama', 'djevojčice', 'djevojčica', 'djevojčici'],
+    opts: ['djevojčicama', 'djevojčice', 'djevojčica', 'djevojčicom'],
     answer: 'djevojčicama',
     en: 'We bring presents to the girls.',
     tip: 'PLURAL feminine: djevojčice → djevojčicama.',
@@ -293,7 +293,7 @@ export const DATA = [
   },
   {
     q: 'Grad pomaže ___ nakon poplave.',
-    opts: ['obiteljima', 'obitelji', 'obitelja', 'obiteljama'],
+    opts: ['obiteljima', 'obitelj', 'obitelja', 'obiteljama'],
     answer: 'obiteljima',
     en: 'The city helps the families after the flood.',
     tip: 'PLURAL i-declension: obitelji → obiteljima.',
@@ -314,7 +314,7 @@ export const DATA = [
   },
   {
     q: 'Novinar postavlja pitanje ___.',
-    opts: ['ministru', 'ministra', 'ministar', 'ministrom'],
+    opts: ['ministru', 'ministre', 'ministar', 'ministrom'],
     answer: 'ministru',
     en: 'The journalist asks the minister a question.',
     tip: 'Person asked takes dative: ministar → ministru (fleeting -a-).',
@@ -349,7 +349,7 @@ export const DATA = [
   },
   {
     q: 'Nastavnik je zadovoljan, a to znači puno ___.',
-    opts: ['studentima', 'studente', 'studenata', 'studenti'],
+    opts: ['studentima', 'studente', 'studentom', 'studenti'],
     answer: 'studentima',
     en: 'The teacher is satisfied, and that means a lot to the students.',
     tip: 'PLURAL: studenti → studentima.',

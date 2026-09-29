@@ -142,7 +142,7 @@ const DATA = [
   {
     mode: 'zbirni',
     q: 'U parku se igralo ____ djece.',
-    opts: ['petero', 'pet', 'petorica', 'peterima'],
+    opts: ['petero', 'petih', 'petorica', 'peterima'],
     answer: 'petero',
     en: 'five children were playing in the park',
     tip: 'Za djecu i mješovite skupine: zbirni broj — petero djece.',
@@ -198,7 +198,7 @@ const DATA = [
   {
     mode: 'zbirni',
     q: 'Svih ____ učenika položilo je ispit.',
-    opts: ['petero', 'pet', 'petorica', 'peterima'],
+    opts: ['petero', 'petima', 'petorica', 'peterima'],
     answer: 'petero',
     en: 'all five pupils passed the exam',
     tip: 'Svih petero + G mn. — zbirni broj s bezličnim predikatom.',

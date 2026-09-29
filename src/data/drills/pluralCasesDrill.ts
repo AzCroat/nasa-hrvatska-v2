@@ -118,7 +118,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'genitiv',
     q: 'Nemam ____. (sestra)',
     en: 'I have no sisters.',
-    opts: ['sestara', 'sestre', 'sestrama', 'sestru'],
+    opts: ['sestara', 'sestra', 'sestrama', 'sestru'],
     answer: 'sestara',
     tip: 'A helping a breaks the str-cluster: sestra → sestara.',
   },
@@ -196,7 +196,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ima',
     q: 'Živim u ____. (gradovi)',
-    en: 'I live among cities. / in cities',
+    en: 'I live in cities.',
     opts: ['gradovima', 'gradove', 'gradova', 'gradovi'],
     answer: 'gradovima',
     tip: 'Locative plural: u gradovima.',
@@ -215,7 +215,7 @@ export const PLURAL_CASES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which ending for feminine?',
     opts: ['-ama', '-ima', '-ova', '-e'],
     answer: '-ama',
-    tip: '-ama for feminine, -ima for masculine and neuter. That is the only split.',
+    tip: '-ama for feminine nouns in -a, -ima for masculine and neuter (and for feminines like stvar: stvarima).',
   },
   {
     mode: 'ima',

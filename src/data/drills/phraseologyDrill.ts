@@ -117,8 +117,8 @@ export const PHRASEOLOGY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'aluzije',
-    q: 'Što je "sizifov posao"?',
-    en: 'What is a sizifov posao?',
+    q: 'Što je "Sizifov posao"?',
+    en: 'What is a Sizifov posao?',
     opts: ['beskrajan uzaludan trud', 'težak fizički rad', 'dosadan posao', 'posao bez plaće'],
     answer: 'beskrajan uzaludan trud',
     tip: 'Sisyphus — endless and futile.',

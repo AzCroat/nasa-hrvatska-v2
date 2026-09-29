@@ -80,7 +80,7 @@ const DATA = [
     q: 'Imenice i-sklonidbe (noć, stvar, ljubav) su roda:',
     opts: ['ženskoga', 'muškoga', 'srednjega', 'dvorodne'],
     answer: 'ženskoga',
-    en: 'i-stem nouns are feminine',
+    en: 'the gender of i-stem nouns',
     tip: 'Ž. rod na suglasnik: ta noć, ta ljubav.',
   },
   {
@@ -88,7 +88,7 @@ const DATA = [
     q: '„Glad” u standardu je:',
     opts: ['ženskoga roda (velika glad)', 'muškoga roda samo', 'srednjega roda', 'nesklonjiva'],
     answer: 'ženskoga roda (velika glad)',
-    en: 'glad (hunger) is feminine',
+    en: 'the gender of glad (hunger)',
     tip: 'Velika glad; G: gladi.',
   },
   {
@@ -104,7 +104,7 @@ const DATA = [
     q: '„Bol” (osjećaj) u biranom standardu je:',
     opts: ['ženskoga roda (duševna bol)', 'samo muškoga', 'srednjega', 'množinska'],
     answer: 'ženskoga roda (duševna bol)',
-    en: 'emotional bol is feminine',
+    en: 'the gender of bol (emotional pain)',
     tip: 'Tjelesni bol (m) / duševna bol (ž) — tradicionalna podjela.',
   },
   {
@@ -120,7 +120,7 @@ const DATA = [
     q: 'Imenice na „-ost” (radost, mogućnost) sklanjaju se:',
     opts: ['po i-sklonidbi', 'po a-sklonidbi', 'po e-sklonidbi', 'nepravilno'],
     answer: 'po i-sklonidbi',
-    en: '-ost nouns follow the i-declension',
+    en: 'how -ost nouns decline',
     tip: 'Radosti, radošću; mogućnosti, mogućnošću.',
   },
   {
@@ -136,7 +136,7 @@ const DATA = [
     q: '„Kokoš” je:',
     opts: ['ž. roda, i-sklonidba (kokoši)', 'm. roda', 'sr. roda', 'nesklonjiva'],
     answer: 'ž. roda, i-sklonidba (kokoši)',
-    en: 'kokos (hen) is feminine i-stem',
+    en: 'kokoš (hen): gender and declension',
     tip: 'Kokoš, kokoši, s kokošju.',
   },
   {
@@ -150,17 +150,17 @@ const DATA = [
   {
     mode: 'recenice',
     q: '____ se sve postiže. (ljubav, čime)',
-    opts: ['Ljubavlju', 'Ljubavi', 'Ljubav', 'Ljubavom'],
+    opts: ['Ljubavlju', 'Ljubavu', 'Ljubav', 'Ljubavom'],
     answer: 'Ljubavlju',
     en: 'with love everything is achieved',
     tip: 'Instrumental sredstva: ljubavlju.',
   },
   {
     mode: 'recenice',
-    q: 'Održao je govor punim ____ . (riječ, mn.)',
+    q: 'Opisao je to lijepim ____ . (riječ, mn.)',
     opts: ['riječima', 'riječi', 'riječju', 'rječima kraćeno'],
     answer: 'riječima',
-    en: 'in full words / at length',
+    en: 'he described it in beautiful words',
     tip: 'DLI mn.: riječima.',
   },
   {
@@ -174,7 +174,7 @@ const DATA = [
   {
     mode: 'recenice',
     q: 'Vladao je čvrstom ____ . (vlast)',
-    opts: ['vlašću', 'vlasti', 'vlast', 'vlastom'],
+    opts: ['vlašću', 'vlastju', 'vlast', 'vlastom'],
     answer: 'vlašću',
     en: 'he ruled with a firm hand (power)',
     tip: 'Instrumental: vlašću.',
@@ -190,7 +190,7 @@ const DATA = [
   {
     mode: 'recenice',
     q: 'Suočio se sa ____ . (stvarnost)',
-    opts: ['stvarnošću', 'stvarnosti', 'stvarnošćom', 'stvarnost'],
+    opts: ['stvarnošću', 'stvarnostju', 'stvarnošćom', 'stvarnost'],
     answer: 'stvarnošću',
     en: 'he faced reality',
     tip: 'Sa + I: sa stvarnošću (sa ispred s-/š-).',
@@ -198,7 +198,7 @@ const DATA = [
   {
     mode: 'recenice',
     q: 'U ____ smo stigli kući.',
-    opts: ['ponoć', 'ponoći', 'ponoćju', 'ponoćom'],
+    opts: ['ponoć', 'ponoću', 'ponoćju', 'ponoćom'],
     answer: 'ponoć',
     en: 'we got home at midnight',
     tip: 'U + A za sat: u ponoć, u podne.',

@@ -97,7 +97,7 @@ const DATA = [
     q: 'Mjesec koji dolazi nakon lipnja jest:',
     opts: ['srpanj', 'kolovoz', 'svibanj', 'rujan'],
     answer: 'srpanj',
-    en: 'the month after June is July',
+    en: 'which month comes after June?',
     tip: 'Lipanj (6.) → srpanj (7.) → kolovoz (8.).',
   },
   {
@@ -105,7 +105,7 @@ const DATA = [
     q: 'Veljača dolazi ____ siječnja.',
     opts: ['poslije', 'prije', 'umjesto', 'tijekom'],
     answer: 'poslije',
-    en: 'February comes after January',
+    en: 'February comes ___ January',
     tip: 'Siječanj (1.) → veljača (2.).',
   },
   {
@@ -121,7 +121,7 @@ const DATA = [
     q: 'U „tisuću devetsto devedeset prve” godina stoji u:',
     opts: ['genitivu', 'nominativu', 'lokativu', 'akuzativu'],
     answer: 'genitivu',
-    en: 'the year is in the genitive (in 1991)',
+    en: 'which case is the year in? (in 1991)',
     tip: 'Godina radnje: genitiv — devedeset prve (godine).',
   },
   {
@@ -153,7 +153,7 @@ const DATA = [
     q: '„Pola ____” znači 7:30.',
     opts: ['osam', 'sedam', 'devet', 'sedam i pol'],
     answer: 'osam',
-    en: 'half past seven (lit. half eight)',
+    en: 'how to say 7:30',
     tip: 'Pola osam = pola PUTA DO osam = 7:30!',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: '„____ deset” znači 9:45.',
     opts: ['Petnaest do', 'Četvrt na', 'Deset do', 'Petnaest poslije'],
     answer: 'Petnaest do',
-    en: 'a quarter to ten',
+    en: 'how to say 9:45',
     tip: 'Petnaest do deset — vrijeme prije punog sata.',
   },
   {
@@ -169,13 +169,13 @@ const DATA = [
     q: 'Radim ____ jutra ____ mraka.',
     opts: ['od, do', 'iz, do', 's, na', 'od, prema'],
     answer: 'od, do',
-    en: 'I work from morning till dark',
+    en: 'I work ___ morning ___ dark',
     tip: 'Od + G … do + G: od jutra do mraka.',
   },
   {
     mode: 'vrijeme',
     q: 'Vidimo se ____ dva tjedna.',
-    opts: ['za', 'kroz', 'u', 'nakon'],
+    opts: ['za', 'kroz', 'u', 'na'],
     answer: 'za',
     en: 'see you in two weeks',
     tip: 'Za + akuzativ = nakon isteka razdoblja.',

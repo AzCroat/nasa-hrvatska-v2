@@ -15,7 +15,7 @@ const DATA = [
   {
     mode: 'pretpostavka',
     q: '„____ da je već stigao.” (zaključujem po svemu)',
-    opts: ['Bit će', 'Hoće', 'Mora biti', 'Trebat će'],
+    opts: ['Bit će', 'Hoće', 'Neka', 'Trebat će'],
     answer: 'Bit će',
     en: 'he must have arrived by now',
     tip: 'Bit će da + perfekt = zacijelo (epistemički futur).',
@@ -46,7 +46,7 @@ const DATA = [
     q: '„Zacijelo” znači:',
     opts: ['gotovo sigurno', 'nikako', 'djelomično', 'glasno'],
     answer: 'gotovo sigurno',
-    en: 'zacijelo = most certainly',
+    en: 'what zacijelo means',
     tip: 'Visok stupanj uvjerenosti.',
   },
   {
@@ -54,7 +54,7 @@ const DATA = [
     q: '„Po svoj prilici” znači:',
     opts: ['najvjerojatnije', 'u svakom odijelu', 'izvana', 'službeno'],
     answer: 'najvjerojatnije',
-    en: 'in all likelihood',
+    en: 'what po svoj prilici means',
     tip: 'Ustaljena modalna formula.',
   },
   {
@@ -78,7 +78,7 @@ const DATA = [
     q: 'Ljestvica sigurnosti od najslabije: „možda < ____ < zacijelo”.',
     opts: ['vjerojatno', 'sigurno', 'nipošto', 'jedva'],
     answer: 'vjerojatno',
-    en: 'maybe < probably < surely',
+    en: 'a scale of certainty',
     tip: 'Stupnjevanje epistemičke sigurnosti.',
   },
   {
@@ -118,7 +118,7 @@ const DATA = [
     q: 'Razlika „morati” i „trebati”:',
     opts: ['morati je jača obveza', 'trebati je jača', 'iste su snage', 'trebati znači htjeti'],
     answer: 'morati je jača obveza',
-    en: 'morati is stronger than trebati',
+    en: 'morati vs trebati',
     tip: 'Moram (nema izbora) vs trebam (očekuje se).',
   },
   {
@@ -126,7 +126,7 @@ const DATA = [
     q: '„Smjeti” izriče:',
     opts: ['dopuštenje', 'sposobnost', 'želju', 'naviku'],
     answer: 'dopuštenje',
-    en: 'smjeti = to be allowed',
+    en: 'what smjeti expresses',
     tip: 'Smijem li? = je li mi dopušteno?',
   },
   {
@@ -190,7 +190,7 @@ const DATA = [
     q: '„Tobože” znači:',
     opts: ['kao da, navodno (s nevjericom)', 'stvarno', 'odmah', 'tajno'],
     answer: 'kao da, navodno (s nevjericom)',
-    en: 'tobože = supposedly (sceptical)',
+    en: 'what tobože means',
     tip: 'Tobože uči — a spava.',
   },
   {
@@ -211,7 +211,7 @@ const DATA = [
       'Možda je pobijedio.',
     ],
     answer: 'Nedvojbeno je pobijedio.',
-    en: 'undoubtedly — the strongest claim',
+    en: 'the strongest claim',
     tip: 'Nedvojbeno > zacijelo > vjerojatno > možda > navodno.',
   },
 ];

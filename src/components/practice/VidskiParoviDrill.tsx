@@ -34,7 +34,7 @@ const DATA = [
     opts: ['kupovati', 'kupljivati', 'kupivati', 'skupljati'],
     answer: 'kupovati',
     en: 'to buy (impf)',
-    tip: 'Kupiti (pf) / kupovati (impf) — supletivna tvorba.',
+    tip: 'Kupiti (pf) / kupovati (impf) — nesvršeni par tvoren sufiksom -ovati.',
   },
   {
     mode: 'parovi',
@@ -102,7 +102,7 @@ const DATA = [
   },
   {
     mode: 'sekundarna',
-    q: 'Nesvršeni par glagola „kupiti” (ubrati) — „pokupiti” glasi:',
+    q: 'Nesvršeni par glagola „pokupiti” (skupiti, pobrati) glasi:',
     opts: ['pokupljati', 'pokupivati', 'kupljati', 'pokupavati'],
     answer: 'pokupljati',
     en: 'to pick up (impf)',
@@ -182,7 +182,7 @@ const DATA = [
   },
   {
     mode: 'nijansa',
-    q: '„Dok sam ____ , netko je pokucao.” (kuhati)',
+    q: '„Dok sam ____ , netko je pokucao.” (kuhati / skuhati)',
     opts: ['kuhao', 'skuhao', 'skuham', 'kuhajući sam'],
     answer: 'kuhao',
     en: 'while I was cooking, someone knocked',

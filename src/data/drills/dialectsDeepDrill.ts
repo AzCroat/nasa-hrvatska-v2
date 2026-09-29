@@ -104,11 +104,16 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prepoznavanje',
-    q: 'Otprilike koliki dio zemlje kod kuće govori nešto drugo od standarda?',
-    en: 'Roughly how much of the country speaks something other than the standard at home?',
-    opts: ['oko polovice', 'oko desetine', 'gotovo nitko', 'gotovo svi'],
-    answer: 'oko polovice',
-    tip: 'Which is why this is a listening skill and not a curiosity.',
+    q: 'Gdje se standardni jezik najdosljednije rabi?',
+    en: 'Where is the standard used most consistently?',
+    opts: [
+      'u školi, medijima i službi',
+      'kod kuće na selu',
+      'u obiteljskom razgovoru',
+      'u razgovoru s bakom',
+    ],
+    answer: 'u školi, medijima i službi',
+    tip: 'At home many people speak their local variety, which is why this is a listening skill and not a curiosity.',
   },
 
   // ── osobine ───────────────────────────────────────────────────────────────
@@ -142,7 +147,7 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does čakavian do with final -m?',
     opts: ['prelazi u -n', 'ispada', 'udvostručuje se', 'ništa'],
     answer: 'prelazi u -n',
-    tip: 'nisan, san — and it is the feature that settles čakavian fastest.',
+    tip: 'nisan, san — though coastal štokavian has it too, so it narrows the field; ča is what settles it.',
   },
   {
     mode: 'osobine',
@@ -150,7 +155,7 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'Standard bio, in čakavian:',
     opts: ['bil', 'bijo', 'biv', 'bio'],
     answer: 'bil',
-    tip: 'The old -l is preserved where the standard turned it to -o.',
+    tip: 'Many čakavian varieties keep the old -l (bil) where the standard has -o; some southern ones say bija.',
   },
   {
     mode: 'osobine',
@@ -196,11 +201,16 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prebacivanje',
-    q: 'Koliko ljudi govori samo jedno narječje bez prebacivanja?',
-    en: 'How many people speak only one variety?',
-    opts: ['gotovo nitko', 'većina', 'polovica', 'svi izvan gradova'],
-    answer: 'gotovo nitko',
-    tip: 'Almost everyone code-switches, often mid-conversation.',
+    q: 'Što mnogi govornici rade između doma i škole ili posla?',
+    en: 'Between home and school or work, many speakers:',
+    opts: [
+      'prebacuju se između zavičajnoga govora i standarda',
+      'govore samo standardom',
+      'govore samo zavičajnim govorom',
+      'izbjegavaju razgovor',
+    ],
+    answer: 'prebacuju se između zavičajnoga govora i standarda',
+    tip: 'Code-switching is ordinary, often mid-conversation.',
   },
   {
     mode: 'prebacivanje',
@@ -244,12 +254,12 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     q: 'Zašto je za slušanje korisno znati crte narječja?',
     en: 'Why is knowing the features useful?',
     opts: [
-      'razgovor postaje pratljiv, ne samo prepoznatljiv',
+      'razgovor se može pratiti, a ne samo prepoznati',
       'radi ispravljanja',
       'radi pisanja',
       'nije korisno',
     ],
-    answer: 'razgovor postaje pratljiv, ne samo prepoznatljiv',
+    answer: 'razgovor se može pratiti, a ne samo prepoznati',
     tip: 'C1 taught you to recognise them. This is the step from recognising to following.',
   },
 ];

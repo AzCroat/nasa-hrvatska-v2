@@ -182,7 +182,7 @@ const DATA = [
   },
   {
     mode: 'usporedba',
-    q: 'Sve je ____ hladnije. (postupno)',
+    q: 'Postaje ____ hladnije. (postupno)',
     opts: ['sve', 'što', 'to', 'naj'],
     answer: 'sve',
     en: 'it is getting colder and colder',
@@ -191,7 +191,7 @@ const DATA = [
   {
     mode: 'usporedba',
     q: 'Kupio je auto ____ nego što je planirao.',
-    opts: ['skuplji', 'skuplje', 'najskuplji', 'skupo'],
+    opts: ['skuplji', 'skupljeg', 'najskuplji', 'skupo'],
     answer: 'skuplji',
     en: 'he bought a more expensive car than planned',
     tip: 'Komparativ pridjeva uz imenicu: auto skuplji nego što…',

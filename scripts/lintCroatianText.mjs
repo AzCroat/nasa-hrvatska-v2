@@ -174,7 +174,6 @@ const TARGETS = [
   'src/components/practice/AccusativeDrill.tsx',
   'src/components/practice/AdministrativniDrill.tsx',
   'src/components/practice/AkademskiDrill.tsx',
-  'src/components/practice/AnimateAccDrill.tsx',
   'src/components/practice/AoristImperfektDrill.tsx',
   'src/components/practice/BezlicneDrill.tsx',
   'src/components/practice/C2StructureDrill.tsx',

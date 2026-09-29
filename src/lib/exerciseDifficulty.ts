@@ -163,7 +163,6 @@ export const EXERCISE_DIFFICULTY: Record<string, number> = {
   clitic: 4,
   instrumental: 3,
   dative: 3,
-  animateacc: 3,
   numcases: 4,
   passive: 4,
   participles: 4,
