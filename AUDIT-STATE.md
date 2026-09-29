@@ -13396,3 +13396,14 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not covered, stated**: no level carries form B, typed items or vocabulary yet — until
     one does, a retake still falls back to form A. Enrolling lesson vocabulary in review is
     recommendation 3's wiring and is not in this sweep.
+- [x] **Sweep 201 — spiral review inside unit tests (recommendation 5, 2026-09-29).**
+  - Measured: a unit test asked only about its own five lessons, so a concept was examined
+    once at its unit and afterwards only by its own lesson's re-checks. Built: from Unit 2 on,
+    three of fifteen items come from the two previous units' lessons (one each from three of
+    them, rotated by attempt, spaced one per four), counting toward the bar and labelled in
+    the report. Unit 1 unchanged. No E2E spec sits a unit test past Unit 1, so none moved.
+  - Mutation-verified, four: the screen passing no earlier units (fails 2), spiral items
+    bunched at the end (1), the paper growing past fifteen (2), a retake repeating the same
+    earlier lessons (SURVIVED first — the test compared items, not lessons; it now compares
+    lessons and fails 1). A fifth was EQUIVALENT: trimming the unit's own items before
+    interleaving is already done by the final slice, so the line was redundant and is gone.
