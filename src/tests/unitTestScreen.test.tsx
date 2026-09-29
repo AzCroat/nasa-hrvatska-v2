@@ -48,10 +48,16 @@ function seed(unitId = 'A1-1'): void {
 
 /** The paper the screen will serve, so the driver knows the answers. */
 function paper(unitId = 'A1-1', attempt = 0) {
-  const unit = UNITS.find((u) => u.id === unitId)!;
+  const at = UNITS.findIndex((u) => u.id === unitId);
+  const unit = UNITS[at]!;
+  // The two previous units' lessons — the spiral items (lib/unitTest).
+  const earlier = UNITS.slice(Math.max(0, at - 2), at).flatMap((u) =>
+    u.lessons.map((l) => BY_ID.get(l.id)!),
+  );
   return buildUnitTest(
     unit.lessons.map((l) => BY_ID.get(l.id)!),
     attempt,
+    earlier,
   );
 }
 
@@ -469,5 +475,40 @@ describe('a learner can get here', () => {
     );
     expect(map).toMatch(/requestUnitTest\(row\.unit\.id\)/);
     expect(map).toMatch(/setScr\('unittest'\)/);
+  });
+});
+
+describe('spiral review reaches the screen', () => {
+  it('a later unit’s paper carries items from the two units before it, and they count', async () => {
+    seed('A1-3');
+    const items = paper('A1-3');
+    const spiralAt = items.map((x, k) => (x.spiral ? k : -1)).filter((k) => k >= 0);
+    expect(spiralAt.length).toBe(3);
+    const { award } = mount();
+    // Sit the paper the SCREEN serves, answering from the helper's paper: if the screen
+    // did not pass the earlier units, its paper would differ at the spiral positions and
+    // this driver would answer the wrong questions and fail the unit.
+    await sit(items);
+    await screen.findByTestId('unit-test-result');
+    expect(award).toHaveBeenCalled();
+    expect(unitRecord('A1-3')?.passedAt).toBeTruthy();
+  });
+
+  it('missing only the spiral items still costs the unit its pass', async () => {
+    seed('A1-3');
+    const items = paper('A1-3');
+    const wrong = new Set(items.map((x, k) => (x.spiral ? k : -1)).filter((k) => k >= 0));
+    mount();
+    for (let i = 0; i < items.length; i++) {
+      await screen.findByTestId('unit-test-progress');
+      const it = items[i]!;
+      const pick = wrong.has(i) ? (it.correct + 1) % it.options.length : it.correct;
+      fireEvent.click(screen.getByTestId(`unit-test-opt-${pick}`));
+      fireEvent.click(await screen.findByTestId('unit-test-next'));
+    }
+    await screen.findByTestId('unit-test-result');
+    // 12 of 15 is below the 13 the bar needs — the earlier units' concepts are part of it.
+    expect(unitRecord('A1-3')?.passedAt).toBeUndefined();
+    expect(screen.getAllByTestId('unit-test-earlier').length).toBeGreaterThan(0);
   });
 });

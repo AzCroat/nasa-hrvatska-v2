@@ -2,7 +2,8 @@
 //
 // THE UNIT TEST (Step 3, increment 2, 2026-09-26).
 //
-// Fifteen items sampled across the unit's five lessons and INTERLEAVED by
+// Fifteen items — from Unit 2 on, twelve from the unit's five lessons and three SPIRAL
+// items from the two units before it (lib/unitTest) — sampled and INTERLEAVED by
 // construction, graded at UNIT_PASS_THRESHOLD. The reasoning for the mix and the
 // higher bar is in src/lib/unitTest.ts; what lives here is the sitting itself.
 //
@@ -122,7 +123,16 @@ export default function UnitTestScreen({
         // 30-day checks draw different items from each other and from the first pass.
         const rec = unitRecord(u.id);
         const seed = mode === 'recheck' ? attempt + 1 + (rec?.recheck?.stage ?? 0) : attempt;
-        const built = buildUnitTest(bodies, seed);
+        // Spiral review (lib/unitTest): the lessons of the two previous units.
+        const at = units.findIndex((x) => x.id === u.id);
+        const earlier = units
+          .slice(Math.max(0, at - 2), Math.max(0, at))
+          .flatMap((x) => x.lessons.map((l) => byId.get(l.id)))
+          .filter(Boolean) as {
+          id: string;
+          slides?: readonly { type?: string; items?: unknown }[];
+        }[];
+        const built = buildUnitTest(bodies, seed, earlier);
         if (unitTestAvailability(built) === 'insufficient') {
           // MEASURED, NOT INVENTED: this records that the app tried and could not
           // assemble a real test from the cached bodies, so the course gate can
@@ -415,6 +425,15 @@ export default function UnitTestScreen({
               >
                 <span style={{ flex: 1, fontSize: 12.5, fontWeight: 700, color: 'var(--heading)' }}>
                   {lessonTitle(b.lessonId)}
+                  {unit && !unit.lessons.some((l) => l.id === b.lessonId) && (
+                    <span
+                      data-testid="unit-test-earlier"
+                      style={{ fontWeight: 600, color: 'var(--subtext)' }}
+                    >
+                      {' '}
+                      · from an earlier unit
+                    </span>
+                  )}
                 </span>
                 <span style={{ fontSize: 12, color: 'var(--subtext)' }}>
                   {b.correct}/{b.total} →

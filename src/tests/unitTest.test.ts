@@ -26,6 +26,7 @@ import {
   UNIT_PASS_THRESHOLD,
   UNIT_TEST_ITEMS,
   UNIT_TEST_MIN_ITEMS,
+  SPIRAL_ITEMS,
   type LessonBodyLike,
 } from '../lib/unitTest';
 import { LESSON_PASS_THRESHOLD } from '../lib/lessonCheck';
@@ -222,5 +223,60 @@ describe('scoring and the report', () => {
     expect(weak[0]!.correct).toBe(0);
     expect(weak[0]!.total).toBe(ITEMS_PER_LESSON);
     expect(rows.reduce((n, r) => n + r.total, 0)).toBe(items.length);
+  });
+});
+
+// ── Spiral review (academic recommendation 5, 2026-09-29) ─────────────────────
+describe('spiral review: earlier units come back inside later unit tests', () => {
+  const earlierFor = (i: number) =>
+    UNITS.slice(Math.max(0, i - 2), i).flatMap((u) =>
+      u.lessons.map((l) => BY_ID.get(l.id)!).filter(Boolean),
+    );
+
+  it('Unit 1 has no earlier unit and keeps fifteen of its own items', () => {
+    const items = buildUnitTest(bodiesFor(0), 0, earlierFor(0));
+    expect(items).toHaveLength(UNIT_TEST_ITEMS);
+    expect(items.filter((x) => x.spiral)).toHaveLength(0);
+  });
+
+  it('every later unit asks SPIRAL_ITEMS from the two units before it, and still asks fifteen', () => {
+    for (let i = 1; i < UNITS.length; i++) {
+      const own = new Set(UNITS[i]!.lessons.map((l) => l.id));
+      const allowed = new Set(earlierFor(i).map((l) => l.id));
+      const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
+      expect(items, UNITS[i]!.id).toHaveLength(UNIT_TEST_ITEMS);
+      const spiral = items.filter((x) => x.spiral);
+      expect(spiral, UNITS[i]!.id).toHaveLength(SPIRAL_ITEMS);
+      for (const x of spiral) {
+        expect(own.has(x.lessonId), `${UNITS[i]!.id}: a spiral item from the unit itself`).toBe(
+          false,
+        );
+        expect(allowed.has(x.lessonId), `${UNITS[i]!.id}: from beyond the two previous units`).toBe(
+          true,
+        );
+      }
+    }
+  });
+
+  it('spiral items are spread through the paper, never two together, never all at the end', () => {
+    const items = buildUnitTest(bodiesFor(4), 0, earlierFor(4));
+    const at = items.map((x, k) => (x.spiral ? k : -1)).filter((k) => k >= 0);
+    expect(at).toEqual([4, 9, 14]);
+  });
+
+  it('a retake meets different earlier LESSONS, not only different items', () => {
+    const lessons = (attempt: number) =>
+      buildUnitTest(bodiesFor(4), attempt, earlierFor(4))
+        .filter((x) => x.spiral)
+        .map((x) => x.lessonId);
+    const first = new Set(lessons(0));
+    expect(lessons(1).some((id) => !first.has(id))).toBe(true);
+  });
+
+  it('the report names an earlier-unit lesson as its own row', () => {
+    const items = buildUnitTest(bodiesFor(4), 0, earlierFor(4));
+    const rows = unitTestBreakdown(items, {});
+    const own = new Set(UNITS[4]!.lessons.map((l) => l.id));
+    expect(rows.filter((r) => !own.has(r.lessonId)).length).toBe(SPIRAL_ITEMS);
   });
 });

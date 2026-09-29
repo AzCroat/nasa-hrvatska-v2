@@ -60,8 +60,10 @@ export const UNIT_PASS_THRESHOLD = 0.85;
 export const UNIT_TEST_MIN_ITEMS = 8;
 
 export interface UnitTestItem extends LessonCheckItem {
-  /** Which lesson of the unit this item came from — the mixed report needs it. */
+  /** Which lesson this item came from — the mixed report needs it. */
   lessonId: string;
+  /** True for a spiral item: from a lesson of one of the two previous units. */
+  spiral?: boolean;
 }
 
 /** A lesson body, as /api/content/lessons serves it. */
@@ -119,7 +121,22 @@ function sampleForAttempt(count: number, attempt: number, take: number): number[
  * body carries no valid check items contributes nothing rather than blocking the
  * build; `unitTestAvailability` decides whether what is left is a test at all.
  */
-export function buildUnitTest(lessons: readonly LessonBodyLike[], attempt = 0): UnitTestItem[] {
+/**
+ * SPIRAL REVIEW (academic recommendation 5, owner go-ahead 2026-09-29). A unit test used
+ * to ask only about its own five lessons, so a concept was tested once, at its unit, and
+ * then only ever re-met through its own lesson's re-checks — the same items again, never
+ * inside a later unit's paper. Three of the fifteen items now come from the lessons of the
+ * TWO PREVIOUS UNITS, one from each of three of them, rotated by attempt. Unit 1 has no
+ * previous unit and keeps fifteen of its own. The spiral items count toward the bar: the
+ * point of a cumulative test is that an earlier concept still has to be there.
+ */
+export const SPIRAL_ITEMS = 3;
+
+export function buildUnitTest(
+  lessons: readonly LessonBodyLike[],
+  attempt = 0,
+  spiral: readonly LessonBodyLike[] = [],
+): UnitTestItem[] {
   const perLesson: UnitTestItem[][] = [];
   for (const lesson of lessons) {
     const slides = Array.isArray(lesson?.slides) ? lesson.slides : [];
@@ -135,15 +152,42 @@ export function buildUnitTest(lessons: readonly LessonBodyLike[], attempt = 0): 
     perLesson.push(picks.map((i) => ({ ...items[i]!, lessonId: lesson.id })));
   }
 
-  const out: UnitTestItem[] = [];
+  const own: UnitTestItem[] = [];
   const deepest = perLesson.reduce((m, a) => Math.max(m, a.length), 0);
   for (let round = 0; round < deepest; round++) {
     for (const bucket of perLesson) {
       const item = bucket[round];
-      if (item) out.push(item);
+      if (item) own.push(item);
     }
   }
+  const back = spiralItems(spiral, attempt);
+  // One spiral item after every fourth of the unit's own, so the paper never runs two
+  // earlier-unit questions together and never saves them for the end. The final slice
+  // drops the unit's own surplus, so every spiral item stays on the paper.
+  const out: UnitTestItem[] = [];
+  let b = 0;
+  own.forEach((it, i) => {
+    out.push(it);
+    if ((i + 1) % 4 === 0 && b < back.length) out.push(back[b++]!);
+  });
+  while (b < back.length) out.push(back[b++]!);
   return out.slice(0, UNIT_TEST_ITEMS);
+}
+
+/** One item from each of SPIRAL_ITEMS earlier lessons, both rotated by attempt so a
+ *  retake or re-check meets different earlier lessons and different items. */
+function spiralItems(spiral: readonly LessonBodyLike[], attempt: number): UnitTestItem[] {
+  const usable = spiral
+    .map((lesson) => ({ lesson, pool: findCheckSlide(lesson.slides ?? [])?.pool ?? [] }))
+    .filter((x) => x.pool.length > 0);
+  if (usable.length === 0) return [];
+  const take = Math.min(SPIRAL_ITEMS, usable.length);
+  const out: UnitTestItem[] = [];
+  for (let k = 0; k < take; k++) {
+    const { lesson, pool } = usable[(attempt * take + k) % usable.length]!;
+    out.push({ ...pool[(attempt + k) % pool.length]!, lessonId: lesson.id, spiral: true });
+  }
+  return out;
 }
 
 /**

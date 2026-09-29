@@ -4563,6 +4563,13 @@ paper; a lesson's own words never reached review.
   `animatedLessonGate.test.tsx`; mutation-verified, seven (one survived first — nothing
   checked that a form-B miss is filed under its form-B pool index — and the screen test
   now asserts where the misses land).
+- **SPIRAL REVIEW** (`lib/unitTest`, recommendation 5): from Unit 2 on, three of a unit
+  test's fifteen items come from the lessons of the TWO PREVIOUS UNITS — one item from each
+  of three of them, rotated by attempt, one after every fourth of the unit's own, never two
+  together. They count toward the 13-of-15 bar, because a cumulative test means an earlier
+  concept still has to be there; the report labels them "from an earlier unit". Unit 1
+  keeps fifteen of its own. Pinned over every real unit in `unitTest.test.ts` and at the
+  screen in `unitTestScreen.test.tsx` (missing only the spiral items costs the pass).
 - NEVER: retake a failed check on the same paper when a form B exists; judge a typed
   answer by edit distance; accept a missing diacritic as right; file a form-B item under a
   form-A index; list a level in `PRODUCTIVE_LEVELS` before every lesson in it passes the
