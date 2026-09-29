@@ -3,6 +3,7 @@ import CharacterPortrait from '../family/CharacterPortrait';
 import StoriesTab from '../croatia/StoriesTab';
 import MediaTab from '../croatia/MediaTab';
 import { DOORS, itemsForDoor, launchDoorItem, type DoorId, type DoorItem } from './doors';
+import { bakaDoorLock } from '../croatia/bakaBooks';
 
 function isEasterSeason(): boolean {
   const now = new Date();
@@ -18,10 +19,16 @@ function ItemCard({
   item: DoorItem;
   nav: { setScr: (s: string) => void; sCurEx?: (e: string) => void };
 }) {
+  // A Bakino Ljeto book whose predecessor is unfinished is LOCKED, and the card says so
+  // here — glyph and reason — rather than opening onto a lock notice (2026-09-29). The
+  // tap still opens the screen, which repeats the reason and offers the previous book.
+  const lock = bakaDoorLock(item.id);
   return (
     <button
       onClick={() => launchDoorItem(item, nav)}
       className="exercise-card"
+      data-testid={`door-item-${item.id}`}
+      data-locked={lock ? 'true' : undefined}
       style={{
         borderLeftColor: item.color,
         border: `1.5px solid ${item.color}25`,
@@ -41,7 +48,7 @@ function ItemCard({
           flexShrink: 0,
         }}
       >
-        {item.icon}
+        {lock ? '🔒' : item.icon}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div
@@ -56,7 +63,7 @@ function ItemCard({
           {item.title}
         </div>
         <div style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', lineHeight: 1.3 }}>
-          {item.sub}
+          {lock ? lock.reason : item.sub}
         </div>
       </div>
     </button>
