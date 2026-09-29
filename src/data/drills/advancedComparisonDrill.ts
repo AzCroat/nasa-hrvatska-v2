@@ -78,11 +78,11 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kaopoput',
-    q: 'Smatram ga ____ prijateljem. (kao)',
+    q: 'Smatram ga ____ prijateljem.',
     en: 'I consider him a friend.',
     opts: ['svojim', 'svoj', 'svojega', 'svome'],
     answer: 'svojim',
-    tip: 'After smatrati the complement is instrumental, and kao would copy that case too.',
+    tip: 'After smatrati the complement is instrumental: smatram ga svojim prijateljem.',
   },
   {
     mode: 'kaopoput',
@@ -136,11 +136,11 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'odnego',
-    q: 'Rezultat je bolji ____ očekivanja.',
-    en: 'The result is better than expected.',
+    q: 'Rezultat je bolji ____ prošlogodišnjeg.',
+    en: 'The result is better than last year’s.',
     opts: ['od', 'nego', 'kao', 'poput'],
     answer: 'od',
-    tip: 'A noun phrase follows → od + genitive: od očekivanja.',
+    tip: 'A genitive noun phrase follows → od: od prošlogodišnjeg (rezultata). Nego would need prošlogodišnji.',
   },
   {
     mode: 'odnego',
@@ -182,7 +182,7 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
     en: 'He looks as if he heard nothing.',
     opts: ['kao da', 'kao', 'poput', 'nego'],
     answer: 'kao da',
-    tip: 'kao da takes a full clause, and the verb stays in the present.',
+    tip: 'kao da takes a full clause with an ordinary tense — here the perfect, because the not-hearing came first.',
   },
   {
     mode: 'pisanje',
@@ -202,11 +202,11 @@ export const ADVANCED_COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pisanje',
-    q: 'Koje vrijeme ide iza "kao da"?',
-    en: 'Which tense follows kao da?',
+    q: 'Koje vrijeme ide iza "kao da" za istodobnu radnju?',
+    en: 'Which tense follows kao da for something happening at the same time?',
     opts: ['prezent', 'futur', 'kondicional', 'aorist'],
     answer: 'prezent',
-    tip: 'Present, even where English would reach for a past or a subjunctive.',
+    tip: 'Present — ponaša se kao da je kod kuće — where English reaches for "as if he were". An earlier event takes the perfect.',
   },
   {
     mode: 'pisanje',

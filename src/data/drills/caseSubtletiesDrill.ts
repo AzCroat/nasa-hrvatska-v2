@@ -129,7 +129,7 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'vrijeme',
-    q: 'Koliko padeža nose vrijeme bez prijedloga?',
+    q: 'Koliko padeža nosi vrijeme bez prijedloga?',
     en: 'How many cases carry bare time?',
     opts: ['tri', 'jedan', 'dva', 'svi'],
     answer: 'tri',
@@ -155,9 +155,9 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'vrijeme',
     q: 'Putujem ____. (in the mornings)',
     en: 'I travel in the mornings.',
-    opts: ['jutrom', 'ujutro', 'u jutro', 'jutra'],
+    opts: ['jutrom', 'na jutro', 'u jutro', 'jutra'],
     answer: 'jutrom',
-    tip: 'The instrumental again for a repeated time; ujutro is one morning.',
+    tip: 'The instrumental again for a repeated time. (Ujutro, the everyday adverb, can be habitual too.)',
   },
   {
     mode: 'vrijeme',

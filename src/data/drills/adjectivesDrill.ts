@@ -29,7 +29,7 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'rod',
     q: '____ grad',
     en: 'a big city',
-    opts: ['velik', 'velika', 'veliko', 'veliki'],
+    opts: ['velik', 'velika', 'veliko', 'velike'],
     answer: 'velik',
     tip: 'Grad is masculine, so the bare (indefinite) masculine form: velik grad.',
   },
@@ -153,7 +153,7 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
     en: 'small children',
     opts: ['mala', 'mali', 'male', 'malo'],
     answer: 'mala',
-    tip: 'Djeca is a collective taking neuter plural agreement: mala djeca.',
+    tip: 'Djeca declines like a feminine singular (djece, djeci, djecu), so the adjective is feminine singular: mala djeca, male djece. The verb goes plural: djeca se igraju.',
   },
 
   // ── odredjen: the definite/indefinite pair ────────────────────────────────
@@ -175,7 +175,7 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'odredjen',
-    q: 'Koji oblik ide uz "novi"?',
+    q: 'Koje značenje nosi "novi"?',
     en: 'Which reading does "novi" carry?',
     opts: ['određeni — taj poznati', 'neodređeni — bilo koji', 'množina', 'ženski rod'],
     answer: 'određeni — taj poznati',
@@ -183,11 +183,11 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'odredjen',
-    q: 'Imam ____ auto. (I bought some car)',
-    en: 'I have a new car.',
+    q: 'Auto mi je potpuno ____.',
+    en: 'My car is brand new.',
     opts: ['nov', 'novi', 'nova', 'novo'],
     answer: 'nov',
-    tip: 'First mention, indefinite: nov auto.',
+    tip: 'In the predicate, after je, the indefinite short form is the standard one: auto je nov.',
   },
   {
     mode: 'odredjen',

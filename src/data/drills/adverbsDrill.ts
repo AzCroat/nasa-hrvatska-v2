@@ -189,9 +189,9 @@ export const ADVERBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'stupanj',
     q: 'Komparativ od "loše" glasi ____.',
     en: 'badly → worse',
-    opts: ['gore', 'lošije', 'najgore', 'više loše'],
+    opts: ['gore', 'lošeje', 'najgore', 'više loše'],
     answer: 'gore',
-    tip: 'gore — and it is also the word for up there, in another life.',
+    tip: 'gore — and it is also the word for up there, in another life. Lošije is standard too.',
   },
   {
     mode: 'stupanj',

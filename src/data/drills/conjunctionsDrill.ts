@@ -128,8 +128,8 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'akontrastali',
     q: 'U čemu je razlika između "a" i "ali"?',
     en: 'a against ali:',
-    opts: ['a usporeduje, ali se protivi', 'a je formalnije', 'ali je kraće', 'nema razlike'],
-    answer: 'a usporeduje, ali se protivi',
+    opts: ['a uspoređuje, ali se protivi', 'a je formalnije', 'ali je kraće', 'nema razlike'],
+    answer: 'a uspoređuje, ali se protivi',
     tip: 'English says "but" for both, which is why this has to be learned.',
   },
   {
@@ -188,7 +188,7 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which cannot open a sentence?',
     opts: ['jer', 'zato što', 'iako', 'ako'],
     answer: 'jer',
-    tip: 'JER CANNOT COME FIRST. Zato što can, and that is the way round it.',
+    tip: 'A JER-CLAUSE CANNOT COME FIRST (only as a bare answer to Zašto?). Zato što can, and that is the way round it.',
   },
   {
     mode: 'uzrok',
@@ -196,7 +196,7 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Because it is raining, I am staying home.',
     opts: ['Zato što', 'Jer', 'Nego', 'Pa'],
     answer: 'Zato što',
-    tip: 'When the reason comes first, it has to be zato što.',
+    tip: 'When the reason comes first, it has to be zato što (or budući da) — never jer.',
   },
   {
     mode: 'uzrok',
@@ -226,9 +226,9 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'uzrok',
     q: 'Ispred kojih veznika ide zarez?',
     en: 'Which ones take a comma?',
-    opts: ['ali, a, nego, jer, iako', 'i, pa, ili', 'svih', 'nijednog'],
-    answer: 'ali, a, nego, jer, iako',
-    tip: 'And i, pa, ili take none when they simply join.',
+    opts: ['ali, a, nego, već', 'i, pa, ili', 'svih', 'nijednog'],
+    answer: 'ali, a, nego, već',
+    tip: 'The contrastive ones take a comma. I, pa, ili take none when they simply join — and nor do jer and iako when their clause follows the main one.',
   },
   {
     mode: 'uzrok',
