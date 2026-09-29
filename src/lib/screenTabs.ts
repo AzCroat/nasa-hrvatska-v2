@@ -104,6 +104,7 @@ export const SCREEN_TAB: Record<string, string> = {
   pitchaccent: 'practice',
   shadowing: 'practice',
   review: 'practice',
+  fluency: 'practice',
   writing: 'practice',
   aspectdrill: 'practice',
   clitic: 'practice',

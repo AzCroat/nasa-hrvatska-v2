@@ -13711,3 +13711,14 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
     unlocked and, inside it, A1 content where the bank has it, the whole bank where it does
     not — `levelledBank`'s floor); the Me-tab placement retake no longer moves the served level
     while a spine exists. Both are owner decisions, not defects, and are recorded as such.
+- [x] **Sweep 203 — a fluency round (recommendation 4, 2026-09-29).**
+  - Measured: every session activity taught, tested or re-checked at the learner's own pace;
+    none asked for speed with mastered material (Nation's fluency strand). Built: a 90-second
+    Quick Recall round over passed lessons' check items, rate + personal best, misses into
+    Lesson Review, offered through the Stretch from three passed lessons.
+  - Mutation-verified, four: an empty round paying (fails 1), misses not filed (1), offered
+    with nothing passed (3), never in the Stretch (1). A harness note: the timer re-arms per
+    tick through an effect, so a single large fake-timer advance never reached the result —
+    the test advances tick by tick.
+  - **Not covered, stated**: not in the CEFR rotation or on the Practice tab list (reachable
+    by search and the Stretch); typed items are not in the round yet.

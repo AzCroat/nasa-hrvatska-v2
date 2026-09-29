@@ -48,6 +48,7 @@
 // `hooks/useDailySession`, which imports this module — importing them back would
 // be a cycle. Everything else is a lib import.
 
+import { fluencyAvailable } from './fluencyRound';
 import type { DailySession, SessionActivity } from './dailySessionStore';
 import { MINUTES_PER_ACTIVITY } from './dailySessionStore';
 import { selectRetentionSlot } from './retentionSlot';
@@ -72,6 +73,7 @@ import {
   productionReason,
   reviewReason,
   withReason,
+  fluencyReason,
 } from './activityReason';
 
 /** Activities per Stretch — a second session's worth, without the lesson. */
@@ -216,6 +218,26 @@ export function gatherStretchCandidates(
         e.state === 'shaky' ? 0 : 1,
       );
     }
+  });
+
+  // ── Fluency (recommendation 4): fast re-use of what is already mastered ──────
+  // Drawn only from PASSED lessons, so its reason states a measured count. Rank 1:
+  // after anything due or slipping, before the path ahead.
+  guarded(() => {
+    const store = readRetention();
+    if (!fluencyAvailable(store)) return;
+    add(
+      {
+        id: 'fluency',
+        label: 'Quick Recall',
+        screen: 'fluency',
+        category: 'general',
+        ...withReason(fluencyReason(Object.keys(store.lessons).length)),
+      },
+      'measured',
+      false,
+      1,
+    );
   });
 
   // ── Measured weaknesses ────────────────────────────────────────────────────

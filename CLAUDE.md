@@ -4582,6 +4582,15 @@ paper; a lesson's own words never reached review.
   Practice tab's CARD LOCKS still read content unlock (certification), untouched — a door
   and what is served behind it are different questions. So the Me tab's placement retake now
   moves nothing while a spine exists; recorded for the owner.
+- **FLUENCY** (`lib/fluencyRound`, `FluencyRoundScreen`, route `fluency`, recommendation 4):
+  Nation's fourth strand — fast re-use of what is already known — had no slot. A 90-second
+  round over check items from PASSED lessons only (held ones first, interleaved), reporting
+  correct answers per minute and a personal best (`nh_fluency_best`, local). Not a test:
+  nothing about the course moves on it; a miss becomes a Lesson Review card (never a ladder
+  move). Offered as a rank-1 measured Stretch candidate from three passed lessons, reason
+  stating the count; lesson days have no free core slot, which is why the Stretch is its
+  door. Pays `min(20, correct)` once from an effect on reaching the result; an empty round
+  pays nothing. Pinned by `fluencyRound.test.tsx`; mutation-verified, four.
 - NEVER: retake a failed check on the same paper when a form B exists; judge a typed
   answer by edit distance; accept a missing diacritic as right; file a form-B item under a
   form-A index; list a level in `PRODUCTIVE_LEVELS` before every lesson in it passes the
