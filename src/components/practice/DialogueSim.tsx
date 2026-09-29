@@ -227,6 +227,9 @@ export default function DialogueSim({
           // Cap to last 14 messages (7 turns) — prevents context window overflow on long sessions
           history: aiHistory.slice(-14),
           level: userLevel || 'A2',
+          // The server speaks at the LOWER of the two, so a scenario above the
+          // learner's level (a "stretch") is still pitched where they can follow.
+          scenarioLevel: scenario.difficulty,
         },
         { signal: AbortSignal.timeout(25000) },
       );
