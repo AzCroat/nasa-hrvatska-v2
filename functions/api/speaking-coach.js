@@ -83,17 +83,33 @@ export async function onRequestPost(context) {
     return err(400, 'Invalid JSON in request body', origin);
   }
 
-  const { prompt, transcript, level } = reqBody;
+  const { prompt, transcript, level, unconfirmed } = reqBody;
   if (typeof transcript !== 'string' || transcript.trim().length < 3)
     return err(400, 'Missing transcript', origin);
   const safeTranscript = sanitizeParam(transcript, 800);
   const safePrompt = sanitizeParam(prompt || 'Speak freely in Croatian', 300);
   const safeLevel = VALID_LEVELS.includes(level) ? level : 'B1';
+  // Words of the transcript the RECORDING did not bear out (Guided Speaking's audio check,
+  // 2026-09-29): the recogniser may have written a correct form the learner did not say.
+  // Letters only, bounded, so nothing but words can reach the prompt.
+  const safeUnconfirmed = Array.isArray(unconfirmed)
+    ? [
+        ...new Set(
+          unconfirmed
+            .filter((w) => typeof w === 'string')
+            .map((w) => w.replace(/[^\p{L}'-]/gu, '').slice(0, 40))
+            .filter(Boolean),
+        ),
+      ].slice(0, 12)
+    : [];
 
   const userMsg =
     `Learner level: ${safeLevel}\n` +
     `Speaking prompt: "${safePrompt}"\n` +
-    `Transcript of their spoken answer: "${safeTranscript}"`;
+    `Transcript of their spoken answer: "${safeTranscript}"` +
+    (safeUnconfirmed.length > 0
+      ? `\nUNCONFIRMED words (the recording did not bear these out): ${safeUnconfirmed.join(', ')}`
+      : '');
 
   let res;
   try {

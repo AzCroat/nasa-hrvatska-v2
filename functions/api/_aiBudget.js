@@ -369,6 +369,54 @@ export async function refundPrecharge(env, pathname) {
   }
 }
 
+/**
+ * Azure speech is billed by AUDIO TIME, not tokens. $1.50 per audio hour, rounded up —
+ * above the list price of standard speech-to-text, so the ledger never records less than
+ * was spent.
+ */
+export const AZURE_SPEECH_MICROUSD_PER_SECOND = 420;
+
+/**
+ * Reconcile an Azure speech call to the audio it actually processed (2026-09-29).
+ *
+ * WHY. `/api/pronunciation-assess` pre-charges a 15,000 µ$ ceiling (a minute of audio),
+ * and nothing ever refunded it: `reconcileSafely` only understands Claude token usage. A
+ * Guided Speaking sitting now assesses about a dozen short takes, so it would have booked
+ * ~$0.18 of the $9 month for audio that cost about two cents. Azure reports the
+ * processed duration (100-ns ticks); the refund is the ceiling minus that duration at
+ * AZURE_SPEECH_MICROUSD_PER_SECOND. A missing or non-finite duration refunds nothing — the
+ * ceiling stays charged, the safe direction — and a refund is never negative.
+ */
+export async function reconcileAudioSeconds(env, pathname, seconds) {
+  try {
+    if (!Number.isFinite(seconds) || seconds <= 0) return;
+    const ceiling = ENDPOINT_CEILING_MICROUSD[pathname] ?? DEFAULT_CEILING_MICROUSD;
+    const actual = Math.ceil(seconds * AZURE_SPEECH_MICROUSD_PER_SECOND);
+    if (ceiling <= 0 || actual >= ceiling) return;
+    const refund = ceiling - actual;
+    const month = monthUTC();
+    const db = env.AI_QUOTA_DB || null;
+    if (db) {
+      await db
+        .prepare('UPDATE ai_month_spend SET microusd = MAX(0, microusd - ?1) WHERE month = ?2')
+        .bind(refund, month)
+        .run();
+      return;
+    }
+    const kv = env.PUSH_SUBSCRIPTIONS || null;
+    if (kv) {
+      const key = `budget:${month}`;
+      const raw = await kv.get(key);
+      const current = raw ? parseInt(raw, 10) || 0 : 0;
+      await kv.put(key, String(Math.max(0, current - refund)), {
+        expirationTtl: 60 * 60 * 24 * 40,
+      });
+    }
+  } catch (e) {
+    console.warn('[AIBudget] audio reconcile failed (ceiling stays charged):', e?.message);
+  }
+}
+
 /** Current month's ledger, for the status endpoint. Read-only. */
 export async function getBudgetStatus(env) {
   const db = env.AI_QUOTA_DB || null;

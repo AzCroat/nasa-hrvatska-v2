@@ -2761,7 +2761,22 @@ paradigm was being shown to learners.** `centar`, `metar`, `litar`, `vjetar` and
 and `zidar` KEEP their a, and both directions are pinned — the class is lexical, so
 a rule would produce `mornra`, the same damage in a new place.
 
-- NEVER: send a build sentence to an AI endpoint; name a single case for an
+- **THE RECORDING IS CHECKED AGAINST THE TARGET (owner report, 2026-09-29).** REHEARSE and
+  BUILD record the take (`AssessedMic`) and Azure scores it against the phrase or model
+  answer with miscue detection. `lib/spokenCheck` shows every word as clear / not clear /
+  not heard / extra, and a BUILD pass whose required form the recording does not bear out
+  returns `unclear`. The browser recogniser writes the likeliest Croatian, which can be the
+  correct ending the learner did not say. The GRAMMAR verdict stays rule-based and free; the
+  audio check is billed by duration (`reconcileAudioSeconds`), never at the one-minute
+  ceiling, and every take that fails to reach Azure falls back to the old recogniser button
+  with a notice. SPEAK has no target, so `SpeakCheck` scores the recording against the
+  learner's own transcript and sends the words it does not bear out to the coach as
+  UNCONFIRMED (never credited). Every take is sent as 16 kHz WAV (`lib/audioWav`), and a word
+  weak only in a final voiced consonant (`Bog` said [bok]) is clear. AUDIT-STATE sweeps
+  207–208.
+- NEVER: send a build sentence to a CLAUDE endpoint (the audio check above is a speech
+  assessment billed by duration, not a model call); book an Azure speech call at its ceiling
+  without reconciling to the reported duration; let the assessed mic block a stage; leave a deliberate recogniser stop without clearing `recording` (it nulls `onend`, so nothing else will); send an Azure take in the browser's own recording format when it can be converted to WAV; name a single case for an
   ambiguous ending; gate the stage on the microphone; author a focus without
   checking `decline()` produces the cell (a wrong required form teaches a wrong
   ending); let the button before it name a stage it does not lead to.
