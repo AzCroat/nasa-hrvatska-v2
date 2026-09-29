@@ -4676,13 +4676,17 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   fluent."_ `nh_daily_goal_xp` has no writer, reader, snapshot field or merge; the modal
   asks ONE question (the goal, which the app reads). NEVER offer a learner a choice of how
   much to study — the bar is the app's.
-- **AND ONBOARDING IS BEING STRIPPED TO name → goal → (heritage region, optional) → Unit 1
-  lesson 1 (owner decision, 2026-09-29; queued).** The placement test's `nh_level` no
+- **AND ONBOARDING IS name → goal → (heritage region, optional) → Unit 1 lesson 1 (owner
+  decision, 2026-09-29; BUILT the same day — AUDIT-STATE sweep 194).** The placement test's `nh_level` no
   longer decides the course; it sets the level the Practice tab and the deck serve at
   (twelve screens via `getGenerationCefr`), so a B1 placement meant Unit 1 in the session
   and B1 flashcards on the Practice tab. The test and the "say your first word" mic moment
-  leave onboarding — test-out on the map is the same bar — and the Practice tab and deck
-  will follow the COURSE level as the next increment. AUDIT-STATE sweep 193.
+  left onboarding — test-out on the map is the same bar — together with the App.tsx timer
+  that pushed a 0-XP learner into `new-placement`, the onboarding-only `placement` route,
+  `nh_placement_declined` and the legacy `placement_done`. The Me tab's retake stays. The
+  Practice tab and deck follow the COURSE level as the next increment. NEVER put a test in
+  front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
+  anywhere but the course.
 - NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
   activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
   Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the

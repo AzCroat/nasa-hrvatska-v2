@@ -13331,6 +13331,39 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not checked**: the three heavy-user E2E specs match `/daily goal|goal|target|minutes/i`
     against Settings text with an `info` fallback — they cannot fail on this and assert
     nothing about the card, so they were not changed.
+- [x] **Sweep 194 — onboarding ends on the course: name → goal → (heritage region) → Unit 1 (owner decision, 2026-09-29).**
+  - Owner: _"Shouldn't we just be having users register and then begin lessons at the most
+    basic level to begin their Croatian fluency journey?"_ Measured first (sweep 193): the
+    Welcome flow ran hero → goal → level page → heritage region → a "say your first Croatian
+    word" mic modal → a 15-question placement test or "skip as beginner"; a second surface
+    (`App.tsx`) pushed any 0-XP learner into `new-placement` 1.2 s after landing. The
+    placement's `nh_level` no longer decides the COURSE (one path, Unit 1 for everyone) — it
+    set the Practice tab's content level, so a B1 placement meant Unit 1 in the session and B1
+    flashcards on the tab: two levels in one app, after three minutes of testing before any
+    teaching.
+  - Built: `WelcomeScreen` is hero → goal → (heritage region, skippable, heritage/family
+    goals only — Heritage Story reads it) → `finishOnboarding()` → Home, whose Begin Session
+    IS Unit 1 lesson 1. The level page, BOTH mic modals (and their focus-trap effects), the
+    placement question setup and its five setter props are gone; the App.tsx nudge effect is
+    gone (stripping the test from the flow while leaving the nudge would have thrown every
+    new learner straight back into it); the onboarding-only `placement` route is gone
+    (`routeKeys` caught it still listed — a learner reaching it would have met a blank page).
+    The Me tab's "retake placement" (`new-placement`) STAYS, and `PlacementTest` with it;
+    its cancel no longer writes `nh_placement_declined`, whose only reader was the nudge.
+    The legacy `placement_done` key lost its last writer and its restore
+    (`restoredKeysHaveConsumers` caught the round trip with no destination).
+  - **"I already know some Croatian" is the course's own test-out**, at the same 85% bar, on
+    the map — the one-bar rule. **Practice tab and deck follow the COURSE level next**
+    (decided; not in this sweep).
+  - Pinned by `welcomeOnboarding.test.tsx`: both goal paths land on `dashboard`, never on a
+    test; the heritage step's skip lands there too; a goal is required; and by source, no
+    placement route in Welcome, no timer in App.tsx, the onboarding route gone and the Me
+    retake present. Two route-list tests moved (`screenBoundaryCoverage`, `session-coverage`).
+  - Harness notes: a scripted `cut` swallowed the `selectedGen` state that sat between the
+    modal state and the refs (tsc caught it); a generic line deletion took the `&& (` opener
+    off two JSX conditionals and left their `)}` (prettier caught it). Read the span you cut.
+  - **Not checked**: no E2E walks the Welcome flow (every fixture seeds `onboarded`); the
+    per-skill `nh_placement_*` keys were already `NO_PRODUCER`.
 - [x] **Sweep 195 — an ending note must name the word it is about (owner report, 2026-09-29).**
   - Owner, on the A1 plural lesson's "Singular and Plural Side by Side" slide: _"you state
     that Velik should add ovi, when it is simply just adding i. This is incorrect learning
