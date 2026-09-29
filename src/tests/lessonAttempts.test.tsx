@@ -40,6 +40,7 @@ const markLessonComplete = vi.fn();
 vi.mock('../lib/curriculumProgress', () => ({
   markLessonComplete: (...a: unknown[]) => markLessonComplete(...a),
   readCurriculumSpine: () => [{ id: 'plural-nouns', title: 'Plural of Nouns', objectives: [] }],
+  readCompletedLessons: () => new Set<string>(),
 }));
 vi.mock('../lib/sessionSignal', () => ({ signalSessionCompleteIfActive: vi.fn() }));
 
@@ -133,11 +134,16 @@ describe('1. the FAIL is recorded — that is the whole point', () => {
   });
 
   it('a retake is a second attempt, and the FIRST one still says it failed', () => {
-    render(<AnimatedLesson lesson={LESSON} goBack={vi.fn()} award={vi.fn()} />);
+    // A retake is only ever on a later day now (lib/checkLock) — age the fail.
+    const first = render(<AnimatedLesson lesson={LESSON} goBack={vi.fn()} award={vi.fn()} />);
     next();
     answerCheck([1, 2, 3]);
+    first.unmount();
+    const raw = JSON.parse(localStorage.getItem('nh_lesson_attempts')!);
+    raw.lessons['plural-nouns'].attempts[0].at = '2000-01-01';
+    localStorage.setItem('nh_lesson_attempts', JSON.stringify(raw));
+    render(<AnimatedLesson lesson={LESSON} goBack={vi.fn()} award={vi.fn()} />);
     next();
-    fireEvent.click(screen.getByTestId('lesson-check-retake'));
     answerCheck();
     next();
 
@@ -166,7 +172,7 @@ describe('1. the FAIL is recorded — that is the whole point', () => {
 });
 
 describe('2. it is a diagnostic, and credits nothing', () => {
-  it('a failed check still writes no XP, no gc, no completion, no ladder', () => {
+  it('a failed check still writes no XP, no gc, no completion, no ladder — only review cards', () => {
     const award = vi.fn();
     render(<AnimatedLesson lesson={LESSON} goBack={vi.fn()} award={award} />);
     next();
@@ -182,7 +188,13 @@ describe('2. it is a diagnostic, and credits nothing', () => {
     expect(recordLessonTaught).not.toHaveBeenCalled();
     expect(markQuest).not.toHaveBeenCalled();
     expect(readRetention().lessons).toEqual({});
-    expect(readRetention().items).toEqual({});
+    // The one thing a fail DOES file (owner directive, 2026-09-29): the missed
+    // items, as Lesson Review cards — the area to study before the check reopens.
+    expect(Object.keys(readRetention().items).sort()).toEqual([
+      'plural-nouns#0',
+      'plural-nouns#1',
+      'plural-nouns#2',
+    ]);
   });
 });
 

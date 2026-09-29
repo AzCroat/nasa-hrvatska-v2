@@ -112,7 +112,7 @@ export const LESSONS_A1 = [
           {
             hr: 'Grad je velik. Gradovi su veliki.',
             en: 'The city is big. The cities are big.',
-            note: 'short masculine takes -ovi',
+            note: 'two words change: the short masculine noun grad → gradovi takes -ovi; the adjective velik → veliki only takes -i',
           },
           {
             hr: 'Moja sestra je ovdje. Moje sestre su ovdje.',
@@ -122,7 +122,7 @@ export const LESSONS_A1 = [
           {
             hr: 'More je toplo. Mora su topla.',
             en: 'The sea is warm. The seas are warm.',
-            note: 'neuter -e → -a',
+            note: 'the neuter noun more → mora changes -e → -a; the adjective toplo → topla changes -o → -a',
           },
           {
             hr: 'Studenti uče hrvatski.',

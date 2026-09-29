@@ -170,7 +170,7 @@ describe('the sweep keeps pace with the app’s real user-scoped keys', () => {
  *
  *   uSR               only ever read, and from srs.ts, not applyRemoteProgress
  *   topic_accuracy    reached through `const KEY = 'topic_accuracy'`
- *   placement_done    written by applyRemoteProgress (_safeSet), never read there
+ *   placement_done    (legacy; its last writer and its restore went on 2026-09-29)
  *   slangAgeConfirmed only touched from a component
  *   lastSeen          only touched from App.tsx
  *
@@ -217,7 +217,7 @@ describe('every non-nh_ storage key in the app is classified', () => {
     // would look like a pass.
     const keys = collectKeys();
     expect(keys.size).toBeGreaterThan(40);
-    for (const k of ['uSR', 'topic_accuracy', 'placement_done', 'slangAgeConfirmed', 'lastSeen'])
+    for (const k of ['uSR', 'topic_accuracy', 'nh_placement_done', 'slangAgeConfirmed', 'lastSeen'])
       expect([...keys.keys()]).toContain(k);
     // Proves the const-indirection branch is load-bearing, not decoration.
     expect(keys.get('topic_accuracy')).toContain('adaptive');
@@ -501,14 +501,12 @@ describe('the keys that survived the previous sweep are gone', () => {
   });
 
   it('clears the flags that decided the next learner never gets placed', () => {
-    localStorage.setItem('placement_done', 'true');
     localStorage.setItem('onboarded', 'true');
     localStorage.setItem('nh_placement_done', 'true');
     clearUserScopedStorage('a@example.com');
-    // App.tsx routes a 0-XP learner to `new-placement` only when all three are
-    // absent, so any one surviving is enough to skip placement entirely.
-    for (const k of ['placement_done', 'onboarded', 'nh_placement_done'])
-      expect(localStorage.getItem(k)).toBeNull();
+    // A surviving flag would let the next learner on this device skip onboarding
+    // (the auto-placement nudge these once gated is gone — 2026-09-29).
+    for (const k of ['onboarded', 'nh_placement_done']) expect(localStorage.getItem(k)).toBeNull();
   });
 
   it('clears adaptive accuracy, the age gate, and the comeback timestamp', () => {

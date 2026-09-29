@@ -7,6 +7,7 @@ import React from 'react';
 import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
 import { itemsNeededToPass } from '../../lib/lessonGate';
 import { accentInk } from '../../lib/accentInk';
+import { CHECK_LOCKED_COPY } from '../../lib/checkLock';
 
 // ── Summary slide ─────────────────────────────────────────────────────────────
 //
@@ -26,6 +27,8 @@ export function SummarySlide({
   testedOut = false,
   onRetake,
   onReview,
+  locked = false,
+  onDone,
 }: {
   slide: BaseSlide;
   lesson: LessonMeta;
@@ -40,7 +43,119 @@ export function SummarySlide({
   testedOut?: boolean;
   onRetake?: () => void;
   onReview?: () => void;
+  /** The check is closed for today (lib/checkLock): a failed LESSON check is not
+   *  retaken on the spot, so there is no retake to offer — only study. */
+  locked?: boolean;
+  onDone?: () => void;
 }) {
+  if (!passed && locked && !testedOut) {
+    const missed = Math.max(0, quizTotal - score);
+    return (
+      <div style={{ textAlign: 'center' }} data-testid="lesson-check-failed">
+        <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 16 }}>📌</div>
+        <h2
+          style={{
+            fontSize: 'var(--text-2xl)',
+            fontWeight: 900,
+            color: accentInk(lesson.color),
+            marginBottom: 6,
+            fontFamily: "'Playfair Display', serif",
+          }}
+        >
+          Not passed
+        </h2>
+        <p
+          style={{
+            fontSize: 'var(--text-base)',
+            color: 'var(--subtext)',
+            marginBottom: 20,
+            fontWeight: 600,
+          }}
+        >
+          {lesson.title}
+        </p>
+        <div
+          style={{
+            background: lesson.bg,
+            borderRadius: 12,
+            border: '1px solid ' + lesson.color + '44',
+            padding: '14px',
+            marginBottom: 16,
+          }}
+        >
+          <div
+            style={{ fontSize: 'var(--text-2xl)', fontWeight: 900, color: accentInk(lesson.color) }}
+            data-testid="lesson-check-score"
+          >
+            {score}/{quizTotal}
+          </div>
+          <div
+            style={{
+              fontSize: 'var(--text-xs)',
+              color: 'var(--subtext)',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+            }}
+          >
+            Mastery Check
+          </div>
+        </div>
+        <p
+          data-testid="lesson-check-focus"
+          style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--heading)',
+            lineHeight: 1.6,
+            marginBottom: 8,
+            fontWeight: 700,
+          }}
+        >
+          {`You needed ${itemsNeededToPass(quizTotal)} of ${quizTotal} to pass. This lesson is now one of your focus areas`}
+          {missed > 0
+            ? ` — the ${missed === 1 ? 'question' : `${missed} questions`} you missed ${missed === 1 ? 'goes' : 'go'} into your Lesson Review for tomorrow.`
+            : '.'}
+        </p>
+        <p
+          data-testid="lesson-check-locked-copy"
+          style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--subtext)',
+            lineHeight: 1.6,
+            marginBottom: 20,
+          }}
+        >
+          {CHECK_LOCKED_COPY}
+        </p>
+        <button
+          className="b bp"
+          data-testid="lesson-check-review"
+          style={{ width: '100%', marginBottom: 10, background: lesson.color }}
+          onClick={onReview}
+        >
+          📖 Study the lesson again
+        </button>
+        <button
+          data-testid="lesson-check-done"
+          onClick={onDone}
+          style={{
+            display: 'block',
+            width: '100%',
+            padding: '10px',
+            background: 'none',
+            border: '1px solid var(--card-b)',
+            borderRadius: 12,
+            color: 'var(--heading)',
+            fontSize: 'var(--text-sm)',
+            fontWeight: 700,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+          }}
+        >
+          Back to today
+        </button>
+      </div>
+    );
+  }
   if (!passed) {
     return (
       <div style={{ textAlign: 'center' }} data-testid="lesson-check-failed">

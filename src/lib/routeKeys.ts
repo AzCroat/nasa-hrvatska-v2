@@ -288,7 +288,6 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'pitanja',
   'pitch_accent',
   'pitchaccent',
-  'placement',
   'pluraldrill',
   'pluskvamperfekt',
   'pogodbene',

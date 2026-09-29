@@ -577,5 +577,5 @@ export function QuizSlide({
 
 // The check and summary slides live in their own files (800-line cap); re-exported
 // so AnimatedLesson keeps one import site.
-export { CheckSlide } from './LessonCheckSlide';
+export { CheckSlide, LockedCheckNotice } from './LessonCheckSlide';
 export { SummarySlide } from './LessonSummarySlide';

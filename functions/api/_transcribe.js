@@ -19,6 +19,7 @@
 // 1 and 2 are what make iOS mp4 transcribe correctly; 3 is a no-key backstop.
 
 // ── Provider 1: Deepgram nova-3 ───────────────────────────────────────────────
+import { heardCroatian } from './_heardCroatian.js';
 export async function transcribeDeepgram(audioBuffer, mimeType, apiKey) {
   const params = new URLSearchParams({
     model: 'nova-3',
@@ -114,7 +115,7 @@ export async function transcribeCroatian(audioBuffer, mimeType, env, opts = {}) 
   if (env.DEEPGRAM_API_KEY) {
     try {
       const text = await transcribeDeepgram(audioBuffer, mt, env.DEEPGRAM_API_KEY);
-      if (text) return { text, provider: 'deepgram' };
+      if (text) return { text: heardCroatian(text), provider: 'deepgram' };
     } catch (e) {
       causes.push(['deepgram', e]);
     }
@@ -123,7 +124,7 @@ export async function transcribeCroatian(audioBuffer, mimeType, env, opts = {}) 
   if (env.OPENAI_API_KEY) {
     try {
       const text = await transcribeWhisper(audioBuffer, mt, env.OPENAI_API_KEY);
-      if (text) return { text, provider: 'whisper' };
+      if (text) return { text: heardCroatian(text), provider: 'whisper' };
     } catch (e) {
       causes.push(['whisper', e]);
     }
@@ -133,7 +134,7 @@ export async function transcribeCroatian(audioBuffer, mimeType, env, opts = {}) 
     try {
       const bytes = Array.from(new Uint8Array(audioBuffer));
       const text = await transcribeWorkersAI(bytes, env);
-      return { text, provider: 'workers-ai' };
+      return { text: heardCroatian(text), provider: 'workers-ai' };
     } catch (e) {
       causes.push(['workers-ai', e]);
     }

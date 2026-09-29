@@ -59,7 +59,6 @@ const OUTSIDE_SESSION: string[] = [
   'equivalency', // CEFR certification exam (own store, setScr-only exit) — regrouped from reference in Wave 4
   'grammar_diagnosis',
   'levelquiz',
-  'placement',
   // ── Reference / browse screens ──
   // Wave 4 (2026-07) registered 26 of the original 35: 13 with real quiz+award
   // completion joined the graded pool, 11 bounded bilingual browse screens
