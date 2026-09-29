@@ -414,11 +414,14 @@ export async function reconcileAudioSeconds(env, pathname, seconds) {
   }
 }
 
-/** Current month's ledger, for the status endpoint. Read-only. */
-export async function getBudgetStatus(env) {
+/**
+ * A month's ledger, for the status endpoints. Read-only. Defaults to the current
+ * month; `/api/ai-ledger` also asks for the previous one, so a change in the daily
+ * rate can be read against a baseline.
+ */
+export async function getBudgetStatus(env, month = monthUTC()) {
   const db = env.AI_QUOTA_DB || null;
   const kv = env.PUSH_SUBSCRIPTIONS || null;
-  const month = monthUTC();
   let spentMicroUsd = 0;
   if (db) {
     try {
@@ -439,6 +442,7 @@ export async function getBudgetStatus(env) {
   return {
     month,
     spentUsd: Math.round(spentMicroUsd / 10_000) / 100,
+    spentMicroUsd,
     budgetUsd: MONTHLY_BUDGET_MICROUSD / 1_000_000,
     resetAt: firstOfNextMonthUTC(),
   };

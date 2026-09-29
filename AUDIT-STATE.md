@@ -13951,3 +13951,16 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     displayed. The Easter screen and its quiz-done flag stay. Lint coverage is 482 → 481
     files.
   - Built as two branches by two agents and merged here. Full suite green on the merge.
+- [x] **Sweep 212 — the AI ledger report could not read the ledger (2026-09-29).** Its first
+      run (#799, dispatched after merge) was refused on the Cloudflare D1 listing,
+      "Authentication error": CI's API token has no D1 scope, and the setup script never
+      touches D1, so nothing had ever proved it did.
+  - The report now calls a read-only route, `/api/ai-ledger`. The route reads the ledger
+    through the Pages binding the budget already uses (`getBudgetStatus`, which now takes a
+    month and also returns `spentMicroUsd`). It sits behind the credential the observatory
+    and calibration sweeps use, so there is no new secret and no owner action.
+  - It returns the current and previous month plus the current daily rate, which is the
+    comparison the October 5 reading needs.
+  - Pinned by `aiLedgerWorkflow.test.js`: dispatch-only, one request, a 503 with no secret,
+    a 401 on a wrong secret, both months reported, and no statement but a SELECT.
+    Full suite green.

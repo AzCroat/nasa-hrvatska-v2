@@ -1,13 +1,19 @@
 # Read-only report of the AI budget ledger (2026-09-29).
 #
-# The monthly ledger (`ai_month_spend` in the AI_QUOTA_DB D1 database, see
-# functions/api/_aiBudget.js) was readable only through /api/ai-quota-status, which needs a
-# signed-in learner's token. Measuring a change in AI spend — e.g. whether the Stretch's
-# extra production slots raised the daily rate — needs the ledger itself. This prints the
-# last three months' booked spend and the daily rate for the current month.
+# The monthly ledger (`ai_month_spend`, see functions/api/_aiBudget.js) was readable only
+# through /api/ai-quota-status, which needs a signed-in learner's token. Measuring a change in
+# AI spend — e.g. whether the Stretch's extra production slots raised the daily rate — needs
+# the ledger itself. This prints the current and previous months' booked spend and the
+# current month's daily rate.
 #
-# READ-ONLY by construction: one SELECT against the D1 query API. It changes nothing.
-# Dispatch only. Uses the same credential pattern as cf-d1-bind.yml.
+# It calls /api/ai-ledger rather than the D1 API: CI's Cloudflare token has no D1 scope (the
+# first run was refused with "Authentication error"). The route reads the ledger through the
+# Pages binding, behind the credential the observatory and calibration sweeps use — derived
+# here as HMAC-SHA256(CLOUDFLARE_API_TOKEN, "nh-calibration-v1"), or CRON_SECRET if set. A
+# 401/503 means that credential is not provisioned: dispatch the "AI evaluator calibration"
+# workflow once.
+#
+# READ-ONLY: the route writes nothing and makes no AI call. Dispatch only.
 name: AI budget ledger
 
 on:
@@ -21,43 +27,40 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Read ai_month_spend
+      - name: Read the ledger
         env:
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_GLOBAL_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
-          CF_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
           set -euo pipefail
-          DB_NAME=nasa-hrvatska-ai-quota
-          TOK=$(printf '%s' "$CF_TOKEN" | tr -d '[:space:]')
-          API="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT"
-          if [ -n "${CF_GLOBAL_KEY:-}" ] && [ -n "${CF_EMAIL:-}" ]; then
-            auth=(-H "X-Auth-Email: $CF_EMAIL" -H "X-Auth-Key: $CF_GLOBAL_KEY" -H "Content-Type: application/json")
+          if [ -n "${CRON_SECRET}" ]; then
+            TOKEN="${CRON_SECRET}"
+          elif [ -n "${CF_TOKEN}" ]; then
+            TOKEN=$(printf '%s' "nh-calibration-v1" \
+              | openssl dgst -sha256 -hmac "${CF_TOKEN}" -r | cut -d' ' -f1)
           else
-            auth=(-H "Authorization: Bearer $TOK" -H "Content-Type: application/json")
-          fi
-          curl -sS "${auth[@]}" "$API/d1/database?per_page=100" > dbs.json
-          DB_ID=$(jq -r --arg n "$DB_NAME" '[.result[]? | select(.name==$n)][0].uuid // empty' dbs.json)
-          if [ -z "$DB_ID" ]; then
-            echo "::error::D1 database $DB_NAME not found (or the credential lacks D1 read scope)"
-            jq -c '{success, errors}' dbs.json
+            echo "::error::Neither CLOUDFLARE_API_TOKEN nor CRON_SECRET is configured"
             exit 1
           fi
-          curl -sS -X POST "${auth[@]}" "$API/d1/database/$DB_ID/query" \
-            -d '{"sql":"SELECT month, microusd FROM ai_month_spend ORDER BY month DESC LIMIT 3"}' > q.json
-          if ! jq -e '.success==true' q.json >/dev/null; then
-            echo "::error::ledger query failed"; jq -c '.errors' q.json; exit 1
+          echo "::add-mask::${TOKEN}"
+          STATUS=$(curl -sS -o ledger.json -w '%{http_code}' -X POST \
+            "https://nasahrvatska.com/api/ai-ledger" -H "x-cron-secret: ${TOKEN}")
+          if [ "${STATUS}" != "200" ]; then
+            cat ledger.json || true
+            echo "::error::Ledger read failed with HTTP ${STATUS}"
+            exit 1
           fi
-          python3 - q.json <<'PY'
-          import json, sys, datetime
-          rows = json.load(open(sys.argv[1]))['result'][0]['results']
-          today = datetime.datetime.now(datetime.timezone.utc)
-          print('month    booked (USD)  of $9.00 cap')
-          for r in rows:
-              usd = r['microusd'] / 1e6
-              line = f"{r['month']}  ${usd:9.4f}    {usd / 9 * 100:5.1f}%"
-              if r['month'] == today.strftime('%Y-%m'):
-                  line += f"   ≈ ${usd / today.day:.4f}/day over {today.day} day(s)"
+          python3 - ledger.json <<'PY'
+          import json, sys
+          r = json.load(open(sys.argv[1]))
+          cap = r['current']['budgetUsd']
+          print(f"store: {r['store']}   as of {r['asOf']}")
+          print(f"month    booked (USD)  of ${cap:.2f} cap")
+          for key in ('current', 'previous'):
+              m = r[key]
+              usd = m['spentMicroUsd'] / 1e6
+              line = f"{m['month']}  ${usd:9.4f}    {usd / cap * 100:5.1f}%"
+              if key == 'current':
+                  line += f"   ≈ ${m['perDayMicroUsd'] / 1e6:.4f}/day over {m['daysElapsed']} day(s)"
               print(line)
           PY
