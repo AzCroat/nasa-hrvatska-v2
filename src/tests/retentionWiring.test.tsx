@@ -120,7 +120,7 @@ describe('1. the lesson records its pass into the retention schedule', () => {
     expect(Object.keys(store.items)).toEqual([itemKey('plural-nouns', 2)]);
   });
 
-  it('a FAIL records nothing — there is no schedule to keep for a lesson not passed', () => {
+  it('a FAIL starts no schedule — but files the missed items as Lesson Review cards', () => {
     render(<AnimatedLesson lesson={LESSON} goBack={vi.fn()} award={vi.fn()} />);
     next();
     answerFormative();
@@ -129,7 +129,8 @@ describe('1. the lesson records its pass into the retention schedule', () => {
     next();
     expect(screen.getByTestId('lesson-check-failed')).toBeTruthy();
     expect(readRetention().lessons['plural-nouns']).toBeUndefined();
-    expect(readRetention().items).toEqual({});
+    expect(Object.keys(readRetention().items)).toHaveLength(3);
+    for (const k of Object.keys(readRetention().items)) expect(k).toMatch(/^plural-nouns#/);
   });
 });
 

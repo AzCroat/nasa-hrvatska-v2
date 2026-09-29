@@ -16,7 +16,8 @@ import {
   clearCorrectiveLessonRequest,
   firstWorkedSlide,
 } from '../../lib/correctiveDay';
-import { recordMasteryPass } from '../../lib/lessonRetention';
+import { recordMasteryPass, recordCheckFailure } from '../../lib/lessonRetention';
+import { checkLockedToday, priorAttemptCount } from '../../lib/checkLock';
 import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
@@ -31,6 +32,7 @@ import {
   TableSlide,
   QuizSlide,
   CheckSlide,
+  LockedCheckNotice,
   SummarySlide,
 } from './LessonSlides';
 import { accentInk, accentFill } from '../../lib/accentInk';
@@ -102,7 +104,9 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // SOURCE option order; `attempt` reshuffles presentation and remounts the
   // check on a retake.
   const [checkAnswers, setCheckAnswers] = useState<Record<number, number>>({});
-  const [attempt, setAttempt] = useState(0);
+  const [attempt, setAttempt] = useState(() =>
+    priorAttemptCount((lesson as { id?: string } | null)?.id),
+  );
   const [produceDone, setProduceDone] = useState(false);
   // TEST OUT (2026-09-07). A returning or heritage learner who already knows a
   // structure had to page through every slide to reach the check. The check IS
@@ -170,6 +174,14 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const passed = lessonPassed(gate, gateCorrect);
   const checkAllAnswered =
     gate.kind !== 'check' || gate.items.every((_, i) => checkAnswers[i] !== undefined);
+  // A FAILED CHECK IS NOT RETAKEN THE SAME DAY (lib/checkLock, 2026-09-29): failed in
+  // this sitting, or already failed today on another opening. Test-outs never lock.
+  const lockedAtOpen = useMemo(() => !!lessonId && checkLockedToday(lessonId), [lessonId]);
+  const failedThisSitting =
+    gate.kind === 'check' && checkAllAnswered && !passed && !testingOut && !alreadyComplete;
+  const checkLocked =
+    gate.kind === 'check' && !alreadyComplete && (lockedAtOpen || failedThisSitting);
+  const checkAnsweredAny = Object.keys(checkAnswers).length > 0;
   // One acquisition record per attempt (lib/lessonAttempts) — a diagnostic that
   // credits nothing, written on the pass AND the fail.
   const attemptRecorded = useRef<number>(-1);
@@ -198,27 +210,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   useEffect(() => {
     if (!currentSlide) return;
     if (currentSlide.type !== 'summary') return;
-    // Acquisition signal (2026-09-07). Recorded on BOTH branches, once per
-    // attempt, because a first-attempt FAIL is the only evidence the app has
-    // that a lesson did not teach — and the fail path is exactly where nothing
-    // was being written. This is a diagnostic, not credit: it cannot award,
-    // complete, schedule or queue anything (see lib/lessonAttempts), so the
-    // mastery gate's "on a fail NOTHING is recorded" rule is untouched.
-    // A test-out attempt is taken BEFORE reading the lesson, so it is tagged as
-    // such and excluded from the first-attempt signal rather than counted as a
-    // lesson that taught badly.
-    if (lessonId && gate.kind === 'check' && attemptRecorded.current !== attempt) {
-      attemptRecorded.current = attempt;
-      recordCheckAttempt(lessonId, {
-        score: gateCorrect,
-        total: gate.total,
-        passed,
-        kind: testingOut ? 'testout' : 'lesson',
-        missed: gate.items
-          .map((it, i) => (checkAnswers[i] === it.correct ? -1 : i))
-          .filter((i) => i >= 0),
-      });
-    }
+    // The attempt itself is recorded when the last check item is answered (the
+    // effect below handleCheckAnswer), which always precedes reaching this slide.
     if (!passed) {
       if (failSignalledAttempt.current !== attempt) {
         failSignalledAttempt.current = attempt;
@@ -275,6 +268,45 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slide, passed]);
 
+  // The attempt (and, on a fail, the Lesson Review cards) is recorded the moment the
+  // last item is answered — not only on reaching the summary. Every answer is revealed
+  // with its explanation as it is chosen, so leaving before the summary would otherwise
+  // leave no fail on record and a fresh check on the next opening: the same retake by
+  // another door.
+  useEffect(() => {
+    if (!lessonId || gate.kind !== 'check' || !checkAllAnswered) return;
+    if (attemptRecorded.current === attempt) return;
+    attemptRecorded.current = attempt;
+    recordCheckAttempt(lessonId, {
+      score: gateCorrect,
+      total: gate.total,
+      passed,
+      kind: testingOut ? 'testout' : 'lesson',
+      missed: gate.items
+        .map((it, i) => (checkAnswers[i] === it.correct ? -1 : i))
+        .filter((i) => i >= 0),
+    });
+    // A finished-but-failed check frees the session slot HERE, not only on the
+    // summary: a learner who fails and leaves before the summary, then reopens the
+    // lesson and meets the closed check, would otherwise strand today's session.
+    if (!passed && failSignalledAttempt.current !== attempt) {
+      failSignalledAttempt.current = attempt;
+      signalSessionCompleteIfActive('animlesson');
+    }
+    if (!passed && !testingOut && !alreadyComplete) {
+      recordCheckFailure(lessonId, {
+        results: gate.items.map((it, i) => ({ idx: i, correct: checkAnswers[i] === it.correct })),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkAllAnswered, attempt]);
+
+  // Opened with the check already closed today: nothing more can happen in the
+  // session's lesson slot, so the flow moves on.
+  useEffect(() => {
+    if (lockedAtOpen) signalSessionCompleteIfActive('animlesson');
+  }, [lockedAtOpen]);
+
   function handleCheckAnswer(itemIndex: number, sourceOptionIndex: number) {
     setCheckAnswers((prev) =>
       prev[itemIndex] === undefined ? { ...prev, [itemIndex]: sourceOptionIndex } : prev,
@@ -299,7 +331,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     gate.kind === 'check' &&
     currentSlide?.type === 'intro' &&
     !!lessonId &&
-    !alreadyComplete;
+    !alreadyComplete &&
+    !checkLocked;
 
   function startTestOut() {
     setTestingOut(true);
@@ -323,7 +356,9 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   }
 
   function reviewLesson() {
-    resetAttempt();
+    // A closed check keeps this sitting's answers, so the check slide shows them
+    // read-only and the summary still states the real score. Only an open check resets.
+    if (!checkLocked) resetAttempt();
     setSlide(totalSlides > 1 ? 1 : 0);
   }
 
@@ -374,8 +409,12 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const quizRevealed = quizResults[slide] !== undefined;
   const failedSummary = isSummary && !passed;
   const isPractice = currentSlide.type === 'worked' || currentSlide.type === 'practice';
+  // A check closed from an earlier sitting today, with nothing answered in this one:
+  // the check slide is where the sitting ends.
+  const closedCheckSlide = isCheck && checkLocked && !checkAnsweredAny;
+  const endsHere = closedCheckSlide || (failedSummary && !testingOut);
   const canGoNext = isCheck
-    ? checkAllAnswered
+    ? checkAllAnswered || closedCheckSlide
     : isPractice
       ? practiceDone.has(slide)
       : !isQuiz || quizRevealed;
@@ -471,6 +510,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
         );
 
       case 'check':
+        if (closedCheckSlide) return <LockedCheckNotice lesson={lesson!} />;
         return gate.kind === 'check' ? (
           <CheckSlide
             key={attempt}
@@ -498,6 +538,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
               testedOut={testingOut}
               onRetake={testingOut ? startLessonFromTestOut : retakeCheck}
               onReview={reviewLesson}
+              locked={checkLocked}
+              onDone={goBack}
             />
             {/* USE IT NOW (2026-09-07). Only after a PASS, and only when the
                 lesson is identifiable: recognition is where learners plateau,
@@ -645,7 +687,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       >
         <div style={{ maxWidth: 600, margin: '0 auto' }}>
           {/* Quiz check reminder — inside fixed nav so it's always visible */}
-          {isCheck && !checkAllAnswered && (
+          {isCheck && !checkAllAnswered && !closedCheckSlide && (
             <div
               data-testid="lesson-check-locked"
               style={{
@@ -727,17 +769,27 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
 
             {/* Next */}
             <button
-              onClick={failedSummary ? (testingOut ? startLessonFromTestOut : retakeCheck) : goNext}
+              onClick={
+                endsHere
+                  ? goBack
+                  : failedSummary
+                    ? testingOut
+                      ? startLessonFromTestOut
+                      : retakeCheck
+                    : goNext
+              }
               disabled={!canGoNext}
               data-testid="lesson-nav-next"
               aria-label={
-                failedSummary
-                  ? testingOut
-                    ? 'Take the lesson'
-                    : 'Retake the check'
-                  : isLastSlide
-                    ? 'Finish lesson'
-                    : 'Next slide'
+                endsHere
+                  ? 'Finish'
+                  : failedSummary
+                    ? testingOut
+                      ? 'Take the lesson'
+                      : 'Retake the check'
+                    : isLastSlide
+                      ? 'Finish lesson'
+                      : 'Next slide'
               }
               style={{
                 flex: 1,
@@ -754,13 +806,15 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                 opacity: canGoNext ? 1 : 0.5,
               }}
             >
-              {failedSummary
-                ? testingOut
-                  ? '📚 Take the lesson'
-                  : '↻ Retake check'
-                : isLastSlide
-                  ? 'Finish ✓'
-                  : 'Next →'}
+              {endsHere
+                ? 'Finish ✓'
+                : failedSummary
+                  ? testingOut
+                    ? '📚 Take the lesson'
+                    : '↻ Retake check'
+                  : isLastSlide
+                    ? 'Finish ✓'
+                    : 'Next →'}
             </button>
           </div>
         </div>

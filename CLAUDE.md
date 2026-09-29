@@ -693,6 +693,31 @@ been wired to the one lesson family the daily session's teaching slot serves.
   `animatedLessonGate.test.tsx` (drives the REAL screen; mutation-verified:
   un-gating completion fails 3, unlocking Next on the check fails 1, a retake
   that keeps the attempt fails 2, a summary ignoring `passed` fails 5).
+- **A FAILED CHECK IS NOT RETAKEN THE SAME DAY — the paragraph above is superseded on
+  the retake (owner directive, 2026-09-29; AUDIT-STATE sweep 198).** Owner: _"let's not
+  let them go back and click through the right answers to get a passing score. Let's
+  note they did not pass and add as an area of focus in review."_ Every item is revealed
+  with its explanation as it is answered, and the retake served the same six items
+  reshuffled, so a same-day second attempt measured memory of the answer sheet and a
+  pass bought that way started the retention ladder and advanced the course.
+  `src/lib/checkLock.ts`: once a lesson's latest REAL attempt fails, its check is closed
+  until the next calendar day — no retake button, no test-out door, and a fresh opening
+  that day renders `lesson-check-closed` in place of the check (the teaching slides stay
+  open; re-reading IS the studying). The summary says "Not passed", that the lesson is
+  now a focus area, how many missed items are in Lesson Review, and that tomorrow's
+  session brings it back (the corrective day). Three writes make it a focus area: the
+  attempt is recorded the moment the LAST item is answered (not on reaching the summary
+  — leaving before the summary was the same retake by another door); the missed items
+  become Lesson Review cards (`recordCheckFailure` — cards only, no lesson record, no
+  ladder); and the concept map gains `notpassed` ("Not passed yet"), ranked first in
+  "Worth revisiting". The next day's retake is a NEW shuffle: a fresh mount seeds the
+  attempt number from the lesson's prior attempts, since a reopening at attempt 0 would
+  have presented every item in yesterday's positions. The session signal fires when the
+  fail is recorded and again when a closed check is opened, so neither path strands the
+  session. A failed TEST-OUT locks nothing (taken before the lesson is taught). Stated
+  gap: the retake is still the same six items in new positions until each lesson has a
+  second form (recommendation 2). Pinned by `failedCheckFocus.test.tsx` and
+  `animatedLessonGate.test.tsx`; mutation-verified, ten.
 - **The depth contract is DATA and it is one definition**:
   `scripts/lessonDepthRules.mjs` (per lesson: exactly one check of ≥ 6 items,
   correct indices over ≥ 3 positions, 4 distinct options, an explanation each;
@@ -712,7 +737,9 @@ been wired to the one lesson family the daily session's teaching slot serves.
   findings. Pinned by `croatianLintTargets.test.ts`.
 - NEVER: record a lesson complete on reaching the summary; let a fail write
   XP, `gc`, `al_`, the curriculum map or the taught queue; drop the
-  fail-attempt session signal (that strands the flow); add a check slide with
+  fail-attempt session signal (that strands the flow); offer a retake of a failed
+  LESSON check on the day it failed, by any door (button, test-out, a fresh opening);
+  start a new opening's check at attempt 0; add a check slide with
   fewer than six items or an answer key that sits at one position; lower a
   word floor; define a depth rule in the test or the script alone.
 

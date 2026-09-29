@@ -282,6 +282,25 @@ export function recordMasteryPass(
 }
 
 /**
+ * A LESSON check was FAILED (lib/checkLock, owner directive 2026-09-29). The lesson is
+ * NOT passed, so it gets no record and no ladder — that is still the gate's rule — but
+ * every item it missed becomes a card, so the Lesson Review serves those exact
+ * questions back as the area to study before the check reopens. A failed TEST-OUT is
+ * not a lesson taught and must never reach this (the caller guards it).
+ */
+export function recordCheckFailure(
+  lessonId: string,
+  args: { results: ItemResult[]; now?: number },
+): void {
+  if (!lessonId) return;
+  const misses = args.results.filter((r) => !r.correct);
+  if (misses.length === 0) return;
+  const store = readRetention();
+  touchItems(store, lessonId, misses, args.now ?? Date.now());
+  writeRetention(store);
+}
+
+/**
  * A re-check or a cumulative check finished for ONE lesson's items.
  *  - retention: pass → next rung of the ladder; fail → back to the start, due
  *    tomorrow, coupled drill re-queued (the app already knows which drill

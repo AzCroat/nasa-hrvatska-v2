@@ -13426,3 +13426,46 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not covered, stated**: a bare `bok` meaning "side" is read as the greeting; the Azure
     pronunciation-assessment path returns WORD scores against the learner's reference text
     and was not changed; transcripts already stored (attempt evidence) keep their spelling.
+- [x] **Sweep 198 — a failed check is a focus area, not a retake (owner directive, 2026-09-29).**
+  - Owner: _"When a user fails a lessson let's not let them go back and click through the
+    right answers to get a passing score. Let's note they did not pass and add as an area of
+    focus in review. We should let them know they didn't pass and this will be something
+    they will need to study more before the next test."_ Measured: the summary of a failed
+    check offered "↻ Retake check" (and the nav's last button was the retake); every item
+    had just been revealed with its explanation; the retake served the same six items
+    reshuffled. So the second attempt tested the answer sheet, and a pass bought that way
+    wrote `al_`, `gc`, the curriculum map and the retention ladder.
+  - Built (`src/lib/checkLock.ts`): a failed LESSON check closes that lesson's check until
+    the next calendar day. No retake button; no test-out door; a fresh opening the same day
+    renders `lesson-check-closed` instead of the check, with the teaching slides open. The
+    summary reads "Not passed", names the lesson a focus area with the count of missed items
+    in Lesson Review, and says the check reopens tomorrow with a shorter re-teach first.
+  - Three records make it a focus area: (1) the attempt is recorded when the LAST item is
+    answered, not on reaching the summary — leaving before the summary had left no fail on
+    record and a fresh check on the next opening; (2) `recordCheckFailure` files the missed
+    items as Lesson Review cards (no lesson record, no ladder — the gate's rule stands);
+    (3) the concept map's new `notpassed` state ("Not passed yet"), ranked first in "Worth
+    revisiting", and the Me-tab card now renders before a first pass when something failed.
+  - Two defects found building it, both fixed: a reopening started at attempt 0, so the next
+    day's retake would have shown every item in yesterday's positions (now seeded from the
+    prior attempt count); and a fail left before the summary, reopened on the closed check,
+    would never free the session slot (the signal now fires when the fail is recorded and
+    when a closed check is opened).
+  - Tests: six old-contract tests rewritten with the reason (same-day retake, a fail writes
+    no cards); `failedCheckFocus.test.tsx` new (14). Mutation-verified, ten, each failing 1–3:
+    storage lock never fires; no in-sitting lock; test-out offered on a closed check; review
+    resets a closed check; a test-out counted as the latest real attempt; no review cards; the
+    retake reusing the shuffle; no `notpassed` state; the closed check stranding the session
+    (this one SURVIVED at first — the test saw the first sitting's signal — and was fixed by
+    clearing the mock between openings).
+  - **The copy was corrected the same hour**: a first miss is due exactly 24 hours later
+    (measured over 200 draws of `sm2`), so the missed questions are in Lesson Review
+    TOMORROW, the corrective day — the first wording ("are in your Lesson Review") was
+    true only a day later. The one test that queried the queue at exactly one day raced the
+    scheduler's clock by milliseconds and failed intermittently; it now asks two days on.
+  - **Not covered, stated**: the retake is still the same six items in new positions until
+    each lesson carries a second form (recommendation 2, next); a learner who answers FIVE of
+    six and leaves has seen five explanations and meets a fresh check next time — only a
+    complete attempt locks; attempts stop being written at `MAX_ATTEMPTS_PER_LESSON` (10), so
+    the shuffle seed plateaus after the tenth opening. E2E: the walkthrough always answers
+    correctly and never meets the fail path; no spec named the retake.
