@@ -29,7 +29,7 @@ const DATA = [
     opts: ['auto', 'autom', 'auta', 'autu'],
     answer: 'auto',
     en: "I'm buying a car.",
-    tip: "'auto' is indeclinable in standard Croatian — accusative = nominative.",
+    tip: "'auto' is an inanimate masculine (auto, auta, autu): accusative = nominative.",
   },
   {
     q: 'Pozivam ___.',

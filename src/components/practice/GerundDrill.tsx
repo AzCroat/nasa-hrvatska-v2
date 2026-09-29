@@ -131,7 +131,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„____ se rano, stigla je na prvi vlak.”',
+    q: '„____ rano, stigla je na prvi vlak.”',
     opts: ['Ustavši', 'Ustajući', 'Ustati', 'Ustala'],
     answer: 'Ustavši',
     en: 'Having got up early, she caught the first train.',

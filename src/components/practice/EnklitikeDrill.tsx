@@ -56,10 +56,10 @@ const DATA = [
   {
     mode: 'poredak',
     q: 'Ona ____ vratila. (povratni glagol, 3. jd. perfekta)',
-    opts: ['se', 'se je', 'je se', 'si se'],
+    opts: ['se', 'sam se', 'je se', 'si se'],
     answer: 'se',
     en: 'she came back',
-    tip: 'Se + je stapa se u SE: vratila se (ne *vratila se je).',
+    tip: 'Uz se se je ispušta: vratila se (oblik „vratila se je” razgovoran je i regionalan).',
   },
   {
     mode: 'poredak',
@@ -87,8 +87,8 @@ const DATA = [
       'bilo gdje',
     ],
     answer: 'na drugome mjestu, iza prve naglašene riječi',
-    en: 'clitics sit in second position',
-    tip: 'Vukovsko pravilo: enklitika se naslanja na prvu naglašenu riječ.',
+    en: 'where do clitics stand?',
+    tip: 'Wackernagelovo pravilo: enklitika se naslanja na prvu naglašenu riječ.',
   },
   {
     mode: 'polozaj',
@@ -100,7 +100,7 @@ const DATA = [
       'Moja sestra jučer je bila stigla.',
     ],
     answer: 'Moja je sestra jučer stigla.',
-    en: 'in careful style the clitic splits the phrase',
+    en: 'which sentence is best in careful style?',
     tip: 'Birano: enklitika iza PRVE riječi (Moja JE sestra…).',
   },
   {
@@ -108,13 +108,13 @@ const DATA = [
     q: 'Enklitika ne smije stajati:',
     opts: ['na početku rečenice', 'iza glagola', 'iza veznika da', 'na drugome mjestu'],
     answer: 'na početku rečenice',
-    en: 'a clitic can never open the sentence',
+    en: 'where can a clitic never stand?',
     tip: '*Mi se čini → Čini mi se.',
   },
   {
     mode: 'polozaj',
     q: 'Jučer ____ ga vidio u gradu.',
-    opts: ['sam', 'sam ja', 'je', 'bih'],
+    opts: ['sam', 'sam ja', 'je', 'se'],
     answer: 'sam',
     en: 'yesterday I saw him in town',
     tip: 'Prilog otvara rečenicu, enklitike odmah iza: Jučer sam ga…',
@@ -129,7 +129,7 @@ const DATA = [
       'Moj brat, je koji živi u Splitu, došao jučer.',
     ],
     answer: 'Moj brat, koji živi u Splitu, došao je jučer.',
-    en: 'after a parenthetical the clitic cannot follow the comma',
+    en: 'which sentence with an inserted clause is correct?',
     tip: 'Iza zareza enklitika ne može: umetak traži došao JE.',
   },
   {
@@ -137,7 +137,7 @@ const DATA = [
     q: 'U pitanju „li” dolazi:',
     opts: ['odmah iza glagola', 'na početak rečenice', 'na kraj rečenice', 'iza subjekta'],
     answer: 'odmah iza glagola',
-    en: 'li follows the verb directly',
+    en: 'where does li go in a question?',
     tip: 'Dolaziš li? Znate li? — glagol + li.',
   },
   {
@@ -171,7 +171,7 @@ const DATA = [
     q: 'U zavisnoj surečenici enklitike dolaze:',
     opts: ['odmah iza veznika', 'na kraj surečenice', 'ispred veznika', 'bilo gdje'],
     answer: 'odmah iza veznika',
-    en: 'in subordinate clauses clitics follow the conjunction',
+    en: 'where do clitics go in a subordinate clause?',
     tip: '…jer MI JE rekao; …da SAM GA vidio.',
   },
   {
@@ -185,7 +185,7 @@ const DATA = [
   {
     mode: 'slozeni',
     q: 'Pitala je hoćemo ____ doći.',
-    opts: ['li', 'li mi', 'da', 'se'],
+    opts: ['li', 'mi li', 'da', 'se'],
     answer: 'li',
     en: 'she asked whether we would come',
     tip: 'Neizravno pitanje: hoćemo LI doći.',
@@ -217,7 +217,7 @@ const DATA = [
   {
     mode: 'slozeni',
     q: 'Ako ____ vidiš, javi mi.',
-    opts: ['ga', 'njega', 'mu', 'se'],
+    opts: ['ga', 'on', 'mu', 'se'],
     answer: 'ga',
     en: 'if you see him, let me know',
     tip: 'Ako + enklitika odmah: ako ga vidiš.',

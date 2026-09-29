@@ -51,7 +51,7 @@ const DATA = [
       'Prozor je Ivan razbio.',
     ],
     answer: 'Prozor je razbio Ivan.',
-    en: 'the natural answer puts the NEW information last',
+    en: 'the most natural answer',
     tip: 'Fokus (nova obavijest — IVAN) dolazi na kraj rečenice.',
   },
   {
@@ -64,7 +64,7 @@ const DATA = [
       'Prozor je Ivan razbio.',
     ],
     answer: 'Ivan je razbio prozor.',
-    en: 'again — new information (the window) goes last',
+    en: 'the most natural answer',
     tip: 'Poznato (Ivan) naprijed, novo (prozor) na kraj.',
   },
   {
@@ -72,16 +72,16 @@ const DATA = [
     q: '„Vina više nemamo, piva ima.” — na početcima surečenica istaknuti su:',
     opts: ['objekti u genitivu', 'subjekti', 'prilozi', 'glagoli'],
     answer: 'objekti u genitivu',
-    en: 'contrastive fronting of partitive genitives',
+    en: 'what is fronted at the start of each clause?',
     tip: 'Partitivni genitivi (vina, piva) sprijeda — kontrastna tema.',
   },
   {
     mode: 'tema',
     q: 'Kontrast radnji: „____ ću ja, a ti operi suđe.”',
-    opts: ['Kuhati', 'Ja', 'Suđe', 'Operi'],
-    answer: 'Kuhati',
-    en: 'fronting the verb for contrast',
-    tip: 'Infinitiv na početku suprotstavlja radnje: kuhati ↔ oprati.',
+    opts: ['Kuhat', 'Ja', 'Suđe', 'Operi'],
+    answer: 'Kuhat',
+    en: 'contrasting two tasks',
+    tip: 'Infinitiv na početku suprotstavlja radnje (ispred ću gubi -i: kuhat ću): kuhati ↔ oprati.',
   },
   {
     mode: 'tema',
@@ -106,11 +106,11 @@ const DATA = [
   },
   {
     mode: 'fokus',
-    q: '„Upravo ____ tražim!”',
+    q: '„Upravo ____ tražim, a ne njega!”',
     opts: ['tebe', 'te', 'ti', 'tobom'],
     answer: 'tebe',
     en: 'it is precisely YOU I am looking for',
-    tip: 'Uz „upravo” dolazi puni (naglašeni) oblik zamjenice, ne zanaglasnica.',
+    tip: 'Kontrastno istaknuta zamjenica (tebe, a ne njega) mora biti u punom obliku, ne zanaglasnica.',
   },
   {
     mode: 'fokus',
@@ -131,7 +131,7 @@ const DATA = [
   {
     mode: 'fokus',
     q: '„To je ____ što me najviše ljuti.”',
-    opts: ['ono', 'to', 'ovo', 'nešto'],
+    opts: ['ono', 'onaj', 'ovo', 'nešto'],
     answer: 'ono',
     en: 'that is THE thing that annoys me most',
     tip: 'Rascijepljena rečenica: To je ono što…',
@@ -139,7 +139,7 @@ const DATA = [
   {
     mode: 'fokus',
     q: 'Tematizator: „A ____ se tiče cijene, o njoj ćemo poslije.”',
-    opts: ['što', 'koliko', 'kako', 'čega'],
+    opts: ['što', 'kome', 'kako', 'čega'],
     answer: 'što',
     en: 'as far as the price is concerned…',
     tip: 'Što se tiče + genitiv — izdvaja temu na početak.',
@@ -147,7 +147,7 @@ const DATA = [
   {
     mode: 'fokus',
     q: '„Istinu govoreći, ____ mi se ne ide.”',
-    opts: ['nikamo', 'nigdje', 'nikuda', 'nikad'],
+    opts: ['nikamo', 'nigdje', 'nikoga', 'nikad'],
     answer: 'nikamo',
     en: 'to be honest, I do not feel like going anywhere',
     tip: 'NIKAMO = ni prema kojem odredištu (smjer); nigdje = mjesto.',
@@ -155,7 +155,7 @@ const DATA = [
   {
     mode: 'fokus',
     q: 'Ironično čuđenje: „Ma ____!”',
-    opts: ['nemoj', 'neću', 'šuti', 'daj'],
+    opts: ['nemoj', 'neću', 'moraš', 'idem'],
     answer: 'nemoj',
     en: 'you do not say!',
     tip: '„Ma nemoj” — ustaljena ironična reakcija na očito.',
@@ -170,7 +170,7 @@ const DATA = [
   },
   {
     mode: 'stil',
-    q: 'Pitanje s „li”: „____ li se sjećaš onog ljeta?”',
+    q: 'Pitanje s „li”: „____ li se onog ljeta?”',
     opts: ['Sjećaš', 'Da', 'Jesi', 'Što'],
     answer: 'Sjećaš',
     en: 'do you remember that summer?',

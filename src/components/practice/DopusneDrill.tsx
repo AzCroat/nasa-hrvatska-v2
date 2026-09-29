@@ -17,7 +17,7 @@ const DATA = [
     q: '____ je bio umoran, ostao je do kraja.',
     opts: ['Iako', 'Jer', 'Čim', 'Tako da'],
     answer: 'Iako',
-    en: 'although he was tired, he stayed to the end',
+    en: '___ he was tired, he stayed to the end',
     tip: 'Dopusnost: iako/premda + rečenica.',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: '____ smo ga upozorili, opet je zakasnio. (birano)',
     opts: ['Premda', 'Zato što', 'Budući da', 'Pa'],
     answer: 'Premda',
-    en: 'although we warned him, he was late again',
+    en: '___ we warned him, he was late again (elevated style)',
     tip: 'Premda = birana inačica od iako.',
   },
   {
@@ -34,14 +34,14 @@ const DATA = [
     opts: ['makar', 'iako', 'premda', 'jer'],
     answer: 'makar',
     en: 'I will come, be it ever so late',
-    tip: 'Makar + kondicional/imperativna nijansa: makar bilo kasno.',
+    tip: 'Makar + pridjev radni u želnom (optativnom) značenju: makar bilo i kasno.',
   },
   {
     mode: 'veznici',
     q: '____ se trudio, nije uspio.',
     opts: ['Koliko god', 'Toliko', 'Čim', 'Budući da'],
     answer: 'Koliko god',
-    en: 'however hard he tried, he did not succeed',
+    en: '___ he tried, he did not succeed',
     tip: 'Koliko god / ma koliko = pojačana dopusnost.',
   },
   {
@@ -49,15 +49,15 @@ const DATA = [
     q: 'Ma ____ rekao, neću se predomisliti.',
     opts: ['što god', 'koliko', 'kako da', 'zašto'],
     answer: 'što god',
-    en: 'whatever you say, I will not change my mind',
-    tip: 'Ma što god + prezent: opća dopusnost.',
+    en: '___ you say, I will not change my mind',
+    tip: 'Ma što god + pridjev radni (rekao): opća dopusnost.',
   },
   {
     mode: 'veznici',
     q: 'Izašli smo ____ tomu što je padala kiša.',
     opts: ['unatoč', 'zbog', 'radi', 'prema'],
     answer: 'unatoč',
-    en: 'we went out despite the rain',
+    en: 'we went out ___ it was raining',
     tip: 'Unatoč tomu što + rečenica.',
   },
   {
@@ -65,7 +65,7 @@ const DATA = [
     q: '„Iako” i „premda” izriču:',
     opts: ['dopusnost', 'uzrok', 'posljedicu', 'namjeru'],
     answer: 'dopusnost',
-    en: 'iako/premda mark concession',
+    en: 'what do iako and premda express?',
     tip: 'Radnja se dogodila usprkos zapreci.',
   },
   {
@@ -73,7 +73,7 @@ const DATA = [
     q: '____ kiši, utakmica se igra. (prijedlog + D)',
     opts: ['Usprkos', 'Zbog', 'Radi', 'Pomoću'],
     answer: 'Usprkos',
-    en: 'despite the rain, the match is on',
+    en: '___ the rain, the match is on',
     tip: 'Usprkos/unatoč + DATIV: usprkos kiši.',
   },
   {
@@ -86,7 +86,7 @@ const DATA = [
       'iako je upitno',
     ],
     answer: 'iako = stvarna zapreka, ako = uvjet',
-    en: 'iako (although) vs ako (if)',
+    en: 'iako vs ako',
     tip: 'Jedno slovo mijenja sve: dopusnost vs pogodba.',
   },
   {
@@ -94,7 +94,7 @@ const DATA = [
     q: '„Makar” uz brojeve znači:',
     opts: ['barem (makar jednom)', 'najviše', 'točno', 'nikad'],
     answer: 'barem (makar jednom)',
-    en: 'makar jednom = at least once',
+    en: '"makar" with a number',
     tip: 'Dođi makar jednom = barem jednom.',
   },
   {
@@ -102,7 +102,7 @@ const DATA = [
     q: '„Pa makar” izriče:',
     opts: ['spremnost na krajnju posljedicu', 'uzrok', 'vrijeme', 'način'],
     answer: 'spremnost na krajnju posljedicu',
-    en: 'pa makar = even if it costs me',
+    en: 'what does "pa makar" express?',
     tip: 'Reći ću istinu, pa makar me koštalo posla.',
   },
   {
@@ -110,7 +110,7 @@ const DATA = [
     q: 'Dopusnu rečenicu pojačava čestica:',
     opts: ['god (tko god, kad god)', 'li', 'zar', 'ne'],
     answer: 'god (tko god, kad god)',
-    en: 'god universalizes (whoever, whenever)',
+    en: 'which particle strengthens a concessive clause?',
     tip: 'Tko god došao, dobrodošao je.',
   },
   {
@@ -118,7 +118,7 @@ const DATA = [
     q: '„Bilo kako bilo, moramo dalje.” — izraz znači:',
     opts: ['kako god stvari stajale', 'bilo je dobro', 'na bilo kojem mjestu', 'nitko ne zna'],
     answer: 'kako god stvari stajale',
-    en: 'be that as it may',
+    en: 'what does the expression mean?',
     tip: 'Ustaljena dopusna formula.',
   },
   {
@@ -126,7 +126,7 @@ const DATA = [
     q: '„Unatoč” i „usprkos” traže:',
     opts: ['dativ', 'genitiv', 'akuzativ', 'instrumental'],
     answer: 'dativ',
-    en: 'unatoc/usprkos take the dative',
+    en: 'which case do unatoč and usprkos take?',
     tip: 'Unatoč upozorenju, usprkos zabrani.',
   },
   {
@@ -139,7 +139,7 @@ const DATA = [
       'unatoč je glagol',
     ],
     answer: 'unatoč traži dativ (tomu)',
-    en: 'why unatoc toga is wrong',
+    en: 'why unatoč toga is wrong',
     tip: 'Česta pogreška: genitiv umjesto dativa.',
   },
   {
@@ -147,7 +147,7 @@ const DATA = [
     q: '„Koliko god znao, ispit je težak.” — glagol iza koliko god:',
     opts: ['pridjev radni (znao)', 'infinitiv', 'trpni pridjev', 'aorist'],
     answer: 'pridjev radni (znao)',
-    en: 'koliko god + l-participle',
+    en: 'the verb form after koliko god',
     tip: 'Koliko god (bio) znao/učio/htio.',
   },
   {
@@ -160,7 +160,7 @@ const DATA = [
       'Da je padala kiša, izašli smo.',
     ],
     answer: 'Iako je padala kiša, izašli smo.',
-    en: 'turning ali into iako',
+    en: 'the concessive version',
     tip: 'Suprotnu rečenicu preoblikuj dopusnom.',
   },
   {
@@ -168,7 +168,7 @@ const DATA = [
     q: '„Trudio se, ali bez uspjeha.” = „____ trudu, nije uspio.”',
     opts: ['Unatoč', 'Zbog', 'Zahvaljujući', 'Prema'],
     answer: 'Unatoč',
-    en: 'despite his effort, he failed',
+    en: '___ his effort, he failed',
     tip: 'Unatoč + D: unatoč trudu.',
   },
   {
@@ -181,7 +181,7 @@ const DATA = [
       'Da je bio bolestan, došao bi.',
     ],
     answer: 'Iako je bio bolestan, došao je.',
-    en: 'though ill, he came',
+    en: 'in one sentence',
     tip: 'Ipak signalizira dopusnost → iako.',
   },
   {
@@ -194,7 +194,7 @@ const DATA = [
       'Ako znaš, znaš.',
     ],
     answer: 'Koliko god znao, možeš ne uspjeti.',
-    en: 'however much you know…',
+    en: 'the concessive version, about a person',
     tip: 'Koliko god + dopusna preoblika.',
   },
   {
@@ -202,7 +202,7 @@ const DATA = [
     q: 'Dopusnost prilogom: „____ , nije se naljutio.”',
     opts: ['Začudo', 'Stoga', 'Dakle', 'Potom'],
     answer: 'Začudo',
-    en: 'surprisingly, he did not get angry',
+    en: '___, he did not get angry',
     tip: 'Začudo/ipak nose dopusnu nijansu u prilogu.',
   },
   {
@@ -210,15 +210,15 @@ const DATA = [
     q: '„I da mi platiš, ne bih to učinio.” — „i da” izriče:',
     opts: ['dopusni uvjet (čak i ako)', 'stvarni uvjet', 'vrijeme', 'uzrok'],
     answer: 'dopusni uvjet (čak i ako)',
-    en: 'even if you paid me',
-    tip: 'I da + kondicional = čak i ako.',
+    en: 'what does "i da" express here?',
+    tip: 'I da + prezent, a glavna surečenica u kondicionalu = čak i ako.',
   },
   {
     mode: 'preoblika',
     q: 'Birani red: „Premda umoran, ____ .”',
     opts: ['nastavio je raditi', 'ali je stao', 'pa je legao', 'jer je radio'],
     answer: 'nastavio je raditi',
-    en: 'though tired, he kept working',
+    en: 'which ending fits?',
     tip: 'Eliptična dopusna: premda + pridjev.',
   },
   {
@@ -226,7 +226,7 @@ const DATA = [
     q: '„Svejedno” u „Znao je, svejedno je pitao” znači:',
     opts: ['ipak, unatoč tomu', 'jednako', 'nevažno komu', 'uzrok'],
     answer: 'ipak, unatoč tomu',
-    en: 'svejedno = nevertheless here',
+    en: 'what does "svejedno" mean here?',
     tip: 'Svejedno kao dopusni prilog.',
   },
 ];

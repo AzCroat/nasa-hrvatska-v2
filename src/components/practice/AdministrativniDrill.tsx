@@ -17,7 +17,7 @@ const DATA = [
     q: '„Izvršiti uplatu” jednostavnije znači:',
     opts: ['platiti', 'naplatiti', 'isplatiti se', 'uplaćivati se'],
     answer: 'platiti',
-    en: 'to make a payment = to pay',
+    en: 'what does this officialese phrase mean?',
     tip: 'Birokratski parafrazni glagol: izvršiti uplatu = platiti.',
   },
   {
@@ -25,7 +25,7 @@ const DATA = [
     q: '„Izvršiti uvid u spis” znači:',
     opts: ['pregledati spis', 'potpisati spis', 'uništiti spis', 'fotokopirati spis'],
     answer: 'pregledati spis',
-    en: 'to inspect the file',
+    en: 'what does this officialese phrase mean?',
     tip: 'Izvršiti uvid = pregledati, pogledati.',
   },
   {
@@ -33,7 +33,7 @@ const DATA = [
     q: '„Staviti izvan snage” znači:',
     opts: ['ukinuti', 'pojačati', 'odgoditi', 'objaviti'],
     answer: 'ukinuti',
-    en: 'to repeal (put out of force)',
+    en: 'what does this officialese phrase mean?',
     tip: 'Staviti izvan snage = ukinuti propis.',
   },
   {
@@ -41,7 +41,7 @@ const DATA = [
     q: '„Dati suglasnost” znači:',
     opts: ['pristati', 'potpisati se', 'savjetovati', 'suosjećati'],
     answer: 'pristati',
-    en: 'to give consent = to agree',
+    en: 'what does this officialese phrase mean?',
     tip: 'Dati suglasnost = pristati, odobriti.',
   },
   {
@@ -49,7 +49,7 @@ const DATA = [
     q: '„U najkraćem mogućem roku” znači:',
     opts: ['što prije', 'u roku od dana', 'vrlo kratko', 'odmah sutra'],
     answer: 'što prije',
-    en: 'as soon as possible',
+    en: 'what does this officialese phrase mean?',
     tip: 'Birokratska fraza za: što prije.',
   },
   {
@@ -57,15 +57,20 @@ const DATA = [
     q: '„Izvršiti povrat sredstava” znači:',
     opts: ['vratiti novac', 'povući sredstva', 'preusmjeriti novac', 'naplatiti dug'],
     answer: 'vratiti novac',
-    en: 'to refund the money',
+    en: 'what does this officialese phrase mean?',
     tip: 'Povrat sredstava = vraćanje novca.',
   },
   {
     mode: 'prevedi',
     q: '„Pristupiti glasovanju” znači:',
-    opts: ['početi glasovati', 'doći na birališta', 'prijaviti se za glas', 'odgoditi glasovanje'],
+    opts: [
+      'početi glasovati',
+      'poništiti glasovanje',
+      'prijaviti se za glas',
+      'odgoditi glasovanje',
+    ],
     answer: 'početi glasovati',
-    en: 'to proceed to a vote',
+    en: 'what does this officialese phrase mean?',
     tip: 'Pristupiti čemu = početi s čim (formalno).',
   },
   {
@@ -73,7 +78,7 @@ const DATA = [
     q: '„Obustaviti postupak” znači:',
     opts: ['prekinuti postupak', 'ubrzati postupak', 'ponoviti postupak', 'platiti postupak'],
     answer: 'prekinuti postupak',
-    en: 'to suspend the proceedings',
+    en: 'what does this officialese phrase mean?',
     tip: 'Obustaviti = zaustaviti, prekinuti.',
   },
   {
@@ -81,7 +86,7 @@ const DATA = [
     q: 'Zahtjev se podnosi ____ obrascu.',
     opts: ['na propisanom', 'u propisani', 'po propisanu', 'za propisani'],
     answer: 'na propisanom',
-    en: 'the request is filed on the prescribed form',
+    en: 'the request is filed ___ the prescribed form',
     tip: 'Na + lokativ: na propisanom obrascu.',
   },
   {
@@ -105,7 +110,7 @@ const DATA = [
     q: '____ članku 5. Zakona, naknada se ne plaća.',
     opts: ['Sukladno', 'Suglasno na', 'Prema na', 'Sukladno s'],
     answer: 'Sukladno',
-    en: 'pursuant to Article 5 of the Act',
+    en: '___ Article 5 of the Act, no fee is payable',
     tip: 'Sukladno + DATIV: sukladno članku.',
   },
   {
@@ -121,7 +126,7 @@ const DATA = [
     q: 'Molba se ____ tajništvu fakulteta.',
     opts: ['upućuje', 'šalje na', 'piše za', 'izručuje'],
     answer: 'upućuje',
-    en: 'the application is addressed to the faculty secretariat',
+    en: 'the application is ___ to the faculty secretariat',
     tip: 'Uputiti/upućivati + dativ — formalni glagol slanja.',
   },
   {
@@ -129,7 +134,7 @@ const DATA = [
     q: 'Natječaj je otvoren ____ popune radnog mjesta.',
     opts: ['do', 'za', 'radi', 'od'],
     answer: 'do',
-    en: 'the vacancy is open until the position is filled',
+    en: 'the vacancy is open ___ the position is filled',
     tip: 'Do + G: do popune.',
   },
   {
@@ -137,7 +142,7 @@ const DATA = [
     q: 'Troškove postupka ____ podnositelj zahtjeva.',
     opts: ['snosi', 'nosi', 'trpi', 'ima'],
     answer: 'snosi',
-    en: 'the applicant bears the costs of the proceedings',
+    en: 'the applicant ___ the costs of the proceedings',
     tip: 'Snositi troškove — pravna kolokacija.',
   },
   {
@@ -145,7 +150,7 @@ const DATA = [
     q: '„Nalaže se uklanjanje predmetnog objekta.” — objekt se mora:',
     opts: ['ukloniti', 'preurediti', 'ograditi', 'prijaviti'],
     answer: 'ukloniti',
-    en: 'the structure must be removed',
+    en: 'what must happen to the structure?',
     tip: 'Naložiti = narediti; predmetni = ovaj o kojem je riječ.',
   },
   {
@@ -158,15 +163,20 @@ const DATA = [
       'izgubilo je spis',
     ],
     answer: 'nije bilo ovlašteno odlučivati',
-    en: 'the body had no jurisdiction',
+    en: 'what does "nenadležnost" say about the body?',
     tip: 'Nenadležnost = izvan ovlasti toga tijela.',
   },
   {
     mode: 'dekod',
     q: '„Uvjerenje se izdaje u svrhu ostvarivanja prava.” — služi za:',
-    opts: ['ostvarivanje prava', 'plaćanje pristojbe', 'evidenciju kazni', 'produljenje roka'],
-    answer: 'ostvarivanje prava',
-    en: 'the certificate serves to exercise a right',
+    opts: [
+      'da stranka ostvari neko pravo',
+      'plaćanje pristojbe',
+      'evidenciju kazni',
+      'produljenje roka',
+    ],
+    answer: 'da stranka ostvari neko pravo',
+    en: 'what is the certificate for?',
     tip: 'U svrhu + G = radi.',
   },
   {
@@ -205,7 +215,7 @@ const DATA = [
       'prosljeđuje se drugom tijelu',
     ],
     answer: 'nije ni razmatran zbog formalnog nedostatka',
-    en: 'the request is dismissed (not examined on the merits)',
+    en: 'odbaciti, not odbiti: what does it mean?',
     tip: 'ODBACITI = ne ući u meritum; ODBITI = razmotriti pa reći ne.',
   },
   {
@@ -231,7 +241,7 @@ const DATA = [
       'na zahtjev suda',
     ],
     answer: 'bez zahtjeva stranke',
-    en: 'issued ex officio',
+    en: 'what does "po službenoj dužnosti" mean?',
     tip: 'Po službenoj dužnosti (ex offo) = tijelo postupa samo.',
   },
 ];

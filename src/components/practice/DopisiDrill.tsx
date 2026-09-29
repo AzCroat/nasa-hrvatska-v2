@@ -17,7 +17,7 @@ const DATA = [
     q: 'Molba za posao počinje:',
     opts: ['Poštovani,', 'Bog!', 'Ej, ekipa!', 'Dragi moji,'],
     answer: 'Poštovani,',
-    en: 'a job application opens with Postovani',
+    en: 'how a job application opens',
     tip: 'Uz prezime ako je poznato: Poštovani g. Horvat.',
   },
   {
@@ -38,7 +38,7 @@ const DATA = [
       'Plaća me zanima.',
     ],
     answer: 'Ovim se putem prijavljujem na radno mjesto…',
-    en: 'I hereby apply for the position',
+    en: 'the standard opening sentence of an application',
     tip: 'Ustaljena formula prijave.',
   },
   {
@@ -51,7 +51,7 @@ const DATA = [
       'velikim slovima',
     ],
     answer: 'sažeto i uz dokaze (u prilogu)',
-    en: 'concise, evidence-backed',
+    en: 'how to present qualifications',
     tip: 'Prilozi: životopis, preslike svjedodžbi.',
   },
   {
@@ -67,7 +67,7 @@ const DATA = [
     q: 'Molba završava:',
     opts: ['S poštovanjem,', 'Pusa!', 'Vidimo se!', 'Aj bog'],
     answer: 'S poštovanjem,',
-    en: 'Yours faithfully',
+    en: 'how a formal application closes',
     tip: 'Završni pozdrav + potpis.',
   },
   {
@@ -75,7 +75,7 @@ const DATA = [
     q: 'Datum i mjesto u dopisu pišu se:',
     opts: ['Zagreb, 15. kolovoza 2026.', '15/8/26 Zagreb', 'kolovoz, Zagreb 15', 'Zagreb 15.8.'],
     answer: 'Zagreb, 15. kolovoza 2026.',
-    en: 'place, then full date',
+    en: 'how place and date are written',
     tip: 'Mjesto, zarez, datum s genitivom mjeseca.',
   },
   {
@@ -101,7 +101,7 @@ const DATA = [
       'preko poznanika',
     ],
     answer: 'u pisanom obliku u zakonskom roku',
-    en: 'appeals are written and time-bound',
+    en: 'how an appeal is lodged',
     tip: 'Rok teče od dostave odluke.',
   },
   {
@@ -114,12 +114,12 @@ const DATA = [
       'tuđa iskustva',
     ],
     answer: 'odluku protiv koje se podnosi (broj i datum)',
-    en: 'cite the contested decision',
+    en: 'what an appeal opens by citing',
     tip: 'Protiv rješenja KLASA…, URBROJ…, od…',
   },
   {
     mode: 'zalba',
-    q: '„Ulažem žalbu ____ rješenje.”',
+    q: '„Ulažem žalbu ____ rješenja.”',
     opts: ['protiv', 'na protiv', 'za', 'o'],
     answer: 'protiv',
     en: 'I lodge an appeal against the decision',
@@ -130,7 +130,7 @@ const DATA = [
     q: 'Ton žalbe je:',
     opts: ['odlučan, ali uljudan i činjeničan', 'uvredljiv', 'plačljiv', 'šaljiv'],
     answer: 'odlučan, ali uljudan i činjeničan',
-    en: 'firm, courteous, factual',
+    en: 'the right tone for an appeal',
     tip: 'Argumenti, ne emocije.',
   },
   {
@@ -151,7 +151,7 @@ const DATA = [
       'šaljemo poslije roka',
     ],
     answer: 'prilažemo i pobrajamo',
-    en: 'attach and enumerate evidence',
+    en: 'what to do with evidence in an appeal',
     tip: 'U prilogu: 1. …, 2. …',
   },
   {
@@ -164,7 +164,7 @@ const DATA = [
       'priznaje krivnju',
     ],
     answer: 'najavljuje daljnje pravne korake',
-    en: 'failing which, further remedies',
+    en: 'what this sentence signals in an appeal',
     tip: 'Uljudna najava eskalacije.',
   },
   {
@@ -172,7 +172,7 @@ const DATA = [
     q: 'Reklamacija robe traži:',
     opts: ['račun i opis nedostatka', 'samo ljutnju', 'fotografiju trgovine', 'preporuku susjeda'],
     answer: 'račun i opis nedostatka',
-    en: 'receipt plus defect description',
+    en: 'what a product complaint needs',
     tip: 'Prava potrošača: dokaz kupnje.',
   },
   {
@@ -180,7 +180,7 @@ const DATA = [
     q: 'Suvremeni životopis (CV) je:',
     opts: ['tabličan i sažet (1-2 stranice)', 'esej od deset stranica', 'pjesma', 'popis želja'],
     answer: 'tabličan i sažet (1-2 stranice)',
-    en: 'a CV is tabular and short',
+    en: 'what a modern CV looks like',
     tip: 'Europass ili uredan vlastiti format.',
   },
   {
@@ -188,7 +188,7 @@ const DATA = [
     q: 'Radna iskustva nižemo:',
     opts: ['obrnutim kronološkim redom', 'abecedno', 'nasumično', 'od najstarijeg'],
     answer: 'obrnutim kronološkim redom',
-    en: 'reverse chronological order',
+    en: 'how to order work experience',
     tip: 'Najnovije prvo.',
   },
   {
@@ -201,7 +201,7 @@ const DATA = [
       'samo hobije',
     ],
     answer: 'provjerljive vještine s razinom',
-    en: 'verifiable skills with level',
+    en: 'what goes under skills',
     tip: 'Jezici s razinama (B2, C1), alati.',
   },
   {
@@ -209,7 +209,7 @@ const DATA = [
     q: 'Znanje jezika u životopisu označavamo:',
     opts: ['ZEROJ razinama (A1-C2)', 'zvjezdicama', 'postotcima', 'opisno „super”'],
     answer: 'ZEROJ razinama (A1-C2)',
-    en: 'CEFR levels in a CV',
+    en: 'how language skills are shown in a CV',
     tip: 'Hrvatski naziv: ZEROJ (ZEROJ/CEFR A1-C2).',
   },
   {
@@ -217,15 +217,15 @@ const DATA = [
     q: 'Fotografija u životopisu:',
     opts: ['nije obvezna; ako ide — poslovna', 'obavezna s plaže', 'selfie', 'iz osobne'],
     answer: 'nije obvezna; ako ide — poslovna',
-    en: 'photo optional, professional if any',
+    en: 'the photo in a CV',
     tip: 'Standard struke.',
   },
   {
     mode: 'zivotopis',
-    q: '„Vozačka dozvola ____ kategorije” (B)',
+    q: '„Vozačka dozvola ____ kategorije”',
     opts: ['B', 'B-ove', 'be', 'bé'],
     answer: 'B',
-    en: 'category B driving licence',
+    en: 'a driving-licence category, written in a CV',
     tip: 'Vozačka dozvola B kategorije.',
   },
   {
@@ -238,7 +238,7 @@ const DATA = [
       'nepotrebno je uvijek',
     ],
     answer: 'objašnjava zašto baš vi — CV nabraja činjenice',
-    en: 'cover letter argues, CV lists',
+    en: 'how a cover letter differs from a CV',
     tip: 'Dva dokumenta, dvije uloge.',
   },
   {
@@ -251,7 +251,7 @@ const DATA = [
       'društvene mreže sve',
     ],
     answer: 'e-adresa i telefon, uredno na vrhu',
-    en: 'contact details on top',
+    en: 'contact details in a CV',
     tip: 'Provjerite da je e-adresa ozbiljna.',
   },
 ];

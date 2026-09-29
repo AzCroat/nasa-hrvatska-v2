@@ -4,7 +4,7 @@ import CaseConceptIntro from './CaseConceptIntro';
 
 const DATA = [
   {
-    sentence: 'Dao ___ ga je.',
+    sentence: 'Dao ___.',
     opts: ['mu ga je', 'ga mu je', 'je ga mu', 'mu je ga'],
     answer: 'mu ga je',
     en: 'He gave it to him.',
@@ -40,7 +40,7 @@ const DATA = [
   },
   {
     sentence: 'Vidio ___ jutros.',
-    opts: ['sam ga', 'ga sam', 'se ga', 'ga je'],
+    opts: ['sam ga', 'ga sam', 'se ga', 'je ga'],
     answer: 'sam ga',
     en: 'I saw him this morning.',
     tip: "Auxiliary 'sam' goes before accusative 'ga' in clitic order",
@@ -82,7 +82,7 @@ const DATA = [
   },
   {
     sentence: 'Poslali ___ pismo.',
-    opts: ['su nam', 'nam su', 'smo im', 'im smo'],
+    opts: ['su nam', 'nam su', 'su nas', 'im smo'],
     answer: 'su nam',
     en: 'They sent us a letter.',
     tip: "Auxiliary 'su' then dative 'nam' (to us)",
@@ -96,10 +96,10 @@ const DATA = [
   },
   {
     sentence: 'Nije ___ to rekla.',
-    opts: ['mi', 'me', 'meni', 'ja'],
+    opts: ['mi', 'me', 'mene', 'ja'],
     answer: 'mi',
     en: "She didn't tell me that.",
-    tip: "Short dative 'mi' used as clitic, not the long form 'meni'",
+    tip: "Short dative 'mi' used as clitic; 'me' and 'mene' are accusative",
   },
   {
     sentence: 'Sviđa ___ ovaj grad.',
@@ -131,7 +131,7 @@ const DATA = [
   },
   {
     sentence: 'Daj ___ to!',
-    opts: ['mi', 'me', 'meni', 'mojem'],
+    opts: ['mi', 'me', 'mene', 'mojem'],
     answer: 'mi',
     en: 'Give it to me!',
     tip: "Imperative with dative clitic 'mi' — give to me",
@@ -148,11 +148,11 @@ const DATA = [
     opts: ['se', 'si', 'ga', 'je'],
     answer: 'se',
     en: 'He remembers everything.',
-    tip: "Reflexive 'se' with 'sjećati se' (to remember) — always attached directly after the verb form",
+    tip: "Reflexive 'se' with 'sjećati se' (to remember) — a second-position clitic: sjeća se, on se sjeća",
   },
   {
     sentence: 'Pitali ___ za pravac.',
-    opts: ['su nas', 'nas su', 'smo ih', 'ih smo'],
+    opts: ['su nas', 'nas su', 'su nam', 'ih smo'],
     answer: 'su nas',
     en: 'They asked us for directions.',
     tip: "Auxiliary 'su' then accusative 'nas' (us)",
@@ -180,7 +180,7 @@ const DATA = [
   },
   {
     sentence: 'Vidjet ___ sutra.',
-    opts: ['ćemo se', 'se ćemo', 'ćemo', 'se'],
+    opts: ['ćemo se', 'se ćemo', 'ćemo si', 'se'],
     answer: 'ćemo se',
     en: "We'll see each other tomorrow.",
     tip: "Future auxiliary 'ćemo' comes before the reflexive 'se' (vidjeti se).",
@@ -222,14 +222,14 @@ const DATA = [
   },
   {
     sentence: 'Jučer ___ vidio u gradu.',
-    opts: ['sam te', 'te sam', 'si me', 'sam ti'],
+    opts: ['sam te', 'te sam', 'me si', 'sam ti'],
     answer: 'sam te',
     en: 'I saw you in town yesterday.',
     tip: "Auxiliary 'sam' comes before the accusative 'te' (you).",
   },
   {
     sentence: 'Dali ___ poklon.',
-    opts: ['su mi', 'mi su', 'su me', 'smo mi'],
+    opts: ['su mi', 'mi su', 'su me', 'me su'],
     answer: 'su mi',
     en: 'They gave me a present.',
     tip: "Auxiliary 'su' comes before the dative 'mi' (to me).",
@@ -250,10 +250,10 @@ const DATA = [
   },
   {
     sentence: 'Vrati ___ knjigu!',
-    opts: ['mi', 'me', 'mu', 'meni'],
+    opts: ['mi', 'me', 'mu', 'mene'],
     answer: 'mi',
     en: 'Return the book to me!',
-    tip: "Imperative + dative clitic 'mi' (to me); long form 'meni' is not a clitic.",
+    tip: "Imperative + dative clitic 'mi' (to me); 'me' and 'mene' are accusative.",
   },
   {
     sentence: 'Pozvao ___ je na kavu.',
@@ -264,10 +264,10 @@ const DATA = [
   },
   {
     sentence: 'Hoće li ___ pomoći?',
-    opts: ['nam', 'nas', 'mi', 'nama'],
+    opts: ['nam', 'nas', 'mi', 'ih'],
     answer: 'nam',
     en: 'Will he help us?',
-    tip: "'Pomoći' takes the dative — 'nam' (to us); long form 'nama' is not a clitic.",
+    tip: "'Pomoći' takes the dative — 'nam' (to us), not the accusative 'nas'.",
   },
   {
     sentence: 'Sutra ___ nazvati.',
@@ -320,14 +320,14 @@ const DATA = [
   },
   {
     sentence: 'Pokaži ___ put!',
-    opts: ['mi', 'me', 'mu', 'meni'],
+    opts: ['mi', 'me', 'mu', 'mene'],
     answer: 'mi',
     en: 'Show me the way!',
     tip: "Imperative 'pokaži' + dative clitic 'mi' (to me).",
   },
   {
     sentence: 'Čestitali ___ na uspjehu.',
-    opts: ['su mu', 'mu su', 'su ga', 'smo mu'],
+    opts: ['su mu', 'mu su', 'su ga', 'mu je'],
     answer: 'su mu',
     en: 'They congratulated him on his success.',
     tip: "Auxiliary 'su' comes before the dative 'mu' (to him); 'čestitati' takes the dative.",
@@ -348,7 +348,7 @@ const DATA = [
   },
   {
     sentence: 'Nazvat ___ navečer.',
-    opts: ['ću ih', 'ih ću', 'ću im', 'ćeš ih'],
+    opts: ['ću ih', 'ih ću', 'ću im', 'ih ćeš'],
     answer: 'ću ih',
     en: "I'll call them in the evening.",
     tip: "Future auxiliary 'ću' comes before the accusative 'ih' (them).",

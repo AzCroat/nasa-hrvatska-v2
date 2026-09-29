@@ -96,7 +96,7 @@ export const DATA = [
     en: 'I drive a car.',
     opts: ['auto', 'auta', 'autu', 'autom'],
     answer: 'auto',
-    tip: 'auto is INANIMATE → accusative = nominative: auto (no change — indeclinable)',
+    tip: 'auto is INANIMATE → accusative = nominative: auto (no change; it still declines: auta, autu, autom)',
   },
   {
     q: 'Vidim ___.',
@@ -147,9 +147,9 @@ export const DATA = [
     tip: 'brod is INANIMATE → accusative = nominative: brod (no change)',
   },
   {
-    q: 'Čuvam svog ___.',
+    q: 'Promatram ___.',
     nom: 'stranac (stranger)',
-    en: 'I am keeping an eye on the stranger.',
+    en: 'I am watching the stranger.',
     opts: ['stranca', 'stranac', 'strancu', 'strancem'],
     answer: 'stranca',
     tip: 'stranac is ANIMATE (person) → accusative = genitive: stranac → stranca',
