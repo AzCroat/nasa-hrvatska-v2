@@ -11583,19 +11583,26 @@ lacks `event:read`), so this is reasoning from the code on master, not from the 
       `color` AT ALL and inherited UA black — 214 of them inside a `<button>`, which does
       not inherit `color`. A source census keyed on `color:` cannot see an element that
       does not write one. That is why the answer had to come from the browser.
-- [ ] **25 CONTRAST FAILURES THAT ARE THEME-INDEPENDENT** — measured with the
+- [x] ~~**25 CONTRAST FAILURES THAT ARE THEME-INDEPENDENT**~~ — ANSWERED by sweeps 169 and 172
+      (2026-09-27): status tokens got ink twins (`--ink-green`, `--ink-warn`, `--ink-error`) and white
+      text on data colours goes through `accentFill`; light-theme census 66 → 6, the six being
+      postcard names over a photo overlay. Checked again 2026-09-29. Original entry: measured with the
       size-appropriate AA threshold (3:1 for ≥18px or ≥14px bold, else 4.5:1), and all 25
       are small text: `#fff` on `#f59e0b` at **2.15:1** (`LearnPath`, the mic explainer),
       `#94a3b8` on `#f1f5f9` at 2.34 (`ShadowingScreen`), seven sites of `#fff` on
       `#16a34a` at 3.30, `#dc2626` on `#fee2e2` at 3.95 (four files). These are badges and
       chips that own both halves of their own contrast and get it wrong in EITHER theme —
       a much milder class than sweep 157's invisible ink, and a separate fix.
-- [ ] **`--success` FAILS AA AS TEXT ON WHITE (3.30:1)** and 49 inline sites read it as
+- [x] ~~**`--success` FAILS AA AS TEXT ON WHITE (3.30:1)**~~ — ANSWERED, sweep 169: every ink use
+      moved to `--ink-green`, a status token reached through data is mapped by `accentInk`'s
+      `STATUS_INK`, and `statusTokenInk.test.ts` forbids painting it as `color`. Original entry: 49 inline sites read it as
       ink. `--ink-green` (#166534, 7.13:1) exists for new work; the 49 are a pre-existing
       light-mode failure sweep 157 neither introduced nor fixed. Changing `--success`
       itself affects backgrounds and borders too, so it needs its own measurement.
 
-- [ ] **HARDCODED DARK BRAND COLOURS ARE UNREADABLE IN DARK MODE, ON 160 ROUTES** —
+- [x] ~~**HARDCODED DARK BRAND COLOURS ARE UNREADABLE IN DARK MODE, ON 160 ROUTES**~~ — ANSWERED,
+      sweeps 157–158 (1,308 inline inks onto `--ink-*` tokens, `accentInk` for data colours, the
+      button `color: inherit` fix); `e2e/dark-mode-ink.spec.js` is the instrument. Original entry —
       the general form of sweep 156, and much bigger. Measured with axe's
       `color-contrast` rule alone over all 430 routes in BOTH themes (a throwaway
       spec; re-runnable from the recipe below):
@@ -11667,7 +11674,12 @@ lacks `event:read`), so this is reasoning from the code on master, not from the 
       contract test after every batch, and derive the total expression from the
       `{score} / {total}` render each one already has. A guard should then forbid a
       NEW drill printing a percentage without the count.
-- [ ] **WHY DID `/api/pronunciation-assess` GET NO RESPONSE AT ALL?** — OPEN, and
+- [x] **WHY DID `/api/pronunciation-assess` GET NO RESPONSE AT ALL?** — NARROWED, not closed
+      (sweep 130 and "A Null Transport Now Says Why" in CLAUDE.md): the null was laundered into
+      `server` by a bare `throw new Error`, `getFirebaseBearer()` is ELIMINATED, and
+      `getLastTransportFailure()` now names the reason (`fetch_threw` / `capacitor_*`) on every
+      caller; what remains unknown is only why `fetch` itself threw, which the next report will say.
+      Original entry: OPEN, and
       deliberately left unresolved rather than guessed. Established from source: the
       field contract matches, the webm/opus MIME mapping is right, an abort would
       classify as `timeout`, and a handler 5xx would carry a status — so the null is
@@ -11718,7 +11730,9 @@ lacks `event:read`), so this is reasoning from the code on master, not from the 
       `src/types/content.ts`, `e2e/fixtures/content-fixture.js` and the generated
       etags. Total win is 9.3 KB on a 1.4 MB payload (0.6%) — worth doing, not worth
       rushing.
-- [ ] **DELETE THE THREE STRANDED ENDPOINTS?** — OPEN, a DECISION about working
+- [x] **DELETE THE THREE STRANDED ENDPOINTS?** — DECIDED by the owner 2026-09-29: "If not needed,
+      remove and delete." Deletion in progress on `claude/remove-uncalled-endpoints`. Original entry:
+      OPEN, a DECISION about working
       server code, and it is bounded: `meteredEndpointsHaveCallers` lists all three
       with reasons and fails if a fourth appears. Deleting `daily-culture.js`,
       `daily-plan.js` and `adaptive-insights.js` touches ~6 guards, and ONE of them
