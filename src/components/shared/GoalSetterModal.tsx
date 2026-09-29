@@ -43,12 +43,6 @@ const GOALS = [
   },
 ];
 
-const COMMITMENTS = [
-  { id: 10, icon: '🌱', label: '5 minutes/day', sub: 'Casual · 10 XP daily goal', xp: 10 },
-  { id: 30, icon: '⚡', label: '15 minutes/day', sub: 'Regular · 30 XP daily goal', xp: 30 },
-  { id: 60, icon: '🔥', label: '30 minutes/day', sub: 'Serious · 60 XP daily goal', xp: 60 },
-];
-
 /**
  * THERE WAS A THIRD STEP AND IT ASKED FOR SOMETHING NOBODY USED.
  *
@@ -72,15 +66,24 @@ const COMMITMENTS = [
  * Owner decision, 2026-09-15: remove the step. Nothing is lost, because the
  * distinction already lives in a key the app actually reads, and onboarding
  * costs one tap less.
+ *
+ * AND THE SECOND STEP WENT TOO (owner decision, 2026-09-29). "How much time can
+ * you commit daily?" — 5 / 15 / 30 minutes, written to `nh_daily_goal_xp` and
+ * drawn by DailyGoalCard on Home as a bar that turned green and said "Today's
+ * goal — complete!" at or before the moment the core session ended, whatever
+ * was chosen. A learner-chosen floor is the thing the Stretch bar (redesign
+ * increment 6) exists to replace: "if they are unmotivated they may select what
+ * is easy — assume you are using the application to become fluent." The card,
+ * the key, its sync and both onboarding surfaces that asked the question are
+ * gone; the modal asks ONE question, the goal, which the app reads.
  */
 interface GoalSetterModalProps {
-  onComplete: (data: { goal: string | null; xp: string | number | null }) => void;
+  onComplete: (data: { goal: string | null }) => void;
 }
 
 export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
-  const [step, setStep] = useState(0); // 0=goal, 1=commitment
+  const [step] = useState(0); // one step: the goal
   const [goal, setGoal] = useState<string | null>(null);
-  const [xp, setXp] = useState<string | number | null>(null);
 
   const steps: Array<{
     q: string;
@@ -103,13 +106,6 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
       selected: goal,
       onSelect: (v) => setGoal(String(v)),
     },
-    {
-      q: 'How much time can you commit daily?',
-      sub: "We'll set your daily XP target",
-      options: COMMITMENTS,
-      selected: xp,
-      onSelect: (v) => setXp(v),
-    },
   ];
   const LAST = steps.length - 1;
 
@@ -117,20 +113,12 @@ export default function GoalSetterModal({ onComplete }: GoalSetterModalProps) {
   const canNext = cur.selected !== null;
 
   const handleNext = () => {
-    if (step === 0) {
-      // Persist goal immediately so re-visiting HomeTab never re-shows the modal
-      try {
-        if (goal) localStorage.setItem('nh_goal', goal);
-        localStorage.setItem('nh_goal_set', '1');
-      } catch (_) {}
-      setStep(1);
-    } else {
-      // Final step — save the commitment and close.
-      try {
-        if (xp !== null) localStorage.setItem('nh_daily_goal_xp', String(xp));
-      } catch (_) {}
-      onComplete({ goal, xp });
-    }
+    // Persist the goal so re-visiting HomeTab never re-shows the modal, and close.
+    try {
+      if (goal) localStorage.setItem('nh_goal', goal);
+      localStorage.setItem('nh_goal_set', '1');
+    } catch (_) {}
+    onComplete({ goal });
   };
 
   return (

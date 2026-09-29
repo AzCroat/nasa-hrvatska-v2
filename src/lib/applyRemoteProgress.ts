@@ -312,20 +312,6 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
     } catch (_) {}
     _safeSet('nh_culture', JSON.stringify(mergeCultureStats(lCul, rCul)));
   }
-  if (fp.nh_daily_goal_xp) {
-    // Explicit parseInt: fp.nh_daily_goal_xp may be a string from Firestore (JS type coercion
-    // on '100' > 0 is true, but Math.max(lDgx, '100') would return NaN without parsing).
-    const remoteGoal = parseInt(String(fp.nh_daily_goal_xp), 10) || 0;
-    if (remoteGoal > 0) {
-      const lDgx = parseInt(lsGet('nh_daily_goal_xp') || '0', 10) || 0;
-      // Math.max: whichever device set the higher daily-goal XP target wins.
-      // Prevents a stale lower value from one device silently overwriting a higher goal
-      // the user explicitly chose on another device.
-      try {
-        _safeSet('nh_daily_goal_xp', String(Math.max(lDgx, remoteGoal)));
-      } catch (_) {}
-    }
-  }
   if (fp.nh_placement_done) {
     _safeSet('nh_placement_done', 'true');
     _safeSet('placement_done', 'true');

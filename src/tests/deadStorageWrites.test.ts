@@ -123,9 +123,10 @@ describe('every key the app writes is read by something', () => {
   });
 
   it('non-vacuity: a key that IS alive shows more occurrences than writes', () => {
-    // nh_daily_goal_xp is written by WelcomeScreen and read by DailyGoalCard,
-    // appUtils.getDailyGoal and the sync snapshot.
-    const live = occurrences('nh_daily_goal_xp');
+    // nh_goal is written by WelcomeScreen and GoalSetterModal and read by Story
+    // Mode, the media player and the sync snapshot. (It was nh_daily_goal_xp until
+    // 2026-09-29, when the time-commitment choice was removed — owner decision.)
+    const live = occurrences('nh_goal');
     expect(live.writes).toBeGreaterThan(0);
     expect(live.total).toBeGreaterThan(live.writes);
   });
@@ -144,12 +145,19 @@ describe('every key the app writes is read by something', () => {
   });
 });
 
-describe('the two dead writes this file was written for stay gone', () => {
+describe('the dead writes this file was written for stay gone', () => {
   // Named individually as well as caught by the derivation above: the
   // derivation covers only LITERAL writes, so a re-introduction spelled through
   // a constant would slip past it. These two assertions do not.
   const GONE = [
-    ['nh_daily_min', 'the onboarding minutes value whose answer nh_daily_goal_xp already carries'],
+    [
+      'nh_daily_min',
+      'the onboarding minutes value (its XP twin nh_daily_goal_xp went the same way)',
+    ],
+    [
+      'nh_daily_goal_xp',
+      "the learner-chosen daily XP target — removed 2026-09-29 with DailyGoalCard and both onboarding time-commitment steps (owner: the bar is the app's)",
+    ],
     ['nh_legendary_mode', 'a launch flag no production reader ever branched on'],
   ] as const;
 

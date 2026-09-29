@@ -68,7 +68,13 @@ describe('the three dead writes are gone', () => {
   });
 });
 
-describe('GoalSetterModal asks two questions and keeps both answers', () => {
+describe('GoalSetterModal asks ONE question — the goal — and keeps the answer', () => {
+  // The commitment step ("How much time can you commit daily?", 5/15/30 minutes →
+  // nh_daily_goal_xp) was removed on 2026-09-29 with DailyGoalCard: a
+  // learner-chosen daily floor is what the Stretch bar replaces ("if they are
+  // unmotivated they may select what is easy — assume you are using the
+  // application to become fluent"). The goal question stays because the app
+  // READS nh_goal.
   function openAndPick(label: string) {
     const onComplete = vi.fn();
     render(<GoalSetterModal onComplete={onComplete} />);
@@ -76,56 +82,46 @@ describe('GoalSetterModal asks two questions and keeps both answers', () => {
     return onComplete;
   }
 
-  it('step 1 is the goal and step 2 is the commitment — and there is no step 3', () => {
+  it('the goal is the only step and its button is the finish', () => {
     const onComplete = openAndPick('Connect with my heritage');
-    fireEvent.click(screen.getByText('Continue →'));
-    // The commitment step is now the LAST one, so its button is the finish.
-    expect(screen.getByText('How much time can you commit daily?')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('15 minutes/day'));
-    expect(screen.getByText("Let's Start Learning! 🇭🇷")).toBeInTheDocument();
+    expect(screen.queryByText('Continue →')).toBeNull();
     fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
-    expect(onComplete).toHaveBeenCalledWith({ goal: 'heritage', xp: 30 });
+    expect(onComplete).toHaveBeenCalledWith({ goal: 'heritage' });
   });
 
-  it('the connection question is not asked at all', () => {
+  it('neither the commitment nor the connection question is asked', () => {
     openAndPick('Connect with my heritage');
-    fireEvent.click(screen.getByText('Continue →'));
-    fireEvent.click(screen.getByText('15 minutes/day'));
-    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
+    expect(screen.queryByText('How much time can you commit daily?')).toBeNull();
+    expect(screen.queryByText(/minutes\/day/)).toBeNull();
     expect(screen.queryByText("What's your connection to Croatia?")).toBeNull();
-    expect(screen.queryByText('Helps us tailor your cultural content')).toBeNull();
+    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
+    expect(localStorage.getItem('nh_daily_goal_xp')).toBeNull();
     expect(localStorage.getItem('nh_connection')).toBeNull();
   });
 
-  it('both answers reach localStorage, which is what the modal is FOR', () => {
-    // The goal is written at step 1 so a re-visit never re-shows the modal;
-    // the commitment is written when the last step finishes.
+  it('the answer reaches localStorage, which is what the modal is FOR', () => {
     openAndPick('Travel to Croatia');
-    fireEvent.click(screen.getByText('Continue →'));
+    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
     expect(localStorage.getItem('nh_goal')).toBe('travel');
     expect(localStorage.getItem('nh_goal_set')).toBe('1');
-    fireEvent.click(screen.getByText('30 minutes/day'));
-    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
-    expect(localStorage.getItem('nh_daily_goal_xp')).toBe('60');
   });
 
-  it('the commitment survived the step being made last', () => {
-    // It used to be written on the way OUT of step 2 into step 3. Moving it
-    // into the final branch is the one place this change could have silently
-    // dropped a value the app genuinely reads.
-    openAndPick('Become fluent');
-    fireEvent.click(screen.getByText('Continue →'));
-    fireEvent.click(screen.getByText('5 minutes/day'));
-    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
-    expect(localStorage.getItem('nh_daily_goal_xp')).toBe('10');
-  });
-
-  it('a step cannot be advanced before something is chosen', () => {
+  it('the step cannot be finished before something is chosen', () => {
     const onComplete = vi.fn();
     render(<GoalSetterModal onComplete={onComplete} />);
-    fireEvent.click(screen.getByText('Continue →'));
+    fireEvent.click(screen.getByText("Let's Start Learning! 🇭🇷"));
     expect(screen.getByText("What's your main goal?")).toBeInTheDocument();
     expect(onComplete).not.toHaveBeenCalled();
+  });
+
+  it('no time-commitment choice survives anywhere in onboarding (source pin)', () => {
+    for (const f of [
+      'src/components/shared/GoalSetterModal.tsx',
+      'src/components/home/WelcomeScreen.tsx',
+    ]) {
+      const src = strip(readFileSync(f, 'utf8'));
+      expect(src, f).not.toMatch(/nh_daily_goal_xp|COMMITMENTS|DAILY_GOALS|dailyMin|minutes\/day/);
+    }
   });
 });
 

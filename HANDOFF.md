@@ -144,8 +144,10 @@ chromium`); E2E runs with `--project="Desktop Chrome"` (there is no `chromium`
   sessions, the Stretch as a second guided session in the Home hero, spoken/aural on
   ties. Full plan in `docs/daily-session-redesign.md` §8 decision 6 / §9 increment 6;
   AUDIT-STATE sweeps 190–191. Open: the AI cost of up to three extra production slots a
-  day (read the ledger after a week), and `DailyGoalCard`'s onboarding-chosen XP goal, which
-  decision 6a's reasoning argues against — an owner decision.
+  day (read the ledger after a week). `DailyGoalCard` and both time-commitment onboarding
+  steps were REMOVED 2026-09-29 (sweep 193). QUEUED, decided the same day: strip onboarding to
+  name → goal → (heritage region, optional) → Unit 1 lesson 1 (drop the placement test and the
+  mic moment); then make the Practice tab and the vocabulary deck follow the COURSE level.
 - **Dependabot PRs #760–#767** open, unreviewed. Two are MAJOR bumps needing real
   attention: vitest 4 → 5 (#763) and @sentry/react 10 → 11 (#767). Also size-limit 14
   (#764, major, dev-only).
