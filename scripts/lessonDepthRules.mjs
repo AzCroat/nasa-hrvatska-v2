@@ -114,6 +114,7 @@ export function lessonDepthProblems(l) {
   const quizzes = slides.filter((s) => s.type === 'quiz').length;
   if (quizzes < 1) out.push('needs >= 1 formative quiz slide');
   if (DEEPENED_LEVELS.includes(l.level)) out.push(...practiceProblems(l));
+  if (PRODUCTIVE_LEVELS.includes(l.level)) out.push(...productiveProblems(l));
   return out;
 }
 
@@ -169,6 +170,10 @@ export function practiceProblems(l) {
     const corrects = new Set();
     items.forEach((it, i) => {
       if (typeof it.q !== 'string' || !it.q.trim()) out.push(`practice item ${i}: q missing`);
+      if (it.type === 'type') {
+        out.push(...typedItemProblems(it, `practice item ${i}`));
+        return;
+      }
       if (!Array.isArray(it.options) || it.options.length !== CHECK_OPTIONS) {
         out.push(`practice item ${i}: needs exactly ${CHECK_OPTIONS} options`);
       } else if (new Set(it.options.map((o) => String(o).trim())).size !== CHECK_OPTIONS) {
@@ -197,5 +202,111 @@ export function practiceProblems(l) {
       out.push('guided practice correct indices must use >= 2 distinct positions');
     }
   }
+  return out;
+}
+
+// ── Parallel forms, productive practice, lesson vocabulary ───────────────────
+// (academic recommendations 2 and 3, owner go-ahead 2026-09-29). Measured before:
+// every one of the ~12 items a learner answered in a lesson was multiple choice, the
+// check had one paper, and a lesson's words never reached review. A level joins
+// PRODUCTIVE_LEVELS once every lesson in it carries all three, and from then on the
+// build holds it to them. `scripts/lessonPracticeCheck.mjs <LEVEL>` is the dry run.
+export const PRODUCTIVE_LEVELS = [];
+export const MIN_PRODUCTIVE_PRACTICE = 12;
+export const MIN_TYPED_PRACTICE = 4;
+export const MIN_LESSON_VOCAB = 8;
+
+const W = 'A-Za-zČĆĐŠŽčćđšž';
+const wholeWord = (hay, word) =>
+  new RegExp(`(?<![${W}])${word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?![${W}])`, 'iu').test(hay);
+
+/** A typed practice item: a blank to fill, an answer, a hint that does not give it. */
+export function typedItemProblems(it, where) {
+  const out = [];
+  if (typeof it.q !== 'string' || !/_{2,}/.test(it.q))
+    out.push(`${where}: typed q needs a ____ blank`);
+  const ans = typeof it.answer === 'string' ? it.answer.trim() : '';
+  if (!ans) out.push(`${where}: typed answer missing`);
+  if (
+    it.accept !== undefined &&
+    !(Array.isArray(it.accept) && it.accept.every((a) => typeof a === 'string'))
+  ) {
+    out.push(`${where}: accept must be an array of strings`);
+  }
+  if (typeof it.hint !== 'string' || !it.hint.trim()) out.push(`${where}: hint missing`);
+  if (typeof it.explanation !== 'string' || !it.explanation.trim())
+    out.push(`${where}: explanation missing`);
+  if (ans.length > 2 && typeof it.hint === 'string' && wholeWord(it.hint, ans)) {
+    out.push(`${where}: hint gives the answer away (${ans})`);
+  }
+  if (ans.length > 2 && typeof it.q === 'string' && wholeWord(it.q, ans)) {
+    out.push(`${where}: the question contains its own answer (${ans})`);
+  }
+  return out;
+}
+
+/** Every parallel-form / productive-practice / vocabulary rule this lesson violates. */
+export function productiveProblems(l) {
+  const out = [];
+  const slides = l.slides || [];
+  const check = slides.find((s) => s.type === 'check');
+  const formA = Array.isArray(check?.items) ? check.items : [];
+  const formB = Array.isArray(check?.itemsB) ? check.itemsB : [];
+  if (formB.length < MIN_CHECK_ITEMS) {
+    out.push(`check form B needs >= ${MIN_CHECK_ITEMS} items (has ${formB.length})`);
+  }
+  const aQs = new Set(formA.map((it) => String(it.q).trim()));
+  const corrects = new Set();
+  formB.forEach((it, i) => {
+    const where = `check B item ${i}`;
+    if (typeof it.q !== 'string' || !it.q.trim()) out.push(`${where}: q missing`);
+    else if (aQs.has(it.q.trim()) && !/^which sentence|^koja rečenica/i.test(it.q.trim())) {
+      // A generic stem is fine (the options carry the item); an identical specific
+      // question is the same item twice, which is not a parallel form.
+      const aTwin = formA.find((a) => String(a.q).trim() === it.q.trim());
+      if (aTwin && JSON.stringify(aTwin.options) === JSON.stringify(it.options)) {
+        out.push(`${where}: repeats a form A item`);
+      }
+    }
+    if (!Array.isArray(it.options) || it.options.length !== CHECK_OPTIONS) {
+      out.push(`${where}: needs exactly ${CHECK_OPTIONS} options`);
+    } else if (new Set(it.options.map((o) => String(o).trim())).size !== CHECK_OPTIONS) {
+      out.push(`${where}: duplicate options`);
+    }
+    if (!Number.isInteger(it.correct) || it.correct < 0 || it.correct >= CHECK_OPTIONS) {
+      out.push(`${where}: correct index out of range`);
+    } else corrects.add(it.correct);
+    if (typeof it.explanation !== 'string' || !it.explanation.trim())
+      out.push(`${where}: explanation missing`);
+  });
+  if (formB.length >= MIN_CHECK_ITEMS && corrects.size < MIN_DISTINCT_CORRECT) {
+    out.push(`check form B correct indices must use >= ${MIN_DISTINCT_CORRECT} distinct positions`);
+  }
+  const practice = slides.find((s) => s.type === 'practice');
+  const items = Array.isArray(practice?.items) ? practice.items : [];
+  if (items.length < MIN_PRODUCTIVE_PRACTICE) {
+    out.push(`guided practice needs >= ${MIN_PRODUCTIVE_PRACTICE} items (has ${items.length})`);
+  }
+  const typed = items.filter((it) => it.type === 'type').length;
+  if (typed < MIN_TYPED_PRACTICE) {
+    out.push(`guided practice needs >= ${MIN_TYPED_PRACTICE} typed items (has ${typed})`);
+  }
+  const vocab = Array.isArray(l.vocab) ? l.vocab : [];
+  if (vocab.length < MIN_LESSON_VOCAB)
+    out.push(`needs >= ${MIN_LESSON_VOCAB} vocab entries (has ${vocab.length})`);
+  const seen = new Set();
+  vocab.forEach((v, i) => {
+    if (
+      !Array.isArray(v) ||
+      v.length < 3 ||
+      v.slice(0, 3).some((x) => typeof x !== 'string' || !x.trim())
+    ) {
+      out.push(`vocab ${i}: must be [hr, en, example] strings`);
+      return;
+    }
+    const k = v[0].trim().toLowerCase();
+    if (seen.has(k)) out.push(`vocab ${i}: duplicate ${v[0]}`);
+    seen.add(k);
+  });
   return out;
 }

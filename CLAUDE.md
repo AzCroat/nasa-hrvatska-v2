@@ -4501,6 +4501,43 @@ Level Check (`equivalency`).
   (read every distractor for real Croatian); let a practice hint contain its answer; teach
   `kod` for motion; key `ako` + conditional as an error.
 
+### Increment 7 — the academic programme: parallel forms, typed practice, lesson vocabulary (2026-09-29)
+
+Owner: _"I really want this to be like a class in school where the user is taken
+through learning, tested, reaffirmed at different points"_, then _"implement your
+recommendations 1-6"_. Measured first: every one of the ~12 items a learner answered in a
+lesson was multiple choice (2 formative, 4 hinted practice, 6 check); the check had ONE
+paper; a lesson's own words never reached review.
+
+- **TWO FORMS OF THE CHECK** (`lib/lessonCheck`): a check slide may carry `itemsB`, a
+  parallel paper on the same objectives. `lessonGate(slides, attempt)` serves form A on
+  even attempts and B on odd ones; with the same-day lock (lib/checkLock) and the attempt
+  seeded from prior attempts, the next day's retake after a fail is the OTHER paper.
+  `findCheckSlide().pool` is A then B — the index space retention cards, attempt records,
+  unit tests and level reviews all use (`poolOffset` maps a form's position into it).
+- **TYPED PRACTICE** (`lib/typedAnswer`, `GuidedPracticeSlide`): a practice item may be
+  `type: 'type'` — a `____` blank, an `answer`, optional `accept` alternatives. Verdicts
+  are `right` (case, spaces and punctuation ignored), `accents` (right but for č ć đ š ž —
+  a different word in Croatian, so not right, and the hint says exactly that) and `wrong`.
+  No fuzzy distance: it would accept the wrong case ending. Two misses show the answer;
+  never scored.
+- **LESSON VOCABULARY**: an entry may carry `vocab: [[hr, en, example]]`, placed on the
+  lesson by `withPractice`.
+- **The rules are DATA and a level opts in**: `productiveProblems` in
+  `lessonDepthRules.mjs` holds a level in `PRODUCTIVE_LEVELS` to form B (six items, four
+  distinct options, answers over three positions, no repeated form-A item), ≥ 12 practice
+  items of which ≥ 4 typed (a blank, and neither the hint nor the question contains the
+  answer), and ≥ 8 vocabulary entries. `node scripts/lessonPracticeCheck.mjs <LEVEL>
+--productive` is the author's dry run. The lint walks form B, typed answers, `accept`
+  and vocabulary. Pinned by `productivePractice.test.tsx` and the form-B screen test in
+  `animatedLessonGate.test.tsx`; mutation-verified, seven (one survived first — nothing
+  checked that a form-B miss is filed under its form-B pool index — and the screen test
+  now asserts where the misses land).
+- NEVER: retake a failed check on the same paper when a form B exists; judge a typed
+  answer by edit distance; accept a missing diacritic as right; file a form-B item under a
+  form-A index; list a level in `PRODUCTIVE_LEVELS` before every lesson in it passes the
+  dry run.
+
 ## Critical Architecture: The Session Is Built At The Course's Level (Daily Session redesign, increment 1, 2026-09-28)
 
 Design: `docs/daily-session-redesign.md` (signed off by the owner the same day; five

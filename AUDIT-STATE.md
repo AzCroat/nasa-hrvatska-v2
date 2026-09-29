@@ -13374,3 +13374,25 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     complete attempt locks; attempts stop being written at `MAX_ATTEMPTS_PER_LESSON` (10), so
     the shuffle seed plateaus after the tenth opening. E2E: the walkthrough always answers
     correctly and never meets the fail path; no spec named the retake.
+- [x] **Sweep 200 — the academic programme's engine: two check forms, typed practice, lesson vocabulary (owner go-ahead, 2026-09-29).**
+  - Owner: _"implement your recommendations 1-6"_, after asking for "a class in school".
+    Measured: ~12 answered items per lesson, all multiple choice; one check paper; no path
+    from a lesson's words to review. This sweep is the MACHINERY for recommendations 2 and 3
+    (the content is authored per level next, one level per agent); recommendation 1 is sweep 198.
+  - Built: form B on the check slide (`itemsB`), served on odd attempts, with a pool (A then B)
+    as the one index space for retention cards, attempt records, unit tests, level reviews
+    and re-checks (which now sample twelve items, not six); typed practice items with a
+    three-way verdict (`right` / `accents` / `wrong`, no fuzzy distance); lesson vocabulary on
+    the lesson; `productiveProblems` gated on `PRODUCTIVE_LEVELS` (empty until a level is
+    authored) and the `--productive` dry run; the lint walks all of it; the E2E walkthrough
+    moves through typed items.
+  - Mutation-verified, seven, each failing 1–2. **One survived first**: filing form-B misses
+    under form-A indices left every test green, because nothing asked WHERE a miss landed —
+    tomorrow's review would have asked a form-A question the learner never missed. The
+    form-B screen test now answers the parallel paper and asserts the card indices.
+  - Found on the way and fixed on the fail-rule branch: a first miss is due exactly 24 hours
+    later (sm2, measured), so "in your Lesson Review" was true only tomorrow; two queue tests
+    raced the scheduler's clock by milliseconds.
+  - **Not covered, stated**: no level carries form B, typed items or vocabulary yet — until
+    one does, a retake still falls back to form A. Enrolling lesson vocabulary in review is
+    recommendation 3's wiring and is not in this sweep.

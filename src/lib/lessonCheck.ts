@@ -48,15 +48,29 @@ interface SlideLike {
 }
 
 /** The lesson's check slide and its VALID items (malformed items are dropped
- *  rather than trusted — an item with no options cannot be answered). */
-export function findCheckSlide(
-  slides: readonly SlideLike[],
-): { index: number; items: LessonCheckItem[] } | null {
+ *  rather than trusted — an item with no options cannot be answered).
+ *
+ *  TWO FORMS (academic recommendation 2, 2026-09-29). `items` is form A and
+ *  `itemsB` the parallel form B: the same objectives, different questions. Mastery
+ *  learning retests on a PARALLEL form after corrective instruction, never the same
+ *  paper — and a failed check is only retaken on a later day (lib/checkLock), so the
+ *  next opening serves the other form. `pool` is both forms in order (A then B): the
+ *  item space re-checks, unit tests and level reviews sample from, and the index
+ *  space retention cards and attempt records use. A lesson without a form B has a
+ *  pool equal to form A, exactly as before. */
+export function findCheckSlide(slides: readonly SlideLike[]): {
+  index: number;
+  items: LessonCheckItem[];
+  itemsB: LessonCheckItem[];
+  pool: LessonCheckItem[];
+} | null {
   const index = slides.findIndex((s) => s && s.type === 'check');
   if (index < 0) return null;
   const raw = slides[index]?.items;
+  const rawB = slides[index]?.itemsB;
   const items = (Array.isArray(raw) ? raw : []).filter(isCheckItem);
-  return { index, items };
+  const itemsB = (Array.isArray(rawB) ? rawB : []).filter(isCheckItem);
+  return { index, items, itemsB, pool: [...items, ...itemsB] };
 }
 
 function isCheckItem(x: unknown): x is LessonCheckItem {
@@ -74,7 +88,18 @@ function isCheckItem(x: unknown): x is LessonCheckItem {
 }
 
 export type LessonGate =
-  | { kind: 'check'; slideIndex: number; items: LessonCheckItem[]; total: number }
+  | {
+      kind: 'check';
+      slideIndex: number;
+      items: LessonCheckItem[];
+      total: number;
+      /** Which paper this attempt sits: A on even attempts, B on odd ones when the
+       *  lesson has a full form B. */
+      form: 'A' | 'B';
+      /** Where this form's items start in the pool — add it to an item's position
+       *  to get the index retention cards and attempt records use. */
+      poolOffset: number;
+    }
   | { kind: 'quiz'; slideIndexes: number[]; total: number }
   | { kind: 'none'; total: 0 };
 
@@ -82,14 +107,18 @@ export type LessonGate =
  * What this lesson is gated on. `check` when it carries a check slide with at
  * least one valid item; otherwise its formative quiz slides; otherwise nothing.
  */
-export function lessonGate(slides: readonly SlideLike[]): LessonGate {
+export function lessonGate(slides: readonly SlideLike[], attempt = 0): LessonGate {
   const check = findCheckSlide(slides);
   if (check && check.items.length > 0) {
+    const useB = attempt % 2 === 1 && check.itemsB.length >= MIN_CHECK_ITEMS;
+    const items = useB ? check.itemsB : check.items;
     return {
       kind: 'check',
       slideIndex: check.index,
-      items: check.items,
-      total: check.items.length,
+      items,
+      total: items.length,
+      form: useB ? 'B' : 'A',
+      poolOffset: useB ? check.items.length : 0,
     };
   }
   const slideIndexes: number[] = [];

@@ -23,6 +23,7 @@
 import React, { useState } from 'react';
 import { accentInk } from '../../lib/accentInk';
 import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
+import { judgeTyped, type TypedVerdict } from '../../lib/typedAnswer';
 
 export interface WorkedStep {
   /** Short label for the step, e.g. "Find the verb". */
@@ -32,9 +33,15 @@ export interface WorkedStep {
 }
 
 export interface PracticeItem {
+  /** 'choice' (four options, the default) or 'type' — the learner WRITES the form
+   *  (academic recommendation 2, 2026-09-29: recognition is not production). */
+  type?: 'choice' | 'type';
   q: string;
   options: string[];
   correct: number;
+  /** Typed items: the expected answer, and any other spelling that is equally right. */
+  answer?: string;
+  accept?: string[];
   /** Shown after a first wrong answer — a nudge toward the rule, never the answer. */
   hint: string;
   /** Shown once the item is resolved. */
@@ -170,7 +177,9 @@ export function WorkedSlide({
 
 // ── Guided practice ───────────────────────────────────────────────────────────
 
-type ItemState = { tried: number[]; resolved: boolean };
+type ItemState = { tried: number[]; typed: TypedVerdict[]; resolved: boolean };
+
+const isTyped = (it: PracticeItem) => it.type === 'type' && typeof it.answer === 'string';
 
 export function GuidedPracticeSlide({
   slide,
@@ -186,24 +195,44 @@ export function GuidedPracticeSlide({
   const items = (Array.isArray(slide.items) ? slide.items : []) as unknown as PracticeItem[];
   const [idx, setIdx] = useState(done ? Math.max(0, items.length - 1) : 0);
   const [state, setState] = useState<ItemState[]>(() =>
-    items.map((it) => ({ tried: done ? [it.correct] : [], resolved: done })),
+    items.map((it) => ({
+      tried: done && !isTyped(it) ? [it.correct] : [],
+      typed: done && isTyped(it) ? ['right'] : [],
+      resolved: done,
+    })),
   );
+  const [draft, setDraft] = useState('');
   const item = items[idx];
   const st = state[idx];
   if (!item || !st) return null;
+  const typed = isTyped(item);
 
-  const wrongTries = st.tried.filter((t) => t !== item.correct).length;
-  const gotIt = st.tried.includes(item.correct);
+  const wrongTries = typed
+    ? st.typed.filter((v) => v !== 'right').length
+    : st.tried.filter((t) => t !== item.correct).length;
+  const gotIt = typed ? st.typed.includes('right') : st.tried.includes(item.correct);
+
+  function settle(next: ItemState) {
+    const all = state.map((s, k) => (k === idx ? next : s));
+    setState(all);
+    if (next.resolved && all.every((s) => s.resolved)) onComplete();
+  }
 
   function choose(i: number) {
     if (!st || st.resolved || st.tried.includes(i) || !item) return;
     const tried = [...st.tried, i];
     const wrong = tried.filter((t) => t !== item.correct).length;
     // Resolved on the right answer, or on the SECOND wrong one (then it is shown).
-    const resolved = i === item.correct || wrong >= 2;
-    const next = state.map((s, k) => (k === idx ? { tried, resolved } : s));
-    setState(next);
-    if (resolved && next.every((s) => s.resolved)) onComplete();
+    settle({ ...st, tried, resolved: i === item.correct || wrong >= 2 });
+  }
+
+  function submitTyped() {
+    if (!st || st.resolved || !item || !draft.trim()) return;
+    const v = judgeTyped(draft, item.answer!, item.accept ?? []);
+    const typedNext = [...st.typed, v];
+    const misses = typedNext.filter((x) => x !== 'right').length;
+    settle({ ...st, typed: typedNext, resolved: v === 'right' || misses >= 2 });
+    if (v !== 'right') setDraft('');
   }
 
   function optionStyle(i: number): React.CSSProperties {
@@ -242,11 +271,14 @@ export function GuidedPracticeSlide({
     return base;
   }
 
+  const lastTyped = st.typed[st.typed.length - 1];
+
   return (
     <div data-testid="lesson-practice">
       <div style={card}>
         <div style={eyebrow(lesson)}>
-          Guided practice · {idx + 1} of {items.length} · not scored
+          Guided practice · {idx + 1} of {items.length} · {typed ? 'write it' : 'choose'} · not
+          scored
         </div>
         <p
           lang="hr"
@@ -261,33 +293,95 @@ export function GuidedPracticeSlide({
         </p>
       </div>
 
-      {item.options.map((o, i) => (
-        <button
-          key={i}
-          lang="hr"
-          data-testid="practice-option"
-          data-verdict={
-            i === item.correct && st.resolved
-              ? 'correct'
-              : st.tried.includes(i)
-                ? 'wrong'
-                : undefined
-          }
-          disabled={st.resolved || st.tried.includes(i)}
-          style={optionStyle(i)}
-          onClick={() => choose(i)}
-        >
-          {o}
-        </button>
-      ))}
+      {typed ? (
+        <div style={{ marginBottom: 8 }}>
+          {!st.resolved && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                submitTyped();
+              }}
+              style={{ display: 'flex', gap: 8 }}
+            >
+              <input
+                lang="hr"
+                data-testid="practice-typed-input"
+                aria-label="Type your answer"
+                autoComplete="off"
+                autoCapitalize="off"
+                spellCheck={false}
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                style={{
+                  flex: 1,
+                  padding: '12px 14px',
+                  borderRadius: 12,
+                  border: '2px solid var(--card-b)',
+                  fontSize: 'var(--text-base)',
+                  fontFamily: 'inherit',
+                  background: 'var(--card)',
+                  color: 'var(--heading)',
+                }}
+              />
+              <button
+                type="submit"
+                className="b bp"
+                data-testid="practice-typed-submit"
+                disabled={!draft.trim()}
+              >
+                Check
+              </button>
+            </form>
+          )}
+          {st.resolved && (
+            <div
+              lang="hr"
+              data-testid="practice-typed-answer"
+              style={{
+                ...card,
+                background: gotIt ? 'var(--success-bg)' : 'var(--error-bg)',
+                color: gotIt ? 'var(--ink-green)' : 'var(--ink-error)',
+                fontWeight: 800,
+              }}
+            >
+              {item.answer}
+            </div>
+          )}
+        </div>
+      ) : (
+        item.options.map((o, i) => (
+          <button
+            key={i}
+            lang="hr"
+            data-testid="practice-option"
+            data-verdict={
+              i === item.correct && st.resolved
+                ? 'correct'
+                : st.tried.includes(i)
+                  ? 'wrong'
+                  : undefined
+            }
+            disabled={st.resolved || st.tried.includes(i)}
+            style={optionStyle(i)}
+            onClick={() => choose(i)}
+          >
+            {o}
+          </button>
+        ))
+      )}
 
       {!st.resolved && wrongTries === 1 && (
         <div
           data-testid="practice-hint"
+          data-verdict={typed ? lastTyped : undefined}
           role="status"
           style={{ ...card, background: 'var(--info-bg)' }}
         >
-          <strong style={{ color: 'var(--ink-info)' }}>Not quite — here is a hint. </strong>
+          <strong style={{ color: 'var(--ink-info)' }}>
+            {typed && lastTyped === 'accents'
+              ? 'Nearly — the letters with marks (č, ć, đ, š, ž) are part of the word. '
+              : 'Not quite — here is a hint. '}
+          </strong>
           <span style={{ color: 'var(--text)' }}>{item.hint}</span>
         </div>
       )}
@@ -310,7 +404,10 @@ export function GuidedPracticeSlide({
           className="b bp"
           data-testid="practice-next-item"
           style={{ width: '100%' }}
-          onClick={() => setIdx(idx + 1)}
+          onClick={() => {
+            setDraft('');
+            setIdx(idx + 1);
+          }}
         >
           Next practice question →
         </button>

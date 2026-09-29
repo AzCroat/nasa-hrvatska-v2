@@ -164,7 +164,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // not when its summary is reached. Older cached payloads without a check
   // slide are gated on their formative quiz slides — absence degrades to the
   // strictest thing the data supports, never to "read it and you're done".
-  const gate = lessonGate(slides);
+  // Form A on even attempts, B on odd ones (lib/lessonCheck) — the next day's retake
+  // after a fail is a parallel paper, not the same one reshuffled.
+  const gate = lessonGate(slides, attempt);
+  const poolAt = (i: number) => (gate.kind === 'check' ? gate.poolOffset + i : i);
   const gateCorrect =
     gate.kind === 'check'
       ? countCorrect(gate.items, checkAnswers)
@@ -252,7 +255,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             score: gateCorrect,
             total: gate.total,
             results: gate.items.map((it, i) => ({
-              idx: i,
+              idx: poolAt(i),
               correct: checkAnswers[i] === it.correct,
             })),
           });
@@ -283,7 +286,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       passed,
       kind: testingOut ? 'testout' : 'lesson',
       missed: gate.items
-        .map((it, i) => (checkAnswers[i] === it.correct ? -1 : i))
+        .map((it, i) => (checkAnswers[i] === it.correct ? -1 : poolAt(i)))
         .filter((i) => i >= 0),
     });
     // A finished-but-failed check frees the session slot HERE, not only on the
@@ -295,7 +298,10 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     }
     if (!passed && !testingOut && !alreadyComplete) {
       recordCheckFailure(lessonId, {
-        results: gate.items.map((it, i) => ({ idx: i, correct: checkAnswers[i] === it.correct })),
+        results: gate.items.map((it, i) => ({
+          idx: poolAt(i),
+          correct: checkAnswers[i] === it.correct,
+        })),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

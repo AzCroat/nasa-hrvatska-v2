@@ -46,8 +46,13 @@ export interface LevelReviewItem extends LessonCheckItem {
 }
 
 function validItems(lesson: ReviewLessonBody): LessonCheckItem[] {
-  const check = (lesson.slides || []).find((s) => s?.type === 'check');
-  const raw = Array.isArray(check?.items) ? check!.items : [];
+  const check = (lesson.slides || []).find((s) => s?.type === 'check') as
+    { items?: unknown; itemsB?: unknown } | undefined;
+  // Both forms (lib/lessonCheck): the review samples the whole pool.
+  const raw = [
+    ...(Array.isArray(check?.items) ? check!.items : []),
+    ...(Array.isArray(check?.itemsB) ? check!.itemsB : []),
+  ];
   return raw.filter((x): x is LessonCheckItem => {
     const it = x as Partial<LessonCheckItem>;
     return (
