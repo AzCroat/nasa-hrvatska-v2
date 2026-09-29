@@ -4495,6 +4495,16 @@ Level Check (`equivalency`).
   some other way (`da bih` = in order to). Others: `kod` + genitive for MOTION (location
   only), `mliječni` as a short-jat example (it keeps -ije-), `Mogli biste li` (li leads the
   cluster), `Hugoa` (`Huga`), Gaj and `đ`. The list is in AUDIT-STATE sweep 176.
+- **AN ENDING NOTE MUST NAME THE WORD IT IS ABOUT (owner report, 2026-09-29; sweep 195).**
+  `Grad je velik. Gradovi su veliki.` — `short masculine takes -ovi`: true of the noun, read
+  as a claim about the adjective, because the example changes two words and the note named
+  neither. Sweep 176's hand census passed it, because each note IS correct about the word
+  its author meant. Three mechanical censuses over all 180 lessons (plural arrows vs
+  `decline()`, Singular/Plural table rows, `(-suf)` claims vs the form beside them) found
+  ZERO further false endings; the sibling item on the same slide had the same attribution
+  shape and both are fixed. `exampleNoteNamesItsWord.test.ts` pins the rule. NEVER write an
+  ending note on a two-change example without naming the word; NEVER read a hand census's
+  "correct" as covering what a reader will ATTRIBUTE the note to.
 - NEVER: serve a level review inside a level the learner has started; count only
   `tested` units as a finished level; score the review or gate anything on it; report the
   corrected second pass as the result; merge authored Croatian because a checker passed
@@ -4693,13 +4703,17 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   fluent."_ `nh_daily_goal_xp` has no writer, reader, snapshot field or merge; the modal
   asks ONE question (the goal, which the app reads). NEVER offer a learner a choice of how
   much to study — the bar is the app's.
-- **AND ONBOARDING IS BEING STRIPPED TO name → goal → (heritage region, optional) → Unit 1
-  lesson 1 (owner decision, 2026-09-29; queued).** The placement test's `nh_level` no
+- **AND ONBOARDING IS name → goal → (heritage region, optional) → Unit 1 lesson 1 (owner
+  decision, 2026-09-29; BUILT the same day — AUDIT-STATE sweep 194).** The placement test's `nh_level` no
   longer decides the course; it sets the level the Practice tab and the deck serve at
   (twelve screens via `getGenerationCefr`), so a B1 placement meant Unit 1 in the session
   and B1 flashcards on the Practice tab. The test and the "say your first word" mic moment
-  leave onboarding — test-out on the map is the same bar — and the Practice tab and deck
-  will follow the COURSE level as the next increment. AUDIT-STATE sweep 193.
+  left onboarding — test-out on the map is the same bar — together with the App.tsx timer
+  that pushed a 0-XP learner into `new-placement`, the onboarding-only `placement` route,
+  `nh_placement_declined` and the legacy `placement_done`. The Me tab's retake stays. The
+  Practice tab and deck follow the COURSE level as the next increment. NEVER put a test in
+  front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
+  anywhere but the course.
 - NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
   activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
   Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the
@@ -7050,6 +7064,18 @@ Own the correctness — every authored line must meet native-standard Croatian:
   case errors, word-order errors learners actually make) — never gibberish
 - The greeting is `bog` (not `bok`) per the 2026-07 owner decision; the idiom
   `bok uz bok` (side by side) is the one deliberate exception
+- **The recognisers do not know that, so every transcript is corrected at birth
+  (owner report, 2026-09-29: _"I said Bog and it wrote bok"_).** The browser's hr-HR
+  model, Deepgram and Whisper all write the greeting `bok` (the two are homophones:
+  final devoicing makes /bog/ [bok]), so a learner who said the app's greeting was
+  shown the other spelling and, on REHEARSE and BUILD, graded against `Bog` with `bok`.
+  `heardCroatian` (`src/lib/heardCroatian.ts`, server twin `functions/api/_heardCroatian.js`)
+  turns the bare word into `bog` with its case kept and leaves `bok uz bok` and the
+  inflected noun (`boka`, `boku`) alone; it runs at every browser `onresult` and on every
+  provider `transcribeCroatian` returns. `heardCroatian.test.ts` DERIVES the recogniser
+  sites and requires each to wrap its transcript, and runs both copies over the same
+  cases. Stated cost: a bare `bok` meaning "side" (`s boka na bok`) is read as the
+  greeting. NEVER read a recogniser's `.transcript` without `heardCroatian`.
 
 Do not gate content delivery on external review by default — write it right,
 self-verify against the rules above, and ship it through the normal test
