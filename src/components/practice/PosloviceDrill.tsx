@@ -16,7 +16,7 @@ const DATA = [
     q: '„Tko rano rani, dvije sreće ____ .”',
     opts: ['grabi', 'spava', 'gubi', 'čeka'],
     answer: 'grabi',
-    en: 'the early bird catches two lucks',
+    en: 'a proverb about rising early',
     tip: 'Najpoznatija poslovica o marljivosti.',
   },
   {
@@ -24,7 +24,7 @@ const DATA = [
     q: '„Ispeci pa ____ .”',
     opts: ['reci', 'jedi', 'plati', 'baci'],
     answer: 'reci',
-    en: 'think before you speak (bake, then say)',
+    en: 'a proverb about thinking before speaking',
     tip: 'Promisli prije nego što kažeš.',
   },
   {
@@ -32,7 +32,7 @@ const DATA = [
     q: '„Bez muke nema ____ .”',
     opts: ['nauke', 'ruke', 'struke', 'buke'],
     answer: 'nauke',
-    en: 'no pain, no gain (no learning)',
+    en: 'a proverb about effort',
     tip: 'Trud je uvjet znanja.',
   },
   {
@@ -40,7 +40,7 @@ const DATA = [
     q: '„Željezo se kuje dok je ____ .”',
     opts: ['vruće', 'hladno', 'tvrdo', 'sjajno'],
     answer: 'vruće',
-    en: 'strike while the iron is hot',
+    en: 'a proverb about seizing the moment',
     tip: 'Prilika se koristi odmah.',
   },
   {
@@ -48,7 +48,7 @@ const DATA = [
     q: '„Vrana vrani oči ne ____ .”',
     opts: ['vadi', 'pere', 'sklapa', 'boji'],
     answer: 'vadi',
-    en: 'crows do not peck each other\u2019s eyes',
+    en: 'a proverb about insiders covering for each other',
     tip: 'Svoji svoje ne odaju.',
   },
   {
@@ -56,7 +56,7 @@ const DATA = [
     q: '„U laži su kratke ____ .”',
     opts: ['noge', 'ruke', 'riječi', 'sjene'],
     answer: 'noge',
-    en: 'lies have short legs',
+    en: 'a proverb about lies',
     tip: 'Laž se brzo otkrije.',
   },
   {
@@ -64,7 +64,7 @@ const DATA = [
     q: '„Tko drugome jamu kopa, sam u nju ____ .”',
     opts: ['pada', 'gleda', 'skače', 'baca'],
     answer: 'pada',
-    en: 'who digs a pit falls into it',
+    en: 'a proverb about malice backfiring',
     tip: 'Zloba se obije o glavu.',
   },
   {
@@ -72,7 +72,7 @@ const DATA = [
     q: '„Čovjek snuje, Bog ____ .”',
     opts: ['određuje', 'kuha', 'putuje', 'spava'],
     answer: 'određuje',
-    en: 'man proposes, God disposes',
+    en: 'a proverb about plans',
     tip: 'Planovi su krhki.',
   },
   {
@@ -80,7 +80,7 @@ const DATA = [
     q: '„Tiha voda brege dere” znači:',
     opts: ['mirni ljudi postižu najviše', 'voda uništava', 'šutnja je zlato', 'planine su opasne'],
     answer: 'mirni ljudi postižu najviše',
-    en: 'still waters run deep',
+    en: 'quiet water wears away the banks',
     tip: 'Tiha ustrajnost pobjeđuje.',
   },
   {
@@ -164,7 +164,7 @@ const DATA = [
       'Vrana vrani oči ne vadi.',
     ],
     answer: 'Što možeš danas, ne ostavljaj za sutra.',
-    en: 'do not put off till tomorrow…',
+    en: 'a colleague keeps putting off work',
     tip: 'Poslovica protiv odgađanja.',
   },
   {
@@ -185,7 +185,7 @@ const DATA = [
     q: 'Prijatelj je izlanuo neprovjerenu vijest. Prikladna poslovica:',
     opts: ['Ispeci pa reci.', 'Bez muke nema nauke.', 'Krv nije voda.', 'Tko rano rani…'],
     answer: 'Ispeci pa reci.',
-    en: 'think before you speak',
+    en: 'a friend blurted out unverified news',
     tip: 'Za brzoplete jezike.',
   },
   {
@@ -198,7 +198,7 @@ const DATA = [
       'Odijelo ne čini čovjeka.',
     ],
     answer: 'Željezo se kuje dok je vruće.',
-    en: 'strike now',
+    en: 'the moment is perfect',
     tip: 'Poslovica trenutka.',
   },
   {
@@ -206,7 +206,7 @@ const DATA = [
     q: 'Lijenom studentu pred ispit poručujemo:',
     opts: ['Bez muke nema nauke.', 'Krv nije voda.', 'Nije zlato sve što sja.', 'Vrana vrani…'],
     answer: 'Bez muke nema nauke.',
-    en: 'no studying, no knowledge',
+    en: 'to a lazy student before an exam',
     tip: 'Trud prije znanja.',
   },
   {
@@ -219,7 +219,7 @@ const DATA = [
       'Papir trpi sve.',
     ],
     answer: 'Jabuka ne pada daleko od stabla.',
-    en: 'like father, like son',
+    en: 'the son grew up just like his father',
     tip: 'Nasljednost osobina.',
   },
   {
@@ -232,8 +232,8 @@ const DATA = [
       'Tko rano rani…',
     ],
     answer: 'Tko drugome jamu kopa, sam u nju pada.',
-    en: 'hoist by his own petard',
-    tip: 'Pravda poetike.',
+    en: 'the schemer was caught in his own scheme',
+    tip: 'Poetska pravda.',
   },
   {
     mode: 'uporaba',
@@ -245,7 +245,7 @@ const DATA = [
       'samo u naslovu',
     ],
     answer: 'štedljivo, kao začin argumenta',
-    en: 'proverbs season, not replace, argument',
+    en: 'proverbs in an essay',
     tip: 'Mjera je stil.',
   },
 ];

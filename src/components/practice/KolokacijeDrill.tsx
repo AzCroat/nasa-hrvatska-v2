@@ -47,7 +47,7 @@ const DATA = [
   {
     mode: 'glagolske',
     q: 'Uprava je ____ ostavku nakon afere.',
-    opts: ['podnijela', 'predala', 'dala', 'poslala'],
+    opts: ['podnijela', 'uložila', 'donijela', 'izrekla'],
     answer: 'podnijela',
     en: 'the management submitted its resignation after the scandal',
     tip: 'Ostavka se PODNOSI: podnijeti ostavku (i zahtjev, prijavu, žalbu).',
@@ -71,7 +71,7 @@ const DATA = [
   {
     mode: 'glagolske',
     q: 'Sud je ____ presudu u korist tužitelja.',
-    opts: ['izrekao', 'rekao', 'izdao', 'objavio'],
+    opts: ['izrekao', 'rekao', 'izdao', 'napravio'],
     answer: 'izrekao',
     en: 'the court pronounced a verdict in favour of the plaintiff',
     tip: 'Presuda se IZRIČE: izreći presudu (kaznu također).',
@@ -151,7 +151,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'Formalno se ispričavamo: „Ispričavamo se ____ neugodnosti.”',
-    opts: ['zbog', 'za', 'od', 'na'],
+    opts: ['zbog', 'radi', 'od', 'o'],
     answer: 'zbog',
     en: 'we apologize for the inconvenience',
     tip: 'Ispričati se ZBOG + genitiv (uzrok), standardno u dopisima.',
@@ -182,8 +182,8 @@ const DATA = [
   },
   {
     mode: 'registar',
-    q: 'Formalna isprika za kašnjenje sastanku: „Oprostite ____.”',
-    opts: ['na smetnji', 'za smetnju', 'zbog smetnje', 'na smetnju'],
+    q: 'Formalna isprika kad nekoga prekidate: „Oprostite ____.”',
+    opts: ['na smetnji', 'u smetnji', 'od smetnje', 'na smetnju'],
     answer: 'na smetnji',
     en: 'excuse the interruption',
     tip: 'Oprostite na smetnji — ustaljena uljudna formula (na + lokativ).',
@@ -199,7 +199,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'Službena obavijest: „Ured ne radi ____ blagdana.”',
-    opts: ['zbog', 'radi', 'od', 'preko'],
+    opts: ['zbog', 'radi', 'na', 'kroz'],
     answer: 'zbog',
     en: 'the office is closed because of the holiday',
     tip: 'ZBOG = uzrok; RADI = namjera. Blagdan je uzrok zatvaranja.',

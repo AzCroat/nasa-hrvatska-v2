@@ -91,7 +91,7 @@ const DATA = [
     q: 'Pluskvamperfekt izriče radnju koja se dogodila:',
     opts: ['prije druge prošle radnje', 'poslije sadašnjosti', 'istodobno s budućom', 'koja traje'],
     answer: 'prije druge prošle radnje',
-    en: 'a past before the past',
+    en: 'what the pluperfect expresses',
     tip: 'Kad su stigli, vlak je već BIO OTIŠAO.',
   },
   {
@@ -107,7 +107,7 @@ const DATA = [
     q: 'Uz pluskvamperfekt često dolazi prilog:',
     opts: ['već', 'sutra', 'sada', 'uskoro'],
     answer: 'već',
-    en: 'already pairs with the pluperfect',
+    en: 'the adverb that often goes with the pluperfect',
     tip: 'Već je bio otišao; već su bili večerali.',
   },
   {
@@ -123,7 +123,7 @@ const DATA = [
     q: 'U svakodnevnom govoru pluskvamperfekt se često zamjenjuje:',
     opts: ['perfektom', 'aoristom', 'futurom II', 'imperativom'],
     answer: 'perfektom',
-    en: 'everyday speech uses the perfect instead',
+    en: 'the pluperfect in everyday speech',
     tip: 'Kad su stigli, vlak je već otišao — i to je pravilno.',
   },
   {
@@ -131,7 +131,7 @@ const DATA = [
     q: 'Pluskvamperfekt je danas obilježje:',
     opts: ['brižljiva pripovjednog stila', 'sportskih prijenosa', 'SMS poruka', 'reklama'],
     answer: 'brižljiva pripovjednog stila',
-    en: 'a marker of careful narrative style',
+    en: 'where the pluperfect lives today',
     tip: 'Njeguje ga proza; govor ga gubi.',
   },
   {
@@ -148,7 +148,7 @@ const DATA = [
     opts: ['sam bio sjeo', 'sjednem', 'ću sjesti', 'bih sjeo'],
     answer: 'sam bio sjeo',
     en: 'no sooner had I sat down than the phone rang',
-    tip: 'Tek što + pluskvamperfekt: neposredni slijed.',
+    tip: 'Tek što + pluskvamperfekt (u govoru i perfekt): neposredni slijed.',
   },
   {
     mode: 'slaganje',
@@ -185,14 +185,14 @@ const DATA = [
     opts: ['je bio', 'će biti', 'bude', 'bi'],
     answer: 'je bio',
     en: 'after he had checked everything, he signed',
-    tip: 'Nakon što + pluskvamperfekt za ranije.',
+    tip: 'Pluskvamperfekt naglašava da je provjera bila ranije (često je i samo: nakon što je sve provjerio).',
   },
   {
     mode: 'slaganje',
     q: 'Pluskvamperfekt u odnosu na perfekt je:',
     opts: ['relativno (odnosno) vrijeme', 'apsolutno vrijeme', 'buduće vrijeme', 'način'],
     answer: 'relativno (odnosno) vrijeme',
-    en: 'a relative tense',
+    en: 'the pluperfect measured against the perfect',
     tip: 'Mjeri se prema drugoj prošloj radnji, ne prema sada.',
   },
   {
@@ -208,7 +208,7 @@ const DATA = [
     q: 'U prijevodu engleskoga „had done” najtočnije odgovara:',
     opts: ['pluskvamperfekt', 'aorist', 'prezent', 'futur II'],
     answer: 'pluskvamperfekt',
-    en: 'English had done = pluperfect',
+    en: 'English had done',
     tip: 'Had left = bio je otišao.',
   },
   {

@@ -16,7 +16,7 @@ const DATA = [
     q: 'Spojnica (-) piše se u:',
     opts: ['polusloženicama (spomen-ploča)', 'umetnutim mislima', 'nabrajanju', 'upravnom govoru'],
     answer: 'polusloženicama (spomen-ploča)',
-    en: 'the hyphen joins half-compounds',
+    en: 'where is the hyphen used?',
     tip: 'Spomen-ploča, remek-djelo, hrvatsko-engleski.',
   },
   {
@@ -29,7 +29,7 @@ const DATA = [
       'označavanje genitiva',
     ],
     answer: 'umetanje i naglašen prekid misli',
-    en: 'the dash marks insertion and breaks',
+    en: 'what is the dash used for?',
     tip: 'On je – kako svi znamo – uvijek točan.',
   },
   {
@@ -42,7 +42,7 @@ const DATA = [
       'kosom crtom (Zagreb/Split)',
     ],
     answer: 'crticom (Zagreb – Split)',
-    en: 'the route dash',
+    en: 'writing a route between two places',
     tip: 'Relacije i rasponi idu crticom, ne spojnicom.',
   },
   {
@@ -50,7 +50,7 @@ const DATA = [
     q: '„Spomen-ploča” sadrži:',
     opts: ['spojnicu', 'crticu', 'trotočje', 'apostrof'],
     answer: 'spojnicu',
-    en: 'spomen-ploca contains a hyphen',
+    en: 'which mark is in spomen-ploča?',
     tip: 'Polusloženica: obje sastavnice zadržavaju naglasak.',
   },
   {
@@ -58,7 +58,7 @@ const DATA = [
     q: 'Raspon godina 2010.____2020. piše se:',
     opts: ['crticom bez bjelina (2010.–2020.)', 'spojnicom s bjelinama', 'zarezom', 'dvotočjem'],
     answer: 'crticom bez bjelina (2010.–2020.)',
-    en: 'year ranges take a closed dash',
+    en: 'writing a range of years',
     tip: 'Rasponi brojeva: crtica bez razmaka.',
   },
   {
@@ -71,7 +71,7 @@ const DATA = [
       'sastavljeno',
     ],
     answer: 'spojnicom (hrvatsko-engleski)',
-    en: 'Croatian-English takes a hyphen',
+    en: 'writing Croatian-English',
     tip: 'Ravnopravne sastavnice pridjeva veže spojnica.',
   },
   {
@@ -79,7 +79,7 @@ const DATA = [
     q: 'Umetnutu misao možemo odvojiti:',
     opts: ['crticama ili zarezima', 'samo točkama', 'dvotočjem', 'uskličnicima'],
     answer: 'crticama ili zarezima',
-    en: 'insertions take dashes or commas',
+    en: 'setting off an inserted thought',
     tip: 'Crtice ističu jače od zareza.',
   },
   {
@@ -96,7 +96,7 @@ const DATA = [
     opts: ['„ovako”', '"ovako"', '«ovako»', "'ovako'"],
     answer: '„ovako”',
     en: 'Croatian quotation marks',
-    tip: 'Donji-gornji: „ … ” (99 dolje, 66 gore).',
+    tip: 'Donji-gornji: „ … ” (dolje „ i gore ”, oba u obliku 99).',
   },
   {
     mode: 'navodnici',
@@ -111,7 +111,7 @@ const DATA = [
     q: 'Naslove knjiga u tekstu pišemo:',
     opts: ['u navodnicima ili kurzivu', 'velikim slovima', 'podcrtano crvenim', 'u zagradama'],
     answer: 'u navodnicima ili kurzivu',
-    en: 'titles go in quotes or italics',
+    en: 'writing book titles in running text',
     tip: 'Roman „Zlatarovo zlato” / Zlatarovo zlato (kurziv).',
   },
   {
@@ -124,7 +124,7 @@ const DATA = [
       'nigdje',
     ],
     answer: 'iza zatvorenoga navodnika („Doći ću”, rekla je.)',
-    en: 'the comma follows the closing quote',
+    en: 'where the comma goes with direct speech',
     tip: '„Doći ću”, rekla je. — zarez izvan navodnika.',
   },
   {
@@ -140,7 +140,7 @@ const DATA = [
     q: 'Ironiju u tekstu možemo označiti:',
     opts: ['navodnicima („genijalno” rješenje)', 'uskličnikom', 'trotočjem', 'dvotočjem'],
     answer: 'navodnicima („genijalno” rješenje)',
-    en: 'scare quotes mark irony',
+    en: 'marking irony in writing',
     tip: 'Navodnici signaliziraju odmak od doslovnoga značenja.',
   },
   {
@@ -153,7 +153,7 @@ const DATA = [
       'iza autorove rečenice',
     ],
     answer: 'unutar navodnika („Dolaziš li?”)',
-    en: 'the question mark stays inside',
+    en: 'where the question mark goes in direct speech',
     tip: 'Interpunkcija navoda ostaje unutar navodnika.',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: 'Iza uvodne rečenice prije upravnoga govora piše se:',
     opts: ['dvotočje (Ana reče: „Doći ću.”)', 'zarez uvijek', 'točka', 'ništa'],
     answer: 'dvotočje (Ana reče: „Doći ću.”)',
-    en: 'a colon introduces direct speech',
+    en: 'the mark before direct speech',
     tip: 'Najava navoda: dvotočje + navodnici.',
   },
   {
@@ -169,7 +169,7 @@ const DATA = [
     q: 'Dvotočje najavljuje:',
     opts: ['nabrajanje ili objašnjenje', 'kraj rečenice', 'novi odlomak', 'upitnu rečenicu'],
     answer: 'nabrajanje ili objašnjenje',
-    en: 'the colon announces a list or explanation',
+    en: 'what the colon announces',
     tip: 'Kupite sljedeće: kruh, mlijeko, sir.',
   },
   {
@@ -182,7 +182,7 @@ const DATA = [
       'brojke i slova',
     ],
     answer: 'duže surečenice srodna sadržaja',
-    en: 'the semicolon separates related clauses',
+    en: 'what the semicolon separates',
     tip: 'Jače od zareza, slabije od točke.',
   },
   {
@@ -195,7 +195,7 @@ const DATA = [
       'posvojnost',
     ],
     answer: 'nedovršenu misao ili izostavljen tekst',
-    en: 'the ellipsis marks unfinished thought',
+    en: 'what the ellipsis marks',
     tip: 'Htio sam reći… ali ne vrijedi.',
   },
   {
@@ -211,7 +211,7 @@ const DATA = [
     q: 'Iza dvotočja nabrajanje počinje:',
     opts: ['malim slovom', 'velikim slovom uvijek', 'brojkom', 'novim retkom obavezno'],
     answer: 'malim slovom',
-    en: 'lists after a colon start lowercase',
+    en: 'how a list after a colon begins',
     tip: 'Veliko slovo samo ako slijedi potpuna rečenica-navod.',
   },
   {
@@ -219,7 +219,7 @@ const DATA = [
     q: 'Znak „?!” izriče:',
     opts: ['čuđenje spojeno s pitanjem', 'dvije rečenice', 'navod', 'stanku'],
     answer: 'čuđenje spojeno s pitanjem',
-    en: '?! marks astonished questioning',
+    en: 'what ?! expresses',
     tip: 'Zar opet?! — pitanje + emocija.',
   },
   {
@@ -227,7 +227,7 @@ const DATA = [
     q: 'Zagrade služe za:',
     opts: ['dodatna objašnjenja', 'isticanje glavne misli', 'upravni govor', 'naslove knjiga'],
     answer: 'dodatna objašnjenja',
-    en: 'parentheses hold asides',
+    en: 'what parentheses are for',
     tip: 'Rijeka (najveća hrvatska luka) raste.',
   },
   {
@@ -235,7 +235,7 @@ const DATA = [
     q: 'Kraticu „itd.” završava:',
     opts: ['točka', 'zarez', 'dvotočje', 'trotočje'],
     answer: 'točka',
-    en: 'itd. ends with a period',
+    en: 'how the abbreviation itd. ends',
     tip: 'Kratice itd., npr., tzv. nose točku.',
   },
 ];

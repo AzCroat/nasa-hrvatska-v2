@@ -153,7 +153,7 @@ const DATA = [
     q: 'Uz brojive imenice „nekoliko” znači:',
     opts: ['neodređen manji broj (3-10)', 'točno tri', 'više od sto', 'ništa'],
     answer: 'neodređen manji broj (3-10)',
-    en: 'several = a small indefinite number',
+    en: 'what nekoliko means with countable nouns',
     tip: 'Nekoliko knjiga = otprilike 3-10.',
   },
   {
@@ -166,15 +166,15 @@ const DATA = [
       'malo znači nula',
     ],
     answer: 'malo naglašava oskudicu',
-    en: 'malo stresses scarcity',
+    en: 'malo ljudi vs nekoliko ljudi',
     tip: 'Malo ljudi je došlo (premalo); nekoliko = neutralno.',
   },
   {
     mode: 'brojivo',
-    q: 'Uz zbrojeve „sto”, „tisuću”, „milijun” imenica stoji u:',
+    q: 'Uz brojeve „sto”, „tisuću”, „milijun” imenica stoji u:',
     opts: ['genitivu množine', 'nominativu množine', 'dativu', 'akuzativu jednine'],
     answer: 'genitivu množine',
-    en: 'hundreds and thousands take G pl',
+    en: 'the case after sto, tisuću, milijun',
     tip: 'Sto kuna, tisuću ljudi, milijun razloga.',
   },
   {
@@ -187,7 +187,7 @@ const DATA = [
       'druga je pogrešna',
     ],
     answer: 'prva je sadržaj, druga namjena',
-    en: 'a glass of wine vs a wine glass',
+    en: 'two phrases with čaša',
     tip: 'G = što je unutra; za + A = čemu služi.',
   },
   {
@@ -195,7 +195,7 @@ const DATA = [
     q: 'Kako pitamo za količinu nebrojivoga?',
     opts: ['Koliko?', 'Koliki?', 'Koji?', 'Čiji?'],
     answer: 'Koliko?',
-    en: 'how much? = koliko',
+    en: 'asking about an uncountable quantity',
     tip: 'Koliko vode? Koliko vremena?',
   },
   {

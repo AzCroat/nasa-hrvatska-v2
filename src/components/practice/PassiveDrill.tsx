@@ -87,8 +87,8 @@ const DATA = [
     tip: "biti + participle: problem (masc sg) → 'je riješen'. riješiti → riješen",
   },
   {
-    q: 'The exam is taken every June. = Ispit ___ svaki lipanj.',
-    opts: ['se polaže', 'je položen', 'se položiti', 'polaže'],
+    q: 'The exam is taken every June. = Ispit ___ svakog lipnja.',
+    opts: ['se polaže', 'je položen', 'se položiti', 'se polažu'],
     answer: 'se polaže',
     en: 'The exam is taken every June.',
     tip: "Habitual/repeated → se-passive with imperfective: 'se polaže' (polagati)",

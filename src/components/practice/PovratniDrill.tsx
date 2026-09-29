@@ -49,7 +49,7 @@ const DATA = [
     opts: ['glagol koji postoji samo s „se”', 'pravi povratni', 'uzajamni', 'pasivni'],
     answer: 'glagol koji postoji samo s „se”',
     en: 'Marko is afraid of the dark',
-    tip: 'Bojati se, nadati se, smijati se — nemaju neprijelazni par bez „se”.',
+    tip: 'Bojati se, nadati se, smijati se — nemaju inačicu bez „se”.',
   },
   {
     mode: 'vrste',
@@ -109,7 +109,7 @@ const DATA = [
   },
   {
     mode: 'oblik',
-    q: 'Uzmi ____ još kolača, ima ih dosta!',
+    q: 'Uzmi ____ još kolača, ima ih dosta! (nenaglašeno)',
     opts: ['si', 'sebi', 'se', 'sebe'],
     answer: 'si',
     en: 'take yourself some more cake',
@@ -126,10 +126,10 @@ const DATA = [
   {
     mode: 'oblik',
     q: 'Standardno je: „____ ruke prije jela!”',
-    opts: ['Operi', 'Operi si', 'Operi se', 'Operi sebi'],
+    opts: ['Operi', 'Opere', 'Operi se', 'Operi sebe'],
     answer: 'Operi',
     en: 'wash your hands before eating',
-    tip: 'Uz dijelove tijela povratna zamjenica nije potrebna: oprati ruke.',
+    tip: 'Uz dijelove tijela dovoljno je: operi ruke (u govoru i: operi si ruke).',
   },
   {
     mode: 'oblik',
@@ -198,10 +198,10 @@ const DATA = [
   {
     mode: 'znacenje',
     q: 'Nakon svađe ____ u miru.',
-    opts: ['razišli smo se', 'razišli smo', 'smo se razišli', 'razilazili smo'],
+    opts: ['razišli smo se', 'razišli smo', 'se smo razišli', 'razilazili smo'],
     answer: 'razišli smo se',
     en: 'after the argument we parted in peace',
-    tip: 'Razići se — samo povratan; na početku rečenice: razišli smo se.',
+    tip: 'Razići se — samo povratan; u skupu enklitika smo stoji ispred se.',
   },
 ];
 

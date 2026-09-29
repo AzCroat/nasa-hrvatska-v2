@@ -30,7 +30,7 @@ const DATA = [
   {
     mode: 'oblici',
     q: 'Sumnjam da ____ to može riješiti sam.',
-    opts: ['itko', 'netko', 'nitko', 'svatko'],
+    opts: ['itko', 'nikoga', 'nitko', 'ikoga'],
     answer: 'itko',
     en: 'I doubt that anyone can solve that alone',
     tip: 'Iza sumnje, pitanja i pogodbe dolazi i-oblik: itko = itko uopće.',
@@ -38,7 +38,7 @@ const DATA = [
   {
     mode: 'oblici',
     q: '____ od nas ima svoje razloge.',
-    opts: ['Svatko', 'Svako', 'Netko', 'Itko'],
+    opts: ['Svatko', 'Svakome', 'Nitko', 'Itko'],
     answer: 'Svatko',
     en: 'each of us has our own reasons',
     tip: 'SVATKO samostalno (za osobe); svako uz imenicu (svako dijete).',
@@ -62,7 +62,7 @@ const DATA = [
   {
     mode: 'oblici',
     q: 'Bez ____ pomoći nećemo uspjeti.',
-    opts: ['ičije', 'nečije', 'ničije', 'svačije'],
+    opts: ['ičije', 'ičiju', 'ničije', 'ičijoj'],
     answer: 'ičije',
     en: 'without anyone’s help we will not succeed',
     tip: 'Iza prijedloga „bez” dolazi i-oblik: bez ičije pomoći.',
@@ -150,7 +150,7 @@ const DATA = [
   {
     mode: 'god',
     q: 'Uzmi ____ god želiš s police.',
-    opts: ['što', 'koje', 'tko', 'čega'],
+    opts: ['što', 'kome', 'tko', 'čega'],
     answer: 'što',
     en: 'take whatever you want from the shelf',
     tip: 'Što god = bilo što.',
@@ -176,7 +176,7 @@ const DATA = [
     q: 'Dvostruka (višestruka) negacija u hrvatskome je:',
     opts: ['obvezna', 'pogrešna', 'strani utjecaj', 'moguća samo u pjesništvu'],
     answer: 'obvezna',
-    en: 'multiple negation is obligatory in Croatian',
+    en: 'multiple negation in Croatian',
     tip: 'Nitko NIJE došao — ni-oblik zahtijeva niječni glagol.',
   },
   {

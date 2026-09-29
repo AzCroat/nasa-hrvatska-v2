@@ -4,7 +4,7 @@ import ModeDrill from './ModeDrill';
 const DATA = [
   {
     q: '___ auto (2)',
-    opts: ['dva auta', 'dva auto', 'dva auti', 'dva automobila'],
+    opts: ['dva auta', 'dva auto', 'dva auti', 'dvije auta'],
     answer: 'dva auta',
     en: '2 cars',
     tip: "2/3/4 + Genitive singular: 'auto' → 'auta'",
@@ -21,7 +21,7 @@ const DATA = [
     opts: ['tri djece', 'tri djeteta', 'tri djeci', 'tri dijete'],
     answer: 'tri djeteta',
     en: '3 children',
-    tip: "3 + Genitive singular of 'dijete' = 'djeteta' (irregular noun)",
+    tip: "3 + Genitive singular of 'dijete' = 'djeteta' (irregular noun); the usual standard choice is 'troje djece'",
   },
   {
     q: '___ žena (1)',
@@ -32,7 +32,7 @@ const DATA = [
   },
   {
     q: '___ knjiga (11)',
-    opts: ['jedanaest knjiga', 'jedanaest knjige', 'jedanaest knjizi', 'jedanaest knjigā'],
+    opts: ['jedanaest knjiga', 'jedanaest knjige', 'jedanaest knjizi', 'jedanaest knjigama'],
     answer: 'jedanaest knjiga',
     en: '11 books',
     tip: '11-19 ALWAYS use Genitive plural, regardless of the -1 rule',
@@ -133,7 +133,7 @@ const DATA = [
   },
   {
     q: '___ čovjek (5)',
-    opts: ['pet ljudi', 'pet čovjeka', 'pet čovjeci', 'pet čovjekā'],
+    opts: ['pet ljudi', 'pet čovjeka', 'pet čovjeci', 'pet ljudima'],
     answer: 'pet ljudi',
     en: '5 people',
     tip: "'čovjek' has suppletive plural 'ljudi' — gen pl is 'ljudi'",
@@ -157,7 +157,7 @@ const DATA = [
     opts: ['četiri djeteta', 'četiri djece', 'četiri djetetu', 'četiri dijete'],
     answer: 'četiri djeteta',
     en: '4 children',
-    tip: "4 + Genitive singular: 'dijete' → 'djeteta'",
+    tip: "4 + Genitive singular: 'dijete' → 'djeteta'; the usual standard choice is 'četvero djece'",
   },
   {
     q: '___ prijatelj (22)',
@@ -183,7 +183,7 @@ const DATA = [
     opts: ['trideset godina', 'trideset godine', 'trideset godini', 'trideset godinu'],
     answer: 'trideset godina',
     en: '30 years',
-    tip: "30 = Genitive plural: 'godina' → 'godina' (same form, zero plural)",
+    tip: "30 = Genitive plural: 'godina' → 'godina' (the genitive plural looks like the nominative singular)",
   },
 ];
 
