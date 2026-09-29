@@ -161,7 +161,7 @@ const DATA = [
     q: 'Novinari razgovaraju s gospođom ____.',
     opts: ['Kovač', 'Kovačem', 'Kovačicom', 'Kovačevom'],
     answer: 'Kovač',
-    en: 'the journalists are talking with Mrs Kovač',
+    en: 'the journalists are talking with Mrs K.',
     tip: 'Žensko prezime na suglasnik ne sklanja se: s gospođom Kovač.',
   },
   {

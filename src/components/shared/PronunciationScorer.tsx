@@ -13,6 +13,7 @@ import {
   reportAiFailure,
   transportFailure,
 } from '../../lib/aiFailure';
+import { heardCroatian } from '../../lib/heardCroatian';
 
 // Azure-preferred MIME negotiation order — format-sensitive for pronunciation assessment.
 // Backend STT is Cloudflare Workers AI Whisper (functions/api/assess-speaking.js),
@@ -189,7 +190,9 @@ export default function PronunciationScorer({
     rec.onresult = (e: any) => {
       if (!e.results?.[0]) return;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const transcripts = Array.from(e.results[0]).map((r: any) => r.transcript as string);
+      const transcripts = Array.from(e.results[0]).map((r: any) =>
+        heardCroatian(r.transcript as string),
+      );
       if (!transcripts.length) return;
 
       // English-translation detection: when hr-HR recognition falls back to en-US (or the browser's

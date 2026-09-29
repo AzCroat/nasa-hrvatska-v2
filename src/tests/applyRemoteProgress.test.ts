@@ -648,7 +648,6 @@ describe('applyRemoteProgress — additional user settings', () => {
     const setters = makeSetters();
     applyRemoteProgress({ nh_placement_done: true }, setters);
     expect(localStorage.getItem('nh_placement_done')).toBe('true');
-    expect(localStorage.getItem('placement_done')).toBe('true');
   });
 
   /**

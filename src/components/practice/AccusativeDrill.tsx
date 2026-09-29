@@ -98,7 +98,7 @@ const DATA = [
     q: 'Gledam ___ navečer.',
     opts: ['film', 'filma', 'filmu', 'filmom'],
     answer: 'film',
-    en: "I'm watching the film in the evening.",
+    en: "I'm watching a movie in the evening.",
     tip: 'Inanimate masc accusative = nominative: film stays film.',
   },
   {
@@ -133,7 +133,7 @@ const DATA = [
     q: 'Šetam kroz ___.',
     opts: ['park', 'parka', 'parku', 'parkom'],
     answer: 'park',
-    en: 'I walk through the park.',
+    en: 'I walk through the gardens.',
     tip: "'kroz' (through) takes the accusative — masc park = nominative.",
   },
   {

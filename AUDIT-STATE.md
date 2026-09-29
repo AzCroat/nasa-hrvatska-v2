@@ -13331,6 +13331,101 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
   - **Not checked**: the three heavy-user E2E specs match `/daily goal|goal|target|minutes/i`
     against Settings text with an `info` fallback — they cannot fail on this and assert
     nothing about the card, so they were not changed.
+- [x] **Sweep 194 — onboarding ends on the course: name → goal → (heritage region) → Unit 1 (owner decision, 2026-09-29).**
+  - Owner: _"Shouldn't we just be having users register and then begin lessons at the most
+    basic level to begin their Croatian fluency journey?"_ Measured first (sweep 193): the
+    Welcome flow ran hero → goal → level page → heritage region → a "say your first Croatian
+    word" mic modal → a 15-question placement test or "skip as beginner"; a second surface
+    (`App.tsx`) pushed any 0-XP learner into `new-placement` 1.2 s after landing. The
+    placement's `nh_level` no longer decides the COURSE (one path, Unit 1 for everyone) — it
+    set the Practice tab's content level, so a B1 placement meant Unit 1 in the session and B1
+    flashcards on the tab: two levels in one app, after three minutes of testing before any
+    teaching.
+  - Built: `WelcomeScreen` is hero → goal → (heritage region, skippable, heritage/family
+    goals only — Heritage Story reads it) → `finishOnboarding()` → Home, whose Begin Session
+    IS Unit 1 lesson 1. The level page, BOTH mic modals (and their focus-trap effects), the
+    placement question setup and its five setter props are gone; the App.tsx nudge effect is
+    gone (stripping the test from the flow while leaving the nudge would have thrown every
+    new learner straight back into it); the onboarding-only `placement` route is gone
+    (`routeKeys` caught it still listed — a learner reaching it would have met a blank page).
+    The Me tab's "retake placement" (`new-placement`) STAYS, and `PlacementTest` with it;
+    its cancel no longer writes `nh_placement_declined`, whose only reader was the nudge.
+    The legacy `placement_done` key lost its last writer and its restore
+    (`restoredKeysHaveConsumers` caught the round trip with no destination).
+  - **"I already know some Croatian" is the course's own test-out**, at the same 85% bar, on
+    the map — the one-bar rule. **Practice tab and deck follow the COURSE level next**
+    (decided; not in this sweep).
+  - Pinned by `welcomeOnboarding.test.tsx`: both goal paths land on `dashboard`, never on a
+    test; the heritage step's skip lands there too; a goal is required; and by source, no
+    placement route in Welcome, no timer in App.tsx, the onboarding route gone and the Me
+    retake present. Two route-list tests moved (`screenBoundaryCoverage`, `session-coverage`).
+  - Harness notes: a scripted `cut` swallowed the `selectedGen` state that sat between the
+    modal state and the refs (tsc caught it); a generic line deletion took the `&& (` opener
+    off two JSX conditionals and left their `)}` (prettier caught it). Read the span you cut.
+  - **Not checked**: no E2E walks the Welcome flow (every fixture seeds `onboarded`); the
+    per-skill `nh_placement_*` keys were already `NO_PRODUCER`.
+- [x] **Sweep 195 — an ending note must name the word it is about (owner report, 2026-09-29).**
+  - Owner, on the A1 plural lesson's "Singular and Plural Side by Side" slide: _"you state
+    that Velik should add ovi, when it is simply just adding i. This is incorrect learning
+    material … Do we have more of this throughout the application?"_ The item was
+    `Grad je velik. Gradovi su veliki.` with the note `short masculine takes -ovi`. The note
+    is TRUE of the word its author meant (grad → gradovi) and the example changes two
+    words, so a reader attaches -ovi to the adjective. The sibling item on the same slide
+    had the same shape: `More je toplo. Mora su topla.` — `neuter -e → -a`, while toplo →
+    topla is -o → -a. Both notes now name their word. The lesson does teach -ovi correctly
+    elsewhere (rule slide, table row `grad / gradovi / add -ovi`, `Sinovi rade u Njemačkoj`).
+  - **How many more, measured three ways over all 180 lessons, reading every hit by hand:**
+    (1) every `X → Y` in plural context against `decline(X).forms.Npl` — 67 arrows, 15 exact
+    matches, 52 disagreements, ALL false positives (genitive/dative plurals in a plural
+    lesson, vocatives, comparatives, verbs, English words, and `\b`-split fragments like
+    `ena → žene`); (2) every Singular/Plural table row — 20, the 12 disagreements all verb
+    conjugation tables and the `stvar` i-declension rows, correct; (3) every "X → Y (-suf)"
+    / "adds -suf → Y" claim — 25, 7 disagreements, all false positives (`-a becomes -i`,
+    `-im class`, `-ov- before the -i`). **Zero further false endings.** The class that
+    produced the owner's report is ATTRIBUTION, not a false claim, and sweep 176's hand
+    census read both notes as correct because each is correct about the word its author
+    meant — which is exactly why it needed a mechanical question: "which word will the
+    reader attach this to?" Of 274 example/practice items with an ending note, 13 have a
+    note naming no word of the example while ≥2 words change; 11 are guided-practice or
+    mastery-check items whose "second sentence" is an English cue and whose note states the
+    answer form (correct by construction), and the two remaining were the two fixed.
+  - Pinned by `exampleNoteNamesItsWord.test.ts`: an `example` item whose note states a bare
+    `-suffix` and whose two sentences differ in more than one word (the copula je → su does
+    not count) must name a word of the example; positive control is the shipped defect
+    verbatim, with the one-change and the naming-note shapes as negatives. Mutation-verified
+    against the REAL data: reverting the `More je toplo` note fails 1 and names the item.
+    Population is 7 two-sentence ending-note items across the curriculum, so the floor is 5
+    and the control carries the predicate.
+  - **"Throughout the application", not only the lessons**: the same `(-suf)` / "adds -suf →
+    Y" census over `src/data` (the drill banks), `src/components/practice`,
+    `src/components/learn` and the culture data — 22 claims, 5 disagreements, all false
+    positives (`-en-` as an infix, `-a → -in`, "add -u or -e"). Zero false endings there
+    either. Not censused: free-prose tips with no arrow and no bare `-suffix`, which only a
+    reading finds (sweep 176 is the last full read).
+  - The onboarding branch (sweep 194) was cut with this note fix in its working tree; the
+    fix ships here, on its own branch off master, so the two decisions do not share a PR.
+- [x] **Sweep 199 — the recognisers write `bok`; the app's greeting is `bog` (owner report, 2026-09-29).**
+  - Owner: _"Guided speaking I said Bog and it wrote bok. We don't use communist greetings
+    in this application."_ Measured: nothing normalised a transcript anywhere. The greeting
+    is a homophone pair in speech (final devoicing), and every recogniser's language model
+    spells it `bok`, so the learner's own correct greeting came back in the other spelling
+    and was marked "again" by `phraseMatches` against `Bog` on REHEARSE and by `gradeBuild`.
+  - Built: `heardCroatian` (client) and `_heardCroatian.js` (server), one rule — the bare
+    word `bok` becomes `bog` with its case kept; `bok uz bok` and the inflected noun are
+    untouched. Applied at the eight browser sites that read `.transcript` (Guided Speaking,
+    Maja, Speaking Sprint, Speaking, the pronunciation scorer, the lesson and unit
+    production steps, the Whisper hook's Web Speech path) and to all three provider returns
+    in `transcribeCroatian`. `GuidedSpeakingScreen` was at the 800-line cap, so it imports
+    the rule through `speechTurn`'s re-export on the line it already had; the cap was not
+    raised.
+  - Pinned by `heardCroatian.test.ts` (15): both copies over one case table; every
+    recogniser site derived from source and required to wrap; every provider return
+    required to wrap. Mutation-verified, five, each failing 1–2: Guided Speaking bare,
+    the pronunciation scorer bare, Deepgram bare, the server twin dropping the idiom, the
+    client losing capitalisation. Full unit suite green.
+  - **Not covered, stated**: a bare `bok` meaning "side" is read as the greeting; the Azure
+    pronunciation-assessment path returns WORD scores against the learner's reference text
+    and was not changed; transcripts already stored (attempt evidence) keep their spelling.
 - [x] **Sweep 198 — a failed check is a focus area, not a retake (owner directive, 2026-09-29).**
   - Owner: _"When a user fails a lessson let's not let them go back and click through the
     right answers to get a passing score. Let's note they did not pass and add as an area of
@@ -13374,6 +13469,199 @@ flashcards` (6c: spoken first); one weak skill (listening) → target 1, share 0
     complete attempt locks; attempts stop being written at `MAX_ATTEMPTS_PER_LESSON` (10), so
     the shuffle seed plateaus after the tenth opening. E2E: the walkthrough always answers
     correctly and never meets the fail path; no spec named the retake.
+- [x] **Sweep 196 — Bakino Ljeto is four books of four letters (owner decision, 2026-09-29).**
+  - Owner, verbatim: _"In the lesson Bakino Ljeto we can't have 16 letters for the user to
+    read through that is just too much. It probably should be broken down into 4 different
+    lessons of 4. Let's make sure we aren't overwhelming the user in any lesson. We can
+    always be more repetitive."_ Then: _"split into four letters - bakino ljeto"_. (Sweeps
+    194 and 195 are on in-flight branches; this is the next number on master.)
+  - **Measured before building**: `BakaSummer.tsx` (745 lines) was one screen over a
+    16-entry `CHAPTERS` array — header "Poglavlje N od 16", sixteen progress dots, 20 XP a
+    chapter, one 100 XP bonus at 16/16 (`nh_baka_done_bonus`), progress in `nh_baka_done`
+    (global 0-based indices) and `nh_baka_ch`; neither key in the snapshot, so nothing about
+    it syncs. Letters 13–16 are the longest (140–166 Croatian words). One route
+    (`baka_summer`), one pool entry (P4 culture slot, B1), one door card ("16-chapter
+    story"), one search entry.
+  - **Built**: `bakaChapters.ts` holds the sixteen letters verbatim (moved, not rewritten);
+    `bakaBooks.ts` is four names over four CHUNKS of that array (`chapterRange(n)`), never a
+    second list of ids — Book 1 _Ljeto počinje_ (`baka_summer`, "Baka's Summer"), Book 2
+    _Fešta i berba_ (`baka_berba`, "Baka's Harvest"), Book 3 _Od bure do Božića_
+    (`baka_zima`, "Baka's Winter"), Book 4 _Pisma iz drugih krajeva_ (`baka_pisma`,
+    "Letters from Afar"). The screen presents ONE book: header names it, "Pismo k od 4",
+    four dots, its own completion card with a "next book" button; the letter title is
+    shown without its global "Poglavlje N:" prefix. Books unlock in order (book n opens
+    when every letter of n−1 is done — the existing chapter gating already produces that
+    order, now stated); a locked book renders "Ova knjiga je još zaključana", the reason
+    ("Finish Baka's Summer first") and a button to the previous book, never the letters.
+    The Priče door has four cards in reading order, the locked ones with 🔒 and the same
+    reason in place of the subtitle (`bakaDoorLock`). `BakaSummer.tsx` is 526 lines; the
+    cap held without an override.
+  - **XP**: 20 a letter unchanged; the 100 end bonus is 25 per completed book (4 × 25),
+    paid from an effect keyed on the letters (credit follows the work — `creditFollowsWork`'s
+    rule; `total > 0` guarded; a per-mount ref plus the persisted set is the latch),
+    recorded in `nh_baka_book_bonus` (JSON array of book numbers). A learner holding the
+    legacy flag is paid nothing more — `bookBonusPaid` reads it. **Not synced**, following
+    `nh_baka_done`'s own treatment (no snapshot field, no merge); a second device paying a
+    bonus once more is the direction a learner survives. **Cost, stated**: a learner who
+    finished books before the split and has no legacy flag is paid each finished book's 25
+    the first time the screen sees it complete — up to 75 XP in one open — which is what
+    "total unchanged" means for them.
+  - **THE POOL ENTRY RESUMES, AND HOW IT KNOWS TO.** `baka_summer` is both the pool's
+    culture entry and the door's book-1 card, and the router cannot tell the two taps
+    apart. The screen does what `launchedLevel` does: the session writes the screen it
+    launched into `nh_session_started` before navigating, so `resolveLaunchBook` opens
+    the first unfinished book when that key names `baka_summer` and book 1 otherwise. The
+    three new keys are NOT pool entries (that would change the measured P4 composition) —
+    they are `OUTSIDE_SESSION` with the reason, reached through the resume screen's next-book
+    button and the door.
+  - **THE LETTERS' PROSE HAD NEVER BEEN LINTED.** `BakaSummer.tsx` sat in TARGETS; its
+    Croatian is in a `croatian:` field, which `CRO_FIELD_RE` did not list. Positive control
+    before adding the new files: `hleb` in a vocab `hr` was caught, `hleb` in a letter body
+    was NOT. Sixth instance of "in TARGETS meant nothing" (`lessons.js` rows, the writing
+    curriculum's `model`, the `*Hr` layer, the JSON-quoted key, the vocab deck, the verb
+    paradigm fields). `croatian` is in the matcher now: census 136,646 → 136,662 (+16 —
+    one per letter — with the two new files already in TARGETS), zero findings; the same
+    body control then fails and names line 144. `croatian:` occurs as a field in no other
+    content file (the other five hits are prompt variables and a tab id), so the widening
+    is exactly the sixteen strings.
+  - **Reading the sixteen letters found eleven errors, fixed in nine of them** (prose only,
+    nothing rewritten beyond the error): `janje se pečelo` → `peklo`; `Na Svetu Jakobu` →
+    `Na Svetog Jakova`; `Zapalila sam kaminu` → `kamin`; `boja breskve` → `boje breskve`;
+    `neko starije` → `netko stariji` (the Serbian/colloquial `neko`, which the blocklist
+    cannot carry because `neko vrijeme` is correct Croatian); `pripreman kulen` →
+    `pripremam`; `kao ludi` → `kao ludo`; `s daleka` → `izdaleka`; `kruharom punim` →
+    `košarom punom` (no such noun as `kruhara`); `umak se gušća` → `zgušnjava`; `Sretna
+Nova Godina` → `sretna Nova godina`. Left as the grandmother's voice: `dadne`,
+    `podsjeti` (narrative present), `spravljene`, `Bog ti daj zdravlje`, `Pravo je tako`,
+    the singular `Znaš` inside a letter to `djeco`, and Baka Vera's `ti da sve što trebaš`.
+  - **Guard**: `bakaBooks.test.tsx` (18) drives the real screen and the real door: the
+    partition (four books of four, every index once, the owner's split by title), routes /
+    tab / door order / must-not-orphan / exactly one pool entry, distinct door titles with
+    no title a substring of another, the router's `book` props by source, four dots and
+    never "od 16" or "Poglavlje N" (also with all sixteen read), sequential reachability
+    within a book, the locked view and its button, the bonus once and not on remount, the
+    legacy flag on every book, the pre-split learner paid each finished book once, the
+    session resume / door book-1 / everything-read cases, and the door's lock state before
+    and after book 1.
+  - **Mutation-verified, six, each confirmed landed**: a book of five (`CHAPTERS_PER_BOOK =
+5`) fails 11; the bonus paid twice (the `bookBonusPaid` check dropped) fails 3; the
+    legacy flag ignored fails 1; the locked screen rendering the letters fails 3; sixteen
+    dots (`CHAPTERS.map`) fails 3; the pool launch ignoring progress fails 3. **The first
+    mutation runner reverted M3 onto the wrong line**: its replacement string `return
+false;` also occurs in `bookComplete`, three functions earlier, so the revert restored
+    `legacyBonusPaid`'s body into the wrong function and left the baseline at 2 failed — the
+    "check where the mutation landed" rule, met on the REVERT rather than the mutation. M4–M6
+    were re-run on a green baseline with every from/to string checked unique in its file
+    first; the second runner then broke on a `/*M3*/` marker inside a perl `s///`. Both
+    recorded because the pattern is general: a mutation harness needs its strings unique and
+    its delimiters escaped, or its "reverted" line is a claim.
+  - **E2E**: the CI-equivalent build (placeholder `VITE_FIREBASE_*`) ran `croatia.spec.js`
+    in a real browser. Its Baka assertion changed to exact matching in the same commit —
+    with books 2–4 locked, "Finish Baka's Summer first" is on the page and the substring
+    `getByText("Baka's Summer")` resolves to two elements — and MY OWN added
+    `getByText("Baka's Harvest")` tripped the identical strict-mode violation on the first
+    run, because book 3's card says "Finish Baka's Harvest first". The spec now pins the
+    locked card by test id and attribute. Doors, region cards, Povijest and back all green.
+  - **Not checked**: the P4 culture-slot rotation was not re-measured (the pool entry is
+    byte-identical, so the composition cannot have moved); the Firefox/WebKit smoke
+    projects; a real learner mid-book-3 whose `nh_baka_ch` pointer sits outside the book
+    they open (the screen falls to the first unread letter in range, covered by the
+    reachability test but not by a pointer-outside-range fixture).
+- [x] **Sweep 197 — the English `en` as a NOTE that names the answer (owner report, 2026-09-29).**
+  - Owner, verbatim: _"We are still giving answers to the user - nominative case practice
+    states zene in the question below which is the answer. We need to make sure this isn't
+    happening so the user truly learns and doesn't learn to cheat."_ The item:
+    `NominativeDrill.tsx` `q: 'Ženski rod (nom pl): ___'`, `opts: ['žene','žena','ženama','ženu']`,
+    `en: 'Feminine (nom pl): žene (women).'` `ModeDrill` renders `{cur.en}` under the question
+    and above the options, before any answer, so the note handed over the answer. The
+    2026-09-26 guard (`glossGivesAnswer`) knew ONE shape, `money → lova`, and its census had
+    recorded "89 of the 101 whole-word hits are correct" — a judgement, not a measurement
+    against the owner's bar.
+  - **Census, measured with the scanner over `src/data`, `src/components` and the served
+    content: 5,331 multiple-choice items carry an `en` and an answer; 93 have the answer
+    whole-word in `en`.** Read one by one: **60 real leaks, all fixed; 25 in
+    `CollocationsGame` (its `en` is rendered inside `{answered && (…)}` — feedback, exempt);
+    8 legitimate and left** — five clitics coinciding with English `me` (`Uhvatila ____ je
+fjaka.`, `Pozvao ___ je na kavu.`, `Boji ____ se.`, reported speech, the unstressed-form
+    item), `m²`, the connector `no`, and `Što je "referendum"?` (a definition item whose
+    answer IS the English cognate; the question itself names it, which is the prose class
+    the cue rule deliberately leaves alone).
+  - **The 60, by shape.** (1) `PronunciationContrast` — 25 items of `kruh = bread`; the brief
+    asked me to check whether that screen renders `en` before the answer and exempt it if
+    not: it renders `{q.en}` directly under `{q.q}`, above the option grid, so all 25 were
+    live leaks and are now the bare English gloss (`to read`, `bread`). (2) Grammar NOTES in
+    `en` (12): `the preposition of purpose is radi`, `negative causes take zbog`,
+    `so-called = tzv.`, `Marko! (vocative = nominative)`, `of Ines — indeclinable`,
+    `a mixed group of three = troje`, `at the moment when = kad`, `sucelje = interface`,
+    `zapozorje = backstage`, `Luka — the name, capitalized`, `the clipped obzirom da is
+nonstandard`, `gdje? takes the instrumental with pod/nad/pred/za` — each rewritten to
+    describe the question without naming the answer (`the preposition that expresses
+purpose, not cause`), the explanation already living in `tip`, which the engine renders
+    only inside the answered verdict block. (3) `NominativeDrill`'s six notes
+    (`Masculine (nom sg): brat.` …) → `Masculine, nominative singular (brother).` — the
+    English gloss of the word is legitimate, the Croatian form is not. (4) **An English
+    sentence naming a proper noun or loanword whose case forms are the options** (17):
+    `Zagreb is the capital of Croatia.` / `Zagreb Zagreba Zagrebu Zagrebom`, `Marko runs in
+the park.`, `Ana reads a book.`, `I am connected to the internet.`, `We talked about
+Angela Merkel.`, `I am travelling to London.`, `the train to Zagreb`, `Croatia adopted the
+euro`, `The main argument is the price.`, `five kuna`, `one student`, `I'm watching the
+film`, `I walk through the park.`, `She is watching a film.`, `I put the laptop on the
+table.`, `the journalists are talking with Mrs Kovač`. The earlier census called these
+    correct because "you cannot translate the sentence without the word" — true, and the
+    English still hands over the form the drill tests, which is the owner's bar. Reworded
+    without the word: `___ is the capital of Croatia.`, `He runs in the park.`, `I am
+online.`, `the German chancellor`, `the British capital`, `a movie`, `the computer`,
+    `Mrs K.`. (5) `wordplayDrill`'s `"Sam sam." Što to znači?` answered `sam sam` was a
+    broken item as well as a leak (the question quoted its own answer); it now asks
+    `Kako se kaže „I am alone”?` and tests the phrase against `samo sam` / `sami smo`.
+  - **Three rules beside the arrow (`glossRule` in `promptCues.ts`)**, each keyed to
+    something a note shares and a translation does not: GLOSS PUNCTUATION — the answer
+    adjacent to `=`, `:`, `—`, `–` or `!`, or after `is` / `take(s)` (+ optional article) /
+    `kažemo`, or before `is`; FORM — the answer whole-word in `en` while another option
+    shares its three-letter prefix (two for a three-letter answer, or `Ana / Anu / Ane`
+    escapes it); DIACRITIC — a lowercase č/ć/đ/š/ž word whole-word in English prose. Scoped
+    to two or more options and an answer of three or more characters, so the clitics, `no`
+    and `m²` are out by construction. The article is admitted after `take(s)` only: after
+    `is` it turned `What is a referendum?` into a "gloss", which is how that boundary was
+    found. **Three of the 60 were outside the rules as first specified** and each widened
+    one edge: `Ana` (prefix length), `takes the instrumental` (the article), `obzirom da is
+nonstandard` (the answer before `is`).
+  - **The exemption is file-scoped and pinned in both directions.** `GLOSS_IS_FEEDBACK`
+    holds `CollocationsGame.tsx`; the test requires every `.en}` render in an exempt file to
+    sit inside an `{answered && (` block (found by `lastIndexOf` AND a paren-depth walk —
+    each clause has its own mutation, because a render inserted after a CLOSED block passes
+    the first and only the second sees it), and requires the scanner with the exemption
+    removed to still flag the file, so an entry over a clean file is stale. `ModeDrill` and
+    `PronunciationContrast` are pinned OUT of the list.
+  - **Mutations, each landing confirmed**: the owner's `žene` item re-injected into
+    `NominativeDrill` fails 1 and names `NominativeDrill.tsx:139 … (rule: gloss)`; a stale
+    exemption over `NominativeDrill` fails 1 ("renders en somewhere"); `CollocationsGame`'s
+    `en` rendered before the first answered block fails 1; rendered after a closed block
+    fails 1 on the depth clause. **Rule knockouts, measured against the PRE-FIX copies of
+    the 23 content files** (the real leaks, not synthetics): full rules 60 of 60; gloss
+    removed → 49 (11 undetected); form removed → 41 (19 undetected); **diacritic removed →
+    60 (0 undetected)**. The diacritic rule catches nothing on this corpus the other two do
+    not — every diacritic-bearing leak was also an `X = gloss` or a form drill. It is kept
+    as a backstop for a note with no punctuation (`slušati glazbu` is that shape, in the
+    exempt file) and is held by two synthetic controls; by this file's own standard that is
+    a clause with a control, not coverage, and it is recorded as such rather than counted.
+  - **A control of mine was wrong and the rule was right.** I wrote `Zagreb is the capital of
+Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary item), and
+    the `X is` clause flagged it. Reading it again: an English sentence naming the answer
+    among four cities is a leak whatever the drill is called. The assertion now says
+    `gloss`. The `internet` boundary is the honest one: over `internet / mobitel / računalo`
+    it is a translation that cannot avoid the word and is not flagged; over its case forms
+    it is a form test the English answers, and the item is fixed.
+  - E2E audit: all 61 replaced `en`/`q` strings grepped against `e2e/` — zero hits. The specs
+    that name these screens navigate to them and assert headings, never the `en` line.
+  - **Not covered, stated**: an answer appearing in the QUESTION's own prose (the cue rule
+    is scoped to parentheticals on purpose — `Vokativ imena „Marko” glasi:` has to name the
+    word); a loanword answer over DIFFERENT-word options where the English cannot avoid it
+    (`internet` over `mobitel`) — the census says one such shape survives, `referendum`, and
+    it is a definition item; a Croatian note inside `tip` on a screen that renders `tip`
+    before the answer — measured for the twelve `ModeDrill` wrappers and
+    `PronunciationContrast` touched here (all render `tip` behind `answered`), not for every
+    screen in the tree.
 - [x] **Sweep 200 — the academic programme's engine: two check forms, typed practice, lesson vocabulary (owner go-ahead, 2026-09-29).**
   - Owner: _"implement your recommendations 1-6"_, after asking for "a class in school".
     Measured: ~12 answered items per lesson, all multiple choice; one check paper; no path
