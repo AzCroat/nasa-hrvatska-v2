@@ -70,7 +70,6 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
 import VerificationGateCard from './VerificationGateCard';
 import SessionCard from './SessionCard';
-import DailyGoalCard from './DailyGoalCard';
 import DailyInputCard from './DailyInputCard';
 import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
@@ -531,12 +530,6 @@ export default function HomeTab({
           if (completeNextStep) nextStepEngine.launch(completeNextStep);
         }}
       />
-
-      {/* ── DAILY XP GOAL — the commitment the user set at onboarding, shown on the
-          live Today tab. Previously only rendered inside HeroSection, which was
-          unmounted on 2026-04-25 and deleted in sweep 136, so the chosen goal was
-          invisible. ── */}
-      <DailyGoalCard xp={st.xp} />
 
       {/* ── TODAY'S INPUT — comprehensible-input spine (Content-Rec #6): the next
           level-appropriate listening + reading in one place, so a daily dose of

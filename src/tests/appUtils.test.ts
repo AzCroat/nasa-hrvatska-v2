@@ -3,8 +3,6 @@ import {
   lvl,
   lXP,
   nXP,
-  getDailyXPGoal,
-  DAILY_XP_GOAL,
   getStreak,
   updateStreak,
   getStreakFreezes,
@@ -123,36 +121,6 @@ describe('nXP — XP width of a level', () => {
   it('nXP(1) equals lXP(2) - lXP(1)', () => {
     // This holds specifically for level 1
     expect(nXP(1)).toBe(lXP(2) - lXP(1));
-  });
-});
-
-// ─── getDailyXPGoal ───────────────────────────────────────────────────────────
-
-describe('getDailyXPGoal', () => {
-  it('returns DAILY_XP_GOAL (50) when nothing is stored', () => {
-    expect(getDailyXPGoal()).toBe(DAILY_XP_GOAL);
-    expect(getDailyXPGoal()).toBe(50);
-  });
-
-  it('returns DAILY_XP_GOAL when stored value is 0', () => {
-    localStorage.setItem('nh_daily_goal_xp', '0');
-    expect(getDailyXPGoal()).toBe(DAILY_XP_GOAL);
-  });
-
-  it('respects a custom positive goal from localStorage', () => {
-    localStorage.setItem('nh_daily_goal_xp', '100');
-    expect(getDailyXPGoal()).toBe(100);
-  });
-
-  it('respects another custom goal value (20)', () => {
-    localStorage.setItem('nh_daily_goal_xp', '20');
-    expect(getDailyXPGoal()).toBe(20);
-  });
-
-  it('returns a positive number in all cases', () => {
-    expect(getDailyXPGoal()).toBeGreaterThan(0);
-    localStorage.setItem('nh_daily_goal_xp', '200');
-    expect(getDailyXPGoal()).toBeGreaterThan(0);
   });
 });
 

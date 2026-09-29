@@ -726,28 +726,6 @@ describe('applyRemoteProgress — additional user settings', () => {
     applyRemoteProgress({ nh_autotts: false }, setters);
     expect(localStorage.getItem('nh_autotts')).toBeNull();
   });
-
-  it('restores nh_daily_goal_xp when local is 0', () => {
-    const setters = makeSetters();
-    applyRemoteProgress({ nh_daily_goal_xp: 100 }, setters);
-    expect(localStorage.getItem('nh_daily_goal_xp')).toBe('100');
-  });
-
-  it('takes the higher of local and remote nh_daily_goal_xp (Math.max)', () => {
-    // remote > local → remote wins
-    localStorage.setItem('nh_daily_goal_xp', '50');
-    const setters = makeSetters();
-    applyRemoteProgress({ nh_daily_goal_xp: 100 }, setters);
-    expect(localStorage.getItem('nh_daily_goal_xp')).toBe('100');
-  });
-
-  it('does not overwrite local nh_daily_goal_xp when local is higher', () => {
-    // local > remote → local wins
-    localStorage.setItem('nh_daily_goal_xp', '150');
-    const setters = makeSetters();
-    applyRemoteProgress({ nh_daily_goal_xp: 100 }, setters);
-    expect(localStorage.getItem('nh_daily_goal_xp')).toBe('150');
-  });
 });
 
 // ── Journey milestones merge ──────────────────────────────────────────────────
