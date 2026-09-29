@@ -13782,3 +13782,37 @@ Croatia.` over `Zagreb / Split / Rijeka / Osijek` as a NEGATIVE (a vocabulary it
     duplicate each other; RegisterDrill and SubordinationDrill ask in English).
   - Lint 0 findings across 482 files; full suite green on the merged branch; item
     structure unchanged (ids, modes, four options, answer among them).
+- [x] **Sweep 215 — the four drill questions the reviewers left open, decided (owner, 2026-09-29).**
+      _"Verify tips. If drill is misplaced remove or place in proper CEFR level, two drills that
+      repeat are not needed either merge or choose best for learner."_
+  - **`ždrijebe → ždrebeta`** is correct. The oblique cases shorten the yat
+    (ždrijebe, ždrebeta, ždrebetu). Left as it is.
+  - **Tips checked and corrected:**
+    - `nad grad` taught nad + accusative as the only form. It is the form for DIRECTION,
+      and the tip now gives the instrumental for location (`nad gradom`) beside it.
+    - `zapozorje` could not be attested as a coinage, so the item is now `sučelje`
+      (interface), a coinage that took hold.
+    - `brzoglas` was dated to NDH purism. The date is not safe; what matters is that it
+      failed, and the tip now says that.
+    - `popita` was a distractor, but it is heard beside `popijena`. It is now `popijela`.
+    - Three unverifiable statistics in `dialectsDeepDrill` ("about half speak non-standard
+      at home", "almost nobody speaks only one variety", čakavian = `bil`) were replaced
+      with claims that are true as stated: where the standard is used, code-switching is
+      ordinary, and many čakavian varieties keep `bil` while some southern ones say `bija`.
+    - Kept: tourism at about a fifth of GDP (the commonly cited figure), kajkavian loans
+      from German and Hungarian, `knjižurina`.
+  - **CliticDrill is B2 everywhere except one place.** The pool, the grammar track and
+    `categoryRoutes` all place it at B2, but the Practice-tab catalogue said `B1+`. The
+    catalogue now says B2. A2 learners already reach clitics through `objekt`
+    (`CATEGORY_EASIER_SCREEN.clitics`).
+  - **AnimateAccDrill is retired; AccusativeDrill is kept.** AccusativeDrill is the A1
+    foundation and already drills the animate/inanimate contrast (brata, psa, prijatelja,
+    sina, oca, konja against stol, auto, film, ključ, kaput). About a third of
+    AnimateAccDrill's 50 answers are the same words.
+    - Removed: the route, the route key, the pool entry, the catalogue card, the places
+      map, the difficulty row, the tab map, the lint target and the tests of the file.
+    - KEPT: the `exerciseRegistry` row. `distinctExercisesDone` counts `vs` keys that are
+      registry keys, so a learner who finished it keeps that badge credit. The
+      exercise-contract doc records this.
+    - Lint coverage is 482 → 481.
+  - Full suite 682 files green; lint 0 findings.
