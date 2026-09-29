@@ -95,7 +95,9 @@ export function assessFocusFlagged(wordScores, focus) {
   );
   if (!w) return true;
   if (w.error === 'Omission' || w.error === 'Mispronunciation') return true;
-  return !(typeof w.score === 'number' && w.score >= ASSESS_UNCLEAR_BELOW);
+  // No score is no measurement: judged by the miscue verdict alone, as the client does.
+  if (typeof w.score !== 'number') return false;
+  return w.score < ASSESS_UNCLEAR_BELOW;
 }
 
 /** Max acceptable word-error rate per sample. Synthetic studio-clean audio

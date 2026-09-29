@@ -179,3 +179,87 @@ describe('no recognisable speech', () => {
     expect(f.message).toMatch(/transcribe the recording/);
   });
 });
+
+// ── The REST answer is flat, and a Croatian reference must not crash the header ──
+// First calibration run, 2026-09-29: every word scored 0 (the parser read the SDK's
+// nested shape) and `Živim u Zagrebu` threw in btoa() (Latin-1 only).
+import { parseAzureResponse, utf8Base64 } from '../../functions/api/pronunciation-assess.js';
+import { checkedWords } from '../lib/spokenCheck';
+
+describe('Azure REST shape and Croatian references', () => {
+  it('reads the flat REST scores and ErrorType', () => {
+    const p = parseAzureResponse({
+      NBest: [
+        {
+          Display: 'Imam sestra.',
+          AccuracyScore: 72,
+          PronScore: 70,
+          FluencyScore: 90,
+          CompletenessScore: 100,
+          Words: [
+            {
+              Word: 'imam',
+              AccuracyScore: 96,
+              ErrorType: 'None',
+              Phonemes: [{ Phoneme: 'i', AccuracyScore: 99 }],
+            },
+            { Word: 'sestru', AccuracyScore: 31, ErrorType: 'Mispronunciation' },
+          ],
+        },
+      ],
+    });
+    expect(p.overall).toBe(70);
+    expect(p.word_scores.map((w) => [w.score, w.error])).toEqual([
+      [96, 'None'],
+      [31, 'Mispronunciation'],
+    ]);
+    expect(p.word_scores[0].phonemes[0].score).toBe(99);
+    expect(p.scored).toBe(true);
+  });
+
+  it('an absent score is null, and the client does not call that word unclear', () => {
+    const p = parseAzureResponse({
+      NBest: [{ Display: 'Imam sestru.', Words: [{ Word: 'sestru' }] }],
+    });
+    expect(p.word_scores[0].score).toBeNull();
+    expect(p.scored).toBe(false);
+    expect(checkedWords(p.word_scores)[0].status).toBe('good');
+  });
+
+  it('a measured low score still reads as unclear', () => {
+    expect(checkedWords([{ word: 'sestru', score: 20, error: 'None' }])[0].status).toBe('unclear');
+  });
+
+  it('the assessment header encodes Croatian as UTF-8 instead of throwing', () => {
+    const json = JSON.stringify({ ReferenceText: 'Živim u Zagrebu, čekam, đak, šuma, žaba' });
+    const b64 = utf8Base64(json);
+    const back = new TextDecoder().decode(Uint8Array.from(atob(b64), (c) => c.charCodeAt(0)));
+    expect(back).toBe(json);
+  });
+
+  it('the handler survives a reference with diacritics', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (_u, init) => {
+        expect(() => atob(init.headers['Pronunciation-Assessment'])).not.toThrow();
+        return new Response(
+          JSON.stringify({
+            RecognitionStatus: 'Success',
+            NBest: [{ Display: 'Živim u Zagrebu.', Words: [] }],
+          }),
+          { status: 200 },
+        );
+      }),
+    );
+    const request = new Request('https://x/api/pronunciation-assess', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ audioBase64: 'eA==', referenceText: 'Živim u Zagrebu.' }),
+    });
+    const res = await onRequestPost({
+      request,
+      env: { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope' },
+    });
+    expect(res.status).toBe(200);
+  });
+});

@@ -140,6 +140,9 @@ async function assessProbe(env, kv, probe) {
     return {
       evaluated: true,
       recognized: out.parsed.recognized,
+      // Whether Azure scored this take at all; false means the verdict rests on the
+      // miscue flag alone (see parseAzureResponse).
+      scored: out.parsed.scored,
       focus: focusWord || null,
       flagged: assessFocusFlagged(out.parsed.word_scores, probe.focus),
     };
