@@ -137,7 +137,7 @@ export function buildProgressSnapshot({
     nh_level: lsGet('nh_level') || '',
     nh_goal: lsGet('nh_goal') || '',
     nh_culture: lsGet('nh_culture') || '',
-    nh_placement_done: lsGet('nh_placement_done') === 'true' || lsGet('placement_done') === 'true',
+    nh_placement_done: lsGet('nh_placement_done') === 'true',
     // ONE KEY, TWO SHAPES — and the flag was the wrong one. GrammarTrackScreen
     // writes a JSON ARRAY of completed unit ids here (`PROGRESS_KEY + 'done'`),
     // 51 units across six levels; this line read the same key as a boolean, so
