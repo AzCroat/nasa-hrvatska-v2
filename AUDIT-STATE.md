@@ -14078,3 +14078,57 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Pinned by `correct.integration.test.js`, which drives the real handler.
     Mutation-verified: the filter removed fails 1.
   - The next calibration run re-measures the golden set against the new prompt version.
+- [x] **Sweep 216 — Keep Learning replaces the Stretch: after the session, review what is
+      not proven, with no end screen (owner reports and decisions, 2026-09-29).** Owner:
+      _"I just completed the Daily Session, why isn't there prompts to have me work on my
+      weak points of Croatian?"_, then _"I don't like stretch design, its not guiding the
+      learner to keep learning"_, then _"not try to teach new concepts but review those
+      that the learner has not proven mastery."_
+  - **Measured first, with the real hook** (throwaway probe, deleted): the hypothesis that
+    an empty candidate list silently became "Day Complete" is FALSE in every realistic
+    early-course state — Unit 1 new, Unit 1 with 2–3 passed, Units 2, 3, 7, 13, 25, 36, no
+    spine, with and without ledger evidence or due words, at XP A1, B1 and C1: a Stretch was
+    built every time (1 or 2 owed). What WAS wrong is what it held. A learner with B2 history
+    whom the course started at Unit 1 (speaking scored 45%, listening 50%, genitive 40%) got a
+    Stretch with ZERO measured items — `speaking_guided`, `listening_comprehension`,
+    `flashcards`, `mcgame`, under reasons like "Every session includes one activity…". The
+    ledger was read at the COURSE level (A1) only, where that learner has no cells; the
+    weak categories were correctly excluded as untaught; the due words were already spent by
+    the core. And the path drills said "what today's lesson taught" of lessons read on other
+    days. So the owner met a Stretch that did not look like weak-point work, then "Day
+    Complete!".
+  - **The design as built** (`src/lib/keepLearning.ts`, `git mv` of `stretchSession.ts`): one
+    new lesson a day stays in the core; after it, KEEP LEARNING · Unit N — blocks of about
+    four, appended as each finishes, no target and no terminal state. Order: (1) a failed
+    check's lesson as its drill (or its due missed items), (2) Lesson Review, (3) shaky and due
+    concepts (easier route when locked) then measured weak taught categories, (4) passed-not-
+    retained lessons and units, (5) due words, (6) the weakest measured production/receptive
+    skill read across every ledger level (`ledgerEvidenceLevels`), (7) only when nothing is
+    unproven: the fluency round, then guided speaking and writing, which always serve.
+    Progress line from the same concept map. `getNextStep` names block items "Keep learning —
+    …", and after the core its course rung offers no new lesson. Plans written by the Stretch
+    build migrate (`migrateStretchPlan`).
+  - **The credit-matching trap**: `markDone` took the first activity with the id or screen,
+    finished or not, so a second Word Review, Lesson Review or `writing_guided` in a day would
+    have credited nothing; the SRS auto-skip looked only at the first `review`. Both now take
+    the first UNFINISHED match (id, then screen); Home launches only the first unfinished
+    activity, so the credited one is the launched one.
+  - **Measured after** (same probe): the veteran's first blocks hold Unit-1 drills "Unit 1 is
+    passed; its check-up has not confirmed it stayed yet.", then "Speaking is the skill your
+    practice says needs the most work." (from the B2 cell); a brand-new learner gets guided
+    speaking and writing; every state ran eight blocks with nothing untaught, no lesson and
+    no terminal state.
+  - Mutation-verified, ten (five suites, 114 tests): first-match markDone fails 2; ledger at
+    course level only fails 3; a failed lesson re-served as the lesson fails 1; words ranked
+    above failed lessons fails 1; a cap at block 3 fails 11; `isComplete` = core complete
+    fails 11 (the `index === 0` spelling is EQUIVALENT — the extension is synchronous —
+    recorded, not hidden); the auto-skip on the first review fails 1; the course rung offering
+    a lesson after the session fails 1; the progress line ignoring unretained units fails 1;
+    tier 7 always offered fails 1. Full suite 684 files green; tsc and eslint clean;
+    `keep-learning.spec.js`, `home`, `course-walk`, `course-map`, `sp4b` and `practice` specs
+    pass in Chrome against a production build.
+  - **Stated gaps**: a measured weak category that the course has not yet taught is still not
+    served (the taught-only rule — a veteran's genitive weakness waits for the genitive
+    lesson); Lesson Review serves at most its queue caps per sitting, so a large backlog
+    recurs block after block by design; the next-step pill shown on an exercise screen still
+    reads the plan before Home has applied that completion (pre-existing).

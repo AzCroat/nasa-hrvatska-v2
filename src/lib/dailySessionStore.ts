@@ -28,12 +28,12 @@ export interface SessionActivity {
    */
   reason?: string;
   /**
-   * Which Stretch this activity belongs to (1..STRETCH_MAX); absent on the core
-   * session's own activities. The Stretch (redesign increment 6) lives in this
-   * same array so every mechanism keyed on it — the launch handshake, markDone,
-   * the SRS auto-skip, the next-step engine — works unchanged. See lib/stretchSession.
+   * Which Keep Learning block this activity belongs to (1, 2, …, no end); absent on
+   * the core session's own activities. The blocks live in this same array so every
+   * mechanism keyed on it — the launch handshake, markDone, the SRS auto-skip, the
+   * next-step engine — works unchanged. See lib/keepLearning.
    */
-  stretch?: number;
+  keep?: number;
 }
 
 export interface DailySession {
@@ -59,13 +59,6 @@ export interface DailySession {
    * nothing: honest, and what a missing reason has always meant here.
    */
   planReason?: string;
-  /**
-   * How many Stretch sessions the day owes after the core — decided ONCE, when
-   * the core completes, from the evidence the app holds at that moment (floor 1,
-   * cap 3; lib/stretchSession). Absent until then, and on plans written before
-   * the Stretch existed, which reads as "not yet decided".
-   */
-  stretchTarget?: number;
   activities: SessionActivity[];
   completedIds: string[];
   estimatedMinutes: number;
@@ -117,10 +110,30 @@ export function loadPersistedSession(): DailySession | null {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DailySession;
-    return parsed.date === localDateStr() ? parsed : null;
+    return parsed.date === localDateStr() ? migrateStretchPlan(parsed) : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * A plan written by the Stretch build (2026-09-28/29) carries `stretch: k` tags and
+ * a `stretchTarget`. Read the tags as Keep Learning blocks, so a learner mid-Stretch
+ * today does not see those activities folded back into the core session.
+ */
+export function migrateStretchPlan(session: DailySession): DailySession {
+  type Legacy = SessionActivity & { stretch?: number };
+  const legacy = session as DailySession & { stretchTarget?: number };
+  const tagged = (session.activities as Legacy[]).some((a) => a.stretch !== undefined);
+  if (!tagged && legacy.stretchTarget === undefined) return session;
+  const rest: DailySession & { stretchTarget?: number } = { ...legacy };
+  delete rest.stretchTarget;
+  return {
+    ...rest,
+    activities: (session.activities as Legacy[]).map(({ stretch, ...plain }) =>
+      stretch === undefined ? plain : { ...plain, keep: stretch },
+    ),
+  };
 }
 
 export function persistSession(session: DailySession): void {

@@ -46,6 +46,7 @@ import {
   type SessionActivity,
 } from '../hooks/useDailySession.js';
 import { localDateStr } from './dateUtils.js';
+import { migrateStretchPlan } from './dailySessionStore';
 import { nextCourseStep, type CourseStep } from './courseStep';
 import type { ProductionKind } from './unitProduction';
 
@@ -95,7 +96,7 @@ function readTodaySession(): DailySession | null {
     const parsed = JSON.parse(raw) as DailySession;
     if (!parsed || parsed.date !== localDateStr()) return null;
     if (!Array.isArray(parsed.activities) || !Array.isArray(parsed.completedIds)) return null;
-    return parsed;
+    return migrateStretchPlan(parsed);
   } catch {
     return null;
   }
@@ -192,21 +193,27 @@ export function getNextStep(opts: {
     );
     if (next) {
       const done = session.completedIds.length;
-      // A Stretch activity (redesign increment 6) is named as one: the core is
-      // done and the plan has grown, so "continue today's session" would read as
-      // the app forgetting the learner finished it.
-      const stretch = next.stretch;
+      // A Keep Learning item (sweep 216) is named as one: the core is done and the
+      // plan has grown, so "continue today's session" would read as the app
+      // forgetting the learner finished it. Its own reason is the honest one.
+      if (next.keep !== undefined) {
+        return {
+          kind: 'session',
+          screen: next.screen,
+          category: next.category,
+          activityId: next.id,
+          label: `Keep learning — ${next.label}`,
+          reason:
+            next.reason ?? 'Today’s session is done — this reviews what you have not proven yet.',
+        };
+      }
       return {
         kind: 'session',
         screen: next.screen,
         category: next.category,
         activityId: next.id,
-        label: stretch
-          ? `Stretch ${stretch}${session.stretchTarget ? ` of ${session.stretchTarget}` : ''} — ${next.label}`
-          : `Continue today's session — ${next.label}`,
-        reason: stretch
-          ? `Core done. ${done} of ${session.activities.length} done today — the stretch is built from your results.`
-          : `${done} of ${session.activities.length} done. Finish the plan, then explore.`,
+        label: `Continue today's session — ${next.label}`,
+        reason: `${done} of ${session.activities.length} done. Finish the plan, then explore.`,
       };
     }
   }
@@ -258,9 +265,18 @@ export function getNextStep(opts: {
   // the "bounces around" the owner reported. It reads `nextCourseStep`, the same
   // sequencer Home's teaching slot and the course map read, so the three cannot
   // disagree. Below SRS and the lesson re-checks, which are time-sensitive decay.
+  // After today's core session, no NEW lesson (owner, 2026-09-29: "not try to teach
+  // new concepts but review those that the learner has not proven mastery") — the
+  // course still offers what PROVES a unit (its test, production, a check-up).
   try {
     const c = nextCourseStep();
-    if (c) return courseNextStep(c);
+    const coreDone =
+      !!session &&
+      session.activities.some((a) => a.keep === undefined) &&
+      session.activities
+        .filter((a) => a.keep === undefined)
+        .every((a) => session.completedIds.includes(a.id));
+    if (c && !(coreDone && c.kind === 'lesson')) return courseNextStep(c);
   } catch {
     /* course data unreadable — fall through */
   }

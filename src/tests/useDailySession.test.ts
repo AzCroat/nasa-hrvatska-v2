@@ -255,40 +255,34 @@ describe('useDailySession — rotation memory + completion (hook)', () => {
     expect(recent).toContain(first.screen);
   });
 
-  it('REGRESSION (bug #1): completing every activity reaches a real, visible complete state — it does NOT silently auto-regenerate', () => {
-    // The session used to rebuild itself the instant the last activity was done,
-    // erasing the "Session Complete!" moment and making it feel endless. The
-    // complete state must now persist so the celebration + next-steps render.
-    //
-    // THE STRETCH (redesign increment 6, 2026-09-28) changed what "every
-    // activity" means: finishing the CORE grows the plan by one evidence-set
-    // Stretch (never fewer than one), and the day completes only when the last
-    // owed Stretch is done. So this test finishes the core, asserts the Stretch
-    // appeared instead of the complete state, then finishes every Stretch it is
-    // handed. The property it guards — a real, persisting complete state with no
-    // silent regeneration — is unchanged.
+  it('REGRESSION (bug #1): finishing the core never silently regenerates it — and there is no terminal state (sweep 216)', () => {
+    // The session used to rebuild itself the instant the last activity was done.
+    // It must not: the core stays finished and visible. KEEP LEARNING (owner
+    // decision, 2026-09-29) replaced the Stretch's "Day Complete": finishing the
+    // core appends a review block, finishing that appends the next, and nothing
+    // ever reads as complete. The finished core is still there, still finished.
     const { result } = renderHook(() => useDailySession('A2'));
     const coreIds = result.current.session.activities.map((a) => a.id);
     expect(coreIds.length).toBeGreaterThan(0);
     act(() => {
       coreIds.forEach((id) => result.current.markDone(id));
     });
-    expect(result.current.stretch.coreComplete).toBe(true);
+    expect(result.current.keep.coreComplete).toBe(true);
     expect(result.current.isComplete).toBe(false);
-    expect(result.current.stretch.index).toBe(1);
-    expect(result.current.session.activities.length).toBeGreaterThan(coreIds.length);
-    for (let guard = 0; guard < 4 && !result.current.isComplete; guard++) {
+    expect(result.current.keep.index).toBe(1);
+    for (let guard = 0; guard < 4; guard++) {
       const open = result.current.session.activities
         .filter((a) => !result.current.session.completedIds.includes(a.id))
         .map((a) => a.id);
+      expect(open.length, `block ${guard + 1} holds something`).toBeGreaterThan(0);
       act(() => {
         open.forEach((id) => result.current.markDone(id));
       });
+      expect(result.current.isComplete).toBe(false);
     }
-    expect(result.current.isComplete).toBe(true);
-    expect(result.current.progress).toBe(1);
-    // Bonus next-steps surface only once complete.
-    expect(result.current.bonusActivities.length).toBeGreaterThan(0);
+    expect(result.current.keep.index).toBe(5);
+    // The core is untouched: the same ids, all still finished.
+    expect(coreIds.every((id) => result.current.session.completedIds.includes(id))).toBe(true);
   });
 
   it('completing a production activity records it for recency rotation; the rep COUNT now lives in useAward (Rec #6)', () => {
@@ -321,17 +315,10 @@ describe('useDailySession — rotation memory + completion (hook)', () => {
 
   it('startFreshSession builds a new non-empty set on demand (the explicit "keep going" path)', () => {
     const { result } = renderHook(() => useDailySession('A2'));
-    // Finish the core and every Stretch the day owes (increment 6 — see the
-    // regression test above for why the core alone no longer completes it).
-    for (let guard = 0; guard < 5 && !result.current.isComplete; guard++) {
-      const open = result.current.session.activities
-        .filter((a) => !result.current.session.completedIds.includes(a.id))
-        .map((a) => a.id);
-      act(() => {
-        open.forEach((id) => result.current.markDone(id));
-      });
-    }
-    expect(result.current.isComplete).toBe(true);
+    const coreIds = result.current.session.activities.map((a) => a.id);
+    act(() => {
+      coreIds.forEach((id) => result.current.markDone(id));
+    });
     act(() => {
       result.current.startFreshSession();
     });

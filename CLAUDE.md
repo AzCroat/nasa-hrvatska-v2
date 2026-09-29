@@ -4624,9 +4624,9 @@ paper; a lesson's own words never reached review.
   round over check items from PASSED lessons only (held ones first, interleaved), reporting
   correct answers per minute and a personal best (`nh_fluency_best`, local). Not a test:
   nothing about the course moves on it; a miss becomes a Lesson Review card (never a ladder
-  move). Offered as a rank-1 measured Stretch candidate from three passed lessons, reason
-  stating the count; lesson days have no free core slot, which is why the Stretch is its
-  door. Pays `min(20, correct)` once from an effect on reaching the result; an empty round
+  move). Offered from three passed lessons as a tier-7 Keep Learning item (sweep 216 — once
+  nothing unproven remains), reason stating the count; lesson days have no free core slot,
+  which is why Keep Learning is its door. Pays `min(20, correct)` once from an effect on reaching the result; an empty round
   pays nothing. Pinned by `fluencyRound.test.tsx`; mutation-verified, four.
 - NEVER: retake a failed check on the same paper when a form B exists; judge a typed
   answer by edit distance; accept a missing diacritic as right; file a form-B item under a
@@ -4768,54 +4768,58 @@ listening and never submits), and `/api/speaking-coach` grades the transcript.
   the microphone; parse a produce id without the kind-less 2a fallback while any
   persisted session may still carry one.
 
-### Increment 6 — the Stretch: a finished session is not a finished day (owner report, 2026-09-28)
+### Increment 6 — Keep Learning: a finished session leads into review, never to an end screen (owner decisions, 2026-09-28 → 2026-09-29)
 
-Owner: _"Users, like my son, often complete the daily session, and without further
-prompting or guidance, feel they have completed enough studying. 30 minutes a day isn't
-likely enough for a kid who has moved to Croatia."_ Measured on Home at completion: every
-meter said 100% (`DAILY_XP_GOAL` is what the session pays), the card said "Session
-Complete! 🎉", and the engine's one next step was a pill after a five-slot session.
+Owner, 2026-09-28: _"Users, like my son, often complete the daily session, and without
+further prompting or guidance, feel they have completed enough studying."_ The first
+answer was the Stretch — a second evidence-set session, floor 1, cap 3, then "Day
+Complete!". Owner, 2026-09-29: _"I don't like stretch design, its not guiding the learner
+to keep learning. We need to keep users engaged do we not?"_ — then, on what the extra time
+is for: _"I think we need to not try to teach new concepts but review those that the
+learner has not proven mastery."_ **Keep Learning replaced the Stretch** (`src/lib/keepLearning.ts`,
+AUDIT-STATE sweep 216).
 
-- **THE BAR IS THE APP'S, NOT THE LEARNER'S.** A 30/60/90-minute preset picker was
-  proposed and REJECTED — _"if they are unmotivated they may select what is easy. We
-  should assume you are using the application to become fluent."_ Done-for-today is the
-  core session plus every Stretch the evidence justifies: `clamp(ceil(measured / 4), 1, 3)`
-  (`src/lib/stretchSession.ts`), decided ONCE when the core completes. Time is never the
-  goal shown; the card counts sessions.
-- **A STRETCH IS A SECOND GUIDED SESSION** — four activities, offered as the Home hero
-  ("STRETCH 1 OF 2 · Begin Stretch 1 of 2", `stretch-hero`) with the core collapsed to one
-  done chip, the hero-only directive intact; the complete card ("Day Complete!") renders
-  only at the bar. `getNextStep`'s rung 2 names a Stretch activity as one.
-- **ONLY MEASURED EVIDENCE IS CALLED EVIDENCE.** Word reviews due, lesson re-checks and
-  missed items, concept-map `shaky`/`due` lessons routed to their coupled drill (the
-  EASIER route when the primary is locked — pinned by a test that FINDS such a lesson in
-  the spine rather than naming one), the ledger's weakest production/receptive skill when it
-  has a verdict, adaptive categories MEASURED below the pass mark among taught categories.
-  Each carries the reason its slot machinery already writes ("Your Genitive check: 2 of
-  6."). A learner with nothing measured owes one Stretch from the path ahead, whose reasons
-  state the guarantee and never a number. **Never a lesson** (the course gate is untouched),
-  never a browse entry. **Ties resolve toward speaking and listening**, for everyone, inside
-  the rank — a measured weakness still outranks the tie.
-- **IT LIVES IN THE SAME `activities` ARRAY, tagged `stretch: k`**, so the launch
-  handshake, `markDone`, the SRS auto-skip, the produce credit, the invalidation and the
-  engine all work unchanged. The consequence: `markDone` matches the FIRST activity with a
-  screen, so **a screen appears once per day** — every Stretch excludes every screen already
-  in the plan (pinned in the module and the hook tests and the E2E).
-- **`isComplete` is `stretch.complete`**, and `markDone` appends the next Stretch
-  SYNCHRONOUSLY so the card never renders a finished core as a finished day; the settle
-  effect covers the tap-less paths and a plan persisted before the Stretch existed. The
-  `nh_session_history` calendar still records the CORE session.
-- **The 800-line cap held**: `readMicState` / `getRecentProduction` /
-  `recordProductionExercise` moved to `src/lib/productionRecency.ts` (re-exported by the
-  hook); `selectProduction`/`selectGrammar` are INJECTED into the module because they live
-  in the hook, which imports it.
-- Measured with a seeded probe (no evidence → 1 Stretch, all path, spoken first; one weak
-  skill → 1, that skill leads; four shaky lessons + reviews → 2, the first 100% measured),
-  driven in a real browser (`e2e/stretch-session.spec.js`), mutation-verified ten ways —
-  nine fail 1–8, and one is EQUIVALENT in steady state (`isComplete` back to all-done, only
-  because the extension is synchronous), recorded rather than hidden. The mutation harness
-  itself printed nothing on its first run: zsh does not word-split `$SUITES`, so vitest ran
-  no files — caught because the BASELINE printed nothing too.
+- **ONE NEW LESSON A DAY, STILL.** P0 in the core session is unchanged, and so is the core's
+  composition and `nh_session_history` (it records the CORE). After the core, Home's hero is
+  KEEP LEARNING · Unit N (`keep-learning-hero`, `keep-core-chip` "✓ Today's session done",
+  one Continue button, `keep-progress` "N concepts still to prove in Unit N"). A block holds
+  about four items (`KEEP_BLOCK_LENGTH`); finishing it appends the next at once. **There is no
+  target, no last block and no "Day Complete" card** — `isComplete` is true only if a finished
+  core could not be followed, which tier 7 makes unreachable.
+- **ONLY TAUGHT MATERIAL NOT YET PROVEN, in the owner's order**: (1) a lesson whose latest real
+  check failed (`notpassed`) as its coupled drill, or its missed items in Lesson Review; (2)
+  open missed items and due re-checks; (3) `shaky` and `due` concepts as their drill (the
+  EASIER route when the primary is locked above the course level), then adaptive categories
+  measured below the pass mark among TAUGHT categories; (4) passed-not-retained lessons
+  (`passed`) and units (advanced, check-ups not yet held) as their drills; (5) SRS words due;
+  (6) the weakest MEASURED production or receptive skill, done at the course level; (7) only
+  when nothing above remains — the fluency round, then guided speaking and writing, which
+  always serve and repeat. Never a lesson, a unit test or a check: a closed check
+  (`checkLock`) is served as its drill only, and its missed items are not due until tomorrow,
+  which is what the lock promises.
+- **A LEDGER VERDICT AT ANOTHER LEVEL IS STILL A VERDICT** (`ledgerEvidenceLevels`). One path
+  from Unit 1 means a learner with B2 history stands on A1 units while every production and
+  comprehension measurement sits in B2 cells; asking only the course level reported nothing
+  measured for a learner the ledger scored at 45% in speaking (measured with the real hook,
+  sweep 216 — the Stretch served them the path ahead). The activity is served at the course
+  level; its reason is written from the cell that holds the verdict.
+- **CREDIT MATCHES THE FIRST UNFINISHED ACTIVITY, BY ID THEN BY SCREEN.** Lesson Review, Word
+  Review and guided production recur (their ids carry the block number), and a core
+  activity's id can equal a screen name (`writing_guided`). `markDone` used to take the FIRST
+  activity with that id or screen, finished or not, and credited nothing for the second one;
+  the SRS auto-skip likewise looked only at the first `review`. Home launches only the first
+  unfinished activity, so the first unfinished one with the returning screen is the one that
+  was launched. A concept's drill is once a day (`keep_drill_<lesson>`): doing a drill does
+  not move the concept map, so re-serving it would be the same prompt for ever.
+- **`getNextStep` agrees**: rung 2 names a block item "Keep learning — <label>" with the item's
+  own reason, and once today's core is done the course rung offers no NEW lesson (a unit test,
+  production or check-up still). A plan written by the Stretch build is read through
+  `migrateStretchPlan` (`stretch: k` → `keep: k`, `stretchTarget` dropped) in both readers.
+- Pinned by `keepLearning.test.ts` (the order, the easier route, the cross-level verdict, tier 7,
+  the closed check, ten realistic learners driven through the real hook to eight blocks with
+  no terminal state and nothing untaught, and both repeated-screen credit cases),
+  `SessionCard.test.tsx`, `nextStep.test.ts`, `nextStepCourseRung.test.tsx` and
+  `e2e/keep-learning.spec.js`.
 - **`DailyGoalCard` AND BOTH TIME-COMMITMENT ONBOARDING STEPS ARE GONE (owner decision,
   2026-09-29).** The card drew XP against a target the learner CHOSE at onboarding (5/15/30
   minutes in the goal modal; 5–20 on the Welcome page, which gated Start) and turned green
@@ -4836,10 +4840,12 @@ Complete! 🎉", and the engine's one next step was a pill after a five-slot ses
   Practice tab and deck follow the COURSE level as the next increment. NEVER put a test in
   front of a learner before the first lesson; NEVER re-add a timer that routes a new learner
   anywhere but the course.
-- NEVER: let a learner choose the bar; count the core session as the day; put a Stretch
-  activity on a screen already in the plan; build a `curriculum_<lesson>` activity in a
-  Stretch; call a path-ahead activity "measured"; let a tie outrank a verdict; decide the
-  target more than once a day; raise the 800-line cap to keep the recency block in the hook.
+- NEVER: let a learner choose the bar; render a "Day Complete" or any terminal state after the
+  core session; serve a lesson, a unit test or a check in Keep Learning (one new lesson a day,
+  in the core); serve untaught material; re-open a check `checkLock` has closed; call an item
+  "measured" the stores do not measure; read the ledger at the course level only; credit a
+  repeated screen to the first activity that has it rather than the first UNFINISHED one;
+  re-serve a concept's drill the same day; raise the 800-line cap to keep a block in the hook.
 
 ## Critical Architecture: A Hook After An Early Return Is A Crash Waiting For The Second Render (owner's Sentry report, 2026-09-28)
 

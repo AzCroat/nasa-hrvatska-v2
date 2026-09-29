@@ -274,7 +274,7 @@ export default function HomeTab({
     tomorrowLabel,
     bonusActivities,
     startFreshSession,
-    stretch,
+    keep,
   } = useDailySession(userCefr, poolWords);
   const dueCount = getServableReviewCount(poolWords);
   // THE CONSTANT PROMPT (owner directive, 2026-08-17): when the session is
@@ -524,7 +524,7 @@ export default function HomeTab({
           }
         }}
         onStartFresh={startFreshSession}
-        stretch={stretch}
+        keep={keep}
         nextStep={completeNextStep}
         onNextStart={() => {
           if (completeNextStep) nextStepEngine.launch(completeNextStep);
