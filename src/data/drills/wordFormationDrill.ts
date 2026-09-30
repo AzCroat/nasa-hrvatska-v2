@@ -214,11 +214,11 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razlaganje',
-    q: 'Koji se spojnik rabi u složenicama?',
-    en: 'Which linking vowel joins compounds?',
+    q: 'Koji je najčešći spojnik u složenicama?',
+    en: 'Which linking vowel most often joins compounds?',
     opts: ['-o-', '-a-', '-e-', '-i-'],
     answer: '-o-',
-    tip: 'vod-o-vod, zrak-o-plov, rukopis. The -o- is the standard joint.',
+    tip: 'vod-o-vod, zrak-o-plov, ruk-o-pis. The -o- is the standard joint; -e- appears after some soft consonants (kućevlasnik).',
   },
   {
     mode: 'razlaganje',

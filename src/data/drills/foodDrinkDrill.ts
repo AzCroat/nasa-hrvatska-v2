@@ -142,7 +142,7 @@ export const FOOD_DRINK_DRILL_DATA: ModeDrillItem[] = [
     mode: 'padez',
     q: 'Jedem ____. (riba)',
     en: 'I am eating fish.',
-    opts: ['ribu', 'ribe', 'riba', 'ribom'],
+    opts: ['ribu', 'ribi', 'riba', 'ribom'],
     answer: 'ribu',
     tip: 'Accusative: jedem ribu.',
   },

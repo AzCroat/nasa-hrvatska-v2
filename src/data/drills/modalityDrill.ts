@@ -233,7 +233,7 @@ export const MODALITY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'trebati',
     q: 'Trebalo ____ to učiniti ranije.',
     en: 'That should have been done earlier.',
-    opts: ['je', 'su', 'bi', 'će'],
+    opts: ['je', 'su', 'smo', 'će'],
     answer: 'je',
     tip: 'The impersonal past: trebalo je — and it names nobody who failed to.',
   },

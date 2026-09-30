@@ -200,9 +200,9 @@ export const INFINITIVE_DA_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izbor',
-    q: 'Počeo je ____.',
+    q: 'Počela je ____ kiša.',
     en: 'It started raining.',
-    opts: ['padati', 'padao', 'pada', 'da padne'],
+    opts: ['padati', 'padala', 'pada', 'da padne'],
     answer: 'padati',
     tip: 'Phase verbs (početi, prestati, nastaviti) take the infinitive.',
   },

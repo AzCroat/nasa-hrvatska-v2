@@ -78,15 +78,15 @@ export const PHRASEOLOGY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'poslovice',
-    q: 'Što znači "Tiha voda brijege dere"?',
+    q: 'Što znači "Tiha voda brege dere"?',
     en: 'What does it mean?',
     opts: [
-      'tihi su najustrajniji',
+      'mirni ljudi kriju neočekivanu snagu',
       'voda je opasna',
       'strpljenje se isplati',
       'polako se ide daleko',
     ],
-    answer: 'tihi su najustrajniji',
+    answer: 'mirni ljudi kriju neočekivanu snagu',
     tip: 'The quiet one to watch — usually said about a person.',
   },
   {

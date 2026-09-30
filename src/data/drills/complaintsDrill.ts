@@ -77,7 +77,7 @@ export const COMPLAINTS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'kvar',
     q: 'Ovo nije ____ što sam naručio.',
     en: 'This is not what I ordered.',
-    opts: ['ono', 'tako', 'onaj', 'koje'],
+    opts: ['ono', 'tako', 'onoga', 'koje'],
     answer: 'ono',
     tip: 'ono što — "the thing that". A B1 staple well beyond complaints.',
   },

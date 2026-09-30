@@ -55,7 +55,7 @@ const DATA = [
   {
     mode: 'sklonidba',
     q: 'Genitiv jednine imenice „ždrijebe” glasi:',
-    opts: ['ždrebeta', 'ždrijeba', 'ždrebena', 'ždrijebeta bez kraćenja'],
+    opts: ['ždrebeta', 'ždrijeba', 'ždrebena', 'ždrijebeta'],
     answer: 'ždrebeta',
     en: 'of the foal',
     tip: 'Ždrijebe → ždrebeta (t-proširak + kraćenje).',
@@ -87,7 +87,7 @@ const DATA = [
   {
     mode: 'mnozina',
     q: 'Genitiv množine imenice „ime” glasi:',
-    opts: ['imena', 'imenā bez duljine', 'imenova', 'imeni'],
+    opts: ['imena', 'imenima', 'imenova', 'imeni'],
     answer: 'imena',
     en: 'of the names',
     tip: 'G mn. = N mn. oblikom: imena (s duljinom u izgovoru).',

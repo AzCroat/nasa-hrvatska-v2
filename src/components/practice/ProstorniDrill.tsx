@@ -182,7 +182,7 @@ const DATA = [
   {
     mode: 'parovi',
     q: 'Vraćam se ____ posla.',
-    opts: ['s', 'sa', 'iz', 'od'],
+    opts: ['s', 'na', 'iz', 'od'],
     answer: 's',
     en: 'I am coming back from work',
     tip: 'Na posao → s posla; „sa” samo ispred s/š/z/ž.',

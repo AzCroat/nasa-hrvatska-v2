@@ -46,10 +46,10 @@ const DATA = [
   },
   {
     mode: 'znacenje',
-    q: 'Plan nije uspio; ____ moramo pokušati ponovno.',
+    q: 'Plan nije uspio; ____ ne odustajemo.',
     opts: ['unatoč tomu', 'naime', 'premda', 'štoviše'],
     answer: 'unatoč tomu',
-    en: 'the plan failed; ___ we must try again',
+    en: 'the plan failed; ___ we are not giving up',
     tip: 'Unatoč tomu = usprkos rečenomu (nevertheless).',
   },
   {
@@ -198,7 +198,7 @@ const DATA = [
   },
   {
     mode: 'formalno',
-    q: 'Razgovorni uvod „što se tiče” u formalnom stilu:',
+    q: 'Uvod „što se tiče” u izrazito formalnom stilu:',
     opts: ['glede', 'kužiš', 'ono', 'ma'],
     answer: 'glede',
     en: 'što se tiče in formal style',

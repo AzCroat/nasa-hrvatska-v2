@@ -127,7 +127,7 @@ export const SPECIALIST_TRANSLATION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nepodudarnosti',
     q: 'Kako se prevodi engleski present perfect?',
     en: 'The English present perfect becomes:',
-    opts: ['perfekt plus prilog', 'prezent', 'aorist', 'pluskvamperfekt'],
+    opts: ['perfekt plus prilog', 'futur drugi', 'aorist', 'pluskvamperfekt'],
     answer: 'perfekt plus prilog',
     tip: 'već, dosad — the adverb carries what the English tense carried.',
   },
@@ -247,7 +247,7 @@ export const SPECIALIST_TRANSLATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'provjera',
     q: 'Tko odlučuje koliko slobode prevoditelj ima?',
-    en: 'What decides the translator freedom?',
+    en: 'What decides how much freedom the translator has?',
     opts: ['nalog', 'izvornik', 'naručitelj uvijek', 'prevoditelj uvijek'],
     answer: 'nalog',
     tip: 'Which is why choosing it first is the whole lesson.',

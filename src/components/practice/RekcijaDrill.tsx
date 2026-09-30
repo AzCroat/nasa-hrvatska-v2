@@ -132,7 +132,7 @@ const DATA = [
   {
     mode: 'dativ',
     q: 'To ne smeta ____. (nitko)',
-    opts: ['nikomu', 'nikoga', 'ni od koga', 'nikim'],
+    opts: ['nikomu', 'nitko', 'ni od koga', 'nikim'],
     answer: 'nikomu',
     en: 'that bothers no one',
     tip: 'Smetati + dativ: smeta komu (nikomu).',
@@ -196,7 +196,7 @@ const DATA = [
   {
     mode: 'prijedlozna',
     q: 'Slažem se ____ vama.',
-    opts: ['s', 'sa', 'na', 'o'],
+    opts: ['s', 'uz', 'na', 'o'],
     answer: 's',
     en: 'I agree with you',
     tip: 'Slagati se S + instrumental; „sa” samo ispred s/š/z/ž.',

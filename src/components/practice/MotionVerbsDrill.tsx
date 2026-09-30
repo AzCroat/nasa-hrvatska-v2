@@ -26,7 +26,7 @@ const DATA = [
     opts: ['Otišla', 'Obišla', 'Ušla', 'Prišla'],
     answer: 'Otišla',
     en: 'She left work at five.',
-    tip: 'ot- = udaljavanje: otići s posla.',
+    tip: 'od- (u otići ot-) = udaljavanje: otići s posla.',
   },
   {
     mode: 'prefiksi',

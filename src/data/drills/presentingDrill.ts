@@ -95,7 +95,7 @@ export const PRESENTING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'otvaranje',
-    q: 'Koji je padež u "svima"?',
+    q: 'Koji je padež "svima" u "Dobar dan svima"?',
     en: 'Which case is svima?',
     opts: ['dativ', 'genitiv', 'lokativ', 'instrumental'],
     answer: 'dativ',

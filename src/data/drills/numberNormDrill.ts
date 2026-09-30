@@ -32,7 +32,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   // ── interpunkcija ─────────────────────────────────────────────────────────
   {
     mode: 'interpunkcija',
-    q: 'Kako se piše tisuću petsto i 75 lipa?',
+    q: 'Kako se brojkama piše "tisuću petsto cijelih sedamdeset pet"?',
     en: '1500.75 in Croatian:',
     opts: ['1.500,75', '1,500.75', '1 500.75', '1500,75 kn.'],
     answer: '1.500,75',

@@ -181,7 +181,7 @@ const DATA = [
     q: 'Otputovala je u Zagreb ____ studija.',
     opts: ['radi', 'iz', 'od', 'kroz'],
     answer: 'radi',
-    en: 'she moved to Zagreb for her studies',
+    en: 'she went to Zagreb for her studies',
     tip: 'Svrha puta → radi studija.',
   },
   {

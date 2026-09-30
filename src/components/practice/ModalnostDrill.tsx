@@ -15,7 +15,7 @@ const DATA = [
   {
     mode: 'pretpostavka',
     q: '„____ da je već stigao.” (zaključujem po svemu)',
-    opts: ['Bit će', 'Hoće', 'Neka', 'Trebat će'],
+    opts: ['Bit će', 'Hoće', 'Neka', 'Htjelo bi'],
     answer: 'Bit će',
     en: 'he must have arrived by now',
     tip: 'Bit će da + perfekt = zacijelo (epistemički futur).',

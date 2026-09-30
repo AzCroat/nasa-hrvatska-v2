@@ -136,7 +136,7 @@ const DATA = [
   {
     mode: 'stil',
     q: 'Kad je vlada donijela odluku, … → Nakon ___ odluke, …',
-    opts: ['donošenja', 'donošenje', 'donijeti', 'donesene'],
+    opts: ['donošenja', 'donošenje', 'donijeti', 'donošenju'],
     answer: 'donošenja',
     en: 'After the decision was made, …',
     tip: 'Nakon + genitive, so the verbal noun donošenje goes into the genitive: nakon donošenja odluke.',

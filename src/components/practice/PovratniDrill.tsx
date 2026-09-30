@@ -158,7 +158,7 @@ const DATA = [
   {
     mode: 'znacenje',
     q: 'Kako se to ____ na standardnom hrvatskom?',
-    opts: ['kaže', 'govori se', 'priča', 'izgovara se'],
+    opts: ['kaže', 'govori se', 'kažem', 'izgovara se'],
     answer: 'kaže',
     en: 'how do you say that in standard Croatian?',
     tip: 'Ustaljeno bezlično: Kako se kaže…? („se” je već u pitanju.)',

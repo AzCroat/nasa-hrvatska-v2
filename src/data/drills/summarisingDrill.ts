@@ -122,7 +122,7 @@ export const SUMMARISING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'navodjenje',
     q: 'Kako navodite ime autora?',
-    en: 'How do you cite the author name?',
+    en: 'How do you cite an author’s name?',
     opts: ['sklanja se', 'ostaje nepromijenjeno', 'stavlja se u zagradu', 'izostavlja se'],
     answer: 'sklanja se',
     tip: 'Croatian declines cited names: prema Katičiću, kako navodi Silić.',
@@ -186,7 +186,7 @@ export const SUMMARISING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'preoblika',
     q: '"Znanstvenici su otkrili lijek" → pasiv:',
     en: 'Make it passive.',
-    opts: ['Lijek je otkriven', 'Lijek otkriva', 'Otkriti lijek', 'Lijek se otkrio'],
+    opts: ['Lijek je otkriven', 'Lijek otkriva', 'Otkriti lijek', 'Lijek su otkrili'],
     answer: 'Lijek je otkriven',
     tip: 'active → passive shifts the focus without changing the claim.',
   },

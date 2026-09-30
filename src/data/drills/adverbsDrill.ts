@@ -82,10 +82,10 @@ export const ADVERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'tvorba',
-    q: 'Govoriš ____ hrvatski. (dobar)',
+    q: '____ govoriš hrvatski. (dobar)',
     en: 'You speak Croatian well.',
-    opts: ['dobro', 'dobar', 'dobri', 'dobru'],
-    answer: 'dobro',
+    opts: ['Dobro', 'Dobar', 'Dobri', 'Dobru'],
+    answer: 'Dobro',
     tip: 'Same word, now an ADVERB. English needs good and well; Croatian does not.',
   },
   {

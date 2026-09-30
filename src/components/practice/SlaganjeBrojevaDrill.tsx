@@ -86,7 +86,7 @@ const DATA = [
   {
     mode: 'veliki',
     q: 'Na koncert je došlo ____ ljudi.',
-    opts: ['tisuću', 'tisuća', 'tisućama', 'tisućom'],
+    opts: ['tisuću', 'tisući', 'tisućama', 'tisućom'],
     answer: 'tisuću',
     en: 'a thousand people came to the concert',
     tip: 'Došlo je tisuću ljudi — bezlični predikat + broj.',
@@ -150,7 +150,7 @@ const DATA = [
   {
     mode: 'zbirni',
     q: '____ prijatelja otišla su na utakmicu. (dva muškarca)',
-    opts: ['Dvojica', 'Dvoje', 'Dvije', 'Obadva'],
+    opts: ['Dvojica', 'Dvoje', 'Dvije', 'Dvojicu'],
     answer: 'Dvojica',
     en: 'two (male) friends went to the match',
     tip: 'Brojevne imenice na -ica samo za muškarce: dvojica, trojica.',

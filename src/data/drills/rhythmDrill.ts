@@ -219,7 +219,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which adverb comes from a perfective?',
     opts: ['-vši', '-ći', 'oba', 'nijedan'],
     answer: '-vši',
-    tip: 'Perfective gives -vši, imperfective gives -ći. Pairing them wrongly is the error.',
+    tip: 'Perfective verbs typically give -vši, imperfective ones -ći. Pairing them wrongly is the error.',
   },
   {
     mode: 'izlaz',

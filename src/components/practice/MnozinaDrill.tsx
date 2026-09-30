@@ -156,10 +156,10 @@ const DATA = [
   {
     mode: 'genmn',
     q: 'Genitiv množine imenice „nokat” glasi:',
-    opts: ['noktiju', 'nokata', 'noktova', 'nokta'],
+    opts: ['noktiju', 'noktija', 'noktova', 'nokta'],
     answer: 'noktiju',
     en: 'of the nails',
-    tip: 'Nokat → noktiju; i „nokata” se dopušta, -iju je birano.',
+    tip: 'Nokat → noktiju (kao gostiju, prstiju); dopušta se i „nokata”.',
   },
   {
     mode: 'genmn',

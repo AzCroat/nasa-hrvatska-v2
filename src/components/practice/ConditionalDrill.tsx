@@ -7,11 +7,11 @@ import ModeDrill from './ModeDrill';
 // 2pl biste, 3pl bi.
 const DATA = [
   {
-    q: 'Da imam vremena, ___ ti pomogao. (I would help)',
+    q: 'Da imam vremena, pomogao ___ ti. (I would help)',
     opts: ['bih', 'bi', 'bismo', 'biste'],
     answer: 'bih',
     en: 'If I had time, I would help you.',
-    tip: 'Kondicional I, 1sg aux: bih + radni pridjev (pomogao).',
+    tip: 'Kondicional I, 1sg aux: bih + radni pridjev. The clitic cannot open the main clause after a comma: pomogao bih ti.',
   },
   {
     q: 'Mi ___ došli da nije kiše. (we would come)',
@@ -56,7 +56,7 @@ const DATA = [
     tip: '2sg conditional aux = bi.',
   },
   {
-    q: 'Da ste rezervirali, ___ dobili stol. (you would have gotten)',
+    q: 'Da ste rezervirali, dobili ___ stol. (you would have gotten)',
     opts: ['biste', 'bi', 'bih', 'bismo'],
     answer: 'biste',
     en: 'If you had booked, you would have gotten a table.',

@@ -120,11 +120,11 @@ export const VERBAL_ADVERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izbor',
-    q: 'Od kojeg vida se tvori prošli prilog?',
-    en: 'And the past adverb?',
+    q: 'Od kojeg se vida prošli prilog najčešće tvori?',
+    en: 'And the past adverb, usually?',
     opts: ['svršenoga', 'nesvršenoga', 'oba', 'nijednoga'],
     answer: 'svršenoga',
-    tip: 'Perfective — it names an action finished before the main verb.',
+    tip: 'Mostly perfective — it names an action finished before the main verb. Imperfective forms such as čitavši exist but are rare.',
   },
   {
     mode: 'izbor',

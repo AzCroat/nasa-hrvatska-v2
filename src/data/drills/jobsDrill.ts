@@ -157,7 +157,7 @@ export const JOBS_DRILL_DATA: ModeDrillItem[] = [
     en: 'I am looking for a job.',
     opts: ['posao', 'posla', 'poslu', 'poslom'],
     answer: 'posao',
-    tip: 'Accusative — and posao loses the o in every other case: posla, poslu.',
+    tip: 'Accusative — and in every other case the -ao of posao becomes -l-: posla, poslu.',
   },
 
   // ── ured ──────────────────────────────────────────────────────────────────

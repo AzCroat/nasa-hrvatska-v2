@@ -217,7 +217,7 @@ const DATA = [
     opts: ['bio znao', 'znat', 'znam', 'budem znao'],
     answer: 'bio znao',
     en: 'had I known, I would not have erred',
-    tip: 'Irealna prošlost rabi bio + radni (kondicional II. logika).',
+    tip: 'Irealna prošlost: da sam bio znao (češće i samo: da sam znao) + ne bih pogriješio.',
   },
 ];
 

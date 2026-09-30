@@ -22,7 +22,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „ljubav” glasi:',
-    opts: ['ljubavlju', 'ljubavi samo', 'ljubavom', 'ljubavju'],
+    opts: ['ljubavlju', 'ljubavu', 'ljubavom', 'ljubavju'],
     answer: 'ljubavlju',
     en: 'with love',
     tip: 'V + j → vlj: ljubavlju (ili ljubavi).',
@@ -30,7 +30,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „riječ” glasi:',
-    opts: ['riječju', 'riječi samo', 'riječom', 'rječju kraćeno'],
+    opts: ['riječju', 'riječem', 'riječom', 'rječju'],
     answer: 'riječju',
     en: 'with a word',
     tip: 'Č + ju: riječju.',
@@ -38,7 +38,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „kost” glasi:',
-    opts: ['košću', 'kosti samo', 'kostom', 'kostju'],
+    opts: ['košću', 'kosću', 'kostom', 'kostju'],
     answer: 'košću',
     en: 'with a bone',
     tip: 'St + j → šć: košću.',
@@ -46,7 +46,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „sol” glasi:',
-    opts: ['solju', 'soli samo', 'solom', 'soljom'],
+    opts: ['solju', 'solem', 'solom', 'soljom'],
     answer: 'solju',
     en: 'with salt',
     tip: 'L + j → lj: solju.',
@@ -54,7 +54,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „misao” glasi:',
-    opts: ['mišlju', 'misli samo', 'misaom', 'mislijom'],
+    opts: ['mišlju', 'misalju', 'misaom', 'mislijom'],
     answer: 'mišlju',
     en: 'with a thought',
     tip: 'Misao, misli → mišlju (sl + j → šlj).',
@@ -70,7 +70,7 @@ const DATA = [
   {
     mode: 'padezi',
     q: 'Instrumental jednine imenice „smrt” glasi:',
-    opts: ['smrću', 'smrti samo', 'smrtom', 'smrtju'],
+    opts: ['smrću', 'smrtu', 'smrtom', 'smrtju'],
     answer: 'smrću',
     en: 'with death',
     tip: 'T + j → ć: smrću.',
@@ -126,7 +126,7 @@ const DATA = [
   {
     mode: 'rod',
     q: 'Instrumental od „radost” glasi:',
-    opts: ['radošću', 'radosti samo', 'radostom', 'radostju'],
+    opts: ['radošću', 'radostu', 'radostom', 'radostju'],
     answer: 'radošću',
     en: 'with joy',
     tip: 'St + j → šć: radošću.',
@@ -158,7 +158,7 @@ const DATA = [
   {
     mode: 'recenice',
     q: 'Opisao je to lijepim ____ . (riječ, mn.)',
-    opts: ['riječima', 'riječi', 'riječju', 'rječima kraćeno'],
+    opts: ['riječima', 'riječi', 'riječju', 'rječima'],
     answer: 'riječima',
     en: 'he described it in beautiful words',
     tip: 'DLI mn.: riječima.',

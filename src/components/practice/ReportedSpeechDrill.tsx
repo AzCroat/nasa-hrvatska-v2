@@ -156,7 +156,7 @@ const DATA = [
   {
     mode: 'zapovijedi',
     q: '„Nemojte pušiti!” → Zamolila nas je da ne ____.',
-    opts: ['pušimo', 'pušite', 'pušiti', 'bismo pušili'],
+    opts: ['pušimo', 'pušite', 'pušiti', 'pušit ćemo'],
     answer: 'pušimo',
     en: 'She asked us not to smoke.',
     tip: 'Niječna zapovijed → da ne + prezent u odgovarajućoj osobi.',
@@ -188,7 +188,7 @@ const DATA = [
   {
     mode: 'zapovijedi',
     q: '„Ne diraj to!” → Upozorila ga je da to ne ____.',
-    opts: ['dira', 'diraj', 'dirati', 'bi dirao'],
+    opts: ['dira', 'diraj', 'dirati', 'dirat će'],
     answer: 'dira',
     en: 'She warned him not to touch it.',
     tip: 'Da + prezent treće osobe: da to ne dira.',

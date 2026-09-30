@@ -78,7 +78,7 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'oblik',
     q: 'Što nosi glavna rečenica?',
     en: 'What does the main clause carry?',
-    opts: ['futur ili imperativ', 'prezent', 'kondicional', 'perfekt'],
+    opts: ['futur ili imperativ', 'aorist', 'kondicional', 'perfekt'],
     answer: 'futur ili imperativ',
     tip: 'Ako imaš vremena, JAVI MI — the imperative is very common here.',
   },

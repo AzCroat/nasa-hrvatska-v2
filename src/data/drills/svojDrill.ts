@@ -152,11 +152,11 @@ export const SVOJ_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'To je ____ dijete. (svoj — nominativ)',
-    en: 'That is one’s own child.',
+    q: 'Svatko voli ____ dijete. (svoj)',
+    en: 'Everyone loves their own child.',
     opts: ['svoje', 'svoj', 'svoja', 'svojim'],
     answer: 'svoje',
-    tip: 'Neuter nominative: svoje dijete.',
+    tip: 'Neuter accusative, the same as the nominative: svoje dijete.',
   },
 
   // ── znacenje ──────────────────────────────────────────────────────────────

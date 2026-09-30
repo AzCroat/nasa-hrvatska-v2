@@ -188,7 +188,7 @@ export const GREETINGS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'odgovori',
     q: 'Znate da ćete se opet vidjeti: ____',
     en: 'You know you will meet again:',
-    opts: ['Vidimo se', 'Doviđenja', 'Laku noć', 'Drago mi je'],
+    opts: ['Vidimo se', 'Dobro jutro', 'Laku noć', 'Drago mi je'],
     answer: 'Vidimo se',
     tip: 'Vidimo se = see you. Čujemo se is its telephone twin — talk soon.',
   },

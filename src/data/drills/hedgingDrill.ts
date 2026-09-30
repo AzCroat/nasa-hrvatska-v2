@@ -104,7 +104,7 @@ export const HEDGING_DRILL_DATA: ModeDrillItem[] = [
     en: 'I am not sure, but I think so.',
     opts: ['ali', 'nego', 'već', 'da'],
     answer: 'ali',
-    tip: 'ali — nego would need a negative claim before it.',
+    tip: 'ali adds a contrast and keeps the first half; nego would REPLACE it (nije X, nego Y).',
   },
 
   // ── opseg ─────────────────────────────────────────────────────────────────

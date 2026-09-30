@@ -108,7 +108,7 @@ const DATA = [
   {
     mode: 'zabrana',
     q: 'Nemoj to ____!',
-    opts: ['raditi', 'radi', 'radio', 'uradivši'],
+    opts: ['raditi', 'radi', 'radio', 'napravivši'],
     answer: 'raditi',
     en: 'do not do that!',
     tip: 'Nemoj + nesvršeni infinitiv: nemoj raditi.',
@@ -161,7 +161,7 @@ const DATA = [
   {
     mode: 'infinitiv',
     q: 'Nastavite ____!',
-    opts: ['raditi', 'uraditi', 'radili', 'uradite'],
+    opts: ['raditi', 'odraditi', 'radili', 'odradite'],
     answer: 'raditi',
     en: 'carry on working!',
     tip: 'Nastaviti + nesvršeni infinitiv.',

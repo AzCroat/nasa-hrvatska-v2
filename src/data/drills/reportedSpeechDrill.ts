@@ -50,7 +50,7 @@ export const REPORTED_SPEECH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'vrijeme',
     q: '"Bio sam tamo." → Rekao je da ____ tamo.',
     en: 'He said he had been there.',
-    opts: ['je bio', 'je bio bio', 'bude', 'bi bio'],
+    opts: ['je bio', 'će biti', 'bude', 'bi bio'],
     answer: 'je bio',
     tip: 'Past stays past — there is no pluperfect shift.',
   },

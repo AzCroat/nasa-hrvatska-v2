@@ -81,7 +81,7 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'faza',
     q: 'Nemoj ____ o tome.',
     en: 'Do not talk about it.',
-    opts: ['govoriti', 'reći', 'kazati', 'izgovoriti'],
+    opts: ['govoriti', 'govori', 'govoreći', 'izgovoriti'],
     answer: 'govoriti',
     tip: 'nemoj + infinitive is normally imperfective — the same logic as a prohibition.',
   },

@@ -81,11 +81,11 @@ const DATA = [
     tip: "'u' + month (time meaning) takes locative — masc 'prosinac' has fleeting -a-, locative 'prosincu'.",
   },
   {
-    q: 'U ___ je hladnije nego ljeti.',
-    opts: ['zimi', 'zima', 'zimu', 'zimom'],
-    answer: 'zimi',
-    en: "In winter it's colder than in summer.",
-    tip: "'u' + season takes locative — fem 'zima' -> 'zimi'.",
+    q: 'Autobus stoji na ___.',
+    opts: ['stanici', 'stanica', 'stanicu', 'stanicom'],
+    answer: 'stanici',
+    en: 'The bus is standing at the stop.',
+    tip: "'na' (location) + locative — fem 'stanica' -> 'stanici' (c stays c).",
   },
   {
     q: 'Praznujemo u ___.',
@@ -105,7 +105,7 @@ const DATA = [
     q: 'Pri ___ smo se sreli.',
     opts: ['radu', 'rad', 'rada', 'radom'],
     answer: 'radu',
-    en: 'We met at work.',
+    en: 'We met while working.',
     tip: "'pri' (at, during, near) takes locative — masc 'rad' -> 'radu'.",
   },
   {

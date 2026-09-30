@@ -189,10 +189,10 @@ const DATA = [
   },
   {
     mode: 'god',
-    q: 'Sjedni bilo ____ — ima mjesta.',
+    q: 'Možeš spavati bilo ____ — ima mjesta.',
     opts: ['gdje', 'kamo', 'kuda', 'čime'],
     answer: 'gdje',
-    en: 'sit anywhere — there is room',
+    en: 'you can sleep anywhere — there is room',
     tip: 'Mjesto (ne smjer) → gdje: bilo gdje.',
   },
   {

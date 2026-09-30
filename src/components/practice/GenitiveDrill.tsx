@@ -105,7 +105,7 @@ const DATA = [
     q: 'Idem iz ___.',
     opts: ['kuće', 'kuća', 'kući', 'kućom'],
     answer: 'kuće',
-    en: "I'm coming from the house.",
+    en: "I'm leaving the house.",
     tip: "'iz' (from, out of) takes genitive — fem 'kuća' -> 'kuće'.",
   },
   {

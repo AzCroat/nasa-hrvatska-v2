@@ -14285,3 +14285,29 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     list and the end date of Glagolitic.
   - Process: the B1 reviewer committed with `--no-verify`; prettier and eslint were
     re-run on the combined branch and are clean.
+- [x] **Sweep 224 — a native-level read of all 208 practice drills (2026-09-30).**
+  The 108 ModeDrill banks (`src/data/drills/`) and 100 hand-written `*Drill.tsx`, six
+  reviewers. 208 corrections: banks 26 + 31 + 37, hand-written 58 + 21 + 34, plus one
+  alignment across drills (the proverb *Tiha voda brege dere*, attested form and meaning,
+  now the same in phraseology, Poslovice and Frazeologija).
+  - **NegationGenDrill keyed standard Croatian wrong in 12 of 20 items** (`Ne vidim auto`,
+    `Ne pijem kavu`): after a negated transitive verb the accusative is normal; only
+    `nemati` requires the genitive. Rewritten around `nemam`.
+  - **Distractors that were correct Croatian** again the largest class (seven correct
+    imperatives in ImperativeDrill alone; `Govoriš dobar hrvatski`, `Radim pa učim`,
+    `Obadva prijatelja otišla su`, alternative -i instrumentals in ISklonidba).
+  - **Serbian forms on screen**: `šta samo`, `trebat će da`, `uraditi`, `Nojeva arka`,
+    `trebam da radim` taught as merely marked.
+  - **Non-words as options or cues**: `mal`, `nami`, `vami`, `stotinjti`, `gordij konj`,
+    invented aspect forms in DvovidniDrill, "X bez a"-style labels.
+  - **False grammar in tips**: `mali` "has no short form" (`malen`); the -i ending covering
+    three cases (four); `tri četvrtine` as a genitive plural; `Kiša pada` as subjectless;
+    "all place words take the genitive" (the sweep-223 rule again); `kod` for motion;
+    clitic `bih` first after a comma in ConditionalDrill; future II as "imperfective".
+  - **Wrong facts**: bura blowing off the Adriatic; `jamačno` as an archaism.
+  - Checked: `lintCroatianText` 0; full unit suite 10,800; eslint and tsc clean.
+  - **Left for the owner** (marked-vs-wrong, as in sweep 223): InfinitivDaDrill keys
+    `da` + present wrong throughout and now labels its items "Birani standard:";
+    `usprkos` + genitive; `se je`; plural verb after 5+/nekoliko/većina and `dvojica
+    su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukoliko`
+    as purist rules; `kolegima`; the "-ka is the commonest feminine ending" claim.

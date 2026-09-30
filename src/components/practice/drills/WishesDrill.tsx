@@ -17,7 +17,7 @@ export default function WishesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="zaljenje"
       title="🌠 Želje i žaljenje"
-      subtitle="Trebao bih ili trebao sam — jedan samoglasnik"
+      subtitle="Trebao bih ili trebao sam — jedan pomoćni glagol"
       modeLabels={WISHES_MODE_LABELS}
       data={WISHES_DRILL_DATA}
       praise={{

@@ -38,7 +38,7 @@ const DATA = [
   {
     mode: 'imenice',
     q: 'Onaj koji čita:',
-    opts: ['čitatelj', 'čitaonica', 'čitač', 'čitar'],
+    opts: ['čitatelj', 'čitaonica', 'čitanka', 'čitar'],
     answer: 'čitatelj',
     en: 'a reader (standard Croatian agentive)',
     tip: 'Hrvatski standard daje prednost -telj: čitatelj, slušatelj, gledatelj.',

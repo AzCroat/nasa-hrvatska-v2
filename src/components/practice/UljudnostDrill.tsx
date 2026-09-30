@@ -35,16 +35,16 @@ const DATA = [
   },
   {
     mode: 'molbe',
-    q: '„Da vas ne ____ , samo jedno pitanje.” (uljudno)',
+    q: '„Da vam ne ____ , samo jedno pitanje.” (uljudno)',
     opts: ['smetam', 'smetaš', 'ometam silom', 'gnjavim baš'],
     answer: 'smetam',
     en: 'not to disturb you — just one question',
-    tip: 'Da vas ne smetam — formula obzira.',
+    tip: 'Da vam ne smetam — formula obzira (smetati komu).',
   },
   {
     mode: 'molbe',
     q: '„Biste li imali ____ da pogledate nacrt?” (vrijeme)',
-    opts: ['vremena', 'vrijeme', 'vremenu', 'vremenom'],
+    opts: ['vremena', 'vremenima', 'vremenu', 'vremenom'],
     answer: 'vremena',
     en: 'would you have time to look at the draft?',
     tip: 'Imati vremena (G) — uljudno pitanje raspoloživosti.',
@@ -101,7 +101,7 @@ const DATA = [
   },
   {
     mode: 'kritika',
-    q: '„Možda bismo ____ razmotriti i drugu opciju.”',
+    q: '„Možda bismo ____ razmotriti i drugu opciju.” (najblaže)',
     opts: ['mogli', 'morali sad', 'trebali odmah', 'htjeli svi'],
     answer: 'mogli',
     en: 'perhaps we might consider another option',
@@ -118,7 +118,7 @@ const DATA = [
   {
     mode: 'kritika',
     q: '„S dužnim poštovanjem, ____ se ne bih složio.”',
-    opts: ['ipak', 'nikad', 'baš', 'jedva'],
+    opts: ['ipak', 'nikad', 'nipošto', 'jedva'],
     answer: 'ipak',
     en: 'with due respect, I would beg to differ',
     tip: 'Formulaično neslaganje + kondicional.',
@@ -153,7 +153,7 @@ const DATA = [
     opts: ['izbjegavanju prozivanja krivca', 'isticanju krivca', 'brzini', 'šali'],
     answer: 'izbjegavanju prozivanja krivca',
     en: 'mistakes were made',
-    tip: 'Bezlični pasiv štiti sugovornika.',
+    tip: 'Pasiv bez vršitelja radnje štiti sugovornika.',
   },
   {
     mode: 'oslovljavanje',

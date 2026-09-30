@@ -254,7 +254,7 @@ export const LANGUAGE_SOCIETY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'medij',
-    q: 'Što se otvara službenom e-porukom "Poštovani,"?',
+    q: 'Što se otvara pozdravom "Poštovani,"?',
     en: 'Poštovani, opens:',
     opts: ['formalno pismo', 'poruku prijatelju', 'objavu na mrežama', 'zdravicu'],
     answer: 'formalno pismo',

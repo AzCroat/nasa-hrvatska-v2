@@ -129,9 +129,9 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'prezent',
     q: 'Nakon što ____, idemo van.',
     en: 'After we eat, we are going out.',
-    opts: ['jedemo', 'ćemo jesti', 'smo jeli', 'bismo jeli'],
-    answer: 'jedemo',
-    tip: 'Still the present: nakon što jedemo.',
+    opts: ['pojedemo', 'ćemo pojesti', 'smo pojeli', 'bismo pojeli'],
+    answer: 'pojedemo',
+    tip: 'Still the present — perfective, because the eating is finished first: nakon što pojedemo.',
   },
   {
     mode: 'prezent',
@@ -214,8 +214,8 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dok',
-    q: 'Koliko značenja ima "dok"?',
-    en: 'How many meanings does dok have?',
+    q: 'Koliko vremenskih značenja ima "dok"?',
+    en: 'How many time meanings does dok have?',
     opts: ['dva', 'jedno', 'tri', 'nijedno'],
     answer: 'dva',
     tip: 'While, and — with ne — until. They are close to opposites.',
