@@ -14251,13 +14251,13 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     covered by their own specs), check-ups due at 7 and 30 days, and the speaking
     task by microphone (typed only).
 - [x] **Sweep 223 — a native-level read of all 180 lessons, one reviewer per level (2026-09-30).**
-  Every string a learner sees in each level's lessons, worked examples, practice,
-  form-B checks, typed items, vocabulary and can-do statements. 165 corrections:
-  A1 13, A2 24, B1 22, B2 30, C1 41, C2 25. Can-do files needed none.
+      Every string a learner sees in each level's lessons, worked examples, practice,
+      form-B checks, typed items, vocabulary and can-do statements. 165 corrections:
+      A1 13, A2 24, B1 22, B2 30, C1 41, C2 25. Can-do files needed none.
   - **Distractors that were correct Croatian** (the largest class, every level): a
     learner who chose them was marked wrong for being right — e.g. `Ova je dobra
-    knjiga`, `Gdje li si bio?`, `za te`, `je posudila bila`, `ledene riječi`, `Kao
-    otac`, split `Moja mi je starija sestra`, `Biste li mi mogao reći`, lower-case
+knjiga`, `Gdje li si bio?`, `za te`, `je posudila bila`, `ledene riječi`, `Kao
+otac`, split `Moja mi je starija sestra`, `Biste li mi mogao reći`, lower-case
     `vam`. Each replaced by a genuinely wrong option.
   - **Serbian forms on screen**: `Moram da idem`, `morati da`, `treba donesti`,
     `trebate da`, `šta ima` — removed from options and examples.
@@ -14274,9 +14274,9 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     LNG pipeline "to Hungary"; kajkavian as "the language of Baroque poetry"; UNESCO.
   - **Giveaways**: question, cue and hint wording that named its own answer or gave a
     clitic cluster in the answer's order (B1 prefixes, B2 `(ću, ti, ga)`, `(dative mi,
-    auxiliary je)`).
+auxiliary je)`).
   - Checked with `lintCroatianText` (0), `lessonDepthCheck` and `lessonPracticeCheck
-    --productive` at all six levels (0), and the full unit suite (10,800).
+--productive` at all six levels (0), and the full unit suite (10,800).
   - **Left for the owner, not changed** (marked-vs-wrong judgements): `se je` keyed
     wrong at B2; `Puno ljudi dolaze` now called "heard, not standard"; masculine job
     titles for women keyed wrong at A2; `usprkos` + genitive and `Predlažem da bismo`
@@ -14286,10 +14286,10 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Process: the B1 reviewer committed with `--no-verify`; prettier and eslint were
     re-run on the combined branch and are clean.
 - [x] **Sweep 224 — a native-level read of all 208 practice drills (2026-09-30).**
-  The 108 ModeDrill banks (`src/data/drills/`) and 100 hand-written `*Drill.tsx`, six
-  reviewers. 208 corrections: banks 26 + 31 + 37, hand-written 58 + 21 + 34, plus one
-  alignment across drills (the proverb *Tiha voda brege dere*, attested form and meaning,
-  now the same in phraseology, Poslovice and Frazeologija).
+      The 108 ModeDrill banks (`src/data/drills/`) and 100 hand-written `*Drill.tsx`, six
+      reviewers. 208 corrections: banks 26 + 31 + 37, hand-written 58 + 21 + 34, plus one
+      alignment across drills (the proverb _Tiha voda brege dere_, attested form and meaning,
+      now the same in phraseology, Poslovice and Frazeologija).
   - **NegationGenDrill keyed standard Croatian wrong in 12 of 20 items** (`Ne vidim auto`,
     `Ne pijem kavu`): after a negated transitive verb the accusative is normal; only
     `nemati` requires the genitive. Rewritten around `nemam`.
@@ -14309,5 +14309,49 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - **Left for the owner** (marked-vs-wrong, as in sweep 223): InfinitivDaDrill keys
     `da` + present wrong throughout and now labels its items "Birani standard:";
     `usprkos` + genitive; `se je`; plural verb after 5+/nekoliko/većina and `dvojica
-    su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukoliko`
+su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukoliko`
     as purist rules; `kolegima`; the "-ka is the commonest feminine ending" claim.
+- [x] **Sweep 225 — failing, and time passing, walked in a browser (2026-09-30).**
+      `e2e/course-failure-and-time.spec.js` walks what sweep 222 left out: a failed lesson
+      check (same-day lock, Lesson Review, the corrective day on form B), a failed unit
+      test and its retake, the 7- and 30-day check-ups (held, and slipped), the A1→A2
+      crossing after failures, and Keep Learning after a failed day. A new day is a REAL
+      new day: `Date` is shifted by whole days at page load, so `localDateStr()` changes
+      and the plan, the launch stamp and every due date meet it as in the field. Final
+      run: 6 of 6 green; with the three fixes reverted, the three matching tests fail.
+  - **A failed unit test came back as the same paper.** The retake button moved to a
+    new paper, but a fresh opening (Home, the map, the next day) mounted at attempt 0:
+    the identical fifteen items in the identical order, each already revealed with its
+    explanation. The screen now seeds its attempt from the unit's recorded attempts, as
+    the lesson check does with `priorAttemptCount`. Pinned in `unitTestScreen.test.tsx`.
+  - **A check-up that slipped came back as the same paper the next day.** The seed was
+    the ladder's stage, and a failed check-up returns at the same stage. `UnitRecheck`
+    now counts sittings (`sat`, pass or fail; the merge keeps the larger) and the seed
+    uses it; a ladder recorded before the field falls back to its stage, so every
+    existing paper is unchanged. Pinned in `unitRetention.test.ts` and
+    `unitTestScreen.test.tsx`.
+  - **A failed check stranded the day's writing slot, so Keep Learning never came.** On
+    a lesson day whose check failed (the corrective day failing again is the walked
+    case), "Write it" said "Finish today's lesson first" and its button opened a check
+    closed until tomorrow; Home sat on that slot all day. `LessonProduceScreen` now says
+    the step waits for the lesson and frees the slot with no XP and no production
+    record, the rule the failed check itself follows. Pinned in `produceSlot.test.tsx`.
+  - **"Write it: Again: Croatian Alphabet"** — the corrective prefix leaked into the
+    produce slot's label and reason. Stripped in `selectLessonProduceSlot`.
+  - **A harness artifact, not a defect, recorded so it is not re-chased:** Playwright's
+    `page.clock` (install, then `setSystemTime` a day on) froze every navigation after
+    the jump — the URL and title changed and Home stayed painted, because it fakes
+    `performance` too and framer-motion's `AnimatePresence mode="wait"` exit never
+    finished. No real browser can do this. The spec shifts `Date` only.
+  - Walked clean: nothing credited on a failed check, test or check-up; the lock by the
+    summary, the nav, the test-out and a reopening; missed items not due the same day
+    and served the next; the corrective day opening at the worked example; form B on
+    the retake; a slipped check-up keeping the pass and production and the next unit
+    open; mastery only after both check-ups; the A1 review at the crossing after a
+    failed lesson and a failed unit test; Keep Learning serving only the unproven
+    lesson's drill, never a lesson, a unit test or the closed check.
+  - Observed, not changed: on a first-ever day (no cached spine) with XP above the
+    course level, the plan was sized and filled at the XP level (six activities,
+    Conversation at A2) around an A1 lesson; every later day was sized at the course
+    level. Home serves one production task a day, so a unit's speaking task comes the
+    day after its writing task.
