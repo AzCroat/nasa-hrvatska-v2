@@ -70,9 +70,19 @@ export default function AssessedMic({ reference, onHeard, children, testId, unbi
     [],
   );
 
-  // A blocked or missing microphone is the stage's old path, not a dead end.
+  // A blocked or missing microphone is the stage's old path, not a dead end — and the
+  // learner is told why the button they pressed turned into a different one. Without
+  // the notice a blocked mic was silent: the tap did nothing visible except swap
+  // "Say it" for an identical-looking "Say it" (speaking microphone walk, 2026-09-30).
   useEffect(() => {
     if (rec.state === 'denied' || rec.state === 'unsupported' || rec.state === 'error') {
+      setNotice(
+        `Word-by-word check unavailable — ${
+          rec.state === 'denied'
+            ? 'microphone access is blocked for this site.'
+            : 'this device could not record the take.'
+        }`,
+      );
       setFallback(true);
     }
   }, [rec.state]);
@@ -96,6 +106,15 @@ export default function AssessedMic({ reference, onHeard, children, testId, unbi
   async function assess(blob: Blob, mimeType: string) {
     setBusy(true);
     const out = await assessTake(blob, mimeType, refText.current, SURFACE, { unbiased });
+    if (!out.ok && out.retake) {
+      // Nothing was heard in THIS take. The check is not broken, so it stays: say why
+      // and let the learner record again (a single silent take used to switch the
+      // word-by-word check off for every remaining sentence of the stage).
+      if (!mountedRef.current) return;
+      setBusy(false);
+      setNotice(out.message);
+      return;
+    }
     if (!out.ok) return giveUp(out.message);
     if (!mountedRef.current) return;
     if (unbiased && !out.check.unbiased)
@@ -123,25 +142,36 @@ export default function AssessedMic({ reference, onHeard, children, testId, unbi
 
   const recording = rec.state === 'recording' || rec.state === 'requesting';
   return (
-    <button
-      className="b bp"
-      data-testid={testId}
-      disabled={busy}
-      onClick={() => {
-        if (recording) rec.stopRecording();
-        else {
-          sentRef.current = null;
-          rec.startRecording({
-            countdown: 0,
-            maxDurationMs: MAX_TAKE_MS,
-            mimePriority: AZURE_MIME_PRIORITY,
-          });
-        }
-      }}
-      style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
-    >
-      {busy ? 'Listening back…' : recording ? '■ Stop' : '🎙️ Say it'}
-    </button>
+    <>
+      <button
+        className="b bp"
+        data-testid={testId}
+        disabled={busy}
+        onClick={() => {
+          if (recording) rec.stopRecording();
+          else {
+            sentRef.current = null;
+            setNotice(null);
+            rec.startRecording({
+              countdown: 0,
+              maxDurationMs: MAX_TAKE_MS,
+              mimePriority: AZURE_MIME_PRIORITY,
+            });
+          }
+        }}
+        style={{ flex: 1, padding: '10px 0', fontWeight: 800 }}
+      >
+        {busy ? 'Listening back…' : recording ? '■ Stop' : '🎙️ Say it'}
+      </button>
+      {notice && !recording && !busy && (
+        <div
+          data-testid={`${testId}-notice`}
+          style={{ flexBasis: '100%', fontSize: 12, color: 'var(--ink-warn)' }}
+        >
+          {notice}
+        </div>
+      )}
+    </>
   );
 }
 

@@ -527,7 +527,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             💡 {phrase.why}
           </div>
 
-          <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
             <button
               className="b bs"
               onClick={() => void play(phrase.hr)}
@@ -603,7 +603,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
             {buildItem.cue}
           </div>
 
-          <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 10 }}>
             <AssessedMic
               reference={buildItem.answer}
               onHeard={checkBuild}

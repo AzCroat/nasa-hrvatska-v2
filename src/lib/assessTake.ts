@@ -41,7 +41,14 @@ export function canRecordTakes(): boolean {
   );
 }
 
-export type TakeOutcome = { ok: true; check: SpokenCheck } | { ok: false; message: string };
+/**
+ * `retake`: the failure belongs to THIS take, not to the service — Azure answered and
+ * heard no speech in it (a Stop pressed too soon, a quiet room, the mic off). The right
+ * answer is "say it again", so a caller keeps the checked take available rather than
+ * standing the whole stage down to the recogniser for one empty recording.
+ */
+export type TakeOutcome =
+  { ok: true; check: SpokenCheck } | { ok: false; message: string; retake?: boolean };
 
 export async function assessTake(
   blob: Blob,
@@ -84,7 +91,11 @@ export async function assessTake(
       data['ok'],
     );
     reportAiFailure(surface, failure);
-    return { ok: false, message: failure.message };
+    return {
+      ok: false,
+      message: failure.message,
+      ...(code === 'no_speech' ? { retake: true } : {}),
+    };
   }
   return {
     ok: true,

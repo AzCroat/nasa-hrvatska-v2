@@ -14311,3 +14311,46 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     `usprkos` + genitive; `se je`; plural verb after 5+/nekoliko/većina and `dvojica
     su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukoliko`
     as purist rules; `kolegima`; the "-ka is the commonest feminine ending" claim.
+- [x] **Sweep 225 — speaking microphone walk: the speaking paths on a real microphone
+      stream (2026-09-30).** (Numbered 225 on this branch; renumber on merge if another
+      sweep lands first.) Every speaking E2E typed its answer or faked the recorder.
+      `e2e/speaking-microphone.spec.js` runs under its own `playwright.microphone.config.js`:
+      Chromium's fake capture device plays a committed WAV of "Imam sestru." (macOS hr_HR
+      voice, 16 kHz mono, 32 KB), so getUserMedia → MediaRecorder → Web Audio → 16 kHz WAV →
+      upload runs on real audio. The spec DECODES each uploaded body (RIFF, PCM, mono,
+      16 kHz, 16-bit, > 0.5 s, RMS > 0.01). A `mic-denied` project uses full Chromium
+      (`channel: 'chromium'`) with no fake UI, which gives a real `NotAllowedError`; the
+      headless shell gives `NotSupportedError` and fake UI overrides a CDP deny, both
+      measured. The main config ignores the spec; `ci.yml` runs the config after the Chrome
+      suite. Nine tests: REHEARSE readout, REHEARSE no-speech + retry, BUILD wrong ending
+      named then right ending passed (both takes `unbiased: true`), SPEAK across a
+      service-ended session (one take, whole answer to Azure and to the coach, `baku`
+      unconfirmed), coach 502 and budget 503 (named, session slot freed, transcript kept),
+      lesson produce spoken and unit production spoken (graded, recorded, XP paid once),
+      and a denied mic across all five surfaces (typed path graded, no recording sent).
+  - **Defects a learner hit, all fixed:**
+    - **One silent take switched the word-by-word check off for the whole stage.** Azure's
+      422 `no_speech` went through `giveUp`, so the checked mic fell back to the
+      recogniser for every remaining phrase while the message said "try again".
+      `assessTake` now marks it `retake`; `AssessedMic` keeps the checked mic and shows
+      the message.
+    - **Any notice hid both buttons.** The REHEARSE and BUILD button rows were
+      `display:flex` without wrap, and the notice is `flexBasis: 100%`, so every fallback
+      notice (not configured, network, no unbiased transcript) squeezed "Hear it" and the
+      mic button to zero width. Only a real browser shows it; jsdom has no layout. Rows
+      now wrap.
+    - **A blocked mic was silent on the checked mic.** The button swapped to an
+      identical-looking recogniser button with no notice; it now says the mic is blocked.
+    - **The unit production and lesson produce speaking steps said nothing when the
+      recogniser failed.** A blocked mic turned "Speak" straight back. `recognizerError.ts`
+      gives one sentence per error code, each naming the typed path.
+  - Pinned by the spec, two tests in `spokenCheck.test.tsx`, and
+    `speakingMicFailures.test.tsx`. Mutation-verified: the `retake` branch removed fails 1
+    unit test; the recogniser message removed fails 2; the row wrap removed fails the E2E
+    retry test (button not visible); a silent WAV in place of the fixture fails the RMS
+    check (`MIC_E2E_WAV`).
+  - **Not tested, stated:** Azure's real scoring and the coach's real judgement (mocked at
+    the network layer); Google's cloud recogniser (driven by a fake, with the real
+    MediaRecorder beside it); WebKit and Firefox recording (the fake-capture flags are
+    Chromium-only); iOS and Capacitor. The RMS check proves sound reached the upload,
+    not that it was the fixture rather than Chrome's default beep.

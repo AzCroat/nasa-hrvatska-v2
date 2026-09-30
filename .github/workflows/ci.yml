@@ -264,6 +264,15 @@ jobs:
         env:
           CI: true
 
+      # The speaking paths on a MICROPHONE STREAM: Chromium's fake capture device plays a
+      # committed Croatian WAV, so capture → WAV conversion → upload runs on real audio.
+      # Its own config because the fake-mic flags are browser-wide (they grant every mic
+      # prompt), which must not change what the rest of the suite measures.
+      - name: Run E2E tests — speaking on the microphone (Chromium fake capture)
+        run: npx playwright test -c playwright.microphone.config.js
+        env:
+          CI: true
+
       - name: Run E2E tests — Firefox + WebKit (smoke only)
         # Targeted subset to verify cross-browser compat without exceeding 45-min budget.
         # Full suite × 3 engines ≈ 60 min; smoke-only keeps Firefox+WebKit under 10 min.

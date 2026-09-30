@@ -12,6 +12,7 @@ export default defineConfig({
     '**/offline.spec.js', // requires pre-cached service worker — run against production build only
     '**/cross-device-sync.spec.js', // uses live Firebase credentials — run manually against production only
     '**/screenshots.spec.js', // visual sign-off tool (no assertions) — run manually only
+    '**/speaking-microphone.spec.js', // needs browser-wide fake-mic flags — playwright.microphone.config.js (ci.yml runs it)
   ],
   fullyParallel: true,
   forbidOnly: !!process.env.CI,

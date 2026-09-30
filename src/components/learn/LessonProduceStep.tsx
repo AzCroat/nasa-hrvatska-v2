@@ -39,6 +39,7 @@ import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { requestSpeakingCoach, type CoachResult } from '../../lib/speakingCoach';
 import type { ProduceKind } from '../../lib/lessonProduceRequest';
 import { heardCroatian } from '../../lib/heardCroatian';
+import { recognizerErrorMessage } from '../../lib/recognizerError';
 import SpeakCheck from '../practice/SpeakCheck';
 import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
 
@@ -89,6 +90,10 @@ export default function LessonProduceStep({
   const [failure, setFailure] = useState<AiFailure | null>(null);
   const [listening, setListening] = useState(false);
   const [recFailed, setRecFailed] = useState(false);
+  // WHY the recogniser stopped, in words. `recFailed` alone told SpeakCheck to stand
+  // down and told the learner nothing: a blocked mic turned the button back to
+  // "Speak" and the tap simply did nothing (speaking microphone walk, 2026-09-30).
+  const [recError, setRecError] = useState('');
   // The spoken answer, checked against its own recording (components/practice/SpeakCheck).
   const [speakCheck, setSpeakCheck] = useState<SpokenCheck | null>(null);
   const awarded = useRef(false);
@@ -220,13 +225,15 @@ export default function LessonProduceStep({
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };
       rec.onend = () => setListening(false);
-      rec.onerror = () => {
+      rec.onerror = (err: any) => {
         setListening(false);
         setRecFailed(true);
+        setRecError(recognizerErrorMessage(err?.error));
       };
       recRef.current = rec;
       rec.start();
       setRecFailed(false);
+      setRecError('');
       setListening(true);
     } catch {
       setListening(false);
@@ -342,6 +349,15 @@ export default function LessonProduceStep({
         >
           {listening ? '⏹ Stop listening' : '🎙️ Speak'}
         </button>
+      )}
+      {kind === 'speak' && recError && (
+        <div
+          data-testid="produce-mic-error"
+          role="status"
+          style={{ fontSize: 13, color: 'var(--ink-warn)', margin: '-4px 0 10px' }}
+        >
+          {recError}
+        </div>
       )}
 
       {failure && (
