@@ -3,6 +3,7 @@
 // Cognitive Services Pronunciation Assessment REST API, and returns phoneme-level
 // scores. Requires Firebase auth token (Authorization: Bearer <token>).
 
+import { heardCroatian } from './_heardCroatian.js';
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { refundPrecharge, reconcileAudioSeconds } from './_aiBudget.js';
@@ -284,6 +285,8 @@ export async function onRequestPost(context) {
   }
 
   const { audioBase64, referenceText, locale = 'hr-HR', audioMimeType = 'audio/wav' } = body;
+  // Guided Speaking's build stage asks for an unbiased transcript too (see below).
+  const wantUnbiased = body?.unbiased === true;
 
   if (typeof audioBase64 !== 'string' || !audioBase64) {
     return reject('Missing audioBase64');
@@ -348,9 +351,31 @@ export async function onRequestPost(context) {
   if (!out.ok) return err(502, out.error, origin);
   const { parsed, durationS } = out;
 
+  // THE SCRIPTED ASSESSMENT HEARS TO MATCH ITS REFERENCE (calibration, 2026-09-29): played
+  // "Imam sestra." it reported "Imam sestru." at 100. A build-stage answer graded on that
+  // text credits the wrong ending. When asked, the same audio is also transcribed with NO
+  // reference, and the client grades the focus word on that. Its failure is named, never
+  // replaced by the biased text.
+  let unbiased = null;
+  let unbiasedError = null;
+  let unbiasedSeconds = 0;
+  if (wantUnbiased) {
+    const plain = await azureTranscribe(
+      AZURE_KEY,
+      AZURE_REGION,
+      audioBytes,
+      azureContentType,
+      safeLocale,
+    );
+    if (plain.ok) {
+      unbiased = heardCroatian(plain.text);
+      unbiasedSeconds = Number.isFinite(plain.durationS) ? plain.durationS : 0;
+    } else unbiasedError = plain.error;
+  }
+
   // Book the audio Azure actually processed, not the one-minute ceiling.
-  await reconcileAudioSeconds(env, PATH, durationS);
-  return ok({ ok: true, ...parsed }, origin);
+  await reconcileAudioSeconds(env, PATH, durationS + unbiasedSeconds);
+  return ok({ ok: true, ...parsed, ...(wantUnbiased ? { unbiased, unbiasedError } : {}) }, origin);
 }
 
 /**

@@ -38,6 +38,12 @@ export interface SpokenCheck {
   /** What Azure recognised — shown as "Heard", and graded. */
   recognized: string;
   words: CheckedWord[];
+  /**
+   * The same take transcribed with NO reference sentence, when the caller asked for it.
+   * The scripted `recognized` hears to match the reference and cannot judge a case
+   * ending; this can. `null` when it was asked for and could not be had.
+   */
+  unbiased?: string | null;
 }
 
 interface RawWordScore {

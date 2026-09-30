@@ -160,3 +160,65 @@ test('SPEAK checks the transcript against its own recording, and tells the learn
   // The button came back: a second take is possible.
   await expect(page.getByTestId('gs-record')).toHaveText(/Start speaking/);
 });
+
+// THE SCRIPTED ASSESSMENT HEARS TO MATCH ITS REFERENCE (calibration, 2026-09-29): played
+// "Imam sestra." it reported "Imam sestru." at 100. The build stage must grade the
+// UNBIASED transcript of the take, so a wrong ending is named, not credited.
+test('BUILD grades the unbiased transcript, not the scripted text that matches the reference', async ({
+  page,
+  context,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'the fake-microphone flags are Chromium-only');
+  test.setTimeout(120_000);
+  await context.grantPermissions(['microphone']);
+  await blockFirebase(page);
+  await seedAuth(page, { xp: 200 });
+  await mockContent(page);
+  await mockTTS(page);
+
+  const sentBodies = [];
+  await page.route('**/api/pronunciation-assess', async (route) => {
+    const sent = JSON.parse(route.request().postData() || '{}');
+    sentBodies.push(sent);
+    const words = String(sent.referenceText || '')
+      .replace(/[.,!?]/g, '')
+      .split(/\s+/)
+      .filter(Boolean);
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        ok: true,
+        // What the biased assessment reports: the reference, perfectly.
+        recognized: sent.referenceText,
+        word_scores: words.map((w) => ({ word: w, score: 100, error: 'None' })),
+        // What was actually said: something else entirely. Whatever unit is served,
+        // grading the scripted text would pass and grading this cannot.
+        ...(sent.unbiased ? { unbiased: 'Nešto sasvim drugo.', unbiasedError: null } : {}),
+      }),
+    });
+  });
+
+  await page.goto('/speaking_guided', { waitUntil: 'domcontentloaded' });
+  await page.getByTestId('gs-to-rehearse').click({ timeout: 20_000 });
+  for (let i = 0; i < 12; i++) {
+    if (await page.getByTestId('gs-build').isVisible()) break;
+    await page.getByTestId('gs-phrase-next').click();
+  }
+  await expect(page.getByTestId('gs-build')).toBeVisible();
+
+  const mic = page.getByTestId('gs-assess-build');
+  await mic.click();
+  await page.waitForTimeout(1500);
+  await mic.click();
+
+  // The unbiased transcript is what the stage shows and grades.
+  await expect(page.getByTestId('gs-build-input')).toHaveValue('Nešto sasvim drugo.', {
+    timeout: 15_000,
+  });
+  await expect(page.getByText('Not quite yet — try once more.')).toBeVisible();
+  await expect(page.getByTestId('gs-build-right')).toHaveCount(0);
+  // The build take asked for the unbiased transcript.
+  expect(sentBodies.some((b) => b.unbiased === true)).toBe(true);
+});

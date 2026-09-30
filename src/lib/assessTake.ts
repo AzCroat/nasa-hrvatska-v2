@@ -48,6 +48,7 @@ export async function assessTake(
   mimeType: string,
   reference: string,
   surface: string,
+  opts: { unbiased?: boolean } = {},
 ): Promise<TakeOutcome> {
   const wav = await toWav16k(blob);
   const audio = wav ?? blob;
@@ -59,6 +60,7 @@ export async function assessTake(
     referenceText: reference,
     locale: 'hr-HR',
     audioMimeType: wav ? 'audio/wav' : mimeType,
+    ...(opts.unbiased ? { unbiased: true } : {}),
   });
   if (!res) {
     const t = getLastTransportFailure();
@@ -89,6 +91,14 @@ export async function assessTake(
     check: {
       recognized: heardCroatian(typeof data['recognized'] === 'string' ? data['recognized'] : ''),
       words: checkedWords(data['word_scores']),
+      ...(opts.unbiased
+        ? {
+            unbiased:
+              typeof data['unbiased'] === 'string' && data['unbiased'].trim()
+                ? heardCroatian(data['unbiased'])
+                : null,
+          }
+        : {}),
     },
   };
 }
