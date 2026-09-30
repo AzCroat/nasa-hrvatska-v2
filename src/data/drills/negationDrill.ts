@@ -115,8 +115,8 @@ export const NEGATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'fuzija',
-    q: 'Ona ____ auto.',
-    en: 'She does not have a car.',
+    q: 'Ona ____ psa.',
+    en: 'She does not have a dog.',
     opts: ['nema', 'ne ima', 'nije', 'neće'],
     answer: 'nema',
     tip: 'Ima → nema.',

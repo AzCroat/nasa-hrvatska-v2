@@ -89,7 +89,7 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
     en: 'Is this paradigm longer or shorter?',
     opts: ['kraća', 'dulja', 'jednaka', 'nema pravila'],
     answer: 'kraća',
-    tip: 'Shorter — three cases share one ending. It is smaller, not harder.',
+    tip: 'Shorter — several cases share one ending. It is smaller, not harder.',
   },
   {
     mode: 'prepoznaj',
@@ -123,7 +123,7 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
     en: 'We are talking about the possibility.',
     opts: ['mogućnosti', 'mogućnosta', 'mogućnostu', 'mogućnošću'],
     answer: 'mogućnosti',
-    tip: 'Locative singular: -i again. Genitive, dative and locative are identical.',
+    tip: 'Locative singular: -i again. Genitive, dative, vocative and locative are identical.',
   },
   {
     mode: 'padezi',
@@ -137,9 +137,9 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'padezi',
     q: 'Koliko padeža dijeli nastavak -i u jednini?',
     en: 'How many singular cases share -i?',
-    opts: ['tri', 'dva', 'četiri', 'jedan'],
-    answer: 'tri',
-    tip: 'Genitive, dative and locative. Learn one ending and three cases are done.',
+    opts: ['četiri', 'dva', 'tri', 'jedan'],
+    answer: 'četiri',
+    tip: 'Genitive, dative, vocative and locative — and the instrumental may take -i too (radosti beside radošću).',
   },
   {
     mode: 'padezi',

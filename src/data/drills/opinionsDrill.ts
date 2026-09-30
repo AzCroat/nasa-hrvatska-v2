@@ -170,7 +170,7 @@ export const OPINIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ublazavanje',
-    q: '____ , ali mislim da nije tako.',
+    q: '____, ali mislim da nije tako.',
     en: 'I understand, but…',
     opts: ['Razumijem', 'Razumim', 'Razumjeti', 'Razumio'],
     answer: 'Razumijem',

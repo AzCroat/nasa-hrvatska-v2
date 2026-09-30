@@ -249,6 +249,6 @@ export const INDEFINITES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Call anyone at all.',
     opts: ['bilo koga', 'nikoga', 'nekoga', 'svakoga'],
     answer: 'bilo koga',
-    tip: 'bilo tko, bilo što, bilo gdje — and bilo declines with the word after it.',
+    tip: 'bilo tko, bilo što, bilo gdje — bilo itself never changes; the word after it declines: bilo koga, bilo kome.',
   },
 ];
