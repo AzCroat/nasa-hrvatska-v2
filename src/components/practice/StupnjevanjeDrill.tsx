@@ -87,7 +87,7 @@ const DATA = [
   {
     mode: 'nepravilni',
     q: 'Komparativ pridjeva „zao/loš” glasi:',
-    opts: ['gori', 'zliji', 'lošiji uvijek', 'najzao'],
+    opts: ['gori', 'zliji', 'lošši', 'najzao'],
     answer: 'gori',
     en: 'worse',
     tip: 'Supletivno: zao/loš → gori (lošiji je dopušteno, gori birano).',

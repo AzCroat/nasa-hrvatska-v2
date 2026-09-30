@@ -108,7 +108,7 @@ const DATA = [
     opts: ['tri četvrtine', 'tri četvrta', 'trećina i četvrtina', 'tri kroz četiri jedino'],
     answer: 'tri četvrtine',
     en: 'three quarters',
-    tip: 'Brojnik + G mn. razlomka: tri četvrtine.',
+    tip: 'Iza dva, tri, četiri razlomak stoji u obliku nominativa množine: tri četvrtine (ali: pet četvrtina).',
   },
   {
     mode: 'razlomci',

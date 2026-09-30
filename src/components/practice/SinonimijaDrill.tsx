@@ -119,7 +119,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'Neutralno-standardno za razgovorno „frka”:',
-    opts: ['gužva', 'buka', 'jurnjava', 'zbrka-frka'],
+    opts: ['gužva', 'buka', 'šala', 'zbrka-frka'],
     answer: 'gužva',
     en: 'the neutral word for commotion/rush',
     tip: 'Frka je žargon; gužva neutralno pokriva većinu značenja.',

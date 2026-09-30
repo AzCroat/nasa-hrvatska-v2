@@ -87,7 +87,7 @@ const DATA = [
   {
     mode: 'neka',
     q: '„Neka ____ sretni!” (oni)',
-    opts: ['budu', 'su', 'bili', 'jesu'],
+    opts: ['budu', 'bi', 'bili', 'jesu'],
     answer: 'budu',
     en: 'may they be happy!',
     tip: 'Neka + svršeni prezent od biti: neka budu.',
@@ -105,7 +105,7 @@ const DATA = [
     q: '„____ ti je sretan put!” (blagoslov)',
     opts: ['Neka', 'Kad', 'Zar', 'Dok'],
     answer: 'Neka',
-    en: 'may your journey be blessed',
+    en: 'have a safe journey!',
     tip: 'Neka + biti u željama-blagoslovima.',
   },
   {

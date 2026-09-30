@@ -122,7 +122,7 @@ const DATA = [
     opts: ['Makarskoj', 'Makarski', 'Makarskama', 'Makarskoji'],
     answer: 'Makarskoj',
     en: 'the beaches in Makarska are beautiful',
-    tip: 'Imena na -ska sklanjaju se kao pridjevi: u Makarskoj, u Gradiškoj.',
+    tip: 'Imena na -ska sklanjaju se kao pridjevi: u Makarskoj, u Hrvatskoj.',
   },
   {
     mode: 'zemljopisna',
