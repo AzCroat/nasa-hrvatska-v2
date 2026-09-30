@@ -155,7 +155,7 @@ export const WEATHER_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is bura?',
     opts: ['jak sjeveroistočni vjetar', 'kiša', 'magla', 'snijeg'],
     answer: 'jak sjeveroistočni vjetar',
-    tip: 'The cold north-easterly off the Adriatic. Every coastal forecast names it.',
+    tip: 'The cold north-easterly that sweeps down onto the Adriatic coast. Every coastal forecast names it.',
   },
 
   // ── godisnja ──────────────────────────────────────────────────────────────

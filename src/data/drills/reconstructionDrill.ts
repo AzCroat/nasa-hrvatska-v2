@@ -142,7 +142,7 @@ export const RECONSTRUCTION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'najjaca',
-    q: 'Što dobiva onaj tko prizna dobru točku?',
+    q: 'Što dobiva onaj tko prizna protivniku dobar argument?',
     en: 'What does conceding a good point buy?',
     opts: ['vjerodostojnost za ostale', 'vrijeme', 'simpatije', 'ništa'],
     answer: 'vjerodostojnost za ostale',

@@ -169,9 +169,9 @@ export const PREPOSITION_CASE_DRILL_DATA: ModeDrillItem[] = [
     mode: 'genitiv',
     q: 'Koji prijedlog NE traži genitiv?',
     en: 'Which one is not genitive?',
-    opts: ['s', 'od', 'do', 'bez'],
-    answer: 's',
-    tip: 'od, do, iz, bez and kod are the genitive set; s takes the instrumental.',
+    opts: ['prema', 'od', 'do', 'bez'],
+    answer: 'prema',
+    tip: 'od, do, iz, bez and kod are the genitive set; prema takes the dative.',
   },
   {
     mode: 'genitiv',
