@@ -5032,12 +5032,12 @@ const LESSONS_CORE = [
         options: [
           'Mi je moja starija sestra rekla.',
           'Moja starija sestra mi je rekla.',
-          'Moja mi je starija sestra rekla.',
-          'Rekla mi je moja starija sestra.',
+          'Moja starija sestra je mi rekla.',
+          'Moja starija sestra rekla je mi.',
         ],
         correct: 1,
         explanation:
-          "'Moja starija sestra mi je rekla.' — The entire noun phrase 'Moja starija sestra' is the first stressed unit. The clitic cluster (mi je) follows immediately after the complete NP. This is the second-position rule applied to a multi-word first unit.",
+          "'Moja starija sestra mi je rekla.' — The entire noun phrase 'Moja starija sestra' is the first stressed unit. The clitic cluster (mi je) follows immediately after the complete NP, with the third-person je last. (The cluster may also follow the first stressed word — 'Moja mi je starija sestra rekla' — which is equally standard.) 'je mi' reverses the cluster, and 'rekla je mi' leaves mi after je.",
       },
       {
         type: 'rule',
@@ -5299,18 +5299,18 @@ const LESSONS_CORE = [
         q: "Formal news Croatian: 'The law was passed.' How would you say this?",
         options: [
           'Zakon je prolazio.',
-          'Zakon je prošao.',
+          'Zakon je usvojio.',
           'Zakon je prošan.',
           'Zakon je usvojen.',
         ],
         correct: 3,
         explanation:
-          "'Zakon je usvojen.' — In formal/legal Croatian, 'usvojiti' (to adopt/pass [a law]) → 'usvojen' (passive participle). This is the standard media formula. 'Prošao' means passed physically through; 'prošan' is not a standard form. The passive participle 'usvojen' with 'biti' forms the standard passive voice for formal announcements.",
+          "'Zakon je usvojen.' — In formal/legal Croatian, 'usvojiti' (to adopt/pass [a law]) → 'usvojen' (passive participle). This is the standard media formula. 'Zakon je usvojio' uses the active participle and would make the law the one doing the adopting; 'prolazio' is an ongoing process; 'prošan' is not a form at all. The passive participle 'usvojen' with 'biti' forms the standard passive voice for formal announcements.",
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners form the verbal noun from the perfective: 'napisanje' — verbal nouns in -nje come almost only from imperfectives, 'pisanje'; the perfective gives a participle, 'napisan'. Second, the adverbial participle is given a subject of its own: 'Došavši kući, ključevi su bili na stolu' — the participle must share the subject of the main clause, otherwise the keys came home. Third, the present participle is used for a completed action: 'Pročitajući knjigu, vratio ju je' — a prior completed action takes -vši, 'Pročitavši knjigu'.",
+        body: "Learners build a verbal noun from any perfective: 'napisanje' — for most verbs the everyday verbal noun comes from the imperfective, 'pisanje', and the perfective gives a participle, 'napisan' (the perfective nouns that do exist, such as rješenje or poboljšanje, are learned one by one, not built). Second, the adverbial participle is given a subject of its own: 'Došavši kući, ključevi su bili na stolu' — the participle must share the subject of the main clause, otherwise the keys came home. Third, the present participle is used for a completed action: 'Pročitajući knjigu, vratio ju je' — a prior completed action takes -vši, 'Pročitavši knjigu'.",
         highlight: 'the participle must share the subject of the main clause',
       },
       {
@@ -5428,7 +5428,7 @@ const LESSONS_CORE = [
         title: 'Register Shifts — The Same Idea, Two Ways',
         headers: ['Formal', 'Informal/Colloquial', 'English'],
         rows: [
-          ['Kako ste?', 'Kak si? / Šta ima?', 'How are you?'],
+          ['Kako ste?', 'Kak si? / Što ima?', 'How are you?'],
           ['Molim Vas.', 'Molim te. / Molim.', 'Please.'],
           ['Hvala lijepa.', 'Hvala! / Fala!', 'Thank you!'],
           ['Ne razumijem.', 'Ne kapim. / Nisam skužio.', "I don't understand."],
@@ -5453,9 +5453,9 @@ const LESSONS_CORE = [
             note: "Lit: 'Darkness fell on his eyes' — rage",
           },
           {
-            hr: 'Čuvaj se kao od vatre.',
-            en: 'Avoid it like the plague.',
-            note: "Lit: 'Guard yourself as from fire'",
+            hr: 'Čuvaj ga se kao vatre.',
+            en: 'Avoid him like the plague.',
+            note: "Lit: 'Guard yourself from him as from fire'",
           },
           {
             hr: 'Nije mu sve doma.',
@@ -5563,7 +5563,7 @@ const LESSONS_CORE = [
           [
             'Tko rano rani, dvije sreće grabi.',
             'Who rises early grabs two fortunes.',
-            'The early bird catches two worms.',
+            'The early bird catches the worm.',
           ],
           [
             'Svaka ptica svojem jatu leti.',
@@ -5641,7 +5641,7 @@ const LESSONS_CORE = [
           {
             q: 'Which sentence is appropriate when opening a phone call to a client?',
             options: [
-              'Kak si, šefe, šta ima?',
+              'Kak si, šefe, što ima?',
               'Dobar dan, ovdje Ivan Horvat iz tvrtke Adria.',
               'Ej, bog, jesi tu?',
               'Ma gdje si, stari!',
@@ -8816,7 +8816,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Dialect Dignity — Čakavian and Kajkavian',
-        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and was the language of Baroque Croatian poetry. Neither dialect is "broken Croatian" — both are distinct systems with UNESCO recognition as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing a living medieval language.',
+        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and carried its own literary tradition from the 16th to the 19th century. Neither dialect is "broken Croatian" — both are distinct systems, recognised in Croatia as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing a living medieval language.',
         highlight: 'Čakavian and Kajkavian are treasured heritage dialects',
       },
       {
@@ -9193,7 +9193,7 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          'zašutješe is the aorist 3rd plural (-še) of the perfective zašutjeti — a sudden completed event: everyone fell silent at once. The imperfekt of an ongoing state would be šućahu/šutjehu from the imperfective šutjeti.',
+          'zašutješe is the aorist 3rd plural (-še) of the perfective zašutjeti — a sudden completed event: everyone fell silent at once. The imperfekt of an ongoing state would be šućahu from the imperfective šutjeti.',
       },
       {
         type: 'quiz',
@@ -9282,7 +9282,7 @@ const LESSONS_CORE = [
           },
           {
             q: "Which verb forms the imperfekt 'bijaše'?",
-            options: ['biti', 'bježati', 'biti se', 'bijeliti'],
+            options: ['biti', 'bježati', 'bivati', 'bijeliti'],
             correct: 0,
             explanation:
               'bijah, bijaše, bijasmo… is the imperfekt of biti (to be), the most frequent imperfekt in literature.',
@@ -9508,7 +9508,7 @@ const LESSONS_CORE = [
             options: ['-ost', '-ić', '-ač', '-ina'],
             correct: 0,
             explanation:
-              'mlad → mladost, radostan → radost, hrabar → hrabrost. -ić is diminutive, -ač an agent, -ina an augmentative.',
+              'mlad → mladost, star → starost, hrabar → hrabrost. -ić is diminutive, -ač an agent, -ina an augmentative.',
           },
           {
             q: "What tone does 'glavurina' carry compared with 'glava'?",
@@ -9830,7 +9830,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Verb Agreement — The Surprise',
-        body: "With -oje/-ero collectives the verb is often neuter singular: 'Došlo je petero studenata' (five students came). With -ica male groups the verb is masculine plural: 'Dvojica su čekala ispred.' And 'nas dvoje' (the two of us) takes a plural verb: 'Nas dvoje idemo zajedno.'",
+        body: "With -oje/-ero collectives the verb is often neuter singular: 'Došlo je petero studenata' (five students came). With -ica male groups the verb is plural, and the participle normally takes -a: 'Dvojica su čekala ispred.' And 'nas dvoje' (the two of us) takes a plural verb: 'Nas dvoje idemo zajedno.'",
         highlight: 'Došlo je petero... · Dvojica su čekala · Nas dvoje idemo',
       },
       {
