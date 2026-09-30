@@ -27,6 +27,8 @@ vi.mock('../lib/teachPractice', () => ({ recordScreenPractised: vi.fn() }));
 vi.mock('../lib/cefrCertification', () => ({ getCurrentContentLevel: () => 'A1' }));
 vi.mock('../hooks/useOnlineStatus', () => ({ useOnlineStatus: () => ({ isOnline: true }) }));
 // A recorder that records on demand: start → recording, stop → one finished take.
+// `recorder.startsAs` lets a test make start fail the way a blocked mic does.
+const recorder: { startsAs: string } = { startsAs: 'recording' };
 vi.mock('../hooks/useRecorder', async () => {
   const R = await import('react');
   return {
@@ -41,7 +43,7 @@ vi.mock('../hooks/useRecorder', async () => {
         mimeType: 'audio/webm',
         countdown: 0,
         error: null,
-        startRecording: () => setState('recording'),
+        startRecording: () => setState(recorder.startsAs),
         stopRecording: () => {
           setBlob(new Blob(['x'], { type: 'audio/webm' }));
           setState('done');
@@ -97,6 +99,7 @@ const check = (recognized: string, words: [string, number, string?][]): SpokenCh
 beforeEach(() => {
   localStorage.clear();
   postMock.mockReset();
+  recorder.startsAs = 'recording';
   _resetAssessedMic();
   (window as unknown as { MediaRecorder: unknown }).MediaRecorder = class {};
   Object.defineProperty(navigator, 'mediaDevices', {
@@ -323,6 +326,42 @@ describe('the screen, recording checked against the target', () => {
     expect(screen.getByTestId('gs-build')).toBeTruthy();
     expect(screen.queryByTestId('gs-assess-build')).toBeNull();
     expect(postMock).toHaveBeenCalledTimes(1);
+  });
+
+  // Speaking microphone walk (2026-09-30): Azure's 422 no_speech is about THIS take, and
+  // one silent recording used to switch the word-by-word check off for the whole stage.
+  it('a take with no speech names why and keeps the checked mic for the next take', async () => {
+    postMock.mockResolvedValueOnce({
+      ok: false,
+      status: 422,
+      json: async () => ({ ok: false, error: 'no_speech' }),
+    });
+    postMock.mockResolvedValueOnce(azure(PHRASE, [['Zovem', 92]]));
+    toRehearse();
+    await sayIt('gs-assess-phrase');
+    await waitFor(() => expect(screen.getByTestId('gs-assess-phrase-notice')).toBeTruthy());
+    expect(screen.getByTestId('gs-assess-phrase-notice').textContent).toMatch(
+      /couldn't transcribe/,
+    );
+    // Still the checked mic, not the recogniser button.
+    expect(screen.getByTestId('gs-assess-phrase')).toBeTruthy();
+    expect(screen.queryByTestId('gs-record-phrase')).toBeNull();
+    await sayIt('gs-assess-phrase');
+    await waitFor(() => expect(screen.getByTestId('gs-heard-words')).toBeTruthy());
+    expect(screen.queryByTestId('gs-assess-phrase-notice')).toBeNull();
+    expect(postMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('a blocked microphone says so instead of silently swapping the button', async () => {
+    recorder.startsAs = 'denied';
+    toRehearse();
+    fireEvent.click(screen.getByTestId('gs-assess-phrase'));
+    await act(async () => {});
+    expect(screen.getByTestId('gs-assess-phrase-notice').textContent).toMatch(
+      /microphone access is blocked/,
+    );
+    expect(screen.queryByTestId('gs-assess-phrase')).toBeNull();
+    expect(postMock).not.toHaveBeenCalled();
   });
 
   it('a device that cannot record keeps the old path and never calls the service', () => {

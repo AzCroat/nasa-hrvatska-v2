@@ -57,6 +57,7 @@ import type { CefrLevel } from '../../lib/cefr';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import { canDoFor } from '../../data/courseUnitCanDo';
 import { heardCroatian } from '../../lib/heardCroatian';
+import { recognizerErrorMessage } from '../../lib/recognizerError';
 import SpeakCheck from '../practice/SpeakCheck';
 import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
 
@@ -87,6 +88,10 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
   const [score, setScore] = useState<number | null>(null);
   const [listening, setListening] = useState(false);
   const [recFailed, setRecFailed] = useState(false);
+  // WHY the recogniser stopped, in words. `recFailed` alone told SpeakCheck to stand
+  // down and told the learner nothing: a blocked mic turned the button back to
+  // "Speak" and the tap simply did nothing (speaking microphone walk, 2026-09-30).
+  const [recError, setRecError] = useState('');
   // The spoken answer, checked against its own recording (components/practice/SpeakCheck).
   const [speakCheck, setSpeakCheck] = useState<SpokenCheck | null>(null);
   const paid = useRef(false);
@@ -206,13 +211,15 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
         setText((prev) => (prev ? `${prev} ${said}`.trim() : said.trim()));
       };
       rec.onend = () => setListening(false);
-      rec.onerror = () => {
+      rec.onerror = (err: any) => {
         setListening(false);
         setRecFailed(true);
+        setRecError(recognizerErrorMessage(err?.error));
       };
       recRef.current = rec;
       rec.start();
       setRecFailed(false);
+      setRecError('');
       setListening(true);
     } catch {
       setListening(false);
@@ -313,6 +320,15 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
         >
           {listening ? '■ Stop recording' : '🎤 Speak — or type below, it counts the same'}
         </button>
+      )}
+      {kind === 'speak' && recError && (
+        <div
+          data-testid="unit-production-mic-error"
+          role="status"
+          style={{ fontSize: 12.5, color: 'var(--ink-warn)', margin: '-4px 2px 10px' }}
+        >
+          {recError}
+        </div>
       )}
 
       <textarea
