@@ -152,9 +152,9 @@ export const WISHES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zelje',
     q: 'Volio bih ____. (to come, myself)',
     en: 'I would like to come.',
-    opts: ['doći', 'da dođem', 'došao', 'dolazim'],
+    opts: ['doći', 'dođi', 'došao', 'dolazim'],
     answer: 'doći',
-    tip: 'Your own wish takes the bare infinitive — no da needed.',
+    tip: 'Your own wish takes the bare infinitive: volio bih doći.',
   },
   {
     mode: 'zelje',

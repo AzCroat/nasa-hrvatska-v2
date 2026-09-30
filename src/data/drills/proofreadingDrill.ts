@@ -75,7 +75,7 @@ export const PROOFREADING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'prolazi',
     q: 'Što je "lektor"?',
     en: 'What is a lektor?',
-    opts: ['jezični urednik teksta', 'sveučilišni predavač', 'čitatelj', 'prevoditelj'],
+    opts: ['jezični urednik teksta', 'autor teksta', 'čitatelj', 'prevoditelj'],
     answer: 'jezični urednik teksta',
     tip: 'Croatian publishing employs one — which is why the standard is visible.',
   },
@@ -231,7 +231,7 @@ export const PROOFREADING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pravopis',
-    q: 'Koji je infinitiv od "ručak"?',
+    q: 'Koji glagol pripada riječi "ručak"?',
     en: 'Which verb goes with ručak?',
     opts: ['ručati', 'rućati', 'ručiti', 'ručevati'],
     answer: 'ručati',

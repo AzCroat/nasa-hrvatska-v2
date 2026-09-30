@@ -91,7 +91,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which case after blizu?',
     opts: ['genitiv', 'lokativ', 'akuzativ', 'dativ'],
     answer: 'genitiv',
-    tip: 'blizu centra — genitive, like every position word.',
+    tip: 'blizu centra — genitive, like pokraj, ispred and iza.',
   },
 
   // ── sobe ──────────────────────────────────────────────────────────────────

@@ -37,7 +37,7 @@ export const SPONTANEOUS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'postapalice',
     q: 'Koje su prave hrvatske poštapalice?',
     en: 'The real Croatian fillers:',
-    opts: ['pa, ovaj, znači, mislim', 'um, you know', 'ovaj, well', 'ahm, dakle'],
+    opts: ['pa, ovaj, znači, mislim', 'um, you know', 'ovaj, well', 'like, dakle'],
     answer: 'pa, ovaj, znači, mislim',
     tip: 'Translated English fillers are more conspicuous than the pause would be.',
   },

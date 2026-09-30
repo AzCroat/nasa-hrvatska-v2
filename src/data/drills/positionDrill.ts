@@ -42,7 +42,7 @@ export const POSITION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'parovi',
     q: '____, molim vas! (sit down)',
     en: 'Sit down, please!',
-    opts: ['Sjednite', 'Sjedite', 'Sjedali', 'Sjedni ste'],
+    opts: ['Sjednite', 'Sjednete', 'Sjedali', 'Sjedni ste'],
     answer: 'Sjednite',
     tip: 'sjesti is the CHANGE — the act of sitting down.',
   },

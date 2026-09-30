@@ -37,7 +37,7 @@ export const POLITICS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The Croatian parliament is:',
     opts: ['Sabor', 'Parlament', 'Skupština', 'Vijeće'],
     answer: 'Sabor',
-    tip: 'The word parlament exists but is not what anyone writes.',
+    tip: 'The word parlament exists, but the institution itself is called the Sabor (Hrvatski sabor).',
   },
   {
     mode: 'institucije',
@@ -209,7 +209,7 @@ export const POLITICS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is a referendum?',
     opts: ['referendum', 'a report', 'a recommendation', 'a review'],
     answer: 'referendum',
-    tip: 'Kept whole from Latin, like inflacija.',
+    tip: 'Kept whole from Latin, as in English.',
   },
   {
     mode: 'drustvo',
