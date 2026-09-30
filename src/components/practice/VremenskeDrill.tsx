@@ -47,7 +47,7 @@ const DATA = [
   {
     mode: 'veznici',
     q: 'Nazvao me ____ što je otišao.',
-    opts: ['prije nego', 'poslije nego', 'ranije nego', 'čim nego'],
+    opts: ['prije nego', 'poslije nego', 'dok ne', 'čim nego'],
     answer: 'prije nego',
     en: 'he called me before he left',
     tip: 'Prije nego što + rečenica.',
@@ -86,8 +86,8 @@ const DATA = [
   },
   {
     mode: 'vid',
-    q: 'Dok ____ , ne ometaj me. (raditi / uraditi)',
-    opts: ['radim', 'uradim', 'radio', 'uradit ću'],
+    q: 'Dok ____ , ne ometaj me. (raditi / odraditi)',
+    opts: ['radim', 'odradim', 'radio', 'odradit ću'],
     answer: 'radim',
     en: 'while I am working, do not disturb me',
     tip: 'Dok (istodobnost) + nesvršeni prezent.',

@@ -119,15 +119,15 @@ const DATA = [
     opts: ['Troje', 'Trojica', 'Tri', 'Trima'],
     answer: 'Troje',
     en: 'three children came to the party',
-    tip: 'Djeca su mješovita skupina → troje djece.',
+    tip: 'Uz imenicu djeca dolazi zbirni broj: troje djece.',
   },
   {
     mode: 'obadvoje',
     q: 'Dvoje ljudi ____ u sobi. (sjediti)',
-    opts: ['sjedi', 'sjede', 'sjedimo', 'sjedila'],
+    opts: ['sjedi', 'sjedite', 'sjedimo', 'sjedila'],
     answer: 'sjedi',
     en: 'two people are sitting in the room',
-    tip: 'Dvoje + jednina: dvoje ljudi sjedi.',
+    tip: 'Uz dvoje glagol je obično u jednini: dvoje ljudi sjedi.',
   },
   {
     mode: 'obadvoje',

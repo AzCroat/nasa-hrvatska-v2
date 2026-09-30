@@ -22,10 +22,10 @@ const DATA = [
   },
   {
     mode: 'arhaizmi',
-    q: 'Arhaizam „jamačno” znači:',
+    q: 'Knjiška riječ „jamačno” znači:',
     opts: ['sigurno, zacijelo', 'možda', 'nikako', 'glasno'],
     answer: 'sigurno, zacijelo',
-    en: 'jamačno = surely (archaic)',
+    en: 'jamačno = surely (literary)',
     tip: 'Od jamčiti — jamačno će doći.',
   },
   {

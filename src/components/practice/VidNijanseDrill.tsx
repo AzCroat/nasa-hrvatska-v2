@@ -70,10 +70,10 @@ const DATA = [
   },
   {
     mode: 'faze',
-    q: 'Samo nemoj ____ lozinku — jednom je dovoljno.',
+    q: 'Samo nemoj ____ lozinku — bez nje ne možeš ući!',
     opts: ['zaboraviti', 'zaboravljati', 'zaboravio', 'zaboravi'],
     answer: 'zaboraviti',
-    en: 'just do not forget the password — once would be enough',
+    en: 'just do not forget the password — you cannot get in without it!',
     tip: 'Zabrana JEDNOG čina → svršeni: nemoj zaboraviti.',
   },
   {

@@ -59,7 +59,7 @@ export const DATA: WordOrderItem[] = [
   },
   {
     q: 'What is your name?',
-    opts: ['Kako se zoveš?', 'Kako zoveš se?', 'Se kako zoveš?', 'Zoveš se kako?'],
+    opts: ['Kako se zoveš?', 'Kako zoveš se?', 'Se kako zoveš?', 'Zoveš kako se?'],
     answer: 'Kako se zoveš?',
     tip: '"se" is a second-seat word too: Kako se zoveš? — right after the first word.',
   },

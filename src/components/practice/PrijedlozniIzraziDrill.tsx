@@ -70,7 +70,7 @@ const DATA = [
   },
   {
     mode: 'slozeni',
-    q: '____ svih napora, projekt nije uspio.',
+    q: '____ svim naporima, projekt nije uspio.',
     opts: ['Usprkos', 'Usprkos na', 'Protiv', 'Uz prkos'],
     answer: 'Usprkos',
     en: 'despite all efforts, the project did not succeed',
@@ -119,7 +119,7 @@ const DATA = [
   {
     mode: 'razlike',
     q: 'Došli su ____ posla ravno na večeru.',
-    opts: ['s', 'sa', 'iz', 'od'],
+    opts: ['s', 'na', 'iz', 'od'],
     answer: 's',
     en: 'they came straight from work to dinner',
     tip: 'S posla (sa samo ispred s, š, z, ž); iz ide s unutrašnjosti prostora.',
