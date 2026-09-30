@@ -66,7 +66,7 @@ export const PRACTICE_B2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dopuni: "Večeras ___ pokazati." (I will show it to you tonight — ću, ti, ga)',
+          q: 'Dopuni: "Večeras ___ pokazati." (I will show it to you tonight — ga, ti, ću)',
           options: ['ti ga ću', 'ću ti ga', 'ga ti ću', 'ću ga ti'],
           correct: 1,
           hint: 'The future auxiliary takes the same slot as sam: it opens the cluster, and dative comes before accusative.',
@@ -297,12 +297,12 @@ export const PRACTICE_B2 = {
           q: 'You are asking a stranger in the street: "Could you tell me where the station is?"',
           options: [
             'Bi li mi mogao reći gdje je kolodvor?',
-            'Biste li mi mogao reći gdje je kolodvor?',
+            'Biste li mi mogli rekli gdje je kolodvor?',
             'Li biste mi mogli reći gdje je kolodvor?',
             'Biste li mi mogli reći gdje je kolodvor?',
           ],
           correct: 3,
-          hint: 'A stranger gets the Vi-form, and with Vi the participle goes into the plural. Then check what can open the question.',
+          hint: 'A stranger gets the Vi-form, and with Vi the participle goes into the plural. Then check the second verb form and what can open the question.',
           explanation:
             'Biste li mi mogli reći… — Vi-form, plural participle, auxiliary + li first.',
         },
@@ -1902,7 +1902,7 @@ export const PRACTICE_B2 = {
     ],
     vocab: [
       ['početi', 'to begin (pf.)', 'Počeli smo učiti hrvatski prošle jeseni.'],
-      ['nastaviti', 'to continue (pf.)', 'Nastavila je raditi i nakon mirovine.'],
+      ['nastaviti', 'to continue (pf.)', 'Nastavila je raditi i u mirovini.'],
       ['prestati', 'to stop (pf.)', 'Prestao je pušiti prije pet godina.'],
       ['uspjeti', 'to manage, to succeed (pf.)', 'Uspjeli smo stići na zadnji vlak.'],
       ['zaboraviti', 'to forget (pf.)', 'Zaboravila sam ponijeti kišobran.'],
@@ -2281,7 +2281,8 @@ export const PRACTICE_B2 = {
           'legao should be legavši',
         ],
         correct: 1,
-        explanation: 'Only perfective verbs give -vši, so the form is došavši.',
+        explanation:
+          'The -vši adverb is built from the perfective verb, so "having come" is došavši.',
       },
       {
         q: "Mum is cooking and the children are playing. Why is 'Kuhajući ručak, djeca su se igrala' wrong?",
@@ -3936,7 +3937,7 @@ export const PRACTICE_B2 = {
         explanation: 'Što se tiče takes the genitive: stanarine.',
       },
       {
-        q: "Complete: 'Kad je riječ o ___, grad ima puno toga za ponuditi.' (When it comes to education — obrazovanje)",
+        q: "Complete: 'Kad je riječ o ___, grad može puno toga ponuditi.' (When it comes to education — obrazovanje)",
         options: ['obrazovanje', 'obrazovanja', 'obrazovanju', 'obrazovanjem'],
         correct: 2,
         explanation: 'Kad je riječ o takes the locative: o obrazovanju.',
@@ -4555,7 +4556,7 @@ export const PRACTICE_B2 = {
       },
       {
         q: 'Which opening fits an email to a colleague you know well?',
-        options: ['Poštovani gospodine,', 'Bog Marko,', 'S poštovanjem,', 'Poštovani svi,'],
+        options: ['Poštovani gospodine,', 'Bog, Marko,', 'S poštovanjem,', 'Poštovani svi,'],
         correct: 1,
         explanation: 'Bog + name is for a colleague you are close to; Poštovani is formal.',
       },

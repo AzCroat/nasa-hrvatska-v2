@@ -1460,7 +1460,7 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: 'Marko ___ knjigu.' (gave me the book — dative mi, auxiliary je)",
+            q: "Complete: 'Marko ___ knjigu.' (gave me the book — auxiliary je, dative mi)",
             options: ['je mi dao', 'dao je mi', 'mi dao je', 'mi je dao'],
             correct: 3,
             explanation:
@@ -1878,11 +1878,11 @@ const LESSONS_CORE = [
       },
       {
         type: 'quiz',
-        q: "Complete: 'Volio bih posjetiti Dubrovnik, ___ sam čuo da je predivno.'",
+        q: "Complete: 'Volio bih posjetiti Dubrovnik ___ sam čuo da je predivno.'",
         options: ['jer', 'iako', 'čim', 'dok'],
         correct: 0,
         explanation:
-          "'jer' (because) is correct — 'Volio bih posjetiti Dubrovnik, jer sam čuo da je predivno.' (I would love to visit Dubrovnik, because I've heard it's beautiful.) 'iako' would mean 'although', which contradicts the positive intent. 'čim' means 'as soon as' and 'dok' means 'while' — neither fits here.",
+          "'jer' (because) is correct — 'Volio bih posjetiti Dubrovnik jer sam čuo da je predivno.' (No comma: a jer-clause after the main clause is not set off.) (I would love to visit Dubrovnik, because I've heard it's beautiful.) 'iako' would mean 'although', which contradicts the positive intent. 'čim' means 'as soon as' and 'dok' means 'while' — neither fits here.",
       },
       {
         type: 'rule',
@@ -3404,7 +3404,7 @@ const LESSONS_CORE = [
             note: 'nemati + genitive: vremena, novca',
           },
           {
-            hr: 'Ne kupuj kruh, već ga imamo.',
+            hr: 'Ne kupuj kruh, imamo ga već.',
             en: "Don't buy bread, we already have some.",
             note: 'ne + imperfective imperative',
           },
@@ -6942,7 +6942,7 @@ const LESSONS_CORE = [
           ['Style', 'Formal / written', 'Conversational / everyday'],
           ['Agent', 'Can name with od + Gen', 'Never names agent'],
           ['Tense', 'All tenses possible', 'Most natural in present'],
-          ['Example', 'Auto je popravljen.', 'Auto se popravio.'],
+          ['Example', 'Auto je popravljen.', 'Auto se popravlja.'],
         ],
       },
       {
@@ -8603,7 +8603,7 @@ const LESSONS_CORE = [
             note: 'formal opening; Vam capitalised; u vezi s + instrumental',
           },
           {
-            hr: 'Bog Ana, jesi za kavu sutra?',
+            hr: 'Bog, Ana, jesi za kavu sutra?',
             en: 'Hi Ana, up for a coffee tomorrow?',
             note: 'informal message — ti, clipped question',
           },
