@@ -64,7 +64,6 @@ function readServedLessons(): Record<string, string> {
 export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | null {
   const cefr = readSessionCefr();
   const unlocked = lessons.filter((l) => isUnlocked(l.level ?? 'A1', cefr));
-  if (unlocked.length === 0) return null;
   const served = readServedLessons();
 
   // ── THE COURSE DECIDES (increment 3, 2026-09-26) ──────────────────────────
@@ -73,16 +72,25 @@ export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | n
   // The session and the map must not be able to disagree about what comes next, so
   // both read `nextCourseStep`.
   //
-  // The step is only honoured when its lesson is actually present and unlocked. A
-  // spine that names a lesson this client cannot serve falls through to rotation
-  // rather than returning null: the learner gets taught either way.
+  // The step is only honoured when its lesson is actually present. A spine that
+  // names a lesson this client cannot serve falls through to rotation rather than
+  // returning null: the learner gets taught either way.
+  //
+  // THE COURSE'S LESSON IS NOT FILTERED BY `cefrLevel` (course walk, 2026-09-30).
+  // `nh_daily_session.cefrLevel` is the XP-derived unlock level, stored to
+  // invalidate the plan; the course opens units by ITS bar, not by XP. Filtering the
+  // step through it meant a learner whose course stood above their XP level — every
+  // learner who tested out of a unit, and any seeded B1 learner at 250 XP — read
+  // "Unit 13 of 36 · Genitive in depth" on Home, pressed Begin, and was handed the A1
+  // alphabet lesson by the rotation below. The unlock filter still bounds ROTATION,
+  // which is the fallback it was written for.
   const curriculumPick = (() => {
     try {
       // The lesson BEHIND a due check-up: a check-up day still teaches one, and the
       // session's lesson slot is that lesson, not a rotation pick.
       const step = nextCourseStep({ skipRechecks: true });
       if (!step || step.kind !== 'lesson') return null;
-      return unlocked.find((l) => l.id === step.lesson.id) ?? null;
+      return lessons.find((l) => l.id === step.lesson.id) ?? null;
     } catch {
       // The course is an improvement to the pick, never a dependency of it.
       return null;
@@ -99,6 +107,7 @@ export function pickSessionLesson<T extends AnimLessonLike>(lessons: T[]): T | n
     return curriculumPick;
   }
 
+  if (unlocked.length === 0) return null;
   const pick = [...unlocked].sort((a, b) => {
     const la = served[a.id] ?? '';
     const lb = served[b.id] ?? '';
