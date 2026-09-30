@@ -24,8 +24,8 @@ const DATA = [
   {
     mode: 'naslovi',
     q: 'Naslov „Dinamo prvak!” izostavlja:',
-    opts: ['glagol biti (je postao)', 'subjekt', 'pridjev', 'veznik'],
-    answer: 'glagol biti (je postao)',
+    opts: ['glagol biti (je)', 'subjekt', 'pridjev', 'veznik'],
+    answer: 'glagol biti (je)',
     en: 'what the headline leaves out',
     tip: 'Imenski naslov: Dinamo (je) prvak.',
   },

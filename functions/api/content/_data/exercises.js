@@ -3789,10 +3789,10 @@ export const PREPDRILL = [
     en: 'I\u0027m talking about the movie.',
   },
   {
-    sentence: 'Idem ___ liječnika.',
+    sentence: 'Bio sam ___ liječnika.',
     answer: 'kod',
-    opts: ['kod', 'u', 'na', 'za'],
-    en: 'I\u0027m going to the doctor.',
+    opts: ['kod', 'od', 'na', 'za'],
+    en: 'I was at the doctor\u0027s.',
   },
   {
     sentence: 'Mačka je ___ stola.',
@@ -3825,10 +3825,10 @@ export const PREPDRILL = [
     en: 'Fences around the house.',
   },
   {
-    sentence: 'Pao je ___ kreveta.',
+    sentence: 'Pao je ___ bicikla.',
     answer: 's',
     opts: ['s', 'iz', 'od', 'na'],
-    en: 'He fell off the bed.',
+    en: 'He fell off the bike.',
   },
 ];
 export const DECL = {

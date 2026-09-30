@@ -72,7 +72,7 @@ export const DATA: VerbItem[] = [
     opts: ['radim', 'radiš', 'radi', 'rade'],
     answer: 'rade',
     en: 'They work in a hospital.',
-    tip: '"They" ends in -e or -ju: rade, govore, but čitaju, imaju. Both mean "they".',
+    tip: '"They" ends in -e, -u or -ju: rade, govore, idu, pišu, čitaju, imaju. All mean "they".',
   },
   {
     q: 'Ja ___ knjigu svaku večer.',

@@ -78,10 +78,15 @@ const DATA = [
   {
     mode: 'znacenje',
     q: '„Tiha voda brege dere” znači:',
-    opts: ['mirni ljudi postižu najviše', 'voda uništava', 'šutnja je zlato', 'planine su opasne'],
-    answer: 'mirni ljudi postižu najviše',
+    opts: [
+      'mirni ljudi kriju neočekivanu snagu',
+      'voda uništava',
+      'šutnja je zlato',
+      'planine su opasne',
+    ],
+    answer: 'mirni ljudi kriju neočekivanu snagu',
     en: 'quiet water wears away the banks',
-    tip: 'Tiha ustrajnost pobjeđuje.',
+    tip: 'Od tihih, povučenih ljudi može se očekivati i ono što nitko ne bi rekao.',
   },
   {
     mode: 'znacenje',

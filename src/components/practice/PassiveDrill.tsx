@@ -7,7 +7,7 @@ const DATA = [
     opts: ['se govori', 'se govoriti', 'govori se ti', 'govoriti'],
     answer: 'se govori',
     en: 'Croatian is spoken here.',
-    tip: "se-passive: 3rd sg (impersonal). Clitic 'se' precedes the verb: 'se govori'",
+    tip: "se-passive: 3rd sg. 'se' is a clitic in second position, here right after 'Ovdje': Ovdje se govori hrvatski.",
   },
   {
     q: 'The house is being built. = Kuća ___.',
