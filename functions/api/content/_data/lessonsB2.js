@@ -89,7 +89,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Almost Everything Is -i',
-        body: 'Look at that table again: in the singular, five of the six forms are either "stvar" or "stvari". That is the real news — this class is EASIER than the -a nouns, not harder. Learn "genitive, dative and locative are all -i, and the accusative equals the nominative", and you have the whole singular.',
+        body: 'Look at that table again: in the singular, every form is either "stvar" or "stvari" (the instrumental also has a second form, stvarju). That is the real news — this class is EASIER than the -a nouns, not harder. Learn "genitive, dative, locative and instrumental are all -i, and the accusative equals the nominative", and you have the whole singular.',
         highlight: 'five forms, two shapes',
       },
       {
@@ -566,7 +566,7 @@ export const LESSONS_B2 = [
         headers: ['Frame', 'Aspect', 'Example'],
         rows: [
           ['početi / nastaviti / prestati', 'imperfective only', 'Počeo sam učiti.'],
-          ['nemoj + infinitive', 'imperfective normally', 'Nemoj brinuti.'],
+          ['nemoj + infinitive', 'imperfective normally', 'Nemoj se brinuti.'],
           ['modal + infinitive', 'either, and it matters', 'Moram napisati.'],
           ['uspjeti (manage to)', 'perfective', 'Uspio sam završiti.'],
           ['voljeti (like doing)', 'imperfective', 'Volim čitati.'],
@@ -728,7 +728,7 @@ export const LESSONS_B2 = [
               '"Moram čitati" — the imperfective marks a result',
               'Both mean exactly the same',
               '"Moram pročitati" — the perfective commits to getting it read',
-              'Neither; you need "morati da"',
+              'Neither; after morati you need the present tense',
             ],
             correct: 2,
             explanation:
@@ -1053,7 +1053,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Aspect Decides Which Form',
-        body: 'The pairing is fixed and worth stating plainly: imperfective verbs give -ći, perfective verbs give -vši. There is no "pročitajući" and no "dolazivši". If you know a verb\'s aspect you already know which adverb it can form, which makes this much smaller than it first looks.',
+        body: 'The pairing is worth stating plainly: imperfective verbs give -ći, perfective verbs give -vši. There is no "pročitajući", and a -vši form from an imperfective such as "dolazivši" is at best rare and bookish — "having come" is došavši. If you know a verb\'s aspect you already know which adverb it can form, which makes this much smaller than it first looks.',
         highlight: 'imperfective → -ći · perfective → -vši',
       },
       {
@@ -1163,11 +1163,11 @@ export const LESSONS_B2 = [
               'The action was completed BEFORE the main verb, so the perfective doći gives the past adverb došavši. "Dođući" is not a form, and "došao" is the ordinary past tense.',
           },
           {
-            q: 'Complete: "___ po kiši, promočili smo do kože." (Walking in the rain, we got soaked.)',
+            q: 'Complete: "___ po kiši, pokisli smo do kože." (Walking in the rain, we got soaked.)',
             options: ['Hodavši', 'Hodajući', 'Hodaći', 'Hodati'],
             correct: 1,
             explanation:
-              'Hodati is imperfective and the walking runs alongside the soaking, so the present adverb in -ći from hodaju: hodajući. Imperfective verbs do not form -vši.',
+              'Hodati is imperfective and the walking runs alongside the soaking, so the present adverb in -ći from hodaju: hodajući. A -vši form would put the walking before the soaking.',
           },
           {
             q: 'Which sentence is correct?',
@@ -1205,7 +1205,7 @@ export const LESSONS_B2 = [
             options: ['govoreći', 'govorivši', 'govorajući', 'govoriti'],
             correct: 0,
             explanation:
-              'Start from the third-person plural govore and add -ći: govoreći. "Govorajući" is built from the wrong stem, and govoriti is imperfective so it has no -vši form.',
+              'Start from the third-person plural govore and add -ći: govoreći. "Govorajući" is built from the wrong stem, and "govorivši", a rare -vši form, would mean "having spoken", not "while speaking".',
           },
           {
             q: 'You want to say "While she was cooking, I set the table." Which is right?',
@@ -1262,8 +1262,8 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'The Shape: da + past, then the conditional',
-        body: 'The unreal condition goes into the perfect, and the main clause into the conditional — bih, bi, bi, bismo, biste, bi plus the participle. Da sam znao, rekao bih ti. (If I had known, I would have told you.) Da imamo više vremena, ostali bismo. Note that Croatian uses the same shape whether English would say "if I were" or "if I had been".',
+        title: 'The Shape: da + present or perfect, then the conditional',
+        body: 'An unreal condition about now takes the present after da; one about the past takes the perfect. The main clause goes into the conditional — bih, bi, bi, bismo, biste, bi plus the participle. Da imamo više vremena, ostali bismo. (If we had more time, we would stay.) Da sam znao, rekao bih ti. (If I had known, I would have told you.) Note that the main clause has the same shape whether English would say "I would" or "I would have".',
         highlight: 'Da sam znao, rekao bih ti.',
       },
       {
@@ -1276,7 +1276,7 @@ export const LESSONS_B2 = [
           ['Ako si znao, zašto nisi rekao?', 'If you knew, why did you not say?', 'maybe'],
           ['Da si znao, rekao bi.', 'If you had known, you would have said.', 'you did not'],
           ['Ako bude kiše, ostajemo.', 'If it rains, we are staying.', 'it might'],
-          ['Da nije kiše, izašli bismo.', 'If it were not raining, we would go out.', 'it is'],
+          ['Da ne pada kiša, izašli bismo.', 'If it were not raining, we would go out.', 'it is'],
         ],
       },
       {
@@ -1426,7 +1426,7 @@ export const LESSONS_B2 = [
             ],
             correct: 2,
             explanation:
-              'The condition is unreal, so the result must be conditional too: došao bih. "Kad bih" itself is fine, and nemati vremena takes the genitive.',
+              'The condition is unreal, so the result must be conditional too: došao bih. "Kad bih" itself is fine, and "imati vremena" rightly takes the partitive genitive.',
           },
           {
             q: '"Ako imam vremena, doći ću." against "Da imam vremena, došao bih." Which is true?',
@@ -1466,7 +1466,7 @@ export const LESSONS_B2 = [
         title: 'Unreal Conditions — Key Takeaways',
         points: [
           'ako = it may happen · da = it did not',
-          'da + perfect, then bih / bi / bismo / biste plus the participle',
+          'da + present (now) or perfect (past), then bih / bi / bismo / biste plus the participle',
           '"Ako bih…" offers a condition as possible; for something untrue, use da or kad — and never "da bih", which means in order to',
           'Kad bih… means the same as Da… and reads slightly more formal',
           'The conditional alone softens any request or opinion',
@@ -1535,7 +1535,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Volio Bih Da Takes a Clause',
-        body: '"Volio bih" plus "da" expresses a wish about somebody else, and the verb inside stays in the present: Volio bih da dođeš. (I wish you would come.) Volio bih da je drugačije. With the same subject, drop the clause and use an infinitive: Volio bih doći. This is the infinitive-or-da rule from B1, doing exactly what it said it would.',
+        body: '"Volio bih" plus "da" expresses a wish about somebody else. For now or the future the verb inside is in the present: Volio bih da dođeš. For something already past it is the perfect: Volio bih da si bila tamo. (I wish you would come.) Volio bih da je drugačije. With the same subject, drop the clause and use an infinitive: Volio bih doći. This is the infinitive-or-da rule from B1, doing exactly what it said it would.',
         highlight: 'Volio bih da dođeš.',
       },
       {
@@ -2076,7 +2076,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Za vrijeme ručka svi sjedimo za stolom, a poslije idem po kavu.',
             en: 'During lunch we all sit at the table, and afterwards I go to get coffee.',
-            note: 'za + genitive (during), za + instrumental (at), po + accusative (fetch)',
+            note: 'za vrijeme + genitive (during), za + instrumental (at), po + accusative (fetch)',
           },
           {
             hr: 'Djeca trče po parku dok otac ide po kruh u pekarnicu.',
@@ -2527,7 +2527,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'The Pre- Prefix Means Too',
-        body: 'Attaching "pre-" to an adjective means excessively: preskup (too expensive), prevelik (too big), premalen (too small), prekasno (too late). It is compact and very common, and it is a different thing from "previše" plus a noun — preskupo je says the thing is too expensive, previše je skupo says much the same with more emphasis on the amount.',
+        body: 'Attaching "pre-" to an adjective means excessively: preskup (too expensive), prevelik (too big), premalen (too small), prekasno (too late). It is compact and very common, and it is a different thing from "previše" plus the adjective — preskupo je says the thing is too expensive, previše je skupo says much the same with more emphasis on the amount.',
         highlight: 'preskup · prevelik · prekasno',
       },
       {
@@ -2556,7 +2556,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Stan je prelijep, ali preskup.',
-            en: 'The flat is beautiful but too expensive.',
+            en: 'The flat is gorgeous but too expensive.',
             note: 'pre- twice, doing two different jobs',
           },
         ],
@@ -2626,7 +2626,7 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Zimi su dani ___ kraći." (In winter the days get shorter and shorter.)',
+            q: 'Complete: "U jesen su dani ___ kraći." (In autumn the days get shorter and shorter.)',
             options: ['više', 'sve', 'što', 'jako'],
             correct: 1,
             explanation:
@@ -3040,7 +3040,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Sve u svemu, mislim da prednosti prevladavaju.',
-            en: 'All in all, I think the advantages outweigh it.',
+            en: 'All in all, I think the advantages prevail.',
             note: 'weighing, then deciding',
           },
         ],
@@ -3117,7 +3117,7 @@ export const LESSONS_B2 = [
               '"Što se tiče" takes the genitive: što se tiče cijene. The locative "cijeni" belongs after kad je riječ o.',
           },
           {
-            q: 'Complete: "Kad je riječ o ___ , Hrvatska ima puno toga za ponuditi." (When it comes to tourism…)',
+            q: 'Complete: "Kad je riječ o ___ , Hrvatska može puno toga ponuditi." (When it comes to tourism…)',
             options: ['turizam', 'turizmu', 'turizma', 'turizmom'],
             correct: 1,
             explanation:
@@ -3461,7 +3461,7 @@ export const LESSONS_B2 = [
           ['Poštovani gospodine Horvat,', 'named, formal'],
           ['Poštovani svi,', 'to a group'],
           ['Dragi Ivane,', 'someone you know, semi-formal'],
-          ['Bog Ana,', 'a colleague you are close to'],
+          ['Bog, Ana,', 'a colleague you are close to'],
         ],
       },
       {
@@ -5018,7 +5018,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Potpisali smo ugovor na dvije godine.',
             en: 'We signed a two-year contract.',
-            note: 'potpisati — pot- + pisati, from B1',
+            note: 'potpisati — pod- + pisati, the d devoicing to t before p',
           },
         ],
       },
@@ -5202,7 +5202,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Sabor Is Not "Parlament"',
-        body: 'The Croatian parliament has its own name — Sabor — and it is always used. The word is old, from "sabrati" (to gather), and it predates the modern state by centuries. A newspaper will write "Sabor je izglasao…" and never "parlament", so this is one to know rather than infer.',
+        body: 'The Croatian parliament has its own name — Sabor — and it is always used. The word is old, from "sabrati" (to gather), and it predates the modern state by centuries. A newspaper will write "Sabor je izglasao…" — "parlament" turns up only as a descriptive synonym — so this is one to know rather than infer.',
         highlight: 'Sabor je izglasao…',
       },
       {
@@ -5401,7 +5401,7 @@ export const LESSONS_B2 = [
         type: 'summary',
         title: 'Politics — Key Takeaways',
         points: [
-          'Sabor is the parliament — the word is always used, never "parlament"',
+          'Sabor is the parliament — the name the news uses, not "parlament"',
           'Vlada, predsjednik, premijer, ministar, Ustavni sud',
           'izbori is always plural and takes plural agreement',
           'stranka, zastupnik, birač, zakon, izglasati',
@@ -5455,7 +5455,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Ije, Je, E — the Yat Reflex',
-        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "rijeka" but also "rječni", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je-. The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
+        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "rijeka" but also "rječni", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je- (written plain -e- after a consonant + r, as in vremena and pregled). The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
         highlight: 'rijeka → rječni',
       },
       {
@@ -5492,7 +5492,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Gaj je uveo dijakritičke znakove.',
             en: 'Gaj introduced the diacritics.',
-            note: 'uvesti — u- + voditi',
+            note: 'uvesti — the perfective partner of uvoditi',
           },
           {
             hr: 'Glagoljica se koristila stoljećima na obali.',
