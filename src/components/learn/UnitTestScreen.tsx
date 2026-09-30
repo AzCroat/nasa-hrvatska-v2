@@ -61,6 +61,16 @@ export const UNIT_TEST_XP = 50;
 
 type Phase = 'loading' | 'failed' | 'insufficient' | 'missing' | 'running' | 'done';
 
+/** How many times this unit's test has been sat — the first attempt number of a new
+ *  opening, so a retake on a later visit draws a paper the learner has not seen. */
+function priorUnitAttempts(unitId: string): number {
+  try {
+    return unitRecord(unitId)?.attempts?.length ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
 interface UnitTestScreenProps {
   goBack: () => void;
   /** Awards XP. Optional only because several callers of screens like this one
@@ -85,7 +95,13 @@ export default function UnitTestScreen({
   const [phase, setPhase] = useState<Phase>('loading');
   const [unit, setUnit] = useState<CourseUnit | null>(null);
   const [items, setItems] = useState<UnitTestItem[]>([]);
-  const [attempt, setAttempt] = useState(0);
+  // A FRESH OPENING CONTINUES THE ATTEMPT COUNT, it does not restart it (walked in a
+  // browser, sweep 225): the paper is seeded by `attempt`, and a mount at 0 served a
+  // learner who failed yesterday the IDENTICAL fifteen items in the identical order —
+  // answers they had seen revealed with explanations. The in-screen retake already
+  // moved to a new paper; only a retake by the ordinary door (Home, the map, the next
+  // day) did not. The lesson check solved the same thing with `priorAttemptCount`.
+  const [attempt, setAttempt] = useState(() => (unitId ? priorUnitAttempts(unitId) : 0));
   const [at, setAt] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [chosen, setChosen] = useState<number | null>(null);
@@ -119,10 +135,14 @@ export default function UnitTestScreen({
           slides?: readonly { type?: string; items?: unknown }[];
         }[];
         // THE SAMPLE MUST BE FRESH ON A RE-CHECK, or the ladder measures memory of
-        // one paper. The ladder's own stage offsets the attempt seed, so the 7-day and
-        // 30-day checks draw different items from each other and from the first pass.
+        // one paper. The check-ups SAT so far offset the attempt seed, so the 7-day and
+        // 30-day checks draw different items from each other and from the first pass —
+        // and so does the retry the day after a check-up slips, which returns at the SAME
+        // stage and, seeded by the stage, re-served the paper that had just slipped
+        // (sweep 225). A ladder recorded before `sat` existed falls back to its stage.
         const rec = unitRecord(u.id);
-        const seed = mode === 'recheck' ? attempt + 1 + (rec?.recheck?.stage ?? 0) : attempt;
+        const sittings = rec?.recheck?.sat ?? rec?.recheck?.stage ?? 0;
+        const seed = mode === 'recheck' ? attempt + 1 + sittings : attempt;
         // Spiral review (lib/unitTest): the lessons of the two previous units.
         const at = units.findIndex((x) => x.id === u.id);
         const earlier = units
