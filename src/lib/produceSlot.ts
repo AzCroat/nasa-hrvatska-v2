@@ -57,6 +57,9 @@ export function selectLessonProduceSlot(
   const lessonId = first.id.replace(/^curriculum_/, '');
   if (!lessonId || lessonId === first.id) return null;
   const kind = pickProduceKind(level);
+  // A corrective day labels the LESSON "Again: <title>" (curriculumSlot); the
+  // production task is about the concept, and "Write it: Again: …" read as nonsense.
+  const title = first.label.replace(/^Again: /, '');
   try {
     requestLessonProduce(lessonId, kind);
   } catch {
@@ -64,10 +67,10 @@ export function selectLessonProduceSlot(
   }
   return {
     id: lessonProduceActivityId(lessonId, kind),
-    label: `${kind === 'speak' ? 'Say it' : 'Write it'}: ${first.label}`,
+    label: `${kind === 'speak' ? 'Say it' : 'Write it'}: ${title}`,
     screen: 'lessonproduce',
     category: kind === 'speak' ? 'speaking' : 'writing',
-    reason: produceReason(first.label, kind),
+    reason: produceReason(title, kind),
   };
 }
 

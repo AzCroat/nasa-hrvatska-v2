@@ -44,6 +44,10 @@ export interface UnitRecheck {
   lastAt?: string;
   /** ISO date the whole ladder was completed. */
   heldAt?: string;
+  /** How many check-ups have been sat, pass or fail. It seeds the paper: a failed
+   *  check-up returns the next day at the SAME stage, so a seed built from the stage
+   *  alone served the paper that had just slipped (walked in a browser, sweep 225). */
+  sat?: number;
 }
 
 /**
@@ -100,14 +104,15 @@ export function afterRecheck(
   today: string,
 ): UnitRecheck {
   const current = r ?? startRecheckLadder(today);
+  const sat = (current.sat ?? 0) + 1;
   if (!passed) {
-    return { stage: 0, dueAt: addDays(today, RECHECK_RETRY_DAYS), lastAt: today };
+    return { stage: 0, dueAt: addDays(today, RECHECK_RETRY_DAYS), lastAt: today, sat };
   }
   const stage = Math.min(current.stage + 1, UNIT_RECHECK_INTERVALS.length);
   if (stage >= UNIT_RECHECK_INTERVALS.length) {
-    return { stage, dueAt: today, lastAt: today, heldAt: today };
+    return { stage, dueAt: today, lastAt: today, heldAt: today, sat };
   }
-  return { stage, dueAt: addDays(today, UNIT_RECHECK_INTERVALS[stage]!), lastAt: today };
+  return { stage, dueAt: addDays(today, UNIT_RECHECK_INTERVALS[stage]!), lastAt: today, sat };
 }
 
 /**
@@ -130,6 +135,12 @@ export function mergeRecheck(
   const held =
     a.heldAt && b.heldAt ? (a.heldAt < b.heldAt ? a.heldAt : b.heldAt) : a.heldAt || b.heldAt;
   if (held) out.heldAt = held;
+  // Sittings are a count, so the larger one is the truth (a finite number only).
+  const sat = Math.max(
+    Number.isFinite(a.sat) ? (a.sat as number) : 0,
+    Number.isFinite(b.sat) ? (b.sat as number) : 0,
+  );
+  if (sat > 0) out.sat = sat;
   // A ladder that has been held cannot present as unheld because the other device
   // is behind: `retentionHeld` reads the stage, so it has to agree with `heldAt`.
   if (out.heldAt) out.stage = Math.max(out.stage, UNIT_RECHECK_INTERVALS.length);
