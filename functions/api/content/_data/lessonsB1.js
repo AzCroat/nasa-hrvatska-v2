@@ -345,7 +345,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Four Prefixes Worth Knowing Cold',
-        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), popiti (drink up), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
+        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), posjediti (sit for a while), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
         highlight: 'po- a bit · pre- across/too much · raz- apart · za- begin',
       },
       {
@@ -476,11 +476,11 @@ export const LESSONS_B1 = [
               'The prefix echoes the preposition iz (out of), so "go out" is izaći → izađi. Uđi is come in, dođi is come here, prijeđi is cross.',
           },
           {
-            q: 'Which prefix matches the preposition "do" (up to)?',
-            options: ['do-', 'od-', 'iz-', 'na-'],
+            q: 'Which prefix means "away from" — the one in the verb for "to leave"?',
+            options: ['od-', 'do-', 'iz-', 'na-'],
             correct: 0,
             explanation:
-              'The prefixes mirror the prepositions: do- is up to (doći — arrive), od- is away from (otići), iz- is out of and na- is onto.',
+              'The prefixes mirror the prepositions: od- is away from, as in otići (od- + ići) — to leave. do- is up to (doći — arrive), iz- is out of and na- is onto.',
           },
           {
             q: '"Razumjeti" is built from raz- + umjeti. What does raz- add?',
@@ -904,7 +904,7 @@ export const LESSONS_B1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which correctly says "I have to go"?',
-        options: ['Moram ići.', 'Moram da idem.', 'Moram idem.', 'Moram za ići.'],
+        options: ['Moram ići.', 'Moram ide.', 'Moram idem.', 'Moram za ići.'],
         correct: 0,
         explanation:
           'After a modal verb with the same subject throughout, standard Croatian takes the plain infinitive: Moram ići. That is the neutral form and the one you will read everywhere.',
@@ -1041,7 +1041,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Adding a Person Puts Them in the Dative',
-        body: 'If you do want to say who, the person goes into the dative and the verb still does not change. Treba mi odmor. (I need a rest.) Trebalo bi ti pomoći. Compare "trebam" — Trebam odmor — which is a personal sentence with you as the subject. Both are correct; the impersonal one is softer and more common in advice.',
+        body: 'If you do want to say who, the person goes into the dative. Treba mi odmor. (I need a rest.) Trebalo bi ti pomoći. With a noun, the thing needed is the grammatical subject, so the verb agrees with it: Trebaju mi nove cipele. Compare "trebam" — Trebam odmor — which is a personal sentence with you as the subject. Both are correct; the impersonal one is softer and more common in advice.',
         highlight: 'Treba mi odmor.',
       },
       {
@@ -2025,7 +2025,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Time Words Move Too',
-        body: 'If you are reporting on a different day, the time words shift with you: danas → tog dana or taj dan, sutra → sljedeći dan, jučer → dan prije, sada → tada, ovdje → ondje. Rekao je da dolazi sutra becomes, a week later, Rekao je da će doći sljedeći dan.',
+        body: 'If you are reporting on a different day, the time words shift with you: danas → tog dana or taj dan, sutra → sljedeći dan, jučer → dan prije, sada → tada, ovdje → ondje. Rekao je da dolazi sutra becomes, a week later, Rekao je da dolazi sljedeći dan.',
         highlight: 'sutra → sljedeći dan',
       },
       {
@@ -2237,7 +2237,7 @@ export const LESSONS_B1 = [
           'Croatian does NOT shift the tense — whatever they said, you keep',
           'The pronouns and possessives shift to your point of view',
           'Time and place words shift if you are reporting later or elsewhere',
-          'Questions: the question word stays, or use je li for yes/no',
+          'Questions: the question word stays; a yes/no question keeps its li (imam li, je li)',
           'Requests become da + present: Rekao mi je da dođem.',
         ],
       },
@@ -3653,7 +3653,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Reading rooms as bedrooms: a learner who sees dvosoban stan and expects two bedrooms will be one room out, because the count excludes the kitchen and bathroom. (2) Režije in the singular: Je li režija uključena asks about a film director; the running costs are always plural, Jesu li režije uključene. (3) The wrong case after bez and after a number: stan bez lift is wrong because bez takes the genitive, stan bez lifta — and pet stotina eura keeps eura in the genitive plural.',
+        body: '(1) Reading rooms as bedrooms: a learner who sees dvosoban stan and expects two bedrooms will be one room out, because the count excludes the kitchen and bathroom. (2) Režije in the singular: Je li režija uključena asks about film directing; the running costs are always plural, Jesu li režije uključene. (3) The wrong case after bez and after a number: stan bez lift is wrong because bez takes the genitive, stan bez lifta — and pet stotina eura keeps eura in the genitive plural.',
         highlight: 'Jesu li režije uključene',
       },
       {
@@ -4538,7 +4538,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Words the Coast Gave the World',
-        body: 'Two Croatian landscape words entered international scientific use. "Kras" — the limestone country of Istria and the Dinarides — is the origin of the geological term karst, used worldwide for that terrain and its caves and sinkholes. And "Dalmacija" gave its name to the dog. Both are worth knowing, because Croatians will mention them.',
+        body: 'Two words from this corner of Europe went international. "Kras" — the Croatian (and Slovene) word for bare limestone country like Istria and the Dinarides, and the name of the plateau above Trieste — is the origin of the geological term karst, used worldwide for that terrain and its caves and sinkholes. And "Dalmacija" gave its name to the dog. Both are worth knowing, because Croatians will mention them.',
         highlight: 'kras → karst',
       },
       {
@@ -4667,7 +4667,7 @@ export const LESSONS_B1 = [
         options: ['tundra', 'karst', 'fjord', 'delta'],
         correct: 1,
         explanation:
-          '"Karst" comes from "kras", the limestone country of Istria and the Dinarides, and is now used worldwide for that terrain and its caves and sinkholes.',
+          '"Karst" comes from "kras", the word for bare limestone country like Istria and the Dinarides, and is now used worldwide for that terrain and its caves and sinkholes.',
       },
       {
         type: 'rule',

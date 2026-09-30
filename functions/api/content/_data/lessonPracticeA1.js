@@ -225,7 +225,7 @@ export const PRACTICE_A1 = {
           },
           {
             label: 'What time is it?',
-            text: 'Morning. Until about ten, Croatians say dobro jutro; after that, dobar dan.',
+            text: 'Morning. Until about eleven, Croatians say dobro jutro; after that, dobar dan.',
           },
           {
             label: 'Rule out the casual one',
@@ -1361,7 +1361,7 @@ export const PRACTICE_A1 = {
         },
         {
           q: '"I will not go."',
-          options: ['Neću ići.', 'Ne ću ići.', 'Ne hoću ići.', 'Nećem ići.'],
+          options: ['Neću ići.', 'Nisam ići.', 'Ne hoću ići.', 'Nećem ići.'],
           correct: 0,
           hint: 'htjeti fuses with ne into one written word.',
           explanation: 'neću — written as one word in standard Croatian.',
@@ -2529,7 +2529,7 @@ export const PRACTICE_A1 = {
         },
         {
           q: '10:30 is…',
-          options: ['Pola deset.', 'Pola jedanaest.', 'Deset bez četvrt.', 'Jedanaest i pol.'],
+          options: ['Pola deset.', 'Pola jedanaest.', 'Četvrt do deset.', 'Jedanaest i pol.'],
           correct: 1,
           hint: 'Half TO the next hour.',
           explanation: 'Pola jedanaest — or simply deset i trideset.',
@@ -2604,7 +2604,7 @@ export const PRACTICE_A1 = {
       ['minuta', 'minute', 'Kasnim pet minuta.'],
       ['godina', 'year', 'Imam dvadeset pet godina.'],
       ['pola', 'half', 'Vlak dolazi u pola devet.'],
-      ['četvrt', 'quarter', 'Sada je dvanaest bez četvrt.'],
+      ['četvrt', 'quarter', 'Sada je četvrt do dvanaest.'],
       ['podne', 'noon', 'Ručamo u podne.'],
       ['ponoć', 'midnight', 'Film završava u ponoć.'],
       ['jedan', 'one', 'Jedan čaj, molim.'],
@@ -4456,7 +4456,7 @@ export const PRACTICE_A1 = {
           explanation: 'Kako se zoveš? — se is the same for everyone.',
         },
         {
-          q: '"We are meeting tomorrow." (naći se)',
+          q: '"We are meeting tomorrow." (nalaziti se)',
           options: [
             'Se sutra nalazimo.',
             'Sutra nalazimo sebe.',

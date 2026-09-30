@@ -343,7 +343,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'The Perfective in General Truths',
-        body: 'A perfective present usually reads as future — Napišem pismo means I will write it. But in a general or conditional statement it describes what typically happens: Kad dođeš kući, odmah se opustiš. Ako pojedeš previše, bude ti loše. English uses a plain present for both, so this is a reading skill before it is a production one.',
+        body: 'A perfective present rarely stands alone in a main clause; after kad, ako or da it points to a completed future act — Kad napišem pismo, javit ću ti. But in a general or conditional statement it describes what typically happens: Kad dođeš kući, odmah se opustiš. Ako pojedeš previše, bude ti loše. English uses a plain present for both, so this is a reading skill before it is a production one.',
         highlight: 'Kad dođeš kući, odmah se opustiš.',
       },
       {
@@ -439,7 +439,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The commonest slip is the English past: "I opened the window" becomes "otvarao sam prozor" because the imperfective feels like the neutral past — but it tells a Croatian the window is shut again; a single completed act is otvorio sam. The second is over-perfectivising the polite imperative: "Sjednite!" is a brisk command, while the inviting form is imperfective sjedajte. The third is treating saznati as "znati, completed": "Saznao sam hrvatski" is nonsense — the verb for having learned a language is naučiti, and saznati is only for finding a fact out.',
+        body: 'The commonest slip is the English past: "I opened the window" becomes "otvarao sam prozor" because the imperfective feels like the neutral past — but it tells a Croatian the window is shut again; a single completed act is otvorio sam. The second is missing the inviting imperfective imperative: "Sjednite" asks for the single act, while a host opening the table to guests says sjedajte or uzimajte. The third is treating saznati as "znati, completed": "Saznao sam hrvatski" is nonsense — the verb for having learned a language is naučiti, and saznati is only for finding a fact out.',
         highlight: 'otvorio sam',
       },
       {
@@ -466,11 +466,11 @@ export const LESSONS_C1 = [
               'The attempt is imperfective (nagovarao) and the failed result perfective (nisam nagovorio). A perfective in the first half would claim the persuasion succeeded, and an infinitive cannot carry the past tense.',
           },
           {
-            q: 'Which is the polite, inviting way to ask a guest to sit down?',
+            q: 'You are the host and guests are coming in. Which is the imperfective imperative that opens the invitation to sit down?',
             options: ['Sjedni!', 'Sjednite!', 'Sjedajte!', 'Sjesti!'],
             correct: 2,
             explanation:
-              'The imperfective imperative "sjedajte" invites; perfective "sjednite" is a brisk command, "sjedni" is the informal singular, and an infinitive is not an imperative at all.',
+              '"Sjedajte" is the imperfective imperative — the host\'s open invitation. "Sjednite" is perfective (just as polite, but it asks for the single act), "sjedni" is the informal perfective singular, and an infinitive is not an imperative at all.',
           },
           {
             q: 'Which of these is NOT a true aspect pair?',
@@ -494,7 +494,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'In a general or conditional statement the perfective present describes what typically happens. Out of that frame, "pojedeš" would read as a future.',
+              'In a general or conditional statement the perfective present describes what typically happens. About one particular occasion the main clause takes the future instead: Ako pojedeš previše, bit će ti loše.',
           },
           {
             q: 'A learner writes "Otvarao sam prozor, pa je sad svježe u sobi." What is wrong?',
@@ -1315,7 +1315,7 @@ export const LESSONS_C1 = [
           ['poput', 'genitive', 'Poput oca, i on je liječnik.'],
           ['nalik na', 'accusative', 'Nalik je na majku.'],
           ['kao što', 'a clause', 'Kao što znaš…'],
-          ['kao da', 'a clause, present', 'Kao da ništa nije bilo.'],
+          ['kao da', 'a clause, present', 'Kao da ništa ne zna.'],
         ],
       },
       {
@@ -1572,7 +1572,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'The Se-Passive Is the Default',
-        body: 'Kuća se gradi. Knjiga se čita. Ovdje se govori hrvatski. This is what Croatian actually uses when the agent is unimportant, and it is far commoner than the participle form. Note that it works only with imperfective verbs in the ongoing sense — for a completed result you need the participle.',
+        body: 'Kuća se gradi. Knjiga se čita. Ovdje se govori hrvatski. This is what Croatian actually uses when the agent is unimportant, and it is far commoner than the participle form. It is at home with imperfective verbs for an ongoing or habitual process — for a finished result that stands now, the participle is the usual choice.',
         highlight: 'Kuća se gradi.',
       },
       {
@@ -2084,7 +2084,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Baš Intensifies or Contradicts',
-        body: '"Baš" means exactly, just, really: Baš to sam mislio. (That is exactly what I meant.) Baš mi je drago. (I am really glad.) But with a negative it turns sardonic: Baš ti hvala. (Thanks a lot — and no thanks.) Tone decides, which is why it belongs in the same lesson as the rest of this set.',
+        body: '"Baš" means exactly, just, really: Baš to sam mislio. (That is exactly what I meant.) Baš mi je drago. (I am really glad.) But said flatly or ironically it turns sardonic: Baš ti hvala. (Thanks a lot — and no thanks.) Tone decides, which is why it belongs in the same lesson as the rest of this set.',
         highlight: 'Baš to sam mislio.',
       },
       {
@@ -2327,7 +2327,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'The Rule That Actually Helps',
-        body: 'You will not master the four accents from a lesson, but one distributional rule pays off immediately: in standard Croatian a polysyllabic word never carries its accent on the FINAL syllable, and a falling accent can only fall on the first. That is why the stress in "govòriti" and "razgovárati" sits where it does, and why final-stress pronunciations sound wrong even to speakers who could not name the rule.',
+        body: 'You will not master the four accents from a lesson, but one distributional rule pays off immediately: in standard Croatian a polysyllabic word never carries its accent on the FINAL syllable, and a falling accent can only fall on the first. That is why the stress in "gòvoriti" and "razgovárati" sits where it does, and why final-stress pronunciations sound wrong even to speakers who could not name the rule.',
         highlight: 'never on the final syllable',
       },
       {
@@ -2652,7 +2652,7 @@ export const LESSONS_C1 = [
             note: 'u biti + attribution; nego što for the comparison',
           },
           {
-            hr: 'Prema izvješću, broj turista u Istri porastao je za petinu u odnosu na lani.',
+            hr: 'Prema izvješću, broj turista u Istri porastao je za petinu u odnosu na prošlu godinu.',
             en: 'According to the report, the number of tourists in Istria rose by a fifth compared with last year.',
             note: 'prema + dative; u odnosu na + accusative',
           },
@@ -3349,7 +3349,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Sućut, and Only Sućut',
-        body: 'Condolences in Croatian are "sućut" — Moja iskrena sućut. Primite moju sućut. This is the standard and the only form to use. Getting the word right matters more here than anywhere else in the language, because it is the one occasion where a fumbled phrase is genuinely painful rather than merely awkward.',
+        body: 'Condolences in Croatian are "sućut" — Moja iskrena sućut. Primite moju sućut. This is the standard formula and the one to reach for. Getting the word right matters more here than anywhere else in the language, because it is the one occasion where a fumbled phrase is genuinely painful rather than merely awkward.',
         highlight: 'Moja iskrena sućut.',
       },
       {
@@ -3452,7 +3452,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is the English toast verb: "Želim nazdraviti za mladence" — nazdraviti governs the dative with no preposition: nazdravljam mladencima. The second is a translated opener, "Hvala što ste ovdje danas, ja sam…" — a Croatian occasion opens with the address, dragi prijatelji or poštovani uzvanici, before anything else. The third is the wrong word for condolences; any improvised phrase built on "žao" is not it — the formula is moja iskrena sućut, and only that.',
+        body: 'The first is the English toast verb: "Želim nazdraviti za mladence" — nazdraviti governs the dative with no preposition: nazdravljam mladencima. The second is a translated opener, "Hvala što ste ovdje danas, ja sam…" — a Croatian occasion opens with the address, dragi prijatelji or poštovani uzvanici, before anything else. The third is the wrong word for condolences: a translated "žao mi je za vaš gubitak" is a calque — the formula is moja iskrena sućut.',
         highlight: 'nazdravljam mladencima',
       },
       {
@@ -3946,7 +3946,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three that survive every reread. The comma before da: "Mislim, da je tako" — an object clause takes no comma, mislim da je tako. The clitic pushed to the end: "Javio sam se mu jučer" — the whole cluster sits in second position, javio sam mu se jučer. And sa before every consonant: "sa bratom", "sa prijateljima" — sa belongs only before s, š, z, ž (and in sa mnom); otherwise s bratom.',
+        body: 'Three that survive every reread. The comma before da: "Mislim, da je tako" — an object clause takes no comma, mislim da je tako. The cluster in the wrong order: "Javio sam se mu jučer" — the dative comes before se, javio sam mu se jučer. And sa before every consonant: "sa bratom", "sa prijateljima" — sa belongs only before s, š, z, ž (and in sa mnom); otherwise s bratom.',
         highlight: 'mislim da je tako',
       },
       {
@@ -4645,8 +4645,8 @@ export const LESSONS_C1 = [
             note: 'kisik (native), ugljikov dioksid; the decimal comma',
           },
           {
-            hr: 'Novi plinovod dug je 120 kilometara i spaja terminal na Krku s Mađarskom.',
-            en: 'The new gas pipeline is 120 kilometres long and links the terminal on Krk with Hungary.',
+            hr: 'Novi plinovod spaja terminal za ukapljeni plin na Krku s kopnom i s mrežom u unutrašnjosti.',
+            en: 'The new gas pipeline links the liquefied-gas terminal on Krk with the mainland and with the network inland.',
             note: 'plinovod — plin + -vod, a coined term',
           },
           {
@@ -4825,7 +4825,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Potresan Is Praise',
-        body: 'Worth flagging because the English cognate misleads. "Potresan" — from "potresti", to shake — describes something that moved you deeply, and it is high praise for a drama or a documentary. It does not mean distressing in a negative sense. "Potresna predstava" is a compliment.',
+        body: 'Worth flagging because the literal sense misleads. "Potresan" — from "potresti", to shake — can describe distressing news, but said of a drama or a documentary it means the work moved you deeply, and it is high praise. "Potresna predstava" is a compliment.',
         highlight: 'potresna predstava — a compliment',
       },
       {
@@ -4876,7 +4876,7 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Roman me dirnuo zato što glavni lik šuti upravo ondje gdje bih ja govorio.',
+            hr: 'Roman me je dirnuo zato što glavni lik šuti upravo ondje gdje bih ja govorio.',
             en: 'The novel moved me because the main character stays silent exactly where I would speak.',
             note: 'saying precisely why — zato što + a concrete observation',
           },
@@ -4957,7 +4957,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              '"Potresan", from "potresti" (to shake), is high praise for a drama. The English cognate misleads.',
+              '"Potresan", from "potresti" (to shake), is high praise for a drama. The literal sense, shaking, misleads.',
           },
           {
             q: 'Complete: "Redatelj se odlučio ___ vrlo sveden pristup."',
@@ -4971,7 +4971,7 @@ export const LESSONS_C1 = [
             options: [
               'Film je bio dobar.',
               'Film mi se svidio.',
-              'Film me dirnuo jer se ne boji tišine.',
+              'Film me je dirnuo jer se ne boji tišine.',
               'Film je bio u redu.',
             ],
             correct: 2,
@@ -5057,7 +5057,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Zagreb Speech Is Not Kajkavian, Quite',
-        body: 'A useful distinction. Rural Zagorje is genuinely kajkavian. Urban Zagreb speech is a štokavian-based colloquial with heavy kajkavian and German influence — "kaj" for what, "bum" or "buš" for the future, and a lexicon full of Germanisms: šalica is standard, but you will hear "cajger", "špajza", "cušpajz", "fiškal". Standard Croatian is understood perfectly; it is just not what is being spoken.',
+        body: 'A useful distinction. Rural Zagorje is genuinely kajkavian. Urban Zagreb speech is a štokavian-based colloquial with heavy kajkavian and German influence — "kaj" for what, "bum" or "buš" for the future, and a lexicon full of Germanisms: you will hear "cajger" for kazaljka, "špajza" for smočnica, "cušpajz" for varivo. Standard Croatian is understood perfectly; it is just not what is being spoken.',
         highlight: 'kaj · buš · Germanisms',
       },
       {
@@ -5432,7 +5432,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is answering "Odakle si?" with a passport: "Iz Kanade" ends the conversation, because the question is about zavičaj — the answer they want is iz Kanade, ali obitelj mi je iz Sinja. The second is apologising instead of speaking: "Ispričavam se, moj hrvatski je loš" as an opener invites the switch to English; say govorim s greškama, ali govorim and carry on. The third is the reflexive possessive: "prenijeti jezik na moju djecu" — when the owner is the subject, the standard form is svoju djecu.',
+        body: 'The first is answering "Odakle si?" with a passport: "Iz Kanade" ends the conversation, because the question is about zavičaj — the answer they want is iz Kanade, ali obitelj mi je iz Sinja. The second is apologising instead of speaking: "Ispričavam se, moj hrvatski je loš" as an opener invites the switch to English; say govorim s greškama, ali govorim and carry on. The third is the reflexive possessive: "prenijeti jezik na moju djecu" — when the owner is the subject, the standard prefers svoju djecu.',
         highlight: 'iz Kanade, ali obitelj mi je iz Sinja',
       },
       {

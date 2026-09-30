@@ -1776,9 +1776,9 @@ export const PRACTICE_A2 = {
         },
         {
           q: 'Ovo je za ___. (This is for you — a friend.)',
-          options: ['te', 'ti', 'tebe', 'tebi'],
+          options: ['tvoj', 'ti', 'tebe', 'tebi'],
           correct: 2,
-          hint: 'After a preposition, always the long form — and za takes the accusative.',
+          hint: 'After a preposition, use the long form — and za takes the accusative.',
           explanation: 'za tebe — the long accusative form.',
         },
         {
@@ -1814,7 +1814,7 @@ export const PRACTICE_A2 = {
           q: 'Ovo je za ____. (me)',
           answer: 'mene',
           hint: 'After a preposition you need the long form of the pronoun.',
-          explanation: 'za mene — after za the short form me is impossible.',
+          explanation: 'za mene — after a preposition the long form is the normal choice.',
         },
         {
           q: 'Complete: "Daj ___ ključ." (Give him the key.)',
@@ -3327,7 +3327,7 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'Complete: "Gdje ___ bili prošlog ljeta?" (Where were you — plural — last summer?)',
-        options: ['ste', 'jeste', 'ste li', 'li ste'],
+        options: ['ste', 'jeste', 'ste li', 'jeste li'],
         correct: 0,
         explanation:
           'With a question word there is no li, and the short auxiliary follows it straight away: Gdje ste bili?',
@@ -3406,7 +3406,7 @@ export const PRACTICE_A2 = {
           options: ['brže', 'brzo', 'brži', 'brzije'],
           correct: 0,
           hint: 'A comparative adverb ends like the neuter comparative, and brz softens its z.',
-          explanation: 'brže — z softens to ž, like lijep → ljepše.',
+          explanation: 'brže — z softens to ž, as d softens to đ in mlad → mlađe.',
         },
         {
           q: 'Which says "I sometimes go to the cinema"?',

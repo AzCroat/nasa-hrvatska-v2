@@ -134,7 +134,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Five You Simply Have to Know',
-        body: 'A handful of very common nouns have plurals that follow no pattern, and they are common precisely because they are old. čovjek (person) → ljudi (people). dijete (child) → djeca (children). brat (brother) → braća (brothers). gospodin (gentleman) → gospoda. oko (eye) → oči, uho (ear) → uši. Learn these five as vocabulary, not as grammar.',
+        body: 'A handful of very common nouns have plurals that follow no pattern, and they are common precisely because they are old. čovjek (person) → ljudi (people). dijete (child) → djeca (children). brat (brother) → braća (brothers). oko (eye) → oči, uho (ear) → uši. Learn these five as vocabulary, not as grammar.',
         highlight: 'čovjek → ljudi',
       },
       {
@@ -899,7 +899,7 @@ export const LESSONS_A1 = [
       },
       {
         type: 'rule',
-        title: 'Njegov and Njezin Do Not Change for the Owner',
+        title: 'The Owner Picks the Word, the Thing Picks the Ending',
         body: 'English changes the word for the owner: his book, her book. Croatian does too — njegov for a male owner, njezin for a female one — but then the ENDING still follows the thing owned. A man says "njegov brat" about another man\'s brother and "njegova sestra" about that same man\'s sister. Both forms njezin and njen are correct and current; njezin is the more formal.',
         highlight: 'njegova sestra = his sister',
       },
@@ -1285,7 +1285,7 @@ export const LESSONS_A1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'You are holding a book and want to say "This is a good book". Which is correct?',
-        options: ['Ovaj je dobra knjiga.', 'Ovo je dobra knjiga.', 'Ova je dobra knjiga.'],
+        options: ['Ovaj je dobra knjiga.', 'Ovo je dobra knjiga.', 'Ovi je dobra knjiga.'],
         correct: 1,
         explanation:
           'When you say "this is…" about a thing, Croatian uses the neuter "ovo" no matter what follows. "Ova knjiga je dobra" is also correct, but there "ova" sits directly in front of the noun and agrees with it.',
@@ -1717,7 +1717,7 @@ export const LESSONS_A1 = [
             note: 'li makes it a yes/no question',
           },
           {
-            hr: 'Nemamo auto, idemo tramvajem.',
+            hr: 'Nemamo auta, idemo tramvajem.',
             en: 'We do not have a car, we take the tram.',
             note: 'nemamo — one word, always',
           },
@@ -3255,7 +3255,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Build It From the "Oni" Form',
-        body: 'Take the "oni" (they) form of the present, drop the -u, and you have the stem. Then add -i for one person, -imo for "let us", -ite for a group or for politeness. pišu → piš- → piši! pišimo! pišite! govore → govor- → govori! govorimo! govorite! It is one rule and it covers most verbs.',
+        body: 'Take the "oni" (they) form of the present, drop the final vowel (-u or -e), and you have the stem. Then add -i for one person, -imo for "let us", -ite for a group or for politeness. pišu → piš- → piši! pišimo! pišite! govore → govor- → govori! govorimo! govorite! It is one rule and it covers most verbs.',
         highlight: 'piši! · pišimo! · pišite!',
       },
       {
@@ -3477,7 +3477,7 @@ export const LESSONS_A1 = [
         type: 'summary',
         title: 'The Imperative — Key Takeaways',
         points: [
-          'Take the "oni" form, drop -u, add -i / -imo / -ite',
+          'Take the "oni" form, drop the final -u/-e, add -i / -imo / -ite',
           'Verbs whose "oni" form ends in -aju take -j: čitaj!, daj!',
           'The -ite form is both plural and polite: Sjednite!',
           'Negative instructions use nemoj / nemojmo / nemojte + infinitive',
@@ -3641,7 +3641,7 @@ export const LESSONS_A1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which sentence is correct?',
-        options: ['Se zovem Ana.', 'Zovem se Ana.', 'Zovem Ana se.', 'Ana se zovem.'],
+        options: ['Se zovem Ana.', 'Zovem se Ana.', 'Zovem Ana se.', 'Zovem sebe Ana.'],
         correct: 1,
         explanation:
           '"Se" takes the second position, so it follows the first element of the sentence: Zovem se Ana. It can never open a sentence, which rules out the first option outright.',

@@ -646,7 +646,7 @@ export const PRACTICE_C1 = {
       {
         q: 'Which opening fits a phone call to a government office?',
         options: [
-          'Ej, šta ima?',
+          'Ej, što ima?',
           'Kak ste, šefe?',
           'Dobar dan, zovem u vezi sa svojim zahtjevom.',
           'Bog, jel to ured?',
@@ -1172,7 +1172,7 @@ export const PRACTICE_C1 = {
           { label: 'Build it', text: 'strpljiv + -ost → strpljivost.' },
           {
             label: 'Know its gender',
-            text: 'Nouns in -ost are feminine and decline like stvar, so the accusative looks like the nominative.',
+            text: 'Abstract nouns built with -ost are feminine and decline like stvar, so the accusative looks like the nominative.',
           },
           {
             label: 'Agree the possessive',
@@ -2904,7 +2904,7 @@ export const PRACTICE_C1 = {
         },
         {
           q: 'Complete: "___ oca, i on je postao liječnik." (Like his father)',
-          options: ['Kao otac', 'Poput oca', 'Nalik oca', 'Kao oca'],
+          options: ['Poput otac', 'Poput oca', 'Nalik oca', 'Kao oca'],
           correct: 1,
           hint: 'The preposition meaning "like" takes the genitive.',
           explanation: 'poput + genitive: poput oca.',
@@ -5792,7 +5792,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Novi ____ spaja terminal na Krku s Mađarskom. (gas pipeline — plin + -vod)',
+          q: 'Novi ____ spaja terminal na Krku s kopnom. (gas pipeline — plin + -vod)',
           answer: 'plinovod',
           hint: 'Join the word for gas to -vod with a linking o.',
           explanation: 'plinovod.',
@@ -5908,7 +5908,7 @@ export const PRACTICE_C1 = {
             'predvidljiv — predictable. duhovit (witty), nadahnut (inspired) and dojmljiv (impressive) are all praise.',
         },
         {
-          q: 'Complete: "Završna scena me duboko ___." (moved — a single effect)',
+          q: 'Complete: "Završna scena me je duboko ___." (moved — a single effect)',
           options: ['dirnuti', 'dirnula', 'dirnut', 'dirnuo'],
           correct: 1,
           hint: 'A single completed effect, in the past, agreeing with a feminine subject.',
@@ -5987,9 +5987,9 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Tko je ____ ovog filma? (the director — from režirati)',
+          q: 'Tko je ____ ovog filma? (the director)',
           answer: 'redatelj',
-          hint: "The doer suffix -telj on the verb's stem.",
+          hint: 'The agent noun in -telj, like skladatelj.',
           explanation: 'redatelj filma.',
         },
       ],
@@ -6019,7 +6019,7 @@ export const PRACTICE_C1 = {
           'Knjiga je bila dobra.',
           'Knjiga mi se svidjela.',
           'Knjiga je bila u redu.',
-          'Knjiga me dirnula jer ne nudi lake odgovore.',
+          'Knjiga me je dirnula jer ne nudi lake odgovore.',
         ],
         correct: 3,
         explanation: 'The because is what a Croatian can respond to.',
