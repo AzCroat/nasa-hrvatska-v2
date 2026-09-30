@@ -140,7 +140,7 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prenosenje',
-    q: 'Pitao je: "Dolaziš li?" → Pitao je ____ dolazim.',
+    q: 'Pitao je: "Dolaziš li?" → Pitao je ____.',
     en: 'He asked whether I was coming.',
     opts: ['dolazim li', 'da dolazim', 'ako dolazim', 'što dolazim'],
     answer: 'dolazim li',

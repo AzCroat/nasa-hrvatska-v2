@@ -172,7 +172,7 @@ export const LITERARY_STYLE_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does jur mean?',
     opts: ['već', 'jer', 'jur ne postoji', 'jedva'],
     answer: 'već',
-    tip: 'Common in older texts, gone from the modern language.',
+    tip: 'Common in older texts and still heard in some dialects, but gone from the modern standard.',
   },
 
   // ── citanje ───────────────────────────────────────────────────────────────

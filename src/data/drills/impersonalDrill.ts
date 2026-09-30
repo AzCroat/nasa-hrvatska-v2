@@ -214,10 +214,10 @@ export const IMPERSONAL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dativ',
-    q: 'Kiša ____. (bezlično)',
+    q: 'Kiša ____.',
     en: 'It is raining.',
     opts: ['pada', 'padam', 'padaju', 'padati'],
     answer: 'pada',
-    tip: 'Weather takes the third person singular with no subject to name.',
+    tip: 'Kiša is the subject, so pada is third person singular. The truly subjectless weather sentences are ones like Sniježi or Hladno je.',
   },
 ];

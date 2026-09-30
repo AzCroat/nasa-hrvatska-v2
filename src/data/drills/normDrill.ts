@@ -4,7 +4,7 @@
 //
 // The level opens by moving the question. Up to here a form has been right or
 // wrong; from here it is PRESCRIBED (*norma*) or OBSERVED (*uzus*), and the
-// interesting cases are where the two part company. *Trebam da radim* is heard
+// interesting cases are where the two part company. *Oću* for *hoću* is heard
 // constantly and is marked in writing; *di si* is spoken Croatian and never
 // written outside dialogue. Neither is a mistake in the sense a learner has
 // been trained to hear.
@@ -53,13 +53,13 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     mode: 'razlika',
     q: 'Koji je oblik normativan?',
     en: 'Which does the norm prescribe?',
-    opts: ['trebam raditi', 'trebam da radim', 'oba jednako', 'nijedan'],
-    answer: 'trebam raditi',
-    tip: 'The da-construction is marked; keep it out of writing.',
+    opts: ['hoću', 'oću', 'oba jednako', 'nijedan'],
+    answer: 'hoću',
+    tip: 'Oću is spoken Croatian — heard everywhere, and kept out of writing.',
   },
   {
     mode: 'razlika',
-    q: 'Je li "trebam da radim" pogreška?',
+    q: 'Je li "oću" pogreška?',
     en: 'Is it an error?',
     opts: ['obilježeno je, ne pogrešno', 'jest, uvijek', 'nije obilježeno', 'samo u govoru'],
     answer: 'obilježeno je, ne pogrešno',
@@ -201,7 +201,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     opts: [
       'Molim Vas da dostavite…',
       'Molim te da mi pošalješ…',
-      'Trebam da dostaviš…',
+      'Oćete mi to dostaviti?',
       'Daj mi to.',
     ],
     answer: 'Molim Vas da dostavite…',

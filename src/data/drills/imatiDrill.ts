@@ -56,8 +56,8 @@ export const IMATI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Mi ____ auto.',
-    en: 'We do not have a car.',
+    q: 'Mi ____ vremena.',
+    en: 'We do not have time.',
     opts: ['nemamo', 'ne mamo', 'nismo', 'nemaju'],
     answer: 'nemamo',
     tip: 'imamo → nemamo.',
@@ -204,7 +204,7 @@ export const IMATI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izrazi',
-    q: 'Ima ____ godina kako ga nisam vidio.',
+    q: 'Ima ____ godina otkako ga nisam vidio.',
     en: 'It has been five years since I saw him.',
     opts: ['pet', 'peti', 'petu', 'petih'],
     answer: 'pet',

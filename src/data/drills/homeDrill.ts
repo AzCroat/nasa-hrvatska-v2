@@ -86,8 +86,8 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prostorije',
-    q: 'Kojeg je roda "vrata"?',
-    en: 'What is vrata?',
+    q: 'Što je posebno u riječi "vrata"?',
+    en: 'What is special about vrata?',
     opts: ['uvijek množina', 'muški rod', 'ženski rod', 'srednji jednina'],
     answer: 'uvijek množina',
     tip: 'Vrata is always plural: Vrata su otvorena. Never "vrato".',

@@ -91,7 +91,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nini',
-    q: 'Nije došao, ____ je javio.',
+    q: 'Nije došao, ____ se javio.',
     en: 'He did not come, nor did he let us know.',
     opts: ['niti', 'ni', 'ali', 'nego'],
     answer: 'niti',
@@ -125,11 +125,11 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'opseg',
-    q: 'Nisam rekao ____ nego da razmislim.',
+    q: 'Nisam rekao ____, nego da ću razmisliti.',
     en: 'I did not say I would not, but that I would think about it.',
     opts: ['da neću', 'da ne', 'ne', 'niti'],
     answer: 'da neću',
-    tip: 'The negation applies to the reported clause, not to rekao.',
+    tip: 'Something was said — nisam rekao denies WHAT was said, and nego supplies what it actually was.',
   },
   {
     mode: 'opseg',
@@ -169,7 +169,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
     mode: 'konstrukcije',
     q: 'Nemam ____ plan.',
     en: 'I have no plan whatsoever.',
-    opts: ['nikakav', 'ništa', 'nikoji', 'nijedanput'],
+    opts: ['nikakav', 'ništa', 'nikako', 'nijedanput'],
     answer: 'nikakav',
     tip: 'Nikakav denies the whole CATEGORY — stronger than nijedan, which counts.',
   },
@@ -199,7 +199,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'konstrukcije',
-    q: 'Nemoj otići ____ se pozdraviš.',
+    q: 'Nemoj otići ____ pozdraviš.',
     en: 'Do not leave without saying goodbye.',
     opts: ['a da se ne', 'bez da', 'niti', 'ni'],
     answer: 'a da se ne',

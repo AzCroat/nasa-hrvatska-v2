@@ -245,6 +245,6 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Would you recommend that book?',
     opts: ['tu knjigu', 'ta knjiga', 'te knjige', 'tom knjigom'],
     answer: 'tu knjigu',
-    tip: 'Accusative after preporučiti.',
+    tip: 'Accusative after preporučivati.',
   },
 ];

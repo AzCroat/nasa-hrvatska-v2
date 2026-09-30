@@ -202,7 +202,7 @@ export const HOBBIES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'kada',
     q: 'Kako se kaže "in summer"?',
     en: 'in summer',
-    opts: ['ljeti', 'u ljeto', 'ljetom', 'na ljeto'],
+    opts: ['ljeti', 'ljetu', 'na ljetu', 'ljetno'],
     answer: 'ljeti',
     tip: 'ljeti and zimi are bare adverbs — the same idea, an older form.',
   },
