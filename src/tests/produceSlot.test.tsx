@@ -32,7 +32,9 @@ import {
   requestLessonProduce,
   LESSON_PRODUCE_REQUEST_KEY,
   lastProducedKind,
+  lessonProduced,
 } from '../lib/lessonProduceRequest';
+import { recordCheckAttempt } from '../lib/lessonAttempts';
 import { rearmCourseHandoff } from '../lib/curriculumSlot';
 import { recordMasteryPass, markLessonProduced } from '../lib/lessonRetention';
 import { markLessonComplete } from '../lib/curriculumProgress';
@@ -123,6 +125,19 @@ describe('the builder — which day shapes carry the produce step', () => {
     );
     expect(slot?.id).toBe('curriculum_produce_write_alphabet');
   });
+
+  it('names the lesson, not the corrective prefix, on a corrective day', () => {
+    // Walked in a browser (sweep 225): the day after a failed check the plan read
+    // "Write it: Again: Croatian Alphabet" — the teaching slot's "Again: " is about
+    // the lesson sitting, not the writing task.
+    const slot = selectLessonProduceSlot(
+      [{ id: 'curriculum_alphabet', label: 'Again: Alphabet', screen: 'animlesson' }],
+      'A1',
+    );
+    expect(slot?.label).toBe('Write it: Alphabet');
+    expect(slot?.reason).not.toContain('Again:');
+    expect(slot?.reason).toContain('“Alphabet”');
+  });
 });
 
 describe('the handoff', () => {
@@ -204,6 +219,41 @@ describe('the standalone screen — four honest states', () => {
     fireEvent.click(screen.getByTestId('lesson-produce-open-lesson'));
     expect(open).toHaveBeenCalledWith(lessonId);
     expect(screen.queryByTestId('produce-step')).toBeNull();
+  });
+
+  it('the lesson’s check failed TODAY → says it waits, frees the slot, credits nothing', () => {
+    // Walked in a browser (sweep 225): a corrective day's check failed again, and this
+    // slot said "Finish today's lesson first" with a button into a check that is closed
+    // until tomorrow — so Today's Session sat on it all day and Keep Learning never came.
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    recordCheckAttempt(lessonId, { score: 1, total: 6, passed: false, kind: 'lesson', missed: [] });
+    requestLessonProduce(lessonId);
+    sessionStorage.setItem('nh_session_started', 'lessonproduce');
+    render(<LessonProduceScreen goBack={goBack} award={award} onOpenLesson={vi.fn()} />);
+    expect(screen.getByTestId('lesson-produce-waits')).toHaveTextContent('Tomorrow');
+    expect(screen.queryByTestId('lesson-produce-open-lesson')).toBeNull();
+    expect(sessionStorage.getItem('nh_session_completed')).toBe('lessonproduce');
+    expect(award).not.toHaveBeenCalled();
+    expect(lessonProduced(lessonId)).toBe(false);
+  });
+
+  it('a failed check on an EARLIER day does not close the step — it is simply unread', () => {
+    seedCourseAt(1);
+    const lessonId = dayOneLesson();
+    recordCheckAttempt(lessonId, {
+      score: 1,
+      total: 6,
+      passed: false,
+      kind: 'lesson',
+      missed: [],
+      at: '2000-01-01',
+    });
+    requestLessonProduce(lessonId);
+    sessionStorage.setItem('nh_session_started', 'lessonproduce');
+    render(<LessonProduceScreen goBack={goBack} award={award} onOpenLesson={vi.fn()} />);
+    expect(screen.getByTestId('lesson-produce-unread')).toBeTruthy();
+    expect(sessionStorage.getItem('nh_session_completed')).toBeNull();
   });
 
   it('already written → the score, and the session slot is freed on open', () => {

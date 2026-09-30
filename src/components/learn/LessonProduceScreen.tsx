@@ -12,6 +12,12 @@
 //   * lesson not read   → "finish today's lesson first", with the lesson one tap
 //                         away — production before the teaching is the untaught
 //                         test the redesign exists to remove (P-TAUGHT)
+//   * check closed today → the lesson's check failed today (lib/checkLock), so the
+//                         lesson cannot be finished today and neither can this.
+//                         Says so, and frees the slot WITHOUT credit — the rule the
+//                         failed check itself follows (walked in a browser, sweep
+//                         225: "Finish today's lesson first" pointed at a closed
+//                         check, and the session sat on this slot all day)
 //   * already written   → the score, and the session slot is freed (the work is
 //                         done; it was done on the lesson page)
 //   * otherwise         → the step
@@ -30,6 +36,7 @@ import {
 } from '../../lib/lessonProduceRequest';
 import { readCurriculumSpine, readCompletedLessons } from '../../lib/curriculumProgress';
 import { readRetention } from '../../lib/lessonRetention';
+import { checkLockedToday } from '../../lib/checkLock';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import type { CurriculumEntry } from '../../lib/curriculum';
 
@@ -62,6 +69,10 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
   }, [lessonId]);
   const read = useMemo(() => !!lessonId && readCompletedLessons().has(lessonId), [lessonId]);
   const produced = useMemo(() => !!lessonId && lessonProduced(lessonId), [lessonId]);
+  const lockedToday = useMemo(
+    () => !!lessonId && !read && checkLockedToday(lessonId),
+    [lessonId, read],
+  );
   const producedScore = useMemo(() => {
     if (!lessonId || !produced) return null;
     try {
@@ -78,6 +89,15 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
     if (produced) signalSessionCompleteIfActive('lessonproduce');
   }, [produced]);
 
+  // THE LESSON'S CHECK FAILED TODAY, SO THIS STEP CANNOT BE DONE TODAY. The session is
+  // a flow (lib/sessionSignal): the failed check frees its own slot and so must the
+  // step that depends on it, or the day never completes and Keep Learning never opens.
+  // No XP and no production record — the learner did not write. The corrective day
+  // tomorrow serves the lesson again, and its produce step with it.
+  useEffect(() => {
+    if (lockedToday) signalSessionCompleteIfActive('lessonproduce');
+  }, [lockedToday]);
+
   const title = entry?.title || 'Today’s lesson';
 
   if (!lessonId || !entry) {
@@ -91,6 +111,24 @@ export default function LessonProduceScreen({ goBack, award, onOpenLesson }: Pro
           </div>
           <button className="b bp" style={{ width: '100%', marginTop: 12 }} onClick={goBack}>
             Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (lockedToday) {
+    return (
+      <div className="scr-wrap">
+        {H(icon, title, goBack)}
+        <div style={card} data-testid="lesson-produce-waits">
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>This waits for the lesson</div>
+          <div style={{ fontSize: 14, color: 'var(--ink-muted)' }}>
+            You did not pass the check on “{title}” today, so using it in your own sentences waits
+            until you do. Tomorrow’s session brings the lesson back, and this step with it.
+          </div>
+          <button className="b bp" style={{ width: '100%', marginTop: 12 }} onClick={goBack}>
+            Back to Today’s Session
           </button>
         </div>
       </div>

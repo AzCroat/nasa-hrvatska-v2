@@ -78,6 +78,19 @@ describe('the ladder', () => {
     expect(retentionHeld(failed)).toBe(false);
   });
 
+  // THE RETRY AFTER A SLIP IS AT THE SAME STAGE, so the stage cannot seed a fresh paper;
+  // the count of sittings can (sweep 225).
+  it('counts every sitting, pass or fail', () => {
+    let r = afterRecheck(startRecheckLadder('2026-09-01'), false, '2026-09-08');
+    expect(r).toMatchObject({ stage: 0, sat: 1 });
+    r = afterRecheck(r, false, '2026-09-09');
+    expect(r).toMatchObject({ stage: 0, sat: 2 });
+    r = afterRecheck(r, true, '2026-09-10');
+    expect(r).toMatchObject({ stage: 1, sat: 3 });
+    r = afterRecheck(r, true, '2026-10-10');
+    expect(r).toMatchObject({ stage: 2, sat: 4 });
+  });
+
   it('can be re-climbed after a failure', () => {
     let r = afterRecheck(startRecheckLadder('2026-09-01'), false, '2026-09-08');
     r = afterRecheck(r, true, '2026-09-09');
@@ -182,6 +195,14 @@ describe('the merge', () => {
       { stage: 2, dueAt: 'y', heldAt: '2026-10-08' },
     )!;
     expect(m.heldAt).toBe('2026-10-08');
+  });
+
+  it('keeps the LARGER count of sittings, whichever side is later', () => {
+    const later = { stage: 0, dueAt: '2026-09-10', lastAt: '2026-09-09', sat: 1 };
+    const earlier = { stage: 0, dueAt: '2026-09-09', lastAt: '2026-09-08', sat: 3 };
+    expect(mergeRecheck(later, earlier)!.sat).toBe(3);
+    expect(mergeRecheck(earlier, later)!.sat).toBe(3);
+    expect(mergeRecheck({ stage: 0, dueAt: 'x' }, { stage: 0, dueAt: 'y' })!.sat).toBeUndefined();
   });
 
   it('carries one side when the other has none', () => {

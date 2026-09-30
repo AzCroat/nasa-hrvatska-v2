@@ -13,7 +13,7 @@
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
@@ -258,6 +258,33 @@ describe('a failing sitting', () => {
   });
 });
 
+describe('a retake on a LATER opening', () => {
+  it('continues the attempt count, so yesterday’s failed paper is not served again', async () => {
+    // Walked in a browser (sweep 225): fail the unit test, come back the next day from
+    // Home, and the screen mounted at attempt 0 — the identical fifteen items in the
+    // identical order, every one of which had been revealed with its explanation.
+    seed();
+    const first = paper('A1-1', 0);
+    mount();
+    await sit(first, 1);
+    await screen.findByTestId('unit-test-result');
+    expect(unitRecord('A1-1')!.attempts).toHaveLength(1);
+
+    // A fresh opening (a new mount), as Home or the map would open it.
+    cleanup();
+    seed();
+    const second = paper('A1-1', 1);
+    mount();
+    await screen.findByTestId('unit-test-progress');
+    await waitFor(() => expect(screen.getByText(second[0]!.q)).toBeTruthy());
+    const key = (xs: typeof first) => xs.map((i) => `${i.lessonId}|${i.q}`).join('#');
+    expect(key(second)).not.toBe(key(first));
+    // …and it grades against the paper it served.
+    await sit(second);
+    expect((await screen.findByTestId('unit-test-result')).getAttribute('data-passed')).toBe('1');
+  });
+});
+
 describe('when the test cannot be served', () => {
   it('says the connection failed when the bodies could not be fetched', async () => {
     seed();
@@ -370,6 +397,31 @@ describe('a retention re-check', () => {
     const shown = screen.getByText(paper('A1-1', 1)[0]!.q);
     expect(shown).toBeTruthy();
     expect(first).not.toContain(`${paper('A1-1', 1)[0]!.lessonId}|${paper('A1-1', 1)[0]!.q}`);
+  });
+
+  it('the retry the day after a SLIP is a different paper from the one that slipped', async () => {
+    // Walked in a browser (sweep 225): a failed check-up returns the next day at the
+    // same stage, and a seed built from the stage served the identical paper.
+    seed();
+    barMet();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    mount();
+    const slipped = paper('A1-1', 1);
+    await sit(slipped, 1);
+    await screen.findByTestId('unit-test-result');
+    expect(unitRecord('A1-1')!.recheck).toMatchObject({ stage: 0, sat: 1 });
+
+    cleanup();
+    seed();
+    sessionStorage.setItem('nh_unit_test', 'A1-1|recheck');
+    mount();
+    const retry = paper('A1-1', 2);
+    await screen.findByTestId('unit-test');
+    await waitFor(() => expect(screen.getByText(retry[0]!.q)).toBeTruthy());
+    const key = (xs: typeof slipped) => xs.map((i) => `${i.lessonId}|${i.q}`).join('#');
+    expect(key(retry)).not.toBe(key(slipped));
+    await sit(retry);
+    expect(unitRecord('A1-1')!.recheck).toMatchObject({ stage: 1, sat: 2 });
   });
 
   it('climbs the ladder on a pass, and pays no XP for it', async () => {
