@@ -10211,10 +10211,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Vratila je novac koji ___.' (she had borrowed)",
-            options: ['posuđuje', 'je posudila bila', 'je bila posudila', 'bijaše posuđivala'],
+            options: ['posuđuje', 'je bio posudila', 'je bila posudila', 'bijaše posuđivala'],
             correct: 2,
             explanation:
-              'je bila posudila: auxiliary, then bila, then the main participle. The imperfective bijaše posuđivala would describe repeated borrowing.',
+              'je bila posudila: auxiliary, then bila, then the main participle, both feminine to agree with her. je bio posudila breaks that agreement, and the imperfective bijaše posuđivala would describe repeated borrowing.',
           },
           {
             q: 'When is the pluperfect NOT needed?',
@@ -10446,10 +10446,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete to make a METAPHOR for coldness: 'Njegove riječi bile su ___.'",
-            options: ['hladne', 'kao led', 'led', 'ledene'],
+            options: ['kao led', 'poput leda', 'led', 'hladne kao led'],
             correct: 2,
             explanation:
-              'A metaphor states the identity outright: his words WERE ice. kao led is a simile; hladne and ledene are plain adjectives.',
+              'A metaphor states the identity outright: his words WERE ice. kao led, poput leda and hladne kao led are similes — they compare with kao or poput.',
           },
           {
             q: 'What does a retoričko pitanje do?',
@@ -10853,7 +10853,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: "Rule 4 — No Comma Before 'da'",
-        body: "Croatian does NOT put a comma before complement 'da': 'Mislim da imaš pravo.' 'Rekao je da dolazi sutra.' English 'that'-habits and Russian rules both mislead here. Exception: if 'da' opens an inverted or clearly inserted clause, normal fencing rules apply — but the everyday 'mislim da...' never takes one.",
+        body: "Croatian does NOT put a comma before complement 'da': 'Mislim da imaš pravo.' 'Rekao je da dolazi sutra.' German and Russian punctuation habits, which do put a comma there, mislead here. Exception: if 'da' opens an inverted or clearly inserted clause, normal fencing rules apply — but the everyday 'mislim da...' never takes one.",
         highlight: 'Mislim da imaš pravo — no comma, ever',
       },
       {
@@ -10885,7 +10885,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "English habit puts a comma before every 'that': 'Mislim, da imaš pravo' — complement 'da' never takes one. Second, the fronted clause is left open: 'Kad dođeš javi se' — an inverted subordinate clause must be closed with a comma, 'Kad dođeš, javi se'. Third, an insertion gets one fence instead of two: 'Moj brat, inače liječnik živi u Splitu' — whatever you open with a comma you must close with a comma.",
+        body: "A German or Russian habit puts a comma before every 'that'-clause: 'Mislim, da imaš pravo' — complement 'da' never takes one. Second, the fronted clause is left open: 'Kad dođeš javi se' — an inverted subordinate clause must be closed with a comma, 'Kad dođeš, javi se'. Third, an insertion gets one fence instead of two: 'Moj brat, inače liječnik živi u Splitu' — whatever you open with a comma you must close with a comma.",
         highlight: 'whatever you open with a comma you must close with a comma',
       },
       {

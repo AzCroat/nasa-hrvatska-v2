@@ -223,10 +223,10 @@ export const PRACTICE_C2 = {
       },
       {
         q: 'Complete: "Pronašla je ključ koji ___." (she had lost)',
-        options: ['gubi', 'je izgubila bila', 'je bila izgubila', 'bijaše gubila'],
+        options: ['gubi', 'je bio izgubila', 'je bila izgubila', 'bijaše gubila'],
         correct: 2,
         explanation:
-          'je bila izgubila — perfekt of biti followed by the participle, both feminine.',
+          'je bila izgubila — perfekt of biti followed by the participle, both feminine; je bio izgubila breaks the agreement.',
       },
       {
         q: 'Why is the pluperfect optional in "Nakon što je doručkovao, otišao je na posao"?',
@@ -487,7 +487,7 @@ export const PRACTICE_C2 = {
       ['hiperbola', 'hyperbole', 'Rečenica "Sto puta sam ti rekao" tipična je hiperbola.'],
       ['gradacija', 'climax (gradation)', 'Gradacija se gradi od najslabijeg prema najjačem.'],
       ['antiteza', 'antithesis', 'Antiteza suprotstavlja dva pojma u usporednoj rečenici.'],
-      ['ironija', 'irony', 'Ironija kaže suprotno od onoga što misli.'],
+      ['ironija', 'irony', 'Ironija kaže suprotno od onoga što se misli.'],
       ['retoričko pitanje', 'rhetorical question', 'Retoričko pitanje ne očekuje odgovor.'],
       ['usporedba', 'simile, comparison', 'Usporedba se prepoznaje po riječima "kao" i "poput".'],
     ],
@@ -616,7 +616,7 @@ export const PRACTICE_C2 = {
           type: 'type',
           q: 'Dopuni: Temeljem ____ 62. Zakona o strancima donosi se rješenje. (članak)',
           answer: 'članka',
-          hint: 'temeljem takes the genitive, and the a of članak does not drop.',
+          hint: 'temeljem takes the genitive, and članak loses its fleeting a.',
           explanation: 'temeljem članka 62. — genitive after temeljem.',
         },
         {
@@ -802,7 +802,7 @@ export const PRACTICE_C2 = {
             'Rekao, je da će doći sutra.',
           ],
           correct: 1,
-          hint: 'Complement da does not follow the English habit of pausing before "that".',
+          hint: 'Complement da does not take the comma German and Russian put before "that".',
           explanation: 'Rekao je da će doći sutra — no comma before complement da.',
         },
         {
@@ -1383,11 +1383,11 @@ export const PRACTICE_C2 = {
         },
         {
           q: 'U pismu jednoj osobi: Zahvaljujemo ___ na suradnji.',
-          options: ['vam', 'Vam', 'Vas', 'vas'],
+          options: ['Vi', 'Vam', 'Vas', 'vas'],
           correct: 1,
-          hint: 'Writing to one person, the polite pronoun carries meaning through its first letter. zahvaljivati takes the dative.',
+          hint: 'zahvaljivati takes the dative, and writing to one person the courtesy capital goes on the pronoun.',
           explanation:
-            'Vam — dative, capitalised in a letter to one person. Lower-case vam reads as a plural or a slip.',
+            'Vam — dative, with the courtesy capital of a letter to one person. Vi and Vas are the wrong case.',
         },
         {
           type: 'type',
@@ -1901,10 +1901,11 @@ export const PRACTICE_C2 = {
         },
         {
           q: 'Kako se u prozi piše "in the 1990s"?',
-          options: ['90-ih godina', 'devedesetih godina', '90tih godina', 'Devedesetih Godina'],
+          options: ['90-tih godina', 'devedesetih godina', '90tih godina', 'Devedesetih Godina'],
           correct: 1,
           hint: 'Decades in running text are not left as figures.',
-          explanation: 'devedesetih godina — decades are written out in prose, in lower case.',
+          explanation:
+            'devedesetih godina — written out, in lower case. With figures it is 90-ih, never 90-tih or 90tih.',
         },
         {
           q: 'Cijena raste s 200 na 250 eura. Što je točno?',
@@ -2138,7 +2139,7 @@ export const PRACTICE_C2 = {
         },
         {
           q: 'Dopuni: Četiri stolca ___ u kutu.',
-          options: ['je stajalo', 'su stajali', 'su stajala', 'su stajale'],
+          options: ['je stajalo', 'je stajao', 'su stajala', 'su stajale'],
           correct: 2,
           hint: 'Four, not five: the old dual pattern.',
           explanation: 'Četiri stolca su stajala — plural auxiliary with the participle in -a.',
@@ -3203,7 +3204,7 @@ export const PRACTICE_C2 = {
         },
         {
           q: 'Dopuni: Prošle godine ___ preselili u Pulu.',
-          options: ['se smo', 'smo se', 'smo mi se', 'mi smo se'],
+          options: ['se smo', 'smo se', 'smo mi se', 'smo si'],
           correct: 1,
           hint: 'Whatever you front, the clitic cluster follows it at once, in its fixed internal order.',
           explanation:
@@ -4966,7 +4967,7 @@ export const PRACTICE_C2 = {
       [
         'kajkavština',
         'the kajkavian dialect',
-        'Kajkavština je u Zagrebu bila književni jezik do devetnaestog stoljeća.',
+        'Kajkavština je u Zagrebu bila književni jezik do tridesetih godina devetnaestog stoljeća.',
       ],
       ['glagoljica', 'Glagolitic script', 'Najstariji hrvatski spomenici pisani su glagoljicom.'],
       ['vazda', 'always (archaic)', 'U starim pjesmama vazda znači uvijek.'],

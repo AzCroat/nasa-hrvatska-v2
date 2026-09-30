@@ -188,10 +188,10 @@ export const LESSONS_C2 = [
           },
           {
             q: 'Complete the formal report: "Uprava ___ odluku do petka."',
-            options: ['treba donositi', 'treba donijeti', 'trebaju donijeti', 'treba donesti'],
+            options: ['treba donositi', 'treba donijeti', 'trebaju donijeti', 'treba donijet'],
             correct: 1,
             explanation:
-              'Treba donijeti: trebati + the perfective infinitive. One decision by a deadline is a single completed act, so donositi is the wrong aspect; uprava is singular, so not trebaju; and the infinitive is donijeti, not donesti.',
+              'Treba donijeti: trebati + the perfective infinitive. One decision by a deadline is a single completed act, so donositi is the wrong aspect; uprava is singular, so not trebaju; and a formal report keeps the full infinitive donijeti, not the spoken donijet.',
           },
           {
             q: 'Which sentence is the accepted standard form?',
@@ -568,7 +568,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: "A Woman's Surname Ending in a Consonant Does Not Decline",
-        body: 'This is the rule that surprises everyone. Angela Merkel, o Angeli Merkel — the first name declines, the surname does not. The reason is morphological: a consonant-final surname has no feminine paradigm to enter. A surname ending in -a does decline, whoever bears it: Ana Kovača is wrong, but o Ani Kovač is right and o Zoli is right for a man called Zola.',
+        body: 'This is the rule that surprises everyone. Angela Merkel, o Angeli Merkel — the first name declines, the surname does not. The reason is morphological: a consonant-final surname has no feminine paradigm to enter. A surname ending in -a does decline, whoever bears it: o Ani Zoli, o Ivanu Zoli. The consonant-final one stays as it is: o Ani Kovač, never o Ani Kovači or o Ani Kovaču.',
         highlight: 'o Angeli Merkel — first name only',
       },
       {
@@ -799,7 +799,11 @@ export const LESSONS_C2 = [
           ['u 14 sati', 'u 14:00 sati', 'The word sati replaces the second half of the clock time'],
           ['20 %', '20%', 'A space before the percent sign'],
           ['3 kg, 15 km', '3kg, 15km', 'A space before every unit'],
-          ['tridesetih godina', '30-ih godina', 'Decades are written out in prose'],
+          [
+            'tridesetih (30-ih) godina',
+            '30-tih godina',
+            'Figures take a hyphen and -ih; -tih is never right',
+          ],
         ],
       },
       {
@@ -1067,7 +1071,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Nearest Noun Does Not Win',
-        body: 'English speakers sometimes let agreement drift to whichever noun is closest to the verb. Croatian does not permit it. "Ni Ivan ni njegove sestre nisu došli" — the verb is plural because the subject as a whole is plural, not singular because sestre is nearest or Ivan is first. When the subject is long, find its head before choosing the verb.',
+        body: 'English speakers sometimes let agreement drift to whichever noun is closest to the verb. Croatian does not permit it. "Ni Ivan ni njegove sestre nisu došli" — the verb is plural because the subject as a whole is plural, not feminine because sestre is nearest, nor singular because Ivan is first. When the subject is long, find its head before choosing the verb.',
         highlight: 'agreement is with the whole subject, not the nearest word',
       },
       {
@@ -1286,7 +1290,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Temporal Cases',
-        body: 'Croatian expresses time with bare cases and no preposition. The genitive gives a point: prošle godine, ovoga tjedna, jednoga dana. The instrumental gives a repetition: subotom (on Saturdays), danju (by day), noću (by night), ljeti (in summer). The accusative gives a duration: cijeli dan, cijelu godinu. Three cases, three time relations, no prepositions anywhere.',
+        body: 'Croatian expresses time with bare cases and no preposition. The genitive gives a point: prošle godine, ovoga tjedna, jednoga dana. The instrumental gives a repetition: subotom (on Saturdays), nedjeljom, večerima; the fixed adverbs danju (by day), noću (by night) and ljeti (in summer) do similar work. The accusative gives a duration: cijeli dan, cijelu godinu. Three cases, three time relations, no prepositions anywhere.',
         highlight: 'prošle godine · subotom · cijeli dan',
       },
       {
@@ -2090,10 +2094,10 @@ export const LESSONS_C2 = [
         items: [
           {
             q: 'Complete the formal notice: "Dokumentaciju ___ dostaviti do petka."',
-            options: ['je potrebno', 'trebate da', 'moraš', 'je potrebna'],
+            options: ['je potrebno', 'je potreban', 'moraš', 'je potrebna'],
             correct: 0,
             explanation:
-              'The impersonal je potrebno + infinitive states the rule without naming anybody. moraš and trebate da are personal, and potrebna would need a feminine subject the sentence does not have in the nominative.',
+              'The impersonal je potrebno + infinitive states the rule without naming anybody. moraš is personal and in the ti register, and potreban and potrebna would need a masculine or feminine subject the sentence does not have in the nominative.',
           },
           {
             q: 'Complete: "___ mi dva potpisa." (I need two signatures)',
@@ -2288,8 +2292,8 @@ export const LESSONS_C2 = [
         options: [
           'Novi zakon je stupio na snagu prošloga tjedna.',
           'Prošloga tjedna je stupio na snagu novi zakon.',
-          'Stupio je na snagu novi zakon prošloga tjedna.',
-          'Na snagu je novi zakon stupio prošloga tjedna.',
+          'Na snagu je prošloga tjedna stupio novi zakon.',
+          'Prošloga je tjedna novi zakon stupio na snagu.',
         ],
         correct: 0,
         explanation:
@@ -3935,9 +3939,9 @@ export const LESSONS_C2 = [
             note: 'Imperfect bijaše — a sustained past state',
           },
           {
-            hr: 'Jur nijedna na svit lipa…',
-            en: 'No longer is any woman on earth beautiful…',
-            note: 'Šiško Menčetić; jur = već, lipa = lijepa in the ikavian of the Dubrovnik circle',
+            hr: 'Jur je svanulo, a lipa je zora nad gradom.',
+            en: 'It has already dawned, and the dawn over the town is beautiful.',
+            note: 'A line written for this lesson in the older manner: jur = već, lipa = lijepa in ikavian',
           },
         ],
       },
@@ -4934,10 +4938,10 @@ export const LESSONS_C2 = [
       {
         type: 'quiz',
         q: 'Which is a genuine Croatian filler rather than a translated English one?',
-        options: ['um', 'znaš', 'ovaj', 'kao što'],
+        options: ['um', 'you know', 'ovaj', 'kao što'],
         correct: 2,
         explanation:
-          'Ovaj is the standard Croatian hesitation marker, closest to English "er". Pa, znači and mislim are the others in heavy use. "Um" is not Croatian, and "kao što" is a comparative conjunction rather than a filler.',
+          'Ovaj is the standard Croatian hesitation marker, closest to English "er". Pa, znači and mislim are the others in heavy use. "Um" and "you know" are English, and "kao što" is a comparative conjunction rather than a filler.',
       },
       {
         type: 'rule',
@@ -5071,7 +5075,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Terms Without an Equivalent',
-        body: "Some terms have no counterpart and must be handled explicitly rather than approximated. Županija is not a county. OIB is not a social security number. Dom zdravlja is not a hospital. The three honest options are borrowing with a gloss, describing, or naming the nearest institution and flagging the difference. Silently substituting the reader's own institution misinforms them.",
+        body: "Some terms have no counterpart and must be handled explicitly rather than approximated. OIB is not a social security number. Dom zdravlja is not a hospital. The three honest options are borrowing with a gloss, describing, or naming the nearest institution and flagging the difference. Silently substituting the reader's own institution misinforms them.",
         highlight: 'borrow + gloss, describe, or flag the difference',
       },
       {
@@ -5163,21 +5167,21 @@ export const LESSONS_C2 = [
       },
       {
         type: 'quiz',
-        q: 'You are translating "županija" for an English readership. What is the honest handling?',
+        q: 'You are translating "dom zdravlja" for an English readership. What is the honest handling?',
         options: [
-          'Translate it as "county"',
+          'Translate it as "hospital"',
           'Borrow the term and gloss it once, or describe it and flag that it is not equivalent',
           'Leave it untranslated with no explanation',
-          'Translate it as "state"',
+          'Translate it as "the local GP surgery"',
         ],
         correct: 1,
         explanation:
-          "Substituting the reader's own institution tells them something false about how Croatia is administered. Borrowing with a gloss, or describing while flagging the difference, keeps the reader accurately informed — which is what the translation is for.",
+          "Substituting the reader's own institution tells them something false about how Croatian health care is organised. Borrowing with a gloss, or describing while flagging the difference, keeps the reader accurately informed — which is what the translation is for.",
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three translation errors that survive a word-by-word check. First, legal "shall" as hoće: it is obligation — dužan je or the present tense. Second, English word order surviving into Croatian: Poslali smo vam ponudu — not "Mi smo poslali vama ponudu", where the full pronouns and the fronted subject copy the English. Third, substituting the reader\'s own institution: rendering županija as county tells them something false about how Croatia is administered.',
+        body: 'Three translation errors that survive a word-by-word check. First, legal "shall" as hoće: it is obligation — dužan je or the present tense. Second, English word order surviving into Croatian: Poslali smo vam ponudu — not "Mi smo poslali vama ponudu", where the full pronouns and the fronted subject copy the English. Third, substituting the reader\'s own institution: rendering dom zdravlja as hospital tells them something false about how Croatian health care is organised.',
         highlight: 'Poslali smo vam ponudu — not "Mi smo poslali vama ponudu"',
       },
       {
@@ -5211,12 +5215,12 @@ export const LESSONS_C2 = [
               'No redundant subject pronoun, the clitic vam in the cluster, the verb first: Poslali smo vam ponudu jučer. The others carry English word order or full pronouns where clitics belong.',
           },
           {
-            q: 'Which handling of "županija" misinforms the reader?',
+            q: 'Which handling of "HZZO" misinforms the reader?',
             options: [
-              'county',
-              'županija (regional administrative unit)',
-              'a Croatian regional unit roughly comparable to a county',
-              'županija, left in the text with a gloss',
+              'the NHS',
+              'HZZO (the Croatian Health Insurance Fund)',
+              'the Croatian Health Insurance Fund (HZZO)',
+              'HZZO, left in the text with a gloss',
             ],
             correct: 0,
             explanation:
@@ -5331,7 +5335,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Ja sam ti to htio reći → Htio sam ti to reći.',
-            en: 'The clitic order was already right (sam ti to after the first word); the only change drops the pronoun ja, which adds emphasis the sentence does not need.',
+            en: 'The clitic order was already right (sam ti after the first word); the only change drops the pronoun ja, which adds emphasis the sentence does not need.',
             note: 'A style change, not a correction — say which kind of note you are giving',
           },
           {
@@ -5480,7 +5484,7 @@ export const LESSONS_C2 = [
             options: ['Ja htio sam', 'Htio sam', 'Sam htio', 'Htio ja sam'],
             correct: 1,
             explanation:
-              'The redundant ja goes, and the cluster sam ti to follows the participle: Htio sam ti to reći. The other options break second position.',
+              'The redundant ja goes, and the clitics sam ti follow the participle: Htio sam ti to reći. The other options break second position.',
           },
         ],
       },
@@ -6166,10 +6170,10 @@ export const LESSONS_C2 = [
         items: [
           {
             q: 'Complete the formal email: "Zahvaljujem ___ na odgovoru."',
-            options: ['vam', 'Vam', 'ti', 'Vas'],
+            options: ['Vi', 'Vam', 'ti', 'Vas'],
             correct: 1,
             explanation:
-              'zahvaljivati takes the dative, and in a letter to one person the polite form is capitalised: Vam. ti is the wrong register, and Vas the wrong case.',
+              'zahvaljivati takes the dative, and in a letter to one person the polite form is capitalised: Vam. ti is the wrong register, and Vi and Vas the wrong case.',
           },
           {
             q: 'Complete: "Hvala Vam ___ strpljenju."',
