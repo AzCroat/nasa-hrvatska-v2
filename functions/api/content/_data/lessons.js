@@ -4744,8 +4744,8 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Definite vs Indefinite Adjectives',
-        body: "Croatian has two sets of adjective forms: definite (when the noun is specific/known: 'the big city') and indefinite (when it's new/general: 'a big city'). In modern spoken Croatian the distinction is fading — most speakers use definite forms everywhere. But knowing it exists explains why you sometimes see shorter forms like 'mlad' instead of 'mladi'.",
-        highlight: 'definite: -i | indefinite: shorter (literary)',
+        body: "Croatian has two sets of adjective forms: definite (when the noun is specific/known: 'the big city') and indefinite (when it's new/general: 'a big city'). In modern spoken Croatian the distinction is fading before a noun — most speakers use the definite forms there. After biti the short form is the normal one: 'Grad je velik', 'On je mlad'. Knowing both sets explains why you see shorter forms like 'mlad' beside 'mladi'.",
+        highlight: 'definite: -i | indefinite: shorter (Grad je velik)',
       },
       {
         type: 'quiz',
@@ -7658,7 +7658,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'u / na + Locative = Location (Being AT/IN)',
-        body: 'When you are at a place (no movement), use u or na with the LOCATIVE case. Locative endings: masculine/neuter -u (u gradu, u selu), feminine -i (na plaži, u školi). Jesam u gradu (I am in the city). Sjedimo na plaži (We are sitting on the beach). The key question: Is there static location, no movement? → Locative.',
+        body: 'When you are at a place (no movement), use u or na with the LOCATIVE case. Locative endings: masculine/neuter -u (u gradu, u selu), feminine -i (na plaži, u školi). U gradu sam (I am in the city). Sjedimo na plaži (We are sitting on the beach). The key question: Is there static location, no movement? → Locative.',
         highlight: 'location = locative',
       },
       {
@@ -7667,11 +7667,11 @@ const LESSONS_CORE = [
         headers: ['Meaning', 'Case', 'Example', 'English'],
         rows: [
           ['going TO', 'Accusative', 'Idem u grad.', 'I am going to the city.'],
-          ['being IN', 'Locative', 'Jesam u gradu.', 'I am in the city.'],
+          ['being IN', 'Locative', 'U gradu sam.', 'I am in the city.'],
           ['going TO', 'Accusative', 'Idem na plažu.', 'I am going to the beach.'],
           ['being ON', 'Locative', 'Sjedim na plaži.', 'I am sitting on the beach.'],
           ['going TO', 'Accusative', 'Idem u školu.', 'I am going to school.'],
-          ['being IN', 'Locative', 'Jesam u školi.', 'I am at school.'],
+          ['being IN', 'Locative', 'U školi sam.', 'I am at school.'],
         ],
       },
       {
@@ -7683,7 +7683,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'iz vs od — The Important Distinction',
-        body: '"Iz" means FROM a contained/enclosed space: dolazim iz Zagreba (I come from Zagreb — the city encloses you). "Od" means FROM a person, an event, or something not enclosed: to je dar od mame (this is a gift from mum), od ponedjeljka (from Monday). Do NOT use "od" for cities and rooms — use "iz". This iz/od distinction is one of the most common errors in learner Croatian.',
+        body: '"Iz" means FROM a contained/enclosed space: dolazim iz Zagreba (I come from Zagreb — the city encloses you). "Od" means FROM a person, an event, or something not enclosed: to je dar od mame (this is a gift from mum), od ponedjeljka (from Monday). Do NOT use "od" to say where you come from — for cities and rooms use "iz". (A route is different: od Splita do Dubrovnika, from one point to another.) This iz/od distinction is one of the most common errors in learner Croatian.',
         highlight: 'iz = enclosed space; od = from person/time',
       },
       {
@@ -7699,8 +7699,8 @@ const LESSONS_CORE = [
         rows: [
           ['u (direction)', 'Accusative', 'going into', 'Idem u kafić.'],
           ['na (direction)', 'Accusative', 'going onto/to', 'Idem na more.'],
-          ['u (location)', 'Locative', 'being inside', 'Jesam u kafiću.'],
-          ['na (location)', 'Locative', 'being on/at', 'Sjedim na moru.'],
+          ['u (location)', 'Locative', 'being inside', 'U kafiću sam.'],
+          ['na (location)', 'Locative', 'being on/at', 'Ljeti smo na moru.'],
           ['od', 'Genitive', 'from / of', 'Dar od prijatelja.'],
           ['do', 'Genitive', 'to / until', 'Do ponedjeljka.'],
           ['iz', 'Genitive', 'from (enclosed)', 'Dolazim iz Splita.'],
@@ -7892,7 +7892,7 @@ const LESSONS_CORE = [
         title: 'Prepositions in Action — Complete!',
         points: [
           'u/na + accusative = movement TO a place (Idem u grad)',
-          'u/na + locative = static location AT a place (Jesam u gradu)',
+          'u/na + locative = static location AT a place (U gradu sam)',
           'iz = from an enclosed space (iz grada, iz kuće)',
           'od = from a person or time point (od mame, od ponedjeljka)',
           'od/do/iz/bez/kod all take the genitive case',
@@ -11001,7 +11001,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'moći — Ability and Permission',
-        body: "Moći means 'can' in the sense of ability or possibility: 'Mogu plivati' (I can swim — I have the skill). Conjugation: mogu, možeš, može, možemo, možete, mogu. Moći also covers general possibility: 'Može kišiti' (It might rain). Note the irregular 3rd person plural 'mogu', identical to 1st person singular.",
+        body: "Moći means 'can' in the sense of ability or possibility: 'Mogu plivati' (I can swim — I have the skill). Conjugation: mogu, možeš, može, možemo, možete, mogu. Moći also covers general possibility: 'To se može dogoditi' (That can happen). Note the irregular 3rd person plural 'mogu', identical to 1st person singular.",
         highlight: 'mogu, možeš, može, možemo, možete, mogu',
       },
       {
@@ -11340,12 +11340,12 @@ const LESSONS_CORE = [
           {
             hr: 'Danas je hladnije nego jučer.',
             en: "Today it's colder than yesterday.",
-            note: 'hladnije used with time expressions, not nouns',
+            note: 'nego before an adverb (jučer) — od needs a noun in the genitive',
           },
           {
             hr: 'Moja sestra je mlađa od mene.',
             en: 'My sister is younger than me.',
-            note: 'mlađi (irregular softening) + od + genitive',
+            note: 'mlađi (-ji, d softens to đ) + od + genitive',
           },
           {
             hr: 'Ovo je najjednostavniji recept.',

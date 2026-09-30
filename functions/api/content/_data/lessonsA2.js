@@ -596,7 +596,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'S or Sa?',
-        body: 'Use "sa" before a word beginning with s, š, z or ž, and before the pronoun "mnom". sa sestrom, sa Šimom, sa mnom. Everywhere else it is plain "s". This is purely about being easy to say, and it is the same rule you met with prepositions of place at A1.',
+        body: 'Use "sa" before a word beginning with s, š, z or ž, and before the pronoun "mnom". sa sestrom, sa Šimom, sa mnom. Everywhere else it is plain "s". This is purely about being easy to say.',
         highlight: 'sa sestrom · sa mnom',
       },
       {
@@ -1078,13 +1078,13 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Genitive Plural: the Long -a',
-        body: 'The genitive plural is the one everybody notices, because it is a long, stressed -a on almost everything. student → studenata. grad → gradova. knjiga → knjiga. selo → sela. It is what you hear after numbers from five upwards (pet studenata), after quantity words (puno knjiga), and wherever the genitive would be used in the singular.',
+        body: 'The genitive plural is the one everybody notices, because it is a long -a on almost everything. student → studenata. grad → gradova. knjiga → knjiga. selo → sela. It is what you hear after numbers from five upwards (pet studenata), after quantity words (puno knjiga), and wherever the genitive would be used in the singular.',
         highlight: 'pet studenata · puno knjiga',
       },
       {
         type: 'rule',
         title: 'Why Masculine Sometimes Gains a Syllable',
-        body: 'Croatian dislikes ending a word on a consonant cluster, so a helping "a" slides in before the ending. student → studenata (not "studentta"). sestra → sestara. pismo → pisama. This is the same fleeting "a" you met in "dobar → dobra", running the other way. Not every noun needs it — grad → gradova has no cluster to break up.',
+        body: 'The genitive plural does not like two consonants right before its ending, so a helping "a" slides in to break them up. student → studenata (not "studenta", which is the genitive singular). sestra → sestara. pismo → pisama. This is the same fleeting "a" you met in "dobar → dobra", running the other way. Not every noun needs it — grad → gradova has no cluster to break up.',
         highlight: 'student → studenata',
       },
       {
@@ -1339,7 +1339,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Verb Stays Singular',
-        body: 'A quantity phrase looks plural but behaves as a single unit, so the verb stays in the third person singular. Puno ljudi DOLAZI. (A lot of people are coming.) Nekoliko studenata JE došlo. This catches English speakers out constantly, because English agrees with the noun instead.',
+        body: 'A quantity phrase looks plural but behaves as a single unit, so the verb stays in the third person singular. Puno ljudi DOLAZI. (A lot of people are coming.) Nekoliko studenata JE došlo. This catches English speakers out constantly, because English agrees with the noun instead. (The plural, dolaze, is heard in casual speech, but the singular is the standard form.)',
         highlight: 'Puno ljudi dolazi.',
       },
       {
@@ -1438,15 +1438,15 @@ export const LESSONS_A2 = [
         type: 'quiz',
         title: 'One More',
         q: 'Which is correct?',
-        options: ['Puno ljudi dolaze.', 'Puno ljudi dolazi.', 'Puno ljudi dolazimo.'],
+        options: ['Puno ljudi dolaziš.', 'Puno ljudi dolazi.', 'Puno ljudi dolazimo.'],
         correct: 1,
         explanation:
-          'A quantity phrase counts as one unit, so the verb stays in the third person singular: dolazi. English agrees with the noun and says "are coming", which is exactly why this trips learners up.',
+          'A quantity phrase counts as one unit, so the verb stays in the third person singular: dolazi. English agrees with the noun and says "are coming", which is exactly why this trips learners up. dolaziš and dolazimo put the verb in the wrong person altogether.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Agreeing the verb with the noun, as English does: "Puno ljudi dolaze" is wrong — the quantity phrase is one unit, so "Puno ljudi dolazi". (2) Leaving the noun in the subject form after a quantity word: "puno knjige" and "malo voda" are wrong — every quantity word takes the genitive, "puno knjiga", "malo vode". (3) Reaching for the plural with an uncountable noun: "puno poslova" means many separate jobs; a lot of work is "puno posla", genitive singular.',
+        body: '(1) Agreeing the verb with the noun, as English does: "Puno ljudi dolaze" is heard in speech, but the standard treats the quantity phrase as one unit: "Puno ljudi dolazi". (2) Leaving the noun in the subject form after a quantity word: "puno knjige" and "malo voda" are wrong — every quantity word takes the genitive, "puno knjiga", "malo vode". (3) Reaching for the plural with an uncountable noun: "puno poslova" means many separate jobs; a lot of work is "puno posla", genitive singular.',
         highlight: 'Puno ljudi dolazi',
       },
       {
@@ -1470,14 +1470,14 @@ export const LESSONS_A2 = [
           {
             q: 'Which sentence is correct?',
             options: [
-              'Nekoliko studenata su došli.',
+              'Nekoliko studenata je došli.',
               'Nekoliko studenata je došlo.',
               'Nekoliko studenti je došlo.',
               'Nekoliko studenata došli.',
             ],
             correct: 1,
             explanation:
-              'A quantity phrase takes a singular neuter verb: je došlo. "Su došli" agrees with the noun the way English does, and "studenti" is not the genitive.',
+              'A quantity phrase takes a singular neuter verb: je došlo. "Je došli" mixes a singular auxiliary with a plural participle, and "studenti" is not the genitive.',
           },
           {
             q: 'What is wrong with "Kupio sam litru mlijeko"?',
@@ -1870,7 +1870,7 @@ export const LESSONS_A2 = [
             note: 'nisam answers on its own',
           },
           {
-            hr: 'Što ste radili vikendom?',
+            hr: 'Što ste radili preko vikenda?',
             en: 'What did you do at the weekend?',
             note: 'question word, so no li',
           },
@@ -1945,15 +1945,15 @@ export const LESSONS_A2 = [
         type: 'quiz',
         title: 'One More',
         q: 'Which correctly asks "Where were you?" (to a man)',
-        options: ['Gdje li si bio?', 'Gdje si bio?', 'Si gdje bio?', 'Jesi li gdje bio?'],
+        options: ['Gdje bio si?', 'Gdje si bio?', 'Si gdje bio?', 'Jesi li gdje bio?'],
         correct: 1,
         explanation:
-          'A question word already makes it a question, so "li" is not used and the clitic follows straight after: Gdje si bio? "Li" belongs only in yes/no questions.',
+          'A question word already makes it a question, so "li" is not used and the clitic follows straight after: Gdje si bio? "Gdje bio si" pushes the clitic to third place, and "Jesi li gdje bio?" asks whether you went anywhere at all.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Negating with a separate "ne": "Ne sam radio" is wrong — biti fuses with the negation, "Nisam radio". (2) Opening a sentence with the short auxiliary: "Sam bio u Splitu" is impossible — the clitic needs something before it, "Bio sam u Splitu" or "Ja sam bio u Splitu". (3) Adding "li" after a question word, or asking with the short form: "Gdje li si bio?" and "Si li bio?" are both wrong — "Gdje si bio?" and "Jesi li bio?".',
+        body: '(1) Negating with a separate "ne": "Ne sam radio" is wrong — biti fuses with the negation, "Nisam radio". (2) Opening a sentence with the short auxiliary: "Sam bio u Splitu" is impossible — the clitic needs something before it, "Bio sam u Splitu" or "Ja sam bio u Splitu". (3) Adding "li" after a question word, or asking with the short form: a plain "Where were you?" is "Gdje si bio?" ("Gdje li si bio?" is a rhetorical "where on earth…"), and "Si li bio?" is wrong — "Jesi li bio?".',
         highlight: 'Nisam radio',
       },
       {
@@ -3184,7 +3184,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Placing Things in a Room',
-        body: 'This is where the A1 prepositions earn their keep. Stol je u kuhinji. (locative) Slika je na zidu. (locative) Kauč je pored prozora. (genitive) Tepih je ispod stola. (genitive) The pattern to remember: u and na take the locative for position, and the rest of the place words take the genitive.',
+        body: 'This is where the A1 prepositions earn their keep. Stol je u kuhinji. (locative) Slika je na zidu. (locative) Kauč je pored prozora. (genitive) Tepih je ispod stola. (genitive) The pattern to remember: u and na take the locative for position, and pored, ispod, iznad and iza take the genitive.',
         highlight: 'na zidu · pored prozora',
       },
       {
@@ -3284,7 +3284,7 @@ export const LESSONS_A2 = [
           'Rooms: soba, kuhinja, kupaonica, spavaća soba, dnevni boravak',
           'Živim u kući / u stanu — u plus the locative',
           'Floors are ordinals in the locative: na trećem katu, u prizemlju',
-          'Placing things: u and na take the locative, other place words the genitive',
+          'Placing things: u and na take the locative; pored, ispod, iznad and iza the genitive',
         ],
       },
     ],
@@ -3977,7 +3977,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Using a possessive adjective for hair and eyes: "Njegova kosa je smeđa" is understood, but a Croatian says "Kosa mu je smeđa" or "Ima smeđu kosu". (2) Saying "siva kosa" for grey hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
+        body: '(1) Using a possessive adjective for hair and eyes: "Njegova kosa je smeđa" is correct, but it is the stiffer choice — in conversation you will mostly hear "Kosa mu je smeđa" or "Ima smeđu kosu". (2) Saying "siva kosa" for grey hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
         highlight: 'Kakav je on?',
       },
       {
@@ -5158,7 +5158,7 @@ export const LESSONS_A2 = [
           {
             hr: 'Nažalost, ne mogu, imam posla.',
             en: 'Unfortunately I cannot, I have work on.',
-            note: 'imam posla — genitive after a negative-ish quantity',
+            note: 'imam posla — the genitive of "some": some work to do',
           },
           {
             hr: 'Možda drugi put? Javit ću ti.',
