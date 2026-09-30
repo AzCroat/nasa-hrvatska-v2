@@ -14250,3 +14250,38 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Not walked: failing a check or unit test (the corrective day and retakes are
     covered by their own specs), check-ups due at 7 and 30 days, and the speaking
     task by microphone (typed only).
+- [x] **Sweep 223 — a native-level read of all 180 lessons, one reviewer per level (2026-09-30).**
+  Every string a learner sees in each level's lessons, worked examples, practice,
+  form-B checks, typed items, vocabulary and can-do statements. 165 corrections:
+  A1 13, A2 24, B1 22, B2 30, C1 41, C2 25. Can-do files needed none.
+  - **Distractors that were correct Croatian** (the largest class, every level): a
+    learner who chose them was marked wrong for being right — e.g. `Ova je dobra
+    knjiga`, `Gdje li si bio?`, `za te`, `je posudila bila`, `ledene riječi`, `Kao
+    otac`, split `Moja mi je starija sestra`, `Biste li mi mogao reći`, lower-case
+    `vam`. Each replaced by a genuinely wrong option.
+  - **Serbian forms on screen**: `Moram da idem`, `morati da`, `treba donesti`,
+    `trebate da`, `šta ima` — removed from options and examples.
+  - **False grammar in explanations**: `pola` = "half past"; the unreal `da` +
+    perfect only; "every -vši from a perfective, never imperfective"; `pod/nad/pred/za`
+    under the genitive; the i-declension "five of six forms"; the future's clipping
+    rule; reported speech backshifting against its own rule; the fleeting a of
+    `studenata` and `članak`; `ljeti` as an instrumental; `radostan → radost`.
+  - **Wrong neutral forms taught**: `Jesam u gradu` (emphatic) → `U gradu sam`;
+    `Dvanaest bez četvrt` (regional) → `Četvrt do dvanaest`; `Nemamo auto` against the
+    lesson's own `nemati` + genitive; `Nemoj brinuti` without `se`.
+  - **False facts**: winter days getting shorter; three kisses as a Croatian greeting;
+    `županija` ≠ "county"; a quotation attributed to Menčetić from memory; the Krk
+    LNG pipeline "to Hungary"; kajkavian as "the language of Baroque poetry"; UNESCO.
+  - **Giveaways**: question, cue and hint wording that named its own answer or gave a
+    clitic cluster in the answer's order (B1 prefixes, B2 `(ću, ti, ga)`, `(dative mi,
+    auxiliary je)`).
+  - Checked with `lintCroatianText` (0), `lessonDepthCheck` and `lessonPracticeCheck
+    --productive` at all six levels (0), and the full unit suite (10,800).
+  - **Left for the owner, not changed** (marked-vs-wrong judgements): `se je` keyed
+    wrong at B2; `Puno ljudi dolaze` now called "heard, not standard"; masculine job
+    titles for women keyed wrong at A2; `usprkos` + genitive and `Predlažem da bismo`
+    keyed wrong; delayed clitics in several B1 model sentences; `kao da` + perfect at
+    C1; `nazdraviti za`; folk etymologies of `veljača`/`prosinac`; the Šulek coinage
+    list and the end date of Glagolitic.
+  - Process: the B1 reviewer committed with `--no-verify`; prettier and eslint were
+    re-run on the combined branch and are clean.
