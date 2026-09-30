@@ -21,6 +21,7 @@ import { requestUnitTest, requestLevelReview } from '../lib/courseUnitProgress';
 import { requestUnitProduction } from '../lib/unitProductionRequest';
 import { CURRICULUM_SPINE_EVENT } from '../lib/curriculumProgress';
 import { rearmCourseHandoff } from '../lib/curriculumSlot';
+import { markSessionLaunch } from '../lib/sessionLaunchDay';
 
 /** Same servable-vocab pool HomeTab builds — used for the SRS due count.
  *  Content is lazy-loaded (useContent); until it arrives the SRS rung of the
@@ -138,7 +139,7 @@ export function useNextStepEngine(): NextStepEngine {
           try {
             for (const id of SESSION_SCREEN_IDS) {
               if (id === s.screen) {
-                sessionStorage.setItem('nh_session_started', id);
+                markSessionLaunch(id);
                 setSessionCategory(s.activityId);
                 rearmCourseHandoff(s.activityId);
                 break;

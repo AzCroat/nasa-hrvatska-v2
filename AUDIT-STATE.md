@@ -14156,8 +14156,7 @@ postotna boda`, and several lesson positions stricter than everyday speech.
     Speech SDK's NESTED shape (`PronunciationAssessment.AccuracyScore`), but the REST
     short-audio endpoint this file calls returns the scores FLAT on the NBest entry, the
     word and the phoneme. So Guided Speaking's word check called every word unclear, and it
-    could never see a real miscue. The wrong-ending probes "passed" only because 0 is below
-    60. Both shapes are read now, flat first.
+    could never see a real miscue. The wrong-ending probes "passed" only because 0 is below 60. Both shapes are read now, flat first.
     - An ABSENT score is `null`, never 0. `checkedWords` and `assessFocusFlagged` then judge
       the word by Azure's miscue verdict alone, and never call it unclear on no measurement.
     - The calibration reports `scored` per take, so the next run says whether Azure scores
@@ -14179,8 +14178,8 @@ postotna boda`, and several lesson positions stricter than everyday speech.
       at 100. But it heard every wrong-ending probe as the CORRECT sentence: "Imam sestra."
       was reported as "Imam sestru." at 100. Scripted assessment is given the reference and
       hears to match it, so it cannot judge a case ending (4 of 4 missed).
-    The check can only REVOKE a build pass, never grant one, so no wrong ending is credited
-    by it; it simply adds nothing for endings.
+      The check can only REVOKE a build pass, never grant one, so no wrong ending is credited
+      by it; it simply adds nothing for endings.
   - Owner's decision: get a second, unbiased transcript of the same recording and use it
     only for the focus word, with proof first. This change is the proof.
     - `azureTranscribe` is the same Azure endpoint with no reference sentence.
@@ -14218,3 +14217,36 @@ postotna boda`, and several lesson positions stricter than everyday speech.
   - Whether plain Azure or the production chain hears endings more reliably is what sweep
     220's calibration measures. If the chain wins, the endpoint's plain pass is swapped;
     the grading path is the same either way.
+- [x] **Sweep 222 — the whole course, walked from nothing (2026-09-30).**
+      `e2e/course-full-walk.spec.js` walks all 36 units as a learner does: every lesson
+      read with its check passed from the answer key (form A and B of all 180 lessons,
+      2,355 items, no key collision), every unit test, both production tasks and each
+      level review. Each unit's first lesson, its unit test, both production tasks and
+      each level review are taken from HOME on a new day (the plan dropped, the launch
+      stamp back-dated); the other four lessons from the map. After every unit the map
+      must show it cleared and the next unit current; at every crossing Home must lead
+      with the level review, then with the next unit. One test walks A1 and A2 with
+      nothing seeded; B1–C2 each seed the levels before them in the shapes a real walk
+      writes. Final run: 5 of 5 green, 36 units, 6 level reviews.
+  - **Home's Begin opened the A1 alphabet for a B1 learner.** The card named "Unit 13
+    of 36" and `genitive-deep`; `pickSessionLesson` filtered the course's own step by
+    `nh_daily_session.cefrLevel` (the XP unlock level), found nothing, and fell to
+    rotation. Any learner whose course stands above their XP level (a test-out, a
+    course walked faster than XP accrues) was taught the wrong lesson from Home and
+    the unit never advanced there. The course step is no longer XP-filtered; rotation
+    still is. Pinned in `curriculumPick.test.ts`; reverting fails 1, and the B1 walk
+    fails naming the lesson.
+  - **Yesterday's completion ticked today's lesson.** The pending session markers
+    carried no date and sessionStorage outlives a day in an open tab, so a learner
+    who opened the lesson from Home and left by the map or the Learn tab had the
+    next day's lesson shown ✓ before it was opened, and Begin skipped to the drill.
+    Launches now stamp the day (`lib/sessionLaunchDay`); Home drops a marker stamped
+    on another day and applies an unstamped one as before. Pinned by
+    `sessionLaunchDay.test.ts` (behaviour plus every launch and read site by source);
+    disabling the stale check fails 1 unit test and the A1 walk.
+  - Walked clean: the gate (next unit locked until test AND production), unit tests
+    with spiral items at every unit, production from Home in both kinds, all six level
+    reviews at their crossings, the C2 review after the last unit, and no page error.
+  - Not walked: failing a check or unit test (the corrective day and retakes are
+    covered by their own specs), check-ups due at 7 and 30 days, and the speaking
+    task by microphone (typed only).

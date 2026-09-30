@@ -62,6 +62,18 @@ describe('the curriculum decides which lesson is taught', () => {
     expect(pickSessionLesson(LESSONS)?.id).toBe('gender');
   });
 
+  it('serves the course lesson even when it sits above the XP-derived session level', () => {
+    // Course walk (2026-09-30): the plan's cefrLevel is the XP unlock level. A learner
+    // whose course stands at B1 with A1 XP was handed the A1 alphabet by rotation
+    // while Home named the B1 lesson. The course's step is not filtered by XP.
+    // A spine whose first unit is at B1 is the smallest course standing above A1.
+    writeCurriculumSpine([
+      { id: 'genitive-deep', level: 'B1', order: 1, prerequisites: [], objectives: ['d'] },
+    ]);
+    const withB1 = [...LESSONS, { id: 'genitive-deep', level: 'B1' }];
+    expect(pickSessionLesson(withB1)?.id).toBe('genitive-deep');
+  });
+
   it('beats rotation even when the spine pick was served most recently', () => {
     // The decisive difference from the old policy. Rotation would send the
     // most-recently-served lesson to the BACK of the queue; the curriculum keeps

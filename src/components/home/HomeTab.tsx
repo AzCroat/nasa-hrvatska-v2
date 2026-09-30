@@ -70,6 +70,7 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
 import VerificationGateCard from './VerificationGateCard';
 import SessionCard from './SessionCard';
+import { markSessionLaunch, takePendingSessionActivity } from '../../lib/sessionLaunchDay';
 import DailyInputCard from './DailyInputCard';
 import RazgovorHomeCard from './RazgovorHomeCard';
 import WeakWordsPanel from './WeakWordsPanel';
@@ -306,18 +307,14 @@ export default function HomeTab({
   // and call markDone only when the exercise was actually finished, not just backed out of.
   React.useEffect(() => {
     try {
-      const pending = sessionStorage.getItem('nh_session_started');
-      const completed = sessionStorage.getItem('nh_session_completed');
-      sessionStorage.removeItem('nh_session_started');
-      sessionStorage.removeItem('nh_session_completed');
-      // `pending` is the launched activity; `completed` is the activity that
-      // fired the completion signal. They normally match, but if the user
-      // finished an activity and then left via the TabBar (which clears
-      // nh_session_started — see App.tsx setTab), `pending` is gone while
-      // `completed` still names the finished activity. Fall back to it so a real
-      // completion is never dropped. `completed` is only ever written for a
-      // genuinely launched activity, so this can't introduce a false completion.
-      const activity = pending || completed;
+      // `activity` is the launched activity, falling back to the one that fired the
+      // completion signal: if the user finished an activity and then left via the
+      // TabBar (which clears nh_session_started — see App.tsx setTab), only
+      // `completed` still names it. `completed` is only ever written for a genuinely
+      // launched activity, so this can't introduce a false completion. A marker
+      // stamped on ANOTHER DAY is dropped (lib/sessionLaunchDay): applied to today's
+      // plan it would tick today's lesson for yesterday's work.
+      const { activity, completed } = takePendingSessionActivity();
       // Mark done when the screen fired the completion signal OR it is a
       // reference slot that auto-completes on view (Croatia/immersion) — the
       // latter previously stranded the session and blocked auto-regenerate.
@@ -343,13 +340,9 @@ export default function HomeTab({
     prevScreenRef.current = currentScreen;
     if (currentScreen === 'dashboard' && prev !== 'dashboard' && prev !== 'welcome') {
       try {
-        const pending = sessionStorage.getItem('nh_session_started');
-        const completed = sessionStorage.getItem('nh_session_completed');
-        sessionStorage.removeItem('nh_session_started');
-        sessionStorage.removeItem('nh_session_completed');
-        // Fall back to `completed` when the launch marker was cleared by a
-        // tab-switch after a genuine finish (see PATH A / App.tsx setTab).
-        const activity = pending || completed;
+        // Same read as PATH A: falls back to `completed` after a tab-switch, and
+        // drops a marker stamped on another day.
+        const { activity, completed } = takePendingSessionActivity();
         if (activity && shouldAutoCompleteOnReturn(activity, completed)) {
           consumeSessionCategoryOutcome();
           markDone(activity);
@@ -473,9 +466,7 @@ export default function HomeTab({
             // HomeTab is only rendered when currentScreen === 'dashboard', so navigating
             // to an exercise screen unmounts it. On the next mount (when user returns),
             // the mount effect above reads this key and calls markDone().
-            try {
-              sessionStorage.setItem('nh_session_started', nextActivity.screen);
-            } catch {}
+            markSessionLaunch(nextActivity.screen);
             // Tag the adaptive category (cat_<category>) so completion advances
             // its schedule; clears for non-adaptive activities.
             setSessionCategory(nextActivity.id);
@@ -512,9 +503,7 @@ export default function HomeTab({
         }}
         bonusActivities={bonusActivities}
         onBonusStart={(act) => {
-          try {
-            sessionStorage.setItem('nh_session_started', act.screen);
-          } catch {}
+          markSessionLaunch(act.screen);
           setSessionCategory(act.id);
           if (launchActivity) {
             void launchActivity(act.screen, act.category);
