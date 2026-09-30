@@ -116,7 +116,7 @@ const DATA = [
   {
     mode: 'izbor',
     q: '„Ne ____ što bi rekao, samo je kimnuo.”',
-    opts: ['znajući', 'znavši', 'znati', 'znao'],
+    opts: ['znajući', 'poznavši', 'znati', 'znao'],
     answer: 'znajući',
     en: 'Not knowing what to say, he just nodded.',
     tip: 'Stanje istodobno s glavnom radnjom → ne znajući (negirani sadašnji prilog).',

@@ -341,7 +341,7 @@ const DATA = [
   },
   {
     q: 'Ovo je za ___.',
-    opts: ['nas', 'mi', 'nama', 'nami'],
+    opts: ['nas', 'mi', 'nama', 'naš'],
     answer: 'nas',
     en: 'This is for us.',
     tip: "'za' (for) takes the accusative — 1st person plural accusative 'nas'; short clitic also 'nas'.",

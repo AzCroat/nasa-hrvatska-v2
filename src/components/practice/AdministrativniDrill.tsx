@@ -84,7 +84,7 @@ const DATA = [
   {
     mode: 'sroci',
     q: 'Zahtjev se podnosi ____ obrascu.',
-    opts: ['na propisanom', 'u propisani', 'po propisanu', 'za propisani'],
+    opts: ['na propisanom', 'u propisani', 'na propisanim', 'za propisani'],
     answer: 'na propisanom',
     en: 'the request is filed ___ the prescribed form',
     tip: 'Na + lokativ: na propisanom obrascu.',
@@ -124,7 +124,7 @@ const DATA = [
   {
     mode: 'sroci',
     q: 'Molba se ____ tajništvu fakulteta.',
-    opts: ['upućuje', 'šalje na', 'piše za', 'izručuje'],
+    opts: ['upućuje', 'šalje na', 'piše za', 'upućuje na'],
     answer: 'upućuje',
     en: 'the application is ___ to the faculty secretariat',
     tip: 'Uputiti/upućivati + dativ — formalni glagol slanja.',
@@ -242,7 +242,7 @@ const DATA = [
     ],
     answer: 'bez zahtjeva stranke',
     en: 'what does "po službenoj dužnosti" mean?',
-    tip: 'Po službenoj dužnosti (ex offo) = tijelo postupa samo.',
+    tip: 'Po službenoj dužnosti (ex officio) = tijelo postupa samo.',
   },
 ];
 

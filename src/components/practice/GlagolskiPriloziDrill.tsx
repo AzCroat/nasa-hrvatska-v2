@@ -129,7 +129,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: 'Odgovorio je ne ____ ni trenutka.',
-    opts: ['oklijevajući', 'oklijevavši', 'oklijevati', 'oklijevao'],
+    opts: ['oklijevajući', 'oklijeva', 'oklijevati', 'oklijevao'],
     answer: 'oklijevajući',
     en: 'he answered without hesitating a moment',
     tip: 'Ne + prilog sadašnji: ne oklijevajući.',
@@ -174,7 +174,7 @@ const DATA = [
   {
     mode: 'zamjena',
     q: '„Budući da nije znao odgovor, šutio je.” = „Ne ____ odgovor, šutio je.”',
-    opts: ['znajući', 'znavši', 'znati', 'znadući'],
+    opts: ['znajući', 'znao', 'znati', 'znan'],
     answer: 'znajući',
     en: 'not knowing the answer, he stayed silent',
     tip: 'Uzročna nijansa: ne znajući (istodobno stanje).',

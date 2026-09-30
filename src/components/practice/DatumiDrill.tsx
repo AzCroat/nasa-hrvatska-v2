@@ -63,7 +63,7 @@ const DATA = [
   {
     mode: 'redni',
     q: 'Redni broj od 100 glasi:',
-    opts: ['stoti', 'stotinjti', 'stotinski', 'stojni'],
+    opts: ['stoti', 'stotinjak', 'stotinski', 'stotina'],
     answer: 'stoti',
     en: 'the hundredth',
     tip: 'Sto → stoti (stota, stoto).',
@@ -86,7 +86,7 @@ const DATA = [
   },
   {
     mode: 'datum',
-    q: 'Pismo je datirano ____. (1. rujna)',
+    q: 'Pismo je datirano ____. (1. 9.)',
     opts: ['prvog rujna', 'prvi rujan', 'jedan rujna', 'prvog rujan'],
     answer: 'prvog rujna',
     en: 'the letter is dated the first of September',
@@ -183,7 +183,7 @@ const DATA = [
   {
     mode: 'vrijeme',
     q: 'Stigli su ____ noći.',
-    opts: ['usred', 'u sredini', 'na sred', 'posred dana'],
+    opts: ['usred', 'kroz sredinu', 'na sred', 'između'],
     answer: 'usred',
     en: 'they arrived in the middle of the night',
     tip: 'Usred + G: usred noći, usred zime.',

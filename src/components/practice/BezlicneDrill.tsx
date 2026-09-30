@@ -22,7 +22,7 @@ const DATA = [
   {
     mode: 'izrazi',
     q: 'Ovdje se ____ parkirati bez naplate.',
-    opts: ['može', 'možemo se', 'mogu', 'može biti'],
+    opts: ['može', 'možemo se', 'moguće', 'može biti'],
     answer: 'može',
     en: 'one can park here free of charge',
     tip: 'Može se + infinitiv — bezlična mogućnost.',

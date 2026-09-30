@@ -46,8 +46,8 @@ const DATA = [
   },
   {
     mode: 'standard',
-    q: '„Idem ____.”',
-    opts: ['kupovati', 'da kupujem', 'na da kupujem', 'kupovina'],
+    q: 'Birani standard: „Idem ____.”',
+    opts: ['kupovati', 'da kupujem', 'da kupovati', 'kupovina'],
     answer: 'kupovati',
     en: 'I am going shopping',
     tip: 'Glagoli kretanja + infinitiv namjere.',
@@ -75,7 +75,7 @@ const DATA = [
   },
   {
     mode: 'standard',
-    q: '„Nemoj ____ !”',
+    q: 'Birani standard: „Nemoj ____ !”',
     opts: ['zaboraviti', 'da zaboraviš', 'zaborav', 'da ćeš zaboraviti'],
     answer: 'zaboraviti',
     en: 'do not forget!',
@@ -147,7 +147,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Pokušat ću ____ .” (isti subjekt)',
+    q: 'Birani standard: „Pokušat ću ____ .” (isti subjekt)',
     opts: ['doći', 'da dođem', 'dolazak', 'da ću doći'],
     answer: 'doći',
     en: 'I will try to come',
@@ -163,7 +163,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Planiramo ____ novu školu.”',
+    q: 'Birani standard: „Planiramo ____ novu školu.”',
     opts: ['graditi', 'da gradimo', 'gradnja', 'da bismo gradili'],
     answer: 'graditi',
     en: 'we plan to build a new school',
@@ -179,15 +179,15 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Volim ____ ujutro.”',
-    opts: ['trčati', 'da trčim', 'trčanje samo', 'da ću trčati'],
+    q: 'Birani standard: „Volim ____ ujutro.”',
+    opts: ['trčati', 'da trčim', 'trčim', 'da ću trčati'],
     answer: 'trčati',
     en: 'I love running in the morning',
     tip: 'Isti subjekt → infinitiv: volim trčati.',
   },
   {
     mode: 'izbor',
-    q: '„Zabranjeno je ____ po travi.”',
+    q: 'Birani standard: „Zabranjeno je ____ po travi.”',
     opts: ['hodati', 'da hodati', 'hodanje da', 'da hodaš'],
     answer: 'hodati',
     en: 'walking on the grass is forbidden',
@@ -203,7 +203,7 @@ const DATA = [
   },
   {
     mode: 'izbor',
-    q: '„Uspio sam ____ ulaznice.”',
+    q: 'Birani standard: „Uspio sam ____ ulaznice.”',
     opts: ['nabaviti', 'da nabavim', 'nabava', 'da sam nabavio'],
     answer: 'nabaviti',
     en: 'I managed to get tickets',
