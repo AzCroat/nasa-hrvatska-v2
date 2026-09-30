@@ -166,7 +166,7 @@ const DATA = [
   {
     mode: 'neizravna',
     q: '„Zanima me ____ o tome misliš.”',
-    opts: ['što', 'šta samo', 'koje', 'čiji'],
+    opts: ['što', 'čime', 'koje', 'čiji'],
     answer: 'što',
     en: 'I wonder what you think about it',
     tip: 'Standard: što (šta je razgovorno).',

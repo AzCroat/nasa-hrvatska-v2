@@ -175,7 +175,7 @@ const DATA = [
   {
     mode: 'registar',
     q: 'U izvješću: „Rezultati ____ da je potražnja porasla.”',
-    opts: ['upućuju na to', 'kažu', 'pričaju', 'govore o tome'],
+    opts: ['upućuju na to', 'kažu', 'pričaju', 'upućuju o tome'],
     answer: 'upućuju na to',
     en: 'the results indicate that demand has grown',
     tip: 'Upućivati na to da… — precizna akademska sveza.',

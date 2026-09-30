@@ -5125,11 +5125,11 @@ export const PREPDRILL = [
     tip: 'o + locative = about a topic: pričati o filmu, razgovarati o planovima.',
   },
   {
-    sentence: 'Idem ___ liječnika.',
+    sentence: 'Bio sam ___ liječnika.',
     answer: 'kod',
-    opts: ['kod', 'u', 'na', 'za'],
-    en: 'I\u0027m going to the doctor.',
-    tip: "kod + genitive for going to or being at a person's place: kod liječnika, kod bake.",
+    opts: ['kod', 'od', 'na', 'za'],
+    en: 'I was at the doctor\u0027s.',
+    tip: "kod + genitive for being at a person's place: kod liječnika, kod bake. Going there takes the dative: idem liječniku (or k liječniku).",
   },
   {
     sentence: 'Mačka je ___ stola.',
@@ -5167,11 +5167,11 @@ export const PREPDRILL = [
     tip: "oko + genitive = around: oko kuće. It also means 'about, approximately': oko pet sati.",
   },
   {
-    sentence: 'Pao je ___ kreveta.',
+    sentence: 'Pao je ___ bicikla.',
     answer: 's',
     opts: ['s', 'iz', 'od', 'na'],
-    en: 'He fell off the bed.',
-    tip: "s + genitive = off, down from a surface: pasti s kreveta, sići s autobusa. With the instrumental, s means 'with'.",
+    en: 'He fell off the bike.',
+    tip: "s + genitive = off, down from a surface: pasti s bicikla, sići s autobusa. With the instrumental, s means 'with'.",
   },
   // ── 2026-07 depth expansion (+25): temporal, causal, spatial contrasts ──
   {
