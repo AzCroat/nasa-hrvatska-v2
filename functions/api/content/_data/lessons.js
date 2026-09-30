@@ -2466,7 +2466,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Future = Infinitive Stem + ću/ćeš/će...',
-        body: "The short (enclitic) future form clips the infinitive: 'raditi' → 'radit ću' (I will work). The final vowel is dropped and the auxiliary is written as a separate word. The long form — 'ja ću raditi' — keeps the full infinitive and places the auxiliary first. Both forms are correct; the short form is more common in writing.",
+        body: "The short (enclitic) future form clips the infinitive: 'raditi' → 'radit ću' (I will work). A -ti infinitive drops its final -i and the auxiliary is written as a separate word. The long form — 'ja ću raditi' — keeps the full infinitive and puts the auxiliary before it. Both forms are correct; the short form is more common in writing.",
         highlight: 'ću · ćeš · će · ćemo · ćete · će',
       },
       {
@@ -2766,7 +2766,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Rule 3: General Truths & Definitions',
-        body: "When stating a fact about how something generally works — not a specific event — use the imperfective. 'Water boils at 100°C.' 'Croatians greet with three kisses.' These aren't one-time events; they're general truths. Imperfective is the only option here.",
+        body: "When stating a fact about how something generally works — not a specific event — use the imperfective. 'Water boils at 100°C.' 'The Sava flows into the Danube.' These aren't one-time events; they're general truths. Imperfective is the only option here.",
         highlight: 'general truth',
       },
       {
@@ -2867,7 +2867,7 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "'She was drinking coffee when I arrived' — the ongoing background action needs imperfective (pila je kavu kada sam stigao). The first three options that reference completion or a quick single event use perfective (popiti). Imperfective = process / scene-setting.",
+          "'She was drinking coffee when I arrived' — the ongoing background action needs imperfective (pila je kavu kada sam stigao). The other three options, which describe a completed drink or one quick event, use the perfective (popiti). Imperfective = process / scene-setting.",
       },
       {
         type: 'quiz',
@@ -3230,7 +3230,7 @@ const LESSONS_CORE = [
               'zaspati marks the transition into sleep and its result; spavati describes the state of sleeping.',
           },
           {
-            q: "Complete: '___ ću ti sutra ujutro.' (I will call you — one call)",
+            q: "Complete: '___ ću te sutra ujutro.' (I will call you — one call)",
             options: ['Zvati', 'Zvat', 'Nazvat', 'Nazivat'],
             correct: 2,
             explanation:
@@ -3992,7 +3992,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners keep the nominative after 'nema': 'Nema voda' — absence takes the genitive, 'Nema vode'. Second, they put an accusative after quantity words: 'puno ljudi' is right, but 'puno knjige' is not — a quantity is followed by the genitive plural, 'puno knjiga'. Third, 'iz' and 'od' get swapped after 'from': you are 'iz Zagreba' (out of the city), but a letter is 'od prijatelja' (from a person); both take the genitive, only the preposition changes.",
+        body: "Learners keep the nominative after 'nema': 'Nema voda' — absence takes the genitive, 'Nema vode'. Second, they use a singular after quantity words: 'puno ljudi' is right, but 'puno knjige' is not — a quantity of countable things is followed by the genitive plural, 'puno knjiga'. Third, 'iz' and 'od' get swapped after 'from': you are 'iz Zagreba' (out of the city), but a letter is 'od prijatelja' (from a person); both take the genitive, only the preposition changes.",
         highlight: "absence takes the genitive, 'Nema vode'",
       },
       {
@@ -4316,7 +4316,7 @@ const LESSONS_CORE = [
               'o always takes the locative; adjective and noun both change: novom filmu.',
           },
           {
-            q: "What is the difference between 'Idem u školu' and 'Jesam u školi'?",
+            q: "What is the difference between 'Idem u školu' and 'U školi sam'?",
             options: [
               'none — they are interchangeable',
               'the first is going there (accusative), the second being there (locative)',
@@ -4419,7 +4419,7 @@ const LESSONS_CORE = [
           {
             hr: 'Živim sa sestrom.',
             en: 'I live with my sister.',
-            note: "sestra → sestrom (fem. instr.); 'sa' before consonant cluster",
+            note: "sestra → sestrom (fem. instr.); 'sa' because sestra begins with s",
           },
           {
             hr: 'Pije kavu s mlijekom.',
@@ -4508,7 +4508,7 @@ const LESSONS_CORE = [
       },
       {
         type: 'quiz',
-        q: 'You pay at a restaurant. Which is correct Croatian?',
+        q: 'You pay by card at a restaurant. Which sentence says so?',
         options: ['Plaćam kartu.', 'Plaćam karticom.', 'Plaćam kartice.', 'Plaćam kartica.'],
         correct: 1,
         explanation:
@@ -6588,7 +6588,7 @@ const LESSONS_CORE = [
           ['ići', 'otići', 'away (going, leaving)', 'Idem kući. (I am going home.)'],
           ['dolaziti', 'doći', 'toward (coming, arriving)', 'Dolazi u 8. (He arrives at 8.)'],
           ['hodati', '—', 'walking (no direction)', 'Hodao sam sat vremena.'],
-          ['trčati', 'istrčati', 'running', 'Trčim svaki dan.'],
+          ['trčati', 'otrčati', 'running (away)', 'Trčim svaki dan.'],
           ['voziti', 'odvesti', 'driving', 'Vozim auto na posao.'],
           ['letjeti', 'odletjeti', 'flying', 'Letim u Zagreb sutra.'],
         ],
@@ -7974,7 +7974,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Collective Numbers: dvoje, troje, četvero...',
-        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups or inherently paired things. Dvoje (two — mixed group), troje (three — mixed), četvero/četvoro (four), petero/petoro (five), and so on. They are used with: children (djeca), animals in a pair, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). Do NOT use dva/dvije for mixed-gender groups of people — use dvoje.',
+        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups and the young of people and animals. Dvoje (two — mixed group), troje (three — mixed), četvero/četvoro (four), petero/petoro (five), and so on. They are used with: children (djeca), neuter nouns for the young such as tele or pile, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). Do NOT use dva/dvije for mixed-gender groups of people — use dvoje.',
         highlight: 'dvoje/troje for mixed groups & children',
       },
       {
