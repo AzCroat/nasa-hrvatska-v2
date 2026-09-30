@@ -179,7 +179,7 @@ const DATA = [
   {
     mode: 'stil',
     q: 'Iza veznika „da”: „…da ____ vidjeli.”',
-    opts: ['smo ga', 'ga smo', 'smo njega', 'njega smo'],
+    opts: ['smo ga', 'ga smo', 'smo mu', 'njega smo'],
     answer: 'smo ga',
     en: '…that we saw him',
     tip: 'U klasteru pomoćni glagol (smo) prije zamjenice (ga).',

@@ -110,7 +110,7 @@ const DATA = [
   {
     mode: 'nepija',
     q: 'Umanjenica od „cvijet”:',
-    opts: ['cvjetić', 'cvijetić', 'cvitić', 'cvjetak mali'],
+    opts: ['cvjetić', 'cvijetić', 'cvitić', 'cvijetak'],
     answer: 'cvjetić',
     en: 'a little flower',
     tip: 'Ije→je pred sufiksom: cvijet → cvjetić.',
@@ -126,7 +126,7 @@ const DATA = [
   {
     mode: 'nepija',
     q: 'Genitiv množine od „sestra”:',
-    opts: ['sestara', 'sestri', 'sestrā bez a', 'sester'],
+    opts: ['sestara', 'sestri', 'sestra', 'sester'],
     answer: 'sestara',
     en: 'the genitive plural of sister',
     tip: 'Umetnuto (nepostojano) a: sestra → sestara.',
@@ -150,7 +150,7 @@ const DATA = [
   {
     mode: 'jednac',
     q: 'Pridjev od „bez kraja”:',
-    opts: ['beskrajan', 'bezkrajan', 'beskonačan bez', 'bezkonačan'],
+    opts: ['beskrajan', 'bezkrajan', 'bezkrajni', 'bezkonačan'],
     answer: 'beskrajan',
     en: 'endless',
     tip: 'Jednačenje z→s pred bezvučnim k: bez+krajan → beskrajan.',
@@ -166,7 +166,7 @@ const DATA = [
   {
     mode: 'jednac',
     q: 'od + pisati =',
-    opts: ['otpisati', 'odpisati', 'otpisivati od', 'odpisat'],
+    opts: ['otpisati', 'odpisati', 'otpisivati', 'odpisat'],
     answer: 'otpisati',
     en: 'to write off',
     tip: 'Jednačenje d→t pred bezvučnim p: od+pisati → otpisati.',

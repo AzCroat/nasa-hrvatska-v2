@@ -138,7 +138,7 @@ const DATA = [
   },
   {
     mode: 'podrijetlo',
-    q: '„Nojeva arka” označava:',
+    q: '„Noina arka” označava:',
     opts: ['spas od opće propasti', 'trgovački brod', 'zoološki vrt', 'samu poplavu'],
     answer: 'spas od opće propasti',
     en: 'Noah\u2019s ark',
@@ -179,7 +179,7 @@ const DATA = [
   {
     mode: 'uporaba',
     q: '„Aplikacija je ušla u sustav kao ____ konj.”',
-    opts: ['trojanski', 'gordijski', 'gordij konj', 'potemkinski'],
+    opts: ['trojanski', 'gordijski', 'Ahilov', 'potemkinski'],
     answer: 'trojanski',
     en: 'the app entered the system like a ___ horse',
     tip: 'Skriveni neprijatelj u daru.',

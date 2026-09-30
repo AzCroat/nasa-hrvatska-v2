@@ -5,7 +5,7 @@ const DATA = [
   // l → o in past tense (masculine singular)
   {
     q: 'On je ___ cijelu noć. (pisati = to write)',
-    opts: ['pisao', 'pišao', 'pisali', 'pisal'],
+    opts: ['pisao', 'pisa', 'pisali', 'pisal'],
     answer: 'pisao',
     en: 'He wrote all night.',
     tip: 'Masc past tense l→o: pisati → pisa-l → pisa-o = pisao',
@@ -71,7 +71,7 @@ const DATA = [
     opts: ['vidio', 'vidjel', 'vidjeli', 'vidijo'],
     answer: 'vidio',
     en: 'He saw the sea.',
-    tip: 'l→o: vidjeti → vidi-l → vidi-o = vidio',
+    tip: 'l→o, and -je- becomes -i- before the o: vidjeti → vidje-l → vidio (but feminine vidjela)',
   },
   // Fleeting-a in nouns (mobile vowel)
   {

@@ -103,7 +103,7 @@ const DATA = [
   {
     mode: 'kontekst',
     q: '„Jučer su ____ savršen doček.” (organizirati, jednom)',
-    opts: ['organizirali', 'organizirávali', 'organizavali', 'izorganiziravali'],
+    opts: ['organizirali', 'organiziraju', 'organizirajući', 'organizirati'],
     answer: 'organizirali',
     en: 'yesterday they organized a perfect welcome',
     tip: 'Jednokratni rezultat → svršeno čitanje istoga oblika.',
@@ -111,7 +111,7 @@ const DATA = [
   {
     mode: 'kontekst',
     q: '„____ li me? Halo?” (čuti, sada)',
-    opts: ['Čuješ', 'Začuješ', 'Očuješ', 'Čuvaš'],
+    opts: ['Čuješ', 'Začuješ', 'Čuo', 'Čuvaš'],
     answer: 'Čuješ',
     en: 'can you hear me?',
     tip: 'Trenutačna percepcija → nesvršeno čitanje.',
@@ -119,7 +119,7 @@ const DATA = [
   {
     mode: 'kontekst',
     q: '„Odjednom sam ____ korake.” (čuti, trenutak)',
-    opts: ['čuo', 'čuvao', 'začuvao', 'slušao'],
+    opts: ['čuo', 'čuvao', 'čujem', 'slušao'],
     answer: 'čuo',
     en: 'suddenly I heard footsteps',
     tip: 'Trenutak → svršeno čitanje: čuo sam.',
@@ -127,7 +127,7 @@ const DATA = [
   {
     mode: 'kontekst',
     q: '„Svake nedjelje ____ kod bake.” (večerati)',
-    opts: ['večeramo', 'povečeramo', 'izvečeramo', 'navečeramo'],
+    opts: ['večeramo', 'večerasmo', 'večerali', 'večerati'],
     answer: 'večeramo',
     en: 'we have dinner at grandma\u2019s every Sunday',
     tip: 'Navika → nesvršeno čitanje.',
@@ -135,7 +135,7 @@ const DATA = [
   {
     mode: 'kontekst',
     q: '„Brzo smo ____ i krenuli.” (večerati, dovršeno)',
-    opts: ['večerali', 'povečerávali', 'večeravali', 'izvečeravali'],
+    opts: ['večerali', 'večerajući', 'večeravali', 'večerati'],
     answer: 'večerali',
     en: 'we had a quick dinner and set off',
     tip: 'Slijed radnji → svršeno čitanje.',
@@ -182,11 +182,16 @@ const DATA = [
   },
   {
     mode: 'nijansa',
-    q: 'Futur II. od dvovidnoga („budem ručao”) signalizira:',
-    opts: ['nesvršenu nijansu u zavisnoj', 'svršenu prošlost', 'zapovijed', 'pasiv'],
-    answer: 'nesvršenu nijansu u zavisnoj',
-    en: 'what does the future II of a biaspectual verb signal?',
-    tip: 'Ako budem ručao kad nazoveš…',
+    q: '„Ako budem ručao kad nazoveš, javit ću se poslije.” — „budem ručao” ovdje se čita:',
+    opts: [
+      'nesvršeno (ručak je u tijeku)',
+      'svršeno (ručak je gotov)',
+      'kao zapovijed',
+      'kao pasiv',
+    ],
+    answer: 'nesvršeno (ručak je u tijeku)',
+    en: 'how is the future II of a biaspectual verb read here?',
+    tip: 'Kontekst bira vid i u futuru II.: „kad nazoveš” = usred ručka (nesvršeno); „Kad budem ručao, nazvat ću te” može značiti i „kad završim s ručkom” (svršeno).',
   },
   {
     mode: 'nijansa',

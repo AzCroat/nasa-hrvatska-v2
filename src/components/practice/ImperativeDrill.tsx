@@ -18,7 +18,7 @@ const DATA = [
   },
   {
     q: "'Come here!' (plural/formal, doći)",
-    opts: ['Dođite ovamo!', 'Dođi ovamo!', 'Dolazite ovamo!', 'Dođemo ovamo!'],
+    opts: ['Dođite ovamo!', 'Dođi ovamo!', 'Dođete ovamo!', 'Dođemo ovamo!'],
     answer: 'Dođite ovamo!',
     en: 'Come here! (to a group)',
     tip: 'doći → irregular: dođi (sg) / dođite (pl/formal)',
@@ -60,7 +60,7 @@ const DATA = [
   },
   {
     q: "'Take this!' (informal, uzeti)",
-    opts: ['Uzmi ovo!', 'Uzmite ovo!', 'Uzimaj ovo!', 'Uzeo ovo!'],
+    opts: ['Uzmi ovo!', 'Uzmite ovo!', 'Uzimi ovo!', 'Uzeo ovo!'],
     answer: 'Uzmi ovo!',
     en: 'Take this! (to one person)',
     tip: 'uzeti → irregular: uzmi (sg) / uzmite (pl)',
@@ -74,7 +74,7 @@ const DATA = [
   },
   {
     q: "'Open the door!' (informal, otvoriti)",
-    opts: ['Otvori vrata!', 'Otvorite vrata!', 'Otvaranje vrata!', 'Otvaraj vrata!'],
+    opts: ['Otvori vrata!', 'Otvorite vrata!', 'Otvaranje vrata!', 'Otvoriš vrata!'],
     answer: 'Otvori vrata!',
     en: 'Open the door! (to one person)',
     tip: "otvoriti (pf) → stem 'otvori' + i → 'otvori'",
@@ -88,7 +88,7 @@ const DATA = [
   },
   {
     q: "'Look at this!' (informal, pogledati)",
-    opts: ['Pogledaj ovo!', 'Pogledajte ovo!', 'Gleda ovo!', 'Gledaj ovo!'],
+    opts: ['Pogledaj ovo!', 'Pogledajte ovo!', 'Gleda ovo!', 'Pogledaš ovo!'],
     answer: 'Pogledaj ovo!',
     en: 'Look at this! (to one person)',
     tip: "pogledati (pf) → stem 'pogleda' + j → 'pogledaj'",
@@ -109,14 +109,14 @@ const DATA = [
   },
   {
     q: "'Sit down!' (informal, sjesti)",
-    opts: ['Sjedni!', 'Sjednite!', 'Sjediš!', 'Sjedi!'],
+    opts: ['Sjedni!', 'Sjednite!', 'Sjediš!', 'Sjesti!'],
     answer: 'Sjedni!',
     en: 'Sit down! (to one person)',
     tip: 'sjesti → irregular: sjedni (sg) / sjednite (pl)',
   },
   {
     q: "'Help me!' (informal, pomoći)",
-    opts: ['Pomozi mi!', 'Pomozite mi!', 'Pomaži mi!', 'Pomoći mi!'],
+    opts: ['Pomozi mi!', 'Pomozite mi!', 'Pomažeš mi!', 'Pomoći mi!'],
     answer: 'Pomozi mi!',
     en: 'Help me! (to one person)',
     tip: 'pomoći → irregular: pomozi (sg) / pomozite (pl)',
@@ -137,7 +137,7 @@ const DATA = [
   },
   {
     q: "'Hurry up!' (informal, požuriti)",
-    opts: ['Požuri!', 'Požurite!', 'Žuri se!', 'Požuruj!'],
+    opts: ['Požuri!', 'Požurite!', 'Požuriš!', 'Požuruj!'],
     answer: 'Požuri!',
     en: 'Hurry up! (to one person)',
     tip: "požuriti → stem 'požuri' + i → 'požuri'",

@@ -103,7 +103,7 @@ export const DATA = [
   },
   {
     q: 'Nasuprot ___.',
-    opts: ['kući', 'kuća', 'kuće', 'kućom'],
+    opts: ['kući', 'kuća', 'kuću', 'kućom'],
     answer: 'kući',
     en: 'Opposite the house.',
     tip: "'nasuprot' (opposite) takes dative: kuća → drop -a + -i → kući",
@@ -195,7 +195,7 @@ export const DATA = [
   },
   {
     q: 'Hvala ___ na pomoći.',
-    opts: ['vama', 'vas', 'vi', 'vami'],
+    opts: ['vama', 'vas', 'vi', 'vaš'],
     answer: 'vama',
     en: 'Thank you (formal) for the help.',
     tip: "'Hvala' + dative of the person: vi → vama.",
