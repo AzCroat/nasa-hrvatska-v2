@@ -60,9 +60,9 @@ export const ABSTRACT_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ost',
     q: 'Instrumental od "odgovornost" je ____.',
     en: 'instrumental of odgovornost',
-    opts: ['odgovornošću', 'odgovornosti', 'odgovornostom', 'odgovornosom'],
+    opts: ['odgovornošću', 'odgovornostju', 'odgovornostom', 'odgovornosom'],
     answer: 'odgovornošću',
-    tip: 'The i-declension instrumental is -ju, and st + ju gives šću.',
+    tip: 'The i-declension instrumental takes -ju, and st + ju always merges into šću — never odgovornostju.',
   },
   {
     mode: 'ost',

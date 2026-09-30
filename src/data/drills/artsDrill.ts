@@ -119,7 +119,7 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does nadahnut mean?',
     opts: ['inspired', 'inspiring to others', 'ambitious', 'original'],
     answer: 'inspired',
-    tip: 'The work was inspired; nadahnjujuć would be inspiring.',
+    tip: 'The work was inspired; nadahnjujući would be inspiring.',
   },
   {
     mode: 'sudovi',

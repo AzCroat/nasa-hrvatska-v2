@@ -146,7 +146,7 @@ export const DEBATE_DRILL_DATA: ModeDrillItem[] = [
     mode: 'okvir',
     q: 'Kako vratiti raspravu na temu?',
     en: 'Bringing it back:',
-    opts: ['Vratimo se na…', 'Vratimo na…', 'Vraćamo se u…', 'Vrati se na…'],
+    opts: ['Vratimo se na…', 'Vratimo na…', 'Vraćamo se u…', 'Vratimo se o…'],
     answer: 'Vratimo se na…',
     tip: 'Vratimo se NA plus the accusative, and the first-person plural includes them.',
   },

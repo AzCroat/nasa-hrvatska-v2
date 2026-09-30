@@ -159,7 +159,7 @@ export const CELEBRATIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'kalendar',
     q: 'Nova godina je ____. (1 January)',
     en: 'New Year is on 1 January.',
-    opts: ['prvoga siječnja', 'prvi siječanj', 'prvom siječnju', 'prvi siječnja'],
+    opts: ['prvoga siječnja', 'prvi siječanj', 'prvom siječnju', 'prvoga siječanj'],
     answer: 'prvoga siječnja',
     tip: 'A date takes the GENITIVE: prvoga siječnja.',
   },

@@ -132,8 +132,8 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Genitiv od "pas" je ____.',
-    en: 'genitive of pas',
+    q: 'Genitiv jednine od "pas" je ____.',
+    en: 'genitive singular of pas',
     opts: ['psa', 'pasa', 'pasu', 'pas'],
     answer: 'psa',
     tip: 'The fleeting a disappears: pas → psa, psu, psom.',

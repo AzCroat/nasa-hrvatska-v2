@@ -89,9 +89,9 @@ export const HEALTH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'boli',
     q: 'Jučer ____ glava. (boljeti, mene)',
     en: 'My head hurt yesterday.',
-    opts: ['me boljela', 'sam bolio', 'me bolio', 'sam boljela'],
-    answer: 'me boljela',
-    tip: 'The participle agrees with glava, which is feminine: boljela me glava.',
+    opts: ['me je boljela', 'sam bolio', 'me je bolio', 'sam boljela'],
+    answer: 'me je boljela',
+    tip: 'The participle agrees with glava, which is feminine: boljela me je glava.',
   },
 
   // ── mnozina ───────────────────────────────────────────────────────────────

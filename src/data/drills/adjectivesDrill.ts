@@ -83,11 +83,11 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rod',
-    q: '____ pas (mal)',
+    q: '____ pas',
     en: 'a small dog',
-    opts: ['mali', 'mala', 'malo', 'mal'],
+    opts: ['mali', 'mala', 'malo', 'male'],
     answer: 'mali',
-    tip: 'Mali is one of the few adjectives with no short form in use — mali pas.',
+    tip: 'Pas is masculine → mali pas. The short form of this adjective is malen (malen pas).',
   },
 
   // ── mnozina ───────────────────────────────────────────────────────────────
@@ -149,7 +149,7 @@ export const ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mnozina',
-    q: '____ djeca (mal)',
+    q: '____ djeca',
     en: 'small children',
     opts: ['mala', 'mali', 'male', 'malo'],
     answer: 'mala',

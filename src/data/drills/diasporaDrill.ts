@@ -122,7 +122,7 @@ export const DIASPORA_DRILL_DATA: ModeDrillItem[] = [
     mode: 'recenice',
     q: 'Naučio sam ____ bake.',
     en: 'I learned from my grandmother.',
-    opts: ['od', 'iz', 'sa', 'kod'],
+    opts: ['od', 'iz', 'sa', 'za'],
     answer: 'od',
     tip: 'učiti OD nekoga plus the genitive.',
   },

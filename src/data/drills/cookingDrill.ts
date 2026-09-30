@@ -190,7 +190,7 @@ export const COOKING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'jela',
-    q: 'Odakle je "štrukli"?',
+    q: 'Odakle su "štrukli"?',
     en: 'Where are štrukli from?',
     opts: ['iz Zagorja', 's obale', 'iz Slavonije', 'iz Istre'],
     answer: 'iz Zagorja',

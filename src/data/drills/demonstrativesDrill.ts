@@ -196,7 +196,7 @@ export const DEMONSTRATIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prilozi',
-    q: '____ se to ne radi.',
+    q: '____ se to ne radi. (kako si ti upravo napravio)',
     en: 'That is not how it is done.',
     opts: ['Tako', 'Ovako', 'Onako', 'Ovamo'],
     answer: 'Tako',
