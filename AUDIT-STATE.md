@@ -14399,3 +14399,33 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     MediaRecorder beside it); WebKit and Firefox recording (the fake-capture flags are
     Chromium-only); iOS and Capacitor. The RMS check proves sound reached the upload,
     not that it was the fixture rather than Chrome's default beep.
+
+- [x] **Sweep 227 — native-level review of the dialogues, graded stories and culture
+      pages (2026-10-01).** Eleven Opus 5.5 reviewers, one slice each: dialogues A1–B1 and
+      B2–C2 (144 scenarios), graded stories A1, A2–B1, B2, C1, C2 (224 stories plus 35
+      long reads), the culture pages (deep dives, history, regions, events, language,
+      proverbs, media), and the City of the Day texts A1–A2, B1–B2, C1–C2 (2,184 texts).
+      About 1,430 corrections in all, combined in one branch; lint 0 findings, band check
+      0 problems, full suite green.
+  - **Shape of what was wrong.** Grammar (agreement, case after negation and
+    prepositions, aspect, reflexives, clitic order); Serbian forms in distractors and
+    prose (`šta`, `neće da`, `autobuska`, `stanica` for a terminal); distractors that
+    were real Croatian; tips that named the wrong case; quiz answers wrong or given away;
+    English that did not match the Croatian; and FACTS — invented city facts not in the
+    record, World Cup results, the 8 October holiday, Tesla on the 100-kuna note, Split's
+    population inside the walls, olive oil credited to Venice, date mussels being
+    harvested. Proverbs restored to their real wording (about 30).
+  - **Coordinator fixes at merge:** Čilipi spelled with its diacritic in the B1–C2 city
+    texts (the key stays `Cilipi`); `lindo` → `linđo` in B1/B2; the Vinkovci timeline
+    put back in date order after the railway was re-dated to 1878.
+  - **OWNER DECISIONS, left unchanged:** `Za dom spremni` as the history quote and in a
+    proverbs joke; the Herzegovina/Mostar framing ("historically and ethnically
+    Croatian") and Glavaš among the war heroes; the C2 story naming a real village
+    (Rakovica) as flooded by a reservoir that does not exist; city records that
+    contradict history or each other (Dora Pejačević's birthplace, the first island
+    bridge, Slatina as county seat, the Vučedol dove on a coin vs banknote, the
+    oldest-Kaštel and oldest-carnival claims, bear numbers, the duplicate
+    `Dakovo`/`Đakovo` records); invented slogans in proverbs.js; the C1 opinion pieces'
+    illustrative figures; whether A1 city texts must stay strictly in the present tense;
+    the short-reply distractors in the original dialogues; and colloquial-but-accepted
+    forms (`sa` before non-sibilants, `oko jedan`, `za reći`).

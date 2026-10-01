@@ -1436,17 +1436,17 @@ export const REGIONS = {
         eventHr: 'Habsburško oslobođenje. Uspostavljena Vojna krajina. Vinkovci ponovno naseljeni',
       },
       {
+        year: '1821',
+        event:
+          'Josip Runjanin born in Vinkovci — will compose the melody of the Croatian national anthem',
+        eventHr: 'U Vinkovcima rođen Josip Runjanin — uglazbit će hrvatsku državnu himnu',
+      },
+      {
         year: '1878',
         event:
           "The railway reaches Vinkovci — the town grows into one of Croatia's largest rail junctions",
         eventHr:
           'Željeznica stiže u Vinkovce — grad postaje jedno od najvećih željezničkih čvorišta u Hrvatskoj',
-      },
-      {
-        year: '1821',
-        event:
-          'Josip Runjanin born in Vinkovci — will compose the melody of the Croatian national anthem',
-        eventHr: 'U Vinkovcima rođen Josip Runjanin — uglazbit će hrvatsku državnu himnu',
       },
       {
         year: '1928',

@@ -923,7 +923,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Cilipi: {
     introHr:
-      'Cilipi su selo u Konavlima južno od Dubrovnika, najpoznatije folklorno selo južne Dalmacije. Nedjeljne jutarnje priredbe na trgu održavaju se svakoga ljeta bez prekida od 1967. Konavle je Dubrovačka Republika stekla 1426. i one su gotovo četiri stoljeća bile njezin najjužniji kraj. Konavoska ženska nošnja, s vezenom bijelom košuljom, tamnom suknjom i crvenom kapicom, jedna je od najfotografiranijih u Hrvatskoj; glazbu obilježavaju klape i ženski ples lindo uz lijericu, trožičano gudačko glazbalo. U ratu 1991.–1992. Konavle su teško stradale, no Cilipi su obnovljeni, a plesovi nastavljeni. U selu je i Zračna luka Dubrovnik, koju svi zovu Cilipi.',
+      'Čilipi su selo u Konavlima južno od Dubrovnika, najpoznatije folklorno selo južne Dalmacije. Nedjeljne jutarnje priredbe na trgu održavaju se svakoga ljeta bez prekida od 1967. Konavle je Dubrovačka Republika stekla 1426. i one su gotovo četiri stoljeća bile njezin najjužniji kraj. Konavoska ženska nošnja, s vezenom bijelom košuljom, tamnom suknjom i crvenom kapicom, jedna je od najfotografiranijih u Hrvatskoj; glazbu obilježavaju klape i ženski ples linđo uz lijericu, trožičano gudačko glazbalo. U ratu 1991.–1992. Konavle su teško stradale, no Čilipi su obnovljeni, a plesovi nastavljeni. U selu je i Zračna luka Dubrovnik, koju svi zovu Čilipi.',
   },
   Sutivan: {
     introHr:
