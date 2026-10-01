@@ -51,7 +51,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Varaždin: {
     introHrA2:
-      'Varaždin je grad na sjeveru Hrvatske. Od 1767. do 1776. godine bio je glavni grad Hrvatske. Godine 1776. veliki je požar uništio grad, pa je glavni grad postao Zagreb. Varaždin je poslije toga obnovljen u baroknom stilu i zato je danas tako skladan. U središtu stoji stara tvrđava koja se zove Stari grad. Ljeti se u Varaždinu održava ulični festival Špancirfest, kad su ulice pune glazbe. Ljudi ovdje govore kajkavski i pitaju kaj, a ne što.',
+      'Varaždin je grad na sjeveru Hrvatske. Od 1767. do 1776. godine bio je glavni grad Hrvatske. Godine 1776. veliki je požar uništio grad, pa je glavni grad postao Zagreb. Varaždin je poslije toga obnovljen u baroknom stilu i zato je danas tako skladan. U središtu stoji stara tvrđava koja se zove Stari grad. Ljeti se u Varaždinu održava ulični festival Špancirfest, kad su ulice pune glazbe. Ljudi ovdje govore kajkavski i kažu kaj, a ne što.',
   },
   Karlovac: {
     introHrA2:
@@ -71,7 +71,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Makarska: {
     introHrA2:
-      'Makarska je grad u Dalmaciji, na uskoj obali ispod planine Biokovo. Vrhovi Biokova visoki su 1762 metra i dižu se gotovo ravno iz mora, pa se planina vidi sa svake plaže. Plaže su ovdje šljunčane, a Makarska rivijera proteže se šezdeset kilometara uz obalu. U gradu je franjevački samostan iz 1400. godine sa zbirkom morskih školjaka. Kad zapuše bura s Biokova, more se brzo uzburka i kupači izlaze iz vode. Ljeti u Makarsku dolazi mnogo gostiju zbog dugih plaža i hotela.',
+      'Makarska je grad u Dalmaciji, na uskoj obali ispod planine Biokovo. Najviši vrh Biokova visok je 1762 metra i dižu se gotovo ravno iz mora, pa se planina vidi sa svake plaže. Plaže su ovdje šljunčane, a Makarska rivijera proteže se šezdeset kilometara uz obalu. U gradu je franjevački samostan iz 1400. godine sa zbirkom morskih školjaka. Kad zapuše bura s Biokova, more se brzo uzburka i kupači izlaze iz vode. Ljeti u Makarsku dolazi mnogo gostiju zbog dugih plaža i hotela.',
   },
   Korčula: {
     introHrA2:
@@ -95,7 +95,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Vukovar Grad': {
     introHrA2:
-      'Vukovar je grad na istoku Hrvatske, na obali Dunava. Prije rata bio je bogat grad s lijepim baroknim središtem koje su podigli grofovi Eltz. U jesen 1991. godine grad je izdržao opsadu od 87 dana. U tim je borbama razoreno devedeset posto kuća. Vodotoranj su pogodile stotine granata, ali on nije pao. Ljudi ga poslije nisu popravili, nego su ga ostavili takvoga, jer je postao spomenik. Danas se grad obnavlja, a najveći je posao obnova dvorca Eltz. Blizu grada je i muzej vučedolske kulture.',
+      'Vukovar je grad na istoku Hrvatske, na obali Dunava. Prije rata bio je bogat grad s lijepim baroknim središtem koje su podigli grofovi Eltz. U jesen 1991. godine grad je izdržao opsadu od 87 dana. U tim je borbama razoreno osamdeset posto grada. Vodotoranj su pogodile stotine granata, ali on nije pao. Ljudi ga poslije nisu popravili, nego su ga ostavili takvoga, jer je postao spomenik. Danas se grad obnavlja, a najveći je posao obnova dvorca Eltz. Blizu grada je i muzej vučedolske kulture.',
   },
   Koprivnica: {
     introHrA2:
@@ -135,7 +135,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Petrinja: {
     introHrA2:
-      'Petrinja je grad u Baniji, na rijeci Kupi. Kad danas dođete u grad, prvo vidite gradilišta i nove krovove, jer se Petrinja još obnavlja. U prosincu 2020. godine pogodio ju je jak potres, najjači u Hrvatskoj u 140 godina. Poginulo je sedmero ljudi, a dvije tisuće ljudi ostalo je bez doma usred zime. Petrinja je i prije imala tešku povijest: od 1991. do 1995. bila je pod okupacijom i ljudi se nisu mogli vratiti kući. Staru utvrdu Stari grad obnavljali su već nekoliko puta. Ljudi ovdje ne odustaju.',
+      'Petrinja je grad u Baniji, na rijeci Kupi. Kad danas dođete u grad, prvo vidite gradilišta i nove krovove, jer se Petrinja još obnavlja. U prosincu 2020. godine pogodio ju je jak potres, najjači u Hrvatskoj u posljednjih 140 godina. Poginulo je sedmero ljudi, a dvije tisuće ljudi ostalo je bez doma usred zime. Petrinja je i prije imala tešku povijest: od 1991. do 1995. bila je pod okupacijom i ljudi se nisu mogli vratiti kući. Staru utvrdu Stari grad obnavljali su već nekoliko puta. Ljudi ovdje ne odustaju.',
   },
   Bjelovar: {
     introHrA2:
@@ -163,7 +163,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Biograd na Moru': {
     introHrA2:
-      'Biograd na Moru je grad na moru južno od Zadra. Ime mu znači bijeli grad, jer su se njegove vapnenačke zidine bijeljele s mora. Kralj Petar Krešimir IV. odabrao ga je u 11. stoljeću za svoje sjedište, pa je ovdje okrunjeno pet hrvatskih kraljeva. Godine 1125. Mlečani su grad razorili do temelja i Biograd se obnavljao polako. Danas je poznato ljetovalište s velikom marinom u koju ljeti dolaze stotine jedrilica. Iza grada su Ravni kotari, a u zaleđu je Vransko jezero, najveće prirodno jezero u Hrvatskoj.',
+      'Biograd na Moru je grad na moru južno od Zadra. Ime mu znači bijeli grad, jer su se njegove bijele vapnenačke zidine vidjele s mora. Kralj Petar Krešimir IV. odabrao ga je u 11. stoljeću za svoje sjedište, pa je ovdje okrunjeno pet hrvatskih kraljeva. Godine 1125. Mlečani su grad razorili do temelja i Biograd se obnavljao polako. Danas je poznato ljetovalište s velikom marinom u koju ljeti dolaze stotine jedrilica. Iza grada su Ravni kotari, a u zaleđu je Vransko jezero, najveće prirodno jezero u Hrvatskoj.',
   },
   Skradin: {
     introHrA2:
@@ -215,7 +215,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Bol: {
     introHrA2:
-      'Bol je gradić na južnoj obali otoka Brača. Najpoznatiji je po plaži Zlatni rat, šljunčanom jezičcu koji ulazi u more i mijenja oblik jer ga pomiču struje i vjetrovi. To je najfotografiranija plaža u Hrvatskoj. Poslijepodne ovdje redovito puše maestral, pa je Bol jedno od najboljih hrvatskih mjesta za jedrenje na dasci i zmajarenje. U gradu je i dominikanski samostan iz 1475. godine, jedan od najstarijih u Dalmaciji. Iznad Bola diže se Vidova gora, visoka 778 metara; to je najviši vrh svih jadranskih otoka.',
+      'Bol je gradić na južnoj obali otoka Brača. Najpoznatiji je po plaži Zlatni rat, šljunčanom jezičcu koji ulazi u more i mijenja oblik jer ga pomiču struje i vjetrovi. To je najfotografiranija plaža u Hrvatskoj. Poslijepodne ovdje redovito puše maestral, pa je Bol jedno od najboljih hrvatskih mjesta za jedrenje na dasci i kitesurfing. U gradu je i dominikanski samostan iz 1475. godine, jedan od najstarijih u Dalmaciji. Iznad Bola diže se Vidova gora, visoka 778 metara; to je najviši vrh svih jadranskih otoka.',
   },
   'Stari Grad': {
     introHrA2:
@@ -227,7 +227,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Orebić: {
     introHrA2:
-      'Orebić je mjesto na poluotoku Pelješcu, točno nasuprot otoku Korčuli. More između njih široko je samo dva i pol kilometra, a trajekt plovi cijeli dan. Uz obalu stoje otmjene kamene vile. Sagradili su ih pomorski kapetani koji su u 18. i 19. stoljeću plovili svjetskim oceanima i vraćali se kući s bogatstvom. Sedamdesetih godina 19. stoljeća ovdašnji su kapetani imali više od osamdeset jedrenjaka. Iznad mjesta stoji franjevački samostan iz 1470. godine, staro svetište pomoraca; u njemu se čuva poznata ikona Gospe od Anđela. Na obroncima iznad kuća raste vino: dingač i postup, najbolja hrvatska crna vina.',
+      'Orebić je mjesto na poluotoku Pelješcu, točno nasuprot otoku Korčuli. More između njih široko je samo dva i pol kilometra, a trajekt plovi cijeli dan. Uz obalu stoje otmjene kamene vile. Sagradili su ih pomorski kapetani koji su u 18. i 19. stoljeću plovili svjetskim oceanima i vraćali se kući s bogatstvom. Sedamdesetih godina 19. stoljeća ovdašnji su kapetani imali više od osamdeset jedrenjaka. Iznad mjesta stoji franjevački samostan iz 1470. godine, staro svetište pomoraca; u njemu se čuva poznata ikona Gospe od Anđela. Na obroncima iznad kuća rastu vinogradi dingača i postupa, najboljih hrvatskih crnih vina.',
   },
   'Baška Voda': {
     introHrA2:
@@ -283,7 +283,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Senj: {
     introHrA2:
-      'Senj je grad na moru, u podnožju Velebita. U njemu puše najjača bura na Jadranu; vjetar doseže više od 200 kilometara na sat, pa znakovi na cesti upozoravaju vozače da može prevrnuti kamione. Tvrđava Nehaj iznad grada podignuta je 1558. godine. Uskoci su u Senj stigli 1537., nakon što su pobjegli pred Osmanlijama. Više od stotinu godina napadali su osmanske i mletačke brodove. Bura im je pomagala jer su njihovi mali brodovi mogli ploviti po vjetru koji je prevrtao velike galije.',
+      'Senj je grad na moru, u podnožju Velebita. U njemu puše najjača bura na Jadranu; vjetar doseže više od 200 kilometara na sat, pa znakovi na cesti upozoravaju vozače da vjetar može prevrnuti i kamione. Tvrđava Nehaj iznad grada podignuta je 1558. godine. Uskoci su u Senj stigli 1537., nakon što su pobjegli pred Osmanlijama. Više od stotinu godina napadali su osmanske i mletačke brodove. Bura im je pomagala jer su njihovi mali brodovi mogli ploviti po vjetru koji je prevrtao velike galije.',
   },
   Krk: {
     introHrA2:
@@ -295,7 +295,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Mali Lošinj': {
     introHrA2:
-      'Mali Lošinj je gradić na otoku Lošinju, u velikoj luci. Uz rivu stoje šarene kuće koje su u 18. stoljeću sagradili pomorski kapetani. Oni su plovili svjetskim morima, a zaradu su ulagali u kuće kod kuće. Na otoku raste mnogo mirisnog bilja: kadulja, lavanda i ružmarin. Zbog blage klime liječnici su 1892. godine Lošinj proglasili otokom zdravlja, pa ga i danas zovu otokom vitalnosti. U moru blizu grada žive dupini, koje znanstvenici prate od 1987. godine.',
+      'Mali Lošinj je gradić na otoku Lošinju, u velikoj luci. Uz rivu stoje šarene kuće koje su u 18. stoljeću sagradili pomorski kapetani. Oni su plovili svjetskim morima, a zaradu su ulagali u kuće na otoku. Na otoku raste mnogo mirisnog bilja: kadulja, lavanda i ružmarin. Zbog blage klime liječnici su 1892. godine Lošinj proglasili otokom zdravlja, pa ga i danas zovu otokom vitalnosti. U moru blizu grada žive dupini, koje znanstvenici prate od 1987. godine.',
   },
   Cres: {
     introHrA2:
@@ -311,7 +311,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Jastrebarsko: {
     introHrA2:
-      'Jastrebarsko je gradić jugozapadno od Zagreba. Ljudi ga zovu Jaska. Oko grada su brda Plešivice, na kojima se vinova loza uzgaja još od srednjega vijeka. Ovdje se pravi jedno od najboljih hrvatskih bijelih vina: pinot bijeli, rizling i škrlet, domaća sorta koja raste gotovo samo u ovom kraju. Kroz vinograde vodi vinska cesta, a obiteljske vinarije otvaraju svoje kušaonice za goste. U gradu stoji stari dvorac obitelji Erdödy. Godine 1593. Hrvati su kod Jaske pobijedili Osmanlije. Zagreb je udaljen tridesetak kilometara, pa mnogi dolaze za vikend.',
+      'Jastrebarsko je gradić jugozapadno od Zagreba. Ljudi ga zovu Jaska. Oko grada su brda Plešivice, na kojima se vinova loza uzgaja još od srednjega vijeka. Ovdje se prave neka od najboljih hrvatskih bijelih vina: pinot bijeli, rizling i škrlet, domaća sorta koja raste gotovo samo u ovom kraju. Kroz vinograde vodi vinska cesta, a obiteljske vinarije otvaraju svoje kušaonice za goste. U gradu stoji stari dvorac obitelji Erdödy. Godine 1593. Hrvati su kod Jaske pobijedili Osmanlije. Zagreb je udaljen tridesetak kilometara, pa mnogi dolaze za vikend.',
   },
   Zaprešić: {
     introHrA2:
@@ -331,7 +331,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Klanjec: {
     introHrA2:
-      'Klanjec je mali grad u Zagorju, na rijeci Sutli, koja je granica između Hrvatske i Slovenije. Ovdje je 1900. godine rođen Antun Augustinčić, najveći hrvatski kipar dvadesetoga stoljeća. Njegova brončana skulptura Mir stoji ispred sjedišta Ujedinjenih naroda u New Yorku, jer ju je Jugoslavija 1954. godine darovala toj organizaciji. Zato svjetski vođe koji dolaze u UN prolaze pokraj djela čovjeka iz maloga zagorskog grada. U Klanjcu se nalazi galerija u kojoj je sabrano cijelo njegovo kiparsko djelo. Posjetitelji tako mogu vidjeti kipove na mjestu na kojem su nastali.',
+      'Klanjec je mali grad u Zagorju, na rijeci Sutli, koja je granica između Hrvatske i Slovenije. Ovdje je 1900. godine rođen Antun Augustinčić, najveći hrvatski kipar dvadesetoga stoljeća. Njegova brončana skulptura Mir stoji ispred sjedišta Ujedinjenih naroda u New Yorku, jer ju je Jugoslavija 1954. godine darovala toj organizaciji. Zato svjetski vođe koji dolaze u UN prolaze pokraj djela čovjeka iz maloga zagorskog grada. U Klanjcu se nalazi galerija u kojoj je sabrano cijelo njegovo kiparsko djelo. Posjetitelji tako mogu vidjeti kipove u gradu u kojem je kipar rođen.',
   },
   Pregrada: {
     introHrA2:
@@ -371,11 +371,11 @@ export const CITY_INTRO_HR_A2 = {
   },
   Otočac: {
     introHrA2:
-      'Otočac je glavno mjesto doline rijeke Gacke u Lici. Gacka izvire iz krških izvora i teče kroz zelene livade. Voda je vrlo čista i hladna, oko deset stupnjeva cijele godine, pa u rijeci žive velike potočne pastrve. Ribiči zato dolaze iz cijele Europe, jer su ovdje ulovljene ribe svjetskih rekorda. Godine 1991. grad je bio na prvoj crti rata i teško je oštećen, ali je poslije obnovljen. Iz Otočca se lako putuje prema Plitvicama i Velebitu. Ljudi ovdje jedu i ličko janje s krških visoravni.',
+      'Otočac je glavno mjesto doline rijeke Gacke u Lici. Gacka izvire iz krških izvora i teče kroz zelene livade. Voda je vrlo čista i hladna, oko deset stupnjeva cijele godine, pa u rijeci žive velike potočne pastrve. Ribiči zato dolaze iz cijele Europe, jer su ovdje ulovljene i rekordne ribe. Godine 1991. grad je bio na prvoj crti rata i teško je oštećen, ali je poslije obnovljen. Iz Otočca se lako putuje prema Plitvicama i Velebitu. Ljudi ovdje jedu i ličko janje s krških visoravni.',
   },
   Ogulin: {
     introHrA2:
-      'Ogulin je gradić u Gorskom kotaru u kojem je 1874. godine rođena Ivana Brlić-Mažuranić, najveća hrvatska dječja spisateljica. Njezina je knjiga Priče iz davnine izašla 1916. godine. Bajke u toj knjizi nastale su na hrvatskoj narodnoj predaji i mitologiji, pa se u njima pojavljuju stari slavenski bogovi i šumske vile. Zbog toga se često uspoređuje s Hansom Christianom Andersenom. Za Nobelovu nagradu za književnost bila je predložena dvaput, 1931. i 1938. godine, kao jedini hrvatski pisac ikada. Svake se godine u Ogulinu održava festival bajki.',
+      'Ogulin je gradić u Gorskom kotaru u kojem je 1874. godine rođena Ivana Brlić-Mažuranić, najveća hrvatska dječja spisateljica. Njezina je knjiga Priče iz davnine izašla 1916. godine. Bajke u toj knjizi nastale su na hrvatskoj narodnoj predaji i mitologiji, pa se u njima pojavljuju stari slavenski bogovi i šumske vile. Zbog toga je često uspoređuju s Hansom Christianom Andersenom. Za Nobelovu nagradu za književnost bila je predložena dvaput, 1931. i 1938. godine, kao jedini hrvatski pisac ikada. Svake se godine u Ogulinu održava festival bajki.',
   },
   Slunj: {
     introHrA2:
@@ -387,7 +387,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Popovača: {
     introHrA2:
-      'Popovača je gradić u Moslavini, najravnijem i najpoljoprivrednijem hrvatskom kraju između Zagreba i Slavonije. Oko grada su velika polja pšenice, suncokreta i kukuruza, a zemlja se ovdje obrađuje još od rimskih vremena. Iz ravnice se neočekivano diže Moslavačka gora, a na njezinim padinama rastu vinogradi. Ondje nastaju bijela vina: graševina i chardonnay. Graševinu u Hrvatskoj sade više nego ijednu drugu sortu, ali je u svijetu malo tko poznaje. Kroz Popovaču prolazi glavna pruga između Zagreba i Slavonije, pa je grad od devetnaestoga stoljeća prometno čvorište. Blizu je i Kutina, hrvatsko središte proizvodnje prirodnoga plina.',
+      'Popovača je gradić u Moslavini, najravnijem hrvatskom poljoprivrednom kraju između Zagreba i Slavonije. Oko grada su velika polja pšenice, suncokreta i kukuruza, a zemlja se ovdje obrađuje još od rimskih vremena. Iz ravnice se neočekivano diže Moslavačka gora, a na njezinim padinama rastu vinogradi. Ondje nastaju bijela vina: graševina i chardonnay. Graševinu u Hrvatskoj sade više nego ijednu drugu sortu, ali je u svijetu malo tko poznaje. Kroz Popovaču prolazi glavna pruga između Zagreba i Slavonije, pa je grad od devetnaestoga stoljeća prometno čvorište. Blizu je i Kutina, hrvatsko središte proizvodnje prirodnoga plina.',
   },
   Trilj: {
     introHrA2:
@@ -399,7 +399,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Vela Luka': {
     introHrA2:
-      'Vela Luka je najveće mjesto na otoku Korčuli. Leži u dugoj i zaštićenoj uvali na zapadnom kraju otoka. More je ovdje mirno, pa u luku rado dolaze jedriličari, a uvala se ubraja među najbolja prirodna sidrišta na Jadranu. Oko mjesta su maslinici i vinogradi. Ljudi proizvode bijelo vino pošip, korčulansku sortu. Nekada su se stanovnici bavili ribolovom i trgovinom, dok je utvrđena Korčula na drugom kraju otoka nosila obranu. Iznad mjesta nalazi se špilja Vela spila. U njoj su pronađeni tragovi ljudi stari dvadeset tisuća godina, pa je to jedno od najstarijih nalazišta u Hrvatskoj.',
+      'Vela Luka je najveće mjesto na otoku Korčuli. Leži u dugoj i zaštićenoj uvali na zapadnom kraju otoka. More je ovdje mirno, pa u luku rado dolaze jedriličari, a uvala se ubraja među najbolja prirodna sidrišta na Jadranu. Oko mjesta su maslinici i vinogradi. Ljudi proizvode bijelo vino pošip, korčulansku sortu. Nekada su se stanovnici bavili ribolovom i trgovinom, dok se utvrđeni grad Korčula na drugom kraju otoka brinuo za obranu. Iznad mjesta nalazi se špilja Vela spila. U njoj su pronađeni tragovi ljudi stari dvadeset tisuća godina, pa je to jedno od najstarijih nalazišta u Hrvatskoj.',
   },
   Lastovo: {
     introHrA2:
@@ -427,11 +427,11 @@ export const CITY_INTRO_HR_A2 = {
   },
   Ljubuški: {
     introHrA2:
-      'Ljubuški je grad u zapadnoj Hercegovini, na rijeci Trebižat. Iznad grada, na vapnenačkoj stijeni, stoje ruševine srednjovjekovne tvrđave iz koje se vidi cijela dolina. Oko grada su vinogradi. Ovdje se od davnina uzgajaju domaće sorte: bijela Žilavka, suha i mineralna, te crna Blatina. Nedaleko od grada nalaze se slapovi Kravica, široki 28 metara. Ljeti se ljudi kupaju u jezercima ispod slapova, jer je to jedno od najljepših ljetnih iskustava u Hercegovini. Ljubuški je i važno središte hrvatskoga kulturnog života u Bosni i Hercegovini.',
+      'Ljubuški je grad u zapadnoj Hercegovini, na rijeci Trebižatu. Iznad grada, na vapnenačkoj stijeni, stoje ruševine srednjovjekovne tvrđave iz koje se vidi cijela dolina. Oko grada su vinogradi. Ovdje se od davnina uzgajaju domaće sorte: bijela Žilavka, suha i mineralna, te crna Blatina. Nedaleko od grada nalaze se slapovi Kravica, široki 28 metara. Ljeti se ljudi kupaju u jezercima ispod slapova, jer je to jedno od najljepših ljetnih iskustava u Hercegovini. Ljubuški je i važno središte hrvatskoga kulturnog života u Bosni i Hercegovini.',
   },
   Međugorje: {
     introHrA2:
-      'Međugorje je malo selo u zapadnoj Hercegovini. Godine 1981. šestero mladih ljudi izjavilo je da je na brdu Podbrdu vidjelo Gospu. Od tada u selo dolaze hodočasnici iz cijeloga svijeta, svake godine milijuni. Selo je prije imalo samo četiristo stanovnika, a danas prima goste iz cijeloga svijeta. Ljudi se penju na brdo Podbrdo i ondje mole. Oko sela su brda i vinogradi, jer je ovo poznat vinski kraj. Crkva ukazanja nije službeno potvrdila, ali hodočasnici ipak dolaze.',
+      'Međugorje je malo selo u zapadnoj Hercegovini. Godine 1981. šestero mladih ljudi izjavilo je da je na brdu Podbrdu vidjelo Gospu. Od tada u selo dolaze hodočasnici iz cijeloga svijeta, svake godine milijuni. Selo je prije imalo samo četiristo stanovnika, a danas prima goste iz cijeloga svijeta. Ljudi se penju na brdo Podbrdo i ondje mole. Oko sela su brda i vinogradi, jer je ovo poznat vinski kraj. Crkva još nije službeno potvrdila ukazanja, ali hodočasnici ipak dolaze.',
   },
   Čitluk: {
     introHrA2:
@@ -495,7 +495,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Zlatar: {
     introHrA2:
-      'Zlatar je gradić u zagorskim brdima, u dolini gornjega toka rijeke Krapine. Ime grada znači zlatar, čovjek koji radi zlato, pa se misli da su ovdje u srednjem vijeku radili majstori za plemenite kovine. Na brdu iznad grada stoji crkva svete Marije, kamo hodočasnici dolaze već stoljećima. Zlatar se razvio kao tržište za okolna poljoprivredna sela. U dolini oko grada nađeni su i tragovi iz pretpovijesti i iz rimskoga doba. Blizu je i Zlatar Bistrica, koja je poznata po toplicama i zdravstvenom turizmu.',
+      'Zlatar je gradić u zagorskim brdima, u dolini gornjega toka rijeke Krapine. Ime grada znači zlatar, majstor koji radi sa zlatom, pa se misli da su ovdje u srednjem vijeku radili majstori za plemenite kovine. Na brdu iznad grada stoji crkva svete Marije, kamo hodočasnici dolaze već stoljećima. Zlatar se razvio kao tržište za okolna poljoprivredna sela. U dolini oko grada nađeni su i tragovi iz pretpovijesti i iz rimskoga doba. Blizu je i Zlatar Bistrica, koja je poznata po toplicama i zdravstvenom turizmu.',
   },
   Valpovo: {
     introHrA2:
@@ -535,11 +535,11 @@ export const CITY_INTRO_HR_A2 = {
   },
   Vrboska: {
     introHrA2:
-      'Vrboska je malo selo na otoku Hvaru. Kroz selo prolazi uski morski kanal, a preko njega vode kameni mostovi. Zbog toga Vrbosku zovu Mala Venecija. U selu stoji crkva svete Marije. Ta crkva ima debele zidine i kule jer je u 16. stoljeću pretvorena u utvrdu. Kad bi zazvonilo zvono, ljudi bi se sklonili unutra. Danas u selu možete posjetiti Ribarski muzej i vidjeti kako se nekad živjelo od mora. Iznad kuća su strmi vinogradi. U njima raste plavac mali, poznato crno vino ovoga otoka.',
+      'Vrboska je malo selo na otoku Hvaru. Kroz selo prolazi uski morski kanal, a preko njega vode kameni mostovi. Zbog toga Vrbosku zovu Mala Venecija. U selu stoji crkva svete Marije. Ta crkva ima debele zidine i kule jer je u 16. stoljeću pretvorena u utvrdu. Kad bi zazvonilo zvono, ljudi bi se sklonili unutra. Danas u selu možete posjetiti Ribarski muzej i vidjeti kako se nekad živjelo od mora. Iznad kuća su strmi vinogradi. U njima raste plavac mali, od kojega se pravi poznato crno vino ovoga otoka.',
   },
   Baška: {
     introHrA2:
-      'Baška je mjesto na otoku Krku. Ljudi ovamo dolaze zbog šljunčane plaže: duga je 1,8 kilometara i smatra se najljepšom na otoku. Baška je poznata i po Bašćanskoj ploči iz 1102. godine, na kojoj je glagoljicom napisan prvi veliki tekst na hrvatskom jeziku. Ploča je stoljećima ležala u podu crkve i nitko nije znao što je. Tek su je 1851. godine znanstvenici prepoznali. Izvornik se danas čuva u Zagrebu, a u Baški stoji vjerna kopija. Zato u Baški možete istoga dana vidjeti staru ploču i cijeli dan provesti na plaži.',
+      'Baška je mjesto na otoku Krku. Ljudi ovamo dolaze zbog šljunčane plaže: duga je 1,8 kilometara i smatra se najljepšom na otoku. Baška je poznata i po Bašćanskoj ploči iz 1102. godine, na kojoj je glagoljicom napisan prvi veliki tekst na hrvatskom jeziku. Ploča je stoljećima ležala u podu crkve i nitko nije znao što je. Tek su je 1851. godine znanstvenici prepoznali. Izvornik se danas čuva u Zagrebu, a u Baški stoji vjerna kopija. Zato u Baški možete istoga dana vidjeti kopiju stare ploče i cijeli dan provesti na plaži.',
   },
   Malinska: {
     introHrA2:
@@ -547,7 +547,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Vrbnik: {
     introHrA2:
-      'Vrbnik je staro mjesto na istočnoj obali otoka Krka. Kuće stoje na strmoj stijeni koja se diže 48 metara iznad mora. Ulice su uske i kamene; najuža se zove Klančić i široka je samo 43 centimetra. Vrbnik je gradska prava dobio još u srednjem vijeku. Oko mjesta su vinogradi u kojima raste žlahtina, lagano i suho bijelo vino. Ta sorta uspijeva samo ovdje, jer joj odgovara mikroklima vrbničkoga kraja. U Vrbniku je nastalo i nekoliko važnih glagoljskih rukopisa.',
+      'Vrbnik je staro mjesto na istočnoj obali otoka Krka. Kuće stoje na strmoj stijeni koja se diže 48 metara iznad mora. Ulice su uske i kamene; najuža se zove Klančić i široka je samo 43 centimetra. Vrbnik je gradska prava dobio još u srednjem vijeku. Oko mjesta su vinogradi u kojima raste žlahtina, od koje se pravi lagano i suho bijelo vino. Ta sorta uspijeva samo ovdje, jer joj odgovara mikroklima vrbničkoga kraja. U Vrbniku je nastalo i nekoliko važnih glagoljskih rukopisa.',
   },
   Novalja: {
     introHrA2:
@@ -571,7 +571,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Janjina: {
     introHrA2:
-      'Janjina je malo selo na brdu, na poluotoku Pelješcu. Oko sela su vinogradi i stare masline. Ovdje raste plavac mali, poznato crno vino. Selo se razvilo od vina i maslina, a ne od mora, i danas ljudi rade u vinogradima. S vrha se more vidi na dvije strane: s jedne Pelješki kanal, s druge otvoreni Jadran. Kad je vrijeme vedro, u daljini se nazire i talijanska obala. Vinograde omeđuju suhozidi, kameni zidovi koje su ljudi slagali bez veziva prije mnogo stoljeća.',
+      'Janjina je malo selo na brdu, na poluotoku Pelješcu. Oko sela su vinogradi i stare masline. Ovdje raste plavac mali, od kojega se pravi poznato crno vino. Selo se razvilo od vina i maslina, a ne od mora, i danas ljudi rade u vinogradima. S vrha se more vidi na dvije strane: s jedne Pelješki kanal, s druge otvoreni Jadran. Kad je vrijeme vedro, u daljini se nazire i talijanska obala. Vinograde omeđuju suhozidi, kameni zidovi koje su ljudi slagali bez veziva prije mnogo stoljeća.',
   },
   'Mali Ston': {
     introHrA2:
@@ -583,7 +583,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Bale: {
     introHrA2:
-      'Bale su malo mjesto na brežuljku u južnoj Istri. Talijansko ime mjesta je Valle. Kad dođete u Bale, prvo vidite dvorac Soardo-Bembo i njegovu visoku kulu iz 15. stoljeća. U kuli je danas mali muzej. Ulice se vrte u krug oko središnjega trga, koji mještani zovu pjaca. Taj je raspored ostao isti već petsto godina, jer se selo nije mijenjalo od 17. stoljeća. U Balama živi manje od tisuću ljudi, ali cijelo ljeto ovdje ima kulturnih događanja. Filmske ekipe rado snimaju u selu jer izgleda kao nekad.',
+      'Bale su malo mjesto na brežuljku u južnoj Istri. Talijansko ime mjesta je Valle. Kad dođete u Bale, prvo vidite dvorac Soardo-Bembo i njegovu visoku kulu iz 15. stoljeća. U kuli je danas mali muzej. Ulice idu u krug oko središnjega trga, koji mještani zovu pjaca. Taj je raspored ostao isti već petsto godina, a selo se nije mijenjalo od 17. stoljeća. U Balama živi manje od tisuću ljudi, ali cijelo ljeto ovdje ima kulturnih događanja. Filmske ekipe rado snimaju u selu jer izgleda kao nekad.',
   },
   Svetvinčenat: {
     introHrA2:
@@ -615,11 +615,11 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Donji Miholjac': {
     introHrA2:
-      'Donji Miholjac mali je slavonski grad na rijeci Dravi. Na drugoj obali je Mađarska, jer Drava ovdje dijeli dvije države. Grad je narastao upravo zato što se ovdje prelazilo preko rijeke i trgovalo. Uz rijeku su močvare i poplavne šume, zaštićene kao europsko područje Natura 2000. U njima žive vidre, orlovi štekavci i crne rode, pa u grad dolaze i ljubitelji prirode. Ribari iz grada i danas love šarana i štuku u Dravi. Na podravskim brežuljcima u okolici raste bijelo vino graševina.',
+      'Donji Miholjac mali je slavonski grad na rijeci Dravi. Na drugoj obali je Mađarska, jer Drava ovdje dijeli dvije države. Grad je narastao upravo zato što se ovdje prelazilo preko rijeke i trgovalo. Uz rijeku su močvare i poplavne šume, zaštićene kao europsko područje Natura 2000. U njima žive vidre, orlovi štekavci i crne rode, pa u grad dolaze i ljubitelji prirode. Ribari iz grada i danas love šarana i štuku u Dravi. Na podravskim brežuljcima u okolici rastu vinogradi graševine, od koje se pravi bijelo vino.',
   },
   Slatina: {
     introHrA2:
-      'Slatina je grad u zapadnoj Slavoniji, na podnožju brda Bilogore. Ime dolazi od riječi slana, jer u okolici ima slanih izvora i slanoga tla. U srednjem vijeku sol je bila skupa kao zlato, pa su mjesta sa slanim izvorima bila bogata i važna. Danas je Slatina prije svega tržište: ljudi iz sela dolaze ovamo prodavati i kupovati. Grad je i središte Virovitičko-podravske županije. Na bilogorskim brežuljcima iznad grada rastu vinogradi iz kojih dolaze graševina i pinot sivi. Kraj je poznat i po slavonskom vezu s geometrijskim uzorcima.',
+      'Slatina je grad u zapadnoj Slavoniji, u podnožju brda Bilogore. Ime dolazi od riječi slana, jer u okolici ima slanih izvora i slanoga tla. U srednjem vijeku sol je bila skupa kao zlato, pa su mjesta sa slanim izvorima bila bogata i važna. Danas je Slatina prije svega tržište: ljudi iz sela dolaze ovamo prodavati i kupovati. Grad je i središte Virovitičko-podravske županije. Na bilogorskim brežuljcima iznad grada rastu vinogradi iz kojih dolaze graševina i pinot sivi. Kraj je poznat i po slavonskom vezu s geometrijskim uzorcima.',
   },
   Kutina: {
     introHrA2:
@@ -631,7 +631,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Lipik: {
     introHrA2:
-      'Lipik je mali grad u zapadnoj Slavoniji poznat po dvjema stvarima. Prva je topla ljekovita voda, koja izvire na 53 stupnja. Ljudi su je koristili već u rimsko doba, a u 19. stoljeću ovdje je nastalo lječilište. Druga su lipicanci, slavni bijeli konji. Ergela u Lipiku jedna je od rijetkih na svijetu koje ih uzgajaju. Mladi lipicanci rođeni su tamnosivi i tek nakon šest do deset godina postanu posve bijeli. U ratu 1991. grad je teško stradao, a konji su bili odvedeni u Austriju.',
+      'Lipik je mali grad u zapadnoj Slavoniji poznat po dvjema stvarima. Prva je topla ljekovita voda, koja izvire na 53 stupnja. Ljudi su je koristili već u rimsko doba, a u 19. stoljeću ovdje je nastalo lječilište. Druga su lipicanci, slavni bijeli konji. Ergela u Lipiku jedna je od rijetkih na svijetu koje ih uzgajaju. Mladi se lipicanci rađaju tamnosivi i tek nakon šest do deset godina postanu posve bijeli. U ratu 1991. grad je teško stradao, a konji su bili odvedeni u Austriju.',
   },
   Zabok: {
     introHrA2:
@@ -747,7 +747,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Murter: {
     introHrA2:
-      'Murter je malo mjesto na otoku Murteru i vrata su Nacionalnog parka Kornati. Kornati imaju 89 nenaseljenih otoka i najgušći su arhipelag na Mediteranu. Većina tih otoka pripada obiteljima iz Murtera. Murterini brodom odlaze na svoje otoke i ondje obrađuju masline. Na svakom otoku ima maslina i malo kameno sklonište. Na prvi pogled Kornati izgledaju pusto, jer se vidi samo goli vapnenac i niska makija. Ipak, ljudi se ovdje brinu za ta stabla više od petsto godina. Nacionalni park štiti otoke, ali dopušta taj stari način rada.',
+      'Murter je malo mjesto na otoku Murteru i vrata su Nacionalnog parka Kornati. Kornati imaju 89 nenaseljenih otoka i najgušći su arhipelag na Mediteranu. Većina tih otoka pripada obiteljima iz Murtera. Murterini brodom odlaze na svoje otoke i ondje obrađuju masline. Na svakom su otoku masline i malo kameno sklonište. Na prvi pogled Kornati izgledaju pusto, jer se vidi samo goli vapnenac i niska makija. Ipak, ljudi se ovdje brinu za ta stabla više od petsto godina. Nacionalni park štiti otoke, ali dopušta taj stari način rada.',
   },
   Krka: {
     introHrA2:
@@ -807,7 +807,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Bakar: {
     introHrA2:
-      'Bakar je gradić na Kvarneru, na dubokom i uskom zaljevu koji izgleda kao fjord. Takvoga zaljeva u Hrvatskoj nema nigdje drugdje. Zove se Bakarsko ždrilo, jer je ulaz u njega vrlo tijesan. Iznad zaljeva stoje stari grad i kaštel iz srednjeg vijeka. Bakar je nekada bio važna luka, i to glavna luka Hrvatsko-Ugarskog Kraljevstva, prije nego što je Rijeka preuzela tu ulogu. U Drugom svjetskom ratu u zaljevu su se skrivali brodovi, jer je voda duboka, a ulaz uzak. Danas je Bakar mirno mjesto.',
+      'Bakar je gradić na Kvarneru, na dubokom i uskom zaljevu koji izgleda kao fjord. Takvoga zaljeva u Hrvatskoj nema nigdje drugdje. Ulaz u zaljev zove se Bakarsko ždrilo, jer je vrlo tijesan. Iznad zaljeva stoje stari grad i kaštel iz srednjeg vijeka. Bakar je nekada bio važna luka, i to glavna luka Hrvatsko-Ugarskog Kraljevstva, prije nego što je Rijeka preuzela tu ulogu. U Drugom svjetskom ratu u zaljevu su se skrivali brodovi, jer je voda duboka, a ulaz uzak. Danas je Bakar mirno mjesto.',
   },
   Vukovar: {
     introHrA2:
@@ -831,7 +831,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Kneževi Vinogradi': {
     introHrA2:
-      'Kneževi Vinogradi su mjesto u Baranji, na krajnjem istoku Hrvatske, sjeverno od Drave. Tu se Hrvatska sastaje s Mađarskom i Srbijom. Baranja je stoljećima bila mađarski posjed. Kraj je poznat po vinu, jer je tlo ovdje les, vrlo dobar za vinograde. Najpoznatije su sorte graševina i frankovka, a baranjska su crna vina među najboljima u Hrvatskoj. U blizini je Park prirode Kopački rit, jedno od najvećih močvarnih područja u Europi. Svakoga proljeća voda se izlije i poplavi rit, pa u njemu gnijezdi više od tristo vrsta ptica.',
+      'Kneževi Vinogradi su mjesto u Baranji, na krajnjem istoku Hrvatske, sjeverno od Drave. Tu se Hrvatska sastaje s Mađarskom i Srbijom. Baranja je stoljećima bila mađarski posjed. Kraj je poznat po vinu, jer je tlo ovdje les, vrlo dobar za vinograde. Najpoznatije su sorte graševina i frankovka, a baranjska su crna vina među najboljima u Hrvatskoj. U blizini je Park prirode Kopački rit, jedno od najvećih močvarnih područja u Europi. Svakoga proljeća voda se izlije i poplavi rit, pa se u njemu gnijezdi više od tristo vrsta ptica.',
   },
   Zagreb: {
     introHrA2:
@@ -847,7 +847,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Medulin: {
     introHrA2:
-      'Medulin je mirno mjesto na samom jugu Istre, odmah južno od Pule. Ondje su duge pješčane i šljunčane plaže i plitke uvale, pa ljeti dolaze obitelji iz Slovenije, Austrije i Italije. Sjeverni istarski gradići stoje na kamenu, a Medulin živi od pijeska i plitkoga mora. Poslije podne puše maestral, pa je zaljev pun daski za jedrenje. Na poluotoku Vižuli plivač u plitkoj vodi vidi zidove rimske vile iz 1. stoljeća. Južno od mjesta počinje park prirode Kamenjak. U općini živi oko 6500 ljudi, a ljeti ih je deset puta više.',
+      'Medulin je mirno mjesto na samom jugu Istre, odmah južno od Pule. Ondje su duge pješčane i šljunčane plaže i plitke uvale, pa ljeti dolaze obitelji iz Slovenije, Austrije i Italije. Sjeverni istarski gradići stoje na kamenu, a Medulin živi od pijeska i plitkoga mora. Poslijepodne puše maestral, pa je zaljev pun daski za jedrenje. Na poluotoku Vižuli plivač u plitkoj vodi vidi zidove rimske vile iz 1. stoljeća. Južno od mjesta počinje park prirode Kamenjak. U općini živi oko 6500 ljudi, a ljeti ih je deset puta više.',
   },
   Premantura: {
     introHrA2:
@@ -859,7 +859,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Funtana: {
     introHrA2:
-      'Funtana je mirno selo na istarskoj obali, između Poreča i Vrsara. Ime je dobilo po prirodnom izvoru slatke vode, jer je taj izvor stoljećima bio jedini na obali između Poreča i Rovinja. Mletačke su galije ovdje stajale i punile bačve vodom. Uz izvor je u 16. stoljeću sagrađen mali kaštel obitelji Bembo i on i danas stoji u središtu sela. Danas Funtana ima marinu i kampove pod borovima, pa ljeti dolaze obitelji i jedriličari. U kolovozu se održava Ribarska fešta.',
+      'Funtana je mirno selo na istarskoj obali, između Poreča i Vrsara. Ime je dobila po prirodnom izvoru slatke vode, jer je taj izvor stoljećima bio jedini na obali između Poreča i Rovinja. Mletačke su galije ovdje stajale i punile bačve vodom. Uz izvor je u 16. stoljeću sagrađen mali kaštel obitelji Bembo i on i danas stoji u središtu sela. Danas Funtana ima marinu i kampove pod borovima, pa ljeti dolaze obitelji i jedriličari. U kolovozu se održava Ribarska fešta.',
   },
   Punat: {
     introHrA2:
@@ -923,7 +923,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Cilipi: {
     introHrA2:
-      'Cilipi su selo u Konavlima, južno od Dubrovnika. To je najpoznatije folklorno selo južne Dalmacije. Svake nedjelje ujutro, svakoga ljeta, ljudi na seoskom trgu plešu u narodnim nošnjama. Priredbe se održavaju bez prekida od 1967. godine, pa dolaze gosti iz cijele Europe. Žene nose vezenu bijelu košulju, tamnu suknju i crvenu kapicu, a muškarci smeđi prsluk. Uz ples svira lijerica, malo gudačko glazbalo s tri žice. Oko trga stoje kamene kuće iz 16. stoljeća. U Cilipima je i zračna luka Dubrovnik.',
+      'Čilipi su selo u Konavlima, južno od Dubrovnika. To je najpoznatije folklorno selo južne Dalmacije. Svake nedjelje ujutro, svakoga ljeta, ljudi na seoskom trgu plešu u narodnim nošnjama. Priredbe se održavaju bez prekida od 1967. godine, pa dolaze gosti iz cijele Europe. Žene nose vezenu bijelu košulju, tamnu suknju i crvenu kapicu, a muškarci smeđi prsluk. Uz ples svira lijerica, malo gudačko glazbalo s tri žice. Oko trga stoje kamene kuće iz 16. stoljeća. U Čilipima je i zračna luka Dubrovnik.',
   },
   Sutivan: {
     introHrA2:
@@ -987,7 +987,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Privlaka: {
     introHrA2:
-      'Privlaka je malo primorsko selo na sjevernom rubu zadarskoga kraja, blizu Nina. Prvo što posjetitelj vidi jest pijesak: plaža Sabunike jedna je od najduljih pješčanih plaža sjeverne Dalmacije, a more je u uvalama plitko i toplo. Zato ovamo ljeti dolaze obitelji s djecom. Ovdje se stoljećima radila sol; solane su radile do početka 20. stoljeća, a onda su zatvorene. Ime sela znači prevlaku, uski komad zemlje koji obalu vuče prema Ninu. Iz Privlake jedna cesta vodi na otok Vir.',
+      'Privlaka je malo primorsko selo na sjevernom rubu zadarskoga kraja, blizu Nina. Prvo što posjetitelj vidi jest pijesak: plaža Sabunike jedna je od najduljih pješčanih plaža sjeverne Dalmacije, a more je u uvalama plitko i toplo. Zato ovamo ljeti dolaze obitelji s djecom. Ovdje se stoljećima radila sol; solane su radile do početka 20. stoljeća, a onda su zatvorene. Ime sela znači prevlaku, uski komad kopna uz more. Iz Privlake jedna cesta vodi na otok Vir.',
   },
   Vir: {
     introHrA2:
@@ -1015,15 +1015,15 @@ export const CITY_INTRO_HR_A2 = {
   },
   Drenovci: {
     introHrA2:
-      'Drenovci su posavsko selo na istoku Slavonije, u ravnici između rijeke Save i velike hrastove šume Spačve. Sava je ovdje granica s Bosnom i Hercegovinom. U Spačvi raste hrast lužnjak, a to je najveća povezana hrastova šuma u Europi; jedno stablo može narasti više od 35 metara i živjeti četiristo godina. U selu žive Šokci, katolički Hrvati, koji su sačuvali svoj govor, nošnju i pjesmu bećarac. Ljudi ovdje rade na zemlji i u šumi, jer su šuma i rijeka oduvijek bile najvažnije.',
+      'Drenovci su posavsko selo na istoku Slavonije, u ravnici između rijeke Save i velike hrastove šume Spačve. Sava je ovdje granica s Bosnom i Hercegovinom. U Spačvi raste hrast lužnjak, a sama je Spačva najveća povezana hrastova šuma u Europi; jedno stablo može narasti više od 35 metara i živjeti četiristo godina. U selu žive Šokci, katolički Hrvati, koji su sačuvali svoj govor, nošnju i pjesmu bećarac. Ljudi ovdje rade na zemlji i u šumi, jer su šuma i rijeka oduvijek bile najvažnije.',
   },
   'Babina Greda': {
     introHrA2:
-      'Babina Greda je veliko slavonsko selo između Slavonskoga Broda i Vinkovaca, u ravnoj Posavini sjeverno od Save. Po površini je jedno od najvećih sela u Hrvatskoj, jer njegov katastar obuhvaća više od 110 četvornih kilometara. Selo je poznato po staroj šokačkoj nošnji: žene nose rubinu vezenu zlatnim koncem i posebno oglavlje. Jedna takva nošnja teška je nekoliko kilograma i nekada se izrađivala cijelu godinu, večer za večeri. U selu se pjevaju stare svadbene pjesme i bećarac, a nad središtem stoji crkva svetoga Marka iz 19. stoljeća.',
+      'Babina Greda je veliko slavonsko selo između Slavonskoga Broda i Vinkovaca, u ravnoj Posavini sjeverno od Save. Po površini je jedno od najvećih sela u Hrvatskoj, jer njegov katastar obuhvaća više od 110 četvornih kilometara. Selo je poznato po staroj šokačkoj nošnji: žene nose rubinu vezenu zlatnim koncem i posebno oglavlje. Jedna takva nošnja teška je nekoliko kilograma i nekada se izrađivala cijelu godinu, večer za večerom. U selu se pjevaju stare svadbene pjesme i bećarac, a nad središtem stoji crkva svetoga Marka iz 19. stoljeća.',
   },
   Andrijaševci: {
     introHrA2:
-      'Andrijaševci su općina u Slavoniji, u Vukovarsko-srijemskoj županiji, odmah zapadno od Vinkovaca. Čine je dva sela, Andrijaševci i Rokovci. Toliko su srasla da između njih nema praznog polja: kuće jednoga počinju ondje gdje druge prestaju, uz istu glavnu cestu. Kraj leži u nizini rijeke Bosut, koja je pritoka Save, a oko sela je velika panonska ravnica. Ljudi ovdje uzgajaju žito i kukuruz i drže stoku, jer je zemlja plodna i ravna. Ljeti se posvuda vide polja kukuruza.',
+      'Andrijaševci su općina u Slavoniji, u Vukovarsko-srijemskoj županiji, odmah zapadno od Vinkovaca. Čine je dva sela, Andrijaševci i Rokovci. Toliko su srasla da između njih nema praznog polja: kuće jednoga počinju ondje gdje kuće drugoga prestaju, uz istu glavnu cestu. Kraj leži u nizini rijeke Bosuta, koja je pritoka Save, a oko sela je velika panonska ravnica. Ljudi ovdje uzgajaju žito i kukuruz i drže stoku, jer je zemlja plodna i ravna. Ljeti se posvuda vide polja kukuruza.',
   },
   Tovarnik: {
     introHrA2:
@@ -1063,7 +1063,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Vrbovec: {
     introHrA2:
-      'Vrbovec je gradić u Zagrebačkoj županiji, na cesti od Zagreba prema Bjelovaru, tridesetak kilometara od glavnoga grada. U Hrvatskoj je poznat po mesu, jer se ovdje nalazi najveća tvornica za preradu mesa u zemlji. Ona proizvodi salame, kobasice, sušeno meso i paštete koje se prodaju po cijeloj Hrvatskoj. Grad je znatno stariji od tvornice: spominje se već u dokumentima iz 13. stoljeća, a status grada dobio je 1873. U središtu stoji barokna župna crkva. Svake godine ovdje se održava festival tradicionalne hrane Kaj su jeli naši stari. Njegovo je ime na kajkavskom narječju, na kojem kaj znači što.',
+      'Vrbovec je gradić u Zagrebačkoj županiji, na cesti od Zagreba prema Bjelovaru, tridesetak kilometara od glavnoga grada. U Hrvatskoj je poznat po mesu, jer se ovdje nalazi najveća tvornica za preradu mesa u zemlji. Ona proizvodi salame, kobasice, sušeno meso i paštete koje se prodaju po cijeloj Hrvatskoj. Grad je znatno stariji od tvornice: spominje se već u dokumentima iz 13. stoljeća, a status grada dobio je 1873. U središtu stoji barokna župna crkva. Svake godine ovdje se održava festival tradicionalne hrane Kaj su jeli naši stari. Njegovo je ime na kajkavskom narječju, u kojem kaj znači što.',
   },
   Bedekovčina: {
     introHrA2:
@@ -1159,7 +1159,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Banjole: {
     introHrA2:
-      'Banjole su malo ribarsko selo na jugu Istre, nekoliko kilometara južno od Pule. Selo se pruža uz niz malih uvala, a najvažnija je uvala Centinera. U njoj ribari već stoljećima drže svoje brodice. Male drvene brodice zovu se batane. Ujutro ribari izlaze na more, a poslije podne turisti plivaju i voze kajak. Preko puta sela je otočić Ceja, gdje ronioci često traže morske konjice. Ljeti ovamo dolazi mnogo gostiju, jer su uz obalu veliki kampovi i mali obiteljski apartmani. Banjole pripadaju Općini Medulin, najjužnijoj općini na istarskom poluotoku.',
+      'Banjole su malo ribarsko selo na jugu Istre, nekoliko kilometara južno od Pule. Selo se pruža uz niz malih uvala, a najvažnija je uvala Centinera. U njoj ribari već stoljećima drže svoje brodice. Male drvene brodice zovu se batane. Ujutro ribari izlaze na more, a poslijepodne turisti plivaju i voze kajak. Preko puta sela je otočić Ceja, gdje ronioci često traže morske konjice. Ljeti ovamo dolazi mnogo gostiju, jer su uz obalu veliki kampovi i mali obiteljski apartmani. Banjole pripadaju Općini Medulin, najjužnijoj općini na istarskom poluotoku.',
   },
   Pomer: {
     introHrA2:
@@ -1179,7 +1179,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Marčana: {
     introHrA2:
-      'Marčana je selo u unutrašnjosti jugoistočne Istre, nedaleko od Pule. Oko sela su polja crvene zemlje, hrastove šume i niski kameni zidovi bez žbuke. Ti se zidovi zovu suhozidi i dijele polja već stoljećima. Crvena se zemlja u Istri zove crljenica. Marčana je sjedište općine koja je po površini jedna od najvećih u južnoj Istri. Njoj pripada i priobalna Krnica te mala kamena sela kao što su Loborika, Pavičini i Mutvoran. U sredini staroga sela stoji župna crkva svetog Lovre, a oko nje su zbijene kamene kuće.',
+      'Marčana je selo u unutrašnjosti jugoistočne Istre, nedaleko od Pule. Oko sela su polja crvene zemlje, hrastove šume i niski kameni zidovi bez veziva. Ti se zidovi zovu suhozidi i dijele polja već stoljećima. Crvena se zemlja u Istri zove crljenica. Marčana je sjedište općine koja je po površini jedna od najvećih u južnoj Istri. Njoj pripada i priobalna Krnica te mala kamena sela kao što su Loborika, Pavičini i Mutvoran. U sredini staroga sela stoji župna crkva svetog Lovre, a oko nje su zbijene kamene kuće.',
   },
   Krnica: {
     introHrA2:
@@ -1187,7 +1187,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Šišan: {
     introHrA2:
-      'Šišan je selo nekoliko kilometara istočno od Pule, u zaleđu Medulinskoga zaljeva. Stoji na niskom grebenu, a oko njega su polja crvene zemlje i suhozidi, niski kameni zidovi bez žbuke. Na tim poljima već stoljećima rastu pšenica, masline i grožđe. U selu žive uglavnom Hrvati, ali postoji i priznata talijanska manjina, pa se u dijelu općine natpisi pišu na oba jezika. Šišan pripada Općini Ližnjan. U sredini sela stoji župna crkva svetog Felicijana. Do Pule, Medulina i Ližnjana ima manje od deset kilometara.',
+      'Šišan je selo nekoliko kilometara istočno od Pule, u zaleđu Medulinskoga zaljeva. Stoji na niskom grebenu, a oko njega su polja crvene zemlje i suhozidi, niski kameni zidovi bez veziva. Na tim poljima već stoljećima rastu pšenica, masline i grožđe. U selu žive uglavnom Hrvati, ali postoji i priznata talijanska manjina, pa se u dijelu općine natpisi pišu na oba jezika. Šišan pripada Općini Ližnjan. U sredini sela stoji župna crkva svetog Felicijana. Do Pule, Medulina i Ližnjana ima manje od deset kilometara.',
   },
   Tar: {
     introHrA2:
@@ -1215,7 +1215,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Vižinada: {
     introHrA2:
-      'Vižinada je malo selo na brežuljku u srednjoj Istri, zapadno od Motovuna i sjeverno od Poreča. Sjedište je male dvojezične općine u kojoj se govori hrvatski i talijanski. Oko sela su vinogradi na crvenoj zemlji, a najviše se uzgaja bijela malvazija. Vino iz ovoga kraja poznato je i nagrađivano, pa mnogi gosti dolaze zbog vinske ceste. Kroz selo je nekada prolazila uska pruga Parenzana, koja je od 1902. do 1935. vozila od Trsta do Poreča. Danas po njezinoj trasi ljudi voze bicikl kroz istarska brda.',
+      'Vižinada je malo selo na brežuljku u srednjoj Istri, zapadno od Motovuna i sjeverno od Poreča. Sjedište je male dvojezične općine u kojoj se govori hrvatski i talijanski. Oko sela su vinogradi na crvenoj zemlji, a najviše se uzgaja bijela malvazija. Vino iz ovoga kraja poznato je i nagrađivano, pa mnogi gosti dolaze zbog vinske ceste. Kroz selo je nekada prolazila uskotračna pruga Parenzana, koja je od 1902. do 1935. vozila od Trsta do Poreča. Danas po njezinoj trasi ljudi voze bicikl kroz istarska brda.',
   },
   Karojba: {
     introHrA2:
@@ -1227,7 +1227,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Cerovlje: {
     introHrA2:
-      'Cerovlje je malo selo u srednjoj Istri, odmah istočno od Pazina. Selo leži u gornjoj dolini potoka Pazinčice i središte je svoje općine. Oko njega su mala kamena sela, polja i krš: bijeli vapnenac i džepovi crvene zemlje. Pazinčica ne dolazi do mora. Nekoliko kilometara niže, kod Pazina, ponire pod zemlju u Pazinsku jamu, jer voda u kršu radi ispod, a ne iznad tla. Do te je jame iz Cerovlja lako doći pješice. U općini je i selo Gologorica sa starom crkvom i ostacima kaštela.',
+      'Cerovlje je malo selo u srednjoj Istri, odmah istočno od Pazina. Selo leži u gornjoj dolini potoka Pazinčice i središte je svoje općine. Oko njega su mala kamena sela, polja i krš: bijeli vapnenac i džepovi crvene zemlje. Pazinčica ne dolazi do mora. Nekoliko kilometara niže, kod Pazina, ponire pod zemlju u Pazinsku jamu, jer voda u kršu teče ispod tla, a ne po njemu. Do te je jame iz Cerovlja lako doći pješice. U općini je i selo Gologorica sa starom crkvom i ostacima kaštela.',
   },
   Mošćenice: {
     introHrA2:
@@ -1299,7 +1299,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Belej: {
     introHrA2:
-      'Belej je malo selo u unutrašnjosti južnoga dijela otoka Cresa. Oko sela su suhi kameni zidovi i široki krški pašnjaci. Ljudi ovdje već stoljećima drže ovce, pa su creska janjetina i creski ovčji sir poznati i izvan otoka. Zidove su gradili bez žbuke, kamen na kamen, da stada ostanu na svome. Selo se spominje još u srednjem vijeku, kad je pripadalo osorskoj biskupiji i Mletačkoj Republici. U 20. stoljeću mnogi su otišli u gradove, pa danas u Beleju živi samo nekoliko desetaka stalnih stanovnika. Selo upravno pripada Gradu Malom Lošinju na susjednom otoku.',
+      'Belej je malo selo u unutrašnjosti južnoga dijela otoka Cresa. Oko sela su suhi kameni zidovi i široki krški pašnjaci. Ljudi ovdje već stoljećima drže ovce, pa su creska janjetina i creski ovčji sir poznati i izvan otoka. Zidove su gradili bez veziva, kamen na kamen, da stada ostanu na svome. Selo se spominje još u srednjem vijeku, kad je pripadalo osorskoj biskupiji i Mletačkoj Republici. U 20. stoljeću mnogi su otišli u gradove, pa danas u Beleju živi samo nekoliko desetaka stalnih stanovnika. Selo upravno pripada Gradu Malom Lošinju na susjednom otoku.',
   },
   Martinšćica: {
     introHrA2:
@@ -1315,7 +1315,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Beli: {
     introHrA2:
-      'Beli stoji na brijegu iznad Kvarnera, na sjeveroistoku otoka Cresa. U selu je eko-centar koji od 1993. godine štiti bjeloglavoga supa. To je velika ptica grabljivica; krila su joj raširena i do 2,8 metara. Supovi se gnijezde na visokim stijenama sjevernoga Cresa, blizu sela. Ta je kolonija jedna od posljednjih u Europi. U centru postoji i bolnica za ozlijeđene ptice, koja ih liječi i vraća u prirodu. Ime Beli veže se uz rimsko ime Caput Insulae, što znači glava otoka. Selo danas pripada Gradu Cresu.',
+      'Beli stoji na brijegu iznad Kvarnera, na sjeveroistoku otoka Cresa. U selu je eko-centar koji od 1993. godine štiti bjeloglavoga supa. To je velika ptica grabljivica; raspon krila doseže joj i 2,8 metara. Supovi se gnijezde na visokim stijenama sjevernoga Cresa, blizu sela. Ta je kolonija jedna od posljednjih u Europi. U centru postoji i bolnica za ozlijeđene ptice, koja ih liječi i vraća u prirodu. Ime Beli veže se uz rimsko ime Caput Insulae, što znači glava otoka. Selo danas pripada Gradu Cresu.',
   },
   Rogoznica: {
     introHrA2:
@@ -1339,7 +1339,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Betina: {
     introHrA2:
-      'Betina je selo na istočnoj strani otoka Murtera. Ovdje se već tristo godina grade drveni brodovi. Najpoznatiji je gajeta, mala drvena barka za ribolov, a gradili su se i leuti. Zanat je prelazio s oca na sina, pa se u selu i danas radi u brodogradilištu. Selo su 1718. godine osnovale obitelji koje su bježale pred ratovima u zaleđu. U Betini je od 2015. i muzej drvene brodogradnje, jedini takav u Hrvatskoj. Posjetitelji ondje vide alat, nacrte i prave brodove.',
+      'Betina je selo na istočnoj strani otoka Murtera. Ovdje se već tristo godina grade drveni brodovi. Najpoznatija je gajeta, mala drvena barka za ribolov, a gradili su se i leuti. Zanat je prelazio s oca na sina, pa se u selu i danas radi u brodogradilištu. Selo su 1718. godine osnovale obitelji koje su bježale pred ratovima u zaleđu. U Betini je od 2015. i muzej drvene brodogradnje, jedini takav u Hrvatskoj. Posjetitelji ondje vide alat, nacrte i prave brodove.',
   },
   'Kaštel Kambelovac': {
     introHrA2:
@@ -1383,7 +1383,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Krvavica: {
     introHrA2:
-      'Krvavica je vrlo malo mjesto u općini Baška Voda, na Makarskoj rivijeri, između Bratuša i same Baške Vode. Ovdje živi manje od 200 ljudi. Turisti ga slabo poznaju, ali je poznato u arhitekturi. Iznad mora stoji velika zgrada od betona i stakla. To je bilo dječje lječilište, koje je 1964. godine dovršio hrvatski arhitekt Boris Magaš. Zgradu je naručila Jugoslavenska narodna armija za djecu s bolestima dišnih putova. Lječilište je zatvoreno 1991. godine i od tada stoji prazno kao poznata ruševina jugoslavenske moderne.',
+      'Krvavica je vrlo malo mjesto u općini Baška Voda, na Makarskoj rivijeri, između Bratuša i same Baške Vode. Ovdje živi manje od 200 ljudi. Turisti ga slabo poznaju, ali ga dobro poznaju arhitekti. Iznad mora stoji velika zgrada od betona i stakla. To je bilo dječje lječilište, koje je 1964. godine dovršio hrvatski arhitekt Boris Magaš. Zgradu je naručila Jugoslavenska narodna armija za djecu s bolestima dišnih putova. Lječilište je zatvoreno 1991. godine i od tada stoji prazno kao poznata ruševina jugoslavenske moderne.',
   },
   Zaostrog: {
     introHrA2:
@@ -1467,7 +1467,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Maslinica: {
     introHrA2:
-      'Maslinica je malo selo na zapadnom vrhu otoka Šolte i jedino je naselje na zapadnoj obali otoka. Leži u zaštićenoj uvali, nasuprot otočićima koje zovu Sedmero Brata. Nad selom stoji kaštel obitelji Martinis s pet kula, po jednom za svakoga od braće koja su ga podigla. Sagrađen je 1708. godine, kao zaštita od gusara. Oko kaštela je izraslo selo koje je živjelo od maslina, pa mu odatle dolazi i ime. Danas je kaštel obnovljen, a u njemu rade hotel i mala marina.',
+      'Maslinica je malo selo na zapadnom vrhu otoka Šolte i jedino je naselje na zapadnoj obali otoka. Leži u zaštićenoj uvali, nasuprot otočićima koje zovu Sedmero Brata. Nad selom stoji kaštel obitelji Martinis s pet kula, po jednu za svakoga od braće koja su ga podigla. Sagrađen je 1708. godine, kao zaštita od gusara. Oko kaštela je izraslo selo koje je živjelo od maslina, pa mu odatle dolazi i ime. Danas je kaštel obnovljen, a u njemu rade hotel i mala marina.',
   },
   Rogač: {
     introHrA2:

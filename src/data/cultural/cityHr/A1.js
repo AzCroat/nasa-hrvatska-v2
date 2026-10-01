@@ -91,7 +91,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Đakovo: {
     introHrA1:
-      'Đakovo je grad u Slavoniji. U gradu je velika katedrala s dva tornja. Tornjevi su visoki 84 metra. Katedrala se vidi iz daleka jer je zemlja ravna. U Đakovu se uzgajaju bijeli konji lipicanci. Ljeti je u gradu festival narodnih nošnji.',
+      'Đakovo je grad u Slavoniji. U gradu je velika katedrala s dva tornja. Tornjevi su visoki 84 metra. Katedrala se vidi izdaleka jer je zemlja ravna. U Đakovu se uzgajaju bijeli konji lipicanci. Ljeti je u gradu festival narodnih nošnji.',
   },
   'Vukovar Grad': {
     introHrA1:
@@ -131,7 +131,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Požega: {
     introHrA1:
-      'Požega je grad u Slavoniji. Grad je u dolini. Oko doline su brda i šume. Dolina se zove Zlatna dolina. Požega ima staru katedralu i samostan. Grad je poznat po kulturi i vinu. Ovdje raste dobro vino.',
+      'Požega je grad u Slavoniji. Grad je u dolini. Oko doline su brda i šume. Dolina se zove Zlatna dolina. Požega ima staru katedralu i samostan. Grad je poznat po kulturi i vinu. Ovdje se pravi dobro vino.',
   },
   Petrinja: {
     introHrA1:
@@ -175,7 +175,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Primošten: {
     introHrA1:
-      'Primošten je mali grad u Dalmaciji. Stari grad je na malom poluotoku. Nekad je Primošten bio otok. Danas ga most spaja s kopnom. Kuće su od kamena, a na vrhu je crkva. Oko grada su vinogradi. Ovdje raste vino babić.',
+      'Primošten je mali grad u Dalmaciji. Stari grad je na malom poluotoku. Nekad je Primošten bio otok. Danas ga nasip spaja s kopnom. Kuće su od kamena, a na vrhu je crkva. Oko grada su vinogradi. Ovdje raste loza babić.',
   },
   Vodice: {
     introHrA1:
@@ -227,7 +227,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Orebić: {
     introHrA1:
-      'Orebić je mjesto na poluotoku Pelješcu. Nalazi se točno preko puta otoka Korčule. Trajekt do Korčule vozi cijeli dan. Nekad su ovdje živjeli bogati kapetani brodova. Njihove lijepe kamene kuće još stoje uz more. Iznad mjesta je stari samostan. U brdima raste vino dingač.',
+      'Orebić je mjesto na poluotoku Pelješcu. Nalazi se točno preko puta otoka Korčule. Trajekt do Korčule vozi cijeli dan. Nekad su ovdje živjeli bogati kapetani brodova. Njihove lijepe kamene kuće još stoje uz more. Iznad mjesta je stari samostan. Na brdima se pravi vino dingač.',
   },
   'Baška Voda': {
     introHrA1:
@@ -291,7 +291,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Rab: {
     introHrA1:
-      'Rab je otok i grad u Kvarneru. Grad Rab ima četiri zvonika. Zvonici se vide s mora. Grad je star i ima uske ulice. Otok ima lijepe plaže s pijeskom. Ljeti dolazi mnogo turista.',
+      'Rab je otok i grad u Kvarneru. Grad Rab ima četiri zvonika. Zvonici se vide s mora. Grad je star i ima uske ulice. Grad je dugo bio pod Venecijom. Ljeti dolazi mnogo turista.',
   },
   'Mali Lošinj': {
     introHrA1:
@@ -303,7 +303,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Lovran: {
     introHrA1:
-      'Lovran je malo mjesto na moru blizu Opatije. Ime dolazi od drveta lovora. U Lovranu je klima blaga i topla. Ovdje rastu biljke s juga. Iznad mjesta je planina Učka. Ona štiti Lovran od hladnog vjetra. Ovdje se slavi i festival kestena.',
+      'Lovran je malo mjesto na moru blizu Opatije. Ime dolazi od drveta lovora. U Lovranu je klima blaga i topla. Ovdje rastu biljke s juga. Iznad mjesta je planina Učka. Ona štiti Lovran od hladnog vjetra. Svake jeseni ovdje je festival kestena.',
   },
   'Velika Gorica': {
     introHrA1:
@@ -355,7 +355,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Nova Gradiška': {
     introHrA1:
-      'Nova Gradiška je grad u Slavoniji. Grad je nov: ljudi su ga gradili 1748. godine. Ulice su ravne. U sredini je trg. Blizu grada je planina Psunj. Psunj je najviša planina u Slavoniji. Ima puno šume. Blizu je i stariji grad, Stara Gradiška.',
+      'Nova Gradiška je grad u Slavoniji. Grad je sagrađen 1748. godine. Ulice su ravne. U sredini je trg. Blizu grada je planina Psunj. Psunj je najviša planina u Slavoniji. Ima puno šume. Blizu je i stariji grad, Stara Gradiška.',
   },
   Županja: {
     introHrA1:
@@ -383,7 +383,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Sisak: {
     introHrA1:
-      'Sisak je grad u srednjoj Hrvatskoj. Grad je na tri rijeke: Savi, Kupi i Odri. Sisak je vrlo star grad. Godine 1593. kod Siska je bila velika bitka. Hrvati su pobijedili Turke. U gradu je stara tvrđava od cigle.',
+      'Sisak je grad u srednjoj Hrvatskoj. Grad je na tri rijeke: Savi, Kupi i Odri. Sisak je vrlo star grad. Godine 1593. kod Siska je bila velika bitka. Hrvati su pobijedili Turke. U rimsko doba ovdje je bio grad Siscia.',
   },
   Popovača: {
     introHrA1:
@@ -427,7 +427,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Ljubuški: {
     introHrA1:
-      'Ljubuški je grad u Hercegovini. Grad je na rijeci Trebižat. Iznad grada je stara tvrđava na stijeni. Oko grada su vinogradi. Ljudi prave bijelo vino Žilavku i crno vino Blatinu. Blizu su slapovi Kravica. Ljeti se ljudi tamo kupaju.',
+      'Ljubuški je grad u Hercegovini. Grad je na rijeci Trebižatu. Iznad grada je stara tvrđava na stijeni. Oko grada su vinogradi. Ljudi prave bijelo vino Žilavku i crno vino Blatinu. Blizu su slapovi Kravica. Ljeti se ljudi tamo kupaju.',
   },
   Međugorje: {
     introHrA1:
@@ -435,7 +435,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Čitluk: {
     introHrA1:
-      'Čitluk je mjesto u Hercegovini. Blizu je Međugorje. Oko Čitluka su vinogradi. Zemlja je kamena. Ljudi prave vino. Grožđe se zove Žilavka i Blatina. U Čitluku je velika vinarija. Zove se Hercegovina vino. Vinarija ima puno nagrada.',
+      'Čitluk je mjesto u Hercegovini. Blizu je Međugorje. Oko Čitluka su vinogradi. Zemlja je kamena. Ljudi prave vino. Sorte grožđa zovu se Žilavka i Blatina. U Čitluku je velika vinarija. Zove se Hercegovina vino. Vinarija ima puno nagrada.',
   },
   Livno: {
     introHrA1:
@@ -447,7 +447,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Tomislavgrad: {
     introHrA1:
-      'Tomislavgrad je grad u Bosni i Hercegovini. Grad je u velikom polju. Polje se zove Duvanjsko polje. Stari naziv grada je Duvno. Grad ima ime po kralju Tomislavu. On je bio prvi hrvatski kralj. Tu žive većinom Hrvati.',
+      'Tomislavgrad je grad u Bosni i Hercegovini. Grad je u velikom polju. Polje se zove Duvanjsko polje. Stari naziv grada je Duvno. Grad je dobio ime po kralju Tomislavu. On je bio prvi hrvatski kralj. Tu žive većinom Hrvati.',
   },
   Kupres: {
     introHrA1:
@@ -495,7 +495,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Zlatar: {
     introHrA1:
-      'Zlatar je mali grad u Zagorju. Ime grada znači zlatar, čovjek koji radi zlato. Grad je u dolini rijeke Krapine. Na brdu je crkva svete Marije. Tamo dolaze hodočasnici. Ljudi vole staru glazbu. Blizu je Zlatar Bistrica s toplicama.',
+      'Zlatar je mali grad u Zagorju. Ime grada znači zlatar, čovjek koji radi sa zlatom. Grad je u dolini rijeke Krapine. Na brdu je crkva svete Marije. Tamo dolaze hodočasnici. Ljudi vole staru glazbu. Blizu je Zlatar Bistrica s toplicama.',
   },
   Valpovo: {
     introHrA1:
@@ -503,7 +503,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Belišće: {
     introHrA1:
-      'Belišće je mali grad u Slavoniji. Grad je na rijeci Dravi. Grad je nov. Ljudi su ga gradili 1884. godine. Gradila ga je obitelj Gutmann. Imali su tvornicu za drvo. U šumama raste hrast. Hrast je vrlo dobar za bačve.',
+      'Belišće je mali grad u Slavoniji. Grad je na rijeci Dravi. Grad je mlad. Osnovala ga je obitelj Gutmann 1884. godine. Gutmannovi su imali tvornicu drva. U šumama raste hrast. Hrast je vrlo dobar za bačve.',
   },
   Orahovica: {
     introHrA1:
@@ -547,7 +547,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Vrbnik: {
     introHrA1:
-      'Vrbnik je staro selo na otoku Krku. Selo je na visokoj stijeni iznad mora. Ulice su uske i kamene. Jedna ulica je tako uska da jedva prolazi jedan čovjek. Oko Vrbnika su vinogradi. Tu raste žlahtina, bijelo vino koje raste samo ovdje.',
+      'Vrbnik je staro selo na otoku Krku. Selo je na visokoj stijeni iznad mora. Ulice su uske i kamene. Jedna ulica je tako uska da jedva prolazi jedan čovjek. Oko Vrbnika su vinogradi. Tu raste žlahtina, bijelo grožđe kojega nema nigdje drugdje.',
   },
   Novalja: {
     introHrA1:
@@ -555,7 +555,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Podgora: {
     introHrA1:
-      'Podgora je malo mjesto na Makarskoj rivijeri. Ima lijepu plažu i mirno more. Iznad mjesta je visoka planina Biokovo. U Podgori stoji veliki betonski spomenik. Spomenik se zove Galeb. On je iz vremena Drugog svjetskog rata. Obitelji rado dolaze ovamo ljeti.',
+      'Podgora je malo mjesto na Makarskoj rivijeri. Ima lijepu plažu i mirno more. Iznad mjesta je visoka planina Biokovo. U Podgori stoji veliki betonski spomenik. Spomenik se zove Galeb. On podsjeća na Drugi svjetski rat. Obitelji rado dolaze ovamo ljeti.',
   },
   Drvenik: {
     introHrA1:
@@ -571,7 +571,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Janjina: {
     introHrA1:
-      'Janjina je malo selo na poluotoku Pelješcu. Selo je na brdu, visoko iznad mora. Oko sela su vinogradi i stabla maslina. Ovdje raste crno vino plavac mali. S brda se vidi more na dvije strane. Kad je dan vedar, vidi se daleko.',
+      'Janjina je malo selo na poluotoku Pelješcu. Selo je na brdu, visoko iznad mora. Oko sela su vinogradi i stabla maslina. Ovdje raste plavac mali, grožđe za crno vino. S brda se vidi more na dvije strane. Kad je dan vedar, vidi se daleko.',
   },
   'Mali Ston': {
     introHrA1:
@@ -579,7 +579,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Vrlika: {
     introHrA1:
-      'Vrlika je mali grad u Dalmaciji, ali nije na moru. Grad je blizu izvora rijeke Cetine. Izvor izlazi iz pećine u planini. Blizu grada je veliko Peručko jezero. Ljudi ovdje pjevaju na poseban, star način. Taj način pjevanja zove se ojkanje.',
+      'Vrlika je mali grad u Dalmaciji, ali nije na moru. Grad je blizu izvora rijeke Cetine. Rijeka izvire iz pećine u planini. Blizu grada je veliko Peručko jezero. Ljudi ovdje pjevaju na poseban, star način. Taj način pjevanja zove se ojkanje.',
   },
   Bale: {
     introHrA1:
@@ -595,7 +595,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Žminj: {
     introHrA1:
-      'Žminj je malo selo u sredini Istre. Ljudi ovdje govore starim hrvatskim narječjem. To narječje se zove čakavski. Kuće su od kamena i imaju posebne krovove. Oko sela su vinogradi. Tu raste crno vino teran. Svake godine tu je nagrada za pisce.',
+      'Žminj je malo selo u sredini Istre. Ljudi ovdje govore starim hrvatskim narječjem. To narječje se zove čakavski. Kuće su od kamena i imaju posebne krovove. Oko sela su vinogradi. Tu raste teran, grožđe za crno vino. Svake godine ovdje se daje nagrada piscima.',
   },
   Kanfanar: {
     introHrA1:
@@ -615,7 +615,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Donji Miholjac': {
     introHrA1:
-      'Donji Miholjac je mali grad u Slavoniji. Grad je na rijeci Dravi. Na drugoj strani rijeke je Mađarska. Rijeka je granica između dvije zemlje. Ljudi ovdje love ribu u Dravi. Oko grada su močvare i šume s mnogo ptica. U brdima raste bijelo vino graševina.',
+      'Donji Miholjac je mali grad u Slavoniji. Grad je na rijeci Dravi. Na drugoj strani rijeke je Mađarska. Rijeka je granica između dvije zemlje. Ljudi ovdje love ribu u Dravi. Oko grada su močvare i šume s mnogo ptica. Na brežuljcima se pravi bijelo vino graševina.',
   },
   Slatina: {
     introHrA1:
@@ -623,7 +623,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Kutina: {
     introHrA1:
-      'Kutina je grad u Moslavini, u sredini Hrvatske. Kutina je poznata po prirodnom plinu. Ljudi su ga našli u pedesetim godinama. Plin iz Kutine grije mnoge kuće u Hrvatskoj. Na brdima oko grada rastu vinogradi. U gradu su i ruševine stare tvrđave.',
+      'Kutina je grad u Moslavini, u sredini Hrvatske. Kutina je poznata po prirodnom plinu. Ljudi su ga našli pedesetih godina. Plin iz Kutine grije mnoge kuće u Hrvatskoj. Na brdima oko grada rastu vinogradi. U gradu su i ruševine stare tvrđave.',
   },
   Novska: {
     introHrA1:
@@ -667,7 +667,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Trebinje: {
     introHrA1:
-      'Trebinje je grad na jugu Bosne i Hercegovine. Klima je tu blaga, gotovo kao na moru. U starom gradu rastu visoka stabla platana. Blizu grada je stari kameni most preko rijeke. Ovdje raste crno vino vranac. Mnogo turista iz Hrvatske dolazi u Trebinje.',
+      'Trebinje je grad na jugu Bosne i Hercegovine. Klima je tu blaga, gotovo kao na moru. U starom gradu rastu visoka stabla platana. Blizu grada je stari kameni most preko rijeke. Ovdje se pravi crno vino vranac. Mnogo turista iz Hrvatske dolazi u Trebinje.',
   },
   Zlarin: {
     introHrA1:
@@ -675,11 +675,11 @@ export const CITY_INTRO_HR_A1 = {
   },
   Prvić: {
     introHrA1:
-      'Prvić je mali otok blizu Šibenika. Na otoku nema automobila. Odavde je obitelj Fausta Vrančića. On je poznati izumitelj. On je napravio prvi padobran. U mjestu Prvić Luka ima mali muzej. Tamo ljudi gledaju njegove izume. Otok je miran i lijep.',
+      'Prvić je mali otok blizu Šibenika. Na otoku nema automobila. Odavde je obitelj Fausta Vrančića. Bio je poznati izumitelj. Napravio je prvi padobran. U mjestu Prvić Luka ima mali muzej. Tamo ljudi gledaju njegove izume. Otok je miran i lijep.',
   },
   Ilovik: {
     introHrA1:
-      'Ilovik je mali otok na jugu Kvarnera. Na otoku nema automobila. Tu živi manje od sto ljudi. Otok se zove otok cvijeća. Ima mnogo ruža i mirisnih biljaka. Klima je blaga cijelu godinu. Ljeti dolaze mnoge jedrilice.',
+      'Ilovik je mali otok na jugu Kvarnera. Na otoku nema automobila. Tu živi manje od sto ljudi. Ljudi ga zovu otokom cvijeća. Ima mnogo ruža i mirisnih biljaka. Klima je blaga cijelu godinu. Ljeti dolaze mnoge jedrilice.',
   },
   Susak: {
     introHrA1:
@@ -731,7 +731,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Desinić: {
     introHrA1:
-      'Desinić je malo selo u Zagorju. Selo je blizu granice sa Slovenijom. Pored sela je poznati dvorac Trakošćan. Dvorac stoji na jezeru. To je najpoznatiji dvorac u Hrvatskoj. Mnogi ljudi dolaze ga fotografirati. Oko sela su brežuljci s vinogradima.',
+      'Desinić je malo selo u Zagorju. Selo je blizu granice sa Slovenijom. Pored sela je poznati dvorac Trakošćan. Dvorac stoji iznad jezera. To je jedan od najpoznatijih dvoraca u Hrvatskoj. Mnogi ljudi dolaze ga fotografirati. Oko sela su brežuljci s vinogradima.',
   },
   Ozalj: {
     introHrA1:
@@ -751,7 +751,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Krka: {
     introHrA1:
-      'Krka je nacionalni park u Dalmaciji. Park je na rijeci Krki. Rijeka ima mnogo slapova. Najpoznatiji slap je Skradinski buk. Na otoku u rijeci je stari samostan Visovac. Tamo dugo žive redovnici. Mnogi ljudi dolaze gledati slapove i prirodu.',
+      'Krka je nacionalni park u Dalmaciji. Park je na rijeci Krki. Rijeka ima mnogo slapova. Najpoznatiji slap je Skradinski buk. Na otoku u rijeci je stari samostan Visovac. Tamo već dugo žive redovnici. Mnogi ljudi dolaze gledati slapove i prirodu.',
   },
   'Punta Križa': {
     introHrA1:
@@ -879,7 +879,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Sali: {
     introHrA1:
-      'Sali su glavno mjesto na Dugom otoku, blizu Zadra. Mjesto ima mirnu luku. Ljudi su ovdje stoljećima lovili tunu. Blizu je park prirode Telašćica. Tamo su visoke stijene i slano jezero. Svake godine ima veseli festival s glazbom.',
+      'Sali su glavno mjesto na Dugom otoku, blizu Zadra. Mjesto ima mirnu luku. Ljudi su ovdje stoljećima lovili tunu. Blizu je park prirode Telašćica. Tamo su visoke stijene i slano jezero. Svake godine imaju veseli festival s glazbom.',
   },
   Sukošan: {
     introHrA1:
@@ -891,7 +891,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Sveti Filip i Jakov': {
     introHrA1:
-      'Sveti Filip i Jakov je mjesto na moru, između Biograda i Sukošana. Ime dolazi od dva apostola, Filipa i Jakova. Nasuprot mjesta je otok Pašman. More je mirno, dobro za jedrenje. Ljeti dolazi mnogo ljudi. Ima festival riblje juhe.',
+      'Sveti Filip i Jakov je mjesto na moru, između Biograda i Sukošana. Ime dolazi od dva apostola, Filipa i Jakova. Nasuprot mjestu je otok Pašman. More je mirno, dobro za jedrenje. Ljeti dolazi mnogo ljudi. Ima festival riblje juhe.',
   },
   'Kaštel Sućurac': {
     introHrA1:
@@ -923,7 +923,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Cilipi: {
     introHrA1:
-      'Cilipi su selo u Konavlima, južno od Dubrovnika. Selo je poznato po narodnim nošnjama i plesu. Svake nedjelje ljeti ljudi plešu na trgu. To traje od 1967. godine. U Cilipima je i zračna luka Dubrovnik. Nošnje su lijepe i šarene.',
+      'Čilipi su selo u Konavlima, južno od Dubrovnika. Selo je poznato po narodnim nošnjama i plesu. Svake nedjelje ljeti ljudi plešu na trgu. To traje od 1967. godine. U Čilipima je i zračna luka Dubrovnik. Nošnje su lijepe i šarene.',
   },
   Sutivan: {
     introHrA1:
@@ -959,7 +959,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Korenica: {
     introHrA1:
-      'Korenica je glavno mjesto u Lici, blizu Plitvičkih jezera. Oko mjesta su velike šume. U šumama žive medvjedi, vukovi i risovi. U ratu od 1991. do 1995. mjesto je bilo okupirano. Oslobođeno je u kolovozu 1995. Danas ovdje živi malo ljudi.',
+      'Korenica je glavno mjesto ličke visoravni, blizu Plitvičkih jezera. Oko mjesta su velike šume. U šumama žive medvjedi, vukovi i risovi. U ratu od 1991. do 1995. mjesto je bilo okupirano. Oslobođeno je u kolovozu 1995. Danas ovdje živi malo ljudi.',
   },
   Plaški: {
     introHrA1:
@@ -1007,15 +1007,15 @@ export const CITY_INTRO_HR_A1 = {
   },
   Erdut: {
     introHrA1:
-      'Erdut je selo na istoku Hrvatske. Selo je na rijeci Dunav. Dunav je ovdje granica sa Srbijom. Na visokoj obali stoji stara kula. Oko sela su veliki vinogradi. Ljudi ovdje rade vino. Erdut je poznat po sporazumu iz 1995. godine.',
+      'Erdut je selo na istoku Hrvatske. Selo je na rijeci Dunavu. Dunav je ovdje granica sa Srbijom. Na visokoj obali stoji stara kula. Oko sela su veliki vinogradi. Ljudi ovdje rade vino. Erdut je poznat po sporazumu iz 1995. godine.',
   },
   Dalj: {
     introHrA1:
-      'Dalj je mjesto na rijeci Dunav. Nalazi se na istoku Hrvatske. Ovdje su nekad živjeli Rimljani. U Dalju živi mnogo Srba. Tu je rođen poznati znanstvenik Milutin Milanković. On je proučavao ledena doba. Dalj je dio općine Erdut.',
+      'Dalj je mjesto na rijeci Dunavu. Nalazi se na istoku Hrvatske. Ovdje su nekad živjeli Rimljani. U Dalju živi mnogo Srba. Tu je rođen poznati znanstvenik Milutin Milanković. On je proučavao ledena doba. Dalj je dio općine Erdut.',
   },
   Drenovci: {
     introHrA1:
-      'Drenovci su selo u Slavoniji. Selo je blizu rijeke Save. Sava je ovdje granica s Bosnom i Hercegovinom. Blizu sela je velika šuma hrasta. Šuma se zove Spačva. Ovdje žive Šokci. Oni imaju stare nošnje i pjesme. Ljudi rade na zemlji i u šumi.',
+      'Drenovci su selo u Slavoniji. Selo je blizu rijeke Save. Sava je ovdje granica s Bosnom i Hercegovinom. Blizu sela je velika hrastova šuma. Šuma se zove Spačva. Ovdje žive Šokci. Oni imaju stare nošnje i pjesme. Ljudi rade na zemlji i u šumi.',
   },
   'Babina Greda': {
     introHrA1:
@@ -1051,7 +1051,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Velika Kopanica': {
     introHrA1:
-      'Velika Kopanica je selo u Slavoniji. Nalazi se istočno od Slavonskog Broda. Selo je blizu rijeke Save. Ovdje žive Šokci. Oni imaju stare nošnje i pjesme. Nekad je Sava često poplavila polja. Zato su ljudi gradili kuće na malim brežuljcima.',
+      'Velika Kopanica je selo u Slavoniji. Nalazi se istočno od Slavonskog Broda. Selo je blizu rijeke Save. Ovdje žive Šokci. Oni imaju stare nošnje i pjesme. Nekad je Sava često plavila polja. Zato su ljudi gradili kuće na malim brežuljcima.',
   },
   Garčin: {
     introHrA1:
@@ -1127,7 +1127,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Donji Kraljevec': {
     introHrA1:
-      'Donji Kraljevec je malo mjesto u Međimurju. Nalazi se u ravnici blizu rijeke Drave. Ovdje je rođen Rudolf Steiner. On je bio poznati filozof. Njegov otac je radio na željeznici. Rodna kuća Steinera je danas centar. U kraju ljudi rade na zemlji.',
+      'Donji Kraljevec je malo mjesto u Međimurju. Nalazi se u ravnici blizu rijeke Drave. Ovdje je rođen Rudolf Steiner. On je bio poznati filozof. Njegov otac je radio na željeznici. Steinerova rodna kuća danas je centar. U kraju ljudi rade na zemlji.',
   },
   Goričan: {
     introHrA1:
@@ -1163,7 +1163,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Pomer: {
     introHrA1:
-      'Pomer je malo selo na jugu Istre. Nalazi se na Medulinskom zaljevu, istočno od Pule. More je ovdje mirno i plitko. U selu je velika marina za brodove. Ljudi ovdje jedre i voze dasku na vjetar. U selu je crkva svetog Flora.',
+      'Pomer je malo selo na jugu Istre. Nalazi se na Medulinskom zaljevu, istočno od Pule. More je ovdje mirno i plitko. U selu je velika marina za brodove. Ljudi ovdje jedre na brodovima i na daskama. U selu je crkva svetog Flora.',
   },
   Štinjan: {
     introHrA1:
@@ -1287,7 +1287,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Soline: {
     introHrA1:
-      'Soline je malo selo na otoku Krku. Selo je na istočnoj obali, u plitkom zaljevu. More u zaljevu je toplo i plitko. U zaljevu ima crno blato. Blato je zdravo za kožu. Ljeti dolaze obitelji s djecom.',
+      'Soline su malo selo na otoku Krku. Selo je na istočnoj obali, u plitkom zaljevu. More u zaljevu je toplo i plitko. U zaljevu ima crnoga blata. Blato je zdravo za kožu. Ljeti dolaze obitelji s djecom.',
   },
   Klimno: {
     introHrA1:
@@ -1391,7 +1391,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Brist: {
     introHrA1:
-      'Brist je malo selo na Makarskoj rivijeri. Selo je između Zaostroga i Podaca. Ovdje živi oko 300 ljudi. U Bristu je rođen poznati pjesnik Andrija Kačić Miošić. On je rođen 1704. godine. U selu stoji njegov spomenik. Selo ima stare kamene kuće i more.',
+      'Brist je malo selo na Makarskoj rivijeri. Selo je između Zaostroga i Podaca. Ovdje živi oko 300 ljudi. U Bristu je rođen poznati pjesnik Andrija Kačić Miošić. On je rođen 1704. godine. U selu stoji njegov spomenik. Selo ima stare kamene kuće uz more.',
   },
   Podaca: {
     introHrA1:
@@ -1439,7 +1439,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Kuna: {
     introHrA1:
-      'Kuna je selo na poluotoku Pelješcu. Selo je visoko na kršu, iznad mora. Ovdje živi oko 200 ljudi. Oko sela su vinogradi. Tu raste plavac mali, poznata hrvatska crna sorta. Ime sela znači životinja kuna. U selu je franjevački samostan.',
+      'Kuna je selo na poluotoku Pelješcu. Selo je visoko na kršu, iznad mora. Ovdje živi oko 200 ljudi. Oko sela su vinogradi. Tu raste plavac mali, poznata hrvatska crna sorta. Ime sela znači životinju kunu. U selu je franjevački samostan.',
   },
   Putniković: {
     introHrA1:
