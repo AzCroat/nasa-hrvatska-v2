@@ -109,8 +109,8 @@ export const GRADED_STORIES = [
         en: 'I have one sister. Her name is Petra and she is twenty years old. Petra studies medicine at the University of Osijek. She is clever and hard-working. I also have a brother — his name is Luka and he is ten years old. Luka loves playing football.',
       },
       {
-        hr: 'Imamo i psa koji se zove Rex. Rex je mali bijeli pudl i ima četiri godine. On je veseo i volio bi igrati se cijeli dan. Volim svoju obitelj — mi smo sretni zajedno.',
-        en: 'We also have a dog called Rex. Rex is a small white poodle and he is four years old. He is cheerful and would love to play all day. I love my family — we are happy together.',
+        hr: 'Imamo i psa koji se zove Rex. Rex je mali bijeli pudl i ima četiri godine. On je veseo i voli se igrati cijeli dan. Volim svoju obitelj — mi smo sretni zajedno.',
+        en: 'We also have a dog called Rex. Rex is a small white poodle and he is four years old. He is cheerful and loves to play all day. I love my family — we are happy together.',
       },
     ],
     vocabulary: [
@@ -169,7 +169,7 @@ export const GRADED_STORIES = [
         en: 'After showering, Ivan gets dressed. He picks jeans and a white t-shirt. Then he goes to the kitchen and prepares breakfast — he makes coffee and spreads butter and jam on bread. Sometimes he also eats an egg.',
       },
       {
-        hr: 'U pola osam Ivan uzima ranac i izlazi iz stana. Autobuska postaja je blizu, samo tri minute pješice. Ivan voli slušati glazbu dok čeka autobus.',
+        hr: 'U pola osam Ivan uzima ranac i izlazi iz stana. Autobusna postaja je blizu, samo tri minute pješice. Ivan voli slušati glazbu dok čeka autobus.',
         en: 'At half past seven Ivan picks up his backpack and leaves the apartment. The bus stop is nearby, just three minutes on foot. Ivan likes listening to music while he waits for the bus.',
       },
       {
@@ -199,7 +199,7 @@ export const GRADED_STORIES = [
       {
         q: 'Što Ivan jede za doručak?',
         qEn: 'What does Ivan eat for breakfast?',
-        opts: ['Kruh s maslacem i džemom', 'Samo kavu', 'Tost sa sirom', 'Joghurt i voće'],
+        opts: ['Kruh s maslacem i džemom', 'Samo kavu', 'Tost sa sirom', 'Jogurt i voće'],
         correct: 0,
       },
       {
@@ -677,11 +677,11 @@ export const GRADED_STORIES = [
         en: 'Ivan and Maja are sitting in a small café in the centre of Zagreb. The café is called "Stari grad". Outside it is sunny and warm.',
       },
       {
-        hr: 'Konobarica dolazi do stola. "Izvolite, što želite?" pita ona.\n"Ja bih jednu kavu, molim," kaže Ivan.\n"A ja bih jednu limunadu i jedan kroasan," kaže Maja.\n"Sve je to," kaže konobarica. "Odmah dolazi."',
-        en: 'The waitress comes to the table. "What would you like?" she asks.\n"I\'d like a coffee, please," says Ivan.\n"And I\'d like a lemonade and a croissant," says Maja.\n"Is that everything?" says the waitress. "Coming right away."',
+        hr: 'Konobarica dolazi do stola. "Izvolite, što želite?" pita ona.\n"Ja bih jednu kavu, molim," kaže Ivan.\n"A ja bih jednu limunadu i jedan kroasan," kaže Maja.\n"Je li to sve? Odmah dolazi," kaže konobarica.',
+        en: 'The waitress comes to the table. "What would you like?" she asks.\n"I\'d like a coffee, please," says Ivan.\n"And I\'d like a lemonade and a croissant," says Maja.\n"Is that everything? Coming right away," says the waitress.',
       },
       {
-        hr: 'Kava i limonada su ukusni. Ivan i Maja razgovaraju o vikend planovima. Plaćaju zajedno — kava košta jedan euro i pedeset centi, limonada dva eura, a kroasan jedan euro i dvadeset centi.',
+        hr: 'Kava i limunada su ukusne. Ivan i Maja razgovaraju o planovima za vikend. Plaćaju zajedno — kava košta jedan euro i pedeset centi, limunada dva eura, a kroasan jedan euro i dvadeset centi.',
         en: 'The coffee and lemonade are delicious. Ivan and Maja talk about weekend plans. They pay together — the coffee costs one euro fifty, the lemonade two euros, and the croissant one euro twenty.',
       },
     ],
@@ -689,7 +689,7 @@ export const GRADED_STORIES = [
       { hr: 'kafić', en: 'café', ex: 'Sjedimo u kafiću.' },
       { hr: 'konobarica', en: 'waitress', ex: 'Konobarica donosi kavu.' },
       { hr: 'kava', en: 'coffee', ex: 'Ja bih jednu kavu.' },
-      { hr: 'limonada', en: 'lemonade', ex: 'Limonada je hladna.' },
+      { hr: 'limunada', en: 'lemonade', ex: 'Limunada je hladna.' },
       { hr: 'kroasan', en: 'croissant', ex: 'Kroasan je ukusan.' },
       { hr: 'plaćati', en: 'to pay', ex: 'Plaćamo zajedno.' },
       { hr: 'ukusan', en: 'delicious / tasty', ex: 'Kava je ukusna.' },
@@ -724,7 +724,7 @@ export const GRADED_STORIES = [
     levelColor: '#166534',
     levelBg: '#dcfce7',
     icon: '🚌',
-    title: 'Na autobusnoj stanici',
+    title: 'Na autobusnom kolodvoru',
     titleEn: 'At the Bus Station',
     duration: 3,
     focus: 'Transport vocabulary • Asking for information • Time',
@@ -732,7 +732,7 @@ export const GRADED_STORIES = [
       'Ante needs to get to Rijeka. Practice buying bus tickets and asking for travel information.',
     paragraphs: [
       {
-        hr: 'Ante stoji na autobusnoj stanici u Zagrebu. On treba ići u Rijeku. Putuje autobusom jer nema auto.',
+        hr: 'Ante stoji na autobusnom kolodvoru u Zagrebu. On treba ići u Rijeku. Putuje autobusom jer nema auta.',
         en: 'Ante is standing at the bus station in Zagreb. He needs to go to Rijeka. He travels by bus because he does not have a car.',
       },
       {
@@ -745,7 +745,7 @@ export const GRADED_STORIES = [
       },
     ],
     vocabulary: [
-      { hr: 'autobusna stanica', en: 'bus station', ex: 'Čekam na autobusnoj stanici.' },
+      { hr: 'autobusni kolodvor', en: 'bus station', ex: 'Čekam na autobusnom kolodvoru.' },
       { hr: 'karta', en: 'ticket', ex: 'Kupujem kartu za Rijeku.' },
       { hr: 'blagajnik', en: 'ticket clerk (male)', ex: 'Blagajnik prodaje karte.' },
       { hr: 'studentska iskaznica', en: 'student card', ex: 'Imam studentsku iskaznicu.' },
@@ -759,7 +759,7 @@ export const GRADED_STORIES = [
       {
         q: 'Zašto Ante putuje autobusom?',
         qEn: 'Why does Ante travel by bus?',
-        opts: ['Jer voli autobuse', 'Jer je stanica blizu', 'Jer nema auto', 'Jer je jeftinije'],
+        opts: ['Jer voli autobuse', 'Jer je stanica blizu', 'Jer nema auta', 'Jer je jeftinije'],
         correct: 2,
       },
       {
@@ -786,7 +786,7 @@ export const GRADED_STORIES = [
     title: 'Na plaži',
     titleEn: 'At the Beach',
     duration: 3,
-    focus: 'Weather vocabulary • Body parts • Simple descriptions',
+    focus: 'Weather vocabulary • Beach activities • Simple descriptions',
     intro:
       'Ana and her sister spend a summer day on a Croatian beach. Practice describing weather and beach activities.',
     paragraphs: [
@@ -795,7 +795,7 @@ export const GRADED_STORIES = [
         en: 'Ana and her sister Ivana are at the beach in Zadar. The sea is blue and calm. The sun is shining and it is not windy. It is a perfect day for the beach!',
       },
       {
-        hr: 'Ana pliva u moru. Voda je hladna ali osvježavajuća. Ivana leži na ručniku i čita knjigu. Ona ne voli plivati ali voli sunčati se.',
+        hr: 'Ana pliva u moru. Voda je hladna, ali osvježavajuća. Ivana leži na ručniku i čita knjigu. Ona ne voli plivati, ali se voli sunčati.',
         en: 'Ana swims in the sea. The water is cold but refreshing. Ivana lies on a towel and reads a book. She does not like swimming but she likes sunbathing.',
       },
       {
@@ -808,9 +808,9 @@ export const GRADED_STORIES = [
       { hr: 'more', en: 'sea', ex: 'More je plavo.' },
       { hr: 'plivati', en: 'to swim', ex: 'Ana pliva svaki dan.' },
       { hr: 'ručnik', en: 'towel', ex: 'Ležim na ručniku.' },
-      { hr: 'sunčati se', en: 'to sunbathe', ex: 'Volim sunčati se.' },
+      { hr: 'sunčati se', en: 'to sunbathe', ex: 'Volim se sunčati.' },
       { hr: 'sladoled', en: 'ice cream', ex: 'Jedem sladoled od jagode.' },
-      { hr: 'osvježavajuć', en: 'refreshing', ex: 'Voda je osvježavajuća.' },
+      { hr: 'osvježavajući', en: 'refreshing', ex: 'Voda je osvježavajuća.' },
       { hr: 'mirno', en: 'calm / peaceful', ex: 'More je mirno danas.' },
       { hr: 'navečer', en: 'in the evening', ex: 'Idemo kući navečer.' },
     ],
@@ -2819,7 +2819,7 @@ export const GRADED_STORIES = [
       'A sunny Sunday in the city park — ice cream, a lake and a small adventure with the dog.',
     paragraphs: [
       {
-        hr: 'Danas je nedjelja i vrijeme je lijepo. Sunce sija i nebo je plavo. Obitelj Kovač ide u park. Park je velik i zelen, a u sredini je malo jezero.',
+        hr: 'Danas je nedjelja i vrijeme je lijepo. Sunce sja i nebo je plavo. Obitelj Kovač ide u park. Park je velik i zelen, a u sredini je malo jezero.',
         en: 'Today is Sunday and the weather is nice. The sun is shining and the sky is blue. The Kovač family goes to the park. The park is big and green, and in the middle there is a small lake.',
       },
       {
@@ -2827,7 +2827,7 @@ export const GRADED_STORIES = [
         en: 'The children play on the playground. Dad and mum sit on a bench and talk. Rex the dog runs on the grass and chases the little ball. Everyone is happy.',
       },
       {
-        hr: 'Poslije igre svi jedu sladoled. Mali Petar želi dva sladoleda, ali mama kaže: "Jedan je dovoljno!" Petar bira čokoladu, a Lucija jagodu.',
+        hr: 'Poslije igre svi jedu sladoled. Mali Petar želi dva sladoleda, ali mama kaže: "Jedan je dovoljan!" Petar bira čokoladu, a Lucija jagodu.',
         en: 'After playing, everyone eats ice cream. Little Petar wants two ice creams, but mum says: "One is enough!" Petar chooses chocolate, and Lucija strawberry.',
       },
       {
@@ -2837,12 +2837,12 @@ export const GRADED_STORIES = [
     ],
     vocabulary: [
       { hr: 'vrijeme', en: 'weather / time', ex: 'Vrijeme je lijepo.' },
-      { hr: 'sijati', en: 'to shine', ex: 'Sunce sija.' },
+      { hr: 'sjati', en: 'to shine', ex: 'Sunce sja.' },
       { hr: 'jezero', en: 'lake', ex: 'U parku je jezero.' },
       { hr: 'igralište', en: 'playground', ex: 'Djeca su na igralištu.' },
       { hr: 'klupa', en: 'bench', ex: 'Sjedimo na klupi.' },
       { hr: 'trava', en: 'grass', ex: 'Rex trči po travi.' },
-      { hr: 'dovoljno', en: 'enough', ex: 'Jedan sladoled je dovoljno.' },
+      { hr: 'dovoljan', en: 'enough', ex: 'Jedan sladoled je dovoljan.' },
       { hr: 'odjednom', en: 'suddenly', ex: 'Odjednom pada kiša.' },
     ],
     quiz: [
@@ -3069,8 +3069,8 @@ export const GRADED_STORIES = [
     intro: 'Ana meets her best friend for coffee — the most Croatian of all rituals.',
     paragraphs: [
       {
-        hr: 'Subota je ujutro. Ana ide u kafić u centru grada. Tamo je čeka njezina najbolja prijateljica Ivana. One piju kavu zajedno svake subote.',
-        en: 'It is Saturday morning. Ana goes to a café in the city centre. Her best friend Ivana is waiting for her there. They drink coffee together every Saturday.',
+        hr: 'Subota je, rano ujutro. Ana ide u kafić u centru grada. Tamo je čeka njezina najbolja prijateljica Ivana. One piju kavu zajedno svake subote.',
+        en: 'It is Saturday, early in the morning. Ana goes to a café in the city centre. Her best friend Ivana is waiting for her there. They drink coffee together every Saturday.',
       },
       {
         hr: '"Bog, Ivana! Kako si?" pita Ana.\n"Odlično! Sjedni. Što piješ danas?"\n"Kavu s mlijekom, kao i uvijek," smije se Ana.\nKonobar dolazi i one naručuju dvije kave i čašu vode.',
@@ -3174,7 +3174,7 @@ export const GRADED_STORIES = [
         correct: 0,
       },
       {
-        q: 'Gdje pripovjedačica čita kad je lijepo vrijeme?',
+        q: 'Gdje pripovjedač čita kad je lijepo vrijeme?',
         qEn: 'Where does the narrator read when the weather is nice?',
         opts: ['U dnevnoj sobi', 'Na balkonu', 'U parku', 'U kuhinji'],
         correct: 1,
@@ -3298,7 +3298,7 @@ export const GRADED_STORIES = [
       {
         q: 'Što gost u Hrvatskoj nikad ne radi?',
         qEn: 'What does a guest in Croatia never do?',
-        opts: ['Ne jede juhu', 'Ne razgovara', 'Ne pije kavu', 'Ne dolazi praznih ruku'],
+        opts: ['Jede juhu', 'Razgovara', 'Pije kavu', 'Dolazi praznih ruku'],
         correct: 3,
       },
     ],
@@ -6644,8 +6644,8 @@ export const GRADED_STORIES = [
         en: 'One evening grandma grills fish. The fish is fresh, caught that morning. Grandpa went fishing in the morning. He loves fishing with his friends. Everyone sits at the table in the garden. The stars are bright above their heads. Grandma says, "This is real life." The children laugh and eat with delight.',
       },
       {
-        hr: 'Na kraju ljeta obitelj mora ići kući. Baka plače malo, ali se smiješi. "Dođite opet dogodine," kaže ona djeci. Djeca obećavaju da će opet doći. Oni grle baku jako, jako dugo. Auto polako odlazi s male ceste. Baka maše rukom dok auto ne nestane. Ljeto u Dalmaciji ostaje u srcu.',
-        en: 'At the end of summer the family has to go home. Grandma cries a little, but she smiles. "Come again next year," she tells the children. The children promise they will come again. They hug grandma tightly for a long time. The car slowly leaves down the small road. Grandma waves until the car disappears. Summer in Dalmatia stays in their hearts.',
+        hr: 'Na kraju ljeta obitelj mora ići kući. Baka malo plače, ali se smiješi. "Dođite opet dogodine," kaže ona djeci. Djeca obećavaju da će opet doći. Oni grle baku jako, jako dugo. Auto polako odlazi malom cestom. Baka maše rukom dok auto ne nestane. Ljeto u Dalmaciji ostaje u srcu.',
+        en: 'At the end of summer the family has to go home. Grandma cries a little, but she smiles. "Come again next year," she tells the children. The children promise they will come again. They hug grandma for a very, very long time. The car slowly drives away down the small road. Grandma waves until the car disappears. Summer in Dalmatia stays in their hearts.',
       },
     ],
     vocabulary: [
@@ -6731,7 +6731,7 @@ export const GRADED_STORIES = [
     intro: 'Marko je nov u Zagrebu i danas prvi put istražuje čuvenu tržnicu Dolac.',
     paragraphs: [
       {
-        hr: 'Marko je nov u Zagrebu. On dolazi iz malog grada. Danas ide prvi put na tržnicu. Tržnica se zove Dolac. Dolac je poznat po svježem povrću. Marko nosi veliku platnenu torbu. On je malo nervozan, ali radoznao. Sunce sija i grad je živ.',
+        hr: 'Marko je nov u Zagrebu. On dolazi iz malog grada. Danas ide prvi put na tržnicu. Tržnica se zove Dolac. Dolac je poznat po svježem povrću. Marko nosi veliku platnenu torbu. On je malo nervozan, ali radoznao. Sunce sja i grad je živ.',
         en: "Marko is new in Zagreb. He comes from a small town. Today he's going to the market for the first time. The market is called Dolac. Dolac is famous for its fresh vegetables. Marko carries a big cloth bag. He is a bit nervous but curious. The sun is shining and the city is lively.",
       },
       {
@@ -6747,8 +6747,8 @@ export const GRADED_STORIES = [
         en: 'Marko then goes to the cheese stall. The vendor offers homemade cheese and cream. "This cheese is from Zagorje," the vendor says. Marko tries a small piece of cheese. The cheese is creamy and very tasty. He buys half a kilo of cheese. The vendor wraps the cheese in paper. Marko says thanks and puts the cheese in his bag.',
       },
       {
-        hr: 'Na kraju tržnice je cvjetni kutak. Žene prodaju ruže, tulipane i suncokrete. Marko kupuje buket žutog cvijeća. Cvijeće je za njegovu novu susjedu. Susjeda mu je pomogla useliti u stan. Marko misli da je to lijep gest. On plaća cvijeće i kaže hvala. Prodavačica mu poželi ugodan dan.',
-        en: "At the end of the market there is a blooming flower corner. Women sell roses, tulips and sunflowers. Marko buys a bouquet of yellow flowers. The flowers are for his new neighbor. The neighbor helped him move into his apartment. Marko thinks it's a nice gesture. He pays for the flowers and says thank you. The vendor wishes him a nice day.",
+        hr: 'Na kraju tržnice je cvjetni kutak. Žene prodaju ruže, tulipane i suncokrete. Marko kupuje buket žutog cvijeća. Cvijeće je za njegovu novu susjedu. Susjeda mu je pomogla da se useli u stan. Marko misli da je to lijep gest. On plaća cvijeće i kaže hvala. Prodavačica mu poželi ugodan dan.',
+        en: "At the end of the market there is a flower corner. Women sell roses, tulips and sunflowers. Marko buys a bouquet of yellow flowers. The flowers are for his new neighbor. The neighbor helped him move into his apartment. Marko thinks it's a nice gesture. He pays for the flowers and says thank you. The vendor wishes him a nice day.",
       },
       {
         hr: 'Marko sad ima punu torbu hrane. Torba je teška, ali on je sretan. Tržnica Dolac mu se jako sviđa. Ljudi su ovdje ljubazni i vedri. On odlučuje doći opet sljedeći tjedan. Marko hoda kući kroz stari centar. Zvona katedrale glasno zvone u podne. Marko se osjeća kao pravi Zagrepčanin.',
@@ -6960,15 +6960,15 @@ export const GRADED_STORIES = [
       'A family sets out on a ferry crossing to a Croatian island, watching gulls, riding the waves, and ending the day with ice cream by the harbor.',
     paragraphs: [
       {
-        hr: 'Danas putujemo trajektom na otok. Cijela obitelj rano ustaje jer trajekt polazi u osam sati. Tata vozi auto do luke, a ja gledam more kroz prozor. Na luci ima puno ljudi i automobila koji čekaju ukrcaj. Mama kupuje karte na šalteru pored ulaza.',
+        hr: 'Danas putujemo trajektom na otok. Cijela obitelj rano ustaje jer trajekt polazi u osam sati. Tata vozi auto do luke, a ja gledam more kroz prozor. U luci ima puno ljudi i automobila koji čekaju ukrcaj. Mama kupuje karte na šalteru pored ulaza.',
         en: "Today we're traveling by ferry to an island. The whole family gets up early because the ferry departs at eight o'clock. Dad drives the car to the harbor while I watch the sea through the window. The harbor is full of people and cars waiting to board. Mom buys the tickets at the counter near the entrance.",
       },
       {
-        hr: 'Karte nisu skupe, svaka košta samo nekoliko eura. Službenik nam pokazuje gdje treba stati u redu. Čekamo desetak minuta, a onda trajekt polako pristaje uz obalu. Vozila ulaze prva, a putnici bez auta ulaze pješice preko rampe. Ja hodam iza mame i držim njezinu ruku.',
-        en: "The tickets aren't expensive — each one costs just a few euros. An attendant shows us where to line up. We wait about ten minutes, and then the ferry slowly docks at the pier. Vehicles board first, and passengers without cars walk on board over the ramp. I walk behind Mom, holding her hand.",
+        hr: 'Karte nisu skupe, svaka košta samo nekoliko eura. Službenik nam pokazuje gdje treba stati u redu. Čekamo desetak minuta, a onda trajekt polako pristaje uz obalu. Vozila ulaze prva, a putnici bez auta ulaze pješice preko rampe. Ja hodam uz mamu i držim je za ruku.',
+        en: "The tickets aren't expensive — each one costs just a few euros. An attendant shows us where to line up. We wait about ten minutes, and then the ferry slowly docks at the pier. Vehicles board first, and passengers without cars walk on board over the ramp. I walk next to Mom, holding her hand.",
       },
       {
-        hr: 'Na trajektu odmah idemo na gornju palubu. Vjetar puše jako, a more je tamnoplave boje. Galebovi lete iznad broda i glasno kliču. Brat baca komadić kruha u zrak, a galeb ga spretno uhvati. Svi se smijemo toj vještoj ptici.',
+        hr: 'Na trajektu odmah idemo na gornju palubu. Vjetar puše jako, a more je tamnoplave boje. Galebovi lete iznad broda i glasno kriče. Brat baca komadić kruha u zrak, a galeb ga spretno uhvati. Svi se smijemo toj vještoj ptici.',
         en: 'On the ferry we head straight for the upper deck. The wind blows hard and the sea is deep blue. Seagulls fly above the boat, calling loudly. My brother tosses a piece of bread into the air and a gull catches it skillfully. We all laugh at the clever bird.',
       },
       {
@@ -6980,7 +6980,7 @@ export const GRADED_STORIES = [
         en: "The trip takes about an hour and a half. There's a small café on the ferry where people drink coffee and eat sandwiches. Dad buys juice for me and my brother. We drink our juice and watch the waves hit the side of the boat. Some passengers read books while others just rest.",
       },
       {
-        hr: 'Odjednom brod počne malo ljuljati jer je more nemirnije. Mama kaže da to nije opasno, samo obično ljuljanje. Ipak, malo se bojim i čvrsto držim ogradu. Brat se smije i kaže da je to kao vlakić u zabavnom parku. Polako se opuštam kad vidim da su svi mirni.',
+        hr: 'Odjednom se brod počne malo ljuljati jer je more nemirnije. Mama kaže da to nije opasno, samo obično ljuljanje. Ipak, malo se bojim i čvrsto držim ogradu. Brat se smije i kaže da je to kao vlakić u zabavnom parku. Polako se opuštam kad vidim da su svi mirni.',
         en: "Suddenly the boat starts rocking a little because the sea has become rougher. Mom says it's not dangerous, just normal rocking. Still, I'm a little scared and grip the railing tightly. My brother laughs and says it's like a ride at an amusement park. I slowly relax when I see everyone else staying calm.",
       },
       {
@@ -7000,7 +7000,7 @@ export const GRADED_STORIES = [
       { hr: 'trajektom', en: 'by ferry', ex: 'Danas putujemo trajektom na otok.' },
       { hr: 'karte', en: 'tickets', ex: 'Mama kupuje karte na šalteru pored ulaza.' },
       { hr: 'gornju palubu', en: 'upper deck', ex: 'Na trajektu odmah idemo na gornju palubu.' },
-      { hr: 'Galebovi', en: 'seagulls', ex: 'Galebovi lete iznad broda i glasno kliču.' },
+      { hr: 'Galebovi', en: 'seagulls', ex: 'Galebovi lete iznad broda i glasno kriče.' },
       {
         hr: 'otvorenom moru',
         en: 'open sea',
@@ -7008,9 +7008,9 @@ export const GRADED_STORIES = [
       },
       { hr: 'sat i pol', en: 'an hour and a half', ex: 'Putovanje traje otprilike sat i pol.' },
       {
-        hr: 'ljuljati',
+        hr: 'ljuljati se',
         en: 'to rock/sway',
-        ex: 'Odjednom brod počne malo ljuljati jer je more nemirnije.',
+        ex: 'Odjednom se brod počne malo ljuljati jer je more nemirnije.',
       },
       {
         hr: 'obalu otoka',
@@ -7047,12 +7047,12 @@ export const GRADED_STORIES = [
         correct: 1,
       },
       {
-        q: 'Zašto se pripovjedačica malo uplaši na moru?',
+        q: 'Zašto se pripovjedač malo uplaši na moru?',
         qEn: 'Why does the narrator get a little scared at sea?',
         opts: [
           'Vidi oluju na horizontu',
           'Netko padne u more',
-          'Brod počne ljuljati jer je more nemirnije',
+          'Brod se počne ljuljati jer je more nemirnije',
           'Trajekt stane usred puta',
         ],
         correct: 2,
@@ -7085,12 +7085,12 @@ export const GRADED_STORIES = [
       'A family spends a sunny Saturday exploring the Zagreb Zoo, from lions to a mischievous monkey. Simple present-tense sentences follow their day from tickets to ice cream.',
     paragraphs: [
       {
-        hr: 'Subota je ujutro i sunce sija. Obitelj Perić ide u zoološki vrt u Zagrebu. Mama, tata i dvoje djece sjede u autu. Djeca se jako vesele izletu. Zoološki vrt je u parku Maksimir. Tamo žive mnoge životinje iz cijelog svijeta.',
-        en: 'It is Saturday morning and the sun is shining. The Perić family goes to the zoo in Zagreb. Mum, dad, and two children sit in the car. The children are looking forward to the trip. The zoo is in Maksimir Park. Many animals from all over the world live there.',
+        hr: 'Subota je, rano ujutro, i sunce sja. Obitelj Perić ide u zoološki vrt u Zagrebu. Mama, tata i dvoje djece sjede u autu. Djeca se jako vesele izletu. Zoološki vrt je u parku Maksimir. Tamo žive mnoge životinje iz cijelog svijeta.',
+        en: 'It is Saturday, early in the morning, and the sun is shining. The Perić family goes to the zoo in Zagreb. Mum, dad, and two children sit in the car. The children are looking forward to the trip. The zoo is in Maksimir Park. Many animals from all over the world live there.',
       },
       {
-        hr: 'Tata kupuje karte na ulazu. Karta za odrasle stoji dvanaest eura. Karta za dijete stoji šest eura. Blagajnica se ljubazno smiješi i daje kartu. Obitelj dobiva i mali plan zoološkog vrta. Na planu vide gdje su lavovi i slonovi.',
-        en: "Dad buys tickets at the entrance. An adult ticket costs twelve euros. A child's ticket costs six euros. The cashier smiles kindly and hands over the ticket. The family also gets a small map of the zoo. On the map they see where the lions and elephants are.",
+        hr: 'Tata kupuje karte na ulazu. Karta za odrasle stoji dvanaest eura. Karta za dijete stoji šest eura. Blagajnica se ljubazno smiješi i daje im karte. Obitelj dobiva i mali plan zoološkog vrta. Na planu vide gdje su lavovi i slonovi.',
+        en: "Dad buys tickets at the entrance. An adult ticket costs twelve euros. A child's ticket costs six euros. The cashier smiles kindly and hands them the tickets. The family also gets a small map of the zoo. On the map they see where the lions and elephants are.",
       },
       {
         hr: 'Prvo idu do kaveza s lavovima. Veliki lav lijeno leži na suncu. Lavica hoda polako pokraj ograde. Djeca gledaju životinje širom otvorenih očiju. Brat pita mamu zašto lav toliko spava. Mama objašnjava da su lavovi noćne životinje.',
@@ -7113,7 +7113,7 @@ export const GRADED_STORIES = [
         en: 'After the seals the family goes to see the bears. A brown bear swims slowly in a small pond. Another bear sleeps soundly under a big oak tree. The children whisper quietly so as not to wake the bear. The keeper explains that bears love cold water in summer. In winter bears often doze in their den.',
       },
       {
-        hr: 'Poslije podne obitelj sjeda na klupu u parku. Mama vadi sendviče i vodu iz torbe. Svi su gladni poslije duge šetnje. Djeca pričaju o svojim omiljenim životinjama. Brat kaže da mu se najviše sviđaju majmuni. Sestra više voli žirafe zbog dugog vrata.',
+        hr: 'Poslijepodne obitelj sjeda na klupu u parku. Mama vadi sendviče i vodu iz torbe. Svi su gladni poslije duge šetnje. Djeca pričaju o svojim omiljenim životinjama. Brat kaže da mu se najviše sviđaju majmuni. Sestra više voli žirafe zbog dugog vrata.',
         en: 'In the afternoon the family sits on a bench in the park. Mum takes sandwiches and water out of the bag. Everyone is hungry after the long walk. The children talk about their favorite animals. The brother says he likes the monkeys most. The sister prefers giraffes because of their long neck.',
       },
       {
@@ -7121,7 +7121,7 @@ export const GRADED_STORIES = [
         en: 'At the zoo exit there is a small kiosk. Dad buys ice cream for all the children. The sister chooses chocolate and vanilla ice cream. The brother wants strawberry ice cream. The ice cream is cold and very sweet. The children happily eat their ice cream on the bench.',
       },
       {
-        hr: 'Navečer se obitelj vraća kući umorna, ali sretna. Djeca pokazuju bakama fotografije životinja. Svi se slažu da je dan bio divan. Mama obećava da će opet doći u proljeće. Zoološki vrt u Zagrebu ostaje njihovo omiljeno mjesto za izlete.',
+        hr: 'Navečer se obitelj vraća kući umorna, ali sretna. Djeca pokazuju baki fotografije životinja. Svi se slažu da je dan bio divan. Mama obećava da će opet doći u proljeće. Zoološki vrt u Zagrebu ostaje njihovo omiljeno mjesto za izlete.',
         en: 'In the evening the family returns home tired but happy. The children show grandma the photos of the animals. Everyone agrees the day was wonderful. Mum promises they will come again in spring. The Zagreb Zoo remains their favorite place for outings.',
       },
     ],
@@ -7185,7 +7185,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Ana se budi rano ujutro u nedjelju. Kroz prozor vidi bijeli grad. Cijela ulica je prekrivena snijegom. Ovo je prvi snijeg ove zime. Ana skače iz kreveta puna sreće. Brzo trči do sobe svog brata.',
-        en: "Ana wakes up early on Sunday morning. Through the window she sees a white city. The whole street is covered in snow. This is the first snow of the year. Ana jumps out of bed full of joy. She quickly runs to her brother's room.",
+        en: "Ana wakes up early on Sunday morning. Through the window she sees a white city. The whole street is covered in snow. This is the first snow of this winter. Ana jumps out of bed full of joy. She quickly runs to her brother's room.",
       },
       {
         hr: "Brat Marko još spava dubokim snom. Ana ga budi i viče: 'Snijeg pada!' Marko brzo otvara oči i smiješi se. Oboje trče u kuhinju gdje je mama. Mama sprema toplu kašu za doručak. Poslije doručka djeca oblače tople jakne i kape.",
@@ -7204,8 +7204,8 @@ export const GRADED_STORIES = [
         en: "After sledding the children build a snowman together. First they make a big ball for the body. Then they carefully add a smaller ball for the head. Marko puts an orange carrot in place of the nose. Ana puts two black pebbles in place of the eyes. In the end the snowman gets dad's old cap.",
       },
       {
-        hr: 'Druga djeca u parku bacaju snježne grude. Marko i Ana se pridružuju igri. Snježna borba traje gotovo pola sata. Svi su mokri, ali jako sretni. Sunce se polako skriva iza oblaka. Postaje hladnije i obitelj odlučuje ići kući.',
-        en: 'Other children in the park throw snowballs. Marko and Ana join the game. The snowball fight lasts almost half an hour. Everyone is wet but very happy. The sun slowly sets behind the clouds. It gets colder and the family decides to go home.',
+        hr: 'Druga djeca u parku bacaju snježne grude. Marko i Ana se pridružuju igri. Grudanje traje gotovo pola sata. Svi su mokri, ali jako sretni. Sunce se polako skriva iza oblaka. Postaje hladnije i obitelj odlučuje ići kući.',
+        en: 'Other children in the park throw snowballs. Marko and Ana join the game. The snowball fight lasts almost half an hour. Everyone is wet but very happy. The sun slowly hides behind the clouds. It gets colder and the family decides to go home.',
       },
       {
         hr: 'Susjedov pas Rex trči kroz snijeg. Rex veselo skače i laje od sreće. Djeca ga zovu da im se pridruži. Pas znatiželjno njuška snjegovića. Marko baca snježnu grudu, a Rex trči za njom. Svi se glasno smiju psećoj igri.',
@@ -7220,7 +7220,7 @@ export const GRADED_STORIES = [
         en: 'Mum makes hot chocolate for all the children. She adds a little whipped cream on top. Marko and Ana sit at the table and drink the chocolate. The hot chocolate warms their hands and their spirits. Dad tells a story about snow from his own childhood. Everyone feels cozy and warm in the house.',
       },
       {
-        hr: 'Navečer Ana gleda kroz prozor na snjegovića. Snjegović stoji ponosno ispred kuće. Ana se raduje sutrašnjem danu punom snijega. Nada se da će opet sanjkati s bratom. Prije spavanja zahvaljuje mami na toploj čokoladi. Ovaj dan ostaje njezina najdraža zimska uspomena.',
+        hr: 'Navečer Ana gleda kroz prozor na snjegovića. Snjegović stoji ponosno ispred kuće. Ana se raduje sutrašnjem danu punom snijega. Nada se da će se opet sanjkati s bratom. Prije spavanja zahvaljuje mami na toploj čokoladi. Ovaj dan ostaje njezina najdraža zimska uspomena.',
         en: 'In the evening Ana looks through the window at the snowman. The snowman stands proudly in front of the house. Ana looks forward to tomorrow, a day full of snow. She hopes to go sledding with her brother again. Before sleeping she thanks mum for the hot chocolate. This day remains her favorite winter memory.',
       },
     ],
@@ -7250,14 +7250,14 @@ export const GRADED_STORIES = [
         correct: 1,
       },
       {
-        q: 'Čime snjegović dobiva nos?',
+        q: 'Što snjegović dobiva umjesto nosa?',
         qEn: 'What does the snowman get for a nose?',
-        opts: ['Kamenčićem', 'Grančicom', 'Mrkvom', 'Gumbom'],
+        opts: ['Kamenčić', 'Grančicu', 'Mrkvu', 'Gumb'],
         correct: 2,
       },
       {
-        q: 'Tko se pridružuje djeci u snježnoj borbi?',
-        qEn: 'Who joins the children in the snowball fight?',
+        q: 'Tko se pridružuje djeci u igri na snijegu?',
+        qEn: 'Who joins the children in their game in the snow?',
         opts: ['Baka', 'Poštar', 'Učiteljica', 'Susjedov pas Rex'],
         correct: 3,
       },
@@ -7311,7 +7311,7 @@ export const GRADED_STORIES = [
         en: 'Ana gets up and goes to the checkout. The hairdresser tells her the price of the service. Ana takes out her wallet from her bag. She pays by card, quickly and simply. The hairdresser gives her a receipt and advice. "Use a good conditioner for your hair," she says. Ana thanks her and says goodbye politely. "Thank you, goodbye!" she says on her way out.',
       },
       {
-        hr: 'Vani Ana gleda svoj odraz u izlogu. Kosa lijepo pleše na vjetru. Osjeća se samouvjereno i sretno. Prijateljice odmah primjećuju novu frizuru. "Izgledaš predivno!" kažu joj oduševljeno. Ana im zahvaljuje s osmijehom. Rođendan sutra bit će poseban. Nova frizura čini je sretnom.',
+        hr: 'Vani Ana gleda svoj odraz u izlogu. Kosa lijepo pleše na vjetru. Osjeća se samouvjereno i sretno. Prijateljice odmah primjećuju novu frizuru. "Izgledaš predivno!" kažu joj oduševljeno. Ana im zahvaljuje s osmijehom. Sutrašnji rođendan bit će poseban. Nova frizura čini je sretnom.',
         en: 'Outside, Ana looks at her reflection in a shop window. Her hair dances nicely in the wind. She feels confident and happy. Her friends immediately notice the new hairstyle. "You look wonderful!" they say enthusiastically. Ana thanks them with a smile. Tomorrow\'s birthday will be special. The new hairstyle makes her happy.',
       },
       {
@@ -7395,7 +7395,7 @@ export const GRADED_STORIES = [
         en: "My town is small but very beautiful. It's located in the heart of Croatia. Every morning I walk through the town centre. I like watching the old houses and narrow streets. The town has a long and interesting history. People here are kind and cheerful. I feel at home here.",
       },
       {
-        hr: 'Prva postaja mog izleta je glavni trg. Trg je uvijek pun ljudi i života. Ujutro trgovci prodaju voće i povrće. Djeca se igraju oko starog vodoskoka. Na trgu stoji velika gradska vijećnica. Ispred vijećnice nalazi se lijep kip. Volim sjediti ovdje s kavom.',
+        hr: 'Prva postaja moje šetnje je glavni trg. Trg je uvijek pun ljudi i života. Ujutro trgovci prodaju voće i povrće. Djeca se igraju oko starog vodoskoka. Na trgu stoji velika gradska vijećnica. Ispred vijećnice nalazi se lijep kip. Volim sjediti ovdje s kavom.',
         en: 'The first stop on my walk is the main square. The square is always full of people and life. In the morning traders sell fruit and vegetables. Children play around the old fountain. A large town hall stands on the square. In front of the town hall there is a nice statue. I love sitting here with coffee.',
       },
       {
@@ -7415,20 +7415,20 @@ export const GRADED_STORIES = [
         en: 'My favourite place is the small park next to the school. The park has lots of old trees and benches. There I often read a book in the afternoon. Birds sing on the branches above me. Children play ball on the grass. This park brings me peace and joy. I love spending my free time here.',
       },
       {
-        hr: 'Navečer se vraćam kroz uske uličice starog grada. Kamene ploče na ulicama sjaje na suncu. Male trgovine prodaju suvenire i razglednice. Turisti fotografiraju stare zgrade i vrata. Ja pozdravljam susjede koje sretnem putem. Grad noću izgleda potpuno drugačije i tiho. Sve svjetiljke polako se pale.',
-        en: 'In the evening I go back through the narrow alleys of the old town. The stone slabs on the streets shine in the sun. Small shops sell souvenirs and postcards. Tourists photograph the old buildings and doors. I greet the neighbours I meet along the way. The town looks completely different and quiet at night. All the lamps slowly light up.',
+        hr: 'Navečer se vraćam kroz uske uličice starog grada. Kamene ploče na ulicama sjaje na večernjem suncu. Male trgovine prodaju suvenire i razglednice. Turisti fotografiraju stare zgrade i vrata. Ja pozdravljam susjede koje sretnem putem. Grad noću izgleda potpuno drugačije i tiho. Sve svjetiljke polako se pale.',
+        en: 'In the evening I go back through the narrow alleys of the old town. The stone slabs on the streets shine in the evening sun. Small shops sell souvenirs and postcards. Tourists photograph the old buildings and doors. I greet the neighbours I meet along the way. The town looks completely different and quiet at night. All the lamps slowly light up.',
       },
       {
         hr: 'Na kraju šetnje sjedam na klupu na trgu. Gledam kako sunce zalazi iza crkvenog zvonika. Grad mi svaki put pokazuje nešto novo. Volim svoj grad zbog mira i ljepote. Ovdje imam obitelj, prijatelje i uspomene. Ovaj grad je zauvijek moj dom.',
         en: 'At the end of the walk I sit on a bench in the square. I watch the sun set behind the church bell tower. The town shows me something new every time. I love my town for its peace and beauty. Here I have family, friends, and memories. This town is forever my home.',
       },
       {
-        hr: 'Katkad vodim prijatelje iz inozemstva u obilazak grada. Pokazujem im trg, crkvu i rijeku. Oni se dive staroj arhitekturi i mirnim ulicama. Uvijek ih vodim i u pekarnicu na kifle. Ponosan sam što mogu podijeliti svoj grad. Nadam se da ćete i vi jednog dana doći.',
-        en: "Sometimes I take friends from abroad on a tour of the town. I show them the square, the church, and the river. They admire the old architecture and the quiet streets. I always take them to the bakery for rolls too. I'm proud that I can share my town. I hope you too will come one day.",
+        hr: 'Katkad vodim prijatelje iz inozemstva u obilazak grada. Pokazujem im trg, crkvu i rijeku. Oni se dive staroj arhitekturi i mirnim ulicama. Uvijek ih vodim i u pekarnicu na kifle. Ponosan sam što im mogu pokazati svoj grad. Nadam se da ćete i vi jednog dana doći.',
+        en: "Sometimes I take friends from abroad on a tour of the town. I show them the square, the church, and the river. They admire the old architecture and the quiet streets. I always take them to the bakery for rolls too. I'm proud that I can show them my town. I hope you too will come one day.",
       },
     ],
     vocabulary: [
-      { hr: 'trg', en: 'square', ex: 'Prva postaja mog izleta je glavni trg.' },
+      { hr: 'trg', en: 'square', ex: 'Prva postaja moje šetnje je glavni trg.' },
       { hr: 'vodoskok', en: 'fountain', ex: 'Djeca se igraju oko starog vodoskoka.' },
       { hr: 'vijećnica', en: 'town hall', ex: 'Na trgu stoji velika gradska vijećnica.' },
       { hr: 'zvonik', en: 'bell tower', ex: 'Crkva ima visoki zvonik i veliko zvono.' },
@@ -7498,23 +7498,23 @@ export const GRADED_STORIES = [
         en: "Ana doesn't feel well. Her throat and head hurt. She coughs all day and sneezes often. She has a slight fever. Her mother says she must go to the pharmacy. The pharmacy is close, just a five-minute walk. Ana puts on a warm jacket. It is cold and windy outside.",
       },
       {
-        hr: "Ana ulazi u ljekarnu i pozdravlja. 'Dobar dan', kaže ljubazno. Ljekarnica se zove gospođa Novak. Ona radi u toj ljekarni već dugo. 'Dobar dan', odgovara ljekarnica i smiješi se. 'Kako vam mogu pomoći?', pita ljekarnica. Ana odgovara mirno i polako. 'Ne osjećam se dobro', kaže Ana. 'Boli me grlo i kašljem.'",
+        hr: "Ana ulazi u ljekarnu i pozdravlja. 'Dobar dan', kaže ljubazno. Ljekarnica se zove gospođa Novak. Ona radi u toj ljekarni već dugo. 'Dobar dan', odgovara ljekarnica i smiješi se. 'Kako vam mogu pomoći?' pita ljekarnica. Ana odgovara mirno i polako. 'Ne osjećam se dobro', kaže Ana. 'Boli me grlo i kašljem.'",
         en: "Ana enters the pharmacy and greets the pharmacist. 'Good day,' she says politely. The pharmacist is called Mrs. Novak. She has worked at that pharmacy for a long time. 'Good day,' the pharmacist replies with a smile. 'How can I help you?' asks the pharmacist. Ana answers calmly and slowly. 'I don't feel well,' says Ana. 'My throat hurts and I'm coughing.'",
       },
       {
-        hr: "'Imate li temperaturu?', pita ljekarnica pristojno. 'Imam malu temperaturu', odgovara Ana. 'Kašljem i kiham cijeli dan. Grlo me jako boli. Ne mogu dobro gutati.' Ljekarnica pažljivo sluša Anu. 'To zvuči kao obična prehlada', kaže ljekarnica. 'Imate li i glavobolju?' 'Da, malu glavobolju imam', odgovara Ana tiho.",
+        hr: "'Imate li temperaturu?' pita ljekarnica pristojno. 'Imam malu temperaturu', odgovara Ana. 'Kašljem i kiham cijeli dan. Grlo me jako boli. Ne mogu dobro gutati.' Ljekarnica pažljivo sluša Anu. 'To zvuči kao obična prehlada', kaže ljekarnica. 'Imate li i glavobolju?' 'Da, malu glavobolju imam', odgovara Ana tiho.",
         en: "'Do you have a fever?' the pharmacist asks politely. 'I have a slight fever,' Ana replies. 'I've been coughing and sneezing all day. My throat hurts a lot. I can't swallow well.' The pharmacist listens carefully to Ana. 'That sounds like an ordinary cold,' says the pharmacist. 'Do you also have a headache?' 'Yes, I have a slight headache,' Ana answers quietly.",
       },
       {
-        hr: "Ljekarnica preporučuje sirup za kašalj. 'Ovaj sirup je vrlo dobar', objašnjava ona. 'Pijte ga tri puta dnevno.' Ana pažljivo sluša savjet. 'Treba li mi recept?', pita Ana radoznalo. 'Ne, ovaj sirup ne treba recept', odgovara ljekarnica. 'Ali za jače lijekove uvijek treba recept od liječnika.' Ana kima glavom i razumije.",
-        en: "The pharmacist recommends a cough syrup. 'This syrup is very good,' she explains. 'Drink it three times a day.' Ana listens carefully to the advice. 'Do I also need a prescription?' Ana asks curiously. 'No, this syrup doesn't need a prescription,' the pharmacist replies. 'But stronger medicine always needs a prescription from a doctor.' Ana nods and understands.",
+        hr: "Ljekarnica preporučuje sirup za kašalj. 'Ovaj sirup je vrlo dobar', objašnjava ona. 'Pijte ga tri puta dnevno.' Ana pažljivo sluša savjet. 'Treba li mi recept?' pita Ana radoznalo. 'Ne, za ovaj sirup ne treba recept', odgovara ljekarnica. 'Ali za jače lijekove uvijek treba recept od liječnika.' Ana kima glavom i razumije.",
+        en: "The pharmacist recommends a cough syrup. 'This syrup is very good,' she explains. 'Drink it three times a day.' Ana listens carefully to the advice. 'Do I need a prescription?' Ana asks curiously. 'No, you don't need a prescription for this syrup,' the pharmacist replies. 'But stronger medicine always needs a prescription from a doctor.' Ana nods and understands.",
       },
       {
-        hr: "'Preporučujem vam i topli čaj', dodaje ljekarnica. 'Čaj s medom i limunom pomaže grlu.' 'Koliko čaja trebam piti?', pita Ana. 'Pijte tri šalice dnevno', savjetuje ljekarnica. 'Čaj umiruje grlo i smanjuje kašalj.' Ana zahvaljuje ljekarnici na savjetu. 'Hvala vam na pomoći', kaže Ana pristojno. Ljekarnica se ljubazno smiješi Ani.",
+        hr: "'Preporučujem vam i topli čaj', dodaje ljekarnica. 'Čaj s medom i limunom pomaže grlu.' 'Koliko čaja trebam piti?' pita Ana. 'Pijte tri šalice dnevno', savjetuje ljekarnica. 'Čaj umiruje grlo i smanjuje kašalj.' Ana zahvaljuje ljekarnici na savjetu. 'Hvala vam na pomoći', kaže Ana pristojno. Ljekarnica se ljubazno smiješi Ani.",
         en: "'I also recommend a warm tea,' adds the pharmacist. 'Tea with honey and lemon helps the throat.' 'How much tea should I drink?' asks Ana. 'Drink three cups a day,' the pharmacist advises. 'Tea soothes the throat and reduces coughing.' Ana thanks the pharmacist for the advice. 'Thank you for your help,' Ana says politely. The pharmacist smiles kindly at Ana.",
       },
       {
-        hr: "Ljekarnica daje Ani još savjeta. 'Odmarajte se i pijte puno vode', kaže ona. 'Ako temperatura poraste, morate posjetiti liječnika.' Ana obećava da će se odmarati. 'Hoću li brzo ozdraviti?', pita Ana s nadom. 'Za nekoliko dana bit ćete bolje', odgovara ljekarnica s osmijehom. Ana se osjeća malo mirnije nakon razgovora.",
+        hr: "Ljekarnica daje Ani još savjeta. 'Odmarajte se i pijte puno vode', kaže ona. 'Ako temperatura poraste, morate posjetiti liječnika.' Ana obećava da će se odmarati. 'Hoću li brzo ozdraviti?' pita Ana s nadom. 'Za nekoliko dana bit će vam bolje', odgovara ljekarnica s osmijehom. Ana se osjeća malo mirnije nakon razgovora.",
         en: "The pharmacist gives Ana more advice. 'Rest and drink plenty of water,' she says. 'If your temperature rises, you must see a doctor.' Ana promises to rest. 'Will I recover quickly?' Ana asks hopefully. 'You'll feel better in a few days,' the pharmacist answers with a smile. Ana feels a bit calmer after the conversation.",
       },
       {
@@ -7526,7 +7526,7 @@ export const GRADED_STORIES = [
         en: "'Goodbye, and get well soon,' says the pharmacist kindly. 'Goodbye, thank you very much,' Ana replies. Ana leaves the pharmacy and heads home. Outside, the cold wind is still blowing. Ana hurries home to drink her tea. At home she puts water on for tea. She takes the syrup as the pharmacist instructed.",
       },
       {
-        hr: 'Navečer Ana pije topli čaj s medom. Uzima sirup prije spavanja. Rano liježe i dobro spava. Sljedeći dan grlo je manje boli. Kašalj je slabiji nego jučer. Ana je zadovoljna savjetom ljekarnice. Ljekarna joj je stvarno pomogla.',
+        hr: 'Navečer Ana pije topli čaj s medom. Uzima sirup prije spavanja. Rano liježe i dobro spava. Sljedećeg dana manje je boli grlo. Kašalj je slabiji nego jučer. Ana je zadovoljna savjetom ljekarnice. Ljekarna joj je stvarno pomogla.',
         en: "In the evening Ana drinks warm tea with honey. She takes the syrup before sleeping. She goes to bed early and sleeps well. The next day her throat hurts less. Her cough is weaker than yesterday. Ana is pleased with the pharmacist's advice. The pharmacy really helped her.",
       },
     ],
@@ -7601,15 +7601,15 @@ export const GRADED_STORIES = [
         en: 'Nika goes to the playground with her mother. The playground is in the park near their house. The afternoon is sunny and warm. Nika carries her favorite ball and a bucket. The playground has a swing, a slide and a sandbox. Lots of children are playing outside happily. Nika runs toward the swing full of energy.',
       },
       {
-        hr: "Nika sjeda na ljuljačku i ljulja se. Ljuljačka ide gore i dolje. Nika se glasno smije od sreće. Mama gura ljuljačku polako i nježno. 'Više, mama, više!', viče Nika veselo. Poslije ljuljačke Nika trči prema toboganu. Tobogan je visok i pomalo strašan.",
+        hr: "Nika sjeda na ljuljačku i ljulja se. Ljuljačka ide gore i dolje. Nika se glasno smije od sreće. Mama gura ljuljačku polako i nježno. 'Više, mama, više!' viče Nika veselo. Poslije ljuljačke Nika trči prema toboganu. Tobogan je visok i pomalo strašan.",
         en: "Nika sits on the swing and swings. The swing goes up and down. Nika laughs loudly with joy. Mom pushes the swing slowly and gently. 'Higher, mom, higher!' Nika shouts happily. After the swing, Nika runs toward the slide. The slide is tall and a little scary.",
       },
       {
-        hr: "Nika se penje uz stepenice tobogana. Na vrhu tobogana malo je nervozna. Ipak, hrabro sjeda i spušta se. Tobogan je brz i zabavan. Nika se smije cijelim putem dolje. Na kraju tobogana skače u pijesak. 'To je bilo super!', kaže Nika sretno.",
+        hr: "Nika se penje uz stepenice tobogana. Na vrhu tobogana malo je nervozna. Ipak, hrabro sjeda i spušta se. Tobogan je brz i zabavan. Nika se smije cijelim putem dolje. Na kraju tobogana skače u pijesak. 'To je bilo super!' kaže Nika sretno.",
         en: "Nika climbs the slide's steps. At the top of the slide she is a bit nervous. Still, she bravely sits down and goes down. The slide is fast and fun. Nika laughs the whole way down. At the bottom of the slide she jumps into the sand. 'That was great!' says Nika happily.",
       },
       {
-        hr: "U pješčaniku Nika vidi svog prijatelja Filipa. Filip gradi veliki pješčani dvorac. 'Bog, Filipe!', pozdravlja Nika veselo. 'Bog, Nika! Hoćeš li mi pomoći?', pita Filip. Nika sjeda pored njega u pijesak. Zajedno grade tornjeve i mostove. Pješčanik je pun malih kanti i lopatica.",
+        hr: "U pješčaniku Nika vidi svog prijatelja Filipa. Filip gradi veliki pješčani dvorac. 'Bog, Filipe!' pozdravlja Nika veselo. 'Bog, Nika! Hoćeš li mi pomoći?' pita Filip. Nika sjeda pored njega u pijesak. Zajedno grade tornjeve i mostove. Pješčanik je pun malih kanti i lopatica.",
         en: "In the sandbox Nika sees her friend Filip. Filip is building a big sandcastle. 'Hi, Filip!' Nika greets him happily. 'Hi, Nika! Will you help me?' asks Filip. Nika sits down next to him in the sand. Together they build towers and bridges. The sandbox is full of small buckets and shovels.",
       },
       {
@@ -7617,11 +7617,11 @@ export const GRADED_STORIES = [
         en: 'Nika and Filip build the castle all afternoon. They add towers and a small bridge. Filip brings water to make the sand firmer. The children laugh and chat together. The sun is warm, and the children are happy. Suddenly Nika gets up to run to the slide. Filip stays by the castle alone.',
       },
       {
-        hr: "Nika trči prema toboganu prebrzo. Odjednom se spotakne i padne. Koljeno joj krvari i jako boli. Nika počinje glasno plakati od boli. Filip trči po Nikinu mamu brzo. Mama dolazi i gleda koljeno pažljivo. 'Nije jako strašno', kaže mama smireno.",
+        hr: "Nika trči prema toboganu prebrzo. Odjednom se spotakne i padne. Koljeno joj krvari i jako boli. Nika počinje glasno plakati od boli. Filip brzo trči po Nikinu mamu. Mama dolazi i pažljivo gleda koljeno. 'Nije jako strašno', kaže mama smireno.",
         en: "Nika runs toward the slide too fast. Suddenly she trips and falls. Her knee is bleeding and hurts badly. Nika starts crying loudly from the pain. Filip quickly runs to get Nika's mom. Mom comes and carefully looks at the knee. 'It's not too serious,' mom says calmly.",
       },
       {
-        hr: "Mama čisti Nikino koljeno vodom. Stavlja flaster preko male rane. 'Boli li još?', pita mama nježno. 'Malo boli', odgovara Nika kroz suze. Filip sjeda pored Nike i tješi je. 'Sve će biti dobro', kaže Filip prijateljski. Nika se polako smiruje i diše.",
+        hr: "Mama čisti Nikino koljeno vodom. Stavlja flaster preko male rane. 'Boli li još?' pita mama nježno. 'Malo boli', odgovara Nika kroz suze. Filip sjeda pored Nike i tješi je. 'Sve će biti dobro', kaže Filip prijateljski. Nika se polako smiruje i diše.",
         en: "Mom cleans Nika's knee with water. She puts a bandage over the small wound. 'Does it still hurt?' mom asks gently. 'It hurts a little,' Nika answers through tears. Filip sits next to Nika and comforts her. 'Everything will be fine,' Filip says kindly. Nika slowly calms down and breathes.",
       },
       {
@@ -7675,13 +7675,13 @@ export const GRADED_STORIES = [
         opts: [
           'Trči prebrzo i spotakne se',
           'Netko je gurne',
-          'Poskliznu se na vodi',
+          'Posklizne se na vodi',
           'Sudari se s Filipom',
         ],
         correct: 0,
       },
       {
-        q: 'Što mama i Nika rade nakon što joj previju koljeno?',
+        q: 'Što mama i Nika rade nakon što mama previje koljeno?',
         qEn: 'What do mom and Nika do after her knee is bandaged?',
         opts: [
           'Zovu liječnika',
@@ -7709,8 +7709,8 @@ export const GRADED_STORIES = [
       'Ana and her son Marko go grocery shopping with a list, moving aisle by aisle through the supermarket. At the checkout they realize they forgot something.',
     paragraphs: [
       {
-        hr: 'Ana i njezin sin Marko idu u supermarket. Subota je ujutro. Ana ima popis namirnica. Popis je dug i uredan. Marko voli ići u kupovinu s mamom. On uvijek gura kolica. Danas žele kupiti hranu za cijeli tjedan. Parkiraju auto ispred ulaza.',
-        en: 'Ana and her son Marko go to the supermarket. It is Saturday morning. Ana has a list of groceries. The list is long and neat. Marko likes going shopping with mom. He always pushes the cart. Today they want to buy food for the whole week. They park the car in front of the entrance.',
+        hr: 'Ana i njezin sin Marko idu u supermarket. Subota je, rano ujutro. Ana ima popis namirnica. Popis je dug i uredan. Marko voli ići u kupovinu s mamom. On uvijek gura kolica. Danas žele kupiti hranu za cijeli tjedan. Parkiraju auto ispred ulaza.',
+        en: 'Ana and her son Marko go to the supermarket. It is Saturday, early in the morning. Ana has a list of groceries. The list is long and neat. Marko likes going shopping with mom. He always pushes the cart. Today they want to buy food for the whole week. They park the car in front of the entrance.',
       },
       {
         hr: 'Kod ulaza stoje velika kolica za kupovinu. Marko brzo uzima jedna kolica. Mama kaže da su kolica čista. Marko gura kolica prema prvom hodniku. Trgovina je velika i svijetla. Police su pune raznih proizvoda. Marko čita popis naglas. Prva stavka na popisu je mlijeko.',
@@ -7733,8 +7733,8 @@ export const GRADED_STORIES = [
         en: 'In the next aisle is pasta and rice. Marko takes a pack of spaghetti from the shelf. Mom adds a can of tomatoes to the cart. They also need olive oil. The oil is on a high shelf. Mom helps him reach the bottle. The list gets shorter and shorter.',
       },
       {
-        hr: 'Ana provjerava popis još jednom. Skoro sve stvari su u kolicima. Nedostaje im samo sir za doručak. Marko trči natrag do mliječnog odjela. On brzo uzima žuti sir. Vraća se zadovoljan svojim malim zadatkom. Mama ga pohvaljuje za brzinu. Kolica su sada gotovo puna.',
-        en: 'Ana checks the list once more. Almost everything is in the cart. They only need cheese for breakfast. Marko runs back to the dairy section. He quickly grabs yellow cheese. He returns pleased with his small task. Mom praises him for his speed. The cart is now almost full.',
+        hr: 'Ana provjerava popis još jednom. Skoro sve stvari su u kolicima. Nedostaje im samo žuti sir za doručak. Marko trči natrag do mliječnog odjela. On brzo uzima žuti sir. Vraća se zadovoljan svojim malim zadatkom. Mama ga pohvaljuje za brzinu. Kolica su sada gotovo puna.',
+        en: 'Ana checks the list once more. Almost everything is in the cart. They only need yellow cheese for breakfast. Marko runs back to the dairy section. He quickly grabs yellow cheese. He returns pleased with his small task. Mom praises him for his speed. The cart is now almost full.',
       },
       {
         hr: 'Idu prema blagajni s punim kolicima. Na blagajni čeka nekoliko ljudi. Marko slaže proizvode na traku. Blagajnica skenira svaki proizvod redom. Ana plaća karticom, ne gotovinom. Blagajnica im daje račun. Marko pakira sve u vrećice.',
@@ -7756,7 +7756,7 @@ export const GRADED_STORIES = [
       { hr: 'blagajna', en: 'checkout', ex: 'Idu prema blagajni s punim kolicima.' },
       { hr: 'hodnik', en: 'aisle', ex: 'U prvom hodniku je mliječni odjel.' },
       { hr: 'mlijeko', en: 'milk', ex: 'Marko stavlja mlijeko u hladnjak.' },
-      { hr: 'sir', en: 'cheese', ex: 'Nedostaje im samo sir za doručak.' },
+      { hr: 'sir', en: 'cheese', ex: 'Nedostaje im samo žuti sir za doručak.' },
       { hr: 'jaja', en: 'eggs', ex: 'Zaboravili su jaja u trgovini.' },
       { hr: 'blagajnica', en: 'cashier', ex: 'Blagajnica skenira svaki proizvod redom.' },
       { hr: 'kruh', en: 'bread', ex: 'Ana bira jedan veliki kruh.' },
@@ -7789,7 +7789,7 @@ export const GRADED_STORIES = [
       {
         q: 'Tko skenira proizvode na blagajni?',
         qEn: 'Who scans the products at checkout?',
-        opts: ['Marko', 'Ana', 'Blagajnica', 'Mama'],
+        opts: ['Marko', 'Ana', 'Blagajnica', 'Prodavač'],
         correct: 2,
       },
     ],
@@ -7820,19 +7820,19 @@ export const GRADED_STORIES = [
         en: 'Luka tries on a red helmet in the shop. The helmet fits well on his head. Dad explains that the helmet is mandatory. Without a helmet Luka may not ride the bike. Luka carefully fastens the strap under his chin. The helmet protects his head if Luka falls. Dad buys both the helmet and the bike. Happy, they leave the shop with the bike.',
       },
       {
-        hr: 'Kod kuće Luka odmah želi voziti. Tata drži sjedalo objema rukama čvrsto. Luka gura pedale, ali bicikl se ljulja. On se boji da će pasti. Tata trči pored bicikla i drži sjedalo. Bicikl se opasno naginje lijevo i desno. Luka steže volan i traži ravnotežu.',
-        en: 'At home Luka immediately wants to ride. Dad holds the seat with both hands tightly. Luka pushes the pedals, but the bike wobbles. He is afraid he will fall. Dad runs beside the bike and holds the seat. The bike leans dangerously left and right. Luka grips the handlebars and seeks balance.',
+        hr: 'Kod kuće Luka odmah želi voziti. Tata čvrsto drži sjedalo objema rukama. Luka gura pedale, ali bicikl se ljulja. On se boji da će pasti. Tata trči pored bicikla i drži sjedalo. Bicikl se opasno naginje lijevo i desno. Luka steže upravljač i traži ravnotežu.',
+        en: 'At home Luka immediately wants to ride. Dad holds the seat tightly with both hands. Luka pushes the pedals, but the bike wobbles. He is afraid he will fall. Dad runs beside the bike and holds the seat. The bike leans dangerously left and right. Luka grips the handlebars and seeks balance.',
       },
       {
         hr: 'Svaki dan poslije škole vježbaju zajedno. Tata polako pušta sjedalo na trenutak. Luka to uopće ne primjećuje isprva. Bicikl ostaje uspravan bez tatine pomoći. Tata se veselo smiješi iza njega. Luka osjeća da bolje drži ravnotežu. Kočnice još uvijek koristi previše oprezno.',
         en: "Every day after school they practice together. Dad slowly lets go of the seat for a moment. Luka does not notice this at all at first. The bike stays upright without dad's help. Dad smiles happily behind him. Luka feels he keeps his balance better. He still uses the brakes too cautiously.",
       },
       {
-        hr: 'Jednog dana Luka izgubi ravnotežu naglo. Bicikl padne, a Luka padne s njim. Koljeno ga malo boli od udarca. Tata mu brzo pomaže da ustane. Kaciga je zaštitila njegovu glavu potpuno. Luka otresa prašinu s hlačica. On odlučuje odmah ponovno sjesti na bicikl. Hrabrost mu raste sa svakim padom.',
+        hr: 'Jednog dana Luka naglo izgubi ravnotežu. Bicikl padne, a Luka padne s njim. Koljeno ga malo boli od udarca. Tata mu brzo pomaže da ustane. Kaciga mu je potpuno zaštitila glavu. Luka otresa prašinu s hlačica. On odlučuje odmah ponovno sjesti na bicikl. Hrabrost mu raste sa svakim padom.',
         en: 'One day Luka suddenly loses his balance. The bike falls, and Luka falls with it. His knee hurts a little from the impact. Dad quickly helps him get up. The helmet protected his head completely. Luka shakes the dust off his pants. He decides to get right back on the bike. His courage grows with every fall.',
       },
       {
-        hr: 'Jedne večeri u parku tata pusti sjedalo. On ne kaže Luki ništa odmah. Luka sam vozi desetak metara. Tek tada primijeti da je sam. Luka se okreće i vidi tatu daleko. Od iznenađenja gotovo izgubi ravnotežu ponovno. Ipak uspijeva zadržati bicikl uspravnim. Srce mu snažno lupa od uzbuđenja.',
+        hr: 'Jedne večeri u parku tata pusti sjedalo. On ne kaže Luki ništa odmah. Luka sam vozi desetak metara. Tek tada primijeti da je sam. Luka se okreće i vidi tatu daleko. Od iznenađenja gotovo ponovno izgubi ravnotežu. Ipak uspijeva zadržati bicikl uspravnim. Srce mu snažno lupa od uzbuđenja.',
         en: "One evening in the park dad lets go of the seat. He doesn't tell Luka anything right away. Luka rides alone for about ten meters. Only then does he notice he is alone. Luka turns around and sees dad far away. From surprise he almost loses his balance again. Still, he manages to keep the bike upright. His heart pounds strongly from excitement.",
       },
       {
@@ -7847,9 +7847,9 @@ export const GRADED_STORIES = [
     vocabulary: [
       { hr: 'bicikl', en: 'bike', ex: 'Luka ima sedam godina i želi bicikl.' },
       { hr: 'kaciga', en: 'helmet', ex: 'Luka isprobava crvenu kacigu u trgovini.' },
-      { hr: 'sjedalo', en: 'seat', ex: 'Tata drži sjedalo objema rukama čvrsto.' },
+      { hr: 'sjedalo', en: 'seat', ex: 'Tata čvrsto drži sjedalo objema rukama.' },
       { hr: 'kotač', en: 'wheel', ex: 'Tata provjerava veličinu kotača i sjedala.' },
-      { hr: 'ravnoteža', en: 'balance', ex: 'Luka steže volan i traži ravnotežu.' },
+      { hr: 'ravnoteža', en: 'balance', ex: 'Luka steže upravljač i traži ravnotežu.' },
       { hr: 'kočnica', en: 'brake', ex: 'Kočnice još uvijek koristi previše oprezno.' },
       { hr: 'pedala', en: 'pedal', ex: 'Luka gura pedale, ali bicikl se ljulja.' },
       { hr: 'zvonce', en: 'bell', ex: 'Bicikl ima i malo zvonce.' },
@@ -7858,9 +7858,9 @@ export const GRADED_STORIES = [
     ],
     quiz: [
       {
-        q: 'Koje boje je Lukin bicikl?',
+        q: 'Koje je boje Lukin bicikl?',
         qEn: "What color is Luka's bike?",
-        opts: ['Plavi', 'Zeleni', 'Crveni', 'Žuti'],
+        opts: ['Plave', 'Zelene', 'Crvene', 'Žute'],
         correct: 0,
       },
       {
@@ -7919,8 +7919,8 @@ export const GRADED_STORIES = [
         en: 'Petra greases the pan a little with butter. Mom pours the batter into the round pan. Together they put the pan in the oven. Mom sets the oven to one hundred eighty degrees. Petra sets the small kitchen timer. The cake needs to bake for half an hour. Through the glass they watch the batter rise. The smell of cake slowly fills the whole house.',
       },
       {
-        hr: 'Čekanje se Petri čini jako dugo. Ona crta čestitku za tatu. Mama sprema šlag u hladnjaku. Petra svako malo gleda kroz staklo pećnice. Sat konačno zvoni glasno u kuhinji. Mama pažljivo vadi vrući kalup. Torta je zlatna i lijepo narasla. Moraju je pustiti da se ohladi.',
-        en: 'The wait seems very long to Petra. She draws a birthday card for dad. Mom prepares whipped cream in the fridge. Petra keeps looking through the oven glass. The timer finally rings loudly in the kitchen. Mom carefully takes out the hot pan. The cake is golden and nicely risen. They must let it cool.',
+        hr: 'Čekanje se Petri čini jako dugo. Ona crta čestitku za tatu. Mama tuče šlag i stavlja ga u hladnjak. Petra svako malo gleda kroz staklo pećnice. Sat konačno glasno zvoni u kuhinji. Mama pažljivo vadi vrući kalup. Torta je zlatna i lijepo narasla. Moraju je pustiti da se ohladi.',
+        en: 'The wait seems very long to Petra. She draws a birthday card for dad. Mom whips the cream and puts it in the fridge. Petra keeps looking through the oven glass. The timer finally rings loudly in the kitchen. Mom carefully takes out the hot pan. The cake is golden and nicely risen. They must let it cool.',
       },
       {
         hr: 'Kad se torta ohladi, počinje ukrašavanje. Mama razmazuje šlag po cijeloj torti. Petra slaže jagode u krug odozgo. U sredinu stavlja malu čokoladnu zvijezdu. Mama piše čestitku glazurom od čokolade. Petra dodaje šareni posip oko ruba. Torta izgleda kao iz slastičarnice. Obje su vrlo ponosne na svoj rad.',
@@ -7931,7 +7931,7 @@ export const GRADED_STORIES = [
         en: 'They hide the cake in the pantry. Dad comes home tired in the evening. Mom tells him to sit at the table. Petra can hardly wait for the surprise moment. Mom turns off the light in the kitchen. Petra brings in the cake with lit candles. Everyone sings the birthday song together. Dad is very surprised and happy.',
       },
       {
-        hr: 'Tata puše svijeće i zatvara oči. On zamišlja želju u sebi. Svi pljeskaju i čestitaju mu rođendan. Mama reže tortu na male komade. Petra dobiva komad s jagodom odozgo. Torta je slatka i vrlo ukusna. Tata kaže da je ovo najbolja torta. On grli Petru i mamu zahvalno.',
+        hr: 'Tata puše svijeće i zatvara oči. On zamišlja želju u sebi. Svi pljeskaju i čestitaju mu rođendan. Mama reže tortu na male komade. Petra dobiva komad s jagodom odozgo. Torta je slatka i vrlo ukusna. Tata kaže da je ovo najbolja torta. Zahvalno grli Petru i mamu.',
         en: 'Dad blows out the candles and closes his eyes. He makes a silent wish to himself. Everyone claps and congratulates him on his birthday. Mom cuts the cake into small pieces. Petra gets the piece with the strawberry on top. The cake is sweet and very delicious. Dad says this is the best cake. He hugs Petra and mom gratefully.',
       },
       {
@@ -7942,7 +7942,7 @@ export const GRADED_STORIES = [
     vocabulary: [
       { hr: 'pećnica', en: 'oven', ex: 'Zajedno stavljaju kalup u pećnicu.' },
       { hr: 'tijesto', en: 'batter/dough', ex: 'Tijesto postaje glatko i kremasto.' },
-      { hr: 'šlag', en: 'whipped cream', ex: 'Mama sprema šlag u hladnjaku.' },
+      { hr: 'šlag', en: 'whipped cream', ex: 'Mama tuče šlag i stavlja ga u hladnjak.' },
       { hr: 'brašno', en: 'flour', ex: 'Petra važe brašno na kuhinjskoj vagi.' },
       { hr: 'recept', en: 'recipe', ex: 'Mama čita recept iz stare bilježnice.' },
       { hr: 'kalup', en: 'baking pan', ex: 'Mama ulijeva tijesto u okrugli kalup.' },
@@ -7971,7 +7971,7 @@ export const GRADED_STORIES = [
         correct: 3,
       },
       {
-        q: 'Gdje sakriju tortu prije iznenađenja?',
+        q: 'Kamo sakriju tortu prije iznenađenja?',
         qEn: 'Where do they hide the cake before the surprise?',
         opts: ['U hladnjak', 'U ormar', 'U smočnicu', 'U auto'],
         correct: 2,
@@ -7998,11 +7998,11 @@ export const GRADED_STORIES = [
       'A family heads to the cinema for movie night, from choosing a film to sharing popcorn in the dark theater. Afterward they walk home talking about their favorite scenes.',
     paragraphs: [
       {
-        hr: 'Obitelj Kovač planira izlazak u kino. Petak je navečer poslije večere. Iva i Filip vrlo su uzbuđeni. Tata predlaže da idu odmah. Mama provjerava raspored filmova na internetu. U kinu danas igraju tri filma. Iva želi gledati crtani film. Filip radije bira avanturistički film.',
-        en: 'The Kovač family plans a trip to the cinema. It is Friday evening after dinner. Iva and Filip are very excited. Dad suggests they go right away. Mom checks the movie schedule online. Three films are showing at the cinema today. Iva wants to watch a cartoon. Filip prefers an adventure film.',
+        hr: 'Obitelj Kovač planira izlazak u kino. Petak je, poslije večere. Iva i Filip vrlo su uzbuđeni. Tata predlaže da idu odmah. Mama provjerava raspored filmova na internetu. U kinu danas prikazuju tri filma. Iva želi gledati crtani film. Filip radije bira avanturistički film.',
+        en: 'The Kovač family plans a trip to the cinema. It is Friday, after dinner. Iva and Filip are very excited. Dad suggests they go right away. Mom checks the movie schedule online. Three films are showing at the cinema today. Iva wants to watch a cartoon. Filip prefers an adventure film.',
       },
       {
-        hr: 'Iva i Filip se ne slažu odmah. Mama predlaže da svi glasaju zajedno. Tata glasa za Ivin crtani film. Mama se slaže s tatinim izborom. Filip je malo tužan zbog odluke. Mama obećava mu sladoled poslije filma. Filip se odmah razveseli tom prijedlogu. Svi zajedno odlučuju krenuti prema kinu.',
+        hr: 'Iva i Filip se ne slažu odmah. Mama predlaže da svi glasaju zajedno. Tata glasa za Ivin crtani film. Mama se slaže s tatinim izborom. Filip je malo tužan zbog odluke. Mama mu obećava sladoled poslije filma. Filip se odmah razveseli tom prijedlogu. Svi zajedno odlučuju krenuti prema kinu.',
         en: "Iva and Filip don't agree right away. Mom suggests everyone vote together. Dad votes for Iva's cartoon. Mom agrees with dad's choice. Filip is a little sad about the decision. Mom promises him ice cream after the film. Filip immediately cheers up at that suggestion. Together they decide to head to the cinema.",
       },
       {
@@ -8010,8 +8010,8 @@ export const GRADED_STORIES = [
         en: 'The cinema is full of people that Friday. Dad stands in line for tickets. The cashier asks how many tickets they need. Dad says they need four tickets. Mom chooses seats in the middle of the hall. Iva pays part of the ticket with her allowance. Tickets are cheaper for children. They all go together toward hall number two.',
       },
       {
-        hr: 'Prije filma kupuju veliku kutiju kokica. Filip želi slane kokice s maslacem. Iva radije bira slatke kokice sa šećerom. Mama kupuje i četiri velika soka. Tata nosi pladanj s kokicama pažljivo. Miris svježih kokica širi se dvoranom. Djeca jedva čekaju ući u kino.',
-        en: 'Before the film they buy a large box of popcorn. Filip wants salty popcorn with butter. Iva prefers sweet popcorn with sugar. Mom also buys four large drinks. Dad carefully carries the tray with the popcorn. The smell of fresh popcorn spreads through the hall. The children can hardly wait to enter the cinema.',
+        hr: 'Prije filma kupuju veliku kutiju kokica. Filip želi slane kokice s maslacem. Iva radije bira slatke kokice sa šećerom. Mama kupuje i četiri velika soka. Tata pažljivo nosi pladanj s kokicama. Miris svježih kokica širi se dvoranom. Djeca jedva čekaju ući u dvoranu.',
+        en: 'Before the film they buy a large box of popcorn. Filip wants salty popcorn with butter. Iva prefers sweet popcorn with sugar. Mom also buys four large drinks. Dad carefully carries the tray with the popcorn. The smell of fresh popcorn spreads through the hall. The children can hardly wait to enter the hall.',
       },
       {
         hr: 'Dvorana je mračna i vrlo velika. Biljeter im pokazuje put lampicom. Obitelj pronalazi svoja mjesta u sredini. Iva sjeda pored mame s lijeve strane. Filip sjeda pored tate s desne strane. Svjetla se polako gase u dvorani. Publika odjednom utihne pred velikim ekranom. Reklame počinju prije samog filma.',
@@ -8040,7 +8040,7 @@ export const GRADED_STORIES = [
       { hr: 'mjesto', en: 'seat', ex: 'Mama bira mjesta u sredini dvorane.' },
       { hr: 'crtani film', en: 'cartoon', ex: 'Iva želi gledati crtani film.' },
       { hr: 'publika', en: 'audience', ex: 'Publika odjednom utihne pred velikim ekranom.' },
-      { hr: 'sladoled', en: 'ice cream', ex: 'Mama obećava mu sladoled poslije filma.' },
+      { hr: 'sladoled', en: 'ice cream', ex: 'Mama mu obećava sladoled poslije filma.' },
     ],
     quiz: [
       {
@@ -8089,8 +8089,8 @@ export const GRADED_STORIES = [
       "A new kitten named Luna arrives home for the first time. She explores every room, eats her first meal, plays with a string, and falls asleep in her owner's lap.",
     paragraphs: [
       {
-        hr: 'Danas mama donosi kući malu mačku. Mačka se zove Luna i ima samo dva mjeseca. Luna putuje u prijenosnoj košari iz auta. Ja sjedim pored nje i tiho joj pjevam. Luna tiho mijauče jer se boji. Jako se veselim što napokon imamo mačku.',
-        en: 'Today mom brings home a small kitten. The kitten is named Luna and is only two months old. Luna travels in a pet carrier from the car. I sit next to her and quietly sing to her. Luna meows quietly because she is scared. I am very excited that we finally have a cat.',
+        hr: 'Danas mama donosi kući malu mačku. Mačka se zove Luna i ima samo dva mjeseca. Luna putuje autom u prijenosnoj košari. Ja sjedim pored nje i tiho joj pjevam. Luna tiho mijauče jer se boji. Jako se veselim što napokon imamo mačku.',
+        en: 'Today mom brings home a small kitten. The kitten is named Luna and is only two months old. Luna travels by car in a pet carrier. I sit next to her and quietly sing to her. Luna meows quietly because she is scared. I am very excited that we finally have a cat.',
       },
       {
         hr: 'Kod kuće polako otvaramo vrata košare. Luna oprezno izlazi i njuška zrak oko sebe. Njezine oči su velike i znatiželjne. Prvo istražuje kuhinju i gura nosom svaku stvar. Zatim odlazi u dnevnu sobu i skriva se ispod stola. Čekamo strpljivo da se Luna malo opusti.',
@@ -8113,7 +8113,7 @@ export const GRADED_STORIES = [
         en: 'In the evening I sit on the couch with a book in hand. Luna comes slowly and climbs into my lap. She curls into a small ball and closes her eyes. Her breathing becomes slow and calm. I gently stroke her back while she sleeps. I feel great happiness that I have such a cat.',
       },
       {
-        hr: 'Cijela obitelj sada voli malu Lunu. Tata joj svako jutro puni zdjelicu vodom. Brat se igra s njom loptom papira. Luna svakim danom postaje hrabrija i veselija. Mislim da je Luna sad pravi član obitelji. Jedva čekam sutra novi dan s njom.',
+        hr: 'Cijela obitelj sada voli malu Lunu. Tata joj svako jutro puni zdjelicu vodom. Brat se igra s njom papirnatom lopticom. Luna svakim danom postaje hrabrija i veselija. Mislim da je Luna sad pravi član obitelji. Jedva čekam sutra novi dan s njom.',
         en: 'The whole family now loves little Luna. Dad fills her bowl with water every morning. My brother plays with her using a paper ball. Luna becomes braver and happier every day. I think Luna is now a real member of the family. I can hardly wait for a new day with her.',
       },
       {
@@ -8130,7 +8130,7 @@ export const GRADED_STORIES = [
       {
         hr: 'prijenosna košara',
         en: 'pet carrier',
-        ex: 'Luna putuje u prijenosnoj košari iz auta.',
+        ex: 'Luna putuje autom u prijenosnoj košari.',
       },
       { hr: 'njuškati', en: 'to sniff', ex: 'Luna oprezno izlazi i njuška zrak oko sebe.' },
       { hr: 'znatiželjna', en: 'curious', ex: 'Njezine oči su velike i znatiželjne.' },
@@ -8196,7 +8196,7 @@ export const GRADED_STORIES = [
         en: 'The librarian asks for my name and my address. Mom gives her the necessary details for the card. The librarian carefully types everything into the computer. Then she gives me a small plastic library card. My name is written on the card in big letters. I proudly put the card in my small pocket.',
       },
       {
-        hr: 'Knjižničarka nam objašnjava pravila tihog čitanja. U knjižnici moramo govoriti samo šapatom. Ne smijemo trčati niti glasno se smijati. Mobitele stavljamo na tihi način rada ili ih isključujemo. Pravila postoje da svi mogu mirno čitati. Ozbiljno kimam glavom i obećavam da ću biti tiha.',
+        hr: 'Knjižničarka nam objašnjava pravila tihog čitanja. U knjižnici moramo govoriti samo šapatom. Ne smijemo trčati niti se glasno smijati. Mobitele stavljamo na tihi način rada ili ih isključujemo. Pravila postoje da svi mogu mirno čitati. Ozbiljno kimam glavom i obećavam da ću biti tiha.',
         en: 'The librarian explains the rules of quiet reading to us. In the library we must speak only in whispers. We must not run or laugh loudly. We put our phones on silent or turn them off. The rules exist so everyone can read peacefully. I nod seriously and promise to be quiet.',
       },
       {
@@ -8212,7 +8212,7 @@ export const GRADED_STORIES = [
         en: 'The library has a special reading corner. The corner has soft cushions and small chairs. I sit in the corner and open my picture book. Sunlight gently comes in through the big window next to me. I read the story about the dragon slowly and carefully. This corner is my favorite place in the library.',
       },
       {
-        hr: 'Priča govori o zmaju koji se boji visine. Zmaj vježba svaki dan i postaje sve hrabriji. Na kraju priče zmaj uspješno poleti visoko. Priča mi se jako sviđa i osjećam radost. Razumijem da vježba i trud uvijek pomažu. Poželim da i ja budem hrabar poput zmaja.',
+        hr: 'Priča govori o zmaju koji se boji visine. Zmaj vježba svaki dan i postaje sve hrabriji. Na kraju priče zmaj uspješno poleti visoko. Priča mi se jako sviđa i osjećam radost. Razumijem da vježba i trud uvijek pomažu. Poželim da i ja budem hrabra poput zmaja.',
         en: 'The story is about a dragon who is afraid of heights. The dragon practices every day and becomes braver and braver. At the end of the story the dragon successfully flies high. I really like the story and I feel joy. I understand that practice and effort always help. I wish that I could also be brave like the dragon.',
       },
       {
@@ -8245,7 +8245,7 @@ export const GRADED_STORIES = [
         ex: 'U knjižnici postoji poseban kutak za čitanje.',
       },
       { hr: 'jastuk', en: 'cushion', ex: 'Kutak ima mekane jastuke i male stolce.' },
-      { hr: 'hrabar', en: 'brave', ex: 'Poželim da i ja budem hrabar poput zmaja.' },
+      { hr: 'hrabar', en: 'brave', ex: 'Poželim da i ja budem hrabra poput zmaja.' },
       {
         hr: 'rok vraćanja',
         en: 'return deadline',
@@ -8311,8 +8311,8 @@ export const GRADED_STORIES = [
         en: 'The water is pleasantly warm and very clear. First I stand by the edge of the pool and hold on. The instructor encourages me and tells me to slowly go in. I feel the water around my legs and shiver slightly. The depth of the pool here is only to my waist. I slowly relax and stop being afraid.',
       },
       {
-        hr: 'Trener plivanja govori mirnim i toplim glasom. Pokazuje mi kako pravilno kretati rukama u vodi. Strpljivo ponavlja svaku vježbu dok je ne shvatim. Nikad se ne ljuti kad pogriješim u pokretu. Zbog njega se osjećam sigurno i opušteno. Sviđa mi se što je uvijek strpljiv i nasmijan.',
-        en: 'The swimming instructor speaks in a calm and warm voice. He shows me how to properly move my arms in the water. He patiently repeats each exercise until I understand it. He never gets angry when I make a mistake in the movement. Because of him I feel safe and relaxed. I liked that he is always patient and smiling.',
+        hr: 'Trener plivanja govori mirnim i toplim glasom. Pokazuje mi kako pravilno micati rukama u vodi. Strpljivo ponavlja svaku vježbu dok je ne shvatim. Nikad se ne ljuti kad pogriješim u pokretu. Zbog njega se osjećam sigurno i opušteno. Sviđa mi se što je uvijek strpljiv i nasmijan.',
+        en: 'The swimming instructor speaks in a calm and warm voice. He shows me how to properly move my arms in the water. He patiently repeats each exercise until I understand it. He never gets angry when I make a mistake in the movement. Because of him I feel safe and relaxed. I like that he is always patient and smiling.',
       },
       {
         hr: 'Trener mi pokazuje prve pokrete rukama i nogama. Prvo vježbamo udarce nogama uz rub bazena. Zatim pokušavam plivati kratku udaljenost s rukavićima. Ruke mi kližu kroz vodu polako i nespretno. Trener me drži za leđa dok plivam. Osjećam se ponosno nakon prvog pravog zaveslaja.',
@@ -8367,9 +8367,9 @@ export const GRADED_STORIES = [
         correct: 1,
       },
       {
-        q: 'Kakve boje su rukavići?',
+        q: 'Koje su boje rukavići?',
         qEn: 'What color are the armbands?',
-        opts: ['Žuti', 'Plavi', 'Crveni', 'Zeleni'],
+        opts: ['Žute', 'Plave', 'Crvene', 'Zelene'],
         correct: 0,
       },
       {
@@ -8538,7 +8538,7 @@ export const GRADED_STORIES = [
         en: 'In the back seat the children play a word game to make time pass faster. Sister says a word, and brother has to think of a new one. They look for names of animals, cities, and fruit in alphabetical order. When someone makes a mistake, everyone laughs loudly in the car. The game lasts almost an hour and is fun for everyone.',
       },
       {
-        hr: 'Poslije dva sata vožnje, tata staje na odmorištu pored autoceste. Svi izlaze iz auta da protegnu noge i udahnu svjež zrak. Mama kupuje sendviče i sok u malom kiosku. Djeca trče oko parkirališta i gledaju velike kamione. Kratki odmor daje svima novu energiju za nastavak puta.',
+        hr: 'Poslije dva sata vožnje, tata staje na odmorištu pored autoceste. Svi izlaze iz auta da protegnu noge i udahnu svjež zrak. Mama kupuje sendviče i sok na malom kiosku. Djeca trče oko parkirališta i gledaju velike kamione. Kratki odmor daje svima novu energiju za nastavak puta.',
         en: 'After two hours of driving, dad stops at a rest area by the highway. Everyone gets out of the car to stretch their legs and breathe fresh air. Mom buys sandwiches and juice at a small kiosk. The children run around the parking lot and look at big trucks. The short break gives everyone new energy to continue the trip.',
       },
       {
@@ -8669,12 +8669,12 @@ export const GRADED_STORIES = [
         en: 'In winter a big skating rink opens next to the park in town. Ana and her friend Marko decide to try skating for the first time. Their parents take them to a small kiosk where skates are rented. The girl at the kiosk asks what shoe size they wear. Ana is excited but also a little nervous about the ice.',
       },
       {
-        hr: 'Klizaljke su tvrde i teške, drugačije od običnih cipela. Ana sjeda na klupu i pažljivo veže vezice. Marko joj pokazuje kako treba čvrsto stegnuti gležnjeve. Kad su oboje spremni, polako ustaju i hodaju prema ledu. Prvi koraci po ledu čine se vrlo neobičnima.',
-        en: 'The skates are hard and heavy, different from ordinary shoes. Ana sits on a bench and carefully ties the laces. Marko shows her how to tighten the ankles firmly. When they are both ready, they slowly stand up and walk toward the ice. The first steps on the ice feel very strange.',
+        hr: 'Klizaljke su tvrde i teške, drugačije od običnih cipela. Ana sjeda na klupu i pažljivo veže vezice. Marko joj pokazuje kako treba čvrsto stegnuti klizaljke oko gležnjeva. Kad su oboje spremni, polako ustaju i hodaju prema ledu. Prvi koraci po ledu čine se vrlo neobičnima.',
+        en: 'The skates are hard and heavy, different from ordinary shoes. Ana sits on a bench and carefully ties the laces. Marko shows her how to tighten the skates firmly around the ankles. When they are both ready, they slowly stand up and walk toward the ice. The first steps on the ice feel very strange.',
       },
       {
         hr: 'Na ulazu na led nalazi se niska metalna ograda. Ana se čvrsto drži za ogradu objema rukama. Noge joj klize na sve strane i teško održava ravnotežu. Marko se smije i kaže da je i njemu prvi put teško. Polako, korak po korak, Ana se pušta ograde.',
-        en: 'At the entrance to the ice there is a low metal railing. Ana holds tightly onto the railing with both hands. Her legs slide in every direction and she barely keeps her balance. Marko laughs and says it was hard for him too the first time. Slowly, step by step, Ana lets go of the railing.',
+        en: 'At the entrance to the ice there is a low metal railing. Ana holds tightly onto the railing with both hands. Her legs slide in every direction and she barely keeps her balance. Marko laughs and says it is hard for him too, since it is his first time as well. Slowly, step by step, Ana lets go of the railing.',
       },
       {
         hr: 'Prvih nekoliko metara Ana klizi vrlo sporo i oprezno. Ruke drži raširene da lakše zadrži ravnotežu na ledu. Marko klizi malo brže i okreće se prema njoj. Djeca oko njih smiju se i vesele na klizalištu. Ana polako počinje uživati u novom osjećaju klizanja.',
@@ -8685,12 +8685,12 @@ export const GRADED_STORIES = [
         en: "Suddenly Ana loses her balance and falls gently onto the ice. The ice is cold, but the fall doesn't hurt much at all. Marko quickly comes over to her and offers his hand. Ana laughs and says the fall was funny. She gets up with Marko's help and keeps skating slowly onward.",
       },
       {
-        hr: 'Nakon pada Ana postaje sigurnija na klizaljkama nego prije. Više se ne drži toliko čvrsto za ogradu rukama. Klizi polako uz rub leda i gleda druge klizače. Neki klizači voze vrlo brzo i vješto po sredini leda. Ana sanja da će jednog dana klizati baš tako.',
+        hr: 'Nakon pada Ana postaje sigurnija na klizaljkama nego prije. Više se ne drži toliko čvrsto za ogradu rukama. Klizi polako uz rub leda i gleda druge klizače. Neki klizači kližu vrlo brzo i vješto po sredini leda. Ana sanja da će jednog dana klizati baš tako.',
         en: 'After the fall Ana becomes more confident on the skates than before. She no longer holds the railing quite so tightly. She skates slowly along the edge of the ice and watches other skaters. Some skaters go very fast and skillfully in the middle of the ice. Ana dreams that one day she will skate just like that.',
       },
       {
-        hr: 'Marko i Ana zajedno kližu i drže se za ruke. Tako im je lakše održati ravnotežu i ne padati. Smiju se i razgovaraju dok polako kruže oko leda. Sat vremena prolazi brzo jer im je jako zabavno. Oboje žele ostati na ledu još malo dulje.',
-        en: "Marko and Ana skate together holding hands. That way it's easier for them to keep their balance and not fall. They laugh and talk while slowly circling around the ice. An hour passes quickly because they are having so much fun. Both of them want to stay on the ice a little longer.",
+        hr: 'Marko i Ana zajedno kližu i drže se za ruke. Tako im je lakše održati ravnotežu i ne padati. Smiju se i razgovaraju dok polako kruže po klizalištu. Sat vremena prolazi brzo jer im je jako zabavno. Oboje žele ostati na ledu još malo dulje.',
+        en: "Marko and Ana skate together holding hands. That way it's easier for them to keep their balance and not fall. They laugh and talk while slowly circling the rink. An hour passes quickly because they are having so much fun. Both of them want to stay on the ice a little longer.",
       },
       {
         hr: 'Kad sat klizanja završi, oboje su umorni, ali sretni. Vraćaju klizaljke djevojci na kiosku i navlače tople čizme. Roditelji ih čekaju s termosicama punim vrućeg čaja. Ana grli šalicu rukama i osjeća toplinu čaja. Čaj poslije klizanja uvijek najbolje prija na hladnoći.',
@@ -8720,7 +8720,7 @@ export const GRADED_STORIES = [
       },
       { hr: 'pasti', en: 'to fall', ex: 'Odjednom Ana izgubi ravnotežu i lagano padne na led.' },
       { hr: 'led', en: 'ice', ex: 'Led je hladan, ali pad uopće ne boli previše.' },
-      { hr: 'klizač', en: 'skater', ex: 'Neki klizači voze vrlo brzo i vješto po sredini leda.' },
+      { hr: 'klizač', en: 'skater', ex: 'Neki klizači kližu vrlo brzo i vješto po sredini leda.' },
       {
         hr: 'čizme',
         en: 'boots',
@@ -8798,7 +8798,7 @@ export const GRADED_STORIES = [
         en: 'Grandma and her granddaughter Lucija walk toward a small pastry shop downtown. It is a sunny afternoon and the streets are full of people. Lucija talks cheerfully about school the whole way to the square. Grandma promises that today they can choose any cake they want. Lucija can hardly wait to see all the sweets in the window.',
       },
       {
-        hr: 'Kad uđu unutra, zvonce na vratima veselo zazvoni. Slastičarnica miriše na vaniliju, čokoladu i svježe pečeno tijesto. Iza staklene vitrine poredani su razni kolači i torte. Lucija prilijepi nos na staklo i gleda pažljivo svaki slatkiš. Baka se smiješi i kaže da ima vremena za odluku.',
+        hr: 'Kad uđu unutra, zvonce na vratima veselo zazvoni. Slastičarnica miriše na vaniliju, čokoladu i svježe pečeno tijesto. Iza staklene vitrine poredani su razni kolači i torte. Lucija prilijepi nos na staklo i pažljivo gleda svaki slatkiš. Baka se smiješi i kaže da ima vremena za odluku.',
         en: "When they go inside, a little bell on the door rings cheerfully. The pastry shop smells of vanilla, chocolate, and freshly baked dough. Behind the glass counter various pastries and cakes are lined up. Lucija presses her nose against the glass and looks carefully at every sweet. Grandma smiles and says there's plenty of time to decide.",
       },
       {
@@ -8814,16 +8814,16 @@ export const GRADED_STORIES = [
         en: 'Grandma pays for the cake at the register and takes two small forks. They sit down at a small table by the large window. The sun shines through the glass and warms their table. Lucija tastes the cake first and closes her eyes with delight. The cream is sweet, and the chocolate is rich and very soft.',
       },
       {
-        hr: 'Baka također kuša komad i zadovoljno kimne glavom. Pričaju o školi, prijateljima i planovima za vikend. Lucija pita baku koji je njezin omiljeni kolač bio kao dijete. Baka se sjeti stare torte od oraha koju je pekla njezina majka. Unuka pažljivo sluša svaku bakinu priču o prošlosti.',
+        hr: 'Baka također kuša komad i zadovoljno kimne glavom. Pričaju o školi, prijateljima i planovima za vikend. Lucija pita baku koji joj je kolač bio najdraži kad je bila mala. Baka se sjeti stare torte od oraha koju je pekla njezina majka. Unuka pažljivo sluša svaku bakinu priču o prošlosti.',
         en: "Grandma also tastes a piece and nods with satisfaction. They talk about school, friends, and plans for the weekend. Lucija asks grandma what her favorite cake was as a child. Grandma remembers an old walnut cake that her mother used to bake. The granddaughter listens carefully to every one of grandma's stories about the past.",
       },
       {
-        hr: 'Kad pojedu cijeli komad torte, obje su vrlo site. Baka plaća račun i zahvaljuje ljubaznoj prodavačici na kolaču. Lucija još jednom pogleda vitrinu i sve slatkiše unutra. Obećava sebi da će sljedeći put probati limunsku tortu. Zajedno ustaju od stola i polako kreću prema izlazu.',
-        en: 'When they finish the whole piece of cake, they are both quite full. Grandma pays the bill and thanks the kind saleswoman for the cake. Lucija looks at the display case once more and all the sweets inside. She promises herself she will try the lemon cake next time. Together they get up from the table and slowly head for the exit.',
+        hr: 'Kad pojedu cijeli komad torte, obje su vrlo site. Baka zahvaljuje ljubaznoj prodavačici na kolaču. Lucija još jednom pogleda vitrinu i sve slatkiše unutra. Obećava sebi da će sljedeći put probati limunsku tortu. Zajedno ustaju od stola i polako kreću prema izlazu.',
+        en: 'When they finish the whole piece of cake, they are both quite full. Grandma thanks the kind saleswoman for the cake. Lucija looks at the display case once more and all the sweets inside. She promises herself she will try the lemon cake next time. Together they get up from the table and slowly head for the exit.',
       },
       {
-        hr: 'Vani je zrak svjež i ulice su još uvijek pune ljudi. Baka i Lucija drže se za ruke i polako hodaju kući. Lucija priča kako joj je krema na torti bila najbolja. Baka se smije i kaže da će opet doći sljedeći mjesec.',
-        en: 'Outside the air is fresh and the streets are still full of people. Grandma and Lucija hold hands and walk slowly home. Lucija talks about how the cream on the cake was the best. Grandma laughs and says she will come again next month.',
+        hr: 'Vani je zrak svjež i ulice su još uvijek pune ljudi. Baka i Lucija drže se za ruke i polako hodaju kući. Lucija priča kako joj je krema na torti bila najbolja. Baka se smije i kaže da će opet doći zajedno sljedeći mjesec.',
+        en: 'Outside the air is fresh and the streets are still full of people. Grandma and Lucija hold hands and walk slowly home. Lucija talks about how the cream on the cake was the best. Grandma laughs and says they will come again together next month.',
       },
       {
         hr: 'Kod kuće Lucija priča mami sve o slasnoj torti. Opisuje boje kolača, miris slastičarnice i ukusnu čokoladnu kremu. Mama se smiješi i pita hoće li i ona ići idući put. Lucija kima glavom i obećava da će joj pokazati slastičarnicu. Taj slatki dan s bakom ostaje joj u lijepom sjećanju.',
@@ -8919,7 +8919,7 @@ export const GRADED_STORIES = [
       'The school year ends and summer holidays begin. A boy wakes up to a whole free day with no plans at all.',
     paragraphs: [
       {
-        hr: 'Danas je posljednji dan škole prije ljetnih praznika. Učiteljica dijeli svjedodžbe i čestita djeci na uspjehu. Filip stavlja svjedodžbu pažljivo u svoju praznu torbu. Razred je pun smijeha, buke i uzbuđenja zbog praznika. Svi jedva čekaju zvono koje označava kraj školske godine.',
+        hr: 'Danas je posljednji dan škole prije ljetnih praznika. Učiteljica dijeli svjedodžbe i čestita djeci na uspjehu. Filip pažljivo stavlja svjedodžbu u svoju praznu torbu. Razred je pun smijeha, buke i uzbuđenja zbog praznika. Svi jedva čekaju zvono koje označava kraj školske godine.',
         en: 'Today is the last day of school before summer holidays. The teacher hands out report cards and congratulates the children on their success. Filip carefully puts his report card into his empty bag. The classroom is full of laughter, noise, and excitement about the holidays. Everyone can hardly wait for the bell marking the end of the school year.',
       },
       {
@@ -8931,23 +8931,23 @@ export const GRADED_STORIES = [
         en: "In the evening Filip puts his alarm clock far away in the closet, not on the desk. Tomorrow he doesn't have to get up early or rush to school. For the first time in months he can sleep as long as he wants. Mom says goodnight and turns off the light in his room. Filip falls asleep happy, thinking about the long summer ahead of him.",
       },
       {
-        hr: 'Ujutro Filip se budi sam, bez zvuka budilice. Sunce već visoko sja kroz zavjese njegove sobe. Gleda na sat i vidi da je već deset sati. Prvi put ovog ljeta nema školu, ni domaću zadaću. Filip se protegne u krevetu i osjeća se potpuno slobodno.',
+        hr: 'Ujutro se Filip budi sam, bez zvuka budilice. Sunce već visoko sja kroz zavjese njegove sobe. Gleda na sat i vidi da je već deset sati. Prvi put ovog ljeta nema škole ni domaće zadaće. Filip se protegne u krevetu i osjeća se potpuno slobodno.',
         en: "In the morning Filip wakes up on his own, without the alarm sound. The sun already shines high through the curtains of his room. He looks at the clock and sees it's already ten o'clock. For the first time this summer there's no school and no homework. Filip stretches in bed and feels completely free.",
       },
       {
-        hr: 'Za doručkom Filip jede palačinke koje mama posebno danas peče. Tata čita novine i pita ga za planove za praznike. Filip kaže da danas ne planira baš ništa određeno. Prvi dan praznika želi samo uživati bez ikakve žurbe. Mama se smiješi i kaže da to zvuči savršeno.',
+        hr: 'Za doručkom Filip jede palačinke koje mama danas posebno peče. Tata čita novine i pita ga za planove za praznike. Filip kaže da danas ne planira baš ništa određeno. Prvi dan praznika želi samo uživati bez ikakve žurbe. Mama se smiješi i kaže da to zvuči savršeno.',
         en: "At breakfast Filip eats pancakes that mom is making specially today. Dad reads the newspaper and asks him about his plans for the holidays. Filip says he doesn't plan anything specific for today. On the first day of the holidays he just wants to relax without any rush. Mom smiles and says that sounds perfect.",
       },
       {
-        hr: 'Poslije doručka Filip zove svog prijatelja Ivana telefonom. Ivan također ima slobodan dan i sluša Filipov glas veselo. Dogovaraju se da se nađu poslijepodne kod obližnjeg igrališta. Filip brzo oblači kratke hlače i majicu za van. Osjeća se sretno jer zna da ga cijelo ljeto čeka zabava.',
-        en: "After breakfast Filip calls his friend Ivan on the phone. Ivan also has a free day and listens to Filip's voice happily. They agree to meet in the afternoon at the nearby playground. Filip quickly puts on shorts and a t-shirt to go out. He feels happy knowing a whole summer of fun awaits him.",
+        hr: 'Poslije doručka Filip zove svog prijatelja Ivana telefonom. Ivan također ima slobodan dan i veselo se javlja. Dogovaraju se da se nađu poslijepodne kod obližnjeg igrališta. Filip brzo oblači kratke hlače i majicu za van. Osjeća se sretno jer zna da ga cijelo ljeto čeka zabava.',
+        en: 'After breakfast Filip calls his friend Ivan on the phone. Ivan also has a free day and answers happily. They agree to meet in the afternoon at the nearby playground. Filip quickly puts on shorts and a t-shirt to go out. He feels happy knowing a whole summer of fun awaits him.',
       },
       {
         hr: 'Na igralištu Filip i Ivan igraju nogomet do ručka. Sunce jako grije, pa poslije igre piju hladnu vodu. Pričaju o tome što žele raditi tijekom cijelog ljeta. Ivan želi ići na more, a Filip u planine. Oboje se slažu da će praznici biti dugi i lijepi.',
         en: 'At the playground Filip and Ivan play soccer until lunchtime. The sun is very hot, so after playing they drink cold water. They talk about what they want to do during the whole summer. Ivan wants to go to the seaside, while Filip wants to go to the mountains. Both agree the holidays will be long and wonderful.',
       },
       {
-        hr: 'Navečer Filip se vraća kući umoran, ali vrlo zadovoljan danom. Priča mami i tati o igri i planovima s Ivanom. Torba mu i dalje stoji prazna u kutu sobe. Neće mu trebati do jeseni, kad počne nova školska godina. Filip zna da ga čekaju dugi i bezbrižni ljetni dani.',
+        hr: 'Navečer se Filip vraća kući umoran, ali vrlo zadovoljan danom. Priča mami i tati o igri i planovima s Ivanom. Torba mu i dalje stoji prazna u kutu sobe. Neće mu trebati do jeseni, kad počne nova školska godina. Filip zna da ga čekaju dugi i bezbrižni ljetni dani.',
         en: "In the evening Filip comes home tired but very pleased with the day. He tells mom and dad about the game and his plans with Ivan. His bag still sits empty in the corner of the room. He won't need it until autumn, when the new school year begins. Filip knows long, carefree summer days await him.",
       },
       {
@@ -8959,7 +8959,7 @@ export const GRADED_STORIES = [
       {
         hr: 'svjedodžba',
         en: 'school report, certificate',
-        ex: 'Filip stavlja svjedodžbu pažljivo u svoju praznu torbu.',
+        ex: 'Filip pažljivo stavlja svjedodžbu u svoju praznu torbu.',
       },
       { hr: 'torba', en: 'schoolbag', ex: 'Torba je danas laka jer u njoj gotovo ništa nema.' },
       {
@@ -8975,7 +8975,7 @@ export const GRADED_STORIES = [
       {
         hr: 'palačinke',
         en: 'pancakes',
-        ex: 'Za doručkom Filip jede palačinke koje mama posebno danas peče.',
+        ex: 'Za doručkom Filip jede palačinke koje mama danas posebno peče.',
       },
       {
         hr: 'igralište',
@@ -9011,7 +9011,7 @@ export const GRADED_STORIES = [
         correct: 0,
       },
       {
-        q: 'Gdje Filip stavlja budilicu navečer?',
+        q: 'Kamo Filip stavlja budilicu navečer?',
         qEn: 'Where does Filip put the alarm clock in the evening?',
         opts: ['Na noćni ormarić.', 'Ispod jastuka.', 'Daleko u ormar.', 'Na kuhinjski stol.'],
         correct: 2,
