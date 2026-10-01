@@ -193,9 +193,9 @@ export const REGIONS = {
         role: 'First Female Head of State (Croatia)',
         roleHr: 'Prva žena na čelu hrvatske države',
         story:
-          "Born into a Labin mining family, Ema became a partisan fighter at 22 and rose to become one of Yugoslavia's most respected political figures. In 1953, she became President of the Presidium of the People's Republic of Croatia — making her Croatia's first female head of state, 70 years before Croatia would elect its second female president. She held other senior positions until retirement. Her life story spans the entire arc of 20th-century Croatian history.",
+          "Born into a Labin mining family, Ema became a partisan fighter at 22 and rose to become one of Yugoslavia's most respected political figures. In 1953, she became President of the Presidium of the People's Republic of Croatia — making her Croatia's first female head of state. She held other senior positions until retirement. Her life story spans the entire arc of 20th-century Croatian history.",
         storyHr:
-          'Rođena u labinskoj rudarskoj obitelji, Ema je s 22 godine postala partizanska borkinja i uzdigla se do jedne od najuglednijih političkih osoba Jugoslavije. Godine 1953. postala je predsjednica Prezidija Narodne Republike Hrvatske — čime je postala prva žena na čelu hrvatske države, 70 godina prije nego što će Hrvatska izabrati svoju drugu predsjednicu. Do umirovljenja je obnašala i druge visoke dužnosti. Njezin životni put obuhvaća cijeli luk hrvatske povijesti 20. stoljeća.',
+          'Rođena u labinskoj rudarskoj obitelji, Ema je s 22 godine postala partizanska borkinja i uzdigla se do jedne od najuglednijih političkih osoba Jugoslavije. Godine 1953. postala je predsjednica Prezidija Narodne Republike Hrvatske — čime je postala prva žena na čelu hrvatske države. Do umirovljenja je obnašala i druge visoke dužnosti. Njezin životni put obuhvaća cijeli luk hrvatske povijesti 20. stoljeća.',
       },
       {
         name: 'Giovanni Pippan',
@@ -272,23 +272,23 @@ export const REGIONS = {
     ],
     facts: [
       "The Labin miners' trial in Pula lasted 2 years. All 52 accused were acquitted — the court found the workers had acted in self-defense against fascist aggression.",
-      "Matthias Flacius Illyricus coined the term 'hermeneutics' (the science of interpretation) — a word still used in philosophy and theology today.",
+      "Matthias Flacius Illyricus's 'Clavis Scripturae Sacrae' (1567) is regarded as a founding work of hermeneutics, the science of interpretation.",
       "Rabac's underwater visibility averages 25-30 meters — cleaner than most Caribbean dive sites.",
       'The Battiala-Lazzarini Palace in Labin was built in 1622 by a Venetian nobleman. It now contains an active mine tunnel open to visitors.',
       'Labin is built on a geological fault — the old town literally rests on top of collapsed mine shafts. Some buildings lean visibly.',
       'The Bora wind can reach 248 km/h on the Velebit coast. Labin is sheltered from the worst, but a real bura will rattle every window.',
       'Labinjonska Čakavica has words from Latin, Venetian Italian, German, and Turkish — a linguistic fossil of 2,000 years of conquest.',
-      "Josip Belušić's speedometer patent predates Karl Benz's first automobile by just 2 years — he was inventing for trains and ships.",
+      "Josip Belušić's speedometer patent came just two years after Karl Benz's first automobile (1886) — he was inventing for carriages, trains and ships.",
     ],
     factsHr: [
       'Suđenje labinskim rudarima u Puli trajalo je 2 godine. Sva 52 optužena oslobođena su — sud je utvrdio da su radnici djelovali u samoobrani od fašističke agresije.',
-      "Matija Vlačić Ilirik skovao je pojam 'hermeneutika' (znanost o tumačenju) — riječ koja se i danas koristi u filozofiji i teologiji.",
+      "Djelo Matije Vlačića Ilirika 'Ključ Svetoga pisma' (Clavis Scripturae Sacrae, 1567.) smatra se jednim od temelja hermeneutike, znanosti o tumačenju.",
       'Podvodna vidljivost u Rapcu u prosjeku iznosi 25 do 30 metara — čišća nego na većini karipskih ronilačkih lokacija.',
       'Palaču Battiala-Lazzarini u Labinu 1622. je sagradio mletački plemić. Danas se u njoj nalazi rudarski tunel otvoren za posjetitelje.',
       'Labin je izgrađen na geološkom rasjedu — stari grad doslovno počiva na urušenim rudarskim oknima. Neke se zgrade vidljivo naginju.',
       'Bura na velebitskoj obali može doseći 248 km/h. Labin je zaklonjen od najgorih udara, no prava bura zatrese svaki prozor.',
       'Labinjonska čakavica sadrži riječi iz latinskog, mletačkog talijanskog, njemačkog i turskog jezika — jezični fosil 2.000 godina osvajanja.',
-      'Patent Josipa Belušića za brzinomjer prethodi prvom automobilu Karla Benza svega dvije godine — izumljivao je za vlakove i brodove.',
+      'Patent Josipa Belušića za brzinomjer uslijedio je svega dvije godine nakon prvog automobila Karla Benza (1886.) — izumljivao je za kočije, vlakove i brodove.',
     ],
     quiz: [
       {
@@ -515,9 +515,9 @@ export const REGIONS = {
         role: 'Croatian King',
         roleHr: 'Hrvatski kralj',
         story:
-          "Under his reign, Croatia reached its greatest medieval power — controlling Dalmatia, much of Pannonia, and having a strong fleet on the Adriatic. His donation of Bibinje to the Benedictines was part of a broader policy of strengthening the Catholic Church as a unifying institution for Croatian identity. He was called 'King of Croats and Dalmatians' and is commemorated on Croatian banknotes.",
+          "Under his reign, Croatia reached its greatest medieval power — controlling Dalmatia, much of Pannonia, and having a strong fleet on the Adriatic. His donation of Bibinje to the Benedictines was part of a broader policy of strengthening the Catholic Church as a unifying institution for Croatian identity. He was called 'King of Croats and Dalmatians' and is remembered as one of Croatia's greatest medieval kings.",
         storyHr:
-          "Za njegove je vladavine Hrvatska dosegnula vrhunac srednjovjekovne moći — nadzirala je Dalmaciju, velik dio Panonije i imala snažnu jadransku flotu. Njegov dar Bibinja benediktincima bio je dio šire politike jačanja Katoličke crkve kao ujedinjujuće ustanove hrvatskog identiteta. Nazivan je 'kraljem Hrvata i Dalmatinaca', a njegov je lik ovjekovječen na hrvatskim novčanicama.",
+          "Za njegove je vladavine Hrvatska dosegnula vrhunac srednjovjekovne moći — nadzirala je Dalmaciju, velik dio Panonije i imala snažnu jadransku flotu. Njegov dar Bibinja benediktincima bio je dio šire politike jačanja Katoličke crkve kao ujedinjujuće ustanove hrvatskog identiteta. Nazivan je 'kraljem Hrvata i Dalmatinaca', a pamti se kao jedan od najvećih hrvatskih srednjovjekovnih kraljeva.",
       },
       {
         name: 'Nikola Bašić',
@@ -527,7 +527,7 @@ export const REGIONS = {
         story:
           "Born in Zadar, Bašić is the creator of the Sea Organ and Sun Salutation — two of the most celebrated works of public art in the world. The Sea Organ was his response to the ugly concrete steps that had replaced Zadar's old waterfront. He wanted to give the sea back to the city. The result is an instrument that plays music composed entirely by waves, wind, and tide — no two performances alike in 3,000 years.",
         storyHr:
-          'Rođen u Zadru, Bašić je autor Morskih orgulja i Pozdrava Suncu — dva od najslavnijih djela javne umjetnosti na svijetu. Morske orgulje bile su njegov odgovor na ružne betonske stepenice koje su zamijenile staru zadarsku rivu. Htio je moru vratiti grad. Rezultat je instrument koji svira glazbu koju u potpunosti sastavljaju valovi, vjetar i plima — nijedna izvedba nikada nije ista.',
+          'Rođen u Zadru, Bašić je autor Morskih orgulja i Pozdrava Suncu — dva od najslavnijih djela javne umjetnosti na svijetu. Morske orgulje bile su njegov odgovor na ružne betonske stepenice koje su zamijenile staru zadarsku rivu. Htio je gradu vratiti more. Rezultat je instrument koji svira glazbu koju u potpunosti sastavljaju valovi, vjetar i plima — nijedna izvedba nikada nije ista.',
       },
       {
         name: 'Alfred Hitchcock',
@@ -589,7 +589,7 @@ export const REGIONS = {
       {
         hr: 'jugo',
         en: 'Sirocco wind (south wind)',
-        note: "The hot, humid south wind from Africa. Brings rain, low pressure, and what Dalmatians call 'juga' — the melancholy of bad weather",
+        note: "The hot, humid south wind from Africa. Brings rain, low pressure and a famously bad mood — 'jugo je' is the Dalmatian excuse for any irritability",
       },
     ],
     facts: [
@@ -597,7 +597,7 @@ export const REGIONS = {
       'Klapa singing uses no written notation — all harmonies are learned by ear and passed from generation to generation. Some melodic lines are hundreds of years old.',
       'Zadar was bombed 54 times by Allied forces in WWII — more heavily than any other city in Yugoslavia — because it was an Italian-controlled port.',
       "The Benedictine nuns of St. Mary's monastery in Zadar have maintained continuous habitation since 1066 — they are the oldest continuously operating institution in Croatia.",
-      "Maraschino liqueur from Zadar was Napoleon's favorite drink and was served at the royal courts of Europe. It saved the Luxardo family's business when they fled Italian fascism.",
+      "Maraschino liqueur from Zadar was Napoleon's favorite drink and was served at the royal courts of Europe. The Luxardo family carried the business to Italy when they fled Zadar after the Second World War.",
       "Zadar's old town sits on a peninsula that has been continuously inhabited for over 3,000 years — the Roman street grid is still the basis of today's streets.",
       'The nearby Kornati National Park contains 89 islands — the densest concentration of islands in the Mediterranean.',
     ],
@@ -606,7 +606,7 @@ export const REGIONS = {
       'Klapsko pjevanje ne koristi pisane note — svi se skladovi uče po sluhu i prenose s koljena na koljeno. Neke su melodijske linije stare stotinama godina.',
       'Zadar su savezničke snage tijekom Drugog svjetskog rata bombardirale 54 puta — teže nego ijedan drugi grad u Jugoslaviji — jer je bio luka pod talijanskim nadzorom.',
       'Benediktinke samostana svete Marije u Zadru neprekidno borave u samostanu od 1066. — najstarija su neprekidno djelujuća ustanova u Hrvatskoj.',
-      'Zadarski maraschino bio je omiljeno piće Napoleona i posluživao se na europskim kraljevskim dvorovima. Spasio je posao obitelji Luxardo kad je bježala od talijanskog fašizma.',
+      'Zadarski maraschino bio je omiljeno piće Napoleona i posluživao se na europskim kraljevskim dvorovima. Obitelj Luxardo prenijela je proizvodnju u Italiju kad je nakon Drugoga svjetskog rata izbjegla iz Zadra.',
       'Zadarska stara jezgra nalazi se na poluotoku koji je neprekidno naseljen više od 3.000 godina — rimska mreža ulica i danas je temelj gradskih ulica.',
       'Obližnji Nacionalni park Kornati obuhvaća 89 otoka — najgušću koncentraciju otoka na Sredozemlju.',
     ],
@@ -674,8 +674,8 @@ export const REGIONS = {
       {
         h: 'Medieval Croatian Herzegovina',
         hHr: 'Srednjovjekovna hrvatska Hercegovina',
-        t: "The region known as Herzegovina (named after Herzog/Duke Stjepan Vukčić Kosača in 1448) was part of the medieval Croatian and Hungarian-Croatian Kingdom for centuries. The Franciscan monasteries of Humac, Kruševo, and Široki Brijeg served as cultural and religious centers. Before the Ottoman conquest, the population was entirely Catholic and predominantly Croatian-speaking. The medieval gravestones called 'stećci' — found across Herzegovina — are unique to this region and are now a UNESCO World Heritage Site.",
-        tHr: "Pokrajina poznata kao Hercegovina (nazvana po vojvodi Stjepanu Vukčiću Kosači, koji je 1448. uzeo titulu 'herzog') stoljećima je bila dio srednjovjekovnoga Hrvatskog, odnosno Hrvatsko-Ugarskog Kraljevstva. Franjevački samostani u Humcu, Kruševu i Širokom Brijegu služili su kao kulturna i vjerska središta. Prije osmanskog osvajanja stanovništvo je bilo posve katoličko i pretežno hrvatskoga govornog područja. Srednjovjekovni nadgrobni spomenici zvani 'stećci' — rasprostranjeni diljem Hercegovine — jedinstveni su za ovu pokrajinu i danas su na UNESCO-ovu popisu svjetske baštine.",
+        t: "The region known as Herzegovina (named after Herzog/Duke Stjepan Vukčić Kosača in 1448) was part of the medieval Croatian and Hungarian-Croatian Kingdom for centuries. The Franciscan monasteries of Humac, Kruševo, and Široki Brijeg served as cultural and religious centers. Before the Ottoman conquest, the population was entirely Catholic and predominantly Croatian-speaking. The medieval gravestones called 'stećci' — found across Herzegovina — are characteristic of this region and are now a UNESCO World Heritage Site.",
+        tHr: "Pokrajina poznata kao Hercegovina (nazvana po vojvodi Stjepanu Vukčiću Kosači, koji je 1448. uzeo titulu 'herzog') stoljećima je bila dio srednjovjekovnoga Hrvatskog, odnosno Hrvatsko-Ugarskog Kraljevstva. Franjevački samostani u Humcu, Kruševu i Širokom Brijegu služili su kao kulturna i vjerska središta. Prije osmanskog osvajanja stanovništvo je bilo posve katoličko i pretežno hrvatskoga govornog područja. Srednjovjekovni nadgrobni spomenici zvani 'stećci' — rasprostranjeni diljem Hercegovine — karakteristični su za ovaj kraj i danas su na UNESCO-ovu popisu svjetske baštine.",
       },
       {
         h: 'The Franciscan Covenant — 400 Years of Cultural Preservation',
@@ -693,7 +693,7 @@ export const REGIONS = {
         h: 'Austro-Hungarian National Awakening (1878–1918)',
         hHr: 'Austrougarski nacionalni preporod (1878. – 1918.)',
         t: 'When Austria-Hungary occupied Bosnia-Herzegovina in 1878, the restrictions on Croatian cultural life finally lifted. Croatian newspapers began publishing, reading societies opened, schools taught in Croatian, and a national movement emerged. The Croatian Cultural Society Napredak (Progress), founded in 1902, opened schools, supported university students, and built cultural institutions that survive today. A Herzegovinian Croatian intelligentsia arose — writers, lawyers, politicians, priests — who would shape Croatian national politics into the 20th century.',
-        tHr: 'Kada je Austro-Ugarska 1878. okupirala Bosnu i Hercegovinu, ograničenja hrvatskog kulturnog života napokon su ukinuta. Počele su izlaziti hrvatske novine, otvarala su se čitalačka društva, škole su poučavale na hrvatskom jeziku i pojavio se nacionalni pokret. Hrvatsko kulturno društvo Napredak, osnovano 1902., otvaralo je škole, podupiralo studente i izgradilo kulturne ustanove koje postoje i danas. Nastala je hercegovačko-hrvatska inteligencija — pisci, pravnici, političari, svećenici — koja će oblikovati hrvatsku nacionalnu politiku sve do 20. stoljeća.',
+        tHr: 'Kada je Austro-Ugarska 1878. okupirala Bosnu i Hercegovinu, ograničenja hrvatskog kulturnog života napokon su ukinuta. Počele su izlaziti hrvatske novine, otvarala su se čitalačka društva, škole su poučavale na hrvatskom jeziku i pojavio se nacionalni pokret. Hrvatsko kulturno društvo Napredak, osnovano 1902., otvaralo je škole, podupiralo studente i izgradilo kulturne ustanove koje postoje i danas. Nastala je hercegovačko-hrvatska inteligencija — pisci, pravnici, političari, svećenici — koja će oblikovati hrvatsku nacionalnu politiku i u 20. stoljeću.',
       },
       {
         h: 'Yugoslavia & Communist Suppression',
@@ -813,9 +813,9 @@ export const REGIONS = {
       },
       {
         year: '2004',
-        event: 'Rebuilt Stari Most reopens. UNESCO World Heritage status granted',
+        event: 'Rebuilt Stari Most reopens. UNESCO World Heritage status follows in 2005',
         eventHr:
-          'Ponovno se otvara obnovljeni Stari most. Dodijeljen status UNESCO-ove svjetske baštine',
+          'Ponovno se otvara obnovljeni Stari most. Godine 2005. upisan je na UNESCO-ov popis svjetske baštine',
       },
     ],
     people: [
@@ -854,7 +854,7 @@ export const REGIONS = {
       {
         hr: 'stećak',
         en: 'medieval tombstone (sing.)',
-        note: 'The unique carved stone monuments found only in Bosnia and Herzegovina. Stećci (plural) are a UNESCO World Heritage Site',
+        note: 'Carved medieval stone monuments found across Bosnia and Herzegovina and in neighbouring parts of Croatia, Serbia and Montenegro. Stećci (plural) are a UNESCO World Heritage Site (2016)',
       },
       {
         hr: 'ganga',
@@ -976,8 +976,8 @@ export const REGIONS = {
       {
         h: 'Vučedol — The Cradle of European Civilization',
         hHr: 'Vučedol — kolijevka europske civilizacije',
-        t: 'Before the tragedy, Vukovar stood on some of the most historically significant soil in Europe. The Vučedol archaeological site, just 5km away, dates to 3000-2200 BC and produced extraordinary evidence of early European civilization. The Vučedol Dove — a ritual vessel shaped as a three-legged bird — is depicted on Croatian banknotes and is the oldest dove figure in Europe. The Vučedol Orion is considered the oldest Indo-European astronomical calendar. The Vučedol culture extended across 14 modern European countries, making this corner of Slavonia the cultural epicenter of Bronze Age Europe.',
-        tHr: 'Prije tragedije, Vukovar je stajao na jednom od povijesno najznačajnijih mjesta u Europi. Arheološko nalazište Vučedol, udaljeno tek 5 kilometara, datira iz razdoblja 3000. – 2200. pr. Kr. i pružilo je izvanredne dokaze o ranoj europskoj civilizaciji. Vučedolska golubica — obredna posuda u obliku ptice na tri noge — prikazana je na hrvatskim novčanicama i najstariji je poznati prikaz goluba u Europi. Vučedolski Orion smatra se najstarijim indoeuropskim astronomskim kalendarom. Vučedolska se kultura protezala na područje današnjih 14 europskih zemalja, čineći ovaj kutak Slavonije kulturnim središtem brončanodobne Europe.',
+        t: 'Before the tragedy, Vukovar stood on some of the most historically significant soil in Europe. The Vučedol archaeological site, just 5km away, dates to 3000-2200 BC and produced extraordinary evidence of early European civilization. The Vučedol Dove — a ritual vessel shaped as a three-legged bird — was depicted on the 20-kuna banknote and is the oldest dove figure in Europe. The Vučedol Orion is considered the oldest Indo-European astronomical calendar. The Vučedol culture extended across 14 modern European countries, making this corner of Slavonia the cultural epicenter of Copper Age Europe.',
+        tHr: 'Prije tragedije, Vukovar je stajao na jednom od povijesno najznačajnijih mjesta u Europi. Arheološko nalazište Vučedol, udaljeno tek 5 kilometara, datira iz razdoblja 3000. – 2200. pr. Kr. i pružilo je izvanredne dokaze o ranoj europskoj civilizaciji. Vučedolska golubica — obredna posuda u obliku ptice na tri noge — bila je prikazana na novčanici od 20 kuna i najstariji je poznati prikaz goluba u Europi. Vučedolski Orion smatra se najstarijim indoeuropskim astronomskim kalendarom. Vučedolska se kultura protezala na područje današnjih 14 europskih zemalja, čineći ovaj kutak Slavonije kulturnim središtem bakrenodobne Europe.',
       },
       {
         h: 'Baroque Vukovar — A City of Beauty',
@@ -988,8 +988,8 @@ export const REGIONS = {
       {
         h: 'The Siege — 87 Days (Aug 25 – Nov 18, 1991)',
         hHr: 'Opsada — 87 dana (25. kolovoza – 18. studenoga 1991.)',
-        t: "On August 25, 1991, the Yugoslav People's Army (JNA) and Serbian paramilitary forces launched a full-scale assault on Vukovar. The attackers had 36,000 troops, 600 tanks, 400 artillery pieces, and air support. The defenders had approximately 1,800 fighters — Croatian National Guard, police, and volunteers — with light weapons, minimal ammunition, and no air cover. For 87 days, an average of 12,000 shells and rockets hit the city EVERY SINGLE DAY. Water, electricity, and food supplies were cut. Civilians sheltered in basements for months. The city was methodically destroyed building by building. It was the fiercest battle in Europe since the 1944-45 Soviet-German battles — and the first major European city entirely destroyed since WWII.",
-        tHr: 'Dana 25. kolovoza 1991. Jugoslavenska narodna armija (JNA) i srpske paravojne postrojbe pokrenule su sveobuhvatan napad na Vukovar. Napadači su raspolagali s 36.000 vojnika, 600 tenkova, 400 topničkih oruđa i zračnom potporom. Branitelji su brojili oko 1.800 boraca — pripadnika Zbora narodne garde, policije i dobrovoljaca — s lakim naoružanjem, minimalnom količinom streljiva i bez zračne zaštite. Punih 87 dana na grad je svakodnevno padalo u prosjeku 12.000 granata i raketa. Voda, struja i opskrba hranom bile su prekinute. Civili su se mjesecima sklanjali u podrumima. Grad je bio sustavno razaran, zgrada po zgrada. Bila je to najžešća bitka u Europi od sovjetsko-njemačkih borbi 1944. – 1945. — i prvi veliki europski grad potpuno razoren nakon Drugog svjetskog rata.',
+        t: "On August 25, 1991, the Yugoslav People's Army (JNA) and Serbian paramilitary forces launched a full-scale assault on Vukovar. The attackers had 36,000 troops, 600 tanks, 400 artillery pieces, and air support. The defenders had approximately 1,800 fighters — Croatian National Guard, police, and volunteers — with light weapons, minimal ammunition, and no air cover. For 87 days the city was shelled EVERY SINGLE DAY — on the worst days, up to 12,000 shells and rockets. Water, electricity, and food supplies were cut. Civilians sheltered in basements for months. The city was methodically destroyed building by building. It was the fiercest battle in Europe since the 1944-45 Soviet-German battles — and the first major European city entirely destroyed since WWII.",
+        tHr: 'Dana 25. kolovoza 1991. Jugoslavenska narodna armija (JNA) i srpske paravojne postrojbe pokrenule su sveobuhvatan napad na Vukovar. Napadači su raspolagali s 36.000 vojnika, 600 tenkova, 400 topničkih oruđa i zračnom potporom. Branitelji su brojili oko 1.800 boraca — pripadnika Zbora narodne garde, policije i dobrovoljaca — s lakim naoružanjem, minimalnom količinom streljiva i bez zračne zaštite. Punih 87 dana grad je granatiran svakoga dana — u najgorim danima na nj je padalo i do 12.000 granata i raketa. Voda, struja i opskrba hranom bile su prekinute. Civili su se mjesecima sklanjali u podrumima. Grad je bio sustavno razaran, zgrada po zgrada. Bila je to najžešća bitka u Europi od sovjetsko-njemačkih borbi 1944. – 1945. — i prvi veliki europski grad potpuno razoren nakon Drugog svjetskog rata.',
       },
       {
         h: 'The Defenders — Who Fought for Vukovar',
@@ -1006,14 +1006,14 @@ export const REGIONS = {
       {
         h: 'Ovčara — The Massacre (Nov 20, 1991)',
         hHr: 'Ovčara — pokolj (20. studenoga 1991.)',
-        t: 'After Vukovar fell on November 18, JNA forces took control of Vukovar Hospital. Despite a formal agreement with the International Committee of the Red Cross guaranteeing evacuation of the wounded, JNA Commander Mile Mrkšić authorized the removal of approximately 300 patients, staff, journalists, and civilians. They were transported to the Ovčara collective farm, 5km from the city. In a hangar, they were beaten for hours by Serbian paramilitaries while JNA soldiers watched. Then, in groups of 10-12, they were taken to a field and executed. Ages ranged from 16 to 72. 261 bodies were recovered. As of 2026, approximately 61 victims remain missing.',
-        tHr: 'Nakon što je Vukovar pao 18. studenoga, snage JNA preuzele su nadzor nad vukovarskom bolnicom. Unatoč formalnom sporazumu s Međunarodnim odborom Crvenog križa koji je jamčio evakuaciju ranjenika, zapovjednik JNA Mile Mrkšić odobrio je odvođenje oko 300 pacijenata, djelatnika, novinara i civila. Prevezeni su na zadrugu Ovčara, 5 kilometara od grada. U hangaru su ih satima tukle srpske paravojne postrojbe dok su vojnici JNA promatrali. Zatim su, u skupinama od 10 do 12 osoba, odvođeni na polje i strijeljani. Dob žrtava kretala se od 16 do 72 godine. Pronađeno je 261 tijelo. Prema podacima iz 2026., oko 61 žrtva još se vodi kao nestala.',
+        t: 'After Vukovar fell on November 18, JNA forces took control of Vukovar Hospital. Despite a formal agreement with the International Committee of the Red Cross guaranteeing evacuation of the wounded, JNA Commander Mile Mrkšić authorized the removal of approximately 300 patients, staff, journalists, and civilians. They were transported to the Ovčara collective farm, 5km from the city. In a hangar, they were beaten for hours by Serbian paramilitaries while JNA soldiers watched. Then, in groups of 10-12, they were taken to a field and executed. Ages ranged from 16 to 72. Of the 261 people taken away, 200 bodies were exhumed from the mass grave; about 61 victims are still listed as missing.',
+        tHr: 'Nakon što je Vukovar pao 18. studenoga, snage JNA preuzele su nadzor nad vukovarskom bolnicom. Unatoč formalnom sporazumu s Međunarodnim odborom Crvenog križa koji je jamčio evakuaciju ranjenika, zapovjednik JNA Mile Mrkšić odobrio je odvođenje oko 300 pacijenata, djelatnika, novinara i civila. Prevezeni su na zadrugu Ovčara, 5 kilometara od grada. U hangaru su ih satima tukle srpske paravojne postrojbe dok su vojnici JNA promatrali. Zatim su, u skupinama od 10 do 12 osoba, odvođeni na polje i strijeljani. Dob žrtava kretala se od 16 do 72 godine. Od 261 odvedene osobe iz masovne je grobnice ekshumirano 200 tijela; oko 61 žrtva i danas se vodi kao nestala.',
       },
       {
         h: 'The Aftermath & Justice',
         hHr: 'Posljedice i pravda',
-        t: 'Around 3,000 soldiers and civilians died in the siege, including 86 children. Over 20,000 people were expelled. 7,000 went to detention camps in Serbia. 85% of buildings were destroyed or damaged. The International Criminal Tribunal for the former Yugoslavia (ICTY) convicted Mile Mrkšić to 20 years in prison. Veselin Šljivančanin received 17 years. But many perpetrators escaped justice. Forensic anthropologist Clyde Snow — the man who identified the Nazi war criminal Josef Mengele — came to Vukovar to help identify victims. The work of identification continues today.',
-        tHr: 'U opsadi je poginulo oko 3.000 vojnika i civila, uključujući 86 djece. Protjerano je više od 20.000 ljudi. Njih 7.000 završilo je u logorima u Srbiji. 85 posto zgrada bilo je uništeno ili oštećeno. Međunarodni kazneni sud za bivšu Jugoslaviju (ICTY) osudio je Milu Mrkšića na 20 godina zatvora. Veselin Šljivančanin osuđen je na 17 godina. No mnogi počinitelji izbjegli su pravdu. Forenzički antropolog Clyde Snow — čovjek koji je identificirao nacističkog ratnog zločinca Josefa Mengelea — došao je u Vukovar pomoći u identifikaciji žrtava. Rad na identifikaciji traje i danas.',
+        t: 'Around 3,000 soldiers and civilians died in the siege, including 86 children. Over 20,000 people were expelled. 7,000 went to detention camps in Serbia. 85% of buildings were destroyed or damaged. The International Criminal Tribunal for the former Yugoslavia (ICTY) convicted Mile Mrkšić to 20 years in prison. Veselin Šljivančanin, after appeals, received 10 years. But many perpetrators escaped justice. Forensic anthropologist Clyde Snow — the man who identified the Nazi war criminal Josef Mengele — came to Vukovar to help identify victims. The work of identification continues today.',
+        tHr: 'U opsadi je poginulo oko 3.000 vojnika i civila, uključujući 86 djece. Protjerano je više od 20.000 ljudi. Njih 7.000 završilo je u logorima u Srbiji. 85 posto zgrada bilo je uništeno ili oštećeno. Međunarodni kazneni sud za bivšu Jugoslaviju (ICTY) osudio je Milu Mrkšića na 20 godina zatvora. Veselin Šljivančanin nakon žalbenih je postupaka osuđen na 10 godina. No mnogi počinitelji izbjegli su pravdu. Forenzički antropolog Clyde Snow — čovjek koji je identificirao nacističkog ratnog zločinca Josefa Mengelea — došao je u Vukovar pomoći u identifikaciji žrtava. Rad na identifikaciji traje i danas.',
       },
       {
         h: 'The Water Tower — Symbol of Resistance',
@@ -1026,9 +1026,9 @@ export const REGIONS = {
       {
         year: '3000 BC',
         event:
-          "Vučedol culture flourishes — Bronze Age civilization producing Europe's oldest calendar and finest metallurgy",
+          "Vučedol culture flourishes — Copper Age civilization producing Europe's oldest calendar and finest metallurgy",
         eventHr:
-          'Procvat vučedolske kulture — brončanodobna civilizacija koja stvara najstariji europski kalendar i vrhunsku metalurgiju',
+          'Procvat vučedolske kulture — bakrenodobna civilizacija koja stvara najstariji europski kalendar i vrhunsku metalurgiju',
       },
       {
         year: '1st c. AD',
@@ -1104,7 +1104,7 @@ export const REGIONS = {
       {
         year: 'Nov 19–20, 1991',
         event: 'Ovčara massacre. 261 people executed. Siniša Glavašević among those killed',
-        eventHr: 'Pokolj na Ovčari. Strijeljano 261 osoba. Među ubijenima i Siniša Glavašević',
+        eventHr: 'Pokolj na Ovčari. Strijeljana je 261 osoba. Među ubijenima i Siniša Glavašević',
       },
       {
         year: '1992–1998',
@@ -1229,8 +1229,8 @@ export const REGIONS = {
       },
     ],
     facts: [
-      'The 87-day siege of Vukovar produced more destruction per square kilometer than any battle in Europe since the 1944-45 Eastern Front fighting. 12,000 shells per day fell on a city of 45,000.',
-      'The Vučedol Dove — depicted on Croatian banknotes — is 5,000 years old and is the earliest known representation of a dove in European art.',
+      'The 87-day siege of Vukovar produced more destruction per square kilometer than any battle in Europe since the 1944-45 Eastern Front fighting. On the worst days up to 12,000 shells fell on a city of 45,000.',
+      'The Vučedol Dove — once depicted on the 20-kuna banknote — is 5,000 years old and is the earliest known representation of a dove in European art.',
       "Siniša Glavašević's essay 'Priča o gradu' (Story of a City) is now studied in Croatian schools as literature. He wrote it while the city burned around him.",
       'The Eltz Manor museum had 8,000+ works of art when the JNA occupied the city. Most were looted and taken to Serbia. Some items have been returned; most remain missing.',
       'Among the defenders of Vukovar were ethnic Serbs who refused to leave or fight for the JNA — they defended their city alongside their Croatian neighbors.',
@@ -1239,8 +1239,8 @@ export const REGIONS = {
       'As of 2026, human remains from the Homeland War are still being identified and returned to families across Croatia — the forensic work continues 35 years later.',
     ],
     factsHr: [
-      'Osamdesetsedmodnevna opsada Vukovara proizvela je više razaranja po četvornom kilometru nego ijedna bitka u Europi od borbi na Istočnom bojištu 1944. – 1945. Na grad od 45.000 stanovnika svaki je dan padalo 12.000 granata.',
-      'Vučedolska golubica — prikazana na hrvatskim novčanicama — stara je 5.000 godina i najraniji je poznati prikaz goluba u europskoj umjetnosti.',
+      'Osamdesetsedmodnevna opsada Vukovara proizvela je više razaranja po četvornom kilometru nego ijedna bitka u Europi od borbi na Istočnom bojištu 1944. – 1945. Na grad od 45.000 stanovnika u najgorim je danima padalo i do 12.000 granata.',
+      'Vučedolska golubica — nekoć prikazana na novčanici od 20 kuna — stara je 5.000 godina i najraniji je poznati prikaz goluba u europskoj umjetnosti.',
       "Esej Siniše Glavaševića 'Priča o gradu' danas se u hrvatskim školama proučava kao književno djelo. Napisao ga je dok je grad gorio oko njega.",
       'Muzej u dvorcu Eltz imao je više od 8.000 umjetnina kad je JNA okupirala grad. Većina je opljačkana i odnesena u Srbiju. Neki su predmeti vraćeni, no većina se i dalje vodi kao nestala.',
       'Među braniteljima Vukovara bili su i etnički Srbi koji su odbili otići ili se boriti za JNA — branili su svoj grad uz bok svojim hrvatskim susjedima.',
@@ -1338,8 +1338,8 @@ export const REGIONS = {
       {
         h: 'Valens, Beer, and the Fall of Rome',
         hHr: 'Valens, pivo i pad Rima',
-        t: "Emperor Valens has an unusual footnote: he apparently preferred beer to wine (almost unheard of for a Roman nobleman), earning the nickname 'Sabaiarius' (Beer Belly). A 5,000-year-old beer storage pot found near Vinkovci confirms the region's ancient brewing tradition. But Valens's real legacy is tragic: at the Battle of Adrianople (August 9, 378 AD), he made the catastrophic military decision to attack a Gothic army without waiting for reinforcements. He died in the battle — the first Roman Emperor killed in battle since Decius in 251 AD — and the defeat opened the Balkans to Gothic settlement, accelerating the Western Roman Empire's collapse.",
-        tHr: "Car Valens ima neobičnu bilješku u povijesti: navodno je pivo pretpostavljao vinu (gotovo nezamislivo za rimskog velikaša), zbog čega je dobio nadimak 'Sabaiarius' (Pivotrbušan). Posuda za čuvanje piva stara 5.000 godina, pronađena u blizini Vinkovaca, potvrđuje drevnu tradiciju pivarstva u ovom kraju. No Valensova je prava ostavština tragična: u Bitci kod Hadrijanopola (9. kolovoza 378.) donio je katastrofalnu vojnu odluku da napadne gotsku vojsku ne čekajući pojačanja. Poginuo je u bitci — prvi rimski car nakon Decija (251.) koji je poginuo u boju — a poraz je Balkan otvorio gotskom naseljavanju, ubrzavajući slom Zapadnog Rimskog Carstva.",
+        t: "Emperor Valens has an unusual footnote: he apparently preferred beer to wine (almost unheard of for a Roman nobleman), earning the nickname 'Sabaiarius' (Beer Drinker). A 5,000-year-old beer storage pot found near Vinkovci confirms the region's ancient brewing tradition. But Valens's real legacy is tragic: at the Battle of Adrianople (August 9, 378 AD), he made the catastrophic military decision to attack a Gothic army without waiting for reinforcements. He died in the battle — the first Roman Emperor killed in battle since Decius in 251 AD — and the defeat opened the Balkans to Gothic settlement, accelerating the Western Roman Empire's collapse.",
+        tHr: "Car Valens ima neobičnu bilješku u povijesti: navodno je pivo pretpostavljao vinu (gotovo nezamislivo za rimskog velikaša), zbog čega je dobio nadimak 'Sabaiarius' (pivopija). Posuda za čuvanje piva stara 5.000 godina, pronađena u blizini Vinkovaca, potvrđuje drevnu tradiciju pivarstva u ovom kraju. No Valensova je prava ostavština tragična: u Bitci kod Hadrijanopola (9. kolovoza 378.) donio je katastrofalnu vojnu odluku da napadne gotsku vojsku ne čekajući pojačanja. Poginuo je u bitci — prvi rimski car nakon Decija (251.) koji je poginuo u boju — a poraz je Balkan otvorio gotskom naseljavanju, ubrzavajući slom Zapadnog Rimskog Carstva.",
       },
       {
         h: 'Ottoman Vinkovci & the Military Frontier',
@@ -1350,8 +1350,8 @@ export const REGIONS = {
       {
         h: 'The Anthem & Agatha Christie',
         hHr: 'Himna i Agatha Christie',
-        t: "Two remarkable Vinkovci connections stand apart. Josip Runjanin (1821-1878), born near Vinkovci, composed the melody of 'Lijepa naša domovino' (Our Beautiful Homeland) — the Croatian national anthem. The city's music school is named after him. And Agatha Christie? She visited Vinkovci in 1928 while traveling on the Orient Express and used the city as a plot detail in 'Murder on the Orient Express' (1934). She was, by reports, charmed by the multi-ethnic Habsburg-era character of the town. A British red phone box in the city center today honors Steve Gaunt — an Englishman who arrived as a volunteer in 1991 and never left.",
-        tHr: "Dvije izvanredne vinkovačke poveznice izdvajaju se posebno. Josip Runjanin (1821. – 1878.), rođen kraj Vinkovaca, uglazbio je 'Lijepu našu domovinu' — hrvatsku državnu himnu. Gradska glazbena škola nosi njegovo ime. A Agatha Christie? Posjetila je Vinkovce 1928. putujući Orient Expressom i grad je iskoristila kao detalj radnje u romanu 'Ubojstvo u Orient Expressu' (1934.). Prema svjedočanstvima, bila je očarana multietničkim, habsburškim karakterom grada. Crvena britanska telefonska govornica u središtu grada danas odaje počast Steveu Gauntu — Englezu koji je 1991. stigao kao dobrovoljac i nikada nije otišao.",
+        t: "Two remarkable Vinkovci connections stand apart. Josip Runjanin (1821-1878), born in Vinkovci, composed the melody of 'Lijepa naša domovino' (Our Beautiful Homeland) — the Croatian national anthem. The city's music school is named after him. And Agatha Christie? She visited Vinkovci in 1928 while traveling on the Orient Express and used the city as a plot detail in 'Murder on the Orient Express' (1934). She was, by reports, charmed by the multi-ethnic Habsburg-era character of the town. A British red phone box in the city center today honors Steve Gaunt — an Englishman who arrived as a volunteer in 1991 and never left.",
+        tHr: "Dvije izvanredne vinkovačke poveznice izdvajaju se posebno. Josip Runjanin (1821. – 1878.), rođen u Vinkovcima, uglazbio je 'Lijepu našu domovinu' — hrvatsku državnu himnu. Gradska glazbena škola nosi njegovo ime. A Agatha Christie? Posjetila je Vinkovce 1928. putujući Orient Expressom i grad je iskoristila kao detalj radnje u romanu 'Ubojstvo u Orient Expressu' (1934.). Prema svjedočanstvima, bila je očarana multietničkim, habsburškim karakterom grada. Crvena britanska telefonska govornica u središtu grada danas odaje počast Steveu Gauntu — Englezu koji je 1991. stigao kao dobrovoljac i nikada nije otišao.",
       },
       {
         h: 'The Homeland War & Šokac Pride',
@@ -1436,17 +1436,17 @@ export const REGIONS = {
         eventHr: 'Habsburško oslobođenje. Uspostavljena Vojna krajina. Vinkovci ponovno naseljeni',
       },
       {
-        year: '1820s',
+        year: '1878',
         event:
-          "Major railway construction begins — Vinkovci becomes Croatia's second-largest rail junction",
+          "The railway reaches Vinkovci — the town grows into one of Croatia's largest rail junctions",
         eventHr:
-          'Počinje velika željeznička gradnja — Vinkovci postaju drugo najveće željezničko čvorište u Hrvatskoj',
+          'Željeznica stiže u Vinkovce — grad postaje jedno od najvećih željezničkih čvorišta u Hrvatskoj',
       },
       {
         year: '1821',
         event:
-          'Josip Runjanin born near Vinkovci — will compose the melody of the Croatian national anthem',
-        eventHr: 'Kraj Vinkovaca rođen Josip Runjanin — uglazbit će hrvatsku državnu himnu',
+          'Josip Runjanin born in Vinkovci — will compose the melody of the Croatian national anthem',
+        eventHr: 'U Vinkovcima rođen Josip Runjanin — uglazbit će hrvatsku državnu himnu',
       },
       {
         year: '1928',
@@ -1520,7 +1520,7 @@ export const REGIONS = {
         story:
           "Dame Agatha Christie visited Vinkovci in 1928 during one of her trips on the famous Orient Express railway — the luxury train she would later immortalize in her 1934 novel 'Murder on the Orient Express.' The novel's train gets stuck near 'Vinkovci' in a snowdrift — a real detail from a real journey. Christie found the multi-ethnic Habsburg architecture of Slavonian towns fascinating. Her visit is commemorated by a plaque and the city uses the connection with pride. Not every city can claim that the world's best-selling novelist of all time set her most famous book partly in your town.",
         storyHr:
-          "Dama Agatha Christie posjetila je Vinkovce 1928. tijekom jednog od svojih putovanja slavnom željeznicom Orient Express — luksuznim vlakom koji će kasnije ovjekovječiti u romanu 'Ubojstvo u Orient Expressu' (1934.). U romanu se vlak zaglavljuje u snježnom nanosu kraj 'Vinkovaca' — stvaran detalj sa stvarnog putovanja. Christie su fascinirala multietnička, habsburška arhitektura slavonskih gradova. Njezin posjet obilježava spomen-ploča, a grad se ponosno koristi tom poveznicom. Ne može svaki grad tvrditi da je najprodavanija spisateljica svih vremena dio radnje svoje najpoznatije knjige smjestila upravo u njega.",
+          "Dama Agatha Christie posjetila je Vinkovce 1928. tijekom jednog od svojih putovanja slavnom željeznicom Orient Express — luksuznim vlakom koji će kasnije ovjekovječiti u romanu 'Ubojstvo u Orient Expressu' (1934.). U romanu se vlak zaglavljuje u snježnom nanosu kraj 'Vinkovaca' — stvaran detalj sa stvarnog putovanja. Agathu Christie fascinirala je multietnička, habsburška arhitektura slavonskih gradova. Njezin posjet obilježava spomen-ploča, a grad se ponosno koristi tom poveznicom. Ne može svaki grad tvrditi da je najprodavanija spisateljica svih vremena dio radnje svoje najpoznatije knjige smjestila upravo u njega.",
       },
       {
         name: 'Steve Gaunt',
@@ -1530,7 +1530,7 @@ export const REGIONS = {
         story:
           "Steve Gaunt was a British volunteer who came to Vinkovci in 1991 to help during the war — as a humanitarian worker, observer, and friend to the local community. He fell in love with the city and never left. Thirty years later he is one of Vinkovci's best-known citizens, running cultural projects and serving as a living bridge between Croatia and Britain. A red British telephone box stands in Vinkovci's city center in his honor — a wonderfully absurd symbol of affection for the Englishman who chose Slavonia. His story proves that love for a place can choose you as much as you choose it.",
         storyHr:
-          'Steve Gaunt bio je britanski dobrovoljac koji je 1991. došao u Vinkovce pomoći tijekom rata — kao humanitarni radnik, promatrač i prijatelj lokalne zajednice. Zaljubio se u grad i nikada nije otišao. Trideset godina poslije jedan je od najpoznatijih vinkovačkih građana, vodi kulturne projekte i služi kao živi most između Hrvatske i Britanije. Crvena britanska telefonska govornica stoji u središtu Vinkovaca njemu u čast — divno apsurdan simbol privrženosti Englezu koji je izabrao Slavoniju. Njegova priča dokazuje da ljubav prema mjestu može izabrati tebe jednako koliko ti izabireš nju.',
+          'Steve Gaunt bio je britanski dobrovoljac koji je 1991. došao u Vinkovce pomoći tijekom rata — kao humanitarni radnik, promatrač i prijatelj lokalne zajednice. Zaljubio se u grad i nikada nije otišao. Trideset godina poslije jedan je od najpoznatijih vinkovačkih građana, vodi kulturne projekte i služi kao živi most između Hrvatske i Britanije. Crvena britanska telefonska govornica stoji u središtu Vinkovaca njemu u čast — divno apsurdan simbol privrženosti Englezu koji je izabrao Slavoniju. Njegova priča dokazuje da ljubav prema nekom mjestu može izabrati tebe jednako kao što ti biraš to mjesto.',
       },
     ],
     vocab: [
@@ -1540,7 +1540,7 @@ export const REGIONS = {
         note: 'The name for the Croatian population of eastern Slavonia/Srijem. Their folk culture — embroidery, music, customs — is distinct and celebrated',
       },
       {
-        hr: 'slavonska kulen',
+        hr: 'slavonski kulen',
         en: 'Slavonian kulen (spiced sausage)',
         note: "Croatia's most celebrated cured meat — a dense, paprika-spiced pork sausage made in Slavonia. Protected EU designation. 'Kulen' without 'slavonski' is an imposter",
       },
@@ -1552,17 +1552,17 @@ export const REGIONS = {
       {
         hr: 'vezovi',
         en: 'traditional embroidery',
-        note: 'Slavonian and Šokac textile embroidery — geometric red and black patterns on white linen. UNESCO Intangible Heritage',
+        note: 'Slavonian and Šokac textile embroidery — geometric red and black patterns on white linen. A treasured part of Slavonian identity',
       },
       {
-        hr: 'Vojna Krajina',
+        hr: 'Vojna krajina',
         en: 'Military Frontier',
         note: 'The Habsburg militarized buffer zone against the Ottomans (1553–1881). It shaped Slavonian demographics, architecture and culture for 300 years',
       },
       {
         hr: 'Jeseni',
         en: 'Autumn (also: the Vinkovci Autumn festival)',
-        note: "'Vinkovačke Jeseni' = Vinkovci Autumn. The name of the annual folklore festival celebrating Šokac culture",
+        note: "'Vinkovačke jeseni' = Vinkovci Autumn. The name of the annual folklore festival celebrating Šokac culture",
       },
       {
         hr: 'Cibalae',
@@ -1570,18 +1570,18 @@ export const REGIONS = {
         note: "Colonia Aurelia Cibalae was its full Roman title. The word 'Cibalae' is still used in city branding",
       },
       {
-        hr: 'prahistorija',
+        hr: 'prapovijest',
         en: 'prehistory',
-        note: "'Vinkovci ima bogatu prahistoriju' = Vinkovci has a rich prehistory. The city takes enormous pride in its 8,300-year timeline",
+        note: "'Vinkovci imaju bogatu prapovijest' = Vinkovci has a rich prehistory. The city takes enormous pride in its 8,300-year timeline",
       },
       {
-        hr: 'riblja čorba',
-        en: 'fish soup (Slavonian style)',
-        note: "Slavonian catfish paprikash — a rich, spicy fish stew served over pasta. THE dish of eastern Croatia. 'Čorba' is the Slavonian word for soup",
+        hr: 'fiš paprikaš',
+        en: 'fish paprikash (Slavonian style)',
+        note: "Slavonian river-fish stew with plenty of paprika, often served over homemade pasta. THE dish of eastern Croatia. 'Fiš' comes from German 'Fisch'",
       },
     ],
     facts: [
-      'Two Roman Emperors born in the same town (Valentinian I and Valens) is unique in Roman history. No other city in the former empire can claim two emperors from one location.',
+      'Two Roman Emperors born in the same town (Valentinian I and Valens) is a rare distinction in Roman history — and these two were brothers who ruled at the same time.',
       "The Vučedol Calendar pot was found by accident during hotel construction in 1978 — workers almost discarded it. It is now recognized as the world's oldest known astronomical calendar.",
       "Agatha Christie's 'Murder on the Orient Express' specifically names Vinkovci as the location where the train gets stuck in snow — based on her real 1928 journey.",
       'The Croatian national anthem melody was composed by a Vinkovci-born man (Runjanin) to words written by a man from Zagreb (Mihanović) — a perfect Croatian collaboration.',
@@ -1591,7 +1591,7 @@ export const REGIONS = {
       "Slavonian kulen takes 3-4 months to make — it's cured through winter then smoked with oak. EU protected designation means only kulen from Slavonia and Baranja can be called 'slavonski kulen'.",
     ],
     factsHr: [
-      'Dva rimska cara rođena u istom gradu (Valentinijan I. i Valens) jedinstven su slučaj u rimskoj povijesti. Nijedan drugi grad bivšeg Carstva ne može se pohvaliti s dva cara iz istog mjesta.',
+      'Dva rimska cara rođena u istom gradu (Valentinijan I. i Valens) rijetkost su u rimskoj povijesti — a uz to su bili braća koja su vladala istodobno.',
       'Posuda Vučedolskog kalendara pronađena je slučajno tijekom gradnje hotela 1978. — radnici su je gotovo odbacili. Danas je priznata kao najstariji poznati astronomski kalendar na svijetu.',
       "U romanu 'Ubojstvo u Orient Expressu' Agatha Christie izrijekom navodi Vinkovce kao mjesto gdje se vlak zaglavljuje u snijegu — na temelju njezina stvarnog putovanja 1928.",
       'Melodiju hrvatske državne himne uglazbio je čovjek rođen u Vinkovcima (Runjanin), na riječi koje je napisao čovjek iz Zagreba (Mihanović) — savršena hrvatska suradnja.',
@@ -1643,10 +1643,10 @@ export const REGIONS = {
       },
       {
         q: 'Who composed the melody of the Croatian national anthem?',
-        a: 'Josip Runjanin, born near Vinkovci',
+        a: 'Josip Runjanin, born in Vinkovci',
         al: ['Antun Mihanović', 'Vatroslav Lisinski', 'Ivan Zajc'],
         qHr: 'Tko je skladao melodiju hrvatske himne?',
-        aHr: 'Josip Runjanin, rođen u blizini Vinkovaca',
+        aHr: 'Josip Runjanin, rođen u Vinkovcima',
         alHr: ['Antun Mihanović', 'Vatroslav Lisinski', 'Ivan Zajc'],
       },
     ],
@@ -1676,8 +1676,8 @@ export const REGIONS = {
       {
         h: 'Habsburg Vienna of the South',
         hHr: 'Habsburški "Beč juga"',
-        t: "Under the Austro-Hungarian empire, Zagreb was rebuilt as a grand European capital. The Lower Town (Donji Grad) was planned as a horseshoe of parks and boulevards — the famous 'Green Horseshoe' designed by Milan Lenuci in the 1880s. Neo-baroque and neo-Renaissance palaces, the Croatian National Theatre (1895), the University (1874), the Academy of Sciences (1866) — all built in two generations. Emperor Franz Joseph visited in 1895, the same day a young protester named Stjepan Radić burned the Hungarian flag in front of him. Austria-Hungary ended in 1918. Zagreb survived it intact.",
-        tHr: "Pod Austro-Ugarskom Monarhijom Zagreb je preuređen u veličanstvenu europsku prijestolnicu. Donji grad zamišljen je kao potkova parkova i bulevara — čuvena 'Zelena potkova' koju je 1880-ih osmislio Milan Lenuci. Neobarokne i neorenesansne palače, Hrvatsko narodno kazalište (1895.), Sveučilište (1874.), Akademija znanosti (1866.) — sve je izgrađeno u samo dva naraštaja. Car Franjo Josip posjetio je grad 1895., istoga dana kad je mladi prosvjednik Stjepan Radić pred njim spalio mađarsku zastavu. Austro-Ugarska je propala 1918. Zagreb ju je nadživio netaknut.",
+        t: "Under the Austro-Hungarian empire, Zagreb was rebuilt as a grand European capital. The Lower Town (Donji Grad) was planned as a horseshoe of parks and boulevards — the famous 'Green Horseshoe' designed by Milan Lenuci in the 1880s. Neo-baroque and neo-Renaissance palaces, the Croatian National Theatre (1895), the University (1874), the Academy of Sciences (1866) — all built in two generations. During Emperor Franz Joseph's visit in 1895, protesting students — among them the young Stjepan Radić — burned the Hungarian flag. Austria-Hungary ended in 1918. Zagreb survived it intact.",
+        tHr: "Pod Austro-Ugarskom Monarhijom Zagreb je preuređen u veličanstvenu europsku prijestolnicu. Donji grad zamišljen je kao potkova parkova i bulevara — čuvena 'Zelena potkova' koju je 1880-ih osmislio Milan Lenuci. Neobarokne i neorenesansne palače, Hrvatsko narodno kazalište (1895.), Sveučilište (1874.), Akademija znanosti (1866.) — sve je izgrađeno u samo dva naraštaja. Tijekom posjeta cara Franje Josipa 1895. prosvjedni su studenti, među njima i mladi Stjepan Radić, spalili mađarsku zastavu. Austro-Ugarska je propala 1918. Zagreb ju je nadživio netaknut.",
       },
       {
         h: 'Yugoslavia, WWII & the NDH',
@@ -1689,13 +1689,13 @@ export const REGIONS = {
         h: '1991: Independence & the Rocket Attack',
         hHr: '1991.: neovisnost i raketni napad',
         t: 'On June 25, 1991, Croatia declared independence from Yugoslavia. Three days later, JNA jets flew over Zagreb in a show of force — a terrifying moment the city never forgot. On October 7, 1991, two Yugoslav Air Force jets fired rockets at Banski Dvori — the seat of government — while President Franjo Tuđman and his Cabinet were meeting inside. The rockets hit the building. No one in the Cabinet was killed. The attack steeled Croatian resolve. Croatia survived the war with its capital unoccupied, and was internationally recognized on January 15, 1992.',
-        tHr: 'Dana 25. lipnja 1991. Hrvatska je proglasila neovisnost od Jugoslavije. Tri dana poslije, avioni JNA proletjeli su nad Zagrebom u znak prijetnje silom — zastrašujući trenutak koji grad nikada nije zaboravio. Dana 7. listopada 1991. dva su zrakoplova jugoslavenskoga ratnog zrakoplovstva ispalila rakete na Banske dvore — sjedište Vlade — dok su unutra zasjedali predsjednik Franjo Tuđman i njegova Vlada. Rakete su pogodile zgradu. Nitko od članova Vlade nije poginuo. Napad je samo učvrstio hrvatsku odlučnost. Hrvatska je rat dočekala s neosvojenom prijestolnicom, a međunarodno je priznata 15. siječnja 1992.',
+        tHr: 'Dana 25. lipnja 1991. Hrvatska je proglasila neovisnost od Jugoslavije. Tri dana poslije, avioni JNA proletjeli su nad Zagrebom u znak prijetnje silom — zastrašujući trenutak koji grad nikada nije zaboravio. Dana 7. listopada 1991. dva su zrakoplova jugoslavenskoga ratnog zrakoplovstva ispalila rakete na Banske dvore — sjedište Vlade — dok su unutra zasjedali predsjednik Franjo Tuđman i njegova Vlada. Rakete su pogodile zgradu. Nitko od članova Vlade nije poginuo. Napad je samo učvrstio hrvatsku odlučnost. Hrvatska je rat prebrodila, a njezina prijestolnica nikada nije bila osvojena, a međunarodno je priznata 15. siječnja 1992.',
       },
       {
         h: 'Zagreb Today: Museums, Cafés & Potres',
         hHr: 'Zagreb danas: muzeji, kavane i potres',
-        t: "Zagreb today is a liveable, walkable European capital with more museums per capita than any other European city — including the Museum of Broken Relationships, the Mimara, the Technical Museum, the Zagreb City Museum, and 350 others. The café culture on Tkalčićeva Street and the Dolac open-air market beneath the cathedral are the city's living rooms. A magnitude 5.5 earthquake struck on March 22, 2020 — the strongest in 140 years — damaging the Cathedral and Upper Town significantly. Reconstruction continues.",
-        tHr: 'Zagreb je danas ugodna europska prijestolnica pogodna za pješačenje, s više muzeja po glavi stanovnika nego ijedan drugi europski grad — među njima Muzej prekinutih veza, Mimara, Tehnički muzej, Muzej grada Zagreba i još 350 drugih. Kavanska kultura Tkalčićeve ulice i tržnica Dolac ispod katedrale prave su gradske dnevne sobe. Potres jačine 5,5 stupnjeva pogodio je grad 22. ožujka 2020. — najjači u posljednjih 140 godina — te znatno oštetio katedralu i Gornji grad. Obnova još traje.',
+        t: "Zagreb today is a liveable, walkable European capital with one of the highest numbers of museums per resident in Europe — including the Museum of Broken Relationships, the Mimara, the Technical Museum, the Zagreb City Museum, and dozens of others. The café culture on Tkalčićeva Street and the Dolac open-air market beneath the cathedral are the city's living rooms. A magnitude 5.5 earthquake struck on March 22, 2020 — the strongest in 140 years — damaging the Cathedral and Upper Town significantly. Reconstruction continues.",
+        tHr: 'Zagreb je danas ugodna europska prijestolnica pogodna za pješačenje, s jednim od najvećih brojeva muzeja po stanovniku u Europi — među njima Muzej prekinutih veza, Mimara, Tehnički muzej, Muzej grada Zagreba i još deseci drugih. Kavanska kultura Tkalčićeve ulice i tržnica Dolac ispod katedrale prave su gradske dnevne sobe. Potres magnitude 5,5 pogodio je grad 22. ožujka 2020. — najjači u posljednjih 140 godina — te znatno oštetio katedralu i Gornji grad. Obnova još traje.',
       },
     ],
     timeline: [
@@ -1738,9 +1738,8 @@ export const REGIONS = {
       },
       {
         year: '1862',
-        event: 'First Croatian railway line opens: Zagreb–Sisak. Croatia enters the industrial age',
-        eventHr:
-          'Otvorena prva hrvatska željeznička pruga: Zagreb–Sisak. Hrvatska ulazi u industrijsko doba',
+        event: 'The Zidani Most–Zagreb–Sisak railway opens. Zagreb enters the industrial age',
+        eventHr: 'Otvorena pruga Zidani Most – Zagreb – Sisak. Zagreb ulazi u industrijsko doba',
       },
       {
         year: '1895',
@@ -1784,7 +1783,7 @@ export const REGIONS = {
         event:
           'Magnitude 5.5 earthquake strikes Zagreb — strongest in 140 years. Cathedral damaged',
         eventHr:
-          'Potres jačine 5,5 stupnjeva pogađa Zagreb — najjači u posljednjih 140 godina. Oštećena katedrala',
+          'Potres magnitude 5,5 pogađa Zagreb — najjači u posljednjih 140 godina. Oštećena katedrala',
       },
     ],
     people: [
@@ -1804,9 +1803,9 @@ export const REGIONS = {
         role: 'Peasant Leader & Political Martyr',
         roleHr: 'Seljački vođa i politički mučenik',
         story:
-          "Croatia's most beloved democratic politician. Founder of the Croatian Peasant Party, Radić championed the rights of ordinary Croatian farmers against both Habsburg and Yugoslav centralizers. He was shot in the Yugoslav parliament in Belgrade in June 1928 — an assassination that traumatized Croatians forever. He died six weeks later in Zagreb. His grave at Mirogoj Cemetery is still visited daily. The attack proved to many Croatians that peaceful coexistence in Yugoslavia was impossible.",
+          "Croatia's most beloved democratic politician. Founder of the Croatian Peasant Party, Radić championed the rights of ordinary Croatian farmers against both Habsburg and Yugoslav centralizers. He was shot in the Yugoslav parliament in Belgrade in June 1928 — an assassination that traumatized Croatians forever. He died of his wounds in Zagreb that August. His grave at Mirogoj Cemetery is still visited daily. The attack proved to many Croatians that peaceful coexistence in Yugoslavia was impossible.",
         storyHr:
-          'Najomiljeniji hrvatski demokratski političar. Kao osnivač Hrvatske seljačke stranke, Radić se zalagao za prava običnih hrvatskih seljaka protiv habsburških i jugoslavenskih centralista podjednako. Upucan je u jugoslavenskom parlamentu u Beogradu u lipnju 1928. — atentat koji je Hrvate zauvijek traumatizirao. Umro je šest tjedana poslije u Zagrebu. Njegov se grob na Mirogoju i danas svakodnevno posjećuje. Napad je mnoge Hrvate uvjerio da je mirni suživot u Jugoslaviji nemoguć.',
+          'Najomiljeniji hrvatski demokratski političar. Kao osnivač Hrvatske seljačke stranke, Radić se zalagao za prava običnih hrvatskih seljaka protiv habsburških i jugoslavenskih centralista podjednako. Upucan je u jugoslavenskom parlamentu u Beogradu u lipnju 1928. — atentat koji je Hrvate zauvijek traumatizirao. Od posljedica ranjavanja umro je u kolovozu iste godine u Zagrebu. Njegov se grob na Mirogoju i danas svakodnevno posjećuje. Napad je mnoge Hrvate uvjerio da je mirni suživot u Jugoslaviji nemoguć.',
       },
       {
         name: 'Nikola Tesla',
@@ -1814,9 +1813,9 @@ export const REGIONS = {
         role: 'Inventor (Croatian connection)',
         roleHr: 'Izumitelj (hrvatska poveznica)',
         story:
-          "While born in Smiljan (Lika) and dying in New York, Tesla spent formative years in Zagreb — he studied at the Technical School here and returned throughout his life. Zagreb celebrates its connection fiercely: the Tesla monument in front of the Technical Museum, a street named after him, and proud claim over the inventor of alternating current. Tesla's mother was Serbian, his father Serbian Orthodox priest, but his identity was proudly Croatian — he always signed letters 'Serb by birth, Croatian by homeland.'",
+          "Born in Smiljan (Lika) and dying in New York, Tesla finished secondary school in nearby Karlovac, and in 1892 he addressed Zagreb's city council, urging the city to build an electric power plant. Zagreb celebrates the connection: Ivan Meštrović's statue of Tesla stands in the city centre, a street is named after him, and the Technical Museum bears his name. Tesla's father was a Serbian Orthodox priest, and Tesla himself said he was equally proud of his Serbian origin and his Croatian homeland.",
         storyHr:
-          "Iako je rođen u Smiljanu (Lika), a umro u New Yorku, Tesla je formativne godine proveo u Zagrebu — ovdje je pohađao Tehničku školu i vraćao se cijeloga života. Zagreb žustro slavi tu poveznicu: Teslin spomenik pred Tehničkim muzejom, ulica nazvana po njemu i ponosno pozivanje na izumitelja izmjenične struje. Teslina je majka bila Srpkinja, otac srpski pravoslavni svećenik, no svoj je identitet ponosno smatrao hrvatskim — pisma je uvijek potpisivao riječima 'Srbin po rođenju, Hrvat po domovini.'",
+          'Rođen u Smiljanu (Lika), a umro u New Yorku, Tesla je srednju školu završio u obližnjem Karlovcu, a 1892. obratio se zagrebačkim gradskim zastupnicima i potaknuo grad da izgradi električnu centralu. Zagreb ponosno njeguje tu poveznicu: u središtu grada stoji Meštrovićev kip Tesle, po njemu je nazvana ulica, a njegovo ime nosi i Tehnički muzej. Teslin je otac bio srpski pravoslavni svećenik, a sam je Tesla govorio da je jednako ponosan na svoje srpsko podrijetlo i na hrvatsku domovinu.',
       },
       {
         name: 'Miroslav Krleža',
@@ -1833,30 +1832,30 @@ export const REGIONS = {
       {
         hr: 'Zagrepčanin / Zagrepčanka',
         en: 'person from Zagreb (m/f)',
-        note: "The adjective 'Zagrebački' — as in 'Zagrebački nogometni klub' (Zagreb Football Club)",
+        note: "The adjective is 'zagrebački' — as in 'zagrebački tramvaj' (the Zagreb tram)",
       },
       {
-        hr: 'Gornji Grad',
+        hr: 'Gornji grad',
         en: 'Upper Town',
         note: "The medieval hilltop quarter with St. Mark's Church, the Croatian Parliament, and cobblestone streets",
       },
       {
-        hr: 'Donji Grad',
+        hr: 'Donji grad',
         en: 'Lower Town',
         note: "The Habsburg-era grid of boulevards, parks, and palaces — the 'real' Zagreb for most residents",
       },
       {
         hr: 'Dolac',
         en: "Zagreb's main open-air market",
-        note: "'Na Dolac' — at the market. Every morning, vendors sell fresh produce under red umbrellas above the cathedral",
+        note: "'Na Dolac' — at the market. Every morning, vendors sell fresh produce under red umbrellas beside the cathedral",
       },
       {
-        hr: 'Špica',
+        hr: 'špica',
         en: 'Saturday morning coffee ritual',
         note: 'The weekly tradition of seeing and being seen over coffee on Ilica or Tkalčićeva. Essential Zagreb culture',
       },
       {
-        hr: 'Licitarsko srce',
+        hr: 'licitarsko srce',
         en: 'gingerbread heart',
         note: "Zagreb's iconic red gingerbread heart — UNESCO-listed craft. Given as a token of love and friendship",
       },
@@ -1872,17 +1871,17 @@ export const REGIONS = {
       },
     ],
     facts: [
-      'Zagreb has over 350 museums — more museums per capita than any other European city. The Museum of Broken Relationships has toured 60 cities worldwide.',
+      'Zagreb has dozens of museums — one of the highest numbers per resident in Europe. The Museum of Broken Relationships has toured 60 cities worldwide.',
       "The funicular connecting Lower and Upper Town (opened 1890) is just 66 meters long — one of the world's shortest public transport lines. It still runs today.",
-      "Nikola Tesla's face appeared on the Croatian 100-kuna banknote. When Croatia adopted the euro in 2023, he was not on the new coins — a source of local debate.",
+      "Nikola Tesla's portrait is on Croatia's 10, 20 and 50 euro-cent coins, introduced in 2023 — a choice that drew protests from Serbia.",
       'The Zagreb Cathedral has twin neo-Gothic spires completed in 1906. The earthquake of 2020 damaged one spire significantly — reconstruction is ongoing.',
       "Tkalčićeva Street was originally the course of Medveščak Creek — the stream that divided Kaptol from Gradec. It was paved over in the 19th century and became Zagreb's most famous café street.",
       "Zagreb's Advent (Christmas market) was voted Europe's Best Christmas Market four years in a row (2016–2019) by European Best Destinations.",
     ],
     factsHr: [
-      'Zagreb ima više od 350 muzeja — više po glavi stanovnika nego ijedan drugi europski grad. Muzej prekinutih veza gostovao je u 60 gradova diljem svijeta.',
+      'Zagreb ima desetke muzeja — jedan od najvećih brojeva po stanovniku u Europi. Muzej prekinutih veza gostovao je u 60 gradova diljem svijeta.',
       'Uspinjača koja povezuje Donji i Gornji grad (otvorena 1890.) duga je samo 66 metara — jedna od najkraćih linija javnog prijevoza na svijetu. I danas je u pogonu.',
-      'Lik Nikole Tesle krasio je hrvatsku novčanicu od 100 kuna. Kad je Hrvatska 2023. uvela euro, on se nije našao na novim kovanicama — što je izazvalo lokalnu raspravu.',
+      'Lik Nikole Tesle nalazi se na hrvatskim kovanicama od 10, 20 i 50 euro centi, uvedenima 2023. — izbor koji je izazvao prosvjede u Srbiji.',
       'Zagrebačka katedrala ima dva neogotička tornja dovršena 1906. Potres iz 2020. znatno je oštetio jedan toranj — obnova je još u tijeku.',
       'Tkalčićeva ulica izvorno je bila korito potoka Medveščak, koji je dijelio Kaptol od Gradeca. U 19. stoljeću zatrpan je i pretvoren u kolnik, a ulica je postala najpoznatija zagrebačka kavanska ulica.',
       'Zagrebački Advent portal European Best Destinations četiri je godine zaredom (2016. – 2019.) proglasio najboljim božićnim sajmom u Europi.',
@@ -1927,10 +1926,10 @@ export const REGIONS = {
       {
         q: 'What UNESCO-listed craft is Zagreb most famous for?',
         a: 'The licitarsko srce — decorated gingerbread heart',
-        al: ['The Šestinski šešir hat', 'The Zagreb Cathedral bells', 'The tram network'],
+        al: ['The Šestine umbrella', 'The Zagreb Cathedral bells', 'The tram network'],
         qHr: 'Po kojem je UNESCO-ovom obrtu Zagreb najpoznatiji?',
         aHr: 'Licitarsko srce — ukrašeno medeno srce',
-        alHr: ['Šestinski šešir', 'Zvona zagrebačke katedrale', 'Tramvajska mreža'],
+        alHr: ['Šestinski kišobran', 'Zvona zagrebačke katedrale', 'Tramvajska mreža'],
       },
       {
         q: 'Who was shot in the Yugoslav parliament, later dying in Zagreb in 1928?',
@@ -1956,9 +1955,9 @@ export const REGIONS = {
     color: '#1d4ed8',
     icon: '🏛️',
     intro:
-      "Split is Croatia's second-largest city and the capital of Dalmatia — a 1,700-year-old city that grew organically inside a Roman emperor's retirement palace. Today 170,000 people live, work, and celebrate inside Diocletian's 3rd-century walls.",
+      "Split is Croatia's second-largest city and the capital of Dalmatia — a 1,700-year-old city that grew organically inside a Roman emperor's retirement palace. Today the heart of a city of some 160,000 people still beats inside Diocletian's walls, raised at the turn of the 4th century.",
     introHr:
-      'Split je drugi po veličini hrvatski grad i prijestolnica Dalmacije — grad star 1.700 godina koji je organski izrastao unutar umirovljeničke palače rimskog cara. Danas unutar Dioklecijanovih zidina iz 3. stoljeća živi, radi i slavi 170.000 ljudi.',
+      'Split je drugi po veličini hrvatski grad i prijestolnica Dalmacije — grad star 1.700 godina koji je organski izrastao unutar umirovljeničke palače rimskog cara. Srce grada od oko 160.000 stanovnika i danas kuca unutar Dioklecijanovih zidina, podignutih na prijelazu u 4. stoljeće.',
     sections: [
       {
         h: "Diocletian's Palace — The Emperor Retires Home",
@@ -1975,14 +1974,14 @@ export const REGIONS = {
       {
         h: "Ivan Meštrović — Croatia's Michelangelo",
         hHr: 'Ivan Meštrović — hrvatski Michelangelo',
-        t: "Split is the spiritual home of Croatia's greatest sculptor, Ivan Meštrović (1883–1962). Though born in Slavonia, Meštrović is inseparable from Split — his gallery (the Meštrović Gallery, housed in a villa he designed) contains 190 of his monumental works. His statue of Gregory of Nin (Grgur Ninski) stands before the Golden Gate of Diocletian's Palace — 8.5 meters tall, thumb polished bronze-bright by a million tourists rubbing it for luck. Meštrović studied in Vienna, exhibited with Rodin in Paris, was commissioned by the Vatican, and was the first living artist to have a solo show at the Metropolitan Museum of New York.",
-        tHr: 'Split je duhovni dom najvećega hrvatskog kipara, Ivana Meštrovića (1883. – 1962.). Iako je rođen u Slavoniji, Meštrović je neodvojiv od Splita — u njegovoj galeriji (Galerija Meštrović, smještena u vili koju je sam projektirao) čuva se 190 njegovih monumentalnih djela. Njegov kip Grgura Ninskog stoji pred Zlatnim vratima Dioklecijanove palače — visok 8,5 metara, s palcem uglačanim do sjaja bronce od milijun turista koji ga trljaju za sreću. Meštrović je studirao u Beču, izlagao s Rodinom u Parizu, radio po narudžbi Vatikana i bio prvi živi umjetnik kojem je priređena samostalna izložba u newyorškom Metropolitan muzeju.',
+        t: "Split is the spiritual home of Croatia's greatest sculptor, Ivan Meštrović (1883–1962). Though born in Slavonia, Meštrović is inseparable from Split — his gallery (the Meštrović Gallery, housed in a villa he designed) contains 190 of his monumental works. His statue of Gregory of Nin (Grgur Ninski) stands before the Golden Gate of Diocletian's Palace — 8.5 meters tall, big toe polished bronze-bright by a million tourists rubbing it for luck. Meštrović studied in Vienna, exhibited with Rodin in Paris, was commissioned by the Vatican, and was the first living artist to have a solo show at the Metropolitan Museum of New York.",
+        tHr: 'Split je duhovni dom najvećega hrvatskog kipara, Ivana Meštrovića (1883. – 1962.). Iako je rođen u Slavoniji, Meštrović je neodvojiv od Splita — u njegovoj galeriji (Galerija Meštrović, smještena u vili koju je sam projektirao) čuva se 190 njegovih monumentalnih djela. Njegov kip Grgura Ninskog stoji pred Zlatnim vratima Dioklecijanove palače — visok 8,5 metara, s nožnim palcem uglačanim do sjaja od milijun turista koji ga trljaju za sreću. Meštrović je studirao u Beču, izlagao s Rodinom u Parizu, radio po narudžbi Vatikana i bio prvi živi umjetnik kojem je priređena samostalna izložba u newyorškom Metropolitan muzeju.',
       },
       {
         h: "Hajduk Split — The People's Club",
         hHr: 'Hajduk Split — klub naroda',
         t: "Founded in Prague in 1911 by Split students who chose the name 'Hajduk' — the rebellious Balkan freedom fighter — Hajduk Split is the most beloved and most contentious football club in Croatia. The Torcida, founded in 1950 as one of the world's first organized supporter groups, invented the modern concept of the ultras. Dinamo Zagreb vs Hajduk Split is the defining derby of Croatian football — 'Vječni derbi' (Eternal Derby). Split's identity is inseparable from the blue-and-white stripes. 'Bili smo, jesmo i bit ćemo Hajduk' — We were, are, and will be Hajduk.",
-        tHr: "Osnovali su ga 1911. u Pragu splitski studenti koji su odabrali ime 'Hajduk' — buntovnog balkanskog borca za slobodu — Hajduk Split najomiljeniji je i najkontroverzniji nogometni klub u Hrvatskoj. Torcida, osnovana 1950. kao jedna od prvih organiziranih navijačkih skupina na svijetu, utemeljila je moderni koncept ultrasa. Dinamo Zagreb protiv Hajduka Splita najvažniji je derbi hrvatskog nogometa — 'Vječni derbi'. Splitski je identitet nerazdvojiv od bijelo-plavih boja. 'Bili smo, jesmo i bit ćemo Hajduk.'",
+        tHr: "Hajduk Split, koji su 1911. u Pragu osnovali splitski studenti i nazvali ga po hajducima — buntovnim balkanskim borcima za slobodu — najomiljeniji je i najkontroverzniji nogometni klub u Hrvatskoj. Torcida, osnovana 1950. kao jedna od prvih organiziranih navijačkih skupina na svijetu, utemeljila je moderni koncept ultrasa. Dinamo Zagreb protiv Hajduka Splita najvažniji je derbi hrvatskog nogometa — 'Vječni derbi'. Splitski je identitet nerazdvojiv od bijelo-plavih boja. 'Bili smo, jesmo i bit ćemo Hajduk.'",
       },
     ],
     timeline: [
@@ -2194,27 +2193,27 @@ export const REGIONS = {
     color: '#b45309',
     icon: '🌉',
     intro:
-      'Mostar is the cultural capital of Herzegovina — a region historically and ethnically Croatian. Its iconic Stari Most (Old Bridge) was built in 1566, destroyed in war in 1993, and rebuilt from the same stone in 2004. The bridge is a metaphor for the region itself.',
+      'Mostar is the cultural capital of Herzegovina — a region historically and ethnically Croatian. Its iconic Stari Most (Old Bridge) was built in 1566, destroyed in war in 1993, and rebuilt from the same kind of stone in 2004. The bridge is a metaphor for the region itself.',
     introHr:
-      'Mostar je kulturna prijestolnica Hercegovine — regije koja je povijesno i etnički hrvatska. Njegov znameniti Stari most izgrađen je 1566., u ratu razoren 1993., a 2004. obnovljen od istoga kamena. Most je metafora same regije.',
+      'Mostar je kulturna prijestolnica Hercegovine — regije koja je povijesno i etnički hrvatska. Njegov znameniti Stari most izgrađen je 1566., u ratu razoren 1993., a 2004. obnovljen od iste vrste kamena. Most je metafora same regije.',
     sections: [
       {
         h: 'The Stari Most — Ottoman Masterpiece',
         hHr: 'Stari most — osmansko remek-djelo',
-        t: "Stari Most ('Old Bridge') was built in 1566 by Ottoman architect Mimar Hayruddin, a student of the legendary Sinan. The single-span arch bridge of local limestone (tenelija) crosses the Neretva River at 21 meters above the water, with a span of 29 meters. It was the widest man-made arch bridge in the world at the time of its construction. For 427 years it stood. The traditional divers of Mostar — 'Mostari' (bridge keepers) — have leaped from its 21-meter parapet for centuries. The bridge gave the city its name.",
-        tHr: "Stari most izgradio je 1566. osmanski graditelj Mimar Hajrudin, učenik legendarnoga Sinana. Jednolučni most od lokalnoga vapnenca (tenelije) premošćuje rijeku Neretvu na visini od 21 metar iznad vode, s rasponom od 29 metara. U trenutku izgradnje bio je najširi rukom izgrađeni lučni most na svijetu. Stajao je 427 godina. Tradicionalni mostarski skakači — 'mostari' (čuvari mosta) — stoljećima su skakali s njegove 21-metarske ograde. Most je gradu dao ime.",
+        t: "Stari Most ('Old Bridge') was built in 1566 by Ottoman architect Mimar Hayruddin, a student of the legendary Sinan. The single-span arch bridge of local limestone (tenelija) crosses the Neretva River at 21 meters above the water, with a span of 29 meters. It was the widest man-made arch bridge in the world at the time of its construction. For 427 years it stood. The traditional divers of Mostar have leaped from its 21-meter parapet for centuries. The bridge gave the city its name — the mostari were its keepers.",
+        tHr: 'Stari most izgradio je 1566. osmanski graditelj Mimar Hajrudin, učenik legendarnoga Sinana. Jednolučni most od lokalnoga vapnenca (tenelije) premošćuje rijeku Neretvu na visini od 21 metar iznad vode, s rasponom od 29 metara. U trenutku izgradnje bio je najširi rukom izgrađeni lučni most na svijetu. Stajao je 427 godina. Tradicionalni mostarski skakači stoljećima skaču s njegove 21-metarske ograde. Most je gradu dao ime — mostari su bili njegovi čuvari.',
       },
       {
         h: 'Croatian Herzegovina — History and Identity',
         hHr: 'Hrvatska Hercegovina — povijest i identitet',
-        t: "Herzegovina (Hercegovina) is the southern region of modern Bosnia and Herzegovina. The name comes from 'herceg' (duke) — specifically Stjepan Vukčić Kosača, who called himself 'Herceg of Hum and the Coast' in the 15th century. Croatians are one of the three constituent peoples of Bosnia and Herzegovina, and in Herzegovina — particularly west and west-central Herzegovina — Croatians form the majority. Mostar is the urban center of Croatian Herzegovina. The University of Mostar, Cathedral of the Holy Trinity, HŠK Zrinjski football club, and the Croatian Cultural Centre are the pillars of Herzegovinian Croatian life.",
-        tHr: "Hercegovina je južna regija današnje Bosne i Hercegovine. Ime potječe od riječi 'herceg' — konkretno od Stjepana Vukčića Kosače, koji se u 15. stoljeću nazvao 'hercegom Huma i Primorja'. Hrvati su jedan od triju konstitutivnih naroda Bosne i Hercegovine, a u Hercegovini — osobito u zapadnoj i središnjoj zapadnoj Hercegovini — čine većinu. Mostar je urbano središte hrvatske Hercegovine. Sveučilište u Mostaru, katedrala Presvetog Trojstva, nogometni klub HŠK Zrinjski i Hrvatski dom kulture stupovi su hercegovačkoga hrvatskog života.",
+        t: "Herzegovina (Hercegovina) is the southern region of modern Bosnia and Herzegovina. The name comes from 'herceg' (duke) — specifically Stjepan Vukčić Kosača, who called himself 'Herceg of Hum and the Coast' in the 15th century. Croatians are one of the three constituent peoples of Bosnia and Herzegovina, and in Herzegovina — particularly west and west-central Herzegovina — Croatians form the majority. Mostar is the urban center of Croatian Herzegovina. The University of Mostar, Cathedral of Mary, Mother of the Church, HŠK Zrinjski football club, and the Croatian Cultural Centre are the pillars of Herzegovinian Croatian life.",
+        tHr: "Hercegovina je južna regija današnje Bosne i Hercegovine. Ime potječe od riječi 'herceg' — konkretno od Stjepana Vukčića Kosače, koji se u 15. stoljeću nazvao 'hercegom Huma i Primorja'. Hrvati su jedan od triju konstitutivnih naroda Bosne i Hercegovine, a u Hercegovini — osobito u zapadnoj i središnjoj zapadnoj Hercegovini — čine većinu. Mostar je urbano središte hrvatske Hercegovine. Sveučilište u Mostaru, katedrala Marije Majke Crkve, nogometni klub HŠK Zrinjski i Hrvatski dom kulture stupovi su hercegovačkoga hrvatskog života.",
       },
       {
         h: "The War 1992-1994 and the Bridge's Destruction",
         hHr: 'Rat 1992. – 1994. i razaranje mosta',
         t: 'During the Bosnian War, Mostar was attacked first by the JNA and Serb forces (1992), then torn apart by conflict between Croatian and Bosniak forces (1993-1994). On November 9, 1993 — the same day as the fall of the Berlin Wall four years earlier — Croatian HVO (Croatian Defence Council) artillery destroyed the Stari Most. The bridge fell into the Neretva. It was a cultural crime that shocked the world. The complex political and military context of why it happened is still debated and contested by historians and the communities involved.',
-        tHr: 'Tijekom Bosanskog rata Mostar su najprije napale JNA i srpske snage (1992.), a potom ga je razdirao sukob hrvatskih i bošnjačkih snaga (1993. – 1994.). Dana 9. studenoga 1993. — na obljetnicu pada Berlinskog zida, koji se dogodio točno četiri godine ranije — topništvo hrvatskog HVO-a (Hrvatskog vijeća obrane) razorilo je Stari most. Most se srušio u Neretvu. Bio je to kulturni zločin koji je potresao svijet. Složeni politički i vojni kontekst zbog kojeg se to dogodilo povjesničari i uključene zajednice i danas raspravljaju i osporavaju.',
+        tHr: 'Tijekom Bosanskog rata Mostar su najprije napale JNA i srpske snage (1992.), a potom ga je razdirao sukob hrvatskih i bošnjačkih snaga (1993. – 1994.). Dana 9. studenoga 1993. — na obljetnicu pada Berlinskog zida, koji se dogodio točno četiri godine ranije — topništvo hrvatskog HVO-a (Hrvatskog vijeća obrane) razorilo je Stari most. Most se srušio u Neretvu. Bio je to kulturni zločin koji je potresao svijet. O složenom političkom i vojnom kontekstu u kojem se to dogodilo povjesničari i uključene zajednice i danas raspravljaju i spore se.',
       },
       {
         h: 'Reconstruction and UNESCO World Heritage',
@@ -2286,9 +2285,9 @@ export const REGIONS = {
         role: 'Herceg of Hum — Founder of Herzegovina',
         roleHr: 'Herceg Huma — utemeljitelj Hercegovine',
         story:
-          "The medieval nobleman who gave Herzegovina its name — he called himself 'Herceg of Hum and the Coast' in 1448, and the land became 'Hercegovina' (land of the Herceg). His territory covered most of modern Herzegovina and parts of Dalmatia. He navigated between Ottoman power and Christian coalitions with varying success. He eventually converted to Islam under Ottoman pressure to preserve his lands — a decision still discussed centuries later.",
+          "The medieval nobleman who gave Herzegovina its name — he called himself 'Herceg of Hum and the Coast' in 1448, and the land became 'Hercegovina' (land of the Herceg). His territory covered most of modern Herzegovina and parts of Dalmatia. He navigated between Ottoman power and Christian coalitions with varying success. He died a Christian in 1466; his youngest son converted to Islam and rose to become the Ottoman grand vizier Hersekzade Ahmed Pasha — a family story of survival between empires.",
         storyHr:
-          "Srednjovjekovni velikaš koji je Hercegovini dao ime — 1448. nazvao se 'hercegom Huma i Primorja', pa je zemlja postala 'Hercegovina' (zemlja hercega). Njegov je posjed obuhvaćao veći dio današnje Hercegovine i dijelove Dalmacije. Kretao se između osmanske moći i kršćanskih koalicija s promjenljivim uspjehom. Naposljetku je pod osmanskim pritiskom prešao na islam kako bi sačuvao svoje zemlje — odluka o kojoj se raspravlja i stoljećima poslije.",
+          "Srednjovjekovni velikaš koji je Hercegovini dao ime — 1448. nazvao se 'hercegom Huma i Primorja', pa je zemlja postala 'Hercegovina' (zemlja hercega). Njegov je posjed obuhvaćao veći dio današnje Hercegovine i dijelove Dalmacije. Kretao se između osmanske moći i kršćanskih koalicija s promjenljivim uspjehom. Umro je kao kršćanin 1466.; njegov je najmlađi sin prešao na islam i postao osmanski veliki vezir Hersekzade Ahmed-paša — obiteljska priča o opstanku između carstava.",
       },
       {
         name: 'Mimar Hayruddin',
@@ -2318,14 +2317,14 @@ export const REGIONS = {
         note: "From 'herceg' (duke) — the historical Croatian and Bosniak homeland south of the mountains",
       },
       {
-        hr: 'Stari Most',
+        hr: 'Stari most',
         en: 'Old Bridge',
         note: "'Stari' = old, 'Most' = bridge. Mostar literally means 'bridge keeper' — those who kept the old bridge",
       },
       {
-        hr: 'Mostari',
-        en: 'bridge divers / bridge keepers',
-        note: 'The traditional divers who leap from the 21-meter bridge — a Mostar tradition for centuries',
+        hr: 'mostari',
+        en: 'bridge keepers',
+        note: "The guards who kept the bridge — and the source of the city's name. The divers who leap from it are called 'skakači'",
       },
       {
         hr: 'tenelija',
@@ -2414,21 +2413,21 @@ export const REGIONS = {
     color: '#7c3aed',
     icon: '👑',
     intro:
-      "Tomislavgrad — historically Duvno — is the site where Croatia's first king was crowned in 925 AD and the Croatian Kingdom reached its earliest peak. Though today in Bosnia and Herzegovina, it is the historical cradle of the Croatian state and one of the most sacred sites in Croatian national memory.",
+      "Tomislavgrad — historically Duvno — is, by tradition, the site where Croatia's first king was crowned in 925 AD and the Croatian Kingdom reached its earliest peak. Though today in Bosnia and Herzegovina, it is the historical cradle of the Croatian state and one of the most sacred sites in Croatian national memory.",
     introHr:
-      'Tomislavgrad — povijesno Duvno — mjesto je gdje je 925. okrunjen prvi hrvatski kralj i gdje je Hrvatsko Kraljevstvo doživjelo svoj najraniji procvat. Iako danas leži u Bosni i Hercegovini, to je povijesna kolijevka hrvatske države i jedno od najsvetijih mjesta u hrvatskom nacionalnom pamćenju.',
+      'Tomislavgrad — povijesno Duvno — prema predaji mjesto je gdje je 925. okrunjen prvi hrvatski kralj i gdje je Hrvatsko Kraljevstvo doživjelo svoj najraniji procvat. Iako danas leži u Bosni i Hercegovini, to je povijesna kolijevka hrvatske države i jedno od najsvetijih mjesta u hrvatskom nacionalnom pamćenju.',
     sections: [
       {
         h: 'The Coronation of King Tomislav — 925 AD',
         hHr: 'Krunidba kralja Tomislava — 925. godine',
-        t: "In 925 AD, on the Duvanjsko polje (Duvno plain) near present-day Tomislavgrad, the Croatian nobility convened a grand assembly. Pope John X sent legates to crown Tomislav as Rex Chroatorum — King of the Croats. It was the moment a collection of Croatian tribes and župas crystallized into a recognized European kingdom. Tomislav ruled over Pannonian and Dalmatian Croatia, commanded a powerful army, and reportedly maintained a fleet of 80 large ships and 100 smaller ones on the Adriatic. He halted the Bulgarian Tsar Simeon's expansion and was recognized by both the Pope and the Byzantine Empire.",
-        tHr: 'Godine 925. na Duvanjskom polju kraj današnjeg Tomislavgrada hrvatsko je plemstvo sazvalo veliki sabor. Papa Ivan X. poslao je izaslanike koji su Tomislava okrunili za Rex Chroatorum — kralja Hrvata. Bio je to trenutak u kojem se skup hrvatskih plemena i župa pretočio u priznato europsko kraljevstvo. Tomislav je vladao Panonskom i Dalmatinskom Hrvatskom, zapovijedao je moćnom vojskom i navodno je na Jadranu održavao flotu od 80 velikih i 100 manjih brodova. Zaustavio je širenje bugarskog cara Simeona, a priznali su ga i papa i Bizantsko Carstvo.',
+        t: "According to tradition, in 925 AD the Croatian nobility gathered on the Duvanjsko polje (Duvno plain) near present-day Tomislavgrad to crown Tomislav. That same year Pope John X addressed him in a letter as Rex Chroatorum — King of the Croats. It was the moment a collection of Croatian tribes and župas crystallized into a recognized European kingdom. Tomislav ruled over Pannonian and Dalmatian Croatia, commanded a powerful army, and reportedly maintained a fleet of 80 large ships and 100 smaller ones on the Adriatic. He halted the Bulgarian Tsar Simeon's expansion and was recognized by both the Pope and the Byzantine Empire.",
+        tHr: 'Prema predaji, 925. godine hrvatsko se plemstvo okupilo na Duvanjskom polju kraj današnjeg Tomislavgrada kako bi okrunilo Tomislava. Iste ga je godine papa Ivan X. u pismu nazvao Rex Chroatorum — kraljem Hrvata. Bio je to trenutak u kojem se skup hrvatskih plemena i župa pretočio u priznato europsko kraljevstvo. Tomislav je vladao panonskom i dalmatinskom Hrvatskom, zapovijedao je moćnom vojskom i navodno je na Jadranu održavao flotu od 80 velikih i 100 manjih brodova. Zaustavio je širenje bugarskog cara Simeona, a priznali su ga i papa i Bizantsko Carstvo.',
       },
       {
         h: 'The Name: From Duvno to Tomislavgrad',
         hHr: 'Ime: od Duvna do Tomislavgrada',
-        t: "The town's original name was Duvno — a name with ancient Illyrian roots predating Slavic settlement. In 1925, on the exact 1,000th anniversary of King Tomislav's coronation, the town was renamed Tomislavgrad ('City of Tomislav') in honor of Croatia's first king. The renaming was a deliberate political and cultural act — connecting the Croatian people of Herzegovina to their medieval royal heritage. The town has been in Bosnia and Herzegovina since 1995, but remains overwhelmingly Croatian and Catholic in identity.",
-        tHr: "Izvorno ime grada bilo je Duvno — ime drevnih ilirskih korijena, starije od slavenskog naseljavanja. Godine 1925., točno na 1.000. obljetnicu krunidbe kralja Tomislava, grad je preimenovan u Tomislavgrad ('grad Tomislava') u čast prvom hrvatskom kralju. Preimenovanje je bio smišljen politički i kulturni čin — poveznica hrvatskog naroda Hercegovine s njegovom srednjovjekovnom kraljevskom baštinom. Grad je od 1995. u sastavu Bosne i Hercegovine, no identitetom ostaje pretežno hrvatski i katolički.",
+        t: "The town's original name was Duvno — a name with ancient Illyrian roots predating Slavic settlement. In 1925, on the exact 1,000th anniversary of King Tomislav's coronation, the town was renamed Tomislavgrad ('City of Tomislav') in honor of Croatia's first king. The renaming was a deliberate political and cultural act — connecting the Croatian people of Herzegovina to their medieval royal heritage. After 1945 the town was called Duvno again, until 1990. Today it lies in Bosnia and Herzegovina, but remains overwhelmingly Croatian and Catholic in identity.",
+        tHr: "Izvorno ime grada bilo je Duvno — ime drevnih ilirskih korijena, starije od slavenskog naseljavanja. Godine 1925., točno na 1.000. obljetnicu krunidbe kralja Tomislava, grad je preimenovan u Tomislavgrad ('grad Tomislava') u čast prvom hrvatskom kralju. Preimenovanje je bio smišljen politički i kulturni čin — poveznica hrvatskog naroda Hercegovine s njegovom srednjovjekovnom kraljevskom baštinom. Nakon 1945. grad se ponovno zvao Duvno, sve do 1990. Danas leži u Bosni i Hercegovini, no identitetom ostaje pretežno hrvatski i katolički.",
       },
       {
         h: 'The Croatian Assembly of 925 — Duvanjski Sabor',
@@ -2447,16 +2446,16 @@ export const REGIONS = {
       {
         year: '925 AD',
         event:
-          'KING TOMISLAV CROWNED — Pope John X recognizes Croatia as a kingdom. The Duvanjski sabor convenes',
+          'KING TOMISLAV CROWNED — Pope John X addresses him as king. By tradition, the Duvanjski sabor convenes',
         eventHr:
-          'OKRUNJEN KRALJ TOMISLAV — papa Ivan X. priznaje Hrvatsku kraljevstvom. Saziva se Duvanjski sabor',
+          'OKRUNJEN KRALJ TOMISLAV — papa Ivan X. naziva ga kraljem. Prema predaji saziva se Duvanjski sabor',
       },
       {
-        year: '928 AD',
+        year: '926 AD',
         event:
-          'King Tomislav defeats Bulgarian Tsar Simeon at the Battle of the Bosna River — protecting Croatian independence',
+          'King Tomislav defeats the army of Bulgarian Tsar Simeon in the Bosnian highlands — protecting Croatian independence',
         eventHr:
-          'Kralj Tomislav pobjeđuje bugarskog cara Simeona u bitci na rijeci Bosni — brani hrvatsku neovisnost',
+          'Kralj Tomislav pobjeđuje vojsku bugarskog cara Simeona na bosanskim visoravnima — brani hrvatsku neovisnost',
       },
       {
         year: '1102',
@@ -2512,9 +2511,9 @@ export const REGIONS = {
         role: 'First King of Croatia',
         roleHr: 'Prvi hrvatski kralj',
         story:
-          "The most important figure in Croatian history — the man who transformed a fragmented collection of Croatian tribes into a recognized European kingdom. The historical record is thin (a single papal letter from 925 AD refers to him as 'king') but the implications are enormous: he united Pannonian and Dalmatian Croatia, built a military powerful enough to defeat the Bulgarian empire, and won recognition from both Rome and Constantinople. His coronation site near Duvno became sacred Croatian soil. He is on Croatian banknotes; mountains are named for him; his name is among the most popular Croatian boys' names.",
+          "The most important figure in Croatian history — the man who transformed a fragmented collection of Croatian tribes into a recognized European kingdom. The historical record is thin (a single papal letter from 925 AD refers to him as 'king') but the implications are enormous: he united Pannonian and Dalmatian Croatia, built a military powerful enough to defeat the Bulgarian empire, and won recognition from both Rome and Constantinople. His coronation site near Duvno became sacred Croatian soil. His equestrian statue stands before Zagreb's main railway station, a town and countless streets bear his name, and Tomislav is among the most popular Croatian boys' names.",
         storyHr:
-          "Najvažnija osoba hrvatske povijesti — čovjek koji je razjedinjeni skup hrvatskih plemena pretvorio u priznato europsko kraljevstvo. Povijesni je zapis oskudan (samo jedno papinsko pismo iz 925. naziva ga 'kraljem'), no posljedice su goleme: ujedinio je Panonsku i Dalmatinsku Hrvatsku, izgradio vojsku dovoljno moćnu da porazi Bugarsko Carstvo te stekao priznanje i Rima i Carigrada. Mjesto njegove krunidbe kraj Duvna postalo je sveto hrvatsko tlo. Njegov je lik na hrvatskim novčanicama, po njemu su nazvane planine, a njegovo je ime među najomiljenijim hrvatskim muškim imenima.",
+          "Najvažnija osoba hrvatske povijesti — čovjek koji je razjedinjeni skup hrvatskih plemena pretvorio u priznato europsko kraljevstvo. Povijesni je zapis oskudan (samo jedno papinsko pismo iz 925. naziva ga 'kraljem'), no posljedice su goleme: ujedinio je panonsku i dalmatinsku Hrvatsku, izgradio vojsku dovoljno moćnu da porazi Bugarsko Carstvo te stekao priznanje i Rima i Carigrada. Mjesto njegove krunidbe kraj Duvna postalo je sveto hrvatsko tlo. Njegov konjanički kip stoji pred glavnim zagrebačkim kolodvorom, po njemu su nazvani grad i bezbrojne ulice, a Tomislav je među najomiljenijim hrvatskim muškim imenima.",
       },
       {
         name: 'Fra Grgo Martić',
@@ -2522,21 +2521,21 @@ export const REGIONS = {
         role: 'Franciscan Friar & Croatian Poet',
         roleHr: 'Franjevac i hrvatski pjesnik',
         story:
-          "Born in the Tomislavgrad area, Fra Grgo Martić spent his life as a Franciscan friar and fighter for Croatian identity in Herzegovina. His epic poems about the Homeland and his political activism made him the voice of Herzegovinian Croats during the Ottoman and early Austrian periods. He served as a Franciscan provincial, diplomat, and poet simultaneously. His collection 'Osvetnici' (The Avengers) celebrated Croatian resistance fighters against Ottoman rule.",
+          "Born in Posušje, in western Herzegovina, Fra Grgo Martić spent his life as a Franciscan friar and fighter for Croatian identity in Herzegovina. His epic poems about the Homeland and his political activism made him the voice of Herzegovinian Croats during the Ottoman and early Austrian periods. He served as a Franciscan provincial, diplomat, and poet simultaneously. His collection 'Osvetnici' (The Avengers) celebrated Croatian resistance fighters against Ottoman rule.",
         storyHr:
-          "Rođen na području Tomislavgrada, fra Grgo Martić cijeli je život posvetio franjevačkom pozivu i borbi za hrvatski identitet u Hercegovini. Njegovi epski spjevovi o domovini i politički angažman učinili su ga glasom hercegovačkih Hrvata tijekom osmanskog i ranog austrijskog razdoblja. Bio je istodobno franjevački provincijal, diplomat i pjesnik. Njegova zbirka 'Osvetnici' slavi hrvatske borce protiv osmanske vlasti.",
+          "Rođen u Posušju, u zapadnoj Hercegovini, fra Grgo Martić cijeli je život posvetio franjevačkom pozivu i borbi za hrvatski identitet u Hercegovini. Njegovi epski spjevovi o domovini i politički angažman učinili su ga glasom hercegovačkih Hrvata tijekom osmanskog i ranog austrijskog razdoblja. Bio je istodobno franjevački provincijal, diplomat i pjesnik. Njegova zbirka 'Osvetnici' slavi hrvatske borce protiv osmanske vlasti.",
       },
     ],
     vocab: [
       {
-        hr: 'Kralj',
+        hr: 'kralj',
         en: 'king',
         note: "'Kralj Tomislav' — King Tomislav. The word 'kralj' comes from Carolus (Charlemagne's name in Slavic)",
       },
       {
         hr: 'sabor',
         en: 'assembly / parliament',
-        note: "The Duvanjski sabor of 925 AD was Croatia's first recorded national assembly. 'Sabor' is still the name of Croatia's parliament",
+        note: "The legendary Duvanjski sabor of 925 AD is remembered as Croatia's first national assembly. 'Sabor' is still the name of Croatia's parliament",
       },
       {
         hr: 'župan',
@@ -2562,24 +2561,24 @@ export const REGIONS = {
     facts: [
       "The single most important documentary evidence of Tomislav's kingship is a letter from Pope John X dated 925 AD — which refers to him as 'king' rather than 'duke.' One letter changed history.",
       'Tomislav reportedly commanded 100,000 infantry, 60,000 cavalry, 80 large warships and 100 smaller vessels — if accurate, medieval Croatia was a major military power.',
-      'The Duvanjsko polje (Duvno plain) where the coronation took place is one of the largest karst fields in the Balkans — a natural amphitheatre that could hold an entire medieval army.',
+      'The Duvanjsko polje (Duvno plain), where by tradition the coronation took place, is one of the largest karst fields in the Balkans — a natural amphitheatre that could hold an entire medieval army.',
       'The Franciscan presence in Herzegovina is unbroken since the 13th century — the Franciscans maintained Croatian literacy, Catholic faith, and national identity through 400 years of Ottoman rule.',
-      'Tomislavgrad sits at 870 meters altitude — the highest town in Bosnia and Herzegovina. Winters are severe, and the area produces some of the finest lamb and cheese in the region.',
+      'Tomislavgrad sits at 870 meters altitude — one of the highest towns in Bosnia and Herzegovina. Winters are severe, and the area produces some of the finest lamb and cheese in the region.',
     ],
     factsHr: [
       'Najvažniji pisani dokaz Tomislavova kraljevskog naslova pismo je pape Ivana X. iz 925., u kojem ga se naziva "kraljem", a ne "knezom". Jedno je pismo promijenilo povijest.',
       'Tomislav je navodno zapovijedao sa 100.000 pješaka, 60.000 konjanika, 80 velikih ratnih brodova i 100 manjih plovila — ako je to točno, srednjovjekovna je Hrvatska bila velika vojna sila.',
-      'Duvanjsko polje, gdje se odvila krunidba, jedno je od najvećih krških polja na Balkanu — prirodni amfiteatar koji je mogao primiti cijelu srednjovjekovnu vojsku.',
+      'Duvanjsko polje, gdje se prema predaji odvila krunidba, jedno je od najvećih krških polja na Balkanu — prirodni amfiteatar koji je mogao primiti cijelu srednjovjekovnu vojsku.',
       'Franjevačka je prisutnost u Hercegovini neprekinuta od 13. stoljeća — franjevci su tijekom 400 godina osmanske vlasti očuvali hrvatsku pismenost, katoličku vjeru i nacionalni identitet.',
-      'Tomislavgrad leži na 870 metara nadmorske visine — najviši grad u Bosni i Hercegovini. Zime su ondje oštre, a kraj je poznat po ponajboljoj janjetini i siru u regiji.',
+      'Tomislavgrad leži na 870 metara nadmorske visine — jedan od najviših gradova u Bosni i Hercegovini. Zime su ondje oštre, a kraj je poznat po ponajboljoj janjetini i siru u regiji.',
     ],
     quiz: [
       {
         q: 'In what year was King Tomislav crowned, and where?',
-        a: '925 AD — on the Duvanjsko polje near present-day Tomislavgrad',
+        a: '925 AD — by tradition, on the Duvanjsko polje near present-day Tomislavgrad',
         al: ['879 AD in Nin', '1102 AD in Split', '945 AD in Zadar'],
         qHr: 'Koje je godine i gdje krunjen kralj Tomislav?',
-        aHr: '925. godine — na Duvanjskom polju kraj današnjeg Tomislavgrada',
+        aHr: '925. godine — prema predaji, na Duvanjskom polju kraj današnjeg Tomislavgrada',
         alHr: ['879. u Ninu', '1102. u Splitu', '945. u Zadru'],
       },
       {
@@ -2604,10 +2603,10 @@ export const REGIONS = {
       },
       {
         q: 'What was the Duvanjski sabor of 925 AD?',
-        a: "Croatia's first grand national assembly — establishing the kingdom and church organization",
+        a: 'A legendary national assembly at which, by tradition, the Croatian župans acknowledged their king',
         al: ['A military battle', 'A trade congress', 'A religious council only'],
         qHr: 'Što je bio Duvanjski sabor 925. godine?',
-        aHr: 'Prvi veliki narodni sabor Hrvatske — kojim su ustanovljeni kraljevstvo i crkvena organizacija',
+        aHr: 'Legendarni narodni sabor na kojem su, prema predaji, hrvatski župani priznali svoga kralja',
         alHr: ['Vojna bitka', 'Trgovački kongres', 'Isključivo crkveni sabor'],
       },
       {
@@ -2633,8 +2632,8 @@ export const REGIONS = {
       {
         h: 'Medieval Croatian Capital — Seat of Kings',
         hHr: 'Srednjovjekovna hrvatska prijestolnica — sjedište kraljeva',
-        t: 'The Knin Fortress (Kninska tvrđava) stands on a 345-meter rock dominating the Krka River canyon. It is one of the largest fortifications in Croatia and among the most strategically significant in the Balkans — whoever held Knin controlled the routes between coastal Dalmatia and the Slavonian interior. In the 10th and 11th centuries, Knin was the seat of Croatian kings — including the last native Croatian king, Stjepan II (died 1091). The medieval Croatian župas surrounding Knin were the heartland of the early Croatian state.',
-        tHr: 'Kninska tvrđava uzdiže se na stijeni visokoj 345 metara, dominirajući kanjonom rijeke Krke. Jedna je od najvećih utvrda u Hrvatskoj i među strateški najvažnijima na Balkanu — tko god je držao Knin, kontrolirao je putove između obalne Dalmacije i slavonskog zaleđa. U 10. i 11. stoljeću Knin je bio sjedište hrvatskih kraljeva — među njima i posljednjega domaćeg hrvatskog kralja, Stjepana II. (umro 1091.). Srednjovjekovne hrvatske župe oko Knina bile su srce rane hrvatske države.',
+        t: 'The Knin Fortress (Kninska tvrđava) stands on a 345-meter rock dominating the Krka River canyon. It is one of the largest fortifications in Croatia and among the most strategically significant in the Balkans — whoever held Knin controlled the routes between coastal Dalmatia and the continental interior. In the 10th and 11th centuries, Knin was the seat of Croatian kings — including Stjepan II (died 1091), the last king of the Trpimirović line. The medieval Croatian župas surrounding Knin were the heartland of the early Croatian state.',
+        tHr: 'Kninska tvrđava uzdiže se na stijeni visokoj 345 metara, dominirajući kanjonom rijeke Krke. Jedna je od najvećih utvrda u Hrvatskoj i među strateški najvažnijima na Balkanu — tko god je držao Knin, kontrolirao je putove između obalne Dalmacije i kontinentalnog zaleđa. U 10. i 11. stoljeću Knin je bio sjedište hrvatskih kraljeva — među njima i Stjepana II. (umro 1091.), posljednjega kralja iz loze Trpimirovića. Srednjovjekovne hrvatske župe oko Knina bile su srce rane hrvatske države.',
       },
       {
         h: '1990: The Log Revolution',
@@ -2651,8 +2650,8 @@ export const REGIONS = {
       {
         h: 'Operation Storm — August 4-5, 1995',
         hHr: 'Operacija Oluja — 4. – 5. kolovoza 1995.',
-        t: "On August 4, 1995, at 5:00 AM, Croatian artillery opened fire along the entire front line of the RSK in Operation Storm (Operacija Oluja). It was the largest European land military operation since World War II. Over 100,000 Croatian soldiers attacked on multiple axes simultaneously. By August 5, Croatian forces had broken through RSK defenses on every front. General Ante Gotovina's forces reached the outskirts of Knin on the evening of August 4. On the morning of August 5, Croatian soldiers raised the Croatian flag over Knin Fortress at approximately 10:00 AM. President Franjo Tuđman flew to Knin the same day. The RSK ceased to exist.",
-        tHr: 'Dana 4. kolovoza 1995. u 5 sati ujutro hrvatsko je topništvo otvorilo vatru duž cijele crte bojišnice RSK-a u sklopu Operacije Oluje. Bila je to najveća europska kopnena vojna operacija od Drugog svjetskog rata. Više od 100.000 hrvatskih vojnika krenulo je u napad istodobno na više pravaca. Do 5. kolovoza hrvatske su snage probile obranu RSK-a na svim frontama. Postrojbe generala Ante Gotovine navečer 4. kolovoza stigle su do same okolice Knina. Ujutro 5. kolovoza, oko 10 sati, hrvatski su vojnici podigli hrvatsku zastavu nad Kninskom tvrđavom. Predsjednik Franjo Tuđman istoga je dana doletio u Knin. RSK je prestala postojati.',
+        t: "On August 4, 1995, at 5:00 AM, Croatian artillery opened fire along the entire front line of the RSK in Operation Storm (Operacija Oluja). It was the largest European land military operation since World War II. Over 100,000 Croatian soldiers attacked on multiple axes simultaneously. By August 5, Croatian forces had broken through RSK defenses on every front. General Ante Gotovina's forces reached the outskirts of Knin on the evening of August 4. On the morning of August 5, Croatian soldiers raised the Croatian flag over Knin Fortress at approximately 10:00 AM. President Franjo Tuđman arrived in Knin within days. The RSK ceased to exist.",
+        tHr: 'Dana 4. kolovoza 1995. u 5 sati ujutro hrvatsko je topništvo otvorilo vatru duž cijele crte bojišnice RSK-a u sklopu Operacije Oluje. Bila je to najveća europska kopnena vojna operacija od Drugog svjetskog rata. Više od 100.000 hrvatskih vojnika krenulo je u napad istodobno na više pravaca. Do 5. kolovoza hrvatske su snage probile obranu RSK-a na svim frontama. Postrojbe generala Ante Gotovine navečer 4. kolovoza stigle su do same okolice Knina. Ujutro 5. kolovoza, oko 10 sati, hrvatski su vojnici podigli hrvatsku zastavu nad Kninskom tvrđavom. Predsjednik Franjo Tuđman stigao je u Knin već sljedećih dana. RSK je prestala postojati.',
       },
     ],
     timeline: [
@@ -2673,9 +2672,9 @@ export const REGIONS = {
       {
         year: '1091',
         event:
-          "King Stjepan II dies — last native Croatian king. Knin's role as royal capital ends",
+          "King Stjepan II dies — last king of the Trpimirović dynasty. Knin's role as royal capital ends",
         eventHr:
-          'Umire kralj Stjepan II. — posljednji domaći hrvatski kralj. Knin gubi ulogu kraljevske prijestolnice',
+          'Umire kralj Stjepan II. — posljednji kralj iz dinastije Trpimirovića. Knin gubi ulogu kraljevske prijestolnice',
       },
       {
         year: '1522',
@@ -2731,8 +2730,8 @@ export const REGIONS = {
       {
         name: 'King Stjepan II',
         years: '?–1091',
-        role: 'Last Native Croatian King',
-        roleHr: 'Posljednji domaći hrvatski kralj',
+        role: 'Last Trpimirović King',
+        roleHr: 'Posljednji kralj iz loze Trpimirovića',
         story:
           'The last Croatian king of the native Trpimirović dynasty died without a legitimate heir in 1091. His death opened the succession crisis that led to Croatia entering personal union with Hungary in 1102. His court at Knin Fortress was the last fully independent Croatian royal court. The 900 years that followed — Habsburg, Ottoman, Venetian, Yugoslav — were all in some sense the consequence of his death without an heir.',
         storyHr:
@@ -2744,7 +2743,7 @@ export const REGIONS = {
         role: 'RSK Police Chief / President (war criminal)',
         roleHr: 'Šef policije / predsjednik RSK-a (ratni zločinac)',
         story:
-          "One of the key organizers of the Serb uprising in Knin and the RSK's last president. Convicted by the ICTY for war crimes and crimes against humanity — including ordering rocket attacks on Zagreb on May 2-3, 1995 that killed 7 civilians. He served 35 years. His conviction established that the RSK leadership bore responsibility for the ethnic cleansing of Croatian civilians from occupied territories.",
+          "One of the key organizers of the Serb uprising in Knin and the RSK's last president. Convicted by the ICTY for war crimes and crimes against humanity — including ordering rocket attacks on Zagreb on May 2-3, 1995 that killed 7 civilians. He was sentenced to 35 years. His conviction established that the RSK leadership bore responsibility for the ethnic cleansing of Croatian civilians from occupied territories.",
         storyHr:
           'Jedan od ključnih organizatora srpskog ustanka u Kninu i posljednji predsjednik RSK-a. Haaški ga je sud (ICTY) osudio za ratne zločine i zločine protiv čovječnosti — uključujući naredbu za raketni napad na Zagreb 2. i 3. svibnja 1995., u kojem je poginulo 7 civila. Osuđen je na 35 godina zatvora. Njegova je presuda utvrdila da je vodstvo RSK-a snosilo odgovornost za etničko čišćenje hrvatskih civila s okupiranih područja.',
       },
@@ -2756,7 +2755,7 @@ export const REGIONS = {
         story:
           'The commander of Croatian forces in Split Military District whose forces took Knin in Operation Storm. Gotovina was indicted by the ICTY (2001), lived as a fugitive, was arrested in Tenerife (2005), convicted (2011), and then fully acquitted by the appeals chamber (2012) — one of the most dramatic reversals in ICTY history. His acquittal was celebrated in Croatia as vindication of Operation Storm. He is considered a national hero — the general who liberated Knin.',
         storyHr:
-          'Zapovjednik hrvatskih snaga u Splitskom vojnom području čije su postrojbe u Operaciji Oluji zauzele Knin. Gotovina je optužen pred Haaškim sudom (2001.), godinama je bio u bijegu, uhićen je na Tenerifima (2005.), osuđen (2011.), a potom u potpunosti oslobođen u žalbenom postupku (2012.) — jedan od najdramatičnijih preokreta u povijesti ICTY-ja. Njegovo je oslobađanje u Hrvatskoj proslavljeno kao potvrda opravdanosti Operacije Oluje. Smatra se nacionalnim herojem — generalom koji je oslobodio Knin.',
+          'Zapovjednik hrvatskih snaga u Splitskom vojnom području čije su postrojbe u Operaciji Oluji zauzele Knin. Gotovina je optužen pred Haaškim sudom (2001.), godinama je bio u bijegu, uhićen je na Tenerifeu (2005.), osuđen (2011.), a potom u potpunosti oslobođen u žalbenom postupku (2012.) — jedan od najdramatičnijih preokreta u povijesti ICTY-ja. Njegovo je oslobađanje u Hrvatskoj proslavljeno kao potvrda opravdanosti Operacije Oluje. Smatra se nacionalnim herojem — generalom koji je oslobodio Knin.',
       },
     ],
     vocab: [
@@ -2795,14 +2794,14 @@ export const REGIONS = {
       'Operation Storm lasted just 84 hours — one of the fastest decisive military operations in modern European history.',
       'The Croatian flag raised over Knin Fortress on August 5, 1995 is arguably the most iconic image in modern Croatian history — photographed and broadcast worldwide.',
       'Knin Fortress sits on a 345-meter rock — visible from 40km away. Whoever held it controlled the roads between coastal Dalmatia and inland Croatia.',
-      "President Tuđman flew to Knin the same day it was liberated and addressed troops from the fortress. He quoted the medieval Croatian poet Ivan Gundulić: 'O lijepa, o draga, o slatka slobodo' — O beautiful, dear, sweet freedom.",
+      "On 26 August 1995 President Tuđman rode the 'Freedom Train' (Vlak slobode), which reopened the railway from Zagreb through Knin to Split, and spoke to the crowds in Knin.",
       'August 5 is a national holiday in Croatia (Dan pobjede). In Knin, the ceremony at the fortress involves raising the same type of Croatian flag every year at the exact time of the original liberation.',
     ],
     factsHr: [
       'Operacija Oluja trajala je samo 84 sata — jedna od najbržih odlučujućih vojnih operacija u modernoj europskoj povijesti.',
       'Hrvatska zastava podignuta nad Kninskom tvrđavom 5. kolovoza 1995. vjerojatno je najprepoznatljivija slika moderne hrvatske povijesti — fotografirana i prikazana diljem svijeta.',
       'Kninska tvrđava stoji na stijeni visokoj 345 metara — vidljiva je iz udaljenosti od 40 kilometara. Tko god ju je držao, kontrolirao je ceste između obalne Dalmacije i unutrašnjosti Hrvatske.',
-      "Predsjednik Tuđman doletio je u Knin isti dan kad je grad oslobođen i s tvrđave se obratio vojnicima. Citirao je stih hrvatskog pjesnika Ivana Gundulića: 'O lijepa, o draga, o slatka slobodo.'",
+      "Predsjednik Tuđman 26. kolovoza 1995. putovao je 'Vlakom slobode', koji je ponovno otvorio prugu od Zagreba preko Knina do Splita, i obratio se okupljenima u Kninu.",
       'Peti kolovoza državni je praznik u Hrvatskoj (Dan pobjede). U Kninu se svake godine na tvrđavi u točno vrijeme izvornog oslobođenja podiže isti tip hrvatske zastave.',
     ],
     quiz: [

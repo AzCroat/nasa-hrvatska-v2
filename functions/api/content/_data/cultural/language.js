@@ -29,17 +29,17 @@ export const DIALECTS = {
     { en: 'What are you doing?', std: 'Što radiš?', kaj: 'Kaj delaš?', cak: 'Ča činiš?' },
     { en: 'Where?', std: 'Gdje?', kaj: 'Gde? / Kam?', cak: 'Di?' },
     { en: 'I don\u0027t know', std: 'Ne znam', kaj: 'Neznam / Nevem', cak: 'Ne znan' },
-    { en: 'House', std: 'Kuća', kaj: 'Hiža', cak: 'Kaša / Kuća' },
+    { en: 'House', std: 'Kuća', kaj: 'Hiža', cak: 'Kuća / Hiša' },
     { en: 'Boy', std: 'Dječak', kaj: 'Deček', cak: 'Mulac' },
     { en: 'Beautiful', std: 'Lijep', kaj: 'Lep', cak: 'Lip' },
     { en: 'Bread', std: 'Kruh', kaj: 'Kruh', cak: 'Kru(h)' },
   ],
   chakavianNote:
-    "Čakavian (Čakavski) is the dialect of the Adriatic coast — Istria, Kvarner, and the Dalmatian islands. It preserves many archaic Croatian features and shows Italian/Venetian influence (words like 'škulj' for hole, 'šufit' for attic from Italian 'soffitto'). If you visit Hvar, Brač, Vis, or Rovinj, locals may speak Čakavian at home. You don't need to speak it, but recognizing it prevents confusion. Key markers: 'ča' for 'what', 'di' for 'gdje/where', 'more' still means sea, 'znan' for 'znam'. Čakavian poems by writers like Tin Ujević are considered some of the most beautiful Croatian literature.",
+    "Čakavian (Čakavski) is the dialect of the Adriatic coast — Istria, Kvarner, and the Dalmatian islands. It preserves many archaic Croatian features and shows Italian/Venetian influence (words like 'škulj' for hole, 'šufit' for attic from Italian 'soffitto'). If you visit Hvar, Brač, Vis, or Rovinj, locals may speak Čakavian at home. You don't need to speak it, but recognizing it prevents confusion. Key markers: 'ča' for 'what', 'di' for 'gdje/where', 'ki' for 'koji' (who/which), 'znan' for 'znam'. Marko Marulić's Judita (1501) was written in Čakavian, and 20th-century poets such as Mate Balota and Drago Gervais wrote some of their finest verse in it.",
   heritageNote:
-    'Heritage speakers (diaspora Croatian) often mix Štokavian grammar with vocabulary frozen from the 1960s-1990s emigration wave, anglicisms, or regional forms from Dalmatia/Slavonia. Common heritage patterns: older vocabulary (auto instead of automobil), German/Australian English loanwords, simplified case system. If your Croatian comes from family, you may speak naturally but make systematic errors in formal cases — especially genitive plural. This is normal and fixable.',
+    'Heritage speakers (diaspora Croatian) often mix Štokavian grammar with vocabulary frozen from the 1960s-1990s emigration wave, anglicisms, or regional forms from Dalmatia/Slavonia. Common heritage patterns: older vocabulary that has since fallen out of everyday use in Croatia, German/Australian English loanwords, simplified case system. If your Croatian comes from family, you may speak naturally but make systematic errors in formal cases — especially genitive plural. This is normal and fixable.',
   mutualIntelligibility:
-    'All three dialects are mutually intelligible with effort, but Kajkavian and Čakavian can sound very foreign to a Štokavian speaker at first. Standard Croatian is always understood across all regions. Serbian is essentially mutually intelligible with Croatian — grammatically identical, vocabulary differs especially in loanwords (Serbian uses more Slavic/Russian roots; Croatian uses Latin/German).',
+    'All three dialects are mutually intelligible with effort, but Kajkavian and Čakavian can sound very foreign to a Štokavian speaker at first. Standard Croatian is always understood across all regions. Serbian is largely mutually intelligible with Croatian — the grammar is very close, but the vocabulary differs: Croatian tends to coin native Slavic words (zrakoplov, kolodvor, tisuća) where Serbian more often keeps international, Turkish or Greek loanwords.',
 };
 export const SHADOWING = [
   {
