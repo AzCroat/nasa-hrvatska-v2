@@ -108,7 +108,7 @@
     "ws": ">=8.20.1",
     "tar": ">=7.5.16",
     "yaml": ">=2.8.3",
-    "dompurify": ">=3.4.11",
+    "dompurify": ">=3.4.16",
     "form-data": ">=4.0.6",
     "js-yaml": ">=4.2.0",
     "@babel/core": ">=7.29.1 <8",
@@ -117,7 +117,7 @@
     "basic-ftp": ">=5.2.1",
     "protobufjs": ">=7.6.3 <8",
     "qs": ">=6.15.2",
-    "@grpc/grpc-js": ">=1.9.16",
+    "@grpc/grpc-js": ">=1.14.5 <2",
     "fast-xml-parser": ">=5.10.1",
     "@capacitor/cli": {
       "brace-expansion": "5.0.12"
