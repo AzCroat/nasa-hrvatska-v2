@@ -31,7 +31,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Pula: {
     introHr:
-      'Pula je najveći grad Istre i jedan od najstarijih gradova u Hrvatskoj. Njegova rimska arena, sagrađena u prvom stoljeću, jedan je od najbolje očuvanih amfiteatara na svijetu i danas se u njoj održavaju koncerti i filmski festival. U starom gradu stoje Augustov hram i Slavoluk Sergijevaca, koji stoje već više od dvije tisuće godina. Između dva svjetska rata Pula je bila pod Italijom, a nakon rata mnogi su Talijani otišli. Irski pisac James Joyce živio je u Puli 1904. godine i ovdje predavao engleski. Danas Pula ima oko šezdeset tisuća stanovnika i živi od turizma, luke i brodogradnje.',
+      'Pula je najveći grad Istre i jedan od najstarijih gradova u Hrvatskoj. Njezina rimska arena, sagrađena u prvom stoljeću, jedan je od najbolje očuvanih amfiteatara na svijetu i danas se u njoj održavaju koncerti i filmski festival. U starom gradu stoje Augustov hram i Slavoluk Sergijevaca, koji stoje već više od dvije tisuće godina. Između dva svjetska rata Pula je bila pod Italijom, a nakon rata mnogi su Talijani otišli. Irski pisac James Joyce živio je u Puli 1904. godine i ovdje predavao engleski. Danas Pula ima oko šezdeset tisuća stanovnika i živi od turizma, luke i brodogradnje.',
   },
   Osijek: {
     introHr:
@@ -179,7 +179,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Vodice: {
     introHr:
-      'Vodice su jedno od najposjećenijih hrvatskih ljetovališta na Šibenskoj rivijeri, između Zadra i Šibenika. Kao odmaralište razvio se u 20. stoljeću. Češki i slovački turisti otkrili su ga u jugoslavensko doba, 1960-ih, i od tada se vjerno vraćaju svake godine; neke češke obitelji dolaze u isti apartman više od četrdeset ljeta zaredom, pa Vodice imaju najveći udio čeških i slovačkih gostiju u Hrvatskoj. Plaže su betonirana kupališta i šljunčane uvale, a ljeti grad živi i noću. Iznad središta uzdiže se crkva svetoga Križa iz 17. stoljeća, a šibenska katedrala pod zaštitom UNESCO-a i Nacionalni park Krka udaljeni su tek petnaestak minuta.',
+      'Vodice su jedno od najposjećenijih hrvatskih ljetovališta na Šibenskoj rivijeri, između Zadra i Šibenika. Kao odmaralište razvile su se u 20. stoljeću. Češki i slovački turisti otkrili su ih u jugoslavensko doba, 1960-ih, i od tada se vjerno vraćaju svake godine; neke češke obitelji dolaze u isti apartman više od četrdeset ljeta zaredom, pa Vodice imaju najveći udio čeških i slovačkih gostiju u Hrvatskoj. Plaže su betonirana kupališta i šljunčane uvale, a ljeti grad živi i noću. Iznad središta uzdiže se crkva svetoga Križa iz 17. stoljeća, a šibenska katedrala pod zaštitom UNESCO-a i Nacionalni park Krka udaljeni su tek petnaestak minuta.',
   },
   Tisno: {
     introHr:
@@ -203,7 +203,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Solin: {
     introHr:
-      'Solin je gradić odmah sjeverno od Splita, no pod njim i oko njega leže ruševine Salone, glavnoga grada rimske Dalmacije i najvećega rimskog grada na istočnom Jadranu, u kojem je živjelo 60.000 ljudi. U blizini je rođen car Dioklecijan, koji je svoju palaču za mirovinu, današnji Split, sagradio samo šest kilometara dalje, a njezin biskup, sveti Duje, danas je zaštitnik Splita. Godine 614. grad su nasilno razorili Avari i Slaveni. Preživjeli su pobjegli u prazne dvorane Dioklecijanove palače, i tako je nastao Split. Ruševine amfiteatra, foruma, kupališta, starokršćanskih bazilika i biskupskoga sklopa protežu se nekoliko kilometara i još se istražuju.',
+      'Solin je gradić odmah sjeverno od Splita, no pod njim i oko njega leže ruševine Salone, glavnoga grada rimske Dalmacije i najvećega rimskog grada na istočnom Jadranu, u kojem je živjelo 60.000 ljudi. U blizini je rođen car Dioklecijan, koji je svoju palaču za mirovinu, današnji Split, sagradio samo šest kilometara dalje, a salonitanski biskup, sveti Duje, danas je zaštitnik Splita. Godine 614. grad su nasilno razorili Avari i Slaveni. Preživjeli su pobjegli u prazne dvorane Dioklecijanove palače, i tako je nastao Split. Ruševine amfiteatra, foruma, kupališta, starokršćanskih bazilika i biskupskoga sklopa protežu se nekoliko kilometara i još se istražuju.',
   },
   Klis: {
     introHr:
@@ -291,11 +291,11 @@ export const CITY_INTRO_HR_B1 = {
   },
   Rab: {
     introHr:
-      'Rab je srednjovjekovni grad na istoimenom otoku, poznat po četiri romanička zvonika koja se dižu iznad starog grada i stvaraju jednu od najprepoznatljivijih silueta na Jadranu. Zvonici su građeni između dvanaestog i šesnaestog stoljeća. Grad je četiri stotine godina bio pod Venecijom i sačuvao je mletački raspored ulica i palača. Rab ima i neobičnu modernu priču: 1936. godine engleski kralj Edward VIII. dobio je dopuštenje da se ovdje kupa gol, i tako je nastala prva službena nudistička plaža u Europi. Otok je poznat i po pješčanim plažama i po rapskoj torti.',
+      'Rab je srednjovjekovni grad na istoimenom otoku, poznat po četiri romanička zvonika koja se dižu iznad starog grada i stvaraju jednu od najprepoznatljivijih silueta na Jadranu. Zvonici su građeni između dvanaestog i šesnaestog stoljeća. Grad je četiri stotine godina bio pod Venecijom i sačuvao je mletački raspored ulica i palača. Rab ima i neobičnu modernu priču: 1936. godine engleski kralj Edward VIII. dobio je dopuštenje da se ovdje kupa gol, i tako je nastala prva službena nudistička plaža u Europi. Na rapskom se govoru zvonik zove kampanel.',
   },
   'Mali Lošinj': {
     introHr:
-      'Mali Lošinj jedan je od najljepših malih gradova u Hrvatskoj. Njegova je luka okružena šarenim kućama kapetana iz osamnaestog stoljeća; lošinjski su kapetani u doba Austro-Ugarske plovili svjetskim morima i zaradu ulagali u kuće na rivi. Zbog blage klime i mirisnog bilja, kadulje, lavande i ružmarina, austrijski su liječnici 1892. godine proglasili Lošinj otokom zdravlja. Na otoku raste više od tisuću sto biljnih vrsta. U moru oko Lošinja živi zajednica dobrih dupina, koju znanstvenici prate od 1987. godine; to je najstariji takav projekt u Europi.',
+      'Mali Lošinj jedan je od najljepših malih gradova u Hrvatskoj. Njegova je luka okružena šarenim kućama kapetana iz osamnaestog stoljeća; lošinjski su kapetani u doba Austro-Ugarske plovili svjetskim morima i zaradu ulagali u kuće na rivi. Zbog blage klime i mirisnog bilja, kadulje, lavande i ružmarina, austrijski su liječnici 1892. godine proglasili Lošinj otokom zdravlja. Na otoku raste više od tisuću sto biljnih vrsta. U moru oko Lošinja živi zajednica dobrih dupina, koju znanstvenici prate od 1987. godine; to je jedno od najdugotrajnijih takvih istraživanja u Europi.',
   },
   Cres: {
     introHr:
@@ -335,7 +335,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Pregrada: {
     introHr:
-      'Pregrada je mali grad u zapadnom Zagorju, petnaest kilometara od slovenske granice, u kraju kulturno smještenom između Zagreba i Ljubljane. Grad leži među brežuljcima Klanječkog vinogorja, jedne od najpodcjenjenijih hrvatskih vinskih regija, gdje se u kontinentalnom stilu proizvode rizling i pinot sivi. U osamnaestom stoljeću šire područje pripadalo je plemićkim posjedima obitelji Erdödy, čije se dvorce još vidi po zagorskim brdima. Najpoznatije su ipak obližnje Terme Tuhelj, jedan od najboljih termalnih kompleksa u blizini Zagreba: voda izvire na 34 stupnja, pa se u njoj može kupati na otvorenom čak i u siječnju, a gosti dolaze iz Zagreba i iz Slovenije.',
+      'Pregrada je mali grad u zapadnom Zagorju, petnaest kilometara od slovenske granice, u kraju kulturno smještenom između Zagreba i Ljubljane. Grad leži među brežuljcima Klanječkog vinogorja, jedne od najpodcjenjenijih hrvatskih vinskih regija, gdje se u kontinentalnom stilu proizvode rizling i pinot sivi. U osamnaestom stoljeću šire područje pripadalo je plemićkim posjedima obitelji Erdödy, čiji se dvorci još vide po zagorskim brdima. Najpoznatije su ipak obližnje Terme Tuhelj, jedan od najboljih termalnih kompleksa u blizini Zagreba: voda izvire na 34 stupnja, pa se u njoj može kupati na otvorenom čak i u siječnju, a gosti dolaze iz Zagreba i iz Slovenije.',
   },
   'Donja Stubica': {
     introHr:
@@ -375,7 +375,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Ogulin: {
     introHr:
-      'Ogulin je gradić u Gorskom kotaru, među planinama i šumama, poznat kao rodno mjesto Ivane Brlić-Mažuranić, najveće hrvatske dječje spisateljice. Rođena je 1874. godine, a njezina knjiga Priče iz davnine iz 1916., nastala na hrvatskoj narodnoj mitologiji, uspoređuje se s bajkama Hansa Christiana Andersena. Dvaput je bila predložena za Nobelovu nagradu za književnost, 1931. i 1938., kao jedini hrvatski pisac ikada. Ogulin svake godine slavi njezin rad festivalom bajki, a grad je i sam kao iz bajke: iznad njega se diže planina Klek, o kojoj se pričaju priče o vješticama, a kroz grad teče rijeka Dobra, koja nestaje u ponoru.',
+      'Ogulin je gradić u Gorskom kotaru, među planinama i šumama, poznat kao rodno mjesto Ivane Brlić-Mažuranić, najveće hrvatske dječje spisateljice. Rođena je 1874. godine, a njezina knjiga Priče iz davnine iz 1916., nastala na hrvatskoj narodnoj mitologiji, uspoređuje se s bajkama Hansa Christiana Andersena. Dvaput je bila predložena za Nobelovu nagradu za književnost, 1931. i 1938., kao jedini hrvatski pisac ikada. Ogulin svake godine slavi njezin rad festivalom bajki, pa je njezino ime i danas vezano uz grad. Umrla je 1938. godine, a njezino se djelo i danas smatra vrhuncem hrvatske književnosti za djecu.',
   },
   Slunj: {
     introHr:
@@ -383,7 +383,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Sisak: {
     introHr:
-      'Sisak leži na ušću Kupe i Odre u Savu, na mjestu na kojem je stajala rimska Siscia, jedan od najvažnijih gradova rimske Panonije, s kovnicom novca koji se nalazi po cijeloj Europi. Godine 1593. kod Siska je hrvatsko-habsburška vojska porazila Osmanlije u bitki koja je zaustavila njihovo napredovanje prema Srednjoj Europi; tvrđava od cigle na ušću Kupe i danas stoji. U Drugom svjetskom ratu u Sisku je ustaški režim držao logor za djecu, jedan od najtežih zločina u hrvatskoj povijesti. U Jugoslaviji je Sisak bio grad željezare. Obje te povijesti, pobjeda i zločin, oblikuju grad danas.',
+      'Sisak leži na ušću Kupe i Odre u Savu, na mjestu na kojem je stajala rimska Siscia, jedan od najvažnijih gradova rimske Panonije, s kovnicom novca koji se nalazi po cijeloj Europi. Siscia je bila i velika legijska utvrda. Godine 1593. kod Siska je hrvatsko-habsburška vojska porazila Osmanlije u bitki koja je zaustavila njihovo napredovanje prema Srednjoj Europi. U Drugom svjetskom ratu u Sisku je ustaški režim držao logor za djecu, jedan od najtežih zločina u hrvatskoj povijesti. U Jugoslaviji je Sisak bio grad željezare, a ta je industrija poslije uvelike nestala. Obje te povijesti, pobjeda i zločin, oblikuju grad danas.',
   },
   Popovača: {
     introHr:
@@ -567,7 +567,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Trpanj: {
     introHr:
-      'Trpanj je gradić na sjevernoj obali poluotoka Pelješca, okrenut preko Pelješkoga kanala prema delti Neretve. Taj ga je položaj učinio važnom točkom na pomorskim putovima između Dubrovnika, Neretve i jadranskih trgovačkih mreža, a kao mala lučka naselja razvio se pod Dubrovačkom Republikom. Trpanj ima jednu od najzaštićenijih luka na sjevernoj pelješkoj obali. Danas je najpoznatiji po trajektu za Ploče, koji povezuje Pelješac s kopnom i zaobilazi Neum. Nakon otvaranja Pelješkoga mosta 2022. trajekt je izgubio dio važnosti, no i dalje je najbrža veza sjevernog Pelješca s dolinom Neretve i Bosnom. Na okolnim padinama uzgaja se plavac mali.',
+      'Trpanj je gradić na sjevernoj obali poluotoka Pelješca, okrenut preko Pelješkoga kanala prema delti Neretve. Taj ga je položaj učinio važnom točkom na pomorskim putovima između Dubrovnika, Neretve i jadranskih trgovačkih mreža, a kao malo lučko naselje razvio se pod Dubrovačkom Republikom. Trpanj ima jednu od najzaštićenijih luka na sjevernoj pelješkoj obali. Danas je najpoznatiji po trajektu za Ploče, koji povezuje Pelješac s kopnom i zaobilazi Neum. Nakon otvaranja Pelješkoga mosta 2022. trajekt je izgubio dio važnosti, no i dalje je najbrža veza sjevernog Pelješca s dolinom Neretve i Bosnom. Na okolnim padinama uzgaja se plavac mali.',
   },
   Janjina: {
     introHr:
@@ -631,7 +631,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Lipik: {
     introHr:
-      'Lipik je gradić u zapadnoj Slavoniji poznat po dvjema stvarima. Prva je toplice: termalni izvori bili su poznati još u rimsko doba, a u 19. stoljeću oko njih se razvilo lječilište, jedno od najstarijih u Hrvatskoj. Druga je ergela lipicanaca, jedna od tek nekoliko u svijetu u kojima se uzgajaju slavni bijeli konji bečke Španjolske škole jahanja; u Lipiku se uzgajaju od početka 20. stoljeća. U ratu 1991. grad je teško stradao, toplice su razorene i poslije obnovljene, a konji su, kao nekad bečki konji u Drugom svjetskom ratu, evakuirani u Austriju i poslije vraćeni.',
+      'Lipik je gradić u zapadnoj Slavoniji poznat po dvjema stvarima. Prva su toplice: termalni izvori bili su poznati još u rimsko doba, a u 19. stoljeću oko njih se razvilo lječilište, jedno od najstarijih u Hrvatskoj. Druga je ergela lipicanaca, jedna od tek nekoliko u svijetu u kojima se uzgajaju slavni bijeli konji bečke Španjolske škole jahanja; u Lipiku se uzgajaju od početka 20. stoljeća. U ratu 1991. grad je teško stradao, toplice su razorene i poslije obnovljene, a konji su, kao nekad bečki konji u Drugom svjetskom ratu, evakuirani u Austriju i poslije vraćeni.',
   },
   Zabok: {
     introHr:
@@ -719,7 +719,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Glina: {
     introHr:
-      'Glina je mali grad u Sisačko-moslavačkoj županiji, kraju duboko obilježenom i Drugim svjetskim ratom i Domovinskim ratom. Grad je dobio ime po rijeci Glini koja kroz njega teče. Godine 1941. u Glini se dogodio jedan od najtežih ratnih zločina Drugoga svjetskog rata u Hrvatskoj: ustaške su snage u mjesnoj pravoslavnoj crkvi ubile stotine srpskih civila. Od 1991. do 1995. glinsko su područje držale srpske snage, a oslobođeno je u Oluji. Ista mjesta i iste zajednice tako su, s razmakom od jedne generacije, dvaput prošle kroz ratne zločine. Desetljećima poslije Glina je mjesto pomirenja i sporog poslijeratnog oporavka.',
+      'Glina je mali grad u Sisačko-moslavačkoj županiji, kraju duboko obilježenom i Drugim svjetskim ratom i Domovinskim ratom. Grad je dobio ime po rijeci Glini koja kroz njega teče. Godine 1941. u Glini se dogodio jedan od najtežih ratnih zločina Drugoga svjetskog rata u Hrvatskoj: ustaške su snage u mjesnoj pravoslavnoj crkvi ubile stotine srpskih civila. Od 1991. do 1995. glinsko su područje držale srpske snage, a oslobođeno je u Oluji. Ista mjesta i iste zajednice tako su, s razmakom od jedne generacije, dvaput prošli kroz ratne zločine. Desetljećima poslije Glina je mjesto pomirenja i sporog poslijeratnog oporavka.',
   },
   'Zlatar Bistrica': {
     introHr:
@@ -899,7 +899,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Marina: {
     introHr:
-      'Marina je malo primorsko mjesto između Trogira i Šibenika, mirna jedriličarska baza u duboko uvučenom zaljevu nad kojim stoji kula Lascaris-Castelli. Kulu su 1495. sagradili trogirski plemići kao obalnu obranu i ona i danas dominira lukom; obitelj Lascaris bili su bizantski potomci koji su nakon 1453. pobjegli iz Konstantinopola i ušli u mletačko dalmatinsko plemstvo. Ime na talijanskom jednostavno znači marina, a vezovi za jahte generacijama određuju život mjesta. Zaljev s uskim ulazom i dubokim sidrištem jedan je od najzaštićenijih na dalmatinskoj obali, a Marina je i polazište za otoke Drvenik Veliki i Drvenik Mali.',
+      'Marina je malo primorsko mjesto između Trogira i Šibenika, mirna jedriličarska baza u duboko uvučenom zaljevu nad kojim stoji kula Lascaris-Castelli. Kulu su 1495. sagradili trogirski plemići kao obalnu obranu i ona i danas dominira lukom; Lascarisi su bili bizantski potomci koji su nakon 1453. pobjegli iz Konstantinopola i ušli u mletačko dalmatinsko plemstvo. Ime na talijanskom jednostavno znači marina, a vezovi za jahte generacijama određuju život mjesta. Zaljev s uskim ulazom i dubokim sidrištem jedan je od najzaštićenijih na dalmatinskoj obali, a Marina je i polazište za otoke Drvenik Veliki i Drvenik Mali.',
   },
   Seget: {
     introHr:
@@ -911,7 +911,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Podstrana: {
     introHr:
-      'Podstrana je primorsko mjesto južno od Splita, koje se gotovo sedam kilometara pruža uz podnožje Peruna i Mosora. Njezina crkva svetog Martina jedno je od najvažnijih mjesta srednjovjekovne hrvatske povijesti: ovdje je 925. održan Splitski sabor, na kojem su Tomislav, prvi okrunjeni hrvatski kralj, i crkvene vlasti uredili odnose latinskoga i slavenskog svećenstva i potvrdili samostalnost hrvatske Crkve. Planina Perun nosi ime slavenskoga boga groma: većina je poganskih imena pokrštena u 9. i 10. stoljeću, ali Perun je izbjegao preimenovanju. Hotel Le Méridien Lav najveći je s pet zvjezdica između Splita i Makarske.',
+      'Podstrana je primorsko mjesto južno od Splita, koje se gotovo sedam kilometara pruža uz podnožje Peruna i Mosora. Njezina crkva svetog Martina jedno je od najvažnijih mjesta srednjovjekovne hrvatske povijesti: ovdje je 925. održan Splitski sabor, na kojem su Tomislav, prvi okrunjeni hrvatski kralj, i crkvene vlasti uredili odnose latinskoga i slavenskog svećenstva i potvrdili samostalnost hrvatske Crkve. Planina Perun nosi ime slavenskoga boga groma: većina je poganskih imena pokrštena u 9. i 10. stoljeću, ali Perun je izbjegao preimenovanje. Hotel Le Méridien Lav najveći je s pet zvjezdica između Splita i Makarske.',
   },
   'Dugi Rat': {
     introHr:
@@ -991,7 +991,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Vir: {
     introHr:
-      'Vir je otok uz obalu sjeverne Dalmacije, s Privlakom povezan jednim mostom. Stoljećima je bio praktički nenaseljen: služio je kao pašnjak za privlačke ovce, a zadarski plemići sagradili su u 15. stoljeću utvrdu Kaštelinu. Sve se promijenilo 1976., kad je sagrađen most i ublaženi zakoni o vlasništvu zemlje: do 2010. na Viru je sagrađeno više od 30.000 kuća, pa je postao najgušće izgrađeni hrvatski otok, iako stalno ima manje od 3500 stanovnika. Ta se pojava proučava kao primjer neregulirane gradnje i najekstremniji slučaj hrvatske apartmanizacije. Uvale s plitkom vodom ipak ostaju privlačne.',
+      'Vir je otok uz obalu sjeverne Dalmacije, s Privlakom povezan jednim mostom. Stoljećima je bio praktički nenaseljen: služio je kao pašnjak za privlačke ovce, a zadarski plemići sagradili su u 15. stoljeću utvrdu Kaštelinu. Sve se promijenilo 1976., kad je sagrađen most i ublaženi su zakoni o vlasništvu zemlje: do 2010. na Viru je sagrađeno više od 30.000 kuća, pa je postao najgušće izgrađeni hrvatski otok, iako stalno ima manje od 3500 stanovnika. Ta se pojava proučava kao primjer neregulirane gradnje i najekstremniji slučaj hrvatske apartmanizacije. Uvale s plitkom vodom ipak ostaju privlačne.',
   },
   'Sveti Lovreč': {
     introHr:
@@ -1159,7 +1159,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Banjole: {
     introHr:
-      'Banjole su malo ribarsko selo na južnom istarskom poluotoku, južno od Pule, okrenuto Medulinskom arhipelagu i otočiću Ceji. Naselje se pruža uz niz malih uvala i zaštićenu uvalu Centineru, koja se stoljećima koristi kao prirodna ribarska luka i još čuva male drvene brodice zvane batane. Banjole su izrasle kao ribarski i seljački zaselak u medulinskoj župi pod mletačkom vlašću, a zatim pod habsburškom Austrijom. Kao i ostatak južne Istre, bile su dvojezične, dok tijekom istarskog egzodusa između 1945. i 1955. mnoga talijanska domaćinstva nisu iselila. Krajem 20. stoljeća razvili su se kampovi i mali obiteljski apartmani za pulski turizam. Selo pripada Općini Medulin.',
+      'Banjole su malo ribarsko selo na južnom istarskom poluotoku, južno od Pule, okrenuto Medulinskom arhipelagu i otočiću Ceji. Naselje se pruža uz niz malih uvala i zaštićenu uvalu Centineru, koja se stoljećima koristi kao prirodna ribarska luka i još čuva male drvene brodice zvane batane. Banjole su izrasle kao ribarski i seljački zaselak u medulinskoj župi pod mletačkom vlašću, a zatim pod habsburškom Austrijom. Kao i ostatak južne Istre, bile su dvojezične sve dok tijekom istarskog egzodusa između 1945. i 1955. mnoga talijanska domaćinstva nisu iselila. Krajem 20. stoljeća razvili su se kampovi i mali obiteljski apartmani za pulski turizam. Selo pripada Općini Medulin.',
   },
   Pomer: {
     introHr:
@@ -1287,7 +1287,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Soline: {
     introHr:
-      'Soline je malo selo na plitkom Solinskom zaljevu na istočnoj strani Krka, između Klimna i Čižića, u sastavu Općine Dobrinj. Ime je dobilo po srednjovjekovnim solanama koje su radile u plitkom zaljevu pod Frankopanima i Venecijom. Isti plitki zaljev danas daje ljekovito crno blato, peloid, koje se od 19. stoljeća koristi za kožne i reumatske bolesti; već su ga tražili posjetitelji iz austrougarskoga doba. Zaljev je jedan od najplićih velikih zaljeva na Krku, ljeti vrlo topao, pa je omiljeno obiteljsko kupalište, a među gostima su povijesno najčešći Česi i Slovaci.',
+      'Soline su malo selo na plitkom Solinskom zaljevu na istočnoj strani Krka, između Klimna i Čižića, u sastavu Općine Dobrinj. Ime su dobile po srednjovjekovnim solanama koje su radile u plitkom zaljevu pod Frankopanima i Venecijom. Isti plitki zaljev danas daje ljekovito crno blato, peloid, koje se od 19. stoljeća koristi za kožne i reumatske bolesti; već su ga tražili posjetitelji iz austrougarskoga doba. Zaljev je jedan od najplićih velikih zaljeva na Krku, ljeti vrlo topao, pa je omiljeno obiteljsko kupalište, a među gostima su povijesno najčešći Česi i Slovaci.',
   },
   Klimno: {
     introHr:
@@ -1319,7 +1319,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Rogoznica: {
     introHr:
-      'Rogoznica je mali dalmatinski obalni grad između Šibenika i Trogira, izgrađen na nekadašnjem otoku koji je u 18. stoljeću nasipom spojen s kopnom. Prvi se put spominje 1390. kao Rogosnica, ribarsko naselje pod šibenskom komunom u mletačko i poslije habsburško doba; stoljećima je bilo siromašno selo ribara i maslinara, a otok je s kopnom sve do 20. stoljeća povezivao samo drveni most. Sve se promijenilo 1995., kad je u uvali Soline otvorena Marina Frapa, jedna od najvećih i najnagrađivanijih marina na Jadranu. Uz nju Rogoznica je poznata po Zmajevom oku, kraškom slanom jezeru dubokom oko 15 metara, od mora odvojenom tek tankim vapnenačkim zidom.',
+      'Rogoznica je mali dalmatinski obalni grad između Šibenika i Trogira, izgrađen na nekadašnjem otoku koji je u 18. stoljeću nasipom spojen s kopnom. Prvi se put spominje 1390. kao Rogosnica, ribarsko naselje pod šibenskom komunom u mletačko i poslije habsburško doba; stoljećima je bilo siromašno selo ribara i maslinara, a otok je s kopnom sve do 20. stoljeća povezivao samo drveni most. Sve se promijenilo 1995., kad je u uvali Soline otvorena Marina Frapa, jedna od najvećih i najnagrađivanijih marina na Jadranu. Uz nju je Rogoznica poznata po Zmajevom oku, kraškom slanom jezeru dubokom oko 15 metara, od mora odvojenom tek tankim vapnenačkim zidom.',
   },
   Ražanj: {
     introHr:
