@@ -93,8 +93,8 @@ export const MEDIA = [
     tip: 'Leave HRT Radio 1 playing in the background while you cook or drive. Passive listening is powerful — your brain absorbs rhythm and pronunciation.',
   },
   {
-    name: 'HRT Radio 2 — Classic',
-    desc: 'Classical music & cultural programs',
+    name: 'HRT Radio 2',
+    desc: 'Pop music, traffic and entertainment',
     web: 'https://radio.hrt.hr',
     stream: '/radio?s=hrt2',
     icon: '🎵',
@@ -102,11 +102,11 @@ export const MEDIA = [
     cat: 'music',
     level: 'B2',
     live: true,
-    tip: 'Cultural programs feature thoughtful, slow speech from educated speakers. Great for training your ear on formal Croatian.',
+    tip: 'Chatty presenters, call-ins and traffic reports between songs — fast, everyday spoken Croatian. Great for training your ear on how people actually talk.',
   },
   {
     name: 'CMC TV',
-    desc: 'Croatian Music Channel • pop, folk, turbofolk',
+    desc: 'Croatian Music Channel • pop, zabavna, tamburica',
     web: 'https://cmc.com.hr/program/cmc-tv-stream/',
     icon: '🎶',
     color: '#7c3aed',
@@ -136,7 +136,7 @@ export const MEDIA = [
     color: '#b91c1c',
     cat: 'music',
     level: 'A2',
-    tip: "Thompson's lyrics tell Croatian stories with deep cultural meaning. Look up 'Geni Jadranskog mora' or 'Lijepa li si' for beautiful vocabulary.",
+    tip: "Thompson's lyrics tell Croatian stories with deep cultural meaning. Look up 'Geni kameni' or 'Lijepa li si' for beautiful vocabulary.",
   },
   // ytId: "Cesarica" — Oliver's most-loved song, official upload
   {
@@ -222,7 +222,7 @@ export const MEDIA = [
     color: '#f97316',
     cat: 'sport',
     level: 'B1',
-    tip: 'Basketball terms are often international (koš, asistencija, trojka) making them easy entry points. Follow a player you know — Jokić plays against Croatian players regularly.',
+    tip: 'Basketball terms are often international (asistencija, bek, centar) or easy to guess (koš = basket, trojka = three-pointer), making them easy entry points. Follow a player you know — Jokić plays against Croatian players regularly.',
   },
   // ytId: Dražen Petrović documentary — "The Mozart of Basketball"
   {
@@ -269,7 +269,7 @@ export const MEDIA = [
   },
   // ytId: Croatian bedtime stories — popular channel for learners
   {
-    name: 'Priče Za Laku Noć',
+    name: 'Priče za laku noć',
     desc: 'Croatian bedtime stories — YouTube',
     ytId: 'RmkLbNe0JQo',
     icon: '🌙',
@@ -347,7 +347,7 @@ export const POPCULTURE = [
     icon: '🎵',
   },
   {
-    name: 'Prljavo Kazalište',
+    name: 'Prljavo kazalište',
     desc: 'Iconic Croatian rock',
     icon: '🎸',
   },
@@ -357,12 +357,12 @@ export const POPCULTURE = [
     icon: '🎵',
   },
   {
-    name: 'Hladno Pivo',
+    name: 'Hladno pivo',
     desc: 'Punk/rock from Zagreb',
     icon: '🎸',
   },
   {
-    name: 'Daleka Obala',
+    name: 'Daleka obala',
     desc: 'Split rock legends',
     icon: '🎸',
   },
