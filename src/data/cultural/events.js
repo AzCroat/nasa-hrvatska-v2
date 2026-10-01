@@ -3,7 +3,7 @@ export const EVENTS = [
   {
     month: 1,
     day: 1,
-    name: 'Nova Godina',
+    name: 'Nova godina',
     en: "New Year\'s Day",
     desc: "Croatians celebrate with fireworks in city squares. Zagreb\'s Ban Jelačić Square is the place to be.",
   },
@@ -40,7 +40,7 @@ export const EVENTS = [
     day: 0,
     name: 'Uskrs',
     en: 'Easter',
-    desc: 'Most important religious holiday. Decorating Easter eggs (pisanice), blessing of food baskets, lamb for lunch. šunka (ham) and hren (horseradish).',
+    desc: 'Most important religious holiday. Decorating Easter eggs (pisanice), blessing of food baskets, lamb for lunch, šunka (ham) and hren (horseradish).',
   },
   {
     month: 4,
@@ -110,14 +110,14 @@ export const EVENTS = [
     day: 15,
     name: 'Velika Gospa',
     en: 'Assumption of Mary',
-    desc: "Major Catholic holiday. Pilgrimages to Sinj for the Sinjska Alka — a medieval knights\' tournament held since 1715.",
+    desc: "Major Catholic holiday. Pilgrims flock to the shrine of Our Lady of Sinj, where the Sinjska Alka — a knights\' tournament held since 1715 — is run in early August.",
   },
   {
     month: 10,
     day: 8,
-    name: 'Dan neovisnosti',
-    en: 'Independence Day',
-    desc: "October 8, 1991 — the Croatian Parliament formally severed all constitutional ties with Yugoslavia. This is Croatia's official Independence Day.",
+    name: 'Dan Hrvatskoga sabora',
+    en: 'Croatian Parliament Day',
+    desc: 'October 8, 1991 — the Croatian Parliament formally severed all constitutional ties with Yugoslavia. Since 2020 the day is marked as Croatian Parliament Day, a memorial day; the public holiday is Statehood Day on 30 May.',
   },
   {
     month: 11,
@@ -150,7 +150,7 @@ export const EVENTS = [
   {
     month: 12,
     day: 31,
-    name: 'Stara Godina',
+    name: 'Stara godina',
     en: "New Year\'s Eve",
     desc: "Celebrations across Croatia. Zagreb\'s Advent is among the best Christmas markets in Europe.",
   },

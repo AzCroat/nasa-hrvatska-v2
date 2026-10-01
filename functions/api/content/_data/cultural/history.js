@@ -49,11 +49,11 @@ export const HISTORY = {
       year: '1990',
       title: 'First Free Elections',
       titleHr: 'Prvi slobodni izbori',
-      text: 'In the first democratic elections since World War II, Croatians overwhelmingly choose independence. Dr. Franjo Tuđman becomes the first democratically elected President. A new constitution is drafted, establishing Croatia as a sovereign nation of the Croatian people. The Croatian šahovnica (checkerboard) proudly returns as the national symbol.',
+      text: 'In the first democratic elections since World War II, Croatians vote decisively for change. Dr. Franjo Tuđman becomes the first democratically elected President. A new constitution is drafted, establishing Croatia as a sovereign nation of the Croatian people. The Croatian šahovnica (checkerboard) proudly returns as the national symbol.',
       textHr:
-        'Na prvim demokratskim izborima od Drugoga svjetskog rata, Hrvati se u velikoj većini opredjeljuju za neovisnost. Dr. Franjo Tuđman postaje prvi demokratski izabrani predsjednik. Izrađuje se novi ustav kojim se Hrvatska uspostavlja kao suverena država hrvatskog naroda. Hrvatska šahovnica ponosno se vraća kao državni simbol.',
+        'Na prvim demokratskim izborima od Drugoga svjetskog rata, Hrvati se uvjerljivo opredjeljuju za promjene. Dr. Franjo Tuđman postaje prvi demokratski izabrani predsjednik. Izrađuje se novi ustav kojim se Hrvatska uspostavlja kao suverena država hrvatskog naroda. Hrvatska šahovnica ponosno se vraća kao državni simbol.',
       textHrA1:
-        'Godina je 1990. Hrvatska ima prve slobodne izbore. Ljudi glasuju za neovisnost. Franjo Tuđman je novi predsjednik. Hrvatska ima novi ustav i novu zastavu sa šahovnicom.',
+        'Godina je 1990. Hrvatska ima prve slobodne izbore. Ljudi glasuju za promjene. Franjo Tuđman je novi predsjednik. Hrvatska ima novi ustav i novu zastavu sa šahovnicom.',
       textHrA2:
         'U proljeće 1990. održani su prvi slobodni izbori nakon Drugoga svjetskog rata. Pobijedio je HDZ, a Franjo Tuđman postao je predsjednik. U prosincu je donesen novi ustav. Hrvatska je postala suverena država, a šahovnica se vratila na zastavu.',
       textHrB2:
@@ -68,9 +68,9 @@ export const HISTORY = {
       year: '1991',
       title: 'Independence Declared',
       titleHr: 'Proglašenje neovisnosti',
-      text: "On June 25, 1991, Croatia formally declares independence from Yugoslavia. The decision reflects the will of 94% of Croatian citizens who voted for sovereignty in the May referendum. However, the Yugoslav People\'s Army (JNA) and Serbian paramilitaries refuse to accept Croatian independence and launch armed aggression.",
+      text: "On June 25, 1991, Croatia formally declares independence from Yugoslavia. The decision reflects the will of over 93% of voters who backed sovereignty in the May referendum. However, the Yugoslav People\'s Army (JNA) and Serbian paramilitaries refuse to accept Croatian independence and launch armed aggression.",
       textHr:
-        '25. lipnja 1991. Hrvatska službeno proglašava neovisnost od Jugoslavije. Ta odluka odražava volju 94% hrvatskih građana koji su na svibanjskom referendumu glasovali za suverenost. No Jugoslavenska narodna armija (JNA) i srpske paravojne postrojbe odbijaju priznati hrvatsku neovisnost i pokreću oružanu agresiju.',
+        '25. lipnja 1991. Hrvatska službeno proglašava neovisnost od Jugoslavije. Ta odluka odražava volju više od 93 posto birača koji su na svibanjskom referendumu glasovali za suverenost. No Jugoslavenska narodna armija (JNA) i srpske paravojne postrojbe odbijaju priznati hrvatsku neovisnost i pokreću oružanu agresiju.',
       textHrA1:
         'Dana 25. lipnja 1991. Hrvatska proglašava neovisnost. Prije toga je bio referendum. Većina ljudi želi slobodnu Hrvatsku. Ali JNA ne prihvaća tu odluku. Počinje rat.',
       textHrA2:
@@ -78,7 +78,7 @@ export const HISTORY = {
       textHrB2:
         'Referendum 19. svibnja 1991. daje hrvatskoj politici legitimitet koji joj je nedostajao: uz odaziv od 83 posto, više od 93 posto birača glasuje za suverenu Hrvatsku koja može ući u savez s drugim republikama, a 92 posto protiv ostanka u jedinstvenoj Jugoslaviji. Pet tjedana kasnije, 25. lipnja, Sabor donosi Ustavnu odluku o suverenosti i samostalnosti, istoga dana kad i Slovenija. Na zahtjev Europske zajednice odluka se Brijunskom deklaracijom odgađa tri mjeseca, no na terenu moratorij ništa ne mijenja: već od ožujka traju oružani sukobi na Plitvicama, u Pakracu i Borovu Selu, a preko ljeta JNA otvoreno prelazi na stranu pobunjenih Srba. Rat nije počeo jednim danom, nego se, iz incidenta u incident, pretvorio u agresiju.',
       textHrC1:
-        'Datum 25. lipnja 1991. u kolektivnom je pamćenju čvrst, no pravno i politički neovisnost je bila proces, a ne trenutak. Ustavna odluka toga dana zamrznuta je Brijunskom deklaracijom, stupila je na snagu 8. listopada, a međunarodno je priznata tek u siječnju 1992. Ta tri datuma otkrivaju logiku vremena: Europa je, bojeći se domino-efekta, do zadnjega pokušavala sačuvati Jugoslaviju, pa je hrvatska neovisnost priznata tek kad je rat učinio nemogućim sve druge opcije. Istodobno se raspravlja o tome je li moratorij Hrvatsku oslabio ili ojačao — oslabio, jer je JNA dobila ljeto da se rasporedi; ojačao, jer je Hrvatska ušla u rat kao strana koja je iscrpila sve pregovaračke mogućnosti. Ono što je nesporno jest da odluka o razdruživanju nije bila uzrok agresije: pobuna u Kninu i prvi oružani napadi prethodili su joj za više od godinu dana.',
+        'Datum 25. lipnja 1991. u kolektivnom je pamćenju čvrst, no pravno i politički neovisnost je bila proces, a ne trenutak. Ustavna odluka toga dana zamrznuta je Brijunskom deklaracijom, stupila je na snagu 8. listopada, a međunarodno je priznata tek u siječnju 1992. Ta tri datuma otkrivaju logiku vremena: Europa je, bojeći se domino-efekta, do zadnjega pokušavala sačuvati Jugoslaviju, pa je hrvatska neovisnost priznata tek kad je rat učinio nemogućim sve druge opcije. Istodobno se raspravlja o tome je li moratorij Hrvatsku oslabio ili ojačao — oslabio, jer je JNA dobila ljeto da se rasporedi; ojačao, jer je Hrvatska ušla u rat kao strana koja je iscrpila sve pregovaračke mogućnosti. Ono što je nesporno jest da odluka o razdruživanju nije bila uzrok agresije: pobuna u Kninu i prvi oružani napadi prethodili su joj gotovo godinu dana.',
       textHrC2:
         "Neovisnost se proglašava rečenicom, a živi se godinama; između tih dviju činjenica leži sve ono što kalendar ne zna zabilježiti. Dvadeset peti lipnja ušao je u udžbenike kao dan kad je nešto počelo, ali onima koji su ga proživjeli više je nalikovao na dan kad je nešto prestalo — iščekivanje, nada da se može bez rata. Zanimljivo je kako jezik prati takva stanja. Do toga ljeta govorilo se o 'incidentima', 'napetostima', 'sukobima'; riječ rat izgovarala se s oklijevanjem, kao da bi je izgovaranje moglo prizvati. A zatim je, negdje između Borova Sela i jeseni, postala jedina riječ koja je odgovarala stvarnosti. Narodi rijetko odlučuju kad će ući u povijest. Oni odlučuju samo kako će se u njoj ponašati, i to je ono što ova godina, više od datuma, pamti.",
       emoji: '🇭🇷',
@@ -95,7 +95,7 @@ export const HISTORY = {
       textHrA2:
         'U jesen 1991. JNA i srpske snage napale su Vukovar. Branitelja je bilo malo, a napadača mnogo. Ipak su se borili 87 dana. Grad je gotovo potpuno razoren, a 18. studenoga je pao. Vukovar je postao simbol hrvatske hrabrosti. Zato ga danas zovemo grad heroj.',
       textHrB2:
-        'Opsada Vukovara trajala je od 25. kolovoza do 18. studenoga 1991. Oko 1 800 branitelja — pripadnika 204. brigade, policije i dragovoljaca — tri je mjeseca zadržavalo snage JNA i srpskih paravojnih postrojbi koje su brojile više desetaka tisuća ljudi, uz stotine tenkova i svakodnevno topničko razaranje grada. Civili su preživljavali u podrumima, bez struje i vode; procjenjuje se da je na grad padalo i više od šest tisuća granata dnevno. Nakon pada grada slijedili su zločini koji su ostali njegovo najtamnije poglavlje: stotine ranjenika i civila odvedene su iz vukovarske bolnice i ubijene na Ovčari. Vojno gledano, Vukovar je vezao glavninu neprijateljskih snaga upravo u tjednima kad je Hrvatska tek stvarala vojsku; simbolički, postao je mjerilo žrtve kojim se u Hrvatskoj i danas mjere svi ostali.',
+        'Opsada Vukovara trajala je od 25. kolovoza do 18. studenoga 1991. Oko 1 800 branitelja — pripadnika 204. brigade, policije i dragovoljaca — tri je mjeseca zadržavalo snage JNA i srpskih paravojnih postrojbi koje su brojile više desetaka tisuća ljudi, uz stotine tenkova i svakodnevno topničko razaranje grada. Civili su preživljavali u podrumima, bez struje i vode; procjenjuje se da je na grad padalo i više od šest tisuća granata dnevno. Nakon pada grada slijedili su zločini koji su ostali njegovo najtamnije poglavlje: više od dvjesto ljudi — ranjenika, branitelja i civila — odvedeno je iz vukovarske bolnice i ubijeno na Ovčari. Vojno gledano, Vukovar je vezao glavninu neprijateljskih snaga upravo u tjednima kad je Hrvatska tek stvarala vojsku; simbolički, postao je mjerilo žrtve kojim se u Hrvatskoj i danas mjere svi ostali.',
       textHrC1:
         'Vukovar je u hrvatskoj kulturi sjećanja dobio mjesto koje se najbolje razumije usporedbom: ono što je Staljingrad u ruskoj ili Verdun u francuskoj memoriji — mjesto na kojem se poraz pretvara u moralnu pobjedu. Vojni povjesničari opravdano ističu da je opsada imala i strateško značenje: dok je JNA tri mjeseca trošila glavninu snaga na jedan grad, Hrvatska je dobila vrijeme da od policijskih postrojbi i dragovoljaca sastavi vojsku i da preživi jesen 1991., kad je pad Zagreba bio realna mogućnost. No sjećanje ne živi od strategije. Ono živi od Ovčare, od kolone koja 18. studenoga izlazi iz grada, od bolnice koja je trebala biti zaštićena. Zato je Vukovar i politički osjetljivo mjesto: rasprave o tome je li grad mogao biti bolje pomognut, tko je za što odgovoran i kako se sjećanje smije koristiti nikada nisu utihnule. Sve to čini Vukovar ne samo poglavljem povijesti nego i mjerom kojom hrvatsko društvo provjerava samo sebe.',
       textHrC2:
@@ -235,14 +235,18 @@ export const HISTORY = {
       'Croatian Parliament declares independence',
       'Dan neovisnosti — Independence Day',
     ],
-    ['18. studenoga 1991.', 'Fall of Vukovar', 'Dan sjećanja na žrtve Vukovara — Remembrance Day'],
+    [
+      '18. studenoga 1991.',
+      'Fall of Vukovar',
+      'Dan sjećanja na žrtvu Vukovara i Škabrnje — Remembrance Day',
+    ],
     ['15. siječnja 1992.', 'International recognition of Croatia', 'Međunarodno priznanje'],
     ['1. svibnja 1995.', 'Operation Flash liberates western Slavonia', 'Operacija Bljesak'],
     ['4.-7. kolovoza 1995.', 'Operation Storm liberates the Krajina', 'Operacija Oluja'],
     [
       '8. listopada',
       'Croatia severs all constitutional ties with Yugoslavia — independence fully activated',
-      'Dan neovisnosti',
+      'Dan Hrvatskoga sabora',
     ],
     [
       '5. kolovoza',
@@ -293,9 +297,9 @@ export const KINGS = {
       title: 'The Duchy Period (c. 800\u2013925)',
       titleHr: 'Razdoblje kne\u017eevine (oko 800. \u2013 925.)',
       emoji: '\ud83c\udff0',
-      text: 'Croatia first appears in written records as a duchy under Frankish overlordship. Duke Borna (c. 810\u2013821) was the first historically documented Croatian ruler, governing the Dalmatian duchy. His successors \u2014 Vladislav, Mislav, and then the great Trpimir I (c. 845\u2013864) \u2014 gradually expanded Croatian power and independence. Trpimir I founded the Trpimirovi\u0107 dynasty and issued the oldest known Croatian state document, the Charter of Duke Trpimir in 852, which first mentions the Croatian name in a royal document. Duke Branimir (879\u2013892) achieved a historic milestone when Pope John VIII formally recognized him as an independent ruler, effectively confirming Croatian sovereignty from both Frankish and Byzantine overlordship. Duke Muncimir continued building the state until his son would take it to its ultimate glory.',
+      text: 'Croatia first appears in written records as a duchy under Frankish overlordship. Duke Borna (c. 810\u2013821) was the first historically documented Croatian ruler, governing the Dalmatian duchy. His successors \u2014 Vladislav, Mislav, and then the great Trpimir I (c. 845\u2013864) \u2014 gradually expanded Croatian power and independence. Trpimir I founded the Trpimirovi\u0107 dynasty and issued the oldest known Croatian state document, the Charter of Duke Trpimir in 852, which first mentions the Croatian name in a ruler\u0027s charter. Duke Branimir (879\u2013892) achieved a historic milestone when Pope John VIII formally recognized him as an independent ruler, effectively confirming Croatian sovereignty from both Frankish and Byzantine overlordship. Duke Muncimir continued building the state, and his successor Tomislav would take it to its greatest glory.',
       textHr:
-        'Hrvatska se u pisanim izvorima prvi put spominje kao kne\u017eevina pod frana\u010dkim vrhovni\u0161tvom. Knez Borna (oko 810. \u2013 821.) prvi je povijesno potvr\u0111eni hrvatski vladar, koji je upravljao dalmatinskom kne\u017eevinom. Njegovi nasljednici \u2014 Vladislav, Mislav, a potom veliki Trpimir I. (oko 845. \u2013 864.) \u2014 postupno su \u0161irili hrvatsku mo\u0107 i neovisnost. Trpimir I. utemeljio je dinastiju Trpimirovi\u0107a i izdao najstariju poznatu ispravu hrvatske dr\u017eave, Trpimirovu darovnicu iz 852. godine, koja prva u kraljevskoj ispravi spominje hrvatsko ime. Knez Branimir (879. \u2013 892.) obilje\u017eio je povijesnu prekretnicu kada ga je papa Ivan VIII. slu\u017ebeno priznao neovisnim vladarom, \u010dime je potvr\u0111ena hrvatska suverenost i prema Francima i prema Bizantu. Knez Muncimir nastavio je graditi dr\u017eavu sve dok je njegov sin ne dovede do njezine najve\u0107e slave.',
+        'Hrvatska se u pisanim izvorima prvi put spominje kao kne\u017eevina pod frana\u010dkim vrhovni\u0161tvom. Knez Borna (oko 810. \u2013 821.) prvi je povijesno potvr\u0111eni hrvatski vladar, koji je upravljao dalmatinskom kne\u017eevinom. Njegovi nasljednici \u2014 Vladislav, Mislav, a potom veliki Trpimir I. (oko 845. \u2013 864.) \u2014 postupno su \u0161irili hrvatsku mo\u0107 i neovisnost. Trpimir I. utemeljio je dinastiju Trpimirovi\u0107a i izdao najstariju poznatu ispravu hrvatske dr\u017eave, Trpimirovu darovnicu iz 852. godine, koja je prva vladarska isprava u kojoj se spominje hrvatsko ime. Knez Branimir (879. \u2013 892.) obilje\u017eio je povijesnu prekretnicu kada ga je papa Ivan VIII. slu\u017ebeno priznao neovisnim vladarom, \u010dime je potvr\u0111ena hrvatska suverenost i prema Francima i prema Bizantu. Knez Muncimir nastavio je graditi dr\u017eavu, a njegov nasljednik Tomislav doveo ju je do najve\u0107e slave.',
     },
     {
       title: 'The Kingdom Established (925)',
@@ -317,9 +321,9 @@ export const KINGS = {
       title: 'The End of Independence (1089\u20131102)',
       titleHr: 'Kraj neovisnosti (1089. \u2013 1102.)',
       emoji: '\ud83d\udd6f\ufe0f',
-      text: 'King Zvonimir died in 1089 without a male heir. His successor, Stjepan II, was the last king of the main Trpimirovi\u0107 line. Old and frail, Stjepan II died in 1091 after less than two years on the throne. A succession crisis followed. Petar Sva\u010di\u0107, likely a former ban (viceroy) under Zvonimir, was chosen as the last native Croatian king. He fought fiercely against the Hungarian King Koloman (Coloman), who claimed the Croatian throne through Zvonimir\u0027s wife Helena (a Hungarian princess). Petar Sva\u010di\u0107 fell in battle at Gvozd Mountain in 1097 \u2014 the last Croatian king to die defending Croatian independence. By 1102, the Croatian nobles entered into the Pacta Conventa with King Koloman, creating a personal union between Croatia and Hungary. Croatia kept its own parliament (Sabor), its own ban (viceroy), and its own laws, but would not have its own king again until the dream of independence was finally realized in the 20th century.',
+      text: 'King Zvonimir died in 1089 without a male heir. His successor, Stjepan II, was the last king of the main Trpimirovi\u0107 line. Old and frail, Stjepan II died in 1091 after less than two years on the throne. A succession crisis followed. Petar Sva\u010di\u0107, likely a former ban (viceroy) under Zvonimir, was chosen as the last native Croatian king. He fought fiercely against the Hungarian King Koloman (Coloman), who claimed the Croatian throne through Zvonimir\u0027s wife Helena (a Hungarian princess). Petar Sva\u010di\u0107 fell in battle at Gvozd Mountain in 1097 \u2014 the last Croatian king to die defending Croatian independence. By 1102, the Croatian nobles entered into the Pacta Conventa with King Koloman, creating a personal union between Croatia and Hungary. Croatia kept its own parliament (Sabor), its own ban (viceroy), and its own laws, but would never again have a native king; full independence came only at the end of the 20th century.',
       textHr:
-        'Kralj Zvonimir umro je 1089. bez mu\u0161kog nasljednika. Njegov nasljednik, Stjepan II., bio je posljednji kralj glavne loze Trpimirovi\u0107a. Star i iznemogao, Stjepan II. umro je 1091., nakon manje od dvije godine na prijestolju. Uslijedila je nasljedna kriza. Petar Sva\u010di\u0107, vjerojatno biv\u0161i ban pod Zvonimirom, izabran je za posljednjeg doma\u0107eg hrvatskog kralja. \u017destoko se borio protiv ma\u0111arskoga kralja Kolomana, koji je pravo na hrvatsko prijestolje polagao preko Zvonimirove supruge Jelene (ma\u0111arske princeze). Petar Sva\u010di\u0107 poginuo je u bici na Gvozdu 1097. godine \u2014 posljednji hrvatski kralj koji je poginuo brane\u0107i hrvatsku neovisnost. Do 1102. godine hrvatsko je plemstvo sklopilo Pacta conventa s kraljem Kolomanom, \u010dime je uspostavljena personalna unija izme\u0111u Hrvatske i Ugarske. Hrvatska je zadr\u017eala vlastiti sabor, vlastitog bana i vlastite zakone, no vlastitoga kralja ne\u0107e imati sve do 20. stolje\u0107a, kada je san o neovisnosti napokon ostvaren.',
+        'Kralj Zvonimir umro je 1089. bez mu\u0161kog nasljednika. Njegov nasljednik, Stjepan II., bio je posljednji kralj glavne loze Trpimirovi\u0107a. Star i iznemogao, Stjepan II. umro je 1091., nakon manje od dvije godine na prijestolju. Uslijedila je nasljedna kriza. Petar Sva\u010di\u0107, vjerojatno biv\u0161i ban pod Zvonimirom, izabran je za posljednjeg doma\u0107eg hrvatskog kralja. \u017destoko se borio protiv ma\u0111arskoga kralja Kolomana, koji je pravo na hrvatsko prijestolje polagao preko Zvonimirove supruge Jelene (ma\u0111arske princeze). Petar Sva\u010di\u0107 poginuo je u bici na Gvozdu 1097. godine \u2014 posljednji hrvatski kralj koji je poginuo brane\u0107i hrvatsku neovisnost. Do 1102. godine hrvatsko je plemstvo sklopilo Pacta conventa s kraljem Kolomanom, \u010dime je uspostavljena personalna unija izme\u0111u Hrvatske i Ugarske. Hrvatska je zadr\u017eala vlastiti sabor, vlastitog bana i vlastite zakone, no doma\u0107eg kralja vi\u0161e nikada ne\u0107e imati, a punu \u0107e neovisnost ostvariti tek krajem 20. stolje\u0107a.',
     },
   ],
   dukes: [
@@ -375,9 +379,9 @@ export const KINGS = {
       name: 'Muncimir',
       years: 'c. 892\u2013910',
       title: 'Knez',
-      desc: 'Father of Tomislav. Continued building Croatian institutions and military power, preparing the ground for the kingdom.',
+      desc: 'Possibly the father of Tomislav (the link is not documented). Continued building Croatian institutions and military power, preparing the ground for the kingdom.',
       descHr:
-        'Otac Tomislava. Nastavio je izgradnju hrvatskih institucija i vojne mo\u0107i, pripremaju\u0107i teren za kraljevstvo.',
+        'Mo\u017eda otac Tomislava (srodstvo nije potvr\u0111eno u izvorima). Nastavio je izgradnju hrvatskih institucija i vojne mo\u0107i, pripremaju\u0107i teren za kraljevstvo.',
     },
   ],
   kings: [
@@ -505,9 +509,9 @@ export const KINGS = {
       name: 'Petar Sva\u010di\u0107',
       years: '1093\u20131097',
       title: 'Posljednji Hrvatski Kralj \u2014 Last Croatian King',
-      desc: 'Elected by Croatian nobles as the last native king. Fought heroically against Hungarian King Koloman who claimed the Croatian throne. Fell in battle at Gvozd Mountain (Petrova Gora) in 1097. His death marks the end of sovereign Croatian rule. The mountain where he fell was later renamed Petrova Gora (\u0027Peter\u0027s Mountain\u0027) in his honor. A true martyr of Croatian independence.',
+      desc: 'Elected by Croatian nobles as the last native king. Fought heroically against Hungarian King Koloman who claimed the Croatian throne. Fell in battle at Gvozd Mountain (Petrova Gora) in 1097. His death marks the end of sovereign Croatian rule. According to tradition, the mountain where he fell was later renamed Petrova Gora (\u0027Peter\u0027s Mountain\u0027) in his honor. A true martyr of Croatian independence.',
       descHr:
-        'Izabralo ga je hrvatsko plemstvo za posljednjeg doma\u0107eg kralja. Herojski se borio protiv ma\u0111arskog kralja Kolomana, koji je polagao pravo na hrvatsko prijestolje. Poginuo je u bici na Gvozdu (Petrova gora) 1097. godine. Njegova smrt ozna\u010dava kraj suverene hrvatske vlasti. Planina na kojoj je poginuo poslije je u njegovu \u010dast preimenovana u Petrovu goru. Pravi mu\u010denik hrvatske neovisnosti.',
+        'Izabralo ga je hrvatsko plemstvo za posljednjeg doma\u0107eg kralja. Herojski se borio protiv ma\u0111arskog kralja Kolomana, koji je polagao pravo na hrvatsko prijestolje. Poginuo je u bici na Gvozdu (Petrova gora) 1097. godine. Njegova smrt ozna\u010dava kraj suverene hrvatske vlasti. Prema predaji, planina na kojoj je poginuo poslije je u njegovu \u010dast nazvana Petrovom gorom. Pravi mu\u010denik hrvatske neovisnosti.',
       emoji: '\u2694\ufe0f',
       color: '#dc2626',
     },
@@ -592,8 +596,8 @@ export const HIST_FACTS = [
     en: 'The necktie originated in Croatia — soldiers wore them in the 17th century.',
   },
   {
-    hr: 'Dubrovnik je bio neovisna republika više od 450 godina.',
-    en: 'Dubrovnik was an independent republic for over 450 years.',
+    hr: 'Dubrovnik je bio neovisna republika 450 godina.',
+    en: 'Dubrovnik was an independent republic for 450 years.',
   },
   {
     hr: 'Nikola Tesla je rođen u Smiljanu, Hrvatska, 1856.',
@@ -604,8 +608,8 @@ export const HIST_FACTS = [
     en: 'The Vučedol culture produced the oldest European calendar.',
   },
   {
-    hr: 'Vinkovci su najstarije kontinuirano naselje u Europi — 8.300 godina.',
-    en: "Vinkovci is Europe's oldest continuously inhabited settlement — 8,300 years.",
+    hr: 'Vinkovci se smatraju najstarijim neprekidno naseljenim gradom u Europi — 8.300 godina.',
+    en: "Vinkovci is considered Europe's oldest continuously inhabited town — 8,300 years.",
   },
   {
     hr: 'Marco Polo je prema predaji rođen na Korčuli.',
@@ -624,7 +628,10 @@ export const HIST_FACTS = [
     hr: 'Glagoljica je najstarije slavensko pismo.',
     en: 'Glagolitic is the oldest Slavic script.',
   },
-  { hr: 'Plitvice su UNESCO od 1979.', en: 'Plitvice became UNESCO World Heritage in 1979.' },
+  {
+    hr: 'Plitvice su na UNESCO-ovu popisu od 1979.',
+    en: 'Plitvice became UNESCO World Heritage in 1979.',
+  },
   {
     hr: 'Hrvatska je osvojila 2. mjesto na SP 2018. u Rusiji.',
     en: 'Croatia won 2nd place at the 2018 World Cup in Russia.',
@@ -643,7 +650,7 @@ export const HIST_FACTS = [
   },
   { hr: 'Zadar je star više od 3.000 godina.', en: 'Zadar is over 3,000 years old.' },
   {
-    hr: 'Oluja 1995. bila je najveća kopnena operacija u Europi od WWII.',
+    hr: 'Oluja 1995. bila je najveća kopnena operacija u Europi od Drugoga svjetskog rata.',
     en: "Operation Storm 1995 was Europe's largest land operation since WWII.",
   },
   {
@@ -652,7 +659,7 @@ export const HIST_FACTS = [
   },
   { hr: 'Hrvatska koristi euro od 2023.', en: 'Croatia adopted the euro in 2023.' },
   {
-    hr: 'Stari Most u Mostaru srušen je 1993., obnovljen 2004.',
+    hr: 'Stari most u Mostaru srušen je 1993., a obnovljen 2004.',
     en: 'The Old Bridge in Mostar was destroyed 1993, rebuilt 2004.',
   },
   {
@@ -680,7 +687,7 @@ export const HIST_FACTS = [
     en: 'Franciscans preserved Croatian identity in Herzegovina for 400 years.',
   },
   {
-    hr: 'Dražen Petrović poginuo je 1993. u 28. godini.',
+    hr: 'Dražen Petrović poginuo je 1993., s 28 godina.',
     en: 'Dražen Petrović died in 1993 at age 28.',
   },
   {
@@ -712,8 +719,8 @@ export const HIST_FACTS = [
     en: "Dubrovnik had one of the world's first quarantines.",
   },
   {
-    hr: 'Šibenik je jedini grad s dvije UNESCO katedrale.',
-    en: 'Šibenik is the only city with two UNESCO cathedrals.',
+    hr: 'Šibenik ima dva spomenika na UNESCO-ovu popisu: katedralu sv. Jakova i tvrđavu sv. Nikole.',
+    en: "Šibenik has two UNESCO World Heritage sites: St James's Cathedral and St Nicholas Fortress.",
   },
   {
     hr: 'Splitski Peristil datira iz 4. stoljeća.',
@@ -724,11 +731,11 @@ export const HIST_FACTS = [
     en: "Ivan Meštrović is one of the world's most famous sculptors.",
   },
   {
-    hr: 'Bračko kamenje korišteno je za Bijelu kuću u Washingtonu.',
-    en: 'Stone from Brač was used for the White House in Washington.',
+    hr: 'Prema predaji, bračko kamenje korišteno je i za Bijelu kuću u Washingtonu.',
+    en: 'According to tradition, stone from Brač was used for the White House in Washington.',
   },
   {
-    hr: 'Pašk sir je jedan od najboljih sireva na svijetu.',
+    hr: 'Paški sir je jedan od najboljih sireva na svijetu.',
     en: 'Pag cheese is one of the best cheeses in the world.',
   },
   { hr: 'Hrvatska ima osam nacionalnih parkova.', en: 'Croatia has eight national parks.' },
@@ -737,7 +744,7 @@ export const HIST_FACTS = [
     en: "University of Zadar was founded in 1396 — Croatia's oldest.",
   },
   {
-    hr: 'Modri špilj na Biševu je jedno od najljepših prirodnih čuda.',
+    hr: 'Modra špilja na Biševu jedno od najljepših prirodnih čuda.',
     en: 'The Blue Cave on Biševo is one of the most beautiful natural wonders.',
   },
   {
@@ -809,33 +816,33 @@ export const HIST_FACTS = [
     en: "Gorski Kotar is Croatia's most forested region.",
   },
   {
-    hr: 'Sinjska alka je UNESCO zaštićena vitežka igra od 1715.',
-    en: "Sinjska Alka is a UNESCO-protected knights' game since 1715.",
+    hr: 'Sinjska alka, viteško natjecanje koje se održava od 1715., od 2010. je na UNESCO-ovu popisu.',
+    en: "The Sinjska Alka, a knights' tournament held since 1715, has been on UNESCO's list since 2010.",
   },
   {
     hr: 'Dalmacija ima više od 300 sunčanih dana godišnje.',
     en: 'Dalmatia has over 300 sunny days per year.',
   },
   {
-    hr: 'Varaždin je bio glavni grad Hrvatske 1756-1776.',
-    en: "Varaždin was Croatia's capital 1756-1776.",
+    hr: 'Varaždin je bio glavni grad Hrvatske od 1767. do 1776.',
+    en: "Varaždin was Croatia's capital from 1767 to 1776.",
   },
   {
-    hr: 'Hrvati koriste tri pisma: latinicu, glagoljicu i ćirilicu.',
+    hr: 'Hrvati su se služili trima pismima: latinicom, glagoljicom i ćirilicom.',
     en: 'Croats have used three scripts: Latin, Glagolitic, and Cyrillic.',
   },
   { hr: 'Rabac se zove Biser Kvarnera.', en: 'Rabac is called the Pearl of Kvarner.' },
   {
-    hr: 'Ilirski pokret u 19. st. ujedinio je Južne Slavene oko hrvatskog jezika.',
-    en: 'The Illyrian Movement in the 19th c. united South Slavs around Croatian language.',
+    hr: 'Ilirski pokret u 19. st. težio je kulturnom jedinstvu južnih Slavena i standardizirao hrvatski jezik na štokavskoj osnovi.',
+    en: 'The 19th-century Illyrian Movement sought South Slavic cultural unity and standardised Croatian on a Štokavian base.',
   },
   {
     hr: 'Kopački rit je jedan od najvećih močvarnih krajolika u Europi.',
     en: "Kopački Rit is one of Europe's largest wetland landscapes.",
   },
   {
-    hr: 'Andrija Mohorovičić otkrio je granicu Zemljine kore — Moho sloj.',
-    en: "Andrija Mohorovičić discovered the Earth's crust boundary — the Moho layer.",
+    hr: 'Andrija Mohorovičić otkrio je granicu Zemljine kore — Mohorovičićev diskontinuitet.',
+    en: "Andrija Mohorovičić discovered the Earth's crust boundary — the Moho discontinuity.",
   },
   { hr: 'Hrvatsko Zagorje ima više od 50 dvoraca.', en: 'Hrvatsko Zagorje has over 50 castles.' },
   {
@@ -843,11 +850,11 @@ export const HIST_FACTS = [
     en: 'The Pelješac Bridge, opened 2022, connects southern Dalmatia.',
   },
   {
-    hr: 'Split je drugi najveći grad u Hrvatskoj s oko 180.000 stanovnika.',
-    en: "Split is Croatia's 2nd largest city with about 180,000 people.",
+    hr: 'Split je drugi najveći grad u Hrvatskoj s oko 160.000 stanovnika.',
+    en: "Split is Croatia's 2nd largest city with about 160,000 people.",
   },
   {
-    hr: 'Pag je poznat po čipki koja je na UNESCO-voj listi.',
+    hr: 'Pag je poznat po čipki koja je na UNESCO-ovu popisu.',
     en: 'Pag is known for its lace, which is UNESCO-listed.',
   },
   {
@@ -863,15 +870,15 @@ export const HIST_FACTS = [
     en: 'Ema Derossi-Bjelajac from Labin was the first woman to lead Croatia.',
   },
   {
-    hr: 'Stončanski zidovi su drugi najduži obrambeni zidovi u Europi.',
-    en: 'The Ston Walls are the second longest defensive walls in Europe.',
+    hr: 'Stonske zidine duge su oko 5,5 kilometara i ubrajaju se među najduže utvrdne zidine u Europi.',
+    en: 'The Walls of Ston are about 5.5 km long — among the longest fortification walls in Europe.',
   },
   {
-    hr: 'Neretva je jedina delta u Hrvatskoj i raj za ptice.',
+    hr: 'Delta Neretve jedina je riječna delta u Hrvatskoj i raj za ptice.',
     en: "Neretva has Croatia's only river delta and is a bird paradise.",
   },
   {
-    hr: "Ivana Brlić-Mažuranić je hrvatska 'Andersen' — spisateljica bajki.",
+    hr: "Ivana Brlić-Mažuranić je 'hrvatski Andersen' — spisateljica bajki.",
     en: "Ivana Brlić-Mažuranić is Croatia's 'Andersen' — a fairy tale writer.",
   },
   {
@@ -904,8 +911,8 @@ export const HIST_FACTS = [
   },
   { hr: 'Hrvatska je pristupila EU 1. srpnja 2013.', en: 'Croatia joined the EU on July 1, 2013.' },
   {
-    hr: "'Lijepa naša domovino' je hrvatska himna od 1891.",
-    en: "'Lijepa naša domovino' has been Croatia's anthem since 1891.",
+    hr: "'Lijepa naša domovino' pjeva se kao hrvatska himna od 1891.",
+    en: "'Lijepa naša domovino' has been sung as Croatia's anthem since 1891.",
   },
   {
     hr: 'Škabrnja je pretrpjela masovni zločin 18. studenoga 1991.',
@@ -916,8 +923,8 @@ export const HIST_FACTS = [
     en: 'Knin was liberated on August 5, 1995 during Operation Storm.',
   },
   {
-    hr: 'Ivica Zubac je trenutno jedini Hrvat koji igra u NBA.',
-    en: 'Ivica Zubac is currently the only Croatian playing in the NBA.',
+    hr: 'Ivica Zubac jedan je od rijetkih Hrvata u NBA-u.',
+    en: 'Ivica Zubac is one of the few Croatians in the NBA.',
   },
   {
     hr: 'Jadransko more ima prosječnu dubinu od 252 metra.',
@@ -925,8 +932,8 @@ export const HIST_FACTS = [
   },
   { hr: 'Zagreb je prvi put spomenut 1094. godine.', en: 'Zagreb was first mentioned in 1094.' },
   {
-    hr: 'Hrvatsko narodno kazalište osnovano je 1895.',
-    en: 'Croatian National Theatre was founded in 1895.',
+    hr: 'Zgrada HNK-a u Zagrebu otvorena je 1895.',
+    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
   },
   {
     hr: 'Brijuni su bili rezidencija Josipa Broza Tita.',
@@ -961,7 +968,7 @@ export const HIST_FACTS = [
     en: 'The Sea Organ in Zadar plays music using waves.',
   },
   {
-    hr: 'Hrvatsko vino Plavac Mali je jedno od najcjenjenijih crvenih vina.',
+    hr: 'Plavac mali jedno je od najcjenjenijih hrvatskih crvenih vina.',
     en: 'Croatian Plavac Mali is one of the most prized red wines.',
   },
   {
@@ -969,12 +976,12 @@ export const HIST_FACTS = [
     en: 'Krk was the most important center of Glagolitic culture.',
   },
   {
-    hr: 'Baškanska ploča (oko 1100.) najstariji je hrvatski tekst.',
-    en: 'The Baška Tablet (c. 1100) is the oldest Croatian text.',
+    hr: 'Bašćanska ploča (oko 1100.) jedan je od najstarijih hrvatskih tekstova.',
+    en: 'The Baška Tablet (c. 1100) is one of the oldest Croatian texts.',
   },
   {
-    hr: 'Herman Potočnik Noordung iz HR je osmislio svemirsku stanicu 1929.',
-    en: 'Herman Potočnik Noordung from HR designed a space station in 1929.',
+    hr: 'Herman Potočnik Noordung, rođen u Puli, osmislio je svemirsku stanicu 1929.',
+    en: 'Herman Potočnik Noordung, born in Pula, designed a space station in 1929.',
   },
   {
     hr: 'Pozdrav Suncu u Zadru napravljen je od 300 staklenih ploča.',
@@ -993,8 +1000,8 @@ export const HIST_FACTS = [
     en: 'Labin miners in 1921 organized self-government for 37 days.',
   },
   {
-    hr: 'Jadrolinija je najstarija hrvatska trajektna kompanija.',
-    en: "Jadrolinija is Croatia's oldest ferry company.",
+    hr: 'Jadrolinija je najveći hrvatski brodar za prijevoz putnika.',
+    en: "Jadrolinija is Croatia's largest passenger shipping company.",
   },
   {
     hr: 'Mate Parlov bio je svjetski boksački prvak 1978.',
@@ -1093,7 +1100,7 @@ export const HIST_FACTS = [
     en: "Oliver Dragojević is known as 'the voice of Dalmatia'.",
   },
   {
-    hr: "Agatha Christie spominje Vinkovce u 'Umorstvu u Orient Expressu'.",
+    hr: "Agatha Christie spominje Vinkovce u 'Ubojstvu u Orient Expressu'.",
     en: "Agatha Christie mentions Vinkovci in 'Murder on the Orient Express'.",
   },
   {
@@ -1105,16 +1112,16 @@ export const HIST_FACTS = [
     en: 'Sopot culture near Vinkovci dates to 5480-3790 BC.',
   },
   {
-    hr: 'Vinkovci su imali prvo metal-lijevanje na svijetu — Vučedol kultura.',
-    en: "Vinkovci had the world's first metal casting — Vučedol culture.",
+    hr: 'Vučedolska kultura, prisutna i u Vinkovcima, poznata je po ranoj metalurgiji bakra.',
+    en: 'The Vučedol culture, present in Vinkovci too, is known for its early copper metallurgy.',
   },
   {
     hr: 'Rimski Cibalae imao je vodovod, kanalizaciju i terme.',
     en: 'Roman Cibalae had a water supply, sewerage, and thermal baths.',
   },
   {
-    hr: 'Josip Runjanin, skladatelj hrvatske himne, odrastao je u Vinkovcima.',
-    en: 'Josip Runjanin, composer of the Croatian anthem, grew up in Vinkovci.',
+    hr: 'Josip Runjanin, skladatelj hrvatske himne, rođen je u Vinkovcima.',
+    en: 'Josip Runjanin, composer of the Croatian anthem, was born in Vinkovci.',
   },
   {
     hr: 'Vinkovačke jeseni najstariji su folklorni festival u Hrvatskoj.',
@@ -1161,8 +1168,8 @@ export const HIST_FACTS = [
     en: 'The Vučedol Museum on the Danube opened in 2015.',
   },
   {
-    hr: 'Hrvatska ima 11 UNESCO materijalnih i nematerijalnih dobara.',
-    en: 'Croatia has 11 UNESCO material and immaterial heritage sites.',
+    hr: 'Hrvatska ima deset lokaliteta na UNESCO-ovu popisu svjetske baštine.',
+    en: "Croatia has ten sites on UNESCO's World Heritage List.",
   },
   {
     hr: 'Jadranska magistrala je jedna od najljepših cesta na svijetu.',
@@ -1177,22 +1184,22 @@ export const HIST_FACTS = [
     en: 'Istria is the largest peninsula in the Adriatic Sea.',
   },
   {
-    hr: 'Hrvatska je osvojila 3. mjesto na SP 2022. — drugi put na postolju!',
-    en: 'Croatia won 3rd at the 2022 World Cup — second time on the podium!',
+    hr: 'Hrvatska je osvojila 3. mjesto na SP 2022. — treći put na postolju!',
+    en: 'Croatia won 3rd at the 2022 World Cup — third time on the podium!',
   },
   {
     hr: 'Rijeka ima najduži karneval u Hrvatskoj.',
     en: 'Rijeka has the longest carnival in Croatia.',
   },
   { hr: 'Papuk je prvi geopark u Hrvatskoj.', en: "Papuk is Croatia's first geopark." },
-  { hr: 'Croatia Airlines osnovan je 1989.', en: 'Croatia Airlines was founded in 1989.' },
+  { hr: 'Croatia Airlines osnovana je 1989.', en: 'Croatia Airlines was founded in 1989.' },
   {
     hr: 'Hrvatsko more jedno je od najčišćih na Mediteranu.',
     en: 'Croatian sea is among the cleanest in the Mediterranean.',
   },
   {
-    hr: 'Nikola Tesla je izumio izmjeničnu struju.',
-    en: 'Nikola Tesla invented alternating current.',
+    hr: 'Nikola Tesla izumio je asinkroni motor na izmjeničnu struju.',
+    en: 'Nikola Tesla invented the alternating-current induction motor.',
   },
   {
     hr: 'Bjelolasica je najviši skijaški centar u Hrvatskoj.',
@@ -1220,12 +1227,12 @@ export const HIST_FACTS = [
     en: 'Nativity of Mary (Sept 8) is a major feast in Dalmatia.',
   },
   {
-    hr: 'Crkva Sv. Donata u Zadru potječe iz 9. stoljeća.',
+    hr: 'Crkva sv. Donata u Zadru potječe iz 9. stoljeća.',
     en: 'St. Donatus Church in Zadar dates from the 9th century.',
   },
   {
-    hr: 'Crkvina u Biskupiji kod Knina je kraljevsko krunidbeno mjesto.',
-    en: 'Crkvina in Biskupija near Knin is a royal coronation site.',
+    hr: 'Crkvina u Biskupiji kod Knina smatra se mogućim mjestom kraljevske krunidbe.',
+    en: 'Crkvina in Biskupija near Knin is thought to be a possible royal coronation site.',
   },
   {
     hr: 'Zvonimir je bio hrvatski kralj od 1076. do 1089.',
@@ -1236,7 +1243,7 @@ export const HIST_FACTS = [
     en: 'Ban Kulin of Bosnia ruled from 1180 to 1204.',
   },
   {
-    hr: 'Tomislav je ujedinio Panonsku i Dalmatinsku Hrvatsku.',
+    hr: 'Tomislav je ujedinio panonsku i dalmatinsku Hrvatsku.',
     en: 'Tomislav united Pannonian and Dalmatian Croatia.',
   },
   {
@@ -1260,8 +1267,8 @@ export const HIST_FACTS = [
     en: 'Drniš prosciutto has protected designation of origin.',
   },
   {
-    hr: 'Turopolje ima najstariju europsku samoupravu — Plemenita općina od 1278.',
-    en: "Turopolje has Europe's oldest self-government — Noble Municipality since 1278.",
+    hr: 'Turopolje ima jednu od najstarijih samouprava u Europi — Plemenita općina od 1278.',
+    en: "Turopolje has one of Europe's oldest self-governments — Noble Municipality since 1278.",
   },
   { hr: 'Rijeka Krka ima 7 slapova na 75 km.', en: 'The Krka River has 7 waterfalls over 75 km.' },
   {
@@ -1301,8 +1308,8 @@ export const HIST_FACTS = [
     en: 'Imotski has the Red and Blue Lakes — natural karst wonders.',
   },
   {
-    hr: 'Lastovo je najudaljeniji nastanjeni hrvatski otok.',
-    en: 'Lastovo is the most remote inhabited Croatian island.',
+    hr: 'Lastovo je jedan od najudaljenijih nastanjenih hrvatskih otoka.',
+    en: 'Lastovo is one of the most remote inhabited Croatian islands.',
   },
   {
     hr: 'Lonjsko polje je najveće poplavno područje u Hrvatskoj.',
@@ -1343,8 +1350,8 @@ export const HIST_FACTS = [
     en: 'Mali Ston has the oldest salt pans in the Mediterranean.',
   },
   {
-    hr: 'Rijeka Cetina je najdulji tok koji utječe u Jadran.',
-    en: 'The Cetina is the longest river flowing into the Adriatic.',
+    hr: 'Cetina je najdulja rijeka koja cijelim tokom teče Hrvatskom i utječe u Jadran.',
+    en: 'The Cetina is the longest river that flows wholly through Croatia into the Adriatic.',
   },
   {
     hr: 'Na Jankovcu u Papuku nalazi se najstarija šumarija u Hrvatskoj.',
@@ -1372,11 +1379,11 @@ export const HIST_FACTS = [
     en: 'Slavonian kulen has Croatian protected designation of origin.',
   },
   {
-    hr: 'Nikola Tesla dao je svijetu izmjeničnu struju i radio.',
-    en: 'Nikola Tesla gave the world alternating current and radio.',
+    hr: 'Nikola Tesla presudno je pridonio razvoju izmjenične struje i radija.',
+    en: 'Nikola Tesla was crucial to the development of alternating current and radio.',
   },
   {
-    hr: 'Pula Arena izgrađena je u 1. stoljeću za 23.000 gledatelja.',
+    hr: 'Pulska arena izgrađena je u 1. stoljeću za 23.000 gledatelja.',
     en: 'Pula Arena was built in the 1st century for 23,000 spectators.',
   },
   {
@@ -1400,8 +1407,8 @@ export const HIST_FACTS = [
     en: 'Pag lace has been made by hand since the 15th century.',
   },
   {
-    hr: 'Benkovac je bio središte srpske pobune u Krajini 1991.',
-    en: 'Benkovac was the center of the Serb rebellion in Krajina in 1991.',
+    hr: 'Benkovac je bio jedno od središta srpske pobune u Krajini 1991.',
+    en: 'Benkovac was one of the centres of the Serb rebellion in Krajina in 1991.',
   },
   {
     hr: 'Bleiburška tragedija 1945. temelj je kolektivnog sjećanja Hrvata.',
@@ -1440,8 +1447,8 @@ export const HIST_FACTS = [
     en: 'Rovinj was once an island — connected to mainland in 18th c.',
   },
   {
-    hr: 'Učka je najviša planina Istre — 1.396 m.',
-    en: 'Učka is the highest mountain in Istria — 1,396 m.',
+    hr: 'Učka je najviša planina Istre — 1.401 m.',
+    en: 'Učka is the highest mountain in Istria — 1,401 m.',
   },
   {
     hr: 'Istarski tartufi spadaju među najskuplje na svijetu.',
@@ -1465,11 +1472,11 @@ export const HIST_FACTS = [
     en: 'Josip Broz Tito received over 100 heads of state at Brijuni.',
   },
   {
-    hr: 'Pazin ima ponor koji je inspirirao Jules Vernea.',
+    hr: 'Pazin ima ponor koji je inspirirao Julesa Vernea.',
     en: 'Pazin has a chasm that inspired Jules Verne.',
   },
   {
-    hr: 'Istra je poznata po Malvaziji — autohtonom bijelom vinu.',
+    hr: 'Istra je poznata po malvaziji — autohtonom bijelom vinu.',
     en: 'Istria is known for Malvasia — an indigenous white wine.',
   },
   {
@@ -1505,11 +1512,11 @@ export const HIST_FACTS = [
     en: 'Rab has the oldest city park in Europe — Komrčar.',
   },
   {
-    hr: "Novalja na Pagu poznata je po plaži Zrće — 'hrvatski Ibiza'.",
+    hr: "Novalja na Pagu poznata je po plaži Zrće — 'hrvatska Ibiza'.",
     en: "Novalja on Pag is known for Zrće beach — 'Croatian Ibiza'.",
   },
   {
-    hr: 'Senj je bio dom uskoka — pirati koji su branili Hrvatsku.',
+    hr: 'Senj je bio dom uskoka — pirata koji su branili Hrvatsku.',
     en: 'Senj was home to the Uskoks — pirates who defended Croatia.',
   },
   {
@@ -1550,7 +1557,7 @@ export const HIST_FACTS = [
     en: "Ilok is Croatia's easternmost city — on the Danube.",
   },
   {
-    hr: 'Ilok proizvodi vrhunska vina — posebno Graševinu i Traminac.',
+    hr: 'Ilok proizvodi vrhunska vina — posebno graševinu i traminac.',
     en: 'Ilok produces premium wines — especially Graševina and Traminer.',
   },
   {
@@ -1562,8 +1569,8 @@ export const HIST_FACTS = [
     en: "Vukovar Hospital was the defenders' last refuge.",
   },
   {
-    hr: 'Borovo Selo — incident 2. svibnja 1991. početak je rata.',
-    en: 'Borovo Selo — the incident of May 2, 1991 was the start of the war.',
+    hr: 'Borovo Selo — sukob 2. svibnja 1991. jedan je od prvih oružanih sukoba u ratu.',
+    en: 'Borovo Selo — the clash of May 2, 1991 was one of the first armed clashes of the war.',
   },
   {
     hr: 'Lika je najrjeđe naseljena regija Hrvatske.',
@@ -1582,8 +1589,8 @@ export const HIST_FACTS = [
     en: "Paklenica is a climber's paradise — 400+ routes.",
   },
   {
-    hr: 'Sjeverni Velebit ima Lukinu jamu — 1.421 m duboku.',
-    en: 'Northern Velebit has Lukina Pit — 1,421 m deep.',
+    hr: 'Sjeverni Velebit ima Lukinu jamu — 1.431 m duboku.',
+    en: 'Northern Velebit has Lukina Pit — 1,431 m deep.',
   },
   {
     hr: 'Međimurje je najsjevernija i najmanja hrvatska županija.',
@@ -1614,8 +1621,8 @@ export const HIST_FACTS = [
     en: 'Museum of Broken Relationships in Zagreb is unique in the world.',
   },
   {
-    hr: 'Hrvatsko narodno kazalište u Zagrebu otvoreno je 1895.',
-    en: 'Croatian National Theatre in Zagreb opened in 1895.',
+    hr: 'Zgrada Hrvatskoga narodnog kazališta u Zagrebu otvorena je 1895.',
+    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
   },
   {
     hr: "Jarun u Zagrebu zovu 'zagrebačko more'.",
@@ -1626,7 +1633,7 @@ export const HIST_FACTS = [
     en: 'Maksimir is the oldest public park in southeastern Europe.',
   },
   {
-    hr: 'Mirogoj u Zagrebu jedan je od najljepših groblja u Europi.',
+    hr: 'Mirogoj u Zagrebu jedan je od najljepših grobalja u Europi.',
     en: 'Mirogoj in Zagreb is one of the most beautiful cemeteries in Europe.',
   },
   {
@@ -1650,24 +1657,24 @@ export const HIST_FACTS = [
     en: 'Lokrum is an island forbidden for overnight stays — cursed by legend.',
   },
   {
-    hr: 'Trogir je uništen od Saracena 1123. i potpuno obnovljen.',
+    hr: 'Saraceni su 1123. razorili Trogir, a grad je potom potpuno obnovljen.',
     en: 'Trogir was destroyed by Saracens in 1123 and completely rebuilt.',
   },
   {
-    hr: 'Fortuna u Hvaru je najstarija kazališna zgrada u Europi (1612).',
-    en: 'Fortuna in Hvar is the oldest theatre building in Europe (1612).',
+    hr: 'Hvarsko kazalište (1612.) jedno je od najstarijih javnih kazališta u Europi.',
+    en: 'The Hvar theatre (1612) is one of the oldest public theatres in Europe.',
   },
   {
     hr: 'Vis je mjesto bitke 1866. između Italije i Austrije.',
     en: 'Vis was the site of an 1866 battle between Italy and Austria.',
   },
   {
-    hr: 'Biševo ima Modru špilju vidljivu samo oko podneva.',
-    en: 'Biševo has a Blue Cave visible only around noon.',
+    hr: 'Modra špilja na Biševu najljepša je oko podneva.',
+    en: 'The Blue Cave on Biševo is at its most beautiful around noon.',
   },
   {
-    hr: 'Susak ima jedinu pješčanu plažu u sjevernom Jadranu.',
-    en: 'Susak has the only sandy beach in the northern Adriatic.',
+    hr: 'Susak je poznat po pješčanim plažama, rijetkima na sjevernom Jadranu.',
+    en: 'Susak is known for sandy beaches, rare in the northern Adriatic.',
   },
   {
     hr: 'Silba nema automobila — samo pješaci i bicikli.',
@@ -1678,16 +1685,16 @@ export const HIST_FACTS = [
     en: 'Dugi Otok has salt lake Mir — one of two in Croatia.',
   },
   {
-    hr: 'Premuda je otok na kojem je potonula austrougarska bojna brod.',
-    en: 'Premuda is where an Austro-Hungarian battleship was sunk.',
+    hr: 'Kod Premude je 1918. potopljen austrougarski bojni brod Szent István.',
+    en: 'The Austro-Hungarian battleship Szent István was sunk off Premuda in 1918.',
   },
   {
     hr: "Ilovik je 'otok cvijeća' u Kvarneru.",
     en: "Ilovik is the 'island of flowers' in Kvarner.",
   },
   {
-    hr: 'Palagruža je najudaljeniji hrvatski otok — bliže Italiji nego Hrvatskoj.',
-    en: "Palagruža is Croatia's most remote island — closer to Italy.",
+    hr: 'Palagruža je najudaljeniji hrvatski otok — bliže talijanskoj obali nego hrvatskom kopnu.',
+    en: "Palagruža is Croatia's most remote island — closer to the Italian coast than to the Croatian mainland.",
   },
   { hr: 'Jabuka je vulkanski otok u Jadranu.', en: 'Jabuka is a volcanic island in the Adriatic.' },
   { hr: 'Kornati nemaju izvora pitke vode.', en: 'Kornati have no fresh water sources.' },
@@ -1736,15 +1743,15 @@ export const HIST_FACTS = [
     en: 'Franjo Tuđman was the first president of independent Croatia.',
   },
   {
-    hr: 'Goran Ivanišević je jedini Hrvat koji je osvojio Wimbledon (2001).',
-    en: 'Goran Ivanišević is the only Croat to win Wimbledon (2001).',
+    hr: 'Goran Ivanišević je jedini Hrvat koji je osvojio Wimbledon u pojedinačnoj konkurenciji (2001.).',
+    en: 'Goran Ivanišević is the only Croat to win the Wimbledon singles title (2001).',
   },
   {
     hr: 'Janica Kostelić osvojila je 4 olimpijska zlata u skijanju.',
     en: 'Janica Kostelić won 4 Olympic golds in skiing.',
   },
   {
-    hr: 'Ivica Kostelić osvojio je Ukupni svjetski kup u skijanju 2011.',
+    hr: 'Ivica Kostelić osvojio je Svjetski kup u ukupnom poretku 2011.',
     en: 'Ivica Kostelić won the Overall World Cup in skiing in 2011.',
   },
   {
@@ -1760,12 +1767,12 @@ export const HIST_FACTS = [
     en: 'Sara Kolak won Olympic gold in javelin in 2016.',
   },
   {
-    hr: 'Hrvatsko rukomet je osvajalo medalje na svim velikim natjecanjima.',
+    hr: 'Hrvatski rukomet osvajao je medalje na svim velikim natjecanjima.',
     en: 'Croatian handball has won medals at all major competitions.',
   },
   {
-    hr: 'Vaterpolo klub Jug Dubrovnik 7 puta je bio europski prvak.',
-    en: 'Water polo club Jug Dubrovnik has been European champion 7 times.',
+    hr: 'Vaterpolski klub Jug iz Dubrovnika višestruki je europski prvak.',
+    en: 'Water polo club Jug Dubrovnik is a multiple European champion.',
   },
   {
     hr: 'Hrvatska je na SP 1998. osvojila brončanu medalju — prvi nastup!',
@@ -1780,11 +1787,11 @@ export const HIST_FACTS = [
     en: 'Luka Modrić was named the best player at the 2018 World Cup.',
   },
   {
-    hr: 'Ivan Rakitić je zabio pobjednički jedanaesterac u polufinalu SP 2018.',
-    en: 'Ivan Rakitić scored the winning penalty in the 2018 WC semifinal.',
+    hr: 'Ivan Rakitić zabio je odlučujuće jedanaesterce u osmini finala i četvrtfinalu SP-a 2018.',
+    en: 'Ivan Rakitić scored the deciding penalties in the 2018 WC round of 16 and quarterfinal.',
   },
   {
-    hr: 'Mario Mandžukić zabio je prvi autogol i prvi gol u finalu SP.',
+    hr: 'Mario Mandžukić u finalu SP-a 2018. zabio je i autogol i gol.',
     en: 'Mario Mandžukić scored both an own goal and a goal in the WC final.',
   },
   {
@@ -1832,16 +1839,16 @@ export const HIST_FACTS = [
     en: 'Cibona won the European Cup in 1985 and 1986.',
   },
   {
-    hr: 'Krešimir Ćosić je bio prvi Europljanin u NBA Kući slavnih.',
-    en: 'Krešimir Ćosić was the first European in the NBA Hall of Fame.',
+    hr: 'Krešimir Ćosić primljen je u Kuću slavnih košarke 1996.',
+    en: 'Krešimir Ćosić was inducted into the Basketball Hall of Fame in 1996.',
   },
   {
-    hr: 'Dražen Petrović je primljen u NBA Kuću slavnih 2002.',
-    en: 'Dražen Petrović was inducted into the NBA Hall of Fame in 2002.',
+    hr: 'Dražen Petrović je primljen u Kuću slavnih košarke 2002.',
+    en: 'Dražen Petrović was inducted into the Basketball Hall of Fame in 2002.',
   },
   {
-    hr: 'Toni Kukoč je primljen u NBA Kuću slavnih 2021.',
-    en: 'Toni Kukoč was inducted into the NBA Hall of Fame in 2021.',
+    hr: 'Toni Kukoč je primljen u Kuću slavnih košarke 2021.',
+    en: 'Toni Kukoč was inducted into the Basketball Hall of Fame in 2021.',
   },
   {
     hr: 'Hrvatska košarkaška reprezentacija osvojila je srebrnu medalju na OI 1992.',
@@ -1868,12 +1875,12 @@ export const HIST_FACTS = [
     en: 'Maksimir is the oldest stadium in Croatia.',
   },
   {
-    hr: 'Poljud u Splitu projektirao je japanski arhitekt.',
-    en: 'Poljud in Split was designed by a Japanese architect.',
+    hr: 'Stadion Poljud u Splitu projektirao je arhitekt Boris Magaš.',
+    en: 'Poljud stadium in Split was designed by architect Boris Magaš.',
   },
   {
-    hr: 'Rijeka je dobila hrvatski naslov prvaka 2017. — nakon 72 godine!',
-    en: 'Rijeka won the Croatian title in 2017 — after 72 years!',
+    hr: 'Rijeka je 2017. prvi put postala prvak Hrvatske.',
+    en: 'Rijeka won the Croatian title for the first time in 2017.',
   },
   {
     hr: 'INmusic je najveći festival otvorenog tipa u Hrvatskoj.',
@@ -1894,7 +1901,7 @@ export const HIST_FACTS = [
     en: 'Girandella is the most popular beach in Rabac.',
   },
   {
-    hr: 'Istarska Malvazija je najrasprostranjenije bijelo vino u Istri.',
+    hr: 'Istarska malvazija je najrasprostranjenije bijelo vino u Istri.',
     en: 'Istrian Malvasia is the most widespread white wine in Istria.',
   },
   { hr: 'Teran je autohtono istarsko crno vino.', en: 'Teran is an indigenous Istrian red wine.' },
@@ -1916,7 +1923,7 @@ export const HIST_FACTS = [
     en: 'Istria has over 3,000 olive trees older than 1,000 years.',
   },
   {
-    hr: 'Istrska maslinova ulja redovno osvajaju svjetske nagrade.',
+    hr: 'Istarska maslinova ulja redovito osvajaju svjetske nagrade.',
     en: 'Istrian olive oils regularly win world awards.',
   },
   {
@@ -1924,7 +1931,7 @@ export const HIST_FACTS = [
     en: 'Rab cake is a sweet specialty of Rab island from the 15th century.',
   },
   {
-    hr: 'Paški sir zri minimum 6 mjeseci i ima zaštićen naziv.',
+    hr: 'Paški sir zri najmanje 6 mjeseci i ima zaštićen naziv.',
     en: 'Pag cheese ages minimum 6 months and has a protected name.',
   },
   {
@@ -1932,13 +1939,13 @@ export const HIST_FACTS = [
     en: 'Zagorje štrukli can be boiled or baked.',
   },
   {
-    hr: 'Hrvatsku su posjetili 21 milijun turista u rekordnoj 2023. godini.',
+    hr: 'Hrvatsku je posjetio 21 milijun turista u rekordnoj 2023. godini.',
     en: 'Croatia was visited by 21 million tourists in the record year 2023.',
   },
   { hr: 'Pelješki most dug je 2.404 metra.', en: 'The Pelješac Bridge is 2,404 meters long.' },
   {
-    hr: 'Hrvatska ima 4 EU zaštićene oznake za vino.',
-    en: 'Croatia has 4 EU protected wine designations.',
+    hr: 'Hrvatska ima četiri vinske regije.',
+    en: 'Croatia has four wine regions.',
   },
   {
     hr: 'Prosječna plaća u Hrvatskoj je oko 1.300 EUR neto.',
