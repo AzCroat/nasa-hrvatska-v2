@@ -1579,12 +1579,12 @@ export const GRADED_STORIES = [
       'An analytical essay on the relationship between language and cultural identity in the Croatian context. Practise verbal nouns, formal discourse markers, and abstract vocabulary.',
     paragraphs: [
       {
-        hr: 'Jezik nije samo sredstvo komunikacije — on je i nositelj kulture, sjećanja i kolektivnog identiteta. Za Hrvate, ta dimenzija jezičnoga pitanja ima posebno značenje, uzimajući u obzir burnu povijest standardizacije i višestoljetnih pokušaja nametanja stranih jezičnih normi. Glagoljica, najstarije hrvatsko pismo, simbol je toga kontinuiteta: ona svjedoči o pismenosti koja seže u 9. stoljeće i koja je odolijevala latinizaciji i germanizaciji jednako kao što je preživjela osmanske prodore na periferiji.',
-        en: 'Language is not merely a means of communication — it is also a carrier of culture, memory and collective identity. For Croatians, this dimension of the language question has a particular significance, given the turbulent history of standardisation and centuries-long attempts to impose foreign linguistic norms. Glagolitic script, the oldest Croatian writing system, is a symbol of that continuity: it bears witness to literacy reaching back to the 9th century, which resisted Latinisation and Germanisation just as it survived Ottoman incursions on the periphery.',
+        hr: 'Jezik nije samo sredstvo komunikacije — on je i nositelj kulture, sjećanja i kolektivnog identiteta. Za Hrvate, ta dimenzija jezičnoga pitanja ima posebno značenje, uzimajući u obzir burnu povijest standardizacije i višestoljetnih pokušaja nametanja stranih jezičnih normi. Glagoljica, najstarije hrvatsko pismo, simbol je toga kontinuiteta: ona svjedoči o pismenosti koja seže u 9. stoljeće i koja je stoljećima odolijevala latinizaciji i preživjela osmanske prodore na periferiji.',
+        en: 'Language is not merely a means of communication — it is also a carrier of culture, memory and collective identity. For Croatians, this dimension of the language question has a particular significance, given the turbulent history of standardisation and centuries-long attempts to impose foreign linguistic norms. Glagolitic script, the oldest Croatian writing system, is a symbol of that continuity: it bears witness to literacy reaching back to the 9th century, which for centuries resisted Latinisation and survived Ottoman incursions on the periphery.',
       },
       {
-        hr: 'Standardizacija hrvatskoga književnog jezika u 19. stoljeću nije bila tek filološki projekt — bila je i politički čin. Ilirski preporoditelji, na čelu s Ljudevitom Gajem, težili su ujedinjavanju rasutih hrvatskih dijalekata u jedinstven književni standard koji bi mogao parirati mađarskome i njemačkome na razini javnoga diskursa. Uvođenje štokavske novoštokavske osnovice u standardni jezik podrazumijevalo je odricanje dijela autohtonih čakavskih i kajkavskih oblika — žrtvu koja se i danas propituje u lingvističkim i kulturnim raspravama.',
-        en: 'The standardisation of the Croatian literary language in the 19th century was not merely a philological project — it was also a political act. The Illyrian Revival figures, led by Ljudevit Gaj, sought to unify the scattered Croatian dialects into a single literary standard that could rival Hungarian and German at the level of public discourse. The introduction of the Shtokavian Neo-Shtokavian base into the standard language entailed the abandonment of some autochthonous Chakavian and Kajkavian forms — a sacrifice that is still debated in linguistic and cultural discussions today.',
+        hr: 'Standardizacija hrvatskoga književnog jezika u 19. stoljeću nije bila tek filološki projekt — bila je i politički čin. Ilirski preporoditelji, na čelu s Ljudevitom Gajem, težili su ujedinjavanju rasutih hrvatskih dijalekata u jedinstven književni standard koji bi mogao parirati mađarskome i njemačkome na razini javnoga diskursa. Uvođenje novoštokavske osnovice u standardni jezik podrazumijevalo je odricanje dijela autohtonih čakavskih i kajkavskih oblika — žrtvu koja se i danas propituje u lingvističkim i kulturnim raspravama.',
+        en: 'The standardisation of the Croatian literary language in the 19th century was not merely a philological project — it was also a political act. The Illyrian Revival figures, led by Ljudevit Gaj, sought to unify the scattered Croatian dialects into a single literary standard that could rival Hungarian and German at the level of public discourse. The introduction of the Neo-Shtokavian base into the standard language entailed the abandonment of some autochthonous Chakavian and Kajkavian forms — a sacrifice that is still debated in linguistic and cultural discussions today.',
       },
       {
         hr: 'Danas, u dobu digitalne komunikacije, pitanje jezičnoga identiteta dobiva novu dimenziju. Pisana forma — nekad privilegija obrazovanih — sada je svakodnevna stvarnost za milijune korisnika društvenih mreža koji pišu onako kako govore: na čakavskome, kajkavskome, ili mješavinom standarda i žargona. Ta spontana demokratizacija pisanja ne ugrožava standardni jezik — ona ga obogaćuje, uvodeći u javni diskurs jezičnu raznolikost koja je uvijek bila dio hrvatskoga identiteta. Standardni jezik ostaje stup kulturnoga i administrativnoga jedinstva, ali vitalni su mu živci dijalekatski korijeni koji ga hrane autentičnošću.',
@@ -1596,7 +1596,7 @@ export const GRADED_STORIES = [
       {
         hr: 'standardizacija',
         en: 'standardisation',
-        ex: 'Standardizacija języka bila je politički čin.',
+        ex: 'Standardizacija jezika bila je politički čin.',
       },
       {
         hr: 'filološki',
@@ -1606,10 +1606,10 @@ export const GRADED_STORIES = [
       {
         hr: 'odricanje',
         en: 'abandonment / renunciation',
-        ex: 'Odricanje dijalekata bio je veliki korak.',
+        ex: 'Odricanje od dijalekata bilo je veliki korak.',
       },
       {
-        hr: 'propitovati',
+        hr: 'propitivati',
         en: 'to question / interrogate',
         ex: 'Ta se žrtva još uvijek propituje.',
       },
@@ -1628,7 +1628,7 @@ export const GRADED_STORIES = [
     ],
     quiz: [
       {
-        q: 'Što je, po tekstu, Glagoljica?',
+        q: 'Što je, po tekstu, glagoljica?',
         qEn: 'What, according to the text, is Glagolitic script?',
         opts: [
           'Simbol kontinuiteta hrvatske pismenosti',
@@ -1677,15 +1677,15 @@ export const GRADED_STORIES = [
       'A cultural essay on Dalmatian cuisine as a layered historical record. Practise complex noun phrases, abstract cultural vocabulary, and C1-level reading comprehension.',
     paragraphs: [
       {
-        hr: 'Dalmatinska kuhinja nije tek zbroj recepata — ona je kodirana povijest, zapis klimatske i geopolitičke sudbine jedne obale. Venecijanska vladavina ostavila je trag u upotrebi maslinovog ulja i vina kao temeljnih kulinarskih medija; osmansko susjedstvo uvelo je neke mirodije i načine konzerviranja; rimsko naslijeđe vidljivo je u odabiru riba i školjaka koji se malo promijenio kroz dva tisućljeća. Kuhati po dalmatinski znači, u svakom smislu, kuhati po slojevima povijesti.',
-        en: 'Dalmatian cuisine is not merely a collection of recipes — it is a coded history, a record of the climatic and geopolitical fate of a coastline. Venetian rule left its mark in the use of olive oil and wine as foundational culinary media; Ottoman neighbourliness introduced some spices and methods of preservation; the Roman legacy is visible in the choice of fish and shellfish, which has changed little over two millennia. To cook in the Dalmatian way means, in every sense, to cook through layers of history.',
+        hr: 'Dalmatinska kuhinja nije tek zbroj recepata — ona je kodirana povijest, zapis klimatske i geopolitičke sudbine jedne obale. Maslinovo ulje i vino, njezini temeljni kulinarski mediji, naslijeđe su grčke i rimske antike; venecijanska vladavina ostavila je trag u rižotima i bakalaru; osmansko susjedstvo donijelo je neke mirodije. Kuhati po dalmatinski znači, u svakom smislu, kuhati po slojevima povijesti.',
+        en: 'Dalmatian cuisine is not merely a collection of recipes — it is a coded history, a record of the climatic and geopolitical fate of a coastline. Olive oil and wine, its foundational culinary media, are a legacy of Greek and Roman antiquity; Venetian rule left its mark in risottos and salt cod; the Ottoman neighbourhood brought some spices. To cook in the Dalmatian way means, in every sense, to cook through layers of history.',
       },
       {
-        hr: 'Peko — posuda za pečenje ispod žara — možda je najprecizniji simbol dalmatinskoga kulinarskog pristupa. Spora, pokrivena kuhinja: meso ili riba polaže se s povrćem i uljem, peko se poklopi, a zatim zaspe žarom. Strpljenje je ovdje tehnika, a ne vrlina — bez njega nema ni okusa. Takav se način kuhanja ne može ubrzati bez gubitka: onaj tko pokušava pečenku pod pekom brzopleto pretvoriti u ekspresni obrok, izgubit će precizno ono što peko obećava.',
+        hr: 'Peka — posuda za pečenje ispod žara — možda je najprecizniji simbol dalmatinskoga kulinarskog pristupa. Spora, pokrivena kuhinja: meso ili riba polaže se s povrćem i uljem, peka se poklopi, a zatim zaspe žarom. Strpljenje je ovdje tehnika, a ne vrlina — bez njega nema ni okusa. Takav se način kuhanja ne može ubrzati bez gubitka: onaj tko pokušava pečenku pod pekom brzopleto pretvoriti u ekspresni obrok, izgubit će precizno ono što peka obećava.',
         en: 'The peka — a bell-shaped lid for roasting under embers — is perhaps the most precise symbol of the Dalmatian culinary approach. Slow, covered cooking: meat or fish is arranged with vegetables and oil, the peka is closed, and then covered with embers. Patience here is technique, not virtue — without it there is no flavour either. This method of cooking cannot be hurried without loss: whoever tries to hastily turn a peka roast into an express meal will lose precisely what the peka promises.',
       },
       {
-        hr: 'Primat ribe u dalmatinskoj kuhinji nije tek pitanje dostupnosti — on odražava dublje poimanje odnosa čovjeka i mora. Riba je svježa ili nikakva; marinada i mirodije služe naglašavanju, a ne prikrivanju okusa. Ovaj filozofski stav prema sirovini — koji akademski gastronomi danas nazivaju "kuhinjom minimalne intervencije" — u Dalmaciji nije moda ni trend, nego praksa stara koliko i sam ribolov. Ribari koji su ujutro izvukli mrežu, o podne su priredili roštilj, a navečer pojeli ostatke s malo kruha i vinom: to je recept koji ne treba poboljšavati.',
+        hr: 'Primat ribe u dalmatinskoj kuhinji nije tek pitanje dostupnosti — on odražava dublje poimanje odnosa čovjeka i mora. Riba je svježa ili nikakva; marinada i mirodije služe naglašavanju, a ne prikrivanju okusa. Ovaj filozofski stav prema sirovini — koji akademski gastronomi danas nazivaju "kuhinjom minimalne intervencije" — u Dalmaciji nije moda ni trend, nego praksa stara koliko i sam ribolov. Ribari koji su ujutro izvukli mrežu, o podne su priredili roštilj, a navečer pojeli ostatke s malo kruha i vina: to je recept koji ne treba poboljšavati.',
         en: "Fish's primacy in Dalmatian cuisine is not merely a question of availability — it reflects a deeper understanding of the relationship between people and the sea. Fish is fresh or nothing; marinade and spices serve to accentuate, not conceal, the flavour. This philosophical stance towards the raw ingredient — which academic gastronomes today call the 'cuisine of minimal intervention' — in Dalmatia is not a fashion or trend, but a practice as old as fishing itself. Fishermen who drew up their nets in the morning prepared a grill at noon and ate the leftovers with a little bread and wine in the evening: that is a recipe that needs no improvement.",
       },
     ],
@@ -1696,9 +1696,9 @@ export const GRADED_STORIES = [
         ex: 'To je kulinarska tradicija stara tisućljećima.',
       },
       {
-        hr: 'peko',
+        hr: 'peka',
         en: 'traditional bell-shaped roasting lid',
-        ex: 'Janjetina ispod peka je specijalitet.',
+        ex: 'Janjetina ispod peke je specijalitet.',
       },
       { hr: 'strpljenje', en: 'patience', ex: 'Strpljenje je ključ dobrog jela.' },
       {
@@ -1733,15 +1733,15 @@ export const GRADED_STORIES = [
         q: 'Koji je, po tekstu, utjecaj venecijanske vladavine na dalmatinsku kuhinju?',
         qEn: 'What, according to the text, was the influence of Venetian rule on Dalmatian cuisine?',
         opts: [
-          'Tradicija peka i sporoga kuhanja',
+          'Tradicija peke i sporoga kuhanja',
           'Donošenje egzotičnih ribljih vrsta',
-          'Upotreba maslinovog ulja i vina kao temeljnih kulinarskih medija',
+          'Rižoti i bakalar',
           'Uvođenje mesa kao glavnog jela',
         ],
         correct: 2,
       },
       {
-        q: 'Što peko simbolizira u dalmatinskom pristupu kuhanju?',
+        q: 'Što peka simbolizira u dalmatinskom pristupu kuhanju?',
         qEn: 'What does the peka symbolise in the Dalmatian approach to cooking?',
         opts: [
           'Modernu tehniku roštiljanja',
@@ -1783,17 +1783,17 @@ export const GRADED_STORIES = [
         en: 'Miroslav Krleža (1893–1981) remains the most powerful voice of the modern Croatian novel, essay and drama. His prose — rough, polyphonic, full of allusions to European history and philosophy — is not salon literature for easy reading, but a challenge that demands full engagement from the reader. Novels such as "The Return of Filip Latinovicz" and "Banners" can be read as attempts to understand the collapse of the Austro-Hungarian Monarchy and the birth of new, often bloodier orders — but also as deep studies of the psychological and moral disintegration of modern man.',
       },
       {
-        hr: "Krležin stil svjesno krši konvencije ujednačene proze: rečenice se nižu u dugačkim zamršenostima, digresije postaju temeljne, a svaki monolog junaka otkriva slojeve protuslovlja koja se nikad ne razrješuju. Ta fragmentarnost nije manjkavost nego poetički program — Krleža odbija laž zaključenosti i nudi čitatelju ono što opisuje kao 'otvorenu ranu' modernoga iskustva. Pod tim su utjecajem rasli Antun Šoljan, Slobodan Novak i cijela generacija šezdesetih, koji su razvijali vlastite varijante hrvatske postmoderne lirske proze.",
-        en: "Krleža's style deliberately violates the conventions of smooth prose: sentences accumulate in long convolutions, digressions become foundational, and each character's monologue reveals layers of contradictions that are never resolved. This fragmentariness is not a shortcoming but a poetic programme — Krleža refuses the lie of closure and offers the reader what he describes as the 'open wound' of modern experience. Under this influence grew Antun Šoljan, Slobodan Novak and an entire generation of the 1960s, who developed their own variants of Croatian postmodern lyrical prose.",
+        hr: "Krležin stil svjesno krši konvencije ujednačene proze: rečenice se nižu u dugačkim zamršenostima, digresije postaju temeljne, a svaki monolog junaka otkriva slojeve protuslovlja koja se nikad ne razrješuju. Ta fragmentarnost nije manjkavost nego poetički program — Krleža odbija laž zaključenosti i nudi čitatelju ono što bi se moglo nazvati 'otvorenom ranom' modernoga iskustva. Pod tim su utjecajem, prihvaćajući ga ili mu se suprotstavljajući, rasli i poslijeratni pisci poput Antuna Šoljana i Slobodana Novaka, koji su razvijali vlastite varijante moderne hrvatske proze.",
+        en: "Krleža's style deliberately violates the conventions of smooth prose: sentences accumulate in long convolutions, digressions become foundational, and each character's monologue reveals layers of contradictions that are never resolved. This fragmentariness is not a shortcoming but a poetic programme — Krleža refuses the lie of closure and offers the reader what might be called the 'open wound' of modern experience. Under this influence, embracing it or pushing against it, grew post-war writers such as Antun Šoljan and Slobodan Novak, who developed their own variants of modern Croatian prose.",
       },
       {
-        hr: 'Čitati Krležu danas znači suočiti se i s pitanjima koja nisu zastarjela: klasna napetost, ambivalentnost intelektualca u politički opterećenim vremenima, somatska i psihička cijena modernizacije. Njegova Enciklopedija — monumentalni projekt koji je Krleža vodio desetljećima — svjedoči o razlogu zbog kojega je bio toliko omiljen kod jugoslavenskih vlasti koliko i sumnjičav prema njima: bio je prevelik, presložen i previše protuslovit da bi se smjestio u bilo kakvu ideološku šablonu. Taj paradoks čini ga možda najpotpunijim hrvatskim intelektualcem 20. stoljeća.',
+        hr: 'Čitati Krležu danas znači suočiti se i s pitanjima koja nisu zastarjela: klasna napetost, ambivalentnost intelektualca u politički opterećenim vremenima, somatska i psihička cijena modernizacije. Njegova Enciklopedija — monumentalni projekt koji je Krleža vodio desetljećima — svjedoči o razlogu zbog kojega je bio toliko omiljen kod jugoslavenskih vlasti koliko i sumnjičav prema njima: bio je prevelik, presložen i previše proturječan da bi se smjestio u bilo kakvu ideološku šablonu. Taj paradoks čini ga možda najpotpunijim hrvatskim intelektualcem 20. stoljeća.',
         en: 'To read Krleža today means confronting questions that have not aged: class tension, the ambivalence of the intellectual in politically burdened times, the somatic and psychological cost of modernisation. His Encyclopaedia — a monumental project that Krleža led for decades — bears witness to the reason he was as beloved by Yugoslav authorities as he was suspicious of them: he was too large, too complex and too contradictory to fit into any ideological template. This paradox makes him perhaps the most complete Croatian intellectual of the 20th century.',
       },
     ],
     vocabulary: [
       {
-        hr: 'polifon/polifonija',
+        hr: 'polifoničan / polifonija',
         en: 'polyphonic / polyphony',
         ex: 'Krležina proza je polifonična.',
       },
@@ -1864,8 +1864,8 @@ export const GRADED_STORIES = [
         en: 'The Adriatic Sea, covering approximately 138,000 square kilometres and reaching an average depth of 173 metres, belongs to the most ecologically sensitive marine systems in the Mediterranean. As a semi-enclosed sea with relatively limited exchange of water with the open Mediterranean, the Adriatic is particularly susceptible to bioaccumulation of pollutants from industrial and agricultural sources along the Dalmatian and Italian coasts. Elevated sea temperatures, reduced salinity in the northern shallow waters due to increased freshwater runoff, and changes in phytoplankton communities — these are all indicators pointing to systemic shifts in the ecosystem.',
       },
       {
-        hr: 'Ribarska industrija, nekada temelj obalne ekonomije, prolazi kroz sustavno iscrpljivanje resursa: stokovi plave ribe — sardina i skuša — smanjili su se za procijenjenih 30 do 40% u posljednjih dvadeset godina. Kvote propisane u okviru Zajedničke ribarske politike Europske unije dijelomično su suzbile prelov, ali nadzor nad provedbom ostaje nedostatan u malim lukama duž Dalmacije. Usporedno s tim, bilježi se širenje invazivnih vrsta — posebno blagovice Lagocephalus sceleratus — čija je prisutnost promijenila ponašanje i kretanje lokalnih ronioca i ribolovaca.',
-        en: "The fishing industry, once the foundation of the coastal economy, is undergoing systematic resource depletion: stocks of blue fish — sardines and mackerel — have declined by an estimated 30 to 40% over the past twenty years. Quotas prescribed under the European Union's Common Fisheries Policy have partially suppressed overfishing, but enforcement oversight remains insufficient in the small harbours along Dalmatia. Concurrently, the spread of invasive species is being recorded — particularly the silver-cheeked toadfish Lagocephalus sceleratus — whose presence has changed the behaviour and movement of local divers and fishermen.",
+        hr: 'Ribarska industrija, nekada temelj obalne ekonomije, prolazi kroz sustavno iscrpljivanje resursa: stokovi plave ribe — sardina i skuša — prema nekim su se procjenama smanjili za 30 do 40% u posljednjih dvadeset godina. Kvote propisane u okviru Zajedničke ribarske politike Europske unije djelomično su suzbile prelov, ali nadzor nad provedbom ostaje nedostatan u malim lukama duž Dalmacije. Usporedno s tim, bilježi se širenje invazivnih vrsta — među njima i otrovne srebrnopruge napuhače (Lagocephalus sceleratus), zbog koje stručnjaci upozoravaju ribolovce i ronioce.',
+        en: "The fishing industry, once the foundation of the coastal economy, is undergoing systematic resource depletion: stocks of blue fish — sardines and mackerel — have, by some estimates, declined by 30 to 40% over the past twenty years. Quotas prescribed under the European Union's Common Fisheries Policy have partially suppressed overfishing, but enforcement oversight remains insufficient in the small harbours along Dalmatia. Concurrently, the spread of invasive species is being recorded — among them the poisonous silver-cheeked toadfish (Lagocephalus sceleratus), about which experts are warning fishermen and divers.",
       },
       {
         hr: 'Odgovori na ekološku krizu Jadrana ne mogu biti isključivo tehničko-regulatorni. Kulturna promjena u odnosu prema moru — od resursne prema suodgovornoj logici — preduvjet je za svaku dugoročnu strategiju. Inicijative kao što su morska zaštićena područja pokazuju pozitivne rezultate tamo gdje postoji lokalna podrška i edukacija, ali izostaju tamo gdje su standardi postavljeni izvana, bez uključivanja ribarskih zajednica u proces donošenja odluka. Budućnost Jadrana ovisi o sposobnosti institucija i lokalnih zajednica da pregovaraju oko interesa koji se čine nespojivima — ali koji su, u dugoročnoj perspektivi, zapravo zajednički.',
@@ -1890,7 +1890,11 @@ export const GRADED_STORIES = [
       },
       { hr: 'prelov', en: 'overfishing', ex: 'Kvote trebaju spriječiti prelov.' },
       { hr: 'nadzor', en: 'oversight / supervision', ex: 'Nadzor nad provedbom je nedostatan.' },
-      { hr: 'invazivna vrsta', en: 'invasive species', ex: 'Blagovica je opasna invazivna vrsta.' },
+      {
+        hr: 'invazivna vrsta',
+        en: 'invasive species',
+        ex: 'Srebrnopruga napuhača opasna je invazivna vrsta.',
+      },
       {
         hr: 'suodgovornost',
         en: 'co-responsibility',
@@ -2138,7 +2142,7 @@ export const GRADED_STORIES = [
       'A political science essay examines the concept of democratic deficit in the European Union. Practise reading dense academic Croatian with sophisticated argument structures.',
     paragraphs: [
       {
-        hr: 'Pojam demokratskog deficita u Europskoj uniji odnosi se na strukturnu napetost između nadnacionalne naravi njezina upravljanja i demokratskih mehanizama koji ostaju, u velikoj mjeri, ukorijenjenima na razini nacionalnih država. Dok je Europski parlament ojačavao svoju ulogu Lisabonskim ugovorom, izvršna ovlast i dalje je disproporcionalno koncentrirana u Vijeću i Europskoj komisiji — tijelima čija je demokratska odgovornost neizravna ili posredovana.',
+        hr: 'Pojam demokratskog deficita u Europskoj uniji odnosi se na strukturnu napetost između nadnacionalne naravi njezina upravljanja i demokratskih mehanizama koji ostaju, u velikoj mjeri, ukorijenjenima na razini nacionalnih država. Dok je Europski parlament Lisabonskim ugovorom ojačao svoju ulogu, izvršna ovlast i dalje je disproporcionalno koncentrirana u Vijeću i Europskoj komisiji — tijelima čija je demokratska odgovornost neizravna ili posredovana.',
         en: 'The concept of democratic deficit in the European Union refers to the structural tension between the supranational nature of its governance and the democratic mechanisms that remain, to a large degree, rooted at the level of nation states. While the European Parliament strengthened its role through the Lisbon Treaty, executive power continues to be disproportionately concentrated in the Council and the European Commission — bodies whose democratic accountability is indirect or mediated.',
       },
       {
@@ -2229,10 +2233,10 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Međutim, kultura nije monolitna ni nepromjenjiva. Identiteti koji se formiraju unutar kulturnih okvira nisu jednoznačni: oni su uvijek ispresjecani klasom, rodom, generacijskim iskustvima i migracijskim putanjama. Dijasporski identiteti, primjerice, svjedoče o tome kako kulturna memorija može biti istovremeno čvrst oslonac i teška obveza — ovisno o kontekstu u kojemu se priziva.',
-        en: 'However, culture is neither monolithic nor unchanging. Identities formed within cultural frameworks are never unambiguous: they are always intersected by class, gender, generational experiences and migratory trajectories. Diasporic identities, for example, testify to how cultural memory can simultaneously be a firm anchor and a heavy obligation — depending on the context in which it is invoked.',
+        en: 'However, culture is neither monolithic nor unchanging. Identities formed within cultural frameworks are not unambiguous: they are always intersected by class, gender, generational experiences and migratory trajectories. Diasporic identities, for example, testify to how cultural memory can simultaneously be a firm anchor and a heavy obligation — depending on the context in which it is invoked.',
       },
       {
-        hr: 'U hrvatskom kontekstu, rasprave o kulturnom identitetu nerijetko se odvijaju u sjeni traumatske povijesti 20. stoljeća i relativno kratke tradicije samostalne državnosti. Pitanje što "biti Hrvat" znači nije ni kulturno ni politički neutralno: ono je prepuno napetosti između regionalnih raznolikosti (slavonske, dalmatinske, zagorske, primorske tradicije), između urbano-ruralnih podjela i između naraštaja koji su živjeli bitno različite socijalizacijske prakse.',
+        hr: 'U hrvatskom kontekstu, rasprave o kulturnom identitetu nerijetko se odvijaju u sjeni traumatske povijesti 20. stoljeća i relativno kratke tradicije samostalne državnosti. Pitanje što "biti Hrvat" znači nije ni kulturno ni politički neutralno: ono je prepuno napetosti između regionalnih raznolikosti (slavonske, dalmatinske, zagorske, primorske tradicije), između urbano-ruralnih podjela i između naraštaja koji su prošli kroz bitno različite socijalizacijske prakse.',
         en: 'In the Croatian context, debates about cultural identity often unfold in the shadow of the traumatic history of the 20th century and a relatively short tradition of independent statehood. The question of what it means "to be Croatian" is neither culturally nor politically neutral: it is charged with tensions between regional diversities (Slavonian, Dalmatian, Zagorje, Primorje traditions), between urban-rural divisions and between generations that have lived through substantially different socialisation practices.',
       },
       {
@@ -2296,7 +2300,7 @@ export const GRADED_STORIES = [
         q: 'Kako tekst opisuje dijasporske identitete?',
         qEn: 'How does the text describe diasporic identities?',
         opts: [
-          'Kao istovremeni čvrst oslonac i teška obveza',
+          'Kao istovremeno čvrst oslonac i teška obveza',
           'Kao beznačajne za razumijevanje kulture',
           'Kao prevladane kategorije u globalnom dobu',
           'Kao stabilan i jednoznačan izvor ponosa',
@@ -2427,7 +2431,7 @@ export const GRADED_STORIES = [
         en: 'Few questions preoccupy the Croatian public as much as emigration and the population ageing connected with it. With entry into the European Union in 2013, the labour market of the entire continent opened up, and the consequence was an outflow of young and educated people of a scale that contemporary Croatia had not previously recorded. This is a process that cannot be reduced to individual decisions, but should be observed as a web of economic, institutional and psychological factors.',
       },
       {
-        hr: 'Ono što zabrinjava demografe nije samo brojčani gubitak, koliko njegova struktura. Odlaze prvenstveno ljudi u najproduktivnijoj dobi, često s visokim stupnjem obrazovanja, a upravo bi oni trebali biti nositelji budućega gospodarskog rasta i punitelji mirovinskoga sustava. Njihovim odlaskom slabi porezna osnovica, a istodobno raste udio umirovljenika — kombinacija koja dugoročno dovodi u pitanje održivost javnih financija.',
+        hr: 'Ono što zabrinjava demografe nije toliko brojčani gubitak koliko njegova struktura. Odlaze prvenstveno ljudi u najproduktivnijoj dobi, često s visokim stupnjem obrazovanja, a upravo bi oni trebali biti nositelji budućega gospodarskog rasta i punitelji mirovinskoga sustava. Njihovim odlaskom slabi porezna osnovica, a istodobno raste udio umirovljenika — kombinacija koja dugoročno dovodi u pitanje održivost javnih financija.',
         en: 'What worries demographers is not so much the numerical loss as its structure. Those who leave are primarily people of the most productive age, often with a high level of education, and they are precisely the ones who ought to be the bearers of future economic growth and the contributors to the pension system. With their departure the tax base weakens, while at the same time the share of pensioners grows — a combination that in the long run calls into question the sustainability of public finances.',
       },
       {
@@ -5615,16 +5619,16 @@ export const GRADED_STORIES = [
       'Kajkavski, čakavski, štokavski: tri narječja, tri glazbe istog jezika. Zašto Hrvati iz različitih krajeva katkad zvuče kao stranci — i zašto je to bogatstvo.',
     paragraphs: [
       {
-        hr: 'Pitate li Zagorca, Splićanina i Slavonca kako kažu „što", dobit ćete tri odgovora: kaj, ča i što. Po tim se zamjenicama tri hrvatska narječja i zovu — kajkavsko, čakavsko i štokavsko. Standardni je jezik izgrađen na štokavskoj osnovici, ali narječja nisu njegova iskrivljenja, nego stariji, ravnopravni ogranci istoga stabla: čakavski je, primjerice, sačuvao naglasni sustav stariji od većine onoga što se danas čuje u Europi.',
-        en: 'Ask someone from Zagorje, Split and Slavonia how they say "what" and you will get three answers: kaj, ča and što. The three Croatian dialect groups are named after those pronouns — Kajkavian, Chakavian and Shtokavian. The standard language was built on a Shtokavian base, but the dialects are not corruptions of it; they are older, equal branches of the same tree: Chakavian, for instance, has preserved an accentual system older than most of what can be heard in Europe today.',
+        hr: 'Pitate li Zagorca, Splićanina i Slavonca kako kažu „što", dobit ćete tri odgovora: kaj, ča i što. Po tim se zamjenicama tri hrvatska narječja i zovu — kajkavsko, čakavsko i štokavsko. Standardni je jezik izgrađen na štokavskoj osnovici, ali narječja nisu njegova iskrivljenja, nego stariji, ravnopravni ogranci istoga stabla: čakavski je, primjerice, sačuvao stariji naglasni sustav od onoga na kojemu počiva standard.',
+        en: 'Ask someone from Zagorje, Split and Slavonia how they say "what" and you will get three answers: kaj, ča and što. The three Croatian dialect groups are named after those pronouns — Kajkavian, Chakavian and Shtokavian. The standard language was built on a Shtokavian base, but the dialects are not corruptions of it; they are older, equal branches of the same tree: Chakavian, for instance, has preserved an older accentual system than the one the standard rests on.',
       },
       {
         hr: 'Dijalekt je desetljećima nosio žig provincije: u školi se ispravljao, na radiju izbjegavao, a govornike je pratio osjećaj da njihov materinski govor „nije pravi jezik". Lingvisti su, srećom, mislili drukčije. Godine 2019. kajkavski je književni jezik — onaj kojim su pisali Krleža u Baladama i stari zagorski pisci — dobio i međunarodni jezični kod, a čakavska poezija odavno ulazi u školske čitanke.',
         en: 'For decades dialect carried the stigma of the provinces: it was corrected at school, avoided on the radio, and its speakers were haunted by the feeling that their mother tongue was "not a real language". Linguists, fortunately, thought otherwise. In 2019 the Kajkavian literary language — the one Krleža wrote his Ballads in, along with the old Zagorje writers — received an international language code, and Chakavian poetry has long since entered school readers.',
       },
       {
-        hr: 'Napetost između standarda i zavičajnoga govora svaki govornik rješava sam. Novinarka rođena u Bednji — čiji se mjesni govor smatra jednim od najosebujnijih u Hrvatskoj — priča kako je na poslu godinama „prevodila samu sebe", a onda shvatila da upravo zbog dvoglasja bolje čuje jezik od kolega: tko od djetinjstva živi u dva sustava, taj o oba misli svjesnije.',
-        en: 'Every speaker resolves the tension between the standard and the home vernacular in their own way. A journalist born in Bednja — whose local speech is considered among the most distinctive in Croatia — tells how at work she "translated herself" for years, and then realized that precisely because of that double voice she hears language better than her colleagues: whoever grows up living in two systems thinks about both more consciously.',
+        hr: 'Napetost između standarda i zavičajnoga govora svaki govornik rješava sam. Novinarka rođena u Bednji — čiji se mjesni govor smatra jednim od najosebujnijih u Hrvatskoj — priča kako je na poslu godinama „prevodila samu sebe", a onda shvatila da upravo zbog te dvojnosti bolje čuje jezik od kolega: tko od djetinjstva živi u dva sustava, taj o oba misli svjesnije.',
+        en: 'Every speaker resolves the tension between the standard and the home vernacular in their own way. A journalist born in Bednja — whose local speech is considered among the most distinctive in Croatia — tells how at work she "translated herself" for years, and then realized that precisely because of that duality she hears language better than her colleagues: whoever grows up living in two systems thinks about both more consciously.',
       },
       {
         hr: 'Danas se narječja vraćaju na velika vrata: mladi na društvenim mrežama pišu kajkavski i čakavski bez srama, dijalektalni se rap sluša od Čakovca do Kaštela, a festivali poput Croatia rediviva čuvaju ča-kaj-što kao trojstvo, ne kao natjecanje. Jer jezik nije samo sredstvo sporazumijevanja — on je pamćenje. A narod koji pamti na tri načina, bogatiji je tri puta.',
@@ -5713,12 +5717,12 @@ export const GRADED_STORIES = [
       'Turizam čini petinu hrvatskoga gospodarstva — brojka kojom se drugi hvale, a ekonomisti zbog nje ne spavaju. Analiza zemlje koja živi od ljeta.',
     paragraphs: [
       {
-        hr: 'U Hrvatskoj se turizam od milja zove „zlatna koka", i brojke tom nadimku daju za pravo: gotovo petina bruto domaćeg proizvoda, dvadesetak milijuna dolazaka godišnje, pune terase od Umaga do Cavtata. Malo koja europska zemlja toliko ovisi o jednoj djelatnosti — i upravo je to, upozoravaju ekonomisti, druga strana medalje: koka koja nese zlatna jaja može i prehladiti se.',
+        hr: 'U Hrvatskoj se turizam od milja zove „zlatna koka", i brojke tom nadimku daju za pravo: gotovo petina bruto domaćeg proizvoda, dvadesetak milijuna dolazaka godišnje, pune terase od Umaga do Cavtata. Malo koja europska zemlja toliko ovisi o jednoj djelatnosti — i upravo je to, upozoravaju ekonomisti, druga strana medalje: koka koja nese zlatna jaja može se i prehladiti.',
         en: 'In Croatia tourism is affectionately called "the golden hen", and the figures justify the nickname: nearly a fifth of gross domestic product, some twenty million arrivals a year, full terraces from Umag to Cavtat. Few European countries depend so heavily on a single industry — and that, economists warn, is the other side of the coin: a hen that lays golden eggs can also catch a cold.',
       },
       {
-        hr: 'Ovisnost o sezoni vidi se najbolje u studenome, kad se poluotoci isprazne, konobe pozatvaraju, a tisuće sezonskih radnika odjave s burze tek dogodine u svibnju. Obalni gradovi žive četiri mjeseca na godinu, a preostalih osam broje dane; ekonomisti to zovu monokulturom, a stanovnici — čekanjem. Svaki potres na emitivnim tržištima, od pandemije do inflacije, ovdje se osjeti dvostruko.',
-        en: 'Dependence on the season is most visible in November, when the peninsulas empty, the taverns shut one after another, and thousands of seasonal workers sign off the employment register until the following May. Coastal towns live four months a year and count the days for the remaining eight; economists call it a monoculture, the residents call it waiting. Every tremor in the source markets, from pandemic to inflation, is felt here twice over.',
+        hr: 'Ovisnost o sezoni vidi se najbolje u studenome, kad se obala isprazni, konobe pozatvaraju, a tisuće sezonskih radnika prijave na burzu, gdje ostaju do svibnja. Obalni gradovi žive četiri mjeseca na godinu, a preostalih osam broje dane; ekonomisti to zovu monokulturom, a stanovnici — čekanjem. Svaki potres na emitivnim tržištima, od pandemije do inflacije, ovdje se osjeti dvostruko.',
+        en: 'Dependence on the season is most visible in November, when the coast empties, the taverns shut one after another, and thousands of seasonal workers sign on at the employment office, where they stay until May. Coastal towns live four months a year and count the days for the remaining eight; economists call it a monoculture, the residents call it waiting. Every tremor in the source markets, from pandemic to inflation, is felt here twice over.',
       },
       {
         hr: 'Druga je cijena manje vidljiva u tablicama: apartmanizacija guta prostor, najam istiskuje domaće iz starih jezgri, a komunalna infrastruktura ljeti radi na granici pucanja. Otoci ostaju bez mladih, jer je isplativije iznajmiti tri sobe nego pokrenuti obrt. „Prodajemo ono od čega živimo", kaže sociolog s riječkog sveučilišta, „a čudimo se što nam ga je sve manje."',
@@ -5743,7 +5747,7 @@ export const GRADED_STORIES = [
       {
         hr: 'burza (rada)',
         en: 'employment office',
-        ex: 'Radnici se odjave s burze.',
+        ex: 'Sezonci se zimi prijave na burzu.',
       },
       {
         hr: 'monokultura',
@@ -5782,7 +5786,7 @@ export const GRADED_STORIES = [
         q: 'Što se događa u studenome?',
         qEn: 'What happens in November?',
         opts: [
-          'Obala se isprazni, a sezonci odjave s burze',
+          'Obala se isprazni, a sezonci se prijave na burzu',
           'Otvaraju se konobe',
           'Rastu cijene najma',
           'Počinje nova sezona',
@@ -5813,15 +5817,15 @@ export const GRADED_STORIES = [
     duration: 10,
     focus: 'Psiholingvistika • Savjetodavni registar • Kondicionalne strukture',
     intro:
-      'Milijuni hrvatske djece odrastaju izvan Hrvatske, između jezika škole i jezika nedjeljnog ručka. Što znanost kaže o dvojezičnom odrastanju — a što bake?',
+      'Mnoga hrvatska djeca odrastaju izvan Hrvatske, između jezika škole i jezika nedjeljnog ručka. Što znanost kaže o dvojezičnom odrastanju — a što bake?',
     paragraphs: [
       {
         hr: 'U subotu ujutro u hrvatskim dopunskim školama od Münchena do Melbournea sjede djeca koja hrvatski čuju uglavnom nedjeljom, preko videopoziva s bakom. Roditelji ih dovode s istom tihom nadom: da jezik ne završi s njihovom generacijom. I s istim strahom: hoće li dijete miješati jezike, zaostati u školi, zbuniti se?',
         en: 'On Saturday mornings, in Croatian supplementary schools from Munich to Melbourne, sit children who hear Croatian mostly on Sundays, over a video call with grandma. Parents bring them with the same quiet hope: that the language should not end with their generation. And with the same fear: will the child mix languages, fall behind at school, get confused?',
       },
       {
-        hr: 'Znanost je tu neuobičajeno jednoglasna: neće. Dvojezična djeca katkad progovore koji mjesec kasnije i posuđuju riječi iz jednog jezika u drugi, ali to nije zbrka, nego strategija — mozak poseže za najbržom dostupnom riječju. Dugoročne su prednosti mjerljive: lakše prebacivanje pažnje, bolje razumijevanje tuđih perspektiva i, u starosti, otpornija memorija. Uvjet je samo jedan: da oba jezika dobiju dovoljno životnoga prostora.',
-        en: 'Science is unusually unanimous here: they will not. Bilingual children sometimes start speaking a few months later and borrow words from one language into the other, but that is not confusion, it is strategy — the brain reaches for the fastest available word. The long-term advantages are measurable: easier switching of attention, better understanding of other perspectives and, in old age, a more resilient memory. There is only one condition: that both languages get enough living space.',
+        hr: 'Znanost je tu neuobičajeno jednoglasna: neće. Dvojezična djeca katkad progovore koji mjesec kasnije i posuđuju riječi iz jednog jezika u drugi, ali to nije zbrka, nego strategija — mozak poseže za najbržom dostupnom riječju. Brojna istraživanja bilježe i mjerljive dugoročne prednosti, premda se o njihovoj veličini još raspravlja: lakše prebacivanje pažnje, bolje razumijevanje tuđih perspektiva i, u starosti, otpornija memorija. Uvjet je samo jedan: da oba jezika dobiju dovoljno životnoga prostora.',
+        en: 'Science is unusually unanimous here: they will not. Bilingual children sometimes start speaking a few months later and borrow words from one language into the other, but that is not confusion, it is strategy — the brain reaches for the fastest available word. Many studies also record measurable long-term advantages, though their size is still debated: easier switching of attention, better understanding of other perspectives and, in old age, a more resilient memory. There is only one condition: that both languages get enough living space.',
       },
       {
         hr: 'Upravo tu nastaje problem koji lingvisti zovu nasljednim jezikom: hrvatski tih mališana često ostaje „kuhinjski" — savršen za juhu, sarmu i laku noć, preslab za raspravu o klimatskim promjenama. Razumiju sve, odgovaraju na engleskom ili njemačkom, a padeži im klize. Stručnjaci savjetuju ono što zvuči jednostavno, a traži disciplinu: čitati na hrvatskom, gledati crtiće na hrvatskom i — najvažnije — ne ispravljati svaku pogrešku, nego razgovarati dalje.',
@@ -5927,12 +5931,12 @@ export const GRADED_STORIES = [
         en: 'His father, an Orthodox priest, intended him for the seminary; the son chose electricity. Via Graz and Prague he reached Budapest, where, in a park, in the middle of reciting Goethe, the idea of the rotating magnetic field came to him — the foundation of alternating current. In 1884 he disembarked in New York with four cents in his pocket and a letter of recommendation which, according to legend, read: "I know two great men — one is you, the other is this young man."',
       },
       {
-        hr: 'Uslijedio je „rat struja" protiv Edisona, pobjeda izmjenične struje na Svjetskoj izložbi u Chicagu i hidroelektrana na Niagari, kojom je Teslin sustav osvijetlio kontinent. No izumitelj kojemu se pripisuje više od tristo patenata za novac nikad nije mario: ugovore je derao kad bi prijateljima zaprijetio bankrot, a bogatstvo je potrošio na laboratorije i viziju bežičnoga prijenosa energije koju svijet ni danas nije dostigao.',
-        en: 'There followed the "war of the currents" against Edison, the victory of alternating current at the Chicago World’s Fair, and the hydroelectric plant at Niagara, with which Tesla’s system lit a continent. Yet the inventor credited with more than three hundred patents never cared for money: he tore up contracts when bankruptcy threatened his friends, and spent his fortune on laboratories and a vision of wireless energy transmission the world has not reached even today.',
+        hr: 'Uslijedio je „rat struja" protiv Edisona, pobjeda izmjenične struje na Svjetskoj izložbi u Chicagu i hidroelektrana na Niagari, kojom je Teslin sustav osvijetlio kontinent. No izumitelj kojemu se pripisuje više od tristo patenata za novac nikad nije mario: ugovor o tantijemima poderao je kad je prijatelju Westinghouseu zaprijetio bankrot, a bogatstvo je potrošio na laboratorije i viziju bežičnoga prijenosa energije koju svijet ni danas nije dostigao.',
+        en: 'There followed the "war of the currents" against Edison, the victory of alternating current at the Chicago World’s Fair, and the hydroelectric plant at Niagara, with which Tesla’s system lit a continent. Yet the inventor credited with more than three hundred patents never cared for money: he tore up his royalty contract when bankruptcy threatened his friend Westinghouse, and spent his fortune on laboratories and a vision of wireless energy transmission the world has not reached even today.',
       },
       {
-        hr: 'Umro je sam, u hotelskoj sobi 3327, među bilježnicama i mrvicama za golubove. Danas mu ime nose jedinica magnetske indukcije, najpoznatija tvornica automobila na svijetu i zračna luka u Beogradu; Smiljan mu čuva rodnu kuću, a Zagreb ulicu i institut. Hrvatska i Srbija katkad se spore čiji je više — a on bi, vjerojatno, odgovorio kao i za života: da pripada budućnosti.',
-        en: 'He died alone, in hotel room 3327, among notebooks and crumbs for the pigeons. Today his name is borne by the unit of magnetic induction, the most famous car factory in the world and Belgrade’s airport; Smiljan keeps his birth house, Zagreb a street and an institute. Croatia and Serbia sometimes quarrel over whose he is more — and he would probably answer as he did in life: that he belongs to the future.',
+        hr: 'Umro je sam, u hotelskoj sobi 3327, među bilježnicama i mrvicama za golubove. Danas mu ime nose jedinica magnetske indukcije, jedna od najpoznatijih automobilskih tvrtki na svijetu i zračna luka u Beogradu; Smiljan mu čuva rodnu kuću, a Zagreb ulicu i Tehnički muzej. Hrvatska i Srbija katkad se spore čiji je više — a on bi, vjerojatno, odgovorio kao i za života: da pripada budućnosti.',
+        en: 'He died alone, in hotel room 3327, among notebooks and crumbs for the pigeons. Today his name is borne by the unit of magnetic induction, one of the best-known car companies in the world and Belgrade’s airport; Smiljan keeps his birth house, Zagreb a street and the Technical Museum. Croatia and Serbia sometimes quarrel over whose he is more — and he would probably answer as he did in life: that he belongs to the future.',
       },
     ],
     vocabulary: [
@@ -6022,20 +6026,20 @@ export const GRADED_STORIES = [
       'Glagoljica je pismo kojim su Hrvati pisali tisuću godina — na kamenu, pergameni i vratima crkava. Priča o slovima koja su odbila umrijeti.',
     paragraphs: [
       {
-        hr: 'Oko 1100. godine, na otoku Krku, netko je u ploču bijeloga vapnenca uklesao rečenicu kojom hrvatski jezik ulazi u povijest: zapis o zemlji koju je kralj Zvonimir darovao crkvi svete Lucije. Bašćanska ploča, kako je danas zovemo, prvi je spomenik na kojem se hrvatsko ime spominje na hrvatskom jeziku — i to glagoljicom, pismom obloga, tajanstvenog crteža koje ne sliči nijednom drugom u Europi.',
-        en: 'Around the year 1100, on the island of Krk, someone carved into a slab of white limestone the sentence with which the Croatian language enters history: a record of land donated by King Zvonimir to the church of Saint Lucy. The Baška Tablet, as we call it today, is the first monument on which the Croatian name is mentioned in the Croatian language — and in Glagolitic, a script of rounded, mysterious shapes that resembles no other in Europe.',
+        hr: 'Oko 1100. godine, na otoku Krku, netko je u ploču bijeloga vapnenca uklesao rečenicu kojom hrvatski jezik ulazi u povijest: zapis o zemlji koju je kralj Zvonimir darovao crkvi svete Lucije. Bašćanska ploča, kako je danas zovemo, prvi je spomenik na kojem se hrvatsko ime spominje na hrvatskom jeziku — i to glagoljicom, pismom neobičnih, tajanstvenih oblika koje ne sliči nijednom drugom u Europi.',
+        en: 'Around the year 1100, on the island of Krk, someone carved into a slab of white limestone the sentence with which the Croatian language enters history: a record of land donated by King Zvonimir to the church of Saint Lucy. The Baška Tablet, as we call it today, is the first monument on which the Croatian name is mentioned in the Croatian language — and in Glagolitic, a script of unusual, mysterious shapes that resembles no other in Europe.',
       },
       {
-        hr: 'Glagoljicu su u devetom stoljeću sastavili Ćiril i Metod za potrebe slavenskoga bogoslužja, no dok ju je većina Slavena s vremenom zamijenila ćirilicom ili latinicom, hrvatski su je glagoljaši — seoski popovi od Istre do Zadra — tvrdoglavo čuvali stoljećima. Na glagoljici su ispisani misali i zakoni; Misal po zakonu rimskoga dvora iz 1483. prva je hrvatska tiskana knjiga, otisnuta svega tridesetak godina nakon Gutenberga.',
-        en: 'Glagolitic was devised in the ninth century by Cyril and Methodius for Slavic liturgy, but while most Slavs replaced it in time with Cyrillic or Latin script, the Croatian Glagolites — village priests from Istria to Zadar — stubbornly preserved it for centuries. Missals and laws were written in Glagolitic; the Missal by the Law of the Roman Court of 1483 is the first printed Croatian book, produced barely thirty years after Gutenberg.',
+        hr: 'Glagoljicu je u devetom stoljeću sastavio Konstantin Ćiril, koji je s bratom Metodom širio slavensko bogoslužje, no dok ju je većina Slavena s vremenom zamijenila ćirilicom ili latinicom, hrvatski su je glagoljaši — seoski popovi od Istre do Zadra — tvrdoglavo čuvali stoljećima. Na glagoljici su ispisani misali i zakoni; Misal po zakonu rimskoga dvora iz 1483. prva je hrvatska tiskana knjiga, otisnuta svega tridesetak godina nakon Gutenberga.',
+        en: 'Glagolitic was devised in the ninth century by Constantine Cyril, who with his brother Methodius spread the Slavic liturgy, but while most Slavs replaced it in time with Cyrillic or Latin script, the Croatian Glagolites — village priests from Istria to Zadar — stubbornly preserved it for centuries. Missals and laws were written in Glagolitic; the Missal by the Law of the Roman Court of 1483 is the first printed Croatian book, produced barely thirty years after Gutenberg.',
       },
       {
-        hr: 'Vinodolski zakonik, drugi najstariji slavenski pravni tekst, ispisan je glagoljicom 1288.; njome su vođene matice rođenih, sastavljane oporuke i klesani natpisi nad vratima. Bila je pismo svakodnevice, ne samo oltara. Tek je u devetnaestom stoljeću konačno ustuknula pred latinicom — no u istarskim je župama pokoji svećenik glagoljao gotovo do naših dana.',
-        en: 'The Law Codex of Vinodol, the second-oldest Slavic legal text, was written in Glagolitic in 1288; registers of births were kept in it, wills drawn up, inscriptions carved above doorways. It was a script of everyday life, not only of the altar. Only in the nineteenth century did it finally yield to the Latin script — yet in Istrian parishes the occasional priest sang the Glagolitic liturgy almost into our own times.',
+        hr: 'Vinodolski zakonik iz 1288., jedan od najstarijih slavenskih pravnih tekstova, sačuvan je u glagoljskom zapisu; njome su vođene matice rođenih, sastavljane oporuke i klesani natpisi nad vratima. Bila je pismo svakodnevice, ne samo oltara. Tek je u devetnaestom stoljeću konačno ustuknula pred latinicom — no u istarskim je župama pokoji svećenik glagoljao gotovo do naših dana.',
+        en: 'The Law Codex of Vinodol of 1288, one of the oldest Slavic legal texts, survives in a Glagolitic copy; registers of births were kept in it, wills drawn up, inscriptions carved above doorways. It was a script of everyday life, not only of the altar. Only in the nineteenth century did it finally yield to the Latin script — yet in Istrian parishes the occasional priest sang the Glagolitic liturgy almost into our own times.',
       },
       {
-        hr: 'Danas glagoljica živi drugim životom: studenti je uče kao izborni kolegij, dizajneri je nose na majicama, a Aleja glagoljaša između Roča i Huma — najmanjega grada na svijetu — vodi putnika kroz kamena slova velika poput čovjeka. Narod koji je vlastito ime prvi put zapisao vlastitim pismom to ne zaboravlja: glagoljica više nije sredstvo komunikacije, ali jest ono što je oduvijek bila — potpis.',
-        en: 'Today Glagolitic lives a second life: students take it as an elective course, designers put it on T-shirts, and the Glagolitic Alley between Roč and Hum — the smallest town in the world — leads the traveller past stone letters as tall as a person. A people that first wrote down its own name in its own script does not forget that: Glagolitic is no longer a means of communication, but it remains what it always was — a signature.',
+        hr: 'Danas glagoljica živi drugim životom: studenti je uče kao izborni kolegij, dizajneri je nose na majicama, a Aleja glagoljaša između Roča i Huma — koji se naziva najmanjim gradom na svijetu — vodi putnika kroz kamene spomenike glagoljskoj baštini. Narod koji je vlastito ime prvi put zapisao vlastitim pismom to ne zaboravlja: glagoljica više nije sredstvo komunikacije, ali jest ono što je oduvijek bila — potpis.',
+        en: 'Today Glagolitic lives a second life: students take it as an elective course, designers put it on T-shirts, and the Glagolitic Alley between Roč and Hum — which is called the smallest town in the world — leads the traveller past stone monuments to the Glagolitic heritage. A people that first wrote down its own name in its own script does not forget that: Glagolitic is no longer a means of communication, but it remains what it always was — a signature.',
       },
     ],
     vocabulary: [
@@ -6067,7 +6071,7 @@ export const GRADED_STORIES = [
       {
         hr: 'zakonik',
         en: 'law codex',
-        ex: 'Vinodolski zakonik ispisan je 1288.',
+        ex: 'Vinodolski zakonik nastao je 1288.',
       },
       {
         hr: 'oporuka',
@@ -15735,8 +15739,8 @@ export const GRADED_STORIES = [
         en: 'What klapa first demands of its members is not a voice, but an ear. Before he speaks, a singer must learn to hear: to hear where the baritone slides, where the bass breathes, the moment at which the first tenor prepares to raise his voice. Whoever does not hear the others cannot sing a single correct note in a klapa, however powerful his throat may be.',
       },
       {
-        hr: 'Svake ljetne večeri u Omišu, na Festivalu dalmatinskih klapa, desetci sastava dokazuju da se ova tradicija ne gasi, nego se, naprotiv, pomlađuje: mladi pjevači, odgojeni uz stare ploče i uz djedove glasove, donose klapu u dvorane pune publike koja pljeska istoj pjesmi koju su njihovi pradjedovi pjevali bez ikakve publike, tek radi sebe i radi mora.',
-        en: "Every summer evening in Omiš, at the Festival of Dalmatian Klapa, dozens of ensembles prove that this tradition is not dying out but, on the contrary, being rejuvenated: young singers, raised on old records and on their grandfathers' voices, bring klapa into halls full of an audience applauding the very song their great-grandfathers sang without any audience at all, purely for their own sake and for the sea's.",
+        hr: 'Svakoga srpnja u Omišu, na Festivalu dalmatinskih klapa, desetci sastava dokazuju da se ova tradicija ne gasi, nego se, naprotiv, pomlađuje: mladi pjevači, odgojeni uz stare ploče i uz djedove glasove, donose klapu u dvorane pune publike koja pljeska istoj pjesmi koju su njihovi pradjedovi pjevali bez ikakve publike, tek radi sebe i radi mora.',
+        en: "Every July in Omiš, at the Festival of Dalmatian Klapa, dozens of ensembles prove that this tradition is not dying out but, on the contrary, being rejuvenated: young singers, raised on old records and on their grandfathers' voices, bring klapa into halls full of an audience applauding the very song their great-grandfathers sang without any audience at all, purely for their own sake and for the sea's.",
       },
       {
         hr: 'Klapa, u konačnici, poučava nešto što nadilazi glazbu: da zajedništvo nije zbroj glasova, nego njihovo međusobno prilagođavanje, njihova spremnost da se povuku kako bi cjelina zazvučala ispravno. U svijetu koji sve glasnije traži da se svatko čuje, klapa tiho podsjeća da se najljepši sklad rađa iz onoga što je pojedinac spreman ne otpjevati.',
@@ -15871,11 +15875,11 @@ export const GRADED_STORIES = [
         en: "Arriving on Palagruža on the first day of April, Ivan unloaded from the boat three crates of books, a radio receiver, and a patience he did not know would be enough. The lighthouse, standing upright on the reef like the island's last tooth, awaited him coated in salt and silence. The supply boat comes once a month; everything else, including one's own wits, the keeper must carry with him.",
       },
       {
-        hr: 'Proljeće na Palagruži ne miriši na cvijet, nego na more koje se budi. Ivan je ubrzo naučio čitati nebo: kada se jata selica, iscrpljena preletom preko pučine, sruče na hrid tražeći predah, znao je da se vrijeme kvari. Zabilježivši svaki dolazak u bilježnicu koju je vodio više iz navike negoli dužnosti, postao je, a da toga nije bio ni svjestan, jedini kroničar otoka.',
+        hr: 'Proljeće na Palagruži ne miriši na cvijet, nego na more koje se budi. Ivan je ubrzo naučio čitati nebo: kad bi se jata selica, iscrpljena preletom preko pučine, sručila na hrid tražeći predah, znao bi da se vrijeme kvari. Bilježeći svaki dolazak u bilježnicu koju je vodio više iz navike negoli dužnosti, postao je, a da toga nije bio ni svjestan, jedini kroničar otoka.',
         en: "Spring on Palagruža does not smell of blossom, but of the sea awakening. Ivan soon learned to read the sky: when flocks of migratory birds, exhausted by their flight over the open sea, dropped onto the reef seeking respite, he knew the weather was about to turn. Recording every arrival in a notebook he kept more from habit than duty, he became, without being aware of it, the island's sole chronicler.",
       },
       {
-        hr: 'Ljeti se more oko otoka napuni jedrilicama, a ponekad i znatiželjnicima koji, unatoč upozorenju s ploče, pokušaju popeti se do svjetla. Ivan ih dočekuje uljudno, ali kratko: svjetionik nije znamenitost, nego stroj koji ne smije zatajiti. Dok turisti fotografiraju vidik, on provjerava leću, jer noć ne pita je li dan bio ugodan.',
+        hr: 'Ljeti se more oko otoka napuni jedrilicama, a ponekad i znatiželjnicima koji, unatoč upozorenju s ploče, pokušaju se popeti do svjetla. Ivan ih dočekuje uljudno, ali kratko: svjetionik nije znamenitost, nego stroj koji ne smije zatajiti. Dok turisti fotografiraju vidik, on provjerava leću, jer noć ne pita je li dan bio ugodan.',
         en: 'In summer the sea around the island fills with sailboats, and sometimes with curious visitors who, despite the warning sign, try to climb up to the light. Ivan receives them politely, but briefly: the lighthouse is not a landmark, but a machine that must not fail. While the tourists photograph the view, he checks the lens, because the night does not ask whether the day was pleasant.',
       },
       {
@@ -15883,19 +15887,19 @@ export const GRADED_STORIES = [
         en: 'Despite the heat that in August turns the rock into an oven, the work does not stop. Loneliness comes to him most strongly then, not at night but at noon, when the sea is an empty slate without a single boat, and the only sound is a cricket that never seems to tire. Ivan learned to talk to the sea aloud, not because he believed it answered him, but because the silence, unbroken by anything, becomes unbearable.',
       },
       {
-        hr: 'Jesen na Palagružu dolazi naglo, s prvom burom koja opskrbni brod otkazuje bez najave. Ivan tada prebrojava zalihe, procjenjuje hoće li kruha i ulja biti dovoljno, i zna da mu, ne stigne li brod tjedan dana, na um ne smije pasti panika. Bura mu je, s vremenom, postala gotovo drag glas — grub, ali pouzdan, jer barem najavljuje sebe, za razliku od tišine.',
-        en: 'Autumn arrives on Palagruža abruptly, with the first bora that cancels the supply boat without warning. Ivan then counts his supplies, gauges whether there will be enough bread and oil, and knows that, should the boat fail to arrive for a week, panic must not enter his mind. Over time the bora became almost a dear voice to him — harsh, but reliable, for at least it announces itself, unlike the silence.',
+        hr: 'Jesen na Palagružu dolazi naglo, s prvom burom koja opskrbni brod otkazuje bez najave. Ivan tada prebrojava zalihe, procjenjuje hoće li kruha i ulja biti dovoljno, i zna da, ne stigne li brod tjedan dana, ne smije dopustiti da ga obuzme panika. Bura mu je, s vremenom, postala gotovo drag glas — grub, ali pouzdan, jer se barem najavljuje, za razliku od tišine.',
+        en: 'Autumn arrives on Palagruža abruptly, with the first bora that cancels the supply boat without warning. Ivan then counts his supplies, gauges whether there will be enough bread and oil, and knows that, should the boat fail to arrive for a week, he must not let panic take hold of him. Over time the bora became almost a dear voice to him — harsh, but reliable, for at least it announces itself, unlike the silence.',
       },
       {
-        hr: 'Slijedom toga, počeo je jesen doživljavati ne kao gubitak ljeta, nego kao povratak sebi: dani se skraćuju, posjeti prorjeđuju, a on, prepušten samo sebi i mehanizmu koji mora vrtjeti, otkriva da samoća, kad se izabere, prestaje biti kazna. Postaje, umjesto toga, oblik discipline koji malo tko izvana razumije.',
+        hr: 'Slijedom toga, počeo je jesen doživljavati ne kao gubitak ljeta, nego kao povratak sebi: dani se skraćuju, posjeti se prorjeđuju, a on, prepušten samo sebi i mehanizmu koji mora vrtjeti, otkriva da samoća, kad se izabere, prestaje biti kazna. Postaje, umjesto toga, oblik discipline koji malo tko izvana razumije.',
         en: 'Consequently, he began to experience autumn not as the loss of summer, but as a return to himself: the days grow shorter, visits grow sparser, and he, left to himself and the mechanism he must keep turning, discovers that solitude, when chosen, ceases to be a punishment. It becomes, instead, a form of discipline that few outsiders understand.',
       },
       {
-        hr: 'Zima donosi valove koji se, udarajući o hrid, penju gotovo do vrata kućice, i noći u kojima svjetlo mora gorjeti unatoč vjetru koji prijeti da ugasi sve što gori. Provjeravajući generator po treći put te noći, Ivan zna da od njegove budnosti ovisi brod kojeg možda nikad neće vidjeti, ali čiji će kapetan, prolazeći kroz tjesnac, pouzdano potražiti baš njegovo svjetlo.',
+        hr: 'Zima donosi valove koji se, udarajući o hrid, penju gotovo do vrata kućice, i noći u kojima svjetlo mora gorjeti unatoč vjetru koji prijeti da ugasi sve što gori. Provjeravajući generator po treći put te noći, Ivan zna da od njegove budnosti ovisi brod koji možda nikad neće vidjeti, ali čiji će kapetan, prolazeći kroz tjesnac, pouzdano potražiti baš njegovo svjetlo.',
         en: 'Winter brings waves that, crashing against the reef, climb almost to the door of the cottage, and nights in which the light must burn despite the wind that threatens to extinguish everything that burns. Checking the generator for the third time that night, Ivan knows that a ship he may never see depends on his vigilance, a ship whose captain, passing through the strait, will reliably seek out exactly his light.',
       },
       {
-        hr: 'U tome je, čini se, i najveća paradoksalnost njegova poziva: svjetioničar radi za ljude koje nikad ne susreće, čuva živote koje nikad ne broji, i jedina mu je nagrada spoznaja da svjetlo, dok on bdije, ne trepće. Nitko mu se neće zahvaliti; nitko ni ne zna njegovo ime. Pa ipak, upravo ta nevidljivost čini njegov posao, po njemu samom, dostojnim.',
+        hr: 'U tome je, čini se, i najveći paradoks njegova poziva: svjetioničar radi za ljude koje nikad ne susreće, čuva živote koje nikad ne broji, i jedina mu je nagrada spoznaja da svjetlo, dok on bdije, ne trepće. Nitko mu se neće zahvaliti; nitko ni ne zna njegovo ime. Pa ipak, upravo ta nevidljivost čini njegov posao, po njemu samom, dostojnim.',
         en: 'In this, it seems, lies the greatest paradox of his calling: the lighthouse keeper works for people he never meets, guards lives he never counts, and his only reward is the knowledge that the light, while he keeps watch, does not flicker. No one will thank him; no one even knows his name. And yet it is precisely this invisibility that makes his work, in his own view, worthy.',
       },
       {
@@ -15957,7 +15961,7 @@ export const GRADED_STORIES = [
     ],
     quiz: [
       {
-        q: 'Zašto Ivan tijekom ljeta ophodi znatiželjnike kratko, ali uljudno?',
+        q: 'Zašto se Ivan tijekom ljeta prema znatiželjnicima odnosi kratko, ali uljudno?',
         qEn: 'Why does Ivan treat curious summer visitors briefly but politely?',
         opts: [
           'Jer svjetionik shvaća kao stroj koji ne smije zatajiti, ne kao znamenitost',
@@ -15996,7 +16000,7 @@ export const GRADED_STORIES = [
           'Shvatio je da mu samoća, pretočena u dužnost, donosi slobodu',
           'Opskrbni brod po njega nije stigao',
           'Htio je izbjeći daljnje bilježenje selica',
-          'Nije imao gdje se vratiti na kopnu',
+          'Nije imao gdje se vratiti na kopno',
         ],
         correct: 0,
       },
@@ -16043,7 +16047,7 @@ export const GRADED_STORIES = [
         en: 'Modern conservation ethics require that any addition be recognizable up close, yet unobtrusive from the distance at which worshippers view the altar. Ivana therefore uses the tratteggio technique, thin brushstrokes that the eye blends into the whole from a few meters away, but that clearly betray a modern intervention under magnification. The goal is not to deceive the viewer, but to give the image back without a lie about its wholeness.',
       },
       {
-        hr: 'Prošle je jeseni, čisteći donji rub freske, naišla na trag ranije intervencije: premazan oblak boje kojim je neki prijašnji majstor prekrio oštećenje umjesto da ga sanira. Mogla ga je ukloniti, no odlučila je zadržati ga kao svjedočanstvo da freska ima vlastitu povijest brige, ne samo povijest nastanka. Time je priznala da autentičnost nije zamrznuto stanje, nego niz odluka donesenih kroz stoljeća.',
+        hr: 'Prošle je jeseni, čisteći donji rub freske, naišla na trag ranije intervencije: premaz boje kojim je neki prijašnji majstor prekrio oštećenje umjesto da ga sanira. Mogla ga je ukloniti, no odlučila ga je zadržati kao svjedočanstvo da freska ima vlastitu povijest brige, ne samo povijest nastanka. Time je priznala da autentičnost nije zamrznuto stanje, nego niz odluka donesenih kroz stoljeća.',
         en: "Last autumn, cleaning the fresco's lower edge, she found a trace of an earlier intervention: a patch of color with which some previous master had covered damage instead of repairing it. She could have removed it, but chose to keep it as testimony that the fresco has its own history of care, not just a history of creation. In doing so she acknowledged that authenticity is not a frozen state but a series of decisions made across centuries.",
       },
       {
@@ -16088,7 +16092,7 @@ export const GRADED_STORIES = [
       {
         hr: 'svjedočanstvo',
         en: 'testimony',
-        ex: 'odlučila je zadržati ga kao svjedočanstvo da freska ima vlastitu povijest brige',
+        ex: 'odlučila ga je zadržati kao svjedočanstvo da freska ima vlastitu povijest brige',
       },
       {
         hr: 'autentičnost',
@@ -16190,11 +16194,11 @@ export const GRADED_STORIES = [
         en: "Shortly after one in the morning, an alarm sounds from the monitor in room seven, where an elderly man's oxygen saturation is suddenly dropping. Petra rushes in without panic, adjusts the oxygen flow, and speaks to him calmly until his breathing stabilizes. Such moments leave no room for thought, only a practiced sequence of movements the body remembers better than the mind.",
       },
       {
-        hr: 'U noćnoj smjeni se rijetko govori o osjećajima; umjesto toga se šuti, broji, bilježi, jer riječi bi usporile posao koji zahtijeva brzinu. Protokoli se poštuju ne zato što bi netko provjeravao, nego zato što se u tišini bolnice, kad je osoblje malobrojno, na njih jedino može osloniti. Tako se gradi navika koja izvana izgleda hladno, a zapravo je oblik brige.',
+        hr: 'U noćnoj smjeni se rijetko govori o osjećajima; umjesto toga se šuti, broji, bilježi, jer bi riječi usporile posao koji zahtijeva brzinu. Protokoli se poštuju ne zato što bi netko provjeravao, nego zato što se u tišini bolnice, kad je osoblje malobrojno, na njih jedino može osloniti. Tako se gradi navika koja izvana izgleda hladno, a zapravo je oblik brige.',
         en: "On the night shift people rarely talk about feelings; instead they stay silent, count, and record, because words would slow down work that demands speed. Protocols are followed not because anyone is checking, but because, in the hospital's night silence, when staff are few, they are the only thing to rely on. Night after night, this builds a habit that looks cold from outside but is, in fact, a form of care.",
       },
       {
-        hr: 'Oko četiri zazvoni telefon na postaji: kćer pacijentice iz sobe devet, koja živi u inozemstvu, zabrinuto pita kako je majka provela noć. Petra joj mirno objašnjava da je majka spavala, da su vitalni znakovi stabilni, i osjeti kako se glas na drugoj strani opušta. Takvi pozivi nisu dio službenog opisa posla, no za Petru su jednako važni kao mjerenje tlaka.',
+        hr: 'Oko četiri zazvoni telefon na postaji: kći pacijentice iz sobe devet, koja živi u inozemstvu, zabrinuto pita kako je majka provela noć. Petra joj mirno objašnjava da je majka spavala, da su vitalni znakovi stabilni, i osjeti kako se glas na drugoj strani opušta. Takvi pozivi nisu dio službenog opisa posla, no za Petru su jednako važni kao mjerenje tlaka.',
         en: "Around four, the phone rings at the nurses' station: the daughter of the patient in room nine, who lives abroad, anxiously asks how her mother spent the night. Petra calmly explains that her mother slept, that her vital signs are stable, and she can feel the voice on the other end relax. Such calls are not part of the official job description, but for Petra they matter just as much as taking blood pressure.",
       },
       {
@@ -16210,7 +16214,7 @@ export const GRADED_STORIES = [
         en: 'After ten years of night shifts, Petra has learned to tell apart the fatigue that comes once from the kind that builds up over months, layer by layer, like sediment at the bottom of a container that never fully rinses clean. Each single night, seen on its own, seems bearable; only when the nights add up to years does it become clear how much this rhythm has changed her body and her relationship to daytime.',
       },
       {
-        hr: 'U sedam sati, dnevna sestra dolazi svježa i naspavana, a Petra joj u nekoliko rečenica preda cijelu noć: tko je dobro spavao, tko je imao krizu, što treba paziti do podneva. Izlazi u jutro koje za druge tek počinje, a za nju je već davno u tijeku. Ne žali se na obrnuti ritam života; zna da netko mora čuvati noć da bi drugi mirno sanjali.',
+        hr: 'U sedam sati, dnevna sestra dolazi svježa i naspavana, a Petra joj u nekoliko rečenica preda cijelu noć: tko je dobro spavao, tko je imao krizu, na što treba paziti do podneva. Izlazi u jutro koje za druge tek počinje, a za nju je već davno u tijeku. Ne žali se na obrnuti ritam života; zna da netko mora čuvati noć da bi drugi mirno sanjali.',
         en: 'At seven, the day nurse arrives fresh and rested, and Petra hands over the entire night in a few sentences: who slept well, who had a crisis, what to watch until noon. She steps out into a morning that, for others, is just beginning, while for her it has long been underway. She does not resent this inverted rhythm of life; she knows that someone must keep watch over the night so that others may dream in peace.',
       },
     ],
@@ -16296,7 +16300,7 @@ export const GRADED_STORIES = [
         correct: 3,
       },
       {
-        q: 'Zašto Petra ne zamjera obrnutom ritmu svog života?',
+        q: 'Zašto se Petra ne žali na obrnuti ritam svog života?',
         qEn: "Why doesn't Petra resent her inverted daily rhythm?",
         opts: [
           'Zato što uskoro planira promijeniti posao.',
@@ -16346,7 +16350,7 @@ export const GRADED_STORIES = [
         en: 'Drought years reveal most clearly how fragile this system is. When the rains fail and the blossoming is brief and thin in nectar, the bees spend more energy searching than they manage to recover. The beekeeper then has to decide whether to feed the colony earlier than usual, or accept a smaller honey yield so that the colony survives at all until autumn.',
       },
       {
-        hr: 'Sjeća se godine kada je suša potrajala od svibnja do kolovoza, a nekoliko slabijih zajednica jednostavno nije dočekalo rujan. Tu je godinu naučio da opstanak pčelinjaka ne ovisi o jednoj snažnoj košnici, nego o ravnoteži cijelog niza zajednica koje međusobno, posredno, dijele izvore hrane na istom području.',
+        hr: 'Sjeća se godine kada je suša potrajala od svibnja do kolovoza, a nekoliko slabijih zajednica jednostavno nije dočekalo rujan. Te je godine naučio da opstanak pčelinjaka ne ovisi o jednoj snažnoj košnici, nego o ravnoteži cijelog niza zajednica koje međusobno, posredno, dijele izvore hrane na istom području.',
         en: "He remembers a year when the drought lasted from May to August, and several weaker colonies simply did not make it to September. That year taught him that an apiary's survival does not depend on one strong hive, but on the balance among a whole set of colonies that indirectly share the same area's food sources.",
       },
       {
@@ -16405,7 +16409,7 @@ export const GRADED_STORIES = [
       {
         hr: 'pčelinjak',
         en: 'apiary',
-        ex: 'Tu je godinu naučio da opstanak pčelinjaka ne ovisi o jednoj snažnoj košnici, nego o ravnoteži cijelog niza zajednica koje međusobno, posredno, dijele izvore hrane na istom području.',
+        ex: 'Te je godine naučio da opstanak pčelinjaka ne ovisi o jednoj snažnoj košnici, nego o ravnoteži cijelog niza zajednica koje međusobno, posredno, dijele izvore hrane na istom području.',
       },
       {
         hr: 'prilagođavanje',
@@ -16459,7 +16463,7 @@ export const GRADED_STORIES = [
           'Jer bi pčele mogle pobjeći iz košnice',
           'Jer gubitak topline otežava pčelama održavanje klupka',
           'Jer je to zabranjeno propisima o pčelarstvu',
-          'Jer bi se time uznemirila matica pa bi prestala nositi jaja',
+          'Jer bi se time uznemirila matica pa bi prestala nesti jaja',
         ],
         correct: 1,
       },
@@ -16467,7 +16471,7 @@ export const GRADED_STORIES = [
         q: 'Što je pčelar zaključio iz godine s dugotrajnom sušom?',
         qEn: 'What did the beekeeper conclude from the year with the long drought?',
         opts: [
-          'Da opstanak zajednica ovisi o ravnoteži više pčelinjaka na istom području',
+          'Da opstanak pčelinjaka ovisi o ravnoteži cijelog niza zajednica, a ne o jednoj snažnoj košnici',
           'Da suša ne utječe na slabije zajednice',
           'Da treba prestati s vrcanjem meda tijekom sušnih godina',
           'Da je najbolje premjestiti sve pčele bliže rijeci',
@@ -16494,7 +16498,7 @@ export const GRADED_STORIES = [
         en: "Every Tuesday, as soon as the fog lifts from the mountain roads, a van full of books sets out on the same route: through villages scattered across the slopes, where the mail comes rarely and the shop closed long ago. The mobile library's driver knows each village first by the name of the reader waiting there, and only then by its number of houses.",
       },
       {
-        hr: 'Ruta se gotovo ne mijenja iz godine u godinu, iako se mijenja broj ljudi koji je čekaju. Poneko se selo izbriše s popisa jer je posljednji stanovnik preselio djeci u grad; drugo se, rjeđe, ponovno upiše kad netko na selo dođe u mirovinu, tražeći baš ono što je nekoć ondje ostavio.',
+        hr: 'Ruta se gotovo ne mijenja iz godine u godinu, iako se mijenja broj ljudi koji je čekaju. Poneko se selo izbriše s popisa jer se posljednji stanovnik preselio djeci u grad; drugo se, rjeđe, ponovno upiše kad se netko u mirovini vrati na selo, tražeći baš ono što je nekoć ondje ostavio.',
         en: 'The route barely changes from year to year, although the number of people waiting for it does. Some villages are struck from the list because the last resident has moved to the city to live with the children; others, more rarely, are added back when someone returns to the village in retirement, seeking exactly what they once left behind there.',
       },
       {
@@ -16502,7 +16506,7 @@ export const GRADED_STORIES = [
         en: "For many readers, the van's arrival is the only social event of the week. The conversation usually lasts longer than the actual borrowing of books: there are questions about health, about a neighbour who hasn't left the house in ages, about a grandchild who called from abroad. The book is the occasion for talk, but rarely the only reason to come out to the road.",
       },
       {
-        hr: 'Poneki čitatelj naruči knjigu tjednima unaprijed, pismom ili preko susjeda koji ima telefon, pa se za nju posebno vozi iz gradske knjižnice u dolini, makar to za vozača znači dodatnih pola sata vožnje. Drugi jednostavno uzimaju što god vozač taj tjedan donese, vjerujući njegovu ukusu više nego vlastitom izboru s police.',
+        hr: 'Poneki čitatelj naruči knjigu tjednima unaprijed, pismom ili preko susjeda koji ima telefon, pa je vozač posebno doveze iz gradske knjižnice u dolini, makar mu to znači dodatnih pola sata vožnje. Drugi jednostavno uzimaju što god vozač taj tjedan donese, vjerujući njegovu ukusu više nego vlastitom izboru s police.',
         en: 'Some readers order a book weeks in advance, by letter or through a neighbour who has a phone, so that it is specially brought from the town library down in the valley, even though that means an extra half-hour of driving for him. Others simply take whatever the driver brings that week, trusting his taste more than their own choice from the shelf.',
       },
       {
@@ -16510,8 +16514,8 @@ export const GRADED_STORIES = [
         en: "In the village, it's said that the mobile library is the only institution that comes to the people, instead of asking them to come to it. The line gets repeated so often that it has nearly become a saying, though no one attributes it to any particular villager who first spoke it.",
       },
       {
-        hr: 'Vozač pamti zimu kada je snijeg zatvorio zadnjih dvjesto metara ceste do kuće starice koja nije mogla hodati po ledu. Te je godine, dok su ostali čekali proljeće, on sam nosio vreću knjiga preko zamrznutog puta kad god se moglo, a pojedini tjedni jednostavno nisu dopuštali ni pokušaj.',
-        en: "The driver remembers a winter when snow closed off the last two hundred metres of road to an old woman's house, who could not walk on the ice. That year, while everyone else waited for spring, he himself carried a bag of books across the frozen path whenever it was possible, while some weeks didn't allow even an attempt.",
+        hr: 'Vozač pamti zimu kada je snijeg zatvorio zadnjih dvjesto metara ceste do kuće starice koja nije mogla hodati po ledu. Te je godine, dok su ostali čekali proljeće, on sam nosio vreću knjiga preko zaleđenog puta kad god se moglo, a pojedini tjedni jednostavno nisu dopuštali ni pokušaj.',
+        en: "The driver remembers a winter when snow closed off the last two hundred metres of road to an old woman's house, who could not walk on the ice. That year, while everyone else waited for spring, he himself carried a bag of books across the icy path whenever it was possible, while some weeks didn't allow even an attempt.",
       },
       {
         hr: 'Inače, svakog utorka nosi knjige do vrata onih koji više ne mogu hodati do kombija parkiranog na trgu, dok mlađi i pokretljiviji sami dolaze birati naslove. Ta razlika u pristupu, uvijek ista iz tjedna u tjedan, postala je dio rasporeda kojeg se pridržava gotovo automatski.',
@@ -16568,7 +16572,7 @@ export const GRADED_STORIES = [
       {
         hr: 'dolina',
         en: 'valley',
-        ex: 'Poneki čitatelj naruči knjigu tjednima unaprijed, pismom ili preko susjeda koji ima telefon, pa se za nju posebno vozi iz gradske knjižnice u dolini, makar to za vozača znači dodatnih pola sata vožnje.',
+        ex: 'Poneki čitatelj naruči knjigu tjednima unaprijed, pismom ili preko susjeda koji ima telefon, pa je vozač posebno doveze iz gradske knjižnice u dolini, makar mu to znači dodatnih pola sata vožnje.',
       },
       {
         hr: 'zajednica',
@@ -16605,7 +16609,7 @@ export const GRADED_STORIES = [
           'Jer knjižnica gasi rutu zbog manjka sredstava',
           'Jer mještani prestanu čitati knjige',
           'Jer cesta postane neprohodna',
-          'Jer je posljednji stanovnik preselio djeci u grad',
+          'Jer se posljednji stanovnik preselio djeci u grad',
         ],
         correct: 3,
       },
@@ -16621,12 +16625,12 @@ export const GRADED_STORIES = [
         correct: 0,
       },
       {
-        q: 'Što vozač učini kad ga snijeg spriječi da dovede kombi do kuće starice?',
+        q: 'Što vozač učini kad ga snijeg spriječi da doveze kombi do kuće starice?',
         qEn: "What does the driver do when snow prevents him from bringing the van to the old woman's house?",
         opts: [
           'Odgodi dostavu knjiga do proljeća',
           'Pošalje knjige poštom',
-          'Sam pješice nosi vreću knjiga preko zamrznutog puta',
+          'Sam pješice nosi vreću knjiga preko zaleđenog puta',
           'Zamoli susjeda da preuzme knjige umjesto starice',
         ],
         correct: 2,
@@ -16666,7 +16670,7 @@ export const GRADED_STORIES = [
         en: 'Bell-ringing is not a mere mechanical act but a craft that requires knowing the weight of each bell, the length of its rope, and the moment to let it float free on its own. Too much force produces discord, too little produces silence, and only the balance between body and rope creates the full, round tone by which this cathedral is recognized throughout the region.',
       },
       {
-        hr: 'Radnim danom ritam je jednostavan: jutarnji Anđeo, podnevni poziv, večernje brecanje koje najavljuje kraj radnoga dana. Građani su navikli podešavati svoje planove prema tim udarcima, iako mnogi od njih više i ne razmišljaju o čovjeku koji stoji iznad njih, nego zvuk doživljavaju kao dio krajolika, poput vjetra ili morskog šuma.',
+        hr: 'Radnim danom ritam je jednostavan: jutarnji Anđeo Gospodnji, podnevni poziv, večernje brecanje koje najavljuje kraj radnoga dana. Građani su navikli podešavati svoje planove prema tim udarcima, iako mnogi od njih više i ne razmišljaju o čovjeku koji stoji iznad njih, nego zvuk doživljavaju kao dio krajolika, poput vjetra ili morskog šuma.',
         en: 'On ordinary days the rhythm is simple: the morning Angelus, the midday call, the evening peal that announces the end of the working day. Townspeople have grown used to setting their plans by these strokes, although many no longer think of the man standing above them, experiencing the sound instead as part of the landscape, like wind or the murmur of the sea.',
       },
       {
@@ -16674,7 +16678,7 @@ export const GRADED_STORIES = [
         en: "Feast days, however, demand an entirely different skill. Then the bells do not sound individually but in complex patterns in which several bell-ringers must coordinate their movements to the fraction of a second, since each bell carries a different mass and a different delay between the pull of the rope and the clapper's strike against the bronze. One person's mistake immediately disrupts the whole.",
       },
       {
-        hr: 'Priprema za veliki blagdan počinje danima ranije, kad se provjeravaju užad, podmazuju osovine i uvježbavaju redoslijedi koje mlađi zvonari uče isključivo promatranjem starijih, jer nijedan udžbenik ne opisuje osjećaj u ramenima kad zvono krene zaljuljati samo sebe. Ta se vještina prenosi tijelom, a ne riječima ni bilješkama na papiru.',
+        hr: 'Priprema za veliki blagdan počinje danima ranije, kad se provjerava užad, podmazuju osovine i uvježbavaju redoslijedi koje mlađi zvonari uče isključivo promatranjem starijih, jer nijedan udžbenik ne opisuje osjećaj u ramenima kad se zvono počne samo ljuljati. Ta se vještina prenosi tijelom, a ne riječima ni bilješkama na papiru.',
         en: 'Preparation for a major feast begins days in advance, as ropes are checked, axles greased, and sequences rehearsed that younger bell-ringers learn solely by watching their elders, since no textbook describes the feeling in the shoulders when a bell begins to swing under its own momentum. This skill is passed down through the body, not through words or notes on paper.',
       },
       {
@@ -16686,7 +16690,7 @@ export const GRADED_STORIES = [
         en: 'The bell-ringer admits that an electronic mechanism operating the bells on a preset program would solve the problem of finding no successor for the trade. Despite this, he refuses to consider such a solution equivalent, since a machine knows neither fatigue in the hands nor the change in air moisture that alters the sound of metal from morning to evening.',
       },
       {
-        hr: 'Upravo ta nesavršenost, prema njegovu shvaćanju, čini zvuk živim: dva jednaka udarca nikada nisu posve jednaka, a to malo odstupanje slušatelj negdje duboko u sebi prepoznaje kao znak da iza zvuka stoji čovjek, a ne naprava. Mehanizacijom bi se ta razlika izbrisala, a s njome i osjećaj da grad ima svoj puls.',
+        hr: 'Upravo ta nesavršenost, prema njegovu shvaćanju, čini zvuk živim: nikada dva udarca nisu posve jednaka, a to malo odstupanje slušatelj negdje duboko u sebi prepoznaje kao znak da iza zvuka stoji čovjek, a ne naprava. Mehanizacijom bi se ta razlika izbrisala, a s njome i osjećaj da grad ima svoj puls.',
         en: 'It is precisely this imperfection, in his understanding, that keeps the sound alive: no two strikes are ever quite identical, and the listener recognizes that small deviation, somewhere deep inside, as a sign that a person stands behind the sound rather than a device. Mechanization would erase that difference, and with it the sense that the town has a pulse.',
       },
       {
@@ -16772,7 +16776,7 @@ export const GRADED_STORIES = [
           'Jer se blagdansko zvonjenje izvodi isključivo noću',
           'Jer je zvonik premalen za više ljudi',
           'Jer svako zvono ima drukčiju masu i drukčije kašnjenje pri udarcu',
-          'Jer se užad na blagdan zamjenjuju novima',
+          'Jer se užad na blagdan zamjenjuje novom',
         ],
         correct: 2,
       },
@@ -16826,8 +16830,8 @@ export const GRADED_STORIES = [
         en: "At her appointment the interpreter takes an oath committing her to accuracy and impartiality, and breaching that obligation carries serious consequences, including the possibility that the entire proceeding could be voided. This formality is not mere bureaucracy but a reminder that her voice, though borrowed, carries at that moment the same weight as the witness's own.",
       },
       {
-        hr: 'Put do zvanja sudskog tumača dug je i zahtjevan: polaže se državni ispit koji provjerava ne samo jezičnu vještinu nego i poznavanje pravnog sustava, a tek nakon položenog ispita ime se upisuje u registar ovlaštenih tumača pri nadležnom sudu. Malo tko izdrži taj put iz puke ljubavi prema jeziku.',
-        en: 'The path to becoming a certified court interpreter is long and demanding: a state examination tests not only language skill but knowledge of the legal system, and only after passing it is a name entered into the register of certified interpreters at the competent court. Few endure that path out of language love alone.',
+        hr: 'Put do zvanja sudskog tumača dug je i zahtjevan: provjerava se ne samo jezična vještina nego i poznavanje pravnog sustava, a tek nakon imenovanja ime se upisuje u popis stalnih sudskih tumača pri nadležnom sudu. Malo tko izdrži taj put iz puke ljubavi prema jeziku.',
+        en: 'The path to becoming a certified court interpreter is long and demanding: not only language skill but knowledge of the legal system is tested, and only after appointment is a name entered into the list of permanent court interpreters at the competent court. Few endure that path out of language love alone.',
       },
       {
         hr: 'Najteže su idiomatske fraze kojima izvorni jezik izražava nešto za što hrvatski nema izravnu istovrijednicu, pa se tumačica mora u djeliću sekunde odlučiti hoće li prenijeti doslovno značenje ili duh izraza, svjesna da svaki izbor pomalo mijenja dojam koji sudac stječe o svjedokovoj vjerodostojnosti, a rječnik pravne struke pritom ne dopušta nagađanje.',
@@ -16850,12 +16854,12 @@ export const GRADED_STORIES = [
         en: 'Preparation for courtroom work, moreover, involves not only knowledge of two languages but also legal terminology, procedural rules, and the customary forms by which a hearing is conducted. The interpreter therefore constantly trains herself, follows changes in the law, and learns new expressions that appear in court practice, since the language of law is never quite finished.',
       },
       {
-        hr: 'Unatoč emocionalnoj cijeni posla, tumačica tvrdi da bi joj nedostajalo upravo ono zbog čega je posao težak: osjećaj da je nekome, tko bez nje ne bi mogao ispričati vlastitu priču, omogućila da bude shvaćen. Ta se zadovoljština, kaže, ne mjeri plaćom, nego trenutkom kad svjedok kimne, znajući da ga je razumjelo cijelo sudsko vijeće.',
+        hr: 'Unatoč emocionalnoj cijeni posla, tumačica tvrdi da bi joj nedostajalo upravo ono zbog čega je posao težak: osjećaj da je nekome, tko bez nje ne bi mogao ispričati vlastitu priču, omogućila da bude shvaćen. To se zadovoljstvo, kaže, ne mjeri plaćom, nego trenutkom kad svjedok kimne, znajući da ga je razumjelo cijelo sudsko vijeće.',
         en: 'Despite the emotional cost of the job, the interpreter says she would miss precisely what makes it hard: the feeling that she has enabled someone who, without her, could not have told their own story, to be understood. That satisfaction, she says, is not measured in pay but in the moment a witness nods, knowing the whole court has understood them.',
       },
       {
         hr: 'Kad ročište završi, tumačica skuplja bilješke, zahvaljuje sucu i tiho izlazi iz sudnice, ostavljajući iza sebe iskaz koji je, riječ po riječ, prenijela iz jednog jezika u drugi, ne dodavši mu ništa svoje, a ipak mu, samom preciznošću, podarivši priliku da bude shvaćen onako kako je zaista izrečen.',
-        en: 'When the hearing ends, the interpreter gathers her notes, thanks the judge, and quietly leaves the courtroom, leaving behind a testimony she carried, word by word, from one language into another, adding nothing of her own, yet through sheer precision giving it the chance to be understood exactly as it was meant.',
+        en: 'When the hearing ends, the interpreter gathers her notes, thanks the judge, and quietly leaves the courtroom, leaving behind a testimony she carried, word by word, from one language into another, adding nothing of her own, yet through sheer precision giving it the chance to be understood exactly as it was actually said.',
       },
     ],
     vocabulary: [
@@ -16896,9 +16900,9 @@ export const GRADED_STORIES = [
         ex: 'Neutralnost u takvim trenucima nije hladnoća, nego disciplina',
       },
       {
-        hr: 'registar ovlaštenih tumača',
-        en: 'register of certified interpreters',
-        ex: 'ime se upisuje u registar ovlaštenih tumača pri nadležnom sudu',
+        hr: 'popis stalnih sudskih tumača',
+        en: 'list of permanent court interpreters',
+        ex: 'ime se upisuje u popis stalnih sudskih tumača pri nadležnom sudu',
       },
       {
         hr: 'terminologija',
@@ -16986,8 +16990,8 @@ export const GRADED_STORIES = [
         en: 'Supplying a mountain hut is never a simple task. In summer some goods come up with porters, some arrive by cable car to the nearest station, and the heaviest items — gas canisters, firewood, tinned food — are flown in by helicopter when weather allows, at most two or three times a year. In winter, when the approaches are buried in snow, she must estimate in advance how much food and fuel the hut will need to survive months without deliveries.',
       },
       {
-        hr: 'Vrijeme u gorju nije podatak nego svakodnevno pregovaranje. Svako jutro provjerava nekoliko prognoza, uspoređuje ih s onim što vidi na obzoru i donosi odluku koja može promijeniti nečiji dan, a ponekad i sudbinu: hoće li markacije prema vrhu biti prohodne, hoće li se magla spustiti prije podneva, je li vjetar na grebenu dovoljno jak da obeshrabri i najupornije planinare.',
-        en: "Weather in the mountains isn't data but a daily negotiation. Every morning she checks several forecasts, compares them with what she sees on the horizon, and makes a decision that can change someone's day, and sometimes their fate: will the trail markings toward the summit be passable, will fog descend before noon, is the wind on the ridge strong enough to discourage even the most stubborn hikers.",
+        hr: 'Vrijeme u gorju nije podatak nego svakodnevno pregovaranje. Svako jutro provjerava nekoliko prognoza, uspoređuje ih s onim što vidi na obzoru i donosi odluku koja može promijeniti nečiji dan, a ponekad i sudbinu: hoće li staze prema vrhu biti prohodne, hoće li se magla spustiti prije podneva, je li vjetar na grebenu dovoljno jak da obeshrabri i najupornije planinare.',
+        en: "Weather in the mountains isn't data but a daily negotiation. Every morning she checks several forecasts, compares them with what she sees on the horizon, and makes a decision that can change someone's day, and sometimes their fate: will the trails toward the summit be passable, will fog descend before noon, is the wind on the ridge strong enough to discourage even the most stubborn hikers.",
       },
       {
         hr: 'Održavanje markacija dijeli s lokalnim planinarskim društvom, no odgovornost za njihovu čitljivost u konačnici pada na nju: izblijedjela boja na stijeni u magli može odvesti neiskusnog planinara u pogrešnom smjeru. Stoga svakog proljeća, čim se snijeg povuče, obilazi staze i obnavlja oznake, provjeravajući putokaze i brojeći korake do sljedeće prekretnice.',
@@ -17010,7 +17014,7 @@ export const GRADED_STORIES = [
         en: "Close cooperation with the mountain rescue service is a part of the job guests rarely think about. She is the first link in the alert chain: the moment she notices someone hasn't returned on time, or hears a call for help over the radio, she has to assess the urgency and, if needed, dispatch a rescue team before the situation worsens.",
       },
       {
-        hr: 'Nakon petnaest godina na toj visini priznaje da joj planina nije dala mir kakav su joj prijatelji predviđali, nego nešto zahtjevnije: odgovornost koja se ne može ostaviti za vikend. Svaka odluka o zatvaranju staze, o primanju gosta bez rezervacije ili o pozivanju spašavanja nosi težinu koju dolje, u gradu, rijetko tko razumije.',
+        hr: 'Nakon petnaest godina na toj visini priznaje da joj planina nije dala mir kakav su joj prijatelji predviđali, nego nešto zahtjevnije: odgovornost koja se ne može ostaviti za vikend. Svaka odluka o zatvaranju staze, o primanju gosta bez rezervacije ili o pozivanju spašavatelja nosi težinu koju dolje, u gradu, rijetko tko razumije.',
         en: "After fifteen years at that altitude, she admits the mountain hasn't given her the peace her friends once predicted, but something more demanding: a responsibility that can't be left behind for the weekend. Every decision about closing a trail, taking in a guest without a reservation, or calling in a rescue carries a weight that, down in the city, hardly anyone understands.",
       },
       {
@@ -17029,7 +17033,11 @@ export const GRADED_STORIES = [
         en: 'supply / provisioning',
         ex: 'Opskrba planinarskog doma nikad nije jednostavna zadaća.',
       },
-      { hr: 'markacija', en: 'trail marking', ex: 'hoće li markacije prema vrhu biti prohodne' },
+      {
+        hr: 'markacija',
+        en: 'trail marking',
+        ex: 'Održavanje markacija dijeli s lokalnim planinarskim društvom',
+      },
       {
         hr: 'sklonište',
         en: 'shelter',
@@ -17294,7 +17302,7 @@ export const GRADED_STORIES = [
       'A close portrait of an amateur choir conductor, following the discipline, rituals, and rare chemistry that turn fifty unpaid voices into one sound across rehearsal nights and small-church concerts.',
     paragraphs: [
       {
-        hr: 'Svakog utorka navečer, dok se grad polako utišava, dvorana župnog doma ispuni se glasovima pedesetak članova amaterskog zbora, a Dijana, njihova dirigentica, sjedne za klavir petnaestak minuta prije početka probe, provjeravajući note i redoslijed dionica. Fotelje su još prazne, a jedina svjetlost dolazi od stolne svjetiljke kraj klavijature, dok Dijana u tišini razmišlja koju će dionicu večeras najviše trebati popraviti.',
+        hr: 'Svakog utorka navečer, dok se grad polako utišava, dvorana župnog doma ispuni se glasovima pedesetak članova amaterskog zbora, a Dijana, njihova dirigentica, sjedne za klavir petnaestak minuta prije početka probe, provjeravajući note i redoslijed dionica. Stolice su još prazne, a jedina svjetlost dolazi od stolne svjetiljke kraj klavijature, dok Dijana u tišini razmišlja koju će dionicu večeras najviše trebati popraviti.',
         en: 'Every Tuesday evening, as the city slowly quiets down, the parish hall fills with the voices of some fifty members of the amateur choir, while Dijana, their conductor, sits at the piano fifteen minutes before rehearsal begins, checking her notes and the order of the vocal parts. The chairs are still empty, and the only light comes from a desk lamp beside the keyboard, while Dijana silently considers which section will most need fixing tonight.',
       },
       {
@@ -17314,7 +17322,7 @@ export const GRADED_STORIES = [
         en: 'There is a moment, rare but recognizable, when all four vocal parts - sopranos, altos, tenors, and bass - suddenly lock into one chord without a single crack. Dijana says that in that moment the hair on her arms stands on end, and that, essentially, it is because of that moment that she comes to every rehearsal despite her fatigue.',
       },
       {
-        hr: 'Do tog trenutka vodi mjesecima ponavljanja, ispravljanja disanja, objašnjavanja dinamike i brojnih, naizgled sitnih uputa o izgovoru samoglasnika koje pjevačima isprva djeluju nevažno. Dirigentičin posao uglavnom se sastoji od strpljivog slaganja detalja koje publika na koncertu nikada neće primijetiti pojedinačno, nego samo kao cjelinu. Upravo je ta nevidljiva mukotrpnost, tvrdi Dijana, ono što razlikuje uvježban zbor od skupine ljudi koji samo zajedno pjevaju.',
+        hr: 'Do tog trenutka vode mjeseci ponavljanja, ispravljanja disanja, objašnjavanja dinamike i brojnih, naizgled sitnih uputa o izgovoru samoglasnika koje pjevačima isprva djeluju nevažno. Dirigentičin posao uglavnom se sastoji od strpljivog slaganja detalja koje publika na koncertu nikada neće primijetiti pojedinačno, nego samo kao cjelinu. Upravo je ta nevidljiva mukotrpnost, tvrdi Dijana, ono što razlikuje uvježban zbor od skupine ljudi koji samo zajedno pjevaju.',
         en: "Reaching that moment takes months of repetition, correcting breathing, explaining dynamics, and countless seemingly minor instructions about vowel pronunciation that at first seem unimportant to the singers. The conductor's job mostly consists of patiently arranging details that the audience at a concert will never notice individually, only as a whole. It is precisely this invisible toil, Dijana claims, that distinguishes a well-rehearsed choir from a group of people merely singing together.",
       },
       {
@@ -17454,7 +17462,7 @@ export const GRADED_STORIES = [
         en: "When someone comes in with a prescription, Vesna already knows, before she even reads the name, which family they belong to and what ailments have circulated in that household for years. She remembers who takes medication for blood pressure, who struggles with insomnia, and who comes in simply because his wife died last winter and the empty house weighs on him. Such knowledge isn't acquired from a filing system, but from decades of patient listening.",
       },
       {
-        hr: 'Šalter u malom mjestu nije samo mjesto izdavanja lijekova, nego i granica diskrecije koju treba čuvati svakodnevno. Kad susjeda dođe po pripravak za koji ne želi da se sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
+        hr: 'Šalter u malom mjestu nije samo mjesto izdavanja lijekova, nego i granica diskrecije koju treba čuvati svakodnevno. Kad susjeda dođe po pripravak za koji ne želi da sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
         en: "The counter in a small town is not merely a place where medicine is dispensed, but also a boundary of discretion that must be guarded every day. When a neighbor comes for a preparation she doesn't want the whole village to know about, Vesna quietly packs the bag and says nothing, because she knows one careless sentence could destroy someone's trust forever.",
       },
       {
@@ -17470,7 +17478,7 @@ export const GRADED_STORIES = [
         en: 'The workday begins with checking stock and expiration dates, and continues with a series of small decisions that look routine but demand full concentration. Every dose must match the prescription, every drug interaction must be checked, because in a town without a large hospital nearby, a mistake is neither easily forgiven nor quickly corrected.',
       },
       {
-        hr: 'Uz farmaceutsko znanje, posao iznimno traži i emocionalnu izdržljivost, budući da ljudi Vesni povjeravaju stvari koje ne bi rekli ni obiteljskom liječniku. Očajna majka, umoran umirovljenik, mladić uznemiren zbog dijagnoze, svi oni zastanu na trenutak dulje nego što je potrebno za samu transakciju, a ona strpljivo sluša.',
+        hr: 'Uz farmaceutsko znanje, posao traži i iznimnu emocionalnu izdržljivost, budući da ljudi Vesni povjeravaju stvari koje ne bi rekli ni obiteljskom liječniku. Očajna majka, umoran umirovljenik, mladić uznemiren zbog dijagnoze, svi oni zastanu na trenutak dulje nego što je potrebno za samu transakciju, a ona strpljivo sluša.',
         en: "Alongside pharmaceutical knowledge, the job demands considerable emotional endurance, since people confide in Vesna things they wouldn't tell even their family doctor. A desperate mother, a weary pensioner, a young man unsettled by a diagnosis — all of them linger a moment longer than the transaction itself requires, and she listens patiently.",
       },
       {
@@ -17482,8 +17490,8 @@ export const GRADED_STORIES = [
         en: "In a place where everyone is known, the pharmacist also becomes an unofficial keeper of the community's health history, since she carries in her head information no filing system fully records. Neighbors trust her precisely because she is part of their everyday life, not an anonymous expert behind a glass partition who changes every year and doesn't remember their names.",
       },
       {
-        hr: 'Kad je pitaju bi li se, ukaže li se prilika, preselila u veći grad, Vesna odgovara da bi time izgubila ono što njezinu poslu daje smisao - poznavanje ljudi kojima pomaže. Naposljetku, dodaje kako svaki recept koji potpiše nosi ime i lice, a ne samo šifru u sustavu, i upravo se u toj pojedinosti krije razlika između struke i poziva.',
-        en: 'When asked whether, given the chance, she would move to a bigger city, Vesna answers that doing so would cost her the very thing that gives her work meaning — knowing the people she helps. Finally, she adds that every prescription she signs carries a name and a face, not just a code in the system, and that detail is exactly where the difference between a profession and a calling lies.',
+        hr: 'Kad je pitaju bi li se, ukaže li se prilika, preselila u veći grad, Vesna odgovara da bi time izgubila ono što njezinu poslu daje smisao - poznavanje ljudi kojima pomaže. Naposljetku, dodaje kako svaki recept koji primi nosi ime i lice, a ne samo šifru u sustavu, i upravo se u toj pojedinosti krije razlika između struke i poziva.',
+        en: 'When asked whether, given the chance, she would move to a bigger city, Vesna answers that doing so would cost her the very thing that gives her work meaning — knowing the people she helps. Finally, she adds that every prescription she fills carries a name and a face, not just a code in the system, and that detail is exactly where the difference between a profession and a calling lies.',
       },
     ],
     vocabulary: [
@@ -17495,7 +17503,7 @@ export const GRADED_STORIES = [
       {
         hr: 'pripravak',
         en: 'preparation (compounded medicine)',
-        ex: 'Kad susjeda dođe po pripravak za koji ne želi da se sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
+        ex: 'Kad susjeda dođe po pripravak za koji ne želi da sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
       },
       {
         hr: 'doza',
@@ -17520,7 +17528,7 @@ export const GRADED_STORIES = [
       {
         hr: 'povjerenje',
         en: 'trust',
-        ex: 'Kad susjeda dođe po pripravak za koji ne želi da se sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
+        ex: 'Kad susjeda dođe po pripravak za koji ne želi da sazna cijelo selo, Vesna joj tiho spakira vrećicu i ništa ne komentira, jer zna da bi jedna nepažljiva rečenica mogla razoriti nečije povjerenje zauvijek.',
       },
       {
         hr: 'struka',
@@ -17530,7 +17538,7 @@ export const GRADED_STORIES = [
       {
         hr: 'poziv',
         en: 'calling, vocation',
-        ex: 'Naposljetku, dodaje kako svaki recept koji potpiše nosi ime i lice, a ne samo šifru u sustavu, i upravo se u toj pojedinosti krije razlika između struke i poziva.',
+        ex: 'Naposljetku, dodaje kako svaki recept koji primi nosi ime i lice, a ne samo šifru u sustavu, i upravo se u toj pojedinosti krije razlika između struke i poziva.',
       },
       {
         hr: 'utjeha',
@@ -17627,7 +17635,7 @@ export const GRADED_STORIES = [
         en: 'A call to intervene most often comes because of fires in dry brush in summer or flooded basements after a sudden downpour, though it occasionally involves traffic accidents on the nearby road as well. Regardless of the type of call, Zoran drops everything, changes into his gear in under three minutes, and heads for the vatrogasni dom.',
       },
       {
-        hr: 'Njegova supruga odavno se navikla na to da se planovi za nedjeljni ručak katkad moraju odgoditi zbog sirene, premda priznaje da joj svaki put srce ubrza kad muž otrči kroz vrata, ne znajući kamo točno ide ni koliko će dugo izbivati. Djeca su odrastala uz priče o intervencijama, pa najstariji sin sada i sam razmišlja o pridruživanju društvu.',
+        hr: 'Njegova supruga odavno se navikla na to da se planovi za nedjeljni ručak katkad moraju odgoditi zbog sirene, premda priznaje da joj se svaki put srce ubrza kad muž otrči kroz vrata, ne znajući kamo točno ide ni koliko će dugo izbivati. Djeca su odrastala uz priče o intervencijama, pa najstariji sin sada i sam razmišlja o pridruživanju društvu.',
         en: 'His wife has long grown used to Sunday lunch plans sometimes having to be postponed because of the siren, though she admits her heart quickens every time her husband runs out the door, not knowing exactly where he is going or how long he will be away. The children grew up on stories of interventions, so the eldest son is now considering joining the brigade himself.',
       },
       {
@@ -17643,7 +17651,7 @@ export const GRADED_STORIES = [
         en: "The work carries real danger too, since smoke doesn't choose who breathes in too much of it, and fire pays no attention to the experience of whoever approaches it. Despite that, Zoran claims it is precisely the awareness of risk that makes him take every drill seriously, because being unprepared in the field can cost a life.",
       },
       {
-        hr: 'Društvo danas broji tridesetak članova, među kojima su i mladići koji su kao djeca gledali očeve kako trče prema vatrogasnom domu na zvuk sirene. Ta se generacijska nit ne prekida slučajno, nego se njeguje kroz zajedničke vježbe, druženja i osjećaj da mjesto bez dobrovoljaca ne bi imalo tko braniti u trenutku nevolje.',
+        hr: 'Društvo danas broji tridesetak članova, među kojima su i mladići koji su kao djeca gledali očeve kako trče prema vatrogasnom domu na zvuk sirene. Ta se generacijska nit ne prekida slučajno, nego se njeguje kroz zajedničke vježbe, druženja i osjećaj da mjesto bez dobrovoljaca ne bi imao tko braniti u trenutku nevolje.',
         en: "The brigade today counts around thirty members, among them young men who as children watched their fathers run toward the vatrogasni dom at the sound of the siren. That generational thread doesn't continue by accident — it is nurtured through shared drills, gatherings, and the sense that the village would have no one to defend it in a moment of trouble without volunteers.",
       },
       {
@@ -17776,8 +17784,8 @@ export const GRADED_STORIES = [
       "Meet Ana Perić, who teaches four grades at once in a five-pupil village school. This C1 portrait explores the individualized teaching a combined classroom demands and what the school's possible closure would mean for the village.",
     paragraphs: [
       {
-        hr: 'U školskoj zgradi na rubu sela, sagrađenoj još prije osamdesetak godina, svako jutro zvoni ista praznina hodnika kroz koju odjekuju koraci samo petero učenika, djece koja se međusobno poznaju bolje nego rođena braća i sestre. Učiteljica Ana Perić predaje u kombiniranom razrednom odjelu u kojem se pod istim krovom, u istoj učionici, istodobno nalaze prvi, drugi, treći i četvrti razred.',
-        en: 'In the school building at the edge of the village, built some eighty years ago, every morning the same emptiness echoes down the hallway, filled only with the footsteps of five pupils, children who know one another better than siblings do. Teacher Ana Perić teaches in a combined-grade classroom where, under one roof, in one room, the first, second, third, and fourth grades are all present at once.',
+        hr: 'U školskoj zgradi na rubu sela, sagrađenoj još prije osamdesetak godina, svako jutro istim praznim hodnikom odjekuju koraci samo petero učenika, djece koja se međusobno poznaju bolje nego rođena braća i sestre. Učiteljica Ana Perić predaje u kombiniranom razrednom odjelu u kojem se pod istim krovom, u istoj učionici, istodobno nalaze prvi, drugi, treći i četvrti razred.',
+        en: 'In the school building at the edge of the village, built some eighty years ago, every morning the same empty hallway echoes with the footsteps of only five pupils, children who know one another better than siblings do. Teacher Ana Perić teaches in a combined-grade classroom where, under one roof, in one room, the first, second, third, and fourth grades are all present at once.',
       },
       {
         hr: 'Dok jedna skupina rješava zadatke iz matematike, druga uz njezinu pomoć uvježbava čitanje, a treća samostalno piše sastavak, pa se satovi organiziraju kao slagalica u kojoj svaki dio mora sjesti na svoje mjesto. Individualizacija nastave ovdje nije metodička preporuka iz priručnika, nego svakodnevna nužnost bez koje sat jednostavno ne bi funkcionirao.',
@@ -17788,8 +17796,8 @@ export const GRADED_STORIES = [
         en: "Preparing for such a day takes longer than for a regular class, since Ana must devise four different work plans every day that intertwine with one another, so that no age group is left neglected. She also tracks each child's progress individually, since a class too small to average requires that every pupil be observed separately.",
       },
       {
-        hr: 'Osim učionice, u selu više ne postoji ni trgovina ni ambulanta, pa je škola posljednja ustanova koja selu daje razlog da se ujutro uopće nešto događa. Roditelji dolaze po djecu ispred istih vrata pred kojima su i sami nekoć čekali, a taj kontinuitet mnogima znači više od same nastave.',
-        en: 'Besides the classroom, the village no longer has a shop or a clinic, so the school is the last institution that gives the village any reason for something to happen there each morning at all. Parents come to pick up their children in front of the same door where they themselves once waited, and for many that continuity means more than the lessons themselves.',
+        hr: 'Osim škole, u selu više ne postoji ni trgovina ni ambulanta, pa je škola posljednja ustanova koja selu daje razlog da se ujutro uopće nešto događa. Roditelji dolaze po djecu ispred istih vrata pred kojima su i sami nekoć čekali, a taj kontinuitet mnogima znači više od same nastave.',
+        en: 'Besides the school, the village no longer has a shop or a clinic, so the school is the last institution that gives the village any reason for something to happen there each morning at all. Parents come to pick up their children in front of the same door where they themselves once waited, and for many that continuity means more than the lessons themselves.',
       },
       {
         hr: 'Škola organizira i priredbe povodom blagdana na koje dolazi gotovo cijelo selo, ne samo roditelji učenika, jer je to jedina prigoda kad se svi susjedi okupe pod istim krovom izvan crkve. Ana tvrdi da upravo ti trenuci pokazuju koliko je ustanova, unatoč malenom broju učenika, još uvijek žila kucavica zajednice.',
@@ -17808,8 +17816,8 @@ export const GRADED_STORIES = [
         en: 'Some fifteen years ago Ana could have accepted a position at a city school with full classes and clearly divided subjects, but she chose the village because she was drawn precisely to the variety of the combined classroom. She admits the work demands more energy than a standard classroom, but adds that she knows every child better than would be possible in a city school.',
       },
       {
-        hr: 'Budući da su generacije djece male, Ana prati učenike od prvog razreda do odlaska u srednju školu, pa poznaje ne samo njihove ocjene nego i obiteljske prilike, strahove i darove koje tek otkrivaju. Ta bliskost, kaže, donosi odgovornost kakvu nastavnik u velikom gradskom razredu rijetko iskusi u tolikoj mjeri.',
-        en: 'Because the generations of children are small, Ana follows her pupils from first grade until they leave for secondary school, so she knows not only their grades but also their family circumstances, fears, and the talents they are only just discovering. That closeness, she says, brings a responsibility a teacher in a large city classroom rarely experiences to the same degree.',
+        hr: 'Budući da su generacije djece male, Ana prati učenike od prvog razreda sve do odlaska u peti razred u veću školu, pa poznaje ne samo njihove ocjene nego i obiteljske prilike, strahove i darove koje tek otkrivaju. Ta bliskost, kaže, donosi odgovornost kakvu nastavnik u velikom gradskom razredu rijetko iskusi u tolikoj mjeri.',
+        en: 'Because the generations of children are small, Ana follows her pupils from first grade until they leave for fifth grade at a larger school, so she knows not only their grades but also their family circumstances, fears, and the talents they are only just discovering. That closeness, she says, brings a responsibility a teacher in a large city classroom rarely experiences to the same degree.',
       },
       {
         hr: 'Naposljetku, Ana ističe da škola u malom selu ne odgaja samo djecu, nego održava na životu i samo selo, jer ustanova bez učenika prestaje postojati, a selo bez ustanove polako gubi svoj identitet. Zato se, unatoč svim izazovima, i dalje bori da odjel ostane otvoren, uvjerena da vrijedi truda, makar to značilo dodatne sate rada bez ikakve naknade.',
@@ -17840,7 +17848,7 @@ export const GRADED_STORIES = [
       {
         hr: 'ustanova',
         en: 'institution',
-        ex: 'Osim učionice, u selu više ne postoji ni trgovina ni ambulanta, pa je škola posljednja ustanova koja selu daje razlog da se ujutro uopće nešto događa.',
+        ex: 'Osim škole, u selu više ne postoji ni trgovina ni ambulanta, pa je škola posljednja ustanova koja selu daje razlog da se ujutro uopće nešto događa.',
       },
       {
         hr: 'žila kucavica',
@@ -17860,7 +17868,7 @@ export const GRADED_STORIES = [
       {
         hr: 'generacija',
         en: 'generation',
-        ex: 'Budući da su generacije djece male, Ana prati učenike od prvog razreda do odlaska u srednju školu, pa poznaje ne samo njihove ocjene nego i obiteljske prilike, strahove i darove koje tek otkrivaju.',
+        ex: 'Budući da su generacije djece male, Ana prati učenike od prvog razreda sve do odlaska u peti razred u veću školu, pa poznaje ne samo njihove ocjene nego i obiteljske prilike, strahove i darove koje tek otkrivaju.',
       },
       {
         hr: 'zajednica',
