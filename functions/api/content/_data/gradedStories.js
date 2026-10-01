@@ -6125,7 +6125,7 @@ export const GRADED_STORIES = [
       'Književna minijatura u kojoj pripovjedač piše ocu — trideset godina prekasno. Tekst svjesno poseže za aoristom i imperfektom, vremenima sjećanja.',
     paragraphs: [
       {
-        hr: 'Dragi oče, počeh ovo pismo tridesetak puta, i tridesetak ga puta poderah. Večeras, kad kiša dobova po istom limenom prozorskom pragu po kojem je dobovala i onda, ne dam mu da završi u košu. Bijaše listopad kad si me otpratio na kolodvor; nosio si moj kovčeg, a ja tvoju šutnju. „Piši", reče mi, i to bi sve. Vlak krenu, ti osta na peronu, kaput ti se vijoraše — a ja, dvadesetogodišnjak siguran u sve, ne mahnuh.',
+        hr: 'Dragi oče, počeh ovo pismo tridesetak puta, i tridesetak ga puta poderah. Večeras, kad kiša dobuje po istom limenom prozorskom pragu po kojem je dobovala i onda, ne dam mu da završi u košu. Bijaše listopad kad si me otpratio na kolodvor; nosio si moj kovčeg, a ja tvoju šutnju. „Piši", reče mi, i to bi sve. Vlak krenu, ti osta na peronu, kaput ti se vijoraše — a ja, dvadesetogodišnjak siguran u sve, ne mahnuh.',
         en: 'Dear Father, I began this letter some thirty times, and some thirty times I tore it up. Tonight, as the rain drums on the same tin windowsill it drummed on back then, I will not let it end in the wastebasket. It was October when you saw me off at the station; you carried my suitcase, and I carried your silence. "Write," you said, and that was all. The train moved, you remained on the platform, your coat fluttering — and I, a twenty-year-old certain of everything, did not wave.',
       },
       {
@@ -6222,7 +6222,7 @@ export const GRADED_STORIES = [
         en: 'No structure speaks of man as much as a bridge. A house is care for oneself; a fortress, fear of the other; a temple, conversation with heaven. The bridge is the only form in which stone utters trust: it presumes that on the far bank lives someone worth reaching. That is why bridges are destroyed not by storms but by armies — whoever wants to kill a city first severs the arm it extends across the water.',
       },
       {
-        hr: 'Na ovim prostorima mostovi su oduvijek bili više od inženjerstva. Rimski luk u Solinu pregazio je carstva koja su ga gradila; šibenski je most šezdesetih spojio ne samo dvije obale Krke nego i dva svijeta, selo i grad; a stari most u Mostaru, kad se 1993. srušio u Neretvu, nije pao kao kamen, nego kao čovjek — snimka njegova pada boli i one koji ga nikad nisu prešli. Obnovljen je, dakako. Ali obnovljeni most, kao i zaraslo tkivo, pamti.',
+        hr: 'Na ovim prostorima mostovi su oduvijek bili više od inženjerstva. Rimski luk u Solinu nadživio je carstva koja su ga gradila; šibenski je most šezdesetih spojio ne samo dvije obale Krke nego i dva svijeta, selo i grad; a stari most u Mostaru, kad se 1993. srušio u Neretvu, nije pao kao kamen, nego kao čovjek — snimka njegova pada boli i one koji ga nikad nisu prešli. Obnovljen je, dakako. Ali obnovljeni most, kao i zaraslo tkivo, pamti.',
         en: 'In these lands bridges have always been more than engineering. The Roman arch at Solin outlived the empires that built it; the Šibenik bridge in the sixties joined not only the two banks of the Krka but two worlds, village and town; and the Old Bridge of Mostar, when it collapsed into the Neretva in 1993, fell not like stone but like a man — the footage of its fall pains even those who never crossed it. It was rebuilt, of course. But a rebuilt bridge, like healed tissue, remembers.',
       },
       {
@@ -6251,9 +6251,9 @@ export const GRADED_STORIES = [
         ex: 'Most pretpostavlja drugu obalu.',
       },
       {
-        hr: 'pregaziti',
-        en: 'to outlive; to run over',
-        ex: 'Luk je pregazio carstva.',
+        hr: 'nadživjeti',
+        en: 'to outlive',
+        ex: 'Luk je nadživio carstva.',
       },
       {
         hr: 'tkivo',
@@ -6316,7 +6316,7 @@ export const GRADED_STORIES = [
     title: 'O zaboravu',
     titleEn: 'On Forgetting',
     duration: 11,
-    focus: 'Filozofski esej • Apstraktni leksik • Parodoksalne konstrukcije',
+    focus: 'Filozofski esej • Apstraktni leksik • Paradoksalne konstrukcije',
     intro:
       'Pamćenje slavimo, zaborav osuđujemo. A ipak, bez zaborava ne bi bilo ni praštanja, ni sna, ni novoga početka. Esej u obranu najklevetanije sposobnosti uma.',
     paragraphs: [
@@ -6432,7 +6432,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Zato je bura ovim krajevima više od vremena: ona je ćud. Ljudi ispod Velebita govore kratko, troše malo i ne obećavaju olako — jer sve što je suvišno bura ionako odnese. Nauči li čovjek živjeti s vjetrom koji mu svako malo pokuša odnijeti krov, naučio je i ono glavno: da se temelji kopaju duboko, a da se poslije svake oluje — broji, popravi i ide dalje. Bura ne oblikuje samo kamen. Bura odgaja.',
-        en: 'That is why in these parts the bura is more than weather: it is a temperament. The people below Velebit speak briefly, spend little and do not promise lightly — for whatever is superfluous, the bura carries off anyway. Once you learn to live with a wind that every so often tries to take your roof, you have learned the main thing: that foundations are dug deep, and that after every storm you — count, repair and carry on. The bura does not only shape stone. The bura raises children.',
+        en: 'That is why in these parts the bura is more than weather: it is a temperament. The people below Velebit speak briefly, spend little and do not promise lightly — for whatever is superfluous, the bura carries off anyway. Once you learn to live with a wind that every so often tries to take your roof, you have learned the main thing: that foundations are dug deep, and that after every storm you — count, repair and carry on. The bura does not only shape stone. The bura brings people up.',
       },
     ],
     vocabulary: [
@@ -6487,7 +6487,7 @@ export const GRADED_STORIES = [
       {
         q: 'Kako se na obali zovu udari bure?',
         qEn: 'What are the bura’s gusts called on the coast?',
-        opts: ['Valovi', 'Refuli', 'Zapusi', 'Maestrali'],
+        opts: ['Valovi', 'Refuli', 'Bonace', 'Maestrali'],
         correct: 1,
       },
       {
@@ -17952,15 +17952,15 @@ export const GRADED_STORIES = [
         en: 'The chequy pattern, despite the changing rulers of these lands, persisted in seals, coinage and crests centuries before anyone thought it might become a flag. Therein lies its peculiar strength: it did not arise as a slogan for the moment, but as a pattern that outlived every occasion in which it was devised, indifferent to who currently holds the seal. The archives confirm this silently, without a single manifesto: the same red-and-white arrangement recurs on stone slabs and parchments created centuries apart, as though the pattern were waiting, more patient than any authority that ever borrowed it.',
       },
       {
-        hr: 'Izvan grbovnih knjiga, kvadratić crveno-bijele izmjene odavno je pobjegao u svakodnevicu: tkao se u pojasove nošnji dugo prije nego što je itko od tkalja pomišljao na državu, urezivao se u nadgrobne ploče, utiskivao u vez stolnjaka koji je krasio svaki drugi dom na obali. Uzorak je, drugim riječima, živio paralelan život, mnogo skromniji od svog državničkog, ali ništa manje uporan.',
-        en: 'Outside the books of heraldry, the little red-and-white square long ago escaped into everyday life: it was woven into the belts of folk costumes long before any weaver thought of the state, carved into gravestones, stitched into the embroidery of tablecloths that adorned every other home on the coast. The pattern, in other words, lived a parallel life, far humbler than its statesmanlike one, but no less persistent.',
+        hr: 'Izvan grbovnih knjiga, kvadratić crveno-bijele izmjene odavno je pobjegao u svakodnevicu: tkao se u pojasove nošnji dugo prije nego što je itko od tkalja pomišljao na državu, urezivao se u nadgrobne ploče, vezao na stolnjake koji su krasili svaki drugi dom na obali. Uzorak je, drugim riječima, živio paralelan život, mnogo skromniji od svog državničkog, ali ništa manje uporan.',
+        en: 'Outside the books of heraldry, the little red-and-white square long ago escaped into everyday life: it was woven into the belts of folk costumes long before any weaver thought of the state, carved into gravestones, embroidered onto tablecloths that adorned every other home on the coast. The pattern, in other words, lived a parallel life, far humbler than its statesmanlike one, but no less persistent.',
       },
       {
         hr: 'Danas isti uzorak krasi dresove nogometaša i turističke suvenire, magnete na hladnjacima i etikete boca, pa se s pravom postavlja pitanje troši li se ponavljanjem njegovo dostojanstvo. Odgovor je, čini se, dvostruk: kvadratić na majici navijača ne umanjuje kvadratić na grobu palog vojnika, jer kontekst, ne uzorak sam, određuje registar u kojem znak progovara — isto slovo, drukčija rečenica.',
         en: "Today the same pattern adorns footballers' jerseys and tourist souvenirs, fridge magnets and bottle labels, so the question rightly arises whether repetition wears down its dignity. The answer, it seems, is twofold: the little square on a fan's shirt does not diminish the little square on a fallen soldier's grave, because context, not the pattern itself, determines the register in which the sign speaks — the same letter, a different sentence.",
       },
       {
-        hr: 'Ondje je i najdublja analogija: šahovnica funkcionira kao gramatika, ne kao rječnik. Rječnik nudi značenja; gramatika nudi poredak, pravilo po kojem se značenja slažu. Šahovnica ne kazuje ništa određeno svojim promatračima — ne priča priču, ne navodi datum, ne imenuje junaka — nego uspostavlja obrazac prepoznavanja koji djeluje prije nego što se itko sjeti pitati što uzorak doista znači. Baš zato je otporna na tumačenja koja joj nameću dnevne prilike: gramatika se ne da ucijeniti trenutnim značenjem, jer njezina zadaća nije da nešto tvrdi, nego da omogući da se nešto uopće izgovori.',
+        hr: 'U tome je i najdublja analogija: šahovnica funkcionira kao gramatika, ne kao rječnik. Rječnik nudi značenja; gramatika nudi poredak, pravilo po kojem se značenja slažu. Šahovnica ne kazuje ništa određeno svojim promatračima — ne priča priču, ne navodi datum, ne imenuje junaka — nego uspostavlja obrazac prepoznavanja koji djeluje prije nego što se itko sjeti pitati što uzorak doista znači. Baš zato je otporna na tumačenja koja joj nameću dnevne prilike: gramatika se ne da ucijeniti trenutnim značenjem, jer njezina zadaća nije da nešto tvrdi, nego da omogući da se nešto uopće izgovori.',
         en: 'Herein lies the deepest analogy: the chequy pattern functions as grammar, not as a dictionary. A dictionary offers meanings; grammar offers order, the rule by which meanings are arranged. The pattern tells its observers nothing specific — it recounts no story, states no date, names no hero — but establishes a pattern of recognition that operates before anyone thinks to ask what the pattern actually means. Precisely for that reason it resists interpretations imposed on it by the moment: grammar cannot be held hostage to momentary meaning, because its task is not to assert something, but to make it possible for something to be said at all.',
       },
       {
@@ -18124,8 +18124,8 @@ export const GRADED_STORIES = [
         en: 'The riva itself, that narrow strip of stone between the houses and the sea, has no official purpose, and precisely for that reason fulfils so many: there one walks without aim, sits without reason, talks without an agenda. No one on the riva asks what time it is, because the question would betray that he still belongs to that other, faster world.',
       },
       {
-        hr: 'Riva mijenja lice ovisno o dobu dana, ali nikad žurbu: ujutro njome prolaze ribari noseći mrežu, u podne je prazna zbog fjake, navečer se puni obiteljima koje ne idu nikamo određeno, nego jednostavno šeću, korzo za korzom, kao da sam čin hodanja bez cilja treba obnavljati svaku večer iznova, poput obreda koji nitko nije propisao, a svi ga poštuju.',
-        en: "The riva's face changes with the time of day, but never its lack of hurry: in the morning fishermen pass along it carrying nets, at noon it stands empty because of the fjaka, in the evening it fills with families going nowhere in particular, simply strolling, one turn of the promenade after another, as though the very act of walking without aim needed to be renewed every evening anew, like a rite no one prescribed, yet everyone observes.",
+        hr: 'Riva mijenja lice ovisno o dobu dana, ali nikad svoj tempo: ujutro njome prolaze ribari noseći mrežu, u podne je prazna zbog fjake, navečer se puni obiteljima koje ne idu nikamo određeno, nego jednostavno šeću, korzo za korzom, kao da sam čin hodanja bez cilja treba obnavljati svaku večer iznova, poput obreda koji nitko nije propisao, a svi ga poštuju.',
+        en: "The riva's face changes with the time of day, but never its pace: in the morning fishermen pass along it carrying nets, at noon it stands empty because of the fjaka, in the evening it fills with families going nowhere in particular, simply strolling, one turn of the promenade after another, as though the very act of walking without aim needed to be renewed every evening anew, like a rite no one prescribed, yet everyone observes.",
       },
       {
         hr: 'Suvremeni čovjek, naoružan aplikacijama koje mjere svaku minutu njegova dana, rivu doživljava kao anomaliju, gotovo kao kvar u sustavu: kako to da netko sjedi sat vremena, ne gledajući u zaslon, ne postižući ništa mjerljivo? A upravo je ta nemjerljivost bit stvari — riva ne proizvodi ništa jer to i nije njezina zadaća.',
@@ -18176,8 +18176,8 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'unajmiti',
-        en: 'to rent, hire out',
-        ex: 'Vrijeme koje se unajmljuje poslodavcu.',
+        en: 'to rent, hire (take on hire)',
+        ex: 'Vrijeme koje poslodavac unajmljuje.',
       },
       {
         hr: 'besposlica',
@@ -18269,14 +18269,14 @@ export const GRADED_STORIES = [
     duration: 12,
     focus: 'praznina • zajedništvo • ritam otočne zime',
     intro:
-      'An essay on an Adriatic island once the ferries thin out and the tourists leave, and on what community comes to mean when only a few hundred people remain.',
+      'An essay on an Adriatic island once the ferries thin out and the tourists leave, and on what community comes to mean when only a hundred or so people remain.',
     paragraphs: [
       {
         hr: 'Zadnji rujanski trajekt odveze posljednje turiste, a luka, još jučer krcata glasovima, utone u tišinu koja će potrajati do proljeća. Onima koji ostaju taj prizor nije nov: znaju da otok mijenja disanje, da se ljeto povlači kao plima, ostavljajući prazne terase i zatvorene kapke. Ono što se doima kao kraj sezone za njih je početak jedinog razdoblja u kojem je otok napokon njihov.',
         en: 'The last September ferry carries away the final tourists, and the harbor, packed just yesterday with voices, sinks into a silence that will last until spring. For those who stay, the scene is nothing new: they know the island changes its breathing, that summer withdraws like a tide, leaving empty terraces and shuttered windows behind. What looks like the end of the season is, for them, the beginning of the only period in which the island is finally theirs.',
       },
       {
-        hr: 'Trajekt koji je ljeti plovio šest puta dnevno zimi pristaje tek dvaput, a kad zapuše jaka bura, ne pristaje uopće, pa se otok danima nalazi odsječen od kopna poput broda usidrenog u vlastitoj samoći. Ta izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu: kažu da se otok zimi vraća samome sebi, oslobođen obveze da bude razglednica za svakoga tko prođe.',
+        hr: 'Trajekt koji je ljeti plovio šest puta dnevno zimi pristaje tek dvaput, a kad zapuše jaka bura, ne pristaje uopće, pa se otok danima nalazi odsječen od kopna poput broda usidrenog u vlastitoj samoći. Tu izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu: kažu da se otok zimi vraća samome sebi, oslobođen obveze da bude razglednica za svakoga tko prođe.',
         en: 'The ferry that sailed six times a day in summer calls only twice in winter, and when a strong bura blows, it does not call at all, leaving the island cut off from the mainland for days, like a ship anchored in its own solitude. That isolation, which an outsider would call a misfortune, the locals experience almost as protection: they say the island returns to itself in winter, freed from the obligation to be a postcard for whoever passes through.',
       },
       {
@@ -18318,7 +18318,7 @@ export const GRADED_STORIES = [
       {
         hr: 'mještani',
         en: 'locals / residents',
-        ex: 'Ta izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu',
+        ex: 'Tu izoliranost, koju bi stranac nazvao nezgodom, mještani doživljavaju gotovo kao zaštitu',
       },
       {
         hr: 'konoba',
@@ -18436,7 +18436,7 @@ export const GRADED_STORIES = [
         en: "Planned obsolescence, a term coined back in the last century, describes the deliberate shortening of a product's lifespan to keep consumption uninterrupted: a battery that cannot be replaced, a part that stops being available, software that slows a device down just enough to make buying a new one feel necessary. It is a logic in which failure is built in beforehand rather than accidental.",
       },
       {
-        hr: 'Naši su djedovi i bake živjeli u svijetu u kojem se svaka stvar popravljala dok god je to imalo smisla, a bacanje je bilo gotovo sramotno, znak rastrošnosti koju si je malo tko mogao priuštiti. Majstor u selu nije bio luksuz nego nužnost, jedina osoba koja je znala vratiti stroj u pogon. Kultura je nestala jer je popravak prestao biti isplativ u usporedbi s novom robom.',
+        hr: 'Naši su djedovi i bake živjeli u svijetu u kojem se svaka stvar popravljala dok god je to imalo smisla, a bacanje je bilo gotovo sramotno, znak rastrošnosti koju si je malo tko mogao priuštiti. Majstor u selu nije bio luksuz nego nužnost, jedina osoba koja je znala vratiti stroj u pogon. Ta je kultura nestala jer je popravak prestao biti isplativ u usporedbi s novom robom.',
         en: 'Our grandparents lived in a world where everything was repaired for as long as it made any sense, and throwing things away was almost shameful, a sign of wastefulness few could afford. The village craftsman was not a luxury but a necessity, the only person who knew how to bring a machine back to life. That culture disappeared because repair stopped being worthwhile compared with new goods.',
       },
       {
@@ -18452,16 +18452,16 @@ export const GRADED_STORIES = [
         en: 'Why do we pay more for a one-year warranty than for a device that, with a little care, would last ten? Why is it cheaper to throw away a broken hairdryer than to have it repaired, even though the repair requires only replacing one heating coil? The answer lies not in a lack of knowledge, but in a system of pricing and labor that makes repair more expensive than buying new.',
       },
       {
-        hr: 'Svaki bačeni uređaj nije samo gubitak novca nego i sirovina, energije utrošene u proizvodnju, prostora na odlagalištu koje se sporo, ako uopće, razgrađuje. Kultura popravka, stoga, nije nostalgičan hir starih majstora, nego praktičan odgovor na pitanje koje društvo sve rjeđe postavlja: koliko toga uistinu moramo baciti da bismo kupili nešto novo?',
-        en: 'Every discarded device is not just a loss of money but of raw materials, of energy spent in production, of landfill space that decomposes slowly, if at all. A culture of repair, then, is not a nostalgic whim of old craftsmen but a practical answer to a question society asks less and less often: how much do we truly need to throw away in order to buy something new?',
+        hr: 'Svaki bačeni uređaj nije samo gubitak novca nego i sirovina, energije utrošene u proizvodnju, prostora na odlagalištu, na kojem se otpad sporo, ako uopće, razgrađuje. Kultura popravka, stoga, nije nostalgičan hir starih majstora, nego praktičan odgovor na pitanje koje društvo sve rjeđe postavlja: koliko toga uistinu moramo baciti da bismo kupili nešto novo?',
+        en: 'Every discarded device is not just a loss of money but of raw materials, of energy spent in production, of landfill space, where waste decomposes slowly, if at all. A culture of repair, then, is not a nostalgic whim of old craftsmen but a practical answer to a question society asks less and less often: how much do we truly need to throw away in order to buy something new?',
       },
       {
         hr: 'Antina radionica odavno je više od mjesta popravka: susjedi navraćaju popiti kavu, popričati o vremenu i pritom mu donijeti pokvareni alat, kao da je popravak samo izgovor za druženje koje si selo inače rijetko priušti. Djeca ga promatraju kako lemi žicu ili brusi zupčanik, i neka od njih, kaže sa smiješkom, već su naučila razlikovati odvijač od ključa bolje nego njihovi roditelji.',
         en: "Ante's workshop has long been more than a place of repair: neighbors stop by for coffee, to talk about the weather, and bring along a broken tool, as if the repair were merely an excuse for company the village otherwise rarely affords itself. Children watch him solder a wire or grind a gear, and some of them, he says with a smile, have already learned to tell a screwdriver from a wrench better than their parents can.",
       },
       {
-        hr: 'Posljednjih godina primjećuje obrat: mladi koji dolaze u radionicu ne zato što nemaju novca za novo, nego zato što svjesno biraju popravak kao stav, gotovo politički čin protiv društva koje ih uvjerava da je bacanje normalno. Traže od njega da im pokaže kako zamijeniti bateriju ili ekran, jer žele razumjeti uređaje koje koriste.',
-        en: 'In recent years he has also noticed a reversal: young people who come to the workshop not because they lack money for something new, but because they consciously choose repair as a stance, almost a political act against a society that convinces them that throwing things away is normal. They ask him to show them how to replace a battery or a screen, because they want to understand the devices they use.',
+        hr: 'Posljednjih godina primjećuje obrat: mladi dolaze u radionicu ne zato što nemaju novca za novo, nego zato što svjesno biraju popravak kao stav, gotovo politički čin protiv društva koje ih uvjerava da je bacanje normalno. Traže od njega da im pokaže kako zamijeniti bateriju ili ekran, jer žele razumjeti uređaje koje koriste.',
+        en: 'In recent years he has noticed a reversal: young people come to the workshop not because they lack money for something new, but because they consciously choose repair as a stance, almost a political act against a society that convinces them that throwing things away is normal. They ask him to show them how to replace a battery or a screen, because they want to understand the devices they use.',
       },
       {
         hr: 'Ante zna da njegova radionica jednog dana neće imati nasljednika, jer malo je mladih spremno provesti život uz miris lemila i ulja umjesto uz ekrane. No dok vrata ostaju otvorena, nastavlja raditi ono što smatra osnovnim oblikom poštovanja prema svijetu: ne bacati nešto samo zato što je lakše kupiti novo, nego mu dati priliku da proradi.',
@@ -18502,7 +18502,7 @@ export const GRADED_STORIES = [
       {
         hr: 'odlagalište',
         en: 'landfill / waste site',
-        ex: 'prostora na odlagalištu koje se sporo, ako uopće, razgrađuje',
+        ex: 'prostora na odlagalištu, na kojem se otpad sporo, ako uopće, razgrađuje',
       },
       {
         hr: 'sirovina',
@@ -18600,8 +18600,8 @@ export const GRADED_STORIES = [
         en: 'My grandfather once told me, as we were weeding between the rows, that the oldest tree in the grove had been planted by his own grandfather, and that none of the three of them had lived to see its full, abundant yield. That sentence, spoken in passing, has stayed with me longer than any lesson he ever tried deliberately to teach, perhaps precisely because it was never meant as one.',
       },
       {
-        hr: 'Maslina, naime, ne žuri, niti se njezina spora narav dade ubrzati. Od sadnice do punoga roda prođe više vremena nego što traje djetinjstvo onoga tko je stablo posadio, pa tko god sadi maslinik, gotovo u pravilu, ne sadi za sebe, nego za nekoga tko dolazi poslije njega. Djed je to znao, iako je to rijetko izgovarao naglas.',
-        en: 'The olive tree, after all, is in no hurry, nor can its slow nature be rushed. More time passes between planting and full yield than the childhood of whoever planted the tree lasts, so that whoever plants a grove, almost as a rule, plants not for themselves but for someone who comes after them. My grandfather knew this, though he rarely said it aloud.',
+        hr: 'Maslina, naime, ne žuri, niti se njezina spora narav dade ubrzati. Od sadnice do punoga roda prođu desetljeća, pa tko god sadi maslinik, gotovo u pravilu, ne sadi za sebe, nego za nekoga tko dolazi poslije njega. Djed je to znao, iako je to rijetko izgovarao naglas.',
+        en: 'The olive tree, after all, is in no hurry, nor can its slow nature be rushed. Decades pass between planting and full yield, so that whoever plants a grove, almost as a rule, plants not for themselves but for someone who comes after them. My grandfather knew this, though he rarely said it aloud.',
       },
       {
         hr: 'Naslijediti maslinik stoga znači naslijediti i obvezu prema ljudima koje nikad nismo upoznali: prema pradjedu koji je krčio kamenjar, prema svima koji su plodove brali prije nas, a čijih se imena više ni ne sjećamo, premda nam je njihov trud, doslovno, u korijenju svakog stabla. Taj se dug ne otplaćuje novcem, nego brigom o istim redovima godinu za godinom.',
@@ -18617,10 +18617,10 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Godine suše nasad podnosi šutke, gubeći tek djelić uroda, dok bi ista takva godina mladu voćku znala uništiti nedostatkom vode. Nasad kao da pamti prijašnje sušne godine i troši svoje rezerve opreznije. Upravo ta postojanost, ta sposobnost da preživi ono što druge kulture ne bi izdržale, čini masline neobičnim simbolom povjerenja između čovjeka i zemlje koja mu, unatoč svemu, opet rodi.',
-        en: 'In drought years the grove endures quietly, losing only a fraction of its yield, whereas a young orchard might well be destroyed by lack of water in that very same year. The grove seems to remember earlier dry years and spends its reserves more cautiously. It is precisely this steadfastness, this capacity to survive what other crops could not withstand, that makes the olive an unusual symbol of trust between a man and land that, despite everything, bears fruit for him again.',
+        en: 'In drought years the grove endures quietly, losing only a fraction of its yield, whereas a young fruit tree might well be destroyed by lack of water in that very same year. The grove seems to remember earlier dry years and spends its reserves more cautiously. It is precisely this steadfastness, this capacity to survive what other crops could not withstand, that makes the olive an unusual symbol of trust between a man and land that, despite everything, bears fruit for him again.',
       },
       {
-        hr: 'Kad prvi put te jeseni okusim novo ulje, prepoznajem u njemu okus koji se od djetinjstva gotovo nije promijenio: gorčinu koja isprva zapeče u grlu, a zatim ostavi trag zelenog, gotovo paprenog mirisa. Taj je okus, čini mi se, jedina stvar koju mogu dijeliti s djedom premda ga više nema. To je, čini mi se, jedina veza koja ne ovisi o riječima.',
+        hr: 'Kad prvi put te jeseni okusim novo ulje, prepoznajem u njemu okus koji se od djetinjstva gotovo nije promijenio: gorčinu koja isprva zapeče u grlu, a zatim ostavi trag zelenog, gotovo paprenog mirisa. Taj je okus, čini mi se, jedina stvar koju mogu dijeliti s djedom premda ga više nema. To je, mislim, jedina veza koja ne ovisi o riječima.',
         en: "When I first taste the new oil that autumn, I recognize in it a flavour almost unchanged since childhood: a bitterness that first catches at the throat, then leaves a trace of green, almost peppery aroma. That taste, it seems to me, is the one thing I can still share with my grandfather, even though he is gone. It is, I think, the one bond that doesn't depend on words.",
       },
       {
@@ -18628,8 +18628,8 @@ export const GRADED_STORIES = [
         en: 'What the grove teaches me most, then, is not patience for its own sake, but a humbler truth: that owning land is never complete, since every owner only temporarily safeguards what was there before him and will remain after. Ownership is, at best, a form of responsibility, not a right to permanent disposal.',
       },
       {
-        hr: 'Ljeti, kad se sunce najviše obrušava na kamenjar, jedino se mjesto hlada u cijelom nasadu nalazi ispod najstarijeg stabla, upravo onog koje je posadio pradjed. Sjedeći u toj sjeni, shvaćam da ono što nasljeđujem nije samo zemlja ni ulje, nego upravo ta sjena - razmjer vremena koji nadilazi jedan ljudski život.',
-        en: 'In summer, when the sun beats down hardest on the stony ground, the only patch of shade in the whole grove lies beneath the oldest tree, the very one my great-grandfather planted. Sitting in that shade, I understand that what I inherit is not just land or oil, but that very shade - a scale of time that outlasts a single human life.',
+        hr: 'Ljeti, kad se sunce najviše obrušava na kamenjar, jedino se mjesto hlada u cijelom nasadu nalazi ispod najstarijeg stabla, upravo onog koje je posadio prapradjed. Sjedeći u toj sjeni, shvaćam da ono što nasljeđujem nije samo zemlja ni ulje, nego upravo ta sjena - razmjer vremena koji nadilazi jedan ljudski život.',
+        en: 'In summer, when the sun beats down hardest on the stony ground, the only patch of shade in the whole grove lies beneath the oldest tree, the very one my great-great-grandfather planted. Sitting in that shade, I understand that what I inherit is not just land or oil, but that very shade - a scale of time that outlasts a single human life.',
       },
     ],
     vocabulary: [
@@ -18641,7 +18641,7 @@ export const GRADED_STORIES = [
       {
         hr: 'sadnica',
         en: 'sapling',
-        ex: 'Od sadnice do punoga roda prođe više vremena nego što traje djetinjstvo onoga tko je stablo posadio, pa tko god sadi maslinik, gotovo u pravilu, ne sadi za sebe, nego za nekoga tko dolazi poslije njega.',
+        ex: 'Od sadnice do punoga roda prođu desetljeća, pa tko god sadi maslinik, gotovo u pravilu, ne sadi za sebe, nego za nekoga tko dolazi poslije njega.',
       },
       {
         hr: 'rod',
@@ -18703,7 +18703,7 @@ export const GRADED_STORIES = [
           'Jer je djed tu rečenicu ponavljao svaki dan',
           'Jer je bila zapisana u obiteljskoj knjizi',
           'Jer je bila izrečena kao formalna pouka',
-          'Jer je izrečena usput, a otkriva da nitko od njih troje nije dočekao puni rod',
+          'Jer je izrečena usput, a otkriva da nitko od njih trojice nije dočekao puni rod',
         ],
         correct: 3,
       },
@@ -18712,7 +18712,7 @@ export const GRADED_STORIES = [
         qEn: "Why, according to the text, is an olive grove as a rule not planted 'for oneself'?",
         opts: [
           'Jer se masline uopće ne mogu presaditi',
-          'Jer između sadnje i punoga roda prođe više vremena nego djetinjstvo sadioca',
+          'Jer između sadnje i punoga roda prođu desetljeća',
           'Jer zakon zabranjuje sadnju maslina mlađim vlasnicima',
           'Jer masline rode odmah, ali kratko traju',
         ],
@@ -18768,7 +18768,7 @@ export const GRADED_STORIES = [
         en: 'The ritual of offering follows its own unwritten rules. The host offers coffee or rakija, the guest declines out of politeness, the host offers again, and the third time the guest finally accepts - refusing the first offer is almost obligatory, as if accepting right away would betray excessive hunger or thirst. This choreography is absorbed by watching, not learned from a book.',
       },
       {
-        hr: 'Takva gostoljubivost nije besplatna u ekonomskom smislu, no njezina se vrijednost nikad ne iskazuje u novcu. Domaćin koji gostu ponudi posljednji komad pite zna da isti gospodarski odnos vrijedi i obrnuto: jednog će dana on sam sjediti za tuđim stolom, jednako nenajavljen i jednako dobrodošao. Taj se dug nikad ne bilježi, ali se, čini se, ipak nekako uvijek vrati.',
+        hr: 'Takva gostoljubivost nije besplatna u ekonomskom smislu, no njezina se vrijednost nikad ne iskazuje u novcu. Domaćin koji gostu ponudi posljednji komad pite zna da isti odnos vrijedi i obrnuto: jednog će dana on sam sjediti za tuđim stolom, jednako nenajavljen i jednako dobrodošao. Taj se dug nikad ne bilježi, ali se, čini se, ipak nekako uvijek vrati.',
         en: "Such hospitality is not free in an economic sense, yet its value is never expressed in money. A host who offers a guest the last piece of pie knows the same relationship holds in reverse: one day he himself will sit at someone else's table, just as unannounced and just as welcome. That debt is never recorded, yet somehow, it seems, it is always repaid.",
       },
       {
@@ -18776,11 +18776,11 @@ export const GRADED_STORIES = [
         en: 'Over the past few decades, this pattern has begun to overlap with a much younger phenomenon: tourism, which turns hospitality into a product to be sold, photographed, and rated in stars. What was once spontaneous becomes, in part of the offering, a rehearsed service. This shift is neither sudden nor total, but visible enough that even those enacting it notice it.',
       },
       {
-        hr: "U nekim se apartmanima domaćin gostima predstavlja s bocom domaće rakije o trošku vlasnika, ali skript te dobrodošlice piše agencija za iznajmljivanje, ne osoba koja rakiju toči. Turist popije čašu, fotografira etiketu i ostavlja ocjenu koja hvali 'autentično hrvatsko gostoprimstvo', ne sluteći koliko je scena zapravo uvježbana. Osoba koja rakiju toči često i ne zna tko je scenarij napisao.",
+        hr: "U nekim se apartmanima domaćin gostima predstavlja s bocom domaće rakije o trošku vlasnika, ali scenarij te dobrodošlice piše agencija za iznajmljivanje, ne osoba koja rakiju toči. Turist popije čašu, fotografira etiketu i ostavi ocjenu koja hvali 'autentično hrvatsko gostoprimstvo', ne sluteći koliko je scena zapravo uvježbana. Osoba koja rakiju toči često i ne zna tko je scenarij napisao.",
         en: "In some rental apartments, the host greets guests with a bottle of homemade rakija at the owner's expense, but the script of that welcome is written by the rental agency, not by the person pouring the drink. The tourist drinks a glass, photographs the label, and leaves a review praising 'authentic Croatian hospitality,' unaware of how rehearsed the scene actually is. The person pouring the rakija often doesn't even know who wrote the script.",
       },
       {
-        hr: 'Ta se komercijalizacija ne smije brzopleto osuditi kao puko licemjerje. Mnogi domaćini u turizmu i dalje osjećaju istinsku želju da gost ode zadovoljan, samo što se ta želja sada odvija unutar ugovora, cjenika i online recenzija koje diktiraju ton susreta više nego što bi itko htio priznati. Granica između iskrene brige i naučene ljubaznosti postaje teško uočljiva.',
+        hr: 'Ta se komercijalizacija ne smije brzopleto osuditi kao puko licemjerje. Mnogi domaćini u turizmu i dalje osjećaju istinsku želju da gost ode zadovoljan, samo što se ta želja sada odvija unutar ugovora, cjenika i internetskih recenzija koje diktiraju ton susreta više nego što bi itko htio priznati. Granica između iskrene brige i naučene ljubaznosti postaje teško uočljiva.',
         en: "This commercialization shouldn't be hastily condemned as mere hypocrisy. Many hosts in tourism still feel a genuine wish for the guest to leave satisfied; it's just that this wish now plays out within contracts, price lists, and online reviews that dictate the tone of the encounter more than anyone would like to admit. The line between sincere care and learned courtesy becomes hard to make out.",
       },
       {
@@ -18830,7 +18830,7 @@ export const GRADED_STORIES = [
       {
         hr: 'recenzija',
         en: 'review',
-        ex: 'samo što se ta želja sada odvija unutar ugovora, cjenika i online recenzija koje diktiraju ton susreta više nego što bi itko htio priznati',
+        ex: 'samo što se ta želja sada odvija unutar ugovora, cjenika i internetskih recenzija koje diktiraju ton susreta više nego što bi itko htio priznati',
       },
       {
         hr: 'neizračunljivost',
@@ -18840,7 +18840,7 @@ export const GRADED_STORIES = [
       {
         hr: 'etiketa',
         en: 'label',
-        ex: "Turist popije čašu, fotografira etiketu i ostavlja ocjenu koja hvali 'autentično hrvatsko gostoprimstvo', ne sluteći koliko je scena zapravo uvježbana.",
+        ex: "Turist popije čašu, fotografira etiketu i ostavi ocjenu koja hvali 'autentično hrvatsko gostoprimstvo', ne sluteći koliko je scena zapravo uvježbana.",
       },
       { hr: 'pobuda', en: 'motive', ex: 'Obje verzije dijele isti rječnik, no ne i istu pobudu.' },
     ],
@@ -18924,16 +18924,16 @@ export const GRADED_STORIES = [
         en: 'Its branches, however, pay no attention to the boundaries people have marked with stone and wire: they stretch over the fence, heavy with fruit, and cast their shade equally over both yards. In summer, once the fruit ripens, the tree seems to decide for itself who gets what, entirely indifferent to the paperwork at the municipal office.',
       },
       {
-        hr: 'Nepisano je pravilo u ovakvim krajevima da plod pripada onome na čijoj je strani grane kad padne, a ne onome tko je stablo zasadio niti onome na čijoj zemlji stoji korijen. To je pravilo starije od ijednog katastra i mudrije od njega, jer razrješava spor prije nego što se uopće rodi.',
-        en: 'The unwritten rule in places like this is that the fruit belongs to whichever side the branch is hanging over when it falls, not to whoever planted the tree, nor to whoever owns the ground the roots stand in. This rule is older than any land registry and wiser than one, since it resolves the dispute before it can even arise.',
+        hr: 'Nepisano je pravilo u ovakvim krajevima da plod pripada onome na čiju stranu padne, a ne onome tko je stablo zasadio niti onome na čijoj zemlji stoji korijen. To je pravilo starije od ijednog katastra i mudrije od njega, jer razrješava spor prije nego što se uopće rodi.',
+        en: 'The unwritten rule in places like this is that the fruit belongs to whichever side it falls on, not to whoever planted the tree, nor to whoever owns the ground the roots stand in. This rule is older than any land registry and wiser than one, since it resolves the dispute before it can even arise.',
       },
       {
         hr: 'Priča se da su, kad je stablo bilo tek mladica, dvojica susjeda jednom, uz čašu vina na razdjelnici dvaju dvorišta, dogovorila da ono što padne na jednu stranu ostaje toj strani, bez daljnjih uvjeta i bez potrebe da se ikad više o tome govori. Otad se dogovor obnavlja šutnjom, iz naraštaja u naraštaj.',
         en: 'It is said that, when the tree was still a sapling, two neighbours once agreed, over a glass of wine at the line dividing their two yards, that whatever fell on one side would belong to that side, with no further conditions and no need to ever speak of it again. Since then the agreement has been renewed in silence, generation after generation.',
       },
       {
-        hr: "Jednog kolovoza, kad se grane objesiše gotovo do zemlje pod teretom neobično bogate berbe, susjed preko puta osu na naš prag punu vreću najzrelijih plodova, ne tražeći ništa zauzvrat, samo uz kratku poruku da mu smokve 's naše strane' ionako više nisu stale u kuhinju.",
-        en: "One August, when the branches sagged nearly to the ground under the weight of an unusually rich harvest, the neighbour across the way poured out onto our doorstep a full sack of the ripest fruit, asking nothing in return, with only a brief note that the figs 'from our side' no longer fit in his kitchen anyway.",
+        hr: "Jednog kolovoza, kad se grane objesiše gotovo do zemlje pod teretom neobično bogate berbe, susjed s druge strane ograde osu na naš prag punu vreću najzrelijih plodova, ne tražeći ništa zauzvrat, samo uz kratku poruku da mu smokve 's naše strane' ionako više nisu stale u kuhinju.",
+        en: "One August, when the branches sagged nearly to the ground under the weight of an unusually rich harvest, the neighbour on the other side of the fence poured out onto our doorstep a full sack of the ripest fruit, asking nothing in return, with only a brief note that the figs 'from our side' no longer fit in his kitchen anyway.",
       },
       {
         hr: 'Takva gesta ne traži uzvrat u istom trenutku, no obvezuje: idućeg proljeća stiže vreća mladog luka, u jesen tegla domaćeg pekmeza, i tako se, plod po plod, usluga po usluga, tka mreža uzajamnosti koju nijedan ugovor ne bi mogao jednako precizno urediti, a dugovi se namiruju ne novcem nego pažnjom.',
@@ -18944,8 +18944,8 @@ export const GRADED_STORIES = [
         en: 'There is, admittedly, also the kind of neighbour who would rather prune the branches back to the exact boundary, denying both shade and fruit, just to defend every millimetre of his own land. Such a person, however, is quickly recognized in the village: no one speaks ill of him, but he is, subtly, denied what is given to others as a matter of course.',
       },
       {
-        hr: 'Zakon, formalno, ne ostavlja mnogo prostora za nijanse: grana koja prijeđe među vlasništvo je zemljišta na kojem visi, a susjed ima pravo obrezati je do granice. No u praksi rijetko tko poseže za tim pravom, jer bi time priznao da živi među ljudima, a ne isključivo pored njih.',
-        en: 'The law, formally, leaves little room for nuance: a branch that crosses the boundary belongs to whoever owns the land it hangs over, and the neighbour has the right to prune it back to the line. In practice, though, few reach for that right, since doing so would be to admit that one lives among people rather than merely beside them.',
+        hr: 'Zakon, formalno, ne ostavlja mnogo prostora za nijanse: susjed ima pravo obrezati grane koje prelaze na njegovo zemljište, sve do same međe. No u praksi rijetko tko poseže za tim pravom, jer bi time priznao da živi tek pored ljudi, a ne među njima.',
+        en: 'The law, formally, leaves little room for nuance: a neighbour has the right to prune back branches that cross onto his land, right up to the boundary line. In practice, though, few reach for that right, since doing so would be to admit that one lives merely beside people rather than among them.',
       },
       {
         hr: "Djeca s obiju strana ograde odrastaju uz tu smokvu ne znajući točno gdje prestaje 'naše', a počinje 'njihovo', i upravo u toj nejasnoći, čini se, uče nešto što se u školi ne predaje: da granica može biti crta na katastarskom planu, a istodobno gotovo nevažna u stvarnom životu među ljudima.",
@@ -18985,7 +18985,7 @@ export const GRADED_STORIES = [
       {
         hr: 'vlasništvo',
         en: 'ownership',
-        ex: 'grana koja prijeđe među vlasništvo je zemljišta na kojem visi',
+        ex: 'Zakon štiti vlasništvo nad zemljištem do same međe.',
       },
       {
         hr: 'velikodušnost',
@@ -19010,7 +19010,7 @@ export const GRADED_STORIES = [
         qEn: 'According to the unwritten rule in the text, who does the fig belong to?',
         opts: [
           'Onome tko je stablo izvorno zasadio',
-          'Onome na čijoj strani grane plod padne',
+          'Onome na čiju stranu plod padne',
           'Onome na čijem zemljištu stoji korijen stabla',
           'Onome tko prvi zatraži plod od susjeda',
         ],
@@ -19043,8 +19043,8 @@ export const GRADED_STORIES = [
         qEn: 'What does the law formally say about a branch that crosses the boundary?',
         opts: [
           'Zakon je u tom pogledu potpuno nejasan i ne rješava spor',
-          'Grana pripada onome tko ju je posadio, bez obzira na to gdje visi',
-          'Vlasništvo je zemljišta na kojem visi, a susjed je smije obrezati do granice',
+          'Susjed mora tražiti dozvolu općine za svaku obrezanu granu',
+          'Susjed smije obrezati grane koje prelaze na njegovo zemljište',
           'Takve se grane po zakonu moraju ostaviti nedirnute',
         ],
         correct: 2,
@@ -19264,11 +19264,11 @@ export const GRADED_STORIES = [
         en: 'Once, while grandmother would serve the meat, she used to tell a story about the Sundays of her youth — she recalled a table where twice as many people gathered, and conversation lasted until dusk. No one would interrupt her, because in that story, more than in any advice, lay a message meant for whoever needed to hear it most.',
       },
       {
-        hr: 'Danas se taj obred sve češće seli u nedjeljno poslijepodne, jer jutra su rezervirana za posao koji se, unatoč nedjelji, nastavlja stizati na mobitel. Djeca odrastaju u gradovima daleko od roditeljskog stola, pa se okupljanje sužava na blagdane, a videopoziv zamjenjuje stolicu koja je nekoć uvijek bila prazna do njihova dolaska.',
+        hr: 'Danas se taj obred sve češće seli u nedjeljno poslijepodne, jer su jutra rezervirana za posao koji se, unatoč nedjelji, nastavlja stizati na mobitel. Djeca odrastaju u gradovima daleko od roditeljskog stola, pa se okupljanje sužava na blagdane, a videopoziv zamjenjuje stolicu koja je nekoć uvijek bila prazna do njihova dolaska.',
         en: "Today that rite increasingly moves to Sunday afternoon, since mornings are reserved for work that, Sunday or not, keeps arriving on the phone. Children grow up in cities far from their parents' table, so gatherings shrink to holidays, and a video call replaces the chair that used to stand empty until they arrived.",
       },
       {
-        hr: 'Pa ipak, i u obiteljima raspršenim po nekoliko država, nedjeljni stol opstaje kao referentna točka o koju se mjeri sve ostalo: kada se konačno okupe, raspored sjedenja, redoslijed posluživanja i onaj isti uvodni razgovor o cesti vraćaju se gotovo nepromijenjeni, kao da je stanka trajala tjedan, a ne godinu.',
+        hr: 'Pa ipak, i u obiteljima raspršenim po nekoliko država, nedjeljni stol opstaje kao referentna točka prema kojoj se mjeri sve ostalo: kada se konačno okupe, raspored sjedenja, redoslijed posluživanja i onaj isti uvodni razgovor o cesti vraćaju se gotovo nepromijenjeni, kao da je stanka trajala tjedan, a ne godinu.',
         en: 'And yet, even in families scattered across several countries, the Sunday table survives as the reference point against which everything else is measured: when they finally do gather, the seating order, the sequence of serving, and that same opening small talk about the road return almost unchanged, as if the pause had lasted a week rather than a year.',
       },
       {
@@ -19316,7 +19316,7 @@ export const GRADED_STORIES = [
       {
         hr: 'referentna točka',
         en: 'reference point',
-        ex: 'nedjeljni stol opstaje kao referentna točka o koju se mjeri sve ostalo',
+        ex: 'nedjeljni stol opstaje kao referentna točka prema kojoj se mjeri sve ostalo',
       },
       { hr: 'obred', en: 'rite', ex: 'Danas se taj obred sve češće seli u nedjeljno poslijepodne' },
     ],
@@ -19404,7 +19404,7 @@ export const GRADED_STORIES = [
         en: 'At the bottom of a drawer, among old bills, one often finds a card written in a grandmother\'s hand: a cake recipe, with a grease stain in the corner and the word "a little" instead of an exact measure, because she knew the hand that would one day make it would recognise what "a little" meant. That scrap of paper is worth more than any digital recipe with precise gram amounts.',
       },
       {
-        hr: 'Postupno napuštanje nastave pisanog slova u osnovnim školama diljem svijeta jedan je od najtiših, a možda i najtrajnijih kulturnih gubitaka posljednjih desetljeća. Djeca danas uče tipkati prije nego što uopće savladaju vezano pismo, a mnoga odrasla generacija koja je nekoć vježbala kaligrafske vježbe u bilježnicama s linijama danas piše rukom samo kad potpisuje dokument.',
+        hr: 'Postupno napuštanje nastave pisanog slova u osnovnim školama diljem svijeta jedan je od najtiših, a možda i najtrajnijih kulturnih gubitaka posljednjih desetljeća. Djeca danas uče tipkati prije nego što uopće savladaju vezano pismo, a mnogi odrasli koji su nekoć pisali kaligrafske vježbe u bilježnicama s linijama danas pišu rukom samo kad potpisuju dokument.',
         en: 'The gradual abandonment of cursive instruction in primary schools around the world is one of the quietest, and perhaps most lasting, cultural losses of recent decades. Children today learn to type before they even master joined-up writing, and many adults who once practised calligraphy exercises in lined notebooks now write by hand only when signing a document.',
       },
       {
@@ -19416,7 +19416,7 @@ export const GRADED_STORIES = [
         en: 'The muscle memory acquired through repeated handwriting differs from that formed by typing: a hand that has written a given word hundreds of times remembers the shape of the letters in the muscles themselves, while a finger pressing a key remembers only a position, not a shape. That is why material written by hand, cognitive-psychology research shows, is often better remembered than material typed in, as if the slowing of the hand alone prolonged the memory itself.',
       },
       {
-        hr: 'U učionici prvog razreda dijete i danas provodi sate provlačeći olovku kroz krivulje slova, ponavljajući isti potez dok mu ruka ne prestane drhtati. Taj mukotrpan proces, koji roditelji ponekad smatraju nepotrebnim u doba tipkovnica, zapravo uči dijete strpljenju koje se ne može stjecati dodirom po zaslonu.',
+        hr: 'U učionici prvog razreda dijete i danas provodi sate provlačeći olovku kroz krivulje slova, ponavljajući isti potez dok mu ruka ne prestane drhtati. Taj mukotrpan proces, koji roditelji ponekad smatraju nepotrebnim u doba tipkovnica, zapravo uči dijete strpljenju koje se ne može steći dodirivanjem zaslona.',
         en: 'In a first-grade classroom, a child still spends hours tracing a pencil through the curves of letters, repeating the same stroke until the hand stops trembling. That laborious process, which parents sometimes consider unnecessary in the age of keyboards, actually teaches the child a patience that cannot be acquired by touching a screen.',
       },
       {
@@ -19424,7 +19424,7 @@ export const GRADED_STORIES = [
         en: 'The handwriting of an adult who rarely writes by hand gradually becomes unsteady, slanted, almost childlike, because the skill, like any other, is lost through disuse. Doctors, once famous for illegible prescriptions, now type almost exclusively, so the legendary illegibility of their handwriting has become an anecdote about the older generation rather than a reality among younger colleagues.',
       },
       {
-        hr: 'Kad netko umre, obitelj često najviše žali za time što nema dovoljno njegovih rukom napisanih riječi — čestitke, bilješke na rubu knjige, adresu naškrabanu na omotnici poslanoj prije mnogo godina. Tipkana poruka, sačuvana u oblaku, preživljava tehnički, ali ne nosi u sebi tijelo koje ju je oblikovalo, pa se čita drukčije, hladnije, kao da je napisao netko drugi.',
+        hr: 'Kad netko umre, obitelj često najviše žali za time što nema dovoljno njegovih rukom napisanih riječi — čestitke, bilješke na rubu knjige, adrese naškrabane na omotnici poslanoj prije mnogo godina. Tipkana poruka, sačuvana u oblaku, preživljava tehnički, ali ne nosi u sebi tijelo koje ju je oblikovalo, pa se čita drukčije, hladnije, kao da je napisao netko drugi.',
         en: "When someone dies, the family often mourns most the lack of enough of their handwritten words — greeting cards, notes in the margins of books, an address scrawled on an envelope sent many years before. A typed message, preserved in the cloud, survives technically, but doesn't carry within it the body that shaped it, so it reads differently, colder, as if someone else had written it.",
       },
       {
@@ -19466,7 +19466,7 @@ export const GRADED_STORIES = [
       {
         hr: 'kaligrafski',
         en: 'calligraphic',
-        ex: 'vježbala kaligrafske vježbe u bilježnicama s linijama',
+        ex: 'nekoć su pisali kaligrafske vježbe u bilježnicama s linijama',
       },
       {
         hr: 'nečitkost',
@@ -19476,7 +19476,7 @@ export const GRADED_STORIES = [
       {
         hr: 'omotnica',
         en: 'envelope',
-        ex: 'čestitke, bilješke na rubu knjige, adresu naškrabanu na omotnici',
+        ex: 'čestitke, bilješke na rubu knjige, adrese naškrabane na omotnici',
       },
       { hr: 'dnevnik', en: 'diary', ex: 'a poneki i dalje vode dnevnik olovkom' },
     ],
@@ -19728,8 +19728,8 @@ export const GRADED_STORIES = [
         en: 'Then come conversations across the railing. They are neither deep nor planned; they arise by accident, while someone waters the geraniums or shakes out a tablecloth. A question about the weather grows into a question about health, then into gossip about a third neighbour who is just then passing by, unaware that he is the topic. The balcony allows closeness without the obligation of a visit, and so it writes an invisible chronicle of the street anew each day.',
       },
       {
-        hr: 'Postoji, dakako, i hijerarhija visine. Prizemlje vidi premalo, previsoki kat prevladava odozgo pa gubi toplinu razgovora. Idealan je drugi ili treći kat: dovoljno visok za pregled, dovoljno nizak da glas ne mora vikati. Stanari toga kata, ne znajući, postaju neslužbeni čuvari ulice, njezine povijesti i njezinih tajni, a susjedi se, i ne primjećujući to, oslanjaju upravo na njih.',
-        en: 'There is, of course, a hierarchy of height. The ground floor sees too little; too high a floor dominates from above and loses the warmth of conversation. The second or third floor is ideal: high enough for a good view, low enough that voices need not shout. The residents of that floor, without realising it, become the unofficial keepers of the street, of its history and its secrets, and the neighbours, without noticing, come to rely precisely on them.',
+        hr: 'Postoji, dakako, i hijerarhija visine. Prizemlje vidi premalo, previsoki kat prevladava odozgo pa gubi toplinu razgovora. Idealan je drugi ili treći kat: dovoljno visok za pregled, dovoljno nizak da se ne mora vikati. Stanari toga kata, ne znajući, postaju neslužbeni čuvari ulice, njezine povijesti i njezinih tajni, a susjedi se, i ne primjećujući to, oslanjaju upravo na njih.',
+        en: 'There is, of course, a hierarchy of height. The ground floor sees too little; too high a floor dominates from above and loses the warmth of conversation. The second or third floor is ideal: high enough for a good view, low enough that no one has to shout. The residents of that floor, without realising it, become the unofficial keepers of the street, of its history and its secrets, and the neighbours, without noticing, come to rely precisely on them.',
       },
       {
         hr: 'Balkon je i kazališna loža na ulicu. S njega se prati predstava koja se svakodnevno ponavlja: poštar koji kasni, dijete koje se vraća iz škole sportskim korakom, susjed koji parkira po treći put jer mu se ne sviđa kut. Gledatelj na balkonu ne plaća kartu, a ipak dobiva najbolje mjesto, i to mjesto nitko mu ne može oduzeti.',
@@ -19740,16 +19740,16 @@ export const GRADED_STORIES = [
         en: 'On summer evenings the balcony becomes an extension of the living room. Chairs are brought out, coffee is drunk slowly, and conversation lasts longer than it would behind a closed window. The heat drives people outside, but what keeps them there is the sense that out here, even within a few square metres, life flows more visibly and more honestly, as if the walls of the flat had become superfluous for the day.',
       },
       {
-        hr: 'Nasuprot tome, zimski balkon prazni se i šuti. Cvijeće se povlači unutra, stolice nestaju, a ograda ostaje gola poput kostura ljeta koje je prošlo. Ipak, i prazan balkon nešto govori: svjedoči da su iza njega ljudi koji su odlučili sačuvati taj rub prostora za onaj dan kad se opet otvori, sve dok se sunce ponovno ne vrati.',
-        en: 'The winter balcony, by contrast, empties and falls silent. The flowers withdraw indoors, the chairs disappear, and the railing stands bare like the skeleton of a summer that has passed. Yet even an empty balcony says something: it testifies that behind it are people who chose to preserve this edge of space for the day it opens again, until the sun returns once more.',
+        hr: 'Nasuprot tome, zimski balkon prazni se i šuti. Cvijeće se povlači unutra, stolice nestaju, a ograda ostaje gola poput kostura ljeta koje je prošlo. Ipak, i prazan balkon nešto govori: svjedoči da su iza njega ljudi koji su odlučili sačuvati taj rub prostora za dan kad se sunce ponovno vrati.',
+        en: 'The winter balcony, by contrast, empties and falls silent. The flowers withdraw indoors, the chairs disappear, and the railing stands bare like the skeleton of a summer that has passed. Yet even an empty balcony says something: it testifies that behind it are people who chose to preserve this edge of space for the day the sun returns.',
       },
       {
         hr: 'Ono što balkon čuva jest granica koju grad inače briše. U stanu bez balkona nestaje posrednički prostor: čovjek je ili potpuno unutra, sam sa svojim zidovima, ili potpuno vani, izložen bez zaklona. Balkon nudi treću mogućnost, onu polovičnu, u kojoj se može promatrati a da se ne mora sudjelovati, i ta razlika, koliko god sitna izgledala, oblikuje cijeli način stanovanja.',
         en: 'What the balcony preserves is a boundary the city otherwise erases. In a flat without a balcony, the intermediary space disappears: a person is either entirely inside, alone with their walls, or entirely outside, exposed without shelter. The balcony offers a third possibility, the half-possibility, in which one can observe without having to participate, and that distinction, however small it may seem, shapes an entire way of living.',
       },
       {
-        hr: 'Zato stanari balkon brane žešće nego što bi branili sam stan. Zastakljivanje balkona, česta praksa posljednjih desetljeća, donosi nekoliko četvornih metara, ali oduzima upravo tu funkciju lože prema ulici. Onaj tko zastakli balkon, dobiva sobu, a gubi mjesto odakle se vidjelo i čulo cijelo susjedstvo u jednom pogledu, i taj gubitak mnogi kasnije duboko zažale.',
-        en: 'That is why residents defend the balcony more fiercely than they would defend the flat itself. Glazing in the balcony, a common practice of recent decades, adds a few square metres but takes away precisely that function of a box overlooking the street. Whoever glazes in the balcony gains a room, but loses the vantage point from which the whole neighbourhood could once be seen and heard in a single glance, a loss many come to regret deeply.',
+        hr: 'Zato stanari balkon brane žešće nego što bi branili sam stan. Zastakljivanje balkona, česta praksa posljednjih desetljeća, donosi nekoliko četvornih metara, ali oduzima upravo tu funkciju lože prema ulici. Onaj tko zastakli balkon, dobiva sobu, a gubi mjesto odakle se vidjelo i čulo cijelo susjedstvo u jednom pogledu, i taj gubitak mnogi kasnije gorko požale.',
+        en: 'That is why residents defend the balcony more fiercely than they would defend the flat itself. Glazing in the balcony, a common practice of recent decades, adds a few square metres but takes away precisely that function of a box overlooking the street. Whoever glazes in the balcony gains a room, but loses the vantage point from which the whole neighbourhood could once be seen and heard in a single glance, a loss many later bitterly regret.',
       },
       {
         hr: 'Balkon, naposljetku, nije arhitektonski dodatak nego društveni ugovor: obećanje da će netko uvijek gledati van, primijetiti kad je nešto neobično, javiti se preko ograde kad zatreba pomoć. U gradu koji sve više šuti iza zatvorenih vrata, balkon ostaje jedno od rijetkih mjesta gdje se ulica i dom još uvijek gledaju u oči, i ta razmjena ne treba pisani ugovor.',
@@ -19869,7 +19869,7 @@ export const GRADED_STORIES = [
       "A literary essay on the Sunday visit to the cemetery as a living, ongoing ritual — candles, chrysanthemums, and grave-tending as a form of conversation with the dead, and the cemetery itself as the village's quieter second square.",
     paragraphs: [
       {
-        hr: 'Nedjeljom prijepodne, dok zvona zovu na misu ili tek odzvanjaju u tišini, hrvatsko groblje oživljava drukčije nego ostalih dana. Staze između grobova pune se ljudima s kantama vode, metlama i svježim cvijećem. To nije posjet u uobičajenom smislu, nego tjedni obred u kojem se mrtvi ne posjećuju, nego se s njima nastavlja razgovor.',
+        hr: 'Nedjeljom prijepodne, dok zvona zovu na misu ili tek odzvanjaju u tišini, hrvatsko groblje oživljava drukčije nego ostalih dana. Staze između grobova pune se ljudima s kantama vode, metlama i svježim cvijećem. To nije posjet u uobičajenom smislu, nego tjedni obred u kojem se mrtvi ne toliko posjećuju koliko se s njima nastavlja razgovor.',
         en: 'On Sunday mornings, while bells call people to Mass or simply toll into the silence, the Croatian cemetery comes alive differently than on other days. The paths between the graves fill with people carrying buckets of water, brooms, and fresh flowers. This is not a visit in the usual sense, but a weekly rite in which the dead are not so much visited as included in an ongoing conversation.',
       },
       {
@@ -19889,7 +19889,7 @@ export const GRADED_STORIES = [
         en: "In this sense the cemetery functions as the village's second square, only quieter and governed by different rules of behaviour. Where conversation on the real square happens standing, here it happens bent over, bucket in hand, voice lowered by half a tone. Yet the information circulating is just as fresh as that on the square, and it is precisely that hush which sets the cemetery apart from noisier gathering places.",
       },
       {
-        hr: 'Djeca koja prate roditelje na groblje uče, a da to ne primjećuju, temeljnu lekciju: da mrtvi ostaju dio obitelji, da se o njima govori u sadašnjem vremenu, da grob nije mjesto straha nego mjesto posjeta poput bilo kojeg drugog. Ta pouka vrijedi više od bilo kojeg poučavanja izgovorenog za stolom, premda im to nitko izrijekom ne objašnjava riječima.',
+        hr: 'Djeca koja prate roditelje na groblje uče, a da to ne primjećuju, temeljnu lekciju: da mrtvi ostaju dio obitelji, da se o njima govori u sadašnjem vremenu, da grob nije mjesto straha nego mjesto posjeta poput bilo kojeg drugog. Ta pouka vrijedi više od bilo kojeg poučavanja izgovorenog za stolom, premda im to nitko izrijekom ne objašnjava.',
         en: 'Children who accompany their parents to the cemetery learn, without noticing it, a fundamental lesson: that the dead remain part of the family, that they are spoken of in the present tense, that the grave is not a place of fear but a place to visit like any other. That lesson is worth more than any lesson spoken at the table, even though no one ever explains it to them in so many words.',
       },
       {
@@ -19901,7 +19901,7 @@ export const GRADED_STORIES = [
         en: 'Some graves, unfortunately, remain without visitors: the family has emigrated, the line has died out, memory has faded. Such graves are recognisable by dry grass and a cracked headstone, by the absence of a candle where one ought to be burning. Visitors to neighbouring graves sometimes, out of decency, leave a candle for them too, as a debt owed to the community, and that very gesture shows that solidarity does not recognise the boundaries of forgetting.',
       },
       {
-        hr: 'Groblje nedjeljom uči i o vremenu koje ne teče jednako za sve. Datumi na pločama pokazuju živote skraćene ratom, bolešću ili starošću dovedenom do kraja, a posjetitelj, prolazeći, nesvjesno mjeri vlastiti život prema tim brojkama. Ta tiha aritmetika nije mračna, nego podsjeća na razmjere onoga što se ima, i ta se računica jednako odnosi na svakoga posjetitelja.',
+        hr: 'Groblje nedjeljom uči i o vremenu koje ne teče jednako za sve. Datumi na pločama pokazuju živote skraćene ratom ili bolešću, ili starošću dovedene do kraja, a posjetitelj, prolazeći, nesvjesno mjeri vlastiti život prema tim brojkama. Ta tiha aritmetika nije mračna, nego podsjeća na razmjere onoga što se ima, i ta se računica jednako odnosi na svakoga posjetitelja.',
         en: 'The Sunday cemetery also teaches about time, which does not flow equally for everyone. The dates on the headstones show lives cut short by war, by illness, or brought to an end by old age, and the visitor, passing by, unconsciously measures their own life against those numbers. That quiet arithmetic is not morbid, but a reminder of the scale of what one has, and that reckoning applies equally to every visitor.',
       },
       {
@@ -19913,7 +19913,7 @@ export const GRADED_STORIES = [
       {
         hr: 'obred',
         en: 'rite, ritual',
-        ex: 'nego tjedni obred u kojem se mrtvi ne posjećuju, nego se s njima nastavlja razgovor',
+        ex: 'nego tjedni obred u kojem se mrtvi ne toliko posjećuju koliko se s njima nastavlja razgovor',
       },
       {
         hr: 'krizanteme',
@@ -20203,7 +20203,7 @@ export const GRADED_STORIES = [
         en: "In front of a Croatian home there is almost always a row of shoes: children's boots, large men's shoes, slippers of various colours lined up with no visible order, yet recognisable to anyone who lives in that house. This row of footwear, though never deliberately arranged as a display, functions as a kind of family portrait at the door, and that portrait changes almost every week.",
       },
       {
-        hr: 'Svaki par nešto govori: nove sportske tenisice odaju da je netko upravo počeo trenirati, izlizane radne cipele odaju posao koji troši potplate, male sandale u kutu odaju da je u kući dijete koje je uskoro naraslo iz njih. Bez ijedne riječi, red obuće ispisuje kratku kroniku ukućana, a ta se kronika čita brže od bilo kojeg dnevnika.',
+        hr: 'Svaki par nešto govori: nove sportske tenisice odaju da je netko upravo počeo trenirati, izlizane radne cipele odaju posao koji troši potplate, male sandale u kutu odaju da je u kući dijete koje je iz njih već izraslo. Bez ijedne riječi, red obuće ispisuje kratku kroniku ukućana, a ta se kronika čita brže od bilo kojeg dnevnika.',
         en: 'Every pair says something: new trainers reveal that someone has just taken up exercise, worn-out work shoes reveal a job that wears down soles, small sandals in the corner reveal that there is a child in the house who has just outgrown them. Without a single word, the row of footwear writes a brief chronicle of the household, and that chronicle reads faster than any diary.',
       },
       {
@@ -20215,8 +20215,8 @@ export const GRADED_STORIES = [
         en: 'A host who immediately offers a guest slippers makes a gesture that goes beyond comfort. In doing so he communicates: you are close enough here that I lend you mine, that you share, if only for an hour, the same floor I walk on. Guest slippers, often kept in a special basket by the door, become a symbol of trust before a single sentence has been spoken, and it is a gesture a guest rarely forgets.',
       },
       {
-        hr: 'Postoji, dakako, i suptilna hijerarhija gostiju prema tome tko dobiva papuče, a tko ostaje u čarapama ili čak zadrži cipele uz ispriku domaćina da nije potrebno izuti se. Bliska rodbina obično se izuva bez pitanja; poslovni posjetitelj katkad ostaje obuven, jer njegov posjet ne traži tu razinu ulaska u intimu, i ta se hijerarhija nikada glasno ne izgovara.',
-        en: "There is, of course, also a subtle hierarchy of guests according to who receives slippers and who remains in socks or even keeps their shoes on at the host's assurance that it is not necessary to take them off. Close relatives usually take off their shoes without being asked; a business visitor sometimes stays shod, because his visit does not call for that level of entry into intimacy, and that hierarchy is never spoken aloud.",
+        hr: 'Postoji, dakako, i suptilna hijerarhija gostiju prema tome tko dobiva papuče, a tko ostaje u čarapama ili čak zadrži cipele jer ga domaćin uvjeri da se ne treba izuvati. Bliska rodbina obično se izuva bez pitanja; poslovni posjetitelj katkad ostaje obuven, jer njegov posjet ne traži tu razinu ulaska u intimu, i ta se hijerarhija nikada glasno ne izgovara.',
+        en: 'There is, of course, also a subtle hierarchy of guests according to who receives slippers and who remains in socks or even keeps their shoes on because the host assures them there is no need to take them off. Close relatives usually take off their shoes without being asked; a business visitor sometimes stays shod, because his visit does not call for that level of entry into intimacy, and that hierarchy is never spoken aloud.',
       },
       {
         hr: 'Djeca nauče taj obred vrlo rano, gotovo prije nego što nauče govoriti: cipele se skidaju odmah po ulasku, poredaju se uz zid, a tek onda počinje igra ili večera. Ta gesta, ponovljena tisuću puta u djetinjstvu, usađuje osjećaj da dom ima granicu koju treba poštovati, čak i kad se granica ne vidi.',
@@ -20224,7 +20224,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U stanovima s hodnikom, cipele se često nakupljaju u tolikoj mjeri da postaju vlastita mala arheologija: stare planinarske čizme nikad nošene, sandale zaboravljene iz prošlog ljeta, jedna jedina cipela čiji je par odavno nestao. Nitko ih ne baca, jer svaka nosi priču koju bi bilo lakše zaboraviti nego riješiti se predmeta, i ta nespremnost da se stvari bace čini hodnik pravim arhivom.',
-        en: 'In flats with a hallway, shoes often accumulate to such an extent that they become their own small archaeology: old hiking boots never worn, sandals forgotten from last summer, a single shoe whose pair vanished long ago. No one throws them away, because each carries a story that would be harder to forget than to discard the object, and that reluctance to throw anything away makes the hallway a true archive.',
+        en: 'In flats with a hallway, shoes often accumulate to such an extent that they become their own small archaeology: old hiking boots never worn, sandals forgotten from last summer, a single shoe whose pair vanished long ago. No one throws them away, because each carries a story it would be easier to forget than to part with the object, and that reluctance to throw anything away makes the hallway a true archive.',
       },
       {
         hr: 'Prag, taj tanki rub između hodnika zgrade i unutrašnjosti stana, tako postaje mjestom tranzicije opremljenim svojim vlastitim pravilima. Onaj tko ta pravila ne poznaje, lako pogriješi: uđe obuven u kuću u kojoj se to nikad ne čini, ili se izuje ondje gdje domaćin, iz uljudnosti, to uopće nije očekivao, a ta pravila nitko nikada ne zapisuje, no svi ih znaju.',
