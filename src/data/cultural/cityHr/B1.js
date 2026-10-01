@@ -27,7 +27,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Rijeka: {
     introHr:
-      'Rijeka je najveća hrvatska luka i treći grad po veličini. Kroz povijest njome su vladali Venecija, Francuska, Austrija, Mađarska, Italija i Jugoslavija, a grad je ipak ostao svoj. Nakon Prvoga svjetskog rata talijanski pjesnik D’Annunzio zauzeo ju je s privatnom vojskom, a Italija ju je 1924. pripojila. Poslije Drugoga svjetskog rata pripala je Jugoslaviji, a od 1991. Hrvatskoj. Riječki karneval, koji se održava od 1449. godine, najveći je u Hrvatskoj. Iznad grada je svetište na Trsatu, u koje hodočasnici dolaze već sedam stotina godina. Godine 2020. Rijeka je bila Europska prijestolnica kulture.',
+      'Rijeka je najveća hrvatska luka i treći grad po veličini. Kroz povijest njome su vladali Venecija, Francuska, Austrija, Mađarska, Italija i Jugoslavija, a grad je ipak ostao svoj. Nakon Prvoga svjetskog rata talijanski pjesnik D’Annunzio zauzeo ju je s privatnom vojskom, a Italija ju je 1924. pripojila. Poslije Drugoga svjetskog rata pripala je Jugoslaviji, a od 1991. Hrvatskoj. Riječki karneval, koji se u današnjem obliku održava od 1982. godine, najveći je u Hrvatskoj. Iznad grada je svetište na Trsatu, u koje hodočasnici dolaze već sedam stotina godina. Godine 2020. Rijeka je bila Europska prijestolnica kulture.',
   },
   Pula: {
     introHr:
@@ -143,7 +143,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Virovitica: {
     introHr:
-      'Virovitica je miran podravski grad, poznat po baroknom dvorcu obitelji Pejačević iz 17. stoljeća. Pejačevići su stoljećima upravljali ovim krajem, a u dvorcu je danas jedan od najboljih zavičajnih muzeja u Hrvatskoj. U tom je dvorcu rođena i Dora Pejačević (1885.–1923.), jedna od prvih profesionalnih hrvatskih skladateljica, čija se djela i danas izvode u svijetu. Virovitica je i vinogradarski kraj: ovdašnja graševina ubraja se među najbolja slavonska vina, a svake godine 22. siječnja, na dan svetog Vinka, slavi se Vincekovica uz krijesove. U Domovinskom ratu grad je bio na prvoj crti, a okolica je 1991. i 1992. bila dijelom okupirana.',
+      'Virovitica je miran podravski grad, poznat po baroknom dvorcu obitelji Pejačević s početka 19. stoljeća. Pejačevići su stoljećima upravljali ovim krajem, a u dvorcu je danas jedan od najboljih zavičajnih muzeja u Hrvatskoj. Toj je obitelji pripadala i Dora Pejačević (1885.–1923.), jedna od prvih profesionalnih hrvatskih skladateljica, čija se djela i danas izvode u svijetu. Virovitica je i vinogradarski kraj: ovdašnja graševina ubraja se među najbolja slavonska vina, a svake godine 22. siječnja, na dan svetog Vinka, slavi se Vincekovica uz krijesove. U Domovinskom ratu grad je bio na prvoj crti, a okolica je 1991. i 1992. bila dijelom okupirana.',
   },
   Labin: {
     introHr:
@@ -287,7 +287,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Krk: {
     introHr:
-      'Krk je najveći hrvatski otok, a od 1980. godine spojen je s kopnom mostom, prvim mostom na neki hrvatski otok. Grad Krk sjedište je jedne od najstarijih hrvatskih biskupija, koja postoji od četvrtog stoljeća. Najvažniji spomenik s otoka jest Bašćanska ploča, pronađena 1851. godine u Baški. Na njoj je glagoljicom oko 1100. godine zapisan najstariji poznati tekst na hrvatskom jeziku, u kojem se spominje kralj Zvonimir. Ploča se danas čuva u Zagrebu i smatra se najvažnijim hrvatskim povijesnim dokumentom. Na otoku je i zračna luka koja služi cijelom Kvarneru.',
+      'Krk je najveći hrvatski otok, a od 1980. godine spojen je s kopnom Krčkim mostom, čiji je betonski luk tada imao najveći raspon na svijetu. Grad Krk sjedište je jedne od najstarijih hrvatskih biskupija, koja postoji od četvrtog stoljeća. Najvažniji spomenik s otoka jest Bašćanska ploča, pronađena 1851. godine u Baški. Na njoj je glagoljicom oko 1100. godine zapisan najstariji poznati tekst na hrvatskom jeziku, u kojem se spominje kralj Zvonimir. Ploča se danas čuva u Zagrebu i smatra se najvažnijim hrvatskim povijesnim dokumentom. Na otoku je i zračna luka koja služi cijelom Kvarneru.',
   },
   Rab: {
     introHr:
@@ -367,7 +367,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Našice: {
     introHr:
-      'Našice su gradić u Slavoniji poznat po dvorcu obitelji Pejačević, jednom od najljepših neogotičkih dvoraca u Hrvatskoj, u kojem je danas muzej. Pejačevići su u devetnaestom stoljeću bili kulturno najvažnija slavonska plemićka obitelj, a njihova vina i danas su među najboljima u Slavoniji. Najpoznatiji član obitelji je Dora Pejačević, rođena u Našicama 1885. godine, koja se smatra najvećom hrvatskom skladateljicom. Gotovo bez formalne glazbene izobrazbe skladala je simfonije, komornu glazbu i pjesme danas priznate kao važna djela kasnog romantizma. Simfoniju u fis-molu, remek-djelo koje se izvodi i u inozemstvu, napisala je dok je vodila obiteljska imanja. Umrla je 1923. godine, u trideset sedmoj godini.',
+      'Našice su gradić u Slavoniji poznat po dvorcu obitelji Pejačević, jednom od najljepših neogotičkih dvoraca u Hrvatskoj, u kojem je danas muzej. Pejačevići su u devetnaestom stoljeću bili kulturno najvažnija slavonska plemićka obitelj, a njihova vina i danas su među najboljima u Slavoniji. Najpoznatiji član obitelji je Dora Pejačević, rođena 1885. godine u Budimpešti i odrasla u Našicama, koja se smatra najvećom hrvatskom skladateljicom. Gotovo bez formalne glazbene izobrazbe skladala je simfonije, komornu glazbu i pjesme danas priznate kao važna djela kasnog romantizma. Simfoniju u fis-molu, remek-djelo koje se izvodi i u inozemstvu, napisala je dok je vodila obiteljska imanja. Umrla je 1923. godine, u trideset sedmoj godini.',
   },
   Otočac: {
     introHr:
@@ -439,7 +439,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Livno: {
     introHr:
-      'Livno je grad na Livanjskom polju, jednom od najvećih kraških polja na svijetu, dugom 64 kilometra i smještenom na 700 metara visine. Kratka trava puna mirisnog bilja hrani ovce čije mlijeko daje livanjski sir, jedan od najnagrađivanijih sireva od ovčjeg mlijeka u Europi, koji se ovdje proizvodi najmanje četiristo godina. Grad ima mletačko i osmansko naslijeđe i bio je dio srednjovjekovnoga hrvatskog kraljevstva. Godine 1942. u Livnu je održano jedno od prvih velikih zasjedanja partizanskoga vijeća. Svake godine na polju se održavaju konjske utrke, jedna od najstarijih sportskih tradicija u Bosni.',
+      'Livno je grad na Livanjskom polju, jednom od najvećih kraških polja na svijetu, dugom 64 kilometra i smještenom na 700 metara visine. Kratka trava puna mirisnog bilja hrani ovce čije mlijeko daje livanjski sir, jedan od najnagrađivanijih sireva od ovčjeg mlijeka u Europi, koji se ovdje proizvodi najmanje četiristo godina. Grad ima mletačko i osmansko naslijeđe i bio je dio srednjovjekovnoga hrvatskog kraljevstva. Svake godine na polju se održavaju konjske utrke, jedna od najstarijih sportskih tradicija u Bosni.',
   },
   Neum: {
     introHr:
@@ -523,7 +523,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Kaštel Stari': {
     introHr:
-      'Kaštel Stari najstarije je od sedam naselja Kaštela, smještenih uz Kaštelanski zaljev između Splita i Trogira. Od 15. do 17. stoljeća venecijanske i domaće plemićke obitelji gradile su uz obalu utvrđena naselja u koja se stanovništvo sklanjalo od osmanskih upada; svako je naselje dobilo ime po svom kaštelu, maloj tvrđavi. Prvi je, u 15. stoljeću, podignut Kaštel Stari, koji je sagradila obitelj Cipiko. Za njim su nastali Kaštel Novi, Lukšić, Sućurac, Gomilica, Kambelovac i Štafilić, pa svih sedam danas čini jedinstvenu cjelinu renesansne i barokne vojne arhitekture. Plodno zaleđe zaljeva poznato je po kaštelanskoj jagodi.',
+      'Kaštel Stari jedno je od najstarijih među sedam naselja Kaštela, smještenih uz Kaštelanski zaljev između Splita i Trogira. Od kraja 14. do 17. stoljeća venecijanske i domaće plemićke obitelji gradile su uz obalu utvrđena naselja u koja se stanovništvo sklanjalo od osmanskih upada; svako je naselje dobilo ime po svom kaštelu, maloj tvrđavi. Kaštel Stari podigla je u 15. stoljeću obitelj Cipiko i nazvala ga Starim jer je poslije sagradila Kaštel Novi; stariji je od njega samo Kaštel Sućurac, utvrđen 1392. Uz njih su nastali Lukšić, Gomilica, Kambelovac i Štafilić, pa svih sedam danas čini jedinstvenu cjelinu renesansne i barokne vojne arhitekture. Plodno zaleđe zaljeva poznato je po kaštelanskoj jagodi.',
   },
   'Kaštel Lukšić': {
     introHr:
@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Drvenik: {
     introHr:
-      'Drvenik je malo obalno mjesto južno od Makarske, na južnom kraju Makarske rivijere. Njegova je uloga oduvijek bila ista: prijelaz prema otocima. Selo leži ondje gdje obalna cesta dolazi do najužega dijela Hvarskoga kanala, pa odavde trajekti plove u Sućuraj, na istočni vrh Hvara, i u Trpanj na Pelješcu. Zbog toga se Drvenik prije svega opisuje kao trajektna luka, a tek onda kao ljetovalište. Iza naselja strmo se dižu padine Biokova, tako da mjestu ostaje samo uzak pojas između planine i mora. Dvije male luke, Donja i Gornja Vala, zaklon su domaćim brodovima, a u tradicionalnim se konobama poslužuju dalmatinska riba i janjetina.',
+      'Drvenik je malo obalno mjesto južno od Makarske, u južnom dijelu Makarske rivijere. Njegova je uloga oduvijek bila ista: prijelaz prema otocima. Selo leži ondje gdje obalna cesta dolazi do najužega dijela Hvarskoga kanala, pa odavde trajekti plove u Sućuraj, na istočni vrh Hvara, i u Trpanj na Pelješcu. Zbog toga se Drvenik prije svega opisuje kao trajektna luka, a tek onda kao ljetovalište. Iza naselja strmo se dižu padine Biokova, tako da mjestu ostaje samo uzak pojas između planine i mora. Dvije male luke, Donja i Gornja Vala, zaklon su domaćim brodovima, a u tradicionalnim se konobama poslužuju dalmatinska riba i janjetina.',
   },
   Slano: {
     introHr:
@@ -619,7 +619,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Slatina: {
     introHr:
-      'Slatina je grad u zapadnoj Slavoniji, na podnožju Bilogore, ondje gdje ravna slavonska nizina prelazi u brežuljke zapadne Podravine. Ime joj dolazi od riječi slana: slani izvori ili slano tlo u okolici dali su gradu ime, a u srednjem vijeku sol je bila dragocjena i mjesta s izvorima soli bila su bogata i strateški važna. Slatina je administrativno središte Virovitičko-podravske županije i tržišno središte za široko poljoprivredno zaleđe. Bilogorski vinogradi iznad grada daju graševinu i pinot sivi. Kraj je poznat i po tradicionalnom slavonskom vezu s prepoznatljivim geometrijskim uzorcima. Rat 1991. pogodio je i ovo područje, koje se od tada obnavlja.',
+      'Slatina je grad u zapadnoj Slavoniji, na podnožju Bilogore, ondje gdje ravna slavonska nizina prelazi u brežuljke zapadne Podravine. Ime joj dolazi od riječi slana: slani izvori ili slano tlo u okolici dali su gradu ime, a u srednjem vijeku sol je bila dragocjena i mjesta s izvorima soli bila su bogata i strateški važna. Slatina je jedan od glavnih gradova Virovitičko-podravske županije, čije je sjedište Virovitica, i tržišno središte za široko poljoprivredno zaleđe. Bilogorski vinogradi iznad grada daju graševinu i pinot sivi. Kraj je poznat i po tradicionalnom slavonskom vezu s prepoznatljivim geometrijskim uzorcima. Rat 1991. pogodio je i ovo područje, koje se od tada obnavlja.',
   },
   Kutina: {
     introHr:
@@ -783,11 +783,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Vinkovci: {
     introHr:
-      'Vinkovci imaju izniman podatak u svojoj povijesti: arheološki nalazi pokazuju neprekinutu naseljenost od osam tisuća godina, što ih čini jednim od najstarijih neprekidno naseljenih mjesta u Europi. Slojevi na nalazištu sežu od neolitika preko rimskog doba do današnjice. U blizini je cvjetala vučedolska kultura (oko 2800.–1800. pr. Kr.), koja je stvorila Vučedolsku golubicu — keramičku posudu na tri noge iz oko 2800. godine prije Krista, poslije prikazanu na hrvatskoj kovanici od 20 kuna. Tako je artefakt star 4800 godina postao lice moderne hrvatske valute. Grad je teško oštećen u Domovinskom ratu 1991. godine. Danas su Vinkovci središte ravne slavonske poljoprivredne regije.',
-  },
-  Dakovo: {
-    introHr:
-      'Đakovo je slavonski grad s dvjema znamenitostima svjetske razine: veličanstvenom neoromaničkom katedralom biskupa Josipa Juraja Strossmayera i ergelom lipicanaca. Strossmayer (1815.–1905.), veliki kulturni mecena 19. stoljeća, gradio je katedralu četrdeset godina, od 1866. do 1882., a iz vlastitog je bogatstva utemeljio Hrvatsku akademiju znanosti i umjetnosti u Zagrebu i zagrebačku galeriju starih majstora. Dva tornja katedrale visoka 84 metra vide se s dvadeset kilometara i nadvisuju ravnu slavonsku nizinu. Đakovačka ergela uzgaja lipicance — istu pasminu kakvu jaše bečka Španjolska škola jahanja — i jedna je od malobrojnih na svijetu. Đakovački vezovi, najveća hrvatska folklorna manifestacija, spajaju nastupe lipicanaca i narodne nošnje.',
+      'Vinkovci imaju izniman podatak u svojoj povijesti: arheološki nalazi pokazuju neprekinutu naseljenost od osam tisuća godina, što ih čini jednim od najstarijih neprekidno naseljenih mjesta u Europi. Slojevi na nalazištu sežu od neolitika preko rimskog doba do današnjice. U blizini je cvjetala vučedolska kultura (oko 2800.–1800. pr. Kr.), koja je stvorila Vučedolsku golubicu — keramičku posudu na tri noge iz oko 2800. godine prije Krista, poslije prikazanu na hrvatskoj novčanici od 20 kuna. Tako je artefakt star 4800 godina postao lice moderne hrvatske valute, sve dok euro 2023. nije zamijenio kunu. Grad je teško oštećen u Domovinskom ratu 1991. godine. Danas su Vinkovci središte ravne slavonske poljoprivredne regije.',
   },
   Rabac: {
     introHr:
@@ -819,7 +815,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Delnice: {
     introHr:
-      'Delnice su glavni grad Gorskog kotara, hrvatske šumovite planinske regije poznate po obilnim snježnim padalinama, hladnoj klimi, netaknutim bukovim šumama i populaciji smeđeg medvjeda. Gorski kotar bio je povijesna granica između jadranskog i panonskog svijeta. Delnice u prosjeku imaju više od 150 snježnih dana godišnje i jedan su od najsnježnijih hrvatskih gradova. Hrvatska ima više od 300 smeđih medvjeda, jednu od najzdravijih populacija u zapadnoj Europi, i većina ih živi upravo u Gorskom kotaru oko Delnica; Hrvatska čak izvozi medvjede u druge zemlje kako bi obnovila osiromašene europske populacije. U blizini je Nacionalni park Risnjak, nazvan po risu, s netaknutom planinskom šumom.',
+      'Delnice su glavni grad Gorskog kotara, hrvatske šumovite planinske regije poznate po obilnim snježnim padalinama, hladnoj klimi, netaknutim bukovim šumama i populaciji smeđeg medvjeda. Gorski kotar bio je povijesna granica između jadranskog i panonskog svijeta. Delnice u prosjeku imaju više od 150 snježnih dana godišnje i jedan su od najsnježnijih hrvatskih gradova. Hrvatska ima oko tisuću smeđih medvjeda, jednu od najzdravijih populacija u zapadnoj Europi, i velik dio njih živi upravo u Gorskom kotaru oko Delnica; Hrvatska čak izvozi medvjede u druge zemlje kako bi obnovila osiromašene europske populacije. U blizini je Nacionalni park Risnjak, nazvan po risu, s netaknutom planinskom šumom.',
   },
   Vrsar: {
     introHr:
@@ -1071,7 +1067,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Brdovec: {
     introHr:
-      'Brdovec je općina u Zagrebačkoj županiji, na desnoj obali rijeke Sutle koja čini granicu sa Slovenijom, odmah zapadno od Zaprešića. Područje je pripadalo srednjovjekovnom susedgradsko-stubičkom vlastelinstvu, koje su u 16. i 17. stoljeću držale grane obitelji Zrinski. Upravo iz sela ovoga kraja Seljačka buna Matije Gupca 1573. godine crpila je velik dio svoje snage. Sutla je postala granica između habsburške Hrvatske i štajerskih, slovenskih zemalja te je i danas državna granica. Općina obuhvaća i Savski Marof, nazvan po habsburškom marofu, gospodarskom dvoru. Nekad središte sitnog seljačkog gospodarstva, Brdovec je danas uglavnom naselje ljudi koji rade u Zagrebu i Zaprešiću.',
+      'Brdovec je općina u Zagrebačkoj županiji, uz rijeku Sutlu koja čini granicu sa Slovenijom, odmah zapadno od Zaprešića. Područje je pripadalo srednjovjekovnom susedgradsko-stubičkom vlastelinstvu, koje je u drugoj polovici 16. stoljeća držao Franjo Tahy, poznat po okrutnosti prema kmetovima. Upravo iz sela ovoga kraja Seljačka buna Matije Gupca 1573. godine crpila je velik dio svoje snage. Sutla je postala granica između habsburške Hrvatske i štajerskih, slovenskih zemalja te je i danas državna granica. Općina obuhvaća i Savski Marof, nazvan po habsburškom marofu, gospodarskom dvoru. Nekad središte sitnog seljačkog gospodarstva, Brdovec je danas uglavnom naselje ljudi koji rade u Zagrebu i Zaprešiću.',
   },
   Jakovlje: {
     introHr:
@@ -1419,7 +1415,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Komolac: {
     introHr:
-      'Komolac je malo naselje na Rijeci dubrovačkoj, slanom ušću krške rijeke Omble, odmah sjeverno od Dubrovnika. Ombla izvire iz stijene kao snažan krški izvor i do mora teče jedva pet kilometara. Komolac je nekad bio malo selo mlinova i brodogradilišta na izvoru, a Dubrovačkoj Republici to je područje bilo strateški izvor pitke vode i snage za mlinove. U blizini su dubrovački plemići gradili ljetnikovce, među kojima je renesansni ljetnikovac Sorkočević jedan od najvažnijih. Krajem 1980-ih ovdje je izgrađena ACI marina Dubrovnik, danas najveća marina za jahte na južnom Jadranu.',
+      'Komolac je malo naselje na Rijeci dubrovačkoj, slanom ušću krške rijeke Omble, odmah sjeverno od Dubrovnika. Ombla izvire iz stijene kao snažan krški izvor i već nakon tridesetak metara postaje slano ušće koje se pet kilometara pruža do mora. Komolac je nekad bio malo selo mlinova i brodogradilišta na izvoru, a Dubrovačkoj Republici to je područje bilo strateški izvor pitke vode i snage za mlinove. U blizini su dubrovački plemići gradili ljetnikovce, među kojima je renesansni ljetnikovac Sorkočević jedan od najvažnijih. Krajem 1980-ih ovdje je izgrađena ACI marina Dubrovnik, danas najveća marina za jahte na južnom Jadranu.',
   },
   Konavle: {
     introHr:
