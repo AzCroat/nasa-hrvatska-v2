@@ -31,7 +31,6 @@ jobs:
       # functions/package-lock.json, etc.
       scan-args: |-
         -r
-        --skip-git
         ./
       upload-sarif: true
       fail-on-vuln: false  # informational only — npm audit gate already runs in ci.yml
