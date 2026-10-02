@@ -258,6 +258,7 @@ describe('City of the Day — graded data', () => {
     expect(/[čćđšž]/.test(joined)).toBe(true);
     expect(/Ä|Å¡|Å¾|Ä‡|â€|[Ѐ-ӿ]/.test(joined)).toBe(false);
     // The whole-corpus floor. Six bands × 364 cities measured at 270,796 words
+    // (363 since the duplicate `Dakovo` record was removed, 2026-10-01)
     // (A1 14,594 · A2 30,860 · B1 35,586 · B2 52,018 · C1 57,494 · C2 80,244);
     // the floor sits below that so ordinary edits do not trip it, and far above
     // the three-band corpus so deleting a band cannot pass unnoticed.

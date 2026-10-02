@@ -143,7 +143,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Virovitica: {
     introHrA2:
-      'Virovitica je miran grad u Podravini. U središtu stoji veliki barokni dvorac obitelji Pejačević. Danas je u dvorcu muzej, jedan od najboljih zavičajnih muzeja u Hrvatskoj. U tom je dvorcu 1885. godine rođena Dora Pejačević, jedna od prvih hrvatskih skladateljica. Njezina se glazba i danas izvodi u svijetu. Oko grada rastu vinogradi, jer je ovo vinski kraj: ovdje se proizvodi graševina, jedno od najboljih slavonskih vina. Svake godine 22. siječnja ljudi pale krijesove i slave Vincekovicu, dan svetoga Vinka. U Domovinskom je ratu grad bio na prvoj crti.',
+      'Virovitica je miran grad u Podravini. U središtu stoji veliki barokni dvorac obitelji Pejačević. Danas je u dvorcu muzej, jedan od najboljih zavičajnih muzeja u Hrvatskoj. Iz te je obitelji bila i Dora Pejačević (1885.–1923.), jedna od prvih hrvatskih skladateljica. Njezina se glazba i danas izvodi u svijetu. Oko grada rastu vinogradi, jer je ovo vinski kraj: ovdje se proizvodi graševina, jedno od najboljih slavonskih vina. Svake godine 22. siječnja ljudi pale krijesove i slave Vincekovicu, dan svetoga Vinka. U Domovinskom je ratu grad bio na prvoj crti.',
   },
   Labin: {
     introHrA2:
@@ -287,7 +287,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Krk: {
     introHrA2:
-      'Krk je najveći hrvatski otok. Od 1980. godine spojen je s kopnom mostom, prvim mostom prema nekom hrvatskom otoku. Grad Krk sjedište je jedne od najstarijih biskupija u Hrvatskoj, koja postoji od 4. stoljeća. U Baški je 1851. godine pronađena Bašćanska ploča. Na njoj je oko 1100. godine glagoljicom zapisan najstariji poznati tekst na hrvatskom jeziku. U tom se tekstu spominje kralj Zvonimir. Ploča se danas čuva u Zagrebu. Na otoku je i zračna luka.',
+      'Krk je najveći hrvatski otok. Od 1980. godine spojen je s kopnom dugim mostom. Grad Krk sjedište je jedne od najstarijih biskupija u Hrvatskoj, koja postoji od 4. stoljeća. U Baški je 1851. godine pronađena Bašćanska ploča. Na njoj je oko 1100. godine glagoljicom zapisan najstariji poznati tekst na hrvatskom jeziku. U tom se tekstu spominje kralj Zvonimir. Ploča se danas čuva u Zagrebu. Na otoku je i zračna luka.',
   },
   Rab: {
     introHrA2:
@@ -367,7 +367,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Našice: {
     introHrA2:
-      'Našice su mali grad u Slavoniji. Najpoznatiji je ondje dvorac obitelji Pejačević, jedan od najljepših neogotičkih dvoraca u zemlji, a danas je u njemu muzej. Ta je obitelj u devetnaestom stoljeću bila kulturno najvažnija plemićka kuća u Slavoniji. Ovdje je 1885. godine rođena Dora Pejačević, najveća hrvatska skladateljica. Pisala je simfonije, komornu glazbu i pjesme, iako gotovo nije imala formalnu glazbenu izobrazbu. Njezina se Simfonija u fis-molu izvodi i u inozemstvu, a napisala ju je u vrijeme kad je vodila i obiteljska imanja. Umrla je vrlo mlada, 1923. godine, sa samo trideset sedam godina.',
+      'Našice su mali grad u Slavoniji. Najpoznatiji je ondje dvorac obitelji Pejačević, jedan od najljepših neogotičkih dvoraca u zemlji, a danas je u njemu muzej. Ta je obitelj u devetnaestom stoljeću bila kulturno najvažnija plemićka kuća u Slavoniji. Ovdje je odrasla Dora Pejačević, rođena 1885. godine u Budimpešti, najveća hrvatska skladateljica. Pisala je simfonije, komornu glazbu i pjesme, iako gotovo nije imala formalnu glazbenu izobrazbu. Njezina se Simfonija u fis-molu izvodi i u inozemstvu, a napisala ju je u vrijeme kad je vodila i obiteljska imanja. Umrla je vrlo mlada, 1923. godine, sa samo trideset sedam godina.',
   },
   Otočac: {
     introHrA2:
@@ -375,7 +375,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Ogulin: {
     introHrA2:
-      'Ogulin je gradić u Gorskom kotaru u kojem je 1874. godine rođena Ivana Brlić-Mažuranić, najveća hrvatska dječja spisateljica. Njezina je knjiga Priče iz davnine izašla 1916. godine. Bajke u toj knjizi nastale su na hrvatskoj narodnoj predaji i mitologiji, pa se u njima pojavljuju stari slavenski bogovi i šumske vile. Zbog toga je često uspoređuju s Hansom Christianom Andersenom. Za Nobelovu nagradu za književnost bila je predložena dvaput, 1931. i 1938. godine, kao jedini hrvatski pisac ikada. Svake se godine u Ogulinu održava festival bajki.',
+      'Ogulin je gradić u Gorskom kotaru u kojem je 1874. godine rođena Ivana Brlić-Mažuranić, najveća hrvatska dječja spisateljica. Njezina je knjiga Priče iz davnine izašla 1916. godine. Bajke u toj knjizi nastale su na hrvatskoj narodnoj predaji i mitologiji, pa se u njima pojavljuju likovi iz slavenske mitologije i šumske vile. Zbog toga je često uspoređuju s Hansom Christianom Andersenom. Za Nobelovu nagradu za književnost bila je predložena dvaput, 1931. i 1938. godine, kao jedini hrvatski pisac ikada. Svake se godine u Ogulinu održava festival bajki.',
   },
   Slunj: {
     introHrA2:
@@ -523,7 +523,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Kaštel Stari': {
     introHrA2:
-      'Kaštel Stari je mjesto uz more, između Splita i Trogira. To je najstariji od sedam Kaštela. Svako naselje dobilo je ime po svojoj maloj tvrđavi, po kaštelu. Kaštel Stari sagradila je u 15. stoljeću obitelj Cipiko. Ljudi su ovdje živjeli u strahu od osmanskih napada, pa su se skrivali unutar zidina. Danas je sve mirno: gosti šeću uz obalu i kupaju se u zaljevu. U vrtovima iza mjesta raste poznata kaštelanska jagoda, sitna i izrazita okusa. Zbog mirnoga mora Kaštelanski zaljev je i jedno od najboljih mjesta za skijanje na vodi.',
+      'Kaštel Stari je mjesto uz more, između Splita i Trogira. To je jedan od najstarijih među sedam Kaštela. Svako naselje dobilo je ime po svojoj maloj tvrđavi, po kaštelu. Kaštel Stari sagradila je u 15. stoljeću obitelj Cipiko. Ljudi su ovdje živjeli u strahu od osmanskih napada, pa su se skrivali unutar zidina. Danas je sve mirno: gosti šeću uz obalu i kupaju se u zaljevu. U vrtovima iza mjesta raste poznata kaštelanska jagoda, sitna i izrazita okusa. Zbog mirnoga mora Kaštelanski zaljev je i jedno od najboljih mjesta za skijanje na vodi.',
   },
   'Kaštel Lukšić': {
     introHrA2:
@@ -619,7 +619,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Slatina: {
     introHrA2:
-      'Slatina je grad u zapadnoj Slavoniji, u podnožju brda Bilogore. Ime dolazi od riječi slana, jer u okolici ima slanih izvora i slanoga tla. U srednjem vijeku sol je bila skupa kao zlato, pa su mjesta sa slanim izvorima bila bogata i važna. Danas je Slatina prije svega tržište: ljudi iz sela dolaze ovamo prodavati i kupovati. Grad je i središte Virovitičko-podravske županije. Na bilogorskim brežuljcima iznad grada rastu vinogradi iz kojih dolaze graševina i pinot sivi. Kraj je poznat i po slavonskom vezu s geometrijskim uzorcima.',
+      'Slatina je grad u zapadnoj Slavoniji, u podnožju brda Bilogore. Ime dolazi od riječi slana, jer u okolici ima slanih izvora i slanoga tla. U srednjem vijeku sol je bila skupa kao zlato, pa su mjesta sa slanim izvorima bila bogata i važna. Danas je Slatina prije svega tržište: ljudi iz sela dolaze ovamo prodavati i kupovati. Slatina je jedan od glavnih gradova Virovitičko-podravske županije, a sjedište županije je u Virovitici. Na bilogorskim brežuljcima iznad grada rastu vinogradi iz kojih dolaze graševina i pinot sivi. Kraj je poznat i po slavonskom vezu s geometrijskim uzorcima.',
   },
   Kutina: {
     introHrA2:
@@ -783,11 +783,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Vinkovci: {
     introHrA2:
-      'Vinkovci su grad u ravnoj Slavoniji. Arheolozi su ovdje pronašli tragove naselja stara osam tisuća godina, pa su Vinkovci jedan od najstarijih neprekidno naseljenih gradova u Europi. U blizini je cvjetala vučedolska kultura, a iz nje potječe Vučedolska golubica, keramička posuda na tri noge stara oko 4800 godina. Ta je posuda bila prikazana na hrvatskoj kovanici od 20 kuna. Grad je teško stradao u ratu 1991. godine. Danas su Vinkovci središte slavonske poljoprivrede, jer se oko njih prostiru široka polja. Vinkovčani tako žive iznad slojeva starih tisućama godina.',
-  },
-  Dakovo: {
-    introHrA2:
-      'Đakovo je grad u Slavoniji, poznat po katedrali i po konjima. Katedralu je gradio biskup Josip Juraj Strossmayer, i to čak četrdeset godina. Njezina su dva tornja visoka 84 metra i vide se iz daljine, jer je slavonska nizina posve ravna. U gradu je i ergela u kojoj se uzgajaju bijeli lipicanci. Zanimljivo je da se ždrebad rađa tamna i tek nakon desetak godina postane bijela. Svake se godine u Đakovu održava i velika folklorna svečanost Đakovački vezovi. Tada se pred katedralom pokazuju konji i narodne nošnje.',
+      'Vinkovci su grad u ravnoj Slavoniji. Arheolozi su ovdje pronašli tragove naselja stara osam tisuća godina, pa su Vinkovci jedan od najstarijih neprekidno naseljenih gradova u Europi. U blizini je cvjetala vučedolska kultura, a iz nje potječe Vučedolska golubica, keramička posuda na tri noge stara oko 4800 godina. Ta je posuda bila prikazana na hrvatskoj novčanici od 20 kuna, prije nego što je euro zamijenio kunu. Grad je teško stradao u ratu 1991. godine. Danas su Vinkovci središte slavonske poljoprivrede, jer se oko njih prostiru široka polja. Vinkovčani tako žive iznad slojeva starih tisućama godina.',
   },
   Rabac: {
     introHrA2:
@@ -819,7 +815,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Delnice: {
     introHrA2:
-      'Delnice su glavni grad Gorskog kotara, šumovitog planinskog kraja između mora i unutrašnjosti. Ime kraja i znači planinski kotar. Ovdje je hladno i snijeg pada mnogo: u Delnicama ima više od stotinu i pedeset snježnih dana godišnje. Zbog toga je ovo jedan od najsnježnijih hrvatskih gradova. Oko grada su velike bukove šume, a u njima živi većina hrvatskih smeđih medvjeda, kojih ima više od tristo. Blizu je i Nacionalni park Risnjak, koji je dobio ime po risu. Ljudi ovamo dolaze zbog šume, snijega i tišine.',
+      'Delnice su glavni grad Gorskog kotara, šumovitog planinskog kraja između mora i unutrašnjosti. Ime kraja i znači planinski kotar. Ovdje je hladno i snijeg pada mnogo: u Delnicama ima više od stotinu i pedeset snježnih dana godišnje. Zbog toga je ovo jedan od najsnježnijih hrvatskih gradova. Oko grada su velike bukove šume, a u njima živi velik dio hrvatskih smeđih medvjeda, kojih ima oko tisuću. Blizu je i Nacionalni park Risnjak, koji je dobio ime po risu. Ljudi ovamo dolaze zbog šume, snijega i tišine.',
   },
   Vrsar: {
     introHrA2:
@@ -1071,7 +1067,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Brdovec: {
     introHrA2:
-      'Brdovec je mjesto u Zagrebačkoj županiji, zapadno od Zaprešića. Kroz kraj teče rijeka Sutla, koja je granica sa Slovenijom. Nekad je ovo područje pripadalo susedgradsko-stubičkom vlastelinstvu, a u 16. i 17. stoljeću držale su ga grane obitelji Zrinski. Iz sela ovoga kraja podigla se 1573. godine velika seljačka buna. Vodio ju je Matija Gubec. Buna je slomljena za dva tjedna, a Gubec je pogubljen u Zagrebu. Općini pripada i Savski Marof, nazvan po starom habsburškom marofu, gospodarskom dvoru. Danas mnogi stanovnici Brdovca rade u Zagrebu i Zaprešiću.',
+      'Brdovec je mjesto u Zagrebačkoj županiji, zapadno od Zaprešića. Kroz kraj teče rijeka Sutla, koja je granica sa Slovenijom. Nekad je ovo područje pripadalo susedgradsko-stubičkom vlastelinstvu, a u 16. stoljeću držao ga je Franjo Tahy. Iz sela ovoga kraja podigla se 1573. godine velika seljačka buna. Vodio ju je Matija Gubec. Buna je slomljena za dva tjedna, a Gubec je pogubljen u Zagrebu. Općini pripada i Savski Marof, nazvan po starom habsburškom marofu, gospodarskom dvoru. Danas mnogi stanovnici Brdovca rade u Zagrebu i Zaprešiću.',
   },
   Jakovlje: {
     introHrA2:
@@ -1419,7 +1415,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   Komolac: {
     introHrA2:
-      'Komolac je malo naselje sjeverno od Dubrovnika, na Rijeci dubrovačkoj. Ovdje rijeka Ombla izlazi iz stijene kao snažan krški izvor i do mora teče samo pet kilometara. Posjetitelj prvo primijeti jahte, jer je u Komolcu ACI marina Dubrovnik, najveća marina za jahte na južnom Jadranu. Uvala je vrlo mirna, pa brodovi tu imaju dobar zaklon. Nekad su na izvoru radili mlinovi i malo brodogradilište, a dubrovački su plemići u blizini gradili ljetnikovce. Jedan je od njih renesansni ljetnikovac obitelji Sorkočević.',
+      'Komolac je malo naselje sjeverno od Dubrovnika, na Rijeci dubrovačkoj. Ovdje rijeka Ombla izlazi iz stijene kao snažan krški izvor i nakon tridesetak metara prelazi u slano ušće dugo pet kilometara. Posjetitelj prvo primijeti jahte, jer je u Komolcu ACI marina Dubrovnik, najveća marina za jahte na južnom Jadranu. Uvala je vrlo mirna, pa brodovi tu imaju dobar zaklon. Nekad su na izvoru radili mlinovi i malo brodogradilište, a dubrovački su plemići u blizini gradili ljetnikovce. Jedan je od njih renesansni ljetnikovac obitelji Sorkočević.',
   },
   Konavle: {
     introHrA2:

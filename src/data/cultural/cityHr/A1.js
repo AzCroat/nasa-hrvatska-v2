@@ -143,7 +143,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Virovitica: {
     introHrA1:
-      'Virovitica je miran grad u Podravini. U gradu je stari dvorac Pejačević. U dvorcu je danas muzej. Oko grada rastu vinogradi. Ljudi ovdje prave dobro vino. Iz Virovitice je poznata skladateljica Dora Pejačević. Grad ima bogatu kulturu.',
+      'Virovitica je miran grad u Podravini. U gradu je stari dvorac Pejačević. U dvorcu je danas muzej. Oko grada rastu vinogradi. Ljudi ovdje prave dobro vino. Iz obitelji Pejačević je skladateljica Dora Pejačević. Grad ima bogatu kulturu.',
   },
   Labin: {
     introHrA1:
@@ -367,7 +367,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Našice: {
     introHrA1:
-      'Našice su mali grad u Slavoniji. U gradu je lijepi dvorac. Dvorac je obitelji Pejačević. Danas je u dvorcu muzej. Tu je rođena Dora Pejačević. Ona je bila skladateljica. Pisala je glazbu za orkestar. Kraj ima i dobro vino.',
+      'Našice su mali grad u Slavoniji. U gradu je lijepi dvorac. Dvorac je obitelji Pejačević. Danas je u dvorcu muzej. Tu je odrasla Dora Pejačević. Ona je bila skladateljica. Pisala je glazbu za orkestar. Kraj ima i dobro vino.',
   },
   Otočac: {
     introHrA1:
@@ -523,7 +523,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   'Kaštel Stari': {
     introHrA1:
-      'Kaštel Stari je mjesto na moru između Splita i Trogira. To je najstariji od sedam Kaštela. Kaštel je mala tvrđava. Stari kaštel je iz 15. stoljeća. Ljudi su nekad bježali u kaštel od Osmanlija. Danas je tu poznata kaštelanska jagoda.',
+      'Kaštel Stari je mjesto na moru između Splita i Trogira. To je jedan od najstarijih Kaštela. Kaštel je mala tvrđava. Stari kaštel je iz 15. stoljeća. Ljudi su nekad bježali u kaštel od Osmanlija. Danas je tu poznata kaštelanska jagoda.',
   },
   'Kaštel Lukšić': {
     introHrA1:
@@ -559,7 +559,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Drvenik: {
     introHrA1:
-      'Drvenik je malo selo na moru južno od Makarske. Ovdje završava Makarska rivijera. Iz Drvenika idu trajekti na otok Hvar i na Pelješac. Iza sela je visoka planina Biokovo. Selo ima dvije male luke za brodove. U konobi ljudi jedu ribu i janjetinu.',
+      'Drvenik je malo selo na moru južno od Makarske. Ovo je južni dio Makarske rivijere. Iz Drvenika idu trajekti na otok Hvar i na Pelješac. Iza sela je visoka planina Biokovo. Selo ima dvije male luke za brodove. U konobi ljudi jedu ribu i janjetinu.',
   },
   Slano: {
     introHrA1:
@@ -619,7 +619,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Slatina: {
     introHrA1:
-      'Slatina je grad u zapadnoj Slavoniji. Grad je ispod brda Bilogore. Ime grada dolazi od riječi slana, jer je ovdje slana voda u zemlji. Na brdima rastu vinogradi. Ljudi iz okolnih sela dolaze u Slatinu na tržnicu. Grad je glavni grad svoje županije.',
+      'Slatina je grad u zapadnoj Slavoniji. Grad je ispod brda Bilogore. Ime grada dolazi od riječi slana, jer je ovdje slana voda u zemlji. Na brdima rastu vinogradi. Ljudi iz okolnih sela dolaze u Slatinu na tržnicu. Slatina je u Virovitičko-podravskoj županiji.',
   },
   Kutina: {
     introHrA1:
@@ -785,10 +785,6 @@ export const CITY_INTRO_HR_A1 = {
     introHrA1:
       'Vinkovci su grad u Slavoniji. Grad je u ravnici. Ljudi tu žive već osam tisuća godina. To je jedan od najstarijih gradova u Europi. Blizu grada je nađena Vučedolska golubica. To je stara posuda od keramike. Grad je stradao u ratu 1991. godine.',
   },
-  Dakovo: {
-    introHrA1:
-      'Đakovo je grad u Slavoniji. U gradu je velika katedrala. Katedralu je gradio biskup Strossmayer. Katedrala ima dva visoka tornja. Tornjevi su visoki 84 metra. U Đakovu se uzgajaju konji lipicanci. Svake godine je velika folklorna svečanost Đakovački vezovi.',
-  },
   Rabac: {
     introHrA1:
       'Rabac je malo mjesto na moru u Istri. Mjesto je ispod starog grada Labina. Labin je na brdu, a Rabac je na moru. Prije je Rabac bio ribarsko selo. Danas je poznato ljetovalište. More je vrlo čisto. Plaže imaju Plavu zastavu. Ljudi tu uče roniti.',
@@ -819,7 +815,7 @@ export const CITY_INTRO_HR_A1 = {
   },
   Delnice: {
     introHrA1:
-      'Delnice su glavni grad Gorskog kotara. Gorski kotar je planinski kraj sa šumama. Tu je hladno i zimi pada mnogo snijega. U šumama žive medvjedi. Hrvatska ima više od tristo medvjeda. Blizu je Nacionalni park Risnjak. Park je dobio ime po risu.',
+      'Delnice su glavni grad Gorskog kotara. Gorski kotar je planinski kraj sa šumama. Tu je hladno i zimi pada mnogo snijega. U šumama žive medvjedi. Hrvatska ima oko tisuću medvjeda. Blizu je Nacionalni park Risnjak. Park je dobio ime po risu.',
   },
   Vrsar: {
     introHrA1:
