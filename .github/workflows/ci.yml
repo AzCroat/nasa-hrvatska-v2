@@ -214,6 +214,15 @@ jobs:
       # and the orphan keeps holding the apt lock — the retry then dies
       # instantly with "Could not get lock" (seen live, run 32302453122).
       # So between attempts: kill orphaned apt processes and clear their locks.
+      # 2026-10-02: the stall that keeps costing re-runs is apt waiting on ONE slow
+      # mirror connection for the whole 10-minute bound, then retrying the SAME
+      # mirror. apt now abandons a stalled connection after 30 s and retries it
+      # (Acquire::Retries), and the second attempt below switches from the Azure
+      # mirror to archive.ubuntu.com, so a degraded mirror cannot fail both.
+      - name: Harden apt against a stalled mirror
+        run: |
+          printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::ftp::Timeout "30";\n' | sudo tee /etc/apt/apt.conf.d/99ci-network >/dev/null
+
       - name: Install Playwright browsers (Chrome, Firefox, WebKit)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         timeout-minutes: 22
@@ -227,6 +236,7 @@ jobs:
             sudo pkill -9 -x apt 2>/dev/null || true
             sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
             sudo dpkg --configure -a || true
+            sudo sed -i 's#azure\.archive\.ubuntu\.com#archive.ubuntu.com#g' /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list 2>/dev/null || true
           done
           echo "::error::Playwright install failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
           exit 1
@@ -244,6 +254,7 @@ jobs:
             sudo pkill -9 -x apt 2>/dev/null || true
             sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
             sudo dpkg --configure -a || true
+            sudo sed -i 's#azure\.archive\.ubuntu\.com#archive.ubuntu.com#g' /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list 2>/dev/null || true
           done
           echo "::error::install-deps failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
           exit 1
