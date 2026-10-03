@@ -232,8 +232,12 @@ export async function checkAndChargeBudget(env, pathname) {
     }
   }
 
-  console.warn('[AIBudget] No storage backend — rejecting (fail-closed)');
-  return { allowed: false, spentMicroUsd: 0, resetAt };
+  // `unavailable` says WHY: the ledger could not be read, which is not the same
+  // fact as the budget being spent. The gate reports the two differently — a
+  // storage hiccup must never tell a learner their monthly allowance is used up
+  // (Sentry 14c076e5, 2026-10-03: refused at 6% of the month's budget).
+  console.warn('[AIBudget] No storage backend answered — rejecting (fail-closed)');
+  return { allowed: false, unavailable: true, spentMicroUsd: 0, resetAt };
 }
 
 /**

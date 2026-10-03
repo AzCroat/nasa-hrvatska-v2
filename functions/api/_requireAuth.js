@@ -76,6 +76,11 @@ export async function requireAuthedAI(context, { cost = 1, rateLimit = 20 } = {}
 
     if (cost > 0) {
       const quota = await checkAIQuota(request, env, uid, cost);
+      // A refusal names its real cause: storage that did not answer is a
+      // retryable 503, a burst is the short rate limit, and only a counted
+      // day of use is the daily quota (Sentry 14c076e5, 2026-10-03).
+      if (quota.unavailable) return fail(503, 'quota_unavailable');
+      if (quota.burst) return fail(429, 'rate_limited');
       if (!quota.allowed) {
         return fail(429, 'daily_quota_exceeded', {
           message: 'Daily AI limit reached. Resets at midnight UTC.',
@@ -88,6 +93,7 @@ export async function requireAuthedAI(context, { cost = 1, rateLimit = 20 } = {}
     // worst-case cost against the global monthly ledger. Budget is the one
     // gate that speaks for ALL users at once.
     const budget = await checkAndChargeBudget(env, new URL(request.url).pathname);
+    if (budget.unavailable) return fail(503, 'budget_unavailable');
     if (!budget.allowed) {
       return fail(429, 'monthly_budget_exhausted', {
         message: 'Monthly AI budget reached. Live generation resumes next month.',

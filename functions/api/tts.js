@@ -722,14 +722,27 @@ export async function onRequestPost(context) {
     // endpoints use so the client can name the reason instead of "unavailable".
     const quota = await checkAIQuota(request, env, gate.uid, 1);
     if (!quota.allowed) {
+      // Name the real cause, as the shared gate does: storage that did not
+      // answer is a retryable 503 and a burst is the short rate limit — neither
+      // is a used-up day (Sentry 14c076e5, 2026-10-03).
+      const code = quota.unavailable
+        ? 'quota_unavailable'
+        : quota.burst
+          ? 'rate_limited'
+          : 'daily_quota_exceeded';
       return new Response(
         JSON.stringify({
-          error: 'daily_quota_exceeded',
-          message: 'Daily AI limit reached. Resets at midnight UTC.',
-          resetAt: quota.resetAt,
+          error: code,
+          message:
+            code === 'daily_quota_exceeded'
+              ? 'Daily AI limit reached. Resets at midnight UTC.'
+              : code === 'rate_limited'
+                ? 'Too many requests — try again in a moment.'
+                : 'Audio service is briefly unavailable — try again in a moment.',
+          ...(code === 'daily_quota_exceeded' ? { resetAt: quota.resetAt } : {}),
         }),
         {
-          status: 429,
+          status: code === 'quota_unavailable' ? 503 : 429,
           headers: {
             'Content-Type': 'application/json',
             ...ttsCorsHeaders(origin),
@@ -746,10 +759,15 @@ export async function onRequestPost(context) {
     // to the browser's built-in speech synthesis" — on-device, free, instant.
     const budget = await checkAndChargeBudget(env, '/api/tts:generate');
     if (!budget.allowed) {
-      return new Response('TTS unavailable — budget-paused', {
-        status: 503,
-        headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': diagBackends },
-      });
+      return new Response(
+        budget.unavailable
+          ? 'TTS unavailable — ledger unavailable'
+          : 'TTS unavailable — budget-paused',
+        {
+          status: 503,
+          headers: { ...ttsCorsHeaders(origin), 'X-TTS-Backends': diagBackends },
+        },
+      );
     }
 
     let buffer = null;

@@ -139,6 +139,55 @@ async function ensurePageKVBinding(accountId, projectName, project, binding, nam
   console.log(`  ✓ Bound "${binding}" to Pages project in production + preview`);
 }
 
+// ── D1: the primary store for the AI quota, budget ledger, rate limits, XP caps ─
+//
+// 2026-10-03: AI_QUOTA_DB was documented as bound in the Cloudflare dashboard
+// and never was — /api/ai-ledger reported `store: kv`, so every gate that is
+// D1-first had been running on its KV fallback, and a KV hiccup made the budget
+// gate fail closed (Sentry 14c076e5). The database is now created and bound here,
+// like the KV namespaces above. FAIL-SOFT on purpose: a token without D1
+// permission must not take the deploy down — it warns, names what to grant, and
+// the Functions keep their KV fallback exactly as before.
+const REQUIRED_D1 = [{ binding: 'AI_QUOTA_DB', name: 'nasa-hrvatska-ai-quota' }];
+
+async function ensureD1Database(accountId, name) {
+  const list = await cfFetch(`/accounts/${accountId}/d1/database?name=${encodeURIComponent(name)}`);
+  const found = (list.result || []).find((d) => d.name === name);
+  if (found) {
+    console.log(`  ✓ D1 database "${name}" exists (${found.uuid})`);
+    return found.uuid;
+  }
+  const created = await cfFetch(`/accounts/${accountId}/d1/database`, {
+    method: 'POST',
+    body: JSON.stringify({ name }),
+  });
+  console.log(`  ✓ Created D1 database "${name}" (${created.result.uuid})`);
+  return created.result.uuid;
+}
+
+async function ensurePageD1Binding(accountId, projectName, project, binding, databaseId) {
+  const envs = ['production', 'preview'];
+  const needsPatch = envs.some(
+    (env) => project.deployment_configs?.[env]?.d1_databases?.[binding]?.id !== databaseId,
+  );
+  if (!needsPatch) {
+    console.log(`  ✓ "${binding}" already bound in production + preview (${databaseId})`);
+    return;
+  }
+  const patch = { deployment_configs: {} };
+  for (const env of envs) {
+    const current = project.deployment_configs?.[env] || {};
+    patch.deployment_configs[env] = {
+      d1_databases: { ...(current.d1_databases || {}), [binding]: { id: databaseId } },
+    };
+  }
+  await cfFetch(`/accounts/${accountId}/pages/projects/${projectName}`, {
+    method: 'PATCH',
+    body: JSON.stringify(patch),
+  });
+  console.log(`  ✓ Bound "${binding}" to Pages project in production + preview`);
+}
+
 // ── Step 5: Verify required env vars are set on the Pages project ─────────────
 
 function checkPageEnvVars(project) {
@@ -248,6 +297,19 @@ async function main() {
   // Step 4: Bind each KV namespace if not already bound
   for (const { binding } of REQUIRED_KV) {
     await ensurePageKVBinding(accountId, PAGES_PROJECT, project, binding, namespaceIds[binding]);
+  }
+
+  // D1 (fail-soft — see REQUIRED_D1). Reload first so the KV patch above is seen.
+  project = await getPagesProject(accountId, PAGES_PROJECT);
+  for (const { binding, name } of REQUIRED_D1) {
+    try {
+      const id = await ensureD1Database(accountId, name);
+      await ensurePageD1Binding(accountId, PAGES_PROJECT, project, binding, id);
+    } catch (e) {
+      console.log(
+        `::warning::Could not provision D1 "${binding}" (${e.message}). The AI quota, budget ledger and rate limits stay on their KV fallback. Grant the Cloudflare API token "D1: Edit" to fix.`,
+      );
+    }
   }
 
   // Reload project after patching so env var check sees the latest state

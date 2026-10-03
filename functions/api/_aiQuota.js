@@ -162,7 +162,7 @@ export async function checkAIQuota(request, env, uid, cost = 1) {
     console.warn(
       '[AIQuota] Neither AI_QUOTA_DB nor PUSH_SUBSCRIPTIONS bound — rejecting (fail-closed)',
     );
-    return { allowed: false, remaining: 0, resetAt };
+    return { allowed: false, unavailable: true, remaining: 0, resetAt };
   }
 
   // ── Burst check ───────────────────────────────────────────────────────────
@@ -174,14 +174,14 @@ export async function checkAIQuota(request, env, uid, cost = 1) {
     const burstExceeded = await _d1CheckBurst(db, burstSubject);
     if (burstExceeded) {
       console.warn('[AIQuota] Burst limit exceeded (D1):', burstSubject);
-      return { allowed: false, remaining: 0, resetAt };
+      return { allowed: false, burst: true, remaining: 0, resetAt };
     }
   } else {
     // KV burst fallback
     const secondKey = `quota_burst:${burstSubject}:${Math.floor(Date.now() / 1000)}`;
     const burstData = await _kvRead(kv, secondKey);
     if ((burstData?.count ?? 0) >= 3) {
-      return { allowed: false, remaining: 0, resetAt };
+      return { allowed: false, burst: true, remaining: 0, resetAt };
     }
     await _kvWrite(kv, secondKey, { count: (burstData?.count ?? 0) + 1 }, 5);
   }
@@ -217,7 +217,7 @@ export async function checkAIQuota(request, env, uid, cost = 1) {
     return { allowed: true, remaining: Math.max(0, limit - current - cost), resetAt };
   } catch (e) {
     console.error('[AIQuota] All storage backends failed — rejecting (fail-closed):', e?.message);
-    return { allowed: false, remaining: 0, resetAt };
+    return { allowed: false, unavailable: true, remaining: 0, resetAt };
   }
 }
 

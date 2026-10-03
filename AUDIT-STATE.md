@@ -14454,3 +14454,49 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     Vižinada, Zrinski at Szigetvár, Ogulin's mythology. The duplicate `Dakovo` record was
     unreferenced and is REMOVED (363 cities). Štrigova LEFT: Ivan Ranger died in 1753,
     so the 1740s date is right and the proposed 1776 was wrong.
+- [x] **Sweep 229 — final whole-course walk on the live site (2026-10-03).**
+  - **What ran.** `https://nasahrvatska.com/version.json` reported commit `01cfe6cb…`, equal to
+    `origin/master` at the start. Desktop Chrome only, `--workers=1`, no retries, a throwaway config
+    pointing `baseURL` at the live site with the specs' own mocks and seeded storage kept (no sign-in,
+    Firebase blocked, content/TTS/evaluators mocked, so nothing wrote to production on a learner's
+    behalf). `course-full-walk.spec.js`: **5 of 5 passed (33.5 min)** — A1+A2 from nothing across the
+    first level crossing, then B1, B2, C1 and C2 each seeded with the levels before it, up to and
+    including the C2 level review. `course-walk` 4/4, `course-map` 15/15, `keep-learning` 2/2 and
+    `course-failure-and-time` 5 of 6 passed in one 8.3 min run.
+  - **One failure, classified (b)/(c), not a product defect.** `course-failure-and-time.spec.js:344`
+    ("a failed lesson check closes for the day, then comes back corrected on form B") failed once at
+    its 15 s `expect.poll` on the week-XP counter after the passing check, in a run that shared the
+    machine and the live origin with the 33-minute full walk. It passed on a CI-equivalent local build
+    of the same commit (31.6 s) and passed again against live on its own (40.8 s). A slow award write
+    under two concurrent walkers, not a missing award.
+  - **Manual pass (live, seeded guest, mocked content).** Today, Learn, Practice, AI Tutor, Croatia,
+    Me, `/coursemap` and a drill (`/genitive`) all rendered with body text, with no uncaught page
+    errors and no "something went wrong" card. Console errors seen were the expected ones: the
+    spec's own Firebase block (`ERR_FAILED`, Firestore unreachable) and the CSP refusing Cloudflare's
+    auto-injected Web Analytics beacon, which `public/_headers` records as the desired end state.
+  - **Defects found and fixed: none.** No code changed. A day offset of one day from a Saturday crosses
+    an ISO week in `course-failure-and-time`; it passed regardless, so no date-sensitivity was shown.
+  - **Not tested.** Real sign-in, Firestore sync, real AI endpoints (TTS, correct, speaking coach),
+    Firefox/WebKit/mobile projects, a human-paced real-time retention ladder (the specs shift the
+    clock), the live service worker update path, and the dark theme.
+
+- [x] **Sweep 230 — "budget used up" at 6% of the budget (Sentry 14c076e5, 2026-10-03).**
+      `ai_feedback_failed:unit-production-write:budget` at 07:19 CEST. The ledger read
+      (`ai-ledger.yml`) said October had used $0.57 of $9 — and `store: kv`.
+  - **Two defects, one symptom.** (1) `checkAndChargeBudget` fails closed when no
+    storage answers (right) and the gate reported that as `429 monthly_budget_exhausted`
+    (wrong) — a storage hiccup told a learner the month's AI allowance was used up. The
+    quota gate had the same shape twice: storage failure and a burst both came back as
+    `daily_quota_exceeded`. (2) `AI_QUOTA_DB` was never bound to the Pages project, so the
+    quota, budget ledger, rate limiter and XP caps — all D1-first — were running on their
+    KV fallback; that is the path whose failure produced the event.
+  - **Fix.** Refusals name their cause: `budget_unavailable` / `quota_unavailable` (503,
+    retryable, the client's "temporarily unavailable" message) and `rate_limited` (429);
+    `/api/tts` does the same. `setup-cf-resources.mjs` now creates `nasa-hrvatska-ai-quota`
+    and binds it as `AI_QUOTA_DB` on every deploy, FAIL-SOFT (a token without D1 permission
+    warns and the deploy continues on KV). Stated cost: October's ledger restarts at zero
+    on D1 (the $0.57 booked in KV is not carried), well inside the cap.
+  - Pinned by `requireAuth.test.js` (storage failure, thrown ledger, quota unavailable,
+    burst) and `d1Provisioned.test.js`. Mutation-verified: the budget mapping removed fails 2.
+  - NEVER report a storage failure as a spent limit; never assume a binding exists because
+    CLAUDE.md says so — read `/api/ai-ledger`'s `store`.
