@@ -110,8 +110,49 @@ describe('requireAuthedAI', () => {
       ctx('Bearer good', { FIREBASE_PROJECT_ID: 'proj', ENVIRONMENT: 'production' }),
       { cost: 1, rateLimit: 20 },
     );
-    // The <$5/month guarantee outranks serving the AI garnish: no ledger, no spend.
+    // The spend guarantee outranks serving the AI garnish: no ledger, no spend.
+    // But it is NOT reported as a spent budget (Sentry 14c076e5, 2026-10-03:
+    // a learner was told the month's allowance was used up at 6% of it).
     expect(g.ok).toBe(false);
+    expect(g.response.status).toBe(503);
+    expect((await g.response.json()).error).toBe('budget_unavailable');
+  });
+
+  it('a ledger that throws is budget_unavailable (503), never monthly_budget_exhausted', async () => {
+    const env = {
+      FIREBASE_PROJECT_ID: 'proj',
+      ENVIRONMENT: 'production',
+      PUSH_SUBSCRIPTIONS: {
+        async get() {
+          throw new Error('KV down');
+        },
+        async put() {
+          throw new Error('KV down');
+        },
+      },
+    };
+    const g = await requireAuthedAI(ctx('Bearer good', env), { cost: 1, rateLimit: 20 });
+    expect(g.ok).toBe(false);
+    expect(g.response.status).toBe(503);
+    expect((await g.response.json()).error).toBe('budget_unavailable');
+  });
+
+  it('a quota store that did not answer is quota_unavailable (503), not a used-up day', async () => {
+    checkAIQuota.mockResolvedValueOnce({
+      allowed: false,
+      unavailable: true,
+      remaining: 0,
+      resetAt: 'x',
+    });
+    const g = await requireAuthedAI(ctx('Bearer good'), { cost: 1, rateLimit: 20 });
+    expect(g.response.status).toBe(503);
+    expect((await g.response.json()).error).toBe('quota_unavailable');
+  });
+
+  it('a burst refusal is rate_limited (429), not daily_quota_exceeded', async () => {
+    checkAIQuota.mockResolvedValueOnce({ allowed: false, burst: true, remaining: 0, resetAt: 'x' });
+    const g = await requireAuthedAI(ctx('Bearer good'), { cost: 1, rateLimit: 20 });
     expect(g.response.status).toBe(429);
+    expect((await g.response.json()).error).toBe('rate_limited');
   });
 });

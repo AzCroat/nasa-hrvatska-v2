@@ -14454,3 +14454,24 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     Vižinada, Zrinski at Szigetvár, Ogulin's mythology. The duplicate `Dakovo` record was
     unreferenced and is REMOVED (363 cities). Štrigova LEFT: Ivan Ranger died in 1753,
     so the 1740s date is right and the proposed 1776 was wrong.
+
+- [x] **Sweep 230 — "budget used up" at 6% of the budget (Sentry 14c076e5, 2026-10-03).**
+      `ai_feedback_failed:unit-production-write:budget` at 07:19 CEST. The ledger read
+      (`ai-ledger.yml`) said October had used $0.57 of $9 — and `store: kv`.
+  - **Two defects, one symptom.** (1) `checkAndChargeBudget` fails closed when no
+    storage answers (right) and the gate reported that as `429 monthly_budget_exhausted`
+    (wrong) — a storage hiccup told a learner the month's AI allowance was used up. The
+    quota gate had the same shape twice: storage failure and a burst both came back as
+    `daily_quota_exceeded`. (2) `AI_QUOTA_DB` was never bound to the Pages project, so the
+    quota, budget ledger, rate limiter and XP caps — all D1-first — were running on their
+    KV fallback; that is the path whose failure produced the event.
+  - **Fix.** Refusals name their cause: `budget_unavailable` / `quota_unavailable` (503,
+    retryable, the client's "temporarily unavailable" message) and `rate_limited` (429);
+    `/api/tts` does the same. `setup-cf-resources.mjs` now creates `nasa-hrvatska-ai-quota`
+    and binds it as `AI_QUOTA_DB` on every deploy, FAIL-SOFT (a token without D1 permission
+    warns and the deploy continues on KV). Stated cost: October's ledger restarts at zero
+    on D1 (the $0.57 booked in KV is not carried), well inside the cap.
+  - Pinned by `requireAuth.test.js` (storage failure, thrown ledger, quota unavailable,
+    burst) and `d1Provisioned.test.js`. Mutation-verified: the budget mapping removed fails 2.
+  - NEVER report a storage failure as a spent limit; never assume a binding exists because
+    CLAUDE.md says so — read `/api/ai-ledger`'s `store`.
