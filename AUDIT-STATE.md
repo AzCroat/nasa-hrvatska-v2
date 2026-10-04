@@ -14500,3 +14500,36 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     burst) and `d1Provisioned.test.js`. Mutation-verified: the budget mapping removed fails 2.
   - NEVER report a storage failure as a spent limit; never assume a binding exists because
     CLAUDE.md says so — read `/api/ai-ledger`'s `store`.
+  - **D1 is live (2026-10-04).** The owner gave the deploy token D1 Edit; run 37183694786
+    created `nasa-hrvatska-ai-quota` and bound it in production and preview, and the ledger
+    read reports `store: d1` at $0 for October.
+- [x] **Sweep 231 — the speaking error in the weekly report, and a calibration that could
+      never pass (Sentry `ai_feedback_failed:guided-speaking-assess:server`, report of
+      2026-09-25 → 10-02).** One event, kind `server`, no details readable here (the Sentry
+      issue API still answers 403 to CI's token).
+  - **The event is already fixed, and the fix is measured live.** The surface
+    (`AssessedMic`) shipped at 12:02 on 2026-09-29; until sweep 219 at 18:50 every take whose
+    reference held č ć đ š ž threw in `btoa` (a 500), and until sweep 218 a silent take was a
+    502. Both fixed that day. The calibration runs of 09-29 19:35 and 10-01 answered all 8
+    probe recordings, `Živim u Zagrebu` included — so a `:server` from this surface now means
+    an Azure-side failure, not ours. Not established: the event's own date and code.
+  - **The calibration had been red on every run since 09-29, for a known limit.** Its gate
+    counted the scripted assessment's MISCUE halves, which by design hear the reference
+    (sweep 220: 4 of 4 missed), and which the app stopped relying on in sweep 221. A
+    permanently red workflow cannot tell a regression from the limit. Gated now: correct
+    speech scores clear, and the endpoint's own unbiased transcript (`production`) hears the
+    ending actually spoken; no production transcript at all is `unmeasured` and fails. The
+    scripted misses are reported, not gated.
+  - **The unbiased transcript now comes from the chain.** Both runs: plain Azure heard the
+    spoken ending 7 of 8 (it heard "Vidim prijatelj." as "prijatelji"), the chain (Deepgram →
+    Whisper) 8 of 8. Sweep 221 recorded the decision in advance ("if the chain wins, the
+    endpoint's plain pass is swapped"). `unbiasedTranscript` asks the chain first and falls
+    back to plain Azure, so the build stage keeps a transcript when Deepgram is down. The
+    chain reports no duration, so it is booked at the scripted pass's length at the Azure
+    rate (never under its cost); the calibration's ceiling rises by 8 × 15,000 µ$.
+  - Pinned: `pronunciationAssessMiscue.test.js` (chain serves it; chain down → plain Azure),
+    `assessProbes.test.js` (scripted misses reported not gated; production mishearing drifts;
+    correct speech flagged drifts; unmeasured), `sttCalibration.test.js` (ceiling).
+    Mutation-verified: chain skipped fails 1; production wrongs dropped from the gate fails 1.
+  - NEVER gate a calibration on a measurement the app no longer relies on; NEVER let the
+    unbiased pass fall back to the scripted text.

@@ -111,8 +111,9 @@ export const ENDPOINT_CEILING_MICROUSD = {
   // STT calls; the ceiling stays worst-case honest.
   // + 4 assessment probes × 2 halves (TTS + Azure assessment), 2026-09-29.
   // 6 golden phrases + 4 probes × 2 halves, each TTS + assessment; plus, per probe half,
-  // a plain Azure transcription and one production-chain transcription.
-  '/api/stt-calibration': (6 + 4 * 2) * (4_000 + 15_000) + 4 * 2 * 2 * 15_000,
+  // a plain Azure transcription, one production-chain transcription, and the endpoint's own
+  // unbiased pass (`unbiasedTranscript`, the gated measurement — sweep 231).
+  '/api/stt-calibration': (6 + 4 * 2) * (4_000 + 15_000) + 4 * 2 * 3 * 15_000,
   // Azure pronunciation assessment, plus the build stage's unbiased transcription of the
   // same take (2026-09-29); reconciled to the audio seconds actually processed.
   '/api/pronunciation-assess': 30_000,

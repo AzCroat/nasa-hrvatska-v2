@@ -13,9 +13,12 @@ const ttsMock = vi.fn(async () => new Uint8Array([82, 73, 70, 70]).buffer);
 // back the next sentence it "heard" from its own script.
 const plainAzureMock = vi.fn();
 const chainMock = vi.fn();
+// The endpoint's own unbiased pass — what the build stage grades, and what is gated.
+const productionMock = vi.fn();
 vi.mock('../../functions/api/pronunciation-assess.js', () => ({
   azureAssess: (...a) => assessMock(...a),
   azureTranscribe: (...a) => plainAzureMock(...a),
+  unbiasedTranscript: (...a) => productionMock(...a),
 }));
 vi.mock('../../functions/api/tts.js', () => ({ tryAzure: (...a) => ttsMock(...a) }));
 vi.mock('../../functions/api/_transcribe.js', () => ({
@@ -91,6 +94,9 @@ beforeEach(() => {
   plainAzureMock.mockReset().mockImplementation(scripted(said, (text) => ({ ok: true, text })));
   // The chain also transcribes the golden phrases (MP3); only the probes are WAV.
   const probeChain = scripted(said, (text) => ({ text, provider: 'mock' }));
+  productionMock
+    .mockReset()
+    .mockImplementation(scripted(said, (text) => ({ ok: true, text, by: 'deepgram' })));
   chainMock
     .mockReset()
     .mockImplementation((audio, mime) =>
@@ -141,15 +147,49 @@ describe('the calibration run', () => {
     expect(ttsMock.mock.calls.some((c) => c[1].outputFormat === 'riff-16khz-16bit-mono-pcm')).toBe(
       true,
     );
-    expect(report.assessment).toMatchObject({ total: 8, failed: 0, drift: false });
+    // Gated: 4 correct takes scored clear + 8 production transcripts hearing the ending.
+    expect(report.assessment).toMatchObject({ total: 12, failed: 0, drift: false });
   });
 
-  it('reports drift when Azure does NOT flag the wrong endings', async () => {
+  // The scripted check is given the correct sentence and hears to match it (sweeps 220/221):
+  // its misses are reported, and they no longer turn the run red on every schedule.
+  it('reports, but does not gate on, the scripted check missing the wrong endings', async () => {
     assessMock.mockImplementation(azureHearing(false));
     const report = await run();
-    expect(report.assessment.failed).toBe(ASSESS_PROBES.length);
-    expect(report.assessment.drift).toBe(true);
+    expect(report.assessment.scriptedMiscueMissed).toBe(ASSESS_PROBES.length);
+    expect(report.assessment.failed).toBe(0);
+    expect(report.assessment.drift).toBe(false);
     expect(report.assessment.probes.every((p) => p.miscue.ok === false && p.control.ok)).toBe(true);
+  });
+
+  it('drifts when the production transcript hears the reference instead of the wrong ending', async () => {
+    assessMock.mockImplementation(azureHearing(true));
+    const said = (p) => p.reference; // hears the correct sentence every time
+    productionMock.mockImplementation(
+      scripted(said, (text) => ({ ok: true, text, by: 'deepgram' })),
+    );
+    const report = await run();
+    expect(report.assessment.productionWrong).toBe(ASSESS_PROBES.length);
+    expect(report.assessment.drift).toBe(true);
+  });
+
+  it('drifts when correct speech is flagged by the scripted check', async () => {
+    assessMock.mockImplementation(async (...a) => {
+      const out = await azureHearing(true)(...a);
+      out.parsed.word_scores = out.parsed.word_scores.map((w) => ({ ...w, score: 20 }));
+      return out;
+    });
+    const report = await run();
+    expect(report.assessment.controlFailures).toBe(ASSESS_PROBES.length);
+    expect(report.assessment.drift).toBe(true);
+  });
+
+  it('no production transcript at all is unmeasured, not a pass', async () => {
+    assessMock.mockImplementation(azureHearing(true));
+    productionMock.mockImplementation(async () => ({ ok: false, error: 'azure_unavailable' }));
+    const report = await run();
+    expect(report.unbiased.production.total).toBe(0);
+    expect(report.assessment.unmeasured).toBe(true);
   });
 
   it('asks both unbiased transcribers about every half, and tallies which ending they heard', async () => {
@@ -174,6 +214,7 @@ describe('the calibration run', () => {
   it('the workflow fails red on assessment drift', () => {
     const wf = fs.readFileSync('.github/workflows/stt-calibration.yml', 'utf8');
     expect(wf).toMatch(/if a\.get\('drift'\):[\s\S]*?failed = True/);
+    expect(wf).toMatch(/if a\.get\('unmeasured'\):[\s\S]*?failed = True/);
     expect(wf).toMatch(/if failed:\s*\n\s*sys\.exit\(1\)/);
   });
 });

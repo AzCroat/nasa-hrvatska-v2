@@ -7,6 +7,7 @@ import { heardCroatian } from './_heardCroatian.js';
 import { requireAuthedAI } from './_requireAuth.js';
 import { corsHeaders } from './_helpers.js';
 import { refundPrecharge, reconcileAudioSeconds } from './_aiBudget.js';
+import { transcribeCroatian } from './_transcribe.js';
 
 const PATH = '/api/pronunciation-assess';
 
@@ -360,7 +361,8 @@ export async function onRequestPost(context) {
   let unbiasedError = null;
   let unbiasedSeconds = 0;
   if (wantUnbiased) {
-    const plain = await azureTranscribe(
+    const plain = await unbiasedTranscript(
+      env,
       AZURE_KEY,
       AZURE_REGION,
       audioBytes,
@@ -369,13 +371,38 @@ export async function onRequestPost(context) {
     );
     if (plain.ok) {
       unbiased = heardCroatian(plain.text);
-      unbiasedSeconds = Number.isFinite(plain.durationS) ? plain.durationS : 0;
+      // The chain reports no duration; it heard the same audio, so it is booked at the
+      // scripted pass's length and the Azure rate — never less than it cost.
+      const secs = plain.by === 'azure' ? plain.durationS : durationS;
+      unbiasedSeconds = Number.isFinite(secs) ? secs : 0;
     } else unbiasedError = plain.error;
   }
 
   // Book the audio Azure actually processed, not the one-minute ceiling.
   await reconcileAudioSeconds(env, PATH, durationS + unbiasedSeconds);
   return ok({ ok: true, ...parsed, ...(wantUnbiased ? { unbiased, unbiasedError } : {}) }, origin);
+}
+
+/**
+ * THE UNBIASED TRANSCRIPT COMES FROM THE PRODUCTION CHAIN FIRST (sweep 231, 2026-10-04).
+ * Two calibration runs (2026-09-29, 2026-10-01) asked both candidates which ending they
+ * heard on the same eight probe recordings: plain Azure 7 of 8 (it heard "Vidim
+ * prijatelj." as "prijatelji"), the chain (Deepgram → Whisper) 8 of 8, identically both
+ * times. Sweep 221 recorded the decision in advance: if the chain wins, swap. Plain Azure
+ * stays as the fallback when no chain provider is configured or every one fails, so the
+ * build stage keeps an unbiased transcript whenever Azure itself answers. Never throws.
+ */
+export async function unbiasedTranscript(env, key, region, audioBytes, contentType, locale) {
+  if (env?.DEEPGRAM_API_KEY || env?.OPENAI_API_KEY) {
+    try {
+      const { text, provider } = await transcribeCroatian(audioBytes, contentType, env);
+      if (typeof text === 'string' && text.trim()) return { ok: true, text, by: provider };
+    } catch {
+      /* every chain provider failed — plain Azure below */
+    }
+  }
+  const az = await azureTranscribe(key, region, audioBytes, contentType, locale);
+  return az.ok ? { ...az, by: 'azure' } : az;
 }
 
 /**
