@@ -86,31 +86,37 @@ jobs:
           if report.get('drift'):
               print('::error::STT drift detected — 2+ golden phrases transcribed outside band')
               failed = True
-          # Pronunciation-assessment probes: a wrong case ending must be flagged, a right one not.
+          # Pronunciation-assessment probes. GATED: correct speech scores clear, and the
+          # production unbiased transcript (what the build stage grades) hears the ending
+          # actually spoken. REPORTED ONLY: the scripted check's miscue halves — it is given
+          # the correct sentence and hears to match it, a known limit (sweeps 220/221/231).
           a = report.get('assessment') or {}
           for p in a.get('probes', []):
-              for half, want in (('control', 'clear'), ('miscue', 'flagged')):
-                  h = p.get(half) or {}
-                  if not h.get('evaluated'):
-                      print(f"::warning::{p.get('id')} {half}: not evaluated ({h.get('error') or p.get('error')})")
-                  elif not h.get('ok'):
-                      print(f"::warning::{p.get('id')} {half}: expected '{p.get('focus')}' {want}, got {json.dumps(h.get('focus'), ensure_ascii=False)} — heard \"{h.get('recognized','')}\"")
+              h = p.get('control') or {}
+              if not h.get('evaluated'):
+                  print(f"::warning::{p.get('id')} control: not evaluated ({h.get('error') or p.get('error')})")
+              elif not h.get('ok'):
+                  print(f"::warning::{p.get('id')} control: correct speech flagged on '{p.get('focus')}' — heard \"{h.get('recognized','')}\"")
+          print(f"Scripted check missed {a.get('scriptedMiscueMissed', 0)} wrong ending(s) (known limit, not gated)")
           # Unbiased transcription of the same probe audio: which ending was heard?
           u = report.get('unbiased') or {}
-          for src in ('azure', 'chain'):
+          for src in ('azure', 'chain', 'production'):
               t = u.get(src) or {}
               print(f"Unbiased {src}: {t.get('right', 0)}/{t.get('total', 0)} halves heard the ending actually spoken")
           for p in a.get('probes', []):
               for half in ('control', 'miscue'):
                   ub = (p.get(half) or {}).get('unbiased') or {}
-                  for src in ('azure', 'chain'):
+                  for src in ('azure', 'chain', 'production'):
                       r = ub.get(src) or {}
                       print(f"  {p.get('id')} {half} {src}: {r.get('heard') or r.get('error')} — \"{r.get('text', '')}\"")
+          if a.get('unmeasured'):
+              print("::error::No production unbiased transcript was produced — the build stage's ending check is unmeasured")
+              failed = True
           if a.get('drift'):
-              print(f"::error::Assessment drift — {a.get('failed')}/{a.get('total')} probe halves wrong: the recording check cannot be trusted to tell a wrong ending from a right one")
+              print(f"::error::Assessment drift — {a.get('controlFailures')} correct take(s) flagged, {a.get('productionWrong')} ending(s) misheard by the production transcript")
               failed = True
           if failed:
               sys.exit(1)
-          print(f"Assessment probes OK: {a.get('total', 0) - a.get('failed', 0)}/{a.get('total', 0)} halves as expected")
+          print(f"Assessment OK: {a.get('total', 0) - a.get('failed', 0)}/{a.get('total', 0)} gated checks as expected")
           print(f"STT calibration OK: {report.get('withinBand')}/{report.get('evaluated')} within band (band {report.get('band')})")
           EOF

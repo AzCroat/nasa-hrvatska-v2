@@ -23,7 +23,7 @@
 import { checkAndChargeBudget } from './_aiBudget.js';
 import { transcribeCroatian } from './_transcribe.js';
 import { tryAzure } from './tts.js';
-import { azureAssess, azureTranscribe } from './pronunciation-assess.js';
+import { azureAssess, azureTranscribe, unbiasedTranscript } from './pronunciation-assess.js';
 import {
   ASSESS_PROBES,
   endingHeard,
@@ -127,14 +127,18 @@ async function probeAudio(env, kv, key, text) {
 }
 
 function unbiasedSummary(probes) {
-  const tally = { azure: { right: 0, total: 0 }, chain: { right: 0, total: 0 } };
+  const tally = {
+    azure: { right: 0, total: 0 },
+    chain: { right: 0, total: 0 },
+    production: { right: 0, total: 0 },
+  };
   for (const p of probes) {
     for (const [half, want] of [
       ['control', 'correct'],
       ['miscue', 'wrong'],
     ]) {
       const u = p?.[half]?.unbiased;
-      for (const src of ['azure', 'chain']) {
+      for (const src of ['azure', 'chain', 'production']) {
         if (!u?.[src]?.heard) continue;
         tally[src].total++;
         if (u[src].heard === want) tally[src].right++;
@@ -157,6 +161,11 @@ async function unbiasedHeard(env, key, region, audio, probe) {
   } catch (e) {
     out.chain = { error: String(e?.message || e).slice(0, 120) };
   }
+  // What /api/pronunciation-assess ACTUALLY grades the build stage on — the gate reads this.
+  const prod = await unbiasedTranscript(env, key, region, new Uint8Array(audio), 'audio/wav');
+  out.production = prod.ok
+    ? { text: prod.text, by: prod.by, heard: endingHeard(prod.text, probe.focus, probe.wrongFocus) }
+    : { error: prod.error };
   return out;
 }
 
@@ -259,7 +268,18 @@ export async function onRequestPost(context) {
   const probes = [];
   for (const probe of ASSESS_PROBES) probes.push(await assessProbe(env, kv, probe));
   const halves = probes.flatMap((p) => [p.control, p.miscue]).filter((h) => h?.evaluated);
-  const probeFailures = halves.filter((h) => !h.ok).length;
+  const unbiased = unbiasedSummary(probes);
+  // WHAT IS GATED IS WHAT THE APP RELIES ON (sweep 231, 2026-10-04). The scripted assessment
+  // is given the correct sentence and hears to match it, so its MISCUE halves fail on every
+  // run (2026-09-29 and 10-01: 4 of 4) — a known limit, which is why the build stage grades
+  // the unbiased transcript instead (sweep 221). Gating on it left this workflow red on every
+  // run, where a real regression could not be told from the known limit. Gated now: correct
+  // speech must score clear (REHEARSE relies on that), and the production unbiased transcript
+  // must hear the ending actually spoken. The scripted miscue halves stay in the report.
+  const controlFailures = probes.filter((p) => p.control?.evaluated && !p.control.ok).length;
+  const scriptedMiscueMissed = probes.filter((p) => p.miscue?.evaluated && !p.miscue.ok).length;
+  const productionWrong = unbiased.production.total - unbiased.production.right;
+  const probeFailures = controlFailures + productionWrong;
 
   const evaluated = samples.filter((s) => s.evaluated);
   const outOfBand = evaluated.filter((s) => !s.ok);
@@ -276,15 +296,22 @@ export async function onRequestPost(context) {
     drift,
     samples,
     assessment: {
-      total: halves.length,
+      total: probes.filter((p) => p.control?.evaluated).length + unbiased.production.total,
       failed: probeFailures,
-      // Same rule as the transcript samples: two or more failed halves is drift.
+      controlFailures,
+      productionWrong,
+      // Reported, not gated: the scripted check cannot hear an ending (see above).
+      scriptedMiscueMissed,
+      // Same rule as the transcript samples: two or more failures is drift.
       drift: probeFailures >= STT_DRIFT_THRESHOLD,
+      // Nothing measured is not a pass: no production transcript at all is drift too.
+      unmeasured: unbiased.production.total === 0,
+      halves: halves.length,
       probes,
     },
     // Can a transcriber with NO reference sentence tell the endings apart? A control half
     // is right when it hears the correct form, a miscue half when it hears the wrong one.
-    // Reported, not gated: this is the measurement the app's ending check will rest on.
-    unbiased: unbiasedSummary(probes),
+    // `production` is the one the app grades with, and it is gated above.
+    unbiased,
   });
 }
