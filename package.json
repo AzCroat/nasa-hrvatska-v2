@@ -89,7 +89,7 @@
     "lint-staged": "^17.5.1",
     "madge": "^8.0.0",
     "playwright-extra": "^4.3.6",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "sharp": "^0.35.3",
     "size-limit": "^14.0.0",
