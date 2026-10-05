@@ -334,10 +334,13 @@ describe('the unbiased transcript', () => {
     results: { channels: [{ alternatives: [{ transcript: text }] }] },
   });
   const env = { AZURE_TTS_KEY: 'k', AZURE_TTS_REGION: 'westeurope', DEEPGRAM_API_KEY: 'd' };
+  const host = (u) => new URL(String(u)).hostname;
+  const isDeepgram = (u) => host(u) === 'api.deepgram.com';
+  const isAzure = (u) => host(u) === 'westeurope.stt.speech.microsoft.com';
 
   it('comes from the production chain (Deepgram) when it is configured', async () => {
     const fetchMock = vi.fn(async (u, init) => {
-      if (String(u).includes('deepgram.com')) {
+      if (isDeepgram(u)) {
         return new Response(JSON.stringify(deepgram('Vidim prijatelj.')), { status: 200 });
       }
       return new Response(
@@ -350,17 +353,17 @@ describe('the unbiased transcript', () => {
     vi.stubGlobal('fetch', fetchMock);
     const body = await (await onRequestPost({ request: req({ unbiased: true }), env })).json();
     expect(body.unbiased).toBe('Vidim prijatelj.');
-    const urls = fetchMock.mock.calls.map((c) => String(c[0]));
-    expect(urls.some((u) => u.includes('deepgram.com'))).toBe(true);
+    const urls = fetchMock.mock.calls.map((c) => c[0]);
+    expect(urls.some(isDeepgram)).toBe(true);
     // Plain Azure is not asked when the chain answered.
-    expect(urls.filter((u) => u.includes('stt.speech.microsoft.com'))).toHaveLength(1);
+    expect(urls.filter(isAzure)).toHaveLength(1);
   });
 
   it('falls back to plain Azure when the chain fails, so the build stage still has a transcript', async () => {
     vi.stubGlobal(
       'fetch',
       vi.fn(async (u, init) => {
-        if (String(u).includes('deepgram.com')) return new Response('down', { status: 503 });
+        if (isDeepgram(u)) return new Response('down', { status: 503 });
         return new Response(
           JSON.stringify(init.headers['Pronunciation-Assessment'] ? scripted : plain),
           {
