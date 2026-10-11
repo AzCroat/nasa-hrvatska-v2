@@ -14533,3 +14533,25 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     Mutation-verified: chain skipped fails 1; production wrongs dropped from the gate fails 1.
   - NEVER gate a calibration on a measurement the app no longer relies on; NEVER let the
     unbiased pass fall back to the scripted text.
+- [x] **Sweep 232 — dark mode: light text on a light surface on 28 screens (weekly
+      route sweep, red on 2026-09-28 and 10-05).** `e2e/dark-mode-ink.spec.js` named four
+      causes.
+  - **A bare `.b` button painted the browser's grey.** `.b` sets no background, so a
+    `<button class="b">` with no variant got the UA's buttonface (#efefef) while its text
+    followed the theme (#e2e8f0): the "All essays" button on all 24 culture essays and the
+    lesson-produce Back. Fixed once, for all 27 bare `.b` buttons:
+    `:where(button).b{background:var(--surface-mute)}` — nearly the same grey in light mode,
+    dark in dark mode. `:where()` keeps `.b`'s specificity, so the variants and any inline
+    background still win.
+  - **Bakino Ljeto's "← Previous"** put a themed ink on a fixed #e5e7eb; both arms are
+    themed now (`--surface-mute` / `--card`, `--ink-muted` / `--text`).
+  - **Translate Drills' level badge** painted its data colour as ink (`#7c3aed` on the
+    dark card); it goes through `accentInk`, light mode unchanged.
+  - **The stylesheet half of `themedInlineBackground` read every OTHER rule.**
+    `themedClasses` matched `(^|\})…\{…\}` with matchAll, so each match consumed the
+    closing brace the next rule needed as its anchor. Adding one rule above `.ob` flipped
+    the parity and `.ob` disappeared from the set. A lookbehind reads every rule: 24 → 39
+    themed classes, and the widened guard found no hidden defect (a ratchet, not a save).
+    Mutation-verified: the old group pattern fails 2 tests on the current stylesheet.
+  - NEVER: leave a `<button>` styled by bare `.b` without a background; anchor a
+    `matchAll` rule parser on a CONSUMED delimiter (use a lookbehind).

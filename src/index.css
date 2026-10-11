@@ -968,6 +968,14 @@ button,input,optgroup,select,textarea{
 .b:active { transform: scale(0.96); }
 .b:focus-visible{outline:3px solid rgba(14,116,144,.45);outline-offset:3px}
 
+/* A BARE .b BUTTON PAINTED THE BROWSER'S GREY (2026-10-06, sweep 232). .b sets no
+   background, so a <button class="b"> with no variant got the UA's buttonface (#efefef)
+   while its text followed the theme — light on light in dark mode, on every culture
+   essay's "All essays" button and the lesson-produce Back. A themed quiet surface,
+   nearly the same grey in light mode. :where() keeps this at .b's specificity, so the
+   variants below (.bp .bs .bw .bg …) and any inline background still win. */
+:where(button).b{background:var(--surface-mute)}
+
 /* Primary — deep teal */
 .bp{
   background:linear-gradient(135deg,#0e7490 0%,#0a5c73 60%,#164e63 100%);

@@ -7,6 +7,7 @@ import { useStats } from '../../context/StatsContext';
 import { levelledBank } from '../../lib/levelledBank';
 import { getGenerationCefr } from '../../lib/cefrCertification';
 import { retryNeedLabel } from '../../lib/lessonGate';
+import { accentInk } from '../../lib/accentInk';
 
 const CEFR_COLORS = { A2: '#16a34a', B1: '#d97706', B2: '#7c3aed', C1: '#be123c' };
 const CEFR_BG = {
@@ -224,7 +225,7 @@ export default function TranslateDrillsScreen({
         <span
           style={{
             background: (CEFR_BG as Record<string, string>)[drill.level],
-            color: (CEFR_COLORS as Record<string, string>)[drill.level],
+            color: accentInk((CEFR_COLORS as Record<string, string>)[drill.level]),
             fontSize: 11,
             fontWeight: 700,
             padding: '3px 10px',
