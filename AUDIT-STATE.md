@@ -14533,3 +14533,11 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
     Mutation-verified: chain skipped fails 1; production wrongs dropped from the gate fails 1.
   - NEVER gate a calibration on a measurement the app no longer relies on; NEVER let the
     unbiased pass fall back to the scripted text.
+- [x] **Sweep 233 — the Chrome E2E suite split into four shards (owner, 2026-10-11).** Run
+      whole on one runner it took 52 minutes on PR #850, so every change waited about an
+      hour to deploy. `ci.yml` gains `e2e-chrome`, a four-shard matrix (`--shard=N/4`,
+      `fail-fast: false`), each on its own runner with the suite's single worker unchanged
+      (parallel workers on one machine are what flaked before). The `e2e` job keeps the
+      microphone specs and the Firefox/WebKit smoke subset; Build & Deploy needs both jobs.
+      Verified before pushing: the four `--list` outputs (89 each) are exactly the full
+      suite's 356, as sets — nothing lost, nothing run twice.
