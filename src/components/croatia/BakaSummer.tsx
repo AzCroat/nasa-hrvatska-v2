@@ -516,9 +516,11 @@ export default function BakaSummer({ goBack, award, book }: BakaSummerProps) {
           disabled={chapter === start}
           style={{
             ...pill(false),
-            background: chapter === start ? '#e5e7eb' : '#fff',
-            color: chapter === start ? 'var(--ink-muted)' : '#374151',
-            borderColor: chapter === start ? '#e5e7eb' : '#d1d5db',
+            // Both arms follow the theme: a fixed #e5e7eb under a themed ink was
+            // light-on-light in dark mode (sweep 232).
+            background: chapter === start ? 'var(--surface-mute)' : 'var(--card)',
+            color: chapter === start ? 'var(--ink-muted)' : 'var(--text)',
+            borderColor: chapter === start ? 'var(--surface-mute)' : '#d1d5db',
             cursor: chapter === start ? 'default' : 'pointer',
             padding: '8px 18px',
           }}
