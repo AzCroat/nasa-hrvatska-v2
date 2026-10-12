@@ -24,6 +24,8 @@
  *   - Exits 0 on success, 1 on fatal error (CI-safe)
  */
 
+import { gitProductionPatch } from './pagesGitProduction.mjs';
+
 const API = 'https://api.cloudflare.com/client/v4';
 const PAGES_PROJECT = 'nasa-hrvatska-v2';
 
@@ -310,6 +312,37 @@ async function main() {
         `::warning::Could not provision D1 "${binding}" (${e.message}). The AI quota, budget ledger and rate limits stay on their KV fallback. Grant the Cloudflare API token "D1: Edit" to fix.`,
       );
     }
+  }
+
+  // Production publishes come from CI only (see pagesGitProduction.mjs). Read, change
+  // only if needed, read back, and say what the project now holds.
+  project = await getPagesProject(accountId, PAGES_PROJECT);
+  try {
+    const before = project.source?.config?.production_deployments_enabled;
+    const patch = gitProductionPatch(project);
+    if (patch) {
+      await cfFetch(`/accounts/${accountId}/pages/projects/${PAGES_PROJECT}`, {
+        method: 'PATCH',
+        body: JSON.stringify(patch),
+      });
+      project = await getPagesProject(accountId, PAGES_PROJECT);
+    }
+    const after = project.source?.config?.production_deployments_enabled;
+    if (!project.source) {
+      console.log('  Pages project is not Git-connected — CI is the only publisher');
+    } else if (after === false) {
+      console.log(
+        `  \x1b[32m✓\x1b[0m Git production builds off (was ${before}); previews ${project.source.config.preview_deployment_setting ?? 'unchanged'}`,
+      );
+    } else {
+      console.log(
+        `::warning::Git production builds are still ${after} after the update — Cloudflare can publish master without CI.`,
+      );
+    }
+  } catch (e) {
+    console.log(
+      `::warning::Could not turn off Git production builds (${e.message}) — Cloudflare can still publish master without waiting for CI.`,
+    );
   }
 
   // Reload project after patching so env var check sees the latest state
