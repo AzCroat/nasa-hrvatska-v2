@@ -14570,3 +14570,11 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
       (`--shard=N/5` over that file); the Chrome shards skip them with `--grep-invert`.
       Verified before pushing: the nine `--list` outputs together are exactly the full
       suite's 356, none repeated. Expected critical path: the 8.8-minute A1+A2 walk.
+- [x] **Sweep 235 — Cloudflare published master while CI was red (2026-10-12).** Master CI
+      for 93093143 failed (Firefox missing on the test runner, fixed in #854) and the site
+      served 93093143 anyway: the Pages project's GitHub connection builds and publishes
+      every push to master without waiting for CI, so "a red test blocks the deploy" was
+      not enforced. `setup-cf-resources.mjs` now turns off Git-triggered production
+      builds on every deploy (`scripts/pagesGitProduction.mjs`), keeping PR previews; CI's
+      `wrangler pages deploy` is the only production publisher. Pinned by
+      `pagesGitProduction.test.js`; mutation-verified (setting left on fails 1).
