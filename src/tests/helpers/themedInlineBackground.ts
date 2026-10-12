@@ -35,11 +35,14 @@ import { escapeRegExp } from './emptyClaimSurfaces';
 /** Classes whose CSS rule sets background AND color from theme variables. */
 export function themedClasses(css: string): Set<string> {
   const out = new Set<string>();
-  for (const m of css.matchAll(/(^|\})\s*([^{}@]+)\{([^{}]*)\}/g)) {
-    const body = m[3]!;
+  // A LOOKBEHIND, not a group (sweep 232): `(^|\})` CONSUMED the previous rule's
+  // closing brace, so the next rule had no `}` left to anchor on and every other rule
+  // was skipped. Adding one rule above `.ob` flipped the parity and `.ob` vanished.
+  for (const m of css.matchAll(/(?<=^|\})\s*([^{}@]+)\{([^{}]*)\}/g)) {
+    const body = m[2]!;
     if (!/background\s*:\s*var\(/.test(body)) continue;
     if (!/(?:^|[;\s])color\s*:\s*var\(/.test(body)) continue;
-    for (const c of m[2]!.matchAll(/\.([a-zA-Z][\w-]*)/g)) out.add(c[1]!);
+    for (const c of m[1]!.matchAll(/\.([a-zA-Z][\w-]*)/g)) out.add(c[1]!);
   }
   return out;
 }
