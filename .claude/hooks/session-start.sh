@@ -25,6 +25,11 @@
 # remember after every revert.
 set -uo pipefail
 
+# The owner's standing rules go into EVERY session's context — startup, resume and
+# after compaction — first, before anything else this hook does or exits on.
+RULES="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}/.claude/OWNER-RULES.md"
+[ -f "$RULES" ] && cat "$RULES"
+
 SRC="${CLAUDE_PROJECT_DIR:-$(cd "$(dirname "$0")/../.." && pwd)}/scripts/claude-hooks/stop-hook-git-check.sh"
 DEST="$HOME/.claude/stop-hook-git-check.sh"
 
