@@ -403,7 +403,7 @@ jobs:
           VITE_SENTRY_DSN: ""
 
       - name: Run E2E tests — Chrome (shard ${{ matrix.shard }}/4)
-        run: npx playwright test --project="Desktop Chrome" --shard=${{ matrix.shard }}/4
+        run: npx playwright test --project="Desktop Chrome" --shard=${{ matrix.shard }}/4 --grep-invert "A learner walks the whole course"
         env:
           CI: true
 
@@ -415,6 +415,119 @@ jobs:
           path: playwright-report/
           retention-days: 7
 
+  # THE WHOLE-COURSE WALK RUNS ON ITS OWN, ONE TEST PER RUNNER (2026-10-12, sweep 234).
+  # e2e/course-full-walk.spec.js is five tests totalling ~26 minutes (A1+A2 8.8 min, each
+  # later level ~4.3), and Playwright's --shard keeps a file's tests together in order, so
+  # all five landed in one Chrome shard: 36 minutes against ~6 for the other three. Here
+  # --shard=N/5 over that one file puts exactly one test on each runner, and the Chrome
+  # shards skip it with --grep-invert on its describe title. Every test still runs once.
+  e2e-course-walk:
+    name: E2E Tests — whole-course walk (${{ matrix.shard }}/5)
+    runs-on: ubuntu-latest
+    needs: quality
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+
+      # 2026-08-19: this install stalled on a GitHub-side download TWICE in one
+      # day — once in production-smoke (6h to the default timeout) and once
+      # here (75 min to the job cap), where it SKIPPED Build & Deploy and cost
+      # a deploy cycle. GitHub Actions has no native step retry, so each
+      # attempt is bounded with bash `timeout` and retried once on a stall;
+      # the step-level timeout-minutes is the outer bound. Healthy runs take
+      # ~2 minutes — everything past that is pure headroom.
+      # A timed-out attempt orphans the apt-get child `timeout` doesn't kill,
+      # and the orphan keeps holding the apt lock — the retry then dies
+      # instantly with "Could not get lock" (seen live, run 32302453122).
+      # So between attempts: kill orphaned apt processes and clear their locks.
+      # 2026-10-02: the stall that keeps costing re-runs is apt waiting on ONE slow
+      # mirror connection for the whole 10-minute bound, then retrying the SAME
+      # mirror. apt now abandons a stalled connection after 30 s and retries it
+      # (Acquire::Retries), and the second attempt below switches from the Azure
+      # mirror to archive.ubuntu.com, so a degraded mirror cannot fail both.
+      - name: Harden apt against a stalled mirror
+        run: |
+          printf 'Acquire::Retries "5";\nAcquire::http::Timeout "30";\nAcquire::https::Timeout "30";\nAcquire::ftp::Timeout "30";\n' | sudo tee /etc/apt/apt.conf.d/99ci-network >/dev/null
+
+      - name: Install Playwright browsers (Chrome)
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 22
+        run: |
+          for attempt in 1 2; do
+            if timeout 600 npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound)"
+            sudo pkill -9 apt-get 2>/dev/null || true
+            sudo pkill -9 -x apt 2>/dev/null || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
+            sudo dpkg --configure -a || true
+            sudo sed -i 's#azure\.archive\.ubuntu\.com#archive.ubuntu.com#g' /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list 2>/dev/null || true
+          done
+          echo "::error::Playwright install failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
+          exit 1
+
+      - name: Install Playwright system deps (cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 22
+        run: |
+          for attempt in 1 2; do
+            if timeout 600 npx playwright install-deps chromium; then
+              exit 0
+            fi
+            echo "::warning::install-deps attempt ${attempt} failed or stalled (10-min bound)"
+            sudo pkill -9 apt-get 2>/dev/null || true
+            sudo pkill -9 -x apt 2>/dev/null || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
+            sudo dpkg --configure -a || true
+            sudo sed -i 's#azure\.archive\.ubuntu\.com#archive.ubuntu.com#g' /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list 2>/dev/null || true
+          done
+          echo "::error::install-deps failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
+          exit 1
+
+      - name: Build for E2E (with placeholder Firebase config)
+        run: npm run build
+        env:
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY || 'placeholder' }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN || 'placeholder.firebaseapp.com' }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID || 'placeholder' }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET || 'placeholder.appspot.com' }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID || '000000000000' }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID || '1:000000000000:web:placeholder' }}
+          VITE_SENTRY_DSN: ""
+
+      - name: Run E2E tests — whole-course walk (${{ matrix.shard }}/5)
+        run: npx playwright test --project="Desktop Chrome" e2e/course-full-walk.spec.js --shard=${{ matrix.shard }}/5
+        env:
+          CI: true
+
+      - name: Upload E2E report
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: e2e-report-course-walk-${{ matrix.shard }}
+          path: playwright-report/
+          retention-days: 7
+
   build-deploy:
     name: Build & Deploy
     runs-on: ubuntu-latest
@@ -423,7 +536,7 @@ jobs:
     # a change that passed unit tests but broke a real user flow deployed to
     # production while E2E was still running. The cost is ~15-35 min added
     # deploy latency (see the e2e job's timeout note); the owner accepted it.
-    needs: [quality, test, e2e, e2e-chrome]
+    needs: [quality, test, e2e, e2e-chrome, e2e-course-walk]
     # ── The deploy gate, defined ONCE ────────────────────────────────────────
     # Every step below that touches Cloudflare reads this one value. It was five
     # copies of `github.event_name == 'push'`; a single expression cannot drift

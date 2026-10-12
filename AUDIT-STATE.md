@@ -14563,3 +14563,10 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
       microphone specs and the Firefox/WebKit smoke subset; Build & Deploy needs both jobs.
       Verified before pushing: the four `--list` outputs (89 each) are exactly the full
       suite's 356, as sets — nothing lost, nothing run twice.
+- [x] **Sweep 234 — the slow Chrome shard was one spec (2026-10-12).** After sweep 233,
+      three Chrome shards took ~6 minutes and one took 36: `course-full-walk.spec.js` is
+      five tests totalling ~26 minutes (A1+A2 8.8, B1–C2 ~4.3 each), and `--shard` kept
+      them together. They now run as `e2e-course-walk`, one test per runner
+      (`--shard=N/5` over that file); the Chrome shards skip them with `--grep-invert`.
+      Verified before pushing: the nine `--list` outputs together are exactly the full
+      suite's 356, none repeated. Expected critical path: the 8.8-minute A1+A2 walk.
