@@ -202,7 +202,10 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          # Its own key (2026-10-12): the Chromium-only shard jobs once saved a cache under the
+          # shared key first, and this job then restored it, skipped the install, and found
+          # no Firefox. A cache that holds a different browser set must have a different key.
+          key: playwright-all-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       # 2026-08-19: this install stalled on a GitHub-side download TWICE in one
       # day — once in production-smoke (6h to the default timeout) and once
@@ -333,7 +336,7 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       # 2026-08-19: this install stalled on a GitHub-side download TWICE in one
       # day — once in production-smoke (6h to the default timeout) and once
@@ -446,7 +449,7 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
+          key: playwright-chromium-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
       # 2026-08-19: this install stalled on a GitHub-side download TWICE in one
       # day — once in production-smoke (6h to the default timeout) and once
