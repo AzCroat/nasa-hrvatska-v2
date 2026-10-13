@@ -144,4 +144,19 @@ describe('/api/explain-error accepts every type its clients send', () => {
     // And the validation rejects must go through it, not bare err().
     expect(src).toMatch(/if \(!VALID_TYPES\.includes\(type\)\) return reject\(/);
   });
+  it('a failed provider call (network, body read, non-OK, unparseable envelope) refunds the pre-charge', () => {
+    const src = strip(readFileSync(ENDPOINT, 'utf8'));
+    for (const msg of [
+      'network error',
+      'failed to read response body',
+      'API error',
+      'JSON parse failed:',
+    ]) {
+      const at = src.indexOf(`'explain-error.js: ${msg}`);
+      expect(at, msg).toBeGreaterThan(-1);
+      expect(src.slice(at, at + 200), msg).toMatch(
+        /refundPrecharge\(env, '\/api\/explain-error'\)/,
+      );
+    }
+  });
 });

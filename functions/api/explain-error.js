@@ -188,6 +188,7 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
     });
   } catch (fetchErr) {
     console.error('explain-error.js: network error:', fetchErr.message);
+    await refundPrecharge(env, '/api/explain-error');
     return err(502, 'Service temporarily unavailable', origin);
   }
 
@@ -197,6 +198,7 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
     rawBody = await res.text();
   } catch (bodyErr) {
     console.error('explain-error.js: failed to read response body:', bodyErr.message);
+    await refundPrecharge(env, '/api/explain-error');
     return err(502, 'Service temporarily unavailable', origin);
   }
 
@@ -209,6 +211,7 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
       /* not JSON */
     }
     console.error('explain-error.js: API error', res.status, errMsg);
+    await refundPrecharge(env, '/api/explain-error');
     return err(
       res.status >= 500 ? 502 : res.status,
       isDev ? errMsg || 'API error: HTTP ' + res.status : 'AI service error',
@@ -222,6 +225,7 @@ Explain the grammar rule. Be specific about case, tense, or pattern.`;
     data = JSON.parse(rawBody);
   } catch {
     console.error('explain-error.js: JSON parse failed:', rawBody.slice(0, 200));
+    await refundPrecharge(env, '/api/explain-error');
     return err(502, 'Invalid response from AI', origin);
   }
 
