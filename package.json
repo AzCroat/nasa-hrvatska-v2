@@ -62,7 +62,7 @@
     "web-vitals": "~6.2.3"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.13.0",
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^10.0.1",
     "@firebase/rules-unit-testing": "^5.0.2",
     "@lhci/cli": "^0.15.1",
