@@ -75,7 +75,7 @@ const AC_CONVO_RULES = {
   B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
   B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
   C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-  C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
+  C2: 'Full native speaker register. Idiomatic speech and cultural references are welcome; use a regional expression only if it genuinely belongs to the place the conversation is set in, never slang from one region passed off as another.',
 };
 const AC_CONVO = definePrompt(
   'ai-chat-convo',
@@ -222,7 +222,7 @@ const AC_STORY_RULES = {
   B1: 'Use present and past tense naturally. Conversational vocabulary. Include some cultural details. No English hints needed — context makes meaning clear.',
   B2: 'Write like a skilled author for a native Croatian teen. All tenses, idioms welcome. Rich descriptive language. Cultural depth.',
   C1: 'Write literary Croatian. Complex sentences, subordinate clauses, all tenses, idiomatic expressions. Rich and authentic.',
-  C2: 'Write like a published Croatian author. Use regional color, colloquialisms, literary devices. Completely authentic native-level Croatian.',
+  C2: 'Write like a published Croatian author. Use regional color genuine to the region of the story (never slang from another region), colloquialisms, literary devices. Completely authentic native-level Croatian.',
 };
 const AC_STORY = definePrompt(
   'ai-chat-story',
@@ -230,7 +230,7 @@ const AC_STORY = definePrompt(
 
 Write a vivid, emotionally engaging short story (350-450 words) set in {{city}}, {{region}}, Croatia.
 The main character's name is {{characterName}}.
-The story should feel authentic to life in {{city}} — mention real local details, food, architecture, customs where natural.{{#if goalTheme}}
+The story should feel authentic to life in {{city}} — mention real local details, food, architecture, customs where natural. Any dialect or slang must be genuinely from {{city}} and {{region}}, never from another region, and never a Serbian word.{{#if goalTheme}}
 Personalization theme: The story should weave in themes of {{goalTheme}}. Let this shape the plot, setting details, and emotional arc naturally.{{/if}}
 
 CEFR Level: {{level}}
@@ -288,6 +288,7 @@ Return ONLY valid JSON (no markdown):
 }
 
 Include 4-5 ancestral phrases and 3-4 regional words.
+REGIONAL ACCURACY: a regional word or phrase must genuinely be used in {{region}}; in its "note" name the dialect it belongs to (for example Čakavian, Kajkavian, Dalmatian Štokavian-ikavian). If you are not certain a word is from {{region}}, use a standard Croatian word instead. Never give one region's slang as another's, and never use a Serbian word.
 The tone must be warm, poetic, and personal — this should move someone to tears.`,
 );
 
@@ -347,7 +348,7 @@ const AC_ADAPTIVE_RULES = {
   B1: 'Use present, past (perfective), and near-future naturally. 2-3 sentences. Conversational vocabulary.',
   B2: 'Speak naturally and fluently. 3-4 sentences. You may use idioms, participles, and varied tenses.',
   C1: 'Speak exactly as you would to a native speaker. Rich vocabulary, idioms, subordinate clauses, all tenses.',
-  C2: 'Full native speaker register. Regional expressions, idiomatic speech, cultural references are welcome.',
+  C2: 'Full native speaker register. Idiomatic speech and cultural references are welcome; use a regional expression only if it genuinely belongs to the place the conversation is set in, never slang from one region passed off as another.',
 };
 const AC_ADAPTIVE = definePrompt(
   'ai-chat-adaptive-convo',
