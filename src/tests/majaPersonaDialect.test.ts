@@ -65,3 +65,9 @@ describe('model-chosen regional colour is tied to the place', () => {
     expect(s).not.toMatch(/Introduce regional expressions and stylistic variation naturally/);
   });
 });
+
+it('Baka Mara’s diminutive examples are real diminutives (kafić is a café, vrtić a kindergarten)', () => {
+  const mara = block('maja-baka');
+  expect(mara).not.toMatch(/kafić \(coffee\)|vrtić \(little garden\)/);
+  expect(mara).toMatch(/kavica \(a little coffee\)/);
+});
