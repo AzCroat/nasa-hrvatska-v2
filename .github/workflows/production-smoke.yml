@@ -52,23 +52,42 @@ jobs:
       # outer bound. Between attempts, kill the orphaned apt-get that
       # `timeout` leaves behind and clear its locks — without that the retry
       # dies instantly on "Could not get lock" (seen live, run 32302453122).
-      - name: Install Playwright browsers
+      # 2026-10-24: the install stalled on GitHub's download servers in three of
+      # four scheduled runs (Firefox, WebKit, Firefox) while every browser that
+      # DID install loaded the live site fine. Two changes:
+      #   1. Install ONLY the engine this matrix entry runs. All three engines
+      #      (and every one's system libraries) were being fetched by all five
+      #      jobs, which is five times the download that was stalling.
+      #   2. A double stall is no longer a job FAILURE. It says nothing about
+      #      production, and a red job emails the owner as if the site were
+      #      down. The tests are skipped, a warning names the browser, and
+      #      `verify-coverage` below fails the run only if too few browsers
+      #      actually ran, so monitoring still cannot go silently blind.
+      - name: Install Playwright browser
+        id: install
         timeout-minutes: 22
         run: |
+          case "${{ matrix.browser }}" in
+            Chrome|'Mobile Chrome') ENGINE=chromium ;;
+            Firefox) ENGINE=firefox ;;
+            *) ENGINE=webkit ;;
+          esac
           for attempt in 1 2; do
-            if timeout 600 npx playwright install --with-deps chromium firefox webkit; then
+            if timeout 600 npx playwright install --with-deps "$ENGINE"; then
+              echo "ok=true" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-            echo "::warning::Playwright install attempt ${attempt} failed or stalled (10-min bound)"
+            echo "::warning::Playwright install attempt ${attempt} (${ENGINE}) failed or stalled (10-min bound)"
             sudo pkill -9 apt-get 2>/dev/null || true
             sudo pkill -9 -x apt 2>/dev/null || true
             sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock-frontend /var/lib/dpkg/lock || true
             sudo dpkg --configure -a || true
           done
-          echo "::error::Playwright install failed twice — likely an Ubuntu-mirror or GitHub-side outage; re-run the job"
-          exit 1
+          echo "::warning::${{ matrix.browser }} NOT TESTED: browser install failed twice (GitHub-side download problem, not the site)"
+          echo "ok=false" >> "$GITHUB_OUTPUT"
 
       - name: Run smoke tests (${{ matrix.browser }})
+        if: steps.install.outputs.ok == 'true'
         env:
           # Blank on the scheduled run, so the config falls back to production.
           SMOKE_BASE_URL: ${{ inputs.base_url }}
@@ -85,6 +104,7 @@ jobs:
           name: smoke-report-${{ matrix.browser }}
           path: playwright-smoke-report/
           retention-days: 7
+          if-no-files-found: ignore
 
   # ── Alerting ────────────────────────────────────────────────────────────────
   # HOW THIS WENT SILENT
@@ -143,11 +163,49 @@ jobs:
               });
             }
 
-  resolve-on-success:
-    name: Close Smoke Failure Issue on Recovery
+  # A skipped browser is a warning, not a failure (see the install step), so
+  # this job is what keeps "the install stalled" from turning into "nothing was
+  # ever checked". It counts the jobs whose tests actually RAN. Fewer than
+  # MIN_RAN fails the run (which does notify). Only a run where ALL five ran may
+  # close an open smoke-failure issue: a browser that did not run has not
+  # recovered.
+  verify-coverage:
+    name: Verify smoke coverage
     runs-on: ubuntu-latest
     needs: smoke
     if: success() && github.event_name == 'schedule'
+    permissions:
+      actions: read
+    outputs:
+      all_ran: ${{ steps.count.outputs.all_ran }}
+    steps:
+      - name: Count browsers whose tests ran
+        id: count
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const MIN_RAN = 3;
+            const { owner, repo } = context.repo;
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              owner, repo, run_id: context.runId, filter: 'latest', per_page: 100,
+            });
+            const smoke = jobs.filter((j) => j.name.startsWith('Smoke ('));
+            const ran = smoke.filter((j) =>
+              (j.steps || []).some((st) => st.name.startsWith('Run smoke tests') && st.conclusion === 'success'),
+            );
+            for (const j of smoke) {
+              if (!ran.includes(j)) core.warning(`${j.name}: tests did not run (browser install failed)`);
+            }
+            core.setOutput('all_ran', String(smoke.length > 0 && ran.length === smoke.length));
+            if (smoke.length === 0 || ran.length < MIN_RAN) {
+              core.setFailed(`Only ${ran.length} of ${smoke.length} browsers actually ran their smoke tests — production was not verified.`);
+            }
+
+  resolve-on-success:
+    name: Close Smoke Failure Issue on Recovery
+    runs-on: ubuntu-latest
+    needs: [smoke, verify-coverage]
+    if: success() && github.event_name == 'schedule' && needs.verify-coverage.outputs.all_ran == 'true'
     steps:
       - name: Close any open smoke-failure issue
         uses: actions/github-script@v7
