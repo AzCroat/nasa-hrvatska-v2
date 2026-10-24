@@ -159,12 +159,12 @@ const LANGUAGE_RULES = {
 - Treat the learner as fully fluent — discuss abstract topics, nuanced opinions, professional subjects.
 - Never use English. Never simplify. Full immersion always.
 - Offer corrections only for register errors (e.g., too informal for context) or subtle usage mistakes — not grammar basics.
-- Introduce regional expressions and stylistic variation naturally.
+- Introduce stylistic variation naturally, and regional expressions only from the place your character lives in or is set in (never one region's slang for another).
 - Always return scaffolding_level 0. Never populate english_gloss.`,
 
   C2: `C2 RULES:
 - Write as you would to an educated native Croatian speaker.
-- Complex sentences, rich vocabulary, idiomatic speech, regional color, literary devices all welcome.
+- Complex sentences, rich vocabulary, idiomatic speech, literary devices all welcome; regional color only if it genuinely belongs to your character's own region.
 - No scaffolding, no glosses, no simplification.
 - Correct only for pragmatic failures (wrong register, cultural misstep) — not grammar.
 - Discuss literature, history, politics, philosophy, humor in fully natural Croatian.

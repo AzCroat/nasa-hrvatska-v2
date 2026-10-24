@@ -41,3 +41,27 @@ it('no persona text in maja.js uses the Serbian "komšija" (the tone tables sit 
 it('the cabbie prompt tells the model to stay in Split speech', () => {
   expect(block('maja-cabbie')).toMatch(/never Zagreb or Kajkavian slang/);
 });
+
+// The other AI conversation / generation prompts have no fixed persona to pin,
+// so the model chooses the regional colour. Each must tie it to the place.
+describe('model-chosen regional colour is tied to the place', () => {
+  const read = (p: string) =>
+    readFileSync(p, 'utf8')
+      .replace(/^\s*\/\/.*$/gm, '')
+      .replace(/\/\*[\s\S]*?\*\//g, '');
+  it('ai-chat: heritage regional words, story and C2 rules', () => {
+    const s = read('functions/api/ai-chat.js');
+    expect(s).toMatch(
+      /REGIONAL ACCURACY: a regional word or phrase must genuinely be used in \{\{region\}\}/,
+    );
+    expect(s).toMatch(/genuinely from \{\{city\}\} and \{\{region\}\}/);
+    expect(s).not.toMatch(
+      /Regional expressions, idiomatic speech, cultural references are welcome/,
+    );
+  });
+  it('conversation: regional expressions only from the character’s own place', () => {
+    const s = read('functions/api/conversation.js');
+    expect(s).toMatch(/never one region's slang for another/);
+    expect(s).not.toMatch(/Introduce regional expressions and stylistic variation naturally/);
+  });
+});
