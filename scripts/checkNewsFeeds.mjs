@@ -52,7 +52,10 @@ async function discoverFeeds(sampleUrl) {
   try {
     const origin = new URL(sampleUrl).origin;
     const res = await fetch(origin + '/', { headers: { 'User-Agent': UA }, signal: ctl.signal });
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.log(`      (home page ${origin}/ answered ${res.status})`);
+      return [];
+    }
     const html = await res.text();
     const out = [];
     for (const tag of html.match(/<link\b[^>]*>/gi) || []) {
@@ -60,6 +63,7 @@ async function discoverFeeds(sampleUrl) {
       const href = /href=["']([^"']+)["']/i.exec(tag)?.[1];
       if (href) out.push(new URL(href, origin).href);
     }
+    if (out.length === 0) console.log('      (home page answered but advertises no rss/atom link)');
     return [...new Set(out)].slice(0, 8);
   } catch {
     return [];
