@@ -613,3 +613,73 @@ describe('ReviewScreen — Exercise Contract (vs tag + writeDelta)', () => {
     expect(fn(prev)).toBe(prev);
   });
 });
+
+// ─── The extra explanation retries once on a one-off 5xx ─────────────────────
+// Two Sentry events a fortnight apart were `502 non_json_body`: the edge
+// answered before our handler ran. The authored tip stays on screen either way;
+// the second try is what lets the extra explanation appear.
+
+describe('ReviewScreen — explain-error retries once on a server blip', () => {
+  const bad502 = () =>
+    Promise.resolve({
+      ok: false,
+      status: 502,
+      json: () => Promise.reject(new Error('not json')),
+      clone() {
+        return this;
+      },
+      text: () => Promise.resolve('<html>Bad gateway</html>'),
+    });
+  const good = () =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () =>
+        Promise.resolve({ explanation: 'Retried explanation', rule: 'r', tip: 't', example: '' }),
+    });
+
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.clearAllMocks();
+  });
+
+  it('a 502 then a 200 shows the explanation, after exactly two posts', async () => {
+    mockApiFetch.mockReset();
+    mockApiFetch.mockImplementationOnce(bad502).mockImplementationOnce(good);
+    renderScreen();
+    clickWrongOption();
+    await vi.advanceTimersByTimeAsync(2000);
+    expect(mockApiFetch).toHaveBeenCalledTimes(2);
+    expect(document.body.textContent).toContain('Retried explanation');
+  });
+
+  it('two 502s stop after the second (never a third try)', async () => {
+    mockApiFetch.mockReset();
+    mockApiFetch.mockImplementation(bad502);
+    renderScreen();
+    clickWrongOption();
+    await vi.advanceTimersByTimeAsync(10000);
+    expect(mockApiFetch).toHaveBeenCalledTimes(2);
+  });
+
+  it('a 4xx is final: it is our defect or the learner’s limit, not a blip', async () => {
+    mockApiFetch.mockReset();
+    mockApiFetch.mockImplementation(() =>
+      Promise.resolve({
+        ok: false,
+        status: 429,
+        json: () => Promise.resolve({ error: 'daily_limit' }),
+        clone() {
+          return this;
+        },
+      }),
+    );
+    renderScreen();
+    clickWrongOption();
+    await vi.advanceTimersByTimeAsync(10000);
+    expect(mockApiFetch).toHaveBeenCalledTimes(1);
+  });
+});
