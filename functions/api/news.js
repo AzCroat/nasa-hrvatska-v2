@@ -34,7 +34,17 @@ export const RSS_FEEDS = [
   },
   {
     name: '24sata.hr',
-    urls: ['https://www.24sata.hr/feeds/aktualno.xml'],
+    // 2026-10-26: aktualno.xml began answering the CI checker with 403 (it had
+    // worked on every earlier check). The candidates below are guesses at the
+    // publisher's other feed paths, tried in order after it; the CI check
+    // reports which one answers so the list can be trimmed on evidence.
+    urls: [
+      'https://www.24sata.hr/feeds/aktualno.xml',
+      'https://www.24sata.hr/feeds/news.xml',
+      'https://www.24sata.hr/feeds/najnovije.xml',
+      'https://www.24sata.hr/feed',
+      'https://www.24sata.hr/rss',
+    ],
     category: 'news',
   },
   {
