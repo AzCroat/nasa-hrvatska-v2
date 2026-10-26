@@ -45,6 +45,33 @@ async function tryUrl(url) {
   }
 }
 
+/** Feed addresses a site advertises on its home page (rss/atom <link> tags). */
+async function discoverFeeds(sampleUrl) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), TIMEOUT_MS);
+  try {
+    const origin = new URL(sampleUrl).origin;
+    const res = await fetch(origin + '/', { headers: { 'User-Agent': UA }, signal: ctl.signal });
+    if (!res.ok) {
+      console.log(`      (home page ${origin}/ answered ${res.status})`);
+      return [];
+    }
+    const html = await res.text();
+    const out = [];
+    for (const tag of html.match(/<link\b[^>]*>/gi) || []) {
+      if (!/type=["']application\/(rss|atom)\+xml["']/i.test(tag)) continue;
+      const href = /href=["']([^"']+)["']/i.exec(tag)?.[1];
+      if (href) out.push(new URL(href, origin).href);
+    }
+    if (out.length === 0) console.log('      (home page answered but advertises no rss/atom link)');
+    return [...new Set(out)].slice(0, 8);
+  } catch {
+    return [];
+  } finally {
+    clearTimeout(t);
+  }
+}
+
 const dead = [];
 for (const feed of RSS_FEEDS) {
   let winner = null;
@@ -70,6 +97,10 @@ for (const feed of RSS_FEEDS) {
       console.log(
         `      ${r.url} -> ${r.error ? r.error : r.status + ', ' + r.items + ' items, ' + r.bytes + ' bytes'}`,
       );
+    // Guessing a moved feed's path is how a source stays dead. A publisher
+    // advertises its feeds in its home page's <link rel="alternate"> tags, so
+    // print what it says; the next fix then uses the real address.
+    for (const href of await discoverFeeds(feed.urls[0])) console.log(`      advertised: ${href}`);
   }
 }
 

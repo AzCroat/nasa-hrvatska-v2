@@ -2,7 +2,9 @@
  * newsSources.test.ts — the news sources are an editorial decision (2026-09-24).
  *
  * Owner directive: Index.hr is out; Dnevnik.hr is what the app should carry,
- * with 24sata and Zadarski list acceptable alongside it. That makes `RSS_FEEDS`
+ * with 24sata and Zadarski list acceptable alongside it. (24sata was replaced by
+ * Slobodna Dalmacija on 2026-10-26, on the owner's instruction, after its site refused
+ * the CI checker on every path.) That makes `RSS_FEEDS`
  * the one list in this repo whose CONTENT is not a technical judgement, so it
  * gets a test that says so — a drive-by "let's add a feed" is the failure mode.
  *

@@ -33,8 +33,14 @@ export const RSS_FEEDS = [
     category: 'news',
   },
   {
-    name: '24sata.hr',
-    urls: ['https://www.24sata.hr/feeds/aktualno.xml'],
+    // Replaces 24sata.hr on the owner's instruction (2026-10-26): 24sata's whole
+    // site answered 403 to the CI checker on every path, so the source could
+    // not be verified. HRT Vijesti was tried first and its home page advertises
+    // no feed (three guessed paths 404). The URLs are candidates tried in
+    // order; the CI feed check reports which answers so the list can be
+    // trimmed on evidence.
+    name: 'Slobodna Dalmacija',
+    urls: ['https://slobodnadalmacija.hr/feed', 'https://slobodnadalmacija.hr/rss'],
     category: 'news',
   },
   {
