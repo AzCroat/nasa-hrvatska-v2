@@ -146,6 +146,13 @@ export function latinizeResponseBody(response, observe) {
     if (!response || !response.body || !TEXTUAL_CT.test(ct)) return response;
     let found = false;
     let sample = '';
+    // Where the FIRST Cyrillic character sits, with ~100 characters either side.
+    // `sample` is only the head of the body, so on a long payload (a news digest)
+    // the contamination is usually beyond it and an incident could not say what
+    // was contaminated. `tail` carries the previous chunk's end so a word split
+    // across a chunk boundary is still found with its left context.
+    let context = '';
+    let tail = '';
     const stream = response.body
       .pipeThrough(new TextDecoderStream())
       .pipeThrough(
@@ -153,6 +160,12 @@ export function latinizeResponseBody(response, observe) {
           transform(chunk, controller) {
             if (observe && sample.length < OBSERVE_SAMPLE_CHARS) {
               sample = (sample + chunk).slice(0, OBSERVE_SAMPLE_CHARS);
+            }
+            if (observe && !context) {
+              const hay = tail + chunk;
+              const m = CYRILLIC_RE.exec(hay);
+              if (m) context = hay.slice(Math.max(0, m.index - 100), m.index + 100);
+              else tail = hay.slice(-100);
             }
             if (CYRILLIC_RE.test(chunk)) {
               found = true;
@@ -169,7 +182,11 @@ export function latinizeResponseBody(response, observe) {
             }
             if (observe) {
               try {
-                observe({ contaminated: found, text: sample });
+                observe(
+                  context
+                    ? { contaminated: found, text: sample, context }
+                    : { contaminated: found, text: sample },
+                );
               } catch {
                 /* observer must never take the response down */
               }

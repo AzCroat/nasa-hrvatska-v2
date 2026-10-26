@@ -332,7 +332,7 @@ function buildObserver(context, pathname, status, promptTag) {
     return undefined; // no waitUntil → a flush-time write could be cut off; skip
   }
 
-  return ({ contaminated, text }) => {
+  return ({ contaminated, text, context }) => {
     const write = (async () => {
       // Incidents ALWAYS persist; clean output is sampled.
       if (!contaminated && Math.random() >= OBS_SAMPLE_RATE) return;
@@ -354,6 +354,9 @@ function buildObserver(context, pathname, status, promptTag) {
       // from the debt list to avoid.
       const parsed = parsePromptTagList(promptTag);
       const record = { path: pathname, at, contaminated, text };
+      // Only the head of the body is kept in `text`; this is the window around
+      // the first Cyrillic character, so an incident can say WHAT was contaminated.
+      if (contaminated && context) record.cyrillicContext = context;
       if (parsed.length === 1) {
         record.promptId = parsed[0].id;
         record.promptVersion = parsed[0].version;
