@@ -36,6 +36,24 @@ interface ReviewStateRef {
   score: number;
 }
 
+// The extra "why" is fetched in the background and the authored tip always
+// stays on screen, so a failure costs the learner nothing — but a one-off 5xx
+// (or a dropped connection) is exactly what a second try clears, and each one
+// used to file a Sentry error (two in a fortnight, both `502 non_json_body`:
+// Cloudflare answered before our handler ran). Retry ONCE on a 5xx or a thrown
+// transport error; a 4xx is our defect or the learner's limit and is final.
+const EXPLAIN_RETRY_DELAY_MS = 1500;
+async function postExplainWithOneRetry(body: Record<string, unknown>) {
+  try {
+    const r = await _aiPost('/api/explain-error', body);
+    if (r.ok || r.status < 500) return r;
+  } catch {
+    /* transport error — fall through to the single retry */
+  }
+  await new Promise((resolve) => setTimeout(resolve, EXPLAIN_RETRY_DELAY_MS));
+  return _aiPost('/api/explain-error', body);
+}
+
 export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenProps) {
   const haptic = useHaptic();
   const { stats, setStats, writeDelta } = useStats();
@@ -443,7 +461,7 @@ export default function ReviewScreen({ goBack, award, allCats }: ReviewScreenPro
                   });
                   // Fetch AI explanation for wrong answers (fire-and-forget, non-blocking)
                   setAiExplain('loading' as const);
-                  _aiPost('/api/explain-error', {
+                  postExplainWithOneRetry({
                     wrong: opt,
                     correct: q.correct,
                     context: q.word[0],
