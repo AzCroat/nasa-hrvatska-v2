@@ -159,7 +159,7 @@ export async function onRequestPost(context) {
           path: rec.path,
           at: rec.at,
           prompt,
-          snippet: String(rec.text || '').slice(0, 200),
+          snippet: String(rec.cyrillicContext || rec.text || '').slice(0, 220),
         });
         tally(prompt, 'samples');
         tally(prompt, 'findings');
