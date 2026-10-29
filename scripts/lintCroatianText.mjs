@@ -47,6 +47,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonPracticeC2.js',
   'functions/api/content/_data/lessonVisuals.js',
   'functions/api/content/_data/caseCharts.js',
+  'functions/api/content/_data/ruleCharts.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',

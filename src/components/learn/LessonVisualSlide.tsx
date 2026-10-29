@@ -40,7 +40,7 @@ export default function LessonVisualSlide({
           {slide.title}
         </h2>
       )}
-      {slide.kind === 'case-chart' ? (
+      {slide.kind === 'case-chart' || slide.kind === 'ending-chart' ? (
         <CaseChartVisual slide={slide as unknown as CaseChartSlide} />
       ) : (
         <p

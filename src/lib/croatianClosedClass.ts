@@ -198,6 +198,70 @@ export const CLOSED: Record<string, Closed[]> = {
       note: 'to them — the long form',
     },
   ],
+  // The instrumental singular, the feminine accusative and the feminine plural subject
+  // were missing (found 2026-10-29 building the pronoun chart, which is checked against
+  // this table): a learner tapping nju, mnom, tobom, njim, njom or one met "not a form
+  // I know". nama/vama/njima already carry the instrumental through alsoCase below.
+  nju: [
+    {
+      pos: 'pronoun',
+      lemma: 'ona',
+      case: 'A',
+      number: 'sg',
+      person: 3,
+      note: 'her — the long form (the short form is je or ju)',
+    },
+  ],
+  mnom: [
+    {
+      pos: 'pronoun',
+      lemma: 'ja',
+      case: 'I',
+      number: 'sg',
+      person: 1,
+      note: 'with me — after s, it is sa mnom',
+    },
+  ],
+  tobom: [
+    {
+      pos: 'pronoun',
+      lemma: 'ti',
+      case: 'I',
+      number: 'sg',
+      person: 2,
+      note: 'with you (s tobom)',
+    },
+  ],
+  njim: [
+    {
+      pos: 'pronoun',
+      lemma: 'on',
+      case: 'I',
+      number: 'sg',
+      person: 3,
+      note: 'with him or it (s njim)',
+    },
+  ],
+  njom: [
+    {
+      pos: 'pronoun',
+      lemma: 'ona',
+      case: 'I',
+      number: 'sg',
+      person: 3,
+      note: 'with her (s njom)',
+    },
+  ],
+  one: [
+    {
+      pos: 'pronoun',
+      lemma: 'oni',
+      case: 'N',
+      number: 'pl',
+      person: 3,
+      note: 'they — all women or all feminine things',
+    },
+  ],
   // Enclitics — the second-position cluster, which is where learners go wrong
   me: [
     {

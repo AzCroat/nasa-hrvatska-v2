@@ -28,6 +28,7 @@ import LessonVisualSlide from '../components/learn/LessonVisualSlide';
 import { endingOf } from '../components/learn/visuals/CaseChartVisual';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
 import { LESSON_VISUALS, withVisuals } from '../../functions/api/content/_data/lessonVisuals.js';
+import { LESSON_RULE_CHARTS } from '../../functions/api/content/_data/ruleCharts.js';
 import {
   SINGULAR_ROWS,
   PLURAL_ROWS,
@@ -87,12 +88,15 @@ describe('placement', () => {
       for (const e of extras) expect(titles, `${id} → ${e.after}`).toContain(e.after);
     }
   });
-  it('exactly these twelve lessons carry a chart; unlisted lessons are untouched', () => {
+  it('exactly these twelve case lessons (plus the rule-chart lessons) carry a chart; unlisted lessons are untouched', () => {
     const withPictures = (LESSONS as Array<{ id: string; slides: Slide[] }>)
       .filter((l) => l.slides.some((s) => s.type === 'visual'))
       .map((l) => l.id)
       .sort();
-    expect(withPictures).toEqual(Object.keys(PICKS).sort());
+    // the rule charts (ruleCharts.test.tsx) are the second registry
+    expect(withPictures).toEqual(
+      [...Object.keys(PICKS), ...Object.keys(LESSON_RULE_CHARTS)].sort(),
+    );
     const plain = { id: 'x', slides: [{ type: 'rule', title: 'r' }] };
     expect(withVisuals([plain])[0]).toBe(plain);
   });
