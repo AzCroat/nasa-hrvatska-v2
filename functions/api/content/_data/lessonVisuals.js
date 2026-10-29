@@ -13,7 +13,7 @@
 // the chart he wanted ("Padezi Graphs", Dropbox): a case x gender table with the
 // endings marked. `caseCharts.js` is that chart.
 
-import { singularChartSlide } from './caseCharts.js';
+import { singularChartSlide, pluralChartSlide } from './caseCharts.js';
 
 export const LESSON_VISUALS = {
   // The overview lesson: the whole chart, no row singled out.
@@ -24,6 +24,17 @@ export const LESSON_VISUALS = {
         title: 'The 7 Cases — The Endings Chart',
         caption:
           'Read across a row to see how one case treats a feminine, a neuter and a masculine noun. The marked letters are the ending that changed.',
+      }),
+    },
+  ],
+  // The plural chart (adjectives + nouns), where the plural cases are taught.
+  'plural-cases': [
+    {
+      after: 'The Other Three Share One Ending',
+      slide: pluralChartSlide({
+        title: 'The Plural Cases — The Endings Chart',
+        caption:
+          'The same seven cases in the plural, with an adjective in front of each noun: both endings are marked. Notice how few endings there are: the dative, locative and instrumental plural share one ending — -ima on masculine and neuter nouns, -ama on feminine ones, and -im on the adjective.',
       }),
     },
   ],

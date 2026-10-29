@@ -46,6 +46,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonPracticeC1.js',
   'functions/api/content/_data/lessonPracticeC2.js',
   'functions/api/content/_data/lessonVisuals.js',
+  'functions/api/content/_data/caseCharts.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',
@@ -1034,14 +1035,23 @@ function* lessonStrings() {
           }
           for (const [ci, cell] of (Array.isArray(row?.cells) ? row.cells : []).entries()) {
             for (const [li, ln] of (Array.isArray(cell) ? cell : []).entries()) {
-              for (const f of ['hr', 'word', 'base']) {
-                if (typeof ln?.[f] === 'string')
-                  yield {
-                    loc: `${at}.rows[${r}].cells[${ci}][${li}].${f}`,
-                    field: f,
-                    content: ln[f],
-                    kind,
-                  };
+              if (typeof ln?.hr === 'string')
+                yield {
+                  loc: `${at}.rows[${r}].cells[${ci}][${li}].hr`,
+                  field: 'hr',
+                  content: ln.hr,
+                  kind,
+                };
+              for (const [mi, mk] of (Array.isArray(ln?.marks) ? ln.marks : []).entries()) {
+                for (const f of ['word', 'base']) {
+                  if (typeof mk?.[f] === 'string')
+                    yield {
+                      loc: `${at}.rows[${r}].cells[${ci}][${li}].marks[${mi}].${f}`,
+                      field: f,
+                      content: mk[f],
+                      kind,
+                    };
+                }
               }
             }
           }

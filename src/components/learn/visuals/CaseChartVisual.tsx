@@ -13,15 +13,20 @@
 
 import React from 'react';
 
+export interface ChartMark {
+  /** The word as it stands in this case (a noun or an adjective). */
+  word: string;
+  /** Noun: its nominative singular. Adjective: its stem. The ending is what differs. */
+  base: string;
+  kind: 'n' | 'a';
+  /** Optional: the ending when it is longer than what follows the shared stem (more → morem: -em). */
+  end?: string;
+}
 export interface ChartLine {
   /** The whole sentence. */
   hr: string;
-  /** The noun as it stands in this case. */
-  word: string;
-  /** Its dictionary (nominative singular) form — the ending is what differs. */
-  base: string;
-  /** Optional: the ending when it is longer than what follows the shared stem (more → morem: -em). */
-  end?: string;
+  /** Every word whose ending is marked, in reading order. */
+  marks: ChartMark[];
 }
 export interface ChartRow {
   key: string;
@@ -48,14 +53,16 @@ export function endingOf(word: string, base: string): string {
 }
 
 function Sentence({ line }: { line: ChartLine }) {
-  const at = line.hr.indexOf(line.word);
-  if (at < 0) return <>{line.hr}</>;
-  const end = line.end ?? endingOf(line.word, line.base);
-  const stem = line.word.slice(0, line.word.length - end.length);
-  return (
-    <>
-      {line.hr.slice(0, at)}
-      <strong data-testid="chart-word">
+  const out: React.ReactNode[] = [];
+  let from = 0;
+  line.marks.forEach((m, i) => {
+    const at = line.hr.indexOf(m.word, from);
+    if (at < 0) return;
+    const end = m.end ?? endingOf(m.word, m.base);
+    const stem = m.word.slice(0, m.word.length - end.length);
+    out.push(line.hr.slice(from, at));
+    out.push(
+      <strong key={i} data-testid="chart-word">
         {stem}
         {end && (
           <span
@@ -69,16 +76,18 @@ function Sentence({ line }: { line: ChartLine }) {
             {end}
           </span>
         )}
-      </strong>
-      {line.hr.slice(at + line.word.length)}
-    </>
-  );
+      </strong>,
+    );
+    from = at + m.word.length;
+  });
+  out.push(line.hr.slice(from));
+  return <>{out}</>;
 }
 
 const CELL: React.CSSProperties = {
   padding: '8px 9px',
   verticalAlign: 'top',
-  borderTop: '1px solid var(--border)',
+  borderTop: '1px solid var(--card-b)',
   fontSize: 13,
   lineHeight: 1.45,
   color: 'var(--text)',
@@ -100,7 +109,7 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
         tabIndex={0}
         style={{
           overflowX: 'auto',
-          border: '1px solid var(--border)',
+          border: '1px solid var(--card-b)',
           borderRadius: 12,
           background: 'var(--card)',
         }}
