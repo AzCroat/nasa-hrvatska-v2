@@ -1019,12 +1019,31 @@ function* lessonStrings() {
         for (const f of ['caption', 'alt']) {
           if (typeof s[f] === 'string') yield { loc: `${at}.${f}`, field: f, content: s[f], kind };
         }
-        const panels = Array.isArray(s.panels) ? s.panels : [];
-        for (let k = 0; k < panels.length; k++) {
-          const pn = panels[k] || {};
-          for (const f of ['q', 'hr', 'focus']) {
-            if (typeof pn[f] === 'string')
-              yield { loc: `${at}.panels[${k}].${f}`, field: f, content: pn[f], kind };
+        // The case chart: Croatian column heads, case names, question words and every
+        // example sentence plus the noun in it. The English glosses are skipped.
+        for (const [k, c] of (Array.isArray(s.columns) ? s.columns : []).entries()) {
+          if (typeof c?.hr === 'string')
+            yield { loc: `${at}.columns[${k}].hr`, field: 'hr', content: c.hr, kind };
+        }
+        for (const [r, row] of (Array.isArray(s.rows) ? s.rows : []).entries()) {
+          if (typeof row?.name === 'string')
+            yield { loc: `${at}.rows[${r}].name`, field: 'name', content: row.name, kind };
+          for (const [q, a] of (Array.isArray(row?.asks) ? row.asks : []).entries()) {
+            if (typeof a?.hr === 'string')
+              yield { loc: `${at}.rows[${r}].asks[${q}]`, field: 'hr', content: a.hr, kind };
+          }
+          for (const [ci, cell] of (Array.isArray(row?.cells) ? row.cells : []).entries()) {
+            for (const [li, ln] of (Array.isArray(cell) ? cell : []).entries()) {
+              for (const f of ['hr', 'word', 'base']) {
+                if (typeof ln?.[f] === 'string')
+                  yield {
+                    loc: `${at}.rows[${r}].cells[${ci}][${li}].${f}`,
+                    field: f,
+                    content: ln[f],
+                    kind,
+                  };
+              }
+            }
           }
         }
       }

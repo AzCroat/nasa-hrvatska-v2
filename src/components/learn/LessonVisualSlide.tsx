@@ -7,7 +7,7 @@
 // ahead of the bundle degrades to a text slide instead of a dead end.
 
 import React from 'react';
-import MotionRestVisual, { type MotionRestSlide } from './visuals/MotionRestVisual';
+import CaseChartVisual, { type CaseChartSlide } from './visuals/CaseChartVisual';
 import type { LessonMeta } from './lessonSlideTypes';
 
 export interface VisualSlide {
@@ -40,8 +40,8 @@ export default function LessonVisualSlide({
           {slide.title}
         </h2>
       )}
-      {slide.kind === 'motion-rest' ? (
-        <MotionRestVisual slide={slide as unknown as MotionRestSlide} />
+      {slide.kind === 'case-chart' ? (
+        <CaseChartVisual slide={slide as unknown as CaseChartSlide} />
       ) : (
         <p
           style={{
