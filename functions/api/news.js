@@ -7,7 +7,7 @@ import { checkAIQuota } from './_aiQuota.js';
 import { corsHeaders as _corsHeaders } from './_helpers.js';
 import { definePrompt, renderPrompt, promptHeaders, promptTagHeaders } from './_promptRegistry.js';
 import { promptCacheMetadata, readCachedWithPromptTag } from './_promptCache.js';
-import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { CROATIAN_SCRIPT_RULE, latinizeCyrillic } from './_croatianGuard.js';
 import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -78,6 +78,36 @@ function err(status, msg, origin) {
   return new Response(JSON.stringify({ error: msg }), { status, headers: newsCorsHeaders(origin) });
 }
 
+// A feed's description is HTML in one of several encodings: plain, wrapped in
+// CDATA, or entity-escaped (Dnevnik sends `&lt;![CDATA[ &lt;img src=…&gt; text`).
+// The old cleaner stripped tags FIRST and turned every named entity into a
+// space, so an escaped tag never looked like a tag and its pieces survived as
+// text: learners and the simplifier saw `![CDATA[ img src= https://…`. Decode
+// first (twice: feeds double-encode), then drop CDATA markers and tags, decode
+// numeric entities properly (`&#269;` is č), and collapse whitespace.
+function codePoint(n) {
+  return Number.isInteger(n) && n > 0 && n <= 0x10ffff && !(n >= 0xd800 && n <= 0xdfff)
+    ? String.fromCodePoint(n)
+    : '';
+}
+function decodeEntities(s) {
+  return s
+    .replace(/&#x([0-9a-f]{1,6});/gi, (_, h) => codePoint(parseInt(h, 16)))
+    .replace(/&#(\d{1,10});/g, (_, d) => codePoint(Number(d)))
+    .replace(
+      /&(lt|gt|amp|quot|apos|nbsp);/gi,
+      (_, n) => ({ lt: '<', gt: '>', amp: '&', quot: '"', apos: "'", nbsp: ' ' })[n.toLowerCase()],
+    );
+}
+export function cleanFeedText(raw) {
+  return decodeEntities(decodeEntities(String(raw ?? '')))
+    .replace(/<!\[CDATA\[|\]\]>/g, ' ')
+    .replace(/<[^>]{0,1000}>/g, ' ')
+    .replace(/&[a-z]+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // Parse RSS XML into article objects
 function parseRSS(rawXml, sourceName) {
   const xml = rawXml.slice(0, 50000); // cap input to prevent ReDoS on very large feeds
@@ -108,10 +138,7 @@ function parseRSS(rawXml, sourceName) {
     if (title && description) {
       items.push({
         title,
-        description: description
-          .replace(/<[^>]{0,200}>/g, '')
-          .replace(/&[a-z]+;/gi, ' ')
-          .slice(0, 500),
+        description: cleanFeedText(description).slice(0, 500),
         link,
         pubDate,
         source: sourceName,
@@ -218,7 +245,13 @@ async function simplifyArticle(article, level, anthropicKey) {
       ? renderPrompt(NEWS_C2, {})
       : renderPrompt(NEWS_SIMPLIFY, { level: safeLevel, rule });
 
-  const userContent = `Title: ${String(article.title || '').slice(0, 200)}\nText: ${String(article.description || '').slice(0, 800)}`;
+  // Any Cyrillic in a source article (a quoted name, a Serbian-language
+  // sentence) is transliterated BEFORE it reaches the model: a model that is
+  // shown Cyrillic tends to answer in it, and the response guard would then be
+  // the only thing between that and a learner (the 2026-10-20 incident).
+  const userContent = latinizeCyrillic(
+    `Title: ${String(article.title || '').slice(0, 200)}\nText: ${String(article.description || '').slice(0, 800)}`,
+  );
 
   // Block 1: fetch
   let res;

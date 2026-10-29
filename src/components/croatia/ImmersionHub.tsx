@@ -61,11 +61,11 @@ const JOURNEY = [
     desc: 'You recognize words and short phrases. Now start connecting exposure to your in-app lessons.',
     goals: [
       'Complete all vocabulary categories in Learn tab',
-      'Read 5 headlines on 24sata.hr each morning',
+      'Read 5 headlines on Dnevnik.hr each morning',
       'Watch Easy Croatian street interview (YouTube) twice a week',
       'Start noticing case endings on signs and menus',
     ],
-    habit: 'Read one 24sata headline with your morning coffee.',
+    habit: 'Read one Dnevnik headline with your morning coffee.',
   },
   {
     level: 'B1',
@@ -130,7 +130,7 @@ const SCHEDULES = [
     time: '☀️ Morning (5 min)',
     items: [
       'HRT Radio or CMC Radio while getting ready',
-      'Read 1 headline on 24sata.hr or Dnevnik.hr',
+      'Read 1 headline on Dnevnik.hr or slobodnadalmacija.hr',
     ],
   },
   {

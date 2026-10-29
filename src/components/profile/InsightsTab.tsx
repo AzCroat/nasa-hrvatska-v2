@@ -53,9 +53,9 @@ const B1_RESOURCES = [
   },
   {
     icon: '📰',
-    name: '24sata.hr / Jutarnji list',
-    url: '24sata.hr',
-    what: 'Croatian news websites in standard Croatian. 24sata is tabloid-accessible (simpler language). Jutarnji list is more formal. Reading 1 article per day dramatically builds reading fluency and vocabulary.',
+    name: 'Dnevnik.hr / Jutarnji list',
+    url: 'dnevnik.hr',
+    what: 'Croatian news websites in standard Croatian. Dnevnik.hr is accessible (short headlines, simpler language). Jutarnji list is more formal. Reading 1 article per day dramatically builds reading fluency and vocabulary.',
     tip: "Don't look up every word. Read for gist first. Circle only words that appear 3+ times — those are worth learning.",
     level: 'B1',
   },
