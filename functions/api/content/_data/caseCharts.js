@@ -22,9 +22,11 @@
 // `end` is only needed where the ending is longer than the letters after the shared
 // stem (more -> morem is -em on the stem mor-, though the strings share "more") or where
 // the form equals the nominative singular (zgrada -> gen. pl. zgrada: the ending is -a).
-const N = (word, base, end) => (end ? { word, base, kind: 'n', end } : { word, base, kind: 'n' });
-const A = (word, base, end) => (end ? { word, base, kind: 'a', end } : { word, base, kind: 'a' });
-const L = (hr, ...marks) => ({ hr, marks });
+export const N = (word, base, end) =>
+  end ? { word, base, kind: 'n', end } : { word, base, kind: 'n' };
+export const A = (word, base, end) =>
+  end ? { word, base, kind: 'a', end } : { word, base, kind: 'a' };
+export const L = (hr, ...marks) => ({ hr, marks });
 
 export const GENDERS = [
   { key: 'f', hr: 'Ženski rod', en: 'Feminine' },

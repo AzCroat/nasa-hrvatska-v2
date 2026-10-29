@@ -14,6 +14,7 @@
 // endings marked. `caseCharts.js` is that chart.
 
 import { singularChartSlide, pluralChartSlide } from './caseCharts.js';
+import { LESSON_RULE_CHARTS } from './ruleCharts.js';
 
 // One caption for every lesson that picks out its own row(s) of the singular chart.
 const rowCaption = (names) =>
@@ -106,8 +107,10 @@ export const LESSON_VISUALS = {
 
 export function withVisuals(lessons) {
   return lessons.map((lesson) => {
-    const extras = LESSON_VISUALS[lesson.id];
-    if (!extras) return lesson;
+    // The case charts and the rule charts (verbs, pronouns, adjectives, clitics, numbers,
+    // aspect) are two registries and one placement rule.
+    const extras = [...(LESSON_VISUALS[lesson.id] || []), ...(LESSON_RULE_CHARTS[lesson.id] || [])];
+    if (!extras.length) return lesson;
     const slides = [...lesson.slides];
     for (const { after, slide } of extras) {
       const at = slides.findIndex((s) => s.title === after && s.type !== 'visual');

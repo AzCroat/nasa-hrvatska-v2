@@ -21,10 +21,14 @@ export interface ChartMark {
   kind: 'n' | 'a';
   /** Optional: the ending when it is longer than what follows the shared stem (more → morem: -em). */
   end?: string;
+  /** Optional: letters marked at the START of the word instead (a verb's prefix: pisati → NApisati). */
+  start?: string;
 }
 export interface ChartLine {
   /** The whole sentence. */
   hr: string;
+  /** Optional English gloss, shown small beneath the line. */
+  en?: string;
   /** Every word whose ending is marked, in reading order. */
   marks: ChartMark[];
 }
@@ -32,11 +36,18 @@ export interface ChartRow {
   key: string;
   name: string;
   nameEn: string;
-  asks: Array<{ hr: string; en: string }>;
+  asks?: Array<{ hr: string; en: string }>;
   cells: ChartLine[][];
 }
 export interface CaseChartSlide {
-  kind: 'case-chart';
+  /** 'case-chart' is the owner's padeži chart; 'ending-chart' is the same table for any other rule. */
+  kind: 'case-chart' | 'ending-chart';
+  /** Heading of the row-label column. Defaults to the padeži one. */
+  corner?: { hr: string; en: string };
+  /** Number the rows 1, 2, 3… (the case chart does; a person chart does not). Default true. */
+  numbered?: boolean;
+  /** Minimum width of each data column in px (default 154; a chart of short forms uses less). */
+  colWidth?: number;
   title?: string;
   alt: string;
   caption?: string;
@@ -59,24 +70,27 @@ function Sentence({ line }: { line: ChartLine }) {
   line.marks.forEach((m, i) => {
     const at = line.hr.indexOf(m.word, from);
     if (at < 0) return;
-    const end = m.end ?? endingOf(m.word, m.base);
-    const stem = m.word.slice(0, m.word.length - end.length);
+    const start = m.start ?? '';
+    const end = start ? '' : (m.end ?? endingOf(m.word, m.base));
+    const stem = start ? m.word.slice(start.length) : m.word.slice(0, m.word.length - end.length);
+    const mark = (text: string) => (
+      <span
+        data-testid="chart-ending"
+        style={{
+          color: 'var(--ink-accent)',
+          textDecoration: 'underline',
+          textUnderlineOffset: 2,
+        }}
+      >
+        {text}
+      </span>
+    );
     out.push(line.hr.slice(from, at));
     out.push(
       <strong key={i} data-testid="chart-word">
+        {start && mark(start)}
         {stem}
-        {end && (
-          <span
-            data-testid="chart-ending"
-            style={{
-              color: 'var(--ink-accent)',
-              textDecoration: 'underline',
-              textUnderlineOffset: 2,
-            }}
-          >
-            {end}
-          </span>
-        )}
+        {end && mark(end)}
       </strong>,
     );
     from = at + m.word.length;
@@ -115,7 +129,13 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
           background: 'var(--card)',
         }}
       >
-        <table style={{ borderCollapse: 'collapse', minWidth: 600, width: '100%' }}>
+        <table
+          style={{
+            borderCollapse: 'collapse',
+            minWidth: 138 + slide.columns.length * (slide.colWidth ?? 154),
+            width: '100%',
+          }}
+        >
           <thead>
             <tr>
               <th
@@ -130,7 +150,10 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                   maxWidth: 138,
                 }}
               >
-                Padeži <span style={{ fontWeight: 400, color: 'var(--subtext)' }}>· Cases</span>
+                {slide.corner?.hr ?? 'Padeži'}{' '}
+                <span style={{ fontWeight: 400, color: 'var(--subtext)' }}>
+                  · {slide.corner?.en ?? 'Cases'}
+                </span>
               </th>
               {slide.columns.map((c) => (
                 <th key={c.key} scope="col" style={HEAD}>
@@ -168,10 +191,11 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                     }}
                   >
                     <div style={{ fontWeight: 800 }}>
-                      {i + 1}. {row.name}
+                      {slide.numbered === false ? '' : `${i + 1}. `}
+                      {row.name}
                     </div>
                     <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{row.nameEn}</div>
-                    {row.asks.map((a) => (
+                    {(row.asks ?? []).map((a) => (
                       <div key={a.hr} style={{ marginTop: 4, fontSize: 12 }}>
                         <div style={{ fontWeight: 700 }}>{a.hr}</div>
                         <div style={{ fontStyle: 'italic', color: 'var(--subtext)' }}>{a.en}</div>
@@ -193,9 +217,16 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                   </th>
                   {row.cells.map((lines, ci) => (
                     <td key={ci} style={CELL}>
-                      {lines.map((ln) => (
-                        <div key={ln.hr} style={{ marginBottom: 3 }}>
+                      {lines.map((ln, li) => (
+                        <div key={`${li}-${ln.hr}`} style={{ marginBottom: 3 }}>
                           <Sentence line={ln} />
+                          {ln.en && (
+                            <div
+                              style={{ fontSize: 11, fontStyle: 'italic', color: 'var(--subtext)' }}
+                            >
+                              {ln.en}
+                            </div>
+                          )}
                         </div>
                       ))}
                     </td>
