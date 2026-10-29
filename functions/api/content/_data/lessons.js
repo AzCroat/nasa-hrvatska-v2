@@ -10,6 +10,7 @@ import { LESSONS_B2 } from './lessonsB2.js';
 import { LESSONS_C1 } from './lessonsC1.js';
 import { LESSONS_C2 } from './lessonsC2.js';
 import { withPractice } from './lessonPractice.js';
+import { withVisuals } from './lessonVisuals.js';
 
 // The A1 expansion (2026-08-28) lives in its own module: this file was already
 // ~6,000 lines for 45 lessons and the curriculum targets ~30 per level. LESSONS
@@ -11519,12 +11520,14 @@ const LESSONS_CORE = [
 
 // Worked examples and guided practice are authored per level in their own files
 // and placed into each lesson here — the one merge point (see lessonPractice.js).
-export const LESSONS = withPractice([
-  ...LESSONS_CORE,
-  ...LESSONS_A1,
-  ...LESSONS_A2,
-  ...LESSONS_B1,
-  ...LESSONS_B2,
-  ...LESSONS_C1,
-  ...LESSONS_C2,
-]);
+export const LESSONS = withVisuals(
+  withPractice([
+    ...LESSONS_CORE,
+    ...LESSONS_A1,
+    ...LESSONS_A2,
+    ...LESSONS_B1,
+    ...LESSONS_B2,
+    ...LESSONS_C1,
+    ...LESSONS_C2,
+  ]),
+);

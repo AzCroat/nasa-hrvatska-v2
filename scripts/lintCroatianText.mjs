@@ -45,6 +45,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonPracticeB2.js',
   'functions/api/content/_data/lessonPracticeC1.js',
   'functions/api/content/_data/lessonPracticeC2.js',
+  'functions/api/content/_data/lessonVisuals.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',
@@ -1010,6 +1011,21 @@ function* lessonStrings() {
             yield { loc: `${at}.steps[${k}]`, field: 'steps', content: st.text, kind };
           if (typeof st.label === 'string')
             yield { loc: `${at}.steps[${k}].label`, field: 'steps', content: st.label, kind };
+        }
+      }
+      // Picture slides (2026-10-29): each panel's sentence and the word it
+      // underlines are Croatian; the caption and alt quote Croatian inside English.
+      if (s.type === 'visual') {
+        for (const f of ['caption', 'alt']) {
+          if (typeof s[f] === 'string') yield { loc: `${at}.${f}`, field: f, content: s[f], kind };
+        }
+        const panels = Array.isArray(s.panels) ? s.panels : [];
+        for (let k = 0; k < panels.length; k++) {
+          const pn = panels[k] || {};
+          for (const f of ['q', 'hr', 'focus']) {
+            if (typeof pn[f] === 'string')
+              yield { loc: `${at}.panels[${k}].${f}`, field: f, content: pn[f], kind };
+          }
         }
       }
       if (s.type === 'practice') {

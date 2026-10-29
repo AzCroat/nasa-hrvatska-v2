@@ -23,6 +23,7 @@ import { recordCheckAttempt } from '../../lib/lessonAttempts';
 import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
 import { WorkedSlide, GuidedPracticeSlide } from './LessonPracticeSlides';
+import LessonVisualSlide from './LessonVisualSlide';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
@@ -496,6 +497,9 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             onCheck={handleCheck}
           />
         );
+
+      case 'visual':
+        return <LessonVisualSlide slide={cs} lesson={lesson!} />;
 
       case 'worked':
         return (
