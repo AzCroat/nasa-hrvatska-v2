@@ -398,3 +398,28 @@ export const GENITIVE_PLURAL: Readonly<Record<string, string>> = {
   sat: 'sati',
   vikend: 'vikenda',
 };
+
+/**
+ * Nouns with a SECOND plural for a different meaning. `sat` is the case: sati for
+ * hours (pet sati — the engine's main table) and satovi for watches and clocks
+ * (skupi satovi). Both are standard; which one you want is the meaning, so the
+ * declension shows both rather than choosing (owner decision, 2026-10-29: the case
+ * chart's own "skupi satovi" was right and the engine only knew "sati").
+ */
+export const ALTERNATE_PLURALS: Readonly<
+  Record<string, { meaning: string; note: string; forms: Readonly<Record<string, string>> }>
+> = {
+  sat: {
+    meaning: 'watches and clocks',
+    note: 'Two plurals by meaning: sati for hours (pet sati) and satovi for watches and clocks (skupi satovi).',
+    forms: {
+      Npl: 'satovi',
+      Gpl: 'satova',
+      Dpl: 'satovima',
+      Apl: 'satove',
+      Vpl: 'satovi',
+      Lpl: 'satovima',
+      Ipl: 'satovima',
+    },
+  },
+};

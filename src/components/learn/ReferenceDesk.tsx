@@ -195,6 +195,20 @@ function DeclensionPanel(): React.ReactElement {
               ))}
             </tbody>
           </table>
+          {table.alternatePlural && (
+            <p
+              data-testid="alternate-plural"
+              style={{ fontSize: 11, color: 'var(--text)', lineHeight: 1.6, marginTop: 8 }}
+            >
+              A second plural, for {table.alternatePlural.meaning}:{' '}
+              <span lang="hr">
+                {CASES.map((c) => `${CASE_NAME[c]} ${table.alternatePlural!.forms[`${c}pl`]}`).join(
+                  ' · ',
+                )}
+              </span>
+              .
+            </p>
+          )}
           {table.note && (
             <p style={{ fontSize: 11, color: 'var(--subtext)', lineHeight: 1.6, marginTop: 8 }}>
               {table.note}

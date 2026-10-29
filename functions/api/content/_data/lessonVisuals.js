@@ -15,6 +15,12 @@
 
 import { singularChartSlide, pluralChartSlide } from './caseCharts.js';
 
+// One caption for every lesson that picks out its own row(s) of the singular chart.
+const rowCaption = (names) =>
+  `The ${names.join(' and ')} row${names.length > 1 ? 's are the ones' : ' is the one'} this lesson is about. The other rows are there for comparison: read across a row to see how the case treats a feminine, a neuter and a masculine noun, and down a column to see how one gender changes from case to case.`;
+const picked = (title, highlight, names) =>
+  singularChartSlide({ title, highlight, caption: rowCaption(names) });
+
 export const LESSON_VISUALS = {
   // The overview lesson: the whole chart, no row singled out.
   cases: [
@@ -38,7 +44,53 @@ export const LESSON_VISUALS = {
       }),
     },
   ],
-  // The same chart with the lesson's own case picked out.
+  // The same chart with the lesson's own case picked out — the endings table of each
+  // case lesson is where the learner is looking at endings, so the chart follows it.
+  'accusative-intro': [
+    {
+      after: 'The Accusative at a Glance',
+      slide: picked('The Accusative in the Chart', 'Asg', ['Akuzativ']),
+    },
+  ],
+  'genitive-intro': [
+    {
+      after: 'The Genitive Endings',
+      slide: picked('The Genitive in the Chart', 'Gsg', ['Genitiv']),
+    },
+  ],
+  'vocative-intro': [
+    { after: 'The Patterns', slide: picked('The Vocative in the Chart', 'Vsg', ['Vokativ']) },
+  ],
+  'accusative-deep': [
+    {
+      after: 'Accusative Endings — The Full Picture',
+      slide: picked('The Accusative in the Chart', 'Asg', ['Akuzativ']),
+    },
+  ],
+  'dative-intro': [
+    { after: 'Dative Endings', slide: picked('The Dative in the Chart', 'Dsg', ['Dativ']) },
+  ],
+  'instrumental-intro': [
+    {
+      after: 'Instrumental Endings',
+      slide: picked('The Instrumental in the Chart', 'Isg', ['Instrumental']),
+    },
+  ],
+  'genitive-deep': [
+    { after: 'Genitive Endings', slide: picked('The Genitive in the Chart', 'Gsg', ['Genitiv']) },
+  ],
+  'dative-locative': [
+    {
+      after: 'Dative & Locative Endings',
+      slide: picked('The Dative and Locative in the Chart', ['Dsg', 'Lsg'], ['Dativ', 'Lokativ']),
+    },
+  ],
+  instrumental: [
+    {
+      after: 'Instrumental Endings',
+      slide: picked('The Instrumental in the Chart', 'Isg', ['Instrumental']),
+    },
+  ],
   'locative-intro': [
     {
       after: 'Feminine Takes -i',

@@ -40,7 +40,8 @@ export interface CaseChartSlide {
   title?: string;
   alt: string;
   caption?: string;
-  highlight?: string | null;
+  /** Row key(s) this lesson is about: 'Lsg', or ['Dsg', 'Lsg'] for a lesson on two cases. */
+  highlight?: string | string[] | null;
   columns: Array<{ key: string; hr: string; en: string }>;
   rows: ChartRow[];
 }
@@ -140,7 +141,9 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
           </thead>
           <tbody>
             {slide.rows.map((row, i) => {
-              const picked = slide.highlight === row.key;
+              const picked = Array.isArray(slide.highlight)
+                ? slide.highlight.includes(row.key)
+                : slide.highlight === row.key;
               const tint = picked ? 'var(--info-bg)' : 'var(--card)';
               return (
                 <tr

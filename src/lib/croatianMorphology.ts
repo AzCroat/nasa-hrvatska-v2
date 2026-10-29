@@ -61,6 +61,7 @@ import {
   PLURALIA_TANTUM_F,
   PLURALIA_TANTUM_N,
   SHORT_PLURAL,
+  ALTERNATE_PLURALS,
   VOCATIVE_IS_NOMINATIVE,
   YAT_SHORTENS_IN_PLURAL,
 } from './croatianLexicalClasses';
@@ -170,6 +171,8 @@ export interface Declension {
     | 'i-feminine'
     | 'adjectival';
   forms: Table;
+  /** A second plural for another meaning (sat: sati / satovi), shown beside the main table. */
+  alternatePlural?: { meaning: string; forms: Table };
   /** True when the table came from the irregular list rather than the rules. */
   attested: boolean;
   note?: string;
@@ -224,6 +227,17 @@ function guessGender(lemma: string): Gender {
  * and the spelling cannot tell them apart — the caller knows, the rules do not.
  */
 export function decline(lemma: string, gender?: Gender): Declension | null {
+  const d = declineBase(lemma, gender);
+  const alt = d ? ALTERNATE_PLURALS[d.lemma] : undefined;
+  if (!d || !alt) return d;
+  return {
+    ...d,
+    alternatePlural: { meaning: alt.meaning, forms: { ...alt.forms } },
+    note: [d.note, alt.note].filter(Boolean).join(' '),
+  };
+}
+
+function declineBase(lemma: string, gender?: Gender): Declension | null {
   const word = lemma.trim().toLowerCase();
   if (!word || /\s/.test(word)) return null;
 
