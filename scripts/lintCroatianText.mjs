@@ -45,6 +45,8 @@ const TARGETS = [
   'functions/api/content/_data/lessonPracticeB2.js',
   'functions/api/content/_data/lessonPracticeC1.js',
   'functions/api/content/_data/lessonPracticeC2.js',
+  'functions/api/content/_data/lessonVisuals.js',
+  'functions/api/content/_data/caseCharts.js',
   'functions/api/content/_data/gradedStories.js',
   'functions/api/content/_data/gradedStoriesLong.js',
   'functions/api/content/_data/vocabulary.js',
@@ -1010,6 +1012,49 @@ function* lessonStrings() {
             yield { loc: `${at}.steps[${k}]`, field: 'steps', content: st.text, kind };
           if (typeof st.label === 'string')
             yield { loc: `${at}.steps[${k}].label`, field: 'steps', content: st.label, kind };
+        }
+      }
+      // Picture slides (2026-10-29): each panel's sentence and the word it
+      // underlines are Croatian; the caption and alt quote Croatian inside English.
+      if (s.type === 'visual') {
+        for (const f of ['caption', 'alt']) {
+          if (typeof s[f] === 'string') yield { loc: `${at}.${f}`, field: f, content: s[f], kind };
+        }
+        // The case chart: Croatian column heads, case names, question words and every
+        // example sentence plus the noun in it. The English glosses are skipped.
+        for (const [k, c] of (Array.isArray(s.columns) ? s.columns : []).entries()) {
+          if (typeof c?.hr === 'string')
+            yield { loc: `${at}.columns[${k}].hr`, field: 'hr', content: c.hr, kind };
+        }
+        for (const [r, row] of (Array.isArray(s.rows) ? s.rows : []).entries()) {
+          if (typeof row?.name === 'string')
+            yield { loc: `${at}.rows[${r}].name`, field: 'name', content: row.name, kind };
+          for (const [q, a] of (Array.isArray(row?.asks) ? row.asks : []).entries()) {
+            if (typeof a?.hr === 'string')
+              yield { loc: `${at}.rows[${r}].asks[${q}]`, field: 'hr', content: a.hr, kind };
+          }
+          for (const [ci, cell] of (Array.isArray(row?.cells) ? row.cells : []).entries()) {
+            for (const [li, ln] of (Array.isArray(cell) ? cell : []).entries()) {
+              if (typeof ln?.hr === 'string')
+                yield {
+                  loc: `${at}.rows[${r}].cells[${ci}][${li}].hr`,
+                  field: 'hr',
+                  content: ln.hr,
+                  kind,
+                };
+              for (const [mi, mk] of (Array.isArray(ln?.marks) ? ln.marks : []).entries()) {
+                for (const f of ['word', 'base']) {
+                  if (typeof mk?.[f] === 'string')
+                    yield {
+                      loc: `${at}.rows[${r}].cells[${ci}][${li}].marks[${mi}].${f}`,
+                      field: f,
+                      content: mk[f],
+                      kind,
+                    };
+                }
+              }
+            }
+          }
         }
       }
       if (s.type === 'practice') {
