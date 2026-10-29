@@ -73,6 +73,20 @@ export default function LocalMorphology({ word }: { word: string }) {
               ))}
             </tbody>
           </table>
+          {table.alternatePlural && (
+            <p
+              data-testid="alternate-plural"
+              style={{ fontSize: 'var(--text-xs)', color: 'var(--text)', lineHeight: 1.6 }}
+            >
+              A second plural, for {table.alternatePlural.meaning}:{' '}
+              <span lang="hr">
+                {CASES.map((c) => `${CASE_NAME[c]} ${table.alternatePlural!.forms[`${c}pl`]}`).join(
+                  ' · ',
+                )}
+              </span>
+              .
+            </p>
+          )}
           {table.note && (
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', lineHeight: 1.6 }}>
               {table.note}

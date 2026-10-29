@@ -41,25 +41,40 @@ const lessonOf = (id: string) =>
 const visualOf = (id: string) => lessonOf(id).slides.find((s) => s.type === 'visual')!;
 const LESSON = { color: '#16a34a', bg: '#f0fdf4' };
 
+// Which row(s) each lesson picks out is an AUTHORING decision (the lesson's own case), so
+// it is written out here rather than derived from the data it checks.
+const PICKS: Record<string, string[]> = {
+  cases: [],
+  'plural-cases': [],
+  'locative-intro': ['Lsg'],
+  'accusative-intro': ['Asg'],
+  'genitive-intro': ['Gsg'],
+  'vocative-intro': ['Vsg'],
+  'accusative-deep': ['Asg'],
+  'dative-intro': ['Dsg'],
+  'instrumental-intro': ['Isg'],
+  'genitive-deep': ['Gsg'],
+  'dative-locative': ['Dsg', 'Lsg'],
+  instrumental: ['Isg'],
+};
+
 describe('placement', () => {
-  it('cases: the chart follows the overview table; locative-intro: after the feminine rule', () => {
-    for (const [id, after] of [
-      ['cases', 'The 7 Cases — Overview'],
-      ['locative-intro', 'Feminine Takes -i'],
-      ['plural-cases', 'The Other Three Share One Ending'],
-    ] as const) {
+  it('every chart follows the slide it is anchored to and precedes the worked examples', () => {
+    for (const [id, extras] of Object.entries(LESSON_VISUALS) as Array<
+      [string, Array<{ after: string }>]
+    >) {
       const types = lessonOf(id).slides.map((s) => `${s.type}:${s.title ?? ''}`);
       const at = types.findIndex((t) => t.startsWith('visual:'));
       expect(at, id).toBeGreaterThan(0);
-      expect(types[at - 1]).toContain(after);
-      expect(at).toBeLessThan(types.findIndex((t) => t.startsWith('worked:')));
+      expect(types[at - 1], id).toContain(extras[0]!.after);
+      expect(at, id).toBeLessThan(types.findIndex((t) => t.startsWith('worked:')));
     }
   });
-  it('the check is still immediately before the summary in both', () => {
-    for (const id of ['cases', 'locative-intro', 'plural-cases']) {
+  it('the check is still immediately before the summary in every pictured lesson', () => {
+    for (const id of Object.keys(PICKS)) {
       const t = lessonOf(id).slides.map((s) => s.type);
-      expect(t[t.length - 2]).toBe('check');
-      expect(t[t.length - 1]).toBe('summary');
+      expect(t[t.length - 2], id).toBe('check');
+      expect(t[t.length - 1], id).toBe('summary');
     }
   });
   it('every authored anchor exists (a missing title is a failure, never a silent skip)', () => {
@@ -72,14 +87,33 @@ describe('placement', () => {
       for (const e of extras) expect(titles, `${id} → ${e.after}`).toContain(e.after);
     }
   });
-  it('the pilot is exactly these three lessons; unlisted lessons are untouched', () => {
+  it('exactly these twelve lessons carry a chart; unlisted lessons are untouched', () => {
     const withPictures = (LESSONS as Array<{ id: string; slides: Slide[] }>)
       .filter((l) => l.slides.some((s) => s.type === 'visual'))
       .map((l) => l.id)
       .sort();
-    expect(withPictures).toEqual(['cases', 'locative-intro', 'plural-cases']);
+    expect(withPictures).toEqual(Object.keys(PICKS).sort());
     const plain = { id: 'x', slides: [{ type: 'rule', title: 'r' }] };
     expect(withVisuals([plain])[0]).toBe(plain);
+  });
+  it('each lesson picks out ITS OWN case row(s), and no other', () => {
+    for (const [id, want] of Object.entries(PICKS)) {
+      const { unmount } = render(<LessonVisualSlide slide={visualOf(id)} lesson={LESSON} />);
+      const got = screen
+        .getAllByTestId(/^chart-row-/)
+        .filter((r) => r.getAttribute('aria-current') === 'true')
+        .map((r) => r.getAttribute('data-testid')!.replace('chart-row-', ''));
+      expect(got, id).toEqual(want);
+      if (want.length)
+        expect(screen.getAllByTestId('chart-this-lesson'), id).toHaveLength(want.length);
+      else expect(screen.queryByTestId('chart-this-lesson'), id).toBeNull();
+      unmount();
+    }
+  });
+  it('a chart lesson that teaches the plural shows the plural chart, the rest the singular', () => {
+    expect(visualOf('plural-cases').number).toBe('plural');
+    for (const id of Object.keys(PICKS).filter((i) => i !== 'plural-cases'))
+      expect(visualOf(id).number, id).toBe('singular');
   });
 });
 
@@ -119,17 +153,8 @@ const ADJ_PLURAL: Record<'m' | 'f' | 'n', Record<string, string>> = {
   f: { Npl: 'e', Gpl: 'ih', Dpl: 'im', Apl: 'e', Vpl: 'e', Lpl: 'im', Ipl: 'im' },
   n: { Npl: 'a', Gpl: 'ih', Dpl: 'im', Apl: 'a', Vpl: 'a', Lpl: 'im', Ipl: 'im' },
 };
-// sat has two plurals by meaning: sati (hours — what the engine knows) and satovi
-// (watches, clocks — what the owner's chart means by "skupi satovi").
-const SAT_WATCHES: Record<string, string> = {
-  Npl: 'satovi',
-  Gpl: 'satova',
-  Dpl: 'satovima',
-  Apl: 'satove',
-  Vpl: 'satovi',
-  Lpl: 'satovima',
-  Ipl: 'satovima',
-};
+// sat has two plurals by meaning: sati (hours) and satovi (watches, clocks — what the
+// owner's chart means by "skupi satovi"). The engine knows both (alternatePlural).
 
 type Mark = { word: string; base: string; kind: 'n' | 'a'; end?: string };
 type Row = { key: string; cells: Array<Array<{ hr: string; marks: Mark[] }>> };
@@ -150,10 +175,12 @@ function checkChart(rows: Row[]) {
           from = at + mk.word.length;
           if (mk.kind === 'n') {
             nouns++;
+            const d = decline(mk.base, gender)!;
+            // a noun with a second plural: the chart's word may be either
             const want =
-              mk.base === 'sat' && row.key.endsWith('pl')
-                ? SAT_WATCHES[row.key]!
-                : decline(mk.base, gender)!.forms[row.key as 'Nsg'];
+              d.alternatePlural && mk.word.toLowerCase() === d.alternatePlural.forms[row.key]
+                ? d.alternatePlural.forms[row.key]!
+                : d.forms[row.key as 'Nsg'];
             expect(want, `${row.key} ${gender} ${mk.base}`).toBeTruthy();
             // proper nouns: the engine lowercases its input
             expect(mk.word.toLowerCase(), `${row.key} ${gender} ${mk.base}`).toBe(
@@ -236,18 +263,6 @@ describe('the rendered chart', () => {
     // "Idem prema kući." — the locative/dative ending is the final i
     const dat = within(screen.getByTestId('chart-row-Dsg')).getAllByTestId('chart-ending');
     expect(dat.map((e) => e.textContent)).toContain('i');
-  });
-  it('the overview picks no row; the locative lesson picks the Lokativ row, in words and aria', () => {
-    const { unmount } = render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
-    expect(screen.queryByTestId('chart-this-lesson')).toBeNull();
-    unmount();
-    render(<LessonVisualSlide slide={visualOf('locative-intro')} lesson={LESSON} />);
-    const picked = screen.getByTestId('chart-row-Lsg');
-    expect(picked.getAttribute('aria-current')).toBe('true');
-    expect(within(picked).getByTestId('chart-this-lesson').textContent).toMatch(/This lesson/);
-    expect(
-      screen.getAllByTestId(/^chart-row-/).filter((r) => r.getAttribute('aria-current')),
-    ).toHaveLength(1);
   });
   it('the plural chart marks the adjective AND the noun ending in each phrase', () => {
     render(<LessonVisualSlide slide={visualOf('plural-cases')} lesson={LESSON} />);
