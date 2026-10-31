@@ -93,7 +93,7 @@ const SCENARIOS = [
     color: 'var(--mode-bg)',
     border: '#c4b5fd',
     phrases: [
-      { hr: 'Bog!', en: 'Hi! / Hello!', ph: 'bohk', tip: 'The most natural Croatian greeting' },
+      { hr: 'Bog!', en: 'Hi! / Hello!', ph: 'bohg', tip: 'The most natural Croatian greeting' },
       {
         hr: 'Dobar dan!',
         en: 'Good day! (formal)',

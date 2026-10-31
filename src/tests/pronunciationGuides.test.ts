@@ -55,8 +55,8 @@ describe('every pronunciation guide', () => {
     expect(bad((p) => /š/i.test(p.hr) && !/sh/i.test(p.ph))).toEqual([]);
     expect(bad((p) => /ž/i.test(p.hr) && !/zh/i.test(p.ph))).toEqual([]);
   });
-  it('says the greeting Bog the way it sounds (final g is unvoiced: bohk)', () => {
-    expect(bad((p) => /^Bog!$/.test(p.hr) && !/bohk/i.test(p.ph))).toEqual([]);
+  it('teaches the greeting Bog as bohg (owner decision: never the bok spelling)', () => {
+    expect(bad((p) => /^Bog!$/.test(p.hr) && !/^bohg$/i.test(p.ph))).toEqual([]);
   });
   it('the reported words are right', () => {
     const ph = (hr: string) => pairs.filter((p) => p.hr === hr).map((p) => p.ph);
