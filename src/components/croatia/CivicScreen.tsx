@@ -91,13 +91,13 @@ const CIVIC_SECTIONS = [
       {
         hr: 'Europska unija',
         en: 'European Union',
-        ph: 'eu-rop-ska u-ni-ya',
+        ph: 'eh-oo-ROP-skah oo-nee-ya',
         note: 'Croatia joined in 2013',
       },
       {
         hr: 'euro',
         en: 'euro (currency since Jan 2023)',
-        ph: 'eu-ro',
+        ph: 'eh-oo-ro',
         note: 'Replaced the kuna (kn)',
       },
       {
@@ -115,7 +115,7 @@ const CIVIC_SECTIONS = [
       {
         hr: 'Europski parlament',
         en: 'European Parliament',
-        ph: 'eu-rop-ski par-la-ment',
+        ph: 'eh-oo-ROP-skee par-la-ment',
         note: 'Croatia elects 12 MEPs',
       },
       {
@@ -127,7 +127,7 @@ const CIVIC_SECTIONS = [
       {
         hr: 'Europska komisija',
         en: 'European Commission',
-        ph: 'eu-rop-ska ko-mi-si-ya',
+        ph: 'eh-oo-ROP-skah ko-mi-si-ya',
         note: null,
       },
     ],

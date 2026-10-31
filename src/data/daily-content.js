@@ -355,7 +355,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Nisam gladan/gladna.',
     en: "I'm not hungry.",
     note: '-an (m) / -na (f) — gender matters',
-    ph: 'NEE-sahm GLAHD-ahn GLAHD-nah',
+    ph: 'NEE-sahm GLAH-dahn GLAHD-nah',
   },
   {
     hr: 'Žedan sam / Žedna sam.',
@@ -440,10 +440,10 @@ export const PHRASE_OF_DAY_POOL = [
     ph: 'EE-mahm BRAH-tah ee SEHS-troo',
   },
   {
-    hr: 'Jeste li oženjeni/udati?',
+    hr: 'Jeste li oženjeni/udani?',
     en: 'Are you married?',
-    note: 'Oženjen (m) / Udata (f) — note the forms',
-    ph: 'YEHS-teh lee oh-ZHEHN-yeh-nee oo-DAH-tee',
+    note: 'Oženjen (m) / Udana (f) — note the forms',
+    ph: 'YEHS-teh lee oh-ZHEHN-yeh-nee oo-DAH-nee',
   },
   {
     hr: 'Imam dvoje djece.',
@@ -455,7 +455,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Moja obitelj živi u Zagrebu.',
     en: 'My family lives in Zagreb.',
     note: 'Replace city as needed',
-    ph: 'MOH-yah oh-BEE-telj ZHEE-vee oo ZAH-greh-boo',
+    ph: 'MOH-yah oh-BEE-tely ZHEE-vee oo ZAH-greh-boo',
   },
   {
     hr: 'Koliko imate godina?',
@@ -884,7 +884,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Zadovoljan sam / Zadovoljna sam.',
     en: 'I am satisfied / happy with it.',
     note: '-an (m) / -na (f)',
-    ph: 'zah-DOH-vohl-yahn SAHM zah-DOH-vohl-ynah SAHM',
+    ph: 'zah-DOH-vohl-yahn SAHM zah-DOH-vohly-nah SAHM',
   },
   {
     hr: 'Super si!',
@@ -1015,7 +1015,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Moja obitelj je hrvatska.',
     en: 'My family is Croatian.',
     note: 'Simple, proud statement of identity',
-    ph: 'MOH-yah oh-BEE-telj yeh HRVAHT-skah',
+    ph: 'MOH-yah oh-BEE-tely yeh HRVAHT-skah',
   },
   {
     hr: 'Imam hrvatsko porijeklo.',
@@ -1331,7 +1331,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Idemo na roštilj!',
     en: "Let's have a barbecue!",
     note: 'Roštilj culture is huge in Croatia',
-    ph: 'ee-DEH-moh nah ROHSH-teel',
+    ph: 'ee-DEH-moh nah ROHSH-teely',
   },
   {
     hr: 'Navijam za Hrvatsku!',
@@ -1700,7 +1700,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Koliko stoji slanje u inozemstvo?',
     en: 'How much does sending abroad cost?',
     note: 'Inozemstvo = abroad / overseas',
-    ph: 'KOH-lee-koh STOH-yee SLAH-nyeh oo ee-noh-ZEMH-stvoh',
+    ph: 'KOH-lee-koh STOH-yee SLAH-nyeh oo ee-noh-ZEHM-stvoh',
   },
   {
     hr: 'Mogu li promijeniti valutu?',
@@ -1906,7 +1906,7 @@ export const PHRASE_OF_DAY_POOL = [
     hr: 'Puno mu znači obitelj.',
     en: 'Family means a lot to him.',
     note: 'Family is central in Croatian culture',
-    ph: 'POO-noh moo ZNAH-chee oh-BEE-telj',
+    ph: 'POO-noh moo ZNAH-chee oh-BEE-tely',
   },
   {
     hr: 'Jako je skroman/skromna.',
@@ -2181,7 +2181,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'muž', en: 'husband', ph: 'moozh', cat: 'family' },
   { hr: 'supruga', en: 'wife', ph: 'soo-PROO-gah', cat: 'family' },
   { hr: 'djeca', en: 'children', ph: 'DYEH-tsah', cat: 'family' },
-  { hr: 'obitelj', en: 'family', ph: 'oh-BEE-telj', cat: 'family' },
+  { hr: 'obitelj', en: 'family', ph: 'oh-BEE-tely', cat: 'family' },
   { hr: 'roditelji', en: 'parents', ph: 'roh-DEE-teh-lyee', cat: 'family' },
 
   // Nature
@@ -2321,7 +2321,7 @@ export const WORD_OF_DAY_POOL = [
   // Animals
   { hr: 'pas', en: 'dog', ph: 'pahs', cat: 'animals' },
   { hr: 'mačka', en: 'cat', ph: 'MAHCH-kah', cat: 'animals' },
-  { hr: 'konj', en: 'horse', ph: 'kohnj', cat: 'animals' },
+  { hr: 'konj', en: 'horse', ph: 'kohny', cat: 'animals' },
   { hr: 'krava', en: 'cow', ph: 'KRAH-vah', cat: 'animals' },
   { hr: 'ovca', en: 'sheep', ph: 'OHV-tsah', cat: 'animals' },
   { hr: 'svinja', en: 'pig', ph: 'SVEE-nyah', cat: 'animals' },
@@ -2337,7 +2337,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'jelen', en: 'deer', ph: 'YEH-len', cat: 'animals' },
   { hr: 'orao', en: 'eagle', ph: 'OH-rah-oh', cat: 'animals' },
   { hr: 'galeb', en: 'seagull', ph: 'GAH-leb', cat: 'animals' },
-  { hr: 'duplin', en: 'dolphin', ph: 'DOOP-leen', cat: 'animals' },
+  { hr: 'dupin', en: 'dolphin', ph: 'DOO-peen', cat: 'animals' },
 
   // Weather
   { hr: 'sunčano', en: 'sunny', ph: 'SOON-chah-noh', cat: 'weather' },
@@ -2457,7 +2457,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'molim', en: "please / you're welcome", ph: 'MOH-leem', cat: 'greetings' },
   { hr: 'oprostite', en: 'excuse me / sorry (formal)', ph: 'oh-PROS-tee-teh', cat: 'greetings' },
   { hr: 'dobrodošli', en: 'welcome (plural/formal)', ph: 'dob-roh-DOSH-lee', cat: 'greetings' },
-  { hr: 'naslov', en: 'title / address', ph: 'NAH-slow', cat: 'greetings' },
+  { hr: 'naslov', en: 'title / address', ph: 'NAH-slohv', cat: 'greetings' },
   { hr: 'ime', en: 'first name', ph: 'EE-meh', cat: 'greetings' },
   { hr: 'prezime', en: 'surname / last name', ph: 'PREH-zee-meh', cat: 'greetings' },
 
@@ -2513,7 +2513,7 @@ export const WORD_OF_DAY_POOL = [
   // Professions
   { hr: 'liječnik', en: 'doctor (male)', ph: 'lee-YECH-neek', cat: 'professions' },
   { hr: 'liječnica', en: 'doctor (female)', ph: 'lee-YECH-nee-tsah', cat: 'professions' },
-  { hr: 'učitelj', en: 'teacher (male)', ph: 'OO-chee-telj', cat: 'professions' },
+  { hr: 'učitelj', en: 'teacher (male)', ph: 'OO-chee-tely', cat: 'professions' },
   { hr: 'učiteljica', en: 'teacher (female)', ph: 'oo-chee-TEH-lyee-tsah', cat: 'professions' },
   { hr: 'odvjetnik', en: 'lawyer', ph: 'od-VYET-neek', cat: 'professions' },
   { hr: 'inženjer', en: 'engineer', ph: 'een-ZHEN-yer', cat: 'professions' },

@@ -18,7 +18,7 @@ const COFFEE_TYPES = [
     name: 'Macchiato',
     desc: 'Espresso with a drop of milk foam. Split loves this.',
     hr: 'Macchiato, molim.',
-    ph: 'ma-kia-to mo-lim',
+    ph: 'mah-KYAH-toh mo-lim',
   },
   {
     name: 'Kava s mlijekom',

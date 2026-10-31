@@ -445,7 +445,7 @@ export const SECTIONS = [
       {
         hr: 'Biti u banani',
         en: 'To be in trouble / to have a problem',
-        ph: 'BOO-tee oo bah-NAH-nee',
+        ph: 'BEE-tee oo bah-NAH-nee',
         level: '✅',
         note: 'Literally "to be in a banana." "U banani smo" = We\'re in trouble.',
         variants: [
@@ -509,7 +509,7 @@ export const SECTIONS = [
       {
         hr: 'Mačka / Riba',
         en: 'Hot woman (cat / fish)',
-        ph: 'MACH-kah / REE-bah',
+        ph: 'MAHCH-kah / REE-bah',
         level: '🌶',
         note: 'Both used for attractive women.',
         variants: [
@@ -817,7 +817,7 @@ export const SECTIONS = [
       {
         hr: 'Rizz',
         en: 'Game / Charisma / Charm',
-        ph: 'REEZ',
+        ph: 'RIZ',
         level: '📱',
         note: '"Ima rizz" = He has game/charisma.',
         variants: [
