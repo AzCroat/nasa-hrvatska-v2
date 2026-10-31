@@ -440,10 +440,10 @@ export const PHRASE_OF_DAY_POOL = [
     ph: 'EE-mahm BRAH-tah ee SEHS-troo',
   },
   {
-    hr: 'Jeste li oženjeni/udati?',
+    hr: 'Jeste li oženjeni/udani?',
     en: 'Are you married?',
-    note: 'Oženjen (m) / Udata (f) — note the forms',
-    ph: 'YEHS-teh lee oh-ZHEHN-yeh-nee oo-DAH-tee',
+    note: 'Oženjen (m) / Udana (f) — note the forms',
+    ph: 'YEHS-teh lee oh-ZHEHN-yeh-nee oo-DAH-nee',
   },
   {
     hr: 'Imam dvoje djece.',
@@ -2337,7 +2337,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'jelen', en: 'deer', ph: 'YEH-len', cat: 'animals' },
   { hr: 'orao', en: 'eagle', ph: 'OH-rah-oh', cat: 'animals' },
   { hr: 'galeb', en: 'seagull', ph: 'GAH-leb', cat: 'animals' },
-  { hr: 'duplin', en: 'dolphin', ph: 'DOOP-leen', cat: 'animals' },
+  { hr: 'dupin', en: 'dolphin', ph: 'DOO-peen', cat: 'animals' },
 
   // Weather
   { hr: 'sunčano', en: 'sunny', ph: 'SOON-chah-noh', cat: 'weather' },

@@ -62,6 +62,10 @@ describe('every pronunciation guide', () => {
     const ph = (hr: string) => pairs.filter((p) => p.hr === hr).map((p) => p.ph);
     expect(ph('naslov')).toEqual(['NAH-slohv']);
     expect(ph('konj')).toEqual(['kohny']);
+    // the words themselves: dupin (not duplin), udani (udati is an infinitive)
+    expect(ph('dupin')).toEqual(['DOO-peen']);
+    expect(ph('duplin')).toEqual([]);
+    expect(ph('Jeste li oženjeni/udani?')).toEqual(['YEHS-teh lee oh-ZHEHN-yeh-nee oo-DAH-nee']);
     expect(ph('Biti u banani')[0]).toMatch(/^BEE-tee /);
   });
 });
