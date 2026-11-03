@@ -14509,8 +14509,7 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
       issue API still answers 403 to CI's token).
   - **The event is already fixed, and the fix is measured live.** The surface
     (`AssessedMic`) shipped at 12:02 on 2026-09-29; until sweep 219 at 18:50 every take whose
-    reference held č ć đ š ž threw in `btoa` (a 500), and until sweep 218 a silent take was a
-    502. Both fixed that day. The calibration runs of 09-29 19:35 and 10-01 answered all 8
+    reference held č ć đ š ž threw in `btoa` (a 500), and until sweep 218 a silent take was a 502. Both fixed that day. The calibration runs of 09-29 19:35 and 10-01 answered all 8
     probe recordings, `Živim u Zagrebu` included — so a `:server` from this surface now means
     an Azure-side failure, not ours. Not established: the event's own date and code.
   - **The calibration had been red on every run since 09-29, for a known limit.** Its gate
@@ -14578,3 +14577,80 @@ su došli`; `Oženio se s Anom`; masculine job titles for women; `obzirom`/`ukol
       builds on every deploy (`scripts/pagesGitProduction.mjs`), keeping PR previews; CI's
       `wrangler pages deploy` is the only production publisher. Pinned by
       `pagesGitProduction.test.js`; mutation-verified (setting left on fails 1).
+- [x] **Sweep 236 — Sentry `review-explain:server` was a Cloudflare edge 502, not our
+      handler (2026-10-29, #884).** Two events carried `code=non_json_body`, which
+      `aiFailure.ts` records only when the response did NOT come from our handler.
+      `ReviewScreen`'s "Why is this wrong?" now retries once on a thrown error or a 5xx
+      (`postExplainWithOneRetry`, 1.5 s, never on a 4xx). Not established: why the edge
+      answered 502 — that is Cloudflare's side and nothing in the repo records it.
+- [x] **Sweep 237 — production-smoke false alerts, and CI install stalls (2026-10-29,
+      #880, #888).** A Playwright browser-install stall on the GitHub runner failed the
+      matrix and opened a "site down" issue. The install step now reports `ok=true/false`
+      and never exits 1; the test step runs only on `ok`; `verify-coverage` requires at
+      least three engines to have actually run before `resolve-on-success` may close the
+      issue. `ci-rerun-install-stall.yml` reruns a failed CI run once when every failed
+      step is a Playwright install. Pinned by `smokeInstallInconclusive.test.js` and
+      `ciRerunInstallStall.test.js`. **`workflow_run` workflows only run from the default
+      branch**, so the auto-rerun cannot be exercised from a PR.
+- [x] **Sweep 238 — AI conversations spoke the wrong region (owner, 2026-10-29, #877,
+      #879).** The Split cab driver used Zagreb Kajkavian ("fakat", "kaj"). The persona
+      prompts now tie regional colour to the PLACE and forbid Kajkavian slang and Serbian
+      words; `ai-chat` and `conversation` got the same wording and the heritage prompt a
+      `REGIONAL ACCURACY` rule. Baka Mara's vocabulary was corrected (`komšija` →
+      `susjed`; diminutives rebuilt from real forms). Pinned by `majaPersonaDialect.test.ts`.
+      **Not established: which other free-text AI output carries a regional error** — the
+      prompts are fixed, nothing measures live replies.
+- [x] **Sweep 239 — the news feed (owner, 2026-10-29, #885, #887, #889, #890).** 24sata's
+      feed failed and the owner chose to replace it: `RSS_FEEDS` now Dnevnik.hr, Slobodna
+      Dalmacija, Zadarski list, Večernji list (Slobodna Dalmacija verified at 50 items by
+      `checkNewsFeeds.mjs`; HRT guesses 404'd). `cleanFeedText` decodes entities twice and
+      strips CDATA/tags so descriptions stop carrying junk, and `latinizeCyrillic` runs
+      before the model sees an article. The observatory now records ~100 characters around
+      the first Cyrillic character (`cyrillicContext`) so an incident shows WHAT was
+      contaminated. #890 cleared two new dependency advisories (dompurify, re2js) by single-entry
+      lockfile bumps. **Not established:** that Cyrillic originates in article text (a
+      hypothesis; the next incident will say), and the live news endpoint is auth-gated so the
+      cleaning was not checked against real feed data.
+- [x] **Sweep 240 — visual learning: the owner's case charts (2026-10-29, #892, #893).** A
+      passive `visual` slide type (gates, scores and credits nothing; unknown kind degrades to
+      its `body`). The first design, a drawn motion-versus-rest picture, was rejected by the
+      owner, who supplied "Padezi Graphs" (Singular, Plural) in Dropbox: a case × gender table
+      with the ending marked. `caseCharts.js` is that chart line for line; every noun is
+      checked against `decline()` in `lessonVisuals.test.tsx`. It sits in 12 case lessons with
+      the lesson's OWN row picked out (`aria-current`, "◄ This lesson"). **The engine
+      disagreed with the owner's chart on exactly one noun**: `sat` (engine had only the
+      hours plural `sati`); it now carries both, `alternatePlural`, by meaning. Found by CI,
+      not by reasoning: an undefined `--border` token (row lines never drew, caught by
+      `cssVarsDefined`) and `caseCharts.js` outside the lint TARGETS (residue ratchet).
+      Corrected in review: the plural caption claimed `-ima` for all nouns; it is `-ima`
+      masculine/neuter and `-ama` feminine, now pinned.
+- [x] **Sweep 241 — the same chart for seven more rules (owner, 2026-10-29, #894).**
+      `ruleCharts.js` + `kind: 'ending-chart'` on the same renderer: present and past
+      endings, pronouns by case, adjective endings, clitic slots, number words with nouns,
+      aspect pairs — in ten lessons (`LESSON_RULE_CHARTS`, applied by `withVisuals`). Every
+      form is checked against something the app already owns: the `VERBS` dataset (present
+      and past), `decline()` (nouns, number rows by the cell each row names), the closed-class
+      pronoun table, the clitics lesson's own table order, and the aspect lessons' tables.
+      Mutation-verified, eight: each changed form fails a test or the Croatian lint.
+      **Building the pronoun chart found the tap-a-word table missing `nju`, `mnom`, `tobom`,
+      `njim`, `njom` and `one`** — a learner tapping them met "not a form I know". Added to
+      `croatianClosedClass.ts`. Not established: nothing renders these charts in a real
+      browser in CI (checked by screenshot, light and dark, in the owner's Dropbox).
+- [x] **Sweep 242 — pronunciation guides (owner, 2026-10-31, #895).** `naslov` read
+      `NAH-slow`. All 916 `hr` + `ph` pairs were read by hand: 17 were wrong (`slow` → `slohv`,
+      `BOO-tee` → `BEE-tee` for _biti_, `eu` → `eh-oo` in `euro` and three EU terms, `GLAHD-ahn`,
+      `kohnj`, unrespelled `lj` in `obitelj`/`učitelj`/`roštilj`, `MACH-kah`, `ZEMH-stvoh`,
+      `Macchiato`, `rizz`). `pronunciationGuides.test.ts` derives every pair from source and
+      bans an English word in a guide, an unrespelled `eu`/`lj`/`nj`, č/š/ž without
+      ch/sh/zh, and a `Bog!` guide that is not `bohg`; four re-injected errors each fail it.
+      **`Bog!` is `bohg`, by owner decision** — I first wrote `bohk` (final devoicing is real
+      speech) and was overruled: a guide that shows the `bok` sound teaches the spelling the
+      app does not use. Two content errors found in the same read and fixed: `udati` →
+      `udani` (an infinitive is not "married") and `duplin` → `dupin`. **Not established:
+      stress placement**, which was judged by ear, not derived; and the vocabulary deck's
+      third-position `MO-ći` syllable guides are Croatian syllabification, not respellings,
+      and were not part of this audit.
+- [x] **Sweep 243 — "Sentry Top Issues" red on 2026-11-03 was Sentry's 504, not ours.** The
+      workflow fails by design when `GET /organizations/<org>/projects/` is unreachable; the
+      previous six scheduled runs passed. Nothing changed. Recorded so a second occurrence is
+      read as an outage pattern rather than re-investigated as a regression.
