@@ -186,9 +186,25 @@ jobs:
           script: |
             const MIN_RAN = 3;
             const { owner, repo } = context.repo;
-            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
-              owner, repo, run_id: context.runId, filter: 'latest', per_page: 100,
-            });
+            // The jobs endpoint can return a just-finished job with its steps list EMPTY
+            // for a few seconds (2026-11-04: five browsers ran green and this step read
+            // "0 of 5"; the cause is inferred, the API response was not captured). A job
+            // whose test step is missing or unsettled is UNKNOWN, not "did not run":
+            // re-read before judging.
+            let jobs = [];
+            for (let attempt = 1; attempt <= 5; attempt++) {
+              jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+                owner, repo, run_id: context.runId, filter: 'latest', per_page: 100,
+              });
+              const pending = jobs.filter((j) => {
+                if (!j.name.startsWith('Smoke (')) return false;
+                const run = (j.steps || []).find((st) => st.name.startsWith('Run smoke tests'));
+                return !run || run.conclusion === null; // not listed yet, or not settled yet
+              });
+              if (pending.length === 0) break;
+              core.info(`attempt ${attempt}: ${pending.length} smoke job(s) have no settled test step yet`);
+              await new Promise((r) => setTimeout(r, 15000));
+            }
             const smoke = jobs.filter((j) => j.name.startsWith('Smoke ('));
             const ran = smoke.filter((j) =>
               (j.steps || []).some((st) => st.name.startsWith('Run smoke tests') && st.conclusion === 'success'),
