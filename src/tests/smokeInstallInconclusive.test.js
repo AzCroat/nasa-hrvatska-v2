@@ -39,6 +39,13 @@ describe('production smoke: an install stall is inconclusive, not red', () => {
     expect(v).toMatch(/MIN_RAN = 3/);
     expect(v).toMatch(/setFailed/);
   });
+  it('re-reads the jobs list before judging a browser whose test step is missing or unsettled', () => {
+    // 2026-11-04: five green browsers were counted "0 of 5" (steps not listed yet).
+    const v = job('verify-coverage');
+    expect(v).toMatch(/for \(let attempt = 1; attempt <= [2-9]; attempt\+\+\)/);
+    expect(v).toMatch(/run\.conclusion === null/);
+    expect(v).toMatch(/setTimeout/);
+  });
   it('an open failure issue closes only when every browser actually ran', () => {
     const r = job('resolve-on-success');
     expect(r).toMatch(/needs: \[smoke, verify-coverage\]/);
