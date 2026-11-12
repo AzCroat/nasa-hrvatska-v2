@@ -136,7 +136,8 @@ describe('buildCourseUnits over the real spine', () => {
   });
 
   it('finds the unit a lesson belongs to, and reports an unknown lesson as absent', () => {
-    expect(unitOfLesson(units, 'cases')?.id).toBe('A1-3');
+    expect(unitOfLesson(units, units[2]!.lessons[2]!.id)?.id).toBe('A1-3');
+    expect(unitOfLesson(units, 'cases')?.level).toBe('A1');
     expect(unitOfLesson(units, 'jezik-i-drustvo')?.id).toBe('C2-6');
     expect(unitOfLesson(units, 'no-such-lesson')).toBeNull();
     expect(unitOfLesson(units, '')).toBeNull();
@@ -174,7 +175,7 @@ describe('courseProgress', () => {
     expect(p.unitsMastered).toBe(0);
     expect(p.unitsCleared).toBe(0);
     expect(p.lessonsDone).toBe(0);
-    expect(p.lessonsTotal).toBe(180);
+    expect(p.lessonsTotal).toBe(SPINE.length);
     expect(p.units[0]!.state).toBe('current');
     expect(p.units[1]!.state).toBe('upcoming');
     expect(p.units[35]!.state).toBe('upcoming');
@@ -339,8 +340,9 @@ describe('nextCourseLesson', () => {
   });
 
   it('skips completed lessons without leaving the course order', () => {
-    const n = nextCourseLesson(units, ['alphabet', 'greetings-farewells']);
-    expect(n?.lesson.id).toBe('pronouns-biti');
+    const first = units[0]!.lessons.map((l) => l.id);
+    const n = nextCourseLesson(units, [first[0]!, first[1]!]);
+    expect(n?.lesson.id).toBe(first[2]);
   });
 
   it('is null when everything is complete', () => {

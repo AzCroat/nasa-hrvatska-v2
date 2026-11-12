@@ -94,7 +94,9 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
     expect(screen.getByTestId('course-unit-C2-6').getAttribute('data-unit-state')).toBe('locked');
     expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
-    expect(screen.getByTestId('course-lessons-count').textContent).toBe('0 / 180 lessons');
+    expect(screen.getByTestId('course-lessons-count').textContent).toBe(
+      `0 / ${SPINE.length} lessons`,
+    );
 
     // The current unit's five lessons are the ones on screen.
     await waitFor(() => expect(screen.getByTestId('course-lesson-alphabet')).toBeTruthy());
@@ -113,7 +115,7 @@ describe('the map a learner sees', () => {
     // The authored title, verbatim. Asserting a PREFIX would keep passing if the rest
     // of the name were lost.
     expect(await screen.findByText(COURSE_UNIT_TITLES['A1-4']!.title)).toBeTruthy();
-    expect(COURSE_UNIT_TITLES['A1-4']!.title).toBe('The Accusative and Everyday Needs');
+    expect(COURSE_UNIT_TITLES['A1-4']!.title).toBe('Names, Family and Plurals');
     expect(screen.queryByText('A1 · Unit 4')).toBeNull();
   });
 
@@ -130,7 +132,9 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
-    expect(screen.getByTestId('course-lessons-count').textContent).toBe('5 / 180 lessons');
+    expect(screen.getByTestId('course-lessons-count').textContent).toBe(
+      `5 / ${SPINE.length} lessons`,
+    );
 
     const take = await screen.findByTestId('course-unit-test-A1-1');
     fireEvent.click(take);
@@ -411,10 +415,11 @@ describe('the map a learner sees', () => {
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
     const header = (await screen.findByText(COURSE_UNIT_TITLES['A1-7']!.title)).closest('button')!;
+    const inUnit7 = UNITS.find((u) => u.id === 'A1-7')!.lessons[0]!.id;
     fireEvent.click(header);
-    expect(screen.getByTestId('course-lesson-likes-preferences')).toBeTruthy();
+    expect(screen.getByTestId(`course-lesson-${inUnit7}`)).toBeTruthy();
     fireEvent.click(header);
-    expect(screen.queryByTestId('course-lesson-likes-preferences')).toBeNull();
+    expect(screen.queryByTestId(`course-lesson-${inUnit7}`)).toBeNull();
   });
 
   // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): inside the current unit only the lesson

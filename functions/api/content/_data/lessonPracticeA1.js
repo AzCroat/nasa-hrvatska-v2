@@ -24,6 +24,8 @@
 //   - the greeting is bog (owner decision, 2026-07).
 // Scanned by lintCroatianText.mjs through the assembled LESSONS, both checks.
 
+import { PRACTICE_A1_NEW } from './a1new/index.js';
+
 export const PRACTICE_A1 = {
   alphabet: {
     worked: [
@@ -5532,4 +5534,5 @@ export const PRACTICE_A1 = {
       ['zima', 'winter', 'Zimi je u Lici jako hladno.'],
     ],
   },
+  ...PRACTICE_A1_NEW,
 };

@@ -24,6 +24,11 @@
 
 import type { LessonCheckItem } from './lessonCheck';
 
+/**
+ * The round's length for a level of six units or fewer. A longer level gets one item per
+ * unit instead (see `levelReviewLength`), so no unit is left out: A1 has twenty units since
+ * the Croaticum rebuild (2026-11-12), and a fixed 18 skipped its last two.
+ */
 export const LEVEL_REVIEW_ITEMS = 18;
 export const ITEMS_PER_UNIT = 3;
 /** Below this the review is not worth serving (a stale cache that lost bodies). */
@@ -100,7 +105,12 @@ export function buildLevelReview(
       if (it) out.push(it);
     }
   }
-  return out.slice(0, LEVEL_REVIEW_ITEMS);
+  return out.slice(0, levelReviewLength(perUnit.filter((b) => b.length > 0).length));
+}
+
+/** Items in a review over `unitCount` units: 18, or one per unit when there are more. */
+export function levelReviewLength(unitCount: number): number {
+  return Math.max(LEVEL_REVIEW_ITEMS, unitCount);
 }
 
 /** Per-unit first-try result, in unit order — which units are worth another look. */

@@ -37,6 +37,8 @@
 //     and never real Croatian marked incorrect.
 
 /** @type {ReadonlyArray<object>} */
+import { LESSONS_A1_NEW } from './a1new/index.js';
+
 export const LESSONS_A1 = [
   // ─────────────────────────────────────────────────────────
   // Plural of Nouns
@@ -5636,4 +5638,5 @@ export const LESSONS_A1 = [
       },
     ],
   },
+  ...LESSONS_A1_NEW,
 ];

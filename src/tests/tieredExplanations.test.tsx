@@ -25,7 +25,8 @@ import WrongAnswerHelp from '../components/shared/WrongAnswerHelp';
 import { filledSentence } from '../components/shared/AnswerDiff';
 import AppContext from '../context/AppContext';
 import { buildCourseUnits } from '../lib/courseUnits';
-import { markLessonComplete } from '../lib/curriculumProgress';
+import { markLessonComplete, readCompletedLessons } from '../lib/curriculumProgress';
+import { recordUnitTest, recordUnitProduction } from '../lib/courseUnitProgress';
 import type { CurriculumEntry } from '../lib/curriculum';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 
@@ -34,11 +35,32 @@ const UNITS = buildCourseUnits(SPINE);
 const seedSpine = () => localStorage.setItem('nh_curriculum_spine', JSON.stringify(SPINE));
 const completeThrough = (lessonId: string) => {
   // complete every lesson up to and including `lessonId`, in COURSE order (`order` is
-  // per level, so sorting the spine by it would mix the levels)
-  for (const l of UNITS.flatMap((u) => u.lessons)) {
-    markLessonComplete(l.id, '2026-11-01');
-    if (l.id === lessonId) break;
+  // per level, so sorting the spine by it would mix the levels). A unit read through in
+  // full is also MASTERED (test + both production halves), as a learner walking the
+  // course would have to, so the course serves the next unit's lesson as TODAY's.
+  for (const u of UNITS) {
+    let stop = false;
+    for (const l of u.lessons) {
+      markLessonComplete(l.id, '2026-11-01');
+      if (l.id === lessonId) {
+        stop = true;
+        break;
+      }
+    }
+    if (u.lessons.every((l) => readCompletedLessons().has(l.id))) {
+      recordUnitTest(u.id, 15, 15, true);
+      recordUnitProduction(u.id, 'write', 80);
+      recordUnitProduction(u.id, 'speak', 0.8);
+    }
+    if (stop) return;
   }
+};
+const COURSE_ORDER = UNITS.flatMap((u) => u.lessons.map((l) => l.id));
+/** The lesson immediately before `id` in course order. */
+const lessonBefore = (id: string): string => {
+  const i = COURSE_ORDER.indexOf(id);
+  if (i < 1) throw new Error(`no lesson before ${id}`);
+  return COURSE_ORDER[i - 1]!;
 };
 const GRAMMAR_WORD = new RegExp(`\\b(${ALL_GRAMMAR_TERMS.join('|')})\\b`, 'i');
 
@@ -67,15 +89,18 @@ describe('which grammar words a learner has earned', () => {
     expect(readTaughtTerms()!.size).toBe(0);
   });
 
-  it('plural comes with the unit-2 plural lesson, and the cases not before the end of Unit 3', () => {
+  it('plural comes with the unit-2 plural lesson, and the cases not before the cases lesson', () => {
     seedSpine();
-    completeThrough('pronouns-biti'); // done 1–3; TODAY is lesson 4, gender
+    // Positions DERIVED from the spine (A1 grew to 100 lessons; hardcoded positions
+    // went stale): complete everything before `gender`, so TODAY is gender.
+    completeThrough(lessonBefore('gender'));
     const learningGender = readTaughtTerms()!;
     expect(learningGender.has('gender')).toBe(true); // being taught today, so allowed
-    expect(learningGender.has('plural')).toBe(false); // the lesson after it, not yet
-    // 2026-11-12 restructure: plural-nouns is lesson 7 and `cases` lesson 15. Having done
-    // through present-tense-verbs (13), TODAY is negation: plural is open, cases are not.
-    completeThrough('present-tense-verbs');
+    expect(learningGender.has('plural')).toBe(false); // a later lesson, not yet open
+    // Complete everything before `cases`: plural is open, cases are not (TODAY is the
+    // lesson immediately before cases, which introduces no case word).
+    expect(COURSE_ORDER.indexOf('plural-nouns')).toBeLessThan(COURSE_ORDER.indexOf('cases') - 1);
+    completeThrough(lessonBefore(lessonBefore('cases')));
     const unit3 = readTaughtTerms()!;
     expect(unit3.has('plural')).toBe(true);
     expect(unit3.has('case')).toBe(false);
@@ -238,10 +263,21 @@ describe('the endpoint tells the model to use only the taught words', () => {
 });
 
 describe('the early lessons really are before the cases', () => {
-  it('plural-nouns is in Unit 2 and cases is first met at the end of Unit 3', () => {
+  it('plural-nouns is in Unit 2 and cases comes in a later unit, after the subject-form units', () => {
     const unitOf = (id: string) => UNITS.find((u) => u.lessons.some((l) => l.id === id))!.index;
+    // Unit 1 (lessons 1–5) never needs singular/plural or a case word: that is the
+    // reported defect's own premise, so plural stays out of Unit 1.
     expect(unitOf('plural-nouns')).toBe(2);
-    expect(unitOf('cases')).toBe(3);
     expect(unitOf('plural-nouns')).toBeLessThan(unitOf('cases'));
+    // Every lesson that introduces a case name sits AFTER `cases` itself.
+    const caseLessons = Object.entries(TERMS_INTRODUCED_BY)
+      .filter(
+        ([id, terms]) =>
+          id !== 'cases' && COURSE_ORDER.includes(id) && terms.some((t) => /ative$/.test(t)),
+      )
+      .map(([id]) => id);
+    expect(caseLessons.length).toBeGreaterThan(0);
+    for (const id of caseLessons)
+      expect(COURSE_ORDER.indexOf(id), id).toBeGreaterThan(COURSE_ORDER.indexOf('cases'));
   });
 });

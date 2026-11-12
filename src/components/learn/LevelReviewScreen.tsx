@@ -4,7 +4,8 @@
 // each level. It would mix practice across all six units right before the Level
 // Check, so the learner is prepared rather than just tested."
 //
-// Eighteen items, three from each of the level's six units, interleaved by
+// Eighteen items, three from each unit of a six-unit level (one per unit for a longer
+// level, so every unit is in the round), interleaved by
 // construction (src/lib/levelReview.ts has the reasoning). What lives here is the
 // sitting, and it is PRACTICE, not a test:
 //
@@ -201,7 +202,7 @@ export default function LevelReviewScreen({
   );
 
   const heading = level ? `${level} review` : 'Level review';
-  const subtitle = level ? 'All six units, mixed' : 'Your course';
+  const subtitle = level ? 'Every unit, mixed' : 'Your course';
 
   if (phase === 'loading') {
     return (

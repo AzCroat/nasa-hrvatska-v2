@@ -47,6 +47,8 @@
  */
 
 /** @type {ReadonlyArray<CurriculumEntry>} */
+import { SPINE_A1_NEW } from './a1new/index.js';
+
 export const CURRICULUM = [
   // ── A1 ────────────────────────────────────────────────────────────────────
   // Sounds before words, words before sentences, sentences before cases.
@@ -77,7 +79,7 @@ export const CURRICULUM = [
   {
     id: 'greetings-farewells',
     level: 'A1',
-    order: 2,
+    order: 3,
     prerequisites: ['alphabet'],
     objectives: [
       'Greet someone and say goodbye at the right level of formality',
@@ -88,7 +90,7 @@ export const CURRICULUM = [
   {
     id: 'pronouns-biti',
     level: 'A1',
-    order: 3,
+    order: 4,
     prerequisites: ['greetings-farewells'],
     objectives: [
       'Say who you are and where you are from',
@@ -99,7 +101,7 @@ export const CURRICULUM = [
   {
     id: 'gender',
     level: 'A1',
-    order: 4,
+    order: 6,
     prerequisites: ['alphabet'],
     objectives: [
       'Tell a noun’s gender from its ending in most cases',
@@ -110,7 +112,7 @@ export const CURRICULUM = [
   {
     id: 'plural-nouns',
     level: 'A1',
-    order: 7,
+    order: 9,
     prerequisites: ['gender'],
     objectives: [
       'Make any regular noun plural from its gender alone',
@@ -121,7 +123,7 @@ export const CURRICULUM = [
   {
     id: 'basic-questions',
     level: 'A1',
-    order: 6,
+    order: 8,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Ask who, what, where, when and how much',
@@ -132,7 +134,7 @@ export const CURRICULUM = [
   {
     id: 'present-tense-verbs',
     level: 'A1',
-    order: 13,
+    order: 25,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Conjugate regular verbs in the present across all three patterns',
@@ -143,7 +145,7 @@ export const CURRICULUM = [
   {
     id: 'negation',
     level: 'A1',
-    order: 14,
+    order: 26,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Negate any verb by putting ne in front of it',
@@ -154,7 +156,7 @@ export const CURRICULUM = [
   {
     id: 'adjectives-basic',
     level: 'A1',
-    order: 12,
+    order: 23,
     prerequisites: ['gender', 'plural-nouns'],
     objectives: [
       'Make an adjective agree with its noun in gender and number',
@@ -165,7 +167,7 @@ export const CURRICULUM = [
   {
     id: 'possessives',
     level: 'A1',
-    order: 10,
+    order: 17,
     prerequisites: ['gender'],
     objectives: [
       'Say my, your, his, her, our and their with the right ending',
@@ -176,7 +178,7 @@ export const CURRICULUM = [
   {
     id: 'demonstratives',
     level: 'A1',
-    order: 5,
+    order: 7,
     prerequisites: ['gender'],
     objectives: [
       'Point at things using the three-way system: ovaj, taj, onaj',
@@ -187,7 +189,7 @@ export const CURRICULUM = [
   {
     id: 'family-people',
     level: 'A1',
-    order: 11,
+    order: 18,
     prerequisites: ['possessives'],
     objectives: [
       'Name everyone in your family, immediate and extended',
@@ -198,7 +200,7 @@ export const CURRICULUM = [
   {
     id: 'countries-languages',
     level: 'A1',
-    order: 8,
+    order: 12,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Say which country you are from, live in, and which languages you speak',
@@ -209,7 +211,7 @@ export const CURRICULUM = [
   {
     id: 'numbers-time',
     level: 'A1',
-    order: 9,
+    order: 14,
     prerequisites: ['gender'],
     objectives: [
       'Count, give your phone number and say your age',
@@ -220,7 +222,7 @@ export const CURRICULUM = [
   {
     id: 'time-calendar',
     level: 'A1',
-    order: 19,
+    order: 37,
     prerequisites: ['numbers-time'],
     objectives: [
       'Name the days, months and seasons',
@@ -231,7 +233,7 @@ export const CURRICULUM = [
   {
     id: 'cases',
     level: 'A1',
-    order: 15,
+    order: 28,
     prerequisites: ['gender'],
     objectives: [
       'Understand what a case is, using English he / him / his as the bridge',
@@ -242,7 +244,7 @@ export const CURRICULUM = [
   {
     id: 'accusative-intro',
     level: 'A1',
-    order: 16,
+    order: 29,
     prerequisites: ['cases'],
     objectives: [
       'Name what the verb acts on: Pijem kavu, Vidim brata',
@@ -253,7 +255,7 @@ export const CURRICULUM = [
   {
     id: 'imati-nemati',
     level: 'A1',
-    order: 17,
+    order: 31,
     prerequisites: ['accusative-intro'],
     objectives: [
       'Say what you have and what you do not have',
@@ -264,7 +266,7 @@ export const CURRICULUM = [
   {
     id: 'locative-intro',
     level: 'A1',
-    order: 23,
+    order: 49,
     prerequisites: ['cases'],
     objectives: [
       'Say where you are, live and work: u Zagrebu, u školi, na moru',
@@ -275,7 +277,7 @@ export const CURRICULUM = [
   {
     id: 'prepositions-place',
     level: 'A1',
-    order: 24,
+    order: 50,
     prerequisites: ['locative-intro'],
     objectives: [
       'Place anything in space: pored, blizu, ispred, iza, ispod, između',
@@ -286,7 +288,7 @@ export const CURRICULUM = [
   {
     id: 'genitive-intro',
     level: 'A1',
-    order: 34,
+    order: 78,
     prerequisites: ['prepositions-place'],
     objectives: [
       'Show belonging without an apostrophe: auto moje sestre',
@@ -297,7 +299,7 @@ export const CURRICULUM = [
   {
     id: 'vocative-intro',
     level: 'A1',
-    order: 39,
+    order: 97,
     prerequisites: ['cases'],
     objectives: [
       'Call someone by name the way a Croatian does: Ivane, not Ivan',
@@ -308,7 +310,7 @@ export const CURRICULUM = [
   {
     id: 'modals-basic',
     level: 'A1',
-    order: 18,
+    order: 33,
     prerequisites: ['present-tense-verbs', 'accusative-intro'],
     objectives: [
       'Say what you can, must, want and need to do',
@@ -319,7 +321,7 @@ export const CURRICULUM = [
   {
     id: 'imperative-basic',
     level: 'A1',
-    order: 38,
+    order: 94,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Ask someone to do something, formally and informally',
@@ -330,7 +332,7 @@ export const CURRICULUM = [
   {
     id: 'reflexive-verbs',
     level: 'A1',
-    order: 31,
+    order: 69,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Use the large family of verbs that carry se, starting with zvati se',
@@ -341,7 +343,7 @@ export const CURRICULUM = [
   {
     id: 'likes-preferences',
     level: 'A1',
-    order: 32,
+    order: 73,
     prerequisites: ['reflexive-verbs'],
     objectives: [
       'Say what you like two ways: volim kavu and sviđa mi se Zagreb',
@@ -352,7 +354,7 @@ export const CURRICULUM = [
   {
     id: 'food-drink',
     level: 'A1',
-    order: 20,
+    order: 44,
     prerequisites: ['accusative-intro'],
     objectives: [
       'Order in a café and read a simple menu',
@@ -363,7 +365,7 @@ export const CURRICULUM = [
   {
     id: 'shopping-prices',
     level: 'A1',
-    order: 22,
+    order: 48,
     prerequisites: ['numbers-time', 'accusative-intro'],
     objectives: [
       'Count past a hundred and say any price in euros',
@@ -374,7 +376,7 @@ export const CURRICULUM = [
   {
     id: 'directions-town',
     level: 'A1',
-    order: 40,
+    order: 99,
     prerequisites: ['prepositions-place', 'imperative-basic'],
     objectives: [
       'Ask where something is, and understand the directions you get back',
@@ -385,7 +387,7 @@ export const CURRICULUM = [
   {
     id: 'weather-seasons',
     level: 'A1',
-    order: 27,
+    order: 60,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Describe the weather with the subjectless pattern: Hladno je, Pada kiša',
@@ -431,7 +433,7 @@ export const CURRICULUM = [
   {
     id: 'object-pronouns',
     level: 'A1',
-    order: 30,
+    order: 65,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Say “I see her” without repeating the name',
@@ -453,7 +455,7 @@ export const CURRICULUM = [
   {
     id: 'dative-intro',
     level: 'A1',
-    order: 29,
+    order: 63,
     prerequisites: ['accusative-intro'],
     objectives: [
       'Say who you gave, wrote, said or explained something to',
@@ -464,7 +466,7 @@ export const CURRICULUM = [
   {
     id: 'instrumental-intro',
     level: 'A1',
-    order: 33,
+    order: 74,
     prerequisites: ['accusative-intro'],
     objectives: [
       'Say who you are with and what you are travelling by',
@@ -519,7 +521,7 @@ export const CURRICULUM = [
   {
     id: 'quantity',
     level: 'A1',
-    order: 35,
+    order: 83,
     prerequisites: ['plural-nouns', 'genitive-intro'],
     objectives: [
       'Say how much and how many, and get the case right every time',
@@ -530,7 +532,7 @@ export const CURRICULUM = [
   {
     id: 'ordinals-dates',
     level: 'A1',
-    order: 36,
+    order: 85,
     prerequisites: ['numbers-time', 'adjectives-basic'],
     objectives: [
       'Give and understand a date in Croatian',
@@ -541,7 +543,7 @@ export const CURRICULUM = [
   {
     id: 'past-tense',
     level: 'A1',
-    order: 25,
+    order: 56,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Talk about what happened, using the perfect tense',
@@ -552,7 +554,7 @@ export const CURRICULUM = [
   {
     id: 'past-questions-negation',
     level: 'A1',
-    order: 26,
+    order: 58,
     prerequisites: ['past-tense'],
     objectives: [
       'Ask whether something happened, and say it did not',
@@ -640,7 +642,7 @@ export const CURRICULUM = [
   {
     id: 'body-health',
     level: 'A1',
-    order: 37,
+    order: 87,
     prerequisites: ['object-pronouns'],
     objectives: [
       'Say what hurts, using the sentence pattern where the pain is the subject',
@@ -651,7 +653,7 @@ export const CURRICULUM = [
   {
     id: 'clothes-appearance',
     level: 'A1',
-    order: 21,
+    order: 47,
     prerequisites: ['adjectives-basic'],
     objectives: [
       'Say what you and other people are wearing',
@@ -797,7 +799,7 @@ export const CURRICULUM = [
   {
     id: 'future-tense',
     level: 'A1',
-    order: 28,
+    order: 61,
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Talk about what will happen',
@@ -2125,6 +2127,7 @@ export const CURRICULUM = [
       'Hold several Croatians and choose between them deliberately',
     ],
   },
+  ...SPINE_A1_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
 ];
 
 /** Lookup by lesson id. */

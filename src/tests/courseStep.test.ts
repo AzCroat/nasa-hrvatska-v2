@@ -75,7 +75,7 @@ describe('what the course serves', () => {
     writeCurriculumSpine(SPINE);
     markLessonComplete('alphabet', '2026-09-01');
     const step = nextCourseStep();
-    expect(step && step.kind === 'lesson' && step.lesson.id).toBe('greetings-farewells');
+    expect(step && step.kind === 'lesson' && step.lesson.id).toBe(UNITS[0]!.lessons[1]!.id);
   });
 
   // THE TEST IS THE NEXT STEP once the reading is done. Serving the next unit's
@@ -120,7 +120,7 @@ describe('what the course serves', () => {
     const step = nextCourseStep();
     expect(step?.kind).toBe('lesson');
     expect(step?.unit.id).toBe('A1-2');
-    expect(step && step.kind === 'lesson' && step.lesson.id).toBe('basic-questions');
+    expect(step && step.kind === 'lesson' && step.lesson.id).toBe(UNITS[1]!.lessons[0]!.id);
   });
 
   // A REFUSED EVALUATOR MUST NOT WALL A LEARNER OUT of their own course.
@@ -141,7 +141,7 @@ describe('what the course serves', () => {
     master('A1-1');
     const step = nextCourseStep();
     expect(step?.unit.id).toBe('A1-2');
-    expect(step && step.kind === 'lesson' && step.lesson.id).toBe('basic-questions');
+    expect(step && step.kind === 'lesson' && step.lesson.id).toBe(UNITS[1]!.lessons[0]!.id);
   });
 
   it('is null with no spine, so the session composes as it did before', () => {
