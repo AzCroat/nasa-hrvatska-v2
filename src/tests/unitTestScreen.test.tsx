@@ -41,6 +41,14 @@ const SPINE = CURRICULUM as unknown as CurriculumEntry[];
 const UNITS = buildCourseUnits(SPINE);
 const BY_ID = new Map((LESSONS as LessonBodyLike[]).map((l) => [l.id, l]));
 
+/** The learner has READ the unit's lessons, so each is open to review (the lock opens a
+ *  lesson that is done; see lib/lessonLock). */
+function readUnit(unitId = 'A1-1'): void {
+  const done: Record<string, string> = {};
+  for (const l of UNITS.find((u) => u.id === unitId)!.lessons) done[l.id] = '2026-01-01';
+  localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
+}
+
 function seed(unitId = 'A1-1'): void {
   localStorage.setItem('nh_curriculum_spine', JSON.stringify(SPINE));
   sessionStorage.setItem('nh_unit_test', unitId);
@@ -214,6 +222,7 @@ describe('a failing sitting', () => {
 
   it('names the lessons the misses came from, and offers each for review', async () => {
     seed();
+    readUnit();
     const items = paper();
     const { onOpenLesson } = mount();
     await sit(items, 1);
@@ -229,8 +238,27 @@ describe('a failing sitting', () => {
     await waitFor(() => expect(onOpenLesson).toHaveBeenCalledWith(missed[0]));
   });
 
+  it('a lesson the learner has NOT read is locked, and the notice says why (not "check your connection")', async () => {
+    seed(); // a test-out: the unit's lessons are unread
+    const items = paper();
+    const { onOpenLesson } = mount();
+    await sit(items, 1);
+    await screen.findByTestId('unit-test-result');
+    // lesson 1 of the unit is today's (open); a later lesson is locked
+    const later = [...new Set(items.slice(1).map((i) => i.lessonId))].find(
+      (id) => UNITS[0]!.lessons.findIndex((l) => l.id === id) >= 1,
+    )!;
+    fireEvent.click(screen.getByTestId(`unit-test-review-${later}`));
+    expect((await screen.findByTestId('unit-test-lesson-locked')).textContent).toMatch(
+      /isn't open yet\. Opens after lesson \d of this unit\./,
+    );
+    expect(onOpenLesson).not.toHaveBeenCalled();
+    expect(screen.queryByTestId('unit-test-open-failed')).toBeNull();
+  });
+
   it('says why a review lesson could not be opened', async () => {
     seed();
+    readUnit();
     const items = paper();
     mount(
       vi.fn(),

@@ -407,6 +407,41 @@ describe('the map a learner sees', () => {
     expect(screen.queryByTestId('course-lesson-likes-preferences')).toBeNull();
   });
 
+  // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): inside the current unit only the lesson
+  // the course serves today is open; the ones behind it say what unlocks them.
+  it('locks every lesson behind today’s, in the unit the learner stands on', async () => {
+    seedSpine();
+    const onOpenLesson = vi.fn(async () => true);
+    render(<CourseMapScreen goBack={vi.fn()} onOpenLesson={onOpenLesson} setScr={vi.fn()} />);
+    const ids = UNITS[0]!.lessons.map((l) => l.id);
+    const first = (await screen.findByTestId(`course-lesson-${ids[0]}`)) as HTMLButtonElement;
+    expect(first.disabled).toBe(false);
+    const second = screen.getByTestId(`course-lesson-${ids[1]}`) as HTMLButtonElement;
+    expect(second.disabled).toBe(true);
+    expect(second.getAttribute('data-lesson-locked')).toBe('1');
+    expect(screen.getByTestId(`course-lesson-why-${ids[1]}`).textContent).toBe(
+      'Opens after lesson 1 of this unit.',
+    );
+    fireEvent.click(second);
+    expect(onOpenLesson).not.toHaveBeenCalled();
+  });
+
+  it('finishing the first lesson opens the second, and only the second', async () => {
+    seedSpine();
+    const ids = UNITS[0]!.lessons.map((l) => l.id);
+    seedDone([ids[0]!]);
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    await screen.findByTestId(`course-lesson-${ids[0]}`);
+    expect((screen.getByTestId(`course-lesson-${ids[1]}`) as HTMLButtonElement).disabled).toBe(
+      false,
+    );
+    expect((screen.getByTestId(`course-lesson-${ids[2]}`) as HTMLButtonElement).disabled).toBe(
+      true,
+    );
+  });
+
   // A TAP EITHER OPENS IT OR SAYS WHY. The lesson body is a separate fetch, so an
   // offline learner reaches a launcher that cannot navigate.
   it('says why when a lesson could not be opened', async () => {

@@ -39,6 +39,7 @@ import {
   type ReviewLessonBody,
 } from '../../lib/levelReview';
 import { shuffledOrder } from '../../lib/lessonCheck';
+import { lessonLockReason } from '../../lib/lessonLock';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 
 /** XP for the first finished review of a level. Paid once. */
@@ -92,6 +93,7 @@ export default function LevelReviewScreen({
   const [firstTry, setFirstTry] = useState<Record<number, boolean>>({});
   const recorded = useRef<string | null>(null);
   const [openFailed, setOpenFailed] = useState(false);
+  const [lockedWhy, setLockedWhy] = useState<string | null>(null);
 
   const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
   const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
@@ -184,6 +186,14 @@ export default function LevelReviewScreen({
   const review = useCallback(
     async (lessonId: string) => {
       setOpenFailed(false);
+      setLockedWhy(null);
+      // A lesson the learner has not reached is locked, and "check your connection"
+      // would blame the network for the course's order.
+      const why = lessonLockReason(lessonId);
+      if (why) {
+        setLockedWhy(why);
+        return;
+      }
       const ok = await onOpenLesson(lessonId);
       if (!ok) setOpenFailed(true);
     },
@@ -320,6 +330,12 @@ export default function LevelReviewScreen({
             );
           })}
         </div>
+
+        {lockedWhy && (
+          <Notice testId="level-review-lesson-locked" tone="bad">
+            That lesson isn't open yet. {lockedWhy}
+          </Notice>
+        )}
 
         {openFailed && (
           <Notice testId="level-review-open-failed" tone="bad">
