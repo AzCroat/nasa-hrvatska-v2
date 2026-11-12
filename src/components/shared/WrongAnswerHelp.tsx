@@ -90,7 +90,7 @@ export default function WrongAnswerHelp({
 
   return (
     <div data-testid="wrong-answer-help" style={{ marginTop: 10 }}>
-      <AnswerDiff chosen={chosen} answer={answer} />
+      <AnswerDiff chosen={chosen} answer={answer} sentence={context} />
       {contrast &&
         (contrast.headline ||
           contrast.chosen.readings.length > 0 ||

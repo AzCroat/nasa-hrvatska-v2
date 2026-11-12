@@ -34,9 +34,31 @@ function Word({ text, from, marked }: { text: string; from: number; marked: bool
   );
 }
 
-export default function AnswerDiff({ chosen, answer }: { chosen: string; answer: string }) {
+/**
+ * The drill's own sentence with the correct word put in the blank — "Vidim ____." →
+ * "Vidim kavu." — or null when the prompt has no blank to fill. A trailing bracketed cue
+ * is dropped: it belongs to the question, not to the finished sentence.
+ */
+export function filledSentence(prompt: string | undefined, answer: string): string | null {
+  if (!prompt || !/_{2,}/.test(prompt)) return null;
+  const cleaned = prompt.replace(/\s*\([^)]*\)(?=[.!?…]*\s*$)/, '').trim();
+  return cleaned.replace(/_{2,}/, answer);
+}
+
+export default function AnswerDiff({
+  chosen,
+  answer,
+  sentence: prompt,
+}: {
+  chosen: string;
+  answer: string;
+  /** The drill's prompt, so the correct word can be shown inside its sentence. */
+  sentence?: string;
+}) {
   const d = formDiff(chosen, answer);
   if (!d) return null;
+  const inSentence = filledSentence(prompt, answer);
+  const at = inSentence ? inSentence.indexOf(answer) : -1;
   const marked = d.kind === 'ending';
   const sentence = diffSentence(d);
   const row: React.CSSProperties = { display: 'flex', gap: 10, alignItems: 'baseline' };
@@ -74,6 +96,17 @@ export default function AnswerDiff({ chosen, answer }: { chosen: string; answer:
           ✓
         </span>
       </div>
+      {inSentence && at >= 0 && (
+        <p
+          data-testid="diff-in-sentence"
+          style={{ margin: '8px 0 0', fontSize: 15, lineHeight: 1.6, color: 'var(--text)' }}
+        >
+          <span style={{ fontSize: 12, color: 'var(--subtext)' }}>In the sentence: </span>
+          {inSentence.slice(0, at)}
+          <span style={MARK}>{answer}</span>
+          {inSentence.slice(at + answer.length)}
+        </p>
+      )}
       {sentence && (
         <p
           data-testid="diff-sentence"

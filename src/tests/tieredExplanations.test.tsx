@@ -22,6 +22,7 @@ import {
 } from '../lib/taughtTerms';
 import { formDiff, diffSentence, contrastAnswers } from '../lib/answerContrast';
 import WrongAnswerHelp from '../components/shared/WrongAnswerHelp';
+import { filledSentence } from '../components/shared/AnswerDiff';
 import AppContext from '../context/AppContext';
 import { buildCourseUnits } from '../lib/courseUnits';
 import { markLessonComplete } from '../lib/curriculumProgress';
@@ -123,6 +124,24 @@ describe('the letters that differ — computed, never guessed', () => {
   it('is null for identical words and for multi-word options', () => {
     expect(formDiff('kava', 'Kava')).toBeNull();
     expect(formDiff('mi ju', 'ju mi')).toBeNull();
+  });
+});
+
+describe('the correct word is shown inside its sentence', () => {
+  it('fills the blank and drops a trailing bracketed cue', () => {
+    expect(filledSentence('Vidim ____.', 'kavu')).toBe('Vidim kavu.');
+    expect(filledSentence('Nemam _____ (novac).', 'novca')).toBe('Nemam novca.');
+  });
+  it('is null when the prompt has no blank, so nothing is invented', () => {
+    expect(filledSentence('Koji padež?', 'kavu')).toBeNull();
+    expect(filledSentence(undefined, 'kavu')).toBeNull();
+  });
+  it('is on the panel, with the correct word underlined in it', () => {
+    seedSpine();
+    renderPanel('kavi', 'kavu');
+    const line = screen.getByTestId('diff-in-sentence');
+    expect(line.textContent).toBe('In the sentence: Vidim kavu.');
+    expect(line.textContent).not.toMatch(GRAMMAR_WORD);
   });
 });
 
