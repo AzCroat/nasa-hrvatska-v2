@@ -97,7 +97,8 @@ test.describe('Learn tab', () => {
       // The first version of this asserted on the default 5s and passed locally
       // while failing on a loaded CI runner: a race in the test, not the app.
       await expect(page.getByTestId('lc-level-A1')).toBeVisible({ timeout: 20_000 });
-      // Every level, including ones above the seeded learner: lookup is ungated.
+      // Every level is LISTED, including ones above the seeded learner; the lessons above
+      // them are shown locked (the course is sequential — see the lock tests below).
       for (const lvl of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']) {
         await expect(page.getByTestId(`lc-level-${lvl}`)).toBeVisible();
       }
@@ -204,8 +205,12 @@ test.describe('Learn tab', () => {
       const errors = [];
       page.on('pageerror', (e) => errors.push(e.message));
       await openCenter(page);
-      await page.getByTestId('lc-search').fill('genitive');
-      const lessonRow = page.locator('[data-testid="lc-row"][data-kind="lesson"]').first();
+      // The course is sequential: a new learner's ONE open lesson is the first, so
+      // that is the lesson a search can open. Lessons ahead are locked (next test).
+      await page.getByTestId('lc-search').fill('alphabet');
+      const lessonRow = page
+        .locator('[data-testid="lc-row"][data-kind="lesson"]:not([data-locked])')
+        .first();
       await expect(lessonRow).toBeVisible({ timeout: 10_000 });
       await lessonRow.click();
       // The Center must be gone — the lesson took over the screen.
@@ -214,6 +219,21 @@ test.describe('Learn tab', () => {
         (e) => !e.includes('firebase') && !e.includes('firestore') && !e.includes('fetch'),
       );
       expect(unexpected).toHaveLength(0);
+    });
+
+    test('a lesson ahead of the learner is locked: it says why and does not open', async ({
+      page,
+    }) => {
+      await openCenter(page);
+      await page.getByTestId('lc-search').fill('genitive');
+      const locked = page.locator('[data-testid="lc-row"][data-kind="lesson"][data-locked="1"]');
+      await expect(locked.first()).toBeVisible({ timeout: 10_000 });
+      await expect(locked.first().getByTestId('lc-row-locked-reason')).toContainText('Opens after');
+      // `aria-disabled` makes Playwright wait for the row to become enabled, which it
+      // never will — so the tap is forced, which is exactly what a learner's tap does.
+      await locked.first().click({ force: true });
+      // Still on the Center: nothing navigated.
+      await expect(page.getByTestId('learning-center')).toBeVisible();
     });
   });
 

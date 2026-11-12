@@ -21,11 +21,11 @@
  *     behaves precisely as the same thing opened from anywhere else — no new
  *     completion semantics are introduced by the existence of a search box.
  *
- *   * NOTHING IS GATED. Any of the 180 lessons opens at any level;
- *     `launchAnimLesson` has always been ungated and that is what makes "at any
- *     time" true. A learner reaching above their level is looking something up,
- *     not claiming to have learned it — the CEFR badge is unaffected, because
- *     this screen never writes.
+ *   * LESSONS AHEAD OF THE LEARNER ARE LOCKED (owner decision, 2026-11-12, which
+ *     supersedes the earlier "nothing is gated"): the course is sequential, so a
+ *     lesson shows a lock and what unlocks it (`lib/lessonLock`) and does not open.
+ *     Every other row — references, vocabulary, drills the learner has reached — is
+ *     as open as before, and this screen still never writes progress.
  */
 import React, { useMemo, useState } from 'react';
 import { searchLearningIndex, lessonsByLevel, type LearningEntry } from '../../lib/learningIndex';
@@ -47,6 +47,7 @@ import {
   type VocabRow,
 } from '../../lib/practiceLaunch';
 import { consumeLessonLookup } from '../../lib/lessonLookup';
+import { readLockLookup } from '../../lib/lessonLock';
 import ReferenceDesk from './ReferenceDesk';
 
 const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
@@ -101,10 +102,13 @@ interface LearningCenterProps {
 function Row({
   entry,
   done,
+  locked,
   onOpen,
 }: {
   entry: LearningEntry;
   done: boolean;
+  /** Why this lesson is not open yet, or null. A locked row does not launch. */
+  locked?: string | null;
   onOpen: () => void;
 }): React.ReactElement {
   return (
@@ -112,6 +116,8 @@ function Row({
       className="c"
       data-testid="lc-row"
       data-kind={entry.kind}
+      data-locked={locked ? '1' : undefined}
+      aria-disabled={locked ? true : undefined}
       onClick={onOpen}
       style={{
         width: '100%',
@@ -121,13 +127,14 @@ function Row({
         padding: '12px 14px',
         marginBottom: 8,
         textAlign: 'left',
-        cursor: 'pointer',
+        cursor: locked ? 'default' : 'pointer',
+        opacity: locked ? 0.6 : 1,
         border: '1px solid var(--card-b)',
         fontFamily: "'Outfit',sans-serif",
       }}
     >
       <span style={{ fontSize: 20, flexShrink: 0, width: 24, textAlign: 'center' }}>
-        {entry.icon || (entry.kind === 'lesson' ? '📘' : '🎯')}
+        {locked ? '🔒' : entry.icon || (entry.kind === 'lesson' ? '📘' : '🎯')}
       </span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <span
@@ -157,8 +164,14 @@ function Row({
             whiteSpace: 'nowrap',
           }}
         >
-          {KIND_LABEL[entry.kind]}
-          {entry.subtitle ? ` · ${entry.subtitle}` : ''}
+          {locked ? (
+            <span data-testid="lc-row-locked-reason">{locked}</span>
+          ) : (
+            <>
+              {KIND_LABEL[entry.kind]}
+              {entry.subtitle ? ` · ${entry.subtitle}` : ''}
+            </>
+          )}
         </span>
       </span>
       {entry.level && (
@@ -193,6 +206,12 @@ export default function LearningCenter({
   // Read once per mount: the Center never writes progress, so it cannot go stale
   // under its own feet, and re-reading localStorage per render would be waste.
   const completed = useMemo(() => readCompletedLessons(), []);
+  // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): a lesson the learner has not reached
+  // is shown locked, with what unlocks it, and does not open. Read once per render, not
+  // per row (the spine arrives asynchronously, so a memo would go stale). `lessonLock` degrades to "nothing locked" without a spine.
+  const lockOf = readLockLookup();
+  const lockedWhy = (e: LearningEntry): string | null =>
+    e.target.kind === 'lesson' ? lockOf(e.target.lessonId) : null;
 
   // ONE lesson is what the learner asked for, so open it rather than showing a
   // single-row list they must tap again — the concept-teaching rule about not
@@ -203,9 +222,11 @@ export default function LearningCenter({
     if (focus && focus.length === 1) {
       const only = focus[0]!;
       setFocus(null);
-      launchAnimLesson(only);
+      const why = lockOf(only);
+      if (why) setLaunchError(`That lesson isn't open yet. ${why}`);
+      else launchAnimLesson(only);
     }
-  }, [focus, launchAnimLesson]);
+  }, [focus, launchAnimLesson, lockOf]);
 
   const results = useMemo(() => searchLearningIndex(index, query, { limit: 40 }), [index, query]);
   const focusRows = useMemo(() => {
@@ -261,6 +282,8 @@ export default function LearningCenter({
     // kind cannot be added without the compiler stopping here, which is how the
     // reference arm was caught when it landed rather than silently no-op-ing.
     if (entry.target.kind === 'lesson') {
+      // Locked rows are inert: the reason is on the row itself.
+      if (lockOf(entry.target.lessonId)) return;
       launchAnimLesson(entry.target.lessonId);
     } else if (entry.target.kind === 'screen') {
       void openScreen(entry.target.screen);
@@ -349,6 +372,7 @@ export default function LearningCenter({
               key={e.key}
               entry={e}
               done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+              locked={lockedWhy(e)}
               onOpen={() => open(e)}
             />
           ))}
@@ -392,6 +416,7 @@ export default function LearningCenter({
               key={e.key}
               entry={e}
               done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+              locked={lockedWhy(e)}
               onOpen={() => open(e)}
             />
           ))}
@@ -510,6 +535,7 @@ export default function LearningCenter({
                             key={e.key}
                             entry={e}
                             done={e.target.kind === 'lesson' && completed.has(e.target.lessonId)}
+                            locked={lockedWhy(e)}
                             onOpen={() => open(e)}
                           />
                         ))}

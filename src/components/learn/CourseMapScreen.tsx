@@ -17,11 +17,11 @@
 // re-checks, which come next, and a tick that means "you read five lessons"
 // must not be dressed up as "you have mastered this".
 //
-// EVERY UNIT IS OPEN, on purpose, for now. `launchAnimLesson` has always been
-// ungated — the Learning Center's header records that as what makes "look
-// anything up, at any time" true — so the map inherits it rather than inventing
-// a restriction one increment early. When the unit gate lands, a tap ahead of
-// the learner's position gets a reason, not silence.
+// THE COURSE IS SEQUENTIAL, AND THE MAP SAYS SO (owner, 2026-11-12). A lesson ahead
+// of the learner is greyed out with what unlocks it: every lesson of a later unit,
+// and inside the current unit every lesson after the one the course serves today.
+// The test-out on an open lesson and on the current unit's test is untouched — the
+// way to move faster is to prove it, in order (`lib/lessonLock`).
 //
 // A COUNT IS A CLAIM TOO. With no spine there are no units, and rendering
 // "0 of 0 units" would be a claim about a learner's course made out of a failed
@@ -34,6 +34,7 @@ import {
   CURRICULUM_SPINE_EVENT,
 } from '../../lib/curriculumProgress';
 import { getCurriculumSpine } from '../../lib/contentClient';
+import { readLockLookup } from '../../lib/lessonLock';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import {
   courseMapBlock,
@@ -158,9 +159,13 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
     if (cur) setOpenUnit((prev) => prev ?? cur.unit.id);
   }, [progress.currentIndex, progress.units]);
 
+  // Read per render, once for the whole map; with no spine nothing is locked.
+  const lockOf = readLockLookup();
+
   const open = useCallback(
     async (lessonId: string) => {
       setLaunchFailed(null);
+      if (lockOf(lessonId)) return;
       const ok = await onOpenLesson(lessonId);
       if (!ok) setLaunchFailed(lessonId);
       else {
@@ -168,7 +173,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
         setStore(readCourseUnits());
       }
     },
-    [onOpenLesson],
+    [onOpenLesson, lockOf],
   );
 
   const owedFor = useCallback(
@@ -342,6 +347,7 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                 expanded={openUnit === row.unit.id}
                 onToggle={() => setOpenUnit(openUnit === row.unit.id ? null : row.unit.id)}
                 completed={completed}
+                lockOf={lockOf}
                 onOpenLesson={open}
                 onTakeTest={() => {
                   requestUnitTest(row.unit.id);
@@ -383,6 +389,7 @@ function UnitRow({
   expanded,
   onToggle,
   completed,
+  lockOf,
   onOpenLesson,
   onTakeTest,
   onProduce,
@@ -396,6 +403,8 @@ function UnitRow({
   expanded: boolean;
   onToggle: () => void;
   completed: ReadonlySet<string>;
+  /** Why a lesson is not open yet, or null (lib/lessonLock). */
+  lockOf: (lessonId: string) => string | null;
   onOpenLesson: (lessonId: string) => void;
   onTakeTest: () => void;
   onProduce: (kind: 'write' | 'speak') => void;
@@ -657,13 +666,15 @@ function UnitRow({
           )}
           {unit.lessons.map((lesson, i) => {
             const isDone = completed.has(lesson.id);
+            const closedWhy = lockOf(lesson.id);
             return (
               <button
                 key={lesson.id}
                 data-testid={`course-lesson-${lesson.id}`}
                 data-lesson-done={isDone ? '1' : '0'}
+                data-lesson-locked={closedWhy ? '1' : undefined}
                 onClick={() => onOpenLesson(lesson.id)}
-                disabled={!!locked}
+                disabled={!!locked || !!closedWhy}
                 style={{
                   width: '100%',
                   display: 'flex',
@@ -674,8 +685,8 @@ function UnitRow({
                   borderRadius: 10,
                   border: '1px solid var(--card-b)',
                   background: isDone ? 'rgba(22,163,74,.06)' : 'var(--bar-bg)',
-                  cursor: locked ? 'default' : 'pointer',
-                  opacity: locked ? 0.55 : 1,
+                  cursor: locked || closedWhy ? 'default' : 'pointer',
+                  opacity: locked || closedWhy ? 0.55 : 1,
                   textAlign: 'left',
                   fontFamily: "'Outfit',sans-serif",
                 }}
@@ -693,8 +704,23 @@ function UnitRow({
                   }}
                 >
                   {lesson.title || lesson.id}
+                  {closedWhy && !locked && (
+                    <span
+                      data-testid={`course-lesson-why-${lesson.id}`}
+                      style={{
+                        display: 'block',
+                        fontSize: 11,
+                        fontWeight: 600,
+                        color: 'var(--subtext)',
+                      }}
+                    >
+                      {closedWhy}
+                    </span>
+                  )}
                 </span>
-                <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>→</span>
+                <span style={{ fontSize: 12, color: 'var(--subtext)', flexShrink: 0 }}>
+                  {closedWhy ? '🔒' : '→'}
+                </span>
               </button>
             );
           })}

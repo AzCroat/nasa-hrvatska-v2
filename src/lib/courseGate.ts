@@ -39,6 +39,7 @@
 
 import { readCourseState } from './courseStep';
 import { readCompletedLessons } from './curriculumProgress';
+import { openLessonIds } from './lessonLock';
 import { LESSON_TAUGHT_CATEGORY } from './teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } from './categoryRoutes';
 import type { CourseUnit } from './courseUnits';
@@ -99,14 +100,16 @@ export function readCourseAhead(): CourseAhead {
   try {
     const state = readCourseState();
     if (state.units.length === 0) return NOTHING_AHEAD;
-    const reached = new Set(readCompletedLessons());
-    for (const u of state.units) {
-      if (state.advanced.has(u.id)) for (const l of u.lessons) reached.add(l.id);
-    }
-    // Today's lesson: the first unread lesson of the unit the learner stands on.
-    const current = state.units.find((u) => u.index === state.currentIndex);
-    const today = current?.lessons.find((l) => !reached.has(l.id));
-    if (today) reached.add(today.id);
+    // ONE definition of "reached" for the session, the map and every door: the lessons
+    // that are done, in an advanced unit, or the one the course serves today
+    // (`lessonLock.openLessonIds`). Today's stays reached because its coupled drill
+    // sits in the plan and `teachingSlotSplice` drops what is ahead.
+    const reached = openLessonIds(
+      state.units,
+      readCompletedLessons(),
+      state.advanced,
+      state.currentIndex,
+    );
     return courseAhead(state.units, reached);
   } catch {
     return NOTHING_AHEAD;

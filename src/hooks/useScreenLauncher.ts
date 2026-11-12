@@ -11,6 +11,7 @@ import { pickSessionLesson } from '../lib/sessionLessonPick';
 import { BLACK_HOLE_SCREENS } from '../lib/blackHoleScreens';
 import { armDwellCredit } from '../lib/dwellCredit';
 import { notifyLaunchFailure } from '../lib/launchFailure';
+import { lessonLockReason } from '../lib/lessonLock';
 import { isChunkLoadError, reloadWithCachePurge } from '../lib/chunkErrors';
 import { _getData, _getVocabSource, _buildAdaptivePool } from '../lib/exerciseData';
 import type { VocabWord } from '../lib/exerciseData';
@@ -254,6 +255,11 @@ export function useScreenLauncher({
 
   const launchAnimLesson = useCallback(
     async (lessonId: string): Promise<boolean> => {
+      // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): a lesson the learner has not
+      // reached does not open, from ANY door. The screens that offer a lesson check
+      // `lessonLockReason` first and say why; this is the backstop, so a door nobody
+      // remembered cannot walk a learner past the order.
+      if (lessonLockReason(lessonId)) return false;
       // A THROW IS ALSO A FAILED TAP. getLessons() rejects on offline, auth and
       // rate-limit, and an unhandled rejection here would leave the caller unable
       // to tell "not found" from "could not be fetched" — both are "it did not

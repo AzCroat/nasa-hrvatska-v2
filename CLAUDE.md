@@ -4197,6 +4197,24 @@ together, and the old sequencer is deleted.
   sentence in the same breath as asking for the course — _"You can do extra
   studying if you want but there is a PROVEN set curriculum that guides the
   learner."_ A locked unit is the course declining to walk you there.
+- **THE LIBRARY IS LOCKED TOO, AND THE PARAGRAPH ABOVE IS SUPERSEDED (owner decision,
+  2026-11-12).** Owner: _"I want to lock ahead-of-you lessons … they should be able to
+  test out of Lesson 1, then they can test out of lesson 2, but it has to be sequential
+  and not allowed to jump around."_ A lesson is OPEN when it is done, sits in an advanced
+  unit, or is the one lesson the course serves today (`src/lib/lessonLock.ts`
+  `openLessonIds` — the same set the daily session calls "reached", now defined once and
+  imported by `courseGate`). Every door asks it: the course map greys the lessons behind
+  today's, the Learning Center shows a lock and what opens it and its rows do not launch,
+  `UnitTestScreen`/`LevelReviewScreen` say "that lesson isn't open yet" instead of "check
+  your connection", and `launchAnimLesson` refuses as the backstop. **TEST-OUT IS
+  UNTOUCHED AND MUST STAY**: the lesson test-out on the intro of any open lesson, and the
+  unit test-out on the unit the learner stands on, each at its normal bar — passing opens
+  the next lesson or unit, so a learner who knows the material moves 1, 2, 3 in order.
+  Absence degrades to "nothing locked" (no spine → no lock), so a learner is never locked
+  out by a fetch that has not landed. Pinned by `lessonLock.test.ts` (pure rule, storage,
+  test-out survives, every door asks) plus the Learning Center, course map and unit-test
+  screen suites; mutation-verified, five. `learnPath` items never name a lesson id, so
+  that launcher needed no guard.
 - **TWO ESCAPE HATCHES, because a lock must never strand anyone.** A unit whose
   test could not be assembled (`insufficient`, measured) opens the next one; and so
   does a unit whose five lessons are all READ, which is not the bar and does not
@@ -4260,7 +4278,9 @@ together, and the old sequencer is deleted.
   moved: content unlock, the verification gate and every CEFR badge still read what
   they read.
 - NEVER: read a CEFR or certified level to decide what the course serves next;
-  leave a second sequencer in the tree; gate the LIBRARY (only the path); ship a
+  leave a second sequencer in the tree; open a lesson the learner has not reached
+  from ANY door (`lessonLock`, 2026-11-12 — this used to say never gate the library);
+  remove or gate the test-out because of the lock; ship a
   lock without an escape hatch for a test that cannot be assembled; offer a test the
   app knows it cannot serve; let an optional parameter's default contradict its
   docstring; import `src/data` from a module on the first-paint path (one small file

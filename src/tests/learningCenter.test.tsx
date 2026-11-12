@@ -40,7 +40,8 @@ vi.mock('../lib/contentClient', () => ({
 
 const { CURRICULUM } = await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
-const { writeCurriculumSpine, CURRICULUM_PROGRESS_KEY } = await import('../lib/curriculumProgress');
+const { writeCurriculumSpine, CURRICULUM_PROGRESS_KEY, markLessonComplete } =
+  await import('../lib/curriculumProgress');
 const LearningCenter = (await import('../components/learn/LearningCenter')).default;
 
 const ASSEMBLER = 'src/hooks/useLearningIndex.ts';
@@ -231,6 +232,13 @@ const servedSpine = (CURRICULUM as Array<Record<string, unknown>>)
     return { ...e, title: b.title, subtitle: b.subtitle, icon: b.icon };
   });
 
+// THE COURSE IS SEQUENTIAL (owner, 2026-11-12): a lesson the learner has not reached is
+// locked. Tests that exercise OPENING a lesson state that the learner has reached
+// them, by completing the whole spine; the locked behaviour has its own tests below.
+function reachEverything(): void {
+  for (const e of servedSpine) markLessonComplete(e.id as string, '2026-01-01');
+}
+
 function renderCenter() {
   const launchAnimLesson = vi.fn();
   const onOpenScreen = vi.fn();
@@ -272,6 +280,7 @@ describe('the Center, rendered against the real catalogues', () => {
   });
 
   it('finds the case material for "padeži" and can open a lesson', () => {
+    reachEverything();
     const { launchAnimLesson } = renderCenter();
     search('padeži');
     const rows = screen.getAllByTestId('lc-row');
@@ -354,15 +363,43 @@ describe('the Center, rendered against the real catalogues', () => {
     expect(rows.some((r) => r.textContent?.includes('✓'))).toBe(true);
   });
 
-  it('opens C2 material for an A1 learner — lookup is never gated', () => {
+  it('a NEW learner finds C2 lessons locked: a lock and its reason, and nothing opens', () => {
     const { launchAnimLesson } = renderCenter();
-    // No stats are supplied at all, so there is no level to gate on: that IS the
-    // contract. "At any time" is the whole request this screen answers.
     fireEvent.click(screen.getByTestId('lc-level-C2'));
     const rows = screen.getAllByTestId('lc-row');
     expect(rows.length).toBeGreaterThan(5);
+    for (const r of rows) {
+      expect(r.getAttribute('data-locked'), 'every C2 lesson is ahead of a new learner').toBe('1');
+    }
+    expect(screen.getAllByTestId('lc-row-locked-reason')[0]!.textContent).toMatch(/^Opens after/);
+    fireEvent.click(rows[0]!);
+    expect(launchAnimLesson).not.toHaveBeenCalled();
+  });
+
+  it('opens exactly ONE lesson for a new learner — the first — and locks the second', () => {
+    const { launchAnimLesson } = renderCenter();
+    // A1 is the level the syllabus opens on, so its rows are already showing.
+    const rows = screen.getAllByTestId('lc-row');
+    expect(rows[0]!.getAttribute('data-locked')).toBeNull();
+    expect(rows[1]!.getAttribute('data-locked')).toBe('1');
+    expect(rows[1]!.textContent).toContain('Opens after lesson 1 of this unit.');
+    fireEvent.click(rows[1]!);
+    expect(launchAnimLesson).not.toHaveBeenCalled();
     fireEvent.click(rows[0]!);
     expect(launchAnimLesson).toHaveBeenCalledTimes(1);
+  });
+
+  it('finishing (or testing out of) a lesson opens the next one, and only the next', () => {
+    const first = servedSpine.find((e) => (e.order as number) === 1)!;
+    markLessonComplete(first.id as string, '2026-01-01');
+    renderCenter();
+    const rows = screen.getAllByTestId('lc-row');
+    expect(rows.map((r) => r.getAttribute('data-locked'))).toEqual([
+      null,
+      null,
+      '1',
+      ...Array(rows.length - 3).fill('1'),
+    ]);
   });
 });
 
@@ -381,6 +418,7 @@ describe('looking something up costs nothing', () => {
   });
 
   it('writes NOTHING to storage across a full browse-and-open', () => {
+    reachEverything();
     const before = JSON.stringify(localStorage);
     const { launchAnimLesson } = renderCenter();
     search('genitive');
@@ -448,11 +486,21 @@ describe('a lesson handed over from elsewhere', () => {
   });
 
   it('opens the lesson directly when there is exactly one', () => {
+    reachEverything();
     requestLessonLookup(['genitive-intro']);
     const { launchAnimLesson } = renderCenter();
     expect(launchAnimLesson).toHaveBeenCalledWith('genitive-intro');
     // Consumed: a remount must not re-open a lesson the learner backed out of.
     expect(consumeLessonLookup()).toBeNull();
+  });
+
+  it('a handed-over lesson the learner has NOT reached opens nothing and says so', () => {
+    requestLessonLookup(['genitive-intro']);
+    const { launchAnimLesson } = renderCenter();
+    expect(launchAnimLesson).not.toHaveBeenCalled();
+    expect(screen.getByTestId('lc-launch-error').textContent).toMatch(
+      /isn't open yet\. Opens after/,
+    );
   });
 
   it('lists them and opens nothing when the maps name several', () => {

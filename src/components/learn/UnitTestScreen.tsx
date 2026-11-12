@@ -53,6 +53,7 @@ import {
   type UnitTestItem,
 } from '../../lib/unitTest';
 import { shuffledOrder } from '../../lib/lessonCheck';
+import { lessonLockReason } from '../../lib/lessonLock';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 
 /** XP for a first pass. A cumulative test is the biggest single thing a learner
@@ -107,6 +108,7 @@ export default function UnitTestScreen({
   const [chosen, setChosen] = useState<number | null>(null);
   const recorded = useRef<string | null>(null);
   const [openFailed, setOpenFailed] = useState(false);
+  const [lockedWhy, setLockedWhy] = useState<string | null>(null);
 
   const spine = useMemo<CurriculumEntry[]>(() => readCurriculumSpine(), []);
   const units = useMemo(() => buildCourseUnits(spine, COURSE_UNIT_TITLES), [spine]);
@@ -228,6 +230,14 @@ export default function UnitTestScreen({
   const review = useCallback(
     async (lessonId: string) => {
       setOpenFailed(false);
+      setLockedWhy(null);
+      // A lesson the learner has not reached is locked, and "check your connection"
+      // would blame the network for the course's order.
+      const why = lessonLockReason(lessonId);
+      if (why) {
+        setLockedWhy(why);
+        return;
+      }
       const ok = await onOpenLesson(lessonId);
       if (!ok) setOpenFailed(true);
     },
@@ -461,6 +471,12 @@ export default function UnitTestScreen({
               </button>
             ))}
           </div>
+        )}
+
+        {lockedWhy && (
+          <Notice testId="unit-test-lesson-locked" tone="bad">
+            That lesson isn't open yet. {lockedWhy}
+          </Notice>
         )}
 
         {openFailed && (
