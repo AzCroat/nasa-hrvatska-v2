@@ -158,6 +158,10 @@ describe('the drill wrong-answer explainer', () => {
     // A retry the panel never passes is a dead branch — the AlphabetScreen
     // `award` shape. Checked at the mount, not in the card's own test.
     const src = read('components/shared/WrongAnswerHelp.tsx');
-    expect(src).toMatch(/<DrillExplainCard state=\{explain\} onRetry=\{ask\} \/>/);
+    expect(src).toMatch(
+      /<DrillExplainCard[\s\S]*?state=\{explain\}[\s\S]*?onRetry=\{wasSimpler \? askSimpler : ask\}/,
+    );
+    // and its "even simpler" button reaches the same request (the 2026-11-12 ladder)
+    expect(src).toMatch(/onSimpler=\{wasSimpler \? undefined : askSimpler\}/);
   });
 });

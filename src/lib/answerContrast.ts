@@ -28,6 +28,7 @@
 // the tip alone.
 
 import { analyzeForm, describeReading, nounStemKey, CASE_NAME } from './croatianMorphology';
+import { mayNameCase } from './taughtTerms';
 
 export interface ContrastSide {
   word: string;
@@ -51,7 +52,10 @@ export interface AnswerContrast {
 
 const MAX_READINGS = 3;
 
-function readingLines(word: string): { lines: string[]; more: boolean } {
+function readingLines(
+  word: string,
+  taught: ReadonlySet<string> | null,
+): { lines: string[]; more: boolean } {
   const seen = new Set<string>();
   const all: string[] = [];
   // Case readings only: once the pair is known to be two forms of one declinable
@@ -59,6 +63,8 @@ function readingLines(word: string): { lines: string[]; more: boolean } {
   // is not what this word is.
   for (const c of analyzeForm(word).candidates) {
     if (!c.case) continue;
+    // A case the learner has not been taught is not named to them.
+    if (!mayNameCase(c.case, taught)) continue;
     const line = describeReading(c);
     if (seen.has(line)) continue;
     seen.add(line);
@@ -99,7 +105,12 @@ function caseList(cases: Set<string>): string {
  * multi-word option is a whole clause, and the ending rules say nothing about
  * word order or clitic position, so claiming otherwise would be fabrication.
  */
-export function contrastAnswers(chosen: string, answer: string): AnswerContrast | null {
+export function contrastAnswers(
+  chosen: string,
+  answer: string,
+  /** The grammar words the learner has been taught; null = unknown, name everything. */
+  taught: ReadonlySet<string> | null = null,
+): AnswerContrast | null {
   const a = chosen.trim();
   const b = answer.trim();
   if (!a || !b || a.toLowerCase() === b.toLowerCase()) return null;
@@ -118,8 +129,8 @@ export function contrastAnswers(chosen: string, answer: string): AnswerContrast 
   const pronounPair = closedClass(a) && closedClass(b);
   if (!pronounPair && nounStemKey(a) !== nounStemKey(b)) return null;
 
-  const chosenReadings = readingLines(a);
-  const answerReadings = readingLines(b);
+  const chosenReadings = readingLines(a, taught);
+  const answerReadings = readingLines(b, taught);
 
   const out: AnswerContrast = {
     chosen: {
@@ -136,7 +147,10 @@ export function contrastAnswers(chosen: string, answer: string): AnswerContrast 
 
   const ca = caseSet(a);
   const cb = caseSet(b);
-  if (ca.size && cb.size) {
+  // THE HEADLINE SAYS "CASE" AND NAMES THEM, so it needs every case it mentions to be one
+  // the learner has met. Otherwise the two forms are shown (the diff card) with no label.
+  const allNameable = taught === null || [...ca, ...cb].every((c) => mayNameCase(c, taught));
+  if (ca.size && cb.size && allNameable) {
     const shared = [...ca].filter((c) => cb.has(c));
     if (shared.length === 0) {
       // The clean case: the two endings cannot be the same case at all, which
@@ -153,4 +167,50 @@ export function contrastAnswers(chosen: string, answer: string): AnswerContrast 
   }
 
   return out;
+}
+
+// ─── The letters that differ ──────────────────────────────────────────────────
+//
+// SAY WHAT CHANGED BEFORE SAYING WHY (owner, 2026-11-12). Two single words that share
+// their start differ in how they END, and that is a fact the app can state with no
+// grammar word at all — which is what a learner who has not been taught the case needs.
+// It is computed from the letters, never inferred from grammar, so it cannot be wrong.
+
+export interface FormDiff {
+  /** The letters both words begin with. */
+  common: string;
+  /** What the learner's word has after them. */
+  chosenTail: string;
+  /** What the correct word has after them. */
+  answerTail: string;
+  /**
+   * `ending`: the words share a real stem, so only the ending differs.
+   * `word`: they begin differently — two different words, or an irregular form — and
+   * claiming "only the ending" would be a guess.
+   */
+  kind: 'ending' | 'word';
+}
+
+/** Pure. Null unless both are single words that really differ. */
+export function formDiff(chosen: string, answer: string): FormDiff | null {
+  const a = chosen.trim();
+  const b = answer.trim();
+  if (!a || !b || a.toLowerCase() === b.toLowerCase()) return null;
+  if (/\s/.test(a) || /\s/.test(b)) return null;
+  let i = 0;
+  while (i < a.length && i < b.length && a[i]!.toLowerCase() === b[i]!.toLowerCase()) i++;
+  const shortest = Math.min(a.length, b.length);
+  // A shared stem is at least two letters AND at least half of the shorter word.
+  const kind = i >= 2 && i * 2 >= shortest ? 'ending' : 'word';
+  return { common: a.slice(0, i), chosenTail: a.slice(i), answerTail: b.slice(i), kind };
+}
+
+/** The one plain sentence for an `ending` diff, with no grammar word in it. */
+export function diffSentence(d: FormDiff): string | null {
+  if (d.kind !== 'ending') return null;
+  const { chosenTail: x, answerTail: y } = d;
+  if (x && y) return `Only the ending is different: you wrote -${x}, it needs -${y}.`;
+  if (y) return `Only the ending is different: it needs -${y} added.`;
+  if (x) return `Only the ending is different: it does not take the -${x} you added.`;
+  return null;
 }

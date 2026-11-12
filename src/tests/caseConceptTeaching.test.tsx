@@ -135,6 +135,9 @@ describe('the primer lesson and the plain-English explainer (source pins)', () =
   it('explain-error accepts case_drill and demands plain English', () => {
     expect(explainSrc).toContain("'case_drill'");
     expect(explainSrc).toContain('NO FORMAL GRAMMAR BACKGROUND');
-    expect(explainSrc).toContain('never heard terms like');
+    // The vocabulary rule (2026-11-12) replaced "never heard terms like": the model is
+    // told to use ONLY the grammar words the course has taught this learner.
+    expect(explainSrc).toContain("THE LEARNER'S VOCABULARY IS LIMITED");
+    expect(explainSrc).toContain('taught');
   });
 });

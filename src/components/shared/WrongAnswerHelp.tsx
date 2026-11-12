@@ -24,6 +24,8 @@
 
 import React, { useState } from 'react';
 import { contrastAnswers } from '../../lib/answerContrast';
+import { readTaughtTerms } from '../../lib/taughtTerms';
+import AnswerDiff from './AnswerDiff';
 import { lessonsTeachingScreen, requestLessonLookup } from '../../lib/lessonLookup';
 import { useApp } from '../../context/AppContext';
 import { useExplainError } from '../../hooks/useExplainError';
@@ -54,15 +56,29 @@ export default function WrongAnswerHelp({
   level = 'B1',
   screen,
 }: Props) {
-  const contrast = React.useMemo(() => contrastAnswers(chosen, answer), [chosen, answer]);
+  // THE GRAMMAR WORDS THIS LEARNER HAS BEEN TAUGHT (owner, 2026-11-12): a case or a
+  // singular/plural the course has not reached is never named to them. Read when the
+  // answer changes, so finishing a lesson changes the next panel.
+  const taught = React.useMemo(() => readTaughtTerms(), [chosen, answer]); // eslint-disable-line react-hooks/exhaustive-deps
+  const contrast = React.useMemo(
+    () => contrastAnswers(chosen, answer, taught),
+    [chosen, answer, taught],
+  );
   const { explain, request } = useExplainError(type, level);
   const [asked, setAsked] = useState(false);
+  const [wasSimpler, setWasSimpler] = useState(false);
   const { setScr } = useApp();
   const teaching = React.useMemo(() => (screen ? lessonsTeachingScreen(screen) : []), [screen]);
 
   const ask = () => {
     setAsked(true);
+    setWasSimpler(false);
     void request(chosen, answer, context);
+  };
+  // "Show me even simpler": one more turn, only because the learner pressed it.
+  const askSimpler = () => {
+    setWasSimpler(true);
+    void request(chosen, answer, context, { simpler: true });
   };
 
   // Hand the lesson(s) to the Learning Center, which owns the launcher. Looking
@@ -74,39 +90,43 @@ export default function WrongAnswerHelp({
 
   return (
     <div data-testid="wrong-answer-help" style={{ marginTop: 10 }}>
-      {contrast && (
-        <div
-          data-testid="answer-contrast"
-          style={{
-            padding: '10px 12px',
-            borderRadius: 10,
-            background: 'var(--card)',
-            border: '1.5px solid var(--card-b)',
-            fontSize: 13,
-            lineHeight: 1.6,
-          }}
-        >
-          {contrast.headline && (
-            <p data-testid="contrast-headline" style={{ margin: '0 0 8px', fontWeight: 700 }}>
-              {contrast.headline}
-            </p>
-          )}
-          <ContrastLine
-            testid="contrast-chosen"
-            label="You picked"
-            word={contrast.chosen.word}
-            readings={contrast.chosen.readings}
-            more={contrast.chosen.more}
-          />
-          <ContrastLine
-            testid="contrast-answer"
-            label="The answer"
-            word={contrast.answer.word}
-            readings={contrast.answer.readings}
-            more={contrast.answer.more}
-          />
-        </div>
-      )}
+      <AnswerDiff chosen={chosen} answer={answer} />
+      {contrast &&
+        (contrast.headline ||
+          contrast.chosen.readings.length > 0 ||
+          contrast.answer.readings.length > 0) && (
+          <div
+            data-testid="answer-contrast"
+            style={{
+              padding: '10px 12px',
+              borderRadius: 10,
+              background: 'var(--card)',
+              border: '1.5px solid var(--card-b)',
+              fontSize: 13,
+              lineHeight: 1.6,
+            }}
+          >
+            {contrast.headline && (
+              <p data-testid="contrast-headline" style={{ margin: '0 0 8px', fontWeight: 700 }}>
+                {contrast.headline}
+              </p>
+            )}
+            <ContrastLine
+              testid="contrast-chosen"
+              label="You picked"
+              word={contrast.chosen.word}
+              readings={contrast.chosen.readings}
+              more={contrast.chosen.more}
+            />
+            <ContrastLine
+              testid="contrast-answer"
+              label="The answer"
+              word={contrast.answer.word}
+              readings={contrast.answer.readings}
+              more={contrast.answer.more}
+            />
+          </div>
+        )}
 
       {!asked && (
         <button
@@ -128,7 +148,13 @@ export default function WrongAnswerHelp({
           Explain this one to me
         </button>
       )}
-      {asked && <DrillExplainCard state={explain} onRetry={ask} />}
+      {asked && (
+        <DrillExplainCard
+          state={explain}
+          onRetry={wasSimpler ? askSimpler : ask}
+          onSimpler={wasSimpler ? undefined : askSimpler}
+        />
+      )}
 
       {teaching.length > 0 && (
         <div style={{ marginTop: 8 }}>

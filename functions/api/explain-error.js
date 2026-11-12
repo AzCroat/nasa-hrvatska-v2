@@ -21,10 +21,12 @@ const MODEL = 'claude-haiku-4-5-20251001';
 // wording of this text produced it.
 const EXPLAIN_PROMPT = definePrompt(
   'explain-error',
-  `You are a Croatian grammar teacher for ENGLISH SPEAKERS WITH NO FORMAL GRAMMAR BACKGROUND. Give a concise explanation (2-3 sentences) of why an answer is correct.
-CRITICAL: assume the learner has never heard terms like "genitive" or "aspect". Never use a grammar term without immediately glossing it in plain words — e.g. "genitive (the 'of' form)", "accusative (the 'him' form — what the action lands on)", "dative (the 'to someone' form)". Where possible, anchor to something English does: he/him/his, who/whom, "the dog's bone", "give HIM the book". Plain words beat precision.
+  `You are a Croatian teacher for ENGLISH SPEAKERS WITH NO FORMAL GRAMMAR BACKGROUND. Explain in 2 short sentences why an answer is correct, in the plainest words you can.
+THE LEARNER'S VOCABULARY IS LIMITED, and it is the course that decides it. You will be told which grammar words the learner has been taught (if none are listed they know none). Use ONLY those. Never use any other grammar word: not a case name (nominative, genitive, accusative, dative, locative, instrumental, vocative), not "case", not "singular" or "plural", not a tense or "aspect" name. Say what is DIFFERENT instead: which letters changed, what the word means, what the word is doing in the sentence ("the thing being bought", "who it is for", "where it is"). Anchor to English where you can: he/him/his, "the dog's bone", "give HIM the book". Plain words beat precision.
+When the app tells you a fact about the two words (for example that only the ending differs), rely on it and claim nothing about the form that you were not given.
+If you are told the learner wants it SIMPLER: ONE short sentence, everyday words, no grammar words at all.
 Return ONLY valid JSON (no markdown, no code blocks):
-{"explanation":"2-3 sentences explaining the grammar rule in plain English","rule":"short plain-English rule name e.g. 'The of-form (genitive)'","tip":"one memorable tip max 100 chars","example":"one short example sentence in Croatian showing the rule"}`,
+{"explanation":"2 short sentences in plain English","rule":"a 3-6 word plain-English name for the idea, using only allowed words","tip":"one memorable tip max 100 chars, using only allowed words","example":"one short example sentence in Croatian showing the idea"}`,
   // The script rule is appended at request time (below) rather than written
   // into this text, matching the eight endpoints that already do so. That
   // leaves it OUTSIDE the versioned template, so alsoVersion carries it: edit
@@ -103,7 +105,7 @@ export async function onRequestPost(context) {
     return err(400, 'Invalid JSON in request body', origin);
   }
 
-  const { wrong, correct, context: ctx, type, level } = reqBody;
+  const { wrong, correct, context: ctx, type, level, taught, simpler, diff } = reqBody;
 
   // A REJECTED REQUEST MUST NOT KEEP THE MONEY. `requireAuthedAI` pre-charges
   // this endpoint's worst-case ceiling against the monthly ledger BEFORE the
@@ -143,17 +145,61 @@ export async function onRequestPost(context) {
 
   const typeDesc = TYPE_DESCS[type];
 
+  // WHAT THE LEARNER HAS BEEN TAUGHT (owner, 2026-11-12). The client sends the grammar
+  // words the course has introduced to this learner; the model is told to use no other.
+  // An absent list means the client could not tell (no course loaded yet), and then the
+  // old rule applies: gloss any grammar word the first time it is used.
+  const taughtList = Array.isArray(taught)
+    ? [
+        ...new Set(
+          taught
+            .filter((t) => typeof t === 'string')
+            .map((t) =>
+              t
+                .toLowerCase()
+                .replace(/[^a-z ]/g, '')
+                .trim()
+                .slice(0, 24),
+            )
+            .filter(Boolean),
+        ),
+      ].slice(0, 30)
+    : null;
+  const vocabLine =
+    taughtList === null
+      ? 'No list of taught grammar words is available: gloss any grammar word in plain words the first time you use it.'
+      : taughtList.length === 0
+        ? 'The learner has been taught NO grammar words yet. Use none at all.'
+        : `The learner has been taught only these grammar words: ${taughtList.join(', ')}. Use no others.`;
+
+  // A fact the app COMPUTED about the two words, so the model is not left to guess it.
+  let diffLine = '';
+  if (diff && typeof diff === 'object') {
+    const clean = (v) => (typeof v === 'string' ? sanitizeParam(v, 16) : '');
+    const a = clean(diff.chosenTail);
+    const b = clean(diff.answerTail);
+    if (diff.kind === 'ending' && (a || b)) {
+      diffLine = `\nFact computed by the app: the two words are the same except for the ending. The learner's word ends -${a || '(nothing)'} and the correct word ends -${b || '(nothing)'}.`;
+    }
+  }
+  const simplerLine =
+    simpler === true
+      ? '\nThe learner asked for this SIMPLER: ONE short sentence, no grammar words at all.'
+      : '';
+
   const userMsg = safeCtx
     ? `Croatian ${typeDesc} at CEFR ${safeLevel} level.
 Full sentence/context: "${safeCtx}"
 ${safeWrong ? `Learner chose: "${safeWrong}"` : 'Learner got it wrong.'}
-Correct answer: "${safeCorrect}"
+Correct answer: "${safeCorrect}"${diffLine}
+${vocabLine}${simplerLine}
 
-Explain concisely WHY "${safeCorrect}" is correct. Name the grammar rule, case, or pattern.`
+Say WHY "${safeCorrect}" is correct, in plain words.`
     : `Croatian ${typeDesc} at CEFR ${safeLevel}.
-Correct answer: "${safeCorrect}"${safeWrong ? `\nLearner answered: "${safeWrong}"` : ''}
+Correct answer: "${safeCorrect}"${safeWrong ? `\nLearner answered: "${safeWrong}"` : ''}${diffLine}
+${vocabLine}${simplerLine}
 
-Explain the grammar rule. Be specific about case, tense, or pattern.`;
+Explain the idea in plain words.`;
 
   const basePrompt = EXPLAIN_PROMPT.text;
 
