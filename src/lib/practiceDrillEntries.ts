@@ -71,7 +71,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'reflexive-possessive',
   },
-  { id: 'objekt', label: 'Object pronouns', screen: 'objekt', cefr: 'A2', category: 'clitics' },
+  { id: 'objekt', label: 'Object pronouns', screen: 'objekt', cefr: 'A1', category: 'clitics' },
   {
     id: 'mnozinapadezi',
     label: 'Plural cases',
@@ -79,7 +79,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'plural-cases',
   },
-  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A2', category: 'quantity' },
+  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A1', category: 'quantity' },
   {
     id: 'komparacija',
     label: 'Comparison',
@@ -114,7 +114,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     id: 'bezlicnob1',
     label: 'Impersonal',
     screen: 'bezlicnob1',
-    cefr: 'B1',
+    cefr: 'A2',
     category: 'impersonal',
   },
   {

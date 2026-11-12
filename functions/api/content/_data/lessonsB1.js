@@ -1021,7 +1021,7 @@ export const LESSONS_B1 = [
     title: 'Impersonal Sentences',
     subtitle: 'One should, it is possible, it is said — sentences with no subject',
     icon: '🌫️',
-    level: 'B1',
+    level: 'A2',
     duration: '~5 min',
     color: '#4f46e5',
     bg: '#eef2ff',

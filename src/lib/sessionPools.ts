@@ -23,7 +23,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   // finally be expressed: 'vocab-a2' routes to `znam`, which is A2, so the
   // coupling for an A1 lesson resolved to a screen its learners cannot open.
   { id: 'genderdrill', label: 'Gender', screen: 'genderdrill', cefr: 'A1', category: 'gender' },
-  { id: 'cloze', label: 'Sentence Cloze', screen: 'cloze', cefr: 'A2', category: 'vocab-a2' },
+  { id: 'cloze', label: 'Sentence Cloze', screen: 'cloze', cefr: 'A1', category: 'vocab-a2' },
   { id: 'unjumble', label: 'Word Order', screen: 'unjumble', cefr: 'A2', category: 'word-order' },
   { id: 'prepdrill', label: 'Prepositions', screen: 'prepdrill', cefr: 'A2', category: 'genitive' },
   { id: 'negation', label: 'Negation', screen: 'negation', cefr: 'A2', category: 'genitive' },
@@ -105,7 +105,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'accusative',
   },
-  { id: 'future', label: 'Future Tense', screen: 'future', cefr: 'B1', category: 'future-tense' },
+  { id: 'future', label: 'Future Tense', screen: 'future', cefr: 'A1', category: 'future-tense' },
   {
     id: 'comparatives',
     label: 'Compare',
