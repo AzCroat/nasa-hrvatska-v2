@@ -85,9 +85,10 @@ describe('buildSessionActivities', () => {
 
   it('only includes exercises at or below user CEFR level', () => {
     const acts = buildSessionActivities('A1');
-    // B1+ exercises should not appear in an A1 session (case drills are A1 now,
-    // so the locked examples here are verb/syntax tiers).
-    const b1Exercises = ['aspectdrill', 'clitic', 'future'];
+    // Exercises above A1 should not appear in an A1 session. 'future' was here until the
+    // Croaticum restructure (2026-11-12) moved the future-tense lesson, and its drill, into A1;
+    // aspectdrill is A2 now, clitic and subordination B2.
+    const b1Exercises = ['aspectdrill', 'clitic', 'subordination'];
     for (const ex of b1Exercises) {
       expect(acts.find((a) => a.screen === ex)).toBeFalsy();
     }
@@ -172,12 +173,12 @@ describe('buildSessionActivities', () => {
   it('CEFR-gates the adaptive pick: an A1 user does NOT get a locked higher-tier drill', async () => {
     const adaptive = await import('../lib/adaptive');
     // The full case system is A1 now, so use a genuinely higher-tier category:
-    // aspect-imperfective → aspectdrill (B1), locked for an A1 user.
+    // aspect-imperfective → aspectdrill (A2), locked for an A1 user.
     vi.mocked(adaptive.getDueCategoryQueue).mockReturnValue([
       { category: 'aspect-imperfective', difficulty: 3 },
     ]);
     const acts = buildSessionActivities('A1');
-    // aspectdrill is B1 — locked for A1. The adaptive slot is skipped and the
+    // aspectdrill is A2 — locked for A1. The adaptive slot is skipped and the
     // guaranteed-grammar slot (G2) still backfills a level-appropriate grammar drill.
     expect(acts.some((a) => a.screen === 'aspectdrill')).toBe(false);
     expect(acts.some((a) => GRAMMAR_STRUCTURE_CATEGORIES.has(a.category))).toBe(true);
@@ -348,7 +349,7 @@ describe('buildSessionActivities — difficulty bias (defect #1)', () => {
   it('keeps an A1 user on easy types (only tier 1–2 unlocked anyway)', () => {
     const screens = buildSessionActivities('A1').map((a) => a.screen);
     // No advanced-tier type should appear at A1 (they are CEFR-locked).
-    for (const hard of ['sentbuild', 'aspectdrill', 'clitic', 'future']) {
+    for (const hard of ['sentbuild', 'aspectdrill', 'clitic', 'subordination']) {
       expect(screens).not.toContain(hard);
     }
   });
