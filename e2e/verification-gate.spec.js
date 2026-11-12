@@ -9,11 +9,15 @@
 
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
+
+/** A1's unit count, derived the way courseUnits.ts chunks the spine: five lessons each. */
+const A1_UNITS = Math.ceil(CURRICULUM.filter((l) => l.level === 'A1').length / 5);
 
 /** Overwrite seedAuth's verified certification with provisional (grandfather-
  *  signature) passes at A2+B1 — the state every pre-Phase-1 user wakes up in. */
 function seedProvisional(page) {
-  return page.addInitScript(() => {
+  return page.addInitScript((a1Units) => {
     const gf = (at) => ({
       passedAt: at,
       scores: { vocab: 0.8, grammar: 0.8, reading: 0.8 },
@@ -55,7 +59,7 @@ function seedProvisional(page) {
     // state decides — seed A1 finished long ago, in course-walk's shapes.
     const DONE = '2026-01-05';
     const units = {};
-    for (let i = 1; i <= 6; i++)
+    for (let i = 1; i <= a1Units; i++)
       units[`A1-${i}`] = {
         passedAt: DONE,
         bestCorrect: 14,
@@ -64,7 +68,7 @@ function seedProvisional(page) {
       };
     localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: {} }));
     localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
-  });
+  }, A1_UNITS);
 }
 
 test.describe('Verification gate (provisional CEFR levels)', () => {

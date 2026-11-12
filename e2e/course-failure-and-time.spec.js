@@ -631,9 +631,9 @@ test.describe('When a learner fails, and when time passes', () => {
     await sitUnitTest(page, () => false);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '1');
     await advanceDays(1);
-    await produceFromHome(page, 6, advanceDays);
+    await produceFromHome(page, A1_UNITS, advanceDays);
 
-    // The crossing: Home leads with the A1 review, then with Unit 7.
+    // The crossing: Home leads with the A1 review, then with the first A2 unit.
     await advanceDays(1);
     await beginFromHome(page, 'A1 review');
     await expect(page.getByTestId('level-review')).toBeVisible({ timeout: 20_000 });
@@ -650,11 +650,11 @@ test.describe('When a learner fails, and when time passes', () => {
     await openMap(page);
     await expect(page.getByTestId('course-level-review-A1')).toHaveAttribute('data-done', '1');
     await advanceDays(1);
-    // Unit 7's first lesson is today's lesson (behind the check-ups the seeded units
+    // The first A2 unit's first lesson is today's lesson (behind the check-ups the seeded units
     // now owe, which ride in front of it).
     await openHome(page);
     const plan = await readJSON(page, 'nh_daily_session');
-    expect(plan.activities.map((a) => a.id)).toContain(`curriculum_${UNITS[6].lessons[0]}`);
+    expect(plan.activities.map((a) => a.id)).toContain(`curriculum_${UNITS[A1_UNITS].lessons[0]}`);
     expect(plan.activities.some((a) => /A1 review|levelreview/.test(a.label + a.screen))).toBe(
       false,
     );

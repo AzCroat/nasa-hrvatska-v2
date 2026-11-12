@@ -2,6 +2,12 @@ import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
+/** Items in the A1 review: 18, or one per unit when A1 has more than 18 units. */
+const A1_REVIEW_ITEMS = Math.max(
+  18,
+  Math.ceil(CURRICULUM.filter((l) => l.level === 'A1').length / 5),
+);
+
 /** The course's unit count, derived the way courseUnits.ts chunks the spine: five per level. */
 const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
   (n, lv) => n + Math.ceil(CURRICULUM.filter((l) => l.level === lv).length / 5),
@@ -41,7 +47,9 @@ test.describe('Course map', () => {
     // started rendering its test offer. Only a unit ROW carries the state attribute.
     await expect(page.locator('[data-unit-state]')).toHaveCount(TOTAL_UNITS);
     await expect(page.getByText(`Unit 1 of ${TOTAL_UNITS}`)).toBeVisible();
-    await expect(page.getByTestId('course-lessons-count')).toContainText('/ 180 lessons');
+    await expect(page.getByTestId('course-lessons-count')).toContainText(
+      `/ ${CURRICULUM.length} lessons`,
+    );
   });
 
   test('opens on the learner’s current unit, with its lessons showing', async ({ page }) => {
@@ -413,7 +421,7 @@ test.describe('Level review', () => {
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
   });
 
-  test('is on the map once A1 is finished, and serves an eighteen-item mixed round', async ({
+  test('is on the map once A1 is finished, and serves a mixed round with every A1 unit in it', async ({
     page,
   }) => {
     const row = page.getByTestId('course-level-review-A1');
@@ -421,7 +429,9 @@ test.describe('Level review', () => {
     await expect(row).toHaveAttribute('data-done', '0');
     await page.getByTestId('course-level-review-open-A1').click();
     await expect(page.getByTestId('level-review')).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByTestId('level-review-progress')).toHaveText('Question 1 of 18');
+    await expect(page.getByTestId('level-review-progress')).toHaveText(
+      `Question 1 of ${A1_REVIEW_ITEMS}`,
+    );
     await expect(page.getByText('practice, not scored')).toBeVisible();
   });
 
@@ -440,7 +450,7 @@ test.describe('Level review', () => {
     await expect(page.getByTestId('level-review-result')).toBeVisible({ timeout: 20_000 });
     expect(sawRepeat, 'a missed question must come back before the round ends').toBe(true);
     await expect(page.getByTestId('level-review-first-try')).toContainText(
-      /\d+ of 18 right first time/,
+      new RegExp(`\\d+ of ${A1_REVIEW_ITEMS} right first time`),
     );
     const stored = await page.evaluate(() => localStorage.getItem('nh_course_units'));
     expect(stored).toContain('"reviews"');
