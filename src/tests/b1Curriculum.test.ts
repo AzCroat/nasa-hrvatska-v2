@@ -41,6 +41,15 @@ const b1Spine = spineForLevel('B1') as Entry[];
 const b1Lessons = (LESSONS as Lesson[]).filter((l) => l.level === 'B1');
 const orderOf = new Map(b1Spine.map((e) => [e.id, e.order]));
 
+// 2026-11-12 RESTRUCTURE: `impersonal`, `aspect` and `dative-locative` moved down to A2
+// (they are in the A2 half of Razgovarajte A2-B1) and `future-tense` to A1. Ordering
+// assertions that cross a level therefore use a COURSE-wide position.
+const RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+const courseOrder = new Map(
+  (CURRICULUM as Entry[]).map((e) => [e.id, RANK[e.level] * 1000 + e.order]),
+);
+const levelOf = new Map((CURRICULUM as Entry[]).map((e) => [e.id, e.level]));
+
 describe('B1 covers what the level descriptor actually asks for', () => {
   const REQUIRED = [
     'reported-speech',
@@ -50,7 +59,6 @@ describe('B1 covers what the level descriptor actually asks for', () => {
     'relative-deep',
     'verb-prefixes',
     'infinitive-vs-da',
-    'impersonal',
     'time-duration',
     'position-placement',
   ];
@@ -70,8 +78,15 @@ describe('B1 covers what the level descriptor actually asks for', () => {
     expect(orderOf.has('cause-purpose')).toBe(true);
   });
 
-  it('reaches the 30-lesson target', () => {
-    expect(b1Lessons.length).toBeGreaterThanOrEqual(30);
+  it('still teaches impersonal, now at A2 (the A2 half of Razgovarajte A2-B1)', () => {
+    expect(levelOf.get('impersonal')).toBe('A2');
+  });
+
+  // B1 was 30 lessons; after the restructure it is the B1 half of Razgovarajte
+  // A2-B1 (26 lessons) and grows as lessons are written. A floor, so it cannot
+  // shrink silently.
+  it('keeps a floor on the level size', () => {
+    expect(b1Lessons.length).toBeGreaterThanOrEqual(26);
     expect(b1Spine.length).toBe(b1Lessons.length);
   });
 });
@@ -108,7 +123,6 @@ describe('the sequence does not put a lesson before what it needs', () => {
     // The machinery lessons build on each other in a chain.
     ['real-conditions', 'time-clauses'],
     ['cause-purpose', 'real-conditions'],
-    ['impersonal', 'infinitive-vs-da'],
     ['reported-speech', 'infinitive-vs-da'],
     ['relative-deep', 'reported-speech'],
     // Narration needs both the reporting and the perfective.
@@ -123,8 +137,8 @@ describe('the sequence does not put a lesson before what it needs', () => {
   ];
 
   it.each(AFTER)('%s comes after %s', (later, earlier) => {
-    expect(orderOf.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
-      orderOf.get(earlier)!,
+    expect(courseOrder.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
+      courseOrder.get(earlier)!,
     );
   });
 

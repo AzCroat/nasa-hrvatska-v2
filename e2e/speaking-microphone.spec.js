@@ -173,7 +173,8 @@ const SEED_PASSED_LESSON = ({ spine, id, courseUnits }) => {
       cumulative: { lastAt: null, count: 0 },
     }),
   );
-  if (courseUnits) localStorage.setItem('nh_course_units', JSON.stringify(courseUnits));
+  if (courseUnits)
+    localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, ...courseUnits }));
 };
 
 /** An assessment that hears every word of the reference clearly. */
@@ -557,7 +558,7 @@ test.describe('The spoken production steps, on the microphone', () => {
       if (window.top !== window) return;
       localStorage.setItem(
         'nh_course_units',
-        JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+        JSON.stringify({ structure: 2, units: { 'A1-1': { passedAt: '2026-09-20' } } }),
       );
     });
     const assessed = [];

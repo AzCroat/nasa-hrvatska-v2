@@ -69,7 +69,7 @@ test.describe('SP4b — production slot in daily session', () => {
       ([done, units, reviews]) => {
         if (window.top !== window) return;
         localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
-        localStorage.setItem('nh_course_units', JSON.stringify({ units, reviews }));
+        localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units, reviews }));
       },
       [DONE, ADVANCED_UNITS, REVIEWS],
     );

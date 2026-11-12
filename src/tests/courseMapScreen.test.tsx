@@ -93,7 +93,7 @@ describe('the map a learner sees', () => {
     // THE COURSE OPENS ONE UNIT AT A TIME. Unit 2 waits on unit 1's test.
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
     expect(screen.getByTestId('course-unit-C2-6').getAttribute('data-unit-state')).toBe('locked');
-    expect(screen.getByText('Unit 1 of 36')).toBeTruthy();
+    expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe('0 / 180 lessons');
 
     // The current unit's five lessons are the ones on screen.
@@ -110,10 +110,10 @@ describe('the map a learner sees', () => {
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
-    // The authored title, verbatim — including the Croatian term. Asserting a
-    // PREFIX would keep passing if the rest of the name were lost.
+    // The authored title, verbatim. Asserting a PREFIX would keep passing if the rest
+    // of the name were lost.
     expect(await screen.findByText(COURSE_UNIT_TITLES['A1-4']!.title)).toBeTruthy();
-    expect(COURSE_UNIT_TITLES['A1-4']!.title).toBe('The Cases Begin (Padeži)');
+    expect(COURSE_UNIT_TITLES['A1-4']!.title).toBe('The Accusative and Everyday Needs');
     expect(screen.queryByText('A1 · Unit 4')).toBeNull();
   });
 
@@ -129,7 +129,7 @@ describe('the map a learner sees', () => {
 
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByText('Unit 1 of 36')).toBeTruthy();
+    expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe('5 / 180 lessons');
 
     const take = await screen.findByTestId('course-unit-test-A1-1');
@@ -173,7 +173,7 @@ describe('the map a learner sees', () => {
     );
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     fireEvent.click(
-      (await screen.findByText('Asking, Doing, Denying, Describing')).closest('button')!,
+      (await screen.findByText(COURSE_UNIT_TITLES['A1-2']!.title)).closest('button')!,
     );
     const notice = await screen.findByTestId('course-unit-locked-A1-2');
     expect(notice.textContent).toMatch(/opens this after Unit 1/);
@@ -191,6 +191,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-20',
@@ -218,6 +219,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: { 'A1-1': { insufficient: true, production: { unavailable: true } } },
       }),
     );
@@ -235,7 +237,7 @@ describe('the map a learner sees', () => {
     seedSpine();
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { insufficient: true } } }),
+      JSON.stringify({ structure: 2, units: { 'A1-1': { insufficient: true } } }),
     );
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
@@ -252,7 +254,7 @@ describe('the map a learner sees', () => {
     seedDone(UNITS[0]!.lessons.map((l) => l.id));
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+      JSON.stringify({ structure: 2, units: { 'A1-1': { passedAt: '2026-09-20' } } }),
     );
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
@@ -260,7 +262,7 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
-    expect(screen.getByText(/0 of 36 units mastered/)).toBeTruthy();
+    expect(screen.getByText(new RegExp(`0 of ${UNITS.length} units mastered`))).toBeTruthy();
     // And the map asks for the owed half rather than showing a tick that is not true.
     expect(await screen.findByTestId('course-unit-write-A1-1')).toBeTruthy();
     expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
@@ -274,6 +276,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-20',
@@ -297,7 +300,9 @@ describe('the map a learner sees', () => {
     // The summary counts RETAINED units, so nothing is mastered yet. Matched on the
     // span's own text content, because JSX splits `{a} of {b} units mastered` across
     // text nodes and a regex over the document cannot span them.
-    expect(screen.getByTestId('course-units-mastered').textContent).toBe('0 of 36 units mastered');
+    expect(screen.getByTestId('course-units-mastered').textContent).toBe(
+      `0 of ${UNITS.length} units mastered`,
+    );
   });
 
   // A DUE CHECK-UP MUST BE TAKEABLE FROM THE MAP, not only from the daily session.
@@ -309,6 +314,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-01',
@@ -338,6 +344,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-01',
@@ -362,6 +369,7 @@ describe('the map a learner sees', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-20',
@@ -378,8 +386,10 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('mastered');
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('current');
-    expect(screen.getByText('Unit 2 of 36')).toBeTruthy();
-    expect(screen.getByTestId('course-units-mastered').textContent).toBe('1 of 36 units mastered');
+    expect(screen.getByText(`Unit 2 of ${UNITS.length}`)).toBeTruthy();
+    expect(screen.getByTestId('course-units-mastered').textContent).toBe(
+      `1 of ${UNITS.length} units mastered`,
+    );
     // The row's own line, which needs the row expanded — the CURRENT unit is A1-2 now.
     fireEvent.click(screen.getByTestId('course-unit-A1-1').querySelector('button')!);
     expect(await screen.findByTestId('course-unit-mastered-A1-1')).toBeTruthy();
@@ -400,7 +410,7 @@ describe('the map a learner sees', () => {
     render(
       <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
     );
-    const header = (await screen.findByText('Out in the World')).closest('button')!;
+    const header = (await screen.findByText(COURSE_UNIT_TITLES['A1-7']!.title)).closest('button')!;
     fireEvent.click(header);
     expect(screen.getByTestId('course-lesson-likes-preferences')).toBeTruthy();
     fireEvent.click(header);

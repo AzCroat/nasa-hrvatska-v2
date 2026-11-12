@@ -33,10 +33,18 @@ import { readCompletedLessons } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
 import { seedCourseAt, readWholeUnit } from './helpers/courseSeed';
+import { unitIndexAt } from './helpers/unitIndex';
 
 const RUNS = 40;
 /** 1-based course unit the learner stands on (all earlier units fully advanced). */
-const POSITIONS = [1, 3, 7, 13] as const;
+// DERIVED from the spine (level sizes are not fixed): A1's first and third unit, the
+// first A2 unit and the first B1 unit — the same four shapes the probe has always held.
+const POSITIONS = [
+  unitIndexAt('A1', 0),
+  unitIndexAt('A1', 2),
+  unitIndexAt('A2', 0),
+  unitIndexAt('B1', 0),
+];
 const XP_LEVELS = ['A1', 'B1', 'C1'] as const;
 
 function taughtSet(): Set<string> {
@@ -216,7 +224,8 @@ describe('increment 0 — how much of the session is on material the course has 
       return !!entry && isUnlocked(entry.cefr, level);
     };
     for (const c of [...lesson.cells, ...test.cells]) {
-      const courseLevel = c.pos >= 13 ? 'B1' : c.pos >= 7 ? 'A2' : 'A1';
+      const courseLevel =
+        c.pos >= unitIndexAt('B1', 0) ? 'B1' : c.pos >= unitIndexAt('A2', 0) ? 'A2' : 'A1';
       // The conversation anchor is a COURSE-B1 fact: absent at A1/A2 units whatever
       // the XP says, present at a B1 unit even for an A1-XP learner.
       const anchored = cefrRank(courseLevel) >= cefrRank('B1');

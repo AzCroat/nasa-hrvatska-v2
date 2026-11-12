@@ -125,7 +125,11 @@ describe('2. the Practice tab and the deck follow the course level', () => {
     seedCourse([]);
     const units: Record<string, unknown> = {};
     for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
-      for (let i = 1; i <= 6; i++)
+      for (
+        let i = 1;
+        i <= Math.ceil(CURRICULUM.filter((e: { level: string }) => e.level === lv).length / 5);
+        i++
+      )
         units[`${lv}-${i}`] = {
           passedAt: '2026-09-01',
           production: {
@@ -136,7 +140,7 @@ describe('2. the Practice tab and the deck follow the course level', () => {
           },
           recheck: { stage: 2, dueAt: '2026-12-30', heldAt: '2026-09-01' },
         };
-    localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+    localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
     expect(courseContentLevel()).toBe('C2');
   });
 

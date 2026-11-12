@@ -29,16 +29,20 @@ const a2Spine = spineForLevel('A2') as Entry[];
 const a2Lessons = (LESSONS as Lesson[]).filter((l) => l.level === 'A2');
 const orderOf = new Map(a2Spine.map((e) => [e.id, e.order]));
 
+// 2026-11-12 RESTRUCTURE (Croaticum baselines): the A1 book teaches the dative,
+// instrumental, object pronouns, quantity, ordinals/dates, the past tense, body and
+// clothes, so those lessons now sit in A1. Sequence assertions about them must read a
+// COURSE-wide position (CEFR rank, then order), not an A2-only one.
+const RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+const courseOrder = new Map(
+  (CURRICULUM as Entry[]).map((e) => [e.id, RANK[e.level] * 1000 + e.order]),
+);
+const levelOf = new Map((CURRICULUM as Entry[]).map((e) => [e.id, e.level]));
+
 describe('A2 covers the structures the level is defined by', () => {
   const REQUIRED = [
-    'object-pronouns',
-    'dative-intro',
-    'instrumental-intro',
     'plural-cases',
     'svoj',
-    'quantity',
-    'ordinals-dates',
-    'past-questions-negation',
     'adverbs',
     'conjunctions',
     'relative-koji',
@@ -53,8 +57,30 @@ describe('A2 covers the structures the level is defined by', () => {
     expect(orderOf.has(id), `${id} is not sequenced in the A2 spine`).toBe(true);
   });
 
-  it('reaches the 30-lesson target', () => {
-    expect(a2Lessons.length).toBeGreaterThanOrEqual(30);
+  // Moved DOWN into A1 by the restructure — the A1 book teaches them. They must not
+  // vanish: each stays a lesson, sequenced in the spine, at the level it now lives.
+  const MOVED_TO_A1 = [
+    'object-pronouns',
+    'dative-intro',
+    'instrumental-intro',
+    'quantity',
+    'ordinals-dates',
+    'past-questions-negation',
+  ];
+
+  it.each(MOVED_TO_A1)('still teaches %s, now at A1', (id) => {
+    expect(levelOf.get(id), `${id} left the course or moved off A1`).toBe('A1');
+    expect(
+      (LESSONS as Lesson[]).some((l) => l.id === id && l.level === 'A1'),
+      `${id} has no A1 lesson body`,
+    ).toBe(true);
+  });
+
+  // A2 was 30 lessons; after the restructure it is the A2 half of Razgovarajte
+  // A2-B1 (24 lessons) and will grow as lessons are written. A floor, so it cannot
+  // shrink silently.
+  it('keeps a floor on the level size', () => {
+    expect(a2Lessons.length).toBeGreaterThanOrEqual(24);
     expect(a2Spine.length).toBe(a2Lessons.length);
   });
 });
@@ -65,8 +91,6 @@ describe('A2 is not only grammar', () => {
   // nobody could hold a conversation after finishing it.
   const FUNCTIONAL = [
     'house-home',
-    'body-health',
-    'clothes-appearance',
     'describing-people',
     'work-jobs',
     'school-studies',
@@ -83,6 +107,11 @@ describe('A2 is not only grammar', () => {
     ).toBe(true);
   });
 
+  // body-health and clothes-appearance are in the A1 book (units 18 and 9).
+  it.each(['body-health', 'clothes-appearance'])('teaches %s, now at A1', (id) => {
+    expect(levelOf.get(id)).toBe('A1');
+  });
+
   it('keeps at least a third of the level functional', () => {
     const count = FUNCTIONAL.filter((id) => orderOf.has(id)).length;
     expect(count / a2Lessons.length).toBeGreaterThanOrEqual(0.3);
@@ -92,8 +121,10 @@ describe('A2 is not only grammar', () => {
 describe('the sequence does not put a lesson before what it needs', () => {
   // Named orderings, each of which a plausible future edit could break.
   const AFTER: [string, string][] = [
-    ['dative-intro', 'object-pronouns'],
-    ['quantity', 'plural-cases'],
+    // Book order: the dative (unit 12) before direct/indirect objects (unit 13).
+    ['object-pronouns', 'dative-intro'],
+    ['dative-intro', 'accusative-intro'],
+    ['quantity', 'genitive-intro'],
     ['relative-koji', 'conjunctions'],
     ['past-questions-negation', 'past-tense'],
     ['school-studies', 'work-jobs'],
@@ -101,8 +132,8 @@ describe('the sequence does not put a lesson before what it needs', () => {
   ];
 
   it.each(AFTER)('%s comes after %s', (later, earlier) => {
-    expect(orderOf.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
-      orderOf.get(earlier)!,
+    expect(courseOrder.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
+      courseOrder.get(earlier)!,
     );
   });
 

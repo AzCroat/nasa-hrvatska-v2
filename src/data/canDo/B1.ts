@@ -16,34 +16,39 @@
 //   B1-6  job-interview, media-news, technology-internet, environment-nature, food-cooking
 
 export const CAN_DO_B1: Readonly<Record<string, readonly string[]>> = {
+  // genitive-deep · instrumental · numbers-nouns · time-duration · aspect-imperfective
   'B1-1': [
-    'I can say whose something is, what there is none of, and how much of it there is, with the right case after nema, a quantity or a number.',
-    'I can say who I am giving something to, where something is, and what or who I did something with.',
-    'I can talk about what will happen, in both the long and the short future form, with ću in the right place.',
+    'I can use the genitive in its main meanings and the instrumental with verbs and adjectives.',
+    'I can count nouns correctly after two, five and twenty-one.',
+    'I can say how long something lasts and use the imperfective for a repeated or unfinished action.',
   ],
+  // aspect-perfective · verb-prefixes · motion-verbs · position-placement · infinitive-vs-da
   'B1-2': [
-    'I can say when something happened, how long it lasted, and that it is still going on — Živim ovdje pet godina.',
-    'I can choose between the two verbs of an aspect pair, telling a habit or an action in progress from a single finished action.',
-    'I can work out an unfamiliar verb by taking off its prefix and finding the root.',
+    'I can choose the perfective for a finished action and the imperfective for a process.',
+    'I can read what a prefix does to a verb, such as do-, iz- and pro-.',
+    'I can say where I put something and where it is, and choose between an infinitive and da + present.',
   ],
+  // time-clauses · real-conditions · cause-purpose · reported-speech · relative-deep
   'B1-3': [
-    'I can say where I am going, coming from or moving around, and tell sitting down from being seated.',
-    'I can read a sign or a rule that names nobody, and say what one should do, or what I need, without a subject.',
-    'I can link events with when, while, as soon as, before and after, keeping a future time clause in the present.',
+    'I can sequence two events with kad, prije nego and nakon što.',
+    'I can say what will happen if something happens, give a reason, and state a purpose.',
+    'I can report what someone said and say “the one who…” in different cases.',
   ],
+  // telling-a-story · opinions-agreeing · feelings-inner-life · complaints-problems · bureaucracy
   'B1-4': [
-    'I can talk about things that may happen and what I will do if they do, and give a reason or an aim for what I do.',
-    'I can pass on what someone said, asked or asked me to do, keeping the tense they used.',
-    'I can tell a story from beginning to end, setting the scene and then moving the events along.',
+    'I can tell a story from start to finish in the past.',
+    'I can give an opinion and agree or disagree politely, and say how I feel.',
+    'I can make a complaint and handle a visit to an office.',
   ],
+  // renting-flat · job-interview · media-news · technology-internet · environment-nature
   'B1-5': [
-    'I can say what I think, agree or disagree politely, and say how I feel.',
-    'I can explain calmly what has gone wrong and ask for it to be put right.',
-    'I can get through an office counter and read a flat advert, asking about documents, rent, utilities and the deposit.',
+    'I can ask about renting a flat and understand the terms.',
+    'I can answer common job-interview questions.',
+    'I can follow a news report and talk about technology and the environment.',
   ],
+  // food-cooking
   'B1-6': [
-    'I can write a short CV and covering letter and answer an interview question with a reason.',
-    'I can follow a news report, supply the verb a headline leaves out, and mark a claim as second-hand.',
-    'I can talk about everyday technology, the landscape and the environment, and follow a Croatian recipe.',
+    'I can follow a recipe and explain how I cook a dish.',
+    'I can talk about food, taste and restaurant manners.',
   ],
 };

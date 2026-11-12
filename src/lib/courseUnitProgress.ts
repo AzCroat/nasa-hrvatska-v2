@@ -101,7 +101,20 @@ export interface LevelReviewRecord {
   unavailable?: true;
 }
 
+/**
+ * THE COURSE-STRUCTURE VERSION (2026-11-12). Unit ids are positional ('A1-2'), so when the
+ * course was regrouped to follow the Croaticum baselines the same id came to name
+ * different lessons. A pass recorded under the old grouping must not be read as a pass of
+ * the new unit. Owner decision: keep every completed LESSON, reset only this store, once.
+ * A store without this number (or with a lower one) is treated as empty on read, and
+ * the merge ignores a remote store that lacks it, so an old device cannot resurrect old
+ * passes. Raise it only when unit ids change meaning again.
+ */
+export const CURRENT_COURSE_STRUCTURE = 2;
+
 export interface CourseUnitsStore {
+  /** Course-structure version the records were written under. */
+  structure?: number;
   units: Record<string, UnitRecord>;
   /** Level (A1…C2) → its review. Absent until a review is finished. */
   reviews?: Record<string, LevelReviewRecord>;
@@ -115,6 +128,12 @@ export const MAX_UNIT_ATTEMPTS = 10;
 
 const EMPTY: CourseUnitsStore = { units: {} };
 
+/** True when a stored or remote store was written under the current unit grouping. */
+function isCurrentStructure(v: unknown): boolean {
+  const n = (v as { structure?: unknown } | null | undefined)?.structure;
+  return typeof n === 'number' && n >= CURRENT_COURSE_STRUCTURE;
+}
+
 function readRaw(): CourseUnitsStore {
   try {
     const raw = localStorage.getItem(COURSE_UNITS_KEY);
@@ -122,8 +141,12 @@ function readRaw(): CourseUnitsStore {
     const v = JSON.parse(raw) as CourseUnitsStore;
     if (!v || typeof v !== 'object' || !v.units || typeof v.units !== 'object')
       return { units: {} };
+    // Written under an older grouping: its unit ids name different lessons now.
+    if (!isCurrentStructure(v)) return { units: {} };
     const reviews = v.reviews && typeof v.reviews === 'object' ? v.reviews : undefined;
-    return reviews ? { units: v.units, reviews } : { units: v.units };
+    return reviews
+      ? { structure: CURRENT_COURSE_STRUCTURE, units: v.units, reviews }
+      : { structure: CURRENT_COURSE_STRUCTURE, units: v.units };
   } catch {
     return { units: {} };
   }
@@ -135,7 +158,7 @@ export function readCourseUnits(): CourseUnitsStore {
 
 export function writeCourseUnits(store: CourseUnitsStore): void {
   try {
-    const out: CourseUnitsStore = { units: store.units || {} };
+    const out: CourseUnitsStore = { structure: CURRENT_COURSE_STRUCTURE, units: store.units || {} };
     if (store.reviews && Object.keys(store.reviews).length > 0) out.reviews = store.reviews;
     localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify(out));
   } catch {
@@ -338,7 +361,9 @@ export function dueRecheckUnits(
 export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): CourseUnitsStore {
   const out: Record<string, UnitRecord> = {};
   const l = local?.units && typeof local.units === 'object' ? local.units : {};
-  const rStore = remote as CourseUnitsStore | null | undefined;
+  // A remote written under an older grouping is not evidence about today's units.
+  const rStore = (isCurrentStructure(remote) ? remote : null) as
+    CourseUnitsStore | null | undefined;
   const r = rStore?.units && typeof rStore.units === 'object' ? rStore.units : {};
   for (const id of new Set([...Object.keys(l), ...Object.keys(r)])) {
     const a = l[id];
@@ -385,7 +410,9 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     out[id] = merged;
   }
   const reviews = mergeReviews(local?.reviews, rStore?.reviews);
-  return reviews ? { units: out, reviews } : { units: out };
+  return reviews
+    ? { structure: CURRENT_COURSE_STRUCTURE, units: out, reviews }
+    : { structure: CURRENT_COURSE_STRUCTURE, units: out };
 }
 
 /** Reviews merge like passes: done on either device stays done, EARLIER date wins, better first-try score wins. */

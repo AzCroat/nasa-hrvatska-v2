@@ -40,6 +40,7 @@ import {
 import { DAILY_XP_GOAL } from '../lib/appUtils';
 import VerificationGateCard from '../components/home/VerificationGateCard';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
+import { unitCountAt } from './helpers/unitIndex';
 
 /** The card waits for the course level its check tests (lib/verificationTiming,
  *  owner 2026-09-29), so the card tests stand on a course finished long ago. */
@@ -50,12 +51,12 @@ function seedFinishedCourse() {
   const at = '2026-01-05';
   const units: Record<string, unknown> = {};
   for (const lv of ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
-    for (let i = 1; i <= 6; i++)
+    for (let i = 1; i <= unitCountAt(lv); i++)
       units[`${lv}-${i}`] = {
         passedAt: at,
         production: { wroteAt: at, writeScore: 80, spokeAt: at, speakScore: 0.8 },
       };
-  localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+  localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
 }
 
 const KEY = 'nh_cefr_certifications';

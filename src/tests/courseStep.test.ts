@@ -68,7 +68,7 @@ describe('what the course serves', () => {
     expect(step?.unit.id).toBe('A1-1');
     // POSITIONAL: the authored names are not on this path (see courseUnits), and the
     // session card already shows the LESSON's title as its label.
-    expect(step?.reason).toBe('Unit 1 of 36');
+    expect(step?.reason).toBe(`Unit 1 of ${UNITS.length}`);
   });
 
   it('walks the unit in order as lessons are read', () => {
@@ -202,6 +202,7 @@ describe('retention', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: { 'A1-1': { ...rec, recheck: { stage: 0, dueAt: '2020-01-01' } } },
       }),
     );
@@ -220,6 +221,7 @@ describe('retention', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: { 'A1-1': { ...rec, recheck: { stage: 0, dueAt: '2020-01-01' } } },
       }),
     );

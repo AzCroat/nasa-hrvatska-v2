@@ -63,7 +63,7 @@
 import type { CefrLevel } from './cefr';
 import type { CurriculumEntry } from './curriculum';
 
-/** Lessons per unit. Six units per 30-lesson level; 36 units over 180 lessons. */
+/** Lessons per unit. A level whose count is not a multiple ends with a shorter unit. */
 export const UNIT_SIZE = 5;
 
 export const COURSE_LEVELS: readonly CefrLevel[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];

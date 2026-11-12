@@ -24,10 +24,14 @@ const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 const byLevel = (lv: string) => (LESSONS as Lesson[]).filter((l) => l.level === lv);
 
 describe('the teaching-depth contract holds for every lesson', () => {
-  it('is 180 lessons, 30 per level, all in the spine', () => {
-    expect(LESSONS.length).toBe(180);
+  // 2026-11-12 RESTRUCTURE: levels are no longer all 30 (A1-B1 follow the Croaticum
+  // books and A1 grows as lessons are written), so this pins per-level FLOORS and
+  // that every lesson is in the spine, not an exact 30 per level.
+  it('keeps every level at its restructured size or above, all in the spine', () => {
+    const FLOOR: Record<string, number> = { A1: 40, A2: 24, B1: 26, B2: 30, C1: 30, C2: 30 };
+    expect(LESSONS.length).toBeGreaterThanOrEqual(180);
     const spine = new Set(CURRICULUM.map((e: { id: string }) => e.id));
-    for (const lv of LEVELS) expect(byLevel(lv).length, lv).toBe(30);
+    for (const lv of LEVELS) expect(byLevel(lv).length, lv).toBeGreaterThanOrEqual(FLOOR[lv]);
     for (const l of LESSONS as Lesson[]) expect(spine.has(l.id), l.id).toBe(true);
   });
 

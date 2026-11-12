@@ -160,32 +160,59 @@ export function buildUnitTest(
       if (item) own.push(item);
     }
   }
-  const back = spiralItems(spiral, attempt);
-  // One spiral item after every fourth of the unit's own, so the paper never runs two
-  // earlier-unit questions together and never saves them for the end. The final slice
-  // drops the unit's own surplus, so every spiral item stays on the paper.
+  // A SHORT UNIT BORROWS (the course no longer has five lessons in every unit): a level's
+  // last unit can hold one to four lessons, whose own items would fall below a fifteen-item
+  // paper. The difference is made up from the two previous units, so a one-lesson unit still
+  // gets a real cumulative test. A full unit keeps exactly SPIRAL_ITEMS.
+  const want = spiral.length > 0 ? Math.max(SPIRAL_ITEMS, UNIT_TEST_ITEMS - own.length) : 0;
+  const back = spiralItems(spiral, attempt, want);
   const out: UnitTestItem[] = [];
   let b = 0;
-  own.forEach((it, i) => {
-    out.push(it);
-    if ((i + 1) % 4 === 0 && b < back.length) out.push(back[b++]!);
-  });
-  while (b < back.length) out.push(back[b++]!);
+  if (back.length <= Math.floor(own.length / 4)) {
+    // One spiral item after every fourth of the unit's own, so the paper never runs two
+    // earlier-unit questions together and never saves them for the end. The final slice
+    // drops the unit's own surplus, so every spiral item stays on the paper.
+    own.forEach((it, i) => {
+      out.push(it);
+      if ((i + 1) % 4 === 0 && b < back.length) out.push(back[b++]!);
+    });
+    while (b < back.length) out.push(back[b++]!);
+  } else {
+    // Mostly borrowed: alternate, so a unit with one lesson never shows three of its own
+    // items in a row.
+    for (let i = 0; i < own.length || b < back.length; i++) {
+      if (own[i]) out.push(own[i]!);
+      if (b < back.length) out.push(back[b++]!);
+    }
+  }
   return out.slice(0, UNIT_TEST_ITEMS);
 }
 
 /** One item from each of SPIRAL_ITEMS earlier lessons, both rotated by attempt so a
  *  retake or re-check meets different earlier lessons and different items. */
-function spiralItems(spiral: readonly LessonBodyLike[], attempt: number): UnitTestItem[] {
+function spiralItems(
+  spiral: readonly LessonBodyLike[],
+  attempt: number,
+  want: number = SPIRAL_ITEMS,
+): UnitTestItem[] {
   const usable = spiral
     .map((lesson) => ({ lesson, pool: findCheckSlide(lesson.slides ?? [])?.pool ?? [] }))
     .filter((x) => x.pool.length > 0);
-  if (usable.length === 0) return [];
-  const take = Math.min(SPIRAL_ITEMS, usable.length);
+  if (usable.length === 0 || want <= 0) return [];
+  const available = usable.reduce((n, x) => n + x.pool.length, 0);
+  // The usual three never exceed the usable lessons; a borrowing short unit asks for more,
+  // cycling back over the lessons for a DIFFERENT item each time round.
+  const take = want <= SPIRAL_ITEMS ? Math.min(want, usable.length) : Math.min(want, available);
   const out: UnitTestItem[] = [];
-  for (let k = 0; k < take; k++) {
-    const { lesson, pool } = usable[(attempt * take + k) % usable.length]!;
-    out.push({ ...pool[(attempt + k) % pool.length]!, lessonId: lesson.id, spiral: true });
+  const used = new Set<string>();
+  for (let k = 0; out.length < take && k < take + available; k++) {
+    const { lesson, pool } =
+      usable[(attempt * Math.min(SPIRAL_ITEMS, usable.length) + k) % usable.length]!;
+    const idx = (attempt + k + Math.floor(k / usable.length)) % pool.length;
+    const key = `${lesson.id}|${idx}`;
+    if (used.has(key)) continue;
+    used.add(key);
+    out.push({ ...pool[idx]!, lessonId: lesson.id, spiral: true });
   }
   return out;
 }

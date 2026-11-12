@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
 import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
+import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
 /**
  * A NEW LEARNER WALKS UNIT 1, END TO END, WITH NOTHING SEEDED.
@@ -18,7 +19,11 @@ import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
  * pass at the real bar — not a seeded one.
  */
 
-const UNIT_1 = ['alphabet', 'greetings-farewells', 'pronouns-biti', 'gender', 'plural-nouns'];
+/** Unit 1 is the first five A1 lessons in spine order, derived so a reorder cannot strand the walk. */
+const UNIT_1 = CURRICULUM.filter((e) => e.level === 'A1')
+  .sort((a, b) => a.order - b.order)
+  .slice(0, 5)
+  .map((e) => e.id);
 
 const LESSON = new Map(LESSONS_FIXTURE.map((l) => [l.id, l]));
 const checkItems = (id) =>

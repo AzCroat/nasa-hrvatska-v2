@@ -78,10 +78,17 @@ describe('the bar', () => {
   });
 });
 
+const earlierFor = (i: number) =>
+  UNITS.slice(Math.max(0, i - 2), i).flatMap((u) =>
+    u.lessons.map((l) => BY_ID.get(l.id)!).filter(Boolean),
+  );
+
 describe('the paper, built from the real curriculum', () => {
-  it('is UNIT_TEST_ITEMS long for every one of the 36 units', () => {
+  // A level's last unit can be short (one to four lessons), so a full paper needs the
+  // two previous units to borrow from — exactly what the screen passes.
+  it('is UNIT_TEST_ITEMS long for every unit, short ones included', () => {
     for (let i = 0; i < UNITS.length; i++) {
-      const items = buildUnitTest(bodiesFor(i));
+      const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
       expect(items.length, UNITS[i]!.id).toBe(UNIT_TEST_ITEMS);
       expect(unitTestAvailability(items), UNITS[i]!.id).toBe('ready');
     }
@@ -104,7 +111,7 @@ describe('the paper, built from the real curriculum', () => {
   // round-robin and deterministic.
   it('never puts two items from the same lesson next to each other', () => {
     for (let i = 0; i < UNITS.length; i++) {
-      const items = buildUnitTest(bodiesFor(i));
+      const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
       for (let k = 1; k < items.length; k++) {
         expect(
           items[k]!.lessonId,
@@ -228,25 +235,21 @@ describe('scoring and the report', () => {
 
 // ── Spiral review (academic recommendation 5, 2026-09-29) ─────────────────────
 describe('spiral review: earlier units come back inside later unit tests', () => {
-  const earlierFor = (i: number) =>
-    UNITS.slice(Math.max(0, i - 2), i).flatMap((u) =>
-      u.lessons.map((l) => BY_ID.get(l.id)!).filter(Boolean),
-    );
-
   it('Unit 1 has no earlier unit and keeps fifteen of its own items', () => {
     const items = buildUnitTest(bodiesFor(0), 0, earlierFor(0));
     expect(items).toHaveLength(UNIT_TEST_ITEMS);
     expect(items.filter((x) => x.spiral)).toHaveLength(0);
   });
 
-  it('every later unit asks SPIRAL_ITEMS from the two units before it, and still asks fifteen', () => {
+  it('every later unit asks SPIRAL_ITEMS from the two units before it (more when it is short), and still asks fifteen', () => {
     for (let i = 1; i < UNITS.length; i++) {
       const own = new Set(UNITS[i]!.lessons.map((l) => l.id));
       const allowed = new Set(earlierFor(i).map((l) => l.id));
       const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
       expect(items, UNITS[i]!.id).toHaveLength(UNIT_TEST_ITEMS);
       const spiral = items.filter((x) => x.spiral);
-      expect(spiral, UNITS[i]!.id).toHaveLength(SPIRAL_ITEMS);
+      const ownCount = Math.min(UNIT_TEST_ITEMS, UNITS[i]!.lessons.length * ITEMS_PER_LESSON);
+      expect(spiral, UNITS[i]!.id).toHaveLength(Math.max(SPIRAL_ITEMS, UNIT_TEST_ITEMS - ownCount));
       for (const x of spiral) {
         expect(own.has(x.lessonId), `${UNITS[i]!.id}: a spiral item from the unit itself`).toBe(
           false,
@@ -278,5 +281,23 @@ describe('spiral review: earlier units come back inside later unit tests', () =>
     const rows = unitTestBreakdown(items, {});
     const own = new Set(UNITS[4]!.lessons.map((l) => l.id));
     expect(rows.filter((r) => !own.has(r.lessonId)).length).toBe(SPIRAL_ITEMS);
+  });
+});
+
+describe('a short unit still gets a real paper', () => {
+  it('a one-lesson unit borrows twelve items from the two units before it', () => {
+    const i = UNITS.findIndex((u) => u.lessons.length === 1);
+    expect(i, 'the real course has a one-lesson unit').toBeGreaterThan(1);
+    const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
+    expect(items).toHaveLength(UNIT_TEST_ITEMS);
+    expect(items.filter((x) => !x.spiral)).toHaveLength(ITEMS_PER_LESSON);
+    expect(unitTestAvailability(items)).toBe('ready');
+    const keys = items.map((x) => `${x.lessonId}|${x.q}`);
+    expect(new Set(keys).size, 'no question is asked twice').toBe(keys.length);
+  });
+
+  it('without earlier units a one-lesson unit is honestly too short', () => {
+    const i = UNITS.findIndex((u) => u.lessons.length === 1);
+    expect(unitTestAvailability(buildUnitTest(bodiesFor(i)))).toBe('insufficient');
   });
 });

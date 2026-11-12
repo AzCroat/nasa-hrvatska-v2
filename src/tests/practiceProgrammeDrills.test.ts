@@ -80,15 +80,15 @@ const PROGRAMME_DRILLS: {
     lesson: 'plural-cases',
     cefr: 'A2',
   },
-  { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A2' },
+  { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A1' },
   { screen: 'komparacija', category: 'comparison', lesson: 'comparatives-a2', cefr: 'A2' },
   // A2 topical block (2026-08-29). Ten authored banks. The pool tag matters
   // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
   // specific to this block: five of the ten have a same-named REFERENCE screen
   // in the pool, so a wrong tag would be easy to write and hard to see.
   { screen: 'dom', category: 'home', lesson: 'house-home', cefr: 'A2' },
-  { screen: 'zdravlje', category: 'health', lesson: 'body-health', cefr: 'A2' },
-  { screen: 'odjeca', category: 'clothing', lesson: 'clothes-appearance', cefr: 'A2' },
+  { screen: 'zdravlje', category: 'health', lesson: 'body-health', cefr: 'A1' },
+  { screen: 'odjeca', category: 'clothing', lesson: 'clothes-appearance', cefr: 'A1' },
   { screen: 'izgled', category: 'appearance', lesson: 'describing-people', cefr: 'A2' },
   { screen: 'zanimanja', category: 'jobs', lesson: 'work-jobs', cefr: 'A2' },
   { screen: 'skola', category: 'education', lesson: 'school-studies', cefr: 'A2' },
@@ -151,7 +151,7 @@ const PROGRAMME_DRILLS: {
     lesson: 'reported-speech',
     cefr: 'B1',
   },
-  { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'B1' },
+  { screen: 'bezlicnob1', category: 'impersonal', lesson: 'impersonal', cefr: 'A2' },
   { screen: 'vrijemeklauze', category: 'time-clauses', lesson: 'time-clauses', cefr: 'B1' },
   { screen: 'uzrokb1', category: 'cause-purpose', lesson: 'cause-purpose', cefr: 'B1' },
   // ── C2 ────────────────────────────────────────────────────────────────────
@@ -331,7 +331,7 @@ const EASIER_ROUTE_DRILLS: {
   lesson: string;
   cefr: string;
 }[] = [
-  { screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A2' },
+  { screen: 'objekt', category: 'clitics', lesson: 'object-pronouns', cefr: 'A1' },
   // Same shape at B2, and a mis-tag fixed with it: `isklonidba` (C1) IS the
   // i-declension paradigm — it was tagged `instrumental`, which is a case, not
   // a declension class. It keeps the primary route; the B2 lesson gets a drill
@@ -540,30 +540,41 @@ describe('coupling coverage per level does not slip', () => {
   // a lesson losing its mapping fails here, and a NEW lesson arriving uncoupled
   // fails here too — the case no per-level list could ever have caught, because
   // a list only knows about lessons somebody remembered to add to it.
-  const EXPECTED_COUPLED: Record<string, number> = {
-    A1: 30, // complete
-    A2: 30, // complete
-    B1: 30, // complete
-    B2: 30, // complete
-    C1: 30, // complete
-    C2: 30, // complete
+  // 2026-11-12 RESTRUCTURE: levels are no longer all 30 lessons (A1 40, A2 24, B1 26), and
+  // A1 will grow as lessons are written. The ratchet is therefore "EVERY lesson at the level
+  // is coupled" (a new uncoupled lesson still fails, a lesson losing its mapping still
+  // fails) plus a per-level size FLOOR so a level cannot lose lessons unnoticed.
+  const MIN_LESSONS: Record<string, number> = {
+    A1: 40,
+    A2: 24,
+    B1: 26,
+    B2: 30,
+    C1: 30,
+    C2: 30,
   };
 
-  it.each(Object.entries(EXPECTED_COUPLED))('%s has %i coupled lessons', (level, expected) => {
-    const lessons = (CURRICULUM as Entry[]).filter((e) => e.level === level);
-    const coupled = lessons.filter((e) => LESSON_TAUGHT_CATEGORY[e.id]);
-    const uncoupled = lessons.filter((e) => !LESSON_TAUGHT_CATEGORY[e.id]).map((e) => e.id);
-    expect(
-      coupled.length,
-      `${level} is ${coupled.length}/${lessons.length} coupled. Uncoupled: ${uncoupled.join(', ') || 'none'}`,
-    ).toBe(expected);
-  });
+  it.each(Object.entries(MIN_LESSONS))(
+    '%s has every lesson coupled (at least %i of them)',
+    (level, floor) => {
+      const lessons = (CURRICULUM as Entry[]).filter((e) => e.level === level);
+      const coupled = lessons.filter((e) => LESSON_TAUGHT_CATEGORY[e.id]);
+      const uncoupled = lessons.filter((e) => !LESSON_TAUGHT_CATEGORY[e.id]).map((e) => e.id);
+      expect(
+        coupled.length,
+        `${level} is ${coupled.length}/${lessons.length} coupled. Uncoupled: ${uncoupled.join(', ') || 'none'}`,
+      ).toBe(lessons.length);
+      expect(lessons.length, `${level} lost lessons`).toBeGreaterThanOrEqual(floor);
+    },
+  );
 
-  it('every level has all 30 lessons accounted for', () => {
-    // Guards the guard: if a level ever had fewer than 30 lessons the counts
-    // above could be met while content had gone missing.
-    for (const level of Object.keys(EXPECTED_COUPLED)) {
-      expect((CURRICULUM as Entry[]).filter((e) => e.level === level)).toHaveLength(30);
+  it('every level has its restructured number of lessons accounted for', () => {
+    // Guards the guard: if a level ever shrank below its floor the coupling counts above
+    // could still be met while content had gone missing.
+    for (const [level, floor] of Object.entries(MIN_LESSONS)) {
+      expect(
+        (CURRICULUM as Entry[]).filter((e) => e.level === level).length,
+        level,
+      ).toBeGreaterThanOrEqual(floor);
     }
   });
 });

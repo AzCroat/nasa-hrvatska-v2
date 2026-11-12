@@ -1,14 +1,14 @@
 /**
  * course-full-walk.spec.js — the WHOLE course, walked as a learner walks it (2026-09-30).
  *
- * `course-walkthrough.spec.js` walks Unit 1 from nothing. This walks all 36 units:
+ * `course-walkthrough.spec.js` walks Unit 1 from nothing. This walks every unit:
  * every lesson read to its summary with its check passed, every unit test, both
  * production tasks, and each level review where the course serves it — from Home, at
  * the crossing into the next level (the C2 review after the last unit). After every
  * unit the map must show that unit cleared and the next one current; after every level
  * Home must lead with that level's review, then with the next unit.
  *
- * SPLIT PER LEVEL, because 36 units in one test is ~35 minutes. One test walks A1 and
+ * SPLIT PER LEVEL, because every unit in one test is ~35 minutes. One test walks A1 and
  * A2 with NOTHING seeded (the path a real learner starts on, across one real level
  * crossing); each later test seeds only the levels before it, in the SAME shapes a
  * real walk writes (`nh_curriculum_progress.done`, and `nh_course_units` with the pass,
@@ -109,7 +109,10 @@ async function setup(page, seedLevels) {
         const reviews = {};
         for (const lv of levels) reviews[lv] = { doneAt: today, firstTryCorrect: 18, total: 18 };
         localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
-        localStorage.setItem('nh_course_units', JSON.stringify({ units: u, reviews }));
+        localStorage.setItem(
+          'nh_course_units',
+          JSON.stringify({ structure: 2, units: u, reviews }),
+        );
       },
       [units, seedLevels],
     );
@@ -272,7 +275,7 @@ async function produce(page, unit) {
  */
 async function firstLessonFromHome(page, unit) {
   const n = UNITS.indexOf(unit) + 1;
-  await beginFromHome(page, `Unit ${n} of 36`);
+  await beginFromHome(page, `Unit ${n} of ${UNITS.length}`);
   await driveLesson(page, unit.lessons[0]);
   await openMap(page);
   await expect(
@@ -340,7 +343,11 @@ async function reviewFromHome(page, level, nextUnitNumber) {
     await page.getByTestId('level-review-next').click();
   }
   await expect(page.getByTestId('level-review-result')).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByTestId('level-review-first-try')).toContainText('18');
+  // Every item answered right first time, whatever the round's length (the round is
+  // three items from each unit, capped at LEVEL_REVIEW_ITEMS).
+  await expect(page.getByTestId('level-review-first-try')).toHaveText(
+    /^(\d+) of \1 right first time$/,
+  );
 
   await openMap(page);
   await expect(page.getByTestId(`course-level-review-${level}`)).toHaveAttribute('data-done', '1');
@@ -348,9 +355,12 @@ async function reviewFromHome(page, level, nextUnitNumber) {
   await page.goto('/');
   await expect(page.getByTestId('session-card')).toBeVisible({ timeout: 30_000 });
   if (nextUnitNumber) {
-    await expect(page.getByTestId('session-card')).toContainText(`Unit ${nextUnitNumber} of 36`, {
-      timeout: 20_000,
-    });
+    await expect(page.getByTestId('session-card')).toContainText(
+      `Unit ${nextUnitNumber} of ${UNITS.length}`,
+      {
+        timeout: 20_000,
+      },
+    );
   }
   await expect(page.getByTestId('session-card')).not.toContainText(`${level} review`);
 }

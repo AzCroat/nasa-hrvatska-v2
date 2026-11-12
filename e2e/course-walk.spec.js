@@ -21,6 +21,12 @@ const byLevel = (lv) =>
     .map((l) => l.id);
 const A1 = byLevel('A1');
 const UNIT1 = A1.slice(0, 5);
+/** Units per level are derived the way courseUnits.ts chunks them: five lessons each. */
+const A1_UNITS = Math.ceil(A1.length / 5);
+const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
+  (n, lv) => n + Math.ceil(byLevel(lv).length / 5),
+  0,
+);
 const DAY = '2026-09-01';
 
 const WORDS =
@@ -44,7 +50,7 @@ async function setup(page, done, units, reviews) {
       localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: d }));
       localStorage.setItem(
         'nh_course_units',
-        JSON.stringify(r ? { units: u, reviews: r } : { units: u }),
+        JSON.stringify(r ? { structure: 2, units: u, reviews: r } : { structure: 2, units: u }),
       );
     },
     [done, units, reviews],
@@ -108,7 +114,7 @@ test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', 
   const card = page.getByTestId('session-card');
   await expect(card).toBeVisible({ timeout: 30_000 });
   // Unit 2's first lesson leads the day; no Unit 1 task is offered again.
-  await expect(card).toContainText('Unit 2 of 36', { timeout: 20_000 });
+  await expect(card).toContainText(`Unit 2 of ${TOTAL_UNITS}`, { timeout: 20_000 });
   await expect(card).not.toContainText('Unit 1: write');
   expect(errs).toEqual([]);
 });
@@ -142,7 +148,7 @@ test('a refused evaluator names the cause and does not wall the course', async (
 
 function allA1Mastered() {
   const units = {};
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= A1_UNITS; i++) {
     units[`A1-${i}`] = {
       passedAt: DAY,
       production: { wroteAt: DAY, writeScore: 80, spokeAt: DAY, speakScore: 0.8 },
@@ -160,16 +166,18 @@ test('finishing A1 opens A2 Unit 1 on the map, and Home leads with the A1 review
   test.setTimeout(120_000);
   const errs = await setup(page, A1, allA1Mastered());
   await openMap(page);
-  expect(await unitState(page, 'A1-6')).toBe('mastered');
+  expect(await unitState(page, `A1-${A1_UNITS}`)).toBe('mastered');
   expect(await unitState(page, 'A2-1')).toBe('current');
-  await expect(page.getByTestId('course-units-mastered')).toContainText('6 of 36');
+  await expect(page.getByTestId('course-units-mastered')).toContainText(
+    `${A1_UNITS} of ${TOTAL_UNITS}`,
+  );
   await expect(page.getByTestId('course-level-review-A1')).toHaveAttribute('data-done', '0');
 
   await page.goto('/');
   const card = page.getByTestId('session-card');
   await expect(card).toBeVisible({ timeout: 30_000 });
   await expect(card).toContainText('A1 review', { timeout: 20_000 });
-  await expect(card).not.toContainText('Unit 7 of 36');
+  await expect(card).not.toContainText(`Unit ${A1_UNITS + 1} of ${TOTAL_UNITS}`);
   expect(errs).toEqual([]);
 });
 
@@ -184,7 +192,7 @@ test('once the A1 review is done, Home teaches A2 Unit 1', async ({ page }) => {
   await page.goto('/');
   const card = page.getByTestId('session-card');
   await expect(card).toBeVisible({ timeout: 30_000 });
-  await expect(card).toContainText('Unit 7 of 36', { timeout: 20_000 });
+  await expect(card).toContainText(`Unit ${A1_UNITS + 1} of ${TOTAL_UNITS}`, { timeout: 20_000 });
   await expect(card).not.toContainText('A1 review');
   expect(errs).toEqual([]);
 });

@@ -210,11 +210,20 @@ describe('THE CURRICULUM IS COMPLETE', () => {
   // The programme target from the 2026-08-28 design: ~30 lessons per level,
   // ~180 total. This is the assertion that says it landed — and the one that
   // fails if a later change quietly drops a level below the line.
-  it('every CEFR level has at least 30 lessons', () => {
+  //
+  // 2026-11-12 RESTRUCTURE: A1-B1 follow the Croaticum books, so level sizes are no
+  // longer all 30 (A1 40, A2 24, B1 26; A1 grows toward ~100 as lessons are written).
+  // The floors below are the sizes as restructured: a level cannot quietly shrink,
+  // and the sum cannot drop below the 180 the programme already shipped.
+  it('every CEFR level keeps at least its restructured size, and the course at least 180', () => {
+    const FLOOR: Record<string, number> = { A1: 40, A2: 24, B1: 26, B2: 30, C1: 30, C2: 30 };
+    let total = 0;
     for (const level of CURRICULUM_LEVELS as string[]) {
       const n = (LESSONS as Lesson[]).filter((l) => l.level === level).length;
-      expect(n, `${level} has only ${n} lessons`).toBeGreaterThanOrEqual(30);
+      total += n;
+      expect(n, `${level} has only ${n} lessons`).toBeGreaterThanOrEqual(FLOOR[level]);
     }
+    expect(total).toBeGreaterThanOrEqual(180);
   });
 
   it('the spine and the lesson bodies agree exactly, at every level', () => {

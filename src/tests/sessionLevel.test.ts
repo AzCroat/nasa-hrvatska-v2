@@ -8,6 +8,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { courseUnitLevel, sessionLevel, launchedLevel } from '../lib/sessionLevel';
 import { seedCourseAt } from './helpers/courseSeed';
+import { unitIndexAt } from './helpers/unitIndex';
 import { readCourseState } from '../lib/courseStep';
 
 beforeEach(() => {
@@ -22,19 +23,15 @@ describe('courseUnitLevel', () => {
     expect(launchedLevel('speaking_guided', 'B1')).toBe('B1');
   });
 
-  it.each([
-    [1, 'A1'],
-    [7, 'A2'],
-    [13, 'B1'],
-    [19, 'B2'],
-    [25, 'C1'],
-    [31, 'C2'],
-  ])('unit %i → %s, whatever the XP level says', (unit, level) => {
-    seedCourseAt(unit);
-    expect(courseUnitLevel()).toBe(level);
-    expect(sessionLevel('C2')).toBe(level);
-    expect(sessionLevel('A1')).toBe(level);
-  });
+  it.each(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])(
+    'a %s unit is served at its own level, whatever the XP level says',
+    (level) => {
+      seedCourseAt(unitIndexAt(level, 1));
+      expect(courseUnitLevel()).toBe(level);
+      expect(sessionLevel('C2')).toBe(level);
+      expect(sessionLevel('A1')).toBe(level);
+    },
+  );
 
   it('is null once the whole course is finished — the learner has earned their own level', () => {
     const total = (() => {
@@ -64,7 +61,7 @@ describe('launchedLevel — only the screen the session launched reads the cours
   });
 
   it('follows the course upward too: a fast learner at a B1 unit with A1 XP gets B1', () => {
-    seedCourseAt(13);
+    seedCourseAt(unitIndexAt('B1'));
     sessionStorage.setItem('nh_session_started', 'dialogue');
     expect(launchedLevel('dialogue', 'A1')).toBe('B1');
   });

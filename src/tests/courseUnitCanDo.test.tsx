@@ -1,6 +1,6 @@
 // src/tests/courseUnitCanDo.test.tsx
 //
-// Recommendation 6 (2026-09-29): every one of the 36 units carries 2–3 can-do
+// Recommendation 6 (2026-09-29): every unit carries 2–3 can-do
 // statements, keyed by the same ids the course derives, and the course map shows them.
 
 import { describe, it, expect } from 'vitest';
@@ -13,8 +13,8 @@ import { containsCyrillic } from '../../functions/api/_croatianGuard.js';
 describe('can-do statements', () => {
   const ids = Object.keys(COURSE_UNIT_TITLES);
 
-  it('exist for exactly the 36 units, 2–3 each', () => {
-    expect(ids).toHaveLength(36);
+  it('exist for exactly the units the course has, 2–3 each', () => {
+    expect(ids.length).toBeGreaterThanOrEqual(36);
     expect(Object.keys(COURSE_UNIT_CAN_DO).sort()).toEqual([...ids].sort());
     for (const id of ids) {
       expect(canDoFor(id).length, id).toBeGreaterThanOrEqual(2);

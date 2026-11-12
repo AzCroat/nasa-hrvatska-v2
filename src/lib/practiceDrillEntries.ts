@@ -71,7 +71,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'reflexive-possessive',
   },
-  { id: 'objekt', label: 'Object pronouns', screen: 'objekt', cefr: 'A2', category: 'clitics' },
+  { id: 'objekt', label: 'Object pronouns', screen: 'objekt', cefr: 'A1', category: 'clitics' },
   {
     id: 'mnozinapadezi',
     label: 'Plural cases',
@@ -79,7 +79,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A2',
     category: 'plural-cases',
   },
-  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A2', category: 'quantity' },
+  { id: 'kolicinaa2', label: 'Quantity', screen: 'kolicinaa2', cefr: 'A1', category: 'quantity' },
   {
     id: 'komparacija',
     label: 'Comparison',
@@ -114,7 +114,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
     id: 'bezlicnob1',
     label: 'Impersonal',
     screen: 'bezlicnob1',
-    cefr: 'B1',
+    cefr: 'A2',
     category: 'impersonal',
   },
   {
@@ -270,8 +270,8 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // word list, and never clear, which is exactly the `idioms` dead end. So all
   // ten are authored, and the five reference screens are untouched.
   { id: 'dom', label: 'House & home', screen: 'dom', cefr: 'A2', category: 'home' },
-  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A2', category: 'health' },
-  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A2', category: 'clothing' },
+  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A1', category: 'health' },
+  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A1', category: 'clothing' },
   {
     id: 'izgled',
     label: 'Describing people',

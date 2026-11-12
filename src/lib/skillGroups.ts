@@ -160,10 +160,14 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   // (u/na with the locative; the instrumental of means), so they group with
   // 'case', and `health` is the boljeti construction — which verb form the
   // sentence takes and what it agrees with — so it groups with 'verb'. The
-  // remaining seven are lexical.
+  // remaining six are lexical (clothing moved to 'case' below).
   home: 'case',
   health: 'verb',
-  clothing: 'vocab',
+  // clothing: the bank drills nositi + accusative (crvenu majicu) and plural-only
+  // agreement (nove hlače) — 14 form-production items of 24 — so it is structural,
+  // by the same item count that regrouped the A1 topic drills (2026-11-12, when the
+  // clothes lesson moved into A1 with the Croaticum restructure).
+  clothing: 'case',
   appearance: 'vocab',
   jobs: 'vocab',
   education: 'vocab',

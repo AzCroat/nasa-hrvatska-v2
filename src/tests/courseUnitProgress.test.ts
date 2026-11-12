@@ -18,7 +18,8 @@ import {
   courseUnitsOrUndef,
   insufficientUnits,
   markUnitTestInsufficient,
-  mergeCourseUnits,
+  mergeCourseUnits as mergeRaw,
+  CURRENT_COURSE_STRUCTURE,
   passedUnits,
   readCourseUnits,
   recordUnitTest,
@@ -28,6 +29,16 @@ import {
   readUnitTestRequest,
   clearUnitTestRequest,
 } from '../lib/courseUnitProgress';
+
+// The merge tests below are about the merge rules, so their remote halves are stamped
+// with the current structure; the migration block at the end drives the raw function.
+const mergeCourseUnits = (local: Parameters<typeof mergeRaw>[0], remote: unknown) =>
+  mergeRaw(
+    local,
+    remote && typeof remote === 'object'
+      ? { structure: CURRENT_COURSE_STRUCTURE, ...(remote as object) }
+      : remote,
+  );
 
 beforeEach(() => {
   localStorage.clear();
@@ -93,7 +104,7 @@ describe('recording an attempt', () => {
 
   it('survives an unreadable store', () => {
     localStorage.setItem(COURSE_UNITS_KEY, 'not json');
-    expect(readCourseUnits()).toEqual({ units: {} });
+    expect(readCourseUnits().units).toEqual({});
     recordUnitTest('A1-1', 13, 15, true);
     expect([...passedUnits()]).toEqual(['A1-1']);
   });
@@ -320,8 +331,8 @@ describe('the merge is additive', () => {
   });
 
   it('survives junk on either side', () => {
-    expect(mergeCourseUnits({ units: {} }, null)).toEqual({ units: {} });
-    expect(mergeCourseUnits({ units: {} }, { nope: 1 })).toEqual({ units: {} });
+    expect(mergeCourseUnits({ units: {} }, null).units).toEqual({});
+    expect(mergeCourseUnits({ units: {} }, { nope: 1 }).units).toEqual({});
     expect(
       mergeCourseUnits({ units: { 'A1-1': { passedAt: 'x' } } }, undefined).units['A1-1'],
     ).toBeTruthy();
@@ -355,5 +366,65 @@ describe('the store writes nothing a scheduler reads', () => {
     writeCourseUnits(readCourseUnits());
     const keys = Object.keys(localStorage).sort();
     expect(keys).toEqual([COURSE_UNITS_KEY]);
+  });
+});
+
+describe('the one-time structure migration (2026-11-12)', () => {
+  // Unit ids are positional, so regrouping the lessons changed what 'A1-2' means. A pass
+  // recorded under the old grouping must not be read as a pass of the new unit.
+  const old = { units: { 'A1-2': { attempts: [], passedAt: '2026-10-01' } } };
+
+  it('treats a store with no structure number as empty', () => {
+    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify(old));
+    expect(readCourseUnits().units).toEqual({});
+    expect(passedUnits().size).toBe(0);
+    expect(courseUnitsOrUndef()).toBeUndefined();
+  });
+
+  it('treats a store written under a lower structure as empty', () => {
+    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify({ structure: 1, ...old }));
+    expect(passedUnits().size).toBe(0);
+  });
+
+  it('stamps every write, and a stamped store reads back whole', () => {
+    recordUnitTest('A1-1', 14, 15, true);
+    const raw = JSON.parse(localStorage.getItem(COURSE_UNITS_KEY)!);
+    expect(raw.structure).toBe(CURRENT_COURSE_STRUCTURE);
+    expect(passedUnits().has('A1-1')).toBe(true);
+  });
+
+  it('writing over an old store replaces it rather than reviving its passes', () => {
+    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify(old));
+    recordUnitTest('A1-1', 14, 15, true);
+    expect([...passedUnits()]).toEqual(['A1-1']);
+  });
+
+  it('ignores a remote store with no structure number or an older one', () => {
+    expect(mergeRaw({ units: {} }, old).units).toEqual({});
+    expect(mergeRaw({ units: {} }, { structure: 1, ...old }).units).toEqual({});
+    expect(mergeRaw({ units: {} }, old).structure).toBe(CURRENT_COURSE_STRUCTURE);
+  });
+
+  it('keeps local passes when the remote is old, and merges a current remote', () => {
+    const local = {
+      structure: CURRENT_COURSE_STRUCTURE,
+      units: { 'A1-1': { attempts: [], passedAt: '2026-11-13' } },
+    };
+    expect(Object.keys(mergeRaw(local, old).units)).toEqual(['A1-1']);
+    const remote = {
+      structure: CURRENT_COURSE_STRUCTURE,
+      units: { 'A1-3': { attempts: [], passedAt: '2026-11-14' } },
+    };
+    expect(Object.keys(mergeRaw(local, remote).units).sort()).toEqual(['A1-1', 'A1-3']);
+  });
+
+  it('does not touch lesson completions', () => {
+    localStorage.setItem('nh_curriculum_progress', JSON.stringify({ alphabet: '2026-09-01' }));
+    localStorage.setItem(COURSE_UNITS_KEY, JSON.stringify(old));
+    readCourseUnits();
+    recordUnitTest('A1-1', 14, 15, true);
+    expect(JSON.parse(localStorage.getItem('nh_curriculum_progress')!)).toEqual({
+      alphabet: '2026-09-01',
+    });
   });
 });

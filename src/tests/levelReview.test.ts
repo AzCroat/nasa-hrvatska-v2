@@ -22,11 +22,16 @@ import {
   markLevelReviewUnavailable,
   reviewedLevels,
   readCourseUnits,
-  mergeCourseUnits,
+  mergeCourseUnits as mergeRaw,
+  CURRENT_COURSE_STRUCTURE,
   courseUnitsOrUndef,
   requestLevelReview,
   readLevelReviewRequest,
 } from '../lib/courseUnitProgress';
+// Remote halves are stamped with the current structure (an unstamped one is an old
+// device's and is ignored on purpose — see courseUnitProgress.test.ts).
+const mergeCourseUnits = (local: Parameters<typeof mergeRaw>[0], remote: unknown) =>
+  mergeRaw(local, { structure: CURRENT_COURSE_STRUCTURE, ...(remote as object) });
 import { nextCourseStep, pickCourseStep, levelReviewActivityId } from '../lib/courseStep';
 import { buildCurriculumSlots, rearmCourseHandoff } from '../lib/curriculumSlot';
 import { courseNextStep } from '../lib/nextStep';
@@ -177,7 +182,7 @@ describe('what the course serves, through storage', () => {
     finishA1();
     const step = nextCourseStep();
     expect(step).toMatchObject({ kind: 'level-review', level: 'A1' });
-    expect(step?.unit.id).toBe('A1-6');
+    expect(step?.unit.id).toBe(UNITS.filter((u) => u.level === 'A1').at(-1)!.id);
   });
 
   it("Today's Session serves it in the teaching slot, and a re-launch re-arms the handoff", () => {
@@ -280,24 +285,26 @@ describe('pickCourseStep with fabricated rows', () => {
 
   it("reads the gate's own `advanced` set, so a unit let through on an escape hatch counts", () => {
     // A1-3's test could not be assembled: not `tested`, but the gate advanced it.
-    const rows = UNITS.slice(0, 7).map((_, i) =>
-      i < 6
+    const n = UNITS.filter((u) => u.level === 'A1').length;
+    const rows = UNITS.slice(0, n + 1).map((_, i) =>
+      i < n
         ? row(i + 1, i === 2 ? { tested: false, short: true } : {})
-        : row(7, { tested: false, done: 0, state: 'current' }),
+        : row(n + 1, { tested: false, done: 0, state: 'current' }),
     );
     const step = pickCourseStep({
       rows,
-      completed: new Set(UNITS.slice(0, 6).flatMap((u) => u.lessons.map((l) => l.id))),
+      completed: new Set(UNITS.slice(0, n).flatMap((u) => u.lessons.map((l) => l.id))),
       unitCount: UNITS.length,
       reviewed: new Set(),
-      advanced: new Set(UNITS.slice(0, 6).map((u) => u.id)),
+      advanced: new Set(UNITS.slice(0, n).map((u) => u.id)),
     });
     expect(step).toMatchObject({ kind: 'level-review', level: 'A1' });
   });
 
   it('offers no review at all to a caller that does not pass `reviewed`', () => {
-    const rows = UNITS.slice(0, 7).map((_, i) =>
-      i < 6 ? row(i + 1) : row(7, { tested: false, done: 0, state: 'current' }),
+    const n = UNITS.filter((u) => u.level === 'A1').length;
+    const rows = UNITS.slice(0, n + 1).map((_, i) =>
+      i < n ? row(i + 1) : row(n + 1, { tested: false, done: 0, state: 'current' }),
     );
     const step = pickCourseStep({ rows, completed: new Set(), unitCount: UNITS.length });
     expect(step?.kind).toBe('lesson');

@@ -1,5 +1,18 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
+
+/** Items in the A1 review: 18, or one per unit when A1 has more than 18 units. */
+const A1_REVIEW_ITEMS = Math.max(
+  18,
+  Math.ceil(CURRICULUM.filter((l) => l.level === 'A1').length / 5),
+);
+
+/** The course's unit count, derived the way courseUnits.ts chunks the spine: five per level. */
+const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
+  (n, lv) => n + Math.ceil(CURRICULUM.filter((l) => l.level === lv).length / 5),
+  0,
+);
 
 /**
  * The course map — the structural surface the app never had.
@@ -32,9 +45,11 @@ test.describe('Course map', () => {
     // prefixes `course-unit-test-*`, `course-unit-locked-*` and
     // `course-unit-mastered-*`, so the prefix form counted 37 once the open unit
     // started rendering its test offer. Only a unit ROW carries the state attribute.
-    await expect(page.locator('[data-unit-state]')).toHaveCount(36);
-    await expect(page.getByText('Unit 1 of 36')).toBeVisible();
-    await expect(page.getByTestId('course-lessons-count')).toContainText('/ 180 lessons');
+    await expect(page.locator('[data-unit-state]')).toHaveCount(TOTAL_UNITS);
+    await expect(page.getByText(`Unit 1 of ${TOTAL_UNITS}`)).toBeVisible();
+    await expect(page.getByTestId('course-lessons-count')).toContainText(
+      `/ ${CURRICULUM.length} lessons`,
+    );
   });
 
   test('opens on the learner’s current unit, with its lessons showing', async ({ page }) => {
@@ -192,7 +207,7 @@ test.describe('Unit production', () => {
         // Unit A1-1's test passed, production owed.
         localStorage.setItem(
           'nh_course_units',
-          JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+          JSON.stringify({ structure: 2, units: { 'A1-1': { passedAt: '2026-09-20' } } }),
         );
       } catch {
         /* storage blocked — the test fails visibly rather than silently */
@@ -257,6 +272,7 @@ test.describe('Retention check-up', () => {
         localStorage.setItem(
           'nh_course_units',
           JSON.stringify({
+            structure: 2,
             units: {
               'A1-1': {
                 passedAt: '2026-09-01',
@@ -283,7 +299,9 @@ test.describe('Retention check-up', () => {
       'data-unit-state',
       'current',
     );
-    await expect(page.getByTestId('course-units-mastered')).toHaveText('0 of 36 units mastered');
+    await expect(page.getByTestId('course-units-mastered')).toHaveText(
+      `0 of ${TOTAL_UNITS} units mastered`,
+    );
     // The unit's own line says what it is waiting for, and — because this ladder is
     // seeded DUE — the promise comes with the button that keeps it. Asserting the
     // due wording rather than the waiting wording is deliberate: a line reading
@@ -307,6 +325,7 @@ test.describe('Retention check-up', () => {
         localStorage.setItem(
           'nh_course_units',
           JSON.stringify({
+            structure: 2,
             units: {
               'A1-1': {
                 passedAt: '2026-09-01',
@@ -367,38 +386,42 @@ test.describe('Level review', () => {
   test.beforeEach(async ({ page }) => {
     const { CURRICULUM } = await import('../functions/api/content/_data/curriculum.js');
     const a1 = CURRICULUM.filter((e) => e.level === 'A1').map((e) => e.id);
+    const a1Units = Math.ceil(a1.length / 5);
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
     await mockContent(page);
-    await page.addInitScript((ids) => {
-      if (window.top !== window) return; // an init script runs in EVERY frame
-      try {
-        const done = {};
-        for (const id of ids) done[id] = '2026-09-01';
-        localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
-        // Every A1 unit has met the whole bar: test passed, both halves produced.
-        const units = {};
-        for (let i = 1; i <= 6; i++)
-          units[`A1-${i}`] = {
-            passedAt: '2026-09-10',
-            production: {
-              wroteAt: '2026-09-10',
-              writeScore: 80,
-              spokeAt: '2026-09-10',
-              speakScore: 0.8,
-            },
-          };
-        localStorage.setItem('nh_course_units', JSON.stringify({ units }));
-      } catch {
-        /* storage blocked — the test fails visibly rather than silently */
-      }
-    }, a1);
+    await page.addInitScript(
+      ([ids, unitCount]) => {
+        if (window.top !== window) return; // an init script runs in EVERY frame
+        try {
+          const done = {};
+          for (const id of ids) done[id] = '2026-09-01';
+          localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
+          // Every A1 unit has met the whole bar: test passed, both halves produced.
+          const units = {};
+          for (let i = 1; i <= unitCount; i++)
+            units[`A1-${i}`] = {
+              passedAt: '2026-09-10',
+              production: {
+                wroteAt: '2026-09-10',
+                writeScore: 80,
+                spokeAt: '2026-09-10',
+                speakScore: 0.8,
+              },
+            };
+          localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
+        } catch {
+          /* storage blocked — the test fails visibly rather than silently */
+        }
+      },
+      [a1, a1Units],
+    );
     await page.goto('/coursemap');
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
   });
 
-  test('is on the map once A1 is finished, and serves an eighteen-item mixed round', async ({
+  test('is on the map once A1 is finished, and serves a mixed round with every A1 unit in it', async ({
     page,
   }) => {
     const row = page.getByTestId('course-level-review-A1');
@@ -406,7 +429,9 @@ test.describe('Level review', () => {
     await expect(row).toHaveAttribute('data-done', '0');
     await page.getByTestId('course-level-review-open-A1').click();
     await expect(page.getByTestId('level-review')).toBeVisible({ timeout: 20_000 });
-    await expect(page.getByTestId('level-review-progress')).toHaveText('Question 1 of 18');
+    await expect(page.getByTestId('level-review-progress')).toHaveText(
+      `Question 1 of ${A1_REVIEW_ITEMS}`,
+    );
     await expect(page.getByText('practice, not scored')).toBeVisible();
   });
 
@@ -425,7 +450,7 @@ test.describe('Level review', () => {
     await expect(page.getByTestId('level-review-result')).toBeVisible({ timeout: 20_000 });
     expect(sawRepeat, 'a missed question must come back before the round ends').toBe(true);
     await expect(page.getByTestId('level-review-first-try')).toContainText(
-      /\d+ of 18 right first time/,
+      new RegExp(`\\d+ of ${A1_REVIEW_ITEMS} right first time`),
     );
     const stored = await page.evaluate(() => localStorage.getItem('nh_course_units'));
     expect(stored).toContain('"reviews"');
