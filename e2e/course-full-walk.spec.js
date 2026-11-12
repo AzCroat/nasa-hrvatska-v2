@@ -343,7 +343,11 @@ async function reviewFromHome(page, level, nextUnitNumber) {
     await page.getByTestId('level-review-next').click();
   }
   await expect(page.getByTestId('level-review-result')).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByTestId('level-review-first-try')).toContainText('18');
+  // Every item answered right first time, whatever the round's length (the round is
+  // three items from each unit, capped at LEVEL_REVIEW_ITEMS).
+  await expect(page.getByTestId('level-review-first-try')).toHaveText(
+    /^(\d+) of \1 right first time$/,
+  );
 
   await openMap(page);
   await expect(page.getByTestId(`course-level-review-${level}`)).toHaveAttribute('data-done', '1');

@@ -378,33 +378,37 @@ test.describe('Level review', () => {
   test.beforeEach(async ({ page }) => {
     const { CURRICULUM } = await import('../functions/api/content/_data/curriculum.js');
     const a1 = CURRICULUM.filter((e) => e.level === 'A1').map((e) => e.id);
+    const a1Units = Math.ceil(a1.length / 5);
     await seedAuth(page);
     await blockFirebase(page);
     await mockTTS(page);
     await mockContent(page);
-    await page.addInitScript((ids) => {
-      if (window.top !== window) return; // an init script runs in EVERY frame
-      try {
-        const done = {};
-        for (const id of ids) done[id] = '2026-09-01';
-        localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
-        // Every A1 unit has met the whole bar: test passed, both halves produced.
-        const units = {};
-        for (let i = 1; i <= 6; i++)
-          units[`A1-${i}`] = {
-            passedAt: '2026-09-10',
-            production: {
-              wroteAt: '2026-09-10',
-              writeScore: 80,
-              spokeAt: '2026-09-10',
-              speakScore: 0.8,
-            },
-          };
-        localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
-      } catch {
-        /* storage blocked — the test fails visibly rather than silently */
-      }
-    }, a1);
+    await page.addInitScript(
+      ([ids, unitCount]) => {
+        if (window.top !== window) return; // an init script runs in EVERY frame
+        try {
+          const done = {};
+          for (const id of ids) done[id] = '2026-09-01';
+          localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
+          // Every A1 unit has met the whole bar: test passed, both halves produced.
+          const units = {};
+          for (let i = 1; i <= unitCount; i++)
+            units[`A1-${i}`] = {
+              passedAt: '2026-09-10',
+              production: {
+                wroteAt: '2026-09-10',
+                writeScore: 80,
+                spokeAt: '2026-09-10',
+                speakScore: 0.8,
+              },
+            };
+          localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
+        } catch {
+          /* storage blocked — the test fails visibly rather than silently */
+        }
+      },
+      [a1, a1Units],
+    );
     await page.goto('/coursemap');
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
   });

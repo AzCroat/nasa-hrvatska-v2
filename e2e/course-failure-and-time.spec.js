@@ -623,11 +623,11 @@ test.describe('When a learner fails, and when time passes', () => {
 
     // Fail the unit test, then pass it on another day.
     await advanceDays(1);
-    await beginFromHome(page, 'Unit 6 test');
+    await beginFromHome(page, `Unit ${A1_UNITS} test`);
     await sitUnitTest(page, (i) => i < 4);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '0');
     await advanceDays(1);
-    await beginFromHome(page, 'Unit 6 test');
+    await beginFromHome(page, `Unit ${A1_UNITS} test`);
     await sitUnitTest(page, () => false);
     await expect(page.getByTestId('unit-test-result')).toHaveAttribute('data-passed', '1');
     await advanceDays(1);
