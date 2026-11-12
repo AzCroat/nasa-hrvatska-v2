@@ -247,7 +247,7 @@ export function pickCourseStep(input: {
         // live in src/data, which `manualChunks` groups with the whole content
         // library — importing them on this path is what `firstPaintGraph` forbids.
         // The session card already shows the LESSON's title as its label, so
-        // "Unit 1 of 36" beside it is informative without costing a chunk.
+        // "Unit 1 of N" beside it is informative without costing a chunk.
         reason: `Unit ${unit.index} of ${input.unitCount}`,
       };
     }

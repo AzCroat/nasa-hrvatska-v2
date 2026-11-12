@@ -13,40 +13,34 @@
 // re-read, exactly as its title must.
 
 export const CAN_DO_A2: Readonly<Record<string, readonly string[]>> = {
-  // present · vi-vs-ti · object-pronouns · accusative-deep · dative-intro
+  // present · vi-vs-ti · adjective-agreement · svoj · accusative-deep
   'A2-1': [
     'I can use everyday irregular verbs such as ići, moći and htjeti in the present tense.',
     'I can choose between ti and Vi, and switch to ti when someone invites me to.',
-    'I can say who I gave, wrote or told something to, using short pronouns like mu, joj and ga.',
+    'I can make adjectives agree with their nouns, use svoj for “my own”, and put people and things in the accusative.',
   ],
-  // instrumental-intro · prepositions-action · adjective-agreement · svoj · plural-cases
+  // plural-cases · prepositions-action · adverbs · dative-locative · house-home
   'A2-2': [
-    'I can say who I am with and how I am travelling: s bratom, vlakom.',
-    'I can say where something is and where it is going, choosing the right case after u and na.',
-    'I can make adjectives and svoj agree with their nouns, in the singular and the plural.',
+    'I can use the main cases in the plural.',
+    'I can choose between u/na + accusative for movement and u/na + locative for place.',
+    'I can describe the home I live in and where each thing is.',
   ],
-  // quantity · ordinals-dates · past-tense · past-questions-negation · adverbs
+  // describing-people · work-jobs · school-studies · aspect · modal-verbs-a2
   'A2-3': [
-    'I can say how much or how many of something there is, and give a date.',
-    'I can say what I did yesterday, ask someone whether they did something, and say that I did not.',
-    'I can say how often and how well I do things: uvijek, rijetko, dobro, brzo.',
+    'I can describe a person’s looks and character.',
+    'I can talk about my work or studies and say what I have to, may and can do.',
+    'I can tell the two verb aspects apart in a simple sentence, such as čitati and pročitati.',
   ],
-  // comparatives-a2 · modal-verbs-a2 · conjunctions · relative-koji · indefinites
+  // comparatives-a2 · conjunctions · relative-koji · indefinites · hobbies-free-time
   'A2-4': [
-    'I can compare two people or things and name the best of several.',
-    'I can say what I can, must, want and am allowed to do, and make a polite request.',
-    'I can join my sentences with words like ali, jer, iako and koji, and talk about someone, no one and everyone.',
+    'I can compare two things and say which is the better or the biggest.',
+    'I can join two clauses with jer, ali, iako and da, and say “the one that…” with koji.',
+    'I can talk about my hobbies and free time.',
   ],
-  // house-home · body-health · clothes-appearance · describing-people · work-jobs
+  // travel-transport · plans-invitations · celebrations-holidays · impersonal
   'A2-5': [
-    'I can describe my home, room by room, and say where things are in it.',
-    'I can tell a doctor or a pharmacist what hurts.',
-    'I can describe what someone looks like, what they are wearing and what they do for a living.',
-  ],
-  // school-studies · hobbies-free-time · travel-transport · plans-invitations · celebrations-holidays
-  'A2-6': [
-    'I can talk about what I study and what I do in my free time.',
-    'I can buy a ticket and ask when a train or bus leaves and arrives.',
-    'I can invite someone out, accept or decline politely, and use the right greeting for a holiday.',
+    'I can buy a ticket and ask about times and platforms.',
+    'I can make an arrangement and invite someone, and accept or decline an invitation.',
+    'I can wish someone well on a Croatian holiday and say what is done without saying who does it.',
   ],
 };

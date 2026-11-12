@@ -18,6 +18,7 @@ import {
   VERIFICATION_WAIT_DAYS,
 } from '../lib/verificationTiming';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
+import { unitCountAt } from './helpers/unitIndex';
 
 const spine = [...CURRICULUM].sort((a, b) => a.order - b.order);
 const unitRecord = (at: string) => ({
@@ -30,8 +31,8 @@ function seed(levels: Record<string, string>) {
   localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: {} }));
   const units: Record<string, unknown> = {};
   for (const [lv, at] of Object.entries(levels))
-    for (let i = 1; i <= 6; i++) units[`${lv}-${i}`] = unitRecord(at);
-  localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+    for (let i = 1; i <= unitCountAt(lv); i++) units[`${lv}-${i}`] = unitRecord(at);
+  localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
 }
 const ms = (d: string) => new Date(`${d}T12:00:00`).getTime();
 

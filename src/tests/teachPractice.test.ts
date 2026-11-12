@@ -221,7 +221,7 @@ describe('the session slot', () => {
   });
 
   it('never returns a drill above the learner CEFR', () => {
-    recordLessonTaught('clitics-advanced'); // → clitics → `clitic` (B2)
+    recordLessonTaught('wishes-regrets'); // a B2 lesson whose drill has no easier route
     expect(resolveTaughtPracticeActivity('A1', new Set())).toBeNull();
   });
 
@@ -234,7 +234,7 @@ describe('the session slot', () => {
     // Real-clock timestamps: resolveTaughtPracticeActivity reads the queue with
     // Date.now(), so a fixed past epoch would expire before it ever looked.
     const now = Date.now();
-    recordLessonTaught('clitics-advanced', now - 1000); // B2 drill — locked at A1
+    recordLessonTaught('wishes-regrets', now - 1000); // B2 drill — locked at A1 (clitics now has an A1 easier route, objekt)
     recordLessonTaught('cases', now); // → nominative → nomdrill (A1)
     const act = resolveTaughtPracticeActivity('A1', new Set());
     expect(act?.screen).toBe('nomdrill');

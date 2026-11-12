@@ -93,7 +93,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
     id: 'aspectdrill',
     label: 'Aspect Drill',
     screen: 'aspectdrill',
-    cefr: 'B1',
+    cefr: 'A2',
     category: 'aspect-imperfective',
   },
   {

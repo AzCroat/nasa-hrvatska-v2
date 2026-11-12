@@ -51,7 +51,8 @@ beforeEach(() => {
 
 describe('courseAhead — the pure rule', () => {
   it('the fixture is the real course: Unit 1 does not teach the genitive, a later unit does', () => {
-    expect(UNITS.length).toBe(36);
+    // 2026-11-12: the course is no longer 6 units per level (A1 8, A2 5, B1 6, then 6, 6, 6), so a floor.
+    expect(UNITS.length).toBeGreaterThanOrEqual(37);
     expect(UNIT1.map((id) => LESSON_TAUGHT_CATEGORY[id])).not.toContain('genitive');
     expect(Object.values(LESSON_TAUGHT_CATEGORY)).toContain('genitive');
   });

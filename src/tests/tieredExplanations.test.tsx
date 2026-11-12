@@ -67,13 +67,15 @@ describe('which grammar words a learner has earned', () => {
     expect(readTaughtTerms()!.size).toBe(0);
   });
 
-  it('plural comes with the unit-1 plural lesson, and the cases not before Unit 4', () => {
+  it('plural comes with the unit-2 plural lesson, and the cases not before the end of Unit 3', () => {
     seedSpine();
     completeThrough('pronouns-biti'); // done 1–3; TODAY is lesson 4, gender
     const learningGender = readTaughtTerms()!;
     expect(learningGender.has('gender')).toBe(true); // being taught today, so allowed
     expect(learningGender.has('plural')).toBe(false); // the lesson after it, not yet
-    completeThrough('time-calendar'); // the end of Unit 3
+    // 2026-11-12 restructure: plural-nouns is lesson 7 and `cases` lesson 15. Having done
+    // through present-tense-verbs (13), TODAY is negation: plural is open, cases are not.
+    completeThrough('present-tense-verbs');
     const unit3 = readTaughtTerms()!;
     expect(unit3.has('plural')).toBe(true);
     expect(unit3.has('case')).toBe(false);
@@ -235,10 +237,11 @@ describe('the endpoint tells the model to use only the taught words', () => {
   });
 });
 
-describe('the unit-1 lessons really are before the cases', () => {
-  it('plural-nouns is in Unit 1 and cases is first met in Unit 4', () => {
+describe('the early lessons really are before the cases', () => {
+  it('plural-nouns is in Unit 2 and cases is first met at the end of Unit 3', () => {
     const unitOf = (id: string) => UNITS.find((u) => u.lessons.some((l) => l.id === id))!.index;
-    expect(unitOf('plural-nouns')).toBe(1);
-    expect(unitOf('cases')).toBe(4);
+    expect(unitOf('plural-nouns')).toBe(2);
+    expect(unitOf('cases')).toBe(3);
+    expect(unitOf('plural-nouns')).toBeLessThan(unitOf('cases'));
   });
 });

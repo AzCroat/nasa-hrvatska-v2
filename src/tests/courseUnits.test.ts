@@ -50,24 +50,42 @@ function strip(s: string): string {
 describe('buildCourseUnits over the real spine', () => {
   const units = buildCourseUnits(SPINE);
 
-  it('produces six units per level and 36 in all', () => {
-    expect(units).toHaveLength(36);
+  // Level sizes are no longer uniform (the course follows the Croaticum baselines), so the
+  // unit count per level is DERIVED from the spine: ceil(lessons / UNIT_SIZE).
+  const lessonsIn = (lv: string) => SPINE.filter((e) => e.level === lv).length;
+
+  it('produces ceil(lessons / UNIT_SIZE) units per level, and no more', () => {
     for (const lv of COURSE_LEVELS) {
-      expect(units.filter((u) => u.level === lv)).toHaveLength(6);
+      expect(units.filter((u) => u.level === lv)).toHaveLength(
+        Math.ceil(lessonsIn(lv) / UNIT_SIZE),
+      );
     }
+    expect(units).toHaveLength(
+      COURSE_LEVELS.reduce((n, lv) => n + Math.ceil(lessonsIn(lv) / UNIT_SIZE), 0),
+    );
   });
 
-  it('gives every unit UNIT_SIZE lessons', () => {
+  it('gives every unit UNIT_SIZE lessons, except a level\u2019s last, which may be short but never empty', () => {
     for (const u of units) {
-      expect(u.lessons, u.id).toHaveLength(UNIT_SIZE);
+      const last = u.indexInLevel === Math.ceil(lessonsIn(u.level) / UNIT_SIZE);
+      if (last) {
+        expect(u.lessons.length, u.id).toBe(lessonsIn(u.level) - (u.indexInLevel - 1) * UNIT_SIZE);
+        expect(u.lessons.length, u.id).toBeGreaterThan(0);
+      } else {
+        expect(u.lessons, u.id).toHaveLength(UNIT_SIZE);
+      }
     }
   });
 
   it('numbers units densely from 1, in CEFR then spine order', () => {
-    expect(units.map((u) => u.index)).toEqual(Array.from({ length: 36 }, (_, i) => i + 1));
+    expect(units.map((u) => u.index)).toEqual(
+      Array.from({ length: units.length }, (_, i) => i + 1),
+    );
     // The level order is the learner's path: all of A1 before any of A2.
     expect(units.map((u) => u.level)).toEqual(
-      COURSE_LEVELS.flatMap((lv) => Array.from({ length: 6 }, () => lv)),
+      COURSE_LEVELS.flatMap((lv) =>
+        Array.from({ length: Math.ceil(lessonsIn(lv) / UNIT_SIZE) }, () => lv),
+      ),
     );
     for (const u of units) expect(u.id).toBe(`${u.level}-${u.indexInLevel}`);
   });
@@ -118,7 +136,7 @@ describe('buildCourseUnits over the real spine', () => {
   });
 
   it('finds the unit a lesson belongs to, and reports an unknown lesson as absent', () => {
-    expect(unitOfLesson(units, 'cases')?.id).toBe('A1-4');
+    expect(unitOfLesson(units, 'cases')?.id).toBe('A1-3');
     expect(unitOfLesson(units, 'jezik-i-drustvo')?.id).toBe('C2-6');
     expect(unitOfLesson(units, 'no-such-lesson')).toBeNull();
     expect(unitOfLesson(units, '')).toBeNull();
@@ -218,8 +236,8 @@ describe('courseProgress', () => {
       units.map((u) => u.id),
     );
     expect(p.currentIndex).toBeNull();
-    expect(p.unitsMastered).toBe(36);
-    expect(p.lessonsDone).toBe(180);
+    expect(p.unitsMastered).toBe(units.length);
+    expect(p.lessonsDone).toBe(SPINE.length);
     expect(p.units.every((r) => r.state === 'mastered')).toBe(true);
   });
 

@@ -130,7 +130,7 @@ describe('a passing sitting', () => {
     seed();
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-01' } } }),
+      JSON.stringify({ structure: 2, units: { 'A1-1': { passedAt: '2026-09-01' } } }),
     );
     const { award } = mount();
     await sit(paper());
@@ -167,7 +167,10 @@ describe('a passed test is half the bar, and the result says what the other half
     seed();
     localStorage.setItem(
       'nh_course_units',
-      JSON.stringify({ units: { 'A1-1': { production: { spokeAt: '2026-09-01' } } } }),
+      JSON.stringify({
+        structure: 2,
+        units: { 'A1-1': { production: { spokeAt: '2026-09-01' } } },
+      }),
     );
     mount();
     await sit(paper());
@@ -403,6 +406,7 @@ describe('a retention re-check', () => {
     localStorage.setItem(
       'nh_course_units',
       JSON.stringify({
+        structure: 2,
         units: {
           'A1-1': {
             passedAt: '2026-09-01',

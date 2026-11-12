@@ -270,8 +270,8 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // word list, and never clear, which is exactly the `idioms` dead end. So all
   // ten are authored, and the five reference screens are untouched.
   { id: 'dom', label: 'House & home', screen: 'dom', cefr: 'A2', category: 'home' },
-  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A2', category: 'health' },
-  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A2', category: 'clothing' },
+  { id: 'zdravlje', label: 'Body & health', screen: 'zdravlje', cefr: 'A1', category: 'health' },
+  { id: 'odjeca', label: 'Clothes', screen: 'odjeca', cefr: 'A1', category: 'clothing' },
   {
     id: 'izgled',
     label: 'Describing people',

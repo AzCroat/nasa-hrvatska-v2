@@ -40,6 +40,7 @@ import { recordMasteryPass, markLessonProduced } from '../lib/lessonRetention';
 import { markLessonComplete } from '../lib/curriculumProgress';
 import { readCourseState } from '../lib/courseStep';
 import { seedCourseAt, readWholeUnit } from './helpers/courseSeed';
+import { unitIndexAt } from './helpers/unitIndex';
 import LessonProduceScreen from '../components/learn/LessonProduceScreen';
 
 beforeEach(() => {
@@ -76,7 +77,7 @@ describe('the builder — which day shapes carry the produce step', () => {
   });
 
   it('a B1 unit’s lesson day keeps its conversation anchor beside the produce step (decision 3)', () => {
-    seedCourseAt(13);
+    seedCourseAt(unitIndexAt('B1'));
     const acts = buildSessionActivities('A1');
     expect(acts.some((a) => a.screen === 'lessonproduce')).toBe(true);
     expect(acts.some((a) => a.screen === 'dialogue')).toBe(true);

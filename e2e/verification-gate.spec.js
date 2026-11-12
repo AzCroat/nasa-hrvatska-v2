@@ -63,7 +63,7 @@ function seedProvisional(page) {
         production: { wroteAt: DONE, writeScore: 80, spokeAt: DONE, speakScore: 0.8 },
       };
     localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done: {} }));
-    localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+    localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
   });
 }
 

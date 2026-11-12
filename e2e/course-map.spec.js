@@ -1,5 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
+
+/** The course's unit count, derived the way courseUnits.ts chunks the spine: five per level. */
+const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
+  (n, lv) => n + Math.ceil(CURRICULUM.filter((l) => l.level === lv).length / 5),
+  0,
+);
 
 /**
  * The course map — the structural surface the app never had.
@@ -32,8 +39,8 @@ test.describe('Course map', () => {
     // prefixes `course-unit-test-*`, `course-unit-locked-*` and
     // `course-unit-mastered-*`, so the prefix form counted 37 once the open unit
     // started rendering its test offer. Only a unit ROW carries the state attribute.
-    await expect(page.locator('[data-unit-state]')).toHaveCount(36);
-    await expect(page.getByText('Unit 1 of 36')).toBeVisible();
+    await expect(page.locator('[data-unit-state]')).toHaveCount(TOTAL_UNITS);
+    await expect(page.getByText(`Unit 1 of ${TOTAL_UNITS}`)).toBeVisible();
     await expect(page.getByTestId('course-lessons-count')).toContainText('/ 180 lessons');
   });
 
@@ -192,7 +199,7 @@ test.describe('Unit production', () => {
         // Unit A1-1's test passed, production owed.
         localStorage.setItem(
           'nh_course_units',
-          JSON.stringify({ units: { 'A1-1': { passedAt: '2026-09-20' } } }),
+          JSON.stringify({ structure: 2, units: { 'A1-1': { passedAt: '2026-09-20' } } }),
         );
       } catch {
         /* storage blocked — the test fails visibly rather than silently */
@@ -257,6 +264,7 @@ test.describe('Retention check-up', () => {
         localStorage.setItem(
           'nh_course_units',
           JSON.stringify({
+            structure: 2,
             units: {
               'A1-1': {
                 passedAt: '2026-09-01',
@@ -283,7 +291,9 @@ test.describe('Retention check-up', () => {
       'data-unit-state',
       'current',
     );
-    await expect(page.getByTestId('course-units-mastered')).toHaveText('0 of 36 units mastered');
+    await expect(page.getByTestId('course-units-mastered')).toHaveText(
+      `0 of ${TOTAL_UNITS} units mastered`,
+    );
     // The unit's own line says what it is waiting for, and — because this ladder is
     // seeded DUE — the promise comes with the button that keeps it. Asserting the
     // due wording rather than the waiting wording is deliberate: a line reading
@@ -307,6 +317,7 @@ test.describe('Retention check-up', () => {
         localStorage.setItem(
           'nh_course_units',
           JSON.stringify({
+            structure: 2,
             units: {
               'A1-1': {
                 passedAt: '2026-09-01',
@@ -389,7 +400,7 @@ test.describe('Level review', () => {
               speakScore: 0.8,
             },
           };
-        localStorage.setItem('nh_course_units', JSON.stringify({ units }));
+        localStorage.setItem('nh_course_units', JSON.stringify({ structure: 2, units }));
       } catch {
         /* storage blocked — the test fails visibly rather than silently */
       }

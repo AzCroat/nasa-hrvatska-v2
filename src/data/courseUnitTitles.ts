@@ -1,13 +1,13 @@
 // src/data/courseUnitTitles.ts
 //
-// THE 36 UNIT NAMES (Step 3, 2026-09-26).
+// THE UNIT NAMES (Step 3, 2026-09-26).
 //
 // The ONLY authored part of the course structure. Units themselves are derived
 // by chunking the spine (see src/lib/courseUnits.ts) precisely so that 180
 // lesson ids are not restated in a second file that can drift; a name, though,
 // cannot be derived from five lesson titles without reading like a list.
 //
-// So this is 36 strings, and the drift risk they carry is answered by a test
+// So this is a short list of strings, and the drift risk they carry is answered by a test
 // rather than by a comment: `courseUnitTitles.test.ts` pins every unit's FIRST
 // and LAST lesson id, so a spine reorder that changes what a unit spans fails
 // and NAMES the unit whose title has to be re-read. A title describing five
@@ -26,91 +26,101 @@ export interface CourseUnitTitle {
 
 /** Keyed by unit id — level + 1-based position in level, e.g. 'A1-4'. */
 export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
-  // ── A1 ────────────────────────────────────────────────────────────────────
+  // ── A1 ──────────────────────────────────────────────────────────────────────
   'A1-1': {
-    title: 'Sounds, Hellos and Naming Things',
-    subtitle: 'Read any Croatian word aloud, say who you are, and make a noun plural.',
+    title: 'Sounds, Hellos and Who You Are',
+    subtitle: 'Read any Croatian word aloud, greet people, say who you are, and point at things.',
   },
   'A1-2': {
-    title: 'Asking, Doing, Denying, Describing',
-    subtitle: 'Ask a question, use any regular verb, say no, and make a describing word agree.',
+    title: 'Asking, Counting and Belonging',
+    subtitle:
+      'Ask a question, say where you are from, count, tell the time, and say whose something is.',
   },
   'A1-3': {
-    title: 'People, Places and Numbers',
-    subtitle: 'Point at things, introduce your family, say where you are from, and tell the time.',
+    title: 'Family, Describing and Doing',
+    subtitle:
+      'Introduce your family, describe things, use any regular verb, say no, and learn what a case is.',
   },
   'A1-4': {
-    title: 'The Cases Begin (Padeži)',
-    subtitle:
-      'Learn what a case is, then use the accusative and the locative — and the prepositions that demand them.',
+    title: 'The Accusative and Everyday Needs',
+    subtitle: 'Say what you have, want and can do, name the days, and order food and drink.',
   },
   'A1-5': {
-    title: 'Belonging, Addressing, Asking',
+    title: 'Shopping, Places and the Past',
     subtitle:
-      'Use the genitive and the vocative, say what you can and must do, and give an instruction.',
+      'Buy clothes, ask a price, say where things are, and talk about what already happened.',
   },
   'A1-6': {
-    title: 'Out in the World',
-    subtitle: 'Order food, ask a price, find your way, and talk about the weather.',
+    title: 'Weather, the Future and Giving',
+    subtitle:
+      'Ask and deny in the past, talk about weather and tomorrow, and say who you give things to.',
+  },
+  'A1-7': {
+    title: 'Yourself, With Others, Of Things',
+    subtitle:
+      'Use reflexive verbs, say what you like, say who you are with, and use the genitive for amounts and belonging.',
+  },
+  'A1-8': {
+    title: 'Dates, Health, Commands and Directions',
+    subtitle:
+      'Give a date, say what hurts, give an instruction, address a person, and find your way.',
   },
 
-  // ── A2 ────────────────────────────────────────────────────────────────────
+  // ── A2 ──────────────────────────────────────────────────────────────────────
   'A2-1': {
-    title: 'Address, Objects and the Dative',
-    subtitle: 'Choose between ti and Vi, replace a noun with a pronoun, and use the dative.',
+    title: 'Address, Agreement and Possession',
+    subtitle:
+      'Choose between ti and Vi, make adjectives agree, use svoj, and put objects in the accusative.',
   },
   'A2-2': {
-    title: 'Agreement and the Instrumental',
+    title: 'Plural, Place and Home',
     subtitle:
-      'Say who you are with, make adjectives agree in every case, and use svoj — the possessive English does not have.',
+      'Use the cases in the plural, choose the right preposition for an action, and describe where you live.',
   },
   'A2-3': {
-    title: 'Talking About Yesterday',
-    subtitle: 'Build the past tense, ask and deny in it, give a date, and count things properly.',
+    title: 'People, Work and Study',
+    subtitle:
+      'Describe a person, talk about work and study, choose between the two aspects, and say what you must do.',
   },
   'A2-4': {
-    title: 'Comparing and Joining',
-    subtitle:
-      'Compare two things, join two clauses, and say “the one that…” without repeating yourself.',
+    title: 'Comparing, Joining and Free Time',
+    subtitle: 'Compare two things, join two clauses, say “the one that…”, and talk about hobbies.',
   },
   'A2-5': {
-    title: 'Home, Body and Work',
-    subtitle: 'Describe where you live, say what hurts, and talk about what you do all day.',
-  },
-  'A2-6': {
     title: 'Plans, Travel and Celebrations',
-    subtitle: 'Make an arrangement, buy a ticket, and know what to say on a Croatian holiday.',
+    subtitle:
+      'Make an arrangement, buy a ticket, say what is done without naming who did it, and greet on a holiday.',
   },
 
-  // ── B1 ────────────────────────────────────────────────────────────────────
+  // ── B1 ──────────────────────────────────────────────────────────────────────
   'B1-1': {
-    title: 'The Cases in Depth, and the Future',
+    title: 'The Cases in Depth and Aspect',
     subtitle:
-      'Use every case with confidence, count correctly, and talk about what is going to happen.',
+      'Use the genitive and instrumental with confidence, count nouns correctly, and start choosing between aspects.',
   },
   'B1-2': {
-    title: 'Verb Aspect — the Central Idea',
+    title: 'Aspect, Prefixes and Movement',
     subtitle:
-      'Choose between the two verbs Croatian has for one English verb, and read what a prefix does to a verb.',
+      'Choose perfective or imperfective, read what a prefix does to a verb, and come, go and put things correctly.',
   },
   'B1-3': {
-    title: 'Movement, Position and Sequence',
-    subtitle: 'Come and go correctly, put things places, and sequence two events in one sentence.',
+    title: 'Time, Conditions and Reports',
+    subtitle:
+      'Sequence events in one sentence, give a real condition, say why, report what someone said, and say “the one who…”.',
   },
   'B1-4': {
-    title: 'Reasons, Reports and Stories',
+    title: 'Stories, Opinions and Problems',
     subtitle:
-      'Say if, why and what someone else told you — then narrate an event from start to finish.',
+      'Narrate an event, say what you think and feel, complain properly, and deal with an office.',
   },
   'B1-5': {
-    title: 'Opinions, Feelings and Getting Things Done',
+    title: 'Home, Work and the World',
     subtitle:
-      'Say what you think, how you feel, and what has gone wrong — at the bank, the office and the flat.',
+      'Rent a flat, handle a job interview, follow the news, and talk about technology and nature.',
   },
   'B1-6': {
-    title: 'The World You Read About',
-    subtitle:
-      'Handle an interview, follow a news report, and talk about technology, nature and food.',
+    title: 'Food and Cooking',
+    subtitle: 'Talk about food and cooking, from a recipe to a restaurant table.',
   },
 
   // ── B2 ────────────────────────────────────────────────────────────────────

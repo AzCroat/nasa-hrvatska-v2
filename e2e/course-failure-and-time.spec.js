@@ -2,7 +2,7 @@
  * course-failure-and-time.spec.js — the paths a learner meets when things go WRONG or
  * TIME PASSES (2026-09-30).
  *
- * `course-full-walk.spec.js` walks all 36 units with every answer right and "a new day"
+ * `course-full-walk.spec.js` walks every unit with every answer right and "a new day"
  * simulated by dropping the persisted plan. That cannot reach anything the calendar
  * decides: the same-day lock on a failed check, the corrective day, the 7- and 30-day
  * check-ups. So this spec moves the BROWSER'S CALENDAR (a whole-day offset on `Date`,
@@ -31,6 +31,8 @@ const UNITS = LEVELS.flatMap((lv) => {
     out.push({ id: `${lv}-${i / 5 + 1}`, level: lv, lessons: ids.slice(i, i + 5) });
   return out;
 });
+const TOTAL_UNITS = UNITS.length;
+const A1_UNITS = UNITS.filter((u) => u.level === 'A1').length;
 const LESSON = new Map(LESSONS_FIXTURE.map((l) => [l.id, l]));
 
 const keyOf = (q, opts) => `${q.trim()}||${[...opts].sort().join('|')}`;
@@ -138,7 +140,10 @@ async function setup(page, { seedUnits = [], seedReviews = [], seedDone = [] } =
         const reviews = {};
         for (const lv of levels) reviews[lv] = { doneAt: today, firstTryCorrect: 18, total: 18 };
         localStorage.setItem('nh_curriculum_progress', JSON.stringify({ done }));
-        localStorage.setItem('nh_course_units', JSON.stringify({ units: u, reviews }));
+        localStorage.setItem(
+          'nh_course_units',
+          JSON.stringify({ structure: 2, units: u, reviews }),
+        );
       },
       [units, seedReviews, seedDone],
     );
@@ -349,7 +354,7 @@ test.describe('When a learner fails, and when time passes', () => {
     const lesson = 'alphabet';
 
     // ── Day 0: Home opens the first lesson; the learner fails its check. ──
-    await beginFromHome(page, 'Unit 1 of 36');
+    await beginFromHome(page, `Unit 1 of ${TOTAL_UNITS}`);
     const xpBefore = await xpNow(page);
     const seenA = [];
     expect(await driveLesson(page, lesson, 'fail', seenA)).toBe('failed');
@@ -533,7 +538,9 @@ test.describe('When a learner fails, and when time passes', () => {
     await openMap(page);
     expect(await unitState(page, 'A1-1'), 'one check-up held is not mastery').toBe('cleared');
     await expect(page.getByTestId('course-unit-recheck-A1-1')).toHaveCount(0);
-    await expect(page.getByTestId('course-units-mastered')).toHaveText('0 of 36 units mastered');
+    await expect(page.getByTestId('course-units-mastered')).toHaveText(
+      `0 of ${TOTAL_UNITS} units mastered`,
+    );
 
     // Thirty days after that: the second check-up.
     await advanceDays(29);
@@ -552,7 +559,9 @@ test.describe('When a learner fails, and when time passes', () => {
     expect(r?.heldAt).toBeTruthy();
     await openMap(page);
     expect(await unitState(page, 'A1-1')).toBe('mastered');
-    await expect(page.getByTestId('course-units-mastered')).toHaveText('1 of 36 units mastered');
+    await expect(page.getByTestId('course-units-mastered')).toHaveText(
+      `1 of ${TOTAL_UNITS} units mastered`,
+    );
     // A check-up pays no XP; it confirms.
     expect(await xpNow(page)).toBe(xpBefore);
     expect(errs).toEqual([]);
@@ -575,7 +584,9 @@ test.describe('When a learner fails, and when time passes', () => {
     await openMap(page);
     expect(await unitState(page, 'A1-1')).toBe('cleared');
     expect(await unitState(page, 'A1-2')).toBe('current');
-    await expect(page.getByTestId('course-units-mastered')).toHaveText('0 of 36 units mastered');
+    await expect(page.getByTestId('course-units-mastered')).toHaveText(
+      `0 of ${TOTAL_UNITS} units mastered`,
+    );
 
     // The same day it is not served again; the next day it is.
     await openHome(page);
@@ -598,12 +609,12 @@ test.describe('When a learner fails, and when time passes', () => {
     page,
   }) => {
     test.setTimeout(20 * 60_000);
-    const last = UNITS.find((u) => u.id === 'A1-6');
+    const last = UNITS.find((u) => u.id === `A1-${A1_UNITS}`);
     const { errs, advanceDays } = await setup(page, {
-      seedUnits: ['A1-1', 'A1-2', 'A1-3', 'A1-4', 'A1-5'],
+      seedUnits: Array.from({ length: A1_UNITS - 1 }, (_, i) => `A1-${i + 1}`),
     });
     // Fail the unit's first lesson from Home; pass it the next day, corrected.
-    await beginFromHome(page, 'Unit 6 of 36');
+    await beginFromHome(page, `Unit ${A1_UNITS} of ${TOTAL_UNITS}`);
     expect(await driveLesson(page, last.lessons[0], 'fail')).toBe('failed');
     await advanceDays(1);
     await beginFromHome(page, `Again: ${titleOf(last.lessons[0])}`);
@@ -656,7 +667,7 @@ test.describe('When a learner fails, and when time passes', () => {
     test.setTimeout(10 * 60_000);
     const { errs, advanceDays } = await setup(page);
     const lesson = 'alphabet';
-    await beginFromHome(page, 'Unit 1 of 36');
+    await beginFromHome(page, `Unit 1 of ${TOTAL_UNITS}`);
     expect(await driveLesson(page, lesson, 'fail')).toBe('failed');
 
     // The corrective day fails again: the produce slot cannot be done today.

@@ -1,5 +1,5 @@
 /**
- * courseUnitTitles — the 36 authored names, held to the lessons they describe.
+ * courseUnitTitles — the authored names, held to the lessons they describe.
  *
  * THE DRIFT THIS EXISTS TO CATCH, and it is the reason the units themselves are
  * derived rather than listed. A unit's membership comes from chunking the spine,
@@ -23,26 +23,27 @@ import type { CurriculumEntry } from '../lib/curriculum';
 
 const units = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[], COURSE_UNIT_TITLES);
 
-/** [first lesson id, last lesson id] per unit — frozen on 2026-09-26. */
+/** [first lesson id, last lesson id] per unit — re-frozen on 2026-11-12 for the Croaticum-baseline restructure. */
 const BOUNDARIES: Readonly<Record<string, readonly [string, string]>> = {
-  'A1-1': ['alphabet', 'plural-nouns'],
+  'A1-1': ['alphabet', 'demonstratives'],
   'A1-2': ['basic-questions', 'possessives'],
-  'A1-3': ['demonstratives', 'time-calendar'],
-  'A1-4': ['cases', 'prepositions-place'],
-  'A1-5': ['genitive-intro', 'reflexive-verbs'],
-  'A1-6': ['likes-preferences', 'weather-seasons'],
-  'A2-1': ['present', 'dative-intro'],
-  'A2-2': ['instrumental-intro', 'plural-cases'],
-  'A2-3': ['quantity', 'adverbs'],
-  'A2-4': ['comparatives-a2', 'indefinites'],
-  'A2-5': ['house-home', 'work-jobs'],
-  'A2-6': ['school-studies', 'celebrations-holidays'],
-  'B1-1': ['genitive-deep', 'future-tense'],
-  'B1-2': ['time-duration', 'verb-prefixes'],
-  'B1-3': ['motion-verbs', 'time-clauses'],
-  'B1-4': ['real-conditions', 'telling-a-story'],
-  'B1-5': ['opinions-agreeing', 'renting-flat'],
-  'B1-6': ['job-interview', 'food-cooking'],
+  'A1-3': ['family-people', 'cases'],
+  'A1-4': ['accusative-intro', 'food-drink'],
+  'A1-5': ['clothes-appearance', 'past-tense'],
+  'A1-6': ['past-questions-negation', 'object-pronouns'],
+  'A1-7': ['reflexive-verbs', 'quantity'],
+  'A1-8': ['ordinals-dates', 'directions-town'],
+  'A2-1': ['present', 'accusative-deep'],
+  'A2-2': ['plural-cases', 'house-home'],
+  'A2-3': ['describing-people', 'modal-verbs-a2'],
+  'A2-4': ['comparatives-a2', 'hobbies-free-time'],
+  'A2-5': ['travel-transport', 'impersonal'],
+  'B1-1': ['genitive-deep', 'aspect-imperfective'],
+  'B1-2': ['aspect-perfective', 'infinitive-vs-da'],
+  'B1-3': ['time-clauses', 'relative-deep'],
+  'B1-4': ['telling-a-story', 'bureaucracy'],
+  'B1-5': ['renting-flat', 'environment-nature'],
+  'B1-6': ['food-cooking', 'food-cooking'],
   'B2-1': ['clitics', 'aspect-negation'],
   'B2-2': ['participial-adjectives', 'unreal-conditions'],
   'B2-3': ['wishes-regrets', 'prepositions-advanced'],

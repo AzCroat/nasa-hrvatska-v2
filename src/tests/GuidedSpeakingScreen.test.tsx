@@ -394,7 +394,8 @@ describe('the unit level follows the course when launched from the session', () 
 
   it('session-launched: an A1-XP learner standing on an A2 unit speaks at A2', async () => {
     const { seedCourseAt } = await import('./helpers/courseSeed');
-    seedCourseAt(7);
+    const { unitIndexAt } = await import('./helpers/unitIndex');
+    seedCourseAt(unitIndexAt('A2'));
     sessionStorage.setItem('nh_session_started', 'speaking_guided');
     render(<GuidedSpeakingScreen goBack={vi.fn()} award={vi.fn()} />);
     expect(screen.getByTestId('gs-task')).toHaveTextContent(speakingUnitsForLevel('A2')[0]!.prompt);
@@ -402,7 +403,8 @@ describe('the unit level follows the course when launched from the session', () 
 
   it('opened from the Practice tab: the same learner keeps their own A1 unit', async () => {
     const { seedCourseAt } = await import('./helpers/courseSeed');
-    seedCourseAt(7);
+    const { unitIndexAt } = await import('./helpers/unitIndex');
+    seedCourseAt(unitIndexAt('A2'));
     render(<GuidedSpeakingScreen goBack={vi.fn()} award={vi.fn()} />);
     expect(screen.getByTestId('gs-task')).toHaveTextContent(UNIT.prompt);
   });
