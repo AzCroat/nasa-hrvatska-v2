@@ -92,7 +92,12 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
     // THE COURSE OPENS ONE UNIT AT A TIME. Unit 2 waits on unit 1's test.
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
-    expect(screen.getByTestId('course-unit-C2-6').getAttribute('data-unit-state')).toBe('locked');
+    // The course's final unit, derived — its id moves whenever a level is re-chunked.
+    expect(
+      screen
+        .getByTestId(`course-unit-${UNITS[UNITS.length - 1]!.id}`)
+        .getAttribute('data-unit-state'),
+    ).toBe('locked');
     expect(screen.getByText(`Unit 1 of ${UNITS.length}`)).toBeTruthy();
     expect(screen.getByTestId('course-lessons-count').textContent).toBe(
       `0 / ${SPINE.length} lessons`,

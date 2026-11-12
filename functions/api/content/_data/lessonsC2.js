@@ -533,7 +533,7 @@ export const LESSONS_C2 = [
   {
     id: 'sklonidba-iznimke',
     title: 'The Declensions That Fight Back',
-    level: 'C2',
+    level: 'C1',
     subtitle: 'Foreign names, proper nouns, and the nouns that refuse the pattern',
     icon: '🧩',
     duration: '~7 min',
@@ -776,7 +776,7 @@ export const LESSONS_C2 = [
   {
     id: 'brojevi-norma',
     title: 'Numbers, Dates and Measurements',
-    level: 'C2',
+    level: 'C1',
     subtitle: 'The conventions formal Croatian applies to everything countable',
     icon: '📐',
     duration: '~6 min',
@@ -1024,7 +1024,7 @@ export const LESSONS_C2 = [
   {
     id: 'slaganje-suptilnosti',
     title: 'Agreement When the Subject Is Complicated',
-    level: 'C2',
+    level: 'C1',
     subtitle: 'Coordinated subjects, collectives, and what the verb does about them',
     icon: '🔗',
     duration: '~6 min',
@@ -1251,7 +1251,7 @@ export const LESSONS_C2 = [
   {
     id: 'padezne-suptilnosti',
     title: 'Case at the Margins',
-    level: 'C2',
+    level: 'C1',
     subtitle: 'Genitive under negation, the partitive, and cases that carry meaning alone',
     icon: '🎚️',
     duration: '~7 min',

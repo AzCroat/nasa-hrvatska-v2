@@ -80,6 +80,31 @@ async function* walk(dir) {
  * end that had already been fixed.
  */
 export const CENSUS_EXEMPT = new Map([
+  // The can-do statements (2026-11-12): the croatianMorphology arrangement, checked in their own test.
+  [
+    'src/data/canDo/A1.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
+  [
+    'src/data/canDo/A2.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
+  [
+    'src/data/canDo/B1.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
+  [
+    'src/data/canDo/B2.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
+  [
+    'src/data/canDo/C1.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
+  [
+    'src/data/canDo/C2.ts',
+    'checked IN-TEST by courseUnitCanDo.test.tsx (findSerbism and containsCyrillic over every statement), because the Croatian sits inside English prose no field matcher can isolate',
+  ],
   [
     'src/components/practice/dialogueScenarios.js',
     'walked STRUCTURALLY by lessonStrings-style traversal, because only the data knows which option is the correct one',

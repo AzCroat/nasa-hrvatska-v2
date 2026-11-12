@@ -30,6 +30,7 @@ vi.mock('../lib/cefrCertification', () => ({
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
+const { ORDER_B2 } = await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 
 const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
@@ -82,8 +83,9 @@ describe('B2 covers the structures the level was missing', () => {
     expect(orderOf.has('i-declension')).toBe(true);
   });
 
-  it('reaches the 30-lesson target', () => {
-    expect(b2Lessons.length).toBeGreaterThanOrEqual(30);
+  it('keeps its restructured size (ORDER_B2, 65 lessons)', () => {
+    expect(ORDER_B2.length).toBeGreaterThanOrEqual(65);
+    expect(b2Lessons.length).toBeGreaterThanOrEqual(ORDER_B2.length);
     expect(b2Spine.length).toBe(b2Lessons.length);
   });
 });
@@ -134,7 +136,9 @@ describe('the sequence does not put a lesson before what it needs', () => {
     // Argument machinery before the things that use it.
     ['concession-contrast', 'complex-sentences'],
     ['argument-structure', 'concession-contrast'],
-    ['hedging-precision', 'argument-structure'],
+    // Restructure (2026-11-12): hedging is taught after modal nuance and before the
+    // argument lesson, and now requires modal-nuance rather than argument-structure.
+    ['hedging-precision', 'modal-nuance'],
     ['presentations', 'argument-structure'],
     ['meetings-negotiation', 'presentations'],
     ['formal-email', 'writing-registers'],

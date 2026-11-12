@@ -26,6 +26,7 @@ vi.mock('../lib/cefrCertification', () => ({
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
+const { ORDER_B1 } = await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
 
@@ -82,11 +83,20 @@ describe('B1 covers what the level descriptor actually asks for', () => {
     expect(levelOf.get('impersonal')).toBe('A2');
   });
 
-  // B1 was 30 lessons; after the restructure it is the B1 half of Razgovarajte
-  // A2-B1 (26 lessons) and grows as lessons are written. A floor, so it cannot
-  // shrink silently.
+  // Moved UP from A2 by the 2026-11-12 restructure; they must stay B1 lessons.
+  it.each(['comparatives-a2', 'conjunctions', 'relative-koji', 'indefinites'])(
+    'teaches %s, moved up from A2',
+    (id) => {
+      expect(levelOf.get(id)).toBe('B1');
+      expect(b1Lessons.some((l) => l.id === id)).toBe(true);
+    },
+  );
+
+  // The restructured B1 is 50 lessons (ORDER_B1 in levelOrders.js). A floor, so it
+  // cannot shrink silently.
   it('keeps a floor on the level size', () => {
-    expect(b1Lessons.length).toBeGreaterThanOrEqual(26);
+    expect(b1Lessons.length).toBeGreaterThanOrEqual(ORDER_B1.length);
+    expect(ORDER_B1.length).toBeGreaterThanOrEqual(50);
     expect(b1Spine.length).toBe(b1Lessons.length);
   });
 });
@@ -103,6 +113,15 @@ describe('B1 is not only grammar', () => {
     'technology-internet',
     'environment-nature',
     'food-cooking',
+    // Added by the 2026-11-12 restructure (Razgovarajte B1 units).
+    'character-traits',
+    'appearance-compliments',
+    'job-application',
+    'satisfaction-disappointment',
+    'feelings-inner-life',
+    'names-and-meanings',
+    'love-and-marriage',
+    'croats-abroad',
   ];
 
   it.each(FUNCTIONAL)('teaches %s', (id) => {
@@ -124,16 +143,19 @@ describe('the sequence does not put a lesson before what it needs', () => {
     ['real-conditions', 'time-clauses'],
     ['cause-purpose', 'real-conditions'],
     ['reported-speech', 'infinitive-vs-da'],
-    ['relative-deep', 'reported-speech'],
-    // Narration needs both the reporting and the perfective.
-    ['telling-a-story', 'reported-speech'],
+    // Restructure (2026-11-12): relative-deep builds on relative-koji, which moved up
+    // from A2; it no longer requires reported-speech, which the book teaches later.
+    ['relative-deep', 'relative-koji'],
+    ['relative-koji', 'conjunctions'],
+    // Narration needs the perfective. (It no longer requires reported-speech: the
+    // book narrates before it reports.)
     ['telling-a-story', 'aspect-perfective'],
     // Prefixes are perfectivising, so they follow the aspect lessons.
     ['verb-prefixes', 'aspect-perfective'],
     // The functional lessons lean on the machinery.
     ['bureaucracy', 'impersonal'],
     ['renting-flat', 'bureaucracy'],
-    ['media-news', 'reported-speech'],
+    ['media-news', 'telling-a-story'],
   ];
 
   it.each(AFTER)('%s comes after %s', (later, earlier) => {
@@ -401,7 +423,8 @@ describe('a B1 lesson day still teaches STRUCTURE', () => {
     }
   });
 
-  it('the exemption list stays small — two of thirty', () => {
+  it('the exemption list stays small — two of fifty', () => {
+    // Three until 2026-11-12, when the indefinites drill was regrouped as structural.
     expect(Object.keys(LEXICAL_B1_LESSONS).length).toBe(2);
   });
 });

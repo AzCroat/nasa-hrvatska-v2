@@ -21,6 +21,8 @@
 //   - the greeting is bog (owner decision, 2026-07).
 // Scanned by lintCroatianText.mjs through the assembled LESSONS, both checks.
 
+import { PRACTICE_B1_NEW } from './b1new/index.js';
+
 export const PRACTICE_B1 = {
   aspect: {
     worked: [
@@ -6104,4 +6106,5 @@ export const PRACTICE_B1 = {
       ['zdjela', 'bowl', 'Umutite jaja u zdjeli.'],
     ],
   },
+  ...PRACTICE_B1_NEW,
 };

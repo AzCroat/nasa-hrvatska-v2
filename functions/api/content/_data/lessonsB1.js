@@ -28,6 +28,8 @@
 // AUTHORING RULES — see CLAUDE.md → Croatian Content Authoring.
 
 /** @type {ReadonlyArray<object>} */
+import { LESSONS_B1_NEW } from './b1new/index.js';
+
 export const LESSONS_B1 = [
   // ─────────────────────────────────────────────────────────
   // Time and Duration
@@ -5008,4 +5010,5 @@ export const LESSONS_B1 = [
       },
     ],
   },
+  ...LESSONS_B1_NEW,
 ];

@@ -22,6 +22,8 @@
 // review on a pass.
 // Scanned by lintCroatianText.mjs through the assembled LESSONS, both checks.
 
+import { PRACTICE_A2_NEW } from './a2new/index.js';
+
 export const PRACTICE_A2 = {
   present: {
     worked: [
@@ -6183,4 +6185,5 @@ export const PRACTICE_A2 = {
       ['kolač', 'cake', 'Donijela sam kolač.'],
     ],
   },
+  ...PRACTICE_A2_NEW,
 };

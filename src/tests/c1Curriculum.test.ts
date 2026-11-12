@@ -33,6 +33,7 @@ vi.mock('../lib/cefrCertification', () => ({
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
+const { ORDER_C1 } = await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP } = await import('../lib/categoryRoutes');
 const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
@@ -87,8 +88,9 @@ describe('C1 covers the structures the level was missing', () => {
     }
   });
 
-  it('reaches the 30-lesson target', () => {
-    expect(c1Lessons.length).toBeGreaterThanOrEqual(30);
+  it('keeps its restructured size (ORDER_C1, 65 lessons)', () => {
+    expect(ORDER_C1.length).toBeGreaterThanOrEqual(65);
+    expect(c1Lessons.length).toBeGreaterThanOrEqual(ORDER_C1.length);
     expect(c1Spine.length).toBe(c1Lessons.length);
   });
 });
@@ -127,10 +129,16 @@ describe('C1 teaches use, not only structure', () => {
   });
 
   it('keeps a functional share — C1 is not a grammar level', () => {
-    // Half the level is use rather than form. A C1 learner who only ever met
-    // more grammar would have no reason to believe the level had moved on.
+    // A C1 learner who only ever met more grammar would have no reason to believe
+    // the level had moved on. The floor was 0.35 of 30 lessons. The 2026-11-12
+    // Croaticum restructure took C1 to 65 by ADDING grammar (clause types, case
+    // idioms, collectives, orthography, the six lessons moved down from C2) while
+    // keeping all twelve use lessons, so the share is now 12/65 ≈ 0.18. The floor
+    // follows the measured share; the twelve lessons are each pinned above, and the
+    // absolute count must not fall either.
     const functional = [...PROFESSIONAL, ...DOMAIN];
-    expect(functional.length / c1Lessons.length).toBeGreaterThanOrEqual(0.35);
+    expect(functional.filter((id) => orderOf.has(id)).length).toBeGreaterThanOrEqual(12);
+    expect(functional.length / c1Lessons.length).toBeGreaterThanOrEqual(0.18);
   });
 });
 
@@ -144,7 +152,9 @@ describe('the sequence does not put a lesson before what it needs', () => {
     // Word formation before the things that are word formation applied.
     ['diminutives-augmentatives', 'tvorba-rijeci'],
     ['science-technology', 'tvorba-rijeci'],
-    ['collocations', 'tvorba-rijeci'],
+    // Restructure (2026-11-12): collocations now sits before tvorba-rijeci and
+    // requires condensation instead.
+    ['collocations', 'condensation'],
     ['translation-pitfalls', 'collocations'],
     // Argument machinery.
     ['debate-persuasion', 'discourse-particles'],
@@ -480,6 +490,13 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
     'regional-varieties': 'dialect awareness — a reading/listening topic (0/24)',
     'language-identity': 'the Croatian/Serbian contrast, taught as comparison (0/24)',
     'diaspora-identity': 'diaspora vocabulary and usage (8/24, all lexical)',
+    // Moved C2 → C1 on 2026-11-12 with its entry from c2Curriculum: InterpunkcijaDrill is
+    // hyphen-vs-dash, quotation marks and colons — typography, not clause boundaries.
+    'zarez-interpunkcija': 'punctuation drill is typography (dash, quotes, colon), not syntax',
+    // New in the restructure: capital letters in names per Hrvatski pravopis. Orthography,
+    // like the punctuation drill — which word of a name is capitalised, not a form.
+    'capitals-names-geography': 'orthography — capital letters in personal and place names',
+    'capitals-institutions': 'orthography — capital letters in institution and event names',
   };
 
   const bareLessonDays = (): string[] =>
@@ -528,7 +545,7 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
     }
   });
 
-  it('the list stays at 16 of thirty', () => {
-    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(16);
+  it('the list stays at 19 of sixty-five', () => {
+    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(19);
   });
 });

@@ -8,43 +8,84 @@
 // functions/api/content/_data/curriculum.js — plain learner-facing English, concrete
 // and observable, beginning "I can …". A statement is a claim about five lessons, so
 // if a spine reorder moves a lesson between units, these must be re-read.
-//
-//   B2-1 clitics, i-declension, aspect-suffixes, aspect-with-verbs, aspect-negation
-//   B2-2 participial-adjectives, passive-voice, verbal-adverbs, conditional, unreal-conditions
-//   B2-3 wishes-regrets, modal-nuance, complex-sentences, concession-contrast, prepositions-advanced
-//   B2-4 degrees-intensity, negation-advanced, argument-structure, hedging-precision, abstract-topics
-//   B2-5 writing-registers, formal-email, presentations, meetings-negotiation, business-economy
-//   B2-6 politics-society, small-talk-fluency, humour-irony, language-history, literature-canon
 
 export const CAN_DO_B2: Readonly<Record<string, readonly string[]>> = {
+  // noun-peculiarities-a · present-ati-tricky · aspect-suffixes · false-friends · literacy-and-language
   'B2-1': [
-    'I can put short pronouns and auxiliaries in second position and order a cluster of them correctly (Dao sam mu ga).',
-    'I can decline feminine nouns that end in a consonant, such as stvar, noć and every -ost noun.',
-    'I can choose the aspect a phase verb, a modal or a negative command demands, and turn a perfective back into an imperfective (zapisati → zapisivati).',
+    'I can form tricky plurals such as gradovi, dani, ljudi and oči.',
+    'I can conjugate pisati, slati and zvati and make a perfective verb imperfective again.',
+    'I can avoid false friends such as aktualan and eventualno.',
   ],
+  // noun-peculiarities-e · present-ivati-nuti · aspect-with-verbs · internet-society · language-history
   'B2-2': [
-    'I can build a passive participle (napisan, otvoren, plaćen), decline it like an adjective, and form the passive both ways Croatian allows.',
-    'I can read the -ći and -vši verbal adverbs in written Croatian and use dok when the subjects differ.',
-    'I can say what I would do, and what would have happened if things had been different, choosing da for an unreal condition and ako for a real one.',
+    'I can form sestara and djevojaka, ruci and knjizi, and address women in the vocative.',
+    'I can conjugate kupovati and potpisivati and pick the right aspect after a modal or phase verb.',
+    'I can discuss the pros and cons of the internet and name the three dialect groups.',
   ],
+  // internationalisms · aspect-negation · human-rights · clitics · politics-society
   'B2-3': [
-    'I can express a wish or a regret (Da barem…, Trebao sam…) and tell should from should have.',
-    'I can calibrate advice, obligation and permission with morati, trebati, moći and smjeti.',
-    'I can join clauses with da, koji, jer and iako, concede a point before disagreeing, and read prepositions that take more than one case (za stolom, po kruh).',
+    'I can decline international words such as organizacija and turizam.',
+    'I can place a whole cluster of clitics in second position.',
+    'I can discuss human rights and follow Croatian political reporting.',
   ],
+  // relative-pronouns-cases · predicate-instrumental · comparative-idioms · reading-culture · literature-canon
   'B2-4': [
-    'I can say how much and how precisely, from jedva to krajnje, including sve više and Što prije, to bolje.',
-    'I can give the advantages and disadvantages of an option, opening with Što se tiče… and closing with Sve u svemu….',
-    'I can hedge or attribute a claim (Rekao bih da…, navodno) and deny precisely with ni… ni… and ne samo… nego i….',
+    'I can use koji in every case, as in knjiga koju sam ti dao.',
+    'I can say what someone became or is considered with the instrumental: postao je ravnateljem.',
+    'I can use idioms such as gladan kao vuk and talk about a Croatian novel.',
   ],
+  // indefinite-pronouns-cases · body-part-nouns · degrees-intensity · colloquialisms · health-prevention
   'B2-5': [
-    'I can write a formal email that opens with Poštovani, keeps the V-form throughout and closes with the right sign-off.',
-    'I can give a short presentation, signposting each part and closing with Hvala na pažnji.',
-    'I can take a turn in a meeting, propose with Predlažem da…, and read the business pages with words like dobit, gubitak and gospodarstvo.',
+    'I can use nitko and ništa in every case, as in ni s kim.',
+    'I can say what hurts and talk about staying healthy: Bole me oči.',
+    'I can understand common slang such as lova and klopa and give the standard word.',
   ],
+  // agreement-special-nouns · quantity-agreement · i-declension · family-changes · small-talk-fluency
   'B2-6': [
-    'I can follow Croatian political news and name the institutions, starting with the Sabor.',
-    'I can keep a conversation going with pa, zapravo and Kako se ono kaže…, and hear irony and understatement (Ma daj!, Nije loše).',
-    'I can explain where the three dialect groups are spoken and choose a first Croatian book to read, talking about its radnja and likovi.',
+    'I can make adjectives and verbs agree after numbers: dva prijatelja su došla, pet ljudi je došlo.',
+    'I can decline nouns such as stvar, noć and ljubav correctly.',
+    'I can discuss how the family has changed and keep a conversation going.',
+  ],
+  // reflexive-sebe · passive-voice · participial-adjectives · verbal-nouns-intro · higher-education
+  'B2-7': [
+    'I can use sebe, sebi and sobom in every case.',
+    'I can form the passive both ways and nouns such as čitanje and učenje.',
+    'I can describe the Croatian university system and student life.',
+  ],
+  // conditional · iterative-conditional · word-formation-agents · perfective-present · business-economy
+  'B2-8': [
+    'I can describe past habits with the conditional: Ljeti bismo išli na more.',
+    'I can build nouns such as vozač, učiteljica and mladost.',
+    'I can use the perfective present after ako and čim, and discuss business news.',
+  ],
+  // coordinate-clauses · complex-sentences · concession-contrast · consumerism-advertising · prepositions-advanced
+  'B2-9': [
+    'I can join clauses with a, ali, nego and već and place the comma correctly.',
+    'I can concede a point with iako and use unatoč with the dative.',
+    'I can tell za stolom from za stol and talk about advertising.',
+  ],
+  // dependent-clauses-b2 · unreal-conditions · wishes-regrets · film-and-music · modal-nuance
+  'B2-10': [
+    'I can give reasons with budući da and purposes with kako bi.',
+    'I can say what would have happened and express a regret: Da barem…, Trebao sam…',
+    'I can tell advice from obligation and talk about Croatian film and music.',
+  ],
+  // genitive-of-negation · negation-advanced · verbal-adverbs · climate-environment · hedging-precision
+  'B2-11': [
+    'I can say what is missing: Nema vode, Nije bilo struje.',
+    'I can read verbal adverbs such as čitajući and došavši.',
+    'I can hedge a claim with navodno and discuss climate change.',
+  ],
+  // reported-speech-b2 · interjections · travel-and-sport · humour-irony · argument-structure
+  'B2-12': [
+    'I can report what someone said without changing the tense: Rekao je da me voli.',
+    'I can react with interjections such as joj, uf and bravo, and hear irony.',
+    'I can weigh pros and cons, opening with Što se tiče… and closing with Sve u svemu…',
+  ],
+  // abstract-topics · writing-registers · formal-email · presentations · meetings-negotiation
+  'B2-13': [
+    'I can write a formal email that opens with Poštovani and keeps the capitalised Vi.',
+    'I can give a structured presentation and close with Hvala na pažnji.',
+    'I can propose in a meeting with Predlažem da… and disagree by conceding first.',
   ],
 };

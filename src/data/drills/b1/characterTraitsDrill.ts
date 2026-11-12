@@ -1,0 +1,215 @@
+// src/data/drills/b1/characterTraitsDrill.ts
+//
+// B1 CHARACTER TRAITS — the drill for the `character-traits` lesson.
+//
+// Traits are adjectives: they agree with the person (ljubazan / ljubazna), the a of
+// -an and -ar drops when an ending is added, many opposites take ne- (nestrpljiv,
+// nepouzdan) while vrijedan ↔ lijen does not, and comparison is regular -iji.
+//
+// Three modes:
+//   osobina   — the trait agreeing with the person
+//   suprotno  — the opposite, or the kinder word for the same habit
+//   usporedba — comparing two people
+
+import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
+
+export const CHARACTER_TRAITS_MODE_LABELS: Record<string, string> = {
+  osobina: '🙂 Osobina',
+  suprotno: '🔄 Suprotno',
+  usporedba: '⚖️ Usporedba',
+};
+
+export const CHARACTER_TRAITS_DRILL_DATA: ModeDrillItem[] = [
+  {
+    mode: 'osobina',
+    q: 'Moja sestra je vrlo ____.',
+    en: 'My sister is very hardworking.',
+    opts: ['vrijedan', 'vrijedna', 'vrijedana', 'vrijedno'],
+    answer: 'vrijedna',
+    tip: 'Feminine, and the a before n drops.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Kolegica mi je jako ____.',
+    en: 'My colleague is very kind.',
+    opts: ['ljubazan', 'ljubazana', 'ljubazna', 'ljubazno'],
+    answer: 'ljubazna',
+    tip: 'Feminine, and the a before n drops.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Moj šef je strog, ali ____.',
+    en: 'My boss is strict, but fair.',
+    opts: ['pošten', 'poštena', 'pošteno', 'poštenje'],
+    answer: 'pošten',
+    tip: 'Masculine for šef; poštenje is the noun.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Ona je jako ____.',
+    en: 'She is very brave.',
+    opts: ['hrabar', 'hrabra', 'hrabara', 'hrabro'],
+    answer: 'hrabra',
+    tip: 'Feminine, and the a of -ar drops.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Moji kolege su ____.',
+    en: 'My colleagues are reliable.',
+    opts: ['pouzdan', 'pouzdana', 'pouzdani', 'pouzdane'],
+    answer: 'pouzdani',
+    tip: 'Masculine plural for kolege.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Djed je vrlo ____.',
+    en: 'Grandad is very modest.',
+    opts: ['skroman', 'skromna', 'skromno', 'skromana'],
+    answer: 'skroman',
+    tip: 'Masculine singular keeps the a.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Moja prijateljica je ____ i uvijek nas zabavlja.',
+    en: 'My friend is witty and always entertains us.',
+    opts: ['duhovit', 'duhovita', 'duhovito', 'duhovitost'],
+    answer: 'duhovita',
+    tip: 'Feminine for prijateljica.',
+  },
+  {
+    mode: 'osobina',
+    q: 'Moja sestra je ____.',
+    en: 'My sister is shy.',
+    opts: ['sramežljiv', 'sramežljiva', 'sramežljivo', 'sramežljivost'],
+    answer: 'sramežljiva',
+    tip: 'Feminine for sestra.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije strpljiv, nego ____.',
+    en: 'He is not patient, but impatient.',
+    opts: ['nestrpljiv', 'lijen', 'škrt', 'iskren'],
+    answer: 'nestrpljiv',
+    tip: 'ne- + the trait.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije vrijedan, nego ____.',
+    en: 'He is not hardworking, but lazy.',
+    opts: ['nevrijedan', 'lijen', 'pošten', 'hrabar'],
+    answer: 'lijen',
+    tip: 'The opposite of hardworking is not made with ne-.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije pouzdan, nego ____.',
+    en: 'He is not reliable, but unreliable.',
+    opts: ['nepouzdan', 'pošten', 'duhovit', 'skroman'],
+    answer: 'nepouzdan',
+    tip: 'ne- + the trait.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije škrt, samo je ____.',
+    en: 'He is not stingy, just thrifty.',
+    opts: ['štedljiv', 'lijen', 'umišljen', 'tvrdoglav'],
+    answer: 'štedljiv',
+    tip: 'The kind word for the same habit.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije skroman, nego ____.',
+    en: 'He is not modest, but conceited.',
+    opts: ['umišljen', 'iskren', 'strpljiv', 'vrijedan'],
+    answer: 'umišljen',
+    tip: 'The criticism opposite to modest.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije sramežljiva, nego ____.',
+    en: 'She is not shy, but sociable.',
+    opts: ['druželjubiva', 'plašljiva', 'lijena', 'škrta'],
+    answer: 'druželjubiva',
+    tip: 'The opposite of shy, feminine.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije iskren, nego ____.',
+    en: 'He is not sincere, but insincere.',
+    opts: ['neiskren', 'pošten', 'ljubazan', 'hrabar'],
+    answer: 'neiskren',
+    tip: 'ne- + the trait.',
+  },
+  {
+    mode: 'suprotno',
+    q: 'Nije hrabar, nego ____.',
+    en: 'He is not brave, but timid.',
+    opts: ['plašljiv', 'tvrdoglav', 'pouzdan', 'duhovit'],
+    answer: 'plašljiv',
+    tip: 'The opposite of brave.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Ana je ____ od brata.',
+    en: 'Ana is more patient than her brother.',
+    opts: ['strpljiviji', 'strpljivija', 'strpljiva', 'najstrpljivija'],
+    answer: 'strpljivija',
+    tip: 'Regular -iji, feminine for Ana.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Moj brat je ____ nego ja.',
+    en: 'My brother is more stubborn than I am.',
+    opts: ['tvrdoglavija', 'tvrdoglaviji', 'tvrdoglav', 'tvrdoglavije'],
+    answer: 'tvrdoglaviji',
+    tip: 'Regular -iji, masculine for brat.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Petra je ____ od Ivane.',
+    en: 'Petra is wittier than Ivana.',
+    opts: ['duhovitija', 'duhovitiji', 'duhovita', 'najduhovitija'],
+    answer: 'duhovitija',
+    tip: 'Regular -iji, feminine for Petra.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'On je ____ nego njegov otac.',
+    en: 'He is kinder than his father.',
+    opts: ['ljubazniji', 'ljubazaniji', 'ljubaznija', 'ljubaznije'],
+    answer: 'ljubazniji',
+    tip: 'The a drops before the ending: ljubazn- + -iji.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Ona je ____ osoba koju poznajem.',
+    en: 'She is the bravest person I know.',
+    opts: ['najhrabrija', 'hrabrija', 'najhrabriji', 'najhrabarija'],
+    answer: 'najhrabrija',
+    tip: 'naj- + the comparative, feminine for osoba.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Djeca su često ____ nego odrasli.',
+    en: 'Children are often more honest than adults.',
+    opts: ['iskrenija', 'iskreni', 'najiskrenija', 'iskrenije'],
+    answer: 'iskrenija',
+    tip: 'The comparative agreeing with djeca.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Moj novi kolega je ____ nego stari.',
+    en: 'My new colleague is more reliable than the old one.',
+    opts: ['pouzdaniji', 'pouzdanija', 'pouzdan', 'najpouzdaniji'],
+    answer: 'pouzdaniji',
+    tip: 'Regular -iji, masculine for kolega.',
+  },
+  {
+    mode: 'usporedba',
+    q: 'Ona je ____ od mene.',
+    en: 'She is more modest than me.',
+    opts: ['skromnija', 'skromanija', 'skromniji', 'skromno'],
+    answer: 'skromnija',
+    tip: 'The a drops: skromn- + -ija.',
+  },
+];

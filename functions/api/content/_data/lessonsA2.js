@@ -36,6 +36,8 @@
 // Serbian form, and never real Croatian marked incorrect.
 
 /** @type {ReadonlyArray<object>} */
+import { LESSONS_A2_NEW } from './a2new/index.js';
+
 export const LESSONS_A2 = [
   // ─────────────────────────────────────────────────────────
   // Object Pronouns
@@ -2306,7 +2308,7 @@ export const LESSONS_A2 = [
     title: 'Joining Sentences',
     subtitle: 'and, but, because, although — and the a/ali distinction',
     icon: '🔗',
-    level: 'A2',
+    level: 'B1',
     duration: '~6 min',
     color: '#4f46e5',
     bg: '#eef2ff',
@@ -2555,7 +2557,7 @@ export const LESSONS_A2 = [
     title: 'The Word "Koji"',
     subtitle: 'The man who…, the book which…, the town where I live',
     icon: '🧵',
-    level: 'A2',
+    level: 'B1',
     duration: '~6 min',
     color: '#0f766e',
     bg: '#f0fdfa',
@@ -2797,7 +2799,7 @@ export const LESSONS_A2 = [
     title: 'Someone, No One, Everyone',
     subtitle: 'Three families built from three prefixes',
     icon: '🔎',
-    level: 'A2',
+    level: 'B1',
     duration: '~5 min',
     color: '#db2777',
     bg: '#fdf2f8',
@@ -5582,4 +5584,5 @@ export const LESSONS_A2 = [
       },
     ],
   },
+  ...LESSONS_A2_NEW,
 ];

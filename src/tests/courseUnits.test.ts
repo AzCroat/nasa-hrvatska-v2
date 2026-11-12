@@ -138,7 +138,12 @@ describe('buildCourseUnits over the real spine', () => {
   it('finds the unit a lesson belongs to, and reports an unknown lesson as absent', () => {
     expect(unitOfLesson(units, units[2]!.lessons[2]!.id)?.id).toBe('A1-3');
     expect(unitOfLesson(units, 'cases')?.level).toBe('A1');
-    expect(unitOfLesson(units, 'jezik-i-drustvo')?.id).toBe('C2-6');
+    // The last C2 lesson in spine order lives in the course's final unit.
+    const lastC2 = [...SPINE]
+      .filter((e) => e.level === 'C2')
+      .sort((a, b) => a.order - b.order)
+      .pop()!;
+    expect(unitOfLesson(units, lastC2.id)?.id).toBe(units[units.length - 1]!.id);
     expect(unitOfLesson(units, 'no-such-lesson')).toBeNull();
     expect(unitOfLesson(units, '')).toBeNull();
   });

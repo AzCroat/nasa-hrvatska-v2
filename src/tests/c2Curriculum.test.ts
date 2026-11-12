@@ -35,6 +35,8 @@ vi.mock('../lib/cefrCertification', () => ({
 const { CURRICULUM, spineForLevel, CURRICULUM_LEVELS } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
+const { ORDER_A2, ORDER_B1, ORDER_B2, ORDER_C1, ORDER_C2 } =
+  await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 
 const { buildSessionActivities, GRAMMAR_STRUCTURE_CATEGORIES } =
@@ -48,6 +50,22 @@ type Lesson = { id: string; level: string; slides: { type: string }[] };
 const c2Spine = spineForLevel('C2') as Entry[];
 const c2Lessons = (LESSONS as Lesson[]).filter((l) => l.level === 'C2');
 const orderOf = new Map(c2Spine.map((e) => [e.id, e.order]));
+
+// 2026-11-12 RESTRUCTURE (Croaticum baselines, levelOrders.js): six C2 lessons moved down
+// to C1. Assertions about them read a COURSE-wide position (CEFR rank, then order).
+const RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+const courseOrder = new Map(
+  (CURRICULUM as Entry[]).map((e) => [e.id, RANK[e.level] * 1000 + e.order]),
+);
+const levelOf = new Map((CURRICULUM as Entry[]).map((e) => [e.id, e.level]));
+const MOVED_TO_C1 = [
+  'zarez-interpunkcija',
+  'slaganje-suptilnosti',
+  'pluskvamperfekt',
+  'padezne-suptilnosti',
+  'sklonidba-iznimke',
+  'brojevi-norma',
+];
 
 describe('C2 teaches the CEFR descriptors themselves', () => {
   // These four are the level definition, almost word for word, and not one of
@@ -71,10 +89,6 @@ describe('C2 teaches the CEFR descriptors themselves', () => {
 describe('C2 covers the precision the level was missing', () => {
   const REQUIRED = [
     'norma-i-uzus',
-    'sklonidba-iznimke',
-    'brojevi-norma',
-    'slaganje-suptilnosti',
-    'padezne-suptilnosti',
     'glagolski-vid-granice',
     'kondicional-drugi',
     'glagolski-nacini',
@@ -84,6 +98,16 @@ describe('C2 covers the precision the level was missing', () => {
     expect(
       c2Lessons.some((l) => l.id === id),
       `C2 lost ${id}`,
+    ).toBe(true);
+  });
+
+  // Moved DOWN to C1 by the restructure. They must not vanish: each stays a lesson,
+  // sequenced in the spine, at the level it now lives.
+  it.each(MOVED_TO_C1)('still teaches %s, now at C1', (id) => {
+    expect(levelOf.get(id), `${id} left the course or moved off C1`).toBe('C1');
+    expect(
+      (LESSONS as Lesson[]).some((l) => l.id === id && l.level === 'C1'),
+      `${id} has no C1 lesson body`,
     ).toBe(true);
   });
 
@@ -97,8 +121,9 @@ describe('C2 covers the precision the level was missing', () => {
 
   it('teaches quantity agreement, the commonest advanced error', () => {
     // "Mnogo ljudi su došli" — a neuter singular verb is required and English
-    // agreement pulls the other way. No level had ever addressed it.
-    expect(orderOf.has('slaganje-suptilnosti')).toBe(true);
+    // agreement pulls the other way. No level had ever addressed it. Since the
+    // 2026-11-12 restructure the lesson is taught at C1; it must stay in the course.
+    expect(levelOf.get('slaganje-suptilnosti')).toBe('C1');
   });
 
   it('teaches the negated imperative, which OVERRIDES the aspect rule', () => {
@@ -143,8 +168,11 @@ describe('the sequence does not put a lesson before what it needs', () => {
   const AFTER: [string, string][] = [
     // The precision block builds on the frame.
     ['pravopis-dvojbe', 'norma-i-uzus'],
-    ['sklonidba-iznimke', 'norma-i-uzus'],
-    ['slaganje-suptilnosti', 'sklonidba-iznimke'],
+    // The precision lessons moved to C1 (2026-11-12) and were re-pointed there:
+    // declension exceptions after the hypocoristics, agreement subtleties after
+    // multi-subject agreement.
+    ['sklonidba-iznimke', 'hypocoristics-dvojica'],
+    ['slaganje-suptilnosti', 'multi-subject-agreement'],
     // Mood: the second conditional before the survey of modality that uses it.
     ['glagolski-nacini', 'kondicional-drugi'],
     // Style: rhythm after the figures, wordplay after irony.
@@ -157,8 +185,8 @@ describe('the sequence does not put a lesson before what it needs', () => {
   ];
 
   it.each(AFTER)('%s comes after %s', (later, earlier) => {
-    expect(orderOf.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
-      orderOf.get(earlier)!,
+    expect(courseOrder.get(later)!, `${later} sits above ${earlier}`).toBeGreaterThan(
+      courseOrder.get(earlier)!,
     );
   });
 
@@ -175,8 +203,10 @@ describe('the sequence does not put a lesson before what it needs', () => {
 });
 
 describe('every C2 lesson is a usable lesson', () => {
-  it('reaches the 30-lesson target', () => {
-    expect(c2Lessons.length).toBeGreaterThanOrEqual(30);
+  // C2 was 30 lessons; the restructure moved six down to C1, leaving ORDER_C2 (24).
+  it('keeps its restructured size (ORDER_C2, 24 lessons)', () => {
+    expect(ORDER_C2.length).toBeGreaterThanOrEqual(24);
+    expect(c2Lessons.length).toBeGreaterThanOrEqual(ORDER_C2.length);
     expect(c2Spine.length).toBe(c2Lessons.length);
   });
 
@@ -211,12 +241,20 @@ describe('THE CURRICULUM IS COMPLETE', () => {
   // ~180 total. This is the assertion that says it landed — and the one that
   // fails if a later change quietly drops a level below the line.
   //
-  // 2026-11-12 RESTRUCTURE: A1-B1 follow the Croaticum books, so level sizes are no
-  // longer all 30 (A1 40, A2 24, B1 26; A1 grows toward ~100 as lessons are written).
-  // The floors below are the sizes as restructured: a level cannot quietly shrink,
-  // and the sum cannot drop below the 180 the programme already shipped.
+  // 2026-11-12 RESTRUCTURE: the course follows the Croaticum books, so level sizes are
+  // no longer all 30. A1 is 100 (a1new); A2-C2 are the lengths of their final orders in
+  // levelOrders.js (50, 50, 65, 65, 24). A level cannot quietly shrink, and the sum
+  // cannot drop below the 180 the programme already shipped.
   it('every CEFR level keeps at least its restructured size, and the course at least 180', () => {
-    const FLOOR: Record<string, number> = { A1: 40, A2: 24, B1: 26, B2: 30, C1: 30, C2: 30 };
+    const FLOOR: Record<string, number> = {
+      A1: 100,
+      A2: ORDER_A2.length,
+      B1: ORDER_B1.length,
+      B2: ORDER_B2.length,
+      C1: ORDER_C1.length,
+      C2: ORDER_C2.length,
+    };
+    expect(FLOOR).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 65, C2: 24 });
     let total = 0;
     for (const level of CURRICULUM_LEVELS as string[]) {
       const n = (LESSONS as Lesson[]).filter((l) => l.level === level).length;
@@ -271,7 +309,6 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     // drills could not be reached through the coupling. Each of these now
     // carries its own pool-only tag and routes to itself.
     'pravopis-dvojbe': 'orthography',
-    'zarez-interpunkcija': 'punctuation',
     'administrativni-stil': 'admin-style',
     'znanstveni-stil': 'academic-style',
     'publicisticki-stil': 'journalistic-style',
@@ -301,10 +338,6 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     // drills exactly what the lesson teaches — two correct cases meaning
     // different things — and nothing else does.
     'norma-i-uzus': 'norm',
-    'sklonidba-iznimke': 'declension-exceptions',
-    'brojevi-norma': 'number-norm',
-    'slaganje-suptilnosti': 'agreement-subtleties',
-    'padezne-suptilnosti': 'case-subtleties',
     'glagolski-nacini': 'modality',
     'ritam-recenice': 'rhythm',
     'ironija-podtekst': 'irony',
@@ -317,13 +350,31 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     'frazeologija-dubinska': 'phraseology',
     'dijalekti-dubinski': 'dialects-deep',
     'jezik-i-drustvo': 'language-society',
-    // Predates the block and is mapped in the general pass rather than a C2
-    // tranche: the pluperfect is a past tense, and `cloze` is the drill.
-    pluskvamperfekt: 'past-tense',
   };
 
   it.each(Object.entries(EXPECTED))('%s practises %s', (lesson, category) => {
     expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(category);
+  });
+
+  // The six lessons that moved to C1 (2026-11-12) keep the couplings decided here;
+  // their drills were regated to C1 so the coupling resolves (curriculumCouplingResolves).
+  const MOVED_COUPLINGS: Record<string, string> = {
+    'zarez-interpunkcija': 'punctuation',
+    'sklonidba-iznimke': 'declension-exceptions',
+    'brojevi-norma': 'number-norm',
+    'slaganje-suptilnosti': 'agreement-subtleties',
+    'padezne-suptilnosti': 'case-subtleties',
+    // The pluperfect is a past tense, and `cloze` is the drill.
+    pluskvamperfekt: 'past-tense',
+  };
+
+  it.each(Object.entries(MOVED_COUPLINGS))('%s (now C1) still practises %s', (lesson, cat) => {
+    expect(levelOf.get(lesson)).toBe('C1');
+    expect(LESSON_TAUGHT_CATEGORY[lesson]).toBe(cat);
+  });
+
+  it('the moved couplings cover exactly the lessons that moved', () => {
+    expect(Object.keys(MOVED_COUPLINGS).sort()).toEqual([...MOVED_TO_C1].sort());
   });
 
   // There is no DELIBERATELY_UNMAPPED list here any more. It held seventeen
@@ -349,7 +400,8 @@ describe('teach → practice coupling stays HONEST at C2', () => {
   it('pins every C2 coupling, so a new lesson cannot slip in unasserted', () => {
     const c2 = (CURRICULUM as Entry[]).filter((e) => e.level === 'C2').map((e) => e.id);
     expect(c2.filter((id) => !(id in EXPECTED)).sort()).toEqual([]);
-    expect(c2).toHaveLength(30);
+    expect(c2).toHaveLength(ORDER_C2.length);
+    expect(c2.length).toBeGreaterThanOrEqual(24);
   });
 });
 
@@ -390,7 +442,6 @@ describe('a C2 lesson day still teaches STRUCTURE', () => {
   // the lesson title.
   const NON_STRUCTURAL_C2: Record<string, string> = {
     'pravopis-dvojbe': 'spelling doubts (ije/je, č/ć) — orthography',
-    'zarez-interpunkcija': 'the DRILL is hyphen-vs-dash and quotation marks: typography',
     'ironija-podtekst': 'irony and subtext — pragmatics (2/24)',
     'humor-jezicni': 'wordplay and puns (0/24)',
     'administrativni-stil': 'the administrative functional style',
@@ -453,7 +504,8 @@ describe('a C2 lesson day still teaches STRUCTURE', () => {
     }
   });
 
-  it('the list stays at 16 of thirty', () => {
-    expect(Object.keys(NON_STRUCTURAL_C2).length).toBe(16);
+  // 15 of 24: zarez-interpunkcija moved to C1 with its entry (see c1Curriculum).
+  it('the list stays at 15 of twenty-four', () => {
+    expect(Object.keys(NON_STRUCTURAL_C2).length).toBe(15);
   });
 });

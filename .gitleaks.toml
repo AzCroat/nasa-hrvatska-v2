@@ -59,11 +59,12 @@ regexes = [
   # the 24 tripped it on 2026-09-05). A screen id is a route, not a credential.
   # Scoped to the exact id shape: tier prefix + lowercase snake_case, nothing else.
   '''^kultura_(?:a1|a2|b1|b2|c1|c2)_[a-z_]+$''',
-  # Lesson-drill SCREEN IDS for the Croaticum rebuild (2026-11-12): `a1` / `a2` / `b1` plus the
-  # lesson id in lowercase letters (e.g. `a1verbsatiirati`), rendered as
-  # `<ScreenErrorBoundary key="a1verbsatiirati" …>` in AppRouter.tsx. Same reason as the culture
+  # Lesson-drill SCREEN IDS for the Croaticum rebuild (2026-11-12): a level prefix (`a1`, `a2`,
+  # `b1`, `b2`, `c1`) plus the lesson id in lowercase letters (e.g. `a1verbsatiirati`), rendered
+  # as `<ScreenErrorBoundary key="a1verbsatiirati" …>` in AppRouter.tsx. Same reason as the culture
   # ids above: generic-api-key keys on the attribute NAME `key`, and six of the sixty A1 ids cleared
-  # its entropy floor on #905. Scoped to letters only after the prefix (plus the one numeric id,
-  # `a1numbers11to1000`), so a hex or mixed-case credential does not match.
-  '''^(?:a1|a2|b1)[a-z]+(?:11to1000)?$''',
+  # its entropy floor on #905. Scoped to letters only after the prefix, plus the few fixed
+  # suffixes real ids carry (`11to1000`, and a level tag `a2`/`b2` at the end, as in
+  # `a2phonecallsa2`), so a hex or mixed-case credential does not match.
+  '''^(?:a1|a2|b1|b2|c1)[a-z]+(?:11to1000|a2|b2)?$''',
 ]

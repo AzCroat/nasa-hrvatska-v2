@@ -123,151 +123,266 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
 
   // ── A2 ──────────────────────────────────────────────────────────────────────
   'A2-1': {
-    title: 'Address, Agreement and Possession',
+    title: 'Verbs, Vi and the Case Table',
     subtitle:
-      'Choose between ti and Vi, make adjectives agree, use svoj, and put objects in the accusative.',
+      'Conjugate the irregular verbs, choose ti or Vi, see all seven cases together, and make adjectives agree.',
   },
   'A2-2': {
-    title: 'Plural, Place and Home',
+    title: 'Whose Is It? Forms and Objects',
     subtitle:
-      'Use the cases in the plural, choose the right preposition for an action, and describe where you live.',
+      'Say whose something is in any case, fill in an official form, and put adjectives and objects in the accusative.',
   },
   'A2-3': {
-    title: 'People, Work and Study',
+    title: 'Small Words, Weekends and Study',
     subtitle:
-      'Describe a person, talk about work and study, choose between the two aspects, and say what you must do.',
+      'Put the short words in the right order, use verbs like krenuti and doći, and talk about your weekend, hobbies and studies.',
   },
   'A2-4': {
-    title: 'Comparing, Joining and Free Time',
-    subtitle: 'Compare two things, join two clauses, say “the one that…”, and talk about hobbies.',
+    title: 'Shopping, Visiting and More Cases',
+    subtitle:
+      'Buy food by the kilo, behave well as a guest, and use adjectives and plurals in the dative and locative.',
   },
   'A2-5': {
-    title: 'Plans, Travel and Celebrations',
+    title: 'Work, Opinions and Writing Home',
     subtitle:
-      'Make an arrangement, buy a ticket, say what is done without naming who did it, and greet on a holiday.',
+      'Talk about your job and its problems, say what makes a good life, and write an email to a friend.',
+  },
+  'A2-6': {
+    title: 'Home, People and Verb Aspect',
+    subtitle:
+      'Describe your home and the people in it, and choose between an ongoing and a finished action.',
+  },
+  'A2-7': {
+    title: 'Would, Could and Commands',
+    subtitle:
+      'Say how and how often, use the conditional for wishes, requests and imagined conditions, and give any command.',
+  },
+  'A2-8': {
+    title: 'Calling, Helping and Agreeing',
+    subtitle:
+      'Address people correctly, say what you can and must do, talk about helping others, and agree or disagree politely.',
+  },
+  'A2-9': {
+    title: 'To Me, For Me: The Dative',
+    subtitle:
+      'Use the short dative for whose and how you feel, use the verbs that take it, and get help when your car breaks down.',
+  },
+  'A2-10': {
+    title: 'Getting Around and Getting Together',
+    subtitle:
+      'Buy tickets and find your stop, make a polite phone call, invite people out, and wish them well on holidays.',
   },
 
   // ── B1 ──────────────────────────────────────────────────────────────────────
   'B1-1': {
-    title: 'The Cases in Depth and Aspect',
+    title: 'Comparing People and Things',
     subtitle:
-      'Use the genitive and instrumental with confidence, count nouns correctly, and start choosing between aspects.',
+      'Compare and rank with bolji and najbolji, describe character and looks, and pay or accept a compliment.',
   },
   'B1-2': {
-    title: 'Aspect, Prefixes and Movement',
+    title: 'Aspect, Prefixes and Time',
     subtitle:
-      'Choose perfective or imperfective, read what a prefix does to a verb, and come, go and put things correctly.',
+      'Choose the right aspect in any tense, read a verb by its prefix, and link events with kad, čim and dok.',
   },
   'B1-3': {
-    title: 'Time, Conditions and Reports',
+    title: 'If, And, But, and With Whom',
     subtitle:
-      'Sequence events in one sentence, give a real condition, say why, report what someone said, and say “the one who…”.',
+      'State real conditions, join sentences with a, ali and nego, and use the instrumental with adjectives and verbs.',
   },
   'B1-4': {
-    title: 'Stories, Opinions and Problems',
+    title: 'Applying, Reacting and Moving',
     subtitle:
-      'Narrate an event, say what you think and feel, complain properly, and deal with an office.',
+      'Apply for a job in writing and at an interview, say how pleased you are, and describe movement and position.',
   },
   'B1-5': {
-    title: 'Home, Work and the World',
+    title: 'The Genitive in Depth',
     subtitle:
-      'Rent a flat, handle a job interview, follow the news, and talk about technology and nature.',
+      'Use the genitive for possession, absence, numbers and dates, including adjectives and the tricky plural forms.',
   },
   'B1-6': {
-    title: 'Food and Cooking',
-    subtitle: 'Talk about food and cooking, from a recipe to a restaurant table.',
+    title: 'Stories, News and Feelings',
+    subtitle:
+      'Say when and for how long, talk about fears and memories, tell a story from start to finish, and follow the news.',
+  },
+  'B1-7': {
+    title: 'Names, Love and Koji',
+    subtitle:
+      'Decline ime and dijete, conjugate verbs like peći, talk about names and relationships, and use koji clauses.',
+  },
+  'B1-8': {
+    title: 'Someone, Whose and What I Think',
+    subtitle:
+      'Use richer relative clauses and words like netko and nitko, give opinions, decline foreign names, and conjugate davati.',
+  },
+  'B1-9': {
+    title: 'Reasons, Reports and Complaints',
+    subtitle:
+      'Talk about Croats abroad, give reasons and aims, report what others said, and complain politely but firmly.',
+  },
+  'B1-10': {
+    title: 'Daily Life: Offices to Kitchens',
+    subtitle:
+      'Deal with offices and rental adverts, use digital vocabulary, discuss nature, and follow a Croatian recipe.',
   },
 
-  // ── B2 ────────────────────────────────────────────────────────────────────
+  // ── B2 ──────────────────────────────────────────────────────────────────────
   'B2-1': {
-    title: 'Word Order, and Aspect’s Hard Cases',
+    title: 'Tricky Nouns, Verbs and False Friends',
     subtitle:
-      'Place the little words where a native does, and pick the right aspect after a modal or a negative command.',
+      'Handle irregular masculine plurals and -ati verbs, make a verb imperfective again, and avoid the false friends.',
   },
   'B2-2': {
-    title: 'The Passive and the Conditional',
+    title: 'Feminine Forms and Language History',
     subtitle:
-      'Say what was done without naming who did it, and what would happen if things were different.',
+      'Decline tricky feminine nouns, conjugate -ivati verbs, choose aspect after other verbs, and discuss life online.',
   },
   'B2-3': {
-    title: 'Nuance, Concession and Regret',
-    subtitle: 'Express a regret, grade an obligation, and concede a point without giving it away.',
+    title: 'Rights, Politics and Clitics',
+    subtitle:
+      'Use international words, negate and command with the right aspect, place clitics, and discuss rights and politics.',
   },
   'B2-4': {
-    title: 'Building an Argument',
-    subtitle: 'Argue a case, hedge a claim precisely, and discuss ideas rather than things.',
+    title: 'Koji, Idioms and Croatian Books',
+    subtitle:
+      'Use koji in every case, say what someone became, use idioms like zdrav kao dren, and talk about books.',
   },
   'B2-5': {
-    title: 'Register at Work',
-    subtitle: 'Write a formal email, give a presentation, and hold your side of a negotiation.',
+    title: 'Body, Health and Everyday Slang',
+    subtitle:
+      'Use nitko and ništa in every case, say what hurts, grade intensity, recognise slang, and talk about staying healthy.',
   },
   'B2-6': {
-    title: 'Society, Humour and the Language Itself',
+    title: 'Agreement, Family and Fluency',
     subtitle:
-      'Follow a political discussion, keep a conversation going, and hear when a Croatian does not mean it literally.',
+      'Make words agree with tata, braća and numbers, decline nouns like stvar, discuss family change, and keep talking.',
+  },
+  'B2-7': {
+    title: 'Sebe, the Passive and University',
+    subtitle:
+      'Use sebe and sobom, form both passives, build nouns from verbs, and describe studying in Croatia.',
+  },
+  'B2-8': {
+    title: 'Conditionals, Habits and Business',
+    subtitle:
+      'Use the conditional for requests and past habits, build nouns for people and qualities, and discuss the economy.',
+  },
+  'B2-9': {
+    title: 'Linking Clauses and Conceding',
+    subtitle:
+      'Join and nest clauses, concede before disagreeing, read adverts critically, and use prepositions with two cases.',
+  },
+  'B2-10': {
+    title: 'Wishes, Regrets and Unreal Ifs',
+    subtitle:
+      'Give reasons and purposes, say what would have happened, express wishes and regrets, and talk about film and music.',
+  },
+  'B2-11': {
+    title: 'Negation, Hedging and the Climate',
+    subtitle:
+      'Use the genitive of negation, read -ći and -vši forms, hedge a claim, and discuss natural disasters.',
+  },
+  'B2-12': {
+    title: 'Reporting, Reacting and Arguing',
+    subtitle:
+      'Report questions and commands, use interjections, talk about sport and travel, read irony, and build an argument.',
+  },
+  'B2-13': {
+    title: 'Formal Writing and Speaking',
+    subtitle:
+      'Discuss abstract topics, write a formal email at the right register, give a presentation, and negotiate in meetings.',
   },
 
-  // ── C1 ────────────────────────────────────────────────────────────────────
+  // ── C1 ──────────────────────────────────────────────────────────────────────
   'C1-1': {
-    title: 'Precision in the Core Grammar',
+    title: 'Clitics, Measures and Abbreviations',
     subtitle:
-      'Order the little words exactly, put the emphasis where you mean it, and read the literary past tenses.',
+      'Order any clitic cluster, decline kći, express measures, draw conclusions, and write abbreviations correctly.',
   },
   'C1-2': {
-    title: 'Word-Building and Condensation',
+    title: 'Numbers, Collectives and Commas',
     subtitle:
-      'Turn clauses into phrases, build new words from old ones, and count people the Croatian way.',
+      'Write numbers and dates by the norm, decline collective nouns, express time in the accusative, and place basic commas.',
   },
   'C1-3': {
-    title: 'Clauses, Collocation and Attitude',
+    title: 'Word Order and Verb Government',
     subtitle:
-      'Use the full range of clauses, choose words that belong together, and carry attitude in one small word.',
+      'Shift emphasis with word order, use time phrases in the locative, build ne samo… nego i, and know each verb’s case.',
   },
   'C1-4': {
-    title: 'Idiom, Accent and Argument',
+    title: 'Fine Aspect and the Croatian Comma',
     subtitle:
-      'Use an idiom correctly, hear the four accents, summarise fairly, and hold a position under pressure.',
+      'Choose aspect where both are possible, decline posao and dio, use rarer prepositions, and punctuate dependent clauses.',
   },
   'C1-5': {
-    title: 'Formal, Legal and Critical Croatian',
+    title: 'Clauses, Verbal Nouns and Subtle Cases',
     subtitle:
-      'Speak on an occasion, spot a false friend, proofread your own writing, and read a contract without panic.',
+      'Build every clause type, compress clauses into nouns, use the emphatic genitive, and make verbs agree with two subjects.',
   },
   'C1-6': {
-    title: 'Specialist Fields and Identity',
+    title: 'Agreement, Condensation and Collocations',
     subtitle:
-      'Discuss science and the arts, place a speaker by how they talk, and talk about a half-inherited language.',
+      'Agree verbs with complex subjects, state causes and consequences, write dense prose, and name the people of a town.',
+  },
+  'C1-7': {
+    title: 'Names, Passives and Word Building',
+    subtitle:
+      'Use the genitive after a noun, capitalise names and places, choose the right passive, build words, and count groups of men.',
+  },
+  'C1-8': {
+    title: 'Exceptions, Groups and Tone',
+    subtitle:
+      'Decline the nouns that break the rules, count mixed groups, use the ethical dative, capitalise institutions, and hear tone.',
+  },
+  'C1-9': {
+    title: 'Particles, Idioms and Nuance',
+    subtitle:
+      'Choose nov or novi, use exclamations like Blago tebi!, compare with precision, and use particles and idioms naturally.',
+  },
+  'C1-10': {
+    title: 'Prefixes, Prosody and Academic Writing',
+    subtitle:
+      'Speak without a subject, use verbal prefixes, hear pitch accent, summarise and paraphrase, and write an academic essay.',
+  },
+  'C1-11': {
+    title: 'Old Tenses, Quotes and Debate',
+    subtitle:
+      'Read the aorist, imperfect and pluperfect, use kao da and nego što, punctuate direct speech, and win a debate.',
+  },
+  'C1-12': {
+    title: 'Speeches, Translation and Official Texts',
+    subtitle:
+      'Give a formal address, avoid translation traps, edit your own Croatian, read the media critically, and handle legal texts.',
+  },
+  'C1-13': {
+    title: 'Science, Culture and Identity',
+    subtitle:
+      'Read technical Croatian, discuss the arts, recognise regional varieties, and talk about language and heritage.',
   },
 
-  // ── C2 ────────────────────────────────────────────────────────────────────
+  // ── C2 ──────────────────────────────────────────────────────────────────────
   'C2-1': {
-    title: 'The Standard and Its Arguments',
+    title: 'Norm, Spelling and Modality',
     subtitle:
-      'Know what the standard says, where educated speakers differ, and how to punctuate and decline the hard cases.',
+      'Tell the norm from usage, handle contested spellings, master the hard edges of aspect, and use the second conditional.',
   },
   'C2-2': {
-    title: 'Where the Rules Run Out',
+    title: 'Style, Irony and Humour',
     subtitle:
-      'Handle agreement with a complicated subject, case that carries meaning on its own, and the moods for what never happened.',
+      'Use rhetorical figures and sentence rhythm, read irony and puns, and write in the administrative register.',
   },
   'C2-3': {
-    title: 'Style, Rhythm and Subtext',
+    title: 'The Functional Styles and Older Texts',
     subtitle:
-      'Write with intent, control the rhythm of a sentence, and hear irony that is aimed at you.',
+      'Read journalistic, scientific, literary and colloquial Croatian as each is built, and read texts written before Gaj.',
   },
   'C2-4': {
-    title: 'The Five Functional Styles',
+    title: 'Synthesis, Argument and Translation',
     subtitle:
-      'Recognise and write administrative, journalistic, scientific, literary and colloquial Croatian.',
+      'Synthesise sources, reconstruct an argument, choose between near-synonyms, speak at length unprepared, and translate.',
   },
   'C2-5': {
-    title: 'Synthesis and Spontaneity',
+    title: 'Editing, Proverbs and Dialects',
     subtitle:
-      'Read Croatian written before the modern standard, reconcile sources that disagree, and speak at length unprepared.',
-  },
-  'C2-6': {
-    title: 'Professional Command',
-    subtitle:
-      'Translate so the result stands on its own, edit someone else’s Croatian, and read what a language choice says about a person.',
+      'Edit someone else’s Croatian, recognise proverbs and allusions, follow the dialects, and choose your register deliberately.',
   },
 };

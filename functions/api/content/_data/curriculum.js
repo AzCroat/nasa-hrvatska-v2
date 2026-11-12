@@ -48,6 +48,10 @@
 
 /** @type {ReadonlyArray<CurriculumEntry>} */
 import { SPINE_A1_NEW } from './a1new/index.js';
+import { SPINE_A2_NEW } from './a2new/index.js';
+import { SPINE_B1_NEW } from './b1new/index.js';
+import { SPINE_B2_NEW } from './b2new/index.js';
+import { SPINE_C1_NEW } from './c1new/index.js';
 
 export const CURRICULUM = [
   // ── A1 ────────────────────────────────────────────────────────────────────
@@ -444,7 +448,7 @@ export const CURRICULUM = [
   {
     id: 'accusative-deep',
     level: 'A2',
-    order: 5,
+    order: 9,
     prerequisites: ['cases'],
     objectives: [
       'Mark the direct object — the thing the verb acts on',
@@ -477,7 +481,7 @@ export const CURRICULUM = [
   {
     id: 'prepositions-action',
     level: 'A2',
-    order: 7,
+    order: 21,
     prerequisites: ['accusative-deep'],
     objectives: [
       'Say where something is and where it is going',
@@ -488,7 +492,7 @@ export const CURRICULUM = [
   {
     id: 'adjective-agreement',
     level: 'A2',
-    order: 3,
+    order: 4,
     prerequisites: ['gender'],
     objectives: [
       'Match an adjective to its noun in gender, number and case',
@@ -499,7 +503,7 @@ export const CURRICULUM = [
   {
     id: 'svoj',
     level: 'A2',
-    order: 4,
+    order: 10,
     prerequisites: ['possessives', 'adjective-agreement'],
     objectives: [
       'Say “his own” rather than “someone else’s” — a distinction English cannot make',
@@ -510,7 +514,7 @@ export const CURRICULUM = [
   {
     id: 'plural-cases',
     level: 'A2',
-    order: 6,
+    order: 20,
     prerequisites: ['plural-nouns', 'accusative-deep'],
     objectives: [
       'Use the plural as an object, not only as a subject',
@@ -565,7 +569,7 @@ export const CURRICULUM = [
   {
     id: 'adverbs',
     level: 'A2',
-    order: 8,
+    order: 31,
     prerequisites: ['adjective-agreement'],
     objectives: [
       'Describe HOW something is done, not just what it is',
@@ -575,8 +579,8 @@ export const CURRICULUM = [
   },
   {
     id: 'comparatives-a2',
-    level: 'A2',
-    order: 16,
+    level: 'B1',
+    order: 1,
     prerequisites: ['adjective-agreement'],
     objectives: [
       'Compare two things and name the best of many',
@@ -587,7 +591,7 @@ export const CURRICULUM = [
   {
     id: 'modal-verbs-a2',
     level: 'A2',
-    order: 15,
+    order: 37,
     prerequisites: ['present'],
     objectives: [
       'Say what you can, must, want and are allowed to do',
@@ -597,8 +601,8 @@ export const CURRICULUM = [
   },
   {
     id: 'conjunctions',
-    level: 'A2',
-    order: 17,
+    level: 'B1',
+    order: 12,
     prerequisites: ['past-tense'],
     objectives: [
       'Join two sentences into one — the thing that makes A2 A2',
@@ -608,8 +612,8 @@ export const CURRICULUM = [
   },
   {
     id: 'relative-koji',
-    level: 'A2',
-    order: 18,
+    level: 'B1',
+    order: 35,
     prerequisites: ['conjunctions'],
     objectives: [
       'Say “the woman who…”, “the book which…”, “the town where I live”',
@@ -619,8 +623,8 @@ export const CURRICULUM = [
   },
   {
     id: 'indefinites',
-    level: 'A2',
-    order: 19,
+    level: 'B1',
+    order: 37,
     prerequisites: ['negation'],
     objectives: [
       'Say someone, no one, everyone — and the same for things and places',
@@ -631,7 +635,7 @@ export const CURRICULUM = [
   {
     id: 'house-home',
     level: 'A2',
-    order: 10,
+    order: 26,
     prerequisites: ['locative-intro', 'prepositions-action'],
     objectives: [
       'Describe where you live, room by room',
@@ -664,7 +668,7 @@ export const CURRICULUM = [
   {
     id: 'describing-people',
     level: 'A2',
-    order: 11,
+    order: 27,
     prerequisites: ['clothes-appearance'],
     objectives: [
       'Describe what someone looks like and what they are like',
@@ -675,7 +679,7 @@ export const CURRICULUM = [
   {
     id: 'work-jobs',
     level: 'A2',
-    order: 12,
+    order: 22,
     prerequisites: ['instrumental-intro'],
     objectives: [
       'Say what you do for a living and ask what someone else does',
@@ -686,8 +690,8 @@ export const CURRICULUM = [
   {
     id: 'school-studies',
     level: 'A2',
-    order: 13,
-    prerequisites: ['work-jobs'],
+    order: 15,
+    prerequisites: ['present'],
     objectives: [
       'Say what you are studying, where, and for how long',
       'Tell učiti from studirati, and učenik from student',
@@ -697,7 +701,7 @@ export const CURRICULUM = [
   {
     id: 'hobbies-free-time',
     level: 'A2',
-    order: 20,
+    order: 14,
     prerequisites: ['instrumental-intro'],
     objectives: [
       'Say what you do in your free time',
@@ -708,7 +712,7 @@ export const CURRICULUM = [
   {
     id: 'travel-transport',
     level: 'A2',
-    order: 21,
+    order: 46,
     prerequisites: ['instrumental-intro'],
     objectives: [
       'Buy a ticket and ask when something leaves and arrives',
@@ -719,7 +723,7 @@ export const CURRICULUM = [
   {
     id: 'plans-invitations',
     level: 'A2',
-    order: 22,
+    order: 49,
     prerequisites: ['ordinals-dates'],
     objectives: [
       'Invite someone out, and accept or decline gracefully',
@@ -730,7 +734,7 @@ export const CURRICULUM = [
   {
     id: 'celebrations-holidays',
     level: 'A2',
-    order: 23,
+    order: 50,
     prerequisites: ['ordinals-dates'],
     objectives: [
       'Know the Croatian calendar and what is said at each occasion',
@@ -755,7 +759,7 @@ export const CURRICULUM = [
   {
     id: 'genitive-deep',
     level: 'B1',
-    order: 1,
+    order: 21,
     prerequisites: ['cases'],
     objectives: [
       'Express possession — the case that means "of"',
@@ -766,7 +770,7 @@ export const CURRICULUM = [
   {
     id: 'dative-locative',
     level: 'A2',
-    order: 9,
+    order: 19,
     prerequisites: ['cases'],
     objectives: [
       'Say who you are giving something to, or speaking to',
@@ -777,7 +781,7 @@ export const CURRICULUM = [
   {
     id: 'instrumental',
     level: 'B1',
-    order: 2,
+    order: 13,
     prerequisites: ['cases'],
     objectives: [
       'Say what you did something with, and who you did it with',
@@ -788,7 +792,7 @@ export const CURRICULUM = [
   {
     id: 'numbers-nouns',
     level: 'B1',
-    order: 3,
+    order: 24,
     prerequisites: ['numbers-time', 'genitive-deep'],
     objectives: [
       'Put the right case after a number — the rule that trips up every learner',
@@ -810,7 +814,7 @@ export const CURRICULUM = [
   {
     id: 'time-duration',
     level: 'B1',
-    order: 4,
+    order: 26,
     prerequisites: ['future-tense'],
     objectives: [
       'Say when something happened and how long it lasted',
@@ -821,7 +825,7 @@ export const CURRICULUM = [
   {
     id: 'aspect',
     level: 'A2',
-    order: 14,
+    order: 28,
     prerequisites: ['past-tense'],
     objectives: [
       'Understand aspect — whether an action is complete or ongoing',
@@ -832,7 +836,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-imperfective',
     level: 'B1',
-    order: 5,
+    order: 6,
     prerequisites: ['aspect'],
     objectives: [
       'Describe habits, repeated actions and actions in progress',
@@ -843,7 +847,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-perfective',
     level: 'B1',
-    order: 6,
+    order: 7,
     prerequisites: ['aspect'],
     objectives: [
       'Describe a single completed action with a result',
@@ -854,7 +858,7 @@ export const CURRICULUM = [
   {
     id: 'verb-prefixes',
     level: 'B1',
-    order: 7,
+    order: 8,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Read an unknown verb by stripping its prefix and finding the root',
@@ -865,7 +869,7 @@ export const CURRICULUM = [
   {
     id: 'motion-verbs',
     level: 'B1',
-    order: 8,
+    order: 19,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Use ići, doći, otići and their relatives precisely',
@@ -876,7 +880,7 @@ export const CURRICULUM = [
   {
     id: 'position-placement',
     level: 'B1',
-    order: 9,
+    order: 20,
     prerequisites: ['verb-prefixes'],
     objectives: [
       'Tell sitting down from being seated — sjesti against sjediti',
@@ -887,7 +891,7 @@ export const CURRICULUM = [
   {
     id: 'infinitive-vs-da',
     level: 'B1',
-    order: 10,
+    order: 42,
     prerequisites: ['future-tense'],
     objectives: [
       'Separate the compulsory da (that) from the one competing with the infinitive',
@@ -898,7 +902,7 @@ export const CURRICULUM = [
   {
     id: 'impersonal',
     level: 'A2',
-    order: 24,
+    order: 43,
     prerequisites: ['modals-basic'],
     objectives: [
       'Say what one should do, without naming anyone',
@@ -909,8 +913,8 @@ export const CURRICULUM = [
   {
     id: 'time-clauses',
     level: 'B1',
-    order: 11,
-    prerequisites: ['time-duration'],
+    order: 10,
+    prerequisites: ['aspect-perfective'],
     objectives: [
       'Sequence events with kad, dok, čim, prije nego što, nakon što',
       'Use the PRESENT in a time clause that points at the future',
@@ -920,7 +924,7 @@ export const CURRICULUM = [
   {
     id: 'real-conditions',
     level: 'B1',
-    order: 12,
+    order: 11,
     prerequisites: ['time-clauses'],
     objectives: [
       'Talk about conditions that may genuinely be met',
@@ -931,7 +935,7 @@ export const CURRICULUM = [
   {
     id: 'cause-purpose',
     level: 'B1',
-    order: 13,
+    order: 43,
     prerequisites: ['real-conditions'],
     objectives: [
       'Give reasons and state aims — the half of B1 the level is defined by',
@@ -942,7 +946,7 @@ export const CURRICULUM = [
   {
     id: 'reported-speech',
     level: 'B1',
-    order: 14,
+    order: 44,
     prerequisites: ['infinitive-vs-da'],
     objectives: [
       'Pass on what somebody said, asked or requested',
@@ -953,8 +957,8 @@ export const CURRICULUM = [
   {
     id: 'relative-deep',
     level: 'B1',
-    order: 15,
-    prerequisites: ['reported-speech'],
+    order: 36,
+    prerequisites: ['relative-koji'],
     objectives: [
       'Say whose, where, and what — beyond the basic koji',
       'Use što when the relative refers to a whole clause rather than a noun',
@@ -964,8 +968,8 @@ export const CURRICULUM = [
   {
     id: 'telling-a-story',
     level: 'B1',
-    order: 16,
-    prerequisites: ['reported-speech', 'aspect-perfective'],
+    order: 28,
+    prerequisites: ['aspect-perfective'],
     objectives: [
       'Narrate an event from beginning to end',
       'Set the scene with the imperfective and move it on with the perfective',
@@ -975,8 +979,8 @@ export const CURRICULUM = [
   {
     id: 'opinions-agreeing',
     level: 'B1',
-    order: 17,
-    prerequisites: ['cause-purpose'],
+    order: 38,
+    prerequisites: ['conjunctions'],
     objectives: [
       'Say what you think and why',
       'Agree, half-agree and disagree without it becoming a confrontation',
@@ -986,7 +990,7 @@ export const CURRICULUM = [
   {
     id: 'feelings-inner-life',
     level: 'B1',
-    order: 18,
+    order: 30,
     prerequisites: ['dative-locative'],
     objectives: [
       'Say how you feel with the constructions Croatian actually uses',
@@ -997,7 +1001,7 @@ export const CURRICULUM = [
   {
     id: 'complaints-problems',
     level: 'B1',
-    order: 19,
+    order: 45,
     prerequisites: ['opinions-agreeing'],
     objectives: [
       'Explain what has gone wrong and ask for it to be fixed',
@@ -1008,7 +1012,7 @@ export const CURRICULUM = [
   {
     id: 'bureaucracy',
     level: 'B1',
-    order: 20,
+    order: 46,
     prerequisites: ['impersonal'],
     objectives: [
       'Get through a counter at the bank, the post office or the council',
@@ -1019,7 +1023,7 @@ export const CURRICULUM = [
   {
     id: 'renting-flat',
     level: 'B1',
-    order: 21,
+    order: 47,
     prerequisites: ['bureaucracy'],
     objectives: [
       'Read a rental advert and understand what it is actually offering',
@@ -1030,8 +1034,8 @@ export const CURRICULUM = [
   {
     id: 'job-interview',
     level: 'B1',
-    order: 22,
-    prerequisites: ['opinions-agreeing'],
+    order: 16,
+    prerequisites: ['work-jobs'],
     objectives: [
       'Write a Croatian CV and covering letter',
       'Talk about your experience with the participle agreeing with you',
@@ -1041,8 +1045,8 @@ export const CURRICULUM = [
   {
     id: 'media-news',
     level: 'B1',
-    order: 23,
-    prerequisites: ['reported-speech'],
+    order: 29,
+    prerequisites: ['telling-a-story'],
     objectives: [
       'Read a headline, which usually has no verb in it',
       'Follow a report built almost entirely on reported speech',
@@ -1052,7 +1056,7 @@ export const CURRICULUM = [
   {
     id: 'technology-internet',
     level: 'B1',
-    order: 24,
+    order: 48,
     prerequisites: ['media-news'],
     objectives: [
       'Handle everyday digital vocabulary in Croatian',
@@ -1063,7 +1067,7 @@ export const CURRICULUM = [
   {
     id: 'environment-nature',
     level: 'B1',
-    order: 25,
+    order: 49,
     prerequisites: ['opinions-agreeing'],
     objectives: [
       'Describe the Croatian landscape, coast and islands',
@@ -1074,7 +1078,7 @@ export const CURRICULUM = [
   {
     id: 'food-cooking',
     level: 'B1',
-    order: 26,
+    order: 50,
     prerequisites: ['impersonal'],
     objectives: [
       'Read a Croatian recipe, which is pure imperative and genitive',
@@ -1102,7 +1106,7 @@ export const CURRICULUM = [
   {
     id: 'clitics',
     level: 'B2',
-    order: 1,
+    order: 14,
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Place short pronouns and auxiliaries in second position, where Croatian insists',
@@ -1113,7 +1117,7 @@ export const CURRICULUM = [
   {
     id: 'i-declension',
     level: 'B2',
-    order: 2,
+    order: 28,
     prerequisites: ['plural-cases'],
     objectives: [
       'Decline the feminine nouns that end in a consonant: stvar, noć, ljubav, riječ',
@@ -1135,7 +1139,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-with-verbs',
     level: 'B2',
-    order: 4,
+    order: 8,
     prerequisites: ['aspect-suffixes'],
     objectives: [
       'Know which aspect a phase verb, a modal or a negative command demands',
@@ -1146,7 +1150,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-negation',
     level: 'B2',
-    order: 5,
+    order: 12,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Negate correctly, and know why negation usually takes the imperfective',
@@ -1157,7 +1161,7 @@ export const CURRICULUM = [
   {
     id: 'participial-adjectives',
     level: 'B2',
-    order: 6,
+    order: 33,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Build the passive participle from any verb: napisan, otvoren, plaćen',
@@ -1168,7 +1172,7 @@ export const CURRICULUM = [
   {
     id: 'passive-voice',
     level: 'B2',
-    order: 7,
+    order: 32,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Form the passive both ways Croatian allows',
@@ -1179,7 +1183,7 @@ export const CURRICULUM = [
   {
     id: 'verbal-adverbs',
     level: 'B2',
-    order: 8,
+    order: 53,
     prerequisites: ['participial-adjectives'],
     objectives: [
       'Read the -ći and -vši forms that make written Croatian look written',
@@ -1190,7 +1194,7 @@ export const CURRICULUM = [
   {
     id: 'conditional',
     level: 'B2',
-    order: 9,
+    order: 36,
     prerequisites: ['past-tense'],
     objectives: [
       'Say what you would do',
@@ -1201,7 +1205,7 @@ export const CURRICULUM = [
   {
     id: 'unreal-conditions',
     level: 'B2',
-    order: 10,
+    order: 47,
     prerequisites: ['conditional'],
     objectives: [
       'Say what would have happened if things had been different',
@@ -1212,7 +1216,7 @@ export const CURRICULUM = [
   {
     id: 'wishes-regrets',
     level: 'B2',
-    order: 11,
+    order: 48,
     prerequisites: ['unreal-conditions'],
     objectives: [
       'Express a wish and a regret: Da barem…, Trebao sam…',
@@ -1223,7 +1227,7 @@ export const CURRICULUM = [
   {
     id: 'modal-nuance',
     level: 'B2',
-    order: 12,
+    order: 50,
     prerequisites: ['conditional'],
     objectives: [
       'Calibrate advice against obligation using the conditional',
@@ -1234,7 +1238,7 @@ export const CURRICULUM = [
   {
     id: 'complex-sentences',
     level: 'B2',
-    order: 13,
+    order: 42,
     prerequisites: ['clitics'],
     objectives: [
       'Join clauses with da, koji, jer and kad',
@@ -1245,7 +1249,7 @@ export const CURRICULUM = [
   {
     id: 'concession-contrast',
     level: 'B2',
-    order: 14,
+    order: 43,
     prerequisites: ['complex-sentences'],
     objectives: [
       'Concede a point before disagreeing with it',
@@ -1256,7 +1260,7 @@ export const CURRICULUM = [
   {
     id: 'prepositions-advanced',
     level: 'B2',
-    order: 15,
+    order: 45,
     prerequisites: ['i-declension'],
     objectives: [
       'Read the prepositions that take more than one case',
@@ -1267,8 +1271,8 @@ export const CURRICULUM = [
   {
     id: 'degrees-intensity',
     level: 'B2',
-    order: 16,
-    prerequisites: ['concession-contrast'],
+    order: 23,
+    prerequisites: ['comparative-idioms'],
     objectives: [
       'Say more and more, and the more… the more…',
       'Calibrate with jedva, prilično, vrlo, izuzetno and krajnje',
@@ -1278,7 +1282,7 @@ export const CURRICULUM = [
   {
     id: 'negation-advanced',
     level: 'B2',
-    order: 17,
+    order: 52,
     prerequisites: ['concession-contrast'],
     objectives: [
       'Deny precisely rather than wholesale',
@@ -1289,7 +1293,7 @@ export const CURRICULUM = [
   {
     id: 'argument-structure',
     level: 'B2',
-    order: 18,
+    order: 60,
     prerequisites: ['concession-contrast'],
     objectives: [
       'Give the advantages and disadvantages of an option — the level descriptor',
@@ -1300,8 +1304,8 @@ export const CURRICULUM = [
   {
     id: 'hedging-precision',
     level: 'B2',
-    order: 19,
-    prerequisites: ['argument-structure'],
+    order: 55,
+    prerequisites: ['modal-nuance'],
     objectives: [
       'Say how sure you are, and how much you are claiming',
       'Hedge with the conditional alone, without extra vocabulary',
@@ -1311,7 +1315,7 @@ export const CURRICULUM = [
   {
     id: 'abstract-topics',
     level: 'B2',
-    order: 20,
+    order: 61,
     prerequisites: ['argument-structure'],
     objectives: [
       'Discuss ideas, society and values',
@@ -1322,7 +1326,7 @@ export const CURRICULUM = [
   {
     id: 'writing-registers',
     level: 'B2',
-    order: 21,
+    order: 62,
     prerequisites: ['vi-vs-ti'],
     objectives: [
       'Write an email that lands at the right level of formality',
@@ -1333,7 +1337,7 @@ export const CURRICULUM = [
   {
     id: 'formal-email',
     level: 'B2',
-    order: 22,
+    order: 63,
     prerequisites: ['writing-registers'],
     objectives: [
       'Write a Croatian formal email that looks like one',
@@ -1344,7 +1348,7 @@ export const CURRICULUM = [
   {
     id: 'presentations',
     level: 'B2',
-    order: 23,
+    order: 64,
     prerequisites: ['argument-structure'],
     objectives: [
       'Structure a talk and signpost every turn in it',
@@ -1355,7 +1359,7 @@ export const CURRICULUM = [
   {
     id: 'meetings-negotiation',
     level: 'B2',
-    order: 24,
+    order: 65,
     prerequisites: ['presentations'],
     objectives: [
       'Take a turn in a meeting without being rude',
@@ -1366,8 +1370,8 @@ export const CURRICULUM = [
   {
     id: 'business-economy',
     level: 'B2',
-    order: 25,
-    prerequisites: ['meetings-negotiation'],
+    order: 40,
+    prerequisites: ['word-formation-agents'],
     objectives: [
       'Read and discuss the business pages',
       'Use the native words: dobit, gubitak, gospodarstvo',
@@ -1377,8 +1381,8 @@ export const CURRICULUM = [
   {
     id: 'politics-society',
     level: 'B2',
-    order: 26,
-    prerequisites: ['abstract-topics'],
+    order: 15,
+    prerequisites: ['human-rights'],
     objectives: [
       'Follow Croatian political reporting',
       'Name the institutions, starting with the Sabor',
@@ -1388,8 +1392,8 @@ export const CURRICULUM = [
   {
     id: 'small-talk-fluency',
     level: 'B2',
-    order: 27,
-    prerequisites: ['hedging-precision'],
+    order: 30,
+    prerequisites: ['colloquialisms'],
     objectives: [
       'Hesitate in Croatian rather than in silence',
       'Keep a conversation alive when a word will not come',
@@ -1399,7 +1403,7 @@ export const CURRICULUM = [
   {
     id: 'humour-irony',
     level: 'B2',
-    order: 28,
+    order: 59,
     prerequisites: ['small-talk-fluency'],
     objectives: [
       'Hear when a Croatian does not mean it literally',
@@ -1410,8 +1414,8 @@ export const CURRICULUM = [
   {
     id: 'language-history',
     level: 'B2',
-    order: 29,
-    prerequisites: ['abstract-topics'],
+    order: 10,
+    prerequisites: ['literacy-and-language'],
     objectives: [
       'Understand why standard Croatian is shaped the way it is',
       'Place the three dialect groups: štokavski, čakavski, kajkavski',
@@ -1421,7 +1425,7 @@ export const CURRICULUM = [
   {
     id: 'literature-canon',
     level: 'B2',
-    order: 30,
+    order: 20,
     prerequisites: ['language-history'],
     objectives: [
       'Choose a first Croatian book that will not defeat you',
@@ -1459,7 +1463,7 @@ export const CURRICULUM = [
   {
     id: 'word-order-emphasis',
     level: 'C1',
-    order: 2,
+    order: 11,
     prerequisites: ['clitics-advanced'],
     objectives: [
       'Move the emphasis of a sentence by moving its words',
@@ -1470,7 +1474,7 @@ export const CURRICULUM = [
   {
     id: 'verb-government',
     level: 'C1',
-    order: 3,
+    order: 15,
     prerequisites: ['prepositions-advanced'],
     objectives: [
       'Know which case each common verb demands, and stop guessing',
@@ -1481,7 +1485,7 @@ export const CURRICULUM = [
   {
     id: 'aspect-nuance',
     level: 'C1',
-    order: 4,
+    order: 16,
     prerequisites: ['aspect-suffixes'],
     objectives: [
       'Choose an aspect where both are grammatical and only one is right',
@@ -1492,7 +1496,7 @@ export const CURRICULUM = [
   {
     id: 'aorist-imperfekt',
     level: 'C1',
-    order: 5,
+    order: 51,
     prerequisites: ['past-tense'],
     objectives: [
       'Recognise the aorist and imperfect in literature and older writing',
@@ -1503,7 +1507,7 @@ export const CURRICULUM = [
   {
     id: 'verbal-nouns',
     level: 'C1',
-    order: 6,
+    order: 22,
     prerequisites: ['passive-voice'],
     objectives: [
       'Turn a verb into a noun, the way formal Croatian prefers',
@@ -1514,7 +1518,7 @@ export const CURRICULUM = [
   {
     id: 'condensation',
     level: 'C1',
-    order: 7,
+    order: 28,
     prerequisites: ['verbal-nouns'],
     objectives: [
       'Compress a subordinate clause into a phrase, and expand it back',
@@ -1525,7 +1529,7 @@ export const CURRICULUM = [
   {
     id: 'tvorba-rijeci',
     level: 'C1',
-    order: 8,
+    order: 34,
     prerequisites: ['verbal-nouns'],
     objectives: [
       'Predict a word’s meaning from its prefix and suffix',
@@ -1536,7 +1540,7 @@ export const CURRICULUM = [
   {
     id: 'diminutives-augmentatives',
     level: 'C1',
-    order: 9,
+    order: 40,
     prerequisites: ['tvorba-rijeci'],
     objectives: [
       'Form diminutives and augmentatives and know what they signal',
@@ -1547,7 +1551,7 @@ export const CURRICULUM = [
   {
     id: 'collective-numbers',
     level: 'C1',
-    order: 10,
+    order: 37,
     prerequisites: ['numbers-nouns'],
     objectives: [
       'Count mixed groups of people, where ordinary numbers fail',
@@ -1558,7 +1562,7 @@ export const CURRICULUM = [
   {
     id: 'clause-types',
     level: 'C1',
-    order: 11,
+    order: 21,
     prerequisites: ['complex-sentences'],
     objectives: [
       'Name and build every subordinate clause type Croatian uses',
@@ -1569,7 +1573,7 @@ export const CURRICULUM = [
   {
     id: 'comparison-advanced',
     level: 'C1',
-    order: 12,
+    order: 43,
     prerequisites: ['degrees-intensity'],
     objectives: [
       'Compare with od, nego and the structures each one requires',
@@ -1580,7 +1584,7 @@ export const CURRICULUM = [
   {
     id: 'passive-choices',
     level: 'C1',
-    order: 13,
+    order: 33,
     prerequisites: ['verbal-nouns'],
     objectives: [
       'Choose between the participial passive, se-passive and impersonal',
@@ -1591,8 +1595,8 @@ export const CURRICULUM = [
   {
     id: 'collocations',
     level: 'C1',
-    order: 14,
-    prerequisites: ['tvorba-rijeci'],
+    order: 29,
+    prerequisites: ['condensation'],
     objectives: [
       'Pair verbs and nouns the way Croatian pairs them',
       'Stop translating English collocations word by word',
@@ -1602,7 +1606,7 @@ export const CURRICULUM = [
   {
     id: 'discourse-particles',
     level: 'C1',
-    order: 15,
+    order: 44,
     prerequisites: ['word-order-emphasis'],
     objectives: [
       'Use pa, ma, baš, valjda, zar and the rest as native speakers do',
@@ -1613,7 +1617,7 @@ export const CURRICULUM = [
   {
     id: 'idioms-register',
     level: 'C1',
-    order: 16,
+    order: 45,
     prerequisites: ['word-order-emphasis'],
     objectives: [
       'Use idioms that native speakers actually say',
@@ -1624,7 +1628,7 @@ export const CURRICULUM = [
   {
     id: 'accent-prosody',
     level: 'C1',
-    order: 17,
+    order: 48,
     prerequisites: ['clitics-advanced'],
     objectives: [
       'Understand what Croatian pitch accent is and where it falls',
@@ -1635,7 +1639,7 @@ export const CURRICULUM = [
   {
     id: 'summarising-paraphrase',
     level: 'C1',
-    order: 18,
+    order: 49,
     prerequisites: ['condensation'],
     objectives: [
       'Summarise a Croatian text without copying its sentences',
@@ -1646,7 +1650,7 @@ export const CURRICULUM = [
   {
     id: 'academic-writing',
     level: 'C1',
-    order: 19,
+    order: 50,
     prerequisites: ['summarising-paraphrase'],
     objectives: [
       'Structure an essay the way Croatian academic writing structures one',
@@ -1657,7 +1661,7 @@ export const CURRICULUM = [
   {
     id: 'debate-persuasion',
     level: 'C1',
-    order: 20,
+    order: 55,
     prerequisites: ['argument-structure', 'discourse-particles'],
     objectives: [
       'Concede a point and then defeat it',
@@ -1668,7 +1672,7 @@ export const CURRICULUM = [
   {
     id: 'formal-speech',
     level: 'C1',
-    order: 21,
+    order: 56,
     prerequisites: ['debate-persuasion'],
     objectives: [
       'Give a toast, a thank-you and a short formal address',
@@ -1679,7 +1683,7 @@ export const CURRICULUM = [
   {
     id: 'translation-pitfalls',
     level: 'C1',
-    order: 22,
+    order: 57,
     prerequisites: ['collocations'],
     objectives: [
       'Recognise the English structures that do not survive translation',
@@ -1690,7 +1694,7 @@ export const CURRICULUM = [
   {
     id: 'proofreading-editing',
     level: 'C1',
-    order: 23,
+    order: 58,
     prerequisites: ['academic-writing'],
     objectives: [
       'Find your own errors in the order they are worth finding',
@@ -1701,7 +1705,7 @@ export const CURRICULUM = [
   {
     id: 'media-analysis',
     level: 'C1',
-    order: 24,
+    order: 59,
     prerequisites: ['clause-types'],
     objectives: [
       'Read a Croatian news article for what it does not say',
@@ -1712,7 +1716,7 @@ export const CURRICULUM = [
   {
     id: 'law-administration',
     level: 'C1',
-    order: 25,
+    order: 60,
     prerequisites: ['passive-choices'],
     objectives: [
       'Read a contract, a form and an official decision',
@@ -1723,7 +1727,7 @@ export const CURRICULUM = [
   {
     id: 'science-technology',
     level: 'C1',
-    order: 26,
+    order: 61,
     prerequisites: ['tvorba-rijeci'],
     objectives: [
       'Read technical and scientific Croatian without panic',
@@ -1734,7 +1738,7 @@ export const CURRICULUM = [
   {
     id: 'arts-culture',
     level: 'C1',
-    order: 27,
+    order: 62,
     prerequisites: ['idioms-register'],
     objectives: [
       'Discuss a book, a film or an exhibition in Croatian',
@@ -1745,7 +1749,7 @@ export const CURRICULUM = [
   {
     id: 'regional-varieties',
     level: 'C1',
-    order: 28,
+    order: 63,
     prerequisites: ['accent-prosody'],
     objectives: [
       'Recognise kajkavski and čakavski when you hear them',
@@ -1756,7 +1760,7 @@ export const CURRICULUM = [
   {
     id: 'language-identity',
     level: 'C1',
-    order: 29,
+    order: 64,
     prerequisites: ['regional-varieties'],
     objectives: [
       'Understand what distinguishes Croatian from its neighbours',
@@ -1767,7 +1771,7 @@ export const CURRICULUM = [
   {
     id: 'diaspora-identity',
     level: 'C1',
-    order: 30,
+    order: 65,
     prerequisites: ['language-identity'],
     objectives: [
       'Talk about heritage, generation and belonging in Croatian',
@@ -1821,8 +1825,8 @@ export const CURRICULUM = [
   },
   {
     id: 'zarez-interpunkcija',
-    level: 'C2',
-    order: 3,
+    level: 'C1',
+    order: 20,
     prerequisites: ['complex-sentences'],
     objectives: [
       'Place the Croatian comma by rule, not by English habit',
@@ -1832,9 +1836,9 @@ export const CURRICULUM = [
   },
   {
     id: 'sklonidba-iznimke',
-    level: 'C2',
-    order: 4,
-    prerequisites: ['norma-i-uzus'],
+    level: 'C1',
+    order: 36,
+    prerequisites: ['hypocoristics-dvojica'],
     objectives: [
       'Decline foreign names instead of leaving them uninflected',
       'Handle the nouns whose plural or gender breaks the pattern',
@@ -1843,9 +1847,9 @@ export const CURRICULUM = [
   },
   {
     id: 'brojevi-norma',
-    level: 'C2',
-    order: 5,
-    prerequisites: ['collective-numbers'],
+    level: 'C1',
+    order: 6,
+    prerequisites: ['abbreviations'],
     objectives: [
       'Punctuate numbers, dates and measurements the Croatian way',
       'Choose between a declined and an undeclined number by register',
@@ -1854,9 +1858,9 @@ export const CURRICULUM = [
   },
   {
     id: 'slaganje-suptilnosti',
-    level: 'C2',
-    order: 6,
-    prerequisites: ['sklonidba-iznimke'],
+    level: 'C1',
+    order: 26,
+    prerequisites: ['multi-subject-agreement'],
     objectives: [
       'Agree a verb with a coordinated, collective or quantity subject',
       'Stop the verb drifting to the nearest noun',
@@ -1865,8 +1869,8 @@ export const CURRICULUM = [
   },
   {
     id: 'padezne-suptilnosti',
-    level: 'C2',
-    order: 7,
+    level: 'C1',
+    order: 24,
     prerequisites: ['verb-government'],
     objectives: [
       'Use the genitive of negation and the partitive deliberately',
@@ -1877,7 +1881,7 @@ export const CURRICULUM = [
   {
     id: 'glagolski-vid-granice',
     level: 'C2',
-    order: 8,
+    order: 3,
     prerequisites: ['aspect-nuance'],
     objectives: [
       'Handle the verbs that are both aspects at once',
@@ -1887,8 +1891,8 @@ export const CURRICULUM = [
   },
   {
     id: 'pluskvamperfekt',
-    level: 'C2',
-    order: 9,
+    level: 'C1',
+    order: 52,
     prerequisites: ['aorist-imperfekt'],
     objectives: [
       'Express an action completed before another past action',
@@ -1899,7 +1903,7 @@ export const CURRICULUM = [
   {
     id: 'kondicional-drugi',
     level: 'C2',
-    order: 10,
+    order: 4,
     prerequisites: ['unreal-conditions'],
     objectives: [
       'Build and use bio bih došao for what never happened',
@@ -1910,7 +1914,7 @@ export const CURRICULUM = [
   {
     id: 'glagolski-nacini',
     level: 'C2',
-    order: 11,
+    order: 5,
     prerequisites: ['kondicional-drugi'],
     objectives: [
       'Express obligation personally and impersonally',
@@ -1921,7 +1925,7 @@ export const CURRICULUM = [
   {
     id: 'stilske-figure',
     level: 'C2',
-    order: 12,
+    order: 6,
     prerequisites: ['idioms-register'],
     objectives: [
       'Recognise and use the rhetorical figures Croatian prose favours',
@@ -1932,7 +1936,7 @@ export const CURRICULUM = [
   {
     id: 'ritam-recenice',
     level: 'C2',
-    order: 13,
+    order: 7,
     prerequisites: ['stilske-figure'],
     objectives: [
       'Vary sentence length so the reader knows what matters',
@@ -1943,7 +1947,7 @@ export const CURRICULUM = [
   {
     id: 'ironija-podtekst',
     level: 'C2',
-    order: 14,
+    order: 8,
     prerequisites: ['humour-irony'],
     objectives: [
       'Hear the markers that turn praise into sarcasm',
@@ -1954,7 +1958,7 @@ export const CURRICULUM = [
   {
     id: 'humor-jezicni',
     level: 'C2',
-    order: 15,
+    order: 9,
     prerequisites: ['ironija-podtekst'],
     objectives: [
       'Follow puns that turn on pitch accent or a case ending',
@@ -1965,7 +1969,7 @@ export const CURRICULUM = [
   {
     id: 'administrativni-stil',
     level: 'C2',
-    order: 16,
+    order: 10,
     prerequisites: ['writing-registers', 'verbal-nouns'],
     objectives: [
       'Read contracts, forms and official correspondence',
@@ -1976,7 +1980,7 @@ export const CURRICULUM = [
   {
     id: 'publicisticki-stil',
     level: 'C2',
-    order: 17,
+    order: 11,
     prerequisites: ['media-analysis'],
     objectives: [
       'Read a Croatian news text the way it was built',
@@ -1987,7 +1991,7 @@ export const CURRICULUM = [
   {
     id: 'znanstveni-stil',
     level: 'C2',
-    order: 18,
+    order: 12,
     prerequisites: ['academic-writing'],
     objectives: [
       'Navigate a Croatian paper from sažetak to literatura',
@@ -1998,7 +2002,7 @@ export const CURRICULUM = [
   {
     id: 'knjizevni-stil',
     level: 'C2',
-    order: 19,
+    order: 13,
     prerequisites: ['literature-canon'],
     objectives: [
       'Recognise the aorist, imperfect and free indirect style at work',
@@ -2009,7 +2013,7 @@ export const CURRICULUM = [
   {
     id: 'razgovorni-stil',
     level: 'C2',
-    order: 20,
+    order: 14,
     prerequisites: ['idioms-register'],
     objectives: [
       'Recognise the shortenings and intonation questions of real speech',
@@ -2020,7 +2024,7 @@ export const CURRICULUM = [
   {
     id: 'stari-tekstovi',
     level: 'C2',
-    order: 21,
+    order: 15,
     prerequisites: ['language-history'],
     objectives: [
       'Resolve pre-Gaj spelling by reading it aloud',
@@ -2031,7 +2035,7 @@ export const CURRICULUM = [
   {
     id: 'sinteza-izvora',
     level: 'C2',
-    order: 22,
+    order: 16,
     prerequisites: ['summarising-paraphrase'],
     objectives: [
       'Organise a synthesis by idea rather than by source',
@@ -2042,7 +2046,7 @@ export const CURRICULUM = [
   {
     id: 'rekonstrukcija-argumenta',
     level: 'C2',
-    order: 23,
+    order: 17,
     prerequisites: ['sinteza-izvora'],
     objectives: [
       'Separate premise, inference and conclusion in someone else’s case',
@@ -2053,7 +2057,7 @@ export const CURRICULUM = [
   {
     id: 'precizno-nijansiranje',
     level: 'C2',
-    order: 24,
+    order: 18,
     prerequisites: ['collocations'],
     objectives: [
       'Choose between near-synonyms that a dictionary treats as equal',
@@ -2064,7 +2068,7 @@ export const CURRICULUM = [
   {
     id: 'spontani-govor',
     level: 'C2',
-    order: 25,
+    order: 19,
     prerequisites: ['debate-persuasion'],
     objectives: [
       'Buy time with real Croatian fillers rather than translated English ones',
@@ -2075,7 +2079,7 @@ export const CURRICULUM = [
   {
     id: 'prevodjenje-strucno',
     level: 'C2',
-    order: 26,
+    order: 20,
     prerequisites: ['translation-pitfalls'],
     objectives: [
       'Decide what a translation is for before translating it',
@@ -2086,7 +2090,7 @@ export const CURRICULUM = [
   {
     id: 'uredjivanje-teksta',
     level: 'C2',
-    order: 27,
+    order: 21,
     prerequisites: ['proofreading-editing'],
     objectives: [
       'Know the difference between korektura, lektura and redaktura',
@@ -2097,7 +2101,7 @@ export const CURRICULUM = [
   {
     id: 'frazeologija-dubinska',
     level: 'C2',
-    order: 28,
+    order: 22,
     prerequisites: ['idioms-register'],
     objectives: [
       'Recognise a proverb from its opening, because that is all you will hear',
@@ -2108,7 +2112,7 @@ export const CURRICULUM = [
   {
     id: 'dijalekti-dubinski',
     level: 'C2',
-    order: 29,
+    order: 23,
     prerequisites: ['regional-varieties'],
     objectives: [
       'Follow kajkavian and čakavian rather than only recognising them',
@@ -2119,7 +2123,7 @@ export const CURRICULUM = [
   {
     id: 'jezik-i-drustvo',
     level: 'C2',
-    order: 30,
+    order: 24,
     prerequisites: ['dijalekti-dubinski'],
     objectives: [
       'Know what your Vi, your dialect and your anglicisms signal',
@@ -2128,6 +2132,10 @@ export const CURRICULUM = [
     ],
   },
   ...SPINE_A1_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
+  ...SPINE_A2_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
+  ...SPINE_B1_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
+  ...SPINE_B2_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
+  ...SPINE_C1_NEW.map(({ masterOrder: _masterOrder, ...e }) => e),
 ];
 
 /** Lookup by lesson id. */
