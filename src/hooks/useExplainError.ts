@@ -30,6 +30,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { _aiPost } from '../lib/aiPost';
 import { coerceAiText } from '../lib/aiText';
+import { readTaughtTerms } from '../lib/taughtTerms';
+import { formDiff } from '../lib/answerContrast';
 import {
   failureFromError,
   failureFromResponse,
@@ -69,15 +71,27 @@ export function useExplainError(type: string, level: string) {
   const reset = useCallback(() => setExplain(null), []);
 
   const request = useCallback(
-    async (wrong: string, correct: string, context: string) => {
+    async (wrong: string, correct: string, context: string, opts?: { simpler?: boolean }) => {
       setExplain('loading');
       try {
+        // THE LEARNER'S VOCABULARY (owner, 2026-11-12). The grammar words the course has
+        // introduced to THIS learner travel with the request, and the endpoint tells the
+        // model to use no others; null (course not loaded) sends nothing, and the endpoint
+        // then falls back to glossing. The letters that differ are computed here, not
+        // guessed by the model.
+        const taught = readTaughtTerms();
+        const d = formDiff(wrong, correct);
         const res = await _aiPost('/api/explain-error', {
           wrong,
           correct,
           context,
           type,
           level: level || 'B1',
+          ...(taught ? { taught: [...taught] } : {}),
+          ...(d && d.kind === 'ending'
+            ? { diff: { kind: d.kind, chosenTail: d.chosenTail, answerTail: d.answerTail } }
+            : {}),
+          ...(opts?.simpler ? { simpler: true } : {}),
         });
         if (!mountedRef.current) return;
         if (!res || !res.ok) {

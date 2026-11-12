@@ -944,6 +944,33 @@ this month — had nothing.
   each fails 1–5 tests: the AI call fired automatically, a multi-word option
   given a contrast, overlapping cases reported as a case error, the panel shown
   on a correct answer, the panel unmounted from the engine.
+- **THE EXPLANATION SPEAKS ONLY THE WORDS THE LEARNER HAS BEEN TAUGHT (owner report and
+  decision, 2026-11-12).** Report: "Explain this one to me" talked about singular/plural and
+  padeži to a Unit-1 learner who had been taught neither — _"we shouldn't be confusing the
+  learner with subjects they have not yet studied or mastered."_ The explanation was correct
+  and the vocabulary had not been introduced; it also told the model to "name the grammar
+  rule, case, or pattern", contradicting its own plain-English rule, and the free contrast
+  said "genitive singular" unglossed. `lib/taughtTerms.ts` maps each lesson to the grammar
+  words it introduces (`TERMS_INTRODUCED_BY`); a word is allowed exactly when its lesson is
+  OPEN (`lessonLock`, the same set as the lock and the session — today's lesson counts, it
+  is being taught). Three consumers: the free contrast names a case only if taught
+  (`contrastAnswers(…, taught)`); `useExplainError` sends `taught` (and the computed letter
+  diff) with every explain-error request, and the endpoint tells the model to use no other
+  grammar word; and `AnswerDiff` shows the two words side by side with the differing
+  letters underlined and ONE plain sentence ("Only the ending is different: you wrote -u, it
+  needs -a") computed from the letters, never inferred. "Show me even simpler" is a second,
+  explicit press (`simpler: true`: one sentence, no grammar words) — the only thing that
+  spends another turn. **An unknown vocabulary (no spine yet) is `null` and withholds
+  nothing**: an explanation that went blank because the course had not loaded would be worse
+  than the jargon it removes. Pinned by `tieredExplanations.test.tsx` (the Unit-1 panel
+  contains no grammar word; the request carries the list; the endpoint source tells the model
+  the rule); mutation-verified, six. NOT done here, stated: the Practice tab and word decks
+  still draw by level, so a Unit-1 learner can be SERVED an item from a later unit — that is
+  the next change (serve only taught material), and a miss does not yet return for review.
+  NEVER: name a case, singular/plural or a tense to a learner whose lesson for it is not open;
+  add a grammar word to an explanation without a row in `TERMS_INTRODUCED_BY`; infer "only the
+  ending differs" from grammar rather than from the letters; make the simpler explanation
+  automatic.
 - NEVER: fire the explanation without the learner asking; state a case error
   when both endings permit the case; build a contrast from a multi-word option;
   import an AI module into `ModeDrill`; add a fourth layer that costs a turn by

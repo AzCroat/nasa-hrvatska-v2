@@ -17,10 +17,16 @@ import { isExplainFailed, type ExplainState } from '../../hooks/useExplainError'
 export default function DrillExplainCard({
   state,
   onRetry,
+  onSimpler,
 }: {
   state: ExplainState;
   /** Offered only when the failure is one a retry can actually clear. */
   onRetry?: () => void;
+  /**
+   * "Show me even simpler" — offered under an explanation that is not already the
+   * simple one. The learner pressing it is the only thing that spends a second turn.
+   */
+  onSimpler?: () => void;
 }) {
   if (state === null) return null;
   if (isExplainFailed(state)) {
@@ -109,6 +115,27 @@ export default function DrillExplainCard({
         <div style={{ fontSize: 12, marginTop: 4, fontStyle: 'italic', color: 'var(--subtext)' }}>
           {state.example}
         </div>
+      )}
+      {onSimpler && (
+        <button
+          data-testid="drill-explain-simpler"
+          onClick={onSimpler}
+          style={{
+            display: 'block',
+            marginTop: 8,
+            background: 'none',
+            border: 'none',
+            color: 'var(--subtext)',
+            fontSize: 12,
+            fontWeight: 700,
+            textDecoration: 'underline',
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            padding: 0,
+          }}
+        >
+          Show me even simpler
+        </button>
       )}
     </div>
   );
