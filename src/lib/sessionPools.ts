@@ -5,6 +5,7 @@
  */
 import { C_LEVEL_DRILL_ENTRIES } from './drillPoolEntries';
 import { PRACTICE_PROGRAMME_ENTRIES } from './practiceDrillEntries';
+import { A1_LESSON_DRILL_ENTRIES } from './practiceDrillEntriesA1';
 
 export type { CefrPoolEntry } from './drillPoolEntries';
 import type { CefrPoolEntry } from './drillPoolEntries';
@@ -312,6 +313,7 @@ export const CEFR_EXERCISE_POOL: CefrPoolEntry[] = [
   },
   ...C_LEVEL_DRILL_ENTRIES,
   ...PRACTICE_PROGRAMME_ENTRIES,
+  ...A1_LESSON_DRILL_ENTRIES,
   {
     id: 'neizravni',
     label: 'Neizravni govor',

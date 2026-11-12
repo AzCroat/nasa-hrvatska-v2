@@ -41,6 +41,7 @@ import {
   reviewBreakdown,
   levelReviewDue,
   LEVEL_REVIEW_ITEMS,
+  levelReviewLength,
   ITEMS_PER_UNIT,
   type ReviewUnitInput,
 } from '../lib/levelReview';
@@ -76,6 +77,14 @@ function fakeLevel(units = 6, lessons = 5, items = 6): ReviewUnitInput[] {
 }
 
 describe('the round mixes the whole level', () => {
+  // A1 has twenty units since the Croaticum rebuild (2026-11-12). A fixed 18 left the last two
+  // out of the round; a longer level gets one item per unit instead, so none is skipped.
+  it('covers every unit of a level longer than six units, one item each', () => {
+    const r = buildLevelReview(fakeLevel(20));
+    expect(r).toHaveLength(levelReviewLength(20));
+    expect(new Set(r.map((it) => it.unitId)).size).toBe(20);
+  });
+
   it('is 18 items, three from each of the six units', () => {
     const r = buildLevelReview(fakeLevel());
     expect(r).toHaveLength(LEVEL_REVIEW_ITEMS);
@@ -123,7 +132,8 @@ describe('the round mixes the whole level', () => {
         lessons: u.lessons.map((l) => byId.get(l.id)).filter(Boolean) as never[],
       })),
     );
-    expect(r).toHaveLength(LEVEL_REVIEW_ITEMS);
+    expect(r).toHaveLength(levelReviewLength(a1.length));
+    expect(new Set(r.map((it) => it.unitId)).size, 'every A1 unit is in the round').toBe(a1.length);
     for (let i = 1; i < r.length; i++) expect(r[i]!.unitId).not.toBe(r[i - 1]!.unitId);
   });
 

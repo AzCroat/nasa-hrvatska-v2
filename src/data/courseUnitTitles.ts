@@ -28,42 +28,97 @@ export interface CourseUnitTitle {
 export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   // ── A1 ──────────────────────────────────────────────────────────────────────
   'A1-1': {
-    title: 'Sounds, Hellos and Who You Are',
-    subtitle: 'Read any Croatian word aloud, greet people, say who you are, and point at things.',
+    title: 'Sounds, Hellos and Being',
+    subtitle: 'Read any Croatian word aloud, greet people, and say who you are and are not.',
   },
   'A1-2': {
-    title: 'Asking, Counting and Belonging',
+    title: 'Naming Things, One and Many',
     subtitle:
-      'Ask a question, say where you are from, count, tell the time, and say whose something is.',
+      'Tell a noun’s gender, point at things, ask simple questions, and make a noun plural.',
   },
   'A1-3': {
-    title: 'Family, Describing and Doing',
+    title: 'Work, Countries and Numbers',
     subtitle:
-      'Introduce your family, describe things, use any regular verb, say no, and learn what a case is.',
+      'Say what you do, where you are from and which language you speak, and count to a thousand.',
   },
   'A1-4': {
-    title: 'The Accusative and Everyday Needs',
-    subtitle: 'Say what you have, want and can do, name the days, and order food and drink.',
+    title: 'Names, Family and Plurals',
+    subtitle:
+      'Say your name, introduce your family, and form the plurals that add -ovi or change their last consonant.',
   },
   'A1-5': {
-    title: 'Shopping, Places and the Past',
+    title: 'Describing and Doing',
     subtitle:
-      'Buy clothes, ask a price, say where things are, and talk about what already happened.',
+      'Handle the disappearing a, describe things in colour, say whose they are, and use regular verbs.',
   },
   'A1-6': {
-    title: 'Weather, the Future and Giving',
+    title: 'Saying No, and the First Case',
     subtitle:
-      'Ask and deny in the past, talk about weather and tomorrow, and say who you give things to.',
+      'Say what you do not do, use -irati verbs, learn what a case is, and name what you see and want.',
   },
   'A1-7': {
-    title: 'Yourself, With Others, Of Things',
-    subtitle:
-      'Use reflexive verbs, say what you like, say who you are with, and use the genitive for amounts and belonging.',
+    title: 'Having, Needing and Being Allowed',
+    subtitle: 'Say what you have, book a hotel room, and say what you can, must, need and may do.',
   },
   'A1-8': {
-    title: 'Dates, Health, Commands and Directions',
+    title: 'Money, Days and Going Places',
+    subtitle: 'Change money, name the days, and say where you are going and who something is for.',
+  },
+  'A1-9': {
+    title: 'Pronouns, Trips and Meals',
+    subtitle: 'Use me, te and ga correctly, book a trip, and order food and drink.',
+  },
+  'A1-10': {
+    title: 'Shopping and Where Things Are',
+    subtitle: 'Use -iti and -jeti verbs, shop for clothes, and say where something is.',
+  },
+  'A1-11': {
+    title: 'Talking About, Months and Home',
     subtitle:
-      'Give a date, say what hurts, give an instruction, address a person, and find your way.',
+      'Talk about someone, use -ovati verbs, name the months, describe a flat, and make a phone call.',
+  },
+  'A1-12': {
+    title: 'The Past and the Weather',
+    subtitle:
+      'Say what you did, including with irregular verbs, ask about the past, tell a short story, and talk about the weather.',
+  },
+  'A1-13': {
+    title: 'The Future and the Dative',
+    subtitle:
+      'Say what you will do, make plans, say who something is for or towards, and use short pronouns.',
+  },
+  'A1-14': {
+    title: 'Giving, Liking and the Daily Routine',
+    subtitle:
+      'Give and send things to people, say what you like, write a postcard, and describe your day.',
+  },
+  'A1-15': {
+    title: 'School and the Instrumental',
+    subtitle:
+      'Use reflexive verbs in the past and future, talk about school, and say who you are with and how you travel.',
+  },
+  'A1-16': {
+    title: 'Under, Between and the Genitive',
+    subtitle:
+      'Say where something is with pred and pod, use sa mnom, and start using the genitive.',
+  },
+  'A1-17': {
+    title: 'From, At and How Many',
+    subtitle: 'Use iz, od, do, kod and bez, count things correctly, and give a date.',
+  },
+  'A1-18': {
+    title: 'Years, Health and Special Nouns',
+    subtitle: 'Say a year, describe what hurts, and use nouns like stvar and hlače correctly.',
+  },
+  'A1-19': {
+    title: 'Free Time, Feelings and Instructions',
+    subtitle:
+      'Talk about sport and free time, say how you feel, and tell someone to do or not to do something.',
+  },
+  'A1-20': {
+    title: 'Addressing People and Travelling in Croatia',
+    subtitle:
+      'Use verbs like doći and moći, address someone correctly, find your way, and plan a trip.',
   },
 
   // ── A2 ──────────────────────────────────────────────────────────────────────

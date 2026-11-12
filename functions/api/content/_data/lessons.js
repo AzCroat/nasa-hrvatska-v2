@@ -2664,7 +2664,7 @@ const LESSONS_CORE = [
           },
           {
             q: "Which is the correct written short future of 'doći' with 'ja'?",
-            options: ['doć ću', 'doći ću', 'doćiću', 'ću doći ja'],
+            options: ['doć ću', 'doći ću', 'dođem ću', 'ću doći ja'],
             correct: 1,
             explanation:
               'Infinitives in -ći are not clipped in standard writing: doći ću. Only -ti infinitives lose the final -i (radit ću).',

@@ -272,6 +272,126 @@ const PreferencesDrill = lazyWithReload(() => import('./practice/drills/Preferen
 const HomeDrill = lazyWithReload(() => import('./practice/drills/HomeDrill'));
 const HealthDrill = lazyWithReload(() => import('./practice/drills/HealthDrill'));
 const ClothingDrill = lazyWithReload(() => import('./practice/drills/ClothingDrill'));
+const A1SoundsPalatalsDrill = lazyWithReload(
+  () => import('./practice/drills/A1SoundsPalatalsDrill'),
+);
+const A1BitiQuestionsNegationDrill = lazyWithReload(
+  () => import('./practice/drills/A1BitiQuestionsNegationDrill'),
+);
+const A1PluralIrregularDrill = lazyWithReload(
+  () => import('./practice/drills/A1PluralIrregularDrill'),
+);
+const A1JobsProfessionsDrill = lazyWithReload(
+  () => import('./practice/drills/A1JobsProfessionsDrill'),
+);
+const A1NationalitiesDrill = lazyWithReload(() => import('./practice/drills/A1NationalitiesDrill'));
+const A1Numbers11To1000Drill = lazyWithReload(
+  () => import('./practice/drills/A1Numbers11To1000Drill'),
+);
+const A1ZvatiSeDrill = lazyWithReload(() => import('./practice/drills/A1ZvatiSeDrill'));
+const A1MasculinePluralOviDrill = lazyWithReload(
+  () => import('./practice/drills/A1MasculinePluralOviDrill'),
+);
+const A1SibilarizationDrill = lazyWithReload(
+  () => import('./practice/drills/A1SibilarizationDrill'),
+);
+const A1FleetingADrill = lazyWithReload(() => import('./practice/drills/A1FleetingADrill'));
+const A1ColoursDrill = lazyWithReload(() => import('./practice/drills/A1ColoursDrill'));
+const A1PossessiveAdjectivesDrill = lazyWithReload(
+  () => import('./practice/drills/A1PossessiveAdjectivesDrill'),
+);
+const A1VerbsAtiIratiDrill = lazyWithReload(() => import('./practice/drills/A1VerbsAtiIratiDrill'));
+const A1AccusativeAnimateDrill = lazyWithReload(
+  () => import('./practice/drills/A1AccusativeAnimateDrill'),
+);
+const A1AtTheHotelDrill = lazyWithReload(() => import('./practice/drills/A1AtTheHotelDrill'));
+const A1TrebatiNeedDrill = lazyWithReload(() => import('./practice/drills/A1TrebatiNeedDrill'));
+const A1SmjetiPermissionDrill = lazyWithReload(
+  () => import('./practice/drills/A1SmjetiPermissionDrill'),
+);
+const A1MoneyExchangeDrill = lazyWithReload(() => import('./practice/drills/A1MoneyExchangeDrill'));
+const A1IciGoingDrill = lazyWithReload(() => import('./practice/drills/A1IciGoingDrill'));
+const A1UNaMotionDrill = lazyWithReload(() => import('./practice/drills/A1UNaMotionDrill'));
+const A1ZaAccusativeDrill = lazyWithReload(() => import('./practice/drills/A1ZaAccusativeDrill'));
+const A1AccusativePronounsDrill = lazyWithReload(
+  () => import('./practice/drills/A1AccusativePronounsDrill'),
+);
+const A1TravelAgencyDrill = lazyWithReload(() => import('./practice/drills/A1TravelAgencyDrill'));
+const A1JestiPitiDrill = lazyWithReload(() => import('./practice/drills/A1JestiPitiDrill'));
+const A1AtTheRestaurantDrill = lazyWithReload(
+  () => import('./practice/drills/A1AtTheRestaurantDrill'),
+);
+const A1VerbsItiJetiDrill = lazyWithReload(() => import('./practice/drills/A1VerbsItiJetiDrill'));
+const A1LocativePronounsDrill = lazyWithReload(
+  () => import('./practice/drills/A1LocativePronounsDrill'),
+);
+const A1VerbsOvatiDrill = lazyWithReload(() => import('./practice/drills/A1VerbsOvatiDrill'));
+const A1MonthsDrill = lazyWithReload(() => import('./practice/drills/A1MonthsDrill'));
+const A1FlatRoomsDrill = lazyWithReload(() => import('./practice/drills/A1FlatRoomsDrill'));
+const A1PhoneCallDrill = lazyWithReload(() => import('./practice/drills/A1PhoneCallDrill'));
+const A1PastIrregularDrill = lazyWithReload(() => import('./practice/drills/A1PastIrregularDrill'));
+const A1PastStoryDrill = lazyWithReload(() => import('./practice/drills/A1PastStoryDrill'));
+const A1FuturePlansDrill = lazyWithReload(() => import('./practice/drills/A1FuturePlansDrill'));
+const A1DativePrepositionsDrill = lazyWithReload(
+  () => import('./practice/drills/A1DativePrepositionsDrill'),
+);
+const A1GivingAndSendingDrill = lazyWithReload(
+  () => import('./practice/drills/A1GivingAndSendingDrill'),
+);
+const A1VerbsWithDativeDrill = lazyWithReload(
+  () => import('./practice/drills/A1VerbsWithDativeDrill'),
+);
+const A1PostcardsWishesDrill = lazyWithReload(
+  () => import('./practice/drills/A1PostcardsWishesDrill'),
+);
+const A1DailyRoutineDrill = lazyWithReload(() => import('./practice/drills/A1DailyRoutineDrill'));
+const A1ReflexivePastFutureDrill = lazyWithReload(
+  () => import('./practice/drills/A1ReflexivePastFutureDrill'),
+);
+const A1SchoolEducationDrill = lazyWithReload(
+  () => import('./practice/drills/A1SchoolEducationDrill'),
+);
+const A1InstrumentalMeansDrill = lazyWithReload(
+  () => import('./practice/drills/A1InstrumentalMeansDrill'),
+);
+const A1InstrumentalPlaceDrill = lazyWithReload(
+  () => import('./practice/drills/A1InstrumentalPlaceDrill'),
+);
+const A1InstrumentalPronounsDrill = lazyWithReload(
+  () => import('./practice/drills/A1InstrumentalPronounsDrill'),
+);
+const A1GenitivePartitiveDrill = lazyWithReload(
+  () => import('./practice/drills/A1GenitivePartitiveDrill'),
+);
+const A1NematiGenitiveDrill = lazyWithReload(
+  () => import('./practice/drills/A1NematiGenitiveDrill'),
+);
+const A1GenitivePrepositionsDrill = lazyWithReload(
+  () => import('./practice/drills/A1GenitivePrepositionsDrill'),
+);
+const A1GenitivePronounsDrill = lazyWithReload(
+  () => import('./practice/drills/A1GenitivePronounsDrill'),
+);
+const A1NumbersGenitiveDrill = lazyWithReload(
+  () => import('./practice/drills/A1NumbersGenitiveDrill'),
+);
+const A1DatesYearsDrill = lazyWithReload(() => import('./practice/drills/A1DatesYearsDrill'));
+const A1BoljetiDrill = lazyWithReload(() => import('./practice/drills/A1BoljetiDrill'));
+const A1INounsIntroDrill = lazyWithReload(() => import('./practice/drills/A1INounsIntroDrill'));
+const A1PluraliaTantumDrill = lazyWithReload(
+  () => import('./practice/drills/A1PluraliaTantumDrill'),
+);
+const A1SportsFreeTimeDrill = lazyWithReload(
+  () => import('./practice/drills/A1SportsFreeTimeDrill'),
+);
+const A1AbstractOstDrill = lazyWithReload(() => import('./practice/drills/A1AbstractOstDrill'));
+const A1FeelingsDrill = lazyWithReload(() => import('./practice/drills/A1FeelingsDrill'));
+const A1ImperativeNegativeDrill = lazyWithReload(
+  () => import('./practice/drills/A1ImperativeNegativeDrill'),
+);
+const A1InfinitiveCiDrill = lazyWithReload(() => import('./practice/drills/A1InfinitiveCiDrill'));
+const A1FormalAddressDrill = lazyWithReload(() => import('./practice/drills/A1FormalAddressDrill'));
+const A1TravelCroatiaDrill = lazyWithReload(() => import('./practice/drills/A1TravelCroatiaDrill'));
 const AppearanceDrill = lazyWithReload(() => import('./practice/drills/AppearanceDrill'));
 const JobsDrill = lazyWithReload(() => import('./practice/drills/JobsDrill'));
 const EducationDrill = lazyWithReload(() => import('./practice/drills/EducationDrill'));
@@ -2495,6 +2615,306 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'odjeca' && (
           <ScreenErrorBoundary key="odjeca" name="odjeca">
             <ClothingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1soundspalatals' && (
+          <ScreenErrorBoundary key="a1soundspalatals" name="a1soundspalatals">
+            <A1SoundsPalatalsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1bitiquestionsnegation' && (
+          <ScreenErrorBoundary key="a1bitiquestionsnegation" name="a1bitiquestionsnegation">
+            <A1BitiQuestionsNegationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pluralirregular' && (
+          <ScreenErrorBoundary key="a1pluralirregular" name="a1pluralirregular">
+            <A1PluralIrregularDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1jobsprofessions' && (
+          <ScreenErrorBoundary key="a1jobsprofessions" name="a1jobsprofessions">
+            <A1JobsProfessionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1nationalities' && (
+          <ScreenErrorBoundary key="a1nationalities" name="a1nationalities">
+            <A1NationalitiesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1numbers11to1000' && (
+          <ScreenErrorBoundary key="a1numbers11to1000" name="a1numbers11to1000">
+            <A1Numbers11To1000Drill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1zvatise' && (
+          <ScreenErrorBoundary key="a1zvatise" name="a1zvatise">
+            <A1ZvatiSeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1masculinepluralovi' && (
+          <ScreenErrorBoundary key="a1masculinepluralovi" name="a1masculinepluralovi">
+            <A1MasculinePluralOviDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1sibilarization' && (
+          <ScreenErrorBoundary key="a1sibilarization" name="a1sibilarization">
+            <A1SibilarizationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1fleetinga' && (
+          <ScreenErrorBoundary key="a1fleetinga" name="a1fleetinga">
+            <A1FleetingADrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1colours' && (
+          <ScreenErrorBoundary key="a1colours" name="a1colours">
+            <A1ColoursDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1possessiveadjectives' && (
+          <ScreenErrorBoundary key="a1possessiveadjectives" name="a1possessiveadjectives">
+            <A1PossessiveAdjectivesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1verbsatiirati' && (
+          <ScreenErrorBoundary key="a1verbsatiirati" name="a1verbsatiirati">
+            <A1VerbsAtiIratiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1accusativeanimate' && (
+          <ScreenErrorBoundary key="a1accusativeanimate" name="a1accusativeanimate">
+            <A1AccusativeAnimateDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1atthehotel' && (
+          <ScreenErrorBoundary key="a1atthehotel" name="a1atthehotel">
+            <A1AtTheHotelDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1trebatineed' && (
+          <ScreenErrorBoundary key="a1trebatineed" name="a1trebatineed">
+            <A1TrebatiNeedDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1smjetipermission' && (
+          <ScreenErrorBoundary key="a1smjetipermission" name="a1smjetipermission">
+            <A1SmjetiPermissionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1moneyexchange' && (
+          <ScreenErrorBoundary key="a1moneyexchange" name="a1moneyexchange">
+            <A1MoneyExchangeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1icigoing' && (
+          <ScreenErrorBoundary key="a1icigoing" name="a1icigoing">
+            <A1IciGoingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1unamotion' && (
+          <ScreenErrorBoundary key="a1unamotion" name="a1unamotion">
+            <A1UNaMotionDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1zaaccusative' && (
+          <ScreenErrorBoundary key="a1zaaccusative" name="a1zaaccusative">
+            <A1ZaAccusativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1accusativepronouns' && (
+          <ScreenErrorBoundary key="a1accusativepronouns" name="a1accusativepronouns">
+            <A1AccusativePronounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1travelagency' && (
+          <ScreenErrorBoundary key="a1travelagency" name="a1travelagency">
+            <A1TravelAgencyDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1jestipiti' && (
+          <ScreenErrorBoundary key="a1jestipiti" name="a1jestipiti">
+            <A1JestiPitiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1attherestaurant' && (
+          <ScreenErrorBoundary key="a1attherestaurant" name="a1attherestaurant">
+            <A1AtTheRestaurantDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1verbsitijeti' && (
+          <ScreenErrorBoundary key="a1verbsitijeti" name="a1verbsitijeti">
+            <A1VerbsItiJetiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1locativepronouns' && (
+          <ScreenErrorBoundary key="a1locativepronouns" name="a1locativepronouns">
+            <A1LocativePronounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1verbsovati' && (
+          <ScreenErrorBoundary key="a1verbsovati" name="a1verbsovati">
+            <A1VerbsOvatiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1months' && (
+          <ScreenErrorBoundary key="a1months" name="a1months">
+            <A1MonthsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1flatrooms' && (
+          <ScreenErrorBoundary key="a1flatrooms" name="a1flatrooms">
+            <A1FlatRoomsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1phonecall' && (
+          <ScreenErrorBoundary key="a1phonecall" name="a1phonecall">
+            <A1PhoneCallDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pastirregular' && (
+          <ScreenErrorBoundary key="a1pastirregular" name="a1pastirregular">
+            <A1PastIrregularDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1paststory' && (
+          <ScreenErrorBoundary key="a1paststory" name="a1paststory">
+            <A1PastStoryDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1futureplans' && (
+          <ScreenErrorBoundary key="a1futureplans" name="a1futureplans">
+            <A1FuturePlansDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1dativeprepositions' && (
+          <ScreenErrorBoundary key="a1dativeprepositions" name="a1dativeprepositions">
+            <A1DativePrepositionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1givingandsending' && (
+          <ScreenErrorBoundary key="a1givingandsending" name="a1givingandsending">
+            <A1GivingAndSendingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1verbswithdative' && (
+          <ScreenErrorBoundary key="a1verbswithdative" name="a1verbswithdative">
+            <A1VerbsWithDativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1postcardswishes' && (
+          <ScreenErrorBoundary key="a1postcardswishes" name="a1postcardswishes">
+            <A1PostcardsWishesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1dailyroutine' && (
+          <ScreenErrorBoundary key="a1dailyroutine" name="a1dailyroutine">
+            <A1DailyRoutineDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1reflexivepastfuture' && (
+          <ScreenErrorBoundary key="a1reflexivepastfuture" name="a1reflexivepastfuture">
+            <A1ReflexivePastFutureDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1schooleducation' && (
+          <ScreenErrorBoundary key="a1schooleducation" name="a1schooleducation">
+            <A1SchoolEducationDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1instrumentalmeans' && (
+          <ScreenErrorBoundary key="a1instrumentalmeans" name="a1instrumentalmeans">
+            <A1InstrumentalMeansDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1instrumentalplace' && (
+          <ScreenErrorBoundary key="a1instrumentalplace" name="a1instrumentalplace">
+            <A1InstrumentalPlaceDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1instrumentalpronouns' && (
+          <ScreenErrorBoundary key="a1instrumentalpronouns" name="a1instrumentalpronouns">
+            <A1InstrumentalPronounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1genitivepartitive' && (
+          <ScreenErrorBoundary key="a1genitivepartitive" name="a1genitivepartitive">
+            <A1GenitivePartitiveDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1nematigenitive' && (
+          <ScreenErrorBoundary key="a1nematigenitive" name="a1nematigenitive">
+            <A1NematiGenitiveDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1genitiveprepositions' && (
+          <ScreenErrorBoundary key="a1genitiveprepositions" name="a1genitiveprepositions">
+            <A1GenitivePrepositionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1genitivepronouns' && (
+          <ScreenErrorBoundary key="a1genitivepronouns" name="a1genitivepronouns">
+            <A1GenitivePronounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1numbersgenitive' && (
+          <ScreenErrorBoundary key="a1numbersgenitive" name="a1numbersgenitive">
+            <A1NumbersGenitiveDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1datesyears' && (
+          <ScreenErrorBoundary key="a1datesyears" name="a1datesyears">
+            <A1DatesYearsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1boljeti' && (
+          <ScreenErrorBoundary key="a1boljeti" name="a1boljeti">
+            <A1BoljetiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1inounsintro' && (
+          <ScreenErrorBoundary key="a1inounsintro" name="a1inounsintro">
+            <A1INounsIntroDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1pluraliatantum' && (
+          <ScreenErrorBoundary key="a1pluraliatantum" name="a1pluraliatantum">
+            <A1PluraliaTantumDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1sportsfreetime' && (
+          <ScreenErrorBoundary key="a1sportsfreetime" name="a1sportsfreetime">
+            <A1SportsFreeTimeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1abstractost' && (
+          <ScreenErrorBoundary key="a1abstractost" name="a1abstractost">
+            <A1AbstractOstDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1feelings' && (
+          <ScreenErrorBoundary key="a1feelings" name="a1feelings">
+            <A1FeelingsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1imperativenegative' && (
+          <ScreenErrorBoundary key="a1imperativenegative" name="a1imperativenegative">
+            <A1ImperativeNegativeDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1infinitiveci' && (
+          <ScreenErrorBoundary key="a1infinitiveci" name="a1infinitiveci">
+            <A1InfinitiveCiDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1formaladdress' && (
+          <ScreenErrorBoundary key="a1formaladdress" name="a1formaladdress">
+            <A1FormalAddressDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'a1travelcroatia' && (
+          <ScreenErrorBoundary key="a1travelcroatia" name="a1travelcroatia">
+            <A1TravelCroatiaDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'izgled' && (

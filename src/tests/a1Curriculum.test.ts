@@ -250,6 +250,9 @@ describe('an A1 lesson day still teaches STRUCTURE', () => {
     // The letters and their sounds. Phonology and orthography — there is no
     // structure here to drill, and this is lesson 1.
     alphabet: 'the alphabet is sounds, not grammar',
+    // The palatal pairs (č/ć, dž/đ, lj, nj): telling sounds apart and spelling them.
+    // Phonology again, with no form to produce; the Croaticum book's own phonetics unit.
+    'sounds-palatals': 'sounds and spelling, not grammar',
     // Rule-governed, but the rules are which greeting for which hour and ti vs
     // Vi. That is register, which `politeness` and `register` also group as
     // vocab. Grouping it structurally to win a slot would be the topic-label
@@ -317,6 +320,6 @@ describe('an A1 lesson day still teaches STRUCTURE', () => {
     // A count, so the list cannot quietly absorb regressions one at a time.
     // Raising this number is a decision about what A1 learners are taught, and
     // should read like one in the diff.
-    expect(Object.keys(LEXICAL_A1_LESSONS).length).toBe(3);
+    expect(Object.keys(LEXICAL_A1_LESSONS).length).toBe(4);
   });
 });

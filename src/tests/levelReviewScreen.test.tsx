@@ -28,12 +28,14 @@ vi.mock('../lib/errorReporter', () => ({
 
 import LevelReviewScreen, { LEVEL_REVIEW_XP } from '../components/learn/LevelReviewScreen';
 import { buildCourseUnits } from '../lib/courseUnits';
-import { buildLevelReview, type ReviewLessonBody } from '../lib/levelReview';
+import { buildLevelReview, levelReviewLength, type ReviewLessonBody } from '../lib/levelReview';
 import { readCourseUnits } from '../lib/courseUnitProgress';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 const SPINE = CURRICULUM as unknown as CurriculumEntry[];
 const UNITS = buildCourseUnits(SPINE);
+/** The A1 round's length: 18, or one item per unit (A1 has twenty since 2026-11-12). */
+const N = levelReviewLength(UNITS.filter((u) => u.level === 'A1').length);
 const BY_ID = new Map((LESSONS as ReviewLessonBody[]).map((l) => [l.id, l]));
 
 function paper(level = 'A1', attempt = 0) {
@@ -102,12 +104,12 @@ beforeEach(() => {
 });
 
 describe('a round of practice across the whole level', () => {
-  it('serves 18 items, and a missed item comes back until it is right', async () => {
+  it('serves the whole round, and a missed item comes back until it is right', async () => {
     seed();
     mount();
-    expect(paper()).toHaveLength(18);
+    expect(paper()).toHaveLength(N);
     const shown = await drive(new Set([0, 4, 9]));
-    expect(shown, '18 items plus the three that came back').toBe(21);
+    expect(shown, 'the round plus the three that came back').toBe(N + 3);
     await screen.findByTestId('level-review-result');
   });
 
@@ -118,14 +120,22 @@ describe('a round of practice across the whole level', () => {
     const miss = new Set([0, 1, 2]);
     await drive(miss);
     await screen.findByTestId('level-review-result');
-    expect(screen.getByTestId('level-review-first-try').textContent).toContain('15 of 18');
+    expect(screen.getByTestId('level-review-first-try').textContent).toContain(`${N - 3} of ${N}`);
     for (const i of miss) {
       expect(
         screen.getByTestId(`level-review-unit-${items[i]!.unitId}`).getAttribute('data-shaky'),
       ).toBe('1');
     }
+    // Every unit the paper SAMPLED and the learner got right first time reads clean.
+    // (Derived from the paper, not from every A1 unit: with more units than items per
+    // review, not every unit is sampled.)
+    const sampled = new Set(items.map((it) => it.unitId));
     const clean = UNITS.filter(
-      (u) => u.level === 'A1' && ![...miss].some((i) => items[i]!.unitId === u.id),
+      (u) =>
+        u.level === 'A1' && sampled.has(u.id) && ![...miss].some((i) => items[i]!.unitId === u.id),
+    );
+    expect(clean.length, 'non-vacuous: some sampled units were answered cleanly').toBeGreaterThan(
+      0,
     );
     for (const u of clean)
       expect(screen.getByTestId(`level-review-unit-${u.id}`).getAttribute('data-shaky')).toBe('0');
@@ -140,7 +150,7 @@ describe('a round of practice across the whole level', () => {
     // Credited BEFORE any button on the result is pressed.
     expect(award).toHaveBeenCalledTimes(1);
     expect(award).toHaveBeenCalledWith(LEVEL_REVIEW_XP, 'grammar');
-    expect(readCourseUnits().reviews?.A1).toMatchObject({ firstTryCorrect: 17, total: 18 });
+    expect(readCourseUnits().reviews?.A1).toMatchObject({ firstTryCorrect: N - 1, total: N });
     // The session is a flow: reaching the result frees its slot.
     expect(sessionStorage.getItem('nh_session_completed')).toBe('levelreview');
 
@@ -149,7 +159,7 @@ describe('a round of practice across the whole level', () => {
     await screen.findByTestId('level-review-result');
     expect(award, 'a second review is practice, not a second payment').toHaveBeenCalledTimes(1);
     // …and the better first-try score is kept.
-    expect(readCourseUnits().reviews?.A1).toMatchObject({ firstTryCorrect: 18, total: 18 });
+    expect(readCourseUnits().reviews?.A1).toMatchObject({ firstTryCorrect: N, total: N });
   });
 
   it('sends the learner on to the Level Check, and back to a shaky unit', async () => {
