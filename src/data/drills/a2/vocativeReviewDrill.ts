@@ -49,7 +49,7 @@ export const VOCATIVE_REVIEW_DRILL_DATA: ModeDrillItem[] = [
     mode: 'muski',
     q: '____, račun, molim!',
     en: 'Waiter, the bill, please!',
-    opts: ['Konobaru', 'Konobar', 'Konobare', 'Konobara'],
+    opts: ['Konobaru', 'Konobarom', 'Konobaro', 'Konobara'],
     answer: 'Konobaru',
     tip: 'Job words in -ar take -u.',
   },
