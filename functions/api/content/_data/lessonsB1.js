@@ -53,7 +53,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Ago and In: prije and za',
-        body: 'Two prepositions that mirror each other. "Prije" plus the genitive means ago: prije dva dana (two days ago), prije godinu dana (a year ago). "Za" plus the accusative means in, looking forward: za dva dana (in two days), za sat vremena (in an hour). Getting these the wrong way round reverses your sentence, so they are worth drilling as a pair.',
+        body: 'Two prepositions that mirror each other. "Prije" plus the genitive means ago: prije dva dana (two days ago). With a measure phrase the phrase stays as it is: prije godinu dana (a year ago) — godinu dana is a fixed measure, with godinu in the accusative. "Za" plus the accusative means in, looking forward: za dva dana (in two days), za sat vremena (in an hour). Getting these the wrong way round reverses your sentence, so they are worth drilling as a pair.',
         highlight: 'prije dva dana / za dva dana',
       },
       {
@@ -61,7 +61,7 @@ export const LESSONS_B1 = [
         title: 'Placing an Event',
         headers: ['Croatian', 'English', 'Case'],
         rows: [
-          ['prije tjedan dana', 'a week ago', 'genitive'],
+          ['prije tjedan dana', 'a week ago', 'prije + a measure phrase'],
           ['za tjedan dana', 'in a week', 'accusative'],
           ['nakon / poslije ručka', 'after lunch', 'genitive'],
           ['tijekom ljeta', 'during the summer', 'genitive'],
@@ -173,6 +173,22 @@ export const LESSONS_B1 = [
         ],
       },
       {
+        type: 'table',
+        title: 'Vrijeme leti — Sayings About Time',
+        headers: ['Croatian', 'English'],
+        rows: [
+          ['Zakasnili smo.', 'We are late.'],
+          ['Došli smo prerano.', 'We came too early.'],
+          ['Krajnje je vrijeme!', 'It is high time!'],
+          ['Stigli smo u zadnji čas.', 'We arrived at the last minute.'],
+          ['Vrijeme leti.', 'Time flies.'],
+          ['On je noćna ptica.', 'He is a night owl.'],
+          ['Ukrali su mu bicikl usred bijela dana.', 'They stole his bike in broad daylight.'],
+          ['Vrijeme liječi sve rane.', 'Time heals all wounds.'],
+          ['Nikad ne reci nikad.', 'Never say never.'],
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "in two days" (looking forward)?',
@@ -209,7 +225,7 @@ export const LESSONS_B1 = [
             options: ['za', 'prije', 'od', 'do'],
             correct: 1,
             explanation:
-              '"Ago" is prije plus the genitive. "Za tjedan dana" would mean in a week, looking forward; od and do mark the start and end of a period.',
+              '"Ago" is prije; tjedan dana is a fixed measure phrase. "Za tjedan dana" would mean in a week, looking forward; od and do mark the start and end of a period.',
           },
           {
             q: 'Complete: "Vlak polazi ___ pet minuta." (The train leaves in five minutes.)',
@@ -316,7 +332,7 @@ export const LESSONS_B1 = [
         headers: ['Verb', 'Meaning', 'What the prefix adds'],
         rows: [
           ['napisati', 'to write (and finish)', 'na- completion'],
-          ['potpisati', 'to sign', 'pot- under'],
+          ['potpisati', 'to sign', 'pod- under (spelled pot- before p)'],
           ['prepisati', 'to copy out', 'pre- across, over'],
           ['opisati', 'to describe', 'o- around'],
           ['upisati', 'to enrol, write in', 'u- into'],
@@ -327,7 +343,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'The Prefixes Match the Prepositions',
-        body: 'This is the shortcut. u- is "u" (into), iz- is "iz" (out of), do- is "do" (up to), pre- is "preko" (across), na- is "na" (onto), s- / sa- is "s" (down, together), pod- is "ispod" (under), nad- is "iznad" (over). If you know the preposition, you can usually guess the prefix — and often the whole verb.',
+        body: 'This is the shortcut. u- is "u" (into), iz- is "iz" (out of), do- is "do" (up to), pre- is "preko" (across), na- is "na" (onto), s- / sa- is "s" (down, together), pod- is "ispod" (under), nad- is "iznad" (over). If you know the preposition, you can usually guess the prefix — and often the whole verb. One spelling note: a prefix ending in d or z changes to t or s before p, t, k, s or č, the way it is pronounced: pod- + pisati → potpisati, iz- + pisati → ispisati, raz- + pitati → raspitati se.',
         highlight: 'u- into · iz- out of · do- up to · pre- across',
       },
       {
@@ -347,7 +363,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Four Prefixes Worth Knowing Cold',
-        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), posjediti (sit for a while), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart: razumjeti (understand — literally "think apart"), razbiti (smash). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
+        body: '"Po-" often means a little, or briefly: popričati (have a quick chat), posjediti (sit for a while), pogledati (take a look). "Pre-" means across, or too much, or re-: prevesti (translate, carry across), prejesti se (overeat), prepisati (rewrite). "Raz-" means apart, to pieces: razbiti (smash), razdijeliti (divide up), raspakirati (unpack). "Za-" often marks a beginning: zapjevati (burst into song), zaspati (fall asleep).',
         highlight: 'po- a bit · pre- across/too much · raz- apart · za- begin',
       },
       {
@@ -362,7 +378,7 @@ export const LESSONS_B1 = [
           {
             hr: 'Možeš li mi to prevesti?',
             en: 'Can you translate that for me?',
-            note: 'pre- (across) + voditi — to carry across',
+            note: 'pre- (across) + vesti (to lead) — to carry across',
           },
           {
             hr: 'Upisao sam se na tečaj hrvatskog.',
@@ -377,7 +393,7 @@ export const LESSONS_B1 = [
           {
             hr: 'Nisam razumio, možete li ponoviti?',
             en: 'I did not understand, could you repeat?',
-            note: 'raz- (apart) + umjeti — to think it apart',
+            note: 'razumjeti — perfective: understood, got it',
           },
         ],
       },
@@ -391,8 +407,8 @@ export const LESSONS_B1 = [
             note: 'u- (into) + ići; po- + peti se = climb up',
           },
           {
-            hr: 'Zapisao sam tvoj broj da ga ne zaboravim.',
-            en: 'I noted down your number so that I do not forget it.',
+            hr: 'Zapisao sam tvoj broj u mobitel.',
+            en: 'I noted down your number in my phone.',
             note: 'za- (fix down) + pisati',
           },
           {
@@ -444,7 +460,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Treating a prefixed verb as if it were still imperfective: napisati is perfective, so Napisujem pismo is not a form of Croatian — the ongoing action is Pišem pismo, and napisati keeps only the completed sense. (2) Guessing the meaning from the prefix alone when the root is what matters: prevesti is to translate (pre- + voditi), but prevoziti is to transport (pre- + voziti) — always find the root before you commit. (3) Dropping the prefix the meaning depends on: Moram pisati ugovor says you must be writing a contract; to sign it you need the whole verb, Moram potpisati ugovor.',
+        body: '(1) Treating a prefixed verb as if it were still imperfective: napisati is perfective, so Napisujem pismo is not a form of Croatian — the ongoing action is Pišem pismo, and napisati keeps only the completed sense. (2) Guessing the meaning from the prefix alone when the root is what matters: prevesti is to translate (pre- + vesti), but prevoziti is to transport (pre- + voziti) — always find the root before you commit. (3) Dropping the prefix the meaning depends on: Moram pisati ugovor says you must be writing a contract; to sign it you need the whole verb, Moram potpisati ugovor.',
         highlight: 'Moram potpisati ugovor',
       },
       {
@@ -485,11 +501,11 @@ export const LESSONS_B1 = [
               'The prefixes mirror the prepositions: od- is away from, as in otići (od- + ići) — to leave. do- is up to (doći — arrive), iz- is out of and na- is onto.',
           },
           {
-            q: '"Razumjeti" is built from raz- + umjeti. What does raz- add?',
-            options: ['too much', 'a little', 'a beginning', 'apart'],
+            q: '"Razbiti čašu" — to smash a glass. What does raz- add to the root?',
+            options: ['too much', 'a little', 'a beginning', 'apart, to pieces'],
             correct: 3,
             explanation:
-              'Raz- means apart, so to understand is literally to "think apart". Po- is a little, pre- is too much and za- often marks a beginning.',
+              'Raz- means apart or to pieces: razbiti, razdijeliti, raspakirati. Po- is a little, pre- is too much and za- often marks a beginning.',
           },
           {
             q: 'Spot the error: "Zaspavao sam u deset." (I fell asleep at ten.)',
@@ -508,7 +524,7 @@ export const LESSONS_B1 = [
             options: ['prevoziti', 'provesti', 'uvesti', 'prevesti'],
             correct: 3,
             explanation:
-              'To translate is prevesti — pre- (across) + voditi, to carry across. Prevoziti is to transport, provesti is to spend time or carry out, uvesti is to introduce or import.',
+              'To translate is prevesti — pre- (across) + vesti (to lead), to carry across. Prevoziti is to transport, provesti is to spend time or carry out, uvesti is to introduce or import.',
           },
         ],
       },
@@ -556,7 +572,7 @@ export const LESSONS_B1 = [
           ['stati', 'stajati', 'stop, come to a stand / be standing'],
           ['staviti', 'stajati (stoji)', 'put / be placed'],
           ['objesiti', 'visjeti', 'hang up / be hanging'],
-          ['sakriti', 'skrivati se', 'hide (something) / be hiding'],
+          ['sakriti se', 'skrivati se', 'hide (yourself) / be hiding'],
         ],
       },
       {
@@ -568,7 +584,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'The State Takes the Locative',
-        body: 'A verb of STATE describes being somewhere, so it takes the locative. Sjedim na stolici. (I am sitting on the chair.) Ležim na krevetu. (I am lying on the bed.) Knjiga stoji na stolu. (The book is on the table.) Nothing is moving, so nothing is accusative.',
+        body: 'A verb of STATE describes being somewhere, so it takes the locative. Sjedim na stolici. (I am sitting on the chair.) Ležim na krevetu. (I am lying on the bed.) Knjiga stoji na stolu. (The book is on the table.) Nothing is moving, so nothing is accusative. With za, pod, nad and pred the state takes the instrumental instead, as you learned in the instrumental lesson: Sjede za stolom. (They are sitting at the table.) Mačka leži pod stolom. The change still takes the accusative: Sjeli su za stol. Mačka je legla pod stol.',
         highlight: 'Sjedim na stolici.',
       },
       {
@@ -581,6 +597,7 @@ export const LESSONS_B1 = [
           ['Stavi to u ladicu.', 'To je u ladici.'],
           ['Objesi kaput u ormar.', 'Kaput visi u ormaru.'],
           ['Idem u sobu.', 'U sobi sam.'],
+          ['Sjeli su za stol. (za + accusative)', 'Sjede za stolom. (za + instrumental)'],
         ],
       },
       {
@@ -771,7 +788,7 @@ export const LESSONS_B1 = [
         points: [
           'Croatian splits change from state: sjesti / sjediti, leći / ležati',
           'A change of position takes the ACCUSATIVE — something arrives',
-          'An ongoing state takes the LOCATIVE — nothing is moving',
+          'An ongoing state takes the LOCATIVE — nothing is moving; with za, pod, nad, pred the state takes the instrumental (sjede za stolom)',
           'staviti takes an object; stajati does not',
           'It is the same motion-versus-position rule you learned at A1',
         ],
@@ -826,7 +843,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'The Test That Settles It',
-        body: 'Ask whether the second half has its own subject. "I think THAT HE is coming" — a different person, so it needs a full clause and "da". "I want TO GO" — the same person throughout, so the infinitive is enough. Different subject means a clause; same subject means an infinitive. That single test resolves almost every case.',
+        body: 'Ask whether the second half has its own subject. "I think THAT HE is coming" — a different person, so it needs a full clause and "da". "I want TO GO" — the same person throughout, so the infinitive is enough. Different subject means a clause; same subject means an infinitive. The test is for the verbs of Job Two — wanting, modals, starting. After misliti, znati, reći and nadati se there is nothing to test: da is required even when the subject stays the same, Mislim da ću doći.',
         highlight: 'different subject → da · same subject → infinitive',
       },
       {
@@ -862,7 +879,7 @@ export const LESSONS_B1 = [
           {
             hr: 'Nadam se da ćemo se uskoro vidjeti.',
             en: 'I hope we will see each other soon.',
-            note: 'nadati se always takes da',
+            note: 'nadati se + a clause takes da; with a noun it takes the dative: Nadam se boljoj budućnosti',
           },
         ],
       },
@@ -923,7 +940,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Dropping the "da" that English drops: Mislim je dobro is not a sentence — the clause needs its da, Mislim da je dobro. (2) Forgetting that a change of subject needs a clause: Želim ti doći cannot mean "I want you to come"; that is Želim da dođeš. (3) Piling both in: Moram da ići puts a conjunction in front of an infinitive. After a modal with the same subject throughout it is simply Moram ići.',
+        body: '(1) Dropping the "da" that English drops: Mislim je dobro is not a sentence — the clause needs its da, Mislim da je dobro. (2) Forgetting that a change of subject needs a clause: Želim ti doći cannot mean "I want you to come"; that is Želim da dođeš. (3) Piling both in: Moram da ići puts a conjunction in front of an infinitive. After a modal with the same subject throughout it is simply Moram ići. Moram da idem is not standard Croatian either: it is Serbian usage, and in Croatian the modal takes the infinitive.',
         highlight: 'Mislim da je dobro',
       },
       {
@@ -1262,7 +1279,7 @@ export const LESSONS_B1 = [
   {
     id: 'time-clauses',
     title: 'When, While, As Soon As',
-    subtitle: 'Sequencing events — and the tense Croatian uses that English does not',
+    subtitle: 'Sequencing events — and the tense a future "when" takes',
     icon: '⛓️',
     level: 'B1',
     duration: '~6 min',
@@ -1290,14 +1307,14 @@ export const LESSONS_B1 = [
       },
       {
         type: 'rule',
-        title: 'THE RULE: the Present for a Future "When"',
-        body: 'This is the one to get right. When a time clause points at the future, Croatian puts it in the PRESENT, not the future. Kad dođem, javit ću ti. (When I arrive, I will let you know.) Čim stignem, nazvat ću. Notice that the main clause is future and the time clause is present — English does exactly the same thing and nobody notices: you say "when I ARRIVE", not "when I will arrive".',
+        title: 'THE RULE: Never the Ordinary Future in a "When" Clause',
+        body: 'This is the one to get right. When a time clause points at the future, the ordinary future (ću doći) is never used in it. With a PERFECTIVE verb, Croatian uses its present: Kad dođem, javit ću ti. (When I arrive, I will let you know.) Čim stignem, nazvat ću. With an IMPERFECTIVE verb it uses the futur II from the previous lesson: Kad budem imao vremena, javit ću ti. The main clause carries the ordinary future. English does something similar — you say "when I ARRIVE", not "when I will arrive".',
         highlight: 'Kad dođem, javit ću ti.',
       },
       {
         type: 'rule',
         title: 'Dok Has Two Meanings',
-        body: '"Dok" with an imperfective verb means "while": Dok sam čitao, zazvonio je telefon. With a perfective verb, or with "ne", it means "until": Čekaj dok ne dođem. (Wait until I come.) That "ne" is not a negation you translate — it is part of the construction, and leaving it out is a very common learner error.',
+        body: '"Dok" with an imperfective verb means "while": Dok sam čitao, zazvonio je telefon. With "ne" and (usually) a perfective verb, it means "until": Čekaj dok ne dođem. (Wait until I come.) That "ne" is not a negation you translate — it is part of the construction, and standard Croatian needs it: without ne, dok means while. Leaving it out is a very common learner error.',
         highlight: 'Čekaj dok ne dođem.',
       },
       {
@@ -1347,9 +1364,9 @@ export const LESSONS_B1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Kad stignemo u Dubrovnik, prvo ćemo prošetati gradskim zidinama.',
+            hr: 'Kad stignemo u Dubrovnik, prvo ćemo prošetati po zidinama.',
             en: 'When we get to Dubrovnik, first we will walk along the city walls.',
-            note: 'future meaning → PRESENT in the kad-clause, future in the main clause',
+            note: 'future meaning → perfective PRESENT in the kad-clause, future in the main clause',
           },
           {
             hr: 'Dok je mama kuhala, tata je postavljao stol.',
@@ -1372,8 +1389,8 @@ export const LESSONS_B1 = [
             note: 'čim + present for a future event',
           },
           {
-            hr: 'Otkako je otvorena nova cesta, do posla stižem za dvadeset minuta.',
-            en: 'Since the new road opened, I get to work in twenty minutes.',
+            hr: 'Otkako su otvorili novu cestu, do posla stižem za dvadeset minuta.',
+            en: 'Since they opened the new road, I get to work in twenty minutes.',
             note: 'otkako + past; main clause present',
           },
           {
@@ -1401,7 +1418,7 @@ export const LESSONS_B1 = [
         ],
         correct: 1,
         explanation:
-          'A time clause pointing at the future goes into the present in Croatian: kad dođem. English does the same — "when I arrive", never "when I will arrive" — so the instinct is already there.',
+          'A time clause pointing at the future never takes the ordinary future. dođem is perfective, so its present does the job: kad dođem. (With an imperfective verb it would be futur II: kad budem dolazio.) English is similar — "when I arrive", never "when I will arrive".',
       },
       {
         type: 'quiz',
@@ -1415,7 +1432,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Putting the future into the time clause because English puts it in the main clause: Kad ću doći, javit ću ti is wrong — the "when" half stays present, Kad dođem, javit ću ti. (2) Leaving out the "ne" of "until": Čekaj dok dolazim reads as "wait while I am coming"; until is dok ne, Čekaj dok ne dođem. (3) Narrating the background with the perfective: Dok sam pročitao, zazvonio je telefon breaks the sequence — the ongoing background is imperfective, Dok sam čitao, zazvonio je telefon.',
+        body: '(1) Putting the ordinary future into the time clause: Kad ću doći, javit ću ti is wrong — the "when" half takes the perfective present, Kad dođem, javit ću ti (or futur II with an imperfective verb). (2) Leaving out the "ne" of "until": Čekaj dok dolazim reads as "wait while I am coming"; until is dok ne, Čekaj dok ne dođem. (3) Narrating the background with the perfective: Dok sam pročitao, zazvonio je telefon breaks the sequence — the ongoing background is imperfective, Dok sam čitao, zazvonio je telefon.',
         highlight: 'Kad dođem, javit ću ti',
       },
       {
@@ -1427,7 +1444,7 @@ export const LESSONS_B1 = [
             options: ['ću doći', 'dođem', 'dolazio', 'došao'],
             correct: 1,
             explanation:
-              'A time clause pointing at the future takes the PRESENT: čim dođem. The future belongs in the main clause only, and the past forms would place the arrival before the call was even planned.',
+              'doći is perfective, so a future time clause takes its PRESENT: čim dođem. The ordinary future belongs in the main clause only, and the past forms would place the arrival before the call was even planned.',
           },
           {
             q: 'Complete: "Dok ___ vijesti, netko je pokucao na vrata." (While I was watching the news, someone knocked.)',
@@ -1458,7 +1475,7 @@ export const LESSONS_B1 = [
             ],
             correct: 0,
             explanation:
-              'Croatian never puts the future in a kad-clause; the present does that job, as in English "when I arrive". The main clause is the one that carries the future.',
+              'Croatian never puts the ordinary future in a kad-clause. stići is perfective, so its present does that job: kad stignem (an imperfective verb would take futur II). The main clause is the one that carries the future.',
           },
           {
             q: '"Otkako živim u Zagrebu, rijetko vidim more." What does "otkako" mean?',
@@ -1493,7 +1510,7 @@ export const LESSONS_B1 = [
         title: 'Time Clauses — Key Takeaways',
         points: [
           'kad, dok, čim, prije nego što, nakon što, otkako',
-          'A future time clause takes the PRESENT: Kad dođem, javit ću ti.',
+          'A future time clause: perfective present (Kad dođem…) or futur II (Kad budem imao…), never ću',
           'dok + imperfective = while; dok ne = until',
           'Aspect does the sequencing: imperfective background, perfective event',
           'Time clause first takes a comma; second usually does not',
@@ -1518,19 +1535,19 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'Conditions You Expect to Be Met',
-        body: 'This lesson is about the everyday "if" — if you have time, if it rains, if I finish early. Not the hypothetical "if I were rich", which needs the conditional mood and comes later. These are conditions that may genuinely happen, and they are built on tenses you already have.',
+        body: 'This lesson is about the everyday "if" — if you have time, if it rains, if I finish early. Not the hypothetical "if I were rich", which needs the conditional you met at A2 (Kad bih imao novca, kupio bih…). These are conditions that may genuinely happen, and they are built on tenses you already have.',
         icon: '🔮',
       },
       {
         type: 'rule',
         title: 'Ako + Present, Main Clause Future',
-        body: 'The basic shape: "ako" plus the present, then a future main clause. Ako imaš vremena, javi mi. (If you have time, let me know.) Ako bude kiše, ostat ćemo doma. Just like the time clauses, the "if" half stays in the present even though it points forward — and again, English does the same: "if you have time", not "if you will have time".',
+        body: 'The basic shape: "ako" plus the present, then a future main clause or an imperative. Ako imaš vremena, javi mi. (If you have time, let me know.) Ako dođeš rano, ići ćemo na kavu. Just like the time clauses, the "if" half stays in the present even though it points forward — and again, English does the same: "if you have time", not "if you will have time".',
         highlight: 'Ako imaš vremena, javi mi.',
       },
       {
         type: 'rule',
-        title: 'The Form Croatian Adds: budem',
-        body: 'For a condition genuinely in the future, Croatian has a dedicated form English lacks: budem, budeš, bude, budemo, budete, budu, plus the participle. Ako budeš imao vremena, javi mi. Ako bude padala kiša, nećemo ići. It is more precise than the plain present and very common after "ako" and "kad". Recognise it first; producing it comes with practice.',
+        title: 'Futur II After ako',
+        body: 'You met futur II in its own lesson: budem, budeš, bude, budemo, budete, budu, plus the participle. After ako it does exactly what it does after kad — it marks a condition in the future, and with an imperfective verb it is the form to use: Ako budeš imao vremena, javi mi. Ako bude padala kiša, nećemo ići. With a perfective verb the plain present also works: Ako dođeš, javi se.',
         highlight: 'Ako budeš imao vremena…',
       },
       {
@@ -1756,8 +1773,8 @@ export const LESSONS_B1 = [
     slides: [
       {
         type: 'intro',
-        title: 'The Half of B1 Nobody Had Taught',
-        body: 'The CEFR descriptor for this level says a learner can "briefly give reasons and explanations for opinions and plans". That is this lesson, and until now the level contained nothing for it. Two ideas: why something happened, and what something is for.',
+        title: 'Giving Reasons and Aims',
+        body: 'At B1 a learner can "briefly give reasons and explanations for opinions and plans". You have been giving reasons with "jer" since A1; this lesson adds the rest of the toolkit for two ideas: why something happened (jer, zato što, budući da, zbog), and what something is for (da bih, kako bih, radi).',
         icon: '🎯',
       },
       {
@@ -2262,7 +2279,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'Beyond Koji',
-        body: 'A2 gave you "koji" — the woman who, the book which. That covers most sentences. This lesson adds the four that cover the rest: whose, where, what, and the one that refers back to an entire idea rather than a single noun.',
+        body: 'The last lesson gave you "koji" — the woman who, the book which. That covers most sentences. This lesson adds the four that cover the rest: whose, where, what, and the one that refers back to an entire idea rather than a single noun.',
         icon: '🪡',
       },
       {
@@ -2280,7 +2297,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Ono Što — What',
-        body: 'English "what" in the sense of "the thing that" is "ono što" in Croatian, and it cannot be shortened to bare "što" at the start. Ono što me muči je cijena. (What worries me is the price.) Ne razumijem ono što govoriš. Reci mi ono što znaš. Once you have it, a whole class of English sentence becomes available.',
+        body: 'English "what" in the sense of "the thing that" is "ono što" in Croatian, and in an ordinary sentence it keeps the "ono": Ono što me muči je cijena. (What worries me is the price.) Ne razumijem ono što govoriš. Reci mi ono što znaš. Bare "što" at the start survives only in set sayings such as Što je bilo, bilo je. Once you have it, a whole class of English sentence becomes available.',
         highlight: 'Ono što me muči…',
       },
       {
@@ -2357,7 +2374,7 @@ export const LESSONS_B1 = [
             note: 'što refers to the whole first clause',
           },
           {
-            hr: 'Otok kamo idemo ljeti nema nijedan hotel.',
+            hr: 'Otok kamo idemo ljeti nema nijednog hotela.',
             en: 'The island we go to in summer has no hotel at all.',
             note: 'kamo — direction, where to',
           },
@@ -2472,7 +2489,7 @@ export const LESSONS_B1 = [
         points: [
           'čiji = whose, agreeing with the thing owned',
           'gdje / kamo / odakle for places — natural, and often better than u kojem',
-          'ono što = "the thing that", and it cannot shorten to bare što',
+          'ono što = "the thing that"; keep the ono (bare što only in sayings like Što je bilo, bilo je)',
           'što refers to a WHOLE clause: Zakasnio je, što me ljuti.',
           'koji must attach to a noun — that is the line between koji and što',
         ],
@@ -2599,8 +2616,8 @@ export const LESSONS_B1 = [
             note: 'u tom trenutku — the turn',
           },
           {
-            hr: 'Sklonili smo se u planinarski dom i čekali da oluja prođe.',
-            en: 'We took shelter in the mountain hut and waited for the storm to pass.',
+            hr: 'Sklonili smo se u planinarski dom i tamo dugo čekali.',
+            en: 'We took shelter in the mountain hut and waited there a long time.',
             note: 'perfective event, then imperfective waiting',
           },
           {
@@ -2743,7 +2760,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'Having a Discussion',
-        body: 'B1 is the level at which a learner stops reporting facts and starts having views about them. The grammar is already in place — "da" clauses and the cause words. What is needed is the set of openers, and a way to disagree that does not sound like a confrontation.',
+        body: 'B1 is the level at which a learner stops reporting facts and starts having views about them. The grammar you need you already have — "Mislim da…" and "jer" go back to A1. What is needed is the set of openers, and a way to disagree that does not sound like a confrontation.',
         icon: '💭',
       },
       {
@@ -2762,7 +2779,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Every One of Them Takes "Da"',
-        body: 'Notice the pattern: all of these are followed by a full clause introduced by "da", and it is never dropped. Mislim da je to dobra ideja. Čini mi se da nisi u pravu. This is the compulsory "da" from the infinitive lesson, and opinions are where you will use it most.',
+        body: 'Notice the pattern: all of these are followed by a full clause introduced by "da", and it is never dropped. Mislim da je to dobra ideja. Čini mi se da nisi u pravu. It is the same "da" you have used since "Mislim da…" at A1, and opinions are where you will use it most.',
         highlight: 'Mislim da…',
       },
       {
@@ -3023,14 +3040,14 @@ export const LESSONS_B1 = [
           ['Možete li mi pomoći s ovim?', 'Could you help me with this?'],
           ['Htio bih razgovarati s voditeljem.', 'I would like to speak to the manager.'],
           ['Mogu li dobiti drugu sobu?', 'Could I have a different room?'],
-          ['Kada će to biti riješeno?', 'When will it be sorted out?'],
+          ['Kada ćete to riješiti?', 'When will you sort it out?'],
           ['Htio bih uložiti žalbu.', 'I would like to make a complaint.'],
         ],
       },
       {
         type: 'rule',
         title: 'The Conditional Softens Everything',
-        body: '"Htio bih" and "Htjela bih" turn a demand into a request, and "Biste li mogli…?" is softer still than "Možete li…?". This is the same conditional you met for ordering coffee at A1, doing more serious work. In a complaint it matters more than anywhere else: the conditional is what keeps you firm without being rude.',
+        body: '"Htio bih" and "Htjela bih" turn a demand into a request, and "Biste li mogli…?" is softer still than "Možete li…?". This is the conditional you learned at A2, doing more serious work. In a complaint it matters more than anywhere else: the conditional is what keeps you firm without being rude.',
         highlight: 'Htio bih… / Biste li mogli…?',
       },
       {
@@ -3324,9 +3341,9 @@ export const LESSONS_B1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Za otvaranje računa trebate OIB i osobnu iskaznicu.',
-            en: 'To open an account you need an OIB and an ID card.',
-            note: 'za + genitive of the verbal noun: za otvaranje',
+            hr: 'Ako želite otvoriti račun, trebate OIB i osobnu iskaznicu.',
+            en: 'If you want to open an account, you need an OIB and an ID card.',
+            note: 'ako + present; trebati + accusative',
           },
           {
             hr: 'Molimo ispunite obrazac tiskanim slovima.',
@@ -3354,9 +3371,9 @@ export const LESSONS_B1 = [
             note: 'podići = collect; za + accusative for "in"',
           },
           {
-            hr: 'Potvrda vrijedi šest mjeseci od dana izdavanja.',
-            en: 'The certificate is valid for six months from the date of issue.',
-            note: 'bare accusative duration; od dana izdavanja — two genitives',
+            hr: 'Potvrda vrijedi šest mjeseci od dana kad ste je dobili.',
+            en: 'The certificate is valid for six months from the day you got it.',
+            note: 'šest mjeseci — how long; od dana — od + genitive',
           },
         ],
       },
@@ -3513,7 +3530,7 @@ export const LESSONS_B1 = [
           ['kvadrata (m²)', 'square metres'],
           ['najamnina', 'rent'],
           ['režije', 'utilities'],
-          ['polog / jamstvo', 'deposit'],
+          ['polog / jamčevina', 'deposit'],
         ],
       },
       {
@@ -3655,8 +3672,8 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Reading rooms as bedrooms: a learner who sees dvosoban stan and expects two bedrooms will be one room out, because the count excludes the kitchen and bathroom. (2) Režije in the singular: Je li režija uključena asks about film directing; the running costs are always plural, Jesu li režije uključene. (3) The wrong case after bez and after a number: stan bez lift is wrong because bez takes the genitive, stan bez lifta — and pet stotina eura keeps eura in the genitive plural.',
-        highlight: 'Jesu li režije uključene',
+        body: '(1) Reading rooms as bedrooms: a learner who sees dvosoban stan and expects two bedrooms will be one room out, because the count excludes the kitchen and bathroom. (2) Režije in the singular: režija is film directing; the running costs are always plural, and so is the verb with them, Režije iznose sto eura. (3) The wrong case after bez and after a number: stan bez lift is wrong because bez takes the genitive, stan bez lifta — and pet stotina eura keeps eura in the genitive plural.',
+        highlight: 'Režije iznose sto eura',
       },
       {
         type: 'check',
@@ -3689,16 +3706,16 @@ export const LESSONS_B1 = [
               'After pet and above the counted noun is genitive plural: šest stotina (and eura stays genitive plural too). "Stotine" is the 2–4 form, and the others are wrong cases.',
           },
           {
-            q: 'Spot the error: "Je li režija uključena?"',
+            q: 'Spot the error: "Režije zimi iznosi sto eura."',
             options: [
               'Nothing is wrong',
-              'It should be plural: Jesu li režije uključene?',
-              'It should be "Je li režije uključen?"',
+              'The verb should be plural: Režije zimi iznose sto eura.',
+              'It should be "Režija zimi iznose sto eura."',
               'The verb should be "ima"',
             ],
             correct: 1,
             explanation:
-              'The utilities are always plural in Croatian, so the verb and the participle go plural with them: Jesu li režije uključene. The singular režija means something else entirely — film direction.',
+              'The utilities are always plural in Croatian, so the verb goes plural with them: režije iznose. The singular režija means something else entirely — film direction.',
           },
           {
             q: 'Which question asks about the deposit?',
@@ -3710,7 +3727,7 @@ export const LESSONS_B1 = [
             ],
             correct: 0,
             explanation:
-              'The deposit is polog (or jamstvo). Najamnina is the rent, režije the utilities, and the last question asks how long the contract runs.',
+              'The deposit is polog (or jamčevina). Najamnina is the rent, režije the utilities, and the last question asks how long the contract runs.',
           },
           {
             q: 'What does "Kada bih se mogao useliti?" mean?',
@@ -3768,7 +3785,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'Talking About Yourself Professionally',
-        body: 'A job application is where the formal register stops being optional. It also draws on almost everything at this level: the past tense for experience, the present for what you do now, the conditional for what you would like, and the cause words for why you are applying.',
+        body: 'A job application is where the formal register stops being optional. It also draws on almost everything at this level: the past tense for experience, the present for what you do now, the conditional you learned at A2 for what you would like (želio bih, željela bih), and jer for why you are applying.',
         icon: '📄',
       },
       {
@@ -3825,7 +3842,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Answer With Reasons',
-        body: 'The cause and purpose words from earlier are what an interview answer is made of. Javljam se jer me zanima ovo područje. Želim raditi ovdje zbog vaših projekata. Učim hrvatski kako bih mogao raditi s klijentima. An answer without a "jer" or a "kako bi" in it will sound thin, in Croatian as much as in English.',
+        body: 'An interview answer needs a reason, and "jer" (because) gives it. Javljam se jer me zanima ovo područje. Želim raditi ovdje jer volim raditi s ljudima. For what you would like, use the conditional: Želio bih raditi s klijentima. An answer without a "jer" in it will sound thin, in Croatian as much as in English. (More ways to give a cause or a purpose come in a lesson of their own later in B1.)',
         highlight: 'Javljam se jer…',
       },
       {
@@ -3962,16 +3979,11 @@ export const LESSONS_B1 = [
               'A zamolba (or motivacijsko pismo) is the covering letter. The CV is životopis, a reference is preporuka, and the advert is oglas za posao or natječaj.',
           },
           {
-            q: 'Spot the error: "Zanima me ovo mjesto zbog volim raditi s ljudima."',
-            options: [
-              'Nothing is wrong',
-              'zbog cannot take a clause — it needs jer: jer volim raditi s ljudima',
-              'It should be radi volim',
-              'The verb should be voljeti',
-            ],
-            correct: 1,
+            q: 'Complete: "Javljam se na oglas ___ volim raditi s ljudima." (because)',
+            options: ['jer', 'da', 'ako', 'kad'],
+            correct: 0,
             explanation:
-              '"Volim raditi" is a clause with a verb, and zbog only takes a genitive noun. A reason with a verb needs jer.',
+              'A reason with a verb is introduced by jer. Da would report or describe something, ako sets a condition, and kad says when.',
           },
           {
             q: 'Which closing belongs at the end of a written application?',
@@ -3996,7 +4008,7 @@ export const LESSONS_B1 = [
           'životopis = CV · zamolba = covering letter · oglas za posao = advert',
           'Radio/Radila sam kao… — the participle agrees with you',
           'Imam pet godina iskustva · Zadužen sam za…',
-          'Interview answers need a reason: jer…, zbog…, kako bih…',
+          'Interview answers need a reason: Javljam se jer…; a wish takes the conditional: Želio bih…',
           'Close a written application with Unaprijed zahvaljujem.',
         ],
       },
@@ -4019,7 +4031,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'Where Reading Really Starts',
-        body: 'News is the first authentic Croatian most learners can actually get through, because the vocabulary repeats and the structures are predictable. It is also where reported speech stops being an exercise: almost every news sentence is somebody saying something.',
+        body: 'News is the first authentic Croatian most learners can actually get through, because the vocabulary repeats and the structures are predictable. Almost every news sentence names somebody saying something, followed by da — the same da you already use after mislim and znam.',
         icon: '📰',
       },
       {
@@ -4043,9 +4055,22 @@ export const LESSONS_B1 = [
       },
       {
         type: 'rule',
-        title: 'News Runs on Reported Speech',
-        body: 'This is where that lesson pays off. Ministar je rekao da će se pravila promijeniti. Policija javlja da nema ozlijeđenih. Izvori tvrde da je odluka već donesena. Remember that Croatian does not backshift: the tense in the clause is the tense the person actually used.',
-        highlight: 'Rekao je da će…',
+        title: 'Who Said It: a Verb of Saying + da',
+        body: 'A news sentence names its source, a verb of saying, and then da: Ministar je rekao da… Policija javlja da nema žrtava. Novinari tvrde da je ministar znao za problem. It is the same da you use after mislim and znam. Learn the verbs: reći, izjaviti, javiti, tvrditi, najaviti.',
+        highlight: 'Policija javlja da nema žrtava.',
+      },
+      {
+        type: 'table',
+        title: 'Newspapers, Television, Books',
+        headers: ['Croatian', 'English'],
+        rows: [
+          ['žuti tisak', 'the yellow press, tabloids'],
+          ['sapunica', 'soap opera'],
+          ['feljton', 'a serialised feature (in a newspaper)'],
+          ['glavni lik', 'main character'],
+          ['sporedni lik', 'minor character'],
+          ['časopis', 'magazine'],
+        ],
       },
       {
         type: 'table',
@@ -4081,19 +4106,19 @@ export const LESSONS_B1 = [
             note: 'pisalo je — impersonal, no subject',
           },
           {
-            hr: 'Navodno je odluka već donesena.',
-            en: 'Apparently the decision has already been taken.',
-            note: 'a passive participle: donesena',
+            hr: 'Navodno su već donijeli odluku.',
+            en: 'Apparently they have already made the decision.',
+            note: 'navodno + an ordinary past tense',
           },
           {
-            hr: 'Prema izvještaju, nema ozlijeđenih.',
-            en: 'According to the report, there are no injuries.',
-            note: 'nema + genitive plural',
+            hr: 'Prema izvještaju, nema žrtava.',
+            en: 'According to the report, there are no casualties.',
+            note: 'nema + genitive plural: žrtava',
           },
           {
-            hr: 'Ne vjerujem svemu što pročitam.',
-            en: 'I do not believe everything I read.',
-            note: 'vjerovati + dative: svemu',
+            hr: 'Ne vjerujem tim novinama.',
+            en: 'I do not believe that newspaper.',
+            note: 'vjerovati + dative: tim novinama',
           },
         ],
       },
@@ -4109,7 +4134,7 @@ export const LESSONS_B1 = [
           {
             hr: 'Gradonačelnik je izjavio da će radovi trajati do proljeća.',
             en: 'The mayor stated that the works will last until spring.',
-            note: 'reported speech, future kept',
+            note: 'izjaviti da — what he stated',
           },
           {
             hr: 'Navodno je požar izbio u ranim jutarnjim satima.',
@@ -4117,14 +4142,14 @@ export const LESSONS_B1 = [
             note: 'navodno marks the claim as second-hand',
           },
           {
-            hr: 'Prema izvorima iz policije, nitko nije ozlijeđen.',
-            en: 'According to police sources, nobody was injured.',
+            hr: 'Prema izvorima iz policije, nitko nije stradao.',
+            en: 'According to police sources, nobody was hurt.',
             note: 'prema + dative; nitko + negated verb',
           },
           {
-            hr: 'Čula sam na radiju da je autocesta zatvorena zbog nesreće.',
-            en: 'I heard on the radio that the motorway is closed because of an accident.',
-            note: 'čuti na + locative; zbog + genitive',
+            hr: 'Čula sam na radiju da je na autocesti velika gužva.',
+            en: 'I heard on the radio that there is a big jam on the motorway.',
+            note: 'čuti na + locative',
           },
           {
             hr: 'Novinari tvrde da je ministar znao za problem.',
@@ -4132,9 +4157,14 @@ export const LESSONS_B1 = [
             note: 'tvrditi da — reporting a claim',
           },
           {
-            hr: 'Ne vjerujem svemu što piše na internetu.',
-            en: 'I do not believe everything that is written on the internet.',
-            note: 'vjerovati + dative; piše — impersonal',
+            hr: 'Ne vjerujem svakom članku na internetu.',
+            en: 'I do not believe every article on the internet.',
+            note: 'vjerovati + dative: svakom članku',
+          },
+          {
+            hr: 'Moja baka gleda sapunice, a djed čita žuti tisak.',
+            en: 'My grandma watches soap operas, and grandpa reads the tabloids.',
+            note: 'sapunica, žuti tisak',
           },
         ],
       },
@@ -4164,8 +4194,8 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Backshifting the report: Ministar je rekao da će se pravila promijeniti keeps his future — writing da bi se pravila promijenila turns an announcement into a hypothesis. (2) Reading a headline as a broken sentence: Ministar u posjetu Splitu is not missing anything by accident; the verb je is dropped by convention and the reader supplies it. (3) The wrong case after vjerovati: Ne vjerujem sve što čitam is wrong — vjerovati takes the dative, Ne vjerujem svemu što čitam.',
-        highlight: 'Ne vjerujem svemu što čitam',
+        body: '(1) Dropping da: English can say "the police report there are no casualties", but Croatian needs da — Policija javlja da nema žrtava. (2) Reading a headline as a broken sentence: Ministar u posjetu Splitu is not missing anything by accident; the verb je is dropped by convention and the reader supplies it. (3) The wrong case after vjerovati: Ne vjerujem te novine is wrong — vjerovati takes the dative, Ne vjerujem tim novinama.',
+        highlight: 'Ne vjerujem tim novinama',
       },
       {
         type: 'check',
@@ -4179,11 +4209,11 @@ export const LESSONS_B1 = [
               'Headlines drop the form of biti. Ministar is singular, so the missing word is je: Ministar JE u posjetu Splitu. "Su" would need a plural subject.',
           },
           {
-            q: 'Complete: "Policija javlja da ___ ozlijeđenih." (…that there are no injuries.)',
+            q: 'Complete: "Policija javlja da ___ žrtava." (…that there are no casualties.)',
             options: ['nije', 'nemaju', 'nema', 'ne'],
             correct: 2,
             explanation:
-              '"There is no / there are no" is the impersonal nema plus the genitive: nema ozlijeđenih. "Nemaju" would need a subject who lacks something, and "nije" and "ne" cannot stand alone here.',
+              '"There is no / there are no" is the impersonal nema plus the genitive: nema žrtava. "Nemaju" would need a subject who lacks something, and "nije" and "ne" cannot stand alone here.',
           },
           {
             q: 'Which sentence marks the claim as second-hand?',
@@ -4198,16 +4228,16 @@ export const LESSONS_B1 = [
               '"Navodno" — apparently — signals that the speaker is passing something on rather than vouching for it. "Sigurno" and "vidio sam" do the opposite.',
           },
           {
-            q: 'Spot the error: "Ne vjerujem sve što pročitam."',
+            q: 'Spot the error: "Ne vjerujem te novine."',
             options: [
               'Nothing is wrong',
-              'It should be sve što čitam',
-              'vjerovati takes the dative: Ne vjerujem svemu što pročitam',
-              'It should be vjerujem u sve',
+              'It should be ta novina',
+              'vjerovati takes the dative: Ne vjerujem tim novinama',
+              'It should be ne vjerujem u novine',
             ],
             correct: 2,
             explanation:
-              'You believe TO someone or something in Croatian — vjerovati governs the dative — so "sve" must become "svemu".',
+              'You believe TO someone or something in Croatian — vjerovati governs the dative — so "te novine" must become "tim novinama".',
           },
           {
             q: 'Complete: "Čuo sam na ___ da će sutra biti štrajk." (I heard on the news — vijesti)',
@@ -4224,16 +4254,11 @@ export const LESSONS_B1 = [
               '"Izvor" is a source (also a spring of water). Naslov is a headline, izvještaj a report, and emisija a programme.',
           },
           {
-            q: 'The minister said "Pravila će se promijeniti." How do you report it?',
-            options: [
-              'Ministar je rekao da bi se pravila promijenila.',
-              'Ministar je rekao da su se pravila promijenila.',
-              'Ministar je rekao da se pravila mijenjaju.',
-              'Ministar je rekao da će se pravila promijeniti.',
-            ],
+            q: 'What do you call a long-running TV drama about the same families, episode after episode?',
+            options: ['feljton', 'dnevnik', 'žuti tisak', 'sapunica'],
             correct: 3,
             explanation:
-              'Croatian keeps the tense the speaker used, so his future stays future: da će se promijeniti. The conditional makes it hypothetical, and the past and present change what he said.',
+              'A soap opera is a sapunica. Feljton is a serialised newspaper feature, dnevnik the news bulletin, and žuti tisak the tabloid press.',
           },
         ],
       },
@@ -4243,7 +4268,8 @@ export const LESSONS_B1 = [
         points: [
           'vijesti, novine, članak, naslov, izvještaj, izvor',
           'Headlines drop biti — supply je or su mentally',
-          'News is mostly reported speech, and Croatian does not backshift',
+          'A news sentence names who said it: rekao je da…, javlja da…, tvrde da…',
+          'žuti tisak, sapunica, feljton, glavni i sporedni lik',
           'Čuo sam na vijestima da… / Pisalo je u novinama da…',
           'Navodno marks a claim as second-hand',
         ],
@@ -4281,7 +4307,7 @@ export const LESSONS_B1 = [
           ['miš', 'mouse', 'the animal, as in English'],
           ['preglednik', 'browser', 'pregledati — to look through'],
           ['poveznica', 'link', 'povezati — to connect'],
-          ['pretraživač', 'search engine', 'pretraživati — to search'],
+          ['tražilica', 'search engine', 'tražiti — to search'],
         ],
       },
       {
@@ -4484,10 +4510,10 @@ export const LESSONS_B1 = [
           },
           {
             q: 'Which word means "screen"?',
-            options: ['zaslon', 'miš', 'punjač', 'pretraživač'],
+            options: ['zaslon', 'miš', 'punjač', 'tražilica'],
             correct: 0,
             explanation:
-              '"Zaslon" is the screen (originally a shield). Miš is the mouse, punjač the charger, pretraživač the search engine.',
+              '"Zaslon" is the screen (originally a shield). Miš is the mouse, punjač the charger, tražilica the search engine.',
           },
         ],
       },
@@ -4540,8 +4566,8 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Words the Coast Gave the World',
-        body: 'Two words from this corner of Europe went international. "Kras" — the Croatian (and Slovene) word for bare limestone country like Istria and the Dinarides, and the name of the plateau above Trieste — is the origin of the geological term karst, used worldwide for that terrain and its caves and sinkholes. And "Dalmacija" gave its name to the dog. Both are worth knowing, because Croatians will mention them.',
-        highlight: 'kras → karst',
+        body: 'Two words from this corner of Europe went international. Kras, the limestone plateau above Trieste (in Slovenia and Italy), gave its name to the geological term karst, used worldwide for that terrain and its caves and sinkholes. The Croatian word for this bare limestone country, as in the Dinarides, is "krš". And "Dalmacija" gave its name to the dog. Both are worth knowing, because Croatians will mention them.',
+        highlight: 'Kras → karst; krš',
       },
       {
         type: 'table',
@@ -4665,11 +4691,11 @@ export const LESSONS_B1 = [
       {
         type: 'quiz',
         title: 'One More',
-        q: 'Which international scientific term comes from a Croatian landscape word?',
+        q: 'Which international scientific term is named after a plateau on the Adriatic, next to Croatia?',
         options: ['tundra', 'karst', 'fjord', 'delta'],
         correct: 1,
         explanation:
-          '"Karst" comes from "kras", the word for bare limestone country like Istria and the Dinarides, and is now used worldwide for that terrain and its caves and sinkholes.',
+          '"Karst" is named after Kras, the limestone plateau above Trieste, and is now used worldwide for that terrain and its caves and sinkholes. In Croatian the landscape itself is called krš.',
       },
       {
         type: 'rule',
@@ -4755,7 +4781,7 @@ export const LESSONS_B1 = [
           'bura = cold and north-easterly · jugo = warm and southerly',
           'Puše bura is a sentence with practical consequences on the coast',
           'okoliš, onečišćenje, otpad, reciklirati, zaštititi',
-          'Croatian "kras" is the origin of the geological term karst',
+          'karst is named after the Kras plateau; the Croatian word for the landscape is krš',
         ],
       },
     ],
@@ -4802,7 +4828,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Quantities Take the Genitive',
-        body: 'Every line of an ingredient list is the quantity rule at work. dvjesto grama brašna, litra mlijeka, žlica šećera, malo soli, tri jajeta. The measure comes first and what is measured follows in the genitive — exactly as it did in a café, just in longer lists.',
+        body: 'Every line of an ingredient list is the quantity rule at work. dvjesto grama brašna, litra mlijeka, žlica šećera, malo soli, tri jaja. The measure comes first and what is measured follows in the genitive — exactly as it did in a café, just in longer lists.',
         highlight: 'dvjesto grama brašna',
       },
       {

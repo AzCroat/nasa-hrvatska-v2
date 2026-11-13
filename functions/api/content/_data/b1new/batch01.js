@@ -91,7 +91,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Five to Learn as Whole Words',
-        body: 'dobar (good) → bolji (better). loš (bad) → gori (worse). velik (big) → veći (bigger). malen or mali (small) → manji (smaller). dug (long) → duži (longer). For dug, the form dulji is equally standard Croatian — you will hear and read both. For loš, the regular lošiji also exists, but gori is the everyday word. None of these can be worked out from a rule, so learn each pair together, the way you learned good–better.',
+        body: 'dobar (good) → bolji (better). loš (bad) and zao (bad, evil) → gori (worse) — the book pairs gori with zao, and loš shares it. velik (big) → veći (bigger). malen or mali (small) → manji (smaller). dug or dugačak (long) → duži or dulji (longer). Both duži and dulji are standard Croatian — you will hear and read both. A few more show a sound change you can learn with them: mio (dear) → miliji, drag (dear) → draži, tanak (thin) → tanji, debeo (fat, thick) → deblji, sladak (sweet) → slađi. For loš, the regular lošiji also exists, but gori is the everyday word. None of these can be worked out from a rule, so learn each pair together, the way you learned good–better.',
         highlight: 'dobar → bolji, loš → gori, velik → veći, malen → manji, dug → duži',
       },
       {
@@ -100,10 +100,12 @@ export const LESSONS = [
         headers: ['Positive', 'Comparative', 'Superlative', 'English'],
         rows: [
           ['dobar', 'bolji', 'najbolji', 'good, better, best'],
-          ['loš', 'gori', 'najgori', 'bad, worse, worst'],
+          ['loš / zao', 'gori', 'najgori', 'bad, worse, worst'],
           ['velik', 'veći', 'najveći', 'big, bigger, biggest'],
           ['malen / mali', 'manji', 'najmanji', 'small, smaller, smallest'],
-          ['dug', 'duži (dulji)', 'najduži (najdulji)', 'long, longer, longest'],
+          ['dug / dugačak', 'duži (dulji)', 'najduži (najdulji)', 'long, longer, longest'],
+          ['drag', 'draži', 'najdraži', 'dear, dearer, dearest'],
+          ['sladak', 'slađi', 'najslađi', 'sweet, sweeter, sweetest'],
           ['kratak', 'kraći', 'najkraći', 'short, shorter, shortest'],
           ['visok', 'viši', 'najviši', 'tall/high, taller, tallest'],
           ['nizak', 'niži', 'najniži', 'low/short, lower, lowest'],
@@ -586,7 +588,7 @@ export const LESSONS = [
           ['strpljiv / strpljiva', 'patient', 'nestrpljiv'],
           ['pošten / poštena', 'fair, honest', 'nepošten'],
           ['pouzdan / pouzdana', 'reliable', 'nepouzdan'],
-          ['tvrdoglav / tvrdoglava', 'stubborn', 'popustljiv (easy-going)'],
+          ['tvrdoglav / tvrdoglava', 'stubborn', 'popustljiv (yielding, indulgent)'],
           ['hrabar / hrabra', 'brave', 'plašljiv (timid)'],
           ['duhovit / duhovita', 'witty, funny', 'dosadan (boring)'],
           ['sramežljiv / sramežljiva', 'shy', 'druželjubiv (sociable)'],
@@ -597,7 +599,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Opposites with ne-',
-        body: 'Many traits make their opposite simply with ne- written together with the adjective: iskren → neiskren, strpljiv → nestrpljiv, pošten → nepošten, pouzdan → nepouzdan, ljubazan → neljubazan. Not every one works — there is no "nevrijedan" in everyday speech; the opposite of vrijedan is lijen. Learn the pairs from the table, and use ne- freely on the ones it shows.',
+        body: 'Many traits make their opposite simply with ne- written together with the adjective: iskren → neiskren, strpljiv → nestrpljiv, pošten → nepošten, pouzdan → nepouzdan, ljubazan → neljubazan. Not every one works the way you expect: nevrijedan does exist, but it means worthless or unworthy, not lazy — the opposite of vrijedan (hardworking) is lijen. Learn the pairs from the table, and use ne- freely on the ones it shows.',
         highlight: 'strpljiv → nestrpljiv',
       },
       {
@@ -665,6 +667,26 @@ export const LESSONS = [
         ],
       },
       {
+        type: 'table',
+        title: 'Strong as a Lion: Character Similes',
+        headers: ['Croatian', 'Literally', 'Meaning'],
+        rows: [
+          ['vrijedan kao mrav', 'hardworking as an ant', 'very hardworking'],
+          ['hrabar kao lav', 'brave as a lion', 'very brave'],
+          ['mudar kao sova', 'wise as an owl', 'very wise'],
+          ['tvrdoglav kao magarac', 'stubborn as a donkey', 'very stubborn'],
+          ['dosadan kao muha', 'annoying as a fly', 'a real pest, very annoying'],
+          ['glup kao guska', 'stupid as a goose', 'very silly'],
+          ['lijep kao slika', 'beautiful as a picture', 'very beautiful'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'kao + an Animal',
+        body: 'Croatian sharpens a trait with kao (like) and an animal, the way English says "as busy as a bee". The adjective agrees with the person and the animal stays in the nominative: Ona je vrijedna kao mrav. On je tvrdoglav kao magarac. Note dosadan kao muha: a fly is not boring, it is irritating, so dosadan here means annoying. The positive ones (hrabar kao lav, mudar kao sova, lijepa kao slika) are compliments; glup kao guska and tvrdoglav kao magarac are not, so keep them for friends who can take a joke.',
+        highlight: 'Ona je vrijedna kao mrav.',
+      },
+      {
         type: 'example',
         title: 'Comparing Characters',
         items: [
@@ -684,8 +706,8 @@ export const LESSONS = [
             note: 'iskrenija — agreeing with djeca; nego + nominative odrasli',
           },
           {
-            hr: 'Moja najbolja prijateljica je najhrabrija osoba koju poznajem.',
-            en: 'My best friend is the bravest person I know.',
+            hr: 'Moja najbolja prijateljica je najhrabrija u našem društvu.',
+            en: 'My best friend is the bravest in our group.',
             note: 'najhrabrija — superlative of hrabra',
           },
           {
@@ -715,7 +737,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Keeping the fleeting a: Ona je ljubazana is wrong — Ona je ljubazna. (2) Making an opposite with ne- that nobody uses: say lijen, not "nevrijedan". (3) Forgetting agreement when comparing: Ana je strpljiviji od brata is wrong — Ana is feminine, so Ana je strpljivija od brata. (4) Calling a careful saver škrt when you mean it kindly: that is štedljiv.',
+        body: '(1) Keeping the fleeting a: Ona je ljubazana is wrong — Ona je ljubazna. (2) Making the opposite of vrijedan with ne-: nevrijedan means worthless, not lazy — say lijen. (3) Forgetting agreement when comparing: Ana je strpljiviji od brata is wrong — Ana is feminine, so Ana je strpljivija od brata. (4) Calling a careful saver škrt when you mean it kindly: that is štedljiv.',
         highlight: 'Ana je strpljivija od brata',
       },
       {
@@ -764,6 +786,12 @@ export const LESSONS = [
             correct: 2,
             explanation: 'pomalo softens a judgement: a bit, somewhat.',
           },
+          {
+            q: 'Complete: "Ona je hrabra kao ___." (as brave as a lion)',
+            options: ['sova', 'mrav', 'lav', 'guska'],
+            correct: 2,
+            explanation: 'hrabar kao lav. The animal stays in the nominative after kao.',
+          },
         ],
       },
       {
@@ -775,6 +803,7 @@ export const LESSONS = [
           'The a of -an / -ar drops: ljubazna, vrijedna, hrabra',
           'Compare with -iji: strpljiviji, iskreniji, tvrdoglaviji',
           'pomalo, jako, previše soften or sharpen; štedljiv praises, škrt criticises',
+          'Similes: vrijedan kao mrav, hrabar kao lav, tvrdoglav kao magarac — the animal stays nominative',
         ],
       },
     ],
@@ -839,6 +868,42 @@ export const LESSONS = [
         title: 'Taking a Compliment',
         body: 'The basic answer is simply Hvala! Croatians often add a little modesty: Ma daj, stara je to haljina (Oh, come on, it is an old dress) or Hvala, drago mi je da ti se sviđa (Thanks, I am glad you like it). To return the compliment, match the case of the original: someone said Ti lijepo izgledaš, so you answer Hvala, i ti! A WISH comes with a dative (Ugodan ti vikend!), so it is answered Hvala, i tebi.',
         highlight: 'Hvala, i ti!',
+      },
+      {
+        type: 'table',
+        title: 'More Detail: Hair, Face, Nose',
+        headers: ['Croatian', 'English'],
+        rows: [
+          ['prosijeda kosa', 'greying hair'],
+          ['ćelav / ćelava', 'bald'],
+          ['punđa', 'a bun (hair)'],
+          ['pletenica', 'a plait, braid'],
+          ['šiške', 'a fringe (always plural)'],
+          ['ravan nos', 'a straight nose'],
+          ['kukast / orlovski nos', 'a hooked / an aquiline nose'],
+          ['prćast nos', 'a snub, turned-up nose'],
+          ['visoko / nisko čelo', 'a high / low forehead'],
+        ],
+      },
+      {
+        type: 'table',
+        title: 'When You Would Rather Not Say',
+        headers: ['Croatian', 'English', 'When'],
+        rows: [
+          ['To me ne zanima.', 'That does not interest me.', 'lack of interest, neutral'],
+          ['Nisam zainteresiran / zainteresirana.', 'I am not interested.', 'lack of interest, polite'],
+          ['To nije moja stvar.', 'That is none of my business.', 'staying out of it'],
+          ['Baš me briga.', 'I could not care less.', 'blunt — friends only'],
+          ['Teško je reći.', 'It is hard to say.', 'avoiding an opinion'],
+          ['To je delikatno pitanje.', 'That is a delicate question.', 'avoiding an opinion'],
+          ['A što biste željeli čuti?', 'And what would you like to hear?', 'turning the question back'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Not Every Question Wants an Answer',
+        body: 'Talk about looks quickly reaches questions you would rather not answer: "Do I look fat in this?" or "Is she prettier than me?". The book gives two sets of escapes. For lack of interest: To me ne zanima, Nisam zainteresiran, To nije moja stvar — and among friends the blunt Baš me briga. To avoid giving an opinion: Teško je reći, To je delikatno pitanje, or turn it back with A što biste željeli čuti? Use the polite ones with anyone; Baš me briga can sound rude to a stranger.',
+        highlight: 'Teško je reći.',
       },
       {
         type: 'example',
@@ -983,6 +1048,12 @@ export const LESSONS = [
             explanation:
               'krupan is the kind word; debeo is blunt. mršav and nizak mean thin and short.',
           },
+          {
+            q: 'Someone asks about a neighbour\'s private life. Which reply says it is none of your business?',
+            options: ['Teško je reći.', 'To nije moja stvar.', 'Lijepo izgleda.', 'A što biste željeli čuti?'],
+            correct: 1,
+            explanation: 'To nije moja stvar — that is none of my business.',
+          },
         ],
       },
       {
@@ -990,6 +1061,7 @@ export const LESSONS = [
         title: 'Appearance and Compliments — Key Takeaways',
         points: [
           'Ima kratku kosu, plave oči, bradu; nosi naočale',
+          'Not answering: To me ne zanima, To nije moja stvar, Teško je reći, To je delikatno pitanje',
           'izgledati + adverb: Lijepo izgledaš, Izgledaš odmorno',
           'stajati + dative: Ta ti haljina stoji, Te cipele ti stoje',
           'Accept with Hvala — and a little modesty: Ma daj, stara je to',
@@ -1724,7 +1796,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Moja prijateljica je ____ osoba koju poznajem. (brave → the bravest)',
+          q: 'Moja prijateljica je ____ u našem društvu. (brave → the bravest)',
           answer: 'najhrabrija',
           hint: 'naj- + the comparative of hrabra.',
           explanation: 'najhrabrija.',
@@ -1735,6 +1807,20 @@ export const PRACTICE = {
           answer: 'druželjubiv',
           hint: 'The opposite of shy, masculine.',
           explanation: 'druželjubiv.',
+        },
+        {
+          q: 'Complete the simile: "Moj djed je tvrdoglav kao ___."',
+          options: ['magarac', 'mrav', 'sova', 'lav'],
+          correct: 0,
+          hint: 'The animal Croatian picks for someone who will not move.',
+          explanation: 'tvrdoglav kao magarac — stubborn as a donkey.',
+        },
+        {
+          type: 'type',
+          q: 'Moja baka je vrijedna kao ____. (an ant)',
+          answer: 'mrav',
+          hint: 'The small insect that never stops working, in the nominative.',
+          explanation: 'vrijedna kao mrav — the animal stays nominative after kao.',
         },
       ],
     },
@@ -1775,9 +1861,17 @@ export const PRACTICE = {
         correct: 2,
         explanation: 'malo softens: a bit; nepouzdan = unreliable.',
       },
+      {
+        q: 'Which simile is a compliment?',
+        options: ['glup kao guska', 'dosadan kao muha', 'mudar kao sova', 'tvrdoglav kao magarac'],
+        correct: 2,
+        explanation: 'mudar kao sova — wise as an owl. The other three are criticisms.',
+      },
     ],
     vocab: [
       ['vrijedan', 'hardworking', 'Ivan je vrijedan i pouzdan.'],
+      ['mrav', 'ant', 'Vrijedna je kao mrav.'],
+      ['magarac', 'donkey', 'Tvrdoglav je kao magarac.'],
       ['lijen', 'lazy', 'Nije lijen, samo je umoran.'],
       ['iskren', 'honest, sincere', 'Djeca su često iskrena.'],
       ['ljubazan', 'kind, friendly', 'Kolegica mi je jako ljubazna.'],
@@ -1920,6 +2014,27 @@ export const PRACTICE = {
           hint: 'The wish came with a dative, so the reply uses the same case.',
           explanation: 'i tebi.',
         },
+        {
+          q: 'A stranger asks what you think of a politician\'s looks. Which reply avoids giving an opinion?',
+          options: ['Baš me briga.', 'Teško je reći.', 'Lijepo izgleda.', 'Hvala, i vama.'],
+          correct: 1,
+          hint: 'You want to step aside politely, not be rude and not praise.',
+          explanation: 'Teško je reći — it is hard to say.',
+        },
+        {
+          type: 'type',
+          q: 'To me ne ____. (That does not interest me.)',
+          answer: 'zanima',
+          hint: 'The third person of zanimati — the thing interests you.',
+          explanation: 'To me ne zanima.',
+        },
+        {
+          q: 'Which word describes a turned-up nose?',
+          options: ['prćast', 'kukast', 'ćelav', 'krupan'],
+          correct: 0,
+          hint: 'The opposite direction from a hooked nose.',
+          explanation: 'prćast nos — a snub nose; kukast is hooked.',
+        },
       ],
     },
     checkB: [
@@ -1959,9 +2074,18 @@ export const PRACTICE = {
         correct: 2,
         explanation: 'Comparative, masculine to agree with karakter: važniji.',
       },
+      {
+        q: 'Which reply is blunt and best kept for friends?',
+        options: ['To nije moja stvar.', 'Baš me briga.', 'Nisam zainteresiran.', 'To je delikatno pitanje.'],
+        correct: 1,
+        explanation: 'Baš me briga — I could not care less. The others are polite.',
+      },
     ],
     vocab: [
       ['izgledati', 'to look', 'Lijepo izgledaš.'],
+      ['zanimati', 'to interest', 'To me ne zanima.'],
+      ['ćelav', 'bald', 'Moj ujak je ćelav.'],
+      ['pletenica', 'plait, braid', 'Kći ima dugu pletenicu.'],
       ['stajati', 'to suit (someone: dative)', 'Ta ti haljina stoji.'],
       ['kosa', 'hair', 'Ima dugu kovrčavu kosu.'],
       ['oči', 'eyes', 'Ima plave oči.'],
@@ -2153,15 +2277,15 @@ export const PRACTICE = {
         explanation: 'dok + futur II, mi: budemo radili.',
       },
       {
-        q: 'Spot the error: "Ako ćete trebati pomoć, zovite me."',
+        q: 'Spot the error: "Ako će vam trebati pomoć, zovite me."',
         options: [
           'Nothing is wrong.',
           'zovite should be zovete.',
-          'Ako ćete trebati must be Ako budete trebali.',
+          'Ako će vam trebati must be Ako vam bude trebala.',
           'pomoć should be in the genitive.',
         ],
         correct: 2,
-        explanation: 'The ordinary future cannot follow ako; it is futur II, budete trebali.',
+        explanation: 'The ordinary future cannot follow ako here; it is futur II, and pomoć is the subject of trebati (as in Ako ti budem trebao): Ako vam bude trebala pomoć.',
       },
       {
         q: 'With a perfective verb, which is ALSO correct beside "Kad budem stigao, nazvat ću te"?',

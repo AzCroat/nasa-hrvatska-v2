@@ -39,10 +39,26 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   instrumental: ['instrumental'],
   'past-tense': ['past tense'],
   'future-tense': ['future tense'],
+  // The conditional is taught at A2 (conditional-forms, A2-32); the `conditional` row
+  // below is the B2 lesson, which alone kept the word from A2 and B1 learners.
+  'conditional-forms': ['conditional'],
   conditional: ['conditional'],
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],
   'aspect-perfective': ['aspect', 'perfective'],
+  // B1 (Razgovarajte s nama! A2-B1, lessons 6–10, plus the app's own B1 lessons). Each word
+  // belongs to the lesson that first teaches it under that name.
+  'comparatives-a2': ['comparative'],
+  'superlatives-irregular': ['superlative'],
+  'verb-prefixes': ['prefix'],
+  'future-ii': ['future II'],
+  'time-clauses': ['time clause'],
+  conjunctions: ['conjunction'],
+  'relative-koji': ['relative clause', 'relative pronoun'],
+  indefinites: ['indefinite pronoun'],
+  'infinitive-vs-da': ['da clause'],
+  'cause-purpose': ['purpose clause'],
+  'reported-speech': ['reported speech'],
 };
 
 /** Every grammar word the table can introduce (the words an explanation must not use early). */

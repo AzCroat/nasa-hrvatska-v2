@@ -205,9 +205,17 @@ describe('every B1 lesson is a usable lesson', () => {
 
 describe('teach → practice coupling stays HONEST at B1', () => {
   const EXPECTED: Record<string, string> = {
-    'verb-prefixes': 'aspect-perfective',
-    'telling-a-story': 'past-tense',
-    'relative-deep': 'subordination',
+    // Book-alignment pass (2026-11-13): these three were coupled to drills that did not
+    // practise their lesson — the aspect drill had no prefix items, the cloze bank was
+    // mixed cases with one past-tense item in 67, and relpron is plain koji with case
+    // labels. Each now has a B1 bank written for the lesson (as do instrumental,
+    // motion-verbs and numbers-nouns).
+    'verb-prefixes': 'b1-verb-prefixes',
+    'telling-a-story': 'b1-telling-story',
+    'relative-deep': 'b1-relative-deep',
+    instrumental: 'b1-instrumental',
+    'motion-verbs': 'b1-motion-verbs',
+    'numbers-nouns': 'b1-numbers-nouns',
     // Practice programme, B1 tranche 1 (2026-08-29). All five were in
     // DELIBERATELY_UNMAPPED below, and for a sharper reason than "no drill
     // exists": each HAD a drill at B2/C1 carrying a category that was already

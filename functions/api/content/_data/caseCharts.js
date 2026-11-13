@@ -151,11 +151,11 @@ export const SINGULAR_ROWS = [
     cells: [
       [
         L('Idem u grad s prijateljicom.', N('prijateljicom', 'prijateljica')),
-        L('Zadovoljan sam s kućom.', N('kućom', 'kuća')),
+        L('Ručam sa sestrom.', N('sestrom', 'sestra')),
       ],
       [
         L('Plovim morem.', N('morem', 'more', 'em')),
-        L('Zadovoljan sam s računalom.', N('računalom', 'računalo')),
+        L('Pijem kavu s mlijekom.', N('mlijekom', 'mlijeko')),
       ],
       [
         L('Idem na posao biciklom.', N('biciklom', 'bicikl')),

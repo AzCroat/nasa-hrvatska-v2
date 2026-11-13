@@ -64,7 +64,7 @@ const DATA = [
     opts: ['jabuka', 'jabuke', 'jabukama', 'jabuku'],
     answer: 'jabuka',
     en: 'I buy a kilo of apples.',
-    tip: "Measure + genitive plural: 'jabuke' (nom pl) -> 'jabuka' (gen pl, zero ending).",
+    tip: "Measure + genitive plural: 'jabuke' (nom pl) -> 'jabuka' (gen pl, ending -a, the same letters as the nom sg).",
   },
   {
     q: 'Daj mi malo ___.',
@@ -267,7 +267,7 @@ const DATA = [
     opts: ['knjiga', 'knjige', 'knjigama', 'knjigu'],
     answer: 'knjiga',
     en: 'I read several books.',
-    tip: "'nekoliko' + genitive plural — 'knjige' -> 'knjiga' (gen pl, zero ending).",
+    tip: "'nekoliko' + genitive plural — 'knjige' -> 'knjiga' (gen pl, ending -a).",
   },
   {
     q: 'Imamo dosta ___.',

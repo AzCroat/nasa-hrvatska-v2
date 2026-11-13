@@ -3351,11 +3351,11 @@ export const NUMTIME = {
     { q: 'Koliko je 12 + 8?', a: 'dvadeset', al: ['osamnaest', 'dvadeset dva', 'devetnaest'] },
   ],
   time: [
-    { q: 'It\u0027s 3:00 PM =', a: 'Petnaest sati', al: ['Tri sata', 'Pet sati', 'Trinaest sati'] },
+    { q: 'It\u0027s 3:00 PM =', a: 'Petnaest sati', al: ['Tri sati', 'Pet sati', 'Trinaest sati'] },
     {
       q: 'It\u0027s 7:30 =',
       a: 'Sedam sati i trideset minuta',
-      al: ['Sedam i pol', 'Šest i trideset', 'Osam i trideset'],
+      al: ['Osam i pol', 'Šest i trideset', 'Osam i trideset'],
     },
     { q: 'It\u0027s noon =', a: 'Podne', al: ['Ponoć', 'Jutro', 'Večer'] },
     { q: 'It\u0027s midnight =', a: 'Ponoć', al: ['Podne', 'Noć', 'Kasno'] },
@@ -3383,15 +3383,15 @@ export const NUMTIME = {
       al: ['Afternoon', 'Evening', 'Night'],
     },
     {
-      q: "Which is colloquial for 'the day after tomorrow'?",
+      q: "Which word means 'the day after tomorrow'?",
       a: 'prekosutra',
-      al: ['jučer', 'sutra', 'predjuče'],
+      al: ['jučer', 'sutra', 'prekjučer'],
     },
     { q: "'Uskoro' means?", a: 'Soon', al: ['Yesterday', 'Tomorrow', 'Never'] },
     {
       q: "Formal vs colloquial: '15:00' vs colloquial?",
       a: 'Tri sata (popodne)',
-      al: ['Petnaest', 'Tri popodne', 'Poslijepodne tri'],
+      al: ['Petnaest', 'Pet popodne', 'Poslijepodne tri'],
     },
     {
       q: "'Tek' in 'Tek sam stigao' means?",

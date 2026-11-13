@@ -85,7 +85,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
   },
   // Dative
   {
-    sentence: 'Dajem cvijece mojoj majci.',
+    sentence: 'Dajem cvijeće svojoj majci.',
     blank: 'majci',
     options: ['majci', 'majku', 'majka', 'majke'],
     translation: 'I give flowers to my mother.',
@@ -187,7 +187,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     blank: 'prije',
     options: ['prije', 'nakon', 'za', 'od'],
     translation: 'We saw each other a week ago.',
-    hint: 'Time — prije (before/ago) + genitive',
+    hint: 'Time — prije (ago) + a measure phrase: tjedan dana',
   },
   {
     sentence: 'Dolazim za sat vremena.',

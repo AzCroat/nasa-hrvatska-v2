@@ -1528,7 +1528,7 @@ export const PRACTICE_A2 = {
         steps: [
           {
             label: 'good = dobar',
-            text: 'dobar is one of the irregular five: its comparative is bolji.',
+            text: 'dobar is irregular: its comparative is bolji.',
           },
           {
             label: 'Superlative',
@@ -1584,7 +1584,7 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Moj auto je ____ od tvojeg. (better)',
           answer: 'bolji',
-          hint: 'dobar is one of the irregular five.',
+          hint: 'dobar is irregular — its comparative is a different word.',
           explanation: 'dobar → bolji.',
         },
         {
@@ -1598,8 +1598,8 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Ona je ____ od sestre. (taller — visok)',
           answer: 'viša',
-          hint: 'visok is irregular, and the form must agree with ona.',
-          explanation: 'visok → viši; feminine viša.',
+          hint: 'visok drops -ok and takes -ji (s softens), and the form must agree with ona.',
+          explanation: 'visok → viši (-ok dropped, + -ji); feminine viša.',
         },
         {
           type: 'type',
@@ -3708,10 +3708,10 @@ export const PRACTICE_A2 = {
     checkB: [
       {
         q: 'Complete: "Brat voli nogomet, ___ sestra voli tenis."',
-        options: ['nego', 'ali', 'a', 'jer'],
+        options: ['nego', 'ni', 'a', 'jer'],
         correct: 2,
         explanation:
-          "Two preferences side by side, nothing contradicted: a. ali would present the sister's tennis as an obstacle.",
+          "Two preferences side by side, nothing contradicted: a is the neutral choice. nego needs a negative before it, ni means nor, and jer would make the tennis a reason.",
       },
       {
         q: 'Complete: "Umoran sam, ___ ću ipak doći." (I am tired, but I will still come.)',

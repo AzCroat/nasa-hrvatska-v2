@@ -386,6 +386,12 @@ const B1ForeignNounsDeclensionDrill = lazyWithReload(
 );
 const B1VerbsVatiJemDrill = lazyWithReload(() => import('./practice/drills/B1VerbsVatiJemDrill'));
 const B1CroatsAbroadDrill = lazyWithReload(() => import('./practice/drills/B1CroatsAbroadDrill'));
+const B1VerbPrefixesDrill = lazyWithReload(() => import('./practice/drills/B1VerbPrefixesDrill'));
+const B1InstrumentalDrill = lazyWithReload(() => import('./practice/drills/B1InstrumentalDrill'));
+const B1MotionVerbsDrill = lazyWithReload(() => import('./practice/drills/B1MotionVerbsDrill'));
+const B1NumbersNounsDrill = lazyWithReload(() => import('./practice/drills/B1NumbersNounsDrill'));
+const B1TellingStoryDrill = lazyWithReload(() => import('./practice/drills/B1TellingStoryDrill'));
+const B1RelativeDeepDrill = lazyWithReload(() => import('./practice/drills/B1RelativeDeepDrill'));
 const B2NounPeculiaritiesADrill = lazyWithReload(
   () => import('./practice/drills/B2NounPeculiaritiesADrill'),
 );
@@ -3148,6 +3154,36 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'b1croatsabroad' && (
           <ScreenErrorBoundary key="b1croatsabroad" name="b1croatsabroad">
             <B1CroatsAbroadDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1verbprefixes' && (
+          <ScreenErrorBoundary key="b1verbprefixes" name="b1verbprefixes">
+            <B1VerbPrefixesDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1instrumental' && (
+          <ScreenErrorBoundary key="b1instrumental" name="b1instrumental">
+            <B1InstrumentalDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1motionverbs' && (
+          <ScreenErrorBoundary key="b1motionverbs" name="b1motionverbs">
+            <B1MotionVerbsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1numbersnouns' && (
+          <ScreenErrorBoundary key="b1numbersnouns" name="b1numbersnouns">
+            <B1NumbersNounsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1tellingstory' && (
+          <ScreenErrorBoundary key="b1tellingstory" name="b1tellingstory">
+            <B1TellingStoryDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b1relativedeep' && (
+          <ScreenErrorBoundary key="b1relativedeep" name="b1relativedeep">
+            <B1RelativeDeepDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'b2nounpeculiaritiesa' && (

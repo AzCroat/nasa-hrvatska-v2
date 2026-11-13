@@ -2,7 +2,7 @@
 //
 // B1 davati → dajem, stati → stanem — the drill for the `verbs-vati-jem` lesson.
 //
-// Two verb groups whose present hides the infinitive. -vati verbs drop -va- and take
+// Two verb groups whose present hides the infinitive. -davati / -znavati verbs drop -va- and take
 // -jem (dajem, prodajem, poznajem); stati, ostati, postati and ustati take -nem
 // (stanem, ostanem). The past is built on the infinitive (davao, ostao) and never on the
 // present (*ostanuo).
@@ -80,7 +80,7 @@ export const VERBS_VATI_JEM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'jem',
-    q: 'Dobro se ____ s našim susjedima.',
+    q: 'Dobro ____ svoje susjede.',
     en: 'We know our neighbours well.',
     opts: ['poznajemo', 'poznavamo', 'poznaju', 'poznavajemo'],
     answer: 'poznajemo',
@@ -106,11 +106,11 @@ export const VERBS_VATI_JEM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nem',
-    q: 'Autobus ____ ispred škole.',
-    en: 'The bus stops in front of the school.',
+    q: 'Kad autobus ____ ispred škole, izađi.',
+    en: 'When the bus stops in front of the school, get off.',
     opts: ['stane', 'stanu', 'stani', 'stanem'],
     answer: 'stane',
-    tip: 'The third person singular of stati.',
+    tip: 'One stop, after kad: the third person singular of stati.',
   },
   {
     mode: 'nem',
