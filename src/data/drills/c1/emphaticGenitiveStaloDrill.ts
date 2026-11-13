@@ -18,6 +18,7 @@ export const EMPHATIC_GENITIVE_STALO_MODE_LABELS: Record<string, string> = {
   izrazi: '💬 Stalo, žao, do',
   slaganje: '🔢 Glagol uz genitiv',
   pun: '🥛 Pun, sit, željan',
+  usklik: '❗ Čudnog li čovjeka!',
 };
 
 export const EMPHATIC_GENITIVE_STALO_DRILL_DATA: ModeDrillItem[] = [
@@ -227,5 +228,71 @@ export const EMPHATIC_GENITIVE_STALO_DRILL_DATA: ModeDrillItem[] = [
     opts: ['turista', 'turistima', 'turiste', 'turisti'],
     answer: 'turista',
     tip: 'Prepun + genitive plural: turista.',
+  },
+
+  // ── usklik ────────────────────────────────────────────────────────────────
+  {
+    mode: 'usklik',
+    q: '____ li čovjeka!',
+    en: 'What a strange man!',
+    opts: ['Čudnog', 'Čudni', 'Čudnom', 'Čudnim'],
+    answer: 'Čudnog',
+    tip: 'The emphatic genitive: adjective and noun in the genitive, li after the first word.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Pametne li ____!',
+    en: 'What a clever woman!',
+    opts: ['žene', 'žena', 'ženi', 'ženu'],
+    answer: 'žene',
+    tip: 'Genitive singular of žena, agreeing with pametne.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Kakve li ____!',
+    en: 'What a fool!',
+    opts: ['budale', 'budala', 'budali', 'budalu'],
+    answer: 'budale',
+    tip: 'Genitive singular of budala: Kakve li budale!',
+  },
+  {
+    mode: 'usklik',
+    q: 'Lijepog li ____!',
+    en: 'What a lovely day!',
+    opts: ['dana', 'dan', 'danu', 'danom'],
+    answer: 'dana',
+    tip: 'Genitive singular of dan.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Krasnih li ____!',
+    en: 'What lovely pictures!',
+    opts: ['slika', 'slike', 'slikama', 'slikom'],
+    answer: 'slika',
+    tip: 'Plural: krasnih slika, both in the genitive plural.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Strašnog li ____!',
+    en: 'What a terrible downpour!',
+    opts: ['pljuska', 'pljusak', 'pljusku', 'pljuskom'],
+    answer: 'pljuska',
+    tip: 'The fleeting a drops in the genitive: pljusak → pljuska.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Žali Bože ____ koji smo uložili!',
+    en: 'What a waste of the effort we put in!',
+    opts: ['truda', 'trud', 'trudu', 'trudom'],
+    answer: 'truda',
+    tip: 'Žali Bože + genitive: the effort was wasted.',
+  },
+  {
+    mode: 'usklik',
+    q: 'Njemu je samo do ____.',
+    en: 'He is only after the inheritance.',
+    opts: ['nasljedstva', 'nasljedstvo', 'nasljedstvu', 'nasljedstvom'],
+    answer: 'nasljedstva',
+    tip: '(nekome) je do + genitive: what someone is after.',
   },
 ];

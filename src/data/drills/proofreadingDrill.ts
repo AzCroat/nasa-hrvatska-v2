@@ -11,7 +11,7 @@
 //
 // Two specific checks earn their own drill. The comma rule learners get
 // backwards: *Znam da dolaziš* has NO comma, because Croatian does not put one
-// before an object clause the way English sometimes does before "that". And
+// before an object clause (a habit learners bring from German or other Slavic languages). And
 // *s* / *sa*, which is decided by the SOUND THAT FOLLOWS — *sa sestrom*, *s
 // bratom* — not by the noun.
 //
@@ -177,7 +177,7 @@ export const PROOFREADING_DRILL_DATA: ModeDrillItem[] = [
       'red riječi',
     ],
     answer: 'objektna rečenica nema zarez, umetnuta odnosna ima',
-    tip: 'Two rules, and learners apply the English instinct to both.',
+    tip: 'Two rules: no comma before an object clause with da (the habit comes from German and other Slavic languages, not English), and commas around an inserted relative clause.',
   },
 
   // ── pravopis ──────────────────────────────────────────────────────────────

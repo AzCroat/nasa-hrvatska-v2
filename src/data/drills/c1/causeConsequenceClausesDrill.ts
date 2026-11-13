@@ -80,7 +80,7 @@ export const CAUSE_CONSEQUENCE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uzrok',
-    q: 'Što u pažljivom standardu znači pošto u rečenici „Pošto je ručao, legao je”?',
+    q: 'Što u pažljivom standardu znači pošto u rečenici „Pošto je ručao, legao je“?',
     en: 'In careful standard Croatian, what does the first word of “Pošto je ručao, legao je” mean?',
     opts: ['nakon što', 'zato što', 'tako da', 'iako'],
     answer: 'nakon što',

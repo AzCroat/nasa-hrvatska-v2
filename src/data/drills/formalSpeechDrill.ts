@@ -212,7 +212,7 @@ export const FORMAL_SPEECH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'prigode',
     q: 'Što se kaže na krštenju?',
     en: 'At a christening:',
-    opts: ['Čestitam!', 'Sretno!', 'Živjeli!', 'Sućut.'],
+    opts: ['Čestitam!', 'Sretno!', 'Dobar tek!', 'Sućut.'],
     answer: 'Čestitam!',
     tip: 'Čestitam covers congratulation of every kind.',
   },

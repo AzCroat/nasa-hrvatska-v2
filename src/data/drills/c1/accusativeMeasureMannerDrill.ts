@@ -3,86 +3,86 @@
 // C1 THE ACCUSATIVE OF MEASURE AND MANNER — the drill for `accusative-measure-manner`.
 //
 // Three modes:
-//   trajanje — duration and repetition in the bare accusative (cijelu noć, svaku subotu)
+//   kolicina — quantity and price: litru vina, po milijun eura, za jedan euro (workbook p. 20–21).
+//              Duration and repetition (cijelu noć, svake subote) are NOT drilled here: they
+//              belong to the temporal accusative, taught later in `temporal-accusative`.
 //   mjera    — distance, price, weight, size and age, with the number rules inside
 //   nacin    — na/u + accusative of manner (na brzinu) against the instrumental (svom snagom)
 //
-// Genitive-of-time readings (cijele noći) are never offered as wrong: the noun in each
-// sentence is fixed in the accusative, so only the agreeing form can fill the blank.
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
 export const ACCUSATIVE_MEASURE_MANNER_MODE_LABELS: Record<string, string> = {
-  trajanje: '⏳ Trajanje',
+  kolicina: '🍷 Količina, po i za',
   mjera: '📏 Mjera i cijena',
   nacin: '🏃 Način',
 };
 
 export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
-  // ── trajanje ──────────────────────────────────────────────────────────────
+  // ── kolicina ──────────────────────────────────────────────────────────────
   {
-    mode: 'trajanje',
-    q: 'Kiša je padala ____ noć.',
-    en: 'It rained all night.',
-    opts: ['cijelu', 'cijela', 'cijeloj', 'cijelom'],
-    answer: 'cijelu',
-    tip: 'Duration takes the bare accusative; noć is feminine.',
+    mode: 'kolicina',
+    q: 'Kupili su ____ vina za večeru.',
+    en: 'They bought a litre of wine for dinner.',
+    opts: ['litru', 'litra', 'litri', 'litrom'],
+    answer: 'litru',
+    tip: 'A quantity in the bare accusative: litru vina.',
   },
   {
-    mode: 'trajanje',
-    q: 'Čekali smo ga ____ vremena.',
-    en: 'We waited for him for an hour.',
-    opts: ['sat', 'sata', 'satom', 'satu'],
-    answer: 'sat',
-    tip: 'sat vremena: the unit in the accusative, then a fixed genitive.',
+    mode: 'kolicina',
+    q: 'Popili su ____ rakije.',
+    en: 'They drank a bottle of rakija.',
+    opts: ['bocu', 'boca', 'boci', 'bocom'],
+    answer: 'bocu',
+    tip: 'The amount is an accusative of measure; boca is feminine, so bocu.',
   },
   {
-    mode: 'trajanje',
-    q: 'U Zadru smo ostali ____ dana.',
-    en: 'We stayed in Zadar for a week.',
-    opts: ['tjedan', 'tjedna', 'tjednu', 'tjednom'],
-    answer: 'tjedan',
-    tip: 'tjedan dana — no preposition for "for".',
+    mode: 'kolicina',
+    q: 'Daj mi ____ vode, molim te.',
+    en: 'Give me a glass of water, please.',
+    opts: ['čašu', 'čaša', 'čaši', 'čašom'],
+    answer: 'čašu',
+    tip: 'How much water? čašu vode — accusative of measure.',
   },
   {
-    mode: 'trajanje',
-    q: 'Pričekajte ____ minutu, molim vas.',
-    en: 'Please wait a minute.',
-    opts: ['jednu', 'jedna', 'jednoj', 'jednom'],
-    answer: 'jednu',
-    tip: 'minuta is feminine, so the accusative is jednu minutu.',
+    mode: 'kolicina',
+    q: 'Pojedi ____ juhe, molim te.',
+    en: 'Eat a plateful of soup, please.',
+    opts: ['tanjur', 'tanjura', 'tanjuru', 'tanjurom'],
+    answer: 'tanjur',
+    tip: 'tanjur is masculine and inanimate: the accusative is the same as the nominative.',
   },
   {
-    mode: 'trajanje',
-    q: '____ subotu idemo na tržnicu.',
-    en: 'Every Saturday we go to the market.',
-    opts: ['Svaku', 'Svaka', 'Svakoj', 'Svakom'],
-    answer: 'Svaku',
-    tip: 'Repetition takes the accusative: svaku subotu.',
+    mode: 'kolicina',
+    q: 'Te kuće koštaju po ____ eura.',
+    en: 'Those houses cost a million euros each.',
+    opts: ['milijun', 'milijuna', 'milijunu', 'milijunom'],
+    answer: 'milijun',
+    tip: 'po + accusative gives the price of each of several things: po milijun eura.',
   },
   {
-    mode: 'trajanje',
-    q: 'Za taj je ispit učila ____ godinu.',
-    en: 'She studied for that exam for a whole year.',
-    opts: ['cijelu', 'cijela', 'cijeloj', 'cijelom'],
-    answer: 'cijelu',
-    tip: 'godina is feminine: cijelu godinu.',
+    mode: 'kolicina',
+    q: 'Ulaznice su prodavali po ____ eura.',
+    en: 'They sold the tickets at a thousand euros each.',
+    opts: ['tisuću', 'tisući', 'tisućom', 'tisućama'],
+    answer: 'tisuću',
+    tip: 'po + accusative for a price per item; tisuća is feminine, so tisuću.',
   },
   {
-    mode: 'trajanje',
-    q: 'Sastanak je trajao ____ sata.',
-    en: 'The meeting lasted two hours.',
-    opts: ['dva', 'dvoje', 'dvama', 'dvaju'],
-    answer: 'dva',
-    tip: 'dva sata — the numeral does not change, the noun is in the genitive singular.',
+    mode: 'kolicina',
+    q: 'Za ____ euro danas ne možeš ništa kupiti.',
+    en: 'For one euro you cannot buy anything today.',
+    opts: ['jedan', 'jednog', 'jednom', 'jednim'],
+    answer: 'jedan',
+    tip: 'za + accusative gives the price of a single thing; euro is inanimate, so jedan.',
   },
   {
-    mode: 'trajanje',
-    q: 'Ostao je u bolnici ____ dana.',
-    en: 'He stayed in hospital for a month.',
-    opts: ['mjesec', 'mjeseca', 'mjesecu', 'mjesecom'],
-    answer: 'mjesec',
-    tip: 'mjesec dana — like tjedan dana.',
+    mode: 'kolicina',
+    q: 'Ne bih prodao vikendicu ni po ____ cijenu.',
+    en: 'I would not sell the holiday house at any price.',
+    opts: ['koju', 'koja', 'kojoj', 'kojom'],
+    answer: 'koju',
+    tip: 'po + accusative of price: ni po koju cijenu.',
   },
 
   // ── mjera ─────────────────────────────────────────────────────────────────
@@ -202,19 +202,19 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nacin',
-    q: 'Vlak je jurio punom ____.',
-    en: 'The train was rushing at full steam.',
-    opts: ['parom', 'paru', 'para', 'pari'],
-    answer: 'parom',
-    tip: 'Manner without a preposition is the instrumental.',
+    q: 'Kupili smo stan na ____.',
+    en: 'We bought the flat on credit.',
+    opts: ['kredit', 'kreditu', 'kredita', 'kreditom'],
+    answer: 'kredit',
+    tip: 'A fixed manner phrase: na kredit, na rate — na + accusative.',
   },
   {
     mode: 'nacin',
-    q: 'Na ____, nitko nije ozlijeđen.',
-    en: 'Luckily, no one was hurt.',
-    opts: ['sreću', 'sreći', 'sreća', 'srećom'],
-    answer: 'sreću',
-    tip: 'na + accusative: na sreću.',
+    q: 'Šetali su uz more ruku pod ____.',
+    en: 'They walked along the sea arm in arm.',
+    opts: ['ruku', 'rukom', 'ruci', 'ruka'],
+    answer: 'ruku',
+    tip: 'A fixed manner accusative: ruku pod ruku, like rame uz rame and oči u oči.',
   },
   {
     mode: 'nacin',

@@ -5,9 +5,11 @@
 // jezikoslovlje).
 //
 // Three modes, eight items each:
-//   osobe     — personal names, nicknames, rulers' numerals; titles with a small letter
-//   naselja   — towns, villages and states: every word but prepositions and conjunctions
-//   zemljopis — seas, lakes, regions, islands, parts of the world: the first word only,
+//   osobe     — personal names, nicknames, rulers' numerals; titles with a small letter;
+//               prepositions inside a name stay small (Ivan bez Zemlje)
+//   naselja   — towns, villages, states and continents: every word but prepositions and
+//               conjunctions (workbook p. 167)
+//   zemljopis — seas, lakes, regions, islands: the first word only,
 //               plus any word that is itself a name; a common noun before a name is small
 //
 // The English gloss never spells the name being asked for, so the options carry it.
@@ -32,11 +34,11 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osobe',
-    q: 'Hrvatsko-ugarski kralj s nadimkom. Kako se piše?',
-    en: 'The Croatian-Hungarian king with a nickname.',
-    opts: ['Ludovik Veliki', 'Ludovik veliki', 'ludovik Veliki', 'Ludovik-Veliki'],
-    answer: 'Ludovik Veliki',
-    tip: 'Every part of a personal name is capitalised.',
+    q: 'Engleski kralj s nadimkom koji znači da nije imao zemlje. Kako se piše?',
+    en: 'The English king nicknamed John Lackland.',
+    opts: ['Ivan bez Zemlje', 'Ivan Bez Zemlje', 'Ivan bez zemlje', 'ivan bez Zemlje'],
+    answer: 'Ivan bez Zemlje',
+    tip: 'Every part of a personal name is capitalised, except a preposition or conjunction inside it (Ivan bez Zemlje).',
   },
   {
     mode: 'osobe',
@@ -88,12 +90,12 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     q: 'Koja je rečenica pravilno napisana?',
     en: 'Which sentence is spelled correctly?',
     opts: [
-      'Ivan Gundulić napisao je Osmana.',
-      'Ivan gundulić napisao je Osmana.',
-      'ivan Gundulić napisao je Osmana.',
+      'Ivan Gundulić napisao je „Osmana“.',
+      'Ivan gundulić napisao je „Osmana“.',
+      'ivan Gundulić napisao je „Osmana“.',
       'Ivan Gundulić napisao je osmana.',
     ],
-    answer: 'Ivan Gundulić napisao je Osmana.',
+    answer: 'Ivan Gundulić napisao je „Osmana“.',
     tip: 'Every part of a personal name, and a work’s title, begins with a capital.',
   },
   // ── naselja ───────────────────────────────────────────────────────────────
@@ -214,11 +216,11 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'zemljopis',
-    q: 'Kontinent s Kanadom i SAD-om. Kako se piše?',
-    en: 'The continent with Canada and the USA.',
-    opts: ['Sjeverna Amerika', 'Sjeverna amerika', 'sjeverna Amerika', 'SJEVERNA Amerika'],
-    answer: 'Sjeverna Amerika',
-    tip: 'The first word, and Amerika because it is a name itself.',
+    q: 'Područje oko istočnog Sredozemlja. Kako se piše?',
+    en: 'The region around the eastern Mediterranean.',
+    opts: ['Bliski istok', 'Bliski Istok', 'bliski istok', 'BLISKI istok'],
+    answer: 'Bliski istok',
+    tip: 'A region capitalises only its first word.',
   },
   {
     mode: 'zemljopis',

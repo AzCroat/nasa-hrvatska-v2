@@ -14,7 +14,7 @@ const MODE_LABEL: Record<string, string> = {
 const DATA = [
   {
     mode: 'aorist',
-    q: 'Aorist glagola „reći” u 1. licu jednine glasi:',
+    q: 'Aorist glagola „reći“ u 1. licu jednine glasi:',
     opts: ['rekoh', 'rekah', 'rečeh', 'rekih'],
     answer: 'rekoh',
     en: 'I said (aorist)',
@@ -22,7 +22,7 @@ const DATA = [
   },
   {
     mode: 'aorist',
-    q: 'Aorist glagola „doći” u 3. licu množine glasi:',
+    q: 'Aorist glagola „doći“ u 3. licu množine glasi:',
     opts: ['dođoše', 'dođahu', 'dođeše', 'dođiše'],
     answer: 'dođoše',
     en: 'they came (aorist)',
@@ -46,7 +46,7 @@ const DATA = [
   },
   {
     mode: 'aorist',
-    q: 'Aorist glagola „pasti” u 1. licu jednine glasi:',
+    q: 'Aorist glagola „pasti“ u 1. licu jednine glasi:',
     opts: ['padoh', 'padah', 'pao', 'padnuh'],
     answer: 'padoh',
     en: 'I fell (aorist)',
@@ -54,19 +54,19 @@ const DATA = [
   },
   {
     mode: 'aorist',
-    q: 'Aorist glagola „vidjeti” u 3. licu jednine glasi:',
+    q: 'Aorist glagola „vidjeti“ u 3. licu jednine glasi:',
     opts: ['vidje', 'vidjeh', 'viđaše', 'vidi'],
     answer: 'vidje',
     en: 'he/she saw (aorist)',
-    tip: 'Vidjeh (ja), vidje (on); „dođoh, vidjeh, pobijedih”.',
+    tip: 'Vidjeh (ja), vidje (on); „dođoh, vidjeh, pobijedih“.',
   },
   {
     mode: 'aorist',
-    q: 'Koji je oblik zapravo aorist glagola „biti” — i živi u kondicionalu?',
+    q: 'Koji je oblik zapravo aorist glagola „biti“ — i živi u kondicionalu?',
     opts: ['bih', 'bijah', 'budoh', 'bjeh'],
     answer: 'bih',
     en: 'the aorist of to be, alive in the conditional',
-    tip: 'Bih/bi/bismo/biste jest aorist od biti — zato „rekao bih”.',
+    tip: 'Bih/bi/bismo/biste jest aorist od biti — zato „rekao bih“.',
   },
   {
     mode: 'aorist',
@@ -78,7 +78,7 @@ const DATA = [
   },
   {
     mode: 'imperfekt',
-    q: 'Imperfekt glagola „biti” u 3. licu jednine glasi:',
+    q: 'Imperfekt glagola „biti“ u 3. licu jednine glasi:',
     opts: ['bijaše', 'bi', 'bio je', 'bijahe'],
     answer: 'bijaše',
     en: 'it was (imperfect)',
@@ -86,11 +86,11 @@ const DATA = [
   },
   {
     mode: 'imperfekt',
-    q: 'Imperfekt glagola „čitati” u 1. licu jednine glasi:',
+    q: 'Imperfekt glagola „čitati“ u 1. licu jednine glasi:',
     opts: ['čitah', 'čitoh', 'pročitah', 'čitavah'],
     answer: 'čitah',
     en: 'I was reading (imperfect)',
-    tip: 'Čitah, čitaše, čitahu; „pročitah” bi bio aorist svršenoga.',
+    tip: 'Čitah, čitaše, čitahu; „pročitah“ bi bio aorist svršenoga.',
   },
   {
     mode: 'imperfekt',
@@ -110,7 +110,7 @@ const DATA = [
   },
   {
     mode: 'imperfekt',
-    q: 'Imperfekt glagola „govoriti” u 3. licu množine glasi:',
+    q: 'Imperfekt glagola „govoriti“ u 3. licu množine glasi:',
     opts: ['govorahu', 'govoriše', 'govorili', 'govorehu'],
     answer: 'govorahu',
     en: 'they were speaking (imperfect)',
@@ -126,19 +126,19 @@ const DATA = [
   },
   {
     mode: 'imperfekt',
-    q: 'Imperfekt glagola „imati” u 3. licu jednine glasi:',
+    q: 'Imperfekt glagola „imati“ u 3. licu jednine glasi:',
     opts: ['imaše', 'imade', 'imala je', 'imahe'],
     answer: 'imaše',
     en: 'he/she had (imperfect)',
-    tip: 'Imah, imaše, imahu; „imade” je (regionalni) oblik prezenta, ne imperfekt.',
+    tip: 'Imah, imaše, imahu; „imade“ je (regionalni) oblik prezenta, ne imperfekt.',
   },
   {
     mode: 'imperfekt',
-    q: 'Imperfekt glagola „htjeti” u 3. licu jednine glasi:',
+    q: 'Imperfekt glagola „htjeti“ u 3. licu jednine glasi:',
     opts: ['htijaše', 'htjede', 'htio je', 'htjet će'],
     answer: 'htijaše',
     en: 'he/she wanted (imperfect)',
-    tip: 'Htijah, htijaše; „htjede” je aorist.',
+    tip: 'Htijah, htijaše; „htjede“ je aorist.',
   },
   {
     mode: 'uporaba',
@@ -155,7 +155,7 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: '„Dođoh, vidjeh, pobijedih.” — koji je to glagolski oblik?',
+    q: '„Dođoh, vidjeh, pobijedih.“ — koji je to glagolski oblik?',
     opts: ['aorist', 'imperfekt', 'perfekt', 'pluskvamperfekt'],
     answer: 'aorist',
     en: 'I came, I saw, I conquered',
@@ -163,7 +163,7 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: 'Kojim oblikom u razgovoru zamjenjujemo „stigoh”?',
+    q: 'Kojim oblikom u razgovoru zamjenjujemo „stigoh“?',
     opts: ['stigao sam', 'stizah', 'bio bih stigao', 'stignem'],
     answer: 'stigao sam',
     en: 'I arrived (in everyday speech)',
@@ -171,7 +171,7 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: '„Bijaše jednom jedan kralj.” — oblik „bijaše” je:',
+    q: '„Bijaše jednom jedan kralj.“ — oblik „bijaše“ je:',
     opts: ['imperfekt', 'aorist', 'perfekt', 'kondicional'],
     answer: 'imperfekt',
     en: 'once upon a time there was a king',
@@ -205,11 +205,11 @@ const DATA = [
   },
   {
     mode: 'uporaba',
-    q: 'U porukama se aorist vraća („stigoh!”) jer je:',
+    q: 'U porukama se aorist vraća („stigoh!“) jer je:',
     opts: ['kraći od perfekta', 'službeniji od perfekta', 'jedini pravilan oblik', 'stran jezik'],
     answer: 'kraći od perfekta',
     en: 'why the aorist comes back in text messages',
-    tip: '„Stigoh” štedi znakove naspram „stigao sam” — živa renesansa aorista.',
+    tip: '„Stigoh“ štedi znakove naspram „stigao sam“ — živa renesansa aorista.',
   },
   {
     mode: 'uporaba',

@@ -216,8 +216,10 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     id: 'interpunkcija',
     label: 'Interpunkcija',
     screen: 'interpunkcija',
-    // C1 since 2026-11-12: its lesson, zarez-interpunkcija, moved C2 → C1.
-    cefr: 'C1',
+    // Back to C2 (2026-11-13): its C1 lesson, zarez-interpunkcija, was merged into
+    // comma-dependent-clauses, and the drill uses the aorist and direct speech, which C1
+    // teaches only at the end of the level.
+    cefr: 'C2',
     category: 'punctuation',
   },
   // C1 tranche 5 (2026-08-15): passive participle, infinitive vs da, aspect pairs.

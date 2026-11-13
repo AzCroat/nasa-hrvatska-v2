@@ -232,6 +232,12 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'c1-prefixed-verbs': 'c1prefixedverbs',
   'c1-comparative-clauses': 'c1comparativeclauses',
   'c1-direct-speech-spelling': 'c1directspeechspelling',
+  'c1-text-connectors': 'c1textconnectors',
+  'c1-collective-numbers': 'c1collectivenumbers',
+  'c1-pluperfect': 'c1pluperfect',
+  // The aorist-imperfekt lesson's drill (2026-11-13): the existing aorist/imperfect
+  // drill, under its own category so the coupling does not share `past-tense` with cloze.
+  'c1-aorist-imperfect': 'aoristimperfekt',
   'a1-sounds-palatals': 'a1soundspalatals',
   'a1-biti-questions-negation': 'a1bitiquestionsnegation',
   'a1-plural-irregular': 'a1pluralirregular',

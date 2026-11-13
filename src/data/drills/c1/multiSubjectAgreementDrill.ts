@@ -130,7 +130,7 @@ export const MULTI_SUBJECT_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'lice',
-    q: 'Maja kaže: „Ana i ja smo ____ cijelo ljeto.”',
+    q: 'Maja kaže: „Ana i ja smo ____ cijelo ljeto.“',
     en: 'Maja says: “Ana and I travelled all summer.”',
     opts: ['putovale', 'putovali', 'putovala', 'putovao'],
     answer: 'putovale',

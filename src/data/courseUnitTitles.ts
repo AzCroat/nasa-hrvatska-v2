@@ -309,9 +309,9 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
       'Shift emphasis with word order, use time phrases in the locative, build ne samo… nego i, and know each verb’s case.',
   },
   'C1-4': {
-    title: 'Fine Aspect and the Croatian Comma',
+    title: 'Fine Aspect, the Comma and Connectors',
     subtitle:
-      'Choose aspect where both are possible, decline posao and dio, use rarer prepositions, and punctuate dependent clauses.',
+      'Choose aspect where both are possible, decline posao and dio, use rarer prepositions, punctuate dependent clauses, and link sentences into a text.',
   },
   'C1-5': {
     title: 'Clauses, Verbal Nouns and Subtle Cases',

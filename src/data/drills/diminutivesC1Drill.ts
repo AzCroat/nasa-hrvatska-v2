@@ -81,7 +81,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'umanjenice',
-    q: 'Nose li umanjenice uvijek značenje "malo"?',
+    q: 'Nose li umanjenice uvijek značenje „malo“?',
     en: 'Do diminutives always mean small?',
     opts: ['ne, često znače naklonost', 'da, uvijek', 'samo u množini', 'samo za predmete'],
     answer: 'ne, često znače naklonost',
@@ -89,7 +89,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'umanjenice',
-    q: 'Što znači "kavica"?',
+    q: 'Što znači „kavica“?',
     en: 'What does kavica mean?',
     opts: ['opuštena kava', 'mala kava', 'loša kava', 'jaka kava'],
     answer: 'opuštena kava',
@@ -111,7 +111,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
     en: 'a big nose',
     opts: ['nosina', 'nosić', 'nosica', 'nosce'],
     answer: 'nosina',
-    tip: '-ina is the plainest augmentative and the least judgemental.',
+    tip: 'nosina — and it mocks: -ina takes its tone from the word, not from the suffix alone.',
   },
   {
     mode: 'uvecanice',
@@ -119,11 +119,11 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which suffix carries the most contempt?',
     opts: ['-urina', '-ina', '-ić', '-ica'],
     answer: '-urina',
-    tip: '-urina and -etina lean pejorative; -ina on its own is closer to neutral.',
+    tip: '-urina and -etina lean pejorative; -ina on its own takes its tone from the word.',
   },
   {
     mode: 'uvecanice',
-    q: 'Je li "-ina" uvijek pogrdno?',
+    q: 'Je li „-ina“ uvijek pogrdno?',
     en: 'Is -ina always pejorative?',
     opts: ['ne, može biti i divljenje', 'da, uvijek', 'samo za ljude', 'samo u govoru'],
     answer: 'ne, može biti i divljenje',
@@ -131,7 +131,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uvecanice',
-    q: 'Što znači "ljudina"?',
+    q: 'Što znači „ljudina“?',
     en: 'What does ljudina mean?',
     opts: ['čovjek vrijedan divljenja', 'krupan i nespretan', 'gomila ljudi', 'stranac'],
     answer: 'čovjek vrijedan divljenja',
@@ -147,11 +147,11 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uvecanice',
-    q: 'Koliko sufiksa za uvećanice treba znati?',
-    en: 'How many augmentative suffixes matter?',
-    opts: ['tri', 'jedan', 'šest', 'deset'],
-    answer: 'tri',
-    tip: '-ina, -etina, -urina. The scale of attitude runs in that order.',
+    q: 'Koji od ovih sufiksa NE tvori uvećanice?',
+    en: 'Which of these suffixes does NOT make augmentatives?',
+    opts: ['-ica', '-ina', '-etina', '-urina'],
+    answer: '-ica',
+    tip: '-ica makes diminutives. Augmentatives come from -ina, -erina, -etina, -urina, -čina and others.',
   },
   {
     mode: 'uvecanice',
@@ -189,7 +189,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pragmatika',
-    q: 'Što signalizira "Idemo na pivicu"?',
+    q: 'Što signalizira „Idemo na pivce“?',
     en: 'What does that signal?',
     opts: ['opuštenost', 'malu količinu', 'žurbu', 'formalnost'],
     answer: 'opuštenost',

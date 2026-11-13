@@ -8,8 +8,9 @@
 //   zarez   — the comma in independent compound sentences (Hrvatski pravopis)
 //   pravopis — štoviše / što više, a kamoli as two words
 //
-// The comma before a repeated ili… ili / bilo da… bilo da is written both ways in
-// practice, so no item ever offers that comma as wrong or as the only right answer.
+// Workbook p. 82: no comma before a disjunctive connector, single or repeated
+// (Ili će doći ona ili ćemo ići mi). Workbook p. 88: a comma before every gradational
+// connector, including pa (čak) i / pa (čak) ni.
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -55,7 +56,7 @@ export const DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'veznik',
-    q: '____ ćeš mi vratiti novac, ____ ću se obratiti odvjetniku.',
+    q: '____ ćeš mi vratiti novac ____ ću se obratiti odvjetniku.',
     en: 'Either you give me back the money, or I will turn to a lawyer.',
     opts: ['Ne samo … nego', 'Ili … ili', 'Samo … jedino', 'A kamoli … čak'],
     answer: 'Ili … ili',
@@ -103,15 +104,15 @@ export const DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zarez',
     q: 'Which sentence is punctuated correctly?',
-    en: 'He came home and lay down.',
+    en: 'Either she will call us or we will call her.',
     opts: [
-      'Došao je kući, i legao.',
-      'Došao je kući i legao.',
-      'Došao je, kući i legao.',
-      'Došao je kući i, legao.',
+      'Ili će ona nazvati nas, ili ćemo mi nazvati nju.',
+      'Ili će ona nazvati nas ili ćemo mi nazvati nju.',
+      'Ili će, ona nazvati nas ili ćemo mi nazvati nju.',
+      'Ili će ona nazvati nas ili, ćemo mi nazvati nju.',
     ],
-    answer: 'Došao je kući i legao.',
-    tip: 'No comma before i joining two clauses.',
+    answer: 'Ili će ona nazvati nas ili ćemo mi nazvati nju.',
+    tip: 'No comma before a disjunctive connector — not even before the second ili.',
   },
   {
     mode: 'zarez',
@@ -155,15 +156,15 @@ export const DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zarez',
     q: 'Which sentence is punctuated correctly?',
-    en: 'We wanted to go out, but it started to rain.',
+    en: 'Students study all day, and even at night.',
     opts: [
-      'Htjeli smo izaći ali je počela kiša.',
-      'Htjeli smo izaći, ali je počela kiša.',
-      'Htjeli smo, izaći ali je počela kiša.',
-      'Htjeli smo izaći ali, je počela kiša.',
+      'Studenti uče po cijele dane pa čak i po noći.',
+      'Studenti uče po cijele dane, pa čak i po noći.',
+      'Studenti uče, po cijele dane pa čak i po noći.',
+      'Studenti uče po cijele dane pa, čak i po noći.',
     ],
-    answer: 'Htjeli smo izaći, ali je počela kiša.',
-    tip: 'A comma before ali, as before a, nego, no and već.',
+    answer: 'Studenti uče po cijele dane, pa čak i po noći.',
+    tip: 'pa that climbs a scale (pa čak i, pa čak ni) is gradational, and a comma goes before it.',
   },
   {
     mode: 'zarez',

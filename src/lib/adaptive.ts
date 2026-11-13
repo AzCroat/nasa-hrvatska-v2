@@ -674,6 +674,10 @@ export type SkillCategory =
   | 'c1-prefixed-verbs'
   | 'c1-comparative-clauses'
   | 'c1-direct-speech-spelling'
+  | 'c1-text-connectors'
+  | 'c1-collective-numbers'
+  | 'c1-pluperfect'
+  | 'c1-aorist-imperfect'
   // A1 lesson drills (Croaticum restructure, 2026-11-12): pool-only, one per new A1 lesson.
   | 'a1-sounds-palatals'
   | 'a1-biti-questions-negation'

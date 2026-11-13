@@ -14,6 +14,7 @@
 //   vid    — describe or identify
 //   oblici — the indefinite forms, short oblique forms
 //   jedan  — adjectives with only one form
+//   navesci — the optional -a, -e, -u of -oga, -ome, -omu, -ima (workbook p. 221)
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -21,6 +22,7 @@ export const INDEFINITE_ADJECTIVES_MODE_LABELS: Record<string, string> = {
   vid: '🎨 Kakav ili koji?',
   oblici: '🔤 Oblici',
   jedan: '1️⃣ Jedan oblik',
+  navesci: '➕ Navesci',
 };
 
 export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
@@ -93,7 +95,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   // ── oblici ────────────────────────────────────────────────────────────────
   {
     mode: 'oblici',
-    q: 'Kratki genitiv neodređenog oblika pridjeva "nov": ____',
+    q: 'Kratki genitiv neodređenog oblika pridjeva „nov“: ____',
     en: 'The short genitive of the indefinite form.',
     opts: ['nova', 'novu', 'novi', 'novim'],
     answer: 'nova',
@@ -101,7 +103,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Kratki dativ neodređenog oblika pridjeva "nov": ____',
+    q: 'Kratki dativ neodređenog oblika pridjeva „nov“: ____',
     en: 'The short dative of the indefinite form.',
     opts: ['novu', 'nova', 'novi', 'novo'],
     answer: 'novu',
@@ -133,15 +135,15 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva "teški": ____',
+    q: 'Neodređeni oblik pridjeva „teški“: ____',
     en: 'The indefinite form of the adjective meaning heavy or hard.',
     opts: ['težak', 'teška', 'teško', 'teškog'],
     answer: 'težak',
-    tip: 'A fleeting a appears, and k becomes ž before it: težak.',
+    tip: 'The root is težak; in teški the a drops out, ž meets k and is devoiced to š.',
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva "mali": ____',
+    q: 'Neodređeni oblik pridjeva „mali“: ____',
     en: 'The indefinite form of the adjective meaning small.',
     opts: ['malen', 'mal', 'malo', 'mala'],
     answer: 'malen',
@@ -149,7 +151,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva "svijetli": ____',
+    q: 'Neodređeni oblik pridjeva „svijetli“: ____',
     en: 'The indefinite form of the adjective meaning bright.',
     opts: ['svijetao', 'svijetal', 'svijetla', 'svijetlo'],
     answer: 'svijetao',
@@ -202,16 +204,16 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'jedan',
-    q: 'Gdje se vidi razlika između nov i novi?',
+    q: 'Gdje se vidi razlika između neodređenog i određenog oblika?',
     en: 'Where does the difference between the two forms show?',
     opts: [
-      'u nominativu jednine muškog roda',
+      'u jednini muškog i srednjeg roda',
       'u svim padežima i rodovima',
       'samo u množini',
       'samo u ženskom rodu',
     ],
-    answer: 'u nominativu jednine muškog roda',
-    tip: 'nova, novo, novi (pl.) look the same either way.',
+    answer: 'u jednini muškog i srednjeg roda',
+    tip: 'nov / novi, and in G, D, L nova / novoga, novu / novome. The feminine and the plural look the same.',
   },
   {
     mode: 'jedan',
@@ -220,5 +222,76 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
     opts: ['bolji', 'bolj', 'dobar', 'boljeg'],
     answer: 'bolji',
     tip: 'Comparatives have only the definite form: bolji.',
+  },
+
+  // ── navesci ───────────────────────────────────────────────────────────────
+  {
+    mode: 'navesci',
+    q: 'Razgovaramo o ____ studentima.',
+    en: 'We are talking about the new students.',
+    opts: ['novim', 'novima', 'novome', 'novoga'],
+    answer: 'novim',
+    tip: 'A noun in -ima follows, so the adjective takes no navezak: novim studentima.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Žene više nisu smatrane ____.',
+    en: 'Women are no longer considered weaker.',
+    opts: ['slabijima', 'slabijim', 'slabije', 'slabiji'],
+    answer: 'slabijima',
+    tip: 'No noun follows the adjective, so it needs the navezak: slabijima.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Pomažemo ____ ljudima u susjedstvu.',
+    en: 'We help the elderly people in the neighbourhood.',
+    opts: ['starijim', 'starijima', 'starijeg', 'starijem'],
+    answer: 'starijim',
+    tip: 'Before a noun in -ima, no navezak: starijim ljudima.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Idemo na more s ____ prijateljima.',
+    en: 'We are going to the seaside with good friends.',
+    opts: ['dobrim', 'dobrima', 'dobroga', 'dobrome'],
+    answer: 'dobrim',
+    tip: 'Instrumental plural before a noun: dobrim prijateljima, never dobrima prijateljima.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Te dvije knjige smatram ____.',
+    en: 'I consider those two books the best.',
+    opts: ['najboljima', 'najboljim', 'najbolje', 'najbolji'],
+    answer: 'najboljima',
+    tip: 'The adjective stands alone, with no noun after it: najboljima.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Koji je spoj pravilan u visokom stilu?',
+    en: 'Which phrase is correct in high style?',
+    opts: [
+      'mojemu mlađem bratu',
+      'mojem mlađemu bratu',
+      'mojima mlađima bratu',
+      'mojega mlađem bratu',
+    ],
+    answer: 'mojemu mlađem bratu',
+    tip: 'When there are several adjectives, the navezak goes on the first one.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Prema preporuci za visoki stil: Razgovarali smo o ____ poslu.',
+    en: 'Following the high-style recommendation: We talked about the finished job.',
+    opts: ['obavljenome', 'obavljenoga', 'obavljenima', 'obavljenomu'],
+    answer: 'obavljenome',
+    tip: 'In high style the navezak -e goes with the locative, -u with the dative.',
+  },
+  {
+    mode: 'navesci',
+    q: 'Prema preporuci za visoki stil: Veselimo se ____ danu.',
+    en: 'Following the high-style recommendation: We are looking forward to the sunny day.',
+    opts: ['sunčanomu', 'sunčanoga', 'sunčanima', 'sunčanome'],
+    answer: 'sunčanomu',
+    tip: 'In high style the navezak -u goes with the dative, -e with the locative.',
   },
 ];

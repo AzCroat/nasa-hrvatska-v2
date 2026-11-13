@@ -1,12 +1,13 @@
 // src/data/drills/caseSubtletiesDrill.ts
 //
-// C2 PADEŽNE SUPTILNOSTI — the drill for the `padezne-suptilnosti` lesson.
+// C1 PADEŽNE SUPTILNOSTI — the drill for the `padezne-suptilnosti` lesson.
 //
-// Four case uses that are grammatical either way, so nothing corrects you and
-// the difference is meaning rather than correctness.
+// Case uses where the choice carries meaning, plus the one place (nemati) where
+// it does not: Nemam vremena is the only standard form.
 //
-// THE GENITIVE OF NEGATION marks total absence: *Nemam vremena* says there is
-// none, *Nemam vrijeme* points at a particular one. THE PARTITIVE does the same
+// THE GENITIVE OF NEGATION: after nemati/nema it is required (*Nemam vremena*,
+// never *Nemam vrijeme*); after other negated verbs it is the stronger option
+// beside the accusative (*Ne vidim razloga / razlog*). THE PARTITIVE does a similar
 // job positively: *Kupi kruha* is some bread, *Kupi kruh* is the loaf.
 //
 // TIME TAKES BARE CASES with no preposition at all: *prošle godine* (genitive,
@@ -34,24 +35,19 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   // ── nijekanje ─────────────────────────────────────────────────────────────
   {
     mode: 'nijekanje',
-    q: 'Koji oblik naglašava potpunu odsutnost?',
-    en: 'Which emphasises total absence?',
-    opts: ['Nemam vremena.', 'Nemam vrijeme.', 'Jednako su.', 'Nijedan.'],
+    q: 'Koja je rečenica standardna?',
+    en: 'I have no time.',
+    opts: ['Nemam vremena.', 'Nemam vrijeme.', 'Nemam vremenu.', 'Nemam vremenom.'],
     answer: 'Nemam vremena.',
-    tip: 'The genitive of negation says there is none at all.',
+    tip: 'nemati takes the genitive. Nemam vrijeme is not standard Croatian.',
   },
   {
     mode: 'nijekanje',
-    q: 'Što znači "Nemam novac"?',
-    en: 'What does that mean?',
-    opts: [
-      'nemam taj određeni novac',
-      'nemam nimalo novca',
-      'isto kao nemam novca',
-      'ništa posebno',
-    ],
-    answer: 'nemam taj određeni novac',
-    tip: 'The accusative points at a particular sum. The genitive denies any.',
+    q: 'Kako zvuči "Ne vidim razlog" prema "Ne vidim razloga"?',
+    en: 'How does the accusative sound beside the genitive?',
+    opts: ['neutralnije', 'pogrešno', 'jače', 'posve isto'],
+    answer: 'neutralnije',
+    tip: 'After a negated verb other than nemati both cases work; the genitive is the stronger one.',
   },
   {
     mode: 'nijekanje',
@@ -91,7 +87,7 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Government against choice?',
     opts: ['rekcija nema alternativu', 'nema razlike', 'izbor je formalniji', 'rekcija je starija'],
     answer: 'rekcija nema alternativu',
-    tip: 'bojati se + genitive is fixed. Nemam vremena/vrijeme is a decision.',
+    tip: 'bojati se + genitive is fixed. Ne vidim razloga/razlog is a decision.',
   },
   {
     mode: 'nijekanje',
@@ -155,7 +151,7 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     mode: 'vrijeme',
     q: 'Putujem ____. (in the mornings)',
     en: 'I travel in the mornings.',
-    opts: ['jutrom', 'na jutro', 'u jutro', 'jutra'],
+    opts: ['jutrom', 'jutra', 'jutru', 'jutro'],
     answer: 'jutrom',
     tip: 'The instrumental again for a repeated time. (Ujutro, the everyday adverb, can be habitual too.)',
   },
@@ -219,7 +215,7 @@ export const CASE_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pogodjeni',
-    q: 'Ukrali ____ su auto.',
+    q: 'Ukrali su ____ auto.',
     en: 'They stole her car.',
     opts: ['joj', 'je', 'nju', 'njezin'],
     answer: 'joj',
