@@ -295,6 +295,22 @@ export function markUnitTestInsufficient(unitId: string): void {
 }
 
 /**
+ * The test COULD be assembled after all (owner report, 2026-11-13: the test-out was missing from
+ * a unit). The marker is a measurement of one attempt — usually a device whose cached lesson
+ * bodies predated an update — so the next successful build clears it instead of hiding the
+ * unit's test for ever.
+ */
+export function clearUnitTestInsufficient(unitId: string): void {
+  if (!unitId) return;
+  const store = readRaw();
+  const prev = store.units[unitId];
+  if (!prev?.insufficient) return;
+  const { insufficient: _gone, ...rest } = prev;
+  store.units[unitId] = rest;
+  writeCourseUnits(store);
+}
+
+/**
  * Start the retention ladder for a unit that has just met the bar.
  *
  * Idempotent and never restarted: a ladder already running is left alone, so

@@ -349,6 +349,18 @@ export function unitTestOffer(row: UnitProgress): UnitTestOffer {
   return 'testout';
 }
 
+/**
+ * What the COURSE MAP offers on a unit: the same as unitTestOffer, except that a unit once
+ * recorded as unassemblable (`short`) still offers its test there. The session must not send a
+ * learner to a test it cannot build every day; the map is the learner asking, and the test
+ * screen retries (and clears the marker when it succeeds). Hiding it made the test-out
+ * disappear for good on a device whose first attempt hit stale cached lessons (owner report,
+ * 2026-11-13).
+ */
+export function mapTestOffer(row: UnitProgress): UnitTestOffer {
+  return unitTestOffer({ ...row, short: false });
+}
+
 /** Ready for its test with the reading done. */
 export function awaitingUnitTest(row: UnitProgress): boolean {
   return unitTestOffer(row) === 'primary';

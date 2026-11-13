@@ -42,6 +42,7 @@ import { heardCroatian } from '../../lib/heardCroatian';
 import { recognizerErrorMessage } from '../../lib/recognizerError';
 import SpeakCheck from '../practice/SpeakCheck';
 import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
+import { taughtTermsList } from '../../lib/taughtTerms';
 
 /** Minimum words before the grader is worth calling. Below this there is not
  *  enough language to judge, and a rubric score on four words would be noise. */
@@ -105,6 +106,7 @@ export default function LessonProduceStep({
 
   async function submitSpoken() {
     const outcome = await requestSpeakingCoach({
+      taught: taughtTermsList(),
       prompt: `Use what "${lessonTitle}" taught: ${brief}`,
       transcript: text.trim(),
       level,
@@ -140,6 +142,8 @@ export default function LessonProduceStep({
       }
       const res = await _aiPost('/api/correct', {
         mode: 'writeeval',
+        // Feedback stays inside what the course has taught (owner, 2026-11-13).
+        taught: taughtTermsList(),
         prompt: `Use what "${lessonTitle}" taught: ${brief}`,
         text: text.trim(),
         params: { level, writingPrompt: brief },

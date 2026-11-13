@@ -34,6 +34,8 @@ export interface ModelCtx {
   userCefr: string;
   recs: SmartRecs;
   queue: unknown[];
+  /** Why a drill is not open in the COURSE yet (lib/practiceLock), or null. */
+  lockOf?: (screen: string) => string | null;
 }
 
 export interface GradItem {
@@ -45,6 +47,8 @@ export interface GradItem {
   placeId: PlaceId;
   subgroup?: string;
   locked: boolean;
+  /** Set when the course locks it: the learner has not reached the lesson that teaches it. */
+  lockReason?: string;
   launch: () => void;
 }
 
@@ -70,6 +74,7 @@ export function itemsForPlace(placeId: PlaceId, ctx: ModelCtx): GradItem[] {
   for (const e of ctx.exercises) {
     const a = PLACE_ASSIGNMENTS[e.id];
     if (!a || a.place !== placeId) continue;
+    const courseLock = ctx.lockOf?.(e.id) ?? null;
     out.push({
       id: e.id,
       label: e.label,
@@ -78,7 +83,8 @@ export function itemsForPlace(placeId: PlaceId, ctx: ModelCtx): GradItem[] {
       cefr: e.cefr,
       placeId,
       subgroup: a.subgroup,
-      locked: !isUnlocked(e.cefr, ctx.userCefr),
+      locked: !isUnlocked(e.cefr, ctx.userCefr) || !!courseLock,
+      ...(courseLock ? { lockReason: courseLock } : {}),
       launch: e.action,
     });
   }

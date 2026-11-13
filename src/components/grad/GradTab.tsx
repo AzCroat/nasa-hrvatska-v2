@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { readPracticeLock } from '../../lib/practiceLock';
 import { LISTEN, getSR, getDueReviews, getStreak, DAILY_QUESTS } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { acquisitionPool, vocabLevel } from '../../lib/vocabPool';
@@ -218,6 +219,8 @@ export default function GradTab({
       },
     },
     userCefr,
+    // The course decides what is open, not the CEFR band alone (owner report, 2026-11-13).
+    lockOf: readPracticeLock(),
     recs: {
       dueReviews: getDueReviews().length,
       weakCount: Object.values(getSR() as Record<string, { w?: number }>).filter(

@@ -37,6 +37,7 @@ import { WRITING_CURRICULUM, unitsForLevel } from '../../data/writingCurriculum'
 import type { WritingUnit } from '../../data/writingCurriculum';
 import type { CefrLevel } from '../../lib/cefr.js';
 import { markQuest } from '../../lib/quests.js';
+import { taughtTermsList } from '../../lib/taughtTerms';
 
 const UNIT_PTR_KEY = 'nh_guided_writing_idx';
 
@@ -201,6 +202,8 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
     try {
       const res = await _aiPost('/api/correct', {
         mode: 'writeeval',
+        // Feedback stays inside what the course has taught (owner, 2026-11-13).
+        taught: taughtTermsList(),
         prompt: unit.promptEn,
         text: text.trim(),
         params: { level: unit.level, writingPrompt: unit.promptEn },

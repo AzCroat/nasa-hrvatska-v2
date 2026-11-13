@@ -74,8 +74,10 @@ export async function requestSpeakingCoach(opts: {
   level: CefrLevel | string;
   /** Transcript words the recording did not confirm (lib/spokenCheck). */
   unconfirmed?: string[];
+  /** The grammar words the course has taught (lib/taughtTerms); feedback stays inside them. */
+  taught?: string[] | null;
 }): Promise<CoachOutcome | null> {
-  const { prompt, transcript, level, unconfirmed } = opts;
+  const { prompt, transcript, level, unconfirmed, taught } = opts;
   if (!transcriptWorthCoaching(transcript)) return null;
   let outcome: CoachOutcome;
   try {
@@ -84,6 +86,7 @@ export async function requestSpeakingCoach(opts: {
       transcript: transcript.trim(),
       level,
       ...(unconfirmed && unconfirmed.length > 0 ? { unconfirmed } : {}),
+      ...(taught ? { taught } : {}),
     });
     if (!res.ok) {
       outcome = { ok: false, failure: await failureFromResponse(res) };
