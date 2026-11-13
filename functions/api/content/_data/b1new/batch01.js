@@ -891,12 +891,20 @@ export const LESSONS = [
         headers: ['Croatian', 'English', 'When'],
         rows: [
           ['To me ne zanima.', 'That does not interest me.', 'lack of interest, neutral'],
-          ['Nisam zainteresiran / zainteresirana.', 'I am not interested.', 'lack of interest, polite'],
+          [
+            'Nisam zainteresiran / zainteresirana.',
+            'I am not interested.',
+            'lack of interest, polite',
+          ],
           ['To nije moja stvar.', 'That is none of my business.', 'staying out of it'],
           ['Baš me briga.', 'I could not care less.', 'blunt — friends only'],
           ['Teško je reći.', 'It is hard to say.', 'avoiding an opinion'],
           ['To je delikatno pitanje.', 'That is a delicate question.', 'avoiding an opinion'],
-          ['A što biste željeli čuti?', 'And what would you like to hear?', 'turning the question back'],
+          [
+            'A što biste željeli čuti?',
+            'And what would you like to hear?',
+            'turning the question back',
+          ],
         ],
       },
       {
@@ -1049,8 +1057,13 @@ export const LESSONS = [
               'krupan is the kind word; debeo is blunt. mršav and nizak mean thin and short.',
           },
           {
-            q: 'Someone asks about a neighbour\'s private life. Which reply says it is none of your business?',
-            options: ['Teško je reći.', 'To nije moja stvar.', 'Lijepo izgleda.', 'A što biste željeli čuti?'],
+            q: "Someone asks about a neighbour's private life. Which reply says it is none of your business?",
+            options: [
+              'Teško je reći.',
+              'To nije moja stvar.',
+              'Lijepo izgleda.',
+              'A što biste željeli čuti?',
+            ],
             correct: 1,
             explanation: 'To nije moja stvar — that is none of my business.',
           },
@@ -2015,7 +2028,7 @@ export const PRACTICE = {
           explanation: 'i tebi.',
         },
         {
-          q: 'A stranger asks what you think of a politician\'s looks. Which reply avoids giving an opinion?',
+          q: "A stranger asks what you think of a politician's looks. Which reply avoids giving an opinion?",
           options: ['Baš me briga.', 'Teško je reći.', 'Lijepo izgleda.', 'Hvala, i vama.'],
           correct: 1,
           hint: 'You want to step aside politely, not be rude and not praise.',
@@ -2076,7 +2089,12 @@ export const PRACTICE = {
       },
       {
         q: 'Which reply is blunt and best kept for friends?',
-        options: ['To nije moja stvar.', 'Baš me briga.', 'Nisam zainteresiran.', 'To je delikatno pitanje.'],
+        options: [
+          'To nije moja stvar.',
+          'Baš me briga.',
+          'Nisam zainteresiran.',
+          'To je delikatno pitanje.',
+        ],
         correct: 1,
         explanation: 'Baš me briga — I could not care less. The others are polite.',
       },
@@ -2285,7 +2303,8 @@ export const PRACTICE = {
           'pomoć should be in the genitive.',
         ],
         correct: 2,
-        explanation: 'The ordinary future cannot follow ako here; it is futur II, and pomoć is the subject of trebati (as in Ako ti budem trebao): Ako vam bude trebala pomoć.',
+        explanation:
+          'The ordinary future cannot follow ako here; it is futur II, and pomoć is the subject of trebati (as in Ako ti budem trebao): Ako vam bude trebala pomoć.',
       },
       {
         q: 'With a perfective verb, which is ALSO correct beside "Kad budem stigao, nazvat ću te"?',

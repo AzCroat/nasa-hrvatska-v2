@@ -3107,11 +3107,23 @@ const LESSONS_CORE = [
         title: 'Two-Aspect Verbs',
         headers: ['Verb', 'As imperfective', 'As perfective'],
         rows: [
-          ['ručati', 'Ručamo u dva. (We have lunch at two.)', 'Kad ručamo, idemo u šetnju. (Once we have had lunch…)'],
+          [
+            'ručati',
+            'Ručamo u dva. (We have lunch at two.)',
+            'Kad ručamo, idemo u šetnju. (Once we have had lunch…)',
+          ],
           ['čestitati', 'Uvijek mu čestitam rođendan.', 'Čestitao mi je i otišao.'],
-          ['vjenčati se', 'Sutra se vjenčaju u crkvi.', 'Vjenčali su se na moru i odmah otputovali.'],
+          [
+            'vjenčati se',
+            'Sutra se vjenčaju u crkvi.',
+            'Vjenčali su se na moru i odmah otputovali.',
+          ],
           ['studirati', 'Studira medicinu u Zagrebu.', '—'],
-          ['organizirati', 'Ona uvijek organizira izlete.', 'Organizirala je izlet i svi su došli.'],
+          [
+            'organizirati',
+            'Ona uvijek organizira izlete.',
+            'Organizirala je izlet i svi su došli.',
+          ],
           ['telefonirati', 'Stalno telefonira.', 'Telefonirao je i rekao da kasni.'],
           ['čuti', 'Čuješ li glazbu?', 'Čuo sam vijest i odmah te nazvao.'],
           ['vidjeti', 'Vidim more s prozora.', 'Vidio sam ga i pozdravio.'],
@@ -8068,7 +8080,11 @@ const LESSONS_CORE = [
             en: 'I waited three hours.',
             note: '3 + genitive singular sata',
           },
-          { hr: 'Ima petero djece.', en: 'She has five children.', note: 'petero + djece, the genitive of the collective noun djeca (pet djece is also heard)' },
+          {
+            hr: 'Ima petero djece.',
+            en: 'She has five children.',
+            note: 'petero + djece, the genitive of the collective noun djeca (pet djece is also heard)',
+          },
           {
             hr: 'Radio sam jedanaest sati.',
             en: 'I worked eleven hours.',

@@ -879,7 +879,12 @@ export const PRACTICE_B1 = {
       },
       {
         q: 'Which pair is imperfective → perfective?',
-        options: ['tražiti → naći', 'mijenjati → promijeniti', 'graditi → građevina', 'vikati → vikao'],
+        options: [
+          'tražiti → naći',
+          'mijenjati → promijeniti',
+          'graditi → građevina',
+          'vikati → vikao',
+        ],
         correct: 1,
         explanation:
           'mijenjati → promijeniti. tražiti pairs with potražiti and naći with nalaziti; građevina is a noun and vikao a participle.',
@@ -2229,7 +2234,7 @@ export const PRACTICE_B1 = {
           explanation: 'The present with već: it started five years ago and still continues.',
         },
         {
-          q: "Your friend works best late at night. What is she?",
+          q: 'Your friend works best late at night. What is she?',
           options: ['noćna ptica', 'usred bijela dana', 'u zadnji čas', 'prerano'],
           correct: 0,
           hint: 'A bird that is awake at night.',
@@ -2635,7 +2640,8 @@ export const PRACTICE_B1 = {
           options: ['stol', 'stolu', 'stolom', 'stola'],
           correct: 2,
           hint: 'A state, but the preposition is za: it takes the case you learned with pod and nad.',
-          explanation: 'sjede za stolom — za + instrumental for a state; sjeli su za stol is the change.',
+          explanation:
+            'sjede za stolom — za + instrumental for a state; sjeli su za stol is the change.',
         },
       ],
     },
@@ -3263,7 +3269,8 @@ export const PRACTICE_B1 = {
         q: "Complete: 'Kad ___ u Dubrovnik, prošetat ćemo po zidinama.' (When we arrive in Dubrovnik…)",
         options: ['ćemo stići', 'stignemo', 'stizali smo', 'stignuti'],
         correct: 1,
-        explanation: 'stići is perfective, so a future time clause takes its present: Kad stignemo…',
+        explanation:
+          'stići is perfective, so a future time clause takes its present: Kad stignemo…',
       },
       {
         q: "Complete: 'Dok je mama ___, tata je postavljao stol.' (While mum was cooking…)",
@@ -3291,7 +3298,8 @@ export const PRACTICE_B1 = {
           'Nothing is wrong',
         ],
         correct: 0,
-        explanation: 'završiti is perfective, so a time clause pointing forward takes its present (an imperfective verb would take futur II) — never ću.',
+        explanation:
+          'završiti is perfective, so a time clause pointing forward takes its present (an imperfective verb would take futur II) — never ću.',
       },
       {
         q: "Which connector means 'after'?",
@@ -5531,7 +5539,7 @@ export const PRACTICE_B1 = {
         explanation: 'prema + the dative: according to.',
       },
       {
-        q: "Which word is the tabloid press?",
+        q: 'Which word is the tabloid press?',
         options: ['dnevnik', 'žuti tisak', 'izvor', 'feljton'],
         correct: 1,
         explanation: 'žuti tisak — literally "the yellow press".',
@@ -5951,7 +5959,8 @@ export const PRACTICE_B1 = {
           'the Kras plateau above Trieste',
         ],
         correct: 3,
-        explanation: 'Kras, the limestone plateau above Trieste, gave the world the word karst. The Croatian landscape word is krš.',
+        explanation:
+          'Kras, the limestone plateau above Trieste, gave the world the word karst. The Croatian landscape word is krš.',
       },
     ],
     vocab: [

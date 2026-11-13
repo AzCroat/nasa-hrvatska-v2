@@ -79,7 +79,12 @@ export const INSTRUMENTAL_B1_DRILL_DATA: ModeDrillItem[] = [
     mode: 'sredstvo',
     q: 'Koja je rečenica točna?',
     en: 'Which sentence is correct?',
-    opts: ['Platit ću gotovinom.', 'Platit ću s gotovinom.', 'Platit ću gotovinu.', 'Platit ću gotovina.'],
+    opts: [
+      'Platit ću gotovinom.',
+      'Platit ću s gotovinom.',
+      'Platit ću gotovinu.',
+      'Platit ću gotovina.',
+    ],
     answer: 'Platit ću gotovinom.',
     tip: 'Cash is the means: gotovinom, with no s.',
   },

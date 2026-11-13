@@ -3711,7 +3711,7 @@ export const PRACTICE_A2 = {
         options: ['nego', 'ni', 'a', 'jer'],
         correct: 2,
         explanation:
-          "Two preferences side by side, nothing contradicted: a is the neutral choice. nego needs a negative before it, ni means nor, and jer would make the tennis a reason.",
+          'Two preferences side by side, nothing contradicted: a is the neutral choice. nego needs a negative before it, ni means nor, and jer would make the tennis a reason.',
       },
       {
         q: 'Complete: "Umoran sam, ___ ću ipak doći." (I am tired, but I will still come.)',
