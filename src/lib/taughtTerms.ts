@@ -51,8 +51,6 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   'aspect-perfective': ['aspect', 'perfective'],
   // B1 (Razgovarajte s nama! A2-B1, lessons 6–10, plus the app's own B1 lessons). Each word
   // belongs to the lesson that first teaches it under that name.
-  'comparatives-a2': ['comparative'],
-  'superlatives-irregular': ['superlative'],
   'verb-prefixes': ['prefix'],
   'future-ii': ['future II'],
   'time-clauses': ['time clause'],
