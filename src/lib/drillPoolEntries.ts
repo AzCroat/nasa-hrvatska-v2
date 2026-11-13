@@ -216,7 +216,8 @@ export const C_LEVEL_DRILL_ENTRIES: CefrPoolEntry[] = [
     id: 'interpunkcija',
     label: 'Interpunkcija',
     screen: 'interpunkcija',
-    cefr: 'C2',
+    // C1 since 2026-11-12: its lesson, zarez-interpunkcija, moved C2 → C1.
+    cefr: 'C1',
     category: 'punctuation',
   },
   // C1 tranche 5 (2026-08-15): passive participle, infinitive vs da, aspect pairs.

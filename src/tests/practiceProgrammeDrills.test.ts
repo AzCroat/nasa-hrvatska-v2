@@ -42,6 +42,8 @@ import { LESSON_TAUGHT_CATEGORY, categoryForScreen } from '../lib/teachPractice'
 import type { SkillCategory } from '../lib/adaptive';
 
 const { CURRICULUM } = await import('../../functions/api/content/_data/curriculum.js');
+const { ORDER_A2, ORDER_B1, ORDER_B2, ORDER_C1, ORDER_C2 } =
+  await import('../../functions/api/content/_data/levelOrders.js');
 type Entry = { id: string; level: string };
 
 /**
@@ -54,7 +56,14 @@ const PROGRAMME_DRILLS: {
   screen: string;
   category: SkillCategory;
   lesson: string;
+  /** The drill's pool gate. */
   cefr: string;
+  /**
+   * The lesson's level, when it differs from the drill's gate. Set only for lessons the
+   * 2026-11-12 restructure moved UP a level (A2 → B1): their drill stays at its old, lower
+   * gate, which a learner at the lesson's level can still open.
+   */
+  lessonLevel?: string;
 }[] = [
   { screen: 'pluraldrill', category: 'plural', lesson: 'plural-nouns', cefr: 'A1' },
   { screen: 'negacija', category: 'negation', lesson: 'negation', cefr: 'A1' },
@@ -81,7 +90,13 @@ const PROGRAMME_DRILLS: {
     cefr: 'A2',
   },
   { screen: 'kolicinaa2', category: 'quantity', lesson: 'quantity', cefr: 'A1' },
-  { screen: 'komparacija', category: 'comparison', lesson: 'comparatives-a2', cefr: 'A2' },
+  {
+    screen: 'komparacija',
+    category: 'comparison',
+    lesson: 'comparatives-a2',
+    cefr: 'A2',
+    lessonLevel: 'B1',
+  },
   // A2 topical block (2026-08-29). Ten authored banks. The pool tag matters
   // here for the usual two reasons (attribution and SKILL_GROUP) plus a third
   // specific to this block: five of the ten have a same-named REFERENCE screen
@@ -164,7 +179,8 @@ const PROGRAMME_DRILLS: {
     screen: 'interpunkcija',
     category: 'punctuation',
     lesson: 'zarez-interpunkcija',
-    cefr: 'C2',
+    // C1 since 2026-11-12: the lesson moved C2 → C1 and its drill was regated with it.
+    cefr: 'C1',
   },
   {
     screen: 'administrativni',
@@ -237,16 +253,17 @@ const PROGRAMME_DRILLS: {
     screen: 'sklonidbaizn',
     category: 'declension-exceptions',
     lesson: 'sklonidba-iznimke',
-    cefr: 'C2',
+    // The next four moved C2 → C1 with their lessons (2026-11-12 restructure).
+    cefr: 'C1',
   },
-  { screen: 'brojevinorma', category: 'number-norm', lesson: 'brojevi-norma', cefr: 'C2' },
+  { screen: 'brojevinorma', category: 'number-norm', lesson: 'brojevi-norma', cefr: 'C1' },
   {
     screen: 'slaganjec2',
     category: 'agreement-subtleties',
     lesson: 'slaganje-suptilnosti',
-    cefr: 'C2',
+    cefr: 'C1',
   },
-  { screen: 'padezisupt', category: 'case-subtleties', lesson: 'padezne-suptilnosti', cefr: 'C2' },
+  { screen: 'padezisupt', category: 'case-subtleties', lesson: 'padezne-suptilnosti', cefr: 'C1' },
   { screen: 'naciniobveze', category: 'modality', lesson: 'glagolski-nacini', cefr: 'C2' },
   { screen: 'ritam', category: 'rhythm', lesson: 'ritam-recenice', cefr: 'C2' },
   { screen: 'ironija', category: 'irony', lesson: 'ironija-podtekst', cefr: 'C2' },
@@ -289,9 +306,28 @@ const PROGRAMME_DRILLS: {
     cefr: 'A2',
   },
   { screen: 'prilozia2', category: 'adverbs', lesson: 'adverbs', cefr: 'A2' },
-  { screen: 'veznici', category: 'conjunctions', lesson: 'conjunctions', cefr: 'A2' },
-  { screen: 'kojia2', category: 'relative-koji', lesson: 'relative-koji', cefr: 'A2' },
-  { screen: 'neodredjenea2', category: 'indefinites', lesson: 'indefinites', cefr: 'A2' },
+  // These three lessons moved A2 → B1 (2026-11-12); the drills keep their A2 gate.
+  {
+    screen: 'veznici',
+    category: 'conjunctions',
+    lesson: 'conjunctions',
+    cefr: 'A2',
+    lessonLevel: 'B1',
+  },
+  {
+    screen: 'kojia2',
+    category: 'relative-koji',
+    lesson: 'relative-koji',
+    cefr: 'A2',
+    lessonLevel: 'B1',
+  },
+  {
+    screen: 'neodredjenea2',
+    category: 'indefinites',
+    lesson: 'indefinites',
+    cefr: 'A2',
+    lessonLevel: 'B1',
+  },
   { screen: 'trajanje', category: 'duration', lesson: 'time-duration', cefr: 'B1' },
   { screen: 'polozaj', category: 'position', lesson: 'position-placement', cefr: 'B1' },
   { screen: 'stvarniuvjeti', category: 'real-conditions', lesson: 'real-conditions', cefr: 'B1' },
@@ -374,11 +410,19 @@ describe('every programme drill is wired consistently', () => {
     ).toBe(d.category);
   });
 
-  it.each(PROGRAMME_DRILLS)('$lesson is a real curriculum lesson at $cefr', (d) => {
-    const entry = (CURRICULUM as Entry[]).find((e) => e.id === d.lesson);
-    expect(entry, `${d.lesson} is not in the curriculum spine`).toBeTruthy();
-    expect(entry!.level, `${d.lesson} is not a ${d.cefr} lesson`).toBe(d.cefr);
-  });
+  it.each(PROGRAMME_DRILLS.map((d) => ({ ...d, lessonLevel: d.lessonLevel ?? d.cefr })))(
+    '$lesson is a real curriculum lesson at $lessonLevel',
+    (d) => {
+      const entry = (CURRICULUM as Entry[]).find((e) => e.id === d.lesson);
+      expect(entry, `${d.lesson} is not in the curriculum spine`).toBeTruthy();
+      expect(entry!.level, `${d.lesson} is not a ${d.lessonLevel} lesson`).toBe(d.lessonLevel);
+      // A drill gated ABOVE its lesson could never resolve the coupling.
+      const RANK: Record<string, number> = { A1: 1, A2: 2, B1: 3, B2: 4, C1: 5, C2: 6 };
+      expect(RANK[d.cefr], `${d.screen} is gated above its lesson`).toBeLessThanOrEqual(
+        RANK[d.lessonLevel],
+      );
+    },
+  );
 
   it.each(PROGRAMME_DRILLS)('$category has a skill group for the variety pass', (d) => {
     expect(
@@ -540,18 +584,23 @@ describe('coupling coverage per level does not slip', () => {
   // a lesson losing its mapping fails here, and a NEW lesson arriving uncoupled
   // fails here too — the case no per-level list could ever have caught, because
   // a list only knows about lessons somebody remembered to add to it.
-  // 2026-11-12 RESTRUCTURE: levels are no longer all 30 lessons (A1 40, A2 24, B1 26), and
-  // A1 will grow as lessons are written. The ratchet is therefore "EVERY lesson at the level
-  // is coupled" (a new uncoupled lesson still fails, a lesson losing its mapping still
-  // fails) plus a per-level size FLOOR so a level cannot lose lessons unnoticed.
+  // 2026-11-12 RESTRUCTURE: levels are no longer all 30 lessons. A1 is 100 (a1new) and
+  // A2-C2 are their final orders in levelOrders.js (50, 50, 65, 65, 24). The ratchet is
+  // "EVERY lesson at the level is coupled" (a new uncoupled lesson still fails, a lesson
+  // losing its mapping still fails) plus a per-level size FLOOR so a level cannot lose
+  // lessons unnoticed.
   const MIN_LESSONS: Record<string, number> = {
-    A1: 40,
-    A2: 24,
-    B1: 26,
-    B2: 30,
-    C1: 30,
-    C2: 30,
+    A1: 100,
+    A2: ORDER_A2.length,
+    B1: ORDER_B1.length,
+    B2: ORDER_B2.length,
+    C1: ORDER_C1.length,
+    C2: ORDER_C2.length,
   };
+
+  it('the floors are the restructured sizes', () => {
+    expect(MIN_LESSONS).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 65, C2: 24 });
+  });
 
   it.each(Object.entries(MIN_LESSONS))(
     '%s has every lesson coupled (at least %i of them)',

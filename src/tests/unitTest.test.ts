@@ -34,9 +34,9 @@ import { LESSON_PASS_THRESHOLD } from '../lib/lessonCheck';
 const UNITS = buildCourseUnits(CURRICULUM as unknown as CurriculumEntry[]);
 const BY_ID = new Map((LESSONS as LessonBodyLike[]).map((l) => [l.id, l]));
 
-/** Item identity for comparing papers: the LESSON plus the question. */
-function ident(x: { lessonId: string; q: string }): string {
-  return x.lessonId + '\u241f' + x.q;
+/** Item identity for comparing papers: the LESSON, the question AND its options. */
+function ident(x: { lessonId: string; q: string; options: readonly string[] }): string {
+  return [x.lessonId, x.q, ...x.options].join('\u241f');
 }
 
 function bodiesFor(unitIndex: number): LessonBodyLike[] {
@@ -132,8 +132,12 @@ describe('the paper, built from the real curriculum', () => {
   // IDENTITY IS (lesson, question), NOT the question text. Measured: "Which
   // sentence is correct?" is a shared generic stem in 20 of the 36 units, so a
   // by-text comparison reports a repeat between two DIFFERENT lessons' items, and
-  // this assertion failed on correct code until it was fixed. No lesson repeats a
-  // question inside its own check (also measured: 0 of 180).
+  // this assertion failed on correct code until it was fixed. And since the course
+  // grew to 354 lessons a lesson CAN carry the same generic stem twice in its own
+  // check (C1 `coordinate-conclusive-clauses` asks "Which sentence is punctuated
+  // correctly?" three times, each over different sentences), so identity includes
+  // the OPTIONS: two items with one stem and different options are different
+  // questions to the learner.
   it('gives a retake different questions', () => {
     for (let i = 0; i < UNITS.length; i++) {
       const first = buildUnitTest(bodiesFor(i), 0).map(ident);
@@ -285,19 +289,24 @@ describe('spiral review: earlier units come back inside later unit tests', () =>
 });
 
 describe('a short unit still gets a real paper', () => {
+  // The real course no longer has a one-lesson unit (every level's last unit holds
+  // at least four), but `buildUnitTest`'s borrowing branch still exists for a level
+  // re-chunked into one, so it is pinned on a FABRICATED unit: one real lesson body,
+  // with the two real units before it as the earlier material.
+  const AT = 4;
+  const oneLesson = (): LessonBodyLike[] => bodiesFor(AT).slice(0, 1);
+
   it('a one-lesson unit borrows twelve items from the two units before it', () => {
-    const i = UNITS.findIndex((u) => u.lessons.length === 1);
-    expect(i, 'the real course has a one-lesson unit').toBeGreaterThan(1);
-    const items = buildUnitTest(bodiesFor(i), 0, earlierFor(i));
+    expect(oneLesson()).toHaveLength(1);
+    const items = buildUnitTest(oneLesson(), 0, earlierFor(AT));
     expect(items).toHaveLength(UNIT_TEST_ITEMS);
     expect(items.filter((x) => !x.spiral)).toHaveLength(ITEMS_PER_LESSON);
     expect(unitTestAvailability(items)).toBe('ready');
-    const keys = items.map((x) => `${x.lessonId}|${x.q}`);
+    const keys = items.map((x) => `${x.lessonId}|${x.q}|${x.options.join('|')}`);
     expect(new Set(keys).size, 'no question is asked twice').toBe(keys.length);
   });
 
   it('without earlier units a one-lesson unit is honestly too short', () => {
-    const i = UNITS.findIndex((u) => u.lessons.length === 1);
-    expect(unitTestAvailability(buildUnitTest(bodiesFor(i)))).toBe('insufficient');
+    expect(unitTestAvailability(buildUnitTest(oneLesson()))).toBe('insufficient');
   });
 });

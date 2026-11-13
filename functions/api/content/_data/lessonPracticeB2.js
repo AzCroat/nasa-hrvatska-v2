@@ -14,6 +14,8 @@
 //   - a hint points at the rule and never contains the answer.
 // Scanned by lintCroatianText.mjs through the assembled LESSONS, both checks.
 
+import { PRACTICE_B2_NEW } from './b2new/index.js';
+
 export const PRACTICE_B2 = {
   clitics: {
     worked: [
@@ -6213,4 +6215,5 @@ export const PRACTICE_B2 = {
       ['čitatelj', 'reader', 'Knjiga se svidjela mnogim čitateljima.'],
     ],
   },
+  ...PRACTICE_B2_NEW,
 };

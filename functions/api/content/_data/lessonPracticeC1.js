@@ -22,6 +22,8 @@
 //   - a hint points at the rule and never contains the answer.
 // Scanned by lintCroatianText.mjs through the assembled LESSONS, both checks.
 
+import { PRACTICE_C1_NEW } from './c1new/index.js';
+
 export const PRACTICE_C1 = {
   'clitics-advanced': {
     worked: [
@@ -6466,4 +6468,5 @@ export const PRACTICE_C1 = {
       ['prenijeti', 'to pass on', 'Želim jezik prenijeti na svoju djecu.'],
     ],
   },
+  ...PRACTICE_C1_NEW,
 };

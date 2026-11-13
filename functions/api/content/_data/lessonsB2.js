@@ -28,6 +28,8 @@
 // AUTHORING RULES — see CLAUDE.md → Croatian Content Authoring.
 
 /** @type {ReadonlyArray<object>} */
+import { LESSONS_B2_NEW } from './b2new/index.js';
+
 export const LESSONS_B2 = [
   // ─────────────────────────────────────────────────────────
   // The i-Declension
@@ -5910,4 +5912,5 @@ export const LESSONS_B2 = [
       },
     ],
   },
+  ...LESSONS_B2_NEW,
 ];

@@ -280,7 +280,10 @@ describe('pickCourseStep with fabricated rows', () => {
       advanced: all,
     });
     expect(step).toMatchObject({ kind: 'level-review', level: 'C2' });
-    expect(step?.unit.id).toBe('C2-6');
+    // The final unit of the course, derived from the spine (the C2 chunking changes as
+    // the level is authored).
+    expect(step?.unit.id).toBe(UNITS[UNITS.length - 1]!.id);
+    expect(step?.unit.level).toBe('C2');
     reviewed.add('C2');
     expect(
       pickCourseStep({

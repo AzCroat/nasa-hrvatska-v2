@@ -18,6 +18,7 @@ import { describe, it, expect } from 'vitest';
 const { CURRICULUM, spineForLevel } =
   await import('../../functions/api/content/_data/curriculum.js');
 const { LESSONS } = await import('../../functions/api/content/_data/lessons.js');
+const { ORDER_A2 } = await import('../../functions/api/content/_data/levelOrders.js');
 const { LESSON_TAUGHT_CATEGORY } = await import('../lib/teachPractice');
 const { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN } = await import('../lib/categoryRoutes');
 const { CEFR_EXERCISE_POOL } = await import('../lib/sessionPools');
@@ -40,14 +41,7 @@ const courseOrder = new Map(
 const levelOf = new Map((CURRICULUM as Entry[]).map((e) => [e.id, e.level]));
 
 describe('A2 covers the structures the level is defined by', () => {
-  const REQUIRED = [
-    'plural-cases',
-    'svoj',
-    'adverbs',
-    'conjunctions',
-    'relative-koji',
-    'indefinites',
-  ];
+  const REQUIRED = ['plural-cases', 'svoj', 'adverbs'];
 
   it.each(REQUIRED)('teaches %s', (id) => {
     expect(
@@ -76,11 +70,23 @@ describe('A2 covers the structures the level is defined by', () => {
     ).toBe(true);
   });
 
-  // A2 was 30 lessons; after the restructure it is the A2 half of Razgovarajte
-  // A2-B1 (24 lessons) and will grow as lessons are written. A floor, so it cannot
-  // shrink silently.
+  // Moved UP into B1 by the 2026-11-12 Croaticum restructure (levelOrders.js). Same
+  // rule as the A1 moves: each stays a lesson, sequenced, at the level it now lives.
+  const MOVED_TO_B1 = ['comparatives-a2', 'conjunctions', 'relative-koji', 'indefinites'];
+
+  it.each(MOVED_TO_B1)('still teaches %s, now at B1', (id) => {
+    expect(levelOf.get(id), `${id} left the course or moved off B1`).toBe('B1');
+    expect(
+      (LESSONS as Lesson[]).some((l) => l.id === id && l.level === 'B1'),
+      `${id} has no B1 lesson body`,
+    ).toBe(true);
+  });
+
+  // The restructured A2 is 50 lessons (ORDER_A2 in levelOrders.js). A floor, so it
+  // cannot shrink silently.
   it('keeps a floor on the level size', () => {
-    expect(a2Lessons.length).toBeGreaterThanOrEqual(24);
+    expect(a2Lessons.length).toBeGreaterThanOrEqual(ORDER_A2.length);
+    expect(ORDER_A2.length).toBeGreaterThanOrEqual(50);
     expect(a2Spine.length).toBe(a2Lessons.length);
   });
 });
@@ -98,6 +104,18 @@ describe('A2 is not only grammar', () => {
     'travel-transport',
     'plans-invitations',
     'celebrations-holidays',
+    // Added by the 2026-11-12 restructure (Razgovarajte A2 units).
+    'weekend-plans',
+    'grocery-shopping',
+    'visiting-customs',
+    'quality-of-life',
+    'problems-at-work',
+    'informal-email',
+    'volunteering',
+    'agreeing-disagreeing',
+    'car-and-traffic',
+    'public-transport',
+    'phone-calls-a2',
   ];
 
   it.each(FUNCTIONAL)('teaches %s', (id) => {
@@ -127,7 +145,9 @@ describe('the sequence does not put a lesson before what it needs', () => {
     ['quantity', 'genitive-intro'],
     ['relative-koji', 'conjunctions'],
     ['past-questions-negation', 'past-tense'],
-    ['school-studies', 'work-jobs'],
+    // ['school-studies', 'work-jobs'] was dropped 2026-11-12: the restructure follows
+    // the book, which teaches school (unit order 15) before work (22), and
+    // school-studies no longer requires work-jobs.
     ['describing-people', 'clothes-appearance'],
   ];
 

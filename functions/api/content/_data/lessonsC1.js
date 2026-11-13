@@ -28,6 +28,8 @@
 // AUTHORING RULES — see CLAUDE.md → Croatian Content Authoring.
 
 /** @type {ReadonlyArray<object>} */
+import { LESSONS_C1_NEW } from './c1new/index.js';
+
 export const LESSONS_C1 = [
   // ─────────────────────────────────────────────────────────
   // Verb Government
@@ -5528,4 +5530,5 @@ export const LESSONS_C1 = [
       },
     ],
   },
+  ...LESSONS_C1_NEW,
 ];

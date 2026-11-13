@@ -78,13 +78,18 @@ describe('the spine endpoint carries shape, never content', () => {
     expect(bytes / data.length).toBeLessThan(1536);
   });
 
-  it('stays small in absolute terms too, at the full 180-lesson target', async () => {
+  it('stays small in absolute terms too, at the full 354-lesson course', async () => {
     // The backstop against a regression that inflates every row equally, which
-    // a per-entry average would happily accept. Sized for the whole programme
-    // (180 entries at ~490 bytes is ~88 KB) rather than for today's catalog, so
-    // it is a real ceiling and not a running total.
-    const bytes = Buffer.byteLength(JSON.stringify(await spine()));
-    expect(bytes).toBeLessThan(150 * 1024);
+    // a per-entry average would happily accept. Sized for the whole programme,
+    // not a running total. Measured 2026-11-12 after the restructure to 354
+    // lessons (A1 100, A2 50, B1 50, B2 65, C1 65, C2 24): 194,214 bytes, about
+    // 549 bytes per entry (rows grew from ~490 with the longer objective lists).
+    // 220 KB allows ~13% growth across every row; a single leaked lesson body is
+    // several KB and is the per-entry test's job, and a spread of slides into
+    // every row would be megabytes, far past either bound.
+    const data = await spine();
+    const bytes = Buffer.byteLength(JSON.stringify(data));
+    expect(bytes).toBeLessThan(220 * 1024);
   });
 
   it('carries the sequencing fields the engine needs', async () => {

@@ -8,6 +8,9 @@ const A1_REVIEW_ITEMS = Math.max(
   Math.ceil(CURRICULUM.filter((l) => l.level === 'A1').length / 5),
 );
 
+/** The id of the course's final unit: C2 and its unit count, chunked five lessons a unit. */
+const LAST_UNIT = `C2-${Math.ceil(CURRICULUM.filter((l) => l.level === 'C2').length / 5)}`;
+
 /** The course's unit count, derived the way courseUnits.ts chunks the spine: five per level. */
 const TOTAL_UNITS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].reduce(
   (n, lv) => n + Math.ceil(CURRICULUM.filter((l) => l.level === lv).length / 5),
@@ -166,7 +169,11 @@ test.describe('The course gate', () => {
       'current',
     );
     await expect(page.getByTestId('course-unit-A1-2')).toHaveAttribute('data-unit-state', 'locked');
-    await expect(page.getByTestId('course-unit-C2-6')).toHaveAttribute('data-unit-state', 'locked');
+    // The course's last unit, derived (C2 has 24 lessons since 2026-11-12, so it ends at C2-5).
+    await expect(page.getByTestId(`course-unit-${LAST_UNIT}`)).toHaveAttribute(
+      'data-unit-state',
+      'locked',
+    );
     await page.getByTestId('course-unit-A1-2').locator('button').first().click();
     const notice = page.getByTestId('course-unit-locked-A1-2');
     await expect(notice).toBeVisible();

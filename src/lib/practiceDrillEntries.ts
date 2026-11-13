@@ -588,32 +588,34 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   // pool-only — none is in ALL_CATEGORIES — so the adaptive picker is
   // unchanged and these are reachable through the coupling and the P3 fill.
   { id: 'norma', label: 'Norm & usage', screen: 'norma', cefr: 'C2', category: 'norm' },
+  // The next four are gated C1: their lessons moved C2 → C1 in the 2026-11-12 restructure,
+  // and a drill gated above its lesson can never resolve the coupling.
   {
     id: 'sklonidbaizn',
     label: 'Declension exceptions',
     screen: 'sklonidbaizn',
-    cefr: 'C2',
+    cefr: 'C1',
     category: 'declension-exceptions',
   },
   {
     id: 'brojevinorma',
     label: 'Numbers in the norm',
     screen: 'brojevinorma',
-    cefr: 'C2',
+    cefr: 'C1',
     category: 'number-norm',
   },
   {
     id: 'slaganjec2',
     label: 'Agreement subtleties',
     screen: 'slaganjec2',
-    cefr: 'C2',
+    cefr: 'C1',
     category: 'agreement-subtleties',
   },
   {
     id: 'padezisupt',
     label: 'Case subtleties',
     screen: 'padezisupt',
-    cefr: 'C2',
+    cefr: 'C1',
     category: 'case-subtleties',
   },
   {

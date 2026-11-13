@@ -12,6 +12,13 @@ import { describe, it, expect } from 'vitest';
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
 import { CURRICULUM } from '../../functions/api/content/_data/curriculum.js';
 import {
+  ORDER_A2,
+  ORDER_B1,
+  ORDER_B2,
+  ORDER_C1,
+  ORDER_C2,
+} from '../../functions/api/content/_data/levelOrders.js';
+import {
   lessonDepthProblems,
   exampleHrWords,
   MIN_CHECK_ITEMS,
@@ -24,11 +31,19 @@ const LEVELS = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'] as const;
 const byLevel = (lv: string) => (LESSONS as Lesson[]).filter((l) => l.level === lv);
 
 describe('the teaching-depth contract holds for every lesson', () => {
-  // 2026-11-12 RESTRUCTURE: levels are no longer all 30 (A1-B1 follow the Croaticum
-  // books and A1 grows as lessons are written), so this pins per-level FLOORS and
-  // that every lesson is in the spine, not an exact 30 per level.
+  // 2026-11-12 RESTRUCTURE: levels are no longer all 30. A1 is 100 (a1new) and A2-C2 are
+  // their final orders in levelOrders.js, so this pins per-level FLOORS at those sizes and
+  // that every lesson is in the spine.
   it('keeps every level at its restructured size or above, all in the spine', () => {
-    const FLOOR: Record<string, number> = { A1: 40, A2: 24, B1: 26, B2: 30, C1: 30, C2: 30 };
+    const FLOOR: Record<string, number> = {
+      A1: 100,
+      A2: ORDER_A2.length,
+      B1: ORDER_B1.length,
+      B2: ORDER_B2.length,
+      C1: ORDER_C1.length,
+      C2: ORDER_C2.length,
+    };
+    expect(FLOOR).toEqual({ A1: 100, A2: 50, B1: 50, B2: 65, C1: 65, C2: 24 });
     expect(LESSONS.length).toBeGreaterThanOrEqual(180);
     const spine = new Set(CURRICULUM.map((e: { id: string }) => e.id));
     for (const lv of LEVELS) expect(byLevel(lv).length, lv).toBeGreaterThanOrEqual(FLOOR[lv]);
@@ -61,7 +76,9 @@ describe('the teaching-depth contract holds for every lesson', () => {
       const lessons = byLevel(lv);
       const total = lessons.reduce((n, l) => n + exampleHrWords(l), 0);
       // Every lesson meets its own floor; the level total is the sum's floor.
-      expect(total, `${lv} example words`).toBeGreaterThanOrEqual(30 * MIN_EXAMPLE_HR_WORDS[lv]);
+      expect(total, `${lv} example words`).toBeGreaterThanOrEqual(
+        lessons.length * MIN_EXAMPLE_HR_WORDS[lv],
+      );
     }
   });
 
