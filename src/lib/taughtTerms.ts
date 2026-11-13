@@ -39,10 +39,13 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   instrumental: ['instrumental'],
   'past-tense': ['past tense'],
   'future-tense': ['future tense'],
-  // The conditional is taught at A2 (conditional-forms, A2-32); the `conditional` row
-  // below is the B2 lesson, which alone kept the word from A2 and B1 learners.
+  // A2 (book alignment, 2026-11-13): the conditional is first taught by the A2 lesson
+  // `conditional-forms` (Razgovarajte s nama!, lesson 4), not the B2 `conditional` lesson.
   'conditional-forms': ['conditional'],
   conditional: ['conditional'],
+  'possessive-dative': ['possessive dative'],
+  'comparatives-a2': ['comparative'],
+  'superlatives-irregular': ['superlative'],
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],
   'aspect-perfective': ['aspect', 'perfective'],

@@ -5,7 +5,7 @@
 // Three groups whose present the infinitive does not show:
 //   nuti — krenuti, skrenuti, maknuti, okrenuti: -nuti → -nem
 //   nem  — stati, ostati, postati: an n appears in the present
-//   doci — doći, naći, ući, izaći (đ), and otići → odem; plus the commands
+//   doci — doći, naći, ući, izaći (đ), and otići → otiđem / odem; plus the commands
 //
 // Distractors are the forms learners actually build: -ujem by analogy with -ovati
 // verbs, a dropped n, ć kept where the present has đ.
@@ -169,7 +169,7 @@ export const VERBS_NUTI_DRILL_DATA: ModeDrillItem[] = [
     en: 'Every Friday I go round to my grandmother’s for lunch.',
     opts: ['odem', 'otijem', 'otićem', 'otim'],
     answer: 'odem',
-    tip: 'otići is the odd one: odem, odeš, ode…',
+    tip: 'otići is the odd one: it has two presents, otiđem and the short odem — both correct.',
   },
   {
     mode: 'doci',

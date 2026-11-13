@@ -8,7 +8,7 @@
 // needed.
 //
 // Three modes:
-//   osjecaj — which dative, which adverb
+//   osjecaj — which dative, which adverb; Spava mi se for what you feel like
 //   vrijeme — past, future and negative
 //   treba   — Treba mi / Trebaju mi and agreement with the thing
 
@@ -223,5 +223,21 @@ export const IMPERSONAL_FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     opts: ['autu', 'auta', 'autom', 'auto'],
     answer: 'auto',
     tip: 'The car is the subject — nominative.',
+  },
+  {
+    mode: 'osjecaj',
+    q: 'Spava ____ se, idem u krevet.',
+    en: 'I feel sleepy, I am going to bed.',
+    opts: ['mi', 'me', 'ja', 'moj'],
+    answer: 'mi',
+    tip: 'What you feel like doing: the person in the short dative, then se.',
+  },
+  {
+    mode: 'osjecaj',
+    q: 'Danas mi se ne ____.',
+    en: 'I don’t feel like working today.',
+    opts: ['radi', 'radim', 'raditi', 'radiš'],
+    answer: 'radi',
+    tip: 'With mi se the verb is always in its on form.',
   },
 ];

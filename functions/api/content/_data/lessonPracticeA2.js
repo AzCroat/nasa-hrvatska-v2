@@ -159,6 +159,27 @@ export const PRACTICE_A2 = {
           hint: 'djeca means "the children" and takes a third-person plural verb.',
           explanation: 'djeca gledaju — the -am class makes its oni form in -aju.',
         },
+        {
+          q: 'Beba ___ cijelu noć. (plakati)',
+          options: ['plaka', 'plakne', 'plače', 'plaći'],
+          correct: 2,
+          hint: 'In the present the k of this verb meets a j and changes; ona ends in -e.',
+          explanation: 'plakati → plačem, plačeš, plače: k → č.',
+        },
+        {
+          type: 'type',
+          q: 'Što ti ____ mama? (kazati)',
+          answer: 'kaže',
+          hint: 'The z of kazati changes in every present form; on/ona ends in -e.',
+          explanation: 'kazati → kažem, kažeš, kaže: z → ž.',
+        },
+        {
+          type: 'type',
+          q: 'Ne ____, to je istina! (lagati — ja)',
+          answer: 'lažem',
+          hint: 'The g of lagati changes before the -em endings.',
+          explanation: 'lagati → lažem, lažeš, laže: g → ž.',
+        },
       ],
     },
     checkB: [
@@ -228,6 +249,8 @@ export const PRACTICE_A2 = {
       ['zvati', 'to call', 'Zovem taksi.'],
       ['čitati', 'to read', 'Djed čita novine.'],
       ['kuhati', 'to cook', 'Mama kuha ručak.'],
+      ['kazati', 'to say, to tell', 'Što kažeš na to?'],
+      ['plakati', 'to cry', 'Beba plače.'],
     ],
   },
 
@@ -235,8 +258,9 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'Asking a Stranger',
-        problem: 'Pitaj stariju gospođu na ulici: "Excuse me, do you know where the station is?"',
-        en: 'Ask an older lady in the street: Excuse me, do you know where the station is?',
+        problem:
+          'Pitaj gospođu na ulici (oko 70 godina): "Excuse me, do you know where the station is?"',
+        en: 'Ask a lady of about 70 in the street: Excuse me, do you know where the station is?',
         steps: [
           {
             label: 'Who is it?',
@@ -302,7 +326,7 @@ export const PRACTICE_A2 = {
           explanation: 'Kako se zoveš? — ti with a child.',
         },
         {
-          q: 'Starijoj susjedi nudiš svoje mjesto: "Please sit down."',
+          q: 'U autobusu nudiš mjesto susjedi (75 godina): "Please sit down."',
           options: [
             'Sjedni, molim te.',
             'Sjedi, molim Vas.',
@@ -875,7 +899,7 @@ export const PRACTICE_A2 = {
     ],
     vocab: [
       ['brat', 'brother', 'Zovem brata svaku večer.'],
-      ['sestra', 'sister', 'Volim svoju sestru.'],
+      ['sestra', 'sister', 'Ana ima jednu sestru.'],
       ['prijatelj', 'friend', 'Čekam prijatelja ispred kina.'],
       ['pas', 'dog', 'Hranim psa dva puta dnevno.'],
       ['mačka', 'cat', 'Imamo malu mačku.'],
@@ -2641,10 +2665,10 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Šetam s ____. (the dogs — psi)',
+          q: 'Šetam sa ____. (the dogs — psi)',
           answer: 'psima',
-          hint: 's takes the instrumental, and the masculine plural ending is shared with two other cases.',
-          explanation: 's psima — instrumental plural -ima.',
+          hint: 'sa takes the instrumental, and the masculine plural ending is shared with two other cases.',
+          explanation: 'sa psima — instrumental plural -ima; sa, not s, before the ps- cluster.',
         },
         {
           q: 'Gledam ___. (the films — filmovi)',
@@ -3373,24 +3397,24 @@ export const PRACTICE_A2 = {
         answer: 'Vozi pažljivo.',
       },
       {
-        title: 'An Irregular Comparison',
-        problem: 'Reci: "Today I feel worse than yesterday."',
-        en: 'Today I feel worse than yesterday.',
+        title: 'A Place Adverb',
+        problem: 'Reci: "The children are playing outside, and Grandpa is upstairs."',
+        en: 'The children are playing outside, and Grandpa is upstairs.',
         steps: [
           {
-            label: 'Start from the adverb',
-            text: 'I feel badly: osjećam se loše.',
+            label: 'The children',
+            text: 'djeca takes a plural verb: igraju se — and se goes second: Djeca se igraju.',
           },
           {
-            label: 'Compare it',
-            text: 'loše is one of the irregular four — its comparative is gore.',
+            label: 'Outside, upstairs',
+            text: 'Both are place adverbs that never change: vani, gore.',
           },
           {
-            label: 'Than',
-            text: 'nego + jučer.',
+            label: 'Join them',
+            text: 'a joins two different subjects: …, a djed je gore.',
           },
         ],
-        answer: 'Danas se osjećam gore nego jučer.',
+        answer: 'Djeca se igraju vani, a djed je gore.',
       },
     ],
     practice: {
@@ -3404,11 +3428,11 @@ export const PRACTICE_A2 = {
           explanation: 'tiho — the neuter form, used as an adverb.',
         },
         {
-          q: 'Ona trči ___ od mene. (faster — brz)',
-          options: ['brže', 'brzo', 'brži', 'brzije'],
+          q: 'Dođi ___! (at once)',
+          options: ['odmah', 'uskoro', 'jučer', 'rano'],
           correct: 0,
-          hint: 'A comparative adverb ends like the neuter comparative, and brz softens its z.',
-          explanation: 'brže — z softens to ž, as d softens to đ in mlad → mlađe.',
+          hint: 'At once means right now, without waiting.',
+          explanation: 'odmah = at once. uskoro is soon, rano is early.',
         },
         {
           q: 'Which says "I sometimes go to the cinema"?',
@@ -3424,11 +3448,11 @@ export const PRACTICE_A2 = {
             'Ponekad idem u kino. — the adverb before the verb, u + accusative for motion.',
         },
         {
-          q: 'Jučer sam radio ___ nego obično. (less)',
-          options: ['malije', 'malo', 'manji', 'manje'],
+          q: 'Baka nije ovdje, ona je ___. (upstairs)',
+          options: ['dolje', 'vani', 'daleko', 'gore'],
           correct: 3,
-          hint: 'malo is one of the irregular four — the regular -ije ending does not exist for it.',
-          explanation: 'malo → manje.',
+          hint: 'Up the stairs.',
+          explanation: 'gore = up, upstairs; dolje = down, downstairs.',
         },
         {
           type: 'type',
@@ -3453,10 +3477,10 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Danas govoriš ____ nego jučer. (better)',
-          answer: 'bolje',
-          hint: 'dobro is one of the four irregular comparatives.',
-          explanation: 'dobro → bolje.',
+          q: 'Djeca se igraju ____. (outside)',
+          answer: 'vani',
+          hint: 'A place adverb: the opposite of unutra.',
+          explanation: 'vani = outside; unutra = inside.',
         },
         {
           type: 'type',
@@ -3481,11 +3505,11 @@ export const PRACTICE_A2 = {
           explanation: 'topla agrees with the feminine juha, so it is an adjective.',
         },
         {
-          q: 'Complete: "Ovo je ___ nego što sam mislio." (easier — lak)',
-          options: ['lakše', 'lako', 'lakiji', 'laki'],
+          q: 'Complete: "Radim ___, do osam navečer." (late — kasan)',
+          options: ['kasno', 'kasan', 'kasna', 'kasni'],
           correct: 0,
-          hint: 'Adverbs compare like adjectives; this one has a consonant change.',
-          explanation: 'lako → lakše, the comparative.',
+          hint: 'It describes the working, not a noun: the neuter form.',
+          explanation: 'kasno — the adverb of kasan.',
         },
       ],
     },
@@ -3497,11 +3521,10 @@ export const PRACTICE_A2 = {
         explanation: 'How he drives is an adverb, the neuter form of the adjective: sporo.',
       },
       {
-        q: 'Complete: "Danas se osjećam ___ nego jučer." (worse)',
-        options: ['lošo', 'gore', 'gori', 'loše'],
+        q: 'Complete: "Hladno je, uđi ___." (inside)',
+        options: ['vani', 'unutra', 'gore', 'daleko'],
         correct: 1,
-        explanation:
-          'The comparative of the adverb loše is gore. gori is an adjective form, and plain loše makes no comparison.',
+        explanation: 'unutra = inside. vani is outside, gore upstairs, daleko far.',
       },
       {
         q: 'Which sentence is correct?',
@@ -3538,11 +3561,10 @@ export const PRACTICE_A2 = {
         explanation: 'obično means usually. Always is uvijek, never nikad, sometimes ponekad.',
       },
       {
-        q: 'Complete: "Radim ___ nego prije." (more — mnogo)',
-        options: ['mnogije', 'više', 'mnogo', 'viši'],
+        q: 'Complete: "Sada ne mogu, nazvat ću te ___." (soon)',
+        options: ['jučer', 'uskoro', 'rano', 'ovdje'],
         correct: 1,
-        explanation:
-          'mnogo has the irregular comparative više. mnogije does not exist, and viši means taller.',
+        explanation: 'uskoro = soon. Jučer (yesterday) cannot go with the future.',
       },
     ],
     vocab: [
@@ -3553,7 +3575,7 @@ export const PRACTICE_A2 = {
       ['glasno', 'loudly', 'Susjedi glasno slušaju glazbu.'],
       ['dobro', 'well', 'Govoriš dobro hrvatski.'],
       ['loše', 'badly', 'Spavao sam loše.'],
-      ['bolje', 'better', 'Danas mi je bolje.'],
+      ['vani', 'outside', 'Djeca su vani.'],
       ['uvijek', 'always', 'Uvijek pijem kavu ujutro.'],
       ['često', 'often', 'Često idemo na more.'],
       ['rijetko', 'rarely', 'Rijetko idem u kazalište.'],
@@ -4805,24 +4827,24 @@ export const PRACTICE_A2 = {
         answer: 'Moj brat je visok i ima plavu kosu.',
       },
       {
-        title: 'The Possessive Dative',
-        problem: 'Reci na hrvatski način: "Her hair is grey."',
-        en: 'Say it the Croatian way: Her hair is grey.',
+        title: 'Grey Hair',
+        problem: 'Reci: "Grandma has grey hair."',
+        en: 'Say: Grandma has grey hair.',
         steps: [
           {
             label: 'Grey hair',
             text: 'Hair has its own word for grey: sijeda, never siva.',
           },
           {
-            label: 'Whose?',
-            text: 'Not njezina — a Croatian puts the owner in the dative: joj.',
+            label: 'Has',
+            text: 'imati: baka ima.',
           },
           {
-            label: 'Order',
-            text: 'kosa first; then the clitics, the dative joj before je.',
+            label: 'The case',
+            text: 'kosa is the object of imati: sijeda kosa → sijedu kosu.',
           },
         ],
-        answer: 'Kosa joj je sijeda.',
+        answer: 'Baka ima sijedu kosu.',
       },
     ],
     practice: {
@@ -4837,11 +4859,11 @@ export const PRACTICE_A2 = {
             'vesela — the -eo of veseo is an old -el, and the l returns before an ending.',
         },
         {
-          q: 'Oči su ___ smeđe. (Her eyes are brown.)',
-          options: ['je', 'joj', 'nju', 'njezin'],
+          q: '___ oči su smeđe. (Her eyes are brown.)',
+          options: ['Njezin', 'Njezine', 'Njezina', 'Njezino'],
           correct: 1,
-          hint: 'The owner goes into the dative, short form.',
-          explanation: 'Oči su joj smeđe.',
+          hint: 'oči is plural, and its words take the feminine plural ending.',
+          explanation: 'Njezine oči su smeđe.',
         },
         {
           q: '___ je tvoj novi šef? — Strog, ali pošten.',
@@ -4866,10 +4888,10 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Oči su ____ plave. (His eyes are blue.)',
-          answer: 'mu',
-          hint: 'The owner is shown with the short dative, which follows the auxiliary su.',
-          explanation: 'Oči su mu plave — the possessive dative "to him".',
+          q: 'Ima ____ oči. (blue — plav)',
+          answer: 'plave',
+          hint: 'oči is a plural object; its adjective takes the feminine plural.',
+          explanation: 'plave oči — "blue eyes".',
         },
         {
           type: 'type',
@@ -4924,15 +4946,15 @@ export const PRACTICE_A2 = {
           'The adjective agrees with djed, which is masculine: visok. visoka is feminine, visoko neuter.',
       },
       {
-        q: 'Complete: "Kosa ___ je kovrčava." (Her hair is curly.)',
-        options: ['je', 'joj', 'nju', 'njezin'],
+        q: 'Complete: "Ima ___ kosu." (She has curly hair.)',
+        options: ['kovrčava', 'kovrčavu', 'kovrčavoj', 'kovrčave'],
         correct: 1,
         explanation:
-          'The owner is named with the possessive dative: kosa joj je kovrčava — the hair to her.',
+          'kosu is the object of imati, a feminine accusative, and the adjective follows it: kovrčavu kosu.',
       },
       {
         q: 'Which sentence says "He has blue eyes"?',
-        options: ['Ima plave oči.', 'Ima plava oči.', 'Ima plavih očiju.', 'Ima plavim očima.'],
+        options: ['Ima plave oči.', 'Ima plava oči.', 'Ima plavu oči.', 'Ima plavim očima.'],
         correct: 0,
         explanation: 'imati takes the accusative, and oči is plural: plave oči.',
       },
@@ -5243,7 +5265,7 @@ export const PRACTICE_A2 = {
           explanation: 'dobru ocjenu — feminine accusative.',
         },
         {
-          q: 'Koji ___ ti je najdraži u školi? (subject)',
+          q: 'Koji ___ voliš u školi? (subject)',
           options: ['predmet', 'ocjena', 'knjižnica', 'zadaća'],
           correct: 0,
           hint: 'Which word means a school subject — and which one can koji agree with?',
@@ -5265,7 +5287,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Moj mlađi brat je ____. (a school pupil)',
+          q: 'Moj brat je ____. (a school pupil)',
           answer: 'učenik',
           hint: 'A school pupil is not called a student in Croatian.',
           explanation: 'učenik — student is only for university.',
@@ -5368,7 +5390,7 @@ export const PRACTICE_A2 = {
       ['fakultet', 'faculty, university', 'Idem na fakultet.'],
       ['ispit', 'exam', 'Sutra imam ispit iz povijesti.'],
       ['ocjena', 'mark, grade', 'Dobio sam dobru ocjenu.'],
-      ['predmet', 'subject', 'Koji ti je najdraži predmet?'],
+      ['predmet', 'subject', 'Koji predmet voliš?'],
       ['zadaća', 'homework', 'Djeca pišu zadaću.'],
       ['knjižnica', 'library', 'Učim u knjižnici.'],
     ],
@@ -5489,7 +5511,7 @@ export const PRACTICE_A2 = {
           explanation: 'nedjeljom — on Sundays.',
         },
         {
-          q: 'Najviše volim ___. (to hike)',
+          q: 'Jako volim ___. (to hike)',
           options: ['planinariti', 'planinarim', 'planinari', 'planinario'],
           correct: 0,
           hint: 'After volim the next verb is an infinitive.',
@@ -5541,7 +5563,7 @@ export const PRACTICE_A2 = {
         options: [
           'Nothing — it is correct',
           'An instrument takes svirati: "Sviram gitaru"',
-          'It should be "Igram se gitarom"',
+          'It should be "Igram na gitari"',
           'It should be "Igram gitara"',
         ],
         correct: 1,
@@ -5568,7 +5590,8 @@ export const PRACTICE_A2 = {
       ['čitati', 'to read', 'U slobodno vrijeme čitam.'],
       ['trčati', 'to run', 'Ujutro trčim u parku.'],
       ['plivati', 'to swim', 'Ljeti plivamo u moru.'],
-      ['planinariti', 'to go hiking', 'Najviše volim planinariti.'],
+      ['planinariti', 'to go hiking', 'Vikendom volim planinariti.'],
+      ['obožavati', 'to love, to adore', 'Obožavam gledati filmove.'],
       ['slikati', 'to paint', 'Moja baka voli slikati.'],
       ['šetati', 'to walk, to stroll', 'Navečer šetamo uz more.'],
       ['baviti se', 'to do (an activity)', 'Bavim se glazbom.'],
