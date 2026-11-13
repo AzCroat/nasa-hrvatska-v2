@@ -4,7 +4,7 @@
 //
 // Three structures carry the lesson: pain with boljeti and the person in the accusative
 // (Boli me glava), addiction with o + locative and quitting with od + genitive or an
-// infinitive (ovisnost o pušenju, odviknuti se od cigareta, prestati pušiti), and advice
+// infinitive (ovisnost o nikotinu, odviknuti se od cigareta, prestati pušiti), and advice
 // in the Vi-form imperative, nemojte + infinitive, or the conditional.
 //
 // Three modes:
@@ -66,7 +66,7 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'bolest',
     q: 'Moj djed je zdrav kao ____.',
     en: 'My grandfather is as fit as a fiddle.',
-    opts: ['dren', 'drvo', 'hrast', 'konj'],
+    opts: ['dren', 'drvo', 'hrast', 'list'],
     answer: 'dren',
     tip: 'The idiom names the cornel tree, which has very hard wood.',
   },
@@ -90,18 +90,18 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ovisnost',
     q: 'Ovisnost ____ uništava zdravlje.',
-    en: 'Smoking addiction ruins your health.',
-    opts: ['od pušenja', 'o pušenju', 'na pušenje', 's pušenjem'],
-    answer: 'o pušenju',
+    en: 'Addiction to nicotine ruins your health.',
+    opts: ['od nikotina', 'o nikotinu', 'na nikotin', 's nikotinom'],
+    answer: 'o nikotinu',
     tip: 'Ovisnost takes o + locative.',
   },
   {
     mode: 'ovisnost',
     q: 'Moj ujak je ovisan o ____.',
     en: 'My uncle is addicted to gambling.',
-    opts: ['kockanje', 'kockanja', 'kockanju', 'kockanjem'],
-    answer: 'kockanju',
-    tip: 'After o the locative: kockanju.',
+    opts: ['kocka', 'kocke', 'kocki', 'kockom'],
+    answer: 'kocki',
+    tip: 'After o the locative: kocki (kocka here means gambling).',
   },
   {
     mode: 'ovisnost',
@@ -115,7 +115,7 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ovisnost',
     q: 'Sestra je prestala ____ prije dvije godine.',
     en: 'My sister stopped smoking two years ago.',
-    opts: ['da puši', 'pušenje', 'pušiti', 'puši'],
+    opts: ['da puši', 'pušio', 'pušiti', 'puši'],
     answer: 'pušiti',
     tip: 'Prestati takes the infinitive.',
   },
@@ -123,15 +123,15 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ovisnost',
     q: 'Bolje spriječiti nego ____.',
     en: 'Prevention is better than cure.',
-    opts: ['liječiti', 'liječnik', 'lijek', 'liječenje'],
+    opts: ['liječiti', 'liječnik', 'lijek', 'liječi'],
     answer: 'liječiti',
     tip: 'The proverb pairs two infinitives.',
   },
   {
     mode: 'ovisnost',
-    q: 'Cijepljenje ____ mnoge bolesti.',
-    en: 'Vaccination prevents many diseases.',
-    opts: ['sprječava', 'spriječiti', 'spriječen', 'sprječavanje'],
+    q: 'Cjepivo ____ mnoge bolesti.',
+    en: 'A vaccine prevents many diseases.',
+    opts: ['sprječava', 'spriječiti', 'sprječavao', 'sprječavati'],
     answer: 'sprječava',
     tip: 'Present tense, third person singular.',
   },
@@ -196,7 +196,7 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'savjet',
     q: 'Bilo bi dobro da se više ____.',
     en: 'It would be good if you moved more (to a friend).',
-    opts: ['krećeš', 'kretati', 'kreći', 'kretanje'],
+    opts: ['krećeš', 'kretati', 'kreći', 'kretao'],
     answer: 'krećeš',
     tip: 'After da a conjugated present-tense verb, ti-form.',
   },

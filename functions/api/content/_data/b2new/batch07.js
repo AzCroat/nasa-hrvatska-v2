@@ -448,6 +448,44 @@ const CLIMATE_ENVIRONMENT = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: the baciti Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['bacati', 'baciti', 'to throw'],
+        ['podbacivati', 'podbaciti', 'to fall short, to underperform'],
+        ['dobacivati', 'dobaciti', 'to toss to someone; to call out a remark'],
+        ['prebacivati', 'prebaciti', 'to move over, to transfer; to reproach'],
+        ['odbacivati', 'odbaciti', 'to throw away; to reject'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Family in Use',
+      items: [
+        {
+          hr: 'Ne bacaj plastiku u more!',
+          en: 'Do not throw plastic into the sea!',
+          note: 'bacati — a standing rule, imperfective',
+        },
+        {
+          hr: 'Ove je godine turizam podbacio.',
+          en: 'Tourism fell short this year.',
+          note: 'podbaciti — to do worse than expected',
+        },
+        {
+          hr: 'Grad je prebacio otpad na novo odlagalište.',
+          en: 'The city moved the waste to a new landfill.',
+          note: 'prebaciti — to move from one place to another',
+        },
+        {
+          hr: 'Vijeće je odbacilo prijedlog o spalionici.',
+          en: 'The council rejected the proposal for an incinerator.',
+          note: 'odbaciti — to reject',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Which sentence puts the words in the right order?',
@@ -496,7 +534,7 @@ const CLIMATE_ENVIRONMENT = {
           options: ['paški', 'paškog', 'paškom', 'pašku'],
           correct: 1,
           explanation:
-            'Nije bilo takes the genitive, and the adjective follows the noun: paškog sira.',
+            'Nije bilo takes the genitive, and the adjective agrees with the noun in the genitive: paškog sira.',
         },
         {
           q: 'What does "Čega sve nema na sajmu!" mean?',
@@ -929,6 +967,28 @@ const INTERJECTIONS = {
       ],
     },
     {
+      type: 'rule',
+      title: 'Onomatopoeia: Words That Sound Like the Thing',
+      body: 'Croatian imitates sounds with its own words, and they are not the English ones. A dog says vau-vau, a cat mijau, a rooster kukuriku, a cow mu. Something falls with a tras, a camera goes škljoc, and a kiss is cmok. Disgust is fuj or bljak, joy is hura or jupi, and a crowd that disapproves shouts ua. Many of these give verbs: mijaukati (to miaow), kukurikati (to crow), škljocnuti (to click).',
+      highlight: 'vau-vau · mijau · kukuriku · tras · cmok',
+    },
+    {
+      type: 'table',
+      title: 'Sounds and Feelings',
+      headers: ['Croatian', 'What makes it', 'English'],
+      rows: [
+        ['vau-vau', 'a dog', 'woof'],
+        ['mijau', 'a cat', 'miaow'],
+        ['kukuriku', 'a rooster', 'cock-a-doodle-doo'],
+        ['tras', 'something falling, crashing', 'crash, bang'],
+        ['škljoc', 'a camera, a lock', 'click'],
+        ['cmok', 'a kiss', 'mwah'],
+        ['fuj / bljak', 'disgust', 'yuck'],
+        ['hura / jupi', 'joy', 'hooray / yippee'],
+        ['ua', 'a crowd booing', 'boo'],
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Which interjection asks for silence?',
@@ -962,7 +1022,7 @@ const INTERJECTIONS = {
         },
         {
           q: 'Complete: "Bravo, ___!" (Petar)',
-          options: ['Petar', 'Petra', 'Petre', 'Petru'],
+          options: ['Petar', 'Petrom', 'Petre', 'Petru'],
           correct: 2,
           explanation: 'After an interjection the person called is in the vocative: Petre.',
         },
@@ -1146,6 +1206,45 @@ const TRAVEL_AND_SPORT = {
           hr: 'Ljetos smo se naputovali, a sad nam je dosadno kod kuće.',
           en: 'This summer we travelled to our heart’s content, and now we are bored at home.',
           note: 'naputovati se; nam je dosadno',
+        },
+      ],
+    },
+    {
+      type: 'table',
+      title: 'Verbs in Context: the baviti Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['baviti se', '—', 'to be engaged in, to do (+ instrumental)'],
+        ['obavljati', 'obaviti', 'to carry out, to get done'],
+        ['zabavljati', 'zabaviti', 'to entertain; zabaviti se = to have fun'],
+        ['probavljati', 'probaviti', 'to digest'],
+        ['izbavljati', 'izbaviti', 'to rescue, to deliver'],
+        ['nabavljati', 'nabaviti', 'to get hold of, to obtain'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Family in Use',
+      items: [
+        {
+          hr: 'Prije puta moram obaviti još nekoliko stvari.',
+          en: 'Before the trip I still have to get a few things done.',
+          note: 'obaviti — to get something done',
+        },
+        {
+          hr: 'Na moru smo se odlično zabavili.',
+          en: 'We had a great time at the seaside.',
+          note: 'zabaviti se — to have fun',
+        },
+        {
+          hr: 'Gdje si nabavio karte za utakmicu?',
+          en: 'Where did you get hold of tickets for the match?',
+          note: 'nabaviti — to obtain',
+        },
+        {
+          hr: 'Nakon teškog ručka treba vremena da se hrana probavi.',
+          en: 'After a heavy lunch the food needs time to digest.',
+          note: 'probaviti — to digest',
         },
       ],
     },
@@ -1455,8 +1554,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Ne and a Short Word',
-        problem: 'Prevedi: "I am not afraid of storms."',
-        en: 'I am not afraid of storms.',
+        problem: 'Prevedi: "I am not afraid of the storm."',
+        en: 'I am not afraid of the storm.',
         steps: [
           { label: 'The verb', text: 'bojati se — to be afraid; it takes the genitive.' },
           { label: 'Ne first', text: 'Ne + the verb form one unit: ne bojim.' },

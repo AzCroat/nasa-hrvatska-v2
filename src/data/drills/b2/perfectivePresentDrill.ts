@@ -205,7 +205,7 @@ export const PERFECTIVE_PRESENT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'glavna',
-    q: 'Kad budem imao vremena, ____ ti pomoći.',
+    q: 'Kad budem imao vremena, pomoći ____ ti.',
     en: 'When I have time, I will help you.',
     opts: ['budem', 'ću', 'sam', 'bih'],
     answer: 'ću',

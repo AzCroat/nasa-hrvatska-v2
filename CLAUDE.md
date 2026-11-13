@@ -3113,7 +3113,7 @@ meeting a Serbian form as a clickable answer with nothing marking it foreign;
 a labelled comparison column is the opposite case. If the owner decides the
 contrast table should go, delete the entry — nothing else depends on it.
 
-Coverage is **866 files**, 3 of them walked structurally — the figure the lint
+Coverage is **872 files**, 3 of them walked structurally — the figure the lint
 itself prints, and pinned to it by `claudeMdPaths.test.ts`. Up from 157 on
 2026-08-31 in four waves, then DOWN by ten when #682 deleted the unreachable
 modules five of those targets pointed at, and down again by four when sweep 136
@@ -3129,7 +3129,7 @@ Croaticum baseline (2026-11-12): ten lesson batch files under `functions/api/con
 drill banks under `src/data/drills/a1/`, their sixty wrappers, and `src/lib/practiceDrillEntries.ts`,
 whose labels now carry Croatian lesson titles. Then up by 251 for the A2–C1 rebuild
 (same day): the batch files under `a2new/`, `b1new/`, `b2new/` and `c1new/`, 114 drill banks under
-`src/data/drills/{a2,b1,b2,c1}/`, their wrappers, `src/lib/practiceDrillEntriesUpper.ts` and `practiceDrillEntriesAdvanced.ts`.
+`src/data/drills/{a2,b1,b2,c1}/`, their wrappers, `src/lib/practiceDrillEntriesUpper.ts` and `practiceDrillEntriesAdvanced.ts`. Then up by six for the B2 book comparison (2026-11-13): drill banks for the B2 conditional, unreal-conditions and concession lessons (`src/data/drills/b2/`) and their three wrappers.
 
 **THE VOCABULARY DECK WAS NEVER LINTED, THOUGH BOTH COPIES WERE IN TARGETS (2026-09-28).**
 A deck entry is a POSITIONAL array — `['Bog', 'Hello/Hi', 'Bog, kako si?']` — so neither

@@ -126,11 +126,11 @@ export const MEETINGS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'predlazem',
-    q: 'Predlažem da se ____ o tome. (glasati)',
+    q: 'Predlažem da se ____ o tome. (glasovati)',
     en: 'I propose that we vote on it.',
-    opts: ['glasa', 'glasati', 'glasamo se', 'glasano'],
-    answer: 'glasa',
-    tip: 'The impersonal se plus the present: da se glasa.',
+    opts: ['glasuje', 'glasovati', 'glasujemo se', 'glasovano'],
+    answer: 'glasuje',
+    tip: 'The impersonal se plus the present: da se glasuje.',
   },
   {
     mode: 'predlazem',

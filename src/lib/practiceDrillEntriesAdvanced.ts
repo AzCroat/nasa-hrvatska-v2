@@ -253,6 +253,27 @@ export const ADVANCED_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     category: 'b2-travel-and-sport',
   },
   {
+    id: 'b2conditional',
+    label: 'Kad Bih… The Conditional',
+    screen: 'b2conditional',
+    cefr: 'B2',
+    category: 'b2-conditional',
+  },
+  {
+    id: 'b2unrealconditions',
+    label: 'Da Sam Znao… If Things Were Different',
+    screen: 'b2unrealconditions',
+    cefr: 'B2',
+    category: 'b2-unreal-conditions',
+  },
+  {
+    id: 'b2concessioncontrast',
+    label: 'Unatoč Kiši: Concession and Contrast',
+    screen: 'b2concessioncontrast',
+    cefr: 'B2',
+    category: 'b2-concession-contrast',
+  },
+  {
     id: 'c1inounsmatikci',
     label: 'With Joy, at Night, to My Daughter',
     screen: 'c1inounsmatikci',
