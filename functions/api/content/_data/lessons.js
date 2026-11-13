@@ -4865,7 +4865,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'clitics-advanced',
-    title: 'C1: Clitic Ordering Mastery',
+    title: 'Clitic Ordering Mastery',
     subtitle: 'The exact rule no textbook explains clearly enough',
     icon: '⚡',
     level: 'C1',
@@ -4876,20 +4876,20 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: 'The Rule That Separates Learners from Speakers',
-        body: 'Clitic placement is the feature of Croatian that most advanced learners still get wrong. Clitics are short, unstressed pronoun/auxiliary forms that cannot start or end a sentence — they must occupy the second position. Master this rule and you will sound genuinely Croatian. Get it wrong and every native speaker will notice.',
+        body: 'Clitic placement is the feature of Croatian that most advanced learners still get wrong. Clitics are short, unstressed pronoun/auxiliary forms that cannot start a clause — they must occupy the second position. (They can end one: Vidio sam ga.) Master this rule and you will sound genuinely Croatian. Get it wrong and every native speaker will notice.',
         icon: '⚡',
       },
       {
         type: 'rule',
         title: 'The Second-Position Rule',
-        body: 'Clitics (sam/si/je/smo/ste/su, bi, mi/ti/mu/joj/nam/vam/im, me/te/ga/je/nas/vas/ih, se) cluster after the first stressed unit of the clause. The first stressed unit can be a single word, a whole noun phrase, or an adverb. After that first unit — the clitic cluster goes, in a fixed internal order.',
+        body: 'Clitics (li; sam/si/je/smo/ste/su; ću/ćeš/će/ćemo/ćete; bi; mi/ti/mu/joj/nam/vam/im; me/te/ga/je/nas/vas/ih; se) cluster after the first stressed unit of the clause. The first stressed unit can be a single word, a whole noun phrase, or an adverb. After that first unit — the clitic cluster goes, in a fixed internal order.',
         highlight: 'first stressed unit → clitic cluster → rest of sentence',
       },
       {
         type: 'rule',
         title: 'The Internal Order of Clitics',
-        body: 'When multiple clitics appear together, they follow a strict internal order: (1) li (question) → (2) bi (conditional) or the auxiliary sam/si/smo/ste/su → (3) dative pronoun (mi/ti/mu/joj/nam/vam/im) → (4) accusative pronoun (me/te/ga/je/nas/vas/ih) → (5) se (reflexive) → (6) je, the 3rd-person form of biti, which always comes last. Never change this order.',
-        highlight: 'bi → aux → dat → acc → se → je',
+        body: 'When multiple clitics appear together, they follow a strict internal order: (1) li (question) → (2) an auxiliary: bi (conditional), sam/si/smo/ste/su or the future ću/ćeš/će/ćemo/ćete → (3) dative pronoun (mi/ti/mu/joj/nam/vam/im) → (4) genitive or accusative pronoun (me/te/ga/je/nas/vas/ih: Sjećamo vas se, Bojim je se) → (5) se (reflexive) → (6) je, the 3rd-person form of biti, which always comes last. Never change this order.',
+        highlight: 'li → aux → dat → gen/acc → se → je',
       },
       {
         type: 'example',
@@ -4916,7 +4916,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The First Stressed Unit — What Counts',
-        body: "Any of these can be the 'first unit' before the clitic cluster: a single noun, a whole noun phrase with modifiers, an adverb, a conjunction + noun. Examples: 'Marija je pjevala' (Marija = first unit), 'Moja stara prijateljica mi je rekla' (Moja stara prijateljica = entire noun phrase = first unit). The clitics follow whatever comes first.",
+        body: "Any of these can be the 'first unit' before the clitic cluster: a single noun, a whole noun phrase with modifiers, an adverb, a conjunction + noun. But the conjunctions i, a, no and dakle never host a clitic: 'Pao je i slomio je ruku', never '*i je slomio'. Examples: 'Marija je pjevala' (Marija = first unit), 'Moja stara prijateljica mi je rekla' (Moja stara prijateljica = entire noun phrase = first unit). The clitics follow whatever comes first.",
         highlight: 'entire first phrase → then clitics',
       },
       {
@@ -4958,7 +4958,7 @@ const LESSONS_CORE = [
           {
             hr: 'Dao mu je.',
             en: 'He gave it to him.',
-            note: 'je = past auxiliary (is in aux slot)',
+            note: 'je = past auxiliary; it comes after mu, last in the cluster',
           },
           {
             hr: 'Dao mu ga je.',
@@ -4990,10 +4990,10 @@ const LESSONS_CORE = [
           {
             hr: 'Bi li mi se isplatilo čekati?',
             en: 'Would it be worth my while to wait?',
-            note: 'bi → li → mi (dat.) → se',
+            note: 'bi opens the question and takes li straight after it; then mi (dat.) → se',
           },
           {
-            hr: 'Ta se stara kuća na brijegu prodala u tjedan dana.',
+            hr: 'Ta se stara kuća na brijegu prodala za tjedan dana.',
             en: 'That old house on the hill sold within a week.',
             note: 'se after the first stressed word, splitting the noun phrase',
           },
@@ -5123,10 +5123,10 @@ const LESSONS_CORE = [
         title: 'Clitic Mastery — The Complete Rules',
         points: [
           'Clitics occupy second position — after the first stressed unit',
-          'Internal order: bi → aux (sam/si/smo...) → dative (mi/ti/mu...) → accusative (me/ga...) → se → je (verb)',
+          'Internal order: li → auxiliary (bi, sam/si/smo…, ću/ćeš…) → dative (mi/ti/mu…) → genitive/accusative (me/ga…) → se → je',
           'First unit can be any phrase — a word, NP, or adverb',
           "je (auxiliary or 'is'): always last in the cluster",
-          'Never place clitics at the start or end of a clause',
+          'Never place a clitic at the start of a clause, or straight after i, a, no or dakle',
         ],
       },
     ],
@@ -5137,7 +5137,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'verbal-nouns',
-    title: 'C1: Verbal Nouns & Participles',
+    title: 'Verbal Nouns & Participles',
     subtitle: 'Turning verbs into nouns and adjectives — formal and literary Croatian',
     icon: '📖',
     level: 'C1',
@@ -5154,7 +5154,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Verbal Nouns (Glagolske Imenice)',
-        body: "Verbal nouns are formed from the verb stem + -nje or -će. They behave exactly like regular nouns (they decline through all 7 cases) but carry verbal meaning. 'Pisati' (to write) → 'pisanje' (writing, the act of writing). 'Učiti' (to learn) → 'učenje' (learning). These are neuter nouns and extremely common in formal registers.",
+        body: 'Verbal nouns are formed from the verb stem + -nje or -će. They behave exactly like regular nouns (they decline through all 7 cases) but carry verbal meaning. „Pisati“ (to write) → „pisanje“ (writing, the act of writing). „Učiti“ (to learn) → „učenje“ (learning). These are neuter nouns and extremely common in formal registers.',
         highlight: 'verb stem + -nje / -će = verbal noun (neuter)',
       },
       {
@@ -5179,13 +5179,13 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Active Participle (Glagolski Pridjev Radni)',
-        body: "The active participle (also called past active participle) is the form used to build the past tense in Croatian — it's the form you already know: 'pisao/pisala/pisalo' (wrote). It declines as an adjective. But it also appears independently as an adjective: 'čovjek koji je pao' can become 'pali čovjek' (the fallen man). These forms are common in news headlines.",
+        body: "The active participle (also called past active participle) is the form used to build the past tense in Croatian — it's the form you already know: „pisao/pisala/pisalo“ (wrote). It declines as an adjective. But it also appears independently as an adjective: „čovjek koji je pao“ can become „pali čovjek“ (the fallen man). These forms are common in news headlines.",
         highlight: 'pisao/pisala/pisalo = active participle',
       },
       {
         type: 'rule',
         title: 'Passive Participle (Glagolski Pridjev Trpni)',
-        body: "The passive participle is formed from the verb stem + -n/-na/-no or -t/-ta/-to. It means 'having been done to'. 'Napisati' → 'napisan/napisana/napisano' (written). 'Otvoriti' → 'otvoren/otvorena/otvoreno' (opened). Used to form passive sentences: 'Knjiga je napisana.' (The book has been written / was written.) Critical in formal and media Croatian.",
+        body: "The passive participle is formed from the verb stem + -n/-na/-no or -t/-ta/-to. It means 'having been done to'. „Napisati“ → „napisan/napisana/napisano“ (written). „Otvoriti“ → „otvoren/otvorena/otvoreno“ (opened). Used to form passive sentences: „Knjiga je napisana.“ (The book has been written / was written.) Critical in formal and media Croatian.",
         highlight: 'stem + -n/-t = passive participle (was/been done)',
       },
       {
@@ -5217,7 +5217,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Adverbial Participle (Glagolski Prilog)',
-        body: "Croatian has two adverbial participles: present (while doing) and past (having done). Present adverbial: 'idući' (while going / going, he...), 'govoreći' (while speaking). Past adverbial: 'otišavši' (having gone / after going). These are used in formal writing, replacing relative clauses. Literary but important at C1.",
+        body: 'Croatian has two adverbial participles: present (while doing) and past (having done). Present adverbial: „idući“ (while going / going, he...), „govoreći“ (while speaking). Past adverbial: „otišavši“ (having gone / after going). These are used in formal writing, replacing adverbial clauses of time, manner or cause (dok je govorio → govoreći; nakon što je otišao → otišavši). Literary but important at C1.',
         highlight: 'present: -ći (while doing) | past: -vši (having done)',
       },
       {
@@ -5248,7 +5248,7 @@ const LESSONS_CORE = [
           {
             hr: 'Nakon potpisivanja ugovora stranke su nazdravile.',
             en: 'After the signing of the contract the parties raised a toast.',
-            note: "potpisivanje — verbal noun replacing 'nakon što su potpisali'",
+            note: 'potpisivanje — verbal noun replacing „nakon što su potpisali“',
           },
           {
             hr: 'Zabranjeno je parkiranje ispred ulaza.',
@@ -5289,11 +5289,11 @@ const LESSONS_CORE = [
       },
       {
         type: 'quiz',
-        q: "What is the verbal noun of 'putovati' (to travel)?",
+        q: 'What is the verbal noun of „putovati“ (to travel)?',
         options: ['putovan', 'putovajući', 'putovanje', 'putovavši'],
         correct: 2,
         explanation:
-          "'Putovanje' — the verbal noun is formed by adding -nje to the infinitive stem. Putovati → putova- + -nje = putovanje (travel, travelling). It declines as a neuter noun: putovanje (nom.), putovanju (dat./loc.), putovanjem (instr.), etc.",
+          '„Putovanje“ — the verbal noun is formed by adding -nje to the infinitive stem. Putovati → putova- + -nje = putovanje (travel, travelling). It declines as a neuter noun: putovanje (nom.), putovanju (dat./loc.), putovanjem (instr.), etc.',
       },
       {
         type: 'quiz',
@@ -5306,12 +5306,12 @@ const LESSONS_CORE = [
         ],
         correct: 3,
         explanation:
-          "'Zakon je usvojen.' — In formal/legal Croatian, 'usvojiti' (to adopt/pass [a law]) → 'usvojen' (passive participle). This is the standard media formula. 'Zakon je usvojio' uses the active participle and would make the law the one doing the adopting; 'prolazio' is an ongoing process; 'prošan' is not a form at all. The passive participle 'usvojen' with 'biti' forms the standard passive voice for formal announcements.",
+          '„Zakon je usvojen.“ — In formal/legal Croatian, „usvojiti“ (to adopt/pass [a law]) → „usvojen“ (passive participle). This is the standard media formula. „Zakon je usvojio“ uses the active participle and would make the law the one doing the adopting; „prolazio“ is an ongoing process; „prošan“ is not a form at all. The passive participle „usvojen“ with „biti“ forms the standard passive voice for formal announcements.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners build a verbal noun from any perfective: 'napisanje' — for most verbs the everyday verbal noun comes from the imperfective, 'pisanje', and the perfective gives a participle, 'napisan' (the perfective nouns that do exist, such as rješenje or poboljšanje, are learned one by one, not built). Second, the adverbial participle is given a subject of its own: 'Došavši kući, ključevi su bili na stolu' — the participle must share the subject of the main clause, otherwise the keys came home. Third, the present participle is used for a completed action: 'Pročitajući knjigu, vratio ju je' — a prior completed action takes -vši, 'Pročitavši knjigu'.",
+        body: 'Learners build a verbal noun from any perfective: „napisanje“ — for most verbs the everyday verbal noun comes from the imperfective, „pisanje“, and the perfective gives a participle, „napisan“ (the perfective nouns that do exist, such as rješenje or poboljšanje, are learned one by one, not built). Second, the adverbial participle is given a subject of its own: „Došavši kući, ključevi su bili na stolu“ — the participle must share the subject of the main clause, otherwise the keys came home. Third, the present participle is used for a completed action: „Pročitajući knjigu, vratio ju je“ — a prior completed action takes -vši, „Pročitavši knjigu“.',
         highlight: 'the participle must share the subject of the main clause',
       },
       {
@@ -5319,14 +5319,14 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: '___ jezika zahtijeva strpljenje.' (the learning of a language)",
+            q: 'Complete: „___ jezika zahtijeva strpljenje.“ (the learning of a language)',
             options: ['Učeći', 'Naučenje', 'Učenje', 'Naučivši'],
             correct: 2,
             explanation:
               'The verbal noun from the imperfective učiti is učenje. Učeći is a participle and naučenje is not a standard form.',
           },
           {
-            q: "Complete: '___ pismo, otišao je na poštu.' (Having written the letter)",
+            q: 'Complete: „___ pismo, otišao je na poštu.“ (Having written the letter)',
             options: ['Pišući', 'Napisavši', 'Napisanje', 'Napisan'],
             correct: 1,
             explanation:
@@ -5345,7 +5345,7 @@ const LESSONS_CORE = [
               'Only in the second sentence is the one returning home also the subject of the main clause (I). In the others the rain, the bus or the keys would be coming home.',
           },
           {
-            q: "Spot the error: 'Pročitajući roman, napisala je osvrt.'",
+            q: 'Spot the error: „Pročitajući roman, napisala je osvrt.“',
             options: [
               'Pročitajući should be Pročitavši — a completed prior action takes -vši',
               'roman should be romana',
@@ -5357,14 +5357,14 @@ const LESSONS_CORE = [
               'The review came after the reading was finished, so the past adverbial participle is needed: Pročitavši roman.',
           },
           {
-            q: "Which form compresses 'čovjek koji je pao' into two words?",
+            q: 'Which form compresses „čovjek koji je pao“ into two words?',
             options: ['padajući čovjek', 'pali čovjek', 'padanje čovjeka', 'pavši čovjek'],
             correct: 1,
             explanation:
               'The active participle used as an adjective: pali čovjek (the fallen man). padajući would be falling, padanje the act of falling.',
           },
           {
-            q: "'Vrata su otvorena.' What is 'otvorena'?",
+            q: '„Vrata su otvorena.“ What is „otvorena“?',
             options: [
               'a verbal noun',
               'a present adverbial participle',
@@ -5376,7 +5376,7 @@ const LESSONS_CORE = [
               'otvorena is the passive participle of otvoriti in the neuter plural, agreeing with vrata.',
           },
           {
-            q: "Complete: 'Molimo tišinu za vrijeme ___.' (during the performance — izvoditi)",
+            q: 'Complete: „Molimo tišinu za vrijeme ___.“ (during the performance — izvoditi)',
             options: ['izvodeći', 'izvođen', 'izveden', 'izvođenja'],
             correct: 3,
             explanation:
@@ -5404,7 +5404,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'idioms-register',
-    title: 'C1: Idiomatic Croatian & Register',
+    title: 'Idiomatic Croatian & Register',
     subtitle: "Proverbs, idioms, formal vs colloquial, and what you won't find in any textbook",
     icon: '🎭',
     level: 'C1',
@@ -5421,7 +5421,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Formal vs Informal Register — The Key Signals',
-        body: "Croatian has clear register markers. Formal signals: vi-form (plural second person as polite address), longer verbal nouns instead of infinitives, passive voice, no contractions. Informal signals: ti-form, shortened forms ('kak si' instead of 'kako si'), dialects, diminutives everywhere (kavica, kolačić, pivce). Wrong register in the wrong context is socially jarring.",
+        body: 'Croatian has clear register markers. Formal signals: vi-form (plural second person as polite address), longer verbal nouns instead of infinitives, passive voice, no contractions. Informal signals: ti-form, shortened forms („kak si“ instead of „kako si“), dialects, diminutives everywhere (kavica, kolačić, pivce). Wrong register in the wrong context is socially jarring.',
         highlight: 'Vi (formal) vs Ti (informal) — more than just grammar',
       },
       {
@@ -5433,7 +5433,7 @@ const LESSONS_CORE = [
           ['Molim Vas.', 'Molim te. / Molim.', 'Please.'],
           ['Hvala lijepa.', 'Hvala! / Fala!', 'Thank you!'],
           ['Ne razumijem.', 'Ne kapim. / Nisam skužio.', "I don't understand."],
-          ['Doviđenja.', 'Ćao! / Pa, ajde!', 'Goodbye!'],
+          ['Do viđenja.', 'Čao! / Pa, ajde!', 'Goodbye!'],
           ['Sjesti', 'Sjest', 'To sit down (standard / clipped colloquial infinitive)'],
           ['Pisati izvještaj', 'Sklepati izvještaj', 'To write a report (formal/slangy)'],
         ],
@@ -5441,7 +5441,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: "Diminutives — Croatian's Emotional Grammar",
-        body: "Croatian speakers use diminutives far more than English speakers. Almost any noun can be made smaller and warmer with suffixes (-ić, -ica, -ce). 'Kava' → 'kavica' (affectionate little coffee). 'Kolač' → 'kolačić' (cookie/little cake). Diminutives signal warmth, informality, affection — even for big things. Getting this right makes you sound genuinely Croatian.",
+        body: 'Croatian speakers use diminutives far more than English speakers. Almost any noun can be made smaller and warmer with suffixes (-ić, -ica, -ce). „Kava“ → „kavica“ (affectionate little coffee). „Kolač“ → „kolačić“ (cookie/little cake). Diminutives signal warmth, informality, affection — even for big things. Getting this right makes you sound genuinely Croatian; overdoing it (a diminutive on every noun, or one already small, as in mala kavica) sounds sugary, as the lesson on diminutives warned.',
         highlight: '-ić, -ica, -ce = diminutive (smaller + warmer)',
       },
       {
@@ -5483,7 +5483,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Croatian Discourse Markers',
-        body: "Native speakers pepper their speech with discourse markers that signal thinking, agreement, contrast, and emphasis. These are never taught in textbooks but are instantly heard: 'znači' (so / I mean), 'dakle' (so / therefore — more formal), 'eto' (there you have it / so), 'evo' (here / look), 'pa' (well...), 'baš' (exactly / really), 'ajde' (come on / OK then).",
+        body: 'Native speakers pepper their speech with discourse markers that signal thinking, agreement, contrast, and emphasis. You met the attitude particles in the previous lesson; these markers are drilled even less, yet they are instantly heard: „znači“ (so / I mean), „dakle“ (so / therefore — more formal), „eto“ (there you have it / so), „evo“ (here / look), „pa“ (well...), „baš“ (exactly / really), „ajde“ (come on / OK then).',
         highlight: 'znači, dakle, eto, baš, ajde, pa',
       },
       {
@@ -5583,15 +5583,15 @@ const LESSONS_CORE = [
             'All that glitters is not gold.',
           ],
           [
-            'Sitna kap kamen dubi.',
-            'A tiny drop hollows stone.',
+            'Kap po kap kamen dubi.',
+            'Drop by drop hollows stone.',
             'Constant dripping wears the stone.',
           ],
         ],
       },
       {
         type: 'quiz',
-        q: "A Croatian friend says 'Svaka čast!' after you ace a language test. What do they mean?",
+        q: 'A Croatian friend says „Svaka čast!“ after you ace a language test. What do they mean?',
         options: [
           'Every piece of honour — a religious blessing',
           'Well done! / Respect! — genuine praise',
@@ -5600,7 +5600,7 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "'Svaka čast!' (literally 'every honour') is one of the most common expressions of genuine admiration and respect in Croatian. It's used exactly as English 'Well done!' or 'Respect!' — sincere, warm, and very frequent among friends and family.",
+          "„Svaka čast!“ (literally 'every honour') is one of the most common expressions of genuine admiration and respect in Croatian. It's used exactly as English 'Well done!' or 'Respect!' — sincere, warm, and very frequent among friends and family.",
       },
       {
         type: 'quiz',
@@ -5613,27 +5613,27 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "'Hej, gdje je kolodvor? Znaš li?' — uses 'hej' (informal greeting), ti-form 'znaš', and direct question structure. Option A uses the polite 'Vi' form. Option C is bureaucratic/formal. Option D is polite neutral. The colloquial marker is the ti-form 'znaš' and the casual opener 'Hej'.",
+          '„Hej, gdje je kolodvor? Znaš li?“ — uses „hej“ (informal greeting), ti-form „znaš“, and direct question structure. Option A uses the polite „Vi“ form. Option C is bureaucratic/formal. Option D is polite neutral. The colloquial marker is the ti-form „znaš“ and the casual opener „Hej“.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners translate English idioms literally — 'slomiti nogu' for good luck means only a broken leg; a Croatian says 'Sretno!'. Second, colloquial forms are used in the wrong room: 'Kak si, šefe?' to a client sounds like a stand-up routine — 'Kako ste?' is the neutral opening, and the slang can follow if the other side starts it. Third, discourse markers are overused: three 'znači' in one sentence mark a nervous speaker; natives use one, or none.",
-        highlight: "a Croatian says 'Sretno!'",
+        body: 'Learners translate English idioms literally — „slomiti nogu“ for good luck means only a broken leg; a Croatian says „Sretno!“. Second, colloquial forms are used in the wrong room: „Kak si, šefe?“ to a client sounds like a stand-up routine — „Kako ste?“ is the neutral opening, and the slang can follow if the other side starts it. Third, discourse markers are overused: three „znači“ in one sentence mark a nervous speaker; natives use one, or none.',
+        highlight: 'a Croatian says „Sretno!“',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: "A friend is about to sit an exam. Complete: '___ na ispitu!'",
+            q: 'A friend is about to sit an exam. Complete: „___ na ispitu!“',
             options: ['Slomi nogu', 'Sretno', 'Svaka čast', 'Nema frke'],
             correct: 1,
             explanation:
-              "Croatian wishes luck with Sretno. 'Slomi nogu' is a literal broken leg, Svaka čast is praise afterwards, Nema frke means no worries.",
+              'Croatian wishes luck with Sretno. „Slomi nogu“ is a literal broken leg, Svaka čast is praise afterwards, Nema frke means no worries.',
           },
           {
-            q: "Complete: 'Prestani okolišati i prijeđi na ___.'",
+            q: 'Complete: „Prestani okolišati i prijeđi na ___.“',
             options: ['stvar', 'posao', 'riječ', 'put'],
             correct: 0,
             explanation:
@@ -5652,7 +5652,7 @@ const LESSONS_CORE = [
               'A client call opens with a time-of-day greeting and your name. The other three are friend-register and would sound flippant.',
           },
           {
-            q: "Spot the problem: in a job interview you say 'Znači, ja sam, znači, radio, znači, u banci.'",
+            q: 'Spot the problem: in a job interview you say „Znači, ja sam, znači, radio, znači, u banci.“',
             options: [
               'radio should be radila',
               'the filler znači is overused — it marks nervous, unedited speech',
@@ -5664,7 +5664,7 @@ const LESSONS_CORE = [
               'One znači is natural; three in a sentence read as stalling. u banci (locative) is correct.',
           },
           {
-            q: "What does 'zažmiriti na jedno oko' mean?",
+            q: 'What does „zažmiriti na jedno oko“ mean?',
             options: [
               'to wink at someone',
               'to fall asleep',
@@ -5676,7 +5676,7 @@ const LESSONS_CORE = [
               'Literally to close one eye — to let something pass. It is neutral enough for a workplace.',
           },
           {
-            q: "'Nije bilo strašno, samo sam slomio nogu.' What device is this?",
+            q: '„Nije bilo strašno, samo sam slomio nogu.“ What device is this?',
             options: [
               'understatement — deadpan Croatian humour',
               'hyperbole',
@@ -5707,8 +5707,8 @@ const LESSONS_CORE = [
         points: [
           'Vi (formal) vs Ti (informal) — know which context demands which',
           'Discourse markers: znači, eto, pa, baš, ajde — use them, sound natural',
-          'Diminutives (-ić/-ica/-ce) signal warmth and informality — use generously',
-          "Idioms: 'Svaka čast!' / 'Nije mu sve doma' / 'Pao mu je mrak na oči'",
+          'Diminutives (-ić/-ica/-ce) signal warmth and informality — use them where warmth fits, not on every noun',
+          'Idioms: „Svaka čast!“ / „Nije mu sve doma“ / „Pao mu je mrak na oči“',
           'Proverbs encode the culture — knowing a handful makes you culturally fluent',
           'Read news, watch HRT, listen to podcasts — register is learned through exposure',
         ],
@@ -8795,29 +8795,34 @@ const LESSONS_CORE = [
           ['train', 'vlak', 'voz', 'Croatian term historically prior'],
           ['thousand', 'tisuća', 'hiljada', 'tisuća from Old Slavic'],
           ['week', 'tjedan', 'nedelja', 'Croatian nedjelja (-dje-) = Sunday, not week'],
-          ['airplane', 'zrakoplov', 'avion', 'zrakoplov = air-boat, native compound'],
+          [
+            'airplane',
+            'zrakoplov / avion',
+            'avion',
+            'both are Croatian: avion in everyday speech, zrakoplov the formal native compound',
+          ],
           ['university', 'sveučilište', 'univerzitet', 'sveučilište = all-learning-place'],
           ['hospital', 'bolnica', 'bolnica', 'same in both (not all words differ)'],
-          ['hello', 'bog / ćao', 'zdravo', 'bog = informal; formal = dobar dan'],
+          ['hello', 'bog / čao', 'zdravo', 'bog = informal; formal = dobar dan'],
           ['thank you', 'hvala', 'hvala', 'same (Slavic root)'],
         ],
       },
       {
         type: 'rule',
         title: 'Language Purism and Word Revival',
-        body: 'Croatian has a tradition of "purist" word creation — preferring native Slavic roots over international loanwords when possible. The 19th-century National Revival (Narodni preporod) and the work of Vjekoslav Babukić and Bogoslav Šulek established hundreds of Croatian words. Šulek coined: tiskovnica (newspaper/printing office), brzojav (telegram, lit. fast-message), prirodopis (natural history), plinovod (gas pipe, lit. gas-conductor). This tradition continues — many Croatian scientists and linguists still prefer native terms.',
+        body: 'Croatian has a tradition of "purist" word creation — preferring native Slavic roots over international loanwords when possible. The 19th-century National Revival (Narodni preporod) and above all the lexicographer Bogoslav Šulek coined or revived many Croatian terms, especially in science. Words associated with Šulek include brzojav (telegram, lit. fast-message), kisik (oxygen), vodik (hydrogen) and prirodopis (natural history). This tradition continues — many Croatian scientists and linguists still prefer native terms.',
         highlight: 'natural Slavic roots preferred over Latin/Greek loans',
       },
       {
         type: 'rule',
         title: 'The Glagolitic Script — A Living Heritage',
-        body: 'The Glagolitic script (glagoljica) was created in the 9th century by Saints Cyril and Methodius. While most Slavic languages moved to Cyrillic or Latin, Croatia maintained Glagolitic in religious and official use until the 18th century — uniquely long in Europe. The Baška Tablet (Bašćanska ploča, c. 1100 CE), the oldest monument naming a Croatian king in Croatian, is written in Glagolitic. Today, Glagolitic is used in art, logos, and street signs across Dalmatia and Istria as a symbol of cultural pride and continuity.',
+        body: 'The Glagolitic script (glagoljica) was created in the 9th century by Saints Cyril and Methodius. While most Slavic languages moved to Cyrillic or Latin, Croatia kept Glagolitic far longer: in legal and administrative documents into the early modern period, and in church use in some coastal parishes into the 19th and even the 20th century. The Baška Tablet (Bašćanska ploča, c. 1100 CE), the oldest monument naming a Croatian king in Croatian, is written in Glagolitic. Today, Glagolitic is used in art, logos, and street signs across Dalmatia and Istria as a symbol of cultural pride and continuity.',
         highlight: 'glagoljica = Croatian cultural anchor since 9th century',
       },
       {
         type: 'rule',
         title: 'Dialect Dignity — Čakavian and Kajkavian',
-        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and carried its own literary tradition from the 16th to the 19th century. Neither dialect is "broken Croatian" — both are distinct systems, recognised in Croatia as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing a living medieval language.',
+        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and carried its own literary tradition from the 16th to the 19th century. Neither dialect is "broken Croatian" — both are distinct systems, recognised in Croatia as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing the dialect in which Croatian literature began.',
         highlight: 'Čakavian and Kajkavian are treasured heritage dialects',
       },
       {
@@ -8897,7 +8902,7 @@ const LESSONS_CORE = [
             note: 'tjedan and the Slavic month names — both distinctly Croatian',
           },
           {
-            hr: 'Zrakoplov slijeće u zračnu luku Zadar.',
+            hr: 'Zrakoplov slijeće u zadarsku zračnu luku.',
             en: 'The plane is landing at Zadar airport.',
             note: 'zrakoplov, zračna luka — purist compounds in everyday use',
           },
@@ -8927,7 +8932,7 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          'The Baška Tablet (c. 1100 CE) is the oldest Croatian Glagolitic monument that mentions a Croatian king (King Zvonimir) in the Croatian language. It is a symbol of Croatian linguistic continuity — written in Glagolitic when most of Europe was switching to Latin or Cyrillic.',
+          'The Baška Tablet (c. 1100 CE) is the oldest Croatian Glagolitic monument that mentions a Croatian king (King Zvonimir) in the Croatian language. It is a symbol of Croatian linguistic continuity, written in the Croatian Glagolitic script.',
       },
       {
         type: 'quiz',
@@ -8960,14 +8965,14 @@ const LESSONS_CORE = [
               'tisuća (from Old Slavic) is the standard Croatian numeral. stotina is a hundred, milijun a million, desetak about ten.',
           },
           {
-            q: "Complete: 'Prošli ___ bio sam u Osijeku.' (last week)",
+            q: 'Complete: „Prošli ___ bio sam u Osijeku.“ (last week)',
             options: ['mjesec', 'dan', 'sat', 'tjedan'],
             correct: 3,
             explanation:
               'tjedan is the Croatian word for week; mjesec is month, dan day, sat hour.',
           },
           {
-            q: "Which reflex does the Croatian standard use in 'lijep', 'mlijeko', 'vrijeme'?",
+            q: 'Which reflex does the Croatian standard use in „lijep“, „mlijeko“, „vrijeme“?',
             options: [
               'ijekavian — the old yat became ije / je',
               'ikavian — the old yat became i',
@@ -8979,7 +8984,7 @@ const LESSONS_CORE = [
               'Standard Croatian is ijekavian. The ikavian reflex lives in Croatian dialects along the coast; the ekavian reflex marks Kajkavian locally and other standards elsewhere.',
           },
           {
-            q: "Spot the misconception: 'Moja baka govori čakavski, znači govori loš hrvatski.'",
+            q: 'Spot the misconception: „Moja baka govori čakavski, znači govori loš hrvatski.“',
             options: [
               'čakavski is a Croatian dialect with its own literary tradition — not bad Croatian',
               'baka should be bake',
@@ -8991,7 +8996,7 @@ const LESSONS_CORE = [
               "Marulić's Judita is Čakavian. A dialect is a full system, not a failed attempt at the standard.",
           },
           {
-            q: "What does 'sveučilište' literally build from?",
+            q: 'What does „sveučilište“ literally build from?',
             options: [
               'svet + učiti — holy learning',
               'sve + učilište — a place of all learning',
@@ -9028,7 +9033,7 @@ const LESSONS_CORE = [
         title: 'Croatian Language Identity — Complete!',
         points: [
           'Old words, new emphasis: vlak, tisuća, tjedan and sveučilište long predate 1991; after 1991 purism revived coinages such as zrakoplov',
-          'Purism tradition: Šulek and the National Revival created hundreds of native Croatian words',
+          'Purism tradition: Šulek and the National Revival coined or revived many native Croatian terms',
           'Glagolitic script (glagoljica): Croatian cultural identity anchor since the 9th century',
           'Čakavian and Kajkavian are treasured heritage dialects, not inferior forms',
           'Heritage Croatian is not broken Croatian — it preserves the language in the diaspora',
@@ -9042,7 +9047,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'aorist-imperfekt',
-    title: 'C1: Aorist & Imperfekt',
+    title: 'Aorist & Imperfekt',
     subtitle: 'The literary past tenses — read novels, poetry and older prose',
     icon: '📜',
     level: 'C1',
@@ -9179,13 +9184,13 @@ const LESSONS_CORE = [
       },
       {
         type: 'rule',
-        title: "Recognition Trap — 'bi' and 'bih' Are Also Aorist",
-        body: "The conditional clitics bih/bi/bismo/biste are historically the AORIST of biti. That is why 'Ja bih došao' literally carries an old aorist inside it. When you meet bare 'bi' in older texts it can be a true aorist ('On bi kralj' — he became king), not a conditional. Context decides: conditional needs an l-participle nearby.",
+        title: 'Recognition Trap — „bi“ and „bih“ Are Also Aorist',
+        body: 'The conditional clitics bih/bi/bismo/biste are historically the AORIST of biti. That is why „Ja bih došao“ literally carries an old aorist inside it. When you meet bare „bi“ in older texts it can be a true aorist („On bi kralj“ — he became king), not a conditional. Context decides: conditional needs an l-participle nearby.',
         highlight: 'bih/bi/bismo = aorist of biti → the conditional was born from it',
       },
       {
         type: 'quiz',
-        q: "In 'Svi zašutješe kad starac progovori', what is 'zašutješe'?",
+        q: 'In „Svi zašutješe kad starac progovori“, what is „zašutješe“?',
         options: [
           'Present tense, 3rd plural',
           'Aorist, 3rd plural',
@@ -9212,7 +9217,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners build an aorist from an imperfective: 'gledah' is an IMPERFEKT (I was watching); the aorist needs the perfective, 'pogledah'. Second, the two are read as one 'old past': the aorist snaps (reče — he said, at once), the imperfekt lingers (govoraše — he was speaking), and mixing them changes the pace of a passage. Third, in modern prose they are sprinkled at random for flavour: use the aorist for the beats of a story and the perfekt for the rest, or the text reads as parody.",
+        body: "Learners build an aorist from an imperfective: „gledah“ is an IMPERFEKT (I was watching); the aorist needs the perfective, „pogledah“. Second, the two are read as one 'old past': the aorist snaps (reče — he said, at once), the imperfekt lingers (govoraše — he was speaking), and mixing them changes the pace of a passage. Third, in modern prose they are sprinkled at random for flavour: use the aorist for the beats of a story and the perfekt for the rest, or the text reads as parody.",
         highlight: 'the aorist snaps',
       },
       {
@@ -9220,14 +9225,14 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete with an aorist: 'Ona ___ i izađe.' (she stood up — ustati)",
+            q: 'Complete with an aorist: „Ona ___ i izađe.“ (she stood up — ustati)',
             options: ['ustajaše', 'ustade', 'ustala je', 'ustaje'],
             correct: 1,
             explanation:
               'The aorist of the perfective ustati is ustade (3sg). ustajaše is an imperfekt, ustala je the perfekt, ustaje the present.',
           },
           {
-            q: "Complete with an imperfekt: 'Vani ___ jak vjetar.' (was blowing — puhati)",
+            q: 'Complete with an imperfekt: „Vani ___ jak vjetar.“ (was blowing — puhati)',
             options: ['puhnu', 'puhao je', 'puše', 'puhaše'],
             correct: 3,
             explanation:
@@ -9246,7 +9251,7 @@ const LESSONS_CORE = [
               'zatvoriše is the aorist 3pl of the perfective zatvoriti — a slam. zatvarahu (imperfekt) and the perfekt of zatvarati describe the process.',
           },
           {
-            q: "Spot the error: 'Bijaše hladno, i on odjednom zadrhtaše.'",
+            q: 'Spot the error: „Bijaše hladno i on odjednom zadrhtaše.“',
             options: [
               'zadrhtaše is 3rd plural — with on it must be zadrhta',
               'bijaše should be bi',
@@ -9258,7 +9263,7 @@ const LESSONS_CORE = [
               '-še is the 3rd person PLURAL aorist ending; the singular has no ending: on zadrhta. bijaše hladno is a correct imperfekt.',
           },
           {
-            q: "What does the aorist 'reče' convey that the perfekt 'rekao je' does not?",
+            q: 'What does the aorist „reče“ convey that the perfekt „rekao je“ does not?',
             options: [
               'politeness',
               'that the speaker is female',
@@ -9270,7 +9275,7 @@ const LESSONS_CORE = [
               'The aorist is the camera-cut tense of storytelling; the perfekt is neutral everyday past.',
           },
           {
-            q: "In an old text you read 'On bi kralj.' What is 'bi' here?",
+            q: 'In an old text you read „On bi kralj.“ What is „bi“ here?',
             options: [
               'a conditional auxiliary',
               'the aorist of biti — he became king',
@@ -9282,7 +9287,7 @@ const LESSONS_CORE = [
               'With no l-participle nearby, bare bi is the aorist of biti. The conditional needs a participle (bi došao).',
           },
           {
-            q: "Which verb forms the imperfekt 'bijaše'?",
+            q: 'Which verb forms the imperfekt „bijaše“?',
             options: ['biti', 'bježati', 'bivati', 'bijeliti'],
             correct: 0,
             explanation:
@@ -9308,7 +9313,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'tvorba-rijeci',
-    title: 'C1: Word Formation (Tvorba riječi)',
+    title: 'Word Formation (Tvorba riječi)',
     subtitle: 'Prefixes, suffixes, diminutives & augmentatives — grow your vocabulary tenfold',
     icon: '🧱',
     level: 'C1',
@@ -9329,7 +9334,12 @@ const LESSONS_CORE = [
         rows: [
           ['na-', 'onto / complete', 'napisati', 'to write (down), finish writing'],
           ['pre-', 'across / re-do', 'prepisati', 'to copy; to rewrite'],
-          ['pot-', 'under', 'potpisati', 'to sign (write under)'],
+          [
+            'pod- (pot- before a voiceless consonant)',
+            'under',
+            'potpisati',
+            'to sign (write under)',
+          ],
           ['u-', 'into', 'upisati', 'to enrol, write into'],
           ['o-', 'around / about', 'opisati', 'to describe'],
           ['za-', 'begin / fix', 'zapisati', 'to note down'],
@@ -9344,7 +9354,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Diminutives — Small, Dear, or Ironic',
-        body: "-ić/-čić (masculine): grad → gradić (little town), kamen → kamenčić (pebble). -ica (feminine): kuća → kućica (little house), knjiga → knjižica (booklet). -ce (neuter): selo → selce. Diminutives also carry affection (sinčić — dear little son) or irony ('lijepa plaćica' — some 'nice' little salary).",
+        body: "-ić/-čić (masculine): grad → gradić (little town), kamen → kamenčić (pebble). -ica (feminine): kuća → kućica (little house), knjiga → knjižica (booklet). -ce (neuter): selo → selce. Diminutives also carry affection (sinčić — dear little son) or irony („lijepa plaćica“ — some 'nice' little salary).",
         highlight: 'gradić · kamenčić · kućica · knjižica',
       },
       {
@@ -9391,7 +9401,7 @@ const LESSONS_CORE = [
           {
             hr: 'Potpišite ugovor na dnu stranice.',
             en: 'Sign the contract at the bottom of the page.',
-            note: 'pot- (under) + pisati = sign',
+            note: 'pod- (under; written pot- before p) + pisati = sign',
           },
           {
             hr: 'Upisala se na sveučilište u Splitu.',
@@ -9437,7 +9447,7 @@ const LESSONS_CORE = [
       },
       {
         type: 'quiz',
-        q: "You meet the unknown word 'prepisivač'. Using word formation, what is it most likely?",
+        q: 'You meet the unknown word „prepisivač“. Using word formation, what is it most likely?',
         options: [
           'A small copy',
           'Someone/something that copies',
@@ -9459,7 +9469,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners treat the prefix as a free extra: 'prepisati' and 'napisati' are not both 'write' — pre- makes it 'copy', and a form with the wrong prefix says something else. Second, the diminutive is applied to any noun for cuteness: 'kavica' is warm, but 'bolnica' is already a full word (hospital), not a small 'bol'; check that the base exists before you cut it. Third, the agent suffix is guessed: 'učitelj' takes -telj but 'pjevač' takes -ač, and 'pjevatelj' does not exist — the suffix is fixed per word, so learn the doer noun as a word and use the pattern to READ, not to invent.",
+        body: "Learners treat the prefix as a free extra: „prepisati“ and „napisati“ are not both 'write' — pre- makes it 'copy', and a form with the wrong prefix says something else. Second, the diminutive is applied to any noun for cuteness: „kavica“ is warm, but „bolnica“ is already a full word (hospital), not a small „bol“; check that the base exists before you cut it. Third, the agent suffix is guessed: „učitelj“ takes -telj but „pjevač“ takes -ač, and „pjevatelj“ does not exist — the suffix is fixed per word, so learn the doer noun as a word and use the pattern to READ, not to invent.",
         highlight: 'use the pattern to READ, not to invent',
       },
       {
@@ -9467,21 +9477,21 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: 'Molim Vas, ___ ovdje.' (sign — from pisati)",
+            q: 'Complete: „Molim Vas, ___ ovdje.“ (sign — from pisati)',
             options: ['prepišite', 'potpišite', 'upišite', 'opišite'],
             correct: 1,
             explanation:
-              'pot- (under) + pisati = sign: potpišite. prepišite is copy, upišite enter/enrol, opišite describe.',
+              'pod- (under; written pot- before p) + pisati = sign: potpišite. prepišite is copy, upišite enter/enrol, opišite describe.',
           },
           {
-            q: "Complete: 'Živimo u malom ___ na otoku.' (little house — kuća)",
+            q: 'Complete: „Živimo u maloj ___ na otoku.“ (little house — kuća)',
             options: ['kućerini', 'kućici', 'kućištu', 'kućanstvu'],
             correct: 1,
             explanation:
               'kućica is the diminutive; kućerina is a hulking house, kućište a casing, kućanstvo a household.',
           },
           {
-            q: "You meet 'nosač' for the first time. What is it most likely?",
+            q: 'You meet „nosač“ for the first time. What is it most likely?',
             options: [
               'a nose',
               'a small carrier',
@@ -9493,7 +9503,7 @@ const LESSONS_CORE = [
               'nositi (carry) + -ač (doer/device) = a porter or a bracket. The act would be nošenje; a small one would need -ić.',
           },
           {
-            q: "Spot the error: 'On je pjevatelj u zboru.'",
+            q: 'Spot the error: „On je pjevatelj u zboru.“',
             options: [
               'zboru should be zbor',
               'on should be ona',
@@ -9505,21 +9515,21 @@ const LESSONS_CORE = [
               'The agent suffix is fixed per word: pjevač (singer). u zboru (locative) is correct.',
           },
           {
-            q: "Which suffix builds an abstract noun from an adjective, as in 'mladost'?",
+            q: 'Which suffix builds an abstract noun from an adjective, as in „mladost“?',
             options: ['-ost', '-ić', '-ač', '-ina'],
             correct: 0,
             explanation:
               'mlad → mladost, star → starost, hrabar → hrabrost. -ić is diminutive, -ač an agent, -ina an augmentative.',
           },
           {
-            q: "What tone does 'glavurina' carry compared with 'glava'?",
+            q: 'What tone does „glavurina“ carry compared with „glava“?',
             options: ['affectionate', 'neutral', 'big and usually disparaging', 'formal'],
             correct: 2,
             explanation:
               '-urina is an augmentative: big, and normally with a sneer. Affection would be the diminutive glavica.',
           },
           {
-            q: "Complete: '___ sam broj na ruku.' (I noted down — pisati)",
+            q: 'Complete: „___ sam broj na ruku.“ (I noted down — pisati)',
             options: ['Zapisao', 'Upisao', 'Prepisao', 'Potpisao'],
             correct: 0,
             explanation:
@@ -9531,7 +9541,7 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Word Formation — What to Keep',
         points: [
-          'Prefixes shift verb meaning predictably: na-, pre-, pot-, u-, o-, za-',
+          'Prefixes shift verb meaning predictably: na-, pre-, pod- (pot-), u-, o-, za-',
           'Doers: -telj (formal), -ač (everyday/device), -ar (trades)',
           'Diminutives -ić/-ica add smallness, affection, or irony',
           'Augmentatives -ina/-etina/-urina add size and usually attitude',
@@ -9545,7 +9555,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'word-order-emphasis',
-    title: 'C1: Word Order & Emphasis',
+    title: 'Word Order & Emphasis',
     subtitle: 'Croatian is not free-order — it is information-ordered',
     icon: '🎯',
     level: 'C1',
@@ -9562,19 +9572,19 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Spotlight Is at the End',
-        body: "'Marko je stigao jučer' answers WHEN did Marko arrive (jučer is new). 'Jučer je stigao Marko' answers WHO arrived yesterday (Marko is new). Same words, same truth, different question answered. Put the answer to the listener's question last.",
+        body: "„Marko je stigao jučer“ answers WHEN did Marko arrive (jučer is new). „Jučer je stigao Marko“ answers WHO arrived yesterday (Marko is new). Same words, same truth, different question answered. Put the answer to the listener's question last.",
         highlight: 'old info → verb → NEW info (the answer)',
       },
       {
         type: 'rule',
         title: 'Fronting for Contrast',
-        body: "Moving an object to the front marks contrast or topic: 'Knjigu sam ti dao, ne časopis' (It was the BOOK I gave you, not the magazine). 'Meni je to rekao' (To ME he said it — as for me). Fronting is loud; use it when you genuinely contrast, or it sounds theatrical.",
+        body: 'Moving an object to the front marks contrast or topic: „Knjigu sam ti dao, ne časopis“ (It was the BOOK I gave you, not the magazine). „Meni je to rekao“ (To ME he said it — as for me). Fronting is loud; use it when you genuinely contrast, or it sounds theatrical.',
         highlight: 'Knjigu sam ti dao... — fronted object = contrast',
       },
       {
         type: 'rule',
         title: 'Pronouns: Silent by Default, Emphatic When Spoken',
-        body: "Croatian drops subject pronouns — 'Nisam to rekao' is neutral. Adding the pronoun adds emphasis: 'JA to nisam rekao' (I didn't say that — someone else did). Full pronoun forms replace clitics for stress: 'Vidio je mene, ne tebe' (he saw ME, not you) — never a clitic after a preposition or under contrast.",
+        body: "Croatian drops subject pronouns — „Nisam to rekao“ is neutral. Adding the pronoun adds emphasis: „JA to nisam rekao“ (I didn't say that — someone else did). Full pronoun forms replace clitics for stress: „Vidio je mene, ne tebe“ (he saw ME, not you). Under contrast only the full form will do; after a preposition the full form is the norm too (za mene, o njemu), and a clitic there survives only in a few set forms such as za me or na nj.",
         highlight: 'Nisam rekao (neutral) vs JA nisam rekao (emphatic)',
       },
       {
@@ -9662,12 +9672,12 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Clitic Anchor Never Moves',
-        body: "Whatever you front, the clitic cluster stays glued to second position: 'Knjigu sam ti dao' — sam ti rides right after the fronted 'Knjigu'. Emphasis reshuffles the stressed words around a fixed clitic skeleton. If your reordering forces a clitic to slot one, the order is wrong.",
+        body: 'Whatever you front, the clitic cluster stays glued to second position: „Knjigu sam ti dao“ — sam ti rides right after the fronted „Knjigu“. Emphasis reshuffles the stressed words around a fixed clitic skeleton. If your reordering forces a clitic to slot one, the order is wrong.',
         highlight: 'front anything — clitics stay in slot two',
       },
       {
         type: 'quiz',
-        q: "A friend asks: 'Tko je jučer stigao?' (Who arrived yesterday?). Which answer has native word order?",
+        q: 'A friend asks: „Tko je jučer stigao?“ (Who arrived yesterday?). Which written answer puts the new information in the spotlight at the end?',
         options: [
           'Marko je jučer stigao.',
           'Jučer je stigao Marko.',
@@ -9676,7 +9686,7 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "The question asks WHO — so Marko is the new information and goes last: 'Jučer je stigao Marko.' Option 4 is ungrammatical anyway: the clitic je must sit in second position, right after 'Jučer'.",
+          'The question asks WHO — so Marko is the new information and goes last: „Jučer je stigao Marko.“ Spoken with heavy stress on Marko, „Marko je jučer stigao“ is also native; in writing and in neutral intonation the end is the spotlight. Option 4 is ungrammatical anyway: the clitic je must sit in second position, right after „Jučer“.',
       },
       {
         type: 'quiz',
@@ -9689,20 +9699,20 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "Contrast requires the full (stressed) pronoun forms: mene and tebe — clitics me/te cannot carry stress. 'Mene vidio je' breaks the second-position rule for je.",
+          'Contrast requires the full (stressed) pronoun forms: mene and tebe — clitics me/te cannot carry stress. „Mene vidio je“ breaks the second-position rule for je.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners front for no reason: 'Kruh sam kupio' when nobody asked about the bread sounds theatrical — front only what contrasts. Second, they move the clitics with the fronted word: 'Knjigu ti sam dao' — whatever moves, the cluster stays second: 'Knjigu sam ti dao'. Third, the new information is left buried in the middle: to answer 'Tko je došao?' they say 'Marko je jučer došao' — the answer belongs at the end, 'Jučer je došao Marko'.",
-        highlight: 'the answer belongs at the end',
+        body: 'Learners front for no reason: „Kruh sam kupio“ when nobody asked about the bread sounds theatrical — front only what contrasts. Second, they move the clitics with the fronted word: „Knjigu ti sam dao“ — whatever moves, the cluster stays second: „Knjigu sam ti dao“. Third, the new information is left buried in the middle in writing — in neutral order the answer goes at the end: to answer „Tko je došao?“ in a written text, „Jučer je došao Marko“ puts the answer where a reader expects it. (Spoken, „Marko je jučer došao“ with the stress on Marko is also fine.)',
+        highlight: 'in neutral order the answer goes at the end',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: "Someone asks 'Kad je Ana stigla?'. Which answer has the native order?",
+            q: 'Someone asks „Kad je Ana stigla?“. Which answer has the native order?',
             options: [
               'Jučer je stigla Ana.',
               'Jučer Ana je stigla.',
@@ -9711,10 +9721,10 @@ const LESSONS_CORE = [
             ],
             correct: 3,
             explanation:
-              "The question asks WHEN, so 'jučer' is the new information and goes last. The second and third options also break the second-position rule for je.",
+              'The question asks WHEN, so „jučer“ is the new information and goes last. The second and third options also break the second-position rule for je.',
           },
           {
-            q: "Complete for contrast: '___ vjerujem, njemu ne.' (YOU I trust)",
+            q: 'Complete for contrast: „___ vjerujem, njemu ne.“ (YOU I trust)',
             options: ['Ti', 'Tebi', 'Te', 'Ti si'],
             correct: 1,
             explanation:
@@ -9733,7 +9743,7 @@ const LESSONS_CORE = [
               'The fronted object is the first unit; the cluster sam ti follows it in its fixed order. The others reorder or displace the clitics.',
           },
           {
-            q: "Spot what a native would change: asked 'Tko je razbio prozor?', you answer 'Ivan je razbio prozor.'",
+            q: 'In a written text, asked „Tko je razbio prozor?“, you answer „Ivan je razbio prozor.“ What would read more naturally?',
             options: [
               'razbio should be razbila',
               'the new information (Ivan) sounds more natural last: Prozor je razbio Ivan',
@@ -9742,10 +9752,10 @@ const LESSONS_CORE = [
             ],
             correct: 1,
             explanation:
-              'The answer to a who-question is the spotlight word, and the spotlight is the end of the sentence.',
+              'The answer to a who-question is the spotlight word, and in neutral written order the spotlight is the end of the sentence. Spoken with stress on Ivan, the original is fine too.',
           },
           {
-            q: "What does adding 'ja' do in 'Ja to nisam rekao'?",
+            q: 'What does adding „ja“ do in „Ja to nisam rekao“?',
             options: [
               'nothing — it is required',
               'makes the sentence a question',
@@ -9769,7 +9779,7 @@ const LESSONS_CORE = [
               'Stressed words can move for emphasis; the clitic cluster cannot — it stays anchored in second position.',
           },
           {
-            q: "Complete: 'Vidio je ___, ne tebe.' (ME)",
+            q: 'Complete: „Vidio je ___, ne tebe.“ (ME)',
             options: ['me', 'mene', 'ja', 'mi'],
             correct: 1,
             explanation:
@@ -9784,7 +9794,7 @@ const LESSONS_CORE = [
           'The end of the sentence is the spotlight — new information goes last',
           'Front an object only for genuine contrast (Knjigu sam ti dao, ne časopis)',
           'Spoken subject pronouns are emphatic; dropped ones are neutral',
-          'Contrast and prepositions demand full pronoun forms (mene, tebe), not clitics',
+          'Contrast demands the full pronoun forms (mene, tebe); after a preposition they are the norm too',
           'The clitic cluster stays in second position no matter what you reorder',
         ],
       },
@@ -9795,7 +9805,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'collective-numbers',
-    title: 'C1: Collective Numbers & Groups',
+    title: 'Collective Numbers & Groups',
     subtitle: 'dvoje, trojica, obojica, petero — counting people the Croatian way',
     icon: '👥',
     level: 'C1',
@@ -9831,8 +9841,20 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Verb Agreement — The Surprise',
-        body: "With -oje/-ero collectives the verb is often neuter singular: 'Došlo je petero studenata' (five students came). With -ica male groups the verb is plural, and the participle normally takes -a: 'Dvojica su čekala ispred.' And 'nas dvoje' (the two of us) takes a plural verb: 'Nas dvoje idemo zajedno.'",
+        body: 'With -oje/-ero collectives the verb is often neuter singular: „Došlo je petero studenata“ (five students came). With -ica male groups the verb is plural, and the participle normally takes -a: „Dvojica su čekala ispred.“ And „nas dvoje“ (the two of us) takes a plural verb: „Nas dvoje idemo zajedno.“',
         highlight: 'Došlo je petero... · Dvojica su čekala · Nas dvoje idemo',
+      },
+      {
+        type: 'rule',
+        title: 'Approximate Numbers: desetak, stotinjak',
+        body: 'Adding -ak to a round number makes it approximate: desetak (about ten), petnaestak (about fifteen), dvadesetak, tridesetak; for hundreds the suffix is -injak: stotinjak (about a hundred), dvjestotinjak (about two hundred). These words behave like mnogo or nekoliko: the counted noun goes into the genitive plural and the verb takes the neuter singular, „Došlo je desetak ljudi“, „Stotinjak studenata čekalo je pred dvoranom“. Writing „desetak ljudi su došli“ is the same agreement error as „mnogo ljudi su došli“.',
+        highlight: 'Desetak ljudi je došlo · stotinjak studenata je čekalo',
+      },
+      {
+        type: 'rule',
+        title: 'Plural-Only Nouns Take Numeral Adjectives',
+        body: "Nouns that exist only in the plural — hlače, škare, naočale, vrata, kola, novine — cannot be counted with jedan, dva, tri, because those would count single objects. They take the numeral adjectives instead: jedne hlače, dvoje hlače (feminine), dvoja vrata (neuter), troja kola. These agree with the noun in case like an adjective, and the verb is plural: 'Jedne hlače su skupe', „Dvoja vrata su otvorena“. Do not confuse dvoje hlače (an adjective, noun in the nominative) with dvoje djece (a collective, noun in the genitive).",
+        highlight: 'jedne hlače · dvoje hlače · dvoja vrata — plural verb',
       },
       {
         type: 'example',
@@ -9909,6 +9931,16 @@ const LESSONS_CORE = [
             en: 'The two of them got married in June.',
             note: 'njih dvoje — a couple',
           },
+          {
+            hr: 'Na predavanje je došlo stotinjak studenata, a desetak ih je stajalo uz zid.',
+            en: 'About a hundred students came to the lecture, and about ten were standing by the wall.',
+            note: 'stotinjak / desetak + genitive plural and a neuter singular verb',
+          },
+          {
+            hr: 'Kupio sam dvoje hlače i jedne naočale, a jedne škare su mi već bile u torbi.',
+            en: 'I bought two pairs of trousers and one pair of glasses, and one pair of scissors was already in my bag.',
+            note: 'numeral adjectives with plural-only nouns; the verb is plural',
+          },
         ],
       },
       {
@@ -9922,7 +9954,7 @@ const LESSONS_CORE = [
         ],
         correct: 2,
         explanation:
-          "Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: 'Imaju dvoje djece.' dvojica would mean two grown men, and djeca must be in the genitive. ('Imaju dva djeteta' is also heard in speech, but the collective is the standard way.)",
+          'Children are a mixed/unspecified group, so the collective dvoje + genitive plural djece is required: „Imaju dvoje djece.“ dvojica would mean two grown men, and djeca must be in the genitive. („Imaju dva djeteta“ is also heard in speech, but the collective is the standard way.)',
       },
       {
         type: 'quiz',
@@ -9935,27 +9967,27 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "An all-male group takes dvojica + genitive plural: 'Dvojica radnika čekala su ispred.' dvoje would imply a mixed group; the accusative dvojicu is wrong for a subject.",
+          'An all-male group takes dvojica + genitive plural: „Dvojica radnika čekala su ispred.“ dvoje would imply a mixed group; the accusative dvojicu is wrong for a subject.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners count a mixed group with 'dva': 'dva prijatelja' means two male friends; a man and a woman are 'dvoje prijatelja'. Second, the noun after a collective is left in the nominative: 'troje djeca' — the counted noun is genitive plural, 'troje djece'. Third, the verb agreement is guessed: with -oje / -ero collectives the standard agreement is neuter singular, 'Petero studenata je došlo', while the -ica male forms take a plural, 'Dvojica su došla'.",
-        highlight: "a man and a woman are 'dvoje prijatelja'",
+        body: 'Learners count a mixed group with „dva“: „dva prijatelja“ means two male friends; a man and a woman are „dvoje prijatelja“. Second, the noun after a collective is left in the nominative: „troje djeca“ — the counted noun is genitive plural, „troje djece“. Third, the verb agreement is guessed: with -oje / -ero collectives and with desetak or stotinjak the standard agreement is neuter singular, „Petero studenata je došlo“, „Desetak ljudi je čekalo“, while the -ica male forms take a plural, „Dvojica su došla“. And a plural-only noun is never counted with dva: „dva hlače“ is wrong, „dvoje hlače“ is right.',
+        highlight: 'a man and a woman are „dvoje prijatelja“',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: 'Ana i Marko imaju ___.' (three children)",
-            options: ['tri djeteta', 'trojica djece', 'tri djece', 'troje djece'],
+            q: 'Complete: „Ana i Marko imaju ___.“ (three children)',
+            options: ['troja djece', 'trojica djece', 'tri djece', 'troje djece'],
             correct: 3,
             explanation:
-              'Children take the collective plus the genitive of djeca: troje djece. trojica would mean three men.',
+              'Children take the collective plus the genitive of djeca: troje djece. trojica would mean three men, and troja is the neuter numeral adjective for plural-only nouns. (tri djeteta is heard in speech but is not the standard choice.)',
           },
           {
-            q: "Complete: 'Na klupi su sjedila ___ starca.' (two old men)",
+            q: 'Complete: „Na klupi su sjedila ___ starca.“ (two old men)',
             options: ['dva', 'dvoje', 'dvojica', 'dvoja'],
             correct: 0,
             explanation:
@@ -9974,7 +10006,7 @@ const LESSONS_CORE = [
               'nas dvoje takes a first-person plural verb: idemo. ideju is not a form of ići, idete is second person, dvojicu is an accusative.',
           },
           {
-            q: "Spot the error: 'U sobi je bilo dvoje ljudi, dva muškarca.'",
+            q: 'Spot the error: „U sobi je bilo dvoje ljudi, dva muškarca.“',
             options: [
               'dvoje should be dvojica — two men are a male group',
               'ljudi should be ljude',
@@ -9986,14 +10018,14 @@ const LESSONS_CORE = [
               'dvoje announces a mixed pair, which the second half contradicts. Two men are dvojica (ljudi) or dva muškarca.',
           },
           {
-            q: "What does 'oboje' refer to?",
+            q: 'What does „oboje“ refer to?',
             options: ['two men', 'two women', 'a man and a woman, or a mixed pair', 'two objects'],
             correct: 2,
             explanation:
               'oboje is the mixed form; obojica is both men, obje both women, oba both (masculine/neuter things).',
           },
           {
-            q: "Complete: 'Ova kuća ima ___ vrata.' (two doors)",
+            q: 'Complete: „Ova kuća ima ___ vrata.“ (two doors)',
             options: ['dva', 'dvoje', 'dvoja', 'dvojica'],
             correct: 2,
             explanation:
@@ -10006,6 +10038,25 @@ const LESSONS_CORE = [
             explanation:
               'An all-female group uses the ordinary cardinal: tri žene. troje is mixed, trojica is men only.',
           },
+          {
+            q: 'Complete: „Na koncert ___ desetak prijatelja.“ (came)',
+            options: ['došli su', 'došlo je', 'došla su', 'došao je'],
+            correct: 1,
+            explanation:
+              'desetak behaves like mnogo: genitive plural noun and a neuter singular verb, došlo je. The plural forms are the commonest error.',
+          },
+          {
+            q: "Which sentence is correct for 'two pairs of trousers are on the chair'?",
+            options: [
+              'Na stolici su dva hlače.',
+              'Na stolici je dvoje hlača.',
+              'Na stolici su dvoje hlače.',
+              'Na stolici su dvije hlače.',
+            ],
+            correct: 2,
+            explanation:
+              'hlače is a plural-only feminine noun, so it is counted with the numeral adjective dvoje, the noun stays in the nominative and the verb is plural. dva and dvije count single objects.',
+          },
         ],
       },
       {
@@ -10017,16 +10068,18 @@ const LESSONS_CORE = [
           '-oje/-ero groups often take a neuter singular verb: Došlo je petero...',
           'nas dvoje / vas troje + plural verb for we-groups',
           'oboje (mixed both) vs obojica (both men) vs obje (both feminine)',
+          'desetak, petnaestak, stotinjak + genitive plural and a neuter singular verb',
+          'Plural-only nouns take numeral adjectives: jedne hlače, dvoje hlače, dvoja vrata',
         ],
       },
     ],
   },
   // ─────────────────────────────────────────────────────────
-  // 7b: C2 — C2: Pluperfect & Tense Sequencing
+  // 7b: C1 (moved from C2) — Pluperfect & Tense Sequencing
   // ─────────────────────────────────────────────────────────
   {
     id: 'pluskvamperfekt',
-    title: 'C2: Pluperfect & Tense Sequencing',
+    title: 'Pluperfect & Tense Sequencing',
     subtitle: 'bio sam rekao / bijah rekao — the past before the past',
     icon: '⏳',
     level: 'C1',
@@ -10037,13 +10090,13 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: 'The Past Behind the Past',
-        body: "When two past events stack — one finished before the other began — Croatian can mark the earlier one with the pluskvamperfekt: 'Kad smo stigli, vlak je već bio otišao' (when we arrived, the train had already left). Everyday speech often flattens it to plain perfekt + već, but polished writing and careful narration still use it. At C2 you should command both.",
+        body: 'When two past events stack — one finished before the other began — Croatian can mark the earlier one with the pluskvamperfekt: „Kad smo stigli, vlak je već bio otišao“ (when we arrived, the train had already left). Everyday speech often flattens it to plain perfekt + već, but polished writing and careful narration still use it. At this level you should command both.',
         icon: '⏳',
       },
       {
         type: 'rule',
         title: 'Formation — Two Ways to Build It',
-        body: "Standard: perfekt of biti + l-participle → 'bio sam rekao' (I had said), 'bila je otišla' (she had left). Literary: imperfekt of biti + l-participle → 'bijah rekao', 'bijaše otišla'. Both participles agree in gender and number. The literary form pairs naturally with aorist/imperfekt narration.",
+        body: 'Standard: perfekt of biti + l-participle → „bio sam rekao“ (I had said), „bila je otišla“ (she had left). Literary: imperfekt of biti + l-participle → „bijah rekao“, „bijaše otišla“. Both participles agree in gender and number. The literary form pairs naturally with aorist/imperfekt narration.',
         highlight: 'bio sam rekao (standard) · bijah rekao (literary)',
       },
       {
@@ -10121,13 +10174,13 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Sequencing Without the Pluperfect',
-        body: "Croatian usually signals sequence with connectives instead: 'nakon što' (after), 'prije nego što' (before), 'čim' (as soon as) + perfekt. 'Nakon što je završio studij, odselio se u Zadar.' The pluperfect becomes optional seasoning — obligatory nowhere, elegant where the earlier-past matters.",
+        body: 'Croatian usually signals sequence with connectives instead: „nakon što“ (after), „prije nego što“ (before), „čim“ (as soon as) + perfekt. „Nakon što je završio studij, odselio se u Zadar.“ The pluperfect becomes optional seasoning — obligatory nowhere, elegant where the earlier-past matters.',
         highlight: 'nakon što / prije nego što / čim + perfekt',
       },
       {
         type: 'rule',
         title: 'When Writers Reach for It',
-        body: "Use the pluperfect when the earlier event is BACKGROUND to the later one, especially with 'već' (already) or reversed telling order: 'Policija je uhitila čovjeka koji je bio opljačkao banku.' Without it, rapid-fire reversed order can momentarily mislead the reader about what happened first.",
+        body: 'Use the pluperfect when the earlier event is BACKGROUND to the later one, especially with „već“ (already) or reversed telling order: „Policija je uhitila čovjeka koji je bio opljačkao banku.“ Without it, rapid-fire reversed order can momentarily mislead the reader about what happened first.',
         highlight: 'reversed order + već → pluperfect earns its place',
       },
       {
@@ -10141,20 +10194,20 @@ const LESSONS_CORE = [
         ],
         correct: 1,
         explanation:
-          "The earlier event (the train leaving) takes the pluperfect: 'vlak je već bio otišao'. Option 3 puts the pluperfect on the WRONG event — our arrival is the later one. Option 1 is acceptable colloquially but does not mark the sequence; the question asks for explicit marking.",
+          'The earlier event (the train leaving) takes the pluperfect: „vlak je već bio otišao“. Option 3 puts the pluperfect on the WRONG event — our arrival is the later one. Option 1 is acceptable colloquially but does not mark the sequence; the question asks for explicit marking.',
       },
       {
         type: 'quiz',
-        q: "The literary pluperfect of 'otići' (3sg feminine) is:",
+        q: 'The literary pluperfect of „otići“ (3sg feminine) is:',
         options: ['bijaše otišla', 'bila bi otišla', 'bi otišla', 'jest otišla'],
         correct: 0,
         explanation:
-          "Literary pluperfect = imperfekt of biti + l-participle: bijaše otišla. 'bila bi otišla' is the past conditional (would have left), 'bi otišla' is conditional, 'jest otišla' is an emphatic perfekt.",
+          'Literary pluperfect = imperfekt of biti + l-participle: bijaše otišla. „bila bi otišla“ is the past conditional (would have left), „bi otišla“ is conditional, „jest otišla“ is an emphatic perfekt.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners put the pluperfect on the LATER event: 'Kad smo bili stigli, vlak je otišao' — the earlier event is the one marked, 'Kad smo stigli, vlak je već bio otišao'. Second, they use it wherever English uses 'had': in a plain sequence with 'nakon što' the perfekt is enough, and a pluperfect on every verb reads as stilted. Third, they mix the two auxiliaries: 'bijah sam rekao' — it is either 'bio sam rekao' (perfekt of biti) or 'bijah rekao' (imperfekt of biti), never both.",
+        body: "Learners put the pluperfect on the LATER event: „Kad smo bili stigli, vlak je otišao“ — the earlier event is the one marked, „Kad smo stigli, vlak je već bio otišao“. Second, they use it wherever English uses 'had': in a plain sequence with „nakon što“ the perfekt is enough, and a pluperfect on every verb reads as stilted. Third, they mix the two auxiliaries: „bijah sam rekao“ — it is either „bio sam rekao“ (perfekt of biti) or „bijah rekao“ (imperfekt of biti), never both.",
         highlight: 'the earlier event is the one marked',
       },
       {
@@ -10162,14 +10215,14 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete with the pluperfect: 'Kad sam došao, ona ___.' (had already left — otići, f.)",
+            q: 'Complete with the pluperfect: „Kad sam došao, ona ___.“ (had already left — otići, f.)',
             options: ['je otišla', 'je bila otišla', 'bi otišla', 'otiđe'],
             correct: 1,
             explanation:
               'Standard pluperfect = perfekt of biti + participle: je bila otišla. je otišla is a plain perfekt, bi otišla a conditional, otiđe an aorist.',
           },
           {
-            q: "Complete with the literary form: 'Sunce ___ kad krenusmo.' (had set — zaći)",
+            q: 'Complete with the literary form: „Sunce ___ kad krenusmo.“ (had set — zaći)',
             options: ['bijaše zašlo', 'bi zašlo', 'je zašlo', 'zađe'],
             correct: 0,
             explanation:
@@ -10188,7 +10241,7 @@ const LESSONS_CORE = [
               'The film starting is the earlier event, so it takes the pluperfect; our arrival stays in the perfekt. An infinitive cannot form the pluperfect.',
           },
           {
-            q: "Spot the error: 'Bijah sam to već rekao.'",
+            q: 'Spot the error: „Bijah sam to već rekao.“',
             options: [
               'bijah sam doubles the auxiliary — either bio sam rekao or bijah rekao',
               'rekao should be rekla',
@@ -10211,7 +10264,7 @@ const LESSONS_CORE = [
             explanation: 'It orders two past events explicitly: the pluperfect one came first.',
           },
           {
-            q: "Complete: 'Vratila je novac koji ___.' (she had borrowed)",
+            q: 'Complete: „Vratila je novac koji ___.“ (she had borrowed)',
             options: ['posuđuje', 'je bio posudila', 'je bila posudila', 'bijaše posuđivala'],
             correct: 2,
             explanation:
@@ -10733,249 +10786,6 @@ const LESSONS_CORE = [
           'Deadlines run from dostava (service), not from reading',
           'podnositelj zahtjeva / nadležno tijelo / pravomoćno — fixed cast of characters',
           'Formulas to reuse: Ovime potvrđujem..., Protiv ovog rješenja može se izjaviti žalba...',
-        ],
-      },
-    ],
-  },
-  // ─────────────────────────────────────────────────────────
-  // 7b: C2 — C2: The Croatian Comma
-  // ─────────────────────────────────────────────────────────
-  {
-    id: 'zarez-interpunkcija',
-    title: 'C2: The Croatian Comma',
-    subtitle: 'Kad dođeš, javi se — punctuation that grammar dictates',
-    icon: '✒️',
-    level: 'C1',
-    duration: '~7 min',
-    color: '#7c3aed',
-    bg: '#f5f3ff',
-    slides: [
-      {
-        type: 'intro',
-        title: 'Commas by Rule, Not by Breath',
-        body: 'English sprinkles commas where a reader pauses. Croatian places them by grammatical rule — and educated readers notice every miss. The good news: the system is small. Master five rules and your written Croatian jumps a register.',
-        icon: '✒️',
-      },
-      {
-        type: 'rule',
-        title: 'Rule 1 — Inverted Clause Order Takes a Comma',
-        body: "Subordinate clause AFTER the main clause: no comma — 'Javi se kad dođeš.' Subordinate clause FIRST (inversion): comma required — 'Kad dođeš, javi se.' The same pair works for ako, jer, dok, iako: 'Ako možeš, dođi' vs 'Dođi ako možeš.'",
-        highlight: 'Kad dođeš, javi se. ← comma | Javi se kad dođeš. ← none',
-      },
-      {
-        type: 'rule',
-        title: 'Rule 2 — Contrast Conjunctions Always Take One',
-        body: "A comma always precedes the contrastive conjunctions a, ali, nego, no, već: 'Htio sam doći, ali nisam stigao.' 'Nije to kupio, nego posudio.' Comparative nego takes none: 'Veći je nego ja.' By contrast, the additive i and choice ili take NO comma in plain coordination: 'Kupio je kruh i mlijeko.'",
-        highlight: 'comma before a / ali / nego / no / već — never before plain i',
-      },
-      {
-        type: 'rule',
-        title: 'Rule 3 — Vocatives and Insertions Are Fenced Off',
-        body: "A vocative is always set off: 'Ivane, dođi večeras.' 'Hvala ti, bako.' Inserted comments take a comma on BOTH sides: 'To je, naravno, samo prijedlog.' 'Moj brat, inače liječnik, živi u Splitu.' Forgetting the second fence is the classic error.",
-        highlight: 'Ivane, dođi. · To je, naravno, samo prijedlog.',
-      },
-      {
-        type: 'example',
-        title: 'The Rules in Action',
-        items: [
-          {
-            hr: 'Kad završiš posao, nazovi me.',
-            en: 'When you finish work, call me.',
-            note: 'inversion → comma after the subordinate clause',
-          },
-          {
-            hr: 'Nazovi me kad završiš posao.',
-            en: 'Call me when you finish work.',
-            note: 'normal order → no comma',
-          },
-          {
-            hr: 'Nije problem u novcu, nego u vremenu.',
-            en: "The problem isn't money but time.",
-            note: 'nego always takes a comma',
-          },
-          {
-            hr: 'Moja sestra, inače profesorica, seli se u Rijeku.',
-            en: 'My sister, a teacher by the way, is moving to Rijeka.',
-            note: 'insertion fenced by TWO commas',
-          },
-        ],
-      },
-      {
-        type: 'example',
-        title: 'More Examples in Context',
-        items: [
-          {
-            hr: 'Ako pada kiša, ostat ćemo kod kuće.',
-            en: 'If it rains, we will stay at home.',
-            note: 'inverted order — comma after the ako-clause',
-          },
-          {
-            hr: 'Ostat ćemo kod kuće ako pada kiša.',
-            en: 'We will stay at home if it rains.',
-            note: 'normal order — no comma',
-          },
-          {
-            hr: 'Htjela je doći, ali je ostala bez prijevoza.',
-            en: 'She wanted to come, but was left without transport.',
-            note: 'comma before ali',
-          },
-          {
-            hr: 'Kupio je kruh, mlijeko i jaja.',
-            en: 'He bought bread, milk and eggs.',
-            note: 'commas in a list; none before the final i',
-          },
-          {
-            hr: 'Marko, jesi li čuo vijesti?',
-            en: 'Marko, have you heard the news?',
-            note: 'vocative fenced off',
-          },
-          {
-            hr: 'Rekla je da dolazi u pet.',
-            en: 'She said she is coming at five.',
-            note: 'no comma before complement da',
-          },
-          {
-            hr: 'Grad, koji je nekad bio luka, danas živi od turizma.',
-            en: 'The town, which was once a port, today lives on tourism.',
-            note: 'a non-restrictive relative clause fenced by two commas',
-          },
-          {
-            hr: 'Nije to učinio zbog novca, nego iz inata.',
-            en: 'He did not do it for money, but out of spite.',
-            note: 'comma before nego',
-          },
-          {
-            hr: 'Dok je on spavao, ona je radila.',
-            en: 'While he slept, she worked.',
-            note: 'a fronted dok-clause takes a comma',
-          },
-        ],
-      },
-      {
-        type: 'rule',
-        title: "Rule 4 — No Comma Before 'da'",
-        body: "Croatian does NOT put a comma before complement 'da': 'Mislim da imaš pravo.' 'Rekao je da dolazi sutra.' German and Russian punctuation habits, which do put a comma there, mislead here. Exception: if 'da' opens an inverted or clearly inserted clause, normal fencing rules apply — but the everyday 'mislim da...' never takes one.",
-        highlight: 'Mislim da imaš pravo — no comma, ever',
-      },
-      {
-        type: 'quiz',
-        q: 'Which sentence is punctuated correctly?',
-        options: [
-          'Kad dođeš javi se.',
-          'Kad dođeš, javi se.',
-          'Javi se, kad dođeš.',
-          'Kad, dođeš, javi se.',
-        ],
-        correct: 1,
-        explanation:
-          "The subordinate clause comes first (inversion), so a comma follows it: 'Kad dođeš, javi se.' In the normal order 'Javi se kad dođeš' there is no comma at all.",
-      },
-      {
-        type: 'quiz',
-        q: "Where do commas go in: 'To je naravno samo prijedlog'?",
-        options: [
-          'To je naravno, samo prijedlog.',
-          'To je, naravno samo prijedlog.',
-          'To je, naravno, samo prijedlog.',
-          'No commas needed.',
-        ],
-        correct: 2,
-        explanation:
-          "'naravno' is an inserted comment and must be fenced on both sides: 'To je, naravno, samo prijedlog.' One-sided fencing is the most common comma error in Croatian writing.",
-      },
-      {
-        type: 'rule',
-        title: 'Common Mistakes',
-        body: "A German or Russian habit puts a comma before every 'that'-clause: 'Mislim, da imaš pravo' — complement 'da' never takes one. Second, the fronted clause is left open: 'Kad dođeš javi se' — an inverted subordinate clause must be closed with a comma, 'Kad dođeš, javi se'. Third, an insertion gets one fence instead of two: 'Moj brat, inače liječnik živi u Splitu' — whatever you open with a comma you must close with a comma.",
-        highlight: 'whatever you open with a comma you must close with a comma',
-      },
-      {
-        type: 'check',
-        title: 'Mastery Check',
-        items: [
-          {
-            q: 'Which is punctuated correctly? (I think you are right.)',
-            options: [
-              'Mislim, da imaš pravo.',
-              'Mislim da imaš pravo.',
-              'Mislim da, imaš pravo.',
-              'Mislim, da, imaš pravo.',
-            ],
-            correct: 1,
-            explanation:
-              "Complement 'da' takes no comma in Croatian, whatever English does with 'that'.",
-          },
-          {
-            q: "Complete the punctuation: 'Ako možeš ___ dođi ranije.'",
-            options: ['no comma', 'a semicolon', 'a dash', 'a comma — the ako-clause comes first'],
-            correct: 3,
-            explanation:
-              'A subordinate clause placed before the main clause is closed with a comma: Ako možeš, dođi ranije.',
-          },
-          {
-            q: 'Which sentence is correct?',
-            options: [
-              'Htio sam doći ali nisam stigao.',
-              'Htio sam doći, ali nisam stigao.',
-              'Htio sam, doći ali nisam stigao.',
-              'Htio sam doći, ali, nisam stigao.',
-            ],
-            correct: 1,
-            explanation: 'ali always takes a comma before it and nothing after it.',
-          },
-          {
-            q: "Spot the error: 'Moja sestra, inače profesorica seli se u Rijeku.'",
-            options: [
-              'a second comma is missing after profesorica — insertions are fenced on both sides',
-              'the first comma should be removed',
-              'seli se should be se seli',
-              'nothing is wrong',
-            ],
-            correct: 0,
-            explanation:
-              'The inserted comment inače profesorica needs a comma on both sides. One-sided fencing is the classic error.',
-          },
-          {
-            q: "Why is there no comma in 'Javi se kad dođeš'?",
-            options: [
-              'because kad never takes a comma',
-              'because the sentence is short',
-              'because it is a command',
-              'because the subordinate clause follows the main clause — normal order',
-            ],
-            correct: 3,
-            explanation:
-              'In the normal order main + subordinate there is no comma. Invert it and the comma appears: Kad dođeš, javi se.',
-          },
-          {
-            q: 'Which conjunction ALWAYS takes a comma before it?',
-            options: ['i', 'ili', 'ali', 'te'],
-            correct: 2,
-            explanation:
-              'ali always takes a comma. nego takes one when it contrasts (Nije to kupio, nego posudio) but not when it compares (Veći je nego ja); plain i, ili and te in simple coordination take none.',
-          },
-          {
-            q: "Complete: 'Kupio je kruh ___ mlijeko.'",
-            options: [
-              'a comma and i: kruh, i mlijeko',
-              'no comma: kruh i mlijeko',
-              'a comma only: kruh, mlijeko',
-              'a dash',
-            ],
-            correct: 1,
-            explanation: 'Two items joined by i take no comma in plain coordination.',
-          },
-        ],
-      },
-      {
-        type: 'summary',
-        title: 'The Croatian Comma — What to Keep',
-        points: [
-          'Inverted clause first → comma; normal order → none',
-          'Always a comma before a, ali, nego, no, već — never before plain i',
-          'Vocatives and insertions are fenced off on both sides',
-          "No comma before complement 'da' (Mislim da...)",
-          'Croatian punctuation is grammatical — rules, not breathing',
         ],
       },
     ],

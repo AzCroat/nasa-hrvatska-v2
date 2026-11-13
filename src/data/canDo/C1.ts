@@ -17,20 +17,20 @@ export const CAN_DO_C1: Readonly<Record<string, readonly string[]>> = {
   // brojevi-norma · collective-nouns · temporal-accusative · adversative-clauses · comma-basics
   'C1-2': [
     'I can write numbers, dates and measurements the Croatian way.',
-    'I can use collective nouns such as lišće, braća and telad with the right agreement.',
+    'I can use collective nouns such as lišće and braća, and the -ad nouns momčad and unučad, with the right agreement.',
     'I can choose between nego, već and međutim and place the comma correctly.',
   ],
   // word-order-emphasis · collective-plural · temporal-locative-idioms · disjunctive-gradational-clauses · verb-government
   'C1-3': [
     'I can move the emphasis of a sentence by moving its words.',
-    'I can use time phrases such as u mladosti and po povratku.',
+    'I can use time phrases such as u mladosti and pri kraju.',
     'I can build a claim with ne samo… nego i and use the case each common verb demands.',
   ],
-  // aspect-nuance · irregular-nouns-doba-dio · rare-genitive-prepositions · comma-dependent-clauses · zarez-interpunkcija
+  // aspect-nuance · irregular-nouns-doba-dio · rare-genitive-prepositions · comma-dependent-clauses · text-connectors
   'C1-4': [
     'I can choose an aspect where both are grammatical and only one is right.',
-    'I can decline posao and dio and use prepositions such as uoči, povodom and putem.',
-    'I can place commas around dependent clauses by Croatian rules: Kad dođeš, nazovi me.',
+    'I can decline posao and dio, use prepositions such as uoči and prigodom, and place commas around dependent clauses: Kad dođeš, nazovi me.',
+    'I can link sentences into a text with connectors such as naime, osim toga and u tu svrhu.',
   ],
   // clause-types · verbal-nouns · emphatic-genitive-stalo · padezne-suptilnosti · multi-subject-agreement
   'C1-5': [

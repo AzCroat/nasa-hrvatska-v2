@@ -264,14 +264,14 @@ export const CAPITALS_INSTITUTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dogadaji',
-    q: 'Zašto se "svjetski" u imenu "Drugi svjetski rat" piše malim slovom?',
+    q: 'Zašto se „svjetski“ u imenu „Drugi svjetski rat“ piše malim slovom?',
     opts: ['nije prva riječ i nije ime', 'to je pridjev', 'to je strana riječ', 'zbog navike'],
     answer: 'nije prva riječ i nije ime',
     tip: 'Only the first word and real names take capitals. (Drugi is an adjective too.)',
   },
   {
     mode: 'dogadaji',
-    q: 'Zašto se "kralja" u imenu "Ulica kralja Zvonimira" piše malim slovom?',
+    q: 'Zašto se „kralja“ u imenu „Ulica kralja Zvonimira“ piše malim slovom?',
     opts: ['to je titula, a ne ime', 'to je glagol', 'to je kratica', 'to je prva riječ'],
     answer: 'to je titula, a ne ime',
     tip: 'Titles inside a name are lower case.',

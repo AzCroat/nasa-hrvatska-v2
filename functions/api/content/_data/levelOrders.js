@@ -199,7 +199,7 @@ export const ORDER_C1 = [
   'irregular-nouns-doba-dio',
   'rare-genitive-prepositions',
   'comma-dependent-clauses',
-  'zarez-interpunkcija',
+  'text-connectors',
   'clause-types',
   'verbal-nouns',
   'emphatic-genitive-stalo',

@@ -7,8 +7,8 @@
 //   zarez   — the comma: none before i, te, niti; one before stoga, zato, prema tome
 //   negacija — ni … ni with a negated verb, and niti opening a second clause
 //
-// No item turns on a comma before conclusive pa, where the guides differ, and no
-// option is a sentence that is correct with a different meaning from its gloss.
+// pa is coordinating, so it takes no comma (workbook p. 34). No clitic stands straight
+// after i or dakle (p. 34–36); after te, pa, niti, zato and stoga it can.
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -80,11 +80,27 @@ export const COORDINATE_CONCLUSIVE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'veznici',
-    q: 'Kasno je, ____ idemo kući.',
+    q: 'Kasno je ____ idemo kući.',
     en: 'It is late, so let us go home.',
     opts: ['pa', 'niti', 'jer', 'iako'],
     answer: 'pa',
-    tip: 'In speech pa can draw a conclusion: so.',
+    tip: 'pa can say what follows from the first clause. It stays a coordinating connector, with no comma before it.',
+  },
+  {
+    mode: 'veznici',
+    q: 'Odselio se u Osijek i ____ novi posao.',
+    en: 'He moved to Osijek and found a new job.',
+    opts: ['našao je', 'je našao', 'je je našao', 'našao se je'],
+    answer: 'našao je',
+    tip: 'No clitic can stand straight after i, so the verb comes first: i našao je.',
+  },
+  {
+    mode: 'veznici',
+    q: 'Ivan je zaspao, dakle ____ na nastavu.',
+    en: 'Ivan overslept, so he was late for class.',
+    opts: ['zakasnio je', 'je zakasnio', 'je je zakasnio', 'zakasnio se je'],
+    answer: 'zakasnio je',
+    tip: 'No clitic can stand straight after dakle (after zato and stoga it can).',
   },
 
   // ── zarez ─────────────────────────────────────────────────────────────────

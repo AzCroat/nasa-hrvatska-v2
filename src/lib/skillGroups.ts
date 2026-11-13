@@ -284,6 +284,10 @@ export const SKILL_GROUP: Record<SkillCategory, SkillGroup> = {
   'c1-prefixed-verbs': 'verb',
   'c1-comparative-clauses': 'syntax',
   'c1-direct-speech-spelling': 'syntax',
+  'c1-text-connectors': 'syntax',
+  'c1-collective-numbers': 'case',
+  'c1-pluperfect': 'verb',
+  'c1-aorist-imperfect': 'verb',
   // A1 lesson drills (2026-11-12). Grouped by what each bank drills: nearly every item
   // produces a form, so the grammar families; the pronunciation drill is lexical, like alphabet.
   'a1-sounds-palatals': 'vocab',

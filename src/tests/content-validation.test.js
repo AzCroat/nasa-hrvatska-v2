@@ -921,7 +921,6 @@ describe('LESSONS', () => {
       'pluskvamperfekt',
       'stilske-figure',
       'administrativni-stil',
-      'zarez-interpunkcija',
     ]) {
       expect(ids, `missing 7b lesson ${id}`).toContain(id);
     }

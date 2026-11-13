@@ -16,7 +16,7 @@
 //   them as synonyms sounds either falsely confident or oddly indifferent.
 //
 //   *PA DOES THREE JOBS.* It buys a moment (*Pa, ovisi…*), it registers mild
-//   objection (*Pa rekao sam ti!*), and it links (*Pa što onda?*). Position and
+//   objection (*Pa rekao sam ti!*), and it links (*Večerali smo pa smo otišli*). Position and
 //   tone decide, and nothing else marks which.
 //
 // Three modes:
@@ -36,7 +36,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   // ── znacenja ──────────────────────────────────────────────────────────────
   {
     mode: 'znacenja',
-    q: 'Što izriče "valjda"?',
+    q: 'Što izriče „valjda“?',
     en: 'What does valjda express?',
     opts: ['nesigurnost, sliježe se ramenima', 'sigurnost', 'procjenu', 'ljutnju'],
     answer: 'nesigurnost, sliježe se ramenima',
@@ -44,7 +44,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenja',
-    q: 'Što izriče "eto"?',
+    q: 'Što izriče „eto“?',
     en: 'What does eto express?',
     opts: ['pomirenost ili predstavljanje', 'sumnju', 'naglasak', 'objašnjenje'],
     answer: 'pomirenost ili predstavljanje',
@@ -52,7 +52,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenja',
-    q: 'Što najavljuje "naime"?',
+    q: 'Što najavljuje „naime“?',
     en: 'What does naime signal?',
     opts: ['objašnjenje onoga prije', 'suprotnost', 'zaključak', 'dodatak'],
     answer: 'objašnjenje onoga prije',
@@ -60,7 +60,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenja',
-    q: 'Što radi "uostalom"?',
+    q: 'Što radi „uostalom“?',
     en: 'What does uostalom do?',
     opts: ['donosi presudan argument', 'ograđuje se', 'pita', 'mijenja temu'],
     answer: 'donosi presudan argument',
@@ -68,7 +68,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenja',
-    q: 'Što radi "zapravo"?',
+    q: 'Što radi „zapravo“?',
     en: 'What does zapravo do?',
     opts: ['ispravlja ono rečeno', 'pojačava', 'zaključuje', 'oklijeva'],
     answer: 'ispravlja ono rečeno',
@@ -76,7 +76,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenja',
-    q: 'Što radi "ma" na početku?',
+    q: 'Što radi „ma“ na početku?',
     en: 'What does sentence-initial ma do?',
     opts: ['odbacuje prethodno', 'pojačava', 'objašnjava', 'pita'],
     answer: 'odbacuje prethodno',
@@ -131,7 +131,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'valjda',
-    q: 'Što zvuči kad se "valjda" rabi za pravu procjenu?',
+    q: 'Kako zvuči kad se „valjda“ rabi za pravu procjenu?',
     en: 'Using valjda for a real estimate sounds:',
     opts: ['ravnodušno', 'samouvjereno', 'uljudno', 'formalno'],
     answer: 'ravnodušno',
@@ -139,7 +139,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'valjda',
-    q: '"Valjda znaš da…" — kakav je ton?',
+    q: '„Valjda znaš da…“ — kakav je ton?',
     en: 'What tone is that?',
     opts: ['blagi prijekor', 'iskrena sumnja', 'uljudnost', 'iznenađenje'],
     answer: 'blagi prijekor',
@@ -155,7 +155,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'valjda',
-    q: 'Kako se "valjda" ponaša u pisanom formalnom tekstu?',
+    q: 'Kako se „valjda“ ponaša u pisanom formalnom tekstu?',
     en: 'In formal writing, valjda is:',
     opts: ['neprikladno', 'obavezno', 'neutralno', 'formalnije'],
     answer: 'neprikladno',
@@ -173,7 +173,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   // ── pa ────────────────────────────────────────────────────────────────────
   {
     mode: 'pa',
-    q: '"Pa rekao sam ti!" — što izriče "pa"?',
+    q: '„Pa rekao sam ti!“ — što izriče „pa“?',
     en: 'What does pa express here?',
     opts: ['blagi prigovor', 'oklijevanje', 'objašnjenje', 'ništa'],
     answer: 'blagi prigovor',
@@ -181,7 +181,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pa',
-    q: '"Pa, ovisi…" — što izriče "pa"?',
+    q: '„Pa, ovisi…“ — što izriče „pa“?',
     en: 'And here?',
     opts: ['kupuje trenutak', 'prigovara', 'zaključuje', 'pita'],
     answer: 'kupuje trenutak',
@@ -189,7 +189,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pa',
-    q: 'Koliko poslova "pa" obavlja?',
+    q: 'Koliko poslova „pa“ obavlja?',
     en: 'How many jobs does pa do?',
     opts: ['tri', 'jedan', 'dva', 'pet'],
     answer: 'tri',
@@ -205,7 +205,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pa',
-    q: '"____ to sam mislio." (exactly)',
+    q: '„____ to sam mislio.“ (exactly)',
     en: 'That is exactly what I meant.',
     opts: ['Baš', 'Pa', 'Ma', 'Eto'],
     answer: 'Baš',
@@ -213,7 +213,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pa',
-    q: '"Baš ti hvala." — s pravim tonom to znači ____.',
+    q: '„Baš ti hvala.“ — s pravim tonom to znači ____.',
     en: 'With the right tone it means:',
     opts: ['suprotno od zahvale', 'iskrenu zahvalu', 'pitanje', 'ispriku'],
     answer: 'suprotno od zahvale',
@@ -221,15 +221,15 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pa',
-    q: '"Pa što onda?" — koji je posao "pa" ovdje?',
+    q: '„Večerali smo pa smo otišli u kino.“ — koji je posao „pa“ ovdje?',
     en: 'Which job is it here?',
     opts: ['povezuje', 'oklijeva', 'prigovara', 'pojačava'],
     answer: 'povezuje',
-    tip: 'The linking pa: so what then?',
+    tip: 'The linking pa: and then. As a conjunction it takes no comma before it.',
   },
   {
     mode: 'pa',
-    q: 'Zašto je "baš" korisniji od "vrlo"?',
+    q: 'Zašto je „baš“ korisniji od „vrlo“?',
     en: 'Why reach for baš?',
     opts: ['pojačava i nosi ton', 'kraće je', 'formalnije je', 'nije korisnije'],
     answer: 'pojačava i nosi ton',

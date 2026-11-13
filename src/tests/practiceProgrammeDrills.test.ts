@@ -175,13 +175,8 @@ const PROGRAMME_DRILLS: {
   // exists: the pool tag is what `categoryForScreen` credits and what
   // SKILL_GROUP keys on, and route-based clearing would mask a wrong one.
   { screen: 'pravopis', category: 'orthography', lesson: 'pravopis-dvojbe', cefr: 'C2' },
-  {
-    screen: 'interpunkcija',
-    category: 'punctuation',
-    lesson: 'zarez-interpunkcija',
-    // C1 since 2026-11-12: the lesson moved C2 → C1 and its drill was regated with it.
-    cefr: 'C1',
-  },
+  // `interpunkcija` left this table on 2026-11-13: its lesson, zarez-interpunkcija, was
+  // merged into the C1 comma-dependent-clauses lesson, so the drill serves no lesson.
   {
     screen: 'administrativni',
     category: 'admin-style',

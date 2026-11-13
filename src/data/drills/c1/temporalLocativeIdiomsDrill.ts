@@ -60,7 +60,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Call me when you arrive.',
     opts: ['Po dolasku', 'Po dolazak', 'Na dolazak', 'Pri dolazak'],
     answer: 'Po dolasku',
-    tip: 'po + locative: a formal "upon".',
+    tip: 'po + locative: a formal, rather rare "upon". In everyday Croatian you will more often hear Nakon dolaska.',
   },
   {
     mode: 'vrijeme',
@@ -188,7 +188,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'U kojem je padežu izraz "na kraju"?',
+    q: 'U kojem je padežu izraz „na kraju“?',
     en: 'Which case is the phrase meaning "at the end" in?',
     opts: ['lokativ', 'akuzativ', 'genitiv', 'instrumental'],
     answer: 'lokativ',
@@ -196,7 +196,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'U kojem je padežu izraz "na sreću"?',
+    q: 'U kojem je padežu izraz „na sreću“?',
     en: 'Which case is the phrase meaning "luckily" in?',
     opts: ['lokativ', 'akuzativ', 'dativ', 'genitiv'],
     answer: 'akuzativ',
@@ -204,7 +204,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'U kojem je padežu izraz "u žurbi"?',
+    q: 'U kojem je padežu izraz „u žurbi“?',
     en: 'Which case is the phrase meaning "in a hurry" in?',
     opts: ['nominativ', 'akuzativ', 'lokativ', 'vokativ'],
     answer: 'lokativ',
@@ -212,7 +212,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'padez',
-    q: 'U kojem je padežu izraz "na vrijeme"?',
+    q: 'U kojem je padežu izraz „na vrijeme“?',
     en: 'Which case is the phrase meaning "on time" in?',
     opts: ['lokativ', 'genitiv', 'dativ', 'akuzativ'],
     answer: 'akuzativ',

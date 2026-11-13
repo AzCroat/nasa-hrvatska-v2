@@ -350,6 +350,12 @@ const CAUSE_CONSEQUENCE_CLAUSES = {
     },
     {
       type: 'rule',
+      title: 'Cause and Effect Across Sentences',
+      body: 'Two more causal conjunctions are worth adding: što, after a word of feeling (Drago mi je što si došao), and zahvaljujući tome što for a cause with a good outcome (Uspjeli smo zahvaljujući tome što su nam svi pomogli). Between whole sentences, text connectors carry the link. Uslijed toga (as a result), s obzirom na to (given that) and na osnovi toga (on that basis) open a sentence that follows from the one before: Cijeli je tjedan padala kiša. Uslijed toga rijeka se izlila. Cijene su porasle. S obzirom na to, plaće bi trebale rasti.',
+      highlight: 'Uslijed toga rijeka se izlila.',
+    },
+    {
+      type: 'rule',
       title: 'Commas',
       body: 'When the dependent clause comes first, a comma separates it from the main clause: Budući da je padala kiša, ostali smo kod kuće. When the main clause comes first, no comma is needed: Ostali smo kod kuće jer je padala kiša. No comma goes before pa or te when they join two clauses: Bio sam umoran pa sam legao. Adverbs such as zato, stoga and dakle that open a second main clause stand after a comma: Padala je kiša, zato smo ostali kod kuće.',
       highlight: 'Budući da je padala kiša, ostali smo kod kuće.',
@@ -385,8 +391,8 @@ const CAUSE_CONSEQUENCE_CLAUSES = {
       title: 'More Examples in Context',
       items: [
         {
-          hr: 'Bilo je tako hladno da se jezero kod Trakošćana zaledilo do proljeća.',
-          en: 'It was so cold that the lake near Trakošćan froze until spring.',
+          hr: 'Bilo je tako hladno da je jezero kod Trakošćana ostalo zaleđeno do proljeća.',
+          en: 'It was so cold that the lake near Trakošćan stayed frozen until spring.',
           note: 'tako … da with an adjective, the result as a fact',
         },
         {
@@ -589,7 +595,7 @@ const ETHNONYMS = {
           note: 'Zagrepčani — the plural drops -in',
         },
         {
-          hr: 'Moja je baka Splićanka, a djed je bio Šibenčanin, pa se doma pričalo dalmatinski.',
+          hr: 'Moja je baka Splićanka, a djed je bio Šibenčanin pa se doma pričalo dalmatinski.',
           en: 'My grandmother is from Split and my grandfather was from Šibenik, so at home people spoke Dalmatian dialect.',
           note: 'Splićanka with ć from t + j; Šibenčanin with č',
         },
@@ -944,7 +950,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
     {
       type: 'intro',
       title: 'Which Words Get a Capital',
-      body: 'English capitalises every important word of a name: the Adriatic Sea, the Plitvice Lakes. Croatian does not. Hrvatski pravopis divides names into groups: in personal names and in the names of towns and states every word is capitalised; in other geographic names only the first word and any word that is itself a name. Knowing which group a name belongs to is the whole rule.',
+      body: 'English capitalises every important word of a name: the Adriatic Sea, the Plitvice Lakes. Croatian does not. Hrvatski pravopis divides names into groups: in personal names and in the names of towns, states and continents every word is capitalised; in other geographic names only the first word and any word that is itself a name. Knowing which group a name belongs to is the whole rule.',
       icon: '🗺️',
     },
     {
@@ -954,8 +960,8 @@ const CAPITALS_NAMES_GEOGRAPHY = {
       rows: [
         [
           'people, nicknames',
-          'every part capital',
-          'Ivan Gundulić, Karlo Veliki, Petar Krešimir IV.',
+          'every part, except prepositions and conjunctions',
+          'Ivan Gundulić, Karlo Veliki, Ivan bez Zemlje',
         ],
         ['titles before a name', 'small letter', 'kralj Tomislav, ban Josip Jelačić, sveti Vlaho'],
         [
@@ -963,7 +969,11 @@ const CAPITALS_NAMES_GEOGRAPHY = {
           'every word, except prepositions and conjunctions',
           'Slavonski Brod, Biograd na Moru, Vela Luka',
         ],
-        ['states', 'every word, except conjunctions', 'Republika Hrvatska, Bosna i Hercegovina'],
+        [
+          'continents and states',
+          'every word, except prepositions and conjunctions',
+          'Sjeverna Amerika, Republika Hrvatska, Bosna i Hercegovina',
+        ],
         [
           'other geographic names',
           'first word, then only names',
@@ -979,19 +989,19 @@ const CAPITALS_NAMES_GEOGRAPHY = {
     {
       type: 'rule',
       title: 'People, Nicknames and Rulers',
-      body: 'Every part of a personal name is capitalised, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski. A ruler’s number is a Roman numeral with a full stop, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
+      body: 'Every part of a personal name is capitalised, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski, Richard Lavljeg Srca. The exception is a preposition or a conjunction inside the name, which stays small: Ivan bez Zemlje, Vincent iz Kastva. A ruler’s number is a Roman numeral with a full stop, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
       highlight: 'Petar Krešimir IV.',
     },
     {
       type: 'rule',
-      title: 'Towns and States: Every Word',
-      body: 'In the name of a settlement every word is capitalised except prepositions and conjunctions: Slavonski Brod, Novi Vinodolski, Stari Grad, Vela Luka, Sveti Ivan Zelina, Biograd na Moru. The official names of states work the same way: Republika Hrvatska, Sjedinjene Američke Države, Bosna i Hercegovina.',
+      title: 'Towns, States and Continents: Every Word',
+      body: 'In the name of a settlement every word is capitalised except prepositions and conjunctions: Slavonski Brod, Novi Vinodolski, Stari Grad, Vela Luka, Sveti Ivan Zelina, Biograd na Moru. The names of continents and the official names of states work the same way: Sjeverna Amerika, Južna Amerika, Republika Hrvatska, Sjedinjene Američke Države, Bosna i Hercegovina. So do descriptive names that stand for a state or a town: Zemlja Izlazećeg Sunca (Japan), Vječni Grad (Rome).',
       highlight: 'Biograd na Moru',
     },
     {
       type: 'rule',
       title: 'Everything Else: Only the First Word',
-      body: 'Seas, lakes, rivers, mountains, islands, regions and parts of the world capitalise only their first word — and any later word that is itself a name: Jadransko more, Plitvička jezera, Hrvatsko zagorje, Gorski kotar, Dugi otok, Bliski istok. Sjeverna Amerika keeps Amerika capital because Amerika is a name. Counties follow the first-word rule too: Splitsko-dalmatinska županija.',
+      body: 'Seas, lakes, rivers, mountains, islands and regions capitalise only their first word — and any later word that is itself a name: Jadransko more, Plitvička jezera, Hrvatsko zagorje, Gorski kotar, Dugi otok, Bliski istok. Sjeverna Amerika keeps Amerika capital because Amerika is a name. Counties follow the first-word rule too: Splitsko-dalmatinska županija.',
       highlight: 'Hrvatsko zagorje',
     },
     {
@@ -1048,7 +1058,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
         {
           hr: 'Moji su se pradjedovi iz Slavonskog Broda iselili u Sjevernu Ameriku.',
           en: 'My great-grandfathers emigrated from Slavonski Brod to North America.',
-          note: 'Brod capital in a town name; Amerika capital as a name',
+          note: 'Brod capital in a town name; Sjeverna capital in the name of a continent',
         },
       ],
     },
@@ -1112,7 +1122,8 @@ const CAPITALS_NAMES_GEOGRAPHY = {
           q: 'The continent. Which is spelled correctly?',
           options: ['Sjeverna amerika', 'sjeverna Amerika', 'SJEVERNA Amerika', 'Sjeverna Amerika'],
           correct: 3,
-          explanation: 'The first word is capitalised, and Amerika is a name in its own right.',
+          explanation:
+            'The name of a continent capitalises every word, like the name of a state: Sjeverna Amerika.',
         },
       ],
     },
@@ -1120,10 +1131,11 @@ const CAPITALS_NAMES_GEOGRAPHY = {
       type: 'summary',
       title: 'Capital Letters in Names — Key Takeaways',
       points: [
-        'People and nicknames: every part capital — Karlo Veliki, Petar Krešimir IV.',
+        'People and nicknames: every part capital except prepositions — Karlo Veliki, Ivan bez Zemlje',
         'Titles and sveti before a name: small letter — kralj Tomislav, sveti Vlaho',
         'Towns and states: every word but prepositions and conjunctions — Biograd na Moru, Republika Hrvatska',
-        'Other geographic names: first word only, plus names — Jadransko more, Sjeverna Amerika',
+        'Continents and descriptive names of states and towns: every word — Sjeverna Amerika, Vječni Grad',
+        'Other geographic names: first word only, plus names — Jadransko more, Hrvatsko zagorje',
         'A common noun before a name stays small: rijeka Sava, otok Krk, grad Zagreb',
       ],
     },

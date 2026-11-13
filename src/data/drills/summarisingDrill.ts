@@ -57,7 +57,7 @@ export const SUMMARISING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'uvod',
     q: 'U članku se ____ problem nezaposlenosti.',
     en: 'The article addresses unemployment.',
-    opts: ['obrađuje', 'obrađiva', 'obradio', 'obrađivati'],
+    opts: ['obrađuje', 'obrađivan', 'obradio', 'obrađivati'],
     answer: 'obrađuje',
     tip: 'The impersonal se-construction is the default voice of academic summary.',
   },

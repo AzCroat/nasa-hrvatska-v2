@@ -552,6 +552,9 @@ const C1ComparativeClausesDrill = lazyWithReload(
 const C1DirectSpeechSpellingDrill = lazyWithReload(
   () => import('./practice/drills/C1DirectSpeechSpellingDrill'),
 );
+const C1TextConnectorsDrill = lazyWithReload(() => import('./practice/drills/C1TextConnectorsDrill'));
+const C1CollectiveNumbersDrill = lazyWithReload(() => import('./practice/drills/C1CollectiveNumbersDrill'));
+const C1PluperfectDrill = lazyWithReload(() => import('./practice/drills/C1PluperfectDrill'));
 const A1SoundsPalatalsDrill = lazyWithReload(
   () => import('./practice/drills/A1SoundsPalatalsDrill'),
 );
@@ -3474,6 +3477,21 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'c1directspeechspelling' && (
           <ScreenErrorBoundary key="c1directspeechspelling" name="c1directspeechspelling">
             <C1DirectSpeechSpellingDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'c1textconnectors' && (
+          <ScreenErrorBoundary key="c1textconnectors" name="c1textconnectors">
+            <C1TextConnectorsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'c1collectivenumbers' && (
+          <ScreenErrorBoundary key="c1collectivenumbers" name="c1collectivenumbers">
+            <C1CollectiveNumbersDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'c1pluperfect' && (
+          <ScreenErrorBoundary key="c1pluperfect" name="c1pluperfect">
+            <C1PluperfectDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'a1soundspalatals' && (

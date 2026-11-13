@@ -236,9 +236,9 @@ for (const drill of DRILLS) {
     it('is registered in the session pool at its tier (C2, or C1 if its lesson moved down)', () => {
       const entry = CEFR_EXERCISE_POOL.find((e) => e.id === drill.id);
       expect(entry).toBeTruthy();
-      // The punctuation lesson moved C2 → C1 with the Croaticum restructure (2026-11-12), and
-      // its drill with it, so a C1 learner can reach the drill the lesson leads to.
-      expect(entry!.cefr).toBe(MOVED_TO_C1.has(drill.id) ? 'C1' : 'C2');
+      // The punctuation drill briefly moved to C1 with its lesson (2026-11-12); the lesson was
+      // merged away on 2026-11-13 and the drill is back at its C2 gate.
+      expect(entry!.cefr).toBe('C2');
       expect(entry!.screen).toBe(drill.id);
       expect(entry!.category).toBe(drill.category);
       expect(EXERCISE_DIFFICULTY[drill.id]).toBe(5);
@@ -252,8 +252,6 @@ for (const drill of DRILLS) {
     });
   });
 }
-
-const MOVED_TO_C1 = new Set(['interpunkcija']);
 
 describe('C2 drill-pool breadth (program tally: 30/30 COMPLETE)', () => {
   it('the pool now offers at least 30 C2 exercises', () => {

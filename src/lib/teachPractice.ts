@@ -73,8 +73,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'past-questions-negation': 'past-tense',
   // B1 narration is past-tense production; cloze (A2) carries the items.
   'telling-a-story': 'past-tense',
-  'aorist-imperfekt': 'past-tense',
-  pluskvamperfekt: 'past-tense',
+  // The two C1 literary tenses used to route to `cloze`, which has no aorist, imperfect
+  // or pluperfect item at all (book-vs-app fix, 2026-11-13). Each now has its own drill.
+  'aorist-imperfekt': 'c1-aorist-imperfect',
+  pluskvamperfekt: 'c1-pluperfect',
   tenses: 'past-tense', // TensesScreen
   'future-tense': 'future-tense',
   future_tense_lesson: 'future-tense',
@@ -342,6 +344,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'prefixed-verbs': 'c1-prefixed-verbs',
   'comparative-clauses': 'c1-comparative-clauses',
   'direct-speech-spelling': 'c1-direct-speech-spelling',
+  'text-connectors': 'c1-text-connectors',
   'sounds-palatals': 'a1-sounds-palatals',
   'biti-questions-negation': 'a1-biti-questions-negation',
   'plural-irregular': 'a1-plural-irregular',
@@ -507,7 +510,6 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'aspect-with-verbs': 'aspect-verbs',
   'degrees-intensity': 'intensity',
   'pravopis-dvojbe': 'orthography',
-  'zarez-interpunkcija': 'punctuation',
   'administrativni-stil': 'admin-style',
   'znanstveni-stil': 'academic-style',
   'publicisticki-stil': 'journalistic-style',
@@ -516,7 +518,9 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'precizno-nijansiranje': 'precision',
   'numbers-time': 'numerals',
   'numbers-nouns': 'numerals',
-  'collective-numbers': 'numerals',
+  // C1 collective numerals: its own drill (2026-11-13). `numerals` routes to the clock
+  // drill, which practises nothing this lesson teaches.
+  'collective-numbers': 'c1-collective-numbers',
   'shopping-prices': 'numerals',
   'ordinals-dates': 'numerals',
   'idioms-register': 'idioms',

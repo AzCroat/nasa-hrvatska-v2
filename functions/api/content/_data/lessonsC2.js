@@ -543,7 +543,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Cases Are Automatic. These Are Not.',
-        body: 'By C2 the case endings are not the problem. What still causes hesitation is the small set of nouns that decline against expectation, and above all foreign names — because Croatian declines them, English does not, and there is no way to avoid the question when you write about anyone from outside the country.',
+        body: 'At this point the case endings are not the problem. What still causes hesitation is the small set of nouns that decline against expectation, and above all foreign names — because Croatian declines them, English does not, and there is no way to avoid the question when you write about anyone from outside the country.',
         icon: '🧩',
       },
       {
@@ -595,8 +595,8 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Two Plurals, Two Meanings',
-        body: 'A handful of nouns have kept a short plural and a long plural with different senses. Sat: dva sata (two hours) but dva satova is wrong — satovi means clocks or lessons. Oko: oči for the eyes in your head, oka for the eyes of a net or spots of fat in soup. Choosing the wrong plural produces a sentence that is grammatical and about the wrong thing.',
-        highlight: 'dva sata (hours) · dva sata na zidu → dva satova ✗ / dva sata ✓',
+        body: 'A handful of nouns have kept a short plural and a long plural with different senses. Sat: sati for hours (pet sati, mnogo sati) but satovi for clocks and lessons (pet satova, novi satovi). After dva, tri, četiri both senses share one form, dva sata, so the difference shows from five upwards. Oko: oči for the eyes in your head, oka for the eyes of a net or spots of fat in soup. Choosing the wrong plural produces a sentence that is grammatical and about the wrong thing.',
+        highlight: 'pet sati (hours) · pet satova (clocks, lessons)',
       },
       {
         type: 'rule',
@@ -786,7 +786,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Part of Formal Writing Nobody Teaches',
-        body: 'Numbers are where a well-written Croatian document quietly announces whether it was written by someone who works in the language. The grammar of counting was settled at A2 and C1; what remains is convention — when to write a numeral and when a word, how to punctuate a decimal, how to render a date, how to inflect a number inside running text.',
+        body: 'Numbers are where a well-written Croatian document quietly announces whether it was written by someone who works in the language. The grammar of counting was settled at earlier levels; what remains is convention — when to write a numeral and when a word, how to punctuate a decimal, how to render a date, how to inflect a number inside running text.',
         icon: '📐',
       },
       {
@@ -794,7 +794,7 @@ export const LESSONS_C2 = [
         title: 'The Conventions',
         headers: ['Written as', 'Not', 'Context'],
         rows: [
-          ['1.500,75 kn', '1,500.75 kn', 'Dot separates thousands, comma the decimal'],
+          ['1.500,75 eura', '1,500.75 eura', 'Dot separates thousands, comma the decimal'],
           ['5. svibnja 2026.', '5 svibanj 2026', 'Ordinal dots; the month in the genitive'],
           ['u 14 sati', 'u 14:00 sati', 'The word sati replaces the second half of the clock time'],
           ['20 %', '20%', 'A space before the percent sign'],
@@ -809,20 +809,20 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Words for Small Numbers, Numerals for Large',
-        body: 'Croatian prose convention, like English, writes small numbers as words and larger ones as numerals — commonly words up to ten, numerals above. The line is not codified, so the rule that matters is consistency within one text. What is codified is that a sentence never begins with a numeral: rewrite the sentence or spell the number out.',
-        highlight: 'Never open a sentence with a numeral',
+        body: 'Croatian prose convention, like English, writes small numbers as words and larger ones as numerals — commonly words up to ten, numerals above. The line is not codified, so the rule that matters is consistency within one text. Style manuals add one firm recommendation: do not begin a sentence with a numeral — rewrite the sentence or spell the number out.',
+        highlight: 'Style rule: do not open a sentence with a numeral',
       },
       {
         type: 'rule',
         title: 'Numbers Decline, Including in Documents',
-        body: 'Two, three and four decline: s dvama ljudima, o trima slučajevima. Higher numbers behave as indeclinables in practice, and modern usage lets dva decline or not depending on register. In administrative writing the declined forms survive and are expected; in journalism they read as stiff. Knowing which is which is the whole skill.',
-        highlight: 's dvama prijedlozima (formal) · s dva prijedloga (neutral)',
+        body: 'Two, three and four decline: s dvama ljudima, o trima slučajevima. Higher numbers behave as indeclinables in practice, and modern usage lets dva decline or not. Both are standard: the undeclined s dva prijedloga is the usual form everywhere, and the declined s dvama prijedlozima survives in administrative and legal writing, where it reads as formal; in journalism it reads as stiff.',
+        highlight: 's dvama prijedlozima (formal) · s dva prijedloga (neutral, standard)',
       },
       {
         type: 'rule',
         title: 'The Genitive After Quantity Is Not Optional',
-        body: 'After a quantity expression the counted noun stands in the genitive plural: mnogo ljudi, nekoliko problema, pet kuna, malo vremena. The commonest C2-level slip is applying it after dva/tri/četiri, which take the genitive SINGULAR instead: dva sata, tri dana, četiri godine. Getting this backwards is grammatical noise that a careful reader hears immediately.',
-        highlight: 'pet kuna (gen. pl.) · dvije kune (gen. sg.)',
+        body: 'After a quantity expression the counted noun stands in the genitive plural: mnogo ljudi, nekoliko problema, pet eura, malo vremena. The commonest advanced slip is applying it after dva/tri/četiri, which take the genitive SINGULAR instead: dva sata, tri dana, četiri godine. Getting this backwards is grammatical noise that a careful reader hears immediately.',
+        highlight: 'pet godina (gen. pl.) · dvije godine (gen. sg.)',
       },
       {
         type: 'table',
@@ -905,7 +905,7 @@ export const LESSONS_C2 = [
         options: ['1,250.50 eura', '1.250,50 eura', '1 250.50 eura', '1250,50 euro'],
         correct: 1,
         explanation:
-          'Croatian uses the dot as the thousands separator and the comma as the decimal mark — the opposite of English. Euro also takes the genitive plural eura after this quantity, not the nominative.',
+          'Croatian uses the dot as the thousands separator and the comma as the decimal mark — the opposite of English. After a decimal amount the noun stands in the genitive singular; for euro that is eura, the same form as the genitive plural, never the nominative euro.',
       },
       {
         type: 'quiz',
@@ -923,7 +923,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors English habits produce. First, English punctuation: "1,500.75" is read by a Croatian accountant as one and a half — write 1.500,75 — dot for thousands, comma for decimals. Second, opening a sentence with a numeral: "30 dana je rok." must be rewritten as "Rok je 30 dana." or the number spelled out. Third, a missing space and a confused unit: "20%" should be 20 %, and a rise from 10 % to 12 % is dva postotna boda, not "dva posto".',
+        body: 'Three errors English habits produce. First, English punctuation: "1,500.75" is read by a Croatian accountant as one and a half — write 1.500,75 — dot for thousands, comma for decimals. Second, opening a sentence with a numeral, which style manuals advise against: „30 dana je rok.“ reads better as „Rok je 30 dana.“ or with the number spelled out. Third, a missing space and a confused unit: "20%" should be 20 %, and a rise from 10 % to 12 % is dva postotna boda, not "dva posto".',
         highlight: '1.500,75 — dot for thousands, comma for decimals',
       },
       {
@@ -942,7 +942,7 @@ export const LESSONS_C2 = [
             options: ['sata / eura', 'sati / eura', 'sata / euri', 'sati / euro'],
             correct: 0,
             explanation:
-              'dva, tri, četiri take the genitive singular (četiri sata) and five and above the genitive plural (pet eura). Getting this backwards is the commonest C2-level slip with numbers.',
+              'dva, tri, četiri take the genitive singular (četiri sata) and five and above the genitive plural (pet eura). Getting this backwards is the commonest advanced slip with numbers.',
           },
           {
             q: 'Which is correctly written for a report?',
@@ -957,7 +957,7 @@ export const LESSONS_C2 = [
               'The decimal mark is a comma, and after a decimal the noun stands in the genitive singular: 3,5 postotnog boda. The second option has an English decimal point, the others the wrong case.',
           },
           {
-            q: 'Which sentence breaks a codified rule?',
+            q: 'Which sentence goes against the style rule for numerals?',
             options: [
               'Rok je 30 dana.',
               '30 dana je rok.',
@@ -966,10 +966,10 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'A sentence never begins with a numeral. Either rewrite it so the numeral moves inside, or spell the number out.',
+              'Style manuals advise against beginning a sentence with a numeral. Either rewrite it so the numeral moves inside, or spell the number out.',
           },
           {
-            q: 'In an administrative decision, which is expected?',
+            q: 'Which phrase keeps the declined form of dva, as administrative texts often do?',
             options: [
               's dva prijedloga',
               'sa dva prijedlozima',
@@ -978,7 +978,7 @@ export const LESSONS_C2 = [
             ],
             correct: 2,
             explanation:
-              'Administrative writing keeps the declined forms of two, three and four: s dvama prijedlozima. s dva prijedloga is the neutral journalistic form, and the other two mix cases.',
+              's dvama prijedlozima declines dva. s dva prijedloga is also standard, and the more usual form; the other two mix cases.',
           },
           {
             q: 'Interest moves from 4 % to 6 %. By how much has it risen?',
@@ -1034,7 +1034,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'Agreement Stops Being Automatic',
-        body: 'One noun, one verb: settled at A1. What is not settled, and what C2 writers still get wrong, is what happens when the subject is two nouns of different genders, or a collective, or a quantity, or a noun far away from its verb. Croatian has answers for all of these, and several of them are not what an English speaker would guess.',
+        body: 'One noun, one verb: settled at A1. What is not settled, and what advanced writers still get wrong, is what happens when the subject is two nouns of different genders, or a collective, or a quantity, or a noun far away from its verb. Croatian has answers for all of these, and several of them are not what an English speaker would guess.',
         icon: '🔗',
       },
       {
@@ -1059,8 +1059,8 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'A Quantity Subject Takes a Neuter Singular Verb',
-        body: 'This is the rule that most often surprises. Mnogo ljudi je došlo. Nekoliko studenata je položilo. Pet automobila je stiglo. The quantity word, not the noun, controls agreement, and it delivers a neuter singular. Writing "mnogo ljudi su došli" is the single commonest agreement error in advanced learner Croatian.',
-        highlight: 'Mnogo ljudi je došlo — not "su došli"',
+        body: 'This is the rule that most often surprises. Mnogo ljudi je došlo. Nekoliko studenata je položilo. Pet automobila je stiglo. The quantity word, not the noun, controls agreement, and it delivers a neuter singular. Writing „mnogo ljudi su došli“ is the single commonest agreement error in advanced learner Croatian.',
+        highlight: 'Mnogo ljudi je došlo — not „su došli“',
       },
       {
         type: 'rule',
@@ -1070,9 +1070,10 @@ export const LESSONS_C2 = [
       },
       {
         type: 'rule',
-        title: 'The Nearest Noun Does Not Win',
-        body: 'English speakers sometimes let agreement drift to whichever noun is closest to the verb. Croatian does not permit it. "Ni Ivan ni njegove sestre nisu došli" — the verb is plural because the subject as a whole is plural, not feminine because sestre is nearest, nor singular because Ivan is first. When the subject is long, find its head before choosing the verb.',
-        highlight: 'agreement is with the whole subject, not the nearest word',
+        title: 'The Nearest Noun: Only When the Verb Comes First',
+        body: 'You met the one place where the nearest noun may decide in the previous lesson: a verb placed BEFORE its subjects may agree with the nearest one, Doputovala je Marija i njezin brat, Popularne su rasprodaje i popusti, and the plural is always correct too. When the verb FOLLOWS the subjects, it agrees with the subject as a whole. „Ni Ivan ni njegove sestre nisu došli“ — the verb is masculine plural because the subject as a whole is mixed, not feminine because sestre is nearest. When a long subject comes first, find its head before choosing the verb.',
+        highlight:
+          'verb after the subjects → the whole subject; verb first → the nearest may decide',
       },
       {
         type: 'example',
@@ -1210,10 +1211,10 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'došle agrees with sestre alone because it is nearest to the verb. The subject as a whole is mixed, so the participle must be došli. The fourth sentence has a singular subject, Ivan, and is correct.',
+              'došle agrees with sestre alone because it is nearest to the verb. The verb follows the subjects, so it agrees with the subject as a whole, which is mixed: došli. The fourth sentence has a singular subject, Ivan, and is correct.',
           },
           {
-            q: 'Why does "dva studenta su došla" differ from "pet studenata je došlo"?',
+            q: 'Why does „dva studenta su došla“ differ from „pet studenata je došlo“?',
             options: [
               'Because dva is feminine',
               'Because two, three and four preserve the old dual, while five and above are quantity expressions',
@@ -1241,7 +1242,7 @@ export const LESSONS_C2 = [
           'Quantity subjects (mnogo, nekoliko, five and above) take a NEUTER SINGULAR verb',
           'Two, three and four keep a plural-looking form from the old dual',
           'djeca and braća are collectives with their own agreement',
-          'The verb agrees with the whole subject, never with the nearest noun',
+          'A verb after its subjects agrees with the whole subject; a verb placed first may agree with the nearest',
         ],
       },
     ],
@@ -1261,14 +1262,14 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'Where the Case Is the Message',
-        body: 'At C1 you learned which case each verb governs. At C2 the remaining cases are the ones where nothing governs anything — where the case itself carries the meaning and swapping it produces a different sentence rather than a wrong one. These are the constructions that let a Croatian writer say in four words what English needs a clause for.',
+        body: 'Earlier in this level you learned which case each verb governs. The cases left are the ones where nothing governs anything — where the case itself carries the meaning and swapping it produces a different sentence rather than a wrong one. These are the constructions that let a Croatian writer say in four words what English needs a clause for.',
         icon: '🎚️',
       },
       {
         type: 'rule',
         title: 'The Genitive of Negation',
-        body: 'A negated verb can take its object in the genitive instead of the accusative: Nemam vremena rather than Nemam vrijeme. Ne vidim razloga. Nema problema. The genitive here is older and stronger; it emphasises the total absence of the thing. The accusative after a negated verb is also possible and reads as more neutral, so the choice is a matter of emphasis rather than correctness.',
-        highlight: 'Nemam vremena — total absence',
+        body: 'After nemati and nema the object is in the genitive: Nemam vremena, Nema problema, Nemam novca. Nemam vrijeme is not standard Croatian. After other negated verbs the genitive is possible beside the accusative: Ne vidim razloga or Ne vidim razlog. There the genitive is older and stronger and stresses the total absence of the thing; the accusative reads as more neutral, so the choice is one of emphasis.',
+        highlight: 'Nemam vremena — never Nemam vrijeme',
       },
       {
         type: 'table',
@@ -1276,7 +1277,11 @@ export const LESSONS_C2 = [
         headers: ['Genitive', 'Accusative', 'The difference'],
         rows: [
           ['Popio je vode.', 'Popio je vodu.', 'Some water / the water — the partitive'],
-          ['Nemam novca.', 'Nemam novac.', 'No money at all / not the money in question'],
+          [
+            'Ne vidim razloga.',
+            'Ne vidim razlog.',
+            'No reason at all (stronger) / no reason (neutral)',
+          ],
           ['Daj mi kruha.', 'Daj mi kruh.', 'Some bread / the loaf'],
           ['Bojim se psa.', '—', 'bojati se governs the genitive; no choice here'],
         ],
@@ -1302,7 +1307,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Instrumental of Manner and Means',
-        body: 'A bare instrumental gives means or route without any preposition: putovati vlakom (by train), pisati olovkom (with a pencil), ići šumom (through the forest), noću (by night). With s or sa the same case means accompaniment instead: s bratom, sa sestrom. Dropping or adding the preposition turns an instrument into a companion, which is how "putovao je s vlakom" becomes a sentence about travelling in the train\'s company.',
+        body: 'A bare instrumental gives means or route without any preposition: putovati vlakom (by train), pisati olovkom (with a pencil), ići šumom (through the forest). With s or sa the same case means accompaniment instead: s bratom, sa sestrom. Dropping or adding the preposition turns an instrument into a companion, which is how "putovao je s vlakom" becomes a sentence about travelling in the train\'s company.',
         highlight: 'putovati vlakom (by) · putovati s bratom (with)',
       },
       {
@@ -1426,10 +1431,10 @@ export const LESSONS_C2 = [
           },
           {
             q: 'Which sentence is wrong rather than merely a different emphasis?',
-            options: ['Nemam vremena.', 'Nemam vrijeme.', 'Popio je vode.', 'Bojim se psu.'],
+            options: ['Nemam vremena.', 'Ne vidim razlog.', 'Popio je vode.', 'Nemam vrijeme.'],
             correct: 3,
             explanation:
-              'bojati se governs the genitive, psa, so the dative is an error. The first three are all correct: the genitive and accusative after a negated verb differ only in emphasis, and vode is partitive.',
+              'nemati takes the genitive, Nemam vremena, so the accusative vrijeme is an error. The first three are correct: after other negated verbs such as vidjeti the accusative is a neutral alternative to the genitive, and vode is partitive.',
           },
           {
             q: 'Complete: "___ idemo na tržnicu." (every Saturday, as a habit)',
@@ -1463,7 +1468,7 @@ export const LESSONS_C2 = [
         type: 'summary',
         title: 'Case at the Margins — What to Keep',
         points: [
-          'The genitive of negation emphasises total absence: Nemam vremena',
+          'nemati and nema take the genitive: Nemam vremena; after other negated verbs the genitive stresses total absence',
           'The partitive genitive means "some": Kupi kruha vs Kupi kruh',
           'Time takes bare cases: prošle godine (point), subotom (repeated), cijeli dan (duration)',
           'The dative marks the person affected, doing the work of a possessive',

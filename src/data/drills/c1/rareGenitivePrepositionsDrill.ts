@@ -4,7 +4,7 @@
 // `rare-genitive-prepositions` lesson (C1 position 17).
 //
 // Three modes:
-//   znacenje — choose the preposition by meaning: usred / nasred, uoči, povodom,
+//   znacenje — choose the preposition by meaning: usred / nasred, uoči, prigodom,
 //              prilikom, pomoću, putem, umjesto, poput, duž, mimo
 //   oblik    — the genitive form after the preposition
 //   zbog     — zbog (cause) against radi (purpose), and unatoč with the DATIVE
@@ -34,7 +34,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'znacenje',
     q: 'Netko je ostavio bicikl ____ pločnika.',
     en: 'Someone left a bicycle in the middle of the pavement.',
-    opts: ['nasred', 'uoči', 'povodom', 'umjesto'],
+    opts: ['nasred', 'uoči', 'prigodom', 'umjesto'],
     answer: 'nasred',
     tip: 'The middle of a surface: nasred.',
   },
@@ -48,11 +48,11 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'znacenje',
-    q: 'Općina je izdala prigodnu marku ____ obljetnice osnutka.',
+    q: 'Općina je izdala poštansku marku ____ obljetnice osnutka.',
     en: 'The municipality issued a commemorative stamp to mark the anniversary of its founding.',
-    opts: ['putem', 'povodom', 'nasred', 'umjesto'],
-    answer: 'povodom',
-    tip: 'What an event marks: povodom.',
+    opts: ['putem', 'prigodom', 'nasred', 'umjesto'],
+    answer: 'prigodom',
+    tip: 'What an event marks: prigodom (or u povodu). The strict norm rejects povodom.',
   },
   {
     mode: 'znacenje',
@@ -66,7 +66,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'znacenje',
     q: 'Vrata su otvorili ____ posebnog alata.',
     en: 'They opened the door with the help of a special tool.',
-    opts: ['uoči', 'usred', 'pomoću', 'povodom'],
+    opts: ['uoči', 'usred', 'pomoću', 'prigodom'],
     answer: 'pomoću',
     tip: 'The means that made it possible: pomoću.',
   },
@@ -82,7 +82,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'znacenje',
     q: '____ ceste rastu stari čempresi.',
     en: 'Old cypresses grow along the road.',
-    opts: ['Duž', 'Usred', 'Povodom', 'Umjesto'],
+    opts: ['Duž', 'Usred', 'Prigodom', 'Umjesto'],
     answer: 'Duž',
     tip: 'Along the length of something: duž.',
   },
@@ -90,7 +90,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'znacenje',
     q: 'Dozvola je izdana ____ propisa.',
     en: 'The permit was issued in breach of the regulations.',
-    opts: ['povodom', 'uoči', 'mimo', 'pomoću'],
+    opts: ['prigodom', 'uoči', 'mimo', 'pomoću'],
     answer: 'mimo',
     tip: 'Contrary to, outside of: mimo.',
   },
@@ -174,7 +174,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zbog',
     q: 'Let je otkazan ____ magle.',
     en: 'The flight was cancelled because of the fog.',
-    opts: ['radi', 'zbog', 'unatoč', 'povodom'],
+    opts: ['radi', 'zbog', 'unatoč', 'prigodom'],
     answer: 'zbog',
     tip: 'The fog is the cause: zbog.',
   },

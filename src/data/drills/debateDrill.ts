@@ -86,11 +86,11 @@ export const DEBATE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ustupak',
-    q: 'Kako se izriče snažno neslaganje bez grubosti?',
-    en: 'Strong disagreement, politely:',
-    opts: ['Upravo suprotno.', 'Glupost.', 'Nije istina.', 'Ma dajte.'],
-    answer: 'Upravo suprotno.',
-    tip: 'It contradicts the claim without touching the person.',
+    q: 'Kako se izriče neslaganje bez grubosti?',
+    en: 'Disagreement, politely:',
+    opts: ['Tu se ne bih složio.', 'Glupost.', 'Nije istina.', 'Ma dajte.'],
+    answer: 'Tu se ne bih složio.',
+    tip: 'The conditional softens it: it disputes the claim without touching the person.',
   },
   {
     mode: 'ustupak',

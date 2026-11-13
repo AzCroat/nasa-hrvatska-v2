@@ -35,6 +35,12 @@ const L_DEPERSONALIZATION = {
       highlight: 'Pričalo se da…',
     },
     {
+      type: 'rule',
+      title: 'With a Noun in the Nominative, the Verb Agrees',
+      body: 'The neuter singular is only for a sentence with NO nominative noun. When the se-sentence names the thing that is bought, carried or done, that noun is in the nominative and the verb agrees with it in number and gender: Djeci su se kupovale igračke (igračke, feminine plural). U posjet su se nosili mali pokloni (pokloni, masculine plural). Na kraju se pjevala pjesma (pjesma, feminine singular). Compare Pjevalo se do jutra — no noun, so neuter singular.',
+      highlight: 'Djeci su se kupovale igračke.',
+    },
+    {
       type: 'table',
       title: 'Present and Past',
       headers: ['Present', 'Past', 'Meaning'],
@@ -61,7 +67,7 @@ const L_DEPERSONALIZATION = {
     {
       type: 'rule',
       title: 'Feelings With a Dative: Spava mi se',
-      body: "A neighbouring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I fancy a coffee). The person does not act; the urge happens to them. In the past the verb is again neuter singular: Spavalo mi se cijeli dan.",
+      body: "A neighbouring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I fancy a coffee). The person does not act; the urge happens to them. In the past the verb is neuter singular when there is no nominative noun — Spavalo mi se cijeli dan — but agrees with one when there is: Pila mi se kava.",
       highlight: 'Spava mi se',
     },
     {
@@ -190,16 +196,11 @@ const L_DEPERSONALIZATION = {
             'se keeps second position and ne stands directly before the verb. se can never open a sentence.',
         },
         {
-          q: 'What does "Kažu da je cesta zatvorena" suggest about the source?',
-          options: [
-            'the speaker closed the road personally',
-            'the road closed by itself',
-            'one named official said so',
-            'unnamed people or the media are the source',
-          ],
-          correct: 3,
+          q: 'Complete: "Djeci su se za Božić ___ igračke." (were bought)',
+          options: ['kupovalo', 'kupovale', 'kupovao', 'kupovala'],
+          correct: 1,
           explanation:
-            'A bare third person plural points vaguely at "them" — people, reporters — without naming anyone.',
+            'The se-sentence has a nominative noun, igračke (feminine plural), and the verb agrees with it: kupovale su se.',
         },
         {
           q: 'Complete the report: "Nakon analize ___ je da su podaci točni." (it was established)',
@@ -244,6 +245,7 @@ const L_DEPERSONALIZATION = {
         'Kažu da…, Javljaju da… — the spoken third person plural',
         'Dative + se for an urge: Spava mi se, Ne da mi se',
         'Formal reports: Utvrđeno je da…, Odlučeno je da…, Smatra se da…',
+        'With a nominative noun the verb agrees: Djeci su se kupovale igračke',
       ],
     },
   ],
@@ -313,6 +315,14 @@ const P_DEPERSONALIZATION = {
         correct: 2,
         hint: 'In the past an impersonal se-verb has no subject to agree with.',
         explanation: 'Neuter singular: Nekad se vjerovalo da…',
+      },
+      {
+        q: 'Complete: "U posjet su se ___ mali pokloni." (were taken)',
+        options: ['nosilo', 'nosili', 'nosila', 'nosio'],
+        correct: 1,
+        hint: 'Is there a nominative noun in the sentence?',
+        explanation:
+          'pokloni is masculine plural and the verb agrees: nosili su se. The neuter is only for a sentence with no such noun.',
       },
       {
         q: 'Which sentence is a depersonalised statement?',
@@ -486,7 +496,7 @@ const P_DEPERSONALIZATION = {
 const L_PREFIXED_VERBS = {
   id: 'prefixed-verbs',
   title: 'Prefixed Verbs',
-  subtitle: 'One root, seventeen prefixes: how pisati and ići become dozens of verbs',
+  subtitle: 'Twenty prefixes, their meanings, their spelling and their aspect pairs',
   icon: '🧩',
   level: 'C1',
   duration: '~7 min',
@@ -541,16 +551,49 @@ const L_PREFIXED_VERBS = {
       ],
     },
     {
-      type: 'rule',
-      title: 'What Each Prefix Means',
-      body: 'do- reaching or adding (doći, dopisati); iz- out of, or thoroughly (izaći, ispisati); na- onto, or simply completion (napisati, naći); nad- over, above, surpassing (nadići, nadmašiti, nadživjeti); o- around, covering (obići, opisati); od- away, off, back (otići, otpisati); po- setting off, a little, or completion (poći, popričati, popisati); pod- under (potpisati — writing under; podcrtati); pre- across, over again (prijeći, prepisati); pred- in front, before (predvidjeti, predložiti); pri- towards, attaching (prići, pripisati); pro- through, past (proći, propisati); raz- apart, in all directions (razići se, raspisati); s- down, together (sići, skupiti); u- into (ući, upisati); uz- up (uspeti se, uzdignuti); za- behind, beginning, recording (zaći, zaplakati, zapisati).',
-      highlight: 'od- away, off, back',
+      type: 'table',
+      title: 'Twenty Prefixes and Their Pairs',
+      headers: ['Prefix', 'Most common meaning', 'Perfective – imperfective'],
+      rows: [
+        ['do-', 'reaching a point, adding', 'dočekati – dočekivati'],
+        ['iz- / is-', 'out of; to the very end', 'iscrpiti – iscrpljivati'],
+        ['na-', 'onto; piling up', 'nagomilati – nagomilavati'],
+        ['obez- / obes-', 'taking something away', 'obeshrabriti – obeshrabrivati'],
+        ['nad- / nat-', 'over, surpassing', 'nadmašiti – nadmašivati'],
+        ['o-', 'around; making something so', 'okružiti – okruživati'],
+        ['ob- / op-', 'all around', 'opkoliti – opkoljavati'],
+        ['od- / ot-', 'away, off, back', 'otplatiti – otplaćivati'],
+        ['po-', 'more strongly; a little; becoming', 'poboljšati – poboljšavati'],
+        ['pod- / pot-', 'under; too little', 'podcijeniti – podcjenjivati'],
+        ['pre-', 'across, over again', 'preseliti – preseljavati'],
+        ['pred- / pret-', 'before, in front', 'predvidjeti – predviđati'],
+        ['pri-', 'towards, attaching', 'pričvrstiti – pričvršćivati'],
+        ['pro-', 'through; judging', 'procijeniti – procjenjivati'],
+        ['raz- / ras- / ra-', 'apart, in all directions', 'razbiti – razbijati'],
+        ['s- / sa- / z-', 'down; together', 'sastaviti – sastavljati'],
+        ['su-', 'together, face to face', 'suočiti – suočavati'],
+        ['uz- / us-', 'up', 'uzdignuti – uzdizati'],
+        ['u-', 'into; putting a price on', 'ucijeniti – ucjenjivati'],
+        ['za-', 'beginning; behind; recording', 'zapisati – zapisivati'],
+      ],
     },
     {
       type: 'rule',
-      title: 'Spelling: the Prefix Assimilates',
-      body: 'Croatian spelling follows pronunciation. A prefix ending in a voiced consonant becomes voiceless before p, t, k, s, š, č, ć, f, h: iz + pisati → ispisati, od + pisati → otpisati, pod + pisati → potpisati, raz + pisati → raspisati, uz + peti se → uspeti se. Before a voiced consonant or a vowel nothing changes: odgovoriti, izabrati, podići, razbiti. So "podpisati" and "odpisati" are spelling errors.',
-      highlight: 'pod + pisati → potpisati',
+      title: 'What Each Prefix Means',
+      body: 'do- reaching or adding (doći, dočekati goste, dopisati); iz- out of, or to the very end (izaći, iscrpiti); na- onto, or piling up (nagomilati, natrpati); obez- taking away (obeshrabriti — to take the courage away, obezvrijediti); nad- over, surpassing (nadmašiti, nadživjeti); o- around, or making something so (okružiti, osnažiti); ob- all around (obići, opkoliti, opskrbiti); od- away, off, back (otići, otpisati, otplatiti); po- more strongly, a little, or becoming (poboljšati, popričati, pocrvenjeti); pod- under, or too little (potpisati, podcrtati, podcijeniti); pre- across, over again (prijeći, preseliti, prepisati); pred- in front, before (predvidjeti, predložiti); pri- towards, attaching (prići, pričvrstiti); pro- through, judging (proći, procijeniti); raz- apart (razbiti, raspisati); s- down, together (sići, sastaviti, skupiti); su- together, face to face (suočiti se s problemom); uz- up (uzdignuti, uspeti se); u- into (ući, upisati) and ucijeniti — to blackmail; za- beginning, behind, recording (zaplakati, zaći, zapisati).',
+      highlight: 'obez- taking away (obeshrabriti',
+    },
+    {
+      type: 'rule',
+      title: 'Spelling: Which Changes Are Written',
+      body: 'A prefix ending in a voiced consonant is pronounced voiceless before a voiceless consonant, and usually the spelling shows it: iz + pisati → ispisati, od + pisati → otpisati, pod + pisati → potpisati, raz + pisati → raspisati, uz + peti se → uspeti se, ob + koliti → opkoliti. The exception: d is NOT changed in writing before s, š, c, č and ć — odseliti se, odškrinuti, odčepiti, podsjetiti, podšišati, podcrtati, podcijeniti, podčiniti, predsjednik, nadčovjek. Before a voiced consonant or a vowel nothing changes: odgovoriti, izabrati, podići, razbiti. raz- and s- have one more step: raz- loses its z before s, z, š, ž (rasjeći, rasuti), and s- becomes z- before a voiced consonant (zbrojiti) and sa- before s, z, š, ž (sašiti, sažeti).',
+      highlight: 'odseliti se, podsjetiti, predsjednik',
+    },
+    {
+      type: 'rule',
+      title: 'Building the Imperfective Partner',
+      body: 'Most prefixed perfectives get an imperfective partner with -ivati, -avati or -ati, and the root often changes on the way. Watch four patterns: (1) -iti → -ivati with a softened consonant: iscrpiti → iscrpljivati, otplatiti → otplaćivati, pričvrstiti → pričvršćivati; (2) ije → je: procijeniti → procjenjivati, ucijeniti → ucjenjivati, podcijeniti → podcjenjivati; (3) -ati → -avati: nagomilati → nagomilavati, poboljšati → poboljšavati; (4) -ati → -ivati: dočekati → dočekivati, zapisati → zapisivati. With po- and a colour, two verbs differ: pocrnjeti and potamnjeti mean to BECOME black or dark by themselves, pocrniti and potamniti take an object and mean to MAKE something black or dark. The feminine past shows the difference: Koža joj je potamnjela na suncu (it happened by itself), but Potamnila je kosu (she dyed it).',
+      highlight: 'procijeniti → procjenjivati',
     },
     {
       type: 'rule',
@@ -621,6 +664,42 @@ const L_PREFIXED_VERBS = {
       ],
     },
     {
+      type: 'example',
+      title: 'Pairs in Context',
+      items: [
+        {
+          hr: 'Kredit za stan otplaćujemo već deset godina, a auto smo otplatili prošle zime.',
+          en: 'We have been paying off the mortgage for ten years, and we paid off the car last winter.',
+          note: 'otplaćivati for the process, otplatiti for the finished result',
+        },
+        {
+          hr: 'Stručnjaci procjenjuju štetu, a osiguranje će je procijeniti do petka.',
+          en: 'Experts are assessing the damage, and the insurer will assess it by Friday.',
+          note: 'pro- judging; ije → je in the imperfective procjenjivati',
+        },
+        {
+          hr: 'Ovaj me posao iscrpljuje, a prošli me tjedan potpuno iscrpio.',
+          en: 'This job is wearing me out, and last week it exhausted me completely.',
+          note: 'iz- to the very end; p → plj in iscrpljivati',
+        },
+        {
+          hr: 'Nemoj se obeshrabriti ako ti prvi pokušaj ne uspije.',
+          en: 'Do not lose heart if your first attempt fails.',
+          note: 'obes- before h: taking the courage away',
+        },
+        {
+          hr: 'Podsjetio me da se moramo suočiti s problemom prije nego što postane ozbiljan.',
+          en: 'He reminded me that we have to face the problem before it becomes serious.',
+          note: 'podsjetiti keeps its d before s; su- face to face',
+        },
+        {
+          hr: 'Koža joj je potamnjela na suncu, a sestra je potamnila kosu.',
+          en: 'Her skin went dark in the sun, and her sister dyed her hair darker.',
+          note: 'potamnjeti happens by itself; potamniti takes an object',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'What does adding a prefix such as za- or pod- usually do to the aspect of pisati?',
@@ -646,8 +725,8 @@ const L_PREFIXED_VERBS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first is spelling the prefix as it looks rather than as it sounds: "podpisati", "odpisati", "razpisati" — Croatian writes the assimilation: potpisati, otpisati, raspisati. The second is confusing two prefixes on one root: propisati (to lay down a rule) is not prepisati (to copy), and opisati (to describe) is not upisati (to enrol). The third is a prefixed perfective for an action spread over time: "Cijelo smo popodne obišli muzej" — duration needs the new imperfective: Cijelo smo popodne obilazili muzej. The fourth is the present of otići: the standard is odem, odeš, ode — not "otiđem".',
-      highlight: 'potpisati, otpisati, raspisati',
+      body: 'The first is spelling the prefix as it looks rather than as it sounds: "podpisati", "odpisati", "razpisati" — Croatian writes the assimilation: potpisati, otpisati, raspisati. The second is confusing two prefixes on one root: propisati (to lay down a rule) is not prepisati (to copy), and opisati (to describe) is not upisati (to enrol). The third is a prefixed perfective for an action spread over time: "Cijelo smo popodne obišli muzej" — duration needs the new imperfective: Cijelo smo popodne obilazili muzej. The fourth is the opposite spelling error: d stays d before s, š, c, č, ć, so "otseliti", "potsjetiti" and "pretsjednik" are wrong — odseliti, podsjetiti, predsjednik. The fifth is a wrong imperfective partner: "procijenjivati", "otplatjivati" — the root changes: procjenjivati, otplaćivati.',
+      highlight: 'odseliti, podsjetiti, predsjednik',
     },
     {
       type: 'check',
@@ -673,11 +752,11 @@ const L_PREFIXED_VERBS = {
           explanation: 'd becomes t before p, and Croatian writes it: potpisati.',
         },
         {
-          q: 'Complete: "Sunce ___ iza brda." (is setting)',
-          options: ['zalazi', 'izlazi', 'dolazi', 'ulazi'],
-          correct: 0,
+          q: 'Which spelling is correct?',
+          options: ['otseliti se', 'odseliti se', 'odsseliti se', 'od seliti se'],
+          correct: 1,
           explanation:
-            'za- behind: the sun goes behind the hill. izlazi is rising; dolazi and ulazi do not fit.',
+            'd is not changed in writing before s, š, c, č or ć: odseliti se, predsjednik.',
         },
         {
           q: 'Which is the imperfective partner of "prijeći"?',
@@ -687,15 +766,10 @@ const L_PREFIXED_VERBS = {
             'The secondary imperfective of the ići family ends in -laziti, with short e: prelaziti.',
         },
         {
-          q: 'Which sentence means "We went round the whole old town"?',
-          options: [
-            'Otišli smo cijeli stari grad.',
-            'Ušli smo cijeli stari grad.',
-            'Došli smo cijeli stari grad.',
-            'Obišli smo cijeli stari grad.',
-          ],
-          correct: 3,
-          explanation: 'o- around, with a direct object: obići grad.',
+          q: 'Complete: "Banka svake godine ___ vrijednost nekretnina." (assesses, again and again)',
+          options: ['procjenjuje', 'procijeni', 'procijenjuje', 'procjeni'],
+          correct: 0,
+          explanation: 'The imperfective partner of procijeniti is procjenjivati: ije becomes je.',
         },
       ],
     },
@@ -706,8 +780,10 @@ const L_PREFIXED_VERBS = {
         'A prefix shifts the meaning AND makes the verb perfective',
         'pisati: dopisati, ispisati, opisati, otpisati, potpisati, prepisati, propisati, upisati, zapisati',
         'ići: doći, izaći, naći, obići, otići, poći, prijeći, prići, proći, sići, ući, zaći',
-        'Spelling assimilates: ispisati, otpisati, potpisati, raspisati',
-        'The new imperfective: potpisivati, obilaziti, prelaziti, zalaziti',
+        'Spelling assimilates: ispisati, otpisati, potpisati, raspisati — but d stays before s, š, c, č, ć: odseliti, predsjednik',
+        'Twenty prefixes: do-, iz-, na-, obez-, nad-, o-, ob-, od-, po-, pod-, pre-, pred-, pri-, pro-, raz-, s-, su-, uz-, u-, za-',
+        'The new imperfective: dočekivati, iscrpljivati, otplaćivati, procjenjivati, ucjenjivati, obilaziti',
+        'pocrnjeti = become black; pocrniti + object = make black',
       ],
     },
   ],
@@ -785,11 +861,11 @@ const P_PREFIXED_VERBS = {
         explanation: 'pripisati nešto nečemu — to attribute something to something.',
       },
       {
-        q: 'Which prefix carries the meaning "out of"?',
-        options: ['u-', 'iz-', 'za-', 'do-'],
+        q: 'Which spelling is correct?',
+        options: ['pretsjednik', 'predsjednik', 'pređsjednik', 'pred sjednik'],
         correct: 1,
-        hint: 'Think of the verb for going out of a building.',
-        explanation: 'iz-: izaći, ispisati.',
+        hint: 'One consonant keeps its spelling before s, š, c, č and ć.',
+        explanation: 'd is not changed in writing before s: predsjednik, odseliti, podsjetiti.',
       },
       {
         q: 'Complete: "Konobar je ___ našem stolu." (came up to)',
@@ -806,11 +882,23 @@ const P_PREFIXED_VERBS = {
         explanation: 'raz + pisati → raspisati.',
       },
       {
-        q: 'What does "nadživjeti" mean?',
-        options: ['to outlive', 'to live under', 'to revive', 'to move in'],
+        q: 'Which prefix means "taking something away", as in a verb for taking someone\'s courage away?',
+        options: ['obez- / obes-', 'nad-', 'pri-', 'uz-'],
         correct: 0,
-        hint: 'nad- means over, above, surpassing.',
-        explanation: 'nadživjeti — to live longer than someone.',
+        hint: 'Think of bez, "without".',
+        explanation: 'obeshrabriti — to discourage; obezvrijediti — to devalue.',
+      },
+      {
+        q: 'Which sentence says that her skin went dark by itself?',
+        options: [
+          'Koža joj je potamnjela na suncu.',
+          'Koža joj je potamnila na suncu.',
+          'Koža joj je potamnjivala sunce.',
+          'Koža joj se potamnila suncem.',
+        ],
+        correct: 0,
+        hint: 'One verb in this pair means "become", the other "make".',
+        explanation: 'potamnjeti — to become dark; potamniti takes an object.',
       },
       {
         q: 'Which is the imperfective partner of "obići"?',
@@ -842,10 +930,17 @@ const P_PREFIXED_VERBS = {
       },
       {
         type: 'type',
-        q: 'Prošlog smo ljeta ____ cijelu Istru. (went round — o- + ići, perfective)',
-        answer: 'obišli',
-        hint: 'The perfective past, masculine plural.',
-        explanation: 'Obišli smo cijelu Istru.',
+        q: 'Kredit još ____ svaki mjesec. (we are paying off — od- + platiti, imperfective, 1st plural)',
+        answer: 'otplaćujemo',
+        hint: 'd becomes t before p; t becomes ć in the -ivati partner.',
+        explanation: 'otplatiti → otplaćivati → otplaćujemo.',
+      },
+      {
+        type: 'type',
+        q: 'Ova me vrućina potpuno ____. (is wearing out — iz- + crpiti, imperfective, 3rd singular)',
+        answer: 'iscrpljuje',
+        hint: 'z becomes s before c; p becomes plj in the imperfective.',
+        explanation: 'iscrpiti → iscrpljivati → iscrpljuje.',
       },
       {
         type: 'type',
@@ -876,16 +971,16 @@ const P_PREFIXED_VERBS = {
       explanation: 'd becomes t before p: otpisati.',
     },
     {
-      q: 'Complete: "Djeca su ___ niz stepenice." (came down)',
-      options: ['izašla', 'ušla', 'sišla', 'obišla'],
-      correct: 2,
-      explanation: 's- down: sići, sišla.',
+      q: 'Which spelling is correct?',
+      options: ['potsjetiti', 'podsjetiti', 'pothjetiti', 'pod sjetiti'],
+      correct: 1,
+      explanation: 'd is not changed in writing before s: podsjetiti.',
     },
     {
-      q: 'Which prefix means "over, above, surpassing"?',
-      options: ['pod-', 'nad-', 'pred-', 'pri-'],
-      correct: 1,
-      explanation: 'nad-: nadići, nadmašiti, nadživjeti.',
+      q: 'Which is the imperfective partner of "ucijeniti"?',
+      options: ['ucjenjivati', 'ucijenjivati', 'ucjenivati', 'ucjeniti'],
+      correct: 0,
+      explanation: 'ije becomes je and n becomes nj: ucjenjivati.',
     },
     {
       q: 'Which is the imperfective partner of "upisati"?',
@@ -903,6 +998,9 @@ const P_PREFIXED_VERBS = {
     ['obići', 'to go round, to visit', 'Obišli smo cijeli stari grad.'],
     ['prijeći', 'to cross', 'Prijeđite cestu na pješačkom prijelazu.'],
     ['nadmašiti', 'to surpass', 'Rezultati su nadmašili očekivanja.'],
+    ['procijeniti', 'to assess', 'Stručnjak je procijenio štetu.'],
+    ['otplatiti', 'to pay off', 'Konačno smo otplatili kredit.'],
+    ['obeshrabriti', 'to discourage', 'Nemoj se obeshrabriti.'],
   ],
 };
 
@@ -953,7 +1051,13 @@ const L_COMPARATIVE_CLAUSES = {
       type: 'rule',
       title: 'Nego što: Than + a Clause',
       body: 'After a comparative, a noun or adverb is compared with od or nego: skuplje od kave, bolje nego jučer. When a whole clause follows, standard Croatian uses nego što: Stan je skuplji nego što smo očekivali. Radio je više nego što je trebalo. od cannot introduce a clause, so "skuplji od što smo očekivali" is impossible.',
-      highlight: 'nego što smo očekivali',
+      highlight: 'Stan je skuplji nego što smo očekivali.',
+    },
+    {
+      type: 'rule',
+      title: 'Kao kad, Nego da, Nego kad, Negoli',
+      body: 'Four more conjunctions complete the set. kao kad compares with a remembered or typical moment: Plesali su cijelu noć kao kad su bili mladi. nego kad compares with another time: Bilo nam je ljepše na putu nego kad smo bili kod kuće. nego da compares two possible actions and prefers one, usually after bolje or radije: Bolje da prekinu vezu nego da se stalno svađaju. Radije bih putovao vlakom nego da vozim cijelu noć. negoli is a bookish nego što: Zaradio je više negoli je očekivao.',
+      highlight: 'Bolje da prekinu vezu nego da se stalno svađaju.',
     },
     {
       type: 'rule',
@@ -1165,6 +1269,20 @@ const P_COMPARATIVE_CLAUSES = {
   practice: {
     title: 'Guided Practice',
     items: [
+      {
+        q: 'Complete: "Bolje da prekinu vezu ___ se stalno svađaju."',
+        options: ['nego da', 'nego što', 'kao da', 'koliko'],
+        correct: 0,
+        hint: 'Two possible actions compared, one preferred.',
+        explanation: 'nego da compares two actions after bolje or radije.',
+      },
+      {
+        q: 'Complete: "Plesali su cijelu noć ___ su bili mladi."',
+        options: ['nego da', 'kao kad', 'što', 'koliko'],
+        correct: 1,
+        hint: 'A comparison with a remembered moment.',
+        explanation: 'kao kad — as when they were young.',
+      },
       {
         q: 'Complete: "Izgleda ___ će padati kiša." (as if)',
         options: ['kao da', 'kao ako', 'nego da', 'kako ako'],

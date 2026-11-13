@@ -310,7 +310,7 @@ export const ADVANCED_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
   },
   {
     id: 'c1collectiveplural',
-    label: 'Collective Nouns in -je',
+    label: 'Momčad, Unučad, Pilad',
     screen: 'c1collectiveplural',
     cefr: 'C1',
     category: 'c1-collective-plural',
@@ -454,5 +454,26 @@ export const ADVANCED_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     screen: 'c1directspeechspelling',
     cefr: 'C1',
     category: 'c1-direct-speech-spelling',
+  },
+  {
+    id: 'c1textconnectors',
+    label: 'Naime, Osim Toga, U Tu Svrhu',
+    screen: 'c1textconnectors',
+    cefr: 'C1',
+    category: 'c1-text-connectors',
+  },
+  {
+    id: 'c1collectivenumbers',
+    label: 'Dvoje, Desetak, Dvoja Vrata',
+    screen: 'c1collectivenumbers',
+    cefr: 'C1',
+    category: 'c1-collective-numbers',
+  },
+  {
+    id: 'c1pluperfect',
+    label: 'Bio Sam Otišao',
+    screen: 'c1pluperfect',
+    cefr: 'C1',
+    category: 'c1-pluperfect',
   },
 ];

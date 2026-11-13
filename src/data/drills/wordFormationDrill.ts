@@ -57,7 +57,7 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
     en: 'to sign',
     opts: ['potpisati', 'upisati', 'zapisati', 'prepisati'],
     answer: 'potpisati',
-    tip: 'pot-/pod- is "under": potpisati is literally to write underneath.',
+    tip: 'pod- is "under" (written pot- before p): potpisati is literally to write underneath.',
   },
   {
     mode: 'prefiksi',
@@ -143,11 +143,11 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'vrsitelj',
-    q: 'zidati → ____',
-    en: 'bricklayer',
+    q: 'zid → ____',
+    en: 'bricklayer (someone who builds walls)',
     opts: ['zidar', 'zidač', 'zidatelj', 'zidnik'],
     answer: 'zidar',
-    tip: 'A trade → -ar: zidar.',
+    tip: 'A trade from a noun → -ar: zid → zidar, like riba → ribar.',
   },
   {
     mode: 'vrsitelj',
@@ -202,7 +202,7 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does ne- do?',
     opts: ['niječe', 'pojačava', 'umanjuje', 'mijenja rod'],
     answer: 'niječe',
-    tip: 'It negates, and it is written joined: nemoguć, nejasan, nezavisan.',
+    tip: 'It negates, and it is written joined: nemoguć, nejasan, neovisan.',
   },
   {
     mode: 'razlaganje',

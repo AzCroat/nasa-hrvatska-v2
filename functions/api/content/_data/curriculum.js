@@ -1472,6 +1472,20 @@ export const CURRICULUM = [
     ],
   },
   {
+    // Book-vs-app fix (2026-11-13): workbook block VII, in the slot freed when the old
+    // zarez-interpunkcija lesson was merged into comma-dependent-clauses.
+    id: 'text-connectors',
+    level: 'C1',
+    order: 20,
+    prerequisites: ['comma-dependent-clauses'],
+    objectives: [
+      'Link sentences with explanatory and cause–effect connectors: naime, drugim riječima, zbog toga, uslijed toga',
+      'Express purpose and condition across sentences: u tu svrhu, radi toga, u tome slučaju, inače',
+      'Keep location and direction apart: ondje, onamo, odande',
+      'Use time, manner and additive connectors: nakon toga, na taj način, osim toga',
+    ],
+  },
+  {
     id: 'verb-government',
     level: 'C1',
     order: 15,
@@ -1821,17 +1835,6 @@ export const CURRICULUM = [
       'Handle the spellings Croatians themselves argue about',
       'Write ne, the conditional and capitals by rule',
       'Be consistent where the rule is genuinely contested',
-    ],
-  },
-  {
-    id: 'zarez-interpunkcija',
-    level: 'C1',
-    order: 20,
-    prerequisites: ['complex-sentences'],
-    objectives: [
-      'Place the Croatian comma by rule, not by English habit',
-      'Punctuate subordinate clauses correctly',
-      'Write text that reads as edited rather than drafted',
     ],
   },
   {

@@ -45,11 +45,11 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'agens',
-    q: '"Došlo je do smanjenja broja zaposlenih." Što je uklonjeno?',
+    q: '„Došlo je do smanjenja broja zaposlenih.“ Što je uklonjeno?',
     en: 'What has been removed?',
-    opts: ['i vršitelj i radnja', 'samo vršitelj', 'samo vrijeme', 'ništa'],
-    answer: 'i vršitelj i radnja',
-    tip: 'Nominalisation goes further than the passive — nobody did anything.',
+    opts: ['vršitelj — radnja ostaje kao imenica', 'i vršitelj i radnja', 'samo vrijeme', 'ništa'],
+    answer: 'vršitelj — radnja ostaje kao imenica',
+    tip: 'The reduction is still named, as a noun (smanjenje); what is gone is who reduced. The nominalisation hides the actor even better than the passive.',
   },
   {
     mode: 'agens',
@@ -172,7 +172,7 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which does NOT carry doubt?',
     opts: ['navodno', 'tobože', 'takozvani', 'kobajagi'],
     answer: 'navodno',
-    tip: 'The other three do, in ascending order of scorn.',
+    tip: 'The other three do, in ascending order of scorn; kobajagi is colloquial.',
   },
   {
     mode: 'ograde',

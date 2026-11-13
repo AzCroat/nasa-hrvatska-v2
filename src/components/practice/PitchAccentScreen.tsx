@@ -23,32 +23,36 @@ function ErrorState({ message }: { message: string }) {
   return <div style={{ padding: 24, textAlign: 'center', color: 'var(--info)' }}>{message}</div>;
 }
 
+// The marks are the standard dictionary notation, the same as the accent-prosody lesson's
+// table: double grave (ȁ) short falling, grave (à) short rising, inverted breve (ȃ) long
+// falling, acute (á) long rising. They used to be grave / acute / circumflex / double acute,
+// which put the short-falling key on the short-rising mark (2026-11-13).
 const ACCENT_TYPES = [
   {
     id: 'kratkosilazni',
     label: 'Short Falling',
-    symbol: '◌̀',
+    symbol: 'ȁ',
     color: '#ef4444',
     desc: 'Pitch drops on a short vowel',
   },
   {
     id: 'kratkouzlazni',
     label: 'Short Rising',
-    symbol: '◌́',
+    symbol: 'à',
     color: '#3b82f6',
     desc: 'Pitch rises on a short vowel',
   },
   {
     id: 'dugosilazni',
     label: 'Long Falling',
-    symbol: '◌̂',
+    symbol: 'ȃ',
     color: '#f97316',
     desc: 'Pitch drops on a long vowel',
   },
   {
     id: 'dugouzlazni',
     label: 'Long Rising',
-    symbol: '◌̋',
+    symbol: 'á',
     color: '#22c55e',
     desc: 'Pitch rises on a long vowel',
   },

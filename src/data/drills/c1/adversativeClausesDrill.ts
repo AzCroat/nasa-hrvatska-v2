@@ -39,11 +39,11 @@ export const ADVERSATIVE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'veznik',
-    q: 'Htjeli smo krenuti rano, ____ nas je zadržala kiša.',
+    q: 'Htjeli smo krenuti rano, ____ kiša nas je zadržala.',
     en: 'We wanted to set off early, but the rain held us up.',
     opts: ['no', 'nego', 'već', 'dok'],
     answer: 'no',
-    tip: 'no is a bookish twin of ali.',
+    tip: 'no is a bookish twin of ali. No clitic can follow it directly, so kiša comes first.',
   },
   {
     mode: 'veznik',

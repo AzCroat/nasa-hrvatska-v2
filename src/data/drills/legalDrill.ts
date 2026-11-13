@@ -133,10 +133,10 @@ export const LEGAL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rekcija',
-    q: 'Što znači zapis "čl. 5. st. 2."?',
+    q: 'Što znači zapis „čl. 5. st. 2.“?',
     en: 'What does that citation mean?',
-    opts: ['članak 5, stavak 2', 'članak 5 do 2', 'stranica 5, stavak 2', 'članak 52'],
-    answer: 'članak 5, stavak 2',
+    opts: ['članak 5., stavak 2.', 'članak 5. do 2.', 'stranica 5., stavak 2.', 'članak 52.'],
+    answer: 'članak 5., stavak 2.',
     tip: 'And the full stops mark ordinals — peti, drugi.',
   },
   {
@@ -161,7 +161,7 @@ export const LEGAL_DRILL_DATA: ModeDrillItem[] = [
     en: 'According to the decision, the request was refused.',
     opts: ['rješenju', 'rješenja', 'rješenje', 'rješenjem'],
     answer: 'rješenju',
-    tip: 'prema plus the dative — a third preposition, a third case.',
+    tip: 'prema plus the dative — the same case as sukladno, but a different word.',
   },
 
   // ── raspakiraj ────────────────────────────────────────────────────────────

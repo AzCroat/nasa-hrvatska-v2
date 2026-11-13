@@ -72,8 +72,8 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Many of Them Carry Se',
-        body: 'Notice a pattern in that table: most genitive-governing verbs are reflexive. It is not a rule you can lean on entirely, but it is a useful hint — when a verb carries "se" and takes an object, the genitive is a good first guess. "Sjećam se tebe", "bojim se toga", "riješio sam se toga".',
-        highlight: 'reflexive verbs often take the genitive',
+        body: 'Notice a pattern in that table: most genitive-governing verbs are reflexive — "sjećam se tebe", "bojim se toga", "riješio sam se toga". The pattern runs one way only. Many reflexive verbs take other cases: "radovati se" the dative, "baviti se" and "koristiti se" the instrumental, as the next table shows. So "se" tells you nothing on its own; learn each verb with its case.',
+        highlight: 'genitive verbs are often reflexive — not the reverse',
       },
       {
         type: 'table',
@@ -107,7 +107,8 @@ export const LESSONS_C1 = [
           ['sastojati se od + genitive', 'to consist of'],
           ['temeljiti se na + locative', 'to be based on'],
           ['odgovarati na + accusative', 'to answer'],
-          ['brinuti se za + accusative', 'to care for'],
+          ['brinuti se o + locative', 'to look after'],
+          ['brinuti se za + accusative', 'to worry about'],
         ],
       },
       {
@@ -167,8 +168,8 @@ export const LESSONS_C1 = [
             note: 'vjerovati + dative; sumnjati u + accusative',
           },
           {
-            hr: 'Cijeli se plan temelji na podacima koji se sastoje od triju izvora.',
-            en: 'The whole plan is based on data that consist of three sources.',
+            hr: 'Izvješće se temelji na novim podacima i sastoji se od triju dijelova.',
+            en: 'The report is based on new data and consists of three parts.',
             note: 'temeljiti se na + locative; sastojati se od + genitive',
           },
           {
@@ -327,7 +328,7 @@ export const LESSONS_C1 = [
           ['Tko je uzeo knjigu?', 'and still has it'],
           ['Tko je uzimao knjigu?', 'who has been at it'],
           ['Dolazio je Ivan.', 'he came and went'],
-          ['Došao je Ivan.', 'he is here'],
+          ['Došao je Ivan.', 'he came — nothing said about leaving'],
         ],
       },
       {
@@ -414,9 +415,9 @@ export const LESSONS_C1 = [
             note: 'perfective present in a general truth, not a future',
           },
           {
-            hr: 'Pisala sam mu tri puta, a napisala sam mu tek jedno kratko pismo.',
-            en: 'I set about writing to him three times, but I only wrote him one short letter.',
-            note: 'pisati — the process, several attempts; napisati — the one completed',
+            hr: 'Cijelu sam mu večer pisala pismo, ali ga nisam napisala.',
+            en: 'I spent the whole evening writing him a letter, but I did not finish it.',
+            note: 'pisati — the process; nisam napisala — the result was not reached',
           },
         ],
       },
@@ -449,7 +450,7 @@ export const LESSONS_C1 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'The repairman came yesterday and has left. Which do you say?',
+            q: 'The repairman came yesterday and has left. Which sentence says, by its verb alone, that the visit is over?',
             options: [
               'Jučer je došao majstor.',
               'Jučer je dolazio majstor.',
@@ -458,7 +459,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'The imperfective of a momentary verb carries the annulled-result reading: he came and went. "Došao je" would suggest he is still here.',
+              'The imperfective of a momentary verb carries the annulled-result reading: he came and went. "Došao je majstor" is also correct for a visit that is over; it simply does not say so. The present and the future do not fit "jučer".',
           },
           {
             q: 'Complete: "Cijeli dan sam ga ___, ali ga nisam nagovorio."',
@@ -499,16 +500,16 @@ export const LESSONS_C1 = [
               'In a general or conditional statement the perfective present describes what typically happens. About one particular occasion the main clause takes the future instead: Ako pojedeš previše, bit će ti loše.',
           },
           {
-            q: 'A learner writes "Otvarao sam prozor, pa je sad svježe u sobi." What is wrong?',
+            q: 'A learner writes "Otvarao sam prozor, pa je sad otvoren." What is wrong?',
             options: [
               'nothing — the imperfective is the neutral past',
-              '"otvarao" implies the window was shut again, which contradicts the fresh air; it should be "otvorio"',
+              '"otvarao" implies the window was shut again, which contradicts "sad je otvoren"; it should be "otvorio"',
               '"otvarao" should be "otvarati"',
-              '"svježe" should be "svježo"',
+              '"otvoren" should be "otvorena"',
             ],
             correct: 1,
             explanation:
-              'The result stands (the room is fresh), so the act is perfective: otvorio sam. The imperfective would tell a Croatian the window is closed again.',
+              'The result stands (the window is open), so the act is perfective: otvorio sam. The imperfective tells a Croatian the window was closed again. (Otvarao sam prozor, pa je sad svježe is fine: the room was aired and the window shut.)',
           },
           {
             q: '"Tko je uzeo knjigu?" What does the perfective imply?',
@@ -529,7 +530,7 @@ export const LESSONS_C1 = [
         title: 'Aspect Nuance — Key Takeaways',
         points: [
           'An imperfective of a momentary act implies the result was undone',
-          'Otvorio sam = it is open · Otvarao sam = I opened and closed it',
+          'Otvorio sam = I opened it · Otvarao sam = I opened it and it was closed again',
           'Verbs in -irati are usually biaspectual, as are čuti, vidjeti, ručati',
           'znati / saznati and imati / dobiti are not aspect pairs',
           'A perfective present can describe what typically happens, not only the future',
@@ -671,10 +672,10 @@ export const LESSONS_C1 = [
         title: 'Quick Check',
         q: 'Condense: "Nakon što je stigao, nazvao je." Which is right?',
         options: [
-          'Nakon stigao, nazvao je.',
-          'Nakon dolaska, nazvao je.',
-          'Nakon dolazak, nazvao je.',
-          'Nakon dolazku, nazvao je.',
+          'Nakon stigao nazvao je.',
+          'Nakon dolaska nazvao je.',
+          'Nakon dolazak nazvao je.',
+          'Nakon dolazku nazvao je.',
         ],
         correct: 1,
         explanation:
@@ -729,11 +730,11 @@ export const LESSONS_C1 = [
               'Čitajući knjigu, zazvonio je telefon.',
               'Čitajući knjigu, vrijeme je prošlo.',
               'Čitajući knjigu, zaspala je.',
-              'Čitajući knjigu, majka ju je zvala.',
+              'Čitajući knjigu, svjetlo se ugasilo.',
             ],
             correct: 2,
             explanation:
-              'The verbal adverb needs a shared subject: she was reading and she fell asleep. In the others the telephone, the time or the mother would be doing the reading.',
+              'The verbal adverb needs a shared subject: she was reading and she fell asleep. In the others the telephone, the time or the light would be doing the reading.',
           },
           {
             q: 'What is wrong with "Nakon završivši studij, vratio se u Split"?',
@@ -854,8 +855,8 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Augmentatives Cut Both Ways',
-        body: '"Čovječina" is affectionate — a big, decent bloke. "Ženturača" is not. The -ina suffix is broadly neutral-to-admiring, while -etina and -urina lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognising confidently before producing them.',
-        highlight: '-ina neutral · -urina pejorative',
+        body: '"Čovječina" is affectionate — a big, decent bloke. "Ženturača" is not. The suffix -ina has no fixed tone: čovječina is warm, nosina mocking, psina either, so the word and the situation decide. -erina (kućerina) is similar, while -etina, -urina and -ura lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognising confidently before producing them.',
+        highlight: '-ina: tone from context · -urina pejorative',
       },
       {
         type: 'rule',
@@ -899,7 +900,7 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Baka mi je uvijek govorila: "Pojedi još malo juhice, sinko."',
+            hr: 'Baka mi je uvijek govorila: „Pojedi još malo juhice, sinko.“',
             en: 'Grandma always said to me: "Have a little more soup, son."',
             note: 'juhica and sinko — affection, not portion size',
           },
@@ -919,14 +920,14 @@ export const LESSONS_C1 = [
             note: 'knjižurina — weary, mildly mocking',
           },
           {
-            hr: 'Sudac je izrekao presudu, a ne "presudicu": u sudnici diminutiv zvuči podrugljivo.',
+            hr: 'Sudac je izrekao presudu, a ne „presudicu“: u sudnici diminutiv zvuči podrugljivo.',
             en: 'The judge handed down a judgment, not a "little judgment": in a courtroom the diminutive sounds mocking.',
             note: 'the diminutive that turns a serious sentence comic',
           },
           {
-            hr: 'Josip i Anica vjenčali su se u maloj crkvici iznad sela.',
+            hr: 'Josip i Anica vjenčali su se u crkvici iznad sela.',
             en: 'Josip and Anica got married in a little church above the village.',
-            note: 'Anica — hypocoristic; crkvica — small and charming',
+            note: 'Anica — hypocoristic; crkvica already means small and charming, so no mala',
           },
           {
             hr: 'Kakva psina! Pojeo je cijeli kolač dok smo bili vani.',
@@ -956,7 +957,7 @@ export const LESSONS_C1 = [
         options: ['-ica', '-ić', '-urina', '-ce'],
         correct: 2,
         explanation:
-          '"-urina" and "-etina" lean pejorative, while "-ina" is broadly neutral or admiring. The first, second and fourth options are all diminutive suffixes.',
+          '"-urina" and "-etina" lean pejorative, while "-ina" takes its tone from the word and the context. The first, second and fourth options are all diminutive suffixes.',
       },
       {
         type: 'rule',
@@ -1026,11 +1027,11 @@ export const LESSONS_C1 = [
               '"Imati" takes the accusative: imaš minuticu. The diminutive softens the request but still has to carry its case.',
           },
           {
-            q: 'Which suffix produces a big, often admiring form?',
+            q: 'Which suffix makes čovječina, a warm word for a big, decent man?',
             options: ['-ica', '-ić', '-urina', '-ina'],
             correct: 3,
             explanation:
-              '"-ina" is the broadly neutral-to-admiring augmentative (čovječina, kućerina). "-urina" leans pejorative; -ica and -ić are diminutives.',
+              '"-ina": čovjek → čovječina. Its tone depends on the word (nosina is mocking). "-urina" leans pejorative; -ica and -ić are diminutives.',
           },
         ],
       },
@@ -1041,7 +1042,7 @@ export const LESSONS_C1 = [
           '-ica, -ić, -čić, -ce make a word smaller — and usually warmer',
           'Kavica is not a small coffee; it is a relaxed one',
           'Diminutives soften requests, like the conditional does',
-          '-ina is neutral or admiring; -urina and -etina lean pejorative',
+          '-ina takes its tone from the word; -urina and -etina lean pejorative',
           'Ivan → Ivica: hypocoristics signal closeness, so wait to be invited',
         ],
       },
@@ -1054,7 +1055,7 @@ export const LESSONS_C1 = [
   {
     id: 'clause-types',
     title: 'The Full Range of Clauses',
-    subtitle: 'Purpose, result, concession, condition, manner and comparison',
+    subtitle: 'Purpose, result, concession, condition, manner, comparison and place',
     icon: '🌳',
     level: 'C1',
     duration: '~6 min',
@@ -1069,15 +1070,16 @@ export const LESSONS_C1 = [
       },
       {
         type: 'table',
-        title: 'The Six Relations',
+        title: 'The Seven Relations',
         headers: ['Type', 'Croatian', 'Answers'],
         rows: [
-          ['namjerne', 'da, kako bi', 'what for?'],
+          ['namjerne', 'da, kako bi, ne bi li, neka', 'what for?'],
           ['posljedične', 'tako da, toliko da', 'with what result?'],
           ['dopusne', 'iako, premda, ma koliko', 'despite what?'],
           ['pogodbene', 'ako, da, ukoliko', 'on what condition?'],
           ['načinske', 'kao da, kako', 'in what manner?'],
           ['poredbene', 'kao što, nego što', 'compared with what?'],
+          ['mjesne', 'gdje, kamo, kuda, odakle (+ god)', 'where? where to? which way? from where?'],
         ],
       },
       {
@@ -1088,8 +1090,8 @@ export const LESSONS_C1 = [
       },
       {
         type: 'rule',
-        title: 'Kao Da Takes the Present',
-        body: 'Manner clauses with "kao da" — as if — stay in the present even when the main clause is past, because they describe an appearance rather than a time. Ponašao se kao da ništa ne zna. (He behaved as if he knew nothing.) Izgleda kao da će kiša. English backshifts here; Croatian does not, in the same way it does not in reported speech.',
+        title: 'Tense After Kao Da',
+        body: 'Manner clauses with "kao da" — as if — take their tense from the as-if picture itself, not from the main clause. For something at the same time, the present, even after a past main clause: Ponašao se kao da ništa ne zna. (He behaved as if he knew nothing.) For something that would lie earlier, the perfect: Izgleda kao da je plakala. (She looks as if she had been crying.) Ponašao se kao da ništa nije čuo. What English does — backshifting a simultaneous state into the past — is what Croatian does not do.',
         highlight: 'kao da ništa ne zna',
       },
       {
@@ -1103,6 +1105,34 @@ export const LESSONS_C1 = [
         title: 'Ukoliko Is Not a Free Synonym for Ako',
         body: 'Both introduce a condition, and "ukoliko" is markedly formal — it belongs in legal and administrative writing. Using it in speech sounds stilted, and Croatian style guides note that it is often reached for when plain "ako" would do. In an essay it is fine; in conversation, use "ako".',
         highlight: 'ukoliko — formal registers only',
+      },
+      {
+        type: 'rule',
+        title: 'Ne Bi Li and Neka — Two More Ways to Say What For',
+        body: '"Ne bi li" plus the conditional states a purpose you hope for but cannot be sure of — an attempt: Pokušali su sve ne bi li mu pomogli. (They tried everything in the hope of helping him.) Zvao sam ga triput ne bi li se javio. Despite the "ne", nothing is negated: the meaning is positive. "Neka" plus the present gives a looser purpose, mostly in speech: Donio sam ti knjigu, neka imaš što čitati. Ostavi vrata otvorena, neka uđe malo zraka.',
+        highlight: 'Pokušali su sve ne bi li mu pomogli.',
+      },
+      {
+        type: 'rule',
+        title: 'Place Clauses, and the Word God',
+        body: 'A place clause answers the same questions as the place question words and keeps their distinction: gdje for where something is, kamo for where to, kuda for which way, odakle for where from. Sjedi gdje ti je udobno. Idi kamo hoćeš. Vratio se odakle je i došao. Adding "god" opens it up: gdje god (wherever), kamo god, kuda god, odakle god. Gdje god bio, javi se. Kamo god pošao, ponesi kartu. The same "god" works for time, and two of its forms are easily confused: "kad god" is whenever, each time it happens (Kad god dođe, donese kolač), while "dok god" is as long as, for the whole time it lasts (Dok god radiš, primaš plaću).',
+        highlight: 'kad god / dok god',
+      },
+      {
+        type: 'table',
+        title: 'Here, There, Over There',
+        headers: ['Distance', 'where? (static)', 'where to?', 'where from?', 'which way?'],
+        rows: [
+          ['near the speaker', 'ovdje', 'ovamo', 'odavde', 'ovuda'],
+          ['near the listener', 'tu', 'tamo', 'odatle', 'tuda'],
+          ['away from both', 'ondje', 'onamo', 'odande', 'onuda'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Static or Moving',
+        body: 'Choose the place adverb by the verb, exactly as you choose between u + locative and u + accusative. With a verb of being or staying, the static form: Ostani ovdje. Knjiga je ondje na polici. With a verb of motion, the where-to form: Dođi ovamo. Sutra idemo onamo. Everyday speech uses "tamo" for both, but "dođi ovdje" with a verb of motion is the slip to avoid in careful Croatian.',
+        highlight: 'Dođi ovamo.',
       },
       {
         type: 'example',
@@ -1132,6 +1162,37 @@ export const LESSONS_C1 = [
             hr: 'Ispalo je bolje nego što sam očekivao.',
             en: 'It turned out better than I expected.',
             note: 'comparison — nego što',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Hope, Place and Whenever',
+        items: [
+          {
+            hr: 'Liječnici su pokušali sve ne bi li ga spasili.',
+            en: 'The doctors tried everything in the hope of saving him.',
+            note: 'ne bi li + conditional — a hoped-for purpose; nothing is negated',
+          },
+          {
+            hr: 'Kamo god putovali, uvijek se vraćamo na naš otok.',
+            en: 'Wherever we travel, we always come back to our island.',
+            note: 'kamo god — motion, so the where-to form',
+          },
+          {
+            hr: 'Kad god prolazim onuda, sjetim se djetinjstva.',
+            en: 'Whenever I go that way, I remember my childhood.',
+            note: 'kad god — each time; onuda — that way, far from both of us',
+          },
+          {
+            hr: 'Dok god pada kiša, djeca se igraju unutra.',
+            en: 'As long as it is raining, the children play inside.',
+            note: 'dok god — for the whole time it lasts',
+          },
+          {
+            hr: 'Stigli su odande pješice, a natrag su se vratili autobusom.',
+            en: 'They came from over there on foot and went back by bus.',
+            note: 'odande — from that far place',
           },
         ],
       },
@@ -1184,16 +1245,16 @@ export const LESSONS_C1 = [
         type: 'quiz',
         title: 'One More',
         q: 'Complete: "Ponašao se kao da ništa ___." (as if he knew nothing)',
-        options: ['nije znao', 'ne zna', 'neće znati', 'ne bi znao'],
+        options: ['ne znati', 'ne zna', 'neće znati', 'ne znajući'],
         correct: 1,
         explanation:
-          '"Kao da" describes an appearance rather than a time, so the verb stays in the present even after a past main clause. Croatian does not backshift here, just as it does not in reported speech.',
+          'Knowing nothing is simultaneous with the behaviour, so the present stays even after a past main clause. "Kao da ništa nije znao" would place the not-knowing earlier; an infinitive or a verbal adverb cannot follow kao da, and the future says something else.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is purpose with the wrong verb form: "Došao je da pomogao" — a purpose clause takes the present (da pomogne) or kako bi with the participle (kako bi pomogao), never a bare past. The second is backshifting after kao da: "ponašao se kao da nije znao" imports the English sequence of tenses; Croatian keeps the present, kao da ne zna. The third is "ukoliko" in conversation, where it sounds like a form letter — say ako.',
-        highlight: 'kao da ne zna',
+        body: 'The first is purpose with the wrong verb form: "Došao je da pomogao" — a purpose clause takes the present (da pomogne) or kako bi with the participle (kako bi pomogao), never a bare past. The second is the static place word with a verb of motion: "Dođi ovdje" — motion takes the where-to form, dođi ovamo, and in the same way "Idi gdje hoćeš" is idi kamo hoćeš in careful Croatian. The third is "ukoliko" in conversation, where it sounds like a form letter — say ako.',
+        highlight: 'dođi ovamo',
       },
       {
         type: 'check',
@@ -1220,10 +1281,10 @@ export const LESSONS_C1 = [
           },
           {
             q: 'Complete: "Izgledala je kao da ___." (as if she were not listening)',
-            options: ['nije slušala', 'neće slušati', 'ne bi slušala', 'ne sluša'],
+            options: ['ne slušati', 'neće slušati', 'ne slušajući', 'ne sluša'],
             correct: 3,
             explanation:
-              '"Kao da" describes an appearance, so the verb stays in the present even after a past main clause: kao da ne sluša. The past form is the English backshift carried across.',
+              'The not-listening is simultaneous with how she looked, so the present stays even after a past main clause: kao da ne sluša. An infinitive or a verbal adverb cannot follow kao da, and the future says something else.',
           },
           {
             q: 'A friend asks whether you will come. Which answer has the right register?',
@@ -1273,6 +1334,20 @@ export const LESSONS_C1 = [
             explanation:
               '"Ma gdje", like "ma koliko", "ma što" and "ma tko", is a concessive: no matter where. Ma gdje bio, javi se.',
           },
+          {
+            q: 'Complete: "Dođi ___, želim ti nešto pokazati." (here, towards me)',
+            options: ['ovdje', 'ovamo', 'odavde', 'ondje'],
+            correct: 1,
+            explanation:
+              'Coming is motion, so the where-to form: dođi ovamo. Ovdje and ondje are static, and odavde is "from here".',
+          },
+          {
+            q: 'Complete: "Pokušali su sve ___ mu pomogli." (in the hope of helping him)',
+            options: ['kao da', 'ne bi li', 'tako da', 'iako'],
+            correct: 1,
+            explanation:
+              '"Ne bi li" + conditional is a hoped-for purpose: pokušali su sve ne bi li mu pomogli. The other three cannot introduce a bare participle.',
+          },
         ],
       },
       {
@@ -1281,7 +1356,10 @@ export const LESSONS_C1 = [
         points: [
           'Six relations: purpose, result, concession, condition, manner, comparison',
           'Purpose looks forward (da, kako bi); result looks back (tako da, toliko da)',
-          'kao da takes the present, whatever the main clause does',
+          'kao da: present for the same time, perfect for an earlier as-if state',
+          'ne bi li + conditional: a hoped-for purpose; neka + present: a loose spoken one',
+          'gdje / kamo / kuda / odakle + god — wherever; kad god = whenever, dok god = as long as',
+          'ovdje · tu · ondje for where; ovamo · tamo · onamo for where to: dođi ovamo',
           'ma koliko, ma što, ma tko, ma gdje — however much, whatever, whoever',
           'ukoliko is formal; in speech use ako',
         ],
@@ -1313,7 +1391,7 @@ export const LESSONS_C1 = [
         title: 'Saying "Like"',
         headers: ['Croatian', 'Takes', 'Example'],
         rows: [
-          ['kao', 'nominative', 'Radi kao konobar.'],
+          ['kao', 'no case of its own', 'Radi kao konobar.'],
           ['poput', 'genitive', 'Poput oca, i on je liječnik.'],
           ['nalik na', 'accusative', 'Nalik je na majku.'],
           ['kao što', 'a clause', 'Kao što znaš…'],
@@ -1413,9 +1491,9 @@ export const LESSONS_C1 = [
             note: 'u usporedbi s + instrumental; bolje and gore are irregular comparatives',
           },
           {
-            hr: 'Radije bih putovao vlakom nego da satima stojim u koloni na autocesti.',
-            en: 'I would rather travel by train than stand for hours in a queue on the motorway.',
-            note: 'radije … nego da — nego before a clause',
+            hr: 'Radije putujem vlakom nego automobilom, jer ne volim satima stajati u koloni.',
+            en: 'I would rather travel by train than by car, because I do not like standing in a queue for hours.',
+            note: 'radije … nego — two nouns in the same case (vlakom, automobilom)',
           },
           {
             hr: 'Mlađi mi je brat viši od mene, a stariji je jedan od najnižih u obitelji.',
@@ -1474,7 +1552,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'Two verbs are compared with "nego". "Od" needs a noun in the genitive, "nego što" needs a full clause, and "kao" is not a comparative at all.',
+              'Two verbs are compared with "nego". "Od" needs a noun in the genitive, "nego što" needs a full clause, and "kao" compares things that are alike, not more or less.',
           },
           {
             q: 'Complete: "Za razliku ___ brata, ona voli zimu."',
@@ -1710,7 +1788,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'The se-passive is the default for an ongoing, agentless practice. The participle form is heavy here, "od strane" is a calque, and "se je" is not a clitic sequence Croatian allows.',
+              'The se-passive is the default for an ongoing, agentless practice. The participle form is heavy here, "od strane" is a calque, and the last sentence is in the past ("was spoken"); its "se je" is possible, though "je" is usually dropped after se.',
           },
           {
             q: 'Complete: "Zgrada je ___ prošle godine." (renovated)',
@@ -1807,7 +1885,7 @@ export const LESSONS_C1 = [
       {
         type: 'table',
         title: 'The Light Verbs',
-        headers: ['Croatian', 'English', 'Not'],
+        headers: ['Croatian', 'English', 'Not in this meaning'],
         rows: [
           ['donijeti odluku', 'to make a decision', 'napraviti'],
           ['postaviti pitanje', 'to ask a question', 'napraviti'],
@@ -1821,7 +1899,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'English Uses Make and Take; Croatian Does Not',
-        body: 'English builds an enormous number of expressions on "make", "take", "do" and "have". Croatian distributes the same work across specific verbs — donijeti, postaviti, održati, poduzeti, pružiti, steći. Translating the English light verb directly is the single most productive source of C1-level error, precisely because the result is always grammatical.',
+        body: 'English builds an enormous number of expressions on "make", "take", "do" and "have". Croatian distributes the same work across specific verbs — donijeti, postaviti, održati, poduzeti, pružiti, steći. Translating the English light verb directly is the single most productive source of C1-level error, precisely because the result is always grammatical. The third column of the table is wrong only for that meaning: "imam sastanak" is right for a meeting you attend, and "brinuti o" is right for looking after someone.',
         highlight: 'donijeti odluku, not napraviti',
       },
       {
@@ -2335,8 +2413,8 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Post-Accentual Length',
-        body: 'Beyond the accent itself, a syllable AFTER the accent can be long, and it is marked with a macron in dictionaries. It matters grammatically: the genitive plural is long where the nominative singular is not, which is part of why "žena" (nominative singular) and "žénā" (genitive plural) are distinguishable in speech despite looking identical on the page.',
-        highlight: 'žena / žénā',
+        body: 'Beyond the accent itself, a syllable AFTER the accent can be long, and it is marked with a macron in dictionaries. It matters grammatically: "žena" in the nominative singular is žèna, with a short rising accent and a short final syllable, while the genitive plural is žénā, with a long rising accent and a long final syllable. The two differ in the accent AND in the length after it, which is why they are distinguishable in speech despite looking identical on the page.',
+        highlight: 'žèna / žénā',
       },
       {
         type: 'rule',
@@ -2380,7 +2458,7 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Kad kažeš "grad", misliš li na Zagreb ili na tuču koja je sinoć potukla vinograde?',
+            hr: 'Kad kažeš „grad“, misliš li na Zagreb ili na tuču koja je sinoć potukla vinograde?',
             en: 'When you say "grad", do you mean Zagreb or the hail that battered the vineyards last night?',
             note: 'grȃd (city) and grȁd (hail) — one spelling, two accents',
           },
@@ -2395,19 +2473,19 @@ export const LESSONS_C1 = [
             note: 'the distributional rule, stated in Croatian',
           },
           {
-            hr: 'Stranac koji naglasi zadnji slog u riječi "govoriti" odmah se prepozna po tome.',
+            hr: 'Stranac koji naglasi zadnji slog u riječi „govoriti“ odmah se prepozna po tome.',
             en: 'A foreigner who stresses the last syllable of "govoriti" is recognised immediately by it.',
             note: 'final stress is the clearest foreign marker',
           },
           {
-            hr: 'Rečenica "Došlo je pet žena" ima dugi zadnji slog, iako se piše jednako kao nominativ.',
+            hr: 'Rečenica „Došlo je pet žena“ ima dugi zadnji slog, iako se piše jednako kao nominativ.',
             en: 'The sentence "Five women came" has a long final syllable, though it is written the same as the nominative.',
             note: 'post-accentual length on the genitive plural žénā',
           },
           {
-            hr: 'Silazni naglasak može stajati samo na prvom slogu, zato je "Hrvatska" naglašena na početku.',
-            en: 'A falling accent can stand only on the first syllable, which is why "Hrvatska" is accented at the start.',
-            note: 'falling accents — first syllable only',
+            hr: 'Riječ „Hrvatska“ ima kratkosilazni naglasak, a silazni naglasak može stajati samo na prvom slogu.',
+            en: 'The word "Hrvatska" has a short falling accent, and a falling accent can stand only on the first syllable.',
+            note: 'Hȑvātskā — falling accents stand on the first syllable only',
           },
         ],
       },
@@ -2502,7 +2580,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'The genitive plural carries a long syllable after the accent (žénā); the nominative does not. Identical on the page, distinct to the ear.',
+              'The nominative singular is žèna (short rising); the genitive plural is žénā (long rising, with a long syllable after the accent). Identical on the page, distinct to the ear.',
           },
           {
             q: '"Kupi luk za juhu." Which "luk" is meant, and what tells you?',
@@ -2535,7 +2613,7 @@ export const LESSONS_C1 = [
         title: 'Accent — Key Takeaways',
         points: [
           'Four accents: two lengths crossed with two pitches',
-          'Minimal pairs turn on them: grad/grâd, luk/lûk, pas/pâs',
+          'Minimal pairs turn on them: grȁd/grȃd, lȕk/lȗk, pȁs/pȃs',
           'A polysyllabic word is never accented on the final syllable',
           'A falling accent can only fall on the first syllable',
           'Post-accentual length distinguishes forms that look identical written',
@@ -3454,7 +3532,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is the English toast verb: "Želim nazdraviti za mladence" — nazdraviti governs the dative with no preposition: nazdravljam mladencima. The second is a translated opener, "Hvala što ste ovdje danas, ja sam…" — a Croatian occasion opens with the address, dragi prijatelji or poštovani uzvanici, before anything else. The third is the wrong word for condolences: a translated "žao mi je za vaš gubitak" is a calque — the formula is moja iskrena sućut.',
+        body: 'The first is the English toast verb: "Želim nazdraviti za mladence" — in careful Croatian nazdraviti takes the person toasted in the dative: nazdravljam mladencima (the toast itself, "Za mladence!", is fine). The second is a translated opener, "Hvala što ste ovdje danas, ja sam…" — a Croatian occasion opens with the address, dragi prijatelji or poštovani uzvanici, before anything else. The third is the wrong word for condolences: a translated "žao mi je za vaš gubitak" is a calque — the formula is moja iskrena sućut.',
         highlight: 'nazdravljam mladencima',
       },
       {
@@ -3579,7 +3657,6 @@ export const LESSONS_C1 = [
           ['aktualan', 'current, topical', 'actual'],
           ['simpatičan', 'likeable, nice', 'sympathetic'],
           ['patetičan', 'pompous, overblown', 'pathetic'],
-          ['kontrola', 'a check, inspection', 'control (power over)'],
           ['fabula', 'plot (of a story)', 'fable'],
           ['pretendirati', 'to lay claim to', 'to pretend'],
         ],
@@ -3828,7 +3905,7 @@ export const LESSONS_C1 = [
         title: 'The Usual Suspects',
         headers: ['Check', 'Example'],
         rows: [
-          ['ije / je', 'vrijeme but vremena; rijeka but rječni'],
+          ['ije / je', 'vrijeme but vremena; riječ but rječnik'],
           ['č / ć', 'ručak, but voće'],
           ['no comma before an object da', 'Znam da dolaziš — no comma'],
           ['s / sa', 'sa sestrom, but s bratom'],
@@ -3839,7 +3916,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'The ije / je Alternation Is Regular',
-        body: 'The commonest native error and a frequent learner one. The rule from the language-history lesson applies: long jat gives -ije-, short gives -je-. vrijeme → vremena, rijeka → rječni, dijete → djeca, lijep → ljepota. When unsure, check whether the syllable is long — if the word has shortened, the -ije- almost always has too.',
+        body: 'The commonest native error and a frequent learner one. The rule from the language-history lesson applies: long jat gives -ije-, short gives -je-. vrijeme → vremena, riječ → rječnik, dijete → djeca, lijep → ljepota. When unsure, check whether the syllable is long — if the word has shortened, the -ije- almost always has too.',
         highlight: 'vrijeme → vremena',
       },
       {
@@ -3896,12 +3973,12 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Prvo provjeravam slaganje: "nova zgrada", "novi most", "novo naselje" — pridjev prati imenicu.',
+            hr: 'Prvo provjeravam slaganje: „nova zgrada“, „novi most“, „novo naselje“ — pridjev prati imenicu.',
             en: 'First I check agreement: "new building", "new bridge", "new estate" — the adjective follows its noun.',
             note: 'the agreement pass, in that order',
           },
           {
-            hr: 'Zatim gledam rekciju: "hvala na pozivu", "radujem se odmoru", "bojim se pada".',
+            hr: 'Zatim gledam rekciju: „hvala na pozivu“, „radujem se odmoru“, „bojim se pada“.',
             en: 'Then I look at government: "thanks for the invitation", "I look forward to the holiday", "I fear a fall".',
             note: 'locative, dative, genitive — one verb at a time',
           },
@@ -3916,12 +3993,12 @@ export const LESSONS_C1 = [
             note: 'sa before s-, s before b-',
           },
           {
-            hr: 'Riječi "vrijeme" i "vremena" pišu se različito jer je jat u drugoj kratak.',
+            hr: 'Riječi „vrijeme“ i „vremena“ pišu se različito jer je jat u drugoj kratak.',
             en: 'The words "vrijeme" and "vremena" are spelled differently because the jat in the second is short.',
             note: 'the ije/je rule applied',
           },
           {
-            hr: 'Lektorica je precrtala zarez ispred "da" i vratila ga ispred "ali".',
+            hr: 'Lektorica je precrtala zarez ispred „da“ i vratila ga ispred „ali“.',
             en: 'The editor crossed out the comma before "da" and put it back before "ali".',
             note: 'the comma rule, as a lektor applies it',
           },
@@ -4337,7 +4414,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Temeljem and Sukladno',
-        body: 'Two prepositional formulas that open half the sentences in this register. "Temeljem" plus the genitive means pursuant to — temeljem članka 12. "Sukladno" plus the dative means in accordance with — sukladno odredbama ugovora. Note the different cases; they are among the most frequent government errors even for natives.',
+        body: 'Two prepositional formulas that open half the sentences in this register. "Temeljem" plus the genitive means pursuant to — temeljem članka 12. "Sukladno" plus the dative means in accordance with — sukladno odredbama ugovora. Note the different cases; they are among the most frequent government errors even for natives. Both formulas are entrenched in legal texts, so you must read them, but the language norm prefers "na temelju" + genitive and "u skladu s" + instrumental, and in your own writing outside a legal template those are the better choice.',
         highlight: 'temeljem + genitive · sukladno + dative',
       },
       {
@@ -4581,8 +4658,8 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Both Words Usually Exist',
-        body: 'As elsewhere, the native and international terms generally coexist: kisik and oksigen, zemljopis and geografija, jezikoslovlje and lingvistika. The native word is standard in schooling and general writing; the international one is common in specialist literature. Neither is wrong, but using the international word where the native one is standard reads as slightly foreign.',
-        highlight: 'kisik · zemljopis · jezikoslovlje',
+        body: 'Native and international terms often stand side by side, and which one is standard is decided field by field. In chemistry the native word rules everywhere, in school and in specialist writing alike: kisik, vodik, dušik — oksigen is understood but is not the Croatian term. Elsewhere both live on: jezikoslovlje beside lingvistika, zemljopis beside geografija (since 2019 the school subject itself is called Geografija). So learn the standard term with the field, rather than assuming either the native or the international word always wins.',
+        highlight: 'kisik · vodik · dušik',
       },
       {
         type: 'rule',
@@ -4657,7 +4734,7 @@ export const LESSONS_C1 = [
             note: 'reporting a result impersonally; odstupanje, pogreška',
           },
           {
-            hr: 'U stručnoj literaturi piše "lingvistika", a u školskom udžbeniku "jezikoslovlje".',
+            hr: 'U stručnoj literaturi piše „lingvistika“, a u školskom udžbeniku „jezikoslovlje“.',
             en: 'In the specialist literature it says "lingvistika", and in the school textbook "jezikoslovlje".',
             note: 'borrowed and coined terms coexist by register',
           },
@@ -4684,7 +4761,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is the decimal point: "3.14" in a Croatian report is a real error, not a style choice — the separator is a comma, 3,14. The second is the international word where the native one is standard: "oksigen" and "geografija" are understood, but a school text says kisik and zemljopis, and the borrowed word reads as slightly foreign. The third is the unit glued to the number — "25°C", "3kg" — where Croatian writes a space, 25 °C, 3 kg, and "posto" as a separate word after the figure.',
+        body: 'The first is the decimal point: "3.14" in a Croatian report is a real error, not a style choice — the separator is a comma, 3,14. The second is the international word where the native one is the standard term: "oksigen" and "hidrogen" are understood, but Croatian chemistry says kisik and vodik, and the borrowed word reads as foreign. The third is the unit glued to the number — "25°C", "3kg" — where Croatian writes a space, 25 °C, 3 kg, and "posto" as a separate word after the figure.',
         highlight: '3,14',
       },
       {
@@ -4715,7 +4792,7 @@ export const LESSONS_C1 = [
             ],
             correct: 0,
             explanation:
-              'Kisik and oksigen are both oxygen; the native word is standard in schooling, the international one in specialist writing. Dušik is nitrogen, povijest is history.',
+              'Kisik and oksigen are both oxygen; kisik is the Croatian term in school and specialist writing alike, and oksigen is only understood. Dušik is nitrogen, povijest is history.',
           },
           {
             q: 'What is wrong with "Temperatura je iznosila 25.5 °C"?',
@@ -4947,7 +5024,7 @@ export const LESSONS_C1 = [
             options: ['muzika', 'glazba', 'muzik', 'glazbeno'],
             correct: 1,
             explanation:
-              '"Glazba" is what a poster or a newspaper prints; "muzika" is casual speech. "Glazbeno" is an adverb and "muzik" is not a word.',
+              '"Glazba" is what a poster or a newspaper prints; "muzika" is casual speech. "Glazbeno" is an adverb or the neuter adjective, not the noun, and "muzik" is not a word.',
           },
           {
             q: 'Someone calls a play "potresna". How should you respond?',
@@ -5083,7 +5160,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Ikavian on the Coast',
-        body: 'Beyond vocabulary, parts of Dalmatia and Slavonia use IKAVIAN — where the standard has -ije- or -je-, they have -i-. "Dite" for dijete, "misto" for mjesto, "lipo" for lijepo, "vrime" for vrijeme. This is standard-adjacent Croatian, not an error, and it is extremely common in coastal speech and in song lyrics.',
+        body: 'Beyond vocabulary, parts of Dalmatia and Slavonia use IKAVIAN — where the standard has -ije- or -je-, they have -i-. "Dite" for dijete, "misto" for mjesto, "lipo" for lijepo, "vrime" for vrijeme. This is dialect, not the standard — and not an error where it belongs: it is extremely common in coastal speech and in song lyrics.',
         highlight: 'dite · misto · lipo · vrime',
       },
       {
@@ -5128,17 +5205,17 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Baka iz Zagorja rekla bi "Kaj buš jel?", a mama u Splitu "Ča ćeš jist?", a oboje znači isto.',
+            hr: 'Baka iz Zagorja rekla bi „Kaj buš jel?“, a mama u Splitu „Ča ćeš jist?“, a oboje znači isto.',
             en: 'Grandma from Zagorje would say "Kaj buš jel?", and mum in Split "Ča ćeš jist?", and both mean the same thing.',
             note: 'kajkavian and čakavian side by side: what will you eat?',
           },
           {
-            hr: 'U standardu kažemo "kuhinja" i "tanjur", ali na otoku ćete čuti "kužina" i "pjat".',
+            hr: 'U standardu kažemo „kuhinja“ i „tanjur“, ali na otoku ćete čuti „kužina“ i „pjat“.',
             en: 'In the standard we say "kuhinja" and "tanjur", but on the island you will hear "kužina" and "pjat".',
             note: 'Venetian loans on the coast, with their standard equivalents',
           },
           {
-            hr: 'Moj djed govori ikavski, pa kaže "misto" i "dite", a ja sam u školi naučio "mjesto" i "dijete".',
+            hr: 'Moj djed govori ikavski, pa kaže „misto“ i „dite“, a ja sam u školi naučio „mjesto“ i „dijete“.',
             en: 'My grandfather speaks ikavian, so he says "misto" and "dite", while I learned "mjesto" and "dijete" at school.',
             note: 'ikavian -i- for standard -ije-/-je-; both are Croatian',
           },
@@ -5148,7 +5225,7 @@ export const LESSONS_C1 = [
             note: 'a heritage form is a regional form, not an error',
           },
           {
-            hr: 'Zagrepčanin će reći "idem na špicu", a u Splitu se ide "na rivu".',
+            hr: 'Zagrepčanin će reći „idem na špicu“, a u Splitu se ide „na rivu“.',
             en: 'A Zagreb local will say "idem na špicu", while in Split one goes "na rivu".',
             note: 'špica (Zagreb) and riva (coast) — two local words for the Saturday stroll',
           },
@@ -5329,7 +5406,7 @@ export const LESSONS_C1 = [
           ['Razumijem više nego što govorim.', 'I understand more than I speak.'],
           ['Naučio sam od bake.', 'I learned from my grandmother.'],
           ['Govorim s greškama, ali govorim.', 'I speak with mistakes, but I speak.'],
-          ['Ispričavam se na naglasku.', 'Apologies for my accent.'],
+          ['Ispričavam se zbog naglaska.', 'Apologies for my accent.'],
           ['Kod kuće smo govorili hrvatski.', 'We spoke Croatian at home.'],
           ['Trudim se održati jezik.', 'I am trying to keep the language up.'],
         ],
@@ -5402,7 +5479,7 @@ export const LESSONS_C1 = [
             note: 'povratnica; u zavičaju — locative',
           },
           {
-            hr: 'U iseljeništvu smo miješali jezike, pa sam za "hladnjak" dugo govorio "fridž".',
+            hr: 'U iseljeništvu smo miješali jezike, pa sam za „hladnjak“ dugo govorio „fridž“.',
             en: 'In the diaspora we mixed languages, so for "hladnjak" I long said "fridž".',
             note: 'a diaspora form beside the homeland standard',
           },
@@ -5489,7 +5566,7 @@ export const LESSONS_C1 = [
             ],
             correct: 0,
             explanation:
-              'Two verbs are compared with "nego što". "Od" needs a noun in the genitive, and "kao" is not a comparative.',
+              'Two verbs are compared with "nego što". "Od" needs a noun in the genitive, and "kao" compares things that are alike, not more or less.',
           },
           {
             q: 'A Croatian says "Govoriš kao moja baka." What does it usually mean?',
@@ -5526,6 +5603,250 @@ export const LESSONS_C1 = [
           'gastarbajter is historical and can sound dismissive from an outsider',
           'Inherited Croatian often sounds dated rather than wrong, and that charms',
           'pasivno znanje, obnoviti znanje, prenijeti jezik na djecu',
+        ],
+      },
+    ],
+  },
+  // ─────────────────────────────────────────────────────────
+  // Text connectors (book-vs-app fix, 2026-11-13). Workbook block VII, Razgovarajte s
+  // nama! B2–C1: explanatory, cause–effect, purpose, conditional, place, time, manner
+  // and additive connectors. C1 position 20, in the slot freed by merging the old
+  // zarez-interpunkcija lesson into comma-dependent-clauses.
+  // ─────────────────────────────────────────────────────────
+  {
+    id: 'text-connectors',
+    title: 'Linking Sentences: Text Connectors',
+    subtitle: 'naime, uslijed toga, u tu svrhu, u tome slučaju, onamo, osim toga',
+    icon: '🔗',
+    level: 'C1',
+    duration: '~9 min',
+    color: '#0f766e',
+    bg: '#f0fdfa',
+    slides: [
+      {
+        type: 'intro',
+        title: 'From Sentences to a Text',
+        body: 'A conjunction joins two clauses inside one sentence. A text connector (tekstni konektor) opens the NEXT sentence and ties it to what came before: Nije došao na sastanak. Naime bio je bolestan. Earlier lessons gave you the conclusive connectors (dakle, prema tome) and the adversative ones (međutim, naprotiv). This lesson gathers the rest, in the groups the workbook uses: explanation, cause and effect, purpose, condition, place, time, manner and addition.',
+        icon: '🔗',
+      },
+      {
+        type: 'table',
+        title: 'The Groups',
+        headers: ['Group', 'Connectors', 'What the new sentence does'],
+        rows: [
+          [
+            'objasnidbeni',
+            'naime, ustvari, zapravo, to jest, drugim riječima, odnosno, točnije rečeno',
+            'explains or restates the sentence before',
+          ],
+          [
+            'uzročno-posljedični',
+            'zato, zbog toga, uslijed toga, s obzirom na to, na osnovi toga',
+            'states a consequence of it',
+          ],
+          [
+            'namjerni',
+            'radi toga, s tom namjerom, s takvim ciljem, u tu svrhu',
+            'states a purpose that follows from it',
+          ],
+          ['uvjetni', 'u tome slučaju, u takvom slučaju, inače', 'states a condition'],
+          [
+            'mjesni',
+            'ovdje, tu, ondje, ovamo, tamo, onamo, odavde, odatle, na tome mjestu',
+            'refers to a place already named',
+          ],
+          [
+            'vremenski',
+            'tada, onda, zatim, potom, nakon toga, poslije toga, prije toga',
+            'places events in time',
+          ],
+          ['načinski', 'ovako, tako, time, na taj način', 'says how'],
+          ['pribrojni', 'uz to, osim toga, pored toga', 'adds something'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'The Connector Points Back',
+        body: 'Most connectors contain a demonstrative — toga, tome, taj, tom — and the demonstrative stands for the whole previous sentence: in Pao je snijeg. Zbog toga ostajemo kod kuće, toga is "the snowfall". Each keeps its preposition\'s case: zbog, radi, uslijed, osim, pored and na osnovi + genitive (zbog toga), s obzirom na and uz + accusative (s obzirom na to, uz to), u + locative (u tome slučaju), s + instrumental (s tom namjerom). Keep cause and purpose apart: zbog toga gives a cause, radi toga a purpose. Uslijed toga is formal; zbog toga and zato are neutral.',
+        highlight: 'zbog toga = cause · radi toga = purpose',
+      },
+      {
+        type: 'rule',
+        title: 'Where and Where To: Place Adverbs',
+        body: 'The place connectors come in sets that match ovaj, taj and onaj: near me, near you or just mentioned, far from both. One set says WHERE something is: ovdje, tu, ondje (Ondje je upoznao Anu). Another says WHERE TO: ovamo, tamo, onamo (Opet idemo onamo). A third says FROM WHERE: odavde, odatle, odande. Careful writing keeps location and direction apart: Bio sam ondje, but Idem onamo. In everyday speech tamo is used for both.',
+        highlight: 'Bio sam ondje. · Idem onamo. · Dođi ovamo.',
+      },
+      {
+        type: 'rule',
+        title: 'The Clitic After a Connector',
+        body: "A connector phrase is the first unit of its sentence, so the clitics follow it: Zbog toga se ljutim. They may also follow its first word, splitting the phrase: U tu je svrhu kupila auto. S tom smo namjerom kupili kartu. Both are standard. A connector set off by intonation can also be followed by a full word before the clitics, as in the workbook's Prije toga radio sam u školi.",
+        highlight: 'U tu je svrhu kupila auto.',
+      },
+      {
+        type: 'rule',
+        title: 'Comma or No Comma',
+        body: "The workbook's rule: a text connector may be written without a comma when its job is simply to link the sentences, and with a comma when it marks the writer's attitude. So both Naime bio je bolestan and Naime, bio je bolestan are correct. The conclusive conjunctions inside one sentence are different: zato, stoga and dakle take a comma before them (Razboljela se, stoga nije došla).",
+        highlight: 'Naime bio je bolestan. · Naime, bio je bolestan.',
+      },
+      {
+        type: 'example',
+        title: 'Explanation and Cause',
+        items: [
+          {
+            hr: 'Oni su polubraća. Naime imaju istu majku, a različite očeve.',
+            en: 'They are half-brothers: they have the same mother but different fathers.',
+            note: 'naime explains the sentence before',
+          },
+          {
+            hr: 'Danas sam dobio otkaz. Drugim riječima ostao sam bez prihoda.',
+            en: 'Today I was fired. In other words, I have no income.',
+            note: 'drugim riječima restates it',
+          },
+          {
+            hr: 'Malo sam zadrijemao. Zapravo zaspao sam odmah poslije ručka.',
+            en: 'I dozed off a little. Actually, I fell asleep right after lunch.',
+            note: 'zapravo corrects it',
+          },
+          {
+            hr: 'Pao je visok snijeg. S obzirom na to bolje je da danas ne idemo na put.',
+            en: 'Heavy snow has fallen. Given that, we had better not travel today.',
+            note: 's obzirom na + accusative',
+          },
+          {
+            hr: 'Dugo je živio u vlažnom stanu. Uslijed toga se teško razbolio.',
+            en: 'He lived in a damp flat for a long time. As a result he fell seriously ill.',
+            note: 'uslijed toga — formal',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Purpose, Condition, Place, Time, Manner, Addition',
+        items: [
+          {
+            hr: 'Ana mora svaki dan putovati na posao. U tu je svrhu kupila rabljeni auto.',
+            en: 'Ana has to commute to work every day. For that purpose she bought a used car.',
+            note: 'purpose; the clitic splits the phrase',
+          },
+          {
+            hr: 'Lijek morate uzimati redovito. U tome slučaju sve će biti u redu.',
+            en: 'You must take the medicine regularly. If you do, everything will be fine.',
+            note: 'condition',
+          },
+          {
+            hr: 'Prestani jesti te slatkiše! Inače će ti opet biti zlo.',
+            en: 'Stop eating those sweets, or you will be sick again.',
+            note: 'inače — or else',
+          },
+          {
+            hr: 'Prošlo smo ljeto proveli na Visu. Onamo se vraćamo i ove godine.',
+            en: 'We spent last summer on Vis. We are going back there this year too.',
+            note: 'onamo — direction',
+          },
+          {
+            hr: 'Sada radim u knjižnici. Prije toga sam deset godina radila u školi.',
+            en: 'Now I work in a library. Before that I worked at a school for ten years.',
+            note: 'time',
+          },
+          {
+            hr: 'Svaki dan čita hrvatske novine. Na taj način uči nove riječi.',
+            en: 'He reads Croatian newspapers every day. That way he learns new words.',
+            note: 'manner',
+          },
+          {
+            hr: 'Stan je velik i svijetao. Osim toga ima prekrasan pogled na more.',
+            en: 'The flat is large and bright. Besides, it has a wonderful sea view.',
+            note: 'addition',
+          },
+        ],
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        q: 'Ne smijete prestati uzimati lijek. ____ bi se simptomi mogli vratiti.',
+        options: ['Naime', 'Osim toga', 'U tome slučaju', 'Na taj način'],
+        correct: 2,
+        explanation:
+          'The new sentence states what happens under the condition just mentioned (if you stop): u tome slučaju.',
+      },
+      {
+        type: 'quiz',
+        title: 'One More',
+        q: 'Prošle godine bili smo u Istri. Ove godine opet putujemo ____.',
+        options: ['ondje', 'onamo', 'odande', 'ovdje'],
+        correct: 1,
+        explanation:
+          'putovati is movement, so the direction adverb: onamo. ondje says where something is.',
+      },
+      {
+        type: 'rule',
+        title: 'Common Mistakes',
+        body: 'First, location and direction are swapped: "Idem ondje" — ondje says where something is, so write Idem onamo. Second, cause and purpose are confused: "Bolestan je. Radi toga ne dolazi." — the illness is a cause, so Zbog toga ne dolazi. Third, the case of the connector is guessed: "s obzirom na toga", "osim to" — write s obzirom na to and osim toga.',
+        highlight: 'write Idem onamo',
+      },
+      {
+        type: 'check',
+        title: 'Mastery Check',
+        items: [
+          {
+            q: 'Marko je pao ispit iz kemije. ____ mora ponovno upisati predmet.',
+            options: ['Zbog toga', 'Naime', 'U tu svrhu', 'Ondje'],
+            correct: 0,
+            explanation: 'The second sentence is a consequence of the first: zbog toga.',
+          },
+          {
+            q: 'Želimo naučiti talijanski. Which sentence continues with a PURPOSE connector?',
+            options: [
+              'Uslijed toga upisali smo se na tečaj.',
+              'U tu smo se svrhu upisali na tečaj.',
+              'Ondje smo se upisali na tečaj.',
+              'Inače smo se upisali na tečaj.',
+            ],
+            correct: 1,
+            explanation: 'u tu svrhu states the purpose; uslijed toga would make it a consequence.',
+          },
+          {
+            q: 'Ivan i Petar su polubraća. ____ imaju istu majku, a različite očeve.',
+            options: ['Osim toga', 'Na taj način', 'U takvom slučaju', 'Naime'],
+            correct: 3,
+            explanation: 'The second sentence explains the first: naime.',
+          },
+          {
+            q: 'Which uses the place adverb correctly?',
+            options: [
+              'Bio sam u Splitu i onamo sam upoznao Anu.',
+              'Prošle smo godine bili u Splitu. Ove godine opet idemo onamo.',
+              'Idem ondje svako ljeto.',
+              'Odande živim deset godina.',
+            ],
+            correct: 1,
+            explanation:
+              'onamo is direction (idemo onamo). Meeting someone happens ondje; "Idem ondje" mixes location with movement.',
+          },
+          {
+            q: 'Bolje je da odmah nazovete liječnika. ____ bi se upala mogla proširiti.',
+            options: ['Inače', 'Pored toga', 'Prije toga', 'Time'],
+            correct: 0,
+            explanation: 'inače: or else, if you do not.',
+          },
+          {
+            q: 'Svaki dan hoda do posla. ____ štedi novac za autobus i održava kondiciju.',
+            options: ['Ondje', 'U tome slučaju', 'Na taj način', 'Naime'],
+            correct: 2,
+            explanation: 'The new sentence says how the result comes about: na taj način.',
+          },
+        ],
+      },
+      {
+        type: 'summary',
+        title: 'Text Connectors — Key Takeaways',
+        points: [
+          'A connector opens the next sentence and points back to the one before',
+          'Explanation: naime, drugim riječima · cause: zbog toga, uslijed toga, s obzirom na to',
+          'Purpose: radi toga, u tu svrhu · condition: u tome slučaju, inače',
+          'Place: ondje (where), onamo (where to), odande (from where)',
+          'Time: zatim, nakon toga, prije toga · manner: na taj način, time · addition: uz to, osim toga',
+          "zbog toga is a cause, radi toga a purpose; the connector keeps its preposition's case",
         ],
       },
     ],

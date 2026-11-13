@@ -1,6 +1,6 @@
 // src/data/drills/agreementSubtletiesDrill.ts
 //
-// C2 SLAGANJE — SUPTILNOSTI — the drill for the `slaganje-suptilnosti` lesson.
+// C1 SLAGANJE — SUPTILNOSTI — the drill for the `slaganje-suptilnosti` lesson.
 //
 // The rule that surprises everyone: A QUANTITY SUBJECT TAKES A NEUTER SINGULAR
 // VERB. *Mnogo ljudi JE DOŠLO*, not *su došli*. *Pet studenata je došlo*. The
@@ -12,8 +12,9 @@
 // the same" than four; it is a different construction.
 //
 // Coordinated subjects take the masculine plural once any member is masculine:
-// *Ivan i Ana su došli*. And the recurring error underneath all of it is the
-// verb drifting to the NEAREST noun instead of agreeing with the whole subject.
+// *Ivan i Ana su došli*. A verb AFTER its subjects agrees with the whole subject;
+// only a verb placed FIRST may agree with the nearest one (*Doputovala je Marija i
+// njezin brat*, workbook p. 129–130) — the plural is always correct too.
 //
 // Three modes:
 //   kolicina  — quantity subjects and the neuter singular
@@ -196,11 +197,11 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'sastavljeno',
-    q: 'S čime se glagol slaže?',
-    en: 'What does the verb agree with?',
-    opts: ['s cijelim subjektom', 's najbližom imenicom', 's prvom imenicom', 's najduljom'],
-    answer: 's cijelim subjektom',
-    tip: 'The nearest noun does not win. That drift is the error this pins.',
+    q: 'Brat i sestra ____ kasno.',
+    en: 'The brother and the sister came late.',
+    opts: ['došli su', 'došla je', 'došle su', 'došlo je'],
+    answer: 'došli su',
+    tip: 'The verb comes AFTER the subjects, so it agrees with the whole subject: mixed → došli.',
   },
   {
     mode: 'sastavljeno',
@@ -220,15 +221,10 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'sastavljeno',
-    q: 'Zašto se glagol "otkliza" na najbližu imenicu?',
-    en: 'Why does the verb drift?',
-    opts: [
-      'jer je ta imenica posljednja čuta',
-      'jer je najvažnija',
-      'jer je u nominativu',
-      'ne otklizava',
-    ],
-    answer: 'jer je ta imenica posljednja čuta',
-    tip: 'Proximity, not grammar — and it is the commonest agreement error at C2.',
+    q: 'Kada se glagol smije slagati s najbližim subjektom?',
+    en: 'When may the verb agree with the nearest subject?',
+    opts: ['kad stoji ispred subjekata', 'kad stoji iza subjekata', 'nikada', 'uvijek'],
+    answer: 'kad stoji ispred subjekata',
+    tip: 'Doputovala je Marija i njezin brat is correct; after the subjects, agree with all of them.',
   },
 ];

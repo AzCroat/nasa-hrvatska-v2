@@ -490,9 +490,6 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
     'regional-varieties': 'dialect awareness — a reading/listening topic (0/24)',
     'language-identity': 'the Croatian/Serbian contrast, taught as comparison (0/24)',
     'diaspora-identity': 'diaspora vocabulary and usage (8/24, all lexical)',
-    // Moved C2 → C1 on 2026-11-12 with its entry from c2Curriculum: InterpunkcijaDrill is
-    // hyphen-vs-dash, quotation marks and colons — typography, not clause boundaries.
-    'zarez-interpunkcija': 'punctuation drill is typography (dash, quotes, colon), not syntax',
     // New in the restructure: capital letters in names per Hrvatski pravopis. Orthography,
     // like the punctuation drill — which word of a name is capitalised, not a form.
     'capitals-names-geography': 'orthography — capital letters in personal and place names',
@@ -545,7 +542,9 @@ describe('a C1 lesson day still teaches STRUCTURE', () => {
     }
   });
 
-  it('the list stays at 19 of sixty-five', () => {
-    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(19);
+  // 18 since 2026-11-13: zarez-interpunkcija was merged into comma-dependent-clauses, and
+  // its slot went to text-connectors, whose drill is structural (syntax).
+  it('the list stays at 18 of sixty-five', () => {
+    expect(Object.keys(NON_STRUCTURAL_C1).length).toBe(18);
   });
 });

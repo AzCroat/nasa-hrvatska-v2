@@ -140,7 +140,7 @@ export const TEMPORAL_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Over the centuries Split grew around Diocletian’s Palace.',
     opts: ['Kroz stoljeća', 'Za stoljeća', 'Na stoljeća', 'Pred stoljeća'],
     answer: 'Kroz stoljeća',
-    tip: 'kroz + accusative runs across a whole period.',
+    tip: 'kroz + accusative runs across a whole period. It is everyday style; in formal writing tijekom + genitive is preferred (tijekom stoljeća).',
   },
   {
     mode: 'prijedlozi',
