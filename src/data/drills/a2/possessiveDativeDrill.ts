@@ -196,10 +196,10 @@ export const POSSESSIVE_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'imenica',
-    q: '____ je kći bolesna.',
+    q: 'Mojoj ____ je kći bolesna.',
     en: 'My sister’s daughter is ill.',
-    opts: ['Sestra', 'Sestri', 'Sestru', 'Sestrom'],
-    answer: 'Sestri',
+    opts: ['sestra', 'sestri', 'sestru', 'sestrom'],
+    answer: 'sestri',
     tip: 'sestra in the dative is sestri.',
   },
   {

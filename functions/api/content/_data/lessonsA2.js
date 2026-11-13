@@ -845,8 +845,8 @@ export const LESSONS_A2 = [
       },
       {
         type: 'rule',
-        title: 'With "I", It Is Simply More Natural',
-        body: 'For the first and second person there is no ambiguity to resolve — "moju knjigu" can only mean mine — so both are grammatical. But "Uzimam svoju knjigu" is what a Croatian says, and "Uzimam moju knjigu" sounds slightly foreign in exactly the way that is hard to explain. When the owner is the subject, reach for svoj.',
+        title: 'With "I" and "You" Too',
+        body: 'With ja, ti, mi and vi there is no ambiguity — "moju knjigu" could only mean mine — and you will hear it in casual speech. But the rule you are learning, and the one teachers mark, is the same for every person: when the owner is the subject, the possessive is svoj. "Uzimam svoju knjigu" is right; "Uzimam moju knjigu" is marked as a mistake.',
         highlight: 'Uzimam svoju knjigu.',
       },
       {
@@ -947,7 +947,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Carrying English over word for word: "Ivan voli njegovu ženu" to mean Ivan loves his own wife. In Croatian that sentence says the wife belongs to another man — the owner is the subject, so "Ivan voli svoju ženu". (2) Saying "moju" where a Croatian says "svoju": "Uzimam moju knjigu" is understood but sounds foreign; "Uzimam svoju knjigu" is what a native says. (3) Using "svoj" when the owner is NOT the subject: "Svoj brat dolazi sutra" is wrong — the brother is the subject and owns nothing here, so "Moj brat dolazi sutra".',
+        body: '(1) Carrying English over word for word: "Ivan voli njegovu ženu" to mean Ivan loves his own wife. In Croatian that sentence says the wife belongs to another man — the owner is the subject, so "Ivan voli svoju ženu". (2) Saying "moju" where the subject owns the thing: "Uzimam moju knjigu" is understood but counts as a mistake; the correct form is "Uzimam svoju knjigu". (3) Using "svoj" when the owner is NOT the subject: "Svoj brat dolazi sutra" is wrong — the brother is the subject and owns nothing here, so "Moj brat dolazi sutra".',
         highlight: 'Ivan voli svoju ženu',
       },
       {
@@ -2084,9 +2084,9 @@ export const LESSONS_A2 = [
       },
       {
         type: 'rule',
-        title: 'Comparing Adverbs',
-        body: 'Adverbs compare like adjectives — brže (faster), sporije (more slowly), ljepše (more beautifully). Four are irregular and very common: dobro → bolje (better), loše → gore (worse), mnogo → više (more), malo → manje (less). Govorim bolje nego prošle godine.',
-        highlight: 'dobro → bolje',
+        title: 'Where and When',
+        body: 'Many everyday adverbs are not built from an adjective at all — they are words to learn as they are. Place: ovdje (here), tamo (there), vani (outside), unutra (inside), gore (up, upstairs), dolje (down, downstairs), blizu (near), daleko (far). Time: danas, sutra, jučer, sada (now), odmah (at once), uskoro (soon), rano (early), kasno (late). Like every adverb they never change: Djeca su vani. Dođi odmah!',
+        highlight: 'Djeca su vani.',
       },
       {
         type: 'table',
@@ -2110,9 +2110,9 @@ export const LESSONS_A2 = [
         title: 'Adverbs at Work',
         items: [
           {
-            hr: 'Možete li govoriti sporije, molim vas?',
-            en: 'Could you speak more slowly, please?',
-            note: 'the most useful sentence in this lesson',
+            hr: 'Možete li govoriti polako, molim vas?',
+            en: 'Could you speak slowly, please?',
+            note: 'polako — slowly; the most useful sentence in this lesson',
           },
           {
             hr: 'Obično ustajem u sedam.',
@@ -2120,9 +2120,9 @@ export const LESSONS_A2 = [
             note: 'frequency adverb before the verb',
           },
           {
-            hr: 'Danas se osjećam puno bolje.',
-            en: 'I feel much better today.',
-            note: 'bolje — irregular comparative',
+            hr: 'Danas se osjećam dobro.',
+            en: 'I feel well today.',
+            note: 'dobro — the adverb: how I feel',
           },
           {
             hr: 'Rijetko idem u kino.',
@@ -2166,9 +2166,9 @@ export const LESSONS_A2 = [
             note: 'ponekad opens the sentence',
           },
           {
-            hr: 'Ana govori hrvatski bolje od mene.',
-            en: 'Ana speaks Croatian better than me.',
-            note: 'bolje — the irregular comparative; od + genitive',
+            hr: 'Djeca se igraju vani, a baka je gore.',
+            en: 'The children are playing outside, and Grandma is upstairs.',
+            note: 'vani, gore — place adverbs, never changing',
           },
           {
             hr: 'Uvijek zaključaj vrata kad izlaziš.',
@@ -2207,7 +2207,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Using the adjective where the adverb belongs: "Govoriš dobar" and "Vozi spor" are wrong — an adverb is the neuter form, "Govoriš dobro", "Vozi sporo". (2) Treating "nikad" like English "never" and leaving the verb positive: "Nikad pijem kavu" is not Croatian — "Nikad ne pijem kavu". (3) Inventing a regular comparative for the irregular four: "dobrije" and "mnogije" do not exist — "bolje", "gore", "više", "manje".',
+        body: '(1) Using the adjective where the adverb belongs: "Govoriš dobar" and "Vozi spor" are wrong — an adverb is the neuter form, "Govoriš dobro", "Vozi sporo". (2) Treating "nikad" like English "never" and leaving the verb positive: "Nikad pijem kavu" is not Croatian — "Nikad ne pijem kavu". (3) Making an adverb agree with the subject: "Djeca su vana" — adverbs never change: Djeca su vani.',
         highlight: 'Nikad ne pijem kavu',
       },
       {
@@ -2222,11 +2222,11 @@ export const LESSONS_A2 = [
               'An adverb is the neuter form of the adjective: lijepo. "Lijepa" would agree with a feminine noun, but there is no noun here — the word describes the singing.',
           },
           {
-            q: 'Complete: "Govorim hrvatski ___ nego prošle godine." (better)',
-            options: ['dobrije', 'bolje', 'bolji', 'dobro'],
-            correct: 1,
+            q: 'Complete: "Ivana ___ kuha." (Ivana cooks well.)',
+            options: ['dobra', 'dobar', 'dobro', 'dobri'],
+            correct: 2,
             explanation:
-              '"Dobro" has the irregular comparative "bolje". "Dobrije" does not exist, "bolji" is the adjective form, and plain "dobro" makes no comparison.',
+              'How she cooks is described by the adverb, the neuter form: dobro. "Dobra" would agree with a feminine noun; it does not describe the cooking.',
           },
           {
             q: 'Which sentence is correct?',
@@ -2277,11 +2277,11 @@ export const LESSONS_A2 = [
               'The first "dobro" agrees with the neuter noun "vino" and is an adjective; the second describes HOW he cooks and is the adverb. Same word, two jobs.',
           },
           {
-            q: 'Complete: "Molim vas, govorite ___." (Please speak MORE quietly — the comparative of tiho.)',
-            options: ['tiho', 'tiše', 'tihi', 'tiha'],
+            q: 'Complete: "Molim vas, govorite ___." (Please speak quietly — tih.)',
+            options: ['tih', 'tiho', 'tihi', 'tiha'],
             correct: 1,
             explanation:
-              'Adverbs compare like adjectives: tiho → tiše. Plain "tiho" is "quietly" without the comparison, and "tihi" and "tiha" are adjective forms.',
+              'How someone speaks is an adverb, the neuter form of the adjective: tiho. "Tih", "tihi" and "tiha" are adjective forms.',
           },
         ],
       },
@@ -2292,7 +2292,7 @@ export const LESSONS_A2 = [
           'An adverb is the neuter form of the adjective, and never changes',
           'brz → brzo, lijep → lijepo, glasan → glasno',
           'The same word serves as adjective and adverb: Vino je dobro / Govoriš dobro',
-          'Irregular comparatives: dobro → bolje, loše → gore, mnogo → više, malo → manje',
+          'Place and time adverbs never change: ovdje, tamo, vani, gore, odmah, uskoro',
           'uvijek, često, obično, ponekad, rijetko, nikad',
           'nikad demands a negated verb: Nikad ne pijem kavu.',
         ],
@@ -3185,6 +3185,53 @@ export const LESSONS_A2 = [
       },
       {
         type: 'rule',
+        title: 'Living With Your Parents',
+        body: 'Young Croatians often live with their parents for a long time — well into their twenties, sometimes their thirties — because flats are expensive and family ties are close. When they do move out, most people want to buy a flat (stan) rather than rent one, and in the cities a flat is far more common than a house. A house with a garden is more typical of villages and small towns.',
+        highlight: 'kupiti stan',
+      },
+      {
+        type: 'example',
+        title: 'Idioms With kuća',
+        items: [
+          {
+            hr: 'Osjećajte se kao kod kuće!',
+            en: 'Make yourselves at home!',
+            note: 'osjećati se kao kod kuće — to feel at home',
+          },
+          {
+            hr: 'Kod nas je prava luda kuća.',
+            en: 'It’s a real madhouse at our place.',
+            note: 'luda kuća — chaos, a madhouse',
+          },
+          {
+            hr: 'Polako, ne gori kuća!',
+            en: 'Slow down, there’s no rush!',
+            note: 'ne gori kuća — the house is not on fire',
+          },
+          {
+            hr: 'Čisti prvo ispred svoje kuće!',
+            en: 'Sweep in front of your own door first!',
+            note: 'mind your own business before other people’s',
+          },
+          {
+            hr: 'Dogovor kuću gradi.',
+            en: 'Agreement builds the house.',
+            note: 'a saying: plan things together first',
+          },
+          {
+            hr: 'Moja kućica, moja slobodica.',
+            en: 'My little house, my little freedom.',
+            note: 'a saying about the joy of your own home',
+          },
+          {
+            hr: 'Svuda pođi, kući dođi.',
+            en: 'Go anywhere, but come home.',
+            note: 'a saying: there is no place like home',
+          },
+        ],
+      },
+      {
+        type: 'rule',
         title: 'Placing Things in a Room',
         body: 'This is where the A1 prepositions earn their keep. Stol je u kuhinji. (locative) Slika je na zidu. (locative) Kauč je pored prozora. (genitive) Tepih je ispod stola. (genitive) The pattern to remember: u and na take the locative for position, and pored, ispod, iznad and iza take the genitive.',
         highlight: 'na zidu · pored prozora',
@@ -3829,9 +3876,9 @@ export const LESSONS_A2 = [
       },
       {
         type: 'rule',
-        title: 'Hair and Eyes Belong to Their Owner',
-        body: 'Croatian describes these with a possessive dative rather than a possessive adjective. Kosa mu je smeđa. (His hair is brown — literally, the hair to-him is brown.) Oči su joj plave. (Her eyes are blue.) You can also say "Ima smeđu kosu" and "Ima plave oči", which is simpler and just as natural. Both are worth recognising.',
-        highlight: 'Oči su joj plave.',
+        title: 'Hair and Eyes: imati + the Accusative',
+        body: 'The everyday way to describe hair and eyes is imati with the accusative: Ima smeđu kosu (He has brown hair). Ima plave oči (She has blue eyes). Every adjective follows the noun into the accusative: dugu smeđu kosu. You can also name the owner with a possessive and use biti: Njezina kosa je duga. Oči is plural, and its adjectives take the feminine plural: plave oči, njezine oči.',
+        highlight: 'Ima plave oči.',
       },
       {
         type: 'table',
@@ -3880,9 +3927,9 @@ export const LESSONS_A2 = [
             note: 'imati + accusative: dugu smeđu kosu',
           },
           {
-            hr: 'Oči su mu zelene.',
-            en: 'His eyes are green.',
-            note: 'possessive dative — mu',
+            hr: 'Ima zelene oči.',
+            en: 'He has green eyes.',
+            note: 'imati + accusative: zelene oči',
           },
           {
             hr: 'On je jako drag i strpljiv.',
@@ -3911,9 +3958,9 @@ export const LESSONS_A2 = [
             note: 'niska — feminine',
           },
           {
-            hr: 'Kosa joj je duga i kovrčava.',
+            hr: 'Njezina kosa je duga i kovrčava.',
             en: 'Her hair is long and curly.',
-            note: 'possessive dative — joj',
+            note: 'njezina agrees with kosa; duga, kovrčava too',
           },
           {
             hr: 'Djed ima sijedu kosu i plave oči.',
@@ -3979,7 +4026,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Using a possessive adjective for hair and eyes: "Njegova kosa je smeđa" is correct, but it is the stiffer choice — in conversation you will mostly hear "Kosa mu je smeđa" or "Ima smeđu kosu". (2) Saying "siva kosa" for grey hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
+        body: '(1) Leaving hair in the subject form after imati: "Ima smeđa kosa" — kosa is the object, so Ima smeđu kosu. (2) Saying "siva kosa" for grey hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
         highlight: 'Kakav je on?',
       },
       {
@@ -3994,11 +4041,11 @@ export const LESSONS_A2 = [
               'The adjective agrees with "baka", which is feminine: stara. "Star" is masculine, "staro" neuter and "stari" plural.',
           },
           {
-            q: 'Complete: "Oči su ___ zelene." (His eyes are green.)',
-            options: ['ga', 'mu', 'njegov', 'on'],
+            q: 'Complete: "Ima ___ oči." (He has green eyes.)',
+            options: ['zelena', 'zelene', 'zeleni', 'zelenu'],
             correct: 1,
             explanation:
-              'The possessive dative names the owner: Oči su mu zelene — the eyes "to him". "Ga" is the accusative, and "njegov" would have to agree with "oči".',
+              'Oči is plural and takes the feminine plural: zelene oči. As the object of imati the accusative plural is the same form.',
           },
           {
             q: 'Which sentence says "She has short black hair"?',
@@ -4052,7 +4099,7 @@ export const LESSONS_A2 = [
         title: 'Describing People — Key Takeaways',
         points: [
           'visok, nizak, mlad, star, mršav, krupan, zgodan',
-          'Hair and eyes: Ima smeđu kosu / Oči su joj plave',
+          'Hair and eyes: Ima smeđu kosu / Ima plave oči',
           'plav means both blue and blond; grey hair is sijeda, never siva',
           'Character: drag, ljubazan, vrijedan, strpljiv, veseo, sramežljiv',
           'Kakav? asks what kind; Koji? asks which one',
@@ -4146,7 +4193,7 @@ export const LESSONS_A2 = [
             note: 'the female form is the normal one',
           },
           {
-            hr: 'Radno vrijeme mi je od osam do četiri.',
+            hr: 'Moje radno vrijeme je od osam do četiri.',
             en: 'My working hours are from eight to four.',
             note: 'od … do + genitive',
           },
@@ -4408,9 +4455,9 @@ export const LESSONS_A2 = [
             note: 'moram + infinitive',
           },
           {
-            hr: 'Koji ti je najdraži predmet?',
-            en: 'What is your favourite subject?',
-            note: 'najdraži — superlative of drag',
+            hr: 'Koji predmet voliš? — Volim povijest.',
+            en: 'Which subject do you like? — I like history.',
+            note: 'koji agrees with the masculine predmet',
           },
         ],
       },
@@ -4611,7 +4658,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'In My Free Time',
-        body: '"U slobodno vrijeme" is the phrase that opens this whole topic — note the accusative, which is what "u" takes for a period. U slobodno vrijeme čitam i šetam. Two more worth having: "volim" for what you enjoy (Volim kuhati) and "najviše volim" for your favourite (Najviše volim planinariti).',
+        body: '"U slobodno vrijeme" is the phrase that opens this whole topic — note the accusative, which is what "u" takes for a period. U slobodno vrijeme čitam i šetam. Two more worth having: "volim" for what you enjoy (Volim kuhati) and "obožavam" for what you really love (Obožavam planinariti).',
         highlight: 'U slobodno vrijeme…',
       },
       {
@@ -4685,9 +4732,9 @@ export const LESSONS_A2 = [
             note: 'baviti se + instrumental',
           },
           {
-            hr: 'Najviše volim gledati filmove navečer.',
-            en: 'Most of all I like watching films in the evening.',
-            note: 'najviše volim — your favourite',
+            hr: 'Obožavam gledati filmove navečer.',
+            en: 'I love watching films in the evening.',
+            note: 'obožavati + infinitive — to really love doing something',
           },
           {
             hr: 'Petkom navečer igramo nogomet u parku.',
@@ -4706,10 +4753,10 @@ export const LESSONS_A2 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I play the guitar"?',
-        options: ['Igram gitaru.', 'Sviram gitaru.', 'Igram se gitarom.', 'Radim gitaru.'],
+        options: ['Igram gitaru.', 'Sviram gitaru.', 'Igram na gitaru.', 'Radim gitaru.'],
         correct: 1,
         explanation:
-          'Instruments take "svirati": sviram gitaru. "Igrati" is for sports and games, and "igrati se" is what children do — neither works with an instrument.',
+          'Instruments take "svirati": sviram gitaru. "Igrati" is for sports and games, so neither "igram gitaru" nor "igram na gitaru" means playing an instrument.',
       },
       {
         type: 'quiz',
@@ -5475,10 +5522,10 @@ export const LESSONS_A2 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you wish someone a happy Christmas?',
-        options: ['Sretna Božić!', 'Sretan Božić!', 'Sretno Božić!', 'Čestitam Božić!'],
+        options: ['Sretna Božić!', 'Sretan Božić!', 'Sretno Božić!', 'Sretan Božića!'],
         correct: 1,
         explanation:
-          '"Božić" is masculine, so "sretan" takes the masculine form: Sretan Božić! It is "Sretna Nova godina" because "godina" is feminine — the greeting agrees like any adjective.',
+          '"Božić" is masculine, so "sretan" takes the masculine form: Sretan Božić! It is "Sretna Nova godina" because "godina" is feminine — the greeting agrees like any adjective. You can also say Čestitam ti Božić (I wish you a happy Christmas).',
       },
       {
         type: 'quiz',

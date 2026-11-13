@@ -53,7 +53,7 @@ export const CAN_DO_A2: Readonly<Record<string, readonly string[]>> = {
   'A2-7': [
     'I can say how and how often something is done with adverbs such as brzo, često and rijetko.',
     'I can ask politely and say what I would like, as in Biste li mi mogli pomoći?',
-    'I can say what I would do if things were different and give commands such as Daj mi ga!',
+    'I can say what I would do if things were different and give commands such as Daj mi ga! or Neka uđe!',
   ],
   // vocative-review · modal-verbs-a2 · volunteering · agreeing-disagreeing · dative-adjectives
   'A2-8': [
@@ -64,7 +64,7 @@ export const CAN_DO_A2: Readonly<Record<string, readonly string[]>> = {
   // possessive-dative · verbs-with-dative-a2 · impersonal · impersonal-feelings · car-and-traffic
   'A2-9': [
     'I can say whose something is and what happened to it with a short dative, as in Ukrali su mi novčanik.',
-    'I can say how I feel and whom I miss: Hladno mi je, Nedostaješ mi.',
+    'I can say how I feel, whom I miss and what I feel like doing: Hladno mi je, Nedostaješ mi, Spava mi se.',
     'I can explain a car problem to a mechanic, as in Auto mi se pokvario.',
   ],
   // travel-transport · public-transport · phone-calls-a2 · plans-invitations · celebrations-holidays
