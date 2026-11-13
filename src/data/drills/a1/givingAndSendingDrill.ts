@@ -148,8 +148,8 @@ export const GIVING_AND_SENDING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'zamjenice',
-    q: 'Daješ li ____ svoj broj?',
-    en: 'Are you giving us your number?',
+    q: 'Hoćeš li ____ dati broj?',
+    en: 'Will you give us your number?',
     opts: ['nam', 'nas', 'mi', 'naš'],
     answer: 'nam',
     tip: 'to us → nam.',

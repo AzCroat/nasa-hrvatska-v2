@@ -473,7 +473,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'A Woman Talking About Yesterday',
-        problem: 'Reci (žena): "I went to the market."',
+        problem: 'A woman says: "I went to the market."',
         en: 'Say (as a woman): I went to the market.',
         steps: [
           {
@@ -497,7 +497,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'A Mixed Group, Negated',
-        problem: 'Stavi u prošlo vrijeme: Petar i Ana ne rade.',
+        problem: 'Put it in the past: Petar i Ana ne rade.',
         en: 'Put into the past: Petar and Ana are not working.',
         steps: [
           {
@@ -568,7 +568,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Mi ____ bili kod kuće. (we were not)',
+          q: 'Mi ____ bili doma. (we were not)',
           answer: 'nismo',
           hint: 'The negative auxiliary is one word, and mi is first person plural.',
           explanation: 'nismo bili — the fused negative auxiliary.',
@@ -1729,7 +1729,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'Two Pronouns at Once',
-        problem: 'Reci: "I am giving it to him." (the key — ključ)',
+        problem: 'Say in Croatian: "I am giving it to him." (the key — ključ)',
         en: 'I am giving it to him (the key).',
         steps: [
           {
@@ -1770,11 +1770,16 @@ export const PRACTICE_A2 = {
           explanation: 'Rekao sam joj istinu. joj = to her.',
         },
         {
-          q: 'Which says "Show it to me" (the photo — slika)?',
-          options: ['Pokaži je mi.', 'Pokaži mi je.', 'Pokaži mene je.', 'Je mi pokaži.'],
+          q: 'Which says "I am showing it to you" (the photo — slika)?',
+          options: [
+            'Pokazujem je ti.',
+            'Pokazujem ti je.',
+            'Pokazujem tebe je.',
+            'Je ti pokazujem.',
+          ],
           correct: 1,
           hint: 'The dative comes before the accusative, and neither can open the sentence.',
-          explanation: 'Pokaži mi je. to-me first, then it.',
+          explanation: 'Pokazujem ti je. to-you first, then it.',
         },
         {
           q: 'Ovo je za ___. (This is for you — a friend.)',
@@ -1792,10 +1797,10 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Pomozi ____, molim te! (me)',
+          q: 'Možeš li ____ pomoći? (me)',
           answer: 'mi',
           hint: 'pomoći takes the dative, not the accusative.',
-          explanation: 'Pomozi mi! — pomoći takes the dative, so "me" is mi here, not me.',
+          explanation: 'Možeš li mi pomoći? — pomoći takes the dative, so "me" is mi here, not me.',
         },
         {
           type: 'type',
@@ -1806,7 +1811,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Čekamo ____ ispred škole. (you — plural)',
+          q: 'Čekamo ____ u kafiću. (you — plural)',
           answer: 'vas',
           hint: 'čekati takes a direct object; you (plural) as an object has a short form.',
           explanation: 'Čekamo vas. — accusative "you all".',
@@ -1815,15 +1820,17 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Ovo je za ____. (me)',
           answer: 'mene',
+          accept: ['me'],
           hint: 'After a preposition you need the long form of the pronoun.',
-          explanation: 'za mene — after a preposition the long form is the normal choice.',
+          explanation:
+            'za mene — after a preposition the long form is the normal choice. (The short "za me" is also standard, though more bookish.)',
         },
         {
-          q: 'Complete: "Daj ___ ključ." (Give him the key.)',
+          q: 'Complete: "Dajem ___ ključ." (I am giving him the key.)',
           options: ['ga', 'mu', 'njega', 'on'],
           correct: 1,
           hint: 'The person who receives the key is in the dative.',
-          explanation: 'Daj mu ključ — mu is the dative "to him". ga would be the key itself.',
+          explanation: 'Dajem mu ključ — mu is the dative "to him". ga would be the key itself.',
         },
         {
           q: 'Which is the right order for "He gave it to them"?',
@@ -1850,11 +1857,11 @@ export const PRACTICE_A2 = {
           'Two people as a direct object take the short accusative ih. im is the dative, oni the subject, ga is one person.',
       },
       {
-        q: 'Complete: "Reci ___ da kasnim." (Tell her that I am late.)',
+        q: 'Complete: "Pišem ___ pismo." (I am writing her a letter.)',
         options: ['je', 'ju', 'joj', 'nju'],
         correct: 2,
         explanation:
-          'reći takes the dative for the person told: joj. je and ju are accusative, nju is the long accusative.',
+          'The person you write to is in the dative: joj. je and ju are accusative, nju is the long accusative.',
       },
       {
         q: 'Which sentence is correct?',
@@ -1888,24 +1895,28 @@ export const PRACTICE_A2 = {
           'After a preposition only the long form is possible: za njih. ih and im are short forms that cannot follow za.',
       },
       {
-        q: 'What does "Javi nam" mean?',
-        options: ['Let us know', 'Let them know', 'Let me know', 'Let her know'],
+        q: 'What does "Baka nam piše" mean?',
+        options: [
+          'Grandma writes to us',
+          'Grandma writes to them',
+          'Grandma writes to me',
+          'Grandma writes to her',
+        ],
         correct: 0,
-        explanation:
-          'nam is the dative "to us". Let them know is javi im, let me know javi mi, let her know javi joj.',
+        explanation: 'nam is the dative "to us". To them is im, to me mi, to her joj.',
       },
     ],
     vocab: [
       ['vidjeti', 'to see', 'Vidim ga svaki dan.'],
       ['poznavati', 'to know (a person)', 'Poznaješ li je?'],
-      ['reći', 'to say, to tell', 'Reci mi istinu.'],
-      ['javiti', 'to let know', 'Javi mi kad stigneš.'],
-      ['dati', 'to give', 'Daj mi to, molim te.'],
+      ['reći', 'to say, to tell', 'Rekao sam ti istinu.'],
+      ['javiti', 'to let know', 'Javit ću ti sutra.'],
+      ['dati', 'to give', 'Dajem ti ga.'],
       ['pomoći', 'to help', 'Možeš li mi pomoći?'],
       ['poslati', 'to send', 'Poslat ću ti ga sutra.'],
-      ['čekati', 'to wait (for)', 'Čekamo vas ispred kina.'],
+      ['čekati', 'to wait (for)', 'Čekamo vas u kafiću.'],
       ['tražiti', 'to look for', 'Tražim ga cijeli dan.'],
-      ['pokazati', 'to show', 'Pokaži mi sliku.'],
+      ['pokazati', 'to show', 'Pokazat ću ti sliku.'],
     ],
   },
 
@@ -1913,7 +1924,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'Writing TO Someone',
-        problem: 'Reci: "I am writing to my friend." (prijateljica)',
+        problem: 'Say in Croatian: "I am writing to my friend." (prijateljica)',
         en: 'I am writing to my (female) friend.',
         steps: [
           {
@@ -1932,24 +1943,24 @@ export const PRACTICE_A2 = {
         answer: 'Pišem prijateljici.',
       },
       {
-        title: 'Who Likes What',
-        problem: 'Reci: "Marko likes the sea."',
-        en: 'Marko likes the sea.',
+        title: 'The Thing and the Person',
+        problem: 'Say in Croatian: "I am giving my brother the book." (brat, knjiga)',
+        en: 'I am giving my brother the book.',
         steps: [
           {
-            label: 'Turn it around',
-            text: 'In Croatian the sea does the pleasing: more is the subject.',
+            label: 'The thing — Što?',
+            text: 'The book is what is given: the accusative. Feminine -a becomes -u: knjigu.',
           },
           {
-            label: 'The person receives',
-            text: 'Marko is the one pleased, so he goes into the dative: Marku.',
+            label: 'The person — Komu?',
+            text: 'The brother receives it: the dative. Masculine nouns take -u: bratu.',
           },
           {
-            label: 'The verb',
-            text: 'sviđati se agrees with the subject more — third person singular: se sviđa.',
+            label: 'Put it together',
+            text: 'Verb, then the person, then the thing — no preposition, because the endings do the work.',
           },
         ],
-        answer: 'Marku se sviđa more.',
+        answer: 'Dajem bratu knjigu.',
       },
     ],
     practice: {
@@ -1977,11 +1988,11 @@ export const PRACTICE_A2 = {
           explanation: 'Vjeruješ li bratu? vjerovati takes the dative.',
         },
         {
-          q: 'Dosadno ___ je. (She is bored.)',
-          options: ['je', 'joj', 'ona', 'nju'],
+          q: 'Pišem ___ pismo. (to my aunt — teta)',
+          options: ['teta', 'teti', 'tetu', 'tetom'],
           correct: 1,
-          hint: 'Like hladno mi je: the person is in the dative, not the subject.',
-          explanation: 'Dosadno joj je — literally, it is boring to her.',
+          hint: 'The aunt receives the letter. Feminine -a takes one vowel in that case.',
+          explanation: 'teti — dative, the one written to. tetu is the accusative.',
         },
         {
           type: 'type',
@@ -1992,10 +2003,10 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Javi ____ kad stigneš. (Ivana)',
+          q: 'Šaljem ____ poruku. (Ivana)',
           answer: 'Ivani',
-          hint: 'javiti takes the dative, and a feminine -a noun ends in -i there.',
-          explanation: 'Ivana → Ivani: dative, the person who is told.',
+          hint: 'The person who receives the message is in the dative, and a feminine -a noun ends in -i there.',
+          explanation: 'Ivana → Ivani: dative, the person who receives it.',
         },
         {
           type: 'type',
@@ -2015,16 +2026,16 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Treba ____ odmor. (I need)',
-          answer: 'mi',
-          hint: 'With treba the thing needed is the subject and the person is in the dative.',
-          explanation: 'Treba mi odmor — literally "a rest is needed to me".',
+          q: 'Šaljem razglednicu ____. (my friend — prijatelj)',
+          answer: 'prijatelju',
+          hint: 'The friend receives the postcard; masculine nouns take -u in that case.',
+          explanation: 'prijatelj → prijatelju: the dative of the receiver.',
         },
         {
-          q: 'Complete: "Reci ___ da stižem." (Tell Dad — otac)',
+          q: 'Complete: "Kupujem ___ novu jaknu." (for Dad — otac)',
           options: ['otac', 'oca', 'ocu', 'ocem'],
           correct: 2,
-          hint: 'reći takes the dative, and otac loses its a when it takes an ending.',
+          hint: 'The person it is for is in the dative, and otac loses its a when it takes an ending.',
           explanation: 'otac → ocu, the dative. oca is the accusative.',
         },
         {
@@ -2040,7 +2051,7 @@ export const PRACTICE_A2 = {
           correct: 3,
           hint: 'Three of these take a plain direct object, as in English.',
           explanation:
-            'vjerovati + dative: vjerujem mu. The others take the accusative: vidim ga, čekam ga, zovem ga.',
+            'vjerovati + dative: vjerujem bratu. The others take the accusative: vidim brata, čekam brata, zovem brata.',
         },
       ],
     },
@@ -2053,23 +2064,23 @@ export const PRACTICE_A2 = {
           'The receiver is in the dative, and a masculine noun takes -u: prijatelju. prijatelja is the accusative.',
       },
       {
-        q: 'Complete: "Objasni ___ zadatak." (Explain the task to Ana.)',
+        q: 'Complete: "Objašnjavam ___ zadatak." (I am explaining the task to Ana.)',
         options: ['Anu', 'Ana', 'Ani', 'Anom'],
         correct: 2,
         explanation:
           'The person something is explained to takes the dative; feminine -a becomes -i: Ani.',
       },
       {
-        q: 'Which sentence correctly asks a friend "Do you like Zagreb?"',
+        q: 'Which sentence correctly says "I am buying Dad a present"?',
         options: [
-          'Sviđaš li se Zagreb?',
-          'Sviđa li ti se Zagreb?',
-          'Sviđa li te se Zagreb?',
-          'Sviđa li tebe Zagreb?',
+          'Kupujem tata poklon.',
+          'Kupujem tati poklon.',
+          'Kupujem tatu poklon.',
+          'Kupujem tatom poklon.',
         ],
         correct: 1,
         explanation:
-          'Zagreb does the pleasing and is the subject; the person who likes it is in the dative: ti.',
+          'Dad is the one the present is for, so he is in the dative: tati. tatu is the accusative, and tata the subject form.',
       },
       {
         q: 'What is wrong with "Pomažem mamu u kuhinji"?',
@@ -2084,11 +2095,11 @@ export const PRACTICE_A2 = {
           'Helping someone takes the dative in Croatian: pomažem mami. u kuhinji is right — location.',
       },
       {
-        q: 'What does "Dosadno mi je" mean?',
-        options: ['I am bored', 'It bores him', 'I am boring', 'Give me something'],
+        q: 'In "Baka daje unuku jabuku", who gets the apple?',
+        options: ['the grandson', 'the grandmother', 'the apple', 'nobody — the grandson gives it'],
         correct: 0,
         explanation:
-          'Literally "it is boring to me" — the person affected is in the dative mi. "I am boring" would be dosadan sam.',
+          'unuku is the dative of unuk, so the grandson receives it. Baka is the subject who gives, and jabuku (accusative) is the thing given.',
       },
       {
         q: 'Complete: "Zahvalio sam se ___ na pomoći." (my neighbour — susjed)',
@@ -2101,14 +2112,14 @@ export const PRACTICE_A2 = {
     vocab: [
       ['dati', 'to give', 'Dao sam knjigu bratu.'],
       ['pomoći', 'to help', 'Možeš li pomoći Ani?'],
-      ['vjerovati', 'to believe, to trust', 'Vjerujem svom bratu.'],
+      ['vjerovati', 'to believe, to trust', 'Vjerujem bratu.'],
       ['zahvaliti se', 'to thank', 'Zahvalio sam se susjedi na kolaču.'],
-      ['objasniti', 'to explain', 'Učitelj nam je objasnio pravilo.'],
-      ['javiti', 'to let know', 'Javi mami da si stigao.'],
+      ['objasniti', 'to explain', 'Učitelj je objasnio studentu pravilo.'],
+      ['javiti', 'to let know', 'Javit ću mami da sam stigao.'],
       ['poklon', 'present, gift', 'Kupio sam poklon baki.'],
-      ['sviđati se', 'to be liked by, to please', 'Sviđa mi se ova glazba.'],
-      ['trebati', 'to be needed, to need', 'Treba mi nova jakna.'],
-      ['dosadno', 'boring (it is boring)', 'Djeci je dosadno kad pada kiša.'],
+      ['slati', 'to send', 'Šaljem baki pismo.'],
+      ['trebati', 'to be needed, to need', 'Ivi treba nova jakna.'],
+      ['pisati', 'to write', 'Pišem prijatelju svaki tjedan.'],
       ['razglednica', 'postcard', 'Poslao sam mami razglednicu.'],
     ],
   },
@@ -2117,7 +2128,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'The Means: No Preposition',
-        problem: 'Reci: "I pay by card and go to work by tram." (kartica, tramvaj)',
+        problem: 'Say in Croatian: "I pay by card and go to work by tram." (kartica, tramvaj)',
         en: 'I pay by card and go to work by tram.',
         steps: [
           {
@@ -2137,7 +2148,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'Company: With S or Sa',
-        problem: 'Reci: "I am going to the cinema with Željko."',
+        problem: 'Say in Croatian: "I am going to the cinema with Željko."',
         en: 'I am going to the cinema with Željko.',
         steps: [
           {
@@ -2234,7 +2245,8 @@ export const PRACTICE_A2 = {
           options: ['bez', 'sa', 's', 'od'],
           correct: 1,
           hint: 'Look at the first sound of šećerom, and at which case follows.',
-          explanation: 'sa šećerom — before š the preposition is sa. bez and od take the genitive.',
+          explanation:
+            'sa šećerom — before š the preposition is sa. bez means "without", and od is not used for "with".',
         },
         {
           q: 'Complete: "Idem na posao ___." (by bike — bicikl)',
@@ -2266,11 +2278,11 @@ export const PRACTICE_A2 = {
           'The means of doing something is the bare instrumental: karticom. karticu is the accusative, kartici the dative or locative.',
       },
       {
-        q: 'Complete: "Živim ___ roditeljima." (I live with my parents.)',
+        q: 'Complete: "Živim ___ bratom." (I live with my brother.)',
         options: ['s', 'sa', 'k', 'od'],
         correct: 0,
         explanation:
-          'Company takes s + instrumental. roditeljima does not start with s, š, z or ž, so the preposition is plain s.',
+          'Company takes s + instrumental. bratom does not start with s, š, z or ž, so the preposition is plain s.',
       },
       {
         q: 'Which sentence correctly says "I go to work by tram"?',
@@ -2307,7 +2319,7 @@ export const PRACTICE_A2 = {
         options: ['s', 'k', 'sa', 'o'],
         correct: 2,
         explanation:
-          'sinom begins with s, so the preposition takes its longer form: sa sinom. Plain s before s cannot be said.',
+          'sinom begins with s, so the standard form of the preposition is the longer sa: sa sinom.',
       },
     ],
     vocab: [
@@ -2746,7 +2758,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'A Lot of People',
-        problem: 'Reci: "In summer a lot of tourists come."',
+        problem: 'Say in Croatian: "In summer a lot of tourists come."',
         en: 'In summer a lot of tourists come.',
         steps: [
           {
@@ -2766,7 +2778,8 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'At the Market',
-        problem: 'Naruči: "A kilo of tomatoes and a bottle of water, please." (rajčica, voda)',
+        problem:
+          'Order in Croatian: "A kilo of tomatoes and a bottle of water, please." (rajčica, voda)',
         en: 'A kilo of tomatoes and a bottle of water, please.',
         steps: [
           {
@@ -2814,11 +2827,11 @@ export const PRACTICE_A2 = {
           explanation: 'Previše ljudi puši ovdje — the verb stays singular.',
         },
         {
-          q: 'Daj mi malo ___. (salt — sol)',
-          options: ['sol', 'soli', 'solju', 'solom'],
+          q: 'Molim malo ___. (sugar — šećer)',
+          options: ['šećer', 'šećera', 'šećerom', 'šećeru'],
           correct: 1,
-          hint: 'malo takes the genitive. sol is feminine and belongs to the small i-group, like noć.',
-          explanation: 'malo soli — the genitive of sol ends in -i.',
+          hint: 'malo takes the genitive, and sugar is uncountable, so it stays singular.',
+          explanation: 'malo šećera — genitive singular.',
         },
         {
           type: 'type',
@@ -2850,7 +2863,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Daj mi komad ____. (bread — kruh)',
+          q: 'Molim komad ____. (bread — kruh)',
           answer: 'kruha',
           hint: 'komad is a measure, so the bread takes the genitive.',
           explanation: 'komad kruha — genitive after a measure.',
@@ -2881,7 +2894,7 @@ export const PRACTICE_A2 = {
     },
     checkB: [
       {
-        q: 'Complete: "Popij malo ___." (Drink a little water — voda.)',
+        q: 'Complete: "Pijem malo ___." (I drink a little water — voda.)',
         options: ['voda', 'vode', 'vodu', 'vodom'],
         correct: 1,
         explanation:
@@ -2896,15 +2909,10 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'Which sentence is correct?',
-        options: [
-          'Daj mi čašu vode.',
-          'Daj mi čašu voda.',
-          'Daj mi čašu vodu.',
-          'Daj mi čaša vode.',
-        ],
+        options: ['Molim čašu vode.', 'Molim čašu voda.', 'Molim čašu vodu.', 'Molim čaša vode.'],
         correct: 0,
         explanation:
-          'A measure takes the genitive of its contents (vode), and the measure itself is the object of daj, so it is accusative: čašu.',
+          'A measure takes the genitive of its contents (vode), and the measure itself is the object of molim, so it is accusative: čašu.',
       },
       {
         q: 'What is wrong with "Imam puno posao"?',
@@ -2933,7 +2941,7 @@ export const PRACTICE_A2 = {
     ],
     vocab: [
       ['puno', 'a lot, much, many', 'Imam puno posla.'],
-      ['malo', 'a little, few', 'Daj mi malo vode.'],
+      ['malo', 'a little, few', 'Molim malo vode.'],
       ['nekoliko', 'several', 'Došlo je nekoliko prijatelja.'],
       ['dosta', 'enough, quite a lot', 'Imamo dosta kruha.'],
       ['previše', 'too much, too many', 'Ljeti je previše turista.'],
@@ -2951,7 +2959,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'What the Date Is',
-        problem: 'Reci: "Today is the twenty-first of March."',
+        problem: 'Say in Croatian: "Today is the twenty-first of March."',
         en: 'Today is the twenty-first of March.',
         steps: [
           {
@@ -2971,7 +2979,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'On a Date',
-        problem: 'Reci: "We arrive on the tenth of August."',
+        problem: 'Say in Croatian: "We arrive on the tenth of August."',
         en: 'We arrive on the tenth of August.',
         steps: [
           {
@@ -3159,7 +3167,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'A Yes/No Question',
-        problem: 'Pitaj prijatelja: "Did you see the film?"',
+        problem: 'Ask a friend: "Did you see the film?"',
         en: 'Ask a (male) friend: Did you see the film?',
         steps: [
           {
@@ -3179,7 +3187,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'A Question Word and a Denial',
-        problem: 'Pitaj i odgovori: "When did she arrive?" — "She did not arrive."',
+        problem: 'Ask and answer: "When did she arrive?" — "She did not arrive."',
         en: 'Ask and answer: When did she arrive? — She did not arrive.',
         steps: [
           {
@@ -3289,7 +3297,7 @@ export const PRACTICE_A2 = {
     },
     checkB: [
       {
-        q: 'Complete: "___ li bio kod liječnika?" (Have you been to the doctor? — to a man)',
+        q: 'Complete: "___ li bio u kinu?" (Have you been to the cinema? — to a man)',
         options: ['Si', 'Jesi', 'Jesmo', 'Li'],
         correct: 1,
         explanation:
@@ -3328,7 +3336,7 @@ export const PRACTICE_A2 = {
           'niste is the second-person plural negative auxiliary: you did not understand.',
       },
       {
-        q: 'Complete: "Gdje ___ bili prošlog ljeta?" (Where were you — plural — last summer?)',
+        q: 'Complete: "Gdje ___ bili u subotu?" (Where were you — plural — on Saturday?)',
         options: ['ste', 'jeste', 'ste li', 'jeste li'],
         correct: 0,
         explanation:
@@ -3341,7 +3349,7 @@ export const PRACTICE_A2 = {
       ['kupiti', 'to buy', 'Što ste kupili?'],
       ['stići', 'to arrive', 'Kada su stigli?'],
       ['reći', 'to say', 'Što si rekao?'],
-      ['javiti', 'to let know', 'Zašto nisi javio?'],
+      ['doći', 'to come', 'Zašto niste došli?'],
       ['gdje', 'where', 'Gdje si bio?'],
       ['kada', 'when', 'Kada ste došli?'],
       ['zašto', 'why', 'Zašto nisi došao?'],
@@ -4385,7 +4393,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'What Hurts',
-        problem: 'Reci: "My stomach hurts."',
+        problem: 'Say in Croatian: "My stomach hurts."',
         en: 'My stomach hurts.',
         steps: [
           {
@@ -4405,7 +4413,7 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'A Plural Body Part',
-        problem: 'Reci: "Her eyes hurt."',
+        problem: 'Say in Croatian: "Her eyes hurt."',
         en: 'Her eyes hurt.',
         steps: [
           {
@@ -4429,14 +4437,14 @@ export const PRACTICE_A2 = {
       items: [
         {
           q: 'Boli ___ zub. (His tooth hurts.)',
-          options: ['mu', 'ga', 'on', 'njemu'],
+          options: ['ih', 'ga', 'on', 'njegov'],
           correct: 1,
-          hint: 'boljeti takes the accusative for the person, not the dative.',
+          hint: 'boljeti takes the short accusative for the person — one man.',
           explanation: 'Boli ga zub.',
         },
         {
           q: 'Djeca su bolesna. Boli ___ grlo. (Their throats hurt.)',
-          options: ['im', 'ih', 'oni', 'njih'],
+          options: ['nas', 'ih', 'oni', 'ga'],
           correct: 1,
           hint: 'The person is the object — the short accusative for "them".',
           explanation: 'Boli ih grlo.',
@@ -4459,6 +4467,7 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Boli ____ glava. (Her head hurts.)',
           answer: 'je',
+          accept: ['ju'],
           hint: 'The person is the accusative object; use the short form for her.',
           explanation: 'Boli je glava — je is the short accusative "her".',
         },
@@ -4492,9 +4501,9 @@ export const PRACTICE_A2 = {
         },
         {
           q: 'Boli ___ zub? (Does your tooth hurt? — to a friend)',
-          options: ['ti', 'te', 'tebi', 'tvoj'],
+          options: ['me', 'te', 'ga', 'tvoj'],
           correct: 1,
-          hint: 'boljeti takes the accusative for the person.',
+          hint: 'boljeti takes the short accusative for the person — here, you.',
           explanation: 'Boli te zub? — te is the short accusative "you".',
         },
         {
@@ -4523,16 +4532,17 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'Complete: "Bole ___ oči." (His eyes hurt.)',
-        options: ['mu', 'ga', 'njegov', 'on'],
+        options: ['nas', 'ga', 'njegov', 'on'],
         correct: 1,
         explanation:
-          'The person affected is the accusative object: ga. mu is the dative, which boljeti does not take.',
+          'The person affected is the short accusative object: ga. nas is "us", njegov means "his" as an adjective, and on is the subject form.',
       },
       {
         q: 'Which sentence correctly says "Our backs hurt"?',
-        options: ['Boli nas leđa.', 'Bole nas leđa.', 'Bole nam leđa.', 'Boli nam leđa.'],
+        options: ['Boli nas leđa.', 'Bole nas leđa.', 'Bolimo leđa.', 'Bole me leđa.'],
         correct: 1,
-        explanation: 'leđa is always plural, so bole, and the person is the accusative nas.',
+        explanation:
+          'leđa is always plural, so bole, and the person is the accusative nas. "Bole me leđa" is my back, and "Bolimo" makes us the ones hurting.',
       },
       {
         q: 'What is wrong with "Ja bolim zub"?',
@@ -4540,7 +4550,7 @@ export const PRACTICE_A2 = {
           'Nothing — it is correct',
           'The body part is the subject and you are the object: "Boli me zub"',
           'It should be "Bolim zuba"',
-          'It should be "Boli mi zub"',
+          'It should be "Ja boli zub"',
         ],
         correct: 1,
         explanation:
@@ -4581,7 +4591,7 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'What She Is Wearing',
-        problem: 'Reci: "Today she is wearing a white shirt and grey trousers."',
+        problem: 'Say in Croatian: "Today she is wearing a white shirt and grey trousers."',
         en: 'Today she is wearing a white shirt and grey trousers.',
         steps: [
           {
@@ -4600,24 +4610,24 @@ export const PRACTICE_A2 = {
         answer: 'Danas nosi bijelu košulju i sive hlače.',
       },
       {
-        title: 'Another Size',
-        problem: 'U trgovini: "Do you have this jacket in a smaller size?"',
-        en: 'In a shop: Do you have this jacket in a smaller size?',
+        title: 'Asking to Try It On',
+        problem: 'In a shop: "I want this jacket. Can I try it on?"',
+        en: 'In a shop: I want this jacket. Can I try it on?',
         steps: [
           {
-            label: 'Register',
-            text: 'A shop assistant gets Vi: imate li.',
-          },
-          {
             label: 'The jacket',
-            text: 'jakna is the object: ova jakna → ovu jaknu.',
+            text: 'jakna is the object of želim: ova jakna → ovu jaknu.',
           },
           {
-            label: 'The size',
-            text: 'Size is broj, and "in" a size is u + locative: manji broj → manjem broju.',
+            label: 'Replace it',
+            text: 'In the second sentence the jacket becomes a pronoun: jakna is feminine, so "it" is je.',
+          },
+          {
+            label: 'Position',
+            text: 'Both li and je are clitics after mogu: li first, then je, then the infinitive probati.',
           },
         ],
-        answer: 'Imate li ovu jaknu u manjem broju?',
+        answer: 'Želim ovu jaknu. Mogu li je probati?',
       },
     ],
     practice: {
@@ -4631,7 +4641,7 @@ export const PRACTICE_A2 = {
           explanation: 'žutu kapu.',
         },
         {
-          q: 'Ove tenisice su mi ___. (too big — velik)',
+          q: 'Ove tenisice su ___. (big — velik)',
           options: ['velik', 'velika', 'velike', 'veliki'],
           correct: 2,
           hint: 'tenisice is feminine plural, like cipele.',
@@ -4667,9 +4677,8 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Ove cipele su mi ____. (too small — mali)',
+          q: 'Ove cipele su ____. (small — mali)',
           answer: 'male',
-          accept: ['premale'],
           hint: 'cipele is feminine plural, and the adjective agrees with it.',
           explanation: 'male — feminine plural.',
         },
@@ -4703,11 +4712,11 @@ export const PRACTICE_A2 = {
           explanation: 'nove — feminine plural.',
         },
         {
-          q: 'Complete: "Imate li ovu majicu u ___ boji?" (in blue)',
-          options: ['plava', 'plavu', 'plavoj', 'plavom'],
-          correct: 2,
-          hint: 'u + locative, and boja is feminine.',
-          explanation: 'u plavoj boji — feminine locative.',
+          q: 'Complete: "Imate li ___ majicu?" (a blue T-shirt — plav)',
+          options: ['plava', 'plavu', 'plave', 'plavi'],
+          correct: 1,
+          hint: 'majica is the object of imate, and the colour agrees with it.',
+          explanation: 'plavu majicu — feminine accusative.',
         },
       ],
     },
@@ -4720,7 +4729,7 @@ export const PRACTICE_A2 = {
           'jakna is feminine and the object of nosim, so the colour takes the feminine accusative: crvenu.',
       },
       {
-        q: 'Complete: "Kupila sam ___ traperice." (I bought new jeans.)',
+        q: 'Complete: "Trebam ___ traperice." (I need new jeans.)',
         options: ['nov', 'novu', 'nove', 'novi'],
         correct: 2,
         explanation: 'traperice is feminine plural, so the adjective takes -e: nove traperice.',
@@ -4749,18 +4758,19 @@ export const PRACTICE_A2 = {
         explanation: 'hlače has no singular; as a feminine plural it takes -e: nove hlače.',
       },
       {
-        q: 'In a shop, "Imate li manji broj?" asks…',
+        q: 'In a shop, "Ovo nije moj broj" means…',
         options: [
-          'Do you have a smaller size?',
-          'Do you have a cheaper one?',
-          'Do you have another colour?',
-          'Do you have fewer of them?',
+          'This is not my size',
+          'This is not my colour',
+          'This is not my shop',
+          'This is too expensive',
         ],
         correct: 0,
-        explanation: 'broj is the size in a shop, and manji is smaller.',
+        explanation:
+          'In a clothes or shoe shop, broj is the size. Colour is boja, and expensive is skup.',
       },
       {
-        q: 'Complete: "Uzet ću ___ čarape." (I will take the grey socks — siv)',
+        q: 'Complete: "Uzimam ___ čarape." (I am taking the grey socks — siv)',
         options: ['sivu', 'sivi', 'siva', 'sive'],
         correct: 3,
         explanation: 'čarape is feminine plural, so the colour takes -e: sive čarape.',
@@ -4769,13 +4779,13 @@ export const PRACTICE_A2 = {
     vocab: [
       ['majica', 'T-shirt', 'Nosim crvenu majicu.'],
       ['košulja', 'shirt', 'Brat nosi bijelu košulju.'],
-      ['hlače', 'trousers', 'Hlače su mi prevelike.'],
+      ['hlače', 'trousers', 'Ove hlače su nove.'],
       ['traperice', 'jeans', 'Kupila sam nove traperice.'],
       ['suknja', 'skirt', 'Nosi crnu suknju.'],
       ['haljina', 'dress', 'Ovo je lijepa haljina.'],
-      ['jakna', 'jacket', 'Uzmi jaknu, hladno je.'],
+      ['jakna', 'jacket', 'Nosim jaknu, hladno je.'],
       ['kaput', 'coat', 'Zimi nosim kaput.'],
-      ['cipele', 'shoes', 'Cipele su mi male.'],
+      ['cipele', 'shoes', 'Ove cipele su male.'],
       ['čarape', 'socks', 'Trebam nove čarape.'],
       ['nositi', 'to wear; to carry', 'Moja sestra nosi naočale.'],
       ['probati', 'to try (on)', 'Mogu li ovo probati?'],

@@ -3328,75 +3328,171 @@ export const LISTEN = [
   },
 ];
 export const NUMTIME = {
+  // A1 FOLLOWS THE BOOK (owner, 2026-11-13). Each item names the lesson that teaches
+  // what it asks (lesson), and NumTime serves only items whose lesson is open, so the
+  // drill coupled to numbers-time (0-10, phone numbers) no longer asks a learner for
+  // 365 or the clock. Numbers 11+ are lesson numbers-11-1000; the clock and counted
+  // nouns (sati, eura) are numbers-genitive, after the genitive, as in the book's L17.
+  small: [
+    { q: 'How do you say 7?', a: 'sedam', al: ['sto', 'šest', 'osam'], lesson: 'numbers-time' },
+    { q: 'How do you say 3?', a: 'tri', al: ['dva', 'četiri', 'pet'], lesson: 'numbers-time' },
+    { q: 'How do you say 9?', a: 'devet', al: ['deset', 'osam', 'šest'], lesson: 'numbers-time' },
+    { q: 'How do you say 0?', a: 'nula', al: ['jedan', 'ništa', 'deset'], lesson: 'numbers-time' },
+    { q: 'Koliko je 4 + 6?', a: 'deset', al: ['devet', 'osam', 'jedan'], lesson: 'numbers-time' },
+    {
+      q: 'Which number do you ring for an ambulance in Croatia?',
+      a: '194',
+      al: ['193', '192', '911'],
+      lesson: 'numbers-time',
+    },
+    {
+      q: 'Moj broj je nula devet jedan... - which digits does it start with?',
+      a: '091',
+      al: ['019', '901', '009'],
+      lesson: 'numbers-time',
+    },
+    {
+      q: 'How do you say 5?',
+      a: 'pet',
+      al: ['četiri', 'šest', 'petnaest'],
+      lesson: 'numbers-time',
+    },
+  ],
   numbers: [
-    { q: 'How do you say 15?', a: 'petnaest', al: ['trinaest', 'dvanaest', 'šesnaest'] },
+    {
+      q: 'How do you say 15?',
+      a: 'petnaest',
+      al: ['trinaest', 'dvanaest', 'šesnaest'],
+      lesson: 'numbers-11-1000',
+    },
     {
       q: 'How do you say 28?',
       a: 'dvadeset osam',
       al: ['dvadeset tri', 'trideset osam', 'dvadeset devet'],
+      lesson: 'numbers-11-1000',
     },
-    { q: 'How do you say 50?', a: 'pedeset', al: ['petdeset', 'petoset', 'petnaest'] },
+    {
+      q: 'How do you say 50?',
+      a: 'pedeset',
+      al: ['petdeset', 'petoset', 'petnaest'],
+      lesson: 'numbers-11-1000',
+    },
     {
       q: 'How do you say 73?',
       a: 'sedamdeset tri',
       al: ['šezdeset tri', 'sedamdeset sedam', 'osamdeset tri'],
+      lesson: 'numbers-11-1000',
     },
-    { q: 'How do you say 100?', a: 'sto', al: ['tisuću', 'deset', 'dvjesto'] },
+    {
+      q: 'How do you say 100?',
+      a: 'sto',
+      al: ['tisuću', 'deset', 'dvjesto'],
+      lesson: 'numbers-11-1000',
+    },
     {
       q: 'How do you say 365?',
       a: 'tristo šezdeset pet',
       al: ['tristo pedeset pet', 'dvjesto šezdeset pet', 'tristo šezdeset šest'],
+      lesson: 'numbers-11-1000',
     },
-    { q: 'How do you say 1000?', a: 'tisuća', al: ['sto', 'milijun', 'deset tisuća'] },
-    { q: 'Koliko je 12 + 8?', a: 'dvadeset', al: ['osamnaest', 'dvadeset dva', 'devetnaest'] },
+    {
+      q: 'How do you say 1000?',
+      a: 'tisuća',
+      al: ['sto', 'milijun', 'deset tisuća'],
+      lesson: 'numbers-11-1000',
+    },
+    {
+      q: 'Koliko je 12 + 8?',
+      a: 'dvadeset',
+      al: ['osamnaest', 'dvadeset dva', 'devetnaest'],
+      lesson: 'numbers-11-1000',
+    },
   ],
   time: [
-    { q: 'It\u0027s 3:00 PM =', a: 'Petnaest sati', al: ['Tri sata', 'Pet sati', 'Trinaest sati'] },
+    {
+      q: 'It\u0027s 3:00 PM =',
+      a: 'Petnaest sati',
+      al: ['Tri sata', 'Pet sati', 'Trinaest sati'],
+      lesson: 'numbers-genitive',
+    },
     {
       q: 'It\u0027s 7:30 =',
       a: 'Sedam sati i trideset minuta',
       al: ['Sedam i pol', 'Šest i trideset', 'Osam i trideset'],
+      lesson: 'numbers-genitive',
     },
-    { q: 'It\u0027s noon =', a: 'Podne', al: ['Ponoć', 'Jutro', 'Večer'] },
-    { q: 'It\u0027s midnight =', a: 'Ponoć', al: ['Podne', 'Noć', 'Kasno'] },
+    {
+      q: 'It\u0027s noon =',
+      a: 'Podne',
+      al: ['Ponoć', 'Jutro', 'Večer'],
+      lesson: 'numbers-genitive',
+    },
+    {
+      q: 'It\u0027s midnight =',
+      a: 'Ponoć',
+      al: ['Podne', 'Noć', 'Kasno'],
+      lesson: 'numbers-genitive',
+    },
     {
       q: 'It\u0027s 9:15 AM =',
       a: 'Devet sati i petnaest minuta',
       al: ['Devet i pol', 'Deset i petnaest', 'Osam i petnaest'],
+      lesson: 'numbers-genitive',
     },
-    { q: '\u0027Pola pet\u0027 means?', a: '4:30', al: ['5:30', '5:00', '4:00'] },
-    { q: '\u0027Četvrt do šest\u0027 means?', a: '5:45', al: ['6:15', '6:45', '5:15'] },
+    {
+      q: '\u0027Pola pet\u0027 means?',
+      a: '4:30',
+      al: ['5:30', '5:00', '4:00'],
+      lesson: 'numbers-genitive',
+    },
+    {
+      q: '\u0027Četvrt do šest\u0027 means?',
+      a: '5:45',
+      al: ['6:15', '6:45', '5:15'],
+      lesson: 'numbers-genitive',
+    },
     {
       q: '47 euros in Croatian?',
       a: 'Četrdeset sedam eura',
       al: ['Četrdeset pet eura', 'Trideset sedam eura', 'Pedeset sedam eura'],
+      lesson: 'numbers-genitive',
     },
     {
       q: "Colloquial: 'Pola sedam' means?",
       a: '6:30',
       al: ['7:30', '7:00', '6:00'],
+      lesson: 'numbers-genitive',
       note: "'Pola' + next hour = half past previous hour. Pola sedam = half to seven = 6:30",
     },
     {
       q: "'Ujutro' means what time of day?",
       a: 'Morning (roughly 6–12)',
       al: ['Afternoon', 'Evening', 'Night'],
+      lesson: 'numbers-genitive',
     },
     {
       q: "Which is colloquial for 'the day after tomorrow'?",
       a: 'prekosutra',
       al: ['jučer', 'sutra', 'predjuče'],
+      lesson: 'numbers-genitive',
     },
-    { q: "'Uskoro' means?", a: 'Soon', al: ['Yesterday', 'Tomorrow', 'Never'] },
+    {
+      q: "'Uskoro' means?",
+      a: 'Soon',
+      al: ['Yesterday', 'Tomorrow', 'Never'],
+      lesson: 'numbers-genitive',
+    },
     {
       q: "Formal vs colloquial: '15:00' vs colloquial?",
       a: 'Tri sata (popodne)',
       al: ['Petnaest', 'Tri popodne', 'Poslijepodne tri'],
+      lesson: 'numbers-genitive',
     },
     {
       q: "'Tek' in 'Tek sam stigao' means?",
       a: 'Just / only just',
       al: ['Already', 'Not yet', 'Always'],
+      lesson: 'numbers-genitive',
     },
   ],
   colloquial: [

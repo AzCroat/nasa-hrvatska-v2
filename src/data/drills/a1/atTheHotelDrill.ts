@@ -31,11 +31,11 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prijava',
-    q: 'Na koje ____? — Na ime Horvat.',
-    en: 'Under what name? — Under the name Horvat.',
+    q: 'Na koje ____? (the receptionist asks for your name)',
+    en: 'Under what name?',
     opts: ['ime', 'imena', 'imenu', 'imenom'],
     answer: 'ime',
-    tip: 'ime is neuter, so it does not change.',
+    tip: 'ime is neuter, so it does not change: Na koje ime?',
   },
   {
     mode: 'prijava',
@@ -184,8 +184,8 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'problem',
-    q: '____ je doručak? — Od sedam do deset.',
-    en: 'When is breakfast? — From seven to ten.',
+    q: '____ je doručak? — Ujutro.',
+    en: 'When is breakfast? — In the morning.',
     opts: ['Gdje', 'Kada', 'Što', 'Koga'],
     answer: 'Kada',
     tip: 'A time answer: Kada?',

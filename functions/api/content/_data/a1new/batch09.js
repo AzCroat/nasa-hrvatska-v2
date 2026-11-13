@@ -16,6 +16,8 @@ export const SPINE = [
       'Count things with two to four: dva stola, dvije knjige, tri kuće',
       'Count with five and up: pet stolova, deset knjiga, dvadeset eura',
       'Read a compound number by its last word: dvadeset i jedan dan, trideset dvije sobe',
+      'Tell the time: Koliko je sati? Dva su sata, pet je sati, pola devet',
+      'Say prices and how long: dva eura i pedeset centi, Koliko dugo? Tri mjeseca',
     ],
   },
   {
@@ -77,11 +79,11 @@ export const LESSONS = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'numbers-genitive',
-    title: 'Counting Things',
-    subtitle: 'dva stola, dvije knjige, pet stolova — the noun follows the number',
+    title: 'Counting Things and Telling the Time',
+    subtitle: 'dva stola, pet stolova, pet je sati — the noun follows the number',
     icon: '🔢',
     level: 'A1',
-    duration: '~7 min',
+    duration: '~10 min',
     color: '#0891b2',
     bg: '#ecfeff',
     slides: [
@@ -135,6 +137,50 @@ export const LESSONS = [
         highlight: 'pet sati · pet ljudi',
       },
       {
+        type: 'rule',
+        title: 'Telling the Time',
+        body: 'Now you can tell the time, because the time is simply a count of hours (sat). Ask Koliko je sati? (literally "how many hours is it?") — Koji je sat? is an equally correct way to ask. The answer counts the hours by the three groups: Jedan je sat. Dva su sata. Tri su sata. Pet je sati. Dvanaest je sati. With one and with five-and-up the verb is je; with two to four it is su. For minutes, add i and the number: Osam i deset (8:10), Devet i dvadeset (9:20).',
+        highlight: 'Koliko je sati? — Dva su sata. Pet je sati.',
+      },
+      {
+        type: 'table',
+        title: 'What Time Is It?',
+        headers: ['Time', 'Croatian', 'Note'],
+        rows: [
+          ['1:00', 'Jedan je sat.', 'one: sat'],
+          ['2:00', 'Dva su sata.', 'two to four: sata, verb su'],
+          ['5:00', 'Pet je sati.', 'five and up: sati'],
+          ['8:15', 'Osam i petnaest. / Osam i četvrt.', 'četvrt = a quarter'],
+          ['8:30', 'Pola devet.', 'half an hour before nine'],
+          ['8:45', 'Četvrt do devet.', 'a quarter to nine'],
+          ['12:00', 'Dvanaest je sati. / Podne.', 'podne = noon'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'At What Time?',
+        body: 'To say WHEN something happens, put u in front: u osam sati (at eight), u dva sata (at two), u pola devet (at half past eight). Ask U koliko sati? (At what time?). Croatian timetables use the 24-hour clock, so you will also hear u dvadeset sati (at 8 pm) and od osam do dvadeset sati (from 8 am to 8 pm). Watch pola: pola devet is half an hour BEFORE nine, 8:30.',
+        highlight: 'U koliko sati? — U osam sati.',
+      },
+      {
+        type: 'rule',
+        title: 'Prices: Euros and Cents',
+        body: 'Prices follow the same three groups. jedan euro, dva eura, pet eura; jedan cent, dva centa, pet centi. Only the last word decides, so 22 cents is dvadeset dva centa and 21 euros is dvadeset i jedan euro. A full price joins the two with i: Kava košta dva eura i pedeset centi (2.50 €). Ask Koliko košta? or Koliko je to?',
+        highlight: 'dva eura i pedeset centi',
+      },
+      {
+        type: 'rule',
+        title: 'How Long? — koliko dugo',
+        body: 'Ask Koliko dugo? (how long?) and answer with a number and the noun it counts, exactly as you count anything else: tri mjeseca (three months), dvije godine (two years), pet godina (five years), deset dana (ten days). Već (already) says it is still going on: Učim hrvatski već tri mjeseca — I have been learning Croatian for three months.',
+        highlight: 'Koliko dugo? — Tri mjeseca.',
+      },
+      {
+        type: 'rule',
+        title: 'Big Numbers: tisuća and milijun',
+        body: 'Tisuća (a thousand) is a feminine noun, so it is counted like one: dvije tisuće, tri tisuće, pet tisuća. After a verb, one thousand is usually said tisuću: Bicikl košta tisuću eura. Milijun (a million) is a masculine noun: jedan milijun, dva milijuna, pet milijuna. Whatever is counted after tisuća or milijun takes the genitive plural: pet tisuća ljudi, milijun turista.',
+        highlight: 'dvije tisuće · pet tisuća · dva milijuna',
+      },
+      {
         type: 'example',
         title: 'Two, Three, Four',
         items: [
@@ -175,8 +221,8 @@ export const LESSONS = [
         title: 'Five and Up',
         items: [
           {
-            hr: 'U razredu je dvanaest studenata.',
-            en: 'There are twelve students in the class.',
+            hr: 'U razredu je dvanaest učenika.',
+            en: 'There are twelve pupils in the class.',
             note: 'eleven to nineteen count like five',
           },
           {
@@ -202,6 +248,42 @@ export const LESSONS = [
         ],
       },
       {
+        type: 'example',
+        title: 'Time, Prices and How Long',
+        items: [
+          {
+            hr: 'Koliko je sati? — Tri su sata.',
+            en: 'What time is it? — It is three o’clock.',
+            note: 'two to four: sata and su',
+          },
+          {
+            hr: 'Film počinje u osam sati.',
+            en: 'The film starts at eight.',
+            note: 'u + the time',
+          },
+          {
+            hr: 'Imamo sastanak u pola deset.',
+            en: 'We have a meeting at half past nine.',
+            note: 'pola deset = 9:30',
+          },
+          {
+            hr: 'Sendvič košta tri eura i dvadeset centi.',
+            en: 'The sandwich costs 3.20 €.',
+            note: 'tri eura · dvadeset centi',
+          },
+          {
+            hr: 'Koliko dugo živiš u Zagrebu? — Dvije godine.',
+            en: 'How long have you lived in Zagreb? — Two years.',
+            note: 'koliko dugo + a number',
+          },
+          {
+            hr: 'Zagreb ima gotovo milijun stanovnika.',
+            en: 'Zagreb has almost a million inhabitants.',
+            note: 'milijun + genitive plural',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "two books"? ("knjiga" is feminine.)',
@@ -222,7 +304,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, dva with a feminine noun: "dva knjige" — feminine nouns take dvije, so dvije knjige. Second, the two-to-four ending after five: "pet stola" — five and up take the genitive plural, pet stolova. Third, treating twelve like two because it starts with dva: "dvanaest stola" — every -naest number counts like five, dvanaest stolova.',
+        body: 'First, dva with a feminine noun: "dva knjige" — feminine nouns take dvije, so dvije knjige. Second, the two-to-four ending after five: "pet stola" — five and up take the genitive plural, pet stolova. Third, treating twelve like two because it starts with dva: "dvanaest stola" — every -naest number counts like five, dvanaest stolova. Fourth, reading pola devet as half past nine: it is 8:30, half an hour before nine.',
         highlight: 'dvije knjige',
       },
       {
@@ -281,6 +363,18 @@ export const LESSONS = [
             explanation:
               'Five and up take the genitive plural, studenata, and the group counts as one, so the verb is singular: uči.',
           },
+          {
+            q: 'It is 4:00. Which answer to "Koliko je sati?" is correct?',
+            options: ['Četiri je sati.', 'Četiri su sata.', 'Četiri su sati.', 'Četiri je sat.'],
+            correct: 1,
+            explanation: 'Four is in the two-to-four group: sata, with the plural verb su.',
+          },
+          {
+            q: 'What time is "pola osam"?',
+            options: ['8:30', '8:15', '7:30', '7:45'],
+            correct: 2,
+            explanation: 'Pola osam is half an hour before eight: 7:30.',
+          },
         ],
       },
       {
@@ -292,6 +386,9 @@ export const LESSONS = [
           'pet and up, and every -naest number + genitive plural: pet stolova, dvanaest knjiga',
           'In a long number only the last word decides: dvadeset dvije sobe, dvadeset pet eura',
           'Ready pairs: dva sata / pet sati, dvije godine / pet godina, dva eura / pet eura',
+          'Time: Koliko je sati? (or Koji je sat?) — Jedan je sat, Dva su sata, Pet je sati; u osam sati; pola devet = 8:30',
+          'Prices and how long: dva eura i pedeset centi; Koliko dugo? — Tri mjeseca',
+          'tisuća and milijun are nouns: dvije tisuće, pet tisuća, dva milijuna',
         ],
       },
     ],
@@ -658,7 +755,7 @@ export const LESSONS = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which sentence says "My legs hurt"?',
-        options: ['Boli me noge.', 'Bole me noge.', 'Bole mi noge.', 'Bolim noge.'],
+        options: ['Boli me noge.', 'Bole me noge.', 'Bole ja noge.', 'Bolim noge.'],
         correct: 1,
         explanation:
           'Two legs hurt, so the verb is plural, bole, and the person is the accusative me: Bole me noge.',
@@ -667,7 +764,7 @@ export const LESSONS = [
         type: 'quiz',
         title: 'One More',
         q: 'Complete: "___ boli glava." (Ana has a headache.)',
-        options: ['Ana', 'Ani', 'Anu', 'Anom'],
+        options: ['Ana', 'Ane', 'Anu', 'Anom'],
         correct: 2,
         explanation:
           'The person who hurts is the object, in the accusative: Ana → Anu. The head is the subject.',
@@ -690,17 +787,17 @@ export const LESSONS = [
           },
           {
             q: 'Which is correct for "Does your back hurt?" (to a friend)',
-            options: ['Boli li te leđa?', 'Bole li ti leđa?', 'Bole li te leđa?', 'Boliš li leđa?'],
+            options: ['Boli li te leđa?', 'Bole li ja leđa?', 'Bole li te leđa?', 'Boliš li leđa?'],
             correct: 2,
             explanation:
-              'Leđa is plural, so bole; a friend is ti, and boljeti takes the accusative te.',
+              'Leđa is plural, so bole; a friend is ti, and the person who hurts is the object te.',
           },
           {
             q: 'Complete: "___ boli uho." (Petar\'s ear hurts.)',
-            options: ['Petar', 'Petru', 'Petra', 'Petrom'],
+            options: ['Petar', 'Petre', 'Petra', 'Petrom'],
             correct: 2,
             explanation:
-              'The person is the object in the accusative, and Petar is a living masculine noun: Petra. Petru is the dative.',
+              'The person is the object in the accusative, and Petar is a living masculine noun: Petra.',
           },
           {
             q: 'How do you say "Nothing hurts"?',
@@ -708,7 +805,7 @@ export const LESSONS = [
               'Ništa me ne boli.',
               'Ništa me boli.',
               'Ne ništa me boli.',
-              'Ništa ne boli mi.',
+              'Ništa ne boli ja.',
             ],
             correct: 0,
             explanation:
@@ -726,7 +823,7 @@ export const LESSONS = [
               'Jučer me su boljele noge.',
               'Jučer su me boljele noge.',
               'Jučer me je boljele noge.',
-              'Jučer su mi boljela noge.',
+              'Jučer su me boljela noge.',
             ],
             correct: 1,
             explanation:
@@ -771,13 +868,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'How Do You Know It Is Feminine?',
-        body: 'The noun itself will not tell you, so the words around it do: ta stvar, dobra noć, velika ljubav, moja riječ. Learn each of these nouns together with a word that shows its gender. One useful shortcut: every noun ending in -ost is feminine — radost, mladost (youth), starost (old age).',
+        body: 'The noun itself will not tell you, so the words around it do: ta stvar, dobra noć, velika ljubav, moja riječ. Learn each of these nouns together with a word that shows its gender. One useful shortcut: an abstract noun made from a describing word with -ost is feminine — mlad → mladost (youth), star → starost (old age), and radost (joy). Short everyday words that merely end in -ost are not built that way and can be masculine: gost (guest) and most (bridge) are masculine.',
         highlight: 'ta stvar · dobra noć',
       },
       {
         type: 'rule',
         title: 'One Ending Does Most of the Work',
-        body: 'The subject form and the object form (the accusative) are both the bare noun: Ta stvar je nova. Volim tu stvar. The genitive and the locative simply add -i: bez soli (genitive), od radosti (genitive), o ljubavi (locative), u noći (locative). Compare kuća, which changes to kuću, kuće, kući — this group only ever adds one letter.',
+        body: 'The subject form and the object form (the accusative) are both the bare noun: Ta stvar je nova. Volim tu stvar. The genitive and the locative simply add -i: bez soli (genitive), od radosti (genitive), o ljubavi (locative), u noći (locative). Compare kuća, which changes to kuću, kuće, kući — in the four forms you practise here, this group only ever adds one letter.',
         highlight: 'bez soli · o ljubavi',
       },
       {
@@ -927,7 +1024,7 @@ export const LESSONS = [
         title: 'The -i Group — Key Takeaways',
         points: [
           'Some feminine nouns end in a consonant: stvar, noć, ljubav, riječ, sol, večer',
-          'Every noun ending in -ost is feminine: radost, mladost',
+          'Abstract nouns made with -ost are feminine: radost, mladost (but gost and most are masculine)',
           'Subject and object are the bare noun: Ta stvar je nova. Volim tu stvar.',
           'Genitive and locative add -i: bez soli, od radosti, o ljubavi, u noći',
           'The describing word shows the case: laku noć, o toj stvari',
@@ -1354,6 +1451,20 @@ export const PRACTICE = {
         ],
         answer: 'dvanaest stolova',
       },
+      {
+        title: 'What Time Is It?',
+        problem: 'It is 3:00. Answer "Koliko je sati?"',
+        en: 'It is three o’clock.',
+        steps: [
+          { label: 'Which group', text: 'Three is in the two-to-four group.' },
+          { label: 'The noun', text: 'sat takes the genitive singular after three: sata.' },
+          {
+            label: 'The verb',
+            text: 'With two to four the verb is plural: su. (With one and with five-and-up it is je.)',
+          },
+        ],
+        answer: 'Tri su sata.',
+      },
     ],
     practice: {
       title: 'Guided Practice',
@@ -1454,6 +1565,48 @@ export const PRACTICE = {
           hint: 'Five and up: genitive plural; a short masculine noun adds -ov- before the -a.',
           explanation: 'pet katova.',
         },
+        {
+          q: 'Koliko je sati? (7:00)',
+          options: ['Sedam je sati.', 'Sedam su sata.', 'Sedam je sat.', 'Sedam su sati.'],
+          correct: 0,
+          hint: 'Seven is five-or-more: genitive plural, and the verb is singular.',
+          explanation: 'Sedam je sati.',
+        },
+        {
+          q: 'Which question also correctly asks the time?',
+          options: ['Koji je sat?', 'Kakav je sat?', 'Čiji je sat?', 'Gdje je sat?'],
+          correct: 0,
+          hint: 'Besides Koliko je sati?, one other question asks which hour it is.',
+          explanation: 'Koji je sat? is an equally correct way to ask the time.',
+        },
+        {
+          type: 'type',
+          q: 'Vlak polazi u devet ____. (o’clock — sat)',
+          answer: 'sati',
+          hint: 'Nine is five-or-more; sat has an irregular genitive plural ending in -i.',
+          explanation: 'u devet sati.',
+        },
+        {
+          type: 'type',
+          q: 'Koliko dugo učiš hrvatski? — Tri ____. (months — mjesec)',
+          answer: 'mjeseca',
+          hint: 'Three takes the genitive singular; masculine adds -a.',
+          explanation: 'Tri mjeseca.',
+        },
+        {
+          type: 'type',
+          q: 'Kava košta dva eura i dvadeset dva ____. (cents — cent)',
+          answer: 'centa',
+          hint: 'The last word is dva: genitive singular.',
+          explanation: 'dvadeset dva centa.',
+        },
+        {
+          q: 'pet ___ eura (five thousand)',
+          options: ['tisuća', 'tisuće', 'tisuću', 'tisuci'],
+          correct: 0,
+          hint: 'A thousand is a feminine noun, counted like any noun after five: genitive plural.',
+          explanation: 'pet tisuća eura.',
+        },
       ],
     },
     checkB: [
@@ -1509,17 +1662,36 @@ export const PRACTICE = {
         correct: 3,
         explanation: 'Dva studenta — two takes the genitive singular, and the verb is plural.',
       },
+      {
+        q: 'It is 9:00. Which answer is correct?',
+        options: ['Devet su sata.', 'Devet je sat.', 'Devet je sati.', 'Devet su sati.'],
+        correct: 2,
+        explanation: 'Nine is five-or-more: sati, with the singular verb je.',
+      },
+      {
+        q: 'Complete: "Živim ovdje već pet ___." (years)',
+        options: ['godina', 'godine', 'godinu', 'godini'],
+        correct: 0,
+        explanation: 'Koliko dugo? — pet godina: five and up take the genitive plural.',
+      },
     ],
     vocab: [
       ['dvije', 'two (with feminine nouns)', 'Imam dvije sestre.'],
       ['tri', 'three', 'Tri prijatelja čekaju.'],
       ['četiri', 'four', 'Ostajem četiri dana.'],
-      ['dvanaest', 'twelve', 'U razredu je dvanaest studenata.'],
+      ['dvanaest', 'twelve', 'U razredu je dvanaest učenika.'],
       ['dvadeset', 'twenty', 'Ručak košta dvadeset eura.'],
       ['euro', 'euro', 'Kava košta dva eura.'],
       ['bilježnica', 'notebook', 'Trebam tri bilježnice.'],
       ['soba', 'room', 'Hotel ima trideset dvije sobe.'],
-      ['razred', 'class, classroom', 'U razredu je dvanaest studenata.'],
+      ['razred', 'class, classroom', 'U razredu je dvanaest učenika.'],
+      ['sat', 'hour; o’clock', 'Koliko je sati? — Pet je sati.'],
+      ['pola', 'half (pola devet = 8:30)', 'Sastanak je u pola devet.'],
+      ['četvrt', 'a quarter', 'Sada je četvrt do devet.'],
+      ['cent', 'cent', 'Kava košta dva eura i pedeset centi.'],
+      ['mjesec', 'month', 'Učim hrvatski već tri mjeseca.'],
+      ['tisuća', 'thousand', 'Na koncertu je pet tisuća ljudi.'],
+      ['milijun', 'million', 'Zagreb ima gotovo milijun stanovnika.'],
     ],
   },
 
@@ -1769,14 +1941,14 @@ export const PRACTICE = {
         },
         {
           q: 'Boli ___ trbuh. (She has a stomach ache.)',
-          options: ['je', 'joj', 'ona', 'njoj'],
+          options: ['je', 'ga', 'ona', 'me'],
           correct: 0,
           hint: 'The short accusative form for ona.',
           explanation: 'Boli je trbuh.',
         },
         {
           q: "___ boli koljeno. (Marko's knee hurts.)",
-          options: ['Marko', 'Markom', 'Marku', 'Marka'],
+          options: ['Marko', 'Markom', 'Markov', 'Marka'],
           correct: 3,
           hint: 'The person who hurts is the object, and Marko is a living masculine noun.',
           explanation: 'Marka boli koljeno.',
@@ -1790,7 +1962,7 @@ export const PRACTICE = {
         },
         {
           q: 'Which sentence means "My back hurts"?',
-          options: ['Boli me leđa.', 'Bole mi leđa.', 'Bole me leđa.', 'Bolim leđa.'],
+          options: ['Boli me leđa.', 'Bole ja leđa.', 'Bole me leđa.', 'Bolim leđa.'],
           correct: 2,
           hint: 'leđa only exists in the plural, and the person is in the accusative.',
           explanation: 'Bole me leđa.',
@@ -1867,19 +2039,20 @@ export const PRACTICE = {
       },
       {
         q: 'How do you ask a friend "What hurts?"',
-        options: ['Što ti boli?', 'Što boliš?', 'Tko te boli?', 'Što te boli?'],
+        options: ['Što te bole?', 'Što boliš?', 'Tko te boli?', 'Što te boli?'],
         correct: 3,
-        explanation: 'Što te boli? — boljeti takes the accusative te.',
+        explanation:
+          'Što te boli? — the person is the accusative te, and što takes the singular boli.',
       },
       {
         q: 'Complete: "___ bole leđa." (My mum\'s back hurts.)',
-        options: ['Moja mama', 'Moju mamu', 'Mojoj mami', 'Mojom mamom'],
+        options: ['Moja mama', 'Moju mamu', 'Moja mame', 'Mojom mamom'],
         correct: 1,
         explanation: 'The person is in the accusative: Moju mamu bole leđa.',
       },
       {
         q: 'Complete: "Boli ___ zub." (He has toothache.)',
-        options: ['ga', 'mu', 'on', 'njemu'],
+        options: ['ga', 'te', 'on', 'je'],
         correct: 0,
         explanation: 'The short accusative for on: Boli ga zub.',
       },
@@ -1966,7 +2139,7 @@ export const PRACTICE = {
           q: 'Which is correct?',
           options: ['taj radost', 'ta radost', 'to radost', 'te radost'],
           correct: 1,
-          hint: 'Every noun in -ost is feminine.',
+          hint: 'An abstract noun made with -ost is feminine.',
           explanation: 'ta radost.',
         },
         {
@@ -2072,9 +2245,10 @@ export const PRACTICE = {
       },
       {
         q: 'Which group are "radost", "mladost" and "starost" in?',
-        options: ['masculine', 'neuter', 'plural only', 'feminine — every noun in -ost is'],
+        options: ['masculine', 'neuter', 'plural only', 'feminine'],
         correct: 3,
-        explanation: 'Every noun ending in -ost is feminine.',
+        explanation:
+          'Abstract nouns made with -ost are feminine: radost, mladost, starost. (gost and most, which are not built that way, are masculine.)',
       },
       {
         q: 'Complete: "Laku ___!" (Good night!)',

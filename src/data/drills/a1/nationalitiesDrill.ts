@@ -219,4 +219,21 @@ export const NATIONALITIES_DRILL_DATA: ModeDrillItem[] = [
     answer: 'Francuzi',
     tip: 'A mixed group: Francuzi.',
   },
+  // People from a town (-anin / -čanin), book lesson 2.
+  {
+    mode: 'skupine',
+    q: 'Marko je iz Splita. On je ____.',
+    en: 'Marko is from Split.',
+    opts: ['Splitanin', 'Splićanin', 'Splićanka', 'Splićani'],
+    answer: 'Splićanin',
+    tip: 'Split → Splićanin: the t becomes ć before -anin.',
+  },
+  {
+    mode: 'zena',
+    q: 'Zagrepčanin → ____',
+    en: 'a woman from Zagreb',
+    opts: ['Zagrepčanica', 'Zagrepčanka', 'Zagrebčanka', 'Zagrepčankinja'],
+    answer: 'Zagrepčanka',
+    tip: '-anin → -anka for a woman, and the b of Zagreb is written p before č.',
+  },
 ];

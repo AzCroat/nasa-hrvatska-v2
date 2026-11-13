@@ -41,6 +41,10 @@ const lessonOf = (id: string) =>
   (LESSONS as Array<{ id: string; slides: Slide[] }>).find((l) => l.id === id)!;
 const visualOf = (id: string) => lessonOf(id).slides.find((s) => s.type === 'visual')!;
 const LESSON = { color: '#16a34a', bg: '#f0fdf4' };
+// The full seven-row chart in a lesson: the vocative is the last case A1 teaches (97), so
+// its chart is the first with every row. The A1 overview lesson (cases, 28) shows only the
+// nominative row now — see 'A1 shows only the cases it has taught' below.
+const FULL = 'vocative-intro';
 
 // Which row(s) each lesson picks out is an AUTHORING decision (the lesson's own case), so
 // it is written out here rather than derived from the data it checks.
@@ -118,6 +122,56 @@ describe('placement', () => {
     expect(visualOf('plural-cases').number).toBe('plural');
     for (const id of Object.keys(PICKS).filter((i) => i !== 'plural-cases'))
       expect(visualOf(id).number, id).toBe('singular');
+  });
+});
+
+// A1 follows Hrvatski za početnike 1 (owner, 2026-11-13): the book adds one case at a time,
+// so an A1 chart may not show a row — or a line, or a question — for a case or form the
+// course has not taught yet. Written out per lesson (an authoring decision, like PICKS).
+const A1_TAUGHT_ROWS: Record<string, string[]> = {
+  cases: ['Nsg'],
+  'accusative-intro': ['Nsg', 'Asg'],
+  'locative-intro': ['Nsg', 'Asg', 'Lsg'],
+  'dative-intro': ['Nsg', 'Dsg', 'Asg', 'Lsg'],
+  'instrumental-intro': ['Nsg', 'Dsg', 'Asg', 'Lsg', 'Isg'],
+  'genitive-intro': ['Nsg', 'Gsg', 'Dsg', 'Asg', 'Lsg', 'Isg'],
+  'vocative-intro': ['Nsg', 'Gsg', 'Dsg', 'Asg', 'Vsg', 'Lsg', 'Isg'],
+};
+describe('A1 shows only the cases it has taught', () => {
+  type CRow = {
+    key: string;
+    n?: number;
+    asks: Array<{ hr: string }>;
+    cells: Array<Array<{ hr: string }>>;
+  };
+  const rowsIn = (id: string) => visualOf(id).rows as CRow[];
+  it.each(Object.entries(A1_TAUGHT_ROWS))(
+    '%s carries exactly the rows taught by then',
+    (id, want) => {
+      expect(rowsIn(id).map((r) => r.key)).toEqual(want);
+    },
+  );
+  it('a cut-down chart keeps each row numbered by its place in the full seven', () => {
+    expect(rowsIn('locative-intro').map((r) => r.n)).toEqual([1, 4, 6]);
+  });
+  it('the accusative lesson (29) shows no motion question and no animate accusative', () => {
+    const text = rowsIn('accusative-intro').flatMap((r) => [
+      ...r.asks.map((a) => a.hr),
+      ...r.cells.flat().map((l) => l.hr),
+    ]);
+    expect(text).not.toContain('Kamo ideš?');
+    expect(text).not.toContain('Imam brata.');
+    expect(text).not.toContain('Imam susjeda.');
+    expect(text.length).toBeGreaterThan(4);
+  });
+  it('the rendered nominative-only chart is one row, numbered 1', () => {
+    render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
+    expect(screen.getAllByRole('rowheader')).toHaveLength(1);
+    expect(screen.getByTestId('chart-row-Nsg').textContent).toMatch(/^1\. Nominativ/);
+  });
+  it('no line in the singular chart uses the non-standard zadovoljan s + instrumental', () => {
+    const all = (SINGULAR_ROWS as CRow[]).flatMap((r) => r.cells.flat().map((l) => l.hr));
+    expect(all.some((h) => /zadovolj\w* sam s /i.test(h))).toBe(false);
   });
 });
 
@@ -238,7 +292,7 @@ describe('every marked word in the charts is what the language says', () => {
     expect(endingOf('morem', 'more')).toBe('m');
   });
   it('the soft-stem instrumental marks the real ending -em, not just the last letter', () => {
-    render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
+    render(<LessonVisualSlide slide={visualOf(FULL)} lesson={LESSON} />);
     const ends = within(screen.getByTestId('chart-row-Isg'))
       .getAllByTestId('chart-ending')
       .map((e) => e.textContent);
@@ -248,7 +302,7 @@ describe('every marked word in the charts is what the language says', () => {
 
 describe('the rendered chart', () => {
   it('is a real table: 3 gender columns + the case column, 7 case rows with their question words', () => {
-    render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
+    render(<LessonVisualSlide slide={visualOf(FULL)} lesson={LESSON} />);
     expect(screen.getAllByRole('columnheader')).toHaveLength(4);
     expect(screen.getByRole('columnheader', { name: /Ženski rod/ })).toBeTruthy();
     expect(screen.getByRole('columnheader', { name: /Srednji rod/ })).toBeTruthy();
@@ -260,7 +314,7 @@ describe('the rendered chart', () => {
     expect(screen.getByText('Koga, čega nema?')).toBeTruthy();
   });
   it('marks each changed ending in text (underline), not only colour', () => {
-    render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
+    render(<LessonVisualSlide slide={visualOf(FULL)} lesson={LESSON} />);
     const endings = screen.getAllByTestId('chart-ending');
     expect(endings.length).toBeGreaterThan(20);
     for (const e of endings) expect(e.style.textDecoration).toBe('underline');
@@ -303,9 +357,9 @@ describe('the rendered chart', () => {
     expect(nounEnds[2]).toEqual(['ima']);
   });
   it('gives assistive technology one description and a keyboard-scrollable region', () => {
-    render(<LessonVisualSlide slide={visualOf('cases')} lesson={LESSON} />);
+    render(<LessonVisualSlide slide={visualOf(FULL)} lesson={LESSON} />);
     const region = screen.getByRole('region');
-    expect(region.getAttribute('aria-label')).toBe(String(visualOf('cases').alt));
+    expect(region.getAttribute('aria-label')).toBe(String(visualOf(FULL).alt));
     expect(region.getAttribute('tabindex')).toBe('0');
   });
   it('an unknown kind degrades to the slide’s own text, never an error', () => {

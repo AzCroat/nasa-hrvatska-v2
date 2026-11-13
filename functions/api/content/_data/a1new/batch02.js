@@ -71,7 +71,7 @@ export const SPINE = [
     masterOrder: 24,
     prerequisites: ['possessives', 'family-people', 'adjectives-basic'],
     objectives: [
-      'Say "Ana\'s", "Marko\'s", "my sister\'s" with -in, -ov and -ev: Anin, Markov, prijateljev',
+      'Say "Ana\'s", "Marko\'s", "the sister\'s" with -in, -ov and -ev: Anin, Markov, prijateljev',
       'Make the possessive agree with the thing owned: Anin brat, Anina sestra, Anino pismo',
       'Use the plural forms: Anini prijatelji, Markove knjige',
     ],
@@ -211,7 +211,7 @@ const ZVATI_SE = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'Three slips are typical. First, leaving out se: "Zovem Ana" sounds like you are calling Ana on the phone, not giving your name. Second, putting se in the wrong place: it is Ja se zovem Ana and Kako se zoveš?, never "Se zovem Ana" or "Ja zovem se Ana". Third, keeping the ja form for someone else: it is On se zove Ivan, not "On se zovem Ivan".',
+      body: 'Three slips are typical. First, leaving out se: "Zovem Ana" is not Croatian at all — giving your name needs se: Zovem se Ana. (Calling Ana on the phone is a different sentence with a different form of her name, which comes in a later lesson.) Second, putting se in the wrong place: it is Ja se zovem Ana and Kako se zoveš?, never "Se zovem Ana" or "Ja zovem se Ana". Third, keeping the ja form for someone else: it is On se zove Ivan, not "On se zovem Ivan".',
       highlight: 'Ja se zovem Ana',
     },
     {
@@ -518,7 +518,7 @@ const SIBILARIZATION = {
     {
       type: 'rule',
       title: 'Only Directly Before -i',
-      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. One short noun does take a plain -i and so does change: đak (pupil) → đaci.',
+      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. A few short nouns do take a plain -i and so do change: đak (pupil) → đaci, Čeh (Czech) → Česi.',
       highlight: 'vlak → vlakovi',
     },
     {
@@ -890,7 +890,7 @@ const COLOURS = {
     {
       type: 'intro',
       title: 'What Colour Is It?',
-      body: 'Colour words are adjectives — words that describe a noun. In English they never change: a red car, a red house, red apples. In Croatian they change their ending to match the noun. Learn the colours and you also learn how every Croatian adjective agrees.',
+      body: 'Colour words are adjectives — words that describe a noun. In English they never change: a red car, a red house, red apples. In Croatian they change their ending to match the noun. Learn the colours and you also learn how every Croatian describing word agrees.',
       icon: '🎨',
     },
     {
@@ -1147,7 +1147,7 @@ const POSSESSIVE_ADJ = {
         },
         {
           hr: 'Sestrina kuća je velika, a bratov stan je mali.',
-          en: "My sister's house is big, and my brother's flat is small.",
+          en: "The sister's house is big, and the brother's flat is small.",
           note: 'sestra → sestrin, brat → bratov',
         },
         {
@@ -1173,7 +1173,7 @@ const POSSESSIVE_ADJ = {
         },
         {
           hr: 'Očev brat je moj stric.',
-          en: "My father's brother is my uncle.",
+          en: "Father's brother is my uncle (stric).",
           note: 'otac → očev',
         },
       ],
@@ -1275,7 +1275,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Saying Your Name',
-        problem: 'Reci: My name is Ana.',
+        problem: 'Say: My name is Ana.',
         en: 'Say: My name is Ana.',
         steps: [
           {
@@ -1292,7 +1292,7 @@ export const PRACTICE = {
       },
       {
         title: 'Asking Politely',
-        problem: 'Pitaj profesora kako se zove.',
+        problem: 'Ask a teacher (politely) for his name.',
         en: 'Ask a teacher his name.',
         steps: [
           { label: 'Who are you asking?', text: 'A teacher is an adult you address politely: vi.' },
@@ -1482,7 +1482,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Hard Consonant',
-        problem: 'Stavi u množinu: most',
+        problem: 'Put into the plural: most',
         en: 'Make it plural: bridge',
         steps: [
           { label: 'Gender', text: 'most ends in a consonant, so it is masculine.' },
@@ -1493,7 +1493,7 @@ export const PRACTICE = {
       },
       {
         title: 'A Soft Consonant',
-        problem: 'Stavi u množinu: broj',
+        problem: 'Put into the plural: broj',
         en: 'Make it plural: number',
         steps: [
           { label: 'Gender and length', text: 'broj is masculine and has one syllable.' },
@@ -1658,7 +1658,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'k Before -i',
-        problem: 'Stavi u množinu: učenik',
+        problem: 'Put into the plural: učenik',
         en: 'Make it plural: pupil',
         steps: [
           { label: 'Length', text: 'učenik has three syllables, so it takes a plain -i.' },
@@ -1669,7 +1669,7 @@ export const PRACTICE = {
       },
       {
         title: 'g Before -i',
-        problem: 'Stavi u množinu: dijalog',
+        problem: 'Put into the plural: dijalog',
         en: 'Make it plural: dialogue',
         steps: [
           { label: 'Length', text: 'dijalog is a long noun: plain -i.' },
@@ -1831,7 +1831,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'The A Drops',
-        problem: 'Stavi u množinu: stranac',
+        problem: 'Put into the plural: stranac',
         en: 'Make it plural: foreigner',
         steps: [
           {
@@ -1845,7 +1845,7 @@ export const PRACTICE = {
       },
       {
         title: 'The A Drops, Then K Changes',
-        problem: 'Stavi u množinu: momak',
+        problem: 'Put into the plural: momak',
         en: 'Make it plural: lad',
         steps: [
           { label: 'Drop the a', text: 'momak loses its a: momk-.' },
@@ -2010,7 +2010,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Feminine Noun',
-        problem: 'Reci: The house is red.',
+        problem: 'Say: The house is red.',
         en: 'Say: The house is red.',
         steps: [
           { label: 'Gender of the noun', text: 'kuća ends in -a, so it is feminine.' },
@@ -2021,7 +2021,7 @@ export const PRACTICE = {
       },
       {
         title: 'A Masculine Plural',
-        problem: 'Reci: The clouds are grey.',
+        problem: 'Say: The clouds are grey.',
         en: 'Say: The clouds are grey.',
         steps: [
           { label: 'The noun', text: 'oblak → oblaci: a masculine plural.' },
@@ -2181,7 +2181,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'An Owner in -a',
-        problem: "Reci: Ana's book.",
+        problem: "Say: Ana's book.",
         en: "Say: Ana's book.",
         steps: [
           { label: 'The owner', text: 'Ana ends in -a, so drop it and add -in.' },
@@ -2192,7 +2192,7 @@ export const PRACTICE = {
       },
       {
         title: 'An Owner in a Consonant',
-        problem: "Reci: Petar's friends.",
+        problem: "Say: Petar's friends.",
         en: "Say: Petar's friends.",
         steps: [
           { label: 'The owner', text: 'Petar ends in a consonant: add -ov.' },

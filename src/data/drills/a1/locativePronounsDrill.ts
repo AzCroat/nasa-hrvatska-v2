@@ -9,7 +9,8 @@
 //
 // Three modes:
 //   oblici     — o + the locative pronoun
-//   prijedlozi — u njoj, na njemu: "in it", "on it" by the noun's gender
+//   prijedlozi — u njoj, na njemu: "in it", "on it" by the noun's gender; po + locative (šetati po gradu,
+//                poznat po moru)
 //   razlika    — accusative after za / a verb, locative after o
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
@@ -175,6 +176,23 @@ export const LOCATIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
     opts: ['njemu', 'njega', 'njoj', 'on'],
     answer: 'njemu',
     tip: 'ormar is masculine: u njemu.',
+  },
+
+  {
+    mode: 'prijedlozi',
+    q: 'Šetamo po ____.',
+    en: 'We are walking around town.',
+    opts: ['gradu', 'grad', 'grada', 'gradom'],
+    answer: 'gradu',
+    tip: 'po + the locative: grad → gradu.',
+  },
+  {
+    mode: 'prijedlozi',
+    q: 'Hrvatska je poznata po ____.',
+    en: 'Croatia is known for its sea.',
+    opts: ['moru', 'more', 'mora', 'morem'],
+    answer: 'moru',
+    tip: 'poznat po + the locative: more → moru.',
   },
 
   // ── razlika ───────────────────────────────────────────────────────────────

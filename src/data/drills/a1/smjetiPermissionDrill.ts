@@ -9,7 +9,8 @@
 // Three modes:
 //   oblici    — the person forms and their spelling
 //   pitanje   — asking permission and refusing it
-//   zabrana   — a ban against no obligation, ability against permission
+//   zabrana   — a ban against no obligation, ability against permission, and the
+//               signs Zabranjeno + infinitive (the book's Lesson 6)
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -207,7 +208,7 @@ export const SMJETI_PERMISSION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zabrana',
     q: 'Mogu plivati, ali ovdje ne ____.',
     en: 'I can swim, but I am not allowed to here.',
-    opts: ['mogu', 'moram', 'smijem', 'trebam'],
+    opts: ['znam', 'moram', 'smijem', 'trebam'],
     answer: 'smijem',
     tip: 'Permission is smjeti.',
   },
@@ -231,5 +232,13 @@ export const SMJETI_PERMISSION_DRILL_DATA: ModeDrillItem[] = [
     ],
     answer: 'Ovdje ne smijete parkirati.',
     tip: 'A ban: ne smijete, then the infinitive.',
+  },
+  {
+    mode: 'zabrana',
+    q: 'Which sign means "No smoking"?',
+    en: 'A sign on a door.',
+    opts: ['Zabranjeno pušiti.', 'Zabranjeno pušim.', 'Zabranjeno puši.', 'Zabranjena pušiti.'],
+    answer: 'Zabranjeno pušiti.',
+    tip: 'A sign: the fixed word Zabranjeno, then the dictionary form of the verb.',
   },
 ];

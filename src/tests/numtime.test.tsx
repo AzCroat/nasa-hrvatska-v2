@@ -88,7 +88,8 @@ vi.mock('../data', async (importOriginal) => {
   };
 });
 
-import NumTime from '../components/practice/NumTime';
+import NumTime, { servableNumTime } from '../components/practice/NumTime';
+import { NUMTIME as REAL_NUMTIME } from '../data/exercises.js';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -319,5 +320,35 @@ describe('NumTime — vs-dedup guard (both branches)', () => {
     const second = numtimeUpdater(first);
     expect(second).toBe(first); // second call returns prev unchanged
     expect((second.vs ?? []).filter((t) => t === 'numtime').length).toBe(1);
+  });
+});
+
+// A1 follows the book (owner, 2026-11-13): the drill coupled to numbers-time (0–10 and
+// phone numbers) must not ask for 365 or the clock, which come at numbers-11-1000 and
+// numbers-genitive. Driven over the REAL bank, not a fixture.
+describe('servableNumTime — only what the open lessons teach', () => {
+  const lessonsOf = (items: Array<{ lesson?: string }>) => new Set(items.map((i) => i.lesson));
+  it('every item in the real bank names the lesson that teaches it', () => {
+    const all = servableNumTime(REAL_NUMTIME, null);
+    expect(all.length).toBeGreaterThan(20);
+    expect(all.every((i) => typeof i.lesson === 'string')).toBe(true);
+  });
+  it('right after numbers-time it serves 0–10 only — no clock, no counted nouns', () => {
+    const got = servableNumTime(REAL_NUMTIME, new Set(['numbers-time']));
+    expect([...lessonsOf(got)]).toEqual(['numbers-time']);
+    expect(got.some((i) => /sat|eura/.test(i.a))).toBe(false);
+    expect(got.length).toBeGreaterThanOrEqual(6);
+  });
+  it('the clock joins once numbers-genitive is open', () => {
+    const got = servableNumTime(
+      REAL_NUMTIME,
+      new Set(['numbers-time', 'numbers-11-1000', 'numbers-genitive']),
+    );
+    expect(lessonsOf(got).has('numbers-genitive')).toBe(true);
+  });
+  it('an unknown course (no spine) restricts nothing', () => {
+    expect(servableNumTime(REAL_NUMTIME, null).length).toBe(
+      REAL_NUMTIME.numbers.length + REAL_NUMTIME.time.length + REAL_NUMTIME.small.length,
+    );
   });
 });

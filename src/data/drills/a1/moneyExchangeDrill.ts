@@ -3,13 +3,13 @@
 // A1 MONEY AND EXCHANGE — the drill for the `money-exchange` lesson.
 //
 // Croatia has used the euro since 1 January 2023 (the kuna, 1994–2022, before it).
-// After a number the currency takes a fixed shape: jedan euro, dva / pet eura, and a
-// number ending in jedan (but not eleven) goes back to euro. The same table for cent
-// (cent, centa, centi) and dolar (dolar, dolara). The genitive behind these forms is
-// taught later; here they are learnt as counting forms.
+// The shape of a currency word after a number (dva eura, pet centi) needs the genitive
+// and numbers + genitive, taught at lessons 78 and 84, so nothing here asks for it:
+// prices are written in figures (2,50 €) for the learner to read, as the book's
+// Lesson 6 does.
 //
 // Three modes:
-//   cijena     — prices: euro / eura, cent / centa / centi
+//   cijena     — asking the price, reading a price in figures, paying
 //   mjenjacnica — the exchange-office conversation
 //   rijeci     — money words, spelling and facts
 
@@ -25,67 +25,72 @@ export const MONEY_EXCHANGE_DRILL_DATA: ModeDrillItem[] = [
   // ── cijena ───────────────────────────────────────────────────────────────
   {
     mode: 'cijena',
-    q: 'Kava košta dva ____.',
-    en: 'A coffee costs two euros.',
-    opts: ['euro', 'eura', 'eure', 'euri'],
-    answer: 'eura',
-    tip: 'After 2, 3 and 4: eura.',
+    q: 'Koliko ____ kava?',
+    en: 'How much is a coffee?',
+    opts: ['koštam', 'košta', 'koštaju', 'koštaš'],
+    answer: 'košta',
+    tip: 'One thing costs: the "it" form of koštati.',
   },
   {
     mode: 'cijena',
-    q: 'Sendvič košta jedan ____.',
-    en: 'A sandwich costs €1.',
-    opts: ['eura', 'eure', 'euro', 'eurom'],
-    answer: 'euro',
-    tip: 'After jedan the word does not change.',
+    q: 'Koliko je ____? (at the till, for everything)',
+    en: 'How much is that?',
+    opts: ['taj', 'ta', 'to', 'tu'],
+    answer: 'to',
+    tip: 'to — "that", pointing at no particular noun.',
   },
   {
     mode: 'cijena',
-    q: 'Karta košta deset ____.',
-    en: 'The ticket costs ten euros.',
-    opts: ['euri', 'euro', 'eure', 'eura'],
-    answer: 'eura',
-    tip: 'After 5 and up: eura.',
+    q: 'A price tag says 2,50 €. What is the price?',
+    en: 'Read the figures.',
+    opts: [
+      'two euros fifty',
+      'twenty-five euros',
+      'two hundred and fifty euros',
+      'two thousand five hundred euros',
+    ],
+    answer: 'two euros fifty',
+    tip: 'The comma separates the cents.',
   },
   {
     mode: 'cijena',
-    q: 'Karta košta dvadeset i jedan ____.',
-    en: 'The ticket costs twenty-one euros.',
-    opts: ['euro', 'eura', 'eure', 'eurima'],
-    answer: 'euro',
-    tip: 'A number ending in jedan takes euro.',
+    q: 'The screen shows 0,80 €. What do you pay?',
+    en: 'Read the figures.',
+    opts: ['eight euros', 'eighty cents', 'eighty euros', 'eight hundred euros'],
+    answer: 'eighty cents',
+    tip: '0 euros, 80 cents — the comma separates the cents.',
   },
   {
     mode: 'cijena',
-    q: 'Kruh košta pedeset ____.',
-    en: 'The bread costs fifty cents.',
-    opts: ['cent', 'centa', 'centi', 'cente'],
-    answer: 'centi',
-    tip: 'After 5 and up: centi.',
+    q: 'Which question asks how much one thing costs?',
+    en: 'At a market stall.',
+    opts: ['Kakav je tečaj?', 'Kolika je provizija?', 'Koliko košta?', 'Gdje je bankomat?'],
+    answer: 'Koliko košta?',
+    tip: 'Koliko košta? — How much does it cost?',
   },
   {
     mode: 'cijena',
-    q: 'Bombon košta tri ____.',
-    en: 'A sweet costs three cents.',
-    opts: ['centi', 'centa', 'cent', 'cente'],
-    answer: 'centa',
-    tip: 'After 2, 3 and 4: centa.',
+    q: 'In 3,20 € what separates the euros from the cents?',
+    en: 'Croatian price writing.',
+    opts: ['a point', 'a space', 'a dash', 'a comma'],
+    answer: 'a comma',
+    tip: 'Croatian writes a comma where English writes a point.',
   },
   {
     mode: 'cijena',
-    q: 'Which price is correct?',
-    en: 'Five euros.',
-    opts: ['pet euro', 'pet eure', 'pet eura', 'pet euri'],
-    answer: 'pet eura',
-    tip: 'After pet: eura.',
+    q: 'Trebam ____. (cash)',
+    en: 'I need cash.',
+    opts: ['gotovina', 'gotovinu', 'gotovine', 'gotovini'],
+    answer: 'gotovinu',
+    tip: 'Cash is what you need: gotovina → gotovinu.',
   },
   {
     mode: 'cijena',
-    q: 'Which form is wrong?',
-    en: 'One of these breaks the counting rule.',
-    opts: ['jedan euro', 'dva euro', 'pet eura', 'sto eura'],
-    answer: 'dva euro',
-    tip: 'After dva it is eura.',
+    q: 'Imam samo ____. (a banknote)',
+    en: 'I only have a banknote.',
+    opts: ['novčanica', 'novčanice', 'novčanicu', 'novčanici'],
+    answer: 'novčanicu',
+    tip: 'The banknote is what you have: novčanica → novčanicu.',
   },
 
   // ── mjenjacnica ──────────────────────────────────────────────────────────
@@ -99,11 +104,11 @@ export const MONEY_EXCHANGE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mjenjacnica',
-    q: 'Želim promijeniti sto ____.',
-    en: 'I want to change a hundred dollars.',
-    opts: ['dolar', 'dolara', 'dolare', 'dolari'],
-    answer: 'dolara',
-    tip: 'After any number but one: dolara.',
+    q: 'Želim promijeniti ____.',
+    en: 'I want to change dollars.',
+    opts: ['dolarom', 'dolara', 'dolare', 'dolari'],
+    answer: 'dolare',
+    tip: 'A masculine plural object ends in -e: dolari → dolare.',
   },
   {
     mode: 'mjenjacnica',

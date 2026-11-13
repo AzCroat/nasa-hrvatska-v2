@@ -129,7 +129,12 @@ describe('the primer lesson and the plain-English explainer (source pins)', () =
 
   it('the incoherent dative example is fixed', () => {
     expect(lessonsSrc).not.toContain('I give to the book');
-    expect(lessonsSrc).toContain('Dajem knjigu sestri.');
+    // The A1 cases lesson (28) no longer shows a dative sentence at all — A1 follows the
+    // book, which adds one case at a time (2026-11-13). The coherent example lives in the
+    // case chart's dative row, shown from the dative lesson on.
+    expect(
+      readFileSync(join(__dir, '../../functions/api/content/_data/caseCharts.js'), 'utf8'),
+    ).toContain('Dajem knjigu sestri.');
   });
 
   it('explain-error accepts case_drill and demands plain English', () => {

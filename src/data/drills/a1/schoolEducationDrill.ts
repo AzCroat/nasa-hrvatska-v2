@@ -66,9 +66,9 @@ export const SCHOOL_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'uciti',
     q: 'Što ____? — Ekonomiju.',
     en: 'What are you studying (your degree)? — Economics.',
-    opts: ['učiš', 'studiram', 'studiraš', 'studira'],
+    opts: ['studiramo', 'studiram', 'studiraš', 'studira'],
     answer: 'studiraš',
-    tip: 'A degree, and ti: studiraš.',
+    tip: 'You are asking ti, so the verb takes the ti ending: studiraš.',
   },
   {
     mode: 'uciti',

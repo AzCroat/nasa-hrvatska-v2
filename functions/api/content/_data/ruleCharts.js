@@ -173,7 +173,9 @@ export const PRONOUN_FORMS = {
   Isg: [[['mnom']], [['tobom']], [['njim']], [['njom']], [['nama']], [['vama']], [['njima']]],
 };
 const PRONOUN_ROWS_META = ['Nsg', 'Gsg', 'Dsg', 'Asg', 'Lsg', 'Isg'];
-export function pronounChartSlide({ title, caption, highlight }) {
+// `only` limits the rows to cases already taught (A1 book order, 2026-11-13): the A1
+// object-pronouns lesson comes before the instrumental (74) and the genitive (78).
+export function pronounChartSlide({ title, caption, highlight, only }) {
   return chart({
     title,
     caption,
@@ -183,7 +185,7 @@ export function pronounChartSlide({ title, caption, highlight }) {
     numbered: false, // six rows, so 1–6 would disagree with the seven-case chart's numbering
     colWidth: 104,
     columns: PRONOUN_COLUMNS,
-    rows: PRONOUN_ROWS_META.map((key) => {
+    rows: PRONOUN_ROWS_META.filter((key) => !only || only.includes(key)).map((key) => {
       const meta = SINGULAR_ROWS.find((r) => r.key === key);
       return {
         key,
@@ -529,8 +531,9 @@ export const LESSON_RULE_CHARTS = {
       after: 'The Short Forms — Dative',
       slide: pronounChartSlide({
         title: 'The Pronouns — The Cases Chart',
+        only: ['Nsg', 'Dsg', 'Asg', 'Lsg'],
         caption:
-          'The short form in brackets is the one that sits in second position; the full form is for emphasis and after a preposition. Nas and vas have no separate short form. The vocative needs no row: it is just ti and vi. With mnom the preposition is sa (sa mnom), otherwise s.',
+          'The short form in brackets is the one that sits in second position; the full form is for emphasis and after a preposition. Nas and vas have no separate short form. Calling someone needs no row: it is just ti and vi. Two more rows join this chart in later lessons.',
       }),
     },
   ],

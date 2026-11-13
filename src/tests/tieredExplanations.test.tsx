@@ -89,14 +89,21 @@ describe('which grammar words a learner has earned', () => {
     expect(readTaughtTerms()!.size).toBe(0);
   });
 
-  it('plural comes with the unit-2 plural lesson, and the cases not before the cases lesson', () => {
+  it('plural comes with the pronoun lesson, and the cases not before the cases lesson', () => {
     seedSpine();
     // Positions DERIVED from the spine (A1 grew to 100 lessons; hardcoded positions
-    // went stale): complete everything before `gender`, so TODAY is gender.
+    // went stale). Unit 1, before pronouns-biti: neither singular/plural nor gender. The
+    // pronoun and biti tables (pronouns-biti) are where A1 first says singular and plural
+    // (re-derived 2026-11-13 from the book-aligned lessons).
+    completeThrough(lessonBefore(lessonBefore('pronouns-biti')));
+    const unit1 = readTaughtTerms()!;
+    expect(unit1.has('plural')).toBe(false);
+    expect(unit1.has('gender')).toBe(false);
+    // Complete everything before `gender`, so TODAY is gender.
     completeThrough(lessonBefore('gender'));
     const learningGender = readTaughtTerms()!;
     expect(learningGender.has('gender')).toBe(true); // being taught today, so allowed
-    expect(learningGender.has('plural')).toBe(false); // a later lesson, not yet open
+    expect(learningGender.has('plural')).toBe(true); // pronouns-biti is done
     // Complete everything before `cases`: plural is open, cases are not (TODAY is the
     // lesson immediately before cases, which introduces no case word).
     expect(COURSE_ORDER.indexOf('plural-nouns')).toBeLessThan(COURSE_ORDER.indexOf('cases') - 1);

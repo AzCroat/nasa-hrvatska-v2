@@ -23,7 +23,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   // ── k ─────────────────────────────────────────────────────────────────────
   {
     mode: 'k',
-    q: 'Množina od "vojnik":',
+    q: 'Plural of "vojnik":',
     en: 'Plural of soldier.',
     opts: ['vojniki', 'vojnici', 'vojnikovi', 'vojnika'],
     answer: 'vojnici',
@@ -31,7 +31,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "učenik":',
+    q: 'Plural of "učenik":',
     en: 'Plural of pupil.',
     opts: ['učenici', 'učeniki', 'učenikovi', 'učenika'],
     answer: 'učenici',
@@ -39,7 +39,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "jezik":',
+    q: 'Plural of "jezik":',
     en: 'Plural of language.',
     opts: ['jeziki', 'jezikovi', 'jezici', 'jezika'],
     answer: 'jezici',
@@ -47,7 +47,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "liječnik":',
+    q: 'Plural of "liječnik":',
     en: 'Plural of doctor.',
     opts: ['liječnikovi', 'liječniki', 'liječnika', 'liječnici'],
     answer: 'liječnici',
@@ -55,7 +55,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "đak":',
+    q: 'Plural of "đak":',
     en: 'Plural of pupil (school pupil).',
     opts: ['đaci', 'đaki', 'đakovi', 'đaka'],
     answer: 'đaci',
@@ -63,7 +63,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The workers are here.',
     opts: ['Radniki su ovdje.', 'Radnici je ovdje.', 'Radnikovi su ovdje.', 'Radnici su ovdje.'],
     answer: 'Radnici su ovdje.',
@@ -71,7 +71,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "putnik":',
+    q: 'Plural of "putnik":',
     en: 'Plural of passenger.',
     opts: ['putniki', 'putnici', 'putnikovi', 'putnika'],
     answer: 'putnici',
@@ -79,7 +79,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'k',
-    q: 'Množina od "lješnjak":',
+    q: 'Plural of "lješnjak":',
     en: 'Plural of hazelnut.',
     opts: ['lješnjaki', 'lješnjakovi', 'lješnjaci', 'lješnjaka'],
     answer: 'lješnjaci',
@@ -89,7 +89,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   // ── gh ────────────────────────────────────────────────────────────────────
   {
     mode: 'gh',
-    q: 'Množina od "bubreg":',
+    q: 'Plural of "bubreg":',
     en: 'Plural of kidney.',
     opts: ['bubregi', 'bubrezi', 'bubregovi', 'bubrega'],
     answer: 'bubrezi',
@@ -97,7 +97,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "dijalog":',
+    q: 'Plural of "dijalog":',
     en: 'Plural of dialogue.',
     opts: ['dijalogi', 'dijalogovi', 'dijaloga', 'dijalozi'],
     answer: 'dijalozi',
@@ -105,7 +105,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "psiholog":',
+    q: 'Plural of "psiholog":',
     en: 'Plural of psychologist.',
     opts: ['psiholozi', 'psihologi', 'psihologovi', 'psihologa'],
     answer: 'psiholozi',
@@ -113,7 +113,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "kovčeg":',
+    q: 'Plural of "kovčeg":',
     en: 'Plural of suitcase.',
     opts: ['kovčegi', 'kovčezi', 'kovčegovi', 'kovčega'],
     answer: 'kovčezi',
@@ -121,7 +121,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "orah":',
+    q: 'Plural of "orah":',
     en: 'Plural of walnut.',
     opts: ['orahi', 'orahovi', 'orasi', 'oraha'],
     answer: 'orasi',
@@ -129,7 +129,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "trbuh":',
+    q: 'Plural of "trbuh":',
     en: 'Plural of belly.',
     opts: ['trbuhi', 'trbuhovi', 'trbuha', 'trbusi'],
     answer: 'trbusi',
@@ -137,7 +137,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'gh',
-    q: 'Množina od "Čeh":',
+    q: 'Plural of "Čeh":',
     en: 'Plural of Czech man.',
     opts: ['Česi', 'Čehi', 'Čehovi', 'Čeha'],
     answer: 'Česi',
@@ -155,7 +155,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   // ── ne ────────────────────────────────────────────────────────────────────
   {
     mode: 'ne',
-    q: 'Množina od "vlak":',
+    q: 'Plural of "vlak":',
     en: 'Plural of train.',
     opts: ['vlaci', 'vlakovi', 'vlaki', 'vlacovi'],
     answer: 'vlakovi',
@@ -163,7 +163,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Množina od "vrh":',
+    q: 'Plural of "vrh":',
     en: 'Plural of peak.',
     opts: ['vrsi', 'vrhi', 'vrsovi', 'vrhovi'],
     answer: 'vrhovi',
@@ -171,7 +171,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Množina od "rog":',
+    q: 'Plural of "rog":',
     en: 'Plural of horn.',
     opts: ['rogovi', 'rozi', 'rogi', 'rozovi'],
     answer: 'rogovi',
@@ -179,7 +179,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Množina od "majka":',
+    q: 'Plural of "majka":',
     en: 'Plural of mother.',
     opts: ['majce', 'majke', 'majkovi', 'majci'],
     answer: 'majke',
@@ -187,7 +187,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Množina od "knjiga":',
+    q: 'Plural of "knjiga":',
     en: 'Plural of book.',
     opts: ['knjize', 'knjigi', 'knjige', 'knjizi'],
     answer: 'knjige',
@@ -195,7 +195,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Koja imenica NE mijenja suglasnik u množini?',
+    q: 'Which noun does NOT change its consonant in the plural?',
     en: 'Which noun does not change its consonant in the plural?',
     opts: ['vojnik', 'vlak', 'orah', 'bubreg'],
     answer: 'vlak',
@@ -203,7 +203,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'These are trains.',
     opts: ['Ovo su vlaci.', 'Ovo su vlakovi.', 'Ovo je vlakovi.', 'Ovo su vlacovi.'],
     answer: 'Ovo su vlakovi.',
@@ -211,7 +211,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Množina od "rijeka":',
+    q: 'Plural of "rijeka":',
     en: 'Plural of river.',
     opts: ['rijece', 'rijeki', 'rijeke', 'rijekovi'],
     answer: 'rijeke',

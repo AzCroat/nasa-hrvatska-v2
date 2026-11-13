@@ -116,8 +116,8 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prema',
-    q: 'Prema ____, sutra je sunčano.',
-    en: 'According to the forecast, it is sunny tomorrow.',
+    q: 'Prema ____, sutra će biti sunčano.',
+    en: 'According to the forecast, it will be sunny tomorrow.',
     opts: ['prognozi', 'prognozu', 'prognoza', 'prognoze'],
     answer: 'prognozi',
     tip: 'prema also means "according to", still with the dative.',

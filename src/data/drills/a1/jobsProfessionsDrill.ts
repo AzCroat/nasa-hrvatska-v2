@@ -106,7 +106,7 @@ export const JOBS_PROFESSIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'recenica',
     q: 'Ana je ____.',
     en: 'Ana is a doctor.',
-    opts: ['liječnik', 'jedna liječnica', 'liječnica', 'liječnika'],
+    opts: ['liječnici', 'jedna liječnica', 'liječnica', 'liječnika'],
     answer: 'liječnica',
     tip: 'A woman, and no word for "a".',
   },
@@ -136,7 +136,7 @@ export const JOBS_PROFESSIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'recenica',
-    q: 'Nisam student, ja sam ____.',
+    q: 'Nisam studentica, ja sam ____.',
     en: 'I am not a student, I am an engineer. (a woman)',
     opts: ['inženjer', 'inženjerke', 'inženjerka', 'inženjeri'],
     answer: 'inženjerka',

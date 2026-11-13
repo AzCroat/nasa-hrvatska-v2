@@ -3,6 +3,24 @@ import { H, Bar, sh, NUMTIME } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
+import { readOpenLessons } from '../../lib/lessonLock';
+
+type NTItem = { q: string; a: string; al: string[]; lesson?: string };
+
+/**
+ * The questions a learner may be asked: only those whose teaching lesson is open (A1
+ * book order, owner 2026-11-13 — the clock and counted nouns come at numbers-genitive,
+ * after the genitive). Unknown course state (no spine) restricts nothing.
+ */
+export function servableNumTime(
+  data: { small?: NTItem[]; numbers: NTItem[]; time: NTItem[] },
+  open: ReadonlySet<string> | null,
+): NTItem[] {
+  const all = [...data.numbers, ...data.time, ...(data.small ?? [])];
+  if (!open) return all;
+  const ok = all.filter((x) => !x.lesson || open.has(x.lesson));
+  return ok.length ? ok : all;
+}
 
 export default function NumTime({
   goBack,
@@ -15,7 +33,7 @@ export default function NumTime({
   type NTQuestion = { q: string; a: string; al: string[] };
   const finishFired = useRef(false);
   const initialData = useState<[NTQuestion[], string[]]>(() => {
-    const q = sh([...NUMTIME.numbers, ...NUMTIME.time]).slice(0, 10) as NTQuestion[];
+    const q = sh(servableNumTime(NUMTIME, readOpenLessons())).slice(0, 10) as NTQuestion[];
     return [q, sh([q[0]!.a].concat(q[0]!.al))];
   })[0];
   const ntQ = initialData[0];

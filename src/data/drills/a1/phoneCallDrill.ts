@@ -80,11 +80,11 @@ export const PHONE_CALL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'javljanje',
-    q: 'Imate ____ broj.',
-    en: 'You have the wrong number.',
+    q: 'Oprostite, ovo je ____ broj.',
+    en: 'Sorry, this is the wrong number.',
     opts: ['pogrešan', 'pogrešnu', 'pogrešna', 'pogrešnog'],
     answer: 'pogrešan',
-    tip: 'Broj is masculine and not alive, so as an object it does not change, and neither does its adjective.',
+    tip: 'Broj is masculine, so its adjective takes the masculine form.',
   },
 
   // ── trazim ────────────────────────────────────────────────────────────────

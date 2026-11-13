@@ -41,7 +41,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'in',
     q: 'Ovo je ____ stan.',
-    en: "This is my sister's flat.",
+    en: "This is the sister's flat.",
     opts: ['sestrov', 'sestrina', 'sestrin', 'sestrino'],
     answer: 'sestrin',
     tip: 'sestra → sestrin; stan is masculine.',
@@ -80,7 +80,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'in',
-    q: 'Koji je oblik točno napisan?',
+    q: 'Which form is spelled correctly?',
     en: "Ana's brother.",
     opts: ['anin brat', 'Anin brat', 'Anin Brat', 'ANIN brat'],
     answer: 'Anin brat',
@@ -123,7 +123,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ov',
     q: 'Ovo je ____ brat.',
-    en: "This is my father's brother.",
+    en: "This is Father's brother.",
     opts: ['otčev', 'otacov', 'očev', 'očeva'],
     answer: 'očev',
     tip: 'otac → očev: the a and t drop, c becomes č before -ev.',
@@ -196,7 +196,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Koja je fraza točna?',
+    q: 'Which phrase is correct?',
     en: "Ana's brother.",
     opts: ['Anina brat', 'Anin brat', 'Ana brat', 'Anino brat'],
     answer: 'Anin brat',
@@ -204,7 +204,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Koja je fraza točna?',
+    q: 'Which phrase is correct?',
     en: "Ivan's sister.",
     opts: ['Ivanov sestra', 'Ivan sestra', 'Ivanova sestra', 'Ivanin sestra'],
     answer: 'Ivanova sestra',
@@ -212,7 +212,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slaganje',
-    q: 'Koja je fraza točna?',
+    q: 'Which phrase is correct?',
     en: "Mother's letters.",
     opts: ['majčine pisma', 'majčina pisma', 'majčini pisma', 'majka pisma'],
     answer: 'majčina pisma',

@@ -72,9 +72,12 @@ export const SINGULAR_ROWS = [
     key: 'Dsg',
     name: 'Dativ',
     nameEn: 'Dative',
-    asks: [{ hr: 'Prema komu, čemu idem?', en: 'Towards whom, towards what am I going?' }],
+    asks: [
+      { hr: 'Komu, čemu?', en: 'To whom, to what?' },
+      { hr: 'Prema komu, čemu idem?', en: 'Towards whom, towards what am I going?' },
+    ],
     cells: [
-      [L('Idem prema kući.', N('kući', 'kuća'))],
+      [L('Dajem knjigu sestri.', N('sestri', 'sestra')), L('Idem prema kući.', N('kući', 'kuća'))],
       [L('Idem prema moru.', N('moru', 'more'))],
       [
         L('Idem prema biciklu.', N('biciklu', 'bicikl')),
@@ -113,7 +116,7 @@ export const SINGULAR_ROWS = [
     nameEn: 'Vocative',
     asks: [{ hr: 'Hej!', en: 'Hey! (calling someone)' }],
     cells: [
-      [L('Hej, kućo!', N('kućo', 'kuća'))],
+      [L('Hej, sestro!', N('sestro', 'sestra'))],
       [L('Hej, more!', N('more', 'more'))],
       [L('Hej, brate!', N('brate', 'brat'))],
     ],
@@ -124,7 +127,7 @@ export const SINGULAR_ROWS = [
     nameEn: 'Locative',
     asks: [
       { hr: 'Gdje sam ja?', en: 'Where am I?' },
-      { hr: 'O komu, o čemu pričam?', en: 'About whom, about what am I talking about?' },
+      { hr: 'O komu, o čemu pričam?', en: 'About whom, about what am I talking?' },
     ],
     cells: [
       [L('Živim u kući.', N('kući', 'kuća')), L('Mislim o vodi.', N('vodi', 'voda'))],
@@ -151,12 +154,12 @@ export const SINGULAR_ROWS = [
     cells: [
       [
         L('Idem u grad s prijateljicom.', N('prijateljicom', 'prijateljica')),
-        L('Zadovoljan sam s kućom.', N('kućom', 'kuća')),
+        // "Zadovoljan sam s kućom" was the owner's line; the standard is zadovoljan + the
+        // instrumental with no s (zadovoljan kućom), so the line is replaced (A1 book fix,
+        // 2026-11-13) by an instrumental of means the A1 course teaches.
+        L('Pišem olovkom.', N('olovkom', 'olovka')),
       ],
-      [
-        L('Plovim morem.', N('morem', 'more', 'em')),
-        L('Zadovoljan sam s računalom.', N('računalom', 'računalo')),
-      ],
+      [L('Plovim morem.', N('morem', 'more', 'em'))],
       [
         L('Idem na posao biciklom.', N('biciklom', 'bicikl')),
         L('Razgovaram sa susjedom.', N('susjedom', 'susjed')),
@@ -166,8 +169,26 @@ export const SINGULAR_ROWS = [
   },
 ];
 
+/**
+ * The chart cut down to what a learner has been taught (A1 book order, 2026-11-13): the
+ * book introduces one case at a time, so an A1 lesson shows only the rows of cases it has
+ * taught (`only`, row keys) and drops any line or question whose form comes later
+ * (`omit`, exact sentences). Each kept row carries `n`, its place in the full seven, so
+ * the numbering still says Lokativ is the sixth case when only three rows are shown.
+ */
+export function taughtRows(only, omit = []) {
+  const drop = new Set(omit);
+  return SINGULAR_ROWS.map((r, i) => ({ ...r, n: i + 1 }))
+    .filter((r) => !only || only.includes(r.key))
+    .map((r) => ({
+      ...r,
+      asks: r.asks.filter((a) => !drop.has(a.hr)),
+      cells: r.cells.map((cell) => cell.filter((ln) => !drop.has(ln.hr))),
+    }));
+}
+
 /** The picture slide for one lesson. `highlight` is a row key ('Lsg') or omitted. */
-export function singularChartSlide({ title, highlight, caption }) {
+export function singularChartSlide({ title, highlight, caption, only, omit }) {
   return {
     type: 'visual',
     kind: 'case-chart',
@@ -177,7 +198,7 @@ export function singularChartSlide({ title, highlight, caption }) {
     alt: 'A chart of the seven Croatian cases in the singular. Each row is a case with its question words; the three columns are feminine, neuter and masculine, and each cell gives example sentences with the noun ending marked.',
     caption,
     columns: GENDERS,
-    rows: SINGULAR_ROWS,
+    rows: only || omit ? taughtRows(only, omit) : SINGULAR_ROWS,
   };
 }
 

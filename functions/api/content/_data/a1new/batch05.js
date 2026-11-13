@@ -374,7 +374,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Telling -iti from -ati',
-        body: 'Look at the vowel before -ti. An a gives -am: čitati → čitam, gledati → gledam, kuhati → kuham. An i (or je) gives -im: raditi → radim, učiti → učim, misliti → mislim. The difference shows most in "they": oni čitaju, oni gledaju — but oni rade, oni uče, oni govore.',
+        body: 'Look at the vowel before -ti. Most verbs with an a give -am: čitati → čitam, gledati → gledam, kuhati → kuham (a few, such as pisati → pišem, take -em instead; learn those as you meet them). An i (or je) gives -im: raditi → radim, učiti → učim, misliti → mislim. The difference shows most in "they": oni čitaju, oni gledaju — but oni rade, oni uče, oni govore.',
         highlight: 'oni govore · oni čitaju',
       },
       {
@@ -452,7 +452,7 @@ export const LESSONS = [
         options: ['govoriju', 'govore', 'govoraju', 'govorimo'],
         correct: 1,
         explanation:
-          'Every -iti verb ends in -e in the "they" form: oni govore. The -aju ending belongs to -ati verbs.',
+          'A regular -iti verb ends in -e in the "they" form: oni govore. The -aju ending belongs to -ati verbs. (The exceptions you meet below, like piti, have -ju: oni piju.)',
       },
       {
         type: 'quiz',
@@ -465,7 +465,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, giving an -iti verb the -ati ending in "they": "oni govoraju", "oni radaju" — every -iti and -jeti verb ends in -e there: oni govore, oni rade. Second, keeping the -je- of the infinitive: "vidjem", "živjem" — it is vidim, živim. Third, forgetting the exceptions: "razumim", "pim" — it is razumijem and pijem.',
+        body: 'First, giving an -iti verb the -ati ending in "they": "oni govoraju", "oni radaju" — a regular -iti or -jeti verb ends in -e there: oni govore, oni rade (only the exceptions such as piti and razumjeti have -ju: piju, razumiju). Second, keeping the -je- of the infinitive: "vidjem", "živjem" — it is vidim, živim. Third, forgetting the exceptions: "razumim", "pim" — it is razumijem and pijem.',
         highlight: 'oni govore',
       },
       {
@@ -517,8 +517,8 @@ export const LESSONS = [
         points: [
           '-iti verbs: govorim, govoriš, govori, govorimo, govorite, govore',
           '-jeti verbs drop the -je-: vidjeti → vidim, voljeti → volim',
-          '"They" ends in -e for these verbs, -aju for -ati verbs: govore, čitaju',
-          'Exceptions: piti → pijem, razumjeti → razumijem, smjeti → smijem',
+          '"They" ends in -e for regular -iti and -jeti verbs, -aju for -ati verbs: govore, čitaju',
+          'Exceptions: piti → pijem (oni piju), razumjeti → razumijem (oni razumiju), smjeti → smijem (oni smiju)',
           'A few -ati verbs go to -im: držati → držim, trčati → trčim',
         ],
       },
@@ -638,6 +638,44 @@ export const LESSONS = [
         ],
       },
       {
+        type: 'rule',
+        title: 'One More Locative Preposition: po',
+        body: 'po + the locative has three everyday uses. Moving around or all over a place: Šetamo po gradu (We are walking around town). Djeca trče po parku (The children run around the park). Known for something: Hrvatska je poznata po moru (Croatia is known for its sea) — poznat, poznata, poznato agrees with the place, like any adjective. Named after someone: Trg je nazvan po banu Jelačiću (The square is named after Ban Jelačić). The noun after po takes the same locative ending you already know: grad → po gradu, park → po parku, more → po moru.',
+        highlight: 'Šetamo po gradu.',
+      },
+      {
+        type: 'example',
+        title: 'po + the Locative',
+        items: [
+          { hr: 'Šetamo po gradu.', en: 'We are walking around town.', note: 'grad → po gradu' },
+          {
+            hr: 'Djeca trče po parku.',
+            en: 'The children are running around the park.',
+            note: 'park → po parku',
+          },
+          {
+            hr: 'Hrvatska je poznata po moru.',
+            en: 'Croatia is known for its sea.',
+            note: 'poznata agrees with Hrvatska',
+          },
+          {
+            hr: 'Slavonija je poznata po kulenu.',
+            en: 'Slavonia is known for kulen (a spicy sausage).',
+            note: 'kulen → po kulenu',
+          },
+          {
+            hr: 'Trg je nazvan po banu Jelačiću.',
+            en: 'The square is named after Ban Jelačić.',
+            note: 'both words take the locative',
+          },
+          {
+            hr: 'Ulica je nazvana po Nikoli Tesli.',
+            en: 'The street is named after Nikola Tesla.',
+            note: 'Nikola → Nikoli, Tesla → Tesli',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "We are talking about her"?',
@@ -723,6 +761,7 @@ export const LESSONS = [
           'Only long forms, always after a preposition',
           'razgovarati, pričati, misliti, pisati o + locative',
           'u njoj, na njemu: "in it", "on it", by the gender of the noun',
+          'po + locative: šetati po gradu (around), poznat po moru (known for), nazvan po banu (named after)',
         ],
       },
     ],
@@ -775,7 +814,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: '-ivati and -evati',
-        body: 'Many longer verbs in -ivati do the same thing: pokazivati → pokazujem (I show), posjećivati → posjećujem (I visit). But not all of them: in uživati (to enjoy) the -iv- belongs to the root, so it is uživam. After j, č, ć, š, ž, lj or nj the same -ovati is spelled -evati and still gives -ujem, for example kraljevati → kraljujem (to reign) — rare at this level. When in doubt, learn the "I" form with the verb.',
+        body: 'Many longer verbs in -ivati do the same thing: pokazivati → pokazujem (I show), posjećivati → posjećujem (I visit). But not all of them: in uživati (to enjoy) the -iv- belongs to the root, so it is uživam. After j, c, č, ć, đ, dž, š, ž, lj or nj (the soft consonants) the same -ovati is spelled -evati and still gives -ujem, for example kraljevati → kraljujem (to reign) — rare at this level. When in doubt, learn the "I" form with the verb.',
         highlight: 'pokazivati → pokazujem',
       },
       {
@@ -978,7 +1017,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: '"In May" Is u + the Locative',
-        body: 'To say when something happens, use u with the locative, exactly as for a place. Eleven months are masculine, so they take -u: kolovoz → u kolovozu, listopad → u listopadu. Most of them have a fleeting a (an a that drops out when an ending is added) — you met it in the lesson on the fleeting a: svibanj → u svibnju, prosinac → u prosincu, ožujak → u ožujku. Veljača is the one feminine month: u veljači.',
+        body: 'To say when something happens, use u with the locative, exactly as for a place. Ten months are ordinary masculine nouns, so they take -u: kolovoz → u kolovozu, listopad → u listopadu. Most of them have a fleeting a (an a that drops out when an ending is added) — you met it in the lesson on the fleeting a: svibanj → u svibnju, prosinac → u prosincu, ožujak → u ožujku. Veljača is the one feminine month: u veljači. Studeni is the twelfth, and it works differently: see the next slide.',
         highlight: 'svibanj → u svibnju',
       },
       {
@@ -1197,7 +1236,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Balcony, Wall, Floor: Always na',
-        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (upstairs, on a floor of the building). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
+        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (on a floor, on a storey of the building — "upstairs" itself is gore). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
         highlight: 'na balkonu',
       },
       {
@@ -1857,6 +1896,20 @@ export const PRACTICE = {
           hint: 'The locative of ti.',
           explanation: 'Stalno mislim o tebi.',
         },
+        {
+          q: 'Hrvatska je poznata po ___. (more)',
+          options: ['more', 'moru', 'mora', 'morem'],
+          correct: 1,
+          hint: 'po takes the same case as o: the locative.',
+          explanation: 'Hrvatska je poznata po moru.',
+        },
+        {
+          type: 'type',
+          q: 'Navečer šetamo po ____. (grad)',
+          answer: 'gradu',
+          hint: 'po + the locative: the masculine ending you know from u Zagrebu.',
+          explanation: 'Šetamo po gradu — we walk around town.',
+        },
       ],
     },
     checkB: [
@@ -1917,6 +1970,8 @@ export const PRACTICE = {
       ['stalno', 'all the time', 'Stalno pričaš o njemu.'],
       ['pismo', 'letter', 'Pišem pismo o vama.'],
       ['film', 'film', 'Film je o njima.'],
+      ['šetati po', 'to walk around (a place)', 'Šetamo po gradu.'],
+      ['poznat po', 'known for', 'Hrvatska je poznata po moru.'],
     ],
   },
 

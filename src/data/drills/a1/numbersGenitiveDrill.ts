@@ -13,6 +13,8 @@
 //   dva       — two, three, four
 //   pet       — five and up
 //   slozeni   — compound numbers: the last word decides
+//   sati      — telling the time, prices and koliko dugo (moved here from lessons 14, 36
+//               and 48, 2026-11-13: the book teaches them in L17, after the genitive)
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -20,6 +22,7 @@ export const NUMBERS_GENITIVE_MODE_LABELS: Record<string, string> = {
   dva: '2️⃣ Dva, tri, četiri',
   pet: '5️⃣ Pet i više',
   slozeni: '🔢 Složeni brojevi',
+  sati: '🕗 Sati i cijene',
 };
 
 export const NUMBERS_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
@@ -133,9 +136,9 @@ export const NUMBERS_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pet',
     q: 'U razredu je dvanaest ____.',
-    en: 'There are twelve students in the class.',
-    opts: ['studenata', 'studenta', 'studenti', 'studente'],
-    answer: 'studenata',
+    en: 'There are twelve pupils in the class.',
+    opts: ['učenika', 'učenik', 'učenici', 'učenike'],
+    answer: 'učenika',
     tip: 'Every -naest number counts like five: the genitive plural.',
   },
   {
@@ -219,5 +222,63 @@ export const NUMBERS_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
     opts: ['minuta', 'minute', 'minutu', 'minuti'],
     answer: 'minuta',
     tip: 'A round ten counts like five: the genitive plural.',
+  },
+
+  // ── sati: telling the time and prices (book L17) ─────────────────────────────
+  {
+    mode: 'sati',
+    q: 'Koliko je sati? — Dva su ____.',
+    en: 'What time is it? — It is two o’clock.',
+    opts: ['sata', 'sati', 'sat', 'satima'],
+    answer: 'sata',
+    tip: 'Two to four: the genitive singular, and the verb is su.',
+  },
+  {
+    mode: 'sati',
+    q: 'Pet ____ sati.',
+    en: 'It is five o’clock.',
+    opts: ['je', 'su', 'smo', 'ste'],
+    answer: 'je',
+    tip: 'With five and up the group counts as one: je.',
+  },
+  {
+    mode: 'sati',
+    q: 'Film počinje u osam ____.',
+    en: 'The film starts at eight.',
+    opts: ['sati', 'sata', 'sat', 'satom'],
+    answer: 'sati',
+    tip: 'Eight is five-or-more: the genitive plural of sat is sati.',
+  },
+  {
+    mode: 'sati',
+    q: 'Sastanak je u ____ devet. (8:30)',
+    en: 'The meeting is at half past eight.',
+    opts: ['pola', 'četvrt', 'podne', 'sat'],
+    answer: 'pola',
+    tip: 'Croatian counts the half hour towards the NEXT hour.',
+  },
+  {
+    mode: 'sati',
+    q: 'Kava košta dva eura i dvadeset dva ____.',
+    en: 'The coffee costs 2.22 €.',
+    opts: ['centa', 'centi', 'cent', 'centima'],
+    answer: 'centa',
+    tip: 'The last word is two: the genitive singular.',
+  },
+  {
+    mode: 'sati',
+    q: 'Koliko dugo učiš hrvatski? — Tri ____.',
+    en: 'How long have you been learning Croatian? — Three months.',
+    opts: ['mjeseca', 'mjeseci', 'mjesec', 'mjesecu'],
+    answer: 'mjeseca',
+    tip: 'Three: the genitive singular, masculine -a.',
+  },
+  {
+    mode: 'sati',
+    q: 'Na koncertu je pet ____ ljudi.',
+    en: 'There are five thousand people at the concert.',
+    opts: ['tisuća', 'tisuće', 'tisuću', 'tisuci'],
+    answer: 'tisuća',
+    tip: 'tisuća is a feminine noun: after five, the genitive plural.',
   },
 ];

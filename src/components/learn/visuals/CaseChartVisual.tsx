@@ -38,6 +38,8 @@ export interface ChartRow {
   nameEn: string;
   asks?: Array<{ hr: string; en: string }>;
   cells: ChartLine[][];
+  /** Its place in the full seven-case order, when the chart shows only some rows. */
+  n?: number;
 }
 export interface CaseChartSlide {
   /** 'case-chart' is the owner's padeži chart; 'ending-chart' is the same table for any other rule. */
@@ -191,7 +193,7 @@ export default function CaseChartVisual({ slide }: { slide: CaseChartSlide }) {
                     }}
                   >
                     <div style={{ fontWeight: 800 }}>
-                      {slide.numbered === false ? '' : `${i + 1}. `}
+                      {slide.numbered === false ? '' : `${row.n ?? i + 1}. `}
                       {row.name}
                     </div>
                     <div style={{ fontSize: 11, color: 'var(--subtext)' }}>{row.nameEn}</div>

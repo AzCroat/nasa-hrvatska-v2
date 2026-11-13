@@ -3,8 +3,9 @@
 // A1 MY FLAT — the drill for the `flat-rooms` lesson (new A1, 54).
 //
 // Rooms and furniture, and where things are: u + locative for inside, na + locative
-// for on a surface, with the fixed na-places (balkon, zid, pod). Adjectives appear only
-// in the nominative, after je. Items whose options are Croatian words for an English
+// for on a surface, with the fixed na-places (balkon, zid, pod). Adjectives appear in
+// the nominative after je, and once with a masculine thing in the accusative (Imam lijep
+// stan), which looks the same as the nominative. Items whose options are Croatian words for an English
 // prompt carry no gloss.
 //
 // Three modes:

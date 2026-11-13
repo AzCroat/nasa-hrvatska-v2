@@ -25,7 +25,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   // ── ovi ───────────────────────────────────────────────────────────────────
   {
     mode: 'ovi',
-    q: 'Množina od "stol":',
+    q: 'Plural of "stol":',
     en: 'Plural of table.',
     opts: ['stolovi', 'stoli', 'stolevi', 'stola'],
     answer: 'stolovi',
@@ -33,7 +33,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ovi',
-    q: 'Množina od "brod":',
+    q: 'Plural of "brod":',
     en: 'Plural of ship.',
     opts: ['brodi', 'brodevi', 'brodovi', 'broda'],
     answer: 'brodovi',
@@ -41,7 +41,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ovi',
-    q: 'Množina od "most":',
+    q: 'Plural of "most":',
     en: 'Plural of bridge.',
     opts: ['mosti', 'mostovi', 'mostevi', 'moste'],
     answer: 'mostovi',
@@ -57,7 +57,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ovi',
-    q: 'Množina od "zid":',
+    q: 'Plural of "zid":',
     en: 'Plural of wall.',
     opts: ['zidovi', 'zidi', 'zidevi', 'zida'],
     answer: 'zidovi',
@@ -73,7 +73,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ovi',
-    q: 'Množina od "vrt":',
+    q: 'Plural of "vrt":',
     en: 'Plural of garden.',
     opts: ['vrti', 'vrtovi', 'vrtevi', 'vrta'],
     answer: 'vrtovi',
@@ -81,7 +81,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ovi',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The cities are here.',
     opts: ['Gradi su ovdje.', 'Gradovi je ovdje.', 'Gradovi su ovdje.', 'Gradevi su ovdje.'],
     answer: 'Gradovi su ovdje.',
@@ -91,7 +91,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   // ── evi ───────────────────────────────────────────────────────────────────
   {
     mode: 'evi',
-    q: 'Množina od "ključ":',
+    q: 'Plural of "ključ":',
     en: 'Plural of key.',
     opts: ['ključovi', 'ključevi', 'ključi', 'ključa'],
     answer: 'ključevi',
@@ -99,7 +99,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Množina od "nož":',
+    q: 'Plural of "nož":',
     en: 'Plural of knife.',
     opts: ['noževi', 'nožovi', 'noži', 'noža'],
     answer: 'noževi',
@@ -107,7 +107,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Množina od "muž":',
+    q: 'Plural of "muž":',
     en: 'Plural of husband.',
     opts: ['mužovi', 'muži', 'muževi', 'muža'],
     answer: 'muževi',
@@ -115,7 +115,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Množina od "broj":',
+    q: 'Plural of "broj":',
     en: 'Plural of number.',
     opts: ['brojovi', 'broji', 'broja', 'brojevi'],
     answer: 'brojevi',
@@ -123,7 +123,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Množina od "kralj":',
+    q: 'Plural of "kralj":',
     en: 'Plural of king.',
     opts: ['kraljevi', 'kraljovi', 'kralji', 'kralja'],
     answer: 'kraljevi',
@@ -131,7 +131,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Množina od "čaj":',
+    q: 'Plural of "čaj":',
     en: 'Plural of tea.',
     opts: ['čajovi', 'čajevi', 'čaji', 'čaja'],
     answer: 'čajevi',
@@ -139,7 +139,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Koja imenica dobiva -evi?',
+    q: 'Which noun takes -evi?',
     en: 'Which noun takes -evi?',
     opts: ['grad', 'stol', 'ključ', 'most'],
     answer: 'ključ',
@@ -147,7 +147,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'evi',
-    q: 'Koja imenica dobiva -ovi?',
+    q: 'Which noun takes -ovi?',
     en: 'Which noun takes -ovi?',
     opts: ['nož', 'brod', 'broj', 'muž'],
     answer: 'brod',
@@ -157,7 +157,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   // ── iznimke ───────────────────────────────────────────────────────────────
   {
     mode: 'iznimke',
-    q: 'Množina od "student":',
+    q: 'Plural of "student":',
     en: 'Plural of student.',
     opts: ['studentovi', 'studenti', 'studentevi', 'studente'],
     answer: 'studenti',
@@ -165,7 +165,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "profesor":',
+    q: 'Plural of "profesor":',
     en: 'Plural of teacher.',
     opts: ['profesorovi', 'profesorevi', 'profesori', 'profesora'],
     answer: 'profesori',
@@ -173,7 +173,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "dan":',
+    q: 'Plural of "dan":',
     en: 'Plural of day.',
     opts: ['danovi', 'dani', 'danevi', 'dana'],
     answer: 'dani',
@@ -181,7 +181,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "gost":',
+    q: 'Plural of "gost":',
     en: 'Plural of guest.',
     opts: ['gostovi', 'gostevi', 'goste', 'gosti'],
     answer: 'gosti',
@@ -189,7 +189,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "zub":',
+    q: 'Plural of "zub":',
     en: 'Plural of tooth.',
     opts: ['zubi', 'zubovi', 'zubevi', 'zube'],
     answer: 'zubi',
@@ -197,7 +197,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "konj":',
+    q: 'Plural of "konj":',
     en: 'Plural of horse.',
     opts: ['konjevi', 'konji', 'konjovi', 'konja'],
     answer: 'konji',
@@ -205,7 +205,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "konobar":',
+    q: 'Plural of "konobar":',
     en: 'Plural of waiter.',
     opts: ['konobarovi', 'konobarevi', 'konobare', 'konobari'],
     answer: 'konobari',
@@ -213,7 +213,7 @@ export const MASCULINE_PLURAL_OVI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'iznimke',
-    q: 'Množina od "prst":',
+    q: 'Plural of "prst":',
     en: 'Plural of finger.',
     opts: ['prstovi', 'prsti', 'prstevi', 'prsta'],
     answer: 'prsti',

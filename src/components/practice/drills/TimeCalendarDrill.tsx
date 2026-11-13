@@ -20,11 +20,11 @@ export default function TimeCalendarDrill({ goBack, award }: Props) {
     <ModeDrill
       id="vrijemea1"
       title="🕐 Vrijeme i kalendar"
-      subtitle="pet sati, ponedjeljak, siječanj — the clock and the year"
+      subtitle="u subotu, ponedjeljak, siječanj — the week and the year"
       modeLabels={TIME_CALENDAR_MODE_LABELS}
       data={TIME_CALENDAR_DRILL_DATA}
       praise={{
-        perfect: 'Savršeno — sat i kalendar su vaši! 🏆',
+        perfect: 'Savršeno — kalendar je vaš! 🏆',
         good: 'Vrlo dobro! 💪',
         more: 'Vrijeme traži još vježbe.',
       }}

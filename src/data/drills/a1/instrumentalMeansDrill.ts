@@ -178,7 +178,7 @@ export const INSTRUMENTAL_MEANS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nastavak',
     q: 'Koji je instrumental od "auto"?',
     en: 'What is the instrumental of the word for car?',
-    opts: ['autem', 'autom', 'autu', 'autima'],
+    opts: ['autem', 'autom', 'autu', 'auto'],
     answer: 'autom',
     tip: 'auto → autom.',
   },

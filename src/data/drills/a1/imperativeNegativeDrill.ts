@@ -9,6 +9,9 @@
 //   nemoj     — nemoj + infinitive, and where the clitics go
 //   ne        — ne + imperative
 //   pristojno — the polite nemojte
+//   neka      — neka + the present for someone else (book L20, added 2026-11-13)
+// reći → reci is not asked: the lesson 94 rule cannot produce it, and neither is the
+// untaught negative pronoun nikome.
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -16,6 +19,7 @@ export const IMPERATIVE_NEGATIVE_MODE_LABELS: Record<string, string> = {
   nemoj: '✋ Nemoj',
   ne: '🚫 Ne + imperativ',
   pristojno: '🎩 Pristojno',
+  neka: '👉 Neka',
 };
 
 export const IMPERATIVE_NEGATIVE_DRILL_DATA: ModeDrillItem[] = [
@@ -109,11 +113,11 @@ export const IMPERATIVE_NEGATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ne',
-    q: 'Ne ____ to nikome.',
-    en: "Don't tell that to anyone.",
-    opts: ['reci', 'rečeš', 'rekao', 'reći'],
-    answer: 'reci',
-    tip: 'The imperative of reći.',
+    q: 'Ne ____ to mami.',
+    en: "Don't tell Mum that.",
+    opts: ['pričaj', 'pričaš', 'pričao', 'pričati'],
+    answer: 'pričaj',
+    tip: 'The imperative of pričati: the oni form pričaju, then -j.',
   },
   {
     mode: 'ne',
@@ -215,5 +219,37 @@ export const IMPERATIVE_NEGATIVE_DRILL_DATA: ModeDrillItem[] = [
     ],
     answer: 'Nemojte kasniti, molim vas.',
     tip: 'Nemojte, the infinitive, and molim vas, all polite.',
+  },
+  {
+    mode: 'neka',
+    q: 'Gospodin Horvat je stigao. — ____ čeka pet minuta.',
+    en: 'Mr Horvat has arrived. — Let him wait five minutes.',
+    opts: ['Neka', 'Nemoj', 'Čekaj', 'Nemojte'],
+    answer: 'Neka',
+    tip: 'For someone else, not "you": neka + the present.',
+  },
+  {
+    mode: 'neka',
+    q: 'Neka on ____ račun.',
+    en: 'Let him pay the bill.',
+    opts: ['plati', 'platiti', 'platio', 'platite'],
+    answer: 'plati',
+    tip: 'After neka comes the ordinary present form for on.',
+  },
+  {
+    mode: 'neka',
+    q: 'Neka djeca ____ vani.',
+    en: 'Let the children play outside.',
+    opts: ['igraju', 'igrati', 'igrajte', 'igraj'],
+    answer: 'igraju',
+    tip: 'neka + the present form for oni.',
+  },
+  {
+    mode: 'neka',
+    q: 'Ako je umoran, neka ____ kući.',
+    en: 'If he is tired, let him go home.',
+    opts: ['ide', 'ići', 'idi', 'idite'],
+    answer: 'ide',
+    tip: 'neka + the present form for on: ide.',
   },
 ];

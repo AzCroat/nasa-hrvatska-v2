@@ -27,6 +27,7 @@ export const SPINE = [
       'Say where something is with pod, nad, pred and za: pod stolom, pred kućom',
       'Tell a place (pod stolom) from a movement to it (pod stol)',
       'Use za for "behind" and for sitting at a table: za kućom, za stolom',
+      'Ask kuda? and name a route with the instrumental: Šetamo gradom',
     ],
   },
   {
@@ -37,6 +38,7 @@ export const SPINE = [
       'Say who you are with: sa mnom, s tobom, s njim, s njom',
       'Use s nama, s vama, s njima and ask s kim?',
       'Remember why it is sa mnom and never plain s before mnom',
+      'Say s ocem, s djetetom and s djecom',
     ],
   },
   {
@@ -67,6 +69,8 @@ export const SPINE = [
       'Use iz, s, od, do, kod, bez, blizu, pokraj and između with the genitive',
       'Choose iz or s by following u and na: iz škole, s posla',
       'Say where you are from, who something is from, and whose place you are at',
+      'Use ispred, iza, iznad, ispod, pored, oko, zbog, prije and nakon',
+      'Place a town on the map with sjeverno od, and read street names like Trg bana Jelačića',
     ],
   },
   {
@@ -103,7 +107,7 @@ const L_INSTRUMENTAL_PLACE = {
     {
       type: 'rule',
       title: 'The Ending You Already Know',
-      body: 'A masculine or neuter noun adds -om: stol → pod stolom, kino → pred kinom. If the noun ends in a soft sound (j, lj, nj, č, ć, š, ž, đ) or is a neuter in -e, it takes -em instead: muzej → pred muzejem, more → nad morem. A feminine noun in -a swaps it for -om: kuća → pred kućom, škola → za školom. These are the same endings as s bratom and s Anom.',
+      body: 'A masculine or neuter noun adds -om: stol → pod stolom, kino → pred kinom. If the noun ends in a soft sound (j, lj, nj, č, ć, š, ž, đ, dž, c) or is a neuter in -e, it takes -em instead: muzej → pred muzejem, more → nad morem. A feminine noun in -a swaps it for -om: kuća → pred kućom, škola → za školom. These are the same endings as s bratom and s Anom.',
       highlight: 'stol → pod stolom',
     },
     {
@@ -132,9 +136,9 @@ const L_INSTRUMENTAL_PLACE = {
     },
     {
       type: 'rule',
-      title: 'Two Ways to Say It',
-      body: 'In the place lesson you met ispred kuće and ispod stola as fixed phrases. They mean the same as pred kućom and pod stolom, but ispred and ispod take a different ending, the genitive, which the next lessons explain. Both pairs are correct Croatian and you will hear both. Između (between) belongs with ispred and ispod, not with pred and pod: you already know it as a phrase.',
-      highlight: 'pred kućom = ispred kuće',
+      title: 'Kuda? — Which Way You Go',
+      body: 'Croatian has three "where" questions. Gdje? asks where something is: Gdje si? — U gradu. Kamo? asks where something is going: Kamo ideš? — U grad. Kuda? asks which way: through or along what. Its answer is the instrumental with no little word in front, naming the route: Šetamo gradom. (We walk through the town.) Idemo obalom. (We go along the coast.) Turisti šetaju Stradunom. (Tourists walk along the Stradun, Dubrovnik\'s main street.) Idem kući parkom. (I go home through the park.) The endings are the same -om and -em.',
+      highlight: 'Šetamo gradom.',
     },
     {
       type: 'example',
@@ -205,6 +209,33 @@ const L_INSTRUMENTAL_PLACE = {
           hr: 'Avion leti nad Zagrebom.',
           en: 'The plane is flying over Zagreb.',
           note: 'names take the ending too',
+        },
+      ],
+    },
+    {
+      type: 'example',
+      title: 'Gdje, Kamo, Kuda',
+      items: [
+        { hr: 'Gdje si? — U parku.', en: 'Where are you? — In the park.', note: 'gdje: a place' },
+        {
+          hr: 'Kamo ideš? — U park.',
+          en: 'Where are you going? — To the park.',
+          note: 'kamo: a goal',
+        },
+        {
+          hr: 'Kuda ideš? — Idem parkom.',
+          en: 'Which way are you going? — Through the park.',
+          note: 'kuda: a route',
+        },
+        { hr: 'Navečer šetamo gradom.', en: 'In the evening we walk around the town.' },
+        {
+          hr: 'U Dubrovniku turisti šetaju Stradunom.',
+          en: 'In Dubrovnik tourists walk along the Stradun.',
+        },
+        {
+          hr: 'Vozimo se obalom prema Splitu.',
+          en: 'We drive along the coast towards Split.',
+          note: 'obala → obalom',
         },
       ],
     },
@@ -301,7 +332,7 @@ const L_INSTRUMENTAL_PLACE = {
         'Same endings as s bratom: -om, soft -em, feminine -om',
         'Already there → instrumental (pod stolom); moving there → accusative (pod stol)',
         'za + -om is a place: za kućom, za stolom; za + accusative is "for"',
-        'pred kućom = ispred kuće — both correct',
+        'Gdje? (a place) · Kamo? (a goal) · Kuda? (a route): Šetamo gradom',
       ],
     },
   ],
@@ -436,6 +467,20 @@ const P_INSTRUMENTAL_PLACE = {
         hint: 'A masculine noun ending in a consonant adds -om, names included.',
         explanation: 'nad Zagrebom.',
       },
+      {
+        q: 'Kuda šetate? — Šetamo ___. (the town — grad)',
+        options: ['gradu', 'grad', 'gradom', 'grada'],
+        correct: 2,
+        hint: 'Kuda asks for the route: the instrumental with no little word in front.',
+        explanation: 'Šetamo gradom — we walk through the town.',
+      },
+      {
+        type: 'type',
+        q: 'U Dubrovniku turisti šetaju ____. (Stradun — along it)',
+        answer: 'Stradunom',
+        hint: 'A route takes the bare instrumental: a masculine name adds -om.',
+        explanation: 'Turisti šetaju Stradunom.',
+      },
     ],
   },
   checkB: [
@@ -470,15 +515,11 @@ const P_INSTRUMENTAL_PLACE = {
         'Ključ je pod tepihom — the instrumental ending says it is already there. The others move something, with the accusative.',
     },
     {
-      q: 'Which pair means the same thing?',
-      options: [
-        'pred kućom = ispred kuće',
-        'pod stolom = nad stolom',
-        'za kućom = pred kućom',
-        'nad morem = pod morem',
-      ],
-      correct: 0,
-      explanation: 'pred kućom and ispred kuće both mean in front of the house.',
+      q: 'Which question asks which way you go — through or along a place?',
+      options: ['Gdje?', 'Kamo?', 'Kuda?', 'Kada?'],
+      correct: 2,
+      explanation:
+        'Kuda? asks for the route: Kuda ideš? — Idem parkom. Gdje? asks where something is, Kamo? where it is going.',
     },
     {
       q: 'Complete: "Cijela obitelj je za ___." (at the table — "stol")',
@@ -497,6 +538,9 @@ const P_INSTRUMENTAL_PLACE = {
     ['tepih', 'rug, carpet', 'Ključ je pod tepihom.'],
     ['lampa', 'lamp', 'Lampa visi nad stolom.'],
     ['vrt', 'garden', 'Vrt je za kućom.'],
+    ['kuda?', 'which way?', 'Kuda ideš? — Idem parkom.'],
+    ['šetati', 'to walk, to stroll', 'Navečer šetamo gradom.'],
+    ['obala', 'coast, shore', 'Vozimo se obalom.'],
   ],
 };
 
@@ -552,6 +596,12 @@ const L_INSTRUMENTAL_PRONOUNS = {
       title: 'Not Only With s',
       body: 'The four place words from the last lesson take the same forms: pred tobom (in front of you), za njim (behind him), nad nama (above us). With mnom, three of them also add an a: preda mnom, nada mnom, poda mnom. Za stays as it is: za mnom (behind me).',
       highlight: 'preda mnom',
+    },
+    {
+      type: 'rule',
+      title: 'Two Family Words: s ocem, s djetetom',
+      body: 'Two family nouns change more than their ending. Otac (father) loses its a and its t and ends in c, which is soft, so it takes -em: s ocem (with my father). Dijete (child) grows a -t- before every ending: s djetetom (with the child). Its plural djeca (children) declines like a feminine noun in -a: s djecom (with the children). Ana ide u park s djecom. Razgovaram s ocem svaki dan.',
+      highlight: 'Razgovaram s ocem svaki dan.',
     },
     {
       type: 'example',
@@ -613,6 +663,21 @@ const L_INSTRUMENTAL_PRONOUNS = {
           hr: 'Dijete sjedi za stolom s nama.',
           en: 'The child is sitting at the table with us.',
           note: 'za stolom + s nama',
+        },
+        {
+          hr: 'U subotu idem na utakmicu s ocem.',
+          en: 'On Saturday I am going to the match with my father.',
+          note: 'otac → s ocem',
+        },
+        {
+          hr: 'Mama je u parku s djetetom.',
+          en: 'Mum is in the park with the child.',
+          note: 'dijete → s djetetom',
+        },
+        {
+          hr: 'Ljeti idemo na more s djecom.',
+          en: 'In summer we go to the seaside with the children.',
+          note: 'djeca → s djecom',
         },
       ],
     },
@@ -828,6 +893,20 @@ const P_INSTRUMENTAL_PRONOUNS = {
         hint: 'She changes to an nj- form; the feminine instrumental ending is -om.',
         explanation: 'Želim razgovarati s njom.',
       },
+      {
+        q: 'Svaki dan razgovaram s ___. (my father — otac)',
+        options: ['otacom', 'ocem', 'ocom', 'oca'],
+        correct: 1,
+        hint: 'Otac loses its a and its t, and the c it ends in is soft.',
+        explanation: 'Razgovaram s ocem.',
+      },
+      {
+        type: 'type',
+        q: 'Mama je u parku s ____. (the child — dijete)',
+        answer: 'djetetom',
+        hint: 'Dijete grows a -t- before every ending, then adds -om.',
+        explanation: 'Mama je u parku s djetetom.',
+      },
     ],
   },
   checkB: [
@@ -883,6 +962,9 @@ const P_INSTRUMENTAL_PRONOUNS = {
     ['s njima', 'with them', 'Idem na more s njima.'],
     ['s kim?', 'with whom?', 'S kim ideš na more?'],
     ['razgovarati s', 'to talk to, with', 'Razgovaram s mamom.'],
+    ['s ocem', 'with (my) father', 'Razgovaram s ocem svaki dan.'],
+    ['s djetetom', 'with the child', 'Mama je u parku s djetetom.'],
+    ['s djecom', 'with the children', 'Ljeti idemo na more s djecom.'],
   ],
 };
 
@@ -1688,7 +1770,7 @@ const P_NEMATI_GENITIVE = {
 const L_GENITIVE_PREPOSITIONS = {
   id: 'genitive-prepositions',
   title: 'From, To, At, Without',
-  subtitle: 'iz, s, od, do, kod, bez, blizu, pokraj, između + the genitive',
+  subtitle: 'iz, od, do, kod, bez, ispred, zbog, nakon, sjeverno od + the genitive',
   icon: '🧭',
   level: 'A1',
   duration: '~8 min',
@@ -1698,7 +1780,7 @@ const L_GENITIVE_PREPOSITIONS = {
     {
       type: 'intro',
       title: 'The Words That Put You on the Map',
-      body: "From, to, at someone's, without, near, beside, between: in Croatian all of these take the genitive. You have met iz and bez already. Here is the whole working set — and how to choose between the ones that look alike, like iz and od, or u kući and kod kuće.",
+      body: "From, to, at someone's, without, near, in front of, because of, after: in Croatian all of these take the genitive. You have met iz and bez already. Here is the whole working set — how to choose between the ones that look alike, like iz and od, or u kući and kod kuće — and how to say that a town lies north of another or read a street name.",
       icon: '🧭',
     },
     {
@@ -1740,6 +1822,43 @@ const L_GENITIVE_PREPOSITIONS = {
       title: 'Do, Blizu, Pokraj, Između',
       body: 'Do means "as far as" or "until": Autobus ide do centra. Idem do trgovine (I\'m popping over to the shop). Do sutra! (Until tomorrow!) Blizu means near: blizu mora. Pokraj means right beside: pokraj rijeke. Između (between) joins two nouns with i, and both take the genitive: između banke i pošte.',
       highlight: 'između banke i pošte',
+    },
+    {
+      type: 'table',
+      title: 'Where Something Is: In Front, Behind, Above, Under',
+      headers: ['Word', 'Meaning', 'Example', 'English'],
+      rows: [
+        ['ispred', 'in front of', 'ispred kuće', 'in front of the house'],
+        ['iza', 'behind', 'iza škole', 'behind the school'],
+        ['iznad', 'above', 'iznad stola', 'above the table'],
+        ['ispod', 'under', 'ispod kreveta', 'under the bed'],
+        ['pored / kraj', 'next to', 'pored banke, kraj prozora', 'next to the bank, by the window'],
+        ['oko', 'around', 'oko grada', 'around the town'],
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'Ispred Kuće or Pred Kućom',
+      body: 'Ispred, iza, iznad and ispod take the genitive: Auto je ispred kuće. Lopta je ispod kreveta. In the place lesson you said the same with pred, za, nad and pod and the instrumental: pred kućom, pod krevetom. Both pairs are correct and mean the same; in everyday speech ispred, iza, iznad and ispod are the more common. Pored and kraj (next to) and oko (around) take the genitive too: Sjedim pored prozora. Šetamo oko jezera.',
+      highlight: 'Auto je ispred kuće.',
+    },
+    {
+      type: 'rule',
+      title: 'Bez, Zbog, Prije, Poslije, Nakon',
+      body: 'Five more words take the genitive, and they are about circumstances rather than places. Bez — without: kava bez šećera. Zbog — because of: Ne idemo na plažu zbog kiše. (We are not going to the beach because of the rain.) Prije — before: Učim prije ručka. Poslije and nakon — after, the same meaning: Odmaram se poslije posla. Nakon večere gledamo film.',
+      highlight: 'Ne idemo na plažu zbog kiše.',
+    },
+    {
+      type: 'rule',
+      title: 'North of Zagreb: sjeverno od',
+      body: 'To place a town on the map, say which side of another place it lies on, with od and the genitive: sjeverno od (north of), južno od (south of), istočno od (east of), zapadno od (west of). Zagorje je sjeverno od Zagreba. Osijek je istočno od Zagreba. Rijeka je zapadno od Zagreba. Split je južno od Zadra. Nedaleko od means not far from: Samobor je nedaleko od Zagreba.',
+      highlight: 'Zagorje je sjeverno od Zagreba.',
+    },
+    {
+      type: 'rule',
+      title: 'Street Names and What You Study',
+      body: 'Croatian street and square names often put a person or a place in the genitive: Trg bana Jelačića — the square of Ban Jelačić. Ulica grada Vukovara — the street of the town of Vukovar. Ulica kralja Zvonimira — King Zvonimir Street. The same square is also called Jelačićev trg, with the possessive adjective you met earlier: both mean the same. The genitive also says what someone studies or loves: student informatike (a computer-science student), profesorica anglistike (a professor of English studies), ljubitelj nogometa (a football fan).',
+      highlight: 'Trg bana Jelačića',
     },
     {
       type: 'example',
@@ -1798,6 +1917,41 @@ const L_GENITIVE_PREPOSITIONS = {
           en: 'The post office is between the bank and the pharmacy.',
           note: 'both nouns in the genitive',
         },
+      ],
+    },
+    {
+      type: 'example',
+      title: 'Around Town and Around the Country',
+      items: [
+        {
+          hr: 'Taksi čeka ispred hotela.',
+          en: 'The taxi is waiting in front of the hotel.',
+          note: 'ispred + genitive',
+        },
+        {
+          hr: 'Parking je iza zgrade.',
+          en: 'The car park is behind the building.',
+          note: 'zgrada → zgrade',
+        },
+        {
+          hr: 'Ne idemo na izlet zbog kiše.',
+          en: 'We are not going on the trip because of the rain.',
+          note: 'kiša → kiše',
+        },
+        {
+          hr: 'Nakon posla idem u teretanu.',
+          en: 'After work I go to the gym.',
+          note: 'posao → posla',
+        },
+        { hr: 'Varaždin je sjeverno od Zagreba.', en: 'Varaždin is north of Zagreb.' },
+        { hr: 'Naš hotel je nedaleko od mora.', en: 'Our hotel is not far from the sea.' },
+        {
+          hr: 'Kavana je na Trgu bana Jelačića.',
+          en: 'The café is on Ban Jelačić Square.',
+          note: 'trg → na trgu; bana Jelačića stays',
+        },
+        { hr: 'Moj sin je student informatike.', en: 'My son is a computer-science student.' },
+        { hr: 'Ivan je veliki ljubitelj nogometa.', en: 'Ivan is a big football fan.' },
       ],
     },
     {
@@ -1878,6 +2032,9 @@ const L_GENITIVE_PREPOSITIONS = {
         'od for people: pismo od mame; od … do for a stretch: od ponedjeljka do petka',
         'kod + a person = at their place; kod kuće = at home',
         'između X i Y — both in the genitive',
+        'ispred, iza, iznad, ispod, pored, kraj, oko: ispred kuće = pred kućom',
+        'bez, zbog, prije, poslije, nakon: zbog kiše, nakon posla',
+        'sjeverno / južno / istočno / zapadno od + genitive; Trg bana Jelačića; student informatike',
       ],
     },
   ],
@@ -1998,6 +2155,53 @@ const P_GENITIVE_PREPOSITIONS = {
         hint: 'Both nouns after između take the genitive.',
         explanation: 'između banke i ljekarne.',
       },
+      {
+        q: 'Lopta je ___ kreveta. (under)',
+        options: ['ispod', 'pod', 'iznad', 'ispred'],
+        correct: 0,
+        hint: 'Kreveta is a genitive form, so it needs the genitive word for "under".',
+        explanation: 'ispod kreveta = pod krevetom: the ball is under the bed.',
+      },
+      {
+        q: 'Ne idemo na plažu ___ kiše. (because of)',
+        options: ['bez', 'zbog', 'kod', 'do'],
+        correct: 1,
+        hint: 'The word that gives a reason.',
+        explanation: 'Ne idemo na plažu zbog kiše.',
+      },
+      {
+        q: 'Osijek is east of Zagreb. Which sentence says so?',
+        options: [
+          'Osijek je zapadno od Zagreba.',
+          'Osijek je istočno od Zagreb.',
+          'Osijek je istočno od Zagreba.',
+          'Osijek je istočno iz Zagreba.',
+        ],
+        correct: 2,
+        hint: 'A direction word, then od, then the genitive.',
+        explanation: 'Osijek je istočno od Zagreba.',
+      },
+      {
+        type: 'type',
+        q: 'Nakon ____ idem u teretanu. (posao)',
+        answer: 'posla',
+        hint: 'Nakon takes the genitive, and posao gets its l back when an ending is added.',
+        explanation: 'Nakon posla idem u teretanu.',
+      },
+      {
+        type: 'type',
+        q: 'Zagorje je sjeverno od ____. (Zagreb)',
+        answer: 'Zagreba',
+        hint: 'Od takes the genitive: a masculine name adds -a.',
+        explanation: 'Zagorje je sjeverno od Zagreba.',
+      },
+      {
+        type: 'type',
+        q: 'Moja sestra je studentica ____. (informatika — what she studies)',
+        answer: 'informatike',
+        hint: 'What someone studies follows in the genitive: feminine -a becomes -e.',
+        explanation: 'Moja sestra je studentica informatike.',
+      },
     ],
   },
   checkB: [
@@ -2053,6 +2257,12 @@ const P_GENITIVE_PREPOSITIONS = {
     ['rijeka', 'river', 'Hotel je pokraj rijeke.'],
     ['ljekarna', 'pharmacy', 'Ljekarna je blizu škole.'],
     ['posao', 'work, job', 'Vraćam se s posla u šest.'],
+    ['ispred', 'in front of', 'Taksi čeka ispred hotela.'],
+    ['iza', 'behind', 'Parking je iza zgrade.'],
+    ['zbog', 'because of', 'Ne idemo na izlet zbog kiše.'],
+    ['nakon', 'after', 'Nakon posla idem u teretanu.'],
+    ['sjeverno od', 'north of', 'Varaždin je sjeverno od Zagreba.'],
+    ['trg', 'square', 'Kavana je na Trgu bana Jelačića.'],
   ],
 };
 
@@ -2100,7 +2310,7 @@ const L_GENITIVE_PRONOUNS = {
     {
       type: 'rule',
       title: 'After a Preposition: the Long Form',
-      body: 'After any preposition, use the long form: kod mene, bez tebe, od njega, blizu nje, do nas, kod vas, bez njih. A short form never follows a preposition — "kod me" is not Croatian. And kod nas, kod vas mean "at our place, at your place", but also "in our country, where you live": Kod nas je zimi hladno — where we live, it is cold in winter.',
+      body: 'After a preposition that takes the genitive, use the long form: kod mene, bez tebe, od njega, blizu nje, do nas, kod vas, bez njih. A short form never follows these prepositions — "kod me" is not Croatian. And kod nas, kod vas mean "at our place, at your place", but also "in our country, where you live": Kod nas je zimi hladno — where we live, it is cold in winter.',
       highlight: 'kod mene',
     },
     {
@@ -2130,8 +2340,8 @@ const L_GENITIVE_PRONOUNS = {
           note: 'ona → nje, not nju',
         },
         {
-          hr: 'Možeš li doći do nas poslije posla?',
-          en: 'Can you come over to our place after work?',
+          hr: 'Možeš li svratiti do nas poslije posla?',
+          en: 'Can you drop by our place after work?',
           note: 'mi → nas',
         },
         {
@@ -2179,7 +2389,7 @@ const L_GENITIVE_PRONOUNS = {
       options: ['ja', 'me', 'mene', 'meni'],
       correct: 2,
       explanation:
-        'After a preposition, the long genitive form: kod mene. "Me" is the short form, which never follows a preposition.',
+        'After a preposition, the long genitive form: kod mene. "Me" is the short form, which never follows kod.',
     },
     {
       type: 'quiz',
@@ -2192,7 +2402,7 @@ const L_GENITIVE_PRONOUNS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'First, a short form after a preposition: "kod me". After any preposition, use the long form: kod mene. Second, the accusative of ona in the genitive: "bez nju". The genitive is nje: bez nje. Third, the subject form after nema: "Nema on". Nema takes the genitive: Nema ga.',
+      body: 'First, a short form after a preposition: "kod me". After kod, bez, od, do and the rest, use the long form: kod mene. Second, the accusative of ona in the genitive: "bez nju". The genitive is nje: bez nje. Third, the subject form after nema: "Nema on". Nema takes the genitive: Nema ga.',
       highlight: 'kod mene',
     },
     {
@@ -2342,7 +2552,7 @@ const P_GENITIVE_PRONOUNS = {
       },
       {
         type: 'type',
-        q: 'Možete li doći do ____? (mi)',
+        q: 'Možete li svratiti do ____? (mi)',
         answer: 'nas',
         hint: 'The genitive of mi looks just like its accusative.',
         explanation: 'do nas — to our place.',
@@ -2372,7 +2582,7 @@ const P_GENITIVE_PRONOUNS = {
   },
   checkB: [
     {
-      q: 'Complete: "Možeš li doći do ___?" (us)',
+      q: 'Complete: "Možeš li svratiti do ___?" (us)',
       options: ['mi', 'nama', 'nas', 'nam'],
       correct: 2,
       explanation: 'do + the genitive of mi: do nas.',

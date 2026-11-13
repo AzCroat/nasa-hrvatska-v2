@@ -4,11 +4,15 @@
 //
 // Three modes:
 //   karte     — the ticket as an object: kartu, povratnu kartu, karta za trajekt
-//   kada      — when: u petak, za subotu, u osam sati, Kada ide autobus?
-//   razgovor  — the counter conversation: Htio / Htjela bih, za mene, uzimam ih
+//   kada      — when: u petak, za subotu, ujutro, Kada ide autobus?
+//   razgovor  — the counter conversation: Molim Vas …, Želim …, za mene, uzimam ih
 //
-// Distractors are the dictionary form or another case, the wrong polite form for the
-// speaker, or a preposition that cannot carry the meaning. No item offers "na" with a ferry
+// The polite request is Molim (Vas) … / Želim …, as in the book: the conditional
+// (Htio / Htjela bih) is never taught in A1, and telling the time needs numbers +
+// genitive (lesson 84), so neither appears here.
+//
+// Distractors are the dictionary form or another case, the wrong person of the verb,
+// or a preposition that cannot carry the meaning. No item offers "na" with a ferry
 // to an island (trajekt na Brač is real Croatian) or a plural accusative as a wrong answer.
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
@@ -23,16 +27,16 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   // ── karte ──────────────────────────────────────────────────────────────
   {
     mode: 'karte',
-    q: 'Htio bih ____ za Split.',
-    en: 'I would like a ticket to Split. (a man speaking)',
+    q: 'Molim Vas ____ za Split.',
+    en: 'A ticket to Split, please.',
     opts: ['kartu', 'karta', 'karti', 'kartom'],
     answer: 'kartu',
     tip: 'The ticket is an object: feminine -a becomes -u.',
   },
   {
     mode: 'karte',
-    q: 'Htjela bih ____ kartu.',
-    en: 'I would like a return ticket. (a woman speaking)',
+    q: 'Želim ____ kartu.',
+    en: 'I want a return ticket.',
     opts: ['povratnu', 'povratna', 'povratnoj', 'povratnom'],
     answer: 'povratnu',
     tip: 'The adjective takes the same -u as kartu.',
@@ -79,8 +83,8 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'karte',
-    q: 'Htjela bih rezervirati ____.',
-    en: 'I would like to book a trip.',
+    q: 'Trebam rezervirati ____.',
+    en: 'I need to book a trip.',
     opts: ['putovanje', 'putovanju', 'putovanjem', 'putovanjima'],
     answer: 'putovanje',
     tip: 'putovanje is neuter, so it does not change as an object.',
@@ -112,11 +116,11 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kada',
-    q: 'Trajekt ide u osam ____.',
-    en: "The ferry goes at eight o'clock.",
-    opts: ['sati', 'sat', 'sata', 'satu'],
-    answer: 'sati',
-    tip: 'After five and above: sati.',
+    q: 'Trajekt ide ____. (in the morning)',
+    en: 'The ferry goes in the morning.',
+    opts: ['ujutro', 'navečer', 'jučer', 'noću'],
+    answer: 'ujutro',
+    tip: 'ujutro — in the morning; navečer — in the evening.',
   },
   {
     mode: 'kada',
@@ -136,11 +140,11 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kada',
-    q: 'Vlak za Split ide ____ devet.',
-    en: 'The train to Split goes at nine.',
-    opts: ['u', 'na', 'kod', 'od'],
-    answer: 'u',
-    tip: 'At a time on the clock: u.',
+    q: 'Vlak za Split ide u ____.',
+    en: 'The train to Split goes on Monday.',
+    opts: ['ponedjeljak', 'ponedjeljka', 'ponedjeljku', 'ponedjeljkom'],
+    answer: 'ponedjeljak',
+    tip: 'On a day: u + accusative; ponedjeljak is a masculine thing and does not change.',
   },
   {
     mode: 'kada',
@@ -169,8 +173,8 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razgovor',
-    q: 'Htjela bih jednu kartu, ____.',
-    en: 'I would like one ticket, please.',
+    q: 'Jednu kartu, ____.',
+    en: 'One ticket, please.',
     opts: ['molim', 'doviđenja', 'laku noć', 'izvolite'],
     answer: 'molim',
     tip: 'molim — please. Izvolite is what the agent says.',
@@ -185,19 +189,19 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razgovor',
-    q: 'Kupac (žena): ____ bih povratnu kartu.',
-    en: 'Customer (a woman): I would like a return ticket.',
-    opts: ['Htjela', 'Htio', 'Htjeli', 'Hoću'],
-    answer: 'Htjela',
-    tip: 'A woman says Htjela bih; a man says Htio bih.',
+    q: 'Kupac: ____ Vas povratnu kartu.',
+    en: 'Customer: A return ticket, please.',
+    opts: ['Molim', 'Molite', 'Moli', 'Moliti'],
+    answer: 'Molim',
+    tip: 'Molim Vas — "I ask you": please, at a counter.',
   },
   {
     mode: 'razgovor',
-    q: 'Kupac (muškarac): ____ bih kartu za Zadar.',
-    en: 'Customer (a man): I would like a ticket to Zadar.',
-    opts: ['Htio', 'Htjela', 'Htjeli', 'Hoću'],
-    answer: 'Htio',
-    tip: 'A man says Htio bih.',
+    q: 'Kupac: ____ kartu za Zadar.',
+    en: 'Customer: I want a ticket to Zadar.',
+    opts: ['Želim', 'Želiš', 'Želimo', 'Želi'],
+    answer: 'Želim',
+    tip: 'I want: želim.',
   },
   {
     mode: 'razgovor',
@@ -209,8 +213,8 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razgovor',
-    q: 'Moramo ići ____ kolodvor u sedam.',
-    en: 'We have to go to the station at seven.',
+    q: 'Moramo ići ____ kolodvor ujutro.',
+    en: 'We have to go to the station in the morning.',
     opts: ['na', 'u', 'kod', 'iz'],
     answer: 'na',
     tip: 'Learn it as a pair: na kolodvor.',

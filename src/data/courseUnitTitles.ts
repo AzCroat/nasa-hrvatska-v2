@@ -39,7 +39,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'A1-3': {
     title: 'Work, Countries and Numbers',
     subtitle:
-      'Say what you do, where you are from and which language you speak, and count to a thousand.',
+      'Say what you do, where you are from and which language you speak, give your phone number, and count to a million.',
   },
   'A1-4': {
     title: 'Names, Family and Plurals',
@@ -104,7 +104,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   },
   'A1-17': {
     title: 'From, At and How Many',
-    subtitle: 'Use iz, od, do, kod and bez, count things correctly, and give a date.',
+    subtitle: 'Use iz, od, do, kod and bez, count things, tell the time, and give a date.',
   },
   'A1-18': {
     title: 'Years, Health and Special Nouns',

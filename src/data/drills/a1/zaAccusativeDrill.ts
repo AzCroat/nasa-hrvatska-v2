@@ -6,6 +6,8 @@
 //   osobe   — for someone: za mamu, za brata, za dobrog prijatelja, Za koga?
 //   mjesta  — a ticket, train, bus or ferry named by its destination: karta za Split
 //   vrijeme — for a day, a meal or an occasion: za subotu, za doručak; zašto
+//   po      — going to fetch something or someone: Idem po kruh, Idem po mamu (the
+//             book's Lesson 7 teaches po + accusative beside za)
 //
 // Distractors are the dictionary form, the dative/locative -i/-u, or the instrumental -om.
 // No accusative-plural form is offered (za sestre would be real Croatian: for the sisters).
@@ -16,6 +18,7 @@ export const ZA_ACCUSATIVE_MODE_LABELS: Record<string, string> = {
   osobe: '🎁 Za koga',
   mjesta: '🎫 Karta za',
   vrijeme: '📅 Za kada',
+  po: '🛒 Idem po',
 };
 
 export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
@@ -95,8 +98,8 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mjesta',
-    q: 'Vlak ____ Zagreb ide u osam.',
-    en: 'The train to Zagreb goes at eight.',
+    q: 'Vlak ____ Zagreb je tamo.',
+    en: 'The train to Zagreb is over there.',
     opts: ['za', 'kod', 'iz', 'od'],
     answer: 'za',
     tip: 'A train is named by where it goes: vlak za Zagreb.',
@@ -135,8 +138,8 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mjesta',
-    q: 'Trajekt ____ Hvar ide u devet.',
-    en: 'The ferry to Hvar goes at nine.',
+    q: 'Trajekt ____ Hvar je tamo.',
+    en: 'The ferry to Hvar is over there.',
     opts: ['za', 'kod', 'iz', 'od'],
     answer: 'za',
     tip: 'A ferry is named by where it goes.',
@@ -213,5 +216,47 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
     opts: ['srijedu', 'srijeda', 'srijedi', 'srijedom'],
     answer: 'srijedu',
     tip: 'za + accusative: srijeda → srijedu.',
+  },
+
+  // ── po ─────────────────────────────────────────────────────────────────
+  {
+    mode: 'po',
+    q: 'Idem po ____.',
+    en: 'I am going to get bread.',
+    opts: ['kruh', 'kruhu', 'kruhom', 'kruha'],
+    answer: 'kruh',
+    tip: 'po + accusative; kruh is a masculine thing and does not change.',
+  },
+  {
+    mode: 'po',
+    q: 'Idem po ____. (to pick up Mum)',
+    en: 'I am going to pick up Mum.',
+    opts: ['mama', 'mamu', 'mami', 'mamom'],
+    answer: 'mamu',
+    tip: 'po + accusative: mama → mamu.',
+  },
+  {
+    mode: 'po',
+    q: 'Muž ide ____ ženu.',
+    en: 'The husband is going to pick up his wife.',
+    opts: ['po', 'kod', 'iz', 'od'],
+    answer: 'po',
+    tip: 'Going to fetch someone: po + the accusative.',
+  },
+  {
+    mode: 'po',
+    q: 'Po ____ ideš? — Po brata.',
+    en: 'Who are you going to pick up? — My brother.',
+    opts: ['koga', 'tko', 'kome', 'kim'],
+    answer: 'koga',
+    tip: 'After po you need the object form of tko: koga.',
+  },
+  {
+    mode: 'po',
+    q: 'Tata ide po ____. (Marko — to pick him up)',
+    en: 'Dad is going to pick up Marko.',
+    opts: ['Marko', 'Marka', 'Marku', 'Markom'],
+    answer: 'Marka',
+    tip: 'Marko is a living masculine noun: Marka.',
   },
 ];

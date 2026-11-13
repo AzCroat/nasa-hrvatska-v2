@@ -21,7 +21,18 @@
 import { readOpenLessons } from './lessonLock';
 
 /** Lesson id → the grammar words that lesson introduces to the learner. */
+//
+// RE-DERIVED for A1 on 2026-11-13, after the A1 lessons were aligned with the book
+// (Hrvatski za početnike 1): each A1 row is the lesson that now FIRST teaches the word, and
+// src/tests/taughtTermsMatchLessons.test.ts holds every A1 lesson to it — no lesson may
+// name a word in learner-facing text before the lesson this table says introduces it.
+//   pronouns-biti (4): the pronoun and biti tables say singular / plural and present tense.
+//   cases (28): names all seven cases once, as a map of what is coming; each case word
+//     is still introduced by its own lesson below, and only 28 is exempted for the map.
+//   future-tense (61): teaches the perfective / imperfective choice with the future.
+//   imperative-basic (94): the imperative.
 export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = {
+  'pronouns-biti': ['singular', 'plural', 'present tense'],
   gender: ['gender', 'masculine', 'feminine', 'neuter'],
   'plural-nouns': ['singular', 'plural'],
   'adjectives-basic': ['adjective'],
@@ -33,12 +44,13 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   'genitive-intro': ['genitive'],
   'genitive-deep': ['genitive'],
   'vocative-intro': ['vocative'],
+  'imperative-basic': ['imperative'],
   'dative-intro': ['dative'],
   'dative-locative': ['dative', 'locative'],
   'instrumental-intro': ['instrumental'],
   instrumental: ['instrumental'],
   'past-tense': ['past tense'],
-  'future-tense': ['future tense'],
+  'future-tense': ['future tense', 'aspect', 'perfective', 'imperfective'],
   conditional: ['conditional'],
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],

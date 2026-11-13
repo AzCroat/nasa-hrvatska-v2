@@ -162,11 +162,11 @@ export const VERBS_ITI_JETI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ati-iti',
-    q: 'Koji nastavak ima "oni" kod glagola na -iti?',
-    en: 'Which ending does "they" take with -iti verbs?',
+    q: 'Koji nastavak ima "oni" kod pravilnih glagola na -iti?',
+    en: 'Which ending does "they" take with regular -iti verbs?',
     opts: ['-e', '-aju', '-u', '-iju'],
     answer: '-e',
-    tip: 'oni govore, oni rade, oni vole.',
+    tip: 'oni govore, oni rade, oni vole (exceptions such as piti have -ju: piju).',
   },
 
   // ── iznimke ───────────────────────────────────────────────────────────────

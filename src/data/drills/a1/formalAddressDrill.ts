@@ -134,8 +134,8 @@ export const FORMAL_ADDRESS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'vokativ',
-    q: 'Kako ćete osloviti starijeg muškarca kojeg ne poznajete?',
-    en: 'How do you address an older man you do not know?',
+    q: 'Ne poznajete ovog čovjeka. Kako ćete ga osloviti?',
+    en: 'You do not know this man. How do you address him?',
     opts: ['gospodine', 'dečko', 'stari', 'mali'],
     answer: 'gospodine',
     tip: 'The respectful form for a stranger.',

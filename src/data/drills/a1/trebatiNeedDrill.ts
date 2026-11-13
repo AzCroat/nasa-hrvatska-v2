@@ -2,22 +2,21 @@
 //
 // A1 TREBATI — the drill for the `trebati-need` lesson.
 //
-// Two patterns and one set phrase. Trebam + a thing in the object form (Trebam kartu,
-// Trebamo liječnika); trebam + a verb in its dictionary form (Trebam ići); and Treba
-// mi + the thing UNCHANGED (Treba mi kava). Mixing the last two is the error the lesson
-// exists to prevent, so the distractors here are mostly the other pattern's form.
+// Two patterns, as the book's Lesson 6 teaches them: trebam + a thing in the object
+// form (Trebam kartu, Trebamo liječnika) and trebam + a verb in its dictionary form
+// (Trebam ići). No "Treba mi …": its mi is a dative pronoun, taught much later.
 //
 // Three modes:
 //   stvar     — trebam + a thing
 //   glagol    — trebam + a verb, and the person forms
-//   izraz     — Treba mi …, treba alone, Ne treba, hvala
+//   izraz     — asking (Što trebaš?), treba alone, Ne treba, hvala
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
 export const TREBATI_NEED_MODE_LABELS: Record<string, string> = {
   stvar: '🎫 Trebam + stvar',
   glagol: '🏃 Trebam + glagol',
-  izraz: '💬 Treba mi',
+  izraz: '💬 Pitanja i odbijanje',
 };
 
 export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
@@ -42,7 +41,7 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
     mode: 'stvar',
     q: 'Trebaš li ____?',
     en: 'Do you need help?',
-    opts: ['pomoći', 'pomoć', 'pomoća', 'pomoću'],
+    opts: ['pomoće', 'pomoć', 'pomoća', 'pomoću'],
     answer: 'pomoć',
     tip: 'pomoć ends in a consonant and does not change as an object.',
   },
@@ -82,9 +81,9 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
     mode: 'stvar',
     q: 'Što ____? — Trebamo taksi.',
     en: 'What do you need? — We need a taxi.',
-    opts: ['trebaš', 'trebate', 'trebaju', 'treba'],
+    opts: ['trebam', 'trebate', 'trebaju', 'treba'],
     answer: 'trebate',
-    tip: 'The answer is "we", so the question was to vi: trebate.',
+    tip: 'The question is to "you" (more than one person): trebate.',
   },
 
   // ── glagol ───────────────────────────────────────────────────────────────
@@ -156,25 +155,25 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
   // ── izraz ────────────────────────────────────────────────────────────────
   {
     mode: 'izraz',
-    q: 'Treba mi ____.',
-    en: 'I need a coffee.',
-    opts: ['kavu', 'kave', 'kava', 'kavi'],
-    answer: 'kava',
-    tip: 'In the set phrase the thing keeps its dictionary form.',
+    q: 'Što ____? (you ask a friend)',
+    en: 'What do you need?',
+    opts: ['trebam', 'trebaš', 'trebamo', 'trebaju'],
+    answer: 'trebaš',
+    tip: 'To a friend you use ti, and ti takes -š.',
   },
   {
     mode: 'izraz',
-    q: 'Treba mi ____.',
-    en: 'I need a rest.',
-    opts: ['odmora', 'odmor', 'odmoru', 'odmorom'],
-    answer: 'odmor',
-    tip: 'Treba mi + the thing unchanged.',
+    q: '____ li pomoć? (you ask a friend)',
+    en: 'Do you need help?',
+    opts: ['Trebaš', 'Trebam', 'Trebaju', 'Trebati'],
+    answer: 'Trebaš',
+    tip: 'The verb first, then li; ti takes -š.',
   },
   {
     mode: 'izraz',
     q: 'A waiter offers more bread you do not want.',
     en: 'No need, thanks.',
-    opts: ['Ne treba, hvala.', 'Trebam, hvala.', 'Treba mi, hvala.', 'Ne trebaju, hvala.'],
+    opts: ['Ne treba, hvala.', 'Trebam, hvala.', 'Ne trebati, hvala.', 'Ne trebaju, hvala.'],
     answer: 'Ne treba, hvala.',
     tip: 'The fixed polite refusal: treba with no person.',
   },
@@ -182,25 +181,25 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
     mode: 'izraz',
     q: '____ kupiti kruh i mlijeko.',
     en: 'We need to buy bread and milk.',
-    opts: ['Treba', 'Trebam', 'Trebaju', 'Treba mi'],
+    opts: ['Treba', 'Trebam', 'Trebaju', 'Trebati'],
     answer: 'Treba',
     tip: 'treba alone means "it is necessary".',
   },
   {
     mode: 'izraz',
     q: 'Which sentence is wrong?',
-    en: 'One of these mixes the two patterns.',
-    opts: ['Trebam kavu.', 'Treba mi kava.', 'Treba mi kavu.', 'Trebam pomoć.'],
-    answer: 'Treba mi kavu.',
-    tip: 'After Treba mi the thing stays: kava.',
+    en: 'One of these leaves the object in its dictionary form.',
+    opts: ['Trebam kavu.', 'Trebaš li kavu?', 'Trebam kava.', 'Trebam pomoć.'],
+    answer: 'Trebam kava.',
+    tip: 'The coffee is an object: Trebam kavu.',
   },
   {
     mode: 'izraz',
-    q: 'Treba mi ____.',
-    en: 'I need a taxi.',
-    opts: ['taksija', 'taksi', 'taksiju', 'taksijem'],
-    answer: 'taksi',
-    tip: 'The thing is unchanged after Treba mi.',
+    q: 'Shop assistant: Što ____? (polite)',
+    en: 'What do you need?',
+    opts: ['trebaš', 'trebate', 'trebamo', 'trebaju'],
+    answer: 'trebate',
+    tip: 'Staff speak to you with polite vi: trebate.',
   },
   {
     mode: 'izraz',
@@ -212,10 +211,10 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izraz',
-    q: 'Treba mi ____. (help)',
-    en: 'I need help.',
-    opts: ['pomoći', 'pomoć', 'pomoća', 'pomoću'],
-    answer: 'pomoć',
-    tip: 'Treba mi + the thing in its dictionary form.',
+    q: 'Trebate li ____? (the shop assistant offers a bag)',
+    en: 'Do you need a bag?',
+    opts: ['vrećica', 'vrećicu', 'vrećicom', 'vrećici'],
+    answer: 'vrećicu',
+    tip: 'The bag is what you need: vrećica → vrećicu.',
   },
 ];

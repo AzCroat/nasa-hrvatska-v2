@@ -130,8 +130,8 @@ export const CURRICULUM = [
     order: 8,
     prerequisites: ['pronouns-biti'],
     objectives: [
-      'Ask who, what, where, when and how much',
-      'Form a yes/no question with li and with je li',
+      'Ask who, what, where, when, why, from where and how much',
+      'Form a yes/no question with biti: Jesi li…? Je li…?',
       'Answer a question without repeating the whole sentence',
     ],
   },
@@ -207,7 +207,7 @@ export const CURRICULUM = [
     order: 12,
     prerequisites: ['pronouns-biti'],
     objectives: [
-      'Say which country you are from, live in, and which languages you speak',
+      'Name countries, nationalities and languages, and say where you are from with the phrase Ja sam iz …',
       'Use the separate male and female nationality forms: Hrvat, Hrvatica',
       'Name the Croatian region your family comes from, which says far more than the country',
     ],
@@ -218,9 +218,9 @@ export const CURRICULUM = [
     order: 14,
     prerequisites: ['gender'],
     objectives: [
-      'Count, give your phone number and say your age',
-      'Tell the time and ask what time it is',
-      'Know why jedan changes shape but pet never does',
+      'Count from nula to deset',
+      'Give your phone number and your address',
+      'Know the emergency numbers and why jedan matches its noun',
     ],
   },
   {
@@ -230,8 +230,8 @@ export const CURRICULUM = [
     prerequisites: ['numbers-time'],
     objectives: [
       'Name the days, months and seasons',
-      'Say when something happens, not just what happens',
-      'Give and understand a date',
+      'Say on which day something happens: u petak, u subotu',
+      'Use danas, jučer, sutra and the other everyday time words',
     ],
   },
   {
@@ -241,8 +241,8 @@ export const CURRICULUM = [
     prerequisites: ['gender'],
     objectives: [
       'Understand what a case is, using English he / him / his as the bridge',
-      'Name all seven Croatian cases and the question each one answers',
-      'See why the word for the same thing changes shape mid-sentence',
+      'Know the seven Croatian case names as a map of what is coming',
+      'Find the subject with Tko? and Što? and know it stands in the nominative',
     ],
   },
   {
@@ -251,9 +251,9 @@ export const CURRICULUM = [
     order: 29,
     prerequisites: ['cases'],
     objectives: [
-      'Name what the verb acts on: Pijem kavu, Vidim brata',
-      'Ask the one question Croatian needs and English does not — is the noun alive?',
-      'Tell motion from position: Idem u grad against U gradu sam',
+      'Name what the verb acts on: Pijem kavu, Čitam knjigu',
+      'Change a feminine noun in -a to -u, and leave neuter nouns and masculine things unchanged',
+      'Move the adjective and possessive together with the noun: Vidim veliku kuću',
     ],
   },
   {
@@ -264,7 +264,7 @@ export const CURRICULUM = [
     objectives: [
       'Say what you have and what you do not have',
       'Give your age the Croatian way: Imam trideset godina',
-      'Use ima and nema for "there is" and "there is not"',
+      'Use ima for "there is", and Nema problema as a fixed phrase',
     ],
   },
   {
@@ -284,9 +284,9 @@ export const CURRICULUM = [
     order: 50,
     prerequisites: ['locative-intro'],
     objectives: [
-      'Place anything in space: pored, blizu, ispred, iza, ispod, između',
-      'Learn each preposition together with the case it always rules',
-      'Use kod for being at someone’s place, and kod kuće for being at home',
+      'Tell kamo? (where to) from gdje? (where): u grad vs u gradu',
+      'Use u and na with the accusative for going and the locative for being there',
+      'Learn which places take u and which take na: u školi, na moru, na poslu',
     ],
   },
   {
@@ -362,8 +362,8 @@ export const CURRICULUM = [
     prerequisites: ['accusative-intro'],
     objectives: [
       'Order in a café and read a simple menu',
-      'Ask politely with Htio bih or Htjela bih rather than a blunt Hoću',
-      'Use the accusative for what you order and the genitive for how much',
+      'Ask politely with molim and Molim Vas… rather than a blunt Hoću',
+      'Use the accusative for what you eat, drink and order',
     ],
   },
   {
@@ -372,9 +372,9 @@ export const CURRICULUM = [
     order: 48,
     prerequisites: ['numbers-time', 'accusative-intro'],
     objectives: [
-      'Count past a hundred and say any price in euros',
-      'Apply the rule every counted noun follows: 1, then 2–4, then 5 and up',
-      'Ask what something costs and say how you will pay',
+      'Count past a hundred, to a thousand and beyond',
+      'Ask what something costs and read a price tag: Koliko ovo košta?',
+      'Name the shops and ask for what you need: Imate li…? Trebam…',
     ],
   },
   {
@@ -395,7 +395,7 @@ export const CURRICULUM = [
     prerequisites: ['present-tense-verbs'],
     objectives: [
       'Describe the weather with the subjectless pattern: Hladno je, Pada kiša',
-      'Ask what the weather is like, today and tomorrow',
+      'Ask what the weather is like today: Kakvo je vrijeme?',
       'Name the seasons and say when something happens: ljeti, zimi, u proljeće',
     ],
   },
@@ -464,7 +464,7 @@ export const CURRICULUM = [
     objectives: [
       'Say who you gave, wrote, said or explained something to',
       'Use the verbs that demand it: dati, reći, pomoći, vjerovati',
-      'See why “sviđa mi se” and “hladno mi je” are built the way they are',
+      'Put the thing in the accusative and the person in the dative: Dajem sestri knjigu',
     ],
   },
   {
@@ -529,7 +529,7 @@ export const CURRICULUM = [
     prerequisites: ['plural-nouns', 'genitive-intro'],
     objectives: [
       'Say how much and how many, and get the case right every time',
-      'Choose the genitive singular or plural by whether the thing is countable',
+      'Form the genitive plural, and choose it or the singular by whether the thing is countable',
       'Keep the verb singular after a quantity phrase',
     ],
   },
@@ -540,7 +540,7 @@ export const CURRICULUM = [
     prerequisites: ['numbers-time', 'adjectives-basic'],
     objectives: [
       'Give and understand a date in Croatian',
-      'Use ordinals as the adjectives they are',
+      'Use ordinals as the adjectives they are, including na petom katu',
       'Recognise the old Slavic month names, which look nothing like the English ones',
     ],
   },
@@ -661,7 +661,7 @@ export const CURRICULUM = [
     prerequisites: ['adjectives-basic'],
     objectives: [
       'Say what you and other people are wearing',
-      'Buy clothes: try something on, ask for another size, ask for another colour',
+      'Buy clothes: say what you want, ask to try something on, ask for your size',
       'Agree colours with the thing they describe',
     ],
   },

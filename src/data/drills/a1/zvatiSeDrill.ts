@@ -90,7 +90,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   // ── red ───────────────────────────────────────────────────────────────────
   {
     mode: 'red',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'My name is Ana.',
     opts: ['Zovem se Ana.', 'Se zovem Ana.', 'Zovem Ana se.', 'Zovem si Ana.'],
     answer: 'Zovem se Ana.',
@@ -98,7 +98,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'My name is Josip.',
     opts: ['Ja zovem se Josip.', 'Ja se zovem Josip.', 'Se ja zovem Josip.', 'Ja zovem Josip se.'],
     answer: 'Ja se zovem Josip.',
@@ -106,7 +106,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koje je pitanje točno?',
+    q: 'Which question is correct?',
     en: 'What is your name?',
     opts: ['Kako zoveš se?', 'Se kako zoveš?', 'Kako se zoveš?', 'Kako zoveš?'],
     answer: 'Kako se zoveš?',
@@ -114,10 +114,10 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'This city is called Zadar.',
     opts: [
-      'Ovaj grad zove se Zadar.',
+      'Ovaj grad zove si Zadar.',
       'Se ovaj grad zove Zadar.',
       'Ovaj grad se zove Zadar.',
       'Ovaj grad zove Zadar.',
@@ -127,7 +127,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'Her name is Petra.',
     opts: ['Ona zove se Petra.', 'Ona se zove Petra.', 'Se zove ona Petra.', 'Ona zove Petra.'],
     answer: 'Ona se zove Petra.',
@@ -135,7 +135,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Što nedostaje u rečenici "Zovem Ivan."?',
+    q: 'What is missing from the sentence "Zovem Ivan."?',
     en: 'What is missing if you want to give your name?',
     opts: ['se', 'je', 'sam', 'ja'],
     answer: 'se',
@@ -143,7 +143,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'Our names are Ivo and Ana.',
     opts: [
       'Zovemo se Ivo i Ana.',
@@ -156,7 +156,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Koje je pitanje točno?',
+    q: 'Which question is correct?',
     en: 'What is your surname? (polite)',
     opts: ['Kako prezivate se?', 'Kako se prezivate?', 'Se kako prezivate?', 'Kako prezivate?'],
     answer: 'Kako se prezivate?',
@@ -242,7 +242,7 @@ export const ZVATI_SE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pitanja',
-    q: '"Kako se zovete?" — vi pitate…',
+    q: '"Kako se zovete?" — you are asking…',
     en: 'Who are you asking?',
     opts: ['a stranger, politely', 'a small child', 'yourself', 'a close friend'],
     answer: 'a stranger, politely',

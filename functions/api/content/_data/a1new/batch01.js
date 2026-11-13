@@ -66,6 +66,7 @@ export const SPINE = [
       'Know the three female endings: -ica, -ka, -kinja',
       'Name a language with -ski and a small letter: hrvatski',
       'Talk about groups: Hrvati, Hrvatice',
+      'Name the people of a town: Zagrepčanin, Splićanka, Riječani',
     ],
   },
   {
@@ -77,6 +78,7 @@ export const SPINE = [
       'Build the tens with -deset and spell the tricky ones: pedeset, šezdeset',
       'Build any number up to a thousand: tristo četrdeset pet',
       'Read room, bus and house numbers aloud',
+      'Know the big number words: tisuća, milijun, milijarda',
     ],
   },
 ];
@@ -84,11 +86,11 @@ export const SPINE = [
 /** Lesson bodies (same shape as lessonsA1.js). */
 export const LESSONS = [
   // ─────────────────────────────────────────────────────────
-  // The Soft Sounds
+  // The Special Sounds
   // ─────────────────────────────────────────────────────────
   {
     id: 'sounds-palatals',
-    title: 'The Soft Sounds: Č Ć Dž Đ Lj Nj',
+    title: 'The Special Sounds: Č Ć Dž Đ Lj Nj',
     subtitle: 'Six letters English does not have, and how to keep them apart',
     icon: '👄',
     level: 'A1',
@@ -227,9 +229,9 @@ export const LESSONS = [
             note: 'say each letter as its own sound',
           },
           {
-            hr: 'ljetna noć, vruć čaj, kućni ključ',
-            en: 'a summer night, hot tea, a house key',
-            note: 'read them aloud slowly, then fast',
+            hr: 'čaj i kuća, ključ i noć, džem i đak',
+            en: 'tea and a house, a key and the night, jam and a pupil',
+            note: 'read them aloud slowly, then fast: č, ć, dž, đ in turn',
           },
         ],
       },
@@ -307,7 +309,7 @@ export const LESSONS = [
       },
       {
         type: 'summary',
-        title: 'The Soft Sounds — Key Takeaways',
+        title: 'The Special Sounds — Key Takeaways',
         points: [
           'č = church, dž = jam: the hard pair',
           'ć = soft (Babić), đ = its voiced partner (đak)',
@@ -366,7 +368,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Question: Long Form + li',
-        body: 'To ask a yes/no question, take the LONG form of biti, put it first, and add li straight after it: jesam li, jesi li, jesmo li, jeste li, jesu li. One exception is the one you will use most: for he, she and it the question is Je li, not "jest li". Then add the rest: Jesi li ti student? Je li Ana ovdje? Jeste li Vi gospodin Horvat?',
+        body: 'To ask a yes/no question, take the LONG form of biti, put it first, and add li straight after it: jesam li, jesi li, jesmo li, jeste li, jesu li. One exception is the one you will use most: for he, she and it the question is Je li ("jest li" exists, but it is rare and bookish). Then add the rest: Jesi li ti student? Je li Ana ovdje? Jeste li Vi gospodin Horvat?',
         highlight: 'Jesi li ti student?',
       },
       {
@@ -491,10 +493,10 @@ export const LESSONS = [
           },
           {
             q: 'Complete: "___ li Ana doma?" (Is Ana at home?)',
-            options: ['Jest', 'Jesi', 'Jesu', 'Je'],
+            options: ['Jesmo', 'Jesi', 'Jesu', 'Je'],
             correct: 3,
             explanation:
-              'For he, she and it the question is Je li. Jesi is "you", jesu is "they", and "jest li" is not how it is asked.',
+              'For he, she and it the question is Je li. Jesmo is "we", jesi is "you" and jesu is "they".',
           },
           {
             q: '"Jeste li Vi gospođa Kovač?" — you are. Answer:',
@@ -702,7 +704,7 @@ export const LESSONS = [
           },
           {
             q: 'Complete: "Ovo su ___." (These are the eyes.)',
-            options: ['Oka', 'Oki', 'Okovi', 'Oči'],
+            options: ['oka', 'oki', 'okovi', 'oči'],
             correct: 3,
             explanation:
               'oko → oči, a feminine plural of its own. Oka, oki and okovi apply regular endings that this noun does not take.',
@@ -874,14 +876,14 @@ export const LESSONS = [
         title: 'Quick Check',
         q: 'Ana is a teacher. Which sentence is right?',
         options: [
-          'Ana je učitelj.',
+          'Ana je učitelji.',
           'Ana je učiteljica.',
           'Ana je jedna učiteljica.',
           'Ana je učiteljka.',
         ],
         correct: 1,
         explanation:
-          'A woman is a učiteljica: -telj adds -ica. "Učitelj" is the man\'s word, "jedna" would count her, and "učiteljka" is not the form.',
+          'A woman is a učiteljica: -telj adds -ica. "Učitelji" is several teachers, "jedna" would count her, and "učiteljka" is not the form.',
       },
       {
         type: 'quiz',
@@ -895,7 +897,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors come up again and again. First, giving a woman the man\'s word: "Ana je učitelj" — say Ana je učiteljica. Second, translating "a" as jedan: "Ja sam jedan kuhar" — just Ja sam kuhar. Third, keeping the k of -ik: "liječnikica" — the k goes, liječnica.',
+        body: 'Three errors come up again and again. First, forgetting the female form: for a woman the everyday word is the -ica one, Ana je učiteljica (the man\'s word for a woman is heard mainly in official titles). Second, translating "a" as jedan: "Ja sam jedan kuhar" — just Ja sam kuhar. Third, keeping the k of -ik: "liječnikica" — the k goes, liječnica.',
         highlight: 'Ana je učiteljica',
       },
       {
@@ -907,7 +909,7 @@ export const LESSONS = [
             options: ['konobar', 'konobarka', 'konobari', 'konobarica'],
             correct: 3,
             explanation:
-              'konobar → konobarica. The man\'s word, the made-up "konobarka" and the plural konobari all miss.',
+              'konobar → konobarica. The man\'s word, the non-standard "konobarka" and the plural konobari all miss.',
           },
           {
             q: 'How do you say "I am a cook" (a man)?',
@@ -1030,6 +1032,25 @@ export const LESSONS = [
         highlight: 'Kanađanin → Kanađani',
       },
       {
+        type: 'rule',
+        title: 'People From a Town: -anin and -čanin',
+        body: 'A town or city gives a word for the people who live there, built the same way as Kanađanin. Many add -anin for a man and -anka for a woman: Beč (Vienna) → Bečanin, Bečanka; Zadar → Zadranin, Zadranka. Many others add -čanin and -čanka: Zagreb → Zagrepčanin, Zagrepčanka; Osijek → Osječanin, Osječanka; Karlovac → Karlovčanin. Before these endings the last sound of the town often changes: t becomes ć (Split → Splićanin, Splićanka), k and c become č (Rijeka → Riječanin, Karlovac → Karlovčanin), and the b of Zagreb is said and written p before č (Zagrepčanin). In the plural -in drops, as in Kanađani: Splićani, Zagrepčani, Riječani.',
+        highlight: 'Split → Splićanin, Splićanka',
+      },
+      {
+        type: 'table',
+        title: 'Towns and Their People',
+        headers: ['Town', 'Man', 'Woman', 'People (plural)'],
+        rows: [
+          ['Zagreb', 'Zagrepčanin', 'Zagrepčanka', 'Zagrepčani'],
+          ['Split', 'Splićanin', 'Splićanka', 'Splićani'],
+          ['Rijeka', 'Riječanin', 'Riječanka', 'Riječani'],
+          ['Osijek', 'Osječanin', 'Osječanka', 'Osječani'],
+          ['Zadar', 'Zadranin', 'Zadranka', 'Zadrani'],
+          ['Beč', 'Bečanin', 'Bečanka', 'Bečani'],
+        ],
+      },
+      {
         type: 'example',
         title: 'Who Is Who',
         items: [
@@ -1088,6 +1109,32 @@ export const LESSONS = [
             hr: 'Kanađani su ovdje, a Engleskinje su tamo.',
             en: 'The Canadians are here, and the English women are over there.',
             note: 'Kanađanin → Kanađani, Engleskinja → Engleskinje',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'People From Towns',
+        items: [
+          {
+            hr: 'Ivan je Zagrepčanin, a Petra je Splićanka.',
+            en: 'Ivan is from Zagreb, and Petra is from Split.',
+            note: 'b becomes p before č; t becomes ć',
+          },
+          {
+            hr: 'Jesi li ti Riječanin? — Nisam, ja sam Osječanin.',
+            en: 'Are you from Rijeka? — No, I am from Osijek.',
+            note: 'k becomes č in both: Rijeka, Osijek',
+          },
+          {
+            hr: 'Marija je Zadranka, a Luka je Bečanin.',
+            en: 'Marija is from Zadar, and Luka is from Vienna.',
+            note: '-anka for a woman, -anin for a man',
+          },
+          {
+            hr: 'Oni su Splićani, a one su Zagrepčanke.',
+            en: 'They (men) are from Split, and they (women) are from Zagreb.',
+            note: '-in drops in the plural; -ka takes -e',
           },
         ],
       },
@@ -1225,6 +1272,12 @@ export const LESSONS = [
         highlight: 'tristo četrdeset pet',
       },
       {
+        type: 'rule',
+        title: 'Beyond a Thousand: milijun, milijarda',
+        body: 'The big numbers are words of their own. tisuća is a thousand (1 000), milijun is a million (1 000 000), and milijarda is a thousand million — what English now calls a billion (1 000 000 000). bilijun is a million million (1 000 000 000 000). A Croatian "bilijun" is therefore not an English "billion": an English billion is a milijarda. Croatian writes big numbers with a space or a dot between groups of three: 1 000 000 or 1.000.000.',
+        highlight: 'billion = milijarda',
+      },
+      {
         type: 'table',
         title: 'The Building Blocks',
         headers: ['Teens', 'Tens', 'Hundreds'],
@@ -1299,6 +1352,11 @@ export const LESSONS = [
             hr: 'Koliko je petsto i petsto? — Tisuća.',
             en: 'How much is five hundred and five hundred? — A thousand.',
             note: 'tisuća = 1000',
+          },
+          {
+            hr: 'Je li ovo milijun? — Nije, ovo je milijarda.',
+            en: 'Is this a million? — No, this is a billion.',
+            note: 'milijun = 1 000 000, milijarda = 1 000 000 000',
           },
         ],
       },
@@ -1541,7 +1599,7 @@ export const PRACTICE = {
         options: [
           'Nothing — hooks are optional',
           'It becomes a different word',
-          'It becomes the plural',
+          'It becomes a question',
           'It becomes polite',
         ],
         correct: 1,
@@ -1620,7 +1678,7 @@ export const PRACTICE = {
           q: 'Ask: Is Marko at home?',
           options: [
             'Jesi li Marko doma?',
-            'Jest li Marko doma?',
+            'Jesmo li Marko doma?',
             'Jesu li Marko doma?',
             'Je li Marko doma?',
           ],
@@ -1721,7 +1779,7 @@ export const PRACTICE = {
         options: [
           'Je li Ivan ovdje?',
           'Li je Ivan ovdje?',
-          'Jest li Ivan ovdje?',
+          'Jesmo li Ivan ovdje?',
           'Je Ivan li ovdje?',
         ],
         correct: 0,
@@ -1845,7 +1903,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Ana i Petra su ____. (daughters — kći)',
           answer: 'kćeri',
-          hint: 'Add -eri to the word for daughter.',
+          hint: 'Keep kć- and add -eri in place of the final -i.',
           explanation: 'kći → kćeri.',
         },
         {
@@ -1978,7 +2036,7 @@ export const PRACTICE = {
         {
           q: 'How do you say "She is a doctor"?',
           options: [
-            'Ona je liječnik.',
+            'Ona je liječnici.',
             'Ona je jedna liječnica.',
             'Ona liječnica.',
             'Ona je liječnica.',
@@ -2193,7 +2251,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Pierre je iz Francuske. On je ____.',
           answer: 'Francuz',
-          hint: "The man's word — the country without -ska.",
+          hint: 'A short word ending in -z, like Englez.',
           explanation: 'Francuska → Francuz.',
         },
         {
@@ -2216,6 +2274,27 @@ export const PRACTICE = {
           correct: 2,
           hint: 'The -in drops in the plural.',
           explanation: 'Kanađanin → Kanađani.',
+        },
+        {
+          q: 'A man from Split is a:',
+          options: ['Splitanin', 'Splićanin', 'Splitac', 'Splićanka'],
+          correct: 1,
+          hint: 'The t of Split changes before the ending -anin.',
+          explanation: 'Split → Splićanin (a woman is a Splićanka).',
+        },
+        {
+          type: 'type',
+          q: 'Ivan je iz Zagreba. On je ____.',
+          answer: 'Zagrepčanin',
+          hint: 'The town + -čanin, and its b is written p before č.',
+          explanation: 'Zagreb → Zagrepčanin.',
+        },
+        {
+          type: 'type',
+          q: 'Petra je iz Rijeke. Ona je ____.',
+          answer: 'Riječanka',
+          hint: "The k of the town becomes č, then the woman's ending -anka.",
+          explanation: 'Rijeka → Riječanin, Riječanka.',
         },
         {
           q: 'Which is spelled correctly?',
@@ -2284,6 +2363,9 @@ export const PRACTICE = {
       ['Amerikanac / Amerikanka', 'American (man / woman)', 'Jesi li ti Amerikanac?'],
       ['Kanađanin / Kanađanka', 'Canadian (man / woman)', 'Ja sam Kanađanka.'],
       ['engleski', 'English (the language)', 'Govorim engleski i malo hrvatski.'],
+      ['Zagrepčanin / Zagrepčanka', 'a man / woman from Zagreb', 'Ivan je Zagrepčanin.'],
+      ['Splićanin / Splićanka', 'a man / woman from Split', 'Petra je Splićanka.'],
+      ['Riječanin / Riječanka', 'a man / woman from Rijeka', 'Jesi li ti Riječanin?'],
     ],
   },
 
@@ -2399,6 +2481,20 @@ export const PRACTICE = {
           hint: 'Ten first, then the unit.',
           explanation: 'devedeset devet.',
         },
+        {
+          q: '1 000 000 is:',
+          options: ['tisuća', 'milijun', 'milijarda', 'bilijun'],
+          correct: 1,
+          hint: 'A thousand thousands.',
+          explanation: 'milijun = a million.',
+        },
+        {
+          type: 'type',
+          q: '1 000 000 000 (an English "billion") = ____',
+          answer: 'milijarda',
+          hint: 'Not bilijun: a thousand millions has its own word, ending in -a.',
+          explanation: 'milijarda = a thousand million.',
+        },
       ],
     },
     checkB: [
@@ -2452,6 +2548,8 @@ export const PRACTICE = {
       ['sto', 'a hundred', 'Sto i sto je dvjesto.'],
       ['dvjesto', 'two hundred', 'Soba broj dvjesto je ovdje.'],
       ['tisuća', 'a thousand', 'Petsto i petsto je tisuća.'],
+      ['milijun', 'a million', 'Je li ovo milijun?'],
+      ['milijarda', 'a billion (a thousand million)', 'Nije, ovo je milijarda.'],
       ['broj', 'number', 'Ovo je tramvaj broj sedamnaest.'],
       ['soba', 'room', 'Je li ovo soba broj devedeset?'],
     ],

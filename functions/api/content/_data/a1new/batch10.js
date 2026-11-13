@@ -19,6 +19,7 @@ export const SPINE = [
       'Turn a quality into a noun with -ost: mlad → mladost, hrabar → hrabrost',
       'Use -ost nouns as the feminine i-nouns they are, in every case you know',
       'Know the everyday words that do not use -ost: sreća, sloboda, brzina',
+      'Use misao (thought), whose stem is misl-: bez misli, o toj misli',
     ],
   },
   {
@@ -29,6 +30,7 @@ export const SPINE = [
       'Say how you feel — sretan sam, umorna sam — with the right ending for you',
       'Use osjećam se, and the "it is … to me" pattern: dosadno mi je, žao mi je',
       'Say what you are afraid of and what you are looking forward to',
+      'Talk about love: Zaljubljen sam u Anu, Hodam s Ivanom, ljubav na prvi pogled',
     ],
   },
   {
@@ -39,6 +41,7 @@ export const SPINE = [
       'Tell someone not to do something with nemoj, nemojte and nemojmo + infinitive',
       'Recognise and use ne + imperative for quick warnings: Ne diraj! Ne brini!',
       'Put the little words in the right place: Nemoj mi reći, Nemojte se brinuti',
+      'Say what someone else should do with neka + the present: Neka čeka, Neka on plati',
     ],
   },
   {
@@ -124,7 +127,7 @@ const ABSTRACT_OST = {
     {
       type: 'rule',
       title: 'Every -ost Noun Is Feminine',
-      body: 'A noun is a naming word, and every Croatian noun has a gender. Nouns in -ost end in a consonant, so they look masculine, but every one of them is FEMININE. They are i-nouns, like noć and stvar, which you already know: radost (joy) → bez radosti (without joy), hvala na ljubaznosti (thanks for the kindness), s radošću (with joy). Everything around them is feminine too: moja mladost, velika hrabrost, iskrenost je važna, mladost je bila lijepa.',
+      body: 'A noun is a naming word, and every Croatian noun has a gender. Nouns built with -ost end in a consonant, so they look masculine, but every one of them is FEMININE. (A few short words merely END in -ost without being built from a describing word — gost (guest), most (bridge) — and those are masculine.) They are i-nouns, like noć and stvar, which you already know: radost (joy) → bez radosti (without joy), hvala na ljubaznosti (thanks for the kindness), s radošću (with joy). Everything around them is feminine too: moja mladost, velika hrabrost, iskrenost je važna, mladost je bila lijepa.',
       highlight: 'Moja mladost je bila lijepa.',
     },
     {
@@ -146,6 +149,12 @@ const ABSTRACT_OST = {
       title: 'Not Every Quality Takes -ost',
       body: 'Some qualities have their own everyday word, and those are the ones to use: sretan (happy) → sreća (happiness, also luck). slobodan (free) → sloboda (freedom). brz (fast) → brzina (speed). dobar (good) → dobrota (goodness). And three common nouns came FIRST, with the adjective built from them, so the direction is reversed: radost (joy) → radostan (joyful), žalost (sadness) → žalostan, bolest (illness) → bolestan (ill). Mogućnost (possibility) is simply worth learning as a word.',
       highlight: 'sretan → sreća',
+    },
+    {
+      type: 'rule',
+      title: 'One More Feminine Noun: misao',
+      body: 'Misao (a thought, an idea) belongs to the same group, with one twist: like the past forms došao and rekao, it has an -ao that turns back into -l- whenever an ending is added. The subject and object forms are misao; everywhere else the stem is misl-: bez misli (without a thought), o toj misli (about that thought), and the plural misli (thoughts). It is feminine: ta misao, dobra misao, moja misao.',
+      highlight: 'misao → misli',
     },
     {
       type: 'example',
@@ -207,6 +216,16 @@ const ABSTRACT_OST = {
           en: 'Punctuality is very important at work.',
           note: 'točan → točna → točnost',
         },
+        {
+          hr: 'To je dobra misao.',
+          en: 'That is a good idea.',
+          note: 'misao is feminine: dobra',
+        },
+        {
+          hr: 'Stalno mislim o toj misli.',
+          en: 'I keep thinking about that thought.',
+          note: 'o + locative: misao → misli',
+        },
       ],
     },
     {
@@ -234,7 +253,7 @@ const ABSTRACT_OST = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'First, treating an -ost noun as masculine because it ends in a consonant: "Moj mladost je bio lijep". Every -ost noun is feminine: Moja mladost je bila lijepa. Second, keeping the fleeting a: "hrabarost". Build from the feminine form, hrabra, so the noun is hrabrost. Third, giving it masculine endings: "bez hrabrosta". It is an i-noun, so the genitive is bez hrabrosti.',
+      body: 'First, treating an -ost noun as masculine because it ends in a consonant: "Moj mladost je bio lijep". Every noun built with -ost is feminine: Moja mladost je bila lijepa. Second, keeping the fleeting a: "hrabarost". Build from the feminine form, hrabra, so the noun is hrabrost. Third, giving it masculine endings: "bez hrabrosta". It is an i-noun, so the genitive is bez hrabrosti.',
       highlight: 'Moja mladost je bila lijepa',
     },
     {
@@ -256,11 +275,11 @@ const ABSTRACT_OST = {
             'Hvala na takes the locative, and an i-noun ends in -i there: iskrenosti. Iskrenost is the subject form, iskrenošću the instrumental.',
         },
         {
-          q: 'What gender are all nouns in -ost?',
+          q: 'What gender are the nouns built with -ost (mladost, hrabrost, važnost)?',
           options: ['masculine', 'neuter', 'feminine', 'it depends on the adjective'],
           correct: 2,
           explanation:
-            'All of them are feminine, though they end in a consonant: moja mladost, velika radost.',
+            'All of them are feminine, though they end in a consonant: moja mladost, velika radost. (gost and most, not built with -ost, are masculine.)',
         },
         {
           q: 'Which sentence is correct?',
@@ -295,7 +314,8 @@ const ABSTRACT_OST = {
       title: 'Nouns in -ost — Key Takeaways',
       points: [
         'Feminine adjective minus -a, plus -ost: mlada → mladost, hrabra → hrabrost',
-        'Every -ost noun is feminine: moja mladost, velika važnost',
+        'Every noun built with -ost is feminine: moja mladost, velika važnost (gost and most are masculine)',
+        'misao (thought) is feminine too, and its stem is misl-: bez misli, o toj misli',
         'They are i-nouns: radosti in the genitive, dative and locative, radošću with s',
         'Some qualities have their own word: sreća, sloboda, brzina, dobrota',
         'radost, žalost and bolest came first; radostan, žalostan, bolestan are built from them',
@@ -347,7 +367,7 @@ const FEELINGS = {
     {
       type: 'rule',
       title: 'Pattern 2: osjećati se',
-      body: 'Osjećati se means "to feel", and like zvati se it always carries se (see the lesson on reflexive verbs). Se goes in second place in the sentence. Osjećam se dobro. (I feel good.) Osjećam se loše. (I feel bad.) Osjećam se bolje. (I feel better.) Kako se osjećaš? (How do you feel?) Without se the verb means "to sense" something, so "Osjećam dobro" does not mean "I feel good".',
+      body: 'Osjećati se means "to feel", and like zvati se it always carries se (see the lesson on reflexive verbs). Se goes in second place in the sentence. Osjećam se dobro. (I feel good.) Osjećam se loše. (I feel bad.) Osjećam se umorno. (I feel tired.) Kako se osjećaš? (How do you feel?) Without se the verb means "to sense" something, so "Osjećam dobro" does not mean "I feel good".',
       highlight: 'Osjećam se dobro.',
     },
     {
@@ -359,8 +379,14 @@ const FEELINGS = {
     {
       type: 'rule',
       title: 'Afraid Of, Looking Forward To',
-      body: 'Bojati se (to be afraid) takes the genitive, the case you learned for "of": Bojim se mraka. (I am afraid of the dark.) Ne bojim se liječnika. (I am not afraid of the doctor.) Veseliti se (to look forward to, to be glad about) takes the dative: Veselim se ljetu. (I am looking forward to the summer.) Both carry se: Bojim se, Veselim se.',
+      body: 'Bojati se (to be afraid) takes the genitive, the case you learned for "of": Bojim se mraka. (I am afraid of the dark.) Ne bojim se liječnika. (I am not afraid of the doctor.) Veseliti se (to look forward to, to be glad about) takes the dative in the standard language: Veselim se ljetu. (I am looking forward to the summer.) You will also hear the genitive in speech — Veselim se ljeta — but write the dative. Both carry se: Bojim se, Veselim se.',
       highlight: 'Bojim se mraka. · Veselim se ljetu.',
+    },
+    {
+      type: 'rule',
+      title: 'Love and Relationships',
+      body: 'Zaljubljen (in love) is a describing word, so it agrees with the speaker, and the person you love follows u in the accusative: Zaljubljen sam u Anu. (a man) Zaljubljena sam u Marka. (a woman) Ljubav na prvi pogled is love at first sight. Dečko is a boyfriend and djevojka a girlfriend: Imam dečka. Imam djevojku. Hodati s nekim (literally "to walk with someone") means to go out with someone: Hodam s Ivanom već godinu dana. A veza is a relationship: Imaju dugu vezu. And the words everyone wants to hear: Volim te. Sviđaš mi se. (I like you.)',
+      highlight: 'Zaljubljen sam u Anu. · Volim te.',
     },
     {
       type: 'example',
@@ -383,9 +409,9 @@ const FEELINGS = {
           note: 'mama → ljuta',
         },
         {
-          hr: 'Osjećam se puno bolje, hvala.',
-          en: 'I feel much better, thank you.',
-          note: 'osjećati se + bolje',
+          hr: 'Danas se osjećam jako dobro, hvala.',
+          en: 'Today I feel very good, thank you.',
+          note: 'osjećati se + dobro; se stays in second place',
         },
         {
           hr: 'Malo sam nervozna prije ispita.',
@@ -418,6 +444,42 @@ const FEELINGS = {
           hr: 'Jučer sam bio zabrinut, ali sada sam miran.',
           en: 'Yesterday I was worried, but now I am calm.',
           note: 'past and present together',
+        },
+      ],
+    },
+    {
+      type: 'example',
+      title: 'Love and Relationships',
+      items: [
+        {
+          hr: 'Marko je zaljubljen u Petru.',
+          en: 'Marko is in love with Petra.',
+          note: 'zaljubljen u + accusative: Petra → Petru',
+        },
+        {
+          hr: 'Ana je zaljubljena u novog kolegu.',
+          en: 'Ana is in love with her new colleague.',
+          note: 'a woman: zaljubljena',
+        },
+        {
+          hr: 'Bila je to ljubav na prvi pogled.',
+          en: 'It was love at first sight.',
+          note: 'a set phrase',
+        },
+        {
+          hr: 'Moja sestra hoda s Tomislavom.',
+          en: 'My sister is going out with Tomislav.',
+          note: 'hodati s + instrumental',
+        },
+        {
+          hr: 'Imaš li dečka? — Nemam, ali imam dobre prijatelje.',
+          en: 'Do you have a boyfriend? — No, but I have good friends.',
+          note: 'dečko → dečka, a living masculine noun',
+        },
+        {
+          hr: 'Volim te i sviđaš mi se.',
+          en: 'I love you and I like you.',
+          note: 'voljeti + te; sviđati se + mi',
         },
       ],
     },
@@ -481,11 +543,11 @@ const FEELINGS = {
             'Veselim se odmoru.',
             'Veselim se odmor.',
             'Veselim odmoru.',
-            'Veselim se odmora.',
+            'Veselim se odmorom.',
           ],
           correct: 0,
           explanation:
-            'Veseliti se keeps its se and takes the dative: Veselim se odmoru. Odmora would be the genitive.',
+            'Veseliti se keeps its se and takes the dative: Veselim se odmoru. Odmorom is the instrumental, which this verb never takes.',
         },
         {
           q: 'A man says "I was worried yesterday." Which is right?',
@@ -506,7 +568,8 @@ const FEELINGS = {
       title: 'Feelings — Key Takeaways',
       points: [
         'biti + adjective, agreeing with the speaker: Sretan sam / Sretna sam',
-        'osjećati se + dobro, loše, bolje: Osjećam se dobro.',
+        'osjećati se + dobro, loše, umorno: Osjećam se dobro.',
+        'love: zaljubljen/zaljubljena u + accusative, hodati s + instrumental, Volim te',
         'the "to me" pattern: Dosadno mi je, Žao mi je, Drago mi je, Hladno mi je',
         'bojati se + genitive (Bojim se mraka), veseliti se + dative (Veselim se ljetu)',
         '"Dosadan sam" means "I am boring", not "I am bored"',
@@ -571,6 +634,12 @@ const IMPERATIVE_NEGATIVE = {
       highlight: 'Molim vas, nemojte pušiti ovdje.',
     },
     {
+      type: 'rule',
+      title: 'Let Him, Let Them: neka',
+      body: 'The imperative speaks to YOU (ti, vi) or includes you (mi). To say what someone ELSE should do — "let him wait", "have them pay" — put neka in front of the ordinary present tense: Neka čeka. (Let him / her wait.) Neka on plati. (Let him pay.) Neka djeca igraju vani. (Let the children play outside.) The verb is the normal present form for on, ona or oni, so there is nothing new to learn but the word neka. For "let him NOT", add ne: Neka ne čeka.',
+      highlight: 'Neka čeka. · Neka on plati.',
+    },
+    {
       type: 'example',
       title: 'Saying "Don\'t"',
       items: [
@@ -625,6 +694,32 @@ const IMPERATIVE_NEGATIVE = {
           hr: 'Nemojte ga zvati prije devet sati.',
           en: "Don't call him before nine o'clock.",
           note: 'ga right after nemojte',
+        },
+      ],
+    },
+    {
+      type: 'example',
+      title: 'neka — Let Someone Else',
+      items: [
+        {
+          hr: 'Gospodin Horvat je stigao. — Neka čeka pet minuta.',
+          en: 'Mr Horvat has arrived. — Let him wait five minutes.',
+          note: 'neka + the on form: čeka',
+        },
+        {
+          hr: 'Danas ja plaćam, a sutra neka plati Ivan.',
+          en: 'Today I pay, and tomorrow let Ivan pay.',
+          note: 'neka + plati',
+        },
+        {
+          hr: 'Neka djeca igraju vani, vrijeme je lijepo.',
+          en: 'Let the children play outside, the weather is nice.',
+          note: 'neka + the oni form: igraju',
+        },
+        {
+          hr: 'Ako je umoran, neka ide kući.',
+          en: 'If he is tired, let him go home.',
+          note: 'neka + ide',
         },
       ],
     },
@@ -719,6 +814,7 @@ const IMPERATIVE_NEGATIVE = {
       title: 'Negative Commands — Key Takeaways',
       points: [
         'nemoj / nemojte / nemojmo + the infinitive: Nemoj ići!',
+        'neka + the present for someone else: Neka čeka. Neka on plati.',
         'the verb after nemoj never changes; only nemoj does',
         'little words go right after nemoj: Nemoj mi reći, Nemojte se brinuti',
         'ne + imperative for quick warnings: Ne diraj! Ne brini!',
@@ -1479,6 +1575,20 @@ export const PRACTICE = {
           hint: 'Instrumental singular after s; i-nouns take a -ju ending that turns st into šć.',
           explanation: 'Djeca su nas dočekala s velikom radošću.',
         },
+        {
+          q: 'To je dobra ___. (idea, thought)',
+          options: ['misao', 'misla', 'misli', 'mislo'],
+          correct: 0,
+          hint: 'The subject form keeps -ao.',
+          explanation: 'To je dobra misao.',
+        },
+        {
+          type: 'type',
+          q: 'Pričamo o toj ____. (thought — misao)',
+          answer: 'misli',
+          hint: 'With an ending, -ao turns back into -l-, and o takes the -i form.',
+          explanation: 'o toj misli.',
+        },
       ],
     },
     checkB: [
@@ -1541,6 +1651,7 @@ export const PRACTICE = {
       ['mudrost', 'wisdom', 'Njegova mudrost dolazi iz iskustva.'],
       ['radost', 'joy', 'Dočekali su nas s radošću.'],
       ['sreća', 'happiness; luck', 'Sreća je u malim stvarima.'],
+      ['misao', 'thought, idea', 'To je dobra misao.'],
     ],
   },
 
@@ -1612,17 +1723,36 @@ export const PRACTICE = {
         },
         {
           q: 'Veselim se ___. (the holiday)',
-          options: ['odmor', 'odmora', 'odmoru', 'odmorom'],
+          options: ['odmor', 'odmore', 'odmoru', 'odmorom'],
           correct: 2,
           hint: 'Veseliti se takes the dative.',
           explanation: 'Veselim se odmoru.',
         },
         {
           type: 'type',
-          q: 'Osjećam se puno ____, hvala. (better)',
-          answer: 'bolje',
-          hint: 'The comparative of dobro.',
-          explanation: 'Osjećam se puno bolje, hvala.',
+          q: 'Marko je zaljubljen u ____. (Petra)',
+          answer: 'Petru',
+          hint: 'zaljubljen u + the accusative: feminine -a becomes -u.',
+          explanation: 'Marko je zaljubljen u Petru.',
+        },
+        {
+          q: 'A woman says "I am in love with Ivan." Which is right?',
+          options: [
+            'Zaljubljena sam u Ivana.',
+            'Zaljubljen sam u Ivana.',
+            'Zaljubljena sam u Ivan.',
+            'Zaljubljena sam u Ivanu.',
+          ],
+          correct: 0,
+          hint: 'The describing word agrees with her; u takes the accusative of a living masculine noun.',
+          explanation: 'Zaljubljena sam u Ivana.',
+        },
+        {
+          type: 'type',
+          q: 'Moja sestra hoda s ____. (Tomislav)',
+          answer: 'Tomislavom',
+          hint: 'hodati s + the instrumental: masculine -om.',
+          explanation: 'Moja sestra hoda s Tomislavom.',
         },
         {
           type: 'type',
@@ -1717,9 +1847,15 @@ export const PRACTICE = {
       ['nervozan', 'nervous', 'Malo sam nervozna prije ispita.'],
       ['zabrinut', 'worried', 'Jučer sam bio zabrinut.'],
       ['miran', 'calm', 'Sada sam miran.'],
-      ['osjećati se', 'to feel', 'Osjećam se puno bolje.'],
+      ['osjećati se', 'to feel', 'Osjećam se dobro.'],
       ['bojati se', 'to be afraid', 'Bojim se mraka.'],
       ['veseliti se', 'to look forward to', 'Veselim se ljetu.'],
+      ['zaljubljen', 'in love', 'Marko je zaljubljen u Petru.'],
+      ['ljubav na prvi pogled', 'love at first sight', 'Bila je to ljubav na prvi pogled.'],
+      ['hodati s', 'to go out with (someone)', 'Moja sestra hoda s Tomislavom.'],
+      ['dečko', 'boyfriend', 'Imaš li dečka?'],
+      ['djevojka', 'girlfriend; girl', 'Ivan ima djevojku.'],
+      ['veza', 'relationship', 'Imaju dugu vezu.'],
     ],
   },
 
@@ -1846,6 +1982,32 @@ export const PRACTICE = {
           hint: 'The infinitive, which ends in -ći.',
           explanation: 'Nemoj ići sam noću.',
         },
+        {
+          q: 'Ivan je umoran. ___ ide kući. (Let him go home.)',
+          options: ['Neka', 'Nemoj', 'Idi', 'Ne'],
+          correct: 0,
+          hint: 'For someone else — not "you" — Croatian uses a word in front of the present tense.',
+          explanation: 'Neka ide kući.',
+        },
+        {
+          type: 'type',
+          q: 'Neka on ____ račun. (pay — platiti)',
+          answer: 'plati',
+          hint: 'neka + the ordinary present form for on.',
+          explanation: 'Neka on plati račun.',
+        },
+        {
+          q: 'Which sentence means "Let the children play outside"?',
+          options: [
+            'Neka djeca igraju vani.',
+            'Neka djeca igrati vani.',
+            'Neka djeca igrajte vani.',
+            'Nemoj djeca igrati vani.',
+          ],
+          correct: 0,
+          hint: 'After neka the verb is the ordinary present, here the oni form.',
+          explanation: 'Neka djeca igraju vani.',
+        },
       ],
     },
     checkB: [
@@ -1906,6 +2068,7 @@ export const PRACTICE = {
       ['vikati', 'to shout', 'Nemoj vikati!'],
       ['kasniti', 'to be late', 'Nemojmo kasniti na film.'],
       ['pušiti', 'to smoke', 'Molim vas, nemojte pušiti ovdje.'],
+      ['neka', 'let (him, her, them)', 'Neka čeka pet minuta.'],
     ],
   },
 
@@ -2415,7 +2578,7 @@ export const PRACTICE = {
       },
       {
         q: 'Complete: "Sljedeće godine ___ ići u Istru." (we will)',
-        options: ['smo', 'ćemo', 'ćete', 'bismo'],
+        options: ['smo', 'ćemo', 'ćete', 'ću'],
         correct: 1,
         explanation: 'The future for mi uses ćemo.',
       },

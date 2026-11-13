@@ -1,113 +1,115 @@
 // src/data/drills/timeCalendarDrill.ts
 //
-// A1 TIME & CALENDAR — the drill for the `time-calendar` lesson.
+// A1 DAYS, MONTHS AND SEASONS — the drill for the `time-calendar` lesson.
 //
 // A `datumi` drill already exists, but it is C1: ordinal declension, dates in
 // the genitive, decade names. Nothing there is reachable — or useful — to the
 // learner who has just met the days of the week, which is why this lesson sat
 // uncoupled while a drill with almost the same name sat in the pool.
 //
-// The lesson is order 15, one below the `cases` primer, so this bank asks for no
-// case knowledge. What it does ask for is the one piece of arithmetic Croatian
-// puts on a clock: sat / sata / sati changes with the number in front of it, and
-// a learner who has not drilled it says "pet sat" for years.
+// A1 FOLLOWS THE BOOK (Hrvatski za početnike 1, owner 2026-11-13). The lesson now
+// teaches the days with u + accusative (u subotu — the accusative is taught at
+// lesson 29) and the months and seasons by name. Telling the time and the
+// 1 / 2–4 / 5+ counting rule moved to numbers-genitive (84), after the genitive,
+// as the book does in its Lesson 17 — so the old `sat` mode is gone, and no item
+// here needs the genitive, the instrumental, the locative or the past tense.
 //
 // Three modes:
-//   sat      — telling the time, and the 1 / 2–4 / 5+ counting rule
-//   kalendar — days and months, including the capitalisation rule
-//   prilozi  — danas, jučer, sutra and the ones either side of them
+//   dani     — the day names and u + accusative (u subotu, u srijedu)
+//   kalendar — the order of the days and months, and the capitalisation rule
+//   prilozi  — danas, sutra, prekosutra, jutros, večeras
 
 import type { ModeDrillItem } from '../../components/practice/ModeDrill';
 
 export const TIME_CALENDAR_MODE_LABELS: Record<string, string> = {
-  sat: '⏰ Koliko je sati',
+  dani: '📆 U koji dan?',
   kalendar: '📅 Dani i mjeseci',
   prilozi: '🕰️ Vremenski prilozi',
 };
 
 export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
-  // ── sat ───────────────────────────────────────────────────────────────────
+  // ── dani ──────────────────────────────────────────────────────────────────
   {
-    mode: 'sat',
-    q: 'Kako se pita za vrijeme?',
-    en: 'How do you ask the time?',
-    opts: ['Koliko je sati?', 'Kako je sati?', 'Što je sati?', 'Gdje je sati?'],
-    answer: 'Koliko je sati?',
-    tip: 'Koliko je sati? — literally "how many is hours".',
+    mode: 'dani',
+    q: 'Idemo na more u ____.',
+    en: 'We are going to the seaside on Saturday.',
+    opts: ['subotu', 'subota', 'subote', 'suboti'],
+    answer: 'subotu',
+    tip: 'u + a day takes the accusative: a day ending in -a changes it to -u.',
   },
   {
-    mode: 'sat',
-    q: 'Pet je ____.',
-    en: 'It is five o’clock.',
-    opts: ['sati', 'sat', 'sata', 'satu'],
-    answer: 'sati',
-    tip: 'From five upwards the word becomes sati: pet sati, deset sati.',
+    mode: 'dani',
+    q: 'Sastanak je u ____.',
+    en: 'The meeting is on Monday.',
+    opts: ['ponedjeljak', 'ponedjeljku', 'ponedjeljka', 'ponedjeljkom'],
+    answer: 'ponedjeljak',
+    tip: 'A masculine day does not change after u: u ponedjeljak, u utorak, u petak.',
   },
   {
-    mode: 'sat',
-    q: 'Dva su ____.',
-    en: 'It is two o’clock.',
-    opts: ['sata', 'sati', 'sat', 'satu'],
-    answer: 'sata',
-    tip: 'Two, three and four take sata: dva sata, tri sata, četiri sata.',
+    mode: 'dani',
+    q: 'Vidimo se u ____!',
+    en: 'See you on Wednesday!',
+    opts: ['srijedu', 'srijeda', 'srijedi', 'srijede'],
+    answer: 'srijedu',
+    tip: 'srijeda ends in -a, so after u it becomes srijedu.',
   },
   {
-    mode: 'sat',
-    q: 'Jedan ____.',
-    en: 'One o’clock.',
-    opts: ['sat', 'sata', 'sati', 'satu'],
-    answer: 'sat',
-    tip: 'One takes the bare form: jedan sat.',
+    mode: 'dani',
+    q: 'Kino je u ____.',
+    en: 'The cinema is on Sunday.',
+    opts: ['nedjelju', 'nedjelja', 'nedjelji', 'nedjelje'],
+    answer: 'nedjelju',
+    tip: 'nedjelja → u nedjelju, like subota → u subotu.',
   },
   {
-    mode: 'sat',
-    q: '3:30 → tri i ____',
-    en: 'half past three',
-    opts: ['pol', 'polu', 'polovica', 'četvrt'],
-    answer: 'pol',
-    tip: 'Tri i pol = 3:30. Careful: pola četiri also means 3:30 — half OF the fourth hour.',
+    mode: 'dani',
+    q: 'Imam hrvatski u ____.',
+    en: 'I have Croatian on Thursday.',
+    opts: ['četvrtak', 'četvrtka', 'četvrtku', 'četvrtakom'],
+    answer: 'četvrtak',
+    tip: 'četvrtak is masculine and a thing, so the accusative looks like the dictionary form.',
   },
   {
-    mode: 'sat',
-    q: '6:15 → šest i ____',
-    en: 'quarter past six',
-    opts: ['četvrt', 'pol', 'petina', 'četvrti'],
-    answer: 'četvrt',
-    tip: 'Šest i četvrt. Šest i petnaest is also heard and also correct.',
+    mode: 'dani',
+    q: 'Koji je dan danas? — Danas je ____.',
+    en: 'What day is it today? — Today is Friday.',
+    opts: ['petak', 'petku', 'petka', 'u petak'],
+    answer: 'petak',
+    tip: 'After je the day is the subject complement, so it stays in its dictionary form.',
   },
   {
-    mode: 'sat',
-    q: 'Koliko je sati ako je "pola osam"?',
-    en: 'What time is "pola osam"?',
-    opts: ['7:30', '8:30', '8:00', '7:00'],
-    answer: '7:30',
-    tip: 'Half of the EIGHTH hour, so 7:30 — an hour earlier than English speakers expect.',
+    mode: 'dani',
+    q: 'Radim u ____ i u nedjelju.',
+    en: 'I work on Saturday and on Sunday.',
+    opts: ['subotu', 'subota', 'subote', 'subotom'],
+    answer: 'subotu',
+    tip: 'Each day after u takes its own accusative: u subotu i u nedjelju.',
   },
   {
-    mode: 'sat',
-    q: 'Vlak polazi u ____ sati.',
-    en: 'The train leaves at nine.',
-    opts: ['devet', 'devetog', 'deveti', 'devetu'],
-    answer: 'devet',
-    tip: 'The plain number for the hour: u devet sati.',
+    mode: 'dani',
+    q: 'Kada je koncert? — U ____.',
+    en: 'When is the concert? — On Tuesday.',
+    opts: ['utorak', 'utorku', 'utorka', 'utorkom'],
+    answer: 'utorak',
+    tip: 'utorak does not change: u utorak.',
   },
 
   // ── kalendar ──────────────────────────────────────────────────────────────
   {
     mode: 'kalendar',
-    q: 'Koji je dan poslije ponedjeljka?',
-    en: 'Which day follows Monday?',
-    opts: ['utorak', 'srijeda', 'četvrtak', 'subota'],
+    q: 'ponedjeljak, ____, srijeda',
+    en: 'Monday, ____, Wednesday',
+    opts: ['utorak', 'četvrtak', 'petak', 'subota'],
     answer: 'utorak',
     tip: 'ponedjeljak, utorak, srijeda, četvrtak, petak, subota, nedjelja.',
   },
   {
     mode: 'kalendar',
-    q: 'Koji je dan u sredini tjedna?',
-    en: 'Which day sits in the middle of the week?',
+    q: 'Koji dan je u sredini tjedna?',
+    en: 'Which day is in the middle of the week?',
     opts: ['srijeda', 'utorak', 'četvrtak', 'petak'],
     answer: 'srijeda',
-    tip: 'Srijeda comes from sredina — the middle. The names are transparent once you see it.',
+    tip: 'Srijeda is related to sredina — the middle. The names are transparent once you see it.',
   },
   {
     mode: 'kalendar',
@@ -127,9 +129,9 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kalendar',
-    q: 'Koji mjesec dolazi poslije travnja?',
-    en: 'Which month follows April?',
-    opts: ['svibanj', 'lipanj', 'ožujak', 'srpanj'],
+    q: 'ožujak, travanj, ____, lipanj',
+    en: 'March, April, ____, June',
+    opts: ['svibanj', 'srpanj', 'kolovoz', 'veljača'],
     answer: 'svibanj',
     tip: 'ožujak, travanj, svibanj, lipanj — March to June.',
   },
@@ -143,19 +145,19 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kalendar',
-    q: 'Od čega dolazi ime "listopad"?',
-    en: 'Where does "listopad" come from?',
-    opts: ['list + pad', 'lista + podaci', 'listati', 'lipa'],
-    answer: 'list + pad',
-    tip: 'Leaf-fall — October. Most month names describe what nature or the farm year is doing.',
+    q: 'Što znači ime "listopad"?',
+    en: 'What does the name "listopad" mean?',
+    opts: ['leaf-fall', 'list of dates', 'turning pages', 'lime tree'],
+    answer: 'leaf-fall',
+    tip: 'list (leaf) + pad (fall) — October. Many month names describe what nature or the farm year is doing.',
   },
   {
     mode: 'kalendar',
-    q: 'Koliko dana ima tjedan?',
-    en: 'How many days in a week?',
-    opts: ['sedam', 'šest', 'osam', 'pet'],
-    answer: 'sedam',
-    tip: 'Tjedan = week; sedam dana.',
+    q: 'Zima, proljeće, ljeto, ____',
+    en: 'Winter, spring, summer, ____',
+    opts: ['jesen', 'tjedan', 'mjesec', 'godina'],
+    answer: 'jesen',
+    tip: 'The four seasons: zima, proljeće, ljeto, jesen.',
   },
 
   // ── prilozi ───────────────────────────────────────────────────────────────
@@ -163,47 +165,47 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
     mode: 'prilozi',
     q: '____ je petak.',
     en: 'Today is Friday.',
-    opts: ['Danas', 'Jučer', 'Sutra', 'Sinoć'],
+    opts: ['Danas', 'Sinoć', 'Sutra', 'Jutros'],
     answer: 'Danas',
     tip: 'Danas = today.',
   },
   {
     mode: 'prilozi',
-    q: '____ sam bio na moru.',
-    en: 'Yesterday I was at the seaside.',
-    opts: ['Jučer', 'Sutra', 'Danas', 'Večeras'],
-    answer: 'Jučer',
-    tip: 'Jučer = yesterday.',
+    q: 'Danas je petak, a ____ je subota.',
+    en: 'Today is Friday, and tomorrow is Saturday.',
+    opts: ['sutra', 'danas', 'sinoć', 'jutros'],
+    answer: 'sutra',
+    tip: 'Sutra = tomorrow.',
   },
   {
     mode: 'prilozi',
     q: '____ idemo u Zagreb.',
     en: 'Tomorrow we are going to Zagreb.',
-    opts: ['Sutra', 'Jučer', 'Sinoć', 'Jutros'],
+    opts: ['Sutra', 'Sinoć', 'Jutros', 'Danas je'],
     answer: 'Sutra',
-    tip: 'Sutra = tomorrow.',
+    tip: 'Sutra = tomorrow; the present tense often talks about a plan.',
   },
   {
     mode: 'prilozi',
     q: 'Što znači "prekosutra"?',
     en: 'What does "prekosutra" mean?',
-    opts: ['dan poslije sutra', 'dan prije jučer', 'danas navečer', 'sljedeći tjedan'],
-    answer: 'dan poslije sutra',
+    opts: ['the day after tomorrow', 'the day before yesterday', 'this evening', 'next week'],
+    answer: 'the day after tomorrow',
     tip: 'preko + sutra = the day after tomorrow. Its mirror is prekjučer.',
   },
   {
     mode: 'prilozi',
-    q: '____ sam ustao rano.',
-    en: 'This morning I got up early.',
-    opts: ['Jutros', 'Večeras', 'Sinoć', 'Sutra'],
-    answer: 'Jutros',
-    tip: 'Jutros = this morning (already past). Ujutro = in the mornings, generally.',
+    q: 'Što znači "jutros"?',
+    en: 'What does "jutros" mean?',
+    opts: ['this morning', 'tomorrow morning', 'every morning', 'last night'],
+    answer: 'this morning',
+    tip: 'Jutros = this morning (today). Ujutro = in the morning, generally.',
   },
   {
     mode: 'prilozi',
     q: '____ idemo u kino.',
     en: 'This evening we are going to the cinema.',
-    opts: ['Večeras', 'Sinoć', 'Jutros', 'Jučer'],
+    opts: ['Večeras', 'Sinoć', 'Jutros', 'Ljeto'],
     answer: 'Večeras',
     tip: 'Večeras = this evening, still to come. Sinoć = last night, already gone.',
   },
@@ -211,9 +213,9 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
     mode: 'prilozi',
     q: 'Što znači "sinoć"?',
     en: 'What does "sinoć" mean?',
-    opts: ['prošle večeri', 'večeras', 'sutra navečer', 'jutros'],
-    answer: 'prošle večeri',
-    tip: 'Last night. Pairing sinoć with večeras is the quickest way to keep them apart.',
+    opts: ['last night', 'this evening', 'tomorrow evening', 'this morning'],
+    answer: 'last night',
+    tip: 'Pairing sinoć with večeras is the quickest way to keep them apart.',
   },
   {
     mode: 'prilozi',
@@ -221,6 +223,6 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
     en: 'I work every day.',
     opts: ['svaki dan', 'svakog dana ne', 'sve dane', 'dan svaki'],
     answer: 'svaki dan',
-    tip: 'Svaki dan = every day; vikendom = at weekends; ponedjeljkom = on Mondays.',
+    tip: 'Svaki dan = every day.',
   },
 ];

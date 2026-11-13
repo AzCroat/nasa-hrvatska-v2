@@ -16,7 +16,7 @@
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
 export const VERBS_WITH_DATIVE_MODE_LABELS: Record<string, string> = {
-  osoba: '🤝 Kome?',
+  osoba: '🤝 Komu?',
   svida: '❤️ Sviđa mi se',
   oblici: '🔤 Oblici',
 };
