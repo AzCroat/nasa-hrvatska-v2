@@ -3544,7 +3544,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'It Also Means "One" or "People"',
-        body: 'A third use, and a very common one on signs and in instructions: "se" makes a sentence impersonal, the way English uses "you", "one" or the passive. Kako se to kaže na hrvatskom? (How do you say that in Croatian?) Ovdje se ne puši. (No smoking here — literally "here one does not smoke".) Gdje se kupuju karte? (Where does one buy tickets?) You will read this form constantly.',
+        body: 'A third use, and a very common one on signs and in instructions: "se" makes a sentence impersonal, the way English uses "you" or "one". Kako se to kaže na hrvatskom? (How do you say that in Croatian?) Ovdje se ne puši. (No smoking here — literally "here one does not smoke".) Gdje se kupuju karte? (Where does one buy tickets?) You will read this form constantly.',
         highlight: 'Ovdje se ne puši.',
       },
       {
