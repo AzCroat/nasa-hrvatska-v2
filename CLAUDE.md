@@ -4404,6 +4404,10 @@ single lesson and made it first.
   (`current` can never be locked — `openUnits` adds a unit before deciding whether it
   advances, so the first non-advanced unit is always open.) Mutation-verified: the old
   order fails 1 test and names the unit.
+- **A PASSED TEST-OUT OPENS THE NEXT UNIT STRAIGHT AWAY (owner decision, 2026-11-13).** A
+  unit-test pass taken before the unit's lessons are all read records `testedOut`, and
+  `producedUnits()` counts such a unit as produced, so the written and spoken tasks are not
+  owed. A pass after reading still owes both. Pinned in `unitTestScreen.test.tsx`.
 - NEVER: gate course progress on a score an AI model assigns; require a microphone
   for it; swallow an evaluator's refusal (record it, and let the gate through);
   advance a unit on reading alone; compute a learner's position from one half of a
