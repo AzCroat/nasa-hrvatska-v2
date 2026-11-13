@@ -269,7 +269,13 @@ describe('every marked word in the charts is what the language says', () => {
   });
   it('plural: each noun equals decline(...) and each adjective its regular plural (all 42 lines)', () => {
     const r = checkChart(PLURAL_ROWS as Row[]);
-    expect(r).toEqual({ lines: 42, nouns: 42, adjectives: 42 });
+    // The genitive row (6 lines) has no adjective: -ih is B1 grammar and the chart is A2.
+    expect(r).toEqual({ lines: 42, nouns: 42, adjectives: 36 });
+  });
+  it('the plural chart (A2) shows no genitive-plural adjective in -ih, which is taught at B1', () => {
+    for (const row of PLURAL_ROWS as Row[])
+      for (const cell of row.cells)
+        for (const ln of cell) expect(ln.hr, `${row.key}: ${ln.hr}`).not.toMatch(/ih\b/);
   });
   it('the plural chart’s rows are the same seven cases, keyed in the plural', () => {
     expect(PLURAL_ROWS.map((r: { key: string }) => r.key)).toEqual([

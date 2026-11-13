@@ -132,6 +132,16 @@ describe('which grammar words a learner has earned', () => {
     const ids = new Set(SPINE.map((e) => e.id));
     for (const id of Object.keys(TERMS_INTRODUCED_BY)) expect(ids.has(id), id).toBe(true);
   });
+
+  it('A2: "conditional" is earned at the A2 conditional lesson, the possessive dative at its own', () => {
+    expect(termsForOpenLessons(new Set(['conditional-forms'])).has('conditional')).toBe(true);
+    expect(termsForOpenLessons(new Set(['aspect'])).has('conditional')).toBe(false);
+    expect(termsForOpenLessons(new Set(['possessive-dative'])).has('possessive dative')).toBe(true);
+    // comparatives are B1: no A2 lesson licenses the word
+    const a2 = SPINE.filter((e) => e.level === 'A2').map((e) => e.id);
+    expect(termsForOpenLessons(new Set(a2)).has('comparative')).toBe(false);
+    expect(termsForOpenLessons(new Set(a2)).has('superlative')).toBe(false);
+  });
 });
 
 describe('the letters that differ — computed, never guessed', () => {

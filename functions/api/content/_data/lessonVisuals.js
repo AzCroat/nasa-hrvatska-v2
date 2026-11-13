@@ -64,7 +64,7 @@ export const LESSON_VISUALS = {
       slide: pluralChartSlide({
         title: 'The Plural Cases — The Endings Chart',
         caption:
-          'The same seven cases in the plural, with an adjective in front of each noun: both endings are marked. Notice how few endings there are: the dative, locative and instrumental plural share one ending — -ima on masculine and neuter nouns, -ama on feminine ones, and -im on the adjective.',
+          'The same seven cases in the plural, with an adjective in front of each noun (except in the genitive row, whose adjective ending comes later, at B1): both endings are marked. Notice how few endings there are: the dative, locative and instrumental plural share one ending — -ima on masculine and neuter nouns, -ama on feminine ones, and -im on the adjective.',
       }),
     },
   ],

@@ -51,7 +51,13 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   instrumental: ['instrumental'],
   'past-tense': ['past tense'],
   'future-tense': ['future tense', 'aspect', 'perfective', 'imperfective'],
+  // A2 (book alignment, 2026-11-13): the conditional is first taught by the A2 lesson
+  // `conditional-forms` (Razgovarajte s nama!, lesson 4), not the B2 `conditional` lesson.
+  'conditional-forms': ['conditional'],
   conditional: ['conditional'],
+  'possessive-dative': ['possessive dative'],
+  'comparatives-a2': ['comparative'],
+  'superlatives-irregular': ['superlative'],
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],
   'aspect-perfective': ['aspect', 'perfective'],

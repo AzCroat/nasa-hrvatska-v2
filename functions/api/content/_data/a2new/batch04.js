@@ -34,6 +34,7 @@ export const SPINE = [
       'Know the commands that hide their stem: reci, pomozi, budi, uzmi, dođi',
       'Put short pronouns straight after the command: Daj mi ga! Nemojte ga zvati.',
       'Choose a perfective command for one action and an imperfective one for a habit',
+      'Give a command about someone else with neka + the present: Neka uđe. Neka bude dobar.',
     ],
   },
   {
@@ -151,8 +152,8 @@ export const LESSONS = [
         title: 'Imagined Conditions',
         items: [
           {
-            hr: 'Kad bih imao više vremena, učio bih talijanski.',
-            en: 'If I had more time, I would learn Italian.',
+            hr: 'Kad bih imao vremena, učio bih talijanski.',
+            en: 'If I had time, I would learn Italian.',
             note: 'a man speaking: imao and učio',
           },
           {
@@ -216,12 +217,12 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'A woman says: "If I had time, I would read more." Which is correct?',
+        q: 'A woman says: "If I had time, I would read every day." Which is correct?',
         options: [
-          'Kad bih imala vremena, čitala bih više.',
-          'Kad bih imam vremena, čitam bih više.',
-          'Kad imala bih vremena, čitala bih više.',
-          'Kad bih imao vremena, čitala bih više.',
+          'Kad bih imala vremena, čitala bih svaki dan.',
+          'Kad bih imam vremena, čitam bih svaki dan.',
+          'Kad imala bih vremena, čitala bih svaki dan.',
+          'Kad bih imao vremena, čitala bih svaki dan.',
         ],
         correct: 0,
         explanation:
@@ -384,6 +385,38 @@ export const LESSONS = [
         title: 'Ti, Vi and "Let Us"',
         body: 'The -i form goes to one person you call ti; the -te form goes to a group or to anyone you call Vi, so it is also the polite form: Sjedni! to a friend, Sjednite! to a stranger. The -mo form means "let us": Pišimo! In speech "let us go" is usually just the present: Idemo! Soften any command with molim te or molim Vas.',
         highlight: 'Sjedni! → Sjednite!',
+      },
+      {
+        type: 'rule',
+        title: 'Neka + the Present: "Let Him, Let Them"',
+        body: 'For a command about someone who is not in the conversation — he, she, they — Croatian has no special form. It uses neka and the ordinary present: Neka uđe. (Let him come in.) Neka pričekaju. (Let them wait.) Neka se smije! (Let her laugh!) The negative puts ne before the verb: Neka ne trči. (He shouldn’t run.) Biti uses bude: Neka bude dobar. (May he be good.) Neka bude tako. (So be it.) Neka can also go with ja and mi for a polite "let me": Neka ja platim.',
+        highlight: 'Neka uđe.',
+      },
+      {
+        type: 'example',
+        title: 'Neka in Use',
+        items: [
+          {
+            hr: 'Gospodin Horvat je ovdje. — Neka uđe.',
+            en: 'Mr Horvat is here. — Let him come in.',
+            note: 'neka + uđe, the present of ući',
+          },
+          {
+            hr: 'Djeca su gladna? Neka jedu.',
+            en: 'The children are hungry? Let them eat.',
+            note: 'neka + jedu, the oni form',
+          },
+          {
+            hr: 'Neka mi Ana pošalje poruku.',
+            en: 'Ana should send me a message.',
+            note: 'the short word mi follows neka',
+          },
+          {
+            hr: 'Neka sutra bude lijepo vrijeme!',
+            en: 'May the weather be nice tomorrow!',
+            note: 'biti → bude after neka',
+          },
+        ],
       },
       {
         type: 'example',
@@ -552,6 +585,7 @@ export const LESSONS = [
           'Short words follow the command: Daj mi ga! Javi mi se!',
           'After nemoj, the infinitive: Nemojte ga zvati.',
           'Perfective for one action, imperfective for habits and most bans',
+          'About someone else: neka + the present — Neka uđe. Neka bude dobar.',
         ],
       },
     ],
@@ -739,7 +773,7 @@ export const LESSONS = [
           },
           {
             q: 'Complete: "___, donesite nam jelovnik, molim!" (to the waiter)',
-            options: ['Konobaru', 'Konobar', 'Konobare', 'Konobara'],
+            options: ['Konobaru', 'Konobarom', 'Konobaro', 'Konobara'],
             correct: 0,
             explanation:
               'Job words in -ar take -u: konobaru. Konobara is the genitive or accusative.',
@@ -846,7 +880,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Habits, Finished Jobs, Wishes',
-        body: 'Use the imperfective for what you do regularly: Svake subote pomažem u skloništu. Use the perfective for a job that is done and counted: Prošle subote smo skupili dvjesto kilograma hrane. Use the conditional for what you would like to do: Volio bih volontirati. Kad bih imala više vremena, volontirala bih svaki tjedan.',
+        body: 'Use the imperfective for what you do regularly: Svake subote pomažem u skloništu. Use the perfective for a job that is done and counted: Prošle subote smo skupili dvjesto kilograma hrane. Use the conditional for what you would like to do: Volio bih volontirati. Kad bih imala vremena, volontirala bih svaki tjedan.',
         highlight: 'Volio bih volontirati.',
       },
       {
@@ -896,8 +930,8 @@ export const LESSONS = [
             note: 'volio bih: the conditional of a wish',
           },
           {
-            hr: 'Kad bih imala više vremena, volontirala bih svaki tjedan.',
-            en: 'If I had more time, I would volunteer every week.',
+            hr: 'Kad bih imala vremena, volontirala bih svaki tjedan.',
+            en: 'If I had time, I would volunteer every week.',
             note: 'a woman: imala and volontirala',
           },
           {
@@ -1130,6 +1164,47 @@ export const LESSONS = [
             hr: 'Djelomično se slažem s Vama.',
             en: 'I partly agree with you.',
             note: 's Vama: the polite form',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Explaining and Answering an Argument',
+        items: [
+          {
+            hr: 'Na primjer, autobus vozi samo dvaput na dan.',
+            en: 'For example, the bus runs only twice a day.',
+            note: 'na primjer — giving an example',
+          },
+          {
+            hr: 'Možete li dati primjer?',
+            en: 'Can you give an example?',
+            note: 'asking the other side to explain',
+          },
+          {
+            hr: 'Zapravo, problem nije novac nego vrijeme.',
+            en: 'Actually, the problem is not money but time.',
+            note: 'zapravo — actually, in fact',
+          },
+          {
+            hr: 'Riječ je o našem zdravlju.',
+            en: 'It’s about our health.',
+            note: 'riječ je o / radi se o + locative — what it is about',
+          },
+          {
+            hr: 'To znači da moramo krenuti rano ujutro.',
+            en: 'That means we have to set off early in the morning.',
+            note: 'to znači da — drawing a conclusion',
+          },
+          {
+            hr: 'Da, ali auto je ipak praktičan.',
+            en: 'Yes, but a car is practical all the same.',
+            note: 'da, ali — granting a point, then answering it',
+          },
+          {
+            hr: 'Baš naprotiv, javni prijevoz je jeftin i brz.',
+            en: 'Quite the opposite, public transport is cheap and fast.',
+            note: 'baš naprotiv — a strong counter',
           },
         ],
       },
@@ -1511,7 +1586,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Kad bih ____ vremena, čitala bih više. (imati — a woman speaking)',
+          q: 'Kad bih ____ vremena, čitala bih svaki dan. (imati — a woman speaking)',
           answer: 'imala',
           hint: 'A woman speaking: the participle ends the way čitala does.',
           explanation: 'kad bih imala — the participle agrees with the woman speaking.',
@@ -1559,7 +1634,7 @@ export const PRACTICE = {
         },
         {
           q: 'Da ___ na tvom mjestu, ne bih to rekla.',
-          options: ['bih bila', 'sam', 'budem', 'bila'],
+          options: ['bih bila', 'sam', 'si', 'bila'],
           correct: 1,
           hint: 'After da the present of biti, ja form — the short one.',
           explanation: 'Da sam na tvom mjestu — "if I were you".',
@@ -1613,10 +1688,10 @@ export const PRACTICE = {
       {
         q: 'Which word order is correct?',
         options: [
-          'Kad bih se odmorio, radio bih bolje.',
-          'Kad se bih odmorio, radio bih bolje.',
-          'Kad bih odmorio se, radio bih bolje.',
-          'Kad odmorio bih se, radio bih bolje.',
+          'Kad bih se odmorio, radio bih cijeli dan.',
+          'Kad se bih odmorio, radio bih cijeli dan.',
+          'Kad bih odmorio se, radio bih cijeli dan.',
+          'Kad odmorio bih se, radio bih cijeli dan.',
         ],
         correct: 0,
         explanation:
@@ -1648,7 +1723,7 @@ export const PRACTICE = {
       ['mjesto', 'place', 'Da sam na tvom mjestu, ne bih išla.'],
       ['dobiti na lotu', 'to win the lottery', 'Što bi radio kad bi dobio na lotu?'],
       ['birati', 'to choose', 'Kad bih mogla birati, živjela bih na moru.'],
-      ['odmoriti se', 'to rest', 'Kad bih se odmorio, radio bih bolje.'],
+      ['odmoriti se', 'to rest', 'Kad bih se odmorio, radio bih cijeli dan.'],
       ['umoran', 'tired', 'Da nisam umoran, išao bih s vama.'],
       ['izlet', 'trip, outing', 'Da ne pada kiša, išli bismo na izlet.'],
     ],
@@ -1793,6 +1868,27 @@ export const PRACTICE = {
           correct: 2,
           hint: 'Command first, then the to-whom word, then the what word.',
           explanation: 'Pokaži mi ga — the same order as Daj mi ga.',
+        },
+        {
+          q: 'Doktor je ovdje. — ___ uđe! (Let him come in.)',
+          options: ['Neka', 'Nemoj', 'Uđi', 'Hajde'],
+          correct: 0,
+          hint: 'A command about someone who is not in the conversation: a little word + the present.',
+          explanation: 'Neka uđe — neka + the present of ući.',
+        },
+        {
+          type: 'type',
+          q: 'Djeca su umorna? Neka ____. (spavati — they)',
+          answer: 'spavaju',
+          hint: 'After neka comes the ordinary present, here the oni form.',
+          explanation: 'Neka spavaju — let them sleep.',
+        },
+        {
+          type: 'type',
+          q: 'Neka ____ dobar! (biti — he)',
+          answer: 'bude',
+          hint: 'After neka, biti does not use je; it has its own form, the one the command budi comes from.',
+          explanation: 'Neka bude dobar — may he be good.',
         },
       ],
     },
@@ -2214,7 +2310,7 @@ export const PRACTICE = {
         explanation: 'A pučka kuhinja serves free meals to people in need: a soup kitchen.',
       },
       {
-        q: 'Complete: "Kad bih imao više vremena, ___ svaki tjedan."',
+        q: 'Complete: "Kad bih imao vremena, ___ svaki tjedan."',
         options: ['volontirao bih', 'volontiram', 'volontirao sam', 'volontirat ću'],
         correct: 0,
         explanation: 'An imagined condition takes a conditional result: volontirao bih.',

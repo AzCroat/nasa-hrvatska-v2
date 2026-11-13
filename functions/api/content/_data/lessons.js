@@ -568,6 +568,26 @@ const LESSONS_CORE = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Why pisati Gives pišem: -ati → -jem',
+        body: 'Many -ati verbs take the -em endings with a j: pis- + j + em. That j does not stay a j — it melts into the consonant before it and changes it. s → š (pisati → pišem), z → ž (kazati → kažem), h → š (mahati → mašem), t → ć (šaptati → šapćem), g → ž (lagati → lažem), c → č (micati → mičem), k → č (plakati → plačem). The change is in every present form: pišem, pišeš, piše, pišemo, pišete, pišu. Once you know the seven pairs, a new verb like these is no surprise.',
+        highlight: 's→š · z→ž · h→š · t→ć · g→ž · c→č · k→č',
+      },
+      {
+        type: 'table',
+        title: 'The Sound Change in the Present',
+        headers: ['Infinitive', 'Change', 'ja', 'oni'],
+        rows: [
+          ['pisati (to write)', 's → š', 'pišem', 'pišu'],
+          ['kazati (to say)', 'z → ž', 'kažem', 'kažu'],
+          ['mahati (to wave)', 'h → š', 'mašem', 'mašu'],
+          ['šaptati (to whisper)', 't → ć', 'šapćem', 'šapću'],
+          ['lagati (to lie, tell lies)', 'g → ž', 'lažem', 'lažu'],
+          ['micati (to move)', 'c → č', 'mičem', 'miču'],
+          ['plakati (to cry)', 'k → č', 'plačem', 'plaču'],
+        ],
+      },
+      {
         type: 'table',
         title: 'Irregular — biti (to be)',
         headers: ['Person', 'Singular', 'Plural'],
@@ -2014,6 +2034,32 @@ const LESSONS_CORE = [
             hr: 'Hvala ti, stari, spasio si me!',
             en: 'Thanks, mate, you saved me!',
             note: 'ti-form and a nickname — close friends only',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Haven’t We Met? — Recognising Someone',
+        items: [
+          {
+            hr: 'Mislim da smo se već upoznali.',
+            en: 'I think we have already met.',
+            note: 'a safe opener with someone you half recognise',
+          },
+          {
+            hr: 'Poznajem Vas iz viđenja.',
+            en: 'I know you by sight.',
+            note: 'a fixed phrase — Vi, because you do not really know them',
+          },
+          {
+            hr: 'Drago mi je što te opet vidim!',
+            en: 'It’s good to see you again!',
+            note: 'ti — to someone you already know well',
+          },
+          {
+            hr: 'Veselim se što sam Vas upoznao.',
+            en: 'I’m glad to have met you.',
+            note: 'a formal goodbye after a first meeting (a woman says upoznala)',
           },
         ],
       },
@@ -3610,9 +3656,9 @@ const LESSONS_CORE = [
             note: 'na + accusative — motion toward',
           },
           {
-            hr: 'Volim svoju sestru i svog brata.',
-            en: 'I love my sister and my brother.',
-            note: 'sestru (fem. -u); brata (animate -a); svoju / svog agree',
+            hr: 'Ana voli moju sestru i mog brata.',
+            en: 'Ana loves my sister and my brother.',
+            note: 'sestru (fem. -u); brata (animate -a); moju / mog agree',
           },
           {
             hr: 'Gledam utakmicu cijelu večer.',
@@ -10902,8 +10948,8 @@ const LESSONS_CORE = [
             note: 'smjeti — asking permission',
           },
           {
-            hr: 'Trebaš popiti više vode.',
-            en: 'You should drink more water.',
+            hr: 'Trebaš popiti puno vode.',
+            en: 'You should drink a lot of water.',
             note: 'trebati — soft recommendation',
           },
         ],
@@ -10965,8 +11011,8 @@ const LESSONS_CORE = [
             note: 'htjeti + infinitive; instrumental for the means',
           },
           {
-            hr: 'Trebao bih više spavati.',
-            en: 'I ought to sleep more.',
+            hr: 'Trebao bih spavati osam sati.',
+            en: 'I ought to sleep eight hours.',
             note: 'trebao bih — the conditional softens the should',
           },
           {

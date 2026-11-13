@@ -589,8 +589,8 @@ export const LESSONS = [
             note: 'uče — a process',
           },
           {
-            hr: 'Želim naučiti sto novih riječi.',
-            en: 'I want to learn a hundred new words.',
+            hr: 'Želim naučiti sto riječi do ljeta.',
+            en: 'I want to learn a hundred words by the summer.',
             note: 'naučiti — learned and known',
           },
           {
@@ -1990,7 +1990,7 @@ export const PRACTICE = {
     vocab: [
       ['napisati', 'to write (to the end)', 'Moram napisati e-mail.'],
       ['pročitati', 'to read through', 'Moram pročitati ovu knjigu do petka.'],
-      ['naučiti', 'to learn (and know)', 'Želim naučiti sto novih riječi.'],
+      ['naučiti', 'to learn (and know)', 'Želim naučiti sto riječi do ljeta.'],
       ['popiti', 'to drink up', 'Popij čašu vode!'],
       ['kupovati', 'to buy (habitually)', 'U ovom dućanu uvijek kupujem voće.'],
       ['kupiti', 'to buy (once)', 'Sutra ću kupiti novi mobitel.'],

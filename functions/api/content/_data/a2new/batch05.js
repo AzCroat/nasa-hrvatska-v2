@@ -44,6 +44,7 @@ export const SPINE = [
       'Use the set: drago, žao, lako, teško, zlo, svejedno, neugodno, lijepo',
       'Put it in the past and future with bilo and bit će, and negate it with nije',
       'Say what you need with Treba mi / Trebaju mi, the verb agreeing with the thing',
+      'Say what you feel like doing with dative + se: Spava mi se. Ne radi mi se.',
     ],
   },
   {
@@ -131,7 +132,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'A Noun Can Be the Owner Too',
-        body: 'The owner does not have to be a pronoun. Put any person in the dative: Ani je auto u servisu. (Ana’s car is at the garage.) Sestri je kći bolesna. (My sister’s daughter is ill.) Mojoj baki je kuća na Hvaru. (My grandmother’s house is on Hvar.) A noun owner usually opens the sentence, and the short je then follows it.',
+        body: 'The owner does not have to be a pronoun. Put any person in the dative: Ani je auto u servisu. (Ana’s car is at the garage.) Sestri je kći bolesna. (Her sister’s daughter is ill — whose sister it is comes from the context; Mojoj sestri makes it MY sister.) Mojoj baki je kuća na Hvaru. (My grandmother’s house is on Hvar.) A noun owner usually opens the sentence, and the short je then follows it.',
         highlight: 'Ani je auto u servisu.',
       },
       {
@@ -586,6 +587,12 @@ export const LESSONS = [
         highlight: 'Trebaju mi rukavice.',
       },
       {
+        type: 'rule',
+        title: 'Spava mi se: What You Feel Like Doing',
+        body: 'Put the person in the dative, add se, and use the verb in its on form: Spava mi se. (I feel sleepy — literally, it sleeps itself to me.) Ne radi mi se danas. (I don’t feel like working today.) Ide mi se na koncert. (I feel like going to the concert.) Ništa mi se ne radi. (I don’t feel like doing anything.) The short words keep their order — the dative mi, then se: Spava ti se? Spava mu se. If you name a thing you feel like, the verb agrees with it: Jede mi se pizza. Jedu mi se trešnje. In the past the verb is neuter, like bilo: Jučer mi se nije radilo.',
+        highlight: 'Spava mi se.',
+      },
+      {
         type: 'example',
         title: 'How Do You Feel?',
         items: [
@@ -644,6 +651,42 @@ export const LESSONS = [
             hr: 'Trebala mi je pomoć, a nitko nije došao.',
             en: 'I needed help and nobody came.',
             note: 'trebala agrees with pomoć',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'What You Feel Like',
+        items: [
+          {
+            hr: 'Spava mi se, idem u krevet.',
+            en: 'I’m sleepy, I’m going to bed.',
+            note: 'dative mi, then se, then the on form spava',
+          },
+          {
+            hr: 'Danas mi se ne radi.',
+            en: 'I don’t feel like working today.',
+            note: 'ne goes straight before the verb',
+          },
+          {
+            hr: 'Ide li ti se u kino večeras?',
+            en: 'Do you feel like going to the cinema tonight?',
+            note: 'li, then ti, then se',
+          },
+          {
+            hr: 'Jede mi se nešto slatko.',
+            en: 'I fancy something sweet.',
+            note: 'the thing is the subject of jede',
+          },
+          {
+            hr: 'Uči nam se hrvatski!',
+            en: 'We feel like learning Croatian!',
+            note: 'nam — we, in the dative',
+          },
+          {
+            hr: 'Kuhanje mi ide od ruke, ali crtanje ne.',
+            en: 'I’m good at cooking, but not at drawing.',
+            note: 'idiom: nešto ide od ruke — to be good at something',
           },
         ],
       },
@@ -725,6 +768,7 @@ export const LESSONS = [
           'Past is always bilo, future bit će, negative nije: Bilo mi je hladno.',
           'Long form for contrast: Meni je vruće, a tebi?',
           'Treba mi: the verb agrees with the thing — Trebaju mi rukavice.',
+          'What you feel like: dative + se — Spava mi se. Ne radi mi se.',
         ],
       },
     ],
@@ -847,6 +891,16 @@ export const LESSONS = [
             hr: 'Ovdje se ne smije parkirati, dobit ćeš kaznu.',
             en: 'You can’t park here — you’ll get a fine.',
             note: 'se ne smije, the impersonal',
+          },
+          {
+            hr: 'Ubaci u petu brzinu, kasnimo!',
+            en: 'Get a move on, we are late!',
+            note: 'idiom: ubaciti u petu brzinu — to speed up (literally, put it in fifth gear)',
+          },
+          {
+            hr: 'Ana ima novi auto? To već znaju i ptice na grani.',
+            en: 'Ana has a new car? Everybody knows that already.',
+            note: 'idiom: znaju i ptice na grani — even the birds on the branch know',
           },
         ],
       },
@@ -1257,6 +1311,11 @@ export const LESSONS = [
             hr: 'Oprostite, pogriješio sam broj.',
             en: 'Sorry, I dialled the wrong number.',
             note: 'pogriješiti broj — to get the number wrong',
+          },
+          {
+            hr: 'Prvo birajte nulu, onda broj.',
+            en: 'First dial zero, then the number.',
+            note: 'birati broj — to dial a number',
           },
         ],
       },
@@ -1854,6 +1913,27 @@ export const PRACTICE = {
           hint: 'The past participle agrees with pomoć, a feminine noun.',
           explanation: 'Trebala mi je pomoć.',
         },
+        {
+          q: 'How do you say "I feel sleepy"?',
+          options: ['Spavam se.', 'Spava mi se.', 'Spava se mi.', 'Spavam mi se.'],
+          correct: 1,
+          hint: 'The person in the dative, then se — and the verb in its on form.',
+          explanation: 'Spava mi se — dative mi before se, verb in the third person.',
+        },
+        {
+          type: 'type',
+          q: 'Danas mi se ne ____. (raditi — I don’t feel like working)',
+          answer: 'radi',
+          hint: 'With mi se the verb is always in its on form.',
+          explanation: 'Ne radi mi se / Danas mi se ne radi.',
+        },
+        {
+          q: 'Complete: "Jedu ___ se trešnje." (I fancy cherries.)',
+          options: ['me', 'mi', 'ja', 'moj'],
+          correct: 1,
+          hint: 'The person who feels like it goes in the short dative.',
+          explanation: 'Jedu mi se trešnje — the verb agrees with trešnje, the person is mi.',
+        },
       ],
     },
     checkB: [
@@ -1904,6 +1984,8 @@ export const PRACTICE = {
       ['neugodno', 'embarrassing, uncomfortable', 'Neugodno mi je.'],
       ['zlo', 'sick (feeling)', 'Zlo mi je u autobusu.'],
       ['rukavice', 'gloves', 'Trebaju mi rukavice.'],
+      ['spava mi se', 'I feel sleepy', 'Spava mi se, idem u krevet.'],
+      ['ne radi mi se', 'I don’t feel like working', 'Danas mi se ne radi.'],
     ],
   },
 
@@ -2487,6 +2569,7 @@ export const PRACTICE = {
       ['baterija', 'battery (phone)', 'Baterija mi je prazna.'],
       ['ured', 'office', 'Trenutno nije u uredu.'],
       ['pogriješiti', 'to make a mistake', 'Pogriješio sam broj.'],
+      ['birati broj', 'to dial a number', 'Prvo birajte nulu, onda broj.'],
     ],
   },
 };

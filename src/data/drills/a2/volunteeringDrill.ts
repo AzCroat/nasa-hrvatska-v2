@@ -162,8 +162,8 @@ export const VOLUNTEERING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'zelje',
-    q: 'Kad bih imala više vremena, ____ bih svaki tjedan.',
-    en: 'If I had more time, I would volunteer every week. (a woman speaking)',
+    q: 'Kad bih imala vremena, ____ bih svaki tjedan.',
+    en: 'If I had time, I would volunteer every week. (a woman speaking)',
     opts: ['volontirala', 'volontirao', 'volontiram', 'volontirati'],
     answer: 'volontirala',
     tip: 'The participle agrees with the woman speaking.',

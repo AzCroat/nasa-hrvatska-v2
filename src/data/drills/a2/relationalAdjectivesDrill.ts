@@ -76,7 +76,7 @@ export const RELATIONAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
     en: 'The adjective from the city of Paris.',
     opts: ['pariski', 'pariški', 'parizki', 'pariščki'],
     answer: 'pariški',
-    tip: 'z and the ending blend into -ški.',
+    tip: 'Pariz is one of the few exceptions that give -ški; most stems in z just take -ski (Francuz → francuski).',
   },
   {
     mode: 'tvorba',

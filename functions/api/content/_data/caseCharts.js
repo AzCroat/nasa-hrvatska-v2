@@ -223,18 +223,21 @@ const PLURAL_CELLS = {
       L('Ovo su moji novi susjedi.', A('novi', 'nov'), N('susjedi', 'susjed')),
     ],
   ],
+  // The genitive row carries the noun alone (2026-11-13, book alignment): the adjective's
+  // genitive plural -ih is taught in B1 (Razgovarajte s nama!, lesson 8), and this chart
+  // sits in A2 lesson 20. A learner must not meet a form before its lesson.
   Gpl: [
     [
-      L('Ovdje nema novih kuća.', A('novih', 'nov'), N('kuća', 'kuća', 'a')),
-      L('Ovdje nema velikih zgrada.', A('velikih', 'velik'), N('zgrada', 'zgrada', 'a')),
+      L('Ovdje nema kuća.', N('kuća', 'kuća', 'a')),
+      L('Ovdje nema zgrada.', N('zgrada', 'zgrada', 'a')),
     ],
     [
-      L('Ovdje nema velikih jezera.', A('velikih', 'velik'), N('jezera', 'jezero')),
-      L('Ovdje nema novih računala.', A('novih', 'nov'), N('računala', 'računalo')),
+      L('Ovdje nema jezera.', N('jezera', 'jezero')),
+      L('Ovdje nema računala.', N('računala', 'računalo')),
     ],
     [
-      L('Ovdje nema skupih satova.', A('skupih', 'skup'), N('satova', 'sat')),
-      L('Ovdje nema novih susjeda.', A('novih', 'nov'), N('susjeda', 'susjed', 'a')),
+      L('Ovdje nema satova.', N('satova', 'sat')),
+      L('Ovdje nema susjeda.', N('susjeda', 'susjed', 'a')),
     ],
   ],
   Dpl: [
