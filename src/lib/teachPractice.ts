@@ -78,8 +78,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   tenses: 'past-tense', // TensesScreen
   'future-tense': 'future-tense',
   future_tense_lesson: 'future-tense',
-  conditional: 'conditional',
-  'unreal-conditions': 'conditional',
+  // B2 #36 and #47 had been routed to the cloze drill, which contains no conditional at
+  // all (B2 book comparison, 2026-11-13). Each now has its own bank.
+  conditional: 'b2-conditional',
+  'unreal-conditions': 'b2-unreal-conditions',
   // C2 second conditional (bio bih došao) is the same mood one step further;
   // the conditional drill is where it is practised.
   'kondicional-drugi': 'conditional',
@@ -136,9 +138,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // CATEGORY_EASIER_SCREEN drops it to `relpron` (B1) — the drill that teaches
   // exactly relative pronouns — so it resolves for the level it is written for.
   'relative-deep': 'subordination',
-  // B2 concession: iako / premda clauses are subordination, and the B2 learner
-  // can open the main `subordination` screen rather than the easier route.
-  'concession-contrast': 'subordination',
+  // B2 concession: its core is unatoč / usprkos + DATIVE, which neither the
+  // subordination drill nor the relative-pronoun screen practises (B2 book
+  // comparison, 2026-11-13). It has its own bank now.
+  'concession-contrast': 'b2-concession-contrast',
   // C1 clause types names and builds every subordinate clause Croatian uses —
   // the `subordination` screen is that inventory as a drill.
   'clause-types': 'subordination',

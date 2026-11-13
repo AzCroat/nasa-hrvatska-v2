@@ -27,9 +27,10 @@
 //   unable. Telling somebody *ne možeš* when you mean *ne smiješ* is merely
 //   odd; the other way round is an accusation.
 //
-//   THE SAME VERBS EXPRESS PROBABILITY. *Mora da je kod kuće* is not an
-//   obligation at all — it is "he must be home", a deduction. *Moglo bi
-//   padati* is "it might rain".
+//   THE SAME VERBS EXPRESS PROBABILITY. *Mora biti kod kuće* (or *Sigurno je /
+//   Zacijelo je kod kuće*) can be "he must be home", a deduction; the common
+//   spoken *Mora da je kod kuće* is colloquial and is never marked wrong here,
+//   only steered away from in writing. *Moglo bi padati* is "it might rain".
 //
 // And the impersonal softens furthest of all: *Trebalo bi to riješiti* names
 // nobody, which is why it is what people reach for in meetings.
@@ -126,15 +127,15 @@ export const MODAL_NUANCE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Mora da je kod kuće.',
     opts: ['He must be home.', 'He must go home.', 'He has to stay at home.', 'He should go home.'],
     answer: 'He must be home.',
-    tip: 'A DEDUCTION, not an obligation. The same verb, a different job.',
+    tip: 'A DEDUCTION, not an obligation. Mora da je is common in speech; in writing say Sigurno je, Zacijelo je or Mora biti kod kuće.',
   },
   {
     mode: 'vjerojatnost',
-    q: 'Kako se prepoznaje to značenje?',
-    en: 'How is it marked?',
-    opts: ['po "da" iza modala', 'po naglasku', 'po redu riječi', 'nije obilježeno'],
-    answer: 'po "da" iza modala',
-    tip: 'Mora da je… is always a deduction. Mora biti can be either (to mora biti on — that must be him), so there context decides.',
+    q: 'Koji je zaključak (he must be home) primjeren i u pisanom tekstu?',
+    en: 'Which way of saying it also suits writing?',
+    opts: ['Sigurno je kod kuće.', 'Mora da je kod kuće.', 'Mora ići kući.', 'Ide kući.'],
+    answer: 'Sigurno je kod kuće.',
+    tip: 'Sigurno je, zacijelo je and mora biti are standard. Mora da je is fine in speech but colloquial.',
   },
   {
     mode: 'vjerojatnost',
@@ -146,11 +147,11 @@ export const MODAL_NUANCE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'vjerojatnost',
-    q: '____ da je zaboravio. (he must have)',
+    q: '____ je zaboravio. (he must have)',
     en: 'He must have forgotten.',
-    opts: ['Mora', 'Možda', 'Morati', 'Morao'],
-    answer: 'Mora',
-    tip: 'The strongest deduction available.',
+    opts: ['Zacijelo', 'Mora', 'Morati', 'Morao'],
+    answer: 'Zacijelo',
+    tip: 'Zacijelo (or sigurno) states a firm deduction in standard Croatian. In speech you will also hear Mora da je zaboravio.',
   },
   {
     mode: 'vjerojatnost',

@@ -194,6 +194,9 @@ export const CATEGORY_SCREEN_MAP: Partial<Record<SkillCategory, string>> = {
   'b2-reported-speech-b2': 'b2reportedspeechb2',
   'b2-interjections': 'b2interjections',
   'b2-travel-and-sport': 'b2travelandsport',
+  'b2-conditional': 'b2conditional',
+  'b2-unreal-conditions': 'b2unrealconditions',
+  'b2-concession-contrast': 'b2concessioncontrast',
   'c1-i-nouns-mati-kci': 'c1inounsmatikci',
   'c1-accusative-measure-manner': 'c1accusativemeasuremanner',
   'c1-coordinate-conclusive-clauses': 'c1coordinateconclusiveclauses',
@@ -451,6 +454,10 @@ export const CATEGORY_EASIER_SCREEN: Partial<Record<SkillCategory, string>> = {
   // present-tense maps to `cloze` (A2). A1 learners meet verbs in the
   // `present-tense-verbs` lesson and previously had nowhere to practise them.
   'present-tense': 'presentdrill',
+  // b2-conditional maps to `b2conditional` (B2). The lesson id 'conditional' is ALSO the
+  // completion key of the B1 ConditionalScreen, so a B1 learner queues this category too;
+  // the A2 conditional-forms drill is the conditional drill that learner can open.
+  'b2-conditional': 'a2conditionalforms',
   // subordination maps to `subordination` (B2). The B1 relative-clause lesson
   // needs a drill a B1 learner can actually open, and `relpron` is the one that
   // teaches the same thing one level down.

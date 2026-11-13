@@ -113,11 +113,11 @@ export const INTENSITY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pojacala',
-    q: 'Koje se pojačalo rabi u GOVORU?',
-    en: 'Which one belongs to speech?',
+    q: 'Koje je pojačalo izrazito razgovorno?',
+    en: 'Which one is typical of casual speech?',
     opts: ['jako', 'vrlo', 'veoma', 'krajnje'],
     answer: 'jako',
-    tip: 'Jako is spoken, vrlo is written, veoma is literary. All three mean "very".',
+    tip: 'Jako is the everyday spoken choice; vrlo is neutral, at home in speech and in writing; veoma is elevated. All three mean "very".',
   },
   {
     mode: 'pojacala',

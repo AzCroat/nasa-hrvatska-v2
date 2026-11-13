@@ -239,7 +239,7 @@ export const HEDGING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'pripisati',
     q: 'Zašto se tvrdnja ponekad radije pripisuje?',
     en: 'Why attribute rather than assert?',
-    opts: ['da se ne jamči za nju', 'da bude dulja', 'radi uljudnosti', 'nema razloga'],
+    opts: ['da se ne jamči za nju', 'da bude dulja', 'da zvuči sigurnije', 'nema razloga'],
     answer: 'da se ne jamči za nju',
     tip: 'You pass the claim on without standing behind it.',
   },

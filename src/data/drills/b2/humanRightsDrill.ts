@@ -133,7 +133,7 @@ export const HUMAN_RIGHTS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'govern',
-    q: 'Diskriminacija na ____ porijekla je zabranjena.',
+    q: 'Diskriminacija na ____ podrijetla je zabranjena.',
     en: 'Discrimination on the basis of origin is forbidden.',
     opts: ['temelj', 'temelja', 'temelju', 'temeljem'],
     answer: 'temelju',

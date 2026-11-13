@@ -465,6 +465,28 @@ const PRESENT_ATI = {
       ],
     },
     {
+      type: 'rule',
+      title: 'The Other -ati Subgroups: -jem and -im',
+      body: 'Two more groups hide behind -ati. After a vowel, some take -jem: grijati → grijem, sijati → sijem, smijati se → smijem se, and pljuvati → pljujem. Verbs in -avati with a short root take -ajem: davati → dajem, prodavati → prodajem, ustajati → ustajem. A third group behaves like govoriti and takes -im, usually after č, ž, j or a soft consonant: bježati → bježim, držati → držim, trčati → trčim, and stajati → stojim, where the vowel changes too.',
+      highlight: 'grijati → grijem · držati → držim · stajati → stojim',
+    },
+    {
+      type: 'table',
+      title: 'The -ati Subgroups',
+      headers: ['Infinitive', 'ja', 'oni', 'Group'],
+      rows: [
+        ['čitati', 'čitam', 'čitaju', '-am (the regular one)'],
+        ['pisati', 'pišem', 'pišu', '-em with a softened consonant'],
+        ['grijati', 'grijem', 'griju', '-jem after a vowel'],
+        ['smijati se', 'smijem se', 'smiju se', '-jem after a vowel'],
+        ['pljuvati', 'pljujem', 'pljuju', '-uvati → -ujem'],
+        ['davati', 'dajem', 'daju', '-avati → -ajem'],
+        ['bježati', 'bježim', 'bježe', '-im, like govoriti'],
+        ['držati', 'držim', 'drže', '-im, like govoriti'],
+        ['stajati', 'stojim', 'stoje', '-im, with a vowel change'],
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'What is the ja form of kazati?',
@@ -1662,11 +1684,12 @@ export const PRACTICE = {
           explanation: 'predavanje — a lecture.',
         },
         {
-          q: 'Policija nema nikakav ___. (evidence)',
-          options: ['evidenciju', 'dokaz', 'kauciju', 'oprez'],
+          q: 'Policija nema nikakvog ___. (evidence)',
+          options: ['evidencije', 'dokaza', 'kaucije', 'opreza'],
           correct: 1,
           hint: 'Not the look-alike, which means records.',
-          explanation: 'dokaz — evidence, proof.',
+          explanation:
+            'dokaz — evidence, proof; after nema it goes into the genitive: nikakvog dokaza.',
         },
         {
           type: 'type',

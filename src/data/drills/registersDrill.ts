@@ -13,7 +13,7 @@
 //   NOMINALIZATION. *-anje* / *-enje* turns a verb into an abstract noun:
 //   *zapošljavati → zapošljavanje*, *provoditi → provođenje*. Formal Croatian
 //   stacks these freely — *Provodi se postupak zapošljavanja* is a passive and
-//   two nominalizations in four words.
+//   a nominalization in four words.
 //
 // Knowing the two operations is what lets a reader run them backwards and
 // recover the sentence somebody meant.
@@ -92,7 +92,7 @@ export const REGISTERS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What happens to the agent?',
     opts: ['nestaje ili ide u prijedložni izraz', 'ostaje subjekt', 'postaje objekt', 'ništa'],
     answer: 'nestaje ili ide u prijedložni izraz',
-    tip: 'od strane Vlade — grammatical, heavy, and unmistakably official.',
+    tip: 'Usually it disappears, or moves into a noun phrase: odlukom Vlade. The calque "od strane Vlade" is best avoided.',
   },
   {
     mode: 'pasiv',
@@ -141,8 +141,8 @@ export const REGISTERS_DRILL_DATA: ModeDrillItem[] = [
     q: 'Koliko poimeničenja ima "Provodi se postupak zapošljavanja"?',
     en: 'How many nominalizations?',
     opts: ['dva', 'jedno', 'tri', 'nijedno'],
-    answer: 'dva',
-    tip: 'postupak and zapošljavanja — plus a passive, in four words.',
+    answer: 'jedno',
+    tip: 'zapošljavanja (from zapošljavati, -anje) — plus a passive, in four words. Postupak is an ordinary noun, not an -anje / -enje form.',
   },
   {
     mode: 'poimenicenje',
@@ -233,15 +233,10 @@ export const REGISTERS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'veznici',
-    q: 'Koja tri registra lekcija razlikuje?',
-    en: 'Which three registers?',
-    opts: [
-      'razgovorni, novinarski, formalni',
-      'pisani, govorni, službeni',
-      'niski, srednji, visoki',
-      'stari, novi, standardni',
-    ],
-    answer: 'razgovorni, novinarski, formalni',
-    tip: 'The same content, three levels of passive and nominalization.',
+    q: 'Koji se registar najviše služi pasivom i poimeničenjem?',
+    en: 'Which register leans most on the passive and nominalization?',
+    opts: ['službeni', 'razgovorni', 'obiteljski', 'dječji'],
+    answer: 'službeni',
+    tip: 'Official Croatian: Zakon je izmijenjen odlukom Vlade.',
   },
 ];

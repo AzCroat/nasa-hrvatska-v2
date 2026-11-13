@@ -42,7 +42,7 @@ export const SPINE = [
     masterOrder: 35,
     prerequisites: ['school-education', 'verbal-nouns-intro'],
     objectives: [
-      'Describe the Croatian university system: preddiplomski, diplomski and doktorski studij',
+      'Describe the Croatian university system: prijediplomski, diplomski and doktorski studij',
       'Talk about the državna matura, ECTS credits, exams and student life',
       'Discuss education for everyone: students with disabilities and lifelong learning',
     ],
@@ -340,7 +340,7 @@ const VERBAL_NOUNS_INTRO = {
     {
       type: 'rule',
       title: 'A Few End in -će',
-      body: 'A small group of verbs whose infinitive ends in a vowel + -ti forms the noun with -će: otkriti → otkriće (discovery), piti → piće (a drink), pokriti → pokriće (cover, backing). These often name the RESULT rather than the activity: otkriće penicilina is the discovery itself. Like the -nje nouns, they are neuter: To je bilo veliko otkriće.',
+      body: 'A small group of short verbs whose root ends in a vowel (piti, biti, kriti and its prefixed forms) forms the noun with -će; longer verbs such as čitati or pisati take -nje (čitanje, pisanje): otkriti → otkriće (discovery), piti → piće (a drink), pokriti → pokriće (cover, backing). These often name the RESULT rather than the activity: otkriće penicilina is the discovery itself. Like the -nje nouns, they are neuter: To je bilo veliko otkriće.',
       highlight: 'otkriće',
     },
     {
@@ -530,14 +530,14 @@ const HIGHER_EDUCATION = {
     {
       type: 'intro',
       title: 'Obrazovanje za sve',
-      body: 'The University of Zagreb was founded in 1669 and is the oldest in Croatia. Today there are public universities in Zagreb, Split, Rijeka, Osijek, Zadar, Pula and Dubrovnik, among others, plus veleučilišta and visoke škole (polytechnics and colleges) that offer professional study programmes. This lesson gives you the words to talk about how Croatians get into university, what they study and how — and about learning that does not stop at graduation.',
+      body: 'The University of Zagreb was founded in 1669 and is the oldest continuously operating university in Croatia (Zadar had a university as early as 1396). Today there are public universities in Zagreb, Split, Rijeka, Osijek, Zadar, Pula and Dubrovnik, among others, plus veleučilišta and visoke škole (polytechnics and colleges) that offer professional study programmes. This lesson gives you the words to talk about how Croatians get into university, what they study and how — and about learning that does not stop at graduation.',
       icon: '🎓',
     },
     {
       type: 'rule',
       title: 'The Bologna Process',
-      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the preddiplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programmes, such as medicine and law, are integrated — one long programme of five or six years. Since the 2022 law on higher education the first cycle is officially called prijediplomski studij; you will hear both names.',
-      highlight: 'preddiplomski studij',
+      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the prijediplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programmes, such as medicine and law, are integrated — one long programme of five or six years. Since the 2022 law on higher education this is its official name; before that it was the preddiplomski studij, a name you will still hear.',
+      highlight: 'prijediplomski studij',
     },
     {
       type: 'rule',
@@ -578,12 +578,12 @@ const HIGHER_EDUCATION = {
       title: 'The System',
       items: [
         {
-          hr: 'Sveučilište u Zagrebu osnovano je 1669. godine i najstarije je u Hrvatskoj.',
-          en: 'The University of Zagreb was founded in 1669 and is the oldest in Croatia.',
+          hr: 'Sveučilište u Zagrebu osnovano je 1669. godine i najstarije je sveučilište u Hrvatskoj koje neprekidno djeluje.',
+          en: 'The University of Zagreb was founded in 1669 and is the oldest continuously operating university in Croatia.',
           note: 'osnovano — passive participle, neuter like sveučilište',
         },
         {
-          hr: 'Nakon preddiplomskog studija studenti mogu upisati diplomski studij.',
+          hr: 'Nakon prijediplomskog studija studenti mogu upisati diplomski studij.',
           en: 'After the first cycle, students can enrol in the second cycle.',
         },
         {
@@ -638,6 +638,44 @@ const HIGHER_EDUCATION = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: the učiti Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['učiti', 'naučiti', 'to study; to learn'],
+        ['—', 'izučiti', 'to learn a trade fully (izučiti zanat)'],
+        ['odučavati se', 'odučiti se', 'to get out of a habit'],
+        ['proučavati', 'proučiti', 'to study closely, to research'],
+        ['obučavati', 'obučiti', 'to train someone (not obući, to dress!)'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Family in Use',
+      items: [
+        {
+          hr: 'Moj djed je izučio stolarski zanat.',
+          en: 'My grandfather trained fully as a carpenter.',
+          note: 'izučiti zanat — to complete an apprenticeship',
+        },
+        {
+          hr: 'Odučio sam se kasno lijegati.',
+          en: 'I have got out of the habit of going to bed late.',
+          note: 'odučiti se + infinitive',
+        },
+        {
+          hr: 'Znanstvenici proučavaju utjecaj klime na more.',
+          en: 'Scientists are studying the effect of the climate on the sea.',
+          note: 'proučavati — research, not homework',
+        },
+        {
+          hr: 'Tvrtka obučava nove radnike tri tjedna.',
+          en: 'The company trains new workers for three weeks.',
+          note: 'obučavati — to train; obući se means to get dressed',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'How many ECTS credits does one academic year carry?',
@@ -648,7 +686,7 @@ const HIGHER_EDUCATION = {
     {
       type: 'quiz',
       title: 'One More',
-      q: 'Which study cycle follows the preddiplomski studij?',
+      q: 'Which study cycle follows the prijediplomski studij?',
       options: ['diplomski studij', 'državna matura', 'srednja škola'],
       correct: 0,
       explanation:
@@ -669,12 +707,12 @@ const HIGHER_EDUCATION = {
           options: [
             'diplomski studij',
             'poslijediplomski studij',
-            'preddiplomski studij',
+            'prijediplomski studij',
             'doktorski studij',
           ],
           correct: 2,
           explanation:
-            'The preddiplomski (officially now prijediplomski) studij comes first, then the diplomski, then the doctorate.',
+            'The prijediplomski studij (formerly preddiplomski) comes first, then the diplomski, then the doctorate.',
         },
         {
           q: 'Complete: "Sutra ___ ispit iz povijesti, pa sam nervozan." (I am sitting)',
@@ -731,7 +769,7 @@ const HIGHER_EDUCATION = {
       type: 'summary',
       title: 'Studying in Croatia — Key Takeaways',
       points: [
-        'Bologna since 2005/06: preddiplomski (prijediplomski), diplomski, doktorski studij',
+        'Bologna since 2005/06: prijediplomski (formerly preddiplomski), diplomski, doktorski studij',
         'One year = 60 ECTS credits; titles bacc., mag., dr. sc.',
         'The državna matura: hrvatski, matematika and a strani jezik are compulsory',
         'polagati ispit = to sit it; položiti ispit = to pass it',
@@ -1576,7 +1614,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Counting Credits',
-        problem: 'Koliko ECTS bodova nosi trogodišnji preddiplomski studij?',
+        problem: 'Koliko ECTS bodova nosi trogodišnji prijediplomski studij?',
         en: 'How many ECTS credits does a three-year first cycle carry?',
         steps: [
           { label: 'One year', text: 'One academic year carries 60 ECTS credits.' },
@@ -1642,7 +1680,7 @@ export const PRACTICE = {
           explanation: 'učiti za kolokvij — to study for a test.',
         },
         {
-          q: 'Sveučilište u Zagrebu je ___ sveučilište u Hrvatskoj.',
+          q: 'Sveučilište u Zagrebu je ___ sveučilište u Hrvatskoj koje neprekidno djeluje.',
           options: ['najstariji', 'starije', 'najstarija', 'najstarije'],
           correct: 3,
           hint: 'A superlative agreeing with a neuter noun.',
@@ -1678,7 +1716,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Na kraju preddiplomskog studija pišeš završni ____.',
+          q: 'Na kraju prijediplomskog studija pišeš završni ____.',
           answer: 'rad',
           hint: 'The same word appears in the name of the master’s thesis: diplomski …',
           explanation: 'završni rad — the final paper after the first cycle.',
@@ -1719,7 +1757,7 @@ export const PRACTICE = {
         explanation: 'The menza is the student canteen.',
       },
       {
-        q: 'Which title does a student get after the preddiplomski studij?',
+        q: 'Which title does a student get after the prijediplomski studij?',
         options: ['prvostupnik', 'magistar', 'doktor znanosti', 'maturant'],
         correct: 0,
         explanation: 'sveučilišni prvostupnik (bacc.) — after the first cycle.',
@@ -1741,14 +1779,14 @@ export const PRACTICE = {
       ['sveučilište', 'university', 'Sveučilište u Zagrebu najstarije je u Hrvatskoj.'],
       ['fakultet', 'faculty, school of a university', 'Upisala je Ekonomski fakultet.'],
       [
-        'preddiplomski studij',
+        'prijediplomski studij',
         'first cycle (bachelor level)',
         'Preddiplomski studij obično traje tri godine.',
       ],
       [
         'diplomski studij',
         'second cycle (master level)',
-        'Nakon preddiplomskog upisao je diplomski studij.',
+        'Nakon prijediplomskog upisao je diplomski studij.',
       ],
       ['državna matura', 'state school-leaving exam', 'Državnu maturu polažu svi maturanti.'],
       ['ECTS bod', 'ECTS credit', 'Ovaj kolegij nosi šest ECTS bodova.'],

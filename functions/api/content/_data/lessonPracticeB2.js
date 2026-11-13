@@ -58,7 +58,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'The third-person rule',
-            text: 'In the third person singular the auxiliary je disappears after se. "Marko joj se je ispričao" is the error the lesson warns about.',
+            text: 'In the third person singular the auxiliary je is usually dropped after se. "Marko joj se je ispričao" is also correct, only heavier; "Marko joj je se ispričao" is wrong, because se comes before je.',
           },
         ],
         answer: 'Marko joj se ispričao.',
@@ -90,7 +90,7 @@ export const PRACTICE_B2 = {
           q: 'Dopuni: "Djeca ___ dobro zabavila na moru." (zabaviti se — the children had a good time)',
           options: ['se su', 'se', 'je se', 'su se'],
           correct: 3,
-          hint: 'Only the third-person SINGULAR auxiliary vanishes after se. A plural auxiliary stays, and it comes before se.',
+          hint: 'Only the third-person SINGULAR auxiliary is dropped after se. A plural auxiliary stays, and it comes before se.',
           explanation:
             'Djeca su se dobro zabavila — su (auxiliary) precedes se, and it is not dropped.',
         },
@@ -183,10 +183,10 @@ export const PRACTICE_B2 = {
       },
       {
         q: "Complete: 'Jučer ___ vratila.' (She came back yesterday — vratiti se, third person)",
-        options: ['se je', 'je se', 'se', 'je'],
+        options: ['su se', 'je se', 'se', 'je'],
         correct: 2,
         explanation:
-          'In the third person singular the auxiliary je disappears after se: Jučer se vratila.',
+          'In the third person singular the auxiliary je is usually dropped after se: Jučer se vratila. "Je se" puts je before se, which is never right, and "su" is plural.',
       },
       {
         q: "Spot the error: 'Ja sam ga mu dao.'",
@@ -336,10 +336,11 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: '____ li mi pomoći s koferom?' (Could you help me with the suitcase? — formal)",
+          q: "Dopuni: '____ li mi mogli pomoći s koferom?' (Could you help me with the suitcase? — formal)",
           answer: 'Biste',
           hint: 'The formal Vi form of the conditional auxiliary opens the question, with li after it.',
-          explanation: 'Biste li mi pomoći? — the formal conditional question.',
+          explanation:
+            'Biste li mi mogli pomoći? — the formal conditional question: biste, li, the clitic mi, then the participle mogli.',
         },
         {
           type: 'type',
@@ -350,7 +351,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Da si me pitao, ____ bih ti.' (If you had asked me, I would have told you — reći, a man speaking)",
+          q: "Dopuni: 'Kad bi me pitao, ____ bih ti.' (If you asked me, I would tell you — reći, a man speaking)",
           answer: 'rekao',
           hint: 'The conditional is bih plus the past participle, masculine for a man.',
           explanation: 'Rekao bih ti — participle of reći plus bih.',
@@ -431,7 +432,7 @@ export const PRACTICE_B2 = {
         explanation: 'The auxiliary changes by person; for ja it is bih.',
       },
       {
-        q: "Complete: '___ kupila kartu, ali ih nije bilo.' (I would have bought a ticket — a woman speaking)",
+        q: "Complete: '___ kupila karte, ali ih nije bilo.' (I would have bought tickets — a woman speaking)",
         options: ['Bio bih', 'Bih bila', 'Bila bih', 'Bilo bih'],
         correct: 2,
         explanation:
@@ -1347,6 +1348,14 @@ export const PRACTICE_B2 = {
     practice: {
       title: 'Guided Practice',
       items: [
+        {
+          q: 'Dopuni: "Majka je to rekla s ___." (Mother said it with love — the -ju instrumental)',
+          options: ['ljubavu', 'ljubavlju', 'ljubavju', 'ljubavom'],
+          correct: 1,
+          hint: 'The j of -ju joins the v before it, as in pisati → pišem.',
+          explanation:
+            'v + j → vlj: s ljubavlju (s ljubavi is also correct). Ljubavju skips the sound change, and -u / -om are endings of other classes.',
+        },
         {
           q: 'Dopuni: "Konačno joj je priznao ___." (He finally confessed his love to her.)',
           options: ['ljubavi', 'ljubavu', 'ljubav', 'ljubave'],
@@ -2792,14 +2801,14 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'The fixed shape',
-            text: 'A deduction uses mora da + a clause, not mora + infinitive (which reads as an obligation).',
+            text: 'A deduction can use sigurno or zacijelo with the verb, or mora biti. Colloquially you will hear mora da + a clause. Mora + a verb of action (mora ići) would be an obligation.',
           },
           {
             label: 'Agree the clause',
             text: 'The clause has its own subject, oni: su kod kuće.',
           },
         ],
-        answer: 'Mora da su kod kuće.',
+        answer: 'Sigurno su kod kuće.',
       },
     ],
     practice: {
@@ -2861,10 +2870,12 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Mora ____ je vlak već otišao, peron je prazan.' (The train must have left already.)",
-          answer: 'da',
-          hint: 'The probability reading has a fixed shape with one small conjunction.',
-          explanation: 'Mora da je vlak otišao — a deduction.',
+          q: "Dopuni: 'Vlak je ____ već otišao, peron je prazan.' (The train must have left already.)",
+          answer: 'sigurno',
+          accept: ['zacijelo'],
+          hint: "The written way to say 'must have' as a guess is one adverb.",
+          explanation:
+            'Vlak je sigurno već otišao — a deduction. Colloquially: Mora da je vlak već otišao.',
         },
         {
           type: 'type',
@@ -2934,13 +2945,14 @@ export const PRACTICE_B2 = {
       {
         q: 'Which sentence is a deduction — the shop is probably closed?',
         options: [
-          'Mora da je dućan zatvoren.',
+          'Dućan je sigurno zatvoren.',
           'Dućan mora zatvoriti.',
           'Dućan treba biti zatvoren.',
           'Dućan smije biti zatvoren.',
         ],
         correct: 0,
-        explanation: 'The probability reading has the fixed shape Mora da je…',
+        explanation:
+          'Sigurno marks the deduction (colloquially: Mora da je dućan zatvoren). The others are an obligation, an expectation and a permission.',
       },
       {
         q: "Someone says 'Moraš se odmoriti' to a tired friend. How would a Croatian soften it into advice?",
@@ -3425,6 +3437,14 @@ export const PRACTICE_B2 = {
       title: 'Guided Practice',
       items: [
         {
+          q: 'Dopuni: "Nije mi rekao ___ hvala." (He did not even say thank you.)',
+          options: ['baš', 'ni', 'čak', 'bar'],
+          correct: 1,
+          hint: 'Which particle means "not even" and sits with a negated verb?',
+          explanation:
+            'ni = not even: Nije mi rekao ni hvala. Čak means "even" in a positive sentence, bar "at least", and baš "really".',
+        },
+        {
           q: 'How do you say "Fewer and fewer young people stay on the islands"?',
           options: [
             'Manje i manje mladih ostaje na otocima.',
@@ -3563,10 +3583,11 @@ export const PRACTICE_B2 = {
         explanation: 'Jedva sits at the weak end of the scale: jedva sam stigao.',
       },
       {
-        q: "In everyday conversation, which 'very' do people normally say?",
-        options: ['veoma', 'vrlo', 'izuzetno', 'jako'],
-        correct: 3,
-        explanation: 'Jako is the spoken one; vrlo is neutral written, veoma literary.',
+        q: "Which 'very' is the neutral one, safe in a written essay?",
+        options: ['jako', 'vrlo', 'baš', 'skroz'],
+        correct: 1,
+        explanation:
+          'Vrlo is neutral and at home in writing (it is common in speech too). Jako is the everyday spoken one, baš means "really", and skroz ("totally") is colloquial.',
       },
     ],
     vocab: [
@@ -3629,6 +3650,19 @@ export const PRACTICE_B2 = {
     practice: {
       title: 'Guided Practice',
       items: [
+        {
+          q: 'How do you ask "Isn\'t that your brother?", expecting the answer yes?',
+          options: [
+            'Li nije to tvoj brat?',
+            'Nije li to tvoj brat?',
+            'Nije to li tvoj brat?',
+            'Je li ne to tvoj brat?',
+          ],
+          correct: 1,
+          hint: 'The negated verb opens the question, and li comes straight after it.',
+          explanation:
+            'Nije li to tvoj brat? — nije first, li second. Li can never open a sentence.',
+        },
         {
           q: 'Dopuni: "Nemam ___ želje ići van večeras." (no desire at all)',
           options: ['nikakvu', 'nikakve', 'nikakav', 'nikakva'],
@@ -4442,11 +4476,11 @@ export const PRACTICE_B2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dopuni: "Obraćam Vam se u vezi ___." (regarding the invoice — račun)',
-          options: ['račun', 'računa', 'računu', 'računom'],
-          correct: 1,
-          hint: 'u vezi on its own (without s) takes the genitive.',
-          explanation: 'u vezi računa — or u vezi s računom, with s + instrumental.',
+          q: 'Dopuni: "Obraćam Vam se u vezi s ___." (regarding your offer — Vaša ponuda)',
+          options: ['Vaša ponuda', 'Vaše ponude', 'Vašoj ponudi', 'Vašom ponudom'],
+          correct: 3,
+          hint: 'u vezi s takes the instrumental, like s on its own.',
+          explanation: 'u vezi s Vašom ponudom — s + instrumental, the form the norm prefers.',
         },
         {
           q: 'Thank an institution for its reply. Which line is correct in a formal letter?',
@@ -4509,11 +4543,11 @@ export const PRACTICE_B2 = {
           explanation: 'Lijep pozdrav,',
         },
         {
-          q: "Dopuni: 'Obraćam Vam se u vezi ___.' (regarding your advertisement — Vaš oglas)",
+          q: "Dopuni: 'Obraćam Vam se u vezi s ___.' (regarding your advertisement — Vaš oglas)",
           options: ['Vaš oglas', 'Vašeg oglasa', 'Vašem oglasu', 'Vašim oglasom'],
-          correct: 1,
-          hint: 'U vezi on its own takes the genitive.',
-          explanation: 'U vezi Vašeg oglasa.',
+          correct: 3,
+          hint: 'U vezi s takes the instrumental.',
+          explanation: 'U vezi s Vašim oglasom.',
         },
         {
           q: 'Which closing belongs under a job application?',
@@ -4590,7 +4624,7 @@ export const PRACTICE_B2 = {
       [
         'poštovani',
         'dear (formal opening; lit. respected)',
-        'Poštovani, obraćam Vam se u vezi natječaja.',
+        'Poštovani, obraćam Vam se u vezi s natječajem.',
       ],
       ['obratiti se', 'to address, to contact (pf.)', 'Obratite se našem uredu za informacije.'],
       ['u prilogu', 'attached, enclosed', 'U prilogu šaljem životopis.'],
@@ -5624,8 +5658,8 @@ export const PRACTICE_B2 = {
     worked: [
       {
         title: 'Izbori Agrees Plural',
-        problem: 'Reci: "The presidential elections were held in December."',
-        en: 'Say: The presidential elections were held in December.',
+        problem: 'Reci: "The presidential elections were in December."',
+        en: 'Say: The presidential elections were in December.',
         steps: [
           {
             label: 'The noun',
@@ -5633,14 +5667,14 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'Agree everything',
-            text: 'The adjective is plural — predsjednički — and so is the passive: su održani.',
+            text: 'The adjective is plural — predsjednički — and so is the verb: su bili.',
           },
           {
             label: 'Place the auxiliary',
             text: 'su follows the first phrase, predsjednički izbori.',
           },
         ],
-        answer: 'Predsjednički izbori su održani u prosincu.',
+        answer: 'Predsjednički izbori su bili u prosincu.',
       },
       {
         title: 'Who Does What',
@@ -5709,10 +5743,10 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: '____ su održani u nedjelju.' (The elections were held on Sunday.)",
+          q: "Dopuni: '____ su bili u nedjelju.' (The elections were on Sunday.)",
           answer: 'Izbori',
           hint: 'In this sense the noun exists only in the plural.',
-          explanation: 'Izbori su održani.',
+          explanation: 'Izbori su bili u nedjelju.',
         },
         {
           type: 'type',
@@ -5809,7 +5843,7 @@ export const PRACTICE_B2 = {
     vocab: [
       ['Sabor', 'the Croatian Parliament', 'Sabor je izglasao novi zakon.'],
       ['Vlada', 'the Government', 'Vlada je predložila izmjene proračuna.'],
-      ['izbori', 'elections (plural)', 'Izbori su održani u nedjelju.'],
+      ['izbori', 'elections (plural)', 'Izbori su bili u nedjelju.'],
       ['izglasati', 'to pass (a law) by vote (pf.)', 'Zakon je izglasan velikom većinom.'],
       ['stranka', 'political party', 'Nova stranka ušla je u Sabor.'],
       ['zastupnik', 'MP, representative', 'Zastupnici su raspravljali do ponoći.'],
@@ -5824,23 +5858,23 @@ export const PRACTICE_B2 = {
     worked: [
       {
         title: 'Long Ije, Short Je',
-        problem: 'Dopuni: Pastrva je ___ riba. (rijeka — a river fish)',
-        en: 'Fill in: The trout is a river fish.',
+        problem: 'Dopuni: Tu riječ moraš potražiti u ___. (riječ → the dictionary)',
+        en: 'Fill in: You have to look that word up in the dictionary.',
         steps: [
           {
             label: 'Find the jat',
-            text: 'rijeka has the LONG reflex, ije.',
+            text: 'riječ has the LONG reflex, ije.',
           },
           {
-            label: 'The derived form shortens it',
-            text: 'In the adjective the syllable is short, so ije becomes je — and k softens to č before -n-: rječn-.',
+            label: 'The derived noun shortens it',
+            text: 'In rječnik the syllable is short, so ije becomes je: rječnik.',
           },
           {
-            label: 'Agree it',
-            text: 'riba is feminine: rječna.',
+            label: 'Put it in the case',
+            text: 'u + locative (where): u rječniku.',
           },
         ],
-        answer: 'Pastrva je rječna riba.',
+        answer: 'Tu riječ moraš potražiti u rječniku.',
       },
       {
         title: 'Placing a Speaker',
@@ -5872,6 +5906,14 @@ export const PRACTICE_B2 = {
           correct: 1,
           hint: 'The singular has the long reflex; the plural syllable is short, so the reflex shortens.',
           explanation: 'dijete → djeca: long ije, short je.',
+        },
+        {
+          q: 'You are writing a formal report. Which word for "computer" belongs in it?',
+          options: ['kompjutor', 'računalo', 'kompjuter', 'mašina'],
+          correct: 1,
+          hint: 'Of a native word and a loanword, which one does written, formal Croatian prefer?',
+          explanation:
+            'računalo is the native standard word; kompjutor is understood but colloquial, kompjuter is not the Croatian spelling, and mašina means "machine".',
         },
         {
           q: 'Who gave the Croatian Latin alphabet its diacritics (č, ž, š)?',
@@ -6010,7 +6052,7 @@ export const PRACTICE_B2 = {
           'jat disappeared from the language',
         ],
         correct: 2,
-        explanation: 'Ijekavian: long ije (rijeka), short je (rječni).',
+        explanation: 'Ijekavian: long ije (riječ), short je (rječnik).',
       },
     ],
     vocab: [
@@ -6040,7 +6082,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'The object',
-            text: 'pratiti takes the accusative — and obitelj is an i-declension noun, so it does not change.',
+            text: 'pratiti takes the accusative — and obitelj is a feminine noun ending in a consonant, like noć or stvar, whose accusative looks just like its nominative: obitelj.',
           },
           {
             label: 'Time',

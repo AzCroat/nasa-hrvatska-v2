@@ -203,11 +203,11 @@ export const ASPECT_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'modalni',
-    q: 'Ne mogu ti ____ svaki dan. (pomoći)',
-    en: 'I cannot help you every day.',
+    q: 'Ne mogu ti satima ____ svaki dan.',
+    en: 'I cannot spend hours helping you every day.',
     opts: ['pomagati', 'pomoći', 'pomažući', 'pomognem'],
     answer: 'pomagati',
-    tip: 'Repeated → imperfective, even under the same modal.',
+    tip: 'Hours at a time, every day → imperfective, even under the same modal.',
   },
   {
     mode: 'modalni',

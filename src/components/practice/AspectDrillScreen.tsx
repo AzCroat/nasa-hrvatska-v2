@@ -9,6 +9,16 @@ import { recordTopicResult } from '../../lib/adaptive.js';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { lsSet, ssGet } from '../../lib/safeStorage';
+import { cefrRank } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
+
+interface AspectExample {
+  hr: string;
+  en?: string;
+  gap: string;
+  alt: string;
+  why: string;
+}
 
 interface AspectPair {
   impf: string;
@@ -16,6 +26,9 @@ interface AspectPair {
   en: string;
   rule?: string;
   ctx?: string;
+  cefr?: string;
+  impfEx?: AspectExample;
+  pfEx?: AspectExample;
 }
 
 function LoadingState() {
@@ -36,11 +49,14 @@ const ASPECT_RULES = [
     icon: '🔄',
     short: 'Repeated or habitual → imperfective',
     explanation:
-      'When an action happens regularly, routinely, or repeatedly — always imperfective. Key markers: svaki dan, uvijek, često, redovito, ponekad.',
-    example: { hr: 'Svaki dan pišem pismo.', en: 'Every day I write a letter. (habit → impf)' },
+      'When an action is repeated or is a habit, especially over a stretch of time, Croatian uses the imperfective. Key markers: stalno, godinama, dvaput dnevno, svake večeri satima.',
+    example: {
+      hr: 'Godinama je dolazio na posao biciklom.',
+      en: 'For years he came to work by bike. (habit → impf)',
+    },
     counterex: {
-      hr: 'Napisao sam pismo.',
-      en: 'I wrote the letter. (single completed event → pf)',
+      hr: 'Došao je na posao biciklom.',
+      en: 'He came to work by bike. (one completed event → pf)',
     },
   },
   {
@@ -49,7 +65,7 @@ const ASPECT_RULES = [
     icon: '✓',
     short: 'One-time completed action → perfective',
     explanation:
-      'When a single, bounded event happened and is done — perfective. The action has a clear endpoint reached. Key markers: jednom, odmah, napokon, iznenada.',
+      'When a single, bounded event happened and is done — perfective. The action has a clear endpoint reached. Key markers: napokon, odjednom, za pola sata (how long it took to finish), cijelu knjigu (the whole thing).',
     example: {
       hr: 'Napokon sam napisao pismo.',
       en: 'I finally wrote the letter. (done, endpoint reached → pf)',
@@ -63,25 +79,25 @@ const ASPECT_RULES = [
     id: 'ongoing',
     label: 'Ongoing / In-Progress',
     icon: '⏳',
-    short: 'Present tense = always imperfective',
+    short: 'In progress, or lasting a while → imperfective',
     explanation:
-      'Croatian present tense is inherently imperfective — you cannot use perfective verbs in present to describe current action. Perfective present has future meaning only.',
+      'An action happening right now, or one that lasts a stretch of time, is seen as a process, so it is imperfective. Key markers: upravo, sada, satima, dva sata, cijelo jutro, već tri godine. A perfective present cannot describe what is happening right now.',
     example: {
-      hr: 'Pišem ti poruku sada.',
-      en: 'I am writing you a message now. (impf — only option)',
+      hr: 'Upravo ti pišem poruku.',
+      en: 'I am writing you a message right now. (process → impf)',
     },
     counterex: {
-      hr: 'Napišem ti poruku sutra.',
-      en: 'I will write you a message tomorrow. (pf present = future)',
+      hr: 'Napisao sam ti poruku.',
+      en: 'I have written you a message. (finished result → pf)',
     },
   },
   {
     id: 'negation',
     label: 'Negation',
     icon: '🚫',
-    short: 'Negation → usually imperfective',
+    short: 'Denying the activity itself → imperfective',
     explanation:
-      'Negated actions typically use imperfective because completion is denied — the action is presented as not having occurred (or as an unachieved process). Exceptions exist with completed past.',
+      'To say an activity did not happen at all, use the imperfective. The perfective says that a result was not reached: the letter did not get written, the book did not get finished.',
     example: {
       hr: 'Nisam pisao pismo.',
       en: 'I was not writing a letter. / I did not write a letter. (usual)',
@@ -189,6 +205,34 @@ function guessRule(item: any) {
   return 'completed';
 }
 
+// Rules that explain an IMPERFECTIVE choice, and rules that explain a PERFECTIVE one. The "why"
+// phase draws its wrong options from the OTHER aspect's rules, so a sentence can never have two
+// right reasons (an imperfective "while" sentence is also "in progress" — offering both would be
+// a question with two answers).
+const IMPF_RULE_IDS = ['habitual', 'ongoing', 'negation', 'simultaneous'];
+const PF_RULE_IDS = ['completed', 'sequence'];
+
+// Blank the example's own named word (exact, whole word). A pair that carries explicit examples
+// is never gapped by guesswork: the old stem match blanked the wrong word and offered infinitives
+// for a finite slot ("Svaki dan ___ pisma." → "pisati").
+function gapExact(sentence: string, gap: string): string | null {
+  const words = sentence.split(' ');
+  for (let i = 0; i < words.length; i++) {
+    const bare = words[i]!.replace(/[.,!?;:]/g, '');
+    if (bare === gap) {
+      words[i] = words[i]!.replace(gap, '___');
+      return words.join(' ');
+    }
+  }
+  return null;
+}
+
+// A B2 pair (secondary imperfectives, B2 #3) is served only to a learner at B2 or above.
+function pairServable(pair: AspectPair, level: string): boolean {
+  return !pair.cefr || cefrRank(pair.cefr) <= Math.max(cefrRank('B1'), cefrRank(level));
+}
+
+// Legacy shape (ctx only, no per-sentence data): kept for old cached payloads.
 function gapSentence(sentence: string, target: string, _wrong: string) {
   if (!sentence) return `___ (${target})`;
   const stem = target.length > 4 ? target.slice(0, 4) : target.slice(0, 3);
@@ -264,14 +308,20 @@ export default function AspectDrillScreen({
     });
   }
 
+  // The level is read once per opening: re-reading it on every stats change would reshuffle the
+  // round under the learner.
+  const [level] = useState(() => getGenerationCefr(stats));
+
   const allItems = useMemo(() => {
-    const pairs = (grammar?.ASPECT_PAIRS ?? []) as unknown as AspectPair[];
+    const pairs = ((grammar?.ASPECT_PAIRS ?? []) as unknown as AspectPair[]).filter((p) =>
+      pairServable(p, level),
+    );
     if (!pairs?.length) return [];
     const shuffled = sh([...pairs]);
     // In the daily session, serve only a short, finishable set (a fresh random
     // few each day). Standalone drill keeps the full pool for deep practice.
     return inDailySession ? shuffled.slice(0, DAILY_PAIR_CAP) : shuffled;
-  }, [grammar, inDailySession]);
+  }, [grammar, inDailySession, level]);
 
   const items = useMemo(() => {
     if (mistakesOnly && mistakeIds.size > 0) {
@@ -294,6 +344,12 @@ export default function AspectDrillScreen({
   const question = useMemo(() => {
     if (!item) return null;
 
+    // A pair with explicit examples knows each sentence's own reason; the legacy path guesses
+    // one reason for both sentences, which is what made half the old keys wrong.
+    const exImpf = item.impfEx;
+    const exPf = item.pfEx;
+    const explicit = !!(exImpf && exPf);
+
     const ruleId = item.rule
       ? ASPECT_RULES.find(
           (r) =>
@@ -305,8 +361,12 @@ export default function AspectDrillScreen({
     const rule = ASPECT_RULES.find((r) => r.id === ruleId) || ASPECT_RULES[0]!;
 
     const ctxParts = (item.ctx || '').split('/').map((s: string) => s.trim());
-    const impfSentence = ctxParts[0] || `${item.impf} — ongoing or habitual`;
-    const pfSentence = ctxParts[1] || `${item.pf} — completed, done`;
+    const impfSentence = explicit
+      ? exImpf!.hr
+      : ctxParts[0] || `${item.impf} — ongoing or habitual`;
+    const pfSentence = explicit ? exPf!.hr : ctxParts[1] || `${item.pf} — completed, done`;
+    const ruleFor = (ex: AspectExample | undefined) =>
+      (ex && ASPECT_RULES.find((r) => r.id === ex.why)) || rule;
 
     if (phase === 0) {
       const askImpf = idx % 2 === 0;
@@ -325,6 +385,29 @@ export default function AspectDrillScreen({
         rule,
         impfSentence,
         pfSentence,
+      };
+    }
+
+    if (phase === 1 && explicit) {
+      const useImpf = (idx + 1) % 2 === 0;
+      const ex = useImpf ? exImpf! : exPf!;
+      const exRule = ruleFor(ex);
+      const gapped = gapExact(ex.hr, ex.gap) ?? `___ (${ex.gap})`;
+      return {
+        type: 'fillin',
+        prompt: `Choose the correct form to complete the sentence:`,
+        sentence: gapped,
+        hint: useImpf
+          ? 'Is the action a process, a habit, or a background to something else?'
+          : 'Is the action one whole, finished event, or a step in a chain of events?',
+        opts: sh([ex.gap, ex.alt]),
+        correct: ex.gap,
+        correctAspect: useImpf ? 'impf' : 'pf',
+        explain: `${ex.gap} (${useImpf ? 'imperfective' : 'perfective'}) fits. ${exRule.short}.`,
+        rule: exRule,
+        impfSentence,
+        pfSentence,
+        fullSentence: ex.hr,
       };
     }
 
@@ -357,8 +440,12 @@ export default function AspectDrillScreen({
     if (phase === 2) {
       const forImpf = idx % 2 === 0;
       const sentence = forImpf ? impfSentence : pfSentence;
-      const correct = rule;
-      const distractors = ASPECT_RULES.filter((r) => r.id !== rule.id);
+      const correct = explicit ? ruleFor(forImpf ? exImpf : exPf) : rule;
+      // Explicit data: wrong reasons come from the OTHER aspect's rules only, so no second
+      // right answer can be drawn. Legacy data keeps the old pool.
+      const distractors = explicit
+        ? ASPECT_RULES.filter((r) => (forImpf ? PF_RULE_IDS : IMPF_RULE_IDS).includes(r.id))
+        : ASPECT_RULES.filter((r) => r.id !== rule.id);
       const d = sh([...distractors]).slice(0, 2);
       const opts = sh([correct, ...d]);
       return {
@@ -369,8 +456,8 @@ export default function AspectDrillScreen({
         correct: correct.id,
         correctLabel: `${correct.icon} ${correct.short}`,
         correctAspect: forImpf ? 'impf' : 'pf',
-        explain: `The key signal here is "${sentence.split(' ').slice(0, 4).join(' ')}..." — ${rule.explanation}`,
-        rule,
+        explain: `The key signal here is "${sentence.split(' ').slice(0, 4).join(' ')}..." — ${correct.explanation}`,
+        rule: correct,
         sentence,
         impfSentence,
         pfSentence,

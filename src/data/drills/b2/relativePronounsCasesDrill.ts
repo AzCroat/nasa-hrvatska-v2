@@ -208,7 +208,7 @@ export const RELATIVE_PRONOUNS_CASES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'tkosto',
-    q: 'Onaj ____ sam pomogao zahvalio mi se.',
+    q: 'Onaj ____ sam pomogao zahvalio mi je.',
     en: 'The one I helped thanked me.',
     opts: ['koga', 'tko', 'kome', 'kim'],
     answer: 'kome',
