@@ -45,6 +45,13 @@ const NAMES = {
         ['Zlatko', 'zlato', 'gold'],
         ['Biserka', 'biser', 'pearl'],
         ['Snježana', 'snijeg', 'snow'],
+        ['Vesna', 'vesna (old word)', 'spring'],
+        ['Danica', 'danica', 'the morning star'],
+        ['Iskra', 'iskra', 'spark'],
+        ['Žarko', 'žar', 'glowing embers'],
+        ['Ognjen', 'oganj', 'fire'],
+        ['Goranka', 'gora', 'mountain, forest'],
+        ['Hrvoje', 'Hrvat', 'a Croat'],
       ],
     },
     {
@@ -90,6 +97,24 @@ const NAMES = {
         ['volt', 'the unit of voltage', 'Alessandro Volta'],
         ['sendvič', 'sandwich', 'the Earl of Sandwich'],
         ['daltonizam', 'colour blindness', 'John Dalton'],
+        ['saksofon', 'saxophone', 'Adolphe Sax'],
+        ['doberman', 'Dobermann (dog)', 'Louis Dobermann'],
+        ['žilet', 'razor blade', 'King C. Gillette'],
+        ['nikotin', 'nicotine', 'Jean Nicot'],
+        ['brajica', 'Braille', 'Louis Braille'],
+      ],
+    },
+    {
+      type: 'table',
+      title: 'Do You Like Him? — Liking and Disliking People',
+      headers: ['Croatian', 'English'],
+      rows: [
+        ['Jako je simpatičan / simpatična.', 'He / she is very likeable.'],
+        ['Drag mi je. / Draga mi je.', 'I am fond of him / her.'],
+        ['Ona je za pet!', 'She is top-class! (a five is the top school mark)'],
+        ['Nije baš moj tip.', 'He is not really my type.'],
+        ['Antipatičan mi je.', 'I find him unpleasant.'],
+        ['Ne mogu ga podnijeti.', 'I cannot stand him.'],
       ],
     },
     {
@@ -386,6 +411,38 @@ const NAMES_P = {
         explanation: 'braniti (to defend) + mir (peace).',
       },
       {
+        q: 'Your friend asks what you think of her new colleague. You like him a lot. What do you say?',
+        options: [
+          'Jako je simpatičan.',
+          'Nije baš moj tip.',
+          'Antipatičan mi je.',
+          'Ne mogu ga podnijeti.',
+        ],
+        correct: 0,
+        hint: 'The only answer that says something good about him.',
+        explanation:
+          'Jako je simpatičan — he is very likeable. The others say you do not like him.',
+      },
+      {
+        q: 'The word "saksofon" is named after…',
+        options: [
+          'the instrument maker Adolphe Sax',
+          'a town in Saxony',
+          'a Greek god',
+          'a jazz club',
+        ],
+        correct: 0,
+        hint: 'Like tesla and penkala, it comes from a person.',
+        explanation: 'saksofon — after Adolphe Sax, who built it.',
+      },
+      {
+        q: 'The name Iskra means…',
+        options: ['a spark', 'a star', 'a flower', 'the dawn'],
+        correct: 0,
+        hint: 'What flies up from a fire.',
+        explanation: 'iskra — a spark. The dawn is zora, the morning star danica.',
+      },
+      {
         type: 'type',
         q: 'Dobila je ime po ____. (her grandmother — baka)',
         answer: 'baki',
@@ -478,6 +535,8 @@ const NAMES_P = {
     ['dobiti ime po', 'to be named after', 'Dobio je ime po djedu.'],
     ['kravata', 'necktie', 'Kravata je dobila ime po Hrvatima.'],
     ['izumitelj', 'inventor', 'Penkala je bio izumitelj.'],
+    ['simpatičan', 'likeable, nice', 'Tvoj brat je jako simpatičan.'],
+    ['tip', 'type (of person)', 'Nije baš moj tip.'],
   ],
 };
 
@@ -558,7 +617,7 @@ const LOVE = {
     {
       type: 'rule',
       title: 'Idioms of Love and Marriage',
-      body: 'uploviti u bračnu luku — literally "to sail into the harbour of marriage": to finally get married, often said of someone who took their time. ljubav na prvi pogled — love at first sight. zaljubljen do ušiju — in love up to the ears, head over heels. slomiti nekome srce — to break someone’s heart. pasti nekome u oko — to catch someone’s eye. imati leptiriće u trbuhu — to have butterflies in your stomach.',
+      body: 'uploviti u bračnu luku — literally "to sail into the harbour of marriage": to finally get married, often said of someone who took their time. ljubav na prvi pogled — love at first sight. zaljubljen do ušiju — in love up to the ears, head over heels. slomiti nekome srce — to break someone’s heart. pasti nekome u oko — to catch someone’s eye. imati leptiriće u trbuhu — to have butterflies in your stomach. u dobru i zlu — in good times and bad, the promise of the wedding vows. biti u drugom stanju — to be expecting a baby (literally "in the other state"). posvojiti dijete — to adopt a child.',
       highlight: 'uploviti u bračnu luku',
     },
     {
@@ -882,6 +941,18 @@ const LOVE_P = {
         explanation: 'zaljubio se u Mariju.',
       },
       {
+        q: 'Ana čeka bebu. Kako se to još kaže?',
+        options: [
+          'Ana je u drugom stanju.',
+          'Ana je u bračnoj luci.',
+          'Ana je zaljubljena do ušiju.',
+          'Ana je pala u oko.',
+        ],
+        correct: 0,
+        hint: 'Literally "in the other state".',
+        explanation: 'biti u drugom stanju — to be expecting a baby.',
+      },
+      {
         type: 'type',
         q: 'Ivan i Ana ____ su se u lipnju. (got married — vjenčati se)',
         answer: 'vjenčali',
@@ -944,6 +1015,8 @@ const LOVE_P = {
     ['kum', 'wedding witness, best man', 'Kum je održao govor.'],
     ['mladenci', 'newlyweds', 'Mladenci su plesali prvi ples.'],
     ['razvesti se', 'to get divorced', 'Razveli su se nakon pet godina.'],
+    ['u dobru i zlu', 'in good times and bad', 'Obećali su biti zajedno u dobru i zlu.'],
+    ['posvojiti', 'to adopt', 'Posvojili su dijete iz Hrvatske.'],
   ],
 };
 
@@ -993,8 +1066,14 @@ const FOREIGN = {
     {
       type: 'rule',
       title: 'Ending in -io: the o Becomes j',
-      body: 'radio, studio and the name Mario change their final -o into -j- before an ending: radio → radija, na radiju, radijem; studio → studija, u studiju; Mario → Marija, Mariju, Marijem. Two traps follow. Vidio sam Marija means "I saw Mario", the man — it only LOOKS like the woman’s name Marija. And u studiju (in the studio) is not studija, which as a feminine noun means "a study".',
+      body: 'radio, studio and the name Mario change their final -o into -j- before an ending: radio → radija, na radiju, radijem; studio → studija, u studiju; Mario → Marija, Mariju, Marijem. Two traps follow. Vidio sam Marija means "I saw Mario", the man — it only LOOKS like the woman’s name Marija. And u studiju (in the studio) is not studija, which as a feminine noun means "a study". Cities follow the same rule: Tokio → Tokija, u Tokiju, s Tokijem.',
       highlight: 'na radiju',
+    },
+    {
+      type: 'rule',
+      title: 'A Few More: sako, Sydney, Melbourne, and the Plural',
+      body: 'Not every word in -o loses it. A loanword like sako (a jacket) keeps the o and adds the ending: sakoa, u sakou. Spelling is kept even when a letter is not pronounced. Sydney ends in an i sound, so it takes j: u Sydneyju. Melbourne ends in a silent e, which stays in writing while the ending is added: u Melbourneu. In the plural the j rule still holds — hobi → hobiji, taksi → taksiji — while a word in -u needs no j: intervju → intervjui.',
+      highlight: 'u Sydneyju, u Melbourneu',
     },
     {
       type: 'rule',
@@ -1308,6 +1387,20 @@ const FOREIGN_P = {
         explanation: 'u intervjuu — the locative.',
       },
       {
+        q: 'Moj brat godinu dana živi u ___. (Tokyo — Tokio)',
+        options: ['Tokiu', 'Tokiju', 'Tokioju', 'Tokio'],
+        correct: 1,
+        hint: 'Tokio works like radio: the o turns into j.',
+        explanation: 'u Tokiju — like na radiju.',
+      },
+      {
+        q: 'Imaš li neke ___? (hobbies)',
+        options: ['hobije', 'hobie', 'hobi', 'hobijima'],
+        correct: 0,
+        hint: 'The j stays in the plural too; accusative plural after imati.',
+        explanation: 'hobije — the accusative plural of hobi.',
+      },
+      {
         type: 'type',
         q: 'Idem u kino s ____. (Harry)',
         answer: 'Harryjem',
@@ -1416,7 +1509,7 @@ const VATI = {
     {
       type: 'intro',
       title: 'When the Infinitive Misleads You',
-      body: 'Most verbs show their present tense in the infinitive: čitati → čitam. Two very common groups do not. Verbs in -vati drop the -va- and take -jem: davati → dajem, prodavati → prodajem, poznavati → poznajem. And a small, frequent group in -ati takes -nem: stati → stanem, ostati → ostanem, postati → postanem. These are some of the most used verbs in the language — giving, selling, knowing people, staying, stopping, becoming.',
+      body: 'Most verbs show their present tense in the infinitive: čitati → čitam. Two very common groups do not. Verbs in -davati and -znavati drop the -va- and take -jem: davati → dajem, prodavati → prodajem, poznavati → poznajem. And a small, frequent group in -ati takes -nem: stati → stanem, ostati → ostanem, postati → postanem. These are some of the most used verbs in the language — giving, selling, knowing people, staying, stopping, becoming.',
       icon: '🔁',
     },
     {
@@ -1434,8 +1527,8 @@ const VATI = {
     },
     {
       type: 'rule',
-      title: '-vati → -jem: the -va- Disappears',
-      body: 'Take the infinitive, remove -vati, add -jem: da-vati → dajem, proda-vati → prodajem, pozna-vati → poznajem, prizna-vati → priznajem, doda-vati → dodajem. The endings after that are the regular -em set: daješ, daje, dajemo, dajete, daju. The PAST keeps the infinitive stem: davao, prodavao, poznavao. Verbs in -ajati behave the same way in the present: ustajati → ustajem.',
+      title: '-davati, -znavati → -jem: the -va- Disappears',
+      body: 'This is a rule for the verbs built on davati and znavati, not for every verb in -vati: pjevati → pjevam, spavati → spavam and plivati → plivam are ordinary. Take the infinitive, remove -vati, add -jem: da-vati → dajem, proda-vati → prodajem, izda-vati → izdajem, uda-vati se → udajem se, pozna-vati → poznajem, prizna-vati → priznajem, doda-vati → dodajem. The endings after that are the regular -em set: daješ, daje, dajemo, dajete, daju. The PAST keeps the infinitive stem: davao, prodavao, poznavao. Verbs in -ajati behave the same way in the present: ustajati → ustajem. Two verbs look similar and follow their own pattern: pljuvati → pljujem, kupovati → kupujem.',
       highlight: 'prodavati → prodajem',
     },
     {
@@ -1447,7 +1540,7 @@ const VATI = {
     {
       type: 'rule',
       title: '-ati → -anem: stati, ostati, postati, ustati',
-      body: 'A short group of PERFECTIVE verbs takes -nem in the present: stati → stanem (to stop; to fit), ostati → ostanem (to stay), postati → postanem (to become), ustati → ustanem (to get up). Being perfective, their present is used after ako, kad and da, or for the future: Ako ostanem u Zagrebu… Kad postanem liječnica… The imperative follows the same stem: Stani! Ostani! The past drops the n: stao, ostao, postao, ustao.',
+      body: 'A short group of PERFECTIVE verbs takes -nem in the present: stati → stanem (to stop; to fit), ostati → ostanem (to stay), postati → postanem (to become), ustati → ustanem (to get up), and with other prefixes prestati → prestanem (to stop doing something), nastati → nastane (to come into being), nestati → nestanem (to disappear), pristati → pristanem (to agree). Being perfective, their present is used after ako, kad and da, or for the future: Ako ostanem u Zagrebu… Kad postanem liječnica… The imperative follows the same stem: Stani! Ostani! The past drops the n: stao, ostao, postao, ustao.',
       highlight: 'ostati → ostanem',
     },
     {
@@ -1458,6 +1551,8 @@ const VATI = {
         ['dati', 'dam', 'davati', 'dajem'],
         ['prodati', 'prodam', 'prodavati', 'prodajem'],
         ['priznati', 'priznam', 'priznavati', 'priznajem'],
+        ['izdati', 'izdam', 'izdavati', 'izdajem'],
+        ['udati se', 'udam se', 'udavati se', 'udajem se'],
         ['ustati', 'ustanem', 'ustajati', 'ustajem'],
       ],
     },
@@ -1512,9 +1607,9 @@ const VATI = {
           note: 'ustati becomes ustanem — one act, after ako',
         },
         {
-          hr: 'Autobus stane ispred škole.',
-          en: 'The bus stops in front of the school.',
-          note: 'stati becomes stane',
+          hr: 'Kad autobus stane, izađi.',
+          en: 'When the bus stops, get off.',
+          note: 'stati becomes stane — one stop, after kad (for a regular stop: autobus staje)',
         },
         {
           hr: 'Ako ostanem u Zagrebu, javit ću ti se.',
@@ -1585,10 +1680,11 @@ const VATI = {
           explanation: 'ostati is one of the -ati → -anem verbs: ostanem.',
         },
         {
-          q: 'Complete: "Autobus ___ ispred pošte." (stops — stati)',
+          q: 'Complete: "Kad autobus ___ ispred pošte, izađi." (stops — stati)',
           options: ['stane', 'stanu', 'stani', 'stanem'],
           correct: 0,
-          explanation: 'The third person singular of stati is stane. Stani is the imperative.',
+          explanation:
+            'One stop after kad takes the perfective present: the third person singular of stati is stane. Stani is the imperative.',
         },
         {
           q: 'What is the past participle (he) of stati?',
@@ -1615,7 +1711,7 @@ const VATI = {
       type: 'summary',
       title: 'dajem, stanem — Key Takeaways',
       points: [
-        '-vati → -jem: dajem, prodajem, poznajem, priznajem, dodajem',
+        '-davati / -znavati → -jem: dajem, prodajem, poznajem, priznajem (but pjevam, spavam)',
         'ustajati → ustajem; the past keeps the infinitive: davao, prodavao',
         'Pairs: dati (dam) / davati (dajem), prodati (prodam) / prodavati (prodajem)',
         '-ati → -anem: stanem, ostanem, postanem, ustanem — perfective',
@@ -1756,6 +1852,20 @@ const VATI_P = {
         explanation: 'Mama mi uvijek daje savjete.',
       },
       {
+        q: 'Sestra mi se ___ u lipnju. (is getting married — udavati se)',
+        options: ['udava', 'udaje', 'udavaje', 'udajem'],
+        correct: 1,
+        hint: 'udavati se works like davati: the -va- disappears.',
+        explanation: 'Sestra mi se udaje u lipnju.',
+      },
+      {
+        type: 'type',
+        q: 'Ako ____ na naš prijedlog, sutra potpisujemo ugovor. (you agree — pristati, Vi)',
+        answer: 'pristanete',
+        hint: 'pristati works like stati; the Vi ending is -ete.',
+        explanation: 'Ako pristanete… — pristati takes an n in the present.',
+      },
+      {
         type: 'type',
         q: 'Ona je otišla, a on je ____ u Zagrebu. (stayed — ostati)',
         answer: 'ostao',
@@ -1809,7 +1919,9 @@ const VATI_P = {
     ['priznavati', 'to admit', 'Priznajem da nisam bio u pravu.'],
     ['ustajati', 'to get up (habitually)', 'Ustajem u šest sati.'],
     ['ustati', 'to get up (once)', 'Sutra moram ustati rano.'],
-    ['stati', 'to stop; to fit', 'Autobus stane ispred škole.'],
+    ['stati', 'to stop; to fit', 'Kad autobus stane, izađi.'],
+    ['pristati', 'to agree (to something)', 'Ako pristanete, sutra potpisujemo ugovor.'],
+    ['nestati', 'to disappear', 'Ako struja nestane, upali svijeću.'],
     ['ostati', 'to stay, to remain', 'Ostao je u Splitu tri dana.'],
     ['postati', 'to become', 'Želi postati liječnica.'],
   ],
@@ -1863,8 +1975,61 @@ const ABROAD = {
         ['Faust Vrančić', 'Šibenik', 'described an early parachute in his book of machines'],
         ['Nikola Tesla', 'born in Smiljan, Lika', 'alternating current; worked in America'],
         ['Ivan Vučetić', 'born on Hvar', 'fingerprint identification, developed in Argentina'],
-        ['Slavoljub Penkala', 'worked in Zagreb', 'the mechanical pencil — penkala'],
         ['Luka Modrić', 'Zadar', 'footballer, Ballon d’Or (Zlatna lopta) 2018'],
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'The World in Croatia',
+      body: 'The movement runs the other way too. Slavoljub Penkala was born in Slovakia, came to Zagreb and made his name there: he patented an improved mechanical pencil, and penkala is still an everyday Croatian word for a pen. Like him, many foreigners have made Croatia their second homeland — druga domovina.',
+      highlight: 'druga domovina',
+    },
+    {
+      type: 'table',
+      title: 'Foreign Cities With Croatian Names',
+      headers: ['Croatian', 'English', 'Croatian', 'English'],
+      rows: [
+        ['Beč', 'Vienna', 'Prag', 'Prague'],
+        ['Budimpešta', 'Budapest', 'Varšava', 'Warsaw'],
+        ['Moskva', 'Moscow', 'Kijev', 'Kyiv'],
+        ['Lavov', 'Lviv', 'Temišvar', 'Timișoara'],
+        ['Venecija', 'Venice', 'Trst', 'Trieste'],
+        ['Napulj', 'Naples', 'Firenca', 'Florence'],
+        ['Ženeva', 'Geneva', 'Pariz', 'Paris'],
+        ['Lisabon', 'Lisbon', 'Atena', 'Athens'],
+        ['Peking', 'Beijing', 'Bečko Novo Mjesto', 'Wiener Neustadt'],
+      ],
+    },
+    {
+      type: 'table',
+      title: 'Homeland and the Wide World',
+      headers: ['Croatian', 'English'],
+      rows: [
+        ['zavičaj', 'the place you come from, home region'],
+        ['stara domovina / druga domovina', 'the old homeland / a second homeland'],
+        ['pradomovina, djedovina', 'the ancestral homeland, the land of your grandfathers'],
+        ['iseljenik / useljenik', 'emigrant / immigrant'],
+        ['predak (preci)', 'ancestor (ancestors)'],
+        ['sunarodnjak, zemljak', 'fellow countryman, someone from your own region'],
+        ['tuzemstvo / inozemstvo', 'home country / abroad'],
+        ['otići u bijeli svijet', 'to go out into the wide world'],
+        ['vidjeti svijeta', 'to have seen the world'],
+        ['doći na svijet / napustiti ovaj svijet', 'to be born / to die'],
+        ['Domovina je ondje gdje ti je srce.', 'Home is where your heart is.'],
+      ],
+    },
+    {
+      type: 'table',
+      title: 'Doubt, Surprise, Regret',
+      headers: ['Croatian', 'English'],
+      rows: [
+        ['Jeste li sigurni?', 'Are you sure?'],
+        ['Ne mogu u to povjerovati!', 'I cannot believe it!'],
+        ['Svašta!', 'Well, I never! (the things you hear)'],
+        ['To je nekakva zabuna.', 'There must be some mistake.'],
+        ['Žao mi je što sam otišao.', 'I am sorry I left.'],
+        ['Bilo bi bolje da sam ostao.', 'It would have been better if I had stayed.'],
+        ['Ne mogu prežaliti svoj stari kraj.', 'I cannot get over losing my old home.'],
       ],
     },
     {
@@ -2040,9 +2205,12 @@ const ABROAD = {
         'iseliti se iz + genitive u + accusative; vratiti se u domovinu',
         'u inozemstvo (going) / u inozemstvu (being)',
         'mnogo Hrvata, sve više stranaca — genitive plural after a quantity',
-        'Tesla (Smiljan), Vrančić (Šibenik), Vučetić (Hvar), Penkala (Zagreb), Modrić (Zadar)',
+        'Tesla (Smiljan), Vrančić (Šibenik), Vučetić (Hvar), Modrić (Zadar); Penkala came to Zagreb from Slovakia',
         'S jedne strane…, a s druge strane…; prednost / nedostatak',
         'Nedostaje mi obitelj — you are in the dative',
+        'Croatian city names: Beč, Prag, Trst, Venecija, Napulj, Ženeva, Peking…',
+        'zavičaj, pradomovina, predak, sunarodnjak; otići u bijeli svijet',
+        'Jeste li sigurni? Ne mogu u to povjerovati! Žao mi je što sam…',
       ],
     },
   ],
@@ -2151,6 +2319,44 @@ const ABROAD_P = {
         explanation: 'Nedostaje mi obitelj.',
       },
       {
+        q: 'Što je "Beč"?',
+        options: ['Vienna', 'Venice', 'Budapest', 'Prague'],
+        correct: 0,
+        hint: 'The capital of Austria, where many Croats have lived.',
+        explanation: 'Beč — Vienna. Venice is Venecija, Budapest Budimpešta, Prague Prag.',
+      },
+      {
+        q: 'Someone tells you news you find hard to believe. What do you say?',
+        options: [
+          'Ne mogu u to povjerovati!',
+          'Nedostaje mi obitelj.',
+          'Drago mi je.',
+          'S jedne strane…',
+        ],
+        correct: 0,
+        hint: 'Look for the verb of believing.',
+        explanation: 'Ne mogu u to povjerovati! — I cannot believe it!',
+      },
+      {
+        q: 'What is your "zavičaj"?',
+        options: [
+          'the place or region you come from',
+          'a foreign country',
+          'a returnee',
+          'a passport',
+        ],
+        correct: 0,
+        hint: 'The word a Croat abroad uses for the village or region at home.',
+        explanation: 'zavičaj — your home region.',
+      },
+      {
+        type: 'type',
+        q: 'Ljeto smo proveli u ____, kod rodbine. (Trieste — Trst)',
+        answer: 'Trstu',
+        hint: 'A place: u + the locative.',
+        explanation: 'u Trstu — in Trieste.',
+      },
+      {
         type: 'type',
         q: 'Tesla je rođen u ____, u Lici. (Smiljan)',
         answer: 'Smiljanu',
@@ -2166,7 +2372,7 @@ const ABROAD_P = {
       },
       {
         type: 'type',
-        q: 'Preselio se u ____ zbog posla. (abroad)',
+        q: 'Preselio se u ____ prije deset godina. (abroad)',
         answer: 'inozemstvo',
         hint: 'Moving is a direction: u + the accusative.',
         explanation: 'preselio se u inozemstvo.',
@@ -2241,6 +2447,9 @@ const ABROAD_P = {
     ['prednost', 'advantage', 'Prednost je bolja plaća.'],
     ['nedostatak', 'disadvantage', 'Nedostatak je daljina od obitelji.'],
     ['nedostajati', 'to be missed (by someone)', 'Nedostaje mi more.'],
+    ['zavičaj', 'home region', 'Ljeti se uvijek vraćam u svoj zavičaj.'],
+    ['predak', 'ancestor', 'Moji preci su iz Dalmacije.'],
+    ['povjerovati', 'to come to believe', 'Ne mogu u to povjerovati!'],
   ],
 };
 
@@ -2291,7 +2500,7 @@ export const SPINE = [
     prerequisites: ['foreign-nouns-declension', 'opinions-agreeing'],
     objectives: [
       'Talk about emigration and return: iseliti se, u inozemstvo / u inozemstvu, povratnik',
-      'Say a few true things about Croats the world knows: Tesla, Vrančić, Vučetić, Penkala, Modrić',
+      'Say a few true things about Croats the world knows (Tesla, Vrančić, Vučetić, Modrić) and name foreign cities in Croatian (Beč, Trst, Napulj)',
       'Weigh up life abroad with s jedne strane… s druge strane, prednost and nedostatak',
     ],
   },

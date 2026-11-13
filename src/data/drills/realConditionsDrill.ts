@@ -48,15 +48,15 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'If you have time, let me know.',
     opts: ['imaš', 'imao bi', 'budeš imati', 'imat ćeš'],
     answer: 'imaš',
-    tip: 'THE IF-CLAUSE STAYS IN THE PRESENT — exactly as in English.',
+    tip: 'The if-clause takes the present here — never ću.',
   },
   {
     mode: 'oblik',
     q: 'U kojem je vremenu "ako"-rečenica?',
     en: 'Which tense in the if-clause?',
-    opts: ['prezent', 'futur', 'perfekt', 'kondicional'],
-    answer: 'prezent',
-    tip: 'Present, and nothing about it is special.',
+    opts: ['prezent ili futur II', 'futur I', 'perfekt', 'kondicional'],
+    answer: 'prezent ili futur II',
+    tip: 'Ako imaš vremena or Ako budeš imao vremena — never the ordinary future (ću).',
   },
   {
     mode: 'oblik',
@@ -78,9 +78,9 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'oblik',
     q: 'Što nosi glavna rečenica?',
     en: 'What does the main clause carry?',
-    opts: ['futur ili imperativ', 'aorist', 'kondicional', 'perfekt'],
-    answer: 'futur ili imperativ',
-    tip: 'Ako imaš vremena, JAVI MI — the imperative is very common here.',
+    opts: ['futur, imperativ ili prezent', 'aorist', 'kondicional', 'perfekt'],
+    answer: 'futur, imperativ ili prezent',
+    tip: 'Ako imaš vremena, JAVI MI; ako pada kiša, OSTAJEMO doma — the present states a general rule.',
   },
   {
     mode: 'oblik',
@@ -92,8 +92,8 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblik',
-    q: 'Je li ovdje potreban kondicional?',
-    en: 'Is the conditional needed?',
+    q: '"Ako imaš vremena, javi mi." Je li ovdje potreban kondicional?',
+    en: 'If you have time, let me know. Is the conditional needed here?',
     opts: ['ne, uvjet je stvaran', 'da, uvijek', 'samo u pismu', 'samo uz "ako"'],
     answer: 'ne, uvjet je stvaran',
     tip: 'The conditional is for things that will not happen. This may.',
@@ -146,7 +146,7 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Does English have an equivalent?',
     opts: ['nema', 'ima, "will have"', 'ima, "would"', 'ima, "shall"'],
     answer: 'nema',
-    tip: 'Which is why learners never produce it — nothing in English prompts it.',
+    tip: 'English says "if you can" with a plain present; Croatian marks the future condition with its own form.',
   },
   {
     mode: 'budem',
@@ -180,7 +180,7 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
       'nikad',
     ],
     answer: 'kad se naglašava budućnost uvjeta',
-    tip: 'Both are correct; budem makes the future explicit.',
+    tip: 'With a perfective verb both work; with an imperfective verb about the future, futur II is the standard choice.',
   },
 
   // ── akokad ────────────────────────────────────────────────────────────────
@@ -242,10 +242,10 @@ export const REAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'akokad',
-    q: 'Zašto učenici ovdje rabe "kad" prečesto?',
-    en: 'Why do learners overuse kad?',
-    opts: ['nauče ga prije "ako"', 'kraće je', 'lakše se izgovara', 'ne rabe ga prečesto'],
-    answer: 'nauče ga prije "ako"',
-    tip: 'It arrives first and gets used for both — but it claims the thing is certain.',
+    q: '____ budeš u Zagrebu, javi se. (the visit is already planned)',
+    en: 'When you are in Zagreb, get in touch.',
+    opts: ['Kad', 'Iako', 'Dok', 'Osim ako'],
+    answer: 'Kad',
+    tip: 'A planned visit is treated as certain, so kad — with futur II, budeš.',
   },
 ];

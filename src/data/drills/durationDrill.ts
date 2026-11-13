@@ -169,9 +169,9 @@ export const DURATION_DRILL_DATA: ModeDrillItem[] = [
     mode: 'trajanje',
     q: 'Koje pitanje traži goli akuzativ?',
     en: 'Which question takes the bare accusative?',
-    opts: ['koliko dugo?', 'kada?', 'za koliko?', 'otkad?'],
+    opts: ['koliko dugo?', 'gdje?', 'za koliko?', 'otkad?'],
     answer: 'koliko dugo?',
-    tip: 'How long. The other three take prepositions.',
+    tip: 'How long: cijeli dan, dva sata. Za koliko and otkad take prepositions, and gdje asks about place.',
   },
   {
     mode: 'trajanje',

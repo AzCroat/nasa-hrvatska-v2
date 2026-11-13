@@ -653,7 +653,7 @@ export const PRACTICE_B1 = {
       ['rijetko', 'rarely', 'Rijetko kasnim na posao.'],
       ['nikad', 'never', 'Nikad ne pušim.'],
       ['svaki dan', 'every day', 'Svaki dan učim nove riječi.'],
-      ['navika', 'habit', 'Čitanje prije spavanja moja je navika.'],
+      ['navika', 'habit', 'Čitam prije spavanja, to mi je navika.'],
       ['tražiti', 'to look for', 'Tražio sam ključeve pola sata.'],
       ['spavati', 'to sleep', 'Djeca su spavala dok smo razgovarali.'],
     ],
@@ -780,7 +780,7 @@ export const PRACTICE_B1 = {
           explanation: 'Vrata su se otvorila — the door is now open.',
         },
         {
-          q: "Complete: 'Prošle godine ___ kuću na selu.' (We bought a house — once)",
+          q: "Complete: 'Prije pet godina ___ kuću na selu.' (We bought a house — once)",
           options: ['smo kupovali', 'smo kupili', 'kupujemo', 'kupovat ćemo'],
           correct: 1,
           hint: 'One purchase, and it is done.',
@@ -798,6 +798,27 @@ export const PRACTICE_B1 = {
           hint: 'Find the single event, not the scenery.',
           explanation:
             'odjednom je netko pokucao — a perfective event; the rest is imperfective background.',
+        },
+        {
+          q: 'Which is the perfective partner of "tražiti"?',
+          options: ['naći', 'potražiti', 'nalaziti', 'tražiti se'],
+          correct: 1,
+          hint: 'Looking and finding are two different verbs, each with its own partner.',
+          explanation: 'tražiti → potražiti. naći is the partner of nalaziti.',
+        },
+        {
+          type: 'type',
+          q: 'Majstor je ____ perilicu za pola sata. (repaired — popravljati / popraviti)',
+          answer: 'popravio',
+          hint: 'One finished job: the perfective past participle, masculine.',
+          explanation: 'popravio — the job is done.',
+        },
+        {
+          q: 'Which verb serves as both imperfective and perfective?',
+          options: ['pisati', 'ručati', 'pročitati', 'naći'],
+          correct: 1,
+          hint: 'It has no partner with a prefix or a different suffix.',
+          explanation: 'ručati is a two-aspect verb, like čestitati, studirati, telefonirati.',
         },
       ],
     },
@@ -856,6 +877,18 @@ export const PRACTICE_B1 = {
         correct: 3,
         explanation: 'What is denied is the result, so the perfective pročitao.',
       },
+      {
+        q: 'Which pair is imperfective → perfective?',
+        options: [
+          'tražiti → naći',
+          'mijenjati → promijeniti',
+          'graditi → građevina',
+          'vikati → vikao',
+        ],
+        correct: 1,
+        explanation:
+          'mijenjati → promijeniti. tražiti pairs with potražiti and naći with nalaziti; građevina is a noun and vikao a participle.',
+      },
     ],
     vocab: [
       ['sjesti', 'to sit down', 'Ušao je i sjeo za stol.'],
@@ -868,29 +901,31 @@ export const PRACTICE_B1 = {
       ['nazvati', 'to call (once)', 'Nazvat ću te sutra.'],
       ['završiti', 'to finish', 'Sinoć sam završila izvještaj.'],
       ['otvoriti', 'to open', 'Otvorio je vrata i upalio svjetlo.'],
+      ['potražiti', 'to look for (once)', 'Potražit ću ključeve u autu.'],
+      ['razmisliti', 'to think over', 'Razmislit ću i javit ću ti.'],
     ],
   },
   'genitive-deep': {
     worked: [
       {
-        title: 'Possession With an Adjective',
-        problem: 'Reci: the colour of my new car',
-        en: 'the colour of my new car',
+        title: 'Pointing With Eno',
+        problem: 'Reci: There is the bus! (over there, far from both of us)',
+        en: 'There is the bus! (over there)',
         steps: [
           {
-            label: 'Who owns what?',
-            text: 'The colour belongs to the car, so the car — the owner — goes into the genitive.',
+            label: 'Which word?',
+            text: 'evo = near me, eto = near you, eno = over there, away from both of us. So eno.',
           },
           {
-            label: 'The noun',
-            text: 'auto is masculine: genitive auta.',
+            label: 'Which case?',
+            text: 'evo, eto and eno take the genitive.',
           },
           {
-            label: 'Make the words agree',
-            text: 'moj → mog, novi → novog. The possessed thing comes first.',
+            label: 'The form',
+            text: 'autobus is masculine: genitive autobusa.',
           },
         ],
-        answer: 'boja mog novog auta',
+        answer: 'Eno autobusa!',
       },
       {
         title: 'Nema With a Plural',
@@ -924,11 +959,11 @@ export const PRACTICE_B1 = {
           explanation: 'Nema mlijeka — nema + genitive; neuter -o becomes -a.',
         },
         {
-          q: "Ovo je kuća moje ___. (my aunt's — teta)",
-          options: ['teta', 'tetu', 'tete', 'teti'],
+          q: "Evo ___! (Here's the coffee — kava)",
+          options: ['kava', 'kavu', 'kave', 'kavi'],
           correct: 2,
-          hint: 'The owner goes in the genitive, and teta is feminine.',
-          explanation: 'moje tete — feminine -a becomes -e in the genitive.',
+          hint: 'evo, eto and eno take the genitive, and kava is feminine.',
+          explanation: 'Evo kave! — feminine -a becomes -e in the genitive.',
         },
         {
           q: 'Popio sam čašu ___. (a glass of water — voda)',
@@ -953,10 +988,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'U kinu nema slobodnih ____. (seats — mjesto)',
+          q: 'U kinu više nema ____. (seats — mjesto)',
           answer: 'mjesta',
-          hint: 'After nema the noun is genitive — here plural, like slobodnih.',
-          explanation: 'slobodnih mjesta — genitive plural after nema.',
+          hint: 'After nema the noun is genitive — here plural.',
+          explanation: 'nema mjesta — genitive plural after nema.',
         },
         {
           type: 'type',
@@ -981,10 +1016,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Kuća mojih ____ nalazi se blizu mora. (my parents’ — roditelji)',
-          answer: 'roditelja',
-          hint: 'The owner goes in the genitive — plural here.',
-          explanation: 'kuća mojih roditelja — genitive plural of possession.',
+          q: 'Eno ____! (There is the tram, over there — tramvaj)',
+          answer: 'tramvaja',
+          hint: 'eno takes the genitive; tramvaj is masculine.',
+          explanation: 'Eno tramvaja! — masculine genitive -a.',
         },
         {
           q: "Which means 'without milk'?",
@@ -1004,10 +1039,10 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'To je ured moje ___.' (my mother's office — majka)",
-        options: ['majka', 'majke', 'majci', 'majku'],
+        q: "Complete: 'To je ured ___.' (the director's office — direktorica)",
+        options: ['direktorica', 'direktorice', 'direktorici', 'direktoricu'],
         correct: 1,
-        explanation: 'The owner goes in the genitive: feminine -a becomes -e, majke.',
+        explanation: 'The owner goes in the genitive: feminine -a becomes -e, direktorice.',
       },
       {
         q: "Complete: 'Nema ___ na cesti.' (There is no snow on the road — snijeg)",
@@ -1018,13 +1053,13 @@ export const PRACTICE_B1 = {
       {
         q: 'Which sentence is correct?',
         options: [
-          'Imamo malo vremena.',
-          'Imamo malo vrijeme.',
-          'Imamo malo vremenu.',
-          'Imamo malo vremenom.',
+          'Imamo malo kruha.',
+          'Imamo malo kruh.',
+          'Imamo malo kruhu.',
+          'Imamo malo kruhom.',
         ],
         correct: 0,
-        explanation: 'A quantity word like malo is followed by the genitive: malo vremena.',
+        explanation: 'A quantity word like malo is followed by the genitive: malo kruha.',
       },
       {
         q: "Spot the error: 'Kava bez šećer, molim.'",
@@ -1051,7 +1086,7 @@ export const PRACTICE_B1 = {
       },
     ],
     vocab: [
-      ['ključ', 'key', 'Ovo je ključ moje sestre.'],
+      ['ključ', 'key', 'Gdje je ključ od auta?'],
       ['nema', 'there is no', 'Nema kruha u kući.'],
       ['bez', 'without', 'Pijem kavu bez šećera.'],
       ['kod', "at (someone's place)", 'Večeras smo kod bake.'],
@@ -1060,7 +1095,9 @@ export const PRACTICE_B1 = {
       ['boca', 'bottle', 'Kupio sam pet boca vode.'],
       ['kilogram', 'kilogram', 'Kupi kilogram jabuka.'],
       ['nekoliko', 'a few, several', 'Ostat ću nekoliko dana.'],
-      ['mjesto', 'place, seat', 'Nema slobodnih mjesta.'],
+      ['mjesto', 'place, seat', 'U kinu više nema mjesta.'],
+      ['evo', 'here is (near me)', 'Evo kave!'],
+      ['eno', 'there is (over there)', 'Eno autobusa!'],
     ],
   },
   'dative-locative': {
@@ -1361,10 +1398,17 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Bavim se ____. (swimming — plivanje)',
-          answer: 'plivanjem',
-          hint: 'baviti se takes the bare instrumental; neuter -e becomes -em.',
-          explanation: 'Bavim se plivanjem — no preposition after baviti se.',
+          q: 'Pekara je odmah za ____. (the corner — ugao)',
+          answer: 'uglom',
+          hint: 'za + instrumental for a place; ugao loses its a and gets an l back.',
+          explanation: 'za uglom — like posao → poslom.',
+        },
+        {
+          q: 'Imam danas puno ___. (work — posao)',
+          options: ['posao', 'posla', 'posaa', 'poslova'],
+          correct: 1,
+          hint: 'puno takes the genitive, and posao drops its a in every form but the nominative.',
+          explanation: 'puno posla — genitive singular of posao.',
         },
         {
           type: 'type',
@@ -1421,7 +1465,7 @@ export const PRACTICE_B1 = {
         explanation: 'The preposition governs the instrumental: sa šećerom (sa, because of the š).',
       },
       {
-        q: "Complete: 'Auto je parkiran pred ___.' (in front of the house — kuća)",
+        q: "Complete: 'Auto stoji pred ___.' (in front of the house — kuća)",
         options: ['kuću', 'kuće', 'kući', 'kućom'],
         correct: 3,
         explanation: 'pred for a position takes the instrumental: pred kućom.',
@@ -1443,8 +1487,8 @@ export const PRACTICE_B1 = {
       ['pod', 'under', 'Mačka spava pod krevetom.'],
       ['nad', 'above, over', 'Nad gradom su oblaci.'],
       ['među', 'among', 'Među prijateljima sam sretan.'],
-      ['baviti se', 'to be engaged in, to do (a sport, hobby)', 'Bavim se plivanjem.'],
-      ['postati', 'to become', 'Postala je liječnicom.'],
+      ['posao', 'job, work (posla, poslom)', 'Imam danas puno posla.'],
+      ['ugao', 'corner (ugla, uglom)', 'Pekara je za uglom.'],
     ],
   },
   'motion-verbs': {
@@ -1581,7 +1625,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Kao dijete svaki dan sam ___ u školu pješice.' (I went — a man)",
+        q: "Complete: 'Kao dijete sam svaki dan ___ u školu pješice.' (I went — a man)",
         options: ['otišao', 'išao', 'odem', 'ići'],
         correct: 1,
         explanation:
@@ -1631,7 +1675,7 @@ export const PRACTICE_B1 = {
       ['ući', 'to go in, to enter', 'Uđite, molim vas.'],
       ['izaći', 'to go out', 'Izašli smo iz grada prije mraka.'],
       ['prijeći', 'to cross', 'Prešli smo cestu na semaforu.'],
-      ['vratiti se', 'to come back', 'Vraćam se u nedjelju.'],
+      ['vraćati se / vratiti se', 'to come back', 'Vraćam se u nedjelju.'],
       ['pješice', 'on foot', 'Danas idem na posao pješice.'],
       ['obala', 'coast', 'Sutra putujemo na obalu.'],
     ],
@@ -2189,6 +2233,13 @@ export const PRACTICE_B1 = {
           hint: 'već + a duration with the present.',
           explanation: 'The present with već: it started five years ago and still continues.',
         },
+        {
+          q: 'Your friend works best late at night. What is she?',
+          options: ['noćna ptica', 'usred bijela dana', 'u zadnji čas', 'prerano'],
+          correct: 0,
+          hint: 'A bird that is awake at night.',
+          explanation: 'noćna ptica — a night owl.',
+        },
       ],
     },
     checkB: [
@@ -2255,6 +2306,8 @@ export const PRACTICE_B1 = {
       ['nakon', 'after', 'Nakon ručka idemo u šetnju.'],
       ['cijeli', 'whole, all', 'Radio je cijeli dan.'],
       ['tjedan', 'week', 'Vraćam se za tjedan dana.'],
+      ['zakasniti', 'to be late', 'Oprostite, zakasnili smo.'],
+      ['prerano', 'too early', 'Došli smo prerano.'],
     ],
   },
   'verb-prefixes': {
@@ -2333,14 +2386,14 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Moraš ____ ugovor prije nego što počneš raditi. (sign)',
+          q: 'Moraš ____ ugovor još danas. (sign)',
           answer: 'potpisati',
           hint: 'pod- under + pisati: write underneath.',
           explanation: 'potpisati — to sign, to write your name under.',
         },
         {
           type: 'type',
-          q: '____ sam tvoj broj da ga ne zaboravim. (I noted down — a man)',
+          q: '____ sam tvoj broj u mobitel. (I noted down — a man)',
           answer: 'Zapisao',
           hint: 'za- + pisati: to fix something in writing.',
           explanation: 'Zapisao sam — noted down.',
@@ -2356,22 +2409,22 @@ export const PRACTICE_B1 = {
           type: 'type',
           q: 'Nisam ____, možete li ponoviti? (understood — a man)',
           answer: 'razumio',
-          hint: 'raz- + umjeti; the past participle for a man.',
+          hint: 'The past participle of razumjeti for a man.',
           explanation: 'Nisam razumio — I did not understand.',
         },
         {
           type: 'type',
-          q: 'Čim je ušla, ____ je poštu. (she took a quick look at — po-)',
+          q: 'Kad je ušla, ____ je poštu. (she took a quick look at — po-)',
           answer: 'pogledala',
           hint: 'po- a little, briefly + gledati; feminine past.',
           explanation: 'pogledala — a quick look, perfective.',
         },
         {
           type: 'type',
-          q: 'Kad ____ u zgradu, skreni lijevo. (you go in — ti)',
-          answer: 'uđeš',
-          hint: 'The perfective present of u- + ići, for ti.',
-          explanation: 'Kad uđeš — a future moment in a time clause.',
+          q: 'Prvo ____ u zgradu, a onda skreni lijevo. (go in — ti)',
+          answer: 'uđi',
+          hint: 'The imperative of u- + ići, for ti.',
+          explanation: 'uđi — the imperative of ući, like izađi from izaći.',
         },
         {
           q: "Which verb means 'to smash to pieces'?",
@@ -2443,6 +2496,7 @@ export const PRACTICE_B1 = {
       ['opisati', 'to describe', 'Opiši mi svoj novi stan.'],
       ['upisati se', 'to enrol', 'Upisao sam se na tečaj hrvatskog.'],
       ['zapisati', 'to note down', 'Zapisala sam tvoj broj.'],
+      ['raspakirati', 'to unpack', 'Još nisam raspakirala kofer.'],
       ['prepisati', 'to copy out', 'Prepisao je zadaću od prijatelja.'],
       ['prevesti', 'to translate', 'Možeš li mi to prevesti?'],
       ['razumjeti', 'to understand', 'Nisam razumio pitanje.'],
@@ -2580,6 +2634,14 @@ export const PRACTICE_B1 = {
           correct: 1,
           hint: 'A state, in the present plural.',
           explanation: 'Stoje na polici — they are on the shelf.',
+        },
+        {
+          q: "Complete: 'Gosti već sjede za ___.' (at the table — stol)",
+          options: ['stol', 'stolu', 'stolom', 'stola'],
+          correct: 2,
+          hint: 'A state, but the preposition is za: it takes the case you learned with pod and nad.',
+          explanation:
+            'sjede za stolom — za + instrumental for a state; sjeli su za stol is the change.',
         },
       ],
     },
@@ -3074,7 +3136,7 @@ export const PRACTICE_B1 = {
         steps: [
           {
             label: 'The time clause',
-            text: 'It points at the future, so it goes in the PRESENT — never ću inside kad.',
+            text: 'It points at the future, so never ću inside kad — which form you use depends on the aspect.',
           },
           {
             label: 'Aspect',
@@ -3122,7 +3184,7 @@ export const PRACTICE_B1 = {
           q: 'Operi ruke prije nego što ___ jesti. (you start)',
           options: ['ćeš početi', 'počneš', 'si počeo', 'počni'],
           correct: 1,
-          hint: 'A time clause about the future stays in the present, and starting is one event.',
+          hint: 'A time clause about the future never takes ću; starting is one event, so the perfective present.',
           explanation: 'prije nego što počneš — present of the perfective početi.',
         },
         {
@@ -3204,10 +3266,11 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Kad ___ u Dubrovnik, prošetat ćemo zidinama.' (When we arrive in Dubrovnik…)",
+        q: "Complete: 'Kad ___ u Dubrovnik, prošetat ćemo po zidinama.' (When we arrive in Dubrovnik…)",
         options: ['ćemo stići', 'stignemo', 'stizali smo', 'stignuti'],
         correct: 1,
-        explanation: 'A future time clause takes the present: Kad stignemo…',
+        explanation:
+          'stići is perfective, so a future time clause takes its present: Kad stignemo…',
       },
       {
         q: "Complete: 'Dok je mama ___, tata je postavljao stol.' (While mum was cooking…)",
@@ -3235,7 +3298,8 @@ export const PRACTICE_B1 = {
           'Nothing is wrong',
         ],
         correct: 0,
-        explanation: 'A time clause pointing forward takes the present, never ću.',
+        explanation:
+          'završiti is perfective, so a time clause pointing forward takes its present (an imperfective verb would take futur II) — never ću.',
       },
       {
         q: "Which connector means 'after'?",
@@ -3287,12 +3351,12 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'The budem Form',
-        problem: 'Reci: If we have money next year, we will travel to Japan.',
-        en: 'If we have money next year, we will travel to Japan.',
+        problem: 'Reci: If we have money, we will travel to Japan in the summer.',
+        en: 'If we have money, we will travel to Japan in the summer.',
         steps: [
           {
             label: 'A future condition',
-            text: 'Next year — genuinely future, so Croatian can use the budem form.',
+            text: 'A condition genuinely in the future, with the imperfective imati — futur II, the budem form.',
           },
           {
             label: 'Build it',
@@ -3300,10 +3364,10 @@ export const PRACTICE_B1 = {
           },
           {
             label: 'The main clause',
-            text: 'An ordinary future: putovat ćemo u Japan.',
+            text: 'An ordinary future: ljeti ćemo putovati u Japan.',
           },
         ],
-        answer: 'Ako budemo imali novca sljedeće godine, putovat ćemo u Japan.',
+        answer: 'Ako budemo imali novca, ljeti ćemo putovati u Japan.',
       },
     ],
     practice: {
@@ -3460,7 +3524,7 @@ export const PRACTICE_B1 = {
       ['kišobran', 'umbrella', 'Uzmi kišobran, pada kiša.'],
       ['položiti', 'to pass (an exam)', 'Ako položim ispit, slavimo.'],
       ['ponoviti', 'to repeat, to retake', 'Moram ponoviti ispit u rujnu.'],
-      ['odgoditi', 'to postpone', 'Utakmica je odgođena zbog kiše.'],
+      ['odgoditi', 'to postpone', 'Odgodili su utakmicu jer pada kiša.'],
       ['trajekt', 'ferry', 'Sljedeći trajekt ide tek navečer.'],
       ['zakasniti', 'to be late, to miss', 'Ako zakasnimo, nazovi ih.'],
       ['slobodan', 'free', 'Ako budeš slobodan, idemo na kavu.'],
@@ -4178,10 +4242,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Sklonili smo se u dom i čekali da oluja ____. (passes — proći)',
-          answer: 'prođe',
-          hint: 'da + the perfective present: the storm passing is one event.',
-          explanation: 'da oluja prođe — perfective present after da.',
+          q: 'Kad je kiša ____, krenuli smo dalje. (stopped — prestati)',
+          answer: 'prestala',
+          hint: 'One completed event, past tense, feminine to agree with kiša.',
+          explanation: 'Kad je kiša prestala — a perfective event moves the story on.',
         },
         {
           type: 'type',
@@ -4213,16 +4277,16 @@ export const PRACTICE_B1 = {
           explanation: 'počela — the event; čekali is the background.',
         },
         {
-          q: "Which is a natural way to say 'Let me tell you what happened'?",
+          q: 'Which sentence sets the scene (background), rather than telling an event?',
           options: [
-            'Da ispričam ti što se dogodilo.',
-            'Ispričat ti što se dogodilo.',
-            'Da ti ispričam što se dogodilo.',
-            'Da ti ispričam što se događa se.',
+            'Odjednom je počela kiša.',
+            'Kiša je prestala.',
+            'Padala je kiša.',
+            'Pala je kiša.',
           ],
           correct: 2,
-          hint: 'da + the present; the clitic ti comes right after da.',
-          explanation: 'Da ti ispričam što se dogodilo.',
+          hint: 'Background is imperfective: something that was going on.',
+          explanation: 'Padala je kiša — imperfective, the scene; the others are single events.',
         },
       ],
     },
@@ -4280,7 +4344,7 @@ export const PRACTICE_B1 = {
       },
     ],
     vocab: [
-      ['ispričati', 'to tell (a story)', 'Da ti ispričam što se dogodilo.'],
+      ['ispričati', 'to tell (a story)', 'Ispričao mi je cijelu priču.'],
       ['dogoditi se', 'to happen', 'Što se dogodilo?'],
       ['odjednom', 'suddenly', 'Odjednom je netko pokucao na vrata.'],
       ['sjećati se', 'to remember', 'Sjećam se kad smo bili na Velebitu.'],
@@ -4288,7 +4352,7 @@ export const PRACTICE_B1 = {
       ['međutim', 'however', 'Međutim, trajekt nije došao.'],
       ['magla', 'fog', 'Magla je prekrivala dolinu.'],
       ['grmljavina', 'thunder', 'Čuli smo grmljavinu.'],
-      ['oluja', 'storm', 'Čekali smo da oluja prođe.'],
+      ['oluja', 'storm', 'Oluja je trajala cijelu noć.'],
       ['nestati', 'to disappear, to go off', 'Odjednom je nestala struja.'],
     ],
   },
@@ -4856,7 +4920,7 @@ export const PRACTICE_B1 = {
         explanation: 'Official language is impersonal: se + the third person.',
       },
       {
-        q: "Complete: 'Za otvaranje računa trebate OIB i osobnu ___.' (ID card)",
+        q: "Complete: 'Ako želite otvoriti račun, trebate OIB i osobnu ___.' (ID card)",
         options: ['iskaznica', 'iskaznicu', 'iskaznice', 'iskaznici'],
         correct: 1,
         explanation: 'The object is accusative: osobnu iskaznicu.',
@@ -5143,7 +5207,7 @@ export const PRACTICE_B1 = {
         steps: [
           {
             label: 'A reason clause',
-            text: 'A whole clause with a verb follows, so jer, not zbog.',
+            text: 'A whole clause with a verb gives the reason, introduced by jer.',
           },
           {
             label: 'Register',
@@ -5162,7 +5226,7 @@ export const PRACTICE_B1 = {
       items: [
         {
           q: 'Tečno ___ engleski i njemački. (I speak)',
-          options: ['govorim', 'govoriti', 'govoreći', 'govori'],
+          options: ['govorim', 'govoriti', 'govorio', 'govori'],
           correct: 0,
           hint: 'The present, first person, about yourself.',
           explanation: 'Tečno govorim — I speak fluently.',
@@ -5327,43 +5391,43 @@ export const PRACTICE_B1 = {
     worked: [
       {
         title: 'Filling In a Headline',
-        problem: 'Naslov: "Otvoren novi most u Omišu." Pretvori u rečenicu.',
-        en: 'Headline: "New bridge opened in Omiš." Turn it into a sentence.',
+        problem: 'Naslov: "Vlada najavila nove mjere." Pretvori u rečenicu.',
+        en: 'Headline: "Government announces new measures." Turn it into a sentence.',
         steps: [
           {
             label: 'What is missing?',
-            text: 'The verb biti — headlines drop it.',
+            text: 'najavila is a past-tense form, and the past needs a form of biti — headlines drop it.',
           },
           {
             label: 'Supply it',
-            text: 'otvoren is a passive participle, so it needs je: the bridge has been opened.',
+            text: 'Vlada is singular, so the missing word is je.',
           },
           {
             label: 'Order',
-            text: 'je is a clitic and goes second, straight after otvoren.',
+            text: 'je is a clitic and goes second, straight after Vlada.',
           },
         ],
-        answer: 'Otvoren je novi most u Omišu.',
+        answer: 'Vlada je najavila nove mjere.',
       },
       {
-        title: 'Reporting a Statement',
-        problem: 'Gradonačelnik je rekao: "Tramvaji će voziti cijelu noć." Prepričaj.',
-        en: 'The mayor said: "The trams will run all night." Report it.',
+        title: 'Saying Where You Heard It',
+        problem: 'Na radiju si čuo: "Sutra je štrajk." Reci prijatelju što si čuo i gdje.',
+        en: 'You heard on the radio: "There is a strike tomorrow." Tell a friend what you heard and where.',
         steps: [
           {
-            label: 'Keep his tense',
-            text: 'He used the future, so the report keeps the future — no backshifting.',
+            label: 'Where',
+            text: 'na + the locative: na radiju.',
           },
           {
             label: 'Link it',
-            text: 'da introduces the reported clause.',
+            text: 'Čuo sam … da — the same da you use after mislim.',
           },
           {
-            label: 'Clitic',
-            text: 'će sits second in the clause, straight after da.',
+            label: 'What',
+            text: 'The news itself follows da: sutra je štrajk.',
           },
         ],
-        answer: 'Gradonačelnik je rekao da će tramvaji voziti cijelu noć.',
+        answer: 'Čuo sam na radiju da je sutra štrajk.',
       },
     ],
     practice: {
@@ -5384,32 +5448,33 @@ export const PRACTICE_B1 = {
           explanation: 'u novinama — locative plural.',
         },
         {
-          q: 'Prema ___, u nesreći nema ozlijeđenih. (According to the police — policija)',
+          q: 'Prema ___, u nesreći nema žrtava. (According to the police — policija)',
           options: ['policija', 'policije', 'policiji', 'policiju'],
           correct: 2,
           hint: 'prema (according to, towards) takes the dative.',
           explanation: 'prema policiji — dative.',
         },
         {
-          q: 'Novinar je pitao ministra ___ li nova pravila na snazi.',
-          options: ['jesu', 'su', 'je', 'bi'],
-          correct: 0,
-          hint: 'A reported yes/no question with biti: the long form, plural to agree with pravila.',
-          explanation: 'jesu li nova pravila na snazi.',
+          q: 'Which word means a soap opera?',
+          options: ['feljton', 'sapunica', 'časopis', 'naslov'],
+          correct: 1,
+          hint: 'It is built on the word for soap.',
+          explanation: 'sapunica — a soap opera.',
         },
         {
           type: 'type',
-          q: 'Prema ____, nema ozlijeđenih. (according to the report — izvještaj)',
+          q: 'Prema ____, nema žrtava. (according to the report — izvještaj)',
           answer: 'izvještaju',
           hint: 'prema takes the dative.',
           explanation: 'prema izvještaju — according to the report.',
         },
         {
           type: 'type',
-          q: 'Ne vjerujem ____ što pročitam. (everything)',
-          answer: 'svemu',
-          hint: 'vjerovati takes the dative.',
-          explanation: 'Ne vjerujem svemu — dative after vjerovati.',
+          q: 'Ne vjerujem ____ na internetu. (every article — svaki članak)',
+          answer: 'svakom članku',
+          accept: ['svakome članku'],
+          hint: 'vjerovati takes the dative, and the adjective agrees.',
+          explanation: 'Ne vjerujem svakom članku — dative after vjerovati.',
         },
         {
           type: 'type',
@@ -5427,17 +5492,17 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Policija ____ da nema ozlijeđenih. (reports — javljati)',
+          q: 'Policija ____ da nema žrtava. (reports — javljati)',
           answer: 'javlja',
           hint: 'The third person singular present.',
           explanation: 'Policija javlja — the police report.',
         },
         {
           type: 'type',
-          q: 'Otvoren ____ novi most u Omišu. (supply the verb a headline drops)',
+          q: 'Vlada ____ najavila nove mjere. (supply the word a headline drops)',
           answer: 'je',
           hint: 'Headlines drop the auxiliary of biti.',
-          explanation: 'Otvoren je novi most — the full sentence.',
+          explanation: 'Vlada je najavila nove mjere — the full sentence.',
         },
         {
           q: 'Which word is a TV news bulletin?',
@@ -5457,7 +5522,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Čula sam na ___ da je autocesta zatvorena.' (on the radio)",
+        q: "Complete: 'Čula sam na ___ da je na autocesti gužva.' (on the radio)",
         options: ['radio', 'radiju', 'radija', 'radiom'],
         correct: 1,
         explanation: 'na + the locative: na radiju.',
@@ -5474,15 +5539,10 @@ export const PRACTICE_B1 = {
         explanation: 'prema + the dative: according to.',
       },
       {
-        q: "The mayor said 'Radovi će trajati do proljeća.' How do you report it?",
-        options: [
-          'Gradonačelnik je rekao da bi radovi trajali do proljeća.',
-          'Gradonačelnik je rekao da će radovi trajati do proljeća.',
-          'Gradonačelnik je rekao da su radovi trajali do proljeća.',
-          'Gradonačelnik je rekao da će radovi trajali do proljeća.',
-        ],
+        q: 'Which word is the tabloid press?',
+        options: ['dnevnik', 'žuti tisak', 'izvor', 'feljton'],
         correct: 1,
-        explanation: 'Keep his future — Croatian does not backshift.',
+        explanation: 'žuti tisak — literally "the yellow press".',
       },
       {
         q: "A headline reads 'Vlada najavila nove mjere.' What has been dropped?",
@@ -5509,11 +5569,13 @@ export const PRACTICE_B1 = {
       ['članak', 'article', 'Pročitao sam zanimljiv članak.'],
       ['naslov', 'headline', 'Naslov je bio vrlo kratak.'],
       ['novinar', 'journalist', 'Novinar je pitao ministra.'],
-      ['izvor', 'source', 'Prema izvorima, odluka je donesena.'],
+      ['izvor', 'source', 'Prema izvorima, vlada je donijela odluku.'],
       ['objaviti', 'to publish, to announce', 'Vlada je objavila nove mjere.'],
       ['navodno', 'apparently, allegedly', 'Navodno će cijene rasti.'],
       ['izjaviti', 'to state', 'Ministar je izjavio da je zadovoljan.'],
-      ['ozlijeđen', 'injured', 'Nitko nije ozlijeđen.'],
+      ['žrtva', 'victim, casualty', 'U nesreći nema žrtava.'],
+      ['sapunica', 'soap opera', 'Moja baka gleda sapunice.'],
+      ['žuti tisak', 'the tabloid press', 'Ne čitam žuti tisak.'],
     ],
   },
   'technology-internet': {
@@ -5894,10 +5956,11 @@ export const PRACTICE_B1 = {
           'a Latin word',
           'a German town',
           'an English geologist',
-          'the Croatian word kras',
+          'the Kras plateau above Trieste',
         ],
         correct: 3,
-        explanation: 'kras, the limestone country, gave the world the word karst.',
+        explanation:
+          'Kras, the limestone plateau above Trieste, gave the world the word karst. The Croatian landscape word is krš.',
       },
     ],
     vocab: [

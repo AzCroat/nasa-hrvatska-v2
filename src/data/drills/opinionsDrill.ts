@@ -82,7 +82,7 @@ export const OPINIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'I am not sure, but I think it is worth a try.',
     opts: ['ali', 'nego', 'jer', 'da'],
     answer: 'ali',
-    tip: 'ali joins the two halves. Nego needs a negative in front of it.',
+    tip: 'ali joins the two halves. Nego follows a negative (ne… nego) or a comparative (više nego).',
   },
   {
     mode: 'mislimda',
@@ -220,7 +220,7 @@ export const OPINIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ublazavanje',
     q: 'Kako se pita za razlog nečijeg stava?',
     en: 'Asking why they think that:',
-    opts: ['Zašto tako misliš?', 'Zbog čega misliš?', 'Za što misliš?', 'Kako misliš?'],
+    opts: ['Zašto tako misliš?', 'Zato tako misliš?', 'Za što misliš?', 'Kako misliš?'],
     answer: 'Zašto tako misliš?',
     tip: 'Zašto asks for a reason; kako misliš? asks what they mean.',
   },

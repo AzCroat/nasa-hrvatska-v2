@@ -8,9 +8,10 @@
 // sequencing events. Its own category and its own B1 drill is the only honest
 // wiring.
 //
-// The rule that earns the drill: **a future time clause takes the PRESENT.**
-// *Kad dođem, javit ću ti* — I will tell you when I come, with "come" in the
-// present. English uses the present here too, which sounds like good news, but
+// The rule that earns the drill: **a future time clause never takes the ordinary
+// future** — a perfective verb takes its PRESENT (*Kad dođem, javit ću ti*), an
+// imperfective one takes futur II (*Kad budem imao vremena…*), as the future-ii
+// lesson teaches. English uses the present here too, which sounds like good news, but
 // English speakers still say *kad ću doći* because the sentence is about the
 // future. The second trap is `dok`, which means both "while" and — with ne —
 // "until", and the two readings are opposites.
@@ -107,7 +108,7 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
     en: 'When I come, I will let you know.',
     opts: ['dođem', 'ću doći', 'dolazim', 'bih došao'],
     answer: 'dođem',
-    tip: 'A future time clause takes the PRESENT, even though the meaning is future.',
+    tip: 'doći is perfective, so a future time clause takes its present — never ću.',
   },
   {
     mode: 'prezent',
@@ -119,11 +120,11 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prezent',
-    q: 'Koje vrijeme ide u buduću vremensku surečenicu?',
-    en: 'Which tense goes in a future time clause?',
-    opts: ['prezent', 'futur', 'perfekt', 'kondicional'],
-    answer: 'prezent',
-    tip: 'Present in the clause, future in the main sentence.',
+    q: 'Kad ____ vremena, nazvat ću te.',
+    en: 'A man: when I have time, I will call you.',
+    opts: ['budem imao', 'ću imati', 'bih imao', 'sam imao'],
+    answer: 'budem imao',
+    tip: 'imati is imperfective, so a future time clause takes futur II: budem imao.',
   },
   {
     mode: 'prezent',
@@ -186,7 +187,7 @@ export const TIME_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does it mean?',
     opts: ['dok ne stignem', 'dok me nema', 'jer ne dolazim', 'ako ne dođem'],
     answer: 'dok ne stignem',
-    tip: 'Until I arrive. Without ne it would mean "while I am coming".',
+    tip: 'Until I arrive. Standard Croatian needs the ne for "until"; plain dok + an imperfective means while.',
   },
   {
     mode: 'dok',

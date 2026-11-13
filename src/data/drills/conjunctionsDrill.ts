@@ -1,9 +1,10 @@
 // src/data/drills/conjunctionsDrill.ts
 //
-// A2 JOINING SENTENCES — the drill for the `conjunctions` lesson.
+// B1 JOINING SENTENCES — the drill for the `conjunctions` lesson (B1 since the
+// Croaticum restructure).
 //
-// The lesson's own closing line is that connecting sentences is what separates
-// A2 from A1, and it is right: a learner with A1 grammar and these eight words
+// The lesson's own closing line is that connecting sentences is what turns a
+// list of facts into speech, and it is right: a learner with A1 grammar and these eight words
 // sounds twice as fluent as one with better endings and no connectors.
 //
 // The pool's `subordination` family (`relpron`, `subordination`, `uzrocne`,
@@ -68,7 +69,7 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osnovni',
-    q: 'Što "pa" dodaje čemu "i" nema?',
+    q: 'Što "pa" dodaje, čega "i" nema?',
     en: 'What does pa add?',
     opts: ['slijed u vremenu', 'suprotnost', 'uzrok', 'ništa'],
     answer: 'slijed u vremenu',
@@ -84,8 +85,8 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osnovni',
-    q: 'Zašto su veznici važni na razini A2?',
-    en: 'Why do connectors matter at A2?',
+    q: 'Zašto su veznici važni?',
+    en: 'Why do connectors matter?',
     opts: ['spajaju rečenice u govor', 'lakši su od padeža', 'traži ih gramatika', 'nisu važni'],
     answer: 'spajaju rečenice u govor',
     tip: 'Short sentences plus connectors is what stops sounding like a list.',
@@ -114,7 +115,7 @@ export const CONJUNCTIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'I work, whereas he sleeps.',
     opts: ['a', 'ili', 'nego', 'jer'],
     answer: 'a',
-    tip: 'A sets two things SIDE BY SIDE. Nothing is wrong with either of them.',
+    tip: 'A sets two things SIDE BY SIDE — the neutral choice. (ali would add a note of objection.)',
   },
   {
     mode: 'akontrastali',

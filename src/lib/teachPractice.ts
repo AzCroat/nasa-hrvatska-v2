@@ -72,7 +72,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // the vocab route this resolves for exactly the learners it is written for.
   'past-questions-negation': 'past-tense',
   // B1 narration is past-tense production; cloze (A2) carries the items.
-  'telling-a-story': 'past-tense',
+  'telling-a-story': 'b1-telling-story',
   'aorist-imperfekt': 'past-tense',
   pluskvamperfekt: 'past-tense',
   tenses: 'past-tense', // TensesScreen
@@ -93,10 +93,10 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // C2 aspect edges: the negated imperative is the lesson's central rule and is
   // exactly what the aspect-negation drill tests.
   'glagolski-vid-granice': 'aspect-negation',
-  'motion-verbs': 'aspect-perfective',
+  'motion-verbs': 'b1-motion-verbs',
   // B1 verb prefixes: a prefix is what makes a verb perfective, so aspectdrill
   // (B1) is practising exactly what the lesson taught.
-  'verb-prefixes': 'aspect-perfective',
+  'verb-prefixes': 'b1-verb-prefixes',
   // B2 secondary imperfectives (-ivati / -avati): aspectdrill is the pair drill,
   // and making a perfective imperfective again is exactly what it tests.
   'aspect-suffixes': 'aspect-imperfective',
@@ -122,7 +122,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // sends the combined category to the locative drill.
   'dative-intro': 'dative-locative',
   'vocative-intro': 'vocative',
-  instrumental: 'instrumental',
+  instrumental: 'b1-instrumental',
   'instrumental-intro': 'instrumental',
   // C1 verb government — which case each verb demands. Mappable as of
   // 2026-08-28: the `rekcija` pool entry was retagged from 'dative-locative'
@@ -137,7 +137,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   // B1 relative clauses. CATEGORY_SCREEN_MAP now routes this category, and
   // CATEGORY_EASIER_SCREEN drops it to `relpron` (B1) — the drill that teaches
   // exactly relative pronouns — so it resolves for the level it is written for.
-  'relative-deep': 'subordination',
+  'relative-deep': 'b1-relative-deep',
   // B2 concession: its core is unatoč / usprkos + DATIVE, which neither the
   // subordination drill nor the relative-pronoun screen practises (B2 book
   // comparison, 2026-11-13). It has its own bank now.
@@ -518,7 +518,7 @@ export const LESSON_TAUGHT_CATEGORY: Readonly<Record<string, SkillCategory>> = {
   'uredjivanje-teksta': 'editing',
   'precizno-nijansiranje': 'precision',
   'numbers-time': 'numerals',
-  'numbers-nouns': 'numerals',
+  'numbers-nouns': 'b1-numbers-nouns',
   'collective-numbers': 'numerals',
   'shopping-prices': 'numerals',
   'ordinals-dates': 'numerals',

@@ -136,7 +136,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
     mode: 'salter',
     q: 'Trebam li ____ obrazac?',
     en: 'Do I need to fill in a form?',
-    opts: ['ispuniti', 'ispunim', 'ispunjavati', 'ispunjen'],
+    opts: ['ispuniti', 'ispunim', 'ispunio', 'ispunjen'],
     answer: 'ispuniti',
     tip: 'The infinitive after trebati li.',
   },

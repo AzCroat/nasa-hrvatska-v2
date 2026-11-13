@@ -93,7 +93,7 @@ export const VERBS_WITH_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Choose the correct sentence.',
     opts: [
       'Zaboravio sam adresu.',
-      'Zaboravio sam adrese.',
+      'Zaboravio sam adresi.',
       'Zaboravio sam se adrese.',
       'Zaboravio sam o adresi.',
     ],
@@ -168,11 +168,11 @@ export const VERBS_WITH_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prezent',
-    q: 'Moj djed se ____ cigareta prošle godine.',
-    en: 'Last year my grandfather gave up cigarettes.',
-    opts: ['odrekao', 'odreknuo', 'odrekno', 'odrečio'],
-    answer: 'odrekao',
-    tip: 'The past of odreći se brings back the k: odrekao.',
+    q: 'Mačke ____ od našeg psa.',
+    en: 'The cats run away from our dog.',
+    opts: ['bježe', 'bježu', 'bježaju', 'bježimo'],
+    answer: 'bježe',
+    tip: 'bježati is an -ati → -im verb: bježim, bježiš… oni bježe.',
   },
 
   // ── zamjenica ─────────────────────────────────────────────────────────────

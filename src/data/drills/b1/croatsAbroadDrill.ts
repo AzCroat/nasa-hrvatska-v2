@@ -137,8 +137,8 @@ export const CROATS_ABROAD_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ljudi',
-    q: 'Slavoljub Penkala izumio je mehaničku ____.',
-    en: 'Slavoljub Penkala invented the mechanical pencil.',
+    q: 'Slavoljub Penkala, rođen u Slovačkoj, u Zagrebu je usavršio mehaničku ____.',
+    en: 'Slavoljub Penkala, born in Slovakia, improved the mechanical pencil in Zagreb.',
     opts: ['olovku', 'olovka', 'olovci', 'olovkom'],
     answer: 'olovku',
     tip: 'The direct object: the accusative.',

@@ -204,8 +204,8 @@ export const LOVE_AND_MARRIAGE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izrazi',
-    q: 'Mladoženja je muškarac, a ____ je žena koja se udaje.',
-    en: 'The groom is the man, and the bride is the woman getting married.',
+    q: 'Na vjenčanju se mladoženja ženi, a ____ se udaje.',
+    en: 'At the wedding the groom takes a wife, and the bride takes a husband.',
     opts: ['mladenka', 'mladenci', 'kuma', 'svekrva'],
     answer: 'mladenka',
     tip: 'mladenka — the bride; mladenci are the couple.',

@@ -107,7 +107,7 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'dativ',
     q: 'Doslovno, "Dosadno mi je" znači ____.',
     en: 'Literally:',
-    opts: ['boring is to me', 'I am boring', 'I bore', 'it bores me'],
+    opts: ['boring is to me', 'I am boring', 'I bore', 'I am boring you'],
     answer: 'boring is to me',
     tip: 'Which is why the adjective is neuter and never agrees with you.',
   },
@@ -117,7 +117,7 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which form does the adjective take?',
     opts: ['srednji rod', 'muški rod', 'ženski rod', 'množina'],
     answer: 'srednji rod',
-    tip: 'Neuter singular throughout: hladno, dosadno, drago, žao.',
+    tip: 'Neuter singular throughout: hladno, dosadno, drago. (Žao is not an adjective at all — it never changes.)',
   },
   {
     mode: 'dativ',

@@ -106,11 +106,11 @@ export const NOUNS_EN_ET_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'et',
-    q: 'Majka je zabrinuta zbog bolesnog ____.',
-    en: 'The mother is worried about her sick child.',
+    q: 'Majka sjedi pokraj bolesnog ____.',
+    en: 'The mother is sitting next to her sick child.',
     opts: ['djeteta', 'dijeteta', 'djete', 'djetetu'],
     answer: 'djeteta',
-    tip: 'Zbog + genitive: djeteta.',
+    tip: 'Pokraj + genitive: djeteta.',
   },
   {
     mode: 'et',
