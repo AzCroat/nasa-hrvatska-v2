@@ -2,7 +2,7 @@
 //
 // C1 ETHICAL DATIVE — the drill for the `ethical-dative` lesson.
 //
-// The etički dativ (Pazi mi se!, Kako ti je mama?, Nemoj mi plakati!): always a clitic, in
+// The etički dativ (Pazi mi se!, Budite nam sretni!, Nemoj mi plakati!): always a clitic, in
 // the cluster after li and the future auxiliary, before je and se. And the dative of
 // direction to a person, with or without k (ka before k and g).
 //
@@ -37,12 +37,12 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
     q: 'U kojoj je rečenici etički dativ?',
     opts: [
       'Pokazao mi je put.',
-      'Kako ti je baka?',
+      'Jesi li mi se umorio?',
       'Poslala mi je poruku.',
       'Vratio mi je knjigu.',
     ],
-    answer: 'Kako ti je baka?',
-    tip: 'ti adds concern; nobody receives anything.',
+    answer: 'Jesi li mi se umorio?',
+    tip: 'mi adds tenderness; nobody receives anything.',
   },
   {
     mode: 'eticki',
@@ -82,7 +82,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'eticki',
-    q: 'Što nestaje ako iz "Pazi mi se!" izostavimo dativ?',
+    q: 'Što nestaje ako iz „Pazi mi se!“ izostavimo dativ?',
     opts: ['briga govornika', 'primatelj radnje', 'glagol', 'vrijeme radnje'],
     answer: 'briga govornika',
     tip: "That is the test: an ethical dative adds the speaker's involvement, not a participant.",
@@ -115,11 +115,11 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'red',
-    q: 'Kako ____ mama?',
-    en: 'How is your mum?',
-    opts: ['ti je', 'je ti', 'tebi je', 'ti si'],
-    answer: 'ti je',
-    tip: 'The dative clitic comes before je.',
+    q: 'Svi ____ oni podmićeni!',
+    en: "They've all been bribed, I tell you!",
+    opts: ['su ti', 'ti su', 'tebi su', 'su te'],
+    answer: 'su ti',
+    tip: 'The auxiliary su takes the second position here, with the ethical dative ti right after it.',
   },
   {
     mode: 'red',
@@ -206,7 +206,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'smjer',
-    q: 'Je li "Idem liječniku" pravilno?',
+    q: 'Je li „Idem liječniku“ pravilno?',
     opts: [
       'da, kao i "Idem k liječniku"',
       'ne, nužno je "k"',

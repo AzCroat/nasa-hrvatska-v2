@@ -2,8 +2,8 @@
 //
 // C1 MASCULINE NAMES AND GROUPS OF MEN — the drill for the `hypocoristics-dvojica` lesson.
 //
-// Names in -ko (Marko, Marka), in -o and -e (Ivo, Ive; Ante, Anti — like žena, but -om in
-// the instrumental), in -a (Luka, Luki); masculine agreement whatever the ending; dvojica,
+// Names in -ko (Marko, Marka), in -o and -e (Ivo, Ive; Ante, Anti — exactly like žena,
+// instrumental -om as in ženom), in -a (Luka, Luki); masculine agreement whatever the ending; dvojica,
 // trojica, četvorica for groups of men.
 //
 // Deliberately never offered as a distractor, because each is heard: Iva / Ivu as forms of
@@ -216,7 +216,7 @@ export const HYPOCORISTICS_DVOJICA_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'skupine',
-    q: 'Koga brojimo imenicom "petorica"?',
+    q: 'Koga brojimo imenicom „petorica“?',
     en: 'Whom do we count with this noun?',
     opts: ['pet muškaraca', 'pet žena', 'pet djece', 'pet stolova'],
     answer: 'pet muškaraca',
@@ -224,10 +224,10 @@ export const HYPOCORISTICS_DVOJICA_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'skupine',
-    q: 'Na igralište je došlo ____ djece.',
-    en: 'Two children came to the playground.',
-    opts: ['dvoje', 'dvojica', 'dva', 'dvije'],
-    answer: 'dvoje',
-    tip: 'Children are a mixed group: dvoje djece, with the neuter singular došlo je. (More in the collective-numbers lesson.)',
+    q: 'Razgovarao sam s ____ kolega cijelu večer.',
+    en: 'I talked with three colleagues (men) all evening.',
+    opts: ['trojicom', 'trojica', 'tri', 'trojice'],
+    answer: 'trojicom',
+    tip: 'trojica declines like žena: s trojicom kolega — instrumental, then the genitive plural.',
   },
 ];

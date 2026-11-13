@@ -40,7 +40,7 @@ export const SPINE = [
     masterOrder: 17,
     prerequisites: ['prepositions-advanced', 'verb-government', 'irregular-nouns-doba-dio'],
     objectives: [
-      'Use the less frequent genitive prepositions: usred, nasred, uoči, tijekom, prilikom, povodom',
+      'Use the less frequent genitive prepositions: usred, nasred, uoči, tijekom, prilikom, prigodom, diljem',
       'Express means and manner with pomoću, putem, umjesto and poput',
       'Keep zbog (cause) apart from radi (purpose) in careful writing',
       'Remember that unatoč takes the dative: unatoč kiši',
@@ -51,6 +51,7 @@ export const SPINE = [
     masterOrder: 18,
     prerequisites: ['complex-sentences', 'disjunctive-gradational-clauses'],
     objectives: [
+      'Close a fronted verbal adverb with a comma: Otišavši na more, dobro smo se odmorili',
       'Write no comma before a dependent clause that follows its main clause: Mislim da je u pravu',
       'Put a comma after a dependent clause that comes first: Kad dođeš, nazovi me',
       'Close an inserted clause with a comma on both sides',
@@ -98,7 +99,7 @@ const DISJUNCTIVE_GRADATIONAL = {
           'rastavne (disjunctive)',
           'ili; ili… ili; bilo… bilo',
           'one or the other',
-          'Ili ćeš doći, ili ćeš nazvati.',
+          'Ili ćeš doći ili ćeš nazvati.',
         ],
         [
           'isključne (exclusive)',
@@ -117,8 +118,8 @@ const DISJUNCTIVE_GRADATIONAL = {
     {
       type: 'rule',
       title: 'Disjunctive: Ili, Ili… Ili, Bilo… Bilo',
-      body: 'A single ili offers a choice and leaves it open: Možemo ići vlakom ili autobusom. Doubled, ili… ili sharpens it into a demand — one of the two, and nothing else: Ili ćeš mi pomoći, ili ću sve napraviti sam. Bilo… bilo says that the choice does not matter, the outcome is the same either way: Bilo danas bilo sutra, posao mora biti gotov. Before two whole clauses it becomes bilo da… bilo da: Bilo da putuješ vlakom, bilo da voziš auto, krećemo u šest. This bilo never changes its form.',
-      highlight: 'Ili ćeš mi pomoći, ili ću sve napraviti sam.',
+      body: 'A single ili offers a choice and leaves it open: Možemo ići vlakom ili autobusom. Doubled, ili… ili sharpens it into a demand — one of the two, and nothing else: Ili ćeš mi pomoći ili ću sve napraviti sam. Bilo… bilo says that the choice does not matter, the outcome is the same either way: Bilo danas bilo sutra, posao mora biti gotov. Before two whole clauses it becomes bilo da… bilo da: Bilo da putuješ vlakom, bilo da voziš auto, krećemo u šest. This bilo never changes its form.',
+      highlight: 'Ili ćeš mi pomoći ili ću sve napraviti sam.',
     },
     {
       type: 'rule',
@@ -129,7 +130,7 @@ const DISJUNCTIVE_GRADATIONAL = {
     {
       type: 'rule',
       title: 'Gradational: Ne Samo… Nego I',
-      body: 'A gradational sentence climbs: the second clause adds something stronger than the first. Ne samo… nego i (or ne samo… već i) is the frame — the i goes after nego, in front of what is added: Ne samo da je položio ispit, nego je dobio i najbolju ocjenu. Čak (i) marks the surprising top of the scale: Došli su svi, čak i baka. Štoviše opens a clause that goes one step further than the last: Projekt je uspio, štoviše, premašio je sva očekivanja.',
+      body: 'A gradational sentence climbs: the second clause adds something stronger than the first. The commonest gradational connectors are pa (čak) i after a positive clause and pa (čak) ni or a kamoli after a negative one: Studenti uče po cijele dane, pa čak i po noći. Nisam imao novca za ručak, pa čak ni za kavu. Ne samo… nego i (or ne samo… već i) is the other frame — the i goes after nego, in front of what is added: Ne samo da je položio ispit, nego je dobio i najbolju ocjenu. Čak (i) marks the surprising top of the scale: Došli su svi, čak i baka. Štoviše opens a clause that goes one step further than the last: Projekt je uspio, štoviše, premašio je sva očekivanja.',
       highlight: 'Ne samo da je položio ispit, nego je dobio i najbolju ocjenu.',
     },
     {
@@ -141,7 +142,7 @@ const DISJUNCTIVE_GRADATIONAL = {
     {
       type: 'rule',
       title: 'The Comma in Independent Compound Sentences',
-      body: 'Hrvatski pravopis gives the rule. NO comma before i, pa, te, ni, niti and ili when they join two clauses: Nazovi me večeras ili mi pošalji poruku. Ostao je kod kuće i čitao. A comma IS written before the contrasting connectors a, ali, nego, no and već, and before the exclusive and gradational ones that grow out of them — samo, jedino, osim što, nego i, a kamoli: Htio sam doći, ali nisam stigao. When a connector is repeated to stress the choice — ili… ili, bilo da… bilo da — a comma before the second one is usual, and you will see it written both ways.',
+      body: 'Hrvatski pravopis gives the rule. NO comma before i, pa, te, ni, niti, and none before ili, single or repeated: Nazovi me večeras ili mi pošalji poruku. Ili će nas nazvati ona ili ćemo je nazvati mi. A comma IS written before the contrasting connectors a, ali, nego, no and već, before the exclusive ones — samo, jedino, osim što — and before every gradational connector: nego i, a kamoli, and pa (čak) i / pa (čak) ni. That last one is the trap: pa joining two facts takes no comma, but pa that climbs a scale does — Zna kuhati, pa čak i peći kruh.',
       highlight: 'Nazovi me večeras ili mi pošalji poruku.',
     },
     {
@@ -160,9 +161,9 @@ const DISJUNCTIVE_GRADATIONAL = {
           note: 'a single ili — an open choice, and no comma before it',
         },
         {
-          hr: 'Ili ćete platiti račun do petka, ili ćemo vam isključiti struju.',
+          hr: 'Ili ćete platiti račun do petka ili ćemo vam isključiti struju.',
           en: 'Either you pay the bill by Friday, or we will cut off your electricity.',
-          note: 'ili… ili — a demand; the comma before the second ili is usual',
+          note: 'ili… ili — a demand; no comma before the second ili either',
         },
         {
           hr: 'Bilo da se odlučite za more bilo za planine, rezervaciju treba napraviti na vrijeme.',
@@ -240,7 +241,7 @@ const DISJUNCTIVE_GRADATIONAL = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) A comma before a single ili, i or pa: "Nazovi me, ili mi piši." — write Nazovi me ili mi piši. (2) No comma before samo or jedino in an exclusive clause: "Kuća je lijepa samo je skupa." — write Kuća je lijepa, samo je skupa. (3) A kamoli after a positive clause: "Zna kuhati, a kamoli peći." — after a positive use pa čak i: Zna kuhati, pa čak i peći. (4) Što više for moreover — the adverb is one word, štoviše. (5) Writing akamoli as one word.',
+      body: '(1) A comma before a single ili, i or pa: "Nazovi me, ili mi piši." — write Nazovi me ili mi piši. (2) No comma before samo or jedino in an exclusive clause: "Kuća je lijepa samo je skupa." — write Kuća je lijepa, samo je skupa. (3) A kamoli after a positive clause: "Zna kuhati, a kamoli peći." — after a positive use pa čak i: Zna kuhati, pa čak i peći. (4) Što više for moreover — the adverb is one word, štoviše. (5) Writing akamoli as one word. (6) A comma before the second ili, or none before gradational pa čak i: write Ili ćeš doći ili ćeš nazvati, but Zna kuhati, pa čak i peći.',
       highlight: 'Kuća je lijepa, samo je skupa.',
     },
     {
@@ -306,7 +307,7 @@ const DISJUNCTIVE_GRADATIONAL = {
         'Samo, jedino (što) and osim što take one exception out of what was said',
         'Ne samo… nego i climbs; čak marks the top; štoviše goes one step further',
         'A kamoli (let alone) needs a negative first clause and is two words',
-        'No comma before i, pa, te, ni, ili; a comma before a, ali, nego, samo, jedino, a kamoli',
+        'No comma before i, pa, te, ni, ili (single or repeated); a comma before a, ali, nego, samo, jedino, a kamoli and gradational pa (čak) i',
         'Štoviše = moreover; što više… to = the more… the more',
       ],
     },
@@ -341,7 +342,7 @@ const IRREGULAR_NOUNS = {
     {
       type: 'rule',
       title: 'The Vanishing A',
-      body: 'Posao and kotao have a second twist: the a before the o is a fleeting a, inserted only to make the bare stem pronounceable. Once the ending is added it is not needed: posl- → posao, posla, poslu, poslom; kotl- → kotao, kotla, kotlu. Anđeo and pepeo keep their e in every case — anđela, pepela — because that e is part of the stem, not inserted.',
+      body: 'Posao and kotao have a second twist: the a before the o is a fleeting a, inserted only to make the bare stem pronounceable. Once the ending is added it is not needed: posl- → posao, posla, poslu, poslom; kotl- → kotao, kotla, kotlu. Anđeo and pepeo keep their e in every case — anđela, pepela — because that e is part of the stem, not inserted. Three more nouns follow the posao pattern: orao (eagle) → orla, ugao (corner) → ugla, đavao (devil) → đavla. One fixed phrase keeps an old genitive plural: gledati svoja posla — to mind one’s own business.',
       highlight: 'posao, posla, poslu, poslom',
     },
     {
@@ -560,7 +561,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'intro',
       title: 'The Prepositions of the Newspaper',
-      body: 'You have used the everyday genitive prepositions for years: iz, od, do, bez, kod, zbog. Open a Croatian newspaper or an official letter and a second set appears — usred, uoči, povodom, prilikom, putem, glede. Every one of them takes the genitive, so the grammar is easy; the challenge is their exact meaning and the register each belongs to. This lesson sorts them by what they express: place, time and occasion, means, and relation.',
+      body: 'You have used the everyday genitive prepositions for years: iz, od, do, bez, kod, zbog. Open a Croatian newspaper or an official letter and a second set appears — usred, uoči, prigodom, prilikom, putem, glede, diljem. Every one of them takes the genitive, so the grammar is easy; the challenge is their exact meaning and the register each belongs to. This lesson sorts them by what they express: place, time and occasion, means, and relation.',
       icon: '🧭',
     },
     {
@@ -574,13 +575,13 @@ const RARE_GENITIVE_PREPOSITIONS = {
         ['uoči', 'on the eve of, just before', 'uoči Božića, uoči izbora'],
         ['tijekom', 'during, in the course of', 'tijekom ljeta'],
         ['prilikom', 'on the occasion of, when (formal)', 'prilikom prijave'],
-        ['povodom', 'to mark, on the occasion of', 'povodom Dana grada'],
+        ['prigodom, u povodu', 'to mark, on the occasion of', 'prigodom Dana grada'],
         ['pomoću', 'with the help of, by means of', 'pomoću rječnika'],
         ['putem', 'via, through, by way of', 'putem interneta'],
         ['umjesto', 'instead of', 'umjesto kave'],
         ['poput', 'like, such as', 'gradovi poput Zadra'],
         ['glede', 'regarding (formal)', 'glede vašeg upita'],
-        ['mimo', 'contrary to, outside of', 'mimo pravila'],
+        ['mimo', 'past, by (space); contrary to', 'mimo moje kuće, mimo pravila'],
         ['radi', 'for the purpose of', 'radi posla'],
       ],
     },
@@ -592,9 +593,59 @@ const RARE_GENITIVE_PREPOSITIONS = {
     },
     {
       type: 'rule',
-      title: 'Time and Occasion: Uoči, Tijekom, Prilikom, Povodom',
-      body: 'Uoči is the eve of, the time just before an event: uoči Božića, uoči izbora, uoči utakmice. Tijekom stretches over a period: tijekom ljeta, tijekom pregovora — za vrijeme says the same in plainer style. Prilikom ties something to an occasion or a procedure and is formal: Prilikom prijave predočite osobnu iskaznicu. Povodom gives the REASON for a celebration or a statement: Povodom Dana grada održan je koncert. Prilikom is when something happens; povodom is what it marks.',
-      highlight: 'Povodom Dana grada održan je koncert.',
+      title: 'Time and Occasion: Uoči, Tijekom, Prilikom, Prigodom',
+      body: 'Uoči is the eve of, the time just before an event: uoči Božića, uoči izbora, uoči utakmice. Tijekom stretches over a period: tijekom ljeta, tijekom pregovora — it belongs to higher style; za vrijeme says the same more plainly. Prilikom ties something to a time or circumstance and is formal: Prilikom prijave predočite osobnu iskaznicu. Prigodom names the occasion being marked: Ministar je posjetio školu prigodom otvaranja. Sastali su se prigodom pedesete obljetnice kluba. You will also read and hear povodom (povodom Dana grada), and it is just as standard as u povodu: u povodu Dana grada. Prilikom is when something happens; prigodom is what it marks.',
+      highlight: 'prigodom pedesete obljetnice kluba',
+    },
+    {
+      type: 'table',
+      title: 'Higher Style: More Genitive Prepositions',
+      headers: ['Preposition', 'Meaning', 'Example', 'Note'],
+      rows: [
+        [
+          'diljem, širom',
+          'throughout (large areas)',
+          'Putovali smo diljem svijeta.',
+          'higher style; širom is the commoner',
+        ],
+        [
+          'uzduž, duž',
+          'along the whole length',
+          'Postavili su branike uzduž ceste.',
+          'higher style',
+        ],
+        [
+          'nadohvat',
+          'within reach of',
+          'Naočale su mi uvijek nadohvat ruke.',
+          'more often: pri ruci',
+        ],
+        [
+          'nadomak',
+          'very close to',
+          'Bili su nadomak grada.',
+          'high style: + dative, nadomak gradu',
+        ],
+        [
+          'naspram',
+          'compared with (a difference)',
+          'Neupadljiv je naspram svoje žene.',
+          'more often: u usporedbi s',
+        ],
+        ['uime', 'on behalf of', 'Pozdravio je goste uime predsjednika.', 'one word'],
+        [
+          'namjesto',
+          'instead of',
+          'Namjesto ministra došao je njegov zamjenik.',
+          'higher style for umjesto',
+        ],
+        [
+          'potkraj',
+          'towards the end of',
+          'Potkraj godine dobili smo povišicu.',
+          'also: krajem godine',
+        ],
+      ],
     },
     {
       type: 'rule',
@@ -605,8 +656,8 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Relation: Umjesto, Poput, Glede, Mimo',
-      body: 'Umjesto replaces one thing with another: Umjesto kave popio je čaj. Poput compares or gives examples: Pjeva poput slavuja. Gradovi poput Zadra i Šibenika privlače sve više turista. Glede means regarding and belongs to letters and documents: Glede vašeg upita, obavještavamo vas da… — in speech, u vezi s + instrumental is more natural. Mimo means outside of or contrary to: Odluka je donesena mimo pravila. Mimo svih očekivanja, pobijedili su.',
-      highlight: 'Mimo svih očekivanja, pobijedili su.',
+      body: 'Umjesto replaces one thing with another: Umjesto kave popio je čaj. Poput compares or gives examples: Pjeva poput slavuja. Gradovi poput Zadra i Šibenika privlače sve više turista. Glede means regarding and belongs to letters and documents: Glede vašeg upita, obavještavamo vas da… — in speech, u vezi s + instrumental is more natural. Mimo has two meanings. In space it means past, by — and, said of two people, past each other in opposite directions: Prošli su mimo moje kuće. Prošli su jedan mimo drugoga. Figuratively it means outside of or contrary to: Odluka je donesena mimo pravila. Mimo svih očekivanja, pobijedili su.',
+      highlight: 'Prošli su mimo moje kuće.',
     },
     {
       type: 'rule',
@@ -645,9 +696,9 @@ const RARE_GENITIVE_PREPOSITIONS = {
           note: 'uoči izbora — just before',
         },
         {
-          hr: 'Povodom stote obljetnice škole učenici su pripremili izložbu.',
+          hr: 'Prigodom stote obljetnice škole učenici su pripremili izložbu.',
           en: 'To mark the school’s hundredth anniversary, the pupils prepared an exhibition.',
-          note: 'povodom — the occasion being marked',
+          note: 'prigodom — the occasion being marked (povodom is also standard and very common)',
         },
         {
           hr: 'Prilikom ulaska u zgradu posjetitelji moraju pokazati osobnu iskaznicu.',
@@ -676,7 +727,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
           note: 'umjesto + genitive',
         },
         {
-          hr: 'Zbog štrajka vlakovi ne voze, pa su mnogi radi sigurnosti krenuli autom dan ranije.',
+          hr: 'Zbog štrajka vlakovi ne voze pa su mnogi radi sigurnosti krenuli autom dan ranije.',
           en: 'Because of the strike the trains are not running, so many people set off by car a day early to be safe.',
           note: 'zbog — cause; radi — purpose',
         },
@@ -707,7 +758,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Unatoč with the genitive: "unatoč problema" — it takes the dative: unatoč problemima. (2) Radi for a cause: "Nisam došao radi bolesti" — the illness is the cause: zbog bolesti. (3) Nasred where there is no surface: "nasred razgovora" — the middle of an activity is usred razgovora. (4) Pomoću for an ordinary tool: "Režem kruh pomoću noža" — use the instrumental: Režem kruh nožem. (5) Prilikom for the reason of a celebration: "prilikom Dana državnosti održan je mimohod" — the occasion marked is povodom Dana državnosti.',
+      body: '(1) Unatoč with the genitive: "unatoč problema" — it takes the dative: unatoč problemima. (2) Radi for a cause: "Nisam došao radi bolesti" — the illness is the cause: zbog bolesti. (3) Nasred where there is no surface: "nasred razgovora" — the middle of an activity is usred razgovora. (4) Pomoću for an ordinary tool: "Režem kruh pomoću noža" — use the instrumental: Režem kruh nožem. (5) Prilikom for the occasion being marked: "prilikom Dana državnosti održan je mimohod" — the occasion marked is prigodom (or u povodu) Dana državnosti. Povodom is equally standard here.',
       highlight: 'unatoč problemima',
     },
     {
@@ -722,15 +773,16 @@ const RARE_GENITIVE_PREPOSITIONS = {
         },
         {
           q: 'Complete: "Djeca su se igrala ___ trga." (in the middle of the square)',
-          options: ['nasred', 'uoči', 'umjesto', 'povodom'],
+          options: ['nasred', 'uoči', 'umjesto', 'prigodom'],
           correct: 0,
           explanation: 'A square is a surface you stand on: nasred trga.',
         },
         {
           q: 'Complete: "Gradska knjižnica otvorila je izložbu ___ Dana grada."',
-          options: ['pomoću', 'glede', 'mimo', 'povodom'],
+          options: ['pomoću', 'glede', 'mimo', 'prigodom'],
           correct: 3,
-          explanation: 'Povodom names the occasion being marked.',
+          explanation:
+            'Prigodom names the occasion being marked; povodom and u povodu say the same and are equally standard.',
         },
         {
           q: 'Complete: "Unatoč ___, stigli smo na vrijeme."',
@@ -757,8 +809,10 @@ const RARE_GENITIVE_PREPOSITIONS = {
       title: 'Formal Genitive Prepositions — Key Takeaways',
       points: [
         'Usred — the middle of a place, time or activity; nasred — the middle of a surface',
-        'Uoči — the eve of; tijekom — during; prilikom — on the occasion of (formal)',
-        'Povodom — what an event marks; pomoću — the means; putem — the channel',
+        'Uoči — the eve of; tijekom — during; prilikom — when, at the time of (formal)',
+        'Prigodom or u povodu — what an event marks (povodom is equally standard); pomoću — the means; putem — the channel',
+        'Mimo: past, by (Prošli su mimo moje kuće) and contrary to (mimo pravila)',
+        'Higher style: diljem, širom, uzduž, nadohvat, nadomak, naspram, uime, namjesto, potkraj',
         'Umjesto, poput, glede, mimo, duž all take the genitive',
         'Zbog gives the cause, radi the purpose',
         'Unatoč and usprkos take the DATIVE: unatoč kiši',
@@ -821,6 +875,12 @@ const COMMA_DEPENDENT = {
           'Mi ćemo, ako bude padala kiša, ostati kod kuće.',
         ],
       ],
+    },
+    {
+      type: 'rule',
+      title: 'A Fronted Verbal Adverb Is Closed by a Comma',
+      body: 'A verbal adverb (-ći, -vši, -avši) with its words works like a dependent clause that comes first, so a comma closes it: Otišavši na more, dobro smo se odmorili. Čitajući novine, popio je kavu. Ne mogavši doći, javio se telefonom. Placed after the verb it is usually not set off: Popio je kavu čitajući novine. Contrast conjunctions behave as in compound sentences: a comma stands before a, ali, nego, no and već (Htio je doći, ali nije stigao), never before plain i or ili.',
+      highlight: 'Otišavši na more, dobro smo se odmorili.',
     },
     {
       type: 'rule',
@@ -1035,8 +1095,14 @@ const EMPHATIC_GENITIVE = {
     {
       type: 'rule',
       title: 'The Verb Goes Neuter Singular',
-      body: 'A genitive cannot be a grammatical subject in the ordinary sense, so the verb does not agree with it. It stands in the third person singular, and in the past tense in the NEUTER: Bilo je ljudi koji… — never "bili su ljudi koji…". The same holds after quantity words: Došlo je mnogo ljudi. Na koncertu se okupilo više od tisuću posjetitelja. Ostalo je malo vremena. Bit će gužve.',
+      body: 'A genitive cannot be a grammatical subject in the ordinary sense, so the verb does not agree with it. It stands in the third person singular, and in the past tense in the NEUTER: Bilo je ljudi koji… (there were some people who…). Bili su ljudi koji… is also grammatical, but it is a different sentence: ljudi is then a nominative subject — "they were people who…" — and the verb agrees with it. The same holds after quantity words: Došlo je mnogo ljudi. Na koncertu se okupilo više od tisuću posjetitelja. Ostalo je malo vremena. Bit će gužve.',
       highlight: 'Došlo je mnogo ljudi.',
+    },
+    {
+      type: 'rule',
+      title: 'Kakve li budale! — The Emphatic Genitive Proper',
+      body: 'Croatian grammars reserve the name emphatic genitive (emfatički genitiv) for an exclamation of feeling — admiration, surprise, scorn — built from an adjective and a noun in the genitive with li after the first word: Kakve li budale! (What a fool!) Čudnog li čovjeka! (What a strange man!) Pametne li žene! (What a clever woman!) Lijepog li dana! (What a lovely day!) There is no verb. The adjective and the noun agree in the genitive singular or plural: Krasnih li žena! (What lovely women!)',
+      highlight: 'Čudnog li čovjeka!',
     },
     {
       type: 'rule',
@@ -1052,8 +1118,14 @@ const EMPHATIC_GENITIVE = {
     },
     {
       type: 'rule',
+      title: 'Žali Bože + Genitive',
+      body: 'Žali Bože + genitive says that something was wasted on a thing not worth it: Žali Bože truda! (A pity about all that effort.) Žali Bože vremena koje smo potrošili na taj film. (What a waste of the time we spent on that film.) It is fixed — the words never change — and it is spoken, slightly old-fashioned Croatian.',
+      highlight: 'Žali Bože vremena',
+    },
+    {
+      type: 'rule',
       title: 'Stalo Mi Je Do, Nije Mi Do, Držim Do',
-      body: 'Three fixed expressions use do + genitive. Stalo mi je do… — I care about: Stalo mi je do tebe. Nije mi stalo do novca. Nije mi do… — I am not in the mood for: Nije mi do šale. Večeras mi nije do izlaska. Držim do… — I value, I set store by: Mnogo držim do njegova mišljenja. Do toga ne držim. Do always takes the genitive, and the person who cares is in the dative (mi, ti, joj) — except in držim do, where the person is the subject.',
+      body: 'Three fixed expressions use do + genitive. Stalo mi je do… — I care about: Stalo mi je do tebe. Nije mi stalo do novca. Nije mi do… — I am not in the mood for: Nije mi do šale. Večeras mi nije do izlaska. Without the negation, biti do says what someone is after: Njemu je do nasljedstva (he is after the inheritance). Držim do… — I value, I set store by: Mnogo držim do njegova mišljenja. Do toga ne držim. Do always takes the genitive, and the person who cares is in the dative (mi, ti, joj) — except in držim do, where the person is the subject.',
       highlight: 'Stalo mi je do tebe.',
     },
     {
@@ -1072,6 +1144,9 @@ const EMPHATIC_GENITIVE = {
         ['žao mi je + G', 'I miss, regret, pity', 'Žao mi je tog vremena.'],
         ['stalo mi je do + G', 'I care about', 'Stalo mi je do tebe.'],
         ['nije mi do + G', 'I am not in the mood for', 'Nije mi do šale.'],
+        ['(nekome) je do + G', 'someone is after something', 'Njemu je do nasljedstva.'],
+        ['Kakve li … !', 'what a …! (feeling)', 'Čudnog li čovjeka!'],
+        ['žali Bože + G', 'a waste of', 'Žali Bože truda!'],
         ['držim do + G', 'I value', 'Držim do točnosti.'],
         ['pun, sit, željan + G', 'full of, fed up with, longing for', 'Sit sam svega.'],
       ],
@@ -1195,16 +1270,16 @@ const EMPHATIC_GENITIVE = {
           explanation: 'Pun takes the genitive with no preposition: pun hrane.',
         },
         {
-          q: 'What does "Ima ljudi koji ne znaju plivati." mean?',
+          q: 'Which exclamation is correct?',
           options: [
-            'There are people who cannot swim.',
-            'Everybody can swim.',
-            'People should learn to swim.',
-            'Nobody here can swim.',
+            'Čudni li čovjek!',
+            'Čudnog li čovjeka!',
+            'Čudnom li čovjeku!',
+            'Li čudnog čovjeka!',
           ],
-          correct: 0,
+          correct: 1,
           explanation:
-            'Ima + genitive asserts that such people exist: there are people who cannot swim.',
+            'The emphatic genitive: adjective and noun in the genitive, li after the first word — Čudnog li čovjeka!',
         },
       ],
     },
@@ -1218,6 +1293,8 @@ const EMPHATIC_GENITIVE = {
         'Žao mi je + genitive: what you miss, regret or pity',
         'Stalo mi je do, nije mi do, držim do — always do + genitive',
         'Pun, prepun, sit, željan, svjestan take the genitive with no preposition',
+        'The emphatic genitive proper: Kakve li budale! Čudnog li čovjeka!',
+        'Žali Bože + genitive — what a waste of: Žali Bože truda!',
       ],
     },
   ],
@@ -1688,7 +1765,7 @@ export const PRACTICE = {
         },
         {
           q: 'Turisti su stajali ___ ceste i fotografirali.',
-          options: ['nasred', 'povodom', 'umjesto', 'putem'],
+          options: ['nasred', 'prigodom', 'umjesto', 'putem'],
           correct: 0,
           hint: 'A road is a surface you stand on.',
           explanation: 'nasred ceste.',
@@ -1709,10 +1786,11 @@ export const PRACTICE = {
         },
         {
           q: 'Grad je organizirao vatromet ___ Dana državnosti.',
-          options: ['prilikom', 'pomoću', 'povodom', 'umjesto'],
+          options: ['prilikom', 'pomoću', 'prigodom', 'umjesto'],
           correct: 2,
           hint: 'What does the fireworks display mark?',
-          explanation: 'povodom — the occasion being marked.',
+          explanation:
+            'prigodom — the occasion being marked (povodom is also standard and very common).',
         },
         {
           q: 'Unatoč ___, izlet je bio uspješan.',
@@ -1723,7 +1801,7 @@ export const PRACTICE = {
         },
         {
           q: 'Ostao je kod kuće ___ prehlade.',
-          options: ['zbog', 'radi', 'povodom', 'umjesto'],
+          options: ['zbog', 'radi', 'diljem', 'umjesto'],
           correct: 0,
           hint: 'The cold is the cause, not the purpose.',
           explanation: 'zbog prehlade — cause.',
@@ -1734,6 +1812,26 @@ export const PRACTICE = {
           correct: 1,
           hint: 'Following the length of something.',
           explanation: 'duž rijeke — along the river.',
+        },
+        {
+          q: 'Which sentence uses mimo in its spatial sense?',
+          options: [
+            'Odluka je donesena mimo pravila.',
+            'Svaki dan prolazi mimo naše kuće.',
+            'Mimo svih očekivanja, pobijedili su.',
+            'Zaposlili su ga mimo natječaja.',
+          ],
+          correct: 1,
+          hint: 'Look for movement past a place.',
+          explanation:
+            'prolazi mimo naše kuće — goes past our house. The others mean contrary to, outside of.',
+        },
+        {
+          type: 'type',
+          q: 'Pozdravio je goste ____ cijele obitelji. (on behalf of — one word)',
+          answer: 'uime',
+          hint: 'u + ime, written together.',
+          explanation: 'uime — on behalf of, written as one word.',
         },
         {
           type: 'type',
@@ -1793,7 +1891,7 @@ export const PRACTICE = {
       },
       {
         q: 'Complete: "Utakmica je prekinuta ___ nevremena."',
-        options: ['zbog', 'radi', 'pomoću', 'povodom'],
+        options: ['zbog', 'radi', 'pomoću', 'prigodom'],
         correct: 0,
         explanation: 'The storm is the cause: zbog nevremena.',
       },
@@ -1814,7 +1912,8 @@ export const PRACTICE = {
       ['usred', 'in the middle of', 'Usred grada nalazi se velik park.'],
       ['nasred', 'in the middle of (a surface)', 'Nasred trga stoji kip.'],
       ['uoči', 'on the eve of', 'Uoči Božića grad je pun ljudi.'],
-      ['povodom', 'to mark, on the occasion of', 'Povodom obljetnice održan je koncert.'],
+      ['prigodom', 'to mark, on the occasion of', 'Prigodom obljetnice održan je koncert.'],
+      ['diljem', 'throughout', 'Putovali smo diljem svijeta.'],
       ['prilikom', 'on the occasion of, when', 'Prilikom prijave trebate putovnicu.'],
       ['putem', 'via, by way of', 'Kupio je kartu putem interneta.'],
       ['pomoću', 'with the help of', 'Otvorio je vrata pomoću žice.'],
@@ -2145,7 +2244,7 @@ export const PRACTICE = {
         {
           q: 'Which sentence is correct?',
           options: [
-            'Bili su ljudi koji su se žalili.',
+            'Bile su ljudi koje su se žalile.',
             'Bilo je ljudi koji su se žalili.',
             'Bilo su ljudi koji su se žalili.',
             'Bila je ljudi koja su se žalila.',
@@ -2153,6 +2252,20 @@ export const PRACTICE = {
           correct: 1,
           hint: 'There were such people: the genitive and a neuter singular verb.',
           explanation: 'Bilo je ljudi koji… — the emphatic genitive.',
+        },
+        {
+          q: 'Complete the exclamation: "___ li žene!" (What a clever woman!)',
+          options: ['Pametne', 'Pametna', 'Pametnoj', 'Pametnu'],
+          correct: 0,
+          hint: 'The emphatic genitive: adjective and noun both in the genitive.',
+          explanation: 'Pametne li žene! — genitive singular of pametna žena.',
+        },
+        {
+          type: 'type',
+          q: 'Žali Bože ____ koje smo potrošili! (the time)',
+          answer: 'vremena',
+          hint: 'Žali Bože takes the genitive of vrijeme.',
+          explanation: 'Žali Bože vremena — genitive.',
         },
         {
           q: 'Which word order is correct?',

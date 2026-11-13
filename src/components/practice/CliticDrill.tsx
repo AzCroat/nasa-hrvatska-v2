@@ -137,7 +137,7 @@ const DATA = [
     tip: "Imperative with dative clitic 'mi' — give to me",
   },
   {
-    sentence: 'Nosila ___ je cvijeće.',
+    sentence: 'Donijela ___ je cvijeće.',
     opts: ['joj', 'ju', 'je', 'nju'],
     answer: 'joj',
     en: 'She brought her flowers.',
@@ -151,7 +151,7 @@ const DATA = [
     tip: "Reflexive 'se' with 'sjećati se' (to remember) — a second-position clitic: sjeća se, on se sjeća",
   },
   {
-    sentence: 'Pitali ___ za pravac.',
+    sentence: 'Pitali ___ za put.',
     opts: ['su nas', 'nas su', 'su nam', 'ih smo'],
     answer: 'su nas',
     en: 'They asked us for directions.',

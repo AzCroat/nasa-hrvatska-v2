@@ -101,7 +101,7 @@ export const REGIONAL_DRILL_DATA: ModeDrillItem[] = [
     en: 'How is gdje said on the coast?',
     opts: ['di', 'kaj', 'ča', 'kade'],
     answer: 'di',
-    tip: 'Di si? is the standard coastal greeting — and it means "how are you".',
+    tip: 'Di si? is a common, colloquial coastal greeting — it means "how are you"; the standard is Kako si?',
   },
   {
     mode: 'narjecja',

@@ -13,6 +13,8 @@
 //   pisati   — the pisati family
 //   ici      — the ići family
 //   pravopis — spelling and the new imperfective
+//   parovi   — the workbook's twenty prefixes and their aspect pairs, and the d that
+//              is NOT changed in writing before s, š, c, č, ć (odseliti, predsjednik)
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -20,6 +22,7 @@ export const PREFIXED_VERBS_MODE_LABELS: Record<string, string> = {
   pisati: '✍️ Pisati',
   ici: '🚶 Ići',
   pravopis: '🔤 Pravopis i vid',
+  parovi: '🔁 Prefiksi i parovi',
 };
 
 export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
@@ -140,11 +143,11 @@ export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ici',
-    q: 'Uspio je ____ sve prepreke i završiti utrku.',
-    en: 'He managed to overcome every obstacle and finish the race.',
-    opts: ['nadići', 'sići', 'prići', 'zaći'],
-    answer: 'nadići',
-    tip: 'nad- over, surpassing: nadići prepreke.',
+    q: 'Kad ____ do vrha brda, vidjet ćeš more.',
+    en: 'When you reach the top of the hill, you will see the sea.',
+    opts: ['dođeš', 'siđeš', 'zađeš', 'nađeš'],
+    answer: 'dođeš',
+    tip: 'do- reaching a point: doći do vrha.',
   },
   {
     mode: 'ici',
@@ -219,5 +222,71 @@ export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
     opts: ['prepisivali', 'prepisali', 'propisivali', 'prepisavali'],
     answer: 'prepisivali',
     tip: 'dugo signals duration: the imperfective prepisivati.',
+  },
+
+  // ── parovi ────────────────────────────────────────────────────────────────
+  {
+    mode: 'parovi',
+    q: 'Kredit za stan ____ već deset godina.',
+    en: 'We have been paying off the mortgage for ten years.',
+    opts: ['otplaćujemo', 'otplatimo', 'otplatjujemo', 'odplaćujemo'],
+    answer: 'otplaćujemo',
+    tip: 'An ongoing process: the imperfective otplaćivati, with t → ć and od- → ot-.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Stručnjaci još ____ štetu nakon poplave.',
+    en: 'The experts are still assessing the damage after the flood.',
+    opts: ['procjenjuju', 'procijene', 'procijenjuju', 'prociješe'],
+    answer: 'procjenjuju',
+    tip: 'procijeniti → procjenjivati: ije becomes je in the imperfective.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Ova me vrućina potpuno ____.',
+    en: 'This heat is wearing me out completely.',
+    opts: ['iscrpljuje', 'izcrpljuje', 'iscrpuje', 'iscrpi se'],
+    answer: 'iscrpljuje',
+    tip: 'iz- becomes is- before c, and p becomes plj in iscrpljivati.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Nemoj se ____ ako prvi put ne uspiješ.',
+    en: 'Do not lose heart if you do not succeed the first time.',
+    opts: ['obeshrabriti', 'obezhrabriti', 'oshrabriti', 'ohrabriti'],
+    answer: 'obeshrabriti',
+    tip: 'obez- becomes obes- before h: obeshrabriti — to take the courage away.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Prošle godine su se ____ u Osijek.',
+    en: 'Last year they moved away to Osijek.',
+    opts: ['odselili', 'otselili', 'oselili', 'odsselili'],
+    answer: 'odselili',
+    tip: 'd is not changed in writing before s, š, c, č or ć: odseliti.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Novi ____ države položio je prisegu.',
+    en: 'The new president of the country took the oath.',
+    opts: ['predsjednik', 'pretsjednik', 'predjednik', 'presjednik'],
+    answer: 'predsjednik',
+    tip: 'd stays d before s: pred- + sjednik.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Na sastanku moramo se ____ s problemom.',
+    en: 'At the meeting we have to face the problem.',
+    opts: ['suočiti', 'uočiti', 'uzočiti', 'očiti'],
+    answer: 'suočiti',
+    tip: 'su- together, face to face: suočiti se s nečim.',
+  },
+  {
+    mode: 'parovi',
+    q: 'Na sunčanju joj je koža brzo ____.',
+    en: 'While sunbathing her skin went dark quickly.',
+    opts: ['potamnjela', 'potamnila', 'potamnjivala', 'potamljela'],
+    answer: 'potamnjela',
+    tip: 'potamnjeti — to become dark by itself; potamniti takes an object (potamnila je kosu).',
   },
 ];

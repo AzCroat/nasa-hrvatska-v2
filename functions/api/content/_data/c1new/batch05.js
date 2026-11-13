@@ -34,7 +34,7 @@ export const SPINE = [
     masterOrder: 33,
     prerequisites: ['dative-locative', 'clitics-advanced'],
     objectives: [
-      'Recognise and use the ethical dative: Pazi mi se!, Kako ti je mama?',
+      'Recognise and use the ethical dative: Pazi mi se!, Budite nam sretni!',
       'Place it correctly in the clitic cluster',
       'Express going to a person with the dative, with or without k (ka)',
     ],
@@ -65,7 +65,7 @@ export const SPINE = [
     prerequisites: ['ethical-dative'],
     objectives: [
       'Use the exclamatory dative: Blago tebi!, Jao meni!, Slava junacima!',
-      'Swear with the emphatic dative (dativ zakletve): Tako mi svega!',
+      'Swear with the emphatic dative (dativ zakletve): Majke mi! Života mi!',
       'Tell a dative exclamation from one that is not: Živjela Hrvatska!',
     ],
   },
@@ -114,8 +114,8 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Ivo and Ante: Like Žena, Except the Instrumental',
-        body: 'Two-syllable names in -o (Ivo, Pero, Đuro, Franjo) and the names in -e (Ante, Jure, Mate, Stipe) take the singular endings of žena — genitive -e, dative and locative -i, accusative -u — but the instrumental is the masculine -om: s Ivom, s Antom. For the -e names the nominative, genitive and vocative look alike, which is why street names read Trg Ante Starčevića. Do not confuse Ivo with Ivan: Ivan is Ivana in the genitive, Ivo is Ive. In some regions you will also hear Ivo declined like Marko; the paradigm taught here is the standard one.',
+        title: 'Ivo and Ante: Exactly Like Žena',
+        body: 'Two-syllable names in -o (Ivo, Pero, Đuro, Franjo) and the names in -e (Ante, Jure, Mate, Stipe) take the singular endings of žena all the way through — genitive -e, dative and locative -i, accusative -u, instrumental -om: s Ivom, s Antom, s Franjom, sa Stipom, just as s ženom. There is no exception to learn. For the -e names the nominative, genitive and vocative look alike, which is why street names read Trg Ante Starčevića. Do not confuse Ivo with Ivan: Ivan is Ivana in the genitive, Ivo is Ive. In some regions you will also hear Ivo declined like Marko; the paradigm taught here is the standard one.',
         highlight: 's Ivom, s Antom',
       },
       {
@@ -159,9 +159,9 @@ export const LESSONS = [
         title: 'The Names in Use',
         items: [
           {
-            hr: 'Sutra idem kod Ive na ručak.',
-            en: "Tomorrow I'm going to Ivo's for lunch.",
-            note: 'Ive — genitive of Ivo after kod',
+            hr: 'Sutra sam kod Ive na ručku.',
+            en: "Tomorrow I'm at Ivo's for lunch.",
+            note: 'Ive — genitive of Ivo after kod; kod says WHERE you are, never where you go',
           },
           {
             hr: 'Jesi li vidio Antu na utakmici?',
@@ -308,7 +308,7 @@ export const LESSONS = [
         title: 'Names and Groups of Men — Key Takeaways',
         points: [
           'Names in -ko decline like brat: Marko, Marka, Markom',
-          'Ivo, Franjo, Ante, Jure: like žena, but the instrumental is -om',
+          'Ivo, Franjo, Ante, Jure: like žena in every case — s Ivom, s Antom like s ženom',
           'Luka, Nikola: like žena; the name keeps k in the dative (Luki)',
           'All of them agree as masculine: Ante je došao',
           'dvojica, trojica, četvorica count men, decline like žena, take the genitive plural',
@@ -342,7 +342,9 @@ export const LESSONS = [
         title: 'The Ethical Dative in Use',
         headers: ['Sentence', 'What the dative adds'],
         rows: [
-          ['Kako ti je mama?', 'How is your mum? — personal concern'],
+          ['Budite nam sretni!', 'Be happy — we wish it with all our heart'],
+          ['Jesi li mi se umorio?', 'Are you tired, my dear? — tenderness'],
+          ['Svi su ti oni podmićeni!', "They've all been bribed, I tell you!"],
           ['Pazi mi se!', 'Take care of yourself — for my sake'],
           ['Nemoj mi plakati!', "Don't cry — I can't bear to see it"],
           ['Ti ćeš mi sutra ranije ustati!', "You'll get up earlier tomorrow — I'm telling you"],
@@ -353,19 +355,19 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Always a Clitic',
-        body: 'The ethical dative is always an unstressed clitic — mi, ti, nam, vam — and it sits in second position inside the clitic cluster, in the usual order: after li and ćeš, before je and se. Ti ćeš mi…, Kako ti je…, Pazi mi se. A stressed form changes the meaning: "Nemoj meni plakati" means "don\'t come crying to me".',
+        body: 'The ethical dative is always an unstressed clitic — mi, ti, nam, vam — and it sits in second position inside the clitic cluster, in the usual order: after li and ćeš, before je and se. Ti ćeš mi…, Jesi li mi se…, Pazi mi se. A stressed form changes the meaning: "Nemoj meni plakati" means "don\'t come crying to me".',
         highlight: 'mi, ti, nam, vam',
       },
       {
         type: 'rule',
         title: 'The Test: Drop It',
-        body: 'Leave the clitic out and the sentence still stands, with the same facts: Pazi se!, Nemoj plakati!, Kako je mama? Only the warmth, the insistence or the closeness goes. If dropping the dative removes a participant — Daj mi knjigu → Daj knjigu (to whom?) — it was not an ethical dative but an ordinary indirect object.',
+        body: 'Leave the clitic out and the sentence still stands, with the same facts: Pazi se!, Nemoj plakati!, Budite sretni!, Svi su oni podmićeni! A sentence like Kako ti je mama? fails this test: ti there says whose mother she is (the possessive dative), and without it the sentence asks about a different person. Only the warmth, the insistence or the closeness goes. If dropping the dative removes a participant — Daj mi knjigu → Daj knjigu (to whom?) — it was not an ethical dative but an ordinary indirect object.',
         highlight: 'drop the clitic',
       },
       {
         type: 'rule',
         title: 'Where It Belongs',
-        body: 'The ethical dative is spoken, familiar Croatian: parents to children, friends, family. It does not belong in formal writing. With vam it can be polite and warm at once — Kako vam je suprug? — a neighbour asking after your husband.',
+        body: 'The ethical dative is spoken, familiar Croatian: parents to children, friends, family. It does not belong in formal writing. With nam or vam it can be warm and solemn at once — Budite nam sretni! is said to newly-weds.',
         highlight: 'spoken, familiar Croatian',
       },
       {
@@ -390,9 +392,9 @@ export const LESSONS = [
         title: 'The Ethical Dative',
         items: [
           {
-            hr: 'Kako ti je mama? Je li joj bolje?',
-            en: "How's your mum? Is she feeling better?",
-            note: 'ti — concern, not a recipient',
+            hr: 'Jesi li mi se umorio, sine?',
+            en: 'Are you tired, son?',
+            note: 'mi — tenderness; li, then mi, then se',
           },
           {
             hr: 'Pazi mi se na tom putu!',
@@ -420,9 +422,14 @@ export const LESSONS = [
             note: 'ti — draws the listener in',
           },
           {
-            hr: 'Kako vam je suprug nakon operacije?',
-            en: 'How is your husband after the operation?',
-            note: 'vam — polite and warm',
+            hr: 'Budite nam sretni i zdravi!',
+            en: 'Be happy and healthy!',
+            note: 'nam — the wish of the whole family; drop it and the wish stands',
+          },
+          {
+            hr: 'Svi su ti oni podmićeni, nemoj im vjerovati!',
+            en: "They're all bribed, I tell you, don't believe them!",
+            note: 'ti — draws the listener in; the facts are the same without it',
           },
         ],
       },
@@ -482,7 +489,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three slips. The first is the stressed form, "Pazi meni se" — the ethical dative is always a clitic, in second position: Pazi mi se. The second is the wrong place in the cluster, "Kako je ti mama?" — the dative clitic comes before je: Kako ti je mama? The third is "correcting" a good sentence: Idem liječniku and Idem k liječniku are both standard Croatian, and neither is an error.',
+        body: 'Three slips. The first is the stressed form, "Pazi meni se" — the ethical dative is always a clitic, in second position: Pazi mi se. The second is the wrong place in the cluster, "Jesi li se mi umorio?" — the dative clitic comes before se: Jesi li mi se umorio? The third is "correcting" a good sentence: Idem liječniku and Idem k liječniku are both standard Croatian, and neither is an error.',
         highlight: 'always a clitic',
       },
       {
@@ -502,10 +509,10 @@ export const LESSONS = [
               'In Nemoj mi plakati nobody receives anything; drop mi and the facts are unchanged. In the others mi is the recipient.',
           },
           {
-            q: 'Put the clitics in order: "Kako ___ mama?"',
-            options: ['je ti', 'ti je', 'te je', 'je te'],
+            q: 'Put the clitics in order: "Jesi li ___ umorio?"',
+            options: ['se mi', 'mi se', 'me se', 'se me'],
             correct: 1,
-            explanation: 'The dative clitic comes before je: Kako ti je mama?',
+            explanation: 'The dative clitic comes before se: Jesi li mi se umorio?',
           },
           {
             q: 'Complete (a parent insisting): "Ti ___ sutra ranije ustati!"',
@@ -861,8 +868,8 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Where You See the Difference',
-        body: 'The two forms differ visibly only in the masculine nominative singular, and in the accusative of an inanimate masculine noun: nov kaput / novi kaput, kupio sam nov kaput. In the feminine, the neuter and the plural they look the same: nova kuća, novo selo, novi ljudi. So the choice you actually make is mostly the masculine one.',
-        highlight: 'the masculine nominative singular',
+        body: 'The two declensions differ in the masculine and neuter SINGULAR. In the nominative (and the inanimate accusative) you see it in every register: nov kaput / novi kaput, kupio sam nov kaput. In the genitive, dative and locative the indefinite takes the endings of a noun: lijepa dana, lijepu danu — against the definite lijepoga dana, lijepome danu. In the feminine and in the plural the two look the same: nova kuća, novi ljudi.',
+        highlight: 'lijepa dana, lijepu danu',
       },
       {
         type: 'table',
@@ -880,14 +887,32 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Short Forms Today',
-        body: 'The short indefinite forms in the oblique cases — genitive nova, dative and locative novu — are marked: literary, older, or kept in fixed descriptive phrases. You meet them in čovjek dobra srca, mladić visoka rasta, žena vedra duha. Everyday speech says čovjek dobrog srca, and both are standard; recognise the short forms, and use them where the phrase is fixed.',
-        highlight: 'čovjek dobra srca',
+        body: 'The short indefinite forms in the oblique cases — genitive nova, dative and locative novu — belong to high written style and to literature. In speech and ordinary writing use the definite forms (novoga, novome). Learn to recognise the short forms, and use them in two places: in fixed phrases (biti dobra srca, biti na dobru glasu, biti kratka daha, čovjek visoka rasta) and in the possessive adjectives in -ov, -ev, -in, which decline this way most consistently: Markov brat, Markova brata, Markovu bratu. One more rule: an indefinite adjective cannot follow a demonstrative — Volim tog dobrog čovjeka, never tog dobra čovjeka.',
+        highlight: 'Markova brata, Markovu bratu',
       },
       {
         type: 'rule',
         title: 'Adjectives With Only One Form',
         body: 'Some adjectives have only the definite form: those in -ski, -čki, -ški (hrvatski, gradski), many in -nji and -ji (gornji, donji, jutarnji, božji), and comparatives and superlatives (bolji, najveći). Possessive adjectives in -ov, -ev, -in have only the indefinite: Markov, majčin. With these there is no choice to make.',
         highlight: 'hrvatski, bolji, najveći',
+      },
+      {
+        type: 'rule',
+        title: 'Navesci: the Optional -a, -e, -u',
+        body: 'A navezak is a final sound the ending may take or leave without changing the meaning: novog or novoga, novom, novome or novomu, novim or novima. Navesci are commoner in writing than in speech. High style recommends: -u in the dative and -e in the locative (Veselimo se sunčanomu danu; Razgovarali smo o obavljenome poslu); when several adjectives stand together, the navezak on the FIRST (mojemu mlađem bratu). The -a of -ima follows its own rule: before a noun the adjective takes NO navezak (Razgovaramo o novim studentima — never novima studentima), but an adjective standing alone without a noun needs it: Žene više nisu smatrane slabijima.',
+        highlight: 'Razgovaramo o novim studentima',
+      },
+      {
+        type: 'table',
+        title: 'The Navesci at a Glance',
+        headers: ['Case', 'Without', 'With navezak', 'Note'],
+        rows: [
+          ['G sg', 'novog', 'novoga', 'free choice'],
+          ['D sg', 'novom', 'novomu', 'high style: -u in the dative'],
+          ['L sg', 'novom', 'novome', 'high style: -e in the locative'],
+          ['D, L, I pl + noun', 'novim studentima', '—', 'no navezak before a noun'],
+          ['D, L, I pl, no noun', '—', 'smatrane slabijima', 'navezak required'],
+        ],
       },
       {
         type: 'example',
@@ -909,7 +934,7 @@ export const LESSONS = [
             note: 'dobar — the predicate describes',
           },
           {
-            hr: 'Moj je brat bolestan, pa danas neće doći.',
+            hr: 'Moj je brat bolestan pa danas neće doći.',
             en: "My brother is ill, so he won't come today.",
             note: 'bolestan — indefinite predicate',
           },
@@ -975,7 +1000,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three slips. The first is the definite form in a plain description: "Film je bio dobri" — a predicate that describes takes the indefinite: Film je bio dobar. The second is inventing an indefinite for an adjective that has none: "Taj je običaj hrvatsk" — -ski adjectives have one form: hrvatski. The third is reading čovjek dobra srca as a mistake for dobrog: the short genitive is correct, only more literary.',
+        body: 'Three slips. The first is the definite form in a plain description: "Film je bio dobri" — a predicate that describes takes the indefinite: Film je bio dobar. The second is inventing an indefinite for an adjective that has none: "Taj je običaj hrvatsk" — -ski adjectives have one form: hrvatski. The third is reading čovjek dobra srca as a mistake for dobrog: the short genitive is correct, only more literary. The fourth is a navezak before a noun in -ima: "o novima studentima" — write o novim studentima.',
         highlight: 'Film je bio dobar',
       },
       {
@@ -1019,10 +1044,10 @@ export const LESSONS = [
               'The adjective agrees with srca in the genitive, here in the short indefinite form: dobra srca.',
           },
           {
-            q: 'What is the indefinite form of "mali"?',
-            options: ['mal', 'malen', 'maleni', 'malo'],
+            q: 'Complete: "Razgovaramo o ___ studentima."',
+            options: ['novima', 'novim', 'novoga', 'novome'],
             correct: 1,
-            explanation: 'mali has a longer indefinite form: malen (Stan je malen).',
+            explanation: 'Before a noun in -ima the adjective takes no navezak: novim studentima.',
           },
         ],
       },
@@ -1035,7 +1060,9 @@ export const LESSONS = [
           'The difference shows in the masculine nominative singular (and inanimate accusative)',
           'Short oblique forms (nova, novu) are literary or fixed: čovjek dobra srca',
           '-ski, -nji, comparatives and superlatives are definite only',
-          'Possessives in -ov, -in are indefinite only: Markov, majčin',
+          'Possessives in -ov, -in are indefinite only: Markov, majčin; Markova brata',
+          'No indefinite after a demonstrative: tog dobrog čovjeka',
+          'Navesci: novoga, novomu, novome; never before a noun in -ima — novim studentima, but smatrane slabijima',
         ],
       },
     ],
@@ -1057,7 +1084,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Datives With No Verb',
-        body: 'Some of the strongest things said in Croatian are datives with no verb at all: Blago tebi! Jao meni! Slava junacima! Others swear an oath with a dative clitic: Tako mi svega! The Croaticum grammar calls the first the usklični dativ (exclamatory dative) and the second the emfatični dativ, also called the dativ zakletve (dative of the oath).',
+        body: 'Some of the strongest things said in Croatian are datives with no verb at all: Blago tebi! Jao meni! Slava junacima! Others swear an oath with a dative clitic: Majke mi! Života mi! The Croaticum grammar calls the first the usklični dativ (exclamatory dative) and the second the emfatični dativ, also called the dativ zakletve (dative of the oath).',
         icon: '❗',
       },
       {
@@ -1078,7 +1105,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'No Verb, Just a Dative',
-        body: 'After blago, jao and teško the dative names the person the feeling is about, and there is no verb: Blago tebi (lucky you), Jao meni (woe is me), Teško onome tko laže (woe to whoever lies). The pronoun is in its full, stressed form — tebi, meni, njima — because the whole exclamation rests on it.',
+        body: 'After blago, lako, teško and jao the dative names the person the feeling is about, and there is no verb: Blago tebi (lucky you), Lako njemu, dobro zarađuje (it is easy for him, he earns well), Jao meni (woe is me), Teško onome tko laže (woe to whoever lies). The pronoun is in its full, stressed form — tebi, meni, njima — because the whole exclamation rests on it.',
         highlight: 'Blago tebi!',
       },
       {
@@ -1092,17 +1119,18 @@ export const LESSONS = [
         title: 'The Emphatic Dative (Dative of the Oath)',
         headers: ['Oath', 'Meaning'],
         rows: [
+          ['Majke mi, nisam kriv!', "I swear on my mother, it wasn't me!"],
+          ['Života mi, on je prvi počeo!', 'I swear on my life, he started it!'],
+          ['Zdravlja ti, vrati mi novac!', 'On your health, give me my money back!'],
           ['Tako mi svega!', 'I swear on everything (I hold dear)!'],
-          ['Tako mi Boga!', 'So help me God!'],
-          ['Majke mi!', 'I swear on my mother!'],
           ['Tako ti Boga, reci istinu!', "For God's sake, tell the truth!"],
         ],
       },
       {
         type: 'rule',
         title: 'The Oath: Clitic Plus Genitive',
-        body: 'An oath is built from tako, an unstressed dative clitic and the genitive of what is sworn by: Tako mi svega, Tako mi Boga. The clitic names who swears — mi when the speaker does, ti when the listener is asked to: Tako ti Boga, reci istinu! The short colloquial form drops tako: Majke mi! Notice the contrast with blago tebi: the oath uses the clitic.',
-        highlight: 'Tako mi svega',
+        body: 'The basic oath is the genitive of what is sworn by followed by an unstressed dative clitic: Majke mi! Života mi! Zdravlja ti! The clitic names who swears — mi when the speaker does, ti when the listener is asked to: Zdravlja ti, vrati mi novac! A longer form puts tako first: Tako mi svega, Tako ti Boga, reci istinu! Notice the contrast with blago tebi: the oath uses the clitic. The emphatic dative is colloquial: it is common among young people (Majke mi! above all) and is often taken as a sign of careless speech, so keep it out of formal Croatian.',
+        highlight: 'Majke mi! Života mi!',
       },
       {
         type: 'rule',
@@ -1263,7 +1291,8 @@ export const LESSONS = [
           'Usklični dativ: Blago tebi!, Jao meni!, Teško onome tko…',
           'slava, čast, hvala + dative: Slava junacima!, Hvala Bogu!',
           'Fixed wishes: Pokoj mu duši!, Laka mu zemlja!',
-          'Emfatični dativ (dativ zakletve): Tako mi svega!, Majke mi!',
+          'Emfatični dativ (dativ zakletve): Majke mi!, Života mi! — colloquial',
+          'Usklični dativ after blago, lako, teško, jao: Lako njemu!',
           'Exclamations take the stressed pronoun; the oath takes the clitic',
           'Živjela Hrvatska! is a nominative, not a dative',
         ],
@@ -1294,7 +1323,7 @@ export const PRACTICE = {
             text: 'daj pismo — the thing given in the accusative.',
           },
         ],
-        answer: 'Ante nema, pa daj pismo Juri.',
+        answer: 'Ante nema pa daj pismo Juri.',
       },
       {
         title: 'Three Men, One Verb',
@@ -1332,8 +1361,8 @@ export const PRACTICE = {
           q: 'Complete: "Idemo u kino s ___." (Đuro)',
           options: ['Đurom', 'Đuru', 'Đure', 'Đuri'],
           correct: 0,
-          hint: 'In the instrumental these names take the masculine ending.',
-          explanation: 's Đurom — like žena elsewhere, but -om in the instrumental.',
+          hint: 'These names follow žena: think of s ženom.',
+          explanation: 's Đurom — the ordinary žena instrumental, like s ženom.',
         },
         {
           q: 'Complete: "Čestitao sam ___ rođendan." (Mate)',
@@ -1384,7 +1413,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Sutra idem kod ____ na kavu. (Ivo)',
+          q: 'Sutra smo kod ____ na kavi. (Ivo)',
           answer: 'Ive',
           hint: 'Two-syllable names in -o take the genitive of žena.',
           explanation: 'kod Ive — genitive.',
@@ -1520,12 +1549,13 @@ export const PRACTICE = {
           options: [
             'Kupio mi je kavu.',
             'Rekla mi je istinu.',
-            'Kako ti je baka?',
+            'Svi su ti oni podmićeni!',
             'Poslao mi je poruku.',
           ],
           correct: 2,
           hint: 'Look for the dative you could drop without losing a participant.',
-          explanation: 'Kako ti je baka? — ti adds concern; nobody receives anything.',
+          explanation:
+            'Svi su ti oni podmićeni! — ti draws the listener in; nobody receives anything.',
         },
         {
           q: 'Complete: "Pazi ___!" (ethical dative + reflexive)',
@@ -1590,10 +1620,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Kako ____ je tata? (asking a friend)',
+          q: 'Svi su ____ oni podmićeni! (to a friend, "I tell you")',
           answer: 'ti',
-          hint: 'The second-person dative clitic, before je.',
-          explanation: 'Kako ti je tata?',
+          hint: 'The second-person dative clitic, after su.',
+          explanation: 'Svi su ti oni podmićeni! — the ethical dative ti.',
         },
         {
           type: 'type',
@@ -1625,10 +1655,10 @@ export const PRACTICE = {
           'Drop mi from the warning and the facts are unchanged; in the others mi receives or is answered.',
       },
       {
-        q: 'Complete (to a neighbour, politely): "Kako ___ je suprug?"',
-        options: ['vam', 'vas', 'vama', 'vi'],
+        q: 'Complete (a toast to the newly-weds): "Budite ___ sretni!"',
+        options: ['nam', 'nas', 'nama', 'mi'],
         correct: 0,
-        explanation: 'The polite dative clitic vam: Kako vam je suprug?',
+        explanation: 'The ethical dative clitic nam: Budite nam sretni!',
       },
       {
         q: 'What does the ethical dative add?',
@@ -1989,7 +2019,7 @@ export const PRACTICE = {
           q: 'What is the indefinite form of "teški"?',
           options: ['teška', 'težak', 'teško', 'teškog'],
           correct: 1,
-          hint: 'It has a fleeting a, and k changes before it.',
+          hint: 'It has a fleeting a; in teški the š is the devoiced ž of the root.',
           explanation: 'težak — teški in its indefinite form.',
         },
         {
@@ -2003,13 +2033,13 @@ export const PRACTICE = {
           q: 'Where does the indefinite/definite difference show?',
           options: [
             'in every case and gender',
-            'in the masculine nominative singular (and inanimate accusative)',
+            'in the masculine and neuter singular',
             'only in the plural',
             'only in the feminine',
           ],
           correct: 1,
-          hint: 'Feminine and neuter forms look the same either way.',
-          explanation: 'nov / novi — the masculine nominative singular.',
+          hint: 'The feminine and the plural look the same either way.',
+          explanation: 'nov / novi in the nominative; nova / novoga, novu / novome in G, D and L.',
         },
         {
           type: 'type',
@@ -2038,6 +2068,25 @@ export const PRACTICE = {
           answer: 'malen',
           hint: 'mali has a separate, longer indefinite form.',
           explanation: 'Stan je malen.',
+        },
+        {
+          type: 'type',
+          q: 'Žene više nisu smatrane ____. (weaker — no noun follows)',
+          answer: 'slabijima',
+          hint: 'An adjective with no noun after it needs the navezak in -ima.',
+          explanation: 'smatrane slabijima — the navezak is required when no noun follows.',
+        },
+        {
+          q: 'Which phrase is correct?',
+          options: [
+            's dobrima prijateljima',
+            's dobrim prijateljima',
+            's dobroga prijateljima',
+            's dobrome prijateljima',
+          ],
+          correct: 1,
+          hint: 'Before a noun in -ima the adjective takes no navezak.',
+          explanation: 's dobrim prijateljima.',
         },
       ],
     },

@@ -58,8 +58,9 @@ const courseOrder = new Map(
   (CURRICULUM as Entry[]).map((e) => [e.id, RANK[e.level] * 1000 + e.order]),
 );
 const levelOf = new Map((CURRICULUM as Entry[]).map((e) => [e.id, e.level]));
+// zarez-interpunkcija also moved down, and on 2026-11-13 was merged into the C1
+// comma-dependent-clauses lesson (it repeated it), so it is no longer a lesson.
 const MOVED_TO_C1 = [
-  'zarez-interpunkcija',
   'slaganje-suptilnosti',
   'pluskvamperfekt',
   'padezne-suptilnosti',
@@ -359,13 +360,12 @@ describe('teach → practice coupling stays HONEST at C2', () => {
   // The six lessons that moved to C1 (2026-11-12) keep the couplings decided here;
   // their drills were regated to C1 so the coupling resolves (curriculumCouplingResolves).
   const MOVED_COUPLINGS: Record<string, string> = {
-    'zarez-interpunkcija': 'punctuation',
     'sklonidba-iznimke': 'declension-exceptions',
     'brojevi-norma': 'number-norm',
     'slaganje-suptilnosti': 'agreement-subtleties',
     'padezne-suptilnosti': 'case-subtleties',
-    // The pluperfect is a past tense, and `cloze` is the drill.
-    pluskvamperfekt: 'past-tense',
+    // The pluperfect has its own drill since 2026-11-13; `cloze` had no pluperfect item.
+    pluskvamperfekt: 'c1-pluperfect',
   };
 
   it.each(Object.entries(MOVED_COUPLINGS))('%s (now C1) still practises %s', (lesson, cat) => {

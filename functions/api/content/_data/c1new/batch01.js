@@ -39,8 +39,8 @@ export const SPINE = [
     prerequisites: ['accusative-measure-manner', 'complex-sentences'],
     objectives: [
       'Join clauses with i, pa, te, ni and niti and know what each adds',
-      'Draw a conclusion with dakle, stoga, zato, prema tome and pa',
-      'Punctuate both: no comma before i, te, ni, niti; a comma before stoga, zato, prema tome',
+      'Draw a conclusion with dakle, stoga, zato, prema tome, sve u svemu and jednom riječju',
+      'Punctuate both: no comma before i, pa, te, ni, niti; a comma before dakle, stoga, zato, prema tome',
     ],
   },
   {
@@ -110,7 +110,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Instrumental: -i or -ju',
-        body: 'The instrumental singular has two standard endings, -i and -ju. The -ju ending meets the last consonant of the stem and changes it (jotation): t + j → ć (smrt → smrću, pamet → pameću), st + j → šć (radost → radošću, kost → košću), d + j → đ (glad → glađu), and after v, b, p, m an l appears (ljubav → ljubavlju, krv → krvlju). After č, ć, đ, j, lj, nj, š, ž the ending is simply added: riječ → riječju, noć → noću, sol → solju. Fixed phrases prefer -ju (jednom riječju, s ljubavlju, noću as "at night"); after an adjective -i is very common (s velikom radosti). Both are correct, and no rule obliges you to choose one.',
+        body: 'The instrumental singular has two standard endings, -i and -ju. The -ju ending meets the last consonant of the stem and changes it (jotation): t + j → ć (smrt → smrću, pamet → pameću), st + j → šć (radost → radošću, kost → košću), d + j → đ (glad → glađu), l + j → lj (sol → solju, misao → mišlju), and after v, b, p, m an l appears (ljubav → ljubavlju, krv → krvlju). After č, ć, đ, j, lj, nj, š, ž the ending is simply added: riječ → riječju, noć → noću. Both endings are standard, but they are not interchangeable everywhere. A noun standing alone takes -ju (inspirirani poviješću, jednom riječju, s ljubavlju); when an adjective stands beside the noun, high style recommends -i: s velikom radosti, pohvaliti se turističkom vrijednosti.',
         highlight: 'radost → radošću, smrt → smrću, ljubav → ljubavlju',
       },
       {
@@ -170,7 +170,7 @@ export const LESSONS = [
           {
             hr: 'Vijest o pobjedi primili smo s velikom radošću.',
             en: 'We received the news of the victory with great joy.',
-            note: 'radošću — instrumental of radost; s velikom radosti is equally standard',
+            note: 'radošću — instrumental of radost; after an adjective high style prefers s velikom radosti',
           },
           {
             hr: 'Stari grad noću izgleda potpuno drukčije nego danju.',
@@ -314,11 +314,11 @@ export const LESSONS = [
               'mati, matere, materi, mater, materom. materi is the dative and locative, materom the instrumental.',
           },
           {
-            q: 'Complete: "Dočekali su nas s velikom ___." (joy)',
+            q: 'Complete: "Dočekali su nas s ___." (joy — the noun alone)',
             options: ['radost', 'radošću', 'radostju', 'radosta'],
             correct: 1,
             explanation:
-              's + instrumental: radošću (radosti is also correct, but it is not offered). radostju misses the sound change; radost is the nominative.',
+              'A noun standing alone takes -ju: s radošću. radostju misses the sound change; radost is the nominative.',
           },
         ],
       },
@@ -383,6 +383,12 @@ export const LESSONS = [
       },
       {
         type: 'rule',
+        title: 'Quantity, and the Price With po and za',
+        body: 'The accusative of measure also says HOW MUCH of something: Daj mi čašu vode. Kupili su litru vina. Popili su bocu rakije. With a price it can take a preposition. po + accusative gives the price of EACH of several things: Te kuće koštaju po milijun eura. Rasprodaja — sve po euro! The negative fixed phrase is ni po koju cijenu (not at any price). za + accusative gives what you get for a sum, usually one thing: Za jedan euro danas ne možeš ništa kupiti. Kupila sam haljinu za sto eura.',
+        highlight: 'Te kuće koštaju po milijun eura.',
+      },
+      {
+        type: 'rule',
         title: 'Duration: Bare, za or tijekom',
         body: 'The bare accusative measures the whole stretch: Pisao je knjigu godinu dana (he spent a year writing it). za + accusative gives the time it takes to finish, usually with a perfective verb: Napisao je knjigu za godinu dana (he wrote it in a year) — and za can also mean "in a year from now". tijekom + genitive places an event within a period: Tijekom godine napisao je dvije knjige. English "for" is therefore usually NOT za: Ostali smo tjedan dana means "we stayed for a week".',
         highlight: 'Ostali smo tjedan dana',
@@ -404,6 +410,10 @@ export const LESSONS = [
           ['na prvi pogled', 'na + accusative', 'at first sight'],
           ['u dlaku', 'u + accusative', 'exactly, to a hair'],
           ['u jedan glas', 'u + accusative', 'in unison'],
+          ['na kredit, na rate', 'na + accusative', 'on credit, in instalments'],
+          ['ruku pod ruku', 'accusative, fixed', 'arm in arm'],
+          ['rame uz rame', 'accusative, fixed', 'shoulder to shoulder'],
+          ['oči u oči', 'accusative, fixed', 'face to face'],
           ['svom snagom', 'instrumental', 'with all one’s strength'],
           ['punom parom', 'instrumental', 'at full steam'],
           ['napamet, naglas', 'one word', 'by heart, aloud'],
@@ -419,7 +429,7 @@ export const LESSONS = [
             note: 'sat vremena — sat is the accusative of duration; vremena is a fixed genitive',
           },
           {
-            hr: 'Cijelu noć padala je kiša, pa smo ujutro ostali u kući.',
+            hr: 'Cijelu noć padala je kiša pa smo ujutro ostali u kući.',
             en: 'It rained all night, so in the morning we stayed indoors.',
             note: 'cijelu noć — feminine accusative of duration',
           },
@@ -502,7 +512,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Translating "for" with za: Ostali smo za tjedan dana means "within a week" or "a week from now"; for a stay of a week write Ostali smo tjedan dana. (2) Leaving a feminine measure in the nominative: Ostali smo jedna noć is wrong — write Ostali smo jednu noć. (3) Breaking the number rule inside the measure: tri kilometre and pet kilometra are wrong — tri kilometra, pet kilometara. (4) Calling every manner phrase an accusative: svom snagom and punom parom are instrumentals; only na brzinu, na vrijeme, u dlaku and the like are na/u + accusative.',
+        body: '(1) Translating "for" with za: Ostali smo za tjedan dana means "within a week" or "a week from now"; for a stay of a week write Ostali smo tjedan dana. (2) Leaving a feminine measure in the nominative: Ostali smo jedna noć is wrong — write Ostali smo jednu noć. (3) Mixing up po and za with a price: po milijun eura is EACH; za sto eura is what one thing cost. (4) Breaking the number rule inside the measure: tri kilometre and pet kilometra are wrong — tri kilometra, pet kilometara. (5) Calling every manner phrase an accusative: svom snagom and punom parom are instrumentals; only na brzinu, na vrijeme, u dlaku and the like are na/u + accusative.',
         highlight: 'Ostali smo jednu noć',
       },
       {
@@ -565,7 +575,8 @@ export const LESSONS = [
           'Feminine measures show it: cijelu noć, jednu minutu, svaku subotu, tisuću eura',
           'Numbers inside: tri kilometra, deset kilometara; sat vremena, tjedan dana',
           'za + accusative = the time to finish; bare accusative = the whole stretch',
-          'Manner: na/u + accusative (na brzinu, u dlaku) or the instrumental (svom snagom)',
+          'Quantity and price: čašu vode; po milijun eura (each), za jedan euro',
+          'Manner: na/u + accusative (na brzinu, na kredit, ruku pod ruku) or the instrumental (svom snagom)',
         ],
       },
     ],
@@ -588,7 +599,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Two Families of Joined Clauses',
-        body: 'Croatian grammar names two kinds of clause that are joined without one depending on the other. Sastavne rečenice (coordinate clauses) add one fact to another: i, pa, te, ni, niti. Zaključne rečenice (conclusive clauses) draw a conclusion from what came before: dakle, stoga, zato, prema tome, and pa in its "so" sense. Each clause could stand alone; the connector says how they relate — and decides whether a comma goes between them.',
+        body: 'Croatian grammar names two kinds of clause that are joined without one depending on the other. Sastavne rečenice (coordinate clauses) add one fact to another: i, pa, te, ni, niti. Zaključne rečenice (conclusive clauses) draw a conclusion from what came before: dakle, stoga, zato, prema tome. Each clause could stand alone; the connector says how they relate — and decides whether a comma goes between them.',
         icon: '🔗',
       },
       {
@@ -608,14 +619,29 @@ export const LESSONS = [
           ['stoga', 'therefore — formal', 'Cesta je zatvorena, stoga idemo obilaznicom.'],
           ['zato', 'that is why', 'Bio sam bolestan, zato nisam došao.'],
           ['prema tome', 'consequently', 'Rok je istekao, prema tome prijava nije valjana.'],
-          ['pa', 'so — a conclusion', 'Kasno je, pa idemo kući.'],
+          [
+            'sve u svemu',
+            'all in all',
+            'Film je bio dug i dosadan. Sve u svemu, nije mi se svidio.',
+          ],
+          [
+            'jednom riječju',
+            'in a word',
+            'Prašina, smeće, razbacane stvari — jednom riječju nered.',
+          ],
         ],
       },
       {
         type: 'rule',
         title: 'i, pa, te — Close, Not Identical',
-        body: 'i is neutral addition. pa adds what comes next in time — Ručali smo pa smo otišli na plažu — and often what follows from it: Pao je s bicikla pa je slomio ruku. te means the same as i but belongs to written and formal Croatian: official reports, news, academic prose. In conversation te sounds bookish; in a report a string of i … i … i sounds childish, and te is how writers vary it.',
+        body: 'i is neutral addition. pa adds what comes next in time — Ručali smo pa smo otišli na plažu — and often what follows from it: Pao je s bicikla pa je slomio ruku. te means the same as i but belongs to written and formal Croatian: official reports, news, academic prose. In conversation te sounds bookish; in a report a string of i … i … i sounds childish, and te is how writers vary it. Even when pa says what followed from the first clause, it is still a coordinating connector: no comma before it.',
         highlight: 'Pao je s bicikla pa je slomio ruku',
+      },
+      {
+        type: 'rule',
+        title: 'No Clitic Straight After i or dakle',
+        body: 'Clitics (je, sam, ćemo, se, ga…) stand in second position, but some connectors do not count as a first position. After i a clitic cannot stand: Odselio se u Osijek i je našao posao is wrong — write Odselio se u Osijek i našao je posao. After te, pa and niti a clitic can stand: Odselio se u Osijek te je našao posao; Pao je s bicikla pa je slomio ruku. The same split runs through the conclusive connectors: after zato and stoga a clitic can follow (Zaspao je, zato je zakasnio), after dakle it cannot (Zaspao je, dakle je zakasnio is wrong — write dakle zakasnio je).',
+        highlight: 'Odselio se u Osijek i našao je posao',
       },
       {
         type: 'rule',
@@ -626,13 +652,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Conclusions: dakle, stoga, zato, prema tome',
-        body: 'All four introduce a consequence of what was just said. dakle (so, thus) is neutral and often sums up; stoga (therefore) is formal; zato (that is why) points back at a reason already given; prema tome (consequently, accordingly) belongs to formal, legal and academic style. pa can also draw a conclusion in speech: Kasno je, pa idemo kući. Keep zato apart from zato što: zato looks back at a reason (Bio sam bolestan, zato nisam došao); zato što introduces the reason (Nisam došao zato što sam bio bolestan).',
+        body: 'All four introduce a consequence of what was just said. dakle (so, thus) is neutral and often sums up; stoga (therefore) is formal; zato (that is why) points back at a reason already given; prema tome (consequently, accordingly) belongs to formal, legal and academic style. sve u svemu (all in all) and jednom riječju (in a word) sum up what came before, often at the start of a new sentence. Keep zato apart from zato što: zato looks back at a reason (Bio sam bolestan, zato nisam došao); zato što introduces the reason (Nisam došao zato što sam bio bolestan).',
         highlight: 'Bio sam bolestan, zato nisam došao',
       },
       {
         type: 'rule',
         title: 'The Commas',
-        body: 'No comma before i, pa, te, ni or niti when they join coordinate clauses: Ušao je u sobu i sjeo. Nije jeo niti je pio. (A comma before i is written only when i is repeated for emphasis or follows an inserted phrase.) A comma DOES go before dakle, stoga, zato and prema tome when they open the second clause: Cesta je zatvorena, stoga idemo obilaznicom. When dakle or prema tome sits inside a clause as an aside, it is set off on both sides: Dokumente smo, dakle, predali na vrijeme. Before conclusive pa, writers and guides differ — you will see it with and without a comma.',
+        body: 'No comma before i, pa, te, ni or niti when they join coordinate clauses: Ušao je u sobu i sjeo. Nije jeo niti je pio. (A comma before i is written only when i is repeated for emphasis or follows an inserted phrase.) A comma DOES go before dakle, stoga, zato and prema tome when they open the second clause: Cesta je zatvorena, stoga idemo obilaznicom. When dakle or prema tome sits inside a clause as an aside, it is set off on both sides: Dokumente smo, dakle, predali na vrijeme. pa, even when it says what followed, takes no comma: Kasno je pa idemo kući.',
         highlight: 'Cesta je zatvorena, stoga idemo obilaznicom',
       },
       {
@@ -660,9 +686,9 @@ export const LESSONS = [
             note: 'niti — opens the second negative clause; je odgovorio stays without ne',
           },
           {
-            hr: 'Ne volim ni vrućinu ni gužvu, pa ljeti bježim u planine.',
+            hr: 'Ne volim ni vrućinu ni gužvu pa ljeti bježim u planine.',
             en: 'I like neither the heat nor the crowds, so in summer I escape to the mountains.',
-            note: 'ni … ni — the verb volim keeps its ne; pa here draws a conclusion',
+            note: 'ni … ni — the verb volim keeps its ne; pa says what follows, still with no comma',
           },
         ],
       },
@@ -721,7 +747,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) A comma before i, te, ni or niti between clauses: Ušao je u sobu, i sjeo is wrong — write Ušao je u sobu i sjeo. (2) Dropping ne when ni … ni follows the verb: Pijem ni kavu ni čaj is wrong — Ne pijem ni kavu ni čaj. (3) Mixing up zato and zato što: zato points back at a reason already stated, zato što introduces it. (4) Leaving out the comma before a conclusive connector: write Cesta je zatvorena, stoga idemo obilaznicom.',
+        body: '(1) A comma before i, te, ni or niti between clauses: Ušao je u sobu, i sjeo is wrong — write Ušao je u sobu i sjeo. (2) Dropping ne when ni … ni follows the verb: Pijem ni kavu ni čaj is wrong — Ne pijem ni kavu ni čaj. (3) Mixing up zato and zato što: zato points back at a reason already stated, zato što introduces it. (4) Leaving out the comma before a conclusive connector: write Cesta je zatvorena, stoga idemo obilaznicom. (5) A clitic straight after i or dakle: write i našao je posao, dakle zakasnio je.',
         highlight: 'Ušao je u sobu i sjeo',
       },
       {
@@ -758,7 +784,7 @@ export const LESSONS = [
             options: ['pa', 'i', 'niti', 'stoga'],
             correct: 3,
             explanation:
-              'stoga is the formal "therefore". pa can draw a conclusion in speech, but it is not formal.',
+              'stoga is the formal "therefore". pa can say what followed, but it is coordinating and not formal.',
           },
           {
             q: 'Which sentence is punctuated correctly?',
@@ -786,7 +812,8 @@ export const LESSONS = [
         points: [
           'Coordinate: i (and), pa (and then), te (formal and), ni / niti (nor)',
           'ni … ni keeps the ne on the verb: Ne pijem ni kavu ni čaj',
-          'Conclusive: dakle, stoga, zato, prema tome — and pa in speech',
+          'Conclusive: dakle, stoga, zato, prema tome, sve u svemu, jednom riječju',
+          'No clitic straight after i or dakle: i našao je, dakle zakasnio je',
           'zato looks back at a reason; zato što introduces one',
           'No comma before i, pa, te, ni, niti; a comma before stoga, zato, prema tome',
         ],
@@ -811,7 +838,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Two Kinds of Shortening',
-        body: 'Croatian spelling distinguishes a kratica — a shortened word or phrase that is read out in full (npr. is read na primjer) — from a pokrata, a new word made from initials or syllables (HNK, HAZU, EU, NATO). The two are written differently: one takes a full stop, the other capitals and none. Units of measurement and symbols are a third group with rules of their own. Get them right and your written Croatian looks educated at a glance.',
+        body: 'Croatian spelling distinguishes a kratica — a shortened word or phrase that is read out in full (npr. is read na primjer) — from a pokrata, a new word made from initials or syllables (HNK, HAZU, EU, NATO). The two are written differently: one takes a full stop, the other capitals and none. (Some handbooks, the Croaticum workbook among them, call both kinds kratice; the names matter less than the spelling.) Units of measurement and symbols are a third group with rules of their own. Get them right and your written Croatian looks educated at a glance.',
         icon: '✒️',
       },
       {
@@ -846,7 +873,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Declining a Pokrata',
-        body: 'An initialism that is read letter by letter takes its case ending after a hyphen, and the ending follows the pronunciation: HNK → HNK-a, u HNK-u, s HNK-om; HRT → HRT-a, na HRT-u; EU → EU-a, u EU-u; UN → u UN-u; NATO → NATO-a, u NATO-u. A pokrata written as a name declines like a noun with no hyphen: Hina, Hine, u Hini. A kratica with a full stop never takes an ending.',
+        body: 'An initialism that is read letter by letter takes its case ending after a hyphen, and the ending follows the pronunciation: HNK → HNK-a, u HNK-u, s HNK-om; HRT → HRT-a, na HRT-u; EU → EU-a, u EU-u; UN → u UN-u; NATO → NATO-a, u NATO-u. Which endings? One ending in a consonant or in -o declines like a masculine a-noun (SAD-a, SAD-om; UNESCO-a, UNESCO-om); one ending in -a declines like an e-noun (INA-e, INA-i, INA-u — read ine, ini, inu). Two never decline, and take a feminine predicate: RH and BiH (RH je učinila velike napore; pravna stečevina RH). A pokrata written as a name declines like a noun with no hyphen: Hina, Hine, u Hini. A kratica with a full stop never takes an ending — except gđa and gđica, which are written WITHOUT a full stop and do decline: s gđom Horvat.',
         highlight: 'HNK-a, u HNK-u, u EU-u',
       },
       {
@@ -1109,7 +1136,7 @@ export const LESSONS = [
             note: 'granja and kamenja — genitive singular of granje and kamenje',
           },
           {
-            hr: 'Grožđe je ove godine rano dozrelo, pa je berba počela u kolovozu.',
+            hr: 'Grožđe je ove godine rano dozrelo pa je berba počela u kolovozu.',
             en: 'The grapes ripened early this year, so the harvest began in August.',
             note: 'grožđe — neuter singular, so dozrelo',
           },
@@ -1343,10 +1370,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Primila je vijest s velikom ____. (radost, the -ju form)',
+          q: 'Primila je vijest s ____. (radost, the -ju form)',
           answer: 'radošću',
           hint: 'st + j melts into šć.',
-          explanation: 's velikom radošću (s velikom radosti is equally standard).',
+          explanation: 's radošću — the noun stands alone, so -ju.',
         },
         {
           type: 'type',
@@ -1468,6 +1495,14 @@ export const PRACTICE = {
     practice: {
       title: 'Guided Practice',
       items: [
+        {
+          q: 'Complete: "Te kuće koštaju ___ milijun eura." (each)',
+          options: ['po', 'za', 'u', 'na'],
+          correct: 0,
+          hint: 'The price of each of several things.',
+          explanation:
+            'po + accusative: po milijun eura — a million each. za gives what one thing cost.',
+        },
         {
           q: 'Complete: "Čekao sam ga ___ vremena." (an hour)',
           options: ['sat', 'sata', 'satom', 'satu'],
@@ -1721,18 +1756,18 @@ export const PRACTICE = {
           explanation: 'prema tome — consequently.',
         },
         {
-          q: 'In "Kasno je, pa idemo kući", pa means…',
+          q: 'In "Kasno je pa idemo kući", pa means…',
           options: ['and then', 'so', 'but', 'nor'],
           correct: 1,
           hint: 'The second clause follows from the first.',
-          explanation: 'pa here draws a conclusion.',
+          explanation: 'pa here says what follows from the first clause — still with no comma.',
         },
         {
           type: 'type',
           q: 'Vlak je otišao, ____ ćemo čekati sljedeći. (therefore — formal)',
           answer: 'stoga',
-          accept: ['dakle', 'zato', 'prema tome'],
-          hint: 'The formal conclusive connector that begins with st-.',
+          accept: ['zato'],
+          hint: 'The formal conclusive connector that begins with st-. (dakle cannot stand before a clitic.)',
           explanation: 'stoga — therefore.',
         },
         {
@@ -1754,8 +1789,8 @@ export const PRACTICE = {
           type: 'type',
           q: 'Pao je s bicikla ____ je slomio ruku. (and then, as a result)',
           answer: 'pa',
-          accept: ['i', 'te'],
-          hint: 'The two-letter connector of sequence.',
+          accept: ['te'],
+          hint: 'The two-letter connector of sequence. (i cannot stand before the clitic je.)',
           explanation: 'pa — and then.',
         },
         {
@@ -1860,6 +1895,20 @@ export const PRACTICE = {
     practice: {
       title: 'Guided Practice',
       items: [
+        {
+          q: 'Complete: "RH je prošle godine ___ novi zakon."',
+          options: ['donijela', 'donio', 'donijeli', 'donijelo'],
+          correct: 0,
+          hint: 'RH does not decline and takes a predicate of one particular gender.',
+          explanation: 'RH (Republika Hrvatska) takes a feminine predicate: RH je donijela.',
+        },
+        {
+          q: 'Complete: "Radi u upravi ___." (the oil company INA)',
+          options: ['INA-e', 'INA-a', 'INE', 'INA'],
+          correct: 0,
+          hint: 'An abbreviation ending in -a declines like an e-noun.',
+          explanation: 'INA-e, read ine — like žena, žene.',
+        },
         {
           q: 'Which is the abbreviation of "takozvani"?',
           options: ['tkzv.', 'tzv.', 't.z.v.', 'tzv'],

@@ -148,10 +148,10 @@ const DATA = [
   {
     mode: 'prijedlozna',
     q: 'Sve ovisi ____ vremenu.',
-    opts: ['o', 'od', 'na', 'u'],
+    opts: ['o', 'za', 'na', 'u'],
     answer: 'o',
     en: 'everything depends on the weather',
-    tip: 'Ovisiti O + lokativ (ne *od).',
+    tip: 'Ovisiti O + lokativ.',
   },
   {
     mode: 'prijedlozna',
@@ -199,7 +199,7 @@ const DATA = [
     opts: ['s', 'uz', 'na', 'o'],
     answer: 's',
     en: 'I agree with you',
-    tip: 'Slagati se S + instrumental; „sa” samo ispred s/š/z/ž.',
+    tip: 'Slagati se S + instrumental; „sa” ispred s, š, z, ž i u „sa mnom”.',
   },
   {
     mode: 'prijedlozna',

@@ -23,7 +23,7 @@ export const IRREGULAR_NOUNS_DOBA_DIO_DRILL_DATA: ModeDrillItem[] = [
   // ── oblici ────────────────────────────────────────────────────────────────
   {
     mode: 'oblici',
-    q: 'Danas sam ostao duže na ____.',
+    q: 'Danas sam ostao dulje na ____.',
     en: 'Today I stayed longer at work.',
     opts: ['poslu', 'posaou', 'posalu', 'posao'],
     answer: 'poslu',

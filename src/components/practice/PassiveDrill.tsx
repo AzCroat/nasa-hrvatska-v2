@@ -108,11 +108,16 @@ const DATA = [
     tip: "se-passive: tri jezika → verb in 3rd pl: 'se govore'",
   },
   {
-    q: 'The novel was written by Šenoa. = Roman je bio napisan ___ Šenoe.',
-    opts: ['od', 's', 'za', 'iz'],
-    answer: 'od',
+    q: 'The novel was written by Šenoa. When the author is named, Croatian prefers the active:',
+    opts: [
+      'Roman je napisao Šenoa.',
+      'Roman je napisao Šenou.',
+      'Roman se napisao Šenoom.',
+      'Roman je pisan Šenoe.',
+    ],
+    answer: 'Roman je napisao Šenoa.',
     en: 'The novel was written by Šenoa.',
-    tip: "Agent in biti+participle passive: 'od + genitive'. od Šenoe = by Šenoa",
+    tip: "With a named agent, use the active and put the agent last for focus: Roman je napisao Šenoa. The 'od + genitive' agent passive reads as translated from English.",
   },
   {
     q: 'The letter was sent. = Pismo ___ poslano.',

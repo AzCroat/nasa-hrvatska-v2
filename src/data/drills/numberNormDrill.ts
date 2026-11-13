@@ -1,6 +1,6 @@
 // src/data/drills/numberNormDrill.ts
 //
-// C2 BROJEVI — NORMA — the drill for the `brojevi-norma` lesson.
+// C1 BROJEVI — NORMA — the drill for the `brojevi-norma` lesson.
 //
 // The punctuation is the exact REVERSE of English and gets past every spell
 // checker: a dot separates thousands and a comma marks the decimal, so
@@ -32,9 +32,9 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   // ── interpunkcija ─────────────────────────────────────────────────────────
   {
     mode: 'interpunkcija',
-    q: 'Kako se brojkama piše "tisuću petsto cijelih sedamdeset pet"?',
+    q: 'Kako se brojkama piše „tisuću petsto cijelih sedamdeset pet“?',
     en: '1500.75 in Croatian:',
-    opts: ['1.500,75', '1,500.75', '1 500.75', '1500,75 kn.'],
+    opts: ['1.500,75', '1,500.75', '1 500.75', '1500.75'],
     answer: '1.500,75',
     tip: 'Dot for thousands, comma for the decimal — the reverse of English.',
   },
@@ -64,7 +64,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'interpunkcija',
-    q: 'Kako se u tekstu piše "the thirties"?',
+    q: 'Kako se u tekstu piše „the thirties“?',
     en: 'the thirties, in prose:',
     opts: ['tridesetih godina', '30.-ih godina', "30'ih godina", '30ih godina'],
     answer: 'tridesetih godina',
@@ -80,11 +80,16 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'interpunkcija',
-    q: 'Smije li rečenica početi brojkom?',
-    en: 'May a sentence open with a numeral?',
-    opts: ['ne', 'da', 'samo u tablici', 'samo velikim brojem'],
-    answer: 'ne',
-    tip: 'Write it out, or restructure the sentence.',
+    q: 'Što stilski priručnici savjetuju za brojku na početku rečenice?',
+    en: 'A numeral at the start of a sentence?',
+    opts: [
+      'izbjegavati je',
+      'uvijek je pisati',
+      'pisati je samo u tablici',
+      'pisati je samo za velike brojeve',
+    ],
+    answer: 'izbjegavati je',
+    tip: 'A style recommendation: write the number out, or restructure the sentence.',
   },
   {
     mode: 'interpunkcija',
@@ -97,14 +102,14 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
       'ovisi o registru',
     ],
     answer: 'riječi za male brojeve, brojke za velike',
-    tip: 'And never a numeral at the start of a sentence.',
+    tip: 'And style manuals advise against a numeral at the start of a sentence.',
   },
 
   // ── sklonidba ─────────────────────────────────────────────────────────────
   {
     mode: 'sklonidba',
     q: 'Pet ____.',
-    en: 'five of the old Croatian currency',
+    en: 'five units of the currency used before the euro',
     opts: ['kuna', 'kune', 'kunu', 'kunama'],
     answer: 'kuna',
     tip: 'Five and above take the GENITIVE PLURAL.',
@@ -112,7 +117,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'sklonidba',
     q: 'Dvije ____. (kuna)',
-    en: 'two kuna',
+    en: 'two kuna (the currency before the euro)',
     opts: ['kune', 'kuna', 'kunu', 'kunama'],
     answer: 'kune',
     tip: 'Two, three and four take the genitive SINGULAR. The contrast is the rule.',
@@ -147,7 +152,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'The price is 1,250.00 euros.',
     opts: ['eura', 'euri', 'eure', 'eurima'],
     answer: 'eura',
-    tip: 'Genitive plural after a number above four.',
+    tip: 'After a decimal amount the noun takes the genitive singular — eura, which here looks the same as the genitive plural.',
   },
   {
     mode: 'sklonidba',
@@ -185,7 +190,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Što mjeri "postotni bod"?',
+    q: 'Što mjeri „postotni bod“?',
     en: 'What does a percentage point measure?',
     opts: [
       'razliku između dvaju postotaka',
@@ -214,7 +219,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Kako se čita "3,14"?',
+    q: 'Kako se čita „3,14“?',
     en: 'How is 3,14 read?',
     opts: [
       'tri cijela četrnaest',
@@ -227,7 +232,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Što je "promil"?',
+    q: 'Što je „promil“?',
     en: 'What is a promil?',
     opts: ['tisućina', 'stotina', 'desetina', 'milijuntina'],
     answer: 'tisućina',

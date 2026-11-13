@@ -639,6 +639,9 @@ export const ROUTE_KEYS: ReadonlySet<string> = new Set([
   'c1prefixedverbs',
   'c1comparativeclauses',
   'c1directspeechspelling',
+  'c1textconnectors',
+  'c1collectivenumbers',
+  'c1pluperfect',
 ]);
 
 /** The screen shown when the path names nothing. It IS a route. */

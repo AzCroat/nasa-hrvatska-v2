@@ -8,7 +8,7 @@ const DATA = [
   {
     mode: 'nje',
     q: 'čitati → ___ (the reading)',
-    opts: ['čitanje', 'čitatelj', 'čitao', 'čitalac'],
+    opts: ['čitanje', 'čitatelj', 'čitao', 'čitač'],
     answer: 'čitanje',
     en: 'reading',
     tip: 'Verbal noun -nje from the passive participle stem: čita-nje.',
@@ -35,7 +35,7 @@ const DATA = [
     opts: ['dolazak', 'dolaženje', 'dolazni', 'došao'],
     answer: 'dolazak',
     en: 'arrival',
-    tip: 'Irregular deverbal noun: "dolazak" (not the regular -nje form).',
+    tip: 'The noun for an arrival is "dolazak". "dolaženje" exists, but names the repeated process of coming.',
   },
   {
     mode: 'nepravilne',
@@ -107,7 +107,7 @@ const DATA = [
     opts: ['vožnja', 'vozač', 'vozilo', 'vozio'],
     answer: 'vožnja',
     en: 'the ride, driving',
-    tip: 'The everyday noun is "vožnja", with z → ž; "vozač" = driver, "vozilo" = vehicle.',
+    tip: 'The everyday noun is "vožnja", with z → ž (the regular -nje noun voženje is rare); "vozač" = driver, "vozilo" = vehicle.',
   },
   {
     mode: 'nepravilne',
@@ -115,7 +115,7 @@ const DATA = [
     opts: ['odlazak', 'odlaženje', 'odlazni', 'otišao'],
     answer: 'odlazak',
     en: 'departure',
-    tip: 'Like dolazak: "odlazak" = departure. "odlazni" is the adjective (odlazni let).',
+    tip: 'Like dolazak: "odlazak" = departure. "odlaženje" is the repeated process; "odlazni" is the adjective (odlazni let).',
   },
   {
     mode: 'nepravilne',

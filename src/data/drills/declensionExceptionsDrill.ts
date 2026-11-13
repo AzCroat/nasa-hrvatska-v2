@@ -1,6 +1,6 @@
 // src/data/drills/declensionExceptionsDrill.ts
 //
-// C2 SKLONIDBA — IZNIMKE — the drill for the `sklonidba-iznimke` lesson.
+// C1 SKLONIDBA — IZNIMKE — the drill for the `sklonidba-iznimke` lesson.
 //
 // FOREIGN NAMES DECLINE, and leaving them uninflected is an error rather than a
 // style: *knjiga o Shakespeareu*, not *o Shakespeare*. The written form is kept
@@ -9,13 +9,12 @@
 // in a consonant, which does not decline — *o Angeli Merkel*, first name only.
 //
 // The suppletive and collective plurals are the other half: *čovjek/ljudi*,
-// *dijete/djeca*, *brat/braća* — and *djeca* and *braća* take FEMININE SINGULAR
-// agreement, so *djeca je došla*.
+// *dijete/djeca*, *brat/braća* — *djeca* and *braća* take feminine-singular
+// attributes (*ova mala djeca*) but a PLURAL verb, so *djeca su došla*.
 //
 // And two nouns carry two plurals with two meanings. *Sati* are hours,
-// *satovi* are clocks and lessons; *godine* are years and *godišta* are
-// year-groups. Choosing the wrong one is not a case error, it is a different
-// word.
+// *satovi* are clocks and lessons. Choosing the wrong one is not a case
+// error, it is a different word.
 //
 // Three modes:
 //   imena     — declining foreign names
@@ -74,7 +73,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'imena',
-    q: 'Je li ostavljanje stranog imena nesklonjivim stilski izbor?',
+    q: 'Je li ostavljanje stranog imena nesklonjenim stilski izbor?',
     en: 'Is leaving it uninflected a style choice?',
     opts: ['ne, pogreška je', 'da', 'ovisi o jeziku', 'samo u novinama'],
     answer: 'ne, pogreška je',
@@ -100,7 +99,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   // ── supletivi ─────────────────────────────────────────────────────────────
   {
     mode: 'supletivi',
-    q: 'Množina od "čovjek" je ____.',
+    q: 'Množina od „čovjek“ je ____.',
     en: 'plural of čovjek',
     opts: ['ljudi', 'čovjeci', 'čovjekovi', 'čovječi'],
     answer: 'ljudi',
@@ -110,13 +109,13 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'supletivi',
     q: 'Djeca ____ došla.',
     en: 'The children came.',
-    opts: ['su', 'je', 'jesu', 'će'],
+    opts: ['su', 'je', 'ste', 'smo'],
     answer: 'su',
     tip: 'Djeca takes plural agreement in the perfect: djeca su došla.',
   },
   {
     mode: 'supletivi',
-    q: 'Kojeg je roda "djeca" u slaganju s pridjevom?',
+    q: 'Kojeg je roda „djeca“ u slaganju s pridjevom?',
     en: 'What gender does djeca take with an adjective?',
     opts: ['ženskog jednine', 'srednjeg množine', 'muškog množine', 'srednjeg jednine'],
     answer: 'ženskog jednine',
@@ -124,7 +123,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od "brat" je ____.',
+    q: 'Množina od „brat“ je ____.',
     en: 'plural of brat',
     opts: ['braća', 'brati', 'bratovi', 'bratja'],
     answer: 'braća',
@@ -132,7 +131,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Genitiv jednine od "pas" je ____.',
+    q: 'Genitiv jednine od „pas“ je ____.',
     en: 'genitive singular of pas',
     opts: ['psa', 'pasa', 'pasu', 'pas'],
     answer: 'psa',
@@ -140,7 +139,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od "oko" (dio tijela) je ____.',
+    q: 'Množina od „oko“ (dio tijela) je ____.',
     en: 'plural of oko',
     opts: ['oči', 'oka', 'okovi', 'okna'],
     answer: 'oči',
@@ -148,7 +147,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Kojeg su roda "oči" i "uši"?',
+    q: 'Kojeg su roda „oči“ i „uši“?',
     en: 'What gender are they?',
     opts: ['ženskog', 'srednjeg', 'muškog', 'nemaju rod'],
     answer: 'ženskog',
@@ -156,7 +155,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od "dijete" je ____.',
+    q: 'Množina od „dijete“ je ____.',
     en: 'plural of dijete',
     opts: ['djeca', 'djeteta', 'dijeteta', 'djetići'],
     answer: 'djeca',
@@ -190,7 +189,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dvamnozine',
-    q: 'Koja je množina za "clocks, lessons"?',
+    q: 'Koja je množina za „clocks, lessons“?',
     en: 'Which plural means clocks or lessons?',
     opts: ['satovi', 'sati', 'sate', 'satima'],
     answer: 'satovi',
@@ -219,11 +218,11 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dvamnozine',
-    q: 'Što znači "godišta" naspram "godine"?',
-    en: 'godišta against godine:',
-    opts: ['naraštaji ili berbe', 'razdoblja', 'stoljeća', 'isto je'],
-    answer: 'naraštaji ili berbe',
-    tip: 'Year-groups and vintages. Godine are the years themselves.',
+    q: 'Imam pet ____ hrvatskoga tjedno. (lessons)',
+    en: 'I have five Croatian lessons a week.',
+    opts: ['satova', 'sati', 'sata', 'satovi'],
+    answer: 'satova',
+    tip: 'From five upwards the two plurals part: pet sati (hours), pet satova (lessons, clocks).',
   },
   {
     mode: 'dvamnozine',

@@ -81,7 +81,7 @@ const BOUNDARIES: Readonly<Record<string, readonly [string, string]>> = {
   'C1-1': ['clitics-advanced', 'abbreviations'],
   'C1-2': ['brojevi-norma', 'comma-basics'],
   'C1-3': ['word-order-emphasis', 'verb-government'],
-  'C1-4': ['aspect-nuance', 'zarez-interpunkcija'],
+  'C1-4': ['aspect-nuance', 'text-connectors'],
   'C1-5': ['clause-types', 'multi-subject-agreement'],
   'C1-6': ['slaganje-suptilnosti', 'ethnonyms'],
   'C1-7': ['objective-genitive', 'hypocoristics-dvojica'],

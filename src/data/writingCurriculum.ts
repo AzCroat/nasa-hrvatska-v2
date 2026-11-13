@@ -3936,14 +3936,14 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'pripadati dvama svjetovima, a nijednomu posve',
         en: 'to belong to two worlds, and to neither completely',
-        why: 'Dative government of "pripadati", with the dual form "dvama".',
+        why: 'Dative government of "pripadati", with "dvama", the dative of the numeral dva.',
       },
     ],
     frames: [
       {
         before: 'Riječ je o',
         answer: 'romanu',
-        accept: ['filmu', 'knjizi'],
+        accept: ['filmu'],
         after: 'koji se dugo pamti.',
         hint: '"riječ je o" takes the locative: roman → ...',
       },
@@ -4552,7 +4552,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         before: 'Držim',
         answer: 'stoga',
-        accept: ['zato', 'dakle'],
+        accept: ['dakle'],
         after: 'da bi Vaša ustanova njezinim dolaskom mnogo dobila.',
         hint: 'The formal connector "therefore", placed in second position right after the verb.',
       },
