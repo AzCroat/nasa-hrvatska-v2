@@ -25,7 +25,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { H } from '../../data';
 import { getLessons } from '../../lib/contentClient';
-import { readCurriculumSpine } from '../../lib/curriculumProgress';
+import { readCurriculumSpine, readCompletedLessons } from '../../lib/curriculumProgress';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import { buildCourseUnits, productionOwed, type CourseUnit } from '../../lib/courseUnits';
 import {
@@ -210,7 +210,11 @@ export default function UnitTestScreen({
     }
     const before = unitRecord(unit.id);
     const firstPass = passed && !before?.passedAt;
-    recordUnitTest(unit.id, correct, total, passed);
+    // A pass with the unit's lessons not all read is a TEST-OUT, and it opens the next
+    // unit without the written and spoken tasks (owner decision, 2026-11-13).
+    const done = readCompletedLessons();
+    const testOut = unit.lessons.some((l) => !done.has(l.id));
+    recordUnitTest(unit.id, correct, total, passed, undefined, testOut);
     if (firstPass) award(UNIT_TEST_XP, 'grammar');
   }, [phase, unit, total, correct, passed, attempt, award, mode]);
 

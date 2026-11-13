@@ -78,6 +78,12 @@ export interface UnitRecord {
   production?: UnitProduction;
   /** The retention ladder, started the day the unit met the bar. */
   recheck?: UnitRecheck;
+  /**
+   * The first pass was a TEST-OUT — taken before the unit's lessons were all read. Owner
+   * decision, 2026-11-13: a test-out opens the next unit straight away, so it stands in for
+   * the unit's written and spoken tasks. Written once with the first pass, never removed.
+   */
+  testedOut?: true;
 }
 
 /**
@@ -200,6 +206,7 @@ export function recordUnitTest(
   total: number,
   passed: boolean,
   isoDate: string = localDateStr(),
+  testOut = false,
 ): UnitRecord | null {
   if (!unitId || !Number.isFinite(correct) || !Number.isFinite(total) || total <= 0) return null;
   const store = readRaw();
@@ -212,7 +219,10 @@ export function recordUnitTest(
     // nothing new, and the first attempt is the whole acquisition signal.
     attempts: attempts.slice(0, MAX_UNIT_ATTEMPTS),
   };
-  if (passed && !prev.passedAt) next.passedAt = isoDate;
+  if (passed && !prev.passedAt) {
+    next.passedAt = isoDate;
+    if (testOut) next.testedOut = true;
+  }
   const prevRatio = prev.bestTotal ? (prev.bestCorrect ?? 0) / prev.bestTotal : -1;
   if (total > 0 && correct / total > prevRatio) {
     next.bestCorrect = correct;
@@ -266,11 +276,15 @@ export function markProductionUnavailable(unitId: string): void {
   writeCourseUnits(store);
 }
 
-/** Unit ids whose BOTH production tasks are graded. */
+/** Unit ids whose BOTH production tasks are graded, or that were tested out of. */
 export function producedUnits(store: CourseUnitsStore = readRaw()): Set<string> {
   return new Set(
     Object.entries(store.units)
-      .filter(([, r]) => !!r?.production?.wroteAt && !!r?.production?.spokeAt)
+      .filter(
+        ([, r]) =>
+          (!!r?.production?.wroteAt && !!r?.production?.spokeAt) ||
+          (!!r?.passedAt && r.testedOut === true),
+      )
       .map(([id]) => id),
   );
 }
@@ -413,6 +427,7 @@ export function mergeCourseUnits(local: CourseUnitsStore, remote: unknown): Cour
     attempts.sort((x, y) => (x.at < y.at ? -1 : x.at > y.at ? 1 : 0));
     const merged: UnitRecord = { attempts: attempts.slice(0, MAX_UNIT_ATTEMPTS) };
     if (passedAt) merged.passedAt = passedAt;
+    if (passedAt && (a.testedOut || b.testedOut)) merged.testedOut = true;
     const prod = mergeProduction(a.production, b.production);
     if (prod) merged.production = prod;
     const rc = mergeRecheck(a.recheck, b.recheck);

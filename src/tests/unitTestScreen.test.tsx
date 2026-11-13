@@ -34,7 +34,13 @@ vi.mock('../lib/errorReporter', () => ({
 import UnitTestScreen, { UNIT_TEST_XP } from '../components/learn/UnitTestScreen';
 import { buildCourseUnits } from '../lib/courseUnits';
 import { buildUnitTest, unitItemsNeeded, type LessonBodyLike } from '../lib/unitTest';
-import { passedUnits, unitRecord, readCourseUnits, retainedUnits } from '../lib/courseUnitProgress';
+import {
+  passedUnits,
+  unitRecord,
+  readCourseUnits,
+  retainedUnits,
+  producedUnits,
+} from '../lib/courseUnitProgress';
 import type { CurriculumEntry } from '../lib/curriculum';
 
 const SPINE = CURRICULUM as unknown as CurriculumEntry[];
@@ -257,6 +263,27 @@ describe('a failing sitting', () => {
     );
     expect(onOpenLesson).not.toHaveBeenCalled();
     expect(screen.queryByTestId('unit-test-open-failed')).toBeNull();
+  });
+
+  it('a passed TEST-OUT opens the next unit without the written and spoken tasks (owner, 2026-11-13)', async () => {
+    seed(); // the unit's lessons are unread
+    const items = paper();
+    mount();
+    await sit(items);
+    await screen.findByTestId('unit-test-result');
+    expect(unitRecord('A1-1')?.testedOut).toBe(true);
+    expect(producedUnits().has('A1-1')).toBe(true);
+  });
+
+  it('a pass after reading every lesson still owes the written and spoken tasks', async () => {
+    seed();
+    readUnit();
+    const items = paper();
+    mount();
+    await sit(items);
+    await screen.findByTestId('unit-test-result');
+    expect(unitRecord('A1-1')?.testedOut).toBeUndefined();
+    expect(producedUnits().has('A1-1')).toBe(false);
   });
 
   it('says why a review lesson could not be opened', async () => {
