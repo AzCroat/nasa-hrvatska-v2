@@ -2337,8 +2337,8 @@ export const LESSONS_A2 = [
     slides: [
       {
         type: 'intro',
-        title: 'This Is What A2 Actually Is',
-        body: 'The difference between A1 and A2 is not vocabulary — it is whether your sentences connect. "I live in Zagreb. I work in a bank. I like it." becomes "I live in Zagreb, where I work in a bank, because I like the city." These are the words that do that, and there are only about a dozen worth learning.',
+        title: 'Sentences That Connect',
+        body: 'The difference between a list of facts and real speech is not vocabulary — it is whether your sentences connect. You have used most of these words since A1; this lesson pulls them together, with the distinctions that matter for telling a story and making a case. "I live in Zagreb. I work in a bank. I like it." becomes "I live in Zagreb, where I work in a bank, because I like the city." These are the words that do that, and there are only about a dozen worth learning.',
         icon: '🔗',
       },
       {
@@ -2483,7 +2483,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Using "ali" for every English "but": "Ja radim, ali on spava" contrasts two people rather than naming an obstacle, so it needs "a" — "Ja radim, a on spava". (2) Using "ali" after a negative: "Nije crno ali bijelo" is wrong — after a denial the replacement takes "nego", "Nije crno nego bijelo". (3) Starting a sentence with "jer": "Jer sam umoran, ne idem" is wrong — either "Ne idem jer sam umoran" or "Zato što sam umoran, ne idem".',
+        body: '(1) Using "ali" for every English "but": when you simply set two people or things side by side, the neutral word is "a" — "Ja radim, a on spava". "Ja radim, ali on spava" is not wrong, but it adds a note of objection (I work, but he — unfairly — sleeps). (2) Using "ali" after a negative: "Nije crno ali bijelo" is wrong — after a denial the replacement takes "nego", "Nije crno nego bijelo". (3) Starting a sentence with "jer": "Jer sam umoran, ne idem" is wrong — either "Ne idem jer sam umoran" or "Zato što sam umoran, ne idem".',
         highlight: 'Nije crno nego bijelo',
       },
       {
@@ -2492,10 +2492,10 @@ export const LESSONS_A2 = [
         items: [
           {
             q: 'Complete: "Volim čaj, ___ moj muž voli kavu." (I like tea, and my husband likes coffee.)',
-            options: ['ali', 'nego', 'a', 'jer'],
+            options: ['ni', 'nego', 'a', 'jer'],
             correct: 2,
             explanation:
-              'Two preferences sit side by side with nothing contradicted, so "a". "Ali" would present the husband\'s coffee as an obstacle, and "nego" needs a negative before it.',
+              'Two preferences sit side by side with nothing contradicted, so "a" is the neutral choice. "Nego" needs a negative before it, "ni" means nor, and "jer" would make the coffee a reason.',
           },
           {
             q: 'Complete: "Htio bih doći, ___ radim." (I would like to come, but I am working.)',
@@ -2565,7 +2565,7 @@ export const LESSONS_A2 = [
           'After a negative, use nego or već — not ali',
           'jer cannot open a sentence; zato što can',
           'Commas go before ali, a, nego; a fronted iako/ako clause is closed with a comma; no comma before a following jer',
-          'Connecting sentences is what separates A2 from A1',
+          'Connecting sentences is what turns a list of facts into speech',
         ],
       },
     ],
@@ -2673,7 +2673,7 @@ export const LESSONS_A2 = [
             note: 'feminine subject → koja',
           },
           {
-            hr: 'Restoran u kojem smo večerali je pored mora.',
+            hr: 'Restoran u kojem smo večerali je uz more.',
             en: 'The restaurant we had dinner in is by the sea.',
             note: 'u kojem — locative',
           },
@@ -2860,7 +2860,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'They Decline',
-        body: 'The tko and što words change case like the question words they are built from. netko → nekoga, nekome. nitko → nikoga, nikome. Ne vidim nikoga. (I see nobody — accusative.) Nikome nisam rekao. (I told nobody — dative.) The prefix stays put and the ending does the work.',
+        body: 'The tko and što words change case like the question words they are built from. netko → nekoga, nekome. nitko → nikoga, nikome. ništa → ničega, ničemu. Ne vidim nikoga. (I see nobody — accusative.) Nikome nisam rekao. (I told nobody — dative.) Ne bojim se ničega. (I am afraid of nothing — genitive after bojati se.) The prefix stays put and the ending does the work.',
         highlight: 'Ne vidim nikoga.',
       },
       {

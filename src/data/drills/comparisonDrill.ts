@@ -1,6 +1,7 @@
 // src/data/drills/comparisonDrill.ts
 //
-// A2 COMPARISON — the drill for the `comparatives-a2` lesson.
+// B1 COMPARISON — the drill for the `comparatives-a2` lesson (B1 since the Croaticum
+// restructure; the id keeps its old name).
 //
 // `stupnjevanje` exists but is B2, so the A2 lesson had no reachable drill. The
 // content splits cleanly into one thing that is mechanical (add -iji, prefix
@@ -12,7 +13,7 @@
 //
 // Three modes:
 //   tvorba     — forming the comparative
-//   nepravilni — the four or five that must simply be known
+//   nepravilni — the handful that must simply be known (dobar, zao/loš, velik, malen, dug)
 //   nego       — od + genitive vs nego, and the superlative
 
 import type { ModeDrillItem } from '../../components/practice/ModeDrill';
@@ -83,6 +84,14 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'tvorba',
+    q: 'visok → ____',
+    en: 'tall → taller',
+    opts: ['viši', 'visokiji', 'najviši', 'visočiji'],
+    answer: 'viši',
+    tip: 'visok drops -ok and takes -ji, and s + j gives š: viši. A sound change, not an irregular.',
+  },
+  {
+    mode: 'tvorba',
     q: 'Koliko nastavaka ima komparativ?',
     en: 'How many comparative endings are there?',
     opts: ['tri', 'jedan', 'dva', 'pet'],
@@ -95,7 +104,7 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nepravilni',
     q: 'dobar → ____',
     en: 'good → better',
-    opts: ['bolji', 'dobriji', 'najbolji', 'dobrji'],
+    opts: ['bolji', 'dobriji', 'najbolji', 'dobro'],
     answer: 'bolji',
     tip: 'dobar → bolji → najbolji. Nothing in the form gives it away; learn it whole.',
   },
@@ -103,7 +112,7 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nepravilni',
     q: 'loš → ____',
     en: 'bad → worse',
-    opts: ['gori', 'lošji', 'najgori', 'lošši'],
+    opts: ['gori', 'loše', 'najgori', 'goriji'],
     answer: 'gori',
     tip: 'loš → gori → najgori. (Lošiji is standard too.)',
   },
@@ -111,7 +120,7 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nepravilni',
     q: 'velik → ____',
     en: 'big → bigger',
-    opts: ['veći', 'velikiji', 'najveći', 'velji'],
+    opts: ['veći', 'velikiji', 'najveći', 'velik'],
     answer: 'veći',
     tip: 'velik → veći → najveći.',
   },
@@ -125,11 +134,19 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nepravilni',
-    q: 'visok → ____',
-    en: 'tall → taller',
-    opts: ['viši', 'visokiji', 'najviši', 'visočiji'],
-    answer: 'viši',
-    tip: 'visok → viši → najviši.',
+    q: 'dug → ____',
+    en: 'long → longer',
+    opts: ['dulji', 'dugiji', 'najdulji', 'dug'],
+    answer: 'dulji',
+    tip: 'dug and dugačak → dulji → najdulji (duži is also standard).',
+  },
+  {
+    mode: 'nepravilni',
+    q: 'zao → ____',
+    en: 'bad, evil → worse',
+    opts: ['gori', 'zaliji', 'najgori', 'zao'],
+    answer: 'gori',
+    tip: 'zao shares its comparative with loš: gori → najgori.',
   },
   {
     mode: 'nepravilni',
@@ -141,9 +158,9 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nepravilni',
-    q: 'Ovo je ____ film koji sam vidio. (loš)',
-    en: 'This is the worst film I have seen.',
-    opts: ['najgori', 'najlošji', 'gori', 'najgorji'],
+    q: 'Ovo je ____ restoran u gradu. (loš)',
+    en: 'This is the worst restaurant in town.',
+    opts: ['najgori', 'gori', 'loš', 'goriji'],
     answer: 'najgori',
     tip: 'loš → gori → najgori.',
   },
@@ -153,7 +170,7 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
     en: 'How many irregulars must you memorise?',
     opts: ['nekolicinu', 'nijedan', 'sve pridjeve', 'desetke'],
     answer: 'nekolicinu',
-    tip: 'A handful — dobar, loš, velik, malen, visok. Everything else is regular.',
+    tip: 'A handful — dobar, zao/loš, velik, malen, dug. Everything else follows -iji, -ji or -ši.',
   },
 
   // ── nego ──────────────────────────────────────────────────────────────────

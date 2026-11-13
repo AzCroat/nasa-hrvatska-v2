@@ -61,6 +61,17 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],
   'aspect-perfective': ['aspect', 'perfective'],
+  // B1 (Razgovarajte s nama! A2-B1, lessons 6–10, plus the app's own B1 lessons). Each word
+  // belongs to the lesson that first teaches it under that name.
+  'verb-prefixes': ['prefix'],
+  'future-ii': ['future II'],
+  'time-clauses': ['time clause'],
+  conjunctions: ['conjunction'],
+  'relative-koji': ['relative clause', 'relative pronoun'],
+  indefinites: ['indefinite pronoun'],
+  'infinitive-vs-da': ['da clause'],
+  'cause-purpose': ['purpose clause'],
+  'reported-speech': ['reported speech'],
   // B2, re-derived from the corrected lessons (B2 book comparison, 2026-11-13). Each word is
   // one the lesson itself names and explains; multi-word terms keep general words such as
   // "participle" free for the A1–B1 past-tense explanations that already use them.
@@ -84,7 +95,6 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   'unreal-conditions': ['unreal condition', 'past conditional'],
   'genitive-of-negation': ['genitive of negation'],
   'verbal-adverbs': ['verbal adverb'],
-  'reported-speech': ['reported speech'],
   'reported-speech-b2': ['reported speech'],
   interjections: ['interjection', 'onomatopoeia'],
 };

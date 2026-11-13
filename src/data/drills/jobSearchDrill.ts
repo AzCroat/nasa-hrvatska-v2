@@ -14,8 +14,9 @@
 // letter is a *zamolba* or *motivacijsko pismo*.
 //
 // The third piece is what an interview answer is made of: a reason. *Javljam se
-// jer…*, *zbog…*, *kako bih…* — an answer with no reason attached reads as
-// evasive rather than modest.
+// jer…* — an answer with no reason attached reads as evasive rather than modest.
+// (zbog and kako bih are taught later, in cause-purpose, so they are not tested
+// here, not even as distractors.)
 //
 // Three modes:
 //   papiri  — životopis, zamolba, natječaj
@@ -150,7 +151,7 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'particip',
     q: 'Trenutno ____ u banci.',
     en: 'I currently work at a bank.',
-    opts: ['radim', 'radio sam', 'radit ću', 'radeći'],
+    opts: ['radim', 'radio sam', 'radit ću', 'radio bih'],
     answer: 'radim',
     tip: 'A current job takes the PRESENT — the past participle would end it.',
   },
@@ -176,17 +177,17 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'intervju',
     q: 'Javljam se ____ me zanima ovo područje.',
     en: 'I am applying because this field interests me.',
-    opts: ['jer', 'zbog', 'radi', 'da'],
+    opts: ['jer', 'da', 'ako', 'kad'],
     answer: 'jer',
-    tip: 'jer introduces a CLAUSE. zbog needs a noun after it.',
+    tip: 'jer gives the reason. ako sets a condition and kad says when.',
   },
   {
     mode: 'intervju',
-    q: 'Javljam se ____ iskustva u ovom poslu.',
-    en: 'I am applying because of my experience in this work.',
-    opts: ['zbog', 'jer', 'da', 'kako'],
-    answer: 'zbog',
-    tip: 'zbog plus a NOUN in the genitive. The pair with jer is the whole rule.',
+    q: 'Muškarac: ____ bih raditi u vašem timu.',
+    en: 'A man: I would like to work in your team.',
+    opts: ['Želio', 'Želim', 'Želi', 'Željela'],
+    answer: 'Želio',
+    tip: 'The conditional for a wish: a man says želio bih, a woman željela bih.',
   },
   {
     mode: 'intervju',
@@ -214,11 +215,11 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'intervju',
-    q: 'Prijavio sam se ____ stekao novo iskustvo.',
-    en: 'I applied in order to gain new experience.',
-    opts: ['kako bih', 'jer', 'zbog', 'zato'],
-    answer: 'kako bih',
-    tip: 'kako bih plus the participle expresses PURPOSE — looking forward, not back.',
+    q: 'Kakva su vaša ____?',
+    en: 'What are your expectations?',
+    opts: ['očekivanja', 'očekivanje', 'očekivanjima', 'očekivanju'],
+    answer: 'očekivanja',
+    tip: 'Kakva su… — the plural: očekivanja, agreeing with kakva and su.',
   },
   {
     mode: 'intervju',

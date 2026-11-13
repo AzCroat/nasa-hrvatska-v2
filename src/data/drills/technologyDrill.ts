@@ -85,11 +85,11 @@ export const TECHNOLOGY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nazivi',
-    q: 'Što je "pretraživač"?',
-    en: 'What is a pretraživač?',
+    q: 'Što je "tražilica"?',
+    en: 'What is a tražilica?',
     opts: ['search engine', 'browser', 'file manager', 'index'],
     answer: 'search engine',
-    tip: 'From pretraživati. Not the same as preglednik — one letter of thought apart.',
+    tip: 'From tražiti, to search. Not the same as preglednik, the browser.',
   },
   {
     mode: 'nazivi',

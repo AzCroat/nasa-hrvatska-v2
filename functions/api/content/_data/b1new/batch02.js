@@ -353,15 +353,14 @@ const P_INSTRUMENTAL_ADJECTIVES = {
         type: 'type',
         q: 'Sjedim s ____ sestrom. (my younger)',
         answer: 'mojom mlađom',
-        accept: ['svojom mlađom'],
         hint: 'Sestra is feminine, so both words take the feminine instrumental ending.',
-        explanation: 's mojom mlađom sestrom — -om on both words.',
+        explanation:
+          's mojom mlađom sestrom — -om on both words. (With svojom the preposition would have to be sa: sa svojom mlađom sestrom.)',
       },
       {
         type: 'type',
         q: 'Igram tenis s ____ prijateljem. (my old)',
         answer: 'mojim starim',
-        accept: ['svojim starim'],
         hint: 'Prijatelj is masculine: -im on both words.',
         explanation: 's mojim starim prijateljem.',
       },
@@ -376,7 +375,7 @@ const P_INSTRUMENTAL_ADJECTIVES = {
         type: 'type',
         q: 'Ljeto provodimo s ____ susjedima. (our kind)',
         answer: 'našim ljubaznim',
-        accept: ['svojim ljubaznim', 'našim dobrim', 'svojim dobrim'],
+        accept: ['našim dobrim'],
         hint: 'Susjedima is plural: the same ending on both words, whatever the gender.',
         explanation: 's našim ljubaznim susjedima — the plural -im.',
       },
@@ -491,6 +490,12 @@ const L_VERBS_WITH_INSTRUMENTAL = {
       highlight: 'Zadovoljan sam svojim poslom.',
     },
     {
+      type: 'rule',
+      title: 'More of Them: igrati se, lupati, iznenaditi, častiti',
+      body: 'Four more verbs put the thing in the instrumental. Igrati se (to play with): Dijete se igra loptom. Lupati (to bang, to slam): Ne lupaj vratima! Iznenaditi (to surprise someone WITH something): Iznenadio me poklonom. Častiti (to treat someone TO something): Častim te kavom. And four more adjectives: iznenađen (surprised by) — Iznenađen sam tvojim pitanjem; šokiran (shocked by) — Bila je šokirana cijenom; bogat (rich in) — Hrvatska je bogata šumama; siromašan (poor in) — Kraj je siromašan vodom.',
+      highlight: 'Častim te kavom.',
+    },
+    {
       type: 'table',
       title: 'Verbs and Adjectives With the Instrumental',
       headers: ['Word', 'Meaning', 'Example'],
@@ -502,12 +507,15 @@ const L_VERBS_WITH_INSTRUMENTAL = {
         ['upravljati', 'to run, to steer', 'Upravlja velikom tvrtkom.'],
         ['zadovoljan', 'satisfied with', 'Zadovoljna sam rezultatom.'],
         ['oduševljen', 'thrilled with', 'Oduševljeni smo izletom.'],
+        ['igrati se', 'to play with', 'Djeca se igraju loptom.'],
+        ['častiti', 'to treat (someone) to', 'Danas ja častim pićem.'],
+        ['bogat / siromašan', 'rich in / poor in', 'Kraj je bogat vodom.'],
       ],
     },
     {
       type: 'rule',
       title: 'A Present to Know: čuti → čujem',
-      body: 'Čuti (to hear) puts a j into its present: čujem, čuješ, čuje, čujemo, čujete, čuju. Čuješ li me? — Can you hear me? A handful of short verbs follow the same pattern: piti (to drink) → pijem, šiti (to sew) → šijem, kriti (to hide) → krijem, obuti (to put on shoes) → obujem, izuti (to take off shoes) → izujem. The past still comes from the infinitive: čuo / čula, pio / pila, obuo / obula.',
+      body: 'Čuti (to hear) puts a j into its present: čujem, čuješ, čuje, čujemo, čujete, čuju. Čuješ li me? — Can you hear me? A handful of short verbs follow the same pattern: piti (to drink) → pijem, šiti (to sew) → šijem, kriti (to hide) → krijem, obuti (to put on shoes) → obujem, izuti (to take off shoes) → izujem, and also liti (to pour) → lijem, dobiti (to get) → dobijem, ubiti (to kill) → ubijem, umiti se (to wash your face) → umijem se. The past still comes from the infinitive: čuo / čula, pio / pila, obuo / obula, dobio / dobila.',
       highlight: 'čuti → čujem',
     },
     {
@@ -655,6 +663,13 @@ const L_VERBS_WITH_INSTRUMENTAL = {
           explanation:
             'Tko takes the on form: upravlja. The company is in the instrumental: ovom tvrtkom.',
         },
+        {
+          q: 'Complete: "Naš kraj je bogat ___." (forests)',
+          options: ['šumama', 'šume', 'šuma', 'u šumama'],
+          correct: 0,
+          explanation:
+            'Bogat (rich in) takes the bare instrumental: šumama. Šume and šuma are other cases, and no preposition is needed.',
+        },
       ],
     },
     {
@@ -666,7 +681,8 @@ const L_VERBS_WITH_INSTRUMENTAL = {
         'ponositi se, hvaliti se, upravljati + instr., with no preposition',
         'but ponosan na + acc.: Ponosna sam na svoju djecu',
         'zadovoljan, oduševljen + instr., agreeing with the speaker',
-        'čuti → čujem, čuješ, čuju; piti → pijem; obuti → obujem',
+        'igrati se, lupati, iznenaditi, častiti + instr.; iznenađen, šokiran, bogat, siromašan + instr.',
+        'čuti → čujem, čuješ, čuju; piti → pijem; obuti → obujem; liti → lijem; dobiti → dobijem; umiti se → umijem se',
       ],
     },
   ],
@@ -810,6 +826,20 @@ const P_VERBS_WITH_INSTRUMENTAL = {
         hint: 'Posao loses its a in the other cases; the possessive takes the masculine instrumental.',
         explanation: 'svojim poslom (tvojim poslom is also correct with ti).',
       },
+      {
+        q: 'Danas ja ___ kavom! (I am treating you all)',
+        options: ['častim', 'častimo', 'časti', 'častiš'],
+        correct: 0,
+        hint: 'The ja form of častiti; the drink goes in the instrumental.',
+        explanation: 'Danas ja častim kavom — častiti + instrumental.',
+      },
+      {
+        type: 'type',
+        q: 'Ujutro se ____ hladnom vodom. (I wash my face — umiti se)',
+        answer: 'umijem',
+        hint: 'Umiti se behaves like čuti and piti: a j appears before the ending.',
+        explanation: 'umijem se — like čujem, pijem.',
+      },
     ],
   },
   checkB: [
@@ -866,6 +896,10 @@ const P_VERBS_WITH_INSTRUMENTAL = {
     ['čuti', 'to hear', 'Ne čujem te dobro.'],
     ['obuti', 'to put on (shoes)', 'Obujem cipele i izađem.'],
     ['tvrtka', 'company, firm', 'Radim u maloj tvrtki.'],
+    ['častiti', 'to treat (someone to something)', 'Častim te kavom.'],
+    ['iznenaditi', 'to surprise', 'Iznenadio me lijepim poklonom.'],
+    ['bogat', 'rich (in)', 'Hrvatska je bogata šumama.'],
+    ['dobiti', 'to get, to receive (dobijem)', 'Svaki mjesec dobijem plaću.'],
   ],
 };
 
@@ -946,6 +980,25 @@ const L_JOB_APPLICATION = {
       title: 'The Closing Lines',
       body: 'Four fixed phrases close almost every application. U prilogu šaljem životopis i presliku diplome (Attached I send my CV and a copy of my diploma). Za sve dodatne informacije stojim Vam na raspolaganju (I am at your disposal for any further information). Zahvaljujem na pažnji (Thank you for your attention). Nadam se Vašem pozitivnom odgovoru (I hope for a positive reply). Then: S poštovanjem, and your name.',
       highlight: 'S poštovanjem,',
+    },
+    {
+      type: 'rule',
+      title: 'Prilozi: the List Under Your Name',
+      body: 'Under the signature a Croatian application lists what is enclosed, after the heading Prilozi: (Enclosures:). For example: Prilozi: životopis, preslika diplome, potvrda o nekažnjavanju. The last one is a certificate that you have no criminal record; many employers, and every public-sector post, ask for it.',
+      highlight: 'Prilozi:',
+    },
+    {
+      type: 'table',
+      title: 'What Kind of Job?',
+      headers: ['Croatian', 'English'],
+      rows: [
+        ['stalni posao', 'a permanent job'],
+        ['honorarni posao', 'a part-time or casual job, paid by the piece'],
+        ['ugovor na određeno / na neodređeno', 'a fixed-term / a permanent contract'],
+        ['slobodnjak, slobodnjakinja', 'a freelancer'],
+        ['dobiti posao / dobiti otkaz', 'to get a job / to be fired, to get notice'],
+        ['odbijenica', 'a letter of rejection'],
+      ],
     },
     {
       type: 'example',
@@ -1090,6 +1143,13 @@ const L_JOB_APPLICATION = {
           explanation:
             'Nadam se Vašem pozitivnom odgovoru is the polite closing. The others speak to a friend with ti.',
         },
+        {
+          q: 'Which heading lists what you enclose, under your signature?',
+          options: ['Predmet:', 'Poštovani,', 'S poštovanjem,', 'Prilozi:'],
+          correct: 3,
+          explanation:
+            'Prilozi: (Enclosures:) lists the documents you send. Predmet is the subject line at the top, and the other two are the greeting and the sign-off.',
+        },
       ],
     },
     {
@@ -1102,6 +1162,8 @@ const L_JOB_APPLICATION = {
         'Skills: služim se računalom, engleskim jezikom',
         'Motivation politely: Željela bih raditi… jer…',
         'Closing: U prilogu šaljem… Nadam se Vašem pozitivnom odgovoru. S poštovanjem,',
+        'Under the name: Prilozi: životopis, preslika diplome, potvrda o nekažnjavanju',
+        'stalni / honorarni posao, ugovor na određeno, slobodnjak, dobiti otkaz, odbijenica',
       ],
     },
   ],
@@ -1239,6 +1301,13 @@ const P_JOB_APPLICATION = {
         explanation: 'S poštovanjem, Marko Kovač',
       },
       {
+        q: 'Ana radi kod kuće, sama za sebe, za razne klijente. Ona je ___.',
+        options: ['slobodnjakinja', 'stalna', 'odbijenica', 'otkaz'],
+        correct: 0,
+        hint: 'The word for someone who works for themselves, for several clients — feminine.',
+        explanation: 'slobodnjakinja — a (female) freelancer.',
+      },
+      {
         type: 'type',
         q: 'U ____ šaljem životopis. (in the attachment)',
         answer: 'prilogu',
@@ -1306,7 +1375,7 @@ const P_JOB_APPLICATION = {
   ],
   vocab: [
     ['natječaj', 'public job advertisement, vacancy', 'Javljam se na Vaš natječaj.'],
-    ['radno mjesto', 'post, position', 'Tražimo radno mjesto vozača.'],
+    ['radno mjesto', 'post, position', 'Tražim radno mjesto vozača.'],
     ['prijava', 'application', 'Poslala sam prijavu na natječaj.'],
     ['molba', 'application letter, request', 'Napisao je molbu za posao.'],
     ['životopis', 'CV', 'U prilogu šaljem životopis.'],
@@ -1314,6 +1383,9 @@ const P_JOB_APPLICATION = {
     ['svjedodžba', 'school certificate', 'Šaljem presliku svjedodžbe.'],
     ['iskustvo', 'experience', 'Imam tri godine iskustva.'],
     ['poštovanje', 'respect', 'S poštovanjem, Ivana Horvat'],
+    ['honorarni posao', 'part-time, casual job', 'Uz studij imam honorarni posao.'],
+    ['otkaz', 'dismissal, notice', 'Nažalost, dobio je otkaz.'],
+    ['odbijenica', 'letter of rejection', 'Opet sam dobila odbijenicu.'],
   ],
 };
 
@@ -1388,6 +1460,20 @@ const L_SATISFACTION_DISAPPOINTMENT = {
       highlight: 'Drago mi je što ste došli.',
     },
     {
+      type: 'table',
+      title: 'Talking About Work: Sayings',
+      headers: ['Croatian', 'English'],
+      rows: [
+        ['raditi kao mrav', 'to work hard and steadily (like an ant)'],
+        ['vrijedan kao mrav', 'very hard-working'],
+        ['baciti se na posao', 'to throw yourself into the work'],
+        ['uputiti se u posao', 'to learn the ropes of a job'],
+        ['imati posla s nekim', 'to have to deal with someone'],
+        ['Sizifov posao', 'an endless task that never gets done'],
+        ['Tko radi, ne boji se gladi.', 'Whoever works need not fear hunger.'],
+      ],
+    },
+    {
       type: 'example',
       title: 'Pleased and Thrilled',
       items: [
@@ -1443,8 +1529,8 @@ const L_SATISFACTION_DISAPPOINTMENT = {
           note: 'razočarani — agrees with navijači',
         },
         {
-          hr: 'Kakva šteta! Ulaznice za koncert su rasprodane.',
-          en: 'What a pity! The concert tickets are sold out.',
+          hr: 'Kakva šteta! Za koncert više nema ulaznica.',
+          en: 'What a pity! There are no more tickets for the concert.',
         },
         {
           hr: 'Film mi se nije svidio, kraj je bio dosadan.',
@@ -1527,12 +1613,25 @@ const L_SATISFACTION_DISAPPOINTMENT = {
           correct: 2,
           explanation: 'Rad is masculine, in the instrumental: našim radom.',
         },
+        {
+          q: 'Your colleague is never late and works hard all day. Which saying fits?',
+          options: [
+            'Sizifov je posao.',
+            'Ima posla s nama.',
+            'Vrijedan je kao mrav.',
+            'Bacio je posao.',
+          ],
+          correct: 2,
+          explanation:
+            'Vrijedan kao mrav — hard-working like an ant. A Sizifov posao is a task that never ends, and imati posla s nekim means having to deal with someone.',
+        },
       ],
     },
     {
       type: 'summary',
       title: 'Satisfaction and Disappointment — Key Takeaways',
       points: [
+        'Work sayings: raditi kao mrav, baciti se na posao, Sizifov posao, Tko radi, ne boji se gladi',
         'zadovoljan, nezadovoljan, oduševljen, razočaran + instrumental',
         'The adjective agrees with the speaker: zadovoljan / zadovoljna / zadovoljni / zadovoljne',
         'How much: potpuno, jako, prilično, nisam baš, nisam nimalo',
@@ -1687,6 +1786,13 @@ const P_SATISFACTION_DISAPPOINTMENT = {
         hint: 'The noun for "pity" in its basic form.',
         explanation: 'Kakva šteta!',
       },
+      {
+        q: 'Ivan je počeo raditi u novoj tvrtki i odmah se ___ na posao. (threw himself into)',
+        options: ['bacio', 'bacila', 'bacati', 'baca'],
+        correct: 0,
+        hint: 'A man, one completed action in the past: the masculine past participle.',
+        explanation: 'baciti se na posao — Ivan se bacio na posao.',
+      },
     ],
   },
   checkB: [
@@ -1721,7 +1827,7 @@ const P_SATISFACTION_DISAPPOINTMENT = {
       explanation: 'The dirty room is the reason: jer.',
     },
     {
-      q: 'Complete: "Kakva ___! Koncert je otkazan."',
+      q: 'Complete: "Kakva ___! Koncerta neće biti."',
       options: ['šteta', 'štete', 'štetu', 'štetom'],
       correct: 0,
       explanation: 'Kakva šteta! — the nominative, agreeing with kakva.',
@@ -1737,6 +1843,8 @@ const P_SATISFACTION_DISAPPOINTMENT = {
     ['očekivati', 'to expect', 'Očekivala sam više.'],
     ['nimalo', 'not at all (with a negation)', 'Nisam nimalo zadovoljan.'],
     ['prijedlog', 'suggestion', 'Oduševljena sam tvojim prijedlogom.'],
+    ['mrav', 'ant', 'Moj djed je vrijedan kao mrav.'],
+    ['Sizifov posao', 'an endless, futile task', 'Čistiti snijeg dok pada je Sizifov posao.'],
   ],
 };
 
@@ -1768,7 +1876,7 @@ const L_GENITIVE_ADJECTIVES = {
     {
       type: 'rule',
       title: 'The Longer Forms',
-      body: 'Every one of these has a longer twin with an extra -a: starog / staroga, našeg / našega, tog / toga. Both are correct; the short form is more common in speech. Moj, tvoj and svoj have three correct forms: mojeg, mog and moga (likewise tvojeg / tvog, svojeg / svog). You may use any of them.',
+      body: 'Every one of these has a longer twin with an extra -a: starog / staroga, našeg / našega, tog / toga. Both are correct; the short form is more common in speech. Moj, tvoj and svoj have several correct forms: mojeg, mog, moga and the longest, mojega (likewise tvojeg / tvog / tvoga / tvojega, svojeg / svog). You may use any of them.',
       highlight: 'mojeg, mog, moga',
     },
     {
@@ -1798,7 +1906,8 @@ const L_GENITIVE_ADJECTIVES = {
         ['naš (soft)', 'našeg', 'naše', 'naših'],
         ['taj / ta / to', 'tog', 'te', 'tih'],
         ['ovaj', 'ovog', 'ove', 'ovih'],
-        ['moj', 'mojeg / mog', 'moje', 'mojih'],
+        ['onaj', 'onog', 'one', 'onih'],
+        ['moj', 'mojeg / mog / moga / mojega', 'moje', 'mojih'],
         ['svoj', 'svojeg / svog', 'svoje', 'svojih'],
         ['njegov', 'njegovog', 'njegove', 'njegovih'],
         ['njezin', 'njezinog', 'njezine', 'njezinih'],
@@ -1873,6 +1982,16 @@ const L_GENITIVE_ADJECTIVES = {
           hr: 'Na stolu je pet starih knjiga.',
           en: 'There are five old books on the table.',
           note: 'starih — the plural -ih after pet',
+        },
+        {
+          hr: 'Eno moje drage Klare!',
+          en: 'There is my dear Klara, over there!',
+          note: 'eno + genitive: moje drage Klare',
+        },
+        {
+          hr: 'Cijena onih crvenih cipela je previsoka.',
+          en: 'The price of those red shoes is too high.',
+          note: 'onih — the plural of onaj',
         },
       ],
     },
@@ -1951,7 +2070,7 @@ const L_GENITIVE_ADJECTIVES = {
       title: 'Adjectives in the Genitive — Key Takeaways',
       points: [
         'Masculine and neuter: -og, or -eg after a soft stem — starog, našeg',
-        'Longer twins are also correct: staroga; moj → mojeg / mog / moga',
+        'Longer twins are also correct: staroga; moj → mojeg / mog / moga / mojega',
         'Feminine: -e — bez tvoje pomoći, iz stare kuće',
         'Plural, every gender: -ih — puno dobrih prijatelja',
         'svoj points back at the subject: kod svoje sestre',

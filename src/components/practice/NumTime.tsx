@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { H, Bar, sh, NUMTIME } from '../../data';
 import { completeExercise } from '../../hooks/useExerciseCompletion';
-import { passedLesson, retryNeedLabel } from '../../lib/lessonGate';
+import { itemsNeededToPass, passedLesson, retryNeedLabel } from '../../lib/lessonGate';
 import { useStats } from '../../context/StatsContext';
 import { readOpenLessons } from '../../lib/lessonLock';
 
@@ -86,7 +86,9 @@ export default function NumTime({
             {ntS} / {total}
           </div>
           <div style={{ fontSize: 24, fontWeight: 900, color: '#d97706', margin: '8px 0 16px' }}>
-            {willPass ? `+${ntS * 3 + 10} XP` : 'Need 75% to earn credit'}
+            {willPass
+              ? `+${ntS * 3 + 10} XP`
+              : `Need ${itemsNeededToPass(total)} of ${total} to earn credit`}
           </div>
           {!willPass && (
             <button

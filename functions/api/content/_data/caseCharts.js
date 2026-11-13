@@ -154,12 +154,12 @@ export const SINGULAR_ROWS = [
     cells: [
       [
         L('Idem u grad s prijateljicom.', N('prijateljicom', 'prijateljica')),
-        // "Zadovoljan sam s kućom" was the owner's line; the standard is zadovoljan + the
-        // instrumental with no s (zadovoljan kućom), so the line is replaced (A1 book fix,
-        // 2026-11-13) by an instrumental of means the A1 course teaches.
-        L('Pišem olovkom.', N('olovkom', 'olovka')),
+        L('Ručam sa sestrom.', N('sestrom', 'sestra')),
       ],
-      [L('Plovim morem.', N('morem', 'more', 'em'))],
+      [
+        L('Plovim morem.', N('morem', 'more', 'em')),
+        L('Pijem kavu s mlijekom.', N('mlijekom', 'mlijeko')),
+      ],
       [
         L('Idem na posao biciklom.', N('biciklom', 'bicikl')),
         L('Razgovaram sa susjedom.', N('susjedom', 'susjed')),

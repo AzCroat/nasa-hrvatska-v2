@@ -183,11 +183,11 @@ export const COMPLAINTS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rjesenje',
-    q: 'Kada će to biti ____?',
-    en: 'When will it be sorted out?',
-    opts: ['riješeno', 'riješen', 'riješena', 'rješenje'],
-    answer: 'riješeno',
-    tip: 'A neuter passive participle, because "to" is neuter.',
+    q: 'Kada ćete to ____?',
+    en: 'When will you sort it out?',
+    opts: ['riješiti', 'riješite', 'riješili', 'rješenje'],
+    answer: 'riješiti',
+    tip: 'The future is ćete + the infinitive.',
   },
   {
     mode: 'rjesenje',

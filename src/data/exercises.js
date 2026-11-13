@@ -4679,13 +4679,13 @@ export const NUMTIME = {
     {
       q: 'It\u0027s 3:00 PM =',
       a: 'Petnaest sati',
-      al: ['Tri sata', 'Pet sati', 'Trinaest sati'],
+      al: ['Tri sati', 'Pet sati', 'Trinaest sati'],
       lesson: 'numbers-genitive',
     },
     {
       q: 'It\u0027s 7:30 =',
       a: 'Sedam sati i trideset minuta',
-      al: ['Sedam i pol', 'Šest i trideset', 'Osam i trideset'],
+      al: ['Osam i pol', 'Šest i trideset', 'Osam i trideset'],
       lesson: 'numbers-genitive',
     },
     {
@@ -4738,9 +4738,9 @@ export const NUMTIME = {
       lesson: 'numbers-genitive',
     },
     {
-      q: "Which is colloquial for 'the day after tomorrow'?",
+      q: "Which word means 'the day after tomorrow'?",
       a: 'prekosutra',
-      al: ['jučer', 'sutra', 'predjuče'],
+      al: ['jučer', 'sutra', 'prekjučer'],
       lesson: 'numbers-genitive',
     },
     {
@@ -4752,7 +4752,7 @@ export const NUMTIME = {
     {
       q: "Formal vs colloquial: '15:00' vs colloquial?",
       a: 'Tri sata (popodne)',
-      al: ['Petnaest', 'Tri popodne', 'Poslijepodne tri'],
+      al: ['Petnaest', 'Pet popodne', 'Poslijepodne tri'],
       lesson: 'numbers-genitive',
     },
     {

@@ -75,7 +75,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is a polog?',
     opts: ['deposit', 'first month rent', 'agency fee', 'insurance'],
     answer: 'deposit',
-    tip: 'Also called jamstvo. Usually one or two months.',
+    tip: 'Also called jamčevina or depozit (jamstvo is a guarantee). Usually one or two months.',
   },
   {
     mode: 'oglas',
@@ -126,11 +126,11 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'sobe',
-    q: 'Jesu li režije ____? (uključen)',
-    en: 'Are the utilities included?',
-    opts: ['uključene', 'uključen', 'uključeno', 'uključena'],
-    answer: 'uključene',
-    tip: 'Režije is plural feminine, so uključene.',
+    q: 'Koliko ____ režije?',
+    en: 'How much do the utilities come to?',
+    opts: ['iznose', 'iznosi', 'iznositi', 'iznosim'],
+    answer: 'iznose',
+    tip: 'Režije is always plural, so the verb is plural too.',
   },
   {
     mode: 'sobe',
