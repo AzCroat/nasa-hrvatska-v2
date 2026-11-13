@@ -123,7 +123,7 @@ export const INFORMAL_EMAIL_DRILL_DATA: ModeDrillItem[] = [
     mode: 'vijesti',
     q: 'U kolovozu ____ doći u Zagreb.',
     en: 'In August I will come to Zagreb.',
-    opts: ['ću', 'ćeš', 'sam', 'bih'],
+    opts: ['ću', 'ćeš', 'sam', 'ćemo'],
     answer: 'ću',
     tip: 'A plan: the future, ću for ja.',
   },

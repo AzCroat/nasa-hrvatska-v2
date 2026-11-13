@@ -3,7 +3,7 @@
 // A2 COMMANDS REVISITED — the drill for the `imperative-review` lesson.
 //
 // Three modes:
-//   oblik    — the imperative of every verb class, built from the oni form
+//   oblik    — the imperative of every verb class, built from the oni form; neka + present
 //   klitike  — the short pronouns straight after the command: Daj mi ga! Javi mi se!
 //   nemoj    — bans: nemoj + infinitive, with the short words after nemoj
 //
@@ -79,8 +79,8 @@ export const IMPERATIVE_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblik',
-    q: '____ više vode!',
-    en: 'Drink more water! (to a group)',
+    q: '____ puno vode!',
+    en: 'Drink a lot of water! (to a group)',
     opts: ['Pijte', 'Pite', 'Pijati', 'Piti'],
     answer: 'Pijte',
     tip: 'piju → pij-, which ends in j, so the group form is just -te.',
@@ -226,5 +226,21 @@ export const IMPERATIVE_REVIEW_DRILL_DATA: ModeDrillItem[] = [
     opts: ['Ne', 'Nemoj', 'Ni', 'Nije'],
     answer: 'Ne',
     tip: 'diraj is already a command, so it takes ne. Nemoj would need the infinitive dirati.',
+  },
+  {
+    mode: 'oblik',
+    q: 'Gospođa Kovač je stigla. — Neka ____!',
+    en: 'Mrs Kovač has arrived. — Let her come in!',
+    opts: ['uđe', 'uđi', 'ući', 'uđite'],
+    answer: 'uđe',
+    tip: 'A command about someone else: neka + the ordinary present, ona form.',
+  },
+  {
+    mode: 'oblik',
+    q: 'Neka ____ tako!',
+    en: 'So be it!',
+    opts: ['bude', 'budu', 'budi', 'biti'],
+    answer: 'bude',
+    tip: 'After neka, biti takes bude.',
   },
 ];

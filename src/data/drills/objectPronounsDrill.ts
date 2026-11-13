@@ -132,8 +132,8 @@ export const OBJECT_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mjesto',
-    q: 'Poslije prijedloga dolazi:',
-    en: 'After a preposition you use:',
+    q: 'Poslije prijedloga u običnom govoru dolazi:',
+    en: 'After a preposition, in everyday Croatian, you use:',
     opts: ['dugi oblik', 'kratki oblik', 'oba', 'nijedan'],
     answer: 'dugi oblik',
     tip: 'Za mene, s njim, o njoj. (Short forms such as za me also exist, but they are literary.)',

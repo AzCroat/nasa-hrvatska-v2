@@ -196,8 +196,8 @@ export const ASPECT_PAIRS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izbor',
-    q: 'Želim ____ sto novih riječi.',
-    en: 'I want to learn a hundred new words, so that I know them.',
+    q: 'Želim ____ sto riječi do ljeta.',
+    en: 'I want to learn a hundred words by the summer, so that I know them.',
     opts: ['naučiti', 'učiti', 'učim', 'naučim'],
     answer: 'naučiti',
     tip: 'Learned and known — a result: the perfective infinitive.',

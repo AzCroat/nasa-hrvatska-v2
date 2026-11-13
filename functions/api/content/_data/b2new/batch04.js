@@ -42,7 +42,7 @@ export const SPINE = [
     ],
     objectives: [
       'Talk about staying healthy, falling ill and seeing a doctor',
-      'Name addictions and how to stop: ovisnost o pušenju, prestati pušiti, odviknuti se od alkohola',
+      'Name addictions and how to stop: ovisnost o alkoholu, prestati pušiti, odviknuti se od alkohola',
       'Give advice for a heat wave with the imperative and the conditional: Pijte vodu. Trebali biste ostati u hladu.',
     ],
   },
@@ -339,8 +339,8 @@ const HEALTH_PREVENTION = {
     {
       type: 'rule',
       title: 'Addiction: o + Locative, od + Genitive',
-      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o pušenju (smoking), o alkoholu, o kockanju (gambling). Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counselling centre).',
-      highlight: 'ovisnost o pušenju',
+      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o nikotinu, o alkoholu, o kocki (gambling), o šećeru. Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counselling centre).',
+      highlight: 'ovisnost o alkoholu',
     },
     {
       type: 'rule',
@@ -422,12 +422,52 @@ const HEALTH_PREVENTION = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: liječiti, boljeti, disati',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['liječiti', 'izliječiti', 'to treat; to cure'],
+        ['—', 'zaliječiti', 'to heal over (a wound)'],
+        ['boljeti', '—', 'to hurt: Boli me glava.'],
+        ['obolijevati', 'oboljeti', 'to fall ill'],
+        ['—', 'preboljeti', 'to get over (an illness, a loss)'],
+        ['disati', 'udahnuti / izdahnuti', 'to breathe; to breathe in / out'],
+        ['uzdisati', 'uzdahnuti', 'to sigh'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Families in Use',
+      items: [
+        {
+          hr: 'Liječnik ga je potpuno izliječio.',
+          en: 'The doctor cured him completely.',
+          note: 'izliječiti — the treatment succeeded',
+        },
+        {
+          hr: 'Prošle zime oboljela je od gripe.',
+          en: 'Last winter she came down with flu.',
+          note: 'oboljeti od + genitive',
+        },
+        {
+          hr: 'Gripu je prebolio za tjedan dana.',
+          en: 'He got over the flu in a week.',
+          note: 'preboljeti — to get through an illness',
+        },
+        {
+          hr: 'Duboko udahni i polako diši.',
+          en: 'Take a deep breath and breathe slowly.',
+          note: 'udahnuti once, disati as a process',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
-      q: 'Complete: "Moj otac je ovisan ___." (addicted to smoking)',
-      options: ['o pušenju', 'od pušenja', 'na pušenje', 's pušenjem'],
+      q: 'Complete: "Moj otac je ovisan ___." (addicted to cigarettes)',
+      options: ['o cigaretama', 'od cigareta', 'na cigarete', 's cigaretama'],
       correct: 0,
-      explanation: 'Ovisan and ovisnost take o + locative: o pušenju.',
+      explanation: 'Ovisan and ovisnost take o + locative: o cigaretama.',
     },
     {
       type: 'quiz',
@@ -485,7 +525,7 @@ const HEALTH_PREVENTION = {
         },
         {
           q: 'Complete: "Moja sestra je prestala ___ prije dvije godine." (to smoke)',
-          options: ['da puši', 'pušenje', 'pušiti', 'puši'],
+          options: ['da puši', 'pušila', 'pušiti', 'puši'],
           correct: 2,
           explanation: 'Prestati takes the infinitive: prestala je pušiti.',
         },
@@ -852,6 +892,26 @@ const QUANTITY_AGREEMENT = {
       ],
     },
     {
+      type: 'rule',
+      title: 'Counting People: dvojica, nas dvoje, desetak',
+      body: 'Croatian has special number nouns for people. Dvojica, trojica, četvorica count MEN (or a group of men): Upoznala sam dvojicu njegovih prijatelja. Obojica means both of them (men): Obojicu dobro poznajem. They decline like žena: dvojica, dvojice, dvojici, dvojicu, dvojicom — Vidio sam dvojicu mladića; nas dvojica (the two of us, men). Dvoje, troje count a MIXED group or children: Imaju troje djece. With a pronoun it is nas dvoje, vas dvoje (the two of us, you two, a man and a woman): Nas dvoje idemo u kino. Approximate numbers add -ak: desetak (about ten), dvadesetak (about twenty), stotinjak (about a hundred). They take the genitive plural, and the verb goes neuter singular: Došlo je desetak ljudi.',
+      highlight: 'dvojica · nas dvoje · desetak',
+    },
+    {
+      type: 'table',
+      title: 'People and Approximate Numbers',
+      headers: ['Word', 'Counts', 'Example'],
+      rows: [
+        ['dvojica, trojica', 'men', 'Upoznala sam dvojicu prijatelja.'],
+        ['obojica', 'both (men)', 'Obojicu dobro poznajem.'],
+        ['dvoje, troje', 'a mixed group, children', 'Imaju troje djece.'],
+        ['nas dvoje, vas dvoje', 'the two of us / you (mixed)', 'Nas dvoje idemo u kino.'],
+        ['desetak', 'about ten', 'Došlo je desetak ljudi.'],
+        ['dvadesetak', 'about twenty', 'Čekalo je dvadesetak putnika.'],
+        ['stotinjak', 'about a hundred', 'Na koncertu je bilo stotinjak ljudi.'],
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Complete: "Dvije ___ prijateljice dolaze sutra."',
@@ -1047,6 +1107,35 @@ const FAMILY_CHANGES = {
           en: 'For me happiness is time spent with family and friends.',
           note: 'sreća — happiness',
         },
+      ],
+    },
+    {
+      type: 'table',
+      title: 'Verbs in Context: the vezati Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['vezati (vežem)', 'svezati', 'to tie; vezati se = to become attached'],
+        ['privezivati', 'privezati', 'to tie to, to moor (a boat)'],
+        ['odvezivati', 'odvezati', 'to untie'],
+        ['uvezivati', 'uvezati', 'to bind (a book)'],
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'Antonyms, and Words That Only Look Like Them',
+      body: 'Most opposites are separate words (mlad – star, brak – razvod, rođenje – smrt) or are made with ne-: sretan – nesretan, poznat – nepoznat, prijatelj – neprijatelj. But ne- does not always make an opposite. Nevolja is not the opposite of volja (will): it means trouble. Nevrijeme is not "no time": it is a storm. Nesreća can be bad luck, but also an accident. So check the dictionary before you build an opposite yourself.',
+      highlight: 'volja ≠ nevolja (trouble)',
+    },
+    {
+      type: 'table',
+      title: 'Real and False Opposites',
+      headers: ['Word', 'With ne-', 'Is it the opposite?'],
+      rows: [
+        ['sretan (happy)', 'nesretan (unhappy)', 'yes'],
+        ['prijatelj (friend)', 'neprijatelj (enemy)', 'yes'],
+        ['volja (will)', 'nevolja (trouble)', 'no'],
+        ['vrijeme (time, weather)', 'nevrijeme (a storm)', 'no'],
+        ['sreća (luck)', 'nesreća (bad luck; an accident)', 'partly'],
       ],
     },
     {
@@ -1418,10 +1507,10 @@ export const PRACTICE = {
         },
         {
           q: 'Complete: "On je ovisan ___." (gambling)',
-          options: ['od kockanja', 'na kockanje', 'o kockanju', 'kockanjem'],
+          options: ['od kocke', 'na kocku', 'o kocki', 'kockom'],
           correct: 2,
           hint: 'Ovisan takes the same preposition as ovisnost, with the locative.',
-          explanation: 'ovisan o kockanju — o + locative.',
+          explanation: 'ovisan o kocki — o + locative.',
         },
         {
           q: 'Which is the Vi-form imperative of piti?',
@@ -1499,10 +1588,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Ovisnost o ____ uništava zdravlje.' (smoking)",
-          answer: 'pušenju',
-          hint: 'The verbal noun of pušiti, in the locative after o.',
-          explanation: 'ovisnost o pušenju.',
+          q: "Dopuni: 'Ovisnost o ____ uništava zdravlje.' (alcohol)",
+          answer: 'alkoholu',
+          hint: 'alkohol in the locative after o.',
+          explanation: 'ovisnost o alkoholu.',
         },
       ],
     },
@@ -1561,7 +1650,7 @@ export const PRACTICE = {
       ['ljekarna', 'a pharmacy', 'Lijek sam kupila u ljekarni.'],
       ['preventivni pregled', 'a check-up', 'Idem na preventivni pregled jednom godišnje.'],
       ['cijepljenje', 'vaccination', 'Cijepljenje sprječava mnoge bolesti.'],
-      ['ovisnost', 'addiction', 'Ovisnost o pušenju teško je pobijediti.'],
+      ['ovisnost', 'addiction', 'Ovisnost o alkoholu teško je pobijediti.'],
       ['prestati', 'to stop, to quit', 'Prestao je pušiti prošle godine.'],
       ['odviknuti se', 'to wean oneself off', 'Odviknula se od kave.'],
       ['toplinski val', 'a heat wave', 'Toplinski val trajao je dva tjedna.'],
@@ -1818,7 +1907,7 @@ export const PRACTICE = {
           explanation: 'dva stara stola.',
         },
         {
-          q: 'Complete: "Deset ___ stanova je prodano."',
+          q: 'Complete: "Deset ___ stanova je na prodaju."',
           options: ['nova', 'novi', 'novih', 'novo'],
           correct: 2,
           hint: 'After deset the adjective is in the genitive plural.',
@@ -1904,16 +1993,18 @@ export const PRACTICE = {
         explanation: 'After dva a masculine adjective ends in -a: dva mlađa brata.',
       },
       {
-        q: 'Complete: "Šest ljudi ___ ozlijeđeno u nesreći."',
+        q: 'Complete: "Šest ljudi ___ došlo na sastanak."',
         options: ['je', 'su', 'smo', 'ste'],
         correct: 0,
-        explanation: 'Ozlijeđeno is neuter singular, so the auxiliary is singular: je.',
+        explanation:
+          'After šest the verb goes neuter singular (došlo), so the auxiliary is singular too: je.',
       },
       {
-        q: 'Complete: "Obje kćeri su ___ na fakultet."',
+        q: 'Complete: "Obje kćeri su se ___ na fakultet."',
         options: ['upisao', 'upisalo', 'upisale', 'upisala'],
         correct: 2,
-        explanation: 'After obje a feminine noun takes the participle in -e: upisale.',
+        explanation:
+          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enrol at university).',
       },
       {
         q: 'Complete: "Dvoje djece ___ u bazenu."',

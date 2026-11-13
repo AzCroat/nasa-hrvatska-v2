@@ -111,7 +111,7 @@ export const DECLENSION_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mnozina',
-    q: 'Djeca se igraju s ____.',
+    q: 'Djeca se igraju sa ____.',
     en: 'The children are playing with the dogs.',
     opts: ['psi', 'pse', 'pasa', 'psima'],
     answer: 'psima',

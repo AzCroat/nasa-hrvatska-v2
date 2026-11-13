@@ -56,27 +56,27 @@ const L_VERBS_NUTI = {
     {
       type: 'rule',
       title: 'Group 3: the -ći Verbs of Coming and Going',
-      body: 'Doći (to come) → dođem, dođeš, dođe, dođemo, dođete, dođu. Naći (to find) → nađem. Ući (to go in) → uđem. Izaći (to go out) → izađem. The odd one is otići (to leave, to go away): its present is odem, odeš, ode, odemo, odete, odu — no đ at all.',
-      highlight: 'doći → dođem, otići → odem',
+      body: 'Doći (to come) → dođem, dođeš, dođe, dođemo, dođete, dođu. Naći (to find) → nađem. Ući (to go in) → uđem. Izaći (to go out) → izađem. The odd one is otići (to leave, to go away): it is the only verb with TWO presents, both correct — otiđem, otiđeš, otiđe… and the shorter odem, odeš, ode, odemo, odete, odu. In speech you will hear odem more often.',
+      highlight: 'otići → otiđem or odem',
     },
     {
       type: 'table',
       title: 'Coming, Going, Finding',
       headers: ['Person', 'doći (come)', 'otići (leave)', 'naći (find)', 'ući (go in)'],
       rows: [
-        ['ja', 'dođem', 'odem', 'nađem', 'uđem'],
-        ['ti', 'dođeš', 'odeš', 'nađeš', 'uđeš'],
-        ['on / ona', 'dođe', 'ode', 'nađe', 'uđe'],
-        ['mi', 'dođemo', 'odemo', 'nađemo', 'uđemo'],
-        ['vi', 'dođete', 'odete', 'nađete', 'uđete'],
-        ['oni / one', 'dođu', 'odu', 'nađu', 'uđu'],
+        ['ja', 'dođem', 'otiđem / odem', 'nađem', 'uđem'],
+        ['ti', 'dođeš', 'otiđeš / odeš', 'nađeš', 'uđeš'],
+        ['on / ona', 'dođe', 'otiđe / ode', 'nađe', 'uđe'],
+        ['mi', 'dođemo', 'otiđemo / odemo', 'nađemo', 'uđemo'],
+        ['vi', 'dođete', 'otiđete / odete', 'nađete', 'uđete'],
+        ['oni / one', 'dođu', 'otiđu / odu', 'nađu', 'uđu'],
       ],
     },
     {
       type: 'rule',
       title: 'When Do You Use This Present?',
-      body: 'All of these verbs name one finished step — the moment you set off, arrive, find. So their present is used above all for routines: Obično krenem u sedam (I usually set off at seven). Svaki petak odem kod bake (Every Friday I go round to Grandma’s). For one plan for tomorrow, use the future with the infinitive: Krenut ću u sedam. Doći ću sutra. Note the spelling: krenuti drops its final -i before ću (krenut ću), but doći keeps its whole form (doći ću).',
-      highlight: 'Obično krenem u sedam.',
+      body: 'All of these verbs name one finished step — the moment you set off, arrive, find. So their present is used in two places. (1) Routines: Obično krenem u sedam (I usually set off at seven). Svaki petak odem kod bake (Every Friday I go round to Grandma’s). (2) After kad (when), čim (as soon as) and ako (if), when you talk about one step that comes first: Kad dođeš, nazovi me. Čim dođemo, krenemo na plažu. Ako skrenete desno, vidjet ćete crkvu. Directions and plans are full of this. For one plain plan for tomorrow, use the future with the infinitive: Krenut ću u sedam. Doći ću sutra. Note the spelling: krenuti drops its final -i before ću (krenut ću), but doći keeps its whole form (doći ću).',
+      highlight: 'Kad dođeš, nazovi me.',
     },
     {
       type: 'rule',
@@ -160,6 +160,21 @@ const L_VERBS_NUTI = {
           en: 'Come round to us on Sunday!',
           note: 'dođite — the vi command of doći',
         },
+        {
+          hr: 'Kad dođeš u Split, nazovi me.',
+          en: 'When you get to Split, call me.',
+          note: 'kad + the present of doći: one step that comes first',
+        },
+        {
+          hr: 'Čim prođete Ogulin, skrenite desno.',
+          en: 'As soon as you pass Ogulin, turn right.',
+          note: 'čim + prođete (proći → prođem, like doći)',
+        },
+        {
+          hr: 'Svake godine u srpnju otiđem na more.',
+          en: 'Every year in July I go off to the seaside.',
+          note: 'otiđem — the longer present of otići, as correct as odem',
+        },
       ],
     },
     {
@@ -178,7 +193,7 @@ const L_VERBS_NUTI = {
       options: ['otićem', 'odem', 'oteđem', 'otijem'],
       correct: 1,
       explanation:
-        'Otići is the odd one in its group: the present is odem, odeš, ode… Its neighbours doći and naći have đ, this one does not.',
+        'Otići is the odd one in its group: its present is otiđem or odem — both correct. Otićem and oteđem do not exist.',
     },
     {
       type: 'rule',
@@ -237,8 +252,8 @@ const L_VERBS_NUTI = {
       points: [
         '-nuti verbs: krenuti → krenem, skrenuti → skrenem, maknuti → maknem',
         'stati, ostati, postati gain an n: stanem, ostanem, postanem',
-        'doći → dođem, naći → nađem, ući → uđem — but otići → odem',
-        'Their present is mostly for routines: Obično krenem u sedam',
+        'doći → dođem, naći → nađem, ući → uđem — and otići has two: otiđem or odem',
+        'Their present is for routines and after kad, čim, ako: Kad dođeš, nazovi me',
         'A single plan for tomorrow uses the future: Krenut ću, doći ću',
         'The command comes from the present stem: kreni, stanite, dođi, uđite',
       ],
@@ -331,7 +346,7 @@ const P_VERBS_NUTI = {
         q: 'Svaki petak ___ kod prijatelja. (I go round)',
         options: ['odem', 'ode', 'odu', 'otim'],
         correct: 0,
-        hint: 'Otići has no t and no ć in its present; ja ends in -em.',
+        hint: 'Take the SHORT present of otići — the one that starts od-; ja ends in -em.',
         explanation: 'odem — the ja form of otići.',
       },
       {
@@ -375,6 +390,27 @@ const P_VERBS_NUTI = {
         correct: 0,
         hint: 'After Sutra, the little future word must come second; the infinitive stays whole.',
         explanation: 'Sutra ću doći — ću follows the first word, and doći keeps its full form.',
+      },
+      {
+        q: 'Kad ___ u Zagreb, nazovi me. (you arrive — ti)',
+        options: ['dođeš', 'doći', 'dođi', 'došao'],
+        correct: 0,
+        hint: 'After kad, one step that comes first is in the present; ti ends in -eš.',
+        explanation: 'Kad dođeš… — the present of doći after kad. Dođi is the command.',
+      },
+      {
+        q: 'Which is ALSO a correct ja form of otići, besides odem?',
+        options: ['otićem', 'otiđem', 'otidem', 'otijem'],
+        correct: 1,
+        hint: 'Otići is the only verb in its group with two presents; the long one has đ, like dođem.',
+        explanation: 'otiđem — the long present. Otiđem and odem are both correct.',
+      },
+      {
+        type: 'type',
+        q: 'Čim ____ kući, skuhat ću ručak. (doći — ja)',
+        answer: 'dođem',
+        hint: 'After čim, the present of doći; ja ends in -em.',
+        explanation: 'Čim dođem… — as soon as I get home.',
       },
       {
         q: '___ torbu sa stolice! (move away — to a friend)',
@@ -564,6 +600,37 @@ const L_WEEKEND_PLANS = {
         {
           hr: 'Doručak nije uključen u cijenu, ali kuhinja je velika.',
           en: 'Breakfast is not included in the price, but the kitchen is big.',
+        },
+      ],
+    },
+    {
+      type: 'example',
+      title: 'Holidays, Weekends, Breaks — Words and Idioms',
+      items: [
+        {
+          hr: 'Božić je blagdan, a Dan državnosti je praznik.',
+          en: 'Christmas is a religious feast, and Statehood Day is a public holiday.',
+          note: 'blagdan — a church feast; praznik — a public holiday',
+        },
+        {
+          hr: 'Radimo bez predaha cijelo jutro.',
+          en: 'We have been working all morning without a break.',
+          note: 'predah — a breather; pauza — a short break at work',
+        },
+        {
+          hr: 'Ajde, radimo — nije svaki dan nedjelja.',
+          en: 'Come on, let’s work — it can’t be a holiday every day.',
+          note: 'Nije svaki dan nedjelja — every day can’t be Sunday',
+        },
+        {
+          hr: 'Ovaj vrt je pravi praznik za oči.',
+          en: 'This garden is a real feast for the eyes.',
+          note: 'praznik za oči — a feast for the eyes',
+        },
+        {
+          hr: 'Na cestama je opet crni vikend.',
+          en: 'It is another black weekend on the roads.',
+          note: 'crni vikend — a weekend with many road accidents',
         },
       ],
     },
@@ -1275,7 +1342,7 @@ const L_VISITING_CUSTOMS = {
     {
       type: 'rule',
       title: 'Arriving',
-      body: 'Arrive on time or a few minutes late; much earlier is awkward, because the host is still getting ready. If you are really late, phone ahead, and at the door say: Oprostite što kasnim (Sorry I am late). Treat "Oprostite što…" as a fixed opening: what follows is an ordinary present-tense verb. To a friend you use ti: Oprosti što kasnim.',
+      body: 'Guests usually arrive about a quarter of an hour after the invited time, and that is perfectly normal; arriving early is awkward, because the host is still getting ready. If you are really late, phone ahead, and at the door say: Oprostite što kasnim (Sorry I am late). Treat "Oprostite što…" as a fixed opening: what follows is an ordinary present-tense verb. To a friend you use ti: Oprosti što kasnim.',
       highlight: 'Oprostite što kasnim.',
     },
     {
@@ -1293,7 +1360,7 @@ const L_VISITING_CUSTOMS = {
     {
       type: 'rule',
       title: 'At the Table',
-      body: 'Hosts offer food again and again: Poslužite se! (Help yourself!) Uzmite još! (Take more!) It is polite to accept a second helping; when you really cannot, say Hvala, sit sam / sita sam (Thank you, I am full). When glasses are raised everyone says Živjeli! and looks each other in the eye. Before eating, people wish each other Dobar tek!',
+      body: 'Hosts offer food again and again: Poslužite se! (Help yourself!) Uzmite još! (Take more!) A polite guest waits to be offered at least twice before helping themselves properly, and then accepts a second helping; when you really cannot, say Hvala, sit sam / sita sam (Thank you, I am full). When glasses are raised everyone says Živjeli! and looks each other in the eye. Before eating, people wish each other Dobar tek!',
       highlight: 'Poslužite se!',
     },
     {
@@ -1444,7 +1511,7 @@ const L_VISITING_CUSTOMS = {
       type: 'summary',
       title: 'U gostima — Key Takeaways',
       points: [
-        'Arrive on time or a little late; if very late: Oprostite što kasnim',
+        'About fifteen minutes after the invited time is normal; if very late: Oprostite što kasnim',
         'Bring flowers, wine, a cake or chocolates — never chrysanthemums',
         'Dobro došli! Izvolite, uđite! · Trebam li se izuti?',
         'Poslužite se! Uzmite još! · Hvala, sita sam · Živjeli! · Dobar tek!',
@@ -1699,6 +1766,12 @@ const L_LOCATIVE_ADJECTIVES = {
       highlight: 'u velikim gradovima',
     },
     {
+      type: 'rule',
+      title: 'Where, What About — and When',
+      body: 'The locative answers three questions. Gdje? (where) — u velikom gradu. O čemu? (about what) — o novom poslu. And Kada? (when) for a longer stretch of time named with u: u devetnaestom stoljeću (in the 19th century), u prošlom stoljeću, u ovom mjesecu. Written with a number, the dot shows the ordinal: u 19. stoljeću, read as u devetnaestom stoljeću. The ordinal is an adjective, so it takes the same -om you have just learned.',
+      highlight: 'u devetnaestom stoljeću',
+    },
+    {
       type: 'table',
       title: 'The Locative Endings at a Glance',
       headers: ['word', 'masculine / neuter', 'feminine', 'plural'],
@@ -1782,6 +1855,16 @@ const L_LOCATIVE_ADJECTIVES = {
           hr: 'Ivan priča o svojim prijateljima iz škole.',
           en: 'Ivan is talking about his friends from school.',
           note: 'svojim — plural locative, -im',
+        },
+        {
+          hr: 'Ovu crkvu su gradili u devetnaestom stoljeću.',
+          en: 'They built this church in the 19th century.',
+          note: 'u devetnaestom stoljeću — the locative of time',
+        },
+        {
+          hr: 'U ovom mjesecu imamo puno posla.',
+          en: 'This month we have a lot of work.',
+          note: 'u ovom mjesecu — when? also the locative',
         },
       ],
     },
@@ -2005,6 +2088,20 @@ const P_LOCATIVE_ADJECTIVES = {
         hint: 'Where you live: locative, and kuća is feminine.',
         explanation: 'u velikoj kući.',
       },
+      {
+        q: 'Baka priča o životu u ___ stoljeću. (the 20th — dvadeseti)',
+        options: ['dvadeseti', 'dvadesetom', 'dvadesetoj', 'dvadeseto'],
+        correct: 1,
+        hint: 'When? u + the locative; stoljeće is neuter.',
+        explanation: 'u dvadesetom stoljeću — the locative of time, -om.',
+      },
+      {
+        type: 'type',
+        q: 'U ____ stoljeću ljudi nisu imali struju. (the 18th — osamnaesti)',
+        answer: 'osamnaestom',
+        hint: 'u + the locative for a stretch of time; the ordinal takes the neuter ending.',
+        explanation: 'u osamnaestom stoljeću.',
+      },
     ],
   },
   checkB: [
@@ -2052,6 +2149,7 @@ const P_LOCATIVE_ADJECTIVES = {
   ],
   vocab: [
     ['selo', 'village', 'Žive u malom selu.'],
+    ['stoljeće', 'century', 'Živimo u dvadeset prvom stoljeću.'],
     ['zgrada', 'building', 'Stanujemo u ovoj zgradi.'],
     ['pijesak', 'sand', 'Djeca su na vrućem pijesku.'],
     ['brod', 'ship', 'Radi na velikom brodu.'],
@@ -2104,7 +2202,7 @@ const L_QUALITY_OF_LIFE = {
     {
       type: 'rule',
       title: 'Asking Someone Else',
-      body: 'Što misliš o…? (What do you think about…?) takes the locative after o: Što misliš o životu na selu? To a stranger: Što mislite o…? To ask about satisfaction: Jesi li zadovoljan / zadovoljna svojim poslom? — zadovoljan takes the instrumental, with no preposition.',
+      body: 'Što misliš o…? (What do you think about…?) takes the locative after o: Što misliš o životu na selu? To a stranger: Što mislite o…? To ask about satisfaction: Jesi li zadovoljan / zadovoljna poslom? — zadovoljan takes the instrumental, with no preposition: poslom, plaćom, životom.',
       highlight: 'Što misliš o životu na selu?',
     },
     {
@@ -2139,9 +2237,9 @@ const L_QUALITY_OF_LIFE = {
           en: 'In my town there are a lot of parks and the air is clean.',
         },
         {
-          hr: 'Jesi li zadovoljna svojim poslom? — Jesam, ali plaća je mala.',
+          hr: 'Jesi li zadovoljna poslom? — Jesam, ali plaća je mala.',
           en: 'Are you satisfied with your job? — I am, but the salary is small.',
-          note: 'svojim poslom — instrumental after zadovoljna',
+          note: 'poslom — instrumental after zadovoljna',
         },
         {
           hr: 'Za mene su obitelj i prijatelji jako važni.',
@@ -2183,6 +2281,58 @@ const L_QUALITY_OF_LIFE = {
         {
           hr: 'Mislim da imaš pravo, novac nije sve.',
           en: 'I think you are right, money is not everything.',
+        },
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'Idemo li na kavu? — Coffee Is Not About Coffee',
+      body: '"Idemo li na kavu?" is the most common invitation in Croatia, and it rarely means a quick espresso. People sit over one coffee for an hour or more, on a terrace if the weather allows, and talk — about work, family, politics, sport. Nobody hurries you to order again or to leave. Saying yes is how friendships and business contacts are kept up; that slow hour is part of what Croatians mean by a good quality of life.',
+      highlight: 'Idemo li na kavu?',
+    },
+    {
+      type: 'example',
+      title: 'Idioms With crn and bijel',
+      items: [
+        {
+          hr: 'Želim to vidjeti crno na bijelom.',
+          en: 'I want to see it in black and white (in writing).',
+          note: 'crno na bijelom — written down, official',
+        },
+        {
+          hr: 'On je crna ovca u obitelji.',
+          en: 'He is the black sheep of the family.',
+          note: 'crna ovca — the one who does not fit in',
+        },
+        {
+          hr: 'Imam crne misli.',
+          en: 'I have gloomy thoughts.',
+          note: 'crne misli — dark, sad thoughts',
+        },
+        {
+          hr: 'Mnogi ljudi rade na crno.',
+          en: 'Many people work off the books.',
+          note: 'raditi na crno — to work without a contract or taxes',
+        },
+        {
+          hr: 'Ona voli crni humor.',
+          en: 'She likes black humour.',
+          note: 'crni humor — jokes about dark things',
+        },
+        {
+          hr: 'Iskren političar je prava bijela vrana.',
+          en: 'An honest politician is a real rarity.',
+          note: 'bijela vrana — a white crow: something very rare',
+        },
+        {
+          hr: 'Hladnjak i perilica su bijela tehnika.',
+          en: 'A fridge and a washing machine are white goods.',
+          note: 'bijela tehnika — large household appliances',
+        },
+        {
+          hr: 'Na kraju su digli bijelu zastavu.',
+          en: 'In the end they raised the white flag.',
+          note: 'dići bijelu zastavu — to give up',
         },
       ],
     },
@@ -2264,7 +2414,7 @@ const L_QUALITY_OF_LIFE = {
         'Little words come straight after da; "not" goes after it: Mislim da nije…',
         'Po mom mišljenju, … — po + locative',
         'Čini mi se da… — softer, when you are less sure',
-        'Što misliš o + locative? · Jesi li zadovoljan svojim poslom?',
+        'Što misliš o + locative? · Jesi li zadovoljan poslom?',
       ],
     },
   ],
@@ -2331,11 +2481,11 @@ const P_QUALITY_OF_LIFE = {
         explanation: 'Mislim da nije dobro…',
       },
       {
-        q: 'Jesi li zadovoljan ___ poslom? (your own)',
-        options: ['svoj', 'svoju', 'svojem', 'svojim'],
+        q: 'Jesi li zadovoljan ___? (the job — posao)',
+        options: ['posao', 'posla', 'poslu', 'poslom'],
         correct: 3,
-        hint: 'Zadovoljan takes the instrumental; posao is masculine.',
-        explanation: 'svojim poslom.',
+        hint: 'Zadovoljan takes the instrumental, with no preposition.',
+        explanation: 'zadovoljan poslom — instrumental.',
       },
       {
         q: 'Što mislite o ___ na selu? (life)',
@@ -2437,10 +2587,10 @@ const P_QUALITY_OF_LIFE = {
       explanation: 'Mislim da… gives an opinion; the others state facts.',
     },
     {
-      q: 'Complete: "Je li Ana zadovoljna ___ poslom?" (her own)',
-      options: ['svoj', 'svoju', 'svojem', 'svojim'],
+      q: 'Complete: "Je li Ana zadovoljna ___?" (life — život)',
+      options: ['život', 'životu', 'života', 'životom'],
       correct: 3,
-      explanation: 'Zadovoljna takes the instrumental: svojim poslom.',
+      explanation: 'Zadovoljna takes the instrumental, with no preposition: životom.',
     },
     {
       q: 'What does "Nemam slobodnog vremena" mean?',
@@ -2467,7 +2617,7 @@ const P_QUALITY_OF_LIFE = {
     ['slobodno vrijeme', 'free time', 'Nemam slobodnog vremena.'],
     ['zdravlje', 'health', 'Zdravlje je jako važno.'],
     ['stres', 'stress', 'Imam puno stresa na poslu.'],
-    ['zadovoljan', 'satisfied', 'Zadovoljan sam svojim poslom.'],
+    ['zadovoljan', 'satisfied', 'Zadovoljan sam poslom.'],
     ['mišljenje', 'opinion', 'Po mom mišljenju, to je skupo.'],
     ['misliti', 'to think', 'Mislim da imaš pravo.'],
     ['javni prijevoz', 'public transport', 'Javni prijevoz je odličan.'],
@@ -2487,7 +2637,7 @@ export const SPINE = [
     objectives: [
       'Form the present of krenuti, skrenuti and maknuti: krenem, skreneš, makne',
       'Use the hidden n of stati, ostati and postati: stanem, ostanem, postanem',
-      'Say dođem, nađem, uđem — and odem for otići',
+      'Say dođem, nađem, uđem — and otiđem or odem for otići',
       'Build the command from the present stem: kreni, skrenite, dođi, uđite',
     ],
   },

@@ -123,11 +123,11 @@ const DATA = [
     tip: "Dative 'mi' (to me) + auxiliary 'je'",
   },
   {
-    sentence: 'Zahvalila ___ se lijepo.',
+    sentence: 'Lijepo ___ je zahvalila.',
     opts: ['mu', 'ga', 'ga mu', 'mu ga'],
     answer: 'mu',
     en: 'She thanked him nicely.',
-    tip: "'Zahvaliti se' + dative: 'zahvaliti se nekome' = to thank someone",
+    tip: "'Zahvaliti' + dative: 'zahvaliti nekome' = to thank someone ('zahvaliti se' means to decline)",
   },
   {
     sentence: 'Daj ___ to!',

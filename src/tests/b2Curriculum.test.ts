@@ -141,7 +141,11 @@ describe('the sequence does not put a lesson before what it needs', () => {
     ['hedging-precision', 'modal-nuance'],
     ['presentations', 'argument-structure'],
     ['meetings-negotiation', 'presentations'],
-    ['formal-email', 'writing-registers'],
+    // Book order (B2 comparison, 2026-11-13): the formal email, then the wider registers
+    // lesson whose checks use Poštovana / S poštovanjem / the capitalised Vi.
+    ['writing-registers', 'formal-email'],
+    // The participle is built (#32) before the passive that is made from it (#33).
+    ['passive-voice', 'participial-adjectives'],
     // The abstract-noun lesson leans on the i-declension, since every -ost
     // noun belongs to that class — which is why i-declension is second.
     ['abstract-topics', 'i-declension'],
@@ -200,8 +204,11 @@ describe('teach → practice coupling stays HONEST at B2', () => {
   const EXPECTED: Record<string, string> = {
     'aspect-suffixes': 'aspect-imperfective',
     'participial-adjectives': 'passive',
-    'concession-contrast': 'subordination',
-    'unreal-conditions': 'conditional',
+    // B2 book comparison (2026-11-13): both had pointed at drills that do not practise
+    // them (the subordination screen has no unatoč + dative; the cloze bank has no
+    // conditional at all). Each now has its own bank.
+    'concession-contrast': 'b2-concession-contrast',
+    'unreal-conditions': 'b2-unreal-conditions',
     'formal-email': 'writing',
     // Practice programme, B2 tranche 1 (2026-08-29). All five were in
     // DELIBERATELY_UNMAPPED below for the honest reason, and B2 is where that

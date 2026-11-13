@@ -244,10 +244,10 @@ export const LESSONS = [
               'Dok ne (until) takes the perfective present: dok ne napišem. The ne is part of the conjunction.',
           },
           {
-            q: 'Why is "Sutra dođem kod tebe" not standard Croatian?',
+            q: 'Why is "Sutra dođem k tebi" not standard Croatian?',
             options: [
-              'kod tebe should be kod tebi',
-              'A perfective present cannot stand alone as a main clause; say Doći ću sutra kod tebe',
+              'k tebi should be kod tebe',
+              'A perfective present cannot stand alone as a main clause; say Doći ću sutra k tebi',
               'sutra must come at the end',
               'dođem should be došao',
             ],
@@ -406,6 +406,12 @@ export const LESSONS = [
             note: 'već — the same correction as nego',
           },
         ],
+      },
+      {
+        type: 'rule',
+        title: 'Ni … ni, Niti … niti: Neither … Nor',
+        body: 'To deny two things at once, Croatian repeats ni before each of them, and the verb is negated too: Ne pije ni kavu ni čaj. Nisam vidio ni Anu ni Marka. To link two negated CLAUSES, use niti: Niti je zvao, niti je pisao. Niti can carry the clitics straight after it: Niti sam ga vidio, niti sam ga čuo. A single niti can also add one more negative clause: Nije došao, niti se javio. Unlike English "neither … nor", the verb keeps its own ne: Ne volim ni more ni planine.',
+        highlight: 'Ne pije ni kavu ni čaj. · Niti je zvao, niti je pisao.',
       },
       {
         type: 'quiz',
@@ -649,6 +655,49 @@ export const LESSONS = [
         ],
       },
       {
+        type: 'table',
+        title: 'Verbs in Context: platiti and kupiti',
+        headers: ['Imperfective', 'Perfective', 'Meaning'],
+        rows: [
+          ['plaćati', 'platiti', 'to pay'],
+          ['doplaćivati', 'doplatiti', 'to pay extra'],
+          ['isplaćivati', 'isplatiti', 'to pay out; isplatiti se = to be worth it'],
+          ['potplaćivati', 'potplatiti', 'to bribe'],
+          ['pretplaćivati se', 'pretplatiti se', 'to subscribe'],
+          ['kupovati', 'kupiti', 'to buy'],
+          ['dokupljivati', 'dokupiti', 'to buy more, to top up'],
+          ['iskupljivati se', 'iskupiti se', 'to make amends'],
+          ['potkupljivati', 'potkupiti', 'to bribe'],
+          ['zakupljivati', 'zakupiti', 'to rent, to book (a space, a stand)'],
+        ],
+      },
+      {
+        type: 'example',
+        title: 'The Families in Use',
+        items: [
+          {
+            hr: 'Za prtljagu smo morali doplatiti dvadeset eura.',
+            en: 'We had to pay twenty euros extra for the luggage.',
+            note: 'doplatiti — to pay on top',
+          },
+          {
+            hr: 'Isplati li se kupiti skuplji model?',
+            en: 'Is it worth buying the more expensive model?',
+            note: 'isplatiti se — to be worth it',
+          },
+          {
+            hr: 'Pretplatila sam se na dnevne novine.',
+            en: 'I have subscribed to a daily paper.',
+            note: 'pretplatiti se na + accusative',
+          },
+          {
+            hr: 'Zakasnio je, ali se iskupio cvijećem.',
+            en: 'He was late, but he made up for it with flowers.',
+            note: 'iskupiti se — to make amends',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which is the standard word for colloquial "lova"?',
@@ -860,6 +909,24 @@ export const LESSONS = [
             note: 'kako bi — the subject publika is third person',
           },
         ],
+      },
+      {
+        type: 'rule',
+        title: 'The Comma Between Clauses',
+        body: 'Croatian puts a comma where English often does too, with one firm rule: when the dependent clause comes FIRST, a comma separates it from the main clause — Ako padne kiša, ostat ćemo kod kuće. Kad završim, nazvat ću te. When the main clause comes first, there is usually no comma before ako, kad, jer, da or što: Ostat ćemo kod kuće ako padne kiša. Nazvat ću te kad završim. Rekao je da dolazi. A comma does appear in that order when the dependent clause is an afterthought or a contrast: Doći ću, ako ne bude prekasno.',
+        highlight: 'Ako padne kiša, ostat ćemo. · Ostat ćemo ako padne kiša.',
+      },
+      {
+        type: 'rule',
+        title: 'More Ways to Say "If": ukoliko and li',
+        body: 'Ukoliko means exactly ako and belongs to formal and written Croatian: Ukoliko imate pitanja, slobodno nam se javite. A real condition can also be made with li after the verb, with no conjunction at all: Učite li redovito, naučit ćete jezik. (= Ako učite redovito…) Želite li više informacija, posjetite našu stranicu. The li-condition always comes first, so it is always followed by a comma.',
+        highlight: 'Ukoliko imate pitanja… · Učite li redovito, naučit ćete.',
+      },
+      {
+        type: 'rule',
+        title: 'More Ways to Say "in Order To"',
+        body: 'Besides da and kako bi, purpose has three more shapes. Ne bi li means "in the hope that": Nazvala ga je još jednom ne bi li ga uvjerila. Neka + present gives an aim for someone else, with a colloquial ring: Daj mu knjigu neka čita. And after a verb of MOTION the plain infinitive is enough: Otišli su u voćnjak nabrati jabuke. Došla sam vidjeti kako si.',
+        highlight: 'ne bi li · neka · otišli su nabrati',
       },
       {
         type: 'quiz',
@@ -1084,6 +1151,47 @@ export const LESSONS = [
             hr: 'Kad bih mogao, išao bih svako ljeto na Motovun Film Festival.',
             en: 'If I could, I would go to the Motovun Film Festival every summer.',
             note: 'kad bih — an unreal condition',
+          },
+        ],
+      },
+      {
+        type: 'table',
+        title: 'Verbs in Context: pjevati and crtati',
+        headers: ['Imperfective', 'Perfective', 'Meaning'],
+        rows: [
+          ['pjevati', 'otpjevati', 'to sing; to sing through'],
+          ['prepjevavati', 'prepjevati', 'to translate a song or poem in verse'],
+          ['opjevavati', 'opjevati', 'to celebrate in song or verse'],
+          ['—', 'raspjevati se', 'to burst into song'],
+          ['crtati', 'nacrtati', 'to draw'],
+          ['podcrtavati', 'podcrtati', 'to underline; to stress'],
+          ['precrtavati', 'precrtati', 'to cross out'],
+          ['zacrtavati', 'zacrtati', 'to set (a goal, a plan)'],
+        ],
+      },
+      {
+        type: 'example',
+        title: 'The Families in Use',
+        items: [
+          {
+            hr: 'Pjesnik je opjevao ljepotu Jadrana.',
+            en: 'The poet celebrated the beauty of the Adriatic in verse.',
+            note: 'opjevati — to celebrate in song',
+          },
+          {
+            hr: 'Cijelo se društvo raspjevalo oko vatre.',
+            en: 'The whole company burst into song round the fire.',
+            note: 'raspjevati se — to start singing, all together',
+          },
+          {
+            hr: 'Podcrtaj nepoznate riječi u tekstu.',
+            en: 'Underline the unknown words in the text.',
+            note: 'podcrtati — under + draw',
+          },
+          {
+            hr: 'Zacrtali smo plan za cijelu godinu.',
+            en: 'We set out a plan for the whole year.',
+            note: 'zacrtati — to set a goal',
           },
         ],
       },
@@ -1509,9 +1617,9 @@ export const PRACTICE = {
           type: 'type',
           q: "Dopuni: 'Popust traje samo do petka, ____ požurite.' (so — the conclusion)",
           answer: 'zato',
-          accept: ['stoga', 'dakle'],
+          accept: ['stoga', 'dakle', 'pa'],
           hint: 'A conclusive conjunction; there is a comma before it.',
-          explanation: 'zato (or stoga) — the conclusion.',
+          explanation: 'zato (or stoga, or pa) — the conclusion.',
         },
         {
           type: 'type',

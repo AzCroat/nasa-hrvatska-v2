@@ -152,6 +152,12 @@ const DECLENSION_REVIEW = {
       highlight: 's prijateljem',
     },
     {
+      type: 'rule',
+      title: 'Four Things the Book Reminds You Of',
+      body: '(1) The nominative is not only the subject: after biti it also names what the subject IS — Ivan je student, Ana je liječnica. (2) Tata and kolega end in -a, so they decline like žena (tata, tate, tati, tatu, tatom; s kolegom) — but they are men, so their adjectives are masculine: moj tata, naš novi kolega. (3) Before -i, k, g and h change to c, z and s: knjiga → u knjizi, rođak → s rođacima, Rijeka → u Rijeci. (4) Countries in -ska, -ška and -čka are adjectives in form, so their locative ends in -oj: u Hrvatskoj, u Njemačkoj, u Francuskoj.',
+      highlight: 'moj tata · u knjizi · u Hrvatskoj',
+    },
+    {
       type: 'example',
       title: 'One Noun Through Every Case',
       items: [
@@ -346,7 +352,7 @@ const RELATIONAL_ADJ = {
     {
       type: 'rule',
       title: 'The Rarer -ški and -ćki',
-      body: 'A stem in z or g blends with the ending into -ški: Pariz → pariški, Prag → praški. A stem in ć keeps it: Gospić → gospićki. You will read these more often than you write them; recognising them is enough at this stage.',
+      body: 'A stem in s or z usually just takes -ki, and the two sounds merge into one: Rus → ruski, Francuz → francuski. A few words are exceptions and give -ški: Pariz → pariški, and a stem in g does the same: Prag → praški. Learn those few as words rather than as a rule. A stem in ć keeps it: Gospić → gospićki, plemić → plemićki. You will read these more often than you write them; recognising them is enough at this stage.',
       highlight: 'Pariz → pariški',
     },
     {
@@ -436,6 +442,48 @@ const RELATIONAL_ADJ = {
           hr: 'Moji roditelji vole dalmatinsku klapu i istarsku kuhinju.',
           en: 'My parents love Dalmatian klapa singing and Istrian cooking.',
           note: 'dalmatinsku, istarsku — feminine accusative',
+        },
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'The Croatian Language Itself',
+      body: 'Croatian has three dialect groups, each named after its word for "what": štokavski (što) — the basis of the standard language; kajkavski (kaj) — around Zagreb and in Zagorje; and čakavski (ča) — in Istria, on the Kvarner islands and in parts of Dalmatia. Over the centuries Croatian has been written in three scripts: glagoljica (the Glagolitic script), bosančica (a script of the Cyrillic type) and latinica, the Latin alphabet used today. In the 19th century Ljudevit Gaj reformed Latin spelling and gave Croatian the letters č, š and ž.',
+      highlight: 'štokavski · kajkavski · čakavski',
+    },
+    {
+      type: 'example',
+      title: 'Idioms With jezik',
+      items: [
+        {
+          hr: 'Imam to na vrhu jezika.',
+          en: 'It’s on the tip of my tongue.',
+          note: 'na vrhu jezika — on the tip of the tongue',
+        },
+        {
+          hr: 'Ona ima oštar jezik.',
+          en: 'She has a sharp tongue.',
+          note: 'oštar jezik — someone who says hard things plainly',
+        },
+        {
+          hr: 'On ima dugačak jezik.',
+          en: 'He can’t keep anything to himself.',
+          note: 'dugačak jezik — someone who talks too much and tells secrets',
+        },
+        {
+          hr: 'Napokon smo našli zajednički jezik.',
+          en: 'We have finally found common ground.',
+          note: 'naći zajednički jezik — to come to understand each other',
+        },
+        {
+          hr: 'Zli jezici kažu da je otišao.',
+          en: 'Gossips say that he has left.',
+          note: 'zli jezici — malicious tongues, gossip',
+        },
+        {
+          hr: 'Koliko jezika govoriš, toliko ljudi vrijediš.',
+          en: 'You are worth as many people as the languages you speak.',
+          note: 'a saying from the book’s first lesson',
         },
       ],
     },
@@ -965,7 +1013,7 @@ const ACCUSATIVE_ADJ = {
     {
       type: 'rule',
       title: 'Feminine: -u',
-      body: 'A feminine adjective in the accusative ends in -u, exactly like its noun: nova knjiga → Čitam novu knjigu. The same goes for ta → tu, moja → moju, naša → našu: Poznaješ li tu ženu? Volim moju sestru. Imamo našu kuću na moru.',
+      body: 'A feminine adjective in the accusative ends in -u, exactly like its noun: nova knjiga → Čitam novu knjigu. The same goes for ta → tu, moja → moju, naša → našu: Poznaješ li tu ženu? Ivan voli moju sestru. Gosti hvale našu kuću na moru. (When the owner is the subject himself — I love MY sister — Croatian uses svoj, which is the next lesson but one.)',
       highlight: 'novu knjigu',
     },
     {
@@ -977,7 +1025,7 @@ const ACCUSATIVE_ADJ = {
     {
       type: 'rule',
       title: 'A Masculine Living Being: -og or -eg',
-      body: 'If the masculine noun is a person or an animal, the adjective takes -og (or the longer -oga): novi prijatelj → Imam novog prijatelja. Taj → tog: Poznaješ li tog čovjeka? Moj → mog or mojeg: Zovem mog brata. After a soft consonant (č, ć, đ, j, lj, nj, š, ž) it is -eg: naš → našeg susjeda, vaš → vašeg psa.',
+      body: 'If the masculine noun is a person or an animal, the adjective takes -og (or the longer -oga): novi prijatelj → Imam novog prijatelja. Taj → tog: Poznaješ li tog čovjeka? Moj → mog or mojeg: Ana zove mog brata. After a soft consonant (č, ć, đ, j, lj, nj, š, ž) it is -eg: naš → našeg susjeda, vaš → vašeg psa.',
       highlight: 'Imam novog prijatelja',
     },
     {
@@ -1041,8 +1089,8 @@ const ACCUSATIVE_ADJ = {
           note: 'tu — ta becomes tu',
         },
         {
-          hr: 'Volimo našeg psa.',
-          en: 'We love our dog.',
+          hr: 'Djeca vole našeg psa.',
+          en: 'The children love our dog.',
           note: 'našeg — after the soft š, -eg instead of -og',
         },
         {
@@ -1099,7 +1147,7 @@ const ACCUSATIVE_ADJ = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'Complete: "Volim ___ sestru." (my)',
+          q: 'Complete: "Poznaješ li ___ sestru?" (my)',
           options: ['moja', 'moju', 'mojoj', 'moje'],
           correct: 1,
           explanation:
@@ -1120,16 +1168,16 @@ const ACCUSATIVE_ADJ = {
         {
           q: 'Which sentence is correct?',
           options: [
-            'Volimo našog psa.',
-            'Volimo naš pas.',
-            'Volimo našem psu.',
-            'Volimo našeg psa.',
+            'Djeca vole našog psa.',
+            'Djeca vole naš pas.',
+            'Djeca vole našem psu.',
+            'Djeca vole našeg psa.',
           ],
           correct: 3,
           explanation: 'A dog is alive, so -og — but after the soft š it is -eg: našeg psa.',
         },
         {
-          q: 'Complete: "Čekam ___ prijatelje." (my)',
+          q: 'Complete: "Ana čeka ___ prijatelje." (my)',
           options: ['moji', 'moje', 'mojih', 'mojima'],
           correct: 1,
           explanation: 'Masculine plural accusative: moje prijatelje.',
@@ -1197,7 +1245,7 @@ const CLITIC_ORDER = {
     {
       type: 'rule',
       title: 'To Whom Before What',
-      body: 'English says "I gave it to her" — the thing first. Croatian puts the person first: the dative (to whom) comes before the accusative (what). Dao sam joj ga. Pokazat ću vam ih. Poslala sam mu ga. Later you will meet the conditional words (bih, bi…); they take place 2, beside sam and ću.',
+      body: 'English says "I gave it to her" — the thing first. Croatian puts the person first: the dative (to whom) comes before the accusative (what). Dao sam joj ga. Pokazat ću vam ih. Poslala sam mu ga.',
       highlight: 'Pokazat ću vam ih.',
     },
     {
@@ -2184,7 +2232,7 @@ export const PRACTICE = {
           explanation: 'drage goste — masculine plural accusative -e.',
         },
         {
-          q: 'Pozvali smo ___ profesora. (our)',
+          q: 'Pozvali su ___ profesora. (our)',
           options: ['naš', 'našu', 'našeg', 'našim'],
           correct: 2,
           hint: 'A living masculine object, after a soft consonant.',
@@ -2198,7 +2246,7 @@ export const PRACTICE = {
           explanation: 'zanimljive knjige.',
         },
         {
-          q: 'Vole ___ dijete. (their)',
+          q: 'Volimo ___ dijete. (their)',
           options: ['njihovog', 'njihovo', 'njihovu', 'njihov'],
           correct: 1,
           hint: 'Dijete is neuter — even though it is alive.',
@@ -2222,7 +2270,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Volim ____ sestru. (my)',
+          q: 'Upoznao si ____ sestru. (my)',
           answer: 'moju',
           hint: 'Sestru is a feminine accusative.',
           explanation: 'moju sestru.',

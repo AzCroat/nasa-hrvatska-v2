@@ -477,6 +477,13 @@ const B2InterjectionsDrill = lazyWithReload(() => import('./practice/drills/B2In
 const B2TravelAndSportDrill = lazyWithReload(
   () => import('./practice/drills/B2TravelAndSportDrill'),
 );
+const B2ConditionalDrill = lazyWithReload(() => import('./practice/drills/B2ConditionalDrill'));
+const B2UnrealConditionsDrill = lazyWithReload(
+  () => import('./practice/drills/B2UnrealConditionsDrill'),
+);
+const B2ConcessionContrastDrill = lazyWithReload(
+  () => import('./practice/drills/B2ConcessionContrastDrill'),
+);
 const C1INounsMatiKciDrill = lazyWithReload(() => import('./practice/drills/C1INounsMatiKciDrill'));
 const C1AccusativeMeasureMannerDrill = lazyWithReload(
   () => import('./practice/drills/C1AccusativeMeasureMannerDrill'),
@@ -3330,6 +3337,21 @@ export default function AppRouter(props: Record<string, any>) {
         {currentScreen === 'b2travelandsport' && (
           <ScreenErrorBoundary key="b2travelandsport" name="b2travelandsport">
             <B2TravelAndSportDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2conditional' && (
+          <ScreenErrorBoundary key="b2conditional" name="b2conditional">
+            <B2ConditionalDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2unrealconditions' && (
+          <ScreenErrorBoundary key="b2unrealconditions" name="b2unrealconditions">
+            <B2UnrealConditionsDrill goBack={goBack} award={award} />
+          </ScreenErrorBoundary>
+        )}
+        {currentScreen === 'b2concessioncontrast' && (
+          <ScreenErrorBoundary key="b2concessioncontrast" name="b2concessioncontrast">
+            <B2ConcessionContrastDrill goBack={goBack} award={award} />
           </ScreenErrorBoundary>
         )}
         {currentScreen === 'c1inounsmatikci' && (

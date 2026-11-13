@@ -3082,7 +3082,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Budući da su temperature pale ispod nule, stan je postao gotovo nepodoban za život. ' +
       'Podsjećam da je prema članku 5. ugovora održavanje instalacija obveza stanodavca. ' +
       'Stoga Vas molim da popravak organizirate u roku od tri dana. ' +
-      'U protivnom bit ću prisiljena angažirati servis sama i trošak odbiti od najamnine. ' +
+      'U protivnom ću biti prisiljena angažirati servis sama i trošak odbiti od najamnine. ' +
       'Zahvaljujem na razumijevanju i očekujem Vaš odgovor. S poštovanjem, Maja Perić',
     modelEn:
       'Dear Mr Horvat, I am writing to you regarding the heating in the flat at Vukovarska 12, which I have rented since September. ' +
@@ -3362,7 +3362,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         before: 'Za razliku od',
         answer: 'Splita',
-        accept: ['Zagreba', 'Rijeke'],
+        accept: ['Rijeke', 'Osijeka'],
         after: ', u Zagrebu ima više posla.',
         hint: '"unlike" = "za razliku od" + genitive: Split → ...',
       },
@@ -3410,7 +3410,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Unatoč mojoj pritužbi poslanoj istoga dana, do danas nisam dobila nikakav odgovor. ' +
       'S obzirom na to da je roba stigla oštećena, prema Zakonu o zaštiti potrošača imam pravo na zamjenu ili povrat novca. ' +
       'Stoga Vas molim da mi u roku od osam dana potvrdite kako će reklamacija biti riješena. ' +
-      'Ako odgovor ne bih dobila ni tada, bit ću prisiljena obratiti se inspekciji. ' +
+      'Ako ni tada ne dobijem odgovor, bit ću prisiljena obratiti se inspekciji. ' +
       'S poštovanjem, Ana Jurić',
     modelEn:
       'Dear Sir or Madam, I am writing to you regarding order number 4471, which I paid for on 3 September. ' +
@@ -3418,7 +3418,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Despite my complaint sent the same day, to this day I have received no reply at all. ' +
       'Given that the goods arrived damaged, under the Consumer Protection Act I am entitled to a replacement or a refund. ' +
       'I therefore ask you to confirm within eight days how the claim will be resolved. ' +
-      'If I were not to receive a reply even then, I will be forced to turn to the inspectorate. ' +
+      'If I do not receive a reply even then, I will be forced to turn to the inspectorate. ' +
       'Respectfully, Ana Jurić',
     structures: [
       {
@@ -3437,9 +3437,9 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         why: '"s obzirom na" governs the accusative; "to da" turns a whole clause into the thing you are taking into account.',
       },
       {
-        hr: 'Ako odgovor ne bih dobila ni tada',
-        en: 'If I were not to receive a reply even then',
-        why: '"ako" + the conditional (bih) states a possible future outcome more cautiously than the present would — correct standard Croatian, not a mistake.',
+        hr: 'Ako ni tada ne dobijem odgovor, bit ću prisiljena',
+        en: 'If I do not receive a reply even then, I will be forced',
+        why: 'A real condition about the future: "ako" + the perfective present (dobijem), then the future in the main clause (bit ću). Keep the two halves in step — "ako" + the conditional would need a conditional after it too.',
       },
     ],
     frames: [
@@ -3656,7 +3656,6 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         before: 'Gospođa Novak pitala je',
         answer: 'hoće li',
-        accept: ['može li'],
         after: 'se obnova moći platiti iz pričuve.',
         hint: 'A reported yes/no question: the future auxiliary followed by the question particle.',
       },
@@ -3771,7 +3770,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         before: 'Ako',
         answer: 'bi',
-        after: 'se središte zatvorilo odjednom, građani se ne mogu naviknuti.',
+        after: 'se središte zatvorilo odjednom, otpor bi bio prevelik.',
         hint: 'The conditional auxiliary after "ako" for a possible outcome — correct Croatian, not an error.',
       },
       {
