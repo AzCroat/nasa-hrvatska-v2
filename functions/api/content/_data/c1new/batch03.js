@@ -594,7 +594,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Time and Occasion: Uoči, Tijekom, Prilikom, Prigodom',
-      body: 'Uoči is the eve of, the time just before an event: uoči Božića, uoči izbora, uoči utakmice. Tijekom stretches over a period: tijekom ljeta, tijekom pregovora — it belongs to higher style; za vrijeme says the same more plainly. Prilikom ties something to a time or circumstance and is formal: Prilikom prijave predočite osobnu iskaznicu. Prigodom names the occasion being marked: Ministar je posjetio školu prigodom otvaranja. Sastali su se prigodom pedesete obljetnice kluba. You will also read and hear povodom (povodom Dana grada), but the strict norm rejects it and prefers prigodom or u povodu: u povodu Dana grada. Prilikom is when something happens; prigodom is what it marks.',
+      body: 'Uoči is the eve of, the time just before an event: uoči Božića, uoči izbora, uoči utakmice. Tijekom stretches over a period: tijekom ljeta, tijekom pregovora — it belongs to higher style; za vrijeme says the same more plainly. Prilikom ties something to a time or circumstance and is formal: Prilikom prijave predočite osobnu iskaznicu. Prigodom names the occasion being marked: Ministar je posjetio školu prigodom otvaranja. Sastali su se prigodom pedesete obljetnice kluba. You will also read and hear povodom (povodom Dana grada), and it is just as standard as u povodu: u povodu Dana grada. Prilikom is when something happens; prigodom is what it marks.',
       highlight: 'prigodom pedesete obljetnice kluba',
     },
     {
@@ -698,7 +698,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         {
           hr: 'Prigodom stote obljetnice škole učenici su pripremili izložbu.',
           en: 'To mark the school’s hundredth anniversary, the pupils prepared an exhibition.',
-          note: 'prigodom — the occasion being marked (the strict norm prefers it to povodom)',
+          note: 'prigodom — the occasion being marked (povodom is also standard and very common)',
         },
         {
           hr: 'Prilikom ulaska u zgradu posjetitelji moraju pokazati osobnu iskaznicu.',
@@ -782,7 +782,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
           options: ['pomoću', 'glede', 'mimo', 'prigodom'],
           correct: 3,
           explanation:
-            'Prigodom names the occasion being marked; the strict norm prefers it (and u povodu) to povodom.',
+            'Prigodom names the occasion being marked; povodom and u povodu say the same and are equally standard.',
         },
         {
           q: 'Complete: "Unatoč ___, stigli smo na vrijeme."',
@@ -810,7 +810,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
       points: [
         'Usred — the middle of a place, time or activity; nasred — the middle of a surface',
         'Uoči — the eve of; tijekom — during; prilikom — when, at the time of (formal)',
-        'Prigodom or u povodu — what an event marks (the strict norm rejects povodom); pomoću — the means; putem — the channel',
+        'Prigodom or u povodu — what an event marks (povodom is equally standard); pomoću — the means; putem — the channel',
         'Mimo: past, by (Prošli su mimo moje kuće) and contrary to (mimo pravila)',
         'Higher style: diljem, širom, uzduž, nadohvat, nadomak, naspram, uime, namjesto, potkraj',
         'Umjesto, poput, glede, mimo, duž all take the genitive',
@@ -1790,7 +1790,7 @@ export const PRACTICE = {
           correct: 2,
           hint: 'What does the fireworks display mark?',
           explanation:
-            'prigodom — the occasion being marked (the strict norm prefers it to povodom).',
+            'prigodom — the occasion being marked (povodom is also standard and very common).',
         },
         {
           q: 'Unatoč ___, izlet je bio uspješan.',

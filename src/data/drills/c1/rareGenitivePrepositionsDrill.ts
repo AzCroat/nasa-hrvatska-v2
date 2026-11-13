@@ -52,7 +52,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The municipality issued a commemorative stamp to mark the anniversary of its founding.',
     opts: ['putem', 'prigodom', 'nasred', 'umjesto'],
     answer: 'prigodom',
-    tip: 'What an event marks: prigodom (or u povodu). The strict norm rejects povodom.',
+    tip: 'What an event marks: prigodom (or u povodu). Povodom is equally standard.',
   },
   {
     mode: 'znacenje',
