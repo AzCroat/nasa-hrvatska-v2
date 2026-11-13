@@ -758,7 +758,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Unatoč with the genitive: "unatoč problema" — it takes the dative: unatoč problemima. (2) Radi for a cause: "Nisam došao radi bolesti" — the illness is the cause: zbog bolesti. (3) Nasred where there is no surface: "nasred razgovora" — the middle of an activity is usred razgovora. (4) Pomoću for an ordinary tool: "Režem kruh pomoću noža" — use the instrumental: Režem kruh nožem. (5) Prilikom for the occasion being marked: "prilikom Dana državnosti održan je mimohod" — the occasion marked is prigodom (or u povodu) Dana državnosti. The strict norm also rejects povodom here.',
+      body: '(1) Unatoč with the genitive: "unatoč problema" — it takes the dative: unatoč problemima. (2) Radi for a cause: "Nisam došao radi bolesti" — the illness is the cause: zbog bolesti. (3) Nasred where there is no surface: "nasred razgovora" — the middle of an activity is usred razgovora. (4) Pomoću for an ordinary tool: "Režem kruh pomoću noža" — use the instrumental: Režem kruh nožem. (5) Prilikom for the occasion being marked: "prilikom Dana državnosti održan je mimohod" — the occasion marked is prigodom (or u povodu) Dana državnosti. Povodom is equally standard here.',
       highlight: 'unatoč problemima',
     },
     {
