@@ -263,9 +263,9 @@ function checkChart(rows: Row[]) {
 }
 
 describe('every marked word in the charts is what the language says', () => {
-  it('singular: each noun equals decline(base, gender) for its case (all 44 lines)', () => {
+  it('singular: each noun equals decline(base, gender) for its case (all 45 lines)', () => {
     const r = checkChart(SINGULAR_ROWS as Row[]);
-    expect(r).toEqual({ lines: 44, nouns: 44, adjectives: 0 });
+    expect(r).toEqual({ lines: 45, nouns: 45, adjectives: 0 });
   });
   it('plural: each noun equals decline(...) and each adjective its regular plural (all 42 lines)', () => {
     const r = checkChart(PLURAL_ROWS as Row[]);
