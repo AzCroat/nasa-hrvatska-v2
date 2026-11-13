@@ -186,12 +186,12 @@ export const LITERATURE_DRILL_DATA: ModeDrillItem[] = [
     q: 'Što se dogodi ako se traži svaka riječ?',
     en: 'What happens if you look up everything?',
     opts: [
-      'pročita se nekoliko rečenica i odustane',
+      'čitatelj pročita nekoliko rečenica i odustane',
       'brže se uči',
       'pamti se bolje',
       'ništa loše',
     ],
-    answer: 'pročita se nekoliko rečenica i odustane',
+    answer: 'čitatelj pročita nekoliko rečenica i odustane',
     tip: 'Four sentences an evening is not reading; it is decoding.',
   },
   {

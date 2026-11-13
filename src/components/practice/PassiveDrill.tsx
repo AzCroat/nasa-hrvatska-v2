@@ -123,7 +123,7 @@ const DATA = [
   },
   {
     q: 'Tickets are sold at the entrance. = Karte ___ na ulazu.',
-    opts: ['se prodaju', 'su prodane', 'se prodati', 'prodaju se ne'],
+    opts: ['se prodaju', 'se prodaje', 'se prodati', 'prodaju se ne'],
     answer: 'se prodaju',
     en: 'Tickets are sold at the entrance.',
     tip: "se-passive, habitual: karte (fem pl) → 'se prodaju' (3rd pl imperfective)",

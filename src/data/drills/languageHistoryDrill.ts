@@ -246,7 +246,7 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pismo',
-    q: 'Koliko je otprilike stoljeća glagoljica bila u uporabi?',
+    q: 'Koliko je otprilike dugo glagoljica bila u uporabi?',
     en: 'Roughly how long was it used?',
     opts: ['oko tisuću godina', 'oko dvjesto godina', 'oko petsto godina', 'kratko'],
     answer: 'oko tisuću godina',
@@ -254,10 +254,10 @@ export const LANGUAGE_HISTORY_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pismo',
-    q: 'Koja slova je gajica dodala?',
-    en: 'Which letters did gajica add?',
-    opts: ['č ć š ž đ', 'q w x y', 'ć đ samo', 'ph th ch'],
-    answer: 'č ć š ž đ',
-    tip: 'The diacritics that make Croatian spelling one sound to one letter (the đ joined the set later, via Daničić).',
+    q: 'Koja je slova uveo Gaj?',
+    en: 'Which letters did Gaj introduce?',
+    opts: ['č ć š ž', 'q w x y', 'ć đ samo', 'ph th ch'],
+    answer: 'č ć š ž',
+    tip: "The diacritics that make Croatian spelling one sound to one letter. The đ is not Gaj's: it joined the set later, via Daničić.",
   },
 ];

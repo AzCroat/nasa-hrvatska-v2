@@ -106,11 +106,11 @@ export const TRAVEL_AND_SPORT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'slobodno',
-    q: 'Kad ____, sviram gitaru.',
+    q: 'Kad mi je ____, sviram gitaru.',
     en: 'When I get bored, I play the guitar.',
-    opts: ['dosađujem se', 'dosadan sam', 'dosađujem', 'dosadim se'],
-    answer: 'dosađujem se',
-    tip: 'The reflexive way to be bored.',
+    opts: ['dosadno', 'dosadan', 'dosada', 'dosadni'],
+    answer: 'dosadno',
+    tip: 'Dosadno mi je: the impersonal way to be bored, with the person in the dative.',
   },
   {
     mode: 'slobodno',

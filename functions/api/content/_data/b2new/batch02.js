@@ -82,7 +82,7 @@ const PRESENT_IVATI_NUTI = {
     {
       type: 'intro',
       title: 'When the Infinitive Misleads',
-      body: 'For most verbs the present is easy to guess from the infinitive: čitati → čitam, govoriti → govorim. For some very common verbs it is not. Kupovati does not give "kupovam" but kupujem; stati does not give "stam" but stanem. This lesson collects these verbs into a few groups, so that one rule covers dozens of verbs. (You may also meet mati in old songs and books — that is an old word for mother, today majka, and not a verb at all.)',
+      body: 'For most verbs the present is easy to guess from the infinitive: čitati → čitam, govoriti → govorim. For some very common verbs it is not. Kupovati does not give "kupovam" but kupujem; stati does not give "stam" but stanem. This lesson collects these verbs into a few groups, so that one rule covers dozens of verbs. (You may also meet mati in songs and books — that is a literary word for mother, still standard but more poetic than majka, and not a verb at all.)',
       icon: '🔁',
     },
     {
@@ -197,6 +197,27 @@ const PRESENT_IVATI_NUTI = {
           en: 'If you take an umbrella, you won’t get wet.',
           note: 'uzmeš — from uzeti, with an m',
         },
+      ],
+    },
+    {
+      type: 'rule',
+      title: '-iti, -jeti, -ijeti and -ći',
+      body: 'Most -iti verbs give -im, like govoriti. But a few short ones with a vowel before -ti give -jem: piti → pijem, biti (to beat) → bijem, kriti → krijem, šiti → šijem. Verbs in -jeti mostly give -im: letjeti → letim, vidjeti → vidim, živjeti → živim. The -nijeti verbs hide an s: donijeti → donesem, odnijeti → odnesem, ponijeti → ponesem. And verbs in -ći show their consonant in the present: pomoći → pomognem, peći → pečem, ići → idem, doći → dođem. Pozivati and dobivati are -ivati verbs that keep -ivam: pozivam, dobivam.',
+      highlight: 'piti → pijem · donijeti → donesem · pomoći → pomognem',
+    },
+    {
+      type: 'table',
+      title: 'More Present Subgroups',
+      headers: ['Infinitive', 'ja', 'oni', 'Group'],
+      rows: [
+        ['piti', 'pijem', 'piju', '-iti → -ijem (short root)'],
+        ['letjeti', 'letim', 'lete', '-jeti → -im'],
+        ['donijeti', 'donesem', 'donesu', '-ijeti → -esem'],
+        ['ponijeti', 'ponesem', 'ponesu', '-ijeti → -esem'],
+        ['pomoći', 'pomognem', 'pomognu', '-ći → -gnem'],
+        ['peći', 'pečem', 'peku', '-ći → -čem'],
+        ['pozivati', 'pozivam', 'pozivaju', '-ivati that keeps -ivam'],
+        ['dobivati', 'dobivam', 'dobivaju', '-ivati that keeps -ivam'],
       ],
     },
     {
@@ -404,6 +425,44 @@ const INTERNET_SOCIETY = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: the računati Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['računati', 'izračunati', 'to calculate; računati na = to count on'],
+        ['preračunavati', 'preračunati', 'to convert (preračunati u eure)'],
+        ['preračunavati se', 'preračunati se', 'to miscalculate'],
+        ['obračunavati', 'obračunati', 'to work out a bill, to settle up'],
+        ['obračunavati se', 'obračunati se', 'to settle scores with someone'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Family in Use',
+      items: [
+        {
+          hr: 'Računam na tebe sutra.',
+          en: 'I am counting on you tomorrow.',
+          note: 'računati na + accusative',
+        },
+        {
+          hr: 'Preračunaj cijenu u eure, molim te.',
+          en: 'Convert the price into euros, please.',
+          note: 'preračunati u + accusative',
+        },
+        {
+          hr: 'Preračunao sam se, pa mi nije ostalo novca do kraja mjeseca.',
+          en: 'I miscalculated, so I had no money left until the end of the month.',
+          note: 'preračunati se — the se changes the meaning',
+        },
+        {
+          hr: 'Konobar nam je pogrešno obračunao piće.',
+          en: 'The waiter added up our drinks wrongly.',
+          note: 'obračunati — to work out what is owed',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'How do you say "on social networks"?',
@@ -461,7 +520,7 @@ const INTERNET_SOCIETY = {
             'društvene mreže',
             'društvenih mreža',
             'društvenim mrežama',
-            'društvenima mrežama',
+            'društvenom mrežama',
           ],
           correct: 2,
           explanation: 'o + locative plural: o društvenim mrežama.',
@@ -824,6 +883,23 @@ const HUMAN_RIGHTS = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: the mijenjati Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['mijenjati', 'promijeniti', 'to change'],
+        ['zamjenjivati', 'zamijeniti', 'to replace; to mistake one thing for another'],
+        ['razmjenjivati', 'razmijeniti', 'to exchange'],
+        ['primjenjivati', 'primijeniti', 'to apply (a rule, a law, knowledge)'],
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'Long ije, Short je',
+      body: 'Watch the jat in this family. The perfectives keep the long ije: promijeniti, zamijeniti, razmijeniti, primijeniti. The -ivati imperfectives shorten it to je: zamjenjivati, razmjenjivati, primjenjivati — and the nouns follow them: promjena (a change), zamjena (a replacement), razmjena (an exchange), primjena (application). Zakon se mora jednako primjenjivati na sve. Razmijenili smo iskustva.',
+      highlight: 'zamijeniti → zamjenjivati → zamjena',
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Complete: "Svatko ima pravo ___ rad."',
@@ -857,9 +933,10 @@ const HUMAN_RIGHTS = {
         },
         {
           q: 'Complete: "Aktivisti se bore ___ prava radnika."',
-          options: ['za', 'na', 'o', 'protiv'],
+          options: ['za', 'na', 'o', 'od'],
           correct: 0,
-          explanation: 'boriti se za + accusative: they fight for workers’ rights.',
+          explanation:
+            "boriti se za + accusative: they fight for workers’ rights. (Boriti se protiv + genitive is 'to fight against'.)",
         },
         {
           q: 'How many national minorities does the Croatian Constitution name?',
@@ -1057,6 +1134,33 @@ const RELATIVE_CASES = {
       ],
     },
     {
+      type: 'rule',
+      title: 'Kakav and Kolik as Relatives',
+      body: 'When the clause describes what KIND of thing, the relative is kakav, and like koji it takes its case from its own clause: Kupili smo kuću kakvu smo oduvijek željeli (kakvu — accusative, the object of željeli). Grad kakav je Dubrovnik ne postoji nigdje drugdje. It often pairs with takav: Takav film kakav smo gledali sinoć rijetko se vidi. Kolik does the same for SIZE, usually with tolik: Stan je tolik kolik nam treba. Kakav and kolik agree in gender and number with the noun they describe.',
+      highlight: 'kuću kakvu smo željeli · tolik kolik nam treba',
+    },
+    {
+      type: 'example',
+      title: 'Kakav and Kolik in Use',
+      items: [
+        {
+          hr: 'Kupili smo kuću kakvu smo oduvijek željeli.',
+          en: 'We bought the kind of house we had always wanted.',
+          note: 'kakvu — accusative, the object of željeli',
+        },
+        {
+          hr: 'Takvu tišinu kakva je bila na otoku nikad nisam čuo.',
+          en: 'I have never heard such silence as there was on the island.',
+          note: 'kakva — nominative, the subject of its own clause',
+        },
+        {
+          hr: 'Soba je tolika kolika nam treba.',
+          en: 'The room is just as big as we need.',
+          note: 'tolik … kolik — size; both agree with soba',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Complete: "Djevojka ___ sam pomogao zove se Ana."',
@@ -1123,7 +1227,8 @@ const RELATIVE_CASES = {
           q: 'Complete: "Upoznala sam pjevača ___ pjesme svi znaju."',
           options: ['čiji', 'čija', 'čije', 'čijeg'],
           correct: 2,
-          explanation: 'čiji agrees with pjesme (feminine plural, subject): čije.',
+          explanation:
+            'čiji agrees with pjesme, the thing that is known (feminine plural, accusative; svi is the subject): čije.',
         },
       ],
     },
@@ -2009,7 +2114,7 @@ export const PRACTICE = {
         explanation: 'She is the object: koju, and the auxiliary follows straight after it.',
       },
       {
-        q: 'Complete: "Onaj ___ sam pomogao zahvalio mi se."',
+        q: 'Complete: "Onaj ___ sam pomogao zahvalio mi je."',
         options: ['tko', 'kome', 'koga', 'kim'],
         correct: 1,
         explanation: 'pomoći takes the dative: onaj kome (komu) sam pomogao.',
