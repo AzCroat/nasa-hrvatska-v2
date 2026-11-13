@@ -552,8 +552,12 @@ const C1ComparativeClausesDrill = lazyWithReload(
 const C1DirectSpeechSpellingDrill = lazyWithReload(
   () => import('./practice/drills/C1DirectSpeechSpellingDrill'),
 );
-const C1TextConnectorsDrill = lazyWithReload(() => import('./practice/drills/C1TextConnectorsDrill'));
-const C1CollectiveNumbersDrill = lazyWithReload(() => import('./practice/drills/C1CollectiveNumbersDrill'));
+const C1TextConnectorsDrill = lazyWithReload(
+  () => import('./practice/drills/C1TextConnectorsDrill'),
+);
+const C1CollectiveNumbersDrill = lazyWithReload(
+  () => import('./practice/drills/C1CollectiveNumbersDrill'),
+);
 const C1PluperfectDrill = lazyWithReload(() => import('./practice/drills/C1PluperfectDrill'));
 const A1SoundsPalatalsDrill = lazyWithReload(
   () => import('./practice/drills/A1SoundsPalatalsDrill'),
