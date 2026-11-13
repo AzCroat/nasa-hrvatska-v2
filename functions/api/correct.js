@@ -6,6 +6,7 @@ import { corsHeaders } from './_helpers.js';
 import { parseUserContext, renderContextPrompt } from './_userContext.js';
 import { sanitizeParam } from './_helpers.js';
 import { writingEvalSystemPrompt, WRITING_EVAL_PROMPT, gradedChanges } from './_evalPrompts.js';
+import { sanitizeTaught, taughtScopeRule } from './_taughtScope.js';
 import { promptHeaders } from './_promptRegistry.js';
 import { parseModelJson } from './_modelJson.js';
 import { reconcileSafely } from './_aiBudget.js';
@@ -65,7 +66,11 @@ export async function onRequestPost(context) {
   // rubric as production.
   const basePrompt = writingEvalSystemPrompt(safePrompt);
 
-  const systemPrompt = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
+  // Course scope (2026-11-13): appended at REQUEST time, only when the client sends the learner's
+  // taught list, so the calibration (which never sends one) still measures the shared rubric.
+  const scope = taughtScopeRule(sanitizeTaught(reqBody.taught));
+  const withContext = contextProse ? basePrompt + '\n\n' + contextProse : basePrompt;
+  const systemPrompt = scope ? withContext + '\n\n' + scope : withContext;
 
   // Block 1: network errors only
   let response;

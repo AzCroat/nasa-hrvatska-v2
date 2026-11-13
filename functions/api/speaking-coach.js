@@ -21,6 +21,7 @@ import { reconcileBudget } from './_aiBudget.js';
 import { speakingCoachSystemPrompt, SPEAKING_COACH_PROMPT } from './_evalPrompts.js';
 import { promptHeaders } from './_promptRegistry.js';
 import { CROATIAN_SCRIPT_RULE } from './_croatianGuard.js';
+import { sanitizeTaught, taughtScopeRule } from './_taughtScope.js';
 import { parseModelJson } from './_modelJson.js';
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
@@ -84,6 +85,7 @@ export async function onRequestPost(context) {
   }
 
   const { prompt, transcript, level, unconfirmed } = reqBody;
+  const scope = taughtScopeRule(sanitizeTaught(reqBody.taught));
   if (typeof transcript !== 'string' || transcript.trim().length < 3)
     return err(400, 'Missing transcript', origin);
   const safeTranscript = sanitizeParam(transcript, 800);
@@ -109,7 +111,8 @@ export async function onRequestPost(context) {
     `Transcript of their spoken answer: "${safeTranscript}"` +
     (safeUnconfirmed.length > 0
       ? `\nUNCONFIRMED words (the recording did not bear these out): ${safeUnconfirmed.join(', ')}`
-      : '');
+      : '') +
+    (scope ? `\n\n${scope}` : '');
 
   let res;
   try {

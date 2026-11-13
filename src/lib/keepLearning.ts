@@ -53,6 +53,7 @@
 // which imports this module — importing it back would be a cycle.
 
 import { fluencyAvailable } from './fluencyRound';
+import { readTaughtTerms } from './taughtTerms';
 import type { DailySession, SessionActivity } from './dailySessionStore';
 import { MINUTES_PER_ACTIVITY } from './dailySessionStore';
 import { selectRetentionSlot } from './retentionSlot';
@@ -99,6 +100,21 @@ export interface KeepCandidate {
   tier: KeepTier;
   /** Speaking or listening — the modality a tie inside a tier resolves toward. */
   spoken: boolean;
+}
+
+/** True when an open lesson has taught a case, or when the course is unknown. */
+function casesTaught(): boolean {
+  const t = readTaughtTerms();
+  if (!t) return true;
+  return [
+    'nominative',
+    'accusative',
+    'genitive',
+    'dative',
+    'locative',
+    'instrumental',
+    'vocative',
+  ].some((c) => t.has(c));
 }
 
 function titleCase(category: string): string {
@@ -386,6 +402,33 @@ export function gatherKeepCandidates(
         7,
       );
     });
+    // NOTHING BEFORE THE CASES (owner, 2026-11-13): guided speaking and writing build sentences
+    // whose endings are corrected for case, so a learner whose open lessons have taught no case
+    // gets word practice instead — flashcards and the word quiz draw on the course deck. Both
+    // always serve, so the tier still never runs dry.
+    if (!casesTaught()) {
+      add(
+        {
+          id: recurring('flash'),
+          label: 'Flashcards',
+          screen: 'flashcards',
+          category: 'vocab-a2',
+          reason: 'Everything taught so far is proven — keep the words fresh.',
+        },
+        7,
+      );
+      add(
+        {
+          id: recurring('quiz'),
+          label: 'Word Quiz',
+          screen: 'mcgame',
+          category: 'vocab-a2',
+          reason: 'Everything taught so far is proven — test the words you know.',
+        },
+        7,
+      );
+      return out;
+    }
     // Both keyboard-safe (a typed answer counts), both A1+, both rotate their own
     // units — so this tier can always serve, and the flow never ends.
     add(

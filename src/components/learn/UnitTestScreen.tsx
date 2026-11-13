@@ -35,6 +35,7 @@ import {
   recordUnitTest,
   recordUnitRecheck,
   markUnitTestInsufficient,
+  clearUnitTestInsufficient,
   unitRecord,
   producedUnits,
   productionBlockedUnits,
@@ -163,6 +164,7 @@ export default function UnitTestScreen({
           setPhase('insufficient');
           return;
         }
+        clearUnitTestInsufficient(u.id);
         setItems(built);
         setAt(0);
         setAnswers({});

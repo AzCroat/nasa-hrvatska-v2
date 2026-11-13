@@ -60,6 +60,7 @@ import { heardCroatian } from '../../lib/heardCroatian';
 import { recognizerErrorMessage } from '../../lib/recognizerError';
 import SpeakCheck from '../practice/SpeakCheck';
 import { unconfirmedWords, type SpokenCheck } from '../../lib/spokenCheck';
+import { taughtTermsList } from '../../lib/taughtTerms';
 
 /** XP for a graded production task. Paid once per task per unit. */
 export const UNIT_PRODUCTION_XP = 30;
@@ -111,6 +112,8 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
       if (kind === 'write') {
         const res = await _aiPost('/api/correct', {
           mode: 'writeeval',
+          // Feedback stays inside what the course has taught (owner, 2026-11-13).
+          taught: taughtTermsList(),
           prompt: briefPrompt(brief),
           text: text.trim(),
           params: { level: brief.level, writingPrompt: briefPrompt(brief) },
@@ -146,6 +149,7 @@ export default function UnitProductionScreen({ goBack, award }: Props) {
         applyWritingErrorsToAdaptive((data.changes || []).map((c) => c.errorType || c.type));
       } else {
         const outcome = await requestSpeakingCoach({
+          taught: taughtTermsList(),
           prompt: briefPrompt(brief),
           transcript: text.trim(),
           level: brief.level,

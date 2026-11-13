@@ -41,6 +41,7 @@ import { LESSON_TAUGHT_CATEGORY } from '../lib/teachPractice';
 import { CATEGORY_SCREEN_MAP, CATEGORY_EASIER_SCREEN, SCREEN_CEFR } from '../lib/categoryRoutes';
 import { isUnlocked } from '../lib/cefr';
 import { localDateStr } from '../lib/dateUtils';
+import { readTaughtTerms } from '../lib/taughtTerms';
 import { seedCourseAt, REAL_SPINE } from './helpers/courseSeed';
 
 const TODAY = localDateStr();
@@ -196,6 +197,27 @@ describe('the order (owner, 2026-09-29)', () => {
     expect(cands.map((c) => c.activity.id)).toEqual(['keep_speak_3', 'keep_write_3']);
     expect(cands.every((c) => c.tier === 7)).toBe(true);
     expect(cands[0]!.activity.reason).toMatch(/Everything taught so far is proven/);
+  });
+});
+
+describe('nothing before the cases (owner, 2026-11-13)', () => {
+  it('a learner whose open lessons teach no case gets word practice, not sentence building', () => {
+    seedCourseAt(1);
+    const cands = gatherKeepCandidates('A1', { activities: [] }, 3, deps());
+    const screens = cands.map((c) => c.activity.screen);
+    expect(screens).toEqual(['flashcards', 'mcgame']);
+    expect(screens).not.toContain('speaking_guided');
+    expect(screens).not.toContain('writing_guided');
+  });
+
+  it('the gate opens at the accusative lesson: from there the taught set holds a case', () => {
+    seedCourseAt(1);
+    const at = readCourseState().units.find((u) =>
+      u.lessons.some((l) => l.id === 'accusative-intro'),
+    )!.index;
+    expect(readTaughtTerms()?.has('accusative')).toBe(false);
+    seedCourseAt(at + 1);
+    expect(readTaughtTerms()?.has('accusative')).toBe(true);
   });
 });
 

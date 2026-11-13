@@ -61,6 +61,12 @@ export function termsForOpenLessons(open: ReadonlySet<string>): Set<string> {
  * The grammar words this learner may hear, or null when that cannot be known (no spine
  * yet) — in which case nothing is withheld. Never throws.
  */
+/** The taught list as an array for a feedback request, or null when the course is unknown. */
+export function taughtTermsList(): string[] | null {
+  const set = readTaughtTerms();
+  return set ? [...set] : null;
+}
+
 export function readTaughtTerms(): Set<string> | null {
   try {
     const open = readOpenLessons();

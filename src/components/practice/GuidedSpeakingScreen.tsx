@@ -67,6 +67,7 @@ import {
   advanceSpeakingUnit,
   checklistSatisfied,
 } from '../../lib/speakingUnits';
+import { taughtTermsList } from '../../lib/taughtTerms';
 
 interface Recognizer {
   lang: string;
@@ -316,6 +317,7 @@ export default function GuidedSpeakingScreen({ goBack, award }: GuidedSpeakingSc
     setLoading(true);
     setCoachFailure(null);
     const res = await requestSpeakingCoach({
+      taught: taughtTermsList(),
       prompt: unit.promptEn,
       transcript,
       level: unit.level,

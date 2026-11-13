@@ -20,6 +20,7 @@ import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/a
 import { CorrectionDiff } from './CorrectionDiff';
 import type { CorrectionChange } from './CorrectionDiff';
 import { PROMPTS } from '../../data/writingPrompts';
+import { taughtTermsList } from '../../lib/taughtTerms';
 
 interface WritingResult {
   score?: number;
@@ -112,6 +113,8 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
     try {
       const res = await _aiPost('/api/correct', {
         mode: 'writeeval',
+        // Feedback stays inside what the course has taught (owner, 2026-11-13).
+        taught: taughtTermsList(),
         prompt: effectivePrompt.en,
         text: text.trim(),
         params: { level: userLevel, writingPrompt: effectivePrompt.en },

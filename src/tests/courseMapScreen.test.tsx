@@ -163,6 +163,22 @@ describe('the map a learner sees', () => {
     expect(btn.textContent).toMatch(/Already know this/);
   });
 
+  // OWNER REPORT, 2026-11-13: the test-out was missing from the unit he was on. A first attempt
+  // on a device holding stale cached lessons recorded the unit as unassemblable, and that marker
+  // hid the button for good. The map offers it regardless; the test screen retries.
+  it('still offers the test-out on a unit once recorded as unassemblable', async () => {
+    seedSpine();
+    localStorage.setItem(
+      'nh_course_units',
+      JSON.stringify({ structure: 2, units: { 'A1-1': { insufficient: true } } }),
+    );
+    render(
+      <CourseMapScreen goBack={vi.fn()} onOpenLesson={vi.fn(async () => true)} setScr={vi.fn()} />,
+    );
+    const btn = await screen.findByTestId('course-unit-test-A1-1');
+    expect(btn.getAttribute('data-offer')).toBe('testout');
+  });
+
   it('offers it as the unit’s PRIMARY action once every lesson is read', async () => {
     seedSpine();
     seedDone(UNITS[0]!.lessons.map((l) => l.id));

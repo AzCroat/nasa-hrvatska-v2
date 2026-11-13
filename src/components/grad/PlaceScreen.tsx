@@ -98,7 +98,7 @@ function ExerciseRow({ item }: { item: GradItem }) {
             fontWeight: 800,
           }}
         >
-          🔒 {item.cefr}
+          🔒 {item.lockReason ?? item.cefr}
         </span>
       )}
     </button>

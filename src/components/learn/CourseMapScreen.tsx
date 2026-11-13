@@ -38,7 +38,7 @@ import { readLockLookup } from '../../lib/lessonLock';
 import type { CurriculumEntry } from '../../lib/curriculum';
 import {
   courseMapBlock,
-  unitTestOffer,
+  mapTestOffer,
   lockReason,
   COURSE_MAP_COPY,
   type CourseMapBlock,
@@ -413,7 +413,7 @@ function UnitRow({
   owedFor: (unitId: string) => { write: boolean; speak: boolean } | null;
 }) {
   const { unit, done, total, state } = row;
-  const offer = unitTestOffer(row);
+  const offer = mapTestOffer(row);
   const locked = lockReason(row, previous);
   const owed = owedFor(unit.id);
   return (

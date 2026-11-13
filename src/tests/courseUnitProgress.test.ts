@@ -428,3 +428,15 @@ describe('the one-time structure migration (2026-11-12)', () => {
     });
   });
 });
+
+// OWNER REPORT, 2026-11-13: the "unassemblable" marker is one failed attempt, not a fact about
+// the unit. A later successful build clears it.
+describe('the unassemblable marker clears itself', () => {
+  it('is removed by clearUnitTestInsufficient and leaves the rest of the record', async () => {
+    const m = await import('../lib/courseUnitProgress');
+    m.markUnitTestInsufficient('A1-1');
+    expect(m.insufficientUnits().has('A1-1')).toBe(true);
+    m.clearUnitTestInsufficient('A1-1');
+    expect(m.insufficientUnits().has('A1-1')).toBe(false);
+  });
+});
