@@ -85,7 +85,7 @@ export const COOKING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'recept',
-    q: '____ dok ne zavri. (miješati, Vi)',
+    q: '____ dok ne zakipi. (miješati, Vi)',
     en: 'Stir until it boils.',
     opts: ['Miješajte', 'Miješaj', 'Miješati', 'Miješam'],
     answer: 'Miješajte',
@@ -93,7 +93,7 @@ export const COOKING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'recept',
-    q: 'Zašto "dok NE zavri" nosi "ne"?',
+    q: 'Zašto "dok NE zakipi" nosi "ne"?',
     en: 'Why the negative?',
     opts: [
       'tako hrvatski izriče "until"',

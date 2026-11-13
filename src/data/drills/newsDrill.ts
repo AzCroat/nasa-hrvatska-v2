@@ -10,23 +10,22 @@
 // the sentence is broken. The reader has to supply *je* or *su* mentally, which
 // nobody tells you.
 //
-// The second is that news runs on reported speech and CROATIAN DOES NOT
-// BACKSHIFT. English turns "I will come" into "he said he WOULD come";
-// Croatian keeps the tense the speaker used — *rekao je da će doći*. So the
-// future stays future and the present stays present, which is simpler than
-// English and therefore gets over-corrected by anyone who learned the English
-// rule.
+// The second is that a news sentence names its source, a verb of saying and
+// then da: *Policija javlja da nema žrtava*. The rules for turning a quoted
+// sentence into a report (no backshift) are taught later, at B1-44
+// reported-speech, so this drill does not test them (book-order audit,
+// 2026-11-13).
 //
 // Three modes:
-//   naslovi    — the verbless headline
-//   prenosenje — reported speech, and the absent backshift
-//   izvor      — navodno, and marking a claim as second-hand
+//   naslovi — the verbless headline
+//   mediji  — media words, verbs of saying + da, vjerovati + dative
+//   izvor   — navodno, and marking a claim as second-hand
 
 import type { ModeDrillItem } from '../../components/practice/ModeDrill';
 
 export const NEWS_MODE_LABELS: Record<string, string> = {
   naslovi: '📰 Naslovi',
-  prenosenje: '🗣️ Prenošenje',
+  mediji: '📺 Mediji',
   izvor: '🔎 Izvor',
 };
 
@@ -97,75 +96,70 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
     tip: 'Space. The same instinct as an English headline, taken further.',
   },
 
-  // ── prenosenje ────────────────────────────────────────────────────────────
+  // ── mediji ────────────────────────────────────────────────────────────────
   {
-    mode: 'prenosenje',
-    q: 'Rekao je: "Doći ću." → Rekao je da ____ doći.',
-    en: 'He said he would come.',
-    opts: ['će', 'bi', 'je', 'da će'],
-    answer: 'će',
-    tip: 'Croatian does NOT backshift. The future he used stays future.',
+    mode: 'mediji',
+    q: 'Policija javlja ____ nema žrtava.',
+    en: 'The police report that there are no casualties.',
+    opts: ['da', 'što', 'li', 'jer'],
+    answer: 'da',
+    tip: 'After a verb of saying, Croatian needs da — the same da as after mislim.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Rekla je: "Radim." → Rekla je da ____.',
-    en: 'She said she was working.',
-    opts: ['radi', 'je radila', 'bi radila', 'će raditi'],
-    answer: 'radi',
-    tip: 'The present she used stays present, even though English shifts it.',
+    mode: 'mediji',
+    q: 'Ne vjerujem ____.',
+    en: 'I do not believe that newspaper.',
+    opts: ['tim novinama', 'te novine', 'tih novina', 'u te novine'],
+    answer: 'tim novinama',
+    tip: 'vjerovati takes the dative.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Što hrvatski NE radi pri prenošenju?',
-    en: 'What does Croatian not do?',
-    opts: ['pomiče vrijeme', 'mijenja zamjenice', 'rabi veznik da', 'mijenja priložne oznake'],
-    answer: 'pomiče vrijeme',
-    tip: 'Tenses stay. Pronouns and time words DO shift.',
+    mode: 'mediji',
+    q: 'Što je "sapunica"?',
+    en: 'What is a sapunica?',
+    opts: ['soap opera', 'bar of soap', 'news bulletin', 'cartoon'],
+    answer: 'soap opera',
+    tip: 'Built on sapun, soap — a long-running TV drama.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Rekao je: "Ja sam umoran." → Rekao je da ____ umoran.',
-    en: 'He said he was tired.',
-    opts: ['je', 'sam', 'bi', 'će biti'],
-    answer: 'je',
-    tip: 'The tense stays present; the PERSON shifts from ja to on.',
+    mode: 'mediji',
+    q: 'Što je "žuti tisak"?',
+    en: 'What is the žuti tisak?',
+    opts: ['the tabloid press', 'old newspapers', 'printed maps', 'the weather page'],
+    answer: 'the tabloid press',
+    tip: 'Literally "the yellow press": gossip, scandal, celebrities.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Rekla je: "Bila sam ovdje jučer." Što se mijenja?',
-    en: 'What changes?',
-    opts: ['zamjenice i priložne oznake', 'samo vrijeme', 'ništa', 'samo padež'],
-    answer: 'zamjenice i priložne oznake',
-    tip: 'ovdje may become ondje, jučer may become dan ranije. The tense does not move.',
+    mode: 'mediji',
+    q: 'Što je "feljton"?',
+    en: 'What is a feljton?',
+    opts: ['a serialised newspaper feature', 'a headline', 'a TV channel', 'a radio presenter'],
+    answer: 'a serialised newspaper feature',
+    tip: 'A longer piece published in parts, often on history or culture.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Pitao je: "Dolaziš li?" → Pitao je ____.',
-    en: 'He asked whether I was coming.',
-    opts: ['dolazim li', 'da dolazim', 'ako dolazim', 'što dolazim'],
-    answer: 'dolazim li',
-    tip: 'A reported question keeps li, or uses je li. Never ako.',
+    mode: 'mediji',
+    q: 'U romanu je Ivan ____ — sve se vrti oko njega.',
+    en: 'In the novel Ivan is the main character — everything revolves around him.',
+    opts: ['glavni lik', 'sporedni lik', 'glavni naslov', 'glavni izvor'],
+    answer: 'glavni lik',
+    tip: 'glavni lik is the main character; sporedni lik a minor one.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Koji glagol uvodi zahtjev, a ne izjavu?',
-    en: 'Which introduces a request?',
-    opts: ['zamoliti', 'reći', 'javiti', 'objaviti'],
-    answer: 'zamoliti',
-    tip: 'Zamolio je da dođem — and a request takes da plus the present.',
+    mode: 'mediji',
+    q: 'Ministar je ____ da je zadovoljan. (stated)',
+    en: 'The minister stated that he is satisfied.',
+    opts: ['izjavio', 'izjavila', 'izjavili', 'izjaviti'],
+    answer: 'izjavio',
+    tip: 'Ministar is masculine singular, so the past form ends in -o.',
   },
   {
-    mode: 'prenosenje',
-    q: 'Zašto učenici ovdje ipak pomiču vrijeme?',
-    en: 'Why do learners over-correct here?',
-    opts: [
-      'primjenjuju englesko pravilo',
-      'pravilo je teško',
-      'nema pravila',
-      'gramatike se ne slažu',
-    ],
-    answer: 'primjenjuju englesko pravilo',
-    tip: 'They shift the tense because English does. Croatian is simpler here.',
+    mode: 'mediji',
+    q: 'Novinari ____ da je ministar znao za problem.',
+    en: 'Journalists claim that the minister knew about the problem.',
+    opts: ['tvrde', 'tvrdi', 'tvrdim', 'tvrdiš'],
+    answer: 'tvrde',
+    tip: 'novinari is plural: oni tvrde.',
   },
 
   // ── izvor ─────────────────────────────────────────────────────────────────

@@ -2918,11 +2918,11 @@ const LESSONS_CORE = [
       },
       {
         type: 'quiz',
-        q: 'Svaki dan _____ (to walk) uz more. Which verb form?',
-        options: ['prohodati', 'hodati', 'prohodavam', 'hodao sam jednom'],
+        q: 'Svaki dan _____ uz more. (I take a walk) Which verb form?',
+        options: ['prošetati', 'šetam', 'šetati', 'prošetao sam jednom'],
         correct: 1,
         explanation:
-          "'Svaki dan' (every day) is a classic imperfective trigger. 'Hodati' is the imperfective of 'to walk'. 'Prohodati' is perfective (to learn to walk / walk for the first time). The daily habit demands imperfective.",
+          "'Svaki dan' (every day) is a classic imperfective trigger, and the sentence needs a conjugated present: šetam. prošetati and šetati are bare infinitives, and 'prošetao sam jednom' is a single finished walk.",
       },
       {
         type: 'rule',
@@ -3118,6 +3118,70 @@ const LESSONS_CORE = [
         ],
       },
       {
+        type: 'table',
+        title: "The Book's Pairs (Razgovarajte s nama, lessons 6–10)",
+        headers: ['Imperfective', 'Perfective', 'English'],
+        rows: [
+          ['dizati', 'dignuti', 'to lift, raise'],
+          ['oblačiti (se)', 'obući (se)', 'to dress, put on'],
+          ['rješavati', 'riješiti', 'to solve'],
+          ['zarađivati', 'zaraditi', 'to earn'],
+          ['popravljati', 'popraviti', 'to repair'],
+          ['tražiti', 'potražiti', 'to look for'],
+          ['nalaziti', 'naći', 'to find'],
+          ['častiti', 'počastiti', 'to treat (someone)'],
+          ['pokazivati', 'pokazati', 'to show'],
+          ['viđati se', 'vidjeti se', 'to see each other'],
+          ['voljeti', 'zavoljeti', 'to love / to come to love'],
+          ['vikati', 'viknuti', 'to shout / to give a shout'],
+          ['misliti', 'pomisliti', 'to think / to have a thought'],
+          ['izlaziti', 'izići (izaći)', 'to go out'],
+          ['razmišljati', 'razmisliti', 'to think over'],
+          ['mijenjati', 'promijeniti', 'to change'],
+          ['posjećivati', 'posjetiti', 'to visit'],
+          ['graditi', 'izgraditi', 'to build'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'tražiti and naći Are Not a Pair',
+        body: "English 'look for' and 'find' feel like process and result, but in Croatian they are two different verbs, each with its own partner: tražiti → potražiti (to look for, have a look for) and nalaziti → naći (to find). So 'I was looking for my keys and found them' is Tražio sam ključeve i našao ih — two verbs, not one pair.",
+        highlight: 'tražiti → potražiti, nalaziti → naći',
+      },
+      {
+        type: 'table',
+        title: 'Two-Aspect Verbs',
+        headers: ['Verb', 'As imperfective', 'As perfective'],
+        rows: [
+          [
+            'ručati',
+            'Ručamo u dva. (We have lunch at two.)',
+            'Kad ručamo, idemo u šetnju. (Once we have had lunch…)',
+          ],
+          ['čestitati', 'Uvijek mu čestitam rođendan.', 'Čestitao mi je i otišao.'],
+          [
+            'vjenčati se',
+            'Sutra se vjenčaju u crkvi.',
+            'Vjenčali su se na moru i odmah otputovali.',
+          ],
+          ['studirati', 'Studira medicinu u Zagrebu.', '—'],
+          [
+            'organizirati',
+            'Ona uvijek organizira izlete.',
+            'Organizirala je izlet i svi su došli.',
+          ],
+          ['telefonirati', 'Stalno telefonira.', 'Telefonirao je i rekao da kasni.'],
+          ['čuti', 'Čuješ li glazbu?', 'Čuo sam vijest i odmah te nazvao.'],
+          ['vidjeti', 'Vidim more s prozora.', 'Vidio sam ga i pozdravio.'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'One Verb, Both Aspects',
+        body: 'A small group of verbs has no partner and serves as both aspects: ručati, čestitati, vjenčati (se), studirati, telefonirati, and in the book also čuti and vidjeti. Most of the international -irati verbs belong here. The sentence tells you which aspect is meant: a habit or a process reads as imperfective (Stalno telefonira), a single finished event in a chain reads as perfective (Telefonirao je i rekao da kasni). With these verbs you never have to choose a different form. Because a two-aspect verb can be imperfective, its present CAN describe what is happening now — Sad ručamo — which an ordinary perfective present (pojedem) never can.',
+        highlight: 'ručati, čestitati, vjenčati, studirati, telefonirati',
+      },
+      {
         type: 'rule',
         title: 'Rule 4: Future Events with a Clear End',
         body: "In future tense, the perfective is used for planned, bounded events — things that will happen and be done. 'I will call you' (one specific call), 'We will eat and then go' (chain of complete events). Imperfective future means ongoing or habitual future: 'I will be working all day'.",
@@ -3219,7 +3283,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners say 'Sada napišem pismo' for 'I am writing a letter now' — a perfective present cannot describe an action in progress; it reads as a future or a one-off completion, so 'now' takes 'pišem'. Second, they use the perfective for duration: 'Pročitao sam dva sata' — reading FOR two hours is a process, 'čitao sam dva sata'; only 'pročitao sam knjigu' (finished it) is perfective. Third, in a story every verb gets the same aspect: the events advance with perfectives, but the scenery stays imperfective — 'Sunce je sjalo, on je ušao.'",
+        body: "Learners say 'Sada napišem pismo' for 'I am writing a letter now' — a perfective present cannot describe an action in progress and does not stand alone as a present; it belongs in clauses after kad, ako or da (Kad napišem pismo, poslat ću ga), so 'now' takes 'pišem'. Second, they use the perfective for duration: 'Pročitao sam dva sata' — reading FOR two hours is a process, 'čitao sam dva sata'; only 'pročitao sam knjigu' (finished it) is perfective. Third, in a story every verb gets the same aspect: the events advance with perfectives, but the scenery stays imperfective — 'Sunce je sjalo, on je ušao.'",
         highlight: 'a perfective present cannot describe an action in progress',
       },
       {
@@ -3289,11 +3353,23 @@ const LESSONS_CORE = [
               'because napisati is a noun',
               'because pismo needs the genitive',
               'because napisati has no present tense',
-              'because a perfective present is a future or a single completion, never an ongoing action',
+              'because a perfective present cannot stand alone as a present; it belongs after kad, ako or da',
             ],
             correct: 3,
             explanation:
-              'Perfective verbs do have present forms, but those forms cannot express an action in progress — they appear in time clauses, futures and habitual completions.',
+              'Perfective verbs do have present forms, but those forms cannot express an action in progress. They appear in clauses: Kad napišem pismo, poslat ću ga. Ako ga pročitaš, reci mi. For the future on its own, use the future tense: Napisat ću pismo.',
+          },
+          {
+            q: 'Which sentence uses the right pair for "look for … and find"?',
+            options: [
+              'Tražio sam ključeve i našao ih.',
+              'Tražio sam ključeve i tražio ih.',
+              'Našao sam ključeve i tražio ih.',
+              'Nalazio sam ključeve i potražio ih.',
+            ],
+            correct: 0,
+            explanation:
+              'tražiti (look for) and naći (find) are two different verbs: Tražio sam ključeve i našao ih. Their own partners are potražiti and nalaziti.',
           },
         ],
       },
@@ -3306,6 +3382,8 @@ const LESSONS_CORE = [
           "Result states: 'she fell asleep / he left' (new state created) → perfective",
           "Bounded future event: 'I will call you tomorrow' → perfective",
           "Key test: Could you say 'finished' or 'completed'? → probably perfective",
+          'A perfective present is not a simple present: it belongs after kad, ako, da',
+          'Two-aspect verbs (ručati, čestitati, studirati, telefonirati) serve as both',
         ],
       },
     ],
@@ -3974,6 +4052,12 @@ const LESSONS_CORE = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Evo, Eto, Eno — Here It Is, There It Is',
+        body: "Three pointing words take the genitive. Evo points at something near me, eto at something near you, eno at something away from both of us: 'Evo kave!' (Here's the coffee!), 'Eto ti ključa.' (There's your key, right by you), 'Eno autobusa!' (There's the bus, over there!). A pronoun takes its short genitive form: 'Evo me!' (Here I am!), 'Eno ga!' (There he is!).",
+        highlight: 'Eno autobusa!',
+      },
+      {
         type: 'example',
         title: 'More Examples in Context',
         items: [
@@ -4072,11 +4156,11 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: 'To je auto mog ___.' (my brother's car)",
-            options: ['brat', 'bratu', 'bratom', 'brata'],
+            q: "Complete: 'To je auto ___.' (the neighbour's car — susjed)",
+            options: ['susjed', 'susjedu', 'susjedom', 'susjeda'],
             correct: 3,
             explanation:
-              'The owner goes into the genitive: brat → brata. bratu is dative, bratom instrumental.',
+              'The owner goes into the genitive: susjed → susjeda. susjedu is dative, susjedom instrumental.',
           },
           {
             q: "Complete: 'Nema ___ u boci.' (There is no wine in the bottle.)",
@@ -4113,7 +4197,7 @@ const LESSONS_CORE = [
             options: [
               'He has nothing',
               'He is not here / there is no sign of him',
-              'He does not have it',
+              'He does not want it',
               'It is not his',
             ],
             correct: 1,
@@ -4145,6 +4229,7 @@ const LESSONS_CORE = [
           'After quantity words: mnogo prijatelja, malo vremena',
           'After numbers 5+: pet boca, deset dana',
           'After prepositions: od, do, iz, bez, kod, blizu, s/sa',
+          'evo (near me), eto (near you), eno (over there) + genitive: Eno autobusa!',
           'Endings: fem. -e, masc./neut. -a (sg.)',
         ],
       },
@@ -4421,7 +4506,7 @@ const LESSONS_CORE = [
   {
     id: 'instrumental',
     title: 'Instrumental Case: Means & Accompaniment',
-    subtitle: "How you do things, who you're with, and what you are",
+    subtitle: "How you do things, who you're with, and where things are",
     icon: '🔧',
     level: 'B1',
     duration: '~6 min',
@@ -4431,7 +4516,7 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: "Instrumental — The 'By Means Of' Case",
-        body: "The instrumental answers 'čime?' (with what?) and 'kime?' (with whom?). It's the case of tools, means, and accompaniment. 'I write with a pen' — pen is instrumental. 'I came with my sister' — sister is instrumental. It's also used after s/sa (with) and several other prepositions, and to describe what you are (profession after biti).",
+        body: "The instrumental answers 'čime?' (with what?) and 's kim?' (with whom?). It's the case of tools, means, and accompaniment. 'I write with a pen' — pen is instrumental. 'I came with my sister' — sister is instrumental. It also follows s/sa (with) and the place prepositions pod, nad, pred, za and među. At the end you meet posao, a noun whose instrumental surprises everyone: poslom.",
         icon: '🔧',
       },
       {
@@ -4530,14 +4615,14 @@ const LESSONS_CORE = [
             note: 'nad + instrumental',
           },
           {
-            hr: 'Bavim se plivanjem i trčanjem.',
-            en: 'I do swimming and running.',
-            note: 'baviti se + instrumental',
+            hr: 'Mačka spava pod stolom.',
+            en: 'The cat is sleeping under the table.',
+            note: 'pod + instrumental — where something is',
           },
           {
-            hr: 'Postala je liječnicom nakon dugog studija.',
-            en: 'She became a doctor after a long course of study.',
-            note: 'postati + instrumental for the new role',
+            hr: 'Čekam te pred kinom.',
+            en: 'I will wait for you in front of the cinema.',
+            note: 'pred + instrumental',
           },
           {
             hr: 'Među prijateljima se osjećam kao kod kuće.',
@@ -4553,9 +4638,22 @@ const LESSONS_CORE = [
       },
       {
         type: 'rule',
-        title: 'Use 3: The Role You Become',
-        body: "With verbs of becoming and naming — postati (become), proglasiti (declare), izabrati (elect), smatrati (consider) — the new role goes in the instrumental: 'Postala je liječnicom' (She became a doctor). The nominative is common here too ('Postala je liječnica'). After biti (to be) itself, the nominative is the normal form: 'Ona je liječnica.' The instrumental after biti ('bio je ministrom') survives only in formal writing, for a role held for a time.",
-        highlight: 'postati + role → instrumental',
+        title: 'Posao, Ugao, Anđeo — the Hidden l',
+        body: "A small group of masculine nouns ends in -ao or -eo: posao (job, work), ugao (corner), orao (eagle), pepeo (ash), anđeo (angel). That final -o was once an l, and in every other form the l comes back. In posao, ugao and orao the a also drops: posao → posla, poslu, poslom, plural poslovi; ugao → ugla, uglom; orao → orla, orlom. In pepeo and anđeo the e stays: pepela, pepelom; anđela, anđelom. So 'with work' is poslom, and 'behind the corner' is za uglom.",
+        highlight: 'posao → poslom',
+      },
+      {
+        type: 'table',
+        title: 'Posao, Ugao, Anđeo in the Cases',
+        headers: ['Case', 'posao (job)', 'ugao (corner)', 'anđeo (angel)'],
+        rows: [
+          ['Nominative', 'posao', 'ugao', 'anđeo'],
+          ['Genitive', 'posla', 'ugla', 'anđela'],
+          ['Dative / Locative', 'poslu', 'uglu', 'anđelu'],
+          ['Accusative', 'posao', 'ugao', 'anđela'],
+          ['Instrumental', 'poslom', 'uglom', 'anđelom'],
+          ['Nominative plural', 'poslovi', 'uglovi', 'anđeli'],
+        ],
       },
       {
         type: 'table',
@@ -4589,7 +4687,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners add 's' to the tool: 'Pišem s olovkom' — a means or instrument takes the bare instrumental, 'Pišem olovkom'; 's' is for company, 's prijateljem'. Second, 'sa' gets used before every noun: it is 's Anom', 's bratom', and 'sa' only before s, š, z, ž — 'sa sestrom', 'sa Zoranom'. Third, the noun stays in the nominative after 's': 's moj brat' must be 's mojim bratom' — the preposition governs the instrumental, adjective included.",
+        body: "Learners add 's' to the tool: 'Pišem s olovkom' — a means or instrument takes the bare instrumental, 'Pišem olovkom'; 's' is for company, 's prijateljem'. Second, 'sa' gets used before every noun: it is 's Anom', 's bratom', and 'sa' only before s, š, z, ž — 'sa sestrom', 'sa Zoranom'. Third, the noun stays in the nominative after 's': 's brat' must be 's bratom' — the preposition governs the instrumental.",
         highlight: 'a means or instrument takes the bare instrumental',
       },
       {
@@ -4630,11 +4728,11 @@ const LESSONS_CORE = [
               'Before a word beginning with s, š, z or ž the preposition is sa: sa sestrom. The instrumental sestrom is right.',
           },
           {
-            q: 'Which verb takes the instrumental without a preposition?',
-            options: ['baviti se', 'bojati se', 'radovati se', 'sjećati se'],
-            correct: 0,
+            q: "Complete: 'Mačka spava ___.' (under the table)",
+            options: ['pod stolu', 'pod stola', 'pod stolove', 'pod stolom'],
+            correct: 3,
             explanation:
-              'baviti se (to be engaged in) takes the instrumental: bavim se sportom. bojati se and sjećati se take the genitive, radovati se the dative.',
+              'pod (under) governs the instrumental for where something is: pod stolom. stolu is dative/locative, stola genitive, stolove accusative plural.',
           },
           {
             q: "Complete: 'Ptice lete ___.' (over the city)",
@@ -4644,16 +4742,11 @@ const LESSONS_CORE = [
               'nad (above, over) governs the instrumental for a static position: nad gradom.',
           },
           {
-            q: "In 'Postala je učiteljicom', why is 'učiteljicom' instrumental?",
-            options: [
-              'because it is the direct object',
-              'because postati (become) takes the instrumental for the new role',
-              'because s is understood',
-              'because učiteljica is feminine',
-            ],
+            q: 'Which form is the instrumental of posao (job)?',
+            options: ['posaom', 'poslom', 'posalom', 'posaoom'],
             correct: 1,
             explanation:
-              'postati takes the instrumental for the new role: postala je učiteljicom. After biti itself the nominative is normal: ona je učiteljica.',
+              'posao loses its a and gets its l back in every other form: posla, poslu, poslom. The others keep the nominative stem.',
           },
         ],
       },
@@ -4664,7 +4757,7 @@ const LESSONS_CORE = [
           'Means/tool (no preposition): pisati olovkom, putovati vlakom, platiti karticom',
           's/sa + instrumental = with someone: s Anom, s prijateljem',
           'Other prepositions: pred, nad, pod, za, među + instrumental (između takes the genitive: između stolova)',
-          'The role you become: postati + instrumental (Postala je liječnicom); after biti, the nominative (Ona je liječnica).',
+          'posao, ugao, orao: posla, poslom, za uglom, orlom; pepeo and anđeo keep the e: pepelom, anđelom',
           'Endings: fem. -om, masc. -om (-em after a soft consonant), neut. -om for -o nouns, -em for -e nouns',
         ],
       },
@@ -6657,18 +6750,18 @@ const LESSONS_CORE = [
         title: 'Core Motion Verb Pairs',
         headers: ['Imperfective', 'Perfective', 'Direction', 'Example (Impf.)'],
         rows: [
-          ['ići', 'otići', 'away (going, leaving)', 'Idem kući. (I am going home.)'],
+          ['odlaziti', 'otići', 'away (leaving)', 'Odlazim sutra. (I am leaving tomorrow.)'],
           ['dolaziti', 'doći', 'toward (coming, arriving)', 'Dolazi u 8. (He arrives at 8.)'],
-          ['hodati', '—', 'walking (no direction)', 'Hodao sam sat vremena.'],
-          ['trčati', 'otrčati', 'running (away)', 'Trčim svaki dan.'],
-          ['voziti', 'odvesti', 'driving', 'Vozim auto na posao.'],
-          ['letjeti', 'odletjeti', 'flying', 'Letim u Zagreb sutra.'],
+          ['ulaziti', 'ući', 'into (entering)', 'Ulazim u dućan.'],
+          ['izlaziti', 'izaći', 'out of (going out)', 'Izlazim iz kuće u sedam.'],
+          ['vraćati se', 'vratiti se', 'back (returning)', 'Vraćam se u nedjelju.'],
+          ['ići', '—', 'going, with no prefix', 'Idem kući. (I am going home.)'],
         ],
       },
       {
         type: 'rule',
         title: 'Ići vs Otići',
-        body: "'Idem' (imperfective) = I am going / I go — the act of movement is ongoing or habitual. 'Otišao sam' (perfective) = I left / I went and am now gone — the departure is completed. Use imperfective for schedules and habits; use perfective when the point is that the person is now gone.",
+        body: "'Idem' (imperfective) = I am going / I go — the act of movement is ongoing or habitual. 'Otišao sam' (perfective) = I left / I went and am now gone — the departure is completed. Ići and otići are not an aspect pair, though: the imperfective partner of otići is odlaziti (Odlazim sutra — I am leaving tomorrow). Use imperfective for schedules and habits; use perfective when the point is that the person is now gone.",
         highlight: 'Idem vs Otišao sam',
       },
       {
@@ -6761,8 +6854,8 @@ const LESSONS_CORE = [
             note: 'ob- = around: obići',
           },
           {
-            hr: 'Prolazim pored tvoje kuće svako jutro.',
-            en: 'I pass by your house every morning.',
+            hr: 'Svako jutro prolazim pored škole.',
+            en: 'Every morning I pass by the school.',
             note: 'pro- = past / through: prolaziti',
           },
         ],
@@ -6852,11 +6945,11 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Motion Verbs — Key Takeaways',
         points: [
-          'ići (impf.) / otići (pf.) — going away; dolaziti (impf.) / doći (pf.) — coming toward',
+          'odlaziti (impf.) / otići (pf.) — leaving; dolaziti (impf.) / doći (pf.) — coming toward; ulaziti / ući; izlaziti / izaći',
           'Imperfective = habit, schedule, ongoing; Perfective = completed arrival or departure',
           'Idem (I am going) vs Otišao sam (I went / I have left)',
           'Motion → Accusative after u/na; Static location → Locative after u/na',
-          'Negative imperative strongly prefers imperfective: Ne idi! (not Nemoj otići for a general command)',
+          'A general warning takes the imperfective: Ne idi tamo! — and Nemoj otići! (Don’t leave!) is normal too',
         ],
       },
     ],
@@ -8046,7 +8139,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Collective Numbers: dvoje, troje, četvero...',
-        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups and the young of people and animals. Dvoje (two — mixed group), troje (three — mixed), četvero/četvoro (four), petero/petoro (five), and so on. They are used with: children (djeca), neuter nouns for the young such as tele or pile, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). Do NOT use dva/dvije for mixed-gender groups of people — use dvoje.',
+        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups and the young of people and animals. Dvoje (two — mixed group), troje (three — mixed), četvero/četvoro (four), petero/petoro (five), and so on. They are used with: children (djeca), neuter nouns for the young such as tele or pile, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). For a mixed group dvoje is the clearest choice (dvoje studenata — a man and a woman), though the masculine dva studenta is also standard; for children always use dvoje djece.',
         highlight: 'dvoje/troje for mixed groups & children',
       },
       {
@@ -8058,7 +8151,11 @@ const LESSONS_CORE = [
             en: 'I waited three hours.',
             note: '3 + genitive singular sata',
           },
-          { hr: 'Ima pet djece.', en: 'She has five children.', note: '5 + genitive plural djece' },
+          {
+            hr: 'Ima petero djece.',
+            en: 'She has five children.',
+            note: 'petero + djece, the genitive of the collective noun djeca (pet djece is also heard)',
+          },
           {
             hr: 'Radio sam jedanaest sati.',
             en: 'I worked eleven hours.',
@@ -8159,7 +8256,7 @@ const LESSONS_CORE = [
         ],
         correct: 2,
         explanation:
-          'Collective numbers (dvoje, troje, četvero, petero...) are used for mixed-gender groups of people and for children (using the noun "djeca"). "Imam dvoje djece" = I have two children. For a group of all-male or all-female people, standard cardinal numbers are used.',
+          'Collective numbers (dvoje, troje, četvero, petero...) are used for mixed-gender groups of people and for children (using the noun "djeca"). "Imam dvoje djece" = I have two children. For a group of all-male or all-female people, standard cardinal numbers are used; for a mixed group the masculine cardinal (dva studenta) is also correct.',
       },
       {
         type: 'rule',
@@ -8315,19 +8412,19 @@ const LESSONS_CORE = [
           ['Toplo mi je.', 'Warm is to me.', 'I am warm.'],
           ['Muka mi je.', 'Nausea is to me.', 'I feel sick. / I am disgusted.'],
           ['Stalo mi je do tebe.', 'It matters to me — about you.', 'I care about you.'],
-          ['Žao mi je za njega.', 'Sorrow is to me for him.', 'I feel sorry for him.'],
+          ['Žao mi je njega.', 'Sorrow is to me of him.', 'I feel sorry for him.'],
         ],
       },
       {
         type: 'rule',
         title: 'Čežnja — Longing That Has No English Word',
-        body: '"Čežnja" (pronounced CHEZH-nya) is a deep, bittersweet longing — for a person, a place, a time that has passed. It is more intense than nostalgia and more poetic than homesickness. You "feel čežnja" — "osjećam čežnju" or "imam čežnju za domovinom" (I have a longing for home). Croatian literature and poetry is saturated with čežnja. When a Croatian says "ima nešto u njemu od te čežnje" — "there is something in him of that longing" — it is high praise.',
+        body: '"Čežnja" (pronounced CHEZH-nya) is a deep, bittersweet longing — for a person, a place, a time that has passed. It is more intense than nostalgia and more poetic than homesickness. You "feel čežnja" — "osjećam čežnju" — or you use the verb čeznuti: "čeznem za domovinom" (I long for my homeland). Croatian literature and poetry is saturated with čežnja. When a Croatian says "ima nešto u njemu od te čežnje" — "there is something in him of that longing" — it is high praise.',
         highlight: 'čežnja = bittersweet deep longing',
       },
       {
         type: 'rule',
         title: 'Inat — Defiant Stubbornness',
-        body: '"Inat" is a culturally specific attitude: doing something deliberately out of spite, stubbornness, or defiance — often against your own interest, just to prove a point. "Iz inata" (out of inat/spite) is a common phrase. "Samo iz inata ne odlazi" — "He stays only out of inat." Inat is sometimes worn as a badge of honor: the Dubrovnik defenders who held the city under siege were praised for their inat. It can be admirable resistance or frustrating stubbornness — context decides.',
+        body: '"Inat" is a culturally specific attitude: doing something deliberately out of spite, stubbornness, or defiance — often against your own interest, just to prove a point. "Iz inata" (out of inat/spite) is a common phrase. "Samo iz inata ne odlazi" — "He stays only out of inat." Inat is sometimes worn as a badge of honour and sometimes it is plain stubbornness — context decides. Its native Croatian near-synonym is prkos (defiance).',
         highlight: 'inat = defiant spite / stubborn pride',
       },
       {
@@ -8365,6 +8462,11 @@ const LESSONS_CORE = [
             hr: 'Iz inata, ostao je do kraja.',
             en: 'Out of spite/stubbornness, he stayed until the end.',
             note: 'iz inata = cultural phrase',
+          },
+          {
+            hr: 'Kad su ga pohvalili, bio je crven kao rak.',
+            en: 'When they praised him, he went as red as a beetroot.',
+            note: 'crven kao rak — idiom, literally "red as a crab"',
           },
           {
             hr: 'Čežnja za domovinom ne prolazi.',
@@ -11154,14 +11256,14 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'The Regular Comparative: -iji, -ji, -ši',
-        body: 'Most adjectives form the comparative by adding -iji to the stem: jednostavan → jednostavniji (simpler), pametan → pametniji (smarter). Many short adjectives take -ji instead, which softens the consonant before it: mlad → mlađi (younger), jak → jači (stronger), tih → tiši (quieter). A smaller group takes -ši: lijep → ljepši (more beautiful), lak → lakši (easier), mek → mekši (softer).',
+        body: 'Most adjectives form the comparative by adding -iji to the stem: jednostavan → jednostavniji (simpler), pametan → pametniji (smarter). Many short adjectives take -ji instead, which softens the consonant before it: mlad → mlađi (younger), jak → jači (stronger), tih → tiši (quieter). Adjectives ending in -ok, -ak or -ek drop that ending first and then take -ji: visok → viši (taller), nizak → niži (lower), kratak → kraći (shorter). A smaller group takes -ši: lijep → ljepši (more beautiful), lak → lakši (easier), mek → mekši (softer).',
         highlight: 'jednostavan → jednostavniji',
       },
       {
         type: 'rule',
         title: 'Irregular Comparatives — Memorize These',
-        body: "A handful of very common adjectives have completely irregular comparatives that don't follow any suffix rule: dobar (good) → bolji (better), loš (bad) → gori (worse), velik (big) → veći (bigger), malen/mali (small) → manji (smaller), and visok (tall) → viši (taller). These five appear constantly in everyday speech, so memorize them as whole words rather than trying to derive them.",
-        highlight: 'dobar→bolji, loš→gori, velik→veći, malen→manji',
+        body: "A handful of very common adjectives have completely irregular comparatives that don't follow any suffix rule: dobar (good) → bolji (better), zao (bad, evil) and loš (bad) → gori (worse), velik (big) → veći (bigger), malen/mali (small) → manji (smaller), and dug or dugačak (long) → dulji (longer; duži is also standard). These appear constantly in everyday speech, so memorize them as whole words rather than trying to derive them. (loš also has the regular lošiji.)",
+        highlight: 'dobar→bolji, zao/loš→gori, velik→veći, malen→manji',
       },
       {
         type: 'rule',
@@ -11184,7 +11286,8 @@ const LESSONS_CORE = [
           ['loš', 'gori', 'najgori', 'bad → worse → worst'],
           ['velik', 'veći', 'najveći', 'big → bigger → biggest'],
           ['malen', 'manji', 'najmanji', 'small → smaller → smallest'],
-          ['visok', 'viši', 'najviši', 'tall → taller → tallest'],
+          ['dug, dugačak', 'dulji', 'najdulji', 'long → longer → longest'],
+          ['visok', 'viši', 'najviši', 'tall → taller → tallest (-ok dropped, + -ji)'],
           ['lijep', 'ljepši', 'najljepši', 'beautiful → more beautiful → most beautiful'],
           ['jednostavan', 'jednostavniji', 'najjednostavniji', 'simple → simpler → simplest'],
         ],
@@ -11266,9 +11369,9 @@ const LESSONS_CORE = [
             note: 'nego between two infinitive phrases',
           },
           {
-            hr: 'Moj brat je stariji od mene dvije godine.',
+            hr: 'Moj brat je dvije godine stariji od mene.',
             en: 'My brother is two years older than me.',
-            note: 'stariji + od mene (genitive)',
+            note: 'the difference comes before the comparative: dvije godine stariji',
           },
           {
             hr: 'Kava je ovdje skuplja nego u Splitu.',
@@ -11330,7 +11433,7 @@ const LESSONS_CORE = [
             options: ['visok', 'visokiji', 'viši', 'najviši'],
             correct: 2,
             explanation:
-              'visok has the irregular comparative viši. visokiji does not exist; najviši would be the tallest of many.',
+              'visok drops -ok and takes -ji: viši. visokiji does not exist; najviši would be the tallest of many.',
           },
           {
             q: 'Which sentence is correct?',
@@ -11354,7 +11457,7 @@ const LESSONS_CORE = [
             ],
             correct: 0,
             explanation:
-              'dobar → bolji → najbolji. The regular -iji suffix cannot be applied to the irregular five.',
+              'dobar → bolji → najbolji. The regular -iji suffix cannot be applied to the irregular comparatives.',
           },
           {
             q: "When must you use 'nego' rather than 'od'?",
@@ -11389,7 +11492,7 @@ const LESSONS_CORE = [
         title: 'Comparison of Adjectives — Complete!',
         points: [
           'Regular comparative: add -iji/-ji/-ši to the stem (jednostavniji, ljepši, lakši)',
-          'Irregular comparatives to memorize: dobar→bolji, loš→gori, velik→veći, malen→manji, visok→viši',
+          'Irregular comparatives to memorize: dobar→bolji, zao/loš→gori, velik→veći, malen→manji, dug/dugačak→dulji',
           'Superlative = naj- + comparative: najbolji, najveći, najljepši',
           "Use 'od' + genitive for simple noun/pronoun comparisons: veći od mene",
           "Use 'nego' when comparing phrases or clauses, matching the case of the first item",

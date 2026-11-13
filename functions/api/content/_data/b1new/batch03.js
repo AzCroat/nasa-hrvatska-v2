@@ -59,7 +59,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
     {
       type: 'rule',
       title: 'Some Nouns End in -i Instead',
-      body: 'Three groups take -i. (1) Feminine nouns whose stem ends in two consonants that do not take the a: majka → majki, torba (bag) → torbi, lopta (ball) → lopti, borba (fight) → borbi, šetnja (walk) → šetnji. (2) Feminine nouns ending in a consonant, the stvar group: stvar → puno stvari, noć → nekoliko noći, riječ → deset riječi. (3) A handful of masculine words: čovjek → pet ljudi, sat (hour) → pet sati, and mjesec (month) → pet mjeseci. Mjesec is special: pet mjeseci and pet mjeseca are both correct and both in daily use.',
+      body: 'Three groups take -i. (1) Feminine nouns whose stem ends in two consonants that do not take the a: majka → majki, torba (bag) → torbi, lopta (ball) → lopti, borba (fight) → borbi, šetnja (walk) → šetnji. (2) Feminine nouns ending in a consonant, the stvar group: stvar → puno stvari, noć → nekoliko noći, riječ → deset riječi. (3) A handful of masculine words: čovjek → pet ljudi, sat (hour) → pet sati, and mjesec (month) → pet mjeseci. The standard form is pet mjeseci; pet mjeseca is heard in everyday speech, but it is colloquial.',
       highlight: 'pet ljudi, pet sati',
     },
     {
@@ -120,7 +120,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
         {
           hr: 'Nisam ga vidjela nekoliko mjeseci.',
           en: 'I haven’t seen him for a few months.',
-          note: 'mjeseci — and mjeseca would be equally correct',
+          note: 'mjeseci — the standard genitive plural',
         },
         {
           hr: 'Moram kupiti puno stvari, a nemam dovoljno torbi.',
@@ -186,7 +186,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Leaving the slipped-in a out: "pet djevojka", "deset sestra" — that is the nominative singular, and Croatians hear it at once. Say pet djevojaka, deset sestara. (2) Giving -ova to nouns that do not take it: "puno ljudova", "deset prstova", "pet satova" for hours — it is ljudi, prstiju, sati. (3) Treating mjeseci and mjeseca as rivals: both are correct. (4) Forgetting that two, three and four still take the genitive SINGULAR: dvije sestre, tri djevojke — the special forms are for five and up, and for koliko, puno, nekoliko and bez.',
+      body: '(1) Leaving the slipped-in a out: "pet djevojka", "deset sestra" — that is the nominative singular, and Croatians hear it at once. Say pet djevojaka, deset sestara. (2) Giving -ova to nouns that do not take it: "puno ljudova", "deset prstova", "pet satova" for hours — it is ljudi, prstiju, sati. (3) Writing pet mjeseca: it is heard in speech, but the standard form is pet mjeseci. (4) Forgetting that two, three and four still take the genitive SINGULAR: dvije sestre, tri djevojke — the special forms are for five and up, and for koliko, puno, nekoliko and bez.',
       highlight: 'pet djevojaka',
     },
     {
@@ -241,7 +241,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
         'Most nouns end in -a: prozora, kuća, sela; short masculines keep -ov-: gradova, stolova',
         'Two consonants at the end of the stem: an a slips in — djevojaka, sestara, pisama, studenata',
         'Nouns that lost a fleeting a get it back: muškaraca, momaka, stranaca',
-        '-i: majki, torbi, lopti; stvari, noći; and ljudi, sati, mjeseci (mjeseca too)',
+        '-i: majki, torbi, lopti; stvari, noći; and ljudi, sati, mjeseci',
         '-iju for eyes, ears, fingers and guests: očiju, ušiju, prstiju, gostiju',
         '-u for legs and arms: nogu, ruku',
       ],
@@ -318,7 +318,7 @@ const P_GENITIVE_PLURAL_SPECIAL = {
         options: ['mjesecova', 'mjesecima', 'mjeseci', 'mjesec'],
         correct: 2,
         hint: 'Mjesec is one of the few masculine nouns ending in -i here (it also has a form in -a).',
-        explanation: 'mjeseci — and mjeseca would be equally correct.',
+        explanation: 'mjeseci — the standard genitive plural (mjeseca is colloquial).',
       },
       {
         q: 'U ovom gradu ima mnogo ___. (parks)',
@@ -433,7 +433,7 @@ const P_GENITIVE_PLURAL_SPECIAL = {
     ['prst', 'finger, toe (gen. pl. prstiju)', 'Svaka ruka ima pet prstiju.'],
     ['gost', 'guest (gen. pl. gostiju)', 'Na svadbi je bilo dvjesto gostiju.'],
     ['ljudi', 'people (gen. pl. ljudi)', 'Ovdje je uvijek puno ljudi.'],
-    ['mjesec', 'month (gen. pl. mjeseci or mjeseca)', 'Učim hrvatski šest mjeseci.'],
+    ['mjesec', 'month (gen. pl. mjeseci)', 'Učim hrvatski šest mjeseci.'],
     ['muškarac', 'man (gen. pl. muškaraca)', 'U sobi je bilo pet muškaraca.'],
   ],
 };
@@ -506,6 +506,19 @@ const L_TIME_GENITIVE = {
           'a particular day, often with prošli / idući / taj',
           'Prošle subote bio sam na moru.',
         ],
+      ],
+    },
+    {
+      type: 'table',
+      title: 'More Words for When',
+      headers: ['Croatian', 'English', 'example'],
+      rows: [
+        ['danju / noću', 'by day / by night', 'Danju radim, noću učim.'],
+        ['prekjučer', 'the day before yesterday', 'Prekjučer sam bila kod bake.'],
+        ['preksutra (prekosutra)', 'the day after tomorrow', 'Preksutra putujemo u Split.'],
+        ['ponedjeljkom, utorkom…', 'on Mondays, on Tuesdays…', 'Ponedjeljkom imam tečaj.'],
+        ['oduvijek', 'always (since ever)', 'Oduvijek volim more.'],
+        ['zauvijek', 'for ever', 'Ostat ćemo prijatelji zauvijek.'],
       ],
     },
     {
@@ -797,6 +810,13 @@ const P_TIME_GENITIVE = {
         hint: 'Noć is feminine; the genitive of ta is short.',
         explanation: 'Te noći — feminine genitive of ta.',
       },
+      {
+        q: 'Which word means "the day before yesterday"?',
+        options: ['preksutra', 'prekjučer', 'oduvijek', 'noću'],
+        correct: 1,
+        hint: 'jučer is yesterday; prek- adds one more day.',
+        explanation: 'prekjučer — the day before yesterday; preksutra is the day after tomorrow.',
+      },
     ],
   },
   checkB: [
@@ -853,6 +873,8 @@ const P_TIME_GENITIVE = {
     ['tjedan', 'week (gen. tjedna)', 'Vidimo se idućeg tjedna.'],
     ['travanj', 'April (gen. travnja)', 'Rođen je dvadesetog travnja.'],
     ['sjećanje', 'memory', 'To je moje najljepše sjećanje.'],
+    ['prekjučer', 'the day before yesterday', 'Prekjučer sam bila kod bake.'],
+    ['zauvijek', 'for ever', 'Ostat ćemo prijatelji zauvijek.'],
   ],
 };
 
@@ -884,7 +906,7 @@ const L_VERBS_WITH_GENITIVE = {
     {
       type: 'rule',
       title: 'A New Present: -ati → -im',
-      body: 'Most verbs in -ati have a present in -am: čitati → čitam, spavati → spavam. A small group take -im instead, and bojati se is one of them: bojim se, bojiš se, boji se, bojimo se, bojite se, boje se. The others you will use most are držati (to hold) → držim, ležati (to lie) → ležim, trčati (to run) → trčim, and stajati (to stand) → stojim. There is no rule that tells you which -ati verbs belong here, so learn the present with the infinitive. Their past is regular: bojao se, bojala se; držao, ležao, trčao, stajao.',
+      body: 'Most verbs in -ati have a present in -am: čitati → čitam, spavati → spavam. A small group take -im instead, and bojati se is one of them: bojim se, bojiš se, boji se, bojimo se, bojite se, boje se. The others you will use most are držati (to hold) → držim, ležati (to lie) → ležim, trčati (to run) → trčim, bježati (to run away) → bježim, and stajati (to stand) → stojim. Also zviždati (to whistle) → zviždim, drhtati (to shiver) → drhtim, and for animals and weather: pas reži (the dog growls), kiša pljušti (the rain pours). There is no rule that tells you which -ati verbs belong here, so learn the present with the infinitive. Their past is regular: bojao se, bojala se; držao, ležao, trčao, stajao.',
       highlight: 'bojati se → bojim se',
     },
     {
@@ -909,13 +931,13 @@ const L_VERBS_WITH_GENITIVE = {
     {
       type: 'rule',
       title: 'Shame, Caution, Giving Up',
-      body: 'Three more verbs take the genitive. Sramiti se (to be ashamed of; present sramim se): Ne sramim se svojih pogrešaka. Čuvati se (to beware of, to watch out for; present čuvam se): Čuvaj se psa! Čuvajte se džeparoša! — two signs you will see. Odreći se (to give something up; present odreknem se, past odrekao se): Odrekla sam se šećera. Moj djed se odrekao cigareta.',
+      body: 'Three more verbs take the genitive. Sramiti se (to be ashamed of; present sramim se): Ne sramim se svojih pogrešaka. Čuvati se (to beware of, to watch out for; present čuvam se): Čuvaj se psa! Čuvajte se džeparoša! — two signs you will see. Odreći se (to give something up; present odreknem se, past odrekao se): Odrekla sam se šećera. Moj djed se odrekao cigareta. Two more: stidjeti se is another word for to be ashamed (present stidim se): Stidim se toga. Riješiti se and osloboditi se mean to get rid of, to free yourself from: Riješio sam se starog auta. Napokon sam se oslobodila straha.',
       highlight: 'Čuvaj se psa!',
     },
     {
       type: 'rule',
       title: 'Pronouns With These Verbs',
-      body: 'A pronoun after these verbs is in the genitive. The long forms are mene, tebe, njega, nje, nas, vas, njih: Ne bojim se tebe. The short forms me, te, ga, nas, vas, ih sit with the other little words in second place, and they come BEFORE se: Bojim ga se (I am afraid of him). Sjećaš li me se? (Do you remember me?) Ne boj ih se! (Don’t be afraid of them!)',
+      body: 'A pronoun after these verbs is in the genitive. The long forms are mene, tebe, njega, nje, nas, vas, njih: Ne bojim se tebe. The short forms me, te, ga, je (her), nas, vas, ih sit with the other little words in second place, and they come BEFORE se: Bojim ga se (I am afraid of him). Sjećam te se. Sjećaš li me se? (Do you remember me?) Ne boj ih se! (Don’t be afraid of them!) As a one-word answer use the long form: Koga se sjećaš? — Nje. (Whom do you remember? — Her.)',
       highlight: 'Sjećaš li me se?',
     },
     {
@@ -1065,10 +1087,10 @@ const L_VERBS_WITH_GENITIVE = {
       points: [
         'bojati se, plašiti se + genitive: Bojim se mraka. Čega se bojiš?',
         'sjećati se / sjetiti se + genitive, no preposition: Sjećam se tog dana',
-        'sramiti se, čuvati se, odreći se + genitive: Čuvaj se psa!',
-        'bojati se, držati, ležati, trčati: -ati → -im; stajati → stojim',
+        'sramiti se / stidjeti se, čuvati se, odreći se, riješiti se, osloboditi se + genitive',
+        'bojati se, držati, ležati, trčati, bježati: -ati → -im; stajati → stojim',
         'spavati is not in this group: spavam',
-        'Short pronouns go before se: Bojim ga se. Sjećaš li me se?',
+        'Short pronouns me, te, ga, je, nas, vas, ih go before se: Bojim ga se. Sjećaš li me se?',
       ],
     },
   ],
@@ -1198,6 +1220,20 @@ const P_VERBS_WITH_GENITIVE = {
         explanation: 'držim.',
       },
       {
+        q: 'Napokon sam se ___ starog auta. (got rid of — a man speaking)',
+        options: ['riješio', 'riješila', 'riješiti', 'rješavam'],
+        correct: 0,
+        hint: 'A man speaking, past tense: the masculine past form.',
+        explanation: 'Riješio sam se starog auta — riješiti se + genitive.',
+      },
+      {
+        q: 'Sjećaš li se Ane? — Da, sjećam ___ se.',
+        options: ['je', 'ju', 'joj', 'nju'],
+        correct: 0,
+        hint: 'The short GENITIVE of ona, before se.',
+        explanation: 'Sjećam je se — je is the short genitive of ona.',
+      },
+      {
         type: 'type',
         q: 'Sjećaš li ____ se? Bili smo susjedi. (me — short form)',
         answer: 'me',
@@ -1260,6 +1296,9 @@ const P_VERBS_WITH_GENITIVE = {
     ['držati', 'to hold (držim)', 'Držim kišobran.'],
     ['ležati', 'to lie (ležim)', 'Mačka leži na suncu.'],
     ['visina', 'height', 'Bojim se visine.'],
+    ['stidjeti se', 'to be ashamed (stidim se)', 'Stidim se toga.'],
+    ['riješiti se', 'to get rid of', 'Riješio sam se starog auta.'],
+    ['bježati', 'to run away (bježim)', 'Mačka bježi od psa.'],
   ],
 };
 
@@ -1285,7 +1324,7 @@ const L_NOUNS_EN_ET = {
     {
       type: 'rule',
       title: '-me Nouns Add -en-',
-      body: 'Neuter nouns ending in -me add -en- before every ending, in the singular and the plural: ime → imena, imenu, imenom; rame → ramena, ramenu, ramenom; pleme (tribe) → plemena; sjeme (seed) → sjemena. Vrijeme also shortens its ije to je: vremena, vremenu, vremenom. The nominative and accusative singular are the bare word: Kako ti je ime? Napiši svoje ime.',
+      body: 'Neuter nouns ending in -me add -en- before every ending, in the singular and the plural: ime → imena, imenu, imenom; prezime (surname) → prezimena, prezimenu, prezimenom; rame → ramena, ramenu, ramenom; pleme (tribe) → plemena; sjeme (seed) → sjemena; sljeme (the ridge of a roof, and the top of Medvednica above Zagreb) → sljemena. Vrijeme also shortens its ije to je: vremena, vremenu, vremenom. The nominative and accusative singular are the bare word: Kako ti je ime? Napiši svoje ime.',
       highlight: 'ime → imena, imenu, imenom',
     },
     {
@@ -1309,7 +1348,7 @@ const L_NOUNS_EN_ET = {
     {
       type: 'rule',
       title: 'Dijete and the Young: -et-',
-      body: 'Nouns for the young of people and animals add -et-: dijete → djeteta, djetetu, djetetom (ije shortens to je, as in vrijeme). The same with tele (calf) → teleta, pile (chick) → pileta, janje (lamb) → janjeta, prase (piglet) → praseta, mače (kitten) → mačeta, štene (puppy) → šteneta, unuče (grandchild) → unučeta. A non-young word does it too: uže (rope) → užeta.',
+      body: 'Nouns for the young of people and animals add -et-: dijete → djeteta, djetetu, djetetom (ije shortens to je, as in vrijeme). The same with tele (calf) → teleta, pile (chick) → pileta, janje (lamb) → janjeta, prase (piglet) → praseta, mače (kitten) → mačeta, štene (puppy) → šteneta, unuče (grandchild) → unučeta, pače (duckling) → pačeta, lane (fawn) → laneta, jare (kid goat) → jareta, kumče (godchild) → kumčeta, novorođenče (newborn) → novorođenčeta, siroče (orphan) → siročeta. A few words that are not young beings do it too: uže (rope) → užeta, jaje (egg) → jajeta, dugme (button) → dugmeta, drvo (tree) → drveta.',
       highlight: 'dijete → djeteta, djetetu, djetetom',
     },
     {
@@ -1327,7 +1366,7 @@ const L_NOUNS_EN_ET = {
     {
       type: 'rule',
       title: 'The Plural: djeca and the Collective -ad',
-      body: 'Dijete has the plural djeca, as you know: Djeca se igraju. With numbers you count it with dvoje, troje: dvoje djece. The young animals usually have a collective plural in -ad, which is grammatically ONE feminine noun: telad, janjad, prasad, štenad, unučad. It takes a singular verb: Telad je na livadi. Janjad pase. For chicks people mostly say pilići (from pilić), and for kittens mačići. The -me nouns have an ordinary plural: imena, ramena, plemena.',
+      body: 'Dijete has the plural djeca, as you know: Djeca se igraju. Djeca is declined like the singular of žena — djece, djeci, djecu, djecom: Kupila sam djeci sladoled. Idem u park s djecom. With numbers you count it with dvoje, troje: dvoje djece. The young animals usually have a collective plural in -ad, which is grammatically ONE feminine noun: telad, janjad, prasad, štenad, unučad, pilad. It takes a singular verb: Telad je na livadi. Janjad pase. For chicks people also say pilići (from pilić), and for kittens mačići. The -me nouns have an ordinary plural: imena, ramena, plemena.',
       highlight: 'Telad je na livadi.',
     },
     {
@@ -1381,9 +1420,9 @@ const L_NOUNS_EN_ET = {
           note: 'djetetom — instrumental of dijete',
         },
         {
-          hr: 'Majka je zabrinuta zbog bolesnog djeteta.',
-          en: 'The mother is worried because of her sick child.',
-          note: 'djeteta — genitive of dijete after zbog',
+          hr: 'Majka se brine za bolesno dijete.',
+          en: 'The mother is worried about her sick child.',
+          note: 'dijete — the accusative is the bare word',
         },
         {
           hr: 'Krava stoji na livadi pokraj svog teleta.',
@@ -1453,10 +1492,10 @@ const L_NOUNS_EN_ET = {
           explanation: 'Troje takes the genitive of djeca: djece.',
         },
         {
-          q: 'Complete: "Majka je zabrinuta zbog bolesnog ___." (child)',
+          q: 'Complete: "Majka sjedi pokraj bolesnog ___." (child)',
           options: ['dijete', 'djeteta', 'djetu', 'dijeteta'],
           correct: 1,
-          explanation: 'Zbog takes the genitive: djeteta, with ije shortened to je.',
+          explanation: 'Pokraj takes the genitive: djeteta, with ije shortened to je.',
         },
         {
           q: 'Which sentence is correct?',
@@ -1587,6 +1626,20 @@ const P_NOUNS_EN_ET = {
         explanation: 'Janjad pase — singular verb.',
       },
       {
+        q: 'Poslijepodne idem u park s ___. (the children)',
+        options: ['djecama', 'djecom', 'djeci', 'djecima'],
+        correct: 1,
+        hint: 'Djeca is declined like the singular of žena.',
+        explanation: 's djecom — like s ženom.',
+      },
+      {
+        q: 'Kokoš je izvela ___. (her chicks, as one group)',
+        options: ['pilad', 'pilada', 'piladi', 'pile'],
+        correct: 0,
+        hint: 'The collective -ad noun, here as the bare object.',
+        explanation: 'pilad — the collective of pile, one feminine noun.',
+      },
+      {
         type: 'type',
         q: 'Nažalost, nemam ____ za kavu. (time)',
         answer: 'vremena',
@@ -1672,6 +1725,8 @@ const P_NOUNS_EN_ET = {
     ['mače', 'kitten (gen. mačeta)', 'Igra se s mačetom.'],
     ['unuče', 'grandchild (gen. unučeta)', 'Ovo je soba mog unučeta.'],
     ['na vrijeme', 'on time', 'Stigli smo na vrijeme.'],
+    ['prezime', 'surname (gen. prezimena)', 'Kako se piše vaše prezime?'],
+    ['djeca', 'children (declined like žena: djeci, djecom)', 'Idem u park s djecom.'],
   ],
 };
 
@@ -1697,7 +1752,7 @@ const L_VERBS_PECI_STI = {
     {
       type: 'rule',
       title: '-ći Verbs With a Hidden k',
-      body: 'Peći, reći, teći (to flow) and vući hide a k: pek-, rek-, tek-, vuk-. In the present the k turns into č before e: pečem, pečeš, peče, pečemo, pečete. In the oni form the ending is -u, and the k stays: peku. The same: tečem… teku; vučem… vuku; rečem… reku.',
+      body: 'Peći, reći, teći (to flow) and vući hide a k: pek-, rek-, tek-, vuk-. In the present the k turns into č before e: pečem, pečeš, peče, pečemo, pečete. In the oni form the ending is -u, and the k stays: peku. The same: tečem… teku; vučem… vuku; rečem… reku. Three more work exactly like vući: tući (to beat; also to whip cream) → tučem… tuku; obući se (to get dressed) → obučem se; svući se (to get undressed) → svučem se, with the past obukao se, svukao se.',
       highlight: 'pečem … peku',
     },
     {
@@ -1734,7 +1789,7 @@ const L_VERBS_PECI_STI = {
     {
       type: 'rule',
       title: '-sti Verbs With a Hidden d, t, z or s',
-      body: 'Verbs in -sti hide a consonant that only the present shows: krasti (to steal) → kradem, kradeš, krade… kradu; jesti (to eat) → jedem; plesti (to knit) → pletem; mesti (to sweep) → metem; gristi (to bite) → grizem; tresti (to shake) → tresem; rasti (to grow) → rastem. So learn each with its ja form. In the past a hidden d or t simply disappears: krao, krala; jeo, jela; pleo, plela; meo, mela. The others keep their consonant: grizao, grizla; tresao, tresla; rastao, rasla.',
+      body: 'Verbs in -sti hide a consonant that only the present shows: krasti (to steal) → kradem, kradeš, krade… kradu; jesti (to eat) → jedem; plesti (to knit) → pletem; mesti (to sweep) → metem; bosti (to prick, to sting) → bodem; izvesti (to carry out, to perform) → izvedem; gristi (to bite) → grizem; tresti (to shake) → tresem. So learn each with its ja form. In the past a hidden d or t simply disappears: krao, krala; jeo, jela; pleo, plela; meo, mela; bo, bola; izveo, izvela. The others keep their consonant: grizao, grizla; tresao, tresla. Rasti (to grow) → rastem looks similar but hides nothing — the st stays: rastem, rastu; past rastao, rasla.',
       highlight: 'krasti → kradem, krao',
     },
     {
@@ -1746,6 +1801,8 @@ const L_VERBS_PECI_STI = {
         ['jesti (eat)', 'jedem', 'jedu', 'jeo', 'jela'],
         ['plesti (knit)', 'pletem', 'pletu', 'pleo', 'plela'],
         ['mesti (sweep)', 'metem', 'metu', 'meo', 'mela'],
+        ['bosti (prick)', 'bodem', 'bodu', 'bo', 'bola'],
+        ['izvesti (carry out)', 'izvedem', 'izvedu', 'izveo', 'izvela'],
         ['gristi (bite)', 'grizem', 'grizu', 'grizao', 'grizla'],
         ['rasti (grow)', 'rastem', 'rastu', 'rastao', 'rasla'],
       ],
@@ -2020,6 +2077,20 @@ const P_VERBS_PECI_STI = {
       },
       {
         type: 'type',
+        q: 'Ujutro se brzo ____ i idem na posao. (I get dressed — obući se)',
+        answer: 'obučem',
+        hint: 'obući works like vući: the hidden k becomes č before e.',
+        explanation: 'obučem se — I get dressed.',
+      },
+      {
+        q: 'Pazi, pčela ___! (stings — bosti)',
+        options: ['bosti', 'bode', 'bose', 'bodi'],
+        correct: 1,
+        hint: 'Bosti hides a d, like jesti; the ona ending is -e.',
+        explanation: 'bode — bosti hides a d: bodem, bodeš, bode.',
+      },
+      {
+        type: 'type',
         q: 'Rijeka ____ kroz grad. (flows)',
         answer: 'teče',
         hint: 'Teći hides a k, which becomes č before e.',
@@ -2082,6 +2153,8 @@ const P_VERBS_PECI_STI = {
     ['plesti', 'to knit (pletem)', 'Mama plete džemper.'],
     ['gristi', 'to bite (grizem)', 'Moj pas ne grize.'],
     ['rasti', 'to grow (rastem)', 'Djeca brzo rastu.'],
+    ['tući', 'to beat; to whip (tučem)', 'Tučem vrhnje za tortu.'],
+    ['obući se', 'to get dressed (obučem se)', 'Obuci se, hladno je!'],
     ['pekarnica', 'bakery', 'U pekarnici kupujem kruh.'],
   ],
 };

@@ -184,11 +184,11 @@ export const FUTURE_II_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izbor',
-    q: 'Ako ____ pomoć, javite se.',
+    q: 'Ako vam ____ pomoć, javite se.',
     en: 'If you need help, get in touch.',
-    opts: ['budete trebali', 'ćete trebati', 'budete trebati', 'ste trebali'],
-    answer: 'budete trebali',
-    tip: 'Futur II, polite vi.',
+    opts: ['bude trebala', 'će trebati', 'bude trebati', 'budete trebali'],
+    answer: 'bude trebala',
+    tip: 'Futur II; pomoć is the subject of trebati, so the participle is feminine singular.',
   },
   {
     mode: 'izbor',

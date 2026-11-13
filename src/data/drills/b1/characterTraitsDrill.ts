@@ -10,6 +10,7 @@
 //   osobina   — the trait agreeing with the person
 //   suprotno  — the opposite, or the kinder word for the same habit
 //   usporedba — comparing two people
+//   kao       — the book's character similes (vrijedan kao mrav, tvrdoglav kao magarac)
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
@@ -17,6 +18,7 @@ export const CHARACTER_TRAITS_MODE_LABELS: Record<string, string> = {
   osobina: '🙂 Osobina',
   suprotno: '🔄 Suprotno',
   usporedba: '⚖️ Usporedba',
+  kao: '🦁 Kao lav',
 };
 
 export const CHARACTER_TRAITS_DRILL_DATA: ModeDrillItem[] = [
@@ -98,7 +100,7 @@ export const CHARACTER_TRAITS_DRILL_DATA: ModeDrillItem[] = [
     en: 'He is not hardworking, but lazy.',
     opts: ['nevrijedan', 'lijen', 'pošten', 'hrabar'],
     answer: 'lijen',
-    tip: 'The opposite of hardworking is not made with ne-.',
+    tip: 'The opposite of hardworking is lijen; nevrijedan means worthless, not lazy.',
   },
   {
     mode: 'suprotno',
@@ -182,11 +184,11 @@ export const CHARACTER_TRAITS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'usporedba',
-    q: 'Ona je ____ osoba koju poznajem.',
-    en: 'She is the bravest person I know.',
+    q: 'Ona je ____ u našem razredu.',
+    en: 'She is the bravest in our class.',
     opts: ['najhrabrija', 'hrabrija', 'najhrabriji', 'najhrabarija'],
     answer: 'najhrabrija',
-    tip: 'naj- + the comparative, feminine for osoba.',
+    tip: 'naj- + the comparative, feminine for ona.',
   },
   {
     mode: 'usporedba',
@@ -211,5 +213,53 @@ export const CHARACTER_TRAITS_DRILL_DATA: ModeDrillItem[] = [
     opts: ['skromnija', 'skromanija', 'skromniji', 'skromno'],
     answer: 'skromnija',
     tip: 'The a drops: skromn- + -ija.',
+  },
+  {
+    mode: 'kao',
+    q: 'Uvijek radi, vrijedan je kao ____.',
+    en: 'He always works; he is as hardworking as an ant.',
+    opts: ['mrav', 'magarac', 'muha', 'guska'],
+    answer: 'mrav',
+    tip: 'vrijedan kao mrav — the small insect that never stops.',
+  },
+  {
+    mode: 'kao',
+    q: 'Nikad ne popušta, tvrdoglav je kao ____.',
+    en: 'He never gives in; he is as stubborn as a donkey.',
+    opts: ['magarac', 'sova', 'lav', 'mrav'],
+    answer: 'magarac',
+    tip: 'tvrdoglav kao magarac.',
+  },
+  {
+    mode: 'kao',
+    q: 'Ništa ga ne plaši, hrabar je kao ____.',
+    en: 'Nothing frightens him; he is as brave as a lion.',
+    opts: ['lav', 'guska', 'muha', 'sova'],
+    answer: 'lav',
+    tip: 'hrabar kao lav.',
+  },
+  {
+    mode: 'kao',
+    q: 'Djed zna odgovor na sve, mudar je kao ____.',
+    en: 'Grandpa knows the answer to everything; he is as wise as an owl.',
+    opts: ['sova', 'magarac', 'guska', 'muha'],
+    answer: 'sova',
+    tip: 'mudar kao sova.',
+  },
+  {
+    mode: 'kao',
+    q: 'Stalno me prekida, ____ je kao muha.',
+    en: 'He keeps interrupting me; he is as annoying as a fly.',
+    opts: ['dosadan', 'mudar', 'hrabar', 'vrijedan'],
+    answer: 'dosadan',
+    tip: 'dosadan kao muha — here dosadan means annoying.',
+  },
+  {
+    mode: 'kao',
+    q: 'Sestra je danas ____ kao slika.',
+    en: 'My sister looks as pretty as a picture today.',
+    opts: ['lijepa', 'lijep', 'lijepo', 'lijepe'],
+    answer: 'lijepa',
+    tip: 'The adjective agrees with sestra: lijepa kao slika.',
   },
 ];
