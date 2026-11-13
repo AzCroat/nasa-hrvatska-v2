@@ -995,3 +995,25 @@ describe('the second declension batch (2026-09-28)', () => {
       }
   });
 });
+
+// 2026-11-12: six words the rules declined wrongly, found by the lesson authors of the
+// Croaticum restructure and shown on the tap-a-word sheet: rame/tele/pile lost their
+// -en-/-et- (rama, tela, pila), san kept its fleeting a (sana), vrabac lost the b → p change
+// (vrabca), and pismo's genitive plural came out as the nominative (pisma). Every expected
+// form is written out, so the test cannot agree with a wrong rule.
+describe('the -en-/-et- nouns, fleeting a with assimilation, and pisama', () => {
+  const cases: Array<[string, Record<string, string>]> = [
+    ['rame', { Gsg: 'ramena', Dsg: 'ramenu', Isg: 'ramenom', Npl: 'ramena', Dpl: 'ramenima' }],
+    ['tele', { Gsg: 'teleta', Dsg: 'teletu', Isg: 'teletom', Npl: 'telad', Gpl: 'teladi' }],
+    ['pile', { Gsg: 'pileta', Dsg: 'piletu', Isg: 'piletom', Npl: 'pilad' }],
+    ['san', { Gsg: 'sna', Dsg: 'snu', Isg: 'snom', Npl: 'snovi', Gpl: 'snova' }],
+    ['vrabac', { Gsg: 'vrapca', Asg: 'vrapca', Isg: 'vrapcem', Npl: 'vrapci', Gpl: 'vrabaca' }],
+    ['pismo', { Gsg: 'pisma', Npl: 'pisma', Gpl: 'pisama', Dpl: 'pismima' }],
+  ];
+  it.each(cases)('%s declines with its real forms, marked attested', (word, expected) => {
+    const d = decline(word);
+    expect(d.attested, `${word} should come from the verified list`).toBe(true);
+    for (const [cell, form] of Object.entries(expected))
+      expect(d.forms[cell], `${word} ${cell}`).toBe(form);
+  });
+});
