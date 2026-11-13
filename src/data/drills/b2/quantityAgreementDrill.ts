@@ -125,8 +125,8 @@ export const QUANTITY_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pet',
-    q: 'Deset ____ stanova je prodano.',
-    en: 'Ten new flats have been sold.',
+    q: 'U zgradi je deset ____ stanova.',
+    en: 'There are ten new flats in the building.',
     opts: ['nova', 'novih', 'novi', 'novo'],
     answer: 'novih',
     tip: 'After deset: genitive plural adjective.',

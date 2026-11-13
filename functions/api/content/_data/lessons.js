@@ -1376,7 +1376,7 @@ const LESSONS_CORE = [
           {
             hr: 'Ona mu se javila tek navečer.',
             en: 'She only got in touch with him in the evening.',
-            note: 'mu (dat.) → se; the auxiliary je is dropped after se in the 3rd person',
+            note: 'mu (dat.) → se; the auxiliary je is usually dropped after se in the 3rd person',
           },
         ],
       },
@@ -1391,8 +1391,8 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "English speakers put the clitics where English pronouns go, after the verb: 'Dao ga je mi' — the cluster is fixed, dative before accusative: 'Dao mi ga je'. Second, they anchor on the first word and keep the auxiliary ahead of the pronoun: 'Moj brat je mi rekao' — the auxiliary precedes the dative only when it is sam/si/smo/ste/su; with je the order is 'Moj brat mi je rekao', or the cluster may split the phrase, 'Moj mi je brat rekao'. Third, the auxiliary 'je' is kept after 'se': 'Nasmijala se je' — in the third person 'je' disappears after se, 'Nasmijala se'.",
-        highlight: "in the third person 'je' disappears after se",
+        body: "English speakers put the clitics where English pronouns go, after the verb: 'Dao ga je mi' — the cluster is fixed, dative before accusative: 'Dao mi ga je'. Second, they anchor on the first word and keep the auxiliary ahead of the pronoun: 'Moj brat je mi rekao' — the auxiliary precedes the dative only when it is sam/si/smo/ste/su; with je the order is 'Moj brat mi je rekao', or the cluster may split the phrase, 'Moj mi je brat rekao'. Third, the order of se and je: 'je se' is always wrong — se comes first. In the third person 'je' is then usually dropped: 'Nasmijala se' is the everyday form, and 'Nasmijala se je' is also correct, only heavier.",
+        highlight: "'je se' is always wrong",
       },
       {
         type: 'check',
@@ -1407,10 +1407,10 @@ const LESSONS_CORE = [
           },
           {
             q: "Complete: 'Ona ___.' (She laughed — nasmijati se, third person)",
-            options: ['se je nasmijala', 'je nasmijala se', 'se nasmijala', 'nasmijala se je'],
+            options: ['je se nasmijala', 'je nasmijala se', 'se nasmijala', 'nasmijala se je'],
             correct: 2,
             explanation:
-              'In the third person the auxiliary je is dropped after se: Ona se nasmijala.',
+              'In the third person the auxiliary je is usually dropped after se: Ona se nasmijala. Se always comes before je, so "je se" is wrong, and the cluster must sit right after Ona.',
           },
           {
             q: 'Which sentence has correct clitic order?',
@@ -1547,8 +1547,8 @@ const LESSONS_CORE = [
             note: 'Hypothetical present condition',
           },
           {
-            hr: 'Bila bih kupila kartu, ali nije ih bilo.',
-            en: 'I would have bought a ticket, but there were none.',
+            hr: 'Bila bih kupila karte, ali nije ih bilo.',
+            en: 'I would have bought tickets, but there were none.',
             note: 'Past conditional — feminine subject',
           },
         ],
@@ -1588,9 +1588,9 @@ const LESSONS_CORE = [
             note: 'formal letter formula: bio bih zahvalan',
           },
           {
-            hr: 'Da si me nazvao, došla bih po tebe.',
-            en: 'If you had called me, I would have come to get you.',
-            note: 'da + past for an unreal past condition',
+            hr: 'Kad bi me nazvao, došla bih po tebe.',
+            en: 'If you called me, I would come to get you.',
+            note: 'kad + conditional, then bih + participle',
           },
         ],
       },
@@ -1663,14 +1663,14 @@ const LESSONS_CORE = [
               'The conditional softens a wish into a request, which is why it is how you order in a café.',
           },
           {
-            q: "Complete: 'Da si učio, ___ ispit.' (you would have passed)",
+            q: "Complete: 'Kad bi više učio, ___ ispit.' (you would pass)",
             options: ['položio bi', 'položio bih', 'položiš', 'položit ćeš'],
             correct: 0,
             explanation:
-              'ti takes bi: položio bi. bih is the ja form; the present and future do not express an unreal past outcome.',
+              'ti takes bi: položio bi. bih is the ja form; the present and the future do not express a hypothetical outcome.',
           },
           {
-            q: "Complete: '___ li mi pomoći?' (Could you — formal — help me?)",
+            q: "Complete: '___ li mi mogli pomoći?' (Could you — formal — help me?)",
             options: ['Bi', 'Biste', 'Bih', 'Bismo'],
             correct: 1,
             explanation:
@@ -3402,6 +3402,31 @@ const LESSONS_CORE = [
           ['Moram napisati izvješće.', 'pf.', 'I must write the report. (specific task, done)'],
           ['Mogu plivati.', 'impf.', 'I can swim. (I know how to)'],
           ['Mogu preplivati kanal.', 'pf.', 'I can swim across the canal. (bounded achievement)'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Imati and Nemati: the Whole or Some',
+        body: "Negation is where the genitive of 'some' shows up most. After imati the object is normally accusative, and it means the whole thing: Imaju novac — they have the money (the whole sum). The genitive means an amount of it: Imaju novca — they have some money. The pair changes meaning with posao: Ima posao — he has a job; Ima posla — he has work to do. Used without a person, ima means 'there is', and the thing you count goes genitive: Ima li kruha? Nema mlijeka. In the past the same verb is bilo je / nije bilo: Bilo je puno ljudi. Nije bilo snijega. One exception: when you introduce one particular thing, it stays nominative: Ima jedan stan u centru koji ti mogu preporučiti.",
+        highlight: 'Ima posao. / Ima posla.',
+      },
+      {
+        type: 'table',
+        title: 'Imati, Ima, Nema',
+        headers: ['Croatian', 'Case', 'Meaning'],
+        rows: [
+          ['Imaju novac.', 'accusative', 'They have the money (the whole sum).'],
+          ['Imaju novca.', 'genitive', 'They have some money.'],
+          ['Ima posao.', 'accusative', 'He has a job.'],
+          ['Ima posla.', 'genitive', 'He has work to do.'],
+          ['Ima li kruha?', 'genitive', 'Is there any bread?'],
+          ['Nema mlijeka.', 'genitive', 'There is no milk.'],
+          ['Nije bilo snijega.', 'genitive', 'There was no snow.'],
+          [
+            'Ima jedan stan u centru…',
+            'nominative',
+            'There is one (particular) flat in the centre…',
+          ],
         ],
       },
       {
@@ -6877,7 +6902,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Expressing the Agent (by whom)',
-        body: "To say who performs the action, use 'od' + Genitive for people: 'Knjiga je napisana od poznatog pisca.' (The book was written by a famous author.) For instruments use 'pomoću' + Genitive: 'Napravljen je pomoću novih alata.' (Made with new tools.)",
+        body: "To say who performs the action, use 'od' + Genitive for people: 'Knjiga je napisana od poznatog pisca.' (The book was written by a famous author.) This is possible, but Croatian style guides prefer the active wherever the agent matters: 'Knjigu je napisao poznati pisac.' For instruments use 'pomoću' + Genitive: 'Napravljen je pomoću novih alata.' (Made with new tools.)",
         highlight: 'od + Genitiv (agent)',
       },
       {
@@ -6986,7 +7011,7 @@ const LESSONS_CORE = [
         points: [
           'Two strategies: biti + trpni pridjev (formal) and se + verb (conversational)',
           'Trpni pridjev agrees with the subject in gender and number: pisan/pisana/pisano/pisani',
-          'Agent expressed with od + Genitive: od poznatog pisca (by a well-known author)',
+          'Agent with od + Genitive is possible (od poznatog pisca), but the active is preferred',
           'Se-passive never names an agent — very common in notices and everyday speech',
           'Use biti-passive in academic/formal writing; use se-passive in speech and ads',
         ],

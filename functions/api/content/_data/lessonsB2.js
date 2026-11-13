@@ -107,6 +107,35 @@ export const LESSONS_B2 = [
         highlight: 'misao → misli',
       },
       {
+        type: 'rule',
+        title: 'The Second Instrumental: -ju',
+        body: 'Besides -i, the instrumental singular has a second ending, -ju, and this is where the class shows its sound changes. The j joins the consonant before it, exactly as in pisati → pišem: v + j → vlj (ljubav → ljubavlju), sl + j → šlj (misao → mišlju), st + j → šć (kost → košću, mladost → mladošću), t + j → ć (smrt → smrću), d + j → đ (glad → glađu). Where nothing can change, -ju simply attaches: sol → solju, stvar → stvarju, riječ → riječju. Both endings are standard: s mladošću and s mladosti, s ljubavlju and s ljubavi. Fixed phrases keep their own: jednom riječju (in a word), s radošću (gladly).',
+        highlight: 'ljubav → ljubavlju · misao → mišlju · kost → košću',
+      },
+      {
+        type: 'table',
+        title: 'The Instrumental in -ju',
+        headers: ['Noun', 'Instrumental -i', 'Instrumental -ju', 'What changes'],
+        rows: [
+          ['ljubav', 'ljubavi', 'ljubavlju', 'v + j → vlj'],
+          ['misao', 'misli', 'mišlju', 'sl + j → šlj'],
+          ['kost', 'kosti', 'košću', 'st + j → šć'],
+          ['mladost', 'mladosti', 'mladošću', 'st + j → šć'],
+          ['vlast', 'vlasti', 'vlašću', 'st + j → šć'],
+          ['smrt', 'smrti', 'smrću', 't + j → ć'],
+          ['glad', 'gladi', 'glađu', 'd + j → đ'],
+          ['sol', 'soli', 'solju', 'nothing changes'],
+          ['kokoš', 'kokoši', 'kokošju', 'nothing changes'],
+          ['noć', 'noći', 'noću', 'noću is also the adverb "at night"'],
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Bol: Two Genders, Two Pains',
+        body: '"Bol" (pain) belongs to two classes. As a masculine noun it is usually physical pain: bol u leđima, jak bol, bez bola. As a feminine i-noun it is usually the pain of the heart: velika bol, tuga i bol, bez boli. The book treats this as a difference of meaning; in practice both genders are standard for both, so recognise either form.',
+        highlight: 'jak bol (body) · velika bol (heart)',
+      },
+      {
         type: 'example',
         title: 'The Class in Use',
         items: [
@@ -147,7 +176,7 @@ export const LESSONS_B2 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Prošli smo cijelu noć bez riječi, ali s puno misli.',
+            hr: 'Proveli smo cijelu noć bez riječi, ali s puno misli.',
             en: 'We spent the whole night without a word, but with many thoughts.',
             note: 'accusative noć unchanged; genitive riječi and misli',
           },
@@ -185,7 +214,7 @@ export const LESSONS_B2 = [
         options: ['noće', 'noći', 'noću', 'noća'],
         correct: 1,
         explanation:
-          'The i-declension takes -i in the genitive singular, not the -e of the -a nouns: noći. "Noću" exists but is an adverb meaning "at night".',
+          'The i-declension takes -i in the genitive singular, not the -e of the -a nouns: noći. "Noću" is the instrumental (and the adverb "at night"), not the genitive.',
       },
       {
         type: 'quiz',
@@ -242,7 +271,7 @@ export const LESSONS_B2 = [
             ],
             correct: 2,
             explanation:
-              '"Hvala na" takes the locative, and in this class the locative singular is -i: hvala na pomoći. The accusative form "pomoć" is only right when nothing governs it.',
+              '"Hvala na" takes the locative, and in this class the locative singular is -i: hvala na pomoći. The form "pomoć" is the nominative or the accusative, which a verb such as trebati takes (Trebam pomoć) — but after "hvala na" the case is locative.',
           },
           {
             q: 'Which of these nouns does NOT belong to the i-declension?',
@@ -325,14 +354,29 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'The Suffixes',
-        body: 'Three do most of the work: -ivati, -avati and -vati. Which one a verb takes is lexical — you learn it with the pair — but they are easy to hear once you are listening for them, and a verb ending in one of them is almost always imperfective. That is a genuinely useful shortcut when reading.',
-        highlight: '-ivati · -avati · -vati',
+        body: 'Three do most of the work: -ivati, -avati and -vati. Two more patterns finish the picture: -ovati (kupiti → kupovati) and a plain -ati with a changed stem (otvoriti → otvarati, platiti → plaćati). Which one a verb takes is lexical — you learn it with the pair — but they are easy to hear once you are listening for them, and a verb ending in -ivati, -avati or -ovati is almost always imperfective. That is a genuinely useful shortcut when reading.',
+        highlight: '-ivati · -avati · -vati · -ovati · -ati',
       },
       {
         type: 'rule',
         title: 'The Stem Often Shifts',
         body: 'Two things commonly change along with the suffix. The vowel may lengthen or alternate: otvoriti → otvarati, odgovoriti → odgovarati. And a consonant may soften: objasniti → objašnjavati, platiti → plaćati. Both are the same regular sound rules you have met since A1 — they are not new irregularities, just the familiar ones in a new place.',
         highlight: 'platiti → plaćati',
+      },
+      {
+        type: 'table',
+        title: 'Their Present Tense',
+        headers: ['Infinitive', 'ja', 'on / ona', 'Pattern'],
+        rows: [
+          ['zapisivati', 'zapisujem', 'zapisuje', '-ivati → -ujem'],
+          ['pokazivati', 'pokazujem', 'pokazuje', '-ivati → -ujem'],
+          ['kupovati', 'kupujem', 'kupuje', '-ovati → -ujem'],
+          ['zaključavati', 'zaključavam', 'zaključava', '-avati → -avam'],
+          ['objašnjavati', 'objašnjavam', 'objašnjava', '-avati → -avam'],
+          ['otvarati', 'otvaram', 'otvara', '-ati → -am'],
+          ['davati', 'dajem', 'daje', 'davati → dajem'],
+          ['dobivati', 'dobivam', 'dobiva', 'a few -ivati verbs keep -ivam'],
+        ],
       },
       {
         type: 'rule',
@@ -459,7 +503,7 @@ export const LESSONS_B2 = [
             ],
             correct: 1,
             explanation:
-              '"Trenutno" marks an action in progress, so the verb is the secondary imperfective objašnjavati, with the regular softening sn → šnj. The other two suffixes are invented.',
+              '"Trenutno" marks an action in progress, so the verb is the secondary imperfective objašnjavati, with the regular softening sn → šnj. "Objasnim" is the perfective present, which cannot describe what is happening right now; "objašnjam" and "objasnivam" are not Croatian words.',
           },
           {
             q: 'What is wrong with "Otvorivao je prozor svaki dan"?',
@@ -583,8 +627,8 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'Habit Overrides Everything',
-        body: 'One rule cuts across all three frames: if the sentence describes something REPEATED, the verb goes imperfective regardless. Svaki dan moram pisati izvještaje. Uvijek zaboravljam nazvati. A repeated event cannot be a single completed one, so the perfective is unavailable no matter which frame you are in.',
+        title: 'Where the Repetition Sits',
+        body: 'One rule cuts across all three frames: the verb that CARRIES the repetition goes imperfective. Svaki dan moram pisati izvještaje — the writing itself is the daily routine. Uvijek zaboravljam nazvati — the forgetting repeats, so zaboravljati is imperfective, while nazvati stays perfective because each time it is one whole phone call that does not happen. Likewise Svaki dan moram napisati jedan izvještaj: the habit is in moram, and napisati names one finished report. So look for the verb that repeats, not just for a frequency word.',
         highlight: 'Svaki dan moram pisati…',
       },
       {
@@ -635,7 +679,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Svake nedjelje moram zvati baku u Zadru.',
             en: 'Every Sunday I have to call my grandmother in Zadar.',
-            note: 'repeated → imperfective zvati, whatever the modal',
+            note: 'the calling is the weekly routine → zvati (nazvati, one call each Sunday, is also possible)',
           },
           {
             hr: 'Uspjeli smo kupiti karte za utakmicu prije nego što su rasprodane.',
@@ -688,7 +732,7 @@ export const LESSONS_B2 = [
         items: [
           {
             q: 'Complete: "Nastavila je ___ i nakon ponoći." (She continued working even after midnight.)',
-            options: ['uraditi', 'raditi', 'napraviti', 'odraditi'],
+            options: ['obaviti', 'raditi', 'napraviti', 'odraditi'],
             correct: 1,
             explanation:
               'A phase verb — početi, nastaviti, prestati — takes only the imperfective: nastavila je raditi. The other three are all perfectives.',
@@ -765,7 +809,7 @@ export const LESSONS_B2 = [
           'nemoj + infinitive is normally imperfective',
           'Modals take either, and the choice changes activity into result',
           'uspjeti, zaboraviti and stići are about outcomes → perfective',
-          'Anything repeated goes imperfective, whatever the frame',
+          'The verb that carries the repetition goes imperfective',
         ],
       },
     ],
@@ -793,7 +837,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Three Endings',
-        body: 'Verbs in -ati take -n: čitati → čitan, pisati → pisan. Verbs in -iti take -jen, usually with the consonant softening: govoriti → govoren, nositi → nošen, platiti → plaćen. Verbs in -nuti take -nut: dirnuti → dirnut. There is a fourth small group in -t: uzeti → uzet, početi → počet.',
+        body: 'Verbs in -ati take -n: čitati → čitan, pisati → pisan. Verbs in -iti take -jen, usually with the consonant softening: govoriti → govoren, nositi → nošen, platiti → plaćen. Verbs in -nuti take -nut: dirnuti → dirnut. There is a fourth small group in -t: uzeti → uzet, početi → počet, and poznati → poznat belongs with them. The softening before -jen is the regular one: t → ć (oštetiti → oštećen, uhititi → uhićen), d → đ (sagraditi → sagrađen), and after a lip consonant an l appears (izgubiti → izgubljen, obnoviti → obnovljen). Two that look alike stay apart: odvesti (to take by car) → odvezen, odvesti (to lead on foot) → odveden.',
         highlight: '-n · -jen · -nut',
       },
       {
@@ -807,7 +851,11 @@ export const LESSONS_B2 = [
           ['zatvoriti', 'zatvoren', 'closed'],
           ['platiti', 'plaćen', 'paid'],
           ['izgubiti', 'izgubljen', 'lost'],
-          ['poznati', 'poznat', 'known, famous'],
+          ['oštetiti', 'oštećen', 'damaged'],
+          ['sagraditi', 'sagrađen', 'built'],
+          ['obnoviti', 'obnovljen', 'renovated'],
+          ['uzeti', 'uzet', 'taken (-t group)'],
+          ['poznati', 'poznat', 'known, famous (-t group)'],
         ],
       },
       {
@@ -993,7 +1041,7 @@ export const LESSONS_B2 = [
         type: 'summary',
         title: 'Participial Adjectives — Key Takeaways',
         points: [
-          '-ati verbs take -n; -iti verbs take -jen; -nuti verbs take -nut',
+          '-ati verbs take -n; -iti verbs take -jen with softening; -nuti verbs take -nut; a few take -t (uzet, poznat)',
           'The -jen group softens: platiti → plaćen, nositi → nošen',
           'Once formed it declines exactly like an adjective',
           'Add biti and you have the passive: Pismo je napisano.',
@@ -1132,7 +1180,7 @@ export const LESSONS_B2 = [
         options: ['radivši', 'radeći', 'radivši se', 'raden'],
         correct: 1,
         explanation:
-          '"Raditi" is imperfective, so it forms the present adverb in -ći: radeći. The -vši ending belongs to perfective verbs only.',
+          '"Raditi" is imperfective, so it forms the present adverb in -ći: radeći. The -vši ending belongs, almost always, to perfective verbs.',
       },
       {
         type: 'quiz',
@@ -1290,7 +1338,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'The Conditional Alone Is a Softener',
-        body: 'Outside conditions entirely, the same forms make any request or opinion gentler — which is why you met "htio bih" at A1 long before this lesson. Biste li mi mogli pomoći? Rekao bih da je to točno. Ja bih to drugačije riješio. At B2 this is less a grammar point than a register control: the conditional is how you avoid sounding blunt.',
+        body: 'Outside conditions entirely, the same forms make any request or opinion gentler — which is why you met "htio bih" at A2 long before this lesson. Biste li mi mogli pomoći? Rekao bih da je to točno. Ja bih to drugačije riješio. At B2 this is less a grammar point than a register control: the conditional is how you avoid sounding blunt.',
         highlight: 'Rekao bih da…',
       },
       {
@@ -1537,7 +1585,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Volio Bih Da Takes a Clause',
-        body: '"Volio bih" plus "da" expresses a wish about somebody else. For now or the future the verb inside is in the present: Volio bih da dođeš. For something already past it is the perfect: Volio bih da si bila tamo. (I wish you would come.) Volio bih da je drugačije. With the same subject, drop the clause and use an infinitive: Volio bih doći. This is the infinitive-or-da rule from B1, doing exactly what it said it would.',
+        body: '"Volio bih" plus "da" expresses a wish about somebody else. For now or the future the verb inside is in the present: Volio bih da dođeš. (I wish you would come.) For something already past it is the perfect: Volio bih da si bila tamo. (I wish you had been there.) Volio bih da je drugačije. With the same subject, drop the clause and use an infinitive: Volio bih doći. This is the infinitive-or-da rule from B1, doing exactly what it said it would.',
         highlight: 'Volio bih da dođeš.',
       },
       {
@@ -1767,8 +1815,8 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Probability, Not Just Obligation',
-        body: 'The same verbs also express how likely something is. Mora da je kod kuće. (He must be at home — a deduction.) Moglo bi padati. (It might rain.) Trebalo bi biti gotovo. (It ought to be finished.) English uses exactly the same overlap — "he must be home" is not an order — so the instinct transfers cleanly.',
-        highlight: 'Mora da je kod kuće.',
+        body: 'The same verbs also express how likely something is. Mora biti kod kuće. (He must be at home — a deduction.) In writing, sigurno or zacijelo say the same: Sigurno je kod kuće. In speech you will constantly hear Mora da je kod kuće, which is colloquial. Moglo bi padati. (It might rain.) Trebalo bi biti gotovo. (It ought to be finished.) English uses exactly the same overlap — "he must be home" is not an order — so the instinct transfers cleanly.',
+        highlight: 'Sigurno je kod kuće. · Mora biti kod kuće.',
       },
       {
         type: 'rule',
@@ -1820,7 +1868,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Mora da je vlak već otišao, peron je prazan.',
             en: 'The train must have left already, the platform is empty.',
-            note: 'mora da — a deduction, not an obligation',
+            note: 'mora da — a colloquial deduction, not an obligation (written: Vlak je sigurno već otišao)',
           },
           {
             hr: 'Trebali bismo rezervirati stol prije nego što stignu gosti.',
@@ -1880,7 +1928,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is a tone error: "Moraš se odmoriti" as friendly advice, where a Croatian would say Trebao bi se odmoriti — the plain form is an instruction. The second is confusing prohibition with inability: "Ne možeš pušiti ovdje" says you are unable to, while the sign means Ne smiješ pušiti ovdje. The third is an English-shaped deduction: "Mora biti kod kuće" reads as an obligation — he is required to be at home — while the probability reading uses the fixed shape Mora da je kod kuće.',
+        body: 'The first error is a tone error: "Moraš se odmoriti" as friendly advice, where a Croatian would say Trebao bi se odmoriti — the plain form is an instruction. The second is confusing prohibition with inability: "Ne možeš pušiti ovdje" says you are unable to, while the sign means Ne smiješ pušiti ovdje. The third is forgetting that a deduction is not an order: Mora biti kod kuće and Sigurno je kod kuće both mean he is probably at home, while Mora ići kući is an obligation. (Mora da je kod kuće is the colloquial version of the deduction.)',
         highlight: 'Trebao bi se odmoriti',
       },
       {
@@ -1904,14 +1952,14 @@ export const LESSONS_B2 = [
           {
             q: 'Which sentence expresses a deduction — he is probably at home?',
             options: [
-              'Mora da je kod kuće.',
+              'Sigurno je kod kuće.',
               'Mora ići kući.',
               'Treba biti kod kuće.',
               'Smije biti kod kuće.',
             ],
             correct: 0,
             explanation:
-              '"Mora da" plus a clause is how Croatian says "he must be" as a guess. The other three are an obligation to go, an expectation, and a permission.',
+              'Sigurno (or zacijelo, or mora biti) is how Croatian says "he must be" as a guess; colloquially, mora da je. The other three are an obligation to go, an expectation, and a permission.',
           },
           {
             q: 'A friend is exhausted and you say "Moraš spavati." What is wrong with it as advice?',
@@ -1964,7 +2012,7 @@ export const LESSONS_B2 = [
         points: [
           'The conditional is the volume knob: moraš → morao bi → mogao bi',
           'Plain forms for rules and facts; the conditional for advising a person',
-          'The same verbs express probability: Mora da je kod kuće. Moglo bi padati.',
+          'The same verbs express probability: Mora biti kod kuće (written: Sigurno je kod kuće). Moglo bi padati.',
           'smjeti is permission — ne smiješ forbids, ne možeš means unable',
           'Impersonal advice avoids pointing at anyone: Trebalo bi to riješiti.',
         ],
@@ -2523,7 +2571,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Vrlo and Jako Are Not Interchangeable in Register',
-        body: 'Both mean very. "Jako" is the everyday spoken one — jako dobro, jako mi je drago. "Vrlo" is the neutral written one and sounds slightly formal in speech. In an essay, "vrlo" is the safer choice; in conversation, "jako" is what people actually say. "Veoma" is a third option, more literary still.',
+        body: 'Both mean very. "Jako" is the everyday spoken one — jako dobro, jako mi je drago. "Vrlo" is the neutral one: at home in writing and common in speech too. In an essay, "vrlo" is the safer choice; in casual conversation, "jako" is what you hear most. "Veoma" is a third option, more literary still.',
         highlight: 'jako (spoken) · vrlo (written)',
       },
       {
@@ -2597,6 +2645,27 @@ export const LESSONS_B2 = [
             en: 'He was extremely rude to the waiter, which is somewhat embarrassing.',
             note: 'krajnje (strongest) beside pomalo (mild)',
           },
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Particles That Turn Up the Force',
+        body: 'Small words change how strongly a sentence is said without changing what it says. Baš is "really, exactly": Baš to sam htio reći. Čak is "even": Čak je i djed došao. Bar (or barem) is "at least": Dođi bar na kavu. Makar is "at least, even if only": Javi se makar porukom. Samo is "only, just": Samo malo. Ni is "not even": Nije rekao ni hvala. Pa at the start of a sentence adds "well, but surely": Pa naravno! Pa to je odlično! And ma is the colloquial "oh, come on": Ma nemoj!',
+        highlight: 'baš · čak · bar · makar · samo · ni · pa · ma',
+      },
+      {
+        type: 'table',
+        title: 'The Intensifying Particles',
+        headers: ['Particle', 'Meaning', 'Example'],
+        rows: [
+          ['baš', 'really, exactly', 'Baš je lijepo danas.'],
+          ['čak', 'even', 'Čak je i djed došao.'],
+          ['bar / barem', 'at least', 'Dođi bar na kavu.'],
+          ['makar', 'at least, even if only', 'Javi se makar porukom.'],
+          ['samo', 'only, just', 'Samo malo, molim.'],
+          ['ni', 'not even', 'Nije rekao ni hvala.'],
+          ['pa', 'well, but surely', 'Pa naravno!'],
+          ['ma', 'oh, come on (colloquial)', 'Ma nemoj!'],
         ],
       },
       {
@@ -2834,6 +2903,24 @@ export const LESSONS_B2 = [
             en: 'I simply cannot understand why the train is late again.',
             note: 'nikako intensifies the denial',
           },
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Negative Questions and Tags: zar, nije li, da nisi',
+        body: "A negated question expects the answer yes. Nije li to tvoj brat? — Isn't that your brother? Li always follows the negated verb, and the same works with every person: Nisi li umoran? Niste li vi bili u Splitu? Zar adds surprise or doubt: Zar ne znaš? (Surely you know? / You mean you don't know?) Tagged on at the end, zar ne is the English \"isn't it, don't you\": Lijepo je, zar ne? And da nisi… turns into a warning or a suspicious question: Da nisi zaboravio ključeve? (You haven't forgotten the keys, have you?) Da se nisi usudio to reći! (Don't you dare say that!)",
+        highlight: 'Nije li to tvoj brat? · Lijepo je, zar ne?',
+      },
+      {
+        type: 'table',
+        title: 'Asking With a Negation',
+        headers: ['Croatian', 'Meaning', 'Expects'],
+        rows: [
+          ['Nije li to tvoj brat?', "Isn't that your brother?", 'yes'],
+          ['Zar ne znaš?', 'Surely you know? (surprise)', 'yes'],
+          ['Lijepo je, zar ne?', "It is nice, isn't it?", 'yes'],
+          ['Da nisi zaboravio ključeve?', "You haven't forgotten the keys, have you?", 'worry'],
+          ['Da se nisi usudio!', "Don't you dare!", 'a warning'],
         ],
       },
       {
@@ -3104,7 +3191,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is the wrong case after the opener: "Što se tiče cijenu" or "Kad je riječ o cijenu" — što se tiče takes the genitive (što se tiče cijene) and kad je riječ o the locative (kad je riječ o cijeni). The second is the nominative after "ima": "ima prednosti i nedostatci" — existence with ima takes the genitive, ima prednosti i nedostataka. The third is rebuilding the workhorse from its parts and losing it: the fixed shape is Prednost je u tome što…, and a B2 argument names one nedostatak before it decides.',
+        body: 'The first error is the wrong case after the opener: "Što se tiče cijenu" or "Kad je riječ o cijenu" — što se tiče takes the genitive (što se tiče cijene) and kad je riječ o the locative (kad je riječ o cijeni). The second is the nominative after "ima": "Rad od kuće ima prednosti i nedostatci" — the object of ima is accusative, ima prednosti i nedostatke (or the genitive of "some", nedostataka); with no subject, ima means "there are" and takes the genitive: Ima prednosti i nedostataka. The third is rebuilding the workhorse from its parts and losing it: the fixed shape is Prednost je u tome što…, and a B2 argument names one nedostatak before it decides.',
         highlight: 'Prednost je u tome što…',
       },
       {
@@ -3141,13 +3228,13 @@ export const LESSONS_B2 = [
             q: 'What is wrong with "Rad od kuće ima prednosti i nedostatci"?',
             options: [
               'Nothing is wrong',
-              'After "ima" the noun goes genitive: prednosti i nedostataka',
+              'nedostatci is nominative; the object of ima is accusative: prednosti i nedostatke',
               '"ima" should be "je"',
               '"rad od kuće" needs the locative',
             ],
             correct: 1,
             explanation:
-              'Existence with ima takes the genitive plural: ima prednosti i nedostataka. "Prednosti" happened to look right only because its genitive plural is identical to the nominative.',
+              'Here ima has a subject (rad od kuće), so it means "has" and its object is accusative: nedostatke. The genitive nedostataka ("some drawbacks") is also possible. "Prednosti" looked right because its accusative plural is identical to the nominative.',
           },
           {
             q: 'Which closer weighs everything that came before?',
@@ -3519,9 +3606,9 @@ export const LESSONS_B2 = [
             note: 'comma, then a new line',
           },
           {
-            hr: 'Obraćam vam se u vezi natječaja objavljenog 15. rujna.',
+            hr: 'Obraćam vam se u vezi s natječajem objavljenim 15. rujna.',
             en: 'I am contacting you regarding the vacancy advertised on 15 September.',
-            note: 'u vezi + genitive; objavljenog is a participle',
+            note: 'u vezi s + instrumental; objavljenim is a participle agreeing with natječajem',
           },
           {
             hr: 'U prilogu šaljem životopis i zamolbu.',
@@ -3597,7 +3684,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is register drift into "ti": "Molim te, pošalji mi" in a letter to an institution — the V-form runs from the first word to the last, Molim Vas, pošaljite mi. The second is the wrong noun form after "u vezi": "u vezi natječaj" — it takes the genitive, u vezi natječaja, or s plus the instrumental, u vezi s natječajem. The third is the closer: "S poštovanjem" under a two-line note to a colleague reads stiff, and "Pozdrav" under a job application reads careless — Lijep pozdrav covers ordinary professional email.',
+        body: 'The first error is register drift into "ti": "Molim te, pošalji mi" in a letter to an institution — the V-form runs from the first word to the last, Molim Vas, pošaljite mi. The second is the wrong noun form after "u vezi s": "u vezi s natječaj" — it takes the instrumental, u vezi s natječajem. Bare u vezi + genitive (u vezi natječaja) is common, but the norm prefers the form with s. The third is the closer: "S poštovanjem" under a two-line note to a colleague reads stiff, and "Pozdrav" under a job application reads careless — Lijep pozdrav covers ordinary professional email.',
         highlight: 'Molim Vas, pošaljite mi',
       },
       {
@@ -3605,7 +3692,7 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Obraćam ___ se u vezi Vašeg oglasa." (I am contacting you regarding your advertisement — formal.)',
+            q: 'Complete: "Obraćam ___ se u vezi s Vašim oglasom." (I am contacting you regarding your advertisement — formal.)',
             options: ['ti', 'Vam', 'Vas', 'tebi'],
             correct: 1,
             explanation:
@@ -5061,6 +5148,44 @@ export const LESSONS_B2 = [
         ],
       },
       {
+        type: 'rule',
+        title: 'Paronyms: Words That Sound Alike and Mean Different Things',
+        body: 'Some pairs differ by a few letters and are easy to swap, especially in business Croatian. Ekonomski is "economic, to do with the economy" (ekonomska kriza); ekonomičan is "economical, thrifty" (ekonomičan automobil). Efikasan is "efficient, getting results" (efikasna mjera); efektivan in careful usage is "actual, real" (efektivno radno vrijeme). Kućni is "of the house" (kućni broj, kućni ljubimac); kućanski is "of the household" (kućanski poslovi, kućanski aparati).',
+        highlight: 'ekonomski / ekonomičan · kućni / kućanski',
+      },
+      {
+        type: 'table',
+        title: 'Counting Verbs: the brojiti Family',
+        headers: ['Imperfective', 'Perfective', 'Meaning'],
+        rows: [
+          ['brojiti', 'izbrojiti', 'to count'],
+          ['prebrojavati', 'prebrojiti', 'to count all of, to count again'],
+          ['nabrajati', 'nabrojiti', 'to list, to enumerate'],
+          ['odbrojavati', 'odbrojiti', 'to count off; odbrojavanje = countdown'],
+        ],
+      },
+      {
+        type: 'example',
+        title: 'The Family in Use',
+        items: [
+          {
+            hr: 'Blagajnica je prebrojila novac dvaput.',
+            en: 'The cashier counted the money twice.',
+            note: 'prebrojiti — counting all of it',
+          },
+          {
+            hr: 'Nabrojio je sve troškove projekta.',
+            en: 'He listed all the costs of the project.',
+            note: 'nabrojiti — to list',
+          },
+          {
+            hr: 'Na trgu su odbrojavali zadnje sekunde godine.',
+            en: 'On the square they counted down the last seconds of the year.',
+            note: 'odbrojavati — imperfective, the counting goes on',
+          },
+        ],
+      },
+      {
         type: 'quiz',
         title: 'Quick Check',
         q: 'Which word means "the economy" in a Croatian newspaper?',
@@ -5204,7 +5329,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Sabor Is Not "Parlament"',
-        body: 'The Croatian parliament has its own name — Sabor — and it is always used. The word is old, from "sabrati" (to gather), and it predates the modern state by centuries. A newspaper will write "Sabor je izglasao…" — "parlament" turns up only as a descriptive synonym — so this is one to know rather than infer.',
+        body: 'The Croatian parliament has its own name — Sabor — and it is always used. The word is old, from "sabrati" (to gather), and it predates the modern state by centuries. A newspaper will write "Sabor je izglasao…". "Parlament" is the general word (Europski parlament, the parliament of another country) and can describe the Sabor, but the name of the institution is Sabor — so this is one to know rather than infer.',
         highlight: 'Sabor je izglasao…',
       },
       {
@@ -5224,8 +5349,8 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Izbori Is Always Plural',
-        body: '"Izbori" — elections — has no singular in this sense, like English "elections" when it refers to the event. Parlamentarni izbori, lokalni izbori, predsjednički izbori. And the verb agrees plural: Izbori su održani u nedjelju. A singular "izbor" exists but means a choice or a selection.',
-        highlight: 'Izbori su održani…',
+        body: '"Izbori" — elections — has no singular in this sense, like English "elections" when it refers to the event. Parlamentarni izbori, lokalni izbori, predsjednički izbori. And the verb agrees plural: Izbori su bili u nedjelju. Izbori će biti u studenome. A singular "izbor" exists but means a choice or a selection.',
+        highlight: 'Izbori su bili…',
       },
       {
         type: 'rule',
@@ -5312,52 +5437,52 @@ export const LESSONS_B2 = [
         ],
         correct: 1,
         explanation:
-          'The Sabor is the Croatian parliament, and the word — from "sabrati", to gather — is always used in place of "parlament". The Government is "Vlada".',
+          'The Sabor is the Croatian parliament; the word comes from "sabrati", to gather. "Parlament" is the general word, and the Croatian one is named the Sabor. The Government is "Vlada".',
       },
       {
         type: 'quiz',
         title: 'One More',
-        q: 'Complete: "Izbori ___ održani u nedjelju."',
+        q: 'Complete: "Izbori ___ bili u nedjelju."',
         options: ['je', 'su', 'bio', 'bila'],
         correct: 1,
         explanation:
-          '"Izbori" has no singular in this sense and always takes plural agreement: izbori SU održani. A singular "izbor" exists but means a choice.',
+          '"Izbori" has no singular in this sense and always takes plural agreement: izbori SU bili. A singular "izbor" exists but means a choice.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is the borrowed name: "parlament je izglasao" — the Croatian parliament is the Sabor, Sabor je izglasao, and the word is always used. The second is singular agreement with izbori: "izbori je održan", "izbor su održani" — the noun has no singular in this sense and the verb agrees plural, izbori su održani. The third is giving the Government the parliament\'s job: "Vlada je izglasala zakon" — the Vlada proposes, predložila je zakon, and the Sabor passes it, izglasao ga je.',
-        highlight: 'izbori su održani',
+        body: 'The first error is reaching for the general word in Croatian news: the Croatian parliament is named the Sabor, Sabor je izglasao. The second is singular agreement with izbori: "izbori je bio", "izbor su bili" — the noun has no singular in this sense and the verb agrees plural, izbori su bili. The third is giving the Government the parliament\'s job: "Vlada je izglasala zakon" — the Vlada proposes, predložila je zakon, and the Sabor passes it, izglasao ga je.',
+        highlight: 'izbori su bili',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "___ izbori održani su u nedjelju." (The local elections were held on Sunday.)',
+            q: 'Complete: "___ izbori bili su u nedjelju." (The local elections were on Sunday.)',
             options: ['Lokalni', 'Lokalan', 'Lokalna', 'Lokalno'],
             correct: 0,
             explanation:
               '"Izbori" is plural, so the adjective is plural too: lokalni izbori. The singular forms cannot agree with it.',
           },
           {
-            q: 'Complete: "___ je izglasao novi zakon o porezu." (Parliament passed the new tax law.)',
-            options: ['Parlament', 'Sabor', 'Vlada', 'Predsjednik'],
+            q: 'Complete: "___ je izglasao novi zakon o porezu." (The Croatian parliament passed the new tax law.)',
+            options: ['Senat', 'Sabor', 'Vlada', 'Predsjednik'],
             correct: 1,
             explanation:
-              'The Croatian parliament is the Sabor and only it passes laws. The Vlada proposes them, and "parlament" is not what a newspaper writes.',
+              'The Croatian parliament is the Sabor, and only it passes laws. The Vlada proposes them, the President does not vote on them, and Croatia has no senate.',
           },
           {
             q: 'Which sentence is correct?',
             options: [
-              'Izbor su održani u nedjelju.',
-              'Izbori su održani u nedjelju.',
-              'Izbori je održan u nedjelju.',
-              'Izbori su održana u nedjelju.',
+              'Izbor su bili u nedjelju.',
+              'Izbori su bili u nedjelju.',
+              'Izbori je bio u nedjelju.',
+              'Izbori su bila u nedjelju.',
             ],
             correct: 1,
             explanation:
-              '"Izbori" is plural and masculine, so the verb and participle agree: su održani. "Izbor" in the singular means a choice, not an election.',
+              '"Izbori" is plural and masculine, so the verb agrees: su bili. "Izbor" in the singular means a choice, not an election.',
           },
           {
             q: 'What is wrong with "Zastupnici raspravljaju o novi zakon"?',
@@ -5403,7 +5528,7 @@ export const LESSONS_B2 = [
         type: 'summary',
         title: 'Politics — Key Takeaways',
         points: [
-          'Sabor is the parliament — the name the news uses, not "parlament"',
+          'Sabor is the name of the Croatian parliament; parlament is the general word',
           'Vlada, predsjednik, premijer, ministar, Ustavni sud',
           'izbori is always plural and takes plural agreement',
           'stranka, zastupnik, birač, zakon, izglasati',
@@ -5457,8 +5582,8 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Ije, Je, E — the Yat Reflex',
-        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "rijeka" but also "rječni", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je- (written plain -e- after a consonant + r, as in vremena and pregled). The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
-        highlight: 'rijeka → rječni',
+        body: 'An old Slavic vowel called "jat" developed differently in different regions, which is why you learned "riječ" but also "rječnik", and "vrijeme" but "vremena". Standard Croatian is IJEKAVIAN: the long reflex is -ije- and the short one is -je- (written plain -e- after a consonant + r, as in vremena and pregled). The alternation you have been treating as an irregularity is a thousand-year-old sound change, applied consistently.',
+        highlight: 'riječ → rječnik',
       },
       {
         type: 'rule',
@@ -5528,15 +5653,34 @@ export const LESSONS_B2 = [
             note: 'čuvati se — a se-passive',
           },
           {
-            hr: 'Dijete se kupa u rijeci, a djeca love rječne ribe: to je isti jat.',
-            en: 'A child swims in the river, and the children catch river fish: that is the same jat.',
-            note: 'dijete → djeca, rijeka → rječni',
+            hr: 'Dijete traži novu riječ, a djeca je nađu u rječniku: to je isti jat.',
+            en: 'A child looks for a new word, and the children find it in the dictionary: that is the same jat.',
+            note: 'dijete → djeca, riječ → rječnik',
           },
           {
             hr: 'Umjesto stranih riječi Hrvati često grade svoje: zrakoplov, računalo, sveučilište.',
             en: 'Instead of foreign words, Croats often build their own: aeroplane, computer, university.',
             note: 'umjesto + genitive; the building tradition',
           },
+        ],
+      },
+      {
+        type: 'rule',
+        title: 'Synonyms: a Native Word and a Foreign One',
+        body: 'Croatian often has two words for one thing: a native word, often built by the language purists, and an older loanword. Both are understood, but they are not equal. The native word is the one for writing and formal speech (računalo, zračna luka, glazba); the loanword is colloquial or belongs to a set phrase (kompjutor, aerodrom, muzika). Synonyms are rarely perfect: one is usually more formal, more regional or more emotional than the other.',
+        highlight: 'računalo / kompjutor',
+      },
+      {
+        type: 'table',
+        title: 'Synonym Pairs',
+        headers: ['Native or standard', 'Loanword or colloquial', 'Use'],
+        rows: [
+          ['računalo', 'kompjutor', 'računalo in writing'],
+          ['zračna luka', 'aerodrom', 'both standard; zračna luka is official'],
+          ['glazba', 'muzika', 'muzika is colloquial'],
+          ['tvrtka', 'firma', 'firma is colloquial'],
+          ['kazalište', 'teatar', 'teatar is bookish or part of a name'],
+          ['brz', 'hitar', 'both native; hitar is literary'],
         ],
       },
       {
@@ -5573,11 +5717,11 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "___ ribe žive u slatkoj vodi." (River fish live in fresh water — from rijeka.)',
-            options: ['Rijekne', 'Rječne', 'Rijeke', 'Rijekom'],
+            q: 'Complete: "Ne znam tu riječ, potražit ću je u ___." (I do not know that word, I will look it up in the dictionary — from riječ.)',
+            options: ['riječniku', 'rječniku', 'riječima', 'rijeci'],
             correct: 1,
             explanation:
-              'In the derived adjective the jat is short and k softens to č: rječni. "Rijekne" keeps both the long reflex and the k, and rijeke / rijekom are forms of the noun, not the adjective.',
+              'In the derived noun the jat is short: riječ → rječnik, here in the locative after u: u rječniku. "Riječniku" keeps the long reflex, which the derived noun does not have; riječima and rijeci are other words (words, a river).',
           },
           {
             q: 'Complete: "Nemam ___ za kavu." (I have no time for coffee.)',
@@ -5719,7 +5863,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Marulić and the First Croatian Epic',
-        body: 'Marko Marulić of Split, writing around 1500, is called the father of Croatian literature — and he coined the word "psychology" in its modern sense in Latin. His epic poem "Judita", finished in 1501 and printed in 1521, is counted the first great work of Croatian literature written in the vernacular. You will not read it at B2, but every Croatian knows the name, and knowing why is worth more than the reading would be.',
+        body: 'Marko Marulić of Split, writing around 1500, is called the father of Croatian literature — and he is credited with the first known use of the word "psychology" (psichiologia), in a Latin title. His epic poem "Judita", finished in 1501 and printed in 1521, is counted the first great work of Croatian literature written in the vernacular. You will not read it at B2, but every Croatian knows the name, and knowing why is worth more than the reading would be.',
         highlight: 'Marulić — Judita, 1501',
       },
       {

@@ -61,6 +61,32 @@ export const TERMS_INTRODUCED_BY: Readonly<Record<string, readonly string[]>> = 
   aspect: ['aspect', 'perfective', 'imperfective'],
   'aspect-imperfective': ['aspect', 'imperfective'],
   'aspect-perfective': ['aspect', 'perfective'],
+  // B2, re-derived from the corrected lessons (B2 book comparison, 2026-11-13). Each word is
+  // one the lesson itself names and explains; multi-word terms keep general words such as
+  // "participle" free for the A1–B1 past-tense explanations that already use them.
+  'aspect-suffixes': ['secondary imperfective'],
+  'false-friends': ['false friend'],
+  'language-history': ['synonym', 'jat'],
+  'relative-pronouns-cases': ['relative pronoun'],
+  'predicate-instrumental': ['predicate instrumental'],
+  'indefinite-pronouns-cases': ['indefinite pronoun'],
+  'family-changes': ['antonym'],
+  'i-declension': ['i-declension'],
+  'reflexive-sebe': ['reflexive pronoun'],
+  'participial-adjectives': ['passive participle'],
+  'passive-voice': ['passive'],
+  'verbal-nouns-intro': ['verbal noun'],
+  'iterative-conditional': ['iterative conditional'],
+  'perfective-present': ['perfective present'],
+  'business-economy': ['paronym'],
+  'coordinate-clauses': ['coordinate clause'],
+  'dependent-clauses-b2': ['dependent clause'],
+  'unreal-conditions': ['unreal condition', 'past conditional'],
+  'genitive-of-negation': ['genitive of negation'],
+  'verbal-adverbs': ['verbal adverb'],
+  'reported-speech': ['reported speech'],
+  'reported-speech-b2': ['reported speech'],
+  interjections: ['interjection', 'onomatopoeia'],
 };
 
 /** Every grammar word the table can introduce (the words an explanation must not use early). */

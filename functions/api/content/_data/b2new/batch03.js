@@ -620,6 +620,44 @@ const READING_CULTURE = {
       ],
     },
     {
+      type: 'table',
+      title: 'Verbs in Context: the čitati Family',
+      headers: ['Imperfective', 'Perfective', 'Meaning'],
+      rows: [
+        ['čitati', 'pročitati', 'to read; to read through'],
+        ['iščitavati', 'iščitati', 'to read thoroughly, to read closely'],
+        ['—', 'začitati se', 'to get lost in reading'],
+        ['—', 'načitati se', 'to read your fill; načitan = well-read'],
+        ['očitavati', 'očitati', 'to read off (a meter, a code)'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'The Family in Use',
+      items: [
+        {
+          hr: 'Toliko sam se začitala da sam propustila svoju stanicu.',
+          en: 'I got so lost in my book that I missed my stop.',
+          note: 'začitati se — to be absorbed in reading',
+        },
+        {
+          hr: 'Ljeti se napokon mogu načitati.',
+          en: 'In summer I can finally read as much as I like.',
+          note: 'načitati se — to read your fill',
+        },
+        {
+          hr: 'Moj djed je jako načitan čovjek.',
+          en: 'My grandfather is a very well-read man.',
+          note: 'načitan — the adjective from the same verb',
+        },
+        {
+          hr: 'Radnik je očitao stanje brojila.',
+          en: 'The worker read the meter.',
+          note: 'očitati — to read off a number',
+        },
+      ],
+    },
+    {
       type: 'quiz',
       title: 'Quick Check',
       q: 'Where do you borrow a book?',
@@ -792,7 +830,7 @@ const INDEFINITE_CASES = {
           note: 'nekoga — accusative of netko',
         },
         {
-          hr: 'Razgovarala sam s nekim iz tvoje firme.',
+          hr: 'Razgovarala sam s nekim iz tvoje tvrtke.',
           en: 'I talked to someone from your company.',
           note: 'nekim — instrumental of netko after s',
         },
@@ -841,6 +879,49 @@ const INDEFINITE_CASES = {
           hr: 'Je li itko vidio moje ključeve?',
           en: 'Has anyone seen my keys?',
           note: 'itko — anyone at all, in a question',
+        },
+      ],
+    },
+    {
+      type: 'rule',
+      title: 'What Kind, and Whose: nekakav, nečiji',
+      body: "The same prefixes build adjectives. From kakav (what kind): nekakav (some kind of), nikakav (no kind of), ikakav (any kind at all), svakakav (all kinds of). From čiji (whose): nečiji (somebody's), ničiji (nobody's), ičiji (anybody's), svačiji (everybody's). They decline like adjectives and agree with their noun: Ima li ikakvih novosti? Nema nikakvih problema. Čula sam nečiji glas. To nije ničija krivnja. And like nitko, the ni- forms split around a preposition: ni s kakvim, ni u čijoj.",
+      highlight: 'nikakav → ni s kakvim',
+    },
+    {
+      type: 'table',
+      title: 'Kind and Owner',
+      headers: ['', 'kakav (kind)', 'čiji (owner)'],
+      rows: [
+        ['ne-  some', 'nekakav', 'nečiji'],
+        ['ni-  no', 'nikakav', 'ničiji'],
+        ['i-  any', 'ikakav', 'ičiji'],
+        ['sva-  every', 'svakakav', 'svačiji'],
+      ],
+    },
+    {
+      type: 'example',
+      title: 'In Use',
+      items: [
+        {
+          hr: 'Ima li ikakvih novosti iz bolnice?',
+          en: 'Is there any news at all from the hospital?',
+          note: 'ikakvih — genitive plural after ima li',
+        },
+        {
+          hr: 'Na tržnici prodaju svakakvo voće.',
+          en: 'They sell all kinds of fruit at the market.',
+          note: 'svakakvo — agrees with voće',
+        },
+        {
+          hr: 'Čula sam nečiji glas u hodniku.',
+          en: "I heard somebody's voice in the corridor.",
+          note: 'nečiji — whose, unknown',
+        },
+        {
+          hr: 'Ne slažem se ni s kakvim nasiljem.',
+          en: 'I do not agree with any kind of violence.',
+          note: 'ni s kakvim — the preposition splits ni- from the rest',
         },
       ],
     },
@@ -951,7 +1032,7 @@ const BODY_PART_NOUNS = {
     {
       type: 'rule',
       title: 'oko → oči, uho → uši',
-      body: 'In the singular: oko (eye), uho (ear) — neuter: lijevo oko, desno uho. In the plural: oči, uši — and these are feminine, like stvari. So an adjective in the plural takes the feminine ending -e: plave oči, velike uši, and Oči su mi umorne. Saying "plavi oči" is the commonest slip.',
+      body: 'In the singular: oko (eye), uho (ear) — neuter: lijevo oko, desno uho. In the plural: oči, uši — and these plurals are feminine. So an adjective in the plural takes the feminine ending -e: plave oči, velike uši, and Oči su mi umorne. Saying "plavi oči" is the commonest slip.',
       highlight: 'plave oči',
     },
     {
@@ -1186,7 +1267,7 @@ export const PRACTICE = {
           },
           {
             label: 'Became headmaster',
-            text: 'postati takes the instrumental: ravnatelj → ravnateljem.',
+            text: 'postati takes the instrumental here (the nominative, postao je ravnatelj, is also correct): ravnatelj → ravnateljem.',
           },
           { label: 'Join them', text: 'a zatim — and then.' },
         ],
@@ -1833,7 +1914,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Razgovarala sam s ____ iz tvoje firme. (someone)',
+          q: 'Razgovarala sam s ____ iz tvoje tvrtke. (someone)',
           answer: 'nekim',
           hint: 's + instrumental of netko.',
           explanation: 's nekim — instrumental.',
@@ -1964,7 +2045,7 @@ export const PRACTICE = {
           explanation: 'desno uho — neuter singular.',
         },
         {
-          q: 'Od kompjutora me ___ oči.',
+          q: 'Od računala me ___ oči.',
           options: ['boli', 'bole', 'boljela', 'bolim'],
           correct: 1,
           hint: 'Two eyes — a plural verb.',
@@ -2021,10 +2102,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Ima lijepih ____. (eyes, genitive plural)',
+          q: 'Ona je plavih ____. (She has blue eyes — a description in the genitive plural)',
           answer: 'očiju',
           hint: 'The genitive plural of oči ends in -iju.',
-          explanation: 'lijepih očiju — genitive plural.',
+          explanation: 'plavih očiju — genitive plural of description.',
         },
         {
           type: 'type',

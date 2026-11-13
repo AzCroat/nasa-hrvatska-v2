@@ -1161,7 +1161,7 @@ export const CURRICULUM = [
   {
     id: 'participial-adjectives',
     level: 'B2',
-    order: 33,
+    order: 32,
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Build the passive participle from any verb: napisan, otvoren, plaćen',
@@ -1172,8 +1172,8 @@ export const CURRICULUM = [
   {
     id: 'passive-voice',
     level: 'B2',
-    order: 32,
-    prerequisites: ['aspect-perfective'],
+    order: 33,
+    prerequisites: ['participial-adjectives'],
     objectives: [
       'Form the passive both ways Croatian allows',
       'Choose the se-passive where a native speaker would',
@@ -1326,8 +1326,8 @@ export const CURRICULUM = [
   {
     id: 'writing-registers',
     level: 'B2',
-    order: 62,
-    prerequisites: ['vi-vs-ti'],
+    order: 63,
+    prerequisites: ['formal-email'],
     objectives: [
       'Write an email that lands at the right level of formality',
       'Move between spoken, written and official registers deliberately',
@@ -1337,8 +1337,8 @@ export const CURRICULUM = [
   {
     id: 'formal-email',
     level: 'B2',
-    order: 63,
-    prerequisites: ['writing-registers'],
+    order: 62,
+    prerequisites: ['vi-vs-ti'],
     objectives: [
       'Write a Croatian formal email that looks like one',
       'Use Poštovani and choose between S poštovanjem and Lijep pozdrav',
