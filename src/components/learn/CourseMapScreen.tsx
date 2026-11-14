@@ -52,7 +52,6 @@ import {
   readCourseUnits,
   unitRecord,
 } from '../../lib/courseUnitProgress';
-import { requestUnitProduction } from '../../lib/unitProductionRequest';
 import { productionOwed } from '../../lib/courseUnits';
 import { COURSE_UNIT_TITLES } from '../../data/courseUnitTitles';
 import { canDoFor } from '../../data/courseUnitCanDo';
@@ -353,10 +352,6 @@ export default function CourseMapScreen({ goBack, onOpenLesson, setScr }: Course
                   requestUnitTest(row.unit.id);
                   setScr('unittest');
                 }}
-                onProduce={(kind) => {
-                  requestUnitProduction(row.unit.id, kind);
-                  setScr('unitproduction');
-                }}
                 onRecheck={() => {
                   requestUnitTest(row.unit.id, 'recheck');
                   setScr('unittest');
@@ -392,7 +387,6 @@ function UnitRow({
   lockOf,
   onOpenLesson,
   onTakeTest,
-  onProduce,
   onRecheck,
   recheckDue,
   owedFor,
@@ -407,7 +401,6 @@ function UnitRow({
   lockOf: (lessonId: string) => string | null;
   onOpenLesson: (lessonId: string) => void;
   onTakeTest: () => void;
-  onProduce: (kind: 'write' | 'speak') => void;
   onRecheck: () => void;
   recheckDue: boolean;
   owedFor: (unitId: string) => { write: boolean; speak: boolean } | null;
@@ -566,44 +559,30 @@ function UnitRow({
                 fontFamily: "'Outfit',sans-serif",
               }}
             >
-              {offer === 'primary'
-                ? 'Take the unit test →'
-                : 'Already know this? Take the unit test →'}
+              {offer === 'primary' ? 'Take the unit test →' : 'Test out of this unit →'}
             </button>
           )}
           {/* THE OTHER HALF OF THE BAR. A unit whose test is passed but whose
               production is owed is not finished, and the map must say which half
               is missing rather than showing a tick that is not true yet. */}
-          {row.tested &&
-            owed &&
-            (['write', 'speak'] as const)
-              .filter((k) => owed[k])
-              .map((k) => (
-                <button
-                  key={k}
-                  data-testid={`course-unit-${k}-${unit.id}`}
-                  onClick={() => onProduce(k)}
-                  style={{
-                    width: '100%',
-                    padding: '11px 12px',
-                    marginTop: 4,
-                    marginBottom: 2,
-                    borderRadius: 10,
-                    border: 'none',
-                    background: accentFill(color),
-                    color: '#fff',
-                    fontSize: 13,
-                    fontWeight: 800,
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                    fontFamily: "'Outfit',sans-serif",
-                  }}
-                >
-                  {k === 'write'
-                    ? 'Now write what you have learned →'
-                    : 'Now say what you have learned →'}
-                </button>
-              ))}
+          {row.tested && owed && (
+            <div
+              data-testid={`course-unit-produce-note-${unit.id}`}
+              style={{
+                fontSize: 12,
+                color: 'var(--subtext)',
+                lineHeight: 1.5,
+                margin: '6px 2px 2px',
+              }}
+            >
+              {owed.write && owed.speak
+                ? 'Next in your course: a short written task and a short spoken task for this unit.'
+                : owed.write
+                  ? 'Next in your course: a short written task for this unit.'
+                  : 'Next in your course: a short spoken task for this unit.'}{' '}
+              The course brings it up when you continue — there is nothing to pick.
+            </div>
+          )}
           {/* WHERE THE UNIT IS ON ITS RETENTION LADDER. `cleared` means the bar is met
               and the course has opened the next unit — mastery is a claim about
               RETENTION and waits on the 7- and 30-day check-ups. Saying "mastered"

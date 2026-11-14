@@ -21,6 +21,11 @@ blocked mechanically by .claude/hooks/guard-bash.sh.
   keys, artifacts, concurrency groups, `needs`). Shared Playwright cache broke
   Firefox on 2026-10-12.
 - Do not widen scope. Do what was asked; name other findings in one line and stop.
+- Agents (owner, 2026-11-13): routine edits (fixing an item, a distractor, a hint,
+  a label) run on the cheaper model (`model: "sonnet"`); the top model only for
+  authoring new Croatian content and for verification. Every brief says: no
+  helper agents or forks. Briefs carry only the rules the task needs — never "read
+  CLAUDE.md in full". One worker per job; full test suite once, at the end.
 
 ## Working environment
 - No temporary files or folders: no /tmp, no mktemp, no scratch files in the repo.

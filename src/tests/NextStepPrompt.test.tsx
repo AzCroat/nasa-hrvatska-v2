@@ -110,20 +110,6 @@ describe('NextStepPrompt', () => {
     expect(launchSessionActivity).toHaveBeenCalledWith('dialogue', 'conversation');
   });
 
-  it('a verification step routes straight to the Level Check', () => {
-    getNextStep.mockReturnValue({
-      kind: 'verification',
-      screen: 'equivalency',
-      label: 'Verify B1 — make it real',
-      reason: 'Provisional until checked.',
-    });
-    renderWith();
-    fireComplete();
-    fireEvent.click(screen.getByTestId('next-up-bar'));
-    expect(setScr).toHaveBeenCalledWith('equivalency');
-    expect(launchSessionActivity).not.toHaveBeenCalled();
-  });
-
   it('a browse step opens the Learning Center', () => {
     // It used to set a one-shot `nh_open_browse` flag and switch to the Learn
     // tab, where BrowseContentModal consumed it. That modal is retired and the

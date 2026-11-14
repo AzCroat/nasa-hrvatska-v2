@@ -123,7 +123,6 @@ export function seedAuth(page, statOverrides = {}) {
       // Phase 1 mastery gate: the fixture user is a VERIFIED learner — seed real
       // certification passes up to their eligible band so the provisional
       // verification gate stays off and specs keep their pre-gate meaning.
-      // (The gate itself has a dedicated spec: verification-gate.spec.js.)
       {
         const st = { ...baseStats, ...statOverrides };
         const total = (st.xp || 0) + (st.lc || 0) * 15 + (st.gc || 0) * 25;

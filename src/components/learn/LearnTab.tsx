@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContent } from '../../hooks/useContent';
 import { evalCk } from '../../lib/learnPathRules';
 import { getUserCefr } from '../../lib/cefr';
@@ -6,6 +6,10 @@ import { getDisplayLevel } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import CharacterPortrait from '../family/CharacterPortrait';
+import { readCourseState } from '../../lib/courseStep';
+import { mapTestOffer } from '../../lib/courseUnits';
+import { requestUnitTest } from '../../lib/courseUnitProgress';
+import { CURRICULUM_SPINE_EVENT } from '../../lib/curriculumProgress';
 
 const LESSON_TIPS = {
   greetings: {
@@ -102,6 +106,27 @@ export default function LearnTab({
   launchAnimLesson,
 }: LearnTabProps) {
   const { setScr } = useApp();
+  // The course data lands a moment after first paint on a fresh load; re-read when it does, or
+  // the card below would stay absent until something else happened to re-render this tab.
+  const [, setSpineTick] = useState(0);
+  useEffect(() => {
+    const bump = () => setSpineTick((n) => n + 1);
+    window.addEventListener(CURRICULUM_SPINE_EVENT, bump);
+    return () => window.removeEventListener(CURRICULUM_SPINE_EVENT, bump);
+  }, []);
+  // The unit the learner stands on, and whether the course offers its test. Read from the one
+  // view the map and the session read; with no spine (or any failure) the card simply is absent.
+  const courseOffer = (() => {
+    try {
+      const s = readCourseState();
+      const cur = s.rows.find((r) => r.unit.index === s.currentIndex);
+      if (!cur) return null;
+      const offer = mapTestOffer(cur);
+      return offer === 'none' ? null : { id: cur.unit.id, index: cur.unit.index, offer };
+    } catch {
+      return null;
+    }
+  })();
   const { stats: st } = useStats();
   const { content } = useContent();
   const LEARN_PATH = content?.LEARN_PATH ?? [];
@@ -293,6 +318,47 @@ export default function LearnTab({
         </span>
         <span style={{ fontSize: 15, color: 'var(--subtext)', flexShrink: 0 }}>→</span>
       </button>
+
+      {/* THE TEST-OUT, ON THE CARD ITSELF (owner report, 2026-11-14: "why under the Učenje tab in
+          courses is there no ability to test out?"). It existed — inside the current unit, on the
+          course map, behind a tap and an expanded row — and nothing on this tab said so. The
+          learner stands on exactly one unit, so that is the one offered; passing opens the next. */}
+      {courseOffer && (
+        <button
+          onClick={() => {
+            requestUnitTest(courseOffer.id);
+            setScr('unittest');
+          }}
+          data-testid="learn-unit-testout"
+          data-offer={courseOffer.offer}
+          style={{
+            width: '100%',
+            display: 'block',
+            textAlign: 'left',
+            padding: '12px 16px',
+            marginTop: -2,
+            marginBottom: 10,
+            borderRadius: 14,
+            border: '1.5px solid var(--card-b)',
+            background: 'var(--card)',
+            cursor: 'pointer',
+            fontFamily: "'Outfit',sans-serif",
+          }}
+        >
+          <span
+            style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}
+          >
+            {courseOffer.offer === 'primary'
+              ? `Take the Unit ${courseOffer.index} test →`
+              : `Test out of Unit ${courseOffer.index} →`}
+          </span>
+          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+            {courseOffer.offer === 'primary'
+              ? 'You have read every lesson — pass the test to open the next unit'
+              : 'Already know it? Pass the unit test and the next unit opens'}
+          </span>
+        </button>
+      )}
 
       {/* ── LOOK SOMETHING UP ────────────────────────────────────────────
           The lookup door. Everything else on this tab answers "what next"; this

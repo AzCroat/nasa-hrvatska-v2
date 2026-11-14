@@ -160,7 +160,7 @@ describe('the map a learner sees', () => {
     expect(await screen.findByTestId('course-map')).toBeTruthy();
     const btn = await screen.findByTestId('course-unit-test-A1-1');
     expect(btn.getAttribute('data-offer')).toBe('testout');
-    expect(btn.textContent).toMatch(/Already know this/);
+    expect(btn.textContent).toMatch(/Test out of this unit/);
   });
 
   // OWNER REPORT, 2026-11-13: the test-out was missing from the unit he was on. A first attempt
@@ -288,8 +288,13 @@ describe('the map a learner sees', () => {
     expect(screen.getByTestId('course-unit-A1-1').getAttribute('data-unit-state')).toBe('current');
     expect(screen.getByTestId('course-unit-A1-2').getAttribute('data-unit-state')).toBe('locked');
     expect(screen.getByText(new RegExp(`0 of ${UNITS.length} units mastered`))).toBeTruthy();
-    // And the map asks for the owed half rather than showing a tick that is not true.
-    expect(await screen.findByTestId('course-unit-write-A1-1')).toBeTruthy();
+    // And the map says the owed half is coming rather than showing a tick that is not true —
+    // as a NOTE, not a button: the written and spoken tasks are part of the course, not a
+    // selection (owner, 2026-11-14).
+    expect(await screen.findByTestId('course-unit-produce-note-A1-1')).toBeTruthy();
+    expect(screen.queryByTestId('course-unit-write-A1-1')).toBeNull();
+    expect(screen.queryByTestId('course-unit-speak-A1-1')).toBeNull();
+    expect(screen.queryByText(/Now write what you have learned/)).toBeNull();
     expect(screen.queryByTestId('course-unit-mastered-A1-1')).toBeNull();
   });
 
@@ -723,6 +728,17 @@ describe('a learner can actually get here', () => {
     const tab = strip(src('components/learn/LearnTab.tsx'));
     expect(tab).toMatch(/setScr\('coursemap'\)/);
     expect(tab).toMatch(/data-testid="open-course-map"/);
+  });
+
+  it('offers the unit test-out on the Learn tab card itself, from the same view as the map', () => {
+    const tab = strip(src('components/learn/LearnTab.tsx'));
+    expect(tab).toMatch(/data-testid="learn-unit-testout"/);
+    expect(tab).toMatch(/readCourseState\(\)/);
+    expect(tab).toMatch(/mapTestOffer\(cur\)/);
+    expect(tab).toMatch(/requestUnitTest\(courseOffer\.id\)/);
+    expect(tab).toMatch(/setScr\('unittest'\)/);
+    // It must re-read when the course data lands, or a fresh load shows no card.
+    expect(tab).toMatch(/addEventListener\(CURRICULUM_SPINE_EVENT/);
   });
 
   it('belongs to the Learn tab and survives a back-navigation', async () => {

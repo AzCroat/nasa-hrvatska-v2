@@ -66,6 +66,24 @@ async function openMap(page) {
   await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
 }
 
+async function beginUnitTask(page, kind) {
+  // The unit's written and spoken tasks are not a menu on the map (owner, 2026-11-14): the course
+  // serves them. Home serves ONE a day — the written task first — so the written task is reached
+  // from Home, where the session leads with it; the spoken one is the next day's, and its
+  // one-shot handoff is set here as the course sets it when that day comes.
+  if (kind === 'write') {
+    await page.goto('/');
+    const card = page.getByTestId('session-card');
+    await expect(card).toBeVisible({ timeout: 30_000 });
+    await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
+    await page.getByTestId('session-begin-cta').click();
+    return;
+  }
+  await page.goto('/');
+  await page.evaluate((k) => sessionStorage.setItem('nh_unit_production', `A1-1|${k}`), kind);
+  await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
+}
+
 test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', async ({
   page,
 }) => {
@@ -97,13 +115,13 @@ test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', 
   expect(await unitState(page, 'A1-2')).toBe('locked');
 
   for (const k of ['write', 'speak']) {
-    await page.getByTestId(`course-unit-${k}-A1-1`).click();
+    await beginUnitTask(page, k);
     await page.getByTestId('unit-production-input').fill(WORDS);
     await page.getByTestId('unit-production-submit').click();
     await expect(page.getByTestId('unit-production-result')).toBeVisible({ timeout: 15_000 });
     await page.getByTestId('unit-production-done').click();
-    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
   }
+  await openMap(page);
 
   // Bar met, retention pending: cleared, not yet mastered — and the next unit opens.
   expect(await unitState(page, 'A1-1')).toBe('cleared');
@@ -131,8 +149,7 @@ test('a refused evaluator names the cause and does not wall the course', async (
       body: JSON.stringify({ error: 'monthly_budget_exhausted' }),
     }),
   );
-  await openMap(page);
-  await page.getByTestId('course-unit-write-A1-1').click();
+  await beginUnitTask(page, 'write');
   await page.getByTestId('unit-production-input').fill(WORDS);
   await page.getByTestId('unit-production-submit').click();
   const failed = page.getByTestId('unit-production-failed');
