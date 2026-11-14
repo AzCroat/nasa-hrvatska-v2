@@ -178,7 +178,12 @@ jobs:
 
   e2e:
     name: E2E Tests (Cross-Browser)
-    runs-on: ubuntu-latest
+    # PINNED, NOT `ubuntu-latest` (2026-11-14): GitHub moved `ubuntu-latest` from 24.04 to 26.04
+    # mid-day, and Playwright's WebKit build links libicudata.so.74, which only 24.04 ships — every
+    # WebKit launch died with "error while loading shared libraries", on every change, and a
+    # deploy waits on this job. Move the pin only together with a Playwright release whose WebKit
+    # supports the newer image (`ciRunnerPinned.test.js` holds it).
+    runs-on: ubuntu-24.04
     needs: quality
     # 2026-05-22: bumped 45 → 75 when the Chrome suite ran here. Since 2026-10-11 the
     # Chrome suite is the sharded e2e-chrome job below; this job runs the microphone
