@@ -37,6 +37,20 @@ test.describe('Course map', () => {
     await expect(page.getByTestId('open-course-map')).toBeVisible({ timeout: 20_000 });
   });
 
+  test('the Learn tab itself offers the test-out for the unit the learner is on', async ({
+    page,
+  }) => {
+    // Owner report, 2026-11-14: nothing on the Learn tab said a test-out existed. It must be on
+    // the course card, without opening the map.
+    const offer = page.getByTestId('learn-unit-testout');
+    await expect(offer).toBeVisible({ timeout: 20_000 });
+    await expect(offer).toHaveAttribute('data-offer', 'testout');
+    await expect(offer).toContainText('Test out of Unit 1');
+    await offer.click();
+    await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
+    await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 1 of 15');
+  });
+
   test('is reachable from the Learn tab and shows the whole course', async ({ page }) => {
     await page.getByTestId('open-course-map').click();
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
@@ -78,6 +92,37 @@ test.describe('Course map', () => {
     await expect(page.getByTestId('lesson-nav-next')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByTestId('course-map')).toHaveCount(0);
     await expect(page.getByTestId('course-open-failed')).toHaveCount(0);
+  });
+
+  test('Lesson 1, opened from Your Course, offers the test-out', async ({ page }) => {
+    // Owner report, 2026-11-14: "When I open Your Course, Lesson 1, there should be a test-out
+    // option." Nothing asserted this end to end — only that SOME lesson page appeared.
+    await page.getByTestId('open-course-map').click();
+    await expect(page.getByTestId('course-lesson-alphabet')).toBeVisible({ timeout: 20_000 });
+    await page.getByTestId('course-lesson-alphabet').click();
+    const testOut = page.getByTestId('lesson-test-out');
+    await expect(testOut).toBeVisible({ timeout: 20_000 });
+    await expect(testOut).toContainText('Take the check');
+    await testOut.click();
+    // The first check item, not the lesson's first slide.
+    await expect(page.getByTestId('lesson-check-progress')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('with Lesson 1 passed, Lesson 2 offers the test-out', async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'nh_curriculum_progress',
+        JSON.stringify({ done: { alphabet: '2026-09-01' } }),
+      );
+    });
+    await page.reload();
+    await expect(page.getByTestId('open-course-map')).toBeVisible({ timeout: 20_000 });
+    await page.getByTestId('open-course-map').click();
+    await expect(page.getByTestId('course-lesson-sounds-palatals')).toBeVisible({
+      timeout: 20_000,
+    });
+    await page.getByTestId('course-lesson-sounds-palatals').click();
+    await expect(page.getByTestId('lesson-test-out')).toBeVisible({ timeout: 20_000 });
   });
 
   test('the map survives a direct URL entry', async ({ page }) => {
@@ -187,7 +232,7 @@ test.describe('The course gate', () => {
     // which is what made the first version of this test fail on correct code.
     const offer = page.getByTestId('course-unit-test-A1-1');
     await expect(offer).toHaveAttribute('data-offer', 'testout');
-    await expect(offer).toContainText('Already know this?');
+    await expect(offer).toContainText('Test out of this unit');
     await offer.click();
     await expect(page.getByTestId('unit-test')).toBeVisible({ timeout: 20_000 });
     await expect(page.getByTestId('unit-test-progress')).toHaveText('Question 1 of 15');
@@ -234,9 +279,16 @@ test.describe('Unit production', () => {
   test('is offered on a unit whose test is passed, and records a graded task', async ({ page }) => {
     // The unit is not mastered yet: production is owed, so no tick.
     await expect(page.getByTestId('course-unit-mastered-A1-1')).toHaveCount(0);
-    const write = page.getByTestId('course-unit-write-A1-1');
-    await expect(write).toBeVisible();
-    await write.click();
+    // The map does NOT offer a write-or-say choice (owner, 2026-11-14: the task belongs inside
+    // the course, "not a selection"): a note says it is coming, and Home's session serves it.
+    await expect(page.getByTestId('course-unit-produce-note-A1-1')).toBeVisible();
+    await expect(page.getByTestId('course-unit-write-A1-1')).toHaveCount(0);
+    await expect(page.getByTestId('course-unit-speak-A1-1')).toHaveCount(0);
+    await page.goto('/');
+    const card = page.getByTestId('session-card');
+    await expect(card).toBeVisible({ timeout: 30_000 });
+    await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
+    await page.getByTestId('session-begin-cta').click();
 
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
     // The brief comes from the unit's own lessons — nothing was authored for it.

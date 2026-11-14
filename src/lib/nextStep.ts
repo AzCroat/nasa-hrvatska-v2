@@ -10,8 +10,8 @@
  *
  * Priority ladder (first hit wins; ALWAYS returns a step — the fallback can
  * never miss):
- *   1. verification — a provisional level is waiting to be made real (the
- *      mastery gate outranks everything, same as its Home card).
+ *   1. (removed 2026-11-14) — the verification prompt. The course gates progress
+ *      now, so no recurring Level Check prompt outranks the day's work.
  *   2. session      — today's session has unfinished activities: finish the
  *      plan before anything new.
  *   3. srs          — servable reviews are due (spaced repetition decays by
@@ -32,8 +32,6 @@
  */
 
 import type { CefrLevel } from './cefr.js';
-import { getVerificationGate, isVerificationQuiet, getLatestAttempt } from './cefrCertification.js';
-import { verificationPromptReady } from './verificationTiming';
 import { getServableReviewCount } from './srs';
 import { retentionStatus } from './lessonRetention';
 import { weakestProductionKind, buildPlanReason } from './masteryLedger.js';
@@ -51,14 +49,7 @@ import { nextCourseStep, type CourseStep } from './courseStep';
 import type { ProductionKind } from './unitProduction';
 
 export type NextStepKind =
-  | 'verification'
-  | 'session'
-  | 'srs'
-  | 'retention'
-  | 'course'
-  | 'production'
-  | 'discovery'
-  | 'browse';
+  'session' | 'srs' | 'retention' | 'course' | 'production' | 'discovery' | 'browse';
 
 export interface NextStep {
   kind: NextStepKind;
@@ -150,40 +141,8 @@ export function courseNextStep(c: CourseStep): NextStep {
  * The single recommendation. Never returns null — a user with nothing due,
  * nothing pending and no ledger still gets the library.
  */
-export function getNextStep(opts: {
-  userCefr: string;
-  poolWords?: Set<string>;
-  /** Live `stats.xp` — the verification quiet period is measured in XP earned
-   *  since the last attempt. Omitted/0 reads as "not yet known", which keeps
-   *  the rung quiet rather than recommending a retake on an unhydrated total. */
-  xp?: number;
-}): NextStep {
-  const { userCefr, poolWords, xp } = opts;
-
-  // 1 — verification gate: a provisional level outranks everything — UNLESS
-  // the learner attempted a check and has not yet earned VERIFICATION_RETURN_XP
-  // since (owner directives, 2026-08-18 + 2026-09-07). Right after an attempt,
-  // "retake the test" is the wrong recommendation; falling through lands on
-  // the mastery ledger's weakest skill (rung 4) — the practice that will
-  // actually let them pass, and the practice that brings the rung back.
-  try {
-    const gate = getVerificationGate();
-    if (
-      gate.required &&
-      gate.target &&
-      !isVerificationQuiet(xp ?? 0) &&
-      verificationPromptReady(gate.nextCheck, getLatestAttempt()?.takenAt)
-    ) {
-      return {
-        kind: 'verification',
-        screen: 'equivalency',
-        label: `Verify ${gate.target} — make it real`,
-        reason: 'Your level is provisional until one honest check confirms it.',
-      };
-    }
-  } catch {
-    /* gate unreadable — fall through */
-  }
+export function getNextStep(opts: { userCefr: string; poolWords?: Set<string> }): NextStep {
+  const { userCefr, poolWords } = opts;
 
   // 2 — unfinished daily session: finish the plan first.
   const session = readTodaySession();

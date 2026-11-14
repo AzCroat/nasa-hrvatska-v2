@@ -168,10 +168,6 @@ describe('2. the daily session claims a slot for what is due', () => {
 describe('3. the next-step engine offers the review above discretionary practice', () => {
   it('recommends it when something is due, and not when nothing is', async () => {
     vi.resetModules();
-    vi.doMock('../lib/cefrCertification', () => ({
-      getVerificationGate: () => ({ required: false }),
-      isVerificationQuiet: () => false,
-    }));
     vi.doMock('../lib/srs', () => ({ getServableReviewCount: () => 0 }));
     vi.doMock('../lib/masteryLedger', () => ({
       weakestProductionKind: () => 'write',

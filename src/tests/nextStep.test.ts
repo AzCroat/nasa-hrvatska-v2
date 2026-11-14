@@ -2,23 +2,13 @@
  * nextStep.test.ts — the constant next-step engine (owner directive,
  * 2026-08-16: "something should always be recommended to complete").
  *
- * Pins the priority ladder (verification > unfinished session > SRS due >
+ * Pins the priority ladder (unfinished session > SRS due >
  * weakest production > discovery > browse) and the core guarantee: getNextStep
  * NEVER returns null — every state of the app maps to a recommendation.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { localDateStr } from '../lib/dateUtils';
 
-vi.mock('../lib/cefrCertification', () => ({
-  getVerificationGate: vi.fn(() => ({ required: false, target: null, options: [] })),
-  // Quiet period (2026-08-18): default NOT quiet so the verification-rung
-  // tests keep their original meaning; the quiet behavior has its own test.
-  isVerificationQuiet: vi.fn(() => false),
-  getLatestAttempt: vi.fn(() => null),
-}));
-// The course-timing rule has its own suite (verificationTiming.test.ts); here the
-// ladder's ORDER is under test, so the prompt is taken as due.
-vi.mock('../lib/verificationTiming', () => ({ verificationPromptReady: vi.fn(() => true) }));
 vi.mock('../lib/srs', () => ({
   getServableReviewCount: vi.fn(() => 0),
 }));
@@ -34,7 +24,6 @@ vi.mock('../hooks/useDailySession', () => ({
 }));
 
 import { getNextStep } from '../lib/nextStep';
-import { getVerificationGate } from '../lib/cefrCertification';
 import { getServableReviewCount } from '../lib/srs';
 import { weakestProductionKind, buildPlanReason } from '../lib/masteryLedger';
 import { resolveAdaptiveActivity, selectProductionExercise } from '../hooks/useDailySession';
@@ -58,11 +47,6 @@ function seedSession(completed: string[]) {
 
 beforeEach(() => {
   localStorage.clear();
-  vi.mocked(getVerificationGate).mockReturnValue({
-    required: false,
-    target: null,
-    options: [],
-  } as never);
   vi.mocked(getServableReviewCount).mockReturnValue(0);
   vi.mocked(weakestProductionKind).mockReturnValue(null);
   vi.mocked(buildPlanReason).mockReturnValue(null);
@@ -71,44 +55,13 @@ beforeEach(() => {
 });
 
 describe('getNextStep priority ladder', () => {
-  it('1: a pending verification gate outranks everything', () => {
-    vi.mocked(getVerificationGate).mockReturnValue({
-      required: true,
-      target: 'B1',
-      options: ['B1', 'A2'],
-      nextCheck: 'A2',
-    } as never);
-    seedSession([]); // even with a fresh session waiting
+  it('1: there is NO verification rung — a fresh session leads, never the Level Check (owner, 2026-11-14)', () => {
+    // The recurring verification prompt was removed: the course gates progress now, so nothing
+    // about a provisional level may outrank the day's own work.
+    seedSession([]);
     const step = getNextStep({ userCefr: 'B1', poolWords: POOL });
-    expect(step.kind).toBe('verification');
-    expect(step.screen).toBe('equivalency');
-    expect(step.label).toContain('B1');
-  });
-
-  it('1b: the QUIET PERIOD stands the verification rung down — practice resumes (owner, 2026-08-18)', async () => {
-    // Right after an attempt (pass or fail), "retake the test" is the wrong
-    // recommendation: the ladder must fall through to real practice.
-    const { isVerificationQuiet } = await import('../lib/cefrCertification');
-    vi.mocked(getVerificationGate).mockReturnValue({
-      required: true,
-      target: 'B1',
-      options: ['B1'],
-    } as never);
-    vi.mocked(isVerificationQuiet).mockReturnValue(true);
-    vi.mocked(weakestProductionKind).mockReturnValue('write');
-    vi.mocked(selectProductionExercise).mockReturnValue({
-      id: 'writing_guided',
-      label: 'Guided Writing',
-      screen: 'writing_guided',
-      category: 'writing',
-    } as never);
-    const step = getNextStep({ userCefr: 'B1', poolWords: POOL, xp: 4200 });
-    expect(step.kind).not.toBe('verification');
-    expect(step.kind).toBe('production'); // the ledger's weakest skill wins instead
-    // The quiet period is measured in XP earned since the attempt (2026-09-07),
-    // so the engine must hand the helper the live total — not call it bare.
-    expect(isVerificationQuiet).toHaveBeenCalledWith(4200);
-    vi.mocked(isVerificationQuiet).mockReturnValue(false);
+    expect(step.kind).toBe('session');
+    expect(step.screen).not.toBe('equivalency');
   });
 
   it('2: an unfinished daily session recommends its next activity (with session credit id)', () => {
@@ -180,9 +133,6 @@ describe('getNextStep priority ladder', () => {
   });
 
   it('a throwing dependency degrades to the next rung, never to a crash', () => {
-    vi.mocked(getVerificationGate).mockImplementation(() => {
-      throw new Error('storage dead');
-    });
     vi.mocked(getServableReviewCount).mockImplementation(() => {
       throw new Error('srs dead');
     });

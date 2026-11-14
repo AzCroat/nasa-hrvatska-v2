@@ -577,10 +577,16 @@ test.describe('The spoken production steps, on the microphone', () => {
       await json(route, 200, COACH_OK);
     });
 
+    // The map no longer offers a write-or-say choice (owner, 2026-11-14); the course hands the
+    // learner the task, so the handoff it writes is set here and the screen opened directly.
+    // The map is visited first, as the learner's route did: it fetches and stores the course data
+    // the production screen reads. A cold direct load would wait on that fetch, which on a build
+    // with Firebase initialised (CI's) arrives seconds late.
     await page.goto('/coursemap');
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
-    await page.getByTestId('course-unit-speak-A1-1').click();
-    await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
+    await page.evaluate(() => sessionStorage.setItem('nh_unit_production', 'A1-1|speak'));
+    await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 30_000 });
 
     // Two takes: this recogniser APPENDS, and each take's recording is checked
     // against only the words it added (SpeakCheck `appends`).
@@ -706,8 +712,9 @@ test.describe('Microphone blocked @denied', () => {
     // The unit production spoken task.
     await page.goto('/coursemap');
     await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
-    await page.getByTestId('course-unit-speak-A1-1').click();
-    await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
+    await page.evaluate(() => sessionStorage.setItem('nh_unit_production', 'A1-1|speak'));
+    await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
+    await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 30_000 });
     await page.getByTestId('unit-production-mic').click();
     await expect(page.getByTestId('unit-production-mic-error')).toContainText(/type/i, {
       timeout: 10_000,

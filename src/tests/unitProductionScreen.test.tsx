@@ -272,8 +272,16 @@ describe('a learner can get here', () => {
     const map = strip(
       readFileSync(resolve(__dirname, '..', 'components/learn/CourseMapScreen.tsx'), 'utf8'),
     );
-    expect(map).toMatch(/requestUnitProduction\(row\.unit\.id, kind\)/);
-    expect(map).toMatch(/setScr\('unitproduction'\)/);
+    // The map no longer offers a write-or-say choice: the course serves the task itself, from the
+    // unit-test result's single Continue and from Home's teaching slot.
+    expect(map).not.toMatch(/requestUnitProduction/);
+    expect(map).not.toMatch(/onProduce/);
+    const result = strip(
+      readFileSync(resolve(__dirname, '..', 'components/learn/UnitTestScreen.tsx'), 'utf8'),
+    );
+    expect(result).toMatch(/data-testid="unit-test-continue"/);
+    expect(result).toMatch(/requestUnitProduction\(unitId, kind\)/);
+    expect(result).toMatch(/setScr\('unitproduction'\)/);
     const slot = strip(readFileSync(resolve(__dirname, '..', 'lib/curriculumSlot.ts'), 'utf8'));
     expect(slot).toMatch(/screen: 'unitproduction'/);
   });

@@ -41,6 +41,7 @@ import {
   productionBlockedUnits,
 } from '../../lib/courseUnitProgress';
 import { requestUnitProduction } from '../../lib/unitProductionRequest';
+import { nextCourseStep } from '../../lib/courseStep';
 import { signalSessionCompleteIfActive } from '../../lib/sessionSignal';
 import { UNIT_RECHECK_INTERVALS } from '../../lib/unitRetention';
 import {
@@ -396,13 +397,24 @@ export default function UnitTestScreen({
           )}
         </div>
 
-        {owedKinds.map((k) => (
+        {owedKinds.length > 0 && (
           <button
-            key={k}
-            data-testid={`unit-test-produce-${k}`}
+            data-testid="unit-test-continue"
             onClick={() => {
               if (!unitId) return;
-              requestUnitProduction(unitId, k);
+              // THE COURSE DECIDES WHAT COMES NEXT, not a menu (owner, 2026-11-14: these tasks
+              // belong inside the course, "not a selection"). Its next step is this unit's owed
+              // task; write and say are no longer two buttons the learner picks between.
+              let kind: 'write' | 'speak' | null = null;
+              try {
+                const step = nextCourseStep({ skipRechecks: true });
+                if (step && step.kind === 'production' && step.unit.id === unitId) kind = step.owed;
+              } catch {
+                /* fall through to the first owed kind */
+              }
+              kind = kind ?? owedKinds[0] ?? null;
+              if (!kind) return;
+              requestUnitProduction(unitId, kind);
               setScr('unitproduction');
             }}
             style={{
@@ -419,11 +431,9 @@ export default function UnitTestScreen({
               marginBottom: 8,
             }}
           >
-            {k === 'write'
-              ? 'Now write what you have learned →'
-              : 'Now say what you have learned →'}
+            Continue →
           </button>
-        ))}
+        )}
 
         {weak.length > 0 && (
           <div style={{ marginBottom: 18 }}>

@@ -88,7 +88,7 @@ export function useNextStepEngine(): NextStepEngine {
   const computeStep = useCallback((): NextStep | null => {
     try {
       const cefr = getContentUnlockLevel(getUserCefr(st?.xp ?? 0, st?.lc ?? 0, st?.gc ?? 0));
-      return getNextStep({ userCefr: cefr, poolWords, xp: st?.xp ?? 0 });
+      return getNextStep({ userCefr: cefr, poolWords });
     } catch {
       return null; // recommendation unavailable — surface renders nothing
     }
@@ -110,10 +110,6 @@ export function useNextStepEngine(): NextStepEngine {
           // rung on the Learn tab with nothing opened, and this rung is the
           // FLOOR of getNextStep — it must never be the one that does nothing.
           setScr?.('learning_center');
-          return;
-        }
-        if (s.kind === 'verification') {
-          setScr?.('equivalency');
           return;
         }
         if (s.kind === 'course' && s.course) {

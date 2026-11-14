@@ -52,13 +52,11 @@ describe('getContentUnlockLevel — race-safe content gate (Rec #4 full activati
     expect(getContentUnlockLevel('B2')).toBe('B2');
   });
 
-  it('after grandfather migration, gates NEW content below the provisional level (Phase 1 mastery gate)', () => {
+  it('after grandfather migration, content stays at the grandfathered level (the verification cap was removed 2026-11-14)', () => {
     migrateGrandfatheredCertification('B1'); // sets the flag + grandfathers certified B1
-    // Phase 1 (2026-08-16): grandfathered levels are PROVISIONAL — inherited
-    // from activity, never demonstrated. Until the user passes a real B1
-    // verification, new content pauses one level below the gate's target.
-    // (Pre-Phase-1 this returned 'B1'.)
-    expect(getContentUnlockLevel('C1')).toBe('A2');
+    // Grandfathered levels are still PROVISIONAL (inherited from activity, never demonstrated),
+    // but a provisional level no longer pauses new content: the course gates progress now.
+    expect(getContentUnlockLevel('C1')).toBe('B1');
   });
 
   it('migrated with no passes caps content at certified A1 (the real gate)', () => {

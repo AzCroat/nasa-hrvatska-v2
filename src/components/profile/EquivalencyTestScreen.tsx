@@ -51,7 +51,6 @@ import {
   getCertifiedLevel,
   getVerificationGate,
   isSpeakingGateEnforced,
-  VERIFICATION_RETURN_XP,
   type SkillScores,
 } from '../../lib/cefrCertification.js';
 import { getNextTestFor, type EquivalencyTestSet } from '../../data/cefrEquivalencyItems.js';
@@ -131,8 +130,7 @@ interface EquivalencyTestScreenProps {
   userEligible: CefrLevel;
   /** User's lesson-completion count, for cooldown calc. */
   userLessonCount: number;
-  /** User's XP at the time of the attempt — the baseline the Home prompt's
-   *  quiet period counts learning from (VERIFICATION_RETURN_XP). */
+  /** User's XP at the time of the attempt, recorded with it. */
   userXp: number;
   /** Return to the Profile (Me) tab. */
   onBackToProfile: () => void;
@@ -785,22 +783,12 @@ export default function EquivalencyTestScreen({
           <p style={{ color: 'var(--subtext)', fontSize: 14, marginBottom: 18 }}>
             {passed
               ? verificationMode
-                ? `Your ${testSet.levelTo} now stands on demonstrated skill. Everything unlocks again — onward.`
+                ? `Your ${testSet.levelTo} now stands on demonstrated skill. Onward.`
                 : `You've demonstrated the competency ${testSet.levelTo} stands on. ${testSet.levelTo} content is unlocked.`
               : resultRollback
                 ? `Honest read: today's check didn't support ${resultRollback.from}, so your level moved to ${resultRollback.to}. Nothing is lost — verify ${resultRollback.to}, build the weaker skills, and win ${resultRollback.from} back for real.`
                 : `You need 80% on every skill. Keep practicing — the lessons below your level are the preparation. Retest after 5 more lessons or 7 days.`}
           </p>
-          {!passed && (
-            <p
-              data-testid="verification-quiet-note"
-              style={{ color: 'var(--subtext)', fontSize: 13, marginTop: -8, marginBottom: 18 }}
-            >
-              Your home page goes back to practice now. The Level Check returns there after{' '}
-              {VERIFICATION_RETURN_XP} XP of practice — about a week at the daily goal — to confirm
-              what you learned stuck. Want it sooner? It is always on the Me tab.
-            </p>
-          )}
           {resultRollback && (
             <div
               data-testid="verification-rollback-note"
