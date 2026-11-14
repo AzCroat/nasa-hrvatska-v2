@@ -579,7 +579,11 @@ test.describe('The spoken production steps, on the microphone', () => {
 
     // The map no longer offers a write-or-say choice (owner, 2026-11-14); the course hands the
     // learner the task, so the handoff it writes is set here and the screen opened directly.
-    await page.goto('/');
+    // The map is visited first, as the learner's route did: it fetches and stores the course data
+    // the production screen reads. A cold direct load would wait on that fetch, which on a build
+    // with Firebase initialised (CI's) arrives seconds late.
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
     await page.evaluate(() => sessionStorage.setItem('nh_unit_production', 'A1-1|speak'));
     await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 30_000 });
@@ -706,6 +710,8 @@ test.describe('Microphone blocked @denied', () => {
     await expect(page.getByTestId('produce-result')).toBeVisible({ timeout: 20_000 });
 
     // The unit production spoken task.
+    await page.goto('/coursemap');
+    await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 30_000 });
     await page.evaluate(() => sessionStorage.setItem('nh_unit_production', 'A1-1|speak'));
     await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
     await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 30_000 });

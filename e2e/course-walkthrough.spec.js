@@ -216,12 +216,19 @@ test.describe('A new learner walks Unit 1 into Unit 2', () => {
 
     // Production, both halves, typed (a learner without a microphone can finish the course).
     for (const kind of ['write', 'speak']) {
-      await page.goto('/coursemap');
-      await expect(page.getByTestId('course-map')).toBeVisible({ timeout: 20_000 });
-      const btn = page.getByTestId(`course-unit-${kind}-A1-1`);
-      if (!(await btn.isVisible()))
-        await page.getByTestId('course-unit-A1-1').locator('button').first().click();
-      await btn.click();
+      // The map offers no write-or-say choice (owner, 2026-11-14): the course serves the task.
+      // Home serves ONE a day — the written task first — so that is reached from Home, and the
+      // spoken one is the next day's, whose handoff is set here as the course sets it.
+      await page.goto('/');
+      if (kind === 'write') {
+        const card = page.getByTestId('session-card');
+        await expect(card).toBeVisible({ timeout: 30_000 });
+        await expect(card).toContainText('Unit 1: write', { timeout: 20_000 });
+        await page.getByTestId('session-begin-cta').click();
+      } else {
+        await page.evaluate((k) => sessionStorage.setItem('nh_unit_production', `A1-1|${k}`), kind);
+        await page.goto('/unitproduction', { waitUntil: 'domcontentloaded' });
+      }
       await expect(page.getByTestId('unit-production')).toBeVisible({ timeout: 20_000 });
       const words = Array.from({ length: 80 }, (_, j) => `riječ${j}`).join(' ');
       await page.getByTestId('unit-production-input').fill(words);

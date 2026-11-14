@@ -128,6 +128,9 @@ test('writing and speaking the Unit 1 tasks opens Unit 2, and Home teaches it', 
   expect(await unitState(page, 'A1-2')).toBe('current');
   expect(await unitState(page, 'A1-3')).toBe('locked');
 
+  // The next day: today's plan was built when the written task was served, so a new day is a new
+  // plan. (Clearing the stored plan is what a date change does.)
+  await page.evaluate(() => localStorage.removeItem('nh_daily_session'));
   await page.goto('/');
   const card = page.getByTestId('session-card');
   await expect(card).toBeVisible({ timeout: 30_000 });
