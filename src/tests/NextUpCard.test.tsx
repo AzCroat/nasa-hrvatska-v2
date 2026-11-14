@@ -65,19 +65,6 @@ describe('NextUpCard', () => {
     expect(launchSessionActivity).toHaveBeenCalledWith('caseconstellation', 'grammar');
   });
 
-  it('a verification recommendation routes to the Level Check', () => {
-    getNextStep.mockReturnValue({
-      kind: 'verification',
-      screen: 'equivalency',
-      label: 'Verify B1 — make it real',
-      reason: 'Provisional until checked.',
-    });
-    renderWith();
-    fireEvent.click(screen.getByTestId('next-up-card-start'));
-    expect(setScr).toHaveBeenCalledWith('equivalency');
-    expect(launchSessionActivity).not.toHaveBeenCalled();
-  });
-
   it('renders nothing when the engine cannot compute (never a broken card)', () => {
     getNextStep.mockImplementation(() => {
       throw new Error('storage dead');

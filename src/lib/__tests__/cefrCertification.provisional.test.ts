@@ -24,7 +24,6 @@ import {
   getVerifiedLevel,
   getCertifiedLevel,
   getVerificationGate,
-  isBlockedByVerificationGate,
   getContentUnlockLevel,
   computePassed,
   type CertificationState,
@@ -134,14 +133,13 @@ describe('verified level and the gate', () => {
     expect(gate.options).toEqual(['B1']);
   });
 
-  it('blocks new content at/above the target, keeps everything below open', () => {
+  it('a provisional level NO LONGER pauses content (owner, 2026-11-14: the course gates progress)', () => {
     seedState({ A2: { ...GF_PASS, provisional: true }, B1: { ...GF_PASS, provisional: true } });
-    expect(isBlockedByVerificationGate('B1')).toBe(true);
-    expect(isBlockedByVerificationGate('B2')).toBe(true);
-    expect(isBlockedByVerificationGate('A2')).toBe(false);
-    expect(isBlockedByVerificationGate('A1')).toBe(false);
-    // The unlock cap every content pool inherits:
-    expect(getContentUnlockLevel('B1')).toBe('A2');
+    // The verification prompt and its content cap were removed. Provisional passes still count
+    // for access (a claim and a door are different questions), so the unlock level is the
+    // certified one — never capped below it by an unseen gate.
+    expect(getContentUnlockLevel('B2')).toBe('B1');
+    expect(getContentUnlockLevel('B1')).toBe('B1');
   });
 
   it('no gate → unlock level is the certified level, as before', () => {
@@ -152,7 +150,7 @@ describe('verified level and the gate', () => {
 
   it('a passed verification lifts the gate and restores the full level instantly', () => {
     seedState({ A2: { ...GF_PASS, provisional: true }, B1: { ...GF_PASS, provisional: true } });
-    expect(getContentUnlockLevel('B1')).toBe('A2');
+    expect(getContentUnlockLevel('B1')).toBe('B1'); // nothing was ever paused (cap removed 2026-11-14)
     recordEquivalencyAttempt({
       level: 'B1',
       scores: { vocab: 0.9, grammar: 0.9, reading: 0.9, speaking: 0.85, writing: 0.85 },
@@ -304,9 +302,9 @@ describe('placement grants provisional standing (Phase 5)', () => {
     const gate = getVerificationGate();
     expect(gate.required).toBe(true);
     expect(gate.target).toBe('B1');
-    // Practice below the placed level opens; the placed level waits for a
-    // real verification. The unlock race guard is initialised by the grant.
-    expect(getContentUnlockLevel('A1')).toBe('A2');
+    // The placed level opens as granted: the verification cap that used to hold it one level
+    // below was removed 2026-11-14 (the course gates progress now).
+    expect(getContentUnlockLevel('A1')).toBe('B1');
   });
 
   it('A1 placement grants nothing — the entry point needs no certificate', () => {

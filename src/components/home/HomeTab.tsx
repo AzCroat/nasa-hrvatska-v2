@@ -67,8 +67,7 @@ import {
 } from '../../lib/sessionCategory';
 import { rearmCourseHandoff } from '../../lib/curriculumSlot';
 import { getUserCefr } from '../../lib/cefr';
-import { getContentUnlockLevel, getVerificationGate } from '../../lib/cefrCertification';
-import VerificationGateCard from './VerificationGateCard';
+import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import SessionCard from './SessionCard';
 import { markSessionLaunch, takePendingSessionActivity } from '../../lib/sessionLaunchDay';
 import DailyInputCard from './DailyInputCard';
@@ -253,10 +252,6 @@ export default function HomeTab({
   // level (race-safe via getContentUnlockLevel), so reaching a new tier's content
   // requires passing its assessment. Grandfathered, so no current content is lost.
   const userCefr = getContentUnlockLevel(getUserCefr(st.xp, st.lc, st.gc));
-  // Phase 1 mastery gate: provisional (grandfathered) levels must be verified.
-  // Recomputed per render — cheap localStorage read; flips off the moment a
-  // real pass is recorded.
-  const verificationGate = getVerificationGate();
   // The set of words /review can actually serve — used to count SRS reviews so
   // the home pill and the session SRS slot agree with reality (orphan cards
   // whose word is in no servable category are dropped). Derived by the SAME
@@ -444,13 +439,6 @@ export default function HomeTab({
           </button>
         </div>
       )}
-
-      {/* ── VERIFICATION GATE (Phase 1 mastery gate — no snooze, no dismiss) ── */}
-      <VerificationGateCard
-        gate={verificationGate}
-        currentXp={st.xp}
-        onStartVerification={() => setScr('equivalency')}
-      />
 
       {/* ── DAILY SESSION CARD (session only — host lives in the Razgovor card below) ── */}
       <SessionCard

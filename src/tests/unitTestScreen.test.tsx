@@ -151,7 +151,7 @@ describe('a passed test is half the bar, and the result says what the other half
   // Walked in a browser (2026-09-27): the result read "Unit passed" above one button,
   // "Take it again", while the unit still owed a spoken and a written task that
   // nothing on the screen mentioned.
-  it('names the owed tasks and makes them the primary way on', async () => {
+  it('names the owed tasks and makes ONE Continue the way on — the course picks, not the learner', async () => {
     seed();
     const { setScr } = mount();
     await sit(paper());
@@ -160,12 +160,17 @@ describe('a passed test is half the bar, and the result says what the other half
       /one spoken and one written task/,
     );
     const retake = screen.getByTestId('unit-test-retake');
-    const speak = screen.getByTestId('unit-test-produce-speak');
-    const write = screen.getByTestId('unit-test-produce-write');
+    // Owner, 2026-11-14: "Now write / Now say what you have learned" are not a selection. There is
+    // no write-or-speak menu; one Continue takes the learner to what the course says is next.
+    expect(screen.queryByTestId('unit-test-produce-speak')).toBeNull();
+    expect(screen.queryByTestId('unit-test-produce-write')).toBeNull();
+    expect(screen.queryByText(/Now write what you have learned/)).toBeNull();
+    expect(screen.queryByText(/Now say what you have learned/)).toBeNull();
+    const next = screen.getByTestId('unit-test-continue');
     // Order is the priority: the owed tasks come before a retake of a passed test.
-    expect(speak.compareDocumentPosition(retake) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    fireEvent.click(write);
-    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
+    expect(next.compareDocumentPosition(retake) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    fireEvent.click(next);
+    expect(sessionStorage.getItem('nh_unit_production')).toMatch(/^A1-1\|(write|speak)$/);
     expect(setScr).toHaveBeenCalledWith('unitproduction');
   });
 
@@ -183,7 +188,9 @@ describe('a passed test is half the bar, and the result says what the other half
     await screen.findByTestId('unit-test-result');
     expect(screen.getByTestId('unit-test-owed').textContent).toMatch(/one written task/);
     expect(screen.queryByTestId('unit-test-produce-speak')).toBeNull();
-    expect(screen.getByTestId('unit-test-produce-write')).toBeTruthy();
+    // One owed task: Continue leads to exactly that one.
+    fireEvent.click(screen.getByTestId('unit-test-continue'));
+    expect(sessionStorage.getItem('nh_unit_production')).toBe('A1-1|write');
   });
 
   it('offers no production after a FAILED test', async () => {
@@ -193,7 +200,7 @@ describe('a passed test is half the bar, and the result says what the other half
     await sit(items, 0);
     await screen.findByTestId('unit-test-result');
     expect(screen.queryByTestId('unit-test-owed')).toBeNull();
-    expect(screen.queryByTestId('unit-test-produce-write')).toBeNull();
+    expect(screen.queryByTestId('unit-test-continue')).toBeNull();
   });
 });
 

@@ -7,7 +7,7 @@
  * lib/nextStep.ts). ~117 practice screens end in a "← Back" dead end; this
  * component turns every one of them into a fork: continue with the
  * recommendation, or navigate away (where the landing surface — SessionCard,
- * VerificationGateCard, NextUpCard — takes over the prompting). No per-screen
+ * NextUpCard — takes over the prompting). No per-screen
  * edits: completeExercise dispatches EXERCISE_COMPLETE_EVENT and this single
  * App-mounted listener does the rest.
  *

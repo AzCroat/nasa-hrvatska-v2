@@ -24,7 +24,7 @@
 import React from 'react';
 import type { CefrLevel } from '../../lib/cefr';
 import { cefrRank } from '../../lib/cefr';
-import { getCertifiedLevel, getVerificationGate } from '../../lib/cefrCertification';
+import { getCertifiedLevel } from '../../lib/cefrCertification';
 import { getNextTestFor } from '../../data/cefrEquivalencyItems';
 
 interface EquivalencyTestCardProps {
@@ -39,65 +39,6 @@ export default function EquivalencyTestCard({
   const certified = getCertifiedLevel();
   const nextTest = getNextTestFor(certified);
   const eligibleAhead = cefrRank(userEligible) > cefrRank(certified);
-  // Phase 1 mastery gate: a provisional (grandfathered) level outranks every
-  // other state on this card — verification is the only path forward.
-  const gate = getVerificationGate();
-  if (gate.required && gate.nextCheck) {
-    return (
-      <button
-        data-testid="equivalency-card-verify"
-        onClick={onTakeTest}
-        style={{
-          all: 'unset',
-          display: 'block',
-          width: '100%',
-          boxSizing: 'border-box',
-          cursor: 'pointer',
-          background: 'linear-gradient(135deg,#7c2d12,#9a3412)',
-          border: 'none',
-          borderRadius: 14,
-          padding: '16px 18px',
-          marginBottom: 16,
-          color: '#fff',
-          fontFamily: "'Outfit', sans-serif",
-          boxShadow: '0 4px 14px rgba(124,45,18,0.3)',
-        }}
-      >
-        <div style={{ fontSize: 11, fontWeight: 900, letterSpacing: '.22em', marginBottom: 6 }}>
-          VERIFICATION REQUIRED
-        </div>
-        <div
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontSize: 18,
-            fontWeight: 900,
-            marginBottom: 6,
-            lineHeight: 1.25,
-          }}
-        >
-          Your {gate.target} needs to be demonstrated — starting at {gate.nextCheck}.
-        </div>
-        <div style={{ fontSize: 13, opacity: 0.95, lineHeight: 1.5, marginBottom: 10 }}>
-          It was carried over from activity. Pass the verification — vocabulary, grammar, reading
-          {cefrRank(gate.nextCheck) >= cefrRank('B1') ? ', speaking and writing' : ''} — and it
-          becomes real.
-        </div>
-        <div
-          style={{
-            display: 'inline-block',
-            background: 'var(--card)',
-            color: 'var(--ink-warn)',
-            padding: '6px 14px',
-            borderRadius: 999,
-            fontSize: 13,
-            fontWeight: 800,
-          }}
-        >
-          Verify {gate.nextCheck} →
-        </div>
-      </button>
-    );
-  }
   // The B1+ Level Check now includes a speaking section — nudge so it's not
   // a surprise. (Existing confirmed levels are never revoked; speaking is only
   // required when attempting the next level.)

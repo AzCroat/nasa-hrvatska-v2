@@ -111,11 +111,8 @@ export interface CertificationAttempt {
   takenAt: number;
   scores: SkillScores;
   overall: number;
-  /** The learner's total XP when the attempt was recorded (2026-09-07). The
-   *  verification prompt returns only after `VERIFICATION_RETURN_XP` has been
-   *  EARNED past this baseline — learning, not calendar time. Absent on
-   *  attempts recorded before the field existed; `verificationQuietStatus`
-   *  backfills the latest such attempt once with the XP it first sees. */
+  /** The learner's total XP when the attempt was recorded. It once timed the recurring Home
+   *  prompt (removed 2026-11-14); it stays on the record, and in the sync merge, as history. */
   xp?: number;
 }
 
@@ -336,11 +333,9 @@ export interface VerificationGate {
    * ladder is climbed one rung at a time: pass this one, `verified` rises, and
    * the next call returns the rung above.
    *
-   * `target` is UNCHANGED and still gates CONTENT (`isBlockedByVerificationGate`,
-   * and `getContentUnlockLevel`'s cap one level below it). Pointing the content
-   * gate at `nextCheck` would cap a grandfathered C1 learner's new content at
-   * A1 — the access regression CLAUDE.md names as the dangerous direction.
-   * A claim, a door, and a next step are three questions.
+   * `target` no longer gates anything: the content cap this once drove was removed on
+   * 2026-11-14 together with the Home prompt (the course gates progress now). A claim, a door
+   * and a next step are still three different questions.
    */
   nextCheck: CefrLevel | null;
   /** Highest genuinely-passed level ('A1' floor). */
@@ -387,17 +382,6 @@ export function getVerificationGate(): VerificationGate {
     verified,
     options,
   };
-}
-
-/**
- * True when starting a NEW lesson/exercise at `level` is blocked by the
- * verification gate: everything at/above the gate's target waits for a real
- * pass, everything below stays open.
- */
-export function isBlockedByVerificationGate(level: CefrLevel): boolean {
-  const gate = getVerificationGate();
-  if (!gate.required || !gate.target) return false;
-  return cefrRank(level) >= cefrRank(gate.target);
 }
 
 /**
@@ -577,10 +561,8 @@ export function recordEquivalencyAttempt(opts: {
   level: CefrLevel;
   scores: SkillScores;
   currentLessonCount: number;
-  /** The learner's XP at the moment of the attempt — the baseline the
-   *  verification quiet period measures learning from (see
-   *  `verificationQuietStatus`). Optional only for legacy callers/tests; the
-   *  exam screen always passes it. */
+  /** The learner's XP at the moment of the attempt, recorded with it. Optional only for legacy
+   *  callers/tests; the exam screen always passes it. */
   currentXp?: number;
 }): {
   passed: boolean;
@@ -695,95 +677,11 @@ export function getLastVerificationRollback(): {
   return null;
 }
 
-// ── Verification quiet period (owner directives, 2026-08-18 and 2026-09-07) ──
-// The gate card was a permanent red takeover: a FAILED check rolled the level
-// down to a NEW provisional target, so the hero survived the very test the
-// learner just sat ("it still shows after my children took the test"). The
-// 2026-08-18 fix quieted the hero for seven CALENDAR days and left a one-line
-// "ready on <date>" chip at the top of Home. The owner's 2026-09-07 report
-// closed the rest of it: after a failed B2 check the chip was still the first
-// thing on the page ("why is it still at the top of my home page?"), and a
-// calendar timer measures nothing about learning — the prompt is meant to
-// come back "after a certain amount of learning time so that we can always
-// make sure that the progress made is being retained on the path to fluency."
+// ── Attempts ──────────────────────────────────────────────────────────────────
 //
-// So the quiet period is now measured in LEARNING, not days: an attempt
-// records the learner's XP, and the prompt returns only once
-// VERIFICATION_RETURN_XP has been EARNED since. While quiet, Home shows
-// NOTHING for the gate — no hero, no chip — and the next-step engine's
-// verification rung stands down. The GATE itself keeps no-snooze semantics
-// (content above the target stays locked), and the Me tab's verification
-// card is always available for a learner who wants to retake sooner.
-
-/**
- * XP that must be EARNED after an attempt before the verification prompt
- * returns to Home. 7 × DAILY_XP_GOAL (appUtils, 50): a week of practice at the
- * default daily goal — the same scale as the calendar week it replaces, but
- * counted in work done rather than time elapsed. Kept as a literal here
- * because this module sits on the first-paint path and must not pull in
- * appUtils; `verificationQuietPeriod.test.tsx` pins the equality.
- */
-export const VERIFICATION_RETURN_XP = 350;
-
-/**
- * How much EARNED XP the prompt stays on Home once it becomes due, before it
- * stands itself down for another `VERIFICATION_RETURN_XP` stretch.
- *
- * OWNER REPORT, 2026-09-23: *"It seems to always be there … How can anyone learn
- * with this constantly on the top?"* — and they were right twice over. The quiet
- * period only ever existed AFTER an attempt: `verificationQuietStatus` returned
- * `quiet: false` whenever there was no attempt at all, so a learner who had never
- * taken a check met the full hero on EVERY Home visit for good. And once the
- * post-attempt quiet period elapsed the hero came back **permanently** too, so
- * taking the test only bought 350 XP of silence before the same wall returned.
- * Neither case had a cadence; the owner asked for one ("popped up every few
- * weeks").
- *
- * 100 = two days' practice at the default daily goal (`DAILY_XP_GOAL` in
- * appUtils; kept as a literal here for the same reason VERIFICATION_RETURN_XP
- * is — this module must not import the stats layer). So the prompt appears,
- * and a couple of days of actual learning clears it for a week rather than it
- * sitting over the learner while they work. The full cycle is 450 XP, about
- * nine days at the default goal.
- *
- * NOT one day, and the reason is worth keeping: a learner can earn 50 XP in a
- * single sitting without ever scrolling Home, so a one-day window can expire
- * before they have actually SEEN the prompt — a cadence nobody meets is just a
- * slower version of no prompt. `verification-gate.spec.js` independently
- * treats an attempt 400 XP ago as recently-returned, which a one-day window
- * would have put on the wrong side of its own boundary. It is NOT a snooze: nothing is dismissible, the
- * learner takes no action to silence it, and the GATE (content above the target
- * stays locked) is untouched — only the PROMPT has a cadence.
- */
-export const VERIFICATION_PROMPT_SHOW_XP = 100;
-
-/** Device-local XP baseline for the prompt's cadence.
- *
- *  DELIBERATELY NOT SYNCED. `attempt.xp` is the synced baseline and still drives
- *  the post-attempt window; this key only records where the CURRENT quiet stretch
- *  started, which is a per-device display concern. Syncing it would be a
- *  four-point change for no learner-visible gain, and a device that has not seen
- *  the prompt lately showing it once more is the harmless direction. */
-const PROMPT_BASELINE_KEY = 'nh_cefr_prompt_baseline';
-
-function readPromptBaseline(): number | null {
-  try {
-    const raw = localStorage.getItem(PROMPT_BASELINE_KEY);
-    if (raw === null) return null;
-    const n = Number(raw);
-    return Number.isFinite(n) ? n : null;
-  } catch {
-    return null;
-  }
-}
-
-function writePromptBaseline(xp: number): void {
-  try {
-    localStorage.setItem(PROMPT_BASELINE_KEY, String(xp));
-  } catch {
-    /* storage blocked — the prompt simply keeps its pre-storage cadence */
-  }
-}
+// (The recurring verification PROMPT and its XP quiet period were removed 2026-11-14: the
+// course gates progress now. Only the attempt lookups below survive; the Level Check on the
+// Me tab is still taken whenever the learner chooses.)
 
 /** The most recent verification attempt across ALL levels, or null. */
 export function getLatestAttempt(): CertificationAttempt | null {
@@ -800,92 +698,6 @@ export function getLatestAttempt(): CertificationAttempt | null {
 /** Most recent verification attempt timestamp across ALL levels, or null. */
 export function getLastAttemptAt(): number | null {
   return getLatestAttempt()?.takenAt ?? null;
-}
-
-export interface VerificationQuietStatus {
-  /** True while the verification PROMPT must stay off Home. */
-  quiet: boolean;
-  /** XP earned since the latest attempt (0 when never attempted). */
-  earnedSince: number;
-  /** XP still to earn before the prompt returns (0 when not quiet). */
-  remaining: number;
-  /** The attempt the window is measured from, or null when never attempted. */
-  since: CertificationAttempt | null;
-}
-
-/**
- * Where the learner stands in the quiet period, measured from `currentXp`
- * (the live `stats.xp`).
- *
- * - Never attempted → not quiet: the hero greets first-timers as before.
- * - The latest attempt carries an `xp` baseline → quiet until `currentXp`
- *   has grown by VERIFICATION_RETURN_XP past it.
- * - The latest attempt PREDATES the baseline field → it is backfilled ONCE
- *   with the first positive XP this function sees, so the count starts from
- *   the moment this rule reached the device rather than from an unknown
- *   past. Recorded so a stale device cannot restart the count (the merge
- *   keeps a baseline once either side has one).
- * - `currentXp` not yet known (0 / not a number — the pre-hydration render)
- *   → quiet, and no backfill, so the hero can never flash on a zero it would
- *   otherwise measure everything against.
- */
-export function verificationQuietStatus(currentXp: number): VerificationQuietStatus {
-  const last = getLatestAttempt();
-  const xpKnown = typeof currentXp === 'number' && Number.isFinite(currentXp) && currentXp > 0;
-  if (!xpKnown) {
-    // Pre-hydration render: quiet, and write nothing — the hero must never flash
-    // on a zero it would otherwise measure everything against.
-    return { quiet: true, earnedSince: 0, remaining: VERIFICATION_RETURN_XP, since: last };
-  }
-
-  // The synced half: an attempt stashes the XP it was taken at, and a legacy
-  // attempt recorded before that field existed is backfilled ONCE with the first
-  // positive XP seen, so the count starts when the rule reached the device.
-  let baseline: number | null = null;
-  if (last) {
-    baseline = typeof last.xp === 'number' && Number.isFinite(last.xp) ? last.xp : null;
-    if (baseline === null) {
-      baseline = currentXp;
-      const state = getCertificationState();
-      const target = state.attempts.find(
-        (a) => a.level === last.level && a.takenAt === last.takenAt,
-      );
-      if (target) {
-        target.xp = currentXp;
-        writeCertificationState(state);
-      }
-    }
-  }
-
-  // The cadence half: whichever stretch started LATER wins, so a prompt that has
-  // already had its turn since the last attempt is not resurrected by that attempt.
-  const stored = readPromptBaseline();
-  if (stored !== null && (baseline === null || stored > baseline)) baseline = stored;
-
-  if (baseline === null) {
-    // Never attempted and never prompted. Due NOW — a learner should meet this
-    // once — and recorded, so it is a first appearance rather than a permanent one.
-    baseline = currentXp - VERIFICATION_RETURN_XP;
-    writePromptBaseline(baseline);
-  }
-
-  let earnedSince = Math.max(0, currentXp - baseline);
-  if (earnedSince >= VERIFICATION_RETURN_XP + VERIFICATION_PROMPT_SHOW_XP) {
-    // It has been up for a session's worth of real practice. Stand down for
-    // another stretch rather than sitting over the learner while they work.
-    baseline = currentXp;
-    writePromptBaseline(baseline);
-    earnedSince = 0;
-  }
-
-  const remaining = Math.max(0, VERIFICATION_RETURN_XP - earnedSince);
-  return { quiet: remaining > 0, earnedSince, remaining, since: last };
-}
-
-/** True while the verification PROMPT should stay quiet — the learner has
- *  attempted a check and not yet earned VERIFICATION_RETURN_XP since. */
-export function isVerificationQuiet(currentXp: number): boolean {
-  return verificationQuietStatus(currentXp).quiet;
 }
 
 // ── Sync helpers ──────────────────────────────────────────────────────────────
@@ -1207,17 +1019,6 @@ export function getContentUnlockLevel(eligible: CefrLevel): CefrLevel {
     }
   } catch {
     return eligible;
-  }
-  // Phase 1 mastery gate: while a provisional (grandfathered, never
-  // demonstrated) level awaits verification, NEW content at/above the gate's
-  // target is paused — every pool consumer (daily session, arcade, shadowing,
-  // AI context) inherits this cap from here. Practice below the gate stays
-  // open: that practice is what builds the mastery the verification measures.
-  // A real verification pass lifts the cap instantly (gate.required flips off).
-  const gate = getVerificationGate();
-  if (gate.required && gate.target) {
-    const below = levelBelow(gate.target);
-    return below ?? 'A1';
   }
   return getCertifiedLevel();
 }
