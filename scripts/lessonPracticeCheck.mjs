@@ -10,6 +10,7 @@
 // once the level joins DEEPENED_LEVELS; this is how a level gets there.
 
 import { LESSONS } from '../functions/api/content/_data/lessons.js';
+import { LESSON_PRACTICE } from '../functions/api/content/_data/lessonPractice.js';
 import { practiceProblems, productiveProblems } from './lessonDepthRules.mjs';
 import { findSerbism } from '../functions/api/_serbisms.js';
 import { containsCyrillic } from '../functions/api/_croatianGuard.js';
@@ -48,12 +49,18 @@ const lessons = LESSONS.filter((l) => l.level === level);
 const ids = new Set(lessons.map((l) => l.id));
 const findings = [];
 for (const id of Object.keys(map)) if (!ids.has(id)) findings.push(`${id}: not a ${level} lesson`);
+// A lesson's entry is read from the MERGED map lessonPractice.js builds, because a lesson
+// can sit at one level while its practice was authored in another level's file (the A1
+// restructure of 2026-11-12 moved eight lessons, past-tense and future-tense among them,
+// into A1 with their practice still in lessonPracticeA2.js / B1.js). Reading only this
+// level's file reported those ten lessons as having no entry while the build served one.
 for (const l of lessons) {
-  if (!map[l.id]) {
+  const entry = LESSON_PRACTICE[l.id];
+  if (!entry) {
     findings.push(`${l.id}: no entry`);
     continue;
   }
-  const placed = place(l, map[l.id]);
+  const placed = place(l, entry);
   for (const p of practiceProblems(placed)) findings.push(`${l.id}: ${p}`);
   // --productive: also hold the level to the parallel-form, typed-practice and
   // vocabulary rules it must meet before it joins PRODUCTIVE_LEVELS.

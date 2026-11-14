@@ -579,6 +579,12 @@ export const LESSONS = [
         highlight: 'Onda se tuširam.',
       },
       {
+        type: 'rule',
+        title: 'Posao: na posao, na poslu',
+        body: 'Posao (work, a job) loses its a and turns its o back into l as soon as an ending is added: the stem is posl-. Going to work takes the accusative, which looks like the dictionary form: Idem na posao. Being at work takes the locative: Ja sam na poslu. Mama radi na poslu do kasno. Imam novi posao. (I have a new job.) The same thing happens to misao (thought) and to a few other words in -ao: the l comes back when the word grows.',
+        highlight: 'Ja sam na poslu.',
+      },
+      {
         type: 'example',
         title: 'My Morning',
         items: [
@@ -595,6 +601,7 @@ export const LESSONS = [
             note: 'doručkovati',
           },
           { hr: 'Idem na posao u osam.', en: 'I go to work at eight.' },
+          { hr: 'Cijeli dan sam na poslu.', en: 'I am at work all day.', note: 'posao → na poslu' },
         ],
       },
       {
@@ -859,7 +866,7 @@ export const LESSONS = [
               'Jučer se sam vratio kasno.',
               'Jučer sam vratio se kasno.',
               'Jučer sam se vratio kasno.',
-              'Jučer se vratio sam kasno.',
+              'Se jučer sam vratio kasno.',
             ],
             correct: 2,
             explanation: 'sam first, se right after it: Jučer sam se vratio kasno.',
@@ -918,7 +925,7 @@ export const LESSONS = [
             q: 'Which sentence is correct? (Marko woke up at eight.)',
             options: [
               'Marko je probudio u osam.',
-              'Marko se sam probudio u osam.',
+              'Marko sam se probudio u osam.',
               'Marko su se probudili u osam.',
               'Marko se probudio u osam.',
             ],
@@ -993,6 +1000,36 @@ export const LESSONS = [
         title: 'Subjects, Homework and Exams',
         body: 'predmet — a school subject: matematika, hrvatski, engleski, povijest, biologija, kemija. Koji ti je omiljeni predmet? (What is your favourite subject?) Moj omiljeni predmet je povijest. domaća zadaća — homework: Pišem domaću zadaću. ispit — an exam: Imam ispit u petak. Položio sam ispit! (I passed the exam!) razred — a class, a year group: Moj razred ima izlet.',
         highlight: 'Imam ispit u petak.',
+      },
+      {
+        type: 'rule',
+        title: 'From School to a First Job',
+        body: "Croatian children go to osnovna škola (primary school, eight years) and then to srednja škola (secondary school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. Secondary school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
+        highlight: 'Sutra idem na razgovor za posao.',
+      },
+      {
+        type: 'example',
+        title: 'Matura, a CV and an Interview',
+        items: [
+          {
+            hr: 'Moja kći ide u gimnaziju.',
+            en: 'My daughter goes to a gimnazija (an academic secondary school).',
+          },
+          { hr: 'U lipnju imam maturu.', en: 'In June I have my school-leaving exam.' },
+          { hr: 'Maturalna zabava je u petak.', en: "The leavers' ball is on Friday." },
+          { hr: 'Večeras pišem životopis.', en: 'Tonight I am writing my CV.' },
+          {
+            hr: 'Prijavila sam se na natječaj.',
+            en: 'I applied for an advertised job.',
+            note: 'a woman speaking',
+          },
+          { hr: 'Sutra idem na razgovor za posao.', en: 'Tomorrow I am going to a job interview.' },
+          {
+            hr: 'Na razgovoru za posao pitaju me o iskustvu.',
+            en: 'At a job interview they ask me about my experience.',
+            note: 'o + locative',
+          },
+        ],
       },
       {
         type: 'example',
@@ -1268,7 +1305,7 @@ export const LESSONS = [
             explanation: 'Ž is a soft consonant, so the instrumental ending is -em: nožem.',
           },
           {
-            q: 'Which sentence is correct? (I write with a pen.)',
+            q: 'Which sentence is correct? (I write with a pencil.)',
             options: ['Pišem olovkom.', 'Pišem olovku.', 'Pišem olovka.', 'Pišem olovki.'],
             correct: 0,
             explanation: 'The tool takes the bare instrumental: Pišem olovkom.',
@@ -1502,7 +1539,7 @@ export const PRACTICE = {
         explanation: 'vjerovati takes the dative: Zašto mi ne vjeruješ?',
       },
       {
-        q: 'Complete: "Mi ___ susjedima." (help)',
+        q: 'Complete: "Mi ___ susjedu." (help)',
         options: ['pomagamo', 'pomažu', 'pomažemo', 'pomažete'],
         correct: 2,
         explanation: 'pomagati → pomažemo for mi.',
@@ -1722,7 +1759,10 @@ export const PRACTICE = {
         problem: '"At seven I get dressed." (oblačiti se)',
         en: 'At seven I get dressed.',
         steps: [
-          { label: 'The verb', text: 'oblačiti se — ja oblačim se.' },
+          {
+            label: 'The verb',
+            text: 'oblačiti se — alone it is Oblačim se; with ja in front, se moves up: Ja se oblačim.',
+          },
           { label: 'What opens?', text: 'U sedam opens the sentence.' },
           { label: 'Second position', text: 'Se comes right after u sedam, then the verb.' },
         ],
@@ -1835,6 +1875,13 @@ export const PRACTICE = {
         },
         {
           type: 'type',
+          q: 'Mama nije doma, ona je na ____. (posao)',
+          answer: 'poslu',
+          hint: 'Being somewhere takes the locative, and posao gets its l back when an ending is added.',
+          explanation: 'Ona je na poslu.',
+        },
+        {
+          type: 'type',
           q: 'Navečer se ____. (odmarati se — I rest)',
           answer: 'odmaram',
           hint: 'The ja form of an -am verb.',
@@ -1896,6 +1943,7 @@ export const PRACTICE = {
       ['ići spavati', 'to go to bed', 'Idem spavati u jedanaest.'],
       ['onda', 'then', 'Onda se tuširam.'],
       ['zatim', 'after that', 'Zatim idem na posao.'],
+      ['posao', 'work, a job', 'Ja sam na poslu.'],
     ],
   },
 
@@ -2214,6 +2262,28 @@ export const PRACTICE = {
           hint: 'The word for a test you pass or fail.',
           explanation: 'Imam ispit u petak.',
         },
+        {
+          q: 'Secondary school in Croatia ends with the state school-leaving exam. What is it called?',
+          options: ['razred', 'matura', 'fakultet', 'životopis'],
+          correct: 1,
+          hint: "The same word gives the name of the leavers' ball.",
+          explanation:
+            'matura — the state school-leaving exam; the ball after it is the maturalna zabava.',
+        },
+        {
+          q: 'Sutra idem na ___ za posao. (an interview)',
+          options: ['razgovor', 'razgovoru', 'razgovora', 'razgovore'],
+          correct: 0,
+          hint: 'Going TO it — the same form as going na fakultet.',
+          explanation: 'Sutra idem na razgovor za posao.',
+        },
+        {
+          type: 'type',
+          q: 'Za razgovor za posao pišem ____. (a CV)',
+          answer: 'životopis',
+          hint: 'The document that lists your schooling and your jobs — literally a description of a life.',
+          explanation: 'Za razgovor za posao pišem životopis.',
+        },
       ],
     },
     checkB: [
@@ -2257,8 +2327,8 @@ export const PRACTICE = {
         options: [
           'Studiramo hrvatski.',
           'Učimo hrvatski.',
-          'Učimo za hrvatski.',
-          'Učimo hrvatskom.',
+          'Učimo hrvatskog.',
+          'Učimo na hrvatski.',
         ],
         correct: 1,
         explanation:
@@ -2276,6 +2346,11 @@ export const PRACTICE = {
       ['predmet', 'school subject', 'Moj omiljeni predmet je povijest.'],
       ['ispit', 'exam', 'Imam ispit u petak.'],
       ['domaća zadaća', 'homework', 'Pišem domaću zadaću.'],
+      ['gimnazija', 'academic secondary school', 'Moja kći ide u gimnaziju.'],
+      ['matura', 'school-leaving exam', 'U lipnju imam maturu.'],
+      ['životopis', 'CV, résumé', 'Večeras pišem životopis.'],
+      ['razgovor za posao', 'job interview', 'Sutra idem na razgovor za posao.'],
+      ['iskustvo', 'experience', 'Na razgovoru za posao pitaju me o iskustvu.'],
     ],
   },
 

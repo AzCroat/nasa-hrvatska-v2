@@ -146,7 +146,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'mnozina',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The houses are white.',
     opts: ['Kuće su bijela.', 'Kuće je bijele.', 'Kuće su bijele.', 'Kuće su bijeli.'],
     answer: 'Kuće su bijele.',
@@ -172,7 +172,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'boje',
-    q: 'Koja riječ znači "purple"?',
+    q: 'Which word means "purple"?',
     en: 'Which word means purple?',
     opts: ['ružičast', 'narančast', 'ljubičast', 'smeđ'],
     answer: 'ljubičast',
@@ -180,7 +180,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'boje',
-    q: 'Koja riječ znači "pink"?',
+    q: 'Which word means "pink"?',
     en: 'Which word means pink?',
     opts: ['ružičast', 'crven', 'ljubičast', 'narančast'],
     answer: 'ružičast',
@@ -188,7 +188,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'boje',
-    q: 'Koja riječ znači "brown"?',
+    q: 'Which word means "brown"?',
     en: 'Which word means brown?',
     opts: ['crn', 'siv', 'žut', 'smeđ'],
     answer: 'smeđ',
@@ -212,7 +212,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'boje',
-    q: 'Kako pitamo "What colour is this?"',
+    q: 'How do you ask "What colour is this?"',
     en: 'Choose the question.',
     opts: ['Koja je ovo boja?', 'Što je ovo?', 'Je li ovo boja?', 'Gdje je boja?'],
     answer: 'Koja je ovo boja?',

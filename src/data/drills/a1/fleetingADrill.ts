@@ -23,7 +23,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   // ── ac ────────────────────────────────────────────────────────────────────
   {
     mode: 'ac',
-    q: 'Množina od "pas":',
+    q: 'Plural of "pas":',
     en: 'Plural of dog.',
     opts: ['pasi', 'psi', 'pasovi', 'pse'],
     answer: 'psi',
@@ -31,7 +31,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "stranac":',
+    q: 'Plural of "stranac":',
     en: 'Plural of foreigner.',
     opts: ['stranci', 'stranaci', 'strancovi', 'strance'],
     answer: 'stranci',
@@ -39,7 +39,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "kupac":',
+    q: 'Plural of "kupac":',
     en: 'Plural of customer.',
     opts: ['kupaci', 'kupcovi', 'kupci', 'kupce'],
     answer: 'kupci',
@@ -47,7 +47,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "lonac":',
+    q: 'Plural of "lonac":',
     en: 'Plural of pot.',
     opts: ['lonaci', 'loncovi', 'lonce', 'lonci'],
     answer: 'lonci',
@@ -55,7 +55,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "Nijemac":',
+    q: 'Plural of "Nijemac":',
     en: 'Plural of German man.',
     opts: ['Nijemci', 'Nijemaci', 'Nijemcovi', 'Nijemce'],
     answer: 'Nijemci',
@@ -63,7 +63,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "lovac":',
+    q: 'Plural of "lovac":',
     en: 'Plural of hunter.',
     opts: ['lovaci', 'lovci', 'lovcevi', 'lovce'],
     answer: 'lovci',
@@ -71,7 +71,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Množina od "Amerikanac":',
+    q: 'Plural of "Amerikanac":',
     en: 'Plural of American man.',
     opts: ['Amerikanaci', 'Amerikance', 'Amerikanci', 'Amerikancovi'],
     answer: 'Amerikanci',
@@ -79,7 +79,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ac',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The dogs are there.',
     opts: ['Pasi su tamo.', 'Psi je tamo.', 'Pasovi su tamo.', 'Psi su tamo.'],
     answer: 'Psi su tamo.',
@@ -89,7 +89,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   // ── susret ────────────────────────────────────────────────────────────────
   {
     mode: 'susret',
-    q: 'Množina od "vrabac":',
+    q: 'Plural of "vrabac":',
     en: 'Plural of sparrow.',
     opts: ['vrabaci', 'vrabci', 'vrapci', 'vrabcovi'],
     answer: 'vrapci',
@@ -97,7 +97,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Množina od "momak":',
+    q: 'Plural of "momak":',
     en: 'Plural of lad.',
     opts: ['momci', 'momki', 'momaci', 'momakovi'],
     answer: 'momci',
@@ -105,7 +105,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Množina od "otac":',
+    q: 'Plural of "otac":',
     en: 'Plural of father.',
     opts: ['otaci', 'otcovi', 'očevi', 'otcevi'],
     answer: 'očevi',
@@ -113,7 +113,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Množina od "san":',
+    q: 'Plural of "san":',
     en: 'Plural of dream.',
     opts: ['sani', 'sanovi', 'sne', 'snovi'],
     answer: 'snovi',
@@ -129,7 +129,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Množina od "starac":',
+    q: 'Plural of "starac":',
     en: 'Plural of old man.',
     opts: ['staraci', 'starci', 'starcovi', 'starce'],
     answer: 'starci',
@@ -137,7 +137,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The fathers and sons are here.',
     opts: [
       'Otci i sini su ovdje.',
@@ -150,7 +150,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'susret',
-    q: 'Koja je rečenica točna?',
+    q: 'Which sentence is correct?',
     en: 'The lads are there.',
     opts: ['Momki su tamo.', 'Momaci su tamo.', 'Momci su tamo.', 'Momci je tamo.'],
     answer: 'Momci su tamo.',
@@ -160,7 +160,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   // ── ostaje ────────────────────────────────────────────────────────────────
   {
     mode: 'ostaje',
-    q: 'Množina od "korak":',
+    q: 'Plural of "korak":',
     en: 'Plural of step.',
     opts: ['korci', 'koraci', 'koraki', 'korakovi'],
     answer: 'koraci',
@@ -168,7 +168,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Koja imenica ZADRŽAVA a u množini?',
+    q: 'Which noun KEEPS its a in the plural?',
     en: 'Which noun keeps its a in the plural?',
     opts: ['pas', 'stranac', 'korak', 'kupac'],
     answer: 'korak',
@@ -176,7 +176,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Množina od "Hrvat":',
+    q: 'Plural of "Hrvat":',
     en: 'Plural of Croat.',
     opts: ['Hrvti', 'Hrvati', 'Hrvatovi', 'Hrvate'],
     answer: 'Hrvati',
@@ -184,7 +184,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Množina od "brat":',
+    q: 'Plural of "brat":',
     en: 'Plural of brother.',
     opts: ['brti', 'brati', 'braća', 'bratovi'],
     answer: 'braća',
@@ -192,7 +192,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Množina od "grad":',
+    q: 'Plural of "grad":',
     en: 'Plural of city.',
     opts: ['grdovi', 'gradovi', 'gradi', 'grdi'],
     answer: 'gradovi',
@@ -200,7 +200,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Koja imenica GUBI a u množini?',
+    q: 'Which noun LOSES its a in the plural?',
     en: 'Which noun loses its a in the plural?',
     opts: ['grad', 'lonac', 'Hrvat', 'korak'],
     answer: 'lonac',
@@ -208,7 +208,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Množina od "konobar":',
+    q: 'Plural of "konobar":',
     en: 'Plural of waiter.',
     opts: ['konobri', 'konobari', 'konobarovi', 'konobare'],
     answer: 'konobari',
@@ -216,7 +216,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ostaje',
-    q: 'Množina od "student":',
+    q: 'Plural of "student":',
     en: 'Plural of student.',
     opts: ['studnti', 'studentovi', 'studente', 'studenti'],
     answer: 'studenti',

@@ -258,12 +258,10 @@ describe('an A1 lesson day still teaches STRUCTURE', () => {
     // vocab. Grouping it structurally to win a slot would be the topic-label
     // mistake in reverse.
     'greetings-farewells': 'register and time-of-day choice, not structure',
-    // The clock, the days and the months, plus the 1 / 2–4 / 5+ counting rule.
-    // The counting rule IS numeral agreement, so 'case' is arguable — but the
-    // bank explicitly asks for no case knowledge (the lesson sits one BELOW the
-    // `cases` primer), and skillGroups.ts records the deliberate decision to
-    // keep it lexical so it cannot sit beside three case drills. Left alone.
-    'time-calendar': 'clock and calendar vocabulary; its counting rule predates the cases primer',
+    // The days, the months and the seasons, with u + a day (u subotu). The clock and
+    // the 1 / 2–4 / 5+ counting rule moved to numbers-genitive (84) in the A1 book
+    // alignment (2026-11-13), so what is left is calendar vocabulary.
+    'time-calendar': 'days, months and seasons vocabulary, with u + a day',
   };
 
   const lessonDaysWithoutGrammar = (): string[] =>

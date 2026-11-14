@@ -4,19 +4,22 @@
 //
 // Three patterns: biti + an adjective that agrees with the speaker (sretan / sretna sam),
 // osjećati se + an adverb, and the dative "to me" pattern (dosadno mi je). Plus bojati se
-// + genitive and veseliti se + dative.
+// + genitive and veseliti se + dative, and the book's L19 love words (zaljubljen u +
+// accusative, hodati s + instrumental). The comparative (bolje) is not taught in A1, so
+// it is not asked; the genitive after veseliti se is heard in speech, so it is never a
+// wrong option (2026-11-13).
 //
 // Three modes:
 //   pridjevi — the adjective agreeing with the person
 //   osjecati — osjećati se and the "mi je" pattern
-//   bojati   — what you fear and what you look forward to
+//   bojati   — what you fear, what you look forward to, whom you love
 
 import type { ModeDrillItem } from '../../../components/practice/ModeDrill';
 
 export const FEELINGS_MODE_LABELS: Record<string, string> = {
   pridjevi: '😊 Pridjevi',
   osjecati: '💭 Osjećati se',
-  bojati: '😨 Bojati se',
+  bojati: '😨 Strah, veselje i ljubav',
 };
 
 export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
@@ -102,11 +105,11 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osjecati',
-    q: 'Osjećam se puno ____.',
-    en: 'I feel much better.',
-    opts: ['bolje', 'dobro', 'bolji', 'dobar'],
-    answer: 'bolje',
-    tip: 'The comparative adverb of dobro.',
+    q: 'Danas se osjećam ____.',
+    en: 'Today I feel good.',
+    opts: ['dobro', 'dobar', 'dobra', 'dobri'],
+    answer: 'dobro',
+    tip: 'Osjećati se takes the adverb, whoever is speaking.',
   },
   {
     mode: 'osjecati',
@@ -168,7 +171,7 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'bojati',
     q: 'Veselim se ____.',
     en: 'I am looking forward to the summer.',
-    opts: ['ljetu', 'ljeto', 'ljeta', 'ljetom'],
+    opts: ['ljetu', 'ljeto', 'u ljeto', 'ljetom'],
     answer: 'ljetu',
     tip: 'Veseliti se takes the dative.',
   },
@@ -176,9 +179,25 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'bojati',
     q: 'Veselimo se ____.',
     en: 'We are looking forward to the trip.',
-    opts: ['putovanju', 'putovanje', 'putovanja', 'putovanjem'],
+    opts: ['putovanju', 'putovanje', 'na putovanju', 'putovanjem'],
     answer: 'putovanju',
     tip: 'Dative after veseliti se.',
+  },
+  {
+    mode: 'bojati',
+    q: 'Zaljubljen sam u ____.',
+    en: 'I am in love with Ana.',
+    opts: ['Anu', 'Ana', 'Ani', 'Anom'],
+    answer: 'Anu',
+    tip: 'zaljubljen u takes the accusative: feminine -a becomes -u.',
+  },
+  {
+    mode: 'bojati',
+    q: 'Moja sestra hoda s ____.',
+    en: 'My sister is going out with Tomislav.',
+    opts: ['Tomislavom', 'Tomislav', 'Tomislava', 'Tomislavu'],
+    answer: 'Tomislavom',
+    tip: 'hodati s + the instrumental: -om.',
   },
   {
     mode: 'bojati',

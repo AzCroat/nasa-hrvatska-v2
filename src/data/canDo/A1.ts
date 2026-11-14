@@ -32,7 +32,7 @@ export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
   'A1-3': [
     'I can name a job in its male and female form, such as učitelj and učiteljica.',
     'I can say where I am from, my nationality and which languages I speak.',
-    'I can count from one to a thousand and tell the time.',
+    'I can count up to a million and give my phone number.',
   ],
   // zvati-se … sibilarization
   'A1-4': [
@@ -60,7 +60,7 @@ export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
   ],
   // money-exchange … za-accusative
   'A1-8': [
-    'I can change money and talk about euros and cents.',
+    'I can change money at a mjenjačnica and ask what something costs.',
     'I can name the days of the week and say where I am going with ići.',
     'I can say where I am going with u and na, and who something is for with za.',
   ],
@@ -115,7 +115,7 @@ export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
   // genitive-prepositions … ordinals-dates
   'A1-17': [
     'I can say where I come from and where I am going to with iz, od, do and kod.',
-    'I can count things correctly: dva stola, pet knjiga.',
+    'I can count things correctly and tell the time: dva stola, pet knjiga, pet je sati.',
     'I can use ordinal numbers and say a date.',
   ],
   // dates-years … pluralia-tantum

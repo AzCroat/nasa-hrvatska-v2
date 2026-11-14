@@ -239,7 +239,7 @@ export const PRACTICE_B1 = {
     worked: [
       {
         title: 'The Short Future of a -ti Verb',
-        problem: 'Reci kratkim oblikom: I will work tomorrow. (raditi)',
+        problem: 'Short form: I will work tomorrow. (raditi)',
         en: 'Say it with the short form: I will work tomorrow.',
         steps: [
           {
@@ -259,7 +259,7 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'A Negative Future With a -ći Verb',
-        problem: 'Reci: We will not come to the wedding.',
+        problem: 'Say: We will not come to the wedding.',
         en: 'We will not come to the wedding.',
         steps: [
           {
@@ -303,16 +303,11 @@ export const PRACTICE_B1 = {
           explanation: 'Ne, neće. Nije is the present of biti; neću is "I won\'t".',
         },
         {
-          q: '"I will give you the book back." (vratiti)',
-          options: [
-            'Vratit ti ću knjigu.',
-            'Ću ti vratiti knjigu.',
-            'Ti ću vratiti knjigu.',
-            'Vratit ću ti knjigu.',
-          ],
+          q: '"I will buy it." (kupiti; it = ga)',
+          options: ['Kupit ga ću.', 'Ću ga kupiti.', 'Ga ću kupiti.', 'Kupit ću ga.'],
           correct: 3,
           hint: 'Clitics cannot open a sentence, and in a cluster the future auxiliary comes before a pronoun clitic.',
-          explanation: 'Vratit ću ti knjigu — verb, then ću, then the dative clitic ti.',
+          explanation: 'Kupit ću ga — verb, then ću, then the pronoun ga.',
         },
         {
           type: 'type',
@@ -381,14 +376,14 @@ export const PRACTICE_B1 = {
       {
         q: 'Which sentence is correct?',
         options: [
-          'Ću ti pisati sutra.',
-          'Pisati ću ti sutra.',
-          'Pisat ću ti sutra.',
-          'Pisat ti ću sutra.',
+          'Ću ga gledati sutra.',
+          'Gledati ću ga sutra.',
+          'Gledat ću ga sutra.',
+          'Gledat ga ću sutra.',
         ],
         correct: 2,
         explanation:
-          'The -ti infinitive is clipped before the auxiliary (pisat ću), and the clitic ću comes before ti in second position.',
+          'The -ti infinitive is clipped before the auxiliary (gledat ću), and the clitic ću comes before ga in second position.',
       },
       {
         q: "Complete: 'Mi ___ doći na vrijeme.' (We will not arrive on time.)",
@@ -434,8 +429,8 @@ export const PRACTICE_B1 = {
     ],
     vocab: [
       ['sutra', 'tomorrow', 'Sutra ću ići na more.'],
-      ['preseliti se', 'to move (house)', 'Sljedeće godine preselit ćemo se u Zadar.'],
-      ['vratiti', 'to give back, to return', 'Vratit ću ti knjigu u ponedjeljak.'],
+      ['putovati', 'to travel', 'Sutra ćemo putovati u Zadar.'],
+      ['vratiti', 'to give back, to return', 'Vratit ću knjigu u ponedjeljak.'],
       ['obećati', 'to promise', 'Obećao sam da ću doći na vrijeme.'],
       ['stići', 'to arrive, to make it', 'Hoćemo li stići na vrijeme?'],
       ['zaboraviti', 'to forget', 'Nećemo zaboraviti tvoj rođendan.'],

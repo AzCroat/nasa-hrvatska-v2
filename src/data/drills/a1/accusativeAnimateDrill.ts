@@ -130,7 +130,7 @@ export const ACCUSATIVE_ANIMATE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pridjev',
-    q: 'Which phrase means "your new neighbour" as an object?',
+    q: 'Which phrase means "your new neighbour" (a man) as an object?',
     en: 'I know your new neighbour.',
     opts: ['tvoj novi susjed', 'tvoga novog susjeda', 'tvoju novu susjedu', 'tvog novi susjeda'],
     answer: 'tvoga novog susjeda',

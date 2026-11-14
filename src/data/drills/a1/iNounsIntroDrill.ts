@@ -7,6 +7,9 @@
 // locative add -i. The describing word carries the case: laku noć, o toj stvari.
 // The instrumental of ljubav is ljubavlju or ljubavi — both standard — so neither is
 // ever offered as a wrong option, and večera (dinner) is never offered against večer.
+// S ljubavlju is only RECOGNISED (the lesson does not teach the instrumental of this
+// group), so it is asked as a meaning. The -ost rule is about ABSTRACT nouns: gost and
+// most are masculine (2026-11-13).
 // Items whose options are English carry no gloss: the gloss would answer them.
 //
 // Three modes:
@@ -86,7 +89,7 @@ export const I_NOUNS_INTRO_DRILL_DATA: ModeDrillItem[] = [
     en: 'My youth was beautiful.',
     opts: ['Moja', 'Moj', 'Moje', 'Moju'],
     answer: 'Moja',
-    tip: 'Every noun in -ost is feminine.',
+    tip: 'mladost is an abstract noun made with -ost (mlad → mladost): feminine.',
   },
 
   // ── padez ─────────────────────────────────────────────────────────────────
@@ -166,11 +169,10 @@ export const I_NOUNS_INTRO_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'fraze',
-    q: 'S ____, Ana.',
-    en: 'With love, Ana.',
-    opts: ['ljubavlju', 'ljubav', 'ljubavu', 'ljubava'],
-    answer: 'ljubavlju',
-    tip: 's (with) takes the instrumental: one of its forms here is -ju.',
+    q: 'Što znači "S ljubavlju, Ana" na kraju pisma?',
+    opts: ['With love, Ana', 'Without love, Ana', 'About love, Ana', 'My love Ana'],
+    answer: 'With love, Ana',
+    tip: 's means "with"; S ljubavlju is a set phrase that closes a letter.',
   },
   {
     mode: 'fraze',
@@ -212,10 +214,10 @@ export const I_NOUNS_INTRO_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'fraze',
-    q: 'Svaka imenica na -ost je ____ roda.',
-    en: 'Every noun ending in -ost is of this gender.',
+    q: 'Apstraktne imenice na -ost (radost, mladost, starost) su ____ roda.',
+    en: 'Abstract nouns made with -ost are of this gender.',
     opts: ['ženskog', 'muškog', 'srednjeg', 'svakog'],
     answer: 'ženskog',
-    tip: 'radost, mladost, starost — all feminine.',
+    tip: 'radost, mladost, starost — all feminine. (gost and most are masculine: they are not built with -ost.)',
   },
 ];

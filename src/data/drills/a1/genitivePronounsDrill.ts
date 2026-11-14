@@ -55,8 +55,8 @@ export const GENITIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'prijedlog',
-    q: 'Možeš li doći do ____ poslije posla? (mi)',
-    en: 'Can you come over to our place after work?',
+    q: 'Možeš li svratiti do ____ poslije posla? (mi)',
+    en: 'Can you drop by our place after work?',
     opts: ['nas', 'nama', 'nam', 'mi'],
     answer: 'nas',
     tip: 'do + the genitive of mi.',

@@ -123,11 +123,11 @@ export const DATES_YEARS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kada',
-    q: 'U kojoj godini? — U dvije tisuće dvadeset ____.',
-    en: 'In which year? — In 2021.',
-    opts: ['prvoj', 'prva', 'prve', 'prvi'],
-    answer: 'prvoj',
-    tip: 'u + the locative: the feminine ordinal ends in -oj.',
+    q: 'Koje godine si došao u Hrvatsku? — Dvije tisuće dvadeset ____.',
+    en: 'In which year did you come to Croatia? — In 2021.',
+    opts: ['prve', 'prva', 'prvi', 'prvu'],
+    answer: 'prve',
+    tip: 'When, without u: the feminine ordinal in the genitive, -e.',
   },
   {
     mode: 'kada',

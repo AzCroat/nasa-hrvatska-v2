@@ -123,7 +123,7 @@ export const GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'odakle',
     q: 'Upravo smo stigli ____ mora.',
-    en: 'We have just come back from the seaside.',
+    en: 'We have just arrived from the seaside.',
     opts: ['iz', 'u', 's', 'kod'],
     answer: 's',
     tip: 'na moru → s mora.',

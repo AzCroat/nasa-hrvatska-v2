@@ -6,8 +6,10 @@
 // accusative: Boli me glava. The verb counts the body part — boli for one, bole for
 // several (and leđa is always plural). Another person goes into the accusative too:
 // Mariju boli glava, Ivana bole leđa. In the past the participle agrees with the body
-// part, je follows the short pronoun and su precedes it. Boli mi glava is heard, but
-// the standard is me, so the dative forms are the case errors here.
+// part, je follows the short pronoun and su precedes it. Boli mi glava is heard from
+// natives (the standard is me), so a dative form is NEVER offered as a wrong option:
+// the distractors are the subject form, the wrong person or a stray verb (2026-11-13).
+// A possessive is not a distractor either: Boli njegov zub is correct Croatian.
 //
 // Three modes:
 //   zamjenice — me, te, ga, je, nas, vas, ih, and named people
@@ -28,7 +30,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Boli ____ glava.',
     en: 'I have a headache.',
-    opts: ['me', 'mi', 'ja', 'meni'],
+    opts: ['me', 'te', 'ja', 'sam'],
     answer: 'me',
     tip: 'boljeti takes the short accusative form.',
   },
@@ -36,7 +38,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Boli ____ zub.',
     en: 'He has toothache.',
-    opts: ['ga', 'mu', 'on', 'njemu'],
+    opts: ['ga', 'me', 'on', 'je'],
     answer: 'ga',
     tip: 'The short accusative for on.',
   },
@@ -44,7 +46,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Boli ____ grlo.',
     en: 'She has a sore throat.',
-    opts: ['je', 'joj', 'ona', 'njoj'],
+    opts: ['je', 'te', 'ona', 'ga'],
     answer: 'je',
     tip: 'The short accusative for ona.',
   },
@@ -52,7 +54,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Bole ____ noge.',
     en: 'Our legs hurt.',
-    opts: ['nas', 'nam', 'mi', 'nama'],
+    opts: ['nas', 'ih', 'mi', 'smo'],
     answer: 'nas',
     tip: 'The short accusative for mi.',
   },
@@ -60,7 +62,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Bole li ____ leđa?',
     en: 'Does your back hurt? (polite)',
-    opts: ['vas', 'vam', 'vi', 'vama'],
+    opts: ['vas', 'nas', 'vi', 'ste'],
     answer: 'vas',
     tip: 'The short accusative for vi.',
   },
@@ -68,7 +70,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: 'Bole ____ oči.',
     en: 'Their eyes hurt.',
-    opts: ['ih', 'im', 'oni', 'njima'],
+    opts: ['ih', 'ga', 'oni', 'su'],
     answer: 'ih',
     tip: 'The short accusative for oni.',
   },
@@ -76,7 +78,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: '____ boli glava.',
     en: 'Marija has a headache.',
-    opts: ['Mariju', 'Marija', 'Mariji', 'Marijom'],
+    opts: ['Mariju', 'Marija', 'Marijin', 'Marijom'],
     answer: 'Mariju',
     tip: 'The person is the object: feminine -a becomes -u.',
   },
@@ -84,7 +86,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'zamjenice',
     q: '____ bole leđa.',
     en: "Ivan's back hurts.",
-    opts: ['Ivana', 'Ivan', 'Ivanu', 'Ivanom'],
+    opts: ['Ivana', 'Ivan', 'Ivanov', 'Ivanom'],
     answer: 'Ivana',
     tip: 'A man is a living masculine noun: his accusative ends in -a.',
   },
@@ -208,7 +210,7 @@ export const BOLJETI_DRILL_DATA: ModeDrillItem[] = [
     mode: 'proslo',
     q: 'Gdje ____ boli?',
     en: 'Where does it hurt? (polite)',
-    opts: ['vas', 'vam', 'vi', 'vama'],
+    opts: ['vas', 'ste', 'vi', 'vaš'],
     answer: 'vas',
     tip: 'boljeti takes the accusative: vas.',
   },

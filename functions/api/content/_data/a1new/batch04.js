@@ -7,9 +7,11 @@
 //
 // What a learner knows at this point (and nothing more): biti, gender, plurals, adjectives
 // and possessives, the present tense, negation, the accusative (including living masculine
-// nouns and "Idem u grad / na more" as motion), imati, the modals (with "Htio / Htjela bih"
-// as a polite chunk), trebati, smjeti, money, numbers, telling the time, and the days of
-// the week ("u subotu"). No locative, genitive, dative, instrumental, past or future yet —
+// nouns and "Idem u grad / na more" as motion chunks), imati, the modals, trebati, smjeti,
+// money words, numbers, and the days of the week ("u subotu"). NOT the conditional (never
+// taught in A1 — polite requests are Molim … / Želim … / Trebam …, as in the book), not
+// telling the time (it needs numbers + genitive, lesson 84), and the u/na choice is taught
+// at 39, so lesson 38 tests only the forms of ići. No locative, genitive, dative, instrumental, past or future yet —
 // so nothing here says where something IS with a case ending, measures a quantity, or
 // travels "by bus" (autobusom). Distractors avoid genitive and accusative-plural forms
 // after verbs and prepositions where those would be real Croatian (Pijem vode, za sestre).
@@ -44,6 +46,7 @@ export const SPINE = [
       'Say who something is for: poklon za mamu, za brata',
       'Name a ticket or train by its destination: karta za Split, vlak za Zagreb',
       'Say what day or occasion something is for, and ask Za koga? and Zašto?',
+      'Go to fetch something or someone with po: Idem po kruh, Idem po mamu',
     ],
   },
   {
@@ -54,6 +57,7 @@ export const SPINE = [
       'Replace an object with a pronoun: Vidim ga, Volim te, Čekam vas',
       'Put the short forms in second place: Ana me zove, Vidiš li me?',
       'Use the long forms after a preposition, for emphasis and alone: za tebe, Tebe!',
+      'Say what interests you: Zanima me sport, Zanimaju me filmovi',
     ],
   },
   {
@@ -61,7 +65,7 @@ export const SPINE = [
     masterOrder: 42,
     prerequisites: ['u-na-motion', 'za-accusative', 'accusative-pronouns'],
     objectives: [
-      'Ask for a ticket politely: Htio bih / Htjela bih kartu za Split',
+      'Ask for a ticket politely: Molim Vas kartu za Split / Želim kartu za Split',
       'Choose a one-way or return ticket and ask when the ferry or bus goes',
       'Book a room or a trip for a day and for the people travelling',
     ],
@@ -74,6 +78,7 @@ export const SPINE = [
       'Conjugate jesti and piti: jedem, jedeš… pijem, piješ…',
       'Say what you eat and drink with the accusative: Jedem juhu, Pijem vodu',
       'Ask and answer about meals: Što jedeš za doručak? Ne pijem kavu.',
+      'Say how food tastes: sladak, slan, ljut, kiseo, gorak — Juha je slana.',
     ],
   },
 ];
@@ -510,7 +515,7 @@ export const LESSONS = [
   {
     id: 'za-accusative',
     title: 'Za — For',
-    subtitle: 'poklon za mamu, karta za Split — za and the accusative',
+    subtitle: 'poklon za mamu, karta za Split, idem po kruh — za and po with the accusative',
     icon: '🎁',
     level: 'A1',
     duration: '~7 min',
@@ -520,7 +525,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'A Preposition You Already Know How to Use',
-        body: 'Za means "for", and the noun after it always takes the accusative. That is all the grammar there is: you already know the accusative endings from the verbs that take an object. What this lesson adds is the many everyday jobs za does — a present for someone, a ticket for a place, a table for Saturday.',
+        body: 'Za means "for", and in that meaning the noun after it takes the accusative. That is all the grammar there is: you already know the accusative endings from the verbs that take an object. What this lesson adds is the many everyday jobs za does — a present for someone, a ticket for a place, a table for Saturday — and one more small word, po, for going to fetch something. (Later you will meet za in a few fixed phrases with other cases, such as za stolom, at the table; with the meaning "for", it is always the accusative.)',
         icon: '🎁',
       },
       {
@@ -552,6 +557,12 @@ export const LESSONS = [
         title: 'Zašto or Za što?',
         body: 'Written as one word, zašto means "why": Zašto učiš hrvatski? (Why are you learning Croatian?) Written as two words, za što means "for what": it is za plus što, used when "for" really is part of the question. At this level you will almost always want zašto.',
         highlight: 'Zašto učiš hrvatski?',
+      },
+      {
+        type: 'rule',
+        title: 'Po + Accusative: Going to Fetch',
+        body: 'po with the accusative means going somewhere to get something or someone and bring it back: Idem po kruh. (I am going to get bread.) Idem po mamu. (I am going to pick up Mum.) Muž ide po ženu. (The husband goes to pick up his wife.) The noun after po takes the same accusative as after za: kruh stays, mama → mamu, brat → brata. To ask what someone is going for: Po što ideš? — and for a person: Po koga ideš?',
+        highlight: 'Idem po kruh.',
       },
       {
         type: 'table',
@@ -604,8 +615,8 @@ export const LESSONS = [
             note: 'a ticket is FOR a place',
           },
           {
-            hr: 'Vlak za Zagreb ide u osam.',
-            en: 'The train to Zagreb goes at eight.',
+            hr: 'Vlak za Zagreb je tamo.',
+            en: 'The train to Zagreb is over there.',
             note: 'Zagreb does not change',
           },
           {
@@ -627,6 +638,37 @@ export const LESSONS = [
             hr: 'Zašto ideš u grad?',
             en: 'Why are you going into town?',
             note: 'zašto — one word, "why"',
+          },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Going to Fetch: po',
+        items: [
+          {
+            hr: 'Idem po kruh i mlijeko.',
+            en: 'I am going to get bread and milk.',
+            note: 'kruh and mlijeko do not change',
+          },
+          {
+            hr: 'Po što ideš? — Po pizzu.',
+            en: 'What are you going to get? — A pizza.',
+            note: 'pizza → pizzu',
+          },
+          {
+            hr: 'Tata ide po Anu.',
+            en: 'Dad is going to pick up Ana.',
+            note: 'Ana → Anu',
+          },
+          {
+            hr: 'Po koga ideš? — Po brata.',
+            en: 'Who are you going to pick up? — My brother.',
+            note: 'brat is alive → brata',
+          },
+          {
+            hr: 'Muž ide po ženu.',
+            en: 'The husband is going to pick up his wife.',
+            note: 'žena → ženu',
           },
         ],
       },
@@ -685,16 +727,11 @@ export const LESSONS = [
               'zašto — one word. Za što (two words) is "for what", za koga is "for whom", and koga is the object form of tko.',
           },
           {
-            q: 'What does za do to the noun after it?',
-            options: [
-              'puts it in the accusative',
-              'nothing',
-              'puts it in the plural',
-              'makes it feminine',
-            ],
+            q: 'Complete: "Idem po ___." (to get bread)',
+            options: ['kruh', 'kruha', 'kruhu', 'kruhom'],
             correct: 0,
             explanation:
-              'za is always followed by the accusative — the same object form verbs use.',
+              'po + accusative: going to fetch something. kruh is a masculine thing, so it does not change.',
           },
           {
             q: 'Complete: "Rezerviram stol za ___." (Saturday)',
@@ -708,11 +745,12 @@ export const LESSONS = [
         type: 'summary',
         title: 'Za — Key Takeaways',
         points: [
-          'za = for, always + accusative',
+          'za = for, + accusative',
           'For someone: za mamu, za brata, za dobrog prijatelja',
           'A ticket or vehicle for a place: karta za Split, vlak za Zagreb',
           'For a day or occasion: za subotu, za doručak, za rođendan',
           'Za koga? = for whom; zašto (one word) = why',
+          'po + accusative = going to fetch: Idem po kruh, Idem po mamu. Po što ideš?',
         ],
       },
     ],
@@ -769,6 +807,54 @@ export const LESSONS = [
         title: 'When You Need the Long Form',
         body: 'Use the long form in three situations. After a preposition: za mene, za tebe, za njega, za nju, za njih. For emphasis or contrast: Volim tebe, a ne njega. (I love YOU, not him.) On its own, as a one-word answer: Koga čekaš? — Tebe! (Who are you waiting for? — You!)',
         highlight: 'za tebe',
+      },
+      {
+        type: 'rule',
+        title: 'Poznajem: the Verb poznavati',
+        body: 'poznavati (to know a person or a place) is a verb you need with these pronouns all the time, and its present is built on poznaj-: the -va- of the dictionary form drops out. poznajem, poznaješ, poznaje, poznajemo, poznajete, poznaju. Poznaješ li Marka? — Da, poznajem ga. (Do you know Marko? — Yes, I know him.) Poznajem ih dobro. (I know them well.)',
+        highlight: 'Da, poznajem ga.',
+      },
+      {
+        type: 'rule',
+        title: 'Zanima me: What Interests You',
+        body: 'To say what interests you, Croatian turns the sentence round. The thing that interests you is the subject, and you are the object — a short pronoun: Zanima me sport. (Sport interests me: I am interested in sport.) Zanima ga glazba. (He is interested in music.) The verb zanimati agrees with the thing, so for several things it is zanimaju: Zanimaju me filmovi. To ask: Što te zanima? (What are you interested in?) Zanima li vas umjetnost? (Are you interested in art?)',
+        highlight: 'Zanima me sport.',
+      },
+      {
+        type: 'example',
+        title: 'What Interests You',
+        items: [
+          {
+            hr: 'Što te zanima? — Zanima me glazba.',
+            en: 'What are you interested in? — I am interested in music.',
+            note: 'glazba is the subject; me is the person',
+          },
+          {
+            hr: 'Marka zanima nogomet.',
+            en: 'Marko is interested in football.',
+            note: 'Marko is the object: Marka',
+          },
+          {
+            hr: 'Zanima ga povijest, a nju zanima priroda.',
+            en: 'He is interested in history, and she in nature.',
+            note: 'ga short, nju long for the contrast',
+          },
+          {
+            hr: 'Zanimaju nas stari filmovi.',
+            en: 'We are interested in old films.',
+            note: 'several things → zanimaju',
+          },
+          {
+            hr: 'Zanima li vas hrvatska kuhinja?',
+            en: 'Are you interested in Croatian cooking?',
+            note: 'li first, then vas',
+          },
+          {
+            hr: 'Poznaješ li Anu? — Da, poznajem je.',
+            en: 'Do you know Ana? — Yes, I know her.',
+            note: 'poznavati → poznajem',
+          },
+        ],
       },
       {
         type: 'example',
@@ -902,6 +988,8 @@ export const LESSONS = [
           'Short forms sit in second place: Ana me zove. Vidiš li me?',
           'Long forms after a preposition (za tebe), for contrast, and alone (Tebe!)',
           'A short form never starts a sentence',
+          'poznavati → poznajem, poznaješ, poznaje, poznajemo, poznajete, poznaju',
+          'Zanima me sport. Zanimaju me filmovi. Što te zanima?',
         ],
       },
     ],
@@ -929,19 +1017,19 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Saying What You Want',
-        body: 'Želim (I want) is fine. The polite form you met with the modals is Htio bih (a man speaking) or Htjela bih (a woman speaking): "I would like". Both are followed by the accusative or by a verb in its dictionary form. Htio bih kartu. (I would like a ticket.) Htjela bih rezervirati sobu. (I would like to book a room.) Add molim (please) at the end.',
-        highlight: 'Htjela bih rezervirati sobu.',
+        body: 'At a counter, the simplest polite request is Molim Vas (please — literally "I ask you") with the thing you want in the accusative: Molim Vas jednu kartu. (One ticket, please.) Molim kartu za Split. Želim (I want) is just as normal: Želim kartu. Želim rezervirati sobu. (I want to book a room.) And trebam works too: Trebam povratnu kartu. All three are followed by the accusative or by a verb in its dictionary form.',
+        highlight: 'Molim Vas jednu kartu.',
       },
       {
         type: 'rule',
         title: 'Tickets',
-        body: 'karta = ticket. A one-way ticket is jednosmjerna karta; a return ticket is povratna karta. As an object the whole phrase takes -u: Htio bih povratnu kartu. The destination comes with za: karta za Split, karta za trajekt (a ferry ticket). Koliko košta karta? asks how much it costs.',
+        body: 'karta = ticket. A one-way ticket is jednosmjerna karta; a return ticket is povratna karta. As an object the whole phrase takes -u: Želim povratnu kartu. The destination comes with za: karta za Split, karta za trajekt (a ferry ticket). Koliko košta karta? asks how much it costs.',
         highlight: 'povratnu kartu',
       },
       {
         type: 'rule',
         title: 'When',
-        body: 'For the day, use u + the accusative: u petak (on Friday), u subotu (on Saturday). For what a booking is FOR, use za: sobu za subotu (a room for Saturday). For the clock: u osam (at eight), u osam sati. To ask when a bus, train or ferry leaves, use ići: Kada ide trajekt za Hvar? (When does the ferry to Hvar go?)',
+        body: 'For the day, use u + the accusative: u petak (on Friday), u subotu (on Saturday). For what a booking is FOR, use za: sobu za subotu (a room for Saturday). For the part of the day: ujutro (in the morning), popodne (in the afternoon), navečer (in the evening). To ask when a bus, train or ferry leaves, use ići: Kada ide trajekt za Hvar? (When does the ferry to Hvar go?) The times on a timetable are read from the board; saying the clock comes later in the course.',
         highlight: 'Kada ide trajekt za Hvar?',
       },
       {
@@ -951,10 +1039,7 @@ export const LESSONS = [
         rows: [
           ['Izvolite.', 'How can I help? / Here you are.'],
           ['Želim rezervirati putovanje.', 'I want to book a trip.'],
-          [
-            'Htio bih / Htjela bih kartu za Split.',
-            'I would like a ticket to Split (man / woman).',
-          ],
+          ['Molim Vas kartu za Split.', 'A ticket to Split, please.'],
           ['jednosmjerna karta', 'one-way ticket'],
           ['povratna karta', 'return ticket'],
           ['Kada ide autobus za Zadar?', 'When does the bus to Zadar go?'],
@@ -982,14 +1067,14 @@ export const LESSONS = [
             note: 'ići for a ferry, za for its destination',
           },
           {
-            hr: 'Trajekt ide u osam i u dva.',
-            en: 'The ferry goes at eight and at two.',
-            note: 'u osam — at eight',
+            hr: 'Trajekt ide ujutro i popodne.',
+            en: 'The ferry goes in the morning and in the afternoon.',
+            note: 'ujutro, popodne — parts of the day',
           },
           {
-            hr: 'Htjela bih povratnu kartu, molim.',
-            en: 'I would like a return ticket, please.',
-            note: 'a woman speaking: Htjela bih',
+            hr: 'Molim Vas povratnu kartu.',
+            en: 'A return ticket, please.',
+            note: 'Molim Vas + the accusative',
           },
           { hr: 'Za jednu osobu?', en: 'For one person?', note: 'jedna osoba → jednu osobu' },
           {
@@ -1025,8 +1110,8 @@ export const LESSONS = [
             note: 'the adjective takes -u too',
           },
           {
-            hr: 'Moramo ići na kolodvor u sedam.',
-            en: 'We have to go to the station at seven.',
+            hr: 'Moramo ići na kolodvor ujutro.',
+            en: 'We have to go to the station in the morning.',
             note: 'na kolodvor',
           },
           {
@@ -1040,15 +1125,15 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'A man says: "I would like a return ticket to Split."',
+        q: 'How do you say "I want a return ticket to Split"?',
         options: [
-          'Htio bih povratna karta za Split.',
-          'Htio bih povratnu kartu za Split.',
-          'Htio bih povratnu kartu u Splitu.',
+          'Želim povratna karta za Split.',
+          'Želim povratnu kartu za Split.',
+          'Želim povratnu kartu u Split.',
         ],
         correct: 1,
         explanation:
-          'The ticket is the object, so the whole phrase takes -u: povratnu kartu, and its destination comes with za: za Split.',
+          'The ticket is the object, so the whole phrase takes -u: povratnu kartu, and a ticket is FOR its destination: za Split.',
       },
       {
         type: 'quiz',
@@ -1066,30 +1151,30 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, the ticket in its dictionary form: "Htio bih karta" — what you want is an object: Htio bih kartu. Second, the wrong polite form for your gender: a woman says Htjela bih, a man says Htio bih. Third, the day in the wrong form: "u petku" — on Friday is u petak, u + the accusative.',
-        highlight: 'Htio bih kartu',
+        body: 'First, the ticket in its dictionary form: "Želim karta" — what you want is an object: Želim kartu. Second, u instead of za for a ticket: "karta u Split" — you GO u Split, but a ticket is FOR it: karta za Split. Third, the day in the wrong form: "u petku" — on Friday is u petak, u + the accusative.',
+        highlight: 'Želim kartu',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Htio bih ___ za Zadar."',
+            q: 'Complete: "Molim Vas jednu ___ za Zadar."',
             options: ['karta', 'kartu', 'karti', 'kartom'],
             correct: 1,
-            explanation: 'The ticket is the object of htio bih, so feminine -a becomes -u: kartu.',
+            explanation: 'The ticket is what you ask for, so feminine -a becomes -u: kartu.',
           },
           {
-            q: 'A woman wants to book a room. Which sentence is correct?',
+            q: 'You say you want to book a room. Which sentence is correct?',
             options: [
-              'Htio bih rezervirati sobu.',
-              'Htjela bih rezervirati soba.',
-              'Htjela bih rezervirati sobu.',
-              'Htjela bi rezervirati sobu.',
+              'Želim rezervirati soba.',
+              'Želim rezerviram sobu.',
+              'Želim rezervirati sobu.',
+              'Želimo rezervirati soba.',
             ],
             correct: 2,
             explanation:
-              'A woman says Htjela bih, and the room is an object: sobu. "Htio" is the man\'s form, and "bi" without the h means "she would".',
+              'želim + the dictionary form rezervirati, and the room is an object: sobu.',
           },
           {
             q: 'How do you say "We are leaving on Saturday"?',
@@ -1123,7 +1208,7 @@ export const LESSONS = [
         type: 'summary',
         title: 'Travel Agency — Key Takeaways',
         points: [
-          'Polite request: Htio bih (man) / Htjela bih (woman) + accusative',
+          'Polite request: Molim (Vas) … / Želim … + accusative: Molim Vas kartu.',
           'jednosmjerna karta (one-way), povratna karta (return)',
           'A ticket for a place: karta za Split; a trip there: idemo u / na …',
           'On a day: u petak; booked for a day: za petak',
@@ -1190,6 +1275,24 @@ export const LESSONS = [
         highlight: 'Ne jedem meso.',
       },
       {
+        type: 'rule',
+        title: 'How Does It Taste?',
+        body: 'Five adjectives describe how food tastes, and they agree with the food like any adjective: sladak (sweet), slan (salty), ljut (spicy, hot), kiseo (sour), gorak (bitter). Three of them change shape. In sladak and gorak the a drops out — and in sladak the d also becomes t: sladak → slatka, slatko; gorak → gorka, gorko. In kiseo the o turns back into l: kiseo → kisela, kiselo. Sladoled je sladak. Juha je slana. Kava je gorka. Limun je kiseo. To ask, use kakav, kakva, kakvo: Kakva je juha? — Malo je slana.',
+        highlight: 'Juha je slana.',
+      },
+      {
+        type: 'table',
+        title: 'The Five Tastes',
+        headers: ['Masculine', 'Feminine', 'Neuter', 'English'],
+        rows: [
+          ['sladak', 'slatka', 'slatko', 'sweet'],
+          ['slan', 'slana', 'slano', 'salty'],
+          ['ljut', 'ljuta', 'ljuto', 'spicy, hot'],
+          ['kiseo', 'kisela', 'kiselo', 'sour'],
+          ['gorak', 'gorka', 'gorko', 'bitter'],
+        ],
+      },
+      {
         type: 'example',
         title: 'Every Person',
         items: [
@@ -1237,6 +1340,42 @@ export const LESSONS = [
           },
           { hr: 'Za ručak jedemo juhu.', en: 'For lunch we eat soup.', note: 'za ručak' },
           { hr: 'Jedeš li sladoled?', en: 'Do you eat ice cream?', note: 'li after the verb' },
+        ],
+      },
+      {
+        type: 'example',
+        title: 'Sweet, Salty, Spicy, Sour, Bitter',
+        items: [
+          {
+            hr: 'Sladoled je sladak, a limun je kiseo.',
+            en: 'Ice cream is sweet, and a lemon is sour.',
+            note: 'masculine: sladak, kiseo',
+          },
+          {
+            hr: 'Kakva je juha? — Malo je slana.',
+            en: 'What is the soup like? — It is a little salty.',
+            note: 'juha → slana',
+          },
+          {
+            hr: 'Ajvar je ljut, ali jako dobar.',
+            en: 'The ajvar is hot, but very good.',
+            note: 'ajvar — a pepper relish',
+          },
+          {
+            hr: 'Crna kava je gorka.',
+            en: 'Black coffee is bitter.',
+            note: 'gorak → gorka',
+          },
+          {
+            hr: 'Ne jedem ljutu hranu.',
+            en: 'I do not eat spicy food.',
+            note: 'the object: ljuta hrana → ljutu hranu',
+          },
+          {
+            hr: 'Pijem slatki čaj, a ti piješ kiselo mlijeko.',
+            en: 'I drink sweet tea, and you drink sour milk (yoghurt drink).',
+            note: 'slatki čaj, kiselo mlijeko',
+          },
         ],
       },
       {
@@ -1316,6 +1455,7 @@ export const LESSONS = [
           'Food and drink take the accusative: Jedem juhu. Pijem vodu.',
           'The negative is two words: Ne jedem meso.',
           'Meals with za: za doručak, za ručak, za večeru',
+          'Tastes: sladak/slatka, slan, ljut, kiseo/kisela, gorak/gorka — Kakva je juha?',
         ],
       },
     ],
@@ -1378,7 +1518,7 @@ export const PRACTICE = {
         },
         {
           q: 'How do you say "I am going home"?',
-          options: ['Idem kuća.', 'Idem u kući.', 'Idem kući.', 'Ja ide kući.'],
+          options: ['Idem kuća.', 'Idemo kući.', 'Idem kući.', 'Ja ide kući.'],
           correct: 2,
           hint: 'Home as a direction needs no preposition.',
           explanation: 'Idem kući.',
@@ -1406,9 +1546,9 @@ export const PRACTICE = {
         },
         {
           q: 'How do you say "Let\'s go to the seaside!"?',
-          options: ['Idemo na moru!', 'Idem na more!', 'Ide na more!', 'Idemo na more!'],
+          options: ['Idu na more!', 'Idem na more!', 'Ide na more!', 'Idemo na more!'],
           correct: 3,
-          hint: '"Let\'s go" is the mi form, and going somewhere keeps the place in its object form.',
+          hint: '"Let\'s go" is the mi form.',
           explanation: 'Idemo na more!',
         },
         {
@@ -1695,7 +1835,7 @@ export const PRACTICE = {
         problem: 'Dopuni: Ovo je poklon za ___. (brat)',
         en: 'This is a present for my brother.',
         steps: [
-          { label: 'The preposition', text: 'za is always followed by the accusative.' },
+          { label: 'The preposition', text: 'With the meaning "for", za takes the accusative.' },
           { label: 'Masculine: is it alive?', text: 'A brother is alive.' },
           { label: 'The ending', text: 'A living masculine noun adds -a.' },
         ],
@@ -1748,11 +1888,11 @@ export const PRACTICE = {
           explanation: 'Za ručak imam sendvič.',
         },
         {
-          q: 'Vlak ___ Split ide u devet.',
+          q: 'Vlak ___ Split je tamo.',
           options: ['za', 'kod', 'iz', 'od'],
           correct: 0,
           hint: 'A train is named by where it goes.',
-          explanation: 'Vlak za Split ide u devet.',
+          explanation: 'Vlak za Split je tamo.',
         },
         {
           q: 'Kupujem knjigu za ___. (a good friend)',
@@ -1810,6 +1950,27 @@ export const PRACTICE = {
           hint: 'za + accusative: feminine -a becomes -u.',
           explanation: 'Rezerviram stol za srijedu.',
         },
+        {
+          q: 'Idem po ___. (to pick up Mum)',
+          options: ['mama', 'mamu', 'mami', 'mamom'],
+          correct: 1,
+          hint: 'po takes the same object form as za.',
+          explanation: 'Idem po mamu.',
+        },
+        {
+          type: 'type',
+          q: 'Idem ____ kruh. (to go and get bread)',
+          answer: 'po',
+          hint: 'The small word for going to fetch something.',
+          explanation: 'Idem po kruh.',
+        },
+        {
+          type: 'type',
+          q: 'Tata ide po ____. (Ivan — to pick him up)',
+          answer: 'Ivana',
+          hint: 'Ivan is a living masculine noun.',
+          explanation: 'Tata ide po Ivana.',
+        },
       ],
     },
     checkB: [
@@ -1860,10 +2021,11 @@ export const PRACTICE = {
       ['za', 'for (+ accusative)', 'Ovo je poklon za mamu.'],
       ['poklon', 'present, gift', 'Kupujem poklon za brata.'],
       ['karta', 'ticket', 'Imate li kartu za Split?'],
-      ['vlak', 'train', 'Vlak za Zagreb ide u osam.'],
+      ['vlak', 'train', 'Vlak za Zagreb je tamo.'],
       ['cvijeće', 'flowers', 'Kupujem cvijeće za sestru.'],
       ['zašto', 'why', 'Zašto učiš hrvatski?'],
       ['koga', 'whom (object form of tko)', 'Za koga je ovo?'],
+      ['po', 'to fetch (+ accusative, after a verb of going)', 'Idem po kruh.'],
       ['doručak', 'breakfast', 'Za doručak imam kruh i sir.'],
       ['ručak', 'lunch', 'Za ručak imam sendvič.'],
       ['večera', 'dinner', 'Za večeru imam juhu.'],
@@ -1949,7 +2111,7 @@ export const PRACTICE = {
         },
         {
           q: 'How do you say "I am waiting for you (all)"?',
-          options: ['Čekam vas.', 'Čekam vi.', 'Čekam vama.', 'Vas čekam.'],
+          options: ['Čekam vas.', 'Čekam vi.', 'Čekam vama.', 'Čekam vaš.'],
           correct: 0,
           hint: 'The object form of vi, in second place.',
           explanation: 'Čekam vas.',
@@ -1965,6 +2127,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Gdje je Ivan? Ne vidim ____.',
           answer: 'ga',
+          accept: ['njega'],
           hint: 'The short object form for "him".',
           explanation: 'Ne vidim ga.',
         },
@@ -1979,6 +2142,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Ana i Ivo? Poznajem ____.',
           answer: 'ih',
+          accept: ['njih'],
           hint: 'The short object form for "them".',
           explanation: 'Poznajem ih.',
         },
@@ -1995,6 +2159,27 @@ export const PRACTICE = {
           answer: 'ga',
           hint: 'The short form for "him", in second place after the modal.',
           explanation: 'Moram ga zvati.',
+        },
+        {
+          q: 'Što te ___? — Sport.',
+          options: ['zanimam', 'zanimaš', 'zanima', 'zanimaju'],
+          correct: 2,
+          hint: 'The thing that interests you is the subject: one thing, the "it" form.',
+          explanation: 'Što te zanima? — Sport. (Zanima me sport.)',
+        },
+        {
+          type: 'type',
+          q: '____ me stari filmovi. (zanimati)',
+          answer: 'Zanimaju',
+          hint: 'The films are the subject, and there are several of them.',
+          explanation: 'Zanimaju me stari filmovi.',
+        },
+        {
+          type: 'type',
+          q: 'Poznaješ li Marka? — Da, ____ ga. (poznavati)',
+          answer: 'poznajem',
+          hint: 'The present is built on poznaj-, without the -va-.',
+          explanation: 'Da, poznajem ga.',
         },
       ],
     },
@@ -2051,6 +2236,7 @@ export const PRACTICE = {
       ['njih', 'them (long form; short: ih)', 'Poznaješ li ih?'],
       ['zvati', 'to call', 'Moram ga zvati.'],
       ['poznavati', 'to know (a person)', 'Poznajem ih.'],
+      ['zanimati', 'to interest', 'Zanima me glazba.'],
       ['čekati', 'to wait (for)', 'Ana me čeka.'],
     ],
   },
@@ -2059,14 +2245,17 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Asking for a Ticket',
-        problem: 'A man asks for a one-way ticket to Zagreb.',
-        en: 'I would like a one-way ticket to Zagreb.',
+        problem: 'Ask politely for a one-way ticket to Zagreb.',
+        en: 'A one-way ticket to Zagreb, please.',
         steps: [
-          { label: 'The polite start', text: 'A man says Htio bih.' },
-          { label: 'The object', text: 'jednosmjerna karta is what he wants: both words take -u.' },
+          { label: 'The polite start', text: 'Molim Vas — "please", at the start.' },
+          {
+            label: 'The object',
+            text: 'jednosmjerna karta is what you ask for: both words take -u.',
+          },
           { label: 'The destination', text: 'A ticket is FOR a place: za Zagreb.' },
         ],
-        answer: 'Htio bih jednosmjernu kartu za Zagreb.',
+        answer: 'Molim Vas jednosmjernu kartu za Zagreb.',
       },
       {
         title: 'Where and When',
@@ -2105,11 +2294,11 @@ export const PRACTICE = {
           explanation: 'Idemo na izlet u nedjelju.',
         },
         {
-          q: 'Htjela bih ___ kartu. (return)',
+          q: 'Želim ___ kartu. (return)',
           options: ['povratna', 'povratnoj', 'povratnu', 'povratnom'],
           correct: 2,
           hint: 'The adjective takes the same ending as kartu.',
-          explanation: 'Htjela bih povratnu kartu.',
+          explanation: 'Želim povratnu kartu.',
         },
         {
           q: 'Koliko ___ karta?',
@@ -2126,11 +2315,16 @@ export const PRACTICE = {
           explanation: 'Imate li kartu za trajekt?',
         },
         {
-          q: 'A man asks politely for a ticket:',
-          options: ['Htjela bih kartu.', 'Hoću bih kartu.', 'Htio bih kartu.', 'Htio bi kartu.'],
+          q: 'You ask politely for one ticket:',
+          options: [
+            'Molim Vas jedna karta.',
+            'Molim Vas jednoj karti.',
+            'Molim Vas jednu kartu.',
+            'Molim Vas jedan kartu.',
+          ],
           correct: 2,
-          hint: 'The man\'s form, and bih with an h for "I".',
-          explanation: 'Htio bih kartu.',
+          hint: 'What you ask for is an object, and jedna follows karta.',
+          explanation: 'Molim Vas jednu kartu.',
         },
         {
           q: 'Za koga je soba? — Za ___. (me and my husband)',
@@ -2162,10 +2356,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Htjela bih jednosmjernu kartu ____ Osijek.',
+          q: 'Molim Vas jednosmjernu kartu ____ Osijek.',
           answer: 'za',
           hint: "The preposition that names a ticket's destination.",
-          explanation: 'Htjela bih jednosmjernu kartu za Osijek.',
+          explanation: 'Molim Vas jednosmjernu kartu za Osijek.',
         },
         {
           type: 'type',
@@ -2196,16 +2390,15 @@ export const PRACTICE = {
         explanation: 'trajekti (the ferries) are "they": idu.',
       },
       {
-        q: 'A woman books a room for Saturday. Which sentence is correct?',
+        q: 'You want to book a room for Saturday. Which sentence is correct?',
         options: [
-          'Htio bih sobu za subotu.',
-          'Htjela bih soba za subotu.',
-          'Htjela bih sobu za subota.',
-          'Htjela bih sobu za subotu.',
+          'Želim soba za subotu.',
+          'Želim sobu za subota.',
+          'Želim sobu u subotu za.',
+          'Želim sobu za subotu.',
         ],
         correct: 3,
-        explanation:
-          'A woman says Htjela bih, the room is an object (sobu), and za takes the accusative (subotu).',
+        explanation: 'The room is an object (sobu), and za takes the accusative (subotu).',
       },
       {
         q: 'What does "jednosmjerna karta" mean?',
@@ -2223,8 +2416,8 @@ export const PRACTICE = {
     vocab: [
       ['putnička agencija', 'travel agency', 'Idem u putničku agenciju.'],
       ['putovanje', 'trip, journey', 'Želim rezervirati putovanje.'],
-      ['jednosmjerna karta', 'one-way ticket', 'Htio bih jednosmjernu kartu.'],
-      ['povratna karta', 'return ticket', 'Htjela bih povratnu kartu.'],
+      ['jednosmjerna karta', 'one-way ticket', 'Želim jednosmjernu kartu.'],
+      ['povratna karta', 'return ticket', 'Molim Vas povratnu kartu.'],
       ['trajekt', 'ferry', 'Kada ide trajekt za Hvar?'],
       ['autobus', 'bus', 'Kupujem kartu za autobus.'],
       ['izlet', 'trip, outing', 'Idemo na izlet na Krk.'],
@@ -2277,11 +2470,11 @@ export const PRACTICE = {
           explanation: 'Ana pije čaj.',
         },
         {
-          q: 'Mi ___ ribu nedjeljom.',
+          q: 'Mi ___ ribu u petak.',
           options: ['jedu', 'jedete', 'jedemo', 'jede'],
           correct: 2,
           hint: 'mi takes -emo.',
-          explanation: 'Mi jedemo ribu nedjeljom.',
+          explanation: 'Mi jedemo ribu u petak.',
         },
         {
           q: 'Pijem ___ svako jutro. (coffee)',
@@ -2358,6 +2551,27 @@ export const PRACTICE = {
           hint: 'What you eat is the object: feminine -a becomes -u.',
           explanation: 'Jedemo salatu.',
         },
+        {
+          q: 'Limun je ___. (sour)',
+          options: ['kisela', 'kiselo', 'kiseo', 'kiseli'],
+          correct: 2,
+          hint: 'limun is masculine, and the masculine form ends in -o where the others have -l-.',
+          explanation: 'Limun je kiseo. — kisela for a feminine noun, kiselo for a neuter one.',
+        },
+        {
+          type: 'type',
+          q: 'Torta je jako ____. (sladak)',
+          answer: 'slatka',
+          hint: 'torta is feminine; the a in the middle drops out and d becomes t.',
+          explanation: 'Torta je jako slatka.',
+        },
+        {
+          type: 'type',
+          q: 'Kava je ____. (gorak)',
+          answer: 'gorka',
+          hint: 'kava is feminine, and the a in the middle drops out.',
+          explanation: 'Kava je gorka.',
+        },
       ],
     },
     checkB: [
@@ -2409,6 +2623,11 @@ export const PRACTICE = {
       ['mlijeko', 'milk', 'Djeca piju mlijeko.'],
       ['pivo', 'beer', 'Ana ne pije pivo.'],
       ['sladoled', 'ice cream', 'Jedeš li sladoled?'],
+      ['sladak', 'sweet', 'Sladoled je sladak.'],
+      ['slan', 'salty', 'Juha je malo slana.'],
+      ['ljut', 'spicy, hot', 'Ajvar je ljut.'],
+      ['kiseo', 'sour', 'Limun je kiseo.'],
+      ['gorak', 'bitter', 'Crna kava je gorka.'],
     ],
   },
 };

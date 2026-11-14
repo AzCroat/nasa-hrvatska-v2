@@ -160,7 +160,7 @@ export const INSTRUMENTAL_PLACE_DRILL_DATA: ModeDrillItem[] = [
     q: 'Što znači "pred kućom"?',
     opts: ['in front of the house', 'behind the house', 'above the house', 'under the house'],
     answer: 'in front of the house',
-    tip: 'pred kućom = ispred kuće.',
+    tip: 'pred = in front of; with a place it takes the instrumental: pred kućom.',
   },
   // ── kretanje ──────────────────────────────────────────────────────────────
   {

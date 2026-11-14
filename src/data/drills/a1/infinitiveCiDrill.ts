@@ -143,10 +143,10 @@ export const INFINITIVE_CI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'proslo',
     q: 'Jeste li ____ na vrijeme?',
-    en: 'Did you all arrive on time?',
-    opts: ['stigli', 'stićli', 'stigao', 'stizli'],
-    answer: 'stigli',
-    tip: 'Past of stići, plural for a group.',
+    en: 'Did you all come on time?',
+    opts: ['došli', 'doćli', 'došao', 'dođli'],
+    answer: 'došli',
+    tip: 'Past of doći, plural for a group: došao, došla … došli.',
   },
   {
     mode: 'buduce',

@@ -98,8 +98,8 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'irati',
-    q: 'Mi ____ stol za večeras. (rezervirati)',
-    en: 'We are booking a table for tonight.',
+    q: 'Večeras ____ stol. (rezervirati — we)',
+    en: 'Tonight we are booking a table.',
     opts: ['rezerviraju', 'rezerviramo', 'rezervirate', 'rezerviram'],
     answer: 'rezerviramo',
     tip: 'mi → -mo; stol is a thing and does not change.',

@@ -74,7 +74,7 @@ export const PLURAL_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
     en: 'daughter → daughters',
     opts: ['kćeri', 'kćije', 'kći', 'kćovi'],
     answer: 'kćeri',
-    tip: 'Add -eri.',
+    tip: 'Keep kć- and put -eri in place of the final -i: kćeri.',
   },
   {
     mode: 'oblici',
@@ -176,8 +176,8 @@ export const PLURAL_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pokazni',
-    q: '____ oči su tamo.',
-    en: 'Those eyes are over there.',
+    q: '____ oči su kao more.',
+    en: 'Those eyes are like the sea.',
     opts: ['Ti', 'Ta', 'Taj', 'Te'],
     answer: 'Te',
     tip: 'oči is a feminine plural: te oči.',
@@ -192,8 +192,8 @@ export const PLURAL_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pokazni',
-    q: '____ uši su ovdje.',
-    en: 'These ears are here.',
+    q: '____ uši su kao radar.',
+    en: 'These ears are like a radar.',
     opts: ['Ovi', 'Ova', 'Ove', 'Ovaj'],
     answer: 'Ove',
     tip: 'uši is a feminine plural: ove uši.',

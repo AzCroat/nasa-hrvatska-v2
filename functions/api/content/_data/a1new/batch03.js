@@ -13,11 +13,12 @@
 //        genitive, no imati (31).
 //   32 — accusative, imati, -irati verbs. No locative (49), no instrumental (74), no
 //        modals (33), no number + noun counting.
-//   34 — modals of 33, accusative incl. living nouns; "Treba mi" only as the set phrase
-//        modals-basic introduced.
+//   34 — modals of 33, accusative incl. living nouns. No "Treba mi …": its mi is a dative
+//        pronoun (63/65), and the book's L6 uses only trebam + accusative or infinitive.
 //   35 — modals, trebati, the infinitive.
-//   36 — the counting forms of euro / cent / dolar are taught here as fixed forms after a
-//        number; the case behind them (the genitive) comes at 78 and 84.
+//   36 — no number + noun forms (dva eura, pet centi): they need the genitive (78) and
+//        numbers + genitive (84). Prices are written in figures (2 €) for the learner to
+//        read, as the book's Lesson 6 does before its Lesson 17.
 
 /** Spine entries for this batch. `masterOrder` is the lesson's final A1 position. */
 export const SPINE = [
@@ -59,7 +60,7 @@ export const SPINE = [
     objectives: [
       'Say what you need: Trebam kartu, Trebamo liječnika',
       'Say what you need to do: Trebam ići u grad',
-      'Use the set phrases Treba mi … and Ne treba, hvala',
+      'Ask what someone needs and refuse politely: Što trebaš? Ne treba, hvala',
     ],
   },
   {
@@ -70,6 +71,7 @@ export const SPINE = [
       'Ask for permission: Smijem li ući?',
       'Say what is not allowed: Ovdje ne smijete pušiti',
       'Tell ne moraš (you do not have to) from ne smiješ (you must not)',
+      'Read the signs Zabranjeno pušiti, Zabranjeno parkirati',
     ],
   },
   {
@@ -78,7 +80,7 @@ export const SPINE = [
     prerequisites: ['trebati-need', 'numbers-time'],
     objectives: [
       'Know the Croatian currency: the euro since 2023, the kuna before it',
-      'Say prices: jedan euro, dva eura, pet eura, dvadeset i jedan euro',
+      'Ask the price and read it: Koliko košta? Koliko je to? — 15,50 €',
       'Change money and find cash: mjenjačnica, tečaj, bankomat, gotovina',
     ],
   },
@@ -357,8 +359,14 @@ export const LESSONS = [
       },
       {
         type: 'rule',
+        title: 'First Names and Surnames',
+        body: "A first name follows the rules you know: Ivan → Ivana, Marko → Marka, Ana → Anu, Iva → Ivu. A man's surname changes like any masculine noun: Poznajem Ivana Marića. Čekam gospodina Horvata. A woman's surname does not change at all — only her first name does: Poznajem Ivu Marić. Čekam gospođu Horvat. So the same surname looks different for a man and a woman: Zovem Marka Kovača, but Zovem Anu Kovač.",
+        highlight: 'Poznajem Ivu Marić.',
+      },
+      {
+        type: 'rule',
         title: 'The Adjective Follows: -og and -eg',
-        body: 'When a living masculine noun takes -a, the word describing it takes -og: dobar prijatelj → dobrog prijatelja, nov susjed → novog susjeda, mlad liječnik → mladog liječnika. After a soft ending (š, ž, č, ć, j) it is -eg: naš → našeg, vaš → vašeg. The possessives moj and tvoj have short and long forms, both correct: mog or moga, tvog or tvoga. For a thing nothing moves: Vidim novi auto.',
+        body: 'When a living masculine noun takes -a, the word describing it takes -og: dobar prijatelj → dobrog prijatelja, nov susjed → novog susjeda, mlad liječnik → mladog liječnika. When the describing word ends in a soft consonant (č, ć, dž, đ, j, lj, nj, š, ž, c), the ending is -eg instead: naš → našeg, vaš → vašeg, vruć → vrućeg. The possessives moj and tvoj are the everyday exception: they shorten to mog or moga, tvog or tvoga (mojeg and tvojeg exist too, but are rarer). For a thing nothing moves: Vidim novi auto.',
         highlight: 'Vidim novi auto i novog susjeda.',
       },
       {
@@ -491,7 +499,7 @@ export const LESSONS = [
             explanation: 'tata ends in -a, so it changes like a feminine noun: tatu.',
           },
           {
-            q: 'Which sentence says "I know your new neighbour"?',
+            q: 'Which sentence says "I know your new neighbour" (a man)?',
             options: [
               'Poznajem tvoj novi susjed.',
               'Poznajem tvoga novog susjeda.',
@@ -525,6 +533,7 @@ export const LESSONS = [
           'Masculine words in -a change -a to -u: tatu, kolegu, Luku',
           'The adjective follows with -og / -eg: dobrog prijatelja, našeg susjeda',
           'Koga? for people and animals, Što? for things',
+          "A woman's surname never changes: Poznajem Ivu Marić, but Poznajem Ivana Marića",
         ],
       },
     ],
@@ -552,7 +561,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Polite Vi at Reception',
-        body: 'You do not know the receptionist, so you use vi (the polite "you"), and the verb takes -te: Imate li…? (Do you have…?) Rezervirate li…? The receptionist does the same with you: Imate li rezervaciju? Saying "Imaš li sobu?" to a receptionist sounds as if you had known them since school.',
+        body: 'You do not know the receptionist, so you use vi (the polite "you"), and the verb takes -te: Imate li…? (Do you have…?) Govorite li engleski? (Do you speak English?) The receptionist does the same with you: Imate li rezervaciju? Saying "Imaš li sobu?" to a receptionist sounds as if you had known them since school.',
         highlight: 'Imate li slobodnu sobu?',
       },
       {
@@ -607,8 +616,8 @@ export const LESSONS = [
             note: 'putovnica → putovnicu, and vaša follows',
           },
           {
-            hr: 'Imate li slobodnu sobu za večeras?',
-            en: 'Do you have a free room for tonight?',
+            hr: 'Imate li večeras slobodnu sobu?',
+            en: 'Do you have a free room tonight?',
             note: 'slobodnu sobu — the whole phrase changes',
           },
           {
@@ -638,9 +647,9 @@ export const LESSONS = [
         title: 'Questions and Problems',
         items: [
           {
-            hr: 'Kada je doručak? — Od sedam do deset.',
-            en: 'When is breakfast? — From seven to ten.',
-            note: 'a time answer needs no verb',
+            hr: 'Kada je doručak? — Doručak je ujutro.',
+            en: 'When is breakfast? — Breakfast is in the morning.',
+            note: 'ujutro — in the morning; navečer — in the evening',
           },
           {
             hr: 'Imate li wifi? Koja je lozinka?',
@@ -663,8 +672,8 @@ export const LESSONS = [
             note: 'adjectives after je stay in the subject form',
           },
           {
-            hr: 'Kada je odjava? — Odjava je do jedanaest.',
-            en: 'When is checkout? — Checkout is until eleven.',
+            hr: 'Kada je odjava? — Odjava je u podne.',
+            en: 'When is checkout? — Checkout is at noon.',
             note: 'prijava / odjava — check-in / checkout',
           },
         ],
@@ -706,7 +715,7 @@ export const LESSONS = [
               'Imaš li slobodnu sobu?',
               'Imate li slobodna soba?',
               'Imate li slobodnu sobu?',
-              'Imate li slobodne sobe?',
+              'Imam li slobodnu sobu?',
             ],
             correct: 2,
             explanation: 'Polite imate, and the object form slobodnu sobu.',
@@ -768,7 +777,7 @@ export const LESSONS = [
   {
     id: 'trebati-need',
     title: 'Trebati: What You Need',
-    subtitle: 'Trebam kartu, Trebam ići, Treba mi odmor',
+    subtitle: 'Trebam kartu, Trebam ići, Ne treba, hvala',
     icon: '🧰',
     level: 'A1',
     duration: '~7 min',
@@ -778,7 +787,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'The Verb You Use All Day',
-        body: 'You met trebati among the modal verbs. It earns its own lesson because you will need it constantly — a ticket, a doctor, a taxi, help, a moment to think. It works in two ways: trebam + a thing (I need a ticket) and trebam + a verb (I need to go). And there is one set phrase every Croatian uses: Treba mi …',
+        body: 'You met trebati among the modal verbs. It earns its own lesson because you will need it constantly — a ticket, a doctor, a taxi, help, a moment to think. It works in two ways: trebam + a thing (I need a ticket) and trebam + a verb (I need to go). And there is one short refusal every Croatian uses: Ne treba, hvala.',
         icon: '🧰',
       },
       {
@@ -808,9 +817,9 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'The Set Phrase: Treba mi …',
-        body: 'You already saw Treba mi odmor. (I need a rest.) Learn it as a fixed phrase for now: Treba mi + the thing in its dictionary form. Treba mi kava. Treba mi taksi. Notice that the thing does NOT change here — kava, not kavu. That is the one difference to keep apart: Trebam kavu, but Treba mi kava. Use it for one thing at a time.',
-        highlight: 'Treba mi kava.',
+        title: 'Asking What Someone Needs',
+        body: 'Ask with the same verb. Što trebaš? (What do you need?) — to a friend. Što trebate? — politely, as a shop assistant asks you. Trebaš li pomoć? (Do you need help?) — the verb first, then li. Answer with the same verb: Trebam kruh i mlijeko. Or say you need nothing: Ne trebam ništa, hvala.',
+        highlight: 'Što trebaš?',
       },
       {
         type: 'rule',
@@ -844,14 +853,14 @@ export const LESSONS = [
             note: 'polite vi → trebate',
           },
           {
-            hr: 'Treba mi odmor.',
+            hr: 'Trebam odmor.',
             en: 'I need a rest.',
-            note: 'set phrase: the thing stays as it is',
+            note: 'odmor is a thing → no change',
           },
           {
-            hr: 'Treba mi kava, a ne čaj.',
+            hr: 'Trebam kavu, a ne čaj.',
             en: 'I need a coffee, not tea.',
-            note: 'Treba mi + kava, not kavu',
+            note: 'kava → kavu; čaj stays',
           },
           {
             hr: 'Hvala, ne trebam ništa.',
@@ -892,10 +901,9 @@ export const LESSONS = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'How do you say "I need a ticket"?',
-        options: ['Trebam karta.', 'Trebam kartu.', 'Treba mi kartu.', 'Trebam karte.'],
+        options: ['Trebam karta.', 'Trebam kartu.', 'Trebaš kartu.', 'Trebati kartu.'],
         correct: 1,
-        explanation:
-          'With trebam the ticket is an object: kartu. With Treba mi it would stay karta.',
+        explanation: 'trebam is "I need", and the ticket is an object: karta → kartu.',
       },
       {
         type: 'quiz',
@@ -908,8 +916,8 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, mixing the two patterns: "Treba mi kavu" — after Treba mi the thing stays as it is, so Treba mi kava; after Trebam it changes: Trebam kavu. Second, giving the second verb a person ending: "Trebam idem" — the second verb stays in the dictionary form: Trebam ići. Third, forgetting that a doctor is alive: "Trebam liječnik" — Trebam liječnika.',
-        highlight: 'Treba mi kava',
+        body: 'First, leaving the thing in its dictionary form: "Trebam kava" — what you need is an object, so Trebam kavu. Second, giving the second verb a person ending: "Trebam idem" — the second verb stays in the dictionary form: Trebam ići. Third, forgetting that a doctor is alive: "Trebam liječnik" — Trebam liječnika.',
+        highlight: 'Trebam kavu',
       },
       {
         type: 'check',
@@ -922,10 +930,10 @@ export const LESSONS = [
             explanation: 'After trebam the ticket is an object: kartu.',
           },
           {
-            q: 'Complete: "Treba mi ___." (a coffee)',
-            options: ['kavu', 'kave', 'kava', 'kavi'],
+            q: 'Complete: "Što ___? — Trebam taksi." (you ask a friend)',
+            options: ['trebam', 'trebamo', 'trebaš', 'trebaju'],
             correct: 2,
-            explanation: 'In the set phrase Treba mi the thing stays in its dictionary form: kava.',
+            explanation: 'To a friend you use ti, and ti takes -š: Što trebaš?',
           },
           {
             q: 'Which sentence says "I need to go"?',
@@ -944,8 +952,8 @@ export const LESSONS = [
             options: [
               'Ne trebaju, hvala.',
               'Ne treba, hvala.',
-              'Ne trebam ga hvala.',
-              'Treba mi, hvala.',
+              'Ne trebati, hvala.',
+              'Trebam, hvala.',
             ],
             correct: 1,
             explanation: 'Ne treba, hvala. — "no need, thanks".',
@@ -965,7 +973,7 @@ export const LESSONS = [
           'trebam, trebaš, treba, trebamo, trebate, trebaju',
           'Trebam + a thing in the object form: Trebam kartu, Trebamo liječnika',
           'Trebam + a verb in its dictionary form: Trebam ići',
-          'Set phrase: Treba mi + the thing unchanged: Treba mi kava',
+          'Ask with the same verb: Što trebaš? Trebaš li pomoć?',
           'Treba alone = it is necessary: Treba kupiti kruh. Ne treba, hvala.',
         ],
       },
@@ -1019,7 +1027,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Must Not and Need Not',
-        body: 'This is the one trap. ne smiješ means "you must not" — it is forbidden. ne moraš means "you do not have to" — you may if you like. Ne smiješ pušiti. (You must not smoke.) Ne moraš doći. (You do not have to come.) English "must not" looks like moram, but in Croatian a ban is always ne smjeti.',
+        body: 'This is the one trap. ne smiješ means "you must not" — it is forbidden. ne moraš means "you do not have to" — you may if you like. Ne smiješ pušiti. (You must not smoke.) Ne moraš doći. (You do not have to come.) English "must not" looks like moram, but a Croatian ban is never ne morati. The verb that forbids is ne smjeti; in everyday speech people also forbid with ne moći — Ne možeš ovdje pušiti — and a sign says it in one word, as the next slide shows.',
         highlight: 'Ne smiješ pušiti.',
       },
       {
@@ -1027,6 +1035,12 @@ export const LESSONS = [
         title: 'Can, but May Not',
         body: 'moći and smjeti often meet in one sentence: Mogu plivati, ali ovdje ne smijem. (I can swim, but I am not allowed to here.) Ability is moći, permission is smjeti.',
         highlight: 'Mogu plivati, ali ovdje ne smijem.',
+      },
+      {
+        type: 'rule',
+        title: 'Signs: Zabranjeno …',
+        body: 'A sign does not make a whole sentence. It puts one fixed word, Zabranjeno (forbidden), in front of a verb in its dictionary form: Zabranjeno pušiti. (No smoking.) Zabranjeno parkirati. (No parking.) Zabranjeno fotografirati. (No photos.) Learn Zabranjeno as part of the sign. It says the same as a sentence with ne smjeti: Zabranjeno pušiti = Ovdje ne smijemo pušiti.',
+        highlight: 'Zabranjeno pušiti.',
       },
       {
         type: 'example',
@@ -1095,6 +1109,16 @@ export const LESSONS = [
             en: 'I can swim, but I am not allowed to here.',
             note: 'ability against permission',
           },
+          {
+            hr: 'Zabranjeno parkirati. — Ovdje ne smijemo parkirati.',
+            en: 'No parking. — We are not allowed to park here.',
+            note: 'the sign and the sentence say the same thing',
+          },
+          {
+            hr: 'U muzeju piše: Zabranjeno fotografirati.',
+            en: 'In the museum the sign says: No photos.',
+            note: 'piše — it says (on a sign)',
+          },
         ],
       },
       {
@@ -1109,9 +1133,10 @@ export const LESSONS = [
         type: 'quiz',
         title: 'One More',
         q: 'Which sentence is a ban — "You must not smoke"?',
-        options: ['Ne moraš pušiti.', 'Ne smiješ pušiti.', 'Ne možeš pušiti.'],
+        options: ['Ne moraš pušiti.', 'Ne smiješ pušiti.', 'Ne trebaš pušiti.'],
         correct: 1,
-        explanation: 'A ban is ne smjeti. Ne moraš pušiti would mean "you do not have to smoke".',
+        explanation:
+          'A ban is ne smjeti. Ne moraš pušiti and Ne trebaš pušiti both mean "you do not have to smoke".',
       },
       {
         type: 'rule',
@@ -1185,6 +1210,7 @@ export const LESSONS = [
           'A ban: Ne smiješ pušiti. Ovdje ne smijete parkirati.',
           'ne smjeti = must not; ne morati = do not have to',
           'moći = able to, smjeti = allowed to',
+          'Signs: Zabranjeno + the infinitive — Zabranjeno pušiti, Zabranjeno parkirati',
         ],
       },
     ],
@@ -1196,7 +1222,7 @@ export const LESSONS = [
   {
     id: 'money-exchange',
     title: 'Money and Exchange',
-    subtitle: 'Euros and cents, the exchange office, and finding cash',
+    subtitle: 'The euro, the exchange office, and finding cash',
     icon: '💶',
     level: 'A1',
     duration: '~7 min',
@@ -1206,37 +1232,26 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Paying in Croatia',
-        body: 'Since 1 January 2023 Croatia uses the euro. Before that, from 1994 to the end of 2022, the currency was the kuna — you will still hear older people convert prices in their head, and you will see the word in old books and films. This lesson gives you the words for money, the forms a currency takes after a number, and the conversation at an exchange office.',
+        body: 'Since 1 January 2023 Croatia uses the euro. Before that, from 1994 to the end of 2022, the currency was the kuna — you will still hear older people convert prices in their head, and you will see the word in old books and films. This lesson gives you the words for money and the conversation at an exchange office. The shape a currency word takes after a number comes later in the course, once its case has been taught; for now prices are written in figures — 2 € — and you read them.',
         icon: '💶',
       },
       {
         type: 'rule',
-        title: 'Euro After a Number',
-        body: 'After a number the word euro changes shape. Learn the pattern as a fixed rule for now — the reason behind it comes in a later lesson. 1 → jedan euro. Every other number → eura: dva eura, pet eura, deset eura, sto eura. A number ending in jedan, except eleven, goes back to euro: dvadeset i jedan euro.',
-        highlight: 'jedan euro · dva eura · pet eura',
-      },
-      {
-        type: 'table',
-        title: 'Currencies After a Number',
-        headers: ['Number', 'euro', 'cent', 'dolar'],
-        rows: [
-          ['1', 'jedan euro', 'jedan cent', 'jedan dolar'],
-          ['2, 3, 4', 'dva eura', 'dva centa', 'dva dolara'],
-          ['5 and up', 'pet eura', 'pet centi', 'pet dolara'],
-          ['21, 31 …', 'dvadeset i jedan euro', 'dvadeset i jedan cent', 'dvadeset i jedan dolar'],
-        ],
-      },
-      {
-        type: 'rule',
         title: 'Words for Money',
-        body: 'novac — money. gotovina — cash. kartica — card. novčanica — a banknote. kovanica — a coin. sitno — small change (Imate li sitno? Do you have change?). bankomat — a cash machine. mjenjačnica — an exchange office. tečaj — the exchange rate. provizija — the fee. račun — the receipt or bill.',
+        body: 'novac — money. gotovina — cash. kartica — card. novčanica — a banknote. kovanica — a coin. sitno — small change (Imate li sitno? Do you have change?). bankomat — a cash machine. banka — a bank. mjenjačnica — an exchange office. tečaj — the exchange rate. provizija — the fee. račun — the receipt or bill. valuta — a currency.',
         highlight: 'Imate li sitno?',
       },
       {
         type: 'rule',
         title: 'Changing Money',
-        body: 'mijenjati means to change, and promijeniti means to change once, on the spot. At the counter you say: Trebam promijeniti novac. (I need to change money.) or Želim promijeniti sto dolara. Then you ask about the rate: Kakav je tečaj danas? (What is the rate today?) and the fee: Kolika je provizija?',
+        body: 'mijenjati means to change, and promijeniti means to change once, on the spot. At the counter you say: Trebam promijeniti novac. (I need to change money.) or Želim promijeniti dolare. The clerk asks: Koliko trebate? (How much do you need?) Then you can ask about the rate: Kakav je tečaj danas? (What is the rate today?) and the fee: Kolika je provizija?',
         highlight: 'Trebam promijeniti novac.',
+      },
+      {
+        type: 'rule',
+        title: 'Asking the Price',
+        body: 'Koliko košta? (How much does it cost?) — for one thing. Koliko je to? (How much is that?) — at the till, for everything together. The answer you will read on a price tag or a screen is a number with the € sign: 3 €, 15,50 €. Croatians write a comma where English writes a point: 1,20 € is one euro and twenty cents.',
+        highlight: 'Koliko košta?',
       },
       {
         type: 'rule',
@@ -1259,9 +1274,9 @@ export const LESSONS = [
             note: 'trebam + infinitive',
           },
           {
-            hr: 'Želim promijeniti sto dolara.',
-            en: 'I want to change a hundred dollars.',
-            note: 'after sto → dolara',
+            hr: 'Želim promijeniti dolare. — Koliko trebate?',
+            en: 'I want to change dollars. — How much do you need?',
+            note: 'dolari → dolare, the object form',
           },
           {
             hr: 'Kakav je tečaj danas?',
@@ -1269,14 +1284,14 @@ export const LESSONS = [
             note: 'tečaj — rate',
           },
           {
-            hr: 'Provizija je dva posto.',
-            en: 'The fee is two per cent.',
-            note: 'posto — per cent',
+            hr: 'Kolika je provizija?',
+            en: 'How big is the fee?',
+            note: 'provizija — the fee',
           },
           {
-            hr: 'To je osamdeset pet eura, izvolite.',
-            en: 'That is eighty-five euros, here you are.',
-            note: 'after pet → eura',
+            hr: 'Izvolite novac i račun.',
+            en: 'Here are your money and your receipt.',
+            note: 'Izvolite — here you are',
           },
           {
             hr: 'Trebam račun, molim.',
@@ -1289,16 +1304,20 @@ export const LESSONS = [
         type: 'example',
         title: 'Prices and Paying',
         items: [
-          { hr: 'Kava košta dva eura.', en: 'A coffee costs two euros.', note: 'dva → eura' },
           {
-            hr: 'Karta košta dvadeset i jedan euro.',
-            en: 'The ticket costs twenty-one euros.',
-            note: 'ends in jedan → euro',
+            hr: 'Koliko košta kava? — 2 €.',
+            en: 'How much is a coffee? — Two euros.',
+            note: 'you read the price; saying it comes later',
           },
           {
-            hr: 'Kruh košta jedan euro i deset centi.',
-            en: 'The bread costs one euro ten.',
-            note: 'jedan euro, deset centi',
+            hr: 'Koliko je to? — To je 15,50 €.',
+            en: 'How much is that? — That is fifteen euros fifty.',
+            note: 'a comma, not a point',
+          },
+          {
+            hr: 'Trebam gotovinu. Gdje je bankomat?',
+            en: 'I need cash. Where is the cash machine?',
+            note: 'gotovina → gotovinu',
           },
           {
             hr: 'Kartica ili gotovina? — Kartica.',
@@ -1325,10 +1344,10 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "five euros"?',
-        options: ['pet euro', 'pet eura', 'pet eure', 'pet euri'],
+        q: 'You need cash. Which machine do you look for?',
+        options: ['mjenjačnica', 'bankomat', 'račun', 'tečaj'],
         correct: 1,
-        explanation: 'Every number except one (and numbers ending in jedan) takes eura.',
+        explanation: 'bankomat is the cash machine; mjenjačnica is an exchange office.',
       },
       {
         type: 'quiz',
@@ -1342,28 +1361,33 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, leaving euro unchanged after a number: "pet euro" — the form after every number but one is eura: pet eura. Second, the opposite after one: "jedan eura" — it is jedan euro, and so is dvadeset i jedan euro. Third, the spelling of the exchange office: it is mjenjačnica, with a short je.',
-        highlight: 'pet eura',
+        body: 'First, the spelling of the exchange office: it is mjenjačnica, with a short je — the long ije belongs only to mijenjati. Second, leaving the object in its dictionary form: "Trebam gotovina" — cash is what you need, so Trebam gotovinu. Third, reading 1,20 € as one thousand and twenty: the comma separates the cents.',
+        highlight: 'Trebam gotovinu',
       },
       {
         type: 'check',
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Kava košta tri ___."',
-            options: ['euro', 'eure', 'eura', 'euri'],
-            correct: 2,
-            explanation: 'After 2, 3 and 4: eura.',
+            q: 'Complete: "Trebam promijeniti ___." (money)',
+            options: ['novac', 'novca', 'novcu', 'novci'],
+            correct: 0,
+            explanation: 'novac is a masculine thing, so the object form looks the same: novac.',
           },
           {
-            q: 'Complete: "Karta košta dvadeset i jedan ___."',
-            options: ['euro', 'eura', 'eure', 'eurom'],
+            q: 'Which question asks about the exchange rate?',
+            options: [
+              'Kakav je tečaj danas?',
+              'Kolika je provizija?',
+              'Gdje je bankomat?',
+              'Imate li sitno?',
+            ],
             correct: 0,
-            explanation: 'A number ending in jedan takes euro.',
+            explanation: 'tečaj is the exchange rate.',
           },
           {
             q: 'Which word is spelled correctly?',
-            options: ['mijenjačnica', 'mjenjačnica', 'menjačnica', 'mijenjacnica'],
+            options: ['mijenjačnica', 'mjenjačnica', 'mjenjacnica', 'mijenjacnica'],
             correct: 1,
             explanation: 'mjenjačnica — the ije of mijenjati shortens to je.',
           },
@@ -1379,10 +1403,15 @@ export const LESSONS = [
             explanation: 'sitno is small change.',
           },
           {
-            q: 'Complete: "Kruh košta pet ___." (cent)',
-            options: ['cent', 'centa', 'centi', 'cente'],
+            q: 'A price tag says 1,20 €. What is the price?',
+            options: [
+              'one thousand two hundred euros',
+              'twelve euros',
+              'one euro twenty cents',
+              'one hundred and twenty euros',
+            ],
             correct: 2,
-            explanation: 'After 5 and up: centi.',
+            explanation: 'Croatian writes a comma before the cents: 1,20 € is one euro twenty.',
           },
           {
             q: 'Which statement is true?',
@@ -1402,9 +1431,9 @@ export const LESSONS = [
         title: 'Money — Key Takeaways',
         points: [
           'Croatia uses the euro since 1 January 2023; the kuna was 1994–2022',
-          'jedan euro · dva, tri, četiri eura · pet eura and up · dvadeset i jedan euro',
-          'jedan cent · dva centa · pet centi',
           'Trebam promijeniti novac. Kakav je tečaj? Kolika je provizija?',
+          'Koliko košta? Koliko je to? — prices are read from figures: 15,50 €',
+          'gotovina, kartica, bankomat, novčanica, sitno',
           'mijenjati (to change), but mjenjačnica (exchange office)',
         ],
       },
@@ -1566,10 +1595,10 @@ export const PRACTICE = {
         explanation: 'mi → -mo: gledamo, studiramo.',
       },
       {
-        q: 'Complete: "Marko ___ li često?" (telefonirati)',
+        q: 'Complete: "___ li Marko često?" (telefonirati)',
         options: ['Telefonira', 'Telefoniraš', 'Telefoniram', 'Telefoniraju'],
         correct: 0,
-        explanation: 'Marko is "he": telefonira.',
+        explanation: 'Marko is "he": Telefonira li Marko često? The verb comes first, then li.',
       },
     ],
     vocab: [
@@ -1705,6 +1734,20 @@ export const PRACTICE = {
           hint: 'A dog is alive, and the a in the middle drops.',
           explanation: 'Vidim psa.',
         },
+        {
+          q: 'Poznajem Ivu ___. (Marić — her surname)',
+          options: ['Marića', 'Marić', 'Mariću', 'Marićem'],
+          correct: 1,
+          hint: "Whose surname is it — a man's or a woman's?",
+          explanation: "Poznajem Ivu Marić. — a woman's surname never changes; only Iva → Ivu.",
+        },
+        {
+          type: 'type',
+          q: 'Čekam gospodina ____. (Horvat — Mr Horvat)',
+          answer: 'Horvata',
+          hint: "A man's surname changes like any living masculine noun.",
+          explanation: 'Čekam gospodina Horvata.',
+        },
       ],
     },
     checkB: [
@@ -1730,7 +1773,7 @@ export const PRACTICE = {
         q: 'Which sentence says "I am waiting for a good friend"?',
         options: [
           'Čekam dobar prijatelj.',
-          'Čekam dobra prijatelja.',
+          'Čekam dobri prijatelja.',
           'Čekam dobar prijatelja.',
           'Čekam dobrog prijatelja.',
         ],
@@ -1758,12 +1801,13 @@ export const PRACTICE = {
     vocab: [
       ['susjed', 'neighbour', 'Čekam susjeda.'],
       ['konobar', 'waiter', 'Tražim konobara.'],
-      ['liječnik', 'doctor', 'Trebamo liječnika.'],
+      ['liječnik', 'doctor', 'Tražimo liječnika.'],
       ['profesor', 'professor, teacher', 'Slušamo profesora.'],
       ['kolega', 'colleague (male)', 'Zovem kolegu.'],
       ['tata', 'dad', 'Volim tatu.'],
       ['konj', 'horse', 'Vidim konja.'],
       ['Koga?', 'whom?', 'Koga čekaš?'],
+      ['prezime', 'surname', 'Poznajem Anu Kovač i Marka Kovača.'],
       ['čekati', 'to wait (for)', 'Čekam prijatelja.'],
       ['tražiti', 'to look for', 'Tražim konobara.'],
     ],
@@ -1940,7 +1984,7 @@ export const PRACTICE = {
       ['doručak', 'breakfast', 'Doručak je uključen.'],
       ['recepcija', 'reception', 'Recepcija je tamo.'],
       ['lozinka', 'password', 'Koja je lozinka?'],
-      ['odjava', 'checkout', 'Odjava je do jedanaest.'],
+      ['odjava', 'checkout', 'Odjava je u podne.'],
     ],
   },
 
@@ -1958,15 +2002,15 @@ export const PRACTICE = {
         answer: 'Trebamo liječnika.',
       },
       {
-        title: 'Two Ways to Need a Coffee',
-        problem: '"I need a coffee." — both ways',
-        en: 'I need a coffee.',
+        title: 'A Verb and a Thing Together',
+        problem: '"I need to buy a ticket."',
+        en: 'I need to buy a ticket.',
         steps: [
-          { label: 'With trebam', text: 'The coffee is an object: kava → kavu. Trebam kavu.' },
-          { label: 'With the set phrase', text: 'Treba mi takes the thing as it is: kava.' },
-          { label: 'Compare', text: 'Only the ending of kava moves between the two.' },
+          { label: 'The need', text: 'I → trebam. Only this verb takes a person ending.' },
+          { label: 'The action', text: 'The second verb stays in its dictionary form: kupiti.' },
+          { label: 'The object', text: 'The ticket is what you buy: karta → kartu.' },
         ],
-        answer: 'Trebam kavu. / Treba mi kava.',
+        answer: 'Trebam kupiti kartu.',
       },
     ],
     practice: {
@@ -1980,11 +2024,11 @@ export const PRACTICE = {
           explanation: 'Trebam kartu.',
         },
         {
-          q: 'Treba mi ___. (a rest)',
+          q: 'Trebam ___. (a rest)',
           options: ['odmor', 'odmora', 'odmoru', 'odmorom'],
           correct: 0,
-          hint: 'In the set phrase the thing keeps its dictionary form.',
-          explanation: 'Treba mi odmor.',
+          hint: 'It is a masculine thing, not a person.',
+          explanation: 'Trebam odmor. — a masculine thing does not change.',
         },
         {
           q: '"You need to study." (to a friend)',
@@ -1995,7 +2039,12 @@ export const PRACTICE = {
         },
         {
           q: 'A shop assistant offers you a bag you do not want.',
-          options: ['Ne treba, hvala.', 'Trebam, hvala.', 'Ne trebaju, hvala.', 'Treba mi, hvala.'],
+          options: [
+            'Ne treba, hvala.',
+            'Trebam, hvala.',
+            'Ne trebaju, hvala.',
+            'Ne trebati, hvala.',
+          ],
           correct: 0,
           hint: 'The fixed polite refusal uses treba with no person.',
           explanation: 'Ne treba, hvala.',
@@ -2048,7 +2097,7 @@ export const PRACTICE = {
             'Treba kupiti kruh.',
             'Treba kupim kruh.',
             'Trebaju kupiti kruha.',
-            'Treba mi kupiti kruha.',
+            'Treba kupimo kruh.',
           ],
           correct: 0,
           hint: 'treba alone, then the dictionary form.',
@@ -2056,10 +2105,10 @@ export const PRACTICE = {
         },
         {
           q: 'Which sentence is wrong?',
-          options: ['Trebam kavu.', 'Treba mi kava.', 'Treba mi kavu.', 'Trebaš li kavu?'],
+          options: ['Trebam kavu.', 'Trebaš li kavu?', 'Trebam kava.', 'Trebamo kavu.'],
           correct: 2,
-          hint: 'Check which pattern keeps the thing in its dictionary form.',
-          explanation: 'Treba mi kavu mixes the two: it is Treba mi kava.',
+          hint: 'Check which one leaves the coffee in its dictionary form.',
+          explanation: 'Trebam kava is wrong: the coffee is an object, so Trebam kavu.',
         },
       ],
     },
@@ -2071,10 +2120,10 @@ export const PRACTICE = {
         explanation: 'After trebam the coffee is an object: kavu.',
       },
       {
-        q: 'Complete: "Treba mi ___." (a taxi)',
+        q: 'Complete: "Trebamo ___." (a taxi)',
         options: ['taksija', 'taksi', 'taksiju', 'taksijem'],
         correct: 1,
-        explanation: 'In the set phrase the thing stays as it is: taksi.',
+        explanation: 'taksi is a masculine thing, so it does not change: Trebamo taksi.',
       },
       {
         q: 'Which sentence says "You do not need to wait"?',
@@ -2110,10 +2159,10 @@ export const PRACTICE = {
       ['trebati', 'to need', 'Trebam kartu.'],
       ['karta', 'ticket', 'Trebaš li kartu?'],
       ['pomoć', 'help', 'Trebaš li pomoć?'],
-      ['odmor', 'rest, holiday', 'Treba mi odmor.'],
+      ['odmor', 'rest, holiday', 'Trebam odmor.'],
       ['taksi', 'taxi', 'Trebamo taksi.'],
       ['mobitel', 'mobile phone', 'Sestra treba novi mobitel.'],
-      ['vrećica', 'bag (plastic or paper)', 'Ne treba mi vrećica.'],
+      ['vrećica', 'bag (plastic or paper)', 'Ne trebam vrećicu.'],
       ['ništa', 'nothing', 'Ne trebam ništa.'],
       ['brzo', 'quickly', 'Trebamo liječnika, brzo!'],
     ],
@@ -2247,6 +2296,21 @@ export const PRACTICE = {
           hint: 'Allowed, not able.',
           explanation: 'smjeti — to be allowed.',
         },
+        {
+          q: 'A sign says "Zabranjeno parkirati." What does it mean?',
+          options: ['Parking is free.', 'No parking.', 'Park here.', 'Parking is full.'],
+          correct: 1,
+          hint: 'Zabranjeno means "forbidden".',
+          explanation: 'Zabranjeno parkirati = Ovdje ne smijemo parkirati: no parking.',
+        },
+        {
+          type: 'type',
+          q: '____ pušiti. (the sign for "No smoking")',
+          answer: 'Zabranjeno',
+          accept: ['zabranjeno'],
+          hint: 'One fixed word meaning "forbidden", then the verb in its dictionary form.',
+          explanation: 'Zabranjeno pušiti.',
+        },
       ],
     },
     checkB: [
@@ -2307,50 +2371,54 @@ export const PRACTICE = {
       ['ovdje', 'here', 'Smijemo li parkirati ovdje?'],
       ['naravno', 'of course', 'Naravno, izvolite.'],
       ['voziti', 'to drive', 'Ne smiješ voziti brzo.'],
+      ['zabranjeno', 'forbidden (on signs)', 'Zabranjeno pušiti.'],
     ],
   },
 
   'money-exchange': {
     worked: [
       {
-        title: 'Saying a Price',
-        problem: '"The ticket costs twenty-one euros."',
-        en: 'The ticket costs twenty-one euros.',
+        title: 'Asking the Price',
+        problem: '"How much is the coffee?"',
+        en: 'How much is the coffee?',
         steps: [
-          { label: 'The number', text: 'twenty-one → dvadeset i jedan.' },
-          { label: 'Look at the last word', text: 'It ends in jedan, and it is not eleven.' },
-          { label: 'The currency', text: 'After jedan: euro.' },
+          { label: 'The question word', text: 'How much → Koliko, at the start.' },
+          { label: 'The verb', text: 'One thing costs: koštati in the "it" form, košta.' },
+          { label: 'The thing', text: 'kava, the subject, in its dictionary form.' },
         ],
-        answer: 'Karta košta dvadeset i jedan euro.',
+        answer: 'Koliko košta kava?',
       },
       {
         title: 'At the Counter',
-        problem: '"I need to change a hundred dollars."',
-        en: 'I need to change a hundred dollars.',
+        problem: '"I need to change dollars."',
+        en: 'I need to change dollars.',
         steps: [
           { label: 'The need', text: 'trebam + a verb in the dictionary form.' },
           { label: 'The verb', text: 'Changing once, on the spot: promijeniti.' },
-          { label: 'The amount', text: 'sto is not one, so dolar → dolara.' },
+          {
+            label: 'The object',
+            text: 'dolari are what you change; a masculine plural object ends in -e: dolare.',
+          },
         ],
-        answer: 'Trebam promijeniti sto dolara.',
+        answer: 'Trebam promijeniti dolare.',
       },
     ],
     practice: {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Kava košta dva ___.',
-          options: ['euro', 'eura', 'eure', 'euri'],
+          q: 'Koliko ___ kava?',
+          options: ['koštam', 'košta', 'koštaju', 'koštaš'],
           correct: 1,
-          hint: 'Only a number ending in one keeps the plain form.',
-          explanation: 'dva eura.',
+          hint: 'One thing costs: the "it" form.',
+          explanation: 'Koliko košta kava?',
         },
         {
-          q: 'Sendvič košta jedan ___.',
-          options: ['eura', 'eure', 'euro', 'eurom'],
+          q: 'At the till, for everything together: "Koliko je ___?"',
+          options: ['taj', 'ta', 'to', 'tu'],
           correct: 2,
-          hint: 'After one, the word does not change.',
-          explanation: 'jedan euro.',
+          hint: 'The word for "that" which points at no particular noun.',
+          explanation: 'Koliko je to?',
         },
         {
           q: 'Which word means an exchange office?',
@@ -2368,17 +2436,17 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Karta košta deset ____. (euro)',
-          answer: 'eura',
-          hint: 'Any number but one takes the changed form.',
-          explanation: 'deset eura.',
+          q: 'Trebam ____. (cash)',
+          answer: 'gotovinu',
+          hint: 'Cash is what you need, and the word is feminine in -a.',
+          explanation: 'Trebam gotovinu.',
         },
         {
           type: 'type',
-          q: 'Kruh košta pedeset ____. (cent)',
-          answer: 'centi',
-          hint: 'Five and up takes -i on this word.',
-          explanation: 'pedeset centi.',
+          q: 'Gdje je ____? (the cash machine)',
+          answer: 'bankomat',
+          hint: 'The word looks like "bank" + "automat".',
+          explanation: 'Gdje je bankomat?',
         },
         {
           type: 'type',
@@ -2396,10 +2464,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Karta košta tri ____. (dolar)',
-          answer: 'dolara',
-          hint: 'After 2, 3 and 4 the currency adds -a.',
-          explanation: 'tri dolara.',
+          q: 'Želim promijeniti ____. (dollars)',
+          answer: 'dolare',
+          hint: 'A masculine plural object ends in -e.',
+          explanation: 'Želim promijeniti dolare.',
         },
         {
           q: 'Which question asks about the exchange rate?',
@@ -2421,32 +2489,37 @@ export const PRACTICE = {
           explanation: 'The kuna (1994–2022), named after the marten.',
         },
         {
-          q: 'Which form is wrong?',
-          options: ['pet eura', 'jedan euro', 'dva euro', 'dvadeset i jedan euro'],
+          q: 'Which word is spelled wrongly?',
+          options: ['mijenjati', 'mjenjačnica', 'mijenjačnica', 'promijeniti'],
           correct: 2,
-          hint: 'Check the number before the currency.',
-          explanation: 'After dva it is eura: dva eura.',
+          hint: 'The long ije shortens when the word grows longer.',
+          explanation: 'It is mjenjačnica, with a short je.',
         },
       ],
     },
     checkB: [
       {
-        q: 'Complete: "Sendvič košta četiri ___."',
-        options: ['eura', 'euro', 'eure', 'euri'],
+        q: 'A screen at the till shows 15,50 €. What do you pay?',
+        options: [
+          'fifteen euros fifty',
+          'one thousand five hundred and fifty euros',
+          'one hundred and fifty-five euros',
+          'fifteen hundred euros',
+        ],
         correct: 0,
-        explanation: 'After 2, 3 and 4: eura.',
+        explanation: 'The comma separates the cents: 15,50 € is fifteen euros fifty.',
       },
       {
-        q: 'Complete: "To je trideset i jedan ___."',
-        options: ['eura', 'eure', 'euro', 'eurom'],
+        q: 'Which word means the exchange rate?',
+        options: ['provizija', 'račun', 'tečaj', 'sitno'],
         correct: 2,
-        explanation: 'A number ending in jedan: euro.',
+        explanation: 'tečaj is the exchange rate; provizija is the fee.',
       },
       {
-        q: 'Complete: "Kava košta dva ___." (cent)',
-        options: ['cent', 'centi', 'cente', 'centa'],
-        correct: 3,
-        explanation: 'After 2, 3 and 4: centa.',
+        q: 'Complete: "Trebam ___." (cash)',
+        options: ['gotovina', 'gotovinu', 'gotovine', 'gotovini'],
+        correct: 1,
+        explanation: 'Cash is what you need: gotovina → gotovinu.',
       },
       {
         q: 'Which question asks about the fee?',
@@ -2463,7 +2536,7 @@ export const PRACTICE = {
         q: 'Which sentence says "I need to change money"?',
         options: [
           'Trebam promijenim novac.',
-          'Treba mi promijeniti novca.',
+          'Trebati promijeniti novac.',
           'Trebam mijenjam novac.',
           'Trebam promijeniti novac.',
         ],
@@ -2486,7 +2559,7 @@ export const PRACTICE = {
       ['novčanica', 'banknote', 'Imam samo novčanicu.'],
       ['kovanica', 'coin', 'Imam samo jednu kovanicu.'],
       ['sitno', 'small change', 'Imate li sitno?'],
-      ['provizija', 'fee, commission', 'Provizija je dva posto.'],
+      ['provizija', 'fee, commission', 'Kolika je provizija?'],
       ['kuna', 'kuna (Croatian currency 1994–2022)', 'Kuna je stara hrvatska valuta.'],
     ],
   },

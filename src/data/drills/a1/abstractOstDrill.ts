@@ -3,7 +3,8 @@
 // A1 NOUNS IN -OST — the drill for the `abstract-ost` lesson.
 //
 // A quality becomes a noun: feminine adjective minus -a, plus -ost (hrabra → hrabrost).
-// Every -ost noun is a feminine i-noun, so it takes feminine agreement and i-noun endings.
+// Every noun BUILT with -ost (mlad → mladost) is a feminine i-noun (gost and most, which
+// only end in -ost, are masculine), so it takes feminine agreement and i-noun endings.
 //
 // Three modes:
 //   tvorba — building the noun from the adjective
@@ -137,7 +138,7 @@ export const ABSTRACT_OST_DRILL_DATA: ModeDrillItem[] = [
     en: 'What gender is the noun for joy?',
     opts: ['ženskog', 'muškog', 'srednjeg', 'nema roda'],
     answer: 'ženskog',
-    tip: 'Every -ost noun is feminine, though it ends in a consonant.',
+    tip: 'A noun built with -ost is feminine, though it ends in a consonant.',
   },
   {
     mode: 'rod',
@@ -210,5 +211,21 @@ export const ABSTRACT_OST_DRILL_DATA: ModeDrillItem[] = [
     opts: ['mudrost', 'mudrosti', 'mudrošću', 'mudrostu'],
     answer: 'mudrosti',
     tip: 'Diviti se takes the dative; an i-noun ends in -i.',
+  },
+  {
+    mode: 'padezi',
+    q: 'Govorimo o toj ____.',
+    en: 'We are talking about that thought.',
+    opts: ['misli', 'misao', 'mislu', 'misla'],
+    answer: 'misli',
+    tip: 'misao keeps -ao only in the bare form; with an ending the stem is misl-.',
+  },
+  {
+    mode: 'rod',
+    q: 'To je ____ misao.',
+    en: 'That is a good idea.',
+    opts: ['dobra', 'dobar', 'dobro', 'dobri'],
+    answer: 'dobra',
+    tip: 'misao is feminine, though it ends in -ao.',
   },
 ];

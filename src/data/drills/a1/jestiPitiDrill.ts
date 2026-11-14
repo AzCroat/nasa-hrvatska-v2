@@ -6,6 +6,7 @@
 //   jesti  — the present on the stem jed-: jedem, jedeš, jede, jedemo, jedete, jedu
 //   piti   — the present on the stem pij-: pijem, piješ, pije, pijemo, pijete, piju
 //   objekt — what you eat or drink takes the accusative: Jedem juhu, Pijem vodu
+//   okus   — the five tastes (the book's Lesson 8): sladak, slan, ljut, kiseo, gorak
 //
 // Distractors give the wrong person, the infinitive, an invented form (pijeju), or a
 // non-accusative case. The genitive is never offered as a wrong object after jesti or piti:
@@ -17,6 +18,7 @@ export const JESTI_PITI_MODE_LABELS: Record<string, string> = {
   jesti: '🍞 Jesti',
   piti: '🥤 Piti',
   objekt: '🍽️ Što jedeš?',
+  okus: '👅 Okusi',
 };
 
 export const JESTI_PITI_DRILL_DATA: ModeDrillItem[] = [
@@ -214,5 +216,55 @@ export const JESTI_PITI_DRILL_DATA: ModeDrillItem[] = [
     opts: ['salatu', 'salata', 'salati', 'salatom'],
     answer: 'salatu',
     tip: 'Feminine -a becomes -u.',
+  },
+
+  // ── okus ───────────────────────────────────────────────────────────────
+  {
+    mode: 'okus',
+    q: 'Sladoled je ____.',
+    en: 'Ice cream is sweet.',
+    opts: ['sladak', 'slatka', 'slatko', 'slatki'],
+    answer: 'sladak',
+    tip: 'sladoled is masculine: sladak.',
+  },
+  {
+    mode: 'okus',
+    q: 'Juha je malo ____.',
+    en: 'The soup is a little salty.',
+    opts: ['slan', 'slana', 'slano', 'slani'],
+    answer: 'slana',
+    tip: 'juha is feminine: slana.',
+  },
+  {
+    mode: 'okus',
+    q: 'Limun je ____.',
+    en: 'A lemon is sour.',
+    opts: ['kisela', 'kiselo', 'kiseo', 'kiseli'],
+    answer: 'kiseo',
+    tip: 'limun is masculine: kiseo — the l becomes o at the end.',
+  },
+  {
+    mode: 'okus',
+    q: 'Crna kava je ____.',
+    en: 'Black coffee is bitter.',
+    opts: ['gorak', 'gorka', 'gorko', 'gorki'],
+    answer: 'gorka',
+    tip: 'kava is feminine: gorka — the a in the middle drops out.',
+  },
+  {
+    mode: 'okus',
+    q: 'Ajvar je ____, ali dobar.',
+    en: 'The ajvar is hot, but good.',
+    opts: ['ljuta', 'ljuto', 'ljut', 'ljuti'],
+    answer: 'ljut',
+    tip: 'ajvar is masculine: ljut.',
+  },
+  {
+    mode: 'okus',
+    q: 'Ne jedem ____ hranu.',
+    en: 'I do not eat spicy food.',
+    opts: ['ljut', 'ljuta', 'ljutu', 'ljutoj'],
+    answer: 'ljutu',
+    tip: 'hrana is the object, and the adjective follows it: ljutu hranu.',
   },
 ];

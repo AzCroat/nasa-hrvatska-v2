@@ -3,7 +3,8 @@
 // A1 ACCUSATIVE PRONOUNS — the drill for the `accusative-pronouns` lesson.
 //
 // Three modes:
-//   kratki — the short forms in ordinary sentences: me, te, ga, je, nas, vas, ih
+//   kratki — the short forms in ordinary sentences: me, te, ga, je, nas, vas, ih — and
+//            Zanima me / Zanimaju me (the book's Lesson 7)
 //   dugi   — the long forms after a preposition, for contrast, and alone as an answer
 //   red    — word order: the short form in second place, li before it, never first
 //
@@ -86,6 +87,31 @@ export const ACCUSATIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
     answer: 'ih',
     tip: 'Two people are "they": ih.',
   },
+  {
+    mode: 'kratki',
+    q: 'Što ____ zanima? (you, one person)',
+    en: 'What are you interested in?',
+    opts: ['te', 'ti', 'tebi', 'tvoj'],
+    answer: 'te',
+    tip: 'zanimati takes the person as its object: the short form te.',
+  },
+  {
+    mode: 'kratki',
+    q: '____ me filmovi.',
+    en: 'I am interested in films.',
+    opts: ['Zanima', 'Zanimaju', 'Zanimam', 'Zanimamo'],
+    answer: 'Zanimaju',
+    tip: 'The films are the subject, and there are several: zanimaju.',
+  },
+  {
+    mode: 'kratki',
+    q: 'Zanima ____ glazba. (she)',
+    en: 'She is interested in music.',
+    opts: ['je', 'ona', 'njoj', 'njezina'],
+    answer: 'je',
+    tip: 'The person is the object: the short form for "her" is je.',
+  },
+
   // ── dugi ───────────────────────────────────────────────────────────────
   {
     mode: 'dugi',

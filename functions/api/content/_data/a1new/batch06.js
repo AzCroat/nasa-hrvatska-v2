@@ -125,8 +125,14 @@ export const LESSONS = [
       },
       {
         type: 'rule',
+        title: 'Ending the Call: Hvala na …',
+        body: 'To thank someone FOR something, Croatian says hvala na and puts the thing in the locative — the same ending you use after u and na for a place. Hvala na pozivu. (Thank you for calling — poziv → pozivu.) Hvala na poruci. (Thanks for the message — poruka → poruci, with k → c before -i, as in na slici.) Hvala na informaciji. (Thanks for the information.) Then say goodbye: Doviđenja! or, between friends, Bog!',
+        highlight: 'Hvala na pozivu.',
+      },
+      {
+        type: 'rule',
         title: 'When the Line Is Bad',
-        body: 'Three sentences rescue almost any call. Ne čujem vas dobro. (I cannot hear you well — "vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialled you by mistake: Imate pogrešan broj. (You have the wrong number.)',
+        body: 'Three sentences rescue almost any call. Ne čujem vas dobro. (I cannot hear you well — "vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialled you by mistake, say simply: Pogrešan broj. (Wrong number.)',
         highlight: 'Možete li ponoviti, molim?',
       },
       {
@@ -165,14 +171,14 @@ export const LESSONS = [
             note: 'želiš — the ti form, between friends',
           },
           {
-            hr: 'Da, molim. Ivana ima moj broj, mogu li zvati opet popodne?',
-            en: 'Yes, please. Ivana has my number — can I call again in the afternoon?',
+            hr: 'Da, molim. Ivana ima moj broj. Mogu li opet nazvati popodne?',
+            en: 'Yes, please. Ivana has my number. Can I call again in the afternoon?',
             note: 'mogu li + infinitive',
           },
           {
-            hr: 'Naravno. Ona je doma u pet.',
-            en: 'Of course. She is home at five.',
-            note: 'u pet — a time you already know',
+            hr: 'Naravno. Ona je obično doma u pet.',
+            en: 'Of course. She is usually home at five.',
+            note: 'obično (usually) — a habit, so the present',
           },
         ],
       },
@@ -298,7 +304,7 @@ export const LESSONS = [
           {
             q: 'The line is bad. What do you say?',
             options: [
-              'Imate pogrešan broj.',
+              'Pogrešan broj.',
               'Hvala na pozivu.',
               'Ne čujem vas dobro.',
               'Trenutak, molim.',
@@ -318,6 +324,7 @@ export const LESSONS = [
           'Ask for someone with Tražim + accusative: Tražim Ivanu, Tražim Marka',
           'Where they are is the locative: na poslu, u uredu, na sastanku',
           'Leave a message as one block: Mogu li ostaviti poruku?',
+          'Thank someone for something with hvala na + locative: Hvala na pozivu.',
           'Rescue a bad line: Ne čujem vas dobro. Možete li ponoviti?',
         ],
       },
@@ -352,7 +359,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Family 1: Going and Coming — -šao / -šla',
-        body: 'ići (to go) → išao (a man), išla (a woman), išli (a group). doći (to come) → došao, došla, došli. otići (to leave) → otišao, otišla, otišli. naći (to find) → našao, našla, našli. Notice the a in "išao" disappears in "išla" — the same fleeting a you met in "pas → psa". Jučer sam išao u grad. Ana je došla u Zagreb.',
+        body: 'ići (to go) → išao (a man), išla (a woman), išli (a group), išle (a group of only women). doći (to come) → došao, došla, došli. otići (to leave) → otišao, otišla, otišli. naći (to find) → našao, našla, našli. Notice the a in "išao" disappears in "išla" — the same fleeting a you met in "pas → psa". Jučer sam išao u grad. Ana je došla u Zagreb.',
         highlight: 'išao · išla · išli',
       },
       {
@@ -376,17 +383,17 @@ export const LESSONS = [
       {
         type: 'table',
         title: 'The Irregular Past at a Glance',
-        headers: ['Infinitive', 'A man (on)', 'A woman (ona)', 'A group (oni)'],
+        headers: ['Infinitive', 'A man (on)', 'A woman (ona)', 'A group (oni)', 'Only women (one)'],
         rows: [
-          ['ići — to go', 'išao', 'išla', 'išli'],
-          ['doći — to come', 'došao', 'došla', 'došli'],
-          ['otići — to leave', 'otišao', 'otišla', 'otišli'],
-          ['reći — to say', 'rekao', 'rekla', 'rekli'],
-          ['moći — can', 'mogao', 'mogla', 'mogli'],
-          ['htjeti — to want', 'htio', 'htjela', 'htjeli'],
-          ['jesti — to eat', 'jeo', 'jela', 'jeli'],
-          ['piti — to drink', 'pio', 'pila', 'pili'],
-          ['biti — to be', 'bio', 'bila', 'bili'],
+          ['ići — to go', 'išao', 'išla', 'išli', 'išle'],
+          ['doći — to come', 'došao', 'došla', 'došli', 'došle'],
+          ['otići — to leave', 'otišao', 'otišla', 'otišli', 'otišle'],
+          ['reći — to say', 'rekao', 'rekla', 'rekli', 'rekle'],
+          ['moći — can', 'mogao', 'mogla', 'mogli', 'mogle'],
+          ['htjeti — to want', 'htio', 'htjela', 'htjeli', 'htjele'],
+          ['jesti — to eat', 'jeo', 'jela', 'jeli', 'jele'],
+          ['piti — to drink', 'pio', 'pila', 'pili', 'pile'],
+          ['biti — to be', 'bio', 'bila', 'bili', 'bile'],
         ],
       },
       {
@@ -557,7 +564,7 @@ export const LESSONS = [
           'htjeti: htio for a man, htjela for a woman; vidio / vidjela the same way',
           'Short stems: jeo / jela, pio / pila, bio / bila',
           'The auxiliary sam / si / je / smo / ste / su works exactly as before',
-          'Every form agrees with who did it: -o or -ao for a man, -la for a woman, -li for a group',
+          'Every form agrees with who did it: -o or -ao for a man, -la for a woman, -li for a group (or a mixed group), -le for a group of only women',
         ],
       },
     ],
@@ -603,7 +610,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Joining Two Actions With i',
-        body: 'When two actions have the same person, Croatian can join them with "i" and say the auxiliary only once: Ustao sam i doručkovao. (I got up and had breakfast.) Kupila je kruh i išla kući. This keeps a story moving without repeating "sam" in every clause.',
+        body: 'When two actions have the same person, Croatian can join them with "i" and say the auxiliary only once: Ustao sam i doručkovao. (I got up and had breakfast.) Kupila je kruh i otišla kući. This keeps a story moving without repeating "sam" in every clause.',
         highlight: 'Ustao sam i doručkovao.',
       },
       {
@@ -1078,7 +1085,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Endings You Know',
-        body: 'Masculine and neuter nouns take -u: liječnik → liječniku, more → moru. Feminine nouns in -a take -i: baka → baki, rijeka → rijeci. Remember the sound change you learned for k, g and h before -i: rijeka → rijeci, knjiga → knjizi. (Family words like baka and mama keep their k: baki, mami.)',
+        body: 'Masculine and neuter nouns take -u: liječnik → liječniku, more → moru. Feminine nouns in -a take -i: baka → baki, rijeka → rijeci. Remember the sound change you learned for k, g and h before -i: rijeka → rijeci, knjiga → knjizi. (Family words like baka keep their k: baki, not baci. Mama has no k at all: mami.)',
         highlight: '-u (m., n.) · -i (f.)',
       },
       {
@@ -1148,8 +1155,8 @@ export const LESSONS = [
             note: 'Split → Splitu',
           },
           {
-            hr: 'Prema prognozi, sutra je sunčano.',
-            en: 'According to the forecast, it is sunny tomorrow.',
+            hr: 'Prema prognozi, sutra će biti sunčano.',
+            en: 'According to the forecast, it will be sunny tomorrow.',
             note: 'prognoza → prognozi',
           },
           {
@@ -1284,7 +1291,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Giving Verbs',
-        body: 'Learn these five with their present, past and future. dati (to give): dajem, dao / dala, dat ću. poslati (to send): šaljem, poslao / poslala, poslat ću. reći (to say, tell): kažem, rekao / rekla, reći ću. pokazati (to show): pokazujem, pokazao / pokazala, pokazat ću. kupiti (to buy for): kupujem, kupio / kupila, kupit ću. Notice that the present of dati is dajem and of poslati is šaljem — learn them as they are.',
+        body: 'Each of these actions comes as a PAIR of verbs in Croatian. One is for doing it now, again or as a habit, and it gives the present: davati → dajem (I give), slati → šaljem (I send), kazati → kažem (I tell), pokazivati → pokazujem (I show), kupovati → kupujem (I buy). The other is for getting it done once, and it is the one you usually hear in the past and the future: dati → dao / dala, dat ću; poslati → poslao / poslala, poslat ću; reći → rekao / rekla, reći ću; pokazati → pokazao / pokazala, pokazat ću; kupiti → kupio / kupila, kupit ću. For now, learn each pair together: davati / dati, slati / poslati, kazati / reći, pokazivati / pokazati, kupovati / kupiti.',
         highlight: 'dajem · šaljem · kažem · pokazujem',
       },
       {
@@ -1304,11 +1311,26 @@ export const LESSONS = [
         title: 'One Verb, Three Times',
         headers: ['Verb', 'Present', 'Past', 'Future'],
         rows: [
-          ['dati — give', 'Dajem mami knjigu.', 'Dao sam mami knjigu.', 'Dat ću mami knjigu.'],
-          ['poslati — send', 'Šaljem mu poruku.', 'Poslala sam mu poruku.', 'Poslat ću mu poruku.'],
-          ['reći — tell', 'Kažem joj istinu.', 'Rekao sam joj istinu.', 'Reći ću joj istinu.'],
           [
-            'pokazati — show',
+            'davati / dati — give',
+            'Dajem mami knjigu.',
+            'Dao sam mami knjigu.',
+            'Dat ću mami knjigu.',
+          ],
+          [
+            'slati / poslati — send',
+            'Šaljem mu poruku.',
+            'Poslala sam mu poruku.',
+            'Poslat ću mu poruku.',
+          ],
+          [
+            'kazati / reći — tell',
+            'Kažem joj istinu.',
+            'Rekao sam joj istinu.',
+            'Reći ću joj istinu.',
+          ],
+          [
+            'pokazivati / pokazati — show',
             'Pokazujem vam grad.',
             'Pokazao sam vam grad.',
             'Pokazat ću vam grad.',
@@ -1468,7 +1490,7 @@ export const LESSONS = [
         points: [
           'The receiver is the dative, the thing is the accusative: Dajem mami cvijeće.',
           'Ask for the receiver with Komu?',
-          'dajem / dao / dat ću · šaljem / poslao / poslat ću · kažem / rekao / reći ću',
+          'Learn the pairs: davati / dati (dajem, dao, dat ću) · slati / poslati (šaljem, poslao, poslat ću) · kazati / reći (kažem, rekao, reći ću)',
           'Short receiver: mi, ti, mu, joj, nam, vam, im — in second place',
           'Order of short words: sam / ću → dative → accusative → je last',
           'Dao sam mu ga. Dat ću ti ga. Pokazao mi ga je.',
@@ -1484,7 +1506,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Asking for Someone',
-        problem: 'Reci na telefonu: "I am looking for Marko."',
+        problem: 'On the phone, say: "I am looking for Marko."',
         en: 'I am looking for Marko.',
         steps: [
           { label: 'The verb', text: 'tražiti — to look for. I → tražim.' },
@@ -1495,7 +1517,7 @@ export const PRACTICE = {
       },
       {
         title: 'Saying Where Someone Is',
-        problem: 'Odgovori: Ivana is at work. (posao)',
+        problem: 'Answer: Ivana is at work. (posao)',
         en: 'Ivana is at work.',
         steps: [
           {
@@ -1562,10 +1584,10 @@ export const PRACTICE = {
         },
         {
           q: 'Someone has dialled you by mistake. You say:',
-          options: ['Imate pogrešan broj.', 'Hvala na pozivu.', 'Trenutak, molim.', 'Ovdje Ana.'],
+          options: ['Pogrešan broj.', 'Hvala na pozivu.', 'Trenutak, molim.', 'Ovdje Ana.'],
           correct: 0,
           hint: 'Pogrešan means wrong.',
-          explanation: 'Imate pogrešan broj. — You have the wrong number.',
+          explanation: 'Pogrešan broj. — Wrong number.',
         },
         {
           type: 'type',
@@ -1657,7 +1679,7 @@ export const PRACTICE = {
       ['tražiti', 'to look for', 'Tražim Ivanu.'],
       ['ponoviti', 'to repeat', 'Možete li ponoviti?'],
       ['nažalost', 'unfortunately', 'Nažalost, Marko nije tu.'],
-      ['pogrešan', 'wrong', 'Imate pogrešan broj.'],
+      ['pogrešan', 'wrong', 'Oprostite, pogrešan broj.'],
       ['poziv', 'call', 'Hvala na pozivu.'],
     ],
   },
@@ -1666,7 +1688,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A -ći Verb of Coming',
-        problem: 'Dopuni: Ana ___ u Zagreb. (doći — Ana came to Zagreb.)',
+        problem: 'Complete: Ana ___ u Zagreb. (doći — Ana came to Zagreb.)',
         en: 'Ana came to Zagreb.',
         steps: [
           {
@@ -1683,7 +1705,7 @@ export const PRACTICE = {
       },
       {
         title: 'Two People, Two Forms',
-        problem: 'Dopuni: Htio sam kavu, a Ana ___ čaj. (htjeti)',
+        problem: 'Complete: Htio sam kavu, a Ana ___ čaj. (htjeti)',
         en: 'I wanted coffee, and Ana wanted tea.',
         steps: [
           { label: 'Find the family', text: 'htjeti: htio for a man, htjela for a woman.' },
@@ -1846,7 +1868,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Putting the Auxiliary in Its Place',
-        problem: 'Složi: onda / sam / išao / na posao',
+        problem: 'Put in order: onda / sam / išao / na posao',
         en: 'Then I went to work.',
         steps: [
           { label: 'The first unit', text: 'The story word onda opens the sentence.' },
@@ -1926,7 +1948,7 @@ export const PRACTICE = {
           q: 'Što si radio jučer? — the best answer:',
           options: [
             'Radim u uredu.',
-            'Radit ću u uredu.',
+            'Radili smo u uredu.',
             'Radio sam u uredu.',
             'Radila si u uredu.',
           ],
@@ -2050,7 +2072,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Starting With the Verb',
-        problem: 'Reci, počinjući glagolom: "I will work tomorrow." (raditi)',
+        problem: 'Say it, starting with the verb: "I will work tomorrow." (raditi)',
         en: 'I will work tomorrow.',
         steps: [
           { label: 'What is first?', text: 'The verb, so ću comes straight after it.' },
@@ -2061,7 +2083,7 @@ export const PRACTICE = {
       },
       {
         title: 'Starting With a Time Word',
-        problem: 'Reci, počinjući sa "sutra": "Tomorrow we will go to the seaside." (ići)',
+        problem: 'Say it, starting with "sutra": "Tomorrow we will go to the seaside." (ići)',
         en: 'Tomorrow we will go to the seaside.',
         steps: [
           { label: 'What is first?', text: 'Sutra — so ćemo takes second place.' },
@@ -2253,7 +2275,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Going to a Person',
-        problem: 'Reci: "I am going to the doctor." (liječnik)',
+        problem: 'Say: "I am going to the doctor." (liječnik)',
         en: 'I am going to the doctor.',
         steps: [
           { label: 'Place or person?', text: 'A doctor is a person, so the preposition is k.' },
@@ -2264,7 +2286,7 @@ export const PRACTICE = {
       },
       {
         title: 'Heading Somewhere',
-        problem: 'Reci: "The bus is going towards the river." (rijeka)',
+        problem: 'Say: "The bus is going towards the river." (rijeka)',
         en: 'The bus is going towards the river.',
         steps: [
           { label: 'Which word?', text: 'Towards, without saying you arrive → prema.' },
@@ -2327,11 +2349,11 @@ export const PRACTICE = {
           explanation: 'Idem u bolnicu. — a place takes u + accusative.',
         },
         {
-          q: 'Prema ___, sutra je sunčano. (the forecast — prognoza)',
+          q: 'Prema ___, sutra će biti sunčano. (the forecast — prognoza)',
           options: ['prognoza', 'prognozu', 'prognozi', 'prognoze'],
           correct: 2,
           hint: 'prema means "according to" here, and still takes the dative.',
-          explanation: 'Prema prognozi, sutra je sunčano.',
+          explanation: 'Prema prognozi, sutra će biti sunčano.',
         },
         {
           type: 'type',
@@ -2418,7 +2440,7 @@ export const PRACTICE = {
       ['kiša', 'rain', 'Idemo na plažu unatoč kiši.'],
       ['pošta', 'post office', 'Pošta je nasuprot parku.'],
       ['rijeka', 'river', 'Turisti šeću prema rijeci.'],
-      ['prognoza', 'forecast', 'Prema prognozi, sutra je sunčano.'],
+      ['prognoza', 'forecast', 'Prema prognozi, sutra će biti sunčano.'],
     ],
   },
 
@@ -2426,18 +2448,18 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Two Objects, Two Cases',
-        problem: 'Reci: "I am sending my brother a message."',
+        problem: 'Say: "I am sending my brother a message."',
         en: 'I am sending my brother a message.',
         steps: [
           { label: 'What is sent?', text: 'The message — the accusative: poruka → poruku.' },
           { label: 'Who receives it?', text: 'The brother — the dative: brat → bratu.' },
-          { label: 'The verb', text: 'The present of poslati is šaljem.' },
+          { label: 'The verb', text: 'Sending now is slati, the partner of poslati: ja šaljem.' },
         ],
         answer: 'Šaljem bratu poruku.',
       },
       {
         title: 'Two Short Pronouns',
-        problem: 'Zamijeni oboje: "Dao sam Marku ključ." (to him, it)',
+        problem: 'Replace both with short pronouns: "Dao sam Marku ključ." (to him, it)',
         en: 'I gave it to him.',
         steps: [
           { label: 'The receiver', text: 'Marku → mu, the short dative for "to him".' },

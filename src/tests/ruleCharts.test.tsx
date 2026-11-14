@@ -210,7 +210,11 @@ describe('pronouns: every long form is the right case of the right pronoun', () 
   it('has no vocative row, and says why', () => {
     const slide = pronounChartSlide({ title: 't', caption: 'c' });
     expect(rowsOf(slide).map((r) => r.key)).toEqual(['Nsg', 'Gsg', 'Dsg', 'Asg', 'Lsg', 'Isg']);
-    expect(String(LESSON_RULE_CHARTS['object-pronouns']![0]!.slide.caption)).toMatch(/vocative/);
+    // The A1 lesson (65) comes before the vocative (97), so the caption says why there is no
+    // row without naming a case the learner has not met (taughtTermsMatchLessons).
+    expect(String(LESSON_RULE_CHARTS['object-pronouns']![0]!.slide.caption)).toMatch(
+      /Calling someone needs no row/,
+    );
   });
   it('writes sa before mnom and s before the rest', () => {
     const ins = rowsOf(pronounChartSlide({ title: 't', caption: 'c' })).find(

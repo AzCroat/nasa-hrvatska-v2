@@ -184,11 +184,11 @@ export const POSTCARDS_WISHES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'razglednica',
-    q: 'Puno ____, tvoja Ana',
-    en: 'Lots of love, your Ana',
-    opts: ['pozdrav', 'pozdrava', 'pozdravi', 'pozdravu'],
-    answer: 'pozdrava',
-    tip: 'A fixed closing: Puno pozdrava.',
+    q: 'Kraj razglednice prijateljici: ____',
+    en: 'The last line of a postcard to a friend',
+    opts: ['Dobar dan, Ana!', 'Puno pozdrava, Ana!', 'Dobar tek, Ana!', 'Kako si, Ana?'],
+    answer: 'Puno pozdrava, Ana!',
+    tip: 'A postcard closes with a fixed greeting, learnt as one block; the other lines greet, wish a good meal or ask a question.',
   },
   {
     mode: 'razglednica',
