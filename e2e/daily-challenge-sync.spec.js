@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, TEST_EMAIL, meButton } from './fixtures/seed-auth.js';
+import { openViaMore } from './fixtures/more-nav.js';
 
 /**
  * Home screen smoke tests — verifies the authenticated home tab renders correctly.
@@ -20,38 +21,28 @@ test.describe('Home screen — authenticated', () => {
   test('navigation exposes the core tabs and the Me entry', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav.getByRole('button', { name: 'Today', exact: true })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Practice', exact: true })).toBeVisible();
-    await expect(nav.getByRole('button', { name: 'Croatia', exact: true })).toBeVisible();
+    await expect(nav.getByRole('button', { name: 'Course', exact: true })).toBeVisible();
+    await expect(nav.getByRole('button', { name: 'More', exact: true })).toBeVisible();
     // Me is in the Sidebar on desktop and the AppHeader avatar on mobile.
     await expect(await meButton(page)).toBeVisible();
   });
 
   test('Grad shows the Today (Danas u gradu) section', async ({ page }) => {
     // Phase 6: Practice became Grad — the Today card replaced the old quest strip.
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice', exact: true })
-      .click();
+    await openViaMore(page, 'practice');
     await page.waitForLoadState('domcontentloaded', { timeout: 10_000 }).catch(() => {});
     await expect(page.getByText('Danas u gradu').first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('Grad shows the daily-quest progress row', async ({ page }) => {
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice', exact: true })
-      .click();
+    await openViaMore(page, 'practice');
     await page.waitForLoadState('domcontentloaded', { timeout: 10_000 }).catch(() => {});
     await expect(page.getByText(/dnevnih zadataka/i).first()).toBeVisible({ timeout: 20_000 });
   });
 
   test('Trg (the Square) hosts the Speed Challenge', async ({ page }) => {
     // SpeedChallenge moved into the Trg games hub in the Grad redesign.
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice', exact: true })
-      .click();
+    await openViaMore(page, 'practice');
     await page.waitForLoadState('domcontentloaded', { timeout: 10_000 }).catch(() => {});
     const trg = page.getByText('Trg', { exact: true }).first();
     await trg.waitFor({ state: 'visible', timeout: 20_000 });
@@ -65,20 +56,17 @@ test.describe('Home screen — authenticated', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   });
 
-  test('Learn tab loads without crashing', async ({ page }) => {
+  test('Course tab loads without crashing', async ({ page }) => {
     await page
       .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Learn', exact: true })
+      .getByRole('button', { name: 'Course', exact: true })
       .click();
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
     // Learn tab should render something — check the nav stays visible (no crash)
   });
 
   test('Practice tab loads without crashing', async ({ page }) => {
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice', exact: true })
-      .click();
+    await openViaMore(page, 'practice');
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   });
 

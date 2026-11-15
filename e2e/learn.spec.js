@@ -21,8 +21,10 @@ test.describe('Learn tab', () => {
   });
 
   test.describe('Calm surface', () => {
-    test('offers the full path, which the retired widget used to own', async ({ page }) => {
-      await expect(page.getByTestId('open-learn-path')).toBeVisible();
+    test('offers the course map and no legacy path doors', async ({ page }) => {
+      await expect(page.getByTestId('open-course-map')).toBeVisible();
+      await expect(page.getByTestId('open-learn-path')).toHaveCount(0);
+      await expect(page.getByText('Continue Learning')).toHaveCount(0);
     });
 
     test('shows the Profesor Kovac tutor hero', async ({ page }) => {

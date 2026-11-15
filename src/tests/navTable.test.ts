@@ -117,6 +117,7 @@ describe('the spec-to-component mapping names things that exist', () => {
             'shared',
             'auth',
             'practice',
+            'more',
           ].some((d) => existsSync(join(root, `src/components/${d}/${name}.${ext}`))),
         );
         if (!found) missing.push(name);
@@ -141,6 +142,7 @@ describe('the spec-to-component mapping names things that exist', () => {
     for (const [id, comp] of [
       ['home', 'HomeTab'],
       ['learn', 'LearnTab'],
+      ['more', 'MoreTab'],
       ['practice', 'GradTab'],
       ['ai', 'RazgovorTab'],
       ['croatia', 'HrvatskaTab'],

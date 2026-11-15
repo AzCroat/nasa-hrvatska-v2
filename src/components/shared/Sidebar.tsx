@@ -6,12 +6,13 @@ import CroatianGrb from './CroatianGrb';
 // the visible Croatian primary, `sub` the visible English. See TabBar.tsx for rationale.
 const TABS = [
   { id: 'home', label: 'Today', cro: 'Dom', sub: 'Home' },
-  { id: 'learn', label: 'Learn', cro: 'Učenje', sub: 'Learn' },
-  { id: 'practice', label: 'Practice', cro: 'Grad', sub: 'Practice' },
-  { id: 'ai', label: 'AI Tutor', cro: 'Razgovor', sub: 'Talk' },
-  { id: 'croatia', label: 'Croatia', cro: 'Hrvatska', sub: 'Discover' },
+  { id: 'learn', label: 'Course', cro: 'Tečaj', sub: 'Course' },
+  { id: 'more', label: 'More', cro: 'Više', sub: 'More' },
   { id: 'profile', label: 'Me', cro: 'Ja', sub: 'Me' },
 ];
+
+// Tabs that stay valid (routes, URLs) but live behind the More door.
+const MORE_TABS = ['practice', 'ai', 'croatia', 'more'];
 
 function NavIcon({ id, active }: { id: string; active: boolean }) {
   const sw = 1.9;
@@ -171,6 +172,58 @@ function NavIcon({ id, active }: { id: string; active: boolean }) {
           rx="1.5"
           fill={active ? '#D40030' : 'currentColor'}
           opacity={active ? 1 : 0.75}
+        />
+      </svg>
+    );
+  if (id === 'more')
+    return (
+      <svg
+        width="23"
+        height="23"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="3.5"
+          y="3.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="13.5"
+          y="3.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="3.5"
+          y="13.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="13.5"
+          y="13.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
         />
       </svg>
     );
@@ -472,45 +525,47 @@ export default function Sidebar({
           Playwright's getByRole('navigation', {name:'Main navigation'}) match >1 element and
           fail in strict mode. */}
       <div style={{ padding: '6px 12px', flex: 1 }}>
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            data-testid={emitNavTestids ? 'nav-' + t.id : undefined}
-            className={
-              'sb-btn' +
-              (tab === t.id ? ' active' : '') +
-              (t.id === 'croatia' ? ' croatia-tab' : '')
-            }
-            onClick={() => {
-              setTab(t.id);
-            }}
-            aria-current={tab === t.id ? 'page' : undefined}
-            aria-label={t.label}
-          >
-            <span
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                color:
-                  tab === t.id
+        {TABS.map((t) => {
+          const isActive = (MORE_TABS.includes(tab) ? 'more' : tab) === t.id;
+          return (
+            <button
+              key={t.id}
+              data-testid={emitNavTestids ? 'nav-' + t.id : undefined}
+              className={
+                'sb-btn' + (isActive ? ' active' : '') + (t.id === 'croatia' ? ' croatia-tab' : '')
+              }
+              onClick={() => {
+                setTab(t.id);
+              }}
+              aria-current={isActive ? 'page' : undefined}
+              aria-label={t.label}
+            >
+              <span
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  color: isActive
                     ? t.id === 'croatia'
                       ? 'var(--ink-red)'
                       : 'var(--ink-navy)'
                     : 'var(--nav-lbl)',
-                flexShrink: 0,
-              }}
-            >
-              <NavIcon id={t.id} active={tab === t.id} />
-            </span>
-            <span style={{ flex: 1 }}>
-              {t.cro}
-              <span style={{ fontSize: 11, opacity: 0.55, fontWeight: 600, marginLeft: 6 }}>
-                {t.sub}
+                  flexShrink: 0,
+                }}
+              >
+                <NavIcon id={t.id} active={isActive} />
               </span>
-            </span>
-            {badges && (badges[t.id] ?? 0) > 0 && <span className="sb-badge">{badges[t.id]}</span>}
-          </button>
-        ))}
+              <span style={{ flex: 1 }}>
+                {t.cro}
+                <span style={{ fontSize: 11, opacity: 0.55, fontWeight: 600, marginLeft: 6 }}>
+                  {t.sub}
+                </span>
+              </span>
+              {badges && (badges[t.id] ?? 0) > 0 && (
+                <span className="sb-badge">{badges[t.id]}</span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Bottom: sign out only — dark mode + bug report live in Settings */}

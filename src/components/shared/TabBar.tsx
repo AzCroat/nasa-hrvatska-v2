@@ -5,18 +5,19 @@ import { localDateStr } from '../../lib/dateUtils';
 
 // `label` is the ACCESSIBLE NAME (aria-label) and is kept stable on purpose:
 // several e2e specs and a11y checks select tabs by these names. These MUST match
-// Sidebar.tsx's labels exactly (e.g. e2e uses name:'Croatia', exact). `cro` is the
+// Sidebar.tsx's labels exactly (e.g. e2e uses name:'Course', exact). `cro` is the
 // visible Croatian primary; `sub` is the visible English subtitle. Renaming the
 // visible text without touching the accessible name = visible rebrand, zero test churn.
-// Five places on the mobile bottom bar. "Me" moved off the bar to the top-corner
+// Three places on the mobile bottom bar (Today, Course, More). "Me" moved off the bar to the top-corner
 // AppHeader avatar (Phase 4). Desktop Sidebar keeps a profile entry.
 const TABS = [
   { id: 'home', label: 'Today', cro: 'Dom', sub: 'Home' },
-  { id: 'learn', label: 'Learn', cro: 'Učenje', sub: 'Learn' },
-  { id: 'practice', label: 'Practice', cro: 'Grad', sub: 'Practice' },
-  { id: 'ai', label: 'AI Tutor', cro: 'Razgovor', sub: 'Talk' },
-  { id: 'croatia', label: 'Croatia', cro: 'Hrvatska', sub: 'Discover' },
+  { id: 'learn', label: 'Course', cro: 'Tečaj', sub: 'Course' },
+  { id: 'more', label: 'More', cro: 'Više', sub: 'More' },
 ];
+
+// Tabs that stay valid (routes, URLs) but live behind the More door.
+const MORE_TABS = ['practice', 'ai', 'croatia', 'more'];
 
 function NavIcon({ id, active }: { id: string; active: boolean }) {
   const sw = 1.9;
@@ -179,6 +180,58 @@ function NavIcon({ id, active }: { id: string; active: boolean }) {
         />
       </svg>
     );
+  if (id === 'more')
+    return (
+      <svg
+        width="23"
+        height="23"
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="3.5"
+          y="3.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="13.5"
+          y="3.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="3.5"
+          y="13.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+        <rect
+          x="13.5"
+          y="13.5"
+          width="7"
+          height="7"
+          rx="1.5"
+          stroke="currentColor"
+          strokeWidth={sw}
+          fill={active ? 'rgba(14,116,144,.1)' : 'none'}
+        />
+      </svg>
+    );
   if (id === 'profile')
     return (
       <svg
@@ -244,7 +297,8 @@ export default function TabBar({
     return lastVisit !== localDateStr();
   })();
 
-  const activeIdx = TABS.findIndex((t) => t.id === tab);
+  const activeId = MORE_TABS.includes(tab) ? 'more' : tab;
+  const activeIdx = TABS.findIndex((t) => t.id === activeId);
   const tabCount = TABS.length;
   const indicatorLeft = `${(activeIdx / tabCount) * 100}%`;
 
@@ -299,7 +353,7 @@ export default function TabBar({
         {/* Tab buttons — paddingRight reserves space for the absolute-positioned search button */}
         <div style={{ display: 'flex', width: '100%', paddingRight: 56 }}>
           {TABS.map((t) => {
-            const isActive = tab === t.id;
+            const isActive = activeId === t.id;
             return (
               <button
                 key={t.id}

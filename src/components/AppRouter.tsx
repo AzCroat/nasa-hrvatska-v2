@@ -54,6 +54,7 @@ function lazyWithReload(fn: () => Promise<any>) {
 const HomeTab = lazyWithReload(() => import('./home/HomeTab'));
 const LearnTab = lazyWithReload(() => import('./learn/LearnTab'));
 const HrvatskaTab = lazyWithReload(() => import('./hrvatska/HrvatskaTab'));
+const MoreTab = lazyWithReload(() => import('./more/MoreTab'));
 const RazgovorTab = lazyWithReload(() => import('./razgovor/RazgovorTab'));
 const ImmersionHub = lazyWithReload(() => import('./croatia/ImmersionHub'));
 const AIConversation = lazyWithReload(() => import('./croatia/AIConversation'));
@@ -917,7 +918,7 @@ const MapScreen = lazyWithReload(() => import('./practice/MapScreen'));
 
 // Tab order used for slide direction. Defined at module scope so it's not
 // recreated on every render.
-const TAB_ORDER = ['home', 'learn', 'practice', 'croatia', 'profile'];
+const TAB_ORDER = ['home', 'learn', 'more', 'practice', 'ai', 'croatia', 'profile'];
 
 /**
  * ScreenGuard — shown when a stateful exercise screen loads after a hard refresh
@@ -966,8 +967,8 @@ function ScreenGuard({ goBack, label = 'exercise' }: { goBack: () => void; label
           lineHeight: 1.5,
         }}
       >
-        This {label} needs to be started from the Practice tab — your previous session data couldn't
-        be restored.
+        This {label} needs to be started from Practice, under More — your previous session data
+        couldn't be restored.
       </p>
       <button
         onClick={goBack}
@@ -1376,6 +1377,8 @@ export default function AppRouter(props: Record<string, any>) {
                               learn: 1,
                               practice: 1,
                               croatia: 1,
+                              ai: 1,
+                              more: 1,
                               profile: 1,
                             };
                             if (VALID_TABS[id]) setTab(id);
@@ -1426,9 +1429,20 @@ export default function AppRouter(props: Record<string, any>) {
                           sGs={sGs}
                           sGa={sGa}
                           sGsl={sGsl}
-                          launchPathItem={launchPathItem}
                           launchAnimLesson={launchAnimLesson}
                         />
+                      </ScreenErrorBoundary>
+                    </React.Suspense>
+                  </div>
+                )
+              }
+              {
+                // ═══ TAB: MORE (doors to Practice / Talk / Croatia + the cards moved off Home) ═══
+                tab === 'more' && (
+                  <div key="tab-more" className={tabSlideClass}>
+                    <React.Suspense fallback={null}>
+                      <ScreenErrorBoundary name="MoreTab">
+                        <MoreTab sCurEx={sCurEx} setTab={setTab} />
                       </ScreenErrorBoundary>
                     </React.Suspense>
                   </div>

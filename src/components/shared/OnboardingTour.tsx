@@ -38,7 +38,7 @@ const DIASPORA_STEPS = [
   {
     icon: '🌊',
     title: 'Explore Croatia from anywhere',
-    body: 'The Croatia tab is your cultural home — songs, history, recipes, cities, and live Croatian radio. Language and culture, together.',
+    body: 'The Croatia section (under More) is your cultural home — songs, history, recipes, cities, and live Croatian radio. Language and culture, together.',
   },
 ];
 
