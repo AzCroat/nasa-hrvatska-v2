@@ -104,18 +104,12 @@ function seedFullLevel1Progress(page) {
 }
 
 test.describe('FIX-16 — LearnPath: Level Quiz CTA', () => {
-  /** Navigate from /learn through "View full path" into the LearnPath screen. */
+  /** Open the LearnPath screen by URL: the Course tab no longer links to it (Phase 1 declutter). */
   async function openLearnPath(page) {
-    await page.goto('/learn');
+    await page.goto('/learnpath');
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 15_000,
     });
-    // LearnTab renders "View full path — N/M lessons". It used to sit at the
-    // foot of LearnPathWidget; when that widget was retired the link stayed,
-    // because it is the Learn tab's only door to the `learnpath` screen.
-    const openPath = page.getByTestId('open-learn-path');
-    await openPath.waitFor({ state: 'visible', timeout: 10_000 });
-    await openPath.click();
   }
 
   test.beforeEach(async ({ page }) => {
@@ -125,7 +119,7 @@ test.describe('FIX-16 — LearnPath: Level Quiz CTA', () => {
     await mockContent(page);
   });
 
-  test('LearnPath screen mounts after clicking "View full path"', async ({ page }) => {
+  test('LearnPath screen mounts on direct URL entry', async ({ page }) => {
     await openLearnPath(page);
     // LearnPath renders the LEARN_PATH constants — at least one Level header shows.
     await expect(page.getByText(/level\s+1/i).first()).toBeVisible({ timeout: 8_000 });

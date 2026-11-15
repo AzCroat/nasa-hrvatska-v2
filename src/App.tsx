@@ -164,6 +164,7 @@ const TAB_PATHS: Record<string, string> = {
   practice: '/practice',
   ai: '/ai',
   croatia: '/croatia',
+  more: '/more',
   profile: '/profile',
 };
 const PATH_TO_TAB: Record<string, string> = {
@@ -172,6 +173,7 @@ const PATH_TO_TAB: Record<string, string> = {
   '/practice': 'practice',
   '/ai': 'ai',
   '/croatia': 'croatia',
+  '/more': 'more',
   '/profile': 'profile',
 };
 
@@ -1364,6 +1366,7 @@ function App() {
       '/practice': 'practice',
       '/ai': 'ai',
       '/croatia': 'croatia',
+      '/more': 'more',
       '/profile': 'profile',
     };
     if (tbp[ip]) {
@@ -1393,7 +1396,7 @@ function App() {
   // badge; the remaining slots are reserved for future counts. Static today —
   // memoized only to keep a stable reference for the nav components.
   const badges = useMemo(
-    () => ({ home: 0, learn: 0, practice: 0, ai: 0, croatia: 0, profile: 0 }),
+    () => ({ home: 0, learn: 0, practice: 0, ai: 0, croatia: 0, more: 0, profile: 0 }),
     [],
   );
   const doSidebarSearch = useCallback(() => {

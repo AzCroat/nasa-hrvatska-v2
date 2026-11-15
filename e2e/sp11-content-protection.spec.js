@@ -7,6 +7,7 @@ import { readFile, readdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { seedAuth, blockFirebase, mockTTS } from './fixtures/seed-auth.js';
 import { forceCefr } from './fixtures/forceCefr.js';
+import { openViaMore } from './fixtures/more-nav.js';
 
 // Distinctive curriculum strings from the now-server-side data files
 // (5 SP11 stories/grammar-units + 3 SP11b grammar + 3 SP11c lessons +
@@ -154,10 +155,7 @@ test.describe('SP11 — content endpoints + bundle audit', () => {
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 10_000,
     });
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .getByRole('button', { name: 'Practice' })
-      .click();
+    await openViaMore(page, 'practice');
     // Phase 6: Grad replaced Practice. Reach Aspect Drill via Kovaceva soba ->
     // Glagoli; mounting AspectDrillScreen lazily fetches /api/content/grammar.
     // 35s margin for the lazy GradTab cold-render on CI.

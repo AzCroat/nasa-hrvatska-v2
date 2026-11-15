@@ -21,6 +21,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, TEST_EMAIL } from './fixtures/seed-auth.js';
+import { openViaMore } from './fixtures/more-nav.js';
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
@@ -89,7 +90,7 @@ test.describe('Offline mode (PWA / service worker)', () => {
     await expect(nav).toBeVisible({ timeout: 15_000 });
 
     // Navigate to Practice — should serve from cached JS bundle
-    await nav.getByRole('button', { name: 'Practice', exact: true }).click();
+    await openViaMore(page, 'practice');
     await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible({
       timeout: 10_000,
     });
@@ -102,7 +103,7 @@ test.describe('Offline mode (PWA / service worker)', () => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav).toBeVisible({ timeout: 15_000 });
 
-    await nav.getByRole('button', { name: 'Croatia', exact: true }).click();
+    await openViaMore(page, 'croatia');
     await page.waitForTimeout(1_500);
 
     // Look for offline banner text OR the fallback sample articles
@@ -161,9 +162,9 @@ test.describe('Offline mode (PWA / service worker)', () => {
     await expect(nav).toBeVisible({ timeout: 15_000 });
 
     // Navigate around offline
-    await nav.getByRole('button', { name: 'Learn', exact: true }).click();
+    await nav.getByRole('button', { name: 'Course', exact: true }).click();
     await page.waitForTimeout(500);
-    await nav.getByRole('button', { name: 'Practice', exact: true }).click();
+    await openViaMore(page, 'practice');
     await page.waitForTimeout(500);
     await nav.getByRole('button', { name: 'Today', exact: true }).click();
     await page.waitForTimeout(500);
@@ -193,7 +194,7 @@ test.describe('Offline mode (PWA / service worker)', () => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav).toBeVisible({ timeout: 15_000 });
 
-    await nav.getByRole('button', { name: 'Practice', exact: true }).click();
+    await openViaMore(page, 'practice');
 
     // Switch to Challenge panel where the game tiles live
     await page.getByRole('button', { name: 'Challenge' }).click();
