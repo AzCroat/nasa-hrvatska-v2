@@ -6,7 +6,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import React from 'react';
-import { withPractice, LESSON_PRACTICE } from '../../functions/api/content/_data/lessonPractice.js';
+import {
+  withPractice,
+  LESSON_PRACTICE,
+  LESSON_CLASS,
+} from '../../functions/api/content/_data/lessonPractice.js';
+
+// This suite is about the WORKED and GUIDED PRACTICE slides, on a small synthetic lesson
+// that borrows the real `plural-nouns` practice data. That lesson now also carries class
+// content (a text step and a mixed practice — covered by lessonTextSlide and exerciseKinds),
+// which would change the synthetic lesson's shape; it is set aside for this file only.
+delete (LESSON_CLASS as Record<string, unknown>)['plural-nouns'];
 import { LESSONS } from '../../functions/api/content/_data/lessons.js';
 import {
   DEEPENED_LEVELS,

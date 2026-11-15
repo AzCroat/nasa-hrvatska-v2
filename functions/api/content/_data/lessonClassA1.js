@@ -18,9 +18,15 @@
 //   • A typed or spoken answer is never shown earlier on the same slide.
 //   • Standard Croatian; the greeting is "bog".
 //
-// Unit 1 (lessons 1–5) is the pilot.
+// Unit 1 (lessons 1–5) was the pilot; Units 2–20 live in a1class/, one file per block.
 
-export const CLASS_A1 = {
+import { CLASS_A1_U02_05 } from './a1class/units02-05.js';
+import { CLASS_A1_U06_09 } from './a1class/units06-09.js';
+import { CLASS_A1_U10_13 } from './a1class/units10-13.js';
+import { CLASS_A1_U14_17 } from './a1class/units14-17.js';
+import { CLASS_A1_U18_20 } from './a1class/units18-20.js';
+
+const CLASS_A1_U01 = {
   // ── Lesson 1 — the alphabet ────────────────────────────────────────────────
   alphabet: {
     text: {
@@ -791,4 +797,14 @@ export const CLASS_A1 = {
       },
     ],
   },
+};
+
+/** Every A1 lesson in class order: Unit 1 above, the rest in a1class/ (one file per block). */
+export const CLASS_A1 = {
+  ...CLASS_A1_U01,
+  ...CLASS_A1_U02_05,
+  ...CLASS_A1_U06_09,
+  ...CLASS_A1_U10_13,
+  ...CLASS_A1_U14_17,
+  ...CLASS_A1_U18_20,
 };
