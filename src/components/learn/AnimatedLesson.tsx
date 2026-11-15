@@ -437,9 +437,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       case 'intro':
         return (
           <>
-            <IntroSlide slide={cs} lesson={lesson!} />
             {canTestOut && (
-              <div style={{ textAlign: 'center', marginTop: 18 }}>
+              <div style={{ textAlign: 'center', marginBottom: 16 }}>
                 <button
                   data-testid="lesson-test-out"
                   onClick={startTestOut}
@@ -455,7 +454,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                     fontFamily: 'inherit',
                   }}
                 >
-                  Already know this? Take the check
+                  Test out of this lesson
                 </button>
                 <p
                   style={{
@@ -471,6 +470,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
                 </p>
               </div>
             )}
+            <IntroSlide slide={cs} lesson={lesson!} />
           </>
         );
 
