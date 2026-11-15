@@ -62,6 +62,14 @@ export default function ListenItem({ item, onSettle, eyebrow, color }: ItemProps
           onSkip={() => a.settle('skipped')}
         />
       )}
+      {!gate.heard && !a.settled && (
+        <p
+          data-testid="ex-listen-locked"
+          style={{ fontSize: 'var(--text-xs)', color: 'var(--subtext)', margin: '0 0 8px' }}
+        >
+          Play the recording first — the answers unlock when it has finished.
+        </p>
+      )}
       {item.options.map((o, i) => (
         <button
           key={i}

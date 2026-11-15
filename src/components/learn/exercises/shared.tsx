@@ -100,8 +100,10 @@ export function Feedback({
     <>
       {status === 'open' && misses === 1 && (
         <div data-testid="ex-hint" role="status" style={{ ...card, background: 'var(--info-bg)' }}>
-          <strong style={{ color: 'var(--ink-info)' }}>Not quite — here is a hint. </strong>
-          <span style={{ color: 'var(--text)' }}>{hint || GENERIC_HINT}</span>
+          <strong style={{ color: 'var(--ink-info)' }}>
+            {hint ? 'Not quite — here is a hint. ' : GENERIC_HINT}
+          </strong>
+          {hint && <span style={{ color: 'var(--text)' }}>{hint}</span>}
         </div>
       )}
       {status !== 'open' && (
@@ -147,6 +149,7 @@ export function optionStyle(
     display: 'block',
     lineHeight: 1.4,
     cursor: disabled ? 'default' : 'pointer',
+    opacity: disabled && state === 'idle' ? 0.55 : 1,
     background: 'var(--card)',
     border: '2px solid var(--card-b)',
     color: 'var(--heading)',
