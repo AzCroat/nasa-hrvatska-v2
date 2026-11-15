@@ -46,10 +46,18 @@ export default function LessonTextSlide({
   const [stage, setStage] = useState<Stage>('listen');
   const [showEn, setShowEn] = useState(false);
   const [lookBack, setLookBack] = useState(false);
+  const [qIdx, setQIdx] = useState(0);
   const [heard, setHeard] = useState(false);
   const [playing, setPlaying] = useState<number | null>(null);
   const [failure, setFailure] = useState<string | null>(null);
   const run = useRef(0);
+  // A RECALL question ("Without looking back at the dialogue: …") tests what the learner
+  // took in by listening and reading, so the way back to the text is not offered beside it
+  // (owner report, 2026-11-15: the two said opposite things). The later questions ask the
+  // learner to notice grammar and to write Croatian; there the text is support, one tap away.
+  const recall = /^without looking back/i.test(
+    String((questions[qIdx] as { q?: string } | undefined)?.q ?? ''),
+  );
   const isText = slide.kind === 'text';
   const noun = isText ? 'text' : 'dialogue';
 
@@ -169,7 +177,7 @@ export default function LessonTextSlide({
   );
 
   return (
-    <div data-testid="lesson-text" data-stage={stage}>
+    <div data-testid="lesson-text" data-stage={stage} style={{ paddingBottom: 24 }}>
       {stage === 'listen' && (
         <div style={card}>
           {heading}
@@ -212,12 +220,25 @@ export default function LessonTextSlide({
               {showEn ? 'Hide English' : 'Need help? Show English'}
             </button>
           </div>
+          {/* THE WAY ON IS AT THE TOP, ALWAYS IN VIEW (owner report, 2026-11-15: at the end of
+              a long dialogue the button sat half under the lesson's bottom bar until the
+              learner scrolled further). The same button also closes the text, below. */}
+          {questions.length > 0 && (
+            <button
+              className="b bp"
+              data-testid="lesson-text-questions"
+              onClick={() => toStage('questions')}
+              style={{ width: '100%', marginBottom: 10 }}
+            >
+              Read it? Answer the questions →
+            </button>
+          )}
           {textBlock}
           {failureNote}
           {questions.length > 0 && (
             <button
               className="b bp"
-              data-testid="lesson-text-questions"
+              data-testid="lesson-text-questions-bottom"
               onClick={() => toStage('questions')}
               style={{ width: '100%', marginTop: 12 }}
             >
@@ -235,19 +256,25 @@ export default function LessonTextSlide({
             color={lesson.color}
             done={done}
             onComplete={onComplete}
+            onIndex={(i) => {
+              setQIdx(i);
+              setLookBack(false);
+            }}
           />
-          <div style={card}>
-            <button
-              className="b"
-              data-testid="lesson-text-lookback"
-              aria-expanded={lookBack}
-              onClick={() => setLookBack(!lookBack)}
-              style={{ width: '100%' }}
-            >
-              {lookBack ? `Hide the ${noun}` : `Look at the ${noun} again`}
-            </button>
-            {lookBack && <div style={{ marginTop: 10 }}>{textBlock}</div>}
-          </div>
+          {!recall && (
+            <div style={card}>
+              <button
+                className="b"
+                data-testid="lesson-text-lookback"
+                aria-expanded={lookBack}
+                onClick={() => setLookBack(!lookBack)}
+                style={{ width: '100%' }}
+              >
+                {lookBack ? `Hide the ${noun}` : `Look at the ${noun} again`}
+              </button>
+              {lookBack && <div style={{ marginTop: 10 }}>{textBlock}</div>}
+            </div>
+          )}
         </>
       )}
     </div>

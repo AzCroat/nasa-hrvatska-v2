@@ -172,6 +172,29 @@ describe('the text slide', () => {
     expect(nextDisabled()).toBe(false);
   });
 
+  it('a recall question ("Without looking back…") offers no way back to the text; the next question does', () => {
+    const recallFirst = {
+      ...TEXT_FIXTURE,
+      questions: [
+        {
+          q: 'Without looking back at the dialogue: who speaks first?',
+          options: ['Ana', 'Marko'],
+          correct: 0,
+          explanation: 'Ana.',
+        },
+        ...TEXT_FIXTURE.questions,
+      ],
+    };
+    render(<AnimatedLesson lesson={lessonWith(recallFirst)} goBack={vi.fn()} award={vi.fn()} />);
+    next();
+    openQuestions();
+    // The two must not say opposite things: no "look again" beside "without looking back".
+    expect(screen.queryByTestId('lesson-text-lookback')).toBeNull();
+    fireEvent.click(screen.getByText('Ana'));
+    fireEvent.click(id('ex-next-item'));
+    expect(id('lesson-text-lookback')).toBeTruthy();
+  });
+
   it('a text with no questions never holds Next', () => {
     render(
       <AnimatedLesson
