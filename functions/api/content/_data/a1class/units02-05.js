@@ -2514,7 +2514,7 @@ export const CLASS_A1_U02_05 = {
       },
       {
         type: 'tf',
-        q: 'Množina od "student" je "studentovi".',
+        q: 'The plural of "student" is "studentovi".',
         answer: false,
         hint: 'Count the syllables in the singular.',
         explanation: 'student has two syllables, so it takes a plain -i: studenti.',
@@ -2696,7 +2696,7 @@ export const CLASS_A1_U02_05 = {
       0,
       {
         type: 'tf',
-        q: 'Množina od "vlak" je "vlaci".',
+        q: 'The plural of "vlak" is "vlaci".',
         answer: false,
         hint: 'vlak is a short noun: one syllable. What do short nouns do before the -i?',
         explanation: 'vlak grows first: vlakovi. The k never touches the -i, so it stays.',
@@ -2866,7 +2866,7 @@ export const CLASS_A1_U02_05 = {
       7,
       {
         type: 'tf',
-        q: 'Množina od "stranac" je "stranaci".',
+        q: 'The plural of "stranac" is "stranaci".',
         answer: false,
         hint: 'What happens to the a of a noun in -ac when -i is added?',
         explanation: 'The a drops: stranac → stranci.',

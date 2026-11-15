@@ -2992,10 +2992,11 @@ export const CLASS_A1_U14_17 = {
       7,
       {
         type: 'tf',
-        q: '"U kući" and "kod kuće" both mean "at home".',
-        answer: false,
-        hint: 'One of them is about being inside the building.',
-        explanation: 'Kod kuće is "at home". U kući means inside the house: Mačka je u kući.',
+        q: 'After "kod", the word for the person or place is in the genitive: kod kuće, kod Ane.',
+        answer: true,
+        hint: 'Look at the endings: kuća → kuće, Ana → Ane.',
+        explanation:
+          "True. kod always takes the genitive: kod kuće (at home), kod Ane (at Ana's), kod liječnika (at the doctor's).",
       },
       {
         type: 'transform',

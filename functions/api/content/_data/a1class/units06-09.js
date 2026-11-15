@@ -3103,7 +3103,7 @@ export const CLASS_A1_U06_09 = {
         explanation:
           'Trajekt ide ujutro i popodne. — ujutro is in the morning, popodne in the afternoon.',
       },
-      7,
+      0,
       6,
       {
         type: 'dictate',

@@ -3314,13 +3314,13 @@ export const CLASS_A1_U10_13 = {
         },
         {
           who: 'Ana',
-          hr: 'Dobro. Ali pada kiša, a ti nemaš kišobran!',
-          en: 'All right. But it is raining, and you have no umbrella!',
+          hr: 'Dobro. Ali pada kiša! Imaš li kišobran?',
+          en: 'All right. But it is raining! Do you have an umbrella?',
         },
         {
           who: 'Ivan',
-          hr: 'Znam. Idem unatoč kiši. Moram k liječniku.',
-          en: "I know. I am going despite the rain. I have to get to the doctor's.",
+          hr: 'Nemam. Idem unatoč kiši. Moram k liječniku.',
+          en: "I do not. I am going despite the rain. I have to get to the doctor's.",
         },
         {
           who: 'Ana',
