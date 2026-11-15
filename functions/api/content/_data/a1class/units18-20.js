@@ -10,9 +10,9 @@
 // people are addressed only by names left as they are — Ana, Marko, Luka, Tom;
 // from vocative-intro on, Tom is called Tome, as that lesson teaches). The title
 // gospođo is known from greetings-farewells.
-// Spoken dialogues write vi / vas / vam / vaš without the courtesy capital, which
-// is what formal-address teaches: the capital belongs to letters and emails and
-// has no place in speech. A typed answer accepts the capital too.
+// Vi / Vas / Vam / Vaš take a capital whenever ONE person is addressed politely,
+// in dialogue lines as well as in letters, which is what formal-address teaches;
+// the plural vi for several people is written small. Typed answers ignore capitals.
 
 export const CLASS_A1_U18_20 = {
   // ══ UNIT 18 ════════════════════════════════════════════════════════════════
@@ -240,7 +240,7 @@ export const CLASS_A1_U18_20 = {
           hr: 'Imam. Ali sutra morate ići liječniku.',
           en: 'I do. But tomorrow you must go to the doctor.',
         },
-        { who: 'Luka', hr: 'Dobro. Hvala vam, doviđenja!', en: 'All right. Thank you, goodbye!' },
+        { who: 'Luka', hr: 'Dobro. Hvala Vam, doviđenja!', en: 'All right. Thank you, goodbye!' },
       ],
       questions: [
         {
@@ -397,15 +397,15 @@ export const CLASS_A1_U18_20 = {
       kind: 'dialogue',
       title: 'Kod liječnice',
       lines: [
-        { who: 'Liječnica', hr: 'Dobar dan. Što vas boli?', en: 'Good day. What hurts?' },
+        { who: 'Liječnica', hr: 'Dobar dan. Što Vas boli?', en: 'Good day. What hurts?' },
         { who: 'Ivan', hr: 'Dobar dan. Bole me leđa.', en: 'Good day. My back hurts.' },
-        { who: 'Liječnica', hr: 'Boli li vas i glava?', en: 'Does your head hurt too?' },
+        { who: 'Liječnica', hr: 'Boli li Vas i glava?', en: 'Does your head hurt too?' },
         {
           who: 'Ivan',
           hr: 'Ne, glava me ne boli. Ali jučer me je boljelo koljeno.',
           en: 'No, my head does not hurt. But yesterday my knee hurt.',
         },
-        { who: 'Liječnica', hr: 'A danas? Boli li vas još?', en: 'And today? Does it still hurt?' },
+        { who: 'Liječnica', hr: 'A danas? Boli li Vas još?', en: 'And today? Does it still hurt?' },
         {
           who: 'Ivan',
           hr: 'Ne, danas me koljeno ne boli. Ali leđa su me boljela cijeli tjedan.',
@@ -1519,7 +1519,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Tom',
-          hr: 'Gospođo Horvat, govorite polako, molim vas. Još učim hrvatski.',
+          hr: 'Gospođo Horvat, govorite polako, molim Vas. Još učim hrvatski.',
           en: 'Mrs. Horvat, speak slowly, please. I am still learning Croatian.',
         },
         {
@@ -1574,10 +1574,10 @@ export const CLASS_A1_U18_20 = {
         },
         {
           type: 'type',
-          q: 'You want your teacher, whom you call Vi, to come tomorrow: ____ sutra, molim vas.',
+          q: 'You want your teacher, whom you call Vi, to come tomorrow: ____ sutra, molim Vas.',
           answer: 'Dođite',
           hint: 'Ana invites Tom, a friend, with the short form. The polite form adds the ending you see in "sjednite".',
-          explanation: 'Dođite sutra, molim vas. — dođi for a friend, dođite politely.',
+          explanation: 'Dođite sutra, molim Vas. — dođi for a friend, dođite politely.',
         },
         {
           type: 'transform',
@@ -1682,10 +1682,10 @@ export const CLASS_A1_U18_20 = {
       },
       {
         type: 'dictate',
-        audio: 'Govorite polako, molim vas.',
-        answer: 'Govorite polako, molim vas.',
+        audio: 'Govorite polako, molim Vas.',
+        answer: 'Govorite polako, molim Vas.',
         hint: 'Four words. The first is a polite instruction; the last two make it a request.',
-        explanation: 'Govorite polako, molim vas. — speak slowly, please.',
+        explanation: 'Govorite polako, molim Vas. — speak slowly, please.',
       },
     ],
   },
@@ -1765,11 +1765,11 @@ export const CLASS_A1_U18_20 = {
         },
         {
           type: 'type',
-          q: 'Now say "do not be late" politely, to a new colleague: ____ kasniti, molim vas.',
+          q: 'Now say "do not be late" politely, to a new colleague: ____ kasniti, molim Vas.',
           answer: 'Nemojte',
           hint: 'The mother\'s word for Luka gets the polite ending — the same ending as in "Izvolite" and "Oprostite".',
           explanation:
-            'Nemojte kasniti, molim vas. — nemoj for a friend, nemojte politely or to a group.',
+            'Nemojte kasniti, molim Vas. — nemoj for a friend, nemojte politely or to a group.',
         },
         {
           type: 'transform',
@@ -2266,10 +2266,10 @@ export const CLASS_A1_U18_20 = {
       },
       {
         type: 'dictate',
-        audio: 'Hvala vam, doktore!',
-        answer: 'Hvala vam, doktore!',
+        audio: 'Hvala Vam, doktore!',
+        answer: 'Hvala Vam, doktore!',
         hint: 'Three words. The last one is a calling form.',
-        explanation: 'Hvala vam, doktore! — thank you, doctor!',
+        explanation: 'Hvala Vam, doktore! — thank you, doctor!',
       },
     ],
   },
@@ -2287,7 +2287,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Gospođa Kovač',
-          hr: 'Dobar dan. Dobro, hvala. A vi? Odakle ste?',
+          hr: 'Dobar dan. Dobro, hvala. A Vi? Odakle ste?',
           en: 'Good day. Fine, thank you. And you? Where are you from?',
         },
         {
@@ -2297,10 +2297,10 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Gospođa Kovač',
-          hr: 'Govorim malo. Ali vi dobro govorite hrvatski!',
+          hr: 'Govorim malo. Ali Vi dobro govorite hrvatski!',
           en: 'I speak a little. But you speak Croatian well!',
         },
-        { who: 'Tom', hr: 'Hvala vam. Je li ovo vaš ured?', en: 'Thank you. Is this your office?' },
+        { who: 'Tom', hr: 'Hvala Vam. Je li ovo Vaš ured?', en: 'Thank you. Is this your office?' },
         {
           who: 'Gospođa Kovač',
           hr: 'Jest. Izvolite, sjednite. Možemo li prijeći na ti? Ja sam Vesna.',
@@ -2355,11 +2355,11 @@ export const CLASS_A1_U18_20 = {
         {
           type: 'type',
           q: 'You are speaking to your teacher, whom you call Vi. Ask whether this is HER book: Je li ovo ____ knjiga?',
-          answer: 'vaša',
-          accept: ['Vaša'],
-          hint: 'Tom asks about "vaš ured". Knjiga is feminine, so the word needs the feminine ending.',
+          answer: 'Vaša',
+          accept: ['vaša'],
+          hint: 'Tom asks about "Vaš ured". Knjiga is feminine, so the word needs the feminine ending.',
           explanation:
-            'Je li ovo vaša knjiga? — vaš ured, but vaša knjiga. In speech there is no capital letter to hear.',
+            'Je li ovo Vaša knjiga? — Vaš ured, but Vaša knjiga. The capital shows you are polite to one person.',
         },
         {
           type: 'transform',
@@ -2384,7 +2384,7 @@ export const CLASS_A1_U18_20 = {
           { hr: 'Oprosti.', group: 0 },
           { hr: 'Imate li trenutak?', group: 1 },
           { hr: 'Hvala ti.', group: 0 },
-          { hr: 'Sjednite, molim vas.', group: 1 },
+          { hr: 'Sjednite, molim Vas.', group: 1 },
         ],
         explanation:
           'The ti forms are singular: si, oprosti, ti. The polite forms are plural, even to one person: Odakle ste?, Imate li…?, Sjednite.',
@@ -2417,9 +2417,9 @@ export const CLASS_A1_U18_20 = {
       {
         type: 'order',
         q: 'Put the words in order: "Could you help me, please?"',
-        words: ['Možete', 'li', 'mi', 'pomoći,', 'molim', 'vas?'],
+        words: ['Možete', 'li', 'mi', 'pomoći,', 'molim', 'Vas?'],
         explanation:
-          'Možete li mi pomoći, molim vas? The little words li and mi follow the verb, in that order.',
+          'Možete li mi pomoći, molim Vas? The little words li and mi follow the verb, in that order.',
       },
       9,
       {
@@ -2432,7 +2432,7 @@ export const CLASS_A1_U18_20 = {
       },
       {
         type: 'listen',
-        audio: 'Oprostite, gospodine, je li ovo vaša torba?',
+        audio: 'Oprostite, gospodine, je li ovo Vaša torba?',
         q: 'What does the speaker want to know?',
         options: [
           'Whether the bag belongs to the man',
@@ -2441,26 +2441,26 @@ export const CLASS_A1_U18_20 = {
           'What time it is',
         ],
         correct: 0,
-        explanation: 'Je li ovo vaša torba? — is this your bag? Polite: vaša, not tvoja.',
+        explanation: 'Je li ovo Vaša torba? — is this your bag? Polite: Vaša, not tvoja.',
       },
       5,
       10,
       {
         type: 'tf',
-        q: 'In a formal letter, many people write "Vam" and "Vas" with a capital V.',
+        q: 'When you address one person politely, "Vam" and "Vas" are written with a capital V.',
         answer: true,
-        hint: 'Think of the opening of a formal email in this lesson.',
+        hint: 'Think of how Tom thanks Mrs. Kovač in the dialogue.',
         explanation:
-          'True. The capital is a courtesy in writing — not a grammar rule, and not something you can hear in speech.',
+          'True. The capital is for one person you address politely; the plural vi for several people is written small. You cannot hear it, but you can see it.',
       },
       {
         type: 'transform',
         q: 'Say it politely, to an older neighbor.',
         from: 'Je li ovo tvoj pas?',
-        answer: 'Je li ovo vaš pas?',
-        accept: ['Je li ovo Vaš pas?'],
+        answer: 'Je li ovo Vaš pas?',
+        accept: ['Je li ovo vaš pas?'],
         hint: 'Only the word for "your" changes.',
-        explanation: 'Je li ovo vaš pas? — tvoj for a friend, vaš politely.',
+        explanation: 'Je li ovo Vaš pas? — tvoj for a friend, Vaš politely.',
       },
       {
         type: 'dictate',
@@ -2501,7 +2501,7 @@ export const CLASS_A1_U18_20 = {
           hr: 'Ljekarna je blizu, pored banke, na uglu.',
           en: 'The pharmacy is near, next to the bank, on the corner.',
         },
-        { who: 'Tom', hr: 'Hvala vam! Mogu li ići tramvajem?', en: 'Thank you! Can I go by tram?' },
+        { who: 'Tom', hr: 'Hvala Vam! Mogu li ići tramvajem?', en: 'Thank you! Can I go by tram?' },
         {
           who: 'Gospođa',
           hr: 'Možete, ali nije daleko. Idite pješice!',

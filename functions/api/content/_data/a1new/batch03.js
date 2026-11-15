@@ -198,7 +198,7 @@ export const LESSONS = [
           {
             hr: 'Studirate li ovdje?',
             en: 'Do you study here?',
-            note: 'polite vi → studirate, then li',
+            note: 'polite Vi → studirate, then li',
           },
           {
             hr: 'Oni ne studiraju, oni rade.',
@@ -555,13 +555,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Your First Conversation at Reception',
-        body: 'A hotel reception is the perfect first real conversation: it always follows the same steps. You greet, you say you have a booking or ask for a room, you hand over your passport, you get a key. Everything you need is already in your toolbox — imati, the object form, and the polite vi.',
+        body: 'A hotel reception is the perfect first real conversation: it always follows the same steps. You greet, you say you have a booking or ask for a room, you hand over your passport, you get a key. Everything you need is already in your toolbox — imati, the object form, and the polite Vi.',
         icon: '🏨',
       },
       {
         type: 'rule',
         title: 'Polite Vi at Reception',
-        body: 'You do not know the receptionist, so you use vi (the polite "you"), and the verb takes -te: Imate li…? (Do you have…?) Govorite li engleski? (Do you speak English?) The receptionist does the same with you: Imate li rezervaciju? Saying "Imaš li sobu?" to a receptionist sounds as if you had known them since school.',
+        body: 'You do not know the receptionist, so you use Vi (the polite "you"), and the verb takes -te: Imate li…? (Do you have…?) Govorite li engleski? (Do you speak English?) The receptionist does the same with you: Imate li rezervaciju? Saying "Imaš li sobu?" to a receptionist sounds as if you had known them since school.',
         highlight: 'Imate li slobodnu sobu?',
       },
       {
@@ -613,7 +613,7 @@ export const LESSONS = [
           {
             hr: 'Vašu putovnicu, molim.',
             en: 'Your passport, please.',
-            note: 'putovnica → putovnicu, and vaša follows',
+            note: 'putovnica → putovnicu, and Vaša follows',
           },
           {
             hr: 'Imate li večeras slobodnu sobu?',
@@ -654,7 +654,7 @@ export const LESSONS = [
           {
             hr: 'Imate li wifi? Koja je lozinka?',
             en: 'Do you have wifi? What is the password?',
-            note: 'polite vi → imate',
+            note: 'polite Vi → imate',
           },
           {
             hr: 'Gdje je lift? — Lift je tamo, lijevo.',
@@ -689,7 +689,7 @@ export const LESSONS = [
           'Imam li slobodnu sobu?',
         ],
         correct: 1,
-        explanation: 'Polite vi → imate, and the room is an object: slobodnu sobu.',
+        explanation: 'Polite Vi → imate, and the room is an object: slobodnu sobu.',
       },
       {
         type: 'quiz',
@@ -761,7 +761,7 @@ export const LESSONS = [
         type: 'summary',
         title: 'At the Hotel — Key Takeaways',
         points: [
-          'Use polite vi with staff: Imate li…?',
+          'Use polite Vi with staff: Imate li…?',
           'The room is an object: Imate li slobodnu sobu? Rezerviram dvokrevetnu sobu.',
           'Check-in phrases: Imam rezervaciju. Na koje ime? Izvolite ključ.',
           'How long: Ostajem jednu noć. Ostajemo cijeli tjedan.',
@@ -850,7 +850,7 @@ export const LESSONS = [
           {
             hr: 'Što trebate? — Trebamo taksi.',
             en: 'What do you need? — We need a taxi.',
-            note: 'polite vi → trebate',
+            note: 'polite Vi → trebate',
           },
           {
             hr: 'Trebam odmor.',
@@ -1065,7 +1065,7 @@ export const LESSONS = [
           {
             hr: 'Smijem li fotografirati? — Ne, ne smijete.',
             en: 'May I take photos? — No, you may not.',
-            note: 'polite vi → ne smijete',
+            note: 'polite Vi → ne smijete',
           },
           {
             hr: 'Smiješ li gledati film večeras?',
@@ -1177,10 +1177,10 @@ export const LESSONS = [
             explanation: 'ne morati = no obligation. A ban would be ne smiješ.',
           },
           {
-            q: 'Complete: "Ovdje ne ___ pušiti." (polite vi)',
+            q: 'Complete: "Ovdje ne ___ pušiti." (polite Vi)',
             options: ['smiju', 'smije', 'smijemo', 'smijete'],
             correct: 3,
-            explanation: 'Polite vi → smijete.',
+            explanation: 'Polite Vi → smijete.',
           },
           {
             q: 'Complete: "Djeca ne ___ voziti auto."',
@@ -1488,7 +1488,7 @@ export const PRACTICE = {
           q: 'Vi ___ stol. (rezervirati — polite you)',
           options: ['rezerviraju', 'rezerviramo', 'rezervirate', 'rezervira'],
           correct: 2,
-          hint: 'Polite vi takes -te.',
+          hint: 'Polite Vi takes -te.',
           explanation: 'Vi rezervirate stol.',
         },
         {
@@ -1820,7 +1820,7 @@ export const PRACTICE = {
         problem: '"Do you have a free single room?"',
         en: 'Do you have a free single room?',
         steps: [
-          { label: 'Polite you', text: 'A receptionist is vi: imate, then li.' },
+          { label: 'Polite you', text: 'A receptionist is Vi: imate, then li.' },
           { label: 'The object', text: 'The room is what they have: soba → sobu.' },
           {
             label: 'The adjectives follow',
@@ -1897,7 +1897,7 @@ export const PRACTICE = {
           type: 'type',
           q: '____ li slobodnu sobu? (imati — polite you)',
           answer: 'Imate',
-          hint: 'Polite vi takes -te.',
+          hint: 'Polite Vi takes -te.',
           explanation: 'Imate li slobodnu sobu?',
         },
         {
@@ -1964,7 +1964,7 @@ export const PRACTICE = {
         q: 'Which sentence is the polite question to a receptionist?',
         options: ['Imaš li sobu?', 'Imate li sobu?', 'Imam li sobu?', 'Imamo li sobu?'],
         correct: 1,
-        explanation: 'Polite vi: Imate li sobu?',
+        explanation: 'Polite Vi: Imate li sobu?',
       },
       {
         q: 'What do you say when you want to pay at the end?',
@@ -2081,7 +2081,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Što ____? (trebati — polite you)',
           answer: 'trebate',
-          hint: 'Polite vi takes -te.',
+          hint: 'Polite Vi takes -te.',
           explanation: 'Što trebate?',
         },
         {
@@ -2193,7 +2193,7 @@ export const PRACTICE = {
             label: 'Ban or choice?',
             text: 'It is forbidden, so the verb is smjeti with ne — not morati.',
           },
-          { label: 'The person', text: 'Polite vi → smijete.' },
+          { label: 'The person', text: 'Polite Vi → smijete.' },
           { label: 'Build it', text: 'Ovdje + ne smijete + the infinitive pušiti.' },
         ],
         answer: 'Ovdje ne smijete pušiti.',
@@ -2258,7 +2258,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Ovdje ne ____ pušiti. (smjeti — polite you)',
           answer: 'smijete',
-          hint: 'Polite vi takes -te, with ije in the stem.',
+          hint: 'Polite Vi takes -te, with ije in the stem.',
           explanation: 'Ovdje ne smijete pušiti.',
         },
         {
@@ -2286,7 +2286,7 @@ export const PRACTICE = {
           q: '"May I take photos?" — the polite "No, you may not."',
           options: ['Ne, ne smijete.', 'Ne, ne morate.', 'Ne, ne smijem.', 'Ne, ne smiju.'],
           correct: 0,
-          hint: 'A refusal of permission, to polite vi.',
+          hint: 'A refusal of permission, to polite Vi.',
           explanation: 'Ne, ne smijete.',
         },
         {
@@ -2355,10 +2355,10 @@ export const PRACTICE = {
         explanation: 'mogu = able, ne smijem = not allowed.',
       },
       {
-        q: 'Complete: "Ovdje ne ___ parkirati." (polite vi)',
+        q: 'Complete: "Ovdje ne ___ parkirati." (polite Vi)',
         options: ['smiju', 'smijete', 'smije', 'smijemo'],
         correct: 1,
-        explanation: 'Polite vi → smijete.',
+        explanation: 'Polite Vi → smijete.',
       },
     ],
     vocab: [

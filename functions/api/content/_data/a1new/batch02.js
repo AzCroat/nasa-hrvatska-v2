@@ -146,7 +146,7 @@ const ZVATI_SE = {
         {
           hr: 'Dobar dan. Kako se zovete? — Zovem se Marija Horvat.',
           en: 'Good afternoon. What is your name? — My name is Marija Horvat.',
-          note: 'vi form to a stranger',
+          note: 'Vi form to a stranger',
         },
         {
           hr: 'Ja se zovem Ana, a ti?',
@@ -197,7 +197,7 @@ const ZVATI_SE = {
       options: ['Kako se zoveš?', 'Kako se zovete?', 'Kako se zove?', 'Kako zovete?'],
       correct: 1,
       explanation:
-        'An adult you do not know gets the polite vi form: Kako se zovete? "Kako se zoveš?" is for a friend, "Kako se zove?" asks about someone else, and "Kako zovete?" has lost its se.',
+        'An adult you do not know gets the polite Vi form: Kako se zovete? "Kako se zoveš?" is for a friend, "Kako se zove?" asks about someone else, and "Kako zovete?" has lost its se.',
     },
     {
       type: 'quiz',
@@ -236,7 +236,7 @@ const ZVATI_SE = {
           options: ['Kako se zovete?', 'Kako se zoveš?', 'Kako se zovu?', 'Kako zoveš?'],
           correct: 0,
           explanation:
-            'Politeness uses vi: Kako se zovete? zoveš is informal, zovu asks about "them", and "Kako zoveš?" is missing se.',
+            'Politeness uses Vi: Kako se zovete? zoveš is informal, zovu asks about "them", and "Kako zoveš?" is missing se.',
         },
         {
           q: 'Which sentence is correct?',
@@ -1295,7 +1295,7 @@ export const PRACTICE = {
         problem: 'Ask a teacher (politely) for his name.',
         en: 'Ask a teacher his name.',
         steps: [
-          { label: 'Who are you asking?', text: 'A teacher is an adult you address politely: vi.' },
+          { label: 'Who are you asking?', text: 'A teacher is an adult you address politely: Vi.' },
           { label: 'The vi form', text: 'The vi form of the verb ends in -te: zovete.' },
           {
             label: 'Build the question',
@@ -1390,7 +1390,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Kako se ____? (asking a stranger politely)',
           answer: 'zovete',
-          hint: 'The polite vi form ends in -te.',
+          hint: 'The polite Vi form ends in -te.',
           explanation: 'Kako se zovete?',
         },
         {
@@ -1421,7 +1421,7 @@ export const PRACTICE = {
         q: 'Complete: "Kako se ___?" (asking a teacher politely)',
         options: ['zoveš', 'zovete', 'zove', 'zovem'],
         correct: 1,
-        explanation: 'Politeness uses vi: Kako se zovete?',
+        explanation: 'Politeness uses Vi: Kako se zovete?',
       },
       {
         q: 'Complete: "Ovaj grad se ___ Zadar."',

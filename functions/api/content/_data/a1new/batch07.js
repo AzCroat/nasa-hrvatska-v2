@@ -1710,9 +1710,9 @@ export const PRACTICE = {
       },
       {
         q: 'Complete: "Želim ___ sretan Božić." (to you, formal)',
-        options: ['vas', 'vi', 'vaš', 'vam'],
+        options: ['Vas', 'Vi', 'Vaš', 'Vam'],
         correct: 3,
-        explanation: 'The person is in the dative: vam.',
+        explanation: 'The person is in the dative: Vam.',
       },
       {
         q: 'Which wish is correct? (Happy New Year to you!)',

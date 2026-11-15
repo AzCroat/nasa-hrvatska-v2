@@ -3480,7 +3480,7 @@ export const CLASS_A1_U06_09 = {
       lines: [
         {
           who: 'Ana',
-          hr: 'Dobra večer. Mogu li dobiti jelovnik, molim vas?',
+          hr: 'Dobra večer. Mogu li dobiti jelovnik, molim Vas?',
           en: 'Good evening. Can I have the menu, please?',
         },
         {
@@ -3557,7 +3557,7 @@ export const CLASS_A1_U06_09 = {
           q: 'Ask for it politely, the way Ana asks for the menu.',
           from: 'Želim kavu.',
           answer: 'Mogu li dobiti kavu?',
-          accept: ['Mogu li dobiti kavu, molim?', 'Mogu li dobiti kavu, molim vas?'],
+          accept: ['Mogu li dobiti kavu, molim?', 'Mogu li dobiti kavu, molim Vas?'],
           hint: 'Three words replace "Želim": I can + the question word li + the verb "to get" in its dictionary form.',
           explanation:
             'Mogu li dobiti kavu? — "Can I have a coffee?" The coffee is still an object, so it stays kavu.',
@@ -3634,7 +3634,7 @@ export const CLASS_A1_U06_09 = {
         q: 'Ask for it politely with "Mogu li dobiti …?"',
         from: 'Želim salatu.',
         answer: 'Mogu li dobiti salatu?',
-        accept: ['Mogu li dobiti salatu, molim?', 'Mogu li dobiti salatu, molim vas?'],
+        accept: ['Mogu li dobiti salatu, molim?', 'Mogu li dobiti salatu, molim Vas?'],
         hint: 'The verb after mogu stays in its dictionary form, and the salad is still an object.',
         explanation: 'Mogu li dobiti salatu? — "Can I have a salad?"',
       },

@@ -216,7 +216,7 @@ export const CLASS_A1_U14_17 = {
       lines: [
         {
           who: 'Prodavačica',
-          hr: 'Dobar dan! Mogu li vam pomoći?',
+          hr: 'Dobar dan! Mogu li Vam pomoći?',
           en: 'Good day! Can I help you?',
         },
         {
@@ -226,7 +226,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           who: 'Prodavačica',
-          hr: 'Izvolite. Sviđaju li vam se i ove smeđe?',
+          hr: 'Izvolite. Sviđaju li Vam se i ove smeđe?',
           en: 'Here you are. Do you like these brown ones too?',
         },
         {
@@ -244,7 +244,7 @@ export const CLASS_A1_U14_17 = {
           hr: 'Vjerujem ti. Ti mi uvijek pomažeš u dućanu.',
           en: 'I trust you. You always help me in the store.',
         },
-        { who: 'Prodavačica', hr: 'Odgovara li vam ovaj broj?', en: 'Does this size suit you?' },
+        { who: 'Prodavačica', hr: 'Odgovara li Vam ovaj broj?', en: 'Does this size suit you?' },
         { who: 'Ana', hr: 'Odgovara mi, hvala!', en: 'It suits me, thank you!' },
       ],
       questions: [
@@ -2198,12 +2198,12 @@ export const CLASS_A1_U14_17 = {
       5,
       {
         type: 'transform',
-        q: 'Now say it politely, to a person you call "vi".',
+        q: 'Now say it politely, to a person you call "Vi".',
         from: 'Rado idem s tobom.',
-        answer: 'Rado idem s vama.',
-        accept: ['Rado idem s Vama.'],
+        answer: 'Rado idem s Vama.',
+        accept: ['Rado idem s vama.'],
         hint: 'Only the pronoun changes. The polite "you" is the same word as "you" for several people.',
-        explanation: 'Rado idem s vama. — s vama: with you, politely or to several people.',
+        explanation: 'Rado idem s Vama. — s vama: with you, politely or to several people.',
       },
       4,
       {
@@ -2278,7 +2278,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           who: 'Konobar',
-          hr: 'Izvolite. Jeste li vi iz Zagreba?',
+          hr: 'Izvolite. Jeste li Vi iz Zagreba?',
           en: 'Here you are. Are you from Zagreb?',
         },
         {
@@ -2293,7 +2293,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           who: 'Konobar',
-          hr: 'Jest, to je torba vaše sestre. Izvolite!',
+          hr: 'Jest, to je torba Vaše sestre. Izvolite!',
           en: "It is, that is your sister's bag. Here you are!",
         },
       ],
@@ -2636,11 +2636,11 @@ export const CLASS_A1_U14_17 = {
       7,
       {
         type: 'dictate',
-        audio: 'Molim vas, čašu vode i šalicu čaja.',
-        answer: 'Molim vas, čašu vode i šalicu čaja.',
+        audio: 'Molim Vas, čašu vode i šalicu čaja.',
+        answer: 'Molim Vas, čašu vode i šalicu čaja.',
         hint: 'Seven words, with a comma after the second. Both containers have the object ending.',
         explanation:
-          'Molim vas, čašu vode i šalicu čaja. — a glass of water and a cup of tea, please.',
+          'Molim Vas, čašu vode i šalicu čaja. — a glass of water and a cup of tea, please.',
       },
     ],
   },
@@ -2868,7 +2868,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           who: 'Turist',
-          hr: 'Hvala! Jeste li vi iz Zagreba?',
+          hr: 'Hvala! Jeste li Vi iz Zagreba?',
           en: 'Thank you! Are you from Zagreb?',
         },
         {

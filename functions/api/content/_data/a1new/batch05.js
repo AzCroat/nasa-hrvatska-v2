@@ -103,7 +103,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Asking: Mogu li dobiti …?',
-        body: '"Mogu li dobiti …?" means "Can I have …?" — literally "Can I get …?". Mogu is "I can", li turns it into a question, and after mogu the next verb stays in its dictionary form (the infinitive): dobiti. This one frame covers the whole meal: Mogu li dobiti jelovnik? (Can I have the menu?) Mogu li dobiti račun? (Can I have the bill?) Add "molim" or "molim vas" (please) and you are being perfectly polite.',
+        body: '"Mogu li dobiti …?" means "Can I have …?" — literally "Can I get …?". Mogu is "I can", li turns it into a question, and after mogu the next verb stays in its dictionary form (the infinitive): dobiti. This one frame covers the whole meal: Mogu li dobiti jelovnik? (Can I have the menu?) Mogu li dobiti račun? (Can I have the bill?) Add "molim" or "molim Vas" (please) and you are being perfectly polite.',
         highlight: 'Mogu li dobiti jelovnik?',
       },
       {
@@ -155,7 +155,7 @@ export const LESSONS = [
             note: 'slobodan agrees with stol: both masculine',
           },
           {
-            hr: 'Mogu li dobiti jelovnik, molim vas?',
+            hr: 'Mogu li dobiti jelovnik, molim Vas?',
             en: 'Can I have the menu, please?',
             note: 'jelovnik is masculine, so it does not change',
           },
@@ -196,7 +196,7 @@ export const LESSONS = [
             note: 'the waiter asks',
           },
           {
-            hr: 'Da, molim vas kavu i kolač.',
+            hr: 'Da, molim Vas kavu i kolač.',
             en: 'Yes, a coffee and a cake, please.',
             note: 'kava → kavu; kolač stays',
           },
@@ -206,7 +206,7 @@ export const LESSONS = [
             note: 'a compliment the kitchen will hear about',
           },
           {
-            hr: 'Mogu li dobiti račun, molim vas?',
+            hr: 'Mogu li dobiti račun, molim Vas?',
             en: 'Can I have the bill, please?',
             note: 'račun is masculine and does not change',
           },
@@ -287,7 +287,7 @@ export const LESSONS = [
               'Račun is the bill. Jelovnik is the menu, Dobar tek wishes you a good meal, and the third asks for a table.',
           },
           {
-            q: 'Complete: "Molim vas ___." (a coffee — "kava")',
+            q: 'Complete: "Molim Vas ___." (a coffee — "kava")',
             options: ['kavu', 'kava', 'kavi', 'kavom'],
             correct: 0,
             explanation: 'What you ask for is in the accusative: kava → kavu.',
@@ -1521,10 +1521,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Molim vas ____ i kolač. (kava)',
+          q: 'Molim Vas ____ i kolač. (kava)',
           answer: 'kavu',
           hint: 'The same change as juha → juhu.',
-          explanation: 'Molim vas kavu i kolač.',
+          explanation: 'Molim Vas kavu i kolač.',
         },
         {
           type: 'type',
@@ -1596,7 +1596,7 @@ export const PRACTICE = {
       ['riba', 'fish', 'Za nju ribu.'],
       ['salata', 'salad', 'Mogu li dobiti salatu?'],
       ['piletina', 'chicken (meat)', 'Za njega piletinu.'],
-      ['kolač', 'cake', 'Molim vas kavu i kolač.'],
+      ['kolač', 'cake', 'Molim Vas kavu i kolač.'],
       ['zajedno', 'together', 'Plaćamo zajedno.'],
       ['odvojeno', 'separately', 'Plaćamo odvojeno.'],
       ['slobodan', 'free, available', 'Imate li slobodan stol?'],

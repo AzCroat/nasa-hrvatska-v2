@@ -1785,9 +1785,9 @@ export const PRACTICE_A1 = {
         {
           type: 'type',
           q: 'Kako se zove ____ kći? (your — polite)',
-          answer: 'vaša',
+          answer: 'Vaša',
           hint: 'The polite possessive, in its feminine form, because kći is feminine.',
-          explanation: 'Kako se zove vaša kći?',
+          explanation: 'Kako se zove Vaša kći?',
         },
         {
           type: 'type',
@@ -1881,7 +1881,7 @@ export const PRACTICE_A1 = {
       ['njegov', 'his', 'Njegov auto je tamo.'],
       ['njezin', 'her', 'Njezin muž je liječnik.'],
       ['naš', 'our', 'Naše selo je ondje.'],
-      ['vaš', 'your (plural or polite)', 'Jesu li vaši roditelji Hrvati?'],
+      ['vaš', 'your (plural or polite)', 'Jesu li Vaši roditelji Hrvati?'],
       ['njihov', 'their', 'Njihova djeca su ovdje.'],
       ['čiji', 'whose', 'Čija je ovo knjiga?'],
       ['obitelj', 'family', 'Naša obitelj je iz Zagreba.'],
@@ -3865,7 +3865,7 @@ export const PRACTICE_A1 = {
         explanation: 'auto moga brata — the owner goes second, in the genitive.',
       },
       {
-        q: 'Complete: "Molim vas, čašu ___." (A glass of water, please — "voda".)',
+        q: 'Complete: "Molim Vas, čašu ___." (A glass of water, please — "voda".)',
         options: ['voda', 'vodu', 'vode', 'vodi'],
         correct: 2,
         explanation: 'čašu vode — what fills the glass takes the genitive: feminine -a becomes -e.',
@@ -3902,7 +3902,7 @@ export const PRACTICE_A1 = {
     ],
     vocab: [
       ['šalica', 'cup', 'Šalicu kave, molim.'],
-      ['čaša', 'glass', 'Molim vas, čašu vode.'],
+      ['čaša', 'glass', 'Molim Vas, čašu vode.'],
       ['šećer', 'sugar', 'Kavu bez šećera, molim.'],
       ['bez', 'without', 'Imate li nešto bez mesa?'],
       ['iz', 'from, out of', 'Iz Hrvatske sam.'],
@@ -4030,7 +4030,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Hvala vam, ___!" (Thank you, doctor! — "doktor".)',
+        q: 'Complete: "Hvala Vam, ___!" (Thank you, doctor! — "doktor".)',
         options: ['doktore', 'doktori', 'doktoru', 'doktora'],
         correct: 0,
         explanation: 'doktore — a masculine noun ending in a hard consonant adds -e.',
@@ -4081,7 +4081,7 @@ export const PRACTICE_A1 = {
       ['gospodin', 'Mr; sir', 'Dobar dan, gospodine!'],
       ['gospođa', 'Mrs; madam', 'Oprostite, gospođo.'],
       ['prijatelj', 'friend', 'Hvala, prijatelju.'],
-      ['doktor', 'doctor', 'Hvala vam, doktore!'],
+      ['doktor', 'doctor', 'Hvala Vam, doktore!'],
       ['profesor', 'professor, teacher', 'Dobro jutro, profesore.'],
       ['učiteljica', 'teacher (a woman)', 'Učiteljice, imam pitanje.'],
       ['majka', 'mother', 'Majko, gdje si?'],
@@ -4348,10 +4348,10 @@ export const PRACTICE_A1 = {
         },
         {
           type: 'type',
-          q: '____ jasno, molim vas. (write — politely)',
+          q: '____ jasno, molim Vas. (write — politely)',
           answer: 'Pišite',
           hint: 'From pišu: drop -u, add the polite ending -ite.',
-          explanation: 'Pišite jasno, molim vas.',
+          explanation: 'Pišite jasno, molim Vas.',
         },
         {
           type: 'type',
@@ -4369,11 +4369,11 @@ export const PRACTICE_A1 = {
         },
         {
           type: 'type',
-          q: '____ trenutak, molim vas. (wait — politely)',
+          q: '____ trenutak, molim Vas. (wait — politely)',
           answer: 'Pričekajte',
           accept: ['Čekajte'],
           hint: 'The polite form ends in -jte, because the oni form ends in a vowel + -ju.',
-          explanation: 'Pričekajte trenutak, molim vas. — Čekajte works too.',
+          explanation: 'Pričekajte trenutak, molim Vas. — Čekajte works too.',
         },
         {
           q: 'Idi ravno pa ___ lijevo. (turn — to a friend)',
@@ -4754,10 +4754,10 @@ export const PRACTICE_A1 = {
         },
         {
           q: 'Sviđa ___ se Hrvatska? (to you — polite)',
-          options: ['vas', 'ti', 'vam', 'im'],
+          options: ['Vas', 'ti', 'Vam', 'im'],
           correct: 2,
           hint: 'The polite "to you" is the same as the plural one.',
-          explanation: 'Sviđa li vam se Hrvatska? — vam, not the object form vas.',
+          explanation: 'Sviđa li Vam se Hrvatska? — Vam, not the object form Vas.',
         },
         {
           q: 'Volim ___. (fish soup — riblja juha)',

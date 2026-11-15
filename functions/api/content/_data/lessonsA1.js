@@ -931,9 +931,9 @@ export const LESSONS_A1 = [
             note: 'plural masculine → njegovi',
           },
           {
-            hr: 'Kako se zove vaša kći?',
+            hr: 'Kako se zove Vaša kći?',
             en: 'What is your daughter called?',
-            note: 'vaša — polite, to someone you address formally',
+            note: 'Vaša — polite, to someone you address formally',
           },
         ],
       },
@@ -994,9 +994,9 @@ export const LESSONS_A1 = [
             note: 'djeca takes the -a form → njihova',
           },
           {
-            hr: 'Jesu li vaši roditelji Hrvati?',
+            hr: 'Jesu li Vaši roditelji Hrvati?',
             en: 'Are your parents Croatian?',
-            note: 'masculine plural → vaši; polite vaš',
+            note: 'masculine plural → Vaši; polite Vaš',
           },
           {
             hr: 'Moje sestre su studentice.',
@@ -2420,7 +2420,7 @@ export const LESSONS_A1 = [
             note: 'belonging — the owner goes second and takes -e',
           },
           {
-            hr: 'Molim vas, čašu vode.',
+            hr: 'Molim Vas, čašu vode.',
             en: 'A glass of water, please.',
             note: 'quantity — voda → vode',
           },
@@ -2528,7 +2528,7 @@ export const LESSONS_A1 = [
               'The owner goes second and takes the genitive, and the possessive moves with it: kuća moje bake. "Moju baku" is the accusative and "mojoj baki" another case entirely.',
           },
           {
-            q: 'Complete: "Molim vas, šalicu ___." (A cup of tea, please — "čaj" is masculine.)',
+            q: 'Complete: "Molim Vas, šalicu ___." (A cup of tea, please — "čaj" is masculine.)',
             options: ['čaj', 'čaja', 'čaju', 'čajem'],
             correct: 1,
             explanation:
@@ -2707,7 +2707,7 @@ export const LESSONS_A1 = [
             note: 'names in -o stay unchanged',
           },
           {
-            hr: 'Hvala vam, doktore!',
+            hr: 'Hvala Vam, doktore!',
             en: 'Thank you, doctor!',
             note: 'doktor → doktore',
           },
@@ -3202,8 +3202,8 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'The Words That Soften Everything',
-        body: 'A bare imperative can sound sharp, and Croatian softens it the same way English does. "Molim" (please) and "molim te" / "molim vas" turn an order into a request. "Izvoli" / "izvolite" means "here you are" or "go ahead". "Oprosti" / "oprostite" means "sorry" or "excuse me" and is how you open a request to a stranger. Attach one of these and the imperative becomes ordinary politeness.',
-        highlight: 'molim vas · izvolite · oprostite',
+        body: 'A bare imperative can sound sharp, and Croatian softens it the same way English does. "Molim" (please) and "molim te" / "molim Vas" turn an order into a request. "Izvoli" / "izvolite" means "here you are" or "go ahead". "Oprosti" / "oprostite" means "sorry" or "excuse me" and is how you open a request to a stranger. Attach one of these and the imperative becomes ordinary politeness.',
+        highlight: 'molim Vas · izvolite · oprostite',
       },
       {
         type: 'example',
@@ -3251,7 +3251,7 @@ export const LESSONS_A1 = [
             note: 'čitaju → čitaj: the -aju verbs take -j',
           },
           {
-            hr: 'Pišite jasno, molim vas.',
+            hr: 'Pišite jasno, molim Vas.',
             en: 'Write clearly, please.',
             note: 'pišu → pišite: the polite form',
           },
@@ -3276,9 +3276,9 @@ export const LESSONS_A1 = [
             note: 'nemojte — plural or polite',
           },
           {
-            hr: 'Pričekajte trenutak, molim vas.',
+            hr: 'Pričekajte trenutak, molim Vas.',
             en: 'Please wait a moment.',
-            note: '-ite softened with molim vas',
+            note: '-ite softened with molim Vas',
           },
           {
             hr: 'Budi tih, dijete spava.',
@@ -3376,10 +3376,10 @@ export const LESSONS_A1 = [
           },
           {
             q: 'Which phrase softens a request to a stranger?',
-            options: ['molim te', 'molim vas', 'daj', 'hoću'],
+            options: ['molim te', 'molim Vas', 'daj', 'hoću'],
             correct: 1,
             explanation:
-              '"Molim vas" is the polite "please" that goes with the V-form. "Molim te" is for a friend, "daj" is itself a bare imperative, and "hoću" is a blunt "I want".',
+              '"Molim Vas" is the polite "please" that goes with the V-form. "Molim te" is for a friend, "daj" is itself a bare imperative, and "hoću" is a blunt "I want".',
           },
         ],
       },
@@ -3391,7 +3391,7 @@ export const LESSONS_A1 = [
           'Verbs whose "oni" form ends in -aju take -j: čitaj!, daj!',
           'The -ite form is both plural and polite: Sjednite!',
           'Negative instructions use nemoj / nemojmo / nemojte + infinitive',
-          'molim (te / vas), izvolite and oprostite soften any request',
+          'molim (te / Vas), izvolite and oprostite soften any request',
           'Directions are pure imperative: Idi ravno pa skreni lijevo.',
         ],
       },
@@ -3796,9 +3796,9 @@ export const LESSONS_A1 = [
             note: 'zima → zimu in the accusative',
           },
           {
-            hr: 'Sviđa li vam se Hrvatska?',
+            hr: 'Sviđa li Vam se Hrvatska?',
             en: 'Do you like Croatia?',
-            note: 'vam — polite; li makes the question',
+            note: 'Vam — polite; li makes the question',
           },
         ],
       },
@@ -4328,7 +4328,7 @@ export const LESSONS_A1 = [
             note: 'the short answer from the biti lesson',
           },
           {
-            hr: 'Jeste li vi Kanađanin?',
+            hr: 'Jeste li Vi Kanađanin?',
             en: 'Are you Canadian?',
             note: 'to a man, politely',
           },

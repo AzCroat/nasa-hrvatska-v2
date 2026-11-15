@@ -61,7 +61,7 @@ export const SPINE = [
     objectives: [
       'Choose between ti and Vi, and switch every verb and pronoun with it',
       'Address people as gospodine, gospođo and gospođice',
-      'Open and close a polite letter or email, with the courtesy capital Vi',
+      'Open and close a polite letter or email, with the capital Vi for one person',
     ],
   },
   {
@@ -630,8 +630,8 @@ const IMPERATIVE_NEGATIVE = {
     {
       type: 'rule',
       title: 'Signs and Being Polite',
-      body: 'On public signs you will often see ne + the infinitive, with no one addressed at all: Ne dirati! Ne naginjati se kroz prozor. That is the style of notices; when you speak to a person, use nemoj / nemojte or ne + imperative. To a stranger, add molim vas and use the -te forms: Molim vas, nemojte pušiti ovdje. (Please do not smoke here.)',
-      highlight: 'Molim vas, nemojte pušiti ovdje.',
+      body: 'On public signs you will often see ne + the infinitive, with no one addressed at all: Ne dirati! Ne naginjati se kroz prozor. That is the style of notices; when you speak to a person, use nemoj / nemojte or ne + imperative. To a stranger, add molim Vas and use the -te forms: Molim Vas, nemojte pušiti ovdje. (Please do not smoke here.)',
+      highlight: 'Molim Vas, nemojte pušiti ovdje.',
     },
     {
       type: 'rule',
@@ -686,7 +686,7 @@ const IMPERATIVE_NEGATIVE = {
           note: 'to a child or a friend',
         },
         {
-          hr: 'Molim vas, nemojte pušiti ovdje.',
+          hr: 'Molim Vas, nemojte pušiti ovdje.',
           en: 'Please do not smoke here.',
           note: 'to a stranger',
         },
@@ -767,13 +767,13 @@ const IMPERATIVE_NEGATIVE = {
           q: 'Which is right, said to a stranger: "Please do not smoke here."',
           options: [
             'Molim te, nemoj pušiti ovdje.',
-            'Molim vas, nemojte pušiti ovdje.',
-            'Molim vas, nemojte pušite ovdje.',
-            'Molim vas, nemojte pušiš ovdje.',
+            'Molim Vas, nemojte pušiti ovdje.',
+            'Molim Vas, nemojte pušite ovdje.',
+            'Molim Vas, nemojte pušiš ovdje.',
           ],
           correct: 1,
           explanation:
-            'A stranger gets molim vas and nemojte, and the verb stays in the infinitive: pušiti.',
+            'A stranger gets molim Vas and nemojte, and the verb stays in the infinitive: pušiti.',
         },
         {
           q: 'Which sentence means "Don\'t tell me!"?',
@@ -818,7 +818,7 @@ const IMPERATIVE_NEGATIVE = {
         'the verb after nemoj never changes; only nemoj does',
         'little words go right after nemoj: Nemoj mi reći, Nemojte se brinuti',
         'ne + imperative for quick warnings: Ne diraj! Ne brini!',
-        'to a stranger: Molim vas, nemojte …',
+        'to a stranger: Molim Vas, nemojte …',
       ],
     },
   ],
@@ -1056,7 +1056,7 @@ const FORMAL_ADDRESS = {
     {
       type: 'rule',
       title: 'Vi Takes the Plural Verb',
-      body: 'Vi is grammatically plural, even when you speak to one person. The verb takes the vi form: Kako ste? (How are you?) Odakle ste? (Where are you from?) Govorite li engleski? (Do you speak English?) The pronouns change too: vam (to you), vas (you), vaš / vaša (your). And requests use the -te forms of the imperative: Izvolite, Oprostite, Sjednite.',
+      body: 'Vi is grammatically plural, even when you speak to one person. The verb takes the vi form: Kako ste? (How are you?) Odakle ste? (Where are you from?) Govorite li engleski? (Do you speak English?) The pronouns change too: Vam (to you), Vas (you), Vaš / Vaša (your). And requests use the -te forms of the imperative: Izvolite, Oprostite, Sjednite.',
       highlight: 'Kako ste? · Odakle ste?',
     },
     {
@@ -1068,8 +1068,8 @@ const FORMAL_ADDRESS = {
         ['Kako si?', 'Kako ste?', 'How are you?'],
         ['Odakle si?', 'Odakle ste?', 'Where are you from?'],
         ['Možeš li mi pomoći?', 'Možete li mi pomoći?', 'Can you help me?'],
-        ['Hvala ti.', 'Hvala vam.', 'Thank you.'],
-        ['Je li ovo tvoja torba?', 'Je li ovo vaša torba?', 'Is this your bag?'],
+        ['Hvala ti.', 'Hvala Vam.', 'Thank you.'],
+        ['Je li ovo tvoja torba?', 'Je li ovo Vaša torba?', 'Is this your bag?'],
         ['Izvoli. · Oprosti.', 'Izvolite. · Oprostite.', 'Here you are. · Excuse me.'],
       ],
     },
@@ -1081,8 +1081,8 @@ const FORMAL_ADDRESS = {
     },
     {
       type: 'rule',
-      title: 'In Writing: the Courtesy Capital',
-      body: 'In letters and emails, many people write Vi, Vas, Vam and Vaš with a capital letter as a mark of respect toward the reader. It is a courtesy, not a grammar rule, and it has no place in speech, where nobody can hear a capital. A formal letter opens with Poštovani gospodine, or Poštovana gospođo Kovač, (poštovani agrees with the person, like an adjective) and closes with S poštovanjem, followed by your name.',
+      title: 'In Writing: the Capital Vi',
+      body: 'Vi, Vas, Vam and Vaš are written with a capital letter when you address ONE person politely — in a dialogue, a message or a letter. The plural vi, for several people, is written small. You cannot hear the difference; you can see it. A formal letter opens with Poštovani gospodine, or Poštovana gospođo Kovač, (poštovani agrees with the person, like an adjective) and closes with S poštovanjem, followed by your name.',
       highlight: 'Poštovana gospođo Kovač,',
     },
     {
@@ -1105,14 +1105,14 @@ const FORMAL_ADDRESS = {
           note: 'polite imperatives',
         },
         {
-          hr: 'Možete li mi pomoći, molim vas?',
+          hr: 'Možete li mi pomoći, molim Vas?',
           en: 'Could you help me, please?',
-          note: 'možete + molim vas',
+          note: 'možete + molim Vas',
         },
         {
-          hr: 'Gospođice, je li ovo vaša torba?',
+          hr: 'Gospođice, je li ovo Vaša torba?',
           en: 'Miss, is this your bag?',
-          note: 'no capital in speech',
+          note: 'capital Vaša: one person, politely',
         },
         {
           hr: 'Bog, Marko! Kako si?',
@@ -1133,7 +1133,7 @@ const FORMAL_ADDRESS = {
         {
           hr: 'Molim Vas da mi pošaljete raspored.',
           en: 'Please send me the timetable.',
-          note: 'courtesy capital in writing',
+          note: 'capital Vas: one person, politely',
         },
         {
           hr: 'S poštovanjem, Ivana Horvat',
@@ -1150,7 +1150,7 @@ const FORMAL_ADDRESS = {
     {
       type: 'quiz',
       title: 'Quick Check',
-      q: 'Complete: "Možete li mi ___, molim vas?" (help)',
+      q: 'Complete: "Možete li mi ___, molim Vas?" (help)',
       options: ['pomoći', 'pomogneš', 'pomažeš', 'pomozi'],
       correct: 0,
       explanation:
@@ -1211,21 +1211,22 @@ const FORMAL_ADDRESS = {
             'Poštovana agrees with a woman, and gospođa takes the vocative: Poštovana gospođo Kovač.',
         },
         {
-          q: 'Why do people often write "Vi" with a capital letter in letters?',
+          q: 'When is "Vi" written with a capital letter?',
           options: [
-            'As a courtesy toward the reader',
+            'When you address one person politely',
             'It is required in every sentence',
-            'It means "you" plural only',
-            'It shows a question',
+            'When you address several people',
+            'Only when it opens a question',
           ],
           correct: 0,
-          explanation: 'The capital is a mark of respect in writing, not a grammar rule.',
+          explanation:
+            'Vi, Vas, Vam and Vaš take a capital for one person you address politely. The plural vi is written small.',
         },
         {
           q: 'Complete: "Hvala ___ na pomoći." (to a stranger, spoken)',
-          options: ['ti', 'vam', 'te', 'vas'],
+          options: ['ti', 'Vam', 'te', 'Vas'],
           correct: 1,
-          explanation: 'Hvala takes the dative, and the polite dative is vam.',
+          explanation: 'Hvala takes the dative, and the polite dative is Vam.',
         },
       ],
     },
@@ -1237,7 +1238,7 @@ const FORMAL_ADDRESS = {
         'Vi takes the plural verb and the -te imperative: Kako ste? Izvolite.',
         'speak to people in the vocative: gospodine, gospođo, gospođice',
         'letters: Poštovani gospodine / Poštovana gospođo … S poštovanjem',
-        'the capital Vi is a written courtesy, never heard in speech',
+        'write Vi, Vas, Vam, Vaš with a capital for one person; the plural vi is written small',
       ],
     },
   ],
@@ -1880,14 +1881,14 @@ export const PRACTICE = {
         problem: 'Say politely to a guest: "Please don\'t worry."',
         en: "Please don't worry.",
         steps: [
-          { label: 'Polite form', text: 'A guest gets nemojte and molim vas.' },
+          { label: 'Polite form', text: 'A guest gets nemojte and molim Vas.' },
           { label: 'The verb', text: 'brinuti se carries se.' },
           {
             label: 'Where se goes',
             text: 'se goes straight after nemojte, the first word of the command.',
           },
         ],
-        answer: 'Molim vas, nemojte se brinuti.',
+        answer: 'Molim Vas, nemojte se brinuti.',
       },
     ],
     practice: {
@@ -1901,11 +1902,11 @@ export const PRACTICE = {
           explanation: 'Nemoj vikati!',
         },
         {
-          q: '___ pušiti ovdje, molim vas.',
+          q: '___ pušiti ovdje, molim Vas.',
           options: ['Nemoj', 'Nemojte', 'Nemojmo', 'Nemam'],
           correct: 1,
-          hint: 'Molim vas tells you this is polite.',
-          explanation: 'Nemojte pušiti ovdje, molim vas.',
+          hint: 'Molim Vas tells you this is polite.',
+          explanation: 'Nemojte pušiti ovdje, molim Vas.',
         },
         {
           q: "Ne ___, sve će biti dobro. (Don't cry — to a friend)",
@@ -2067,7 +2068,7 @@ export const PRACTICE = {
       ['plakati', 'to cry', 'Ne plači, sve će biti dobro.'],
       ['vikati', 'to shout', 'Nemoj vikati!'],
       ['kasniti', 'to be late', 'Nemojmo kasniti na film.'],
-      ['pušiti', 'to smoke', 'Molim vas, nemojte pušiti ovdje.'],
+      ['pušiti', 'to smoke', 'Molim Vas, nemojte pušiti ovdje.'],
       ['neka', 'let (him, her, them)', 'Neka čeka pet minuta.'],
     ],
   },
@@ -2272,7 +2273,7 @@ export const PRACTICE = {
           },
           {
             label: 'Thanking',
-            text: 'zahvaljujem + the dative Vam, capitalised as a courtesy in writing.',
+            text: 'zahvaljujem + the dative Vam, with a capital: one person, addressed politely.',
           },
           { label: 'For what', text: 'na + locative: odgovor → odgovoru.' },
         ],
@@ -2290,11 +2291,11 @@ export const PRACTICE = {
           explanation: 'Kako ste?',
         },
         {
-          q: 'Oprostite, ___, je li ovo vaša torba? (to a woman)',
+          q: 'Oprostite, ___, je li ovo Vaša torba? (to a woman)',
           options: ['gospođa', 'gospođo', 'gospođu', 'gospođom'],
           correct: 1,
           hint: 'Calling to someone uses the vocative, where the final -a changes.',
-          explanation: 'Oprostite, gospođo, je li ovo vaša torba?',
+          explanation: 'Oprostite, gospođo, je li ovo Vaša torba?',
         },
         {
           q: 'Which phrase closes a formal letter?',
@@ -2318,16 +2319,17 @@ export const PRACTICE = {
           explanation: 'Govorite li engleski?',
         },
         {
-          q: 'Is "vaša" written with a capital in a spoken conversation?',
+          q: 'You say "Je li ovo Vaša torba?" to one stranger. Is "Vaša" written with a capital?',
           options: [
-            'Yes, always',
-            'No — the capital is a courtesy in writing',
-            'Only with older people',
-            'Only in questions',
+            'No, never',
+            'Yes — you address one person politely',
+            'Only in a letter',
+            'Only in a question',
           ],
           correct: 1,
-          hint: 'Nobody can hear a capital letter.',
-          explanation: 'The capital belongs to letters and emails.',
+          hint: 'You cannot hear the capital, but you can see it.',
+          explanation:
+            'The capital is for one person you address politely — in a dialogue, a message or a letter.',
         },
         {
           type: 'type',
@@ -2361,7 +2363,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Poštovani gospodine, zahvaljujem ____ na pozivu. (you — in a letter)',
           answer: 'Vam',
-          hint: 'The dative "to you", written with a capital as a courtesy.',
+          hint: 'The dative "to you", with a capital for one person you address politely.',
           explanation: 'Poštovani gospodine, zahvaljujem Vam na pozivu.',
         },
         {
@@ -2424,7 +2426,7 @@ export const PRACTICE = {
     vocab: [
       ['gospodin', 'Mr; sir', 'Oprostite, gospodine!'],
       ['gospođa', 'Mrs; madam', 'Dobar dan, gospođo Kovač.'],
-      ['gospođica', 'Miss', 'Gospođice, je li ovo vaše?'],
+      ['gospođica', 'Miss', 'Gospođice, je li ovo Vaše?'],
       ['poštovani', 'dear (opening a formal letter)', 'Poštovani gospodine,'],
       ['s poštovanjem', 'yours sincerely', 'S poštovanjem, Ivana Horvat'],
       ['zahvaljivati', 'to thank (formal)', 'Zahvaljujem Vam na odgovoru.'],
