@@ -130,13 +130,16 @@ test.describe('Exercise player', () => {
     // LISTEN first: the text is hidden until asked for.
     await expect(page.getByTestId('lesson-text')).toHaveAttribute('data-stage', 'listen');
     await expect(page.getByTestId('lesson-text-line-0')).toHaveCount(0);
-    await page.getByTestId('lesson-text-show').click();
+    await expect(next).toHaveAttribute('aria-label', 'Read the dialogue');
+    await next.click();
     await expect(page.getByTestId('lesson-text-line-0')).toContainText('Bog! Ja sam Ana.');
     await expect(page.getByTestId('lesson-text-en-0')).toHaveCount(0);
     await page.getByTestId('lesson-text-english').click();
     await expect(page.getByTestId('lesson-text-en-0')).toHaveText('Hi! I am Ana.');
+    // One way forward: the lesson's own Next button.
+    await expect(next).toHaveAttribute('aria-label', 'Go to the questions');
+    await next.click();
     await expect(next).toBeDisabled();
-    await page.getByTestId('lesson-text-questions').click();
     await finishSlide(page, TEXT_FIXTURE.questions);
     await next.click();
 

@@ -24,26 +24,12 @@ async function shown(page, selector) {
  * the whole-course walk ran past its time limit (2026-11-15).
  */
 async function anyExerciseControl(page) {
-  return page.evaluate(
-    () =>
-      !!document.querySelector(
-        '[data-testid^="ex-"], [data-testid="lesson-text-show"], [data-testid="lesson-text-questions"]',
-      ),
-  );
+  return page.evaluate(() => !!document.querySelector('[data-testid^="ex-"]'));
 }
 
 export async function settleExerciseStep(page) {
   if (!(await anyExerciseControl(page))) return false;
   let l;
-  // The text step: past LISTEN and READ to its questions.
-  if ((l = await shown(page, '[data-testid="lesson-text-show"]'))) {
-    await l.click();
-    return true;
-  }
-  if ((l = await shown(page, '[data-testid="lesson-text-questions"]'))) {
-    await l.click();
-    return true;
-  }
   // A settled item inside the text step: move to its next question.
   if ((l = await shown(page, '[data-testid="ex-next-item"]:not([disabled])'))) {
     await l.click();

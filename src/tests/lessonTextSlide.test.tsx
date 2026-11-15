@@ -70,12 +70,12 @@ function lessonWith(text: unknown) {
 const next = () => fireEvent.click(screen.getByTestId('lesson-nav-next'));
 const nextDisabled = () => (screen.getByTestId('lesson-nav-next') as HTMLButtonElement).disabled;
 const id = (s: string) => screen.getByTestId(s);
-/** Listen stage -> the text. */
-const openText = () => fireEvent.click(id('lesson-text-show'));
+/** Listen stage -> the text: the lesson's own Next button is the one way forward. */
+const openText = () => next();
 /** The text -> its questions. */
 const openQuestions = () => {
   openText();
-  fireEvent.click(id('lesson-text-questions'));
+  next();
 };
 
 beforeEach(() => {
@@ -90,8 +90,15 @@ describe('the text slide', () => {
     expect(id('lesson-text').getAttribute('data-stage')).toBe('listen');
     // By ear first: nothing of the text is on screen until the learner asks for it.
     expect(screen.queryByTestId('lesson-text-line-0')).toBeNull();
-    expect((id('lesson-text-show') as HTMLButtonElement).disabled).toBe(false);
+    // Reading is never gated on audio: Next opens the text straight away, and says so.
+    expect(nextDisabled()).toBe(false);
+    expect(id('lesson-nav-next').getAttribute('aria-label')).toBe('Read the dialogue');
+    expect(id('lesson-nav-next').textContent).toMatch(/Next/);
+    // No second "continue" button anywhere on this slide.
+    expect(screen.queryByTestId('lesson-text-show')).toBeNull();
+    expect(screen.queryByTestId('lesson-text-questions')).toBeNull();
     openText();
+    expect(id('lesson-nav-next').getAttribute('aria-label')).toBe('Go to the questions');
     expect(id('lesson-text').getAttribute('data-stage')).toBe('read');
     expect(id('lesson-text-line-0').textContent).toMatch(/Bog! Ja sam Ana\./);
     expect(speakMock).not.toHaveBeenCalled();
@@ -139,7 +146,7 @@ describe('the text slide', () => {
     // A dead recording opens the text itself, and the questions still work.
     expect(id('lesson-text').getAttribute('data-stage')).toBe('read');
     expect(id('lesson-text-line-0')).toBeTruthy();
-    fireEvent.click(id('lesson-text-questions'));
+    next();
     fireEvent.click(id('ex-tf-false'));
     expect(id('ex-explanation')).toBeTruthy();
   });
@@ -147,8 +154,9 @@ describe('the text slide', () => {
   it('holds Next until every question is settled', () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
-    expect(nextDisabled()).toBe(true);
     openQuestions();
+    // Listening and reading never hold Next; the questions do, until each is settled.
+    expect(nextDisabled()).toBe(true);
     // The question is on its own screen; the whole text is one tap away, never clipped.
     expect(screen.queryByTestId('lesson-text-line-0')).toBeNull();
     fireEvent.click(id('lesson-text-lookback'));
