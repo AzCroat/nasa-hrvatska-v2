@@ -405,18 +405,22 @@ async function walkLevel(page, level) {
 }
 
 test.describe('A learner walks the whole course', () => {
-  test('A1 and A2, from nothing, across the first level crossing', async ({ page }) => {
+  // A1 IS WALKED FROM NOTHING, on its own (2026-11-15). It used to share one test with A2;
+  // once every A1 lesson carried a text step and mixed exercises, the pair ran to the
+  // 40-minute limit on CI. walkLevel ends with the level review and the hand-over to the
+  // next level's first unit, so the first level crossing is still walked here. A2 is then
+  // walked like every later level: after the levels before it.
+  test('A1, from nothing, across the first level crossing', async ({ page }) => {
     test.setTimeout(40 * 60_000);
     const errs = await setup(page, []);
     await openMap(page);
     expect(await unitState(page, 'A1-1')).toBe('current');
     await walkLevel(page, 'A1');
-    await walkLevel(page, 'A2');
     expect(errs).toEqual([]);
   });
 
   for (const [i, level] of LEVELS.entries()) {
-    if (i < 2) continue;
+    if (i < 1) continue;
     test(`${level}, after walking every level before it`, async ({ page }) => {
       test.setTimeout(25 * 60_000);
       const errs = await setup(page, LEVELS.slice(0, i));
