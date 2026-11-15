@@ -6,7 +6,7 @@ import { getDisplayLevel } from '../../lib/cefrCertification';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
 import CharacterPortrait from '../family/CharacterPortrait';
-import { readCourseState } from '../../lib/courseStep';
+import { readCourseState, nextCourseStep } from '../../lib/courseStep';
 import { mapTestOffer } from '../../lib/courseUnits';
 import { requestUnitTest } from '../../lib/courseUnitProgress';
 import { CURRICULUM_SPINE_EVENT } from '../../lib/curriculumProgress';
@@ -123,6 +123,17 @@ export default function LearnTab({
       if (!cur) return null;
       const offer = mapTestOffer(cur);
       return offer === 'none' ? null : { id: cur.unit.id, index: cur.unit.index, offer };
+    } catch {
+      return null;
+    }
+  })();
+  // The lesson the course serves next — shown under "Your course" with its own test-out.
+  const courseLesson = (() => {
+    try {
+      const step = nextCourseStep({ skipRechecks: true });
+      return step && step.kind === 'lesson'
+        ? { id: step.lesson.id, title: step.lesson.title || step.lesson.id, unit: step.unit.index }
+        : null;
     } catch {
       return null;
     }
@@ -323,6 +334,75 @@ export default function LearnTab({
           courses is there no ability to test out?"). It existed — inside the current unit, on the
           course map, behind a tap and an expanded row — and nothing on this tab said so. The
           learner stands on exactly one unit, so that is the one offered; passing opens the next. */}
+      {courseLesson && (
+        <div
+          data-testid="learn-course-lesson"
+          style={{
+            padding: '12px 16px',
+            marginTop: -2,
+            marginBottom: 10,
+            borderRadius: 14,
+            border: '1.5px solid var(--card-b)',
+            background: 'var(--card)',
+            fontFamily: "'Outfit',sans-serif",
+          }}
+        >
+          <span
+            style={{ display: 'block', fontSize: 14, fontWeight: 800, color: 'var(--heading)' }}
+          >
+            Next lesson: {courseLesson.title}
+          </span>
+          <span style={{ display: 'block', fontSize: 11, color: 'var(--subtext)', marginTop: 1 }}>
+            Unit {courseLesson.unit} — pass the lesson check to move to the next lesson
+          </span>
+          <div style={{ display: 'flex', gap: 8, marginTop: 10, flexWrap: 'wrap' }}>
+            <button
+              data-testid="learn-lesson-start"
+              onClick={() => {
+                void launchAnimLesson(courseLesson.id);
+              }}
+              style={{
+                padding: '9px 14px',
+                borderRadius: 10,
+                border: '1px solid var(--card-b)',
+                background: 'var(--bar-bg)',
+                color: 'var(--heading)',
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Start lesson →
+            </button>
+            <button
+              data-testid="learn-lesson-testout"
+              onClick={() => {
+                try {
+                  sessionStorage.setItem('nh_lesson_testout', courseLesson.id);
+                } catch {
+                  /* the lesson still opens; the button on its first screen remains */
+                }
+                void launchAnimLesson(courseLesson.id);
+              }}
+              style={{
+                padding: '9px 14px',
+                borderRadius: 10,
+                border: '1px solid var(--card-b)',
+                background: 'var(--bar-bg)',
+                color: 'var(--heading)',
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }}
+            >
+              Test out of this lesson →
+            </button>
+          </div>
+        </div>
+      )}
+
       {courseOffer && (
         <button
           onClick={() => {
