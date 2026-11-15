@@ -271,7 +271,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           type: 'type',
-          q: 'Now you. Your friend Ana is ill and you are in the pharmacy for her. Say that her throat hurts: Boli ____ grlo.',
+          q: 'Now you. Your friend Ana is sick and you are in the pharmacy for her. Say that her throat hurts: Boli ____ grlo.',
           answer: 'je',
           accept: ['ju'],
           hint: 'The person in pain is the object. Use the short object form for "her" — the one you would put after "Vidim".',
@@ -775,12 +775,12 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Marko',
           hr: 'Hvala. A gdje su moje crne hlače?',
-          en: 'Thank you. And where are my black trousers?',
+          en: 'Thank you. And where are my black pants?',
         },
         {
           who: 'Ana',
           hr: 'Hlače su u ormaru. Ali zašto ne nosiš nove traperice?',
-          en: 'The trousers are in the wardrobe. But why are you not wearing your new jeans?',
+          en: 'The pants are in the closet. But why are you not wearing your new jeans?',
         },
         {
           who: 'Marko',
@@ -801,17 +801,17 @@ export const CLASS_A1_U18_20 = {
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: where are the glasses, and where are the black trousers?',
+          q: 'Without looking back at the dialogue: where are the glasses, and where are the black pants?',
           options: [
-            'The glasses are on the table; the trousers are in the wardrobe',
-            'The glasses are in the wardrobe; the trousers are on the table',
+            'The glasses are on the table; the pants are in the closet',
+            'The glasses are in the closet; the pants are on the table',
             'Both are on the table, with the newspaper',
-            'The glasses are by the door; the trousers are in the wardrobe',
+            'The glasses are by the door; the pants are in the closet',
           ],
           correct: 0,
           hint: 'Ana answers two "where" questions. The newspaper is in the same place as one of the two things.',
           explanation:
-            'The glasses are on the table, where the newspaper is. The trousers are in the wardrobe.',
+            'The glasses are on the table, where the newspaper is. The pants are in the closet.',
         },
         {
           q: 'Marko and Ana are talking about ONE door. What do the words around "vrata" show?',
@@ -910,7 +910,7 @@ export const CLASS_A1_U18_20 = {
         options: [
           'One pair of blue jeans',
           'Two pairs of blue jeans',
-          'One pair of black trousers',
+          'One pair of black pants',
           'Blue glasses',
         ],
         correct: 0,
@@ -920,7 +920,7 @@ export const CLASS_A1_U18_20 = {
       11,
       {
         type: 'transform',
-        q: 'Say the same about the door instead of the trousers.',
+        q: 'Say the same about the door instead of the pants.',
         from: 'Hlače su bile nove.',
         answer: 'Vrata su bila nova.',
         hint: 'Vrata is in the other group: the past form and the describing word both change their last letter.',
@@ -952,8 +952,8 @@ export const CLASS_A1_U18_20 = {
         type: 'dictate',
         audio: 'Moje hlače su u ormaru.',
         answer: 'Moje hlače su u ormaru.',
-        hint: 'Five words. One pair of trousers — but listen to the verb.',
-        explanation: 'Moje hlače su u ormaru. — my trousers are in the wardrobe.',
+        hint: 'Five words. One pair of pants — but listen to the verb.',
+        explanation: 'Moje hlače su u ormaru. — my pants are in the closet.',
       },
     ],
   },
@@ -979,7 +979,7 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Ivan',
           hr: 'Ja igram nogomet. Subotom igramo u parku.',
-          en: 'I play football. On Saturdays we play in the park.',
+          en: 'I play soccer. On Saturdays we play in the park.',
         },
         { who: 'Petra', hr: 'Igraš li i košarku?', en: 'Do you play basketball too?' },
         {
@@ -999,22 +999,22 @@ export const CLASS_A1_U18_20 = {
         {
           q: 'Without looking back at the dialogue: what does each of them do in their free time?',
           options: [
-            'Petra swims; Ivan plays football',
+            'Petra swims; Ivan plays soccer',
             'Petra plays basketball; Ivan swims',
-            'Both of them play football in the park',
-            'Petra plays football; Ivan only watches television',
+            'Both of them play soccer in the park',
+            'Petra plays soccer; Ivan only watches television',
           ],
           correct: 0,
           hint: 'One of them goes to the pool twice a week. The other plays in the park on Saturdays.',
           explanation:
-            'Petra swims — bavi se plivanjem. Ivan plays football, and he also likes watching matches.',
+            'Petra swims — bavi se plivanjem. Ivan plays soccer, and he also likes watching matches.',
         },
         {
           q: 'Ivan\'s sport is "nogomet" with no ending, but Petra\'s is "plivanjem" with -em. Why?',
           options: [
             'After igrati the sport is a plain object; after baviti se it is in the "with" case',
             'Because Ivan is a man and Petra is a woman',
-            'Because football is a game for many people and swimming is not',
+            'Because soccer is a game for many people and swimming is not',
             'Because Petra is speaking about the past',
           ],
           correct: 0,
@@ -1506,7 +1506,7 @@ export const CLASS_A1_U18_20 = {
           hr: 'Dobar dan, Tom! Izvolite, sjednite.',
           en: 'Good day, Tom! Please, take a seat.',
         },
-        { who: 'Tom', hr: 'Hvala, gospođo Horvat.', en: 'Thank you, Mrs Horvat.' },
+        { who: 'Tom', hr: 'Hvala, gospođo Horvat.', en: 'Thank you, Mrs. Horvat.' },
         {
           who: 'Gospođa Horvat',
           hr: 'Ana, daj Tomu čašu vode!',
@@ -1520,7 +1520,7 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Tom',
           hr: 'Gospođo Horvat, govorite polako, molim vas. Još učim hrvatski.',
-          en: 'Mrs Horvat, speak slowly, please. I am still learning Croatian.',
+          en: 'Mrs. Horvat, speak slowly, please. I am still learning Croatian.',
         },
         {
           who: 'Gospođa Horvat',
@@ -1545,7 +1545,7 @@ export const CLASS_A1_U18_20 = {
             'A trip tomorrow; his jacket',
             'Dinner tonight; a book',
             'A trip tomorrow; the tickets',
-            'A film at eight; his glasses',
+            'A movie at eight; his glasses',
           ],
           correct: 0,
           hint: "Ana's invitation is for tomorrow. Right after it she adds one thing to remember.",
@@ -1553,7 +1553,7 @@ export const CLASS_A1_U18_20 = {
             'Dođi sutra s nama na izlet — a trip. And: nemoj zaboraviti jaknu — do not forget your jacket.',
         },
         {
-          q: 'Mrs Horvat says "sjednite" to Tom but "daj" to her daughter Ana. Why are the two forms different?',
+          q: 'Mrs. Horvat says "sjednite" to Tom but "daj" to her daughter Ana. Why are the two forms different?',
           options: [
             'To Tom she uses the polite form in -te; to Ana the form for one person she calls ti',
             'The first is a question and the second is an order',
@@ -1569,7 +1569,7 @@ export const CLASS_A1_U18_20 = {
           type: 'type',
           q: 'Now you. Your friend is reading aloud much too fast. Ask him to read slowly: ____ polako, molim te.',
           answer: 'Čitaj',
-          hint: 'Mrs Horvat tells Tom, politely, to read. To a friend the same word has no -te.',
+          hint: 'Mrs. Horvat tells Tom, politely, to read. To a friend the same word has no -te.',
           explanation: 'Čitaj polako, molim te. — čitajte without -te is the form for a friend.',
         },
         {
@@ -1676,7 +1676,7 @@ export const CLASS_A1_U18_20 = {
         type: 'tf',
         q: '"Sjedni!" is the right thing to say to an older stranger.',
         answer: false,
-        hint: 'Which form does Mrs Horvat use when she is being polite to Tom?',
+        hint: 'Which form does Mrs. Horvat use when she is being polite to Tom?',
         explanation:
           'False. To a stranger or an older person the form is polite: Sjednite! The short form sounds curt.',
       },
@@ -1704,7 +1704,7 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Luka',
           hr: 'Ne brini, mama. Neću kasniti.',
-          en: 'Do not worry, Mum. I will not be late.',
+          en: 'Do not worry, Mom. I will not be late.',
         },
         { who: 'Mama', hr: 'I nemoj zaboraviti doručak.', en: 'And do not forget breakfast.' },
         {
@@ -1727,7 +1727,7 @@ export const CLASS_A1_U18_20 = {
           hr: 'Dobro, neka spava. Ali ti ne gledaj televiziju do jedanaest!',
           en: 'All right, let her sleep. But you — do not watch television until eleven!',
         },
-        { who: 'Luka', hr: 'Neću! Laku noć, mama.', en: 'I will not! Good night, Mum.' },
+        { who: 'Luka', hr: 'Neću! Laku noć, mama.', en: 'I will not! Good night, Mom.' },
       ],
       questions: [
         {
@@ -1872,7 +1872,7 @@ export const CLASS_A1_U18_20 = {
         audio: 'Nemoj mi reći kraj filma!',
         answer: 'Nemoj mi reći kraj filma!',
         hint: 'Five words. The little word for "to me" comes straight after the first word.',
-        explanation: 'Nemoj mi reći kraj filma! — do not tell me the end of the film!',
+        explanation: 'Nemoj mi reći kraj filma! — do not tell me the end of the movie!',
       },
     ],
   },
@@ -2069,9 +2069,9 @@ export const CLASS_A1_U18_20 = {
         type: 'dictate',
         audio: 'Što kažeš na kino večeras?',
         answer: 'Što kažeš na kino večeras?',
-        hint: 'Five words: "How about the cinema tonight?"',
+        hint: 'Five words: "How about the movies tonight?"',
         explanation:
-          'Što kažeš na kino večeras? — literally "what do you say to the cinema tonight?"',
+          'Što kažeš na kino večeras? — literally "what do you say to the movies tonight?"',
       },
     ],
   },
@@ -2155,7 +2155,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           type: 'type',
-          q: 'You walk into the surgery. Greet the doctor (doktor): Dobar dan, ____!',
+          q: 'You walk into the doctor’s office. Greet the doctor (doktor): Dobar dan, ____!',
           answer: 'doktore',
           hint: 'The word ends the same way as the one Luka uses to greet his teacher.',
           explanation: 'Dobar dan, doktore! — doktor → doktore, like profesor → profesore.',
@@ -2246,7 +2246,12 @@ export const CLASS_A1_U18_20 = {
         type: 'listen',
         audio: 'Gospodine Kovaču, imate li trenutak?',
         q: 'Who is being spoken to?',
-        options: ['A man called Mr Kovač', 'A woman called Mrs Kovač', 'A close friend', 'A child'],
+        options: [
+          'A man called Mr. Kovač',
+          'A woman called Mrs. Kovač',
+          'A close friend',
+          'A child',
+        ],
         correct: 0,
         explanation:
           'Gospodine Kovaču — both words are in the calling form: gospodin → gospodine, Kovač → Kovaču. A woman would be "gospođo Kovač".',
@@ -2278,7 +2283,7 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Tom',
           hr: 'Dobar dan, gospođo Kovač. Kako ste?',
-          en: 'Good day, Mrs Kovač. How are you?',
+          en: 'Good day, Mrs. Kovač. How are you?',
         },
         {
           who: 'Gospođa Kovač',
@@ -2299,7 +2304,7 @@ export const CLASS_A1_U18_20 = {
         {
           who: 'Gospođa Kovač',
           hr: 'Jest. Izvolite, sjednite. Možemo li prijeći na ti? Ja sam Vesna.',
-          en: 'It is. Please, take a seat. Shall we switch to "ti"? I am Vesna.',
+          en: 'It is. Please, take a seat. Should we switch to "ti"? I am Vesna.',
         },
         {
           who: 'Tom',
@@ -2314,7 +2319,7 @@ export const CLASS_A1_U18_20 = {
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: what has changed between Tom and Mrs Kovač by the end?',
+          q: 'Without looking back at the dialogue: what has changed between Tom and Mrs. Kovač by the end?',
           options: [
             'They have switched from the polite form to first names and "ti", and they go to lunch',
             'They have started speaking English',
@@ -2341,7 +2346,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           type: 'type',
-          q: 'Now you. Stop a shop assistant politely and ask whether he has a moment: Oprostite, ____ li trenutak?',
+          q: 'Now you. Stop a salesperson politely and ask whether he has a moment: Oprostite, ____ li trenutak?',
           answer: 'Imate',
           hint: 'Vi takes the plural verb — the "vi" form of imati.',
           explanation:
@@ -2389,8 +2394,8 @@ export const CLASS_A1_U18_20 = {
         type: 'match',
         q: 'Match each word or phrase to its meaning.',
         pairs: [
-          ['gospodin', 'Mr'],
-          ['gospođa', 'Mrs'],
+          ['gospodin', 'Mr.'],
+          ['gospođa', 'Mrs.'],
           ['gospođica', 'Miss'],
           ['S poštovanjem', 'Yours sincerely'],
           ['Poštovani', 'Dear (opening a formal letter)'],
@@ -2450,7 +2455,7 @@ export const CLASS_A1_U18_20 = {
       },
       {
         type: 'transform',
-        q: 'Say it politely, to an older neighbour.',
+        q: 'Say it politely, to an older neighbor.',
         from: 'Je li ovo tvoj pas?',
         answer: 'Je li ovo vaš pas?',
         accept: ['Je li ovo Vaš pas?'],
@@ -2657,11 +2662,15 @@ export const CLASS_A1_U18_20 = {
       kind: 'dialogue',
       title: 'Naše putovanje',
       lines: [
-        { who: 'Ana', hr: 'Tome, gdje ste bili na odmoru?', en: 'Tom, where were you on holiday?' },
+        {
+          who: 'Ana',
+          hr: 'Tome, gdje ste bili na odmoru?',
+          en: 'Tom, where were you on vacation?',
+        },
         {
           who: 'Tom',
           hr: 'Putovali smo po Hrvatskoj. Prvo smo bili u Zagrebu, a onda smo išli autobusom na Plitvice.',
-          en: 'We travelled around Croatia. First we were in Zagreb, and then we went to Plitvice by bus.',
+          en: 'We traveled around Croatia. First we were in Zagreb, and then we went to Plitvice by bus.',
         },
         { who: 'Ana', hr: 'Jeste li bili i na moru?', en: 'Were you at the seaside too?' },
         {
@@ -2725,7 +2734,7 @@ export const CLASS_A1_U18_20 = {
           q: 'You went from Split to Zagreb by train (vlak): Išli smo ____.',
           answer: 'vlakom',
           hint: 'The means of travel has no preposition, only an ending — as in "autobusom" and "trajektom".',
-          explanation: 'Išli smo vlakom. — the bare instrumental says how you travelled.',
+          explanation: 'Išli smo vlakom. — the bare instrumental says how you traveled.',
         },
         {
           type: 'transform',
@@ -2832,8 +2841,8 @@ export const CLASS_A1_U18_20 = {
         type: 'dictate',
         audio: 'Putovali smo po Hrvatskoj.',
         answer: 'Putovali smo po Hrvatskoj.',
-        hint: 'Four words: "We travelled around Croatia."',
-        explanation: 'Putovali smo po Hrvatskoj. — we travelled around Croatia.',
+        hint: 'Four words: "We traveled around Croatia."',
+        explanation: 'Putovali smo po Hrvatskoj. — we traveled around Croatia.',
       },
     ],
   },

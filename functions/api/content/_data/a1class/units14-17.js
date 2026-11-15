@@ -28,7 +28,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ivan',
           hr: 'Ja joj šaljem cvijeće. Mama mi je dala novac za poklon.',
-          en: 'I am sending her flowers. Mum gave me money for the present.',
+          en: 'I am sending her flowers. Mom gave me money for the present.',
         },
         {
           who: 'Maja',
@@ -143,7 +143,7 @@ export const CLASS_A1_U14_17 = {
         words: ['Dajem', 'mamu', 'cvijeće.'],
         wrong: 1,
         answer: 'mami',
-        hint: 'Mum is not the thing being given — she receives the flowers.',
+        hint: 'Mom is not the thing being given — she receives the flowers.',
         explanation:
           'Dajem mami cvijeće. The receiver is in the dative, the thing in the accusative.',
       },
@@ -232,7 +232,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Ne, smeđa boja mi se ne sviđa. Iva, sviđaju li ti se crne?',
-          en: 'No, I do not like the colour brown. Iva, do you like the black ones?',
+          en: 'No, I do not like the color brown. Iva, do you like the black ones?',
         },
         {
           who: 'Iva',
@@ -242,7 +242,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Vjerujem ti. Ti mi uvijek pomažeš u dućanu.',
-          en: 'I trust you. You always help me in the shop.',
+          en: 'I trust you. You always help me in the store.',
         },
         { who: 'Prodavačica', hr: 'Odgovara li vam ovaj broj?', en: 'Does this size suit you?' },
         { who: 'Ana', hr: 'Odgovara mi, hvala!', en: 'It suits me, thank you!' },
@@ -257,7 +257,7 @@ export const CLASS_A1_U14_17 = {
             'Ana likes both pairs; Iva does not like either',
           ],
           correct: 0,
-          hint: 'Ana says no to one colour. Iva says two good things about the other pair.',
+          hint: 'Ana says no to one color. Iva says two good things about the other pair.',
           explanation:
             'Ana likes the black shoes and not the brown ones. Iva likes them too: they are pretty and not expensive.',
         },
@@ -276,14 +276,14 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'type',
-          q: 'Now you. You are in a shop with a friend. Ask her whether she likes these shoes: Sviđaju li ____ se ove cipele?',
+          q: 'Now you. You are in a store with a friend. Ask her whether she likes these shoes: Sviđaju li ____ se ove cipele?',
           answer: 'ti',
           hint: 'The short word for "to you" — for a friend.',
           explanation: 'Sviđaju li ti se ove cipele? — li, then ti, then se, always in that order.',
         },
         {
           type: 'type',
-          q: 'Now you. Your neighbour is carrying a lot. Say that you are helping him: Pomažem ____. (susjed)',
+          q: 'Now you. Your neighbor is carrying a lot. Say that you are helping him: Pomažem ____. (susjed)',
           answer: 'susjedu',
           hint: 'The person you help receives the help — the same ending as "bratu".',
           explanation: 'Pomažem susjedu. — after pomagati the person is in the dative.',
@@ -366,11 +366,11 @@ export const CLASS_A1_U14_17 = {
       },
       {
         type: 'tf',
-        q: 'In "Mami se sviđa more", it is mum who likes the sea.',
+        q: 'In "Mami se sviđa more", it is mom who likes the sea.',
         answer: true,
         hint: 'Which word is in the dative?',
         explanation:
-          'True. Mami is the dative — the person who likes. More is the subject: the sea is pleasing to mum.',
+          'True. Mami is the dative — the person who likes. More is the subject: the sea is pleasing to mom.',
       },
       5,
       {
@@ -406,7 +406,7 @@ export const CLASS_A1_U14_17 = {
       kind: 'text',
       title: 'Razglednica iz Splita',
       lines: [
-        { hr: 'Draga mama,', en: 'Dear Mum,' },
+        { hr: 'Draga mama,', en: 'Dear Mom,' },
         {
           hr: 'pozdrav iz Splita! Ovdje je prekrasno i jako toplo.',
           en: 'greetings from Split! It is beautiful and very warm here.',
@@ -422,7 +422,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           hr: 'Tata sutra putuje u Zagreb. Želim mu sretan put!',
-          en: 'Dad is travelling to Zagreb tomorrow. I wish him a good journey!',
+          en: 'Dad is traveling to Zagreb tomorrow. I wish him a good journey!',
         },
         { hr: 'Puno pozdrava, tvoja Ana', en: 'Lots of love, your Ana' },
       ],
@@ -430,15 +430,15 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the postcard: who is writing to whom, and what happens tomorrow?',
           options: [
-            'Ana writes to her mum; tomorrow is mum’s birthday and they go to Dubrovnik',
+            'Ana writes to her mom; tomorrow is mom’s birthday and they go to Dubrovnik',
             'Ana writes to her dad; tomorrow is his birthday',
-            'Marko writes to his mum; tomorrow they go to an island',
-            'Ana writes to her mum; tomorrow is Christmas',
+            'Marko writes to his mom; tomorrow they go to an island',
+            'Ana writes to her mom; tomorrow is Christmas',
           ],
           correct: 0,
           hint: 'Look at how the card opens, how it is signed, and what is wished.',
           explanation:
-            'Ana writes to her mum from Split. Tomorrow is mum’s birthday, and Ana and Marko are going to Dubrovnik.',
+            'Ana writes to her mom from Split. Tomorrow is mom’s birthday, and Ana and Marko are going to Dubrovnik.',
         },
         {
           q: 'Ana opens with "Draga mama" and signs "tvoja Ana". What would Marko write to his dad?',
@@ -455,14 +455,14 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'type',
-          q: 'Now you. It is 31 December. Wish your neighbours a happy New Year: ____ Nova godina!',
+          q: 'Now you. It is 31 December. Wish your neighbors a happy New Year: ____ Nova godina!',
           answer: 'Sretna',
           hint: 'It is the word Ana uses for the birthday — but godina is feminine, so its ending changes.',
           explanation: 'Sretna Nova godina! — sretan agrees with the occasion: godina is feminine.',
         },
         {
           type: 'type',
-          q: 'Now you. Ana writes about her dad: "Želim mu sretan put!" This time it is your MUM who is travelling. Write: Želim ____ sretan put!',
+          q: 'Now you. Ana writes about her dad: "Želim mu sretan put!" This time it is your MOM who is traveling. Write: Želim ____ sretan put!',
           answer: 'joj',
           hint: 'Ana uses the short word for "to him". You need the short word for "to her".',
           explanation: 'Želim joj sretan put! — mu is "to him", joj is "to her".',
@@ -1149,7 +1149,7 @@ export const CLASS_A1_U14_17 = {
       kind: 'dialogue',
       title: 'Što studiraš?',
       lines: [
-        { who: 'Tin', hr: 'Bog! Jesi li ti studentica?', en: 'Hi! Are you a university student?' },
+        { who: 'Tin', hr: 'Bog! Jesi li ti studentica?', en: 'Hi! Are you a college student?' },
         {
           who: 'Lea',
           hr: 'Jesam. Studiram medicinu na fakultetu u Zagrebu. A ti?',
@@ -1158,13 +1158,13 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Tin',
           hr: 'Ja sam učenik. Idem u gimnaziju.',
-          en: 'I am a pupil. I go to a gimnazija (an academic secondary school).',
+          en: 'I am a student. I go to a gimnazija (an academic high school).',
         },
-        { who: 'Lea', hr: 'Koji ti je omiljeni predmet?', en: 'What is your favourite subject?' },
+        { who: 'Lea', hr: 'Koji ti je omiljeni predmet?', en: 'What is your favorite subject?' },
         {
           who: 'Tin',
           hr: 'Povijest. Matematika mi se ne sviđa.',
-          en: 'History. I do not like maths.',
+          en: 'History. I do not like math.',
         },
         { who: 'Lea', hr: 'A što radiš večeras?', en: 'And what are you doing tonight?' },
         {
@@ -1182,34 +1182,34 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the dialogue: who goes where, and who has an exam on Friday?',
           options: [
-            'Lea is at university, Tin is at secondary school; Tin has the exam',
-            'Tin is at university, Lea is at secondary school; Lea has the exam',
-            'Both are at university; Lea has the exam',
-            'Both are at secondary school; Tin has the exam',
+            'Lea is in college, Tin is at high school; Tin has the exam',
+            'Tin is in college, Lea is at high school; Lea has the exam',
+            'Both are in college; Lea has the exam',
+            'Both are at high school; Tin has the exam',
           ],
           correct: 0,
-          hint: 'One of them studies medicine. The other one is revising tonight.',
+          hint: 'One of them studies medicine. The other one is studying tonight.',
           explanation:
-            'Lea studies medicine at the faculty. Tin is a pupil at a gimnazija, and his exam is on Friday.',
+            'Lea studies medicine at the faculty. Tin is a student at a gimnazija, and his exam is on Friday.',
         },
         {
           q: 'Lea and Tin each use a different verb that English translates as "study". What is the difference?',
           options: [
-            'studirati is for your subject at university; učiti is for learning anything, also for an exam',
+            'studirati is for your subject in college; učiti is for learning anything, also for an exam',
             'studirati is for women, učiti is for men',
             'studirati is for the evening, učiti is for the daytime',
             'There is no difference; they can always be swapped',
           ],
           correct: 0,
-          hint: 'Lea names her degree subject. Tin talks about one evening of revising.',
+          hint: 'Lea names her degree subject. Tin talks about one evening of studying.',
           explanation:
-            'Studirati is to take a university degree in something. Učiti is to learn or revise — in school, at home, for an exam.',
+            'Studirati is to take a college degree in something. Učiti is to learn or review — in school, at home, for an exam.',
         },
         {
           type: 'type',
           q: 'Now you. Tell Lea that you are learning Croatian: ____ hrvatski.',
           answer: 'Učim',
-          hint: 'It is not your university degree — so use the verb Tin uses about his evening.',
+          hint: 'It is not your college degree — so use the verb Tin uses about his evening.',
           explanation:
             'Učim hrvatski. — learning a language, a skill or for an exam is always učiti.',
         },
@@ -1237,14 +1237,14 @@ export const CLASS_A1_U14_17 = {
         type: 'match',
         q: 'Match each word to what it means.',
         pairs: [
-          ['učenik', 'a pupil at school'],
-          ['student', 'someone who studies at university'],
-          ['učiteljica', 'a woman who teaches in primary school'],
-          ['profesor', 'a teacher in secondary school or at university'],
+          ['učenik', 'a student at school'],
+          ['student', 'someone who studies in college'],
+          ['učiteljica', 'a woman who teaches in elementary school'],
+          ['profesor', 'a teacher in high school or in college'],
           ['predmet', 'a school subject'],
         ],
         explanation:
-          'A Croatian student is always at university. In school you are an učenik, and your teacher is an učitelj or a profesor.',
+          'A Croatian student is always in college. In school you are an učenik, and your teacher is an učitelj or a profesor.',
       },
       9,
       {
@@ -1269,7 +1269,7 @@ export const CLASS_A1_U14_17 = {
         words: ['Studiram', 'za', 'ispit.'],
         wrong: 0,
         answer: 'Učim',
-        hint: 'Revising for an exam is never this verb — not even for a university student.',
+        hint: 'Studying for an exam is never this verb — not even for a college student.',
         explanation:
           'Učim za ispit. — studirati is only for your degree subject: Studiram medicinu.',
       },
@@ -1279,7 +1279,7 @@ export const CLASS_A1_U14_17 = {
         q: 'A boy who goes to a gimnazija is called a "student" in Croatian.',
         answer: false,
         hint: 'Think of what Croatian calls someone who is still at school.',
-        explanation: 'He is an učenik. In Croatian, student means a university student only.',
+        explanation: 'He is an učenik. In Croatian, student means a college student only.',
       },
       13,
       {
@@ -1293,7 +1293,7 @@ export const CLASS_A1_U14_17 = {
       14,
       {
         type: 'order',
-        q: 'Put the words in order: "My favourite subject is history."',
+        q: 'Put the words in order: "My favorite subject is history."',
         words: ['Moj', 'omiljeni', 'predmet', 'je', 'povijest.'],
         accept: ['Moj je omiljeni predmet povijest.'],
         explanation: 'Moj omiljeni predmet je povijest.',
@@ -1402,9 +1402,9 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'type',
-          q: 'Now you. A friend shows you two films, and you like both. Say so: ____ mi se ovi filmovi.',
+          q: 'Now you. A friend shows you two movies, and you like both. Say so: ____ mi se ovi filmovi.',
           answer: 'Sviđaju',
-          hint: 'The films are the subject, and there are two of them — Sara says the same about the cakes.',
+          hint: 'The movies are the subject, and there are two of them — Sara says the same about the cakes.',
           explanation: 'Sviđaju mi se ovi filmovi. — several things: sviđaju.',
         },
         {
@@ -1470,7 +1470,7 @@ export const CLASS_A1_U14_17 = {
         words: ['Sviđa', 'mi', 'se', 'ovi', 'filmovi.'],
         wrong: 0,
         answer: 'Sviđaju',
-        hint: 'How many films are there? The verb counts the thing, not the person.',
+        hint: 'How many movies are there? The verb counts the thing, not the person.',
         explanation:
           'Sviđaju mi se ovi filmovi. — several things are the subject, so the verb is plural.',
       },
@@ -1535,7 +1535,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Maja',
           hr: 'Idem. Putujem vlakom, sa sestrom i s prijateljem.',
-          en: 'I am. I am travelling by train, with my sister and with a friend.',
+          en: 'I am. I am traveling by train, with my sister and with a friend.',
         },
         {
           who: 'Ivan',
@@ -1584,7 +1584,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'type',
-          q: 'Now you. Say who you are going to the cinema with — your mum: Idem u kino s ____. (mama)',
+          q: 'Now you. Say who you are going to the movies with — your mom: Idem u kino s ____. (mama)',
           answer: 'mamom',
           hint: 'A feminine word in -a takes the same ending as the sister in the dialogue.',
           explanation: 'Idem u kino s mamom. — mama → mamom, and s because she is your company.',
@@ -1641,7 +1641,7 @@ export const CLASS_A1_U14_17 = {
       7,
       {
         type: 'order',
-        q: 'Put the words in order: "I am travelling by train with a friend."',
+        q: 'Put the words in order: "I am traveling by train with a friend."',
         words: ['Putujem', 'vlakom', 's', 'prijateljem.'],
         explanation:
           'Putujem vlakom s prijateljem. — the train is the means (no small word); the friend is company (s).',
@@ -1688,7 +1688,7 @@ export const CLASS_A1_U14_17 = {
         audio: 'Putujem u Split vlakom.',
         answer: 'Putujem u Split vlakom.',
         hint: 'Four words. The last one tells you how.',
-        explanation: 'Putujem u Split vlakom. — I am travelling to Split by train.',
+        explanation: 'Putujem u Split vlakom. — I am traveling to Split by train.',
       },
     ],
   },
@@ -1702,7 +1702,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Sutra idemo na Hvar. Čime putujemo?',
-          en: 'Tomorrow we are going to Hvar. How (by what) are we travelling?',
+          en: 'Tomorrow we are going to Hvar. How (by what) are we traveling?',
         },
         {
           who: 'Marko',
@@ -1903,16 +1903,16 @@ export const CLASS_A1_U14_17 = {
           hr: 'Odlično. A ti cijeli dan sjediš za računalom!',
           en: 'Great. And you sit at the computer all day!',
         },
-        { who: 'Marko', hr: 'Istina. Idemo u grad?', en: 'True. Shall we go into town?' },
+        { who: 'Marko', hr: 'Istina. Idemo u grad?', en: 'True. Should we go into town?' },
         {
           who: 'Iva',
           hr: 'Idemo! Kuda idemo — parkom ili ulicom?',
-          en: 'Let us go! Which way shall we go — through the park or along the street?',
+          en: 'Let us go! Which way should we go — through the park or along the street?',
         },
         {
           who: 'Marko',
           hr: 'Idemo parkom. Park je lijep u proljeće.',
-          en: 'Let us go through the park. The park is lovely in spring.',
+          en: 'Let us go through the park. The park is beautiful in spring.',
         },
       ],
       questions: [
@@ -2074,7 +2074,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Lana',
           hr: 'Večeras idem u kino. Hoćeš li ići sa mnom?',
-          en: 'I am going to the cinema tonight. Do you want to go with me?',
+          en: 'I am going to the movies tonight. Do you want to go with me?',
         },
         {
           who: 'Petar',
@@ -2095,17 +2095,17 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Petar',
           hr: 'Odlično. I moji prijatelji idu u kino. Možemo ići s njima.',
-          en: 'Great. My friends are going to the cinema too. We can go with them.',
+          en: 'Great. My friends are going to the movies too. We can go with them.',
         },
         {
           who: 'Lana',
           hr: 'Dobro, idemo s njima. Vidimo se pred kinom u osam!',
-          en: 'Fine, let us go with them. See you in front of the cinema at eight!',
+          en: 'Fine, let us go with them. See you in front of the movie theater at eight!',
         },
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: who is going to the cinema tonight?',
+          q: 'Without looking back at the dialogue: who is going to the movies tonight?',
           options: [
             'Lana, Petar, Lana’s sister and Petar’s friends — but not Ana',
             'Lana, Petar, Ana and Ivan',
@@ -2147,7 +2147,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'Say it from Petar’s side: "Lana is going to the cinema with me."',
+          q: 'Say it from Petar’s side: "Lana is going to the movies with me."',
           from: 'Lana ide u kino s Petrom.',
           answer: 'Lana ide u kino sa mnom.',
           hint: 'In front of this pronoun the small word needs an extra vowel — as in Lana’s first line.',
@@ -2213,7 +2213,7 @@ export const CLASS_A1_U14_17 = {
         options: [
           'Who you are going to the seaside with',
           'When you are going to the seaside',
-          'How you are travelling to the seaside',
+          'How you are traveling to the seaside',
           'Why you are going to the seaside',
         ],
         correct: 0,
@@ -2284,7 +2284,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Nisam. Ja sam iz Kanade, ali moja mama je iz Hrvatske.',
-          en: 'I am not. I am from Canada, but my mum is from Croatia.',
+          en: 'I am not. I am from Canada, but my mom is from Croatia.',
         },
         {
           who: 'Ana',
@@ -2304,7 +2304,7 @@ export const CLASS_A1_U14_17 = {
             'A cup of coffee without milk or sugar and a glass of water; her sister’s bag',
             'A cup of coffee with milk and a glass of water; her own bag',
             'A cup of tea without sugar; her sister’s bag',
-            'A glass of milk and a cup of coffee with sugar; her mum’s bag',
+            'A glass of milk and a cup of coffee with sugar; her mom’s bag',
           ],
           correct: 0,
           hint: 'She says "bez" twice. And somebody left something in the café yesterday.',
@@ -2362,7 +2362,7 @@ export const CLASS_A1_U14_17 = {
           ['čaša vode', 'a glass of water'],
           ['šalica kave', 'a cup of coffee'],
           ['kava bez šećera', 'coffee without sugar'],
-          ['centar grada', 'the centre of the town'],
+          ['centar grada', 'the center of the town'],
           ['kuća moje bake', "my grandmother's house"],
         ],
         explanation:
@@ -2558,7 +2558,7 @@ export const CLASS_A1_U14_17 = {
           ['boca soka', 'a bottle of juice'],
           ['tanjur riže', 'a plate of rice'],
           ['šalica čaja', 'a cup of tea'],
-          ['litra vode', 'a litre of water'],
+          ['litra vode', 'a liter of water'],
         ],
         explanation: 'The container or piece comes first; what it holds follows in the genitive.',
       },
@@ -2664,7 +2664,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Idem u dućan. Imaš li novca?',
-          en: 'I am going to the shop. Do you have any money?',
+          en: 'I am going to the store. Do you have any money?',
         },
         {
           who: 'Marko',
@@ -2684,13 +2684,13 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Jučer u dućanu nije bilo kruha.',
-          en: 'Yesterday there was no bread in the shop.',
+          en: 'Yesterday there was no bread in the store.',
         },
         { who: 'Marko', hr: 'Nemam pojma zašto!', en: 'I have no idea why!' },
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: what is missing at home, and how can Ana pay in the shop?',
+          q: 'Without looking back at the dialogue: what is missing at home, and how can Ana pay in the store?',
           options: [
             'There is no milk and no bread; Marko has no money, but he has a card',
             'There is no coffee; Marko gives her money',
@@ -2731,7 +2731,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'Say it about yesterday — as Ana does about the bread in the shop.',
+          q: 'Say it about yesterday — as Ana does about the bread in the store.',
           from: 'Nema mlijeka.',
           answer: 'Nije bilo mlijeka.',
           accept: ['Jučer nije bilo mlijeka.', 'Mlijeka nije bilo.'],
@@ -2864,7 +2864,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Žena',
           hr: 'Banka je iza hotela, pokraj kina.',
-          en: 'The bank is behind the hotel, beside the cinema.',
+          en: 'The bank is behind the hotel, beside the movie theater.',
         },
         {
           who: 'Turist',
@@ -2879,7 +2879,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Turist',
           hr: 'Ja sam iz Kanade. Sutra putujem od Zagreba do Splita — vlakom, bez auta.',
-          en: 'I am from Canada. Tomorrow I am travelling from Zagreb to Split — by train, without a car.',
+          en: 'I am from Canada. Tomorrow I am traveling from Zagreb to Split — by train, without a car.',
         },
         { who: 'Žena', hr: 'Sretan put!', en: 'Have a good trip!' },
       ],
@@ -2889,11 +2889,11 @@ export const CLASS_A1_U14_17 = {
           options: [
             'Between the bank and the pharmacy; she is staying at her sister’s',
             'Behind the hotel; she lives in Zagreb',
-            'Beside the cinema; she is travelling to Split',
+            'Beside the movies; she is traveling to Split',
             'Between the bank and the hotel; she works at the post office',
           ],
           correct: 0,
-          hint: 'The post office has a neighbour on each side. And the woman is not from Zagreb.',
+          hint: 'The post office has a neighbor on each side. And the woman is not from Zagreb.',
           explanation:
             'The post office is between the bank and the pharmacy. The woman is from Split and is staying at her sister’s.',
         },
@@ -2942,7 +2942,7 @@ export const CLASS_A1_U14_17 = {
         words: ['Pismo', 'je', 'iz', 'mame.'],
         wrong: 2,
         answer: 'od',
-        hint: 'Mum is a person, not a place you can come out of.',
+        hint: 'Mom is a person, not a place you can come out of.',
         explanation: 'Iz is for places; from a person takes a different small word.',
       },
       9,
@@ -3002,7 +3002,7 @@ export const CLASS_A1_U14_17 = {
         q: 'Now you are coming back from there. Start with "Vraćam se".',
         from: 'Idem u trgovinu.',
         answer: 'Vraćam se iz trgovine.',
-        hint: 'You were IN the shop (u), so you come OUT of it — and the shop takes the genitive.',
+        hint: 'You were IN the store (u), so you come OUT of it — and the store takes the genitive.',
         explanation: 'Vraćam se iz trgovine. — u trgovinu, u trgovini, iz trgovine.',
       },
       15,
@@ -3056,7 +3056,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ivan',
           hr: 'Bolesna je. Jučer sam bio kod nje. Ali Marko i Luka dolaze.',
-          en: 'She is ill. I was at her place yesterday. But Marko and Luka are coming.',
+          en: 'She is sick. I was at her place yesterday. But Marko and Luka are coming.',
         },
         {
           who: 'Maja',
@@ -3066,7 +3066,7 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ivan',
           hr: 'Marko stanuje u centru. Stanuješ li ti blizu njega?',
-          en: 'Marko lives in the centre. Do you live near him?',
+          en: 'Marko lives in the center. Do you live near him?',
         },
         {
           who: 'Maja',
@@ -3083,14 +3083,14 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the dialogue: where is the party tonight, and who is not coming?',
           options: [
-            'At Maja’s place; Ana is not coming because she is ill',
+            'At Maja’s place; Ana is not coming because she is sick',
             'At Ivan’s place; Marko is not coming',
             'At Marko’s place; Ana and Luka are not coming',
             'At Maja’s place; everybody is coming',
           ],
           correct: 0,
           hint: 'One person was not at work today.',
-          explanation: 'The party is at Maja’s. Ana is ill; Ivan, Marko and Luka are coming.',
+          explanation: 'The party is at Maja’s. Ana is sick; Ivan, Marko and Luka are coming.',
         },
         {
           q: 'Maja says "Danas je nema na poslu." What is the word "je" doing here?',
@@ -3249,13 +3249,13 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Ana',
           hr: 'Ne, hvala. Nemam puno novca. Koliko košta litra mlijeka?',
-          en: 'No, thank you. I do not have a lot of money. How much is a litre of milk?',
+          en: 'No, thank you. I do not have a lot of money. How much is a liter of milk?',
         },
         { who: 'Prodavač', hr: 'Jedan euro.', en: 'One euro.' },
         {
           who: 'Ana',
           hr: 'Dobro, molim litru mlijeka. Danas je ovdje previše ljudi!',
-          en: 'Fine, a litre of milk, please. There are too many people here today!',
+          en: 'Fine, a liter of milk, please. There are too many people here today!',
         },
         {
           who: 'Prodavač',
@@ -3267,15 +3267,15 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the dialogue: what does Ana buy at the market?',
           options: [
-            'A kilo of apples, a little cheese and a litre of milk',
-            'A kilo of apples, a lot of fish and a litre of milk',
+            'A kilo of apples, a little cheese and a liter of milk',
+            'A kilo of apples, a lot of fish and a liter of milk',
             'A little cheese and a lot of fish',
             'A kilo of cheese and a little milk',
           ],
           correct: 0,
           hint: 'She says "Ne, hvala" to one thing — and gives a reason.',
           explanation:
-            'A kilo of apples, a little cheese and a litre of milk. She does not take the fish: she does not have a lot of money.',
+            'A kilo of apples, a little cheese and a liter of milk. She does not take the fish: she does not have a lot of money.',
         },
         {
           q: 'The seller says "dolazi puno ljudi" — with the verb in the form for ONE person. Why?',
@@ -3546,7 +3546,7 @@ export const CLASS_A1_U14_17 = {
       {
         type: 'listen',
         audio: 'Film počinje u pola osam.',
-        q: 'When does the film start?',
+        q: 'When does the movie start?',
         options: ['At 7:30', 'At 8:30', 'At 8:00', 'At 7:15'],
         correct: 0,
         explanation: 'Film počinje u pola osam. — pola osam is half an hour before eight: 7:30.',
@@ -3610,12 +3610,12 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Luka',
           hr: 'Gdje stanuješ? Na prvom katu?',
-          en: 'Where do you live? On the first floor?',
+          en: 'Where do you live? On the second floor (one flight up)?',
         },
         {
           who: 'Iva',
           hr: 'Ne, na trećem. Zabava je kod mene, trećeg svibnja u osam sati!',
-          en: 'No, on the third. The party is at my place, on the third of May at eight o’clock!',
+          en: 'No, on the fourth. The party is at my place, on the third of May at eight o’clock!',
         },
         { who: 'Luka', hr: 'Odlično, dolazim!', en: 'Great, I am coming!' },
       ],
@@ -3623,15 +3623,15 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the dialogue: what is the date today, when is Iva’s birthday, and on which floor does she live?',
           options: [
-            'Today is 1 May; her birthday is on 3 May; she lives on the third floor',
-            'Today is 3 May; her birthday is on 5 June; she lives on the first floor',
-            'Today is 1 May; her birthday is on 5 June; she lives on the third floor',
-            'Today is 1 June; her birthday is on 3 June; she lives on the second floor',
+            'Today is May 1; her birthday is on May 3; she lives on the fourth floor',
+            'Today is May 3; her birthday is on June 5; she lives on the second floor',
+            'Today is May 1; her birthday is on June 5; she lives on the fourth floor',
+            'Today is June 1; her birthday is on June 3; she lives on the third floor',
           ],
           correct: 0,
-          hint: 'The number three belongs to Iva twice.',
+          hint: 'The number three belongs to Iva twice: her birthday and her floor, counted the Croatian way.',
           explanation:
-            'Today is the first of May. Iva’s birthday is on the third of May, and she lives on the third floor. The fifth of June is Luka’s birthday.',
+            'Today is the first of May. Iva’s birthday is on the third of May, and she lives on the fourth floor (treći kat: Croatians do not count the ground floor). The fifth of June is Luka’s birthday.',
         },
         {
           q: 'Luka says "Danas je prvi svibnja", but Iva says "Moj rođendan je trećeg svibnja" — the number ends differently. Why?',
@@ -3663,7 +3663,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'You live one floor lower: on the second floor.',
+          q: 'You live one floor lower: on the third floor.',
           from: 'Stanujem na trećem katu.',
           answer: 'Stanujem na drugom katu.',
           hint: 'After na for a place the ordinal ends in -om — unless its stem is soft, as in "trećem".',

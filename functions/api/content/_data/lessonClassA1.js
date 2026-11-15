@@ -1,6 +1,6 @@
 // ─── A1 lessons in class order ───────────────────────────────────────────────
 // Owner directive, 2026-11-15: a lesson should run like a class — listen and read
-// a short text, answer questions about it, learn the grammar, then practise with
+// a short text, answer questions about it, learn the grammar, then practice with
 // MIXED exercise kinds. This file carries that content, per lesson:
 //
 //   text — the dialogue or text (placed after the intro by withPractice) and its
@@ -104,7 +104,7 @@ const CLASS_A1_U01 = {
           ['trg', 'square'],
           ['kuća', 'house'],
           ['život', 'life'],
-          ['đak', 'pupil'],
+          ['đak', 'student'],
           ['prst', 'finger'],
         ],
         explanation: 'All five are words from this lesson. Say each one aloud as you match it.',
@@ -160,7 +160,7 @@ const CLASS_A1_U01 = {
       kind: 'text',
       title: 'Đak i kuća',
       lines: [
-        { hr: 'Đak je ovdje.', en: 'The pupil is here.' },
+        { hr: 'Đak je ovdje.', en: 'The student is here.' },
         { hr: 'Knjiga je nova.', en: 'The book is new.' },
         {
           hr: 'Čaša je puna, a džep je prazan.',
@@ -175,11 +175,11 @@ const CLASS_A1_U01 = {
       questions: [
         {
           q: 'Think of the Croatian word for each of these. Which one ENDS in the soft ch-sound?',
-          options: ['night', 'glass', 'pocket', 'pupil'],
+          options: ['night', 'glass', 'pocket', 'student'],
           correct: 0,
           hint: 'All four words are in the text. Say each Croatian word aloud and listen to its last sound.',
           explanation:
-            'noć (night) ends in the soft ć. čaša (glass) starts with the hard č; džep (pocket) starts with dž, the voiced partner of č; đak (pupil) starts with đ, the voiced partner of ć.',
+            'noć (night) ends in the soft ć. čaša (glass) starts with the hard č; džep (pocket) starts with dž, the voiced partner of č; đak (student) starts with đ, the voiced partner of ć.',
         },
         {
           type: 'tf',
@@ -262,7 +262,8 @@ const CLASS_A1_U01 = {
         q: 'Which word did you hear?',
         options: ['đak', 'jak', 'čak', 'mak'],
         correct: 0,
-        explanation: 'đak (pupil) starts with the soft voiced đ. jak means strong, čak means even.',
+        explanation:
+          'đak (student) starts with the soft voiced đ. jak means strong, čak means even.',
       },
       10,
       {
@@ -291,7 +292,7 @@ const CLASS_A1_U01 = {
         {
           who: 'Marko',
           hr: 'Dobro jutro, gospođo Horvat! Kako ste?',
-          en: 'Good morning, Mrs Horvat! How are you?',
+          en: 'Good morning, Mrs. Horvat! How are you?',
         },
         {
           who: 'Gospođa Horvat',
@@ -304,7 +305,7 @@ const CLASS_A1_U01 = {
           hr: 'Doviđenja, Marko. Vidimo se!',
           en: 'Goodbye, Marko. See you!',
         },
-        { who: 'Marko', hr: 'Doviđenja, gospođo Horvat!', en: 'Goodbye, Mrs Horvat!' },
+        { who: 'Marko', hr: 'Doviđenja, gospođo Horvat!', en: 'Goodbye, Mrs. Horvat!' },
       ],
       questions: [
         {
@@ -317,7 +318,7 @@ const CLASS_A1_U01 = {
         {
           q: 'Why does Marko ask "Kako ste?" and not "Kako si?"',
           options: [
-            'He is being polite to an older neighbour',
+            'He is being polite to an older neighbor',
             'Because it is morning',
             'He is talking to two people',
             'He is in a hurry',
@@ -328,7 +329,7 @@ const CLASS_A1_U01 = {
         },
         {
           type: 'tf',
-          q: 'Mrs Horvat says "Kako ste?" to Marko.',
+          q: 'Mrs. Horvat says "Kako ste?" to Marko.',
           answer: false,
           hint: 'Read her line again: which form does she use to Marko?',
           explanation:
@@ -343,14 +344,14 @@ const CLASS_A1_U01 = {
         },
         {
           type: 'type',
-          q: 'Now you. It is eight in the morning and you walk into a shop. Greet the shop assistant: Dobro ____!',
+          q: 'Now you. It is eight in the morning and you walk into a store. Greet the salesperson: Dobro ____!',
           answer: 'jutro',
           hint: 'It is the same greeting Marko uses at the start of the dialogue.',
           explanation: 'Dobro jutro! — good morning, until about eleven.',
         },
         {
           type: 'type',
-          q: 'Now you. An older neighbour asks you: "Kako ste?" You are fine. Answer: ____, hvala.',
+          q: 'Now you. An older neighbor asks you: "Kako ste?" You are fine. Answer: ____, hvala.',
           answer: 'Dobro',
           accept: ['Odlično', 'Super'],
           hint: 'The usual short answer that means "fine".',
