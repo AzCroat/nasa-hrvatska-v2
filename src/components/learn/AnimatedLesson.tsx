@@ -352,6 +352,21 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
     if (start !== null) setSlide(start);
   }
 
+  // THE LEARN TAB'S "Test out of this lesson" opens the lesson already in the check. The handoff
+  // is a one-shot sessionStorage key naming the lesson, consumed here so a later opening of the
+  // same lesson starts at the intro as usual.
+  useEffect(() => {
+    if (!canTestOut || !lessonId) return;
+    try {
+      if (sessionStorage.getItem('nh_lesson_testout') !== lessonId) return;
+      sessionStorage.removeItem('nh_lesson_testout');
+    } catch {
+      return;
+    }
+    startTestOut();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canTestOut, lessonId]);
+
   /** A failed test-out sends the learner into the lesson from the beginning —
    *  that IS the outcome they asked for by taking the check first. */
   function startLessonFromTestOut() {

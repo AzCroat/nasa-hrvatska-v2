@@ -108,6 +108,31 @@ test.describe('Course map', () => {
     await expect(page.getByTestId('lesson-check-progress')).toBeVisible({ timeout: 20_000 });
   });
 
+  test('the Learn tab names the next lesson and tests out of it, then moves to the one after', async ({
+    page,
+  }) => {
+    // Owner report, 2026-11-15: the test-out belongs under "Your course" itself, and it moves to
+    // the next lesson once one is passed.
+    await expect(page.getByTestId('learn-course-lesson')).toBeVisible({ timeout: 20_000 });
+    await page.getByTestId('learn-lesson-testout').click();
+    await expect(page.getByTestId('lesson-check-progress')).toBeVisible({ timeout: 20_000 });
+  });
+
+  test('with Lesson 1 passed, the Learn tab card offers Lesson 2', async ({ page }) => {
+    await page.evaluate(() => {
+      localStorage.setItem(
+        'nh_curriculum_progress',
+        JSON.stringify({ done: { alphabet: '2026-09-01' } }),
+      );
+    });
+    await page.reload();
+    await expect(page.getByTestId('learn-course-lesson')).toContainText('Unit 1', {
+      timeout: 20_000,
+    });
+    await expect(page.getByTestId('learn-course-lesson')).not.toContainText('Alphabet');
+    await expect(page.getByTestId('learn-lesson-testout')).toBeVisible();
+  });
+
   test('with Lesson 1 passed, Lesson 2 offers the test-out', async ({ page }) => {
     await page.evaluate(() => {
       localStorage.setItem(
