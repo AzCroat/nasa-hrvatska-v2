@@ -10,7 +10,7 @@ import {
   useConversationSession,
   type ConversationMessage,
 } from '../../hooks/useConversationSession';
-import { getUserCefr } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { useWriteMode } from '../../hooks/useWriteMode';
 import { markQuest } from '../../lib/quests.js';
 import { logError, getErrorsForAPI } from '../../lib/learnerErrors.js';
@@ -275,7 +275,7 @@ export default function AIConversation({
   // removed manual Difficulty setting (stats.diff, now a legacy placement
   // echo). Clamped to the selectable range; user can still adjust in-screen.
   const initialLevel = (() => {
-    const cefr = getUserCefr(appSt?.xp || 0, appSt?.lc || 0, appSt?.gc || 0);
+    const cefr = getGenerationCefr(appSt);
     return ['A1', 'A2', 'B1', 'B2'].includes(cefr) ? cefr : 'B2';
   })();
   const {

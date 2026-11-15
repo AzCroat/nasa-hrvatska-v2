@@ -2,8 +2,7 @@ import React, { useState, useRef } from 'react';
 import { H, speak } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { useStats } from '../../context/StatsContext';
-import { getUserCefr } from '../../lib/cefr';
-import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { pickGradedHr } from '../../lib/gradedHr';
 import { useEnglishToggle, EnglishToggleButton, BiText } from './bilingual';
 
@@ -286,9 +285,7 @@ function CroatiaHistoryScreen({ goBack }: { goBack?: () => void }) {
   // GRADED CROATIAN (content expansion item 6). The same expression HomeTab hands
   // the session builder, so the level this screen reads is the level the
   // culture slot counted it as own-tier for — the two agree by construction.
-  const learnerLevel = getContentUnlockLevel(
-    getUserCefr(stats?.xp ?? 0, stats?.lc ?? 0, stats?.gc ?? 0),
-  );
+  const learnerLevel = getGenerationCefr(stats);
   const intro = pickGradedHr(HISTORY, 'introHr', learnerLevel);
   return (
     <div className="scr-wrap">

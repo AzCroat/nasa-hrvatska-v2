@@ -3,8 +3,7 @@
 
 import { getWeakTopics } from './adaptive';
 import { getRecentErrors, type RecentErrorView } from './recentErrors';
-import { getUserCefr } from './cefr';
-import { getContentUnlockLevel } from './cefrCertification';
+import { getGenerationCefr } from './cefrCertification';
 import { getSR } from './srs';
 import { getActiveVocabulary } from './activeVocabulary';
 
@@ -98,7 +97,7 @@ function readLevel(): UserContext['level'] {
   const xp = typeof st.xp === 'number' ? st.xp : 0;
   const lc = typeof st.lc === 'number' ? st.lc : 0;
   const gc = typeof st.gc === 'number' ? st.gc : 0;
-  const cefr = getContentUnlockLevel(getUserCefr(xp, lc, gc)) as CefrLevel;
+  const cefr = getGenerationCefr({ xp, lc, gc }) as CefrLevel;
   return { cefr, xp, streak: _readStreak() };
 }
 

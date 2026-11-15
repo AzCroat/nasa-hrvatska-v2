@@ -6,8 +6,7 @@ import { localDateStr } from '../../lib/dateUtils';
 import { lsSet } from '../../lib/safeStorage';
 import { recordCultureItem } from '../../lib/appUtils';
 import { useStats } from '../../context/StatsContext';
-import { getUserCefr } from '../../lib/cefr';
-import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { loadCityHrBand, pickCityIntroHr, type CityHrEntries } from '../../lib/cityIntroHr';
 import type { CefrLevel } from '../../lib/cefr';
 import { accentInk, accentFill } from '../../lib/accentInk';
@@ -110,9 +109,7 @@ function CityOfDayScreen({ goBack }: CityOfDayScreenProps) {
   // SHIPS and reports it, so a learner one level above a band reads that band
   // and the chip says "Croatian · B1", never "at your level". A city with no
   // entry renders exactly as it did before grading: no block, no chip.
-  const learnerLevel = getContentUnlockLevel(
-    getUserCefr(stats?.xp ?? 0, stats?.lc ?? 0, stats?.gc ?? 0),
-  );
+  const learnerLevel = getGenerationCefr(stats);
   // The band arrives a moment after the screen does — deliberately, so the
   // page paints without waiting on the corpus. Until then the Croatian block
   // is simply absent, which is the same state an ungraded city renders.

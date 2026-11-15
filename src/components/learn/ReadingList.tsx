@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { H, READ } from '../../data';
 import { useStats } from '../../context/StatsContext';
-import { getUserCefr } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import {
   getNextReadingUnit,
   getReadingProgress,
@@ -102,7 +102,7 @@ export default function ReadingList({
   // ReadingScreen already writes a reading_<title> key there on completion — so
   // there is no separate progress store. Only shown in browse mode (not when a
   // learn-path filter is auto-launching a passage).
-  const cefr = getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0);
+  const cefr = getGenerationCefr(stats);
   const done: string[] = Array.isArray(stats.vs) ? (stats.vs as string[]) : [];
   const nextReading: ReadingUnit | null = getNextReadingUnit(cefr, done);
   const readingProgress = getReadingProgress(cefr, done);

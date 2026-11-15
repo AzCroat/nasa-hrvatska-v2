@@ -2278,10 +2278,7 @@ export default function AppRouter(props: Record<string, any>) {
                   typeof ConjugationSessionDrill
                 >['category']
               }
-              cefr={
-                getUserCefr(stats.xp || 0, stats.lc || 0, stats.gc || 0) as
-                  'A1' | 'A2' | 'B1' | 'B2'
-              }
+              cefr={getGenerationCefr(stats) as 'A1' | 'A2' | 'B1' | 'B2'}
               goBack={goBack}
               award={award}
             />

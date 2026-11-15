@@ -805,9 +805,9 @@ export function buildSessionActivities(
   // one card among the cycle it belongs to (own tier where it has the
   // learner's band, `ownAtLevels`; lower tier elsewhere), never a daily first
   // claim. At A1–A2 it stays out of the rotation because first claim serves it.
-  const cityInSlot = cefrRank(userCefr) <= cefrRank(CITY_OF_DAY_SLOT_MAX_CEFR);
+  const cityInSlot = cefrRank(level) <= cefrRank(CITY_OF_DAY_SLOT_MAX_CEFR);
   const cityVisited = !cityInSlot || lsGet('nh_cityofday_date') === today;
-  const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', userCefr));
+  const croatiaEligible = CROATIA_POOL.filter((c) => isUnlocked(c.cefr ?? 'A1', level));
   const croatiaRotation = croatiaEligible.filter((c) => !cityInSlot || c.screen !== 'cityofday');
   // Rotation fix (2026-08-14, owner report: the same culture card appeared
   // every day): day-of-month modulo repeated a pick whenever the session
@@ -835,9 +835,9 @@ export function buildSessionActivities(
   // is largest exactly where the gap was: B2–C2 go from ≤1/40 to ~20/40.
   const ownTier = croatiaRotation.filter(
     (c) =>
-      (c.cefr ?? 'A1') === userCefr ||
-      (c.adaptive && isUnlocked(c.cefr ?? 'A1', userCefr)) ||
-      Boolean(c.ownAtLevels?.includes(userCefr)),
+      (c.cefr ?? 'A1') === level ||
+      (c.adaptive && isUnlocked(c.cefr ?? 'A1', level)) ||
+      Boolean(c.ownAtLevels?.includes(level)),
   );
   const lowerTier = croatiaRotation.filter((c) => !ownTier.includes(c));
   const newest = (list: typeof croatiaRotation) =>
