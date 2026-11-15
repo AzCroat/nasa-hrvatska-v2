@@ -7,9 +7,12 @@
 // Only what the lesson and the lessons before it have taught. No conditional, no
 // comparatives, no reported speech. The imperative appears only from
 // imperative-basic, the vocative of names only from vocative-intro (before it,
-// only names that do not change — Ana, Marko, Luka, Tom — are used to address).
-// Spoken dialogues write vas / vam / vaš without the courtesy capital, as the
-// lessons themselves do; the capital belongs to letters (formal-address).
+// people are addressed only by names left as they are — Ana, Marko, Luka, Tom;
+// from vocative-intro on, Tom is called Tome, as that lesson teaches). The title
+// gospođo is known from greetings-farewells.
+// Spoken dialogues write vi / vas / vam / vaš without the courtesy capital, which
+// is what formal-address teaches: the capital belongs to letters and emails and
+// has no place in speech. A typed answer accepts the capital too.
 
 export const CLASS_A1_U18_20 = {
   // ══ UNIT 18 ════════════════════════════════════════════════════════════════
@@ -287,6 +290,7 @@ export const CLASS_A1_U18_20 = {
           q: 'It is Luka who has the headache. Say it about him.',
           from: 'Boli me glava.',
           answer: 'Boli ga glava.',
+          accept: ['Glava ga boli.'],
           hint: 'Only the small object word changes: "me" becomes "him".',
           explanation: 'Boli ga glava. — the head hurts him. ga is the short accusative of on.',
         },
@@ -356,6 +360,7 @@ export const CLASS_A1_U18_20 = {
         q: 'Now several teeth hurt, not one. Change "zub" to "zubi".',
         from: 'Boli me zub.',
         answer: 'Bole me zubi.',
+        accept: ['Zubi me bole.'],
         hint: 'Two words change: the body part, and the verb that counts it.',
         explanation: 'Bole me zubi. — several things hurt, so the verb is bole.',
       },
@@ -451,7 +456,7 @@ export const CLASS_A1_U18_20 = {
           type: 'type',
           q: 'Yesterday it was your tooth. Zub is masculine: Jučer me je ____ zub.',
           answer: 'bolio',
-          hint: 'The past form agrees with the body part. Ivan says "boljelo" for koljeno, which is neuter — a masculine word ends as in "bio, radio".',
+          hint: 'The past form agrees with the body part. Ivan says "boljelo" for koljeno, which is neuter. For a masculine word, boljeti does what voljeti does: voljelo, but volio.',
           explanation: 'Jučer me je bolio zub. — zub is masculine, so the past form is bolio.',
         },
         {
@@ -645,7 +650,7 @@ export const CLASS_A1_U18_20 = {
           type: 'type',
           q: 'Tom calls Croatian "teška stvar". You think it is a GOOD thing: Hrvatski je ____ stvar.',
           answer: 'dobra',
-          hint: 'Stvar is feminine, like riječ. Use the form of "dobar" that Tom uses about the soup.',
+          hint: 'Look at the word Tom puts in front of "stvar". Which gender is it — and which form of "dobar" goes with that gender?',
           explanation:
             'Hrvatski je dobra stvar. — stvar is feminine, so the describing word ends in -a.',
         },
@@ -1149,8 +1154,8 @@ export const CLASS_A1_U18_20 = {
       title: 'Moja baka',
       lines: [
         {
-          hr: 'Moja baka ima osamdeset godina. Kaže da starost nije teška.',
-          en: 'My grandmother is eighty. She says that old age is not hard.',
+          hr: 'Moja baka ima osamdeset godina. „Starost nije teška”, kaže ona.',
+          en: 'My grandmother is eighty. "Old age is not hard," she says.',
         },
         { hr: 'Često priča o mladosti.', en: 'She often talks about her youth.' },
         {
@@ -1167,8 +1172,8 @@ export const CLASS_A1_U18_20 = {
         },
         { hr: 'Mi smo njezina velika radost.', en: 'We are her great joy.' },
         {
-          hr: 'Baka kaže da mudrost ne dolazi brzo.',
-          en: 'Grandma says that wisdom does not come quickly.',
+          hr: '„Mudrost ne dolazi brzo”, kaže baka.',
+          en: '"Wisdom does not come quickly," says Grandma.',
         },
       ],
       questions: [
@@ -1308,10 +1313,10 @@ export const CLASS_A1_U18_20 = {
       13,
       {
         type: 'dictate',
-        audio: 'To je dobra misao.',
-        answer: 'To je dobra misao.',
-        hint: 'Four words. The last one ends in -ao, and yet it is feminine.',
-        explanation: 'To je dobra misao. — that is a good idea.',
+        audio: 'Hvala na ljubaznosti.',
+        answer: 'Hvala na ljubaznosti.',
+        hint: 'Three words: "Thank you for your kindness."',
+        explanation: 'Hvala na ljubaznosti. — hvala na + locative: ljubaznost adds -i.',
       },
     ],
   },
@@ -1594,10 +1599,10 @@ export const CLASS_A1_U18_20 = {
         items: [
           { hr: 'Čitaj!', group: 0 },
           { hr: 'Gledajte!', group: 1 },
-          { hr: 'Dođi!', group: 0 },
+          { hr: 'Pij!', group: 0 },
           { hr: 'Idite!', group: 1 },
-          { hr: 'Govori!', group: 0 },
-          { hr: 'Dođite!', group: 1 },
+          { hr: 'Sjedni!', group: 0 },
+          { hr: 'Slušajte!', group: 1 },
         ],
         explanation:
           'The form in -te speaks to a group or politely to one person. Without -te it speaks to one friend.',
@@ -1677,10 +1682,10 @@ export const CLASS_A1_U18_20 = {
       },
       {
         type: 'dictate',
-        audio: 'Dođi na kavu u pet.',
-        answer: 'Dođi na kavu u pet.',
-        hint: 'Five words. The first is the "come!" you say to a friend.',
-        explanation: 'Dođi na kavu u pet. — come for coffee at five.',
+        audio: 'Govorite polako, molim vas.',
+        answer: 'Govorite polako, molim vas.',
+        hint: 'Four words. The first is a polite instruction; the last two make it a request.',
+        explanation: 'Govorite polako, molim vas. — speak slowly, please.',
       },
     ],
   },
@@ -1779,6 +1784,14 @@ export const CLASS_A1_U18_20 = {
     },
     mix: [
       {
+        type: 'transform',
+        q: 'Say it politely, to a stranger.',
+        from: 'Nemoj čekati ovdje.',
+        answer: 'Nemojte čekati ovdje.',
+        hint: 'Only the first word changes.',
+        explanation: 'Nemojte čekati ovdje. — the polite form; the verb after it does not change.',
+      },
+      {
         type: 'sort',
         q: 'Who is being told "do not"? One friend, a stranger or a group, or all of us together?',
         groups: ['One friend (ti)', 'A stranger or a group (Vi)', 'All of us (mi)'],
@@ -1808,14 +1821,6 @@ export const CLASS_A1_U18_20 = {
           'Ne + an instruction is short and direct; nemoj + the dictionary form works with every verb.',
       },
       6,
-      {
-        type: 'transform',
-        q: 'Say it politely, to a stranger.',
-        from: 'Nemoj čekati ovdje.',
-        answer: 'Nemojte čekati ovdje.',
-        hint: 'Only the first word changes.',
-        explanation: 'Nemojte čekati ovdje. — the polite form; the verb after it does not change.',
-      },
       10,
       {
         type: 'order',
@@ -2006,7 +2011,7 @@ export const CLASS_A1_U18_20 = {
           { hr: 'Otišla je.', group: 1 },
           { hr: 'Došli su.', group: 2 },
           { hr: 'Mogao je.', group: 0 },
-          { hr: 'Rekla je.', group: 1 },
+          { hr: 'Pekla je.', group: 1 },
           { hr: 'Pomogli su.', group: 2 },
         ],
         explanation: 'The past ends in -ao for a man, -la for a woman and -li for a group.',
@@ -2095,8 +2100,8 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Profesor',
-          hr: 'Ništa, Ivane. Sjedni. A gdje je tvoja sestra?',
-          en: 'Never mind, Ivan. Sit down. And where is your sister?',
+          hr: 'U redu, Ivane. Sjedni. A gdje je tvoja sestra?',
+          en: 'All right, Ivan. Sit down. And where is your sister?',
         },
         {
           who: 'Ivan',
@@ -2105,7 +2110,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Ana',
-          hr: 'Dolazim! Dobar dan, gospodine profesore.',
+          hr: 'Dolazim! Dobar dan, profesore.',
           en: 'I am coming! Good day, professor.',
         },
         {
@@ -2159,7 +2164,7 @@ export const CLASS_A1_U18_20 = {
           type: 'type',
           q: 'A waiter speaks to a man he does not know. He uses the calling form of gospodin: Izvolite, ____.',
           answer: 'gospodine',
-          hint: 'Ana uses this very form in front of "profesore".',
+          hint: 'Gospodin ends in a consonant, like Ivan and profesor. Do to it what Luka does to them.',
           explanation:
             'Izvolite, gospodine. — gospodin → gospodine: the polite way to speak to a man.',
         },
@@ -2197,12 +2202,12 @@ export const CLASS_A1_U18_20 = {
         pairs: [
           ['Bože!', 'God'],
           ['brate!', 'a brother'],
-          ['doktore!', 'a doctor'],
+          ['sine!', 'a son'],
           ['oče!', 'a father'],
           ['kralju!', 'a king'],
         ],
         explanation:
-          'Bog → Bože (g softens to ž), brat → brate, doktor → doktore, otac → oče, kralj → kralju (a soft consonant takes -u).',
+          'Bog → Bože (g softens to ž), brat → brate, sin → sine, otac → oče, kralj → kralju (a soft consonant takes -u).',
       },
       2,
       8,
@@ -2303,7 +2308,7 @@ export const CLASS_A1_U18_20 = {
         },
         {
           who: 'Gospođa Kovač',
-          hr: 'Odlično. A ti, Tom — jesi li gladan? Idemo na ručak!',
+          hr: 'Odlično. A ti, Tome — jesi li gladan? Idemo na ručak!',
           en: 'Great. And you, Tom — are you hungry? Let us go to lunch!',
         },
       ],
@@ -2371,13 +2376,13 @@ export const CLASS_A1_U18_20 = {
         items: [
           { hr: 'Kako si?', group: 0 },
           { hr: 'Odakle ste?', group: 1 },
-          { hr: 'Izvoli.', group: 0 },
-          { hr: 'Oprostite.', group: 1 },
+          { hr: 'Oprosti.', group: 0 },
+          { hr: 'Imate li trenutak?', group: 1 },
           { hr: 'Hvala ti.', group: 0 },
           { hr: 'Sjednite, molim vas.', group: 1 },
         ],
         explanation:
-          'The ti forms are singular: si, izvoli, ti. The polite forms are plural, even to one person: Odakle ste?, Oprostite, Sjednite.',
+          'The ti forms are singular: si, oprosti, ti. The polite forms are plural, even to one person: Odakle ste?, Imate li…?, Sjednite.',
       },
       2,
       {
@@ -2555,7 +2560,7 @@ export const CLASS_A1_U18_20 = {
         q: 'Match each place to its meaning.',
         pairs: [
           ['kolodvor', 'station'],
-          ['tržnica', 'market'],
+          ['muzej', 'museum'],
           ['bolnica', 'hospital'],
           ['crkva', 'church'],
           ['trg', 'square'],
@@ -2652,7 +2657,7 @@ export const CLASS_A1_U18_20 = {
       kind: 'dialogue',
       title: 'Naše putovanje',
       lines: [
-        { who: 'Ana', hr: 'Tom, gdje ste bili na odmoru?', en: 'Tom, where were you on holiday?' },
+        { who: 'Ana', hr: 'Tome, gdje ste bili na odmoru?', en: 'Tom, where were you on holiday?' },
         {
           who: 'Tom',
           hr: 'Putovali smo po Hrvatskoj. Prvo smo bili u Zagrebu, a onda smo išli autobusom na Plitvice.',
