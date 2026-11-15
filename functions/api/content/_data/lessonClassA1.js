@@ -173,7 +173,7 @@ export const CLASS_A1 = {
           correct: 0,
           hint: 'All four words are in the text. Say each Croatian word aloud and listen to its last sound.',
           explanation:
-            'noć (night) ends in the soft ć. čaša (glass) starts with the hard č; džep (pocket) and đak (pupil) are the voiced pair.',
+            'noć (night) ends in the soft ć. čaša (glass) starts with the hard č; džep (pocket) starts with dž, the voiced partner of č; đak (pupil) starts with đ, the voiced partner of ć.',
         },
         {
           type: 'tf',
@@ -318,8 +318,7 @@ export const CLASS_A1 = {
           ],
           correct: 0,
           hint: 'Think about who he is talking to.',
-          explanation:
-            'Kako ste? is the polite form, for strangers and older people. Mrs Horvat answers a young man with Kako si?',
+          explanation: 'Kako ste? is the polite form, for strangers and older people.',
         },
         {
           type: 'tf',
@@ -338,16 +337,16 @@ export const CLASS_A1 = {
         },
         {
           type: 'type',
-          q: 'Now you. It is seven in the evening and you walk into a shop. Greet the shop assistant: Dobra ____!',
-          answer: 'večer',
-          hint: 'The evening greeting — the second word has a letter with a small hat.',
-          explanation: "Dobra večer! — good evening, from about six o'clock on.",
+          q: 'Now you. It is eight in the morning and you walk into a shop. Greet the shop assistant: Dobro ____!',
+          answer: 'jutro',
+          hint: 'It is the same greeting Marko uses at the start of the dialogue.',
+          explanation: 'Dobro jutro! — good morning, until about eleven.',
         },
         {
           type: 'type',
           q: 'Now you. An older neighbour asks you: "Kako ste?" You are fine. Answer: ____, hvala.',
           answer: 'Dobro',
-          accept: ['Odlično'],
+          accept: ['Odlično', 'Super'],
           hint: 'The usual short answer that means "fine".',
           explanation: 'Dobro, hvala. — fine, thank you. Then ask back politely: A Vi?',
         },
@@ -482,7 +481,7 @@ export const CLASS_A1 = {
       ],
       questions: [
         {
-          q: 'You only listened. Where is Tom from, and where is Ana from?',
+          q: 'Without looking back at the dialogue: where is Tom from, and where is Ana from?',
           options: [
             'Tom is from Canada, Ana is from Split',
             'Tom is from Split, Ana is from Zagreb',
@@ -490,9 +489,8 @@ export const CLASS_A1 = {
             'Tom is from Canada, Ana is from Zagreb',
           ],
           correct: 0,
-          hint: 'Tom says "Iz Kanade sam". Ana says "Mi smo iz Splita".',
-          explanation:
-            'Tom: Iz Kanade sam. Ana: Mi smo iz Splita — and it is Ivan who is from Zagreb.',
+          hint: "Think of Tom's second line, and of what Ana answers when he asks about Zagreb.",
+          explanation: 'Tom is from Canada and Ana is from Split — it is Ivan who is from Zagreb.',
         },
         {
           q: 'Tom says "Iz Kanade sam." Why is there no "ja"?',
@@ -509,10 +507,11 @@ export const CLASS_A1 = {
         },
         {
           type: 'type',
-          q: 'Now you. Ana asks YOU: "Jesi li umoran?" You are. Answer in one word: ____.',
+          q: 'Now you. Tom asks YOU: "Jesi li iz Splita?" Say that you are — one word, with the verb: ____.',
           answer: 'Jesam',
           hint: 'Answer with the long form of biti for "I".',
-          explanation: 'Jesam. — "I am." Croatian answers with the verb, not with a plain yes.',
+          explanation:
+            'Jesam. — "I am." Croatian usually answers with the verb; "Da, jesam" is also fine.',
         },
         {
           type: 'type',
@@ -525,10 +524,11 @@ export const CLASS_A1 = {
         {
           type: 'transform',
           q: 'Say it the way Tom does — without "ja".',
-          from: 'Ja sam iz Kanade.',
-          answer: 'Iz Kanade sam.',
+          from: 'Ja sam iz Splita.',
+          answer: 'Iz Splita sam.',
           hint: 'Drop ja. The short form sam cannot be the first word, so it moves.',
-          explanation: 'Iz Kanade sam. With ja gone, sam goes to second place.',
+          explanation:
+            'Iz Splita sam. With ja gone, sam comes after the first phrase (Iz Splita) — it is never the first word.',
         },
       ],
     },
@@ -646,10 +646,10 @@ export const CLASS_A1 = {
       ],
       questions: [
         {
-          q: 'You only listened. Which of the students are in the room?',
+          q: 'Without looking back at the dialogue: which of the students are in the room?',
           options: ['Ana and Marko', 'Ana and Petra', 'Marko and Tom', 'All four of them'],
           correct: 0,
-          hint: 'Listen for nije — "is not".',
+          hint: 'Two of the four are missing. One of them is at home.',
           explanation:
             'Ana and Marko are there. Petra nije — she is at home — and Tom is in Zagreb.',
         },
@@ -668,7 +668,7 @@ export const CLASS_A1 = {
         },
         {
           type: 'type',
-          q: 'Now you. The professor asks YOU: "Jeste li Vi iz Zagreba?" You are not. Answer in one word: ____.',
+          q: 'Now you. The professor asks YOU: "Jeste li Vi iz Zagreba?" You are not. Answer in one word, with the verb: ____.',
           answer: 'Nisam',
           hint: 'Answer about yourself: one word for "I am not".',
           explanation:
@@ -676,7 +676,7 @@ export const CLASS_A1 = {
         },
         {
           type: 'type',
-          q: 'A classmate asks you: "Je li Petra ovdje?" She is at home. Answer in one word: ____.',
+          q: 'A classmate asks you: "Je li Petra ovdje?" She is at home. Answer in one word, with the verb: ____.',
           answer: 'Nije',
           hint: 'You are answering about her: one word for "she is not".',
           explanation:

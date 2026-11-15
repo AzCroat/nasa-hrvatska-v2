@@ -88,7 +88,7 @@ export default function LessonTextSlide({
     }
   }
 
-  function go(next: Stage) {
+  function toStage(next: Stage) {
     run.current++;
     stopAudio();
     setPlaying(null);
@@ -184,7 +184,7 @@ export default function LessonTextSlide({
             >
               🔊 {heard ? 'Listen again' : 'Listen'}
             </button>
-            <button className="b" data-testid="lesson-text-show" onClick={() => go('read')}>
+            <button className="b" data-testid="lesson-text-show" onClick={() => toStage('read')}>
               {heard ? `Now read the ${noun} →` : 'Show the text'}
             </button>
           </div>
@@ -218,7 +218,7 @@ export default function LessonTextSlide({
             <button
               className="b bp"
               data-testid="lesson-text-questions"
-              onClick={() => go('questions')}
+              onClick={() => toStage('questions')}
               style={{ width: '100%', marginTop: 12 }}
             >
               Answer the questions →
