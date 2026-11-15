@@ -346,14 +346,13 @@ describe('SP10 testid smoke tests — BLOCKER screens', () => {
     expect(await screen.findByTestId('graded-story-card-gs_a1_1')).toBeInTheDocument();
   });
 
-  it('TabBar renders the five place testids (Me moved to the header — no nav-profile)', async () => {
+  it('TabBar renders the three place testids (Me moved to the header — no nav-profile)', async () => {
     const { default: TabBar } = await import('../components/shared/TabBar');
     render(<TabBar tab="home" setTab={() => {}} />);
     expect(screen.getByTestId('nav-home')).toBeInTheDocument();
     expect(screen.getByTestId('nav-learn')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-practice')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-ai')).toBeInTheDocument();
-    expect(screen.getByTestId('nav-croatia')).toBeInTheDocument();
+    expect(screen.getByTestId('nav-more')).toBeInTheDocument();
+    expect(screen.queryByTestId('nav-practice')).toBeNull();
     // 'Ja'/profile moved off the bottom bar to the AppHeader avatar (Phase 4).
     expect(screen.queryByTestId('nav-profile')).toBeNull();
   });

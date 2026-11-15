@@ -29,7 +29,10 @@ import { SCREEN_TAB, RESTORE_SAFE_SCREENS } from '../lib/screenTabs';
 const TAB_IDS: Set<string> = (() => {
   const src = readFileSync('src/components/shared/Sidebar.tsx', 'utf8');
   const block = src.slice(src.indexOf('const TABS'), src.indexOf('];', src.indexOf('const TABS')));
-  return new Set([...block.matchAll(/id: '([a-z_]+)'/g)].map((m) => m[1]!));
+  const ids = [...block.matchAll(/id: '([a-z_]+)'/g)].map((m) => m[1]!);
+  // Tabs that are no longer in the bar but stay valid (routes, URLs): the MORE_TABS list.
+  const more = src.match(/const MORE_TABS = \[([^\]]*)\]/)?.[1] ?? '';
+  return new Set([...ids, ...[...more.matchAll(/'([a-z_]+)'/g)].map((m) => m[1]!)]);
 })();
 
 /**

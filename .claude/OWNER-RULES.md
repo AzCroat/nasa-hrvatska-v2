@@ -27,6 +27,13 @@ blocked mechanically by .claude/hooks/guard-bash.sh.
   helper agents or forks. Briefs carry only the rules the task needs — never "read
   CLAUDE.md in full". One worker per job; full test suite once, at the end.
 
+## Product quality (owner, 2026-11-15)
+- Content, variety of content, and the UI must always be best in class. The test is a
+  real classroom: a learner who uses the app daily should become fluent the way a
+  student in a Croatian class does. One clear path; extras never compete with it.
+- One CEFR level across the whole app: the course level (`getGenerationCefr()`).
+  Never show a learner content from a level above the unit they stand on.
+
 ## Working environment
 - No temporary files or folders: no /tmp, no mktemp, no scratch files in the repo.
   Use pipes, heredocs and stdin. [ENFORCED for /tmp and mktemp]

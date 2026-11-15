@@ -44,7 +44,7 @@ test.describe('Speaking — reload/deep-link onto /speaking never strands the se
     // The ScreenGuard recovery UI must render — NOT a blank screen.
     await expect(page.getByText('Session refreshed')).toBeVisible({ timeout: 15_000 });
     await expect(
-      page.getByText(/speaking practice needs to be started from the Practice tab/i),
+      page.getByText(/speaking practice needs to be started from Practice, under More/i),
     ).toBeVisible();
     await expect(page.getByRole('button', { name: 'Back to Practice' })).toBeVisible();
 

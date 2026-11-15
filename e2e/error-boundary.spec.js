@@ -18,6 +18,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, clickMe } from './fixtures/seed-auth.js';
+import { openViaMore } from './fixtures/more-nav.js';
 // DERIVED, not restated (2026-08-31) — see the same import in
 // auth-edge-cases.spec.js. The app owns the definition of a non-actionable
 // IndexedDB teardown error; this spec's route-by-route navigation produces
@@ -154,16 +155,19 @@ test.describe('ScreenErrorBoundary — smoke tests (no boundary on healthy rende
   });
 
   // ── 6. Multiple tab switches don't trigger boundaries ────────────────────
-  test('switching through all 5 tabs in sequence does not trigger any error boundary', async ({ page }) => {
+  test('switching through every tab in sequence does not trigger any error boundary', async ({ page }) => {
     const errors = trackErrors(page);
 
     await page.goto('/');
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
     await expect(nav).toBeVisible({ timeout: 15_000 });
 
-    for (const label of ['Learn', 'Practice', 'Croatia', 'Me', 'Today']) {
+    // The bar is Today | Course | More; Practice and Croatia open from More's doors.
+    for (const label of ['Course', 'Practice', 'Croatia', 'Me', 'Today']) {
       // Me is in the Sidebar (desktop) / AppHeader avatar (mobile), not the bottom bar.
       if (label === 'Me') await clickMe(page);
+      else if (label === 'Practice') await openViaMore(page, 'practice');
+      else if (label === 'Croatia') await openViaMore(page, 'croatia');
       else await nav.getByRole('button', { name: label, exact: true }).click();
       // Brief settle time for React to commit the tab transition
       await page.waitForTimeout(400);
@@ -185,7 +189,7 @@ test.describe('ScreenErrorBoundary — smoke tests (no boundary on healthy rende
     // Use force:true to bypass WebKit's stability check — during rapid switching, CSS
     // transitions on sb-btn keep the element "not stable" and block the default click.
     // This test verifies no crash occurs, not that every click registers perfectly.
-    const tabs = ['Learn', 'Practice', 'Croatia', 'Me', 'Today', 'Learn', 'Today'];
+    const tabs = ['Course', 'More', 'Me', 'Today', 'Course', 'More', 'Today'];
     for (const label of tabs) {
       if (label === 'Me') await clickMe(page, { force: true });
       else await nav.getByRole('button', { name: label, exact: true }).click({ force: true });

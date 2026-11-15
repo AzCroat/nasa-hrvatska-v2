@@ -48,11 +48,9 @@ interface HomeTabProps {
   launchStory?: (storyId: string) => void;
 }
 
-import { getStreak, preloadAudio, DAILY_QUESTS } from '../../data';
+import { getStreak, DAILY_QUESTS } from '../../data';
 import { useContent } from '../../hooks/useContent';
 import { evalCk } from '../../lib/learnPathRules';
-import { getWordOfDay, getPhraseOfDay } from '../../lib/wordOfDay.js';
-import TodaysDiscoveries from './TodaysDiscoveries';
 import { weekKey } from '../../lib/dateUtils.js';
 import { useApp } from '../../context/AppContext';
 import { useStats } from '../../context/StatsContext';
@@ -70,10 +68,6 @@ import { getUserCefr } from '../../lib/cefr';
 import { getContentUnlockLevel } from '../../lib/cefrCertification';
 import SessionCard from './SessionCard';
 import { markSessionLaunch, takePendingSessionActivity } from '../../lib/sessionLaunchDay';
-import DailyInputCard from './DailyInputCard';
-import RazgovorHomeCard from './RazgovorHomeCard';
-import WeakWordsPanel from './WeakWordsPanel';
-import { hostOfDay } from './hostFamily';
 import { getServableReviewCount } from '../../lib/srs';
 import { vocabPoolWords, vocabLevel } from '../../lib/vocabPool';
 import { useNextStepEngine } from '../../hooks/useNextStepEngine';
@@ -108,29 +102,6 @@ export default function HomeTab({
   // diverge across devices. `st` dep only forces a re-render when stats change.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const streak = useMemo(() => getStreak(), [st]);
-
-  // Track the current calendar day — updates when the app regains visibility so
-  // word-of-day and phrase-of-day refresh automatically after midnight.
-  const [currentDayIdx, setCurrentDayIdx] = useState(() => Math.floor(Date.now() / 86400000));
-  useEffect(() => {
-    const checkDay = () => {
-      const newDay = Math.floor(Date.now() / 86400000);
-      setCurrentDayIdx((prev) => (prev !== newDay ? newDay : prev));
-    };
-    document.addEventListener('visibilitychange', checkDay);
-    return () => document.removeEventListener('visibilitychange', checkDay);
-  }, []);
-
-  // currentDayIdx signals a calendar day change; force recompute even though getWordOfDay uses Date internally
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const wod = useMemo(() => getWordOfDay(), [currentDayIdx]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pod = useMemo(() => getPhraseOfDay(), [currentDayIdx]);
-
-  // Preload word-of-the-day audio on mount so first tap plays instantly
-  useEffect(() => {
-    if (wod?.hr) preloadAudio(wod.hr);
-  }, [wod]);
 
   const { content } = useContent();
   const LEARN_PATH = useMemo(() => content?.LEARN_PATH ?? [], [content?.LEARN_PATH]);
@@ -362,19 +333,6 @@ export default function HomeTab({
       ? st.vs.includes(nextLearnPathItem.id)
       : false;
 
-  // Host-of-the-day for the Razgovor card (the host lives ONLY in that card now —
-  // the Session card above is purely the session, no host banner).
-  const host = hostOfDay(currentDayIdx);
-  const goTalkToHost = () => {
-    // Hand off to RazgovorTab, which opens this partner on mount.
-    try {
-      sessionStorage.setItem('nh_open_partner', host);
-    } catch {
-      /* sessionStorage unavailable — Razgovor still opens to its list */
-    }
-    setTab('ai');
-  };
-
   return (
     <React.Fragment>
       {/* ── GOAL SETTER MODAL (genuinely new users only — see showGoalModal gating) ── */}
@@ -507,48 +465,6 @@ export default function HomeTab({
           if (completeNextStep) nextStepEngine.launch(completeNextStep);
         }}
       />
-
-      {/* ── TODAY'S INPUT — comprehensible-input spine (Content-Rec #6): the next
-          level-appropriate listening + reading in one place, so a daily dose of
-          understandable Croatian is a first-class habit right after the session. ── */}
-      <DailyInputCard stats={st} setScr={setScr} sCurEx={sCurEx} />
-
-      {/* ── WHAT TO FIX NEXT — surface the weak-areas insight on Today, where the
-          "what should I do now" decision is made (it previously lived only in
-          Practice/Review). Self-handles its empty state; CTA opens /review. ── */}
-      <WeakWordsPanel setScr={setScr} />
-
-      {/* ── RAZGOVOR — host-of-day conversation entry (Home split) ── */}
-      <RazgovorHomeCard host={host} onOpen={goTalkToHost} />
-
-      {/* ── TODAY'S DISCOVERIES — tabbed widget replaces the 4 stacked cards
-          (Word / Phrase / City / Story). Single fixed-height container,
-          all four labels visible in the tab strip, user picks what to see.
-          Eliminates the scroll that previously buried Story of the Day. */}
-      <TodaysDiscoveries wod={wod} pod={pod} setScr={setScr} />
-
-      {/* ── BROWSE THE FULL LIBRARY — off-ramp so Today isn't a one-item conveyor
-          with no path to the wider content. Opens the Learning Center, which
-          replaced the Learn tab's hardcoded browse modal. ── */}
-      <button
-        onClick={() => setScr('learning_center')}
-        aria-label="Browse the full library of lessons, practice, and reference"
-        style={{
-          width: '100%',
-          marginTop: 16,
-          padding: '14px 16px',
-          borderRadius: 14,
-          border: '1.5px solid var(--card-b)',
-          background: 'var(--card)',
-          color: 'var(--heading)',
-          fontWeight: 800,
-          fontSize: 14,
-          cursor: 'pointer',
-          fontFamily: "'Outfit', sans-serif",
-        }}
-      >
-        📚 Browse the full library →
-      </button>
     </React.Fragment>
   );
 }
