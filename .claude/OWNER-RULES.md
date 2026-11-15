@@ -33,6 +33,10 @@ blocked mechanically by .claude/hooks/guard-bash.sh.
   student in a Croatian class does. One clear path; extras never compete with it.
 - One CEFR level across the whole app: the course level (`getGenerationCefr()`).
   Never show a learner content from a level above the unit they stand on.
+- All English in the app is AMERICAN English (owner, 2026-11-15: "made by American
+  Croatians") — spelling, vocabulary and usage: color, mom, apartment, movies, pants,
+  vacation, soccer, Mr./Mrs. This applies to the entire application, every level.
+- Show the owner screenshots of any change to what a learner sees BEFORE it is merged.
 
 ## Working environment
 - No temporary files or folders: no /tmp, no mktemp, no scratch files in the repo.
