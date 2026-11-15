@@ -116,7 +116,7 @@ export default function LessonTextSlide({
             fontFamily: 'inherit',
             cursor: 'pointer',
             display: 'block',
-            padding: '8px 6px',
+            padding: '6px 4px',
             border: 'none',
             borderBottom: '1px solid var(--card-b)',
             borderRadius: 0,
@@ -145,6 +145,13 @@ export default function LessonTextSlide({
       ))}
     </div>
   );
+
+  const compact: React.CSSProperties = {
+    padding: '7px 10px',
+    fontSize: 'var(--text-sm)',
+    minHeight: 0,
+    whiteSpace: 'nowrap',
+  };
 
   const failureNote = failure && (
     <div
@@ -201,48 +208,63 @@ export default function LessonTextSlide({
       )}
 
       {stage === 'read' && (
-        <div style={card}>
-          {heading}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
+        <div style={{ ...card, padding: '10px 12px' }}>
+          {/* ONE COMPACT HEADER ROW, THEN THE WHOLE TEXT (owner report, 2026-11-15: the last
+              lines of a dialogue sat under the lesson's bottom bar). The title, the three
+              controls and an eight-line dialogue fit one phone screen; the way on to the
+              questions is in the row, so it is in view however long the text is. */}
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6 }}>
+            <span style={{ ...eyebrowStyle(lesson.color), marginBottom: 0 }}>
+              {isText ? 'Text' : 'Dialogue'} · 2 Read
+            </span>
+            <span
+              lang="hr"
+              style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: 'var(--heading)' }}
+            >
+              {slide.title as string}
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
             <button
               className="b"
               data-testid="lesson-text-listen"
               onClick={() => void playFrom(0, true)}
+              style={compact}
             >
-              🔊 Listen again
+              🔊 Listen
             </button>
             <button
               className="b"
               data-testid="lesson-text-english"
               aria-pressed={showEn}
               onClick={() => setShowEn(!showEn)}
+              style={compact}
             >
-              {showEn ? 'Hide English' : 'Need help? Show English'}
+              {showEn ? 'Hide English' : 'English'}
             </button>
+            {questions.length > 0 && (
+              <button
+                className="b bp"
+                data-testid="lesson-text-questions"
+                onClick={() => toStage('questions')}
+                style={{ ...compact, flex: 1 }}
+              >
+                Questions →
+              </button>
+            )}
           </div>
-          {/* THE WAY ON IS AT THE TOP, ALWAYS IN VIEW (owner report, 2026-11-15: at the end of
-              a long dialogue the button sat half under the lesson's bottom bar until the
-              learner scrolled further). The same button also closes the text, below. */}
-          {questions.length > 0 && (
-            <button
-              className="b bp"
-              data-testid="lesson-text-questions"
-              onClick={() => toStage('questions')}
-              style={{ width: '100%', marginBottom: 10 }}
-            >
-              Read it? Answer the questions →
-            </button>
-          )}
           {textBlock}
           {failureNote}
+          {/* The same way on, at the end of the text: on a small phone a learner who has
+              scrolled down to the last line should not have to scroll back up. */}
           {questions.length > 0 && (
             <button
               className="b bp"
               data-testid="lesson-text-questions-bottom"
               onClick={() => toStage('questions')}
-              style={{ width: '100%', marginTop: 12 }}
+              style={{ ...compact, width: '100%', marginTop: 8 }}
             >
-              Answer the questions →
+              Questions →
             </button>
           )}
         </div>

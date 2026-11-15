@@ -271,7 +271,7 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'type',
-          q: 'Tell Ana that you and your friends are booking a table tonight: Večeras ____ stol. (rezervirati)',
+          q: 'Tell Ana that you and your friends are reserving a table tonight: Večeras ____ stol. (rezervirati)',
           answer: 'rezerviramo',
           hint: 'You and your friends are "we". Listen again to how Tom says "my friends and I are organizing".',
           explanation:
@@ -1123,9 +1123,13 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Recepcionarka',
           hr: 'Dobar dan! Imate li rezervaciju?',
-          en: 'Good afternoon! Do you have a booking?',
+          en: 'Good afternoon! Do you have a reservation?',
         },
-        { who: 'Tom', hr: 'Dobar dan. Imam rezervaciju.', en: 'Good afternoon. I have a booking.' },
+        {
+          who: 'Tom',
+          hr: 'Dobar dan. Imam rezervaciju.',
+          en: 'Good afternoon. I have a reservation.',
+        },
         { who: 'Recepcionarka', hr: 'Na koje ime?', en: 'Under what name?' },
         { who: 'Tom', hr: 'Na ime Brown.', en: 'Under the name Brown.' },
         {
@@ -1260,7 +1264,7 @@ export const CLASS_A1_U06_09 = {
           { hr: 'Doručak je uključen.', group: 1 },
         ],
         explanation:
-          'The guest has a booking and asks about checkout and wifi. The receptionist asks for the name, says what is included and wishes you a pleasant stay.',
+          'The guest has a reservation and asks about checkout and wifi. The receptionist asks for the name, says what is included and wishes you a pleasant stay.',
       },
       {
         type: 'transform',
@@ -1409,7 +1413,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'order',
-        q: 'Put the words in order: "I want to book a table."',
+        q: 'Put the words in order: "I want to reserve a table."',
         words: ['Želim', 'rezervirati', 'stol.'],
         explanation: 'Želim rezervirati stol. — first the modal verb, then the dictionary form.',
       },
@@ -2964,7 +2968,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Da, želim rezervirati sobu za subotu i nedjelju.',
-          en: 'Yes, I want to book a room for Saturday and Sunday.',
+          en: 'Yes, I want to reserve a room for Saturday and Sunday.',
         },
       ],
       questions: [
