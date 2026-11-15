@@ -5,7 +5,7 @@ import { speak } from '../../lib/audio.js';
 import { _aiPost } from '../../lib/aiPost';
 import { failureFromResponse, failureFromError, reportAiFailure } from '../../lib/aiFailure';
 import { useStats } from '../../context/StatsContext';
-import { getUserCefr } from '../../lib/cefr.js';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { accentFill } from '../../lib/accentInk.js';
 
 const TOPICS = [
@@ -264,11 +264,7 @@ export default function GrammarExplainer({
   // the 'A2' fallback. The user can still override via the level picker below.
   const [level, setLevel] = useState<string>(() => {
     try {
-      const earned = getUserCefr(
-        _statsForLevel?.xp || 0,
-        _statsForLevel?.lc || 0,
-        _statsForLevel?.gc || 0,
-      );
+      const earned = getGenerationCefr(_statsForLevel ?? undefined);
       return LEVELS.includes(earned) ? earned : 'C1';
     } catch {
       return 'A2';
