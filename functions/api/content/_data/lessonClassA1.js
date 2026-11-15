@@ -168,12 +168,12 @@ export const CLASS_A1 = {
       ],
       questions: [
         {
-          q: 'Which of these words from the text has the SOFT sound ć?',
-          options: ['noć', 'čaša', 'džep', 'đak'],
+          q: 'Think of the Croatian word for each of these. Which one ENDS in the soft ch-sound?',
+          options: ['night', 'glass', 'pocket', 'pupil'],
           correct: 0,
-          hint: 'The soft one is written with a thin slanted mark, not a small hat.',
+          hint: 'All four words are in the text. Say each Croatian word aloud and listen to its last sound.',
           explanation:
-            'noć ends in the soft ć. čaša has the hard č; džep and đak are the voiced pair.',
+            'noć (night) ends in the soft ć. čaša (glass) starts with the hard č; džep (pocket) and đak (pupil) are the voiced pair.',
         },
         {
           type: 'tf',
