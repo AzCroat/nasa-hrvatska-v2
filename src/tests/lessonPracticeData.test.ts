@@ -119,11 +119,11 @@ describe('each rule fails on a minimally broken item', () => {
   });
   it('match pairs must be distinct on both sides', () => {
     fails(
-      mut('match', (i) => ((i.pairs as string[][])[1]![0] = 'č')),
+      mut('match', (i) => ((i.pairs as string[][])[1]![0] = 'Dobar dan')),
       /left sides must be distinct/,
     );
     fails(
-      mut('match', (i) => ((i.pairs as string[][])[1]![1] = 'čaj')),
+      mut('match', (i) => ((i.pairs as string[][])[1]![1] = 'Good day')),
       /right sides must be distinct/,
     );
   });

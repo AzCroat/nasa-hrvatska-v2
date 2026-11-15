@@ -18,8 +18,8 @@ export const TEXT_FIXTURE = {
 // prettier-ignore
 export const PRACTICE_FIXTURE = [
   { type: 'tf', q: 'Hrvatska abeceda ima 30 slova.', answer: true, explanation: 'Thirty letters: lj, nj and dž each count as one.' },
-  { type: 'match', q: 'Match each letter to a word that starts with it.', pairs: [['č', 'čaj'], ['š', 'škola'], ['ž', 'život'], ['đ', 'đak']], explanation: 'Each of these letters has its own sound.' },
-  { type: 'sort', q: 'One written sign or two?', groups: ['One sign', 'Two signs, one letter'], items: [{ hr: 'č', group: 0 }, { hr: 'lj', group: 1 }, { hr: 'š', group: 0 }, { hr: 'nj', group: 1 }, { hr: 'dž', group: 1 }, { hr: 'ž', group: 0 }], explanation: 'lj, nj and dž are written with two signs but count as one letter each.' },
+  { type: 'match', q: 'Match each phrase to its meaning.', pairs: [['Dobar dan', 'Good day'], ['Hvala', 'Thank you'], ['Doviđenja', 'Goodbye'], ['Laku noć', 'Good night']], explanation: 'Dobar dan and Doviđenja are the polite hello and goodbye; Laku noć is only said at bedtime.' },
+  { type: 'sort', q: 'Are you arriving or leaving? Put each phrase where it belongs.', groups: ['Arriving (hello)', 'Leaving (goodbye)'], items: [{ hr: 'Dobar dan', group: 0 }, { hr: 'Doviđenja', group: 1 }, { hr: 'Dobro jutro', group: 0 }, { hr: 'Laku noć', group: 1 }, { hr: 'Dobra večer', group: 0 }, { hr: 'Vidimo se', group: 1 }], explanation: 'Dobro jutro, Dobar dan and Dobra večer greet someone; Doviđenja, Vidimo se and Laku noć are said when parting.' },
   { type: 'order', q: 'I am Ana.', words: ['Ja', 'sam', 'Ana.'], explanation: 'Ja sam Ana.' },
   { type: 'transform', q: 'Make the sentence negative.', from: 'Ja sam Ana.', answer: 'Ja nisam Ana.', hint: 'The negative of sam is one word.', explanation: 'sam → nisam.' },
   { type: 'fix', words: ['Ja', 'si', 'Marko.'], wrong: 1, answer: 'sam', hint: 'Which form of "to be" goes with ja?', explanation: 'ja sam, ti si.' },

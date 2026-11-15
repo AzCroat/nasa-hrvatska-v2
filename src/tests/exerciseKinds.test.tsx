@@ -81,7 +81,7 @@ describe('match', () => {
       fireEvent.click(rightFor(i));
     });
     expect(s).toHaveBeenCalledWith('right');
-    expect(id('ex-explanation').textContent).toMatch(/own sound/);
+    expect(id('ex-explanation').textContent).toMatch(/polite hello and goodbye/);
   });
   it('a wrong pair is the first miss; a second settles shown with the pairs', () => {
     const s = mount(item);
@@ -91,7 +91,7 @@ describe('match', () => {
     fireEvent.click(id('ex-match-left-0'));
     fireEvent.click(rightFor(2));
     expect(s).toHaveBeenCalledWith('shown');
-    expect(id('ex-revealed').textContent).toMatch(/č = čaj/);
+    expect(id('ex-revealed').textContent).toMatch(/Dobar dan = Good day/);
   });
 });
 
