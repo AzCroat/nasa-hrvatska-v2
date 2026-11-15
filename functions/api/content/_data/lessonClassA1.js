@@ -59,7 +59,7 @@ export const CLASS_A1 = {
           ],
           correct: 0,
           hint: 'Croatian j never sounds like the j in "jam".',
-          explanation: 'Croatian j is always the y of "yes": je is "ye", čaj ends in "ay".',
+          explanation: 'Croatian j is always the y of "yes": je is "ye", čaj rhymes with "eye".',
         },
       ],
     },
@@ -97,7 +97,7 @@ export const CLASS_A1 = {
         pairs: [
           ['trg', 'square'],
           ['kuća', 'house'],
-          ['džem', 'jam'],
+          ['život', 'life'],
           ['đak', 'pupil'],
           ['prst', 'finger'],
         ],
@@ -177,11 +177,11 @@ export const CLASS_A1 = {
         },
         {
           type: 'tf',
-          q: 'Džep je pun.',
+          q: 'Kuća je nova.',
           answer: false,
-          hint: 'Find džep in the text.',
+          hint: 'Find kuća in the text, and find the word nova.',
           explanation:
-            'The text says: džep je prazan — the pocket is empty. It is the glass that is full.',
+            'The text says: Kuća je velika i lijepa. It is the book that is new: Knjiga je nova.',
         },
         {
           q: 'How many letters does the word "knjiga" have?',
@@ -323,7 +323,7 @@ export const CLASS_A1 = {
         },
         {
           type: 'tf',
-          q: 'Gospođa Horvat: „Kako ste?”',
+          q: 'Mrs Horvat says "Kako ste?" to Marko.',
           answer: false,
           hint: 'Read her line again: which form does she use to Marko?',
           explanation:
@@ -354,7 +354,7 @@ export const CLASS_A1 = {
       {
         type: 'sort',
         q: 'Casual or polite? Put each phrase where it belongs.',
-        groups: ['Casual — with friends', 'Polite — strangers and older people'],
+        groups: ['Casual — with friends', 'Polite — safe with anyone'],
         items: [
           { hr: 'Kako si?', group: 0 },
           { hr: 'Kako ste?', group: 1 },
@@ -509,11 +509,11 @@ export const CLASS_A1 = {
           { hr: 'mi', group: 1 },
           { hr: 'ti', group: 0 },
           { hr: 'oni', group: 1 },
-          { hr: 'ona', group: 0 },
+          { hr: 'on', group: 0 },
           { hr: 'one', group: 1 },
         ],
         explanation:
-          'ja, ti and ona are one person. mi, oni and one are more than one — one is "they" for women only.',
+          'ja, ti and on are one person. mi, oni and one are more than one — one is "they" for an all-female group.',
       },
       7,
       {
@@ -525,11 +525,12 @@ export const CLASS_A1 = {
       {
         type: 'fix',
         q: 'One word is wrong. Tap it.',
-        words: ['Oni', 'je', 'ovdje.'],
-        wrong: 1,
-        answer: 'su',
-        hint: 'Which form of biti goes with oni?',
-        explanation: 'Oni su ovdje. — they are here. je goes with on, ona and ono.',
+        words: ['Maja', 'i', 'ja', 'je', 'ovdje.'],
+        wrong: 3,
+        answer: 'smo',
+        hint: 'Maja and I — that is "we". Which form of biti goes with it?',
+        explanation:
+          'Maja i ja smo ovdje. — Maja and I are here. Two people including me is "we": smo.',
       },
       5,
       {
@@ -664,7 +665,7 @@ export const CLASS_A1 = {
       5,
       {
         type: 'transform',
-        q: 'Turn it into a yes/no question.',
+        q: 'Turn it into a yes/no question with li.',
         from: 'Ti si student.',
         answer: 'Jesi li ti student?',
         accept: ['Jesi li student?'],
@@ -690,9 +691,10 @@ export const CLASS_A1 = {
       9,
       {
         type: 'transform',
-        q: 'Turn it into a yes/no question.',
+        q: 'Turn it into a yes/no question with li.',
         from: 'Marko je ovdje.',
         answer: 'Je li Marko ovdje?',
+        accept: ['Jest li Marko ovdje?'],
         hint: 'This is the one person where the short form stands before li.',
         explanation: 'Je li Marko ovdje? — with on, ona and ono the question is Je li…?',
       },
