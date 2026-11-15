@@ -135,17 +135,47 @@ async function readLesson(page, id) {
 }
 
 /** Drive an opened lesson to its completion screen, passing the check from the key. */
+/**
+ * What is on the lesson screen, in ONE round trip. The walk drives ~200 lessons, a few
+ * dozen steps each; asking the page a question at a time made the loop itself the slow
+ * part. Every flag is read from the same DOM a learner sees.
+ */
+async function lessonState(page) {
+  return page.evaluate(() => {
+    const el = (id) => document.querySelector(`[data-testid="${id}"]`);
+    const shown = (e) => !!e && !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length);
+    const on = (id) => shown(el(id));
+    const enabled = (id) => on(id) && !el(id).disabled;
+    return {
+      complete: on('lesson-complete'),
+      failed: on('lesson-check-failed'),
+      checkQuestion: on('lesson-check-question'),
+      checkNext: enabled('lesson-check-next'),
+      workedStep: on('worked-next-step'),
+      typed: enabled('practice-typed-input'),
+      practiceOption:
+        !!document.querySelector('[data-testid="practice-option"]:not([disabled])') &&
+        !on('practice-explanation'),
+      practiceNextItem: on('practice-next-item'),
+      checkAnswer: [...document.querySelectorAll('button')].some(
+        (b) => b.textContent.trim() === 'Check Answer' && shown(b),
+      ),
+      navNext: enabled('lesson-nav-next'),
+    };
+  });
+}
+
 async function driveLesson(page, id) {
   await expect(page.getByTestId('lesson-nav-next')).toBeVisible({ timeout: 20_000 });
 
-  for (let i = 0; i < 200; i++) {
-    if (await page.getByTestId('lesson-complete').isVisible()) return;
-    if (await page.getByTestId('lesson-check-failed').isVisible())
+  for (let i = 0; i < 400; i++) {
+    const st = await lessonState(page);
+    if (st.complete) return;
+    if (st.failed)
       throw new Error(`lesson ${id}: its check was FAILED with every answer taken from the key`);
 
-    const checkQ = page.getByTestId('lesson-check-question');
-    if (await checkQ.isVisible()) {
-      const q = (await checkQ.innerText()).trim();
+    if (st.checkQuestion) {
+      const q = (await page.getByTestId('lesson-check-question').innerText()).trim();
       const opts = page.getByTestId('lesson-check-option');
       if (await opts.first().isEnabled()) {
         const labels = await opts.evaluateAll((els) =>
@@ -162,35 +192,30 @@ async function driveLesson(page, id) {
       }
     }
 
-    const step = page.getByTestId('worked-next-step');
-    if (await step.isVisible()) {
-      await step.click();
+    if (st.workedStep) {
+      await page.getByTestId('worked-next-step').click();
       continue;
     }
     if (await settleExerciseStep(page)) continue;
-    const typedIn = page.getByTestId('practice-typed-input');
-    if (await typedIn.isVisible()) {
-      await typedIn.fill('x');
+    if (st.typed) {
+      await page.getByTestId('practice-typed-input').fill('x');
       await page.getByTestId('practice-typed-submit').click();
       continue;
     }
-    const practice = page.getByTestId('practice-option');
-    if ((await practice.count()) && !(await page.getByTestId('practice-explanation').isVisible())) {
-      await practice.locator(':scope:not([disabled])').first().click();
+    if (st.practiceOption) {
+      await page.locator('[data-testid="practice-option"]:not([disabled])').first().click();
       continue;
     }
-    const moreItems = page.getByTestId('practice-next-item');
-    if (await moreItems.isVisible()) {
-      await moreItems.click();
+    if (st.practiceNextItem) {
+      await page.getByTestId('practice-next-item').click();
       continue;
     }
-    const check = page.getByRole('button', { name: 'Check Answer' });
-    if (await check.isVisible()) {
+    if (st.checkAnswer) {
       await page
         .getByRole('button', { name: /^Option 1:/ })
         .first()
         .click();
-      await check.click();
+      await page.getByRole('button', { name: 'Check Answer' }).click();
     }
     const next = page.getByTestId('lesson-nav-next');
     if (await next.isEnabled()) await next.click();

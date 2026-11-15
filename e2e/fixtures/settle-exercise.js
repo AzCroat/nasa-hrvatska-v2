@@ -17,7 +17,23 @@ async function shown(page, selector) {
   return (await l.count()) && (await l.isVisible()) ? l : null;
 }
 
+/**
+ * ONE round trip that says whether any exercise-player or text-step control is on screen.
+ * The walkers call settleExerciseStep on every loop iteration of every lesson; without
+ * this, a lesson with none of the new kinds paid a dozen locator round trips per step and
+ * the whole-course walk ran past its time limit (2026-11-15).
+ */
+async function anyExerciseControl(page) {
+  return page.evaluate(
+    () =>
+      !!document.querySelector(
+        '[data-testid^="ex-"], [data-testid="lesson-text-show"], [data-testid="lesson-text-questions"]',
+      ),
+  );
+}
+
 export async function settleExerciseStep(page) {
+  if (!(await anyExerciseControl(page))) return false;
   let l;
   // The text step: past LISTEN and READ to its questions.
   if ((l = await shown(page, '[data-testid="lesson-text-show"]'))) {
