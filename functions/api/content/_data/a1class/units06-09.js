@@ -226,12 +226,12 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Moji prijatelji i ja sutra organiziramo izlet.',
-          en: 'My friends and I are organising a trip tomorrow.',
+          en: 'My friends and I are organizing a trip tomorrow.',
         },
         {
           who: 'Ana',
           hr: 'Odlično! Vi organizirate, a ja fotografiram!',
-          en: 'Great! You organise, and I take the photos!',
+          en: 'Great! You organize, and I take the photos!',
         },
         { who: 'Tom', hr: 'Dobro! Telefoniram večeras.', en: 'Fine! I am phoning tonight.' },
       ],
@@ -273,7 +273,7 @@ export const CLASS_A1_U06_09 = {
           type: 'type',
           q: 'Tell Ana that you and your friends are booking a table tonight: Večeras ____ stol. (rezervirati)',
           answer: 'rezerviramo',
-          hint: 'You and your friends are "we". Listen again to how Tom says "my friends and I are organising".',
+          hint: 'You and your friends are "we". Listen again to how Tom says "my friends and I are organizing".',
           explanation:
             'Večeras rezerviramo stol. — the "we" form ends in -mo, like organiziramo. The -ir- stays in the middle.',
         },
@@ -357,10 +357,10 @@ export const CLASS_A1_U06_09 = {
         audio: 'Oni organiziraju koncert.',
         q: 'What did you hear?',
         options: [
-          'They are organising a concert.',
-          'We are organising a concert.',
-          'He is organising a concert.',
-          'You are organising a concert.',
+          'They are organizing a concert.',
+          'We are organizing a concert.',
+          'He is organizing a concert.',
+          'You are organizing a concert.',
         ],
         correct: 0,
         explanation: 'Oni organiziraju koncert. — the ending -ju is the "they" form.',
@@ -402,7 +402,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Ana',
           hr: 'To su moji roditelji. Mama radi, a tata kuha.',
-          en: 'Those are my parents. Mum is working, and Dad is cooking.',
+          en: 'Those are my parents. Mom is working, and Dad is cooking.',
         },
         { who: 'Tom', hr: 'Što je ovo?', en: 'What is this?' },
         {
@@ -421,15 +421,15 @@ export const CLASS_A1_U06_09 = {
         {
           q: "Without looking back at the dialogue: what are Ana's parents doing in the photo?",
           options: [
-            'Mum is working and Dad is cooking',
-            'Mum is cooking and Dad is sleeping',
+            'Mom is working and Dad is cooking',
+            'Mom is cooking and Dad is sleeping',
             'Both of them are sleeping',
-            'Mum is studying and Dad is working',
+            'Mom is studying and Dad is working',
           ],
           correct: 0,
           hint: 'Ana says one short sentence about each of them.',
           explanation:
-            'Mama radi, a tata kuha. — Mum works, Dad cooks. The one who sleeps is the dog.',
+            'Mama radi, a tata kuha. — Mom works, Dad cooks. The one who sleeps is the dog.',
         },
         {
           q: 'Tom asks about Ivan and about the dog with one question word, and about the house with another. Why?',
@@ -686,7 +686,7 @@ export const CLASS_A1_U06_09 = {
         q: 'Ana: „Ne gledam film, čitam knjigu.“ — True or false: Ana čita knjigu.',
         answer: true,
         hint: 'Read the second half of what Ana says.',
-        explanation: 'Čitam knjigu. — Ana is reading a book; she is not watching a film.',
+        explanation: 'Čitam knjigu. — Ana is reading a book; she is not watching a movie.',
       },
       8,
       {
@@ -722,10 +722,10 @@ export const CLASS_A1_U06_09 = {
         type: 'listen',
         audio: 'Gledamo film.',
         q: 'What are the speakers doing?',
-        options: ['Watching a film', 'Reading a book', 'Waiting for a bus', 'Writing a letter'],
+        options: ['Watching a movie', 'Reading a book', 'Waiting for a bus', 'Writing a letter'],
         correct: 0,
         explanation:
-          'Gledamo film. — "We are watching a film." film is a masculine thing, so it does not change.',
+          'Gledamo film. — "We are watching a movie." film is a masculine thing, so it does not change.',
       },
       10,
       {
@@ -779,7 +779,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Ana',
           hr: 'Tražim konobara. On ima moj mobitel!',
-          en: 'I am looking for the waiter. He has my mobile phone!',
+          en: 'I am looking for the waiter. He has my cell phone!',
         },
       ],
       questions: [
@@ -826,11 +826,11 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'transform',
-          q: 'Change the object from the car to "novi susjed" (a new neighbour).',
+          q: 'Change the object from the car to "novi susjed" (a new neighbor).',
           from: 'Vidim novi auto.',
           answer: 'Vidim novog susjeda.',
           accept: ['Vidim novoga susjeda.'],
-          hint: 'A neighbour is alive: the noun adds -a, and the adjective changes too — as in "njegovog prijatelja".',
+          hint: 'A neighbor is alive: the noun adds -a, and the adjective changes too — as in "njegovog prijatelja".',
           explanation:
             'Vidim novog susjeda. — for a living masculine noun the adjective takes -og and the noun takes -a. A car is a thing, so novi auto stays.',
         },
@@ -877,7 +877,7 @@ export const CLASS_A1_U06_09 = {
       6,
       {
         type: 'order',
-        q: 'Put the words in order: "Do you know my neighbour?"',
+        q: 'Put the words in order: "Do you know my neighbor?"',
         words: ['Poznaješ', 'li', 'mog', 'susjeda?'],
         explanation: 'Poznaješ li mog susjeda? — moj susjed → mog susjeda: both words change.',
       },
@@ -1194,7 +1194,7 @@ export const CLASS_A1_U06_09 = {
           answer: 'Lift ne radi.',
           hint: 'Put the word for "not" straight in front of the verb.',
           explanation:
-            'Lift ne radi. — "The lift does not work." raditi means to work, for people and for machines.',
+            'Lift ne radi. — "The elevator does not work." raditi means to work, for people and for machines.',
         },
       ],
     },
@@ -1207,7 +1207,7 @@ export const CLASS_A1_U06_09 = {
           ['Na koje ime?', 'Under what name?'],
           ['Izvolite ključ.', 'Here is your key.'],
           ['Ugodan boravak!', 'Enjoy your stay!'],
-          ['Račun, molim.', 'The bill, please.'],
+          ['Račun, molim.', 'The check, please.'],
           ['Kada je odjava?', 'When is checkout?'],
         ],
         explanation:
@@ -1243,7 +1243,7 @@ export const CLASS_A1_U06_09 = {
         type: 'listen',
         audio: 'Vašu putovnicu, molim.',
         q: 'What should you hand over?',
-        options: ['Your passport', 'Your key', 'Your bill', 'Your password'],
+        options: ['Your passport', 'Your key', 'Your check', 'Your password'],
         correct: 0,
         explanation: 'Vašu putovnicu, molim. — "Your passport, please."',
       },
@@ -1277,7 +1277,7 @@ export const CLASS_A1_U06_09 = {
         audio: 'Oprostite, lift ne radi.',
         answer: 'Oprostite, lift ne radi.',
         hint: 'Four words. It starts with the polite word for "excuse me".',
-        explanation: 'Oprostite, lift ne radi. — "Excuse me, the lift does not work."',
+        explanation: 'Oprostite, lift ne radi. — "Excuse me, the elevator does not work."',
       },
     ],
   },
@@ -1291,7 +1291,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Ana',
           hr: 'Tom, večeras gledamo film. Možeš li doći?',
-          en: 'Tom, we are watching a film tonight. Can you come?',
+          en: 'Tom, we are watching a movie tonight. Can you come?',
         },
         {
           who: 'Tom',
@@ -1524,7 +1524,7 @@ export const CLASS_A1_U06_09 = {
             'It is necessary to buy meat — nobody in particular is named',
             'She needs to buy meat, and only she',
             'Tom needs meat',
-            'The shop assistant has to buy meat',
+            'The salesperson has to buy meat',
           ],
           correct: 0,
           hint: 'Compare it with "trebamo čaj" in the same line, where the "we" is in the ending.',
@@ -1533,7 +1533,7 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'type',
-          q: 'Now you. The shop assistant asks YOU: "Što trebate?" You need a ticket. Answer: Trebam ____. (karta)',
+          q: 'Now you. The salesperson asks YOU: "Što trebate?" You need a ticket. Answer: Trebam ____. (karta)',
           answer: 'kartu',
           hint: 'What you need is an object, exactly like what you have.',
           explanation: 'Trebam kartu. — karta → kartu: the thing you need takes the object form.',
@@ -1542,7 +1542,7 @@ export const CLASS_A1_U06_09 = {
           type: 'type',
           q: 'A friend looks lost. Ask whether he or she needs help: ____ li pomoć?',
           answer: 'Trebaš',
-          hint: 'The shop assistant asks politely, with -te. To a friend, use the "ti" ending.',
+          hint: 'The salesperson asks politely, with -te. To a friend, use the "ti" ending.',
           explanation:
             'Trebaš li pomoć? — "Do you need help?", said to a friend. pomoć never changes.',
         },
@@ -1628,10 +1628,10 @@ export const CLASS_A1_U06_09 = {
         type: 'listen',
         audio: 'Što trebate?',
         q: 'Who would say this to you?',
-        options: ['A shop assistant', 'A close friend', 'A small child', 'Your brother'],
+        options: ['A salesperson', 'A close friend', 'A small child', 'Your brother'],
         correct: 0,
         explanation:
-          'Što trebate? is the polite form — what a shop assistant asks a customer. A friend would ask: Što trebaš?',
+          'Što trebate? is the polite form — what a salesperson asks a customer. A friend would ask: Što trebaš?',
       },
       11,
       {
@@ -1867,7 +1867,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Hvala. Ima li ovdje bankomat?',
-          en: 'Thank you. Is there a cash machine here?',
+          en: 'Thank you. Is there a ATM here?',
         },
         {
           who: 'Službenica',
@@ -1877,17 +1877,17 @@ export const CLASS_A1_U06_09 = {
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: what does Tom do at the counter, and what does he learn about the cash machine?',
+          q: 'Without looking back at the dialogue: what does Tom do at the counter, and what does he learn about the ATM?',
           options: [
-            'He changes a banknote; the cash machine is not working today',
-            'He buys dollars; the cash machine is next door',
-            'He pays a bill by card; there is no cash machine',
+            'He changes a banknote; the ATM is not working today',
+            'He buys dollars; the ATM is next door',
+            'He pays a bill by card; there is no ATM',
             'He changes nothing, because the fee is too big',
           ],
           correct: 0,
           hint: 'He leaves with money and a receipt, and with bad news about a machine.',
           explanation:
-            'Tom changes one banknote and gets his money and a receipt. There is a cash machine, but today it does not work.',
+            'Tom changes one banknote and gets his money and a receipt. There is a ATM, but today it does not work.',
         },
         {
           q: 'Tom says "Želim promijeniti ovu novčanicu." The dictionary forms are "ova novčanica". Why do both words end in -u?',
@@ -1904,7 +1904,7 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'type',
-          q: 'Now you. A shop takes only cash, and you have only your card. Say that you have no cash: Nemam ____. (gotovina)',
+          q: 'Now you. A store takes only cash, and you have only your card. Say that you have no cash: Nemam ____. (gotovina)',
           answer: 'gotovinu',
           hint: 'What you do not have is an object — the same change as in "ovu novčanicu".',
           explanation:
@@ -1912,11 +1912,11 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'type',
-          q: 'You have paid in a shop and you need the receipt. Ask for it: Trebam ____, molim.',
+          q: 'You have paid in a store and you need the receipt. Ask for it: Trebam ____, molim.',
           answer: 'račun',
           hint: 'The clerk hands Tom two things: his money, and this.',
           explanation:
-            'Trebam račun, molim. — račun is the receipt or the bill. It is a masculine thing, so it does not change as an object.',
+            'Trebam račun, molim. — račun is the receipt or the check. It is a masculine thing, so it does not change as an object.',
         },
         {
           type: 'transform',
@@ -2124,7 +2124,7 @@ export const CLASS_A1_U06_09 = {
           { hr: 'zima', group: 2 },
         ],
         explanation:
-          'četvrtak and srijeda are days; svibanj (May) and kolovoz (August) are months; jesen (autumn) and zima (winter) are seasons.',
+          'četvrtak and srijeda are days; svibanj (May) and kolovoz (August) are months; jesen (fall) and zima (winter) are seasons.',
       },
       5,
       8,
@@ -2277,7 +2277,7 @@ export const CLASS_A1_U06_09 = {
           from: 'Idete li u kino?',
           answer: 'Ideš li u kino?',
           hint: "Only the ending of the verb changes — think of Ana's first question.",
-          explanation: 'Ideš li u kino? — "Are you going to the cinema?", said to one friend.',
+          explanation: 'Ideš li u kino? — "Are you going to the movies?", said to one friend.',
         },
       ],
     },
@@ -2305,7 +2305,7 @@ export const CLASS_A1_U06_09 = {
         answer: false,
         hint: 'Look for the little word "ne".',
         explanation:
-          'Danas ne idem van. — "I am not going out today." bolestan sam means "I am ill".',
+          'Danas ne idem van. — "I am not going out today." bolestan sam means "I am sick".',
       },
       12,
       {
@@ -2398,7 +2398,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Ana',
           hr: 'Super. Ali ujutro moram ići u banku i u trgovinu.',
-          en: 'Super. But in the morning I have to go to the bank and to the shop.',
+          en: 'Super. But in the morning I have to go to the bank and to the store.',
         },
         {
           who: 'Tom',
@@ -2443,7 +2443,7 @@ export const CLASS_A1_U06_09 = {
         },
         {
           type: 'transform',
-          q: 'The children are not going to the cinema but to school (škola). Change the destination.',
+          q: 'The children are not going to the movies but to school (škola). Change the destination.',
           from: 'Djeca idu u kino.',
           answer: 'Djeca idu u školu.',
           hint: 'kino did not change, but a place that ends in -a does.',
@@ -2480,7 +2480,7 @@ export const CLASS_A1_U06_09 = {
           { hr: 'utakmica', group: 1 },
         ],
         explanation:
-          'A school, a bank, a shop and a town have walls or borders: u. A concert and a match are events, a beach is an open place and Brač is an island: na.',
+          'A school, a bank, a store and a town have walls or borders: u. A concert and a match are events, a beach is an open place and Brač is an island: na.',
       },
       6,
       5,
@@ -2490,7 +2490,7 @@ export const CLASS_A1_U06_09 = {
         pairs: [
           ['na izlet', 'on a trip'],
           ['na more', 'to the seaside'],
-          ['u trgovinu', 'to the shop'],
+          ['u trgovinu', 'to the store'],
           ['na kolodvor', 'to the station'],
           ['kući', 'home'],
         ],
@@ -2534,7 +2534,7 @@ export const CLASS_A1_U06_09 = {
         type: 'listen',
         audio: 'Idemo na more!',
         q: 'Where are the speakers going?',
-        options: ['To the seaside', 'To the cinema', 'Home', 'To work'],
+        options: ['To the seaside', 'To the movies', 'Home', 'To work'],
         correct: 0,
         explanation:
           'Idemo na more! — "Let\'s go to the seaside!" more is neuter, so it does not change.',
@@ -2560,7 +2560,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Kupujem poklon za mamu. Sutra ima rođendan.',
-          en: 'I am buying a present for Mum. It is her birthday tomorrow.',
+          en: 'I am buying a present for Mom. It is her birthday tomorrow.',
         },
         {
           who: 'Ana',
@@ -2593,15 +2593,15 @@ export const CLASS_A1_U06_09 = {
         {
           q: 'Without looking back at the dialogue: who gets what?',
           options: [
-            'Mum a present, Dad a book, the sister flowers, the brother a ticket',
-            'Mum flowers, Dad a ticket, the sister a book, the brother nothing',
-            'Mum a book, Dad flowers, the brother a present, Grandma a ticket',
+            'Mom a present, Dad a book, the sister flowers, the brother a ticket',
+            'Mom flowers, Dad a ticket, the sister a book, the brother nothing',
+            'Mom a book, Dad flowers, the brother a present, Grandma a ticket',
             'Everything is for Grandma in Split',
           ],
           correct: 0,
           hint: 'The ticket has something to do with Split and with Grandma.',
           explanation:
-            'The present is for Mum, the book for Dad, the flowers for the sister, and the brother gets a ticket to Split.',
+            'The present is for Mom, the book for Dad, the flowers for the sister, and the brother gets a ticket to Split.',
         },
         {
           q: 'Tom says "za mamu", "za tatu", "za sestru" and "za brata". What does "za" do to the word after it?',
@@ -2948,7 +2948,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Odlično. Molim Vas povratnu kartu.',
-          en: 'Great. A return ticket, please.',
+          en: 'Great. A round-trip ticket, please.',
         },
         { who: 'Agentica', hr: 'Za jednu osobu?', en: 'For one person?' },
         {
@@ -2971,15 +2971,15 @@ export const CLASS_A1_U06_09 = {
         {
           q: 'Without looking back at the dialogue: what does Tom want from the agency?',
           options: [
-            'Return bus tickets to Zadar for himself and his sister, and a room for the weekend',
+            'Round-trip bus tickets to Zadar for himself and his sister, and a room for the weekend',
             'A one-way ferry ticket for one person',
             'A room in Zadar for a whole week, but no tickets',
             'Bus tickets for Friday and a hotel in Zagreb',
           ],
           correct: 0,
-          hint: 'He is not travelling alone, and he also needs somewhere to sleep.',
+          hint: 'He is not traveling alone, and he also needs somewhere to sleep.',
           explanation:
-            'Tom wants return tickets to Zadar for two — himself and his sister — and a room for Saturday and Sunday.',
+            'Tom wants round-trip tickets to Zadar for two — himself and his sister — and a room for Saturday and Sunday.',
         },
         {
           q: 'Tom says "Želim ići u Zadar", but he asks about the "autobus za Zadar". Why two different little words before the same town?',
@@ -3025,7 +3025,7 @@ export const CLASS_A1_U06_09 = {
         q: 'Match each travel word to its meaning.',
         pairs: [
           ['jednosmjerna karta', 'one-way ticket'],
-          ['povratna karta', 'return ticket'],
+          ['povratna karta', 'round-trip ticket'],
           ['trajekt', 'ferry'],
           ['putovanje', 'journey'],
           ['izlet', 'day trip'],
@@ -3327,7 +3327,7 @@ export const CLASS_A1_U06_09 = {
           hr: 'Izvolite: juha, salata, riba i kruh.',
           en: 'Here you are: soup, salad, fish and bread.',
         },
-        { who: 'Ana', hr: 'Hvala! I račun, molim.', en: 'Thank you! And the bill, please.' },
+        { who: 'Ana', hr: 'Hvala! I račun, molim.', en: 'Thank you! And the check, please.' },
       ],
       questions: [
         {
@@ -3452,9 +3452,9 @@ export const CLASS_A1_U06_09 = {
         type: 'listen',
         audio: 'Račun, molim.',
         q: 'What does the speaker want?',
-        options: ['The bill', 'The menu', 'A glass of water', 'Another coffee'],
+        options: ['The check', 'The menu', 'A glass of water', 'Another coffee'],
         correct: 0,
-        explanation: 'Račun, molim. — "The bill, please."',
+        explanation: 'Račun, molim. — "The check, please."',
       },
       9,
       {
@@ -3503,7 +3503,7 @@ export const CLASS_A1_U06_09 = {
         {
           who: 'Tom',
           hr: 'Hvala, sve je odlično. Mogu li dobiti račun?',
-          en: 'Thank you, everything is excellent. Can I have the bill?',
+          en: 'Thank you, everything is excellent. Can I have the check?',
         },
         { who: 'Konobar', hr: 'Zajedno ili odvojeno?', en: 'Together or separately?' },
       ],
@@ -3586,7 +3586,7 @@ export const CLASS_A1_U06_09 = {
       },
       {
         type: 'order',
-        q: 'Put the words in order: "Can I have the bill, please?"',
+        q: 'Put the words in order: "Can I have the check, please?"',
         words: ['Mogu', 'li', 'dobiti', 'račun,', 'molim?'],
         explanation:
           'Mogu li dobiti račun, molim? — račun is a masculine thing, so it does not change.',
@@ -3605,7 +3605,7 @@ export const CLASS_A1_U06_09 = {
           { hr: 'Želite li još nešto?', group: 1 },
         ],
         explanation:
-          'The guest asks for the menu, orders and asks for the bill. The waiter asks what you would like and wishes you a good meal.',
+          'The guest asks for the menu, orders and asks for the check. The waiter asks what you would like and wishes you a good meal.',
       },
       3,
       {
@@ -3613,7 +3613,7 @@ export const CLASS_A1_U06_09 = {
         q: 'Tom: „Zajedno, molim. Ja plaćam.“ — True or false: Tom is paying for everybody.',
         answer: true,
         hint: 'Ja plaćam means "I am paying".',
-        explanation: 'Zajedno — together: one bill, and Tom pays it.',
+        explanation: 'Zajedno — together: one check, and Tom pays it.',
       },
       10,
       1,

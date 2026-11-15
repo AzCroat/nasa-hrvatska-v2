@@ -81,7 +81,7 @@ export const CLASS_A1_U02_05 = {
           q: 'Say it again without repeating the noun — use the right word for "it".',
           from: 'Stan je ovdje.',
           answer: 'On je ovdje.',
-          hint: 'stan (flat) ends in a consonant, like grad.',
+          hint: 'stan (apartment) ends in a consonant, like grad.',
           explanation: 'On je ovdje. — a noun ending in a consonant is masculine.',
         },
       ],
@@ -504,13 +504,13 @@ export const CLASS_A1_U02_05 = {
         audio: 'Kada je film?',
         q: 'What does the speaker want to know?',
         options: [
-          'When the film is',
-          'Where the film is',
+          'When the movie is',
+          'Where the movie is',
           'Which film it is',
-          'Why there is a film',
+          'Why there is a movie',
         ],
         correct: 0,
-        explanation: 'Kada? — when? The speaker is asking about the time of the film.',
+        explanation: 'Kada? — when? The speaker is asking about the time of the movie.',
       },
       6,
       {
@@ -942,7 +942,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Ana',
           hr: 'Ja sam učiteljica. Je li i gospođa Kovač kuharica?',
-          en: 'I am a teacher. Is Mrs Kovač a cook too?',
+          en: 'I am a teacher. Is Mrs. Kovač a cook too?',
         },
         {
           who: 'Gospodin Kovač',
@@ -963,19 +963,19 @@ export const CLASS_A1_U02_05 = {
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: what do Ana and Mr Kovač do?',
+          q: 'Without looking back at the dialogue: what do Ana and Mr. Kovač do?',
           options: [
-            'Ana is a teacher, and Mr Kovač is a cook',
-            'Ana is a doctor, and Mr Kovač is a cook',
-            'Ana is a teacher, and Mr Kovač is a waiter',
-            'Ana is a journalist, and Mr Kovač is a driver',
+            'Ana is a teacher, and Mr. Kovač is a cook',
+            'Ana is a doctor, and Mr. Kovač is a cook',
+            'Ana is a teacher, and Mr. Kovač is a waiter',
+            'Ana is a journalist, and Mr. Kovač is a driver',
           ],
           correct: 0,
-          hint: 'The doctor is Mrs Kovač, and the journalist is Petra.',
-          explanation: 'Ana teaches, and Mr Kovač cooks: Ja sam kuhar.',
+          hint: 'The doctor is Mrs. Kovač, and the journalist is Petra.',
+          explanation: 'Ana teaches, and Mr. Kovač cooks: Ja sam kuhar.',
         },
         {
-          q: 'Mr Kovač says he is a "kuhar". Ana asks whether Mrs Kovač is a "kuharica". Why is the word longer?',
+          q: 'Mr. Kovač says he is a "kuhar". Ana asks whether Mrs. Kovač is a "kuharica". Why is the word longer?',
           options: [
             'A job word for a woman adds an ending — here -ica',
             'It is the plural: there are two cooks',
@@ -1019,7 +1019,7 @@ export const CLASS_A1_U02_05 = {
           ['kuhar', 'cook'],
           ['vozač', 'driver'],
           ['odvjetnik', 'lawyer'],
-          ['prodavač', 'shop assistant'],
+          ['prodavač', 'salesperson'],
           ['učitelj', 'teacher'],
         ],
         explanation: "Five jobs in the man's form. Each one has a partner word for a woman.",
@@ -1139,7 +1139,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Maja',
           hr: 'Jesam. Ja sam iz Dalmacije, a mama je Talijanka.',
-          en: 'I am. I am from Dalmatia, and my mum is Italian.',
+          en: 'I am. I am from Dalmatia, and my mom is Italian.',
         },
         { who: 'Tom', hr: 'Talijanski je lijep jezik.', en: 'Italian is a beautiful language.' },
         {
@@ -1165,7 +1165,7 @@ export const CLASS_A1_U02_05 = {
           correct: 0,
           hint: "It is Maja's mother who is Italian.",
           explanation:
-            'Tom is from Canada, Emma is English and Maja is Croatian — it is her mum who is Italian.',
+            'Tom is from Canada, Emma is English and Maja is Croatian — it is her mom who is Italian.',
         },
         {
           q: 'Maja says "hrvatski je lijep jezik". Tom says "Hrvatska je lijepa zemlja". What is the difference between the two words?',
@@ -1189,7 +1189,7 @@ export const CLASS_A1_U02_05 = {
         },
         {
           type: 'type',
-          q: 'Maja\'s mum is a "Talijanka". Maja\'s uncle Paolo is from Italy too. Say: Paolo je ____.',
+          q: 'Maja\'s mom is a "Talijanka". Maja\'s uncle Paolo is from Italy too. Say: Paolo je ____.',
           answer: 'Talijan',
           hint: "Again, take the woman's ending off — here it is -ka.",
           explanation: 'Paolo je Talijan. — Talijan for a man, Talijanka for a woman.',
@@ -1265,7 +1265,7 @@ export const CLASS_A1_U02_05 = {
       8,
       {
         type: 'order',
-        q: 'Put the words in order: "Dad is Croatian, and mum is Italian."',
+        q: 'Put the words in order: "Dad is Croatian, and mom is Italian."',
         words: ['Tata', 'je', 'Hrvat,', 'a', 'mama', 'je', 'Talijanka.'],
         explanation: 'Tata je Hrvat, a mama je Talijanka.',
       },
@@ -2212,7 +2212,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Ana',
           hr: 'Tom, ovo je moja obitelj. Ovo su mama i tata.',
-          en: 'Tom, this is my family. These are Mum and Dad. (Ana is showing a photo.)',
+          en: 'Tom, this is my family. These are Mom and Dad. (Ana is showing a photo.)',
         },
         {
           who: 'Tom',
@@ -2274,7 +2274,7 @@ export const CLASS_A1_U02_05 = {
         },
         {
           type: 'type',
-          q: "Now you. Show Tom YOUR photo. Your mum's sister is in it. Say: Ovo je moja ____.",
+          q: "Now you. Show Tom YOUR photo. Your mom's sister is in it. Say: Ovo je moja ____.",
           answer: 'teta',
           hint: 'It is the word Ana uses for the woman Tom takes for her sister.',
           explanation: 'Ovo je moja teta. — teta is an aunt, on either side of the family.',
@@ -2599,7 +2599,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Ana',
           hr: 'Nisu. To su učenici i učitelji.',
-          en: 'No. Those are pupils and teachers.',
+          en: 'No. Those are students and teachers.',
         },
         { who: 'Tom', hr: 'A gdje su kovčezi?', en: 'And where are the suitcases?' },
         {
@@ -2617,14 +2617,14 @@ export const CLASS_A1_U02_05 = {
         {
           q: 'Without looking back at the dialogue: who are the people Tom takes for soldiers?',
           options: [
-            'Pupils and teachers',
+            'Students and teachers',
             'Passengers',
             'Soldiers after all',
             'Doctors and workers',
           ],
           correct: 0,
           hint: 'Ana says "Nisu" and tells him who they really are.',
-          explanation: 'They are not soldiers: To su učenici i učitelji — pupils and teachers.',
+          explanation: 'They are not soldiers: To su učenici i učitelji — students and teachers.',
         },
         {
           q: 'One train is "vlak" and one passenger is "putnik" — both end in k. In the plural Ana says "vlakovi" but "putnici". Why does the k change in only one of them?',
@@ -2686,7 +2686,7 @@ export const CLASS_A1_U02_05 = {
         q: 'Match each plural to its meaning.',
         pairs: [
           ['vojnici', 'soldiers'],
-          ['učenici', 'pupils'],
+          ['učenici', 'students'],
           ['jezici', 'languages'],
           ['orasi', 'walnuts'],
           ['bubrezi', 'kidneys'],
@@ -2706,9 +2706,9 @@ export const CLASS_A1_U02_05 = {
         type: 'listen',
         audio: 'Učenici su tamo.',
         q: 'Who is over there?',
-        options: ['The pupils', 'One pupil', 'The teachers', 'The soldiers'],
+        options: ['The students', 'One student', 'The teachers', 'The soldiers'],
         correct: 0,
-        explanation: 'Učenici su tamo. — učenik → učenici: the pupils.',
+        explanation: 'Učenici su tamo. — učenik → učenici: the students.',
       },
       2,
       {
@@ -2732,7 +2732,7 @@ export const CLASS_A1_U02_05 = {
       12,
       {
         type: 'transform',
-        q: 'There are several pupils. Make the noun and the verb plural.',
+        q: 'There are several students. Make the noun and the verb plural.',
         from: 'Đak je tamo.',
         answer: 'Đaci su tamo.',
         hint: 'đak is short, but it is one of the few short nouns that take a plain -i — so the -i touches the k.',
@@ -2751,7 +2751,7 @@ export const CLASS_A1_U02_05 = {
         audio: 'Gdje su učenici?',
         answer: 'Gdje su učenici?',
         hint: 'Three words, and it is a question. The last word starts with a u and has a č.',
-        explanation: 'Gdje su učenici? — where are the pupils?',
+        explanation: 'Gdje su učenici? — where are the students?',
       },
     ],
   },
@@ -2798,11 +2798,11 @@ export const CLASS_A1_U02_05 = {
       ],
       questions: [
         {
-          q: 'Without looking back at the dialogue: who are the foreigners in the shop?',
+          q: 'Without looking back at the dialogue: who are the foreigners in the store?',
           options: [
             'Germans and Americans',
             'Luka and Ivan',
-            'The two shop assistants',
+            'The two salespeople',
             'Nobody: there are no foreigners',
           ],
           correct: 0,
@@ -2939,7 +2939,7 @@ export const CLASS_A1_U02_05 = {
     ],
   },
 
-  // ── colours ────────────────────────────────────────────────────────────────
+  // ── colors ────────────────────────────────────────────────────────────────
   colours: {
     text: {
       kind: 'dialogue',
@@ -2955,7 +2955,7 @@ export const CLASS_A1_U02_05 = {
           hr: 'Jest. More je plavo. I nebo je plavo.',
           en: 'Yes. The sea is blue. And the sky is blue too.',
         },
-        { who: 'Baka', hr: 'Lijepo! A je li ovo trava?', en: 'Lovely! And is this grass?' },
+        { who: 'Baka', hr: 'Lijepo! A je li ovo trava?', en: 'Nice! And is this grass?' },
         {
           who: 'Petra',
           hr: 'Jest. Trava je zelena, a kuće su bijele.',
@@ -2964,7 +2964,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Baka',
           hr: 'A krovovi? Koja je ovo boja?',
-          en: 'And the roofs? What colour is this?',
+          en: 'And the roofs? What color is this?',
         },
         {
           who: 'Petra',
@@ -2980,7 +2980,7 @@ export const CLASS_A1_U02_05 = {
       ],
       questions: [
         {
-          q: "Without looking back at the dialogue: what colour are the houses and the roofs in Petra's picture?",
+          q: "Without looking back at the dialogue: what color are the houses and the roofs in Petra's picture?",
           options: [
             'The houses are white and the roofs are red',
             'The houses are red and the roofs are white',
@@ -2988,64 +2988,64 @@ export const CLASS_A1_U02_05 = {
             'The houses are blue and the roofs are red',
           ],
           correct: 0,
-          hint: 'Grandma asks about the roofs separately — and Petra names that colour twice.',
+          hint: 'Grandma asks about the roofs separately — and Petra names that color twice.',
           explanation: 'Kuće su bijele (white), and krovovi su crveni (red).',
         },
         {
-          q: 'Petra says "More je plavo", "Trava je zelena" and "Pas je smeđ". The three colour words end differently: -o, -a, and no ending. Why?',
+          q: 'Petra says "More je plavo", "Trava je zelena" and "Pas je smeđ". The three color words end differently: -o, -a, and no ending. Why?',
           options: [
-            'A colour takes the gender of its noun: more is neuter, trava feminine, pas masculine',
-            'Each colour has its own fixed ending',
-            'The ending shows how strong the colour is',
+            'A color takes the gender of its noun: more is neuter, trava feminine, pas masculine',
+            'Each color has its own fixed ending',
+            'The ending shows how strong the color is',
             'The ending depends on who is speaking',
           ],
           correct: 0,
-          hint: 'Look at the last letter of each noun, then at the last letter of its colour.',
+          hint: 'Look at the last letter of each noun, then at the last letter of its color.',
           explanation:
-            'The noun decides and the colour follows: nothing for a masculine noun, -a for a feminine one, -o for a neuter one.',
+            'The noun decides and the color follows: nothing for a masculine noun, -a for a feminine one, -o for a neuter one.',
         },
         {
           type: 'type',
           q: 'Now you. In YOUR picture there is a red car. Remember: auto ends in -o, but it is masculine, like pas. Say: Auto je ____.',
           answer: 'crven',
-          hint: "A masculine colour has no ending at all. Take the ending off Petra's word for the roofs.",
-          explanation: 'Auto je crven. — auto is masculine, so the colour has no ending.',
+          hint: "A masculine color has no ending at all. Take the ending off Petra's word for the roofs.",
+          explanation: 'Auto je crven. — auto is masculine, so the color has no ending.',
         },
         {
           type: 'type',
-          q: 'Your house is yellow. The colour "yellow" is "žut". Say: Kuća je ____.',
+          q: 'Your house is yellow. The color "yellow" is "žut". Say: Kuća je ____.',
           answer: 'žuta',
-          hint: 'kuća ends in -a, like trava. Give the colour the same last letter.',
-          explanation: 'Kuća je žuta. — a feminine noun, so the colour ends in -a.',
+          hint: 'kuća ends in -a, like trava. Give the color the same last letter.',
+          explanation: 'Kuća je žuta. — a feminine noun, so the color ends in -a.',
         },
         {
           type: 'transform',
           q: 'You draw a second dog. Make the whole sentence plural.',
           from: 'Pas je crn.',
           answer: 'Psi su crni.',
-          hint: 'Three words change. The plural of pas loses its a, and the colour takes the ending Petra uses for the roofs.',
+          hint: 'Three words change. The plural of pas loses its a, and the color takes the ending Petra uses for the roofs.',
           explanation:
-            'Psi su crni. — pas → psi, je → su, and the colour takes the masculine plural -i.',
+            'Psi su crni. — pas → psi, je → su, and the color takes the masculine plural -i.',
         },
       ],
     },
     mix: [
       {
         type: 'match',
-        q: 'Match each colour to its meaning.',
+        q: 'Match each color to its meaning.',
         pairs: [
           ['žut', 'yellow'],
-          ['siv', 'grey'],
+          ['siv', 'gray'],
           ['bijel', 'white'],
           ['narančast', 'orange'],
           ['ružičast', 'pink'],
         ],
-        explanation: 'Five colours in the masculine form — the one a dictionary lists.',
+        explanation: 'Five colors in the masculine form — the one a dictionary lists.',
       },
       7,
       {
         type: 'sort',
-        q: 'Which noun can each colour form describe: auto, kuća or more?',
+        q: 'Which noun can each color form describe: auto, kuća or more?',
         groups: ['auto (masculine)', 'kuća (feminine)', 'more (neuter)'],
         items: [
           { hr: 'crven', group: 0 },
@@ -3069,13 +3069,13 @@ export const CLASS_A1_U02_05 = {
         answer: true,
         hint: 'zastava = flag. Think of the three stripes of the Croatian flag.',
         explanation:
-          'True: the Croatian flag is red, white and blue — and zastava is feminine, so all three colours end in -a.',
+          'True: the Croatian flag is red, white and blue — and zastava is feminine, so all three colors end in -a.',
       },
       10,
       {
         type: 'listen',
         audio: 'Banane su žute, a jabuke su crvene.',
-        q: 'What colour are the apples?',
+        q: 'What color are the apples?',
         options: ['Red', 'Yellow', 'Green', 'White'],
         correct: 0,
         explanation: 'Jabuke su crvene — the apples are red. The bananas are yellow.',
@@ -3103,7 +3103,7 @@ export const CLASS_A1_U02_05 = {
         q: 'There are several clouds. Make the whole sentence plural.',
         from: 'Oblak je siv.',
         answer: 'Oblaci su sivi.',
-        hint: 'Three words change. In oblak the k meets the plural -i; the colour takes the masculine plural ending.',
+        hint: 'Three words change. In oblak the k meets the plural -i; the color takes the masculine plural ending.',
         explanation: 'Oblaci su sivi. — oblak → oblaci (k → c), je → su, siv → sivi.',
       },
       {
@@ -3112,15 +3112,15 @@ export const CLASS_A1_U02_05 = {
         words: ['Kuće', 'su', 'siv', 'i', 'bijele.'],
         wrong: 2,
         answer: 'sive',
-        hint: 'kuće is a feminine plural. Look at the ending of the other colour.',
-        explanation: 'Kuće su sive i bijele. — a feminine plural noun takes colours in -e.',
+        hint: 'kuće is a feminine plural. Look at the ending of the other color.',
+        explanation: 'Kuće su sive i bijele. — a feminine plural noun takes colors in -e.',
       },
       {
         type: 'dictate',
         audio: 'Koja je ovo boja?',
         answer: 'Koja je ovo boja?',
-        hint: 'Four words: the question about a colour.',
-        explanation: 'Koja je ovo boja? — what colour is this?',
+        hint: 'Four words: the question about a color.',
+        explanation: 'Koja je ovo boja? — what color is this?',
       },
     ],
   },
@@ -3131,18 +3131,26 @@ export const CLASS_A1_U02_05 = {
       kind: 'dialogue',
       title: 'Novi stan',
       lines: [
-        { who: 'Ana', hr: 'Tom, je li ovo tvoj novi stan?', en: 'Tom, is this your new flat?' },
+        {
+          who: 'Ana',
+          hr: 'Tom, je li ovo tvoj novi stan?',
+          en: 'Tom, is this your new apartment?',
+        },
         {
           who: 'Tom',
           hr: 'Jest. Stan je mali, ali je lijep.',
-          en: 'It is. The flat is small, but it is nice.',
+          en: 'It is. The apartment is small, but it is nice.',
         },
         {
           who: 'Ana',
           hr: 'Soba je velika! Je li stan skup?',
-          en: 'The room is big! Is the flat expensive?',
+          en: 'The room is big! Is the apartment expensive?',
         },
-        { who: 'Tom', hr: 'Nije. Stan je star i jeftin.', en: 'No. The flat is old and cheap.' },
+        {
+          who: 'Tom',
+          hr: 'Nije. Stan je star i jeftin.',
+          en: 'No. The apartment is old and cheap.',
+        },
         { who: 'Ana', hr: 'A ulica? Je li tiha?', en: 'And the street? Is it quiet?' },
         {
           who: 'Tom',
@@ -3158,7 +3166,7 @@ export const CLASS_A1_U02_05 = {
       ],
       questions: [
         {
-          q: "Without looking back at the dialogue: what is Tom's flat like?",
+          q: "Without looking back at the dialogue: what is Tom's apartment like?",
           options: [
             'Small, old and cheap — but nice',
             'Big, new and expensive',
@@ -3184,7 +3192,7 @@ export const CLASS_A1_U02_05 = {
         },
         {
           type: 'type',
-          q: 'Now you. Ana asks YOU: "Je li tvoja soba velika?" It is small — Tom\'s word for his small flat is "mali". Answer: Nije, soba je ____.',
+          q: 'Now you. Ana asks YOU: "Je li tvoja soba velika?" It is small — Tom\'s word for his small apartment is "mali". Answer: Nije, soba je ____.',
           answer: 'mala',
           hint: 'soba ends in -a. Give the describing word the same last letter, as in Ana\'s "Soba je velika".',
           explanation: 'Nije, soba je mala. — mali stan, but mala soba.',
@@ -3250,7 +3258,7 @@ export const CLASS_A1_U02_05 = {
         type: 'listen',
         audio: 'Sobe su jeftine.',
         q: 'What is cheap?',
-        options: ['The rooms', 'One room', 'The flats', 'One flat'],
+        options: ['The rooms', 'One room', 'The apartments', 'One apartment'],
         correct: 0,
         explanation:
           'Sobe su jeftine. — soba → sobe, and the adjective takes the feminine plural -e.',
@@ -3331,7 +3339,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Ana',
           hr: 'Nisu. To su mamine knjige. A ovo je bakino pismo.',
-          en: "No. Those are Mum's books. And this is Grandma's letter.",
+          en: "No. Those are Mom's books. And this is Grandma's letter.",
         },
         { who: 'Tom', hr: 'A što je ovdje tvoje?', en: 'And what here is yours?' },
         {
@@ -3344,10 +3352,10 @@ export const CLASS_A1_U02_05 = {
         {
           q: 'Without looking back at the dialogue: whose are the car, the books and the letter?',
           options: [
-            "The car is Marko's, the books are Mum's, the letter is Grandma's",
+            "The car is Marko's, the books are Mom's, the letter is Grandma's",
             "The car is Dad's, the books are Marko's, the letter is Grandma's",
-            "The car is Marko's, the books are Grandma's, the letter is Mum's",
-            "The car is Dad's, the books are Mum's, the letter is Ana's",
+            "The car is Marko's, the books are Grandma's, the letter is Mom's",
+            "The car is Dad's, the books are Mom's, the letter is Ana's",
           ],
           correct: 0,
           hint: 'Tom guesses wrong about the car and about the books.',
