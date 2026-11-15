@@ -38,6 +38,13 @@
  * A cue that names the PERSON or gives an English gloss is legitimate and stays:
  * `Treba ____ odmor. (ja)` → `mi` says whose rest it is without giving the dative form.
  *
+ * THE EXERCISE PLAYER KINDS (2026-11-15) NEED NO SPECIAL CASE, and that is by construction:
+ * the scan reads only object literals that carry an `options`/`opts`/`choices` array, so
+ * `tf`, `match`, `sort`, `order`, `transform`, `fix` and `dictate` are never subjects — and
+ * `transform.from` / `order.words` legitimately show the words of their own answer. `listen`
+ * is the one kind with options; its `q` is English and its Croatian lives in `audio`, which
+ * `lessonDepthRules` forbids from appearing in `q`. No shipped lesson carries any of them yet.
+ *
  * Word boundaries are Unicode lookarounds. JS `\b` is ASCII-only and misfires around
  * č/ć/đ/š/ž — the same rule the Croatian lint records.
  */

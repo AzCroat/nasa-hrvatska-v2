@@ -24,7 +24,7 @@ import { PRACTICE_B2 } from './lessonPracticeB2.js';
 import { PRACTICE_C1 } from './lessonPracticeC1.js';
 import { PRACTICE_C2 } from './lessonPracticeC2.js';
 
-/** lesson id → { worked, practice, checkB?, vocab? } */
+/** lesson id → { worked, practice, checkB?, vocab?, text? } */
 export const LESSON_PRACTICE = {
   ...PRACTICE_A1,
   ...PRACTICE_A2,
@@ -39,6 +39,12 @@ export function withPractice(lessons) {
     const extra = LESSON_PRACTICE[lesson.id];
     if (!extra) return lesson;
     const slides = [...lesson.slides];
+    // A short dialogue or text with questions (exercise player, 2026-11-15): right
+    // after the intro, so the learner reads before the rules. Optional.
+    if (extra.text) {
+      const introAt = slides.findIndex((s) => s.type === 'intro');
+      slides.splice(introAt >= 0 ? introAt + 1 : 0, 0, { type: 'text', ...extra.text });
+    }
     const worked = (extra.worked || []).map((w) => ({ type: 'worked', ...w }));
     const firstQuiz = slides.findIndex((s) => s.type === 'quiz');
     const checkAt = slides.findIndex((s) => s.type === 'check');

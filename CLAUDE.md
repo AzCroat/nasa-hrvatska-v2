@@ -762,6 +762,26 @@ been wired to the one lesson family the daily session's teaching slot serves.
   fewer than six items or an answer key that sits at one position; lower a
   word floor; define a depth rule in the test or the script alone.
 
+## Critical Architecture: The Exercise Player (2026-11-15)
+
+Practice slides and an optional listen/read **text step** carry more than multiple choice. The
+kinds (`tf`, `match`, `sort`, `order`, `transform`, `fix`, `listen`, `dictate`, plus the existing
+choice and typed) and their data shapes live in the lesson practice data
+(`LESSON_PRACTICE[id].practice.items` / `.text`); components are in `src/components/learn/exercises/`,
+the text slide is `LessonTextSlide`, and `withPractice` places it right after the intro.
+
+- Practice is NEVER scored, and every kind keeps one contract (`useAttempts`): first miss -> hint (or a
+  generic nudge) and a second try; second miss -> the answer and the explanation. The lesson check is
+  unchanged: multiple choice only, `lessonCheck.ts` untouched.
+- Audio-first kinds (`listen`, `dictate`) use `useHeardGate`: the answer is locked until the recording
+  has played, the Croatian is not shown before the item settles, and a failed play offers Try again and a
+  skip that settles the item as `skipped` (not right, not wrong).
+- The text slide NEVER gates reading on audio: the text is visible from the start, English is behind a
+  toggle, a failed "Listen first" only names its cause, and a text with no questions never holds Next.
+- Rules are in `scripts/lessonDepthRules.mjs` (`exerciseKindProblems`, `textSlideProblems`; they run only
+  where the shapes are present) and the Croatian lint walks every new field through
+  `scripts/lessonExerciseStrings.mjs` (pinned per field by `exerciseKindsLint.test.ts`).
+
 ## Critical Architecture: Lesson Retention (owner directive, 2026-09-07)
 
 The gap this closes: **the app taught, tested once, and never asked again.**
