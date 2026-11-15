@@ -11,8 +11,8 @@ import { markQuest } from '../../lib/quests.js';
 import { recordExerciseOutcome } from '../../lib/masteryLedger';
 import { useStats } from '../../context/StatsContext';
 import { useRecorder } from '../../hooks/useRecorder';
-import { getUserCefr, cefrRank, isUnlocked } from '../../lib/cefr';
-import { getContentUnlockLevel } from '../../lib/cefrCertification';
+import { cefrRank, isUnlocked } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import MicPermissionDeniedExplainer from '../shared/MicPermissionDeniedExplainer';
 
 // ── helpers ──────────────────────────────────────────────────────────────────
@@ -459,9 +459,7 @@ export default function ShadowingScreen({
   // MEMOISED AND HOISTED ABOVE THE EARLY RETURNS so the credit effect below can read
   // its length; the computation itself is unchanged.
   const items = React.useMemo(() => {
-    const userCefr = getContentUnlockLevel(
-      getUserCefr(stats.xp ?? 0, stats.lc ?? 0, stats.gc ?? 0),
-    );
+    const userCefr = getGenerationCefr(stats);
     const tagged = (SHADOWING || []).filter((s) => s?.level);
     if (tagged.length === 0) return SHADOWING || [];
     const unlocked = tagged.filter((s) => isUnlocked(s.level, userCefr));
@@ -471,7 +469,7 @@ export default function ShadowingScreen({
       .sort((a, b) => Math.abs(cefrRank(a.level) - r) - Math.abs(cefrRank(b.level) - r))
       .slice(0, 12)
       .sort((a, b) => cefrRank(a.level) - cefrRank(b.level));
-  }, [SHADOWING, stats.xp, stats.lc, stats.gc]);
+  }, [SHADOWING, stats]);
 
   // Credit on REACHING the done view, not on acknowledging it. That view offers Retry
   // beside Finish, carries the Back button H(..., goBack) draws and the TabBar is

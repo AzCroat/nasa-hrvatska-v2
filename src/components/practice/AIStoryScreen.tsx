@@ -5,7 +5,7 @@ import { useOnlineStatus } from '../../hooks/useOnlineStatus';
 import { apiFetch } from '../../lib/apiFetch.js';
 import { classifyAiLimit, formatAiResetTime, BUDGET_PAUSE_EN } from '../../lib/aiLimit';
 import { getActiveVocabulary } from '../../lib/activeVocabulary';
-import { getUserCefr } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { useStats } from '../../context/StatsContext';
 import { recordReadingRep } from '../../lib/readingMetric';
 import { clickable } from '../../lib/clickable';
@@ -19,7 +19,7 @@ export default function AIStoryScreen({
 }) {
   const { isOnline } = useOnlineStatus();
   const { stats } = useStats();
-  const cefrLevel = getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0);
+  const cefrLevel = getGenerationCefr(stats);
   const mountedRef = useRef(true);
   useEffect(() => {
     mountedRef.current = true;

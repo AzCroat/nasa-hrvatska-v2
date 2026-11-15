@@ -315,9 +315,12 @@ describe('CityOfDayScreen', () => {
   it('reads the learner CEFR through the SAME expression HomeTab hands the session builder', () => {
     const home = readFileSync('src/components/home/HomeTab.tsx', 'utf8');
     const scr = readFileSync('src/components/croatia/CityOfDayScreen.tsx', 'utf8');
-    const expr = /getContentUnlockLevel\(\s*getUserCefr\(/;
-    expect(home).toMatch(expr);
-    expect(scr).toMatch(expr);
+    // ONE LEVEL (owner, 2026-11-15): the culture slot reads the session level (the course's
+    // level), so the screen reads the course level too — never the XP level, which sent a
+    // learner on A1 Lesson 1 to a C1 city.
+    expect(scr).toMatch(/getGenerationCefr\(/);
+    expect(scr).not.toMatch(/getUserCefr\(/);
+    expect(home).toMatch(/getContentUnlockLevel\(\s*getUserCefr\(/);
   });
 
   it.each([

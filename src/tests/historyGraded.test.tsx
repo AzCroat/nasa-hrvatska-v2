@@ -168,9 +168,12 @@ describe('CroatiaHistoryScreen', () => {
     // different number. Pinned at source because the two live in different files.
     const home = readFileSync('src/components/home/HomeTab.tsx', 'utf8');
     const scr = readFileSync('src/components/croatia/CroatiaHistoryScreen.tsx', 'utf8');
-    const expr = /getContentUnlockLevel\(\s*getUserCefr\(/;
-    expect(home).toMatch(expr);
-    expect(scr).toMatch(expr);
+    // ONE LEVEL (owner, 2026-11-15): the culture slot reads the session level (the course's
+    // level), so the screen reads the course level too — never the XP level, which sent a
+    // learner on A1 Lesson 1 to a C1 city.
+    expect(scr).toMatch(/getGenerationCefr\(/);
+    expect(scr).not.toMatch(/getUserCefr\(/);
+    expect(home).toMatch(/getContentUnlockLevel\(\s*getUserCefr\(/);
   });
 
   it.each(['A1', 'B2', 'C2'])('at %s renders that level of the intro and of every entry', (l) => {

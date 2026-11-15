@@ -4,7 +4,8 @@ import { useStats } from '../../context/StatsContext';
 import { useApp } from '../../context/AppContext';
 import { rnd } from '../../lib/random.js';
 import { markQuest } from '../../lib/quests.js';
-import { getUserCefr, cefrRank } from '../../lib/cefr';
+import { cefrRank } from '../../lib/cefr';
+import { getGenerationCefr } from '../../lib/cefrCertification';
 import { launchedLevel } from '../../lib/sessionLevel';
 import { ssGet } from '../../lib/safeStorage';
 
@@ -61,7 +62,7 @@ export default function DialogueSim({
   // learner's XP level — or, when the DAILY SESSION launched this screen, the
   // COURSE's level (redesign increment 1, owner decisions 1 and 3), so a Unit-1
   // learner with B1 XP is not dropped into a free B1 conversation.
-  const xpLevel = getUserCefr(stats?.xp || 0, stats?.lc || 0, stats?.gc || 0);
+  const xpLevel = getGenerationCefr(stats);
   const userLevel = launchedLevel('dialogue', xpLevel);
   // Spontaneous-conversation default (owner directive 2026-08-14): when the
   // DAILY SESSION launches the conversation anchor at B1+, open the AI
