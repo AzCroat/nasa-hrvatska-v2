@@ -278,6 +278,38 @@ export const CLASS_A1_U02_05 = {
     },
     mix: [
       {
+        type: 'listen',
+        audio: 'Ona kuća je velika.',
+        q: 'Where is the house?',
+        options: [
+          'Far from both speakers',
+          'Right by the speaker',
+          'By the listener',
+          'The sentence does not say',
+        ],
+        correct: 0,
+        explanation: 'The pointing word starts with on-: the house is over there, far from both.',
+      },
+      4,
+      5,
+      {
+        type: 'order',
+        q: 'Put the words in order: "Is this table new?"',
+        words: ['Je', 'li', 'ovaj', 'stol', 'nov?'],
+        explanation: 'Je li ovaj stol nov?',
+      },
+      6,
+      {
+        type: 'tf',
+        q: '"Ovaj knjiga je nova." is correct Croatian.',
+        answer: false,
+        hint: 'What gender is knjiga?',
+        explanation: 'knjiga is feminine, so the pointing word must be feminine too: ova knjiga.',
+      },
+      7,
+      8,
+      3,
+      {
         type: 'sort',
         q: 'Near me, near you, or far from both of us?',
         groups: ['Near me', 'Near you', 'Far from both'],
@@ -293,8 +325,6 @@ export const CLASS_A1_U02_05 = {
         explanation:
           'Words that start with ov- are near the speaker, words that start with t- are near the listener, and words that start with on- are far from both.',
       },
-      4,
-      5,
       {
         type: 'fix',
         q: 'One word is wrong. Tap it.',
@@ -316,36 +346,6 @@ export const CLASS_A1_U02_05 = {
           'The pointing word takes the gender of the noun: ovaj grad (masculine), ova soba (feminine), ovo more (neuter).',
       },
       2,
-      {
-        type: 'listen',
-        audio: 'Ona kuća je velika.',
-        q: 'Where is the house?',
-        options: [
-          'Far from both speakers',
-          'Right by the speaker',
-          'By the listener',
-          'The sentence does not say',
-        ],
-        correct: 0,
-        explanation: 'The pointing word starts with on-: the house is over there, far from both.',
-      },
-      6,
-      {
-        type: 'order',
-        q: 'Put the words in order: "Is this table new?"',
-        words: ['Je', 'li', 'ovaj', 'stol', 'nov?'],
-        explanation: 'Je li ovaj stol nov?',
-      },
-      7,
-      {
-        type: 'tf',
-        q: '"Ovaj knjiga je nova." is correct Croatian.',
-        answer: false,
-        hint: 'What gender is knjiga?',
-        explanation: 'knjiga is feminine, so the pointing word must be feminine too: ova knjiga.',
-      },
-      3,
-      8,
       10,
       {
         type: 'transform',
@@ -522,7 +522,6 @@ export const CLASS_A1_U02_05 = {
           'A question that starts with a question word asks for information: To je Ana. Only a yes/no question can be answered with da or ne.',
       },
       7,
-      2,
       {
         type: 'order',
         q: 'Put the words in order: "Who is that man?"',
@@ -530,6 +529,7 @@ export const CLASS_A1_U02_05 = {
         explanation: 'Tko je taj čovjek?',
       },
       8,
+      2,
       11,
       {
         type: 'fix',
@@ -632,7 +632,7 @@ export const CLASS_A1_U02_05 = {
           type: 'type',
           q: 'Now you. Tom shows you one book: "Ovo je knjiga." You show him three. Say: Ovo su ____.',
           answer: 'knjige',
-          hint: 'A noun in -a changes that last letter, exactly as sestra does in the dialogue.',
+          hint: 'A noun in -a changes that last letter. Look at what Ana says for "houses": one house is a kuća.',
           explanation: 'Ovo su knjige. — feminine nouns change -a to -e in the plural.',
         },
         {
@@ -698,7 +698,7 @@ export const CLASS_A1_U02_05 = {
       6,
       {
         type: 'tf',
-        q: 'Množina od "čovjek" je "čovjeci".',
+        q: 'The plural of "čovjek" is "čovjeci".',
         answer: false,
         hint: 'This is one of the five nouns whose plural is a different word.',
         explanation: 'The plural of čovjek is ljudi — a word of its own, like person → people.',
@@ -1198,7 +1198,7 @@ export const CLASS_A1_U02_05 = {
           type: 'type',
           q: 'Germany is "Njemačka". Finish the sentence about its language (it ends in -čki, not -ski): Njemačka je zemlja, a ____ je jezik.',
           answer: 'njemački',
-          hint: 'Start from the name of the country, and remember how a language begins: with a small letter.',
+          hint: 'Do what the dialogue does with Hrvatska and hrvatski: change only the last letter of the country, and begin with a small letter.',
           explanation: 'Njemačka je zemlja, a njemački je jezik. — the language is lower case.',
         },
       ],
@@ -1420,7 +1420,7 @@ export const CLASS_A1_U02_05 = {
           { hr: 'Kanađanin', group: 1 },
         ],
         explanation:
-          'Njemica; Talijanka, Slovenka, Kanađanka; Engleskinja, Francuskinja. The ending is part of the word — learn each pair together.',
+          'Nijemac takes -ica; Talijan, Slovenac and Kanađanin take -ka; Englez and Francuz take -kinja. The ending is part of the word — learn each pair together.',
       },
       8,
       {
@@ -1619,8 +1619,8 @@ export const CLASS_A1_U02_05 = {
         correct: 0,
         explanation: 'deset is 10. Do not mix it up with 9, which differs by one letter.',
       },
-      5,
       12,
+      5,
       {
         type: 'fix',
         q: 'One word is wrong. Tap it.',
@@ -1906,7 +1906,7 @@ export const CLASS_A1_U02_05 = {
           type: 'type',
           q: 'Now you. The teacher asks YOU: "Kako se zovete?" Begin your answer the way Tom does — the verb first: ____ se … (and your name).',
           answer: 'Zovem',
-          hint: 'The "I" form ends in -m. It is the first word of Tom\'s answer.',
+          hint: 'The "I" form ends in -m. It is the word Tom puts in front of "se".',
           explanation: 'Zovem se… — "I call myself…", the Croatian way to give your name.',
         },
         {
@@ -1976,11 +1976,11 @@ export const CLASS_A1_U02_05 = {
       {
         type: 'fix',
         q: 'One word is wrong. Tap it.',
-        words: ['Oni', 'se', 'zove', 'Maja', 'i', 'Petra.'],
+        words: ['Oni', 'se', 'zove', 'Marko', 'i', 'Petra.'],
         wrong: 2,
         answer: 'zovu',
         hint: 'Two people are named. Which form of the verb goes with oni?',
-        explanation: 'Oni se zovu Maja i Petra. — the "they" form is zovu.',
+        explanation: 'Oni se zovu Marko i Petra. — the "they" form is zovu.',
       },
       {
         type: 'match',
@@ -2310,6 +2310,7 @@ export const CLASS_A1_U02_05 = {
         ],
         explanation: 'Five family words. unuk has a partner, unuka — a granddaughter.',
       },
+      4,
       0,
       {
         type: 'listen',
@@ -2324,7 +2325,6 @@ export const CLASS_A1_U02_05 = {
         correct: 0,
         explanation: "ujak is the uncle on the mother's side.",
       },
-      4,
       {
         type: 'tf',
         q: '"Stric" is the brother of your mother.',
@@ -2332,6 +2332,7 @@ export const CLASS_A1_U02_05 = {
         hint: "Each of the two words for an uncle belongs to one parent's side.",
         explanation: "stric is your FATHER's brother. Your mother's brother is your ujak.",
       },
+      6,
       2,
       {
         type: 'sort',
@@ -2350,7 +2351,6 @@ export const CLASS_A1_U02_05 = {
         explanation:
           'Men: ujak, sin, bratić, djed. Women: teta, kći, unuka, sestrična. Careful with kći — it does not end in -a, but it is a daughter.',
       },
-      6,
       {
         type: 'order',
         q: 'Put the words in order: "What is your brother called?"',
@@ -3625,8 +3625,8 @@ export const CLASS_A1_U02_05 = {
         correct: 0,
         explanation: 'The ending -š is the ti form: "Are you working today?", to one friend.',
       },
-      1,
       6,
+      1,
       {
         type: 'order',
         q: 'Put the words in order: "Every day I drink tea and read."',
