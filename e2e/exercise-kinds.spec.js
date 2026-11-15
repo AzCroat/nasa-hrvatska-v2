@@ -20,9 +20,10 @@ test.describe('Exercise player', () => {
     const { LESSONS_FIXTURE } = await import('./fixtures/content-fixture.js');
     const patched = LESSONS_FIXTURE.map((l) => {
       if (l.id !== 'alphabet') return l;
-      const slides = l.slides.map((s) =>
-        s.type === 'practice' ? { ...s, items: PRACTICE_FIXTURE } : s,
-      );
+      // The lesson may already carry its own text step: the fixture replaces it.
+      const slides = l.slides
+        .filter((s) => s.type !== 'text')
+        .map((s) => (s.type === 'practice' ? { ...s, items: PRACTICE_FIXTURE } : s));
       const introAt = slides.findIndex((s) => s.type === 'intro');
       slides.splice(introAt + 1, 0, { type: 'text', ...TEXT_FIXTURE });
       return { ...l, slides };

@@ -22,6 +22,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { settleExerciseStep } from './fixtures/settle-exercise.js';
 import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
@@ -166,6 +167,7 @@ async function driveLesson(page, id) {
       await step.click();
       continue;
     }
+    if (await settleExerciseStep(page)) continue;
     const typedIn = page.getByTestId('practice-typed-input');
     if (await typedIn.isVisible()) {
       await typedIn.fill('x');

@@ -23,6 +23,7 @@ import { PRACTICE_B1 } from './lessonPracticeB1.js';
 import { PRACTICE_B2 } from './lessonPracticeB2.js';
 import { PRACTICE_C1 } from './lessonPracticeC1.js';
 import { PRACTICE_C2 } from './lessonPracticeC2.js';
+import { CLASS_A1 } from './lessonClassA1.js';
 
 /** lesson id → { worked, practice, checkB?, vocab?, text? } */
 export const LESSON_PRACTICE = {
@@ -34,6 +35,9 @@ export const LESSON_PRACTICE = {
   ...PRACTICE_C2,
 };
 
+/** lesson id → { text, mix } — the class-order content (dialogue + mixed exercise kinds). */
+export const LESSON_CLASS = { ...CLASS_A1 };
+
 export function withPractice(lessons) {
   return lessons.map((lesson) => {
     const extra = LESSON_PRACTICE[lesson.id];
@@ -41,9 +45,10 @@ export function withPractice(lessons) {
     const slides = [...lesson.slides];
     // A short dialogue or text with questions (exercise player, 2026-11-15): right
     // after the intro, so the learner reads before the rules. Optional.
-    if (extra.text) {
+    const text = LESSON_CLASS[lesson.id]?.text || extra.text;
+    if (text) {
       const introAt = slides.findIndex((s) => s.type === 'intro');
-      slides.splice(introAt >= 0 ? introAt + 1 : 0, 0, { type: 'text', ...extra.text });
+      slides.splice(introAt >= 0 ? introAt + 1 : 0, 0, { type: 'text', ...text });
     }
     const worked = (extra.worked || []).map((w) => ({ type: 'worked', ...w }));
     const firstQuiz = slides.findIndex((s) => s.type === 'quiz');
@@ -52,7 +57,18 @@ export function withPractice(lessons) {
     slides.splice(workedAt, 0, ...worked);
     if (extra.practice) {
       const at = slides.findIndex((s) => s.type === 'check');
-      slides.splice(at >= 0 ? at : slides.length, 0, { type: 'practice', ...extra.practice });
+      // THE CLASS MIX: a lesson rebuilt in class order names its practice as a list that
+      // mixes the lesson's existing items (by index) with new exercise kinds (as objects),
+      // so no existing item is restated in a second file.
+      const mix = LESSON_CLASS[lesson.id]?.mix;
+      const items = Array.isArray(mix)
+        ? mix.map((m) => (typeof m === 'number' ? extra.practice.items[m] : m)).filter(Boolean)
+        : extra.practice.items;
+      slides.splice(at >= 0 ? at : slides.length, 0, {
+        type: 'practice',
+        ...extra.practice,
+        items,
+      });
     }
     // FORM B of the mastery check (academic recommendation 2, 2026-09-29): a parallel
     // paper on the same objectives, served on the next opening after a fail.

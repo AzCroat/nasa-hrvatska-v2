@@ -40,6 +40,7 @@ const TARGETS = [
   'functions/api/content/_data/lessonsC1.js',
   'functions/api/content/_data/lessonsC2.js',
   'functions/api/content/_data/lessonPracticeA1.js',
+  'functions/api/content/_data/lessonClassA1.js',
   'functions/api/content/_data/a1new/batch01.js',
   'functions/api/content/_data/a1new/batch02.js',
   'functions/api/content/_data/a1new/batch03.js',
