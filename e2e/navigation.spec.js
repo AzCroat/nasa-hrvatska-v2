@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, clickMe, meButton } from './fixtures/seed-auth.js';
+import { openViaMore } from './fixtures/more-nav.js';
 
 // Helper: always click tabs via the nav bar to avoid ambiguous matches with Jump In buttons.
 // Waits for the button to be visible before clicking so Firefox/WebKit don't miss a racing
@@ -35,7 +36,7 @@ test.describe('Tab navigation', () => {
 
   test('renders the core nav tabs and the Me entry', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    for (const label of ['Today', 'Learn', 'Practice', 'Croatia']) {
+    for (const label of ['Today', 'Course', 'More']) {
       await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
     // Me is in the Sidebar (desktop) / AppHeader avatar (mobile), not the bottom bar.
@@ -47,8 +48,8 @@ test.describe('Tab navigation', () => {
     await expect(nav.getByRole('button', { name: 'Today', exact: true })).toHaveClass(/active/);
   });
 
-  test('navigates to Learn tab and shows vocabulary section', async ({ page }) => {
-    await clickTab(page, 'Learn');
+  test('navigates to Course tab and shows the course card', async ({ page }) => {
+    await clickTab(page, 'Course');
     // Confirm URL changed — proves click registered before checking active class.
     // 20s allows for lazy-chunk load on Firefox/WebKit in parallel CI.
     await page.waitForURL('/learn', { timeout: 20_000 });
@@ -57,13 +58,13 @@ test.describe('Tab navigation', () => {
     // gone; this testid is the surface's own stable handle.
     await expect(page.getByTestId('open-learning-center')).toBeVisible({ timeout: 10_000 });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, {
+    await expect(nav.getByRole('button', { name: 'Course', exact: true })).toHaveClass(/active/, {
       timeout: 10_000,
     });
   });
 
   test('navigates to Practice tab and shows practice options', async ({ page }) => {
-    await clickTab(page, 'Practice');
+    await openViaMore(page, 'practice');
     // Confirm URL changed before checking content/active class
     await page.waitForURL('/practice', { timeout: 20_000 });
     // Wait for the Practice hero overline text — confirms the tab content has rendered.
@@ -74,21 +75,50 @@ test.describe('Tab navigation', () => {
       timeout: 20_000,
     });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Practice', exact: true })).toHaveClass(/active/, {
+    // Practice lives behind More, so More is the highlighted entry.
+    await expect(nav.getByRole('button', { name: 'More', exact: true })).toHaveClass(/active/, {
       timeout: 10_000,
     });
   });
 
   test('navigates to Croatia tab and shows the Hrvatska doors surface', async ({ page }) => {
-    await clickTab(page, 'Croatia');
+    await openViaMore(page, 'croatia');
     // Confirm URL changed then check content first, active class last
     await page.waitForURL('/croatia', { timeout: 20_000 });
     // Danas card with generous timeout for lazy-chunk load on Firefox/WebKit
     await expect(page.getByText('Danas u Hrvatskoj')).toBeVisible({ timeout: 20_000 });
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByRole('button', { name: 'Croatia', exact: true })).toHaveClass(/active/, {
+    await expect(nav.getByRole('button', { name: 'More', exact: true })).toHaveClass(/active/, {
       timeout: 10_000,
     });
+  });
+
+  test('the bar shows exactly Today, Course and More', async ({ page }) => {
+    const nav = page.getByRole('navigation', { name: 'Main navigation' });
+    for (const label of ['Today', 'Course', 'More']) {
+      await expect(nav.getByRole('button', { name: label, exact: true })).toBeVisible();
+    }
+    for (const gone of ['Learn', 'Practice', 'AI Tutor', 'Croatia']) {
+      await expect(nav.getByRole('button', { name: gone, exact: true })).toHaveCount(0);
+    }
+  });
+
+  test('each More door opens its tab', async ({ page }) => {
+    await openViaMore(page, 'practice');
+    await page.waitForURL('/practice', { timeout: 20_000 });
+    await openViaMore(page, 'ai');
+    await page.waitForURL('/ai', { timeout: 20_000 });
+    await openViaMore(page, 'croatia');
+    await page.waitForURL('/croatia', { timeout: 20_000 });
+  });
+
+  test('/practice and /croatia still load on direct URL entry', async ({ page }) => {
+    await page.goto('/practice');
+    await expect(page.getByText('Danas u gradu').first()).toBeVisible({ timeout: 25_000 });
+    await page.goto('/croatia');
+    await expect(page.getByText('Danas u Hrvatskoj')).toBeVisible({ timeout: 25_000 });
+    await page.goto('/more');
+    await expect(page.getByTestId('more-tab')).toBeVisible({ timeout: 25_000 });
   });
 
   test('navigates to Me tab and shows user name', async ({ page }) => {
@@ -105,11 +135,11 @@ test.describe('Tab navigation', () => {
   test('tab switches correctly update active state', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
 
-    await clickTab(page, 'Learn');
+    await clickTab(page, 'Course');
     // Wait for URL to confirm click registered, then check active class.
     // Firefox/WebKit need up to 20s for URL + React re-render in parallel CI.
     await page.waitForURL('/learn', { timeout: 20_000 });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).toHaveClass(/active/, {
+    await expect(nav.getByRole('button', { name: 'Course', exact: true })).toHaveClass(/active/, {
       timeout: 10_000,
     });
     await expect(nav.getByRole('button', { name: 'Today', exact: true })).not.toHaveClass(
@@ -122,7 +152,7 @@ test.describe('Tab navigation', () => {
     await expect(nav.getByRole('button', { name: 'Today', exact: true })).toHaveClass(/active/, {
       timeout: 10_000,
     });
-    await expect(nav.getByRole('button', { name: 'Learn', exact: true })).not.toHaveClass(
+    await expect(nav.getByRole('button', { name: 'Course', exact: true })).not.toHaveClass(
       /active/,
       { timeout: 10_000 },
     );

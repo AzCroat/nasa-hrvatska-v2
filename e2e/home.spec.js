@@ -60,15 +60,19 @@ test.describe('Home tab', () => {
     });
   });
 
-  test.describe('Razgovor card', () => {
-    test('shows the Razgovor card beneath the session and opens that partner', async ({ page }) => {
-      const card = page.getByTestId('home-razgovor-card');
-      await expect(card).toBeVisible({ timeout: 20_000 });
-      await expect(card).toContainText(/te čeka/);
-      await card.click();
+  test.describe('Home carries only the session', () => {
+    test('the Razgovor card and the moved cards are not on Today', async ({ page }) => {
+      await expect(page.getByTestId('session-card')).toBeVisible({ timeout: 20_000 });
+      await expect(page.getByTestId('home-razgovor-card')).toHaveCount(0);
+      await expect(page.getByTestId('daily-input-card')).toHaveCount(0);
+    });
+
+    test('More opens Talk, and the moved cards live on More', async ({ page }) => {
+      await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('button', { name: 'More', exact: true }).click();
+      await page.waitForURL('/more', { timeout: 20_000 });
+      await expect(page.getByTestId('daily-input-card')).toBeVisible({ timeout: 20_000 });
+      await page.getByTestId('more-open-talk').click();
       await page.waitForURL('/ai', { timeout: 20_000 });
-      // RazgovorTab opens the handed-off partner: its back bar appears.
-      await expect(page.getByText('← Razgovor')).toBeVisible({ timeout: 10_000 });
     });
   });
 });

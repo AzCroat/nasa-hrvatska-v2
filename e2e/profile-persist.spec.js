@@ -13,6 +13,7 @@
  */
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, TEST_EMAIL, clickMe } from './fixtures/seed-auth.js';
+import { openViaMore } from './fixtures/more-nav.js';
 
 /** Read stats from localStorage, handling both { st: {...} } and { stats: {...} } formats.
  * Retries up to 3 times to survive React Router's internal history.pushState() calls
@@ -116,11 +117,11 @@ test.describe('Progress persistence across sessions', () => {
     const nav = page.getByRole('navigation', { name: 'Main navigation' });
 
     // Switch through all tabs and back
-    await nav.getByRole('button', { name: 'Learn', exact: true }).click();
+    await nav.getByRole('button', { name: 'Course', exact: true }).click();
     await page.waitForTimeout(300);
-    await nav.getByRole('button', { name: 'Practice', exact: true }).click();
+    await openViaMore(page, 'practice');
     await page.waitForTimeout(300);
-    await nav.getByRole('button', { name: 'Croatia', exact: true }).click();
+    await openViaMore(page, 'croatia');
     await page.waitForTimeout(300);
     await clickMe(page); // Sidebar on desktop, AppHeader avatar on mobile
     await page.waitForTimeout(300);

@@ -60,7 +60,7 @@ const JOURNEY = [
     weeks: 'Weeks 5–12',
     desc: 'You recognize words and short phrases. Now start connecting exposure to your in-app lessons.',
     goals: [
-      'Complete all vocabulary categories in Learn tab',
+      'Complete all vocabulary categories in the course',
       'Read 5 headlines on Dnevnik.hr each morning',
       'Watch Easy Croatian street interview (YouTube) twice a week',
       'Start noticing case endings on signs and menus',

@@ -7380,31 +7380,39 @@ Four of the eight rows used to name components that do not exist — `PracticeTa
 reader looking for a file that was never there, which is worse than no table.
 `navTable.test.ts` now derives this column from the router and fails on drift.
 
-| If you change...                            | Check these spec files                                                                     |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| `HomeTab` / `SessionCard` / `QuestTracker`  | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
-| `LearnTab` / Learning Center / vocab pills  | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js`                           |
-| `GradTab` (the Practice tab) / game panels  | `practice.spec.js`, `offline.spec.js`                                                      |
-| `HrvatskaTab` (the Croatia tab)             | `croatia.spec.js`, `navigation.spec.js`                                                    |
-| `RazgovorTab` (the AI Tutor tab)            | `navigation.spec.js`                                                                       |
-| `StatsTab` / `ProfileTab` / the Me surface  | `me-tab.spec.js`, `profile-persist.spec.js`                                                |
-| `TabBar` / `Sidebar` / navigation labels    | `navigation.spec.js`, `daily-challenge-sync.spec.js`, `croatia.spec.js`, `offline.spec.js` |
-| `LoginScreen` / auth flow                   | `auth.spec.js`, `accessibility.spec.js`                                                    |
-| Any screen accessible from the Practice tab | `practice.spec.js`, `offline.spec.js`                                                      |
+| If you change...                              | Check these spec files                                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `HomeTab` / `SessionCard` / `QuestTracker`    | `home.spec.js`, `daily-challenge-sync.spec.js`, `profile-persist.spec.js`                  |
+| `LearnTab` (the Course tab) / Learning Center | `learn.spec.js`, `lesson-complete.spec.js`, `navigation.spec.js`                           |
+| `GradTab` (the Practice tab) / game panels    | `practice.spec.js`, `offline.spec.js`                                                      |
+| `MoreTab` (the More tab, doors to the rest)   | `navigation.spec.js`, `home.spec.js`, `practice.spec.js`                                   |
+| `HrvatskaTab` (the Croatia tab)               | `croatia.spec.js`, `navigation.spec.js`                                                    |
+| `RazgovorTab` (the AI Tutor tab)              | `navigation.spec.js`                                                                       |
+| `StatsTab` / `ProfileTab` / the Me surface    | `me-tab.spec.js`, `profile-persist.spec.js`                                                |
+| `TabBar` / `Sidebar` / navigation labels      | `navigation.spec.js`, `daily-challenge-sync.spec.js`, `croatia.spec.js`, `offline.spec.js` |
+| `LoginScreen` / auth flow                     | `auth.spec.js`, `accessibility.spec.js`                                                    |
+| Any screen accessible from the Practice tab   | `practice.spec.js`, `offline.spec.js`                                                      |
 
 ### Nav tab names (derived from the code, pinned by `navTable.test.ts`):
 
-**Bottom bar (`TabBar.tsx`, what a phone shows) — five:**
+**Bottom bar (`TabBar.tsx`, what a phone shows) — three:**
 
-`Today` | `Learn` | `Practice` | `AI Tutor` | `Croatia`
+`Today` | `Course` | `More`
 
-**Desktop rail (`Sidebar.tsx`) — the same five plus one:**
+**Desktop rail (`Sidebar.tsx`) — the same three plus one:**
 
-`Today` | `Learn` | `Practice` | `AI Tutor` | `Croatia` | `Me`
+`Today` | `Course` | `More` | `Me`
+
+`Practice`, `AI Tutor` (Talk) and `Croatia` are NOT in either bar any more
+(Phase 1 declutter, 2026-11-15). They remain valid tabs with their own URLs
+(`/practice`, `/ai`, `/croatia`) and are reached from the `More` tab's doors
+(`more-open-practice`, `more-open-talk`, `more-open-croatia`); while one of them
+(or `more`) is the active tab, the `More` entry is the highlighted one. The tab id
+for `Course` is still `learn`.
 
 `Me` IS NOT IN THE BOTTOM BAR. On a phone it is reached from the app header
 (`AppHeader`'s `onProfile`), not from a tab. A spec that clicks a `Me` tab
-passes on desktop and fails on mobile.
+passes on desktop and fails on a phone.
 
 THIS LINE WAS WRONG FOR FIVE MONTHS AND IS WHY THE TEST EXISTS. It used to
 read `Today | Learn | Practice | Culture | Me`, under a heading that said
@@ -7508,7 +7516,7 @@ build-deploy (waits for quality + test + e2e + every e2e-chrome shard)
 
 Alerts fixed in code that session: #70 (stack-trace exposure — `/api/backup-progress` no longer returns error `detail` in its 502 body; the detail still reaches the Cloudflare tail via `console.error`) and #69 (incomplete multi-character sanitization — `bootShell.test.ts` strips HTML comments to a fixed point).
 
-**Eight "Clear text storage of sensitive information" alerts are scanner false positives and are dismissed as such** — #55 (`GradTab.tsx`), #56 (`HomeTab.tsx`), #58 + #66 (`useDailySession.ts`), #59 (`sessionSignal.ts`), #60 (`sessionCategory.ts`), #62 (`GrammarDiagnosisScreen.tsx`), #78 (`dailySessionStore.ts`, 2026-09-22 — below). Three heuristics misfire:
+**Seven "Clear text storage of sensitive information" alerts are scanner false positives and are dismissed as such** — #55 (`GradTab.tsx`), #58 + #66 (`useDailySession.ts`), #59 (`sessionSignal.ts`), #60 (`sessionCategory.ts`), #62 (`GrammarDiagnosisScreen.tsx`), #78 (`dailySessionStore.ts`, 2026-09-22 — below). Three heuristics misfire:
 
 - Anything named `session` (`nh_session_started`, `nh_session_served`, `nh_recent_exercises`, `sessionCategory`, `sessionSignal`) is read as an **auth session token**. It is the daily LEARNING session — lesson plans, screen keys, recent-exercise ids. No credential, token, or secret is ever stored there.
 - `nh_grammar_diagnosis` (#62) trips the **medical-data** heuristic on the word "diagnosis". It caches AI-generated grammar-weakness feedback.
