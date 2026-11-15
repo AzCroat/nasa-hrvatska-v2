@@ -183,7 +183,7 @@ export const CLASS_A1_U14_17 = {
         q: 'Say it in the future.',
         from: 'Kažem ti istinu.',
         answer: 'Reći ću ti istinu.',
-        accept: ['Ja ću ti reći istinu.'],
+        accept: ['Ja ću ti reći istinu.', 'Kazat ću ti istinu.', 'Ja ću ti kazati istinu.'],
         hint: 'The future uses the other verb of the pair kazati / … — and a verb in -ći keeps its ending before ću.',
         explanation:
           'Reći ću ti istinu. — kazati gives the present (kažem); reći gives the future.',
@@ -462,11 +462,10 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'type',
-          q: 'Now you. A colleague has passed a big exam. Congratulate her in one word: ____!',
-          answer: 'Čestitam',
-          accept: ['Čestitam ti', 'Čestitam Vam', 'Čestitam vam', 'Čestitke'],
-          hint: 'The word literally means "I congratulate".',
-          explanation: 'Čestitam! — for an exam, a wedding, a new job, a new baby.',
+          q: 'Now you. Ana writes about her dad: "Želim mu sretan put!" This time it is your MUM who is travelling. Write: Želim ____ sretan put!',
+          answer: 'joj',
+          hint: 'Ana uses the short word for "to him". You need the short word for "to her".',
+          explanation: 'Želim joj sretan put! — mu is "to him", joj is "to her".',
         },
         {
           type: 'transform',
@@ -549,7 +548,7 @@ export const CLASS_A1_U14_17 = {
         explanation:
           'Želim ti sretan rođendan. — the small word ti comes second, right after the verb.',
       },
-      5,
+      4,
       {
         type: 'transform',
         q: 'Say it to two friends at once (or politely, to one person).',
@@ -1033,11 +1032,11 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'Say the same about your brother: start with "Brat".',
+          q: 'Say the same about your brother: start with "Brat". Look first at Nina\'s question "Što se dogodilo?" — about "he" or "it" there is no helping word next to se.',
           from: 'Vratio sam se kasno.',
           answer: 'Brat se vratio kasno.',
           accept: ['Brat se kasno vratio.'],
-          hint: 'About "he", no helping word is added next to the small word of the verb — as in "Što se dogodilo?"',
+          hint: '"Brat" comes first, the small word of the verb takes second place, and "sam" goes — with nothing in its place.',
           explanation:
             "Brat se vratio kasno. — with on and ona, je drops out when se is there. Compare Nina's question: Što se dogodilo?",
         },
@@ -1219,7 +1218,8 @@ export const CLASS_A1_U14_17 = {
           q: 'Lea has a class in ten minutes. She says she is going to the faculty: Idem na ____.',
           answer: 'fakultet',
           hint: 'Going there takes the form that looks like the dictionary form — as in "na posao".',
-          explanation: 'Idem na fakultet. — where to: na fakultet. Where: na fakultetu.',
+          explanation:
+            'Idem na fakultet. — going there: the form that looks like the dictionary form.',
         },
         {
           type: 'transform',
@@ -1381,7 +1381,7 @@ export const CLASS_A1_U14_17 = {
             'Leo prefers tea and ice cream. Sara prefers coffee, and she likes the café and its cakes.',
         },
         {
-          q: 'Leo\'s first answer ends in "kavu", but Sara asks about "ova kavana" — with no change at the end. Why?',
+          q: 'Leo says "Ne volim kavu" — with -u — but then he asks "Sviđa li ti se ova kavana?" — with no change at the end. Why?',
           options: [
             'With voljeti the thing is the object; with sviđati se the thing is the subject',
             'Kavana never changes its ending',
@@ -1819,7 +1819,7 @@ export const CLASS_A1_U14_17 = {
         explanation:
           'A tool takes no s. The small word s means "together with" — and a pencil is not company.',
       },
-      4,
+      6,
       {
         type: 'transform',
         q: 'Ask a friend the question that this sentence answers.',
@@ -1851,18 +1851,18 @@ export const CLASS_A1_U14_17 = {
       11,
       {
         type: 'order',
-        q: 'Put the words in order: "Can I pay by card?"',
-        words: ['Mogu', 'li', 'platiti', 'karticom?'],
-        explanation: 'Mogu li platiti karticom? — li comes right after the first word.',
+        q: 'Put the words in order: "Can I pay in cash?"',
+        words: ['Mogu', 'li', 'platiti', 'gotovinom?'],
+        explanation: 'Mogu li platiti gotovinom? — li comes right after the first word.',
       },
       5,
       {
         type: 'transform',
-        q: 'Now say HOW you go — by tram — instead of with whom.',
+        q: 'Now say HOW you go — by bus — instead of with whom.',
         from: 'Idem u školu s bratom.',
-        answer: 'Idem u školu tramvajem.',
-        hint: 'A means of transport takes no small word in front. Remember the soft ending.',
-        explanation: 'Idem u školu tramvajem. — no s: the tram is the means, not company.',
+        answer: 'Idem u školu autobusom.',
+        hint: 'A means of transport takes no small word in front — only the ending.',
+        explanation: 'Idem u školu autobusom. — no s: the bus is the means, not company.',
       },
       {
         type: 'dictate',
@@ -2195,15 +2195,15 @@ export const CLASS_A1_U14_17 = {
         explanation:
           'One person: with her, with me, with you. More than one: with them, with us, with the children.',
       },
-      3,
+      5,
       {
         type: 'transform',
-        q: 'Say it with a pronoun instead of the name.',
-        from: 'Živim s Anom.',
-        answer: 'Živim s njom.',
-        accept: ['Živim s njome.'],
-        hint: 'Ana is "she". After s, her pronoun starts with nj-.',
-        explanation: 'Živim s njom. — I live with her.',
+        q: 'Now say it politely, to a person you call "vi".',
+        from: 'Rado idem s tobom.',
+        answer: 'Rado idem s vama.',
+        accept: ['Rado idem s Vama.'],
+        hint: 'Only the pronoun changes. The polite "you" is the same word as "you" for several people.',
+        explanation: 'Rado idem s vama. — s vama: with you, politely or to several people.',
       },
       4,
       {
@@ -2340,7 +2340,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'Now the bag belongs to your brother (brat), not your sister.',
+          q: 'Now the bag belongs to your brother (brat), not your sister. "Of my" for a man is "moga".',
           from: 'Ovo je torba moje sestre.',
           answer: 'Ovo je torba moga brata.',
           accept: [
@@ -2348,7 +2348,7 @@ export const CLASS_A1_U14_17 = {
             'Ovo je torba mojeg brata.',
             'Ovo je torba mojega brata.',
           ],
-          hint: '"Of my" for a man is "moga" (or "mog"), and the masculine owner adds -a.',
+          hint: 'Put "moga" where "moje" was, and give the masculine owner the ending you hear in "bez šećera".',
           explanation:
             'Ovo je torba moga brata. — the owner comes second, in the genitive: brat → brata.',
         },
@@ -2428,11 +2428,11 @@ export const CLASS_A1_U14_17 = {
       },
       {
         type: 'transform',
-        q: 'Say the opposite: without milk.',
-        from: 'Pijem kavu s mlijekom.',
-        answer: 'Pijem kavu bez mlijeka.',
-        hint: 'The opposite of s is bez — and after bez a neuter word ends in -a.',
-        explanation: 'Pijem kavu bez mlijeka. — s takes the instrumental, bez takes the genitive.',
+        q: 'Say the opposite: without honey.',
+        from: 'Pijem čaj s medom.',
+        answer: 'Pijem čaj bez meda.',
+        hint: 'The opposite of s is bez — and after bez a masculine word ends in -a.',
+        explanation: 'Pijem čaj bez meda. — s takes the instrumental, bez takes the genitive.',
       },
       2,
       {
@@ -2607,9 +2607,10 @@ export const CLASS_A1_U14_17 = {
       10,
       {
         type: 'transform',
-        q: 'She drank only some of the juice, not all of it. Change the sentence.',
+        q: 'The speaker drank only some of the juice, not all of it. Change the sentence.',
         from: 'Popila sam sok.',
         answer: 'Popila sam soka.',
+        accept: ['Popila sam malo soka.'],
         hint: 'For "some", the drink goes into the "of" form: a masculine word adds -a.',
         explanation: 'Popila sam soka. — some juice. Popila sam sok. — the juice, all of it.',
       },
@@ -2626,11 +2627,11 @@ export const CLASS_A1_U14_17 = {
       {
         type: 'transform',
         q: 'Now there is too much of it. Use "previše".',
-        from: 'Imamo kruh.',
-        answer: 'Imamo previše kruha.',
-        hint: 'After an amount word, the thing goes into the "of" form.',
+        from: 'Jedem šećer.',
+        answer: 'Jedem previše šećera.',
+        hint: 'After an amount word, the thing goes into the "of" form: a masculine word adds -a.',
         explanation:
-          'Imamo previše kruha. — malo, puno, dosta and previše are all followed by the genitive.',
+          'Jedem previše šećera. — malo, puno, dosta and previše are all followed by the genitive.',
       },
       7,
       {
@@ -2733,7 +2734,7 @@ export const CLASS_A1_U14_17 = {
           q: 'Say it about yesterday — as Ana does about the bread in the shop.',
           from: 'Nema mlijeka.',
           answer: 'Nije bilo mlijeka.',
-          accept: ['Jučer nije bilo mlijeka.'],
+          accept: ['Jučer nije bilo mlijeka.', 'Mlijeka nije bilo.'],
           hint: 'In the past, nema becomes two words, and the second is always the neuter form.',
           explanation: 'Nije bilo mlijeka. — always bilo, whatever is missing.',
         },
@@ -3054,8 +3055,8 @@ export const CLASS_A1_U14_17 = {
         },
         {
           who: 'Ivan',
-          hr: 'Bolesna je. Ali Marko i Luka dolaze.',
-          en: 'She is ill. But Marko and Luka are coming.',
+          hr: 'Bolesna je. Jučer sam bio kod nje. Ali Marko i Luka dolaze.',
+          en: 'She is ill. I was at her place yesterday. But Marko and Luka are coming.',
         },
         {
           who: 'Maja',
@@ -3124,7 +3125,7 @@ export const CLASS_A1_U14_17 = {
           q: 'Say it with a pronoun instead of the name.',
           from: 'Stanujem blizu Ane.',
           answer: 'Stanujem blizu nje.',
-          hint: 'For "she", the form after these small words is NOT the "nju" of "Vidim nju". Change its last letter to -e.',
+          hint: 'Ivan uses the form you need when he says where he was yesterday. It is NOT the "nju" of "Vidim nju".',
           explanation:
             'Stanujem blizu nje. — the one pronoun that differs: accusative nju, genitive nje.',
         },
@@ -3147,22 +3148,23 @@ export const CLASS_A1_U14_17 = {
         pairs: [
           ['kod mene', 'at my place'],
           ['bez tebe', 'without you'],
-          ['blizu njega', 'near him'],
-          ['kod vas', 'at your place'],
+          ['do mene', 'to my place'],
           ['od mene', 'from me'],
+          ['kod koga?', 'at whose place?'],
         ],
         explanation:
-          'After these small words the pronoun is always the long form: mene, tebe, njega, vas.',
+          'After these small words the pronoun is always the long form: mene, tebe — and koga for "whom".',
       },
-      8,
       {
         type: 'transform',
-        q: 'Lunch is at OUR place, not at yours.',
-        from: 'Ručak je kod vas.',
-        answer: 'Ručak je kod nas.',
-        hint: 'Only the pronoun changes — from "you" to "us".',
-        explanation: 'Ručak je kod nas. — kod nas: at our place.',
+        q: 'Lunch is not at my place — it is at YOUR place. You are talking to two friends.',
+        from: 'Ručak je kod mene.',
+        answer: 'Ručak je kod vas.',
+        accept: ['Ručak je kod Vas.'],
+        hint: 'Only the pronoun changes — to the long form of "you" for more than one person.',
+        explanation: 'Ručak je kod vas. — kod vas: at your place.',
       },
+      8,
       7,
       9,
       {
@@ -3559,10 +3561,10 @@ export const CLASS_A1_U14_17 = {
       {
         type: 'transform',
         q: 'Change the number to five.',
-        from: 'Čekam dva sata.',
-        answer: 'Čekam pet sati.',
-        hint: 'From five up, the hours take their plural "of" form — the one you use in the question about the time.',
-        explanation: 'Čekam pet sati. — dva sata, but pet sati.',
+        from: 'Čekam dvije minute.',
+        answer: 'Čekam pet minuta.',
+        hint: 'From five up, the noun takes its plural "of" form — for a feminine word in -a that form ends in plain -a.',
+        explanation: 'Čekam pet minuta. — dvije minute, but pet minuta.',
       },
       5,
       12,
@@ -3732,11 +3734,11 @@ export const CLASS_A1_U14_17 = {
       {
         type: 'transform',
         q: 'Now say that the concert is ON that date. Start with "Koncert je".',
-        from: 'Danas je četvrti srpnja.',
-        answer: 'Koncert je četvrtog srpnja.',
-        accept: ['Koncert je četvrtoga srpnja.'],
+        from: 'Danas je šesti srpnja.',
+        answer: 'Koncert je šestog srpnja.',
+        accept: ['Koncert je šestoga srpnja.'],
         hint: 'When something happens on a date, the ordinal goes into the genitive too.',
-        explanation: 'Koncert je četvrtog srpnja. — on the fourth of July.',
+        explanation: 'Koncert je šestog srpnja. — on the sixth of July.',
       },
       {
         type: 'order',
