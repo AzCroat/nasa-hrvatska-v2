@@ -3610,12 +3610,12 @@ export const CLASS_A1_U14_17 = {
         {
           who: 'Luka',
           hr: 'Gdje stanuješ? Na prvom katu?',
-          en: 'Where do you live? On the second floor (one flight up)?',
+          en: 'Where do you live? On the first floor?',
         },
         {
           who: 'Iva',
           hr: 'Ne, na trećem. Zabava je kod mene, trećeg svibnja u osam sati!',
-          en: 'No, on the fourth. The party is at my place, on the third of May at eight o’clock!',
+          en: 'No, on the third. The party is at my place, on the third of May at eight o’clock!',
         },
         { who: 'Luka', hr: 'Odlično, dolazim!', en: 'Great, I am coming!' },
       ],
@@ -3623,15 +3623,15 @@ export const CLASS_A1_U14_17 = {
         {
           q: 'Without looking back at the dialogue: what is the date today, when is Iva’s birthday, and on which floor does she live?',
           options: [
-            'Today is May 1; her birthday is on May 3; she lives on the fourth floor',
-            'Today is May 3; her birthday is on June 5; she lives on the second floor',
-            'Today is May 1; her birthday is on June 5; she lives on the fourth floor',
-            'Today is June 1; her birthday is on June 3; she lives on the third floor',
+            'Today is May 1; her birthday is on May 3; she lives on the third floor',
+            'Today is May 3; her birthday is on June 5; she lives on the first floor',
+            'Today is May 1; her birthday is on June 5; she lives on the third floor',
+            'Today is June 1; her birthday is on June 3; she lives on the second floor',
           ],
           correct: 0,
           hint: 'The number three belongs to Iva twice: her birthday and her floor, counted the Croatian way.',
           explanation:
-            'Today is the first of May. Iva’s birthday is on the third of May, and she lives on the fourth floor (treći kat: Croatians do not count the ground floor). The fifth of June is Luka’s birthday.',
+            'Today is the first of May. Iva’s birthday is on the third of May, and she lives on the third floor — treći kat. (In Croatia the street-level floor is prizemlje, so prvi kat is one flight up.) The fifth of June is Luka’s birthday.',
         },
         {
           q: 'Luka says "Danas je prvi svibnja", but Iva says "Moj rođendan je trećeg svibnja" — the number ends differently. Why?',
@@ -3663,7 +3663,7 @@ export const CLASS_A1_U14_17 = {
         },
         {
           type: 'transform',
-          q: 'You live one floor lower: on the third floor.',
+          q: 'You live one floor lower: on the second floor.',
           from: 'Stanujem na trećem katu.',
           answer: 'Stanujem na drugom katu.',
           hint: 'After na for a place the ordinal ends in -om — unless its stem is soft, as in "trećem".',
