@@ -38,6 +38,35 @@ export const LESSON_PRACTICE = {
 /** lesson id → { text, mix } — the class-order content (dialogue + mixed exercise kinds). */
 export const LESSON_CLASS = { ...CLASS_A1 };
 
+// THE ANSWER IS NOT ALWAYS THE FIRST OPTION. Class content is authored with the correct
+// option first (it reads naturally and reviews easily), and the player shows options in
+// the order it is given — so a learner would soon notice "always the first one". The
+// options of every new multiple-choice and listening exercise are therefore put in a
+// fixed, per-item order here, and `correct` follows. Deterministic: the same lesson always
+// ships the same order (the content etag depends on it), and the first option is the
+// answer for roughly one item in n, as it should be.
+function hash(str) {
+  let h = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+export function spreadOptions(item, seedText) {
+  if (!item || typeof item !== 'object') return item;
+  if (item.type && item.type !== 'listen') return item;
+  if (!Array.isArray(item.options) || !Number.isInteger(item.correct)) return item;
+  const n = item.options.length;
+  if (n < 2) return item;
+  // Rotate by a per-item amount: every position is used across items, and one item's
+  // order never changes between builds.
+  const shift = hash(`${seedText}|${item.q}`) % n;
+  if (shift === 0) return item;
+  const options = item.options.map((_, i) => item.options[(i + shift) % n]);
+  return { ...item, options, correct: (item.correct - shift + n) % n };
+}
+
 export function withPractice(lessons) {
   return lessons.map((lesson) => {
     const extra = LESSON_PRACTICE[lesson.id];
@@ -45,7 +74,15 @@ export function withPractice(lessons) {
     const slides = [...lesson.slides];
     // A short dialogue or text with questions (exercise player, 2026-11-15): right
     // after the intro, so the learner reads before the rules. Optional.
-    const text = LESSON_CLASS[lesson.id]?.text || extra.text;
+    const classText = LESSON_CLASS[lesson.id]?.text;
+    const text = classText
+      ? {
+          ...classText,
+          questions: (classText.questions || []).map((q, i) =>
+            spreadOptions(q, `${lesson.id}|text|${i}`),
+          ),
+        }
+      : extra.text;
     if (text) {
       const introAt = slides.findIndex((s) => s.type === 'intro');
       slides.splice(introAt >= 0 ? introAt + 1 : 0, 0, { type: 'text', ...text });
@@ -62,7 +99,13 @@ export function withPractice(lessons) {
       // so no existing item is restated in a second file.
       const mix = LESSON_CLASS[lesson.id]?.mix;
       const items = Array.isArray(mix)
-        ? mix.map((m) => (typeof m === 'number' ? extra.practice.items[m] : m)).filter(Boolean)
+        ? mix
+            .map((m, i) =>
+              typeof m === 'number'
+                ? extra.practice.items[m]
+                : spreadOptions(m, `${lesson.id}|mix|${i}`),
+            )
+            .filter(Boolean)
         : extra.practice.items;
       slides.splice(at >= 0 ? at : slides.length, 0, {
         type: 'practice',
