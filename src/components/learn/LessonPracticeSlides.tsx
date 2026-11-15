@@ -21,9 +21,10 @@
 // slide already follows (answer before you advance).
 
 import React, { useState } from 'react';
-import { accentInk } from '../../lib/accentInk';
 import type { BaseSlide, LessonMeta } from './lessonSlideTypes';
-import { judgeTyped, type TypedVerdict } from '../../lib/typedAnswer';
+import ExerciseSequence from './exercises/ExerciseSequence';
+import { eyebrowStyle } from './exercises/shared';
+import type { Exercise } from './exercises/types';
 
 export interface WorkedStep {
   /** Short label for the step, e.g. "Find the verb". */
@@ -57,14 +58,7 @@ const card: React.CSSProperties = {
   boxShadow: 'var(--card-shadow)',
 };
 
-const eyebrow = (lesson: LessonMeta): React.CSSProperties => ({
-  fontSize: 'var(--text-xs)',
-  fontWeight: 800,
-  letterSpacing: '.08em',
-  color: accentInk(lesson.color),
-  textTransform: 'uppercase',
-  marginBottom: 6,
-});
+const eyebrow = (lesson: LessonMeta): React.CSSProperties => eyebrowStyle(lesson.color);
 
 // ── Worked example ────────────────────────────────────────────────────────────
 
@@ -176,10 +170,8 @@ export function WorkedSlide({
 }
 
 // ── Guided practice ───────────────────────────────────────────────────────────
-
-type ItemState = { tried: number[]; typed: TypedVerdict[]; resolved: boolean };
-
-const isTyped = (it: PracticeItem) => it.type === 'type' && typeof it.answer === 'string';
+// Each item is rendered by the exercise player (exercises/): multiple choice and
+// typed as before, plus the newer kinds. The contract is the same for all of them.
 
 export function GuidedPracticeSlide({
   slide,
@@ -192,226 +184,18 @@ export function GuidedPracticeSlide({
   done: boolean;
   onComplete: () => void;
 }) {
-  const items = (Array.isArray(slide.items) ? slide.items : []) as unknown as PracticeItem[];
-  const [idx, setIdx] = useState(done ? Math.max(0, items.length - 1) : 0);
-  const [state, setState] = useState<ItemState[]>(() =>
-    items.map((it) => ({
-      tried: done && !isTyped(it) ? [it.correct] : [],
-      typed: done && isTyped(it) ? ['right'] : [],
-      resolved: done,
-    })),
-  );
-  const [draft, setDraft] = useState('');
-  const item = items[idx];
-  const st = state[idx];
-  if (!item || !st) return null;
-  const typed = isTyped(item);
-
-  const wrongTries = typed
-    ? st.typed.filter((v) => v !== 'right').length
-    : st.tried.filter((t) => t !== item.correct).length;
-  const gotIt = typed ? st.typed.includes('right') : st.tried.includes(item.correct);
-
-  function settle(next: ItemState) {
-    const all = state.map((s, k) => (k === idx ? next : s));
-    setState(all);
-    if (next.resolved && all.every((s) => s.resolved)) onComplete();
-  }
-
-  function choose(i: number) {
-    if (!st || st.resolved || st.tried.includes(i) || !item) return;
-    const tried = [...st.tried, i];
-    const wrong = tried.filter((t) => t !== item.correct).length;
-    // Resolved on the right answer, or on the SECOND wrong one (then it is shown).
-    settle({ ...st, tried, resolved: i === item.correct || wrong >= 2 });
-  }
-
-  function submitTyped() {
-    if (!st || st.resolved || !item || !draft.trim()) return;
-    const v = judgeTyped(draft, item.answer!, item.accept ?? []);
-    const typedNext = [...st.typed, v];
-    const misses = typedNext.filter((x) => x !== 'right').length;
-    settle({ ...st, typed: typedNext, resolved: v === 'right' || misses >= 2 });
-    if (v !== 'right') setDraft('');
-  }
-
-  function optionStyle(i: number): React.CSSProperties {
-    const base: React.CSSProperties = {
-      width: '100%',
-      padding: '12px 16px',
-      marginBottom: 8,
-      borderRadius: 12,
-      textAlign: 'left',
-      fontFamily: 'inherit',
-      fontSize: 'var(--text-base)',
-      fontWeight: 600,
-      display: 'block',
-      lineHeight: 1.4,
-      cursor: st!.resolved || st!.tried.includes(i) ? 'default' : 'pointer',
-      background: 'var(--card)',
-      border: '2px solid var(--card-b)',
-      color: 'var(--heading)',
-    };
-    const showRight = i === item!.correct && st!.resolved;
-    if (showRight)
-      return {
-        ...base,
-        background: 'var(--success-bg)',
-        border: '2px solid var(--success)',
-        color: 'var(--ink-green)',
-      };
-    if (st!.tried.includes(i))
-      return {
-        ...base,
-        background: 'var(--error-bg)',
-        border: '2px solid var(--error)',
-        color: 'var(--ink-error)',
-        textDecoration: 'line-through',
-      };
-    return base;
-  }
-
-  const lastTyped = st.typed[st.typed.length - 1];
-
+  const items = (Array.isArray(slide.items) ? slide.items : []) as unknown as Exercise[];
   return (
     <div data-testid="lesson-practice">
-      <div style={card}>
-        <div style={eyebrow(lesson)}>
-          Guided practice · {idx + 1} of {items.length} · {typed ? 'write it' : 'choose'} · not
-          scored
-        </div>
-        <p
-          lang="hr"
-          style={{
-            fontSize: 'var(--text-md)',
-            fontWeight: 800,
-            margin: 0,
-            color: 'var(--heading)',
-          }}
-        >
-          {item.q}
-        </p>
-      </div>
-
-      {typed ? (
-        <div style={{ marginBottom: 8 }}>
-          {!st.resolved && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                submitTyped();
-              }}
-              style={{ display: 'flex', gap: 8 }}
-            >
-              <input
-                lang="hr"
-                data-testid="practice-typed-input"
-                aria-label="Type your answer"
-                autoComplete="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                style={{
-                  flex: 1,
-                  padding: '12px 14px',
-                  borderRadius: 12,
-                  border: '2px solid var(--card-b)',
-                  fontSize: 'var(--text-base)',
-                  fontFamily: 'inherit',
-                  background: 'var(--card)',
-                  color: 'var(--heading)',
-                }}
-              />
-              <button
-                type="submit"
-                className="b bp"
-                data-testid="practice-typed-submit"
-                disabled={!draft.trim()}
-              >
-                Check
-              </button>
-            </form>
-          )}
-          {st.resolved && (
-            <div
-              lang="hr"
-              data-testid="practice-typed-answer"
-              style={{
-                ...card,
-                background: gotIt ? 'var(--success-bg)' : 'var(--error-bg)',
-                color: gotIt ? 'var(--ink-green)' : 'var(--ink-error)',
-                fontWeight: 800,
-              }}
-            >
-              {item.answer}
-            </div>
-          )}
-        </div>
-      ) : (
-        item.options.map((o, i) => (
-          <button
-            key={i}
-            lang="hr"
-            data-testid="practice-option"
-            data-verdict={
-              i === item.correct && st.resolved
-                ? 'correct'
-                : st.tried.includes(i)
-                  ? 'wrong'
-                  : undefined
-            }
-            disabled={st.resolved || st.tried.includes(i)}
-            style={optionStyle(i)}
-            onClick={() => choose(i)}
-          >
-            {o}
-          </button>
-        ))
-      )}
-
-      {!st.resolved && wrongTries === 1 && (
-        <div
-          data-testid="practice-hint"
-          data-verdict={typed ? lastTyped : undefined}
-          role="status"
-          style={{ ...card, background: 'var(--info-bg)' }}
-        >
-          <strong style={{ color: 'var(--ink-info)' }}>
-            {typed && lastTyped === 'accents'
-              ? 'Nearly — the letters with marks (č, ć, đ, š, ž) are part of the word. '
-              : 'Not quite — here is a hint. '}
-          </strong>
-          <span style={{ color: 'var(--text)' }}>{item.hint}</span>
-        </div>
-      )}
-
-      {st.resolved && (
-        <div data-testid="practice-explanation" role="status" style={card}>
-          <strong style={{ color: gotIt ? 'var(--ink-green)' : 'var(--ink-error)' }}>
-            {gotIt
-              ? wrongTries === 0
-                ? '✅ Correct!'
-                : '✅ Got it on the second try.'
-              : '❌ The answer is shown above.'}
-          </strong>{' '}
-          <span style={{ color: 'var(--text)' }}>{item.explanation}</span>
-        </div>
-      )}
-
-      {st.resolved && idx < items.length - 1 && (
-        <button
-          className="b bp"
-          data-testid="practice-next-item"
-          style={{ width: '100%' }}
-          onClick={() => {
-            setDraft('');
-            setIdx(idx + 1);
-          }}
-        >
-          Next practice question →
-        </button>
-      )}
+      <ExerciseSequence
+        items={items}
+        label="Guided practice"
+        color={lesson.color}
+        done={done}
+        onComplete={onComplete}
+        nextTestId="practice-next-item"
+        nextLabel="Next practice question →"
+      />
     </div>
   );
 }

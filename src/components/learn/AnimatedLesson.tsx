@@ -24,6 +24,7 @@ import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
 import { WorkedSlide, GuidedPracticeSlide } from './LessonPracticeSlides';
 import LessonVisualSlide from './LessonVisualSlide';
+import LessonTextSlide from './LessonTextSlide';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
@@ -434,7 +435,12 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const isSummary = currentSlide.type === 'summary';
   const quizRevealed = quizResults[slide] !== undefined;
   const failedSummary = isSummary && !passed;
-  const isPractice = currentSlide.type === 'worked' || currentSlide.type === 'practice';
+  const isPractice =
+    currentSlide.type === 'worked' ||
+    currentSlide.type === 'practice' ||
+    (currentSlide.type === 'text' &&
+      Array.isArray(currentSlide.questions) &&
+      currentSlide.questions.length > 0);
   // A check closed from an earlier sitting today, with nothing answered in this one:
   // the check slide is where the sitting ends.
   const closedCheckSlide = isCheck && checkLocked && !checkAnsweredAny;
@@ -519,6 +525,17 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
       case 'worked':
         return (
           <WorkedSlide
+            key={slide}
+            slide={cs}
+            lesson={lesson!}
+            done={practiceDone.has(slide)}
+            onComplete={() => markPracticeDone(slide)}
+          />
+        );
+
+      case 'text':
+        return (
+          <LessonTextSlide
             key={slide}
             slide={cs}
             lesson={lesson!}

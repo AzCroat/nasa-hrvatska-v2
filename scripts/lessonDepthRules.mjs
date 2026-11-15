@@ -113,6 +113,8 @@ export function lessonDepthProblems(l) {
   }
   const quizzes = slides.filter((s) => s.type === 'quiz').length;
   if (quizzes < 1) out.push('needs >= 1 formative quiz slide');
+  // Text steps are optional and judged at every level wherever they appear.
+  for (const s of slides.filter((x) => x.type === 'text')) out.push(...textSlideProblems(s));
   if (DEEPENED_LEVELS.includes(l.level)) out.push(...practiceProblems(l));
   if (PRODUCTIVE_LEVELS.includes(l.level)) out.push(...productiveProblems(l));
   return out;
@@ -185,12 +187,21 @@ export function practiceProblems(l) {
       out.push(`guided practice needs >= ${MIN_PRACTICE_ITEMS} items (has ${items.length})`);
     }
     const corrects = new Set();
+    let mcCount = 0;
     items.forEach((it, i) => {
-      if (typeof it.q !== 'string' || !it.q.trim()) out.push(`practice item ${i}: q missing`);
+      // match / dictate / fix / listen-without-q carry no top-level q.
+      const needsQ = !['match', 'fix', 'dictate'].includes(it.type);
+      if (needsQ && (typeof it.q !== 'string' || !it.q.trim()))
+        out.push(`practice item ${i}: q missing`);
       if (it.type === 'type') {
         out.push(...typedItemProblems(it, `practice item ${i}`));
         return;
       }
+      if (EXERCISE_KINDS.includes(it.type)) {
+        out.push(...exerciseKindProblems(it, `practice item ${i}`));
+        return;
+      }
+      mcCount++;
       if (!Array.isArray(it.options) || it.options.length !== CHECK_OPTIONS) {
         out.push(`practice item ${i}: needs exactly ${CHECK_OPTIONS} options`);
       } else if (new Set(it.options.map((o) => String(o).trim())).size !== CHECK_OPTIONS) {
@@ -215,7 +226,7 @@ export function practiceProblems(l) {
         out.push(`practice item ${i}: hint gives the answer away (${ans})`);
       }
     });
-    if (items.length >= MIN_PRACTICE_ITEMS && corrects.size < 2) {
+    if (items.length >= MIN_PRACTICE_ITEMS && mcCount >= 2 && corrects.size < 2) {
       out.push('guided practice correct indices must use >= 2 distinct positions');
     }
   }
@@ -324,6 +335,149 @@ export function productiveProblems(l) {
     const k = v[0].trim().toLowerCase();
     if (seen.has(k)) out.push(`vocab ${i}: duplicate ${v[0]}`);
     seen.add(k);
+  });
+  return out;
+}
+
+// ── The exercise player (2026-11-15) ─────────────────────────────────────────
+// New item kinds for practice slides and a listen/read text step. All optional:
+// these rules run only where the shapes are present, so a lesson without them is
+// judged exactly as before.
+export const EXERCISE_KINDS = [
+  'tf',
+  'match',
+  'sort',
+  'order',
+  'transform',
+  'fix',
+  'listen',
+  'dictate',
+];
+export const MIN_TEXT_LINES = 3;
+
+const nonEmpty = (v) => typeof v === 'string' && v.trim().length > 0;
+const strArray = (v) => Array.isArray(v) && v.every((x) => typeof x === 'string');
+
+/** Every rule one exercise item of a new kind violates. */
+export function exerciseKindProblems(it, where) {
+  const out = [];
+  const bad = (m) => out.push(`${where}: ${m}`);
+  if (!nonEmpty(it?.explanation)) bad('explanation missing');
+  switch (it?.type) {
+    case 'tf':
+      if (!nonEmpty(it.q)) bad('tf q missing');
+      if (typeof it.answer !== 'boolean') bad('tf answer must be a boolean');
+      break;
+    case 'match': {
+      const pairs = Array.isArray(it.pairs) ? it.pairs : [];
+      if (pairs.length < 3 || pairs.length > 5) bad(`match needs 3-5 pairs (has ${pairs.length})`);
+      if (!pairs.every((p) => Array.isArray(p) && p.length === 2 && p.every(nonEmpty)))
+        bad('match pairs must be [left, right] non-empty strings');
+      else {
+        const norm = (x) => x.trim().toLowerCase();
+        if (new Set(pairs.map((p) => norm(p[0]))).size !== pairs.length)
+          bad('match left sides must be distinct');
+        if (new Set(pairs.map((p) => norm(p[1]))).size !== pairs.length)
+          bad('match right sides must be distinct');
+      }
+      break;
+    }
+    case 'sort': {
+      if (!nonEmpty(it.q)) bad('sort q missing');
+      const groups = Array.isArray(it.groups) ? it.groups : [];
+      const items = Array.isArray(it.items) ? it.items : [];
+      if (groups.length < 2 || groups.length > 3 || !groups.every(nonEmpty))
+        bad('sort needs 2-3 named groups');
+      if (items.length < 4 || items.length > 8) bad(`sort needs 4-8 items (has ${items.length})`);
+      if (!items.every((x) => nonEmpty(x?.hr) && Number.isInteger(x.group)))
+        bad('sort items need hr and an integer group');
+      else {
+        if (items.some((x) => x.group < 0 || x.group >= groups.length))
+          bad('sort item group out of range');
+        else if (groups.length >= 2) {
+          const used = new Set(items.map((x) => x.group));
+          if (used.size !== groups.length) bad('sort must use every group at least once');
+        }
+      }
+      break;
+    }
+    case 'order': {
+      if (!nonEmpty(it.q)) bad('order q missing');
+      const words = Array.isArray(it.words) ? it.words : [];
+      if (words.length < 3) bad(`order needs >= 3 words (has ${words.length})`);
+      if (!words.every(nonEmpty)) bad('order words must be non-empty strings');
+      if (it.accept !== undefined && !strArray(it.accept)) bad('order accept must be strings');
+      break;
+    }
+    case 'transform':
+      if (!nonEmpty(it.q)) bad('transform q (instruction) missing');
+      if (!nonEmpty(it.from)) bad('transform from missing');
+      if (!nonEmpty(it.answer)) bad('transform answer missing');
+      else if (nonEmpty(it.from) && it.from.trim() === it.answer.trim())
+        bad('transform answer must differ from from');
+      if (it.accept !== undefined && !strArray(it.accept)) bad('transform accept must be strings');
+      if (!nonEmpty(it.hint)) bad('transform hint missing');
+      break;
+    case 'fix': {
+      const words = Array.isArray(it.words) ? it.words : [];
+      if (words.length < 2 || !words.every(nonEmpty)) bad('fix needs words');
+      if (!Number.isInteger(it.wrong) || it.wrong < 0 || it.wrong >= words.length)
+        bad('fix wrong index out of range');
+      if (!nonEmpty(it.answer)) bad('fix answer missing');
+      else if (words[it.wrong] !== undefined && words[it.wrong].trim() === it.answer.trim())
+        bad('fix answer must differ from the wrong word');
+      if (!nonEmpty(it.hint)) bad('fix hint missing');
+      break;
+    }
+    case 'listen': {
+      if (!nonEmpty(it.audio)) bad('listen audio missing');
+      if (!nonEmpty(it.q)) bad('listen q missing');
+      const opts = Array.isArray(it.options) ? it.options : [];
+      if (opts.length < 3 || opts.length > 4) bad('listen needs 3-4 options');
+      else if (new Set(opts.map((o) => String(o).trim())).size !== opts.length)
+        bad('listen duplicate options');
+      if (!Number.isInteger(it.correct) || it.correct < 0 || it.correct >= opts.length)
+        bad('listen correct index out of range');
+      if (nonEmpty(it.audio) && nonEmpty(it.q) && it.q.includes(it.audio.trim()))
+        bad('listen q contains the audio sentence');
+      break;
+    }
+    case 'dictate':
+      if (!nonEmpty(it.audio)) bad('dictate audio missing');
+      if (!nonEmpty(it.answer)) bad('dictate answer missing');
+      if (it.accept !== undefined && !strArray(it.accept)) bad('dictate accept must be strings');
+      if (!nonEmpty(it.hint)) bad('dictate hint missing');
+      break;
+    default:
+      bad(`unknown exercise type ${String(it?.type)}`);
+  }
+  return out;
+}
+
+/** Every rule a text slide (dialogue or text step) violates. */
+export function textSlideProblems(s) {
+  const out = [];
+  if (!nonEmpty(s?.title)) out.push('text: title missing');
+  const lines = Array.isArray(s?.lines) ? s.lines : [];
+  if (lines.length < MIN_TEXT_LINES)
+    out.push(`text needs >= ${MIN_TEXT_LINES} lines (has ${lines.length})`);
+  lines.forEach((l, i) => {
+    if (!nonEmpty(l?.hr)) out.push(`text line ${i}: hr missing`);
+    if (!nonEmpty(l?.en)) out.push(`text line ${i}: en missing`);
+  });
+  const qs = Array.isArray(s?.questions) ? s.questions : [];
+  qs.forEach((q, i) => {
+    const where = `text question ${i}`;
+    if (q?.type === 'type') out.push(...typedItemProblems(q, where));
+    else if (EXERCISE_KINDS.includes(q?.type)) out.push(...exerciseKindProblems(q, where));
+    else {
+      if (!nonEmpty(q?.q)) out.push(`${where}: q missing`);
+      if (!Array.isArray(q?.options) || q.options.length !== CHECK_OPTIONS)
+        out.push(`${where}: needs exactly ${CHECK_OPTIONS} options`);
+      if (!Number.isInteger(q?.correct) || q.correct < 0 || q.correct >= CHECK_OPTIONS)
+        out.push(`${where}: correct index out of range`);
+      if (!nonEmpty(q?.explanation)) out.push(`${where}: explanation missing`);
+    }
   });
   return out;
 }

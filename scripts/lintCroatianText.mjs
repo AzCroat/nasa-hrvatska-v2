@@ -1324,6 +1324,7 @@ function* dialogueStrings() {
 // `points` are summary bullets that mix both languages, so headers take the
 // encoding check only.
 import { LESSONS } from '../functions/api/content/_data/lessons.js';
+import { exerciseStrings, textSlideStrings } from './lessonExerciseStrings.mjs';
 
 // THE ONE CARVE-OUT, and it is deliberately a single lesson id rather than a
 // field name or a pattern. `language-identity` (C1) is a contrastive lesson
@@ -1468,20 +1469,11 @@ function* lessonStrings() {
       if (s.type === 'practice') {
         const items = Array.isArray(s.items) ? s.items : [];
         for (let k = 0; k < items.length; k++) {
-          const it = items[k] || {};
-          const where = `${at}.items[${k}]`;
-          for (const f of ['q', 'hint', 'explanation', 'answer']) {
-            if (typeof it[f] === 'string')
-              yield { loc: `${where}.${f}`, field: f, content: it[f], kind };
-          }
-          for (const acc of Array.isArray(it.accept) ? it.accept : []) {
-            yield { loc: `${where}.accept`, field: 'accept', content: acc, kind };
-          }
-          for (const o of Array.isArray(it.options) ? it.options : []) {
-            yield { loc: `${where}.options`, field: 'options', content: o, kind };
-          }
+          yield* exerciseStrings(items[k], `${at}.items[${k}]`, kind);
         }
       }
+      // A dialogue / text step with questions (exercise player, 2026-11-15).
+      if (s.type === 'text') yield* textSlideStrings(s, at, kind);
       if (s.type === 'check') {
         // Both forms (2026-09-29): form B is a second paper and is read exactly as
         // form A is.
