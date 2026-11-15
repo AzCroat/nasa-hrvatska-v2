@@ -84,7 +84,6 @@ describe('the text slide', () => {
     expect(id('lesson-text-line-0').textContent).toMatch(/Bog! Ja sam Ana\./);
     expect(speakMock).not.toHaveBeenCalled();
     expect(screen.queryByTestId('lesson-text-en-0')).toBeNull();
-    expect((id('lesson-text-read') as HTMLButtonElement).disabled).toBe(false);
   });
 
   it('Show English reveals every line and Hide English hides them again', () => {

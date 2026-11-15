@@ -71,11 +71,6 @@ export default function LessonTextSlide({
     if (run.current === gen) setPlaying(null);
   }
 
-  function readTheText() {
-    textRef.current?.scrollIntoView?.({ block: 'start', behavior: 'smooth' });
-    textRef.current?.focus();
-  }
-
   return (
     <div data-testid="lesson-text">
       <div style={card}>
@@ -85,7 +80,7 @@ export default function LessonTextSlide({
           style={{
             fontSize: 'var(--text-md)',
             fontWeight: 800,
-            margin: '0 0 12px',
+            margin: '0 0 8px',
             color: 'var(--heading)',
           }}
         >
@@ -98,9 +93,6 @@ export default function LessonTextSlide({
             onClick={() => void playFrom(0, true)}
           >
             🔊 Listen first
-          </button>
-          <button className="b" data-testid="lesson-text-read" onClick={readTheText}>
-            Read the text
           </button>
           <button
             className="b"
@@ -120,50 +112,62 @@ export default function LessonTextSlide({
             The recording couldn&apos;t be played. {failure} You can still read the text.
           </div>
         )}
-      </div>
-
-      <div ref={textRef} tabIndex={-1} style={{ outline: 'none' }}>
-        {lines.map((l, i) => (
-          <button
-            key={i}
-            data-testid={`lesson-text-line-${i}`}
-            onClick={() => void playFrom(i, false)}
-            style={{
-              ...card,
-              width: '100%',
-              textAlign: 'left',
-              fontFamily: 'inherit',
-              cursor: 'pointer',
-              display: 'block',
-              color: 'var(--heading)',
-              borderColor: playing === i ? 'var(--heading)' : 'var(--card-b)',
-            }}
-          >
-            {l.who && (
-              <strong
-                style={{ display: 'block', fontSize: 'var(--text-xs)', color: 'var(--subtext)' }}
-              >
-                {l.who}
-              </strong>
-            )}
-            <span lang="hr" style={{ fontSize: 'var(--text-md)', fontWeight: 700 }}>
-              {l.hr}
-            </span>
-            {showEn && (
-              <span
-                data-testid={`lesson-text-en-${i}`}
-                style={{
-                  display: 'block',
-                  fontSize: 'var(--text-sm)',
-                  color: 'var(--subtext)',
-                  marginTop: 4,
-                }}
-              >
-                {l.en}
+        {/* THE TEXT SITS IN THE SAME CARD, COMPACT, AND SCROLLS INSIDE IT when there are
+            questions (owner report, 2026-11-15: "why is the follow-up question so far below
+            the dialogue?"). One card per line pushed the first question a screen and a half
+            down; now the question is directly under the text it asks about. */}
+        <div
+          ref={textRef}
+          tabIndex={-1}
+          data-testid="lesson-text-lines"
+          style={{
+            outline: 'none',
+            marginTop: 10,
+            borderTop: '1px solid var(--card-b)',
+            ...(questions.length > 0 ? { maxHeight: '34vh', overflowY: 'auto' as const } : {}),
+          }}
+        >
+          {lines.map((l, i) => (
+            <button
+              key={i}
+              data-testid={`lesson-text-line-${i}`}
+              onClick={() => void playFrom(i, false)}
+              style={{
+                width: '100%',
+                textAlign: 'left',
+                fontFamily: 'inherit',
+                cursor: 'pointer',
+                display: 'block',
+                padding: '7px 6px',
+                border: 'none',
+                borderBottom: '1px solid var(--card-b)',
+                borderRadius: 0,
+                background: playing === i ? 'var(--bar-bg)' : 'transparent',
+                color: 'var(--heading)',
+              }}
+            >
+              <span lang="hr" style={{ fontSize: 'var(--text-base)', fontWeight: 700 }}>
+                {l.who && (
+                  <span style={{ fontWeight: 800, color: 'var(--subtext)' }}>{l.who}: </span>
+                )}
+                {l.hr}
               </span>
-            )}
-          </button>
-        ))}
+              {showEn && (
+                <span
+                  data-testid={`lesson-text-en-${i}`}
+                  style={{
+                    display: 'block',
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--subtext)',
+                    marginTop: 2,
+                  }}
+                >
+                  {l.en}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       {questions.length > 0 && (
