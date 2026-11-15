@@ -467,14 +467,17 @@ export const CLASS_A1 = {
       ],
       questions: [
         {
-          type: 'match',
-          q: 'Who is what? Match each person to the rest of the sentence.',
-          pairs: [
-            ['Tom', 'je iz Kanade.'],
-            ['Maja i Ana', 'su studentice.'],
-            ['Ivan', 'je profesor.'],
+          q: 'You only listened. Where is Tom from, and where is Ana from?',
+          options: [
+            'Tom is from Canada, Ana is from Split',
+            'Tom is from Split, Ana is from Zagreb',
+            'Both are from Zagreb',
+            'Tom is from Canada, Ana is from Zagreb',
           ],
-          explanation: 'One person takes je; two people take su: Maja i Ana su studentice.',
+          correct: 0,
+          hint: 'Tom says "Iz Kanade sam". Ana says "Mi smo iz Splita".',
+          explanation:
+            'Tom: Iz Kanade sam. Ana: Mi smo iz Splita — and it is Ivan who is from Zagreb.',
         },
         {
           q: 'Tom says "Iz Kanade sam." Why is there no "ja"?',
@@ -487,29 +490,30 @@ export const CLASS_A1 = {
           correct: 0,
           hint: 'Each form of biti belongs to one person.',
           explanation:
-            'sam can only mean "I am", so ja is usually left out. Note that sam moved: it cannot be the first word.',
+            'sam can only mean "I am", so ja is usually left out. Notice that sam is not the first word: it never is.',
         },
         {
           type: 'type',
-          q: "Complete Ana's line from the dialogue: Maja i ja ____ studentice.",
+          q: 'Now you. Ana asks YOU: "Jesi li umoran?" You are. Answer in one word: ____.',
+          answer: 'Jesam',
+          hint: 'Answer with the long form of biti for "I".',
+          explanation: 'Jesam. — "I am." Croatian answers with the verb, not with a plain yes.',
+        },
+        {
+          type: 'type',
+          q: 'Say that you and Tom are here: Tom i ja ____ ovdje.',
           answer: 'smo',
-          hint: 'Maja and I together are "we".',
+          hint: 'Tom and I together are "we".',
           explanation:
-            'Maja i ja smo studentice — two people including the speaker take the "we" form.',
+            'Tom i ja smo ovdje. Two people including you take the "we" form, just like Maja i ja smo studentice.',
         },
         {
-          q: 'Tom asks "Jeste li vi iz Zagreba?" and Ana answers "Nismo." Who is she answering for?',
-          options: ['Herself and Maja', 'Only herself', 'Ivan', 'Tom'],
-          correct: 0,
-          hint: 'Which person is nismo?',
-          explanation: 'vi here means "you two", so Ana answers for both: nismo — we are not.',
-        },
-        {
-          type: 'tf',
-          q: 'Tom je umoran.',
-          answer: false,
-          hint: "Read Tom's last line.",
-          explanation: 'Tom says: Nisam umoran, ali sam gladan — not tired, but hungry.',
+          type: 'transform',
+          q: 'Say it the way Tom does — without "ja".',
+          from: 'Ja sam iz Kanade.',
+          answer: 'Iz Kanade sam.',
+          hint: 'Drop ja. The short form sam cannot be the first word, so it moves.',
+          explanation: 'Iz Kanade sam. With ja gone, sam goes to second place.',
         },
       ],
     },
@@ -627,14 +631,12 @@ export const CLASS_A1 = {
       ],
       questions: [
         {
-          type: 'match',
-          q: 'Where is everyone? Match each person to the rest of the sentence.',
-          pairs: [
-            ['Ana', 'je ovdje.'],
-            ['Petra', 'je doma.'],
-            ['Tom', 'je u Zagrebu.'],
-          ],
-          explanation: 'Ana je ovdje, Petra je doma, Tom je u Zagrebu.',
+          q: 'You only listened. Which of the students are in the room?',
+          options: ['Ana and Marko', 'Ana and Petra', 'Marko and Tom', 'All four of them'],
+          correct: 0,
+          hint: 'Listen for nije — "is not".',
+          explanation:
+            'Ana and Marko are there. Petra nije — she is at home — and Tom is in Zagreb.',
         },
         {
           q: 'The professor asks "Je li Ana ovdje?" and Ana answers "Jesam." Why not "Jest"?',
@@ -651,26 +653,28 @@ export const CLASS_A1 = {
         },
         {
           type: 'type',
-          q: "Complete Ana's line from the dialogue: Marko je ovdje, ali Petra ____.",
-          answer: 'nije',
-          hint: 'One word that means "is not".',
-          explanation: 'Petra nije — the "not" joins the verb: je becomes nije.',
+          q: 'Now you. The professor asks YOU: "Jeste li Vi iz Zagreba?" You are not. Answer in one word: ____.',
+          answer: 'Nisam',
+          hint: 'Answer about yourself: one word for "I am not".',
+          explanation:
+            'Nisam. — "I am not." The question is in the Vi form, the answer is in your own person.',
+        },
+        {
+          type: 'type',
+          q: 'A classmate asks you: "Je li Petra ovdje?" She is at home. Answer in one word: ____.',
+          answer: 'Nije',
+          hint: 'You are answering about her: one word for "she is not".',
+          explanation:
+            'Nije. — "She is not." About someone else, the answer uses that person\'s form.',
         },
         {
           type: 'transform',
-          q: "Turn the professor's question into a plain statement.",
-          from: 'Jesu li Marko i Petra ovdje?',
-          answer: 'Marko i Petra su ovdje.',
-          hint: 'Drop li, and use the short form after the two names.',
-          explanation:
-            'Marko i Petra su ovdje. The question uses the long form first (Jesu li…); the statement uses the short form su.',
-        },
-        {
-          q: 'Marko answers "Nismo." Who is he answering for?',
-          options: ['Himself and Ana', 'Only himself', 'Tom and Petra', 'The professor'],
-          correct: 0,
-          hint: 'The professor asked about "ti i Ana".',
-          explanation: 'You and Ana = "you two", so Marko answers for both: Nismo — we are not.',
+          q: 'Your turn to ask. Turn this into a yes/no question with li.',
+          from: 'Tom je u Zagrebu.',
+          answer: 'Je li Tom u Zagrebu?',
+          accept: ['Jest li Tom u Zagrebu?'],
+          hint: 'With on and ona, the short form stands first, then li.',
+          explanation: 'Je li Tom u Zagrebu? — exactly how the professor asks: Je li Ana ovdje?',
         },
       ],
     },

@@ -70,6 +70,13 @@ function lessonWith(text: unknown) {
 const next = () => fireEvent.click(screen.getByTestId('lesson-nav-next'));
 const nextDisabled = () => (screen.getByTestId('lesson-nav-next') as HTMLButtonElement).disabled;
 const id = (s: string) => screen.getByTestId(s);
+/** Listen stage -> the text. */
+const openText = () => fireEvent.click(id('lesson-text-show'));
+/** The text -> its questions. */
+const openQuestions = () => {
+  openText();
+  fireEvent.click(id('lesson-text-questions'));
+};
 
 beforeEach(() => {
   speakMock.mockReset();
@@ -77,10 +84,15 @@ beforeEach(() => {
 });
 
 describe('the text slide', () => {
-  it('sits right after the intro and shows the text with no audio and no English', () => {
+  it('sits right after the intro, opens on LISTEN with the text hidden, and the text is one tap away with no audio and no English', () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
-    expect(id('lesson-text')).toBeTruthy();
+    expect(id('lesson-text').getAttribute('data-stage')).toBe('listen');
+    // By ear first: nothing of the text is on screen until the learner asks for it.
+    expect(screen.queryByTestId('lesson-text-line-0')).toBeNull();
+    expect((id('lesson-text-show') as HTMLButtonElement).disabled).toBe(false);
+    openText();
+    expect(id('lesson-text').getAttribute('data-stage')).toBe('read');
     expect(id('lesson-text-line-0').textContent).toMatch(/Bog! Ja sam Ana\./);
     expect(speakMock).not.toHaveBeenCalled();
     expect(screen.queryByTestId('lesson-text-en-0')).toBeNull();
@@ -89,6 +101,7 @@ describe('the text slide', () => {
   it('Show English reveals every line and Hide English hides them again', () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
+    openText();
     fireEvent.click(id('lesson-text-english'));
     expect(id('lesson-text-en-0').textContent).toBe('Hi! I am Ana.');
     expect(id('lesson-text-en-2').textContent).toBe('Nice to meet you.');
@@ -99,6 +112,7 @@ describe('the text slide', () => {
   it('tapping a line plays exactly that line', async () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
+    openText();
     fireEvent.click(id('lesson-text-line-1'));
     await waitFor(() => expect(speakMock).toHaveBeenCalledTimes(1));
     expect(speakMock).toHaveBeenCalledWith('Bog, Ana! Ja sam Marko.');
@@ -122,8 +136,10 @@ describe('the text slide', () => {
     await waitFor(() => expect(id('lesson-text-audio-failed')).toBeTruthy());
     expect(id('lesson-text-audio-failed').textContent).toMatch(/connection dropped/);
     expect(speakMock).toHaveBeenCalledTimes(1); // stopped at the first failure
-    // The text is still readable and the questions still work.
+    // A dead recording opens the text itself, and the questions still work.
+    expect(id('lesson-text').getAttribute('data-stage')).toBe('read');
     expect(id('lesson-text-line-0')).toBeTruthy();
+    fireEvent.click(id('lesson-text-questions'));
     fireEvent.click(id('ex-tf-false'));
     expect(id('ex-explanation')).toBeTruthy();
   });
@@ -132,6 +148,11 @@ describe('the text slide', () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
     expect(nextDisabled()).toBe(true);
+    openQuestions();
+    // The question is on its own screen; the whole text is one tap away, never clipped.
+    expect(screen.queryByTestId('lesson-text-line-0')).toBeNull();
+    fireEvent.click(id('lesson-text-lookback'));
+    expect(screen.getAllByTestId(/^lesson-text-line-/)).toHaveLength(TEXT_FIXTURE.lines.length);
     fireEvent.click(id('ex-tf-false')); // right
     expect(nextDisabled()).toBe(true);
     fireEvent.click(id('ex-next-item'));
@@ -142,6 +163,7 @@ describe('the text slide', () => {
   it('a settled text stays open when the learner comes back to it', () => {
     render(<AnimatedLesson lesson={lessonWith(TEXT_FIXTURE)} goBack={vi.fn()} award={vi.fn()} />);
     next();
+    openQuestions();
     fireEvent.click(id('ex-tf-false'));
     fireEvent.click(id('ex-next-item'));
     fireEvent.click(screen.getAllByTestId('practice-option')[0]!);

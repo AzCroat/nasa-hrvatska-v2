@@ -19,6 +19,15 @@ async function shown(page, selector) {
 
 export async function settleExerciseStep(page) {
   let l;
+  // The text step: past LISTEN and READ to its questions.
+  if ((l = await shown(page, '[data-testid="lesson-text-show"]'))) {
+    await l.click();
+    return true;
+  }
+  if ((l = await shown(page, '[data-testid="lesson-text-questions"]'))) {
+    await l.click();
+    return true;
+  }
   // A settled item inside the text step: move to its next question.
   if ((l = await shown(page, '[data-testid="ex-next-item"]:not([disabled])'))) {
     await l.click();
