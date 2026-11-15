@@ -336,6 +336,21 @@ export const CLASS_A1 = {
           hint: 'Find his answer to "Kako si?"',
           explanation: 'Odlično! — great, excellent.',
         },
+        {
+          type: 'type',
+          q: 'Now you. It is seven in the evening and you walk into a shop. Greet the shop assistant: Dobra ____!',
+          answer: 'večer',
+          hint: 'The evening greeting — the second word has a letter with a small hat.',
+          explanation: "Dobra večer! — good evening, from about six o'clock on.",
+        },
+        {
+          type: 'type',
+          q: 'Now you. An older neighbour asks you: "Kako ste?" You are fine. Answer: ____, hvala.',
+          answer: 'Dobro',
+          accept: ['Odlično'],
+          hint: 'The usual short answer that means "fine".',
+          explanation: 'Dobro, hvala. — fine, thank you. Then ask back politely: A Vi?',
+        },
       ],
     },
     mix: [
