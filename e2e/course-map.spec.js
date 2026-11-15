@@ -102,7 +102,7 @@ test.describe('Course map', () => {
     await page.getByTestId('course-lesson-alphabet').click();
     const testOut = page.getByTestId('lesson-test-out');
     await expect(testOut).toBeVisible({ timeout: 20_000 });
-    await expect(testOut).toContainText('Take the check');
+    await expect(testOut).toContainText('Test out of this lesson');
     await testOut.click();
     // The first check item, not the lesson's first slide.
     await expect(page.getByTestId('lesson-check-progress')).toBeVisible({ timeout: 20_000 });
