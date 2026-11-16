@@ -182,7 +182,7 @@ const TOPIC_SCENARIOS = {
   travel:
     'Discuss travel in Croatia: which islands, cities, national parks the learner wants to visit or has visited.',
   sport:
-    'Talk about sport: football (you support Hajduk Split), swimming in the Adriatic, hiking Medvednica.',
+    'Talk about sport: soccer (you support Hajduk Split), swimming in the Adriatic, hiking Medvednica.',
   culture: 'Discuss Croatian culture: music, film, Krleža, Dubrovnik festival, local customs.',
   at_the_market:
     'ROLEPLAY: You are a vendor at Dolac market in Zagreb. The learner is shopping. Be helpful but stay in Croatian. Discuss prices, produce, recipes.',

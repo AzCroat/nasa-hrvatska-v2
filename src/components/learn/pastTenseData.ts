@@ -62,7 +62,7 @@ export const EXAMPLES = [
     en: 'I learned all the words for the exam. (completed, perf)',
   },
   { hr: 'Vratio sam se kući kasno.', en: 'I returned home late. (reflexive: vratio sam se)' },
-  { hr: 'Gdje ste bili na ljetovanju?', en: 'Where did you go on holiday?' },
+  { hr: 'Gdje ste bili na ljetovanju?', en: 'Where did you go on vacation?' },
 ];
 
 // ── Quiz data ─────────────────────────────────────────────────────────────────

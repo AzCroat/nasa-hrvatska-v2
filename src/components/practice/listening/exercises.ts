@@ -756,11 +756,11 @@ export const EXERCISES = {
           },
           {
             hr: 'Idemo u kino u subotu navečer.',
-            en: 'We are going to the cinema on Saturday evening.',
+            en: 'We are going to the movies on Saturday evening.',
             opts: [
-              'We are going to the cinema on Saturday evening.',
+              'We are going to the movies on Saturday evening.',
               'We are going to the theater on Sunday evening.',
-              'We went to the cinema last Saturday.',
+              'We went to the movies last Saturday.',
               'We are going to a concert on Saturday morning.',
             ],
           },
@@ -796,12 +796,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Stan ima dvije sobe i balkon.',
-            en: 'The flat has two rooms and a balcony.',
+            en: 'The apartment has two rooms and a balcony.',
             opts: [
-              'The flat has two rooms and a balcony.',
-              'The flat has three rooms and a garden.',
+              'The apartment has two rooms and a balcony.',
+              'The apartment has three rooms and a garden.',
               'The house has two floors and a balcony.',
-              'The flat has one room and a terrace.',
+              'The apartment has one room and a terrace.',
             ],
           },
           {
@@ -884,11 +884,11 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Jučer sam otišla u trgovački centar kupiti novu jaknu.',
-            en: 'Yesterday I went to the shopping centre to buy a new jacket.',
+            en: 'Yesterday I went to the shopping center to buy a new jacket.',
             opts: [
-              'Yesterday I went to the shopping centre to buy new shoes.',
-              'Tomorrow I am going to the shopping centre to buy a new jacket.',
-              'Yesterday I went to the shopping centre to buy a new jacket.',
+              'Yesterday I went to the shopping center to buy new shoes.',
+              'Tomorrow I am going to the shopping center to buy a new jacket.',
+              'Yesterday I went to the shopping center to buy a new jacket.',
               'Yesterday I went to the market to buy a new jacket.',
             ],
           },
@@ -904,12 +904,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Prodavačica mi je pomogla odabrati boju.',
-            en: 'The shop assistant helped me choose the color.',
+            en: 'The salesperson helped me choose the color.',
             opts: [
-              'The shop assistant helped me choose the size.',
-              'The shop assistant helped me choose the color.',
+              'The salesperson helped me choose the size.',
+              'The salesperson helped me choose the color.',
               'My friend helped me choose the color.',
-              'The shop assistant refused to help me.',
+              'The salesperson refused to help me.',
             ],
           },
           {
@@ -1529,11 +1529,11 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Već mjesec dana tražim stan za najam u centru grada.',
-            en: 'I have been looking for an apartment to rent in the city centre for a month.',
+            en: 'I have been looking for an apartment to rent in the city center for a month.',
             opts: [
-              'I found an apartment to rent in the city centre yesterday.',
-              'I have been looking for an apartment to rent in the city centre for a month.',
-              'I have been looking for a house to buy in the city centre.',
+              'I found an apartment to rent in the city center yesterday.',
+              'I have been looking for an apartment to rent in the city center for a month.',
+              'I have been looking for a house to buy in the city center.',
               'I have been looking for an apartment on the outskirts of the city.',
             ],
           },
@@ -1587,22 +1587,22 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Prošlog mjeseca putovali smo autom prema Zadru na ljetovanje.',
-            en: 'Last month we traveled by car toward Zadar for our summer holiday.',
+            en: 'Last month we traveled by car toward Zadar for our summer vacation.',
             opts: [
-              'Last month we traveled by train toward Zadar for our summer holiday.',
-              'Next month we are traveling by car toward Zadar for our summer holiday.',
-              'Last month we traveled by car toward Zadar for our summer holiday.',
-              'Last month we traveled by car toward Split for our summer holiday.',
+              'Last month we traveled by train toward Zadar for our summer vacation.',
+              'Next month we are traveling by car toward Zadar for our summer vacation.',
+              'Last month we traveled by car toward Zadar for our summer vacation.',
+              'Last month we traveled by car toward Split for our summer vacation.',
             ],
           },
           {
             hr: 'Na pola puta nam se auto pokvario usred autoceste.',
-            en: 'Halfway there, our car broke down in the middle of the motorway.',
+            en: 'Halfway there, our car broke down in the middle of the highway.',
             opts: [
-              'Halfway there, our car broke down in the middle of the motorway.',
-              'At the very start, our car broke down in a car park.',
+              'Halfway there, our car broke down in the middle of the highway.',
+              'At the very start, our car broke down in a parking lot.',
               'Near the end of the trip, our car ran out of fuel.',
-              'Halfway there, our car broke down at a petrol station.',
+              'Halfway there, our car broke down at a gas station.',
             ],
           },
           {
@@ -1627,12 +1627,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Unatoč kvaru, odmor je na kraju bio prekrasan.',
-            en: 'Despite the breakdown, the holiday ended up being wonderful.',
+            en: 'Despite the breakdown, the vacation ended up being wonderful.',
             opts: [
-              'Despite the breakdown, the holiday ended up being wonderful.',
-              'Because of the breakdown, the holiday was ruined completely.',
-              'Despite the breakdown, we decided to cancel the rest of the holiday.',
-              'Despite the breakdown, the holiday was only average.',
+              'Despite the breakdown, the vacation ended up being wonderful.',
+              'Because of the breakdown, the vacation was ruined completely.',
+              'Despite the breakdown, we decided to cancel the rest of the vacation.',
+              'Despite the breakdown, the vacation was only average.',
             ],
           },
         ],
@@ -1885,10 +1885,10 @@ export const EXERCISES = {
             hr: 'Hrvatska kinematografija doživjela je međunarodni proboj zahvaljujući filmovima koji prikazuju ratnu traumu i poslijeratnu obnovu.',
             en: 'Croatian cinematography gained international recognition thanks to films depicting war trauma and post-war reconstruction.',
             opts: [
-              "Croatian cinema is known mainly for animated films and children's stories.",
+              "Croatian film is known mainly for animated films and children's stories.",
               'Croatian films have had no international recognition due to the language barrier.',
               'Croatian cinematography gained international recognition thanks to films depicting war trauma and post-war reconstruction.',
-              'Croatian cinema focuses primarily on romantic comedies set in Dalmatia.',
+              'Croatian film focuses primarily on romantic comedies set in Dalmatia.',
             ],
           },
           {
@@ -2138,7 +2138,7 @@ export const EXERCISES = {
             en: 'Last weekend a fire broke out in an old factory on the outskirts of our town.',
             opts: [
               'Last weekend a fire broke out in an old factory on the outskirts of our town.',
-              'Last weekend a fire broke out in the town centre.',
+              'Last weekend a fire broke out in the town center.',
               'Last month a fire broke out in an old factory nearby.',
               'Last weekend a flood damaged an old factory on the outskirts.',
             ],
@@ -2676,7 +2676,7 @@ export const EXERCISES = {
               "At yesterday's city council session, the renovation of the old town core was discussed.",
               "At tomorrow's session the council will discuss the old town.",
               'Yesterday the council voted to demolish the old town core.',
-              "At yesterday's session the mayor presented the new town centre.",
+              "At yesterday's session the mayor presented the new town center.",
             ],
           },
           {
@@ -2730,12 +2730,12 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Na sinoćnjoj sjednici gradskog vijeća raspravljalo se o prijedlogu uvođenja naplate parkiranja u širem centru grada.',
-            en: "At last night's city council session, a proposal to introduce paid parking in the wider city centre was discussed.",
+            en: "At last night's city council session, a proposal to introduce paid parking in the wider city center was discussed.",
             opts: [
-              "At last night's session, the council discussed banning cars from the city centre entirely.",
+              "At last night's session, the council discussed banning cars from the city center entirely.",
               "At last night's session, the council approved free parking for all residents.",
-              "At last night's city council session, a proposal to introduce paid parking in the wider city centre was discussed.",
-              "At last night's session, the council discussed building a new car park outside the city.",
+              "At last night's city council session, a proposal to introduce paid parking in the wider city center was discussed.",
+              "At last night's session, the council discussed building a new parking lot outside the city.",
             ],
           },
           {
@@ -2745,7 +2745,7 @@ export const EXERCISES = {
               'Supporters of the measure claim that limiting the number of cars would reduce congestion and encourage citizens to use public transport.',
               'Supporters of the measure claim it would have no effect on traffic at all.',
               'Opponents of the measure claim it would reduce congestion but hurt public transport.',
-              'Supporters of the measure claim it would increase the number of cars in the centre.',
+              'Supporters of the measure claim it would increase the number of cars in the center.',
             ],
           },
           {
@@ -2798,12 +2798,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Program je obuhvaćao raznolik izbor domaćih i međunarodnih ostvarenja, od intimnih drama do zahtjevnih dokumentaraca.',
-            en: 'The programme included a diverse selection of domestic and international works, from intimate dramas to demanding documentaries.',
+            en: 'The program included a diverse selection of domestic and international works, from intimate dramas to demanding documentaries.',
             opts: [
-              'The programme included a diverse selection of domestic and international works, from intimate dramas to demanding documentaries.',
-              "The programme included only domestic comedies and children's films.",
-              'The programme focused exclusively on international blockbusters.',
-              'The programme included a narrow selection of only Croatian dramas.',
+              'The program included a diverse selection of domestic and international works, from intimate dramas to demanding documentaries.',
+              "The program included only domestic comedies and children's films.",
+              'The program focused exclusively on international blockbusters.',
+              'The program included a narrow selection of only Croatian dramas.',
             ],
           },
           {

@@ -121,7 +121,7 @@ const DATA = [
     q: 'Stan je malen; ___, lokacija je izvrsna. (on the other hand)',
     opts: ['s druge strane', 'stoga', 'štoviše', 'naime'],
     answer: 's druge strane',
-    en: 'The flat is small; on the other hand, the location is excellent.',
+    en: 'The apartment is small; on the other hand, the location is excellent.',
     tip: "'s druge strane' = on the other hand (weighing one side against another).",
   },
   {

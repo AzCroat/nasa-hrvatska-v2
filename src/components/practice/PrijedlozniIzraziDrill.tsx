@@ -137,7 +137,7 @@ const DATA = [
     q: 'Stan se nalazi ____ samog centra.',
     opts: ['blizu', 'blizu od', 'pokraj od', 'uz do'],
     answer: 'blizu',
-    en: 'the flat is close to the very centre',
+    en: 'the apartment is close to the very center',
     tip: 'Blizu + G bez „od”: blizu centra.',
   },
   {
@@ -201,7 +201,7 @@ const DATA = [
     q: 'Usred ____ zazvonio je telefon. (predavanje)',
     opts: ['predavanja', 'predavanju', 'predavanjem', 'predavanje'],
     answer: 'predavanja',
-    en: 'the phone rang in the middle of the lecture',
+    en: 'the phone called in the middle of the lecture',
     tip: 'Usred + GENITIV.',
   },
 ];

@@ -53,7 +53,7 @@ const DATA = [
       'kondicional glagola biti',
     ],
     answer: 'imperfekt glagola biti',
-    en: 'It was a cold autumn night.',
+    en: 'It was a cold fall night.',
     tip: 'biti → bijah, bijaše... — imperfekt za opis stanja. Aorist glagola biti glasi bih/bi.',
   },
   {

@@ -415,7 +415,7 @@ const LEVELS = {
     desc: 'Near-native fluency, idioms, complex grammar',
     questions: [
       {
-        q: "'No sooner had she sat down than the phone rang.' Correct Croatian:",
+        q: "'No sooner had she sat down than the phone called.' Correct Croatian:",
         opts: [
           'Jedva je sjela kad je zazvonio telefon.',
           'Čim je sjela, zazvonio je telefon.',

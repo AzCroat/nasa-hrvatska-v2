@@ -156,10 +156,10 @@ const DATA = [
   },
   {
     affirm: 'Imam mobitel.',
-    neg_prompt: "I don't have a mobile phone.",
+    neg_prompt: "I don't have a cell phone.",
     opts: ['Nemam mobitela.', 'Nemam mobitel.', 'Nemam mobitelu.', 'Nemam mobitelom.'],
     answer: 'Nemam mobitela.',
-    en: "I don't have a mobile phone.",
+    en: "I don't have a cell phone.",
     tip: "'mobitel' (masc inanimate) → genitive 'mobitela'",
   },
 ];

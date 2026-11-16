@@ -184,7 +184,7 @@ const TEAMS_DETAIL = [
     capacity: '34,198',
     titles: '19',
     ultras: 'Torcida (est. 1950)',
-    desc: "The People's Club — one of a handful of supporter-owned clubs in Europe. Home of the Torcida, founded in 1950 and recognized as Europe's oldest ultras group. The eternal rival of Dinamo. Every Dinamo–Hajduk match (the 'Vječni derbi') is the biggest game in Croatian football.",
+    desc: "The People's Club — one of a handful of supporter-owned clubs in Europe. Home of the Torcida, founded in 1950 and recognized as Europe's oldest ultras group. The eternal rival of Dinamo. Every Dinamo–Hajduk match (the 'Vječni derbi') is the biggest game in Croatian soccer.",
     achievements: [
       '19× HNL Champions',
       "Torcida — Europe's oldest ultras",
@@ -244,7 +244,7 @@ const TEAMS_DETAIL = [
     capacity: '5,000',
     titles: '0',
     ultras: 'Lokosi',
-    desc: "Dinamo's historical sister club and Zagreb's third football identity. Despite no league titles, Lokomotiva consistently finish top-5 and have a proud tradition of developing players for the Croatian national team and bigger clubs.",
+    desc: "Dinamo's historical sister club and Zagreb's third soccer identity. Despite no league titles, Lokomotiva consistently finish top-5 and have a proud tradition of developing players for the Croatian national team and bigger clubs.",
     achievements: [
       'Consistent top-5 finishers',
       'Developed many national team players',

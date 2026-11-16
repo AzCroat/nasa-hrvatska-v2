@@ -94,7 +94,7 @@ const DATA = [
     q: '„____ posao, otišla je na zasluženi odmor.” (radnja dovršena prije)',
     opts: ['Završivši', 'Završavajući', 'Završavati', 'Završila'],
     answer: 'Završivši',
-    en: 'Having finished the job, she went on a well-earned holiday.',
+    en: 'Having finished the job, she went on a well-earned vacation.',
     tip: 'Prethodnost → prošli prilog od svršenoga glagola (završivši).',
   },
   {

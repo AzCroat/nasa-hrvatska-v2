@@ -300,7 +300,7 @@ const AC_PHRASE_CATS = {
   food: 'Croatian food culture — ordering, complimenting food, market shopping, restaurant phrases',
   slang: 'authentic Croatian slang and colloquialisms — what young Croatians actually say today',
   love: 'Croatian expressions of affection, friendship, and relationships',
-  sports: 'Croatian sports culture — football, basketball, cheering, sports talk',
+  sports: 'Croatian sports culture — soccer, basketball, cheering, sports talk',
   family: 'Croatian family vocabulary and expressions — terms of endearment, family dynamics',
 };
 const AC_PHRASE = definePrompt(

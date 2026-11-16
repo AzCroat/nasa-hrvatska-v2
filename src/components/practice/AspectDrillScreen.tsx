@@ -132,7 +132,7 @@ const ASPECT_RULES = [
       'Actions happening at the same time, or a background action during which something else occurs — imperfective. Key markers: dok (while), za vrijeme (during), istovremeno (simultaneously).',
     example: {
       hr: 'Dok sam pisao, zvonio je telefon.',
-      en: 'While I was writing, the phone rang. (background → impf)',
+      en: 'While I was writing, the phone called. (background → impf)',
     },
     counterex: {
       hr: 'Napisao sam pismo dok je ona spavala.',

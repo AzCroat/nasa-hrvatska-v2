@@ -565,7 +565,7 @@ export default function AIConversationConvoSetup({
             <div
               style={{ fontSize: 12, fontWeight: 700, color: 'var(--subtext)', marginBottom: 8 }}
             >
-              Describe your scenario in English (e.g. "Booking a sailing trip in Hvar"):
+              Describe your scenario in English (e.g. "Reserving a sailing trip in Hvar"):
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <input

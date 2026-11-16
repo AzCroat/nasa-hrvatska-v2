@@ -112,7 +112,7 @@ const DATA = [
     q: 'Ni ____ ne bih mijenjao ovaj stan.',
     opts: ['za što', 'za ništa', 'što', 'za ničim'],
     answer: 'za što',
-    en: 'I would not trade this flat for anything',
+    en: 'I would not trade this apartment for anything',
     tip: 'Ni za što — razdvojeni oblik uz prijedlog za.',
   },
   {

@@ -137,7 +137,7 @@ const DATA = [
     q: 'Cijelo smo poslijepodne ____ stan.',
     opts: ['uređivali', 'uredili', 'sredili', 'dotjerali'],
     answer: 'uređivali',
-    en: 'we spent the whole afternoon tidying the flat',
+    en: 'we spent the whole afternoon tidying the apartment',
     tip: 'Trajanje („cijelo poslijepodne”) = nesvršeni: uređivali smo.',
   },
   {
