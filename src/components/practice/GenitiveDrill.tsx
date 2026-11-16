@@ -294,7 +294,7 @@ const DATA = [
     q: 'Treba mi litra ___.',
     opts: ['ulja', 'ulje', 'ulju', 'uljem'],
     answer: 'ulja',
-    en: 'I need a litre of oil.',
+    en: 'I need a liter of oil.',
     tip: "Measure 'litra' + genitive — neut 'ulje' -> 'ulja'.",
   },
   {
@@ -350,7 +350,7 @@ const DATA = [
     q: 'U razredu je dvadeset ___.',
     opts: ['učenika', 'učenici', 'učenicima', 'učenike'],
     answer: 'učenika',
-    en: 'There are twenty pupils in the class.',
+    en: 'There are twenty students in the class.',
     tip: "Numbers 5+ take genitive plural — 'učenici' -> 'učenika'.",
   },
 ];

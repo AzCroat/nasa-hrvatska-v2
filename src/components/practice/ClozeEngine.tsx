@@ -216,7 +216,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Mi idemo u kino večeras.',
     blank: 'idemo',
     options: ['idemo', 'idem', 'idu', 'ide'],
-    translation: 'We are going to the cinema tonight.',
+    translation: 'We are going to the movies tonight.',
     hint: 'Verb conjugation — mi + idemo (1st person plural)',
   },
   {
@@ -453,7 +453,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Jučer smo gledali film u kinu.',
     blank: 'gledali',
     options: ['gledali', 'gledamo', 'gledat ćemo', 'gledao'],
-    translation: 'Yesterday we watched a film at the cinema.',
+    translation: 'Yesterday we watched a film at the movie theater.',
     hint: 'Past tense — perfekt (plural)',
   },
   {

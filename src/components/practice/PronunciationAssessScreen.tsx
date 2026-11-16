@@ -31,7 +31,7 @@ const PHRASES = {
     { hr: 'Što radiš za vikend?', en: 'What do you do on weekends?' },
     { hr: 'Ovo je jako ukusno.', en: 'This is very delicious.' },
     { hr: 'Mogu li dobiti račun?', en: 'Can I get the bill?' },
-    { hr: 'Tražim hotel u centru.', en: "I'm looking for a hotel in the centre." },
+    { hr: 'Tražim hotel u centru.', en: "I'm looking for a hotel in the center." },
     { hr: 'Koji je tvoj broj telefona?', en: 'What is your phone number?' },
     { hr: 'Putovao sam u Zagreb prošle godine.', en: 'I traveled to Zagreb last year.' },
   ],

@@ -147,9 +147,9 @@ const SCENARIOS = [
       },
       {
         hr: 'Gdje ste bili na odmoru?',
-        en: 'Where did you go on holiday?',
+        en: 'Where did you go on vacation?',
         ph: 'gd-ye ste bi-li na od-mo-ru',
-        tip: 'Every Croatian has a holiday story',
+        tip: 'Every Croatian has a vacation story',
       },
       {
         hr: 'Koje ste otoke posjetili?',

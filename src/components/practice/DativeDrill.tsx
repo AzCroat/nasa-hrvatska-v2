@@ -260,7 +260,7 @@ export const DATA = [
     q: 'Učiteljica objašnjava zadatak ___.',
     opts: ['učenicima', 'učenike', 'učenikom', 'učenici'],
     answer: 'učenicima',
-    en: 'The teacher explains the task to the pupils.',
+    en: 'The teacher explains the task to the students.',
     tip: 'PLURAL dative: učenici → učenicima.',
   },
   {

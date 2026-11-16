@@ -109,7 +109,7 @@ const WRITE_PROMPTS = [
     title: 'A Holiday Memory',
     hr: 'Uspomena s odmora',
     prompt:
-      'Write about a memorable holiday or trip. Where did you go? What happened? What did you learn?',
+      'Write about a memorable vacation or trip. Where did you go? What happened? What did you learn?',
   },
   {
     id: 'w_opinion',
@@ -127,7 +127,7 @@ const WRITE_PROMPTS = [
     title: 'Formal Email',
     hr: 'Formalni e-mail',
     prompt:
-      'Write a formal email to a Croatian landlord asking about renting a flat. Include questions about price, utilities, and move-in date.',
+      'Write a formal email to a Croatian landlord asking about renting a apartment. Include questions about price, utilities, and move-in date.',
   },
   {
     id: 'w_story',

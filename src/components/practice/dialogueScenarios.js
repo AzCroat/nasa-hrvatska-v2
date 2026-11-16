@@ -1837,7 +1837,7 @@ export const SCENARIOS = [
       {
         speaker: 'Kolegica Maja',
         line: 'Gospodine Kovač, mislim da se poznajemo već dovoljno dugo. Možemo li prijeći na ti?',
-        en: 'Mr Kovač, I think we have known each other long enough. Can we switch to the informal "you"?',
+        en: 'Mr. Kovač, I think we have known each other long enough. Can we switch to the informal "you"?',
         opts: [
           'Rado, meni je to draže. Onda — ja sam Marko.',
           'Rado, mene je to draže. Onda — ja sam Marko.',
@@ -2932,7 +2932,7 @@ export const SCENARIOS = [
       {
         speaker: 'Stanodavka',
         line: 'Stan je 800 eura mjesečno plus režije. Zanima vas?',
-        en: 'The flat is 800 euros a month plus utilities. Are you interested?',
+        en: 'The apartment is 800 euros a month plus utilities. Are you interested?',
         opts: [
           'Zanima me, da. Stan mi se sviđa, ali cijena je iznad usporedivih oglasa u kvartu — smijem li predložiti 720?',
           'Zanima me, da. Stan mi se sviđa, ali cijena je iznad usporedivih oglasa u kvart — smijem li predložiti 720?',
@@ -3538,7 +3538,7 @@ export const SCENARIOS = [
       {
         speaker: 'Član odbora Krznarić',
         line: 'Gospođa Šarić je moj prijedlog nazvala neozbiljnim. Tražim da se to zabilježi.',
-        en: 'Mrs Šarić called my proposal unserious. I ask that this be minuted.',
+        en: 'Mrs. Šarić called my proposal unserious. I ask that this be minuted.',
         opts: [
           'Bit će zabilježeno. Prije toga, dopustite da razdvojimo dvije stvari: ocjenu prijedloga i ton kojim je izrečena. O prvome raspravljamo, drugo ne prihvaćamo ni od koga.',
           'Bit će zabilježeno. Prije toga, dopustite da razdvojimo dvije stvari: ocjenu prijedloga i ton kojim je izrečena. O prvome raspravljamo, drugo ne prihvaćamo ni od kome.',
@@ -3719,7 +3719,7 @@ export const SCENARIOS = [
       {
         speaker: 'Otac',
         line: 'Djed je otišao u Kanadu jer je htio bolji život. Točka. Ne znam što ti tu istražuješ.',
-        en: "Grandpa left for Canada because he wanted a better life. Full stop. I don't know what you're researching there.",
+        en: "Grandpa left for Canada because he wanted a better life. Period. I don't know what you're researching there.",
         opts: [
           'Tata, ne istražujem da bih ti proturječila. Našla sam njegovo pismo iz pedeset i osme, i u njemu ne piše o boljem životu, nego o strahu.',
           'Tata, ne istražujem da bih ti proturječio. Našla sam njegovo pismo iz pedeset i osme, i u njemu ne piše o boljem životu, nego o strahu.',
@@ -4208,7 +4208,7 @@ export const SCENARIOS = [
       {
         speaker: 'Susjeda',
         line: 'Dobar dan! Vi ste unuk gospođe Kovač, je l tako?',
-        en: 'Good day! You’re Mrs Kovač’s grandson, aren’t you?',
+        en: 'Good day! You’re Mrs. Kovač’s grandson, aren’t you?',
         opts: [
           'Dobar dan! Jesam, ja sam Marko. Drago mi je.',
           'Dobar dan! Jesam, ja sam Marko. Drago me je.',
@@ -4393,7 +4393,7 @@ export const SCENARIOS = [
       {
         speaker: 'Tin',
         line: 'Ideš li sa mnom u kino u petak?',
-        en: 'Are you coming to the cinema with me on Friday?',
+        en: 'Are you coming to the movies with me on Friday?',
         opts: [
           'Ne mogu u petak, ali mogu u subotu ako tebi odgovara.',
           'Ne mogu u petak, ali mogu u subotu ako tebe odgovara.',
@@ -4547,7 +4547,7 @@ export const SCENARIOS = [
           'Ilica 45, na drugom katu. Zvono je na imenu Kovač.',
         ],
         answer: 0,
-        tip: "'Na drugom katu' — locative, because that is where the flat IS. 'Na ime' stays accusative; it is a fixed phrase.",
+        tip: "'Na drugom katu' — locative, because that is where the apartment IS. 'Na ime' stays accusative; it is a fixed phrase.",
       },
       {
         speaker: 'Majstor',
@@ -5375,7 +5375,7 @@ export const SCENARIOS = [
   {
     id: 'novi_cimer',
     title: '🏠 Novi cimer',
-    subtitle: 'Move into a shared flat and meet your flatmate',
+    subtitle: 'Move into a shared apartment and meet your roommate',
     difficulty: 'A1',
     turns: [
       {
@@ -5467,7 +5467,7 @@ export const SCENARIOS = [
       {
         speaker: 'Službenica',
         line: 'U redu. Trebam vašu vozačku dozvolu i kreditnu karticu.',
-        en: 'All right. I need your driving licence and a credit card.',
+        en: 'All right. I need your driving license and a credit card.',
         opts: [
           'Izvolite. Trebate li i moju putovnicu?',
           'Izvolite. Trebate li i moja putovnica?',
@@ -5480,7 +5480,7 @@ export const SCENARIOS = [
       {
         speaker: 'Službenica',
         line: 'Ne treba, dovoljna je vozačka. Do kada vam treba auto?',
-        en: 'No need, the licence is enough. Until when do you need the car?',
+        en: 'No need, the license is enough. Until when do you need the car?',
         opts: [
           'Do nedjelje. Vratit ću ga u nedjelju navečer.',
           'Do nedjelja. Vratit ću ga u nedjelju navečer.',
@@ -5506,7 +5506,7 @@ export const SCENARIOS = [
       {
         speaker: 'Službenica',
         line: 'Imamo. Auto je na parkiralištu, na mjestu broj dvanaest.',
-        en: 'We do. The car is in the car park, in space number twelve.',
+        en: 'We do. The car is in the parking lot, in space number twelve.',
         opts: [
           'Hvala vam. Što trebam napraviti ako se nešto dogodi na cesti?',
           'Hvala vas. Što trebam napraviti ako se nešto dogodi na cesti?',
@@ -5793,7 +5793,7 @@ export const SCENARIOS = [
           'Naravno. Trebaš li i moj broj mobitela?',
         ],
         answer: 0,
-        tip: "'Broj' is masculine: 'moj broj'. The number OF the phone is genitive: 'broj mobitela'. A shop assistant is 'Vi'.",
+        tip: "'Broj' is masculine: 'moj broj'. The number OF the phone is genitive: 'broj mobitela'. A salesperson is 'Vi'.",
       },
       {
         speaker: 'Prodavač',
@@ -5806,7 +5806,7 @@ export const SCENARIOS = [
           'U redu. Hvala ti što si mi pomogao.',
         ],
         answer: 0,
-        tip: "'Pomoći' takes the dative: 'pomogli ste mi'. In the cluster the auxiliary 'ste' comes before the pronoun: 'što ste mi'. A shop assistant gets 'vam', not 'ti'.",
+        tip: "'Pomoći' takes the dative: 'pomogli ste mi'. In the cluster the auxiliary 'ste' comes before the pronoun: 'što ste mi'. A salesperson gets 'vam', not 'ti'.",
       },
     ],
   },
@@ -6251,7 +6251,7 @@ export const SCENARIOS = [
   {
     id: 'pomoc_oko_selidbe',
     title: '📦 Pomoć oko selidbe',
-    subtitle: 'Ask a friend to help you move flat on Saturday',
+    subtitle: 'Ask a friend to help you move apartment on Saturday',
     difficulty: 'A2',
     turns: [
       {
@@ -6265,7 +6265,7 @@ export const SCENARIOS = [
           'Bog! Dobro. Slušaj, selim se u suboti u novi stan.',
         ],
         answer: 0,
-        tip: "Moving INTO a flat is accusative: 'u novi stan'. Days take 'u' + accusative: 'u subotu'. 'Se' can’t start the clause: 'selim se'.",
+        tip: "Moving INTO a apartment is accusative: 'u novi stan'. Days take 'u' + accusative: 'u subotu'. 'Se' can’t start the clause: 'selim se'.",
       },
       {
         speaker: 'Josip',
@@ -6624,7 +6624,7 @@ export const SCENARIOS = [
   {
     id: 'savjet_sestricni',
     title: '🔑 Savjet od sestrične',
-    subtitle: 'Ask your older cousin how to find a flat in Zagreb — she has moved three times',
+    subtitle: 'Ask your older cousin how to find a apartment in Zagreb — she has moved three times',
     difficulty: 'B1',
     turns: [
       {
@@ -6656,7 +6656,7 @@ export const SCENARIOS = [
       {
         speaker: 'Sestrična Maja',
         line: 'Za centar je to tijesno. Ja bih na tvom mjestu gledala Trešnjevku ili Maksimir — i to preko poznanika, ne preko agencije.',
-        en: "That's tight for the centre. If I were you, I'd look at Trešnjevka or Maksimir — and through people you know, not through an agency.",
+        en: "That's tight for the center. If I were you, I'd look at Trešnjevka or Maksimir — and through people you know, not through an agency.",
         opts: [
           'Zašto ne preko agencije? Misliš da nije sigurnije?',
           'Zašto ne preko agenciju? Misliš da nije sigurnije?',
@@ -7112,7 +7112,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijatelj Marko',
         line: 'Našao sam savršen stan u Splitu, dvjesto eura jeftiniji od svih ostalih! Vlasnik je u Njemačkoj, samo mu trebam uplatiti polog.',
-        en: "I've found the perfect flat in Split, two hundred euros cheaper than all the others! The owner is in Germany, I just need to transfer him the deposit.",
+        en: "I've found the perfect apartment in Split, two hundred euros cheaper than all the others! The owner is in Germany, I just need to transfer him the deposit.",
         opts: [
           'Čekaj malo, prije nego što išta uplatiš — jesi li stan uopće vidio uživo?',
           'Čekaj malo, prije nego što išta uplatiš — jesi li stan uopće vidjela uživo?',
@@ -7166,13 +7166,14 @@ export const SCENARIOS = [
   {
     id: 'savjet_klijentu',
     title: '💼 Savjet klijentu',
-    subtitle: 'Advise a client who wants to rent out an inherited flat — recommend, never command',
+    subtitle:
+      'Advise a client who wants to rent out an inherited apartment — recommend, never command',
     difficulty: 'B2',
     turns: [
       {
         speaker: 'Gospodin Horvat',
         line: 'Naslijedio sam stan u Makarskoj i želio bih ga ljeti iznajmljivati. Odakle početi?',
-        en: "I've inherited a flat in Makarska and would like to rent it out in summer. Where should I start?",
+        en: "I've inherited a apartment in Makarska and would like to rent it out in summer. Where should I start?",
         opts: [
           'Savjetovao bih vam da najprije kategorizirate stan i registrirate se kao iznajmljivač. Bez toga ne smijete primati goste.',
           'Savjetovao vam bih da najprije kategorizirate stan i registrirate se kao iznajmljivač. Bez toga ne smijete primati goste.',
@@ -7666,7 +7667,7 @@ export const SCENARIOS = [
       {
         speaker: 'Majstor Jurić',
         line: 'A, da, gospođa Kovač. Bit ćemo uskoro kod vas, samo da završimo jedan posao.',
-        en: "Ah yes, Mrs Kovač. We'll be with you soon, we just need to finish one job.",
+        en: "Ah yes, Mrs. Kovač. We'll be with you soon, we just need to finish one job.",
         opts: [
           'Razumijem da imate puno posla, ali obećali ste mi da će kupaonica biti gotova do kraja prošlog mjeseca. Od tada su prošla dva tjedna.',
           'Razumijem da imate puno posla, ali obećali ste mi da će kupaonica biti gotova do kraja prošli mjesec. Od tada su prošla dva tjedna.',

@@ -968,7 +968,7 @@ export const SECTIONS = [
         en: 'The Fiery Ones — Croatia national team',
         ph: 'vah-TREH-nee',
         level: '⚽',
-        note: 'The nickname for the Croatian national football team.',
+        note: 'The nickname for the Croatian national soccer team.',
         variants: [
           { hr: 'Idemo Hrvatska!', en: "Let's go Croatia! — the national chant" },
           { hr: 'Šahovnica', en: 'Checkerboard — the Croatian coat of arms' },

@@ -857,7 +857,7 @@ export const FREQUENCY_500: FrequencyEntry[] = [
   { rank: 837, hr: 'opustiti se', en: 'to relax', pos: 'verb' },
   { rank: 838, hr: 'naviknuti se', en: 'to get used to', pos: 'verb' },
   { rank: 839, hr: 'predavati', en: 'to lecture / teach', pos: 'verb' },
-  { rank: 840, hr: 'studirati', en: 'to study (at university)', pos: 'verb' },
+  { rank: 840, hr: 'studirati', en: 'to study (in college)', pos: 'verb' },
   { rank: 841, hr: 'diplomirati', en: 'to graduate', pos: 'verb' },
   { rank: 842, hr: 'položiti', en: 'to pass (an exam)', pos: 'verb' },
   { rank: 843, hr: 'upisati', en: 'to enrol / write in', pos: 'verb' },

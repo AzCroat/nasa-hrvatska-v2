@@ -198,7 +198,7 @@ const DATA = [
     q: '„osnovna škola” kao opći pojam vs ime „____ škola Ivana Gundulića”:',
     opts: ['Osnovna', 'osnovna', 'OSNOVNA', 'OŠ velika sva'],
     answer: 'Osnovna',
-    en: 'a primary school vs THE school\u2019s name',
+    en: 'a elementary school vs THE school\u2019s name',
     tip: 'Ime konkretne škole: prva riječ velikim.',
   },
   {

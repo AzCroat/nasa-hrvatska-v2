@@ -65,7 +65,7 @@ const DATA = [
     q: 'Živimo ____ centra. (nedaleko)',
     opts: ['blizu', 'kod bliskog', 'uz', 'k'],
     answer: 'blizu',
-    en: 'we live near the centre',
+    en: 'we live near the center',
     tip: 'Blizu + genitiv: blizu centra.',
   },
   {
@@ -174,7 +174,7 @@ const DATA = [
     q: 'Stanujemo ____ škole, a radim ____ centru.',
     opts: ['blizu … u', 'u … blizu', 'kod … na', 'među … o'],
     answer: 'blizu … u',
-    en: 'we live near the school; I work in the centre',
+    en: 'we live near the school; I work in the center',
     tip: 'Blizu + G; u + L.',
   },
   {

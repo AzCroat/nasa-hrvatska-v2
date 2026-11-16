@@ -169,7 +169,7 @@ export const DATA = [
     q: 'Idem u kino s ___.',
     opts: ['prijateljem', 'prijatelja', 'prijatelj', 'prijatelju'],
     answer: 'prijateljem',
-    en: 'I am going to the cinema with a friend.',
+    en: 'I am going to the movies with a friend.',
     tip: 'Accompaniment: s + instrumental. Soft-stem -lj takes -em: prijatelj → prijateljem.',
   },
   {

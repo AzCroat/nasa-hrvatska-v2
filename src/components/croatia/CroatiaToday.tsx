@@ -28,7 +28,7 @@ Hajduk Split, s druge strane, ima jaku potporu navijača Torcide, koji se smatra
 
 Trener Hajduka rekao je na presici: "Svaka utakmica protiv Dinama posebna je za nas. Igrači su fokusirani i motivirani. Vjerujem da ćemo pokazati karakter." Utakmica se igra u nedjelju, a ulaznice su rasprodane već tjednima.`,
     summary:
-      'Dinamo Zagreb and Hajduk Split are preparing for their upcoming "eternal derby" — the most watched match in Croatian football. Dinamo arrives in strong form with 12 goals in the last 5 rounds, while Hajduk is backed by the famous Torcida fan group. Both coaches are confident; tickets have been sold out for weeks.',
+      'Dinamo Zagreb and Hajduk Split are preparing for their upcoming "eternal derby" — the most watched match in Croatian soccer. Dinamo arrives in strong form with 12 goals in the last 5 rounds, while Hajduk is backed by the famous Torcida fan group. Both coaches are confident; tickets have been sold out for weeks.',
     vocab: [
       { hr: 'derbi', en: 'derby (rival match)', example: 'Vječni derbi uvijek donosi uzbuđenje.' },
       { hr: 'momčad', en: 'team', example: 'Trener je zadovoljan igrom momčadi.' },

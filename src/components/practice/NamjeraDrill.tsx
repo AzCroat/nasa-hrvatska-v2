@@ -80,7 +80,7 @@ const DATA = [
     q: 'Štedi ____ kupio stan.',
     opts: ['kako bi', 'da će', 'jer bi', 'čim bi'],
     answer: 'kako bi',
-    en: 'he is saving in order to buy a flat',
+    en: 'he is saving in order to buy a apartment',
     tip: 'Birani stil: kako bi + pridjev radni.',
   },
   {
