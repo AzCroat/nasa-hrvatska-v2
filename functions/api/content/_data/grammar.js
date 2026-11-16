@@ -9705,7 +9705,7 @@ export const MODAL = {
       q: '_____ li ići u kino?',
       a: 'Hoćeš',
       v: 'htjeti',
-      en: 'Do you want to go to the cinema?',
+      en: 'Do you want to go to the movies?',
       al: ['Moraš', 'Možeš', 'Smiješ'],
     },
     {
@@ -11784,7 +11784,7 @@ export const PHONOLOGY = {
         { hr: 'ljeto', en: 'summer' },
         { hr: 'ljudi', en: 'people' },
       ],
-      memory: 'LJ = miLlion (the Y-coloured L)',
+      memory: 'LJ = miLlion (the Y-colored L)',
       color: '#d97706',
     },
     {

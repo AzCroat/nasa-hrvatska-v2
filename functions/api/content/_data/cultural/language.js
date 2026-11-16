@@ -104,7 +104,7 @@ export const SHADOWING = [
   },
   {
     hr: 'Sutra ćemo ići u kino.',
-    en: 'Tomorrow we will go to the cinema.',
+    en: 'Tomorrow we will go to the movies.',
     tip: 'Future tense — ćemo ići = we will go',
     level: 'A2',
   },

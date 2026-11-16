@@ -472,7 +472,7 @@ export const PLACE = [
   },
   // ── B2 Formal Register (×3) ───────────────────────────────────────────────
   {
-    q: "Formal 'you' in Croatian (capitalised in writing)?",
+    q: "Formal 'you' in Croatian (capitalized in writing)?",
     o: ['ti', 'on/ona', 'Vi'],
     c: 2,
     d: 3,
@@ -637,7 +637,7 @@ export const READ = {
         ['majica', 'T-shirt'],
         ['haljina', 'dress'],
         ['cipele', 'shoes'],
-        ['boje', 'colours'],
+        ['boje', 'colors'],
       ],
       qs: [
         { q: 'What color is the T-shirt?', o: ['Blue', 'Red', 'Yellow'], c: 1 },
@@ -674,7 +674,7 @@ export const READ = {
         ['zdrav', 'healthy'],
       ],
       qs: [
-        { q: 'Where does he play football?', o: ['School', 'Park', 'Gym'], c: 1 },
+        { q: 'Where does he play soccer?', o: ['School', 'Park', 'Gym'], c: 1 },
         { q: 'What does dad do?', o: ['Swims', 'Runs', 'Plays basketball'], c: 1 },
         { q: 'What do they watch on weekends?', o: ['Football', 'Tennis', 'Basketball'], c: 1 },
       ],
@@ -852,7 +852,7 @@ export const READ = {
         ['sarma', 'stuffed cabbage rolls'],
       ],
       qs: [
-        { q: 'How old is granny?', o: ['60', '70', '80'], c: 1 },
+        { q: 'How old is grandma?', o: ['60', '70', '80'], c: 1 },
         { q: 'Where does she live?', o: ['Zagreb', 'Split', 'Village near Karlovac'], c: 2 },
         { q: 'What is her garden full of?', o: ['Trees', 'Flowers and vegetables', 'Fruit'], c: 1 },
       ],
@@ -1487,7 +1487,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'What does burning the Pust symbolise?',
+          q: 'What does burning the Pust symbolize?',
           o: ['Start of summer', 'Driving away evil from the past year', 'Thanksgiving'],
           c: 1,
         },
@@ -1535,7 +1535,7 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How much does a litre of milk cost?',
+          q: 'How much does a liter of milk cost?',
           o: ['80 cents', '1.20 euros', '2 euros'],
           c: 1,
         },
@@ -1790,7 +1790,7 @@ export const READ = {
         ['diploma', 'degree/diploma'],
       ],
       qs: [
-        { q: 'How long is primary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
+        { q: 'How long is elementary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
         { q: 'When was Zagreb University founded?', o: ['1769', '1669', '1869'], c: 1 },
         {
           q: 'What does Bologna Process enable?',
@@ -1872,7 +1872,7 @@ export const READ = {
         },
         { q: 'Where is Lepoglava lace made with?', o: ['Pillow', 'Needle', 'Crochet hook'], c: 1 },
         {
-          q: 'What does lace symbolise?',
+          q: 'What does lace symbolize?',
           o: ['Wealth', 'Patience, precision and love of beauty', 'Power'],
           c: 1,
         },
@@ -2104,7 +2104,7 @@ export const READ = {
         ['doprinos', 'contribution'],
         ['uputnica', 'referral'],
         ['lista čekanja', 'waiting list'],
-        ['digitalizacija', 'digitalisation'],
+        ['digitalizacija', 'digitalization'],
       ],
       qs: [
         {
@@ -2168,7 +2168,7 @@ export const READ = {
         { q: 'What is the 2019 reform called?', o: ['Strategija', 'Kurikulum', 'Bolonjski'], c: 1 },
         {
           q: 'What does the reform aim to reduce?',
-          o: ['School hours', 'Rote memorisation', 'Teacher salaries'],
+          o: ['School hours', 'Rote memorization', 'Teacher salaries'],
           c: 1,
         },
         {
@@ -2216,12 +2216,12 @@ export const READ = {
         ['opus', 'body of work'],
         ['dekadencija', 'decadence'],
         ['angažiran', 'engaged/committed'],
-        ['satirira', 'satirises'],
+        ['satirira', 'satirizes'],
       ],
       qs: [
         { q: 'In how many political systems did Krleža live?', o: ['Two', 'Three', 'Four'], c: 1 },
         {
-          q: 'What does Na rubu pameti satirise?',
+          q: 'What does Na rubu pameti satirize?',
           o: ['Communism', 'Inter-war Croatian bourgeoisie', 'The Habsburg court'],
           c: 1,
         },
@@ -2637,7 +2637,7 @@ export const READ = {
       vocab: [
         ['tranzicija', 'transition'],
         ['pravosuđe', 'judiciary'],
-        ['tajkunizacija', 'tycoonisation (crony capitalism)'],
+        ['tajkunizacija', 'tycoonization (crony capitalism)'],
         ['tranzicijska pravda', 'transitional justice'],
         ['nomenklatura', 'nomenklatura (communist elite)'],
       ],
@@ -2650,8 +2650,8 @@ export const READ = {
         {
           q: "What is 'tajkunizacija' as described here?",
           o: [
-            'Privatisation of culture',
-            'Oligarchs enriching themselves through privatisation loopholes',
+            'Privatization of culture',
+            'Oligarchs enriching themselves through privatization loopholes',
             'Foreign investment',
           ],
           c: 1,
@@ -2715,7 +2715,7 @@ export const READ = {
       vocab: [
         ['Antemurale Christianitatis', 'bulwark of Christendom (Latin)'],
         ['sjecište', 'crossroads/intersection'],
-        ['idealizacija', 'idealisation'],
+        ['idealizacija', 'idealization'],
         ['schengenski prostor', 'Schengen area'],
         ['privilegij', 'privilege'],
       ],
@@ -2729,7 +2729,7 @@ export const READ = {
           q: "What does the author say Croatia's multicultural crossroads gives it?",
           o: [
             'Confusion of identity',
-            'Ability to understand multiple civilisations',
+            'Ability to understand multiple civilizations',
             'Economic advantage',
           ],
           c: 1,
@@ -2896,7 +2896,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'How does the author characterise the Baška tablet?',
+          q: 'How does the author characterize the Baška tablet?',
           o: [
             'As a mere museum artefact',
             'As proof that literacy here was a matter of self-awareness, not mere administration',
@@ -2919,12 +2919,12 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How does the columnist say "our man" sees a queue?',
+          q: 'How does the columnist say "our man" sees a line?',
           o: ['As good order', 'As an institution', 'As a personal insult'],
           c: 2,
         },
         {
-          q: 'What do the people in the queue do instead of protesting aloud?',
+          q: 'What do the people in the line do instead of protesting aloud?',
           o: [
             'They call the manager',
             'They raise their eyebrows and disapprove in silence',
@@ -4181,7 +4181,7 @@ export const COLORQUIRK = [
     hr: 'žuta karta',
     en: 'yellow card (warning)',
     lit: 'yellow card',
-    note: 'Used in football and figuratively for any warning',
+    note: 'Used in soccer and figuratively for any warning',
   },
 ];
 export const RIDDLES = [

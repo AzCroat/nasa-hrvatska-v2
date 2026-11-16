@@ -2896,7 +2896,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'How does the author characterise the Baška tablet?',
+          q: 'How does the author characterize the Baška tablet?',
           o: [
             'As a mere museum artefact',
             'As proof that literacy here was a matter of self-awareness, not mere administration',
@@ -2919,12 +2919,12 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How does the columnist say "our man" sees a queue?',
+          q: 'How does the columnist say "our man" sees a line?',
           o: ['As good order', 'As an institution', 'As a personal insult'],
           c: 2,
         },
         {
-          q: 'What do the people in the queue do instead of protesting aloud?',
+          q: 'What do the people in the line do instead of protesting aloud?',
           o: [
             'They call the manager',
             'They raise their eyebrows and disapprove in silence',

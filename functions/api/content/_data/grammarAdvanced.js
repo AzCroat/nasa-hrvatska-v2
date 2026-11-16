@@ -767,7 +767,7 @@ export const REPORTED_SPEECH = {
     // ── 2026-07 depth expansion (+6) ──
     {
       q: 'Direct: "Kupit ćemo stan." Reported (oni):',
-      qEn: 'Report: "We will buy a flat."',
+      qEn: 'Report: "We will buy an apartment."',
       opts: [
         'Rekli su da će kupiti stan.',
         'Rekli su da su kupili stan.',
