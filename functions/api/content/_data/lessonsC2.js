@@ -5671,7 +5671,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Trailing off after the recognisable opening is the normal delivery for a well-known Croatian proverb, exactly as English does with "when in Rome". The meaning is fully conveyed and no completion is expected.',
+          'Trailing off after the recognizable opening is the normal delivery for a well-known Croatian proverb, exactly as English does with "when in Rome". The meaning is fully conveyed and no completion is expected.',
       },
       {
         type: 'quiz',
@@ -5720,7 +5720,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Trailing off after the recognisable opening is the normal delivery. Spelling the whole thing out, or paraphrasing it, is what a learner does.',
+              'Trailing off after the recognizable opening is the normal delivery. Spelling the whole thing out, or paraphrasing it, is what a learner does.',
           },
           {
             q: 'A learner uses four proverbs in one short conversation. What is the effect?',

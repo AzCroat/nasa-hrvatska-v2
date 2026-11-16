@@ -162,7 +162,7 @@ const DATA = [
     tip: "Movement collocates with 'kretati se' when describing manner of movement",
   },
   {
-    q: '___ obvezu (to fulfil an obligation)',
+    q: '___ obvezu (to fulfill an obligation)',
     opts: ['ispuniti', 'napraviti', 'nositi', 'imati'],
     answer: 'ispuniti',
     en: 'ispuniti obvezu',
@@ -176,7 +176,7 @@ const DATA = [
     tip: "Progress is 'realized/achieved': ostvariti napredak",
   },
   {
-    q: '___ san (to fulfil a dream)',
+    q: '___ san (to fulfill a dream)',
     opts: ['ostvariti', 'napraviti', 'imati', 'sanjati'],
     answer: 'ostvariti',
     en: 'ostvariti san',

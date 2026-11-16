@@ -1950,7 +1950,7 @@ export const READ = {
       qs: [
         {
           q: 'What is peka made of?',
-          o: ['Clay or cast iron', 'Steel or aluminium', 'Wood only'],
+          o: ['Clay or cast iron', 'Steel or aluminum', 'Wood only'],
           c: 0,
         },
         {

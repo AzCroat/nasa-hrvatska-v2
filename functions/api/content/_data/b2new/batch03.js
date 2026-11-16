@@ -1067,7 +1067,7 @@ const BODY_PART_NOUNS = {
       rows: [
         ['u četiri oka', 'in private, just the two of us'],
         ['zaljubljen do ušiju', 'head over heels in love'],
-        ['imati zlatne ruke', 'to be very skilful with one’s hands'],
+        ['imati zlatne ruke', 'to be very skillful with one’s hands'],
         ['padati s nogu', 'to be dead tired'],
         ['ne vjerovati svojim očima', 'not to believe one’s eyes'],
         ['ruku na srce', 'hand on heart, honestly'],
@@ -1121,7 +1121,7 @@ const BODY_PART_NOUNS = {
         {
           hr: 'Djed ima zlatne ruke, sve popravi sam.',
           en: 'Grandpa is very good with his hands; he fixes everything himself.',
-          note: 'zlatne ruke — skilful hands',
+          note: 'zlatne ruke — skillful hands',
         },
         {
           hr: 'O tome ćemo razgovarati u četiri oka.',
@@ -2112,7 +2112,7 @@ export const PRACTICE = {
           q: 'Djed sve popravi sam, ima zlatne ____. (hands)',
           answer: 'ruke',
           hint: 'The plural of ruka.',
-          explanation: 'zlatne ruke — skilful hands.',
+          explanation: 'zlatne ruke — skillful hands.',
         },
         {
           type: 'type',
@@ -2140,7 +2140,7 @@ export const PRACTICE = {
         q: 'Complete: "Djed ima zlatne ___, sve popravi sam."',
         options: ['noge', 'oči', 'ruke', 'uši'],
         correct: 2,
-        explanation: 'Imati zlatne ruke — to be very skilful with one’s hands.',
+        explanation: 'Imati zlatne ruke — to be very skillful with one’s hands.',
       },
       {
         q: 'Complete: "Ne mogu vjerovati svojim ___!"',

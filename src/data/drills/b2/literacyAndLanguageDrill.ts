@@ -121,7 +121,7 @@ export const LITERACY_AND_LANGUAGE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'govoriti',
     q: 'Prijateljica me je ____ da upišem tečaj.',
-    en: 'My friend persuaded me to enrol in the course.',
+    en: 'My friend persuaded me to enroll in the course.',
     opts: ['nagovorila', 'odgovorila', 'prigovorila', 'izgovorila'],
     answer: 'nagovorila',
     tip: 'To persuade is nagovoriti.',

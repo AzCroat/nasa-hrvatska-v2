@@ -250,7 +250,7 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'stav',
     q: 'Kako se odgovara nekomu tko se ispričava za svoj hrvatski?',
-    en: 'Answering someone who apologises for their Croatian:',
+    en: 'Answering someone who apologizes for their Croatian:',
     opts: [
       'Ma odlično govorite!',
       'Da, malo se čuje.',

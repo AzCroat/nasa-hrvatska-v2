@@ -282,7 +282,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     title: 'Where I live',
     prompt: 'Opiši gdje živiš: u kući ili u stanu, koliko soba imaš i koja ti je soba najdraža.',
     promptEn:
-      'Describe where you live: a house or a apartment, how many rooms you have and which room is your favorite.',
+      'Describe where you live: a house or an apartment, how many rooms you have and which room is your favorite.',
     minWords: 20,
     model:
       'Živim u stanu na drugom katu. Stan nije velik, ali je svijetao. ' +
@@ -290,14 +290,14 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Najdraža mi je kuhinja jer ondje pijem kavu s obitelji. ' +
       'Na balkonu imam cvijeće. Ispred zgrade je mali park.',
     modelEn:
-      'I live in a apartment on the second floor. The apartment is not big, but it is bright. ' +
+      'I live in an apartment on the second floor. The apartment is not big, but it is bright. ' +
       'I have a kitchen, a living room, a bedroom and a bathroom. ' +
       'The kitchen is my favorite because I drink coffee there with my family. ' +
       'On the balcony I have flowers. In front of the building there is a small park.',
     structures: [
       {
         hr: 'Živim u stanu na drugom katu.',
-        en: 'I live in a apartment on the second floor.',
+        en: 'I live in an apartment on the second floor.',
         why: '"u" and "na" + locative for where something is: stan → u stanu, drugi kat → na drugom katu.',
       },
       {
@@ -1520,11 +1520,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'a2-flat-enquiry',
     level: 'A2',
-    title: 'Asking about a apartment to rent',
+    title: 'Asking about an apartment to rent',
     prompt:
       'Vidio si ili vidjela si oglas za stan u Splitu. Napiši poruku vlasniku: predstavi se, pitaj tri stvari o stanu i predloži kada bi ga mogao ili mogla pogledati.',
     promptEn:
-      'You saw an advert for a apartment in Split. Write to the owner: introduce yourself, ask three things about the apartment and suggest when you could view it.',
+      'You saw an advert for an apartment in Split. Write to the owner: introduce yourself, ask three things about the apartment and suggest when you could view it.',
     minWords: 30,
     model:
       'Poštovani gospodine Marić, zovem se Ivan Novak i javljam se zbog oglasa za stan na Bačvicama. ' +
@@ -2099,7 +2099,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'Tek nakon dvadeset minuta shvatila sam',
         en: 'Only after twenty minutes did I realize',
-        why: '"tek" (only, not until) delays the realisation — the hinge of every anecdote.',
+        why: '"tek" (only, not until) delays the realization — the hinge of every anecdote.',
       },
     ],
     frames: [
@@ -2121,7 +2121,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         before: '',
         answer: 'Tek',
         after: 'nakon sat vremena shvatio sam pogrešku.',
-        hint: 'The word for "only / not until" that delays the realisation.',
+        hint: 'The word for "only / not until" that delays the realization.',
       },
     ],
     connectives: ['jednom', 'odjednom', 'tek', 'a onda', 'od tada'],
@@ -2163,7 +2163,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Dear Tomislav, I understand your fear, but I think this is an opportunity you should not miss. ' +
       'In your place I would first go for a month and see how I like everyday life, not just a vacation. ' +
       'I advise you to start looking for a job online already now and to get in touch with relatives in Zagreb. ' +
-      'You should also enrol in a language course — you speak well, but you will need writing at work. ' +
+      'You should also enroll in a language course — you speak well, but you will need writing at work. ' +
       'Whatever you decide, you have my support.',
     structures: [
       {
@@ -2178,7 +2178,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Trebao bi se i upisati na tečaj',
-        en: 'You should also enrol in a course',
+        en: 'You should also enroll in a course',
         why: '"trebao bi" (you should) + infinitive; the reflexive "se" joins the "bi" cluster.',
       },
     ],
@@ -2379,7 +2379,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Želite upisati ljetni tečaj hrvatskoga jezika. Napišite upit školi: što Vas zanima, koja pitanja imate i zamolite za odgovor.',
     promptEn:
-      'You want to enrol in a summer Croatian course. Write an enquiry to the school: what interests you, what questions you have, and ask for a reply.',
+      'You want to enroll in a summer Croatian course. Write an enquiry to the school: what interests you, what questions you have, and ask for a reply.',
     minWords: 50,
     model:
       'Poštovani, zanima me ljetni tečaj hrvatskoga jezika koji organizirate u srpnju. ' +

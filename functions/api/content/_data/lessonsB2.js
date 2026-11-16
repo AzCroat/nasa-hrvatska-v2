@@ -3052,7 +3052,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'The Skill the Level Is Named For',
-        body: 'The CEFR descriptor for B2 says a learner can "explain a viewpoint on a topical issue giving the advantages and disadvantages of various options". That is a structure, not a vocabulary list — and it has a recognisable Croatian shape you can learn in one sitting.',
+        body: 'The CEFR descriptor for B2 says a learner can "explain a viewpoint on a topical issue giving the advantages and disadvantages of various options". That is a structure, not a vocabulary list — and it has a recognizable Croatian shape you can learn in one sitting.',
         icon: '🏗️',
       },
       {
@@ -4252,7 +4252,7 @@ export const LESSONS_B2 = [
             options: ['Oprostite što prekidam, ali…', 'Čekaj!', 'Tiho, molim.', 'Nije važno.'],
             correct: 0,
             explanation:
-              '"Oprostite što prekidam, ali…" apologises for the interruption before making it. The other three are abrupt or dismissive.',
+              '"Oprostite što prekidam, ali…" apologizes for the interruption before making it. The other three are abrupt or dismissive.',
           },
         ],
       },

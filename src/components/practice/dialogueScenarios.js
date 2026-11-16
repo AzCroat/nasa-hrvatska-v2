@@ -5381,7 +5381,7 @@ export const SCENARIOS = [
       {
         speaker: 'Josip',
         line: 'Bog! Ti si novi cimer? Ja sam Josip.',
-        en: 'Hi! You’re the new flatmate? I’m Josip.',
+        en: 'Hi! You’re the new roommate? I’m Josip.',
         opts: [
           'Bog, Josipe! Da, ja sam Marko. Drago mi je.',
           'Bog, Josipe! Da, ja sam Marka. Drago mi je.',
@@ -5389,7 +5389,7 @@ export const SCENARIOS = [
           'Dobar dan, gospodine! Da, ja sam Marko. Drago mi je.',
         ],
         answer: 0,
-        tip: "Greet him with the vocative 'Josipe' — the careful form, though many people simply say 'Josip'. After 'ja sam' your name stays in the nominative: 'Marko'. 'Drago mi je' — it is pleasing TO ME. A flatmate your age is 'ti', not 'gospodine'.",
+        tip: "Greet him with the vocative 'Josipe' — the careful form, though many people simply say 'Josip'. After 'ja sam' your name stays in the nominative: 'Marko'. 'Drago mi je' — it is pleasing TO ME. A roommate your age is 'ti', not 'gospodine'.",
       },
       {
         speaker: 'Josip',
@@ -5441,7 +5441,7 @@ export const SCENARIOS = [
           'Hvala Vam, Josipe! Vidimo se.',
         ],
         answer: 0,
-        tip: "'Hvala' takes the dative: 'hvala ti', not 'tebe'. 'Vidimo se' is reflexive — always 'se', never 'si'. A flatmate is 'ti', not 'Vam'.",
+        tip: "'Hvala' takes the dative: 'hvala ti', not 'tebe'. 'Vidimo se' is reflexive — always 'se', never 'si'. A roommate is 'ti', not 'Vam'.",
       },
     ],
   },
@@ -5667,7 +5667,7 @@ export const SCENARIOS = [
   {
     id: 'upis_u_vrtic',
     title: '🧸 Upis u vrtić',
-    subtitle: 'Enrol your daughter at kindergarten — talk to the teacher',
+    subtitle: 'Enroll your daughter at kindergarten — talk to the teacher',
     difficulty: 'A2',
     turns: [
       {
@@ -6265,7 +6265,7 @@ export const SCENARIOS = [
           'Bog! Dobro. Slušaj, selim se u suboti u novi stan.',
         ],
         answer: 0,
-        tip: "Moving INTO a apartment is accusative: 'u novi stan'. Days take 'u' + accusative: 'u subotu'. 'Se' can’t start the clause: 'selim se'.",
+        tip: "Moving INTO an apartment is accusative: 'u novi stan'. Days take 'u' + accusative: 'u subotu'. 'Se' can’t start the clause: 'selim se'.",
       },
       {
         speaker: 'Josip',
@@ -6624,7 +6624,8 @@ export const SCENARIOS = [
   {
     id: 'savjet_sestricni',
     title: '🔑 Savjet od sestrične',
-    subtitle: 'Ask your older cousin how to find a apartment in Zagreb — she has moved three times',
+    subtitle:
+      'Ask your older cousin how to find an apartment in Zagreb — she has moved three times',
     difficulty: 'B1',
     turns: [
       {
@@ -6864,7 +6865,7 @@ export const SCENARIOS = [
   {
     id: 'prigovor_cimeru',
     title: '🧽 Razgovor s cimerom',
-    subtitle: 'Complain to your flatmate about the dishes — direct, fair, and still friends',
+    subtitle: 'Complain to your roommate about the dishes — direct, fair, and still friends',
     difficulty: 'B1',
     turns: [
       {
@@ -7173,7 +7174,7 @@ export const SCENARIOS = [
       {
         speaker: 'Gospodin Horvat',
         line: 'Naslijedio sam stan u Makarskoj i želio bih ga ljeti iznajmljivati. Odakle početi?',
-        en: "I've inherited a apartment in Makarska and would like to rent it out in summer. Where should I start?",
+        en: "I've inherited an apartment in Makarska and would like to rent it out in summer. Where should I start?",
         opts: [
           'Savjetovao bih vam da najprije kategorizirate stan i registrirate se kao iznajmljivač. Bez toga ne smijete primati goste.',
           'Savjetovao vam bih da najprije kategorizirate stan i registrirate se kao iznajmljivač. Bez toga ne smijete primati goste.',
@@ -7233,7 +7234,7 @@ export const SCENARIOS = [
       {
         speaker: 'Sestra Petra',
         line: 'Ne znam što da upišem. Mama želi da idem na medicinu, a mene zanima arhitektura.',
-        en: "I don't know what to enrol in. Mom wants me to do medicine, but I'm interested in architecture.",
+        en: "I don't know what to enroll in. Mom wants me to do medicine, but I'm interested in architecture.",
         opts: [
           'Petra, ti ćeš studirati, a ne mama. Što bi ti radila kad ne bi bilo nikakvog pritiska?',
           'Petra, ti ćeš studirati, a ne mama. Što bi ti radio kad ne bi bilo nikakvog pritiska?',

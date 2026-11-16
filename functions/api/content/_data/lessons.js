@@ -9358,7 +9358,7 @@ const LESSONS_CORE = [
             'potpisati',
             'to sign (write under)',
           ],
-          ['u-', 'into', 'upisati', 'to enrol, write into'],
+          ['u-', 'into', 'upisati', 'to enroll, write into'],
           ['o-', 'around / about', 'opisati', 'to describe'],
           ['za-', 'begin / fix', 'zapisati', 'to note down'],
         ],
@@ -9424,7 +9424,7 @@ const LESSONS_CORE = [
           {
             hr: 'Upisala se na sveučilište u Splitu.',
             en: 'She enrolled at the university in Split.',
-            note: 'u- (into) + pisati = enrol',
+            note: 'u- (into) + pisati = enroll',
           },
           {
             hr: 'Slušatelji su pozorno pratili predavanje.',
@@ -9499,7 +9499,7 @@ const LESSONS_CORE = [
             options: ['prepišite', 'potpišite', 'upišite', 'opišite'],
             correct: 1,
             explanation:
-              'pod- (under; written pot- before p) + pisati = sign: potpišite. prepišite is copy, upišite enter/enrol, opišite describe.',
+              'pod- (under; written pot- before p) + pisati = sign: potpišite. prepišite is copy, upišite enter/enroll, opišite describe.',
           },
           {
             q: 'Complete: „Živimo u maloj ___ na otoku.“ (little house — kuća)',
@@ -10170,7 +10170,7 @@ const LESSONS_CORE = [
           {
             hr: 'Tek tada je shvatio što je bio učinio.',
             en: 'Only then did he realize what he had done.',
-            note: 'bio učinio — the deed precedes the realisation',
+            note: 'bio učinio — the deed precedes the realization',
           },
           {
             hr: 'Prije nego što je otišao, bio je sve pripremio.',

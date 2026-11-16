@@ -1362,7 +1362,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Vukovar je posebno mjesto u kolektivnoj memoriji. Opsada Vukovara trajala je od kolovoza do studenog 1991. Branitelji grada — vojnici i civili rame uz rame — odolijevali su znatno nadmoćnijem neprijatelju 87 dana. Grad je na kraju pao 18. studenog 1991. Slika vukovarskog vodotornja, izrešetanog, ali uspravnog usred razrušenoga grada, postala je jedan od najprepoznatljivijih simbola rata i otpora.',
-        en: "Vukovar holds a special place in collective memory. The siege of Vukovar lasted from August to November 1991. The city's defenders — soldiers and civilians side by side — held out against a vastly superior enemy for 87 days. The city finally fell on 18 November 1991. The image of the Vukovar water tower, riddled with bullets yet standing upright amid the ruined city, became one of the most recognisable symbols of the war and of resistance.",
+        en: "Vukovar holds a special place in collective memory. The siege of Vukovar lasted from August to November 1991. The city's defenders — soldiers and civilians side by side — held out against a vastly superior enemy for 87 days. The city finally fell on 18 November 1991. The image of the Vukovar water tower, riddled with bullets yet standing upright amid the ruined city, became one of the most recognizable symbols of the war and of resistance.",
       },
       {
         hr: 'Pitanje sjećanja na Domovinski rat ostaje složeno i politički osjetljivo. Hrvatsko društvo suočava se s izazovom koji je zajednički mnogim poslijeratnim društvima: kako kolektivno sjećanje učiniti mjestom pomirenja, a ne trajnog sukoba. Vukovar danas prolazi kroz spor gospodarski oporavak, a demografski se nije vratio na predratnu razinu. Ipak, svake godine na obljetnicu pada Vukovara, 18. studenoga, tisuće hodočasnika hodaju ulicama grada u tišini, noseći cvijeće i upaljene lampione. Taj šutljivi mimohod — kolona sjećanja — najmoćniji je odgovor na sve pokušaje brisanja prošlosti.',
@@ -18136,7 +18136,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Riva sama, ta uska pruga kamena između kuća i mora, nema službene svrhe, a upravo zato ispunjava toliko njih: ondje se šeće bez cilja, sjedi bez razloga, razgovara bez dnevnog reda. Nitko na rivi ne pita koliko je sati, jer bi pitanje odalo da još uvijek pripada onom drugom, bržem svijetu.',
-        en: 'The riva itself, that narrow strip of stone between the houses and the sea, has no official purpose, and precisely for that reason fulfils so many: there one walks without aim, sits without reason, talks without an agenda. No one on the riva asks what time it is, because the question would betray that he still belongs to that other, faster world.',
+        en: 'The riva itself, that narrow strip of stone between the houses and the sea, has no official purpose, and precisely for that reason fulfills so many: there one walks without aim, sits without reason, talks without an agenda. No one on the riva asks what time it is, because the question would betray that he still belongs to that other, faster world.',
       },
       {
         hr: 'Riva mijenja lice ovisno o dobu dana, ali nikad svoj tempo: ujutro njome prolaze ribari noseći mrežu, u podne je prazna zbog fjake, navečer se puni obiteljima koje ne idu nikamo određeno, nego jednostavno šeću, korzo za korzom, kao da sam čin hodanja bez cilja treba obnavljati svaku večer iznova, poput obreda koji nitko nije propisao, a svi ga poštuju.',
@@ -19913,7 +19913,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Neki grobovi, nažalost, ostaju bez posjetitelja: obitelj se iselila, loza je izumrla, sjećanje je izblijedjelo. Ti grobovi prepoznaju se po suhoj travi i napukloj ploči, po odsutnosti svijeće ondje gdje bi ona trebala gorjeti. Posjetitelji susjednih grobova ponekad, iz pristojnosti, ostave i njima jednu svijeću, kao dug prema zajednici, a upravo ta gesta pokazuje da zajedništvo ne priznaje granice zaborava.',
-        en: 'Some graves, unfortunately, remain without visitors: the family has emigrated, the line has died out, memory has faded. Such graves are recognisable by dry grass and a cracked headstone, by the absence of a candle where one ought to be burning. Visitors to neighboring graves sometimes, out of decency, leave a candle for them too, as a debt owed to the community, and that very gesture shows that solidarity does not recognize the boundaries of forgetting.',
+        en: 'Some graves, unfortunately, remain without visitors: the family has emigrated, the line has died out, memory has faded. Such graves are recognizable by dry grass and a cracked headstone, by the absence of a candle where one ought to be burning. Visitors to neighboring graves sometimes, out of decency, leave a candle for them too, as a debt owed to the community, and that very gesture shows that solidarity does not recognize the boundaries of forgetting.',
       },
       {
         hr: 'Groblje nedjeljom uči i o vremenu koje ne teče jednako za sve. Datumi na pločama pokazuju živote skraćene ratom ili bolešću, ili starošću dovedene do kraja, a posjetitelj, prolazeći, nesvjesno mjeri vlastiti život prema tim brojkama. Ta tiha aritmetika nije mračna, nego podsjeća na razmjere onoga što se ima, i ta se računica jednako odnosi na svakoga posjetitelja.',
@@ -20215,7 +20215,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Pred vratima hrvatske kuće gotovo se redovito nalazi red cipela: dječje čizmice, velike muške cipele, papuče različitih boja poredane bez vidljivog reda, a ipak prepoznatljive svakome tko u toj kući živi. Taj red obuće, iako nikad namjerno postavljen kao izložba, funkcionira kao neka vrsta obiteljskog portreta pred vratima, i taj se portret mijenja gotovo svakoga tjedna.',
-        en: "In front of a Croatian home there is almost always a row of shoes: children's boots, large men's shoes, slippers of various colors lined up with no visible order, yet recognisable to anyone who lives in that house. This row of footwear, though never deliberately arranged as a display, functions as a kind of family portrait at the door, and that portrait changes almost every week.",
+        en: "In front of a Croatian home there is almost always a row of shoes: children's boots, large men's shoes, slippers of various colors lined up with no visible order, yet recognizable to anyone who lives in that house. This row of footwear, though never deliberately arranged as a display, functions as a kind of family portrait at the door, and that portrait changes almost every week.",
       },
       {
         hr: 'Svaki par nešto govori: nove sportske tenisice odaju da je netko upravo počeo trenirati, izlizane radne cipele odaju posao koji troši potplate, male sandale u kutu odaju da je u kući dijete koje je iz njih već izraslo. Bez ijedne riječi, red obuće ispisuje kratku kroniku ukućana, a ta se kronika čita brže od bilo kojeg dnevnika.',

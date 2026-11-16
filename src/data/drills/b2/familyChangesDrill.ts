@@ -171,7 +171,7 @@ export const FAMILY_CHANGES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rasprava',
     q: 'S jedne strane mladi su slobodniji, a s ____ strane teže dolaze do stana.',
-    en: 'On the one hand young people are freer, on the other it is harder for them to get a apartment.',
+    en: 'On the one hand young people are freer, on the other it is harder for them to get an apartment.',
     opts: ['druge', 'drugom', 'drugu', 'drugoj'],
     answer: 'druge',
     tip: 'S meaning from takes the genitive, as in the first half.',

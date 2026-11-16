@@ -121,7 +121,7 @@ const DATA = [
     q: '„Kupit ćemo stan kad ____ dovoljno novca.”',
     opts: ['budemo imali', 'imat ćemo', 'imamo li', 'bismo imali'],
     answer: 'budemo imali',
-    en: 'We will buy a apartment when we have enough money.',
+    en: 'We will buy an apartment when we have enough money.',
     tip: 'Vremenska surečenica o budućnosti → futur drugi: kad budemo imali.',
   },
   {

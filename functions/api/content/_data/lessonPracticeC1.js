@@ -487,7 +487,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Waving Away an Apology',
         problem: 'Prijatelj se ispričava što kasni pet minuta. Odgovori toplo i opušteno.',
-        en: 'A friend apologises for being five minutes late. Reply warmly and casually.',
+        en: 'A friend apologizes for being five minutes late. Reply warmly and casually.',
         steps: [
           {
             label: 'Set the register',
@@ -1283,10 +1283,10 @@ export const PRACTICE_C1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Molim Vas, ___ se na tečaj do petka." (enrol — from pisati)',
+        q: 'Complete: "Molim Vas, ___ se na tečaj do petka." (enroll — from pisati)',
         options: ['potpišite', 'upišite', 'opišite', 'prepišite'],
         correct: 1,
-        explanation: 'u- (into) + pisati: upisati se, to enrol.',
+        explanation: 'u- (into) + pisati: upisati se, to enroll.',
       },
       {
         q: 'You meet „slušatelj“ for the first time. What is it most likely?',
@@ -1319,7 +1319,7 @@ export const PRACTICE_C1 = {
       },
       {
         q: 'What does "opisati" mean, from o- + pisati?',
-        options: ['to sign', 'to copy', 'to describe', 'to enrol'],
+        options: ['to sign', 'to copy', 'to describe', 'to enroll'],
         correct: 2,
         explanation: 'o- (around, about) + pisati: to describe.',
       },
@@ -1329,7 +1329,7 @@ export const PRACTICE_C1 = {
       ['predmetak', 'prefix', 'Predmetak pre- često znači ponavljanje ili prijenos.'],
       ['dometak', 'suffix', 'Dometak -telj označava vršitelja radnje.'],
       ['potpisati', 'to sign', 'Potpišite ugovor na dnu stranice.'],
-      ['upisati se', 'to enrol', 'Upisala se na sveučilište u Splitu.'],
+      ['upisati se', 'to enroll', 'Upisala se na sveučilište u Splitu.'],
       ['prepisati', 'to copy', 'Prepisao je zadaću od prijatelja.'],
       ['slušatelj', 'listener', 'Slušatelji su pozorno pratili predavanje.'],
       ['hrabrost', 'courage', 'Za takvu odluku treba mnogo hrabrosti.'],

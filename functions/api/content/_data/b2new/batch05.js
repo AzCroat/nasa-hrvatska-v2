@@ -562,7 +562,7 @@ const HIGHER_EDUCATION = {
       title: 'Words of Student Life',
       headers: ['Croatian', 'English'],
       rows: [
-        ['upisati fakultet', 'to enrol at a faculty'],
+        ['upisati fakultet', 'to enroll at a faculty'],
         ['predavanje', 'a lecture'],
         ['kolokvij', 'a test during the semester'],
         ['ispitni rok', 'an exam period'],
@@ -584,7 +584,7 @@ const HIGHER_EDUCATION = {
         },
         {
           hr: 'Nakon prijediplomskog studija studenti mogu upisati diplomski studij.',
-          en: 'After the first cycle, students can enrol in the second cycle.',
+          en: 'After the first cycle, students can enroll in the second cycle.',
         },
         {
           hr: 'Jedna akademska godina nosi šezdeset ECTS bodova.',
@@ -597,7 +597,7 @@ const HIGHER_EDUCATION = {
         {
           hr: 'Rezultati mature važni su za upis na fakultet.',
           en: 'The matura results matter for admission to a faculty.',
-          note: 'upis — a noun: enrolment, admission',
+          note: 'upis — a noun: enrollment, admission',
         },
         {
           hr: 'Moja sestra je prošle godine položila maturu s odličnim uspjehom.',
@@ -1791,7 +1791,7 @@ export const PRACTICE = {
       ['državna matura', 'state school-leaving exam', 'Državnu maturu polažu svi maturanti.'],
       ['ECTS bod', 'ECTS credit', 'Ovaj kolegij nosi šest ECTS bodova.'],
       ['stipendija', 'scholarship', 'Dobio je stipendiju za izvrsnost.'],
-      ['upis', 'enrolment, admission', 'Upis na fakultet je u srpnju.'],
+      ['upis', 'enrollment, admission', 'Upis na fakultet je u srpnju.'],
       ['kolokvij', 'a test during the semester', 'Sutra pišemo kolokvij iz kemije.'],
       ['cjeloživotno učenje', 'lifelong learning', 'Cjeloživotno učenje važno je u svakoj dobi.'],
     ],

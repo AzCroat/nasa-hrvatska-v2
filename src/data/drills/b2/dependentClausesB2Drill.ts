@@ -99,7 +99,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'namjera',
     q: 'Štedim kako ____ kupio stan.',
-    en: 'I am saving so that I can buy a apartment. (a man speaking)',
+    en: 'I am saving so that I can buy an apartment. (a man speaking)',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bih',
     tip: 'The subject is ja.',
@@ -107,7 +107,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'namjera',
     q: 'Štedimo kako ____ kupili stan.',
-    en: 'We are saving so that we can buy a apartment.',
+    en: 'We are saving so that we can buy an apartment.',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bismo',
     tip: 'The subject is mi.',

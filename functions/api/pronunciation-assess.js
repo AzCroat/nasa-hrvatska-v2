@@ -206,7 +206,7 @@ export async function azureAssess(
 
   // AZURE HEARD NO SPEECH, AND THAT IS NOT A SERVER FAULT (Sentry
   // ai_feedback_failed:guided-speaking-assess:server, 2026-09-29). A recording
-  // with no recognisable speech comes back 200 with RecognitionStatus NoMatch /
+  // with no recognizable speech comes back 200 with RecognitionStatus NoMatch /
   // InitialSilenceTimeout / BabbleTimeout and no NBest, which fell through to
   // `unexpected_shape` and a 502 — so the learner read "the evaluation service is
   // temporarily unavailable" about a recording that simply held no speech, and

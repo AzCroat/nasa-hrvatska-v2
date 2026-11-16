@@ -322,7 +322,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'The One Question to Ask',
-        body: 'In the last lesson you met the object form (the accusative — the form a noun takes when the verb acts on it). Feminine -a became -u, and neuter nouns never changed. Masculine nouns are the interesting ones: before choosing the ending you ask one question — is it alive? A brother, a friend, a dog: yes. A table, a car, a film: no. This lesson practises that question until it is automatic.',
+        body: 'In the last lesson you met the object form (the accusative — the form a noun takes when the verb acts on it). Feminine -a became -u, and neuter nouns never changed. Masculine nouns are the interesting ones: before choosing the ending you ask one question — is it alive? A brother, a friend, a dog: yes. A table, a car, a film: no. This lesson practices that question until it is automatic.',
         icon: '🧍',
       },
       {

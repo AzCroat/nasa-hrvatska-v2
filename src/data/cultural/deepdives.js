@@ -427,7 +427,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Crveno srce od medenog tijesta, obrubljeno bijelim šećernim ukrasom, s ogledalcem u sredini i kratkim stihom ispod njega — licitar je najprepoznatljiviji hrvatski suvenir, a da ga gotovo nitko ne jede. To i nije bila njegova svrha: licitar se daruje, vješa na zid ili na božićno drvce, a jede ga samo onaj tko ne zna bolje.',
-          en: 'A red heart of honey dough, edged with white sugar decoration, with a small mirror in the center and a short verse beneath it — the licitar is the most recognisable Croatian souvenir, and almost nobody eats it. That was never its purpose: a licitar is given, hung on a wall or on the Christmas tree, and eaten only by someone who does not know better.',
+          en: 'A red heart of honey dough, edged with white sugar decoration, with a small mirror in the center and a short verse beneath it — the licitar is the most recognizable Croatian souvenir, and almost nobody eats it. That was never its purpose: a licitar is given, hung on a wall or on the Christmas tree, and eaten only by someone who does not know better.',
         },
         {
           hr: 'Obrt licitara u sjevernoj Hrvatskoj datira iz srednjega vijeka, kad su medičari uz samostane pekli kolače za proštenja. Ogledalce u srcu imalo je jasnu poruku: onaj tko ga primi trebao bi u njemu vidjeti — sebe, u očima darovatelja. Bilo je to ljubavno pismo za one koji pisati nisu znali ili nisu smjeli.',

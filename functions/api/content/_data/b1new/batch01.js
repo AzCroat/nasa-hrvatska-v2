@@ -2326,7 +2326,7 @@ export const PRACTICE = {
       ['javiti se', 'to get in touch', 'Ako budete imali pitanja, javite se.'],
       ['stanarina', 'rent', 'Stanarina je visoka.'],
       ['izlet', 'trip, outing', 'Ako bude lijepo vrijeme, idemo na izlet.'],
-      ['upisati', 'to enrol in', 'Kad budem imala vremena, upisat ću tečaj.'],
+      ['upisati', 'to enroll in', 'Kad budem imala vremena, upisat ću tečaj.'],
       ['gotov', 'ready, finished', 'Kad se vratiš, sve će biti gotovo.'],
     ],
   },

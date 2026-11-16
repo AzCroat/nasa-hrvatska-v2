@@ -2356,7 +2356,7 @@ export const PRACTICE_B1 = {
           options: ['upisala', 'ispisala', 'opisala', 'potpisala'],
           correct: 0,
           hint: 'Your name is written INTO the register — the prefix that matches the preposition "into".',
-          explanation: 'upisala se — u- + pisati: to enrol. Ispisati se is to withdraw.',
+          explanation: 'upisala se — u- + pisati: to enroll. Ispisati se is to withdraw.',
         },
         {
           q: 'Možeš li mi ___ čašu vode? (bring — to me)',
@@ -2450,7 +2450,7 @@ export const PRACTICE_B1 = {
         options: [
           'Sign my town.',
           'Copy your town.',
-          'Enrol in your town.',
+          'Enroll in your town.',
           'Describe your town to me.',
         ],
         correct: 3,
@@ -2489,7 +2489,7 @@ export const PRACTICE_B1 = {
     vocab: [
       ['potpisati', 'to sign', 'Moraš potpisati ugovor.'],
       ['opisati', 'to describe', 'Opiši mi svoj novi stan.'],
-      ['upisati se', 'to enrol', 'Upisao sam se na tečaj hrvatskog.'],
+      ['upisati se', 'to enroll', 'Upisao sam se na tečaj hrvatskog.'],
       ['zapisati', 'to note down', 'Zapisala sam tvoj broj.'],
       ['raspakirati', 'to unpack', 'Još nisam raspakirala kofer.'],
       ['prepisati', 'to copy out', 'Prepisao je zadaću od prijatelja.'],

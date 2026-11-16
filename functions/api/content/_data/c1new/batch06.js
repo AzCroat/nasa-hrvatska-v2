@@ -525,7 +525,7 @@ const L_PREFIXED_VERBS = {
         ['pri-', 'pripisati', 'to attribute; to add'],
         ['pro-', 'propisati', 'to prescribe, to lay down (a rule)'],
         ['raz-', 'raspisati', 'to announce (a tender, elections)'],
-        ['u-', 'upisati', 'to enrol, to write in'],
+        ['u-', 'upisati', 'to enroll, to write in'],
         ['za-', 'zapisati', 'to write down, to record'],
       ],
     },
@@ -720,12 +720,12 @@ const L_PREFIXED_VERBS = {
       options: ['propisati', 'opisati', 'prepisati', 'upisati'],
       correct: 2,
       explanation:
-        'pre- means across, from one place onto another: prepisati. propisati is to lay down a rule, opisati to describe, upisati to enrol.',
+        'pre- means across, from one place onto another: prepisati. propisati is to lay down a rule, opisati to describe, upisati to enroll.',
     },
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first is spelling the prefix as it looks rather than as it sounds: "podpisati", "odpisati", "razpisati" — Croatian writes the assimilation: potpisati, otpisati, raspisati. The second is confusing two prefixes on one root: propisati (to lay down a rule) is not prepisati (to copy), and opisati (to describe) is not upisati (to enrol). The third is a prefixed perfective for an action spread over time: "Cijelo smo popodne obišli muzej" — duration needs the new imperfective: Cijelo smo popodne obilazili muzej. The fourth is the opposite spelling error: d stays d before s, š, c, č, ć, so "otseliti", "potsjetiti" and "pretsjednik" are wrong — odseliti, podsjetiti, predsjednik. The fifth is a wrong imperfective partner: "procijenjivati", "otplatjivati" — the root changes: procjenjivati, otplaćivati.',
+      body: 'The first is spelling the prefix as it looks rather than as it sounds: "podpisati", "odpisati", "razpisati" — Croatian writes the assimilation: potpisati, otpisati, raspisati. The second is confusing two prefixes on one root: propisati (to lay down a rule) is not prepisati (to copy), and opisati (to describe) is not upisati (to enroll). The third is a prefixed perfective for an action spread over time: "Cijelo smo popodne obišli muzej" — duration needs the new imperfective: Cijelo smo popodne obilazili muzej. The fourth is the opposite spelling error: d stays d before s, š, c, č, ć, so "otseliti", "potsjetiti" and "pretsjednik" are wrong — odseliti, podsjetiti, predsjednik. The fifth is a wrong imperfective partner: "procijenjivati", "otplatjivati" — the root changes: procjenjivati, otplaćivati.',
       highlight: 'odseliti, podsjetiti, predsjednik',
     },
     {
@@ -737,7 +737,7 @@ const L_PREFIXED_VERBS = {
           options: ['propisuje', 'prepisuje', 'opisuje', 'upisuje'],
           correct: 0,
           explanation:
-            'pro- with pisati means to lay down a rule: propisuje. prepisuje is copies, opisuje describes, upisuje enrols.',
+            'pro- with pisati means to lay down a rule: propisuje. prepisuje is copies, opisuje describes, upisuje enrolls.',
         },
         {
           q: 'Complete: "___ broj da ga ne zaboraviš." (write down)',
@@ -993,7 +993,7 @@ const P_PREFIXED_VERBS = {
     ['potpisati', 'to sign', 'Potpišite ugovor na dnu stranice.'],
     ['propisati', 'to prescribe, to lay down', 'Zakon propisuje rok plaćanja.'],
     ['raspisati', 'to announce (a tender, elections)', 'Vlada je raspisala izbore.'],
-    ['upisati', 'to enrol', 'Upisala je fakultet u Zagrebu.'],
+    ['upisati', 'to enroll', 'Upisala je fakultet u Zagrebu.'],
     ['otpisati', 'to write off', 'Banka je otpisala dug.'],
     ['obići', 'to go round, to visit', 'Obišli smo cijeli stari grad.'],
     ['prijeći', 'to cross', 'Prijeđite cestu na pješačkom prijelazu.'],

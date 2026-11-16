@@ -885,7 +885,7 @@ const LITERACY = {
         },
         {
           hr: 'Prijateljica me je nagovorila da upišem tečaj.',
-          en: 'My friend persuaded me to enrol in the course.',
+          en: 'My friend persuaded me to enroll in the course.',
         },
         {
           hr: 'Susjed stalno prigovara djeci zbog buke.',

@@ -580,7 +580,7 @@ const AGREEMENT_SPECIAL = {
     {
       type: 'rule',
       title: 'Type tata: Masculine Nouns in -a',
-      body: 'Tata, kolega (colleague), vođa (leader), sluga (servant), gazda (boss, landlord) and men’s names such as Luka, Nikola and Ivica are masculine, though they decline like žena: tata, tate, tati, tatu, tatom. In the SINGULAR every word that agrees is masculine: naš tata je došao, dragi kolega, kod mog tate, s našim tatom, novom kolegi. In the plural (kolege, vođe) you will meet both masculine and feminine agreement — naši kolege and naše kolege are both used — so this lesson practises the singular.',
+      body: 'Tata, kolega (colleague), vođa (leader), sluga (servant), gazda (boss, landlord) and men’s names such as Luka, Nikola and Ivica are masculine, though they decline like žena: tata, tate, tati, tatu, tatom. In the SINGULAR every word that agrees is masculine: naš tata je došao, dragi kolega, kod mog tate, s našim tatom, novom kolegi. In the plural (kolege, vođe) you will meet both masculine and feminine agreement — naši kolege and naše kolege are both used — so this lesson practices the singular.',
       highlight: 'naš tata je došao',
     },
     {
@@ -2004,7 +2004,7 @@ export const PRACTICE = {
         options: ['upisao', 'upisalo', 'upisale', 'upisala'],
         correct: 2,
         explanation:
-          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enrol in college).',
+          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enroll in college).',
       },
       {
         q: 'Complete: "Dvoje djece ___ u bazenu."',

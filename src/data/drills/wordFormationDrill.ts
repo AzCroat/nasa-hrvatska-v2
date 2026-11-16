@@ -38,7 +38,7 @@ export const WORD_FORMATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prefiksi',
     q: 'pisati → ____ (staviti ime na popis)',
-    en: 'to enrol',
+    en: 'to enroll',
     opts: ['upisati', 'napisati', 'opisati', 'zapisati'],
     answer: 'upisati',
     tip: 'u- is "into": upisati, ući, uložiti.',

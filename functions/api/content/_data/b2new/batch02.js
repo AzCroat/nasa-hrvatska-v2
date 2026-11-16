@@ -776,7 +776,7 @@ const HUMAN_RIGHTS = {
     {
       type: 'intro',
       title: 'Opća deklaracija o ljudskim pravima',
-      body: 'On 10 December 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practises the formal phrases of a discussion.',
+      body: 'On 10 December 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practices the formal phrases of a discussion.',
       icon: '⚖️',
     },
     {

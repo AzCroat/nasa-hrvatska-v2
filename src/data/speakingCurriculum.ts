@@ -4975,7 +4975,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'I argue that free university is not a question of generosity, but of arithmetic. ' +
       'Since the population is shrinking, every educated person who stays is worth more than ten years ago. ' +
       'The strongest counter-argument is not that it is expensive, but that the money flows to those who would study anyway, while nothing changes for children from small places. ' +
-      'I concede that: a waived enrolment fee does not pay rent in Zagreb. ' +
+      'I concede that: a waived enrollment fee does not pay rent in Zagreb. ' +
       'That is precisely why I think the question is wrongly framed. ' +
       'It is not about whether tuition is zero, but about whether the state covers what studying actually costs.',
     structures: [

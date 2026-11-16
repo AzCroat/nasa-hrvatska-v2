@@ -80,7 +80,7 @@ export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
   'A1-11': [
     'I can say who I am talking about with o meni, o tebi and o njemu.',
     'I can use verbs like putovati and kupovati, and name the months: u siječnju.',
-    'I can describe the rooms of a apartment and make a simple phone call.',
+    'I can describe the rooms of an apartment and make a simple phone call.',
   ],
   // past-tense … weather-seasons
   'A1-12': [

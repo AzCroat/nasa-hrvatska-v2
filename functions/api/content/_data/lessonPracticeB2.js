@@ -745,7 +745,7 @@ export const PRACTICE_B2 = {
           explanation: 'nema mlijeka — the genitive of negation.',
         },
         {
-          q: 'Your flatmate keeps leaving the windows open. Make it a standing rule.',
+          q: 'Your roommate keeps leaving the windows open. Make it a standing rule.',
           options: [
             'Ne ostavi prozore otvorene!',
             'Nemoj ostavljaš prozore otvorene!',
@@ -5388,7 +5388,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ma kakvi — no way.',
         },
         {
-          q: 'Which phrase is reassurance after someone apologises?',
+          q: 'Which phrase is reassurance after someone apologizes?',
           options: ['Baš ti hvala.', 'Super, samo to mi je trebalo.', 'Nema veze.', 'Ma daj!'],
           correct: 2,
           hint: 'Look for "it does not matter".',

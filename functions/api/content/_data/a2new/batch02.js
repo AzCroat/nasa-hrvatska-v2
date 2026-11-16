@@ -1465,7 +1465,7 @@ const L_VISITING_CUSTOMS = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'You arrive late. Which sentence apologises?',
+          q: 'You arrive late. Which sentence apologizes?',
           options: [
             'Oprostite što kasnim.',
             'Oprostite što kasnite.',

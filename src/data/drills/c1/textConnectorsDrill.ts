@@ -64,7 +64,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'uzrok',
     q: 'Marko je pao ispit. ____ mora ponovno upisati predmet.',
-    en: 'Marko failed the exam. Because of that, he has to enrol in the course again.',
+    en: 'Marko failed the exam. Because of that, he has to enroll in the course again.',
     opts: ['Zbog toga', 'Radi toga', 'Naime', 'Onamo'],
     answer: 'Zbog toga',
     tip: 'zbog gives a cause; radi gives a purpose.',

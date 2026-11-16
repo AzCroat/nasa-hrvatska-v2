@@ -335,7 +335,7 @@ export const LESSONS_B1 = [
           ['potpisati', 'to sign', 'pod- under (spelled pot- before p)'],
           ['prepisati', 'to copy out', 'pre- across, over'],
           ['opisati', 'to describe', 'o- around'],
-          ['upisati', 'to enrol, write in', 'u- into'],
+          ['upisati', 'to enroll, write in', 'u- into'],
           ['zapisati', 'to note down', 'za- behind, fix'],
           ['ispisati', 'to write out', 'iz- out of'],
         ],
@@ -443,10 +443,10 @@ export const LESSONS_B1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'What does "potpisati" most likely mean? (pisati = to write, pot- = under)',
-        options: ['to describe', 'to sign', 'to copy', 'to enrol'],
+        options: ['to describe', 'to sign', 'to copy', 'to enroll'],
         correct: 1,
         explanation:
-          'To write UNDER something is to sign it. "Opisati" is describe (o- around), "prepisati" is copy (pre- across) and "upisati" is enrol (u- into).',
+          'To write UNDER something is to sign it. "Opisati" is describe (o- around), "prepisati" is copy (pre- across) and "upisati" is enroll (u- into).',
       },
       {
         type: 'quiz',
@@ -472,7 +472,7 @@ export const LESSONS_B1 = [
             options: ['opisati', 'prepisati', 'upisati', 'potpisati'],
             correct: 3,
             explanation:
-              'To write UNDER something is to sign it: potpisati. Opisati is describe (o- around), prepisati is copy (pre- across) and upisati is enrol (u- into).',
+              'To write UNDER something is to sign it: potpisati. Opisati is describe (o- around), prepisati is copy (pre- across) and upisati is enroll (u- into).',
           },
           {
             q: 'What does "Prepisao je zadaću od prijatelja." mean?',

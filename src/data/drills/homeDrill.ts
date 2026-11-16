@@ -31,7 +31,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prostorije',
     q: 'Živim u ____. (stan)',
-    en: 'I live in a apartment.',
+    en: 'I live in an apartment.',
     opts: ['stanu', 'stan', 'stana', 'stanom'],
     answer: 'stanu',
     tip: 'Nothing is moving, so u takes the LOCATIVE: u stanu.',

@@ -127,7 +127,7 @@ const WRITE_PROMPTS = [
     title: 'Formal Email',
     hr: 'Formalni e-mail',
     prompt:
-      'Write a formal email to a Croatian landlord asking about renting a apartment. Include questions about price, utilities, and move-in date.',
+      'Write a formal email to a Croatian landlord asking about renting an apartment. Include questions about price, utilities, and move-in date.',
   },
   {
     id: 'w_story',

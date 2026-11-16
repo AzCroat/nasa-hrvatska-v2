@@ -2582,9 +2582,9 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Dubrovačka Republika stoljećima je čuvala neovisnost vještom diplomacijom.',
-            en: 'The Republic of Dubrovnik preserved its independence for centuries through skilful diplomacy.',
+            en: 'The Republic of Dubrovnik preserved its independence for centuries through skillful diplomacy.',
             opts: [
-              'The Republic of Dubrovnik preserved its independence for centuries through skilful diplomacy.',
+              'The Republic of Dubrovnik preserved its independence for centuries through skillful diplomacy.',
               'The Republic of Dubrovnik lost its independence through poor diplomacy.',
               'Dubrovnik was independent for only a few decades.',
               'Dubrovnik preserved its independence through a strong army.',

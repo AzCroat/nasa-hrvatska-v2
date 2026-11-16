@@ -118,7 +118,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Accusative or Genitive — Both Are Standard',
-        body: 'For "every" and "this", Croatian also uses the genitive of time: svaki dan or svakog dana, svaku večer or svake večeri, ovaj tjedan or ovoga tjedna. Both are standard; the genitive sounds a little more formal. With godina the genitive is the usual form: svake godine, prošle godine, iduće godine. For one particular day the two can differ in meaning: Vidimo se (u) sljedeću nedjelju puts the meeting on Sunday itself, not on another day, while Vidimo se sljedeće nedjelje says it is some time during that day. This lesson practises the accusative and never marks the genitive wrong.',
+        body: 'For "every" and "this", Croatian also uses the genitive of time: svaki dan or svakog dana, svaku večer or svake večeri, ovaj tjedan or ovoga tjedna. Both are standard; the genitive sounds a little more formal. With godina the genitive is the usual form: svake godine, prošle godine, iduće godine. For one particular day the two can differ in meaning: Vidimo se (u) sljedeću nedjelju puts the meeting on Sunday itself, not on another day, while Vidimo se sljedeće nedjelje says it is some time during that day. This lesson practices the accusative and never marks the genitive wrong.',
         highlight: 'svaki dan / svakog dana',
       },
       {

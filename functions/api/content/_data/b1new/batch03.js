@@ -563,7 +563,7 @@ const L_TIME_GENITIVE = {
       items: [
         {
           hr: 'Iduće godine želim upisati fakultet u Zagrebu.',
-          en: 'Next year I want to enrol in college in Zagreb.',
+          en: 'Next year I want to enroll in college in Zagreb.',
           note: 'iduće godine — feminine genitive',
         },
         {

@@ -280,7 +280,7 @@ export const SCENARIO_CONTEXTS = {
   },
   pregovori_najam: {
     character: 'Stanodavka (the landlady)',
-    setting: 'a apartment viewing in Zagreb; the learner is negotiating the rent',
+    setting: 'an apartment viewing in Zagreb; the learner is negotiating the rent',
     role: 'You are a shrewd but reasonable Croatian landlady. V-form, respond to market comparisons and to offers of a longer term. 1-2 sentences.',
   },
   pregovori_oglas: {
@@ -468,9 +468,9 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a relaxed Croatian friend sending short voice messages. Informal "ti" throughout. Ask what they are doing, invite them to the lake, agree a time and place, say what to bring. 1-2 sentences per reply.',
   },
   novi_cimer: {
-    character: 'Josip (a new flatmate)',
+    character: 'Josip (a new roommate)',
     setting: 'a shared student apartment on the day the learner moves in',
-    role: 'You are a friendly Croatian student showing a new flatmate around. Informal "ti" throughout. Show the rooms, ask if they cook, offer to buy something at the shop. 1-2 sentences per reply.',
+    role: 'You are a friendly Croatian student showing a new roommate around. Informal "ti" throughout. Show the rooms, ask if they cook, offer to buy something at the shop. 1-2 sentences per reply.',
   },
   najam_auta: {
     character: 'Službenica (car-rental clerk)',
@@ -581,9 +581,9 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a polite, apologetic Croatian hotel receptionist. V-form. Apologize, offer a repair and then a different room, arrange help. 1-2 sentences per reply.',
   },
   prigovor_cimeru: {
-    character: 'Dino (the learner’s flatmate, a student)',
+    character: 'Dino (the learner’s roommate, a student)',
     setting: 'the shared kitchen of a student apartment; dirty dishes have piled up for three days',
-    role: 'You are a friendly but messy Croatian student flatmate. Informal "ti". First make an excuse, then admit fault and agree to a plan. 1-2 sentences per reply.',
+    role: 'You are a friendly but messy Croatian student roommate. Informal "ti". First make an excuse, then admit fault and agree to a plan. 1-2 sentences per reply.',
   },
   prijava_problema_it: {
     character: 'Tehničar IT podrške (IT support technician)',
@@ -609,13 +609,13 @@ export const SCENARIO_CONTEXTS = {
   savjet_klijentu: {
     character: 'Gospodin Horvat (a client)',
     setting:
-      'a consultation office; the learner advises a client who has inherited a apartment in Makarska and wants to rent it to tourists',
+      'a consultation office; the learner advises a client who has inherited an apartment in Makarska and wants to rent it to tourists',
     role: 'You are an older Croatian client, practical and a little sceptical of rules. V-form, ask follow-up questions about cost and effort. 1-2 sentences per reply.',
   },
   savjet_sestri: {
     character: 'Petra (the learner’s younger sister)',
     setting:
-      'the family kitchen; Petra must choose between medicine and architecture before enrolment closes',
+      'the family kitchen; Petra must choose between medicine and architecture before enrollment closes',
     role: 'You are an anxious Croatian teenager torn between your own wish and your mother’s. Informal "ti", open up when the learner is on your side. 1-2 sentences per reply.',
   },
   rok_profesorici: {

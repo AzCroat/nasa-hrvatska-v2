@@ -31,6 +31,11 @@ const EXT = /\.(js|jsx|ts|tsx|mjs|json)$/;
 
 /** [british, american] — applied to whole words, case preserved. */
 export const SPELLING = [
+  ['enrol', 'enroll'], ['enrols', 'enrolls'], ['enrolment', 'enrollment'], ['enrolments', 'enrollments'],
+  ['practises', 'practices'], ['recognisable', 'recognizable'], ['recognising', 'recognizing'], ['recognises', 'recognizes'],
+  ['flatmate', 'roommate'], ['flatmates', 'roommates'], ['aluminium', 'aluminum'], ['skilful', 'skillful'],
+  ['fulfil', 'fulfill'], ['fulfils', 'fulfills'], ['fulfilment', 'fulfillment'], ['apologises', 'apologizes'], ['apologised', 'apologized'], ['apologising', 'apologizing'],
+  ['realisation', 'realization'], 
   ['colour', 'color'], ['colours', 'colors'], ['coloured', 'colored'], ['colourful', 'colorful'],
   ['favourite', 'favorite'], ['favourites', 'favorites'],
   ['neighbour', 'neighbor'], ['neighbours', 'neighbors'], ['neighbourhood', 'neighborhood'],
@@ -151,7 +156,7 @@ export function collectIds(files) {
   return ids;
 }
 let IDS = new Set();
-export const useIds = (ids) => (IDS = ids);
+export const setIds = (ids) => (IDS = ids);
 
 /** Every prose literal of a source text: { text, index }. */
 export function literals(src) {
@@ -238,7 +243,7 @@ export function fixFile(file) {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const files = ROOTS.flatMap((r) => walk(r));
-  useIds(collectIds(files));
+  setIds(collectIds(files));
   if (process.argv.includes('--fix')) {
     let total = 0;
     for (const f of files) total += fixFile(f);

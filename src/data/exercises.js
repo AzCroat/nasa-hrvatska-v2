@@ -1950,7 +1950,7 @@ export const READ = {
       qs: [
         {
           q: 'What is peka made of?',
-          o: ['Clay or cast iron', 'Steel or aluminium', 'Wood only'],
+          o: ['Clay or cast iron', 'Steel or aluminum', 'Wood only'],
           c: 0,
         },
         {
@@ -4127,7 +4127,7 @@ export const LISTEN = [
       'The apartment we rented looks out on the sea.',
       'The apartment we will rent looks out on the sea.',
       'The apartment we rented has no view of the sea.',
-      'We rented a apartment because we love the sea.',
+      'We rented an apartment because we love the sea.',
     ],
     level: 'B1',
   },

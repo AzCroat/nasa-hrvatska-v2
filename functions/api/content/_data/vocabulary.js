@@ -1627,7 +1627,7 @@ export const V = {
     ['ponavljati', 'to revise/repeat', 'Ponavljam gradivo svaki dan pomalo.'],
     ['tečaj', 'course (class)', 'Upisala sam tečaj hrvatskog jezika.'],
     ['stipendija', 'scholarship', 'Dobio je stipendiju za studij u inozemstvu.'],
-    ['upisati se', 'to enrol (pf.)', 'Upisao sam se na večernji tečaj.'],
+    ['upisati se', 'to enroll (pf.)', 'Upisao sam se na večernji tečaj.'],
     ['obrazovan', 'educated', 'Vrlo je obrazovana i govori tri jezika.'],
     ['profesor', 'professor/teacher', 'Profesorica nam je objasnila pravilo.'],
     ['istraživanje', 'research', 'Radi na istraživanju o dijalektima.'],
@@ -2122,7 +2122,7 @@ export const V = {
     ['oduševljavati / oduševiti', 'to delight (impf./pf.)', 'Predstava je oduševila publiku.'],
     [
       'ostvarivati / ostvariti',
-      'to realize, fulfil (impf./pf.)',
+      'to realize, fulfill (impf./pf.)',
       'Ostvario je san o vlastitoj pekarnici.',
     ],
     [
@@ -4933,7 +4933,7 @@ export const V_B2 = {
     ['vještina', 'skill', 'Razvijanje vještina zahtijeva praksu.'],
     ['samostalno učenje', 'self-study', 'Samostalno učenje traži disciplinu.'],
     ['mentorstvo', 'mentorship', 'Mentorstvo je pomoglo mladim istraživačima.'],
-    ['upis', 'enrolment', 'Upis na fakultet počinje u srpnju.'],
+    ['upis', 'enrollment', 'Upis na fakultet počinje u srpnju.'],
     ['cjeloživotno učenje', 'lifelong learning', 'Cjeloživotno učenje postaje sve važnije.'],
   ],
   'travel & tourism': [

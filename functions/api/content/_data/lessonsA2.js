@@ -438,7 +438,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'A Few Prepositions Take It Too',
-        body: 'The dative is mostly preposition-free, but four prepositions take it, and the next lesson practises them: "k / ka" (toward a person — Idem k liječniku), "prema" (toward), "nasuprot" (opposite) and "unatoč / usprkos" (despite — Unatoč kiši, idemo).',
+        body: 'The dative is mostly preposition-free, but four prepositions take it, and the next lesson practices them: "k / ka" (toward a person — Idem k liječniku), "prema" (toward), "nasuprot" (opposite) and "unatoč / usprkos" (despite — Unatoč kiši, idemo).',
         highlight: 'k · prema · nasuprot · unatoč',
       },
       {
@@ -2365,7 +2365,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'After a Negative, Use Nego',
-        body: 'When you deny one thing and replace it with another, Croatian uses "nego" (or "već"), not "ali". Nije crno nego bijelo. (It is not black but white.) Ne živim u Splitu nego u Zagrebu. Using "ali" there is a very recognisable learner error — English uses "but" for both, Croatian splits them.',
+        body: 'When you deny one thing and replace it with another, Croatian uses "nego" (or "već"), not "ali". Nije crno nego bijelo. (It is not black but white.) Ne živim u Splitu nego u Zagrebu. Using "ali" there is a very recognizable learner error — English uses "but" for both, Croatian splits them.',
         highlight: 'Nije crno nego bijelo.',
       },
       {
@@ -4656,7 +4656,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Igrati, Svirati, Igrati Se',
-        body: 'You IGRATI a sport or a game: igram nogomet, igram šah, igram karte. You SVIRATI an instrument: sviram gitaru, sviram klavir. And children IGRAJU SE — play in the general sense: Djeca se igraju u parku. Saying "igram gitaru" is one of the most recognisable learner errors, and it is easy to avoid once you have seen it.',
+        body: 'You IGRATI a sport or a game: igram nogomet, igram šah, igram karte. You SVIRATI an instrument: sviram gitaru, sviram klavir. And children IGRAJU SE — play in the general sense: Djeca se igraju u parku. Saying "igram gitaru" is one of the most recognizable learner errors, and it is easy to avoid once you have seen it.',
         highlight: 'igram nogomet · sviram gitaru',
       },
       {
