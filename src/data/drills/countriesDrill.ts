@@ -4,7 +4,7 @@
 //
 // The structure underneath the topic is a three-way system English collapses:
 // the COUNTRY, the NATIONALITY (which has separate male and female forms) and
-// the LANGUAGE are three different words, and only one of them is capitalised.
+// the LANGUAGE are three different words, and only one of them is capitalized.
 // *Hrvatska*, *Hrvat* / *Hrvatica*, *hrvatski*. An English speaker has one word
 // doing two of those jobs — "Croatian" is both the person and the language — so
 // nothing in their first language signals that a choice is being made.
@@ -34,7 +34,7 @@ export const COUNTRIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'The country:',
     opts: ['Hrvatska', 'Hrvat', 'hrvatski', 'Hrvatica'],
     answer: 'Hrvatska',
-    tip: 'The country is Hrvatska — capitalised, and grammatically an adjective.',
+    tip: 'The country is Hrvatska — capitalized, and grammatically an adjective.',
   },
   {
     mode: 'tri',
@@ -50,7 +50,7 @@ export const COUNTRIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'The person (male):',
     opts: ['Hrvat', 'Hrvatska', 'hrvatski', 'Hrvatica'],
     answer: 'Hrvat',
-    tip: 'Nationalities ARE capitalised — the opposite of languages.',
+    tip: 'Nationalities ARE capitalized — the opposite of languages.',
   },
   {
     mode: 'tri',
@@ -100,7 +100,7 @@ export const COUNTRIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'She is Croatian.',
     opts: ['Hrvatica', 'Hrvat', 'hrvatski', 'Hrvatska'],
     answer: 'Hrvatica',
-    tip: 'Hrvatica — the feminine nationality, and it is capitalised too.',
+    tip: 'Hrvatica — the feminine nationality, and it is capitalized too.',
   },
   {
     mode: 'rod',
@@ -137,7 +137,7 @@ export const COUNTRIES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rod',
     q: 'Pišu li se narodnosti velikim slovom?',
-    en: 'Are nationalities capitalised?',
+    en: 'Are nationalities capitalized?',
     opts: ['da', 'ne', 'samo muški oblik', 'samo u pisanju'],
     answer: 'da',
     tip: 'Yes — Hrvat, Hrvatica, Nijemac. Only the LANGUAGE goes lower case.',

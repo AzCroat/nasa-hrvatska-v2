@@ -508,7 +508,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     modelEn:
       'I live in a small town near the sea. ' +
       'The town is not big, but it is very pretty. ' +
-      'In the centre there is an old church and a big market. ' +
+      'In the center there is an old church and a big market. ' +
       'There are a few cafés and one library. ' +
       'What I like most is that the sea is close.',
     structures: [
@@ -541,7 +541,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'U centru je stara crkva.',
-        en: 'In the centre there is an old church.',
+        en: 'In the center there is an old church.',
         why: 'Croatian has no word for "there is" — the verb "je" does the work.',
       },
     ],
@@ -902,7 +902,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Kada ide autobus za Zagreb?',
         en: 'When does the bus for Zagreb leave?',
-        why: '"za" + accusative names the destination on a sign or a timetable — Zagreb does not change here.',
+        why: '"za" + accusative names the destination on a sign or a schedule — Zagreb does not change here.',
       },
     ],
     usefulPhrases: [
@@ -1669,7 +1669,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     rehearse: [
       {
         hr: 'Radim kao učitelj u osnovnoj školi.',
-        en: 'I work as a teacher in a primary school.',
+        en: 'I work as a teacher in a elementary school.',
         why: '"kao" + nominative for the job, "u" + locative for the place.',
       },
       {
@@ -2125,7 +2125,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Samo jednom dnevno, nije puno posla. Ključ je kod susjede Marije, na drugom katu. ' +
       'Puno Vam hvala na pomoći, donijet ću Vam nešto iz Zagreba!',
     modelEn:
-      'Good day, Mrs Kovač, do you have a minute? I am going to Zagreb for five days, you know, I will be staying at my sister’s. ' +
+      'Good day, Mrs. Kovač, do you have a minute? I am going to Zagreb for five days, you know, I will be staying at my sister’s. ' +
       'Could you feed my cat and water the flowers? ' +
       'Just once a day, it is not much work. The key is with our neighbor Marija, on the second floor. ' +
       'Thank you very much for your help, I will bring you something from Zagreb!',
@@ -2441,7 +2441,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'U tvom gradu žele zabraniti automobile u centru. Reci što misliš, navedi dva razloga i priznaj jedan protuargument.',
     promptEn:
-      'Your town wants to ban cars from the centre. Say what you think, give two reasons and acknowledge one counter-argument.',
+      'Your town wants to ban cars from the center. Say what you think, give two reasons and acknowledge one counter-argument.',
     minWords: 12,
     model:
       'Mislim da bi to bila dobra odluka, iako razumijem zašto se ljudi bune. ' +
@@ -2451,7 +2451,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kad sam bio u Ljubljani, vidio sam da to funkcionira.',
     modelEn:
       'I think it would be a good decision, although I understand why people object. ' +
-      'On the one hand, the centre would be much quieter and safer for children. ' +
+      'On the one hand, the center would be much quieter and safer for children. ' +
       'On the other hand, cafés and shops live off the people who come by car. ' +
       'Still, I believe that could be solved with better transport and car parks on the edge of town. ' +
       'When I was in Ljubljana, I saw that it works.',
@@ -2744,7 +2744,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Bio bih vam zahvalan kad biste poslali majstora ovaj tjedan. ' +
       'Kod kuće sam svaki dan poslije pet, pa mi javite kad odgovara.',
     modelEn:
-      'Good day, I am calling about the flat in Ulica kralja Zvonimira. ' +
+      'Good day, I am calling about the apartment in Ulica kralja Zvonimira. ' +
       'The heating has not worked for a week, and the temperature at night is around twelve degrees. ' +
       'On top of that, water is leaking under the sink so I am afraid the floor will be damaged. ' +
       'I would be grateful if you could send someone this week. ' +
@@ -3009,7 +3009,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Biraš između dva stana. Usporedi ih po cijeni, lokaciji i veličini, pa reci koji biraš i zašto.',
     promptEn:
-      'You are choosing between two flats. Compare them on price, location and size, then say which you choose and why.',
+      'You are choosing between two apartments. Compare them on price, location and size, then say which you choose and why.',
     minWords: 20,
     model:
       'Prvi je stan jeftiniji za dvjesto eura, ali je puno dalje od centra. ' +
@@ -3018,7 +3018,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ako gledam samo cijenu, prvi je bolji izbor. ' +
       'Ipak bih uzeo drugi, zato što bih svaki dan gubio sat vremena na putovanje.',
     modelEn:
-      'The first flat is two hundred euros cheaper, but it is much further from the centre. ' +
+      'The first apartment is two hundred euros cheaper, but it is much further from the center. ' +
       'The second is smaller, however it has a balcony and is close to the tram. ' +
       'As for noise, the first is quieter because it faces the courtyard. ' +
       'If I look only at the price, the first is the better choice. ' +
@@ -3043,7 +3043,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     rehearse: [
       {
         hr: 'Prvi je jeftiniji, ali je dalje od centra.',
-        en: 'The first is cheaper, but it is further from the centre.',
+        en: 'The first is cheaper, but it is further from the center.',
         why: 'Two comparatives, and "od" + genitive for what you compare against.',
       },
       {
@@ -3067,7 +3067,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
     build: [
       {
-        cue: 'Say: This flat is near the centre.',
+        cue: 'Say: This apartment is near the center.',
         answer: 'Ovaj stan je blizu centra.',
         focus: {
           lemma: 'centar',
@@ -3116,7 +3116,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Spominjali su i da mladi sve kasnije odlaze od roditelja. ' +
       'Mene je najviše iznenadilo to što se najviše gradi izvan grada, gdje ljudi ionako ne žele živjeti.',
     modelEn:
-      'Yesterday I read an article about flat prices in Zagreb. ' +
+      'Yesterday I read an article about apartment prices in Zagreb. ' +
       'It said that prices had risen by fifteen per cent in a year. ' +
       'Experts say the reason is a shortage of new construction, and not only tourism. ' +
       'They also mentioned that young people are leaving their parents’ homes later and later. ' +
@@ -3266,7 +3266,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Hvala Vam na strpljenju.',
         en: 'Thank you for your patience.',
-        why: '"hvala na" + locative, in the capitalised V-form.',
+        why: '"hvala na" + locative, in the capitalized V-form.',
       },
     ],
     usefulPhrases: [
@@ -3452,7 +3452,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ja se stvarno radujem putovanju. Što mislite, odgovara li vam to?',
     modelEn:
       'Right, I would suggest we go to Istria, so for two days. ' +
-      'I propose we leave on Friday after work, because on Saturday morning there is heavy traffic on the motorway. ' +
+      'I propose we leave on Friday after work, because on Saturday morning there is heavy traffic on the highway. ' +
       'We could sleep in Rovinj, and on Saturday see Pula and Motovun. ' +
       'Actually I am only afraid of the crowds and the heat, so I would rather go at the end of September. ' +
       'I am really looking forward to the trip. What do you think, does that suit you?',
@@ -3997,7 +3997,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'The number of people working remotely rose sharply after 2020. ' +
       'In our field that share jumped from around ten per cent to almost half. ' +
       'Over the last two years the growth has slowed, but there has been no return to how it was. ' +
-      'The cause is not only technology; flats in big cities became unaffordable, so people are moving. ' +
+      'The cause is not only technology; apartments in big cities became unaffordable, so people are moving. ' +
       'It is interesting that the companies which allowed working from home first are the biggest today. ' +
       'I expect it to continue, only more slowly than before.',
     structures: [
@@ -5075,7 +5075,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vraćamo se na ovo u utorak i tada odlučujemo, s podacima ili bez njih. ' +
       'Ako se netko ne slaže s ovakvim sažetkom, sada je trenutak da to kaže.',
     modelEn:
-      'Let me summarize. There is agreement on two things: that the current schedule does not work and that we cannot postpone the decision until autumn. ' +
+      'Let me summarize. There is agreement on two things: that the current schedule does not work and that we cannot postpone the decision until fall. ' +
       'What remains open is who takes over supervision and which budget pays for it. ' +
       'Ana raised the concern that the load would simply shift onto a smaller team, and so far that has not been refuted. ' +
       'I propose the following: Marko prepares a cost estimate by Friday, Ana lists the risks, and I ask the legal department for an opinion. ' +
@@ -6478,7 +6478,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaključak koji bih izveo skromniji je nego što bi svi željeli: prije rasprave o uzroku potrebna nam je jedinstvena metodologija. ' +
       'Dotad svaka strana citira brojku koja joj odgovara, i to posve iskreno.',
     modelEn:
-      'All three sources agree on the fact: pupil numbers have been falling for a decade. ' +
+      'All three sources agree on the fact: student numbers have been falling for a decade. ' +
       'They diverge, however, on what that fact means. ' +
       'The ministry reads it as a demographic problem the school system cannot solve; the union as a consequence of investment, or rather the lack of it; while the university study offers no cause at all, but warns that the county-level data are not comparable. ' +
       'To me the last claim matters most, because if we are measuring different things, the first two cannot even be settled. ' +
@@ -7208,15 +7208,15 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Jeste li vi imali takvog djeda?',
     modelEn:
       'Do you know the one about my grandfather and the bill? ' +
-      'So — Split, summer, the waiter brings the bill, and grandad looks at it, and looks, and says: “Son, this is a mistake.” ' +
+      'So — Split, summer, the waiter brings the bill, and grandpa looks at it, and looks, and says: “Son, this is a mistake.” ' +
       'The waiter goes red, leaves, comes back, and says everything is correct. ' +
-      'And grandad, perfectly calm: “I know. The mistake is that I came.” ' +
+      'And grandpa, perfectly calm: “I know. The mistake is that I came.” ' +
       'And that is that. Nobody at the table said a word — grandma just paid. ' +
       'Did you have a grandfather like that?',
     structures: [
       {
         hr: 'konobar donese račun, a djed ga gleda, gleda, pa kaže',
-        en: 'the waiter brings the bill, and grandad looks at it, and looks, and says',
+        en: 'the waiter brings the bill, and grandpa looks at it, and looks, and says',
         why: 'The perfective PRESENT (donese, kaže) is the spoken narrative tense, and repeating "gleda, gleda" slows the tempo right before the line that matters.',
       },
       {
@@ -7344,7 +7344,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Tu ste u pravu.',
         en: 'You are right about that.',
-        why: 'The concession said whole, with a full stop after it — no "ali".',
+        why: 'The concession said whole, with a period after it — no "ali".',
       },
       {
         hr: 'Priznajem to bez zadrške.',

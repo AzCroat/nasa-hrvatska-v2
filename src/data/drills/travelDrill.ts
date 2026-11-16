@@ -231,8 +231,13 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
     mode: 'karta',
     q: 'Što je "apartman"?',
     en: 'What is an apartman?',
-    opts: ['self-catering holiday flat', 'hotel room', 'a block of flats', 'a hostel bed'],
-    answer: 'self-catering holiday flat',
+    opts: [
+      'self-catering vacation apartment',
+      'hotel room',
+      'a block of apartments',
+      'a hostel bed',
+    ],
+    answer: 'self-catering vacation apartment',
     tip: 'Half the coast rents them. Smještaj is accommodation in general.',
   },
 ];

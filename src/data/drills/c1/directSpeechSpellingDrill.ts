@@ -127,7 +127,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
     en: '"Come," she said.',
     opts: ['„Dođi“, rekla je.', '„Dođi,“ rekla je.', '„Dođi.“ rekla je.', '„Dođi“, Rekla je.'],
     answer: '„Dođi“, rekla je.',
-    tip: 'No full stop inside; the comma comes after the closing mark; lower case follows.',
+    tip: 'No period inside; the comma comes after the closing mark; lower case follows.',
   },
   {
     mode: 'iza',
@@ -205,7 +205,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
       '„Vidimo se sutra“ – Rekao je Marko.',
     ],
     answer: '„Vidimo se sutra“, rekao je Marko.',
-    tip: 'The full stop drops and the comma stands outside the marks.',
+    tip: 'The period drops and the comma stands outside the marks.',
   },
   {
     mode: 'iza',
@@ -272,7 +272,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
       '„Stigli smo,“ rekao je vozač. „Ne zaboravite ništa.“',
     ],
     answer: '„Stigli smo“, rekao je vozač. „Ne zaboravite ništa.“',
-    tip: 'A new sentence after the reporting clause: full stop, then a capital.',
+    tip: 'A new sentence after the reporting clause: period, then a capital.',
   },
   {
     mode: 'sredina',
@@ -285,7 +285,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
       'Ministar ga je nazvao, „povijesnim danom“.',
     ],
     answer: 'Ministar ga je nazvao „povijesnim danom“.',
-    tip: "A quoted fragment keeps lower case; the sentence's full stop goes outside.",
+    tip: "A quoted fragment keeps lower case; the sentence's period goes outside.",
   },
   {
     mode: 'sredina',

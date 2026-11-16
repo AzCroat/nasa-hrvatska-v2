@@ -472,7 +472,7 @@ export const PLACE = [
   },
   // ── B2 Formal Register (×3) ───────────────────────────────────────────────
   {
-    q: "Formal 'you' in Croatian (capitalised in writing)?",
+    q: "Formal 'you' in Croatian (capitalized in writing)?",
     o: ['ti', 'on/ona', 'Vi'],
     c: 2,
     d: 3,
@@ -674,7 +674,7 @@ export const READ = {
         ['zdrav', 'healthy'],
       ],
       qs: [
-        { q: 'Where does he play football?', o: ['School', 'Park', 'Gym'], c: 1 },
+        { q: 'Where does he play soccer?', o: ['School', 'Park', 'Gym'], c: 1 },
         { q: 'What does dad do?', o: ['Swims', 'Runs', 'Plays basketball'], c: 1 },
         { q: 'What do they watch on weekends?', o: ['Football', 'Tennis', 'Basketball'], c: 1 },
       ],
@@ -852,7 +852,7 @@ export const READ = {
         ['sarma', 'stuffed cabbage rolls'],
       ],
       qs: [
-        { q: 'How old is granny?', o: ['60', '70', '80'], c: 1 },
+        { q: 'How old is grandma?', o: ['60', '70', '80'], c: 1 },
         { q: 'Where does she live?', o: ['Zagreb', 'Split', 'Village near Karlovac'], c: 2 },
         { q: 'What is her garden full of?', o: ['Trees', 'Flowers and vegetables', 'Fruit'], c: 1 },
       ],
@@ -1535,7 +1535,7 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How much does a litre of milk cost?',
+          q: 'How much does a liter of milk cost?',
           o: ['80 cents', '1.20 euros', '2 euros'],
           c: 1,
         },
@@ -1790,7 +1790,7 @@ export const READ = {
         ['diploma', 'degree/diploma'],
       ],
       qs: [
-        { q: 'How long is primary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
+        { q: 'How long is elementary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
         { q: 'When was Zagreb University founded?', o: ['1769', '1669', '1869'], c: 1 },
         {
           q: 'What does Bologna Process enable?',
@@ -3458,9 +3458,9 @@ export const LISTEN = [
   },
   {
     hr: 'Ne mogu si priuštiti taj stan bez cimera.',
-    en: "I can't afford that flat without a flatmate.",
+    en: "I can't afford that apartment without a roommate.",
     opts: [
-      "I can't afford that flat without a flatmate.",
+      "I can't afford that apartment without a roommate.",
       'I can easily afford the apartment.',
       "I don't need an apartment.",
       'I own a house already.',
@@ -3990,12 +3990,12 @@ export const LISTEN = [
   },
   {
     hr: 'Izgubio sam ključeve od stana.',
-    en: 'I lost the keys to the flat.',
+    en: 'I lost the keys to the apartment.',
     opts: [
-      'I lost the keys to the flat.',
-      'I will lose the keys to the flat.',
-      'She lost the keys to the flat.',
-      "I didn't lose the keys to the flat.",
+      'I lost the keys to the apartment.',
+      'I will lose the keys to the apartment.',
+      'She lost the keys to the apartment.',
+      "I didn't lose the keys to the apartment.",
     ],
     level: 'A2',
   },
@@ -4122,12 +4122,12 @@ export const LISTEN = [
   },
   {
     hr: 'Stan koji smo unajmili gleda na more.',
-    en: 'The flat we rented looks out on the sea.',
+    en: 'The apartment we rented looks out on the sea.',
     opts: [
-      'The flat we rented looks out on the sea.',
-      'The flat we will rent looks out on the sea.',
-      'The flat we rented has no view of the sea.',
-      'We rented a flat because we love the sea.',
+      'The apartment we rented looks out on the sea.',
+      'The apartment we will rent looks out on the sea.',
+      'The apartment we rented has no view of the sea.',
+      'We rented a apartment because we love the sea.',
     ],
     level: 'B1',
   },
@@ -5421,7 +5421,7 @@ export const PREPDRILL = [
     sentence: '\u010cekam te ___ kinom.',
     answer: 'pred',
     opts: ['pred', 'pod', 'nad', 'za'],
-    en: 'I am waiting for you in front of the cinema.',
+    en: 'I am waiting for you in front of the movie theater.',
     tip: 'pred + instrumental = in front of (location): pred kinom. With motion it takes the accusative: pred kino.',
   },
   {
@@ -5435,7 +5435,7 @@ export const PREPDRILL = [
     sentence: 'Podijelili su slatki\u0161e ___ djecu.',
     answer: 'me\u0111u',
     opts: ['me\u0111u', 'izme\u0111u', 'pored', 'oko'],
-    en: 'They shared the sweets among the children.',
+    en: 'They shared the candy among the children.',
     tip: 'među + accusative when things are handed out into a group: podijeliti među djecu. Being among them takes the instrumental: među djecom.',
   },
   {
@@ -5700,7 +5700,7 @@ export const COLORQUIRK = [
     hr: 'žuta karta',
     en: 'yellow card (warning)',
     lit: 'yellow card',
-    note: 'Used in football and figuratively for any warning',
+    note: 'Used in soccer and figuratively for any warning',
   },
 ];
 export const RIDDLES = [

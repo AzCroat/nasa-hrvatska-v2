@@ -99,7 +99,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'namjera',
     q: 'Štedim kako ____ kupio stan.',
-    en: 'I am saving so that I can buy a flat. (a man speaking)',
+    en: 'I am saving so that I can buy a apartment. (a man speaking)',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bih',
     tip: 'The subject is ja.',
@@ -107,7 +107,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'namjera',
     q: 'Štedimo kako ____ kupili stan.',
-    en: 'We are saving so that we can buy a flat.',
+    en: 'We are saving so that we can buy a apartment.',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bismo',
     tip: 'The subject is mi.',
@@ -155,7 +155,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'namjera',
     q: 'Oni rade vikendom kako ____ zaradili više.',
-    en: 'They work at weekends to earn more.',
+    en: 'They work on weekends to earn more.',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bi',
     tip: 'For oni the conditional auxiliary is bi.',
@@ -189,7 +189,7 @@ export const DEPENDENT_CLAUSES_B2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nacin',
     q: '____ imam vremena, išao bih u kino.',
-    en: 'If I had time, I would go to the cinema. (but I do not)',
+    en: 'If I had time, I would go to the movies. (but I do not)',
     opts: ['Jer', 'Da', 'Čim', 'Kao što'],
     answer: 'Da',
     tip: 'An unreal condition: da + present, conditional main clause.',

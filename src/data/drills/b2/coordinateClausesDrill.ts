@@ -156,7 +156,7 @@ export const COORDINATE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'enklitike',
     q: 'Pitao sam prodavača, a ____.',
-    en: 'I asked the shop assistant, and he told me.',
+    en: 'I asked the salesperson, and he told me.',
     opts: ['mi je on rekao', 'on mi je rekao', 'je mi on rekao', 'on je mi rekao'],
     answer: 'on mi je rekao',
     tip: 'After a the clitics wait for the next word; dative before je.',

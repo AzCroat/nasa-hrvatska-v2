@@ -56,7 +56,7 @@ export const PUBLIC_TRANSPORT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'karta',
     q: 'Koliko košta ____ karta do Osijeka?',
-    en: 'How much is a return ticket to Osijek?',
+    en: 'How much is a round-trip ticket to Osijek?',
     opts: ['povratnu', 'povratna', 'povratne', 'povratnoj'],
     answer: 'povratna',
     tip: 'karta is the subject of košta, so nominative.',

@@ -64,7 +64,7 @@ export const ICI_GOING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Oni ____ u kino.',
-    en: 'They are going to the cinema.',
+    en: 'They are going to the movies.',
     opts: ['idu', 'ide', 'idemo', 'idete'],
     answer: 'idu',
     tip: 'oni takes -u, not -e.',

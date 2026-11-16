@@ -63,7 +63,7 @@ export const DECLENSION_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'jednina',
     q: 'Idem u kino s ____.',
-    en: 'I am going to the cinema with my husband.',
+    en: 'I am going to the movies with my husband.',
     opts: ['muž', 'muža', 'mužom', 'mužem'],
     answer: 'mužem',
     tip: 'After a soft ž the instrumental is -em.',

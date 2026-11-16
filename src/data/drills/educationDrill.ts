@@ -104,15 +104,15 @@ export const EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'tkogdje',
     q: 'Dijete u osnovnoj školi je ____.',
-    en: 'A child at primary school is…',
+    en: 'A child at elementary school is…',
     opts: ['učenik', 'student', 'polaznik', 'slušatelj'],
     answer: 'učenik',
-    tip: 'Učenik is a school pupil. Student means university, and only university.',
+    tip: 'Učenik is a school student. Student means university, and only university.',
   },
   {
     mode: 'tkogdje',
     q: 'Osoba na fakultetu je ____.',
-    en: 'A person at university is…',
+    en: 'A person in college is…',
     opts: ['student', 'učenik', 'đak', 'polaznik'],
     answer: 'student',
     tip: 'student / studentica.',
@@ -120,7 +120,7 @@ export const EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'tkogdje',
     q: 'Ona je ____ na fakultetu.',
-    en: 'She is a student at university.',
+    en: 'She is a student in college.',
     opts: ['studentica', 'student', 'učenica', 'studentinja'],
     answer: 'studentica',
     tip: 'The female form is standard here too.',
@@ -183,7 +183,7 @@ export const EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ispiti',
     q: 'On je ____ fakultetu.',
-    en: 'He is at university.',
+    en: 'He is in college.',
     opts: ['na', 'u', 'kod', 'za'],
     answer: 'na',
     tip: 'na fakultetu.',

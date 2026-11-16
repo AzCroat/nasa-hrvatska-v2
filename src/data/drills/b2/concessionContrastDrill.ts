@@ -115,7 +115,7 @@ export const CONCESSION_CONTRAST_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'iako',
     q: '____ nikad nije igrao nogomet, o utakmici govori kao trener.',
-    en: 'Although he has never played football, he talks about the match like a coach.',
+    en: 'Although he has never played soccer, he talks about the match like a coach.',
     opts: ['Premda', 'Jer', 'Pa', 'Ipak'],
     answer: 'Premda',
     tip: 'premda = although, a shade more formal than iako.',
@@ -165,7 +165,7 @@ export const CONCESSION_CONTRAST_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'suprot',
     q: '____, stan je malen, ali pogled je nevjerojatan.',
-    en: 'Admittedly, the flat is small, but the view is incredible.',
+    en: 'Admittedly, the apartment is small, but the view is incredible.',
     opts: ['Doduše', 'Unatoč', 'Jer', 'Dok'],
     answer: 'Doduše',
     tip: 'doduše grants a point before you make yours: Doduše, …, ali….',

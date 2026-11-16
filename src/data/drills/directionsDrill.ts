@@ -54,7 +54,7 @@ export const DIRECTIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is trg?',
     opts: ['square', 'street', 'shop', 'bridge'],
     answer: 'square',
-    tip: 'Trg — every Croatian town has one at its centre.',
+    tip: 'Trg — every Croatian town has one at its center.',
   },
   {
     mode: 'pitanje',

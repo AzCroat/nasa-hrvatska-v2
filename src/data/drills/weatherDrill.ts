@@ -197,7 +197,7 @@ export const WEATHER_DRILL_DATA: ModeDrillItem[] = [
     en: 'in spring',
     opts: ['u proljeće', 'proljeti', 'proljećem', 'proljetno'],
     answer: 'u proljeće',
-    tip: 'Spring and autumn DO take u: u proljeće, u jesen. Only two of the four are bare.',
+    tip: 'Spring and fall DO take u: u proljeće, u jesen. Only two of the four are bare.',
   },
   {
     mode: 'godisnja',

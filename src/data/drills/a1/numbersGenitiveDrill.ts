@@ -136,7 +136,7 @@ export const NUMBERS_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pet',
     q: 'U razredu je dvanaest ____.',
-    en: 'There are twelve pupils in the class.',
+    en: 'There are twelve students in the class.',
     opts: ['učenika', 'učenik', 'učenici', 'učenike'],
     answer: 'učenika',
     tip: 'Every -naest number counts like five: the genitive plural.',

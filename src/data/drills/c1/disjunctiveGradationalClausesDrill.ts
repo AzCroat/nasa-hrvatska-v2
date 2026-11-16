@@ -73,7 +73,7 @@ export const DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'veznik',
     q: 'Na sastanak su došli svi, ____ i ravnatelj koji je bio na godišnjem.',
-    en: 'Everyone came to the meeting, even the director who was on holiday.',
+    en: 'Everyone came to the meeting, even the director who was on vacation.',
     opts: ['a kamoli', 'ili', 'čak', 'samo'],
     answer: 'čak',
     tip: 'Čak i marks the most surprising item at the top of the scale.',

@@ -48,7 +48,7 @@ export const APPEARANCE_COMPLIMENTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izgled',
     q: 'Djed ima sijedu kosu i bijelu ____.',
-    en: 'Grandad has gray hair and a white beard.',
+    en: 'Grandpa has gray hair and a white beard.',
     opts: ['bradu', 'brada', 'bradi', 'brade'],
     answer: 'bradu',
     tip: 'Accusative after imati.',

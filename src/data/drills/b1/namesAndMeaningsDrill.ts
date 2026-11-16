@@ -115,7 +115,7 @@ export const NAMES_AND_MEANINGS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padezi',
     q: 'Idem u kino s ____.',
-    en: 'I am going to the cinema with Luka.',
+    en: 'I am going to the movies with Luka.',
     opts: ['Lukom', 'Lukem', 'Luki', 'Luku'],
     answer: 'Lukom',
     tip: 's + the instrumental; Luka takes the endings of žena.',

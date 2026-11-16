@@ -108,7 +108,7 @@ export const IMPERSONAL_FEELINGS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Bit ____ ti vruće u tom džemperu.',
-    en: 'You will be hot in that jumper.',
+    en: 'You will be hot in that sweater.',
     opts: ['ćeš', 'ću', 'će', 'ćete'],
     answer: 'će',
     tip: 'No subject, so the third person: bit će.',

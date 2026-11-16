@@ -155,7 +155,7 @@ export const CONDITIONAL_WISHES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlozi',
     q: 'Mogli ____ ići u kino.',
-    en: 'We could go to the cinema.',
+    en: 'We could go to the movies.',
     opts: ['bismo', 'bi', 'biste', 'bih'],
     answer: 'bismo',
     tip: 'mi → bismo: a suggestion.',

@@ -156,7 +156,7 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Rezerviram stol za ____.',
-    en: 'I am booking a table for Saturday.',
+    en: 'I am reserving a table for Saturday.',
     opts: ['subotu', 'subota', 'suboti', 'subotom'],
     answer: 'subotu',
     tip: 'za + accusative: subota → subotu.',
@@ -212,7 +212,7 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Rezerviram sobu za ____.',
-    en: 'I am booking a room for Wednesday.',
+    en: 'I am reserving a room for Wednesday.',
     opts: ['srijedu', 'srijeda', 'srijedi', 'srijedom'],
     answer: 'srijedu',
     tip: 'za + accusative: srijeda → srijedu.',

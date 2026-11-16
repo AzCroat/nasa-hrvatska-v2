@@ -56,7 +56,7 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'dani',
     q: 'Kino je u ____.',
-    en: 'The cinema is on Sunday.',
+    en: 'The movie theater is on Sunday.',
     opts: ['nedjelju', 'nedjelja', 'nedjelji', 'nedjelje'],
     answer: 'nedjelju',
     tip: 'nedjelja → u nedjelju, like subota → u subotu.',
@@ -114,7 +114,7 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kalendar',
     q: 'Pišu li se dani velikim slovom?',
-    en: 'Are day names capitalised?',
+    en: 'Are day names capitalized?',
     opts: ['ne', 'da', 'samo nedjelja', 'samo u pismima'],
     answer: 'ne',
     tip: 'Days and months are written in lower case in Croatian: vidimo se u petak.',
@@ -204,7 +204,7 @@ export const TIME_CALENDAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prilozi',
     q: '____ idemo u kino.',
-    en: 'This evening we are going to the cinema.',
+    en: 'This evening we are going to the movies.',
     opts: ['Večeras', 'Sinoć', 'Jutros', 'Ljeto'],
     answer: 'Večeras',
     tip: 'Večeras = this evening, still to come. Sinoć = last night, already gone.',

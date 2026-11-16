@@ -93,7 +93,7 @@ export const COMPARATIVE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nego',
     q: 'Stan je skuplji ____ smo očekivali.',
-    en: 'The flat is more expensive than we expected.',
+    en: 'The apartment is more expensive than we expected.',
     opts: ['nego što', 'od što', 'kao da', 'koliko'],
     answer: 'nego što',
     tip: 'A clause after a comparative needs nego što.',

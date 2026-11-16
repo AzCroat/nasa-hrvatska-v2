@@ -189,7 +189,7 @@ export const HIGHER_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'upotreba',
     q: 'Upisala je ____ na Filozofskom fakultetu.',
-    en: 'She enrolled in the psychology programme at the Faculty of Humanities and Social Sciences.',
+    en: 'She enrolled in the psychology program at the Faculty of Humanities and Social Sciences.',
     opts: ['psihologiju', 'psihologija', 'psihologijom', 'psihologiji'],
     answer: 'psihologiju',
     tip: 'upisati + the accusative.',

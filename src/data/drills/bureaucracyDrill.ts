@@ -106,7 +106,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is a šalter?',
     opts: ['counter, service window', 'switch', 'queue', 'waiting room'],
     answer: 'counter, service window',
-    tip: 'And the red is the queue in front of it.',
+    tip: 'And the red is the line in front of it.',
   },
   {
     mode: 'salter',
@@ -130,7 +130,7 @@ export const BUREAUCRACY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which documents do I need?',
     opts: ['trebam', 'trebaju', 'treba', 'trebati'],
     answer: 'trebam',
-    tip: 'Koje dokumente trebam? — the question to ask before you queue.',
+    tip: 'Koje dokumente trebam? — the question to ask before you wait in line.',
   },
   {
     mode: 'salter',

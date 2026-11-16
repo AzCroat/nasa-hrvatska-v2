@@ -100,7 +100,7 @@ export const FUTURE_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjesto',
     q: 'Sutra ____ ići u kino.',
-    en: 'Tomorrow we will go to the cinema.',
+    en: 'Tomorrow we will go to the movies.',
     opts: ['ćemo', 'ćete', 'će', 'ću'],
     answer: 'ćemo',
     tip: 'mi → ćemo.',
@@ -116,7 +116,7 @@ export const FUTURE_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjesto',
     q: 'Što ____ raditi za vikend?',
-    en: 'What will you all do at the weekend?',
+    en: 'What will you all do on the weekend?',
     opts: ['ćete', 'ćeš', 'ćemo', 'ću'],
     answer: 'ćete',
     tip: 'you, more than one → ćete.',
@@ -182,7 +182,7 @@ export const FUTURE_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'planovi',
     q: 'Što ćeš raditi za ____?',
-    en: 'What will you do at the weekend?',
+    en: 'What will you do on the weekend?',
     opts: ['vikend', 'vikendu', 'vikenda', 'vikendom'],
     answer: 'vikend',
     tip: 'za + accusative; vikend does not change.',

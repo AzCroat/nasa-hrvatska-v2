@@ -186,7 +186,7 @@ export const SCHOOL_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: 'Ona ide u školu. Ona je ____.',
-    en: 'She goes to school. She is a pupil.',
+    en: 'She goes to school. She is a student.',
     opts: ['studentica', 'učiteljica', 'učenica', 'profesorica'],
     answer: 'učenica',
     tip: 'A girl at school is a učenica.',

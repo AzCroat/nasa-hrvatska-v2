@@ -114,7 +114,7 @@ export const CONDITIONAL_IF_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'particip',
     q: 'Kad bismo imali vremena, ____ bismo u kino.',
-    en: 'If we had time, we would go to the cinema.',
+    en: 'If we had time, we would go to the movies.',
     opts: ['išli', 'idemo', 'ići', 'išao'],
     answer: 'išli',
     tip: 'The plural participle of ići is išli.',

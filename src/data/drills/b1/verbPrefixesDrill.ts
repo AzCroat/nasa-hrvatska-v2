@@ -150,7 +150,7 @@ export const VERB_PREFIXES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'znacenje',
     q: '____ mi svoj novi stan.',
-    en: 'Describe your new flat to me.',
+    en: 'Describe your new apartment to me.',
     opts: ['Opiši', 'Potpiši', 'Upiši', 'Prepiši'],
     answer: 'Opiši',
     tip: 'o- around + pisati: to write round something — describe.',
@@ -158,7 +158,7 @@ export const VERB_PREFIXES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'znacenje',
     q: 'Kći se ove godine ____ na fakultet.',
-    en: 'My daughter enrolled at university this year.',
+    en: 'My daughter enrolled in college this year.',
     opts: ['upisala', 'ispisala', 'opisala', 'zapisala'],
     answer: 'upisala',
     tip: 'u- into: your name goes into the register. Ispisati se is to withdraw.',

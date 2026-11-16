@@ -149,7 +149,7 @@ export const TRAVEL_AGENCY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kada',
     q: 'Rezerviram hotel za ____ i subotu.',
-    en: 'I am booking the hotel for Friday and Saturday.',
+    en: 'I am reserving the hotel for Friday and Saturday.',
     opts: ['petak', 'petka', 'petku', 'petkom'],
     answer: 'petak',
     tip: 'za + a masculine thing: no change.',

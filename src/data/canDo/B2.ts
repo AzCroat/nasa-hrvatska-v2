@@ -84,7 +84,7 @@ export const CAN_DO_B2: Readonly<Record<string, readonly string[]>> = {
   ],
   // abstract-topics · writing-registers · formal-email · presentations · meetings-negotiation
   'B2-13': [
-    'I can write a formal email that opens with Poštovani and keeps the capitalised Vi.',
+    'I can write a formal email that opens with Poštovani and keeps the capitalized Vi.',
     'I can give a structured presentation and close with Hvala na pažnji.',
     'I can propose in a meeting with Predlažem da… and disagree by conceding first.',
   ],

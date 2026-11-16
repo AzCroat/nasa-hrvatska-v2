@@ -57,10 +57,10 @@ export const FILM_AND_MUSIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'film',
     q: 'Sinoć smo gledali film ____ kinu.',
-    en: 'Last night we watched a film at the cinema.',
+    en: 'Last night we watched a movie at the movie theater.',
     opts: ['na', 'u', 'po', 'za'],
     answer: 'u',
-    tip: 'The cinema is a building: u kinu.',
+    tip: 'The movie theater is a building: u kinu.',
   },
   {
     mode: 'film',

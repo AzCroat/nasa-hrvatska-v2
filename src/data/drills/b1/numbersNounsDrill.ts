@@ -110,7 +110,7 @@ export const NUMBERS_NOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slozeni',
     q: 'U razredu su dvadeset dva ____.',
-    en: 'There are twenty-two pupils in the class.',
+    en: 'There are twenty-two students in the class.',
     opts: ['učenika', 'učenici', 'učenik', 'učenicima'],
     answer: 'učenika',
     tip: 'The number ends in dva, so the genitive singular.',

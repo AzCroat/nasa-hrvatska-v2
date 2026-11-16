@@ -30,7 +30,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The Frankish emperor known by his nickname.',
     opts: ['Karlo Veliki', 'Karlo veliki', 'karlo Veliki', 'Karlo-Veliki'],
     answer: 'Karlo Veliki',
-    tip: 'A nickname that is part of a name is capitalised.',
+    tip: 'A nickname that is part of a name is capitalized.',
   },
   {
     mode: 'osobe',
@@ -38,7 +38,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The English king nicknamed John Lackland.',
     opts: ['Ivan bez Zemlje', 'Ivan Bez Zemlje', 'Ivan bez zemlje', 'ivan bez Zemlje'],
     answer: 'Ivan bez Zemlje',
-    tip: 'Every part of a personal name is capitalised, except a preposition or conjunction inside it (Ivan bez Zemlje).',
+    tip: 'Every part of a personal name is capitalized, except a preposition or conjunction inside it (Ivan bez Zemlje).',
   },
   {
     mode: 'osobe',
@@ -46,7 +46,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'A Croatian king of the eleventh century, the fourth of his name.',
     opts: ['Petar Krešimir IV.', 'Petar Krešimir IV', 'Petar krešimir IV.', 'petar Krešimir IV.'],
     answer: 'Petar Krešimir IV.',
-    tip: 'An ordinal Roman numeral takes a full stop.',
+    tip: 'An ordinal Roman numeral takes a period.',
   },
   {
     mode: 'osobe',
@@ -54,7 +54,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'A monument to King Tomislav stands in the square.',
     opts: ['kralju Tomislavu', 'Kralju Tomislavu', 'kralju tomislavu', 'Kralju tomislavu'],
     answer: 'kralju Tomislavu',
-    tip: 'The title is small; the name is capitalised.',
+    tip: 'The title is small; the name is capitalized.',
   },
   {
     mode: 'osobe',
@@ -83,7 +83,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
       'papa Ivan Pavao II',
     ],
     answer: 'papa Ivan Pavao II.',
-    tip: 'A small title, a capitalised name, and a numeral with a full stop.',
+    tip: 'A small title, a capitalized name, and a numeral with a period.',
   },
   {
     mode: 'osobe',
@@ -129,7 +129,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The town on the island of Hvar.',
     opts: ['Stari Grad', 'Stari grad', 'stari Grad', 'Stari-Grad'],
     answer: 'Stari Grad',
-    tip: 'As the name of a town, both words are capitalised.',
+    tip: 'As the name of a town, both words are capitalized.',
   },
   {
     mode: 'naselja',

@@ -176,7 +176,7 @@ export const POLITENESS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The possessive that goes with polite Vi:',
     opts: ['Vaš', 'tvoj', 'njegov', 'njihov'],
     answer: 'Vaš',
-    tip: 'Vaša adresa, Vaš broj — capitalised in writing like Vi itself.',
+    tip: 'Vaša adresa, Vaš broj — capitalized in writing like Vi itself.',
   },
 
   // ── prijelaz ──────────────────────────────────────────────────────────────

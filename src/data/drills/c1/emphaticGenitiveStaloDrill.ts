@@ -216,7 +216,7 @@ export const EMPHATIC_GENITIVE_STALO_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pun',
     q: 'Ormar je pun stare ____.',
-    en: 'The wardrobe is full of old clothes.',
+    en: 'The closet is full of old clothes.',
     opts: ['odjećom', 'odjeći', 'odjeću', 'odjeće'],
     answer: 'odjeće',
     tip: 'Pun + genitive: stare odjeće.',

@@ -223,7 +223,7 @@ export const CLIMATE_ENVIRONMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'negacija',
     q: 'Plastiku ____ u smeće.',
-    en: 'I do not throw plastic into the rubbish.',
+    en: 'I do not throw plastic into the trash.',
     opts: ['ne bacam', 'bacam ne', 'nebacam', 'ni bacam'],
     answer: 'ne bacam',
     tip: 'Ne is a separate word directly before the verb.',

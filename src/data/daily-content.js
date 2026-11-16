@@ -957,7 +957,7 @@ export const PHRASE_OF_DAY_POOL = [
   },
   {
     hr: 'Ugodan odmor!',
-    en: 'Have a pleasant holiday!',
+    en: 'Have a nice vacation!',
     note: 'Said before someone goes on vacation',
     ph: 'OO-goh-dahn OHD-mohr',
   },

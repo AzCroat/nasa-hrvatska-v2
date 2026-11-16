@@ -307,7 +307,7 @@ export const COMMA_BASICS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'umetanje',
     q: Q,
-    en: 'Mrs Horvat, our neighbor, is a doctor.',
+    en: 'Mrs. Horvat, our neighbor, is a doctor.',
     opts: [
       'Gospođa Horvat, naša susjeda liječnica je.',
       'Gospođa Horvat naša susjeda, liječnica je.',

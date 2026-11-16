@@ -125,7 +125,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Idemo prema ____.',
-    en: 'We are going toward the centre.',
+    en: 'We are going toward the center.',
     opts: ['centru', 'centar', 'centra', 'centaru'],
     answer: 'centru',
     tip: 'centar loses its a when an ending is added: centru.',
@@ -175,7 +175,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nasuprot',
     q: 'Naš stan je nasuprot ____.',
-    en: 'Our flat is opposite the park.',
+    en: 'Our apartment is opposite the park.',
     opts: ['parku', 'park', 'parka', 'parkom'],
     answer: 'parku',
     tip: 'nasuprot + dative: masculine -u.',

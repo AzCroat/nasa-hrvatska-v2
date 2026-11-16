@@ -119,7 +119,7 @@ export const QUALITY_OF_LIFE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'misljenje',
     q: 'Mislim da ____ dobro raditi vikendom.',
-    en: 'I don’t think it is good to work at weekends.',
+    en: 'I don’t think it is good to work on weekends.',
     opts: ['nije', 'ne je', 'je ne', 'nisu'],
     answer: 'nije',
     tip: 'Croatian puts the negative after da: mislim da nije.',

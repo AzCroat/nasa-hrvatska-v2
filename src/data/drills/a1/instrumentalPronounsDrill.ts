@@ -24,7 +24,7 @@ export const INSTRUMENTAL_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Hoćeš li ići u kino ____? (ja)',
-    en: 'Do you want to go to the cinema with me?',
+    en: 'Do you want to go to the movies with me?',
     opts: ['sa mnom', 'sa ja', 'sa mi', 'sa meni'],
     answer: 'sa mnom',
     tip: 'The instrumental of ja is mnom, and s becomes sa before it.',

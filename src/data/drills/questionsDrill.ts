@@ -91,7 +91,7 @@ export const QUESTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: '____ autobus ide u centar?',
-    en: 'Which bus goes to the centre?',
+    en: 'Which bus goes to the center?',
     opts: ['Koji', 'Tko', 'Kako', 'Koliko'],
     answer: 'Koji',
     tip: 'Koji = which, and it agrees like an adjective: koji, koja, koje.',

@@ -63,7 +63,7 @@ export const INFINITIVE_CI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prezent',
     q: 'Što ____ na kino večeras?',
-    en: 'How about the cinema tonight?',
+    en: 'How about the movies tonight?',
     opts: ['kažeš', 'kazaš', 'kažem', 'kazati'],
     answer: 'kažeš',
     tip: 'The everyday present of "say": kažem, kažeš.',

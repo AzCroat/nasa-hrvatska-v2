@@ -68,7 +68,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'the thirties, in prose:',
     opts: ['tridesetih godina', '30.-ih godina', "30'ih godina", '30ih godina'],
     answer: 'tridesetih godina',
-    tip: 'In prose the decade is written out; as a numeral it is 30-ih, with a hyphen and no full stop.',
+    tip: 'In prose the decade is written out; as a numeral it is 30-ih, with a hyphen and no period.',
   },
   {
     mode: 'interpunkcija',

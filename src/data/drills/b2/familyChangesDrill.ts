@@ -171,7 +171,7 @@ export const FAMILY_CHANGES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rasprava',
     q: 'S jedne strane mladi su slobodniji, a s ____ strane teže dolaze do stana.',
-    en: 'On the one hand young people are freer, on the other it is harder for them to get a flat.',
+    en: 'On the one hand young people are freer, on the other it is harder for them to get a apartment.',
     opts: ['druge', 'drugom', 'drugu', 'drugoj'],
     answer: 'druge',
     tip: 'S meaning from takes the genitive, as in the first half.',
@@ -211,7 +211,7 @@ export const FAMILY_CHANGES_DRILL_DATA: ModeDrillItem[] = [
       'a pension fund',
     ],
     answer: 'grandparents minding the grandchildren',
-    tip: 'A colloquial joke: the granny service.',
+    tip: 'A colloquial joke: the grandma service.',
   },
   {
     mode: 'rasprava',

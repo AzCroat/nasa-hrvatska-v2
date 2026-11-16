@@ -179,7 +179,7 @@ export const BODY_PART_NOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izrazi',
     q: 'Djed sve popravi sam, ima zlatne ____.',
-    en: 'Grandad fixes everything himself; he is very skilful.',
+    en: 'Grandpa fixes everything himself; he is very skillful.',
     opts: ['ruke', 'noge', 'oči', 'uši'],
     answer: 'ruke',
     tip: 'Skill lives in the hands.',

@@ -25,7 +25,7 @@ export const INDEFINITE_PRONOUNS_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padezi',
     q: 'Čekam ____ ispred kina.',
-    en: 'I am waiting for someone in front of the cinema.',
+    en: 'I am waiting for someone in front of the movie theater.',
     opts: ['nekoga', 'netko', 'nekomu', 'nekim'],
     answer: 'nekoga',
     tip: 'The object of čekati: accusative.',
