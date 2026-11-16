@@ -124,7 +124,7 @@ export const NEGATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fuzija',
     q: 'Mi ____ ići u kino.',
-    en: 'We will not go to the cinema.',
+    en: 'We will not go to the movies.',
     opts: ['nećemo', 'ne ćemo', 'nemamo', 'nismo'],
     answer: 'nećemo',
     tip: 'Hoćemo → nećemo.',

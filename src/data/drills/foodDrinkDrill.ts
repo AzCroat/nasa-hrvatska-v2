@@ -157,7 +157,7 @@ export const FOOD_DRINK_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: 'Litra ____. (mlijeko)',
-    en: 'a litre of milk',
+    en: 'a liter of milk',
     opts: ['mlijeka', 'mlijeko', 'mlijeku', 'mlijekom'],
     answer: 'mlijeka',
     tip: 'litra mlijeka.',

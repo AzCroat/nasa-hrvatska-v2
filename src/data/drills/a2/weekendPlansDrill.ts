@@ -78,7 +78,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'planovi',
     q: 'Što ____ za vikend?',
-    en: 'What are you doing at the weekend? (to a friend)',
+    en: 'What are you doing on the weekend? (to a friend)',
     opts: ['radiš', 'radim', 'radite', 'radi'],
     answer: 'radiš',
     tip: 'To a friend: the ti form, radiš.',
@@ -95,7 +95,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Idem u kino ____ navečer.',
-    en: 'I am going to the cinema on Friday evening.',
+    en: 'I am going to the movies on Friday evening.',
     opts: ['u petak', 'u petku', 'na petak', 'u petka'],
     answer: 'u petak',
     tip: 'Days take u + accusative; petak looks the same in the accusative.',
@@ -111,7 +111,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Što radiš ____?',
-    en: 'What are you doing at the weekend?',
+    en: 'What are you doing on the weekend?',
     opts: ['za vikend', 'u vikend', 'na vikendu', 'po vikend'],
     answer: 'za vikend',
     tip: 'The fixed phrase is za vikend.',
@@ -192,7 +192,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjestaj',
     q: 'Rezervirali smo ____ apartman s kuhinjom.',
-    en: 'We have booked a small flat with a kitchen.',
+    en: 'We have reserved a small apartment with a kitchen.',
     opts: ['mali', 'malog', 'malu', 'malom'],
     answer: 'mali',
     tip: 'Apartman is masculine and not alive.',
@@ -224,7 +224,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjestaj',
     q: 'Imate li ____ za dvije osobe?',
-    en: 'Do you have a holiday flat for two people?',
+    en: 'Do you have a vacation apartment for two people?',
     opts: ['apartman', 'apartmana', 'apartmanu', 'apartmanom'],
     answer: 'apartman',
     tip: 'Masculine, not alive: the accusative is the basic form.',

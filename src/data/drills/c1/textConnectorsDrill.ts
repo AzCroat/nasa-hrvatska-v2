@@ -203,7 +203,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nacin',
     q: 'Stan je velik i svijetao. Pored ____ ima lijep pogled na more.',
-    en: 'The flat is large and bright. It also has a lovely sea view.',
+    en: 'The apartment is large and bright. It also has a lovely sea view.',
     opts: ['toga', 'to', 'tome', 'tim'],
     answer: 'toga',
     tip: 'pored + genitive.',

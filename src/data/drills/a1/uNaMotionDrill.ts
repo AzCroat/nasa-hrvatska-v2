@@ -65,10 +65,10 @@ export const U_NA_MOTION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'u',
     q: 'Idemo ____ kino.',
-    en: 'We are going to the cinema.',
+    en: 'We are going to the movies.',
     opts: ['u', 'na', 'iz', 'od'],
     answer: 'u',
-    tip: 'A cinema is a building: u kino.',
+    tip: 'A movie theater is a building: u kino.',
   },
   {
     mode: 'u',
@@ -195,7 +195,7 @@ export const U_NA_MOTION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Oni idu u ____.',
-    en: 'They are going to the cinema.',
+    en: 'They are going to the movies.',
     opts: ['kino', 'kinu', 'kinom', 'kinima'],
     answer: 'kino',
     tip: 'Neuter nouns do not change in the accusative.',

@@ -62,7 +62,7 @@ export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pisati',
     q: 'Kći je ove godine ____ fakultet u Rijeci.',
-    en: 'This year my daughter enrolled at university in Rijeka.',
+    en: 'This year my daughter enrolled in college in Rijeka.',
     opts: ['upisala', 'opisala', 'ispisala', 'propisala'],
     answer: 'upisala',
     tip: 'u- into: to write your name into the register.',
@@ -218,7 +218,7 @@ export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pravopis',
     q: 'Učenici su dugo ____ zadatke s ploče.',
-    en: 'The pupils spent a long time copying the tasks from the board.',
+    en: 'The students spent a long time copying the tasks from the board.',
     opts: ['prepisivali', 'prepisali', 'propisivali', 'prepisavali'],
     answer: 'prepisivali',
     tip: 'dugo signals duration: the imperfective prepisivati.',

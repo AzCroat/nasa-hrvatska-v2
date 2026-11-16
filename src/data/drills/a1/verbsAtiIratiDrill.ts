@@ -65,7 +65,7 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osobe',
     q: 'Djeca ____ nogomet. (igrati)',
-    en: 'The children are playing football.',
+    en: 'The children are playing soccer.',
     opts: ['igra', 'igramo', 'igraš', 'igraju'],
     answer: 'igraju',
     tip: 'djeca takes the "they" form: -ju.',
@@ -99,7 +99,7 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'irati',
     q: 'Večeras ____ stol. (rezervirati — we)',
-    en: 'Tonight we are booking a table.',
+    en: 'Tonight we are reserving a table.',
     opts: ['rezerviraju', 'rezerviramo', 'rezervirate', 'rezerviram'],
     answer: 'rezerviramo',
     tip: 'mi → -mo; stol is a thing and does not change.',
@@ -172,11 +172,11 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uciti',
-    q: 'Which verb means "to study at university"?',
+    q: 'Which verb means "to study in college"?',
     en: 'Choose the verb for university study.',
     opts: ['učiti', 'čitati', 'studirati', 'pitati'],
     answer: 'studirati',
-    tip: 'studirati is a subject at university.',
+    tip: 'studirati is a subject in college.',
   },
   {
     mode: 'uciti',

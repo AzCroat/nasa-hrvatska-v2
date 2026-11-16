@@ -41,7 +41,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'in',
     q: 'Ovo je ____ stan.',
-    en: "This is the sister's flat.",
+    en: "This is the sister's apartment.",
     opts: ['sestrov', 'sestrina', 'sestrin', 'sestrino'],
     answer: 'sestrin',
     tip: 'sestra → sestrin; stan is masculine.',
@@ -147,7 +147,7 @@ export const POSSESSIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ov',
     q: 'Ovo je ____ stan.',
-    en: "This is Josip's flat.",
+    en: "This is Josip's apartment.",
     opts: ['Josipev', 'Josipin', 'Josipova', 'Josipov'],
     answer: 'Josipov',
     tip: 'p is a hard consonant → -ov; stan is masculine.',

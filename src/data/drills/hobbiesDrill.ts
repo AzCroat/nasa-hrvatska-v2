@@ -225,7 +225,7 @@ export const HOBBIES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kada',
     q: '____ ne idem u kino.',
-    en: 'I never go to the cinema.',
+    en: 'I never go to the movies.',
     opts: ['Nikad', 'Uvijek', 'Često', 'Ponekad'],
     answer: 'Nikad',
     tip: 'Nikad keeps the negated verb: nikad NE idem. Croatian doubles the negative.',

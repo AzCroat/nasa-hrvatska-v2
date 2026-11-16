@@ -205,7 +205,7 @@ export const DATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Učiteljica daje savjete ____ učenicima.',
-    en: 'The teacher gives advice to the new pupils.',
+    en: 'The teacher gives advice to the new students.',
     opts: ['novim', 'novom', 'nove', 'novih'],
     answer: 'novim',
     tip: 'Plural dative: -im.',

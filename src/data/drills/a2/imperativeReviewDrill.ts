@@ -230,7 +230,7 @@ export const IMPERATIVE_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Gospođa Kovač je stigla. — Neka ____!',
-    en: 'Mrs Kovač has arrived. — Let her come in!',
+    en: 'Mrs. Kovač has arrived. — Let her come in!',
     opts: ['uđe', 'uđi', 'ući', 'uđite'],
     answer: 'uđe',
     tip: 'A command about someone else: neka + the ordinary present, ona form.',

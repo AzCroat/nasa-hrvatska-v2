@@ -75,7 +75,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'A1-11': {
     title: 'Talking About, Months and Home',
     subtitle:
-      'Talk about someone, use -ovati verbs, name the months, describe a flat, and make a phone call.',
+      'Talk about someone, use -ovati verbs, name the months, describe a apartment, and make a phone call.',
   },
   'A1-12': {
     title: 'The Past and the Weather',

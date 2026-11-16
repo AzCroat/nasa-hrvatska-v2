@@ -168,7 +168,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'genitiv',
     q: 'Čekam te ispred ____. (kino)',
-    en: 'I am waiting for you in front of the cinema.',
+    en: 'I am waiting for you in front of the movie theater.',
     opts: ['kina', 'kino', 'kinu', 'kinom'],
     answer: 'kina',
     tip: 'Ispred + genitive: ispred kina.',

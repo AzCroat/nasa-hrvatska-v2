@@ -81,7 +81,7 @@ export const VERBS_PECI_STI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ci',
     q: 'Što ____, idemo li u kino?',
-    en: 'What do you say, shall we go to the cinema?',
+    en: 'What do you say, shall we go to the movies?',
     opts: ['kažeš', 'kazaš', 'rekneš', 'kažem'],
     answer: 'kažeš',
     tip: 'For saying right now use kazati: kažeš.',
@@ -107,7 +107,7 @@ export const VERBS_PECI_STI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'sti',
     q: 'Moja mama ____ džemper za unuka.',
-    en: 'My mom is knitting a jumper for her grandson.',
+    en: 'My mom is knitting a sweater for her grandson.',
     opts: ['plete', 'plesti', 'pleta', 'plese'],
     answer: 'plete',
     tip: 'Plesti hides a t: pletem, plete.',

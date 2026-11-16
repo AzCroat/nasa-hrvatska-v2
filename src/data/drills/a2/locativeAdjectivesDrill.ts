@@ -113,7 +113,7 @@ export const LOCATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenice',
     q: 'U ____ stanu nema balkona.',
-    en: 'There is no balcony in our flat.',
+    en: 'There is no balcony in our apartment.',
     opts: ['našem', 'našom', 'našoj', 'naš'],
     answer: 'našem',
     tip: 'Naš has a soft stem: -em.',
@@ -194,10 +194,10 @@ export const LOCATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'svoj',
     q: 'Živim u ____ stanu, ne kod roditelja.',
-    en: 'I live in my own flat, not with my parents.',
+    en: 'I live in my own apartment, not with my parents.',
     opts: ['svom', 'svoj', 'svojoj', 'svoju'],
     answer: 'svom',
-    tip: 'The subject owns the flat: svom (or svojem).',
+    tip: 'The subject owns the apartment: svom (or svojem).',
   },
   {
     mode: 'svoj',

@@ -140,7 +140,7 @@ export const TIME_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'svaki',
     q: '____ želim upisati fakultet.',
-    en: 'Next year I want to enrol at university.',
+    en: 'Next year I want to enroll in college.',
     opts: ['Iduće godine', 'Idućeg godine', 'Iduća godina', 'U iduće godine'],
     answer: 'Iduće godine',
     tip: 'Feminine genitive, no preposition.',

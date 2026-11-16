@@ -25,7 +25,7 @@ export const INSTRUMENTAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Idem u kino s ____ bratom.',
-    en: 'I am going to the cinema with my older brother.',
+    en: 'I am going to the movies with my older brother.',
     opts: ['starijim', 'starijom', 'starijem', 'stariji'],
     answer: 'starijim',
     tip: 'Brat is masculine: the adjective in the instrumental ends in -im.',

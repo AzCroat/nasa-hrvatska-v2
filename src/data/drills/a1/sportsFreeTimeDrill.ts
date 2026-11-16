@@ -215,9 +215,9 @@ export const SPORTS_FREE_TIME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'voljeti',
     q: '____ igramo nogomet.',
-    en: 'At weekends we play football.',
+    en: 'On weekends we play soccer.',
     opts: ['Vikendom', 'Vikend', 'Vikenda', 'Vikendu'],
     answer: 'Vikendom',
-    tip: 'vikendom — at weekends, like subotom on Saturdays.',
+    tip: 'vikendom — on weekends, like subotom on Saturdays.',
   },
 ];

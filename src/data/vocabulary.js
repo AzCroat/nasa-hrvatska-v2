@@ -2245,7 +2245,7 @@ export const V = {
     ['metla', 'broom', 'Metla je iza vrata.'],
     ['krpa', 'cloth, rag', 'Obriši stol mokrom krpom.'],
     ['kanta za smeće', 'rubbish bin', 'Kanta za smeće je puna.'],
-    ['iznijeti smeće', 'to take out the rubbish', 'Možeš li iznijeti smeće?'],
+    ['iznijeti smeće', 'to take out the trash', 'Možeš li iznijeti smeće?'],
     ['pospremiti', 'to tidy up', 'Pospremi sobu prije gostiju.'],
     ['nered', 'mess', 'U dječjoj sobi je veliki nered.'],
     ['uredno', 'tidily, neatly', 'Složi majice uredno u ormar.'],

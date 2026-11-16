@@ -115,7 +115,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izrazi',
     q: 'Lift je opet u ____.',
-    en: 'The lift is out of order again.',
+    en: 'The elevator is out of order again.',
     opts: ['kvaru', 'kvar', 'kvara', 'kvarom'],
     answer: 'kvaru',
     tip: 'u kvaru — out of order.',

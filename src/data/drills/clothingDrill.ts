@@ -55,7 +55,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nositi',
     q: 'Nosi ____.',
-    en: 'He is wearing a black jumper.',
+    en: 'He is wearing a black sweater.',
     opts: ['crni džemper', 'crnog džempera', 'crnom džemperu', 'crnim džemperom'],
     answer: 'crni džemper',
     tip: 'Džemper is masculine inanimate, so the accusative looks like the nominative.',
@@ -187,7 +187,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
       'Imate li više broj?',
     ],
     answer: 'Imate li veći broj?',
-    tip: 'Veći is the comparative, and Imate is the Vi form a shop assistant gets.',
+    tip: 'Veći is the comparative, and Imate is the Vi form a salesperson gets.',
   },
   {
     mode: 'ducan',

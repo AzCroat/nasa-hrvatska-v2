@@ -1010,7 +1010,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     passage:
       'Mia ide na tržnicu svaki petak. Kupuje voće i povrće. Danas kupuje jabuke, mrkve i kruh. Tržnica je blizu njene kuće.',
     q: "Where is the market in relation to Mia's house?",
-    o: ['Far away', 'In the city centre', 'Near her house', 'In another town'],
+    o: ['Far away', 'In the city center', 'Near her house', 'In another town'],
     c: 2,
     skill: 'reading',
   },

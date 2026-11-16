@@ -42,7 +42,7 @@ export const VERBS_WITH_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osoba',
     q: 'Učenici odgovaraju ____.',
-    en: 'The pupils answer the teacher (a woman).',
+    en: 'The students answer the teacher (a woman).',
     opts: ['profesoricu', 'profesorica', 'profesoricom', 'profesorici'],
     answer: 'profesorici',
     tip: 'odgovarati takes the dative for the person answered.',

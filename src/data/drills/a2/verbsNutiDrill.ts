@@ -88,7 +88,7 @@ export const VERBS_NUTI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nem',
     q: 'Vikendom ____ kod kuće.',
-    en: 'At weekends I stay at home.',
+    en: 'On weekends I stay at home.',
     opts: ['ostanem', 'ostam', 'ostanim', 'ostaem'],
     answer: 'ostanem',
     tip: 'ostati hides an n in its present: ostanem.',

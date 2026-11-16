@@ -198,7 +198,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
       'okrenuti red riječi',
     ],
     answer: 'kondenzirati ili stati',
-    tip: 'Condense it into a phrase, or put a full stop and start again.',
+    tip: 'Condense it into a phrase, or put a period and start again.',
   },
   {
     mode: 'izlaz',
@@ -240,7 +240,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izlaz',
     q: 'Je li točka priznanje poraza?',
-    en: 'Is a full stop an admission of defeat?',
+    en: 'Is a period an admission of defeat?',
     opts: ['ne, to je alat', 'da', 'samo u eseju', 'ovisi o duljini'],
     answer: 'ne, to je alat',
     tip: 'Two clear sentences beat one that the writer could not finish.',

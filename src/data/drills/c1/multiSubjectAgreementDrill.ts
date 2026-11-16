@@ -212,7 +212,7 @@ export const MULTI_SUBJECT_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poredak',
     q: 'Učiteljica je s učenicima ____ muzej.',
-    en: 'The teacher visited the museum with her pupils.',
+    en: 'The teacher visited the museum with her students.',
     opts: ['posjetila', 'posjetili', 'posjetile', 'posjetio'],
     answer: 'posjetila',
     tip: 's učenicima is company; the verb agrees with učiteljica.',

@@ -122,7 +122,7 @@ export const VERBS_WITH_INSTRUMENTAL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pridjev',
     q: 'Jesi li zadovoljna ____ stanom?',
-    en: 'Are you happy with the new flat?',
+    en: 'Are you happy with the new apartment?',
     opts: ['novim', 'novi', 'novom', 'novu'],
     answer: 'novim',
     tip: 'Zadovoljan + instrumental; stan is masculine: novim stanom.',

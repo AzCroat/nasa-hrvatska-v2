@@ -181,7 +181,7 @@ export const NOUNS_EN_ET_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Učiteljica zna ____ svih učenika.',
-    en: 'The teacher knows the names of all the pupils.',
+    en: 'The teacher knows the names of all the students.',
     opts: ['imena', 'imenu', 'imenima', 'imene'],
     answer: 'imena',
     tip: 'The plural of ime is imena — also in the accusative.',

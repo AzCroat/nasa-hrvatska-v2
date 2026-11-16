@@ -33,7 +33,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'znacenje',
     q: 'Netko je ostavio bicikl ____ pločnika.',
-    en: 'Someone left a bicycle in the middle of the pavement.',
+    en: 'Someone left a bicycle in the middle of the sidewalk.',
     opts: ['nasred', 'uoči', 'prigodom', 'umjesto'],
     answer: 'nasred',
     tip: 'The middle of a surface: nasred.',

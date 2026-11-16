@@ -69,7 +69,7 @@ export const QUANTITY_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'dva-cetiri',
     q: 'Tri studentice ____ u istom stanu.',
-    en: 'Three students (women) live in the same flat.',
+    en: 'Three students (women) live in the same apartment.',
     opts: ['stanuje', 'stanuju', 'stanujem', 'stanuješ'],
     answer: 'stanuju',
     tip: 'After tri the verb is plural.',
@@ -102,7 +102,7 @@ export const QUANTITY_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pet',
     q: 'Na izlet je otišlo pet ____ učenika.',
-    en: 'Five good pupils went on the trip.',
+    en: 'Five good students went on the trip.',
     opts: ['dobra', 'dobri', 'dobrih', 'dobre'],
     answer: 'dobrih',
     tip: 'After pet the adjective is in the genitive plural.',
@@ -126,7 +126,7 @@ export const QUANTITY_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pet',
     q: 'U zgradi je deset ____ stanova.',
-    en: 'There are ten new flats in the building.',
+    en: 'There are ten new apartments in the building.',
     opts: ['nova', 'novih', 'novi', 'novo'],
     answer: 'novih',
     tip: 'After deset: genitive plural adjective.',

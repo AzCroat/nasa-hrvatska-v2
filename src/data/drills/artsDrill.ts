@@ -45,7 +45,7 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is a kazalište?',
     opts: ['theater', 'cinema', 'concert hall', 'stage'],
     answer: 'theater',
-    tip: 'The cinema is kino; the stage is pozornica.',
+    tip: 'The movie theater is kino; the stage is pozornica.',
   },
   {
     mode: 'nazivi',
@@ -230,6 +230,6 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Asking what is on:',
     opts: ['Što se igra?', 'Što se nosi?', 'Što se radi?', 'Što je unutra?'],
     answer: 'Što se igra?',
-    tip: 'In a theater. For a cinema, Što se prikazuje?',
+    tip: 'In a theater. For a movie theater, Što se prikazuje?',
   },
 ];

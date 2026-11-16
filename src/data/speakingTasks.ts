@@ -34,7 +34,7 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
     {
       id: 'a1-home',
       prompt: 'Opišite gdje stanujete. Kakav je vaš stan ili kuća?',
-      promptEn: 'Describe where you live. What is your flat or house like?',
+      promptEn: 'Describe where you live. What is your apartment or house like?',
       seconds: 30,
     },
     {

@@ -137,7 +137,7 @@ export const NOUN_PECULIARITIES_A_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fleeting',
     q: 'Svi ____ u razredu znaju odgovor.',
-    en: 'All the pupils in the class know the answer.',
+    en: 'All the students in the class know the answer.',
     opts: ['učeniki', 'učenici', 'učenike', 'učenika'],
     answer: 'učenici',
     tip: 'Before the plural -i, k becomes c.',
@@ -145,7 +145,7 @@ export const NOUN_PECULIARITIES_A_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fleeting',
     q: 'Učiteljica razgovara s ____.',
-    en: 'The teacher is talking with the pupils.',
+    en: 'The teacher is talking with the students.',
     opts: ['učenicima', 'učenikima', 'učenike', 'učenika'],
     answer: 'učenicima',
     tip: 'The change happens before -ima too.',
@@ -153,7 +153,7 @@ export const NOUN_PECULIARITIES_A_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fleeting',
     q: 'Na izletu smo vidjeli dvadeset ____.',
-    en: 'On the trip we saw twenty pupils.',
+    en: 'On the trip we saw twenty students.',
     opts: ['učenici', 'učenicima', 'učenika', 'učenice'],
     answer: 'učenika',
     tip: 'The genitive plural has no -i, so the k stays.',

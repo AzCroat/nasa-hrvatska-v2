@@ -56,7 +56,7 @@ export const PERFECTIVE_PRESENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prezent',
     q: 'Kad ____ stan, kupit ćemo kuću na selu.',
-    en: 'When we sell the flat, we will buy a house in the country.',
+    en: 'When we sell the apartment, we will buy a house in the country.',
     opts: ['prodat ćemo', 'prodamo', 'prodati', 'prodali'],
     answer: 'prodamo',
     tip: 'prodati is perfective; its present after kad points forward.',

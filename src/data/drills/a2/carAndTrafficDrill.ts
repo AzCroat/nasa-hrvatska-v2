@@ -187,7 +187,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'promet',
     q: 'Na autocesti se plaća ____.',
-    en: 'On the motorway you pay a toll.',
+    en: 'On the highway you pay a toll.',
     opts: ['cestarinu', 'cestarine', 'cestarina', 'cestarini'],
     answer: 'cestarina',
     tip: 'In a se-sentence the thing paid is the subject.',
@@ -210,7 +210,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'promet',
-    q: 'At the petrol station, which asks the attendant to fill the tank?',
+    q: 'At the gas station, which asks the attendant to fill the tank?',
     en: 'Fill it up, please.',
     opts: ['Napunim, molim.', 'Napunite, molim.', 'Napuni se, molim.', 'Napunio, molim.'],
     answer: 'Napunite, molim.',

@@ -25,7 +25,7 @@ export const CONDITIONAL_FORMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Ja ____ išao u kino.',
-    en: 'I would go to the cinema.',
+    en: 'I would go to the movies.',
     opts: ['bih', 'bi', 'bismo', 'biste'],
     answer: 'bih',
     tip: 'ja → bih.',
@@ -57,7 +57,7 @@ export const CONDITIONAL_FORMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Oni ____ radili vikendom.',
-    en: 'They would work at weekends.',
+    en: 'They would work on weekends.',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bi',
     tip: 'oni → bi, with the plural participle radili.',
@@ -90,7 +90,7 @@ export const CONDITIONAL_FORMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'red',
     q: 'Koji je red riječi točan?',
-    en: 'Which word order says: I would go to the cinema?',
+    en: 'Which word order says: I would go to the movies?',
     opts: ['Išao bih u kino.', 'Bih išao u kino.', 'Išao u kino bih.', 'Bih u kino išao.'],
     answer: 'Išao bih u kino.',
     tip: 'bih is a clitic and stands second: participle first, then bih.',
@@ -161,7 +161,7 @@ export const CONDITIONAL_FORMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'red',
     q: 'Kupio ____ taj stan.',
-    en: 'I would buy that flat. (a man speaking)',
+    en: 'I would buy that apartment. (a man speaking)',
     opts: ['bih', 'sam', 'ću', 'bi'],
     answer: 'bih',
     tip: 'I would: bih. bi would mean he would.',
@@ -209,7 +209,7 @@ export const CONDITIONAL_FORMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pitanje',
     q: 'Oni ____ kupili taj stan.',
-    en: "They wouldn't buy that flat.",
+    en: "They wouldn't buy that apartment.",
     opts: ['ne bi', 'bi ne', 'nebi', 'ne bih'],
     answer: 'ne bi',
     tip: 'oni → bi, and ne stands before it as a separate word.',

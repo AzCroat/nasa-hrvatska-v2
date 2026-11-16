@@ -56,7 +56,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oglas',
     q: 'Stan ima 55 ____. (kvadrat)',
-    en: 'The flat is 55 square meters.',
+    en: 'The apartment is 55 square meters.',
     opts: ['kvadrata', 'kvadrate', 'kvadrat', 'kvadratima'],
     answer: 'kvadrata',
     tip: 'Genitive plural after a number above four: 55 kvadrata.',
@@ -143,7 +143,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
       'iz uljudnosti',
     ],
     answer: 'režije su često dodatne',
-    tip: 'They usually are, and they change what the flat actually costs.',
+    tip: 'They usually are, and they change what the apartment actually costs.',
   },
   {
     mode: 'sobe',

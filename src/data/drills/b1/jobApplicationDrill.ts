@@ -97,7 +97,7 @@ export const JOB_APPLICATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pismo',
-    q: 'Which greeting is right for Mr Kovač?',
+    q: 'Which greeting is right for Mr. Kovač?',
     opts: [
       'Poštovani gospodine Kovaču,',
       'Poštovani gospodin Kovač,',
@@ -179,7 +179,7 @@ export const JOB_APPLICATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Radio sam kao ____ u trgovini.',
-    en: 'I worked as a shop assistant (a man writing).',
+    en: 'I worked as a salesperson (a man writing).',
     opts: ['prodavač', 'prodavačica', 'prodavača', 'prodavačem'],
     answer: 'prodavač',
     tip: 'After kao comes the nominative, and the job title agrees with the writer.',
@@ -211,7 +211,7 @@ export const JOB_APPLICATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Imam vozačku ____ B kategorije.',
-    en: 'I have a category B driving licence.',
+    en: 'I have a category B driving license.',
     opts: ['dozvolu', 'dozvola', 'dozvoli', 'dozvolom'],
     answer: 'dozvolu',
     tip: 'The object of imam: the accusative, dozvolu.',

@@ -146,7 +146,7 @@ export const HEALTH_PREVENTION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ovisnost',
     q: 'Pomoć možete potražiti u ____ za ovisnosti.',
-    en: 'You can look for help at a counselling centre for addictions.',
+    en: 'You can look for help at a counseling center for addictions.',
     opts: ['savjetovalištu', 'savjetovalište', 'savjetovališta', 'savjetovalištem'],
     answer: 'savjetovalištu',
     tip: 'Where? u + locative, neuter: savjetovalištu.',
