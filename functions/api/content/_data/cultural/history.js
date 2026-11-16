@@ -700,7 +700,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Pulska Arena je 6. najveći rimski amfiteatar na svijetu.',
-    en: 'Pula Arena is the 6th largest Roman amphitheatre in the world.',
+    en: 'Pula Arena is the 6th largest Roman amphitheater in the world.',
   },
   {
     hr: 'Ban Jelačić ukinuo je kmetstvo u Hrvatskoj 1848.',
@@ -834,7 +834,7 @@ export const HIST_FACTS = [
   { hr: 'Rabac se zove Biser Kvarnera.', en: 'Rabac is called the Pearl of Kvarner.' },
   {
     hr: 'Ilirski pokret u 19. st. težio je kulturnom jedinstvu južnih Slavena i standardizirao hrvatski jezik na štokavskoj osnovi.',
-    en: 'The 19th-century Illyrian Movement sought South Slavic cultural unity and standardised Croatian on a Štokavian base.',
+    en: 'The 19th-century Illyrian Movement sought South Slavic cultural unity and standardized Croatian on a Štokavian base.',
   },
   {
     hr: 'Kopački rit je jedan od najvećih močvarnih krajolika u Europi.',
@@ -863,7 +863,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Šokačke tradicije u Slavoniji žive kroz Vinkovačke jeseni.',
-    en: 'Šokci traditions in Slavonia live through the Vinkovci Autumn festival.',
+    en: 'Šokci traditions in Slavonia live through the Vinkovci Fall festival.',
   },
   {
     hr: 'Ema Derossi-Bjelajac iz Labina bila je prva žena na čelu Hrvatske.',
@@ -1125,7 +1125,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Vinkovačke jeseni najstariji su folklorni festival u Hrvatskoj.',
-    en: 'Vinkovci Autumn is the oldest folklore festival in Croatia.',
+    en: 'Vinkovci Fall is the oldest folklore festival in Croatia.',
   },
   {
     hr: 'Sinišu Glavaševića ubili su na Ovčari — bio je vukovarski novinar.',

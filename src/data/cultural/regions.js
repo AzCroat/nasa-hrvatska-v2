@@ -242,7 +242,7 @@ export const REGIONS = {
       {
         hr: 'marun',
         en: 'chestnut (Istrian dialect)',
-        note: 'The Istrian word for chestnut — a symbol of autumn. October is chestnut season in Labin',
+        note: 'The Istrian word for chestnut — a symbol of fall. October is chestnut season in Labin',
       },
       {
         hr: 'plavac',
@@ -1119,7 +1119,7 @@ export const REGIONS = {
       },
       {
         year: '2006',
-        event: 'Ovčara Memorial Centre opens on the site of the massacre',
+        event: 'Ovčara Memorial Center opens on the site of the massacre',
         eventHr: 'Otvoren Memorijalni centar Ovčara na mjestu pokolja',
       },
       {
@@ -1283,7 +1283,7 @@ export const REGIONS = {
       },
       {
         q: 'The Ovčara massacre site is preserved as what?',
-        a: 'A memorial centre where 261 people were executed on November 20, 1991',
+        a: 'A memorial center where 261 people were executed on November 20, 1991',
         al: ['A military museum', 'A national park', 'A government archive'],
         qHr: 'U što je pretvoreno mjesto pokolja u Ovčari?',
         aHr: 'U memorijalni centar, gdje je 20. studenoga 1991. pogubljena 261 osoba',
@@ -1562,7 +1562,7 @@ export const REGIONS = {
       {
         hr: 'Jeseni',
         en: 'Autumn (also: the Vinkovci Autumn festival)',
-        note: "'Vinkovačke jeseni' = Vinkovci Autumn. The name of the annual folklore festival celebrating Šokac culture",
+        note: "'Vinkovačke jeseni' = Vinkovci Fall. The name of the annual folklore festival celebrating Šokac culture",
       },
       {
         hr: 'Cibalae',
@@ -1813,7 +1813,7 @@ export const REGIONS = {
         role: 'Inventor (Croatian connection)',
         roleHr: 'Izumitelj (hrvatska poveznica)',
         story:
-          "Born in Smiljan (Lika) and dying in New York, Tesla finished secondary school in nearby Karlovac, and in 1892 he addressed Zagreb's city council, urging the city to build an electric power plant. Zagreb celebrates the connection: Ivan Meštrović's statue of Tesla stands in the city centre, a street is named after him, and the Technical Museum bears his name. Tesla's father was a Serbian Orthodox priest, and Tesla himself said he was equally proud of his Serbian origin and his Croatian homeland.",
+          "Born in Smiljan (Lika) and dying in New York, Tesla finished high school in nearby Karlovac, and in 1892 he addressed Zagreb's city council, urging the city to build an electric power plant. Zagreb celebrates the connection: Ivan Meštrović's statue of Tesla stands in the city center, a street is named after him, and the Technical Museum bears his name. Tesla's father was a Serbian Orthodox priest, and Tesla himself said he was equally proud of his Serbian origin and his Croatian homeland.",
         storyHr:
           'Rođen u Smiljanu (Lika), a umro u New Yorku, Tesla je srednju školu završio u obližnjem Karlovcu, a 1892. obratio se zagrebačkim gradskim zastupnicima i potaknuo grad da izgradi električnu centralu. Zagreb ponosno njeguje tu poveznicu: u središtu grada stoji Meštrovićev kip Tesle, po njemu je nazvana ulica, a njegovo ime nosi i Tehnički muzej. Teslin je otac bio srpski pravoslavni svećenik, a sam je Tesla govorio da je jednako ponosan na svoje srpsko podrijetlo i na hrvatsku domovinu.',
       },
@@ -1980,7 +1980,7 @@ export const REGIONS = {
       {
         h: "Hajduk Split — The People's Club",
         hHr: 'Hajduk Split — klub naroda',
-        t: "Founded in Prague in 1911 by Split students who chose the name 'Hajduk' — the rebellious Balkan freedom fighter — Hajduk Split is the most beloved and most contentious football club in Croatia. The Torcida, founded in 1950 as one of the world's first organized supporter groups, invented the modern concept of the ultras. Dinamo Zagreb vs Hajduk Split is the defining derby of Croatian football — 'Vječni derbi' (Eternal Derby). Split's identity is inseparable from the blue-and-white stripes. 'Bili smo, jesmo i bit ćemo Hajduk' — We were, are, and will be Hajduk.",
+        t: "Founded in Prague in 1911 by Split students who chose the name 'Hajduk' — the rebellious Balkan freedom fighter — Hajduk Split is the most beloved and most contentious soccer club in Croatia. The Torcida, founded in 1950 as one of the world's first organized supporter groups, invented the modern concept of the ultras. Dinamo Zagreb vs Hajduk Split is the defining derby of Croatian soccer — 'Vječni derbi' (Eternal Derby). Split's identity is inseparable from the blue-and-white stripes. 'Bili smo, jesmo i bit ćemo Hajduk' — We were, are, and will be Hajduk.",
         tHr: "Hajduk Split, koji su 1911. u Pragu osnovali splitski studenti i nazvali ga po hajducima — buntovnim balkanskim borcima za slobodu — najomiljeniji je i najkontroverzniji nogometni klub u Hrvatskoj. Torcida, osnovana 1950. kao jedna od prvih organiziranih navijačkih skupina na svijetu, utemeljila je moderni koncept ultrasa. Dinamo Zagreb protiv Hajduka Splita najvažniji je derbi hrvatskog nogometa — 'Vječni derbi'. Splitski je identitet nerazdvojiv od bijelo-plavih boja. 'Bili smo, jesmo i bit ćemo Hajduk.'",
       },
     ],
@@ -2017,7 +2017,7 @@ export const REGIONS = {
       },
       {
         year: '1911',
-        event: 'Hajduk Split football club founded in Prague by Split students',
+        event: 'Hajduk Split soccer club founded in Prague by Split students',
         eventHr: 'Splitski studenti u Pragu osnivaju nogometni klub Hajduk',
       },
       {
@@ -2083,7 +2083,7 @@ export const REGIONS = {
       {
         hr: 'riva',
         en: "Split's famous seafront promenade",
-        note: 'The beating heart of Split — where everyone walks, sits, argues about football, and watches the world',
+        note: 'The beating heart of Split — where everyone walks, sits, argues about soccer, and watches the world',
       },
       {
         hr: 'fjaka',
@@ -2093,7 +2093,7 @@ export const REGIONS = {
       {
         hr: 'Bili',
         en: "The Whites — Hajduk Split's nickname",
-        note: "From their white-and-blue kit. 'Hajdukovci' or simply 'Bili' — the most passionate football identity in Croatia",
+        note: "From their white-and-blue kit. 'Hajdukovci' or simply 'Bili' — the most passionate soccer identity in Croatia",
       },
       {
         hr: 'Torcida',
@@ -2110,7 +2110,7 @@ export const REGIONS = {
       "Diocletian's Palace is the only Roman imperial palace in the world that is still fully inhabited — about 3,000 people live within its walls today.",
       "The Gregory of Nin statue's left big toe is polished bright gold from tourists rubbing it — local legend says it brings good luck.",
       'Goran Ivanišević entered Wimbledon 2001 ranked 125th in the world and won — the lowest-ranked player ever to win the title.',
-      "Split's Torcida (founded October 28, 1950) is one of the oldest organized football supporter groups in the world.",
+      "Split's Torcida (founded October 28, 1950) is one of the oldest organized soccer supporter groups in the world.",
       "The Vestibule of Diocletian's Palace has near-perfect natural acoustics — klapa groups perform there daily, the sound bouncing off the ancient stone.",
     ],
     factsHr: [
@@ -2138,7 +2138,7 @@ export const REGIONS = {
         ],
       },
       {
-        q: 'When was Hajduk Split football club founded, and where?',
+        q: 'When was Hajduk Split soccer club founded, and where?',
         a: '1911 — founded in Prague by Split students',
         al: ['1905 in Split', '1920 in Zagreb', '1908 in Vienna'],
         qHr: 'Kada je i gdje osnovan nogometni klub Hajduk Split?',
@@ -2206,7 +2206,7 @@ export const REGIONS = {
       {
         h: 'Croatian Herzegovina — History and Identity',
         hHr: 'Hrvatska Hercegovina — povijest i identitet',
-        t: "Herzegovina (Hercegovina) is the southern region of modern Bosnia and Herzegovina. The name comes from 'herceg' (duke) — specifically Stjepan Vukčić Kosača, who called himself 'Herceg of Hum and the Coast' in the 15th century. Croatians are one of the three constituent peoples of Bosnia and Herzegovina, and in Herzegovina — particularly west and west-central Herzegovina — Croatians form the majority. Mostar is the urban center of Croatian Herzegovina. The University of Mostar, Cathedral of Mary, Mother of the Church, HŠK Zrinjski football club, and the Croatian Cultural Centre are the pillars of Herzegovinian Croatian life.",
+        t: "Herzegovina (Hercegovina) is the southern region of modern Bosnia and Herzegovina. The name comes from 'herceg' (duke) — specifically Stjepan Vukčić Kosača, who called himself 'Herceg of Hum and the Coast' in the 15th century. Croatians are one of the three constituent peoples of Bosnia and Herzegovina, and in Herzegovina — particularly west and west-central Herzegovina — Croatians form the majority. Mostar is the urban center of Croatian Herzegovina. The University of Mostar, Cathedral of Mary, Mother of the Church, HŠK Zrinjski soccer club, and the Croatian Cultural Center are the pillars of Herzegovinian Croatian life.",
         tHr: "Hercegovina je južna regija današnje Bosne i Hercegovine. Ime potječe od riječi 'herceg' — konkretno od Stjepana Vukčića Kosače, koji se u 15. stoljeću nazvao 'hercegom Huma i Primorja'. Hrvati su jedan od triju konstitutivnih naroda Bosne i Hercegovine, a u Hercegovini — osobito u zapadnoj i središnjoj zapadnoj Hercegovini — čine većinu. Mostar je urbano središte hrvatske Hercegovine. Sveučilište u Mostaru, katedrala Marije Majke Crkve, nogometni klub HŠK Zrinjski i Hrvatski dom kulture stupovi su hercegovačkoga hrvatskog života.",
       },
       {
@@ -2347,7 +2347,7 @@ export const REGIONS = {
       'The traditional Mostar dive from the bridge (21 meters) is an initiation rite — young men only jump after years of training. The impact with water at that height requires perfect form.',
       'The day Stari Most was destroyed (November 9, 1993) was the exact anniversary of Kristallnacht and the fall of the Berlin Wall — the symbolism was not lost on the world.',
       'When the bridge was reconstructed, over 1,000 stones from the riverbed were recovered and used in the new bridge alongside newly quarried tenelija stone.',
-      'HŠK Zrinjski Mostar (founded 1905) is the most successful Croatian football club in BiH — named after the noble Zrinski family, Croatian national heroes.',
+      'HŠK Zrinjski Mostar (founded 1905) is the most successful Croatian soccer club in BiH — named after the noble Zrinski family, Croatian national heroes.',
     ],
     factsHr: [
       'Stari most nema morta — vapnenački blokovi drže se zajedno isključivo zahvaljujući gravitaciji i preciznoj obradi kamena. Ista je tehnika primijenjena i pri obnovi.',
@@ -2561,7 +2561,7 @@ export const REGIONS = {
     facts: [
       "The single most important documentary evidence of Tomislav's kingship is a letter from Pope John X dated 925 AD — which refers to him as 'king' rather than 'duke.' One letter changed history.",
       'Tomislav reportedly commanded 100,000 infantry, 60,000 cavalry, 80 large warships and 100 smaller vessels — if accurate, medieval Croatia was a major military power.',
-      'The Duvanjsko polje (Duvno plain), where by tradition the coronation took place, is one of the largest karst fields in the Balkans — a natural amphitheatre that could hold an entire medieval army.',
+      'The Duvanjsko polje (Duvno plain), where by tradition the coronation took place, is one of the largest karst fields in the Balkans — a natural amphitheater that could hold an entire medieval army.',
       'The Franciscan presence in Herzegovina is unbroken since the 13th century — the Franciscans maintained Croatian literacy, Catholic faith, and national identity through 400 years of Ottoman rule.',
       'Tomislavgrad sits at 870 meters altitude — one of the highest towns in Bosnia and Herzegovina. Winters are severe, and the area produces some of the finest lamb and cheese in the region.',
     ],

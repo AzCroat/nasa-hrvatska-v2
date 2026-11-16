@@ -28,7 +28,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Subotnja špica — jutarnji izlazak na kavu u središte grada — u Zagrebu je gotovo modna revija. Važno je vidjeti i biti viđen. Tko želi razumjeti hrvatsko društvo, ne treba čitati sociološke studije: dovoljno je sjesti na terasu, naručiti kavu i promatrati.',
-          en: 'The Saturday špica — the morning coffee outing to the city centre — is almost a fashion show in Zagreb. It matters to see and be seen. Whoever wants to understand Croatian society need not read sociological studies: it is enough to sit on a terrace, order a coffee, and watch.',
+          en: 'The Saturday špica — the morning coffee outing to the city center — is almost a fashion show in Zagreb. It matters to see and be seen. Whoever wants to understand Croatian society need not read sociological studies: it is enough to sit on a terrace, order a coffee, and watch.',
         },
       ],
       vocab: [
@@ -74,7 +74,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Malo koja zemlja od četiri milijuna stanovnika može reći da je na dva uzastopna svjetska prvenstva osvojila medalju — srebro 2018. i broncu 2022. Kad Vatreni igraju, Hrvatska staje: ulice se prazne, terase pune, a iz svakoga dvorišta dopire isti zvuk televizijskoga prijenosa. Nogomet je ovdje više od sporta — on je javna proba nacionalnoga zajedništva.',
-          en: 'Few countries of four million people can say they won medals at two World Cups in a row — silver in 2018 and bronze in 2022. When the Vatreni play, Croatia stops: the streets empty, the terraces fill, and from every courtyard comes the same sound of the television broadcast. Football here is more than sport — it is a public rehearsal of national togetherness.',
+          en: 'Few countries of four million people can say they won medals at two World Cups in a row — silver in 2018 and bronze in 2022. When the Vatreni play, Croatia stops: the streets empty, the terraces fill, and from every courtyard comes the same sound of the television broadcast. Soccer here is more than sport — it is a public rehearsal of national togetherness.',
         },
         {
           hr: 'Slavlje nakon velikih pobjeda ima svoj ustaljeni scenarij: bakljada na glavnome trgu, zastave na balkonima, automobilske trube do dugo u noć. Djeca u dresovima s kockicama uče imena igrača prije nego što nauče tablicu množenja. A povratak reprezentacije iz Rusije 2018. — pola milijuna ljudi na zagrebačkim ulicama — pamti se kao najveći doček u povijesti zemlje.',
@@ -82,7 +82,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Zašto baš nogomet? Možda zato što mala zemlja na velikoj pozornici napokon igra ravnopravno. Uspjeh reprezentacije mnogima je dokaz da veličina nije sudbina — da se upornošću, talentom i s malo dalmatinske tvrdoglavosti može stati uz bok najvećima. Zato suze nakon poraza ovdje nikad ne traju dugo: važno je da smo bili tamo, i da su nas svi vidjeli.',
-          en: "Why football, of all things? Perhaps because on the big stage a small country finally plays as an equal. The national team's success is proof to many that size is not destiny — that with persistence, talent and a little Dalmatian stubbornness one can stand shoulder to shoulder with the greatest. That is why tears after a defeat never last long here: what matters is that we were there, and that everyone saw us.",
+          en: "Why soccer, of all things? Perhaps because on the big stage a small country finally plays as an equal. The national team's success is proof to many that size is not destiny — that with persistence, talent and a little Dalmatian stubbornness one can stand shoulder to shoulder with the greatest. That is why tears after a defeat never last long here: what matters is that we were there, and that everyone saw us.",
         },
       ],
       vocab: [
@@ -128,7 +128,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Hrvatska je mala zemlja s velikom unutarnjom razlikom: između Zagreba i Splita nije samo četiri sata autoceste nego i dva mentaliteta. Sjever je srednjoeuropski — točan, uredan, pomalo zatvoren. Jug je mediteranski — glasan, srdačan i uvjeren da se sve može riješiti sutra, uz kavu.',
-          en: 'Croatia is a small country with a large internal difference: between Zagreb and Split lie not only four hours of motorway but two mentalities. The north is Central European — punctual, orderly, a little reserved. The south is Mediterranean — loud, warm-hearted and convinced that everything can be sorted out tomorrow, over coffee.',
+          en: 'Croatia is a small country with a large internal difference: between Zagreb and Split lie not only four hours of highway but two mentalities. The north is Central European — punctual, orderly, a little reserved. The south is Mediterranean — loud, warm-hearted and convinced that everything can be sorted out tomorrow, over coffee.',
         },
         {
           hr: 'Razlika se čuje i prije nego što se vidi. Zagrepčanin pita „Kaj radiš?", Splićanin „Ča radiš?", a obojica smatraju da onaj drugi govori smiješno. Šale o „purgerima" i „Dalmošima" stare su koliko i sama država; pripovijedaju se s uživanjem na obje strane i gotovo nikad ne prelaze u pravu zlobu.',
@@ -155,11 +155,11 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Riječ „veza" u hrvatskom ima jedno posve praktično značenje: poznanstvo koje otvara vrata. Termin kod liječnika, mjesto u vrtiću, brži red u uredu — mnogo se toga u svakodnevici rješava „preko veze", to jest zato što netko poznaje nekoga tko poznaje nekoga.',
-          en: 'The word "veza" (connection) has a thoroughly practical meaning in Croatian: an acquaintance that opens doors. A doctor\'s appointment, a place in kindergarten, a faster queue at an office — much of everyday life is arranged "through a connection", that is, because someone knows someone who knows someone.',
+          en: 'The word "veza" (connection) has a thoroughly practical meaning in Croatian: an acquaintance that opens doors. A doctor\'s appointment, a place in kindergarten, a faster line at an office — much of everyday life is arranged "through a connection", that is, because someone knows someone who knows someone.',
         },
         {
           hr: 'Većina ljudi tu praksu javno osuđuje, a privatno je koristi bez grižnje savjesti. Nije riječ o klasičnoj korupciji — rijetko se što plaća — nego o mreži usluga koje se pamte i vraćaju. Rođak, kum, susjed i bivši kolega čine mrežu sigurnosti koju država često ne pruža na vrijeme.',
-          en: 'Most people publicly condemn the practice and privately use it without a guilty conscience. This is not classic corruption — money rarely changes hands — but a web of favours that are remembered and returned. A cousin, a godfather, a neighbor and a former colleague form a safety net the state often fails to provide in time.',
+          en: 'Most people publicly condemn the practice and privately use it without a guilty conscience. This is not classic corruption — money rarely changes hands — but a web of favors that are remembered and returned. A cousin, a godfather, a neighbor and a former colleague form a safety net the state often fails to provide in time.',
         },
         {
           hr: 'Stranac koji dođe živjeti u Hrvatsku najprije se ljuti na sustav, a onda shvati da i on ima vezu: susjeda koji radi u općini, frizerku čiji brat popravlja automobile. Trenutak u kojem prvi put kaže „imam vezu" trenutak je u kojem je zapravo postao domaći.',
@@ -170,7 +170,7 @@ export const CULTURE_DEEP_DIVES = {
         ['veza', 'connection; useful acquaintance'],
         ['poznanstvo', 'acquaintance'],
         ['grižnja savjesti', 'guilty conscience'],
-        ['usluga', 'favour; service'],
+        ['usluga', 'favor; service'],
         ['kum', 'godfather; best man'],
       ],
     },
@@ -292,7 +292,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Procjenjuje se da izvan domovine živi gotovo jednako Hrvata i njihovih potomaka koliko i u njoj. Valovi iseljavanja slijedili su povijest: filoksera i siromaštvo krajem devetnaestoga stoljeća odveli su težake u Ameriku i Australiju, politika je nakon 1945. tjerala jedne, a ekonomija sedamdesetih druge — „gastarbajtere" čiji su kovčezi mirisali na dim i domaću rakiju.',
-          en: 'It is estimated that nearly as many Croats and their descendants live outside the homeland as within it. The waves of emigration followed history: phylloxera and poverty at the end of the nineteenth century took farm labourers to America and Australia; after 1945 politics drove out some, and in the seventies the economy drove out others — the "gastarbajteri" whose suitcases smelled of smoke and homemade rakija.',
+          en: 'It is estimated that nearly as many Croats and their descendants live outside the homeland as within it. The waves of emigration followed history: phylloxera and poverty at the end of the nineteenth century took farm laborers to America and Australia; after 1945 politics drove out some, and in the seventies the economy drove out others — the "gastarbajteri" whose suitcases smelled of smoke and homemade rakija.',
         },
         {
           hr: 'Dijaspora je domovini ostala privržena na opipljive načine: doznakama koje su desetljećima držale obiteljske proračune, ljetnim povratcima koji udvostruče stanovništvo otoka, i sinovima i kćerima koji su 1991. dolazili braniti zemlju koju su poznavali samo s fotografija. U Mississaugi, Frankfurtu i Punta Arenasu hrvatski se domovi i župe drže kao utvrde identiteta.',
@@ -300,7 +300,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Odnos matice i dijaspore nije bez napetosti: povratnici se znaju požaliti na birokraciju i mentalitet, a domaći na idealiziranu sliku domovine koju iseljenici čuvaju pod staklenim zvonom. No treći naraštaj, koji hrvatski uči iz aplikacija poput ove, možda je najbolji dokaz da se identitet ne nasljeđuje automatski — on se svaki put iznova bira.',
-          en: 'The relationship between homeland and diaspora is not without tension: returnees complain about bureaucracy and mentality, while locals point at the idealised image of the homeland that emigrants keep under a bell jar. But the third generation, learning Croatian from apps like this one, may be the best proof that identity is not inherited automatically — it is chosen anew every time.',
+          en: 'The relationship between homeland and diaspora is not without tension: returnees complain about bureaucracy and mentality, while locals point at the idealized image of the homeland that emigrants keep under a bell jar. But the third generation, learning Croatian from apps like this one, may be the best proof that identity is not inherited automatically — it is chosen anew every time.',
         },
       ],
       vocab: [
@@ -323,7 +323,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Njezin najpoznatiji spomenik, Bašćanska ploča iz oko 1100. godine, prvi je poznati zapis hrvatskoga imena na hrvatskom jeziku. Kamena ploča s otoka Krka nije samo jezični dokument nego i pravni: na njoj je zapisano da je kralj Zvonimir darovao zemlju samostanu. Stoljeća kasnije glagoljaši, seoski svećenici koji su na tom pismu čitali misu, održali su ga živim izvan svakog kulturnog središta.',
-          en: 'Its most famous monument, the Baška Tablet from around 1100, is the first known record of the Croatian name in the Croatian language. The stone tablet from the island of Krk is not only a linguistic document but a legal one: it records that King Zvonimir donated land to a monastery. Centuries later the glagoljaši, village priests who read the Mass in that script, kept it alive far from any cultural centre.',
+          en: 'Its most famous monument, the Baška Tablet from around 1100, is the first known record of the Croatian name in the Croatian language. The stone tablet from the island of Krk is not only a linguistic document but a legal one: it records that King Zvonimir donated land to a monastery. Centuries later the glagoljaši, village priests who read the Mass in that script, kept it alive far from any cultural center.',
         },
         {
           hr: 'Danas je glagoljica prije svega simbol. Nalazimo je na suvenirima, tetovažama i logotipima, a u Istri postoji čitava Aleja glagoljaša s kamenim spomenicima. Kritičari upozoravaju da je pismo tako postalo dekoracija bez sadržaja; branitelji odgovaraju da je i dekoracija oblik pamćenja. I jedni i drugi su, čini se, u pravu.',
@@ -350,7 +350,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Na ulazu u Knežev dvor stoji natpis koji je i danas program: „Obliti privatorum, publica curate" — zaboravite privatno, brinite se za javno. Knez je biran na samo mjesec dana, da se nitko ne bi previše navikao na vlast. Republika je 1416. među prvima u Europi zabranila trgovinu robovima, a njezin karantenski sustav postao je uzor drugima.',
-          en: 'At the entrance to the Rector\'s Palace stands an inscription that is still a programme today: "Obliti privatorum, publica curate" — forget private matters, care for the public good. The Rector was elected for only a month, so that no one would grow too accustomed to power. In 1416 the Republic was among the first in Europe to ban the slave trade, and its quarantine system became a model for others.',
+          en: 'At the entrance to the Rector\'s Palace stands an inscription that is still a program today: "Obliti privatorum, publica curate" — forget private matters, care for the public good. The Rector was elected for only a month, so that no one would grow too accustomed to power. In 1416 the Republic was among the first in Europe to ban the slave trade, and its quarantine system became a model for others.',
         },
         {
           hr: 'Suvremeni Dubrovnik nerado priznaje koliko duguje toj baštini. Grad koji je nekad odlučivao o vlastitoj sudbini danas se često osjeća kao kulisa za turiste i televizijske serije. No kad Dubrovčani govore o „slobodi" — riječi koja stoji na zastavi Republike — ne misle na apstrakciju. Misle na pet stotina godina u kojima su o sebi odlučivali sami.',
@@ -377,7 +377,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Dok je Disney težio glatkom, realističnom pokretu, zagrebački su autori išli suprotnim smjerom: reducirana animacija, plošni likovi, grafička stilizacija i — što je najvažnije — teme za odrasle. Njihovi filmovi govorili su o otuđenju, birokraciji i apsurdu modernog života, često bez ijedne riječi, jer je jezik slike bio univerzalan.',
-          en: 'While Disney strove for smooth, realistic movement, the Zagreb artists went the opposite way: reduced animation, flat characters, graphic stylisation and — most importantly — themes for adults. Their films spoke of alienation, bureaucracy and the absurdity of modern life, often without a single word, because the language of the image was universal.',
+          en: 'While Disney strove for smooth, realistic movement, the Zagreb artists went the opposite way: reduced animation, flat characters, graphic stylization and — most importantly — themes for adults. Their films spoke of alienation, bureaucracy and the absurdity of modern life, often without a single word, because the language of the image was universal.',
         },
         {
           hr: 'Škola nije bila institucija nego okupljanje talenata u jednom studiju, u jednom gradu, u jednom povijesnom trenutku. Kad se taj trenutak promijenio, pokret je izgubio zamah. Ostalo je nasljeđe koje se danas proučava na filmskim akademijama od Tokija do Los Angelesa — i festival Animafest, na kojem Zagreb svake godine iznova potvrđuje da je animaciju shvaćao kao umjetnost prije mnogih drugih.',
@@ -427,7 +427,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Crveno srce od medenog tijesta, obrubljeno bijelim šećernim ukrasom, s ogledalcem u sredini i kratkim stihom ispod njega — licitar je najprepoznatljiviji hrvatski suvenir, a da ga gotovo nitko ne jede. To i nije bila njegova svrha: licitar se daruje, vješa na zid ili na božićno drvce, a jede ga samo onaj tko ne zna bolje.',
-          en: 'A red heart of honey dough, edged with white sugar decoration, with a small mirror in the centre and a short verse beneath it — the licitar is the most recognisable Croatian souvenir, and almost nobody eats it. That was never its purpose: a licitar is given, hung on a wall or on the Christmas tree, and eaten only by someone who does not know better.',
+          en: 'A red heart of honey dough, edged with white sugar decoration, with a small mirror in the center and a short verse beneath it — the licitar is the most recognisable Croatian souvenir, and almost nobody eats it. That was never its purpose: a licitar is given, hung on a wall or on the Christmas tree, and eaten only by someone who does not know better.',
         },
         {
           hr: 'Obrt licitara u sjevernoj Hrvatskoj datira iz srednjega vijeka, kad su medičari uz samostane pekli kolače za proštenja. Ogledalce u srcu imalo je jasnu poruku: onaj tko ga primi trebao bi u njemu vidjeti — sebe, u očima darovatelja. Bilo je to ljubavno pismo za one koji pisati nisu znali ili nisu smjeli.',
@@ -456,7 +456,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Malo je koja europska kultura vodila tako strastvene javne polemike oko pravopisa kao hrvatska. Otkako je jezik devedesetih ponovno postao poprištem simboličke politike, svaki je pravopisni priručnik dočekivan kao program: hoće li se pisati „ne ću" ili „neću", „grješka" ili „greška", pitanja su koja su punila naslovnice i zavađala akademske institute. Izvana gledano — sitnice; iznutra, rasprava o tome tko ima pravo normirati zajednički jezik.',
-          en: 'Few European cultures have waged such passionate public polemics over orthography as the Croatian one. Ever since the language once again became an arena of symbolic politics in the nineties, every orthographic manual has been received as a manifesto: whether to write "ne ću" or "neću", "grješka" or "greška" — questions that filled front pages and set academic institutes against each other. From the outside, trifles; from within, a debate over who has the right to standardise the common language.',
+          en: 'Few European cultures have waged such passionate public polemics over orthography as the Croatian one. Ever since the language once again became an arena of symbolic politics in the nineties, every orthographic manual has been received as a manifesto: whether to write "ne ću" or "neću", "grješka" or "greška" — questions that filled front pages and set academic institutes against each other. From the outside, trifles; from within, a debate over who has the right to standardize the common language.',
         },
         {
           hr: 'Purizam pritom nije novost nego konstanta: hrvatski je jezik stoljećima kovao vlastite riječi ondje gdje su drugi posuđivali. Zrakoplov, kolodvor, veleposlanstvo — sve su to uspjele kovanice; samovoz i brzoglas podsjećaju da norma ne može sve. Jezikoslovci se spore oko granice: gdje prestaje briga za jezik, a počinje njegovo discipliniranje?',
@@ -514,11 +514,11 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Televizijski klasici to zorno pokazuju. „Gruntovčani" su sedamdesetih pod krinkom ruralne komedije secirali malu sredinu točnije od ijedne studije, a rečenice Dudeka i Regice ušle su u svakodnevni govor. Regionalne su serije učinile i nešto dublje: legitimirale su dijalekte na ekranu, pa se smijeh pretvorio u nastavu kajkavskoga i dalmatinskoga za cijelu zemlju.',
-          en: 'The television classics show this vividly. In the seventies, "Gruntovčani", under the guise of rural comedy, dissected small-town society more precisely than any study, and the lines of Dudek and Regica entered everyday speech. The regional series did something deeper still: they legitimised dialects on screen, so laughter turned into a lesson in Kajkavian and Dalmatian for the whole country.',
+          en: 'The television classics show this vividly. In the seventies, "Gruntovčani", under the guise of rural comedy, dissected small-town society more precisely than any study, and the lines of Dudek and Regica entered everyday speech. The regional series did something deeper still: they legitimized dialects on screen, so laughter turned into a lesson in Kajkavian and Dalmatian for the whole country.',
         },
         {
           hr: 'Internetska generacija humor je preselila u memove, no mehanika je ostala ista: apsurd svakodnevice — redovi, birokracija, vječne obnove cesta — prerađuje se u kolektivnu terapiju. Stranac koji nauči gramatiku znat će što Hrvati govore; tek kad počne razumijevati čemu se smiju, znat će što doista misle.',
-          en: 'The internet generation has moved humor into memes, but the mechanics remain the same: the absurdity of daily life — queues, bureaucracy, the eternal roadworks — is processed into collective therapy. A foreigner who learns the grammar will know what Croats are saying; only when they begin to understand what Croats laugh at will they know what they really think.',
+          en: 'The internet generation has moved humor into memes, but the mechanics remain the same: the absurdity of daily life — lines, bureaucracy, the eternal roadworks — is processed into collective therapy. A foreigner who learns the grammar will know what Croats are saying; only when they begin to understand what Croats laugh at will they know what they really think.',
         },
       ],
       vocab: [

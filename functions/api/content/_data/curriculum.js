@@ -15,7 +15,7 @@
 // home:
 //
 //   * which category a lesson teaches   → LESSON_TAUGHT_CATEGORY (teachPractice.ts)
-//   * which drill practises a category  → CATEGORY_SCREEN_MAP (useDailySession.ts)
+//   * which drill practices a category  → CATEGORY_SCREEN_MAP (useDailySession.ts)
 //
 // Both already exist and are already conservative on purpose. Copying them here
 // would create a second source of truth that silently drifts, so the spine
@@ -684,7 +684,7 @@ export const CURRICULUM = [
     objectives: [
       'Say what you do for a living and ask what someone else does',
       'Use the female form of a job title, which is standard and not optional',
-      'Talk about the office, the hours, the salary and the holiday',
+      'Talk about the office, the hours, the salary and vacation',
     ],
   },
   {
@@ -1342,7 +1342,7 @@ export const CURRICULUM = [
     objectives: [
       'Write a Croatian formal email that looks like one',
       'Use Poštovani and choose between S poštovanjem and Lijep pozdrav',
-      'Keep the V-form, capitalised, from the first word to the last',
+      'Keep the V-form, capitalized, from the first word to the last',
     ],
   },
   {
@@ -1397,7 +1397,7 @@ export const CURRICULUM = [
     objectives: [
       'Hesitate in Croatian rather than in silence',
       'Keep a conversation alive when a word will not come',
-      'React while listening, because attentive silence reads as scepticism',
+      'React while listening, because attentive silence reads as skepticism',
     ],
   },
   {
@@ -1931,7 +1931,7 @@ export const CURRICULUM = [
     order: 6,
     prerequisites: ['idioms-register'],
     objectives: [
-      'Recognize and use the rhetorical figures Croatian prose favours',
+      'Recognize and use the rhetorical figures Croatian prose favors',
       'Vary sentence rhythm deliberately',
       'Write persuasively rather than merely correctly',
     ],
@@ -2009,7 +2009,7 @@ export const CURRICULUM = [
     prerequisites: ['literature-canon'],
     objectives: [
       'Recognize the aorist, imperfect and free indirect style at work',
-      'Read dialect in dialogue as characterisation',
+      'Read dialect in dialogue as characterization',
       'Parse a long literary sentence instead of being defeated by it',
     ],
   },
