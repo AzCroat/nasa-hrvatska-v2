@@ -1117,7 +1117,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prodavač',
         line: 'Izvolite novi uređaj. Ispričavamo se zbog neugodnosti.',
-        en: 'Here is a new device. We apologise for the inconvenience.',
+        en: 'Here is a new device. We apologize for the inconvenience.',
         opts: [
           'Hvala vam! Cijenim brzu uslugu unatoč problemu.',
           'Nadam se da ovaj radi.',
@@ -1958,7 +1958,7 @@ export const SCENARIOS = [
       {
         speaker: 'Učiteljica',
         line: 'Hvala što ste došli. Htjela bih razgovarati o Lukinu ponašanju na satu.',
-        en: "Thank you for coming. I would like to talk about Luka's behaviour in class.",
+        en: "Thank you for coming. I would like to talk about Luka's behavior in class.",
         opts: [
           'Naravno, zato sam i došao. Recite mi konkretno što ste primijetili.',
           'Naravno. Recite mi konkretno što ste primjetili.',
@@ -2072,7 +2072,7 @@ export const SCENARIOS = [
   {
     id: 'susjedski_spor',
     title: '🏘️ Susjedski spor',
-    subtitle: 'Concede the fact, offer the remedy, keep the neighbour',
+    subtitle: 'Concede the fact, offer the remedy, keep the neighbor',
     difficulty: 'C1',
     turns: [
       {
@@ -2319,7 +2319,7 @@ export const SCENARIOS = [
       {
         speaker: 'Udovica',
         line: 'Hvala vam što ste došli. Znam da ste putovali izdaleka.',
-        en: 'Thank you for coming. I know you travelled from far away.',
+        en: 'Thank you for coming. I know you traveled from far away.',
         opts: [
           'Moja iskrena sućut. Nisam mogao ne doći — vaš mi je suprug bio mentor u godinama kad mi je to najviše trebalo.',
           'Moja iskrena sućut. Nisam mogao ne dolaziti — vaš mi je suprug bio mentor u godinama kad mi je to najviše trebalo.',
@@ -2384,7 +2384,7 @@ export const SCENARIOS = [
   {
     id: 'pozivnica_susjedi',
     title: '🎂 Poziv susjedi',
-    subtitle: 'Invite an older neighbour to a family lunch — V-form, warmly',
+    subtitle: 'Invite an older neighbor to a family lunch — V-form, warmly',
     difficulty: 'B1',
     turns: [
       {
@@ -2398,7 +2398,7 @@ export const SCENARIOS = [
           'Dobro. U nedjelju je rođendan, dođite.',
         ],
         answer: 0,
-        tip: "'k vama' — dative after 'k'. An older neighbour stays 'gospođo Marija' and 'vi' until SHE offers 'ti'.",
+        tip: "'k vama' — dative after 'k'. An older neighbor stays 'gospođo Marija' and 'vi' until SHE offers 'ti'.",
       },
       {
         speaker: 'Susjeda Marija',
@@ -2429,7 +2429,7 @@ export const SCENARIOS = [
       {
         speaker: 'Susjeda Marija',
         line: 'Onda se vidimo u nedjelju. Pozdravite mamu!',
-        en: 'Then see you on Sunday. Give my regards to your mum!',
+        en: 'Then see you on Sunday. Give my regards to your mom!',
         opts: [
           'Hoću, hvala vam. Veselimo se vašem dolasku!',
           'Hoću, hvala vam. Veselimo se vaš dolazak!',
@@ -2489,7 +2489,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijatelj Luka',
         line: 'Dogovoreno. Pozdravi mamu i vidimo se u nedjelju!',
-        en: 'Deal. Say hi to your mum and see you Sunday!',
+        en: 'Deal. Say hi to your mom and see you Sunday!',
         opts: [
           'Hoću! Hvala ti što dolaziš, znači joj puno. Vidimo se!',
           'Hoću! Hvala ti da dolaziš, znači joj puno. Vidimo se!',
@@ -2497,7 +2497,7 @@ export const SCENARIOS = [
           'Ok.',
         ],
         answer: 0,
-        tip: "'hvala ti što dolaziš' — 'što' introduces the reason you thank someone. Compare the neighbour: same lunch, different 'you'.",
+        tip: "'hvala ti što dolaziš' — 'što' introduces the reason you thank someone. Compare the neighbor: same lunch, different 'you'.",
       },
     ],
   },
@@ -2604,7 +2604,7 @@ export const SCENARIOS = [
           'Kaktus — svejedno.',
         ],
         answer: 0,
-        tip: "'njemu je najbolje' — dative for 'it's best FOR it'. Humour is part of the informal register; 'molim Vas' breaks it.",
+        tip: "'njemu je najbolje' — dative for 'it's best FOR it'. Humor is part of the informal register; 'molim Vas' breaks it.",
       },
       {
         speaker: 'Prijateljica Petra',
@@ -2624,7 +2624,7 @@ export const SCENARIOS = [
   {
     id: 'otkazivanje_termina',
     title: '📞 Otkazivanje termina',
-    subtitle: 'Cancel and rebook a dental appointment by phone — apologise, propose a new slot',
+    subtitle: 'Cancel and rebook a dental appointment by phone — apologize, propose a new slot',
     difficulty: 'B1',
     turns: [
       {
@@ -2651,7 +2651,7 @@ export const SCENARIOS = [
           'Poslovno. Kad imate slobodno?',
         ],
         answer: 0,
-        tip: "'iskrsnuo mi je službeni put' — the trip came up ON me (dative); the verb is not reflexive. Apologising for short notice costs nothing.",
+        tip: "'iskrsnuo mi je službeni put' — the trip came up ON me (dative); the verb is not reflexive. Apologizing for short notice costs nothing.",
       },
       {
         speaker: 'Recepcionarka',
@@ -2724,7 +2724,7 @@ export const SCENARIOS = [
           'Vidjet ćemo.',
         ],
         answer: 0,
-        tip: "'ti biraj' — imperative 'biraj' for a friend. 'Vidjet ćemo' after cancelling reads as a brush-off; name a day.",
+        tip: "'ti biraj' — imperative 'biraj' for a friend. 'Vidjet ćemo' after canceling reads as a brush-off; name a day.",
       },
       {
         speaker: 'Prijatelj Marko',
@@ -3005,7 +3005,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prodavač Ivo',
         line: 'Gume su ok, ja sam na njemu vozio do jučer. 280.',
-        en: 'The tyres are fine, I rode it until yesterday. 280.',
+        en: 'The tires are fine, I rode it until yesterday. 280.',
         opts: [
           'Vozio jesi, ali pogledaj profil — nema ga skoro. Nove gume su pedeset eura. 250 i odmah plaćam.',
           'Vozio jesi, ali pogledaj profil — nema ga skoro. Nove gume je pedeset eura. 250 i odmah plaćam.',
@@ -3046,7 +3046,7 @@ export const SCENARIOS = [
   {
     id: 'isprika_klijentu',
     title: '📧 Isprika klijentu',
-    subtitle: 'Apologise to a client for a missed deadline — own it, fix it, no excuses',
+    subtitle: 'Apologize to a client for a missed deadline — own it, fix it, no excuses',
     difficulty: 'B2',
     turns: [
       {
@@ -3106,7 +3106,7 @@ export const SCENARIOS = [
   {
     id: 'isprika_prijatelju',
     title: '🙈 Isprika prijateljici',
-    subtitle: 'Apologise to a friend you let down — no drama, no excuses, make it right',
+    subtitle: 'Apologize to a friend you let down — no drama, no excuses, make it right',
     difficulty: 'B2',
     turns: [
       {
@@ -3515,7 +3515,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijateljica Iva',
         line: 'Obećavaš? Dobro. Ali za rujan organiziram oproštaj i ne smiješ plakati.',
-        en: "You promise? Fine. But I'm organising a farewell in September and you're not allowed to cry.",
+        en: "You promise? Fine. But I'm organizing a farewell in September and you're not allowed to cry.",
         opts: [
           'Obećavam da ću plakati manje od tebe. Hvala ti što si mi najbolja prijateljica, Iva.',
           'Obećavam da ću plakati manje od tebi. Hvala ti što si mi najbolja prijateljica, Iva.',
@@ -3551,7 +3551,7 @@ export const SCENARIOS = [
       {
         speaker: 'Član odbora Krznarić',
         line: 'Onda neka ona kaže što joj konkretno smeta, umjesto da etiketira.',
-        en: 'Then let her say what specifically bothers her, instead of labelling.',
+        en: 'Then let her say what specifically bothers her, instead of labeling.',
         opts: [
           'To je pošten zahtjev. Gospođo Šarić, biste li imenovali dvije točke prijedloga koje smatrate spornima, bez ocjene cjeline?',
           'To je pošten zahtjev. Gospođo Šarić, biste li imenovali dvije točke prijedloga koje smatrate sporne, bez ocjene cjeline?',
@@ -3559,7 +3559,7 @@ export const SCENARIOS = [
           'Nemamo vremena za ovo.',
         ],
         answer: 0,
-        tip: "'smatrati' + instrumental: 'smatrate spornima'. Turn 'stop labelling' into a bounded, answerable question.",
+        tip: "'smatrati' + instrumental: 'smatrate spornima'. Turn 'stop labeling' into a bounded, answerable question.",
       },
       {
         speaker: 'Član odbora Krznarić',
@@ -4056,7 +4056,7 @@ export const SCENARIOS = [
   {
     id: 'telefonski_poziv',
     title: '📞 Telefonski poziv',
-    subtitle: 'His mum answers "Vi", he answers "ti" — same call',
+    subtitle: 'His mom answers "Vi", he answers "ti" — same call',
     difficulty: 'A1',
     turns: [
       {
@@ -4216,7 +4216,7 @@ export const SCENARIOS = [
           'Dobar dan! Jesam, ja sam Marko. Drago ti je.',
         ],
         answer: 0,
-        tip: "'Drago mi je' — dative 'mi', and it stands alone. A neighbour a generation up is 'Vi', so 'drago ti je' is out of place here.",
+        tip: "'Drago mi je' — dative 'mi', and it stands alone. A neighbor a generation up is 'Vi', so 'drago ti je' is out of place here.",
       },
       {
         speaker: 'Susjeda',
@@ -4664,7 +4664,7 @@ export const SCENARIOS = [
       {
         speaker: 'Službenica',
         line: 'Kakva je torba? Koje je boje?',
-        en: 'What is the bag like? What colour is it?',
+        en: 'What is the bag like? What color is it?',
         opts: [
           'Crna je i mala. Unutra su knjiga i novčanik.',
           'Crni je i mali. Unutra su knjiga i novčanik.',
@@ -5083,7 +5083,7 @@ export const SCENARIOS = [
   {
     id: 'sladoled',
     title: '🍦 Idemo na sladoled',
-    subtitle: 'Choose flavours with a friend and argue about who pays',
+    subtitle: 'Choose flavors with a friend and argue about who pays',
     difficulty: 'A1',
     turns: [
       {
@@ -5102,7 +5102,7 @@ export const SCENARIOS = [
       {
         speaker: 'Lana',
         line: 'Znam, tu iza ugla. Koji okus voliš?',
-        en: 'I do, just round the corner. Which flavour do you like?',
+        en: 'I do, just round the corner. Which flavor do you like?',
         opts: [
           'Volim čokoladu i limun. A ti?',
           'Volim čokolada i limun. A ti?',
@@ -5600,7 +5600,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prodavač karata',
         line: 'Dobar dan. Kamo putujete?',
-        en: 'Good afternoon. Where are you travelling to?',
+        en: 'Good afternoon. Where are you traveling to?',
         opts: [
           'Dobar dan. Za Supetar, molim vas. Dvije odrasle osobe i jedan auto.',
           'Dobar dan. Za Supetar, molim vas. Dva odrasle osobe i jedan auto.',
@@ -6090,7 +6090,7 @@ export const SCENARIOS = [
       {
         speaker: 'Baka',
         line: 'Jedva čekam! Pozdravi mamu i tatu.',
-        en: 'I can’t wait! Say hello to Mum and Dad.',
+        en: 'I can’t wait! Say hello to Mom and Dad.',
         opts: [
           'Hoću. Volim te, bako! Čujemo se u nedjelju.',
           'Hoću. Volim ti, bako! Čujemo se u nedjelju.',
@@ -6178,7 +6178,7 @@ export const SCENARIOS = [
   {
     id: 'cvijece_dok_me_nema',
     title: '🪴 Cvijeće dok me nema',
-    subtitle: 'Ask your neighbour and friend to water your plants',
+    subtitle: 'Ask your neighbor and friend to water your plants',
     difficulty: 'A2',
     turns: [
       {
@@ -6849,7 +6849,7 @@ export const SCENARIOS = [
       {
         speaker: 'Recepcionar',
         line: 'Naravno, odmah šaljem nekoga. I ispričavamo se zbog neugodnosti.',
-        en: 'Of course, I am sending someone right away. And we apologise for the inconvenience.',
+        en: 'Of course, I am sending someone right away. And we apologize for the inconvenience.',
         opts: [
           'Hvala vam na brzom rješenju, to stvarno cijenim.',
           'Hvala vam na brzo rješenje, to stvarno cijenim.',
@@ -7185,7 +7185,7 @@ export const SCENARIOS = [
       {
         speaker: 'Gospodin Horvat',
         line: 'A je li to komplicirano? Susjed kaže da to nitko ne radi.',
-        en: 'And is that complicated? My neighbour says nobody does it.',
+        en: 'And is that complicated? My neighbor says nobody does it.',
         opts: [
           'Nije komplicirano, a vrijedi truda: kazne za neprijavljeni smještaj mogu biti vrlo visoke. Na vašem mjestu ne bih riskirao.',
           'Nije komplicirano, a vrijedi trud: kazne za neprijavljeni smještaj mogu biti vrlo visoke. Na vašem mjestu ne bih riskirao.',
@@ -7232,7 +7232,7 @@ export const SCENARIOS = [
       {
         speaker: 'Sestra Petra',
         line: 'Ne znam što da upišem. Mama želi da idem na medicinu, a mene zanima arhitektura.',
-        en: "I don't know what to enrol in. Mum wants me to do medicine, but I'm interested in architecture.",
+        en: "I don't know what to enrol in. Mom wants me to do medicine, but I'm interested in architecture.",
         opts: [
           'Petra, ti ćeš studirati, a ne mama. Što bi ti radila kad ne bi bilo nikakvog pritiska?',
           'Petra, ti ćeš studirati, a ne mama. Što bi ti radio kad ne bi bilo nikakvog pritiska?',
@@ -7258,7 +7258,7 @@ export const SCENARIOS = [
       {
         speaker: 'Sestra Petra',
         line: 'A što ako mama bude razočarana?',
-        en: 'And what if Mum is disappointed?',
+        en: 'And what if Mom is disappointed?',
         opts: [
           'Možda će joj u početku biti žao, ali mama želi da budeš sretna. Ako hoćeš, bit ću uz tebe kad joj budeš govorila.',
           'Možda će je u početku biti žao, ali mama želi da budeš sretna. Ako hoćeš, bit ću uz tebe kad joj budeš govorila.',
@@ -7452,7 +7452,7 @@ export const SCENARIOS = [
       {
         speaker: 'Gospodin Radić',
         line: 'Provjerio sam — naša kolegica je krivo upisala. Ispričavam se.',
-        en: 'I checked — our colleague entered it wrongly. I apologise.',
+        en: 'I checked — our colleague entered it wrongly. I apologize.',
         opts: [
           'Nema problema, to se događa. Drago mi je što smo to razjasnili, a ubuduće ću vam narudžbe slati e-mailom.',
           'Nema problema, to se događa. Drago mi je što smo to razjasnili, a ubuduće vam ću narudžbe slati e-mailom.',
@@ -7587,7 +7587,7 @@ export const SCENARIOS = [
   {
     id: 'dopustenje_mami',
     title: '🏝️ Ključevi od vikendice',
-    subtitle: 'Ask your mum if you can borrow the family weekend house',
+    subtitle: 'Ask your mom if you can borrow the family weekend house',
     difficulty: 'B2',
     turns: [
       {
@@ -8256,7 +8256,7 @@ export const SCENARIOS = [
     id: 'nesporazum_s_partnerom',
     title: '📧 Nesporazum s dobavljačem',
     subtitle:
-      'A supplier read your terse email as a threat — apologise for the form, restate the meaning, propose a trade',
+      'A supplier read your terse email as a threat — apologize for the form, restate the meaning, propose a trade',
     difficulty: 'C1',
     turns: [
       {
@@ -8270,7 +8270,7 @@ export const SCENARIOS = [
           'Matiću, drago mi je da si nazvao, jer je očito došlo do nesporazuma. Nipošto ne želim otkazati suradnju — mail je bio prekratak i nespretno sročen, i za to se ispričavam.',
         ],
         answer: 0,
-        tip: "'doći do nesporazuma' — 'do' takes the genitive. Apologise for the form of your message before explaining its content.",
+        tip: "'doći do nesporazuma' — 'do' takes the genitive. Apologize for the form of your message before explaining its content.",
       },
       {
         speaker: 'Dobavljač Matić',
@@ -8296,7 +8296,7 @@ export const SCENARIOS = [
           'Imaš pravo, i to mi je pouka. Ubuduće ću o ovakvim stvarima radije nazvati nego pisati, jer se u mailu teško čuje ton.',
         ],
         answer: 0,
-        tip: "Dative before 'je': 'to mi je pouka'; 'o' meaning 'about' takes the locative. Conceding his point outright costs you nothing and ends the offence.",
+        tip: "Dative before 'je': 'to mi je pouka'; 'o' meaning 'about' takes the locative. Conceding his point outright costs you nothing and ends the offense.",
       },
       {
         speaker: 'Dobavljač Matić',
@@ -8336,7 +8336,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijateljica Lana',
         line: 'U Zagrebu? Rekla sam ti da sam otkazala put još prije mjesec dana.',
-        en: 'In Zagreb? I told you I cancelled that trip a month ago.',
+        en: 'In Zagreb? I told you I canceled that trip a month ago.',
         opts: [
           'Onda sam to potpuno promašila, i to je moja greška, ne tvoja. Da sam te bar pitala, sve bi bilo drugačije.',
           'Onda sam to potpuno promašila, i to je moja greška, ne tvoja. Da sam ti bar pitala, sve bi bilo drugačije.',
@@ -8954,7 +8954,7 @@ export const SCENARIOS = [
       {
         speaker: 'Brat Ivan',
         line: 'Mama je već rekla da si ti bolji za taj posao. Znaš kakva je.',
-        en: "Mum has already said you're better for the job. You know what she's like.",
+        en: "Mom has already said you're better for the job. You know what she's like.",
         opts: [
           'Znam — mami je uvijek bolji onaj koji nije dobio. Nazvat ću je večeras i reći joj da nije u pravu; od mene će to lakše prihvatiti.',
           'Znam — mami je uvijek bolji onaj koji nije dobio. Nazvat ću je večeras i reći joj da nije u pravu; od meni će to lakše prihvatiti.',
@@ -9035,7 +9035,7 @@ export const SCENARIOS = [
           'Hoću, na početku. Hvala ti na povjerenju koje si mi ukazao.',
         ],
         answer: 0,
-        tip: "'hvala na' + locative ('na povjerenju'); 'koje' agrees with 'povjerenje' (neuter). Tell the members yourself, first thing — rumour fills every silence.",
+        tip: "'hvala na' + locative ('na povjerenju'); 'koje' agrees with 'povjerenje' (neuter). Tell the members yourself, first thing — rumor fills every silence.",
       },
     ],
   },
@@ -9131,7 +9131,7 @@ export const SCENARIOS = [
           'Ne suncobrani — drveće u posudama. Ako griješim, reci mi gdje; ali ljeti je na tom trgu četrdeset stupnjeva.',
         ],
         answer: 0,
-        tip: "'drveće … koje ne dira' — 'drveće' is a singular collective noun; 'četrdeset stupnjeva' — genitive plural after five and up. Meet the objection with a design that honours it.",
+        tip: "'drveće … koje ne dira' — 'drveće' is a singular collective noun; 'četrdeset stupnjeva' — genitive plural after five and up. Meet the objection with a design that honors it.",
       },
       {
         speaker: 'Konzervatorica Jurić',

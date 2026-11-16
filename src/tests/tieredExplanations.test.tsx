@@ -189,7 +189,7 @@ describe('the correct word is shown inside its sentence', () => {
   });
 });
 
-describe('the free contrast honours the learner’s vocabulary', () => {
+describe('the free contrast honors the learner’s vocabulary', () => {
   it('names the cases when they are taught, and not when they are not', () => {
     const taught = termsForOpenLessons(
       new Set(['cases', 'accusative-intro', 'genitive-intro', 'plural-nouns']),
@@ -202,7 +202,7 @@ describe('the free contrast honours the learner’s vocabulary', () => {
     expect(none.headline).toBeUndefined();
   });
 
-  it('unknown vocabulary leaves the old behaviour exactly', () => {
+  it('unknown vocabulary leaves the old behavior exactly', () => {
     const c = contrastAnswers('gradu', 'gradom', null)!;
     expect(c.headline).toMatch(/never be the same case/);
   });

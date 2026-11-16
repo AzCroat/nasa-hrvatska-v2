@@ -57,7 +57,7 @@ export const SATISFACTION_DISAPPOINTMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: 'Mama je oduševljena ____ poklonom.',
-    en: 'Mum is thrilled with your present.',
+    en: 'Mom is thrilled with your present.',
     opts: ['tvojim', 'tvoj', 'tvojem', 'tvojom'],
     answer: 'tvojim',
     tip: 'Poklon is masculine: tvojim poklonom.',
@@ -161,7 +161,7 @@ export const SATISFACTION_DISAPPOINTMENT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'reakcija',
-    q: 'The concert was cancelled. What do you say?',
+    q: 'The concert was canceled. What do you say?',
     opts: ['Kakva šteta!', 'Odlično!', 'Super!', 'Prekrasno!'],
     answer: 'Kakva šteta!',
     tip: 'Kakva šteta! — What a pity!',

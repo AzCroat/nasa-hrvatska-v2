@@ -73,7 +73,7 @@ export const POSSESSIVE_ADJECTIVES_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zenski',
     q: 'Sjedimo u ____ kuhinji.',
-    en: "We are sitting in mum's kitchen.",
+    en: "We are sitting in mom's kitchen.",
     opts: ['mamina', 'maminu', 'maminoj', 'mamine'],
     answer: 'maminoj',
     tip: 'U + locative, feminine.',
@@ -90,7 +90,7 @@ export const POSSESSIVE_ADJECTIVES_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Putujem s ____ bratom.',
-    en: "I am travelling with Marko's brother.",
+    en: "I am traveling with Marko's brother.",
     opts: ['Markov', 'Markovim', 'Markovu', 'Markova'],
     answer: 'Markovim',
     tip: 'Masculine instrumental: -im.',
@@ -106,7 +106,7 @@ export const POSSESSIVE_ADJECTIVES_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Pomažem ____ susjedu.',
-    en: "I help Ana's neighbour.",
+    en: "I help Ana's neighbor.",
     opts: ['Anin', 'Anina', 'Aninom', 'Aninim'],
     answer: 'Aninom',
     tip: 'To whom? Masculine dative.',
@@ -155,7 +155,7 @@ export const POSSESSIVE_ADJECTIVES_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Gledam ____ fotografije.',
-    en: "I am looking at mum's photos.",
+    en: "I am looking at mom's photos.",
     opts: ['mamina', 'mamine', 'maminih', 'maminim'],
     answer: 'mamine',
     tip: 'Feminine plural object: -e.',

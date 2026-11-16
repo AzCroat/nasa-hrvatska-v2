@@ -21,7 +21,7 @@ export default function B2BodyPartNounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2bodypartnouns"
       title="Oči, uši, ruke, noge"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={BODY_PART_NOUNS_MODE_LABELS}
       data={BODY_PART_NOUNS_DRILL_DATA}
       praise={{

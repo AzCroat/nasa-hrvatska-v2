@@ -21,7 +21,7 @@ export default function B2ColloquialismsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2colloquialisms"
       title="Lova, Faca, Klopa"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COLLOQUIALISMS_MODE_LABELS}
       data={COLLOQUIALISMS_DRILL_DATA}
       praise={{

@@ -137,7 +137,7 @@ const DATA = [
     q: '„Potkraj” u „potkraj godine” znači:',
     opts: ['pri kraju', 'na početku', 'sredinom', 'poslije'],
     answer: 'pri kraju',
-    en: 'towards the end of',
+    en: 'toward the end of',
     tip: 'Potkraj + G: potkraj stoljeća.',
   },
   {

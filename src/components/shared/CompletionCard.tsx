@@ -122,7 +122,7 @@ export default function CompletionCard({
           ? 'Outstanding! Your Croatian is growing fast.'
           : isGood
             ? "Good progress! You're building solid foundations."
-            : 'Keep practising — consistency is everything.'}
+            : 'Keep practicing — consistency is everything.'}
       </div>
 
       {/* XP badge */}

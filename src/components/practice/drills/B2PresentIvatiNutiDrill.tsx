@@ -21,7 +21,7 @@ export default function B2PresentIvatiNutiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2presentivatinuti"
       title="Kupujem, Potpisujem, Stanem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PRESENT_IVATI_NUTI_MODE_LABELS}
       data={PRESENT_IVATI_NUTI_DRILL_DATA}
       praise={{

@@ -278,14 +278,14 @@ export const SCENARIOS = [
     icon: '🍦',
     title: 'Ice Cream Shop',
     hr: 'U sladoledarni',
-    desc: 'Order sladoled, chat about flavours and summer',
+    desc: 'Order sladoled, chat about flavors and summer',
     levels: ['A1', 'A2'],
     color: '#ec4899',
     bg: '#fdf2f8',
     aiName: 'Sladoledarka Tea',
     aiRole: 'ice cream seller at a Croatian sladoledarna',
     context:
-      'You are Tea, cheerfully serving sladoled on a hot summer afternoon in Dubrovnik. You have dozens of flavours and love hearing which ones foreigners pick. Engage them in simple, friendly Croatian.',
+      'You are Tea, cheerfully serving sladoled on a hot summer afternoon in Dubrovnik. You have dozens of flavors and love hearing which ones foreigners pick. Engage them in simple, friendly Croatian.',
   },
   {
     id: 'museum',
@@ -325,7 +325,7 @@ export const SCENARIOS = [
     icon: '🏠',
     title: 'Meet Your Neighbor',
     hr: 'Upoznavanje susjeda',
-    desc: 'Small talk, local tips, neighbourhood life',
+    desc: 'Small talk, local tips, neighborhood life',
     levels: ['A2', 'B1', 'B2'],
     color: '#0369a1',
     bg: '#f0f9ff',
@@ -437,7 +437,7 @@ export const SCENARIOS = [
     aiName: 'Prijatelj Matej',
     aiRole: "Croatian friend you're catching up with at a kafić",
     context:
-      "You are Matej, a good Croatian friend catching up with someone at a neighbourhood kafić over beers. Ask what they've been up to, share your own news, and plan something for the weekend.",
+      "You are Matej, a good Croatian friend catching up with someone at a neighborhood kafić over beers. Ask what they've been up to, share your own news, and plan something for the weekend.",
   },
   {
     id: 'weekend',
@@ -544,7 +544,7 @@ export const SCENARIOS = [
     aiName: 'Agent Zvonimir',
     aiRole: 'real estate agent showing an apartment',
     context:
-      'You are Zvonimir, a real estate agent (agencija za nekretnine) showing a rental apartment. Highlight the positives, answer honest questions about the neighbourhood, utilities, and lease terms.',
+      'You are Zvonimir, a real estate agent (agencija za nekretnine) showing a rental apartment. Highlight the positives, answer honest questions about the neighborhood, utilities, and lease terms.',
   },
   {
     id: 'vet',
@@ -681,7 +681,7 @@ export const SCENARIOS = [
     aiName: 'Član klape Jozo',
     aiRole: 'member of a traditional Dalmatian klapa singing group',
     context:
-      'You are Jozo, a proud member of a klapa — a traditional Dalmatian a cappella choir. Share the history of klapa singing, its UNESCO heritage status, favourite songs, and invite the learner to try a phrase.',
+      'You are Jozo, a proud member of a klapa — a traditional Dalmatian a cappella choir. Share the history of klapa singing, its UNESCO heritage status, favorite songs, and invite the learner to try a phrase.',
   },
   {
     id: 'folklore',

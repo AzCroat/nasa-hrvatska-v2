@@ -337,7 +337,7 @@ describe('promptHeaders / parsePromptTag', () => {
 
 // ── The shared evaluator prompts ──────────────────────────────────────────────
 
-describe('_evalPrompts — behaviour is unchanged by instrumentation', () => {
+describe('_evalPrompts — behavior is unchanged by instrumentation', () => {
   it('the writing evaluator still interpolates the topic and keeps its rubric', () => {
     const out = writingEvalSystemPrompt('Moj grad');
     expect(out).toContain('asked to write about: "Moj grad"');

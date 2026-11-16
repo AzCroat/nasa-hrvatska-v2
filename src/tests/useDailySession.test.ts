@@ -29,7 +29,7 @@ vi.mock('../lib/adaptive', () => ({
   getDueCategoryQueue: vi.fn(() => []),
   // Per-activity reasons (2026-08-20) read the scheduler's view of a category to
   // explain the adaptive pick. Unseen is the honest default for a mock with no
-  // history — it makes the reason "you haven't practised X yet" rather than
+  // history — it makes the reason "you haven't practiced X yet" rather than
   // inventing an accuracy.
   getCategoryStatus: vi.fn(() => ({ seen: false, accuracy: null, lastSeen: 0 })),
   CONJ_CATEGORIES: new Set([
@@ -390,7 +390,7 @@ describe('buildSessionActivities — guaranteed grammar/structure slot (G2/G4)',
     // ACCIDENT. The test above happened to see an `srsreview` slot — leaked from
     // an earlier test's `mockReturnValue`, which `vi.clearAllMocks()` does not
     // reset — and that fourth activity is exactly what pushed it to the target.
-    // Coverage that depends on mock leakage from a neighbouring test disappears
+    // Coverage that depends on mock leakage from a neighboring test disappears
     // the moment somebody tidies the leak. Both mocks are set explicitly here.
     const adaptive = await import('../lib/adaptive');
     const srs = await import('../lib/srs');

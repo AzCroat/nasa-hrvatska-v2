@@ -148,7 +148,7 @@ export const ICI_GOING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Ana and Petar are coming this way.',
     opts: ['ovamo', 'ovdje', 'tamo su', 'gdje'],
     answer: 'ovamo',
-    tip: 'ovamo is a direction towards the speaker; ovdje says where something is.',
+    tip: 'ovamo is a direction toward the speaker; ovdje says where something is.',
   },
   // ── zivot ───────────────────────────────────────────────────────────────
   {

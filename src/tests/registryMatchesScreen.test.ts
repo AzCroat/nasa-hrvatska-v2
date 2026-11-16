@@ -78,7 +78,7 @@ for (const [, name, spec] of routerSrc.matchAll(
  * FINDING. A first draft scanned 700 characters from the match; the first
  * `<Component>` inside a route block is often `ScreenErrorBoundary`, which is
  * not lazy and so not in the map, and the scan then ran past the end of the
- * block into the NEXT screen's JSX and attributed a neighbour's `award` kind to
+ * block into the NEXT screen's JSX and attributed a neighbor's `award` kind to
  * this key. It reported `listening_comprehension` as disagreeing with a screen
  * that contains no `award(` call at all — which is what made it obvious, and
  * only because the reported value was checked against the file by hand.

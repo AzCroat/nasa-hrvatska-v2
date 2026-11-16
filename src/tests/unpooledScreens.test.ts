@@ -14,14 +14,14 @@
  *       removed screen fails rather than offering a row that opens nothing;
  *     * no entry has a pool row or another `setScr` door — a stale entry fails
  *       the way the `idioms` exemption should have (it went stale twice);
- *     * the Center's assembler actually reads the catalogue.
+ *     * the Center's assembler actually reads the catalog.
  *
  *   NOT derived, and this is a real limit: "have we MISSED a screen that now
  *   has no door". That direction was answered by measurement at migration
  *   time — the modal opened 33 screens, 24 were pooled, 2 had another door
  *   (`grammar` via useScreenLauncher, `heritage_mode` via the Me tab) and the
  *   7 below had none — but the modal was the thing being deleted, so it cannot
- *   go on being the source. Deriving it in general means modelling every
+ *   go on being the source. Deriving it in general means modeling every
  *   launcher, not just `setScr`, which is a wider reachability guard than this
  *   file. Said out loud rather than implied, because a test that looks total
  *   and is not is the exact failure this repo keeps paying for.
@@ -73,7 +73,7 @@ function navSites(): Map<string, string[]> {
   return out;
 }
 
-describe('the unpooled-screen catalogue stays true', () => {
+describe('the unpooled-screen catalog stays true', () => {
   const pooled = pooledScreens();
   const routed = routedScreens();
   const nav = navSites();
@@ -103,9 +103,9 @@ describe('the unpooled-screen catalogue stays true', () => {
     // MUTATION-FOUND. Rewriting this file to derive from the ROUTER instead of
     // the deleted modal lost the direction that matters most: removing an
     // entry passed cleanly, and that entry is a screen whose only door is this
-    // catalogue. A floor is a weaker ratchet than the modal-based derivation
+    // catalog. A floor is a weaker ratchet than the modal-based derivation
     // was, and it is the honest one available — "which screens have no door"
-    // cannot be computed in general without modelling every launcher, not just
+    // cannot be computed in general without modeling every launcher, not just
     // `setScr` (measured: 31 routed screens have no literal `setScr` site, and
     // 24 of them are reached by launchers or tab navigation, so that set is
     // not the answer either).
@@ -127,7 +127,7 @@ describe('the unpooled-screen catalogue stays true', () => {
   });
 
   it('is reachable from the Learning Center, not just declared', () => {
-    // A catalogue the index does not read is the dead-branch shape this repo
+    // A catalog the index does not read is the dead-branch shape this repo
     // keeps paying for. Checked at the assembler, by source.
     const asm = readFileSync('src/hooks/useLearningIndex.ts', 'utf8');
     expect(strip(asm)).toMatch(/\.\.\.UNPOOLED_SCREENS\.map\(/);
@@ -146,7 +146,7 @@ describe('the unpooled-screen catalogue stays true', () => {
   });
 
   it('the retired modal is really gone, so nothing re-adds a second door', () => {
-    // If it came back, this catalogue's entries would have two doors and the
+    // If it came back, this catalog's entries would have two doors and the
     // staleness check above would start failing for the wrong reason.
     let exists = true;
     try {

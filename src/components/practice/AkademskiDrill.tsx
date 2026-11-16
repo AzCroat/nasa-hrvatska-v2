@@ -94,7 +94,7 @@ const DATA = [
     q: '„Analizirali smo uzorke” pasivno: „Uzorci ____ .”',
     opts: ['su analizirani', 'se analizirali', 'smo analizirali', 'su analizirali'],
     answer: 'su analizirani',
-    en: 'the samples were analysed',
+    en: 'the samples were analyzed',
     tip: 'Trpni pridjev: analiziran, -a, -o (uzorci su analizirani).',
   },
   {

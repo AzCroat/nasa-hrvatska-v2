@@ -21,7 +21,7 @@ export default function A1PossessiveAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1possessiveadjectives"
       title="Ana's, Marko's"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={POSSESSIVE_ADJECTIVES_MODE_LABELS}
       data={POSSESSIVE_ADJECTIVES_DRILL_DATA}
       praise={{

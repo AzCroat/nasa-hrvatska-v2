@@ -48,7 +48,7 @@ function optionGroups(borderRgb: string): HTMLButtonElement[][] {
 /**
  * Answer every rendered question.
  *
- * @param borderRgb  the unanswered-option border colour, e.g. 'rgb(214, 211, 209)'
+ * @param borderRgb  the unanswered-option border color, e.g. 'rgb(214, 211, 209)'
  * @param answers    the correct answer per question, in render order
  * @param mode       'correct' picks each answer; 'wrong' picks any other option
  */

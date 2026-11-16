@@ -21,7 +21,7 @@ export default function C1ComparativeClausesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1comparativeclauses"
       title="Comparative Clauses"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COMPARATIVE_CLAUSES_MODE_LABELS}
       data={COMPARATIVE_CLAUSES_DRILL_DATA}
       praise={{

@@ -191,7 +191,7 @@ export const EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ispiti',
     q: 'Imam ispit ____ matematike.',
-    en: 'I have a maths exam.',
+    en: 'I have a math exam.',
     opts: ['iz', 'od', 'za', 'na'],
     answer: 'iz',
     tip: 'ispit IZ a subject, and iz takes the genitive.',

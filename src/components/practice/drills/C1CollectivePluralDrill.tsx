@@ -21,7 +21,7 @@ export default function C1CollectivePluralDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1collectiveplural"
       title="Momčad, Unučad, Pilad"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COLLECTIVE_PLURAL_MODE_LABELS}
       data={COLLECTIVE_PLURAL_DRILL_DATA}
       praise={{

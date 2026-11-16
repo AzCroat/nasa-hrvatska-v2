@@ -21,7 +21,7 @@ export default function A1GenitivePartitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1genitivepartitive"
       title="Some Water, a Little Bread"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_PARTITIVE_MODE_LABELS}
       data={GENITIVE_PARTITIVE_DRILL_DATA}
       praise={{

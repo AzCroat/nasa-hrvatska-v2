@@ -21,7 +21,7 @@ export default function C1PluperfectDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1pluperfect"
       title="Bio Sam Otišao"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PLUPERFECT_MODE_LABELS}
       data={PLUPERFECT_DRILL_DATA}
       praise={{

@@ -130,7 +130,7 @@ describe('every surface that can start an activity can also say it failed', () =
 describe('the two reasons get two sentences', () => {
   it('empty-pool does NOT blame the connection', () => {
     expect(LAUNCH_FAILURE_COPY['empty-pool']).not.toMatch(/connection|internet|offline/i);
-    expect(LAUNCH_FAILURE_COPY['empty-pool']).toMatch(/nothing to practise/i);
+    expect(LAUNCH_FAILURE_COPY['empty-pool']).toMatch(/nothing to practice/i);
   });
 
   it('load-error DOES, because that is what actually failed', () => {
@@ -150,7 +150,7 @@ describe('the two reasons get two sentences', () => {
 // ── The pill, driven for real ────────────────────────────────────────────────
 //
 // The engine is mocked because `useNextStepEngine` reaches the whole app
-// context; what is under test is the PILL's own behaviour on a failed launch,
+// context; what is under test is the PILL's own behavior on a failed launch,
 // which is where the defect was.
 const { mockLaunch, mockCompute } = vi.hoisted(() => ({
   mockLaunch: vi.fn(),
@@ -199,7 +199,7 @@ describe('the pill survives a failed launch instead of vanishing', () => {
     const pill = screen.getByTestId('next-up-bar');
     expect(pill, 'the pill vanished on a failed launch').toBeTruthy();
     expect(pill.getAttribute('data-launch-failure')).toBe('empty-pool');
-    expect(pill.textContent).toMatch(/nothing to practise/i);
+    expect(pill.textContent).toMatch(/nothing to practice/i);
     // ...and it does not blame the connection for an empty pool.
     expect(pill.textContent).not.toMatch(/connection/i);
   });
@@ -234,7 +234,7 @@ describe('the pill survives a failed launch instead of vanishing', () => {
     const back = screen.getByTestId('next-up-bar');
     expect(back.getAttribute('data-launch-failure')).toBe('empty-pool');
     // ...and it still knows WHICH step to retry.
-    expect(back.textContent).toMatch(/nothing to practise/i);
+    expect(back.textContent).toMatch(/nothing to practice/i);
   });
 
   it('the wrapper still refuses pointer events (the NEVER rule)', () => {

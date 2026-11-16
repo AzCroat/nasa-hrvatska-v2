@@ -155,7 +155,7 @@ export const DATA: WordOrderItem[] = [
     opts: ['Nemam vremena.', 'Ne imam vremena.', 'Imam ne vremena.', 'Ne vremena imam.'],
     answer: 'Nemam vremena.',
     fusion: true,
-    tip: '"ne" + "imam" fuse into nemam — like nisam. These two fusions are worth memorising.',
+    tip: '"ne" + "imam" fuse into nemam — like nisam. These two fusions are worth memorizing.',
   },
   {
     q: 'Are you from Croatia?',

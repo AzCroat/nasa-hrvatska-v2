@@ -18,7 +18,7 @@ import { hasPendingSessionActivity } from './sessionSignal';
  * session composes as it did before the course existed — so a plan committed in the
  * first seconds of a cold start can serve the genitive drill to a Unit 2 learner.
  * Measured in a browser: the splice added the check-up and Unit 2's first lesson and
- * left "Genitive — you haven't practised the genitive yet" beside them.
+ * left "Genitive — you haven't practiced the genitive yet" beside them.
  *
  * Only UNSTARTED activities are dropped; a completed one keeps its place, so the card
  * cannot forget work. And nothing is dropped while an activity is in flight: Home

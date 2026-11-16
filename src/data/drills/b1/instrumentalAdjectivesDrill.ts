@@ -41,7 +41,7 @@ export const INSTRUMENTAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Putujemo ____ vlakom.',
-    en: 'We are travelling on the night train.',
+    en: 'We are traveling on the night train.',
     opts: ['noćnim', 'noćnom', 'noćnoj', 'noćni'],
     answer: 'noćnim',
     tip: 'The train is the means, with no preposition; vlak is masculine, so -im.',
@@ -81,7 +81,7 @@ export const INSTRUMENTAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Upoznao sam se s ____ susjedom.',
-    en: 'I have met our neighbour.',
+    en: 'I have met our neighbor.',
     opts: ['našim', 'našom', 'našem', 'naš'],
     answer: 'našim',
     tip: 'Naš has a soft stem, but the instrumental ignores it: našim, always -im.',
@@ -171,7 +171,7 @@ export const INSTRUMENTAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Družimo se s ____ susjedima.',
-    en: 'We spend time with our neighbours.',
+    en: 'We spend time with our neighbors.',
     opts: ['našim', 'našom', 'naših', 'naši'],
     answer: 'našim',
     tip: 'Plural instrumental: našim susjedima.',

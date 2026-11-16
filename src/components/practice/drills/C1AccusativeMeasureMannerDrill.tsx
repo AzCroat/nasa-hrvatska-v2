@@ -21,7 +21,7 @@ export default function C1AccusativeMeasureMannerDrill({ goBack, award }: Props)
     <ModeDrill
       id="c1accusativemeasuremanner"
       title="How Long, How Far, How Much"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ACCUSATIVE_MEASURE_MANNER_MODE_LABELS}
       data={ACCUSATIVE_MEASURE_MANNER_DRILL_DATA}
       praise={{

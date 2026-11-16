@@ -21,7 +21,7 @@ export default function B2ReportedSpeechB2Drill({ goBack, award }: Props) {
     <ModeDrill
       id="b2reportedspeechb2"
       title="Rekao je da mu ga je dao"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={REPORTED_SPEECH_B2_MODE_LABELS}
       data={REPORTED_SPEECH_B2_DRILL_DATA}
       praise={{

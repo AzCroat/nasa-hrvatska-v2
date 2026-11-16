@@ -21,7 +21,7 @@ export default function B1SuperlativesIrregularDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1superlativesirregular"
       title="Better, Worse, the Biggest"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SUPERLATIVES_IRREGULAR_MODE_LABELS}
       data={SUPERLATIVES_IRREGULAR_DRILL_DATA}
       praise={{

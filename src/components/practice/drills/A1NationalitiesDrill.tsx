@@ -21,7 +21,7 @@ export default function A1NationalitiesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1nationalities"
       title="Hrvat, Hrvatica, hrvatski"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NATIONALITIES_MODE_LABELS}
       data={NATIONALITIES_DRILL_DATA}
       praise={{

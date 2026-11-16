@@ -115,7 +115,7 @@ describe('an inline ink must read the theme', () => {
       expect(lv, `--${t} must be defined in :root`).toBeTruthy();
       expect(dv, `--${t} must be defined in .dark — without it the token is the bug`).toBeTruthy();
       const d = parseColor(dv!);
-      expect(d, `--${t}'s dark value must be a resolvable colour`).toBeTruthy();
+      expect(d, `--${t}'s dark value must be a resolvable color`).toBeTruthy();
       expect(
         contrast(d!, DARK_CARD),
         `--${t} dark (${dv}) must clear ${AA_NORMAL}:1 on the dark card`,
@@ -139,7 +139,7 @@ describe('an inline ink must read the theme', () => {
     const hits = findDarkModeInk([bad]);
     // All three shapes must be caught. The rgb() and the 3-digit hex are here because
     // the codemod's own pattern matched neither, and the two sites it therefore left
-    // behind were found only by re-measuring afterwards.
+    // behind were found only by re-measuring afterward.
     expect(hits.map((h) => h.literal).sort()).toEqual([
       "'#0e7490'",
       "'#888'",
@@ -207,7 +207,7 @@ describe('an inline ink must read the theme', () => {
       return f;
     };
 
-    // (a) ALPHA APPENDED BY CONCATENATION — 58 sites write a tint of a DATA colour this
+    // (a) ALPHA APPENDED BY CONCATENATION — 58 sites write a tint of a DATA color this
     //     way. `18` is 24/255, a 9% wash the theme shows straight through, but the base is
     //     a variable so the value is unparseable and the fallback called it opaque.
     //     /crmap's category pills were exempted on exactly this.
@@ -357,7 +357,7 @@ describe('an inline ink must read the theme', () => {
     const surfaces: Array<[string, [number, number, number]]> = [['white', [255, 255, 255]]];
     for (const s of ['app-bg', 'card', 'surface-mute']) {
       const c = parseColor(tokenIn(root, s)!);
-      expect(c, `--${s} must resolve to a colour`).toBeTruthy();
+      expect(c, `--${s} must resolve to a color`).toBeTruthy();
       surfaces.push([`--${s}`, c!]);
     }
     for (const t of INK_TOKENS) {

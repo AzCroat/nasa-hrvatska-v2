@@ -190,7 +190,7 @@ export const HISTORY = {
     },
     {
       name: 'Gojko Šušak',
-      role: 'Minister of Defence',
+      role: 'Minister of Defense',
       roleHr: 'Ministar obrane',
       desc: 'Organized the Croatian military from virtually nothing into a force capable of defending and liberating the homeland.',
       descHr:
@@ -933,7 +933,7 @@ export const HIST_FACTS = [
   { hr: 'Zagreb je prvi put spomenut 1094. godine.', en: 'Zagreb was first mentioned in 1094.' },
   {
     hr: 'Zgrada HNK-a u Zagrebu otvorena je 1895.',
-    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
+    en: "The Croatian National Theater's building in Zagreb opened in 1895.",
   },
   {
     hr: 'Brijuni su bili rezidencija Josipa Broza Tita.',
@@ -1408,7 +1408,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Benkovac je bio jedno od središta srpske pobune u Krajini 1991.',
-    en: 'Benkovac was one of the centres of the Serb rebellion in Krajina in 1991.',
+    en: 'Benkovac was one of the centers of the Serb rebellion in Krajina in 1991.',
   },
   {
     hr: 'Bleiburška tragedija 1945. temelj je kolektivnog sjećanja Hrvata.',
@@ -1622,7 +1622,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Zgrada Hrvatskoga narodnog kazališta u Zagrebu otvorena je 1895.',
-    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
+    en: "The Croatian National Theater's building in Zagreb opened in 1895.",
   },
   {
     hr: "Jarun u Zagrebu zovu 'zagrebačko more'.",
@@ -1662,7 +1662,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Hvarsko kazalište (1612.) jedno je od najstarijih javnih kazališta u Europi.',
-    en: 'The Hvar theatre (1612) is one of the oldest public theatres in Europe.',
+    en: 'The Hvar theater (1612) is one of the oldest public theaters in Europe.',
   },
   {
     hr: 'Vis je mjesto bitke 1866. između Italije i Austrije.',

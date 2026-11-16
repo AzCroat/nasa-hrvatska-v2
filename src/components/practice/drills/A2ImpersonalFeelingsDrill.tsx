@@ -21,7 +21,7 @@ export default function A2ImpersonalFeelingsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2impersonalfeelings"
       title="Cold, Bored, Sorry: How You Feel with mi je"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={IMPERSONAL_FEELINGS_MODE_LABELS}
       data={IMPERSONAL_FEELINGS_DRILL_DATA}
       praise={{

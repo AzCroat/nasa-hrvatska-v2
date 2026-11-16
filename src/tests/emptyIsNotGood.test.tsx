@@ -11,7 +11,7 @@
  *     `getWeakTopics()` returned `[]`. That function returns `[]` for FOUR
  *     states: no data at all, data below `MIN_TOPIC_ATTEMPTS`, data gone stale
  *     past `STALE_MS`, and a learner who is genuinely strong. A learner who
- *     had practised nothing was congratulated on having no weaknesses — with
+ *     had practiced nothing was congratulated on having no weaknesses — with
  *     the line directly underneath simultaneously saying "Complete more
  *     exercises ... to see where you need improvement". Two sentences on one
  *     card, saying opposite things, the celebratory one in bold on top.
@@ -48,7 +48,7 @@ vi.mock('../lib/curriculumProgress', async (orig) => ({
 }));
 
 /** Answer a topic `n` times, `right` of them correctly. */
-function practise(topic: string, n: number, right: number) {
+function practice(topic: string, n: number, right: number) {
   for (let i = 0; i < n; i++) recordTopicResult(topic, i < right);
 }
 
@@ -61,19 +61,19 @@ describe('weakTopicEvidence separates the four states getWeakTopics flattens', (
   });
 
   it('too few attempts is THIN, not measured — and not a clean bill of health', () => {
-    practise('genitive', 2, 0); // 0% accurate, but only twice
+    practice('genitive', 2, 0); // 0% accurate, but only twice
     expect(getWeakTopics(65)).toEqual([]); // the weak list cannot speak yet
     expect(weakTopicEvidence()).toEqual({ measured: 0, thin: 1, stale: 0 });
   });
 
   it('measured and strong is the ONLY state that earns the good verdict', () => {
-    practise('genitive', 4, 4);
+    practice('genitive', 4, 4);
     expect(getWeakTopics(65)).toEqual([]);
     expect(weakTopicEvidence().measured).toBe(1);
   });
 
   it('measured and weak is reported as weak', () => {
-    practise('genitive', 4, 1);
+    practice('genitive', 4, 1);
     expect(getWeakTopics(65).map((t) => t.id)).toEqual(['genitive']);
     expect(weakTopicEvidence().measured).toBe(1);
   });
@@ -92,8 +92,8 @@ describe('weakTopicEvidence separates the four states getWeakTopics flattens', (
     // A `measured` computed off raw storage rows would count the thin topic and
     // claim evidence the threshold rejected — the defect this function exists
     // to make impossible.
-    practise('genitive', 4, 4);
-    practise('dative', 2, 2);
+    practice('genitive', 4, 4);
+    practice('dative', 2, 2);
     expect(weakTopicEvidence()).toEqual({ measured: 1, thin: 1, stale: 0 });
   });
 });
@@ -170,7 +170,7 @@ describe('the weak-topics verdict says what it measured', () => {
 
   it('data below the attempt bar still does not earn the verdict', () => {
     seedTrackedErrors();
-    practise('genitive', 2, 0); // two wrong answers: plainly not "no weak topics"
+    practice('genitive', 2, 0); // two wrong answers: plainly not "no weak topics"
     openTopicsTab();
     expect(screen.queryByTestId('weak-topics-empty')?.textContent ?? '').not.toMatch(/great work/i);
   });
@@ -190,8 +190,8 @@ describe('the weak-topics verdict says what it measured', () => {
 
   it('measured and strong DOES earn it, and names how much it measured', () => {
     seedTrackedErrors();
-    practise('genitive', 4, 4);
-    practise('dative', 4, 4);
+    practice('genitive', 4, 4);
+    practice('dative', 4, 4);
     openTopicsTab();
     const line = screen.getByTestId('weak-topics-empty').textContent ?? '';
     expect(line).toMatch(/great work/i);

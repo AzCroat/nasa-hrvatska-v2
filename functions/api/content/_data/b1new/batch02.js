@@ -112,7 +112,7 @@ const L_INSTRUMENTAL_ADJECTIVES = {
         },
         {
           hr: 'Ljeti se družimo s našim novim susjedima.',
-          en: 'In summer we spend time with our new neighbours.',
+          en: 'In summer we spend time with our new neighbors.',
           note: 'našim novim — the plural -im',
         },
       ],
@@ -123,7 +123,7 @@ const L_INSTRUMENTAL_ADJECTIVES = {
       items: [
         {
           hr: 'Najradije putujem tim malim žutim autobusom.',
-          en: 'I most like travelling on that little yellow bus.',
+          en: 'I most like traveling on that little yellow bus.',
           note: 'tim malim žutim — the means, masculine -im, no preposition',
         },
         {
@@ -434,7 +434,7 @@ const P_INSTRUMENTAL_ADJECTIVES = {
   ],
   vocab: [
     ['prijateljica', 'friend (a woman)', 'Idem u kino s novom prijateljicom.'],
-    ['susjed', 'neighbour', 'Družimo se s našim novim susjedom.'],
+    ['susjed', 'neighbor', 'Družimo se s našim novim susjedom.'],
     ['zgrada', 'building', 'Djeca se igraju pred našom zgradom.'],
     ['olovka', 'pencil', 'Pišem crvenom olovkom.'],
     ['družiti se', 'to spend time (with someone)', 'Družim se sa starim prijateljima.'],
@@ -1405,7 +1405,7 @@ const L_SATISFACTION_DISAPPOINTMENT = {
     {
       type: 'intro',
       title: 'How Was It?',
-      body: 'Kako je bilo? — How was it? The hotel, the new job, the concert, the exam result. In this lesson you learn to answer with feeling: pleased or not pleased, thrilled, disappointed — and how strongly. The grammar is the instrumental you have just practised: Zadovoljna sam rezultatom. Oduševljeni smo koncertom.',
+      body: 'Kako je bilo? — How was it? The hotel, the new job, the concert, the exam result. In this lesson you learn to answer with feeling: pleased or not pleased, thrilled, disappointed — and how strongly. The grammar is the instrumental you have just practiced: Zadovoljna sam rezultatom. Oduševljeni smo koncertom.',
       icon: '🎭',
     },
     {
@@ -1484,7 +1484,7 @@ const L_SATISFACTION_DISAPPOINTMENT = {
         },
         {
           hr: 'Moja mama je oduševljena tvojim poklonom.',
-          en: 'My mum is thrilled with your present.',
+          en: 'My mom is thrilled with your present.',
           note: 'oduševljena — agrees with mama',
         },
         {
@@ -2104,8 +2104,8 @@ const P_GENITIVE_ADJECTIVES = {
     },
     {
       title: 'A Quantity With an Adjective',
-      problem: 'Prevedi: "We have a lot of good neighbours."',
-      en: 'We have a lot of good neighbours.',
+      problem: 'Prevedi: "We have a lot of good neighbors."',
+      en: 'We have a lot of good neighbors.',
       steps: [
         {
           label: 'After puno',

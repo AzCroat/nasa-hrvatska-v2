@@ -122,7 +122,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjesto',
     q: 'Bili smo u Indiji prošle godine. ____ uvijek rado putujemo.',
-    en: 'We were in India last year. We always enjoy travelling there.',
+    en: 'We were in India last year. We always enjoy traveling there.',
     opts: ['Onamo', 'Ondje', 'Odande', 'Ovdje'],
     answer: 'Onamo',
     tip: 'Direction, where to: the dynamic adverb.',

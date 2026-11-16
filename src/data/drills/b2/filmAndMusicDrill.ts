@@ -205,7 +205,7 @@ export const FILM_AND_MUSIC_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dijalekt',
-    q: 'In "Tko pjeva zlo ne misli", set in 1930s Zagreb, the family speaks with a flavour of ____.',
+    q: 'In "Tko pjeva zlo ne misli", set in 1930s Zagreb, the family speaks with a flavor of ____.',
     opts: ['kajkavian', 'čakavian', 'Dalmatian ikavian', 'Slavonian'],
     answer: 'kajkavian',
     tip: 'Zagreb lies in the kajkavian north.',

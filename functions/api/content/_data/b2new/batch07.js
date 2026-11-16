@@ -31,7 +31,7 @@ export const SPINE = [
     objectives: [
       'Talk about natural disasters in Croatia, climate change and sorting waste',
       'Put ne in the right place and ask negative questions: Ne bojim se potresa. Zar ne znaš?',
-      'Understand the exclamation Čega sve nema! and recognise exoticisms such as cunami and tajfun',
+      'Understand the exclamation Čega sve nema! and recognize exoticisms such as cunami and tajfun',
     ],
   },
   {
@@ -614,7 +614,7 @@ const REPORTED_SPEECH_B2 = {
     {
       type: 'rule',
       title: 'Statements: Da',
-      body: 'A reported statement starts with da. Pronouns and verb endings change to fit who is speaking now: "Volim te." → Rekao je da me voli. "Ne razumijem vas." → Rekla je da nas ne razumije. "Moj brat živi u Puli." → Rekao je da njegov brat živi u Puli. Reporting verbs give colour: reći, kazati, objasniti, tvrditi (to claim), dodati (to add), priznati (to admit).',
+      body: 'A reported statement starts with da. Pronouns and verb endings change to fit who is speaking now: "Volim te." → Rekao je da me voli. "Ne razumijem vas." → Rekla je da nas ne razumije. "Moj brat živi u Puli." → Rekao je da njegov brat živi u Puli. Reporting verbs give color: reći, kazati, objasniti, tvrditi (to claim), dodati (to add), priznati (to admit).',
       highlight: 'Rekao je da me voli.',
     },
     {
@@ -1084,7 +1084,7 @@ const TRAVEL_AND_SPORT = {
     {
       type: 'intro',
       title: 'What Do You Do When You Are Free?',
-      body: 'Free time is where conversation lives: what you play, whom you support, how you rest, what you do when you are bored, and where you travelled last summer. This lesson gives you the verbs and cases that go with them — baviti se + instrumental, igrati + accusative, navijati za — the two ways to be bored, the prefix na- that means "to your heart’s content", and the way aspect carries a travel story.',
+      body: 'Free time is where conversation lives: what you play, whom you support, how you rest, what you do when you are bored, and where you traveled last summer. This lesson gives you the verbs and cases that go with them — baviti se + instrumental, igrati + accusative, navijati za — the two ways to be bored, the prefix na- that means "to your heart’s content", and the way aspect carries a travel story.',
       icon: '🏀',
     },
     {
@@ -1204,7 +1204,7 @@ const TRAVEL_AND_SPORT = {
         },
         {
           hr: 'Ljetos smo se naputovali, a sad nam je dosadno kod kuće.',
-          en: 'This summer we travelled to our heart’s content, and now we are bored at home.',
+          en: 'This summer we traveled to our heart’s content, and now we are bored at home.',
           note: 'naputovati se; nam je dosadno',
         },
       ],
@@ -2115,7 +2115,7 @@ export const PRACTICE = {
       ['proliti', 'to spill', 'Ups, prolio sam kavu.'],
       ['tiho', 'quietly', 'Pst, govori tiho!'],
       ['napokon', 'finally', 'Uf, napokon smo stigli!'],
-      ['shvatiti', 'to realise, to understand', 'Aha, sad shvaćam.'],
+      ['shvatiti', 'to realize, to understand', 'Aha, sad shvaćam.'],
       ['pohvala', 'praise', 'Bravo je kratka pohvala.'],
       ['pažljiv', 'careful', 'Joj, budi pažljiv na stepenicama!'],
     ],

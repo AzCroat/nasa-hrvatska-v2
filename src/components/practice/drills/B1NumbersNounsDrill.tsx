@@ -21,7 +21,7 @@ export default function B1NumbersNounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1numbersnouns"
       title="jedan dan, dva dana, pet dana"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NUMBERS_NOUNS_MODE_LABELS}
       data={NUMBERS_NOUNS_DRILL_DATA}
       praise={{

@@ -641,7 +641,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         ],
         [
           'potkraj',
-          'towards the end of',
+          'toward the end of',
           'Potkraj godine dobili smo povišicu.',
           'also: krajem godine',
         ],
@@ -905,7 +905,7 @@ const COMMA_DEPENDENT = {
         },
         {
           hr: 'Nije mi rekla zašto je otkazala putovanje u posljednji trenutak.',
-          en: 'She did not tell me why she cancelled the trip at the last minute.',
+          en: 'She did not tell me why she canceled the trip at the last minute.',
           note: 'an indirect question after the main clause — no comma',
         },
         {

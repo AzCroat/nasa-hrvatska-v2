@@ -20,7 +20,7 @@ export const SPINE = [
     objectives: [
       'Form the instrumental of i-nouns with -i or -ju, including the sound changes radošću, smrću, ljubavlju',
       'Use the genitive plural in -iju where Croatian has it: očiju, ušiju, kostiju',
-      'Decline kći correctly and recognise the literary noun mati in every case',
+      'Decline kći correctly and recognize the literary noun mati in every case',
     ],
   },
   {
@@ -58,7 +58,7 @@ export const SPINE = [
     masterOrder: 6,
     prerequisites: ['abbreviations', 'i-nouns-mati-kci'],
     objectives: [
-      'Recognise and decline the -je collectives: lišće, cvijeće, granje, kamenje, grožđe',
+      'Recognize and decline the -je collectives: lišće, cvijeće, granje, kamenje, grožđe',
       'Decline braća, djeca and gospoda and make verbs and adjectives agree with them',
       'Use the -ad collectives (telad, prasad, momčad) as feminine singular nouns',
     ],
@@ -146,7 +146,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'mati — the Literary Mother',
-        body: 'Mati is the old and literary word for majka. You meet it in poetry, songs, older prose and solemn speech, and you need to recognise its forms, which are built on mater-: genitive matere, dative and locative materi, accusative mater, instrumental materom; the vocative is mati. In your own everyday Croatian use majka or mama.',
+        body: 'Mati is the old and literary word for majka. You meet it in poetry, songs, older prose and solemn speech, and you need to recognize its forms, which are built on mater-: genitive matere, dative and locative materi, accusative mater, instrumental materom; the vocative is mati. In your own everyday Croatian use majka or mama.',
         highlight: 'matere, materi, mater, materom',
       },
       {
@@ -435,12 +435,12 @@ export const LESSONS = [
           },
           {
             hr: 'Na Velebitu smo u jednom danu prehodali dvadeset kilometara.',
-            en: 'On Velebit we walked twenty kilometres in a single day.',
+            en: 'On Velebit we walked twenty kilometers in a single day.',
             note: 'dvadeset kilometara — distance; after twenty, the genitive plural',
           },
           {
             hr: 'Do posla svako jutro pješačim tri kilometra uz rijeku.',
-            en: 'Every morning I walk three kilometres to work along the river.',
+            en: 'Every morning I walk three kilometers to work along the river.',
             note: 'tri kilometra — after tri, the genitive singular; svako jutro — repetition',
           },
           {
@@ -455,7 +455,7 @@ export const LESSONS = [
           },
           {
             hr: 'Kameni zid oko vrta visok je dva metra.',
-            en: 'The stone wall around the garden is two metres high.',
+            en: 'The stone wall around the garden is two meters high.',
             note: 'dva metra — measure with the adjective visok',
           },
           {
@@ -867,7 +867,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Pokrate: Capitals, No Full Stops',
-        body: 'A pokrata made from initial letters is written in capitals with no full stops: HNK (Hrvatsko narodno kazalište), HAZU (Hrvatska akademija znanosti i umjetnosti), EU (Europska unija), UN (Ujedinjeni narodi), HRT (Hrvatska radiotelevizija), NATO. A pokrata made from syllables and read as an ordinary word is often written like a name, with only a capital initial — Hina, the Croatian news agency — though organisations frequently write their own names in capitals.',
+        body: 'A pokrata made from initial letters is written in capitals with no full stops: HNK (Hrvatsko narodno kazalište), HAZU (Hrvatska akademija znanosti i umjetnosti), EU (Europska unija), UN (Ujedinjeni narodi), HRT (Hrvatska radiotelevizija), NATO. A pokrata made from syllables and read as an ordinary word is often written like a name, with only a capital initial — Hina, the Croatian news agency — though organizations frequently write their own names in capitals.',
         highlight: 'HNK, HAZU, EU, UN, HRT',
       },
       {
@@ -929,7 +929,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Predstava počinje u 20 h na velikoj sceni HNK-a.',
-            en: 'The performance begins at 8 p.m. on the main stage of the Croatian National Theatre.',
+            en: 'The performance begins at 8 p.m. on the main stage of the Croatian National Theater.',
             note: 'HNK-a — genitive after a hyphen; h — a symbol, no full stop',
           },
           {
@@ -1479,8 +1479,8 @@ export const PRACTICE = {
       },
       {
         title: 'Price and Distance',
-        problem: 'Reci: The ticket costs three euros and the station is two kilometres away.',
-        en: 'The ticket costs three euros and the station is two kilometres away.',
+        problem: 'Reci: The ticket costs three euros and the station is two kilometers away.',
+        en: 'The ticket costs three euros and the station is two kilometers away.',
         steps: [
           { label: 'Price', text: 'koštati + accusative of price, no preposition.' },
           { label: 'The number', text: 'After tri, the genitive singular: tri eura.' },
@@ -1518,7 +1518,7 @@ export const PRACTICE = {
           explanation: 'mjesec dana — a month.',
         },
         {
-          q: 'Complete: "Prepješačili smo pet ___." (kilometres)',
+          q: 'Complete: "Prepješačili smo pet ___." (kilometers)',
           options: ['kilometra', 'kilometara', 'kilometre', 'kilometar'],
           correct: 1,
           hint: 'Five and up take the genitive plural.',
@@ -1532,7 +1532,7 @@ export const PRACTICE = {
           explanation: 'na sreću — luckily (za sreću means "for luck").',
         },
         {
-          q: 'Complete: "Zid je visok tri ___." (metres)',
+          q: 'Complete: "Zid je visok tri ___." (meters)',
           options: ['metar', 'metrima', 'metre', 'metra'],
           correct: 3,
           hint: 'After tri, the genitive singular.',
@@ -1609,7 +1609,7 @@ export const PRACTICE = {
         explanation: 'minuta is feminine; duration takes the accusative: cijelu.',
       },
       {
-        q: 'Complete: "Hodali smo deset ___." (kilometres)',
+        q: 'Complete: "Hodali smo deset ___." (kilometers)',
         options: ['kilometra', 'kilometre', 'kilometara', 'kilometrima'],
         correct: 2,
         explanation: 'After deset, the genitive plural: kilometara.',
@@ -1866,9 +1866,9 @@ export const PRACTICE = {
   abbreviations: {
     worked: [
       {
-        title: 'Decline the Theatre',
+        title: 'Decline the Theater',
         problem: 'Napiši: The premiere in the HNK will be on 12 November.',
-        en: 'The premiere in the Croatian National Theatre will be on 12 November.',
+        en: 'The premiere in the Croatian National Theater will be on 12 November.',
         steps: [
           { label: 'The pokrata', text: 'HNK is made from initials: capitals, no full stops.' },
           { label: 'The case', text: 'u + locative; the ending goes after a hyphen: HNK-u.' },
@@ -1982,7 +1982,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Hodali smo 15 ____ po planini. (kilometres — the symbol)',
+          q: 'Hodali smo 15 ____ po planini. (kilometers — the symbol)',
           answer: 'km',
           hint: 'Two small letters.',
           explanation: '15 km.',

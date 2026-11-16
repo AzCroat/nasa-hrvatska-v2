@@ -89,7 +89,7 @@ const DATA = [
     q: 'Vlak je otkazan; ___ smo morali uzeti autobus. (that is why)',
     opts: ['zato', 'naime', 'doduše', 'štoviše'],
     answer: 'zato',
-    en: 'The train was cancelled; that is why we had to take the bus.',
+    en: 'The train was canceled; that is why we had to take the bus.',
     tip: "'zato' = that is why (consequence; at home in speech and writing alike).",
   },
   {
@@ -113,7 +113,7 @@ const DATA = [
     q: 'Nije bilo dovoljno prijava; ___ je natječaj poništen. (as a result)',
     opts: ['slijedom toga', 'naime', 'doduše', 'dapače'],
     answer: 'slijedom toga',
-    en: 'There were not enough applications; as a result, the call was cancelled.',
+    en: 'There were not enough applications; as a result, the call was canceled.',
     tip: "'slijedom toga' = as a result (administrative and legal style).",
   },
   {
@@ -222,7 +222,7 @@ export default function DiscourseDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Cohesion mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — connectors take time!',
+        more: 'Keep practicing — connectors take time!',
       }}
       goBack={goBack}
       award={award}

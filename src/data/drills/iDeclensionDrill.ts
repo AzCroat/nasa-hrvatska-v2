@@ -57,7 +57,7 @@ export const I_DECLENSION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prepoznaj',
     q: 'Po čemu prepoznajemo ovu vrstu?',
-    en: 'How do you recognise the class?',
+    en: 'How do you recognize the class?',
     opts: [
       'ženski rod, završava suglasnikom',
       'muški rod na -a',

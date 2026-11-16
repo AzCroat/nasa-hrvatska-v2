@@ -114,7 +114,7 @@ export const IMPERATIVE_NEGATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ne',
     q: 'Ne ____ to mami.',
-    en: "Don't tell Mum that.",
+    en: "Don't tell Mom that.",
     opts: ['pričaj', 'pričaš', 'pričao', 'pričati'],
     answer: 'pričaj',
     tip: 'The imperative of pričati: the oni form pričaju, then -j.',

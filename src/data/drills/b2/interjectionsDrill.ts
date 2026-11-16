@@ -145,7 +145,7 @@ export const INTERJECTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vokativ',
     q: 'Hej, ____! Dobro jutro!',
-    en: 'Hey, neighbour! Good morning!',
+    en: 'Hey, neighbor! Good morning!',
     opts: ['susjedom', 'susjeda', 'susjede', 'susjedu'],
     answer: 'susjede',
     tip: 'The vocative of a masculine noun: -e.',

@@ -18,7 +18,7 @@
  * screens credit on a genuine finish whatever the score (`effort`), and whether a grammar
  * exercise's `gc` should require 75% is a COURSE decision. Changing both at once would make
  * it impossible to say which change caused what. The per-answer XP is asserted UNCHANGED
- * for the same reason — practice is still worth practising.
+ * for the same reason — practice is still worth practicing.
  */
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -45,7 +45,7 @@ const MODULES = import.meta.glob('../components/practice/exercises/*.tsx');
  *     which this driver cannot pass: clicking an option per question scores about a
  *     quarter, so "credited nothing" is their correct outcome and says nothing about
  *     idempotency. **And they cannot be driven to a pass either** — measured: these screens
- *     colour only the CHOSEN option, so a wrong answer leaves the right one unmarked and no
+ *     color only the CHOSEN option, so a wrong answer leaves the right one unmarked and no
  *     driver can learn the key from the DOM. That is good pedagogy and a hard limit here.
  *
  * So the subjects are exactly the `effort`-policy rows: screens that credit on a genuine

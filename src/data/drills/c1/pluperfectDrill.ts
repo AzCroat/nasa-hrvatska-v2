@@ -174,7 +174,7 @@ export const PLUPERFECT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'uporaba',
     q: 'Tek tada je shvatio što je ____ učinio.',
-    en: 'Only then did he realise what he had done.',
+    en: 'Only then did he realize what he had done.',
     opts: ['bio', 'bi', 'će', 'bude'],
     answer: 'bio',
     tip: 'The deed came before the realisation.',

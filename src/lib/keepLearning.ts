@@ -176,7 +176,7 @@ function conceptDrillReason(e: ConceptEntry): string {
   const rec = readRetention().lessons[e.lessonId];
   switch (e.state) {
     case 'notpassed':
-      return `You have not passed the ${e.title} check yet — practise what it tests.`;
+      return `You have not passed the ${e.title} check yet — practice what it tests.`;
     case 'shaky':
       if (rec && rec.last.total > 0 && rec.last.score / rec.last.total < LESSON_PASS_THRESHOLD) {
         return `Your ${e.title} check: ${rec.last.score} of ${rec.last.total}.`;

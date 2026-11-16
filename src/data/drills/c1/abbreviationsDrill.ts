@@ -98,7 +98,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pokrate',
     q: 'Gledali smo operu u ____.',
-    en: 'We watched an opera at the Croatian National Theatre.',
+    en: 'We watched an opera at the Croatian National Theater.',
     opts: ['HNK-u', 'HNKu', 'H.N.K.-u', 'Hnk-u'],
     answer: 'HNK-u',
     tip: 'Capitals, no full stops, the ending after a hyphen.',
@@ -164,7 +164,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjere',
     q: 'Do vrha imamo još 5 ____ hoda.',
-    en: 'We still have five kilometres to walk to the summit.',
+    en: 'We still have five kilometers to walk to the summit.',
     opts: ['km', 'km.', 'Km', 'K.M.'],
     answer: 'km',
     tip: 'A unit symbol: small letters, no full stop.',

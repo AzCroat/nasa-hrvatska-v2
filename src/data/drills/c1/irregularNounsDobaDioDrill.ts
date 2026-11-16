@@ -172,7 +172,7 @@ export const IRREGULAR_NOUNS_DOBA_DIO_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'doba',
     q: 'Jesen je moje omiljeno godišnje ____.',
-    en: 'Autumn is my favourite season.',
+    en: 'Autumn is my favorite season.',
     opts: ['doba', 'dob', 'dobi', 'dobe'],
     answer: 'doba',
     tip: 'A season is godišnje doba — neuter.',

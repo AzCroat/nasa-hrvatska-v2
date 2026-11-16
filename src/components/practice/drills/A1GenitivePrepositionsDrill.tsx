@@ -21,7 +21,7 @@ export default function A1GenitivePrepositionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1genitiveprepositions"
       title="From, To, At, Without"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_PREPOSITIONS_MODE_LABELS}
       data={GENITIVE_PREPOSITIONS_DRILL_DATA}
       praise={{

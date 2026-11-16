@@ -187,7 +187,7 @@ export const INFORMAL_EMAIL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kraj',
     q: 'Pozdravi ____ i tatu!',
-    en: 'Say hi to your mum and dad!',
+    en: 'Say hi to your mom and dad!',
     opts: ['mamu', 'mama', 'mami', 'mamom'],
     answer: 'mamu',
     tip: 'pozdraviti takes the accusative: mamu.',

@@ -120,7 +120,7 @@ beforeEach(() => {
     ok: true,
     json: async () => ({ awarded: 25 }),
   });
-  // Restore default updateStreak behaviour
+  // Restore default updateStreak behavior
   (appUtils.updateStreak as ReturnType<typeof vi.fn>).mockReturnValue({
     count: 1,
     milestone: null,
@@ -1000,7 +1000,7 @@ describe('negative amt', () => {
 // only as honest as the least-instrumented of the things it compares, and the
 // listening and reading counters are keyed on `award`'s activityType, which is
 // a string each screen chooses for itself. Three screens chose one that is not
-// their modality, so the counter stood still while the learner practised:
+// their modality, so the counter stood still while the learner practiced:
 // VideoLessonScreen ('lesson', a `listening` pool entry), StoryModeScreen and
 // AIStoryScreen ('story', both `reading` pool entries). Measured at the time:
 // listening recorded from 3 of its 4 session-servable pool entries, reading

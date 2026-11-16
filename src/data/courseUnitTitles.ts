@@ -49,7 +49,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'A1-5': {
     title: 'Describing and Doing',
     subtitle:
-      'Handle the disappearing a, describe things in colour, say whose they are, and use regular verbs.',
+      'Handle the disappearing a, describe things in color, say whose they are, and use regular verbs.',
   },
   'A1-6': {
     title: 'Saying No, and the First Case',
@@ -85,7 +85,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'A1-13': {
     title: 'The Future and the Dative',
     subtitle:
-      'Say what you will do, make plans, say who something is for or towards, and use short pronouns.',
+      'Say what you will do, make plans, say who something is for or toward, and use short pronouns.',
   },
   'A1-14': {
     title: 'Giving, Liking and the Daily Routine',
@@ -116,7 +116,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
       'Talk about sport and free time, say how you feel, and tell someone to do or not to do something.',
   },
   'A1-20': {
-    title: 'Addressing People and Travelling in Croatia',
+    title: 'Addressing People and Traveling in Croatia',
     subtitle:
       'Use verbs like doći and moći, address someone correctly, find your way, and plan a trip.',
   },
@@ -249,7 +249,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'B2-5': {
     title: 'Body, Health and Everyday Slang',
     subtitle:
-      'Use nitko and ništa in every case, say what hurts, grade intensity, recognise slang, and talk about staying healthy.',
+      'Use nitko and ništa in every case, say what hurts, grade intensity, recognize slang, and talk about staying healthy.',
   },
   'B2-6': {
     title: 'Agreement, Family and Fluency',
@@ -341,7 +341,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'C1-10': {
     title: 'Prefixes, Prosody and Academic Writing',
     subtitle:
-      'Speak without a subject, use verbal prefixes, hear pitch accent, summarise and paraphrase, and write an academic essay.',
+      'Speak without a subject, use verbal prefixes, hear pitch accent, summarize and paraphrase, and write an academic essay.',
   },
   'C1-11': {
     title: 'Old Tenses, Quotes and Debate',
@@ -356,7 +356,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'C1-13': {
     title: 'Science, Culture and Identity',
     subtitle:
-      'Read technical Croatian, discuss the arts, recognise regional varieties, and talk about language and heritage.',
+      'Read technical Croatian, discuss the arts, recognize regional varieties, and talk about language and heritage.',
   },
 
   // ── C2 ──────────────────────────────────────────────────────────────────────
@@ -366,7 +366,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
       'Tell the norm from usage, handle contested spellings, master the hard edges of aspect, and use the second conditional.',
   },
   'C2-2': {
-    title: 'Style, Irony and Humour',
+    title: 'Style, Irony and Humor',
     subtitle:
       'Use rhetorical figures and sentence rhythm, read irony and puns, and write in the administrative register.',
   },
@@ -383,6 +383,6 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'C2-5': {
     title: 'Editing, Proverbs and Dialects',
     subtitle:
-      'Edit someone else’s Croatian, recognise proverbs and allusions, follow the dialects, and choose your register deliberately.',
+      'Edit someone else’s Croatian, recognize proverbs and allusions, follow the dialects, and choose your register deliberately.',
   },
 };

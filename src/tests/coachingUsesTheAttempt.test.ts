@@ -5,7 +5,7 @@
  * that."_ It was not caching and not stale state (`setCoaching(null)` runs on every
  * new attempt). The coach simply had nothing to go on:
  *
- *   1. `parseAzureResponse` DROPPED Azure's recognised text, so the client had no
+ *   1. `parseAzureResponse` DROPPED Azure's recognized text, so the client had no
  *      transcript on the acoustic path.
  *   2. So `PronunciationScorer` passed `targetText` as `spoken` — telling the coach
  *      the learner had said the phrase exactly.
@@ -35,13 +35,13 @@ const CLIENT = strip(readFileSync('src/components/shared/PronunciationScorer.tsx
 
 describe('the pronunciation coach is given the learner attempt', () => {
   it('the assess endpoint forwards what Azure actually heard', () => {
-    expect(ASSESS, 'the recognised text must be parsed out of the NBest entry').toMatch(
+    expect(ASSESS, 'the recognized text must be parsed out of the NBest entry').toMatch(
       /const recognized = nbest\.Display \|\| nbest\.Lexical/,
     );
     expect(ASSESS, 'and returned to the client').toMatch(/word_scores,\s*recognized/);
   });
 
-  it('the client sends the recognised text, NOT the target, as `spoken`', () => {
+  it('the client sends the recognized text, NOT the target, as `spoken`', () => {
     // The exact defect: `fetchCoaching(targetText, overallScore)`.
     expect(
       /fetchCoaching\(\s*targetText\s*,/.test(CLIENT),

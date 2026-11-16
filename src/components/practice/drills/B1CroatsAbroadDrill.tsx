@@ -21,7 +21,7 @@ export default function B1CroatsAbroadDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1croatsabroad"
       title="Croats in the World, the World in Croatia"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CROATS_ABROAD_MODE_LABELS}
       data={CROATS_ABROAD_DRILL_DATA}
       praise={{

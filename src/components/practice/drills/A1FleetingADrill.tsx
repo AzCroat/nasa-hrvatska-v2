@@ -21,7 +21,7 @@ export default function A1FleetingADrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1fleetinga"
       title="The A That Disappears"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FLEETING_A_MODE_LABELS}
       data={FLEETING_A_DRILL_DATA}
       praise={{

@@ -21,7 +21,7 @@ export default function B2FalseFriendsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2falsefriends"
       title="Aktualan Is Not Actual"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FALSE_FRIENDS_MODE_LABELS}
       data={FALSE_FRIENDS_DRILL_DATA}
       praise={{

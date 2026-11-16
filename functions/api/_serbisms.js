@@ -95,7 +95,7 @@ export const SERBISM_RULES = [
   // outside that lesson would have passed.
   //
   // The stem is the whole precision argument and it needs no enumeration:
-  // Croatian realises this yat as -dje- in every form (nedjelja, nedjeljom,
+  // Croatian realizes this yat as -dje- in every form (nedjelja, nedjeljom,
   // nedjeljni, nedjeljiv), and `ponedjeljak` has a letter before the stem, so
   // the lookbehind rejects it. There is no standard Croatian word beginning
   // `nedelj-`. Probed in both directions before writing: the five ekavica forms

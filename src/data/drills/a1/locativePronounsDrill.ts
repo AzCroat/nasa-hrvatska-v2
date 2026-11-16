@@ -106,7 +106,7 @@ export const LOCATIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Mama misli o ____.',
-    en: 'Mum is thinking about us.',
+    en: 'Mom is thinking about us.',
     opts: ['nama', 'nas', 'mi', 'nami'],
     answer: 'nama',
     tip: 'misliti o + locative.',

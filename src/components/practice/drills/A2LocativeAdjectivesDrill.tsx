@@ -21,7 +21,7 @@ export default function A2LocativeAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2locativeadjectives"
       title="U velikom gradu — the Locative of Adjectives"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={LOCATIVE_ADJECTIVES_MODE_LABELS}
       data={LOCATIVE_ADJECTIVES_DRILL_DATA}
       praise={{

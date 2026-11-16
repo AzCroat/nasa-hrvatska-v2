@@ -127,7 +127,7 @@ export const TIME_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
     en: 'Next month we have guests coming from Canada.',
     opts: ['Sljedećeg mjeseca', 'Sljedećog mjeseca', 'Sljedeći mjeseca', 'Sljedećem mjesecu'],
     answer: 'Sljedećeg mjeseca',
-    tip: 'After the soft ć the ending is spelt -eg.',
+    tip: 'After the soft ć the ending is spelled -eg.',
   },
   {
     mode: 'svaki',
@@ -166,7 +166,7 @@ export const TIME_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'datum',
     q: 'Praznik rada slavi se ____ svibnja.',
-    en: 'Labour Day is celebrated on the first of May.',
+    en: 'Labor Day is celebrated on the first of May.',
     opts: ['prvog', 'prvi', 'prvom', 'prva'],
     answer: 'prvog',
     tip: 'Ordinal in the genitive, month in the genitive.',

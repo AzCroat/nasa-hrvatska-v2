@@ -62,7 +62,7 @@ describe('missed words reach spaced repetition', () => {
   it('writes a card for every missed word', () => {
     expect(Object.keys(getSR())).toHaveLength(0);
     addWeakWords([
-      { hr: 'zrakoplov', en: 'aeroplane' },
+      { hr: 'zrakoplov', en: 'airplane' },
       { hr: 'kolodvor', en: 'station' },
     ]);
     const sr = getSR();
@@ -72,7 +72,7 @@ describe('missed words reach spaced repetition', () => {
   it('records them as MISSED, not as fresh cards', () => {
     // `correct: false` is the whole point — a word just got wrong should come
     // back sooner, and `addWordToSRS` would no-op on one already in the deck.
-    addWeakWords([{ hr: 'zrakoplov', en: 'aeroplane' }]);
+    addWeakWords([{ hr: 'zrakoplov', en: 'airplane' }]);
     const card = getSR()['zrakoplov'] as { w?: number; r?: number };
     expect(card.w, 'the miss was not recorded as a wrong answer').toBeGreaterThan(0);
     expect(card.r ?? 0).toBe(0);
@@ -81,7 +81,7 @@ describe('missed words reach spaced repetition', () => {
   it('pulls an ALREADY-TRACKED word forward instead of no-opping', () => {
     getSRScore('zrakoplov', true, 4000); // learner had it right before
     const before = (getSR()['zrakoplov'] as { due: number }).due;
-    addWeakWords([{ hr: 'zrakoplov', en: 'aeroplane' }]);
+    addWeakWords([{ hr: 'zrakoplov', en: 'airplane' }]);
     const after = (getSR()['zrakoplov'] as { due: number }).due;
     expect(after, 'a repeat mistake left the schedule untouched').toBeLessThan(before);
   });

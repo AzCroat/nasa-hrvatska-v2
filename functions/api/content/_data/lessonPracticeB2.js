@@ -45,8 +45,8 @@ export const PRACTICE_B2 = {
       },
       {
         title: 'Where Does Je Go After Se?',
-        problem: 'Složi: Marko / je / joj / se / ispričao (Marko apologised to her)',
-        en: 'Put in order: Marko apologised to her.',
+        problem: 'Složi: Marko / je / joj / se / ispričao (Marko apologized to her)',
+        en: 'Put in order: Marko apologized to her.',
         steps: [
           {
             label: 'Sort the clitics',
@@ -228,7 +228,7 @@ export const PRACTICE_B2 = {
       ['sviđati se', 'to be liked (someone likes something)', 'Sviđa mi se ovaj grad.'],
       ['sjećati se', 'to remember', 'Sjećaš li se našeg prvog putovanja?'],
       ['javiti se', 'to get in touch, to call back', 'Javit ću ti se kad stignem.'],
-      ['ispričati se', 'to apologise', 'Ispričao joj se zbog kašnjenja.'],
+      ['ispričati se', 'to apologize', 'Ispričao joj se zbog kašnjenja.'],
       ['nasmijati se', 'to laugh (burst out laughing)', 'Nasmijala se kad je čula šalu.'],
       ['zabaviti se', 'to have fun', 'Dobro smo se zabavili na koncertu.'],
       ['pokazati', 'to show (pf.)', 'Pokazat ću ti ga sutra.'],
@@ -569,7 +569,7 @@ export const PRACTICE_B2 = {
           explanation: 'Učim hrvatski jer mi je baka iz Splita.',
         },
         {
-          q: "Dopuni: 'Čovjek s ___ sam razgovarao moj je susjed.' (The man I talked to is my neighbour.)",
+          q: "Dopuni: 'Čovjek s ___ sam razgovarao moj je susjed.' (The man I talked to is my neighbor.)",
           options: ['koji', 'kojeg', 'kojim', 'kojem'],
           correct: 2,
           hint: 'S meaning "with" takes the instrumental.',
@@ -1096,7 +1096,7 @@ export const PRACTICE_B2 = {
       {
         title: 'From Chat to Official Notice',
         problem: 'Pretvori u službeni stil: "Zbog kiše su otkazali koncert."',
-        en: 'Rewrite formally: "They cancelled the concert because of the rain."',
+        en: 'Rewrite formally: "They canceled the concert because of the rain."',
         steps: [
           {
             label: 'Remove the vague "they"',
@@ -1904,7 +1904,7 @@ export const PRACTICE_B2 = {
         explanation: 'Prestati takes only the imperfective infinitive: prestanite vikati.',
       },
       {
-        q: "Complete: 'Zaboravio sam ___ mamu.' (I forgot to call mum.)",
+        q: "Complete: 'Zaboravio sam ___ mamu.' (I forgot to call mom.)",
         options: ['nazvati', 'zvati', 'nazovem', 'zovući'],
         correct: 0,
         explanation:
@@ -2296,7 +2296,7 @@ export const PRACTICE_B2 = {
           'The -vši adverb is built from the perfective verb, so "having come" is došavši.',
       },
       {
-        q: "Mum is cooking and the children are playing. Why is 'Kuhajući ručak, djeca su se igrala' wrong?",
+        q: "Mom is cooking and the children are playing. Why is 'Kuhajući ručak, djeca su se igrala' wrong?",
         options: [
           'kuhajući must be kuhavši',
           'djeca must be dijete',
@@ -3010,7 +3010,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'First gap',
-            text: 'gurnuo — pushed, movement towards: accusative, krevet.',
+            text: 'gurnuo — pushed, movement toward: accusative, krevet.',
           },
           {
             label: 'Second gap',
@@ -3457,7 +3457,7 @@ export const PRACTICE_B2 = {
           explanation: 'Sve manje mladih — sve + comparative.',
         },
         {
-          q: 'Dopuni: "Što ___ vježbaš, to ćeš brže napredovati." (the more you practise)',
+          q: 'Dopuni: "Što ___ vježbaš, to ćeš brže napredovati." (the more you practice)',
           options: ['puno', 'više', 'najviše', 'previše'],
           correct: 1,
           hint: 'Both halves of the correlative take a comparative, not a plain adverb or a superlative.',
@@ -5272,7 +5272,7 @@ export const PRACTICE_B2 = {
         en: 'The host says: "It is nothing special, just a bit of sarma." Answer as expected.',
         steps: [
           {
-            label: 'Recognise the move',
+            label: 'Recognize the move',
             text: 'Self-deprecation is not a request for agreement — it invites warm contradiction.',
           },
           {
@@ -5303,7 +5303,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ma daj! = "Oh come on!" — disbelief, usually affectionate.',
         },
         {
-          q: 'The ferry has just been cancelled. Which remark is sarcastic?',
+          q: 'The ferry has just been canceled. Which remark is sarcastic?',
           options: [
             'Baš lijepo, sad čekamo do sutra.',
             'Nema veze, riješit ćemo.',
@@ -5312,7 +5312,7 @@ export const PRACTICE_B2 = {
           ],
           correct: 0,
           hint: 'Look for praise attached to an obviously bad situation.',
-          explanation: '"Baš lijepo" about a cancelled ferry means the opposite.',
+          explanation: '"Baš lijepo" about a canceled ferry means the opposite.',
         },
         {
           q: 'Dopuni: "Ma ___, nema šanse!" (No way, not a chance!)',
@@ -5373,7 +5373,7 @@ export const PRACTICE_B2 = {
           options: [
             'take it as warm praise',
             'look disappointed',
-            'apologise',
+            'apologize',
             'ask for the truth',
           ],
           correct: 0,

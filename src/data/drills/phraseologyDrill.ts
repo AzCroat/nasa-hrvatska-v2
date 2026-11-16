@@ -92,7 +92,7 @@ export const PHRASEOLOGY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poslovice',
     q: 'Zašto je prepoznavanje po početku ključno?',
-    en: 'Why recognise from the opening?',
+    en: 'Why recognize from the opening?',
     opts: ['drugi dio se ne izgovara', 'početak je kraći', 'kraj se mijenja', 'nije ključno'],
     answer: 'drugi dio se ne izgovara',
     tip: 'You will never hear the completion, so you have to supply it.',
@@ -161,7 +161,7 @@ export const PHRASEOLOGY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Are they explained in serious writing?',
     opts: ['ne, pretpostavljaju se', 'da, uvijek', 'u fusnoti', 'ovisi o listu'],
     answer: 'ne, pretpostavljaju se',
-    tip: 'Assumed and unexplained — which is why they have to be recognised.',
+    tip: 'Assumed and unexplained — which is why they have to be recognized.',
   },
   {
     mode: 'aluzije',
@@ -184,7 +184,7 @@ export const PHRASEOLOGY_DRILL_DATA: ModeDrillItem[] = [
     en: 'How many proverbs per paragraph?',
     opts: ['jedna', 'tri', 'koliko odgovara', 'nijedna'],
     answer: 'jedna',
-    tip: 'Recognise all of them; produce one at a time.',
+    tip: 'Recognize all of them; produce one at a time.',
   },
   {
     mode: 'uporaba',

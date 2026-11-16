@@ -105,7 +105,7 @@ export const VOLUNTEERING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'glagoli',
     q: 'Ana pomaže ____.',
-    en: 'Ana helps her neighbour. (a woman)',
+    en: 'Ana helps her neighbor. (a woman)',
     opts: ['susjedi', 'susjede', 'susjeda', 'susjedom'],
     answer: 'susjedi',
     tip: 'pomagati + dative: susjeda → susjedi.',

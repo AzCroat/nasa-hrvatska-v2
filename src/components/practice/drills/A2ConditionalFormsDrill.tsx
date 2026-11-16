@@ -21,7 +21,7 @@ export default function A2ConditionalFormsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2conditionalforms"
       title="Would: Conditional I"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CONDITIONAL_FORMS_MODE_LABELS}
       data={CONDITIONAL_FORMS_DRILL_DATA}
       praise={{

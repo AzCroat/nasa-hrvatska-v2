@@ -124,7 +124,7 @@ function QuizBlock({ questions, award }: QuizBlockProps) {
         >
           {passedLesson(score, questions.length) ? '🌟 ' : '💪 '}
           {score}/{questions.length} —{' '}
-          {passedLesson(score, questions.length) ? 'Excellent!' : 'Keep practising!'}
+          {passedLesson(score, questions.length) ? 'Excellent!' : 'Keep practicing!'}
         </div>
       )}
     </div>

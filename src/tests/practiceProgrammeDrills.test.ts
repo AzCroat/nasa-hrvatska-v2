@@ -21,7 +21,7 @@
 //
 // The tag still matters for two things the coupling never touches:
 //   * ATTRIBUTION — categoryForScreen() feeds the adaptive store, so a wrong
-//     tag credits practice to a category the learner did not practise;
+//     tag credits practice to a category the learner did not practice;
 //   * VARIETY — SKILL_GROUP is keyed on the category, so a wrong tag can put a
 //     drill in the wrong family and let the P3 pass serve four of a kind.
 //

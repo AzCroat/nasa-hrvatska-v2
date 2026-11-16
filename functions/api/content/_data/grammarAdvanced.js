@@ -1225,7 +1225,7 @@ export const VERBAL_NOUNS = {
   subtitle: 'pisanje, čitanje, putovanje — gerund-like nouns from verbs',
   focus: 'verbal nouns, glagolska imenica, gerund, pisanje, citanje, -nje suffix',
   intro:
-    'Verbal nouns (glagolske imenice) are nominalized verbs ending in -nje (pisanje "writing", čitanje "reading", putovanje "travelling"). They are formed productively from almost any imperfective verb by replacing the infinitive ending with -nje, often with phonological adjustments. They decline as neuter `-e/-a` nouns through all seven cases and are extremely frequent in formal Croatian (legal, academic, journalistic). Crucially, a verbal noun in a phrase like `umoran od putovanja` takes the case governed by the preposition (`od` → genitive), NOT the case the source verb would have demanded.',
+    'Verbal nouns (glagolske imenice) are nominalized verbs ending in -nje (pisanje "writing", čitanje "reading", putovanje "traveling"). They are formed productively from almost any imperfective verb by replacing the infinitive ending with -nje, often with phonological adjustments. They decline as neuter `-e/-a` nouns through all seven cases and are extremely frequent in formal Croatian (legal, academic, journalistic). Crucially, a verbal noun in a phrase like `umoran od putovanja` takes the case governed by the preposition (`od` → genitive), NOT the case the source verb would have demanded.',
   forms: [
     { label: 'N (nominativ)', hr: 'pisanje', en: 'writing (subject)' },
     { label: 'G (genitiv)', hr: 'pisanja', en: 'of writing' },
@@ -1238,7 +1238,7 @@ export const VERBAL_NOUNS = {
   examples: [
     {
       hr: 'Umoran sam od putovanja.',
-      en: 'I am tired from travelling.',
+      en: 'I am tired from traveling.',
       note: 'Preposition `od` governs genitive → `putovanja` (gen. sg. of `putovanje`).',
     },
     {
@@ -1284,7 +1284,7 @@ export const VERBAL_NOUNS = {
     },
     {
       q: '"Umoran sam ____ ."',
-      qEn: 'I am tired from travelling.',
+      qEn: 'I am tired from traveling.',
       opts: ['od putovanju', 'od putovanja', 'od putovanje', 'od putovanjem'],
       correct: 1,
       explain: '`od` requires genitive → `putovanja` (gen. sg. of `putovanje`).',

@@ -34,7 +34,7 @@ export const ITERATIVE_CONDITIONAL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Kad bih došao kući, mama ____ već skuhala ručak.',
-    en: 'Whenever I came home, Mum would already have cooked lunch.',
+    en: 'Whenever I came home, Mom would already have cooked lunch.',
     opts: ['bi', 'bih', 'bismo', 'biste'],
     answer: 'bi',
     tip: 'The subject of the second clause is mama: third person.',
@@ -253,7 +253,7 @@ export const ITERATIVE_CONDITIONAL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'red',
     q: 'Koja je rečenica točna?',
-    en: 'Mum would always buy us a bread roll.',
+    en: 'Mom would always buy us a bread roll.',
     opts: [
       'Mama bi nam uvijek kupila kiflu.',
       'Mama nam bi uvijek kupila kiflu.',

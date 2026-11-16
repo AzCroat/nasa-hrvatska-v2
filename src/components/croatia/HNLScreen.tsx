@@ -184,7 +184,7 @@ const TEAMS_DETAIL = [
     capacity: '34,198',
     titles: '19',
     ultras: 'Torcida (est. 1950)',
-    desc: "The People's Club — one of a handful of supporter-owned clubs in Europe. Home of the Torcida, founded in 1950 and recognised as Europe's oldest ultras group. The eternal rival of Dinamo. Every Dinamo–Hajduk match (the 'Vječni derbi') is the biggest game in Croatian football.",
+    desc: "The People's Club — one of a handful of supporter-owned clubs in Europe. Home of the Torcida, founded in 1950 and recognized as Europe's oldest ultras group. The eternal rival of Dinamo. Every Dinamo–Hajduk match (the 'Vječni derbi') is the biggest game in Croatian football.",
     achievements: [
       '19× HNL Champions',
       "Torcida — Europe's oldest ultras",

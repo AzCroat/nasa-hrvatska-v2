@@ -21,7 +21,7 @@ export default function C1HypocoristicsDvojicaDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1hypocoristicsdvojica"
       title="Ivo, Ante, Luka — and Dvojica"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={HYPOCORISTICS_DVOJICA_MODE_LABELS}
       data={HYPOCORISTICS_DVOJICA_DRILL_DATA}
       praise={{

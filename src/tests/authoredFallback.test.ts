@@ -3,7 +3,7 @@
 // DEGRADE VISIBLY (recommender audit, 2026-08-20) — the last residual weakness
 // from the gating audit.
 //
-// The behaviour being pinned is a trade, and both halves matter:
+// The behavior being pinned is a trade, and both halves matter:
 //
 //   * an AI activity that cannot generate must no longer credit the session for
 //     work the learner never did;

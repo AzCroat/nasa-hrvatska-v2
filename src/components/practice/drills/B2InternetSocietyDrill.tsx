@@ -21,7 +21,7 @@ export default function B2InternetSocietyDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2internetsociety"
       title="Living Online"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INTERNET_SOCIETY_MODE_LABELS}
       data={INTERNET_SOCIETY_DRILL_DATA}
       praise={{

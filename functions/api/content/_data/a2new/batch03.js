@@ -22,7 +22,7 @@ export const SPINE = [
     prerequisites: ['work-jobs', 'feelings'],
     objectives: [
       'Say what is going wrong at work or at home: Imam problem sa šefom, Računalo ne radi',
-      'Complain mildly about the workload, the pay or the neighbours',
+      'Complain mildly about the workload, the pay or the neighbors',
       'Answer a friend with sympathy: Žao mi je, Razumijem te, To je grozno',
     ],
   },
@@ -96,7 +96,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Kako je na poslu?',
-        body: 'Sooner or later every conversation with a friend reaches "How is work?" — and the honest answer is often a problem: too much work, a difficult boss, a computer that will not start, neighbours who play music all night. This lesson gives you the words to say what is wrong, and the words a good friend uses to answer.',
+        body: 'Sooner or later every conversation with a friend reaches "How is work?" — and the honest answer is often a problem: too much work, a difficult boss, a computer that will not start, neighbors who play music all night. This lesson gives you the words to say what is wrong, and the words a good friend uses to answer.',
         icon: '😩',
       },
       {
@@ -128,7 +128,7 @@ export const LESSONS = [
           ['Imam problem s kolegom.', 'I have a problem with a colleague.', 'Što se dogodilo?'],
           ['Računalo opet ne radi.', "The computer isn't working again.", 'Nazovi informatičara!'],
           ['Boli me glava od stresa.', 'My head hurts from stress.', 'Odmori se malo.'],
-          ['Susjedi su glasni svaku noć.', 'The neighbours are loud every night.', 'To je grozno!'],
+          ['Susjedi su glasni svaku noć.', 'The neighbors are loud every night.', 'To je grozno!'],
         ],
       },
       {
@@ -174,7 +174,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Imam problem sa susjedima. Svaku noć slušaju glasnu glazbu.',
-            en: 'I have a problem with the neighbours. Every night they listen to loud music.',
+            en: 'I have a problem with the neighbors. Every night they listen to loud music.',
             note: 'sa susjedima — instrumental plural',
           },
           {
@@ -346,7 +346,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Goodbye',
-        body: 'Javi se! (Get in touch!) Piši mi! (Write to me!) Vidimo se uskoro! (See you soon!) Pozdravi mamu i tatu! (Say hi to your mum and dad! — pozdraviti takes the accusative.) Then the closing: Pozdrav! or Puno pozdrava! (literally "many greetings"), Grlim te! (a hug). Sign with tvoj or tvoja — it agrees with YOU, the writer: Tvoj Marko, Tvoja Ana.',
+        body: 'Javi se! (Get in touch!) Piši mi! (Write to me!) Vidimo se uskoro! (See you soon!) Pozdravi mamu i tatu! (Say hi to your mom and dad! — pozdraviti takes the accusative.) Then the closing: Pozdrav! or Puno pozdrava! (literally "many greetings"), Grlim te! (a hug). Sign with tvoj or tvoja — it agrees with YOU, the writer: Tvoj Marko, Tvoja Ana.',
         highlight: 'Puno pozdrava!',
       },
       {
@@ -406,7 +406,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pozdravi mamu i tatu i piši mi!',
-            en: 'Say hi to your mum and dad, and write to me!',
+            en: 'Say hi to your mom and dad, and write to me!',
             note: 'pozdravi — the imperative of pozdraviti',
           },
           {
@@ -485,10 +485,10 @@ export const LESSONS = [
           {
             q: 'What does "Pozdravi mamu!" mean at the end of an email?',
             options: [
-              'Say hi to your mum!',
-              'Call your mum!',
-              'Mum says hi!',
-              'Write to your mum!',
+              'Say hi to your mom!',
+              'Call your mom!',
+              'Mom says hi!',
+              'Write to your mom!',
             ],
             correct: 0,
             explanation:
@@ -526,7 +526,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Every Verb Has a Partner',
-        body: 'In the last lesson you met aspect: the imperfective verb (nesvršeni glagol) describes the process — doing it, how long, right now; the perfective verb (svršeni glagol) describes one finished result. Most verbs come as a pair. This lesson is about the practical part: the pairs you need every day, and how to recognise which partner is which.',
+        body: 'In the last lesson you met aspect: the imperfective verb (nesvršeni glagol) describes the process — doing it, how long, right now; the perfective verb (svršeni glagol) describes one finished result. Most verbs come as a pair. This lesson is about the practical part: the pairs you need every day, and how to recognize which partner is which.',
         icon: '🔗',
       },
       {
@@ -1412,8 +1412,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Naming the Problem',
-        problem: 'Prevedi: "I have a problem with the neighbours."',
-        en: 'Translate: I have a problem with the neighbours.',
+        problem: 'Prevedi: "I have a problem with the neighbors."',
+        en: 'Translate: I have a problem with the neighbors.',
         steps: [
           {
             label: 'Find the pattern',
@@ -1555,7 +1555,7 @@ export const PRACTICE = {
         options: ['s', 'u', 'na', 'sa'],
         correct: 3,
         explanation:
-          'The problem is with the neighbour: s + instrumental, and before s it becomes sa.',
+          'The problem is with the neighbor: s + instrumental, and before s it becomes sa.',
       },
       {
         q: 'Complete: "Već tri dana nema ___." (electricity)',
@@ -1609,7 +1609,7 @@ export const PRACTICE = {
       ['stres', 'stress', 'Na poslu imam puno stresa.'],
       ['umoran', 'tired', 'Stalno sam umoran.'],
       ['u kvaru', 'broken, out of order', 'Auto je opet u kvaru.'],
-      ['susjed', 'neighbour', 'Susjedi su glasni svaku noć.'],
+      ['susjed', 'neighbor', 'Susjedi su glasni svaku noć.'],
       ['žao mi je', 'I am sorry', 'Žao mi je, to je grozno.'],
       ['grozno', 'awful', 'Joj, to je grozno!'],
     ],
@@ -1782,7 +1782,7 @@ export const PRACTICE = {
         explanation: 'Draga Ana is warm and personal; the others are formal.',
       },
       {
-        q: 'Complete: "Pozdravi ___ i tatu!" (your mum)',
+        q: 'Complete: "Pozdravi ___ i tatu!" (your mom)',
         options: ['mama', 'mami', 'mamu', 'mamom'],
         correct: 2,
         explanation: 'pozdraviti takes the accusative: mamu.',
@@ -2614,10 +2614,10 @@ export const PRACTICE = {
       {
         q: 'What does "Trebala bi nazvati mamu" mean, said to a friend?',
         options: [
-          'You called your mum.',
-          'You should call your mum.',
-          'You must not call your mum.',
-          'You are calling your mum.',
+          'You called your mom.',
+          'You should call your mom.',
+          'You must not call your mom.',
+          'You are calling your mom.',
         ],
         correct: 1,
         explanation: 'trebala bi = you should — advice to a woman.',

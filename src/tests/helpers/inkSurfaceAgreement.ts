@@ -38,7 +38,7 @@
 // content. The measurement bears that out — 31 and 2 findings, every one confirmed by
 // hand, zero false positives after the self-painting exemption was added. Omitting that
 // exemption reported 30 where the truth was 2, and the 24 extras were all
-// `background:'#f3f4f6'` chips with grey ink, correct in both themes.
+// `background:'#f3f4f6'` chips with gray ink, correct in both themes.
 
 import { readFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
@@ -81,7 +81,7 @@ function lum([r, g, b]: readonly [number, number, number]): number {
 }
 
 /**
- * The LIGHT colour a quoted background arm paints, or undefined.
+ * The LIGHT color a quoted background arm paints, or undefined.
  *
  * A pale two-stop GRADIENT is a light slab exactly as a pale hex is: 41 sites paint one
  * (`linear-gradient(135deg,#f0f9ff,#e0f2fe)`), and a dark-mode sweep measured six routes
@@ -251,7 +251,7 @@ export function findLightSlabThemedInk(list?: string[]): AgreementFinding[] {
       // subtree is not this clause's business. Without this the scan reaches a SIBLING:
       // `WritingScreen`'s level badge is five opaque tints each with its own measured dark
       // ink (7.15, 6.49, 4.58, 4.51, 7.57 — the comments record the measurements), and it
-      // was reported because a neighbouring `prompt.focus` span uses `var(--subtext)`.
+      // was reported because a neighboring `prompt.focus` span uses `var(--subtext)`.
       // Theming that slab would have broken a correct, measured pair. Same exemption
       // clause 2 already carries, and the mirror of it.
       // ARM-AWARE, because the badge's own ink is a five-arm ternary that Prettier wraps —

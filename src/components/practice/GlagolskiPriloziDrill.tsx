@@ -160,7 +160,7 @@ const DATA = [
     q: '„Dok je hodala kući, srela je susjedu.” = „____ kući, srela je susjedu.”',
     opts: ['Hodajući', 'Hodavši', 'Došavši', 'Hodaći'],
     answer: 'Hodajući',
-    en: 'while walking home, she met her neighbour',
+    en: 'while walking home, she met her neighbor',
     tip: 'Dok + istodobnost → prilog sadašnji.',
   },
   {

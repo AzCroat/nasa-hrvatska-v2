@@ -57,7 +57,7 @@ export const IMPERSONAL_FEELINGS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osjecaj',
     q: '____ je zlo.',
-    en: 'Mum feels sick.',
+    en: 'Mom feels sick.',
     opts: ['Mama', 'Mamu', 'Mami', 'Mamom'],
     answer: 'Mami',
     tip: 'The person who feels it goes in the dative: mami.',

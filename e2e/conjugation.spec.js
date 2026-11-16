@@ -23,9 +23,9 @@ test.describe('Conjugation in Today\'s Session', () => {
     await mockTTS(page);
     await mockContent(page); // serve /api/content/grammar (incl. VERBS) so the drill hydrates
     // Make present-tense the adaptive pick. getDueCategoryQueue uses a coverage
-    // floor: a category not practised within ~14 days (or never seen) is "starved"
+    // floor: a category not practiced within ~14 days (or never seen) is "starved"
     // and promoted to the front, most-neglected first. So seed EVERY category as
-    // recently practised and not due, and leave only present-tense starved (last
+    // recently practiced and not due, and leave only present-tense starved (last
     // seen 30 days ago) — it becomes the sole front-of-queue adaptive topic and
     // routes to conjpractice. The seed derives from ALL_CATEGORIES so a newly
     // scheduled category can never sneak in as never-seen and jump the queue

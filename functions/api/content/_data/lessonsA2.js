@@ -101,7 +101,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'When Two Meet: Dative First',
-        body: 'If a sentence has both, the dative comes before the accusative — the opposite of the English order in "give it to me". Dao mi ga je. (He gave it to me: to-me + it + he-did.) Dajem ti ga. (I am giving it to you.) The rule is short enough to memorise: to-whom before what.',
+        body: 'If a sentence has both, the dative comes before the accusative — the opposite of the English order in "give it to me". Dao mi ga je. (He gave it to me: to-me + it + he-did.) Dajem ti ga. (I am giving it to you.) The rule is short enough to memorize: to-whom before what.',
         highlight: 'Dao mi ga je.',
       },
       {
@@ -158,7 +158,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Mama mi piše svaki tjedan.',
-            en: 'Mum writes to me every week.',
+            en: 'Mom writes to me every week.',
             note: 'mi — dative "to me", in second position',
           },
           {
@@ -355,7 +355,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Thing and the Person in One Sentence',
-        body: 'Most dative sentences hold two objects: the THING in the accusative and the PERSON in the dative. Dajem sestri knjigu. (I give my sister the book.) Šaljem mami razglednicu. (I send Mum a postcard.) Ask two questions — Što? (what?) for the thing and Komu? (to whom?) for the person — and each noun gets its own ending.',
+        body: 'Most dative sentences hold two objects: the THING in the accusative and the PERSON in the dative. Dajem sestri knjigu. (I give my sister the book.) Šaljem mami razglednicu. (I send Mom a postcard.) Ask two questions — Što? (what?) for the thing and Komu? (to whom?) for the person — and each noun gets its own ending.',
         highlight: 'Dajem sestri knjigu.',
       },
       {
@@ -395,7 +395,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Poslao sam mami razglednicu iz Dubrovnika.',
-            en: 'I sent my mum a postcard from Dubrovnik.',
+            en: 'I sent my mom a postcard from Dubrovnik.',
             note: 'mama → mami, the receiver',
           },
           {
@@ -425,7 +425,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Zahvalio sam susjedi na kolaču.',
-            en: 'I thanked my neighbour for the cake.',
+            en: 'I thanked my neighbor for the cake.',
             note: 'zahvaliti + dative, then na + locative',
           },
           {
@@ -438,7 +438,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'A Few Prepositions Take It Too',
-        body: 'The dative is mostly preposition-free, but four prepositions take it, and the next lesson practises them: "k / ka" (towards a person — Idem k liječniku), "prema" (towards), "nasuprot" (opposite) and "unatoč / usprkos" (despite — Unatoč kiši, idemo).',
+        body: 'The dative is mostly preposition-free, but four prepositions take it, and the next lesson practises them: "k / ka" (toward a person — Idem k liječniku), "prema" (toward), "nasuprot" (opposite) and "unatoč / usprkos" (despite — Unatoč kiši, idemo).',
         highlight: 'k · prema · nasuprot · unatoč',
       },
       {
@@ -484,7 +484,7 @@ export const LESSONS_A2 = [
               '"Pomoći" takes the dative even though English uses a plain object: bratu. "Brata" is the accusative, which is the most common learner error with this verb.',
           },
           {
-            q: 'Which sentence correctly says "I am sending Mum a postcard"?',
+            q: 'Which sentence correctly says "I am sending Mom a postcard"?',
             options: [
               'Šaljem mama razglednicu.',
               'Šaljem mamu razglednicu.',
@@ -526,7 +526,7 @@ export const LESSONS_A2 = [
             options: ['u', 'na', 'k', 'kod'],
             correct: 2,
             explanation:
-              '"Liječniku" is a dative, and the preposition that takes the dative for "towards a person" is "k". "U" and "na" go with places and take the accusative for motion; "kod" is a different construction with a different case.',
+              '"Liječniku" is a dative, and the preposition that takes the dative for "toward a person" is "k". "U" and "na" go with places and take the accusative for motion; "kod" is a different construction with a different case.',
           },
         ],
       },
@@ -613,7 +613,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Putujem vlakom do Splita.',
-            en: 'I am travelling to Split by train.',
+            en: 'I am traveling to Split by train.',
             note: 'means — no preposition',
           },
           {
@@ -684,7 +684,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Idem u grad s mamom, a sutra sa sestrom.',
-            en: 'I am going into town with Mum, and tomorrow with my sister.',
+            en: 'I am going into town with Mom, and tomorrow with my sister.',
             note: 's mamom, but sa before s: sa sestrom',
           },
           {
@@ -701,7 +701,7 @@ export const LESSONS_A2 = [
         options: ['Idem s autobusom.', 'Idem autobusom.', 'Idem autobusu.', 'Idem autobus.'],
         correct: 1,
         explanation:
-          'A means of transport is the instrumental with NO preposition: Idem autobusom. Adding "s" would make the bus your travelling companion rather than your transport.',
+          'A means of transport is the instrumental with NO preposition: Idem autobusom. Adding "s" would make the bus your traveling companion rather than your transport.',
       },
       {
         type: 'quiz',
@@ -746,7 +746,7 @@ export const LESSONS_A2 = [
             ],
             correct: 2,
             explanation:
-              'Transport is the instrumental with no preposition: autobusom. "S autobusom" would make the bus your companion, and "na autobus" describes going towards a bus rather than travelling by it.',
+              'Transport is the instrumental with no preposition: autobusom. "S autobusom" would make the bus your companion, and "na autobus" describes going toward a bus rather than traveling by it.',
           },
           {
             q: 'What is wrong with "Bavim se sport"?',
@@ -916,7 +916,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Susjedi peru svoj auto svake subote.',
-            en: 'The neighbours wash their car every Saturday.',
+            en: 'The neighbors wash their car every Saturday.',
             note: 'plural subject, svoj still points back at it',
           },
           {
@@ -1870,7 +1870,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Questions Use the Long Auxiliary',
-        body: 'To ask, use the full form — jesam, jesi, je, jesmo, jeste, jesu — put it first, and follow it with "li". Jesi li radio? (Did you work?) Jeste li bili u Zagrebu? (Have you been to Zagreb?) The third person is the one to memorise, because it is simply "Je li…?": Je li došla? Je li to točno?',
+        body: 'To ask, use the full form — jesam, jesi, je, jesmo, jeste, jesu — put it first, and follow it with "li". Jesi li radio? (Did you work?) Jeste li bili u Zagrebu? (Have you been to Zagreb?) The third person is the one to memorize, because it is simply "Je li…?": Je li došla? Je li to točno?',
         highlight: 'Jesi li radio?',
       },
       {
@@ -2277,10 +2277,10 @@ export const LESSONS_A2 = [
           {
             q: 'What does "Rijetko idem u kazalište" mean?',
             options: [
-              'I never go to the theatre',
-              'I often go to the theatre',
-              'I usually go to the theatre',
-              'I rarely go to the theatre',
+              'I never go to the theater',
+              'I often go to the theater',
+              'I usually go to the theater',
+              'I rarely go to the theater',
             ],
             correct: 3,
             explanation:
@@ -2679,7 +2679,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Prijatelji s kojima putujem su iz Osijeka.',
-            en: 'The friends I am travelling with are from Osijek.',
+            en: 'The friends I am traveling with are from Osijek.',
             note: 's kojima — instrumental plural',
           },
           {
@@ -2829,7 +2829,7 @@ export const LESSONS_A2 = [
       {
         type: 'intro',
         title: 'A Pattern, Not a Word List',
-        body: 'This looks like twenty words to memorise. It is really three prefixes attached to five question words, and once you see the grid you can build any of them yourself. It is the tidiest corner of Croatian grammar.',
+        body: 'This looks like twenty words to memorize. It is really three prefixes attached to five question words, and once you see the grid you can build any of them yourself. It is the tidiest corner of Croatian grammar.',
         icon: '🔎',
       },
       {
@@ -3377,7 +3377,7 @@ export const LESSONS_A2 = [
       {
         type: 'intro',
         title: 'The Vocabulary You Hope Not to Need',
-        body: "Every traveller eventually has to explain what hurts, and this is one of the few situations where getting the words out matters more than getting them right. It also contains one of Croatian's most characteristic sentence patterns — the one where the pain is the subject and you are the object.",
+        body: "Every traveler eventually has to explain what hurts, and this is one of the few situations where getting the words out matters more than getting them right. It also contains one of Croatian's most characteristic sentence patterns — the one where the pain is the subject and you are the object.",
         icon: '🩺',
       },
       {
@@ -3579,7 +3579,7 @@ export const LESSONS_A2 = [
             options: ['u', 'na', 'kod', 'k'],
             correct: 2,
             explanation:
-              '"Liječnika" is a genitive, and "kod" is the preposition that takes it for being at a person\'s place. "K" means going towards and takes the dative: k liječniku.',
+              '"Liječnika" is a genitive, and "kod" is the preposition that takes it for being at a person\'s place. "K" means going toward and takes the dative: k liječniku.',
           },
           {
             q: 'Which body part is always plural in Croatian?',
@@ -3666,8 +3666,8 @@ export const LESSONS_A2 = [
       },
       {
         type: 'rule',
-        title: 'Colours Agree Like Adjectives',
-        body: 'crven, plav, zelen, žut, crn, bijel, smeđ, siv, narančast, ružičast. They agree with what they describe, so the same colour changes shape: crveni šešir, crvena majica, crveno vino, crvene cipele. Nothing new to learn — but colours are where adjective agreement gets its most frequent workout.',
+        title: 'Colors Agree Like Adjectives',
+        body: 'crven, plav, zelen, žut, crn, bijel, smeđ, siv, narančast, ružičast. They agree with what they describe, so the same color changes shape: crveni šešir, crvena majica, crveno vino, crvene cipele. Nothing new to learn — but colors are where adjective agreement gets its most frequent workout.',
         highlight: 'crven · crvena · crveno · crvene',
       },
       {
@@ -3737,7 +3737,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Djeca nose crvene kape i sive čarape.',
-            en: 'The children are wearing red hats and grey socks.',
+            en: 'The children are wearing red hats and gray socks.',
             note: 'plural accusative: crvene kape, sive čarape',
           },
           {
@@ -3773,7 +3773,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Using "imati" for wearing: "Imam plavu majicu" says you own it; what you have on is "Nosim plavu majicu". (2) Leaving the colour in its dictionary form: "Nosim crven majicu" is wrong — the colour agrees with the noun in gender and case, "crvenu majicu". (3) Giving the plural-only words a singular adjective: "nova hlače" and "crna cipele" are wrong — hlače and cipele are feminine plural, "nove hlače", "crne cipele".',
+        body: '(1) Using "imati" for wearing: "Imam plavu majicu" says you own it; what you have on is "Nosim plavu majicu". (2) Leaving the color in its dictionary form: "Nosim crven majicu" is wrong — the color agrees with the noun in gender and case, "crvenu majicu". (3) Giving the plural-only words a singular adjective: "nova hlače" and "crna cipele" are wrong — hlače and cipele are feminine plural, "nove hlače", "crne cipele".',
         highlight: 'Nosim plavu majicu',
       },
       {
@@ -3785,7 +3785,7 @@ export const LESSONS_A2 = [
             options: ['crn', 'crna', 'crnu', 'crne'],
             correct: 2,
             explanation:
-              '"Suknja" is feminine and the object of "nosim", so the colour takes the feminine accusative: crnu suknju. "Crna" is the subject form and "crne" the plural.',
+              '"Suknja" is feminine and the object of "nosim", so the color takes the feminine accusative: crnu suknju. "Crna" is the subject form and "crne" the plural.',
           },
           {
             q: 'Complete: "Želi kupiti ___ cipele." (He wants to buy new shoes.)',
@@ -3842,7 +3842,7 @@ export const LESSONS_A2 = [
             options: ['bijel', 'bijela', 'bijelu', 'bijele'],
             correct: 3,
             explanation:
-              '"Čarape" is feminine plural and the object of "nosi", so the colour takes -e: bijele čarape. "Bijelu" is singular and "bijela" is the singular subject form.',
+              '"Čarape" is feminine plural and the object of "nosi", so the color takes -e: bijele čarape. "Bijelu" is singular and "bijela" is the singular subject form.',
           },
         ],
       },
@@ -3853,7 +3853,7 @@ export const LESSONS_A2 = [
           'majica, košulja, hlače, haljina, jakna, cipele, čarape',
           'hlače and traperice are always plural; cipele, tenisice and čarape usually come in pairs',
           'The verb is nositi, and what you wear takes the accusative',
-          'Colours agree like any adjective: crvena majica, crne cipele',
+          'Colors agree like any adjective: crvena majica, crne cipele',
           'Mogu li ovo probati? / Imate li broj četrdeset? / Želim ovu jaknu. / Uzimam ovo.',
         ],
       },
@@ -3900,13 +3900,13 @@ export const LESSONS_A2 = [
       },
       {
         type: 'table',
-        title: 'Hair and Eye Colours',
+        title: 'Hair and Eye Colors',
         headers: ['Croatian', 'English', 'Note'],
         rows: [
           ['plava kosa', 'blond hair', 'plav means blue AND blond'],
           ['smeđa kosa', 'brown hair', ''],
           ['crna kosa', 'black hair', ''],
-          ['sijeda kosa', 'grey hair', 'a separate word, not siva'],
+          ['sijeda kosa', 'gray hair', 'a separate word, not siva'],
           ['duga / kratka', 'long / short', 'duga kosa'],
           ['kovrčava / ravna', 'curly / straight', 'kovrčava kosa'],
         ],
@@ -3914,7 +3914,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Plav Means Two Things',
-        body: '"Plav" is blue, and it is also the word for blond hair. Plave oči are blue eyes; plava kosa is blond hair. There is no confusion in practice, because the noun decides, but it surprises everyone the first time. Grey hair has its own word — "sijeda", never "siva", which is for objects.',
+        body: '"Plav" is blue, and it is also the word for blond hair. Plave oči are blue eyes; plava kosa is blond hair. There is no confusion in practice, because the noun decides, but it surprises everyone the first time. Gray hair has its own word — "sijeda", never "siva", which is for objects.',
         highlight: 'plave oči · plava kosa',
       },
       {
@@ -3982,7 +3982,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Djed ima sijedu kosu i plave oči.',
-            en: 'Grandpa has grey hair and blue eyes.',
+            en: 'Grandpa has gray hair and blue eyes.',
             note: 'imati + accusative: sijedu kosu, plave oči',
           },
           {
@@ -4002,7 +4002,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Moja mama je vrijedna i jako strpljiva.',
-            en: 'My mum is hard-working and very patient.',
+            en: 'My mom is hard-working and very patient.',
             note: 'feminine: vrijedna, strpljiva',
           },
           {
@@ -4044,7 +4044,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Leaving hair in the subject form after imati: "Ima smeđa kosa" — kosa is the object, so Ima smeđu kosu. (2) Saying "siva kosa" for grey hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
+        body: '(1) Leaving hair in the subject form after imati: "Ima smeđa kosa" — kosa is the object, so Ima smeđu kosu. (2) Saying "siva kosa" for gray hair — siva is for objects; hair is "sijeda". (3) Mixing up kakav and koji: "Koji je on?" asks which one of several; to ask about character it is "Kakav je on?".',
         highlight: 'Kakav je on?',
       },
       {
@@ -4082,12 +4082,12 @@ export const LESSONS_A2 = [
             options: [
               'Nothing — it is correct',
               'It should be "sivi kosu"',
-              'Grey hair is "sijeda", not "siva"',
+              'Gray hair is "sijeda", not "siva"',
               '"Kosu" should be "kosa"',
             ],
             correct: 2,
             explanation:
-              'Hair has its own word for grey: sijeda kosa. "Siva" is the grey of objects — a grey car, a grey wall.',
+              'Hair has its own word for gray: sijeda kosa. "Siva" is the gray of objects — a gray car, a gray wall.',
           },
           {
             q: 'You want to know what kind of person Marko is. What do you ask?',
@@ -4098,7 +4098,7 @@ export const LESSONS_A2 = [
           },
           {
             q: 'What does "plava kosa" mean?',
-            options: ['blue hair', 'blond hair', 'grey hair', 'brown hair'],
+            options: ['blue hair', 'blond hair', 'gray hair', 'brown hair'],
             correct: 1,
             explanation:
               '"Plav" means blue, but with "kosa" it means blond. Blue eyes are "plave oči" — the noun decides.',
@@ -4118,7 +4118,7 @@ export const LESSONS_A2 = [
         points: [
           'visok, nizak, mlad, star, mršav, krupan, zgodan',
           'Hair and eyes: Ima smeđu kosu / Ima plave oči',
-          'plav means both blue and blond; grey hair is sijeda, never siva',
+          'plav means both blue and blond; gray hair is sijeda, never siva',
           'Character: drag, ljubazan, vrijedan, strpljiv, veseo, sramežljiv',
           'Kakav? asks what kind; Koji? asks which one',
           'Every adjective agrees with the person described',
@@ -4440,7 +4440,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'U or Na?',
-        body: 'A small idiom worth memorising: it is "u školi" but "na fakultetu". Same case, different preposition, and no rule explains it — Croatian simply pairs each institution with one. Idem u školu. Idem na fakultet. Studiram na Filozofskom fakultetu.',
+        body: 'A small idiom worth memorizing: it is "u školi" but "na fakultetu". Same case, different preposition, and no rule explains it — Croatian simply pairs each institution with one. Idem u školu. Idem na fakultet. Studiram na Filozofskom fakultetu.',
         highlight: 'u školi · na fakultetu',
       },
       {
@@ -4459,7 +4459,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Sutra imam ispit iz matematike.',
-            en: 'I have a maths exam tomorrow.',
+            en: 'I have a math exam tomorrow.',
             note: 'ispit iz + genitive — an exam in a subject',
           },
           {
@@ -5024,7 +5024,7 @@ export const LESSONS_A2 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "I am travelling by ferry"? ("trajekt" is masculine.)',
+        q: 'How do you say "I am traveling by ferry"? ("trajekt" is masculine.)',
         options: [
           'Putujem s trajektom.',
           'Putujem trajektom.',
@@ -5033,7 +5033,7 @@ export const LESSONS_A2 = [
         ],
         correct: 1,
         explanation:
-          'A means of transport is the instrumental with no preposition: trajektom. Adding "s" would make the ferry your travelling companion rather than your transport.',
+          'A means of transport is the instrumental with no preposition: trajektom. Adding "s" would make the ferry your traveling companion rather than your transport.',
       },
       {
         type: 'quiz',
@@ -5260,12 +5260,12 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Može, vidimo se ispred kazališta!',
-            en: 'Sure, see you in front of the theatre!',
+            en: 'Sure, see you in front of the theater!',
             note: 'ispred + genitive: kazališta',
           },
           {
             hr: 'Sljedeći tjedan putujem u Osijek na posao.',
-            en: 'Next week I am travelling to Osijek for work.',
+            en: 'Next week I am traveling to Osijek for work.',
             note: 'the present for a future plan',
           },
           {

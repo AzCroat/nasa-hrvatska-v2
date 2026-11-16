@@ -1482,7 +1482,7 @@ export const PRACTICE = {
           options: ['ć', 'đ', 'č', 'ž'],
           correct: 2,
           hint: 'The hard one, with the tongue raised.',
-          explanation: 'č is the hard "church" sound; ć is its soft neighbour.',
+          explanation: 'č is the hard "church" sound; ć is its soft neighbor.',
         },
         {
           q: 'Which letter is the voiced partner of ć?',

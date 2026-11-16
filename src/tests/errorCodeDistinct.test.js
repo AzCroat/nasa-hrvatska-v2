@@ -21,7 +21,7 @@
  *                       unavailable'. Now `upstream_network` /
  *                       `upstream_body_unreadable` — the vocabulary
  *                       `speaking-coach.js` already uses. Neither code is
- *                       recognised by the client, so both still classify as kind
+ *                       recognized by the client, so both still classify as kind
  *                       `server` and NO learner-facing sentence moves.
  *   assess-speaking.js  a non-2xx from Anthropic and an unparseable rubric both
  *                       returned `rubric_failed`. The non-2xx path is now

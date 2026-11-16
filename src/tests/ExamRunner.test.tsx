@@ -21,7 +21,7 @@ vi.mock('../components/exam/SpeakingTaskScreen.js', () => ({
 
 // Audio is mocked so the listening gate can be driven deterministically:
 // `speakResult` is what the next speak() resolves to, `lastFailure` what
-// getLastTtsFailure() reports afterwards.
+// getLastTtsFailure() reports afterward.
 const audioMock = {
   speak: vi.fn(async () => audioMock.speakResult),
   speakResult: 'azure' as string,

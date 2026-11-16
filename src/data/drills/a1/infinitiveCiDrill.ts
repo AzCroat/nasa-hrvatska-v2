@@ -207,7 +207,7 @@ export const INFINITIVE_CI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'buduce',
     q: 'Mama će ____ tortu.',
-    en: 'Mum will bake a cake.',
+    en: 'Mom will bake a cake.',
     opts: ['peći', 'peče', 'peć', 'pekla'],
     answer: 'peći',
     tip: 'After će, the infinitive.',

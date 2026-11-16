@@ -96,7 +96,7 @@ const DATA = [
     opts: ['igrati', 'glumiti', 'raditi', 'imati'],
     answer: 'igrati',
     en: 'igrati ulogu',
-    tip: "'Igrati ulogu' = play a role, like in theatre",
+    tip: "'Igrati ulogu' = play a role, like in theater",
   },
   {
     q: '___ provjeru (to carry out a check)',
@@ -173,14 +173,14 @@ const DATA = [
     opts: ['ostvariti', 'napraviti', 'raditi', 'ići'],
     answer: 'ostvariti',
     en: 'ostvariti napredak',
-    tip: "Progress is 'realised/achieved': ostvariti napredak",
+    tip: "Progress is 'realized/achieved': ostvariti napredak",
   },
   {
     q: '___ san (to fulfil a dream)',
     opts: ['ostvariti', 'napraviti', 'imati', 'sanjati'],
     answer: 'ostvariti',
     en: 'ostvariti san',
-    tip: "Dreams are 'realised': ostvariti san",
+    tip: "Dreams are 'realized': ostvariti san",
   },
   {
     q: '___ posjet (to pay a visit)',

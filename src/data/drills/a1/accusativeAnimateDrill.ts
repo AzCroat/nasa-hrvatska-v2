@@ -107,7 +107,7 @@ export const ACCUSATIVE_ANIMATE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pridjev',
     q: 'Poznaješ li ____ susjeda? (naš)',
-    en: 'Do you know our neighbour?',
+    en: 'Do you know our neighbor?',
     opts: ['naš', 'našu', 'naši', 'našeg'],
     answer: 'našeg',
     tip: 'After š the ending is -eg.',
@@ -130,8 +130,8 @@ export const ACCUSATIVE_ANIMATE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pridjev',
-    q: 'Which phrase means "your new neighbour" (a man) as an object?',
-    en: 'I know your new neighbour.',
+    q: 'Which phrase means "your new neighbor" (a man) as an object?',
+    en: 'I know your new neighbor.',
     opts: ['tvoj novi susjed', 'tvoga novog susjeda', 'tvoju novu susjedu', 'tvog novi susjeda'],
     answer: 'tvoga novog susjeda',
     tip: 'All three words move together.',

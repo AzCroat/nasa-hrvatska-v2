@@ -418,7 +418,7 @@ export const LESSONS = [
           },
           {
             hr: 'Što više vježbaš, to manje griješiš.',
-            en: 'The more you practise, the fewer mistakes you make.',
+            en: 'The more you practice, the fewer mistakes you make.',
             note: 'što …, to … = the more …, the …',
           },
         ],
@@ -617,7 +617,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Words That Look Alike but Judge Differently',
-        body: 'Croatian, like English, has pairs where one word praises and the other criticises the same behaviour. štedljiv (thrifty) is a compliment; škrt (stingy) is not. duhovit means witty — someone who makes you laugh on purpose; smiješan can mean funny, but said of a person it often means ridiculous. siguran u sebe (self-confident) is good; umišljen (conceited) is not. Choosing the right one is half of describing someone fairly.',
+        body: 'Croatian, like English, has pairs where one word praises and the other criticises the same behavior. štedljiv (thrifty) is a compliment; škrt (stingy) is not. duhovit means witty — someone who makes you laugh on purpose; smiješan can mean funny, but said of a person it often means ridiculous. siguran u sebe (self-confident) is good; umišljen (conceited) is not. Choosing the right one is half of describing someone fairly.',
         highlight: 'štedljiv, not škrt',
       },
       {
@@ -838,9 +838,9 @@ export const LESSONS = [
           ['krupan', 'well-built, heavy-set (a polite word)'],
           ['duga / kratka kosa', 'long / short hair'],
           ['ravna / kovrčava kosa', 'straight / curly hair'],
-          ['plava / smeđa / crna / sijeda kosa', 'blond / brown / black / grey hair'],
+          ['plava / smeđa / crna / sijeda kosa', 'blond / brown / black / gray hair'],
           ['plave / zelene / smeđe oči', 'blue / green / brown eyes'],
-          ['brada, brkovi', 'beard, moustache'],
+          ['brada, brkovi', 'beard, mustache'],
           ['nositi naočale', 'to wear glasses'],
           ['frizura', 'hairstyle'],
         ],
@@ -860,7 +860,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'stajati — to Suit',
-        body: 'Clothes, colours and haircuts "stand" to a person, and the person goes in the DATIVE: Ta ti haljina stoji (That dress suits you). Ova boja ti lijepo stoji. Plural things take the plural stoje: Te cipele ti dobro stoje. The short dative (ti, vam, mu, joj) sits in second position, so it can even come between the demonstrative and its noun: Ta ti haljina stoji and Ta haljina ti stoji are both correct.',
+        body: 'Clothes, colors and haircuts "stand" to a person, and the person goes in the DATIVE: Ta ti haljina stoji (That dress suits you). Ova boja ti lijepo stoji. Plural things take the plural stoje: Te cipele ti dobro stoje. The short dative (ti, vam, mu, joj) sits in second position, so it can even come between the demonstrative and its noun: Ta ti haljina stoji and Ta haljina ti stoji are both correct.',
         highlight: 'Ta ti haljina stoji.',
       },
       {
@@ -929,8 +929,8 @@ export const LESSONS = [
           },
           {
             hr: 'Moj djed ima sijedu kosu i bijelu bradu.',
-            en: 'My grandfather has grey hair and a white beard.',
-            note: 'sijeda kosa — grey hair',
+            en: 'My grandfather has gray hair and a white beard.',
+            note: 'sijeda kosa — gray hair',
           },
           {
             hr: 'Izgleda kao njegov otac kad je bio mlad.',
@@ -1057,7 +1057,7 @@ export const LESSONS = [
               'krupan is the kind word; debeo is blunt. mršav and nizak mean thin and short.',
           },
           {
-            q: "Someone asks about a neighbour's private life. Which reply says it is none of your business?",
+            q: "Someone asks about a neighbor's private life. Which reply says it is none of your business?",
             options: [
               'Teško je reći.',
               'To nije moja stvar.',
@@ -1516,8 +1516,8 @@ export const PRACTICE = {
       },
       {
         title: 'The More…, the More…',
-        problem: 'Reci: The more you practise, the faster you speak.',
-        en: 'The more you practise, the faster you speak.',
+        problem: 'Reci: The more you practice, the faster you speak.',
+        en: 'The more you practice, the faster you speak.',
         steps: [
           {
             label: 'The frame',
@@ -1901,12 +1901,12 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Compliment with stajati',
-        problem: 'Reci: That colour really suits you.',
-        en: 'That colour really suits you.',
+        problem: 'Reci: That color really suits you.',
+        en: 'That color really suits you.',
         steps: [
           {
             label: 'The verb',
-            text: 'suiting someone is stajati, third person stoji for one colour.',
+            text: 'suiting someone is stajati, third person stoji for one color.',
           },
           {
             label: 'The person',
@@ -1994,9 +1994,9 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Moj djed ima ____ kosu. (grey)',
+          q: 'Moj djed ima ____ kosu. (gray)',
           answer: 'sijedu',
-          hint: 'The colour of hair that has gone white with age, in the accusative.',
+          hint: 'The color of hair that has gone white with age, in the accusative.',
           explanation: 'sijedu kosu.',
         },
         {
@@ -2110,7 +2110,7 @@ export const PRACTICE = {
       ['naočale', 'glasses', 'Nosi naočale.'],
       ['brada', 'beard', 'Djed ima bijelu bradu.'],
       ['frizura', 'hairstyle', 'Nova frizura ti stoji.'],
-      ['sijed', 'grey (of hair)', 'Tata ima sijedu kosu.'],
+      ['sijed', 'gray (of hair)', 'Tata ima sijedu kosu.'],
       ['krupan', 'heavy-set', 'Visok je i krupan.'],
       ['izgled', 'appearance, looks', 'Karakter je važniji od izgleda.'],
     ],

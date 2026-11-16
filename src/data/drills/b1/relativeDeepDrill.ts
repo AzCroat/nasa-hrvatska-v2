@@ -73,7 +73,7 @@ export const RELATIVE_DEEP_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ciji',
     q: 'Susjedi ____ auto stoji ispred kuće su na moru.',
-    en: 'The neighbours whose car is standing in front of the house are at the seaside.',
+    en: 'The neighbors whose car is standing in front of the house are at the seaside.',
     opts: ['čiji', 'čija', 'čije', 'koji'],
     answer: 'čiji',
     tip: 'auto is masculine singular, so čiji — the plural owners do not count.',
@@ -131,7 +131,7 @@ export const RELATIVE_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'The beach we went to last summer was full of people.',
     opts: ['kamo', 'gdje', 'odakle', 'koju'],
     answer: 'kamo',
-    tip: 'smo išli — movement towards: kamo.',
+    tip: 'smo išli — movement toward: kamo.',
   },
   {
     mode: 'mjesto',

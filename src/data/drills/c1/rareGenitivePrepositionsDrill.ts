@@ -115,7 +115,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Umjesto ____ putovali smo vlakom do Splita.',
-    en: 'Instead of by bus, we travelled to Split by train.',
+    en: 'Instead of by bus, we traveled to Split by train.',
     opts: ['autobus', 'autobusu', 'autobusom', 'autobusa'],
     answer: 'autobusa',
     tip: 'Umjesto + genitive: autobusa.',
@@ -173,7 +173,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zbog',
     q: 'Let je otkazan ____ magle.',
-    en: 'The flight was cancelled because of the fog.',
+    en: 'The flight was canceled because of the fog.',
     opts: ['radi', 'zbog', 'unatoč', 'prigodom'],
     answer: 'zbog',
     tip: 'The fog is the cause: zbog.',

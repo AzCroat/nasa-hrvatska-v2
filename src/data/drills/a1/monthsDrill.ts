@@ -169,7 +169,7 @@ export const MONTHS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'lokativ',
     q: 'Putujemo u ____.',
-    en: 'We are travelling in March.',
+    en: 'We are traveling in March.',
     opts: ['ožujku', 'ožujak', 'ožujaku', 'ožujka'],
     answer: 'ožujku',
     tip: 'u ožujku.',

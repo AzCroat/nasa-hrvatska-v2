@@ -169,7 +169,7 @@ const DATA = [
     q: 'Što više vježbaš, ____ govoriš.',
     opts: ['to bolje', 'tim bolji', 'to najbolje', 'tako bolje'],
     answer: 'to bolje',
-    en: 'the more you practise, the better you speak',
+    en: 'the more you practice, the better you speak',
     tip: 'Što + komparativ, TO + komparativ.',
   },
   {

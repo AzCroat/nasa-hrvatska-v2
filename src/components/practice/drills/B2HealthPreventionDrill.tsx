@@ -21,7 +21,7 @@ export default function B2HealthPreventionDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2healthprevention"
       title="Zdrav kao dren"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={HEALTH_PREVENTION_MODE_LABELS}
       data={HEALTH_PREVENTION_DRILL_DATA}
       praise={{

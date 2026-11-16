@@ -105,7 +105,7 @@ const DATA = [
     q: 'Most vodi prema ____. (Pelješac)',
     opts: ['Pelješcu', 'Pelješacu', 'Pelješca', 'Pelješću'],
     answer: 'Pelješcu',
-    en: 'the bridge leads towards Pelješac',
+    en: 'the bridge leads toward Pelješac',
     tip: 'Nepostojano a: Pelješac → Pelješcu.',
   },
   {

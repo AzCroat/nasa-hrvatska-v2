@@ -428,7 +428,7 @@ describe('the token cannot reach a log line', () => {
   it('never reads the whole secrets context', () => {
     // `toJSON(secrets)` answered one question — which secret NAMES Actions can
     // see — and it answered it. Keeping a read of the ENTIRE secrets context
-    // in a PUBLIC repo's workflow afterwards is debt, not coverage; it is also
+    // in a PUBLIC repo's workflow afterward is debt, not coverage; it is also
     // a textbook exfiltration shape and the most likely reason this workflow
     // alone started coming back `action_required`. A diagnostic that has done
     // its job is removed, not left lying around.

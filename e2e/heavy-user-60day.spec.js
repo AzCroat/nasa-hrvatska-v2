@@ -1568,7 +1568,7 @@ test('Block 14 (Days 53-56) — XP milestones, badges', async ({ page }) => {
   // (The public leaderboard and weekly league were removed in #290 — endpoint,
   // components and Firestore writes. Their probe lived here until 2026-09-22.)
 
-  // ── Earn XP in a fresh exercise and verify level-up behaviour
+  // ── Earn XP in a fresh exercise and verify level-up behavior
   await goTab(page, 'Practice');
   const typingQG = await clickQuickGame(page, 'Typing');
   if (typingQG) {

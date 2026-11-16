@@ -46,7 +46,7 @@ export const SPINE = [
     masterOrder: 4,
     prerequisites: ['noun-peculiarities-a', 'adjective-agreement', 'school-studies'],
     objectives: [
-      'Recognise the false friends that trip English speakers: aktualan, eventualno, simpatičan, gimnazija',
+      'Recognize the false friends that trip English speakers: aktualan, eventualno, simpatičan, gimnazija',
       'Choose the Croatian word for what you actually mean: pravi razlog, na kraju, teretana, dokaz',
       'Use the words of school, health and renting correctly: lektira, ordinacija, ambulanta, kaucija, tvornica',
     ],
@@ -889,7 +889,7 @@ const LITERACY = {
         },
         {
           hr: 'Susjed stalno prigovara djeci zbog buke.',
-          en: 'The neighbour keeps complaining at the children about the noise.',
+          en: 'The neighbor keeps complaining at the children about the noise.',
           note: 'prigovarati takes the dative: djeci',
         },
         {

@@ -16,7 +16,7 @@
  * TWO SEPARATE DEFECTS WERE ON THAT SCREEN, and the second is why a learner who
  * PASSED could still be told off: the praise tier read `score >= total * 0.8`
  * against a 0.75 gate, so at exactly 9 of 12 — a pass — the line said "keep
- * practising". 108 files carried that. Two thresholds in one component, one of
+ * practicing". 108 files carried that. Two thresholds in one component, one of
  * them attached to nothing the learner's outcome depends on.
  */
 import { describe, it, expect } from 'vitest';
@@ -99,7 +99,7 @@ describe('a pass threshold is stated as a count, not only a percentage', () => {
     // THE RULE IS DIRECTIONAL, and that is what makes it precise rather than a
     // blanket ban on second thresholds. The shipped defect was
     // `score >= total * 0.8` beside a 0.75 gate: a learner at exactly 9 of 12
-    // PASSES and is told "keep practising", because 0.8 > 0.75. A threshold BELOW
+    // PASSES and is told "keep practicing", because 0.8 > 0.75. A threshold BELOW
     // the gate cannot do that — it can only give an encouraging line to someone
     // who did not pass, which is a different and much milder thing.
     //

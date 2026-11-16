@@ -21,7 +21,7 @@ export default function A2VerbsNutiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2verbsnuti"
       title="Krenuti, Ostati, Doći — Verbs With a Hidden Stem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_NUTI_MODE_LABELS}
       data={VERBS_NUTI_DRILL_DATA}
       praise={{

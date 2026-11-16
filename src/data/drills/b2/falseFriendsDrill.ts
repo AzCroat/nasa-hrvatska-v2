@@ -188,7 +188,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'context',
     q: 'Moja susjeda je vrlo ____ kad netko ima problem — uvijek razumije.',
-    en: 'My neighbour is very sympathetic when someone has a problem — she always understands.',
+    en: 'My neighbor is very sympathetic when someone has a problem — she always understands.',
     opts: ['simpatična', 'aktualna', 'suosjećajna', 'eventualna'],
     answer: 'suosjećajna',
     tip: '"Sympathetic" is suosjećajan; simpatičan only means likeable.',

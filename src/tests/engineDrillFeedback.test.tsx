@@ -9,7 +9,7 @@
  * no longer exists — `.ob` buttons, "See results", a 10- or 20-question round. What
  * those files guarded is kept here for every engine drill at once:
  *
- *   - the verdict is said in WORDS, not only in a border colour (a colour-blind learner
+ *   - the verdict is said in WORDS, not only in a border color (a colour-blind learner
  *     could not read the engine's verdict before this change — WCAG 1.4.1);
  *   - the tip is shown after answering, right or wrong;
  *   - a wrong answer opens the "why" panel, a right one does not;

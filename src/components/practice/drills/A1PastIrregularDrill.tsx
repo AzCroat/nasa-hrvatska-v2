@@ -21,7 +21,7 @@ export default function A1PastIrregularDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1pastirregular"
       title="The Irregular Past"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PAST_IRREGULAR_MODE_LABELS}
       data={PAST_IRREGULAR_DRILL_DATA}
       praise={{

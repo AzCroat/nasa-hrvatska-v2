@@ -21,7 +21,7 @@ export default function A1SibilarizationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1sibilarization"
       title="When K, G and H Change"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SIBILARIZATION_MODE_LABELS}
       data={SIBILARIZATION_DRILL_DATA}
       praise={{

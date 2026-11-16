@@ -87,7 +87,7 @@ export default function TextingScreen({ goBack, award }: Props) {
         <p style={{ color: 'var(--subtext)', fontSize: 14 }}>
           {score === questions.length
             ? 'Savršeno! You text like a local! 🇭🇷'
-            : "Keep practising — locals will think you're one of them soon!"}
+            : "Keep practicing — locals will think you're one of them soon!"}
         </p>
         <button className="b bp" style={{ marginTop: 24, marginRight: 12 }} onClick={startQuiz}>
           Try Again

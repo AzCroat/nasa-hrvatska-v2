@@ -121,7 +121,7 @@ describe('ttsFetch raises the same failure event speak() does', () => {
     expect(seen).toHaveLength(0);
   });
 
-  it('a caller CANCELLING is not a failure and raises nothing', async () => {
+  it('a caller CANCELING is not a failure and raises nothing', async () => {
     // `_nativePost` re-throws an AbortError rather than returning null, so a
     // superseded or abandoned play never reaches the classification. That is
     // the speak() path's `superseded` rule holding here by construction; it is

@@ -28,7 +28,7 @@
  *
  * And the contract the whole Learning Center rests on: LOOKING SOMETHING UP IS
  * NOT CREDIT. Every interaction here is driven and localStorage is asserted
- * byte-identical afterwards.
+ * byte-identical afterward.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'node:fs';
@@ -228,7 +228,7 @@ describe('the surfaces are wired', () => {
 });
 
 // ───────────────────────────────────────────────────────────────────────────
-// 5. THE BEHAVIOUR — the real components, driven
+// 5. THE BEHAVIOR — the real components, driven
 // ───────────────────────────────────────────────────────────────────────────
 const AppContext = (await import('../context/AppContext')).default;
 const WrongAnswerHelp = (await import('../components/shared/WrongAnswerHelp')).default;

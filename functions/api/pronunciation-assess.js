@@ -105,10 +105,10 @@ export function parseAzureResponse(azureData) {
     })),
   }));
   // Whether Azure scored anything at all — the calibration reports it, because a locale
-  // Azure recognises but does not score reads exactly like perfect silence otherwise.
+  // Azure recognizes but does not score reads exactly like perfect silence otherwise.
   const scored = word_scores.some((w) => w.score !== null);
 
-  // THE RECOGNISED TEXT WAS DROPPED HERE, AND THE COACH PAID FOR IT (2026-09-25).
+  // THE RECOGNIZED TEXT WAS DROPPED HERE, AND THE COACH PAID FOR IT (2026-09-25).
   // Azure returns what it actually heard; nothing forwarded it, so the client had
   // no transcript on this path and passed the TARGET to /api/pronunciation-coach
   // as "what the learner said". The coach's phoneme analysis then compared the
@@ -216,7 +216,7 @@ export async function azureAssess(
   const status =
     typeof azureData?.RecognitionStatus === 'string' ? azureData.RecognitionStatus : '';
   if (status && status !== 'Success') {
-    console.warn('pronunciation-assess.js: no speech recognised:', status);
+    console.warn('pronunciation-assess.js: no speech recognized:', status);
     return {
       ok: false,
       error: 'no_speech',
@@ -407,7 +407,7 @@ export async function unbiasedTranscript(env, key, region, audioBytes, contentTy
 
 /**
  * A plain Azure transcription of the same audio: no reference sentence, so nothing pulls
- * the recogniser towards the expected answer (2026-09-29). The scripted assessment above
+ * the recogniser toward the expected answer (2026-09-29). The scripted assessment above
  * is given the CORRECT sentence and hears to match it — the calibration played it
  * "Imam sestra." and it reported "Imam sestru." at 100 — so it cannot judge a case
  * ending. This is the unbiased second opinion for that one word. Never throws.

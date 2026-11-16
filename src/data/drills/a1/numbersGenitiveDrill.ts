@@ -255,7 +255,7 @@ export const NUMBERS_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
     en: 'The meeting is at half past eight.',
     opts: ['pola', 'četvrt', 'podne', 'sat'],
     answer: 'pola',
-    tip: 'Croatian counts the half hour towards the NEXT hour.',
+    tip: 'Croatian counts the half hour toward the NEXT hour.',
   },
   {
     mode: 'sati',

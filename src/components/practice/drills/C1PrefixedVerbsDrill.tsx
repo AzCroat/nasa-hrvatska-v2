@@ -21,7 +21,7 @@ export default function C1PrefixedVerbsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1prefixedverbs"
       title="Prefixed Verbs"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PREFIXED_VERBS_MODE_LABELS}
       data={PREFIXED_VERBS_DRILL_DATA}
       praise={{

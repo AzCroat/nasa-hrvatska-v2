@@ -61,13 +61,13 @@ const L_DEPERSONALIZATION = {
     {
       type: 'rule',
       title: 'The Third Person Plural: Kažu da…',
-      body: 'A bare third person plural with no subject points at unnamed people, the media or "them": Kažu da će sutra padati snijeg. Javljaju da je autocesta zatvorena. Pišu u novinama da… It is the spoken option, and it carries a faint sense that somebody — people, reporters — is the source. Priča se da… presents the same content as a rumour with no source at all.',
+      body: 'A bare third person plural with no subject points at unnamed people, the media or "them": Kažu da će sutra padati snijeg. Javljaju da je autocesta zatvorena. Pišu u novinama da… It is the spoken option, and it carries a faint sense that somebody — people, reporters — is the source. Priča se da… presents the same content as a rumor with no source at all.',
       highlight: 'Kažu da…',
     },
     {
       type: 'rule',
       title: 'Feelings With a Dative: Spava mi se',
-      body: "A neighbouring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I fancy a coffee). The person does not act; the urge happens to them. In the past the verb is neuter singular when there is no nominative noun — Spavalo mi se cijeli dan — but agrees with one when there is: Pila mi se kava.",
+      body: "A neighboring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I fancy a coffee). The person does not act; the urge happens to them. In the past the verb is neuter singular when there is no nominative noun — Spavalo mi se cijeli dan — but agrees with one when there is: Pila mi se kava.",
       highlight: 'Spava mi se',
     },
     {
@@ -82,8 +82,8 @@ const L_DEPERSONALIZATION = {
       items: [
         {
           hr: 'U susjedstvu se priča da će stara tvornica konačno postati kulturni centar.',
-          en: 'People in the neighbourhood are saying that the old factory will finally become a cultural centre.',
-          note: 'se + 3rd singular: a rumour without a source',
+          en: 'People in the neighborhood are saying that the old factory will finally become a cultural centre.',
+          note: 'se + 3rd singular: a rumor without a source',
         },
         {
           hr: 'Još se uvijek ne zna tko je napisao to anonimno pismo.',
@@ -264,7 +264,7 @@ const P_DEPERSONALIZATION = {
         },
         {
           label: 'Choose the construction',
-          text: 'A rumour with no source: se + the verb in the third person singular.',
+          text: 'A rumor with no source: se + the verb in the third person singular.',
         },
         {
           label: 'The tense',
@@ -272,7 +272,7 @@ const P_DEPERSONALIZATION = {
         },
         {
           label: 'Keep the da-clause',
-          text: 'The content of the rumour stays exactly as it was.',
+          text: 'The content of the rumor stays exactly as it was.',
         },
       ],
       answer: 'Govorilo se da će se most srušiti.',
@@ -455,7 +455,7 @@ const P_DEPERSONALIZATION = {
       explanation: 'The experiencer is in the dative and the verb impersonal: Spava mi se.',
     },
     {
-      q: 'Which sentence presents something as a rumour with no source at all?',
+      q: 'Which sentence presents something as a rumor with no source at all?',
       options: [
         'Ministar kaže da će porezi pasti.',
         'Priča se da će porezi pasti.',
@@ -479,7 +479,7 @@ const P_DEPERSONALIZATION = {
   ],
   vocab: [
     ['obezličenje', 'depersonalisation', 'Obezličenjem se vršitelj radnje izostavlja.'],
-    ['glasina', 'rumour', 'Priča se da je to samo glasina.'],
+    ['glasina', 'rumor', 'Priča se da je to samo glasina.'],
     ['utvrditi', 'to establish (a fact)', 'Utvrđeno je da su podaci točni.'],
     ['smatrati', 'to consider, to hold', 'Smatra se da je crkva vrlo stara.'],
     ['očekivati', 'to expect', 'Očekuje se da će cijene porasti.'],
@@ -567,7 +567,7 @@ const L_PREFIXED_VERBS = {
         ['pod- / pot-', 'under; too little', 'podcijeniti – podcjenjivati'],
         ['pre-', 'across, over again', 'preseliti – preseljavati'],
         ['pred- / pret-', 'before, in front', 'predvidjeti – predviđati'],
-        ['pri-', 'towards, attaching', 'pričvrstiti – pričvršćivati'],
+        ['pri-', 'toward, attaching', 'pričvrstiti – pričvršćivati'],
         ['pro-', 'through; judging', 'procijeniti – procjenjivati'],
         ['raz- / ras- / ra-', 'apart, in all directions', 'razbiti – razbijati'],
         ['s- / sa- / z-', 'down; together', 'sastaviti – sastavljati'],
@@ -580,7 +580,7 @@ const L_PREFIXED_VERBS = {
     {
       type: 'rule',
       title: 'What Each Prefix Means',
-      body: 'do- reaching or adding (doći, dočekati goste, dopisati); iz- out of, or to the very end (izaći, iscrpiti); na- onto, or piling up (nagomilati, natrpati); obez- taking away (obeshrabriti — to take the courage away, obezvrijediti); nad- over, surpassing (nadmašiti, nadživjeti); o- around, or making something so (okružiti, osnažiti); ob- all around (obići, opkoliti, opskrbiti); od- away, off, back (otići, otpisati, otplatiti); po- more strongly, a little, or becoming (poboljšati, popričati, pocrvenjeti); pod- under, or too little (potpisati, podcrtati, podcijeniti); pre- across, over again (prijeći, preseliti, prepisati); pred- in front, before (predvidjeti, predložiti); pri- towards, attaching (prići, pričvrstiti); pro- through, judging (proći, procijeniti); raz- apart (razbiti, raspisati); s- down, together (sići, sastaviti, skupiti); su- together, face to face (suočiti se s problemom); uz- up (uzdignuti, uspeti se); u- into (ući, upisati) and ucijeniti — to blackmail; za- beginning, behind, recording (zaplakati, zaći, zapisati).',
+      body: 'do- reaching or adding (doći, dočekati goste, dopisati); iz- out of, or to the very end (izaći, iscrpiti); na- onto, or piling up (nagomilati, natrpati); obez- taking away (obeshrabriti — to take the courage away, obezvrijediti); nad- over, surpassing (nadmašiti, nadživjeti); o- around, or making something so (okružiti, osnažiti); ob- all around (obići, opkoliti, opskrbiti); od- away, off, back (otići, otpisati, otplatiti); po- more strongly, a little, or becoming (poboljšati, popričati, pocrvenjeti); pod- under, or too little (potpisati, podcrtati, podcijeniti); pre- across, over again (prijeći, preseliti, prepisati); pred- in front, before (predvidjeti, predložiti); pri- toward, attaching (prići, pričvrstiti); pro- through, judging (proći, procijeniti); raz- apart (razbiti, raspisati); s- down, together (sići, sastaviti, skupiti); su- together, face to face (suočiti se s problemom); uz- up (uzdignuti, uspeti se); u- into (ući, upisati) and ucijeniti — to blackmail; za- beginning, behind, recording (zaplakati, zaći, zapisati).',
       highlight: 'obez- taking away (obeshrabriti',
     },
     {
@@ -592,7 +592,7 @@ const L_PREFIXED_VERBS = {
     {
       type: 'rule',
       title: 'Building the Imperfective Partner',
-      body: 'Most prefixed perfectives get an imperfective partner with -ivati, -avati or -ati, and the root often changes on the way. Watch four patterns: (1) -iti → -ivati with a softened consonant: iscrpiti → iscrpljivati, otplatiti → otplaćivati, pričvrstiti → pričvršćivati; (2) ije → je: procijeniti → procjenjivati, ucijeniti → ucjenjivati, podcijeniti → podcjenjivati; (3) -ati → -avati: nagomilati → nagomilavati, poboljšati → poboljšavati; (4) -ati → -ivati: dočekati → dočekivati, zapisati → zapisivati. With po- and a colour, two verbs differ: pocrnjeti and potamnjeti mean to BECOME black or dark by themselves, pocrniti and potamniti take an object and mean to MAKE something black or dark. The feminine past shows the difference: Koža joj je potamnjela na suncu (it happened by itself), but Potamnila je kosu (she dyed it).',
+      body: 'Most prefixed perfectives get an imperfective partner with -ivati, -avati or -ati, and the root often changes on the way. Watch four patterns: (1) -iti → -ivati with a softened consonant: iscrpiti → iscrpljivati, otplatiti → otplaćivati, pričvrstiti → pričvršćivati; (2) ije → je: procijeniti → procjenjivati, ucijeniti → ucjenjivati, podcijeniti → podcjenjivati; (3) -ati → -avati: nagomilati → nagomilavati, poboljšati → poboljšavati; (4) -ati → -ivati: dočekati → dočekivati, zapisati → zapisivati. With po- and a color, two verbs differ: pocrnjeti and potamnjeti mean to BECOME black or dark by themselves, pocrniti and potamniti take an object and mean to MAKE something black or dark. The feminine past shows the difference: Koža joj je potamnjela na suncu (it happened by itself), but Potamnila je kosu (she dyed it).',
       highlight: 'procijeniti → procjenjivati',
     },
     {
@@ -644,7 +644,7 @@ const L_PREFIXED_VERBS = {
         {
           hr: 'Konobar je prišao našem stolu i preporučio domaću ribu.',
           en: 'The waiter came up to our table and recommended the local fish.',
-          note: 'pri- towards, with the dative',
+          note: 'pri- toward, with the dative',
         },
         {
           hr: 'Kad prijeđete most, siđite niz stepenice do obale.',
@@ -857,7 +857,7 @@ const P_PREFIXED_VERBS = {
         q: 'Complete: "Trener je poraz ___ umoru igrača." (attributed)',
         options: ['pripisao', 'propisao', 'upisao', 'prepisao'],
         correct: 0,
-        hint: 'The prefix meaning towards, attaching one thing to another.',
+        hint: 'The prefix meaning toward, attaching one thing to another.',
         explanation: 'pripisati nešto nečemu — to attribute something to something.',
       },
       {
@@ -871,7 +871,7 @@ const P_PREFIXED_VERBS = {
         q: 'Complete: "Konobar je ___ našem stolu." (came up to)',
         options: ['prošao', 'prišao', 'obišao', 'sišao'],
         correct: 1,
-        hint: 'The prefix meaning towards, with the dative.',
+        hint: 'The prefix meaning toward, with the dative.',
         explanation: 'prići nekome — to come up to someone.',
       },
       {
@@ -1247,8 +1247,8 @@ const P_COMPARATIVE_CLAUSES = {
     },
     {
       title: 'The More…, the Less…',
-      problem: 'Prevedi: "The more you practise, the less you are afraid."',
-      en: 'Translate: The more you practise, the less you are afraid.',
+      problem: 'Prevedi: "The more you practice, the less you are afraid."',
+      en: 'Translate: The more you practice, the less you are afraid.',
       steps: [
         {
           label: 'The pair',
@@ -1505,7 +1505,7 @@ const L_DIRECT_SPEECH_SPELLING = {
     {
       type: 'rule',
       title: 'Quoted Fragments and Literary Dialogue',
-      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's full stop goes outside: Ministar ga je nazvao „povijesnim danom“. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognise it when you read; in essays, letters and articles use quotation marks.",
+      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's full stop goes outside: Ministar ga je nazvao „povijesnim danom“. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognize it when you read; in essays, letters and articles use quotation marks.",
       highlight: 'posljednja prilika“.',
     },
     {
@@ -1524,7 +1524,7 @@ const L_DIRECT_SPEECH_SPELLING = {
         },
         {
           hr: '„Jesi li već bila u Dubrovniku?“ upitala me nova susjeda.',
-          en: '"Have you been to Dubrovnik yet?" my new neighbour asked me.',
+          en: '"Have you been to Dubrovnik yet?" my new neighbor asked me.',
           note: 'question mark kept, so no comma',
         },
         {
@@ -1736,7 +1736,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         explanation: 'No full stop inside, comma after the closing mark, lower case.',
       },
       {
-        q: 'Which is correctly punctuated? (Mum said: Close the window.)',
+        q: 'Which is correctly punctuated? (Mom said: Close the window.)',
         options: [
           'Mama je rekla: „Zatvori prozor.“',
           'Mama je rekla „zatvori prozor.“',
@@ -1963,7 +1963,7 @@ export const SPINE = [
       'Write Croatian quotation marks „…“ and single marks inside a quotation',
       'Punctuate a reporting clause before, after and in the middle of direct speech',
       'Place the comma outside the marks and drop it after ? and !',
-      'Recognise dash dialogue in literature',
+      'Recognize dash dialogue in literature',
     ],
   },
 ];

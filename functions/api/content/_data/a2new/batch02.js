@@ -557,7 +557,7 @@ const L_WEEKEND_PLANS = {
         },
         {
           hr: 'Ovaj vikend putujemo u Zadar kod prijatelja.',
-          en: 'This weekend we are travelling to Zadar to stay with friends.',
+          en: 'This weekend we are traveling to Zadar to stay with friends.',
           note: 'ovaj vikend — no preposition',
         },
         {
@@ -846,7 +846,7 @@ const P_WEEKEND_PLANS = {
       },
       {
         type: 'type',
-        q: 'Ovaj vikend ____ u Split. (we are travelling)',
+        q: 'Ovaj vikend ____ u Split. (we are traveling)',
         answer: 'putujemo',
         hint: 'The present of putovati, mi form.',
         explanation: 'putujemo — putovati → putuj- + -emo.',
@@ -2316,7 +2316,7 @@ const L_QUALITY_OF_LIFE = {
         },
         {
           hr: 'Ona voli crni humor.',
-          en: 'She likes black humour.',
+          en: 'She likes black humor.',
           note: 'crni humor — jokes about dark things',
         },
         {
@@ -2669,7 +2669,7 @@ export const SPINE = [
     prerequisites: ['formal-address', 'vi-vs-ti', 'food-drink', 'verbs-nuti'],
     objectives: [
       'Know what to bring to a Croatian home — and what not to',
-      'Apologise for being late and greet hosts at the door',
+      'Apologize for being late and greet hosts at the door',
       'Accept and refuse food politely, and give a toast',
       'Take leave and thank the hosts: Hvala na pozivu',
     ],

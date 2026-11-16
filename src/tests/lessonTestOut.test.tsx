@@ -189,7 +189,7 @@ describe('failing the test-out is not a failed lesson', () => {
     fireEvent.click(screen.getByTestId('lesson-test-out'));
     answerCheck([1, 2, 3]);
     next();
-    next(); // the nav button, now labelled "Take the lesson"
+    next(); // the nav button, now labeled "Take the lesson"
     expect(screen.getByText('From One to Many')).toBeTruthy();
     expect(screen.getByText('1 / 5')).toBeTruthy();
   });

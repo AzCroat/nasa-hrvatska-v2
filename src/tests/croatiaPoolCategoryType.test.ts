@@ -23,7 +23,7 @@
  *
  * TypeScript erases at runtime, so the behavioural half of this guard is the
  * only half there can be: every entry's category must be a member the SHARED
- * type's own producers recognise. The source half is the ratchet.
+ * type's own producers recognize. The source half is the ratchet.
  */
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';

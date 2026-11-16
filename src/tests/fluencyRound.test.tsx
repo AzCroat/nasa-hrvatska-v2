@@ -50,7 +50,7 @@ beforeEach(() => {
 });
 
 describe('the round', () => {
-  it('draws only from PASSED lessons, interleaved so neighbours differ', () => {
+  it('draws only from PASSED lessons, interleaved so neighbors differ', () => {
     ['a', 'b', 'c'].forEach(pass);
     const items = buildFluencyRound([lesson('a'), lesson('b'), lesson('c'), lesson('z')], 1);
     expect(new Set(items.map((i) => i.lessonId))).toEqual(new Set(['a', 'b', 'c']));

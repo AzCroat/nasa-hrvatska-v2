@@ -74,7 +74,7 @@ const DATA = [
     opts: ['Luka', 'luka', 'LUKA', 'lúka'],
     answer: 'Luka',
     en: "Modrić's first name — how is it written?",
-    tip: 'Imena i nadimci velikim slovom; luka = harbour.',
+    tip: 'Imena i nadimci velikim slovom; luka = harbor.',
   },
   {
     mode: 'blagdani',

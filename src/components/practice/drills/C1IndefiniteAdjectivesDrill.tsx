@@ -21,7 +21,7 @@ export default function C1IndefiniteAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1indefiniteadjectives"
       title="Nov or Novi? Indefinite and Definite Adjectives"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INDEFINITE_ADJECTIVES_MODE_LABELS}
       data={INDEFINITE_ADJECTIVES_DRILL_DATA}
       praise={{

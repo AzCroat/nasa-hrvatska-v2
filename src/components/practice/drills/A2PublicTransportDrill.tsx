@@ -21,7 +21,7 @@ export default function A2PublicTransportDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2publictransport"
       title="Where Do I Get Off? Trams, Buses and Trains"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PUBLIC_TRANSPORT_MODE_LABELS}
       data={PUBLIC_TRANSPORT_DRILL_DATA}
       praise={{

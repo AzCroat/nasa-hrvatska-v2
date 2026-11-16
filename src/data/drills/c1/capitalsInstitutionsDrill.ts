@@ -202,10 +202,10 @@ export const CAPITALS_INSTITUTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ustanove',
     q: 'Večeras idemo u ____.',
-    en: 'Tonight we are going to the theatre.',
+    en: 'Tonight we are going to the theater.',
     opts: ['kazalište', 'Kazalište', 'KAZALIŠTE', 'Kazaliste'],
     answer: 'kazalište',
-    tip: 'No particular theatre is named: lower case.',
+    tip: 'No particular theater is named: lower case.',
   },
 
   // ── dogadaji ──────────────────────────────────────────────────────────────

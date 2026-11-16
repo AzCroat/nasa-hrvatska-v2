@@ -757,7 +757,7 @@ const P_TIME_GENITIVE = {
           'Sljedećem mjesecu',
         ],
         correct: 0,
-        hint: 'After a soft consonant like ć the masculine ending is spelt with e, not o.',
+        hint: 'After a soft consonant like ć the masculine ending is spelled with e, not o.',
         explanation: 'Sljedećeg mjeseca.',
       },
       {
@@ -1859,7 +1859,7 @@ const L_VERBS_PECI_STI = {
         },
         {
           hr: 'Moja mama plete džemper za svog unuka.',
-          en: 'My mum is knitting a jumper for her grandson.',
+          en: 'My mom is knitting a jumper for her grandson.',
           note: 'plete — the ona form of plesti',
         },
         {

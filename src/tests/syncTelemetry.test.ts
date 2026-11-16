@@ -16,7 +16,7 @@
  * bare `null`, on the one subsystem whose failure the learner cannot see, cannot
  * report and cannot work around.
  *
- * WHAT THIS FILE PINS, and why each half is needed. The module's own behaviour
+ * WHAT THIS FILE PINS, and why each half is needed. The module's own behavior
  * is driven directly (classification, the cap, the benign-cause rule). The CALL
  * SITES are pinned by source, because a component test that calls the module
  * itself proves the module works and says nothing about whether the app is

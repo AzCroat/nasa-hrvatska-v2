@@ -89,7 +89,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Do posla pješačim tri ____.',
-    en: 'I walk three kilometres to work.',
+    en: 'I walk three kilometers to work.',
     opts: ['kilometra', 'kilometre', 'kilometar', 'kilometara'],
     answer: 'kilometra',
     tip: 'After tri, the genitive singular.',
@@ -97,7 +97,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Prepješačili smo dvadeset ____.',
-    en: 'We hiked twenty kilometres.',
+    en: 'We hiked twenty kilometers.',
     opts: ['kilometara', 'kilometra', 'kilometre', 'kilometrima'],
     answer: 'kilometara',
     tip: 'After twenty, the genitive plural.',
@@ -129,7 +129,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Zid je visok dva ____.',
-    en: 'The wall is two metres high.',
+    en: 'The wall is two meters high.',
     opts: ['metra', 'metar', 'metre', 'metara'],
     answer: 'metra',
     tip: 'After dva, the genitive singular.',

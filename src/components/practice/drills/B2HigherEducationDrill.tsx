@@ -21,7 +21,7 @@ export default function B2HigherEducationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2highereducation"
       title="Studying in Croatia"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={HIGHER_EDUCATION_MODE_LABELS}
       data={HIGHER_EDUCATION_DRILL_DATA}
       praise={{

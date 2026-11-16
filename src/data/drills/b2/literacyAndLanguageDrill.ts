@@ -129,7 +129,7 @@ export const LITERACY_AND_LANGUAGE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'govoriti',
     q: 'Susjed stalno ____ djeci zbog buke.',
-    en: 'The neighbour keeps complaining at the children about the noise.',
+    en: 'The neighbor keeps complaining at the children about the noise.',
     opts: ['dogovara', 'izgovara', 'odgovara', 'prigovara'],
     answer: 'prigovara',
     tip: 'To complain at, to object is prigovarati, with the dative.',

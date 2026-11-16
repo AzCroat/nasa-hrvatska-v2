@@ -134,7 +134,7 @@ const DATA = [
     q: '„Plodovi rada” znači:',
     opts: ['rezultati truda', 'voće s tržnice', 'plaća jedino', 'alati'],
     answer: 'rezultati truda',
-    en: 'the fruits of labour',
+    en: 'the fruits of labor',
     tip: 'Plod = rezultat.',
   },
   {

@@ -43,8 +43,8 @@ it('the cabbie prompt tells the model to stay in Split speech', () => {
 });
 
 // The other AI conversation / generation prompts have no fixed persona to pin,
-// so the model chooses the regional colour. Each must tie it to the place.
-describe('model-chosen regional colour is tied to the place', () => {
+// so the model chooses the regional color. Each must tie it to the place.
+describe('model-chosen regional color is tied to the place', () => {
   const read = (p: string) =>
     readFileSync(p, 'utf8')
       .replace(/^\s*\/\/.*$/gm, '')

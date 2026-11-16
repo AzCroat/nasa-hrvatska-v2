@@ -259,7 +259,7 @@ describe('every quest card is fully wired', () => {
     expect(mapOf('QUEST_SCREEN_MAP').values.length).toBeGreaterThan(10);
   });
 
-  it('every quest has its own colour and its own destination', () => {
+  it('every quest has its own color and its own destination', () => {
     // Both lookups fall back (`|| QUEST_COLORS.master`, `?? 'learnpath'`), so a
     // missing entry does not crash — it silently gives the new quest another
     // quest's identity.

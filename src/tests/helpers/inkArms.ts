@@ -1,7 +1,7 @@
 /**
  * The colour-VALUED operands of a style expression.
  *
- * Not every identifier in the expression: a nested ternary's CONDITION is not a colour,
+ * Not every identifier in the expression: a nested ternary's CONDITION is not a color,
  * and reading one as such reported `isActive`, `visited`, `isDone`, `syncReady` and
  * `exporting` as inks. A part qualifies only when the punctuation BEFORE it is `?` or `:`
  * and the punctuation AFTER it is `:` or nothing — which excludes a condition exactly.
@@ -73,7 +73,7 @@ export function inkArms(expr: string): string[] {
   }
   // A PARENTHESISED ARM IS AN EXPRESSION, NOT A VALUE. `showState ? (isCorrect ? '#f0fdf4'
   // : '#fef2f2') : 'var(--card)'` came back as the one arm `(isCorrect ? … )`, which no
-  // colour parser reads — so ModeDrill's answered-option slab, behind all 109 engine
+  // color parser reads — so ModeDrill's answered-option slab, behind all 109 engine
   // drills, was invisible to every guard built on this helper while it rendered
   // near-white ink on a light tint in dark mode (2026-09-27).
   return [...new Set(out.flatMap(unwrapParens))].filter(Boolean);

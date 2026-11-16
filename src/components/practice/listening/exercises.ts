@@ -168,12 +168,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Pizza je moje omiljeno jelo.',
-            en: 'Pizza is my favourite food.',
+            en: 'Pizza is my favorite food.',
             opts: [
-              'Pasta is my favourite food.',
-              'Pizza is my favourite food.',
-              'Fish is my favourite dish.',
-              'Soup is my favourite meal.',
+              'Pasta is my favorite food.',
+              'Pizza is my favorite food.',
+              'Fish is my favorite dish.',
+              'Soup is my favorite meal.',
             ],
           },
           {
@@ -376,12 +376,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Svake nedjelje zovem mamu telefonom i dugo pričamo.',
-            en: 'Every Sunday I call my mum on the phone and we talk for a long time.',
+            en: 'Every Sunday I call my mom on the phone and we talk for a long time.',
             opts: [
-              'Every Sunday I visit my mum and we talk for a long time.',
-              'Every Saturday I call my mum on the phone and we talk briefly.',
+              'Every Sunday I visit my mom and we talk for a long time.',
+              'Every Saturday I call my mom on the phone and we talk briefly.',
               'Every Sunday I call my dad on the phone and we talk for a long time.',
-              'Every Sunday I call my mum on the phone and we talk for a long time.',
+              'Every Sunday I call my mom on the phone and we talk for a long time.',
             ],
           },
           {
@@ -580,7 +580,7 @@ export const EXERCISES = {
             hr: 'Tata pere suđe poslije večere.',
             en: 'Dad washes the dishes after dinner.',
             opts: [
-              'Mum washes the dishes after dinner.',
+              'Mom washes the dishes after dinner.',
               'Dad washes the car after dinner.',
               'Dad washes the dishes after lunch.',
               'Dad washes the dishes after dinner.',
@@ -759,7 +759,7 @@ export const EXERCISES = {
             en: 'We are going to the cinema on Saturday evening.',
             opts: [
               'We are going to the cinema on Saturday evening.',
-              'We are going to the theatre on Sunday evening.',
+              'We are going to the theater on Sunday evening.',
               'We went to the cinema last Saturday.',
               'We are going to a concert on Saturday morning.',
             ],
@@ -898,17 +898,17 @@ export const EXERCISES = {
             opts: [
               'I tried on several sizes before I found the right one.',
               'I tried on one size and it fit immediately.',
-              'I tried on several colours before I found the right one.',
+              'I tried on several colors before I found the right one.',
               'I bought several sizes without trying them on.',
             ],
           },
           {
             hr: 'Prodavačica mi je pomogla odabrati boju.',
-            en: 'The shop assistant helped me choose the colour.',
+            en: 'The shop assistant helped me choose the color.',
             opts: [
               'The shop assistant helped me choose the size.',
-              'The shop assistant helped me choose the colour.',
-              'My friend helped me choose the colour.',
+              'The shop assistant helped me choose the color.',
+              'My friend helped me choose the color.',
               'The shop assistant refused to help me.',
             ],
           },
@@ -1336,7 +1336,7 @@ export const EXERCISES = {
             en: 'I made a dentist appointment for Friday.',
             opts: [
               'I made a dentist appointment for Friday.',
-              'I cancelled my dentist appointment on Friday.',
+              'I canceled my dentist appointment on Friday.',
               'I made a doctor’s appointment for Monday.',
               'I visited the dentist last Friday.',
             ],
@@ -1366,7 +1366,7 @@ export const EXERCISES = {
             en: 'Although it was raining, we went on a trip.',
             opts: [
               'Although it was raining, we went on a trip.',
-              'Because it was raining, we cancelled the trip.',
+              'Because it was raining, we canceled the trip.',
               'It was raining, so we stayed home.',
               'Although it was sunny, we went on a trip.',
             ],
@@ -1412,10 +1412,10 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Prošlog vikenda putovali smo u Split.',
-            en: 'Last weekend we travelled to Split.',
+            en: 'Last weekend we traveled to Split.',
             opts: [
-              'Last weekend we travelled to Split.',
-              'Next weekend we are travelling to Split.',
+              'Last weekend we traveled to Split.',
+              'Next weekend we are traveling to Split.',
               'Last weekend we moved to Split.',
               'Last week we flew to Split.',
             ],
@@ -1587,12 +1587,12 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Prošlog mjeseca putovali smo autom prema Zadru na ljetovanje.',
-            en: 'Last month we travelled by car towards Zadar for our summer holiday.',
+            en: 'Last month we traveled by car toward Zadar for our summer holiday.',
             opts: [
-              'Last month we travelled by train towards Zadar for our summer holiday.',
-              'Next month we are travelling by car towards Zadar for our summer holiday.',
-              'Last month we travelled by car towards Zadar for our summer holiday.',
-              'Last month we travelled by car towards Split for our summer holiday.',
+              'Last month we traveled by train toward Zadar for our summer holiday.',
+              'Next month we are traveling by car toward Zadar for our summer holiday.',
+              'Last month we traveled by car toward Zadar for our summer holiday.',
+              'Last month we traveled by car toward Split for our summer holiday.',
             ],
           },
           {
@@ -1862,7 +1862,7 @@ export const EXERCISES = {
               'Croatian rural areas are growing faster than cities due to agricultural subsidies.',
               'The gap between rich and poor in Croatia has stayed the same over the past decade.',
               'In modern Croatian society the gap between urban and rural areas is growing, which affects the demographic picture of the whole country.',
-              'Croatia has successfully reversed rural depopulation through government resettlement programmes.',
+              'Croatia has successfully reversed rural depopulation through government resettlement programs.',
             ],
           },
         ],
@@ -2058,10 +2058,10 @@ export const EXERCISES = {
           },
           {
             hr: 'Sljedeće godine planira specijalizaciju iz pedijatrije.',
-            en: 'Next year she plans to specialise in paediatrics.',
+            en: 'Next year she plans to specialize in paediatrics.',
             opts: [
-              'Next year she plans to specialise in paediatrics.',
-              'Last year she specialised in paediatrics.',
+              'Next year she plans to specialize in paediatrics.',
+              'Last year she specialized in paediatrics.',
               'Next year she plans to leave paediatrics.',
               'Next month she starts working in paediatrics.',
             ],
@@ -2107,12 +2107,12 @@ export const EXERCISES = {
           },
           {
             hr: 'Nakon iskrenog razgovora shvatili smo da je nesporazum nastao zbog loše komunikacije, a ne zle namjere.',
-            en: 'After an honest conversation, we realised the misunderstanding arose from poor communication, not bad intentions.',
+            en: 'After an honest conversation, we realized the misunderstanding arose from poor communication, not bad intentions.',
             opts: [
-              "After the conversation, we realised the misunderstanding was entirely my colleague's fault.",
+              "After the conversation, we realized the misunderstanding was entirely my colleague's fault.",
               'After the conversation, nothing was resolved and the conflict continued.',
-              'After an honest conversation, we realised the misunderstanding arose from poor communication, not bad intentions.',
-              'After an honest conversation, we realised the misunderstanding arose from bad intentions.',
+              'After an honest conversation, we realized the misunderstanding arose from poor communication, not bad intentions.',
+              'After an honest conversation, we realized the misunderstanding arose from bad intentions.',
             ],
           },
           {
@@ -2145,20 +2145,20 @@ export const EXERCISES = {
           },
           {
             hr: 'Vatrogasci su stigli u roku od deset minuta i uspjeli spriječiti širenje vatre na susjedne zgrade.',
-            en: 'Firefighters arrived within ten minutes and managed to prevent the fire from spreading to neighbouring buildings.',
+            en: 'Firefighters arrived within ten minutes and managed to prevent the fire from spreading to neighboring buildings.',
             opts: [
               'Firefighters arrived within an hour and could not stop the fire from spreading.',
-              'Firefighters arrived within ten minutes but the fire spread to neighbouring buildings anyway.',
-              'Firefighters arrived within ten minutes and managed to prevent the fire from spreading to neighbouring buildings.',
+              'Firefighters arrived within ten minutes but the fire spread to neighboring buildings anyway.',
+              'Firefighters arrived within ten minutes and managed to prevent the fire from spreading to neighboring buildings.',
               'Firefighters were not called because the fire was small.',
             ],
           },
           {
             hr: 'Prema izjavama svjedoka, dim se vidio čak i iz susjednih naselja.',
-            en: "According to witnesses' statements, the smoke could be seen even from neighbouring settlements.",
+            en: "According to witnesses' statements, the smoke could be seen even from neighboring settlements.",
             opts: [
               'According to witnesses, no smoke was visible from a distance.',
-              "According to witnesses' statements, the smoke could be seen even from neighbouring settlements.",
+              "According to witnesses' statements, the smoke could be seen even from neighboring settlements.",
               'According to the fire chief, the smoke was barely visible.',
               'According to witnesses, the fire produced no smoke at all.',
             ],
@@ -2559,7 +2559,7 @@ export const EXERCISES = {
             en: 'We have come a long way, but the job is not finished yet.',
             opts: [
               'We have come a long way, but the job is not finished yet.',
-              'We travelled far and finished the job.',
+              'We traveled far and finished the job.',
               'The road was long, so we gave up the job.',
               'We have a long way to go before we start.',
             ],
@@ -2625,7 +2625,7 @@ export const EXERCISES = {
             en: 'The performance has been sold out weeks in advance.',
             opts: [
               'The performance has been sold out weeks in advance.',
-              'The performance was cancelled weeks ago.',
+              'The performance was canceled weeks ago.',
               'Tickets for the performance are still available.',
               'The performance sells out on the day itself.',
             ],
@@ -2792,7 +2792,7 @@ export const EXERCISES = {
             opts: [
               "This year's edition of the festival attracted only a handful of local visitors.",
               "This year's edition of the summer film festival in Pula again attracted thousands of visitors from across the region.",
-              "This year's festival in Pula was cancelled due to low attendance.",
+              "This year's festival in Pula was canceled due to low attendance.",
               "Last year's edition of the festival attracted thousands of visitors from abroad.",
             ],
           },
@@ -2811,19 +2811,19 @@ export const EXERCISES = {
             en: 'A retrospective dedicated to Croatian directors whose films defined the 1990s attracted particular attention.',
             opts: [
               'A retrospective dedicated to foreign directors of the 1980s attracted particular attention.',
-              'No retrospective was organised this year due to a lack of interest.',
+              'No retrospective was organized this year due to a lack of interest.',
               'A retrospective dedicated to Croatian directors whose films defined the 1990s attracted particular attention.',
               'A retrospective dedicated to Croatian directors of the 2000s attracted particular attention.',
             ],
           },
           {
             hr: 'Kritičari su istaknuli da je organizacija ove godine bila besprijekorna, iako se pokoja projekcija odgodila zbog tehničkih poteškoća.',
-            en: "Critics pointed out that this year's organisation was flawless, although a few screenings were delayed due to technical difficulties.",
+            en: "Critics pointed out that this year's organization was flawless, although a few screenings were delayed due to technical difficulties.",
             opts: [
-              'Critics pointed out that the organisation this year was chaotic and poorly planned.',
+              'Critics pointed out that the organization this year was chaotic and poorly planned.',
               'Critics pointed out that every screening ran exactly on schedule with no issues.',
-              "Critics avoided commenting on the festival's organisation altogether.",
-              "Critics pointed out that this year's organisation was flawless, although a few screenings were delayed due to technical difficulties.",
+              "Critics avoided commenting on the festival's organization altogether.",
+              "Critics pointed out that this year's organization was flawless, although a few screenings were delayed due to technical difficulties.",
             ],
           },
           {
@@ -3285,7 +3285,7 @@ export const EXERCISES = {
             opts: [
               'Should inflation rise, the negotiations could be repeated.',
               'Because inflation rose, the negotiations were repeated.',
-              'If inflation falls, the negotiations will be cancelled.',
+              'If inflation falls, the negotiations will be canceled.',
               'Inflation will rise if the negotiations are repeated.',
             ],
           },
@@ -3461,7 +3461,7 @@ export const EXERCISES = {
               'The results will be presented at an international conference on marine conservation, where a lively discussion among experts is expected.',
               'The results will not be presented publicly due to their sensitivity.',
               'The results were already presented at a conference last year.',
-              'The conference on marine conservation has been cancelled this year.',
+              'The conference on marine conservation has been canceled this year.',
             ],
           },
         ],

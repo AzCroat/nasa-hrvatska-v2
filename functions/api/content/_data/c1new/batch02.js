@@ -131,7 +131,7 @@ export const LESSONS = [
           ['na', 'na Božić, na Uskrs, na Badnjak', 'on a feast day'],
           ['na', 'na godinu dana', 'for a planned period'],
           ['za', 'za tjedan dana, za dva sata', 'in … from now'],
-          ['pred', 'pred kraj, pred Božić, pred večer', 'towards, just before'],
+          ['pred', 'pred kraj, pred Božić, pred večer', 'toward, just before'],
           ['kroz', 'kroz povijest, kroz dan', 'throughout (lower style)'],
         ],
       },
@@ -199,7 +199,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pred kraj ljeta otoci se isprazne i postane tiho.',
-            en: 'Towards the end of summer the islands empty and it goes quiet.',
+            en: 'Toward the end of summer the islands empty and it goes quiet.',
             note: 'pred kraj: approaching a point',
           },
           {
@@ -278,7 +278,7 @@ export const LESSONS = [
             q: 'What does "pred kraj godine" mean?',
             options: [
               'after the end of the year',
-              'towards the end of the year',
+              'toward the end of the year',
               'for the whole year',
               'in a year from now',
             ],
@@ -413,7 +413,7 @@ export const LESSONS = [
           },
           {
             hr: 'Problem nije u novcu, već u lošoj organizaciji posla.',
-            en: 'The problem is not money but poor organisation of the work.',
+            en: 'The problem is not money but poor organization of the work.',
             note: 'već: the more formal twin of nego',
           },
           {
@@ -1294,7 +1294,7 @@ export const PRACTICE = {
         },
         {
           q: 'What does "pred večer" mean?',
-          options: ['every evening', 'towards evening', 'the evening before', 'all evening'],
+          options: ['every evening', 'toward evening', 'the evening before', 'all evening'],
           correct: 1,
           hint: 'pred with the accusative describes approaching a point.',
           explanation: 'pred večer — as evening comes on.',
@@ -1392,7 +1392,7 @@ export const PRACTICE = {
         options: [
           'in a century from now',
           'throughout the whole century',
-          'towards the end of the century',
+          'toward the end of the century',
           'for a planned century',
         ],
         correct: 1,
@@ -1418,7 +1418,7 @@ export const PRACTICE = {
       ['Uskrs', 'Easter', 'Na Uskrs se jedu šunka i pisanice.'],
       ['podne', 'noon', 'Nađimo se u podne ispred kazališta.'],
       ['ponoć', 'midnight', 'Kafić radi do ponoći.'],
-      ['pred kraj', 'towards the end', 'Pred kraj ljeta otoci se isprazne.'],
+      ['pred kraj', 'toward the end', 'Pred kraj ljeta otoci se isprazne.'],
       ['kroz povijest', 'throughout history', 'Kroz povijest se grad mnogo mijenjao.'],
       ['svaki dan', 'every day', 'Svaki dan pijem kavu na rivi.'],
     ],

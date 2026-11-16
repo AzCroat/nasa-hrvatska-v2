@@ -144,7 +144,7 @@ export const RELATIVE_PRONOUNS_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pl',
     q: 'Zemlje kroz ____ smo putovali bile su daleko.',
-    en: 'The countries we travelled through were far away.',
+    en: 'The countries we traveled through were far away.',
     opts: ['koje', 'kojih', 'kojima', 'koja'],
     answer: 'koje',
     tip: 'kroz + accusative, feminine plural.',
@@ -193,7 +193,7 @@ export const RELATIVE_PRONOUNS_CASES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'tkosto',
     q: 'Upoznao sam susjedu ____ sin svira u bendu.',
-    en: 'I met the neighbour whose son plays in a band.',
+    en: 'I met the neighbor whose son plays in a band.',
     opts: ['čija', 'čiji', 'čije', 'čiju'],
     answer: 'čiji',
     tip: 'čiji agrees with sin, the thing owned.',

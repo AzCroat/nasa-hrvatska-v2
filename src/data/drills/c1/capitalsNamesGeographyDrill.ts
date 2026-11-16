@@ -163,7 +163,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'naselja',
     q: 'Susjedna država. Kako se piše?',
-    en: 'A neighbouring state of two lands.',
+    en: 'A neighboring state of two lands.',
     opts: [
       'Bosna i Hercegovina',
       'Bosna I Hercegovina',

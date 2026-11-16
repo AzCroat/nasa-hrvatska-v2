@@ -374,7 +374,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Tata je ovdje, a mama je tamo.',
-            en: 'Dad is here and Mum is there.',
+            en: 'Dad is here and Mom is there.',
             note: 'tata ends in -a but is masculine',
           },
           {
@@ -600,7 +600,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Other Key Irregular Verbs',
-        body: 'Imati (to have): imam, imaš, ima, imamo, imate, imaju. Ići (to go): idem, ideš, ide, idemo, idete, idu. Htjeti (to want/will): hoću/ću, hoćeš/ćeš, hoće/će, hoćemo/ćemo, hoćete/ćete, hoće/će. These are used constantly — memorise them first.',
+        body: 'Imati (to have): imam, imaš, ima, imamo, imate, imaju. Ići (to go): idem, ideš, ide, idemo, idete, idu. Htjeti (to want/will): hoću/ću, hoćeš/ćeš, hoće/će, hoćemo/ćemo, hoćete/ćete, hoće/će. These are used constantly — memorize them first.',
         highlight: 'imati · ići · htjeti',
       },
       {
@@ -1089,7 +1089,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Skuhao sam večeru i pozvao susjede.',
-            en: 'I cooked dinner and invited the neighbours.',
+            en: 'I cooked dinner and invited the neighbors.',
             note: 'skuhao, pozvao — two completed steps',
           },
           {
@@ -1785,7 +1785,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Susjed koji živi ispod nas svira klavir svake večeri.',
-            en: 'The neighbour who lives below us plays the piano every evening.',
+            en: 'The neighbor who lives below us plays the piano every evening.',
             note: 'koji — masculine, refers to susjed',
           },
           {
@@ -2039,12 +2039,12 @@ const LESSONS_CORE = [
       },
       {
         type: 'example',
-        title: 'Haven’t We Met? — Recognising Someone',
+        title: 'Haven’t We Met? — Recognizing Someone',
         items: [
           {
             hr: 'Mislim da smo se već upoznali.',
             en: 'I think we have already met.',
-            note: 'a safe opener with someone you half recognise',
+            note: 'a safe opener with someone you half recognize',
           },
           {
             hr: 'Poznajem Vas iz viđenja.',
@@ -2383,7 +2383,7 @@ const LESSONS_CORE = [
             options: ['išao', 'ićila', 'idla', 'išla'],
             correct: 3,
             explanation:
-              'ići has the irregular participle išao / išla / išli / išle. The š is not in the infinitive and has to be memorised.',
+              'ići has the irregular participle išao / išla / išli / išle. The š is not in the infinitive and has to be memorized.',
           },
           {
             q: "What does 'Radile su' tell you about the subject?",
@@ -3945,7 +3945,7 @@ const LESSONS_CORE = [
             note: 'moja sestra → moje sestre (fem. gen.)',
           },
           { hr: 'centar grada', en: 'the city centre', note: 'grad → grada (masc. gen.)' },
-          { hr: 'boja mora', en: 'the colour of the sea', note: 'more → mora (neut. gen.)' },
+          { hr: 'boja mora', en: 'the color of the sea', note: 'more → mora (neut. gen.)' },
           { hr: 'soba moje sestre', en: "my sister's room", note: 'sestra → sestre (fem. gen.)' },
         ],
       },
@@ -4011,7 +4011,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Boja neba nad Jadranom je nevjerojatna.',
-            en: 'The colour of the sky over the Adriatic is unbelievable.',
+            en: 'The color of the sky over the Adriatic is unbelievable.',
             note: 'boja neba — of the sky',
           },
           {
@@ -4074,7 +4074,7 @@ const LESSONS_CORE = [
         title: 'Mastery Check',
         items: [
           {
-            q: "Complete: 'To je auto ___.' (the neighbour's car — susjed)",
+            q: "Complete: 'To je auto ___.' (the neighbor's car — susjed)",
             options: ['susjed', 'susjedu', 'susjedom', 'susjeda'],
             correct: 3,
             explanation:
@@ -4286,7 +4286,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Pomogla sam susjedi nositi torbe.',
-            en: 'I helped the neighbour (f.) carry her bags.',
+            en: 'I helped the neighbor (f.) carry her bags.',
             note: 'pomoći + dative: susjeda → susjedi',
           },
           {
@@ -4454,7 +4454,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Use 1: Means & Instrument',
-        body: "When you use a tool or means to do something, put it in the instrumental. No preposition is needed — the ending is enough. 'Writing with a pen' = 'pisati olovkom' (olovka → olovkom). 'Travelling by car' = 'putovati autom'. 'Paying by card' = 'platiti karticom'.",
+        body: "When you use a tool or means to do something, put it in the instrumental. No preposition is needed — the ending is enough. 'Writing with a pen' = 'pisati olovkom' (olovka → olovkom). 'Traveling by car' = 'putovati autom'. 'Paying by card' = 'platiti karticom'.",
         highlight: 'tool / means → instrumental, no preposition',
       },
       {
@@ -4799,7 +4799,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Novi susjedi su jako ljubazni.',
-            en: 'The new neighbours are very kind.',
+            en: 'The new neighbors are very kind.',
             note: 'novi, ljubazni — masc. plural nominative',
           },
           {
@@ -5251,7 +5251,7 @@ const LESSONS_CORE = [
           [
             'putovati',
             'putovanje',
-            'travelling',
+            'traveling',
             'Putovanje širi horizonte. (Travel broadens horizons.)',
           ],
           ['misliti', 'mišljenje', 'thinking/opinion', 'Po mom mišljenju... (In my opinion...)'],
@@ -5344,7 +5344,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Došavši kući, shvatio je da je zaboravio ključeve.',
-            en: 'Having come home, he realised he had forgotten his keys.',
+            en: 'Having come home, he realized he had forgotten his keys.',
             note: 'došavši — past adverbial participle',
           },
           {
@@ -5359,7 +5359,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Izgubljeni putnik pitao je za put do kolodvora.',
-            en: 'The lost traveller asked the way to the station.',
+            en: 'The lost traveler asked the way to the station.',
             note: 'izgubljen — passive participle modifying a noun',
           },
           {
@@ -5375,7 +5375,7 @@ const LESSONS_CORE = [
         options: ['putovan', 'putovajući', 'putovanje', 'putovavši'],
         correct: 2,
         explanation:
-          '„Putovanje“ — the verbal noun is formed by adding -nje to the infinitive stem. Putovati → putova- + -nje = putovanje (travel, travelling). It declines as a neuter noun: putovanje (nom.), putovanju (dat./loc.), putovanjem (instr.), etc.',
+          '„Putovanje“ — the verbal noun is formed by adding -nje to the infinitive stem. Putovati → putova- + -nje = putovanje (travel, traveling). It declines as a neuter noun: putovanje (nom.), putovanju (dat./loc.), putovanjem (instr.), etc.',
       },
       {
         type: 'quiz',
@@ -5558,7 +5558,7 @@ const LESSONS_CORE = [
           {
             hr: 'Svaka čast!',
             en: 'Well done! / Respect!',
-            note: "Lit: 'Every honour!' — extremely common praise",
+            note: "Lit: 'Every honor!' — extremely common praise",
           },
         ],
       },
@@ -5608,7 +5608,7 @@ const LESSONS_CORE = [
           {
             hr: 'Nije bilo strašno, samo sam slomio nogu.',
             en: 'It was not terrible, I only broke my leg.',
-            note: 'Croatian understatement — deadpan humour',
+            note: 'Croatian understatement — deadpan humor',
           },
           {
             hr: 'Ma pusti, to je sitnica.',
@@ -5675,14 +5675,14 @@ const LESSONS_CORE = [
         type: 'quiz',
         q: 'A Croatian friend says „Svaka čast!“ after you ace a language test. What do they mean?',
         options: [
-          'Every piece of honour — a religious blessing',
+          'Every piece of honor — a religious blessing',
           'Well done! / Respect! — genuine praise',
           "That's a bit much — mild sarcasm",
-          'You should be honoured to receive this',
+          'You should be honored to receive this',
         ],
         correct: 1,
         explanation:
-          "„Svaka čast!“ (literally 'every honour') is one of the most common expressions of genuine admiration and respect in Croatian. It's used exactly as English 'Well done!' or 'Respect!' — sincere, warm, and very frequent among friends and family.",
+          "„Svaka čast!“ (literally 'every honor') is one of the most common expressions of genuine admiration and respect in Croatian. It's used exactly as English 'Well done!' or 'Respect!' — sincere, warm, and very frequent among friends and family.",
       },
       {
         type: 'quiz',
@@ -5712,7 +5712,7 @@ const LESSONS_CORE = [
             options: ['Slomi nogu', 'Sretno', 'Svaka čast', 'Nema frke'],
             correct: 1,
             explanation:
-              'Croatian wishes luck with Sretno. „Slomi nogu“ is a literal broken leg, Svaka čast is praise afterwards, Nema frke means no worries.',
+              'Croatian wishes luck with Sretno. „Slomi nogu“ is a literal broken leg, Svaka čast is praise afterward, Nema frke means no worries.',
           },
           {
             q: 'Complete: „Prestani okolišati i prijeđi na ___.“',
@@ -5760,14 +5760,14 @@ const LESSONS_CORE = [
           {
             q: '„Nije bilo strašno, samo sam slomio nogu.“ What device is this?',
             options: [
-              'understatement — deadpan Croatian humour',
+              'understatement — deadpan Croatian humor',
               'hyperbole',
               'a proverb',
               'a formal apology',
             ],
             correct: 0,
             explanation:
-              'Playing down a serious event with a straight face is a common Croatian humour register; taking it literally misses the joke.',
+              'Playing down a serious event with a straight face is a common Croatian humor register; taking it literally misses the joke.',
           },
           {
             q: 'Which idiom is safe in a FORMAL email?',
@@ -5853,7 +5853,7 @@ const LESSONS_CORE = [
           {
             hr: 'Dobro jutro, gospođo Horvat! Kako ste?',
             en: 'Good morning, Mrs Horvat! How are you?',
-            note: 'Vi-form kako ste with an older neighbour',
+            note: 'Vi-form kako ste with an older neighbor',
           },
           {
             hr: 'Bog, Marko! Kako si?',
@@ -5872,7 +5872,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Laku noć, mama!',
-            en: 'Good night, Mum!',
+            en: 'Good night, Mom!',
             note: 'laku noć is a bedtime farewell, never a greeting',
           },
           {
@@ -6248,7 +6248,7 @@ const LESSONS_CORE = [
       },
       {
         type: 'table',
-        title: '0–10: Memorise These',
+        title: '0–10: Memorize These',
         headers: ['Number', 'Croatian', 'Number', 'Croatian'],
         rows: [
           ['0', 'nula', '6', 'šest'],
@@ -6464,7 +6464,7 @@ const LESSONS_CORE = [
       },
       {
         type: 'example',
-        title: 'Essential Questions to Memorise',
+        title: 'Essential Questions to Memorize',
         items: [
           {
             hr: 'Kako se zoveš?',
@@ -6641,7 +6641,7 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: 'Croatian Motion Verbs',
-        body: 'Croatian has dedicated verb pairs for motion direction — the imperfective describes the act of moving, while the perfective emphasises the completed arrival or departure. Mix them up and you will confuse native speakers.',
+        body: 'Croatian has dedicated verb pairs for motion direction — the imperfective describes the act of moving, while the perfective emphasizes the completed arrival or departure. Mix them up and you will confuse native speakers.',
         icon: '🚶',
       },
       {
@@ -6819,10 +6819,10 @@ const LESSONS_CORE = [
           },
           {
             q: "What does the prefix in 'izaći' add to the meaning of 'ići'?",
-            options: ['towards', 'across', 'around', 'out of'],
+            options: ['toward', 'across', 'around', 'out of'],
             correct: 3,
             explanation:
-              'iz- means out: izaći = to go out. do- is towards, pre- across, ob- around.',
+              'iz- means out: izaći = to go out. do- is toward, pre- across, ob- around.',
           },
           {
             q: "Complete: '___ sam most pješice.' (I crossed the bridge)",
@@ -7271,7 +7271,7 @@ const LESSONS_CORE = [
         options: ['yesterday', 'now', 'tomorrow', 'today'],
         correct: 2,
         explanation:
-          '"Sutra" = tomorrow. The full trio to memorise: jučer (yesterday) — danas (today) — sutra (tomorrow).',
+          '"Sutra" = tomorrow. The full trio to memorize: jučer (yesterday) — danas (today) — sutra (tomorrow).',
       },
       {
         type: 'rule',
@@ -7693,13 +7693,13 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'iz vs od — The Important Distinction',
-        body: '"Iz" means FROM a contained/enclosed space: dolazim iz Zagreba (I come from Zagreb — the city encloses you). "Od" means FROM a person, an event, or something not enclosed: to je dar od mame (this is a gift from mum), od ponedjeljka (from Monday). Do NOT use "od" to say where you come from — for cities and rooms use "iz". (A route is different: od Splita do Dubrovnika, from one point to another.) This iz/od distinction is one of the most common errors in learner Croatian.',
+        body: '"Iz" means FROM a contained/enclosed space: dolazim iz Zagreba (I come from Zagreb — the city encloses you). "Od" means FROM a person, an event, or something not enclosed: to je dar od mame (this is a gift from mom), od ponedjeljka (from Monday). Do NOT use "od" to say where you come from — for cities and rooms use "iz". (A route is different: od Splita do Dubrovnika, from one point to another.) This iz/od distinction is one of the most common errors in learner Croatian.',
         highlight: 'iz = enclosed space; od = from person/time',
       },
       {
         type: 'rule',
         title: 'Instrumental s/sa — With, Together',
-        body: '"S" (before consonants) or "sa" (before s, z, š, ž, or for rhythm) means "with" and always takes the INSTRUMENTAL case. Instrumental endings: masculine/neuter -om (s bratom — with brother), feminine -om (s mamom — with mum), plurals vary. Idem s prijateljem (I am going with a friend). Razgovaram sa sestrom (I am talking with my sister). Never use "s" + nominative — always instrumental.',
+        body: '"S" (before consonants) or "sa" (before s, z, š, ž, or for rhythm) means "with" and always takes the INSTRUMENTAL case. Instrumental endings: masculine/neuter -om (s bratom — with brother), feminine -om (s mamom — with mom), plurals vary. Idem s prijateljem (I am going with a friend). Razgovaram sa sestrom (I am talking with my sister). Never use "s" + nominative — always instrumental.',
         highlight: 's/sa = instrumental',
       },
       {
@@ -7737,7 +7737,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Idem s mamom na tržnicu.',
-            en: 'I am going with mum to the market.',
+            en: 'I am going with mom to the market.',
             note: 's + instrumental',
           },
           {
@@ -8269,7 +8269,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Inat — Defiant Stubbornness',
-        body: '"Inat" is a culturally specific attitude: doing something deliberately out of spite, stubbornness, or defiance — often against your own interest, just to prove a point. "Iz inata" (out of inat/spite) is a common phrase. "Samo iz inata ne odlazi" — "He stays only out of inat." Inat is sometimes worn as a badge of honour and sometimes it is plain stubbornness — context decides. Its native Croatian near-synonym is prkos (defiance).',
+        body: '"Inat" is a culturally specific attitude: doing something deliberately out of spite, stubbornness, or defiance — often against your own interest, just to prove a point. "Iz inata" (out of inat/spite) is a common phrase. "Samo iz inata ne odlazi" — "He stays only out of inat." Inat is sometimes worn as a badge of honor and sometimes it is plain stubbornness — context decides. Its native Croatian near-synonym is prkos (defiance).',
         highlight: 'inat = defiant spite / stubborn pride',
       },
       {
@@ -8840,7 +8840,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Dialect Dignity — Čakavian and Kajkavian',
-        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and carried its own literary tradition from the 16th to the 19th century. Neither dialect is "broken Croatian" — both are distinct systems, recognised in Croatia as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing the dialect in which Croatian literature began.',
+        body: 'Standard Croatian is based on Štokavian, but two other dialects — Čakavian and Kajkavian — are alive and treasured. Čakavian (spoken on the Dalmatian coast, Kvarner islands, and Istria) was the language of early Croatian literature: Marko Marulić\'s Judita (1501) is Čakavian. Kajkavian (Zagreb region) sounds more like Slovenian and carried its own literary tradition from the 16th to the 19th century. Neither dialect is "broken Croatian" — both are distinct systems, recognized in Croatia as cultural heritage. When you hear a grandmother in a Dalmatian village speak Čakavian, you are hearing the dialect in which Croatian literature began.',
         highlight: 'Čakavian and Kajkavian are treasured heritage dialects',
       },
       {
@@ -9042,7 +9042,7 @@ const LESSONS_CORE = [
             ],
             correct: 3,
             explanation:
-              'Code-switching is ordinary bilingual behaviour. Heritage Croatian is living Croatian; the standard is what you aim for on paper.',
+              'Code-switching is ordinary bilingual behavior. Heritage Croatian is living Croatian; the standard is what you aim for on paper.',
           },
         ],
       },
@@ -9235,7 +9235,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners build an aorist from an imperfective: „gledah“ is an IMPERFEKT (I was watching); the aorist needs the perfective, „pogledah“. Second, the two are read as one 'old past': the aorist snaps (reče — he said, at once), the imperfekt lingers (govoraše — he was speaking), and mixing them changes the pace of a passage. Third, in modern prose they are sprinkled at random for flavour: use the aorist for the beats of a story and the perfekt for the rest, or the text reads as parody.",
+        body: "Learners build an aorist from an imperfective: „gledah“ is an IMPERFEKT (I was watching); the aorist needs the perfective, „pogledah“. Second, the two are read as one 'old past': the aorist snaps (reče — he said, at once), the imperfekt lingers (govoraše — he was speaking), and mixing them changes the pace of a passage. Third, in modern prose they are sprinkled at random for flavor: use the aorist for the beats of a story and the perfekt for the rest, or the text reads as parody.",
         highlight: 'the aorist snaps',
       },
       {
@@ -10169,7 +10169,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Tek tada je shvatio što je bio učinio.',
-            en: 'Only then did he realise what he had done.',
+            en: 'Only then did he realize what he had done.',
             note: 'bio učinio — the deed precedes the realisation',
           },
           {
@@ -10466,7 +10466,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners call every image a metaphor: 'popiti čašu' is metonymy (the glass for its contents) — metaphor needs a likeness, metonymy a real-world connection. Second, gradation is written in the wrong order: 'naredio, zatražio, zamolio' descends and falls flat — the steps must climb, weakest first. Third, irony is labelled with a wink or a 'haha' because the writer fears it will be missed: in prose, irony lives in the gap between wording and situation, and labelling it kills it.",
+        body: "Learners call every image a metaphor: 'popiti čašu' is metonymy (the glass for its contents) — metaphor needs a likeness, metonymy a real-world connection. Second, gradation is written in the wrong order: 'naredio, zatražio, zamolio' descends and falls flat — the steps must climb, weakest first. Third, irony is labeled with a wink or a 'haha' because the writer fears it will be missed: in prose, irony lives in the gap between wording and situation, and labeling it kills it.",
         highlight: 'metaphor needs a likeness, metonymy a real-world connection',
       },
       {

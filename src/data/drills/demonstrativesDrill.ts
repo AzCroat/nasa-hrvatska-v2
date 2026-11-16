@@ -160,7 +160,7 @@ export const DEMONSTRATIVES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Come here! (to me)',
     opts: ['ovamo', 'tamo', 'ondje', 'onamo'],
     answer: 'ovamo',
-    tip: 'Motion towards the speaker: ovamo. Ovdje is position, not motion.',
+    tip: 'Motion toward the speaker: ovamo. Ovdje is position, not motion.',
   },
   {
     mode: 'prilozi',

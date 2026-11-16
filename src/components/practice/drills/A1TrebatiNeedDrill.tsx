@@ -21,7 +21,7 @@ export default function A1TrebatiNeedDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1trebatineed"
       title="Trebati: What You Need"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TREBATI_NEED_MODE_LABELS}
       data={TREBATI_NEED_DRILL_DATA}
       praise={{

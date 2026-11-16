@@ -1,7 +1,7 @@
 // src/tests/themedInlineBackground.test.ts
 //
 // See helpers/themedInlineBackground.ts for the finding: 32 `.ob` option buttons
-// painted an OPAQUE LIGHT background inline while `.ob` supplied the text colour,
+// painted an OPAQUE LIGHT background inline while `.ob` supplied the text color,
 // so every multiple-choice option in 30 screens was invisible in dark mode
 // (measured 1.23:1 resting, 1.01:1 on the chosen wrong option).
 //
@@ -30,7 +30,7 @@ describe('a themed class owns both halves of its contrast', () => {
       named,
       'These classes set `color` from a theme variable (#e2e8f0 in dark mode). An ' +
         'inline opaque LIGHT background wins over the class background and leaves ' +
-        'that light colour in place, so the text is invisible in dark mode while ' +
+        'that light color in place, so the text is invisible in dark mode while ' +
         'the screen looks perfectly fine in light mode. Express the state with the ' +
         '`ok`/`no` classes, use a `var(...)` or a translucent `rgba()`, or set ' +
         '`color` inline too.',
@@ -97,7 +97,7 @@ describe('a themed class owns both halves of its contrast', () => {
     expect(hits[0]!.literals.sort()).toEqual(["'#dcfce7'", "'#fee2e2'", "'white'"]);
   });
 
-  it('does NOT flag a background that tracks the theme, or an element that sets its own colour', () => {
+  it('does NOT flag a background that tracks the theme, or an element that sets its own color', () => {
     // The three legitimate shapes, each present in the tree today. Flagging these
     // would make the guard noise, and noise is how a guard gets ignored.
     const dir = mkdtempSync(join(tmpdir(), 'themed-ok-'));
@@ -121,7 +121,7 @@ describe('a themed class owns both halves of its contrast', () => {
     expect(isOpaqueLight("'#dcfce7'")).toBe(true); // the success tint
     expect(isOpaqueLight("'#fee2e2'")).toBe(true); // the error tint
     expect(isOpaqueLight("'#fff'")).toBe(true);
-    // A pale-looking colour with one mid channel is NOT light enough to hide
+    // A pale-looking color with one mid channel is NOT light enough to hide
     // #e2e8f0 text, and calling it one would flag correct code.
     expect(isOpaqueLight("'#dcfc74'")).toBe(false);
     expect(isOpaqueLight("'#0e7490'")).toBe(false);
@@ -129,7 +129,7 @@ describe('a themed class owns both halves of its contrast', () => {
     expect(isOpaqueLight("'var(--ob-bg)'")).toBe(false);
   });
 
-  it('the state classes it steers people to actually set a colour', () => {
+  it('the state classes it steers people to actually set a color', () => {
     // `.ob.ok` / `.ob.no` are only a fix because they set `color` as well as
     // `background`. If someone trimmed them to a background alone, this whole
     // guard would be pointing at the same defect it forbids.

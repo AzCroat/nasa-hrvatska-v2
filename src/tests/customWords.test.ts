@@ -18,8 +18,8 @@
  * WHY NOT INTERSECTION
  * --------------------
  * The obvious alternative — prune whatever the other side no longer has — has
- * already failed here. `fbWatchProgress` used to do exactly that for favourites
- * and "silently dropped offline-added favourites when another device's toggle was
+ * already failed here. `fbWatchProgress` used to do exactly that for favorites
+ * and "silently dropped offline-added favorites when another device's toggle was
  * more recent" (see the NOTE in firebase.ts). Intersection cannot tell a deletion
  * from an addition it has not seen yet. A tombstone can, which is the whole point
  * of these tests.

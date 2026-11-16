@@ -10,7 +10,7 @@
 // switched to on-device recognition; the postcard said "check your
 // connection" for everything. None reported to Sentry.
 //
-// These are SOURCE pins on the wiring — the component tests cover behaviour,
+// These are SOURCE pins on the wiring — the component tests cover behavior,
 // and a component test that supplies its own props cannot see whether the
 // real screen is wired. Each pin names the string or identifier a learner (or
 // Sentry) actually meets.

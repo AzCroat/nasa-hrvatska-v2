@@ -351,7 +351,7 @@ const HEALTH_PREVENTION = {
     {
       type: 'rule',
       title: 'A Heat Wave',
-      body: 'In summer Croatia regularly has a toplinski val (heat wave). Public health advice is simple: drink water often, even when you are not thirsty; stay in the shade and avoid going out in the hottest part of the day, roughly from 11 to 17; wear light clothing and a hat; never leave children or pets in a parked car; and check on older neighbours who live alone. Sunčanica is sunstroke, toplinski udar heatstroke.',
+      body: 'In summer Croatia regularly has a toplinski val (heat wave). Public health advice is simple: drink water often, even when you are not thirsty; stay in the shade and avoid going out in the hottest part of the day, roughly from 11 to 17; wear light clothing and a hat; never leave children or pets in a parked car; and check on older neighbors who live alone. Sunčanica is sunstroke, toplinski udar heatstroke.',
       highlight: 'toplinski val',
     },
     {
@@ -411,7 +411,7 @@ const HEALTH_PREVENTION = {
         },
         {
           hr: 'Trebali biste posjetiti staru susjedu i pitati treba li joj što.',
-          en: 'You should visit the old neighbour and ask whether she needs anything.',
+          en: 'You should visit the old neighbor and ask whether she needs anything.',
           note: 'trebali biste — conditional advice, softer than an order',
         },
         {
@@ -539,7 +539,7 @@ const HEALTH_PREVENTION = {
           ],
           correct: 3,
           explanation:
-            'Checking on older neighbours is standard heat-wave advice. The other three give dangerous advice.',
+            'Checking on older neighbors is standard heat-wave advice. The other three give dangerous advice.',
         },
       ],
     },
@@ -1637,7 +1637,7 @@ export const PRACTICE = {
           'drink water often',
           'stay in the shade',
           'leave a dog in a parked car',
-          'check on older neighbours',
+          'check on older neighbors',
         ],
         correct: 2,
         explanation: 'A parked car heats up quickly; never leave children or animals in it.',

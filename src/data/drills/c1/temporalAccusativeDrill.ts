@@ -121,7 +121,7 @@ export const TEMPORAL_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlozi',
     q: '____ se gradovi na obali isprazne.',
-    en: 'Towards the end of September the coastal towns empty.',
+    en: 'Toward the end of September the coastal towns empty.',
     opts: ['Pred kraj rujna', 'Pred krajem rujna', 'Na kraj rujna', 'U kraj rujna'],
     answer: 'Pred kraj rujna',
     tip: 'pred + accusative: approaching a point in time.',
@@ -148,7 +148,7 @@ export const TEMPORAL_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
     en: 'We set off as evening was coming on.',
     opts: ['pred večer', 'pred večeri', 'za večer', 'u večeri'],
     answer: 'pred večer',
-    tip: 'pred večer — towards evening.',
+    tip: 'pred večer — toward evening.',
   },
 
   // ── razlika ───────────────────────────────────────────────────────────────

@@ -21,7 +21,7 @@ export default function C1CapitalsInstitutionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1capitalsinstitutions"
       title="Capitals in Names of Places and Institutions"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CAPITALS_INSTITUTIONS_MODE_LABELS}
       data={CAPITALS_INSTITUTIONS_DRILL_DATA}
       praise={{

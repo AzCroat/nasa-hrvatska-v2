@@ -43,8 +43,8 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nazivi',
     q: 'Što je "kazalište"?',
     en: 'What is a kazalište?',
-    opts: ['theatre', 'cinema', 'concert hall', 'stage'],
-    answer: 'theatre',
+    opts: ['theater', 'cinema', 'concert hall', 'stage'],
+    answer: 'theater',
     tip: 'The cinema is kino; the stage is pozornica.',
   },
   {
@@ -75,7 +75,7 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nazivi',
     q: 'Što je "izložba"?',
     en: 'What is an izložba?',
-    opts: ['exhibition', 'gallery', 'installation', 'catalogue'],
+    opts: ['exhibition', 'gallery', 'installation', 'catalog'],
     answer: 'exhibition',
     tip: 'Held in a galerija or a muzej.',
   },
@@ -90,7 +90,7 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nazivi',
     q: 'Bio sam ____ kazalištu.',
-    en: 'I was at the theatre.',
+    en: 'I was at the theater.',
     opts: ['u', 'na', 'kod', 'po'],
     answer: 'u',
     tip: 'u kazalištu but na koncertu and na izložbi. Learned per word.',
@@ -230,6 +230,6 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Asking what is on:',
     opts: ['Što se igra?', 'Što se nosi?', 'Što se radi?', 'Što je unutra?'],
     answer: 'Što se igra?',
-    tip: 'In a theatre. For a cinema, Što se prikazuje?',
+    tip: 'In a theater. For a cinema, Što se prikazuje?',
   },
 ];

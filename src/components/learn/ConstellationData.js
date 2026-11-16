@@ -46,7 +46,7 @@ export const CASES = [
       { hr: 'Dajem prijatelju.', en: 'I give to the friend.' },
       { hr: 'Kažem majci.', en: 'I say to (my) mother.' },
     ],
-    tip: 'After k/ka (towards), nasuprot (opposite), zahvaljujući (thanks to)',
+    tip: 'After k/ka (toward), nasuprot (opposite), zahvaljujući (thanks to)',
     endings: { m: '-u', f: '-i', n: '-u' },
   },
   {
@@ -76,7 +76,7 @@ export const CASES = [
     pattern: 'M: -e/-u, F: -o/-e',
     examples: [
       { hr: 'Marko! Dođi!', en: 'Marko! Come here!' },
-      { hr: 'Mama, jesi li tu?', en: 'Mum, are you there?' },
+      { hr: 'Mama, jesi li tu?', en: 'Mom, are you there?' },
     ],
     tip: 'Used when calling out to someone. Often same as nominative in speech.',
     endings: { m: '-e/-u', f: '-o/-e', n: '= NOM' },
@@ -167,7 +167,7 @@ export const QUIZ = [
     options: ['lokativ', 'genitiv', 'akuzativ', 'dativ'],
   },
   {
-    q: 'Mama! (Calling out to Mum) — Which case?',
+    q: 'Mama! (Calling out to Mom) — Which case?',
     answer: 'vokativ',
     options: ['vokativ', 'nominativ', 'akuzativ', 'dativ'],
   },
@@ -196,6 +196,6 @@ export const QUIZ = [
 export function getDoneMessage(score) {
   if (score === QUIZ.length) return 'Perfect! You know all 7 cases!';
   if (score >= Math.ceil(QUIZ.length * 0.7)) return 'Great work! Almost there!';
-  if (score >= Math.ceil(QUIZ.length * 0.4)) return 'Good start — keep practising!';
+  if (score >= Math.ceil(QUIZ.length * 0.4)) return 'Good start — keep practicing!';
   return 'Keep exploring the cases and try again!';
 }

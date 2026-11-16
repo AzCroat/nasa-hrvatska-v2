@@ -21,7 +21,7 @@ export default function A1VerbsWithDativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1verbswithdative"
       title="Verbs That Take the Dative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_WITH_DATIVE_MODE_LABELS}
       data={VERBS_WITH_DATIVE_DRILL_DATA}
       praise={{

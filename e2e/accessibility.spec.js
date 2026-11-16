@@ -343,7 +343,7 @@ test.describe('SP6 — CorrectionDiff accessibility', () => {
     // bbox-stability check on every nearby button (click retried 110× over 55s on
     // "element is not stable"). The Kovač portrait is static, so that cause is
     // gone — but we keep dispatching the click via DOM as a cheap safeguard
-    // against any position:fixed neighbour re-introducing the issue (still fires
+    // against any position:fixed neighbor re-introducing the issue (still fires
     // React's onClick handler).
     await page.getByTestId(TID.WRITING_SUBMIT).evaluate((el) => el.click());
     await expect(page.locator('del').filter({ hasText: 'mama' })).toBeVisible({
@@ -354,10 +354,10 @@ test.describe('SP6 — CorrectionDiff accessibility', () => {
   test('rendered diff has no critical or serious WCAG violations', async ({ page }) => {
     // The success-callout ("💬 Bravo!") fades in via JS-driven opacity (not
     // a CSS animation that document.getAnimations() can await). Axe computes
-    // foreground colour as the inline color blended against the background
+    // foreground color as the inline color blended against the background
     // per element opacity, so a mid-fade scan reads 4.39:1 contrast on what
-    // is actually a 7.9:1 callout at steady state. Two-pronged defence:
-    //   1) Request prefers-reduced-motion which the app should honour to
+    // is actually a 7.9:1 callout at steady state. Two-pronged defense:
+    //   1) Request prefers-reduced-motion which the app should honor to
     //      skip the fade entirely.
     //   2) Belt-and-braces: await a fixed window long enough for any
     //      reasonable fade duration to complete before AxeBuilder runs.

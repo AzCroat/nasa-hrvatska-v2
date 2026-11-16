@@ -139,7 +139,7 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'Kajkavian borrowings come mainly from:',
     opts: ['njemačkoga i mađarskoga', 'talijanskoga', 'turskoga', 'francuskoga'],
     answer: 'njemačkoga i mađarskoga',
-    tip: 'cajger, špancirati, farba — the north-west neighbours.',
+    tip: 'cajger, špancirati, farba — the north-west neighbors.',
   },
   {
     mode: 'osobine',
@@ -226,7 +226,7 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which register for an official report?',
     opts: ['standardni štokavski', 'mjesni govor', 'mješavina', 'kako tko govori'],
     answer: 'standardni štokavski',
-    tip: 'And relaxed local speech for the coffee afterwards. Both, chosen.',
+    tip: 'And relaxed local speech for the coffee afterward. Both, chosen.',
   },
   {
     mode: 'prebacivanje',
@@ -260,6 +260,6 @@ export const DIALECTS_DEEP_DRILL_DATA: ModeDrillItem[] = [
       'nije korisno',
     ],
     answer: 'razgovor se može pratiti, a ne samo prepoznati',
-    tip: 'C1 taught you to recognise them. This is the step from recognising to following.',
+    tip: 'C1 taught you to recognize them. This is the step from recognizing to following.',
   },
 ];

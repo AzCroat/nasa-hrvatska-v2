@@ -90,7 +90,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'imena',
     q: 'Putujem u ____.',
-    en: 'I am travelling to the British capital.',
+    en: 'I am traveling to the British capital.',
     opts: ['London', 'Londonu', 'Londona', 'Londonom'],
     answer: 'London',
     tip: 'Accusative for motion; u Londonu once you are there.',
@@ -127,7 +127,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'plural of brat',
     opts: ['braća', 'brati', 'bratovi', 'bratja'],
     answer: 'braća',
-    tip: 'Another collective, with the same agreement behaviour as djeca.',
+    tip: 'Another collective, with the same agreement behavior as djeca.',
   },
   {
     mode: 'supletivi',

@@ -21,7 +21,7 @@ export default function A1GenitivePronounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1genitivepronouns"
       title="At My Place, Without You"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_PRONOUNS_MODE_LABELS}
       data={GENITIVE_PRONOUNS_DRILL_DATA}
       praise={{

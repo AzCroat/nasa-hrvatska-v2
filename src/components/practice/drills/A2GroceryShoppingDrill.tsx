@@ -21,7 +21,7 @@ export default function A2GroceryShoppingDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2groceryshopping"
       title="U trgovini i na tržnici"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GROCERY_SHOPPING_MODE_LABELS}
       data={GROCERY_SHOPPING_DRILL_DATA}
       praise={{

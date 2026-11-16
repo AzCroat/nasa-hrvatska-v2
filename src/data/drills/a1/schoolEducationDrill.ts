@@ -162,7 +162,7 @@ export const SCHOOL_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: 'Moj omiljeni ____ je povijest.',
-    en: 'My favourite subject is history.',
+    en: 'My favorite subject is history.',
     opts: ['ispit', 'predmet', 'razred', 'fakultet'],
     answer: 'predmet',
     tip: 'A school subject is a predmet.',
@@ -202,7 +202,7 @@ export const SCHOOL_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: 'Moja mama radi u školi i uči djecu. Ona je ____.',
-    en: 'My mum works at a school and teaches children.',
+    en: 'My mom works at a school and teaches children.',
     opts: ['učenica', 'studentica', 'učiteljica', 'ispit'],
     answer: 'učiteljica',
     tip: 'A woman who teaches children: učiteljica. Učiti can also mean to teach.',
@@ -218,7 +218,7 @@ export const SCHOOL_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'rijeci',
     q: 'Matematika, hrvatski i povijest su ____.',
-    en: 'Maths, Croatian and history are school subjects.',
+    en: 'Math, Croatian and history are school subjects.',
     opts: ['ispiti', 'razredi', 'predmeti', 'fakulteti'],
     answer: 'predmeti',
     tip: 'predmet → predmeti in the plural.',

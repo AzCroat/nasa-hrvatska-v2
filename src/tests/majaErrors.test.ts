@@ -35,7 +35,7 @@ describe('majaErrorMessage', () => {
   });
 
   it('assumes burst when a 429 arrives with no readable code', () => {
-    // Deliberate behaviour CHANGE: a bare 429 used to report the daily limit.
+    // Deliberate behavior CHANGE: a bare 429 used to report the daily limit.
     // classifyAiLimit defaults to burst because guessing daily is the more
     // damaging error — it sends someone away for a day over a few seconds.
     expect(majaErrorMessage(429, MAJA_TURN_FALLBACK)).toBe(

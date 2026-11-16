@@ -70,7 +70,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'planovi',
     q: 'Ovaj vikend ____ u Split kod prijatelja.',
-    en: 'This weekend we are travelling to Split to stay with friends.',
+    en: 'This weekend we are traveling to Split to stay with friends.',
     opts: ['putujemo', 'putovamo', 'putujete', 'putovali'],
     answer: 'putujemo',
     tip: 'putovati → putuj- + -emo.',
@@ -143,7 +143,7 @@ export const WEEKEND_PLANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: '____ putujemo u Zadar.',
-    en: 'This weekend we are travelling to Zadar.',
+    en: 'This weekend we are traveling to Zadar.',
     opts: ['Ovaj vikend', 'U ovom vikendu', 'Na ovaj vikend', 'Ovog vikend'],
     answer: 'Ovaj vikend',
     tip: 'No preposition: ovaj vikend.',

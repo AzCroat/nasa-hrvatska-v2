@@ -117,7 +117,7 @@ export const PRESENTING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which case after na here?',
     opts: ['akuzativ', 'lokativ', 'genitiv', 'dativ'],
     answer: 'akuzativ',
-    tip: 'Movement towards → accusative: na sljedeću točku.',
+    tip: 'Movement toward → accusative: na sljedeću točku.',
   },
   {
     mode: 'signali',

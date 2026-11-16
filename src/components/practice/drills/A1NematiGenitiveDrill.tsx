@@ -21,7 +21,7 @@ export default function A1NematiGenitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1nematigenitive"
       title="There Is No Milk"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NEMATI_GENITIVE_MODE_LABELS}
       data={NEMATI_GENITIVE_DRILL_DATA}
       praise={{

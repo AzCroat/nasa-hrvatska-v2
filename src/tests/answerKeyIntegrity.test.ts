@@ -281,7 +281,7 @@ describe('answer-key integrity — corpus sweep', () => {
  * item permanently ungradeable, with no signal anywhere in the UI.
  *
  * Normalization here mirrors Unjumble.tsx's grader exactly. If the two ever
- * diverge, this suite stops describing the shipped behaviour.
+ * diverge, this suite stops describing the shipped behavior.
  */
 const normTiles = (s: string) =>
   s

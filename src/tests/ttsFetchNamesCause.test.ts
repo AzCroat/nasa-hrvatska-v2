@@ -180,7 +180,7 @@ describe('a timeout is named as one, not reported as a dead connection', () => {
     // `controller.abort()` uses AbortError, `AbortSignal.timeout()` uses
     // TimeoutError — and that difference has a second consequence worth
     // pinning: `_nativePost` RE-THROWS an AbortError ("propagate abort
-    // immediately") rather than returning null, so a caller cancelling is not
+    // immediately") rather than returning null, so a caller canceling is not
     // a failure and records nothing. Only a TimeoutError falls through to the
     // null return, which is precisely why it was arriving as `network`.
     const c = new AbortController();
@@ -208,7 +208,7 @@ describe('a timeout is named as one, not reported as a dead connection', () => {
 
 // Both null-Response sites must ask the signal. `ttsFetch`'s is driven above;
 // `speak()`'s builds its own `AbortSignal.timeout(15000)` internally, so no
-// behaviour test can reach it without burning fifteen real seconds — and an
+// behavior test can reach it without burning fifteen real seconds — and an
 // untested second site is exactly how one of two copies silently reverts.
 // Derived from the source, not restated: find every place a null response is
 // turned into a cause, and require each to go through the helper.

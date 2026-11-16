@@ -21,7 +21,7 @@ export default function C1EmphaticGenitiveStaloDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1emphaticgenitivestalo"
       title="Ima Ljudi Koji… — Stalo Mi Je Do Tebe"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={EMPHATIC_GENITIVE_STALO_MODE_LABELS}
       data={EMPHATIC_GENITIVE_STALO_DRILL_DATA}
       praise={{

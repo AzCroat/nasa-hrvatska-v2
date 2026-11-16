@@ -21,7 +21,7 @@ export default function A2AgreeingDisagreeingDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2agreeingdisagreeing"
       title="I Agree, I Disagree"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={AGREEING_DISAGREEING_MODE_LABELS}
       data={AGREEING_DISAGREEING_DRILL_DATA}
       praise={{

@@ -99,7 +99,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'When k, g and h Soften',
-        body: 'Before the plural -i, a final k, g or h changes: k → c, g → z, h → s. vojnik (soldier) → vojnici. đak (pupil) → đaci. bubreg (kidney) → bubrezi. orah (walnut) → orasi. This is not an exception you have to memorise word by word — it is a sound rule that runs through the whole language, and you will meet it again later, in other forms of nouns.',
+        body: 'Before the plural -i, a final k, g or h changes: k → c, g → z, h → s. vojnik (soldier) → vojnici. đak (pupil) → đaci. bubreg (kidney) → bubrezi. orah (walnut) → orasi. This is not an exception you have to memorize word by word — it is a sound rule that runs through the whole language, and you will meet it again later, in other forms of nouns.',
         highlight: 'k → c, g → z, h → s',
       },
       {
@@ -940,7 +940,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Croatian Often Leaves Them Out',
-        body: 'Where English insists on a possessive, Croatian frequently drops it because the meaning is obvious. Talking about your own family, "Mama je ovdje" is the natural way to say "My mum is here", and "Tata je Hrvat" is "My dad is Croatian". Using moja or moj there is not wrong, but leaving it out sounds more natural when it is clear whose mum or dad you mean.',
+        body: 'Where English insists on a possessive, Croatian frequently drops it because the meaning is obvious. Talking about your own family, "Mama je ovdje" is the natural way to say "My mom is here", and "Tata je Hrvat" is "My dad is Croatian". Using moja or moj there is not wrong, but leaving it out sounds more natural when it is clear whose mom or dad you mean.',
         highlight: 'Mama je ovdje.',
       },
       {
@@ -1421,7 +1421,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Masculine Things: Nothing Changes',
-        body: 'A masculine noun that names a THING does not change at all as an object: stol → Vidim stol. grad → Vidim grad. auto → Vidim auto. film → Gledam film. Masculine nouns for PEOPLE and ANIMALS do change — that is the whole of the next lesson, so for now practise with things.',
+        body: 'A masculine noun that names a THING does not change at all as an object: stol → Vidim stol. grad → Vidim grad. auto → Vidim auto. film → Gledam film. Masculine nouns for PEOPLE and ANIMALS do change — that is the whole of the next lesson, so for now practice with things.',
         highlight: 'masculine thing = unchanged',
       },
       {
@@ -1503,7 +1503,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Mama kuha juhu, a tata pravi salatu.',
-            en: 'Mum is cooking soup, and dad is making a salad.',
+            en: 'Mom is cooking soup, and dad is making a salad.',
             note: 'juha → juhu, salata → salatu',
           },
           {
@@ -2152,7 +2152,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'The Big Two: u and na',
-        body: '"u" is in or into, "na" is on, at or onto. Both take the accusative when something is moving towards a place and the locative when nothing is moving. Whether a place uses u or na is partly idiomatic and simply has to be learned with the word: u gradu but na moru, u školi but na fakultetu, u kući but na poslu.',
+        body: '"u" is in or into, "na" is on, at or onto. Both take the accusative when something is moving toward a place and the locative when nothing is moving. Whether a place uses u or na is partly idiomatic and simply has to be learned with the word: u gradu but na moru, u školi but na fakultetu, u kući but na poslu.',
         highlight: 'u = in · na = on / at',
       },
       {
@@ -2222,7 +2222,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Idem na tržnicu. Mama je već na tržnici.',
-            en: 'I am going to the market. Mum is already at the market.',
+            en: 'I am going to the market. Mom is already at the market.',
             note: 'na tržnicu, then na tržnici',
           },
           {
@@ -2364,7 +2364,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Masculine and Neuter Take -a',
-        body: "Both take -a in the genitive singular. grad → centar grada (the centre of the city). brat → auto moga brata (my brother's car). more → boja mora (the colour of the sea). pismo → kraj pisma (the end of the letter). If a masculine noun is alive, its genitive looks identical to its accusative — that overlap is normal and causes no confusion in practice.",
+        body: "Both take -a in the genitive singular. grad → centar grada (the centre of the city). brat → auto moga brata (my brother's car). more → boja mora (the color of the sea). pismo → kraj pisma (the end of the letter). If a masculine noun is alive, its genitive looks identical to its accusative — that overlap is normal and causes no confusion in practice.",
         highlight: 'masculine & neuter → -a',
       },
       {
@@ -2482,7 +2482,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Boja mora je danas tamnoplava.',
-            en: 'The colour of the sea is dark blue today.',
+            en: 'The color of the sea is dark blue today.',
             note: 'more → mora: neuter -a',
           },
         ],
@@ -2555,10 +2555,10 @@ export const LESSONS_A1 = [
           },
           {
             q: 'Which job is the genitive doing in "puno ljudi" (a lot of people)?',
-            options: ['belonging', 'quantity', 'absence', 'motion towards'],
+            options: ['belonging', 'quantity', 'absence', 'motion toward'],
             correct: 1,
             explanation:
-              '"Puno" is a word of quantity, so what is counted goes into the genitive — the same pattern as čaša vode and šalica kave. Motion towards is the accusative, not the genitive at all.',
+              '"Puno" is a word of quantity, so what is counted goes into the genitive — the same pattern as čaša vode and šalica kave. Motion toward is the accusative, not the genitive at all.',
           },
           {
             q: 'Complete: "Vidimo se poslije ___." (See you after work — "posao".)',
@@ -2713,7 +2713,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Mama, jesi li kod kuće?',
-            en: 'Mum, are you at home?',
+            en: 'Mom, are you at home?',
             note: 'with mama you hear both mama and mamo',
           },
           {
@@ -3954,7 +3954,7 @@ export const LESSONS_A1 = [
         headers: ['Croatian', 'English', 'Gender'],
         rows: [
           ['obitelj', 'family', 'feminine'],
-          ['majka / mama', 'mother / mum', 'feminine'],
+          ['majka / mama', 'mother / mom', 'feminine'],
           ['otac / tata', 'father / dad', 'masculine'],
           ['roditelji', 'parents', 'masculine plural'],
           ['sin', 'son', 'masculine'],
@@ -3967,7 +3967,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Mama and Tata Are Not Childish',
-        body: 'Unlike English, where an adult saying "mummy" raises eyebrows, Croatian adults use "mama" and "tata" as the normal everyday words for their parents. "Majka" and "otac" are more formal and turn up in writing, in official contexts and when speaking about someone else\'s parents. Use mama and tata about your own.',
+        body: 'Unlike English, where an adult saying "mommy" raises eyebrows, Croatian adults use "mama" and "tata" as the normal everyday words for their parents. "Majka" and "otac" are more formal and turn up in writing, in official contexts and when speaking about someone else\'s parents. Use mama and tata about your own.',
         highlight: 'mama · tata',
       },
       {
@@ -4100,7 +4100,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Tata je liječnik, a mama je profesorica.',
-            en: 'Dad is a doctor and mum is a teacher.',
+            en: 'Dad is a doctor and mom is a teacher.',
             note: 'mama and tata — normal adult words',
           },
         ],
@@ -4304,7 +4304,7 @@ export const LESSONS_A1 = [
         items: [
           {
             hr: 'Tata je Hrvat, a mama je Talijanka.',
-            en: 'Dad is Croatian and mum is Italian.',
+            en: 'Dad is Croatian and mom is Italian.',
             note: 'male and female nationality forms',
           },
           {
@@ -4749,7 +4749,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Building Numbers Is Just Addition',
-        body: 'Croatian builds compound numbers by writing the parts in order, with no extra words. 21 = dvadeset jedan. 35 = trideset pet. 148 = sto četrdeset osam. 2026 = dvije tisuće dvadeset šest. There is nothing to memorise beyond the tens and hundreds you already have. A thousand is "tisuća"; two thousand is "dvije tisuće", because tisuća is feminine.',
+        body: 'Croatian builds compound numbers by writing the parts in order, with no extra words. 21 = dvadeset jedan. 35 = trideset pet. 148 = sto četrdeset osam. 2026 = dvije tisuće dvadeset šest. There is nothing to memorize beyond the tens and hundreds you already have. A thousand is "tisuća"; two thousand is "dvije tisuće", because tisuća is feminine.',
         highlight: 'sto četrdeset osam',
       },
       {
@@ -4827,7 +4827,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Where You Shop',
-        body: 'A few words to recognise: "dućan" and "trgovina" are both shops, "supermarket" is what you expect, and "tržnica" is the open-air market where most Croatians still buy fruit and vegetables. "Pekarnica" is a bakery, "ljekarna" a pharmacy, "kiosk" the little stand selling newspapers and tickets.',
+        body: 'A few words to recognize: "dućan" and "trgovina" are both shops, "supermarket" is what you expect, and "tržnica" is the open-air market where most Croatians still buy fruit and vegetables. "Pekarnica" is a bakery, "ljekarna" a pharmacy, "kiosk" the little stand selling newspapers and tickets.',
         highlight: 'dućan · tržnica · pekarnica · ljekarna',
       },
       {
@@ -5161,7 +5161,7 @@ export const LESSONS_A1 = [
             options: ['na ugao', 'na uglu', 'u uglu', 'na ugla'],
             correct: 1,
             explanation:
-              'A street corner is na plus the locative: na uglu (the a drops out). "Na ugao" is motion towards it, "u uglu" is the inside corner of a room, and "ugla" is the genitive.',
+              'A street corner is na plus the locative: na uglu (the a drops out). "Na ugao" is motion toward it, "u uglu" is the inside corner of a room, and "ugla" is the genitive.',
           },
           {
             q: 'What does "Je li daleko?" mean?',

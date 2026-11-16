@@ -21,7 +21,7 @@ export default function A1PostcardsWishesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1postcardswishes"
       title="Postcards and Good Wishes"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={POSTCARDS_WISHES_MODE_LABELS}
       data={POSTCARDS_WISHES_DRILL_DATA}
       praise={{

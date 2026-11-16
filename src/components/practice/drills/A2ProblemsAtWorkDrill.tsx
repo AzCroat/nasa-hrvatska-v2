@@ -21,7 +21,7 @@ export default function A2ProblemsAtWorkDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2problemsatwork"
       title="Problems at Work and at Home"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PROBLEMS_AT_WORK_MODE_LABELS}
       data={PROBLEMS_AT_WORK_DRILL_DATA}
       praise={{

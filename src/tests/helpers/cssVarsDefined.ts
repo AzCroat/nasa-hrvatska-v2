@@ -88,9 +88,9 @@ export interface VarRef {
 export const HOOKS: Record<string, string> = {
   '--bar-target': 'barFill keyframes: the width a bar animates to, 100% unless an element sets it',
   '--ring-offset': 'ringFill keyframes: the stroke offset a ring stops at, 0 (full) unless set',
-  '--ring-clr': 'pulse-ring keyframes: the pulse colour, the brand blue unless set',
-  '--mx': 'the pointer-follow shine: x of the highlight, centred unless a handler sets it',
-  '--my': 'the pointer-follow shine: y of the highlight, centred unless a handler sets it',
+  '--ring-clr': 'pulse-ring keyframes: the pulse color, the brand blue unless set',
+  '--mx': 'the pointer-follow shine: x of the highlight, centered unless a handler sets it',
+  '--my': 'the pointer-follow shine: y of the highlight, centered unless a handler sets it',
 };
 
 /** Every `var(--name)` with a literal name, bracket-matched so a nested `var()` inside

@@ -145,7 +145,7 @@ export const ACCUSATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zivo',
     q: 'Pozdravljam ____ susjeda.',
-    en: 'I greet the old neighbour.',
+    en: 'I greet the old neighbor.',
     opts: ['stari', 'starog', 'starom', 'starim'],
     answer: 'starog',
     tip: 'A living masculine object: -og.',
@@ -186,7 +186,7 @@ export const ACCUSATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenice',
     q: 'Čekam ____ susjeda.',
-    en: 'I am waiting for our neighbour.',
+    en: 'I am waiting for our neighbor.',
     opts: ['naš', 'našeg', 'našog', 'našem'],
     answer: 'našeg',
     tip: 'After the soft š: -eg.',

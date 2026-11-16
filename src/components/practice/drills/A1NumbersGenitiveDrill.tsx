@@ -21,7 +21,7 @@ export default function A1NumbersGenitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1numbersgenitive"
       title="Counting Things"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NUMBERS_GENITIVE_MODE_LABELS}
       data={NUMBERS_GENITIVE_DRILL_DATA}
       praise={{

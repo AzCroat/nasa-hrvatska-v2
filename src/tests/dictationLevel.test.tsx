@@ -187,7 +187,7 @@ describe('the screen applies it (wiring, not just the helper)', () => {
 });
 
 describe('the badge can name every level the bank holds', () => {
-  it('C1 and C2 have a colour, not an undefined one', async () => {
+  it('C1 and C2 have a color, not an undefined one', async () => {
     const src = await import('node:fs').then((fs) =>
       fs.readFileSync('src/components/practice/DictationScreen.tsx', 'utf8'),
     );

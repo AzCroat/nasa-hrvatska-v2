@@ -80,7 +80,7 @@ describe('Sec-MS-GEC', () => {
 
   /**
    * An INDEPENDENT implementation of the published algorithm, from node:crypto
-   * and plain integer maths rather than from the function under test. A test
+   * and plain integer math rather than from the function under test. A test
    * that recomputed the digest the same way would only prove the function
    * agrees with itself.
    */

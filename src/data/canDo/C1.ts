@@ -66,11 +66,11 @@ export const CAN_DO_C1: Readonly<Record<string, readonly string[]>> = {
   'C1-10': [
     'I can make impersonal statements such as Priča se da… and Kažu da…',
     'I can use the verbal prefixes and hear the pitch accent in word pairs.',
-    'I can summarise a text in my own words and write an academic essay.',
+    'I can summarize a text in my own words and write an academic essay.',
   ],
   // aorist-imperfekt · pluskvamperfekt · comparative-clauses · direct-speech-spelling · debate-persuasion
   'C1-11': [
-    'I can recognise the aorist, imperfect and pluperfect in literature.',
+    'I can recognize the aorist, imperfect and pluperfect in literature.',
     'I can compare with kao da and punctuate direct speech with Croatian quotation marks.',
     'I can concede a point in a debate and then defeat it.',
   ],
@@ -84,6 +84,6 @@ export const CAN_DO_C1: Readonly<Record<string, readonly string[]>> = {
   'C1-13': [
     'I can read technical and scientific Croatian and describe a process.',
     'I can discuss a book, film or exhibition and say why it moved me.',
-    'I can recognise kajkavian and čakavian and talk about heritage and belonging.',
+    'I can recognize kajkavian and čakavian and talk about heritage and belonging.',
   ],
 };

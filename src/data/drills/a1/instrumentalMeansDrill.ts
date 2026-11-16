@@ -29,7 +29,7 @@ export const INSTRUMENTAL_MEANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijevoz',
     q: 'Putujem u Split ____.',
-    en: 'I am travelling to Split by train.',
+    en: 'I am traveling to Split by train.',
     opts: ['vlak', 'vlakom', 'vlaku', 'vlakem'],
     answer: 'vlakom',
     tip: 'The means of travel: instrumental. K is not soft, so -om.',

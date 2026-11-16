@@ -49,7 +49,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ispred',
     q: 'Koja je rečenica pravopisno točna?',
-    en: 'Mum shouted: "Close the window!"',
+    en: 'Mom shouted: "Close the window!"',
     opts: [
       'Mama je viknula: „Zatvori prozor!“',
       'Mama je viknula: „zatvori prozor!“',
@@ -184,7 +184,7 @@ export const DIRECT_SPEECH_SPELLING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'iza',
     q: 'Koja je rečenica pravopisno točna?',
-    en: '"Have you been to Dubrovnik?" the neighbour asked me.',
+    en: '"Have you been to Dubrovnik?" the neighbor asked me.',
     opts: [
       '„Jesi li bila u Dubrovniku?“ upitala me susjeda.',
       '„Jesi li bila u Dubrovniku?“, upitala me susjeda.',

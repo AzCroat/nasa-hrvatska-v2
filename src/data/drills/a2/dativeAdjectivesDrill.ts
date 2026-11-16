@@ -49,7 +49,7 @@ export const DATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Dao sam ključ ____ susjedu.',
-    en: 'I gave the key to our neighbour.',
+    en: 'I gave the key to our neighbor.',
     opts: ['našem', 'našeg', 'naš', 'našim'],
     answer: 'našem',
     tip: 'naš → našem in the masculine dative.',
@@ -73,7 +73,7 @@ export const DATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Idem prema ____ trgu.',
-    en: 'I am walking towards the main square.',
+    en: 'I am walking toward the main square.',
     opts: ['glavnom', 'glavni', 'glavnog', 'glavnim'],
     answer: 'glavnom',
     tip: 'prema takes the dative: glavnom.',
@@ -107,7 +107,7 @@ export const DATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zenski',
     q: 'Pomažem ____ susjedi.',
-    en: 'I help my old neighbour. (a woman)',
+    en: 'I help my old neighbor. (a woman)',
     opts: ['staroj', 'staru', 'starom', 'stara'],
     answer: 'staroj',
     tip: 'susjedi is feminine dative: staroj.',
@@ -181,7 +181,7 @@ export const DATIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Zahvalio sam ____ susjedima.',
-    en: 'I thanked the kind neighbours.',
+    en: 'I thanked the kind neighbors.',
     opts: ['ljubaznim', 'ljubaznom', 'ljubazne', 'ljubaznoj'],
     answer: 'ljubaznim',
     tip: 'Plural dative: -im, and the fleeting a drops.',

@@ -21,7 +21,7 @@ export default function B1ForeignNounsDeclensionDrill({ goBack, award }: Props) 
     <ModeDrill
       id="b1foreignnounsdeclension"
       title="Foreign Names and Words in the Cases"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FOREIGN_NOUNS_DECLENSION_MODE_LABELS}
       data={FOREIGN_NOUNS_DECLENSION_DRILL_DATA}
       praise={{

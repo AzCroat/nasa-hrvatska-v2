@@ -97,10 +97,10 @@ const WRITE_PROMPTS = [
     id: 'w_food',
     level: 'B1',
     icon: '🍽️',
-    title: 'My Favourite Meal',
+    title: 'My Favorite Meal',
     hr: 'Moj omiljeni obrok',
     prompt:
-      'Describe your favourite meal in detail. Why do you love it? How is it prepared? Include when you usually eat it.',
+      'Describe your favorite meal in detail. Why do you love it? How is it prepared? Include when you usually eat it.',
   },
   {
     id: 'w_holiday',
@@ -631,7 +631,7 @@ export default function AIConversation({
       if (limit === 'daily') {
         const resetTime = formatAiResetTime(data.resetAt) || 'midnight UTC';
         throw new Error(
-          `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practising!`,
+          `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practicing!`,
         );
       }
       throw new Error(msg);

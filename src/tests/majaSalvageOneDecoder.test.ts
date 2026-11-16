@@ -18,7 +18,7 @@
  * tests throughout, and the salvage chain had none — a unit test on the util cannot
  * see a private copy inside the screen, which is exactly how this survived from
  * 2026-07-22 (`e3f530f7`). Only reading the screen's source can assert the absence
- * of a second decoder. The behaviour of the surviving decoder is pinned next to it,
+ * of a second decoder. The behavior of the surviving decoder is pinned next to it,
  * in MajaScreenUtils.test.ts.
  *
  * It lives in src/tests rather than beside the screen because `node:fs` is outside

@@ -39,7 +39,7 @@ import { join, relative } from 'node:path';
  *
  * Static bundled assets are NOT covered by this rule and must stay relative:
  * '/version.json' has a dot in its last segment, so Capacitor serves the real
- * bundled file rather than the html5mode fallback. That is correct behaviour and
+ * bundled file rather than the html5mode fallback. That is correct behavior and
  * the pattern below only matches '/api/' paths, so it does not flag it.
  */
 

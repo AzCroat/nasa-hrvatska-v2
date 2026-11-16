@@ -21,7 +21,7 @@ export default function A1InfinitiveCiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1infinitiveci"
       title="Verbs Ending in -ći"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INFINITIVE_CI_MODE_LABELS}
       data={INFINITIVE_CI_DRILL_DATA}
       praise={{

@@ -478,7 +478,7 @@ test.describe('Double-evaluation guard', () => {
     await evalBtn.click({ timeout: 500 }).catch(() => {});
 
     // The evaluating/result phase should appear exactly once.
-    // We verify this by checking either the "Analysing…" spinner or the result screen,
+    // We verify this by checking either the "Analyzing…" spinner or the result screen,
     // and that it does not appear twice (no duplicate result elements with same score).
     const evaluatingOrResult = page.getByText(/Analysing your conversation|Grade|score|strengths/i);
     await expect(evaluatingOrResult.first()).toBeVisible({ timeout: 10_000 });
@@ -486,8 +486,8 @@ test.describe('Double-evaluation guard', () => {
     // Allow some time for any duplicate to appear
     await page.waitForTimeout(1_000);
 
-    // There should not be two simultaneous "Analysing" spinners
-    const analysingCount = await page.getByText('Analysing your conversation…').count();
+    // There should not be two simultaneous "Analyzing" spinners
+    const analysingCount = await page.getByText('Analyzing your conversation…').count();
     expect(analysingCount).toBeLessThanOrEqual(1);
   });
 

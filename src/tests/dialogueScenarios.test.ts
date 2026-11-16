@@ -90,7 +90,7 @@ describe('dialogueScenarios — structural integrity', () => {
     // CEFR descriptors from B1 up are about REGISTER, and every upper-level
     // scenario was V-form with a stranger or official. The new scenarios come
     // in pairs — the same situation once formally and once with a friend or
-    // relative — so a learner meets the same act (invite, refuse, apologise,
+    // relative — so a learner meets the same act (invite, refuse, apologize,
     // negotiate, mediate) in both registers.
     expect(byLevel['B1'] ?? 0).toBeGreaterThanOrEqual(12);
     expect(byLevel['B2'] ?? 0).toBeGreaterThanOrEqual(12);

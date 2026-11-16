@@ -75,7 +75,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'eticki',
     q: 'Kako ____ je suprug?',
-    en: 'How is your husband? (to a neighbour, politely)',
+    en: 'How is your husband? (to a neighbor, politely)',
     opts: ['vam', 'vama', 'vas', 'vi'],
     answer: 'vam',
     tip: 'The polite dative clitic vam.',
@@ -182,7 +182,7 @@ export const ETHICAL_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjer',
     q: 'Krenuli smo ____ gradu.',
-    en: 'We set off towards the city.',
+    en: 'We set off toward the city.',
     opts: ['ka', 'k', 'kod', 'u'],
     answer: 'ka',
     tip: 'Before g the preposition is ka: ka gradu.',

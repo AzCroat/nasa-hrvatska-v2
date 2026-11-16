@@ -21,7 +21,7 @@ export default function B2PerfectivePresentDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2perfectivepresent"
       title="When I Finish: the Perfective Present"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PERFECTIVE_PRESENT_MODE_LABELS}
       data={PERFECTIVE_PRESENT_DRILL_DATA}
       praise={{

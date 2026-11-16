@@ -38,7 +38,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'duljina',
     q: 'Koji raspored najviše ističe posljednju rečenicu?',
-    en: 'Which sequence emphasises the last sentence?',
+    en: 'Which sequence emphasizes the last sentence?',
     opts: ['duga, duga, kratka', 'kratka, kratka, duga', 'sve jednake', 'duga, kratka, duga'],
     answer: 'duga, duga, kratka',
     tip: 'The short one after long ones is the one the reader hears.',

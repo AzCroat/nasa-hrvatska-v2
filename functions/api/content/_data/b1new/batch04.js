@@ -96,7 +96,7 @@ const NAMES = {
         ['tesla', 'the unit of magnetic flux density', 'Nikola Tesla'],
         ['volt', 'the unit of voltage', 'Alessandro Volta'],
         ['sendvič', 'sandwich', 'the Earl of Sandwich'],
-        ['daltonizam', 'colour blindness', 'John Dalton'],
+        ['daltonizam', 'color blindness', 'John Dalton'],
         ['saksofon', 'saxophone', 'Adolphe Sax'],
         ['doberman', 'Dobermann (dog)', 'Louis Dobermann'],
         ['žilet', 'razor blade', 'King C. Gillette'],
@@ -608,7 +608,7 @@ const LOVE = {
         ['mladoženja', 'the groom'],
         ['mladenka', 'the bride'],
         ['mladenci', 'the newlyweds'],
-        ['kum / kuma', 'the wedding witness, best man / maid of honour'],
+        ['kum / kuma', 'the wedding witness, best man / maid of honor'],
         ['prsten', 'ring'],
         ['svekrva', 'the husband’s mother (to the wife)'],
         ['punica', 'the wife’s mother (to the husband)'],
@@ -617,7 +617,7 @@ const LOVE = {
     {
       type: 'rule',
       title: 'Idioms of Love and Marriage',
-      body: 'uploviti u bračnu luku — literally "to sail into the harbour of marriage": to finally get married, often said of someone who took their time. ljubav na prvi pogled — love at first sight. zaljubljen do ušiju — in love up to the ears, head over heels. slomiti nekome srce — to break someone’s heart. pasti nekome u oko — to catch someone’s eye. imati leptiriće u trbuhu — to have butterflies in your stomach. u dobru i zlu — in good times and bad, the promise of the wedding vows. biti u drugom stanju — to be expecting a baby (literally "in the other state"). posvojiti dijete — to adopt a child.',
+      body: 'uploviti u bračnu luku — literally "to sail into the harbor of marriage": to finally get married, often said of someone who took their time. ljubav na prvi pogled — love at first sight. zaljubljen do ušiju — in love up to the ears, head over heels. slomiti nekome srce — to break someone’s heart. pasti nekome u oko — to catch someone’s eye. imati leptiriće u trbuhu — to have butterflies in your stomach. u dobru i zlu — in good times and bad, the promise of the wedding vows. biti u drugom stanju — to be expecting a baby (literally "in the other state"). posvojiti dijete — to adopt a child.',
       highlight: 'uploviti u bračnu luku',
     },
     {
@@ -652,7 +652,7 @@ const LOVE = {
         {
           hr: 'Vjenčali su se u crkvi, a svadba je bila na otoku.',
           en: 'They got married in a church, and the reception was on an island.',
-          note: 'vjenčanje in church, svadba afterwards',
+          note: 'vjenčanje in church, svadba afterward',
         },
       ],
     },
@@ -761,7 +761,7 @@ const LOVE = {
           ],
           correct: 3,
           explanation:
-            'Literally "to sail into the harbour of marriage" — to (finally) get married.',
+            'Literally "to sail into the harbor of marriage" — to (finally) get married.',
         },
         {
           q: 'A woman tells you she is married. Which word does she use?',
@@ -1882,7 +1882,7 @@ const VATI_P = {
       explanation: 'The oni form of prodavati: prodaju.',
     },
     {
-      q: 'Complete: "Ne ___ me više?" (you recognise — prepoznavati)',
+      q: 'Complete: "Ne ___ me više?" (you recognize — prepoznavati)',
       options: ['prepoznavaš', 'prepoznaješ', 'prepoznajem', 'prepoznavaješ'],
       correct: 1,
       explanation: 'The same pattern as poznavati: prepoznaješ.',

@@ -244,7 +244,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'navesci',
     q: 'Pomažemo ____ ljudima u susjedstvu.',
-    en: 'We help the elderly people in the neighbourhood.',
+    en: 'We help the elderly people in the neighborhood.',
     opts: ['starijim', 'starijima', 'starijeg', 'starijem'],
     answer: 'starijim',
     tip: 'Before a noun in -ima, no navezak: starijim ljudima.',

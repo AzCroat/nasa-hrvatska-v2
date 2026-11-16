@@ -154,7 +154,7 @@ describe('finishing a drill credits it however the learner leaves', () => {
   });
 });
 
-describe('Unjumble: the "+N XP" on the results view is honoured by either exit', () => {
+describe('Unjumble: the "+N XP" on the results view is honored by either exit', () => {
   /**
    * Driven off the REAL `UNJUMBLE` bank rather than a mock: the screen takes its
    * round from `sh(UNJUMBLE).slice(0, 10)` inside a `useState` initializer, so there

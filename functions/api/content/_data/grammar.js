@@ -442,7 +442,7 @@ export const PADEZI_FULL = {
       base: 'ku\u0107a',
       answer: 'ku\u0107i',
       caseName: 'Dativ',
-      en: 'I\u0027m going towards the house.',
+      en: 'I\u0027m going toward the house.',
       opts: ['ku\u0107i', 'ku\u0107u', 'ku\u0107e', 'ku\u0107om'],
     },
     {
@@ -530,7 +530,7 @@ export const PADEZI_FULL = {
       base: 'susjedi (pl)',
       answer: 'susjedima',
       caseName: 'Dativ',
-      en: 'I go towards new neighbors.',
+      en: 'I go toward new neighbors.',
       opts: ['susjedima', 'susjeda', 'susjede', 'susjedi'],
     },
     {
@@ -10618,7 +10618,7 @@ export const ASPECT_PAIRS = [
     },
     pfEx: {
       hr: 'Napokon sam naučio sve nepravilne glagole.',
-      en: 'I have finally learnt all the irregular verbs.',
+      en: 'I have finally learned all the irregular verbs.',
       gap: 'naučio',
       alt: 'učio',
       why: 'completed',
@@ -10655,7 +10655,7 @@ export const ASPECT_PAIRS = [
     ctx: 'Dok je mama pravila kolač, djeca su se igrala. / Napravila je kolač za sat vremena.',
     impfEx: {
       hr: 'Dok je mama pravila kolač, djeca su se igrala.',
-      en: 'While mum was making a cake, the children played.',
+      en: 'While mom was making a cake, the children played.',
       gap: 'pravila',
       alt: 'napravila',
       why: 'simultaneous',

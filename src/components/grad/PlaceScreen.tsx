@@ -29,7 +29,7 @@ const GREETINGS: Record<PlaceId, { hr: string; en: string }> = {
   trznica: { hr: 'Svježe riječi za danas — dođi!', en: 'Fresh words today — come in!' },
   soba: {
     hr: 'Spreman za vježbu? Otvori bilježnicu.',
-    en: 'Ready to practise? Open your notebook.',
+    en: 'Ready to practice? Open your notebook.',
   },
   kuhinja: { hr: 'Sjedni, ispričat ću ti priču.', en: "Sit, I'll tell you a story." },
   ulica: { hr: 'Uskači, naučit ću te ulični govor.', en: "Hop in, I'll teach you street talk." },

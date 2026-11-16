@@ -37,7 +37,7 @@ DEBRIEF INSTRUCTIONS:
 
 2. DID WELL ("didWell"): One sentence in English identifying something genuinely specific the student did well. Reference actual content — not "good effort" but something like "You used the locative correctly when talking about where you live" or "You asked follow-up questions which kept the conversation feeling natural." Look at the actual conversation to find this.
 
-3. FOCUS NEXT ("focusNext"): One sentence in English naming ONE specific grammar pattern or vocabulary area the student should practise. Be precise — not "practice grammar" but "practice the genitive plural of feminine nouns" or "learn the verbs of motion (ići, dolaziti, putovati) with their aspect pairs." Base this on actual errors seen, or gaps in their language if no errors were made.
+3. FOCUS NEXT ("focusNext"): One sentence in English naming ONE specific grammar pattern or vocabulary area the student should practice. Be precise — not "practice grammar" but "practice the genitive plural of feminine nouns" or "learn the verbs of motion (ići, dolaziti, putovati) with their aspect pairs." Base this on actual errors seen, or gaps in their language if no errors were made.
 
 4. NEW VOCABULARY ("newVocab"): Find 3-8 Croatian words or short phrases that appeared in MAJA'S messages during this session which would be genuinely useful and interesting for the student to remember. Prioritise: culturally rich words, idioms, words with interesting grammar, words that came up in a meaningful context. For each:
    - "hr": the Croatian word/phrase
@@ -62,7 +62,7 @@ Return ONLY a valid JSON object. No markdown. No code blocks. No explanation bef
 {
   "majaNotes": "Two warm, specific English sentences from Maja to the student.",
   "didWell": "One specific English sentence about what they did well.",
-  "focusNext": "One precise English sentence about what to practise next.",
+  "focusNext": "One precise English sentence about what to practice next.",
   "practiceCategories": ["genitive", "aspect-imperfective"],
   "newVocab": [
     {"hr": "šetnica", "en": "promenade / boardwalk", "used_in": "Šetnica u Zadru je prekrasna navečer."}
@@ -144,7 +144,7 @@ function debriefFallback(userName) {
     didWell:
       'You kept the conversation going and made a genuine effort to communicate in Croatian.',
     focusNext:
-      'Continue practising verb conjugation in the past tense (perfekt) — this will make your speech flow much more naturally.',
+      'Continue practicing verb conjugation in the past tense (perfekt) — this will make your speech flow much more naturally.',
     newVocab: [],
     nextTopicSuggestion:
       'Maja wants to tell you about the Advent markets in Zagreb and what makes them different from any Christmas market you have seen.',
@@ -337,7 +337,7 @@ export async function onRequestPost(context) {
         messages: [
           {
             role: 'user',
-            content: `Here is the full conversation transcript to analyse:\n\n${transcript}\n\nPlease generate the end-of-session debrief now.`,
+            content: `Here is the full conversation transcript to analyze:\n\n${transcript}\n\nPlease generate the end-of-session debrief now.`,
           },
         ],
       }),

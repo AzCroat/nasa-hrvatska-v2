@@ -110,7 +110,7 @@ describe('content coverage matrix', () => {
     ).toEqual([]);
   });
 
-  it('every pool entry has a recognised CEFR level', () => {
+  it('every pool entry has a recognized CEFR level', () => {
     const bad = CEFR_EXERCISE_POOL.filter((ex) => !LEVELS.includes(ex.cefr as Level)).map(
       (ex) => `${ex.id} (${ex.cefr})`,
     );

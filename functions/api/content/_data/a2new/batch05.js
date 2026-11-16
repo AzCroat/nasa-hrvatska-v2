@@ -115,7 +115,7 @@ export const LESSONS = [
         headers: ['Owner', 'Short dative', 'Example', 'Meaning'],
         rows: [
           ['ja', 'mi', 'Sestra mi je u Zagrebu.', 'My sister is in Zagreb.'],
-          ['ti', 'ti', 'Kako ti je mama?', 'How is your mum?'],
+          ['ti', 'ti', 'Kako ti je mama?', 'How is your mom?'],
           ['on', 'mu', 'Otac mu je kuhar.', 'His father is a cook.'],
           ['ona', 'joj', 'Kuća joj je velika.', 'Her house is big.'],
           ['mi', 'nam', 'Stan nam je mali.', 'Our flat is small.'],
@@ -571,7 +571,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Any Person, Any Noun',
-        body: 'Put whoever feels it in the dative — a pronoun or a noun. Mami je hladno. (Mum is cold.) Djeci je dosadno. (The children are bored.) Baki je loše. (Grandma isn’t well.) For contrast use the long form; then it can open the sentence: Meni je vruće, a tebi? (I’m hot — and you?) Add an infinitive to say what is easy or hard: Teško mi je ustati rano. (It is hard for me to get up early.)',
+        body: 'Put whoever feels it in the dative — a pronoun or a noun. Mami je hladno. (Mom is cold.) Djeci je dosadno. (The children are bored.) Baki je loše. (Grandma isn’t well.) For contrast use the long form; then it can open the sentence: Meni je vruće, a tebi? (I’m hot — and you?) Add an infinitive to say what is easy or hard: Teško mi je ustati rano. (It is hard for me to get up early.)',
         highlight: 'Meni je vruće, a tebi?',
       },
       {
@@ -737,7 +737,7 @@ export const LESSONS = [
             explanation: 'No subject, so the neuter bilo.',
           },
           {
-            q: 'Which sentence says "My mum feels sick"?',
+            q: 'Which sentence says "My mom feels sick"?',
             options: ['Mama je zlo.', 'Mamu je zlo.', 'Mami su zlo.', 'Mami je zlo.'],
             correct: 3,
             explanation:
@@ -790,7 +790,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'On the Road',
-        body: 'Sooner or later a car lets you down: a flat tyre on the way to the coast, a battery that will not start on a cold morning. This lesson gives you the parts of a car, the sentences for when something goes wrong — they use the dative you just learned — and the words for traffic, parking and petrol.',
+        body: 'Sooner or later a car lets you down: a flat tire on the way to the coast, a battery that will not start on a cold morning. This lesson gives you the parts of a car, the sentences for when something goes wrong — they use the dative you just learned — and the words for traffic, parking and petrol.',
         icon: '🚗',
       },
       {
@@ -799,7 +799,7 @@ export const LESSONS = [
         headers: ['Croatian', 'English', 'Example'],
         rows: [
           ['motor', 'engine', 'Motor je bučan.'],
-          ['guma', 'tyre', 'Guma je prazna.'],
+          ['guma', 'tire', 'Guma je prazna.'],
           ['kočnice', 'brakes', 'Kočnice ne rade dobro.'],
           ['svjetla', 'lights', 'Upali svjetla!'],
           ['akumulator', 'car battery', 'Akumulator je prazan.'],
@@ -811,7 +811,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'When It Breaks: mi + se',
-        body: 'Croatian says that the car broke down "on you": the thing is the subject, se shows it happened by itself, and the dative says whose it is. Auto mi se pokvario. (My car has broken down.) Probušila mi se guma. (I have a flat tyre.) Pregrijao mu se motor. (His engine has overheated.) The dative comes before se. auto is masculine, so it is pokvario, not pokvarila.',
+        body: 'Croatian says that the car broke down "on you": the thing is the subject, se shows it happened by itself, and the dative says whose it is. Auto mi se pokvario. (My car has broken down.) Probušila mi se guma. (I have a flat tire.) Pregrijao mu se motor. (His engine has overheated.) The dative comes before se. auto is masculine, so it is pokvario, not pokvarila.',
         highlight: 'Auto mi se pokvario.',
       },
       {
@@ -838,7 +838,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Probušila mi se guma na autocesti.',
-            en: 'I got a flat tyre on the motorway.',
+            en: 'I got a flat tire on the motorway.',
             note: 'probušila agrees with guma',
           },
           {
@@ -907,7 +907,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "I have a flat tyre"?',
+        q: 'How do you say "I have a flat tire"?',
         options: [
           'Probušila mi se guma.',
           'Probušio mi se guma.',
@@ -944,11 +944,11 @@ export const LESSONS = [
               'The dative comes before se in the cluster: mi se. me is the accusative, and without se the sentence no longer says the car broke down.',
           },
           {
-            q: 'Complete: "Probušila mi se ___." (I have a flat tyre.)',
+            q: 'Complete: "Probušila mi se ___." (I have a flat tire.)',
             options: ['guma', 'gume', 'gumu', 'gumom'],
             correct: 0,
             explanation:
-              'The tyre is the subject, so it is in the nominative: guma. That is also why the verb is feminine, probušila.',
+              'The tire is the subject, so it is in the nominative: guma. That is also why the verb is feminine, probušila.',
           },
           {
             q: 'You ask the mechanic when the car will be ready. Which is correct?',
@@ -1601,7 +1601,7 @@ export const PRACTICE = {
         explanation: 'The owner in the dative: Marku.',
       },
       {
-        q: 'Complete: "Kako ___ je mama?" (How is your mum? — to a friend)',
+        q: 'Complete: "Kako ___ je mama?" (How is your mom? — to a friend)',
         options: ['te', 'ti', 'tvoj', 'vam'],
         correct: 1,
         explanation: 'The short dative of ti is ti.',
@@ -2022,7 +2022,7 @@ export const PRACTICE = {
       items: [
         {
           q: 'What are "kočnice"?',
-          options: ['tyres', 'brakes', 'lights', 'wipers'],
+          options: ['tires', 'brakes', 'lights', 'wipers'],
           correct: 1,
           hint: 'You press them to stop.',
           explanation: 'kočnice — brakes.',
@@ -2068,7 +2068,7 @@ export const PRACTICE = {
           explanation: 'Napunite, molim.',
         },
         {
-          q: 'Choose: "Možete li pogledati ___?" (Can you look at the tyres?)',
+          q: 'Choose: "Možete li pogledati ___?" (Can you look at the tires?)',
           options: ['gume', 'guma', 'gumama', 'gumom'],
           correct: 0,
           hint: 'Accusative plural.',
@@ -2151,7 +2151,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['motor', 'engine', 'Pregrijao mi se motor.'],
-      ['guma', 'tyre', 'Probušila mi se guma.'],
+      ['guma', 'tire', 'Probušila mi se guma.'],
       ['kočnice', 'brakes', 'Kočnice ne rade dobro.'],
       ['akumulator', 'car battery', 'Akumulator mi je prazan.'],
       ['mehaničar', 'mechanic', 'Zvao sam mehaničara.'],
@@ -2224,7 +2224,7 @@ export const PRACTICE = {
             'The train is late.',
             'The train is full.',
             'The train is leaving.',
-            'The train is cancelled.',
+            'The train is canceled.',
           ],
           correct: 0,
           hint: 'kasno means late.',

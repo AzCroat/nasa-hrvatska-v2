@@ -39,7 +39,7 @@ export const SPINE = [
     prerequisites: ['imperative-basic', 'object-pronouns'],
     objectives: [
       'Tell someone not to do something with nemoj, nemojte and nemojmo + infinitive',
-      'Recognise and use ne + imperative for quick warnings: Ne diraj! Ne brini!',
+      'Recognize and use ne + imperative for quick warnings: Ne diraj! Ne brini!',
       'Put the little words in the right place: Nemoj mi reći, Nemojte se brinuti',
       'Say what someone else should do with neka + the present: Neka čeka, Neka on plati',
     ],
@@ -405,7 +405,7 @@ const FEELINGS = {
         },
         {
           hr: 'Mama je ljuta jer nisam oprao suđe.',
-          en: "Mum is angry because I didn't wash the dishes.",
+          en: "Mom is angry because I didn't wash the dishes.",
           note: 'mama → ljuta',
         },
         {
@@ -1175,7 +1175,7 @@ const FORMAL_ADDRESS = {
       title: 'Mastery Check',
       items: [
         {
-          q: "You meet your neighbour's elderly mother. Which greeting fits?",
+          q: "You meet your neighbor's elderly mother. Which greeting fits?",
           options: [
             'Bog, kako si?',
             'Dobar dan, kako ste?',
@@ -1302,7 +1302,7 @@ const TRAVEL_CROATIA = {
       items: [
         {
           hr: 'Prošlog ljeta putovali smo po Hrvatskoj.',
-          en: 'Last summer we travelled around Croatia.',
+          en: 'Last summer we traveled around Croatia.',
           note: 'past, po + locative',
         },
         {
@@ -1440,7 +1440,7 @@ const TRAVEL_CROATIA = {
     },
     {
       type: 'summary',
-      title: 'Travelling in Croatia — Key Takeaways',
+      title: 'Traveling in Croatia — Key Takeaways',
       points: [
         'going: u / na + accusative (u Split, na Hvar); being: + locative (u Splitu, na Hvaru)',
         'islands take na; cities and regions take u',
@@ -1705,7 +1705,7 @@ export const PRACTICE = {
           q: '___ mi je, ne mogu doći. (I am sorry)',
           options: ['Drago', 'Žao', 'Dosadno', 'Hladno'],
           correct: 1,
-          hint: 'The fixed phrase for apologising.',
+          hint: 'The fixed phrase for apologizing.',
           explanation: 'Žao mi je, ne mogu doći.',
         },
         {

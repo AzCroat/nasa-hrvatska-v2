@@ -142,7 +142,7 @@ const DATA = [
     q: 'Zahvalite ____ na pomoći. (susjedi, mn.)',
     opts: ['susjedima', 'susjede', 'susjeda', 'o susjedima'],
     answer: 'susjedima',
-    en: 'thank the neighbours for their help',
+    en: 'thank the neighbors for their help',
     tip: 'Zahvaliti + dativ (+ na + lokativ).',
   },
   {

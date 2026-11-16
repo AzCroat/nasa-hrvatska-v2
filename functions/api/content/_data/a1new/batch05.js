@@ -53,7 +53,7 @@ export const SPINE = [
     prerequisites: ['verbs-iti-jeti', 'present-tense-verbs'],
     objectives: [
       'Conjugate -ovati verbs: putovati → putujem, kupovati → kupujem',
-      'Recognise -ivati verbs that do the same: pokazivati → pokazujem',
+      'Recognize -ivati verbs that do the same: pokazivati → pokazujem',
       'Keep ordinary -ati verbs apart: crtati → crtam, gledati → gledam',
     ],
   },
@@ -136,7 +136,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'What the Waiter Says',
-        body: 'Learn to recognise the waiter (konobar) or waitress (konobarica). "Što želite?" — What would you like? "Što želite piti?" — What would you like to drink? "Želite li još nešto?" — Would you like anything else? When the food comes: "Dobar tek!" — Enjoy your meal. A short "Hvala" back is all it needs.',
+        body: 'Learn to recognize the waiter (konobar) or waitress (konobarica). "Što želite?" — What would you like? "Što želite piti?" — What would you like to drink? "Želite li još nešto?" — Would you like anything else? When the food comes: "Dobar tek!" — Enjoy your meal. A short "Hvala" back is all it needs.',
         highlight: 'Želite li još nešto?',
       },
       {
@@ -423,7 +423,7 @@ export const LESSONS = [
           },
           {
             hr: 'Mama kuha ručak, a tata nosi vino.',
-            en: 'Mum is cooking lunch and dad is carrying the wine.',
+            en: 'Mom is cooking lunch and dad is carrying the wine.',
             note: 'kuha (-ati) beside nosi (-iti)',
           },
           {
@@ -819,7 +819,7 @@ export const LESSONS = [
       },
       {
         type: 'example',
-        title: 'Travelling and Shopping',
+        title: 'Traveling and Shopping',
         items: [
           {
             hr: 'Često putujem u Hrvatsku.',
@@ -829,7 +829,7 @@ export const LESSONS = [
           { hr: 'Gdje kupuješ kruh?', en: 'Where do you buy bread?', note: 'kupovati → kupuješ' },
           {
             hr: 'Mama kupuje voće na tržnici.',
-            en: 'Mum buys fruit at the market.',
+            en: 'Mom buys fruit at the market.',
             note: 'kupuje',
           },
           { hr: 'Stanujemo u Zagrebu.', en: 'We live in Zagreb.', note: 'stanovati → stanujemo' },
@@ -1085,7 +1085,7 @@ export const LESSONS = [
           },
           {
             hr: 'Putujemo u Zadar u travnju.',
-            en: 'We are travelling to Zadar in April.',
+            en: 'We are traveling to Zadar in April.',
             note: 'u Zadar is motion, u travnju is time',
           },
           {
@@ -1236,7 +1236,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Balcony, Wall, Floor: Always na',
-        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (on a floor, on a storey of the building — "upstairs" itself is gore). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
+        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (on a floor, on a story of the building — "upstairs" itself is gore). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
         highlight: 'na balkonu',
       },
       {
@@ -1264,7 +1264,7 @@ export const LESSONS = [
             en: 'The kitchen is small but bright.',
             note: 'feminine adjectives',
           },
-          { hr: 'Mama je u kuhinji.', en: 'Mum is in the kitchen.', note: 'kuhinja → kuhinji' },
+          { hr: 'Mama je u kuhinji.', en: 'Mom is in the kitchen.', note: 'kuhinja → kuhinji' },
           {
             hr: 'Navečer sjedimo na balkonu.',
             en: 'In the evening we sit on the balcony.',
@@ -1978,7 +1978,7 @@ export const PRACTICE = {
   'verbs-ovati': {
     worked: [
       {
-        title: 'Travelling',
+        title: 'Traveling',
         problem: '"I travel to Split."',
         en: 'I travel to Split.',
         steps: [

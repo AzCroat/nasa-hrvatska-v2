@@ -131,7 +131,7 @@ export const MULTI_SUBJECT_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'lice',
     q: 'Maja kaže: „Ana i ja smo ____ cijelo ljeto.“',
-    en: 'Maja says: “Ana and I travelled all summer.”',
+    en: 'Maja says: “Ana and I traveled all summer.”',
     opts: ['putovale', 'putovali', 'putovala', 'putovao'],
     answer: 'putovale',
     tip: 'Both speakers are women, so the feminine plural.',
@@ -139,7 +139,7 @@ export const MULTI_SUBJECT_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'lice',
     q: 'Vi i mi ____ susjedi već dvadeset godina.',
-    en: 'You and we have been neighbours for twenty years.',
+    en: 'You and we have been neighbors for twenty years.',
     opts: ['smo', 'ste', 'su', 'je'],
     answer: 'smo',
     tip: 'mi outranks vi.',
@@ -164,7 +164,7 @@ export const MULTI_SUBJECT_AGREEMENT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poredak',
     q: 'Ana je sa sestrom ____ u Split.',
-    en: 'Ana travelled to Split with her sister.',
+    en: 'Ana traveled to Split with her sister.',
     opts: ['otputovala', 'otputovao', 'otputovali', 'otputovalo'],
     answer: 'otputovala',
     tip: 'sa sestrom is company; the verb agrees with Ana.',

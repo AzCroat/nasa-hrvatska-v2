@@ -58,7 +58,7 @@ const DATA = [
     q: 'Žena ___ pomažem je susjeda. (whom — dative)',
     opts: ['kojoj', 'koju', 'koja', 'koje'],
     answer: 'kojoj',
-    en: 'The woman whom I help is a neighbour.',
+    en: 'The woman whom I help is a neighbor.',
     tip: "pomagati takes dative → relative pronoun feminine dative: 'kojoj'.",
   },
   {
@@ -111,7 +111,7 @@ export default function SubordinationDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Complex sentences mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — conjunctions take time!',
+        more: 'Keep practicing — conjunctions take time!',
       }}
       goBack={goBack}
       award={award}

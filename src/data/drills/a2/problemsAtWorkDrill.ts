@@ -73,7 +73,7 @@ export const PROBLEMS_AT_WORK_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: 'Imam problem sa ____.',
-    en: 'I have a problem with the neighbours.',
+    en: 'I have a problem with the neighbors.',
     opts: ['susjedima', 'susjedi', 'susjede', 'susjeda'],
     answer: 'susjedima',
     tip: 'Instrumental plural -ima; sa because the noun begins with s.',

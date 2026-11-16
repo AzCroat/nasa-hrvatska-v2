@@ -21,7 +21,7 @@ export default function B1InstrumentalAdjectivesDrill({ goBack, award }: Props) 
     <ModeDrill
       id="b1instrumentaladjectives"
       title="S mojim starim prijateljem — Adjectives in the Instrumental"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INSTRUMENTAL_ADJECTIVES_MODE_LABELS}
       data={INSTRUMENTAL_ADJECTIVES_DRILL_DATA}
       praise={{

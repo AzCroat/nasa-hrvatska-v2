@@ -353,7 +353,7 @@ const TRANSLATE_PROD = [
     level: 'B2',
   },
   {
-    en: 'The meeting was cancelled due to illness.',
+    en: 'The meeting was canceled due to illness.',
     hr: 'Sastanak je otkazan zbog bolesti.',
     level: 'B2',
   },

@@ -45,7 +45,7 @@ export const SPINE = [
     masterOrder: 89,
     prerequisites: ['genitive-intro', 'locative-intro'],
     objectives: [
-      'Recognise feminine nouns that end in a consonant: stvar, noć, ljubav, radost',
+      'Recognize feminine nouns that end in a consonant: stvar, noć, ljubav, radost',
       'Use the bare noun as subject and object, and -i after bez, od, o and u',
       'Let the describing word show the case: laku noć, o toj stvari',
     ],
@@ -55,7 +55,7 @@ export const SPINE = [
     masterOrder: 90,
     prerequisites: ['clothes-appearance', 'body-health'],
     objectives: [
-      'Recognise nouns that exist only in the plural: hlače, novine, vrata, naočale, škare, leđa',
+      'Recognize nouns that exist only in the plural: hlače, novine, vrata, naočale, škare, leđa',
       'Make the verb and the describing words plural: Moje hlače su nove, Vrata su otvorena',
       'Say "one" and count pairs: jedne hlače, dva para traperica',
     ],
@@ -874,7 +874,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'One Ending Does Most of the Work',
-        body: 'The subject form and the object form (the accusative) are both the bare noun: Ta stvar je nova. Volim tu stvar. The genitive and the locative simply add -i: bez soli (genitive), od radosti (genitive), o ljubavi (locative), u noći (locative). Compare kuća, which changes to kuću, kuće, kući — in the four forms you practise here, this group only ever adds one letter.',
+        body: 'The subject form and the object form (the accusative) are both the bare noun: Ta stvar je nova. Volim tu stvar. The genitive and the locative simply add -i: bez soli (genitive), od radosti (genitive), o ljubavi (locative), u noći (locative). Compare kuća, which changes to kuću, kuće, kući — in the four forms you practice here, this group only ever adds one letter.',
         highlight: 'bez soli · o ljubavi',
       },
       {
@@ -896,8 +896,8 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Two More to Recognise',
-        body: "The plural also ends in -i: stvari (things), noći (nights), riječi (words) — Imam puno stvari. And a letter often ends S ljubavlju, Ana (With love, Ana): -ju is one of this group's instrumental endings. For now just recognise it; the subject, object, genitive and locative are what to practise.",
+        title: 'Two More to Recognize',
+        body: "The plural also ends in -i: stvari (things), noći (nights), riječi (words) — Imam puno stvari. And a letter often ends S ljubavlju, Ana (With love, Ana): -ju is one of this group's instrumental endings. For now just recognize it; the subject, object, genitive and locative are what to practice.",
         highlight: 'S ljubavlju',
       },
       {
@@ -906,7 +906,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Laku noć, mama!',
-            en: 'Good night, Mum!',
+            en: 'Good night, Mom!',
             note: 'laka → laku: only the describing word changes',
           },
           { hr: 'Dobra večer!', en: 'Good evening!', note: 'večer is feminine too' },
@@ -2045,7 +2045,7 @@ export const PRACTICE = {
           'Što te boli? — the person is the accusative te, and što takes the singular boli.',
       },
       {
-        q: 'Complete: "___ bole leđa." (My mum\'s back hurts.)',
+        q: 'Complete: "___ bole leđa." (My mom\'s back hurts.)',
         options: ['Moja mama', 'Moju mamu', 'Moja mame', 'Mojom mamom'],
         correct: 1,
         explanation: 'The person is in the accusative: Moju mamu bole leđa.',
@@ -2200,7 +2200,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: '____ noć, mama! (Good night, Mum!)',
+          q: '____ noć, mama! (Good night, Mom!)',
           answer: 'Laku',
           accept: ['laku'],
           hint: 'Good night is wished in the accusative: the describing word laka takes -u.',

@@ -94,7 +94,7 @@ export const HIGHER_EDUCATION_DRILL_DATA: ModeDrillItem[] = [
     en: 'A test taken during the semester.',
     opts: ['kolokvij', 'ispitni rok', 'završni rad', 'upis'],
     answer: 'kolokvij',
-    tip: 'A kolokvij can count towards the final exam.',
+    tip: 'A kolokvij can count toward the final exam.',
   },
   {
     mode: 'rijeci',

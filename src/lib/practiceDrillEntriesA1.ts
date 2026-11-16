@@ -78,7 +78,7 @@ export const A1_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
     cefr: 'A1',
     category: 'a1-fleeting-a',
   },
-  { id: 'a1colours', label: 'Colours', screen: 'a1colours', cefr: 'A1', category: 'a1-colours' },
+  { id: 'a1colours', label: 'Colors', screen: 'a1colours', cefr: 'A1', category: 'a1-colours' },
   {
     id: 'a1possessiveadjectives',
     label: "Ana's, Marko's",

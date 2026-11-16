@@ -21,7 +21,7 @@ export default function A2PhoneCallsA2Drill({ goBack, award }: Props) {
     <ModeDrill
       id="a2phonecallsa2"
       title="Can I Speak to Mrs Novak? Phone Calls"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PHONE_CALLS_A2_MODE_LABELS}
       data={PHONE_CALLS_A2_DRILL_DATA}
       praise={{

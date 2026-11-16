@@ -131,7 +131,7 @@ export const TRAVEL_AND_SPORT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slobodno',
     q: 'Ljetos smo se ____ — obišli smo pola Europe.',
-    en: 'This summer we travelled to our heart’s content — we saw half of Europe.',
+    en: 'This summer we traveled to our heart’s content — we saw half of Europe.',
     opts: ['putovali', 'naputovali', 'otputovali', 'proputovali'],
     answer: 'naputovali',
     tip: 'Na- + se: to do something a lot.',

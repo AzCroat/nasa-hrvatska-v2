@@ -3,7 +3,7 @@
 //
 // The gate pre-charges each call's worst-case ceiling (the budget guarantee).
 // Until this change only three of twenty-four Claude endpoints refunded the
-// difference afterwards; the rest booked ~5x their real cost permanently —
+// difference afterward; the rest booked ~5x their real cost permanently —
 // /api/correct $0.025 per essay against ~$0.005 — so a $9 month could be
 // "spent" by mid-month, and from then on every live evaluation the learner
 // asked for (writing feedback, the speaking coach, the Level Check's scoring)

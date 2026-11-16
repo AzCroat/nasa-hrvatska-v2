@@ -25,7 +25,7 @@ export const VERBS_OVATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Ja ____ u Split.',
-    en: 'I am travelling to Split.',
+    en: 'I am traveling to Split.',
     opts: ['putujem', 'putovam', 'putuvam', 'putovem'],
     answer: 'putujem',
     tip: '-ova- becomes -uj-: putujem.',
@@ -97,7 +97,7 @@ export const VERBS_OVATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Mama ____ voće na tržnici.',
-    en: 'Mum buys fruit at the market.',
+    en: 'Mom buys fruit at the market.',
     opts: ['kupuje', 'kupova', 'kupuju', 'kupovaje'],
     answer: 'kupuje',
     tip: 'kupuj- + -e.',
@@ -189,7 +189,7 @@ export const VERBS_OVATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'recenice',
     q: 'Kamo ____?',
-    en: 'Where are you travelling to? (one friend)',
+    en: 'Where are you traveling to? (one friend)',
     opts: ['putuješ', 'putovaš', 'putuje', 'putujem'],
     answer: 'putuješ',
     tip: 'putuj- + -eš.',

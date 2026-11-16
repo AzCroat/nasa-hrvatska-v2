@@ -5,7 +5,7 @@
  * ---------------------------------------
  * Dozens of guards in this repo read production source, remove the comments and
  * assert about the code that is left. That strip is load-bearing: without it,
- * prose NAMING the thing a guard forbids reads as the offence, and this codebase
+ * prose NAMING the thing a guard forbids reads as the offense, and this codebase
  * has the scars to prove it.
  *
  * Stripping BLOCK comments first is a trap. A `//` comment that mentions a path
@@ -131,7 +131,7 @@ describe('comment strippers run line-comments first', () => {
     expect(Date.now() - started).toBeLessThan(1000);
   });
 
-  it('and the detector actually recognises the shape it forbids', () => {
+  it('and the detector actually recognizes the shape it forbids', () => {
     // A positive control: the rule above is only worth anything if this fails.
     const bad = `const x = s.replace(/\\/\\*[\\s\\S]*?\\*\\//g, '').replace(/(^|[^:])\\/\\/[^\\n]*/g, '$1');`;
     const calls = replaceCalls(bad);

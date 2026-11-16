@@ -183,7 +183,7 @@ export const ADVERBS_DRILL_DATA: ModeDrillItem[] = [
     en: 'well → better',
     opts: ['bolje', 'dobrije', 'najbolje', 'više dobro'],
     answer: 'bolje',
-    tip: 'Irregular, and worth memorising outright.',
+    tip: 'Irregular, and worth memorizing outright.',
   },
   {
     mode: 'stupanj',

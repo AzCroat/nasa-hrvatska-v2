@@ -59,7 +59,7 @@ function fakeKv(seed = {}) {
   return {
     store,
     puts: [],
-    // Honours { type: 'json' } — the worker reads subscriptions that way, and a
+    // Honors { type: 'json' } — the worker reads subscriptions that way, and a
     // double that ignores it silently returns a string, whose `.subscription`
     // is undefined, so every subscriber looks malformed and the run looks
     // empty. The fake has to be faithful or the test proves nothing.

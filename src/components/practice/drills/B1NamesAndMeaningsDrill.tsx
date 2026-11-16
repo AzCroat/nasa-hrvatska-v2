@@ -21,7 +21,7 @@ export default function B1NamesAndMeaningsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1namesandmeanings"
       title="Names and What They Mean"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NAMES_AND_MEANINGS_MODE_LABELS}
       data={NAMES_AND_MEANINGS_DRILL_DATA}
       praise={{

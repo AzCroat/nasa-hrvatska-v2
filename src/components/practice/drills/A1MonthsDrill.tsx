@@ -18,7 +18,7 @@ export default function A1MonthsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1months"
       title="The Months"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={MONTHS_MODE_LABELS}
       data={MONTHS_DRILL_DATA}
       praise={{

@@ -21,7 +21,7 @@ export default function A1GivingAndSendingDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1givingandsending"
       title="Giving, Sending, Telling"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GIVING_AND_SENDING_MODE_LABELS}
       data={GIVING_AND_SENDING_DRILL_DATA}
       praise={{

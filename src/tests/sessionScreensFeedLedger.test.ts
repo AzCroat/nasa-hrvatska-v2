@@ -302,7 +302,7 @@ describe('every guaranteed-input entry can change the receptive measurement', ()
       `These input screens grade comprehension and write NOTHING the recommender reads. ` +
         `An untested receptive cell scores MAXIMUM need and selectGuaranteedInput lets ` +
         `weakest OVERRIDE the alternation, so the slot latches on the kind the learner ` +
-        `is already practising and the other kind is never served — the 2026-09-23 ` +
+        `is already practicing and the other kind is never served — the 2026-09-23 ` +
         `reading defect, in the other direction.`,
     ).toEqual([]);
   });

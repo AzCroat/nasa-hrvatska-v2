@@ -107,7 +107,7 @@ export const VERBS_PECI_STI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'sti',
     q: 'Moja mama ____ džemper za unuka.',
-    en: 'My mum is knitting a jumper for her grandson.',
+    en: 'My mom is knitting a jumper for her grandson.',
     opts: ['plete', 'plesti', 'pleta', 'plese'],
     answer: 'plete',
     tip: 'Plesti hides a t: pletem, plete.',

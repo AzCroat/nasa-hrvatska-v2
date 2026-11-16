@@ -12,7 +12,7 @@
  * What #678 did not do is look at the surfaces that DISPLAY the same numbers.
  * Two of them still read the dead field on its own:
  *   - `AnalyticsScreen`'s "Reading" bar — `s.readingDone || 0`, so **0 for every
- *     learner, always**, while its five neighbours filled. This is the identical
+ *     learner, always**, while its five neighbors filled. This is the identical
  *     defect to `s.vc`, whose fix sits TWO LINES ABOVE IT IN THE SAME ARRAY with
  *     a comment describing exactly this failure.
  *   - `BadgesScreen`'s `read3` progress row — frozen at `0 / 3` for a learner

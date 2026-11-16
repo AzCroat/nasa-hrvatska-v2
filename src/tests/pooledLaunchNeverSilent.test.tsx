@@ -94,7 +94,7 @@ describe('a pooled launch never fails silently', () => {
     vi.clearAllMocks();
   });
 
-  it('says the words are still loading — not that there is nothing to practise', () => {
+  it('says the words are still loading — not that there is nothing to practice', () => {
     contentMock.mockReturnValue({ content: null, loading: true });
     const p = props();
     tapGovori(p);
@@ -147,7 +147,7 @@ describe('a pooled launch never fails silently', () => {
 
   it('decides content before emptiness — the order is the whole point', () => {
     // A pure check of the rule both surfaces now share, so a caller reading it
-    // the other way round cannot claim "nothing to practise" about a deck the
+    // the other way round cannot claim "nothing to practice" about a deck the
     // app has never seen.
     expect(poolLaunchBlock(null, true, [])).toBe('loading');
     expect(poolLaunchBlock(null, false, [])).toBe('unavailable');

@@ -56,7 +56,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oglas',
     q: 'Stan ima 55 ____. (kvadrat)',
-    en: 'The flat is 55 square metres.',
+    en: 'The flat is 55 square meters.',
     opts: ['kvadrata', 'kvadrate', 'kvadrat', 'kvadratima'],
     answer: 'kvadrata',
     tip: 'Genitive plural after a number above four: 55 kvadrata.',

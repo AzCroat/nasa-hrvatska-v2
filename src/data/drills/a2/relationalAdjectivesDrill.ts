@@ -192,7 +192,7 @@ export const RELATIONAL_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pravopis',
     q: 'Kako se pravilno piše ime kazališta?',
-    en: 'How is the name of the national theatre written?',
+    en: 'How is the name of the national theater written?',
     opts: [
       'hrvatsko narodno kazalište',
       'Hrvatsko narodno kazalište',

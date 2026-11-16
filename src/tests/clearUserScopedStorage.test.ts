@@ -439,7 +439,7 @@ describe('an account change cannot hand the next learner credit', () => {
    * COMMENTS ARE STRIPPED, and this guard failed on its own first run without
    * it: the fix necessarily leaves prose behind NAMING the call it forbids, in
    * both files it was removed from, so an unstripped match reports the
-   * explanation as the offence. The same strip is load-bearing in the dangerous
+   * explanation as the offense. The same strip is load-bearing in the dangerous
    * direction elsewhere in this repo; here it is what makes the rule writable
    * down at all.
    */

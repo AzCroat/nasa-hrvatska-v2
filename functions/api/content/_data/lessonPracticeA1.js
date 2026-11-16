@@ -348,7 +348,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'You meet your new neighbour, an older man, at 10 am. Which greeting fits best?',
+        q: 'You meet your new neighbor, an older man, at 10 am. Which greeting fits best?',
         options: [
           'Bog, kako si?',
           'Dobro jutro, kako ste?',
@@ -2177,7 +2177,7 @@ export const PRACTICE_A1 = {
           explanation: 'Njegova žena je učiteljica.',
         },
         {
-          q: 'Your mum’s sister is your ___.',
+          q: 'Your mom’s sister is your ___.',
           options: ['ujna', 'teta', 'unuka', 'baka'],
           correct: 1,
           hint: 'The everyday word for an aunt works on either side of the family.',
@@ -2201,7 +2201,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Your mum’s brother is your…',
+        q: 'Your mom’s brother is your…',
         options: ['stric', 'djed', 'ujak', 'tetak'],
         correct: 2,
         explanation: "ujak — your mother's brother. stric is your father's brother.",
@@ -2249,7 +2249,7 @@ export const PRACTICE_A1 = {
     ],
     vocab: [
       ['obitelj', 'family', 'Ovo je moja obitelj.'],
-      ['mama', 'mum', 'Mama je ovdje.'],
+      ['mama', 'mom', 'Mama je ovdje.'],
       ['tata', 'dad', 'Tata je liječnik.'],
       ['sin', 'son', 'Moj sin je student.'],
       ['kći', 'daughter', 'Moja kći je studentica.'],
@@ -2383,7 +2383,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Mama je ___." (Mum is Italian.)',
+        q: 'Complete: "Mama je ___." (Mom is Italian.)',
         options: ['Talijan', 'Talijanka', 'talijanski', 'Italija'],
         correct: 1,
         explanation: "Talijanka — the woman's nationality form. Talijan is a man.",
@@ -3138,7 +3138,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Volim ___." (I love my mum — "mama".)',
+        q: 'Complete: "Volim ___." (I love my mom — "mama".)',
         options: ['mama', 'mamu', 'mame', 'mami'],
         correct: 1,
         explanation: 'Volim mamu. — the object: feminine -a becomes -u.',
@@ -3889,7 +3889,7 @@ export const PRACTICE_A1 = {
       },
       {
         q: 'Which job is the genitive doing in "Nemam novca" (I have no money)?',
-        options: ['belonging', 'quantity', 'absence', 'motion towards'],
+        options: ['belonging', 'quantity', 'absence', 'motion toward'],
         correct: 2,
         explanation: 'Absence — what is not there takes the genitive.',
       },
@@ -4947,7 +4947,7 @@ export const PRACTICE_A1 = {
           type: 'type',
           q: 'Pijemo ____ vino. (red)',
           answer: 'crno',
-          hint: 'The colour that describes red wine, neuter to match vino.',
+          hint: 'The color that describes red wine, neuter to match vino.',
           explanation: 'Pijemo crno vino.',
         },
         {

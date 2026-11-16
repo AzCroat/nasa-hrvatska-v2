@@ -330,7 +330,7 @@ export const SECTIONS = [
             hr: 'Buraz moj',
             en: 'My bro (reversed word order) — possessive after noun = maximum street register',
           },
-          { hr: 'Stari / Stara', en: 'Old man / Old lady — also means Dad/Mum in slang' },
+          { hr: 'Stari / Stara', en: 'Old man / Old lady — also means Dad/Mom in slang' },
         ],
       },
       {

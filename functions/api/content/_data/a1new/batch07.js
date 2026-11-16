@@ -101,7 +101,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Help, Trust, Answer: the Person Gets the Dative',
-        body: 'In English "I help my mum" looks like "I see my mum". In Croatian the person you help RECEIVES the help, so the person is in the dative, not the accusative. pomagati (to help): Pomažem mami. vjerovati (to believe, to trust): Vjerujem ti. odgovarati (to answer, to reply): Odgovaram profesoru. Ask yourself "to whom?" and you will pick the right form: help given TO mum, an answer given TO the teacher.',
+        body: 'In English "I help my mom" looks like "I see my mom". In Croatian the person you help RECEIVES the help, so the person is in the dative, not the accusative. pomagati (to help): Pomažem mami. vjerovati (to believe, to trust): Vjerujem ti. odgovarati (to answer, to reply): Odgovaram profesoru. Ask yourself "to whom?" and you will pick the right form: help given TO mom, an answer given TO the teacher.',
         highlight: 'Pomažem mami.',
       },
       {
@@ -139,7 +139,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Pomažem mami u kuhinji.',
-            en: 'I help my mum in the kitchen.',
+            en: 'I help my mom in the kitchen.',
             note: 'mama → mami',
           },
           {
@@ -185,7 +185,7 @@ export const LESSONS = [
           { hr: 'Ivanu se ne sviđa kava.', en: 'Ivan does not like coffee.', note: 'Ivan → Ivanu' },
           {
             hr: 'Mami se sviđaju cvijeće i knjige.',
-            en: 'Mum likes flowers and books.',
+            en: 'Mom likes flowers and books.',
             note: 'two things → sviđaju',
           },
           { hr: 'Kako vam se sviđa Split?', en: 'How do you like Split?', note: 'vam before se' },
@@ -372,7 +372,7 @@ export const LESSONS = [
         type: 'example',
         title: 'A Postcard From the Coast',
         items: [
-          { hr: 'Draga mama,', en: 'Dear Mum,', note: 'draga — she is a woman' },
+          { hr: 'Draga mama,', en: 'Dear Mom,', note: 'draga — she is a woman' },
           { hr: 'Pozdrav iz Splita!', en: 'Greetings from Split!', note: 'a fixed phrase' },
           { hr: 'Ovdje je prekrasno i jako toplo.', en: 'It is beautiful and very warm here.' },
           {
@@ -998,7 +998,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Subjects, Homework and Exams',
-        body: 'predmet — a school subject: matematika, hrvatski, engleski, povijest, biologija, kemija. Koji ti je omiljeni predmet? (What is your favourite subject?) Moj omiljeni predmet je povijest. domaća zadaća — homework: Pišem domaću zadaću. ispit — an exam: Imam ispit u petak. Položio sam ispit! (I passed the exam!) razred — a class, a year group: Moj razred ima izlet.',
+        body: 'predmet — a school subject: matematika, hrvatski, engleski, povijest, biologija, kemija. Koji ti je omiljeni predmet? (What is your favorite subject?) Moj omiljeni predmet je povijest. domaća zadaća — homework: Pišem domaću zadaću. ispit — an exam: Imam ispit u petak. Položio sam ispit! (I passed the exam!) razred — a class, a year group: Moj razred ima izlet.',
         highlight: 'Imam ispit u petak.',
       },
       {
@@ -1042,9 +1042,9 @@ export const LESSONS = [
             note: 'where → u školi',
           },
           { hr: 'Učiteljica nam daje domaću zadaću.', en: 'The teacher gives us homework.' },
-          { hr: 'Moj omiljeni predmet je povijest.', en: 'My favourite subject is history.' },
+          { hr: 'Moj omiljeni predmet je povijest.', en: 'My favorite subject is history.' },
           { hr: 'Večeras pišem domaću zadaću.', en: 'Tonight I am doing my homework.' },
-          { hr: 'Matematika mi se ne sviđa.', en: 'I do not like maths.' },
+          { hr: 'Matematika mi se ne sviđa.', en: 'I do not like math.' },
         ],
       },
       {
@@ -1237,7 +1237,7 @@ export const LESSONS = [
             en: 'Every day I go to work by tram.',
             note: 'tramvaj → tramvajem',
           },
-          { hr: 'Putujemo u Split vlakom.', en: 'We are travelling to Split by train.' },
+          { hr: 'Putujemo u Split vlakom.', en: 'We are traveling to Split by train.' },
           { hr: 'Ana ide u školu biciklom.', en: 'Ana goes to school by bike.' },
           { hr: 'Na Hvar idemo brodom.', en: 'We are going to Hvar by boat.' },
           { hr: 'U London putujem avionom.', en: 'I travel to London by plane.' },
@@ -1562,7 +1562,7 @@ export const PRACTICE = {
       ['vjerovati', 'to believe, to trust', 'Vjerujem ti.'],
       ['odgovarati', 'to answer; to suit', 'Zašto mi ne odgovaraš?'],
       ['sviđati se', 'to be liked by', 'Sviđa mi se Zagreb.'],
-      ['susjed', 'neighbour', 'Pomažem susjedu.'],
+      ['susjed', 'neighbor', 'Pomažem susjedu.'],
       ['pitanje', 'question', 'Odgovaram na pitanje.'],
       ['cipele', 'shoes', 'Sviđaju mi se ove cipele.'],
       ['pjesma', 'song', 'Sviđa mi se ova pjesma.'],
@@ -1618,10 +1618,10 @@ export const PRACTICE = {
           explanation: 'Sretan put! — have a good trip.',
         },
         {
-          q: 'How do you open a card to your mum?',
+          q: 'How do you open a card to your mom?',
           options: ['Dragi mama,', 'Drago mama,', 'Draga mama,', 'Dragu mama,'],
           correct: 2,
-          hint: 'Your mum is a woman.',
+          hint: 'Your mom is a woman.',
           explanation: 'Draga mama,',
         },
         {
@@ -1703,7 +1703,7 @@ export const PRACTICE = {
         explanation: 'Ana is a woman: Draga Ana.',
       },
       {
-        q: 'Your neighbour has a job interview tomorrow. What do you say?',
+        q: 'Your neighbor has a job interview tomorrow. What do you say?',
         options: ['Sretno!', 'Sretan Božić!', 'Puno pozdrava!', 'Sretan imendan!'],
         correct: 0,
         explanation: 'Sretno! — good luck.',
@@ -2490,8 +2490,8 @@ export const PRACTICE = {
       {
         q: 'What does "Putujemo u Split vlakom." mean?',
         options: [
-          'We are travelling to Split with the train driver.',
-          'We are travelling to Split by train.',
+          'We are traveling to Split with the train driver.',
+          'We are traveling to Split by train.',
           'We are waiting for the train to Split.',
           'We are buying a train ticket to Split.',
         ],

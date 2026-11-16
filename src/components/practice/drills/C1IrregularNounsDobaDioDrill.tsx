@@ -21,7 +21,7 @@ export default function C1IrregularNounsDobaDioDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1irregularnounsdobadio"
       title="Posao, Posla — Dio, Dijela"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={IRREGULAR_NOUNS_DOBA_DIO_MODE_LABELS}
       data={IRREGULAR_NOUNS_DOBA_DIO_DRILL_DATA}
       praise={{

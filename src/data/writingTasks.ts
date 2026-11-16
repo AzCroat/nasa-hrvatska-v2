@@ -65,7 +65,7 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
       prompt:
         'Vaš susjed svira bubnjeve svaku večer do ponoći. Napišite mu pristojnu poruku: objasnite problem, kako utječe na vas i predložite rješenje koje bi odgovaralo objema stranama.',
       promptEn:
-        'Your neighbour plays the drums every evening until midnight. Write him a polite message: explain the problem, how it affects you, and propose a solution that would suit both sides.',
+        'Your neighbor plays the drums every evening until midnight. Write him a polite message: explain the problem, how it affects you, and propose a solution that would suit both sides.',
       minWords: 60,
     },
     {
@@ -117,7 +117,7 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
       prompt:
         'Gradska uprava planira ukinuti besplatne programe u knjižnicama zbog štednje. Napišite otvoreno pismo gradonačelniku u kojem se tome protivite: iznesite posljedice odluke, ponudite alternativu i pozovite na javnu raspravu.',
       promptEn:
-        'The city government plans to cut free library programmes to save money. Write an open letter to the mayor opposing this: lay out the consequences of the decision, offer an alternative, and call for a public debate.',
+        'The city government plans to cut free library programs to save money. Write an open letter to the mayor opposing this: lay out the consequences of the decision, offer an alternative, and call for a public debate.',
       minWords: 120,
     },
     {

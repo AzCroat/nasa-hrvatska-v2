@@ -21,7 +21,7 @@ export default function A1SchoolEducationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1schooleducation"
       title="School and Studying"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SCHOOL_EDUCATION_MODE_LABELS}
       data={SCHOOL_EDUCATION_DRILL_DATA}
       praise={{

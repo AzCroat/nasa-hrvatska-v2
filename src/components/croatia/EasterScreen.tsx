@@ -77,7 +77,7 @@ const RECIPES = [
     title: 'Janje s ražnja',
     subtitle: 'Spit-Roasted Lamb',
     emoji: '🔥',
-    body: "A whole lamb roasted slowly over an open fire (ražanj) for 4–6 hours, basted with salt water. The skin should crack when tapped. Villages gather around the fire from early morning. The smell carries for kilometres. If you're invited to a Croatian Easter in Dalmatia, you have been truly accepted.",
+    body: "A whole lamb roasted slowly over an open fire (ražanj) for 4–6 hours, basted with salt water. The skin should crack when tapped. Villages gather around the fire from early morning. The smell carries for kilometers. If you're invited to a Croatian Easter in Dalmatia, you have been truly accepted.",
     keywords: [
       { hr: 'janje', en: 'lamb' },
       { hr: 'ražanj', en: 'spit roast' },
@@ -149,7 +149,7 @@ const QUIZ_QUESTIONS = [
     opts: ['Horseradish', 'Ham', 'Bread', 'Garlic'],
   },
   {
-    q: 'The licitarsko srce (gingerbread heart) tradition is protected by which organisation?',
+    q: 'The licitarsko srce (gingerbread heart) tradition is protected by which organization?',
     correct: 'UNESCO',
     opts: ['UNESCO', 'European Union', 'Croatian Ministry of Culture', 'The Catholic Church'],
   },

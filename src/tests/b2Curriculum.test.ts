@@ -204,7 +204,7 @@ describe('teach → practice coupling stays HONEST at B2', () => {
   const EXPECTED: Record<string, string> = {
     'aspect-suffixes': 'aspect-imperfective',
     'participial-adjectives': 'passive',
-    // B2 book comparison (2026-11-13): both had pointed at drills that do not practise
+    // B2 book comparison (2026-11-13): both had pointed at drills that do not practice
     // them (the subordination screen has no unatoč + dative; the cloze bank has no
     // conditional at all). Each now has its own bank.
     'concession-contrast': 'b2-concession-contrast',
@@ -345,7 +345,7 @@ describe('a B2 lesson day still teaches STRUCTURE', () => {
     'business-economy': 'business and economic vocabulary',
     // 2/24 — the lesson is what Croatians find funny and why it does not
     // translate. Culture, not structure.
-    'humour-irony': 'humour is cultural, not structural',
+    'humour-irony': 'humor is cultural, not structural',
     // 2/24 — the history of the standard language.
     'language-history': 'the history of the standard, a reading topic',
     // 6/24 and grouped 'reading' — the canon and how to talk about it.

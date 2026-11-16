@@ -160,7 +160,7 @@ export const LOVE_AND_MARRIAGE_DRILL_DATA: ModeDrillItem[] = [
     en: 'He finally got married.',
     opts: ['luku', 'luka', 'luci', 'lukom'],
     answer: 'luku',
-    tip: 'uploviti u + the accusative: sailing into the harbour.',
+    tip: 'uploviti u + the accusative: sailing into the harbor.',
   },
   {
     mode: 'izrazi',

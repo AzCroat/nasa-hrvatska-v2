@@ -99,7 +99,7 @@ export const GENITIVE_PARTITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'malo',
     q: 'Mama stavlja malo ____ u čaj. (šećer)',
-    en: 'Mum puts a little sugar in the tea.',
+    en: 'Mom puts a little sugar in the tea.',
     opts: ['šećer', 'šećera', 'šećeru', 'šećerom'],
     answer: 'šećera',
     tip: 'malo + genitive.',

@@ -21,7 +21,7 @@ export default function C1DisjunctiveGradationalClausesDrill({ goBack, award }: 
     <ModeDrill
       id="c1disjunctivegradationalclauses"
       title="Or, Only, Not Only… But Also"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DISJUNCTIVE_GRADATIONAL_CLAUSES_MODE_LABELS}
       data={DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA}
       praise={{

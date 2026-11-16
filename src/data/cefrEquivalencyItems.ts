@@ -111,13 +111,13 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     skill: 'vocab',
   },
   {
-    q: "What colour is 'crveno'?",
+    q: "What color is 'crveno'?",
     o: ['blue', 'green', 'red', 'white'],
     c: 2,
     skill: 'vocab',
   },
   {
-    q: "What colour is 'plavo'?",
+    q: "What color is 'plavo'?",
     o: ['blue', 'yellow', 'black', 'orange'],
     c: 0,
     skill: 'vocab',
@@ -275,20 +275,20 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     skill: 'vocab',
   },
   {
-    q: "What colour is 'zeleno'?",
+    q: "What color is 'zeleno'?",
     o: ['yellow', 'green', 'blue', 'brown'],
     c: 1,
     skill: 'vocab',
   },
   {
-    q: "What colour is 'žuto'?",
+    q: "What color is 'žuto'?",
     o: ['red', 'orange', 'yellow', 'white'],
     c: 2,
     skill: 'vocab',
   },
   {
-    q: "What colour is 'bijelo'?",
-    o: ['black', 'grey', 'brown', 'white'],
+    q: "What color is 'bijelo'?",
+    o: ['black', 'gray', 'brown', 'white'],
     c: 3,
     skill: 'vocab',
   },
@@ -829,7 +829,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     skill: 'grammar',
   },
   {
-    q: "Choose the correct form: 'Mama ___ u kuhinji.' (Mum is in the kitchen.)",
+    q: "Choose the correct form: 'Mama ___ u kuhinji.' (Mom is in the kitchen.)",
     o: ['sam', 'si', 'je', 'su'],
     c: 2,
     skill: 'grammar',
@@ -895,7 +895,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
   {
     passage:
       'Marko ima psa. Pas se zove Rex. Rex je crn i velik. Marko i Rex svaki dan idu u park.',
-    q: 'What colour is Rex?',
+    q: 'What color is Rex?',
     o: ['white', 'brown', 'black', 'red'],
     c: 2,
     skill: 'reading',
@@ -1028,7 +1028,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     passage:
       'Tomislav ustaje u sedam sati. Pije kavu i jede kruh s maslacem. Ne jede jaja. Ide na posao autobusom. Radi od osam do četiri.',
     q: 'What does Tomislav eat for breakfast?',
-    o: ['Eggs', 'Bread with butter', 'Cheese and ham', 'Yoghurt'],
+    o: ['Eggs', 'Bread with butter', 'Cheese and ham', 'Yogurt'],
     c: 1,
     skill: 'reading',
   },
@@ -1163,7 +1163,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
     audioText: 'Volim pjevati. Pjevam svaki dan.',
   },
   {
-    q: 'Listen. What colour is the car?',
+    q: 'Listen. What color is the car?',
     o: ['Red', 'Blue', 'White', 'Black'],
     c: 0,
     skill: 'listening',

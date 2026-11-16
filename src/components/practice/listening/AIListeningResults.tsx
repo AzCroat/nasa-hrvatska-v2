@@ -77,7 +77,7 @@ export default function AIListeningResults({
             ? 'Perfect score!'
             : score >= total * 0.6
               ? 'Good work!'
-              : 'Keep practising!'}
+              : 'Keep practicing!'}
         </div>
         <div style={XP_PILL}>+{xpEarned} XP</div>
       </div>

@@ -21,7 +21,7 @@ export default function B1InstrumentalDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1instrumental"
       title="Čime? S kim? — the Instrumental"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INSTRUMENTAL_B1_MODE_LABELS}
       data={INSTRUMENTAL_B1_DRILL_DATA}
       praise={{

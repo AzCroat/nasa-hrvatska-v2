@@ -40,7 +40,7 @@ const HERITAGE_WORDS = [
   { hr: 'ne', en: 'no', context: 'You definitely know this one' },
   { hr: 'moja / moj', en: 'my (feminine/masculine)', context: '"Moja kuća" — my house' },
   { hr: 'naša / naš', en: 'our (fem/masc)', context: '"Naša Hrvatska" — Our Croatia' },
-  { hr: 'mama', en: 'mum', context: 'Same as in English — universally understood' },
+  { hr: 'mama', en: 'mom', context: 'Same as in English — universally understood' },
   { hr: 'tata', en: 'dad', context: 'Also baka (grandma) and djed (grandpa)' },
   { hr: 'baka', en: 'grandma', context: 'The person you heard Croatian from most' },
   { hr: 'djed', en: 'grandpa', context: 'From stari djed (old grandfather)' },
@@ -451,7 +451,7 @@ export default function HeritageModeScreen({
                 ? "You're already speaking Croatian — you just need to formalise it. Your passive knowledge is your superpower."
                 : knownCount >= 6
                   ? "You have a solid foundation from growing up with the language. Let's build on what you know."
-                  : "Every word you recognise is a head start. You've absorbed more than you think — even from just a few family visits."}
+                  : "Every word you recognize is a head start. You've absorbed more than you think — even from just a few family visits."}
             </div>
             <button
               onClick={() => {

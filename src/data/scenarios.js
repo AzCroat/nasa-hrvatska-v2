@@ -745,7 +745,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Ti',
         text: 'Snaga mi je organiziranost. Slabost — ponekad sam perfekcionist.',
-        en: "My strength is organisation. Weakness — I'm sometimes a perfectionist.",
+        en: "My strength is organization. Weakness — I'm sometimes a perfectionist.",
         you: true,
       },
       {
@@ -790,7 +790,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Vlasnik',
         text: 'Naravno. Stan ima 50 kvadrata, dvije sobe i balkon.',
-        en: 'Of course. The apartment is 50 square metres, two rooms and a balcony.',
+        en: 'Of course. The apartment is 50 square meters, two rooms and a balcony.',
       },
       {
         speaker: 'Ti',
@@ -880,7 +880,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Prijatelj',
         text: 'Recimo u osam. A poslije bi mogli na piće.',
-        en: "Let's say at eight. And afterwards we could go for drinks.",
+        en: "Let's say at eight. And afterward we could go for drinks.",
       },
       {
         speaker: 'Ti',
@@ -1673,7 +1673,7 @@ export const STORIES = [
   // ── C1 Scenarios ────────────────────────────────────────────────────────────
   {
     title: 'Akademska Obrana',
-    tEn: 'Academic Defence',
+    tEn: 'Academic Defense',
     cefr: 'C1',
     scenes: [
       {

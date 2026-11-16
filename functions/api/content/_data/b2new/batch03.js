@@ -22,7 +22,7 @@ export const SPINE = [
     objectives: [
       'Say what someone is in the everyday way: Ona je liječnica',
       'Use the instrumental after postati, smatrati, proglasiti and imenovati: Smatram ga prijateljem',
-      'Recognise the bookish instrumental after biti, and keep the nominative after kao and zvati se',
+      'Recognize the bookish instrumental after biti, and keep the nominative after kao and zvati se',
     ],
   },
   {
@@ -89,7 +89,7 @@ const PREDICATE_INSTRUMENTAL = {
     {
       type: 'rule',
       title: 'After biti: The Nominative Is Normal',
-      body: 'The noun after biti that says what someone is — the predicate nominative — stays in the nominative: Ona je liječnica. Moj otac je bio učitelj. This is the everyday, natural form, and it is never wrong. You will also read the instrumental after biti: Bio je učiteljem dvadeset godina. That is correct too, but bookish — it sounds written, and often suggests a role held for a time. Say the nominative yourself; recognise the instrumental when you meet it.',
+      body: 'The noun after biti that says what someone is — the predicate nominative — stays in the nominative: Ona je liječnica. Moj otac je bio učitelj. This is the everyday, natural form, and it is never wrong. You will also read the instrumental after biti: Bio je učiteljem dvadeset godina. That is correct too, but bookish — it sounds written, and often suggests a role held for a time. Say the nominative yourself; recognize the instrumental when you meet it.',
       highlight: 'Ona je liječnica',
     },
     {
@@ -390,7 +390,7 @@ const COMPARATIVE_IDIOMS = {
         },
         {
           hr: 'Nova šefica je prema svima hladna kao led.',
-          en: 'The new boss is as cold as ice towards everyone.',
+          en: 'The new boss is as cold as ice toward everyone.',
           note: 'hladna agrees with šefica',
         },
         {
@@ -573,7 +573,7 @@ const READING_CULTURE = {
         },
         {
           hr: 'Na putovanjima čitam e-knjige jer je čitač lagan.',
-          en: 'When travelling I read e-books because the e-reader is light.',
+          en: 'When traveling I read e-books because the e-reader is light.',
           note: 'čitač — the device, not the person',
         },
         {

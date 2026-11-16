@@ -6,7 +6,7 @@
  *  2. The fill-sort boost prioritises untested/developing skills but ONLY as a
  *     tie-break behind difficulty distance (the B2-no-tier-1 contract in
  *     useDailySession.test.ts stays authoritative and untouched).
- *  3. With an empty ledger everything degrades to pre-Phase-3 behaviour.
+ *  3. With an empty ledger everything degrades to pre-Phase-3 behavior.
  *  4. weakestProductionKind picks the less-demonstrated of speaking/writing.
  *  5. buildPlanReason never fabricates a reason from an empty ledger.
  */

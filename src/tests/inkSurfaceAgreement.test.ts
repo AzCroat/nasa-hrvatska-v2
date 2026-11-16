@@ -69,7 +69,7 @@ describe('an ink and its surface agree about the theme', () => {
     }
     const named = all
       .filter((f) => !INHERITED_INK_EXEMPT[`${f.file}${f.surface}`])
-      .map((f) => `${f.file}:${f.line} background: ${f.surface} and no colour of its own`);
+      .map((f) => `${f.file}:${f.line} background: ${f.surface} and no color of its own`);
     expect(
       named,
       'This element paints a LIGHT background and sets no ink, so its text inherits the ' +
@@ -140,7 +140,7 @@ describe('an ink and its surface agree about the theme', () => {
 
     // THE SELF-PAINTING EXEMPTION IS WHAT MAKES CLAUSE 2 MEASURABLE. Omitting it reported
     // 30 sites where the truth was 2: the other 24 were `background:'#f3f4f6'` chips with
-    // grey ink, correct in either theme because the chip owns both halves.
+    // gray ink, correct in either theme because the chip owns both halves.
     const ownChip = join(dir, 'OwnChip.tsx');
     writeFileSync(
       ownChip,

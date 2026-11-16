@@ -36,7 +36,7 @@ export const CAN_DO_C2: Readonly<Record<string, readonly string[]>> = {
   // uredjivanje-teksta · frazeologija-dubinska · dijalekti-dubinski · jezik-i-drustvo
   'C2-5': [
     'I can edit someone else’s Croatian and give a reason for every change.',
-    'I can recognise a proverb from its opening and the allusions serious writing assumes.',
+    'I can recognize a proverb from its opening and the allusions serious writing assumes.',
     'I can follow kajkavian and čakavian speech and choose what my Croatian signals.',
   ],
 };

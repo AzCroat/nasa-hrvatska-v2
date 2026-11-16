@@ -13,7 +13,7 @@
  *
  * `/culture` is the one that matters: the Croatia tab was CALLED Culture until
  * 2026-04-26 (this repo's nav table carried the stale name for five months
- * afterwards), so every link and bookmark from before that date lands on a page
+ * afterward), so every link and bookmark from before that date lands on a page
  * with no message, no active tab and nothing to do — the dead end the
  * next-step directive exists to forbid, on the one route no spec visits.
  * `/Dashboard` is the same thing one capital letter away from a real screen.

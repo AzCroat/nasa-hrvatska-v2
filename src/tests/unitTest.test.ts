@@ -7,7 +7,7 @@
  * screen renders it identically); a retake that serves the same questions (which
  * measures memory of the paper, not the unit); and a threshold applied as a
  * percentage the learner has to convert. All three are asserted on the real
- * curriculum bodies, not a fixture, because the sampler's behaviour depends on how
+ * curriculum bodies, not a fixture, because the sampler's behavior depends on how
  * many check items a lesson actually carries.
  */
 import { describe, it, expect } from 'vitest';

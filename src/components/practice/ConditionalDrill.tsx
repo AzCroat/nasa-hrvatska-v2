@@ -112,7 +112,7 @@ export default function ConditionalDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Conditional mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — the conditional takes time!',
+        more: 'Keep practicing — the conditional takes time!',
       }}
       goBack={goBack}
       award={award}

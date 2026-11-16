@@ -63,7 +63,7 @@
       "o": [
         "airport",
         "train station",
-        "harbour",
+        "harbor",
         "bus stop"
       ],
       "c": 1,
@@ -130,7 +130,7 @@
         "market",
         "museum",
         "park",
-        "theatre"
+        "theater"
       ],
       "c": 0,
       "skill": "vocab"
@@ -579,7 +579,7 @@
       "o": [
         "relative",
         "colleague",
-        "neighbour",
+        "neighbor",
         "stranger"
       ],
       "c": 2,
@@ -590,7 +590,7 @@
       "o": [
         "train",
         "ship",
-        "aeroplane",
+        "airplane",
         "helicopter"
       ],
       "c": 2,
@@ -787,7 +787,7 @@
       "q": "What does 'kat' mean (in a building)?",
       "o": [
         "roof",
-        "floor / storey",
+        "floor / story",
         "basement",
         "lift"
       ],
@@ -1015,7 +1015,7 @@
       "skill": "grammar"
     },
     {
-      "q": "Choose the correct case: 'Putujem u ___.' (I am travelling to Zagreb — direction.)",
+      "q": "Choose the correct case: 'Putujem u ___.' (I am traveling to Zagreb — direction.)",
       "o": [
         "Zagreb",
         "Zagreba",
@@ -1059,7 +1059,7 @@
       "skill": "grammar"
     },
     {
-      "q": "Choose the correct case after 'prema': 'Idemo prema ___.' (We are going towards the centre.)",
+      "q": "Choose the correct case after 'prema': 'Idemo prema ___.' (We are going toward the centre.)",
       "o": [
         "centar",
         "centra",
@@ -1103,7 +1103,7 @@
       "skill": "grammar"
     },
     {
-      "q": "Choose the correct case: 'Putujemo ___.' (We are travelling by train.)",
+      "q": "Choose the correct case: 'Putujemo ___.' (We are traveling by train.)",
       "o": [
         "vlak",
         "vlaka",
@@ -1180,7 +1180,7 @@
       "skill": "grammar"
     },
     {
-      "q": "Choose the correct case after 'sa': 'Putujem ___.' (I am travelling with a friend — masc., 'prijatelj'.)",
+      "q": "Choose the correct case after 'sa': 'Putujem ___.' (I am traveling with a friend — masc., 'prijatelj'.)",
       "o": [
         "prijatelj",
         "prijatelja",
@@ -1532,7 +1532,7 @@
       "o": [
         "Pay for the coffee",
         "Let her know when a time suits her",
-        "Apologise for being late",
+        "Apologize for being late",
         "Bring a friend along"
       ],
       "c": 1,

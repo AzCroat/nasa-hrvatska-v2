@@ -81,7 +81,7 @@ const DATA = [
     q: 'Neutralnom standardu bliže je: „____ oluje otkazani su letovi.”',
     opts: ['Zbog', 'Uslijed', 'Kroz', 'Preko'],
     answer: 'Zbog',
-    en: 'the flights were cancelled because of the storm',
+    en: 'the flights were canceled because of the storm',
     tip: '„Uslijed” je birokratizam — neutralno je zbog.',
   },
   {
@@ -89,7 +89,7 @@ const DATA = [
     q: 'Ostavi rezervni ključ ____ susjede.',
     opts: ['kod', 'pri', 'na', 'pored'],
     answer: 'kod',
-    en: 'leave the spare key with the neighbour',
+    en: 'leave the spare key with the neighbor',
     tip: 'Kod + G = u čijem domu/čuvanju.',
   },
   {

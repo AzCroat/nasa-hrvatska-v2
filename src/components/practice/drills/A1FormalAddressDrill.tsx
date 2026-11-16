@@ -21,7 +21,7 @@ export default function A1FormalAddressDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1formaladdress"
       title="Ti or Vi?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FORMAL_ADDRESS_MODE_LABELS}
       data={FORMAL_ADDRESS_DRILL_DATA}
       praise={{

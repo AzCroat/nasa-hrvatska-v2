@@ -821,7 +821,7 @@ const OBJECTIVE_GENITIVE = {
       items: [
         {
           hr: 'Ljeta smo provodili u kući moga oca, a zime u maminu stanu u Zagrebu.',
-          en: 'We spent summers in my father’s house and winters in Mum’s flat in Zagreb.',
+          en: 'We spent summers in my father’s house and winters in Mom’s flat in Zagreb.',
           note: 'genitive for a modified owner; a possessive adjective for a single one',
         },
         {
@@ -831,7 +831,7 @@ const OBJECTIVE_GENITIVE = {
         },
         {
           hr: 'Za njega je vraćanje duga bilo pitanje časti, a ne novca.',
-          en: 'For him repaying the debt was a matter of honour, not money.',
+          en: 'For him repaying the debt was a matter of honor, not money.',
           note: 'explanatory genitive: pitanje časti',
         },
         {
@@ -1811,7 +1811,7 @@ export const PRACTICE = {
           explanation: 'Subjective genitive: cijene padaju.',
         },
         {
-          q: 'Complete: "To je auto ___." (our neighbour’s)',
+          q: 'Complete: "To je auto ___." (our neighbor’s)',
           options: ['naš susjed', 'našeg susjeda', 'našem susjedu', 'našeg susjedov'],
           correct: 1,
           hint: 'An owner with a pronoun of its own goes after the noun in the possessive case.',
@@ -1854,7 +1854,7 @@ export const PRACTICE = {
             'says what the question consists of',
           ],
           correct: 3,
-          hint: 'A matter of honour: the matter IS honour.',
+          hint: 'A matter of honor: the matter IS honor.',
           explanation: 'An explanatory genitive: it says what the matter is about.',
         },
         {
@@ -1933,7 +1933,7 @@ export const PRACTICE = {
       ['dolazak', 'arrival', 'Čekamo dolazak gostiju iz Kanade.'],
       ['osvajanje', 'conquest, reaching (a summit)', 'Osvajanje vrha trajalo je cijeli dan.'],
       ['pad', 'fall, drop', 'Pad cijena iznenadio je sve.'],
-      ['čast', 'honour', 'To mu je bilo pitanje časti.'],
+      ['čast', 'honor', 'To mu je bilo pitanje časti.'],
       ['strpljenje', 'patience', 'Djed je bio čovjek velikog strpljenja.'],
     ],
   },

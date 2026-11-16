@@ -21,7 +21,7 @@ export default function B1NounsEnEtDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1nounsenet"
       title="Ime, imena; dijete, djeteta — Neuter Nouns That Grow"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NOUNS_EN_ET_MODE_LABELS}
       data={NOUNS_EN_ET_DRILL_DATA}
       praise={{

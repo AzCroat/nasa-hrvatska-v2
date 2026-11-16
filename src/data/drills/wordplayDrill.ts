@@ -217,7 +217,7 @@ export const WORDPLAY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Is missing a joke unusual at C2?',
     opts: ['ne, posve je normalno', 'da', 'samo za odrasle učenike', 'samo u govoru'],
     answer: 'ne, posve je normalno',
-    tip: 'The lesson says so, and the achievable goal is recognising the device.',
+    tip: 'The lesson says so, and the achievable goal is recognizing the device.',
   },
   {
     mode: 'registar',

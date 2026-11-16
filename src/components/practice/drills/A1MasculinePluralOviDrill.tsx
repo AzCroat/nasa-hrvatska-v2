@@ -21,7 +21,7 @@ export default function A1MasculinePluralOviDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1masculinepluralovi"
       title="Short Nouns, Long Plurals"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={MASCULINE_PLURAL_OVI_MODE_LABELS}
       data={MASCULINE_PLURAL_OVI_DRILL_DATA}
       praise={{

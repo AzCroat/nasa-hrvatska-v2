@@ -847,13 +847,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Key Words',
-        body: 'volontirati (to volunteer) is an -irati verb: volontiram, volontiraš, volontiraju. The person is a volonter (a man) or a volonterka (a woman), and the work is volontiranje. Most volunteering is organised by an udruga (an association, a non-profit) or as a humanitarna akcija (a charity drive). Volontiram u udruzi za zaštitu životinja. (I volunteer at an animal-protection association.) Notice u udruzi: g becomes z before the -i of the locative.',
+        body: 'volontirati (to volunteer) is an -irati verb: volontiram, volontiraš, volontiraju. The person is a volonter (a man) or a volonterka (a woman), and the work is volontiranje. Most volunteering is organized by an udruga (an association, a non-profit) or as a humanitarna akcija (a charity drive). Volontiram u udruzi za zaštitu životinja. (I volunteer at an animal-protection association.) Notice u udruzi: g becomes z before the -i of the locative.',
         highlight: 'volontiram u udruzi',
       },
       {
         type: 'rule',
         title: 'Helping: pomagati + Dative',
-        body: 'To help someone is pomagati (imperfective) or pomoći (perfective), and the person you help goes in the dative, the "to whom" case: Pomažem djeci. (I help children.) Pomažemo ljudima u potrebi. (We help people in need.) Pomogla sam susjedi. (I helped my neighbour.) Pomagati drugima — to help others — is the phrase you will hear most.',
+        body: 'To help someone is pomagati (imperfective) or pomoći (perfective), and the person you help goes in the dative, the "to whom" case: Pomažem djeci. (I help children.) Pomažemo ljudima u potrebi. (We help people in need.) Pomogla sam susjedi. (I helped my neighbor.) Pomagati drugima — to help others — is the phrase you will hear most.',
         highlight: 'Pomažemo ljudima u potrebi.',
       },
       {
@@ -1379,7 +1379,7 @@ export const LESSONS = [
           },
           {
             hr: 'Dajem poklon našem malom susjedu.',
-            en: 'I am giving a present to our little neighbour.',
+            en: 'I am giving a present to our little neighbor.',
             note: 'našem and malom: masculine dative',
           },
           {
@@ -1410,7 +1410,7 @@ export const LESSONS = [
           },
           {
             hr: 'Idem prema glavnom trgu.',
-            en: 'I am walking towards the main square.',
+            en: 'I am walking toward the main square.',
             note: 'prema takes the dative: glavnom',
           },
           {
@@ -2293,7 +2293,7 @@ export const PRACTICE = {
         explanation: 'brat is on, so volontira.',
       },
       {
-        q: 'Complete: "Ana pomaže ___." (her neighbour — susjeda)',
+        q: 'Complete: "Ana pomaže ___." (her neighbor — susjeda)',
         options: ['susjeda', 'susjedu', 'susjedi', 'susjedom'],
         correct: 2,
         explanation: 'pomagati takes the dative: susjeda → susjedi.',
@@ -2732,9 +2732,9 @@ export const PRACTICE = {
       ['vjerovati', 'to trust, to believe', 'Vjerujem svom liječniku.'],
       ['poklon', 'present, gift', 'Dajem poklon bratu.'],
       ['gost', 'guest', 'Pokazali smo grad našim gostima.'],
-      ['susjed', 'neighbour', 'Pomažem starom susjedu.'],
+      ['susjed', 'neighbor', 'Pomažem starom susjedu.'],
       ['ljubazan', 'kind', 'Ona je ljubazna žena.'],
-      ['prema', 'towards', 'Idem prema glavnom trgu.'],
+      ['prema', 'toward', 'Idem prema glavnom trgu.'],
       ['cvijeće', 'flowers', 'Kupio sam cvijeće majci.'],
       ['kolega', 'colleague', 'Odgovorio sam novom kolegi.'],
     ],

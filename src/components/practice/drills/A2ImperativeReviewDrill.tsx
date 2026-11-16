@@ -21,7 +21,7 @@ export default function A2ImperativeReviewDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2imperativereview"
       title="Commands Revisited: Daj mi ga!"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={IMPERATIVE_REVIEW_MODE_LABELS}
       data={IMPERATIVE_REVIEW_DRILL_DATA}
       praise={{

@@ -135,7 +135,7 @@ export const AGREEMENT_SPECIAL_NOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'varalica',
     q: 'Moja susjeda je bila ____, ali se promijenila.',
-    en: 'My neighbour (a woman) used to be a drunkard, but she changed.',
+    en: 'My neighbor (a woman) used to be a drunkard, but she changed.',
     opts: ['pijanica', 'pijanicu', 'pijanice', 'pijanicama'],
     answer: 'pijanica',
     tip: 'After bila the nominative.',

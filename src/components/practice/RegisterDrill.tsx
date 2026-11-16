@@ -222,7 +222,7 @@ export default function RegisterDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Register mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — register takes time!',
+        more: 'Keep practicing — register takes time!',
       }}
       goBack={goBack}
       award={award}

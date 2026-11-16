@@ -317,7 +317,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'The Most Productive Mechanism in the Language',
-        body: 'Until now, napisati, prepisati, potpisati, opisati and upisati have looked like five separate words to memorise. They are one verb — pisati — with five prefixes. Once you can read a prefix, your vocabulary stops growing one word at a time and starts growing one ROOT at a time.',
+        body: 'Until now, napisati, prepisati, potpisati, opisati and upisati have looked like five separate words to memorize. They are one verb — pisati — with five prefixes. Once you can read a prefix, your vocabulary stops growing one word at a time and starts growing one ROOT at a time.',
         icon: '🧩',
       },
       {
@@ -1370,7 +1370,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Dok je mama kuhala, tata je postavljao stol.',
-            en: 'While Mum was cooking, Dad was laying the table.',
+            en: 'While Mom was cooking, Dad was laying the table.',
             note: 'dok + two imperfectives — two things going on at once',
           },
           {
@@ -2101,7 +2101,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Susjeda je pitala jesmo li vidjeli njezinu mačku.',
-            en: 'The neighbour asked whether we had seen her cat.',
+            en: 'The neighbor asked whether we had seen her cat.',
             note: 'a yes/no question keeps its li: jesmo li',
           },
           {
@@ -2126,7 +2126,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Mama mi je rekla da ne zaboravim ključeve.',
-            en: 'Mum told me not to forget the keys.',
+            en: 'Mom told me not to forget the keys.',
             note: 'a negative request: da ne + present',
           },
         ],
@@ -3527,7 +3527,7 @@ export const LESSONS_B1 = [
           ['garsonijera', 'studio flat'],
           ['dvosoban stan', 'two-room flat'],
           ['namješten / nenamješten', 'furnished / unfurnished'],
-          ['kvadrata (m²)', 'square metres'],
+          ['kvadrata (m²)', 'square meters'],
           ['najamnina', 'rent'],
           ['režije', 'utilities'],
           ['polog / jamčevina', 'deposit'],
@@ -3611,7 +3611,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Stan ima četrdeset pet kvadrata i veliki balkon.',
-            en: 'The flat has forty-five square metres and a big balcony.',
+            en: 'The flat has forty-five square meters and a big balcony.',
             note: 'kvadrata — genitive plural after a number',
           },
           {
@@ -3912,7 +3912,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Bio sam zadužen za organizaciju sastanaka i putovanja.',
-            en: 'I was responsible for organising meetings and travel.',
+            en: 'I was responsible for organizing meetings and travel.',
             note: 'bio sam + participle agreeing with a male writer',
           },
         ],
@@ -4334,7 +4334,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Prijaviti Se and Odjaviti Se',
-        body: 'Two reflexive verbs you will meet on every screen. "Prijaviti se" is to log in or to register; "odjaviti se" is to log out. Note the prefixes doing exactly what the prefix lesson described: pri- towards, od- away from. Prijavi se na stranicu. Odjavio sam se.',
+        body: 'Two reflexive verbs you will meet on every screen. "Prijaviti se" is to log in or to register; "odjaviti se" is to log out. Note the prefixes doing exactly what the prefix lesson described: pri- toward, od- away from. Prijavi se na stranicu. Odjavio sam se.',
         highlight: 'prijaviti se / odjaviti se',
       },
       {
@@ -4444,7 +4444,7 @@ export const LESSONS_B1 = [
         options: ['odjaviti se', 'prijaviti se', 'preuzeti', 'spremiti'],
         correct: 1,
         explanation:
-          '"Prijaviti se" is to log in or register, with pri- meaning towards; "odjaviti se" with od- is to log out. "Preuzeti" is download and "spremiti" is save.',
+          '"Prijaviti se" is to log in or register, with pri- meaning toward; "odjaviti se" with od- is to log out. "Preuzeti" is download and "spremiti" is save.',
       },
       {
         type: 'rule',
@@ -4475,7 +4475,7 @@ export const LESSONS_B1 = [
             options: ['odjaviti', 'prijaviti', 'preuzeti', 'spremiti'],
             correct: 1,
             explanation:
-              'Logging in is prijaviti se — pri- towards. Odjaviti se is to log out, and the other two are not reflexive at all.',
+              'Logging in is prijaviti se — pri- toward. Odjaviti se is to log out, and the other two are not reflexive at all.',
           },
           {
             q: 'Which is the standard written word for "computer"?',
@@ -4700,7 +4700,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Treating jezera as singular: Plitvička jezera je is wrong — jezera is neuter plural, so the verb is su, Plitvička jezera su. (2) Mixing up the winds: bura is the cold north-easterly and jugo the warm southerly; saying puše jugo when the ferries are cancelled for a cold, dry wind will confuse a local. (3) The locative after a verb of motion: idemo na plaži says you are already there — going to the beach is idemo na plažu.',
+        body: '(1) Treating jezera as singular: Plitvička jezera je is wrong — jezera is neuter plural, so the verb is su, Plitvička jezera su. (2) Mixing up the winds: bura is the cold north-easterly and jugo the warm southerly; saying puše jugo when the ferries are canceled for a cold, dry wind will confuse a local. (3) The locative after a verb of motion: idemo na plaži says you are already there — going to the beach is idemo na plažu.',
         highlight: 'Plitvička jezera su',
       },
       {
@@ -4726,7 +4726,7 @@ export const LESSONS_B1 = [
             options: ['plaža', 'plaži', 'plažu', 'plažom'],
             correct: 2,
             explanation:
-              '"Ići na" is motion towards, so the destination is accusative: na plažu. "Na plaži" is the locative — where you already are.',
+              '"Ići na" is motion toward, so the destination is accusative: na plažu. "Na plaži" is the locative — where you already are.',
           },
           {
             q: 'Spot the error: "Trebamo zaštititi okoliša."',

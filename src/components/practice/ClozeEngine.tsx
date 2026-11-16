@@ -300,7 +300,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Boja njezine haljine je plava.',
     blank: 'haljine',
     options: ['haljine', 'haljina', 'haljinu', 'haljini'],
-    translation: 'The colour of her dress is blue.',
+    translation: 'The color of her dress is blue.',
     hint: 'Genitive — possession (of the dress)',
   },
   {
@@ -363,7 +363,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Putujem vlakom do Rijeke.',
     blank: 'vlakom',
     options: ['vlakom', 'vlak', 'vlaka', 'vlaku'],
-    translation: 'I am travelling by train to Rijeka.',
+    translation: 'I am traveling by train to Rijeka.',
     hint: 'Instrumental — means of transport',
     cat: 'instrumental',
   },

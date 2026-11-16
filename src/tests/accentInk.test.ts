@@ -1,5 +1,5 @@
 /**
- * accentInk — a per-item accent colour made safe to paint TEXT with in either theme.
+ * accentInk — a per-item accent color made safe to paint TEXT with in either theme.
  *
  * WHAT THIS PINS AND WHY EACH CLAUSE EARNED ITS PLACE:
  *
@@ -8,7 +8,7 @@
  *    cannot move. That is a BROWSER fact, not a source fact, so it is asserted in
  *    `e2e/dark-mode-ink.spec.js` against a real engine; here we pin the expression that
  *    makes it true, including `in srgb` — `in oklab` computes to `oklab(...)` and `#333`
- *    at 0% comes back with non-zero a/b, i.e. off pure grey.
+ *    at 0% comes back with non-zero a/b, i.e. off pure gray.
  *  - THE TWO PASS-THROUGHS ARE LOAD-BEARING, not defensive padding. A `var(--…)` input
  *    arrives from `ConstellationData`'s `ink` field through the same prop a raw accent
  *    would, and a falsy input arrives at the `||` sites, where a truthy invalid mix would
@@ -50,14 +50,14 @@ describe('accentInk', () => {
 
   it('passes a theme token through untouched', () => {
     // ConstellationData gives each case an `ink` field that is already a token; lifting it
-    // would wash out a colour the theme had already chosen for dark mode.
+    // would wash out a color the theme had already chosen for dark mode.
     expect(accentInk('var(--ink-accent)')).toBe('var(--ink-accent)');
     expect(accentInk('  var(--ink-red)  ')).toBe('  var(--ink-red)  ');
   });
 
   it('passes a falsy value through so a || fallback still fires', () => {
     // `accentInk(k.color) || 'var(--ink-strong)'` must fall back when k.color is absent.
-    // A mix built on `undefined` would be a TRUTHY string holding an invalid colour, so
+    // A mix built on `undefined` would be a TRUTHY string holding an invalid color, so
     // the fallback would never run and the element would inherit instead.
     expect(accentInk(undefined)).toBeUndefined();
     expect(accentInk(null)).toBeNull();
@@ -142,7 +142,7 @@ describe('inkSafeOnLight', () => {
     expect(Math.abs(g! / b! - 163 / 74)).toBeLessThan(0.1);
   });
 
-  it('passes an unparseable colour through unchanged', () => {
+  it('passes an unparseable color through unchanged', () => {
     expect(inkSafeOnLight('rebeccapurple')).toBe('rebeccapurple');
     expect(inkSafeOnLight('hsl(120 50% 50%)')).toBe('hsl(120 50% 50%)');
   });

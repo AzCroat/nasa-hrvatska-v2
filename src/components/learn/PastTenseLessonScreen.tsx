@@ -546,7 +546,7 @@ export default function PastTenseLessonScreen({
                   {score} / {total}
                 </div>
                 <div style={{ fontSize: 14, color: 'var(--subtext)', marginBottom: 16 }}>
-                  {pct}% — {pass ? 'Odlično!' : 'Keep practising!'}
+                  {pct}% — {pass ? 'Odlično!' : 'Keep practicing!'}
                 </div>
                 {pass && (
                   <div

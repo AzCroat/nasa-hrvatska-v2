@@ -51,7 +51,7 @@ export const NATURE_DRILL_DATA: ModeDrillItem[] = [
     mode: 'krajolik',
     q: 'Što je "uvala"?',
     en: 'What is an uvala?',
-    opts: ['cove, bay', 'cliff', 'harbour', 'peninsula'],
+    opts: ['cove, bay', 'cliff', 'harbor', 'peninsula'],
     answer: 'cove, bay',
     tip: 'The small sheltered bay every island is full of.',
   },

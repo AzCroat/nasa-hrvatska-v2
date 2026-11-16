@@ -189,7 +189,7 @@ export default function NegationGenDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Genitive of negation mastered! 🏆',
         good: 'Great feel for negation! 💪',
-        more: 'Keep practising — this rule is tricky but crucial!',
+        more: 'Keep practicing — this rule is tricky but crucial!',
       }}
       goBack={goBack}
       award={award}

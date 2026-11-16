@@ -84,7 +84,7 @@ export const SPONTANEOUS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Why does that work?',
     opts: ['univerzalno je i kupuje vrijeme', 'laska sugovorniku', 'mijenja temu', 'ne djeluje'],
     answer: 'univerzalno je i kupuje vrijeme',
-    tip: 'Universally recognised as a delaying move, and universally tolerated.',
+    tip: 'Universally recognized as a delaying move, and universally tolerated.',
   },
   {
     mode: 'postapalice',
@@ -171,7 +171,7 @@ export const SPONTANEOUS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does repairing aloud achieve?',
     opts: ['zvuči kao preciznost', 'kupuje vrijeme', 'skriva pogrešku', 'ništa'],
     answer: 'zvuči kao preciznost',
-    tip: 'Which is why practised speakers repair rather than restart.',
+    tip: 'Which is why practiced speakers repair rather than restart.',
   },
 
   // ── struktura ─────────────────────────────────────────────────────────────

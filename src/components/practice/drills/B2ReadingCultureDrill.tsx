@@ -21,7 +21,7 @@ export default function B2ReadingCultureDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2readingculture"
       title="Tko čita, ne skita"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={READING_CULTURE_MODE_LABELS}
       data={READING_CULTURE_DRILL_DATA}
       praise={{

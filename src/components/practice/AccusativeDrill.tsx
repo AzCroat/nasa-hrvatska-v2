@@ -203,7 +203,7 @@ const DATA = [
     q: 'Pozivam ___ na zabavu.',
     opts: ['susjeda', 'susjed', 'susjedu', 'susjedom'],
     answer: 'susjeda',
-    en: "I'm inviting the neighbour to the party.",
+    en: "I'm inviting the neighbor to the party.",
     tip: 'Animate masc accusative = genitive: susjed → susjeda.',
   },
   {
@@ -375,7 +375,7 @@ export default function AccusativeDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Accusative mastered!',
         good: 'Great work! Accusative is essential for direct objects!',
-        more: 'Keep practising — accusative marks the direct object of most verbs.',
+        more: 'Keep practicing — accusative marks the direct object of most verbs.',
       }}
       goBack={goBack}
       award={award}

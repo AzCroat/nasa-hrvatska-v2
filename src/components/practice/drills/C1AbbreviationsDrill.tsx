@@ -21,7 +21,7 @@ export default function C1AbbreviationsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1abbreviations"
       title="npr., HNK-a, 5 km"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ABBREVIATIONS_MODE_LABELS}
       data={ABBREVIATIONS_DRILL_DATA}
       praise={{

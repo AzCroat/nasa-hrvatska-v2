@@ -21,7 +21,7 @@ export default function C1EthicalDativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1ethicaldative"
       title="The Ethical Dative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ETHICAL_DATIVE_MODE_LABELS}
       data={ETHICAL_DATIVE_DRILL_DATA}
       praise={{

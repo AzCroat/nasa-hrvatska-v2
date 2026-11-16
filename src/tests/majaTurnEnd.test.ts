@@ -196,7 +196,7 @@ describe('and the third screen with the same shape: Speaking Sprint', () => {
   });
 
   it('still submits what it has once the restart budget is spent', () => {
-    // The old terminal behaviour is preserved deliberately: after the cap, a
+    // The old terminal behavior is preserved deliberately: after the cap, a
     // service-ended session hands over the answer rather than dropping it.
     const end = SRC.slice(
       SRC.indexOf('rec.onend = () => {'),

@@ -155,7 +155,7 @@ export default function PassiveDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Passive voice mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — passive takes time!',
+        more: 'Keep practicing — passive takes time!',
       }}
       goBack={goBack}
       award={award}

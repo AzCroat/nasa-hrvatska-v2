@@ -234,7 +234,7 @@ const L_INSTRUMENTAL_PLACE = {
         },
         {
           hr: 'Vozimo se obalom prema Splitu.',
-          en: 'We drive along the coast towards Split.',
+          en: 'We drive along the coast toward Split.',
           note: 'obala → obalom',
         },
       ],
@@ -671,7 +671,7 @@ const L_INSTRUMENTAL_PRONOUNS = {
         },
         {
           hr: 'Mama je u parku s djetetom.',
-          en: 'Mum is in the park with the child.',
+          en: 'Mom is in the park with the child.',
           note: 'dijete → s djetetom',
         },
         {
@@ -1052,7 +1052,7 @@ const L_GENITIVE_PARTITIVE = {
         },
         {
           hr: 'Mama stavlja malo šećera u čaj.',
-          en: 'Mum puts a little sugar in the tea.',
+          en: 'Mom puts a little sugar in the tea.',
           note: 'malo + genitive',
         },
       ],
@@ -1790,7 +1790,7 @@ const L_GENITIVE_PREPOSITIONS = {
       rows: [
         ['iz', 'out of, from (a place)', 'iz Zagreba', 'from Zagreb'],
         ['s / sa', 'from (a "na" place)', 's posla', 'from work'],
-        ['od', 'from (a person)', 'od mame', 'from Mum'],
+        ['od', 'from (a person)', 'od mame', 'from Mom'],
         ['do', 'to, as far as, until', 'do centra', 'to the centre'],
         ['kod', "at someone's place", 'kod bake', "at Grandma's"],
         ['bez', 'without', 'bez šećera', 'without sugar'],
@@ -1808,7 +1808,7 @@ const L_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Od: From a Person',
-      body: 'Iz is for places; od is for people: Pismo je od mame (the letter is from Mum). Poklon od prijatelja (a present from a friend). Od also starts a stretch of time or space that do finishes: od ponedjeljka do petka (from Monday to Friday), od kuće do posla (from home to work).',
+      body: 'Iz is for places; od is for people: Pismo je od mame (the letter is from Mom). Poklon od prijatelja (a present from a friend). Od also starts a stretch of time or space that do finishes: od ponedjeljka do petka (from Monday to Friday), od kuće do posla (from home to work).',
       highlight: 'od mame',
     },
     {

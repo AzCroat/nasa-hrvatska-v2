@@ -84,7 +84,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gdje',
     q: 'Mama je u ____.',
-    en: 'Mum is in the kitchen.',
+    en: 'Mom is in the kitchen.',
     opts: ['kuhinji', 'kuhinju', 'kuhinja', 'kuhinje'],
     answer: 'kuhinji',
     tip: 'Being there: locative, feminine -a → -i.',

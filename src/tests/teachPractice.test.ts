@@ -2,7 +2,7 @@
 //
 // Teach → practice coupling (recommender audit, 2026-08-20).
 //
-// The behaviour under test is the audit's systemic finding: finishing a lesson
+// The behavior under test is the audit's systemic finding: finishing a lesson
 // used to change nothing about the next session. These tests pin the full loop —
 // lesson queues a category, session claims a slot for it, practice clears it —
 // plus the two properties that keep it from becoming noise: entries expire, and
@@ -39,7 +39,7 @@ describe('the taught queue', () => {
   // teachPractice.ts happened to give. It went stale on 2026-08-30 when the
   // drill for it shipped, which is the FOURTH time a hardcoded fixture in this
   // block has gone red for a correct change. The derived assertion below covers
-  // the same behaviour over every uncovered lesson rather than one, so the
+  // the same behavior over every uncovered lesson rather than one, so the
   // hardcoded one bought nothing but a maintenance trap and is gone.
 
   it('ignores EVERY lesson the map does not cover', () => {
@@ -55,7 +55,7 @@ describe('the taught queue', () => {
     // made the map TOTAL over the curriculum, so there is no uncovered lesson
     // left to feed in and a loop over an empty list asserts nothing.
     //
-    // The BEHAVIOUR is still real — an id the map does not cover must queue
+    // The BEHAVIOR is still real — an id the map does not cover must queue
     // nothing — so it is exercised with a synthetic id rather than deleted.
     // That is not the hand-picked fixture removed above: it is chosen BECAUSE
     // no lesson can ever be called that, so unlike a real lesson name it cannot
@@ -81,7 +81,7 @@ describe('the taught queue', () => {
     }
   });
 
-  it('practising the category clears it', () => {
+  it('practicing the category clears it', () => {
     recordLessonTaught('present-tense-verbs');
     recordCategoryPractised('present-tense');
     expect(pendingTaughtCategories()).toEqual([]);
@@ -159,7 +159,7 @@ describe('taughtAgeDays — the age the reason line needs', () => {
     expect(taughtAgeDays('genitive', now)).toBeNull();
   });
 
-  it('is null after the coupling is cleared by practising', () => {
+  it('is null after the coupling is cleared by practicing', () => {
     const now = Date.now();
     recordLessonTaught('genitive-intro', now);
     recordCategoryPractised('genitive', now);

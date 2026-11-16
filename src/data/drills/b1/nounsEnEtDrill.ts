@@ -189,7 +189,7 @@ export const NOUNS_EN_ET_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'U stara ____ ljudi su putovali pješice.',
-    en: 'In the old days people travelled on foot.',
+    en: 'In the old days people traveled on foot.',
     opts: ['vremena', 'vrijemena', 'vremenu', 'vrijeme'],
     answer: 'vremena',
     tip: 'Plural vremena, with ije shortened to je.',

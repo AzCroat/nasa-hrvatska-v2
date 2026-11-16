@@ -44,7 +44,7 @@ export const SPINE = [
     prerequisites: ['coordinate-clauses'],
     objectives: [
       'Talk about shopping habits, discounts and consumer fever',
-      'Recognise the persuasive language of advertising',
+      'Recognize the persuasive language of advertising',
       'Tell colloquial shopping words from their standard equivalents',
     ],
   },
@@ -65,7 +65,7 @@ export const SPINE = [
     objectives: [
       'Talk about film and music festivals in Croatia and Europe',
       'Know the Zagreb School of Animated Film and its Oscar',
-      'Recognise dialect words in Croatian films and say what they mean',
+      'Recognize dialect words in Croatian films and say what they mean',
     ],
   },
 ];
@@ -1036,7 +1036,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Kao u filmu',
-        body: 'Croatia has a small film industry with an outsized place in one art in particular: animation. This lesson tells the story of the Zagreb School of Animated Film and its Oscar, walks through the festivals where Croatians watch films and hear music, looks at music as therapy, and teaches you to recognise the dialect words that characters use on screen.',
+        body: 'Croatia has a small film industry with an outsized place in one art in particular: animation. This lesson tells the story of the Zagreb School of Animated Film and its Oscar, walks through the festivals where Croatians watch films and hear music, looks at music as therapy, and teaches you to recognize the dialect words that characters use on screen.',
         icon: '🎬',
       },
       {
@@ -1089,7 +1089,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Dialect in Films',
-        body: 'Croatian films often let characters speak their own dialect, because it tells you at once where they are from. In Tko pjeva zlo ne misli (1970, directed by Krešo Golik), set in 1930s Zagreb, the family speaks with a kajkavian flavour; films set in Dalmatia are full of fjaka and đir. These words are dialect, not standard Croatian: understand them, enjoy them, and use the standard word when you write.',
+        body: 'Croatian films often let characters speak their own dialect, because it tells you at once where they are from. In Tko pjeva zlo ne misli (1970, directed by Krešo Golik), set in 1930s Zagreb, the family speaks with a kajkavian flavor; films set in Dalmatia are full of fjaka and đir. These words are dialect, not standard Croatian: understand them, enjoy them, and use the standard word when you write.',
         highlight: 'Tko pjeva zlo ne misli',
       },
       {
@@ -1139,7 +1139,7 @@ export const LESSONS = [
           },
           {
             hr: 'Film smo gledali u kinu, a poslije smo o njemu pričali do ponoći.',
-            en: 'We watched the film at the cinema, and afterwards we talked about it until midnight.',
+            en: 'We watched the film at the cinema, and afterward we talked about it until midnight.',
             note: 'u kinu — at the cinema takes u',
           },
           {
@@ -1233,7 +1233,7 @@ export const LESSONS = [
             q: 'Where is the Pula Film Festival held?',
             options: [
               'in a modern cinema',
-              'in a theatre in Zagreb',
+              'in a theater in Zagreb',
               'in the Roman amphitheatre, the Arena',
               'on a ship',
             ],
@@ -1719,7 +1719,7 @@ export const PRACTICE = {
       {
         title: 'Reading an Advert',
         problem: 'Analiziraj: "Iskoristite priliku! Najbolje cijene u gradu — samo danas!"',
-        en: 'Analyse: Seize the chance! The best prices in town — today only!',
+        en: 'Analyze: Seize the chance! The best prices in town — today only!',
         steps: [
           {
             label: 'Iskoristite',

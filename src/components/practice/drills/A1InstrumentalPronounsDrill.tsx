@@ -21,7 +21,7 @@ export default function A1InstrumentalPronounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1instrumentalpronouns"
       title="With Me, With You"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INSTRUMENTAL_PRONOUNS_MODE_LABELS}
       data={INSTRUMENTAL_PRONOUNS_DRILL_DATA}
       praise={{

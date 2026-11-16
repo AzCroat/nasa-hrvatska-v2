@@ -132,7 +132,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
     en: 'I have a blue T-shirt.',
     opts: ['plavu', 'plava', 'plavi', 'plavo'],
     answer: 'plavu',
-    tip: 'Colours agree like any adjective, and majicu is accusative.',
+    tip: 'Colors agree like any adjective, and majicu is accusative.',
   },
   {
     mode: 'slaganje',
@@ -145,7 +145,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slaganje',
     q: 'Kupila je ____ traperice. (siv)',
-    en: 'She bought grey jeans.',
+    en: 'She bought gray jeans.',
     opts: ['sive', 'sivu', 'sivi', 'sivo'],
     answer: 'sive',
     tip: 'Traperice are plural, so sive.',
@@ -223,8 +223,8 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'ducan',
-    q: 'Tražim drugu ____. (colour)',
-    en: 'I am looking for another colour.',
+    q: 'Tražim drugu ____. (color)',
+    en: 'I am looking for another color.',
     opts: ['boju', 'boja', 'boje', 'bojom'],
     answer: 'boju',
     tip: 'Tražiti takes the accusative: tražim drugu boju.',

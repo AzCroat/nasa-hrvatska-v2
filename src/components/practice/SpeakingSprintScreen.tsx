@@ -108,7 +108,7 @@ const PROMPTS = {
     },
     {
       hr: 'Koji je tvoj omiljeni film?',
-      en: 'What is your favourite film?',
+      en: 'What is your favorite film?',
       model_response:
         'Moj omiljeni film je "Tko pjeva zlo ne misli". To je stara hrvatska komedija, jako smiješna.',
     },

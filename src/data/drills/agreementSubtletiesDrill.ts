@@ -116,7 +116,7 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'dvapet',
     q: 'Gdje je granica?',
-    en: 'Where does the behaviour change?',
+    en: 'Where does the behavior change?',
     opts: ['između četiri i pet', 'između dva i tri', 'između pet i šest', 'nema granice'],
     answer: 'između četiri i pet',
     tip: 'Four is the last of the old dual; five begins the quantities.',
@@ -143,7 +143,7 @@ export const AGREEMENT_SUBTLETIES_DRILL_DATA: ModeDrillItem[] = [
     en: 'Twenty-two people were present.',
     opts: ['su', 'je', 'jesu', 'bilo'],
     answer: 'su',
-    tip: 'The behaviour follows the LAST WORD of the numeral — dvadeset i dva ends in dva.',
+    tip: 'The behavior follows the LAST WORD of the numeral — dvadeset i dva ends in dva.',
   },
   {
     mode: 'dvapet',

@@ -27,10 +27,10 @@ export const GIVING_AND_SENDING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'komu',
     q: 'Dajem ____ cvijeće.',
-    en: 'I give mum flowers.',
+    en: 'I give mom flowers.',
     opts: ['mami', 'mamu', 'mama', 'mame'],
     answer: 'mami',
-    tip: 'Mum receives, so she is the dative. Mamu would make her the thing given.',
+    tip: 'Mom receives, so she is the dative. Mamu would make her the thing given.',
   },
   {
     mode: 'komu',
@@ -117,7 +117,7 @@ export const GIVING_AND_SENDING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenice',
     q: 'Mama ____ daje novac.',
-    en: 'Mum gives me money.',
+    en: 'Mom gives me money.',
     opts: ['mi', 'me', 'ja', 'moj'],
     answer: 'mi',
     tip: 'to me → mi, in second place.',

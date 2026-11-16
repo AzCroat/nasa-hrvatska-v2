@@ -21,7 +21,7 @@ export default function B1VerbsPeciStiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1verbspecisti"
       title="Peći, pečem; krasti, kradem — Verbs With a Hidden Consonant"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_PECI_STI_MODE_LABELS}
       data={VERBS_PECI_STI_DRILL_DATA}
       praise={{

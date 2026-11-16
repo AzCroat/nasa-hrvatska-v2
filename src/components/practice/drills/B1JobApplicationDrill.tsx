@@ -21,7 +21,7 @@ export default function B1JobApplicationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1jobapplication"
       title="Prijava na natječaj — Writing a Job Application"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={JOB_APPLICATION_MODE_LABELS}
       data={JOB_APPLICATION_DRILL_DATA}
       praise={{

@@ -48,7 +48,7 @@ const entry = {
   parts: [
     { heading: 'The village', text: 'Your family kept bees on the plain.' },
     { heading: 'The crossing', text: 'They sailed in the spring of 1904.' },
-    { heading: 'The name', text: 'The name survived the harbour clerk.' },
+    { heading: 'The name', text: 'The name survived the harbor clerk.' },
   ],
 };
 
@@ -82,7 +82,7 @@ describe('a saved heritage story comes back', () => {
   });
 
   it('restores the region it was generated for, not the default', () => {
-    // The story phase paints the region's own image and colour; restoring the
+    // The story phase paints the region's own image and color; restoring the
     // story without its region would frame a Slavonian story in Dalmatia.
     localStorage.setItem('heritageStory', JSON.stringify(entry));
     const { container } = render(<HeritageStoryScreen />);

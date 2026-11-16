@@ -11,7 +11,7 @@
  *
  * Strategy: E2E smoke tests verify the error UI does NOT appear on normal
  * navigation (regressions where a bad deploy fires boundaries on initial render).
- * A Vitest unit test in src/tests/ handles the triggered-state behaviour
+ * A Vitest unit test in src/tests/ handles the triggered-state behavior
  * (see ScreenErrorBoundary.test.jsx).
  *
  * All tests use seedAuth + blockFirebase + mockTTS so they are hermetic.

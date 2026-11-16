@@ -29,7 +29,7 @@
       "q": "What does 'susjedstvo' mean?",
       "o": [
         "friendship",
-        "neighbourhood",
+        "neighborhood",
         "relationship",
         "partnership"
       ],
@@ -509,7 +509,7 @@
         "Having a fast computer",
         "Having discipline and a clear schedule",
         "Having a separate room",
-        "Having quiet neighbours"
+        "Having quiet neighbors"
       ],
       "c": 1,
       "skill": "reading",
@@ -831,7 +831,7 @@
       "q": "What does 'ponašanje' mean?",
       "o": [
         "offering",
-        "behaviour",
+        "behavior",
         "repetition",
         "ownership"
       ],
@@ -898,7 +898,7 @@
       "o": [
         "to lead an account",
         "to take care of / pay attention to something",
-        "to do the maths",
+        "to do the math",
         "to keep a diary"
       ],
       "c": 1,
@@ -962,7 +962,7 @@
     {
       "q": "'Sumnjati' means:",
       "o": [
-        "to summarise",
+        "to summarize",
         "to doubt / suspect",
         "to assume",
         "to sum up"
@@ -1191,7 +1191,7 @@
       "skill": "grammar"
     },
     {
-      "q": "Choose the correct case after 'prema' (towards): 'Idemo prema ___.'",
+      "q": "Choose the correct case after 'prema' (toward): 'Idemo prema ___.'",
       "o": [
         "centar",
         "centra",
@@ -1444,7 +1444,7 @@
       "skill": "grammar"
     },
     {
-      "q": "What is the author's main attitude towards remote work in this text?",
+      "q": "What is the author's main attitude toward remote work in this text?",
       "o": [
         "Strongly opposed to it",
         "Balanced — sees clear benefits but also real drawbacks",
@@ -1473,7 +1473,7 @@
         "Remote work is objectively a burden",
         "The same arrangement can be experienced very differently by different people",
         "Colleagues are a burden",
-        "Travelling to work is relaxing"
+        "Traveling to work is relaxing"
       ],
       "c": 1,
       "skill": "reading",
@@ -1483,7 +1483,7 @@
       "q": "Why did Maja eventually change her mind about living in a big city?",
       "o": [
         "She got a better job offer in the village",
-        "She realised the calm and lower costs of a smaller town suited her better",
+        "She realized the calm and lower costs of a smaller town suited her better",
         "Her friends all moved away",
         "The city became too expensive to visit"
       ],
@@ -1579,7 +1579,7 @@
       "q": "What does Goran imply about how he used to perceive Croatian cases?",
       "o": [
         "As logical from the start",
-        "As a set of rules to memorise without understanding",
+        "As a set of rules to memorize without understanding",
         "As unimportant for speaking",
         "As easier than vocabulary"
       ],
@@ -1735,7 +1735,7 @@
       "q": "Listen. What happened while the speaker was cooking?",
       "o": [
         "The power went out",
-        "A neighbour rang the doorbell",
+        "A neighbor rang the doorbell",
         "The phone rang",
         "Something burned"
       ],
@@ -1783,7 +1783,7 @@
       "q": "Listen. What will happen if it rains on Saturday?",
       "o": [
         "The event moves indoors",
-        "The event is cancelled",
+        "The event is canceled",
         "The event moves to Sunday",
         "The event starts earlier"
       ],

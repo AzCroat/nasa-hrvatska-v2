@@ -34,7 +34,7 @@ const CI = readFileSync('.github/workflows/ci.yml', 'utf8');
  * which swallowed anything inserted in between. On 2026-09-09 the Azure Speech
  * install landed there, and its own comment — "it is deliberately not
  * continue-on-error" — failed the not-continue-on-error assertion below. The
- * neighbour was correct and the slice was wrong: a guard must describe ITS
+ * neighbor was correct and the slice was wrong: a guard must describe ITS
  * step, and prose about a rule must not read as a violation of it.
  */
 function stepBody(step) {

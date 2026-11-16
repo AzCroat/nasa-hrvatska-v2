@@ -32,10 +32,10 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kvar',
     q: 'Probušila mi se ____.',
-    en: 'I have a flat tyre.',
+    en: 'I have a flat tire.',
     opts: ['gumu', 'guma', 'gume', 'gumom'],
     answer: 'guma',
-    tip: 'The tyre is the subject — nominative.',
+    tip: 'The tire is the subject — nominative.',
   },
   {
     mode: 'kvar',
@@ -146,7 +146,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
     q: 'What is the part below called in English?',
     lead: 'volan',
     en: 'Choose the English word.',
-    opts: ['the boot', 'the steering wheel', 'the engine', 'the tyre'],
+    opts: ['the boot', 'the steering wheel', 'the engine', 'the tire'],
     answer: 'the steering wheel',
     tip: 'You hold it to steer.',
   },

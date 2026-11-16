@@ -394,7 +394,7 @@ describe('the contrastive carve-out stays honest', () => {
 
   it('every encoding call site passes a field name', () => {
     // The carve-out is field-scoped, so a call site that forgets the field
-    // silently applies the STRICTEST behaviour — which is safe — but one that
+    // silently applies the STRICTEST behavior — which is safe — but one that
     // passes the wrong field would silently apply the loosest. Neither is
     // visible at runtime, so it is asserted here: no bare call survives.
     expect(LINT_SRC).not.toMatch(/findBadInString\(content\)/);

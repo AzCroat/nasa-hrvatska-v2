@@ -107,7 +107,7 @@ export const PREFIXED_VERBS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The waiter came up to our table.',
     opts: ['prišao', 'prošao', 'sišao', 'zašao'],
     answer: 'prišao',
-    tip: 'pri- towards: prići nekome, with the dative.',
+    tip: 'pri- toward: prići nekome, with the dative.',
   },
   {
     mode: 'ici',

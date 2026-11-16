@@ -14,7 +14,7 @@ export const DATA = [
     q: 'Putujemo ___ u Split.',
     opts: ['vlakom', 'vlak', 'vlaka', 'vlaku'],
     answer: 'vlakom',
-    en: 'We are travelling to Split by train.',
+    en: 'We are traveling to Split by train.',
     tip: 'Instrumental of means: vlak + -om → vlakom',
   },
   {
@@ -218,7 +218,7 @@ export const DATA = [
     q: 'Susjed maše ___.',
     opts: ['rukom', 'ruka', 'ruku', 'ruci'],
     answer: 'rukom',
-    en: 'The neighbour waves his hand.',
+    en: 'The neighbor waves his hand.',
     tip: "'Mahati' + instrumental: ruka → rukom.",
   },
   {
@@ -376,7 +376,7 @@ export default function InstrumentalDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Instrumental mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — instrumental will click!',
+        more: 'Keep practicing — instrumental will click!',
       }}
       goBack={goBack}
       award={award}

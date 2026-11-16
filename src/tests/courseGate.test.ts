@@ -67,7 +67,7 @@ describe('courseAhead — the pure rule', () => {
     }
   });
 
-  it('never gates a MODALITY — writing is practised at every level, not taught once at B2', () => {
+  it('never gates a MODALITY — writing is practiced at every level, not taught once at B2', () => {
     const a = courseAhead(UNITS, new Set(UNIT1));
     for (const m of MODALITY_CATEGORIES) expect(a.categories.has(m), m).toBe(false);
     // the real coupling that would otherwise take Guided Writing away from A1

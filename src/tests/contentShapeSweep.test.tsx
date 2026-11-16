@@ -161,7 +161,7 @@ beforeAll(async () => {
   _resetContentHookForTests();
   _resetGrammarHookForTests();
   // Prime BOTH hooks' MODULE-level state once. Every screen rendered
-  // afterwards sees the payloads synchronously, which is the state a returning
+  // afterward sees the payloads synchronously, which is the state a returning
   // learner is actually in — the hooks cache across mounts by design.
   (globalThis as Record<string, unknown>).__sweepCtx = { currentScreen: 'home', stats: {} };
   const { getByTestId } = render(<Probe />);

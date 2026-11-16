@@ -813,7 +813,7 @@ export function friendlyError(msg: string): string {
     return 'An account already exists with this email using a different sign-in method.';
   if (msg.includes('requires-recent-login'))
     return 'Please sign out and sign in again to complete this action.';
-  if (msg.includes('popup-closed-by-user')) return 'Sign-in was cancelled. Please try again.';
+  if (msg.includes('popup-closed-by-user')) return 'Sign-in was canceled. Please try again.';
   if (msg.includes('internal-error')) return 'A server error occurred. Please try again.';
   if (msg.includes('quota-exceeded'))
     return 'Service temporarily unavailable. Please try again later.';

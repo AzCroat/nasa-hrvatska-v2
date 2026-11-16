@@ -21,7 +21,7 @@ export default function A1INounsIntroDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1inounsintro"
       title="Feminine Nouns Without -a"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={I_NOUNS_INTRO_MODE_LABELS}
       data={I_NOUNS_INTRO_DRILL_DATA}
       praise={{

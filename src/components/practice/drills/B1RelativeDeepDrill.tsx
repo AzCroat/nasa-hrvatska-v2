@@ -21,7 +21,7 @@ export default function B1RelativeDeepDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1relativedeep"
       title="čiji, gdje, ono što, što"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={RELATIVE_DEEP_MODE_LABELS}
       data={RELATIVE_DEEP_DRILL_DATA}
       praise={{

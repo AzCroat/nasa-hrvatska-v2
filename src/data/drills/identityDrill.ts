@@ -258,7 +258,7 @@ export const IDENTITY_DRILL_DATA: ModeDrillItem[] = [
       'Trebate više vježbati.',
     ],
     answer: 'Ma odlično govorite!',
-    tip: 'Warm contradiction — the same move the humour lesson taught.',
+    tip: 'Warm contradiction — the same move the humor lesson taught.',
   },
   {
     mode: 'stav',

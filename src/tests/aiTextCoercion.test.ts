@@ -4,7 +4,7 @@
  *
  * THE CRASH: "Objects are not valid as a React child (found: object with keys
  * {hr, en})". /api/explain-error's schema asks for `example` as "one short
- * example sentence in Croatian" — a scalar — while neighbouring prompts in the
+ * example sentence in Croatian" — a scalar — while neighboring prompts in the
  * same app return {hr, en} pairs. A model returning the bilingual shape for the
  * scalar field produces valid JSON that satisfies the TypeScript type (which is
  * a compile-time claim about data this code did not produce) and then kills the

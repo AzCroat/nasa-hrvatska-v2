@@ -20,11 +20,11 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'U Hrvatskoj kava nije piće — kava je društvena ustanova. Kad netko kaže „idemo na kavu", rijetko misli na kofein: misli na sat i pol razgovora, na provjeru svih važnih vijesti iz kvarta i na obred koji se ne smije požurivati. Konobar koji bi gostu donio račun prije nego što ga ovaj zatraži počinio bi ozbiljan prekršaj protiv nepisanih pravila.',
-          en: 'In Croatia, coffee is not a drink — coffee is a social institution. When someone says "let\'s go for a coffee", they rarely mean caffeine: they mean an hour and a half of conversation, a check-up on all the important neighbourhood news, and a ritual that must not be rushed. A waiter who brought a guest the bill before being asked would commit a serious offence against the unwritten rules.',
+          en: 'In Croatia, coffee is not a drink — coffee is a social institution. When someone says "let\'s go for a coffee", they rarely mean caffeine: they mean an hour and a half of conversation, a check-up on all the important neighborhood news, and a ritual that must not be rushed. A waiter who brought a guest the bill before being asked would commit a serious offense against the unwritten rules.',
         },
         {
           hr: 'Stranci se često čude kako netko može dva sata sjediti uz jedan jedini espresso. Odgovor je jednostavan: kava je ovdje najam stola, a stol je pozornica. Na njoj se sklapaju poslovi, dogovaraju vjenčanja, analiziraju utakmice i rješavaju svjetski problemi. Cijena kave zapravo je ulaznica za predstavu koja traje koliko god želite.',
-          en: "Foreigners often marvel at how someone can sit for two hours over a single espresso. The answer is simple: here, the coffee is rent for the table, and the table is a stage. Deals are struck on it, weddings are arranged, matches are analysed and the world's problems are solved. The price of the coffee is really a ticket to a show that lasts as long as you like.",
+          en: "Foreigners often marvel at how someone can sit for two hours over a single espresso. The answer is simple: here, the coffee is rent for the table, and the table is a stage. Deals are struck on it, weddings are arranged, matches are analyzed and the world's problems are solved. The price of the coffee is really a ticket to a show that lasts as long as you like.",
         },
         {
           hr: 'Subotnja špica — jutarnji izlazak na kavu u središte grada — u Zagrebu je gotovo modna revija. Važno je vidjeti i biti viđen. Tko želi razumjeti hrvatsko društvo, ne treba čitati sociološke studije: dovoljno je sjesti na terasu, naručiti kavu i promatrati.',
@@ -34,7 +34,7 @@ export const CULTURE_DEEP_DIVES = {
       vocab: [
         ['ustanova', 'institution'],
         ['obred', 'ritual'],
-        ['prekršaj', 'offence, violation'],
+        ['prekršaj', 'offense, violation'],
         ['nepisana pravila', 'unwritten rules'],
         ['špica', 'peak-hour promenade (Zagreb coffee ritual)'],
       ],
@@ -55,7 +55,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Lako je fjaku proglasiti izgovorom za nerad. No liječnici bi rekli da je riječ o prirodnoj obrani od vrućine, a filozofi da je to mediteranski odgovor na tiraniju produktivnosti. Turisti dolaze zbog mora, a vraćaju se zbog fjake — jer su negdje između rive i konobe otkrili da se život ne mora stalno ubrzavati.',
-          en: 'It is easy to declare fjaka an excuse for idleness. But doctors would say it is a natural defence against the heat, and philosophers that it is the Mediterranean answer to the tyranny of productivity. Tourists come for the sea and return for the fjaka — because somewhere between the seafront and the tavern they discovered that life does not have to keep accelerating.',
+          en: 'It is easy to declare fjaka an excuse for idleness. But doctors would say it is a natural defense against the heat, and philosophers that it is the Mediterranean answer to the tyranny of productivity. Tourists come for the sea and return for the fjaka — because somewhere between the seafront and the tavern they discovered that life does not have to keep accelerating.',
         },
       ],
       vocab: [
@@ -159,11 +159,11 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Većina ljudi tu praksu javno osuđuje, a privatno je koristi bez grižnje savjesti. Nije riječ o klasičnoj korupciji — rijetko se što plaća — nego o mreži usluga koje se pamte i vraćaju. Rođak, kum, susjed i bivši kolega čine mrežu sigurnosti koju država često ne pruža na vrijeme.',
-          en: 'Most people publicly condemn the practice and privately use it without a guilty conscience. This is not classic corruption — money rarely changes hands — but a web of favours that are remembered and returned. A cousin, a godfather, a neighbour and a former colleague form a safety net the state often fails to provide in time.',
+          en: 'Most people publicly condemn the practice and privately use it without a guilty conscience. This is not classic corruption — money rarely changes hands — but a web of favours that are remembered and returned. A cousin, a godfather, a neighbor and a former colleague form a safety net the state often fails to provide in time.',
         },
         {
           hr: 'Stranac koji dođe živjeti u Hrvatsku najprije se ljuti na sustav, a onda shvati da i on ima vezu: susjeda koji radi u općini, frizerku čiji brat popravlja automobile. Trenutak u kojem prvi put kaže „imam vezu" trenutak je u kojem je zapravo postao domaći.',
-          en: 'A foreigner who comes to live in Croatia is first angry at the system, and then realises that he too has a connection: a neighbour who works at the municipality, a hairdresser whose brother repairs cars. The moment he first says "imam vezu" is the moment he has truly become a local.',
+          en: 'A foreigner who comes to live in Croatia is first angry at the system, and then realizes that he too has a connection: a neighbor who works at the municipality, a hairdresser whose brother repairs cars. The moment he first says "imam vezu" is the moment he has truly become a local.',
         },
       ],
       vocab: [
@@ -182,7 +182,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Još prije desetak godina zagrebački je prosinac bio siv i tih. Onda je grad postavio nekoliko kućica s kuhanim vinom oko Zrinjevca — i dogodilo se nešto neočekivano. Advent u Zagrebu tri je puta zaredom proglašen najboljim božićnim sajmom u Europi, a turisti su počeli dolaziti u mjesecu u kojem ih prije nitko nije očekivao.',
-          en: 'Just a decade or so ago, December in Zagreb was grey and quiet. Then the city set up a few huts selling mulled wine around Zrinjevac — and something unexpected happened. Advent in Zagreb was voted the best Christmas market in Europe three years running, and tourists began arriving in a month when no one had previously expected them.',
+          en: 'Just a decade or so ago, December in Zagreb was gray and quiet. Then the city set up a few huts selling mulled wine around Zrinjevac — and something unexpected happened. Advent in Zagreb was voted the best Christmas market in Europe three years running, and tourists began arriving in a month when no one had previously expected them.',
         },
         {
           hr: 'Za Zagrepčane je Advent ipak nešto drugo od sajma. To je mjesec u kojem se poslije posla ne ide kući nego na Trg, u kojem se s kolegama i prijateljima obilaze kućice kao da su postaje na hodočašću, i u kojem je posve normalno stajati na hladnoći sat vremena zbog jedne fritule.',
@@ -217,7 +217,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Gostoprimstvo ima i svoju drugu stranu: gost koji se prebrzo digne od stola vrijeđa, a onaj koji dođe praznih ruku pamti se. Zato se u posjet nosi kava, čokolada ili boca vina, a prije odlaska obvezno se tri puta odbije „još samo jednu" — i onda se ipak popije.',
-          en: 'Hospitality has its other side too: a guest who rises from the table too soon gives offence, and one who arrives empty-handed is remembered. So one brings coffee, chocolate or a bottle of wine to a visit, and before leaving one must refuse "just one more" three times — and then drink it anyway.',
+          en: 'Hospitality has its other side too: a guest who rises from the table too soon gives offense, and one who arrives empty-handed is remembered. So one brings coffee, chocolate or a bottle of wine to a visit, and before leaving one must refuse "just one more" three times — and then drink it anyway.',
         },
       ],
       vocab: [
@@ -400,7 +400,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'U Slavoniji postoji pjesma koja nikada nije dovršena. Bećarac se sastoji od dvostiha koje pjevač izmišlja na licu mjesta, a ostali ih prihvaćaju ili nadmašuju vlastitim. Tema je bilo što: ljubav, vino, susjedova kći, načelnik, cijena pšenice. Pravilo je jedno — stih mora biti duhovit, a najbolje zajedljiv.',
-          en: "In Slavonia there is a song that is never finished. The bećarac consists of couplets the singer improvises on the spot, which the others accept or outdo with their own. The subject is anything: love, wine, the neighbour's daughter, the mayor, the price of wheat. There is one rule — the verse must be witty, and preferably biting.",
+          en: "In Slavonia there is a song that is never finished. The bećarac consists of couplets the singer improvises on the spot, which the others accept or outdo with their own. The subject is anything: love, wine, the neighbor's daughter, the mayor, the price of wheat. There is one rule — the verse must be witty, and preferably biting.",
         },
         {
           hr: 'UNESCO je 2011. uvrstio bećarac na popis nematerijalne kulturne baštine, što je mnoge Slavonce iznenadilo: ono što se pjevalo uz rakiju na svadbama odjednom je postalo svjetsko blago. No upravo u tome jest smisao. Bećarac je narodna satira, sredstvo kojim je selo stoljećima komentiralo vlast i običaje, a da mu nitko nije mogao prigovoriti — jer je to, na kraju krajeva, samo pjesma.',
@@ -460,7 +460,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Purizam pritom nije novost nego konstanta: hrvatski je jezik stoljećima kovao vlastite riječi ondje gdje su drugi posuđivali. Zrakoplov, kolodvor, veleposlanstvo — sve su to uspjele kovanice; samovoz i brzoglas podsjećaju da norma ne može sve. Jezikoslovci se spore oko granice: gdje prestaje briga za jezik, a počinje njegovo discipliniranje?',
-          en: 'Purism, moreover, is not a novelty but a constant: for centuries Croatian has coined its own words where others borrowed. Zrakoplov (aeroplane), kolodvor (railway station), veleposlanstvo (embassy) — all successful coinages; samovoz (motor car) and brzoglas (telephone) remind us that the norm cannot do everything. Linguists dispute the boundary: where does care for the language end and its disciplining begin?',
+          en: 'Purism, moreover, is not a novelty but a constant: for centuries Croatian has coined its own words where others borrowed. Zrakoplov (airplane), kolodvor (railway station), veleposlanstvo (embassy) — all successful coinages; samovoz (motor car) and brzoglas (telephone) remind us that the norm cannot do everything. Linguists dispute the boundary: where does care for the language end and its disciplining begin?',
         },
         {
           hr: 'Godine 2013. objavljen je pravopis Instituta za hrvatski jezik, zamišljen kao pomirbeni — s dvostrukostima ondje gdje se struka nije mogla usuglasiti. Kompromis, dakako, nije zadovoljio nikoga do kraja, što je možda i najhrvatskiji mogući ishod. U međuvremenu jezik živi svoj život: mladi pišu poruke bez dijakritika, anglizmi naviru, a pravopisna se strast seli na društvene mreže. Ratovi jenjavaju; jezik, kao i uvijek, pobjeđuje sve svoje čuvare.',
@@ -491,7 +491,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Danas glagoljica živi kao simbol: na suvenirima, tetovažama i u školskim izbornim programima. Lako je u tome vidjeti puki marketing baštine, no simboli su rijetko nevini. Narod koji je svoje prvo pismo pretvorio u ukras zapravo poručuje da pismenost smatra dijelom identiteta — a to je, u doba u kojem se čitanje mjeri sekundama pozornosti, možda subverzivnija poruka nego što se čini.',
-          en: 'Today Glagolitic lives on as a symbol: on souvenirs, tattoos and in elective school programmes. It is easy to see mere heritage marketing in this, but symbols are rarely innocent. A nation that has turned its first script into an ornament is really declaring that it considers literacy part of its identity — and in an age when reading is measured in seconds of attention, that may be a more subversive message than it seems.',
+          en: 'Today Glagolitic lives on as a symbol: on souvenirs, tattoos and in elective school programs. It is easy to see mere heritage marketing in this, but symbols are rarely innocent. A nation that has turned its first script into an ornament is really declaring that it considers literacy part of its identity — and in an age when reading is measured in seconds of attention, that may be a more subversive message than it seems.',
         },
       ],
       vocab: [
@@ -506,11 +506,11 @@ export const CULTURE_DEEP_DIVES = {
       key: 'humor',
       emoji: '🎭',
       title: 'Smijeh kao obrana',
-      titleEn: 'Laughter as Defence',
+      titleEn: 'Laughter as Defense',
       paragraphs: [
         {
           hr: 'Hrvatski se humor najbolje razumije kao strategija preživljavanja. Narod koji je povijest uglavnom trpio, a rijetko krojio, naučio je da je smijeh jedini oblik nadmoći dostupan slabijima. Zato je ovdašnja šala rijetko bezazlena: ona je uvijek pomalo na nečiji račun — najčešće na vlastiti, jer samoironija je jedina ironija koja ne traži ispriku.',
-          en: "Croatian humour is best understood as a survival strategy. A people who mostly endured history rather than shaped it learned that laughter is the only form of superiority available to the weaker side. That is why the local joke is rarely innocent: it is always slightly at someone's expense — most often one's own, since self-irony is the only irony that requires no apology.",
+          en: "Croatian humor is best understood as a survival strategy. A people who mostly endured history rather than shaped it learned that laughter is the only form of superiority available to the weaker side. That is why the local joke is rarely innocent: it is always slightly at someone's expense — most often one's own, since self-irony is the only irony that requires no apology.",
         },
         {
           hr: 'Televizijski klasici to zorno pokazuju. „Gruntovčani" su sedamdesetih pod krinkom ruralne komedije secirali malu sredinu točnije od ijedne studije, a rečenice Dudeka i Regice ušle su u svakodnevni govor. Regionalne su serije učinile i nešto dublje: legitimirale su dijalekte na ekranu, pa se smijeh pretvorio u nastavu kajkavskoga i dalmatinskoga za cijelu zemlju.',
@@ -518,7 +518,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Internetska generacija humor je preselila u memove, no mehanika je ostala ista: apsurd svakodnevice — redovi, birokracija, vječne obnove cesta — prerađuje se u kolektivnu terapiju. Stranac koji nauči gramatiku znat će što Hrvati govore; tek kad počne razumijevati čemu se smiju, znat će što doista misle.',
-          en: 'The internet generation has moved humour into memes, but the mechanics remain the same: the absurdity of daily life — queues, bureaucracy, the eternal roadworks — is processed into collective therapy. A foreigner who learns the grammar will know what Croats are saying; only when they begin to understand what Croats laugh at will they know what they really think.',
+          en: 'The internet generation has moved humor into memes, but the mechanics remain the same: the absurdity of daily life — queues, bureaucracy, the eternal roadworks — is processed into collective therapy. A foreigner who learns the grammar will know what Croats are saying; only when they begin to understand what Croats laugh at will they know what they really think.',
         },
       ],
       vocab: [
@@ -591,7 +591,7 @@ export const CULTURE_DEEP_DIVES = {
       paragraphs: [
         {
           hr: 'Hrvatska sebe zamišlja kao pomorsku naciju, iako većina njezinih stanovnika živi daleko od obale i more vidi dva tjedna godišnje. Taj raskorak između zemljopisa i samopredodžbe nije slučajan. More je u nacionalnoj mašti ono što je Hrvatsku razlikovalo od susjeda: prozor u Mediteran, dokaz da pripadamo zapadu, jamstvo da nismo tek još jedna zemlja u unutrašnjosti.',
-          en: 'Croatia imagines itself a maritime nation, although most of its inhabitants live far from the coast and see the sea two weeks a year. That gap between geography and self-image is not accidental. In the national imagination the sea is what set Croatia apart from its neighbours: a window onto the Mediterranean, proof that we belong to the West, a guarantee that we are not just another inland country.',
+          en: 'Croatia imagines itself a maritime nation, although most of its inhabitants live far from the coast and see the sea two weeks a year. That gap between geography and self-image is not accidental. In the national imagination the sea is what set Croatia apart from its neighbors: a window onto the Mediterranean, proof that we belong to the West, a guarantee that we are not just another inland country.',
         },
         {
           hr: 'Mit ima i svoju gospodarsku stranu. Turizam donosi petinu nacionalnoga dohotka, pa se o moru govori kao o resursu koji se crpi, a ne o prostoru u kojem se živi. Otoci se prazne zimi i prepune ljeti; ribar postaje statist na jelovniku, a brodograditelj uspomena. Ono što se prodaje kao autentično često je upravo ono što je autentičnost izgubilo.',
@@ -606,7 +606,7 @@ export const CULTURE_DEEP_DIVES = {
         ['raskorak', 'gap, discrepancy'],
         ['samopredodžba', 'self-image'],
         ['crpiti', 'to extract, draw on'],
-        ['statist', 'extra (film/theatre); bit player'],
+        ['statist', 'extra (film/theater); bit player'],
         ['naraštaj', 'generation'],
       ],
     },

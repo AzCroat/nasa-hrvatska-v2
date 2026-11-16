@@ -123,7 +123,7 @@ export const PREPOSITION_CASE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'genitiv',
     q: 'Dobio sam pismo od ____. (mama)',
-    en: 'I got a letter from mum.',
+    en: 'I got a letter from mom.',
     opts: ['mame', 'mamu', 'mami', 'mamom'],
     answer: 'mame',
     tip: 'od plus the genitive — from a PERSON.',

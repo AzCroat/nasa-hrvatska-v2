@@ -21,7 +21,7 @@ export default function B2AgreementSpecialNounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2agreementspecialnouns"
       title="Naš tata, ta varalica, moja braća"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={AGREEMENT_SPECIAL_NOUNS_MODE_LABELS}
       data={AGREEMENT_SPECIAL_NOUNS_DRILL_DATA}
       praise={{

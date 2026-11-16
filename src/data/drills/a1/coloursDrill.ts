@@ -99,7 +99,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Oblaci su ____.',
-    en: 'The clouds are grey.',
+    en: 'The clouds are gray.',
     opts: ['sivi', 'sive', 'siva', 'siv'],
     answer: 'sivi',
     tip: 'oblaci is a masculine plural: -i.',
@@ -150,7 +150,7 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The houses are white.',
     opts: ['Kuće su bijela.', 'Kuće je bijele.', 'Kuće su bijele.', 'Kuće su bijeli.'],
     answer: 'Kuće su bijele.',
-    tip: 'Feminine plural noun, plural verb su, feminine plural colour -e.',
+    tip: 'Feminine plural noun, plural verb su, feminine plural color -e.',
   },
 
   // ── boje ──────────────────────────────────────────────────────────────────
@@ -166,9 +166,9 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'boje',
     q: 'Što znači "siv"?',
     en: 'Choose the meaning.',
-    opts: ['grey', 'blue', 'black', 'white'],
-    answer: 'grey',
-    tip: 'siv = grey, like a cloud before rain.',
+    opts: ['gray', 'blue', 'black', 'white'],
+    answer: 'gray',
+    tip: 'siv = gray, like a cloud before rain.',
   },
   {
     mode: 'boje',
@@ -200,22 +200,22 @@ export const COLOURS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The Croatian flag is red, white and blue.',
     opts: ['plav', 'plava', 'plavo', 'plave'],
     answer: 'plava',
-    tip: 'zastava is feminine, so every colour in the list ends in -a.',
+    tip: 'zastava is feminine, so every color in the list ends in -a.',
   },
   {
     mode: 'boje',
     q: 'Što znači "plava kosa"?',
     en: 'Choose the meaning.',
-    opts: ['blue hair', 'blond hair', 'black hair', 'grey hair'],
+    opts: ['blue hair', 'blond hair', 'black hair', 'gray hair'],
     answer: 'blond hair',
     tip: 'Said of hair, plav means fair, blond.',
   },
   {
     mode: 'boje',
-    q: 'How do you ask "What colour is this?"',
+    q: 'How do you ask "What color is this?"',
     en: 'Choose the question.',
     opts: ['Koja je ovo boja?', 'Što je ovo?', 'Je li ovo boja?', 'Gdje je boja?'],
     answer: 'Koja je ovo boja?',
-    tip: 'koja = which, boja = colour.',
+    tip: 'koja = which, boja = color.',
   },
 ];

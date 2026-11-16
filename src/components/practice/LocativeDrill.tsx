@@ -375,7 +375,7 @@ export default function LocativeDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Locative mastered! 🏆',
         good: 'Great work! Locative covers location and topic!',
-        more: 'Keep practising — locative comes after u/na/o/po/pri.',
+        more: 'Keep practicing — locative comes after u/na/o/po/pri.',
       }}
       goBack={goBack}
       award={award}

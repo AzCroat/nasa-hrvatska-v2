@@ -4,7 +4,7 @@
 //
 // Found by walking the course in a browser: a Unit 1 learner — who had read the
 // alphabet, greetings, biti, gender and the plural and nothing else — opened Home
-// and was served "Genitive: You haven't practised the genitive yet." The genitive
+// and was served "Genitive: You haven't practiced the genitive yet." The genitive
 // is taught in Unit 5. Measured with the real session builder over 40 builds per
 // level, the adaptive pick (P2) put `genitivedrill` into **40 of 40** sessions for a
 // Unit 1 learner at A2, because the adaptive store's new-user first pick is the

@@ -21,7 +21,7 @@ export default function A2CliticOrderDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2cliticorder"
       title="Dao sam joj ga"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CLITIC_ORDER_MODE_LABELS}
       data={CLITIC_ORDER_DRILL_DATA}
       praise={{

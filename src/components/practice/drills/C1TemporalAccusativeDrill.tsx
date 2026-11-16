@@ -21,7 +21,7 @@ export default function C1TemporalAccusativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1temporalaccusative"
       title="Time in the Accusative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TEMPORAL_ACCUSATIVE_MODE_LABELS}
       data={TEMPORAL_ACCUSATIVE_DRILL_DATA}
       praise={{

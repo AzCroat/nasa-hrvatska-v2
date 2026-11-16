@@ -77,7 +77,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijevoz',
     q: 'Putujem ____. (avion)',
-    en: 'I am travelling by plane.',
+    en: 'I am traveling by plane.',
     opts: ['avionom', 'avion', 'aviona', 'avionu'],
     answer: 'avionom',
     tip: 'avionom.',
@@ -93,7 +93,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijevoz',
     q: 'Putujem ____. (brat)',
-    en: 'I am travelling with my brother.',
+    en: 'I am traveling with my brother.',
     opts: ['s bratom', 'bratom', 'brata', 'bratu'],
     answer: 's bratom',
     tip: 'Company DOES take s. Means does not. That contrast is the whole rule.',
@@ -154,7 +154,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
     en: 'I am going to Dubrovnik.',
     opts: ['u', 'do', 'na', 'iz'],
     answer: 'u',
-    tip: 'A person goes u a town; a SERVICE is labelled za it. Both are accusative.',
+    tip: 'A person goes u a town; a SERVICE is labeled za it. Both are accusative.',
   },
   {
     mode: 'zaiz',
@@ -186,7 +186,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
     mode: 'karta',
     q: 'Što je "kolodvor"?',
     en: 'What is kolodvor?',
-    opts: ['station', 'airport', 'harbour', 'terminal building'],
+    opts: ['station', 'airport', 'harbor', 'terminal building'],
     answer: 'station',
     tip: 'Railway or coach station. The airport is zračna luka.',
   },

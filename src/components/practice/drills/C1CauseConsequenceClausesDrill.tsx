@@ -21,7 +21,7 @@ export default function C1CauseConsequenceClausesDrill({ goBack, award }: Props)
     <ModeDrill
       id="c1causeconsequenceclauses"
       title="Because, and So"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CAUSE_CONSEQUENCE_CLAUSES_MODE_LABELS}
       data={CAUSE_CONSEQUENCE_CLAUSES_DRILL_DATA}
       praise={{

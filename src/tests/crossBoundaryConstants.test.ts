@@ -18,7 +18,7 @@
  * that the next edit cannot quietly break them, not that something was broken
  * today.
  *
- * EACH IS CHECKED BY VALUE OR BEHAVIOUR, NEVER BY COMPARING SOURCE TEXT. Two
+ * EACH IS CHECKED BY VALUE OR BEHAVIOR, NEVER BY COMPARING SOURCE TEXT. Two
  * regexes spelled differently can behave identically and two spelled
  * identically can be reached differently; only running them answers the
  * question the comment claims.

@@ -24,7 +24,7 @@
  * is exactly the outcome we want; there is no way to satisfy this test except by
  * routing through the authority (or by declaring the row non-gated on purpose).
  *
- * Per-screen behaviour (a passing run credits, a failing run does not) is
+ * Per-screen behavior (a passing run credits, a failing run does not) is
  * asserted in each screen's own contract test; the gate itself is unit-tested in
  * useExerciseCompletion.test.ts.
  */

@@ -21,7 +21,7 @@ export default function C1CoordinateConclusiveClausesDrill({ goBack, award }: Pr
     <ModeDrill
       id="c1coordinateconclusiveclauses"
       title="And, And Then, Therefore"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COORDINATE_CONCLUSIVE_CLAUSES_MODE_LABELS}
       data={COORDINATE_CONCLUSIVE_CLAUSES_DRILL_DATA}
       praise={{

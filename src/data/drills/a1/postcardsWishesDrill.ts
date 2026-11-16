@@ -111,7 +111,7 @@ export const POSTCARDS_WISHES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prilika',
     q: 'Prijatelj putuje u Australiju. Što kažeš?',
-    en: 'Your friend is travelling to Australia. What do you say?',
+    en: 'Your friend is traveling to Australia. What do you say?',
     opts: ['Čestitam!', 'Sretna Nova godina!', 'Sretan put!', 'Sretan rođendan!'],
     answer: 'Sretan put!',
     tip: 'Put — a journey.',
@@ -169,10 +169,10 @@ export const POSTCARDS_WISHES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'razglednica',
     q: '____ mama,',
-    en: 'Dear Mum,',
+    en: 'Dear Mom,',
     opts: ['Dragi', 'Drago', 'Draga', 'Dragoj'],
     answer: 'Draga',
-    tip: 'Your mum is a woman: feminine.',
+    tip: 'Your mom is a woman: feminine.',
   },
   {
     mode: 'razglednica',
@@ -188,7 +188,7 @@ export const POSTCARDS_WISHES_DRILL_DATA: ModeDrillItem[] = [
     en: 'The last line of a postcard to a friend',
     opts: ['Dobar dan, Ana!', 'Puno pozdrava, Ana!', 'Dobar tek, Ana!', 'Kako si, Ana?'],
     answer: 'Puno pozdrava, Ana!',
-    tip: 'A postcard closes with a fixed greeting, learnt as one block; the other lines greet, wish a good meal or ask a question.',
+    tip: 'A postcard closes with a fixed greeting, learned as one block; the other lines greet, wish a good meal or ask a question.',
   },
   {
     mode: 'razglednica',

@@ -21,7 +21,7 @@ export default function C1DirectSpeechSpellingDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1directspeechspelling"
       title="Writing Direct Speech"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DIRECT_SPEECH_SPELLING_MODE_LABELS}
       data={DIRECT_SPEECH_SPELLING_DRILL_DATA}
       praise={{

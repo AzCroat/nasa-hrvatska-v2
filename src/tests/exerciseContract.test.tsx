@@ -196,7 +196,7 @@ async function completeDrill(awardMock: ReturnType<typeof vi.fn>, completionOver
       continue;
     }
 
-    // Safety: no recognised button found — break to avoid infinite loop.
+    // Safety: no recognized button found — break to avoid infinite loop.
     break;
   }
 }

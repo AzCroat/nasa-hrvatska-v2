@@ -21,7 +21,7 @@ export default function C1RareGenitivePrepositionsDrill({ goBack, award }: Props
     <ModeDrill
       id="c1raregenitiveprepositions"
       title="Usred, Uoči, Povodom, Putem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={RARE_GENITIVE_PREPOSITIONS_MODE_LABELS}
       data={RARE_GENITIVE_PREPOSITIONS_DRILL_DATA}
       praise={{

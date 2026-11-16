@@ -104,7 +104,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'One Pattern, Hundreds of Verbs',
-        body: 'You already know gledati → gledam (I watch). That same pattern also carries a large family of international verbs ending in -irati: studirati (to study at university), telefonirati (to phone), organizirati (to organise). If you can guess the English, you can often guess the Croatian — and every one of them conjugates exactly like gledati.',
+        body: 'You already know gledati → gledam (I watch). That same pattern also carries a large family of international verbs ending in -irati: studirati (to study at university), telefonirati (to phone), organizirati (to organize). If you can guess the English, you can often guess the Croatian — and every one of them conjugates exactly like gledati.',
         icon: '📚',
       },
       {
@@ -116,7 +116,7 @@ export const LESSONS = [
       {
         type: 'table',
         title: 'Three Verbs, One Pattern',
-        headers: ['Person', 'gledati (watch)', 'studirati (study)', 'organizirati (organise)'],
+        headers: ['Person', 'gledati (watch)', 'studirati (study)', 'organizirati (organize)'],
         rows: [
           ['ja', 'gledam', 'studiram', 'organiziram'],
           ['ti', 'gledaš', 'studiraš', 'organiziraš'],
@@ -129,7 +129,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The -irati Verbs Are International',
-        body: 'Croatian borrowed many verbs from Latin, German and French and gave them the ending -irati. studirati — to study (at university). telefonirati — to phone. organizirati — to organise. rezervirati — to book. trenirati — to train. parkirati — to park. fotografirati — to take photos. kontrolirati — to check. The -ir- stays in every form: studiram, never "studam". And every -irati verb is regular, so the table above is all you need.',
+        body: 'Croatian borrowed many verbs from Latin, German and French and gave them the ending -irati. studirati — to study (at university). telefonirati — to phone. organizirati — to organize. rezervirati — to book. trenirati — to train. parkirati — to park. fotografirati — to take photos. kontrolirati — to check. The -ir- stays in every form: studiram, never "studam". And every -irati verb is regular, so the table above is all you need.',
         highlight: '-irati → -iram',
       },
       {
@@ -155,12 +155,12 @@ export const LESSONS = [
           },
           {
             hr: 'Mama telefonira svaki dan.',
-            en: 'Mum phones every day.',
+            en: 'Mom phones every day.',
             note: 'ona → telefonira, no ending added',
           },
           {
             hr: 'Ivan organizira izlet.',
-            en: 'Ivan is organising a trip.',
+            en: 'Ivan is organizing a trip.',
             note: 'organizirati → organizira',
           },
           {
@@ -181,7 +181,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sutra organiziramo koncert.',
-            en: 'Tomorrow we are organising a concert.',
+            en: 'Tomorrow we are organizing a concert.',
             note: 'mi → organiziramo',
           },
         ],
@@ -334,7 +334,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Who Counts as Alive',
-        body: 'People: brat → brata, prijatelj → prijatelja, susjed (neighbour) → susjeda. Names: Ivan → Ivana, Marko → Marka. Jobs: konobar (waiter) → konobara, liječnik (doctor) → liječnika, profesor → profesora. Animals: konj (horse) → konja, pas → psa. Everything else that is masculine — stol, auto, grad, film, mobitel — stays exactly as it is.',
+        body: 'People: brat → brata, prijatelj → prijatelja, susjed (neighbor) → susjeda. Names: Ivan → Ivana, Marko → Marka. Jobs: konobar (waiter) → konobara, liječnik (doctor) → liječnika, profesor → profesora. Animals: konj (horse) → konja, pas → psa. Everything else that is masculine — stol, auto, grad, film, mobitel — stays exactly as it is.',
         highlight: 'Ivan → Ivana',
       },
       {
@@ -401,10 +401,10 @@ export const LESSONS = [
           },
           {
             hr: 'Poznaješ li mog susjeda?',
-            en: 'Do you know my neighbour?',
+            en: 'Do you know my neighbor?',
             note: 'moj → mog, susjed → susjeda',
           },
-          { hr: 'Volim tatu i mamu.', en: 'I love Dad and Mum.', note: 'tata ends in -a → tatu' },
+          { hr: 'Volim tatu i mamu.', en: 'I love Dad and Mom.', note: 'tata ends in -a → tatu' },
           {
             hr: 'Danas upoznajem novog kolegu.',
             en: 'Today I am meeting a new colleague.',
@@ -423,8 +423,8 @@ export const LESSONS = [
         items: [
           {
             hr: 'Vidim novi auto i novog susjeda.',
-            en: 'I see a new car and a new neighbour.',
-            note: 'the car stays, the neighbour changes',
+            en: 'I see a new car and a new neighbor.',
+            note: 'the car stays, the neighbor changes',
           },
           {
             hr: 'Gledam film, a ne glumca.',
@@ -499,7 +499,7 @@ export const LESSONS = [
             explanation: 'tata ends in -a, so it changes like a feminine noun: tatu.',
           },
           {
-            q: 'Which sentence says "I know your new neighbour" (a man)?',
+            q: 'Which sentence says "I know your new neighbor" (a man)?',
             options: [
               'Poznajem tvoj novi susjed.',
               'Poznajem tvoga novog susjeda.',
@@ -1072,7 +1072,7 @@ export const LESSONS = [
             en: 'Are you allowed to watch a film tonight?',
             note: 'ti → smiješ',
           },
-          { hr: 'Mama kaže da smijem.', en: 'Mum says I am allowed.', note: 'da — that' },
+          { hr: 'Mama kaže da smijem.', en: 'Mom says I am allowed.', note: 'da — that' },
         ],
       },
       {
@@ -1448,7 +1448,7 @@ export const PRACTICE = {
       {
         title: 'A New -irati Verb',
         problem: 'Dopuni: Mi ___ izlet. (organizirati)',
-        en: 'We are organising a trip.',
+        en: 'We are organizing a trip.',
         steps: [
           {
             label: 'Remove -ti',
@@ -1604,7 +1604,7 @@ export const PRACTICE = {
     vocab: [
       ['studirati', 'to study (at university)', 'Studiram pravo.'],
       ['telefonirati', 'to phone', 'Mama telefonira svaki dan.'],
-      ['organizirati', 'to organise', 'Ivan organizira izlet.'],
+      ['organizirati', 'to organize', 'Ivan organizira izlet.'],
       ['rezervirati', 'to book', 'Večeras rezerviramo stol.'],
       ['trenirati', 'to train', 'Ana trenira tenis.'],
       ['parkirati', 'to park', 'Gdje parkiraš auto?'],
@@ -1620,12 +1620,12 @@ export const PRACTICE = {
       {
         title: 'A Person as the Object',
         problem: 'Dopuni: Čekam ___. (susjed)',
-        en: 'I am waiting for my neighbour.',
+        en: 'I am waiting for my neighbor.',
         steps: [
           { label: 'Find the object', text: 'The one being waited for: susjed.' },
           {
             label: 'Ask the question',
-            text: 'Masculine — is it alive? A neighbour is a person: yes.',
+            text: 'Masculine — is it alive? A neighbor is a person: yes.',
           },
           { label: 'The ending', text: 'A living masculine noun adds -a.' },
         ],
@@ -1799,7 +1799,7 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['susjed', 'neighbour', 'Čekam susjeda.'],
+      ['susjed', 'neighbor', 'Čekam susjeda.'],
       ['konobar', 'waiter', 'Tražim konobara.'],
       ['liječnik', 'doctor', 'Tražimo liječnika.'],
       ['profesor', 'professor, teacher', 'Slušamo profesora.'],

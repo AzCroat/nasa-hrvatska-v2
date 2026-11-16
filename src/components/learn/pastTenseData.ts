@@ -54,7 +54,7 @@ export const EXAMPLES = [
   },
   { hr: 'Nismo razumjeli što je rekao.', en: "We didn't understand what he said." },
   { hr: 'Jesi li vidio utakmicu sinoć?', en: 'Did you watch the match last night? (m)' },
-  { hr: 'Mama je skuhala ručak.', en: 'Mum cooked lunch.' },
+  { hr: 'Mama je skuhala ručak.', en: 'Mom cooked lunch.' },
   { hr: 'Nisu mogli doći na vjenčanje.', en: 'They could not come to the wedding.' },
   { hr: 'Svaki dan sam učio po sat vremena.', en: 'I studied an hour every day. (habitual, impf)' },
   {

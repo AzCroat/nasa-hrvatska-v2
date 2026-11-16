@@ -111,7 +111,7 @@ export function tagMediaForGoal(m: MediaItem, goal: string): string | null {
   if (!goal) return null;
   if ((goal === 'heritage' || goal === 'family') && (m.cat === 'music' || m.cat === 'culture'))
     return 'For the diaspora';
-  if (goal === 'travel' && (m.cat === 'tv' || m.cat === 'podcast')) return 'Great for travellers';
+  if (goal === 'travel' && (m.cat === 'tv' || m.cat === 'podcast')) return 'Great for travelers';
   return null;
 }
 export function sortMediaForGoal(items: MediaItem[], goal: string): MediaItem[] {

@@ -21,7 +21,7 @@ export default function A2AccusativeAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2accusativeadjectives"
       title="A New Friend, a New Table"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ACCUSATIVE_ADJECTIVES_MODE_LABELS}
       data={ACCUSATIVE_ADJECTIVES_DRILL_DATA}
       praise={{

@@ -208,7 +208,7 @@ const DATA = [
     q: 'Dali smo ____ psu hranu. (susjedov, birano)',
     opts: ['susjedovu', 'susjedovom', 'susjedovome', 'susjedova'],
     answer: 'susjedovu',
-    en: 'we fed the neighbour\u2019s dog',
+    en: 'we fed the neighbor\u2019s dog',
     tip: 'D jd. neodređeno: susjedovu psu.',
   },
   {

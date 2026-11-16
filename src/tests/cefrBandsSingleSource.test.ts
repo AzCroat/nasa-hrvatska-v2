@@ -110,7 +110,7 @@ describe('the band table matches what getUserCefr does', () => {
 });
 
 /**
- * The source half. Behaviour cannot see a FOURTH copy appearing in a component
+ * The source half. Behavior cannot see a FOURTH copy appearing in a component
  * that agrees with the table today, so this is the ratchet: the two consumers
  * that used to carry their own tables must read the shared one.
  */

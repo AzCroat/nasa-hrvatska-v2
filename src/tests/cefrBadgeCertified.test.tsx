@@ -108,7 +108,7 @@ describe('the level a badge may claim — the reported rollback scenario', () =>
     const badge = shown();
     expect(badge).toBe('A1');
     expect(badge).not.toBe('C1');
-    // The 2026-09-06 behaviour: B1 came from a pass the migration granted.
+    // The 2026-09-06 behavior: B1 came from a pass the migration granted.
     expect(badge).not.toBe('B1');
   });
 

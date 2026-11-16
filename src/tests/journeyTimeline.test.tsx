@@ -39,7 +39,7 @@ describe('every recorded streak milestone names itself', () => {
     expect(STREAK_MILESTONES.length).toBeGreaterThanOrEqual(5);
   });
 
-  it.each(STREAK_MILESTONES)('a %i-day streak is labelled with its own number', (n) => {
+  it.each(STREAK_MILESTONES)('a %i-day streak is labeled with its own number', (n) => {
     const def = milestoneDef(`streak_${n}`);
     expect(
       def.label,

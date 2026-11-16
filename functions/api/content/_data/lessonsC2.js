@@ -118,7 +118,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Išla je u kino sa sestrom, s bratom i sa Zoranom, a s Ivanom se našla poslije.',
-            en: 'She went to the cinema with her sister, her brother and Zoran, and met Ivan afterwards.',
+            en: 'She went to the cinema with her sister, her brother and Zoran, and met Ivan afterward.',
             note: 'sa before s, š, z, ž — s everywhere else, whatever the noun',
           },
           {
@@ -427,7 +427,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Days and months are lower case in Croatian, and the day of the month takes an ordinal dot. English habits push learners towards capitals on both, which is why this is one of the most frequent errors in otherwise excellent writing.',
+          'Days and months are lower case in Croatian, and the day of the month takes an ordinal dot. English habits push learners toward capitals on both, which is why this is one of the most frequent errors in otherwise excellent writing.',
       },
       {
         type: 'rule',
@@ -646,7 +646,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Psa smo ostavili kod susjeda, a mačku smo poveli sa sobom.',
-            en: 'We left the dog with the neighbour and took the cat with us.',
+            en: 'We left the dog with the neighbor and took the cat with us.',
             note: 'Fleeting a: pas → psa in the accusative',
           },
           {
@@ -1307,7 +1307,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Instrumental of Manner and Means',
-        body: 'A bare instrumental gives means or route without any preposition: putovati vlakom (by train), pisati olovkom (with a pencil), ići šumom (through the forest). With s or sa the same case means accompaniment instead: s bratom, sa sestrom. Dropping or adding the preposition turns an instrument into a companion, which is how "putovao je s vlakom" becomes a sentence about travelling in the train\'s company.',
+        body: 'A bare instrumental gives means or route without any preposition: putovati vlakom (by train), pisati olovkom (with a pencil), ići šumom (through the forest). With s or sa the same case means accompaniment instead: s bratom, sa sestrom. Dropping or adding the preposition turns an instrument into a companion, which is how "putovao je s vlakom" becomes a sentence about traveling in the train\'s company.',
         highlight: 'putovati vlakom (by) · putovati s bratom (with)',
       },
       {
@@ -1352,7 +1352,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Razbio mi se prozor, a susjedu je noću pukla cijev.',
-            en: "My window broke, and the neighbour's pipe burst in the night.",
+            en: "My window broke, and the neighbor's pipe burst in the night.",
             note: 'Dative of the affected person: mi, susjedu; noću for time',
           },
           {
@@ -1387,7 +1387,7 @@ export const LESSONS_C2 = [
       },
       {
         type: 'quiz',
-        q: 'Which sentence uses the instrumental correctly for "he travelled by train"?',
+        q: 'Which sentence uses the instrumental correctly for "he traveled by train"?',
         options: [
           'Putovao je s vlakom.',
           'Putovao je vlakom.',
@@ -1396,12 +1396,12 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'A bare instrumental gives the means: vlakom, autom, avionom. Adding s makes it accompaniment, so "s vlakom" says he travelled in the train\'s company. This is one of the few places where an extra preposition produces a sentence that is grammatical and comic.',
+          'A bare instrumental gives the means: vlakom, autom, avionom. Adding s makes it accompaniment, so "s vlakom" says he traveled in the train\'s company. This is one of the few places where an extra preposition produces a sentence that is grammatical and comic.',
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors from translating the preposition instead of the case. First, adding s to an instrument: putovati vlakom, ne "s vlakom" — with the preposition the train becomes a travelling companion. Second, building repetition with a preposition: "na subotu" or "u subotama" for every Saturday — the bare instrumental subotom does it. Third, an accusative after nema: "Nema problem" — nema governs the genitive, Nema problema, exactly like Nemam vremena.',
+        body: 'Three errors from translating the preposition instead of the case. First, adding s to an instrument: putovati vlakom, ne "s vlakom" — with the preposition the train becomes a traveling companion. Second, building repetition with a preposition: "na subotu" or "u subotama" for every Saturday — the bare instrumental subotom does it. Third, an accusative after nema: "Nema problem" — nema governs the genitive, Nema problema, exactly like Nemam vremena.',
         highlight: 'putovati vlakom, ne "s vlakom"',
       },
       {
@@ -1583,7 +1583,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Počela je učiti hrvatski prošle jeseni i nije prestala vježbati ni ljeti.',
-            en: 'She started learning Croatian last autumn and did not stop practising even in the summer.',
+            en: 'She started learning Croatian last autumn and did not stop practicing even in the summer.',
             note: 'Phase verbs početi and prestati take an imperfective infinitive',
           },
           {
@@ -1984,7 +1984,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Future as an Instruction',
-        body: 'Croatian, like English, uses the future to give orders that are not phrased as orders: Doći ćeš u devet i nećeš kasniti. The effect is stronger than an imperative, not weaker, because it presents compliance as already settled. Parents and sergeants use it. Used to a peer it is a serious escalation, which is why a learner reaching for it as a neutral future can cause offence without knowing.',
+        body: 'Croatian, like English, uses the future to give orders that are not phrased as orders: Doći ćeš u devet i nećeš kasniti. The effect is stronger than an imperative, not weaker, because it presents compliance as already settled. Parents and sergeants use it. Used to a peer it is a serious escalation, which is why a learner reaching for it as a neutral future can cause offense without knowing.',
         highlight: 'Doći ćeš u devet. — settled, not requested',
       },
       {
@@ -2320,7 +2320,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three rhythm faults that pass every grammar check. First, English default order in every sentence — subject, verb, object, time — so that nothing is ever emphasised; front the known element and let the news land last. Second, stacking koji-clauses: "čovjek koji je kupio kuću koja je pripadala obitelji koja se odselila" — condense one clause into a phrase or stop. Third, fronting a constituent and leaving the clitic where English would put the verb: "Jučer Ivan je kupio auto" — Jučer je Ivan kupio auto — the clitic follows the first constituent.',
+        body: 'Three rhythm faults that pass every grammar check. First, English default order in every sentence — subject, verb, object, time — so that nothing is ever emphasized; front the known element and let the news land last. Second, stacking koji-clauses: "čovjek koji je kupio kuću koja je pripadala obitelji koja se odselila" — condense one clause into a phrase or stop. Third, fronting a constituent and leaving the clitic where English would put the verb: "Jučer Ivan je kupio auto" — Jučer je Ivan kupio auto — the clitic follows the first constituent.',
         highlight: 'Jučer je Ivan kupio auto — the clitic follows the first constituent',
       },
       {
@@ -2679,7 +2679,7 @@ export const LESSONS_C2 = [
   // ── 15. Wordplay ──────────────────────────────────────────────────────────
   {
     id: 'humor-jezicni',
-    title: 'The Humour That Needs the Grammar',
+    title: 'The Humor That Needs the Grammar',
     level: 'C2',
     subtitle: 'Puns, near-homonyms and jokes that cannot be translated',
     icon: '🃏',
@@ -2727,7 +2727,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Regional Speech as a Comic Register',
-        body: 'Croatian comedy leans heavily on switching into kajkavian or čakavian, or into a marked Dalmatian or Zagorje accent, for a line or two. It is a register shift rather than mockery — an educated speaker from Split doing a broad Split accent for effect is doing what a Londoner does with a stage cockney. Recognising the switch is what lets you hear the joke rather than the dialect.',
+        body: 'Croatian comedy leans heavily on switching into kajkavian or čakavian, or into a marked Dalmatian or Zagorje accent, for a line or two. It is a register shift rather than mockery — an educated speaker from Split doing a broad Split accent for effect is doing what a Londoner does with a stage cockney. Recognizing the switch is what lets you hear the joke rather than the dialect.',
         highlight: 'a dialect switch is a comic register, not a mistake',
       },
       {
@@ -2762,7 +2762,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Otišla je frizeru zbog kose, a susjed je u polje otišao s kosom.',
-            en: 'She went to the hairdresser because of her hair, and the neighbour went into the field with a scythe.',
+            en: 'She went to the hairdresser because of her hair, and the neighbor went into the field with a scythe.',
             note: 'kosa (hair) and kosa (scythe) — homographs separated by accent',
           },
           {
@@ -2875,7 +2875,7 @@ export const LESSONS_C2 = [
             q: 'A Split colleague drops into broad Dalmatian for one line and everyone laughs. Which reaction is the mistake?',
             options: [
               'Laughing along',
-              'Recognising the register switch',
+              'Recognizing the register switch',
               'Correcting the dialect to standard',
               'Asking what a word meant',
             ],
@@ -2912,7 +2912,7 @@ export const LESSONS_C2 = [
           'Case endings can be the trap, because the ending fixes the role',
           'A diminutive applied to something large is the standard comic mismatch',
           'A switch into kajkavian or a marked accent is a comic register, not mockery',
-          'Missing a joke is normal at C2; recognising the device is the achievable goal',
+          'Missing a joke is normal at C2; recognizing the device is the achievable goal',
         ],
       },
     ],
@@ -3213,7 +3213,7 @@ export const LESSONS_C2 = [
         type: 'rule',
         title: 'Hedging Is Obligatory',
         body: 'Croatian scholarly writing hedges as heavily as English: čini se da, moguće je da, rezultati upućuju na, nije isključeno da. An unhedged claim reads as amateur. The strongest form available is "rezultati pokazuju" (the results show), and even that is normally softened when the sample is small. Overclaiming is the commonest fault in a translated paper, because English hedges are often dropped in translation.',
-        highlight: 'rezultati upućuju na — the results point towards',
+        highlight: 'rezultati upućuju na — the results point toward',
       },
       {
         type: 'rule',
@@ -3434,7 +3434,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Dialect in Dialogue Places a Character',
-        body: "A novel set in Zagreb will give a character kajkavian speech; one set on an island will give čakavian. This is characterisation, not local colour: the reader is told the character's origin, class and generation in a single line. Krleža does it constantly. A learner who skips the dialect passages loses exactly the information the author put there.",
+        body: "A novel set in Zagreb will give a character kajkavian speech; one set on an island will give čakavian. This is characterisation, not local color: the reader is told the character's origin, class and generation in a single line. Krleža does it constantly. A learner who skips the dialect passages loses exactly the information the author put there.",
         highlight: 'dialect in dialogue = biography in one line',
       },
       {
@@ -3459,7 +3459,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: '— Kaj ti je? — pitala ga je susjeda.',
-            en: '"What is the matter with you?" the neighbour asked him.',
+            en: '"What is the matter with you?" the neighbor asked him.',
             note: 'Kajkavian kaj in dialogue places her immediately',
           },
         ],
@@ -3635,7 +3635,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Register Learners Are Warned Away From',
-        body: 'Everything up to now has pushed you towards the standard. But the razgovorni stil is one of the five functional styles, not a failure to reach the others, and a C2 speaker who can only produce standard Croatian sounds like a document. The skill is not adopting colloquial speech wholesale — it is knowing exactly what it does and choosing when to use it.',
+        body: 'Everything up to now has pushed you toward the standard. But the razgovorni stil is one of the five functional styles, not a failure to reach the others, and a C2 speaker who can only produce standard Croatian sounds like a document. The skill is not adopting colloquial speech wholesale — it is knowing exactly what it does and choosing when to use it.',
         icon: '💬',
       },
       {
@@ -3660,8 +3660,8 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Shortening Is Systematic',
-        body: 'Speech drops sounds in predictable places: hoću → oću, hajde → ajde, gdje → di in some regions, nemoj → nemo. These are not errors and they are not random — each has a settled spoken form. What matters for a learner is recognising them instantly in listening, and NOT writing them outside reported dialogue.',
-        highlight: 'recognise in listening, avoid in writing',
+        body: 'Speech drops sounds in predictable places: hoću → oću, hajde → ajde, gdje → di in some regions, nemoj → nemo. These are not errors and they are not random — each has a settled spoken form. What matters for a learner is recognizing them instantly in listening, and NOT writing them outside reported dialogue.',
+        highlight: 'recognize in listening, avoid in writing',
       },
       {
         type: 'rule',
@@ -3849,7 +3849,7 @@ export const LESSONS_C2 = [
         title: 'The Colloquial Register — What to Keep',
         points: [
           'Speech asks questions with intonation alone; li in casual talk sounds studied',
-          'Shortenings (oću, ajde, nemo) are systematic — recognise them, do not write them',
+          'Shortenings (oću, ajde, nemo) are systematic — recognize them, do not write them',
           'Diminutives signal warmth rather than size: kavica, pivica',
           'Može, nema veze and ma pusti are the workhorses of relaxed agreement',
           'Switch registers deliberately; drifting between them reads as carelessness',
@@ -3901,7 +3901,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Tenses You Never Use Are the Ones They Do',
-        body: 'The aorist and imperfect are the ordinary narrative tenses of these texts, and the pluperfect appears freely. If you skipped those lessons because the forms felt academic, this is where they pay: without them a page of Kačić is a wall. Reče, dođe, bijaše, gledaše — recognising them is most of the battle.',
+        body: 'The aorist and imperfect are the ordinary narrative tenses of these texts, and the pluperfect appears freely. If you skipped those lessons because the forms felt academic, this is where they pay: without them a page of Kačić is a wall. Reče, dođe, bijaše, gledaše — recognizing them is most of the battle.',
         highlight: 'aorist + imperfect = the narrative spine of older prose',
       },
       {
@@ -4116,14 +4116,14 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Descriptor, Taught Directly',
-        body: '"Can summarise information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarising ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
+        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarising ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
         icon: '🧵',
       },
       {
         type: 'rule',
         title: 'Synthesis Is Not a Sequence of Summaries',
-        body: 'The failure mode is obvious once named: three paragraphs, one per source, joined by "a drugi autor kaže". That is a list, not a synthesis. A synthesis is organised by IDEA, not by source — each paragraph takes one point and reports what every source says about it. The sources appear as evidence inside your structure rather than as the structure itself.',
-        highlight: 'organise by idea, not by source',
+        body: 'The failure mode is obvious once named: three paragraphs, one per source, joined by "a drugi autor kaže". That is a list, not a synthesis. A synthesis is organized by IDEA, not by source — each paragraph takes one point and reports what every source says about it. The sources appear as evidence inside your structure rather than as the structure itself.',
+        highlight: 'organize by idea, not by source',
       },
       {
         type: 'table',
@@ -4132,7 +4132,7 @@ export const LESSONS_C2 = [
         rows: [
           ['Svi se izvori slažu da…', 'All the sources agree that…', 'Establishing common ground'],
           ['Za razliku od X, Y tvrdi…', 'Unlike X, Y claims…', 'Marking divergence'],
-          ['Dok X naglašava…, Y upozorava…', 'While X emphasises…, Y warns…', 'Balanced contrast'],
+          ['Dok X naglašava…, Y upozorava…', 'While X emphasizes…, Y warns…', 'Balanced contrast'],
           ['Oba autora polaze od…', 'Both authors proceed from…', 'Shared premise'],
           ['Nijedan izvor ne spominje…', 'No source mentions…', 'Naming a gap'],
           [
@@ -4171,7 +4171,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Dok prvi izvještaj naglašava sezonske čimbenike, drugi upozorava na strukturne.',
-            en: 'While the first report emphasises seasonal factors, the second warns of structural ones.',
+            en: 'While the first report emphasizes seasonal factors, the second warns of structural ones.',
             note: 'Dok…, … is the balanced-contrast frame',
           },
           {
@@ -4228,7 +4228,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Organisation by source is the giveaway. A synthesis takes one idea per paragraph and reports what each source contributes to it, so the sources appear as evidence inside your structure rather than supplying the structure themselves.',
+          'Organization by source is the giveaway. A synthesis takes one idea per paragraph and reports what each source contributes to it, so the sources appear as evidence inside your structure rather than supplying the structure themselves.',
       },
       {
         type: 'quiz',
@@ -4241,7 +4241,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three synthesis faults. First, one paragraph per source joined by "a drugi autor kaže" — that is a list; organise by idea. Second, the wrong case after the divergence frame: "za razliku od prvi izvještaj" — za razliku od prvog izvještaja — genitive. Third, inflating a source to vary the verb: "upozorava" for a source that merely navodi misreports it — vary the verb for meaning, never for variety.',
+        body: 'Three synthesis faults. First, one paragraph per source joined by "a drugi autor kaže" — that is a list; organize by idea. Second, the wrong case after the divergence frame: "za razliku od prvi izvještaj" — za razliku od prvog izvještaja — genitive. Third, inflating a source to vary the verb: "upozorava" for a source that merely navodi misreports it — vary the verb for meaning, never for variety.',
         highlight: 'za razliku od prvog izvještaja — genitive',
       },
       {
@@ -4284,7 +4284,7 @@ export const LESSONS_C2 = [
             ],
             correct: 2,
             explanation:
-              'Organisation by source is a sequence of summaries, not a synthesis. The other three are the structure the lesson teaches.',
+              'Organization by source is a sequence of summaries, not a synthesis. The other three are the structure the lesson teaches.',
           },
           {
             q: 'What does "Razlika je prije u naglasku nego u sadržaju" do?',
@@ -4323,7 +4323,7 @@ export const LESSONS_C2 = [
         type: 'summary',
         title: 'Synthesis — What to Keep',
         points: [
-          'Organise by idea, never one paragraph per source',
+          'Organize by idea, never one paragraph per source',
           'State the common ground before the divergence',
           'Svi se izvori slažu… / Za razliku od X… / Dok X…, Y… are the frames',
           'Attribution verbs carry meaning — vary them only where they still fit',
@@ -4827,7 +4827,7 @@ export const LESSONS_C2 = [
           [
             'To je dobro pitanje.',
             'That is a good question.',
-            'Universal, and universally recognised as such',
+            'Universal, and universally recognized as such',
           ],
           [
             'Ovisi o tome kako gledate.',
@@ -4849,7 +4849,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Croatian Fillers Are Not English Fillers',
-        body: 'Translating "um" and "you know" produces nothing usable. The Croatian equivalents are pa, ovaj, znači, kao and mislim. Ovaj is the closest to "er". Znači, literally "meaning", has drifted into a pure filler and is heavily used. Overusing znači is a recognised verbal tic that speakers are teased for — which tells you exactly how native it sounds.',
+        body: 'Translating "um" and "you know" produces nothing usable. The Croatian equivalents are pa, ovaj, znači, kao and mislim. Ovaj is the closest to "er". Znači, literally "meaning", has drifted into a pure filler and is heavily used. Overusing znači is a recognized verbal tic that speakers are teased for — which tells you exactly how native it sounds.',
         highlight: 'pa, ovaj, znači, mislim — not um and you know',
       },
       {
@@ -4929,7 +4929,7 @@ export const LESSONS_C2 = [
       },
       {
         type: 'quiz',
-        q: 'Mid-sentence you realise your subordinate clause is going wrong. What does a fluent speaker do?',
+        q: 'Mid-sentence you realize your subordinate clause is going wrong. What does a fluent speaker do?',
         options: [
           'Stop and restart the sentence from the beginning',
           'Repair in place with odnosno or točnije rečeno, or split it into two short sentences',
@@ -5181,12 +5181,12 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          "Substituting the reader's own institution tells them something false about how Croatian health care is organised. Borrowing with a gloss, or describing while flagging the difference, keeps the reader accurately informed — which is what the translation is for.",
+          "Substituting the reader's own institution tells them something false about how Croatian health care is organized. Borrowing with a gloss, or describing while flagging the difference, keeps the reader accurately informed — which is what the translation is for.",
       },
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three translation errors that survive a word-by-word check. First, legal "shall" as hoće: it is obligation — dužan je or the present tense. Second, English word order surviving into Croatian: Poslali smo vam ponudu — not "Mi smo poslali vama ponudu", where the full pronouns and the fronted subject copy the English. Third, substituting the reader\'s own institution: rendering dom zdravlja as hospital tells them something false about how Croatian health care is organised.',
+        body: 'Three translation errors that survive a word-by-word check. First, legal "shall" as hoće: it is obligation — dužan je or the present tense. Second, English word order surviving into Croatian: Poslali smo vam ponudu — not "Mi smo poslali vama ponudu", where the full pronouns and the fronted subject copy the English. Third, substituting the reader\'s own institution: rendering dom zdravlja as hospital tells them something false about how Croatian health care is organized.',
         highlight: 'Poslali smo vam ponudu — not "Mi smo poslali vama ponudu"',
       },
       {
@@ -5307,7 +5307,7 @@ export const LESSONS_C2 = [
       },
       {
         type: 'rule',
-        title: 'Lektura Is a Recognised Professional Role',
+        title: 'Lektura Is a Recognized Professional Role',
         body: "Croatian publishing employs lektori as a matter of course, and a lektor's mandate is language, not content. They fix agreement, case government, clitic position, register drift and orthography. They do not rewrite the author's sentences to their own taste, and an author who finds their voice edited out will say so. Knowing the scope of the role is what makes the work welcome.",
         highlight: 'lektura fixes the language, never the voice',
       },
@@ -5382,7 +5382,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Registar se u trećem odlomku spustio u razgovorni, što sam označio kao prijedlog, ne kao ispravak.',
             en: 'The register dropped into the colloquial in the third paragraph, which I marked as a suggestion, not a correction.',
-            note: 'Register drift — flagged, and labelled as preference',
+            note: 'Register drift — flagged, and labeled as preference',
           },
         ],
       },
@@ -5564,7 +5564,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Half a Proverb Is the Whole Proverb',
-        body: 'Croatian speakers rarely finish a well-known proverb. Someone says "Tko rano rani…" and stops, and the sentence is complete. This is the same move as English "when in Rome". For a learner the practical consequence is that you must recognise proverbs from their opening, because the ending you were taught may never be said.',
+        body: 'Croatian speakers rarely finish a well-known proverb. Someone says "Tko rano rani…" and stops, and the sentence is complete. This is the same move as English "when in Rome". For a learner the practical consequence is that you must recognize proverbs from their opening, because the ending you were taught may never be said.',
         highlight: '"Tko rano rani…" — that is the whole thing',
       },
       {
@@ -5573,7 +5573,7 @@ export const LESSONS_C2 = [
         headers: ['Expression', 'Meaning', 'Origin'],
         rows: [
           ['gordijski čvor', 'an intractable problem', 'Classical — Alexander'],
-          ['sizifov posao', 'endless futile labour', 'Classical — Sisyphus'],
+          ['sizifov posao', 'endless futile labor', 'Classical — Sisyphus'],
           ['glas vapijućega u pustinji', 'an unheeded warning', 'Biblical'],
           ['izgubljeni sin', 'the prodigal son', 'Biblical'],
           ['prijeći Rubikon', 'pass the point of no return', 'Classical — Caesar'],
@@ -5583,7 +5583,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Classical Layer Is Assumed in Serious Writing',
-        body: 'Croatian journalism and essay writing draw on classical and biblical allusion without explanation, on the assumption that an educated reader recognises them. A leader writer will call a negotiation a gordijski čvor and move on. These allusions map closely onto English ones, which is good news — the vocabulary is different but the reference is shared.',
+        body: 'Croatian journalism and essay writing draw on classical and biblical allusion without explanation, on the assumption that an educated reader recognizes them. A leader writer will call a negotiation a gordijski čvor and move on. These allusions map closely onto English ones, which is good news — the vocabulary is different but the reference is shared.',
         highlight: 'the reference is shared with English; only the words differ',
       },
       {
@@ -5596,7 +5596,7 @@ export const LESSONS_C2 = [
         type: 'rule',
         title: 'Deploy Sparingly',
         body: 'A learner who has just acquired a stock of proverbs uses too many, and the effect is the opposite of fluent — it reads as someone performing the language. One well-placed proverb in a long conversation is native; three is a phrasebook. Recognition is the skill worth having in full; production can stay modest for years without anyone noticing.',
-        highlight: 'recognise all of them, use one at a time',
+        highlight: 'recognize all of them, use one at a time',
       },
       {
         type: 'example',
@@ -5752,7 +5752,7 @@ export const LESSONS_C2 = [
             q: 'Which is the sensible policy for a learner with a new stock of proverbs?',
             options: [
               'Use them all soon',
-              'Recognise all of them, use one at a time',
+              'Recognize all of them, use one at a time',
               'Avoid them entirely',
               'Translate them into English first',
             ],
@@ -5766,11 +5766,11 @@ export const LESSONS_C2 = [
         type: 'summary',
         title: 'Phraseology — What to Keep',
         points: [
-          'Proverbs are delivered half-finished; recognise them from the opening',
+          'Proverbs are delivered half-finished; recognize them from the opening',
           'Classical and biblical allusions are assumed, unexplained, in serious writing',
           'Those references are largely shared with English — only the wording differs',
           'A smaller local set carries Croatian history and varies by region',
-          'Recognise everything; produce sparingly — one proverb, not three',
+          'Recognize everything; produce sparingly — one proverb, not three',
         ],
       },
     ],
@@ -5789,8 +5789,8 @@ export const LESSONS_C2 = [
     slides: [
       {
         type: 'intro',
-        title: 'From Recognising to Understanding',
-        body: 'C1 taught you to recognise kajkavian and čakavian when you meet them. This lesson goes into what actually differs — the sound changes, the tense systems, the vocabulary — so that a conversation in Zagorje or on Hvar becomes followable rather than merely identifiable. Around half the country speaks something other than standard štokavian at home.',
+        title: 'From Recognizing to Understanding',
+        body: 'C1 taught you to recognize kajkavian and čakavian when you meet them. This lesson goes into what actually differs — the sound changes, the tense systems, the vocabulary — so that a conversation in Zagorje or on Hvar becomes followable rather than merely identifiable. Around half the country speaks something other than standard štokavian at home.',
         icon: '🗺️',
       },
       {
@@ -5876,7 +5876,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Kaj delaš? — pitao me susjed, a na poslu isti čovjek govori samo standardnim jezikom.',
-            en: '"What are you doing?" my neighbour asked me, and at work the same man speaks only the standard.',
+            en: '"What are you doing?" my neighbor asked me, and at work the same man speaks only the standard.',
             note: 'Code-switching by setting',
           },
           {
@@ -6161,7 +6161,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Diaspora Croatian preserves the forms that were current when the family emigrated. Croatians recognise this immediately and generally warmly. Knowing what the form signals is useful; treating it as a mistake misdescribes it.',
+          'Diaspora Croatian preserves the forms that were current when the family emigrated. Croatians recognize this immediately and generally warmly. Knowing what the form signals is useful; treating it as a mistake misdescribes it.',
       },
       {
         type: 'rule',

@@ -2,7 +2,7 @@
  * reflexive.contract.test.tsx — Pattern X
  *
  * ReflexiveScreen has a tabbed interface; the contract fires on the Quiz tab.
- * Quiz options use #e7e5e4 = rgb(231,229,228) as the unanswered border colour.
+ * Quiz options use #e7e5e4 = rgb(231,229,228) as the unanswered border color.
  *
  * `reflexive` is registered `gated`, but the screen used to credit gc AND pay the
  * whole correctCount*5 award on every question ANSWERED, at any score. The old

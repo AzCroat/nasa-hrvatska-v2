@@ -121,7 +121,7 @@ const DATA = [
     q: '____ nije bilo struje, nastava je otkazana.',
     opts: ['Budući da', 'Jer', 'Međutim', 'Štoviše'],
     answer: 'Budući da',
-    en: '___ there was no electricity, classes were cancelled',
+    en: '___ there was no electricity, classes were canceled',
     tip: 'Na početku rečenice uzrok uvodi BUDUĆI DA — ne „jer”.',
   },
   {

@@ -21,7 +21,7 @@ export default function A1ReflexivePastFutureDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1reflexivepastfuture"
       title="Se in the Past and the Future"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={REFLEXIVE_PAST_FUTURE_MODE_LABELS}
       data={REFLEXIVE_PAST_FUTURE_DRILL_DATA}
       praise={{

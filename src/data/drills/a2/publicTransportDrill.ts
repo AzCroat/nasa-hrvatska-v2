@@ -170,7 +170,7 @@ export const PUBLIC_TRANSPORT_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kako',
     q: 'Putujemo u Zagreb ____.',
-    en: 'We are travelling to Zagreb by train.',
+    en: 'We are traveling to Zagreb by train.',
     opts: ['vlak', 'vlakom', 's vlakom', 'vlaku'],
     answer: 'vlakom',
     tip: 'Instrumental, no s.',

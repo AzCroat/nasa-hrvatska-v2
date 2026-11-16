@@ -105,7 +105,7 @@ export const NOUN_PECULIARITIES_A_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fleeting',
     q: 'Naš susjed ima dva ____.',
-    en: 'Our neighbour has two dogs.',
+    en: 'Our neighbor has two dogs.',
     opts: ['pasa', 'psa', 'pas', 'psi'],
     answer: 'psa',
     tip: 'After dva the genitive singular form: psa, without the a.',

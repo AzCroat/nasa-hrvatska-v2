@@ -402,7 +402,7 @@ describe('useAward — state setters', () => {
 
 // ── Hook: award() calls setStats ──────────────────────────────────────────────
 
-describe('useAward — award() behaviour', () => {
+describe('useAward — award() behavior', () => {
   // The XP boost and the seasonal-campaign multiplier were removed on 2026-09-29
   // (owner decision). An award pays exactly what the exercise pays — a stale
   // boost timestamp left in storage by an old build must not double it.

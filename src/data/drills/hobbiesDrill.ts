@@ -130,7 +130,7 @@ export const HOBBIES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'bavitise',
     q: 'Volim ____.',
-    en: 'I like travelling.',
+    en: 'I like traveling.',
     opts: ['putovati', 'putujem', 'putovao', 'putujući'],
     answer: 'putovati',
     tip: 'The infinitive follows voljeti directly.',

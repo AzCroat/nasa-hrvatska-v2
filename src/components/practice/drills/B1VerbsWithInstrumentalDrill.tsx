@@ -21,7 +21,7 @@ export default function B1VerbsWithInstrumentalDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1verbswithinstrumental"
       title="Čime se baviš? — Verbs That Take the Instrumental"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_WITH_INSTRUMENTAL_MODE_LABELS}
       data={VERBS_WITH_INSTRUMENTAL_DRILL_DATA}
       praise={{

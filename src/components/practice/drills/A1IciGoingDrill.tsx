@@ -18,7 +18,7 @@ export default function A1IciGoingDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1icigoing"
       title="Going: ići"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ICI_GOING_MODE_LABELS}
       data={ICI_GOING_DRILL_DATA}
       praise={{

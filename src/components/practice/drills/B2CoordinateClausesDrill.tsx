@@ -21,7 +21,7 @@ export default function B2CoordinateClausesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2coordinateclauses"
       title="And, But, Or, So: Compound Sentences"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COORDINATE_CLAUSES_MODE_LABELS}
       data={COORDINATE_CLAUSES_DRILL_DATA}
       praise={{

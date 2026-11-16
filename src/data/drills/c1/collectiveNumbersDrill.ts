@@ -131,7 +131,7 @@ export const COLLECTIVE_NUMBERS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'priblizni',
     q: 'Do grada ima ____ kilometara.',
-    en: 'It is about fifteen kilometres to town.',
+    en: 'It is about fifteen kilometers to town.',
     opts: ['petnaestak', 'petnaest', 'petnaestero', 'petnaestica'],
     answer: 'petnaestak',
     tip: 'petnaest + -ak.',

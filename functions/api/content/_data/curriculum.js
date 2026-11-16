@@ -76,7 +76,7 @@ export const CURRICULUM = [
     prerequisites: [],
     objectives: [
       'Read any Croatian word aloud, because the alphabet is almost perfectly phonetic',
-      'Recognise the eight letters English does not have: č ć đ š ž lj nj dž',
+      'Recognize the eight letters English does not have: č ć đ š ž lj nj dž',
       'Hear the difference between č and ć — the one that changes meaning',
     ],
   },
@@ -121,7 +121,7 @@ export const CURRICULUM = [
     objectives: [
       'Make any regular noun plural from its gender alone',
       'Handle the short masculine nouns that grow: grad → gradovi',
-      'Recognise the five irregular plurals you cannot avoid: ljudi, djeca, braća, oči, uši',
+      'Recognize the five irregular plurals you cannot avoid: ljudi, djeca, braća, oči, uši',
     ],
   },
   {
@@ -142,7 +142,7 @@ export const CURRICULUM = [
     prerequisites: ['pronouns-biti'],
     objectives: [
       'Conjugate regular verbs in the present across all three patterns',
-      'Recognise which pattern a verb follows from its infinitive',
+      'Recognize which pattern a verb follows from its infinitive',
       'Say what you do every day',
     ],
   },
@@ -274,7 +274,7 @@ export const CURRICULUM = [
     prerequisites: ['cases'],
     objectives: [
       'Say where you are, live and work: u Zagrebu, u školi, na moru',
-      'Recognise the one case that never appears without a preposition',
+      'Recognize the one case that never appears without a preposition',
       'Answer Gdje? with a locative and Kamo? with an accusative',
     ],
   },
@@ -385,7 +385,7 @@ export const CURRICULUM = [
     objectives: [
       'Ask where something is, and understand the directions you get back',
       'Name the places in a Croatian town you will actually look for',
-      'Say how you are travelling: pješice, tramvajem, autobusom',
+      'Say how you are traveling: pješice, tramvajem, autobusom',
     ],
   },
   {
@@ -452,7 +452,7 @@ export const CURRICULUM = [
     prerequisites: ['cases'],
     objectives: [
       'Mark the direct object — the thing the verb acts on',
-      'Use the accusative for motion towards a place',
+      'Use the accusative for motion toward a place',
       'Know why animate masculine nouns behave differently',
     ],
   },
@@ -473,7 +473,7 @@ export const CURRICULUM = [
     order: 74,
     prerequisites: ['accusative-intro'],
     objectives: [
-      'Say who you are with and what you are travelling by',
+      'Say who you are with and what you are traveling by',
       'Tell the means (vlakom) from the company (s bratom)',
       'Use baviti se to talk about a regular activity',
     ],
@@ -497,7 +497,7 @@ export const CURRICULUM = [
     objectives: [
       'Match an adjective to its noun in gender, number and case',
       'Describe people and things accurately',
-      'Recognise the definite and indefinite adjective forms',
+      'Recognize the definite and indefinite adjective forms',
     ],
   },
   {
@@ -541,7 +541,7 @@ export const CURRICULUM = [
     objectives: [
       'Give and understand a date in Croatian',
       'Use ordinals as the adjectives they are, including na petom katu',
-      'Recognise the old Slavic month names, which look nothing like the English ones',
+      'Recognize the old Slavic month names, which look nothing like the English ones',
     ],
   },
   {
@@ -628,7 +628,7 @@ export const CURRICULUM = [
     prerequisites: ['negation'],
     objectives: [
       'Say someone, no one, everyone — and the same for things and places',
-      'Build the whole set from three prefixes rather than memorising twenty words',
+      'Build the whole set from three prefixes rather than memorizing twenty words',
       'Remember that the ni- family always needs a negated verb',
     ],
   },
@@ -662,7 +662,7 @@ export const CURRICULUM = [
     objectives: [
       'Say what you and other people are wearing',
       'Buy clothes: say what you want, ask to try something on, ask for your size',
-      'Agree colours with the thing they describe',
+      'Agree colors with the thing they describe',
     ],
   },
   {
@@ -830,7 +830,7 @@ export const CURRICULUM = [
     objectives: [
       'Understand aspect — whether an action is complete or ongoing',
       'See why Croatian needs two verbs where English needs one',
-      'Recognise aspect pairs when you meet them in a dictionary',
+      'Recognize aspect pairs when you meet them in a dictionary',
     ],
   },
   {
@@ -862,7 +862,7 @@ export const CURRICULUM = [
     prerequisites: ['aspect-perfective'],
     objectives: [
       'Read an unknown verb by stripping its prefix and finding the root',
-      'Recognise that the prefixes echo the prepositions: u-, iz-, do-, pre-',
+      'Recognize that the prefixes echo the prepositions: u-, iz-, do-, pre-',
       'Grow vocabulary by families rather than one word at a time',
     ],
   },
@@ -929,7 +929,7 @@ export const CURRICULUM = [
     objectives: [
       'Talk about conditions that may genuinely be met',
       'Keep the if-clause in the present, exactly as English does',
-      'Recognise the budem-form Croatian uses for a future condition',
+      'Recognize the budem-form Croatian uses for a future condition',
     ],
   },
   {
@@ -1060,7 +1060,7 @@ export const CURRICULUM = [
     prerequisites: ['media-news'],
     objectives: [
       'Handle everyday digital vocabulary in Croatian',
-      'Recognise the native words — računalo, preglednik, poveznica — and where they belong',
+      'Recognize the native words — računalo, preglednik, poveznica — and where they belong',
       'Log in, download, save and share without reaching for English',
     ],
   },
@@ -1121,7 +1121,7 @@ export const CURRICULUM = [
     prerequisites: ['plural-cases'],
     objectives: [
       'Decline the feminine nouns that end in a consonant: stvar, noć, ljubav, riječ',
-      'Recognise that every -ost noun belongs to this class',
+      'Recognize that every -ost noun belongs to this class',
       'Stop applying the -a pattern where the accusative should not change at all',
     ],
   },
@@ -1132,7 +1132,7 @@ export const CURRICULUM = [
     prerequisites: ['verb-prefixes'],
     objectives: [
       'Run the aspect system in reverse: make a perfective imperfective again',
-      'Recognise -ivati, -avati and -vati as imperfective markers when reading',
+      'Recognize -ivati, -avati and -vati as imperfective markers when reading',
       'See one root yield three verbs: pisati, zapisati, zapisivati',
     ],
   },
@@ -1331,7 +1331,7 @@ export const CURRICULUM = [
     objectives: [
       'Write an email that lands at the right level of formality',
       'Move between spoken, written and official registers deliberately',
-      'Recognise which forms belong only in writing',
+      'Recognize which forms belong only in writing',
     ],
   },
   {
@@ -1493,7 +1493,7 @@ export const CURRICULUM = [
     objectives: [
       'Know which case each common verb demands, and stop guessing',
       'Use the verbs whose case differs from the English preposition',
-      'Recognise that a verb changing case changes its meaning',
+      'Recognize that a verb changing case changes its meaning',
     ],
   },
   {
@@ -1513,7 +1513,7 @@ export const CURRICULUM = [
     order: 51,
     prerequisites: ['past-tense'],
     objectives: [
-      'Recognise the aorist and imperfect in literature and older writing',
+      'Recognize the aorist and imperfect in literature and older writing',
       'Understand what they convey that the perfect does not',
       'Form them for the verbs where they are still in living use',
     ],
@@ -1636,7 +1636,7 @@ export const CURRICULUM = [
     objectives: [
       'Use idioms that native speakers actually say',
       'Judge when an expression is too colloquial for the moment',
-      'Understand humour and understatement',
+      'Understand humor and understatement',
     ],
   },
   {
@@ -1656,7 +1656,7 @@ export const CURRICULUM = [
     order: 49,
     prerequisites: ['condensation'],
     objectives: [
-      'Summarise a Croatian text without copying its sentences',
+      'Summarize a Croatian text without copying its sentences',
       'Report what a source says with the right reporting verb',
       'Say the same thing three ways and pick the best one',
     ],
@@ -1700,7 +1700,7 @@ export const CURRICULUM = [
     order: 57,
     prerequisites: ['collocations'],
     objectives: [
-      'Recognise the English structures that do not survive translation',
+      'Recognize the English structures that do not survive translation',
       'Fix the calques that mark your Croatian as translated',
       'Translate meaning rather than words, in both directions',
     ],
@@ -1723,7 +1723,7 @@ export const CURRICULUM = [
     prerequisites: ['clause-types'],
     objectives: [
       'Read a Croatian news article for what it does not say',
-      'Recognise the passive and nominal styles that hide an agent',
+      'Recognize the passive and nominal styles that hide an agent',
       'Tell reporting from commentary in the language itself',
     ],
   },
@@ -1766,7 +1766,7 @@ export const CURRICULUM = [
     order: 63,
     prerequisites: ['accent-prosody'],
     objectives: [
-      'Recognise kajkavski and čakavski when you hear them',
+      'Recognize kajkavski and čakavski when you hear them',
       'Understand the regional words that standard Croatian does not use',
       'Know which of your own forms belong to a region rather than the standard',
     ],
@@ -1777,8 +1777,8 @@ export const CURRICULUM = [
     order: 64,
     prerequisites: ['regional-varieties'],
     objectives: [
-      'Understand what distinguishes Croatian from its neighbours',
-      'Recognise the lexical choices that mark a text as Croatian',
+      'Understand what distinguishes Croatian from its neighbors',
+      'Recognize the lexical choices that mark a text as Croatian',
       'Navigate the subject with the care it deserves',
     ],
   },
@@ -1789,7 +1789,7 @@ export const CURRICULUM = [
     prerequisites: ['language-identity'],
     objectives: [
       'Talk about heritage, generation and belonging in Croatian',
-      'Recognise the diaspora forms that differ from the homeland standard',
+      'Recognize the diaspora forms that differ from the homeland standard',
       'Answer “where are you from?” in the way the question is meant',
     ],
   },
@@ -1822,7 +1822,7 @@ export const CURRICULUM = [
     prerequisites: ['proofreading-editing'],
     objectives: [
       'Tell what the standard prescribes from what educated speakers do',
-      'Recognise hypercorrection as its own class of error',
+      'Recognize hypercorrection as its own class of error',
       'Choose a register for the reader and stay inside it',
     ],
   },
@@ -1931,7 +1931,7 @@ export const CURRICULUM = [
     order: 6,
     prerequisites: ['idioms-register'],
     objectives: [
-      'Recognise and use the rhetorical figures Croatian prose favours',
+      'Recognize and use the rhetorical figures Croatian prose favours',
       'Vary sentence rhythm deliberately',
       'Write persuasively rather than merely correctly',
     ],
@@ -1965,7 +1965,7 @@ export const CURRICULUM = [
     prerequisites: ['ironija-podtekst'],
     objectives: [
       'Follow puns that turn on pitch accent or a case ending',
-      'Recognise the diminutive as a comic instrument',
+      'Recognize the diminutive as a comic instrument',
       'Hear a dialect switch as a comic register rather than an error',
     ],
   },
@@ -1988,7 +1988,7 @@ export const CURRICULUM = [
     objectives: [
       'Read a Croatian news text the way it was built',
       'Hear the endorsement carried by kaže, tvrdi, navodi and ističe',
-      'Recognise the agentless construction that conceals a source',
+      'Recognize the agentless construction that conceals a source',
     ],
   },
   {
@@ -2008,7 +2008,7 @@ export const CURRICULUM = [
     order: 13,
     prerequisites: ['literature-canon'],
     objectives: [
-      'Recognise the aorist, imperfect and free indirect style at work',
+      'Recognize the aorist, imperfect and free indirect style at work',
       'Read dialect in dialogue as characterisation',
       'Parse a long literary sentence instead of being defeated by it',
     ],
@@ -2019,7 +2019,7 @@ export const CURRICULUM = [
     order: 14,
     prerequisites: ['idioms-register'],
     objectives: [
-      'Recognise the shortenings and intonation questions of real speech',
+      'Recognize the shortenings and intonation questions of real speech',
       'Use diminutives for warmth rather than size',
       'Switch registers deliberately and never drift between them',
     ],
@@ -2041,7 +2041,7 @@ export const CURRICULUM = [
     order: 16,
     prerequisites: ['summarising-paraphrase'],
     objectives: [
-      'Organise a synthesis by idea rather than by source',
+      'Organize a synthesis by idea rather than by source',
       'State the common ground before the divergence',
       'Report what no source says as a finding',
     ],
@@ -2107,7 +2107,7 @@ export const CURRICULUM = [
     order: 22,
     prerequisites: ['idioms-register'],
     objectives: [
-      'Recognise a proverb from its opening, because that is all you will hear',
+      'Recognize a proverb from its opening, because that is all you will hear',
       'Read the classical and biblical allusions serious writing assumes',
       'Use them sparingly enough to sound native',
     ],
@@ -2118,7 +2118,7 @@ export const CURRICULUM = [
     order: 23,
     prerequisites: ['regional-varieties'],
     objectives: [
-      'Follow kajkavian and čakavian rather than only recognising them',
+      'Follow kajkavian and čakavian rather than only recognizing them',
       'Use the yat reflex to place a speaker in one word',
       'Read a dialect feature as a register choice, never as a mistake',
     ],

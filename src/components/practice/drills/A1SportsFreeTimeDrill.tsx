@@ -21,7 +21,7 @@ export default function A1SportsFreeTimeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1sportsfreetime"
       title="Sport and Free Time"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SPORTS_FREE_TIME_MODE_LABELS}
       data={SPORTS_FREE_TIME_DRILL_DATA}
       praise={{

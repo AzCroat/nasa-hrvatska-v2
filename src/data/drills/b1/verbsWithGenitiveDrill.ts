@@ -179,7 +179,7 @@ export const VERBS_WITH_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenica',
     q: 'Sjećaš li ____ se? Bili smo susjedi.',
-    en: 'Do you remember me? We were neighbours.',
+    en: 'Do you remember me? We were neighbors.',
     opts: ['me', 'mi', 'mene', 'ja'],
     answer: 'me',
     tip: 'The short genitive of ja, before se.',

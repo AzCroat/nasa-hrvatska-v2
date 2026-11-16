@@ -21,7 +21,7 @@ export default function A1JobsProfessionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1jobsprofessions"
       title="Who Does What: Jobs for Men and Women"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={JOBS_PROFESSIONS_MODE_LABELS}
       data={JOBS_PROFESSIONS_DRILL_DATA}
       praise={{

@@ -2,13 +2,13 @@
 //
 // Per-activity "why am I seeing this" (recommender audit, 2026-08-20).
 //
-// The behaviour worth pinning is not the wording — it is the HONESTY RULE
+// The behavior worth pinning is not the wording — it is the HONESTY RULE
 // inherited from buildPlanReason: never fabricate. A reason the learner can
 // catch being wrong is worse than no reason at all, and there are two specific
 // ways this could quietly start lying:
 //
 //   * the adaptive store seeds recentAccuracy at 0.5 for categories never
-//     practised, so a naive reader would report "50% accurate" for a drill the
+//     practiced, so a naive reader would report "50% accurate" for a drill the
 //     learner has never opened;
 //   * the mastery ledger returns null when it has measured neither production
 //     skill, so naming one as "weakest" would be evidence-free.
@@ -29,7 +29,7 @@
 // not-enough-evidence states are asserted separately.
 //
 // Both are tested here against the real storage layer rather than a mock, so a
-// change to the seeding behaviour surfaces as a failure in these tests.
+// change to the seeding behavior surfaces as a failure in these tests.
 
 import { describe, it, expect, beforeEach } from 'vitest';
 import { recordMasteryEvent, MIN_SAMPLES } from '../lib/masteryLedger';
@@ -64,26 +64,26 @@ describe('reviewReason — counts are real', () => {
 describe('adaptiveReason — never invents a score', () => {
   beforeEach(() => localStorage.clear());
 
-  it('a never-practised category is described as never practised, NOT as 50%', () => {
+  it('a never-practised category is described as never practiced, NOT as 50%', () => {
     const reason = adaptiveReason('genitive');
-    expect(reason).toBe("You haven't practised the genitive yet.");
+    expect(reason).toBe("You haven't practiced the genitive yet.");
     // The seeded 0.5 must never surface as a claimed result.
     expect(reason).not.toContain('50');
     expect(reason).not.toContain('%');
   });
 
-  it('cites the measured accuracy once the category has really been practised', () => {
+  it('cites the measured accuracy once the category has really been practiced', () => {
     rateCategorySession('genitive', 0.4);
     const reason = adaptiveReason('genitive');
     expect(reason).toMatch(/\d+% accurate on the genitive/);
-    expect(reason).not.toContain("haven't practised");
+    expect(reason).not.toContain("haven't practiced");
   });
 
   it('a strong category is described as due, not as weak', () => {
     // recentAccuracy is an EWMA (α=0.3) seeded at 0.5, so ONE perfect session
     // only reaches 0.65 — still below the 0.75 "strong" line, and correctly
     // reported as an accuracy rather than a refresh. Three sessions clear it
-    // (0.5 → 0.65 → 0.755 → 0.8285). Asserting on the seeded value's behaviour
+    // (0.5 → 0.65 → 0.755 → 0.8285). Asserting on the seeded value's behavior
     // here is deliberate: it pins that "strong" means sustained, not lucky.
     rateCategorySession('genitive', 1);
     rateCategorySession('genitive', 1);
@@ -112,12 +112,12 @@ describe('productionReason — no evidence, no claim', () => {
     expect(productionReason('speak', LEVEL)).toContain('Speaking');
   });
 
-  it('says the learner has not practised it, rather than claiming a measurement', () => {
-    // The commonest early state: the OTHER skill has been practised, so
+  it('says the learner has not practiced it, rather than claiming a measurement', () => {
+    // The commonest early state: the OTHER skill has been practiced, so
     // weakestProductionKind returns this one — with nothing behind it.
     measure('writing', 0.95);
     const reason = productionReason('speak', LEVEL);
-    expect(reason).toBe("You haven't practised speaking yet.");
+    expect(reason).toBe("You haven't practiced speaking yet.");
     expect(reason).not.toMatch(/your practice says/);
   });
 
@@ -125,7 +125,7 @@ describe('productionReason — no evidence, no claim', () => {
     recordMasteryEvent({ level: LEVEL, skill: 'speaking', score: 0.2, weight: 1 } as never);
     const reason = productionReason('speak', LEVEL);
     expect(reason).not.toMatch(/your practice says/);
-    expect(reason).not.toMatch(/haven't practised/);
+    expect(reason).not.toMatch(/haven't practiced/);
     expect(reason).toContain('produce Croatian yourself');
   });
 
@@ -147,11 +147,11 @@ describe('inputSlotReason — the same rule for comprehension', () => {
     expect(inputSlotReason('listening', 'listening', LEVEL)).toContain('Listening');
   });
 
-  it('says the learner has not practised it, rather than claiming a measurement', () => {
-    // The exact measured case: reading practised, listening never attempted.
+  it('says the learner has not practiced it, rather than claiming a measurement', () => {
+    // The exact measured case: reading practiced, listening never attempted.
     measure('reading', 0.95);
     const reason = inputSlotReason('listening', 'listening', LEVEL);
-    expect(reason).toBe("You haven't practised listening yet.");
+    expect(reason).toBe("You haven't practiced listening yet.");
     expect(reason).not.toMatch(/your practice says/);
   });
 
@@ -237,7 +237,7 @@ describe('the always-true reasons state a guarantee, not a measurement', () => {
 
 describe('taughtReason — "just" is a claim about time', () => {
   // The queue entry lives TAUGHT_TTL_DAYS (14) and exists PRECISELY BECAUSE the
-  // learner has not practised what it taught, so any gap in usage makes it
+  // learner has not practiced what it taught, so any gap in usage makes it
   // stale. Before 2026-09-23 the line said "You just finished a lesson on X" at
   // any age up to a fortnight — telling a learner returning after a week that
   // they had just finished a lesson they finished last Tuesday. The entry
@@ -253,7 +253,7 @@ describe('taughtReason — "just" is a claim about time', () => {
       const reason = taughtReason('genitive', age);
       expect(reason, `age ${age}`).not.toContain('just');
       // ...and still says why the slot is here, which is the true part.
-      expect(reason, `age ${age}`).toContain("haven't practised it yet");
+      expect(reason, `age ${age}`).toContain("haven't practiced it yet");
       expect(reason, `age ${age}`).toContain("here's where you use it");
     }
   });

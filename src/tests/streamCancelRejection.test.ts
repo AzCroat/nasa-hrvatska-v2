@@ -10,7 +10,7 @@
  *     }
  *
  * `cancel()` returns a promise, so a *synchronous* try/catch can never catch its
- * rejection. Cancelling the reader of a stream that has already been errored —
+ * rejection. Canceling the reader of a stream that has already been errored —
  * which is what aborting a fetch does to its body — returns a promise rejected
  * with that stored error (Streams spec, ReadableStreamReaderGenericCancel). So a
  * single abort produced two rejections: `reader.read()`, which the surrounding
@@ -23,7 +23,7 @@
  * Sentry pages with `AbortError: Fetch is aborted` — the exact event the
  * isAbortFailure guard beside it existed to keep out.
  *
- * The first block proves the platform behaviour the fix rests on, so the reason
+ * The first block proves the platform behavior the fix rests on, so the reason
  * for the `.catch()` cannot be mistaken for superstition. The second pins the
  * three call sites, because this regresses by deleting five characters.
  */

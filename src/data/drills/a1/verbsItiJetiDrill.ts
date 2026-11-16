@@ -147,7 +147,7 @@ export const VERBS_ITI_JETI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ati-iti',
     q: 'Mama ____ ručak.',
-    en: 'Mum is cooking lunch.',
+    en: 'Mom is cooking lunch.',
     opts: ['kuha', 'kuhi', 'kuhe', 'kuhim'],
     answer: 'kuha',
     tip: 'kuhati is an -ati verb.',

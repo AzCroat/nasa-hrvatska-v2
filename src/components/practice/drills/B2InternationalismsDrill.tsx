@@ -21,7 +21,7 @@ export default function B2InternationalismsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2internationalisms"
       title="Organizacija, Turizam, Organizirati"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INTERNATIONALISMS_MODE_LABELS}
       data={INTERNATIONALISMS_DRILL_DATA}
       praise={{

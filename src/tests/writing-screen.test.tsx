@@ -277,7 +277,7 @@ describe('WritingScreen — word count display', () => {
 
 // ── The badge must be able to name every level the bank holds ─────────────────
 //
-// The colour is an inline ternary whose FINAL arm is C1's violet, so a level
+// The color is an inline ternary whose FINAL arm is C1's violet, so a level
 // with no arm of its own does not render colourless — it renders as C1. That is
 // worse than the `levelColor[q.level] === undefined` shape `dictationLevel`
 // pins, because nothing looks wrong: an A1 prompt simply wears the advanced
@@ -308,7 +308,7 @@ describe('the level badge has an arm for every level in PROMPTS', () => {
     expect(
       unarmed,
       `PROMPTS carries ${unarmed.join('/')} but the badge ternary has no arm for it, so it falls ` +
-        `through to ${fallThrough || 'the final arm'} and a learner reads the wrong level's colour.`,
+        `through to ${fallThrough || 'the final arm'} and a learner reads the wrong level's color.`,
     ).toEqual([]);
   });
 });

@@ -21,7 +21,7 @@ export default function B2WordFormationAgentsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2wordformationagents"
       title="Who Does It, What It Is Like: Building Nouns"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={WORD_FORMATION_AGENTS_MODE_LABELS}
       data={WORD_FORMATION_AGENTS_DRILL_DATA}
       praise={{

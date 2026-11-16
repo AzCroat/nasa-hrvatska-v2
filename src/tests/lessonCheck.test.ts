@@ -55,7 +55,7 @@ describe('lessonGate', () => {
     expect(g.kind).toBe('quiz');
   });
 
-  it('nothing to test → none, and none passes (pre-gate behaviour, no shipped lesson)', () => {
+  it('nothing to test → none, and none passes (pre-gate behavior, no shipped lesson)', () => {
     const g = lessonGate([{ type: 'intro' }, { type: 'summary' }]);
     expect(g).toEqual({ kind: 'none', total: 0 });
     expect(lessonPassed(g, 0)).toBe(true);

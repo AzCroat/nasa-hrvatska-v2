@@ -21,7 +21,7 @@ export default function A1DailyRoutineDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1dailyroutine"
       title="My Daily Routine"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DAILY_ROUTINE_MODE_LABELS}
       data={DAILY_ROUTINE_DRILL_DATA}
       praise={{

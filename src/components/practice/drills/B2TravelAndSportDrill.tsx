@@ -21,7 +21,7 @@ export default function B2TravelAndSportDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2travelandsport"
       title="Hej, Haj, Uživaj! Free Time, Sport and Travel"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TRAVEL_AND_SPORT_MODE_LABELS}
       data={TRAVEL_AND_SPORT_DRILL_DATA}
       praise={{

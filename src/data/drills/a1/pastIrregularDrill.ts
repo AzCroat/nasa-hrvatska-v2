@@ -65,7 +65,7 @@ export const PAST_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ici',
     q: 'Mama i tata su ____ u subotu.',
-    en: 'Mum and dad came on Saturday.',
+    en: 'Mom and dad came on Saturday.',
     opts: ['došli', 'došle', 'došla', 'došao'],
     answer: 'došli',
     tip: 'A mixed group takes -li.',

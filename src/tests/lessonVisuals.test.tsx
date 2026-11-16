@@ -1,7 +1,7 @@
 // Picture slides (visual-learning pilot, 2026-10-29): the owner's case charts
 // ("Padezi Graphs - Singular" and "- Plural") as passive lesson slides. It must sit where the
 // data says, carry only forms the declension engine produces, mark the ending in
-// words/underline as well as colour, degrade on an unknown kind, and never gate a
+// words/underline as well as color, degrade on an unknown kind, and never gate a
 // lesson.
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, within } from '@testing-library/react';
@@ -319,7 +319,7 @@ describe('the rendered chart', () => {
     expect(within(loc).getByText('Where am I?')).toBeTruthy();
     expect(screen.getByText('Koga, čega nema?')).toBeTruthy();
   });
-  it('marks each changed ending in text (underline), not only colour', () => {
+  it('marks each changed ending in text (underline), not only color', () => {
     render(<LessonVisualSlide slide={visualOf(FULL)} lesson={LESSON} />);
     const endings = screen.getAllByTestId('chart-ending');
     expect(endings.length).toBeGreaterThan(20);
@@ -377,7 +377,7 @@ describe('the rendered chart', () => {
     );
     expect(screen.getByText('Plain words.')).toBeTruthy();
   });
-  it('uses theme tokens only: no colour literal in the chart', () => {
+  it('uses theme tokens only: no color literal in the chart', () => {
     const src = readFileSync('src/components/learn/visuals/CaseChartVisual.tsx', 'utf8')
       .replace(/^\s*\/\/.*$/gm, '')
       .replace(/\/\*[\s\S]*?\*\//g, '');

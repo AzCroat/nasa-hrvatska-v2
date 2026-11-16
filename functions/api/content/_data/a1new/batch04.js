@@ -67,7 +67,7 @@ export const SPINE = [
     objectives: [
       'Ask for a ticket politely: Molim Vas kartu za Split / Želim kartu za Split',
       'Choose a one-way or return ticket and ask when the ferry or bus goes',
-      'Book a room or a trip for a day and for the people travelling',
+      'Book a room or a trip for a day and for the people traveling',
     ],
   },
   {
@@ -132,7 +132,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Places You Can Already Go',
-        body: 'Some words for direction need no ending at all: kući ((to) home), tamo (there), ovamo (here, this way — towards the speaker), van (out). Idem kući. Idemo van. A few more you met in the accusative lesson: u grad (into town), na more (to the seaside), na kavu (for a coffee). The next lesson shows exactly when to say u and when to say na.',
+        body: 'Some words for direction need no ending at all: kući ((to) home), tamo (there), ovamo (here, this way — toward the speaker), van (out). Idem kući. Idemo van. A few more you met in the accusative lesson: u grad (into town), na more (to the seaside), na kavu (for a coffee). The next lesson shows exactly when to say u and when to say na.',
         highlight: 'Idem kući.',
       },
       {
@@ -204,7 +204,7 @@ export const LESSONS = [
           {
             hr: 'Ana i Petar idu ovamo.',
             en: 'Ana and Petar are coming this way.',
-            note: 'ovamo — towards the speaker',
+            note: 'ovamo — toward the speaker',
           },
         ],
       },
@@ -484,7 +484,7 @@ export const LESSONS = [
             options: ['Gdje?', 'Tko?', 'Kamo?', 'Kada?'],
             correct: 2,
             explanation:
-              'u and na with the accusative mark movement towards somewhere, which answers Kamo? — where to?',
+              'u and na with the accusative mark movement toward somewhere, which answers Kamo? — where to?',
           },
           {
             q: 'How do you say "I am going home"?',
@@ -537,7 +537,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'For Someone',
-        body: 'The most common use: who something is for. Ovo je poklon za mamu. (This is a present for Mum.) Kupujem cvijeće za sestru. (I am buying flowers for my sister.) Kolač je za brata. (The cake is for my brother.) To ask, use koga — the object form of tko (who): Za koga je ovo? (Who is this for?)',
+        body: 'The most common use: who something is for. Ovo je poklon za mamu. (This is a present for Mom.) Kupujem cvijeće za sestru. (I am buying flowers for my sister.) Kolač je za brata. (The cake is for my brother.) To ask, use koga — the object form of tko (who): Za koga je ovo? (Who is this for?)',
         highlight: 'Za koga je ovo?',
       },
       {
@@ -561,7 +561,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Po + Accusative: Going to Fetch',
-        body: 'po with the accusative means going somewhere to get something or someone and bring it back: Idem po kruh. (I am going to get bread.) Idem po mamu. (I am going to pick up Mum.) Muž ide po ženu. (The husband goes to pick up his wife.) The noun after po takes the same accusative as after za: kruh stays, mama → mamu, brat → brata. To ask what someone is going for: Po što ideš? — and for a person: Po koga ideš?',
+        body: 'po with the accusative means going somewhere to get something or someone and bring it back: Idem po kruh. (I am going to get bread.) Idem po mamu. (I am going to pick up Mom.) Muž ide po ženu. (The husband goes to pick up his wife.) The noun after po takes the same accusative as after za: kruh stays, mama → mamu, brat → brata. To ask what someone is going for: Po što ideš? — and for a person: Po koga ideš?',
         highlight: 'Idem po kruh.',
       },
       {
@@ -582,7 +582,7 @@ export const LESSONS = [
         type: 'example',
         title: 'For People',
         items: [
-          { hr: 'Ovo je poklon za mamu.', en: 'This is a present for Mum.', note: 'mama → mamu' },
+          { hr: 'Ovo je poklon za mamu.', en: 'This is a present for Mom.', note: 'mama → mamu' },
           {
             hr: 'Kupujem cvijeće za sestru.',
             en: 'I am buying flowers for my sister.',
@@ -1373,7 +1373,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pijem slatki čaj, a ti piješ kiselo mlijeko.',
-            en: 'I drink sweet tea, and you drink sour milk (yoghurt drink).',
+            en: 'I drink sweet tea, and you drink sour milk (yogurt drink).',
             note: 'slatki čaj, kiselo mlijeko',
           },
         ],
@@ -1640,7 +1640,7 @@ export const PRACTICE = {
       ['gdje', 'where (at)', 'Gdje je Ana?'],
       ['kući', '(to) home', 'Idemo kući.'],
       ['tamo', 'there', 'Ana je tamo.'],
-      ['ovamo', 'this way, towards here', 'Oni idu ovamo.'],
+      ['ovamo', 'this way, toward here', 'Oni idu ovamo.'],
       ['van', 'out', 'Danas ne idem van.'],
       ['Idemo!', "Let's go!", 'Idemo na kavu!'],
       ['spavati', 'to sleep', 'Laku noć, idem spavati.'],
@@ -1951,7 +1951,7 @@ export const PRACTICE = {
           explanation: 'Rezerviram stol za srijedu.',
         },
         {
-          q: 'Idem po ___. (to pick up Mum)',
+          q: 'Idem po ___. (to pick up Mom)',
           options: ['mama', 'mamu', 'mami', 'mamom'],
           correct: 1,
           hint: 'po takes the same object form as za.',

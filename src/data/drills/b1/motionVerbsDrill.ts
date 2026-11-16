@@ -70,7 +70,7 @@ export const MOTION_VERBS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does the prefix in doći add?',
     opts: ['toward, arriving', 'away, leaving', 'out of', 'across'],
     answer: 'toward, arriving',
-    tip: 'do- is towards; od- is away (otići).',
+    tip: 'do- is toward; od- is away (otići).',
   },
   {
     mode: 'prefiks',

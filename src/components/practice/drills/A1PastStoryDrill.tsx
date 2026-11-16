@@ -21,7 +21,7 @@ export default function A1PastStoryDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1paststory"
       title="Telling a Story"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PAST_STORY_MODE_LABELS}
       data={PAST_STORY_DRILL_DATA}
       praise={{

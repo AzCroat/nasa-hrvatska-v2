@@ -41,7 +41,7 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osobe',
     q: 'Mama ____ ručak. (kuhati)',
-    en: 'Mum is cooking lunch.',
+    en: 'Mom is cooking lunch.',
     opts: ['kuham', 'kuhaju', 'kuha', 'kuhaš'],
     answer: 'kuha',
     tip: 'on / ona / ono: no ending after the -a-.',
@@ -91,7 +91,7 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'irati',
     q: 'Ivan ____ izlet. (organizirati)',
-    en: 'Ivan is organising a trip.',
+    en: 'Ivan is organizing a trip.',
     opts: ['organizira', 'organiziraju', 'organiziram', 'organiziraš'],
     answer: 'organizira',
     tip: 'Every -irati verb is regular: organizira.',
@@ -147,7 +147,7 @@ export const VERBS_ATI_IRATI_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'irati',
     q: 'Vi ____ koncert? (organizirati — polite you)',
-    en: 'Are you organising a concert?',
+    en: 'Are you organizing a concert?',
     opts: ['organiziramo', 'organiziraju', 'organizirate', 'organizira'],
     answer: 'organizirate',
     tip: 'vi → -te.',

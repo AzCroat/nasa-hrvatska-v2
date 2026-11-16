@@ -214,7 +214,7 @@ export const COMPARATIVE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'razmjer',
     q: 'Koja je rečenica pravopisno točna?',
-    en: 'As I said, the meeting is cancelled.',
+    en: 'As I said, the meeting is canceled.',
     opts: [
       'Kao što sam rekao, sastanak je otkazan.',
       'Kao što sam rekao sastanak je otkazan.',

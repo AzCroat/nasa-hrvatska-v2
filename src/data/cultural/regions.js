@@ -704,7 +704,7 @@ export const REGIONS = {
       {
         h: 'The Homeland War in Herzegovina (1992–1995)',
         hHr: 'Domovinski rat u Hercegovini (1992. – 1995.)',
-        t: 'When Yugoslavia collapsed, Herzegovinian Croats faced an existential crisis. The Croatian Defence Council (HVO) formed in April 1992 to defend against Serbian aggression. In the first phase, Croats and Bosniaks cooperated — they were facing the same enemy. But from 1993, a catastrophic Croat-Bosniak conflict erupted over the future of Bosnia. The siege of Mostar, the destruction of the 16th-century Stari Most bridge (November 9, 1993), and atrocities on both sides remain painful chapters. The Washington Agreement (March 1994) ended the Croat-Bosniak war and established the Croat-Bosniak Federation.',
+        t: 'When Yugoslavia collapsed, Herzegovinian Croats faced an existential crisis. The Croatian Defense Council (HVO) formed in April 1992 to defend against Serbian aggression. In the first phase, Croats and Bosniaks cooperated — they were facing the same enemy. But from 1993, a catastrophic Croat-Bosniak conflict erupted over the future of Bosnia. The siege of Mostar, the destruction of the 16th-century Stari Most bridge (November 9, 1993), and atrocities on both sides remain painful chapters. The Washington Agreement (March 1994) ended the Croat-Bosniak war and established the Croat-Bosniak Federation.',
         tHr: 'Raspadom Jugoslavije hercegovački su Hrvati suočeni s egzistencijalnom krizom. Hrvatsko vijeće obrane (HVO) osnovano je u travnju 1992. radi obrane od srpske agresije. U prvoj su fazi Hrvati i Bošnjaci surađivali — suočavali su se s istim neprijateljem. No od 1993. izbio je katastrofalan hrvatsko-bošnjački sukob oko budućnosti Bosne. Opsada Mostara, uništenje Staroga mosta iz 16. stoljeća (9. studenoga 1993.) te zločini počinjeni s obje strane ostaju bolna poglavlja. Washingtonski sporazum (ožujak 1994.) okončao je hrvatsko-bošnjački rat i uspostavio Hrvatsko-bošnjačku federaciju.',
       },
       {
@@ -792,7 +792,7 @@ export const REGIONS = {
       },
       {
         year: 'Apr 1992',
-        event: 'HVO (Croatian Defence Council) formed. Croatian Defence of Herzegovina begins',
+        event: 'HVO (Croatian Defense Council) formed. Croatian Defense of Herzegovina begins',
         eventHr: 'Osnovan HVO (Hrvatsko vijeće obrane). Počinje hrvatska obrana Hercegovine',
       },
       {
@@ -854,7 +854,7 @@ export const REGIONS = {
       {
         hr: 'stećak',
         en: 'medieval tombstone (sing.)',
-        note: 'Carved medieval stone monuments found across Bosnia and Herzegovina and in neighbouring parts of Croatia, Serbia and Montenegro. Stećci (plural) are a UNESCO World Heritage Site (2016)',
+        note: 'Carved medieval stone monuments found across Bosnia and Herzegovina and in neighboring parts of Croatia, Serbia and Montenegro. Stećci (plural) are a UNESCO World Heritage Site (2016)',
       },
       {
         hr: 'ganga',
@@ -863,7 +863,7 @@ export const REGIONS = {
       },
       {
         hr: 'HVO',
-        en: 'Croatian Defence Council',
+        en: 'Croatian Defense Council',
         note: 'The Croatian military force in Bosnia-Herzegovina during the 1990s war (Hrvatsko vijeće obrane)',
       },
       {
@@ -1670,13 +1670,13 @@ export const REGIONS = {
       {
         h: 'Illyrian Movement — The Birth of Modern Croatian Identity',
         hHr: 'Ilirski pokret — rođenje modernoga hrvatskog identiteta',
-        t: 'In the 1830s and 1840s, Zagreb became the epicentre of the Croatian National Revival. The Illyrian Movement, led by Ljudevit Gaj, sought to standardize the South Slavic languages, create a unified literary Croatian, and resist Magyarization. Gaj standardized the Croatian Latin alphabet (adding č, š, ž) — the very letters you learn today. The Croatian National Theatre, the Croatian Academy, and the concept of Croatian literary language all emerged from Zagreb in this period. It was the city where Croatia decided to become itself.',
+        t: 'In the 1830s and 1840s, Zagreb became the epicentre of the Croatian National Revival. The Illyrian Movement, led by Ljudevit Gaj, sought to standardize the South Slavic languages, create a unified literary Croatian, and resist Magyarization. Gaj standardized the Croatian Latin alphabet (adding č, š, ž) — the very letters you learn today. The Croatian National Theater, the Croatian Academy, and the concept of Croatian literary language all emerged from Zagreb in this period. It was the city where Croatia decided to become itself.',
         tHr: 'Tridesetih i četrdesetih godina 19. stoljeća Zagreb je postao žarište hrvatskoga narodnog preporoda. Ilirski pokret, koji je predvodio Ljudevit Gaj, težio je standardizaciji južnoslavenskih jezika, stvaranju jedinstvenoga književnog hrvatskog jezika i otporu mađarizaciji. Gaj je standardizirao hrvatsku latinicu (uvevši slova č, š, ž) — upravo ona slova koja danas učite. Hrvatsko narodno kazalište, Hrvatska akademija i sama zamisao hrvatskoga književnog jezika nastali su u Zagrebu upravo u tom razdoblju. To je grad u kojem je Hrvatska odlučila postati sama svoja.',
       },
       {
         h: 'Habsburg Vienna of the South',
         hHr: 'Habsburški "Beč juga"',
-        t: "Under the Austro-Hungarian empire, Zagreb was rebuilt as a grand European capital. The Lower Town (Donji Grad) was planned as a horseshoe of parks and boulevards — the famous 'Green Horseshoe' designed by Milan Lenuci in the 1880s. Neo-baroque and neo-Renaissance palaces, the Croatian National Theatre (1895), the University (1874), the Academy of Sciences (1866) — all built in two generations. During Emperor Franz Joseph's visit in 1895, protesting students — among them the young Stjepan Radić — burned the Hungarian flag. Austria-Hungary ended in 1918. Zagreb survived it intact.",
+        t: "Under the Austro-Hungarian empire, Zagreb was rebuilt as a grand European capital. The Lower Town (Donji Grad) was planned as a horseshoe of parks and boulevards — the famous 'Green Horseshoe' designed by Milan Lenuci in the 1880s. Neo-baroque and neo-Renaissance palaces, the Croatian National Theater (1895), the University (1874), the Academy of Sciences (1866) — all built in two generations. During Emperor Franz Joseph's visit in 1895, protesting students — among them the young Stjepan Radić — burned the Hungarian flag. Austria-Hungary ended in 1918. Zagreb survived it intact.",
         tHr: "Pod Austro-Ugarskom Monarhijom Zagreb je preuređen u veličanstvenu europsku prijestolnicu. Donji grad zamišljen je kao potkova parkova i bulevara — čuvena 'Zelena potkova' koju je 1880-ih osmislio Milan Lenuci. Neobarokne i neorenesansne palače, Hrvatsko narodno kazalište (1895.), Sveučilište (1874.), Akademija znanosti (1866.) — sve je izgrađeno u samo dva naraštaja. Tijekom posjeta cara Franje Josipa 1895. prosvjedni su studenti, među njima i mladi Stjepan Radić, spalili mađarsku zastavu. Austro-Ugarska je propala 1918. Zagreb ju je nadživio netaknut.",
       },
       {
@@ -1744,7 +1744,7 @@ export const REGIONS = {
       {
         year: '1895',
         event:
-          'Croatian National Theatre opens. Emperor Franz Joseph attends. Stjepan Radić burns Hungarian flag outside',
+          'Croatian National Theater opens. Emperor Franz Joseph attends. Stjepan Radić burns Hungarian flag outside',
         eventHr:
           'Otvoreno Hrvatsko narodno kazalište. Prisutan car Franjo Josip. Stjepan Radić pred zgradom pali mađarsku zastavu',
       },
@@ -2212,7 +2212,7 @@ export const REGIONS = {
       {
         h: "The War 1992-1994 and the Bridge's Destruction",
         hHr: 'Rat 1992. – 1994. i razaranje mosta',
-        t: 'During the Bosnian War, Mostar was attacked first by the JNA and Serb forces (1992), then torn apart by conflict between Croatian and Bosniak forces (1993-1994). On November 9, 1993 — the same day as the fall of the Berlin Wall four years earlier — Croatian HVO (Croatian Defence Council) artillery destroyed the Stari Most. The bridge fell into the Neretva. It was a cultural crime that shocked the world. The complex political and military context of why it happened is still debated and contested by historians and the communities involved.',
+        t: 'During the Bosnian War, Mostar was attacked first by the JNA and Serb forces (1992), then torn apart by conflict between Croatian and Bosniak forces (1993-1994). On November 9, 1993 — the same day as the fall of the Berlin Wall four years earlier — Croatian HVO (Croatian Defense Council) artillery destroyed the Stari Most. The bridge fell into the Neretva. It was a cultural crime that shocked the world. The complex political and military context of why it happened is still debated and contested by historians and the communities involved.',
         tHr: 'Tijekom Bosanskog rata Mostar su najprije napale JNA i srpske snage (1992.), a potom ga je razdirao sukob hrvatskih i bošnjačkih snaga (1993. – 1994.). Dana 9. studenoga 1993. — na obljetnicu pada Berlinskog zida, koji se dogodio točno četiri godine ranije — topništvo hrvatskog HVO-a (Hrvatskog vijeća obrane) razorilo je Stari most. Most se srušio u Neretvu. Bio je to kulturni zločin koji je potresao svijet. O složenom političkom i vojnom kontekstu u kojem se to dogodilo povjesničari i uključene zajednice i danas raspravljaju i spore se.',
       },
       {
@@ -2492,7 +2492,7 @@ export const REGIONS = {
       {
         year: '1992',
         event:
-          'Bosnian War begins. Croatian Council of Defence (HVO) formed to protect Croatian population',
+          'Bosnian War begins. Croatian Council of Defense (HVO) formed to protect Croatian population',
         eventHr:
           'Počinje Bosanski rat. Osniva se Hrvatsko vijeće obrane (HVO) radi zaštite hrvatskog stanovništva',
       },

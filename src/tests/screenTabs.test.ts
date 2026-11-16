@@ -13,7 +13,7 @@
  * "DUPLICATE" WAS THE WRONG WORD, and measuring first is what showed it. The two
  * maps were NESTED, not equal — 46 entries against 203, the smaller a strict
  * subset, with ZERO disagreements at the time of the merge. So the merge could
- * not lose a fact, and the behaviour of every reachable lookup is unchanged.
+ * not lose a fact, and the behavior of every reachable lookup is unchanged.
  *
  * THE 36 DEAD ENTRIES, which is the finding worth keeping. `_TAB_FOR_SCR[s]` was
  * read ONLY inside `if (_RESTORE_SAFE.has(s))`, so only the 11 restore-safe
@@ -106,14 +106,14 @@ describe('the duplication cannot come back', () => {
   });
 });
 
-describe('behaviour the merge had to preserve', () => {
+describe('behavior the merge had to preserve', () => {
   it('files the screens the restore path depends on exactly as before', () => {
     // The ten reachable lookups of the deleted map, pinned at their old values.
     // `grammarmap` is the one the comment recorded as having drifted.
     //
     // Read out of the data, not written from expectation: the first draft of
     // this list guessed `favorites` and `journal` as 'practice' and the pin
-    // caught it. A behaviour pin written from memory pins the memory.
+    // caught it. A behavior pin written from memory pins the memory.
     for (const [screen, tab] of [
       ['learnpath', 'learn'],
       ['grammar_track', 'learn'],

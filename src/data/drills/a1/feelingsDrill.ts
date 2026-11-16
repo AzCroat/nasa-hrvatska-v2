@@ -50,7 +50,7 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pridjevi',
     q: 'Mama je ____ na mene.',
-    en: 'Mum is angry with me.',
+    en: 'Mom is angry with me.',
     opts: ['ljuta', 'ljut', 'ljuto', 'ljuti'],
     answer: 'ljuta',
     tip: 'Mama is feminine.',

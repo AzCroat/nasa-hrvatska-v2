@@ -74,7 +74,7 @@ export const SINGULAR_ROWS = [
     nameEn: 'Dative',
     asks: [
       { hr: 'Komu, čemu?', en: 'To whom, to what?' },
-      { hr: 'Prema komu, čemu idem?', en: 'Towards whom, towards what am I going?' },
+      { hr: 'Prema komu, čemu idem?', en: 'Toward whom, toward what am I going?' },
     ],
     cells: [
       [L('Dajem knjigu sestri.', N('sestri', 'sestra')), L('Idem prema kući.', N('kući', 'kuća'))],

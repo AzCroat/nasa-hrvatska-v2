@@ -21,7 +21,7 @@ export default function B2VerbalNounsIntroDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2verbalnounsintro"
       title="Reading, Learning, Writing: Nouns from Verbs"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBAL_NOUNS_INTRO_MODE_LABELS}
       data={VERBAL_NOUNS_INTRO_DRILL_DATA}
       praise={{

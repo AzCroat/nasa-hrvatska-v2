@@ -21,7 +21,7 @@ export default function A2AspectPairsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2aspectpairs"
       title="Aspect Pairs"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ASPECT_PAIRS_MODE_LABELS}
       data={ASPECT_PAIRS_DRILL_DATA}
       praise={{

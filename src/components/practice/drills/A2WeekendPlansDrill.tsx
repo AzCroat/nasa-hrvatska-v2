@@ -21,7 +21,7 @@ export default function A2WeekendPlansDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2weekendplans"
       title="Planovi za vikend"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={WEEKEND_PLANS_MODE_LABELS}
       data={WEEKEND_PLANS_DRILL_DATA}
       praise={{

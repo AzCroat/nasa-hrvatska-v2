@@ -21,7 +21,7 @@ export default function B1VerbsWithGenitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1verbswithgenitive"
       title="Bojim se mraka — Verbs That Take the Genitive"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_WITH_GENITIVE_MODE_LABELS}
       data={VERBS_WITH_GENITIVE_DRILL_DATA}
       praise={{

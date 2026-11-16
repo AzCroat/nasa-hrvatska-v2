@@ -43,7 +43,7 @@ export const CAN_DO_A1: Readonly<Record<string, readonly string[]>> = {
   // fleeting-a … present-tense-verbs
   'A1-5': [
     'I can make plurals of words like pas and otac, where an a drops out.',
-    'I can describe something with a colour or adjective that agrees with the noun, and say whose it is: Anin, Markov.',
+    'I can describe something with a color or adjective that agrees with the noun, and say whose it is: Anin, Markov.',
     'I can say what I and others do every day with regular verbs.',
   ],
   // negation … accusative-animate

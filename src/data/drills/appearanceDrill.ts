@@ -91,7 +91,7 @@ export const APPEARANCE_DRILL_DATA: ModeDrillItem[] = [
     en: 'How do you ask about looks?',
     opts: ['Kako izgleda?', 'Kakav je?', 'Koji je?', 'Tko je?'],
     answer: 'Kako izgleda?',
-    tip: 'Kako izgleda? is about appearance; kakav je? leans towards character.',
+    tip: 'Kako izgleda? is about appearance; kakav je? leans toward character.',
   },
 
   // ── kosaoci ───────────────────────────────────────────────────────────────
@@ -109,20 +109,20 @@ export const APPEARANCE_DRILL_DATA: ModeDrillItem[] = [
     en: 'She has brown hair.',
     opts: ['smeđu', 'smeđa', 'smeđe', 'smeđom'],
     answer: 'smeđu',
-    tip: 'Imati takes the accusative, and the colour follows the noun.',
+    tip: 'Imati takes the accusative, and the color follows the noun.',
   },
   {
     mode: 'kosaoci',
     q: 'Što znači "plav" uz kosu?',
     en: 'What does plav mean with hair?',
-    opts: ['blond', 'blue', 'grey', 'dark'],
+    opts: ['blond', 'blue', 'gray', 'dark'],
     answer: 'blond',
     tip: 'One word, two jobs: plava kosa is blond, plave oči are blue.',
   },
   {
     mode: 'kosaoci',
-    q: 'Kako se kaže "grey hair"?',
-    en: 'grey hair',
+    q: 'Kako se kaže "gray hair"?',
+    en: 'gray hair',
     opts: ['sijeda kosa', 'siva kosa', 'bijela kosa', 'plava kosa'],
     answer: 'sijeda kosa',
     tip: 'Sijeda is its own word. Siva describes a coat, not hair.',

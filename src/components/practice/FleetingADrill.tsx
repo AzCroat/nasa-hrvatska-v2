@@ -64,7 +64,7 @@ const DATA = [
     opts: ['došao', 'doći', 'došli', 'došla'],
     answer: 'došao',
     en: 'He arrived on vacation.',
-    tip: 'doći → irregular: došao. Major irregular verb — memorise this form.',
+    tip: 'doći → irregular: došao. Major irregular verb — memorize this form.',
   },
   {
     q: 'On je ___ more. (vidjeti = to see)',

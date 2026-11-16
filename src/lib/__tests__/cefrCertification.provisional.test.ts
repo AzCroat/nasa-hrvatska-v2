@@ -77,7 +77,7 @@ describe('grandfather signature detection', () => {
     ).toBe(false);
   });
 
-  it('isProvisionalPass honours the explicit flag regardless of shape', () => {
+  it('isProvisionalPass honors the explicit flag regardless of shape', () => {
     expect(isProvisionalPass({ ...REAL_PASS, provisional: true })).toBe(true);
     expect(isProvisionalPass(REAL_PASS)).toBe(false);
     expect(isProvisionalPass(GF_PASS)).toBe(true); // signature fallback

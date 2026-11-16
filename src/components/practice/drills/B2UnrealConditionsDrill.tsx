@@ -21,7 +21,7 @@ export default function B2UnrealConditionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2unrealconditions"
       title="Da Sam Znao… If Things Were Different"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={UNREAL_CONDITIONS_MODE_LABELS}
       data={UNREAL_CONDITIONS_DRILL_DATA}
       praise={{

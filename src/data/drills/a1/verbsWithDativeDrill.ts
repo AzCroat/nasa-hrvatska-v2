@@ -26,7 +26,7 @@ export const VERBS_WITH_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osoba',
     q: 'Pomažem ____.',
-    en: 'I help my mum.',
+    en: 'I help my mom.',
     opts: ['mamu', 'mami', 'mama', 'mamom'],
     answer: 'mami',
     tip: 'The person helped receives the help: dative. Feminine -a → -i.',
@@ -74,7 +74,7 @@ export const VERBS_WITH_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osoba',
     q: 'Pomažemo ____ u vrtu.',
-    en: 'We help the neighbour in the garden.',
+    en: 'We help the neighbor in the garden.',
     opts: ['susjeda', 'susjedu', 'susjed', 'susjedom'],
     answer: 'susjedu',
     tip: 'Dative masculine -u. Susjeda is the accusative, the form after vidim.',
@@ -158,7 +158,7 @@ export const VERBS_WITH_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Ja ____ mami.',
-    en: 'I help my mum.',
+    en: 'I help my mom.',
     opts: ['pomagam', 'pomažem', 'pomaže', 'pomažu'],
     answer: 'pomažem',
     tip: 'pomagati turns g into ž in the present: pomažem.',
@@ -198,7 +198,7 @@ export const VERBS_WITH_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Mi ____ susjedi.',
-    en: 'We help the neighbour (a woman).',
+    en: 'We help the neighbor (a woman).',
     opts: ['pomažemo', 'pomagamo', 'pomažete', 'pomažu'],
     answer: 'pomažemo',
     tip: 'mi → pomažemo, with ž.',

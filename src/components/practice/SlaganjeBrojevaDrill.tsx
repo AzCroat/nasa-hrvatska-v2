@@ -24,7 +24,7 @@ const DATA = [
     q: 'U gradu postoje ____ kazališta.',
     opts: ['dva', 'dvije', 'dvoje', 'dvaju'],
     answer: 'dva',
-    en: 'there are two theatres in the city',
+    en: 'there are two theaters in the city',
     tip: 'Srednji rod: DVA kazališta.',
   },
   {
@@ -160,7 +160,7 @@ const DATA = [
     q: 'Putovali smo ____ — ja, žena i dijete.',
     opts: ['utroje', 'trojica', 'tri', 'utrostručeno'],
     answer: 'utroje',
-    en: 'the three of us travelled together — me, my wife and the child',
+    en: 'the three of us traveled together — me, my wife and the child',
     tip: 'Prilozi udvoje/utroje za zajedničko djelovanje.',
   },
   {
@@ -184,7 +184,7 @@ const DATA = [
     q: 'Nas ____ idemo zajedno na put. (mi — muškarci)',
     opts: ['dvojica', 'dvoje', 'dvije', 'obadva'],
     answer: 'dvojica',
-    en: 'the two of us (men) are travelling together',
+    en: 'the two of us (men) are traveling together',
     tip: 'Nas dvojica (muška skupina) / nas dvoje (mješovita).',
   },
   {

@@ -21,7 +21,7 @@ export default function C1ObjectiveGenitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1objectivegenitive"
       title="Whose Reading? The Genitive After a Noun"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={OBJECTIVE_GENITIVE_MODE_LABELS}
       data={OBJECTIVE_GENITIVE_DRILL_DATA}
       praise={{
