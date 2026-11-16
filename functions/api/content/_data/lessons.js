@@ -125,7 +125,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Đak je ovdje.',
-            en: 'The pupil is here.',
+            en: 'The student is here.',
             note: 'Soft đ; every letter is sounded, nothing is silent',
           },
           {
@@ -212,7 +212,7 @@ const LESSONS_CORE = [
             options: ['Djak je ovdje.', 'Dyak je ovdje.', 'Đak je ovdje.', 'Djack je ovdje.'],
             correct: 2,
             explanation:
-              "'Đak' (pupil) is written with the single letter đ. 'Dj', 'dy' and 'djack' are English approximations that do not exist in Croatian spelling.",
+              "'Đak' (student) is written with the single letter đ. 'Dj', 'dy' and 'djack' are English approximations that do not exist in Croatian spelling.",
           },
           {
             q: "Spot the error: 'Ljubav je lyepa.'",
@@ -2270,7 +2270,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Gdje ste bili na odmoru? — Bili smo u Istri.',
-            en: 'Where were you on holiday? — We were in Istria.',
+            en: 'Where were you on vacation? — We were in Istria.',
             note: 'bili ste / bili smo — plural forms',
           },
           {
@@ -3503,7 +3503,7 @@ const LESSONS_CORE = [
           [
             'Ima jedan stan u centru…',
             'nominative',
-            'There is one (particular) flat in the centre…',
+            'There is one (particular) apartment in the center…',
           ],
         ],
       },
@@ -3932,7 +3932,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Use 1: Possession',
-        body: "To say something belongs to someone, put the owner in the genitive. There is no separate word for 'of' — the ending does the work. With a noun phrase the owner goes in the genitive: 'ključ moje sestre' (my sister's key), 'centar grada' (the city's centre). The genitive noun follows the thing possessed. With a single name, Croatian usually prefers the possessive adjective: 'Anin ključ' (Ana's key).",
+        body: "To say something belongs to someone, put the owner in the genitive. There is no separate word for 'of' — the ending does the work. With a noun phrase the owner goes in the genitive: 'ključ moje sestre' (my sister's key), 'centar grada' (the city's center). The genitive noun follows the thing possessed. With a single name, Croatian usually prefers the possessive adjective: 'Anin ključ' (Ana's key).",
         highlight: 'owner → genitive',
       },
       {
@@ -3986,12 +3986,12 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Nema slobodnih mjesta u kinu večeras.',
-            en: 'There are no free seats at the cinema tonight.',
+            en: 'There are no free seats at the movie theater tonight.',
             note: 'nema + genitive plural: slobodnih mjesta',
           },
           {
             hr: 'Kupi kilogram jabuka i litru mlijeka.',
-            en: 'Buy a kilo of apples and a litre of milk.',
+            en: 'Buy a kilo of apples and a liter of milk.',
             note: 'quantity + genitive: jabuka (pl.), mlijeka',
           },
           {
@@ -4351,7 +4351,7 @@ const LESSONS_CORE = [
               'The receiver is in the dative: sestra → sestri. sestru would make her the thing bought.',
           },
           {
-            q: "Complete: 'Radujem se ___.' (I am looking forward to the holiday.)",
+            q: "Complete: 'Radujem se ___.' (I am looking forward to the vacation.)",
             options: ['odmor', 'odmora', 'odmorom', 'odmoru'],
             correct: 3,
             explanation:
@@ -4539,7 +4539,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Čekam te pred kinom.',
-            en: 'I will wait for you in front of the cinema.',
+            en: 'I will wait for you in front of the movie theater.',
             note: 'pred + instrumental',
           },
           {
@@ -5852,7 +5852,7 @@ const LESSONS_CORE = [
         items: [
           {
             hr: 'Dobro jutro, gospođo Horvat! Kako ste?',
-            en: 'Good morning, Mrs Horvat! How are you?',
+            en: 'Good morning, Mrs. Horvat! How are you?',
             note: 'Vi-form kako ste with an older neighbor',
           },
           {
@@ -6104,7 +6104,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Jeste li Vi gospodin Kovač?',
-            en: 'Are you Mr Kovač?',
+            en: 'Are you Mr. Kovač?',
             note: 'full form jeste + li opens a question',
           },
           {
@@ -7184,7 +7184,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Seasons and Time Words',
-        body: 'The seasons: proljeće (spring), ljeto (summer), jesen (autumn), zima (winter). For "in summer" and "in winter" Croatian uses one word: ljeti, zimi; for spring and autumn, u proljeće, u jesen. Time words you will use every day: danas (today), jučer (yesterday), sutra (tomorrow), jutros (this morning), večeras (this evening), sada (now), uvijek (always), nikad (never), često (often), ponekad (sometimes).',
+        body: 'The seasons: proljeće (spring), ljeto (summer), jesen (fall), zima (winter). For "in summer" and "in winter" Croatian uses one word: ljeti, zimi; for spring and fall, u proljeće, u jesen. Time words you will use every day: danas (today), jučer (yesterday), sutra (tomorrow), jutros (this morning), večeras (this evening), sada (now), uvijek (always), nikad (never), često (often), ponekad (sometimes).',
         highlight: 'danas / jučer / sutra',
       },
       {
@@ -7239,7 +7239,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Jesen je lijepa i mirna.',
-            en: 'Autumn is beautiful and calm.',
+            en: 'Fall is beautiful and calm.',
             note: 'jesen is feminine',
           },
           {
@@ -7314,10 +7314,10 @@ const LESSONS_CORE = [
             explanation: 'siječanj is January, veljača February, ožujak March.',
           },
           {
-            q: "Which word is the season 'autumn'?",
+            q: "Which word is the season 'fall'?",
             options: ['proljeće', 'zima', 'ljeto', 'jesen'],
             correct: 3,
-            explanation: 'jesen is autumn; proljeće is spring, ljeto summer, zima winter.',
+            explanation: 'jesen is fall; proljeće is spring, ljeto summer, zima winter.',
           },
           {
             q: 'Which month name comes from lipa, the linden tree?',
@@ -7753,12 +7753,12 @@ const LESSONS_CORE = [
         items: [
           {
             hr: 'Ključevi su na stolu, a torba je u ormaru.',
-            en: 'The keys are on the table and the bag is in the wardrobe.',
+            en: 'The keys are on the table and the bag is in the closet.',
             note: 'na stolu, u ormaru — locative, static',
           },
           {
             hr: 'Stavi ključeve na stol i torbu u ormar.',
-            en: 'Put the keys on the table and the bag in the wardrobe.',
+            en: 'Put the keys on the table and the bag in the closet.',
             note: 'same prepositions, accusative — motion',
           },
           {
@@ -7867,7 +7867,7 @@ const LESSONS_CORE = [
             ],
             correct: 2,
             explanation:
-              "s/sa always governs the instrumental: s bratom. 'u kino' is right — motion to the cinema.",
+              "s/sa always governs the instrumental: s bratom. 'u kino' is right — motion to the movie theater.",
           },
           {
             q: "Which phrase says 'at my grandmother's place'?",
@@ -8034,7 +8034,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'U razredu je dvadeset sedam učenika.',
-            en: 'There are twenty-seven pupils in the class.',
+            en: 'There are twenty-seven students in the class.',
             note: '27 ends in 7 → genitive plural učenika',
           },
           {
@@ -8413,7 +8413,7 @@ const LESSONS_CORE = [
               'A sensation is expressed with a neuter adverb and the dative: Hladno mi je. Ja sam hladan describes a cold person, not a cold feeling.',
           },
           {
-            q: "Complete: 'Veselim se ___.' (to the holiday)",
+            q: "Complete: 'Veselim se ___.' (to the vacation)",
             options: ['odmor', 'odmora', 'odmoru', 'odmorom'],
             correct: 2,
             explanation:
@@ -8618,7 +8618,7 @@ const LESSONS_CORE = [
         items: [
           {
             hr: 'Poštovana gospođo Kovač, javljam Vam se u vezi s natječajem.',
-            en: 'Dear Mrs Kovač, I am writing to you regarding the competition.',
+            en: 'Dear Mrs. Kovač, I am writing to you regarding the competition.',
             note: 'formal opening; Vam capitalised; u vezi s + instrumental',
           },
           {
@@ -9123,7 +9123,7 @@ const LESSONS_CORE = [
         items: [
           {
             hr: 'Bijaše hladna jesenska noć.',
-            en: 'It was a cold autumn night.',
+            en: 'It was a cold fall night.',
             note: 'bijaše — imperfekt of biti, scene-setting',
           },
           {
@@ -9433,7 +9433,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Kupili smo stančić u starom gradiću.',
-            en: 'We bought a tiny flat in an old little town.',
+            en: 'We bought a tiny apartment in an old little town.',
             note: 'stan → stančić, grad → gradić — diminutives',
           },
           {
@@ -9956,7 +9956,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Kupio sam dvoje hlače i jedne naočale, a jedne škare su mi već bile u torbi.',
-            en: 'I bought two pairs of trousers and one pair of glasses, and one pair of scissors was already in my bag.',
+            en: 'I bought two pairs of pants and one pair of glasses, and one pair of scissors was already in my bag.',
             note: 'numeral adjectives with plural-only nouns; the verb is plural',
           },
         ],
@@ -10064,7 +10064,7 @@ const LESSONS_CORE = [
               'desetak behaves like mnogo: genitive plural noun and a neuter singular verb, došlo je. The plural forms are the commonest error.',
           },
           {
-            q: "Which sentence is correct for 'two pairs of trousers are on the chair'?",
+            q: "Which sentence is correct for 'two pairs of pants are on the chair'?",
             options: [
               'Na stolici su dva hlače.',
               'Na stolici je dvoje hlača.',

@@ -32,7 +32,7 @@ export const SPINE = [
     objectives: [
       'Wish someone well: Sretan rođendan, Sretna Nova godina, Sretan put',
       'Make sretan agree with the occasion, and say Čestitam and Sve najbolje',
-      'Write a short postcard from a holiday, from Draga mama to Puno pozdrava',
+      'Write a short postcard from a vacation, from Draga mama to Puno pozdrava',
     ],
   },
   {
@@ -151,7 +151,7 @@ export const LESSONS = [
           { hr: 'Ne vjerujem Marku.', en: 'I do not trust Marko.', note: 'Marko → Marku' },
           {
             hr: 'Učenici odgovaraju profesorici.',
-            en: 'The pupils answer the teacher.',
+            en: 'The students answer the teacher.',
             note: 'profesorica → profesorici',
           },
           {
@@ -179,7 +179,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sviđa li ti se moj stan?',
-            en: 'Do you like my flat?',
+            en: 'Do you like my apartment?',
             note: 'li, then ti, then se',
           },
           { hr: 'Ivanu se ne sviđa kava.', en: 'Ivan does not like coffee.', note: 'Ivan → Ivanu' },
@@ -232,7 +232,7 @@ export const LESSONS = [
               'Vjerovati takes the dative for the person you trust: Vjerujem Marku. Marka is the accusative.',
           },
           {
-            q: 'Which sentence is correct? (Do you like my flat?)',
+            q: 'Which sentence is correct? (Do you like my apartment?)',
             options: [
               'Sviđa li ti se moj stan?',
               'Sviđa li se ti moj stan?',
@@ -965,13 +965,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Where and What You Study',
-        body: 'Am I a pupil or a student? Do I learn or do I study? Am I IN the faculty or ON it? English and Croatian draw these lines in different places. This lesson gives you the words for school and university and the two or three choices that tell a Croatian you know what you are saying.',
+        body: 'Am I a school student or a college student? Do I learn or do I study? Am I IN the faculty or ON it? English and Croatian draw these lines in different places. This lesson gives you the words for school and university and the two or three choices that tell a Croatian you know what you are saying.',
         icon: '🎒',
       },
       {
         type: 'rule',
         title: 'Učiti or Studirati',
-        body: 'Učiti means to learn or to study anything, anywhere: Učim hrvatski. Učim za ispit. Djeca uče u školi. Studirati means to study a subject at university, as your degree: Studiram medicinu. Moj brat studira pravo. In English both are "study"; in Croatian, studying FOR an exam is always učiti, even for a university student.',
+        body: 'Učiti means to learn or to study anything, anywhere: Učim hrvatski. Učim za ispit. Djeca uče u školi. Studirati means to study a subject in college, as your degree: Studiram medicinu. Moj brat studira pravo. In English both are "study"; in Croatian, studying FOR an exam is always učiti, even for a university student.',
         highlight: 'Učim za ispit.',
       },
       {
@@ -1004,7 +1004,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'From School to a First Job',
-        body: "Croatian children go to osnovna škola (primary school, eight years) and then to srednja škola (secondary school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. Secondary school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
+        body: "Croatian children go to osnovna škola (elementary school, eight years) and then to srednja škola (high school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. High school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
         highlight: 'Sutra idem na razgovor za posao.',
       },
       {
@@ -1013,7 +1013,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Moja kći ide u gimnaziju.',
-            en: 'My daughter goes to a gimnazija (an academic secondary school).',
+            en: 'My daughter goes to a gimnazija (an academic high school).',
           },
           { hr: 'U lipnju imam maturu.', en: 'In June I have my school-leaving exam.' },
           { hr: 'Maturalna zabava je u petak.', en: "The leavers' ball is on Friday." },
@@ -1035,7 +1035,7 @@ export const LESSONS = [
         type: 'example',
         title: 'At School',
         items: [
-          { hr: 'Ja sam učenica. Idem u školu.', en: 'I am a pupil. I go to school.' },
+          { hr: 'Ja sam učenica. Idem u školu.', en: 'I am a student. I go to school.' },
           {
             hr: 'Djeca su sada u školi.',
             en: 'The children are at school now.',
@@ -1129,11 +1129,11 @@ export const LESSONS = [
             explanation: 'Studying for an exam is učiti, with za: Učim za ispit.',
           },
           {
-            q: 'A teacher in a Croatian secondary school is called…',
+            q: 'A teacher in a Croatian high school is called…',
             options: ['profesor', 'učenik', 'student', 'razred'],
             correct: 0,
             explanation:
-              'Secondary-school teachers in Croatia are profesor and profesorica. Učenik is a pupil.',
+              'Secondary-school teachers in Croatia are profesor and profesorica. Učenik is a student.',
           },
           {
             q: 'Complete: "Moj omiljeni ___ je matematika." (subject)',
@@ -1313,10 +1313,10 @@ export const LESSONS = [
           {
             q: 'What does "Idem u kino s bratom." say?',
             options: [
-              'I go to the cinema by my brother’s car.',
-              'I go to the cinema instead of my brother.',
-              'I go to the cinema with my brother.',
-              'I go to the cinema for my brother.',
+              'I go to the movies by my brother’s car.',
+              'I go to the movies instead of my brother.',
+              'I go to the movies with my brother.',
+              'I go to the movies for my brother.',
             ],
             correct: 2,
             explanation:
@@ -2263,7 +2263,7 @@ export const PRACTICE = {
           explanation: 'Imam ispit u petak.',
         },
         {
-          q: 'Secondary school in Croatia ends with the state school-leaving exam. What is it called?',
+          q: 'High school in Croatia ends with the state school-leaving exam. What is it called?',
           options: ['razred', 'matura', 'fakultet', 'životopis'],
           correct: 1,
           hint: "The same word gives the name of the leavers' ball.",
@@ -2313,14 +2313,9 @@ export const PRACTICE = {
       },
       {
         q: 'What does "učenica" mean?',
-        options: [
-          'a female teacher',
-          'a female pupil',
-          'a female student at university',
-          'a school',
-        ],
+        options: ['a female teacher', 'a female pupil', 'a female student in college', 'a school'],
         correct: 1,
-        explanation: 'učenica — a girl at school, a pupil.',
+        explanation: 'učenica — a girl at school, a student.',
       },
       {
         q: 'Which sentence is correct? (We are learning Croatian.)',

@@ -66,7 +66,7 @@ export const SPINE = [
     prerequisites: ['u-na-motion', 'za-accusative', 'accusative-pronouns'],
     objectives: [
       'Ask for a ticket politely: Molim Vas kartu za Split / Želim kartu za Split',
-      'Choose a one-way or return ticket and ask when the ferry or bus goes',
+      'Choose a one-way or round-trip ticket and ask when the ferry or bus goes',
       'Book a room or a trip for a day and for the people traveling',
     ],
   },
@@ -193,7 +193,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oni idu u kino u petak.',
-            en: 'They are going to the cinema on Friday.',
+            en: 'They are going to the movies on Friday.',
             note: 'oni → idu',
           },
           {
@@ -326,7 +326,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'U: Into Something With Walls or Borders',
-        body: 'Use u for going INTO a building, a room, a town or a country — a place with walls or borders around it. u školu (to school), u trgovinu (to the shop), u banku (to the bank), u kino (to the cinema), u ured (to the office), u Split, u Rijeku, u Hrvatsku, u Njemačku.',
+        body: 'Use u for going INTO a building, a room, a town or a country — a place with walls or borders around it. u školu (to school), u trgovinu (to the shop), u banku (to the bank), u kino (to the movie theater), u ured (to the office), u Split, u Rijeku, u Hrvatsku, u Njemačku.',
         highlight: 'u trgovinu',
       },
       {
@@ -378,7 +378,7 @@ export const LESSONS = [
           },
           {
             hr: 'Idete li u kino u petak?',
-            en: 'Are you going to the cinema on Friday?',
+            en: 'Are you going to the movies on Friday?',
             note: 'kino — neuter, no change',
           },
           {
@@ -549,7 +549,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'For a Day, a Meal, an Occasion',
-        body: 'Za also names the day or occasion something is meant for: Rezerviram stol za subotu. (I am booking a table for Saturday.) Za doručak imam kruh i sir. (For breakfast I have bread and cheese.) Za rođendan želim bicikl. (For my birthday I want a bike.) Za Božić idemo kući. (For Christmas we go home.)',
+        body: 'Za also names the day or occasion something is meant for: Rezerviram stol za subotu. (I am reserving a table for Saturday.) Za doručak imam kruh i sir. (For breakfast I have bread and cheese.) Za rođendan želim bicikl. (For my birthday I want a bike.) Za Božić idemo kući. (For Christmas we go home.)',
         highlight: 'za subotu',
       },
       {
@@ -621,7 +621,7 @@ export const LESSONS = [
           },
           {
             hr: 'Rezerviram stol za subotu.',
-            en: 'I am booking a table for Saturday.',
+            en: 'I am reserving a table for Saturday.',
             note: 'subota → subotu',
           },
           {
@@ -831,7 +831,7 @@ export const LESSONS = [
           },
           {
             hr: 'Marka zanima nogomet.',
-            en: 'Marko is interested in football.',
+            en: 'Marko is interested in soccer.',
             note: 'Marko is the object: Marka',
           },
           {
@@ -1023,13 +1023,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Tickets',
-        body: 'karta = ticket. A one-way ticket is jednosmjerna karta; a return ticket is povratna karta. As an object the whole phrase takes -u: Želim povratnu kartu. The destination comes with za: karta za Split, karta za trajekt (a ferry ticket). Koliko košta karta? asks how much it costs.',
+        body: 'karta = ticket. A one-way ticket is jednosmjerna karta; a round-trip ticket is povratna karta. As an object the whole phrase takes -u: Želim povratnu kartu. The destination comes with za: karta za Split, karta za trajekt (a ferry ticket). Koliko košta karta? asks how much it costs.',
         highlight: 'povratnu kartu',
       },
       {
         type: 'rule',
         title: 'When',
-        body: 'For the day, use u + the accusative: u petak (on Friday), u subotu (on Saturday). For what a booking is FOR, use za: sobu za subotu (a room for Saturday). For the part of the day: ujutro (in the morning), popodne (in the afternoon), navečer (in the evening). To ask when a bus, train or ferry leaves, use ići: Kada ide trajekt za Hvar? (When does the ferry to Hvar go?) The times on a timetable are read from the board; saying the clock comes later in the course.',
+        body: 'For the day, use u + the accusative: u petak (on Friday), u subotu (on Saturday). For what a reservation is FOR, use za: sobu za subotu (a room for Saturday). For the part of the day: ujutro (in the morning), popodne (in the afternoon), navečer (in the evening). To ask when a bus, train or ferry leaves, use ići: Kada ide trajekt za Hvar? (When does the ferry to Hvar go?) The times on a schedule are read from the board; saying the clock comes later in the course.',
         highlight: 'Kada ide trajekt za Hvar?',
       },
       {
@@ -1125,7 +1125,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "I want a return ticket to Split"?',
+        q: 'How do you say "I want a round-trip ticket to Split"?',
         options: [
           'Želim povratna karta za Split.',
           'Želim povratnu kartu za Split.',
@@ -1193,7 +1193,7 @@ export const LESSONS = [
             options: ['a one-way ticket', 'a return ticket', 'a ferry', 'a timetable'],
             correct: 1,
             explanation:
-              'povratna karta is a return ticket. A one-way ticket is jednosmjerna karta.',
+              'povratna karta is a round-trip ticket. A one-way ticket is jednosmjerna karta.',
           },
           {
             q: 'Complete: "Imate li sobu za ___?" (Friday)',
@@ -1793,7 +1793,7 @@ export const PRACTICE = {
         options: ['Idemo na kino.', 'Idemo u kinu.', 'Idemo u kino.', 'Idemo kino.'],
         correct: 2,
         explanation:
-          'A cinema is a building → u, and neuter kino does not change: Idemo u kino. "U kinu" describes being there.',
+          'A movie theater is a building → u, and neuter kino does not change: Idemo u kino. "U kinu" describes being there.',
       },
       {
         q: 'Why is it "na posao" and not "u posao"?',
@@ -2404,7 +2404,8 @@ export const PRACTICE = {
         q: 'What does "jednosmjerna karta" mean?',
         options: ['a one-way ticket', 'a return ticket', 'a bus timetable', 'a hotel room'],
         correct: 0,
-        explanation: 'jednosmjerna karta is a one-way ticket; a return ticket is povratna karta.',
+        explanation:
+          'jednosmjerna karta is a one-way ticket; a round-trip ticket is povratna karta.',
       },
       {
         q: 'Complete: "Rezerviram hotel za ___." (my mother)',

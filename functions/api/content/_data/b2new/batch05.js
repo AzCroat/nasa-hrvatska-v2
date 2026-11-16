@@ -157,7 +157,7 @@ const REFLEXIVE_SEBE = {
         },
         {
           hr: 'Djeca su podijelila slatkiše među sobom.',
-          en: 'The children shared the sweets among themselves.',
+          en: 'The children shared the candy among themselves.',
           note: 'sobom — instrumental after među',
         },
         {
@@ -536,7 +536,7 @@ const HIGHER_EDUCATION = {
     {
       type: 'rule',
       title: 'The Bologna Process',
-      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the prijediplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programs, such as medicine and law, are integrated — one long programme of five or six years. Since the 2022 law on higher education this is its official name; before that it was the preddiplomski studij, a name you will still hear.',
+      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the prijediplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programs, such as medicine and law, are integrated — one long program of five or six years. Since the 2022 law on higher education this is its official name; before that it was the preddiplomski studij, a name you will still hear.',
       highlight: 'prijediplomski studij',
     },
     {
@@ -548,13 +548,13 @@ const HIGHER_EDUCATION = {
     {
       type: 'rule',
       title: 'The State Matura',
-      body: 'Since 2010 students finishing secondary school sit the državna matura, a national school-leaving exam organized by the Nacionalni centar za vanjsko vrednovanje obrazovanja. Three subjects are compulsory — hrvatski jezik, matematika and a strani jezik — each at a basic or a higher level, and students add elective subjects. Universities rank applicants by their matura results together with their school grades. Note the aspect pair: polagati maturu means to sit it, položiti maturu means to pass it.',
+      body: 'Since 2010 students finishing high school sit the državna matura, a national school-leaving exam organized by the Nacionalni centar za vanjsko vrednovanje obrazovanja. Three subjects are compulsory — hrvatski jezik, matematika and a strani jezik — each at a basic or a higher level, and students add elective subjects. Universities rank applicants by their matura results together with their school grades. Note the aspect pair: polagati maturu means to sit it, položiti maturu means to pass it.',
       highlight: 'polagati maturu',
     },
     {
       type: 'rule',
       title: 'Education for Everyone',
-      body: 'Students with disabilities (studenti s invaliditetom) can ask for adapted conditions at the matura and at university exams — more time, adapted materials, an assistant — and universities have offices or coordinators to support them. Learning also continues after school: cjeloživotno učenje (lifelong learning) is the official term. Pučka otvorena učilišta (adult education centers) run courses for adults, and programs called sveučilište za treću životnu dob (university of the third age) offer courses in languages, history and computing for older people.',
+      body: 'Students with disabilities (studenti s invaliditetom) can ask for adapted conditions at the matura and in college exams — more time, adapted materials, an assistant — and universities have offices or coordinators to support them. Learning also continues after school: cjeloživotno učenje (lifelong learning) is the official term. Pučka otvorena učilišta (adult education centers) run courses for adults, and programs called sveučilište za treću životnu dob (university of the third age) offer courses in languages, history and computing for older people.',
       highlight: 'cjeloživotno učenje',
     },
     {
@@ -695,7 +695,7 @@ const HIGHER_EDUCATION = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) studirati for exam preparation: "Studiram za ispit" — studirati means to be a university student of a field (Studiram pravo); preparing for an exam is učiti: Učim za ispit. (2) Mixing the aspects of polagati: "Sutra položim ispit" — sitting it is imperfective, Sutra polažem ispit; passing it is perfective, Položio sam ispit. (3) Reading fakultet as "faculty" in the sense of teaching staff: a fakultet is a school within a university (Filozofski fakultet); the staff are nastavnici. (4) Reading gimnazija as a gym: it is an academic secondary school; a gym is teretana.',
+      body: '(1) studirati for exam preparation: "Studiram za ispit" — studirati means to be a university student of a field (Studiram pravo); preparing for an exam is učiti: Učim za ispit. (2) Mixing the aspects of polagati: "Sutra položim ispit" — sitting it is imperfective, Sutra polažem ispit; passing it is perfective, Položio sam ispit. (3) Reading fakultet as "faculty" in the sense of teaching staff: a fakultet is a school within a university (Filozofski fakultet); the staff are nastavnici. (4) Reading gimnazija as a gym: it is an academic high school; a gym is teretana.',
       highlight: 'Učim za ispit',
     },
     {
@@ -876,7 +876,7 @@ const ITERATIVE_CONDITIONAL = {
       items: [
         {
           hr: 'Kad bih sutra imao vremena, otišao bih u kino.',
-          en: 'If I had time tomorrow, I would go to the cinema.',
+          en: 'If I had time tomorrow, I would go to the movies.',
           note: 'sutra — a hypothesis, not a habit',
         },
         {
@@ -1063,7 +1063,7 @@ const WORD_FORMATION_AGENTS = {
       items: [
         {
           hr: 'Moja sestra je učiteljica u osnovnoj školi u Osijeku.',
-          en: 'My sister is a teacher at a primary school in Osijek.',
+          en: 'My sister is a teacher at a elementary school in Osijek.',
           note: 'učiteljica — učitelj with the female -ica',
         },
         {
@@ -1772,7 +1772,7 @@ export const PRACTICE = {
         q: 'What does "gimnazija" mean?',
         options: ['a gym', 'a sports hall', 'a university', 'an academic secondary school'],
         correct: 3,
-        explanation: 'A gimnazija is an academic secondary school; a gym is teretana.',
+        explanation: 'A gimnazija is an academic high school; a gym is teretana.',
       },
     ],
     vocab: [

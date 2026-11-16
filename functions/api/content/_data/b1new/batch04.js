@@ -175,7 +175,7 @@ const NAMES = {
         },
         {
           hr: 'Idem u kino s Lukom i Markom.',
-          en: 'I am going to the cinema with Luka and Marko.',
+          en: 'I am going to the movies with Luka and Marko.',
           note: 'the instrumental: Luka becomes Lukom, Marko becomes Markom',
         },
         {
@@ -332,8 +332,8 @@ const NAMES_P = {
     },
     {
       title: 'Mr and Mrs Babić',
-      problem: 'Reci: I had lunch with Mr Babić and Mrs Babić.',
-      en: 'I had lunch with Mr Babić and Mrs Babić.',
+      problem: 'Reci: I had lunch with Mr. Babić and Mrs. Babić.',
+      en: 'I had lunch with Mr. Babić and Mrs. Babić.',
       steps: [
         {
           label: 'With',
@@ -626,7 +626,7 @@ const LOVE = {
       items: [
         {
           hr: 'Upoznali su se na fakultetu, a hodaju već tri godine.',
-          en: 'They met at university, and they have been going out for three years.',
+          en: 'They met in college, and they have been going out for three years.',
           note: 'upoznati se — to meet; hodati — to date',
         },
         {
@@ -1036,7 +1036,7 @@ const FOREIGN = {
     {
       type: 'intro',
       title: 'Croatian Declines the Whole World',
-      body: 'English leaves foreign names alone; Croatian puts them in the cases like any other noun. You meet Tony, but you go to the cinema s Tonyjem and have lunch kod Tonyja. A taxi is taksi, but you arrive taksijem. The spelling of the foreign word is kept — Croatian simply adds its endings, with a few small adjustments that follow the SOUND of the word. Learn those adjustments and every foreign name and loanword becomes usable.',
+      body: 'English leaves foreign names alone; Croatian puts them in the cases like any other noun. You meet Tony, but you go to the movies s Tonyjem and have lunch kod Tonyja. A taxi is taksi, but you arrive taksijem. The spelling of the foreign word is kept — Croatian simply adds its endings, with a few small adjustments that follow the SOUND of the word. Learn those adjustments and every foreign name and loanword becomes usable.',
       icon: '🌍',
     },
     {

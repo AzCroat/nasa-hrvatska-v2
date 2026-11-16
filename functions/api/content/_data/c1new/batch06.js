@@ -82,7 +82,7 @@ const L_DEPERSONALIZATION = {
       items: [
         {
           hr: 'U susjedstvu se priča da će stara tvornica konačno postati kulturni centar.',
-          en: 'People in the neighborhood are saying that the old factory will finally become a cultural centre.',
+          en: 'People in the neighborhood are saying that the old factory will finally become a cultural center.',
           note: 'se + 3rd singular: a rumor without a source',
         },
         {
@@ -1487,25 +1487,25 @@ const L_DIRECT_SPEECH_SPELLING = {
     {
       type: 'rule',
       title: 'Reporting Clause Before',
-      body: 'The reporting clause (rekla je, upitao je, viknula je) is followed by a colon. The quotation then begins with a capital letter, and its own full stop, question mark or exclamation mark stays INSIDE the closing mark: Rekla je: „Dođi.“ Upitao je: „Gdje si?“',
+      body: 'The reporting clause (rekla je, upitao je, viknula je) is followed by a colon. The quotation then begins with a capital letter, and its own period, question mark or exclamation mark stays INSIDE the closing mark: Rekla je: „Dođi.“ Upitao je: „Gdje si?“',
       highlight: 'Rekla je: „Dođi.“',
     },
     {
       type: 'rule',
       title: 'Reporting Clause After',
-      body: 'A quoted statement loses its full stop, and a comma comes AFTER the closing mark; the reporting clause continues in lower case: „Dođi“, rekla je. A question mark or exclamation mark is kept inside, and then there is no comma at all: „Dolaziš li?“ upitala je. „Stani!“ viknuo je. Note the order in the reporting clause: verb first, then the speaker — rekao je Marko.',
+      body: 'A quoted statement loses its period, and a comma comes AFTER the closing mark; the reporting clause continues in lower case: „Dođi“, rekla je. A question mark or exclamation mark is kept inside, and then there is no comma at all: „Dolaziš li?“ upitala je. „Stani!“ viknuo je. Note the order in the reporting clause: verb first, then the speaker — rekao je Marko.',
       highlight: '„Dođi“, rekla je.',
     },
     {
       type: 'rule',
       title: 'Reporting Clause in the Middle',
-      body: 'When one sentence is split by the reporting clause, commas stand on both sides of it and the second part continues in lower case: „Dođi“, rekla je, „i donesi kruh.“ If the first part was already a complete sentence and a new one begins, the reporting clause ends with a full stop and the new quotation opens with a capital: „Dođi“, rekla je. „Večera je gotova.“',
+      body: 'When one sentence is split by the reporting clause, commas stand on both sides of it and the second part continues in lower case: „Dođi“, rekla je, „i donesi kruh.“ If the first part was already a complete sentence and a new one begins, the reporting clause ends with a period and the new quotation opens with a capital: „Dođi“, rekla je. „Večera je gotova.“',
       highlight: '„Dođi“, rekla je, „i donesi kruh.“',
     },
     {
       type: 'rule',
       title: 'Quoted Fragments and Literary Dialogue',
-      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's full stop goes outside: Ministar ga je nazvao „povijesnim danom“. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognize it when you read; in essays, letters and articles use quotation marks.",
+      body: "When only a few words are quoted inside your own sentence, they keep their lower case and the sentence's period goes outside: Ministar ga je nazvao „povijesnim danom“. In novels and stories dialogue is often written with a dash instead of quotation marks: each speaker's turn starts on a new line with a dash, and the reporting clause is set off by dashes without a comma: — Dođi — rekla je. Recognize it when you read; in essays, letters and articles use quotation marks.",
       highlight: 'posljednja prilika“.',
     },
     {
@@ -1530,7 +1530,7 @@ const L_DIRECT_SPEECH_SPELLING = {
         {
           hr: 'Profesor je na kraju predavanja rekao: „Do idućeg tjedna pročitajte treće poglavlje.“',
           en: 'At the end of the lecture the professor said: "Read the third chapter by next week."',
-          note: 'the full stop belongs to the quotation, so it stays inside',
+          note: 'the period belongs to the quotation, so it stays inside',
         },
       ],
     },
@@ -1546,7 +1546,7 @@ const L_DIRECT_SPEECH_SPELLING = {
         {
           hr: '„Stigli smo“, rekao je vozač. „Molim vas, nemojte ništa zaboraviti u autobusu.“',
           en: '"We\'ve arrived," said the driver. "Please don\'t leave anything on the bus."',
-          note: 'a new sentence after the reporting clause: full stop, then a capital',
+          note: 'a new sentence after the reporting clause: period, then a capital',
         },
         {
           hr: 'Ministar je otvaranje novog mosta nazvao „povijesnim danom“ za cijelu regiju.',
@@ -1585,7 +1585,7 @@ const L_DIRECT_SPEECH_SPELLING = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first is the English comma inside the marks: „Dođi,“ rekla je — in Croatian the comma comes after the closing mark: „Dođi“, rekla je. The second is keeping the full stop before the reporting clause: „Dođi.“ rekla je — the statement loses its full stop and takes a comma instead. The third is adding a comma after a question or exclamation mark: „Dolaziš li?“, upitala je — the question mark is enough. The fourth is a capital letter in the reporting clause after the quotation or in the continuation of a split sentence: „Dođi“, Rekla je, „I donesi kruh.“ The fifth is a comma instead of a colon before the quotation: Rekla je, „Dođi.“',
+      body: 'The first is the English comma inside the marks: „Dođi,“ rekla je — in Croatian the comma comes after the closing mark: „Dođi“, rekla je. The second is keeping the period before the reporting clause: „Dođi.“ rekla je — the statement loses its period and takes a comma instead. The third is adding a comma after a question or exclamation mark: „Dolaziš li?“, upitala je — the question mark is enough. The fourth is a capital letter in the reporting clause after the quotation or in the continuation of a split sentence: „Dođi“, Rekla je, „I donesi kruh.“ The fifth is a comma instead of a colon before the quotation: Rekla je, „Dođi.“',
       highlight: '„Dođi“, rekla je.',
     },
     {
@@ -1613,7 +1613,7 @@ const L_DIRECT_SPEECH_SPELLING = {
           ],
           correct: 1,
           explanation:
-            'The statement loses its full stop, the comma comes after the closing mark, and the reporting clause stays in lower case.',
+            'The statement loses its period, the comma comes after the closing mark, and the reporting clause stays in lower case.',
         },
         {
           q: 'Which is correctly punctuated? (Are you coming? she asked.)',
@@ -1685,7 +1685,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         },
         {
           label: 'The full stop',
-          text: 'A statement followed by its reporting clause loses its full stop.',
+          text: 'A statement followed by its reporting clause loses its period.',
         },
         {
           label: 'The comma',
@@ -1714,7 +1714,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         },
         {
           label: 'The second part',
-          text: 'It continues the same sentence, so it starts with a lower-case letter and ends with the full stop inside.',
+          text: 'It continues the same sentence, so it starts with a lower-case letter and ends with the period inside.',
         },
       ],
       answer: '„Ne znam“, rekla je, „gdje sam ostavila ključeve.“',
@@ -1793,7 +1793,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         ],
         correct: 2,
         hint: 'A quoted fragment is part of your own sentence.',
-        explanation: "Lower case, no colon, and the sentence's full stop outside.",
+        explanation: "Lower case, no colon, and the sentence's period outside.",
       },
       {
         q: 'Which is a correct line of literary dialogue written with dashes?',
@@ -1838,7 +1838,7 @@ const P_DIRECT_SPEECH_SPELLING = {
       },
       {
         type: 'type',
-        q: 'In „Dođi“, rekla je. the full stop of the quoted statement is replaced by a ____ (the Croatian name of the mark).',
+        q: 'In „Dođi“, rekla je. the period of the quoted statement is replaced by a ____ (the Croatian name of the mark).',
         answer: 'zarez',
         hint: 'The same mark that separates clauses in a sentence.',
         explanation: 'The zarez comes after the closing mark.',
@@ -1899,7 +1899,7 @@ const P_DIRECT_SPEECH_SPELLING = {
         'Rekao je da je to, „posljednja prilika“.',
       ],
       correct: 0,
-      explanation: 'A quoted fragment keeps lower case and the full stop goes outside.',
+      explanation: 'A quoted fragment keeps lower case and the period goes outside.',
     },
     {
       q: 'In „Dođi.“ where do the two quotation marks sit?',

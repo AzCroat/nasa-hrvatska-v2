@@ -198,7 +198,7 @@ export const LESSONS = [
           },
           {
             hr: 'Trenutak, molim. Gospodin Horvat je na sastanku.',
-            en: 'One moment, please. Mr Horvat is in a meeting.',
+            en: 'One moment, please. Mr. Horvat is in a meeting.',
             note: 'sastanak → na sastanku',
           },
           {
@@ -283,7 +283,7 @@ export const LESSONS = [
               '"Tko je na telefonu?" asks who is on the line. The others ask where the phone is, what your number is, and whether something is a phone.',
           },
           {
-            q: 'Complete: "Gospođa Kovač je na ___." (Mrs Kovač is in a meeting.)',
+            q: 'Complete: "Gospođa Kovač je na ___." (Mrs. Kovač is in a meeting.)',
             options: ['sastanak', 'sastanku', 'sastanka', 'sastanaku'],
             correct: 1,
             explanation:
@@ -836,13 +836,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Talking About Tomorrow',
-        body: 'You have met the future: ću, ćeš, će plus an infinitive. Now you will use it the way people actually do — to ask a friend what they are doing at the weekend, to say what you plan for the summer, to turn an invitation down politely. The one new thing to master is WHERE ću goes, because that decides whether the verb is written long (raditi) or short (radit).',
+        body: 'You have met the future: ću, ćeš, će plus an infinitive. Now you will use it the way people actually do — to ask a friend what they are doing on the weekend, to say what you plan for the summer, to turn an invitation down politely. The one new thing to master is WHERE ću goes, because that decides whether the verb is written long (raditi) or short (radit).',
         icon: '🗓️',
       },
       {
         type: 'rule',
         title: 'The Question Everyone Asks',
-        body: 'Što ćeš raditi sutra? — What will you do tomorrow? Što ćeš raditi za vikend? — What will you do at the weekend? (za + accusative, which you know.) To a stranger or more than one person: Što ćete raditi? The answer uses the same ću: Radit ću. / Ići ću na more. / Učit ću hrvatski.',
+        body: 'Što ćeš raditi sutra? — What will you do tomorrow? Što ćeš raditi za vikend? — What will you do on the weekend? (za + accusative, which you know.) To a stranger or more than one person: Što ćete raditi? The answer uses the same ću: Radit ću. / Ići ću na more. / Učit ću hrvatski.',
         highlight: 'Što ćeš raditi sutra?',
       },
       {
@@ -888,12 +888,12 @@ export const LESSONS = [
         items: [
           {
             hr: 'Što ćeš raditi za vikend?',
-            en: 'What will you do at the weekend?',
+            en: 'What will you do on the weekend?',
             note: 'question word first, then ćeš',
           },
           {
             hr: 'U subotu ću čistiti stan.',
-            en: 'On Saturday I will clean the flat.',
+            en: 'On Saturday I will clean the apartment.',
             note: 'time first → full čistiti',
           },
           {
@@ -966,7 +966,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'One More',
-        q: 'How do you say "I will go to the cinema" starting with the verb?',
+        q: 'How do you say "I will go to the movies" starting with the verb?',
         options: ['Ić ću u kino.', 'Ići ću u kino.', 'Ićit ću u kino.', 'Ću ići u kino.'],
         correct: 1,
         explanation: 'ići is a -ći verb and never shortens: Ići ću u kino.',
@@ -1011,7 +1011,7 @@ export const LESSONS = [
             explanation: 'A -ći verb never shortens: Ići ćemo na more.',
           },
           {
-            q: 'How do you ask a friend "What will you do at the weekend?"',
+            q: 'How do you ask a friend "What will you do on the weekend?"',
             options: [
               'Što radiš jučer?',
               'Što ćeš raditi za vikend?',
@@ -1020,7 +1020,7 @@ export const LESSONS = [
             ],
             correct: 1,
             explanation:
-              'You (ti) → ćeš, and za vikend is "at the weekend". "Što si radio" asks about the past, "Što ću" asks about yourself.',
+              'You (ti) → ćeš, and za vikend is "on the weekend". "Što si radio" asks about the past, "Što ću" asks about yourself.',
           },
           {
             q: 'Which sentence says "I will not work tomorrow"?',
@@ -1161,7 +1161,7 @@ export const LESSONS = [
           },
           {
             hr: 'Naš stan je nasuprot parku.',
-            en: 'Our flat is opposite the park.',
+            en: 'Our apartment is opposite the park.',
             note: 'park → parku',
           },
           {
@@ -1379,7 +1379,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Mama mi daje novac za kino.',
-            en: 'Mom gives me money for the cinema.',
+            en: 'Mom gives me money for the movie theater.',
             note: 'mi = to me, in second place',
           },
           { hr: 'Dat ću ti moj broj.', en: 'I will give you my number.', note: 'ću before ti' },
@@ -2240,7 +2240,7 @@ export const PRACTICE = {
         explanation: 'You (more than one) → ćete.',
       },
       {
-        q: 'Which sentence means "We will not go to the cinema"?',
+        q: 'Which sentence means "We will not go to the movies"?',
         options: [
           'Ne ćemo ići u kino.',
           'Ćemo ne ići u kino.',

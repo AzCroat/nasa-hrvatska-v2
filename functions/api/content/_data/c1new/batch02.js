@@ -403,7 +403,7 @@ export const LESSONS = [
           },
           {
             hr: 'Stan je malen, ali ima prekrasan pogled na more.',
-            en: 'The flat is small, but it has a wonderful view of the sea.',
+            en: 'The apartment is small, but it has a wonderful view of the sea.',
             note: 'ali: the second fact runs against the first',
           },
           {
@@ -620,7 +620,7 @@ export const LESSONS = [
           },
           {
             hr: 'Gospođo Horvat, vaš je paket stigao jutros.',
-            en: 'Mrs Horvat, your parcel arrived this morning.',
+            en: 'Mrs. Horvat, your parcel arrived this morning.',
             note: 'the vocative at the start, then a comma',
           },
           {
@@ -1053,7 +1053,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Fixed Phrases in the Locative',
-        body: 'These are learned as wholes: biti u pravu (to be right), u redu (all right), biti na glasu kao (to be known as), u žurbi (in a hurry), na kraju (in the end), u stvari (actually), na snazi (in force), u tijeku (under way), u kvaru (out of order), na odmoru (on holiday), u svakom slučaju (in any case).',
+        body: 'These are learned as wholes: biti u pravu (to be right), u redu (all right), biti na glasu kao (to be known as), u žurbi (in a hurry), na kraju (in the end), u stvari (actually), na snazi (in force), u tijeku (under way), u kvaru (out of order), na odmoru (on vacation), u svakom slučaju (in any case).',
         highlight: 'biti u pravu',
       },
       {
@@ -1119,7 +1119,7 @@ export const LESSONS = [
           },
           {
             hr: 'Lift je opet u kvaru pa idemo stepenicama.',
-            en: 'The lift is out of order again, so we are taking the stairs.',
+            en: 'The elevator is out of order again, so we are taking the stairs.',
             note: 'u kvaru: out of order',
           },
         ],
@@ -2229,7 +2229,7 @@ export const PRACTICE = {
       {
         q: 'What does "Sve je u redu" mean?',
         options: [
-          'Everything is in a queue.',
+          'Everything is in line.',
           'Everything is in a hurry.',
           'Everything is all right.',
           'Everything is at the end.',

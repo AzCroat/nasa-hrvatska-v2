@@ -747,7 +747,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'The figures',
-            text: 'Written in figures, the ordinal carries a full stop: 3. ožujka.',
+            text: 'Written in figures, the ordinal carries a period: 3. ožujka.',
           },
         ],
         answer: 'trećeg ožujka — 3. ožujka',
@@ -1730,7 +1730,7 @@ export const PRACTICE_C1 = {
           q: 'Na izlet je otišlo ____ učenika. (about twenty — one approximate word)',
           answer: 'dvadesetak',
           hint: 'Add the approximating suffix to the round number.',
-          explanation: 'dvadesetak učenika — about twenty pupils, with a neuter singular verb.',
+          explanation: 'dvadesetak učenika — about twenty students, with a neuter singular verb.',
         },
       ],
     },
@@ -1822,8 +1822,8 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'One Verb, Two Meanings',
-        problem: 'Prevedi: "The new timetable suits me. I will answer the letter tomorrow."',
-        en: 'Translate: The new timetable suits me. I will answer the letter tomorrow.',
+        problem: 'Prevedi: "The new schedule suits me. I will answer the letter tomorrow."',
+        en: 'Translate: The new schedule suits me. I will answer the letter tomorrow.',
         steps: [
           {
             label: 'Spot the verb',
@@ -5605,7 +5605,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'The numbers',
-            text: 'Article and paragraph numbers are ordinals, so each carries a full stop.',
+            text: 'Article and paragraph numbers are ordinals, so each carries a period.',
           },
           { label: 'Abbreviate', text: 'članak → čl., stavak → st.: čl. 7. st. 3.' },
         ],
@@ -6182,7 +6182,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Ikavian to Standard',
         problem: 'Djed kaže: "Lipo je vidit dicu u selu." Napiši standardnim oblicima.',
-        en: 'Grandad says it is lovely to see children in the village. Write it in standard forms.',
+        en: 'Grandpa says it is lovely to see children in the village. Write it in standard forms.',
         steps: [
           {
             label: 'Find the ikavian',

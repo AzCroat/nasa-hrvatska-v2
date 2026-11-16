@@ -1092,7 +1092,7 @@ export const CLASS_A1_U18_20 = {
         q: 'When do they watch the match?',
         options: ['At weekends', 'Every day', 'On Saturdays', 'Twice a week'],
         correct: 0,
-        explanation: 'vikendom — at weekends. Subotom would be "on Saturdays".',
+        explanation: 'vikendom — on weekends. Subotom would be "on Saturdays".',
       },
       10,
       {

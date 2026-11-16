@@ -618,7 +618,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Idem u kino s prijateljem.',
-            en: 'I am going to the cinema with a friend.',
+            en: 'I am going to the movies with a friend.',
             note: 'company — s + instrumental',
           },
           {
@@ -664,7 +664,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Hoćeš li ići sa mnom u kino?',
-            en: 'Will you go to the cinema with me?',
+            en: 'Will you go to the movies with me?',
             note: 'sa before mnom',
           },
           {
@@ -912,7 +912,7 @@ export const LESSONS_A2 = [
           {
             hr: 'Pokaži mi svoj novi stan!',
             en: 'Show me your new flat!',
-            note: 'the subject "you" owns the flat → svoj',
+            note: 'the subject "you" owns the apartment → svoj',
           },
           {
             hr: 'Susjedi peru svoj auto svake subote.',
@@ -1129,7 +1129,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'U razredu ima dvadeset učenika.',
-            en: 'There are twenty pupils in the class.',
+            en: 'There are twenty students in the class.',
             note: 'genitive plural after a number above four',
           },
           {
@@ -1207,7 +1207,7 @@ export const LESSONS_A2 = [
       {
         type: 'quiz',
         title: 'One More',
-        q: 'Complete: "U razredu ima deset ___." (There are ten pupils in the class — učenik.)',
+        q: 'Complete: "U razredu ima deset ___." (There are ten students in the class — učenik.)',
         options: ['učenici', 'učenike', 'učenika', 'učenicima'],
         correct: 2,
         explanation:
@@ -2148,7 +2148,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Rijetko idem u kino.',
-            en: 'I rarely go to the cinema.',
+            en: 'I rarely go to the movies.',
             note: 'rijetko is not negative, so no extra ne',
           },
           {
@@ -3101,7 +3101,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Kuća or Stan?',
-        body: 'A "kuća" is a house — a building of your own, usually with a "vrt". A "stan" is a flat in a block, which is how most people in Zagreb and Split live. Both take "u" and the locative: Živim u kući. Živim u stanu. "Dom" is the third word and means home in the emotional sense, not the building.',
+        body: 'A "kuća" is a house — a building of your own, usually with a "vrt". A "stan" is an apartment in a block, which is how most people in Zagreb and Split live. Both take "u" and the locative: Živim u kući. Živim u stanu. "Dom" is the third word and means home in the emotional sense, not the building.',
         highlight: 'kuća · stan · dom',
       },
       {
@@ -3120,7 +3120,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Floors Take an Ordinal',
-        body: 'A Croatian flat is described by its floor, and that is an ordinal in the locative: Stanujem na trećem katu. (I live on the third floor.) The ground floor is "prizemlje" — Stan je u prizemlju. "Kat" counts up from there, so the first floor is one flight up, as in British English rather than American.',
+        body: 'A Croatian apartment is described by its floor, and that is an ordinal in the locative: Stanujem na trećem katu. (I live on the third floor.) The ground floor is "prizemlje" — Stan je u prizemlju. "Kat" counts up from there, so the first floor is one flight up, as in British English rather than American.',
         highlight: 'na trećem katu',
       },
       {
@@ -3129,12 +3129,12 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Živim u malom stanu u centru grada.',
-            en: 'I live in a small flat in the city centre.',
+            en: 'I live in a small apartment in the city center.',
             note: 'two locatives — malom stanu, centru',
           },
           {
             hr: 'Stan ima dvije sobe i veliku kuhinju.',
-            en: 'The flat has two rooms and a big kitchen.',
+            en: 'The apartment has two rooms and a big kitchen.',
             note: 'imati + accusative',
           },
           {
@@ -3154,7 +3154,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Selim se u novi stan sljedeći mjesec.',
-            en: 'I am moving to a new flat next month.',
+            en: 'I am moving to a new apartment next month.',
             note: 'seliti se — a reflexive verb',
           },
         ],
@@ -3165,7 +3165,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Stanujemo na drugom katu, bez lifta.',
-            en: 'We live on the second floor, with no lift.',
+            en: 'We live on the second floor, with no elevator.',
             note: 'na drugom katu — the ordinal in the locative',
           },
           {
@@ -3175,7 +3175,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Krevet je ispod prozora, a ormar je iza vrata.',
-            en: 'The bed is under the window, and the wardrobe is behind the door.',
+            en: 'The bed is under the window, and the closet is behind the door.',
             note: 'ispod, iza + genitive',
           },
           {
@@ -3185,7 +3185,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Stan je u prizemlju, pa nemamo stepenice.',
-            en: 'The flat is on the ground floor, so we have no stairs.',
+            en: 'The apartment is on the ground floor, so we have no stairs.',
             note: 'u prizemlju — locative',
           },
           {
@@ -3208,7 +3208,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Living With Your Parents',
-        body: 'Young Croatians often live with their parents for a long time — well into their twenties, sometimes their thirties — because flats are expensive and family ties are close. When they do move out, most people want to buy a flat (stan) rather than rent one, and in the cities a flat is far more common than a house. A house with a garden is more typical of villages and small towns.',
+        body: 'Young Croatians often live with their parents for a long time — well into their twenties, sometimes their thirties — because apartments are expensive and family ties are close. When they do move out, most people want to buy an apartment (stan) rather than rent one, and in the cities an apartment is far more common than a house. A house with a garden is more typical of villages and small towns.',
         highlight: 'kupiti stan',
       },
       {
@@ -3261,7 +3261,7 @@ export const LESSONS_A2 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "I live in a flat"? ("stan" is masculine.)',
+        q: 'How do you say "I live in an apartment"? ("stan" is masculine.)',
         options: ['Živim u stan.', 'Živim u stanu.', 'Živim u stana.', 'Živim na stanu.'],
         correct: 1,
         explanation:
@@ -3301,7 +3301,7 @@ export const LESSONS_A2 = [
               '"Pored" takes the genitive: prozora. "Prozoru" is the locative, which belongs after "u" and "na", not after "pored".',
           },
           {
-            q: 'Complete: "Stan je na ___ katu." (The flat is on the fourth floor.)',
+            q: 'Complete: "Stan je na ___ katu." (The apartment is on the fourth floor.)',
             options: ['četvrti', 'četvrtog', 'četvrtom', 'četiri'],
             correct: 2,
             explanation:
@@ -3333,10 +3333,15 @@ export const LESSONS_A2 = [
           },
           {
             q: '"Dom" is best translated as…',
-            options: ['a block of flats', 'home, in the emotional sense', 'a garden', 'a hallway'],
+            options: [
+              'a block of apartments',
+              'home, in the emotional sense',
+              'a garden',
+              'a hallway',
+            ],
             correct: 1,
             explanation:
-              '"Dom" is home as a feeling or a place you belong, not the building. The building is "kuća" (house) or "stan" (flat).',
+              '"Dom" is home as a feeling or a place you belong, not the building. The building is "kuća" (house) or "stan" (apartment).',
           },
           {
             q: 'Which room is the "kupaonica"?',
@@ -3351,7 +3356,7 @@ export const LESSONS_A2 = [
         type: 'summary',
         title: 'House and Home — Key Takeaways',
         points: [
-          'kuća = house, stan = flat, dom = home in the emotional sense',
+          'kuća = house, stan = apartment, dom = home in the emotional sense',
           'Rooms: soba, kuhinja, kupaonica, spavaća soba, dnevni boravak',
           'Živim u kući / u stanu — u plus the locative',
           'Floors are ordinals in the locative: na trećem katu, u prizemlju',
@@ -3641,7 +3646,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Two of Them Are Always Plural',
-        body: '"Hlače" (trousers) and "traperice" (jeans) exist only in the plural, just as in English — one pair, plural word. "Cipele" (shoes), "tenisice" and "čarape" do have a singular (cipela, čarapa) but usually come in pairs. Hlače su nove. Cipele su male. Because they are feminine plural, adjectives take -e: nove hlače, crne cipele.',
+        body: '"Hlače" (pants) and "traperice" (jeans) exist only in the plural, just as in English — one pair, plural word. "Cipele" (shoes), "tenisice" and "čarape" do have a singular (cipela, čarapa) but usually come in pairs. Hlače su nove. Cipele su male. Because they are feminine plural, adjectives take -e: nove hlače, crne cipele.',
         highlight: 'nove hlače · crne cipele',
       },
       {
@@ -3722,7 +3727,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Ove tenisice nisu moj broj. Trebam broj trideset osam.',
-            en: 'These trainers are not my size. I need size thirty-eight.',
+            en: 'These sneakers are not my size. I need size thirty-eight.',
             note: 'trebati + what you need',
           },
           {
@@ -4222,7 +4227,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Idem na godišnji u kolovozu.',
-            en: 'I am going on holiday in August.',
+            en: 'I am going on vacation in August.',
             note: 'u kolovozu — locative for a month',
           },
         ],
@@ -4258,7 +4263,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Radim od ponedjeljka do petka, vikendom sam slobodna.',
-            en: 'I work from Monday to Friday; at weekends I am free.',
+            en: 'I work from Monday to Friday; on weekends I am free.',
             note: 'od … do + genitive',
           },
           {
@@ -4268,7 +4273,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Naša tvrtka ima ured u centru grada.',
-            en: 'Our company has an office in the city centre.',
+            en: 'Our company has an office in the city center.',
             note: 'ured — the office; u centru — locative',
           },
         ],
@@ -4363,7 +4368,7 @@ export const LESSONS_A2 = [
             options: ['plaća', 'posao', 'ured', 'odmor'],
             correct: 0,
             explanation:
-              '"Plaća" is salary or pay. "Posao" is a job or work, "ured" an office, and "odmor" a rest or holiday.',
+              '"Plaća" is salary or pay. "Posao" is a job or work, "ured" an office, and "odmor" a rest or vacation.',
           },
         ],
       },
@@ -4398,13 +4403,13 @@ export const LESSONS_A2 = [
       {
         type: 'intro',
         title: 'Words You Need About Yourself',
-        body: 'You are learning a language, so this vocabulary comes up about you constantly — what you study, where, for how long, how it is going. It also clears up a distinction English blurs: Croatian has different words for a school pupil and a university student, and different verbs for each.',
+        body: 'You are learning a language, so this vocabulary comes up about you constantly — what you study, where, for how long, how it is going. It also clears up a distinction English blurs: Croatian has different words for a school student and a university student, and different verbs for each.',
         icon: '🎓',
       },
       {
         type: 'rule',
         title: 'Učiti, Studirati, Predavati',
-        body: 'Three verbs, three jobs. "Učiti" is to learn or to study in general: Učim hrvatski. "Studirati" is specifically to study at university, and takes the subject: Studiram povijest. "Predavati" is to teach or lecture: Predaje na fakultetu. Saying "studiram hrvatski" implies a degree course, so for self-study use "učim".',
+        body: 'Three verbs, three jobs. "Učiti" is to learn or to study in general: Učim hrvatski. "Studirati" is specifically to study in college, and takes the subject: Studiram povijest. "Predavati" is to teach or lecture: Predaje na fakultetu. Saying "studiram hrvatski" implies a degree course, so for self-study use "učim".',
         highlight: 'Učim hrvatski.',
       },
       {
@@ -4423,7 +4428,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Učenik or Student?',
-        body: 'A school pupil is an "učenik" (or "učenica"); a university student is a "student" (or "studentica"). English uses "student" for both, which makes this an easy mistake to carry over. Likewise a school teacher is an "učitelj" in primary school and a "profesor" in secondary — and "profesor" at university too.',
+        body: 'A school student is an "učenik" (or "učenica"); a university student is a "student" (or "studentica"). English uses "student" for both, which makes this an easy mistake to carry over. Likewise a school teacher is an "učitelj" in elementary school and a "profesor" in secondary — and "profesor" in college too.',
         highlight: 'učenik = school · student = university',
       },
       {
@@ -4449,7 +4454,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Studiram povijest na fakultetu u Zagrebu.',
-            en: 'I study history at university in Zagreb.',
+            en: 'I study history in college in Zagreb.',
             note: 'na fakultetu, u Zagrebu — both locative',
           },
           {
@@ -4485,7 +4490,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Moja kći je učenica trećeg razreda.',
-            en: 'My daughter is a pupil in the third year.',
+            en: 'My daughter is a student in the third year.',
             note: 'učenica — school; trećeg razreda — genitive',
           },
           {
@@ -4528,11 +4533,11 @@ export const LESSONS_A2 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'A ten-year-old at primary school is a…',
+        q: 'A ten-year-old at elementary school is a…',
         options: ['student', 'učenik', 'profesor', 'kolega'],
         correct: 1,
         explanation:
-          'Croatian reserves "student" for university and uses "učenik" for a school pupil. English uses one word for both, which is why this is worth noticing early.',
+          'Croatian reserves "student" for university and uses "učenik" for a school student. English uses one word for both, which is why this is worth noticing early.',
       },
       {
         type: 'quiz',
@@ -4546,7 +4551,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Calling a school pupil a "student": "Moj sin je student" says he is at university; a school pupil is "učenik". (2) Using "studirati" for self-study: "Studiram hrvatski" claims a degree course; learning on your own is "Učim hrvatski". (3) Swapping the prepositions the institutions take: "na školi" and "u fakultetu" are wrong — "u školi", "na fakultetu".',
+        body: '(1) Calling a school student a "student": "Moj sin je student" says he is in college; a school student is "učenik". (2) Using "studirati" for self-study: "Studiram hrvatski" claims a degree course; learning on your own is "Učim hrvatski". (3) Swapping the prepositions the institutions take: "na školi" and "u fakultetu" are wrong — "u školi", "na fakultetu".',
         highlight: 'Učim hrvatski',
       },
       {
@@ -4554,7 +4559,7 @@ export const LESSONS_A2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Ana ___ pravo u Zagrebu." (Ana is studying law at university.)',
+            q: 'Complete: "Ana ___ pravo u Zagrebu." (Ana is studying law in college.)',
             options: ['uči', 'studira', 'predaje', 'učenik'],
             correct: 1,
             explanation:
@@ -4583,20 +4588,20 @@ export const LESSONS_A2 = [
             q: 'What is wrong with "Moja kći je student u osnovnoj školi"?',
             options: [
               'Nothing — it is correct',
-              'A girl at primary school is an "učenica"',
+              'A girl at elementary school is an "učenica"',
               'It should be "studentica"',
               '"U osnovnoj školi" should be "na osnovnoj školi"',
             ],
             correct: 1,
             explanation:
-              'Croatian reserves "student" for university. A school pupil is "učenik", and a girl is "učenica". "U osnovnoj školi" is correct.',
+              'Croatian reserves "student" for university. A school student is "učenik", and a girl is "učenica". "U osnovnoj školi" is correct.',
           },
           {
             q: 'What does "predavati" mean?',
-            options: ['to learn', 'to study at university', 'to teach, to lecture', 'to graduate'],
+            options: ['to learn', 'to study in college', 'to teach, to lecture', 'to graduate'],
             correct: 2,
             explanation:
-              '"Predavati" is to teach or lecture: Predaje na fakultetu. Learning is "učiti", studying at university "studirati", and graduating "diplomirati".',
+              '"Predavati" is to teach or lecture: Predaje na fakultetu. Learning is "učiti", studying in college "studirati", and graduating "diplomirati".',
           },
           {
             q: 'Which word means "mark, grade"?',
@@ -4619,7 +4624,7 @@ export const LESSONS_A2 = [
         title: 'School — Key Takeaways',
         points: [
           'učiti = learn/study generally, studirati = study at university',
-          'učenik is a school pupil; student is at university',
+          'učenik is a school student; student is in college',
           'osnovna škola, srednja škola, gimnazija, fakultet, sveučilište',
           'u školi but na fakultetu — learned as phrases',
           'ispit iz matematike — an exam in a subject takes iz plus the genitive',
@@ -4695,7 +4700,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Subotom igram nogomet s prijateljima.',
-            en: 'On Saturdays I play football with friends.',
+            en: 'On Saturdays I play soccer with friends.',
             note: 'subotom = on Saturdays, an instrumental of time',
           },
           {
@@ -4710,7 +4715,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Što voliš raditi vikendom?',
-            en: 'What do you like doing at the weekend?',
+            en: 'What do you like doing on the weekend?',
             note: 'vikendom — another instrumental of time',
           },
         ],
@@ -4741,7 +4746,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Vikendom volimo planinariti na Medvednici.',
-            en: 'At weekends we like hiking on Medvednica.',
+            en: 'On weekends we like hiking on Medvednica.',
             note: 'vikendom + voljeti + infinitive',
           },
           {
@@ -4756,7 +4761,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Petkom navečer igramo nogomet u parku.',
-            en: 'On Friday evenings we play football in the park.',
+            en: 'On Friday evenings we play soccer in the park.',
             note: 'petkom — on Fridays',
           },
         ],
@@ -4764,7 +4769,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Instrumental of Time',
-        body: 'You just met it three times. Putting a day or period into the instrumental means "on those days, regularly": subotom (on Saturdays), nedjeljom (on Sundays), vikendom (at weekends), and, beside them, the adverbs ljeti and zimi (in summer, in winter). It is a compact pattern with no English equivalent — English needs a whole phrase where Croatian changes an ending.',
+        body: 'You just met it three times. Putting a day or period into the instrumental means "on those days, regularly": subotom (on Saturdays), nedjeljom (on Sundays), vikendom (on weekends), and, beside them, the adverbs ljeti and zimi (in summer, in winter). It is a compact pattern with no English equivalent — English needs a whole phrase where Croatian changes an ending.',
         highlight: 'subotom · vikendom',
       },
       {
@@ -4911,7 +4916,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Means Is the Instrumental',
-        body: 'Every one of those takes the instrumental with no preposition — Idem vlakom, Putujemo trajektom, Došli su avionom. You met the rule earlier; a timetable is where you use it every day. The only common exception is on foot, which is its own word: pješice.',
+        body: 'Every one of those takes the instrumental with no preposition — Idem vlakom, Putujemo trajektom, Došli su avionom. You met the rule earlier; a schedule is where you use it every day. The only common exception is on foot, which is its own word: pješice.',
         highlight: 'Idem vlakom.',
       },
       {
@@ -4930,7 +4935,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Polaziti and Dolaziti',
-        body: 'A timetable runs on two verbs. "Polaziti" is to depart: Vlak polazi u osam. "Dolaziti" is to arrive: Dolazimo u pet. To ask, use them as they stand: Kad polazi vlak za Split? Kad dolazi autobus iz Rijeke? Note "za" plus the accusative for the destination and "iz" plus the genitive for the origin.',
+        body: 'A schedule runs on two verbs. "Polaziti" is to depart: Vlak polazi u osam. "Dolaziti" is to arrive: Dolazimo u pet. To ask, use them as they stand: Kad polazi vlak za Split? Kad dolazi autobus iz Rijeke? Note "za" plus the accusative for the destination and "iz" plus the genitive for the origin.',
         highlight: 'vlak za Split · autobus iz Rijeke',
       },
       {
@@ -5005,7 +5010,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Imamo rezervaciju za apartman na tri noći.',
-            en: 'We have a booking for an apartment for three nights.',
+            en: 'We have a reservation for an apartment for three nights.',
             note: 'na tri noći — for a length of stay',
           },
           {
@@ -5018,7 +5023,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Somewhere to Stay',
-        body: '"Smještaj" is accommodation in general. A "hotel" is a hotel; an "apartman" is a self-catering flat, and it is what most people rent on the coast. "Soba" on a sign by the road means a room to let. To check in: Imam rezervaciju. Htio bih se prijaviti. And to ask about breakfast: Je li doručak uključen?',
+        body: '"Smještaj" is accommodation in general. A "hotel" is a hotel; an "apartman" is a self-catering apartment, and it is what most people rent on the coast. "Soba" on a sign by the road means a room to let. To check in: Imam rezervaciju. Htio bih se prijaviti. And to ask about breakfast: Je li doručak uključen?',
         highlight: 'apartman · smještaj · Je li doručak uključen?',
       },
       {
@@ -5047,7 +5052,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Adding "s" to the means of transport: "Putujem s vlakom" is wrong — "Putujem vlakom". (2) Confusing the direction words: "vlak iz Split" and "vlak za Splita" — the destination is "za" plus the accusative, "vlak za Split", and the origin is "iz" plus the genitive, "vlak iz Splita". (3) Using the accusative for the origin in a timetable question: "Kad dolazi autobus iz Rijeku?" — after iz the noun is genitive, "iz Rijeke".',
+        body: '(1) Adding "s" to the means of transport: "Putujem s vlakom" is wrong — "Putujem vlakom". (2) Confusing the direction words: "vlak iz Split" and "vlak za Splita" — the destination is "za" plus the accusative, "vlak za Split", and the origin is "iz" plus the genitive, "vlak iz Splita". (3) Using the accusative for the origin in a schedule question: "Kad dolazi autobus iz Rijeku?" — after iz the noun is genitive, "iz Rijeke".',
         highlight: 'vlak za Split',
       },
       {
@@ -5163,7 +5168,7 @@ export const LESSONS_A2 = [
           ['Jesi li slobodan? / slobodna?', 'Are you free? (man / woman)'],
           ['Imaš li planove za vikend?', 'Do you have plans for the weekend?'],
           ['Hoćeš li ići na kavu?', 'Do you want to go for a coffee?'],
-          ['Idemo u kino?', 'Shall we go to the cinema?'],
+          ['Idemo u kino?', 'Shall we go to the movies?'],
           ['Što kažeš na večeru?', 'How about dinner?'],
         ],
       },
@@ -5309,14 +5314,14 @@ export const LESSONS_A2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Nalazimo se ___ osam ispred kina." (We are meeting at eight in front of the cinema.)',
+            q: 'Complete: "Nalazimo se ___ osam ispred kina." (We are meeting at eight in front of the movie theater.)',
             options: ['u', 'na', 'za', 'o'],
             correct: 0,
             explanation:
               'Clock time takes "u" plus the accusative: u osam. "Na" and "o" are for places and topics, and "za" would mean "in" a period of time ("za osam minuta").',
           },
           {
-            q: 'Complete: "U subotu ___ nogomet." (On Saturday we are playing football — it is arranged.)',
+            q: 'Complete: "U subotu ___ nogomet." (On Saturday we are playing soccer — it is arranged.)',
             options: ['igrali smo', 'igramo', 'igrati', 'igra'],
             correct: 1,
             explanation:

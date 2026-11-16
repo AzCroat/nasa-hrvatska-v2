@@ -349,7 +349,7 @@ const COMPARATIVE_IDIOMS = {
       items: [
         {
           hr: 'Djed ima devedeset godina, a zdrav je kao dren.',
-          en: 'Grandad is ninety, and he is in excellent health.',
+          en: 'Grandpa is ninety, and he is in excellent health.',
           note: 'zdrav kao dren — very healthy',
         },
         {
@@ -826,7 +826,7 @@ const INDEFINITE_CASES = {
         },
         {
           hr: 'Čekam nekoga ispred kina.',
-          en: 'I am waiting for someone in front of the cinema.',
+          en: 'I am waiting for someone in front of the movie theater.',
           note: 'nekoga — accusative of netko',
         },
         {
@@ -1120,7 +1120,7 @@ const BODY_PART_NOUNS = {
         },
         {
           hr: 'Djed ima zlatne ruke, sve popravi sam.',
-          en: 'Grandad is very good with his hands; he fixes everything himself.',
+          en: 'Grandpa is very good with his hands; he fixes everything himself.',
           note: 'zlatne ruke — skilful hands',
         },
         {
@@ -1258,8 +1258,8 @@ export const PRACTICE = {
       },
       {
         title: 'Was, Then Became',
-        problem: 'Prevedi: "My father was a teacher, and then he became headmaster."',
-        en: 'My father was a teacher, and then he became headmaster.',
+        problem: 'Prevedi: "My father was a teacher, and then he became principal."',
+        en: 'My father was a teacher, and then he became principal.',
         steps: [
           {
             label: 'Was a teacher',

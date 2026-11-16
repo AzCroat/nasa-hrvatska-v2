@@ -118,7 +118,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Išla je u kino sa sestrom, s bratom i sa Zoranom, a s Ivanom se našla poslije.',
-            en: 'She went to the cinema with her sister, her brother and Zoran, and met Ivan afterward.',
+            en: 'She went to the movie theater with her sister, her brother and Zoran, and met Ivan afterward.',
             note: 'sa before s, š, z, ž — s everywhere else, whatever the noun',
           },
           {
@@ -388,7 +388,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Učenici su riješili sve zadatke, pa je učiteljica pohvalila cijeli razred.',
-            en: 'The pupils solved all the tasks, so the teacher praised the whole class.',
+            en: 'The students solved all the tasks, so the teacher praised the whole class.',
             note: 'zadatke is the accusative plural — the zadaci/zadatci question arises only in the nominative',
           },
           {
@@ -894,7 +894,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Cijena stana iznosi 185.000,00 eura, što je 2.312,50 eura po kvadratnom metru.',
-            en: 'The price of the flat is 185,000.00 euros, which is 2,312.50 euros per square metre.',
+            en: 'The price of the apartment is 185,000.00 euros, which is 2,312.50 euros per square meter.',
             note: 'Dot for thousands, comma for the decimal — the reverse of English',
           },
         ],
@@ -1583,7 +1583,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Počela je učiti hrvatski prošle jeseni i nije prestala vježbati ni ljeti.',
-            en: 'She started learning Croatian last autumn and did not stop practicing even in the summer.',
+            en: 'She started learning Croatian last fall and did not stop practicing even in the summer.',
             note: 'Phase verbs početi and prestati take an imperfective infinitive',
           },
           {
@@ -2231,7 +2231,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Do Not Stack Subordination',
-        body: 'Croatian tolerates deep subordination better than English, and that is a trap. A sentence with three nested koji-clauses is grammatical and unreadable. The remedy is condensation — turn one clause into a phrase — or a full stop. Style guides in Croatian make this point as firmly as English ones do, and the nominal style is where the problem usually starts.',
+        body: 'Croatian tolerates deep subordination better than English, and that is a trap. A sentence with three nested koji-clauses is grammatical and unreadable. The remedy is condensation — turn one clause into a phrase — or a period. Style guides in Croatian make this point as firmly as English ones do, and the nominal style is where the problem usually starts.',
         highlight: 'two levels of subordination, not four',
       },
       {
@@ -2315,7 +2315,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Condensation and the full stop are the two tools. Commas do not reduce depth, moving the clitics breaks second position, and the passive usually adds nominal weight rather than removing it.',
+          'Condensation and the period are the two tools. Commas do not reduce depth, moving the clitics breaks second position, and the passive usually adds nominal weight rather than removing it.',
       },
       {
         type: 'rule',
@@ -2368,7 +2368,7 @@ export const LESSONS_C2 = [
             ],
             correct: 0,
             explanation:
-              'Three nested relative clauses are grammatical and unreadable. Two levels are the limit; the remedies are condensation or a full stop, both shown in the other options.',
+              'Three nested relative clauses are grammatical and unreadable. Two levels are the limit; the remedies are condensation or a period, both shown in the other options.',
           },
           {
             q: 'Three long sentences in a row, then "Jednoglasno." What does the short sentence do?',
@@ -2423,7 +2423,7 @@ export const LESSONS_C2 = [
           'End weight: known information first, new information last',
           'Whatever you front becomes the topic, and the clitics follow it',
           'Two levels of subordination, not four',
-          'Condensation or a full stop — those are the two ways out of a tangle',
+          'Condensation or a period — those are the two ways out of a tangle',
         ],
       },
     ],
@@ -3440,7 +3440,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Sentence Is Longer, Not Sloppier',
-        body: "Croatian literary sentences run long — Krleža's famously so — with subordination that a style guide would refuse in a report. That is deliberate: length in literature builds a pressure that a full stop releases. Read for the main clause first, then reread; the syntax is a structure, not a tangle, and the parsing habits from the C1 clause lesson are exactly what you need.",
+        body: "Croatian literary sentences run long — Krleža's famously so — with subordination that a style guide would refuse in a report. That is deliberate: length in literature builds a pressure that a period releases. Read for the main clause first, then reread; the syntax is a structure, not a tangle, and the parsing habits from the C1 clause lesson are exactly what you need.",
         highlight: 'find the main clause, then reread',
       },
       {
@@ -3596,7 +3596,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Length in literature builds a pressure that the full stop releases; the syntax is a structure. Locating the main clause first turns the tangle into a set of decisions you can follow.',
+              'Length in literature builds a pressure that the period releases; the syntax is a structure. Locating the main clause first turns the tangle into a set of decisions you can follow.',
           },
           {
             q: 'Complete: "Tada ___ mlad i pun nade." (imperfect of biti)',
@@ -4605,7 +4605,7 @@ export const LESSONS_C2 = [
           ['moći / umjeti / znati', 'moći = be able; umjeti = have the skill; znati = know how'],
           [
             'učiti / naučiti / studirati',
-            'učiti = study; naučiti = learn (perfective); studirati = be at university',
+            'učiti = study; naučiti = learn (perfective); studirati = be in college',
           ],
           [
             'problem / poteškoća / smetnja',
@@ -4690,7 +4690,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Učio je cijelu noć, ali nije naučio ništa; studira medicinu treću godinu.',
             en: 'He studied all night but learned nothing; he is in his third year of medicine.',
-            note: 'učiti (study), naučiti (learn, perfective), studirati (be at university)',
+            note: 'učiti (study), naučiti (learn, perfective), studirati (be in college)',
           },
         ],
       },
@@ -5177,7 +5177,7 @@ export const LESSONS_C2 = [
           'Translate it as "hospital"',
           'Borrow the term and gloss it once, or describe it and flag that it is not equivalent',
           'Leave it untranslated with no explanation',
-          'Translate it as "the local GP surgery"',
+          'Translate it as "the local doctor’s office"',
         ],
         correct: 1,
         explanation:
@@ -6102,7 +6102,7 @@ export const LESSONS_C2 = [
         items: [
           {
             hr: 'Poštovana gospođo Kovač, zahvaljujem Vam na brzom odgovoru i ostajem s poštovanjem.',
-            en: 'Dear Mrs Kovač, thank you for your prompt reply; yours sincerely.',
+            en: 'Dear Mrs. Kovač, thank you for your prompt reply; yours sincerely.',
             note: 'Vam capitalised in a letter to one person; zahvaljivati na + locative',
           },
           {

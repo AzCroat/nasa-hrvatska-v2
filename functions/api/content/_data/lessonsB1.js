@@ -167,7 +167,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Od ponedjeljka do petka radim, a vikendom se odmaram.',
-            en: 'From Monday to Friday I work, and at the weekend I rest.',
+            en: 'From Monday to Friday I work, and on the weekend I rest.',
             note: 'od and do both take the genitive',
           },
         ],
@@ -724,7 +724,7 @@ export const LESSONS_B1 = [
               '"Leći" is a change of position, so the destination is accusative — and krevet, masculine and not alive, keeps its bare form. "Na krevetu" is the locative, right for ležati.',
           },
           {
-            q: 'Complete: "Kaput visi u ___." (The coat is hanging in the wardrobe — ormar)',
+            q: 'Complete: "Kaput visi u ___." (The coat is hanging in the closet — ormar)',
             options: ['ormar', 'ormara', 'ormaru', 'ormarom'],
             correct: 2,
             explanation:
@@ -1865,7 +1865,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Štedim novac kako bih kupio stan.',
-            en: 'I am saving money in order to buy a flat.',
+            en: 'I am saving money in order to buy an apartment.',
             note: 'kako bih + participle — purpose',
           },
           {
@@ -3251,7 +3251,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'The Language of the Counter',
-        body: 'Anyone spending real time in Croatia will meet a counter, a form and a queue. The vocabulary is narrow and highly repetitive, which makes it unusually quick to learn — and the impersonal constructions you met earlier are exactly what official language runs on.',
+        body: 'Anyone spending real time in Croatia will meet a counter, a form and a line. The vocabulary is narrow and highly repetitive, which makes it unusually quick to learn — and the impersonal constructions you met earlier are exactly what official language runs on.',
         icon: '🏛️',
       },
       {
@@ -3357,8 +3357,8 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Čekao sam u redu više od sat vremena.',
-            en: 'I waited in the queue for more than an hour.',
-            note: 'u redu = in the queue; više od + genitive',
+            en: 'I waited in line for more than an hour.',
+            note: 'u redu = in line; više od + genitive',
           },
           {
             hr: 'Potrebno je platiti pristojbu prije predaje zahtjeva.',
@@ -3481,7 +3481,7 @@ export const LESSONS_B1 = [
             options: ['driving licence', 'birth certificate', 'passport', 'residence permit'],
             correct: 3,
             explanation:
-              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving licence is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
+              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving license is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
           },
         ],
       },
@@ -3536,7 +3536,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'How Croatian Counts Rooms',
-        body: 'A "dvosoban stan" is a two-ROOM flat, and the count excludes the kitchen and bathroom — so it is roughly a one-bedroom flat with a living room. "Jednosoban" is one room; "trosoban" is three. A "garsonijera" is a single space with a kitchen corner. Reading these as bedrooms will consistently overestimate the size by one.',
+        body: 'A "dvosoban stan" is a two-ROOM apartment, and the count excludes the kitchen and bathroom — so it is roughly a one-bedroom apartment with a living room. "Jednosoban" is one room; "trosoban" is three. A "garsonijera" is a single space with a kitchen corner. Reading these as bedrooms will consistently overestimate the size by one.',
         highlight: 'dvosoban ≈ one bedroom plus a living room',
       },
       {
@@ -3570,17 +3570,17 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Zovem u vezi s oglasom za stan.',
-            en: 'I am calling about the advert for the flat.',
+            en: 'I am calling about the advert for the apartment.',
             note: 'u vezi s + instrumental',
           },
           {
             hr: 'Je li stan još slobodan?',
-            en: 'Is the flat still available?',
+            en: 'Is the apartment still available?',
             note: 'još = still',
           },
           {
             hr: 'Stan je na trećem katu, bez lifta.',
-            en: 'The flat is on the third floor, with no lift.',
+            en: 'The apartment is on the third floor, with no elevator.',
             note: 'bez + genitive',
           },
           {
@@ -3606,12 +3606,12 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Tražim namješten jednosoban stan blizu centra.',
-            en: 'I am looking for a furnished one-room flat near the centre.',
+            en: 'I am looking for a furnished one-room apartment near the center.',
             note: 'namješten agreeing with stan; blizu + genitive',
           },
           {
             hr: 'Stan ima četrdeset pet kvadrata i veliki balkon.',
-            en: 'The flat has forty-five square meters and a big balcony.',
+            en: 'The apartment has forty-five square meters and a big balcony.',
             note: 'kvadrata — genitive plural after a number',
           },
           {
@@ -3636,7 +3636,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Mogu li doći pogledati stan sutra poslijepodne?',
-            en: 'Can I come and view the flat tomorrow afternoon?',
+            en: 'Can I come and view the apartment tomorrow afternoon?',
             note: 'two infinitives after a modal',
           },
           {
@@ -4148,7 +4148,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Čula sam na radiju da je na autocesti velika gužva.',
-            en: 'I heard on the radio that there is a big jam on the motorway.',
+            en: 'I heard on the radio that there is a big jam on the highway.',
             note: 'čuti na + locative',
           },
           {
@@ -4251,7 +4251,7 @@ export const LESSONS_B1 = [
             options: ['naslov', 'izvor', 'izvještaj', 'emisija'],
             correct: 1,
             explanation:
-              '"Izvor" is a source (also a spring of water). Naslov is a headline, izvještaj a report, and emisija a programme.',
+              '"Izvor" is a source (also a spring of water). Naslov is a headline, izvještaj a report, and emisija a program.',
           },
           {
             q: 'What do you call a long-running TV drama about the same families, episode after episode?',
@@ -4893,7 +4893,7 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Ulijte litru mlijeka i dodajte žlicu šećera.',
-            en: 'Pour in a litre of milk and add a spoonful of sugar.',
+            en: 'Pour in a liter of milk and add a spoonful of sugar.',
             note: 'two quantities, two genitives: mlijeka, šećera',
           },
           {

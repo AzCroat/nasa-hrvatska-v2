@@ -185,7 +185,7 @@ const DECLENSION_REVIEW = {
         },
         {
           hr: 'Idem u kino s bratom.',
-          en: 'I am going to the cinema with my brother.',
+          en: 'I am going to the movies with my brother.',
           note: 'bratom — instrumental: with whom?',
         },
       ],
@@ -1427,8 +1427,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Find the Question, Then the Ending',
-        problem: 'Prevedi: "I am going to the cinema with my brother."',
-        en: 'I am going to the cinema with my brother.',
+        problem: 'Prevedi: "I am going to the movies with my brother."',
+        en: 'I am going to the movies with my brother.',
         steps: [
           {
             label: 'Where to?',

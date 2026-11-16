@@ -181,7 +181,7 @@ const ZVATI_SE = {
         {
           hr: 'Kako se zove ova ulica? — Zove se Ilica.',
           en: 'What is this street called? — It is called Ilica.',
-          note: 'Ilica is a long street in the centre of Zagreb',
+          note: 'Ilica is a long street in the center of Zagreb',
         },
         {
           hr: 'Prezivam se Kovač. Kako se prezivate?',
@@ -506,7 +506,7 @@ const SIBILARIZATION = {
     {
       type: 'rule',
       title: 'The Three Pairs',
-      body: 'k → c, g → z, h → s — when the plural -i comes straight after them. vojnik (soldier) → vojnici, učenik (pupil) → učenici, jezik (language) → jezici, bubreg (kidney) → bubrezi, dijalog (dialogue) → dijalozi, orah (walnut) → orasi, Čeh (Czech man) → Česi. Remember c sounds like "ts" in "cats".',
+      body: 'k → c, g → z, h → s — when the plural -i comes straight after them. vojnik (soldier) → vojnici, učenik (student) → učenici, jezik (language) → jezici, bubreg (kidney) → bubrezi, dijalog (dialogue) → dijalozi, orah (walnut) → orasi, Čeh (Czech man) → Česi. Remember c sounds like "ts" in "cats".',
       highlight: 'k → c, g → z, h → s',
     },
     {
@@ -518,7 +518,7 @@ const SIBILARIZATION = {
     {
       type: 'rule',
       title: 'Only Directly Before -i',
-      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. A few short nouns do take a plain -i and so do change: đak (pupil) → đaci, Čeh (Czech) → Česi.',
+      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. A few short nouns do take a plain -i and so do change: đak (student) → đaci, Čeh (Czech) → Česi.',
       highlight: 'vlak → vlakovi',
     },
     {
@@ -544,7 +544,7 @@ const SIBILARIZATION = {
       items: [
         {
           hr: 'Ovo je učenik. Ovo su učenici.',
-          en: 'This is a pupil. These are pupils.',
+          en: 'This is a student. These are students.',
           note: 'k → c',
         },
         {
@@ -559,7 +559,7 @@ const SIBILARIZATION = {
         },
         {
           hr: 'Gdje su đaci? Đaci su tamo.',
-          en: 'Where are the pupils? The pupils are there.',
+          en: 'Where are the students? The students are there.',
           note: 'đak → đaci',
         },
         {
@@ -1147,7 +1147,7 @@ const POSSESSIVE_ADJ = {
         },
         {
           hr: 'Sestrina kuća je velika, a bratov stan je mali.',
-          en: "The sister's house is big, and the brother's flat is small.",
+          en: "The sister's house is big, and the brother's apartment is small.",
           note: 'sestra → sestrin, brat → bratov',
         },
         {

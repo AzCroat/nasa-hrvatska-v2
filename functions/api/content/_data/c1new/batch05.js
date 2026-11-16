@@ -920,7 +920,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Kakav je tvoj novi stan? Malen, ali svijetao.',
-            en: "What's your new flat like? Small, but bright.",
+            en: "What's your new apartment like? Small, but bright.",
             note: 'malen, svijetao — indefinite: they describe',
           },
           {

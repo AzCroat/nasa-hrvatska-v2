@@ -108,7 +108,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Something Does Not Work, Something Is Missing',
-        body: 'For a machine: Računalo ne radi. Printer opet ne radi. Auto je u kvaru (out of order). For something missing, use nema + the genitive, exactly as you learned in A1: U stanu nema tople vode. (There is no hot water in the flat.) Nema struje. (There is no electricity.) And for where it happens, the locative adjectives you just learned: u našem uredu, u novom stanu, na prošlom poslu.',
+        body: 'For a machine: Računalo ne radi. Printer opet ne radi. Auto je u kvaru (out of order). For something missing, use nema + the genitive, exactly as you learned in A1: U stanu nema tople vode. (There is no hot water in the apartment.) Nema struje. (There is no electricity.) And for where it happens, the locative adjectives you just learned: u našem uredu, u novom stanu, na prošlom poslu.',
         highlight: 'nema + genitive',
       },
       {
@@ -148,7 +148,7 @@ export const LESSONS = [
           },
           {
             hr: 'Šef mi je dao previše posla i moram raditi vikendom.',
-            en: 'My boss gave me too much work and I have to work at weekends.',
+            en: 'My boss gave me too much work and I have to work on weekends.',
             note: 'mi = to me, the dative pronoun',
           },
           {
@@ -179,7 +179,7 @@ export const LESSONS = [
           },
           {
             hr: 'U našem stanu nema tople vode već tri dana.',
-            en: 'There has been no hot water in our flat for three days.',
+            en: 'There has been no hot water in our apartment for three days.',
             note: 'nema + genitive: tople vode',
           },
           {
@@ -632,7 +632,7 @@ export const LESSONS = [
           {
             hr: 'Vlak dolazi u osam.',
             en: 'The train arrives at eight.',
-            note: 'dolazi — the timetable, a regular event',
+            note: 'dolazi — the schedule, a regular event',
           },
           {
             hr: 'Doći ću sutra navečer.',
@@ -1017,7 +1017,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Ja bih išao u kino.',
-            en: 'I would go to the cinema.',
+            en: 'I would go to the movies.',
             note: 'ja + bih + išao (a man)',
           },
           {
@@ -1042,7 +1042,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oni bi radili vikendom.',
-            en: 'They would work at weekends.',
+            en: 'They would work on weekends.',
             note: 'oni → bi, participle radili',
           },
         ],
@@ -1078,7 +1078,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oni ne bi kupili taj stan.',
-            en: "They wouldn't buy that flat.",
+            en: "They wouldn't buy that apartment.",
             note: 'oni ne bi',
           },
         ],
@@ -1231,7 +1231,7 @@ export const LESSONS = [
           ['Hoću kavu.', 'Htio / Htjela bih kavu.', "I'd like a coffee."],
           ['Dodaj mi sol.', 'Bi li mi dodao sol?', 'Would you pass me the salt?'],
           ['Pomozite mi.', 'Biste li mi mogli pomoći?', 'Could you help me?'],
-          ['Idemo u kino!', 'Mogli bismo ići u kino.', 'We could go to the cinema.'],
+          ['Idemo u kino!', 'Mogli bismo ići u kino.', 'We could go to the movies.'],
           ['Odmori se!', 'Trebao bi se odmoriti.', 'You should rest.'],
           ['Želim putovati.', 'Volio / Voljela bih putovati.', "I'd love to travel."],
         ],
@@ -1293,7 +1293,7 @@ export const LESSONS = [
           },
           {
             hr: 'Mogli bismo ići u kino večeras.',
-            en: 'We could go to the cinema tonight.',
+            en: 'We could go to the movies tonight.',
             note: 'a suggestion: mogli bismo',
           },
           {
@@ -1363,10 +1363,10 @@ export const LESSONS = [
           {
             q: 'What does "Mogli bismo ići u kino" mean?',
             options: [
-              'We could go to the cinema.',
-              'We went to the cinema.',
-              'We must go to the cinema.',
-              'We are going to the cinema.',
+              'We could go to the movies.',
+              'We went to the movie theater.',
+              'We must go to the movies.',
+              'We are going to the movies.',
             ],
             correct: 0,
             explanation: 'mogli bismo = we could: a suggestion.',
@@ -1432,8 +1432,8 @@ export const PRACTICE = {
       },
       {
         title: 'Something Is Missing',
-        problem: 'Prevedi: "There is no hot water in the flat."',
-        en: 'Translate: There is no hot water in the flat.',
+        problem: 'Prevedi: "There is no hot water in the apartment."',
+        en: 'Translate: There is no hot water in the apartment.',
         steps: [
           {
             label: 'There is no…',
@@ -1445,7 +1445,7 @@ export const PRACTICE = {
           },
           {
             label: 'Where',
-            text: 'In the flat: u + locative, stan → u stanu.',
+            text: 'In the apartment: u + locative, stan → u stanu.',
           },
         ],
         answer: 'U stanu nema tople vode.',
@@ -1909,7 +1909,7 @@ export const PRACTICE = {
           q: 'The imperfective partner of doći:',
           options: ['dolaziti', 'dohoditi', 'dočiti', 'dolaćati'],
           correct: 0,
-          hint: 'It is irregular; think of the train timetable: Vlak … u osam.',
+          hint: 'It is irregular; think of the train schedule: Vlak … u osam.',
           explanation: 'dolaziti (dolazim, dolaziš…).',
         },
         {

@@ -560,7 +560,7 @@ const L_INSTRUMENTAL_PRONOUNS = {
     {
       type: 'intro',
       title: 'Who Are You With?',
-      body: 'You can say s bratom (with my brother) and s Anom (with Ana). Now the short words: with me, with you, with him, with them. These are the instrumental forms of the pronouns — the last thing you need to talk about who you do things with. Hoćeš li ići u kino sa mnom? Do you want to go to the cinema with me?',
+      body: 'You can say s bratom (with my brother) and s Anom (with Ana). Now the short words: with me, with you, with him, with them. These are the instrumental forms of the pronouns — the last thing you need to talk about who you do things with. Hoćeš li ići u kino sa mnom? Do you want to go to the movies with me?',
       icon: '🤝',
     },
     {
@@ -609,7 +609,7 @@ const L_INSTRUMENTAL_PRONOUNS = {
       items: [
         {
           hr: 'Hoćeš li ići u kino sa mnom?',
-          en: 'Do you want to go to the cinema with me?',
+          en: 'Do you want to go to the movies with me?',
           note: 'ja → sa mnom',
         },
         { hr: 'Rado idem s tobom.', en: 'I will gladly go with you.', note: 'ti → s tobom' },
@@ -777,8 +777,8 @@ const P_INSTRUMENTAL_PRONOUNS = {
   worked: [
     {
       title: 'With Me',
-      problem: '"Are you coming to the cinema with me?"',
-      en: 'Are you coming to the cinema with me?',
+      problem: '"Are you coming to the movie theater with me?"',
+      en: 'Are you coming to the movie theater with me?',
       steps: [
         { label: 'Who is with whom', text: 'with me = s + the instrumental of ja.' },
         { label: 'The form', text: 'The instrumental of ja is mnom.' },
@@ -995,7 +995,7 @@ const L_GENITIVE_PARTITIVE = {
         ['voda', 'vode', 'čaša vode', 'a glass of water'],
         ['čaj', 'čaja', 'šalica čaja', 'a cup of tea'],
         ['vino', 'vina', 'boca vina', 'a bottle of wine'],
-        ['mlijeko', 'mlijeka', 'litra mlijeka', 'a litre of milk'],
+        ['mlijeko', 'mlijeka', 'litra mlijeka', 'a liter of milk'],
         ['kruh', 'kruha', 'kriška kruha', 'a slice of bread'],
         ['torta', 'torte', 'komad torte', 'a piece of cake'],
         ['meso', 'mesa', 'kilogram mesa', 'a kilo of meat'],
@@ -1791,7 +1791,7 @@ const L_GENITIVE_PREPOSITIONS = {
         ['iz', 'out of, from (a place)', 'iz Zagreba', 'from Zagreb'],
         ['s / sa', 'from (a "na" place)', 's posla', 'from work'],
         ['od', 'from (a person)', 'od mame', 'from Mom'],
-        ['do', 'to, as far as, until', 'do centra', 'to the centre'],
+        ['do', 'to, as far as, until', 'do centra', 'to the center'],
         ['kod', "at someone's place", 'kod bake', "at Grandma's"],
         ['bez', 'without', 'bez šećera', 'without sugar'],
         ['blizu', 'near', 'blizu mora', 'near the sea'],
@@ -1857,7 +1857,7 @@ const L_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Street Names and What You Study',
-      body: 'Croatian street and square names often put a person or a place in the genitive: Trg bana Jelačića — the square of Ban Jelačić. Ulica grada Vukovara — the street of the town of Vukovar. Ulica kralja Zvonimira — King Zvonimir Street. The same square is also called Jelačićev trg, with the possessive adjective you met earlier: both mean the same. The genitive also says what someone studies or loves: student informatike (a computer-science student), profesorica anglistike (a professor of English studies), ljubitelj nogometa (a football fan).',
+      body: 'Croatian street and square names often put a person or a place in the genitive: Trg bana Jelačića — the square of Ban Jelačić. Ulica grada Vukovara — the street of the town of Vukovar. Ulica kralja Zvonimira — King Zvonimir Street. The same square is also called Jelačićev trg, with the possessive adjective you met earlier: both mean the same. The genitive also says what someone studies or loves: student informatike (a computer-science student), profesorica anglistike (a professor of English studies), ljubitelj nogometa (a soccer fan).',
       highlight: 'Trg bana Jelačića',
     },
     {
@@ -1886,7 +1886,7 @@ const L_GENITIVE_PREPOSITIONS = {
         },
         {
           hr: 'Autobus ide do centra grada.',
-          en: 'The bus goes to the city centre.',
+          en: 'The bus goes to the city center.',
           note: 'centar → centra',
         },
       ],
@@ -1906,7 +1906,11 @@ const L_GENITIVE_PREPOSITIONS = {
           en: 'I drink coffee without milk.',
           note: 'bez + genitive',
         },
-        { hr: 'Naš stan je blizu mora.', en: 'Our flat is near the sea.', note: 'more → mora' },
+        {
+          hr: 'Naš stan je blizu mora.',
+          en: 'Our apartment is near the sea.',
+          note: 'more → mora',
+        },
         {
           hr: 'Hotel je pokraj rijeke.',
           en: 'The hotel is beside the river.',
@@ -1930,7 +1934,7 @@ const L_GENITIVE_PREPOSITIONS = {
         },
         {
           hr: 'Parking je iza zgrade.',
-          en: 'The car park is behind the building.',
+          en: 'The parking lot is behind the building.',
           note: 'zgrada → zgrade',
         },
         {
@@ -1951,7 +1955,7 @@ const L_GENITIVE_PREPOSITIONS = {
           note: 'trg → na trgu; bana Jelačića stays',
         },
         { hr: 'Moj sin je student informatike.', en: 'My son is a computer-science student.' },
-        { hr: 'Ivan je veliki ljubitelj nogometa.', en: 'Ivan is a big football fan.' },
+        { hr: 'Ivan je veliki ljubitelj nogometa.', en: 'Ivan is a big soccer fan.' },
       ],
     },
     {
@@ -2005,7 +2009,7 @@ const L_GENITIVE_PREPOSITIONS = {
           explanation: 'At home = kod kuće.',
         },
         {
-          q: 'Complete: "Autobus ide do ___." (the centre — "centar")',
+          q: 'Complete: "Autobus ide do ___." (the center — "centar")',
           options: ['centra', 'centar', 'centru', 'centrom'],
           correct: 0,
           explanation: 'do + genitive; centar loses its a: centra.',

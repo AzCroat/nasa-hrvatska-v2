@@ -311,7 +311,7 @@ const GENITIVE_OF_NEGATION = {
 const CLIMATE_ENVIRONMENT = {
   id: 'climate-environment',
   title: 'Klima i okoliš: Fires, Floods and Waste',
-  subtitle: 'Natural disasters, sorting rubbish — and where ne goes in a sentence',
+  subtitle: 'Natural disasters, sorting trash — and where ne goes in a sentence',
   icon: '🌍',
   level: 'B2',
   duration: '~9 min',
@@ -333,7 +333,7 @@ const CLIMATE_ENVIRONMENT = {
     {
       type: 'rule',
       title: 'Climate and Waste',
-      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (rubbish), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian shops you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
+      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (trash), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian shops you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
       highlight: 'odvajanje otpada',
     },
     {
@@ -417,7 +417,7 @@ const CLIMATE_ENVIRONMENT = {
         },
         {
           hr: 'Ne bacaj staklo u smeće, nego u spremnik!',
-          en: 'Do not throw glass in the rubbish, put it in the container!',
+          en: 'Do not throw glass in the trash, put it in the container!',
           note: 'ne directly before the verb; nego after a negative',
         },
         {
@@ -427,7 +427,7 @@ const CLIMATE_ENVIRONMENT = {
         },
         {
           hr: 'Na Dan planeta Zemlje učenici čiste obalu i parkove.',
-          en: 'On Earth Day pupils clean up the coast and the parks.',
+          en: 'On Earth Day students clean up the coast and the parks.',
           note: 'Dan planeta Zemlje — 22 April',
         },
         {
@@ -675,7 +675,7 @@ const REPORTED_SPEECH_B2 = {
         },
         {
           hr: 'Prodavač nas je pitao jesmo li zadovoljni.',
-          en: 'The shop assistant asked us whether we were satisfied.',
+          en: 'The salesperson asked us whether we were satisfied.',
           note: 'jesmo li — the long form of biti carries li',
         },
         {
@@ -869,7 +869,7 @@ const INTERJECTIONS = {
     {
       type: 'rule',
       title: 'Register',
-      body: 'Bravo, joj and aha are fine almost anywhere. Ajme, ups, uf and hej belong to everyday speech with friends and family; in a formal email or a meeting with officials they sound too casual. Pst is fine with children or in a cinema, but can sound rude to an adult you do not know. In writing, interjections appear in dialogue, messages and stories, rarely in formal texts. When you report what someone said, the interjection drops out and the feeling goes into the verb: Ana je uzviknula da je to divno.',
+      body: 'Bravo, joj and aha are fine almost anywhere. Ajme, ups, uf and hej belong to everyday speech with friends and family; in a formal email or a meeting with officials they sound too casual. Pst is fine with children or in a movie theater, but can sound rude to an adult you do not know. In writing, interjections appear in dialogue, messages and stories, rarely in formal texts. When you report what someone said, the interjection drops out and the feeling goes into the verb: Ana je uzviknula da je to divno.',
       highlight: 'Ajme, ups, uf and hej',
     },
     {
@@ -1114,7 +1114,7 @@ const TRAVEL_AND_SPORT = {
     {
       type: 'rule',
       title: 'Two Croatians Worth Knowing',
-      body: 'Dražen Petrović (1964–1993), born in Šibenik, was one of the greatest European basketball players. He played for Cibona Zagreb, Real Madrid and in the NBA, and won Olympic silver with Croatia in Barcelona in 1992. He died in a car accident in Germany in 1993; the Dražen Petrović Memorial Centre in Zagreb keeps his memory alive. Davor Rostuhar is a Croatian travel writer and photographer whose books and pictures bring far-off places to Croatian readers. The UN’s International Day of Sport for Development and Peace is 6 April.',
+      body: 'Dražen Petrović (1964–1993), born in Šibenik, was one of the greatest European basketball players. He played for Cibona Zagreb, Real Madrid and in the NBA, and won Olympic silver with Croatia in Barcelona in 1992. He died in a car accident in Germany in 1993; the Dražen Petrović Memorial Center in Zagreb keeps his memory alive. Davor Rostuhar is a Croatian travel writer and photographer whose books and pictures bring far-off places to Croatian readers. The UN’s International Day of Sport for Development and Peace is 6 April.',
       highlight: 'Dražen Petrović (1964–1993)',
     },
     {
@@ -1199,7 +1199,7 @@ const TRAVEL_AND_SPORT = {
         },
         {
           hr: 'Mnogi navijači posjećuju Memorijalni centar Dražen Petrović u Zagrebu.',
-          en: 'Many fans visit the Dražen Petrović Memorial Centre in Zagreb.',
+          en: 'Many fans visit the Dražen Petrović Memorial Center in Zagreb.',
           note: 'centar — the object, accusative',
         },
         {

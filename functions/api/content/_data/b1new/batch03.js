@@ -485,7 +485,7 @@ const L_TIME_GENITIVE = {
     {
       type: 'rule',
       title: 'Dates: the Ordinal and the Month',
-      body: 'For "on the fifth of March", Croatian puts both the ordinal number and the month into the genitive, again with no preposition: petog ožujka. Written with a number, the ordinal gets a full stop: 5. ožujka. Rođena sam petog ožujka. Božić je dvadeset petog prosinca. Praznik rada slavi se prvog svibnja. The year works the same way: Rođen sam 1995. godine — read as tisuću devetsto devedeset pete godine.',
+      body: 'For "on the fifth of March", Croatian puts both the ordinal number and the month into the genitive, again with no preposition: petog ožujka. Written with a number, the ordinal gets a period: 5. ožujka. Rođena sam petog ožujka. Božić je dvadeset petog prosinca. Praznik rada slavi se prvog svibnja. The year works the same way: Rođen sam 1995. godine — read as tisuću devetsto devedeset pete godine.',
       highlight: 'petog ožujka',
     },
     {
@@ -563,7 +563,7 @@ const L_TIME_GENITIVE = {
       items: [
         {
           hr: 'Iduće godine želim upisati fakultet u Zagrebu.',
-          en: 'Next year I want to enrol at university in Zagreb.',
+          en: 'Next year I want to enrol in college in Zagreb.',
           note: 'iduće godine — feminine genitive',
         },
         {
@@ -1859,7 +1859,7 @@ const L_VERBS_PECI_STI = {
         },
         {
           hr: 'Moja mama plete džemper za svog unuka.',
-          en: 'My mom is knitting a jumper for her grandson.',
+          en: 'My mom is knitting a sweater for her grandson.',
           note: 'plete — the ona form of plesti',
         },
         {

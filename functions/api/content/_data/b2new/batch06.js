@@ -143,7 +143,7 @@ export const LESSONS = [
           },
           {
             hr: 'Čim prodamo stan, kupit ćemo kuću na selu.',
-            en: 'As soon as we sell the flat, we will buy a house in the country.',
+            en: 'As soon as we sell the apartment, we will buy a house in the country.',
             note: 'prodamo — perfective present after čim',
           },
           {
@@ -351,7 +351,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Otišla sam u trgovački centar i kupila sam nove cipele.',
-            en: 'I went to the shopping centre and bought new shoes.',
+            en: 'I went to the shopping center and bought new shoes.',
             note: 'i — adds; no comma before it',
           },
           {
@@ -397,7 +397,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pitao sam prodavača za cijenu, a on mi je rekao da je sve sniženo.',
-            en: 'I asked the shop assistant about the price, and he told me everything was reduced.',
+            en: 'I asked the salesperson about the price, and he told me everything was reduced.',
             note: 'a — the clitics mi je wait for on',
           },
           {
@@ -770,7 +770,7 @@ export const LESSONS = [
           {
             q: 'What does "potrošačka groznica" describe?',
             options: [
-              'an illness caught in a shopping centre',
+              'an illness caught in a shopping center',
               'the urge to keep buying things we do not need',
               'a rise in prices',
               'a shop closing down',
@@ -850,7 +850,7 @@ export const LESSONS = [
       },
       {
         type: 'example',
-        title: 'Clauses at the Cinema',
+        title: 'Clauses at the Movie theater',
         items: [
           {
             hr: 'Otišli smo ranije jer smo htjeli dobra mjesta.',
@@ -864,7 +864,7 @@ export const LESSONS = [
           },
           {
             hr: 'Kupili smo karte unaprijed kako bismo izbjegli red.',
-            en: 'We bought tickets in advance so that we would avoid the queue.',
+            en: 'We bought tickets in advance so that we would avoid the line.',
             note: 'kako bismo — mi form',
           },
           {
@@ -1139,8 +1139,8 @@ export const LESSONS = [
           },
           {
             hr: 'Film smo gledali u kinu, a poslije smo o njemu pričali do ponoći.',
-            en: 'We watched the film at the cinema, and afterward we talked about it until midnight.',
-            note: 'u kinu — at the cinema takes u',
+            en: 'We watched the film at the movie theater, and afterward we talked about it until midnight.',
+            note: 'u kinu — at the movie theater takes u',
           },
           {
             hr: 'Ljeti me u Splitu uhvati fjaka pa ne radim ništa.',
@@ -1216,7 +1216,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The prepositions trip people up: "na kinu", "u festivalu", "u koncertu". The cinema is a building, so u: u kinu. A festival and a concert are events, so na: na festivalu, na koncertu — u kinu, na festivalu. The second is treating dialect words as standard: in an essay write šetnja, not đir, and što, not kaj.',
+        body: 'The prepositions trip people up: "na kinu", "u festivalu", "u koncertu". The movie theater is a building, so u: u kinu. A festival and a concert are events, so na: na festivalu, na koncertu — u kinu, na festivalu. The second is treating dialect words as standard: in an essay write šetnja, not đir, and što, not kaj.',
         highlight: 'u kinu, na festivalu',
       },
       {
@@ -1232,7 +1232,7 @@ export const LESSONS = [
           {
             q: 'Where is the Pula Film Festival held?',
             options: [
-              'in a modern cinema',
+              'in a modern movie theater',
               'in a theater in Zagreb',
               'in the Roman amphitheatre, the Arena',
               'on a ship',
@@ -1244,7 +1244,7 @@ export const LESSONS = [
             q: 'Complete: "Sinoć smo gledali film ___ kinu."',
             options: ['na', 'po', 'kod', 'u'],
             correct: 3,
-            explanation: 'The cinema is a building: u kinu.',
+            explanation: 'The movie theater is a building: u kinu.',
           },
           {
             q: '"Idemo na đir." Which kind of word is "đir"?',
@@ -1898,8 +1898,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Purpose with Kako Bi',
-        problem: 'Reci: "We are saving so that we can buy a flat." (štedjeti, kupiti)',
-        en: 'Say: We are saving so that we can buy a flat.',
+        problem: 'Reci: "We are saving so that we can buy an apartment." (štedjeti, kupiti)',
+        en: 'Say: We are saving so that we can buy an apartment.',
         steps: [
           {
             label: 'The main clause',
@@ -2262,7 +2262,7 @@ export const PRACTICE = {
         q: 'Complete: "Gledali smo film ___ kinu u centru grada."',
         options: ['u', 'na', 'kod', 'pod'],
         correct: 0,
-        explanation: 'The cinema is a building: u kinu.',
+        explanation: 'The movie theater is a building: u kinu.',
       },
     ],
     vocab: [

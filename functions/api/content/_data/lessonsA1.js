@@ -99,7 +99,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'When k, g and h Soften',
-        body: 'Before the plural -i, a final k, g or h changes: k → c, g → z, h → s. vojnik (soldier) → vojnici. đak (pupil) → đaci. bubreg (kidney) → bubrezi. orah (walnut) → orasi. This is not an exception you have to memorize word by word — it is a sound rule that runs through the whole language, and you will meet it again later, in other forms of nouns.',
+        body: 'Before the plural -i, a final k, g or h changes: k → c, g → z, h → s. vojnik (soldier) → vojnici. đak (student) → đaci. bubreg (kidney) → bubrezi. orah (walnut) → orasi. This is not an exception you have to memorize word by word — it is a sound rule that runs through the whole language, and you will meet it again later, in other forms of nouns.',
         highlight: 'k → c, g → z, h → s',
       },
       {
@@ -201,7 +201,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Đaci su tu, a profesori su tamo.',
-            en: 'The pupils are here, and the teachers are over there.',
+            en: 'The students are here, and the teachers are over there.',
             note: 'đak → đaci; profesor → profesori',
           },
           {
@@ -742,7 +742,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Stanovi su skupi, a sobe su jeftine.',
-            en: 'The flats are expensive, and the rooms are cheap.',
+            en: 'The apartments are expensive, and the rooms are cheap.',
             note: 'masculine plural → -i, feminine plural → -e',
           },
           {
@@ -1980,7 +1980,7 @@ export const LESSONS_A1 = [
         items: [
           {
             hr: 'Radim u uredu u centru.',
-            en: 'I work in an office in the centre.',
+            en: 'I work in an office in the center.',
             note: 'ured → uredu, centar → centru: masculine -u',
           },
           {
@@ -2212,7 +2212,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Večeras idemo u kino.',
-            en: 'Tonight we are going to the cinema.',
+            en: 'Tonight we are going to the movies.',
             note: 'u kino: moving',
           },
           {
@@ -2227,7 +2227,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Živimo u stanu u Splitu.',
-            en: 'We live in a flat in Split.',
+            en: 'We live in an apartment in Split.',
             note: 'živjeti: a place, so the locative',
           },
         ],
@@ -2298,7 +2298,7 @@ export const LESSONS_A1 = [
             ],
             correct: 0,
             explanation:
-              'Idem is a verb of going, so the place takes the accusative: Idem u kino. Kinu is the locative, for being at the cinema.',
+              'Idem is a verb of going, so the place takes the accusative: Idem u kino. Kinu is the locative, for being at the movie theater.',
           },
           {
             q: 'Complete: "Moj brat radi ___." (My brother works in an office.)',
@@ -2364,7 +2364,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Masculine and Neuter Take -a',
-        body: "Both take -a in the genitive singular. grad → centar grada (the centre of the city). brat → auto moga brata (my brother's car). more → boja mora (the color of the sea). pismo → kraj pisma (the end of the letter). If a masculine noun is alive, its genitive looks identical to its accusative — that overlap is normal and causes no confusion in practice.",
+        body: "Both take -a in the genitive singular. grad → centar grada (the center of the city). brat → auto moga brata (my brother's car). more → boja mora (the color of the sea). pismo → kraj pisma (the end of the letter). If a masculine noun is alive, its genitive looks identical to its accusative — that overlap is normal and causes no confusion in practice.",
         highlight: 'masculine & neuter → -a',
       },
       {
@@ -2452,12 +2452,12 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Kupujem kilogram jabuka i litru mlijeka.',
-            en: 'I am buying a kilo of apples and a litre of milk.',
+            en: 'I am buying a kilo of apples and a liter of milk.',
             note: 'quantity — jabuka (plural), mlijeka',
           },
           {
             hr: 'Centar grada je pun turista.',
-            en: 'The city centre is full of tourists.',
+            en: 'The city center is full of tourists.',
             note: 'grada — masculine -a; pun + genitive',
           },
           {
@@ -2733,7 +2733,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Gospođo Horvat, izvolite.',
-            en: 'Mrs Horvat, here you are.',
+            en: 'Mrs. Horvat, here you are.',
             note: 'gospođa → gospođo; surnames stay unchanged',
           },
           {
@@ -2748,7 +2748,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Gospodine Kovaču, imate li trenutak?',
-            en: 'Mr Kovač, do you have a moment?',
+            en: 'Mr. Kovač, do you have a moment?',
             note: 'both change: gospodin → gospodine, Kovač → Kovaču',
           },
           {
@@ -3516,7 +3516,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Kolodvor se nalazi u centru.',
-            en: 'The station is in the centre.',
+            en: 'The station is in the center.',
             note: 'nalaziti se — to be located',
           },
           {
@@ -3892,7 +3892,7 @@ export const LESSONS_A1 = [
               '"Više volim X nego Y" is "I prefer X to Y". The thing before nego is the one preferred — here, the sea.',
           },
           {
-            q: 'Complete: "Voli li tvoj brat ___?" (Does your brother like football? — "nogomet".)',
+            q: 'Complete: "Voli li tvoj brat ___?" (Does your brother like soccer? — "nogomet".)',
             options: ['nogomet', 'nogometa', 'nogometu', 'nogometom'],
             correct: 0,
             explanation:
@@ -4494,7 +4494,7 @@ export const LESSONS_A1 = [
         title: 'Drinks',
         headers: ['Croatian', 'English', 'Note'],
         rows: [
-          ['kava', 'coffee', 'the centre of Croatian social life'],
+          ['kava', 'coffee', 'the center of Croatian social life'],
           ['čaj', 'tea', 'masculine'],
           ['voda', 'water', 'gazirana / negazirana — sparkling / still'],
           ['sok', 'juice', 'masculine'],
@@ -4987,7 +4987,7 @@ export const LESSONS_A1 = [
           ['iza', 'behind', 'genitive'],
           ['preko puta', 'across from', 'genitive'],
           ['na uglu', 'on the corner', 'locative'],
-          ['u centru', 'in the centre', 'locative'],
+          ['u centru', 'in the center', 'locative'],
         ],
       },
       {
@@ -5062,7 +5062,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'Nastavite ravno do kina.',
-            en: 'Carry on straight ahead as far as the cinema.',
+            en: 'Carry on straight ahead as far as the movie theater.',
             note: 'nastavite — polite; do + genitive',
           },
           {
@@ -5259,7 +5259,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Two Have Their Own Word',
-        body: 'The everyday way to say "in summer" and "in winter" is a single word: ljeti and zimi. Spring and autumn use a preposition instead: u proljeće, u jesen. You will also hear u ljeto or na ljeto for one particular summer — both are correct — but for "in summer, as a rule" ljeti is the word. Four short forms, and you will use them constantly once you can talk about when you visit.',
+        body: 'The everyday way to say "in summer" and "in winter" is a single word: ljeti and zimi. Spring and fall use a preposition instead: u proljeće, u jesen. You will also hear u ljeto or na ljeto for one particular summer — both are correct — but for "in summer, as a rule" ljeti is the word. Four short forms, and you will use them constantly once you can talk about when you visit.',
         highlight: 'ljeti · zimi · u proljeće · u jesen',
       },
       {
@@ -5334,7 +5334,7 @@ export const LESSONS_A1 = [
           },
           {
             hr: 'U jesen često pada kiša.',
-            en: 'In autumn it often rains.',
+            en: 'In fall it often rains.',
             note: 'u jesen — autumn takes u',
           },
           {
@@ -5365,7 +5365,7 @@ export const LESSONS_A1 = [
         options: ['ljeto', 'ljeti', 'ljeta', 'ljetu'],
         correct: 1,
         explanation:
-          'Summer and winter have their own single-word forms: ljeti and zimi. Ljeto is just the name of the season. Spring and autumn use a preposition — u proljeće, u jesen.',
+          'Summer and winter have their own single-word forms: ljeti and zimi. Ljeto is just the name of the season. Spring and fall use a preposition — u proljeće, u jesen.',
       },
       {
         type: 'rule',
@@ -5420,14 +5420,14 @@ export const LESSONS_A1 = [
             options: ['in spring', 'in summer', 'in autumn', 'in winter'],
             correct: 1,
             explanation:
-              '"Ljeti" is the single-word form for "in summer"; "zimi" is its winter twin. Spring and autumn use u instead: u proljeće, u jesen.',
+              '"Ljeti" is the single-word form for "in summer"; "zimi" is its winter twin. Spring and fall use u instead: u proljeće, u jesen.',
           },
           {
-            q: 'Complete: "___ često pada kiša." (In autumn it often rains.)',
+            q: 'Complete: "___ često pada kiša." (In fall it often rains.)',
             options: ['Jesen', 'U jesen', 'U jesenu', 'U jesena'],
             correct: 1,
             explanation:
-              'Autumn takes the preposition: u jesen. A bare "jesen" names the season without saying "in", and "jesenu" / "jesena" are not forms of this word.',
+              'Fall takes the preposition: u jesen. A bare "jesen" names the season without saying "in", and "jesenu" / "jesena" are not forms of this word.',
           },
           {
             q: 'What does "Kasno je." mean?',
@@ -5453,7 +5453,7 @@ export const LESSONS_A1 = [
           'Rain and snow FALL: Pada kiša. Pada snijeg.',
           'Kakvo je vrijeme? — what is the weather like?',
           'proljeće, ljeto, jesen, zima',
-          'ljeti and zimi are the single words; spring and autumn take u',
+          'ljeti and zimi are the single words; spring and fall take u',
           'The subjectless pattern works far beyond weather: Kasno je. Teško je.',
         ],
       },

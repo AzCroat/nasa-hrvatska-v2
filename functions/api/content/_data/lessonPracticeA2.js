@@ -551,7 +551,7 @@ export const PRACTICE_A2 = {
           explanation: 'Moja sestra je pisala pismo. -la for one woman, je for she.',
         },
         {
-          q: '___ u kinu. (We were at the cinema — two women speaking.)',
+          q: '___ u kinu. (We were at the movie theater — two women speaking.)',
           options: ['Bili smo', 'Bile smo', 'Bila smo', 'Bile su'],
           correct: 1,
           hint: 'A group made only of women takes its own plural ending, and "we" takes smo.',
@@ -702,7 +702,7 @@ export const PRACTICE_A2 = {
       ['moći', 'to be able to', 'Nisam mogla spavati.'],
       ['vidjeti', 'to see', 'Nismo vidjeli taj film.'],
       ['kasniti', 'to be late', 'Vlak je kasnio dvadeset minuta.'],
-      ['studirati', 'to study (at university)', 'Sestre su studirale u Zadru.'],
+      ['studirati', 'to study (in college)', 'Sestre su studirale u Zadru.'],
       ['jučer', 'yesterday', 'Jučer sam kuhala ručak.'],
       ['pisati', 'to write', 'Petar je pisao pismo.'],
     ],
@@ -2172,8 +2172,8 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'Company: With S or Sa',
-        problem: 'Say in Croatian: "I am going to the cinema with Željko."',
-        en: 'I am going to the cinema with Željko.',
+        problem: 'Say in Croatian: "I am going to the movies with Željko."',
+        en: 'I am going to the movies with Željko.',
         steps: [
           {
             label: 'Means or company?',
@@ -3321,7 +3321,7 @@ export const PRACTICE_A2 = {
     },
     checkB: [
       {
-        q: 'Complete: "___ li bio u kinu?" (Have you been to the cinema? — to a man)',
+        q: 'Complete: "___ li bio u kinu?" (Have you been to the movie theater? — to a man)',
         options: ['Si', 'Jesi', 'Jesmo', 'Li'],
         correct: 1,
         explanation:
@@ -3443,7 +3443,7 @@ export const PRACTICE_A2 = {
           explanation: 'odmah = at once. uskoro is soon, rano is early.',
         },
         {
-          q: 'Which says "I sometimes go to the cinema"?',
+          q: 'Which says "I sometimes go to the movies"?',
           options: [
             'Ponekad idem u kino.',
             'Nikad idem u kino.',
@@ -4235,12 +4235,12 @@ export const PRACTICE_A2 = {
       },
       {
         title: 'Flat and Floor',
-        problem: 'Reci: "We live in a flat on the second floor."',
-        en: 'We live in a flat on the second floor.',
+        problem: 'Reci: "We live in an apartment on the second floor."',
+        en: 'We live in an apartment on the second floor.',
         steps: [
           {
             label: 'Kuća or stan?',
-            text: 'A flat is a stan: u + locative, stanu.',
+            text: 'An apartment is a stan: u + locative, stanu.',
           },
           {
             label: 'The floor',
@@ -4613,8 +4613,8 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'What She Is Wearing',
-        problem: 'Say in Croatian: "Today she is wearing a white shirt and gray trousers."',
-        en: 'Today she is wearing a white shirt and gray trousers.',
+        problem: 'Say in Croatian: "Today she is wearing a white shirt and gray pants."',
+        en: 'Today she is wearing a white shirt and gray pants.',
         steps: [
           {
             label: 'The verb',
@@ -5070,7 +5070,7 @@ export const PRACTICE_A2 = {
           explanation: 'na poslu — but u banci. Each place is learned with its preposition.',
         },
         {
-          q: 'Radi kao ___. (She works as a shop assistant.)',
+          q: 'Radi kao ___. (She works as a salesperson.)',
           options: ['prodavačicu', 'prodavač', 'prodavačica', 'prodavačice'],
           correct: 2,
           hint: 'After kao the job stays in the subject form — and she is a woman.',
@@ -5122,7 +5122,7 @@ export const PRACTICE_A2 = {
           q: 'Which means "annual leave"?',
           options: ['radno vrijeme', 'godišnji odmor', 'plaća', 'sastanak'],
           correct: 1,
-          hint: 'It is the holiday your job gives you each year.',
+          hint: 'It is the vacation your job gives you each year.',
           explanation: 'godišnji odmor — annual leave. radno vrijeme is working hours.',
         },
         {
@@ -5171,7 +5171,7 @@ export const PRACTICE_A2 = {
         options: [
           'Nothing — it is correct',
           'It should be "prodavača"',
-          'A woman shop assistant is "prodavačica"',
+          'A woman salesperson is "prodavačica"',
           'It should be "radi prodavač"',
         ],
         correct: 2,
@@ -5211,8 +5211,8 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'Pupil, Not Student',
-        problem: 'Reci: "My daughter goes to primary school and is a good pupil."',
-        en: 'My daughter goes to primary school and is a good pupil.',
+        problem: 'Reci: "My daughter goes to elementary school and is a good student."',
+        en: 'My daughter goes to elementary school and is a good student.',
         steps: [
           {
             label: 'Going to school',
@@ -5283,9 +5283,9 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Ja učim hrvatski, a sestra ____ povijest na fakultetu. (studies — at university)',
+          q: 'Ja učim hrvatski, a sestra ____ povijest na fakultetu. (studies — in college)',
           answer: 'studira',
-          hint: 'A degree course takes the verb for studying at university.',
+          hint: 'A degree course takes the verb for studying in college.',
           explanation: 'studira — studirati for she.',
         },
         {
@@ -5299,7 +5299,7 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Moj brat je ____. (a school pupil)',
           answer: 'učenik',
-          hint: 'A school pupil is not called a student in Croatian.',
+          hint: 'A school student is not called a student in Croatian.',
           explanation: 'učenik — student is only for university.',
         },
         {
@@ -5320,8 +5320,8 @@ export const PRACTICE_A2 = {
           q: 'Which word is a woman university student?',
           options: ['učenica', 'studentica', 'profesorica', 'učiteljica'],
           correct: 1,
-          hint: 'At university, not at school.',
-          explanation: 'studentica — učenica is a school pupil.',
+          hint: 'In college, not at school.',
+          explanation: 'studentica — učenica is a school student.',
         },
         {
           q: 'Moram napisati ___. (homework)',
@@ -5368,13 +5368,13 @@ export const PRACTICE_A2 = {
         q: 'What is wrong with "Moj brat je učenik na fakultetu"?',
         options: [
           'Nothing — it is correct',
-          'At university he is a "student", not an "učenik"',
+          'In college he is a "student", not an "učenik"',
           'It should be "učenika"',
           '"na fakultetu" should be "u fakultetu"',
         ],
         correct: 1,
         explanation:
-          'učenik is a school pupil; at university the word is student. na fakultetu is right.',
+          'učenik is a school student; in college the word is student. na fakultetu is right.',
       },
       {
         q: 'What does "diplomirati" mean?',
@@ -5392,7 +5392,7 @@ export const PRACTICE_A2 = {
     ],
     vocab: [
       ['učiti', 'to learn, to study', 'Učim hrvatski svaki dan.'],
-      ['studirati', 'to study at university', 'Ana studira pravo.'],
+      ['studirati', 'to study in college', 'Ana studira pravo.'],
       ['predavati', 'to teach, to lecture', 'Profesor predaje na fakultetu.'],
       ['učenik', 'school pupil', 'Moj sin je učenik.'],
       ['student', 'university student', 'Ona je studentica.'],
@@ -5584,7 +5584,7 @@ export const PRACTICE_A2 = {
         options: ['this weekend', 'last weekend', 'until the weekend', 'at weekends, regularly'],
         correct: 3,
         explanation:
-          'The instrumental of a time word means "regularly, on those days": vikendom = at weekends.',
+          'The instrumental of a time word means "regularly, on those days": vikendom = on weekends.',
       },
       {
         q: 'Complete: "___ idemo na more." (In summer we go to the seaside.)',
@@ -5674,7 +5674,7 @@ export const PRACTICE_A2 = {
           q: 'Autobus ___ u deset. (leaves)',
           options: ['dolazi', 'polazak', 'polazi', 'putuje'],
           correct: 2,
-          hint: 'The timetable verb for departing — a verb, not the noun.',
+          hint: 'The schedule verb for departing — a verb, not the noun.',
           explanation: 'polazi — polaziti is to depart; polazak is the noun "departure".',
         },
         {
@@ -5700,14 +5700,14 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Vlak ____ u osam. (departs)',
           answer: 'polazi',
-          hint: 'The timetable verb for leaving, third person singular.',
+          hint: 'The schedule verb for leaving, third person singular.',
           explanation: 'polazi — polaziti, to depart.',
         },
         {
           type: 'type',
           q: 'Autobus iz Rijeke ____ u pet. (arrives)',
           answer: 'dolazi',
-          hint: 'The timetable verb for arriving.',
+          hint: 'The schedule verb for arriving.',
           explanation: 'dolazi — dolaziti, to arrive.',
         },
         {
@@ -5739,7 +5739,7 @@ export const PRACTICE_A2 = {
           explanation: 'uključen — agreeing with doručak.',
         },
         {
-          q: 'Which is a return ticket?',
+          q: 'Which is a round-trip ticket?',
           options: ['jednosmjerna karta', 'povratna karta', 'vozni red', 'prtljaga'],
           correct: 1,
           hint: 'It gets you there and back.',
@@ -5790,7 +5790,7 @@ export const PRACTICE_A2 = {
         options: ['departure', 'arrival', 'delay', 'timetable'],
         correct: 2,
         explanation:
-          'kašnjenje is a delay. Departure is polazak, arrival dolazak, timetable vozni red.',
+          'kašnjenje is a delay. Departure is polazak, arrival dolazak, schedule vozni red.',
       },
     ],
     vocab: [
@@ -5813,8 +5813,8 @@ export const PRACTICE_A2 = {
     worked: [
       {
         title: 'An Invitation',
-        problem: 'Pozovi prijateljicu: "Are you free on Friday? Shall we go to the cinema?"',
-        en: 'Invite a (female) friend: Are you free on Friday? Shall we go to the cinema?',
+        problem: 'Pozovi prijateljicu: "Are you free on Friday? Shall we go to the movies?"',
+        en: 'Invite a (female) friend: Are you free on Friday? Shall we go to the movies?',
         steps: [
           {
             label: 'Register',
@@ -5899,7 +5899,7 @@ export const PRACTICE_A2 = {
           q: 'Nalazimo se ____ kina. (in front of)',
           answer: 'ispred',
           hint: 'A place word that takes the genitive.',
-          explanation: 'ispred kina — in front of the cinema.',
+          explanation: 'ispred kina — in front of the movie theater.',
         },
         {
           type: 'type',
@@ -6131,7 +6131,7 @@ export const PRACTICE_A2 = {
           explanation: "imendan — Ivan's is 24 June.",
         },
         {
-          q: 'Which holiday is on 15 August?',
+          q: 'Which holiday is on August 15?',
           options: ['Svi sveti', 'Velika Gospa', 'Badnjak', 'Dan državnosti'],
           correct: 1,
           hint: 'It is in the middle of summer.',

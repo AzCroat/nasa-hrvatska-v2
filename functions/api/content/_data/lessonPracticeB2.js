@@ -271,7 +271,7 @@ export const PRACTICE_B2 = {
         steps: [
           {
             label: 'Find the person',
-            text: 'mi — first person plural — takes bismo in careful Croatian, not the flat bi.',
+            text: 'mi — first person plural — takes bismo in careful Croatian, not the apartment bi.',
           },
           {
             label: 'The participles',
@@ -1694,7 +1694,7 @@ export const PRACTICE_B2 = {
           'Odgovarati is the imperfective of odgovoriti; with godinama it means repeatedly.',
       },
       {
-        q: "Complete: 'Konačno smo ___ stan.' (We finally sold the flat.)",
+        q: "Complete: 'Konačno smo ___ stan.' (We finally sold the apartment.)",
         options: ['prodavali', 'prodali', 'prodajemo', 'prodavivali'],
         correct: 1,
         explanation: 'One completed sale takes the perfective prodati: prodali smo.',
@@ -2747,7 +2747,7 @@ export const PRACTICE_B2 = {
         options: [
           'a real condition',
           'an order',
-          'a warm wish about the past — if only grandad had seen this',
+          'a warm wish about the past — if only grandpa had seen this',
           'a question about grandad',
         ],
         correct: 2,
@@ -2793,7 +2793,7 @@ export const PRACTICE_B2 = {
       {
         title: 'Must as a Deduction',
         problem: 'U stanu gore svjetla. Zaključi: "They must be at home."',
-        en: 'The lights are on in the flat. Conclude: They must be at home.',
+        en: 'The lights are on in the apartment. Conclude: They must be at home.',
         steps: [
           {
             label: 'Obligation or probability?',
@@ -2815,7 +2815,7 @@ export const PRACTICE_B2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'A notice in a lift: "Djeca mlađa od 12 godina ne ___ sama ulaziti u dizalo." (are not allowed to)',
+          q: 'A notice in an elevator: "Djeca mlađa od 12 godina ne ___ sama ulaziti u dizalo." (are not allowed to)',
           options: ['mogu', 'smiju', 'trebaju', 'moraju'],
           correct: 1,
           hint: 'A notice forbids; it is about permission, not ability or necessity.',
@@ -3289,7 +3289,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: '____, stan je malen, ali pogled je prekrasan.' (Admittedly, the flat is small…)",
+          q: "Dopuni: '____, stan je malen, ali pogled je prekrasan.' (Admittedly, the apartment is small…)",
           answer: 'Doduše',
           hint: 'The word that grants a point in advance.',
           explanation: 'Doduše, stan je malen, ali…',
@@ -3506,7 +3506,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Ove hlače su mi ____.' (These trousers are too big for me — velik)",
+          q: "Dopuni: 'Ove hlače su mi ____.' (These pants are too big for me — velik)",
           answer: 'prevelike',
           hint: 'Pre- plus the adjective, agreeing with hlače (feminine plural).',
           explanation: 'Hlače su prevelike.',
@@ -3731,7 +3731,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ne samo…, nego i…',
         },
         {
-          q: "Dopuni: 'Ni u Zagrebu ni u Rijeci ___ stan.' (Neither in Zagreb nor in Rijeka did we find a flat.)",
+          q: "Dopuni: 'Ni u Zagrebu ni u Rijeci ___ stan.' (Neither in Zagreb nor in Rijeka did we find an apartment.)",
           options: ['smo našli', 'nismo našli', 'našli smo', 'bismo našli'],
           correct: 1,
           hint: 'The double-negative rule still applies after ni… ni…',
@@ -4434,7 +4434,7 @@ export const PRACTICE_B2 = {
       {
         title: 'Opening to a Named Woman',
         problem: 'Započni službenu e-poruku gospođi Marić, koju ne poznaješ.',
-        en: 'Open a formal email to Mrs Marić, whom you do not know.',
+        en: 'Open a formal email to Mrs. Marić, whom you do not know.',
         steps: [
           {
             label: 'Register and gender',
@@ -5404,7 +5404,7 @@ export const PRACTICE_B2 = {
         explanation: 'Ma dismisses what came before: Ma pusti.',
       },
       {
-        q: "A friend back from holiday says 'Nije loše' about the hotel. What does it usually mean?",
+        q: "A friend back from vacation says 'Nije loše' about the hotel. What does it usually mean?",
         options: [
           'The hotel was bad.',
           'They did not stay there.',
@@ -5572,7 +5572,7 @@ export const PRACTICE_B2 = {
           explanation: 'Hrvatsko gospodarstvo.',
         },
         {
-          q: "Dopuni: 'Na ___ je sve više stanova za najam.' (There are more and more flats to rent on the market — tržište)",
+          q: "Dopuni: 'Na ___ je sve više stanova za najam.' (There are more and more apartments to rent on the market — tržište)",
           options: ['tržište', 'tržišta', 'tržištu', 'tržištem'],
           correct: 2,
           hint: 'Na + locative for location.',

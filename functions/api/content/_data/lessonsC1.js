@@ -1492,7 +1492,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Radije putujem vlakom nego automobilom, jer ne volim satima stajati u koloni.',
-            en: 'I would rather travel by train than by car, because I do not like standing in a queue for hours.',
+            en: 'I would rather travel by train than by car, because I do not like standing in line for hours.',
             note: 'radije … nego — two nouns in the same case (vlakom, automobilom)',
           },
           {
@@ -1984,7 +1984,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Imajte na umu da stroga pravila vrijede i vikendom.',
-            en: 'Bear in mind that the strict rules apply at weekends too.',
+            en: 'Bear in mind that the strict rules apply on weekends too.',
             note: 'imati na umu, stroga pravila; vrijediti = to apply',
           },
           {
@@ -1994,7 +1994,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Njegova je upornost došla do izražaja tek u posljednjem kilometru utrke.',
-            en: 'His persistence came to the fore only in the last kilometre of the race.',
+            en: 'His persistence came to the fore only in the last kilometer of the race.',
             note: 'doći do izražaja — a fixed phrase',
           },
         ],
@@ -2748,7 +2748,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Glavna je poanta da rješenje nije u novim cestama, nego u boljem redu vožnje.',
-            en: 'The main point is that the solution lies not in new roads but in a better timetable.',
+            en: 'The main point is that the solution lies not in new roads but in a better schedule.',
             note: 'glavna je poanta; nije u… nego u',
           },
           {
@@ -3979,7 +3979,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Zatim gledam rekciju: „hvala na pozivu“, „radujem se odmoru“, „bojim se pada“.',
-            en: 'Then I look at government: "thanks for the invitation", "I look forward to the holiday", "I fear a fall".',
+            en: 'Then I look at government: "thanks for the invitation", "I look forward to the vacation", "I fear a fall".',
             note: 'locative, dative, genitive — one verb at a time',
           },
           {
@@ -4215,7 +4215,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Uvedene su nove naknade za parkiranje u središtu grada, doznaje naš portal.',
-            en: 'New parking charges have been introduced in the city centre, our portal learns.',
+            en: 'New parking charges have been introduced in the city center, our portal learns.',
             note: 'participle passive plus "doznaje" — no agent, unnamed source',
           },
           {
@@ -4436,7 +4436,7 @@ export const LESSONS_C1 = [
           {
             hr: 'Temeljem članka 12. Zakona o vlasništvu…',
             en: 'Pursuant to article 12 of the Ownership Act…',
-            note: 'temeljem + genitive, and the ordinal full stop',
+            note: 'temeljem + genitive, and the ordinal period',
           },
           {
             hr: 'Ugovor stupa na snagu danom potpisa.',
@@ -4512,7 +4512,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is mixing the two formulas: "sukladno članka" and "temeljem odredbama" — temeljem takes the genitive (temeljem članka 12.) and sukladno the dative (sukladno odredbama), and they do not swap. The second is dropping the ordinal full stop: "članak 5 stavak 2" — the numbers are ordinals and are written čl. 5. st. 2. The third is reading past the rok: a learner who understands every word and misses "u roku od 15 dana" has understood nothing that matters.',
+        body: 'The first is mixing the two formulas: "sukladno članka" and "temeljem odredbama" — temeljem takes the genitive (temeljem članka 12.) and sukladno the dative (sukladno odredbama), and they do not swap. The second is dropping the ordinal period: "članak 5 stavak 2" — the numbers are ordinals and are written čl. 5. st. 2. The third is reading past the rok: a learner who understands every word and misses "u roku od 15 dana" has understood nothing that matters.',
         highlight: 'temeljem članka 12.',
       },
       {
@@ -4538,7 +4538,7 @@ export const LESSONS_C1 = [
             options: ['čl. 5 st. 2', 'čl. 5. st. 2.', 'čl 5, st 2', 'članak 5, stavak 2'],
             correct: 1,
             explanation:
-              'The numerals are ordinals and carry a full stop: čl. 5. st. 2. — article five, paragraph two.',
+              'The numerals are ordinals and carry a period: čl. 5. st. 2. — article five, paragraph two.',
           },
           {
             q: 'Decode into plain Croatian: "Smatra se da je zahtjev uredan."',
@@ -4670,7 +4670,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Numbers and Units',
-        body: 'Decimals use a COMMA, not a point: 3,14. Thousands are separated by a space or a full stop: 10 000 or 10.000. Units follow the number with a space: 25 °C, 3 kg. And "posto" is percent — "tri posto" or "3 %". Getting the decimal comma wrong in a technical document is a real error, not a stylistic one.',
+        body: 'Decimals use a COMMA, not a point: 3,14. Thousands are separated by a space or a period: 10 000 or 10.000. Units follow the number with a space: 25 °C, 3 kg. And "posto" is percent — "tri posto" or "3 %". Getting the decimal comma wrong in a technical document is a real error, not a stylistic one.',
         highlight: '3,14 — comma, not point',
       },
       {
@@ -4916,7 +4916,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'What Is On',
-        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian cinema and theater are small and well known to their audience, which means an informed remark goes a long way.',
+        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian movie theater and theater are small and well known to their audience, which means an informed remark goes a long way.',
         highlight: 'Dubrovačke ljetne igre',
       },
       {
@@ -5714,7 +5714,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Dugo je živio u vlažnom stanu. Uslijed toga se teško razbolio.',
-            en: 'He lived in a damp flat for a long time. As a result he fell seriously ill.',
+            en: 'He lived in a damp apartment for a long time. As a result he fell seriously ill.',
             note: 'uslijed toga — formal',
           },
         ],
@@ -5735,7 +5735,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Prestani jesti te slatkiše! Inače će ti opet biti zlo.',
-            en: 'Stop eating those sweets, or you will be sick again.',
+            en: 'Stop eating those candy, or you will be sick again.',
             note: 'inače — or else',
           },
           {
@@ -5755,7 +5755,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Stan je velik i svijetao. Osim toga ima prekrasan pogled na more.',
-            en: 'The flat is large and bright. Besides, it has a wonderful sea view.',
+            en: 'The apartment is large and bright. Besides, it has a wonderful sea view.',
             note: 'addition',
           },
         ],

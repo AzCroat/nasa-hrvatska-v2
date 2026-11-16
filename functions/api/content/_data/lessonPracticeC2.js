@@ -2171,7 +2171,7 @@ export const PRACTICE_C2 = {
           'Grand administrative vocabulary applied to a broken traffic light is the journalist’s ironic device.',
       },
       {
-        q: 'A friend says "Nije loše" about your new flat. Which reaction misreads them?',
+        q: 'A friend says "Nije loše" about your new apartment. Which reaction misreads them?',
         options: [
           'Hvala, drago mi je da ti se sviđa.',
           'Znači, sviđa ti se.',
@@ -3023,7 +3023,7 @@ export const PRACTICE_C2 = {
             'Brojati zareze',
           ],
           correct: 2,
-          hint: 'The syntax is a structure with a centre.',
+          hint: 'The syntax is a structure with a center.',
           explanation: 'Find the main clause first, then reread.',
         },
         {
@@ -4179,10 +4179,10 @@ export const PRACTICE_C2 = {
           'gledati is to watch, with attention over time; vidjeti is simply to perceive.',
       },
       {
-        q: 'Complete: "Moj brat ___ pravo u Zagrebu." (is at university reading law)',
+        q: 'Complete: "Moj brat ___ pravo u Zagrebu." (is in college reading law)',
         options: ['nauči', 'studira', 'poučava', 'proučio'],
         correct: 1,
-        explanation: 'studirati is to be at university; naučiti is to learn something through.',
+        explanation: 'studirati is to be in college; naučiti is to learn something through.',
       },
       {
         q: 'Which word is warmer and more abstract than "kuća"?',

@@ -197,7 +197,7 @@ export const PRACTICE_A1 = {
         options: ['krv (blood)', 'kraj (end)', 'rak (crab)', 'brod (ship)'],
         correct: 0,
         explanation:
-          'krv — k-r-v has no vowel letter; the rolled r is the centre of the syllable, as in prst and trg.',
+          'krv — k-r-v has no vowel letter; the rolled r is the center of the syllable, as in prst and trg.',
       },
     ],
     vocab: [
@@ -223,7 +223,7 @@ export const PRACTICE_A1 = {
         steps: [
           {
             label: 'Who is it?',
-            text: 'A shop assistant you do not know — a stranger, so the greeting is formal.',
+            text: 'A salesperson you do not know — a stranger, so the greeting is formal.',
           },
           {
             label: 'What time is it?',
@@ -933,7 +933,7 @@ export const PRACTICE_A1 = {
         explanation: 'sinovi — a one-syllable masculine noun grows: sin → sinovi.',
       },
       {
-        q: 'Which sentence is correct? (The pupils are here — "đak".)',
+        q: 'Which sentence is correct? (The students are here — "đak".)',
         options: ['Đaci su ovdje.', 'Đaki su ovdje.', 'Đakovi su ovdje.', 'Đake su ovdje.'],
         correct: 0,
         explanation: 'Đaci — before the plural -i, k softens to c: đak → đaci.',
@@ -3610,7 +3610,7 @@ export const PRACTICE_A1 = {
           explanation: 'Stavljam knjigu na stol.',
         },
         {
-          q: 'Idemo u ___. (to the cinema)',
+          q: 'Idemo u ___. (to the movie theater)',
           options: ['kinu', 'kina', 'kino', 'kinom'],
           correct: 2,
           hint: 'Going takes the accusative; a neuter noun looks the same as its dictionary form there.',
@@ -3683,7 +3683,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Večeras idemo ___." (to the cinema)',
+        q: 'Complete: "Večeras idemo ___." (to the movie theater)',
         options: ['u kinu', 'u kino', 'u kina', 'u kinom'],
         correct: 1,
         explanation: 'u kino — going takes the accusative.',
@@ -4042,7 +4042,7 @@ export const PRACTICE_A1 = {
         explanation: 'učiteljice — nouns in -ica take -e, not -o.',
       },
       {
-        q: 'Which is correct? (Mr Kovač, do you have a moment?)',
+        q: 'Which is correct? (Mr. Kovač, do you have a moment?)',
         options: [
           'Gospodino Kovačo, imate li trenutak?',
           'Gospodine Kovaču, imate li trenutak?',
@@ -5046,7 +5046,7 @@ export const PRACTICE_A1 = {
         steps: [
           {
             label: 'The question',
-            text: 'Imate li…? — do you have…? (V-form for a shop assistant).',
+            text: 'Imate li…? — do you have…? (V-form for a salesperson).',
           },
           { label: 'The object', text: 'The bag is what you ask for, so it takes the accusative.' },
           { label: 'The ending', text: 'Feminine -a becomes -u: vrećicu.' },
@@ -5528,7 +5528,7 @@ export const PRACTICE_A1 = {
         q: 'What does "u proljeće" mean?',
         options: ['in winter', 'in spring', 'in summer', 'in autumn'],
         correct: 1,
-        explanation: 'in spring — spring and autumn take u; summer and winter have ljeti and zimi.',
+        explanation: 'in spring — spring and fall take u; summer and winter have ljeti and zimi.',
       },
       {
         q: 'How do you ask what the weather is like today?',

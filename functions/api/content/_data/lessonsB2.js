@@ -441,7 +441,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Djed nam je davao savjete koje nitko nije tražio.',
-            en: 'Grandad used to give us advice nobody asked for.',
+            en: 'Grandpa used to give us advice nobody asked for.',
             note: 'davati — the imperfective of dati',
           },
           {
@@ -673,7 +673,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Nemoj zaboraviti ključeve kad izlaziš iz stana.',
-            en: 'Do not forget the keys when you leave the flat.',
+            en: 'Do not forget the keys when you leave the apartment.',
             note: 'nemoj + perfective — a warning about one specific act',
           },
           {
@@ -1378,7 +1378,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Da smo krenuli ranije, ne bismo zapeli u gužvi na autocesti.',
-            en: 'If we had set off earlier, we would not have got stuck in the traffic on the motorway.',
+            en: 'If we had set off earlier, we would not have got stuck in the traffic on the highway.',
             note: 'da + perfect, then ne bismo + participle',
           },
           {
@@ -1631,7 +1631,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Da barem imamo veći stan u centru grada!',
-            en: 'If only we had a bigger flat in the city centre!',
+            en: 'If only we had a bigger apartment in the city center!',
             note: 'da barem + present, no main clause',
           },
           {
@@ -2395,12 +2395,12 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Premda nikad nije igrao nogomet, o utakmici govori kao trener.',
-            en: 'Although he has never played football, he talks about the match like a coach.',
+            en: 'Although he has never played soccer, he talks about the match like a coach.',
             note: 'premda — the more formal although',
           },
           {
             hr: 'Doduše, stan je malen, ali je pogled na more nevjerojatan.',
-            en: 'Admittedly the flat is small, but the sea view is incredible.',
+            en: 'Admittedly the apartment is small, but the sea view is incredible.',
             note: 'doduše concedes before the ali',
           },
           {
@@ -2606,7 +2606,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Stan je prelijep, ali preskup.',
-            en: 'The flat is gorgeous but too expensive.',
+            en: 'The apartment is gorgeous but too expensive.',
             note: 'pre- twice, doing two different jobs',
           },
         ],
@@ -2637,7 +2637,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Cijene stanova u Zagrebu rastu sve brže iz godine u godinu.',
-            en: 'Flat prices in Zagreb are rising faster and faster from year to year.',
+            en: 'Apartment prices in Zagreb are rising faster and faster from year to year.',
             note: 'sve brže — a trend',
           },
           {
@@ -2697,7 +2697,7 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "U jesen su dani ___ kraći." (In autumn the days get shorter and shorter.)',
+            q: 'Complete: "U jesen su dani ___ kraći." (In fall the days get shorter and shorter.)',
             options: ['više', 'sve', 'što', 'jako'],
             correct: 1,
             explanation:
@@ -2875,12 +2875,12 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Ni u Splitu ni u Zadru nismo našli slobodan stan.',
-            en: 'Neither in Split nor in Zadar did we find a free flat.',
+            en: 'Neither in Split nor in Zadar did we find a free apartment.',
             note: 'ni… ni… and the verb still negated',
           },
           {
             hr: 'Nije bilo nikakve gužve na granici, prošli smo za pet minuta.',
-            en: 'There was no queue at all at the border, we got through in five minutes.',
+            en: 'There was no line at all at the border, we got through in five minutes.',
             note: 'nikakve gužve — genitive after nije bilo',
           },
           {
@@ -3155,7 +3155,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Nedostatak je u tome što su stanovi u centru preskupi.',
-            en: 'The drawback is that flats in the centre are too expensive.',
+            en: 'The drawback is that apartments in the center are too expensive.',
             note: 'the same shape with nedostatak',
           },
           {
@@ -3633,7 +3633,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Poštovana gospođo Kovač, zahvaljujem Vam na brzom odgovoru.',
-            en: 'Dear Mrs Kovač, thank you for your prompt reply.',
+            en: 'Dear Mrs. Kovač, thank you for your prompt reply.',
             note: 'Poštovana + vocative gospođo; capital Vam',
           },
           {
@@ -4624,7 +4624,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Ma pusti, nije to ništa, samo mi je auto ostao bez goriva na autocesti.',
-            en: 'Oh forget it, it is nothing, my car just ran out of fuel on the motorway.',
+            en: 'Oh forget it, it is nothing, my car just ran out of fuel on the highway.',
             note: 'ma pusti plus understatement of a real problem',
           },
           {

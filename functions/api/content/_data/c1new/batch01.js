@@ -48,9 +48,9 @@ export const SPINE = [
     masterOrder: 5,
     prerequisites: ['coordinate-conclusive-clauses'],
     objectives: [
-      'Write kratice with a full stop: npr., tj., itd., tzv., str., br., st.',
+      'Write kratice with a period: npr., tj., itd., tzv., str., br., st.',
       'Write pokrate in capitals without full stops and decline them with a hyphen: HNK-a, u EU-u',
-      'Write units and symbols without a full stop, and ordinals and dates with one',
+      'Write units and symbols without a period, and ordinals and dates with one',
     ],
   },
   {
@@ -220,7 +220,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Moja kći studira medicinu u Rijeci i dolazi kući vikendom.',
-            en: 'My daughter studies medicine in Rijeka and comes home at weekends.',
+            en: 'My daughter studies medicine in Rijeka and comes home on weekends.',
             note: 'kći — the standard nominative',
           },
           {
@@ -471,7 +471,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Na prvi pogled stan nam se činio savršenim.',
-            en: 'At first sight the flat seemed perfect to us.',
+            en: 'At first sight the apartment seemed perfect to us.',
             note: 'na prvi pogled — na + accusative',
           },
           {
@@ -838,13 +838,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Two Kinds of Shortening',
-        body: 'Croatian spelling distinguishes a kratica — a shortened word or phrase that is read out in full (npr. is read na primjer) — from a pokrata, a new word made from initials or syllables (HNK, HAZU, EU, NATO). The two are written differently: one takes a full stop, the other capitals and none. (Some handbooks, the Croaticum workbook among them, call both kinds kratice; the names matter less than the spelling.) Units of measurement and symbols are a third group with rules of their own. Get them right and your written Croatian looks educated at a glance.',
+        body: 'Croatian spelling distinguishes a kratica — a shortened word or phrase that is read out in full (npr. is read na primjer) — from a pokrata, a new word made from initials or syllables (HNK, HAZU, EU, NATO). The two are written differently: one takes a period, the other capitals and none. (Some handbooks, the Croaticum workbook among them, call both kinds kratice; the names matter less than the spelling.) Units of measurement and symbols are a third group with rules of their own. Get them right and your written Croatian looks educated at a glance.',
         icon: '✒️',
       },
       {
         type: 'rule',
         title: 'Kratice Take a Full Stop',
-        body: 'A kratica is a word cut short, so it ends with a full stop: npr. (na primjer), tj. (to jest), itd. (i tako dalje), i sl. (i slično), tzv. (takozvani), str. (stranica), br. (broj), god. (godina), st. (stoljeće), sv. (sveti), dr. (doktor), prof. (profesor), pr. Kr. (prije Krista). They are written in small letters inside a sentence, and they do not take case endings: the full word they stand for is read with its ending. s dr. Horvatom is read s doktorom Horvatom.',
+        body: 'A kratica is a word cut short, so it ends with a period: npr. (na primjer), tj. (to jest), itd. (i tako dalje), i sl. (i slično), tzv. (takozvani), str. (stranica), br. (broj), god. (godina), st. (stoljeće), sv. (sveti), dr. (doktor), prof. (profesor), pr. Kr. (prije Krista). They are written in small letters inside a sentence, and they do not take case endings: the full word they stand for is read with its ending. s dr. Horvatom is read s doktorom Horvatom.',
         highlight: 's dr. Horvatom',
       },
       {
@@ -873,13 +873,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Declining a Pokrata',
-        body: 'An initialism that is read letter by letter takes its case ending after a hyphen, and the ending follows the pronunciation: HNK → HNK-a, u HNK-u, s HNK-om; HRT → HRT-a, na HRT-u; EU → EU-a, u EU-u; UN → u UN-u; NATO → NATO-a, u NATO-u. Which endings? One ending in a consonant or in -o declines like a masculine a-noun (SAD-a, SAD-om; UNESCO-a, UNESCO-om); one ending in -a declines like an e-noun (INA-e, INA-i, INA-u — read ine, ini, inu). Two never decline, and take a feminine predicate: RH and BiH (RH je učinila velike napore; pravna stečevina RH). A pokrata written as a name declines like a noun with no hyphen: Hina, Hine, u Hini. A kratica with a full stop never takes an ending — except gđa and gđica, which are written WITHOUT a full stop and do decline: s gđom Horvat.',
+        body: 'An initialism that is read letter by letter takes its case ending after a hyphen, and the ending follows the pronunciation: HNK → HNK-a, u HNK-u, s HNK-om; HRT → HRT-a, na HRT-u; EU → EU-a, u EU-u; UN → u UN-u; NATO → NATO-a, u NATO-u. Which endings? One ending in a consonant or in -o declines like a masculine a-noun (SAD-a, SAD-om; UNESCO-a, UNESCO-om); one ending in -a declines like an e-noun (INA-e, INA-i, INA-u — read ine, ini, inu). Two never decline, and take a feminine predicate: RH and BiH (RH je učinila velike napore; pravna stečevina RH). A pokrata written as a name declines like a noun with no hyphen: Hina, Hine, u Hini. A kratica with a period never takes an ending — except gđa and gđica, which are written WITHOUT a period and do decline: s gđom Horvat.',
         highlight: 'HNK-a, u HNK-u, u EU-u',
       },
       {
         type: 'rule',
         title: 'Symbols, Ordinals and the End of a Sentence',
-        body: 'Units and symbols have no full stop and stand after the number with a space: 5 km, 20 kg, 3 m, 1 l, 10 h, 30 min, 15 EUR or 15 €, 20 °C. Croatian writes a decimal comma: 2,5 kg. For the percent sign Hrvatski pravopis recommends a space (25 %), and 25% is widespread; both are seen. An ordinal number takes a full stop: 21. st., 3. razred, 1. srpnja. A date is written 12. 11. 2026. or 12. studenoga 2026. When a sentence ends in an abbreviation that already has a full stop, no second one is added; and no comma goes before itd. or i sl., because they continue the list.',
+        body: 'Units and symbols have no period and stand after the number with a space: 5 km, 20 kg, 3 m, 1 l, 10 h, 30 min, 15 EUR or 15 €, 20 °C. Croatian writes a decimal comma: 2,5 kg. For the percent sign Hrvatski pravopis recommends a space (25 %), and 25% is widespread; both are seen. An ordinal number takes a period: 21. st., 3. razred, 1. srpnja. A date is written 12. 11. 2026. or 12. studenoga 2026. When a sentence ends in an abbreviation that already has a period, no second one is added; and no comma goes before itd. or i sl., because they continue the list.',
         highlight: 'kruh, mlijeko itd.',
       },
       {
@@ -889,36 +889,36 @@ export const LESSONS = [
           {
             hr: 'U Hrvatskoj ima mnogo zaštićenih područja, npr. Plitvička jezera, Paklenica i Kornati.',
             en: 'Croatia has many protected areas, for example the Plitvice Lakes, Paklenica and the Kornati.',
-            note: 'npr. — a kratica for na primjer, with a full stop',
+            note: 'npr. — a kratica for na primjer, with a period',
           },
           {
             hr: 'Do sela ima još 12 km, tj. dvadesetak minuta vožnje.',
             en: 'It is still 12 km to the village, that is, about twenty minutes’ drive.',
-            note: 'km — a symbol, no full stop; tj. — to jest',
+            note: 'km — a symbol, no period; tj. — to jest',
           },
           {
             hr: 'Na tržnici smo kupili rajčice, papriku, luk itd.',
             en: 'At the market we bought tomatoes, peppers, onions and so on.',
-            note: 'itd. — no comma before it and no second full stop after it',
+            note: 'itd. — no comma before it and no second period after it',
           },
           {
             hr: 'Ta je crkva sagrađena u 12. st., a obnovljena u 18. st.',
             en: 'That church was built in the 12th century and restored in the 18th.',
-            note: 'st. — stoljeće; 12. — an ordinal with a full stop',
+            note: 'st. — stoljeće; 12. — an ordinal with a period',
           },
           {
             hr: 'Pročitajte poglavlje na str. 45 i riješite zadatke br. 3 i 4.',
             en: 'Read the chapter on page 45 and do exercises nos. 3 and 4.',
-            note: 'str. and br. — kratice with a full stop',
+            note: 'str. and br. — kratice with a period',
           },
           {
             hr: 'Paket teži 2,5 kg, a poštarina iznosi 6 EUR.',
             en: 'The parcel weighs 2.5 kg and the postage is 6 euros.',
-            note: 'kg and EUR — symbols, no full stop; 2,5 — the decimal comma',
+            note: 'kg and EUR — symbols, no period; 2,5 — the decimal comma',
           },
           {
             hr: 'O rezultatima sam razgovarao s dr. Matićem.',
-            en: 'I talked to Dr Matić about the results.',
+            en: 'I talked to Dr. Matić about the results.',
             note: 'dr. — the title takes no ending; Matićem carries the instrumental',
           },
         ],
@@ -930,12 +930,12 @@ export const LESSONS = [
           {
             hr: 'Predstava počinje u 20 h na velikoj sceni HNK-a.',
             en: 'The performance begins at 8 p.m. on the main stage of the Croatian National Theater.',
-            note: 'HNK-a — genitive after a hyphen; h — a symbol, no full stop',
+            note: 'HNK-a — genitive after a hyphen; h — a symbol, no period',
           },
           {
             hr: 'Hrvatska je postala članica EU-a 1. srpnja 2013.',
             en: 'Croatia became a member of the European Union on 1 July 2013.',
-            note: 'EU-a — genitive; 1. — an ordinal; the year ends the sentence with one full stop',
+            note: 'EU-a — genitive; 1. — an ordinal; the year ends the sentence with one period',
           },
           {
             hr: 'O tom se prijedlogu dugo raspravljalo u UN-u.',
@@ -955,7 +955,7 @@ export const LESSONS = [
         q: 'Which is the correct spelling of the abbreviation for "na primjer"?',
         options: ['npr', 'npr.', 'n.pr.', 'NPR'],
         correct: 1,
-        explanation: 'A kratica takes one full stop at the end and small letters: npr.',
+        explanation: 'A kratica takes one period at the end and small letters: npr.',
       },
       {
         type: 'quiz',
@@ -968,7 +968,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) A full stop after a unit symbol: Hodali smo 8 km. do vrha is wrong — write 8 km do vrha. (2) Full stops inside an initialism: H.N.K. and E.U. are wrong — write HNK, EU. (3) An ending glued straight onto an initialism: HNKa and EUu are wrong — write HNK-a, u EU-u. (4) A comma before itd. or a doubled full stop at the end: kruh, mlijeko, itd.. is wrong — write kruh, mlijeko itd.',
+        body: '(1) A period after a unit symbol: Hodali smo 8 km. do vrha is wrong — write 8 km do vrha. (2) Full stops inside an initialism: H.N.K. and E.U. are wrong — write HNK, EU. (3) An ending glued straight onto an initialism: HNKa and EUu are wrong — write HNK-a, u EU-u. (4) A comma before itd. or a doubled period at the end: kruh, mlijeko, itd.. is wrong — write kruh, mlijeko itd.',
         highlight: 'write HNK-a, u EU-u',
       },
       {
@@ -979,7 +979,7 @@ export const LESSONS = [
             q: 'Which spelling of "to jest" is correct?',
             options: ['tj.', 't.j.', 'tj', 'TJ.'],
             correct: 0,
-            explanation: 'One full stop at the end, small letters: tj.',
+            explanation: 'One period at the end, small letters: tj.',
           },
           {
             q: 'Which sentence is correct?',
@@ -990,7 +990,7 @@ export const LESSONS = [
               'Hodali smo 8 KM. do vrha.',
             ],
             correct: 1,
-            explanation: 'A unit symbol has no full stop and keeps its small letters: 8 km.',
+            explanation: 'A unit symbol has no period and keeps its small letters: 8 km.',
           },
           {
             q: 'Complete: "Ulaznice za predstave ___ kupuju se na blagajni." (of the HNK)',
@@ -1007,14 +1007,14 @@ export const LESSONS = [
               'Kupili smo kruh, mlijeko, itd..',
             ],
             correct: 2,
-            explanation: 'No comma before itd., and its full stop also ends the sentence.',
+            explanation: 'No comma before itd., and its period also ends the sentence.',
           },
           {
             q: 'Which of these is a pokrata (made from initials), not a kratica?',
             options: ['str.', 'npr.', 'tzv.', 'HAZU'],
             correct: 3,
             explanation:
-              'HAZU is built from the initials of Hrvatska akademija znanosti i umjetnosti. The others are shortened words with a full stop.',
+              'HAZU is built from the initials of Hrvatska akademija znanosti i umjetnosti. The others are shortened words with a period.',
           },
           {
             q: 'Complete: "Hrvatska je članica ___ od 2013." (the EU — genitive)',
@@ -1028,11 +1028,11 @@ export const LESSONS = [
         type: 'summary',
         title: 'Abbreviations — Key Takeaways',
         points: [
-          'Kratice end with a full stop: npr., tj., itd., i sl., tzv., str., br., st.',
+          'Kratice end with a period: npr., tj., itd., i sl., tzv., str., br., st.',
           'Pokrate from initials: capitals, no full stops — HNK, EU, HRT',
           'Decline a pokrata with a hyphen: HNK-a, u HNK-u, u EU-u; kratice take no endings',
-          'Symbols have no full stop: 5 km, 20 kg, 10 h; ordinals do: 21. st., 1. srpnja',
-          'No comma before itd., and no second full stop at the end of a sentence',
+          'Symbols have no period: 5 km, 20 kg, 10 h; ordinals do: 21. st., 1. srpnja',
+          'No comma before itd., and no second period at the end of a sentence',
         ],
       },
     ],
@@ -1122,7 +1122,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'U jesen lišće požuti i opada s drveća u parku.',
-            en: 'In autumn the leaves turn yellow and fall from the trees in the park.',
+            en: 'In fall the leaves turn yellow and fall from the trees in the park.',
             note: 'lišće — neuter singular, so požuti and opada are singular; drveća is the genitive of drveće',
           },
           {
@@ -1462,8 +1462,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Whole Night',
-        problem: 'Reci: It snowed all night, and in the morning the snow was a metre deep.',
-        en: 'It snowed all night, and in the morning the snow was a metre deep.',
+        problem: 'Reci: It snowed all night, and in the morning the snow was a meter deep.',
+        en: 'It snowed all night, and in the morning the snow was a meter deep.',
         steps: [
           {
             label: 'Duration',
@@ -1874,7 +1874,7 @@ export const PRACTICE = {
           { label: 'The case', text: 'u + locative; the ending goes after a hyphen: HNK-u.' },
           {
             label: 'The date',
-            text: 'The day is an ordinal with a full stop, and the month is in the genitive: 12. studenoga.',
+            text: 'The day is an ordinal with a period, and the month is in the genitive: 12. studenoga.',
           },
         ],
         answer: 'Premijera u HNK-u bit će 12. studenoga.',
@@ -1886,8 +1886,8 @@ export const PRACTICE = {
         en: 'We visited Split, Zadar, Šibenik and so on, and drove 300 km in two days.',
         steps: [
           { label: 'The list', text: 'itd. ends the list with no comma before it.' },
-          { label: 'The unit', text: 'km is a symbol: a space after the number, no full stop.' },
-          { label: 'The end', text: 'The sentence ends with its own full stop after dana.' },
+          { label: 'The unit', text: 'km is a symbol: a space after the number, no period.' },
+          { label: 'The end', text: 'The sentence ends with its own period after dana.' },
         ],
         answer: 'Obišli smo Split, Zadar, Šibenik itd. i prešli 300 km u dva dana.',
       },
@@ -1926,7 +1926,7 @@ export const PRACTICE = {
           ],
           correct: 0,
           hint: 'The degree sign comes before a capital C.',
-          explanation: '25 °C — and the sentence has one full stop.',
+          explanation: '25 °C — and the sentence has one period.',
         },
         {
           q: 'Complete: "Sastanak u ___ održan je jučer." (the UN — locative)',
@@ -1936,7 +1936,7 @@ export const PRACTICE = {
           explanation: 'u UN-u.',
         },
         {
-          q: 'Which of these takes a full stop?',
+          q: 'Which of these takes a period?',
           options: ['km', 'EUR', 'str', 'kg'],
           correct: 2,
           hint: 'Only a shortened ordinary word gets one; units do not.',
@@ -1946,7 +1946,7 @@ export const PRACTICE = {
           q: 'How do you write "21st century" with the abbreviation?',
           options: ['21 st.', '21. st.', '21.st', '21-st.'],
           correct: 1,
-          hint: 'The ordinal and the abbreviation each have a full stop.',
+          hint: 'The ordinal and the abbreviation each have a period.',
           explanation: '21. st.',
         },
         {
@@ -1958,7 +1958,7 @@ export const PRACTICE = {
             'Prodaju voće, povrće i sl',
           ],
           correct: 2,
-          hint: 'No comma before it, and one full stop at the end.',
+          hint: 'No comma before it, and one period at the end.',
           explanation: 'i sl. closes the list and the sentence.',
         },
         {
@@ -2005,7 +2005,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Riješite zadatak na ____ 12. (page — abbreviation)',
           answer: 'str.',
-          hint: 'The first three letters of the word for page, and a full stop.',
+          hint: 'The first three letters of the word for page, and a period.',
           explanation: 'str. 12.',
         },
         {
@@ -2022,7 +2022,7 @@ export const PRACTICE = {
         q: 'Which spelling of "i tako dalje" is correct?',
         options: ['i.t.d.', 'itd.', 'itd', 'i tako d.'],
         correct: 1,
-        explanation: 'itd. — one full stop at the end.',
+        explanation: 'itd. — one period at the end.',
       },
       {
         q: 'Which sentence is correct?',
@@ -2033,7 +2033,7 @@ export const PRACTICE = {
           'Paket od 3 KG. stigao je jučer.',
         ],
         correct: 2,
-        explanation: 'kg is a symbol: small letters, no full stop.',
+        explanation: 'kg is a symbol: small letters, no period.',
       },
       {
         q: 'Complete: "Radi na ___ već deset godina." (the HRT — locative)',
@@ -2050,7 +2050,7 @@ export const PRACTICE = {
           'Crkva je iz 15.st',
         ],
         correct: 1,
-        explanation: 'The ordinal takes a full stop, then a space, then st.',
+        explanation: 'The ordinal takes a period, then a space, then st.',
       },
       {
         q: 'Which is written correctly?',
@@ -2068,7 +2068,7 @@ export const PRACTICE = {
         q: 'Which unit is written correctly after a number?',
         options: ['20 min', '20 min.', '20 Min', '20min.'],
         correct: 0,
-        explanation: 'min is a symbol: a space before it and no full stop.',
+        explanation: 'min is a symbol: a space before it and no period.',
       },
     ],
     vocab: [

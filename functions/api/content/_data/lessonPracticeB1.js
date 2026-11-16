@@ -1313,8 +1313,8 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'With Someone: s or sa?',
-        problem: 'Reci: I went to the cinema with Željko.',
-        en: 'I went to the cinema with Željko.',
+        problem: 'Reci: I went to the movie theater with Željko.',
+        en: 'I went to the movie theater with Željko.',
         steps: [
           {
             label: 'Company',
@@ -3074,7 +3074,7 @@ export const PRACTICE_B1 = {
           'He must not park.',
           'You may park here.',
           'Parking is not allowed.',
-          'The car park is full.',
+          'The parking lot is full.',
         ],
         correct: 2,
         explanation: 'Modal + se is a rule for everyone: parking is not allowed.',
@@ -3549,12 +3549,12 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'Stating a Purpose',
-        problem: 'Reci: I am saving money so that I can buy a flat.',
-        en: 'I am saving money so that I can buy a flat.',
+        problem: 'Reci: I am saving money so that I can buy an apartment.',
+        en: 'I am saving money so that I can buy an apartment.',
         steps: [
           {
             label: 'Cause or aim?',
-            text: 'Buying a flat is what you are aiming at — a purpose, looking forward.',
+            text: 'Buying an apartment is what you are aiming at — a purpose, looking forward.',
           },
           {
             label: 'The connector',
@@ -4861,10 +4861,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Čekao sam u ____ više od sat vremena. (in the queue — red)',
+          q: 'Čekao sam u ____ više od sat vremena. (in line — red)',
           answer: 'redu',
-          hint: 'Being in the queue: u + the locative.',
-          explanation: 'u redu — in the queue.',
+          hint: 'Being in line: u + the locative.',
+          explanation: 'u redu — in line.',
         },
         {
           type: 'type',
@@ -4968,7 +4968,7 @@ export const PRACTICE_B1 = {
         title: 'Reading an Advert',
         problem:
           'Oglas: "Iznajmljuje se namješten jednosoban stan, 40 m², 450 € + režije." Što se nudi?',
-        en: 'Advert: furnished one-room flat, 40 m², €450 + utilities. What is on offer?',
+        en: 'Advert: furnished one-room apartment, 40 m², €450 + utilities. What is on offer?',
         steps: [
           {
             label: 'Count the rooms',
@@ -4988,8 +4988,8 @@ export const PRACTICE_B1 = {
       {
         title: 'Asking the Landlord',
         problem:
-          'Pitaj: Does the building have a lift, and can I move in on the first of the month?',
-        en: 'Does the building have a lift, and can I move in on the first of the month?',
+          'Pitaj: Does the building have an elevator, and can I move in on the first of the month?',
+        en: 'Does the building have an elevator, and can I move in on the first of the month?',
         steps: [
           {
             label: 'Yes/no questions',
@@ -6110,7 +6110,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Ulijte litru ___.' (Pour in a litre of milk — mlijeko)",
+        q: "Complete: 'Ulijte litru ___.' (Pour in a liter of milk — mlijeko)",
         options: ['mlijeko', 'mlijeka', 'mlijekom', 'mlijeku'],
         correct: 1,
         explanation: 'What is measured goes in the genitive: litru mlijeka.',

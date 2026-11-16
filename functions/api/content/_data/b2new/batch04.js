@@ -339,7 +339,7 @@ const HEALTH_PREVENTION = {
     {
       type: 'rule',
       title: 'Addiction: o + Locative, od + Genitive',
-      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o nikotinu, o alkoholu, o kocki (gambling), o šećeru. Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counselling centre).',
+      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o nikotinu, o alkoholu, o kocki (gambling), o šećeru. Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counseling center).',
       highlight: 'ovisnost o alkoholu',
     },
     {
@@ -1015,7 +1015,7 @@ const FAMILY_CHANGES = {
     {
       type: 'intro',
       title: 'Three Generations Under One Roof?',
-      body: 'For a long time the typical Croatian family was large, and often three generations lived in one house: grandparents, parents and children. Much of that has changed. People marry later, have fewer children, and many young people move abroad for work. Other things have stayed: grandparents still look after grandchildren, and family remains at the centre of people’s lives. This lesson gives you the words to describe these changes and the phrases to discuss them at B2 level.',
+      body: 'For a long time the typical Croatian family was large, and often three generations lived in one house: grandparents, parents and children. Much of that has changed. People marry later, have fewer children, and many young people move abroad for work. Other things have stayed: grandparents still look after grandchildren, and family remains at the center of people’s lives. This lesson gives you the words to describe these changes and the phrases to discuss them at B2 level.',
       icon: '👨‍👩‍👧',
     },
     {
@@ -1033,7 +1033,7 @@ const FAMILY_CHANGES = {
     {
       type: 'rule',
       title: 'What Has Changed',
-      body: 'Croats today marry and have their first child later than their parents did. The birth rate is low, below the level needed to keep the population stable, and many young people have emigrated for work. Young adults in Croatia leave their parents’ home later than in most EU countries, often around thirty, because housing is expensive. And grandparents play a big part in raising children — so much so that the joking colloquial name for it is "baka servis", the granny service.',
+      body: 'Croats today marry and have their first child later than their parents did. The birth rate is low, below the level needed to keep the population stable, and many young people have emigrated for work. Young adults in Croatia leave their parents’ home later than in most EU countries, often around thirty, because housing is expensive. And grandparents play a big part in raising children — so much so that the joking colloquial name for it is "baka servis", the grandma service.',
       highlight: 'baka servis',
     },
     {
@@ -1089,7 +1089,7 @@ const FAMILY_CHANGES = {
         },
         {
           hr: 'S jedne strane, mladi su slobodniji, a s druge strane, teže dolaze do stana.',
-          en: 'On the one hand young people are freer, and on the other, it is harder for them to get a flat.',
+          en: 'On the one hand young people are freer, and on the other, it is harder for them to get an apartment.',
           note: 's jedne strane… s druge strane — weighing two sides',
         },
         {
@@ -2004,7 +2004,7 @@ export const PRACTICE = {
         options: ['upisao', 'upisalo', 'upisale', 'upisala'],
         correct: 2,
         explanation:
-          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enrol at university).',
+          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enrol in college).',
       },
       {
         q: 'Complete: "Dvoje djece ___ u bazenu."',

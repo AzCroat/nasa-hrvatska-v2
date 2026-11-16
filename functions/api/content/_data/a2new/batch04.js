@@ -138,7 +138,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Da + Present: Things That Are Not True',
-        body: 'For a condition that is plainly not true right now — I do not have the money, I am not you — Croatian has a second frame: da + the PRESENT tense, then the conditional result. Da imam novca, kupio bih stan. (If I had money — but I do not — I would buy a flat.) Da znam, rekao bih ti. (If I knew, I would tell you.) Da sam na tvom mjestu, ne bih išao. (If I were you, I would not go.) After da the verb is the ordinary present: da imam, da znam, da sam, da nisam. Kad bih imao novca says almost the same thing; da + present makes it clearer that the condition is not real.',
+        body: 'For a condition that is plainly not true right now — I do not have the money, I am not you — Croatian has a second frame: da + the PRESENT tense, then the conditional result. Da imam novca, kupio bih stan. (If I had money — but I do not — I would buy an apartment.) Da znam, rekao bih ti. (If I knew, I would tell you.) Da sam na tvom mjestu, ne bih išao. (If I were you, I would not go.) After da the verb is the ordinary present: da imam, da znam, da sam, da nisam. Kad bih imao novca says almost the same thing; da + present makes it clearer that the condition is not real.',
         highlight: 'Da imam novca, kupio bih stan.',
       },
       {
@@ -189,7 +189,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Da imam novca, kupio bih stan u Zagrebu.',
-            en: 'If I had money, I would buy a flat in Zagreb.',
+            en: 'If I had money, I would buy an apartment in Zagreb.',
             note: 'da imam: the present, not the conditional',
           },
           {
@@ -199,7 +199,7 @@ export const LESSONS = [
           },
           {
             hr: 'Da nisam umorna, išla bih s vama u kino.',
-            en: 'If I were not tired, I would go to the cinema with you.',
+            en: 'If I were not tired, I would go to the movies with you.',
             note: 'da nisam: the present of biti, negated',
           },
           {
@@ -398,7 +398,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Gospodin Horvat je ovdje. — Neka uđe.',
-            en: 'Mr Horvat is here. — Let him come in.',
+            en: 'Mr. Horvat is here. — Let him come in.',
             note: 'neka + uđe, the present of ući',
           },
           {

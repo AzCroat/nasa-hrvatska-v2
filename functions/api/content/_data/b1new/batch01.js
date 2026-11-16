@@ -150,7 +150,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Moj stan je manji nego tvoj, ali je bliži centru.',
-            en: 'My flat is smaller than yours, but it is closer to the centre.',
+            en: 'My apartment is smaller than yours, but it is closer to the center.',
             note: 'manji — irregular comparative of malen; bliži takes the dative, like blizak',
           },
           {
@@ -175,7 +175,7 @@ export const LESSONS = [
           },
           {
             hr: 'Živimo u većem stanu nego prije.',
-            en: 'We live in a bigger flat than before.',
+            en: 'We live in a bigger apartment than before.',
             note: 'većem — locative after u, soft ending -em',
           },
           {
@@ -221,7 +221,7 @@ export const LESSONS = [
           },
           {
             hr: 'Ana je najbolja učenica u razredu.',
-            en: 'Ana is the best pupil in the class.',
+            en: 'Ana is the best student in the class.',
             note: 'najbolja — feminine, agreeing with učenica',
           },
           {
@@ -1309,8 +1309,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Better in the Locative',
-        problem: 'Reci: We live in a better flat than before.',
-        en: 'We live in a better flat than before.',
+        problem: 'Reci: We live in a better apartment than before.',
+        en: 'We live in a better apartment than before.',
         steps: [
           {
             label: 'The comparative',

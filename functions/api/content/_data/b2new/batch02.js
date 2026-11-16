@@ -1102,7 +1102,7 @@ const RELATIVE_CASES = {
         },
         {
           hr: 'Torba koju sam ti kupio stoji u ormaru.',
-          en: 'The bag I bought you is in the wardrobe.',
+          en: 'The bag I bought you is in the closet.',
           note: 'koju sam ti — clitics straight after the relative',
         },
       ],
