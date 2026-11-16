@@ -1381,7 +1381,7 @@ export const LESSONS_A2 = [
             note: 'countable → genitive plural, verb stays singular',
           },
           {
-            hr: 'Molim vas malo vode.',
+            hr: 'Molim Vas malo vode.',
             en: 'A little water, please.',
             note: 'voda → vode',
           },
@@ -1529,7 +1529,7 @@ export const LESSONS_A2 = [
               '"Koliko" takes the genitive: braće. "Braća" is a collective noun that declines like a feminine singular, so its genitive is braće — the same form as in "braće i sestara".',
           },
           {
-            q: 'Complete: "Molim vas šalicu ___." (a cup of coffee — kava)',
+            q: 'Complete: "Molim Vas šalicu ___." (a cup of coffee — kava)',
             options: ['kava', 'kavu', 'kave', 'kavi'],
             correct: 2,
             explanation:
@@ -3658,7 +3658,7 @@ export const LESSONS_A2 = [
           ['Mogu li ovo probati?', 'Can I try this on?'],
           ['Gdje je kabina?', 'Where is the fitting room?'],
           ['Imate li broj četrdeset?', 'Do you have size forty?'],
-          ['Koja je vaša veličina?', 'What size are you?'],
+          ['Koja je Vaša veličina?', 'What size are you?'],
           ['Ovo nije moj broj.', 'This is not my size.'],
           ['Želim ovu jaknu.', 'I want this jacket.'],
           ['Uzimam ovo.', 'I am taking this one.'],

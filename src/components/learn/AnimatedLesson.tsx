@@ -24,7 +24,7 @@ import { readCurriculumSpine } from '../../lib/curriculumProgress';
 import LessonProduceStep from './LessonProduceStep';
 import { WorkedSlide, GuidedPracticeSlide } from './LessonPracticeSlides';
 import LessonVisualSlide from './LessonVisualSlide';
-import LessonTextSlide from './LessonTextSlide';
+import LessonTextSlide, { type StepNav } from './LessonTextSlide';
 import { lessonGate, gateStartSlide, countCorrect, lessonPassed } from '../../lib/lessonCheck';
 import { useStats } from '../../context/StatsContext';
 import {
@@ -100,6 +100,8 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   const [quizResults, setQuizResults] = useState<Record<number, boolean>>({});
   // Worked examples seen through / guided practice resolved, by slide index.
   const [practiceDone, setPracticeDone] = useState<Set<number>>(() => new Set());
+  // A slide that runs in stages (the text step) borrows the Next / Prev buttons for them.
+  const [stepNav, setStepNav] = useState<StepNav | null>(null);
   const markPracticeDone = (i: number) =>
     setPracticeDone((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
   const [score, setScore] = useState(0);
@@ -445,11 +447,13 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
   // the check slide is where the sitting ends.
   const closedCheckSlide = isCheck && checkLocked && !checkAnsweredAny;
   const endsHere = closedCheckSlide || (failedSummary && !testingOut);
-  const canGoNext = isCheck
-    ? checkAllAnswered || closedCheckSlide
-    : isPractice
-      ? practiceDone.has(slide)
-      : !isQuiz || quizRevealed;
+  const canGoNext = stepNav
+    ? true
+    : isCheck
+      ? checkAllAnswered || closedCheckSlide
+      : isPractice
+        ? practiceDone.has(slide)
+        : !isQuiz || quizRevealed;
   const isLastSlide = slide === totalSlides - 1;
 
   // ── Render slide content ─────────────────────────────────
@@ -541,6 +545,7 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             lesson={lesson!}
             done={practiceDone.has(slide)}
             onComplete={() => markPracticeDone(slide)}
+            onNav={setStepNav}
           />
         );
 
@@ -771,11 +776,13 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             {/* Prev */}
             <button
-              onClick={goPrev}
-              disabled={slide === 0}
+              onClick={stepNav?.back ?? goPrev}
+              disabled={slide === 0 && !stepNav?.back}
               aria-label="Previous slide"
               style={{
-                flex: 1,
+                flex: '0 0 auto',
+                minWidth: 96,
+                whiteSpace: 'nowrap',
                 padding: '13px 16px',
                 borderRadius: 12,
                 border: '1px solid var(--card-b)',
@@ -793,12 +800,25 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             </button>
 
             {/* Slide type indicator dots */}
-            <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexShrink: 0 }}>
+            {/* The dots take whatever room is left and never push the buttons onto two lines. */}
+            <div
+              style={{
+                display: 'flex',
+                gap: 4,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flex: 1,
+                minWidth: 0,
+                overflow: 'hidden',
+              }}
+            >
               {slides.map((_s, i) => (
                 <div
                   key={i}
                   style={{
                     width: i === slide ? 16 : 6,
+                    flexShrink: 1,
+                    minWidth: 3,
                     height: 6,
                     borderRadius: 99,
                     background:
@@ -816,29 +836,35 @@ export default function AnimatedLesson({ lesson, goBack, award }: Props) {
             {/* Next */}
             <button
               onClick={
-                endsHere
-                  ? goBack
-                  : failedSummary
-                    ? testingOut
-                      ? startLessonFromTestOut
-                      : retakeCheck
-                    : goNext
+                stepNav
+                  ? stepNav.advance
+                  : endsHere
+                    ? goBack
+                    : failedSummary
+                      ? testingOut
+                        ? startLessonFromTestOut
+                        : retakeCheck
+                      : goNext
               }
               disabled={!canGoNext}
               data-testid="lesson-nav-next"
               aria-label={
-                endsHere
-                  ? 'Finish'
-                  : failedSummary
-                    ? testingOut
-                      ? 'Take the lesson'
-                      : 'Retake the check'
-                    : isLastSlide
-                      ? 'Finish lesson'
-                      : 'Next slide'
+                stepNav
+                  ? stepNav.label
+                  : endsHere
+                    ? 'Finish'
+                    : failedSummary
+                      ? testingOut
+                        ? 'Take the lesson'
+                        : 'Retake the check'
+                      : isLastSlide
+                        ? 'Finish lesson'
+                        : 'Next slide'
               }
               style={{
-                flex: 1,
+                flex: '0 0 auto',
+                minWidth: 96,
+                whiteSpace: 'nowrap',
                 padding: '13px 16px',
                 borderRadius: 12,
                 border: 'none',

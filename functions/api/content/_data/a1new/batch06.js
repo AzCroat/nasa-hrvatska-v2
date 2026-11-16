@@ -132,7 +132,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'When the Line Is Bad',
-        body: 'Three sentences rescue almost any call. Ne čujem vas dobro. (I cannot hear you well — "vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialled you by mistake, say simply: Pogrešan broj. (Wrong number.)',
+        body: 'Three sentences rescue almost any call. Ne čujem Vas dobro. (I cannot hear you well — "Vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialled you by mistake, say simply: Pogrešan broj. (Wrong number.)',
         highlight: 'Možete li ponoviti, molim?',
       },
       {
@@ -207,9 +207,9 @@ export const LESSONS = [
             note: 'poruka → poruku',
           },
           {
-            hr: 'Naravno. Koji je vaš broj?',
+            hr: 'Naravno. Koji je Vaš broj?',
             en: 'Of course. What is your number?',
-            note: 'vaš — the polite your',
+            note: 'Vaš — the polite your',
           },
           {
             hr: 'Moj broj je nula jedan, četiri pet šest, sedam osam devet.',
@@ -217,9 +217,9 @@ export const LESSONS = [
             note: 'said in small groups, as written',
           },
           {
-            hr: 'Oprostite, ne čujem vas dobro. Možete li ponoviti?',
+            hr: 'Oprostite, ne čujem Vas dobro. Možete li ponoviti?',
             en: 'Sorry, I cannot hear you well. Can you repeat it?',
-            note: 'vas — polite you as an object',
+            note: 'Vas — polite you as an object',
           },
           {
             hr: 'Hvala na pozivu. Doviđenja!',
@@ -306,12 +306,12 @@ export const LESSONS = [
             options: [
               'Pogrešan broj.',
               'Hvala na pozivu.',
-              'Ne čujem vas dobro.',
+              'Ne čujem Vas dobro.',
               'Trenutak, molim.',
             ],
             correct: 2,
             explanation:
-              '"Ne čujem vas dobro" — I cannot hear you well. The others mean "wrong number", "thanks for calling" and "one moment".',
+              '"Ne čujem Vas dobro" — I cannot hear you well. The others mean "wrong number", "thanks for calling" and "one moment".',
           },
         ],
       },
@@ -325,7 +325,7 @@ export const LESSONS = [
           'Where they are is the locative: na poslu, u uredu, na sastanku',
           'Leave a message as one block: Mogu li ostaviti poruku?',
           'Thank someone for something with hvala na + locative: Hvala na pozivu.',
-          'Rescue a bad line: Ne čujem vas dobro. Možete li ponoviti?',
+          'Rescue a bad line: Ne čujem Vas dobro. Možete li ponoviti?',
         ],
       },
     ],
@@ -1570,10 +1570,10 @@ export const PRACTICE = {
         },
         {
           q: 'Ne čujem ___ dobro. (the polite you)',
-          options: ['vi', 'vas', 'vama', 'vaš'],
+          options: ['Vi', 'Vas', 'Vama', 'Vaš'],
           correct: 1,
           hint: 'You are the object of "čujem", in the polite form.',
-          explanation: 'Ne čujem vas dobro.',
+          explanation: 'Ne čujem Vas dobro.',
         },
         {
           q: 'Gospodin Horvat je u ___. (the office — ured)',
@@ -1664,16 +1664,16 @@ export const PRACTICE = {
       },
       {
         q: 'Complete: "Ne čujem ___ dobro. Možete li ponoviti?"',
-        options: ['vi', 'vas', 'vaš', 'vama'],
+        options: ['Vi', 'Vas', 'Vaš', 'Vama'],
         correct: 1,
-        explanation: 'The polite you as an object is vas: Ne čujem vas dobro.',
+        explanation: 'The polite you as an object is Vas: Ne čujem Vas dobro.',
       },
     ],
     vocab: [
       ['telefon', 'telephone', 'Tko je na telefonu?'],
       ['mobitel', 'mobile phone', 'Moj mobitel je u torbi.'],
       ['poruka', 'message', 'Mogu li ostaviti poruku?'],
-      ['broj', 'number', 'Koji je vaš broj?'],
+      ['broj', 'number', 'Koji je Vaš broj?'],
       ['ured', 'office', 'Ona je u uredu.'],
       ['sastanak', 'meeting', 'Gospodin Horvat je na sastanku.'],
       ['tražiti', 'to look for', 'Tražim Ivanu.'],

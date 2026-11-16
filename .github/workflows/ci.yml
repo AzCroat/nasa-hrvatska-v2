@@ -427,17 +427,20 @@ jobs:
   # e2e/course-full-walk.spec.js is five tests totalling ~26 minutes (A1+A2 8.8 min, each
   # later level ~4.3), and Playwright's --shard keeps a file's tests together in order, so
   # all five landed in one Chrome shard: 36 minutes against ~6 for the other three. Here
-  # --shard=N/5 over that one file puts exactly one test on each runner, and the Chrome
+  # --shard=N/6 over that one file puts exactly one test on each runner, and the Chrome
   # shards skip it with --grep-invert on its describe title. Every test still runs once.
+  # SIX TESTS SINCE 2026-11-15: A1 and A2 used to share one; once every A1 lesson carried
+  # a text step and mixed exercises the pair ran to the 40-minute limit, so each level is
+  # now walked in its own test. The matrix must list as many shards as the file has tests.
   e2e-course-walk:
-    name: E2E Tests — whole-course walk (${{ matrix.shard }}/5)
+    name: E2E Tests — whole-course walk (${{ matrix.shard }}/6)
     runs-on: ubuntu-latest
     needs: quality
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5]
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v7
 
@@ -523,8 +526,8 @@ jobs:
           VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID || '1:000000000000:web:placeholder' }}
           VITE_SENTRY_DSN: ""
 
-      - name: Run E2E tests — whole-course walk (${{ matrix.shard }}/5)
-        run: npx playwright test --project="Desktop Chrome" e2e/course-full-walk.spec.js --shard=${{ matrix.shard }}/5
+      - name: Run E2E tests — whole-course walk (${{ matrix.shard }}/6)
+        run: npx playwright test --project="Desktop Chrome" e2e/course-full-walk.spec.js --shard=${{ matrix.shard }}/6
         env:
           CI: true
 

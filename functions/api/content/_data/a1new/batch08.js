@@ -645,9 +645,9 @@ const L_INSTRUMENTAL_PRONOUNS = {
           note: 'oni → s njima',
         },
         {
-          hr: 'Možemo li razgovarati s vama?',
+          hr: 'Možemo li razgovarati s Vama?',
           en: 'Can we talk to you?',
-          note: 'polite vi → s vama',
+          note: 'polite Vi → s Vama',
         },
         {
           hr: 'Pas uvijek ide za njim.',
@@ -824,10 +824,10 @@ const P_INSTRUMENTAL_PRONOUNS = {
       },
       {
         q: 'Možemo li razgovarati ___? (with you — politely)',
-        options: ['s vama', 's vi', 's vas', 's vam'],
+        options: ['s Vama', 's Vi', 's Vas', 's Vam'],
         correct: 0,
-        hint: 'Polite you is vi; its instrumental ends like the one for mi.',
-        explanation: 's vama.',
+        hint: 'Polite you is Vi; its instrumental ends like the one for mi.',
+        explanation: 's Vama.',
       },
       {
         q: '___ ideš u kino? (With whom)',
@@ -958,7 +958,7 @@ const P_INSTRUMENTAL_PRONOUNS = {
     ['s njim', 'with him', 'Moj brat radi s njim.'],
     ['s njom', 'with her', 'Razgovaram s njom svaki dan.'],
     ['s nama', 'with us', 'Ana živi s nama.'],
-    ['s vama', 'with you (plural, polite)', 'Možemo li razgovarati s vama?'],
+    ['s vama', 'with you (plural, polite)', 'Možemo li razgovarati s Vama?'],
     ['s njima', 'with them', 'Idem na more s njima.'],
     ['s kim?', 'with whom?', 'S kim ideš na more?'],
     ['razgovarati s', 'to talk to, with', 'Razgovaram s mamom.'],
@@ -1031,7 +1031,7 @@ const L_GENITIVE_PARTITIVE = {
       title: 'In the Café and the Kitchen',
       items: [
         {
-          hr: 'Molim vas, čašu vode i šalicu čaja.',
+          hr: 'Molim Vas, čašu vode i šalicu čaja.',
           en: 'A glass of water and a cup of tea, please.',
           note: 'čaša → čašu (the object), vode stays genitive',
         },
@@ -1121,7 +1121,7 @@ const L_GENITIVE_PARTITIVE = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'Complete: "Molim vas, šalicu ___." (tea — "čaj")',
+          q: 'Complete: "Molim Vas, šalicu ___." (tea — "čaj")',
           options: ['čaj', 'čaja', 'čaju', 'čajem'],
           correct: 1,
           explanation: 'What fills the cup takes the genitive, masculine -a: šalicu čaja.',
@@ -1290,7 +1290,7 @@ const P_GENITIVE_PARTITIVE = {
       },
       {
         type: 'type',
-        q: 'Molim vas, šalicu ____. (kava)',
+        q: 'Molim Vas, šalicu ____. (kava)',
         answer: 'kave',
         hint: 'An amount of a substance: feminine -a changes to -e.',
         explanation: 'šalicu kave.',

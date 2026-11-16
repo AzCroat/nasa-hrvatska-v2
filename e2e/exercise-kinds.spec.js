@@ -20,9 +20,10 @@ test.describe('Exercise player', () => {
     const { LESSONS_FIXTURE } = await import('./fixtures/content-fixture.js');
     const patched = LESSONS_FIXTURE.map((l) => {
       if (l.id !== 'alphabet') return l;
-      const slides = l.slides.map((s) =>
-        s.type === 'practice' ? { ...s, items: PRACTICE_FIXTURE } : s,
-      );
+      // The lesson may already carry its own text step: the fixture replaces it.
+      const slides = l.slides
+        .filter((s) => s.type !== 'text')
+        .map((s) => (s.type === 'practice' ? { ...s, items: PRACTICE_FIXTURE } : s));
       const introAt = slides.findIndex((s) => s.type === 'intro');
       slides.splice(introAt + 1, 0, { type: 'text', ...TEXT_FIXTURE });
       return { ...l, slides };
@@ -126,11 +127,18 @@ test.describe('Exercise player', () => {
 
     // Intro -> the text step, right after it.
     await next.click();
-    await expect(page.getByTestId('lesson-text')).toBeVisible();
+    // LISTEN first: the text is hidden until asked for.
+    await expect(page.getByTestId('lesson-text')).toHaveAttribute('data-stage', 'listen');
+    await expect(page.getByTestId('lesson-text-line-0')).toHaveCount(0);
+    await expect(next).toHaveAttribute('aria-label', 'Read the dialogue');
+    await next.click();
     await expect(page.getByTestId('lesson-text-line-0')).toContainText('Bog! Ja sam Ana.');
     await expect(page.getByTestId('lesson-text-en-0')).toHaveCount(0);
     await page.getByTestId('lesson-text-english').click();
     await expect(page.getByTestId('lesson-text-en-0')).toHaveText('Hi! I am Ana.');
+    // One way forward: the lesson's own Next button.
+    await expect(next).toHaveAttribute('aria-label', 'Go to the questions');
+    await next.click();
     await expect(next).toBeDisabled();
     await finishSlide(page, TEXT_FIXTURE.questions);
     await next.click();

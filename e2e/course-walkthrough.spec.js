@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { seedAuth, blockFirebase, mockTTS, mockContent } from './fixtures/seed-auth.js';
+import { settleExerciseStep } from './fixtures/settle-exercise.js';
 import { LESSONS_FIXTURE } from './fixtures/content-fixture.js';
 import { CURRICULUM } from '../functions/api/content/_data/curriculum.js';
 
@@ -80,6 +81,7 @@ async function readLesson(page, id) {
 
     // A TYPED practice item (2026-09-29): it is not scored, so two misses resolve it
     // and show the answer — the walk needs only to move through it.
+    if (await settleExerciseStep(page)) continue;
     const typedIn = page.getByTestId('practice-typed-input');
     if (await typedIn.isVisible()) {
       await typedIn.fill('x');

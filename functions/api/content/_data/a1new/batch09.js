@@ -683,7 +683,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Asking, and Saying No',
-        body: 'Što te boli? (What hurts?) Gdje vas boli? (Where does it hurt? — polite.) Boli li te još? (Does it still hurt?) For no, ne goes right before the verb, and the short pronoun still sits in second place: Ne boli me. Više me ne boli. (It does not hurt any more.) Ništa me ne boli. (Nothing hurts.)',
+        body: 'Što te boli? (What hurts?) Gdje Vas boli? (Where does it hurt? — polite.) Boli li te još? (Does it still hurt?) For no, ne goes right before the verb, and the short pronoun still sits in second place: Ne boli me. Više me ne boli. (It does not hurt any more.) Ništa me ne boli. (Nothing hurts.)',
         highlight: 'Ništa me ne boli.',
       },
       {
@@ -720,7 +720,7 @@ export const LESSONS = [
             note: 'Ivan → Ivana; leđa is plural',
           },
           {
-            hr: 'Boli li vas još noga? — Ne, više me ne boli.',
+            hr: 'Boli li Vas još noga? — Ne, više me ne boli.',
             en: 'Does your leg still hurt? — No, it does not hurt any more.',
           },
         ],
@@ -1954,11 +1954,11 @@ export const PRACTICE = {
           explanation: 'Marka boli koljeno.',
         },
         {
-          q: 'Gdje vas ___? (Where does it hurt? — polite)',
+          q: 'Gdje Vas ___? (Where does it hurt? — polite)',
           options: ['bolite', 'boli', 'bole', 'bolim'],
           correct: 1,
           hint: 'No body part is named, so the verb is third person singular.',
-          explanation: 'Gdje vas boli?',
+          explanation: 'Gdje Vas boli?',
         },
         {
           q: 'Which sentence means "My back hurts"?',

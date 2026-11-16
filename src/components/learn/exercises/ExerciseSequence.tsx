@@ -1,7 +1,7 @@
 // One exercise at a time, in order, with a Next button once the current one is
 // settled. Reports completion when EVERY item is settled (right, shown or skipped),
 // which is what lets AnimatedLesson release its Next button. Never scored.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ExerciseItem, { KIND_LABEL, kindOf } from './ExerciseItem';
 import type { Exercise } from './types';
 
@@ -13,6 +13,7 @@ export default function ExerciseSequence({
   onComplete,
   nextTestId = 'ex-next-item',
   nextLabel = 'Next question →',
+  onIndex,
 }: {
   items: Exercise[];
   label: string;
@@ -22,9 +23,15 @@ export default function ExerciseSequence({
   onComplete: () => void;
   nextTestId?: string;
   nextLabel?: string;
+  /** Told which item is on screen, so a host can show help that fits it. */
+  onIndex?: (index: number) => void;
 }) {
   const [idx, setIdx] = useState(done ? Math.max(0, items.length - 1) : 0);
   const [resolved, setResolved] = useState<boolean[]>(() => items.map(() => done));
+  useEffect(() => {
+    onIndex?.(idx);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idx]);
   const item = items[idx];
   if (!item) return null;
 
