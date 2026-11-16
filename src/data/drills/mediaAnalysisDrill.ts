@@ -236,7 +236,7 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'izbor',
     q: 'Što znači "priopćenje"?',
     en: 'What is a priopćenje?',
-    opts: ['a press release', 'a statement in court', 'a rumour', 'an editorial'],
+    opts: ['a press release', 'a statement in court', 'a rumor', 'an editorial'],
     answer: 'a press release',
     tip: 'And a text built from one usually reads like one.',
   },

@@ -43,7 +43,7 @@ describe('the plan line on each day shape', () => {
     expect(s.planReason).toBe(`Today: Lesson ${lessonId} — learn it, drill it, then use it.`);
     // The coupled drill names what it drills.
     const drill = acts.find((a) => a.id.startsWith('curriculum_practice_'));
-    if (drill) expect(drill.reason).toMatch(/^Practising .+ — what today’s lesson taught\.$/);
+    if (drill) expect(drill.reason).toMatch(/^Practicing .+ — what today’s lesson taught\.$/);
   });
 
   it('a corrective day: "…, again — a shorter re-teach, then the check."', () => {
@@ -89,7 +89,7 @@ describe('the plan line on each day shape', () => {
 
   it('the drill reasons name the category in the app’s own words', () => {
     expect(practiceReason('genitive')).toMatch(
-      /^Practising .*genitive.* — what today’s lesson taught\.$/i,
+      /^Practicing .*genitive.* — what today’s lesson taught\.$/i,
     );
     expect(correctiveDrillReason('genitive')).toMatch(/^An easier drill on .*genitive.* first\.$/i);
     expect(correctiveDrillReason()).toBe('An easier drill on the same point first.');

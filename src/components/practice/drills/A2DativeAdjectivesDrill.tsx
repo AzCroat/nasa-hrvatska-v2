@@ -21,7 +21,7 @@ export default function A2DativeAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2dativeadjectives"
       title="To My Old Friend: Adjectives in the Dative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DATIVE_ADJECTIVES_MODE_LABELS}
       data={DATIVE_ADJECTIVES_DRILL_DATA}
       praise={{

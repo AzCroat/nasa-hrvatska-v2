@@ -7,7 +7,7 @@
  *
  *   "on a quota-full profile the FIRST failing write threw straight out of
  *    applyRemoteProgress and silently abandoned everything after it: SRS merge,
- *    favourites, journal, hearts, checkpoints, custom words, saved phrases,
+ *    favorites, journal, hearts, checkpoints, custom words, saved phrases,
  *    session history, weekly XP, settings and CEFR certifications. ... Restoring
  *    as much as possible is always better than aborting mid-way, so each write
  *    now fails independently."
@@ -172,7 +172,7 @@ describe('applyRemoteProgress survives an unwritable / unreadable profile', () =
     // the stored value up directly in PERSONA_CONFIG, and PersonaScreen looks it
     // up in PERSONAS, so '"teacher"' matched neither: a learner who picked Ivo
     // got Maja on any device that restored from sync. Asserting the raw form is
-    // what makes this test describe correct behaviour.
+    // what makes this test describe correct behavior.
     expect(written.get('maja_persona'), 'Maja persona never restored').toBe('teacher');
     expect(written.get('nh_letter_to_self'), 'letter to self never restored').toBe('Dragi ja,');
     // And the rejected key is simply absent rather than fatal.

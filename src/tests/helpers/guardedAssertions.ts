@@ -92,7 +92,7 @@ function containsAssertion(n: ts.Node): boolean {
   return found;
 }
 
-/** Analyse one source file. `text` is passed in so callers can analyse probes. */
+/** Analyze one source file. `text` is passed in so callers can analyze probes. */
 export function findGuardedOnlyTests(file: string, text: string): GuardedTest[] {
   const kind = file.endsWith('.tsx')
     ? ts.ScriptKind.TSX

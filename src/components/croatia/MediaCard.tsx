@@ -185,7 +185,7 @@ function VocabPreview({ cat }: { cat: string }) {
 
 // ── Comprehension Card (Learning Mode) ───────────────────────────────────────
 const COMPREHENSION_QS = {
-  tv: 'After watching, try to summarise: what was the main topic?',
+  tv: 'After watching, try to summarize: what was the main topic?',
   music: 'After listening: what emotion does this music convey?',
   film: 'After watching: what happened in the first scene?',
   sport: 'After watching: who won and what was the score?',

@@ -168,7 +168,7 @@ function _renderMaja(ctx) {
       : '';
   const targets = targetVocabList(ctx);
   const targetLine = targets
-    ? `Naturally use these words the learner is practising when it fits: ${targets}.`
+    ? `Naturally use these words the learner is practicing when it fits: ${targets}.`
     : '';
   return [
     'LEARNER NOTES (in addition to conversation memory):',
@@ -197,7 +197,7 @@ function _renderStoryContext(ctx) {
   const breadth = ctx.vocab.learned;
   const avoid = ctx.weakTopics.length > 0 ? ctx.weakTopics[0].topic : '';
   const targets = targetVocabList(ctx);
-  const targetLine = targets ? ` Weave in these words the learner is practising: ${targets}.` : '';
+  const targetLine = targets ? ` Weave in these words the learner is practicing: ${targets}.` : '';
   return `STORY CONTEXT: ${ctx.level.cefr} reader; vocabulary breadth ~${breadth} words. Use accessible vocabulary; ${avoid ? `avoid heavy ${avoid} constructions in the first paragraph.` : 'prefer concrete nouns.'}${targetLine}`;
 }
 

@@ -1218,8 +1218,8 @@ export const PRACTICE_C2 = {
       {
         q: 'What does "Organizirali smo koncert" allow, given that organizirati is biaspectual?',
         options: [
-          'Only "we organised it (completed)"',
-          'Only "we were organising it"',
+          'Only "we organized it (completed)"',
+          'Only "we were organizing it"',
           'Either reading — context decides',
           'Neither; the verb needs a prefix',
         ],
@@ -1647,7 +1647,7 @@ export const PRACTICE_C2 = {
           'Trebaju mi tvoji savjeti — in the dative construction the thing needed is the subject, and savjeti is plural.',
       },
       {
-        q: 'Which sentence reports a rumour without endorsing it?',
+        q: 'Which sentence reports a rumor without endorsing it?',
         options: [
           'Vjerojatno se oženio.',
           'Sigurno se oženio.',
@@ -2010,7 +2010,7 @@ export const PRACTICE_C2 = {
       {
         title: 'Hearing Understatement',
         problem: 'Susjed o tvojoj novoj kući kaže: Nije loše, nije loše. Kako odgovoriti?',
-        en: 'Your neighbour says of your new house: "Not bad, not bad." How do you reply?',
+        en: 'Your neighbor says of your new house: "Not bad, not bad." How do you reply?',
         steps: [
           {
             label: 'The Croatian default',
@@ -2018,7 +2018,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Do not hear it as lukewarm',
-            text: 'Answering as if criticised — asking what is wrong with it — misreads him.',
+            text: 'Answering as if criticized — asking what is wrong with it — misreads him.',
           },
           {
             label: 'Reply in kind',
@@ -2171,7 +2171,7 @@ export const PRACTICE_C2 = {
           'Grand administrative vocabulary applied to a broken traffic light is the journalist’s ironic device.',
       },
       {
-        q: 'A friend says "Nije loše" about your new flat. Which reaction misreads them?',
+        q: 'A friend says "Nije loše" about your new apartment. Which reaction misreads them?',
         options: [
           'Hvala, drago mi je da ti se sviđa.',
           'Znači, sviđa ti se.',
@@ -2663,7 +2663,7 @@ export const PRACTICE_C2 = {
       ['izvor', 'source', 'Izvor blizak istrazi potvrdio je uhićenje.'],
       ['izjava', 'statement', 'Ministar je u izjavi naglasio da je reforma nužna.'],
       ['tvrditi', 'to claim, assert', 'Oporba tvrdi da izmjene nisu usklađene s propisima.'],
-      ['isticati', 'to stress, emphasise', 'Sindikati ističu da su plaće premale.'],
+      ['isticati', 'to stress, emphasize', 'Sindikati ističu da su plaće premale.'],
       [
         'doznaje se',
         'it is learned (source unnamed)',
@@ -2711,7 +2711,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Hedge',
-            text: 'upućuju na to da (point towards) is the conventional softening.',
+            text: 'upućuju na to da (point toward) is the conventional softening.',
           },
         ],
         answer: 'Prema Horvatu, rezultati upućuju na to da je veza uzročna.',
@@ -2785,10 +2785,10 @@ export const PRACTICE_C2 = {
         },
         {
           type: 'type',
-          q: 'Dopuni ogradu: Rezultati ____ na povezanost, ali uzorak je malen. (point towards)',
+          q: 'Dopuni ogradu: Rezultati ____ na povezanost, ali uzorak je malen. (point toward)',
           answer: 'upućuju',
           hint: 'A hedged verb, weaker than pokazuju.',
-          explanation: 'Rezultati upućuju na… — the results point towards a connection.',
+          explanation: 'Rezultati upućuju na… — the results point toward a connection.',
         },
         {
           q: 'Koji odjeljak stoji na početku rada i sažima cijeli rad?',
@@ -3023,7 +3023,7 @@ export const PRACTICE_C2 = {
             'Brojati zareze',
           ],
           correct: 2,
-          hint: 'The syntax is a structure with a centre.',
+          hint: 'The syntax is a structure with a center.',
           explanation: 'Find the main clause first, then reread.',
         },
         {
@@ -3172,7 +3172,7 @@ export const PRACTICE_C2 = {
           options: ['oću', 'hoćem', 'ću', 'hoćeš'],
           correct: 0,
           hint: 'Speech drops the initial h and keeps the rest of the word.',
-          explanation: 'oću — recognise it in listening, do not write it outside dialogue.',
+          explanation: 'oću — recognize it in listening, do not write it outside dialogue.',
         },
         {
           q: 'Dopuni opušteno: ___, ne brini, riješit ćemo to.',
@@ -3328,7 +3328,7 @@ export const PRACTICE_C2 = {
         options: ['nemo', 'nemoja', 'nemojte', 'ne moj'],
         correct: 0,
         explanation:
-          'nemo is the settled spoken form — recognise it, but do not write it outside dialogue.',
+          'nemo is the settled spoken form — recognize it, but do not write it outside dialogue.',
       },
     ],
     vocab: [
@@ -3581,7 +3581,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Order it',
-            text: 'Agreement first, then the divergence, in one sentence — organised by idea, not by source.',
+            text: 'Agreement first, then the divergence, in one sentence — organized by idea, not by source.',
           },
         ],
         answer: 'Oba se izvještaja slažu da turizam raste, ali se razilaze oko uzroka.',
@@ -3626,7 +3626,7 @@ export const PRACTICE_C2 = {
             'Evo što kaže prvi izvor, a evo i što kaže drugi.',
           ],
           correct: 2,
-          hint: 'A synthesis is organised by idea: one point, and what every source says about it.',
+          hint: 'A synthesis is organized by idea: one point, and what every source says about it.',
           explanation:
             'Svi se izvori slažu…; razilaze se… — common ground, then divergence. The others walk through the sources one by one.',
         },
@@ -3673,7 +3673,7 @@ export const PRACTICE_C2 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Dok prvi izvještaj ____ sezonske čimbenike, drugi upozorava na strukturne. (emphasises — naglašavati)',
+          q: 'Dopuni: Dok prvi izvještaj ____ sezonske čimbenike, drugi upozorava na strukturne. (emphasizes — naglašavati)',
           answer: 'naglašava',
           hint: 'Present tense, third person singular.',
           explanation: 'Dok X naglašava…, Y upozorava… — the balanced contrast.',
@@ -3689,9 +3689,9 @@ export const PRACTICE_C2 = {
           q: 'Kako se zove pogreška: jedan odlomak po izvoru, povezan s "a drugi autor kaže"?',
           options: ['popis sažetaka umjesto sinteze', 'dobra sinteza', 'citiranje', 'parafraza'],
           correct: 0,
-          hint: 'What is the structure organised by?',
+          hint: 'What is the structure organized by?',
           explanation:
-            'Organised by source, it is a list of summaries; a synthesis is organised by idea.',
+            'Organized by source, it is a list of summaries; a synthesis is organized by idea.',
         },
         {
           q: 'Izvor piše: "Ovo bi moglo dovesti do ozbiljne krize." Koji glagol točno prenosi taj ton?',
@@ -4134,7 +4134,7 @@ export const PRACTICE_C2 = {
           options: ['gledao', 'vidio', 'znao', 'poznavao'],
           correct: 0,
           hint: 'Directing attention for a while, as against perceiving.',
-          explanation: 'gledao — he looked for a long time and still did not recognise him.',
+          explanation: 'gledao — he looked for a long time and still did not recognize him.',
         },
         {
           q: 'Što znači "Umijem plivati"?',
@@ -4179,10 +4179,10 @@ export const PRACTICE_C2 = {
           'gledati is to watch, with attention over time; vidjeti is simply to perceive.',
       },
       {
-        q: 'Complete: "Moj brat ___ pravo u Zagrebu." (is at university reading law)',
+        q: 'Complete: "Moj brat ___ pravo u Zagrebu." (is in college reading law)',
         options: ['nauči', 'studira', 'poučava', 'proučio'],
         correct: 1,
-        explanation: 'studirati is to be at university; naučiti is to learn something through.',
+        explanation: 'studirati is to be in college; naučiti is to learn something through.',
       },
       {
         q: 'Which word is warmer and more abstract than "kuća"?',
@@ -4336,7 +4336,7 @@ export const PRACTICE_C2 = {
           options: ['To je dobro pitanje.', 'Ne znam.', 'Sljedeće pitanje.', 'Um… um…'],
           correct: 0,
           hint: 'A universal phrase that buys time politely.',
-          explanation: 'To je dobro pitanje — recognised by everyone as buying time.',
+          explanation: 'To je dobro pitanje — recognized by everyone as buying time.',
         },
         {
           q: 'Rečenica ti zapinje usred zavisne rečenice. Što radiš?',
@@ -4945,7 +4945,7 @@ export const PRACTICE_C2 = {
         en: 'Grandmother looks at your small savings and says only: "From small streams…" What has she said?',
         steps: [
           {
-            label: 'Recognise the opening',
+            label: 'Recognize the opening',
             text: 'Iz malih potoka nastaju velike rijeke — great rivers come from small streams.',
           },
           {
@@ -4967,7 +4967,7 @@ export const PRACTICE_C2 = {
         steps: [
           {
             label: 'Name the idea',
-            text: 'Endless futile labour.',
+            text: 'Endless futile labor.',
           },
           {
             label: 'Find the allusion',
@@ -5049,7 +5049,7 @@ export const PRACTICE_C2 = {
           q: 'Dopuni: Ispravljanje beskrajnih pogrešaka bio je ____ posao. (Sisyphean)',
           answer: 'sizifov',
           hint: 'A possessive adjective from the name of the man who rolled the boulder.',
-          explanation: 'sizifov posao — endless futile labour.',
+          explanation: 'sizifov posao — endless futile labor.',
         },
         {
           type: 'type',
@@ -5062,7 +5062,7 @@ export const PRACTICE_C2 = {
           q: 'Koliko poslovica u jednom razgovoru zvuči prirodno?',
           options: ['jedna', 'tri', 'pet', 'u svakoj rečenici po jedna'],
           correct: 0,
-          hint: 'Recognise all of them; produce sparingly.',
+          hint: 'Recognize all of them; produce sparingly.',
           explanation: 'One well-placed proverb is native; three is a phrasebook.',
         },
         {

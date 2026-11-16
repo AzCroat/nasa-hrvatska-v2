@@ -63,7 +63,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
     q: 'Kako se kaže "fridge"?',
     opts: ['hladnjak', 'štednjak', 'ormar', 'kauč'],
     answer: 'hladnjak',
-    tip: 'Mlijeko je u hladnjaku. (štednjak is the cooker.)',
+    tip: 'Mlijeko je u hladnjaku. (štednjak is the stove.)',
   },
   {
     mode: 'sobe',
@@ -84,7 +84,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gdje',
     q: 'Mama je u ____.',
-    en: 'Mum is in the kitchen.',
+    en: 'Mom is in the kitchen.',
     opts: ['kuhinji', 'kuhinju', 'kuhinja', 'kuhinje'],
     answer: 'kuhinji',
     tip: 'Being there: locative, feminine -a → -i.',
@@ -100,7 +100,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gdje',
     q: 'Odjeća je u ____.',
-    en: 'The clothes are in the wardrobe.',
+    en: 'The clothes are in the closet.',
     opts: ['ormaru', 'ormar', 'ormara', 'ormarom'],
     answer: 'ormaru',
     tip: 'Masculine: -u.',
@@ -174,7 +174,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'opis',
     q: 'Stan je ____.',
-    en: 'The flat is big.',
+    en: 'The apartment is big.',
     opts: ['velik', 'velika', 'veliko', 'velike'],
     answer: 'velik',
     tip: 'stan is masculine.',
@@ -206,7 +206,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'opis',
     q: 'Stan ____ balkon.',
-    en: 'The flat has a balcony.',
+    en: 'The apartment has a balcony.',
     opts: ['ima', 'je', 'imam', 'imaju'],
     answer: 'ima',
     tip: 'imati: stan ima.',
@@ -214,7 +214,7 @@ export const FLAT_ROOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'opis',
     q: 'Imam ____ stan.',
-    en: 'I have a nice flat.',
+    en: 'I have a nice apartment.',
     opts: ['lijep', 'lijepa', 'lijepo', 'lijepu'],
     answer: 'lijep',
     tip: 'stan is masculine and a thing, so the accusative looks the same.',

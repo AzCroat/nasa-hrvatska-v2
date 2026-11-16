@@ -21,7 +21,7 @@ export default function B2QuantityAgreementDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2quantityagreement"
       title="Dva su došla, pet je došlo"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={QUANTITY_AGREEMENT_MODE_LABELS}
       data={QUANTITY_AGREEMENT_DRILL_DATA}
       praise={{

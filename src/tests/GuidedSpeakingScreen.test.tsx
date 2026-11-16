@@ -353,7 +353,7 @@ describe('the microphone path, when the browser has one', () => {
       _delivered = false;
       start() {
         // A REAL session starts with an empty `results` list, so a restarted
-        // recogniser never replays what the previous one heard. Modelling that
+        // recogniser never replays what the previous one heard. Modeling that
         // matters now that a service-ended SPEAK session re-opens the mic: a
         // fake that replays would double the transcript and report a bug the
         // browser cannot produce.

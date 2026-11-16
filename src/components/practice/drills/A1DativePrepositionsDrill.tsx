@@ -21,7 +21,7 @@ export default function A1DativePrepositionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1dativeprepositions"
       title="Dative After Prepositions"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DATIVE_PREPOSITIONS_MODE_LABELS}
       data={DATIVE_PREPOSITIONS_DRILL_DATA}
       praise={{

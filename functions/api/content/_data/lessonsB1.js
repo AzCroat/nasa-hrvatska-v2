@@ -167,7 +167,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Od ponedjeljka do petka radim, a vikendom se odmaram.',
-            en: 'From Monday to Friday I work, and at the weekend I rest.',
+            en: 'From Monday to Friday I work, and on the weekend I rest.',
             note: 'od and do both take the genitive',
           },
         ],
@@ -317,7 +317,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'The Most Productive Mechanism in the Language',
-        body: 'Until now, napisati, prepisati, potpisati, opisati and upisati have looked like five separate words to memorise. They are one verb — pisati — with five prefixes. Once you can read a prefix, your vocabulary stops growing one word at a time and starts growing one ROOT at a time.',
+        body: 'Until now, napisati, prepisati, potpisati, opisati and upisati have looked like five separate words to memorize. They are one verb — pisati — with five prefixes. Once you can read a prefix, your vocabulary stops growing one word at a time and starts growing one ROOT at a time.',
         icon: '🧩',
       },
       {
@@ -335,7 +335,7 @@ export const LESSONS_B1 = [
           ['potpisati', 'to sign', 'pod- under (spelled pot- before p)'],
           ['prepisati', 'to copy out', 'pre- across, over'],
           ['opisati', 'to describe', 'o- around'],
-          ['upisati', 'to enrol, write in', 'u- into'],
+          ['upisati', 'to enroll, write in', 'u- into'],
           ['zapisati', 'to note down', 'za- behind, fix'],
           ['ispisati', 'to write out', 'iz- out of'],
         ],
@@ -443,10 +443,10 @@ export const LESSONS_B1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'What does "potpisati" most likely mean? (pisati = to write, pot- = under)',
-        options: ['to describe', 'to sign', 'to copy', 'to enrol'],
+        options: ['to describe', 'to sign', 'to copy', 'to enroll'],
         correct: 1,
         explanation:
-          'To write UNDER something is to sign it. "Opisati" is describe (o- around), "prepisati" is copy (pre- across) and "upisati" is enrol (u- into).',
+          'To write UNDER something is to sign it. "Opisati" is describe (o- around), "prepisati" is copy (pre- across) and "upisati" is enroll (u- into).',
       },
       {
         type: 'quiz',
@@ -472,7 +472,7 @@ export const LESSONS_B1 = [
             options: ['opisati', 'prepisati', 'upisati', 'potpisati'],
             correct: 3,
             explanation:
-              'To write UNDER something is to sign it: potpisati. Opisati is describe (o- around), prepisati is copy (pre- across) and upisati is enrol (u- into).',
+              'To write UNDER something is to sign it: potpisati. Opisati is describe (o- around), prepisati is copy (pre- across) and upisati is enroll (u- into).',
           },
           {
             q: 'What does "Prepisao je zadaću od prijatelja." mean?',
@@ -724,7 +724,7 @@ export const LESSONS_B1 = [
               '"Leći" is a change of position, so the destination is accusative — and krevet, masculine and not alive, keeps its bare form. "Na krevetu" is the locative, right for ležati.',
           },
           {
-            q: 'Complete: "Kaput visi u ___." (The coat is hanging in the wardrobe — ormar)',
+            q: 'Complete: "Kaput visi u ___." (The coat is hanging in the closet — ormar)',
             options: ['ormar', 'ormara', 'ormaru', 'ormarom'],
             correct: 2,
             explanation:
@@ -1370,7 +1370,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Dok je mama kuhala, tata je postavljao stol.',
-            en: 'While Mum was cooking, Dad was laying the table.',
+            en: 'While Mom was cooking, Dad was laying the table.',
             note: 'dok + two imperfectives — two things going on at once',
           },
           {
@@ -1865,7 +1865,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Štedim novac kako bih kupio stan.',
-            en: 'I am saving money in order to buy a flat.',
+            en: 'I am saving money in order to buy an apartment.',
             note: 'kako bih + participle — purpose',
           },
           {
@@ -2101,7 +2101,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Susjeda je pitala jesmo li vidjeli njezinu mačku.',
-            en: 'The neighbour asked whether we had seen her cat.',
+            en: 'The neighbor asked whether we had seen her cat.',
             note: 'a yes/no question keeps its li: jesmo li',
           },
           {
@@ -2126,7 +2126,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Mama mi je rekla da ne zaboravim ključeve.',
-            en: 'Mum told me not to forget the keys.',
+            en: 'Mom told me not to forget the keys.',
             note: 'a negative request: da ne + present',
           },
         ],
@@ -3251,7 +3251,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'The Language of the Counter',
-        body: 'Anyone spending real time in Croatia will meet a counter, a form and a queue. The vocabulary is narrow and highly repetitive, which makes it unusually quick to learn — and the impersonal constructions you met earlier are exactly what official language runs on.',
+        body: 'Anyone spending real time in Croatia will meet a counter, a form and a line. The vocabulary is narrow and highly repetitive, which makes it unusually quick to learn — and the impersonal constructions you met earlier are exactly what official language runs on.',
         icon: '🏛️',
       },
       {
@@ -3357,8 +3357,8 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Čekao sam u redu više od sat vremena.',
-            en: 'I waited in the queue for more than an hour.',
-            note: 'u redu = in the queue; više od + genitive',
+            en: 'I waited in line for more than an hour.',
+            note: 'u redu = in line; više od + genitive',
           },
           {
             hr: 'Potrebno je platiti pristojbu prije predaje zahtjeva.',
@@ -3481,7 +3481,7 @@ export const LESSONS_B1 = [
             options: ['driving licence', 'birth certificate', 'passport', 'residence permit'],
             correct: 3,
             explanation:
-              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving licence is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
+              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving license is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
           },
         ],
       },
@@ -3527,7 +3527,7 @@ export const LESSONS_B1 = [
           ['garsonijera', 'studio flat'],
           ['dvosoban stan', 'two-room flat'],
           ['namješten / nenamješten', 'furnished / unfurnished'],
-          ['kvadrata (m²)', 'square metres'],
+          ['kvadrata (m²)', 'square meters'],
           ['najamnina', 'rent'],
           ['režije', 'utilities'],
           ['polog / jamčevina', 'deposit'],
@@ -3536,7 +3536,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'How Croatian Counts Rooms',
-        body: 'A "dvosoban stan" is a two-ROOM flat, and the count excludes the kitchen and bathroom — so it is roughly a one-bedroom flat with a living room. "Jednosoban" is one room; "trosoban" is three. A "garsonijera" is a single space with a kitchen corner. Reading these as bedrooms will consistently overestimate the size by one.',
+        body: 'A "dvosoban stan" is a two-ROOM apartment, and the count excludes the kitchen and bathroom — so it is roughly a one-bedroom apartment with a living room. "Jednosoban" is one room; "trosoban" is three. A "garsonijera" is a single space with a kitchen corner. Reading these as bedrooms will consistently overestimate the size by one.',
         highlight: 'dvosoban ≈ one bedroom plus a living room',
       },
       {
@@ -3570,17 +3570,17 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Zovem u vezi s oglasom za stan.',
-            en: 'I am calling about the advert for the flat.',
+            en: 'I am calling about the advert for the apartment.',
             note: 'u vezi s + instrumental',
           },
           {
             hr: 'Je li stan još slobodan?',
-            en: 'Is the flat still available?',
+            en: 'Is the apartment still available?',
             note: 'još = still',
           },
           {
             hr: 'Stan je na trećem katu, bez lifta.',
-            en: 'The flat is on the third floor, with no lift.',
+            en: 'The apartment is on the third floor, with no elevator.',
             note: 'bez + genitive',
           },
           {
@@ -3606,12 +3606,12 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Tražim namješten jednosoban stan blizu centra.',
-            en: 'I am looking for a furnished one-room flat near the centre.',
+            en: 'I am looking for a furnished one-room apartment near the center.',
             note: 'namješten agreeing with stan; blizu + genitive',
           },
           {
             hr: 'Stan ima četrdeset pet kvadrata i veliki balkon.',
-            en: 'The flat has forty-five square metres and a big balcony.',
+            en: 'The apartment has forty-five square meters and a big balcony.',
             note: 'kvadrata — genitive plural after a number',
           },
           {
@@ -3636,7 +3636,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Mogu li doći pogledati stan sutra poslijepodne?',
-            en: 'Can I come and view the flat tomorrow afternoon?',
+            en: 'Can I come and view the apartment tomorrow afternoon?',
             note: 'two infinitives after a modal',
           },
           {
@@ -3912,7 +3912,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Bio sam zadužen za organizaciju sastanaka i putovanja.',
-            en: 'I was responsible for organising meetings and travel.',
+            en: 'I was responsible for organizing meetings and travel.',
             note: 'bio sam + participle agreeing with a male writer',
           },
         ],
@@ -4148,7 +4148,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Čula sam na radiju da je na autocesti velika gužva.',
-            en: 'I heard on the radio that there is a big jam on the motorway.',
+            en: 'I heard on the radio that there is a big jam on the highway.',
             note: 'čuti na + locative',
           },
           {
@@ -4251,7 +4251,7 @@ export const LESSONS_B1 = [
             options: ['naslov', 'izvor', 'izvještaj', 'emisija'],
             correct: 1,
             explanation:
-              '"Izvor" is a source (also a spring of water). Naslov is a headline, izvještaj a report, and emisija a programme.',
+              '"Izvor" is a source (also a spring of water). Naslov is a headline, izvještaj a report, and emisija a program.',
           },
           {
             q: 'What do you call a long-running TV drama about the same families, episode after episode?',
@@ -4334,7 +4334,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Prijaviti Se and Odjaviti Se',
-        body: 'Two reflexive verbs you will meet on every screen. "Prijaviti se" is to log in or to register; "odjaviti se" is to log out. Note the prefixes doing exactly what the prefix lesson described: pri- towards, od- away from. Prijavi se na stranicu. Odjavio sam se.',
+        body: 'Two reflexive verbs you will meet on every screen. "Prijaviti se" is to log in or to register; "odjaviti se" is to log out. Note the prefixes doing exactly what the prefix lesson described: pri- toward, od- away from. Prijavi se na stranicu. Odjavio sam se.',
         highlight: 'prijaviti se / odjaviti se',
       },
       {
@@ -4444,7 +4444,7 @@ export const LESSONS_B1 = [
         options: ['odjaviti se', 'prijaviti se', 'preuzeti', 'spremiti'],
         correct: 1,
         explanation:
-          '"Prijaviti se" is to log in or register, with pri- meaning towards; "odjaviti se" with od- is to log out. "Preuzeti" is download and "spremiti" is save.',
+          '"Prijaviti se" is to log in or register, with pri- meaning toward; "odjaviti se" with od- is to log out. "Preuzeti" is download and "spremiti" is save.',
       },
       {
         type: 'rule',
@@ -4475,7 +4475,7 @@ export const LESSONS_B1 = [
             options: ['odjaviti', 'prijaviti', 'preuzeti', 'spremiti'],
             correct: 1,
             explanation:
-              'Logging in is prijaviti se — pri- towards. Odjaviti se is to log out, and the other two are not reflexive at all.',
+              'Logging in is prijaviti se — pri- toward. Odjaviti se is to log out, and the other two are not reflexive at all.',
           },
           {
             q: 'Which is the standard written word for "computer"?',
@@ -4700,7 +4700,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Treating jezera as singular: Plitvička jezera je is wrong — jezera is neuter plural, so the verb is su, Plitvička jezera su. (2) Mixing up the winds: bura is the cold north-easterly and jugo the warm southerly; saying puše jugo when the ferries are cancelled for a cold, dry wind will confuse a local. (3) The locative after a verb of motion: idemo na plaži says you are already there — going to the beach is idemo na plažu.',
+        body: '(1) Treating jezera as singular: Plitvička jezera je is wrong — jezera is neuter plural, so the verb is su, Plitvička jezera su. (2) Mixing up the winds: bura is the cold north-easterly and jugo the warm southerly; saying puše jugo when the ferries are canceled for a cold, dry wind will confuse a local. (3) The locative after a verb of motion: idemo na plaži says you are already there — going to the beach is idemo na plažu.',
         highlight: 'Plitvička jezera su',
       },
       {
@@ -4726,7 +4726,7 @@ export const LESSONS_B1 = [
             options: ['plaža', 'plaži', 'plažu', 'plažom'],
             correct: 2,
             explanation:
-              '"Ići na" is motion towards, so the destination is accusative: na plažu. "Na plaži" is the locative — where you already are.',
+              '"Ići na" is motion toward, so the destination is accusative: na plažu. "Na plaži" is the locative — where you already are.',
           },
           {
             q: 'Spot the error: "Trebamo zaštititi okoliša."',
@@ -4893,7 +4893,7 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Ulijte litru mlijeka i dodajte žlicu šećera.',
-            en: 'Pour in a litre of milk and add a spoonful of sugar.',
+            en: 'Pour in a liter of milk and add a spoonful of sugar.',
             note: 'two quantities, two genitives: mlijeka, šećera',
           },
           {

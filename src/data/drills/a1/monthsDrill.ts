@@ -169,7 +169,7 @@ export const MONTHS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'lokativ',
     q: 'Putujemo u ____.',
-    en: 'We are travelling in March.',
+    en: 'We are traveling in March.',
     opts: ['ožujku', 'ožujak', 'ožujaku', 'ožujka'],
     answer: 'ožujku',
     tip: 'u ožujku.',
@@ -177,7 +177,7 @@ export const MONTHS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'lokativ',
     q: 'Odmor je u ____.',
-    en: 'The holiday is in October.',
+    en: 'The vacation is in October.',
     opts: ['listopadu', 'listopad', 'listopada', 'listopadom'],
     answer: 'listopadu',
     tip: 'u listopadu.',

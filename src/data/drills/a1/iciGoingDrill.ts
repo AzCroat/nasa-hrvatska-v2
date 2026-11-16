@@ -64,7 +64,7 @@ export const ICI_GOING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Oni ____ u kino.',
-    en: 'They are going to the cinema.',
+    en: 'They are going to the movies.',
     opts: ['idu', 'ide', 'idemo', 'idete'],
     answer: 'idu',
     tip: 'oni takes -u, not -e.',
@@ -148,7 +148,7 @@ export const ICI_GOING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Ana and Petar are coming this way.',
     opts: ['ovamo', 'ovdje', 'tamo su', 'gdje'],
     answer: 'ovamo',
-    tip: 'ovamo is a direction towards the speaker; ovdje says where something is.',
+    tip: 'ovamo is a direction toward the speaker; ovdje says where something is.',
   },
   // ── zivot ───────────────────────────────────────────────────────────────
   {

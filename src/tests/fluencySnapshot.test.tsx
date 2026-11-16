@@ -31,7 +31,7 @@ describe('FluencySnapshot', () => {
     expect(screen.getByText('Speaking & Writing')).toBeTruthy();
   });
 
-  it('shows the empty-state nudge when nothing was practised this week', () => {
+  it('shows the empty-state nudge when nothing was practiced this week', () => {
     render(<FluencySnapshot cefr="A2" setScr={() => {}} />);
     expect(screen.getByText(/Start a session to build your fluency profile/)).toBeTruthy();
   });

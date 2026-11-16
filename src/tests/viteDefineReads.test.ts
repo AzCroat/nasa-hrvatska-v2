@@ -144,7 +144,7 @@ describe('a defined constant is never read off an object', () => {
   });
 
   it('a release-less Sentry client is what the SDK actually discards', () => {
-    // The claim above rests on SDK behaviour, so assert the SDK still behaves
+    // The claim above rests on SDK behavior, so assert the SDK still behaves
     // that way rather than trusting a sentence in a comment. If Sentry ever
     // stops requiring a release, this fails and the reasoning gets re-read.
     const client = readFileSync('node_modules/@sentry/core/build/esm/client.js', 'utf8');

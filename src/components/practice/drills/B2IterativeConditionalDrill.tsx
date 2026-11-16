@@ -21,7 +21,7 @@ export default function B2IterativeConditionalDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2iterativeconditional"
       title="When We Were Children, We Would…"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ITERATIVE_CONDITIONAL_MODE_LABELS}
       data={ITERATIVE_CONDITIONAL_DRILL_DATA}
       praise={{

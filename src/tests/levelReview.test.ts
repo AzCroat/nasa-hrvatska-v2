@@ -4,7 +4,7 @@
  * Level Check, so the learner is prepared rather than just tested."
  *
  * What is pinned here and nowhere else:
- *   - the round really MIXES the level (no two neighbours from one unit, three per
+ *   - the round really MIXES the level (no two neighbors from one unit, three per
  *     unit, breadth within a unit) — a blocked round would be six mini unit tests;
  *   - it is served ONCE, at the CROSSING into the next level, and never drags a
  *     learner back out of a level they have started;

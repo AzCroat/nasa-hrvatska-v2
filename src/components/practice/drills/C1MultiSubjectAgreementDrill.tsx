@@ -21,7 +21,7 @@ export default function C1MultiSubjectAgreementDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1multisubjectagreement"
       title="Two Subjects, One Verb"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={MULTI_SUBJECT_AGREEMENT_MODE_LABELS}
       data={MULTI_SUBJECT_AGREEMENT_DRILL_DATA}
       praise={{

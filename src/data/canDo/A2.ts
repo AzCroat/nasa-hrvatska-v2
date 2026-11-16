@@ -69,7 +69,7 @@ export const CAN_DO_A2: Readonly<Record<string, readonly string[]>> = {
   ],
   // travel-transport · public-transport · phone-calls-a2 · plans-invitations · celebrations-holidays
   'A2-10': [
-    'I can buy a ticket, read a timetable and ask where to get off or change.',
+    'I can buy a ticket, read a schedule and ask where to get off or change.',
     'I can make a formal phone call and leave a voicemail message.',
     'I can invite someone out, fix a time and place, and wish people Sretan Božić.',
   ],

@@ -53,7 +53,7 @@ export const EVENTS = [
     month: 5,
     day: 1,
     name: 'Praznik rada',
-    en: 'Labour Day',
+    en: 'Labor Day',
     desc: 'Traditional outdoor grilling with family and friends. Parks fill with people.',
   },
   {

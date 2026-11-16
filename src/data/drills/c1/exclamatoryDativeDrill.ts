@@ -59,7 +59,7 @@ export const EXCLAMATORY_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'usklicni',
     q: 'Čast i slava ____ braniteljima.',
-    en: 'Honour and glory to the fallen defenders.',
+    en: 'Honor and glory to the fallen defenders.',
     opts: ['palim', 'pali', 'pale', 'palog'],
     answer: 'palim',
     tip: 'The adjective agrees with the dative plural braniteljima.',

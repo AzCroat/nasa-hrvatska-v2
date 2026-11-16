@@ -23,7 +23,7 @@
  * lives. It is a review hazard rather than a learner-facing bug, and this file
  * says so plainly rather than dressing it up.
  *
- * THE FIX WAS AN ENCODING CHANGE, NOT A BEHAVIOUR CHANGE. Both sentinels are now
+ * THE FIX WAS AN ENCODING CHANGE, NOT A BEHAVIOR CHANGE. Both sentinels are now
  * written `'\u0000'` — the same value, spelled with an escape instead of the raw
  * byte. `snapshotShapeAgreement`'s derived key/shape sets were dumped before and
  * after and are byte-identical across 223 lines.

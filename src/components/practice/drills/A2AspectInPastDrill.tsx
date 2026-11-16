@@ -21,7 +21,7 @@ export default function A2AspectInPastDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2aspectinpast"
       title="Aspect in the Past"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ASPECT_IN_PAST_MODE_LABELS}
       data={ASPECT_IN_PAST_DRILL_DATA}
       praise={{

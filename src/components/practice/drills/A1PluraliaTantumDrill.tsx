@@ -21,7 +21,7 @@ export default function A1PluraliaTantumDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1pluraliatantum"
       title="Words That Are Only Plural"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PLURALIA_TANTUM_MODE_LABELS}
       data={PLURALIA_TANTUM_DRILL_DATA}
       praise={{

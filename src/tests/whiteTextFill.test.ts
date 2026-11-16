@@ -23,7 +23,7 @@
  *  3. `accentFill` itself does what it says for every hex a data module in `src/`
  *     declares as a `color:` — and leaves translucent values and tokens alone.
  *
- * Blocks whose text colour is itself a ternary are out of scope for the source rule: an
+ * Blocks whose text color is itself a ternary are out of scope for the source rule: an
  * arm there may carry dark text, and darkening its surface would make it worse. The
  * browser census covers them.
  */
@@ -165,7 +165,7 @@ export function whiteTextFindings(file: string, src: string): { subjects: number
     subjects++;
     for (const arm of armsOf(bg.replace(/\s+/g, ' '))) {
       if (DATA_ARM.test(arm) && arm !== 'undefined' && !/_GRAD$/.test(arm)) {
-        bad.push({ file, arm, why: 'a data colour under white text must go through accentFill' });
+        bad.push({ file, arm, why: 'a data color under white text must go through accentFill' });
       }
       const hex = HEX_ARM.exec(arm);
       if (hex && onWhite(hex[1]!) < 4.5) {
@@ -183,7 +183,7 @@ export function whiteTextFindings(file: string, src: string): { subjects: number
 const FILES = walk('src/components');
 
 describe('white text owns its surface', () => {
-  it('no white-text block paints a raw data colour or a pale literal under it', () => {
+  it('no white-text block paints a raw data color or a pale literal under it', () => {
     let subjects = 0;
     const bad: string[] = [];
     for (const f of FILES) {
@@ -210,7 +210,7 @@ describe('white text owns its surface', () => {
 });
 
 describe('accentFill', () => {
-  // Every hex a data module in src/ declares as a colour — the population the render sites draw on.
+  // Every hex a data module in src/ declares as a color — the population the render sites draw on.
   const dataHexes = new Set<string>();
   const dataFiles: string[] = [];
   (function collect(dir: string) {
@@ -235,7 +235,7 @@ describe('accentFill', () => {
     }
   }
 
-  it('puts white at 5.5:1 or better on every data colour, and never lightens one', () => {
+  it('puts white at 5.5:1 or better on every data color, and never lightens one', () => {
     expect(dataHexes.size).toBeGreaterThan(50);
     for (const hex of dataHexes) {
       const out = accentFill(hex);
@@ -244,7 +244,7 @@ describe('accentFill', () => {
     }
   });
 
-  it('returns a colour that already reads unchanged, and leaves tints and tokens alone', () => {
+  it('returns a color that already reads unchanged, and leaves tints and tokens alone', () => {
     expect(accentFill('#164e63')).toBe('#164e63');
     expect(accentFill('#16a34a')).not.toBe('#16a34a');
     expect(accentFill('#16a34a1a')).toBe('#16a34a1a');

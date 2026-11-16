@@ -21,7 +21,7 @@ export default function A2PossessiveAdjectivesCasesDrill({ goBack, award }: Prop
     <ModeDrill
       id="a2possessiveadjectivescases"
       title="In Ana's House, With Marko's Brother"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={POSSESSIVE_ADJECTIVES_CASES_MODE_LABELS}
       data={POSSESSIVE_ADJECTIVES_CASES_DRILL_DATA}
       praise={{

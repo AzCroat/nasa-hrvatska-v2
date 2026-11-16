@@ -21,7 +21,7 @@ export default function A1InstrumentalPlaceDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1instrumentalplace"
       title="Under, Over, In Front, Behind"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INSTRUMENTAL_PLACE_MODE_LABELS}
       data={INSTRUMENTAL_PLACE_DRILL_DATA}
       praise={{

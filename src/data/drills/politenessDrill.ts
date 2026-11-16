@@ -176,7 +176,7 @@ export const POLITENESS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The possessive that goes with polite Vi:',
     opts: ['Vaš', 'tvoj', 'njegov', 'njihov'],
     answer: 'Vaš',
-    tip: 'Vaša adresa, Vaš broj — capitalised in writing like Vi itself.',
+    tip: 'Vaša adresa, Vaš broj — capitalized in writing like Vi itself.',
   },
 
   // ── prijelaz ──────────────────────────────────────────────────────────────
@@ -246,7 +246,7 @@ export const POLITENESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijelaz',
     q: 'Nakon prijelaza na "ti", vraćate li se na "Vi"?',
-    en: 'Do you go back to Vi afterwards?',
+    en: 'Do you go back to Vi afterward?',
     opts: ['ne', 'da, u uredu', 'da, pred drugima', 'ovisi o danu'],
     answer: 'ne',
     tip: 'The switch is one-way. Going back would say something you did not mean.',

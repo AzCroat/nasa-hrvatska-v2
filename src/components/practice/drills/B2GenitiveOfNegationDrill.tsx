@@ -21,7 +21,7 @@ export default function B2GenitiveOfNegationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2genitiveofnegation"
       title="Nema Vode: The Genitive of Negation"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_OF_NEGATION_MODE_LABELS}
       data={GENITIVE_OF_NEGATION_DRILL_DATA}
       praise={{

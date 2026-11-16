@@ -312,7 +312,7 @@ export default function LessonProduceStep({
       <p style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6, margin: '0 0 10px' }}>
         {kind === 'speak'
           ? 'Say two or three sentences in Croatian using what this lesson taught — the speaking coach grades what you said. No microphone? Type them instead; it counts the same.'
-          : 'Write two or three sentences in Croatian using what this lesson taught. Recognising a form and producing one are different skills — this trains the second.'}
+          : 'Write two or three sentences in Croatian using what this lesson taught. Recognizing a form and producing one are different skills — this trains the second.'}
       </p>
       {brief && (
         <p

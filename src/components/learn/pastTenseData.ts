@@ -54,7 +54,7 @@ export const EXAMPLES = [
   },
   { hr: 'Nismo razumjeli što je rekao.', en: "We didn't understand what he said." },
   { hr: 'Jesi li vidio utakmicu sinoć?', en: 'Did you watch the match last night? (m)' },
-  { hr: 'Mama je skuhala ručak.', en: 'Mum cooked lunch.' },
+  { hr: 'Mama je skuhala ručak.', en: 'Mom cooked lunch.' },
   { hr: 'Nisu mogli doći na vjenčanje.', en: 'They could not come to the wedding.' },
   { hr: 'Svaki dan sam učio po sat vremena.', en: 'I studied an hour every day. (habitual, impf)' },
   {
@@ -62,7 +62,7 @@ export const EXAMPLES = [
     en: 'I learned all the words for the exam. (completed, perf)',
   },
   { hr: 'Vratio sam se kući kasno.', en: 'I returned home late. (reflexive: vratio sam se)' },
-  { hr: 'Gdje ste bili na ljetovanju?', en: 'Where did you go on holiday?' },
+  { hr: 'Gdje ste bili na ljetovanju?', en: 'Where did you go on vacation?' },
 ];
 
 // ── Quiz data ─────────────────────────────────────────────────────────────────

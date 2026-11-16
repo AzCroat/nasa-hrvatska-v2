@@ -49,7 +49,7 @@ export default function LevelQuiz({ levelNumber, questions, goBack, award }: Pro
       <div className="scr-wrap">
         {H(`Level ${levelNumber} Quiz`, 'Not enough items to build a quiz', goBack)}
         <div className="c" style={{ marginTop: 16, textAlign: 'center' }}>
-          <p>This level needs more items to generate a quiz. Continue practising.</p>
+          <p>This level needs more items to generate a quiz. Continue practicing.</p>
           <button className="b bp" style={{ marginTop: 12 }} onClick={goBack}>
             Back
           </button>

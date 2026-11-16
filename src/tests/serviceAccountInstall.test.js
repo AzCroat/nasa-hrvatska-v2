@@ -52,7 +52,7 @@ describe('the install is wired into the deploy', () => {
   });
 
   it('runs BEFORE the Pages deploy', () => {
-    // Installed afterwards it would sit unused until the next push — the deploy
+    // Installed afterward it would sit unused until the next push — the deploy
     // that "fixed" the outage would not have.
     const install = ciSrc.indexOf(`pages secret put ${SECRET}`);
     const deploy = ciSrc.indexOf('wrangler@3 pages deploy');

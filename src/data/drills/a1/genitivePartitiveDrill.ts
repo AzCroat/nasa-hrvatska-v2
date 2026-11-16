@@ -50,7 +50,7 @@ export const GENITIVE_PARTITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kolicina',
     q: 'Treba mi litra ____. (mlijeko)',
-    en: 'I need a litre of milk.',
+    en: 'I need a liter of milk.',
     opts: ['mlijeka', 'mlijeko', 'mlijeku', 'mlijekom'],
     answer: 'mlijeka',
     tip: 'litra + genitive.',
@@ -99,7 +99,7 @@ export const GENITIVE_PARTITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'malo',
     q: 'Mama stavlja malo ____ u čaj. (šećer)',
-    en: 'Mum puts a little sugar in the tea.',
+    en: 'Mom puts a little sugar in the tea.',
     opts: ['šećer', 'šećera', 'šećeru', 'šećerom'],
     answer: 'šećera',
     tip: 'malo + genitive.',

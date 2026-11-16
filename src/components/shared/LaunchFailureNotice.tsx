@@ -16,7 +16,7 @@ export const LAUNCH_FAILURE_COPY: Record<LaunchFailureReason, string> = {
   'load-error':
     "Couldn't start the lesson — check your connection and tap again. If it keeps happening, close and reopen the app to get the latest version.",
   'empty-pool':
-    "There's nothing to practise here yet. Pick another activity — this one opens up as you learn more words.",
+    "There's nothing to practice here yet. Pick another activity — this one opens up as you learn more words.",
 };
 
 export default function LaunchFailureNotice({

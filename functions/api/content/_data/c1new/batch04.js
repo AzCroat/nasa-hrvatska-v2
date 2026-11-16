@@ -402,7 +402,7 @@ const CAUSE_CONSEQUENCE_CLAUSES = {
         },
         {
           hr: 'Promet je na autocesti stajao dva sata tako da smo zakasnili na krštenje.',
-          en: 'Traffic on the motorway stood still for two hours, so we were late for the christening.',
+          en: 'Traffic on the highway stood still for two hours, so we were late for the christening.',
           note: 'tako da — with the result that',
         },
         {
@@ -821,7 +821,7 @@ const OBJECTIVE_GENITIVE = {
       items: [
         {
           hr: 'Ljeta smo provodili u kući moga oca, a zime u maminu stanu u Zagrebu.',
-          en: 'We spent summers in my father’s house and winters in Mum’s flat in Zagreb.',
+          en: 'We spent summers in my father’s house and winters in Mom’s apartment in Zagreb.',
           note: 'genitive for a modified owner; a possessive adjective for a single one',
         },
         {
@@ -831,7 +831,7 @@ const OBJECTIVE_GENITIVE = {
         },
         {
           hr: 'Za njega je vraćanje duga bilo pitanje časti, a ne novca.',
-          en: 'For him repaying the debt was a matter of honour, not money.',
+          en: 'For him repaying the debt was a matter of honor, not money.',
           note: 'explanatory genitive: pitanje časti',
         },
         {
@@ -989,7 +989,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
     {
       type: 'rule',
       title: 'People, Nicknames and Rulers',
-      body: 'Every part of a personal name is capitalised, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski, Richard Lavljeg Srca. The exception is a preposition or a conjunction inside the name, which stays small: Ivan bez Zemlje, Vincent iz Kastva. A ruler’s number is a Roman numeral with a full stop, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
+      body: 'Every part of a personal name is capitalised, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski, Richard Lavljeg Srca. The exception is a preposition or a conjunction inside the name, which stays small: Ivan bez Zemlje, Vincent iz Kastva. A ruler’s number is a Roman numeral with a period, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
       highlight: 'Petar Krešimir IV.',
     },
     {
@@ -1017,7 +1017,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
         {
           hr: 'Petar Krešimir IV. proširio je vlast hrvatskoga kraljevstva na dalmatinske gradove.',
           en: 'Petar Krešimir IV extended the rule of the Croatian kingdom to the Dalmatian towns.',
-          note: 'Roman numeral with a full stop; adjectives with a small letter',
+          note: 'Roman numeral with a period; adjectives with a small letter',
         },
         {
           hr: 'Kip kralja Tomislava stoji na Trgu kralja Tomislava, nasuprot glavnom kolodvoru u Zagrebu.',
@@ -1811,7 +1811,7 @@ export const PRACTICE = {
           explanation: 'Subjective genitive: cijene padaju.',
         },
         {
-          q: 'Complete: "To je auto ___." (our neighbour’s)',
+          q: 'Complete: "To je auto ___." (our neighbor’s)',
           options: ['naš susjed', 'našeg susjeda', 'našem susjedu', 'našeg susjedov'],
           correct: 1,
           hint: 'An owner with a pronoun of its own goes after the noun in the possessive case.',
@@ -1854,7 +1854,7 @@ export const PRACTICE = {
             'says what the question consists of',
           ],
           correct: 3,
-          hint: 'A matter of honour: the matter IS honour.',
+          hint: 'A matter of honor: the matter IS honor.',
           explanation: 'An explanatory genitive: it says what the matter is about.',
         },
         {
@@ -1933,7 +1933,7 @@ export const PRACTICE = {
       ['dolazak', 'arrival', 'Čekamo dolazak gostiju iz Kanade.'],
       ['osvajanje', 'conquest, reaching (a summit)', 'Osvajanje vrha trajalo je cijeli dan.'],
       ['pad', 'fall, drop', 'Pad cijena iznenadio je sve.'],
-      ['čast', 'honour', 'To mu je bilo pitanje časti.'],
+      ['čast', 'honor', 'To mu je bilo pitanje časti.'],
       ['strpljenje', 'patience', 'Djed je bio čovjek velikog strpljenja.'],
     ],
   },
@@ -2062,7 +2062,7 @@ export const PRACTICE = {
           q: 'Petar Krešimir ____ bio je hrvatski kralj. (the fourth)',
           answer: 'IV.',
           accept: ['IV'],
-          hint: 'A Roman numeral, which as an ordinal takes a full stop.',
+          hint: 'A Roman numeral, which as an ordinal takes a period.',
           explanation: 'Petar Krešimir IV.',
         },
         {

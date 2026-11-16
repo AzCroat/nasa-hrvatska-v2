@@ -118,7 +118,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Accusative or Genitive — Both Are Standard',
-        body: 'For "every" and "this", Croatian also uses the genitive of time: svaki dan or svakog dana, svaku večer or svake večeri, ovaj tjedan or ovoga tjedna. Both are standard; the genitive sounds a little more formal. With godina the genitive is the usual form: svake godine, prošle godine, iduće godine. For one particular day the two can differ in meaning: Vidimo se (u) sljedeću nedjelju puts the meeting on Sunday itself, not on another day, while Vidimo se sljedeće nedjelje says it is some time during that day. This lesson practises the accusative and never marks the genitive wrong.',
+        body: 'For "every" and "this", Croatian also uses the genitive of time: svaki dan or svakog dana, svaku večer or svake večeri, ovaj tjedan or ovoga tjedna. Both are standard; the genitive sounds a little more formal. With godina the genitive is the usual form: svake godine, prošle godine, iduće godine. For one particular day the two can differ in meaning: Vidimo se (u) sljedeću nedjelju puts the meeting on Sunday itself, not on another day, while Vidimo se sljedeće nedjelje says it is some time during that day. This lesson practices the accusative and never marks the genitive wrong.',
         highlight: 'svaki dan / svakog dana',
       },
       {
@@ -131,7 +131,7 @@ export const LESSONS = [
           ['na', 'na Božić, na Uskrs, na Badnjak', 'on a feast day'],
           ['na', 'na godinu dana', 'for a planned period'],
           ['za', 'za tjedan dana, za dva sata', 'in … from now'],
-          ['pred', 'pred kraj, pred Božić, pred večer', 'towards, just before'],
+          ['pred', 'pred kraj, pred Božić, pred večer', 'toward, just before'],
           ['kroz', 'kroz povijest, kroz dan', 'throughout (lower style)'],
         ],
       },
@@ -199,7 +199,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pred kraj ljeta otoci se isprazne i postane tiho.',
-            en: 'Towards the end of summer the islands empty and it goes quiet.',
+            en: 'Toward the end of summer the islands empty and it goes quiet.',
             note: 'pred kraj: approaching a point',
           },
           {
@@ -278,7 +278,7 @@ export const LESSONS = [
             q: 'What does "pred kraj godine" mean?',
             options: [
               'after the end of the year',
-              'towards the end of the year',
+              'toward the end of the year',
               'for the whole year',
               'in a year from now',
             ],
@@ -403,7 +403,7 @@ export const LESSONS = [
           },
           {
             hr: 'Stan je malen, ali ima prekrasan pogled na more.',
-            en: 'The flat is small, but it has a wonderful view of the sea.',
+            en: 'The apartment is small, but it has a wonderful view of the sea.',
             note: 'ali: the second fact runs against the first',
           },
           {
@@ -413,7 +413,7 @@ export const LESSONS = [
           },
           {
             hr: 'Problem nije u novcu, već u lošoj organizaciji posla.',
-            en: 'The problem is not money but poor organisation of the work.',
+            en: 'The problem is not money but poor organization of the work.',
             note: 'već: the more formal twin of nego',
           },
           {
@@ -620,7 +620,7 @@ export const LESSONS = [
           },
           {
             hr: 'Gospođo Horvat, vaš je paket stigao jutros.',
-            en: 'Mrs Horvat, your parcel arrived this morning.',
+            en: 'Mrs. Horvat, your parcel arrived this morning.',
             note: 'the vocative at the start, then a comma',
           },
           {
@@ -1053,7 +1053,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Fixed Phrases in the Locative',
-        body: 'These are learned as wholes: biti u pravu (to be right), u redu (all right), biti na glasu kao (to be known as), u žurbi (in a hurry), na kraju (in the end), u stvari (actually), na snazi (in force), u tijeku (under way), u kvaru (out of order), na odmoru (on holiday), u svakom slučaju (in any case).',
+        body: 'These are learned as wholes: biti u pravu (to be right), u redu (all right), biti na glasu kao (to be known as), u žurbi (in a hurry), na kraju (in the end), u stvari (actually), na snazi (in force), u tijeku (under way), u kvaru (out of order), na odmoru (on vacation), u svakom slučaju (in any case).',
         highlight: 'biti u pravu',
       },
       {
@@ -1119,7 +1119,7 @@ export const LESSONS = [
           },
           {
             hr: 'Lift je opet u kvaru pa idemo stepenicama.',
-            en: 'The lift is out of order again, so we are taking the stairs.',
+            en: 'The elevator is out of order again, so we are taking the stairs.',
             note: 'u kvaru: out of order',
           },
         ],
@@ -1294,7 +1294,7 @@ export const PRACTICE = {
         },
         {
           q: 'What does "pred večer" mean?',
-          options: ['every evening', 'towards evening', 'the evening before', 'all evening'],
+          options: ['every evening', 'toward evening', 'the evening before', 'all evening'],
           correct: 1,
           hint: 'pred with the accusative describes approaching a point.',
           explanation: 'pred večer — as evening comes on.',
@@ -1392,7 +1392,7 @@ export const PRACTICE = {
         options: [
           'in a century from now',
           'throughout the whole century',
-          'towards the end of the century',
+          'toward the end of the century',
           'for a planned century',
         ],
         correct: 1,
@@ -1418,7 +1418,7 @@ export const PRACTICE = {
       ['Uskrs', 'Easter', 'Na Uskrs se jedu šunka i pisanice.'],
       ['podne', 'noon', 'Nađimo se u podne ispred kazališta.'],
       ['ponoć', 'midnight', 'Kafić radi do ponoći.'],
-      ['pred kraj', 'towards the end', 'Pred kraj ljeta otoci se isprazne.'],
+      ['pred kraj', 'toward the end', 'Pred kraj ljeta otoci se isprazne.'],
       ['kroz povijest', 'throughout history', 'Kroz povijest se grad mnogo mijenjao.'],
       ['svaki dan', 'every day', 'Svaki dan pijem kavu na rivi.'],
     ],
@@ -2229,7 +2229,7 @@ export const PRACTICE = {
       {
         q: 'What does "Sve je u redu" mean?',
         options: [
-          'Everything is in a queue.',
+          'Everything is in line.',
           'Everything is in a hurry.',
           'Everything is all right.',
           'Everything is at the end.',

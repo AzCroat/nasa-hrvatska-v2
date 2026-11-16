@@ -105,7 +105,7 @@ const DATA = [
     q: 'Most vodi prema ____. (Pelješac)',
     opts: ['Pelješcu', 'Pelješacu', 'Pelješca', 'Pelješću'],
     answer: 'Pelješcu',
-    en: 'the bridge leads towards Pelješac',
+    en: 'the bridge leads toward Pelješac',
     tip: 'Nepostojano a: Pelješac → Pelješcu.',
   },
   {
@@ -145,7 +145,7 @@ const DATA = [
     q: 'Dogovorili smo sastanak s ____ Marijom Novak. (doktorica)',
     opts: ['doktoricom', 'doktoricu', 'doktorica', 'doktorici'],
     answer: 'doktoricom',
-    en: 'we arranged a meeting with Dr Marija Novak',
+    en: 'we arranged a meeting with Dr. Marija Novak',
     tip: 'Titula se slaže s imenom u padežu: s doktoricom Marijom.',
   },
   {
@@ -161,7 +161,7 @@ const DATA = [
     q: 'Novinari razgovaraju s gospođom ____.',
     opts: ['Kovač', 'Kovačem', 'Kovačicom', 'Kovačevom'],
     answer: 'Kovač',
-    en: 'the journalists are talking with Mrs K.',
+    en: 'the journalists are talking with Mrs. K.',
     tip: 'Žensko prezime na suglasnik ne sklanja se: s gospođom Kovač.',
   },
   {

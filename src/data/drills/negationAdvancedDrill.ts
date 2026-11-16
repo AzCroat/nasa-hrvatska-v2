@@ -137,7 +137,7 @@ export const NEGATION_ADVANCED_DRILL_DATA: ModeDrillItem[] = [
     en: 'Are those the same?',
     opts: ['nije isto', 'isto je', 'oba su pogrešna', 'ovisi o naglasku'],
     answer: 'nije isto',
-    tip: 'Nisu svi došli = not all came. Svi nisu došli leans towards none came, but in speech it is often ambiguous — write nitko nije došao if that is what you mean.',
+    tip: 'Nisu svi došli = not all came. Svi nisu došli leans toward none came, but in speech it is often ambiguous — write nitko nije došao if that is what you mean.',
   },
   {
     mode: 'opseg',

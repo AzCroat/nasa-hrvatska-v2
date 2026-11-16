@@ -165,7 +165,7 @@ export const PHONE_CALL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gdje',
     q: 'Gospodin Horvat je na ____.',
-    en: 'Mr Horvat is in a meeting.',
+    en: 'Mr. Horvat is in a meeting.',
     opts: ['sastanku', 'sastanak', 'sastanaku', 'sastanka'],
     answer: 'sastanku',
     tip: 'Locative -u, and the a of the last syllable drops: sastanku.',

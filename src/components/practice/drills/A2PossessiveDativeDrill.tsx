@@ -21,7 +21,7 @@ export default function A2PossessiveDativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2possessivedative"
       title="My Mother Is a Doctor: Whose with the Dative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={POSSESSIVE_DATIVE_MODE_LABELS}
       data={POSSESSIVE_DATIVE_DRILL_DATA}
       praise={{

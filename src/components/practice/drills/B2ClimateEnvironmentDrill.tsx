@@ -21,7 +21,7 @@ export default function B2ClimateEnvironmentDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2climateenvironment"
       title="Klima i okoliš: Fires, Floods and Waste"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CLIMATE_ENVIRONMENT_MODE_LABELS}
       data={CLIMATE_ENVIRONMENT_DRILL_DATA}
       praise={{

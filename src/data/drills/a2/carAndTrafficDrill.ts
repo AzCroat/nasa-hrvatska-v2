@@ -32,10 +32,10 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kvar',
     q: 'Probušila mi se ____.',
-    en: 'I have a flat tyre.',
+    en: 'I have a flat tire.',
     opts: ['gumu', 'guma', 'gume', 'gumom'],
     answer: 'guma',
-    tip: 'The tyre is the subject — nominative.',
+    tip: 'The tire is the subject — nominative.',
   },
   {
     mode: 'kvar',
@@ -146,7 +146,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
     q: 'What is the part below called in English?',
     lead: 'volan',
     en: 'Choose the English word.',
-    opts: ['the boot', 'the steering wheel', 'the engine', 'the tyre'],
+    opts: ['the boot', 'the steering wheel', 'the engine', 'the tire'],
     answer: 'the steering wheel',
     tip: 'You hold it to steer.',
   },
@@ -187,7 +187,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'promet',
     q: 'Na autocesti se plaća ____.',
-    en: 'On the motorway you pay a toll.',
+    en: 'On the highway you pay a toll.',
     opts: ['cestarinu', 'cestarine', 'cestarina', 'cestarini'],
     answer: 'cestarina',
     tip: 'In a se-sentence the thing paid is the subject.',
@@ -210,7 +210,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'promet',
-    q: 'At the petrol station, which asks the attendant to fill the tank?',
+    q: 'At the gas station, which asks the attendant to fill the tank?',
     en: 'Fill it up, please.',
     opts: ['Napunim, molim.', 'Napunite, molim.', 'Napuni se, molim.', 'Napunio, molim.'],
     answer: 'Napunite, molim.',

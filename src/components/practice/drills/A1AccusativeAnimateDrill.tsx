@@ -21,7 +21,7 @@ export default function A1AccusativeAnimateDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1accusativeanimate"
       title="Alive or Not: Masculine Objects"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ACCUSATIVE_ANIMATE_MODE_LABELS}
       data={ACCUSATIVE_ANIMATE_DRILL_DATA}
       praise={{

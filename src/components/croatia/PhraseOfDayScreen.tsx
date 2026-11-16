@@ -295,9 +295,9 @@ const SEED_PHRASES = {
     literal: "Let's go, Fiery Ones!",
     pronunciation_guide: 'I-de-mo VA-tre-ni!',
     when_to_use:
-      'At any Croatia national football match, sports bar, or wherever Croatians gather to watch the national team. Possibly the most emotionally loaded phrase in Croatian sports culture.',
+      'At any Croatia national soccer match, sports bar, or wherever Croatians gather to watch the national team. Possibly the most emotionally loaded phrase in Croatian sports culture.',
     cultural_note:
-      '"Vatreni" (The Fiery Ones) is the beloved nickname of Croatia\'s national football team. The name reflects the passion and fighting spirit Croatians believe defines their play. The 2018 World Cup final run united the diaspora worldwide in ways few events have.',
+      '"Vatreni" (The Fiery Ones) is the beloved nickname of Croatia\'s national soccer team. The name reflects the passion and fighting spirit Croatians believe defines their play. The 2018 World Cup final run united the diaspora worldwide in ways few events have.',
     example_dialogue: [
       { speaker: 'Fan 1', line: 'Jesi spreman? Utakmica počinje za pet minuta!' },
       { speaker: 'Fan 2', line: 'Spreman! Idemo Vatreni!!! 🇭🇷' },

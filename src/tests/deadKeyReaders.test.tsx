@@ -289,7 +289,7 @@ describe('reminder notification personalisation', () => {
 //   nh_session_listening_  /api/daily-plan payload (endpoint deleted 2026-09-29). Every learner told the
 //   nh_session_speaking_   planning model "0 flashcards, 0 listening, 0
 //   nh_session_writing_    speaking, 0 writing" on every request, forever.
-//   nh_last_practice_date  scheduleLocalReminder's "already practised today"
+//   nh_last_practice_date  scheduleLocalReminder's "already practiced today"
 //                          guard, which was therefore never once true.
 //   nh_practiced_          a dead first disjunct in the 14-day activity strip.
 //

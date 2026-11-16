@@ -67,8 +67,8 @@ const DATA = [
   },
   {
     q: 'bacati drvlje i kamenje (na nekoga)',
-    opts: ['to harshly attack/criticise', 'to build a house', 'to clean the yard', 'to give gifts'],
-    answer: 'to harshly attack/criticise',
+    opts: ['to harshly attack/criticize', 'to build a house', 'to clean the yard', 'to give gifts'],
+    answer: 'to harshly attack/criticize',
     tip: "Literally 'to throw timber and stones' — to lambast someone.",
   },
   {
@@ -84,13 +84,13 @@ const DATA = [
   },
   {
     q: 'biti na konju',
-    opts: ['to be in a winning position', 'to be travelling', 'to be late', 'to be tired'],
+    opts: ['to be in a winning position', 'to be traveling', 'to be late', 'to be tired'],
     answer: 'to be in a winning position',
     tip: "Literally 'to be on the horse' — to have the upper hand / be sorted.",
   },
   {
     q: 'trla baba lan',
-    opts: ['idle, pointless activity', 'hard manual labour', 'a family gathering', 'a clever plan'],
+    opts: ['idle, pointless activity', 'hard manual labor', 'a family gathering', 'a clever plan'],
     answer: 'idle, pointless activity',
     tip: "From 'trla baba lan da joj prođe dan' — doing something just to pass the time.",
   },
@@ -128,7 +128,7 @@ export default function IdiomDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Idioms mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — idioms take time!',
+        more: 'Keep practicing — idioms take time!',
       }}
       goBack={goBack}
       award={award}

@@ -145,7 +145,7 @@ describe('isBenignSwLoadRejection', () => {
   });
 
   // This assertion previously read "does NOT drop an sw.js failure that is not a
-  // SecurityError" and expected false — it encoded the gap as correct behaviour.
+  // SecurityError" and expected false — it encoded the gap as correct behavior.
   // Safari reports the SAME environmental registration failure as a TypeError, so
   // requiring SecurityError is why these kept paging despite this filter existing.
   it('drops Safari TypeError variant of the same environmental failure', () => {

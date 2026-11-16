@@ -121,7 +121,7 @@ export const OBJECTIVE_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'posvojnost',
     q: 'To je auto ____.',
-    en: 'That is our neighbour’s car.',
+    en: 'That is our neighbor’s car.',
     opts: ['našeg susjeda', 'naš susjed', 'našem susjedu', 'našeg susjedov'],
     answer: 'našeg susjeda',
     tip: 'A modified owner stands in the genitive.',
@@ -207,7 +207,7 @@ export const OBJECTIVE_GENITIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Za njega je to bilo pitanje ____.',
-    en: 'For him it was a matter of honour.',
+    en: 'For him it was a matter of honor.',
     opts: ['časti', 'čast', 'čašću', 'časte'],
     answer: 'časti',
     tip: 'An explanatory genitive: what the matter is about.',

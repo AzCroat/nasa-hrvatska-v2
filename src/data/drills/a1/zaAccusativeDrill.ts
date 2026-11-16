@@ -26,7 +26,7 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osobe',
     q: 'Ovo je poklon za ____.',
-    en: 'This is a present for Mum.',
+    en: 'This is a present for Mom.',
     opts: ['mamu', 'mama', 'mami', 'mamom'],
     answer: 'mamu',
     tip: 'za + accusative: feminine -a becomes -u.',
@@ -156,7 +156,7 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Rezerviram stol za ____.',
-    en: 'I am booking a table for Saturday.',
+    en: 'I am reserving a table for Saturday.',
     opts: ['subotu', 'subota', 'suboti', 'subotom'],
     answer: 'subotu',
     tip: 'za + accusative: subota → subotu.',
@@ -212,7 +212,7 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrijeme',
     q: 'Rezerviram sobu za ____.',
-    en: 'I am booking a room for Wednesday.',
+    en: 'I am reserving a room for Wednesday.',
     opts: ['srijedu', 'srijeda', 'srijedi', 'srijedom'],
     answer: 'srijedu',
     tip: 'za + accusative: srijeda → srijedu.',
@@ -229,8 +229,8 @@ export const ZA_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'po',
-    q: 'Idem po ____. (to pick up Mum)',
-    en: 'I am going to pick up Mum.',
+    q: 'Idem po ____. (to pick up Mom)',
+    en: 'I am going to pick up Mom.',
     opts: ['mama', 'mamu', 'mami', 'mamom'],
     answer: 'mamu',
     tip: 'po + accusative: mama → mamu.',

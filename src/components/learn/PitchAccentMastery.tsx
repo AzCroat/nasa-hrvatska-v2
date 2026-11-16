@@ -76,7 +76,7 @@ const ACCENTS = [
       },
       {
         hr: 'lȕka',
-        en: 'harbour, port',
+        en: 'harbor, port',
         audio: 'luka',
         tip: 'vs. Lúka = the name Luka — pitch and length both differ',
       },
@@ -93,7 +93,7 @@ const ACCENTS = [
         note: 'Short vowel = dog; long vowel = belt',
       },
       {
-        a: { hr: 'lȕka', en: 'harbour', audio: 'luka', accentId: 'kratkosilazni' },
+        a: { hr: 'lȕka', en: 'harbor', audio: 'luka', accentId: 'kratkosilazni' },
         b: { hr: 'Lúka', en: 'Luka (name)', audio: 'luka', accentId: 'dugouzlazni' },
         note: 'Place vs person — the accent makes the difference',
       },
@@ -272,7 +272,7 @@ const ACCENTS = [
         hr: 'Lúka',
         en: 'Luka (male name)',
         audio: 'luka',
-        tip: 'vs. lȕka = harbour — the name rises, the place falls',
+        tip: 'vs. lȕka = harbor — the name rises, the place falls',
       },
       { hr: 'gláva', en: 'head', audio: 'glava', tip: 'Long rising on gla-' },
       { hr: 'zíma', en: 'winter', audio: 'zima', tip: 'Long rising on zi-' },
@@ -282,7 +282,7 @@ const ACCENTS = [
     pairs: [
       {
         a: { hr: 'Lúka', en: 'Luka (name)', audio: 'luka', accentId: 'dugouzlazni' },
-        b: { hr: 'lȕka', en: 'harbour', audio: 'luka', accentId: 'kratkosilazni' },
+        b: { hr: 'lȕka', en: 'harbor', audio: 'luka', accentId: 'kratkosilazni' },
         note: 'Long rising for the person, short falling for the place',
       },
       {

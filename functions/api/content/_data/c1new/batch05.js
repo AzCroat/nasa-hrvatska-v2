@@ -34,7 +34,7 @@ export const SPINE = [
     masterOrder: 33,
     prerequisites: ['dative-locative', 'clitics-advanced'],
     objectives: [
-      'Recognise and use the ethical dative: Pazi mi se!, Budite nam sretni!',
+      'Recognize and use the ethical dative: Pazi mi se!, Budite nam sretni!',
       'Place it correctly in the clitic cluster',
       'Express going to a person with the dative, with or without k (ka)',
     ],
@@ -45,7 +45,7 @@ export const SPINE = [
     prerequisites: ['adjective-agreement'],
     objectives: [
       'Capitalise names of streets and squares: Ulica kralja Zvonimira, Trg bana Josipa Jelačića',
-      'Capitalise names of buildings, institutions and organisations: Hrvatsko narodno kazalište',
+      'Capitalise names of buildings, institutions and organizations: Hrvatsko narodno kazalište',
       'Capitalise names of historical events: Domovinski rat, Drugi svjetski rat',
     ],
   },
@@ -56,7 +56,7 @@ export const SPINE = [
     objectives: [
       'Choose between the indefinite (nov) and definite (novi) adjective form',
       'Answer Kakav? with a description and Koji? with an identification',
-      'Recognise the short oblique forms and the adjectives that have only one form',
+      'Recognize the short oblique forms and the adjectives that have only one form',
     ],
   },
   {
@@ -121,7 +121,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Luka and Nikola: Like Žena',
-        body: 'Masculine names in -a decline exactly like žena in the singular, with the instrumental -om: Luke, Luki, Luku, s Lukom; Nikole, Nikoli, Nikolu, s Nikolom. The personal name keeps its k in the dative: Luki — the common noun luka (harbour) is the one that becomes u luci.',
+        body: 'Masculine names in -a decline exactly like žena in the singular, with the instrumental -om: Luke, Luki, Luku, s Lukom; Nikole, Nikoli, Nikolu, s Nikolom. The personal name keeps its k in the dative: Luki — the common noun luka (harbor) is the one that becomes u luci.',
         highlight: 'Luki',
       },
       {
@@ -334,7 +334,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'A Dative That Gives Nothing',
-        body: 'In "Daj mi knjigu" the dative mi names who receives the book. In "Pazi mi se!" nobody receives anything: the speaker is telling the listener to take care, and mi says the speaker cares how it turns out. Croatian grammar calls this the etički dativ, the ethical dative. The second half of the lesson teaches the dative of direction towards a person — Idem liječniku and Idem k liječniku, both standard.',
+        body: 'In "Daj mi knjigu" the dative mi names who receives the book. In "Pazi mi se!" nobody receives anything: the speaker is telling the listener to take care, and mi says the speaker cares how it turns out. Croatian grammar calls this the etički dativ, the ethical dative. The second half of the lesson teaches the dative of direction toward a person — Idem liječniku and Idem k liječniku, both standard.',
         icon: '💛',
       },
       {
@@ -583,7 +583,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'The First Word, Then Only Names',
-        body: 'English capitalises every major word of a name: the Croatian National Theatre, the Second World War. Croatian capitalises the FIRST word, and after that only the words that are names in their own right: Hrvatsko narodno kazalište, Drugi svjetski rat, Trg bana Josipa Jelačića. This lesson follows the current Hrvatski pravopis of the Institut za hrvatski jezik i jezikoslovlje.',
+        body: 'English capitalises every major word of a name: the Croatian National Theater, the Second World War. Croatian capitalises the FIRST word, and after that only the words that are names in their own right: Hrvatsko narodno kazalište, Drugi svjetski rat, Trg bana Josipa Jelačića. This lesson follows the current Hrvatski pravopis of the Institut za hrvatski jezik i jezikoslovlje.',
         icon: '🏛️',
       },
       {
@@ -602,7 +602,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Rule of the First Word',
-        body: 'In a name of several words — a street, a square, a building, an institution, an organisation, a historical event — only the first word takes a capital. The others are lower case unless they are names in their own right. Titles (kralj, ban, sveti) and common nouns (grad, ulica, rat) inside the name are lower case.',
+        body: 'In a name of several words — a street, a square, a building, an institution, an organization, a historical event — only the first word takes a capital. The others are lower case unless they are names in their own right. Titles (kralj, ban, sveti) and common nouns (grad, ulica, rat) inside the name are lower case.',
         highlight: 'only the first word',
       },
       {
@@ -613,7 +613,7 @@ export const LESSONS = [
       },
       {
         type: 'table',
-        title: 'Institutions, Organisations, Events',
+        title: 'Institutions, Organizations, Events',
         headers: ['Name', 'Note'],
         rows: [
           ['Hrvatsko narodno kazalište', 'only the first word'],
@@ -635,7 +635,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'When Nothing Is Being Named',
-        body: 'The same words in their ordinary meaning are lower case: Sutra idem u kazalište. Studira na sveučilištu. Sabor je čudna riječ. The capital marks a NAME, so a common noun used for any theatre or any university stays small. Inflection does not change anything: the name keeps its capital in every case — u Ulici kralja Zvonimira, na Trgu bana Josipa Jelačića.',
+        body: 'The same words in their ordinary meaning are lower case: Sutra idem u kazalište. Studira na sveučilištu. Sabor je čudna riječ. The capital marks a NAME, so a common noun used for any theater or any university stays small. Inflection does not change anything: the name keeps its capital in every case — u Ulici kralja Zvonimira, na Trgu bana Josipa Jelačića.',
         highlight: 'the name keeps its capital in every case',
       },
       {
@@ -659,7 +659,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sinoć smo bili na premijeri u Hrvatskome narodnom kazalištu.',
-            en: 'Last night we were at a premiere in the Croatian National Theatre.',
+            en: 'Last night we were at a premiere in the Croatian National Theater.',
             note: 'only Hrvatskome takes a capital',
           },
           {
@@ -669,7 +669,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sutra idem u kazalište, a ne na sveučilište.',
-            en: "Tomorrow I'm going to the theatre, not to the university.",
+            en: "Tomorrow I'm going to the theater, not to the university.",
             note: 'nothing named here: lower case',
           },
         ],
@@ -740,7 +740,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'English habits cause most of the errors. The first is capitalising every word: "Sveučilište U Zagrebu", "Drugi Svjetski Rat" — only the first word and real names take capitals. The second is capitalising a title: "Ulica Kralja Zvonimira" — kralja is lower case. The third is a capital where nothing is named: "Sutra idem u Kazalište" — any theatre is kazalište, with a small k.',
+        body: 'English habits cause most of the errors. The first is capitalising every word: "Sveučilište U Zagrebu", "Drugi Svjetski Rat" — only the first word and real names take capitals. The second is capitalising a title: "Ulica Kralja Zvonimira" — kralja is lower case. The third is a capital where nothing is named: "Sutra idem u Kazalište" — any theater is kazalište, with a small k.',
         highlight: 'only the first word and real names',
       },
       {
@@ -795,7 +795,7 @@ export const LESSONS = [
               'večeras idemo u Kazalište.',
             ],
             correct: 1,
-            explanation: 'No particular theatre is named, so kazalište is lower case.',
+            explanation: 'No particular theater is named, so kazalište is lower case.',
           },
           {
             q: 'In "Vlada Republike Hrvatske", why is Republike capitalised?',
@@ -887,7 +887,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Short Forms Today',
-        body: 'The short indefinite forms in the oblique cases — genitive nova, dative and locative novu — belong to high written style and to literature. In speech and ordinary writing use the definite forms (novoga, novome). Learn to recognise the short forms, and use them in two places: in fixed phrases (biti dobra srca, biti na dobru glasu, biti kratka daha, čovjek visoka rasta) and in the possessive adjectives in -ov, -ev, -in, which decline this way most consistently: Markov brat, Markova brata, Markovu bratu. One more rule: an indefinite adjective cannot follow a demonstrative — Volim tog dobrog čovjeka, never tog dobra čovjeka.',
+        body: 'The short indefinite forms in the oblique cases — genitive nova, dative and locative novu — belong to high written style and to literature. In speech and ordinary writing use the definite forms (novoga, novome). Learn to recognize the short forms, and use them in two places: in fixed phrases (biti dobra srca, biti na dobru glasu, biti kratka daha, čovjek visoka rasta) and in the possessive adjectives in -ov, -ev, -in, which decline this way most consistently: Markov brat, Markova brata, Markovu bratu. One more rule: an indefinite adjective cannot follow a demonstrative — Volim tog dobrog čovjeka, never tog dobra čovjeka.',
         highlight: 'Markova brata, Markovu bratu',
       },
       {
@@ -920,7 +920,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Kakav je tvoj novi stan? Malen, ali svijetao.',
-            en: "What's your new flat like? Small, but bright.",
+            en: "What's your new apartment like? Small, but bright.",
             note: 'malen, svijetao — indefinite: they describe',
           },
           {
@@ -1097,7 +1097,7 @@ export const LESSONS = [
           ['Teško onome tko…', 'Woe to anyone who…'],
           ['Hvala Bogu!', 'Thank God!'],
           ['Slava junacima!', 'Glory to the heroes!'],
-          ['Čast i slava palim braniteljima!', 'Honour and glory to the fallen defenders!'],
+          ['Čast i slava palim braniteljima!', 'Honor and glory to the fallen defenders!'],
           ['Pokoj mu duši!', 'May his soul rest in peace!'],
           ['Laka mu zemlja!', 'May the earth rest lightly on him!'],
         ],
@@ -1111,7 +1111,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Slava, Čast, Hvala',
-        body: 'The nouns slava (glory), čast (honour) and hvala (thanks) take the dative of whoever receives them: Slava junacima!, Čast i slava palim braniteljima!, Hvala Bogu! (also Bogu hvala!). The fixed wishes for the dead are built the same way: Pokoj mu duši!, Laka mu zemlja!',
+        body: 'The nouns slava (glory), čast (honor) and hvala (thanks) take the dative of whoever receives them: Slava junacima!, Čast i slava palim braniteljima!, Hvala Bogu! (also Bogu hvala!). The fixed wishes for the dead are built the same way: Pokoj mu duši!, Laka mu zemlja!',
         highlight: 'Hvala Bogu',
       },
       {
@@ -1164,7 +1164,7 @@ export const LESSONS = [
           },
           {
             hr: 'Čast i slava svim palim braniteljima.',
-            en: 'Honour and glory to all the fallen defenders.',
+            en: 'Honor and glory to all the fallen defenders.',
             note: 'braniteljima — dative plural',
           },
           {
@@ -1527,7 +1527,7 @@ export const PRACTICE = {
         steps: [
           {
             label: 'The case',
-            text: 'Direction towards a person takes the dative: kum → kumu.',
+            text: 'Direction toward a person takes the dative: kum → kumu.',
           },
           {
             label: 'Without the preposition',
@@ -1589,7 +1589,7 @@ export const PRACTICE = {
           q: 'Complete: "Kad te boli zub, idi ___."',
           options: ['zubar', 'zubaru', 'zubara', 'zubarom'],
           correct: 1,
-          hint: 'Direction towards a person, without a preposition.',
+          hint: 'Direction toward a person, without a preposition.',
           explanation: 'idi zubaru — the dative of direction.',
         },
         {
@@ -1797,7 +1797,7 @@ export const PRACTICE = {
           q: 'Which is spelled correctly?',
           options: ['Europska Unija', 'europska unija', 'Europska unija', 'Europska UNIJA'],
           correct: 2,
-          hint: 'An organisation follows the same rule as an institution.',
+          hint: 'An organization follows the same rule as an institution.',
           explanation: 'Europska unija.',
         },
         {
@@ -1929,7 +1929,7 @@ export const PRACTICE = {
       ['trg', 'square', 'Nađimo se na Trgu bana Josipa Jelačića.'],
       ['ustanova', 'institution', 'Svaka ustanova ima svoje službeno ime.'],
       ['sveučilište', 'university', 'Studira na Sveučilištu u Splitu.'],
-      ['kazalište', 'theatre', 'Hrvatsko narodno kazalište u Zagrebu otvoreno je 1895.'],
+      ['kazalište', 'theater', 'Hrvatsko narodno kazalište u Zagrebu otvoreno je 1895.'],
       ['sabor', 'parliament', 'Hrvatski sabor zasjeda na Markovu trgu.'],
       ['pravopis', 'orthography; spelling rules', 'Pravopis propisuje veliko početno slovo.'],
       ['veliko slovo', 'capital letter', 'Ime ustanove počinje velikim slovom.'],
@@ -1961,8 +1961,8 @@ export const PRACTICE = {
       },
       {
         title: 'Choosing One',
-        problem: 'Reci: "Which coat will you wear — the black one or the grey one?"',
-        en: 'Say: Which coat will you wear — the black one or the grey one?',
+        problem: 'Reci: "Which coat will you wear — the black one or the gray one?"',
+        en: 'Say: Which coat will you wear — the black one or the gray one?',
         steps: [
           {
             label: 'Read the question',
@@ -2057,7 +2057,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Koji ti se kaput sviđa? — ____. (the grey one)',
+          q: 'Koji ti se kaput sviđa? — ____. (the gray one)',
           answer: 'Sivi',
           hint: 'Koji asks you to pick one: the definite form.',
           explanation: 'Sivi — definite.',
@@ -2305,7 +2305,7 @@ export const PRACTICE = {
       ['blago', 'lucky (+ dative)', 'Blago tebi, ideš na more!'],
       ['jao', 'alas, oh no', 'Jao meni, zaboravio sam!'],
       ['slava', 'glory', 'Slava junacima!'],
-      ['čast', 'honour', 'Čast i slava palim braniteljima.'],
+      ['čast', 'honor', 'Čast i slava palim braniteljima.'],
       ['zakletva', 'oath', 'Dao je zakletvu pred sucem.'],
       ['pokoj', 'rest, peace (of the dead)', 'Pokoj mu duši.'],
       ['branitelj', 'defender', 'Branitelji su obranili grad.'],

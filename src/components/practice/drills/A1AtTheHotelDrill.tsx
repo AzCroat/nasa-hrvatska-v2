@@ -21,7 +21,7 @@ export default function A1AtTheHotelDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1atthehotel"
       title="At the Hotel"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={AT_THE_HOTEL_MODE_LABELS}
       data={AT_THE_HOTEL_DRILL_DATA}
       praise={{

@@ -21,7 +21,7 @@ export default function C1EthnonymsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1ethnonyms"
       title="Zagrepčanin, Splićanka, Riječani"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ETHNONYMS_MODE_LABELS}
       data={ETHNONYMS_DRILL_DATA}
       praise={{

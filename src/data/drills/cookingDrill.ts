@@ -125,7 +125,7 @@ export const COOKING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kolicine',
     q: 'Pola litre ____. (mlijeko)',
-    en: 'half a litre of milk',
+    en: 'half a liter of milk',
     opts: ['mlijeka', 'mlijeko', 'mlijeku', 'mlijekom'],
     answer: 'mlijeka',
     tip: 'pola litre mlijeka — two genitives in a row.',

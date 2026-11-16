@@ -21,7 +21,7 @@ export default function A1ZaAccusativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1zaaccusative"
       title="Za — For"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ZA_ACCUSATIVE_MODE_LABELS}
       data={ZA_ACCUSATIVE_DRILL_DATA}
       praise={{

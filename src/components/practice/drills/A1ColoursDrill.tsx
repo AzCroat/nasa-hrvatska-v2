@@ -17,8 +17,8 @@ export default function A1ColoursDrill({ goBack, award }: Props) {
   return (
     <ModeDrill
       id="a1colours"
-      title="Colours"
-      subtitle="Practise what the lesson taught"
+      title="Colors"
+      subtitle="Practice what the lesson taught"
       modeLabels={COLOURS_MODE_LABELS}
       data={COLOURS_DRILL_DATA}
       praise={{

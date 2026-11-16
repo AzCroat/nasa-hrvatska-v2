@@ -20,7 +20,7 @@ export const SPINE = [
     prerequisites: ['verbs-nuti', 'aspect-suffixes'],
     objectives: [
       'Form the present of -ovati and -ivati verbs: kupovati → kupujem, potpisivati → potpisujem',
-      'Recognise the look-alikes that keep -am: pjevam, uživam, dobivam, zahtijevam',
+      'Recognize the look-alikes that keep -am: pjevam, uživam, dobivam, zahtijevam',
       'Find the hidden n or m in the present: krenem, stanem, postanem, počnem, uzmem',
     ],
   },
@@ -419,7 +419,7 @@ const INTERNET_SOCIETY = {
         },
         {
           hr: 'Bilo bi dobro da djeca u školi uče kako prepoznati lažne vijesti.',
-          en: 'It would be good if children learned at school how to recognise fake news.',
+          en: 'It would be good if children learned at school how to recognize fake news.',
           note: 'Bilo bi dobro da… — a wish about the future',
         },
       ],
@@ -576,7 +576,7 @@ const INTERNATIONALISMS = {
     {
       type: 'rule',
       title: '-cija and -ija: Feminine',
-      body: 'English -tion usually becomes -cija: nation → nacija, organisation → organizacija, information → informacija, situation → situacija, tradition → tradicija. English -cy can be -cija too: democracy → demokracija. Sciences often end in -ija: geografija, filozofija, biologija, psihologija. All of these are feminine and decline like žena: u organizaciji, bez informacije, s tradicijom. The genitive plural ends in -a: puno informacija.',
+      body: 'English -tion usually becomes -cija: nation → nacija, organization → organizacija, information → informacija, situation → situacija, tradition → tradicija. English -cy can be -cija too: democracy → demokracija. Sciences often end in -ija: geografija, filozofija, biologija, psihologija. All of these are feminine and decline like žena: u organizaciji, bez informacije, s tradicijom. The genitive plural ends in -a: puno informacija.',
       highlight: 'u organizaciji',
     },
     {
@@ -610,7 +610,7 @@ const INTERNATIONALISMS = {
     {
       type: 'rule',
       title: 'A Native Word Beside It',
-      body: 'For some international words Croatian has a native word, and careful writing prefers it. Both are correct; the international one is common in speech. računalo — kompjuter (computer); zrakoplov — avion (aeroplane); glazba — muzika (music); kazalište — teatar (theatre); zemljopis — geografija (geography); tvrtka — firma (company). Many international words have no native partner at all — demokracija, organizacija, turizam — and are the normal word in every register.',
+      body: 'For some international words Croatian has a native word, and careful writing prefers it. Both are correct; the international one is common in speech. računalo — kompjuter (computer); zrakoplov — avion (airplane); glazba — muzika (music); kazalište — teatar (theater); zemljopis — geografija (geography); tvrtka — firma (company). Many international words have no native partner at all — demokracija, organizacija, turizam — and are the normal word in every register.',
       highlight: 'računalo — kompjuter',
     },
     {
@@ -619,7 +619,7 @@ const INTERNATIONALISMS = {
       items: [
         {
           hr: 'Ta organizacija pomaže ljudima bez doma.',
-          en: 'That organisation helps homeless people.',
+          en: 'That organization helps homeless people.',
           note: 'organizacija is feminine, so ta',
         },
         {
@@ -639,7 +639,7 @@ const INTERNATIONALISMS = {
         },
         {
           hr: 'Ove godine naš razred organizira izlet u Istru.',
-          en: 'This year our class is organising a trip to Istria.',
+          en: 'This year our class is organizing a trip to Istria.',
           note: 'organizira — -irati verbs always give -iram, -ira',
         },
         {
@@ -670,7 +670,7 @@ const INTERNATIONALISMS = {
         },
         {
           hr: 'Večeras idemo u kazalište, a sutra na koncert klasične glazbe.',
-          en: 'Tonight we are going to the theatre, and tomorrow to a classical music concert.',
+          en: 'Tonight we are going to the theater, and tomorrow to a classical music concert.',
           note: 'kazalište, glazbe — the native words',
         },
       ],
@@ -727,7 +727,7 @@ const INTERNATIONALISMS = {
           explanation: '-irati verbs are regular: komuniciram.',
         },
         {
-          q: 'Which is the native Croatian word for an aeroplane?',
+          q: 'Which is the native Croatian word for an airplane?',
           options: ['kazalište', 'zrakoplov', 'tvrtka', 'računalo'],
           correct: 1,
           explanation: 'zrakoplov is the native word; avion is the international one.',
@@ -776,7 +776,7 @@ const HUMAN_RIGHTS = {
     {
       type: 'intro',
       title: 'Opća deklaracija o ljudskim pravima',
-      body: 'On 10 December 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practises the formal phrases of a discussion.',
+      body: 'On 10 December 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practices the formal phrases of a discussion.',
       icon: '⚖️',
     },
     {
@@ -1102,7 +1102,7 @@ const RELATIVE_CASES = {
         },
         {
           hr: 'Torba koju sam ti kupio stoji u ormaru.',
-          en: 'The bag I bought you is in the wardrobe.',
+          en: 'The bag I bought you is in the closet.',
           note: 'koju sam ti — clitics straight after the relative',
         },
       ],
@@ -1128,7 +1128,7 @@ const RELATIVE_CASES = {
         },
         {
           hr: 'Upoznao sam susjedu čiji sin svira u bendu.',
-          en: 'I met the neighbour whose son plays in a band.',
+          en: 'I met the neighbor whose son plays in a band.',
           note: 'čiji agrees with sin, not with susjeda',
         },
       ],
@@ -1649,7 +1649,7 @@ export const PRACTICE = {
           explanation: 'tradicija — nominative, feminine.',
         },
         {
-          q: 'Radim u velikoj ___. (organisation)',
+          q: 'Radim u velikoj ___. (organization)',
           options: ['organizacija', 'organizaciju', 'organizaciji', 'organizacijom'],
           correct: 2,
           hint: 'u + locative of a feminine noun in -a.',
@@ -1766,16 +1766,16 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['organizacija', 'organisation', 'Radim u humanitarnoj organizaciji.'],
+      ['organizacija', 'organization', 'Radim u humanitarnoj organizaciji.'],
       ['demokracija', 'democracy', 'Demokracija treba slobodne medije.'],
       ['informacija', 'piece of information', 'Hvala na informaciji.'],
       ['turizam', 'tourism', 'Hrvatska živi od turizma.'],
       ['turist', 'tourist', 'Ljeti je u Splitu puno turista.'],
-      ['organizirati', 'to organise', 'Organiziram rođendansku zabavu.'],
+      ['organizirati', 'to organize', 'Organiziram rođendansku zabavu.'],
       ['računalo', 'computer', 'Novo računalo je vrlo brzo.'],
-      ['zrakoplov', 'aeroplane', 'Zrakoplov kasni sat vremena.'],
+      ['zrakoplov', 'airplane', 'Zrakoplov kasni sat vremena.'],
       ['tvrtka', 'company', 'Radim u maloj tvrtki.'],
-      ['kazalište', 'theatre', 'Večeras idemo u kazalište.'],
+      ['kazalište', 'theater', 'Večeras idemo u kazalište.'],
     ],
   },
 

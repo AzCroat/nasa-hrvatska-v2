@@ -342,7 +342,7 @@ export const PLACE = [
   // ── B1 Prepositional Government (×2) ──────────────────────────────────────
   {
     q: "'Na' + Locative expresses…?",
-    o: ['Direction (towards)', 'Static location (at/on)', 'Origin (from)'],
+    o: ['Direction (toward)', 'Static location (at/on)', 'Origin (from)'],
     c: 1,
     d: 3,
     skill: 'grammar',
@@ -472,7 +472,7 @@ export const PLACE = [
   },
   // ── B2 Formal Register (×3) ───────────────────────────────────────────────
   {
-    q: "Formal 'you' in Croatian (capitalised in writing)?",
+    q: "Formal 'you' in Croatian (capitalized in writing)?",
     o: ['ti', 'on/ona', 'Vi'],
     c: 2,
     d: 3,
@@ -587,12 +587,12 @@ export const READ = {
         ['doru\u010dak', 'breakfast'],
         ['ru\u010dak', 'lunch'],
         ['ve\u010dera', 'dinner'],
-        ['omiljena', 'favourite'],
+        ['omiljena', 'favorite'],
       ],
       qs: [
         { q: 'Breakfast?', o: ['Soup', 'Eggs and bread', 'Salad'], c: 1 },
-        { q: 'Favourite food?', o: ['Pasta', 'Soup', 'Pizza'], c: 2 },
-        { q: 'Who cooks well?', o: ['Dad', 'Grandma', 'Mum'], c: 2 },
+        { q: 'Favorite food?', o: ['Pasta', 'Soup', 'Pizza'], c: 2 },
+        { q: 'Who cooks well?', o: ['Dad', 'Grandma', 'Mom'], c: 2 },
       ],
     },
     {
@@ -606,7 +606,7 @@ export const READ = {
         ['snijeg', 'snow'],
       ],
       qs: [
-        { q: 'Favourite season?', o: ['Spring', 'Summer', 'Winter'], c: 1 },
+        { q: 'Favorite season?', o: ['Spring', 'Summer', 'Winter'], c: 1 },
         { q: 'Leaves fall in?', o: ['Spring', 'Summer', 'Autumn'], c: 2 },
         { q: 'Snow in?', o: ['Summer', 'Autumn', 'Winter'], c: 2 },
       ],
@@ -630,19 +630,19 @@ export const READ = {
     },
     {
       title: 'Boje i Odjeća',
-      tEn: 'Colours and Clothes',
+      tEn: 'Colors and Clothes',
       text: 'Danas oblačim crvenu majicu i plave hlače. Moja jakna je žuta. Cipele su mi crne. Moja sestra nosi zelenu haljinu. Brat ima bijelu košulju i sive hlače. Mama kaže da volimo boje. Boje su lijepe.',
       vocab: [
         ['oblačim', 'I put on/wear'],
         ['majica', 'T-shirt'],
         ['haljina', 'dress'],
         ['cipele', 'shoes'],
-        ['boje', 'colours'],
+        ['boje', 'colors'],
       ],
       qs: [
-        { q: 'What colour is the T-shirt?', o: ['Blue', 'Red', 'Yellow'], c: 1 },
-        { q: 'What colour is the jacket?', o: ['Yellow', 'Green', 'White'], c: 0 },
-        { q: 'What colour are the shoes?', o: ['Brown', 'Grey', 'Black'], c: 2 },
+        { q: 'What color is the T-shirt?', o: ['Blue', 'Red', 'Yellow'], c: 1 },
+        { q: 'What color is the jacket?', o: ['Yellow', 'Green', 'White'], c: 0 },
+        { q: 'What color are the shoes?', o: ['Brown', 'Gray', 'Black'], c: 2 },
       ],
     },
     {
@@ -657,8 +657,8 @@ export const READ = {
         ['vrat', 'neck'],
       ],
       qs: [
-        { q: 'What colour is the lion?', o: ['Grey', 'Yellow', 'Brown'], c: 1 },
-        { q: 'Favourite animal?', o: ['Tiger', 'Elephant', 'Giraffe'], c: 2 },
+        { q: 'What color is the lion?', o: ['Gray', 'Yellow', 'Brown'], c: 1 },
+        { q: 'Favorite animal?', o: ['Tiger', 'Elephant', 'Giraffe'], c: 2 },
         { q: 'What do monkeys do?', o: ['Sleep', 'Play and jump', 'Eat'], c: 1 },
       ],
     },
@@ -674,7 +674,7 @@ export const READ = {
         ['zdrav', 'healthy'],
       ],
       qs: [
-        { q: 'Where does he play football?', o: ['School', 'Park', 'Gym'], c: 1 },
+        { q: 'Where does he play soccer?', o: ['School', 'Park', 'Gym'], c: 1 },
         { q: 'What does dad do?', o: ['Swims', 'Runs', 'Plays basketball'], c: 1 },
         { q: 'What do they watch on weekends?', o: ['Football', 'Tennis', 'Basketball'], c: 1 },
       ],
@@ -701,7 +701,7 @@ export const READ = {
       tEn: 'Croatian Cities',
       text: 'Hrvatska ima puno lijepih gradova. Zagreb je glavni grad. Split je na moru. Rijeka je luka. Osijek je u Slavoniji. Dubrovnik je poznat po zidinama. Svaki grad je drugačiji i poseban. Volim putovati po Hrvatskoj.',
       vocab: [
-        ['luka', 'harbour/port'],
+        ['luka', 'harbor/port'],
         ['zidine', 'walls'],
         ['drugačiji', 'different'],
         ['poseban', 'special'],
@@ -709,7 +709,7 @@ export const READ = {
       ],
       qs: [
         { q: 'Which city is the capital?', o: ['Split', 'Rijeka', 'Zagreb'], c: 2 },
-        { q: 'Dubrovnik is known for?', o: ['Beach', 'Walls', 'Harbour'], c: 1 },
+        { q: 'Dubrovnik is known for?', o: ['Beach', 'Walls', 'Harbor'], c: 1 },
         { q: 'Osijek is in?', o: ['Dalmatia', 'Slavonia', 'Istria'], c: 1 },
       ],
     },
@@ -743,7 +743,7 @@ export const READ = {
       ],
       qs: [
         { q: 'Christmas is in?', o: ['November', 'December', 'January'], c: 1 },
-        { q: 'Why is Christmas favourite?', o: ['Food', 'Gifts', 'Fireworks'], c: 1 },
+        { q: 'Why is Christmas favorite?', o: ['Food', 'Gifts', 'Fireworks'], c: 1 },
         { q: 'Easter is in?', o: ['Winter', 'Spring', 'Summer'], c: 1 },
       ],
     },
@@ -765,7 +765,7 @@ export const READ = {
           c: 1,
         },
         { q: 'Sister sings in?', o: ['Band', 'Choir', 'School'], c: 1 },
-        { q: 'Mum likes?', o: ['Rap', 'Pop', 'Klapa songs'], c: 2 },
+        { q: 'Mom likes?', o: ['Rap', 'Pop', 'Klapa songs'], c: 2 },
       ],
     },
     {
@@ -797,9 +797,9 @@ export const READ = {
         ['zalazak sunca', 'sunset'],
       ],
       qs: [
-        { q: 'What is his favourite season?', o: ['Spring', 'Winter', 'Summer'], c: 2 },
-        { q: 'What does mum do at beach?', o: ['Swims', 'Reads a book', 'Buys ice cream'], c: 1 },
-        { q: 'What flavour ice cream?', o: ['Chocolate', 'Strawberry', 'Vanilla'], c: 2 },
+        { q: 'What is his favorite season?', o: ['Spring', 'Winter', 'Summer'], c: 2 },
+        { q: 'What does mom do at beach?', o: ['Swims', 'Reads a book', 'Buys ice cream'], c: 1 },
+        { q: 'What flavor ice cream?', o: ['Chocolate', 'Strawberry', 'Vanilla'], c: 2 },
       ],
     },
     {
@@ -815,7 +815,7 @@ export const READ = {
       ],
       qs: [
         { q: 'Where is the bed?', o: ['By the door', 'By the window', 'In the middle'], c: 1 },
-        { q: 'What colour is the wall?', o: ['White', 'Blue', 'Yellow'], c: 1 },
+        { q: 'What color is the wall?', o: ['White', 'Blue', 'Yellow'], c: 1 },
         { q: 'What is on the shelf?', o: ['Clothes', 'Books and toys', 'Shoes'], c: 1 },
       ],
     },
@@ -852,14 +852,14 @@ export const READ = {
         ['sarma', 'stuffed cabbage rolls'],
       ],
       qs: [
-        { q: 'How old is granny?', o: ['60', '70', '80'], c: 1 },
+        { q: 'How old is grandma?', o: ['60', '70', '80'], c: 1 },
         { q: 'Where does she live?', o: ['Zagreb', 'Split', 'Village near Karlovac'], c: 2 },
         { q: 'What is her garden full of?', o: ['Trees', 'Flowers and vegetables', 'Fruit'], c: 1 },
       ],
     },
     {
       title: 'Putujemo Autobusom',
-      tEn: 'Travelling by Bus',
+      tEn: 'Traveling by Bus',
       text: 'Svaki dan idem autobusom u školu. Autobusna stanica je blizu moje kuće. Kupujem kartu od vozača. Autobus je uvijek pun ljudi. Sjedim kraj prozora. Vožnja traje petnaest minuta. Izlazim na zadnjoj stanici.',
       vocab: [
         ['autobus', 'bus'],
@@ -891,7 +891,7 @@ export const READ = {
       ],
       qs: [
         { q: 'How old today?', o: ['8', '9', '10'], c: 2 },
-        { q: 'What flavour cake?', o: ['Chocolate', 'Strawberry', 'Vanilla'], c: 1 },
+        { q: 'What flavor cake?', o: ['Chocolate', 'Strawberry', 'Vanilla'], c: 1 },
         {
           q: 'What presents received?',
           o: ['Clothes and book', 'Toy and book', 'Toy and game'],
@@ -924,7 +924,7 @@ export const READ = {
         ['snijeg', 'snow'],
         ['sankaju se', 'they sledge'],
         ['snjegovića', 'snowman'],
-        ['ugodno', 'cosy/pleasant'],
+        ['ugodno', 'cozy/pleasant'],
         ['vatra', 'fire'],
       ],
       qs: [
@@ -934,7 +934,7 @@ export const READ = {
           o: ['In the park', 'In front of the house', 'At school'],
           c: 1,
         },
-        { q: 'What does mum cook?', o: ['Tea', 'Warm soup', 'Hot chocolate'], c: 1 },
+        { q: 'What does mom cook?', o: ['Tea', 'Warm soup', 'Hot chocolate'], c: 1 },
       ],
     },
     {
@@ -1407,7 +1407,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'What does mum suggest?',
+          q: 'What does mom suggest?',
           o: ['Choosing immediately', 'Talking to a school counsellor', 'Going abroad'],
           c: 1,
         },
@@ -1428,8 +1428,8 @@ export const READ = {
       qs: [
         { q: 'What flower fields bloom in June?', o: ['Rose', 'Lavender', 'Sunflower'], c: 1 },
         {
-          q: "What record does Hvar's theatre hold?",
-          o: ['Oldest in Croatia', 'Oldest public theatre in Europe', 'Largest open-air theatre'],
+          q: "What record does Hvar's theater hold?",
+          o: ['Oldest in Croatia', 'Oldest public theater in Europe', 'Largest open-air theater'],
           c: 1,
         },
         {
@@ -1483,11 +1483,11 @@ export const READ = {
         { q: 'When is the carnival?', o: ['January', 'February', 'March'], c: 1 },
         {
           q: 'What do zvončari wear?',
-          o: ['Colourful costumes', 'Animal skins', 'Military uniforms'],
+          o: ['Colorful costumes', 'Animal skins', 'Military uniforms'],
           c: 1,
         },
         {
-          q: 'What does burning the Pust symbolise?',
+          q: 'What does burning the Pust symbolize?',
           o: ['Start of summer', 'Driving away evil from the past year', 'Thanksgiving'],
           c: 1,
         },
@@ -1535,7 +1535,7 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How much does a litre of milk cost?',
+          q: 'How much does a liter of milk cost?',
           o: ['80 cents', '1.20 euros', '2 euros'],
           c: 1,
         },
@@ -1591,7 +1591,7 @@ export const READ = {
         { q: 'How many national parks does Croatia have?', o: ['5', '7', '10'], c: 1 },
         { q: 'When were plastic bags banned in supermarkets?', o: ['2017', '2019', '2021'], c: 1 },
         {
-          q: 'What do young activists organise?',
+          q: 'What do young activists organize?',
           o: ['Tree planting', 'Beach clean-ups', 'Protests only'],
           c: 1,
         },
@@ -1599,10 +1599,10 @@ export const READ = {
     },
     {
       title: 'Upoznajemo Susjedu',
-      tEn: 'Meeting the Neighbour',
+      tEn: 'Meeting the Neighbor',
       text: 'U stan pored nas upravo se uselio novi susjed. Zove se Igor i došao je iz Varaždina. Kucam na vrata i donosim mu kolač dobrodošlice. Igor je iznenađen i zahvalan. Pozivam ga na kavu. Razgovaramo sat vremena — priča o svom poslu, o Varaždinu, o planovima za Zagreb. On kaže da mu je teško ostaviti rodni grad ali da je posao zahtijevao preseljenje. Obećavamo da ćemo se opet vidjeti. Dobro susjedstvo je vrijedno.',
       vocab: [
-        ['susjed', 'neighbour'],
+        ['susjed', 'neighbor'],
         ['dobrodošlica', 'welcome'],
         ['zahvalan', 'grateful'],
         ['preseljenje', 'relocation'],
@@ -1790,7 +1790,7 @@ export const READ = {
         ['diploma', 'degree/diploma'],
       ],
       qs: [
-        { q: 'How long is primary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
+        { q: 'How long is elementary school?', o: ['6 years', '8 years', '10 years'], c: 1 },
         { q: 'When was Zagreb University founded?', o: ['1769', '1669', '1869'], c: 1 },
         {
           q: 'What does Bologna Process enable?',
@@ -1872,7 +1872,7 @@ export const READ = {
         },
         { q: 'Where is Lepoglava lace made with?', o: ['Pillow', 'Needle', 'Crochet hook'], c: 1 },
         {
-          q: 'What does lace symbolise?',
+          q: 'What does lace symbolize?',
           o: ['Wealth', 'Patience, precision and love of beauty', 'Power'],
           c: 1,
         },
@@ -1950,7 +1950,7 @@ export const READ = {
       qs: [
         {
           q: 'What is peka made of?',
-          o: ['Clay or cast iron', 'Steel or aluminium', 'Wood only'],
+          o: ['Clay or cast iron', 'Steel or aluminum', 'Wood only'],
           c: 0,
         },
         {
@@ -2090,7 +2090,7 @@ export const READ = {
         },
         {
           q: 'What are the Venetian walls a UNESCO site for?',
-          o: ['Medieval fortifications', '16th century Ottoman-era defence walls', 'Roman remains'],
+          o: ['Medieval fortifications', '16th century Ottoman-era defense walls', 'Roman remains'],
           c: 1,
         },
       ],
@@ -2104,7 +2104,7 @@ export const READ = {
         ['doprinos', 'contribution'],
         ['uputnica', 'referral'],
         ['lista čekanja', 'waiting list'],
-        ['digitalizacija', 'digitalisation'],
+        ['digitalizacija', 'digitalization'],
       ],
       qs: [
         {
@@ -2168,7 +2168,7 @@ export const READ = {
         { q: 'What is the 2019 reform called?', o: ['Strategija', 'Kurikulum', 'Bolonjski'], c: 1 },
         {
           q: 'What does the reform aim to reduce?',
-          o: ['School hours', 'Rote memorisation', 'Teacher salaries'],
+          o: ['School hours', 'Rote memorization', 'Teacher salaries'],
           c: 1,
         },
         {
@@ -2216,12 +2216,12 @@ export const READ = {
         ['opus', 'body of work'],
         ['dekadencija', 'decadence'],
         ['angažiran', 'engaged/committed'],
-        ['satirira', 'satirises'],
+        ['satirira', 'satirizes'],
       ],
       qs: [
         { q: 'In how many political systems did Krleža live?', o: ['Two', 'Three', 'Four'], c: 1 },
         {
-          q: 'What does Na rubu pameti satirise?',
+          q: 'What does Na rubu pameti satirize?',
           o: ['Communism', 'Inter-war Croatian bourgeoisie', 'The Habsburg court'],
           c: 1,
         },
@@ -2637,7 +2637,7 @@ export const READ = {
       vocab: [
         ['tranzicija', 'transition'],
         ['pravosuđe', 'judiciary'],
-        ['tajkunizacija', 'tycoonisation (crony capitalism)'],
+        ['tajkunizacija', 'tycoonization (crony capitalism)'],
         ['tranzicijska pravda', 'transitional justice'],
         ['nomenklatura', 'nomenklatura (communist elite)'],
       ],
@@ -2650,8 +2650,8 @@ export const READ = {
         {
           q: "What is 'tajkunizacija' as described here?",
           o: [
-            'Privatisation of culture',
-            'Oligarchs enriching themselves through privatisation loopholes',
+            'Privatization of culture',
+            'Oligarchs enriching themselves through privatization loopholes',
             'Foreign investment',
           ],
           c: 1,
@@ -2715,7 +2715,7 @@ export const READ = {
       vocab: [
         ['Antemurale Christianitatis', 'bulwark of Christendom (Latin)'],
         ['sjecište', 'crossroads/intersection'],
-        ['idealizacija', 'idealisation'],
+        ['idealizacija', 'idealization'],
         ['schengenski prostor', 'Schengen area'],
         ['privilegij', 'privilege'],
       ],
@@ -2729,7 +2729,7 @@ export const READ = {
           q: "What does the author say Croatia's multicultural crossroads gives it?",
           o: [
             'Confusion of identity',
-            'Ability to understand multiple civilisations',
+            'Ability to understand multiple civilizations',
             'Economic advantage',
           ],
           c: 1,
@@ -2781,7 +2781,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'How is culture recognised, according to the text?',
+          q: 'How is culture recognized, according to the text?',
           o: [
             'Only by what is spoken about',
             'Also by what is kept silent',
@@ -2896,7 +2896,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'How does the author characterise the Baška tablet?',
+          q: 'How does the author characterize the Baška tablet?',
           o: [
             'As a mere museum artefact',
             'As proof that literacy here was a matter of self-awareness, not mere administration',
@@ -2919,12 +2919,12 @@ export const READ = {
       ],
       qs: [
         {
-          q: 'How does the columnist say "our man" sees a queue?',
+          q: 'How does the columnist say "our man" sees a line?',
           o: ['As good order', 'As an institution', 'As a personal insult'],
           c: 2,
         },
         {
-          q: 'What do the people in the queue do instead of protesting aloud?',
+          q: 'What do the people in the line do instead of protesting aloud?',
           o: [
             'They call the manager',
             'They raise their eyebrows and disapprove in silence',
@@ -3117,7 +3117,7 @@ export const PREPS = [
     en: 'at (someone\u0027s place)',
   },
   { prep: 's / sa', cases: ['Instrumental'], ex: ['Idem s mamom.'], en: 'with' },
-  { prep: 'prema', cases: ['Dativ'], ex: ['Idem prema centru.'], en: 'towards' },
+  { prep: 'prema', cases: ['Dativ'], ex: ['Idem prema centru.'], en: 'toward' },
   { prep: 'o', cases: ['Lokativ'], ex: ['Pri\u010dam o filmu.'], en: 'about' },
   { prep: 'ispod', cases: ['Genitiv'], ex: ['Ma\u010dka je ispod stola.'], en: 'under' },
   { prep: 'iznad', cases: ['Genitiv'], ex: ['Lampa je iznad stola.'], en: 'above' },
@@ -3803,7 +3803,7 @@ export const VOCATIVE = {
       al: ['Učitelje!', 'Učitelj!', 'Učiteljem!'],
     },
     { q: "'Doctor!' (doktor) =", a: 'Doktore!', al: ['Doktor!', 'Doktoru!', 'Doktora!'] },
-    { q: 'Calling your mum (mama) =', a: 'Mamo!', al: ['Mama!', 'Mami!', 'Mamu!'] },
+    { q: 'Calling your mom (mama) =', a: 'Mamo!', al: ['Mama!', 'Mami!', 'Mamu!'] },
     { q: "'Sir!' (gospodin) =", a: 'Gospodine!', al: ['Gospodin!', 'Gospodinu!', 'Gospodina!'] },
     {
       q: 'Calling your friend (prijatelj) =',
@@ -3832,7 +3832,7 @@ export const VOCATIVE = {
       note: 'Masculine -ar: konobar→konobaru',
     },
     {
-      ctx: 'Calling mum',
+      ctx: 'Calling mom',
       wrong: 'Mama, gdje si?',
       correct: 'Mamo, gdje si?',
       note: 'Feminine -a: mama→mamo',
@@ -4144,8 +4144,8 @@ export const COLORQUIRK = [
   {
     hr: 'sivi vuk',
     en: 'experienced/wily person',
-    lit: 'grey wolf',
-    note: "'Star sivi vuk' = old grey wolf — a cunning veteran",
+    lit: 'gray wolf',
+    note: "'Star sivi vuk' = old gray wolf — a cunning veteran",
   },
   {
     hr: 'modrica',
@@ -4181,7 +4181,7 @@ export const COLORQUIRK = [
     hr: 'žuta karta',
     en: 'yellow card (warning)',
     lit: 'yellow card',
-    note: 'Used in football and figuratively for any warning',
+    note: 'Used in soccer and figuratively for any warning',
   },
 ];
 export const RIDDLES = [
@@ -4735,7 +4735,7 @@ export const COLORAGREE = {
       en: 'white',
     },
     { m: 'smeđ', f: 'smeđa', n: 'smeđe', mpl: 'smeđi', fpl: 'smeđe', npl: 'smeđa', en: 'brown' },
-    { m: 'siv', f: 'siva', n: 'sivo', mpl: 'sivi', fpl: 'sive', npl: 'siva', en: 'grey' },
+    { m: 'siv', f: 'siva', n: 'sivo', mpl: 'sivi', fpl: 'sive', npl: 'siva', en: 'gray' },
     {
       m: 'narančast',
       f: 'narančasta',

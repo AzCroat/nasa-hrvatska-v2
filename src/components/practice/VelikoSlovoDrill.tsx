@@ -74,7 +74,7 @@ const DATA = [
     opts: ['Luka', 'luka', 'LUKA', 'lúka'],
     answer: 'Luka',
     en: "Modrić's first name — how is it written?",
-    tip: 'Imena i nadimci velikim slovom; luka = harbour.',
+    tip: 'Imena i nadimci velikim slovom; luka = harbor.',
   },
   {
     mode: 'blagdani',
@@ -198,7 +198,7 @@ const DATA = [
     q: '„osnovna škola” kao opći pojam vs ime „____ škola Ivana Gundulića”:',
     opts: ['Osnovna', 'osnovna', 'OSNOVNA', 'OŠ velika sva'],
     answer: 'Osnovna',
-    en: 'a primary school vs THE school\u2019s name',
+    en: 'a elementary school vs THE school\u2019s name',
     tip: 'Ime konkretne škole: prva riječ velikim.',
   },
   {

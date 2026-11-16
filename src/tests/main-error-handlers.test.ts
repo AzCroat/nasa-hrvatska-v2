@@ -278,7 +278,7 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
     expect(reloadWithCachePurge('nh_ck_test')).toBe(false);
   });
 
-  it('does NOT honour a legacy bare-integer cap (those tabs were stuck at it)', () => {
+  it('does NOT honor a legacy bare-integer cap (those tabs were stuck at it)', () => {
     sessionStorage.setItem('nh_ck_test', '2');
     expect(reloadWithCachePurge('nh_ck_test')).toBe(true);
   });
@@ -297,13 +297,13 @@ describe('reloadWithCachePurge (real export — branch coverage)', () => {
   });
 
   it('still heals once when sessionStorage is unavailable', () => {
-    // This assertion used to require `false` — i.e. it pinned the behaviour where
+    // This assertion used to require `false` — i.e. it pinned the behavior where
     // a storage-blocked profile got NO heal at all. false is main.tsx's "heal did
     // not happen" signal, so the purge+reload was skipped and the user was left on
     // a stale bundle while Sentry collected the error. The test was describing the
     // bug, not guarding against it.
     //
-    // Correct behaviour: heal once per window, bounded by a window.name marker
+    // Correct behavior: heal once per window, bounded by a window.name marker
     // (window.name survives a same-tab reload and is not behind the storage
     // permission gate). Full coverage of the one-shot, the window expiry and the
     // read-only-storage case lives in chunk-heal-storage-blocked.test.ts.

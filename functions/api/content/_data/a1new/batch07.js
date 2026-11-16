@@ -32,7 +32,7 @@ export const SPINE = [
     objectives: [
       'Wish someone well: Sretan rođendan, Sretna Nova godina, Sretan put',
       'Make sretan agree with the occasion, and say Čestitam and Sve najbolje',
-      'Write a short postcard from a holiday, from Draga mama to Puno pozdrava',
+      'Write a short postcard from a vacation, from Draga mama to Puno pozdrava',
     ],
   },
   {
@@ -101,7 +101,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Help, Trust, Answer: the Person Gets the Dative',
-        body: 'In English "I help my mum" looks like "I see my mum". In Croatian the person you help RECEIVES the help, so the person is in the dative, not the accusative. pomagati (to help): Pomažem mami. vjerovati (to believe, to trust): Vjerujem ti. odgovarati (to answer, to reply): Odgovaram profesoru. Ask yourself "to whom?" and you will pick the right form: help given TO mum, an answer given TO the teacher.',
+        body: 'In English "I help my mom" looks like "I see my mom". In Croatian the person you help RECEIVES the help, so the person is in the dative, not the accusative. pomagati (to help): Pomažem mami. vjerovati (to believe, to trust): Vjerujem ti. odgovarati (to answer, to reply): Odgovaram profesoru. Ask yourself "to whom?" and you will pick the right form: help given TO mom, an answer given TO the teacher.',
         highlight: 'Pomažem mami.',
       },
       {
@@ -139,7 +139,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Pomažem mami u kuhinji.',
-            en: 'I help my mum in the kitchen.',
+            en: 'I help my mom in the kitchen.',
             note: 'mama → mami',
           },
           {
@@ -151,7 +151,7 @@ export const LESSONS = [
           { hr: 'Ne vjerujem Marku.', en: 'I do not trust Marko.', note: 'Marko → Marku' },
           {
             hr: 'Učenici odgovaraju profesorici.',
-            en: 'The pupils answer the teacher.',
+            en: 'The students answer the teacher.',
             note: 'profesorica → profesorici',
           },
           {
@@ -179,13 +179,13 @@ export const LESSONS = [
           },
           {
             hr: 'Sviđa li ti se moj stan?',
-            en: 'Do you like my flat?',
+            en: 'Do you like my apartment?',
             note: 'li, then ti, then se',
           },
           { hr: 'Ivanu se ne sviđa kava.', en: 'Ivan does not like coffee.', note: 'Ivan → Ivanu' },
           {
             hr: 'Mami se sviđaju cvijeće i knjige.',
-            en: 'Mum likes flowers and books.',
+            en: 'Mom likes flowers and books.',
             note: 'two things → sviđaju',
           },
           { hr: 'Kako vam se sviđa Split?', en: 'How do you like Split?', note: 'vam before se' },
@@ -232,7 +232,7 @@ export const LESSONS = [
               'Vjerovati takes the dative for the person you trust: Vjerujem Marku. Marka is the accusative.',
           },
           {
-            q: 'Which sentence is correct? (Do you like my flat?)',
+            q: 'Which sentence is correct? (Do you like my apartment?)',
             options: [
               'Sviđa li ti se moj stan?',
               'Sviđa li se ti moj stan?',
@@ -372,7 +372,7 @@ export const LESSONS = [
         type: 'example',
         title: 'A Postcard From the Coast',
         items: [
-          { hr: 'Draga mama,', en: 'Dear Mum,', note: 'draga — she is a woman' },
+          { hr: 'Draga mama,', en: 'Dear Mom,', note: 'draga — she is a woman' },
           { hr: 'Pozdrav iz Splita!', en: 'Greetings from Split!', note: 'a fixed phrase' },
           { hr: 'Ovdje je prekrasno i jako toplo.', en: 'It is beautiful and very warm here.' },
           {
@@ -965,13 +965,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Where and What You Study',
-        body: 'Am I a pupil or a student? Do I learn or do I study? Am I IN the faculty or ON it? English and Croatian draw these lines in different places. This lesson gives you the words for school and university and the two or three choices that tell a Croatian you know what you are saying.',
+        body: 'Am I a school student or a college student? Do I learn or do I study? Am I IN the faculty or ON it? English and Croatian draw these lines in different places. This lesson gives you the words for school and university and the two or three choices that tell a Croatian you know what you are saying.',
         icon: '🎒',
       },
       {
         type: 'rule',
         title: 'Učiti or Studirati',
-        body: 'Učiti means to learn or to study anything, anywhere: Učim hrvatski. Učim za ispit. Djeca uče u školi. Studirati means to study a subject at university, as your degree: Studiram medicinu. Moj brat studira pravo. In English both are "study"; in Croatian, studying FOR an exam is always učiti, even for a university student.',
+        body: 'Učiti means to learn or to study anything, anywhere: Učim hrvatski. Učim za ispit. Djeca uče u školi. Studirati means to study a subject in college, as your degree: Studiram medicinu. Moj brat studira pravo. In English both are "study"; in Croatian, studying FOR an exam is always učiti, even for a university student.',
         highlight: 'Učim za ispit.',
       },
       {
@@ -998,13 +998,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Subjects, Homework and Exams',
-        body: 'predmet — a school subject: matematika, hrvatski, engleski, povijest, biologija, kemija. Koji ti je omiljeni predmet? (What is your favourite subject?) Moj omiljeni predmet je povijest. domaća zadaća — homework: Pišem domaću zadaću. ispit — an exam: Imam ispit u petak. Položio sam ispit! (I passed the exam!) razred — a class, a year group: Moj razred ima izlet.',
+        body: 'predmet — a school subject: matematika, hrvatski, engleski, povijest, biologija, kemija. Koji ti je omiljeni predmet? (What is your favorite subject?) Moj omiljeni predmet je povijest. domaća zadaća — homework: Pišem domaću zadaću. ispit — an exam: Imam ispit u petak. Položio sam ispit! (I passed the exam!) razred — a class, a year group: Moj razred ima izlet.',
         highlight: 'Imam ispit u petak.',
       },
       {
         type: 'rule',
         title: 'From School to a First Job',
-        body: "Croatian children go to osnovna škola (primary school, eight years) and then to srednja škola (secondary school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. Secondary school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
+        body: "Croatian children go to osnovna škola (elementary school, eight years) and then to srednja škola (high school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. High school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
         highlight: 'Sutra idem na razgovor za posao.',
       },
       {
@@ -1013,7 +1013,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Moja kći ide u gimnaziju.',
-            en: 'My daughter goes to a gimnazija (an academic secondary school).',
+            en: 'My daughter goes to a gimnazija (an academic high school).',
           },
           { hr: 'U lipnju imam maturu.', en: 'In June I have my school-leaving exam.' },
           { hr: 'Maturalna zabava je u petak.', en: "The leavers' ball is on Friday." },
@@ -1035,16 +1035,16 @@ export const LESSONS = [
         type: 'example',
         title: 'At School',
         items: [
-          { hr: 'Ja sam učenica. Idem u školu.', en: 'I am a pupil. I go to school.' },
+          { hr: 'Ja sam učenica. Idem u školu.', en: 'I am a student. I go to school.' },
           {
             hr: 'Djeca su sada u školi.',
             en: 'The children are at school now.',
             note: 'where → u školi',
           },
           { hr: 'Učiteljica nam daje domaću zadaću.', en: 'The teacher gives us homework.' },
-          { hr: 'Moj omiljeni predmet je povijest.', en: 'My favourite subject is history.' },
+          { hr: 'Moj omiljeni predmet je povijest.', en: 'My favorite subject is history.' },
           { hr: 'Večeras pišem domaću zadaću.', en: 'Tonight I am doing my homework.' },
-          { hr: 'Matematika mi se ne sviđa.', en: 'I do not like maths.' },
+          { hr: 'Matematika mi se ne sviđa.', en: 'I do not like math.' },
         ],
       },
       {
@@ -1129,11 +1129,11 @@ export const LESSONS = [
             explanation: 'Studying for an exam is učiti, with za: Učim za ispit.',
           },
           {
-            q: 'A teacher in a Croatian secondary school is called…',
+            q: 'A teacher in a Croatian high school is called…',
             options: ['profesor', 'učenik', 'student', 'razred'],
             correct: 0,
             explanation:
-              'Secondary-school teachers in Croatia are profesor and profesorica. Učenik is a pupil.',
+              'Secondary-school teachers in Croatia are profesor and profesorica. Učenik is a student.',
           },
           {
             q: 'Complete: "Moj omiljeni ___ je matematika." (subject)',
@@ -1237,7 +1237,7 @@ export const LESSONS = [
             en: 'Every day I go to work by tram.',
             note: 'tramvaj → tramvajem',
           },
-          { hr: 'Putujemo u Split vlakom.', en: 'We are travelling to Split by train.' },
+          { hr: 'Putujemo u Split vlakom.', en: 'We are traveling to Split by train.' },
           { hr: 'Ana ide u školu biciklom.', en: 'Ana goes to school by bike.' },
           { hr: 'Na Hvar idemo brodom.', en: 'We are going to Hvar by boat.' },
           { hr: 'U London putujem avionom.', en: 'I travel to London by plane.' },
@@ -1313,10 +1313,10 @@ export const LESSONS = [
           {
             q: 'What does "Idem u kino s bratom." say?',
             options: [
-              'I go to the cinema by my brother’s car.',
-              'I go to the cinema instead of my brother.',
-              'I go to the cinema with my brother.',
-              'I go to the cinema for my brother.',
+              'I go to the movies by my brother’s car.',
+              'I go to the movies instead of my brother.',
+              'I go to the movies with my brother.',
+              'I go to the movies for my brother.',
             ],
             correct: 2,
             explanation:
@@ -1562,7 +1562,7 @@ export const PRACTICE = {
       ['vjerovati', 'to believe, to trust', 'Vjerujem ti.'],
       ['odgovarati', 'to answer; to suit', 'Zašto mi ne odgovaraš?'],
       ['sviđati se', 'to be liked by', 'Sviđa mi se Zagreb.'],
-      ['susjed', 'neighbour', 'Pomažem susjedu.'],
+      ['susjed', 'neighbor', 'Pomažem susjedu.'],
       ['pitanje', 'question', 'Odgovaram na pitanje.'],
       ['cipele', 'shoes', 'Sviđaju mi se ove cipele.'],
       ['pjesma', 'song', 'Sviđa mi se ova pjesma.'],
@@ -1618,10 +1618,10 @@ export const PRACTICE = {
           explanation: 'Sretan put! — have a good trip.',
         },
         {
-          q: 'How do you open a card to your mum?',
+          q: 'How do you open a card to your mom?',
           options: ['Dragi mama,', 'Drago mama,', 'Draga mama,', 'Dragu mama,'],
           correct: 2,
-          hint: 'Your mum is a woman.',
+          hint: 'Your mom is a woman.',
           explanation: 'Draga mama,',
         },
         {
@@ -1703,7 +1703,7 @@ export const PRACTICE = {
         explanation: 'Ana is a woman: Draga Ana.',
       },
       {
-        q: 'Your neighbour has a job interview tomorrow. What do you say?',
+        q: 'Your neighbor has a job interview tomorrow. What do you say?',
         options: ['Sretno!', 'Sretan Božić!', 'Puno pozdrava!', 'Sretan imendan!'],
         correct: 0,
         explanation: 'Sretno! — good luck.',
@@ -2263,7 +2263,7 @@ export const PRACTICE = {
           explanation: 'Imam ispit u petak.',
         },
         {
-          q: 'Secondary school in Croatia ends with the state school-leaving exam. What is it called?',
+          q: 'High school in Croatia ends with the state school-leaving exam. What is it called?',
           options: ['razred', 'matura', 'fakultet', 'životopis'],
           correct: 1,
           hint: "The same word gives the name of the leavers' ball.",
@@ -2313,14 +2313,9 @@ export const PRACTICE = {
       },
       {
         q: 'What does "učenica" mean?',
-        options: [
-          'a female teacher',
-          'a female pupil',
-          'a female student at university',
-          'a school',
-        ],
+        options: ['a female teacher', 'a female pupil', 'a female student in college', 'a school'],
         correct: 1,
-        explanation: 'učenica — a girl at school, a pupil.',
+        explanation: 'učenica — a girl at school, a student.',
       },
       {
         q: 'Which sentence is correct? (We are learning Croatian.)',
@@ -2490,8 +2485,8 @@ export const PRACTICE = {
       {
         q: 'What does "Putujemo u Split vlakom." mean?',
         options: [
-          'We are travelling to Split with the train driver.',
-          'We are travelling to Split by train.',
+          'We are traveling to Split with the train driver.',
+          'We are traveling to Split by train.',
           'We are waiting for the train to Split.',
           'We are buying a train ticket to Split.',
         ],

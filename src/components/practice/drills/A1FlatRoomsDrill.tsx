@@ -21,7 +21,7 @@ export default function A1FlatRoomsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1flatrooms"
       title="My Flat"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FLAT_ROOMS_MODE_LABELS}
       data={FLAT_ROOMS_DRILL_DATA}
       praise={{

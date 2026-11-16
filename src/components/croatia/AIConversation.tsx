@@ -97,10 +97,10 @@ const WRITE_PROMPTS = [
     id: 'w_food',
     level: 'B1',
     icon: '🍽️',
-    title: 'My Favourite Meal',
+    title: 'My Favorite Meal',
     hr: 'Moj omiljeni obrok',
     prompt:
-      'Describe your favourite meal in detail. Why do you love it? How is it prepared? Include when you usually eat it.',
+      'Describe your favorite meal in detail. Why do you love it? How is it prepared? Include when you usually eat it.',
   },
   {
     id: 'w_holiday',
@@ -109,7 +109,7 @@ const WRITE_PROMPTS = [
     title: 'A Holiday Memory',
     hr: 'Uspomena s odmora',
     prompt:
-      'Write about a memorable holiday or trip. Where did you go? What happened? What did you learn?',
+      'Write about a memorable vacation or trip. Where did you go? What happened? What did you learn?',
   },
   {
     id: 'w_opinion',
@@ -127,7 +127,7 @@ const WRITE_PROMPTS = [
     title: 'Formal Email',
     hr: 'Formalni e-mail',
     prompt:
-      'Write a formal email to a Croatian landlord asking about renting a flat. Include questions about price, utilities, and move-in date.',
+      'Write a formal email to a Croatian landlord asking about renting an apartment. Include questions about price, utilities, and move-in date.',
   },
   {
     id: 'w_story',
@@ -631,7 +631,7 @@ export default function AIConversation({
       if (limit === 'daily') {
         const resetTime = formatAiResetTime(data.resetAt) || 'midnight UTC';
         throw new Error(
-          `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practising!`,
+          `You've reached today's AI conversation limit. Your quota resets at ${resetTime}. Come back tomorrow to continue practicing!`,
         );
       }
       throw new Error(msg);

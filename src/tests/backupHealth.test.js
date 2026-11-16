@@ -131,7 +131,7 @@ describe('classifyBackupFailure', () => {
     }
   });
 
-  it('STILL recognises the pre-split code, because history outlives the change', () => {
+  it('STILL recognizes the pre-split code, because history outlives the change', () => {
     // Records are retained 60 days, so `server_misconfigured` entries coexist
     // with the new codes for two months. Dropping it from the vocabulary would
     // coerce every one of them to 'unknown' and erase a diagnosis we already

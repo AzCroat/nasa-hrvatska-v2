@@ -190,7 +190,7 @@ export const HISTORY = {
     },
     {
       name: 'Gojko Šušak',
-      role: 'Minister of Defence',
+      role: 'Minister of Defense',
       roleHr: 'Ministar obrane',
       desc: 'Organized the Croatian military from virtually nothing into a force capable of defending and liberating the homeland.',
       descHr:
@@ -700,7 +700,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Pulska Arena je 6. najveći rimski amfiteatar na svijetu.',
-    en: 'Pula Arena is the 6th largest Roman amphitheatre in the world.',
+    en: 'Pula Arena is the 6th largest Roman amphitheater in the world.',
   },
   {
     hr: 'Ban Jelačić ukinuo je kmetstvo u Hrvatskoj 1848.',
@@ -834,7 +834,7 @@ export const HIST_FACTS = [
   { hr: 'Rabac se zove Biser Kvarnera.', en: 'Rabac is called the Pearl of Kvarner.' },
   {
     hr: 'Ilirski pokret u 19. st. težio je kulturnom jedinstvu južnih Slavena i standardizirao hrvatski jezik na štokavskoj osnovi.',
-    en: 'The 19th-century Illyrian Movement sought South Slavic cultural unity and standardised Croatian on a Štokavian base.',
+    en: 'The 19th-century Illyrian Movement sought South Slavic cultural unity and standardized Croatian on a Štokavian base.',
   },
   {
     hr: 'Kopački rit je jedan od najvećih močvarnih krajolika u Europi.',
@@ -863,7 +863,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Šokačke tradicije u Slavoniji žive kroz Vinkovačke jeseni.',
-    en: 'Šokci traditions in Slavonia live through the Vinkovci Autumn festival.',
+    en: 'Šokci traditions in Slavonia live through the Vinkovci Fall festival.',
   },
   {
     hr: 'Ema Derossi-Bjelajac iz Labina bila je prva žena na čelu Hrvatske.',
@@ -933,7 +933,7 @@ export const HIST_FACTS = [
   { hr: 'Zagreb je prvi put spomenut 1094. godine.', en: 'Zagreb was first mentioned in 1094.' },
   {
     hr: 'Zgrada HNK-a u Zagrebu otvorena je 1895.',
-    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
+    en: "The Croatian National Theater's building in Zagreb opened in 1895.",
   },
   {
     hr: 'Brijuni su bili rezidencija Josipa Broza Tita.',
@@ -1125,7 +1125,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Vinkovačke jeseni najstariji su folklorni festival u Hrvatskoj.',
-    en: 'Vinkovci Autumn is the oldest folklore festival in Croatia.',
+    en: 'Vinkovci Fall is the oldest folklore festival in Croatia.',
   },
   {
     hr: 'Sinišu Glavaševića ubili su na Ovčari — bio je vukovarski novinar.',
@@ -1408,7 +1408,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Benkovac je bio jedno od središta srpske pobune u Krajini 1991.',
-    en: 'Benkovac was one of the centres of the Serb rebellion in Krajina in 1991.',
+    en: 'Benkovac was one of the centers of the Serb rebellion in Krajina in 1991.',
   },
   {
     hr: 'Bleiburška tragedija 1945. temelj je kolektivnog sjećanja Hrvata.',
@@ -1622,7 +1622,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Zgrada Hrvatskoga narodnog kazališta u Zagrebu otvorena je 1895.',
-    en: "The Croatian National Theatre's building in Zagreb opened in 1895.",
+    en: "The Croatian National Theater's building in Zagreb opened in 1895.",
   },
   {
     hr: "Jarun u Zagrebu zovu 'zagrebačko more'.",
@@ -1662,7 +1662,7 @@ export const HIST_FACTS = [
   },
   {
     hr: 'Hvarsko kazalište (1612.) jedno je od najstarijih javnih kazališta u Europi.',
-    en: 'The Hvar theatre (1612) is one of the oldest public theatres in Europe.',
+    en: 'The Hvar theater (1612) is one of the oldest public theaters in Europe.',
   },
   {
     hr: 'Vis je mjesto bitke 1866. između Italije i Austrije.',

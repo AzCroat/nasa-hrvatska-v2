@@ -201,7 +201,7 @@ const DATA = [
     q: '„____ spavamo duže.” (svaki vikend)',
     opts: ['Vikendom', 'Na vikendu', 'U vikend', 'Preko vikendom'],
     answer: 'Vikendom',
-    en: 'at weekends we sleep longer',
+    en: 'on weekends we sleep longer',
     tip: 'Instrumental vremena: vikendom, nedjeljom, ljeti.',
   },
 ];

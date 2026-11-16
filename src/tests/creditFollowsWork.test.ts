@@ -18,7 +18,7 @@
  * SRS card and tapping a tab lost the XP, the `rc` counter, `vs: srsreview` and the
  * review count the quest reads.
  *
- * SEVEN PRINTED A CLAIM THEY HAD NOT HONOURED: `Unjumble`, `VocativeScreen`,
+ * SEVEN PRINTED A CLAIM THEY HAD NOT HONORED: `Unjumble`, `VocativeScreen`,
  * `BojeGame`, `DictationScreen`, `ListeningScreen` and `LiveTutorDebrief` render
  * "+N XP" on that view (the last ON the button itself), `ModalScreen` announces
  * "🏅 Modal Verbs Badge Earned!" and `PastTenseLessonScreen` "Quest complete! +20 XP

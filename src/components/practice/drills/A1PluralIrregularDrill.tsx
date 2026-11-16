@@ -21,7 +21,7 @@ export default function A1PluralIrregularDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1pluralirregular"
       title="People, Children, Brothers: The Irregular Plurals"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PLURAL_IRREGULAR_MODE_LABELS}
       data={PLURAL_IRREGULAR_DRILL_DATA}
       praise={{

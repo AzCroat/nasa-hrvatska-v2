@@ -180,7 +180,7 @@ describe('no inline style takes a focus indicator away', () => {
       .map(([k, ps]) => `${k} sets ${ps.map((p) => p.prop).join(' + ')}`);
     expect(
       bad,
-      'a text field gets no :focus-visible outline, so its border colour and its ' +
+      'a text field gets no :focus-visible outline, so its border color and its ' +
         'box-shadow ring are the whole indicator — overriding both inline leaves ' +
         'nothing. Move the resting decoration into a class (see .write-area).',
     ).toEqual([]);

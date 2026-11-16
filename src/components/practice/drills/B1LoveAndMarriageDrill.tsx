@@ -21,7 +21,7 @@ export default function B1LoveAndMarriageDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1loveandmarriage"
       title="Love and Marriage"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={LOVE_AND_MARRIAGE_MODE_LABELS}
       data={LOVE_AND_MARRIAGE_DRILL_DATA}
       praise={{

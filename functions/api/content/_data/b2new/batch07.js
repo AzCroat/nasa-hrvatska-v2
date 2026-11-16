@@ -31,7 +31,7 @@ export const SPINE = [
     objectives: [
       'Talk about natural disasters in Croatia, climate change and sorting waste',
       'Put ne in the right place and ask negative questions: Ne bojim se potresa. Zar ne znaš?',
-      'Understand the exclamation Čega sve nema! and recognise exoticisms such as cunami and tajfun',
+      'Understand the exclamation Čega sve nema! and recognize exoticisms such as cunami and tajfun',
     ],
   },
   {
@@ -311,7 +311,7 @@ const GENITIVE_OF_NEGATION = {
 const CLIMATE_ENVIRONMENT = {
   id: 'climate-environment',
   title: 'Klima i okoliš: Fires, Floods and Waste',
-  subtitle: 'Natural disasters, sorting rubbish — and where ne goes in a sentence',
+  subtitle: 'Natural disasters, sorting trash — and where ne goes in a sentence',
   icon: '🌍',
   level: 'B2',
   duration: '~9 min',
@@ -333,7 +333,7 @@ const CLIMATE_ENVIRONMENT = {
     {
       type: 'rule',
       title: 'Climate and Waste',
-      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (rubbish), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian shops you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
+      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (trash), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian shops you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
       highlight: 'odvajanje otpada',
     },
     {
@@ -417,7 +417,7 @@ const CLIMATE_ENVIRONMENT = {
         },
         {
           hr: 'Ne bacaj staklo u smeće, nego u spremnik!',
-          en: 'Do not throw glass in the rubbish, put it in the container!',
+          en: 'Do not throw glass in the trash, put it in the container!',
           note: 'ne directly before the verb; nego after a negative',
         },
         {
@@ -427,7 +427,7 @@ const CLIMATE_ENVIRONMENT = {
         },
         {
           hr: 'Na Dan planeta Zemlje učenici čiste obalu i parkove.',
-          en: 'On Earth Day pupils clean up the coast and the parks.',
+          en: 'On Earth Day students clean up the coast and the parks.',
           note: 'Dan planeta Zemlje — 22 April',
         },
         {
@@ -614,7 +614,7 @@ const REPORTED_SPEECH_B2 = {
     {
       type: 'rule',
       title: 'Statements: Da',
-      body: 'A reported statement starts with da. Pronouns and verb endings change to fit who is speaking now: "Volim te." → Rekao je da me voli. "Ne razumijem vas." → Rekla je da nas ne razumije. "Moj brat živi u Puli." → Rekao je da njegov brat živi u Puli. Reporting verbs give colour: reći, kazati, objasniti, tvrditi (to claim), dodati (to add), priznati (to admit).',
+      body: 'A reported statement starts with da. Pronouns and verb endings change to fit who is speaking now: "Volim te." → Rekao je da me voli. "Ne razumijem vas." → Rekla je da nas ne razumije. "Moj brat živi u Puli." → Rekao je da njegov brat živi u Puli. Reporting verbs give color: reći, kazati, objasniti, tvrditi (to claim), dodati (to add), priznati (to admit).',
       highlight: 'Rekao je da me voli.',
     },
     {
@@ -675,7 +675,7 @@ const REPORTED_SPEECH_B2 = {
         },
         {
           hr: 'Prodavač nas je pitao jesmo li zadovoljni.',
-          en: 'The shop assistant asked us whether we were satisfied.',
+          en: 'The salesperson asked us whether we were satisfied.',
           note: 'jesmo li — the long form of biti carries li',
         },
         {
@@ -869,7 +869,7 @@ const INTERJECTIONS = {
     {
       type: 'rule',
       title: 'Register',
-      body: 'Bravo, joj and aha are fine almost anywhere. Ajme, ups, uf and hej belong to everyday speech with friends and family; in a formal email or a meeting with officials they sound too casual. Pst is fine with children or in a cinema, but can sound rude to an adult you do not know. In writing, interjections appear in dialogue, messages and stories, rarely in formal texts. When you report what someone said, the interjection drops out and the feeling goes into the verb: Ana je uzviknula da je to divno.',
+      body: 'Bravo, joj and aha are fine almost anywhere. Ajme, ups, uf and hej belong to everyday speech with friends and family; in a formal email or a meeting with officials they sound too casual. Pst is fine with children or in a movie theater, but can sound rude to an adult you do not know. In writing, interjections appear in dialogue, messages and stories, rarely in formal texts. When you report what someone said, the interjection drops out and the feeling goes into the verb: Ana je uzviknula da je to divno.',
       highlight: 'Ajme, ups, uf and hej',
     },
     {
@@ -1084,7 +1084,7 @@ const TRAVEL_AND_SPORT = {
     {
       type: 'intro',
       title: 'What Do You Do When You Are Free?',
-      body: 'Free time is where conversation lives: what you play, whom you support, how you rest, what you do when you are bored, and where you travelled last summer. This lesson gives you the verbs and cases that go with them — baviti se + instrumental, igrati + accusative, navijati za — the two ways to be bored, the prefix na- that means "to your heart’s content", and the way aspect carries a travel story.',
+      body: 'Free time is where conversation lives: what you play, whom you support, how you rest, what you do when you are bored, and where you traveled last summer. This lesson gives you the verbs and cases that go with them — baviti se + instrumental, igrati + accusative, navijati za — the two ways to be bored, the prefix na- that means "to your heart’s content", and the way aspect carries a travel story.',
       icon: '🏀',
     },
     {
@@ -1114,7 +1114,7 @@ const TRAVEL_AND_SPORT = {
     {
       type: 'rule',
       title: 'Two Croatians Worth Knowing',
-      body: 'Dražen Petrović (1964–1993), born in Šibenik, was one of the greatest European basketball players. He played for Cibona Zagreb, Real Madrid and in the NBA, and won Olympic silver with Croatia in Barcelona in 1992. He died in a car accident in Germany in 1993; the Dražen Petrović Memorial Centre in Zagreb keeps his memory alive. Davor Rostuhar is a Croatian travel writer and photographer whose books and pictures bring far-off places to Croatian readers. The UN’s International Day of Sport for Development and Peace is 6 April.',
+      body: 'Dražen Petrović (1964–1993), born in Šibenik, was one of the greatest European basketball players. He played for Cibona Zagreb, Real Madrid and in the NBA, and won Olympic silver with Croatia in Barcelona in 1992. He died in a car accident in Germany in 1993; the Dražen Petrović Memorial Center in Zagreb keeps his memory alive. Davor Rostuhar is a Croatian travel writer and photographer whose books and pictures bring far-off places to Croatian readers. The UN’s International Day of Sport for Development and Peace is 6 April.',
       highlight: 'Dražen Petrović (1964–1993)',
     },
     {
@@ -1199,12 +1199,12 @@ const TRAVEL_AND_SPORT = {
         },
         {
           hr: 'Mnogi navijači posjećuju Memorijalni centar Dražen Petrović u Zagrebu.',
-          en: 'Many fans visit the Dražen Petrović Memorial Centre in Zagreb.',
+          en: 'Many fans visit the Dražen Petrović Memorial Center in Zagreb.',
           note: 'centar — the object, accusative',
         },
         {
           hr: 'Ljetos smo se naputovali, a sad nam je dosadno kod kuće.',
-          en: 'This summer we travelled to our heart’s content, and now we are bored at home.',
+          en: 'This summer we traveled to our heart’s content, and now we are bored at home.',
           note: 'naputovati se; nam je dosadno',
         },
       ],
@@ -2115,7 +2115,7 @@ export const PRACTICE = {
       ['proliti', 'to spill', 'Ups, prolio sam kavu.'],
       ['tiho', 'quietly', 'Pst, govori tiho!'],
       ['napokon', 'finally', 'Uf, napokon smo stigli!'],
-      ['shvatiti', 'to realise, to understand', 'Aha, sad shvaćam.'],
+      ['shvatiti', 'to realize, to understand', 'Aha, sad shvaćam.'],
       ['pohvala', 'praise', 'Bravo je kratka pohvala.'],
       ['pažljiv', 'careful', 'Joj, budi pažljiv na stepenicama!'],
     ],

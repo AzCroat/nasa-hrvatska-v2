@@ -112,7 +112,7 @@ const L_INSTRUMENTAL_ADJECTIVES = {
         },
         {
           hr: 'Ljeti se družimo s našim novim susjedima.',
-          en: 'In summer we spend time with our new neighbours.',
+          en: 'In summer we spend time with our new neighbors.',
           note: 'našim novim — the plural -im',
         },
       ],
@@ -123,7 +123,7 @@ const L_INSTRUMENTAL_ADJECTIVES = {
       items: [
         {
           hr: 'Najradije putujem tim malim žutim autobusom.',
-          en: 'I most like travelling on that little yellow bus.',
+          en: 'I most like traveling on that little yellow bus.',
           note: 'tim malim žutim — the means, masculine -im, no preposition',
         },
         {
@@ -434,7 +434,7 @@ const P_INSTRUMENTAL_ADJECTIVES = {
   ],
   vocab: [
     ['prijateljica', 'friend (a woman)', 'Idem u kino s novom prijateljicom.'],
-    ['susjed', 'neighbour', 'Družimo se s našim novim susjedom.'],
+    ['susjed', 'neighbor', 'Družimo se s našim novim susjedom.'],
     ['zgrada', 'building', 'Djeca se igraju pred našom zgradom.'],
     ['olovka', 'pencil', 'Pišem crvenom olovkom.'],
     ['družiti se', 'to spend time (with someone)', 'Družim se sa starim prijateljima.'],
@@ -534,7 +534,7 @@ const L_VERBS_WITH_INSTRUMENTAL = {
         },
         {
           hr: 'Svaki dan se služim računalom i mobitelom.',
-          en: 'Every day I use a computer and a mobile phone.',
+          en: 'Every day I use a computer and a cell phone.',
           note: 'računalom, mobitelom — instrumental after služiti se',
         },
         {
@@ -712,8 +712,8 @@ const P_VERBS_WITH_INSTRUMENTAL = {
     },
     {
       title: 'A Question With zadovoljan',
-      problem: 'Prevedi, to a woman friend: "Are you happy with your new flat?"',
-      en: 'Say to a woman friend: Are you happy with your new flat?',
+      problem: 'Prevedi, to a woman friend: "Are you happy with your new apartment?"',
+      en: 'Say to a woman friend: Are you happy with your new apartment?',
       steps: [
         {
           label: 'The adjective',
@@ -960,7 +960,7 @@ const L_JOB_APPLICATION = {
     {
       type: 'rule',
       title: 'The Opening Sentence',
-      body: 'Javljati se na (to respond to, to apply for) takes the accusative: Javljam se na Vaš natječaj. The post is radno mjesto, and the job title after it goes into the genitive: radno mjesto prodavača (of a shop assistant), konobara (of a waiter), vozača (of a driver), kuhara (of a cook). Together: Javljam se na Vaš natječaj za radno mjesto prodavača.',
+      body: 'Javljati se na (to respond to, to apply for) takes the accusative: Javljam se na Vaš natječaj. The post is radno mjesto, and the job title after it goes into the genitive: radno mjesto prodavača (of a salesperson), konobara (of a waiter), vozača (of a driver), kuhara (of a cook). Together: Javljam se na Vaš natječaj za radno mjesto prodavača.',
       highlight: 'Javljam se na Vaš natječaj za radno mjesto prodavača.',
     },
     {
@@ -1006,7 +1006,7 @@ const L_JOB_APPLICATION = {
       items: [
         {
           hr: 'Predmet: Prijava na natječaj za radno mjesto prodavača',
-          en: 'Subject: Application for the post of shop assistant',
+          en: 'Subject: Application for the post of salesperson',
           note: 'prodavača — the job title in the genitive',
         },
         {
@@ -1016,17 +1016,17 @@ const L_JOB_APPLICATION = {
         },
         {
           hr: 'Javljam se na Vaš natječaj za radno mjesto prodavača u knjižari u Zadru.',
-          en: 'I am applying for your vacancy for a shop assistant in the bookshop in Zadar.',
+          en: 'I am applying for your vacancy for a salesperson in the bookshop in Zadar.',
           note: 'na Vaš natječaj — accusative after javljati se na',
         },
         {
           hr: 'Završila sam srednju ekonomsku školu u Zadru.',
-          en: 'I finished the secondary school of economics in Zadar.',
+          en: 'I finished the high school of economics in Zadar.',
           note: 'završila — the writer is a woman',
         },
         {
           hr: 'Radila sam tri godine kao prodavačica u maloj trgovini u centru grada.',
-          en: 'I worked for three years as a shop assistant in a small shop in the town centre.',
+          en: 'I worked for three years as a salesperson in a small shop in the town center.',
           note: 'prodavačica — the feminine job title after kao',
         },
         {
@@ -1101,7 +1101,7 @@ const L_JOB_APPLICATION = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'Which greeting opens a formal letter to Mr Babić?',
+          q: 'Which greeting opens a formal letter to Mr. Babić?',
           options: [
             'Dragi Babić,',
             'Poštovani gospodine Babiću,',
@@ -1193,8 +1193,8 @@ const P_JOB_APPLICATION = {
     },
     {
       title: 'Experience, Written by a Woman',
-      problem: 'Prevedi (a woman writing): "I worked for three years as a shop assistant."',
-      en: 'A woman writes: I worked for three years as a shop assistant.',
+      problem: 'Prevedi (a woman writing): "I worked for three years as a salesperson."',
+      en: 'A woman writes: I worked for three years as a salesperson.',
       steps: [
         {
           label: 'The past tense',
@@ -1216,7 +1216,7 @@ const P_JOB_APPLICATION = {
     title: 'Guided Practice',
     items: [
       {
-        q: 'A letter to Mrs Ana Horvat. Which greeting is correct?',
+        q: 'A letter to Mrs. Ana Horvat. Which greeting is correct?',
         options: [
           'Poštovana gospođo Horvat,',
           'Poštovana gospođo Horvatu,',
@@ -1405,7 +1405,7 @@ const L_SATISFACTION_DISAPPOINTMENT = {
     {
       type: 'intro',
       title: 'How Was It?',
-      body: 'Kako je bilo? — How was it? The hotel, the new job, the concert, the exam result. In this lesson you learn to answer with feeling: pleased or not pleased, thrilled, disappointed — and how strongly. The grammar is the instrumental you have just practised: Zadovoljna sam rezultatom. Oduševljeni smo koncertom.',
+      body: 'Kako je bilo? — How was it? The hotel, the new job, the concert, the exam result. In this lesson you learn to answer with feeling: pleased or not pleased, thrilled, disappointed — and how strongly. The grammar is the instrumental you have just practiced: Zadovoljna sam rezultatom. Oduševljeni smo koncertom.',
       icon: '🎭',
     },
     {
@@ -1484,7 +1484,7 @@ const L_SATISFACTION_DISAPPOINTMENT = {
         },
         {
           hr: 'Moja mama je oduševljena tvojim poklonom.',
-          en: 'My mum is thrilled with your present.',
+          en: 'My mom is thrilled with your present.',
           note: 'oduševljena — agrees with mama',
         },
         {
@@ -1647,8 +1647,8 @@ const P_SATISFACTION_DISAPPOINTMENT = {
   worked: [
     {
       title: 'Enthusiasm, Spoken by a Woman',
-      problem: 'Prevedi (a woman speaking): "I am thrilled with your new flat!"',
-      en: 'A woman says: I am thrilled with your new flat!',
+      problem: 'Prevedi (a woman speaking): "I am thrilled with your new apartment!"',
+      en: 'A woman says: I am thrilled with your new apartment!',
       steps: [
         {
           label: 'The adjective',
@@ -1929,7 +1929,7 @@ const L_GENITIVE_ADJECTIVES = {
         },
         {
           hr: 'Vikendom smo uvijek kod svoje bake na selu.',
-          en: 'At weekends we are always at our grandmother’s in the village.',
+          en: 'On weekends we are always at our grandmother’s in the village.',
           note: 'svoje — feminine -e; points back at mi',
         },
         {
@@ -2104,8 +2104,8 @@ const P_GENITIVE_ADJECTIVES = {
     },
     {
       title: 'A Quantity With an Adjective',
-      problem: 'Prevedi: "We have a lot of good neighbours."',
-      en: 'We have a lot of good neighbours.',
+      problem: 'Prevedi: "We have a lot of good neighbors."',
+      en: 'We have a lot of good neighbors.',
       steps: [
         {
           label: 'After puno',

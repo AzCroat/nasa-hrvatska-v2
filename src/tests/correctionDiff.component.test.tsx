@@ -116,11 +116,11 @@ describe('CorrectionDiff', () => {
 // The <del> carried `opacity: 0.85` on #c0392b. axe-core 4.13 flagged it as a
 // serious WCAG 2.1 AA failure and was right: axe blends the foreground against
 // the background by element opacity, so the learner actually saw #c9574b —
-// 4.24:1, under the 4.5:1 minimum. axe 4.12 scored the UNBLENDED colour and
+// 4.24:1, under the 4.5:1 minimum. axe 4.12 scored the UNBLENDED color and
 // missed it, so it shipped for a while.
 //
 // The E2E axe scan only catches this while the installed axe-core keeps
-// modelling opacity, and only on the one screen it scans. This computes the
+// modeling opacity, and only on the one screen it scans. This computes the
 // blended ratio directly from what the component renders, so the rule holds
 // regardless of scanner version.
 describe('DiffSpan contrast (WCAG 2.1 AA)', () => {
@@ -156,7 +156,7 @@ describe('DiffSpan contrast (WCAG 2.1 AA)', () => {
     render(<DiffSpan original="tata" corrected="tatu" note="accusative" index={0} />);
     const del = screen.getByText('tata');
     // Guard the cause, not just the symptom: a fractional opacity here is what
-    // silently drags a passing colour under the threshold.
+    // silently drags a passing color under the threshold.
     expect(del.style.opacity === '' || Number(del.style.opacity) === 1).toBe(true);
     expect(effectiveContrast(del)).toBeGreaterThanOrEqual(4.5);
   });
@@ -167,7 +167,7 @@ describe('DiffSpan contrast (WCAG 2.1 AA)', () => {
   });
 
   it('the helper reproduces the exact ratio axe reported for the old style', () => {
-    // Pins the maths itself: axe said 4.24 for #c0392b at 0.85 over white.
+    // Pins the math itself: axe said 4.24 for #c0392b at 0.85 over white.
     // If this drifts, the two assertions above are measuring the wrong thing.
     const old = contrast(blend([0xc0, 0x39, 0x2b], 0.85, WHITE), WHITE);
     expect(old).toBeCloseTo(4.24, 2);

@@ -21,7 +21,7 @@ export default function C1AdversativeClausesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1adversativeclauses"
       title="But, Whereas, However"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ADVERSATIVE_CLAUSES_MODE_LABELS}
       data={ADVERSATIVE_CLAUSES_DRILL_DATA}
       praise={{

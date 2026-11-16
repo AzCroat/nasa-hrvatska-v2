@@ -156,10 +156,10 @@ const DATA = [
   },
   {
     affirm: 'Imam mobitel.',
-    neg_prompt: "I don't have a mobile phone.",
+    neg_prompt: "I don't have a cell phone.",
     opts: ['Nemam mobitela.', 'Nemam mobitel.', 'Nemam mobitelu.', 'Nemam mobitelom.'],
     answer: 'Nemam mobitela.',
-    en: "I don't have a mobile phone.",
+    en: "I don't have a cell phone.",
     tip: "'mobitel' (masc inanimate) → genitive 'mobitela'",
   },
 ];
@@ -189,7 +189,7 @@ export default function NegationGenDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Genitive of negation mastered! 🏆',
         good: 'Great feel for negation! 💪',
-        more: 'Keep practising — this rule is tricky but crucial!',
+        more: 'Keep practicing — this rule is tricky but crucial!',
       }}
       goBack={goBack}
       award={award}

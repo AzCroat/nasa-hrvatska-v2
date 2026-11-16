@@ -21,7 +21,7 @@ export default function B2ReflexiveSebeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2reflexivesebe"
       title="Myself, Yourself, Ourselves: sebe"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={REFLEXIVE_SEBE_MODE_LABELS}
       data={REFLEXIVE_SEBE_DRILL_DATA}
       praise={{

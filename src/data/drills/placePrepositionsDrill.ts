@@ -39,7 +39,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'In summer we are at the seaside.',
     opts: ['na', 'u', 'kod', 'iza'],
     answer: 'na',
-    tip: 'More takes na — na moru. There is no logic to derive; it is learnt as a pair.',
+    tip: 'More takes na — na moru. There is no logic to derive; it is learned as a pair.',
   },
   {
     mode: 'izbor',
@@ -110,7 +110,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kretanje',
     q: 'Putujemo na ____.',
-    en: 'We are travelling to the seaside.',
+    en: 'We are traveling to the seaside.',
     opts: ['more', 'moru', 'mora', 'morem'],
     answer: 'more',
     tip: 'Motion after na → accusative: na more.',
@@ -168,7 +168,7 @@ export const PLACE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'genitiv',
     q: 'Čekam te ispred ____. (kino)',
-    en: 'I am waiting for you in front of the cinema.',
+    en: 'I am waiting for you in front of the movie theater.',
     opts: ['kina', 'kino', 'kinu', 'kinom'],
     answer: 'kina',
     tip: 'Ispred + genitive: ispred kina.',

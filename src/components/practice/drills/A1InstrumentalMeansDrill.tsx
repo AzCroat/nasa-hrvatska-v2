@@ -21,7 +21,7 @@ export default function A1InstrumentalMeansDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1instrumentalmeans"
       title="By Car, With a Pen"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INSTRUMENTAL_MEANS_MODE_LABELS}
       data={INSTRUMENTAL_MEANS_DRILL_DATA}
       praise={{

@@ -84,8 +84,8 @@ export const DATA = [
     q: 'Idemo prema ___.',
     opts: ['moru', 'more', 'mora', 'morem'],
     answer: 'moru',
-    en: 'We are going towards the sea.',
-    tip: "'prema' (towards) takes dative: more (neuter) → moru",
+    en: 'We are going toward the sea.',
+    tip: "'prema' (toward) takes dative: more (neuter) → moru",
   },
   {
     q: 'Hvala ___!',
@@ -155,7 +155,7 @@ export const DATA = [
     q: 'Pomažem ___ u kuhinji.',
     opts: ['mami', 'mamu', 'mama', 'mamom'],
     answer: 'mami',
-    en: 'I help mum in the kitchen.',
+    en: 'I help mom in the kitchen.',
     tip: "'Pomagati' governs the DATIVE: mama → mami.",
   },
   {
@@ -183,7 +183,7 @@ export const DATA = [
     q: 'Ovaj kaput pripada ___.',
     opts: ['susjedi', 'susjede', 'susjeda', 'susjedom'],
     answer: 'susjedi',
-    en: 'This coat belongs to the (female) neighbour.',
+    en: 'This coat belongs to the (female) neighbor.',
     tip: "'Pripadati' + dative. Feminine susjeda → susjedi.",
   },
   {
@@ -260,7 +260,7 @@ export const DATA = [
     q: 'Učiteljica objašnjava zadatak ___.',
     opts: ['učenicima', 'učenike', 'učenikom', 'učenici'],
     answer: 'učenicima',
-    en: 'The teacher explains the task to the pupils.',
+    en: 'The teacher explains the task to the students.',
     tip: 'PLURAL dative: učenici → učenicima.',
   },
   {
@@ -376,7 +376,7 @@ export default function DativeDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Dative mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — dative is essential!',
+        more: 'Keep practicing — dative is essential!',
       }}
       goBack={goBack}
       award={award}

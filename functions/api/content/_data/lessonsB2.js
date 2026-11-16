@@ -103,7 +103,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'One Irregular Worth Knowing',
-        body: '"Misao" (thought) has an o where you expect an l, and it comes back in every other form: misao, misli, misli, misao, mislima. The same alternation runs through the language — you have seen it in "posao / posla" — and it is a sound rule rather than an exception to memorise separately.',
+        body: '"Misao" (thought) has an o where you expect an l, and it comes back in every other form: misao, misli, misli, misao, mislima. The same alternation runs through the language — you have seen it in "posao / posla" — and it is a sound rule rather than an exception to memorize separately.',
         highlight: 'misao → misli',
       },
       {
@@ -132,7 +132,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Bol: Two Genders, Two Pains',
-        body: '"Bol" (pain) belongs to two classes. As a masculine noun it is usually physical pain: bol u leđima, jak bol, bez bola. As a feminine i-noun it is usually the pain of the heart: velika bol, tuga i bol, bez boli. The book treats this as a difference of meaning; in practice both genders are standard for both, so recognise either form.',
+        body: '"Bol" (pain) belongs to two classes. As a masculine noun it is usually physical pain: bol u leđima, jak bol, bez bola. As a feminine i-noun it is usually the pain of the heart: velika bol, tuga i bol, bez boli. The book treats this as a difference of meaning; in practice both genders are standard for both, so recognize either form.',
         highlight: 'jak bol (body) · velika bol (heart)',
       },
       {
@@ -381,7 +381,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Three Verbs, One Root',
-        body: 'This is where the whole system becomes visible. From "pisati" you get: pisati (imperfective, to write), zapisati (perfective, to note down), zapisivati (imperfective again, to note down repeatedly). Three verbs, one root, three different jobs. Reading a Croatian text is largely a matter of recognising which of the three you are looking at.',
+        body: 'This is where the whole system becomes visible. From "pisati" you get: pisati (imperfective, to write), zapisati (perfective, to note down), zapisivati (imperfective again, to note down repeatedly). Three verbs, one root, three different jobs. Reading a Croatian text is largely a matter of recognizing which of the three you are looking at.',
         highlight: 'pisati → zapisati → zapisivati',
       },
       {
@@ -441,7 +441,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Djed nam je davao savjete koje nitko nije tražio.',
-            en: 'Grandad used to give us advice nobody asked for.',
+            en: 'Grandpa used to give us advice nobody asked for.',
             note: 'davati — the imperfective of dati',
           },
           {
@@ -673,7 +673,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Nemoj zaboraviti ključeve kad izlaziš iz stana.',
-            en: 'Do not forget the keys when you leave the flat.',
+            en: 'Do not forget the keys when you leave the apartment.',
             note: 'nemoj + perfective — a warning about one specific act',
           },
           {
@@ -923,7 +923,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Na zatvorenoj cesti prema Rijeci čekali smo dva sata.',
-            en: 'On the closed road towards Rijeka we waited two hours.',
+            en: 'On the closed road toward Rijeka we waited two hours.',
             note: 'locative feminine: zatvorenoj cesti',
           },
           {
@@ -1067,7 +1067,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'The Form That Makes Croatian Look Written',
-        body: 'English says "reading the book, I fell asleep" and it sounds slightly literary. Croatian has a dedicated form for exactly that, and it is one of the clearest markers of the written register: čitajući knjigu, zaspao sam. Recognising it is essential for reading; producing it is what makes your own writing look grown-up.',
+        body: 'English says "reading the book, I fell asleep" and it sounds slightly literary. Croatian has a dedicated form for exactly that, and it is one of the clearest markers of the written register: čitajući knjigu, zaspao sam. Recognizing it is essential for reading; producing it is what makes your own writing look grown-up.',
         icon: '🎭',
       },
       {
@@ -1143,7 +1143,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Putujući vlakom prema Osijeku, gledala sam ravnicu kroz prozor.',
-            en: 'Travelling by train towards Osijek, I watched the plain through the window.',
+            en: 'Traveling by train toward Osijek, I watched the plain through the window.',
             note: 'putovati → putujući, same subject',
           },
           {
@@ -1279,7 +1279,7 @@ export const LESSONS_B2 = [
           'Past -vši from perfective: napisavši, došavši — markedly literary',
           'The adverb and the main verb MUST share a subject',
           'Different subjects? Use dok and a full clause instead',
-          'Recognising these is essential for reading written Croatian',
+          'Recognizing these is essential for reading written Croatian',
         ],
       },
     ],
@@ -1378,7 +1378,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Da smo krenuli ranije, ne bismo zapeli u gužvi na autocesti.',
-            en: 'If we had set off earlier, we would not have got stuck in the traffic on the motorway.',
+            en: 'If we had set off earlier, we would not have got stuck in the traffic on the highway.',
             note: 'da + perfect, then ne bismo + participle',
           },
           {
@@ -1631,7 +1631,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Da barem imamo veći stan u centru grada!',
-            en: 'If only we had a bigger flat in the city centre!',
+            en: 'If only we had a bigger apartment in the city center!',
             note: 'da barem + present, no main clause',
           },
           {
@@ -1827,7 +1827,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'The Impersonal Softens Further Still',
-        body: 'To advise without pointing at anybody, drop the subject entirely: Trebalo bi to riješiti. (That ought to be sorted out.) Ne bi se smjelo tako raditi. Moglo bi se reći da… This is how criticism gets delivered in a Croatian meeting, and recognising it is often the difference between hearing a suggestion and hearing nothing at all.',
+        body: 'To advise without pointing at anybody, drop the subject entirely: Trebalo bi to riješiti. (That ought to be sorted out.) Ne bi se smjelo tako raditi. Moglo bi se reći da… This is how criticism gets delivered in a Croatian meeting, and recognizing it is often the difference between hearing a suggestion and hearing nothing at all.',
         highlight: 'Trebalo bi to riješiti.',
       },
       {
@@ -1936,7 +1936,7 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "___ pomoći susjedi s vrećicama." (You should help the neighbour with her bags — gentle advice.)',
+            q: 'Complete: "___ pomoći susjedi s vrećicama." (You should help the neighbor with her bags — gentle advice.)',
             options: ['Moraš', 'Trebao bi', 'Ne smiješ', 'Smiješ'],
             correct: 1,
             explanation:
@@ -2053,7 +2053,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Za Stolom Is Not Behind the Table',
-        body: 'The instrumental "za" is worth a moment: "za stolom" means at the table, seated at it, and "sjedimo za stolom" is what a Croatian says about dinner. Literally it is "behind the table", from the point of view of someone coming in — the meaning drifted, and the case is the only thing distinguishing it from "za stol", meaning towards it.',
+        body: 'The instrumental "za" is worth a moment: "za stolom" means at the table, seated at it, and "sjedimo za stolom" is what a Croatian says about dinner. Literally it is "behind the table", from the point of view of someone coming in — the meaning drifted, and the case is the only thing distinguishing it from "za stol", meaning toward it.',
         highlight: 'Sjedimo za stolom.',
       },
       {
@@ -2125,7 +2125,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Za vrijeme ručka svi sjedimo za stolom, a poslije idem po kavu.',
-            en: 'During lunch we all sit at the table, and afterwards I go to get coffee.',
+            en: 'During lunch we all sit at the table, and afterward I go to get coffee.',
             note: 'za vrijeme + genitive (during), za + instrumental (at), po + accusative (fetch)',
           },
           {
@@ -2145,7 +2145,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Sišla je s bicikla i krenula s prijateljima prema Trsatu.',
-            en: 'She got off the bike and set off with her friends towards Trsat.',
+            en: 'She got off the bike and set off with her friends toward Trsat.',
             note: 's bicikla (genitive, off) against s prijateljima (instrumental, with)',
           },
           {
@@ -2181,7 +2181,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first error is one case per preposition: "sjedimo za stol" for at the table — position takes the instrumental, sjedimo za stolom, and "za stol" means towards it. The second is the locative after po when fetching: "idem po kruhu" — fetching takes the accusative, idem po kruh; "po gradu" is around town. The third is the accusative for a static position after pod or pred: "auto je pred kuću" — nothing is moving, so it is pred kućom.',
+        body: 'The first error is one case per preposition: "sjedimo za stol" for at the table — position takes the instrumental, sjedimo za stolom, and "za stol" means toward it. The second is the locative after po when fetching: "idem po kruhu" — fetching takes the accusative, idem po kruh; "po gradu" is around town. The third is the accusative for a static position after pod or pred: "auto je pred kuću" — nothing is moving, so it is pred kućom.',
         highlight: 'sjedimo za stolom',
       },
       {
@@ -2200,7 +2200,7 @@ export const LESSONS_B2 = [
             options: ['stol', 'stola', 'stolu', 'stolom'],
             correct: 3,
             explanation:
-              'Seated position takes za plus the instrumental: za stolom. "Za stol" would be motion towards the table.',
+              'Seated position takes za plus the instrumental: za stolom. "Za stol" would be motion toward the table.',
           },
           {
             q: 'Which sentence describes the cat JUMPING under the table (motion)?',
@@ -2224,7 +2224,7 @@ export const LESSONS_B2 = [
             ],
             correct: 2,
             explanation:
-              'Nobody is moving towards the house, so pred takes the instrumental: pred kućom. "Za sat vremena" is the correct accusative for time from now.',
+              'Nobody is moving toward the house, so pred takes the instrumental: pred kućom. "Za sat vremena" is the correct accusative for time from now.',
           },
           {
             q: '"za života" — which case, and which meaning?',
@@ -2395,12 +2395,12 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Premda nikad nije igrao nogomet, o utakmici govori kao trener.',
-            en: 'Although he has never played football, he talks about the match like a coach.',
+            en: 'Although he has never played soccer, he talks about the match like a coach.',
             note: 'premda — the more formal although',
           },
           {
             hr: 'Doduše, stan je malen, ali je pogled na more nevjerojatan.',
-            en: 'Admittedly the flat is small, but the sea view is incredible.',
+            en: 'Admittedly the apartment is small, but the sea view is incredible.',
             note: 'doduše concedes before the ali',
           },
           {
@@ -2606,7 +2606,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Stan je prelijep, ali preskup.',
-            en: 'The flat is gorgeous but too expensive.',
+            en: 'The apartment is gorgeous but too expensive.',
             note: 'pre- twice, doing two different jobs',
           },
         ],
@@ -2622,7 +2622,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Što više vježbaš izgovor, to te ljudi lakše razumiju.',
-            en: 'The more you practise pronunciation, the more easily people understand you.',
+            en: 'The more you practice pronunciation, the more easily people understand you.',
             note: 'što… to… with two comparatives',
           },
           {
@@ -2637,7 +2637,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Cijene stanova u Zagrebu rastu sve brže iz godine u godinu.',
-            en: 'Flat prices in Zagreb are rising faster and faster from year to year.',
+            en: 'Apartment prices in Zagreb are rising faster and faster from year to year.',
             note: 'sve brže — a trend',
           },
           {
@@ -2697,7 +2697,7 @@ export const LESSONS_B2 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "U jesen su dani ___ kraći." (In autumn the days get shorter and shorter.)',
+            q: 'Complete: "U jesen su dani ___ kraći." (In fall the days get shorter and shorter.)',
             options: ['više', 'sve', 'što', 'jako'],
             correct: 1,
             explanation:
@@ -2875,12 +2875,12 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Ni u Splitu ni u Zadru nismo našli slobodan stan.',
-            en: 'Neither in Split nor in Zadar did we find a free flat.',
+            en: 'Neither in Split nor in Zadar did we find a free apartment.',
             note: 'ni… ni… and the verb still negated',
           },
           {
             hr: 'Nije bilo nikakve gužve na granici, prošli smo za pet minuta.',
-            en: 'There was no queue at all at the border, we got through in five minutes.',
+            en: 'There was no line at all at the border, we got through in five minutes.',
             note: 'nikakve gužve — genitive after nije bilo',
           },
           {
@@ -3052,7 +3052,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'The Skill the Level Is Named For',
-        body: 'The CEFR descriptor for B2 says a learner can "explain a viewpoint on a topical issue giving the advantages and disadvantages of various options". That is a structure, not a vocabulary list — and it has a recognisable Croatian shape you can learn in one sitting.',
+        body: 'The CEFR descriptor for B2 says a learner can "explain a viewpoint on a topical issue giving the advantages and disadvantages of various options". That is a structure, not a vocabulary list — and it has a recognizable Croatian shape you can learn in one sitting.',
         icon: '🏗️',
       },
       {
@@ -3069,7 +3069,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Opening on a Topic',
-        body: '"Što se tiče" plus the genitive is the standard way to raise a subject: Što se tiče cijene, mislim da je previsoka. "Kad je riječ o" plus the locative does the same job: Kad je riječ o obrazovanju… Both signal that you are addressing one aspect deliberately rather than talking generally, which is what makes an argument sound organised.',
+        body: '"Što se tiče" plus the genitive is the standard way to raise a subject: Što se tiče cijene, mislim da je previsoka. "Kad je riječ o" plus the locative does the same job: Kad je riječ o obrazovanju… Both signal that you are addressing one aspect deliberately rather than talking generally, which is what makes an argument sound organized.',
         highlight: 'Što se tiče cijene…',
       },
       {
@@ -3088,7 +3088,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'U Tome Što — the Workhorse',
-        body: '"Prednost je u tome što…" is the phrase to memorise exactly, because the shape is not guessable. Literally "the advantage is in that, that" — a locative pronoun followed by a "što" clause. Problem je u tome što nemamo vremena. Stvar je u tome što… Once you have it, you can attach any noun to any clause.',
+        body: '"Prednost je u tome što…" is the phrase to memorize exactly, because the shape is not guessable. Literally "the advantage is in that, that" — a locative pronoun followed by a "što" clause. Problem je u tome što nemamo vremena. Stvar je u tome što… Once you have it, you can attach any noun to any clause.',
         highlight: 'Problem je u tome što…',
       },
       {
@@ -3155,7 +3155,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Nedostatak je u tome što su stanovi u centru preskupi.',
-            en: 'The drawback is that flats in the centre are too expensive.',
+            en: 'The drawback is that apartments in the center are too expensive.',
             note: 'the same shape with nedostatak',
           },
           {
@@ -3177,7 +3177,7 @@ export const LESSONS_B2 = [
         options: ['da', 'što', 'koji', 'ako'],
         correct: 1,
         explanation:
-          'The fixed shape is "u tome što" — a locative pronoun followed by a "što" clause. It is not guessable from the parts, which is why it is worth memorising whole.',
+          'The fixed shape is "u tome što" — a locative pronoun followed by a "što" clause. It is not guessable from the parts, which is why it is worth memorizing whole.',
       },
       {
         type: 'quiz',
@@ -3275,7 +3275,7 @@ export const LESSONS_B2 = [
         points: [
           'Open: Što se tiče… / Kad je riječ o…',
           'prednost and nedostatak are the two nouns the whole structure hangs on',
-          'Memorise "u tome što" whole — the shape is not guessable',
+          'Memorize "u tome što" whole — the shape is not guessable',
           'Close deliberately: Sve u svemu, Zaključno, Ukratko, Na kraju krajeva',
           'One point for, one against, then decide — it beats five points for',
         ],
@@ -3633,7 +3633,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Poštovana gospođo Kovač, zahvaljujem Vam na brzom odgovoru.',
-            en: 'Dear Mrs Kovač, thank you for your prompt reply.',
+            en: 'Dear Mrs. Kovač, thank you for your prompt reply.',
             note: 'Poštovana + vocative gospođo; capital Vam',
           },
           {
@@ -3782,7 +3782,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'Speaking to a Room',
-        body: 'A presentation is the most predictable kind of extended speech there is: the audience knows the shape in advance, so signposting matters more than vocabulary. Get the frame right and a modest command of the language sounds organised and competent.',
+        body: 'A presentation is the most predictable kind of extended speech there is: the audience knows the shape in advance, so signposting matters more than vocabulary. Get the frame right and a modest command of the language sounds organized and competent.',
         icon: '🎤',
       },
       {
@@ -4076,7 +4076,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Disagreeing Without a Row',
-        body: 'Concede first, then qualify — the concession lesson applied to a room. Slažem se u načelu, ali… Razumijem, međutim… To je dobra ideja, no pitanje je… A bare "Ne slažem se" is heard as much sharper in a Croatian meeting than "I disagree" is in an English one, and the softened forms are not politeness theatre — they keep the discussion open.',
+        body: 'Concede first, then qualify — the concession lesson applied to a room. Slažem se u načelu, ali… Razumijem, međutim… To je dobra ideja, no pitanje je… A bare "Ne slažem se" is heard as much sharper in a Croatian meeting than "I disagree" is in an English one, and the softened forms are not politeness theater — they keep the discussion open.',
         highlight: 'Slažem se u načelu, ali…',
       },
       {
@@ -4252,7 +4252,7 @@ export const LESSONS_B2 = [
             options: ['Oprostite što prekidam, ali…', 'Čekaj!', 'Tiho, molim.', 'Nije važno.'],
             correct: 0,
             explanation:
-              '"Oprostite što prekidam, ali…" apologises for the interruption before making it. The other three are abrupt or dismissive.',
+              '"Oprostite što prekidam, ali…" apologizes for the interruption before making it. The other three are abrupt or dismissive.',
           },
         ],
       },
@@ -4536,7 +4536,7 @@ export const LESSONS_B2 = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'humour-irony',
-    title: 'Humour, Irony and Tone',
+    title: 'Humor, Irony and Tone',
     subtitle: 'Hearing when a Croatian does not mean it literally',
     icon: '🙃',
     level: 'B2',
@@ -4553,7 +4553,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Ma — the Dismissal Particle',
-        body: '"Ma" at the front of a sentence dismisses what came before. Ma daj! (Oh come on!) Ma nije valjda. (Surely not.) Ma kakvi! (No way, nothing of the sort.) Ma pusti. (Forget it.) It has no dictionary meaning worth speaking of and it changes the temperature of everything after it — usually towards affectionate scepticism.',
+        body: '"Ma" at the front of a sentence dismisses what came before. Ma daj! (Oh come on!) Ma nije valjda. (Surely not.) Ma kakvi! (No way, nothing of the sort.) Ma pusti. (Forget it.) It has no dictionary meaning worth speaking of and it changes the temperature of everything after it — usually toward affectionate scepticism.',
         highlight: 'Ma daj! · Ma kakvi!',
       },
       {
@@ -4578,7 +4578,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Fjaka Is Not Laziness',
-        body: 'A Dalmatian word with no English equivalent: "fjaka" is the pleasant, sun-induced state of wanting to do absolutely nothing, and it is regarded as a legitimate condition rather than a failing. Uhvatila me fjaka. Claiming it is a joke and half a defence, and understanding it tells a Croatian you have spent real time on the coast.',
+        body: 'A Dalmatian word with no English equivalent: "fjaka" is the pleasant, sun-induced state of wanting to do absolutely nothing, and it is regarded as a legitimate condition rather than a failing. Uhvatila me fjaka. Claiming it is a joke and half a defense, and understanding it tells a Croatian you have spent real time on the coast.',
         highlight: 'Uhvatila me fjaka.',
       },
       {
@@ -4624,7 +4624,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Ma pusti, nije to ništa, samo mi je auto ostao bez goriva na autocesti.',
-            en: 'Oh forget it, it is nothing, my car just ran out of fuel on the motorway.',
+            en: 'Oh forget it, it is nothing, my car just ran out of fuel on the highway.',
             note: 'ma pusti plus understatement of a real problem',
           },
           {
@@ -4721,7 +4721,7 @@ export const LESSONS_B2 = [
               'Dismissing your own cooking is a cue to be contradicted. Agreeing that it is merely all right reads as cold, not modest.',
           },
           {
-            q: '"Super, samo to mi je trebalo." said after a flat tyre means:',
+            q: '"Super, samo to mi je trebalo." said after a flat tire means:',
             options: [
               'genuine delight',
               'a question',
@@ -4730,7 +4730,7 @@ export const LESSONS_B2 = [
             ],
             correct: 2,
             explanation:
-              'Great, just what I needed — said about a flat tyre — is sarcasm. Tone decides it, and the situation makes the tone obvious.',
+              'Great, just what I needed — said about a flat tire — is sarcasm. Tone decides it, and the situation makes the tone obvious.',
           },
           {
             q: 'What does "Uhvatila me fjaka" mean?',
@@ -4742,7 +4742,7 @@ export const LESSONS_B2 = [
             ],
             correct: 3,
             explanation:
-              '"Fjaka" is the Dalmatian condition of pleasant idleness, regarded as legitimate rather than lazy. Claiming it is half a joke and half a defence.',
+              '"Fjaka" is the Dalmatian condition of pleasant idleness, regarded as legitimate rather than lazy. Claiming it is half a joke and half a defense.',
           },
           {
             q: '"Nema veze." in reply to an apology means:',
@@ -4827,7 +4827,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Smatrati Takes Two Shapes',
-        body: '"Smatram da je to važno" — I consider that this is important, with a da-clause. Or "Smatram to važnim" — I consider it important, with the thing in the accusative and the quality in the INSTRUMENTAL. The second is more compact and distinctly more formal, and it is worth recognising even before you produce it.',
+        body: '"Smatram da je to važno" — I consider that this is important, with a da-clause. Or "Smatram to važnim" — I consider it important, with the thing in the accusative and the quality in the INSTRUMENTAL. The second is more compact and distinctly more formal, and it is worth recognizing even before you produce it.',
         highlight: 'Smatram to važnim.',
       },
       {
@@ -5659,7 +5659,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Umjesto stranih riječi Hrvati često grade svoje: zrakoplov, računalo, sveučilište.',
-            en: 'Instead of foreign words, Croats often build their own: aeroplane, computer, university.',
+            en: 'Instead of foreign words, Croats often build their own: airplane, computer, university.',
             note: 'umjesto + genitive; the building tradition',
           },
         ],

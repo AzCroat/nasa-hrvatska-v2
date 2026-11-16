@@ -375,7 +375,7 @@ export default function CliticDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Clitic master! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — clitics take time!',
+        more: 'Keep practicing — clitics take time!',
       }}
       goBack={goBack}
       award={award}

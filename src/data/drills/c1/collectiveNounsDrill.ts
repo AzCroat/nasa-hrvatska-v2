@@ -21,7 +21,7 @@ export const COLLECTIVE_NOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'U jesen ____ opada s drveća.',
-    en: 'In autumn the leaves fall from the trees.',
+    en: 'In fall the leaves fall from the trees.',
     opts: ['lišće', 'listovi', 'lišća', 'listova'],
     answer: 'lišće',
     tip: 'The foliage as one mass is lišće, with a singular verb.',

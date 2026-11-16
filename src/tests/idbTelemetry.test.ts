@@ -36,7 +36,7 @@ import {
 /** Callers lowercase before matching; mirror that here. */
 const k = (msg: string) => environmentalIdbKind(msg.toLowerCase());
 
-describe('the two non-actionable families are recognised', () => {
+describe('the two non-actionable families are recognized', () => {
   it('family 1 — the Chromium internal-server error', () => {
     expect(k('An internal error was encountered in the Indexed Database server')).toBe('server');
   });

@@ -38,7 +38,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'duljina',
     q: 'Koji raspored najviše ističe posljednju rečenicu?',
-    en: 'Which sequence emphasises the last sentence?',
+    en: 'Which sequence emphasizes the last sentence?',
     opts: ['duga, duga, kratka', 'kratka, kratka, duga', 'sve jednake', 'duga, kratka, duga'],
     answer: 'duga, duga, kratka',
     tip: 'The short one after long ones is the one the reader hears.',
@@ -198,7 +198,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
       'okrenuti red riječi',
     ],
     answer: 'kondenzirati ili stati',
-    tip: 'Condense it into a phrase, or put a full stop and start again.',
+    tip: 'Condense it into a phrase, or put a period and start again.',
   },
   {
     mode: 'izlaz',
@@ -240,7 +240,7 @@ export const RHYTHM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izlaz',
     q: 'Je li točka priznanje poraza?',
-    en: 'Is a full stop an admission of defeat?',
+    en: 'Is a period an admission of defeat?',
     opts: ['ne, to je alat', 'da', 'samo u eseju', 'ovisi o duljini'],
     answer: 'ne, to je alat',
     tip: 'Two clear sentences beat one that the writer could not finish.',

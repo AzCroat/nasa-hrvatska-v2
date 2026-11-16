@@ -30,7 +30,7 @@ export const DATA: VerbItem[] = [
     opts: ['sam', 'si', 'je', 'smo'],
     answer: 'sam',
     en: 'I am from Croatia.',
-    tip: '"biti" (to be) is irregular — you memorise it: sam, si, je, smo, ste, su. For "I" it is sam.',
+    tip: '"biti" (to be) is irregular — you memorize it: sam, si, je, smo, ste, su. For "I" it is sam.',
   },
   {
     q: 'Ti ___ moj prijatelj.',
@@ -113,7 +113,7 @@ export const DATA: VerbItem[] = [
     q: 'Moja mama ___ ručak.',
     opts: ['kuham', 'kuhaš', 'kuha', 'kuhaju'],
     answer: 'kuha',
-    en: 'My mum is cooking lunch.',
+    en: 'My mom is cooking lunch.',
     tip: '"Moja mama" is one person — she — so the verb takes the he/she form: kuha.',
   },
   {
@@ -163,7 +163,7 @@ export const DATA: VerbItem[] = [
     opts: ['razumijem', 'razumiješ', 'razumije', 'razumiju'],
     answer: 'razumijem',
     en: "I don't understand well.",
-    tip: 'A phrase worth memorising whole: Ne razumijem. Note "ne" sits right in front of the verb.',
+    tip: 'A phrase worth memorizing whole: Ne razumijem. Note "ne" sits right in front of the verb.',
   },
 ];
 

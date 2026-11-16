@@ -150,7 +150,7 @@ export function taughtReason(category: SkillCategory, ageDays: number | null): s
   const label = categoryLabel(category);
   if (ageDays !== null && ageDays <= JUST_FINISHED_MAX_AGE_DAYS)
     return `You just finished a lesson on ${label} — ${where}`;
-  return `You finished a lesson on ${label} and haven't practised it yet — ${where}`;
+  return `You finished a lesson on ${label} and haven't practiced it yet — ${where}`;
 }
 
 /**
@@ -162,7 +162,7 @@ export function taughtReason(category: SkillCategory, ageDays: number | null): s
 export function adaptiveReason(category: SkillCategory): string | null {
   const status = getCategoryStatus(category);
   const label = categoryLabel(category);
-  if (!status.seen) return `You haven't practised ${label} yet.`;
+  if (!status.seen) return `You haven't practiced ${label} yet.`;
   if (status.accuracy === null) return null;
   const pct = Math.round(status.accuracy * 100);
   if (status.accuracy < 0.75) return `You were ${pct}% accurate on ${label} last time.`;
@@ -185,7 +185,7 @@ export function productionReason(weakest: 'speak' | 'write' | null, level: CefrL
       return `${label} is the skill your practice says needs the most work.`;
     case 'none':
       // True, and exactly why the slot picked it.
-      return `You haven't practised ${skill} yet.`;
+      return `You haven't practiced ${skill} yet.`;
     default:
       // Practised, but not enough for the ledger to have a verdict. Claiming
       // one would be the 0.5-seeded-accuracy trap in another module.
@@ -250,7 +250,7 @@ export function conceptPlanReason(
 
 /** Why the coupled drill is here: it names WHAT it drills (increment 5). */
 export function practiceReason(category: SkillCategory): string {
-  return `Practising ${categoryLabel(category)} — what today’s lesson taught.`;
+  return `Practicing ${categoryLabel(category)} — what today’s lesson taught.`;
 }
 
 /** Why the conversation anchor is here (B1+ guarantee — true by construction). */
@@ -282,7 +282,7 @@ export function inputSlotReason(
     case 'tested':
       return `${label} is the skill your practice says needs the most work.`;
     case 'none':
-      return `You haven't practised ${kind} yet.`;
+      return `You haven't practiced ${kind} yet.`;
     default:
       return guarantee;
   }

@@ -104,7 +104,7 @@ export const GENITIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlog',
     q: 'Moj stan je blizu ____. (ti)',
-    en: 'My flat is near you.',
+    en: 'My apartment is near you.',
     opts: ['tobom', 'tebi', 'tebe', 'te'],
     answer: 'tebe',
     tip: 'blizu + the long form.',

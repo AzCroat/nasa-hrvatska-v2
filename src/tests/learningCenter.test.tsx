@@ -7,7 +7,7 @@
  * which catalogues the APP hands it — a test cannot meaningfully guard its own
  * fixture. That assembly now lives in `useLearningIndex`, so the first block
  * below derives the set of content catalogues from source and fails when one is
- * missing from it. Forgetting a catalogue is otherwise invisible: the Center
+ * missing from it. Forgetting a catalog is otherwise invisible: the Center
  * renders fewer rows and nothing says so, which is exactly how the three
  * hand-listed doors it replaces decayed.
  *
@@ -47,7 +47,7 @@ const LearningCenter = (await import('../components/learn/LearningCenter')).defa
 const ASSEMBLER = 'src/hooks/useLearningIndex.ts';
 
 // ───────────────────────────────────────────────────────────────────────────
-// 1. THE ASSEMBLY NAMES EVERY CATALOGUE
+// 1. THE ASSEMBLY NAMES EVERY CATALOG
 // ───────────────────────────────────────────────────────────────────────────
 
 /**
@@ -62,7 +62,7 @@ const CATALOGUE_EXEMPT: Record<string, string> = {
   // copy in heroData.ts, exempted as "lines shown on the Today card, not learnable
   // content with a screen to open". The whole hero cluster was unrendered since
   // 2026-04-25 and is deleted, so the export is gone and the exemption with it.
-  // The record is KEPT so the next non-source catalogue has to be named here.
+  // The record is KEPT so the next non-source catalog has to be named here.
 };
 
 function sourceFiles(): string[] {
@@ -77,7 +77,7 @@ function sourceFiles(): string[] {
   return out;
 }
 
-describe('the index is assembled from EVERY catalogue the app keeps', () => {
+describe('the index is assembled from EVERY catalog the app keeps', () => {
   const files = sourceFiles();
   /**
    * The assembler's CODE, with comments stripped.
@@ -85,7 +85,7 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
    * THIS STRIP IS LOAD-BEARING AND ITS ABSENCE MADE THE GUARD DECORATIVE. The
    * file's own header explains why importing `useDailySession` is not a bundle
    * regression and names PRODUCTION_POOL while doing it — so a plain
-   * `includes()` stayed true after the catalogue was deleted from the actual
+   * `includes()` stayed true after the catalog was deleted from the actual
    * assembly, and dropping it failed nothing. Prose about a thing is not a use
    * of it. Found by mutation; the same shape defeated the module-reachability
    * guard earlier in this codebase.
@@ -106,7 +106,7 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
     return found;
   })();
 
-  it('strips comments before looking for a catalogue name', () => {
+  it('strips comments before looking for a catalog name', () => {
     // Guards the guard: if this strip ever becomes a no-op, every assertion
     // above it degrades to "is the name mentioned anywhere in the file".
     expect(assembler).not.toContain('bundle regression');
@@ -119,12 +119,12 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
     expect([...catalogues.keys()]).toContain('PRODUCTION_POOL');
   });
 
-  it('names every catalogue, directly or through one it already names', () => {
+  it('names every catalog, directly or through one it already names', () => {
     const unreached: string[] = [];
     for (const [name] of catalogues) {
       if (name in CATALOGUE_EXEMPT) continue;
       if (assembler.includes(name)) continue;
-      // Covered transitively: spread INTO the LITERAL of a catalogue the
+      // Covered transitively: spread INTO the LITERAL of a catalog the
       // assembler names. `PRACTICE_PROGRAMME_ENTRIES` and `C_LEVEL_DRILL_ENTRIES`
       // are both spread into CEFR_EXERCISE_POOL, so naming them in the assembler
       // would double every one of their rows.
@@ -136,7 +136,7 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
       // list, and also exports PRODUCTION_POOL. Deleting CROATIA_POOL from the
       // assembly left this suite fully green. Found by mutation. So the spread
       // must be BARE (`...N,` — not `...N.map(`), and it must sit inside that
-      // catalogue's own literal rather than anywhere in its file.
+      // catalog's own literal rather than anywhere in its file.
       const spreadIntoNamed = [...catalogues.entries()].some(([other, otherFile]) => {
         if (other === name || !assembler.includes(other)) return false;
         const src = readFileSync(otherFile, 'utf8');
@@ -165,7 +165,7 @@ describe('the index is assembled from EVERY catalogue the app keeps', () => {
       expect(assembler.includes(name), `${name} IS now a source; drop the exemption`).toBe(false);
     }
     // Legitimately empty since sweep 136; the non-vacuity that matters is the
-    // catalogue derivation itself, pinned in the describe above.
+    // catalog derivation itself, pinned in the describe above.
     expect(catalogues.size).toBeGreaterThan(3);
   });
 });
@@ -234,7 +234,7 @@ const servedSpine = (CURRICULUM as Array<Record<string, unknown>>)
 
 // THE COURSE IS SEQUENTIAL (owner, 2026-11-12): a lesson the learner has not reached is
 // locked. Tests that exercise OPENING a lesson state that the learner has reached
-// them, by completing the whole spine; the locked behaviour has its own tests below.
+// them, by completing the whole spine; the locked behavior has its own tests below.
 function reachEverything(): void {
   for (const e of servedSpine) markLessonComplete(e.id as string, '2026-01-01');
 }
@@ -285,7 +285,7 @@ describe('the Center, rendered against the real catalogues', () => {
     search('padeži');
     const rows = screen.getAllByTestId('lc-row');
     expect(rows.length).toBeGreaterThan(3);
-    // Select by KIND, not by title text: the pool also carries a drill labelled
+    // Select by KIND, not by title text: the pool also carries a drill labeled
     // "Cases Overview", so matching on the word alone picks a screen row and the
     // lesson path is never exercised (which is how this assertion first passed
     // the wrong thing).

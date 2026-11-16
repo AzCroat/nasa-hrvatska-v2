@@ -210,7 +210,7 @@ export const TECHNOLOGY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'uredaji',
     q: 'Baterija je ____.',
-    en: 'The battery is flat.',
+    en: 'The battery is dead.',
     opts: ['prazna', 'prazan', 'prazno', 'prazne'],
     answer: 'prazna',
     tip: 'Baterija is feminine.',

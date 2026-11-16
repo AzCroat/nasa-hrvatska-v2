@@ -21,7 +21,7 @@ export default function A1VerbsAtiIratiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1verbsatiirati"
       title="Verbs in -ati and -irati"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_ATI_IRATI_MODE_LABELS}
       data={VERBS_ATI_IRATI_DRILL_DATA}
       praise={{

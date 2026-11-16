@@ -161,7 +161,7 @@ describe('the card shows the synced total, not just this device', () => {
 });
 
 describe('every merge point a monotonic counter has to survive', () => {
-  // THE FINDING INSIDE THE FINDING. `pr` — the counter these two are modelled
+  // THE FINDING INSIDE THE FINDING. `pr` — the counter these two are modeled
   // on — is Math.max-merged in FOUR places, not one:
   //
   //   mergeStatsFromRemote   the React-state merge

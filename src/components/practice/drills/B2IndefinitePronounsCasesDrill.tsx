@@ -21,7 +21,7 @@ export default function B2IndefinitePronounsCasesDrill({ goBack, award }: Props)
     <ModeDrill
       id="b2indefinitepronounscases"
       title="Nekoga, ničega, ni s kim"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INDEFINITE_PRONOUNS_CASES_MODE_LABELS}
       data={INDEFINITE_PRONOUNS_CASES_DRILL_DATA}
       praise={{

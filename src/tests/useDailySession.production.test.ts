@@ -1,5 +1,5 @@
 // src/tests/useDailySession.production.test.ts
-// Production-slot behaviour after Session-Rec #1 (AI modes routed into the pool)
+// Production-slot behavior after Session-Rec #1 (AI modes routed into the pool)
 // and Session-Rec #2 (a GUARANTEED production slot every session with a keyboard
 // fallback), plus the follow-up that auto-routes open Speaking. The pool itself
 // is imported rather than described here — the prose list that used to sit in

@@ -87,7 +87,7 @@ export const TRAVEL_CROATIA_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijevoz',
     q: 'Putujemo ____.',
-    en: 'We are travelling by train.',
+    en: 'We are traveling by train.',
     opts: ['vlakom', 'vlak', 'vlaku', 'vlaka'],
     answer: 'vlakom',
     tip: 'Transport: the bare instrumental.',

@@ -21,7 +21,7 @@ export default function C1CollectiveNumbersDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1collectivenumbers"
       title="Dvoje, Desetak, Dvoja Vrata"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COLLECTIVE_NUMBERS_MODE_LABELS}
       data={COLLECTIVE_NUMBERS_DRILL_DATA}
       praise={{

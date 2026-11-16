@@ -111,7 +111,7 @@ export default function ParticipleDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Participles mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — participles take time!',
+        more: 'Keep practicing — participles take time!',
       }}
       goBack={goBack}
       award={award}

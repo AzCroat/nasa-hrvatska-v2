@@ -235,7 +235,7 @@ describe('useMcGameReducer', () => {
 
   // The case above covers isHeartsMode: false. Hearts/Challenge mode was the gap:
   // the reducer checked isHeartsMode FIRST and never consulted practiceMode, so a
-  // practising user still lost a heart — and McGame had already spent a real one
+  // practicing user still lost a heart — and McGame had already spent a real one
   // from the daily pool of 5 before dispatching. The toggle's own label promises
   // "hearts disabled", so the promise has to hold here too.
   it('ANSWER wrong in practiceMode does not deduct hearts in HEARTS mode either', () => {

@@ -308,7 +308,7 @@ function QuizOverlay({
                 ? 'Perfect! All words marked as learned.'
                 : score > 0
                   ? 'Correct answers marked as learned.'
-                  : "Keep practising — you've got this!"}
+                  : "Keep practicing — you've got this!"}
             </div>
             <button
               onClick={onClose}

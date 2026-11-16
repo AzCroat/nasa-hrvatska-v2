@@ -211,7 +211,7 @@ export const TREBATI_NEED_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'izraz',
-    q: 'Trebate li ____? (the shop assistant offers a bag)',
+    q: 'Trebate li ____? (the salesperson offers a bag)',
     en: 'Do you need a bag?',
     opts: ['vrećica', 'vrećicu', 'vrećicom', 'vrećici'],
     answer: 'vrećicu',

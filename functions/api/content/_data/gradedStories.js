@@ -30,7 +30,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Ana ide na tržnicu svake subote. Ona kupuje svježe voće i povrće za cijeli tjedan. Tržnica se nalazi u centru grada.',
-        en: 'Ana goes to the market every Saturday. She buys fresh fruit and vegetables for the whole week. The market is in the city centre.',
+        en: 'Ana goes to the market every Saturday. She buys fresh fruit and vegetables for the whole week. The market is in the city center.',
       },
       {
         hr: '"Dobar dan! Koliko košta kilogram jabuka?" pita Ana.\n"Dva eura, gospodice," odgovara prodavač.\n"Dajte mi, molim vas, dva kilograma jabuka i jedan kilogram naranča."\n"Izvolite. Ima li još nešto?"\n"Da, još pola kilograma rajčica i dvije paprike, molim."\n"U redu, to je zajedno sedam eura."',
@@ -38,7 +38,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ana plati i zahvali prodavaču. On se nasmiješi i kaže: "Vidimo se sljedeće subote!" Ana stavi voće i povrće u torbu i krene prema autu.',
-        en: 'Ana pays and thanks the vendor. He smiles and says: "See you next Saturday!" Ana puts the fruit and vegetables in her bag and heads towards the car.',
+        en: 'Ana pays and thanks the vendor. He smiles and says: "See you next Saturday!" Ana puts the fruit and vegetables in her bag and heads toward the car.',
       },
       {
         hr: 'Doma, Ana opere sve što je kupila i stavi u hladnjak. Ona je zadovoljna — sve je svježe i nije skupo. Tržnica je puno bolja od supermarketa!',
@@ -98,15 +98,15 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Zovem se Marko Horvat. Imam dvadeset i sedam godina i živim u Osijeku. Živim s obitelji u lijepoj kući blizu centra.',
-        en: 'My name is Marko Horvat. I am twenty-seven years old and I live in Osijek. I live with my family in a nice house near the centre.',
+        en: 'My name is Marko Horvat. I am twenty-seven years old and I live in Osijek. I live with my family in a nice house near the center.',
       },
       {
         hr: 'Moja mama se zove Vesna. Ona ima pedeset dvije godine i ona je učiteljica u osnovnoj školi. Moj tata se zove Zvonko. On je vozač i ima pedeset pet godina. Oni su zajedno trideset godina.',
-        en: "My mother's name is Vesna. She is fifty-two years old and she is a primary school teacher. My father's name is Zvonko. He is a driver and he is fifty-five. They have been together for thirty years.",
+        en: "My mother's name is Vesna. She is fifty-two years old and she is an elementary school teacher. My father's name is Zvonko. He is a driver and he is fifty-five. They have been together for thirty years.",
       },
       {
         hr: 'Imam jednu sestru. Ona se zove Petra i ima dvadeset godina. Petra studira medicinu na Sveučilištu u Osijeku. Ona je pametna i marljiva. Imam i jednog brata — on se zove Luka i ima deset godina. Luka voli igrati nogomet.',
-        en: 'I have one sister. Her name is Petra and she is twenty years old. Petra studies medicine at the University of Osijek. She is clever and hard-working. I also have a brother — his name is Luka and he is ten years old. Luka loves playing football.',
+        en: 'I have one sister. Her name is Petra and she is twenty years old. Petra studies medicine at the University of Osijek. She is clever and hard-working. I also have a brother — his name is Luka and he is ten years old. Luka loves playing soccer.',
       },
       {
         hr: 'Imamo i psa koji se zove Rex. Rex je mali bijeli pudl i ima četiri godine. On je veseo i voli se igrati cijeli dan. Volim svoju obitelj — mi smo sretni zajedno.',
@@ -115,12 +115,12 @@ export const GRADED_STORIES = [
     ],
     vocabulary: [
       { hr: 'obitelj', en: 'family', ex: 'Volim svoju obitelj.' },
-      { hr: 'mama', en: 'mum / mother', ex: 'Moja mama je učiteljica.' },
+      { hr: 'mama', en: 'mom / mother', ex: 'Moja mama je učiteljica.' },
       { hr: 'tata', en: 'dad / father', ex: 'Moj tata je vozač.' },
       { hr: 'učiteljica', en: 'teacher (female)', ex: 'Ona je učiteljica u školi.' },
       { hr: 'vozač', en: 'driver', ex: 'On je vozač kamiona.' },
       { hr: 'sestra', en: 'sister', ex: 'Moja sestra studira medicinu.' },
-      { hr: 'studirati', en: 'to study (at university)', ex: 'Petra studira medicinu.' },
+      { hr: 'studirati', en: 'to study (in college)', ex: 'Petra studira medicinu.' },
       { hr: 'brat', en: 'brother', ex: 'Moj brat voli nogomet.' },
       { hr: 'pametan', en: 'clever / smart', ex: 'Ona je pametna studentica.' },
       { hr: 'marljiv', en: 'hard-working / diligent', ex: 'On je marljiv učenik.' },
@@ -230,7 +230,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Prošli vikend sam otišao u Split s prijateljicom Anom. Putovali smo autom — vožnja iz Zagreba traje oko dva i pol sata. Bilo je lijepo i sunčano.',
-        en: 'Last weekend I went to Split with my friend Ana. We travelled by car — the drive from Zagreb takes about two and a half hours. It was nice and sunny.',
+        en: 'Last weekend I went to Split with my friend Ana. We traveled by car — the drive from Zagreb takes about two and a half hours. It was nice and sunny.',
       },
       {
         hr: 'U Splitu smo posjetili Dioklecijanovu palaču. Hodali smo kroz uske ulice Starog grada i divili se staroj rimskoj arhitekturi. Ana je fotografirala sve što je vidjela. Za ručak smo sjeli u restoran na Rivi. Ja sam naručio dagnje na buzaru, a Ana je uzela pečenu ribu s blitvom.',
@@ -298,7 +298,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U čekaonici je sjedila pola sata i listala stari časopis. Napokon je medicinska sestra pozvala njezino ime. Ušla je u ordinaciju. "Dobar dan, Marija. Što vas boli?" upitao je doktor Kovač. "Boli me grlo i imam temperaturu," odgovorila je ona. "I glava me boli već dva dana."',
-        en: 'She sat in the waiting room for half an hour and leafed through an old magazine. Finally the nurse called her name. She entered the surgery. "Good day, Marija. What hurts?" asked Dr Kovač. "My throat hurts and I have a temperature," she answered. "And I\'ve had a headache for two days."',
+        en: 'She sat in the waiting room for half an hour and leafed through an old magazine. Finally the nurse called her name. She entered the doctor\'s office. "Good day, Marija. What hurts?" asked Dr. Kovač. "My throat hurts and I have a temperature," she answered. "And I\'ve had a headache for two days."',
       },
       {
         hr: 'Doktor ju je pregledao — pogledao je u grlo, poslušao pluća i izmjerio temperaturu. "Imate anginu," rekao je. "Moram vam propisati antibiotike. Uzimajte jednu tabletu tri puta dnevno, sedam dana. Pijte puno tekućine i mirovajte."',
@@ -315,7 +315,7 @@ export const GRADED_STORIES = [
       { hr: 'grlo', en: 'throat', ex: 'Boli me grlo.' },
       { hr: 'temperatura', en: 'temperature / fever', ex: 'Imam temperaturu.' },
       { hr: 'čekaonica', en: 'waiting room', ex: 'Čekam u čekaonici.' },
-      { hr: 'ordinacija', en: "doctor's surgery / office", ex: 'Ušla je u ordinaciju.' },
+      { hr: 'ordinacija', en: "doctor's office", ex: 'Ušla je u ordinaciju.' },
       { hr: 'angina', en: 'tonsillitis / strep throat', ex: 'Imam anginu.' },
       { hr: 'antibiotici', en: 'antibiotics', ex: 'Uzimam antibiotike.' },
       { hr: 'tableta', en: 'tablet / pill', ex: 'Jedna tableta dnevno.' },
@@ -355,33 +355,33 @@ export const GRADED_STORIES = [
     levelBg: '#dbeafe',
     icon: '🏠',
     title: 'Novi susjed',
-    titleEn: 'The New Neighbour',
+    titleEn: 'The New Neighbor',
     duration: 5,
     focus: 'Future tense (će + inf.) • Introducing yourself • Dative of address',
     intro:
-      'Juraj moves to Zagreb for the first time. Learn how Croatians introduce themselves and get to know neighbours.',
+      'Juraj moves to Zagreb for the first time. Learn how Croatians introduce themselves and get to know neighbors.',
     paragraphs: [
       {
         hr: 'Juraj se uselio u stan na drugom katu prošle subote. Dolazi iz Rijeke i prvi put živi sam u Zagrebu. Sve mu je novo i malo strašno — ali i uzbudljivo.',
-        en: 'Juraj moved into the flat on the second floor last Saturday. He comes from Rijeka and is living alone in Zagreb for the first time. Everything is new to him and a little frightening — but also exciting.',
+        en: 'Juraj moved into the apartment on the second floor last Saturday. He comes from Rijeka and is living alone in Zagreb for the first time. Everything is new to him and a little frightening — but also exciting.',
       },
       {
         hr: 'U ponedjeljak je netko pokucao na njegova vrata. Bila je to susjeda s trećeg kata, gospođa Babić. "Dobrodošli! Ja sam Mirjana Babić. Ako vam treba ikakva pomoć, slobodno pitajte," rekla je ljubazno. Juraj se nasmiješio: "Hvala lijepa! Ja sam Juraj Horvat. Drago mi je što sam vas upoznao."',
-        en: 'On Monday someone knocked on his door. It was the neighbour from the third floor, Mrs Babić. "Welcome! I am Mirjana Babić. If you need any help, please feel free to ask," she said kindly. Juraj smiled: "Thank you very much! I am Juraj Horvat. It\'s nice to meet you."',
+        en: 'On Monday someone knocked on his door. It was the neighbor from the third floor, Mrs. Babić. "Welcome! I am Mirjana Babić. If you need any help, please feel free to ask," she said kindly. Juraj smiled: "Thank you very much! I am Juraj Horvat. It\'s nice to meet you."',
       },
       {
         hr: 'Gospođa Babić mu je rekla da će u petak biti skupština stanara u sedam navečer u prizemlju. "Bit će dobra prilika da upoznate ostale susjede," dodala je. Juraj je obećao da će doći.',
-        en: 'Mrs Babić told him that on Friday there would be a tenants\' meeting at seven in the evening on the ground floor. "It will be a good chance to meet the other neighbours," she added. Juraj promised he would come.',
+        en: 'Mrs. Babić told him that on Friday there would be a tenants\' meeting at seven in the evening on the ground floor. "It will be a good chance to meet the other neighbors," she added. Juraj promised he would come.',
       },
       {
         hr: 'U petak navečer Juraj je otišao na skupštinu. Upoznao je još pet susjeda. Svi su bili srdačni i prijazni. Nakon skupštine, svi su zajedno popili kavu. Juraj je pomislio: "Mislim da ću se ovdje dobro osjećati."',
-        en: 'On Friday evening Juraj went to the meeting. He met five more neighbours. Everyone was warm and friendly. After the meeting, everyone had coffee together. Juraj thought: "I think I\'m going to feel good here."',
+        en: 'On Friday evening Juraj went to the meeting. He met five more neighbors. Everyone was warm and friendly. After the meeting, everyone had coffee together. Juraj thought: "I think I\'m going to feel good here."',
       },
     ],
     vocabulary: [
       { hr: 'uselio se', en: 'moved in (pf., m.)', ex: 'Juraj se uselio u stan.' },
-      { hr: 'kat', en: 'floor / storey', ex: 'Živim na trećem katu.' },
-      { hr: 'susjed/susjeda', en: 'neighbour (m./f.)', ex: 'Moja susjeda je ljubazna.' },
+      { hr: 'kat', en: 'floor / story', ex: 'Živim na trećem katu.' },
+      { hr: 'susjed/susjeda', en: 'neighbor (m./f.)', ex: 'Moja susjeda je ljubazna.' },
       { hr: 'pokucati', en: 'to knock (pf.)', ex: 'Netko je pokucao na vrata.' },
       { hr: 'slobodno pitajte', en: 'feel free to ask', ex: 'Slobodno pitajte ako trebate.' },
       { hr: 'skupština stanara', en: "tenants' meeting", ex: 'Skupština je u petak.' },
@@ -410,7 +410,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što su susjedi radili nakon skupštine?',
-        qEn: 'What did the neighbours do after the meeting?',
+        qEn: 'What did the neighbors do after the meeting?',
         opts: [
           'Zajedno su popili kavu',
           'Otišli su kući',
@@ -445,7 +445,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Moj novi stan se nalazi u Dubravi, na rubu grada. Nije luksuzan, ali ima sve što treba: dvije sobe, kuhinju, kupaonicu i mali balkon s pogledom na park. Prvoga dana kad sam ušao, osjetio sam čudnu mješavinu uzbuđenja i tuge — nisam više bio u svom rodnom gradu.',
-        en: "My new flat is in Dubrava, on the outskirts of the city. It's not luxurious, but it has everything you need: two rooms, a kitchen, a bathroom and a small balcony overlooking a park. On the first day when I walked in, I felt a strange mixture of excitement and sadness — I was no longer in my home town.",
+        en: "My new apartment is in Dubrava, on the outskirts of the city. It's not luxurious, but it has everything you need: two rooms, a kitchen, a bathroom and a small balcony overlooking a park. On the first day when I walked in, I felt a strange mixture of excitement and sadness — I was no longer in my home town.",
       },
       {
         hr: 'Kolega s posla, Tomislav, pomogao mi je prenijeti teže komade namještaja. Bez njega bih se mučio sam sa strojem za pranje rublja i kaučem. Kad smo konačno završili, sjeli smo u kuhinji i popili hladno pivo. "Dobrodošao u Zagreb," rekao je Tomislav, "sad si pravi Zagrepčanin!"',
@@ -519,11 +519,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Svake godine, za Božić, naša baka Ružica dolazi autobusom iz Karlovca. Onoga dana kad stigne, cijela kuća odmah zamiriše na njezine kolače — orahnjaču i makovnjaču, koje je pekla noću u svom stanu.',
-        en: 'Every year at Christmas, our grandmother Ružica comes by bus from Karlovac. The day she arrives, the whole house immediately fills with the smell of her pastries — walnut roll and poppy seed roll, which she baked overnight in her flat.',
+        en: 'Every year at Christmas, our grandmother Ružica comes by bus from Karlovac. The day she arrives, the whole house immediately fills with the smell of her pastries — walnut roll and poppy seed roll, which she baked overnight in her apartment.',
       },
       {
         hr: 'Dok baka priprema kolače u kuhinji, tata iz podruma donosi jelku. Mi djeca ukrašavamo jelku šarenim kuglicama i lampicama. Mama kuha ribu jer je Badnjak — dan posta. Svake godine spremi isti meni: bakalar na bijelo s krumpirom i blitvu. "To se jede uz Badnjak," kaže uvijek.',
-        en: 'While grandma prepares pastries in the kitchen, dad brings the Christmas tree up from the basement. We children decorate the tree with colourful baubles and lights. Mum cooks fish because it\'s Christmas Eve — a day of fasting. Every year she makes the same menu: salt cod "na bijelo" with potatoes and Swiss chard. "That\'s what you eat on Christmas Eve," she always says.',
+        en: 'While grandma prepares pastries in the kitchen, dad brings the Christmas tree up from the basement. We children decorate the tree with colorful baubles and lights. Mom cooks fish because it\'s Christmas Eve — a day of fasting. Every year she makes the same menu: salt cod "na bijelo" with potatoes and Swiss chard. "That\'s what you eat on Christmas Eve," she always says.',
       },
       {
         hr: 'Nakon večere idemo na ponoćku — božićnu misu u obližnju crkvu. Crkva je uvijek puna, a orguljaš svira stare crkvene pjesme koje svi znaju napamet. Kad se vratimo, djeca odmah žure u krevet. Naravno, nitko ne može zaspati zbog uzbuđenja — pokloni čekaju pod jelkom.',
@@ -608,7 +608,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Dva dana kasnije, Ksenija je otvorila e-mail od agencije: bila je primljena! Odmah je nazvala mamu: "Dobila sam posao, mama!" Mama je bila toliko ponosna da su joj suze krenule niz lice. Ksenija je shvatila da su se sve godine truda i studija konačno isplatile.',
-        en: 'Two days later, Ksenija opened an email from the agency: she had been hired! She immediately called her mum: "I got the job, mum!" Her mum was so proud that tears ran down her face. Ksenija realised that all those years of hard work and study had finally paid off.',
+        en: 'Two days later, Ksenija opened an email from the agency: she had been hired! She immediately called her mom: "I got the job, mom!" Her mom was so proud that tears ran down her face. Ksenija realized that all those years of hard work and study had finally paid off.',
       },
     ],
     vocabulary: [
@@ -674,7 +674,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Ivan i Maja sjede u malom kafiću u centru Zagreba. Kafić se zove "Stari grad". Vani je sunčano i toplo.',
-        en: 'Ivan and Maja are sitting in a small café in the centre of Zagreb. The café is called "Stari grad". Outside it is sunny and warm.',
+        en: 'Ivan and Maja are sitting in a small café in the center of Zagreb. The café is called "Stari grad". Outside it is sunny and warm.',
       },
       {
         hr: 'Konobarica dolazi do stola. "Izvolite, što želite?" pita ona.\n"Ja bih jednu kavu, molim," kaže Ivan.\n"A ja bih jednu limunadu i jedan kroasan," kaže Maja.\n"Je li to sve? Odmah dolazi," kaže konobarica.',
@@ -800,7 +800,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Poslije plivanja, Ana i Ivana jedu sladoled. Sladoled je od čokolade i vanilije. Ukusan je! Ostaju na plaži do šest sati navečer.',
-        en: "After swimming, Ana and Ivana eat ice cream. The ice cream is chocolate and vanilla flavour. It is delicious! They stay at the beach until six o'clock in the evening.",
+        en: "After swimming, Ana and Ivana eat ice cream. The ice cream is chocolate and vanilla flavor. It is delicious! They stay at the beach until six o'clock in the evening.",
       },
     ],
     vocabulary: [
@@ -928,11 +928,11 @@ export const GRADED_STORIES = [
     duration: 3,
     focus: 'Past tense • Sports vocabulary • Expressing excitement',
     intro:
-      'Josip went to see his favourite football club, Dinamo Zagreb, play at Maksimir stadium. Practice sports language and narrating past events.',
+      'Josip went to see his favorite soccer club, Dinamo Zagreb, play at Maksimir stadium. Practice sports language and narrating past events.',
     paragraphs: [
       {
         hr: 'Prošle subote, Josip je otišao na stadion Maksimir gledati utakmicu Dinama. Dinamo je igrao protiv Hajduka iz Splita — to je najveći derbi u hrvatskom nogometu. Josip je kupio kartu tjedan dana ranije jer su karte brzo rasprodane.',
-        en: 'Last Saturday, Josip went to the Maksimir stadium to watch a Dinamo match. Dinamo played against Hajduk from Split — this is the biggest derby in Croatian football. Josip bought his ticket a week earlier because tickets sell out quickly.',
+        en: 'Last Saturday, Josip went to the Maksimir stadium to watch a Dinamo match. Dinamo played against Hajduk from Split — this is the biggest derby in Croatian soccer. Josip bought his ticket a week earlier because tickets sell out quickly.',
       },
       {
         hr: 'Atmosfera na stadionu bila je nevjerojatna. Navijači su pjevali i vikali cijelu utakmicu. U dvadeset i petoj minuti, Dinamo je zabio gol i svi su skočili na noge. Na kraju prvog poluvremena rezultat je bio jedan nula za Dinamo.',
@@ -940,7 +940,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U drugom poluvremenu, Hajduk je izjednačio. Ali u devedeset i drugoj minuti, Dinamo je zabio pobjednički gol! Josip je bio presretan. Vratio se kući kasno navečer, ali nije mogao zaspati od uzbuđenja.',
-        en: 'In the second half, Hajduk equalised. But in the ninety-second minute, Dinamo scored the winning goal! Josip was overjoyed. He got home late in the evening, but he could not fall asleep from excitement.',
+        en: 'In the second half, Hajduk equalized. But in the ninety-second minute, Dinamo scored the winning goal! Josip was overjoyed. He got home late in the evening, but he could not fall asleep from excitement.',
       },
     ],
     vocabulary: [
@@ -949,7 +949,7 @@ export const GRADED_STORIES = [
       { hr: 'navijač', en: 'fan / supporter', ex: 'Josip je navijač Dinama.' },
       { hr: 'zabiti gol', en: 'to score a goal', ex: 'Dinamo je zabio gol.' },
       { hr: 'derbi', en: 'derby (big local rivalry match)', ex: 'Dinamo-Hajduk derbi je poseban.' },
-      { hr: 'izjednačiti', en: 'to equalise', ex: 'Hajduk je izjednačio u drugom poluvremenu.' },
+      { hr: 'izjednačiti', en: 'to equalize', ex: 'Hajduk je izjednačio u drugom poluvremenu.' },
       { hr: 'poluvrijeme', en: 'half time / half', ex: 'Rezultat na poluvremenu bio je 1:0.' },
       { hr: 'uzbuđenje', en: 'excitement', ex: 'Nije mogao spavati od uzbuđenja.' },
       { hr: 'rasprodati', en: 'to sell out', ex: 'Karte su rasprodane.' },
@@ -1069,7 +1069,7 @@ export const GRADED_STORIES = [
     duration: 4,
     focus: 'Passive constructions • Cultural vocabulary • Instrumental case',
     intro:
-      "Learn about peka, one of Croatia's most beloved cooking traditions, while practising passive voice and cultural description.",
+      "Learn about peka, one of Croatia's most beloved cooking traditions, while practicing passive voice and cultural description.",
     paragraphs: [
       {
         hr: 'Peka je jedan od najstarijih načina kuhanja u Dalmaciji i Istri. Radi se o metalnom poklopcu, koji se naziva peka ili čripnja, koji se stavlja iznad hrane dok se ona polako peče ispod žara od drvenog ugljena. Ovaj način kuhanja koristi se stoljećima i danas je simbol dalmatinske kuhinje.',
@@ -1081,7 +1081,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ono što peku čini posebnom nije samo okus — to je cijeli ritual koji je oko nje nastao. U dalmatinskim obiteljima, priprema peke povod je za obiteljsko okupljanje. Dok se jelo polako peče ispod žara, obitelj sjedi vani, razgovara i pije domaće vino. Gosti su uvijek dobrodošli. Kažu da je hrana pod pekom kuhana ljubavlju — i to se može osjetiti u svakom zalogaju.',
-        en: 'What makes peka special is not just the flavour — it is the whole ritual that has grown up around it. In Dalmatian families, preparing a peka is an occasion for family gathering. While the dish slowly cooks under the embers, the family sits outside, talks and drinks homemade wine. Guests are always welcome. They say food cooked under the peka is cooked with love — and you can taste it in every bite.',
+        en: 'What makes peka special is not just the flavor — it is the whole ritual that has grown up around it. In Dalmatian families, preparing a peka is an occasion for family gathering. While the dish slowly cooks under the embers, the family sits outside, talks and drinks homemade wine. Guests are always welcome. They say food cooked under the peka is cooked with love — and you can taste it in every bite.',
       },
     ],
     vocabulary: [
@@ -1140,15 +1140,15 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Dubrovnik je jedan od najočuvanijih primjera gotičko-renesansne arhitekture na Mediteranu. Stari grad okružen je moćnim kamenim zidinama dugim gotovo dva kilometra, koje su građene i pojačavane od 13. do 17. stoljeća. Dubrovnik je 1979. uvršten na UNESCO-ov popis mjesta Svjetske baštine.',
-        en: "Dubrovnik is one of the best-preserved examples of Gothic-Renaissance architecture in the Mediterranean. The Old Town is surrounded by mighty stone walls almost two kilometres long, which were built and reinforced from the 13th to the 17th century. In 1979 Dubrovnik was placed on UNESCO's World Heritage list.",
+        en: "Dubrovnik is one of the best-preserved examples of Gothic-Renaissance architecture in the Mediterranean. The Old Town is surrounded by mighty stone walls almost two kilometers long, which were built and reinforced from the 13th to the 17th century. In 1979 Dubrovnik was placed on UNESCO's World Heritage list.",
       },
       {
         hr: 'Šetnja po zidinama traje otprilike sat i pol i nudi nevjerojatne poglede na Jadransko more i crvene krovove staroga grada. Duž zidina smješteno je nekoliko tvrđava: Lovrijenac, Minčeta i Revelin. Lovrijenac, koji stoji na 37 metara visokoj stijeni izvan zidina, posebno je impresivan. Na njemu stoji natpis: "Non bene pro toto libertas venditur auro" — "Sloboda se ne prodaje ni za sve zlato na svijetu."',
-        en: 'Walking the walls takes about an hour and a half and offers incredible views of the Adriatic Sea and the red rooftops of the old town. Along the walls several fortresses are positioned: Lovrijenac, Minčeta and Revelin. Lovrijenac, which stands on a 37-metre-high rock outside the walls, is particularly impressive. It bears the inscription: "Non bene pro toto libertas venditur auro" — "Freedom is not sold for all the gold in the world."',
+        en: 'Walking the walls takes about an hour and a half and offers incredible views of the Adriatic Sea and the red rooftops of the old town. Along the walls several fortresses are positioned: Lovrijenac, Minčeta and Revelin. Lovrijenac, which stands on a 37-meter-high rock outside the walls, is particularly impressive. It bears the inscription: "Non bene pro toto libertas venditur auro" — "Freedom is not sold for all the gold in the world."',
       },
       {
         hr: 'Dubrovnik je bio slobodna republika — Dubrovačka Republika — od 1358. do 1808. godine. U tom razdoblju, grad je bio jedno od najvažnijih trgovačkih središta Mediterana, poznato po svojoj vještoj diplomaciji i bogatim trgovcima. Danas je Dubrovnik jedno od najpopularnijih turističkih odredišta u Europi i prima više od milijun posjetitelja godišnje.',
-        en: 'Dubrovnik was a free republic — the Republic of Ragusa — from 1358 to 1808. During that period, the city was one of the most important trading centres of the Mediterranean, known for its skilled diplomacy and wealthy merchants. Today Dubrovnik is one of the most popular tourist destinations in Europe, receiving more than a million visitors a year.',
+        en: 'Dubrovnik was a free republic — the Republic of Ragusa — from 1358 to 1808. During that period, the city was one of the most important trading centers of the Mediterranean, known for its skilled diplomacy and wealthy merchants. Today Dubrovnik is one of the most popular tourist destinations in Europe, receiving more than a million visitors a year.',
       },
     ],
     vocabulary: [
@@ -1208,11 +1208,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Posebno mjesto u istarskoj gastronomiji zauzima tartuf — gljiva koja raste skrivena pod zemljom u hrastovim šumama. Istra ima neke od najvrjednijih vrsta tartufa na svijetu: bijeli tartuf, koji se bere u jesen, smatra se "dijamantom kuhinje". Jedan kilogram bijelog tartufa može koštati nekoliko tisuća eura. Lovci na tartufe, poznati kao tartufari, obučavaju posebne pse koji njuhom pronalaze skrivena blaga pod lišćem i korijenjem.',
-        en: 'A special place in Istrian gastronomy is held by the truffle — a fungus that grows hidden underground in oak forests. Istria has some of the most valuable species of truffles in the world: the white truffle, which is harvested in autumn, is considered the "diamond of cuisine". One kilogram of white truffle can cost several thousand euros. Truffle hunters, known as tartufari, train special dogs that use their sense of smell to find hidden treasures beneath leaves and roots.',
+        en: 'A special place in Istrian gastronomy is held by the truffle — a fungus that grows hidden underground in oak forests. Istria has some of the most valuable species of truffles in the world: the white truffle, which is harvested in fall, is considered the "diamond of cuisine". One kilogram of white truffle can cost several thousand euros. Truffle hunters, known as tartufari, train special dogs that use their sense of smell to find hidden treasures beneath leaves and roots.',
       },
       {
         hr: 'Istra nije samo poznata po tartufu i vinu. Rovinj i Pula privlače milijune turista, a unutrašnjost poluotoka nudi mirna sela s kamenim kućama i izvorne okuse koji se sve teže nalaze drugdje. Posebno se preporučuje posjetiti sajam tartufa koji se svake jeseni održava u Livadama, u dolini Mirne. Tko jednom proba istarsku kuhinju, teško je zaboravi.',
-        en: 'Istria is not only famous for truffles and wine. Rovinj and Pula attract millions of tourists, while the interior of the peninsula offers quiet villages with stone houses and authentic flavours that are increasingly hard to find elsewhere. A visit to the truffle fair held every autumn in Livade, in the Mirna valley, is particularly recommended. Anyone who tries Istrian cuisine once can hardly forget it.',
+        en: 'Istria is not only famous for truffles and wine. Rovinj and Pula attract millions of tourists, while the interior of the peninsula offers quiet villages with stone houses and authentic flavors that are increasingly hard to find elsewhere. A visit to the truffle fair held every fall in Livade, in the Mirna valley, is particularly recommended. Anyone who tries Istrian cuisine once can hardly forget it.',
       },
     ],
     vocabulary: [
@@ -1281,7 +1281,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Miroslav Krleža — književnik, dramatičar, esejist i enciklopedist — najznačajnija je figura moderne hrvatske književnosti. Rođen je 1893. u Zagrebu, u doba kada je Hrvatska još uvijek bila dio Austro-Ugarske Monarhije, a umro je 1981. kao državno priznat velikan socijalističke Jugoslavije. Paradoks njegova položaja — neprilagodljivi buntovnik koji je istovremeno bio blizak vlastima — obilježava svu složenost njegova opusa i njegova vremena.',
-        en: 'Miroslav Krleža — writer, playwright, essayist and encyclopaedist — is the most significant figure of modern Croatian literature. He was born in 1893 in Zagreb, at a time when Croatia was still part of the Austro-Hungarian Monarchy, and died in 1981 as a state-recognised giant of socialist Yugoslavia. The paradox of his position — an uncompromising rebel who was at the same time close to the authorities — marks all the complexity of his body of work and his era.',
+        en: 'Miroslav Krleža — writer, playwright, essayist and encyclopaedist — is the most significant figure of modern Croatian literature. He was born in 1893 in Zagreb, at a time when Croatia was still part of the Austro-Hungarian Monarchy, and died in 1981 as a state-recognized giant of socialist Yugoslavia. The paradox of his position — an uncompromising rebel who was at the same time close to the authorities — marks all the complexity of his body of work and his era.',
       },
       {
         hr: 'Krležin književni opus je golem i raznovrstan. U dramama kao što su "Gospoda Glembajevi" i "U agoniji", Krleža razotkriva moralnu trulost građanske klase u predratnoj Hrvatskoj. U romanima "Na rubu pameti" i "Povratak Filipa Latinovicza" propituje ulogu intelektualca u društvu koje ga ne razumije i ne trpi. Njegova poezija, posebice zbirka "Balade Petrice Kerempuha" pisana na kajkavskom, postiže izniman lirski učinak koji se opire jednostavnom prevođenju.',
@@ -1354,7 +1354,7 @@ export const GRADED_STORIES = [
     duration: 5,
     focus: 'Complex past constructions • Abstract nouns • Sensitive historical register',
     intro:
-      'A thoughtful exploration of how Croatia commemorates the 1990s Homeland War. Practise advanced past tense constructions, abstract vocabulary, and handling sensitive historical topics.',
+      'A thoughtful exploration of how Croatia commemorates the 1990s Homeland War. Practice advanced past tense constructions, abstract vocabulary, and handling sensitive historical topics.',
     paragraphs: [
       {
         hr: 'Domovinski rat — koji je trajao od 1991. do 1995. — temeljni je događaj suvremenoga hrvatskog identiteta. Hrvatska je 25. lipnja 1991. proglasila neovisnost, no agresija Jugoslavenske narodne armije i srpskih paravojnih postrojbi uskoro je eskalirala u oružani sukob koji je obilježio čitavo desetljeće. Gradovi kao Vukovar, Dubrovnik i Šibenik postali su simboli otpora i patnje.',
@@ -1362,7 +1362,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Vukovar je posebno mjesto u kolektivnoj memoriji. Opsada Vukovara trajala je od kolovoza do studenog 1991. Branitelji grada — vojnici i civili rame uz rame — odolijevali su znatno nadmoćnijem neprijatelju 87 dana. Grad je na kraju pao 18. studenog 1991. Slika vukovarskog vodotornja, izrešetanog, ali uspravnog usred razrušenoga grada, postala je jedan od najprepoznatljivijih simbola rata i otpora.',
-        en: "Vukovar holds a special place in collective memory. The siege of Vukovar lasted from August to November 1991. The city's defenders — soldiers and civilians side by side — held out against a vastly superior enemy for 87 days. The city finally fell on 18 November 1991. The image of the Vukovar water tower, riddled with bullets yet standing upright amid the ruined city, became one of the most recognisable symbols of the war and of resistance.",
+        en: "Vukovar holds a special place in collective memory. The siege of Vukovar lasted from August to November 1991. The city's defenders — soldiers and civilians side by side — held out against a vastly superior enemy for 87 days. The city finally fell on 18 November 1991. The image of the Vukovar water tower, riddled with bullets yet standing upright amid the ruined city, became one of the most recognizable symbols of the war and of resistance.",
       },
       {
         hr: 'Pitanje sjećanja na Domovinski rat ostaje složeno i politički osjetljivo. Hrvatsko društvo suočava se s izazovom koji je zajednički mnogim poslijeratnim društvima: kako kolektivno sjećanje učiniti mjestom pomirenja, a ne trajnog sukoba. Vukovar danas prolazi kroz spor gospodarski oporavak, a demografski se nije vratio na predratnu razinu. Ipak, svake godine na obljetnicu pada Vukovara, 18. studenoga, tisuće hodočasnika hodaju ulicama grada u tišini, noseći cvijeće i upaljene lampione. Taj šutljivi mimohod — kolona sjećanja — najmoćniji je odgovor na sve pokušaje brisanja prošlosti.',
@@ -1418,7 +1418,7 @@ export const GRADED_STORIES = [
     duration: 5,
     focus: 'Contrast structures • Urban sociology vocabulary • Gerunds and verbal nouns',
     intro:
-      "Explore the tensions and harmonies between Zagreb's historic character and its contemporary urban life. Practise contrast structures, complex subordination, and urban vocabulary.",
+      "Explore the tensions and harmonies between Zagreb's historic character and its contemporary urban life. Practice contrast structures, complex subordination, and urban vocabulary.",
     paragraphs: [
       {
         hr: 'Zagreb je grad koji živi u produktivnoj napetosti između starog i novog. Gornji grad — s Kaptolom, katedralom i labirintom uskih kamenih ulica — svjedok je tisućljetne prošlosti, dok se nedaleko odatle, na Savici i u Novom Zagrebu, rasprostire sasvim drukčiji urbani pejzaž: betonski blokovi nastali u doba socijalizma, danas sve češće okruženi novootvorenim kavanama, coworking prostorima i kreativnim industrijama.',
@@ -1426,11 +1426,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Potres koji je pogodio Zagreb u ožujku 2020. — jačine 5,5 po Richteru — razgolitio je dublje strukturne probleme: tisuće zgrada u gradskoj jezgri bile su oštećene, a u nekim dijelovima Gornjeg i Donjeg grada sanacija još uvijek nije završena. Potres je međutim potaknuo i širu javnu raspravu o urbanom planiranju, zaštiti kulturne baštine i položaju stanara u sve skupljem privatnom najmu. Mnogi mladi Zagrepčani, suočeni s nemogućnošću kupnje stana u centru, sele se u prigradska naselja ili odlaze u inozemstvo.',
-        en: 'The earthquake that struck Zagreb in March 2020 — measuring 5.5 on the Richter scale — laid bare deeper structural problems: thousands of buildings in the city centre were damaged, and in some parts of the Upper and Lower Town reconstruction is still not complete. The earthquake, however, also prompted a broader public debate about urban planning, the protection of cultural heritage and the situation of tenants in increasingly expensive private rentals. Many young Zagrebians, faced with the impossibility of buying a flat in the centre, are moving to suburban settlements or leaving for abroad.',
+        en: 'The earthquake that struck Zagreb in March 2020 — measuring 5.5 on the Richter scale — laid bare deeper structural problems: thousands of buildings in the city center were damaged, and in some parts of the Upper and Lower Town reconstruction is still not complete. The earthquake, however, also prompted a broader public debate about urban planning, the protection of cultural heritage and the situation of tenants in increasingly expensive private rentals. Many young Zagrebians, faced with the impossibility of buying an apartment in the center, are moving to suburban settlements or leaving for abroad.',
       },
       {
         hr: 'Unatoč tim izazovima, Zagreb se nameće kao regionalno kulturno središte. Muzej suvremene umjetnosti, Muzej prekinutih veza — koji je stekao međunarodnu slavu — i sve bogatija scena neovisnih kazališta i glazbenih festivala svjedoče o živoj kulturnoj energiji. Advent u Zagrebu proglašen je više puta najboljim božićnim tržištem u Europi, privlačeći posjetitelje iz cijeloga svijeta. Grad koji se gradi između trauma i nade, između nostalgije i inovacije, možda je upravo zbog te napetosti toliko živ.',
-        en: 'Despite these challenges, Zagreb asserts itself as a regional cultural centre. The Museum of Contemporary Art, the Museum of Broken Relationships — which has gained international fame — and an increasingly rich scene of independent theatres and music festivals attest to a vibrant cultural energy. Zagreb Advent has been named the best Christmas market in Europe on multiple occasions, attracting visitors from all over the world. A city building itself between trauma and hope, between nostalgia and innovation, is perhaps precisely because of that tension so alive.',
+        en: 'Despite these challenges, Zagreb asserts itself as a regional cultural center. The Museum of Contemporary Art, the Museum of Broken Relationships — which has gained international fame — and an increasingly rich scene of independent theaters and music festivals attest to a vibrant cultural energy. Zagreb Advent has been named the best Christmas market in Europe on multiple occasions, attracting visitors from all over the world. A city building itself between trauma and hope, between nostalgia and innovation, is perhaps precisely because of that tension so alive.',
       },
     ],
     vocabulary: [
@@ -1443,7 +1443,7 @@ export const GRADED_STORIES = [
       },
       { hr: 'najam', en: 'rent / rental', ex: 'Privatni najam je sve skuplji.' },
       { hr: 'prigradski', en: 'suburban', ex: 'Mladi se sele u prigradska naselja.' },
-      { hr: 'kazalište', en: 'theatre', ex: 'Volim ići u kazalište.' },
+      { hr: 'kazalište', en: 'theater', ex: 'Volim ići u kazalište.' },
       { hr: 'nostalgija', en: 'nostalgia', ex: 'Grad živi između nostalgije i inovacije.' },
       {
         hr: 'razgolititi',
@@ -1476,7 +1476,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što mnogi mladi Zagrepčani rade zbog visokih cijena stanova u centru?',
-        qEn: 'What do many young Zagrebians do because of high flat prices in the centre?',
+        qEn: 'What do many young Zagrebians do because of high apartment prices in the center?',
         opts: [
           'Renoviraju stare zgrade',
           'Ostaju s roditeljima',
@@ -1500,11 +1500,11 @@ export const GRADED_STORIES = [
     focus:
       'Conditional and subjunctive-like constructions • Identity vocabulary • Complex argumentation',
     intro:
-      "An analytical text on Croatian identity, emigration, and the diaspora's relationship with the homeland. Practise advanced vocabulary, argumentation structures, and conditional constructions.",
+      "An analytical text on Croatian identity, emigration, and the diaspora's relationship with the homeland. Practice advanced vocabulary, argumentation structures, and conditional constructions.",
     paragraphs: [
       {
         hr: 'Procjenjuje se da između tri i četiri milijuna Hrvata i osoba hrvatskog porijekla živi izvan granica Republike Hrvatske — broj koji je gotovo usporediv s ukupnim brojem stanovnika same države. Hrvatska dijaspora koncentrirana je ponajprije u Njemačkoj, Australiji, Kanadi, Sjedinjenim Državama i u susjednim državama, ali i u Južnoj Americi, gdje postoje snažne zajednice u Argentini i Čileu, potomci emigrantskih valova s kraja 19. i početka 20. stoljeća.',
-        en: 'It is estimated that between three and four million Croatians and persons of Croatian origin live outside the borders of the Republic of Croatia — a number almost comparable with the total number of inhabitants of the state itself. The Croatian diaspora is concentrated primarily in Germany, Australia, Canada, the United States and neighbouring countries, but also in South America, where there are strong communities in Argentina and Chile, descendants of emigrant waves from the late 19th and early 20th centuries.',
+        en: 'It is estimated that between three and four million Croatians and persons of Croatian origin live outside the borders of the Republic of Croatia — a number almost comparable with the total number of inhabitants of the state itself. The Croatian diaspora is concentrated primarily in Germany, Australia, Canada, the United States and neighboring countries, but also in South America, where there are strong communities in Argentina and Chile, descendants of emigrant waves from the late 19th and early 20th centuries.',
       },
       {
         hr: 'Odnos dijaspore prema domovini složen je i mijenja se iz generacije u generaciju. Za prve generacije emigranata, odlazak je bio traumatičan raskid, a čuvanje jezika, vjere i običaja postajalo je egzistencijalnim pitanjem identiteta. Druge i treće generacije često govore o tzv. "dvostrukom identitetu" — osjećaju da ne pripadaju sasvim ni ovdje ni tamo. Zanimljivo je da su upravo Hrvati iz dijaspore imali ključnu ulogu u međunarodnom priznavanju hrvatske neovisnosti 1991. i 1992. godine, lobirajeći u parlamentima i vladama zemalja primitka.',
@@ -1584,26 +1584,26 @@ export const GRADED_STORIES = [
     duration: 7,
     focus: 'Verbal nouns • Formal discourse • Abstract linguistic concepts',
     intro:
-      'An analytical essay on the relationship between language and cultural identity in the Croatian context. Practise verbal nouns, formal discourse markers, and abstract vocabulary.',
+      'An analytical essay on the relationship between language and cultural identity in the Croatian context. Practice verbal nouns, formal discourse markers, and abstract vocabulary.',
     paragraphs: [
       {
         hr: 'Jezik nije samo sredstvo komunikacije — on je i nositelj kulture, sjećanja i kolektivnog identiteta. Za Hrvate, ta dimenzija jezičnoga pitanja ima posebno značenje, uzimajući u obzir burnu povijest standardizacije i višestoljetnih pokušaja nametanja stranih jezičnih normi. Glagoljica, najstarije hrvatsko pismo, simbol je toga kontinuiteta: ona svjedoči o pismenosti koja seže u 9. stoljeće i koja je stoljećima odolijevala latinizaciji i preživjela osmanske prodore na periferiji.',
-        en: 'Language is not merely a means of communication — it is also a carrier of culture, memory and collective identity. For Croatians, this dimension of the language question has a particular significance, given the turbulent history of standardisation and centuries-long attempts to impose foreign linguistic norms. Glagolitic script, the oldest Croatian writing system, is a symbol of that continuity: it bears witness to literacy reaching back to the 9th century, which for centuries resisted Latinisation and survived Ottoman incursions on the periphery.',
+        en: 'Language is not merely a means of communication — it is also a carrier of culture, memory and collective identity. For Croatians, this dimension of the language question has a particular significance, given the turbulent history of standardization and centuries-long attempts to impose foreign linguistic norms. Glagolitic script, the oldest Croatian writing system, is a symbol of that continuity: it bears witness to literacy reaching back to the 9th century, which for centuries resisted Latinization and survived Ottoman incursions on the periphery.',
       },
       {
         hr: 'Standardizacija hrvatskoga književnog jezika u 19. stoljeću nije bila tek filološki projekt — bila je i politički čin. Ilirski preporoditelji, na čelu s Ljudevitom Gajem, težili su ujedinjavanju rasutih hrvatskih dijalekata u jedinstven književni standard koji bi mogao parirati mađarskome i njemačkome na razini javnoga diskursa. Uvođenje novoštokavske osnovice u standardni jezik podrazumijevalo je odricanje dijela autohtonih čakavskih i kajkavskih oblika — žrtvu koja se i danas propituje u lingvističkim i kulturnim raspravama.',
-        en: 'The standardisation of the Croatian literary language in the 19th century was not merely a philological project — it was also a political act. The Illyrian Revival figures, led by Ljudevit Gaj, sought to unify the scattered Croatian dialects into a single literary standard that could rival Hungarian and German at the level of public discourse. The introduction of the Neo-Shtokavian base into the standard language entailed the abandonment of some autochthonous Chakavian and Kajkavian forms — a sacrifice that is still debated in linguistic and cultural discussions today.',
+        en: 'The standardization of the Croatian literary language in the 19th century was not merely a philological project — it was also a political act. The Illyrian Revival figures, led by Ljudevit Gaj, sought to unify the scattered Croatian dialects into a single literary standard that could rival Hungarian and German at the level of public discourse. The introduction of the Neo-Shtokavian base into the standard language entailed the abandonment of some autochthonous Chakavian and Kajkavian forms — a sacrifice that is still debated in linguistic and cultural discussions today.',
       },
       {
         hr: 'Danas, u dobu digitalne komunikacije, pitanje jezičnoga identiteta dobiva novu dimenziju. Pisana forma — nekad privilegija obrazovanih — sada je svakodnevna stvarnost za milijune korisnika društvenih mreža koji pišu onako kako govore: na čakavskome, kajkavskome, ili mješavinom standarda i žargona. Ta spontana demokratizacija pisanja ne ugrožava standardni jezik — ona ga obogaćuje, uvodeći u javni diskurs jezičnu raznolikost koja je uvijek bila dio hrvatskoga identiteta. Standardni jezik ostaje stup kulturnoga i administrativnoga jedinstva, ali vitalni su mu živci dijalekatski korijeni koji ga hrane autentičnošću.',
-        en: 'Today, in the age of digital communication, the question of linguistic identity takes on a new dimension. Written form — once the privilege of the educated — is now an everyday reality for millions of social media users who write as they speak: in Chakavian, Kajkavian, or a mixture of standard language and slang. This spontaneous democratisation of writing does not threaten the standard language — it enriches it, introducing into public discourse the linguistic diversity that has always been part of Croatian identity. The standard language remains a pillar of cultural and administrative unity, but its vital nerves are the dialectal roots that nourish it with authenticity.',
+        en: 'Today, in the age of digital communication, the question of linguistic identity takes on a new dimension. Written form — once the privilege of the educated — is now an everyday reality for millions of social media users who write as they speak: in Chakavian, Kajkavian, or a mixture of standard language and slang. This spontaneous democratization of writing does not threaten the standard language — it enriches it, introducing into public discourse the linguistic diversity that has always been part of Croatian identity. The standard language remains a pillar of cultural and administrative unity, but its vital nerves are the dialectal roots that nourish it with authenticity.',
       },
     ],
     vocabulary: [
       { hr: 'nositelj', en: 'carrier / bearer', ex: 'Jezik je nositelj kulture i sjećanja.' },
       {
         hr: 'standardizacija',
-        en: 'standardisation',
+        en: 'standardization',
         ex: 'Standardizacija jezika bila je politički čin.',
       },
       {
@@ -1682,19 +1682,19 @@ export const GRADED_STORIES = [
     duration: 6,
     focus: 'Sensory vocabulary • Implicit cultural meaning • Complex noun phrases',
     intro:
-      'A cultural essay on Dalmatian cuisine as a layered historical record. Practise complex noun phrases, abstract cultural vocabulary, and C1-level reading comprehension.',
+      'A cultural essay on Dalmatian cuisine as a layered historical record. Practice complex noun phrases, abstract cultural vocabulary, and C1-level reading comprehension.',
     paragraphs: [
       {
         hr: 'Dalmatinska kuhinja nije tek zbroj recepata — ona je kodirana povijest, zapis klimatske i geopolitičke sudbine jedne obale. Maslinovo ulje i vino, njezini temeljni kulinarski mediji, naslijeđe su grčke i rimske antike; venecijanska vladavina ostavila je trag u rižotima i bakalaru; osmansko susjedstvo donijelo je neke mirodije. Kuhati po dalmatinski znači, u svakom smislu, kuhati po slojevima povijesti.',
-        en: 'Dalmatian cuisine is not merely a collection of recipes — it is a coded history, a record of the climatic and geopolitical fate of a coastline. Olive oil and wine, its foundational culinary media, are a legacy of Greek and Roman antiquity; Venetian rule left its mark in risottos and salt cod; the Ottoman neighbourhood brought some spices. To cook in the Dalmatian way means, in every sense, to cook through layers of history.',
+        en: 'Dalmatian cuisine is not merely a collection of recipes — it is a coded history, a record of the climatic and geopolitical fate of a coastline. Olive oil and wine, its foundational culinary media, are a legacy of Greek and Roman antiquity; Venetian rule left its mark in risottos and salt cod; the Ottoman neighborhood brought some spices. To cook in the Dalmatian way means, in every sense, to cook through layers of history.',
       },
       {
         hr: 'Peka — posuda za pečenje ispod žara — možda je najprecizniji simbol dalmatinskoga kulinarskog pristupa. Spora, pokrivena kuhinja: meso ili riba polaže se s povrćem i uljem, peka se poklopi, a zatim zaspe žarom. Strpljenje je ovdje tehnika, a ne vrlina — bez njega nema ni okusa. Takav se način kuhanja ne može ubrzati bez gubitka: onaj tko pokušava pečenku pod pekom brzopleto pretvoriti u ekspresni obrok, izgubit će precizno ono što peka obećava.',
-        en: 'The peka — a bell-shaped lid for roasting under embers — is perhaps the most precise symbol of the Dalmatian culinary approach. Slow, covered cooking: meat or fish is arranged with vegetables and oil, the peka is closed, and then covered with embers. Patience here is technique, not virtue — without it there is no flavour either. This method of cooking cannot be hurried without loss: whoever tries to hastily turn a peka roast into an express meal will lose precisely what the peka promises.',
+        en: 'The peka — a bell-shaped lid for roasting under embers — is perhaps the most precise symbol of the Dalmatian culinary approach. Slow, covered cooking: meat or fish is arranged with vegetables and oil, the peka is closed, and then covered with embers. Patience here is technique, not virtue — without it there is no flavor either. This method of cooking cannot be hurried without loss: whoever tries to hastily turn a peka roast into an express meal will lose precisely what the peka promises.',
       },
       {
         hr: 'Primat ribe u dalmatinskoj kuhinji nije tek pitanje dostupnosti — on odražava dublje poimanje odnosa čovjeka i mora. Riba je svježa ili nikakva; marinada i mirodije služe naglašavanju, a ne prikrivanju okusa. Ovaj filozofski stav prema sirovini — koji akademski gastronomi danas nazivaju "kuhinjom minimalne intervencije" — u Dalmaciji nije moda ni trend, nego praksa stara koliko i sam ribolov. Ribari koji su ujutro izvukli mrežu, o podne su priredili roštilj, a navečer pojeli ostatke s malo kruha i vina: to je recept koji ne treba poboljšavati.',
-        en: "Fish's primacy in Dalmatian cuisine is not merely a question of availability — it reflects a deeper understanding of the relationship between people and the sea. Fish is fresh or nothing; marinade and spices serve to accentuate, not conceal, the flavour. This philosophical stance towards the raw ingredient — which academic gastronomes today call the 'cuisine of minimal intervention' — in Dalmatia is not a fashion or trend, but a practice as old as fishing itself. Fishermen who drew up their nets in the morning prepared a grill at noon and ate the leftovers with a little bread and wine in the evening: that is a recipe that needs no improvement.",
+        en: "Fish's primacy in Dalmatian cuisine is not merely a question of availability — it reflects a deeper understanding of the relationship between people and the sea. Fish is fresh or nothing; marinade and spices serve to accentuate, not conceal, the flavor. This philosophical stance toward the raw ingredient — which academic gastronomes today call the 'cuisine of minimal intervention' — in Dalmatia is not a fashion or trend, but a practice as old as fishing itself. Fishermen who drew up their nets in the morning prepared a grill at noon and ate the leftovers with a little bread and wine in the evening: that is a recipe that needs no improvement.",
       },
     ],
     vocabulary: [
@@ -1722,7 +1722,7 @@ export const GRADED_STORIES = [
       { hr: 'marinada', en: 'marinade', ex: 'Riba leži u marinadi sat vremena.' },
       {
         hr: 'naglašavati',
-        en: 'to accentuate / emphasise (impf.)',
+        en: 'to accentuate / emphasize (impf.)',
         ex: 'Ulje naglašava okus ribe.',
       },
       {
@@ -1750,7 +1750,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što peka simbolizira u dalmatinskom pristupu kuhanju?',
-        qEn: 'What does the peka symbolise in the Dalmatian approach to cooking?',
+        qEn: 'What does the peka symbolize in the Dalmatian approach to cooking?',
         opts: [
           'Modernu tehniku roštiljanja',
           'Sporo kuhanje koje zahtijeva strpljenje',
@@ -1784,7 +1784,7 @@ export const GRADED_STORIES = [
     duration: 7,
     focus: 'Literary Croatian • Critical analysis vocabulary • Complex subordination',
     intro:
-      "An analytical introduction to Croatia's most important 20th-century writer. Practise literary register, critical vocabulary, and complex argument structures at C1 level.",
+      "An analytical introduction to Croatia's most important 20th-century writer. Practice literary register, critical vocabulary, and complex argument structures at C1 level.",
     paragraphs: [
       {
         hr: 'Miroslav Krleža (1893.–1981.) ostaje najmoćnijim glasom modernog hrvatskog romana, eseja i drame. Njegova proza — gruba, polifonična, prepuna aluzija na europsku povijest i filozofiju — nije salonska književnost za lagano čitanje, nego izazov koji traži od čitatelja punu angažiranost. Romani kao što su "Povratak Filipa Latinovicza" i "Zastave" mogu se čitati kao pokušaji razumijevanja raspada Austro-Ugarske Monarhije i rađanja novih, nerijetko krvavijih poredaka — ali i kao duboke studije psihičke i moralne razrovanosti modernoga čovjeka.',
@@ -1792,11 +1792,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Krležin stil svjesno krši konvencije ujednačene proze: rečenice se nižu u dugačkim zamršenostima, digresije postaju temeljne, a svaki monolog junaka otkriva slojeve protuslovlja koja se nikad ne razrješuju. Ta fragmentarnost nije manjkavost nego poetički program — Krleža odbija laž zaključenosti i nudi čitatelju ono što bi se moglo nazvati 'otvorenom ranom' modernoga iskustva. Pod tim su utjecajem, prihvaćajući ga ili mu se suprotstavljajući, rasli i poslijeratni pisci poput Antuna Šoljana i Slobodana Novaka, koji su razvijali vlastite varijante moderne hrvatske proze.",
-        en: "Krleža's style deliberately violates the conventions of smooth prose: sentences accumulate in long convolutions, digressions become foundational, and each character's monologue reveals layers of contradictions that are never resolved. This fragmentariness is not a shortcoming but a poetic programme — Krleža refuses the lie of closure and offers the reader what might be called the 'open wound' of modern experience. Under this influence, embracing it or pushing against it, grew post-war writers such as Antun Šoljan and Slobodan Novak, who developed their own variants of modern Croatian prose.",
+        en: "Krleža's style deliberately violates the conventions of smooth prose: sentences accumulate in long convolutions, digressions become foundational, and each character's monologue reveals layers of contradictions that are never resolved. This fragmentariness is not a shortcoming but a poetic program — Krleža refuses the lie of closure and offers the reader what might be called the 'open wound' of modern experience. Under this influence, embracing it or pushing against it, grew post-war writers such as Antun Šoljan and Slobodan Novak, who developed their own variants of modern Croatian prose.",
       },
       {
         hr: 'Čitati Krležu danas znači suočiti se i s pitanjima koja nisu zastarjela: klasna napetost, ambivalentnost intelektualca u politički opterećenim vremenima, somatska i psihička cijena modernizacije. Njegova Enciklopedija — monumentalni projekt koji je Krleža vodio desetljećima — svjedoči o razlogu zbog kojega je bio toliko omiljen kod jugoslavenskih vlasti koliko i sumnjičav prema njima: bio je prevelik, presložen i previše proturječan da bi se smjestio u bilo kakvu ideološku šablonu. Taj paradoks čini ga možda najpotpunijim hrvatskim intelektualcem 20. stoljeća.',
-        en: 'To read Krleža today means confronting questions that have not aged: class tension, the ambivalence of the intellectual in politically burdened times, the somatic and psychological cost of modernisation. His Encyclopaedia — a monumental project that Krleža led for decades — bears witness to the reason he was as beloved by Yugoslav authorities as he was suspicious of them: he was too large, too complex and too contradictory to fit into any ideological template. This paradox makes him perhaps the most complete Croatian intellectual of the 20th century.',
+        en: 'To read Krleža today means confronting questions that have not aged: class tension, the ambivalence of the intellectual in politically burdened times, the somatic and psychological cost of modernization. His Encyclopaedia — a monumental project that Krleža led for decades — bears witness to the reason he was as beloved by Yugoslav authorities as he was suspicious of them: he was too large, too complex and too contradictory to fit into any ideological template. This paradox makes him perhaps the most complete Croatian intellectual of the 20th century.',
       },
     ],
     vocabulary: [
@@ -1825,7 +1825,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Što karakterizira Krležin stilski pristup prema tekstu?',
-        qEn: "What characterises Krleža's stylistic approach according to the text?",
+        qEn: "What characterizes Krleža's stylistic approach according to the text?",
         opts: [
           'Humor i ironija kao dominantna sredstva',
           'Kratke, jasne rečenice i jednostavne priče',
@@ -1865,19 +1865,19 @@ export const GRADED_STORIES = [
     duration: 7,
     focus: 'Academic/formal register • Environmental vocabulary • Complex argument structures',
     intro:
-      'A formal analytical text on the environmental pressures facing the Adriatic Sea. Practise academic register, scientific vocabulary, and C1-level argumentation in Croatian.',
+      'A formal analytical text on the environmental pressures facing the Adriatic Sea. Practice academic register, scientific vocabulary, and C1-level argumentation in Croatian.',
     paragraphs: [
       {
         hr: 'Jadransko more, koje pokriva oko 138.000 četvornih kilometara i dostiže prosječnu dubinu od 173 metra, pripada ekološki najosjetljivijim morskim sustavima Mediterana. Kao poluotvoreno more s relativno ograničenom izmjenom vode s otvorenim Sredozemljem, Jadran je posebno podložan bioakumulaciji zagađivala iz industrijskih i poljoprivrednih izvora duž dalmatinske i talijanske obale. Povišene temperature mora, smanjena slanost u sjevernim plitkim vodama zbog porasta slatkovodnog otjecanja, te promjene u fitoplanktonskim zajednicama — sve su to pokazatelji koji upućuju na sustavne pomake u ekosustavu.',
-        en: 'The Adriatic Sea, covering approximately 138,000 square kilometres and reaching an average depth of 173 metres, belongs to the most ecologically sensitive marine systems in the Mediterranean. As a semi-enclosed sea with relatively limited exchange of water with the open Mediterranean, the Adriatic is particularly susceptible to bioaccumulation of pollutants from industrial and agricultural sources along the Dalmatian and Italian coasts. Elevated sea temperatures, reduced salinity in the northern shallow waters due to increased freshwater runoff, and changes in phytoplankton communities — these are all indicators pointing to systemic shifts in the ecosystem.',
+        en: 'The Adriatic Sea, covering approximately 138,000 square kilometers and reaching an average depth of 173 meters, belongs to the most ecologically sensitive marine systems in the Mediterranean. As a semi-enclosed sea with relatively limited exchange of water with the open Mediterranean, the Adriatic is particularly susceptible to bioaccumulation of pollutants from industrial and agricultural sources along the Dalmatian and Italian coasts. Elevated sea temperatures, reduced salinity in the northern shallow waters due to increased freshwater runoff, and changes in phytoplankton communities — these are all indicators pointing to systemic shifts in the ecosystem.',
       },
       {
         hr: 'Ribarska industrija, nekada temelj obalne ekonomije, prolazi kroz sustavno iscrpljivanje resursa: stokovi plave ribe — sardina i skuša — prema nekim su se procjenama smanjili za 30 do 40% u posljednjih dvadeset godina. Kvote propisane u okviru Zajedničke ribarske politike Europske unije djelomično su suzbile prelov, ali nadzor nad provedbom ostaje nedostatan u malim lukama duž Dalmacije. Usporedno s tim, bilježi se širenje invazivnih vrsta — među njima i otrovne srebrnopruge napuhače (Lagocephalus sceleratus), zbog koje stručnjaci upozoravaju ribolovce i ronioce.',
-        en: "The fishing industry, once the foundation of the coastal economy, is undergoing systematic resource depletion: stocks of blue fish — sardines and mackerel — have, by some estimates, declined by 30 to 40% over the past twenty years. Quotas prescribed under the European Union's Common Fisheries Policy have partially suppressed overfishing, but enforcement oversight remains insufficient in the small harbours along Dalmatia. Concurrently, the spread of invasive species is being recorded — among them the poisonous silver-cheeked toadfish (Lagocephalus sceleratus), about which experts are warning fishermen and divers.",
+        en: "The fishing industry, once the foundation of the coastal economy, is undergoing systematic resource depletion: stocks of blue fish — sardines and mackerel — have, by some estimates, declined by 30 to 40% over the past twenty years. Quotas prescribed under the European Union's Common Fisheries Policy have partially suppressed overfishing, but enforcement oversight remains insufficient in the small harbors along Dalmatia. Concurrently, the spread of invasive species is being recorded — among them the poisonous silver-cheeked toadfish (Lagocephalus sceleratus), about which experts are warning fishermen and divers.",
       },
       {
         hr: 'Odgovori na ekološku krizu Jadrana ne mogu biti isključivo tehničko-regulatorni. Kulturna promjena u odnosu prema moru — od resursne prema suodgovornoj logici — preduvjet je za svaku dugoročnu strategiju. Inicijative kao što su morska zaštićena područja pokazuju pozitivne rezultate tamo gdje postoji lokalna podrška i edukacija, ali izostaju tamo gdje su standardi postavljeni izvana, bez uključivanja ribarskih zajednica u proces donošenja odluka. Budućnost Jadrana ovisi o sposobnosti institucija i lokalnih zajednica da pregovaraju oko interesa koji se čine nespojivima — ali koji su, u dugoročnoj perspektivi, zapravo zajednički.',
-        en: 'Responses to the ecological crisis of the Adriatic cannot be exclusively technical-regulatory in nature. A cultural shift in the relationship towards the sea — from a resource logic to a co-responsible logic — is a precondition for any long-term strategy. Initiatives such as marine protected areas show positive results where local support and education exist, but are absent where standards are set from outside, without the inclusion of fishing communities in the decision-making process. The future of the Adriatic depends on the ability of institutions and local communities to negotiate around interests that appear incompatible — but which are, in the long-term perspective, actually shared.',
+        en: 'Responses to the ecological crisis of the Adriatic cannot be exclusively technical-regulatory in nature. A cultural shift in the relationship toward the sea — from a resource logic to a co-responsible logic — is a precondition for any long-term strategy. Initiatives such as marine protected areas show positive results where local support and education exist, but are absent where standards are set from outside, without the inclusion of fishing communities in the decision-making process. The future of the Adriatic depends on the ability of institutions and local communities to negotiate around interests that appear incompatible — but which are, in the long-term perspective, actually shared.',
       },
     ],
     vocabulary: [
@@ -1965,9 +1965,9 @@ export const GRADED_STORIES = [
     title: 'Reforma obrazovnog sustava',
     titleEn: 'Reform of the Education System',
     duration: 10,
-    focus: 'Passive voice • Conditional mood • Formal written register • Nominalisations',
+    focus: 'Passive voice • Conditional mood • Formal written register • Nominalizations',
     intro:
-      'A newspaper editorial examines a proposed Croatian education reform. Practise understanding formal argumentation and the passive constructions common in written Croatian.',
+      'A newspaper editorial examines a proposed Croatian education reform. Practice understanding formal argumentation and the passive constructions common in written Croatian.',
     paragraphs: [
       {
         hr: 'Obrazovni sustav u Hrvatskoj suočava se s dubokim strukturnim problemima koji su se nakupljali desetljećima. Nedavno je Ministarstvo obrazovanja predstavilo prijedlog sveobuhvatne reforme koji bi, prema najavama, trebao biti proveden do 2027. godine. Kritičari, međutim, tvrde da je reforma zamišljena bez dovoljnog savjetovanja s nastavnicima i roditeljima.',
@@ -1975,7 +1975,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prijedlog uključuje smanjenje broja obveznih predmeta u osnovnoj školi, uvođenje projektne nastave i veću autonomiju ravnatelja. Nastavnici su podijeljeni: jedni tvrde da bi reforme bile korisne kad bi bile praćene odgovarajućom podrškom i ulaganjima u infrastrukturu; drugi strahuju da bi smanjenje sati matematike i znanosti moglo oslabiti kompetencije učenika.',
-        en: 'The proposal includes reducing the number of compulsory subjects in primary school, introducing project-based learning and greater autonomy for headteachers. Teachers are divided: some argue that the reforms would be useful if accompanied by appropriate support and investment in infrastructure; others fear that reducing mathematics and science hours could weaken pupil competencies.',
+        en: 'The proposal includes reducing the number of compulsory subjects in elementary school, introducing project-based learning and greater autonomy for headteachers. Teachers are divided: some argue that the reforms would be useful if accompanied by appropriate support and investment in infrastructure; others fear that reducing mathematics and science hours could weaken student competencies.',
       },
       {
         hr: 'Reforma je bila podvrgnuta javnoj raspravi u kojoj je prikupljeno više od deset tisuća komentara. Analiza je pokazala da roditelji najčešće izražavaju zabrinutost zbog preopterećenosti djece, dok nastavnici uglavnom traže bolje plaće i manje administrativnih obveza. Mnogi stručnjaci ističu da bez sustavnog ulaganja u obrazovanje promjena kurikuluma sama po sebi neće donijeti željene rezultate.',
@@ -2065,11 +2065,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ivan je napisao formalnu reklamaciju u kojoj je opisao kvar, priložio račun i fotografije zaslona s porukama o grešci. U pismu je naveo da zahtijeva popravak ili zamjenu uređaja, a u slučaju da nijedna opcija nije izvediva — povrat novca. Prodavač je odgovorio da će uređaj biti pregledan u ovlaštenom servisu te da će Ivan biti obaviješten o ishodu u roku od sedam radnih dana.',
-        en: 'Ivan wrote a formal complaint in which he described the fault, attached the receipt and photographs of the screen with error messages. In the letter he stated that he was requesting repair or replacement of the device, and in the event that neither option was feasible — a refund. The seller responded that the device would be examined in an authorised service centre and that Ivan would be notified of the outcome within seven working days.',
+        en: 'Ivan wrote a formal complaint in which he described the fault, attached the receipt and photographs of the screen with error messages. In the letter he stated that he was requesting repair or replacement of the device, and in the event that neither option was feasible — a refund. The seller responded that the device would be examined in an authorized service center and that Ivan would be notified of the outcome within seven working days.',
       },
       {
         hr: 'Slučaj je na kraju riješen u Ivanovu korist — uređaj je zamijenjen novim modelom. Iskustvo ga je potaknulo da istraži svoja potrošačka prava podrobnije. Kako je sažeo: "Da sam znao svoja prava od početka, bio bih sigurniji u cijelom procesu."',
-        en: 'The case was ultimately resolved in Ivan\'s favour — the device was replaced with a new model. The experience motivated him to explore his consumer rights more thoroughly. As he summarised: "If I had known my rights from the start, I would have been more confident throughout the whole process."',
+        en: 'The case was ultimately resolved in Ivan\'s favor — the device was replaced with a new model. The experience motivated him to explore his consumer rights more thoroughly. As he summarized: "If I had known my rights from the start, I would have been more confident throughout the whole process."',
       },
     ],
     vocabulary: [
@@ -2082,7 +2082,7 @@ export const GRADED_STORIES = [
       { hr: 'priložiti', en: 'to attach / enclose', ex: 'Priložio je račun uz reklamaciju.' },
       {
         hr: 'ovlašteni servis',
-        en: 'authorised service centre',
+        en: 'authorized service center',
         ex: 'Uređaj je poslan u ovlašteni servis.',
       },
       { hr: 'povrat novca', en: 'refund', ex: 'Tražio je povrat novca.' },
@@ -2145,9 +2145,9 @@ export const GRADED_STORIES = [
     title: 'Demokratski Deficit',
     titleEn: 'Democratic Deficit',
     duration: 13,
-    focus: 'Complex argument structure • Nominalisation • Academic register • Concessive clauses',
+    focus: 'Complex argument structure • Nominalization • Academic register • Concessive clauses',
     intro:
-      'A political science essay examines the concept of democratic deficit in the European Union. Practise reading dense academic Croatian with sophisticated argument structures.',
+      'A political science essay examines the concept of democratic deficit in the European Union. Practice reading dense academic Croatian with sophisticated argument structures.',
     paragraphs: [
       {
         hr: 'Pojam demokratskog deficita u Europskoj uniji odnosi se na strukturnu napetost između nadnacionalne naravi njezina upravljanja i demokratskih mehanizama koji ostaju, u velikoj mjeri, ukorijenjenima na razini nacionalnih država. Dok je Europski parlament Lisabonskim ugovorom ojačao svoju ulogu, izvršna ovlast i dalje je disproporcionalno koncentrirana u Vijeću i Europskoj komisiji — tijelima čija je demokratska odgovornost neizravna ili posredovana.',
@@ -2245,11 +2245,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U hrvatskom kontekstu, rasprave o kulturnom identitetu nerijetko se odvijaju u sjeni traumatske povijesti 20. stoljeća i relativno kratke tradicije samostalne državnosti. Pitanje što "biti Hrvat" znači nije ni kulturno ni politički neutralno: ono je prepuno napetosti između regionalnih raznolikosti (slavonske, dalmatinske, zagorske, primorske tradicije), između urbano-ruralnih podjela i između naraštaja koji su prošli kroz bitno različite socijalizacijske prakse.',
-        en: 'In the Croatian context, debates about cultural identity often unfold in the shadow of the traumatic history of the 20th century and a relatively short tradition of independent statehood. The question of what it means "to be Croatian" is neither culturally nor politically neutral: it is charged with tensions between regional diversities (Slavonian, Dalmatian, Zagorje, Primorje traditions), between urban-rural divisions and between generations that have lived through substantially different socialisation practices.',
+        en: 'In the Croatian context, debates about cultural identity often unfold in the shadow of the traumatic history of the 20th century and a relatively short tradition of independent statehood. The question of what it means "to be Croatian" is neither culturally nor politically neutral: it is charged with tensions between regional diversities (Slavonian, Dalmatian, Zagorje, Primorje traditions), between urban-rural divisions and between generations that have lived through substantially different socialization practices.',
       },
       {
         hr: 'Upravo ta višeslojnost čini kulturu i izazovnom i dragocjenom kategorijom za razumijevanje identiteta. Umjesto da kulturu promatramo kao statičan inventar navika i vrijednosti, produktivnije ju je konceptualizirati kao dinamičan prostor pregovaranja — prostor u kojemu se tradicija i inovacija neprestano dogovaraju, sukobljavaju i rekonstituiraju. U tom smislu, kulturna kompetencija nije poznavanje fiksiranih kulturnih sadržaja nego sposobnost navigiranja tim stalno promjenjivim prostorom.',
-        en: 'It is precisely this multilayered quality that makes culture both a challenging and a precious category for understanding identity. Rather than viewing culture as a static inventory of habits and values, it is more productive to conceptualise it as a dynamic space of negotiation — a space in which tradition and innovation are constantly negotiating, colliding and reconstituting themselves. In this sense, cultural competence is not the knowledge of fixed cultural contents but the ability to navigate this continuously changing space.',
+        en: 'It is precisely this multilayered quality that makes culture both a challenging and a precious category for understanding identity. Rather than viewing culture as a static inventory of habits and values, it is more productive to conceptualize it as a dynamic space of negotiation — a space in which tradition and innovation are constantly negotiating, colliding and reconstituting themselves. In this sense, cultural competence is not the knowledge of fixed cultural contents but the ability to navigate this continuously changing space.',
       },
     ],
     vocabulary: [
@@ -2345,7 +2345,7 @@ export const GRADED_STORIES = [
     duration: 5,
     focus: 'Conditional • Passive constructions • Work & economy vocabulary',
     intro:
-      'A feature on the rise of remote workers settling along the Croatian coast. Practise conditional sentences, passive voice, and professional vocabulary.',
+      'A feature on the rise of remote workers settling along the Croatian coast. Practice conditional sentences, passive voice, and professional vocabulary.',
     paragraphs: [
       {
         hr: 'Posljednjih nekoliko godina hrvatska obala privlači sve veći broj takozvanih digitalnih nomada — ljudi koji rade na daljinu i pritom slobodno biraju gdje će živjeti. Kad biste pitali prosječnog stanovnika Splita ili Zadra, vjerojatno bi rekao da su gradske kavane danas pune stranaca s prijenosnim računalima koji ujutro održavaju sastanke, a poslijepodne plivaju u moru.',
@@ -2357,11 +2357,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ekonomski učinci nisu zanemarivi. Nomadi troše na smještaj, ugostiteljstvo i lokalne usluge tijekom cijele godine, a ne samo u vrhuncu turističke sezone. Time se ublažava ovisnost priobalja o tromjesečnoj ljetnoj gužvi. S druge strane, kritičari upozoravaju da bi nekontroliran priljev mogao dodatno podići cijene najma i istisnuti domaće stanovništvo iz središta gradova.',
-        en: "The economic effects are not negligible. Nomads spend on accommodation, hospitality and local services throughout the whole year, not only at the peak of the tourist season. This eases the coast's dependence on the three-month summer crush. On the other hand, critics warn that an uncontrolled influx could further raise rental prices and push the local population out of city centres.",
+        en: "The economic effects are not negligible. Nomads spend on accommodation, hospitality and local services throughout the whole year, not only at the peak of the tourist season. This eases the coast's dependence on the three-month summer crush. On the other hand, critics warn that an uncontrolled influx could further raise rental prices and push the local population out of city centers.",
       },
       {
         hr: 'Ipak, većina se stručnjaka slaže da je riječ o prilici koju bi trebalo pažljivo iskoristiti. Ako se ulaganja usmjere u brzu internetsku infrastrukturu i cjelogodišnji sadržaj, manji bi obalni gradovi mogli postati privlačna mjesta za život, a ne samo odredišta za kratak odmor. Pitanje je hoće li lokalne zajednice uspjeti tu ravnotežu pronaći na vrijeme.',
-        en: 'Nevertheless, most experts agree that this is an opportunity that should be carefully used. If investment is directed into fast internet infrastructure and year-round amenities, smaller coastal towns could become attractive places to live, and not merely destinations for a short holiday. The question is whether local communities will manage to find that balance in time.',
+        en: 'Nevertheless, most experts agree that this is an opportunity that should be carefully used. If investment is directed into fast internet infrastructure and year-round amenities, smaller coastal towns could become attractive places to live, and not merely destinations for a short vacation. The question is whether local communities will manage to find that balance in time.',
       },
     ],
     vocabulary: [
@@ -2432,11 +2432,11 @@ export const GRADED_STORIES = [
     duration: 7,
     focus: 'Verbal nouns • Abstract discourse • Demography & policy vocabulary',
     intro:
-      'An analytical essay on emigration and demographic decline in Croatia. Practise verbal nouns, formal discourse connectives, and abstract socio-economic vocabulary.',
+      'An analytical essay on emigration and demographic decline in Croatia. Practice verbal nouns, formal discourse connectives, and abstract socio-economic vocabulary.',
     paragraphs: [
       {
         hr: 'Malo je pitanja koja toliko zaokupljaju hrvatsku javnost kao iseljavanje i s njime povezano starenje stanovništva. Ulaskom u Europsku uniju 2013. godine otvorilo se tržište rada cijeloga kontinenta, a posljedica je bila odljev mladih i obrazovanih ljudi razmjera kakav suvremena Hrvatska dotad nije zabilježila. Riječ je o procesu koji se ne može svesti na pojedinačne odluke, nego ga treba promatrati kao splet gospodarskih, institucionalnih i psiholoških čimbenika.',
-        en: 'Few questions preoccupy the Croatian public as much as emigration and the population ageing connected with it. With entry into the European Union in 2013, the labour market of the entire continent opened up, and the consequence was an outflow of young and educated people of a scale that contemporary Croatia had not previously recorded. This is a process that cannot be reduced to individual decisions, but should be observed as a web of economic, institutional and psychological factors.',
+        en: 'Few questions preoccupy the Croatian public as much as emigration and the population ageing connected with it. With entry into the European Union in 2013, the labor market of the entire continent opened up, and the consequence was an outflow of young and educated people of a scale that contemporary Croatia had not previously recorded. This is a process that cannot be reduced to individual decisions, but should be observed as a web of economic, institutional and psychological factors.',
       },
       {
         hr: 'Ono što zabrinjava demografe nije toliko brojčani gubitak koliko njegova struktura. Odlaze prvenstveno ljudi u najproduktivnijoj dobi, često s visokim stupnjem obrazovanja, a upravo bi oni trebali biti nositelji budućega gospodarskog rasta i punitelji mirovinskoga sustava. Njihovim odlaskom slabi porezna osnovica, a istodobno raste udio umirovljenika — kombinacija koja dugoročno dovodi u pitanje održivost javnih financija.',
@@ -2522,7 +2522,7 @@ export const GRADED_STORIES = [
     duration: 8,
     focus: 'Abstract/literary register • Identity & belonging • Verbal nouns & nuance',
     intro:
-      'A reflective essay on language, memory, and diaspora identity. Practise abstract literary register, figurative usage, and the kind of nuanced phrasing that separates C1 from C2.',
+      'A reflective essay on language, memory, and diaspora identity. Practice abstract literary register, figurative usage, and the kind of nuanced phrasing that separates C1 from C2.',
     paragraphs: [
       {
         hr: 'Postoji osjećaj, blizak svakome tko je odrastao daleko od domovine, da jezik nije tek sredstvo sporazumijevanja, nego svojevrstan zavičaj koji nosimo u sebi. Riječi koje smo čuli u djetinjstvu — uspavanke, imena jela, prve psovke — urezane su dublje od bilo koje naučene gramatike. One ne prenose samo značenje, nego i miris kuhinje, ton bakina glasa i težinu nedjeljnih popodneva.',
@@ -2617,7 +2617,7 @@ export const GRADED_STORIES = [
     duration: 8,
     focus: 'Argumentative essay • Abstract vocabulary • Rhetorical contrast',
     intro:
-      'A short argumentative essay on speed, attention, and depth in the digital age. Practise abstract nouns, rhetorical antithesis, and concessive constructions ("one should not, of course…").',
+      'A short argumentative essay on speed, attention, and depth in the digital age. Practice abstract nouns, rhetorical antithesis, and concessive constructions ("one should not, of course…").',
     paragraphs: [
       {
         hr: 'Živimo u dobu koje slavi brzinu kao da je ona sama po sebi vrlina. Vijesti nas zapljuskuju u stvarnome vremenu, poruke traže trenutačan odgovor, a strpljenje je počelo zvučati gotovo kao mana. U toj se vrevi lako zaboravlja da mnoge stvari od vrijednosti — povjerenje, znanje, prijateljstvo — sazrijevaju isključivo polako.',
@@ -2699,7 +2699,7 @@ export const GRADED_STORIES = [
     duration: 4,
     focus: 'Present tense • Food & prices • Polite requests',
     intro:
-      'Marko starts every morning at the neighbourhood bakery. Learn breakfast words and how to order politely.',
+      'Marko starts every morning at the neighborhood bakery. Learn breakfast words and how to order politely.',
     paragraphs: [
       {
         hr: 'Marko svako jutro ide u pekarnicu. Pekarnica je blizu njegove kuće, na uglu ulice. Unutra uvijek lijepo miriše na svježi kruh.',
@@ -2707,15 +2707,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: '"Dobro jutro! Izvolite?" pita prodavačica.\n"Dobro jutro! Jedan kruh i dva peciva, molim vas," kaže Marko.\n"Želite li još nešto? Burek je još topao."\n"Može jedan burek sa sirom, hvala."',
-        en: '"Good morning! What can I get you?" asks the shop assistant.\n"Good morning! One loaf of bread and two rolls, please," says Marko.\n"Would you like anything else? The burek is still warm."\n"One cheese burek then, thank you."',
+        en: '"Good morning! What can I get you?" asks the salesperson.\n"Good morning! One loaf of bread and two rolls, please," says Marko.\n"Would you like anything else? The burek is still warm."\n"One cheese burek then, thank you."',
       },
       {
         hr: 'Marko plaća četiri eura i pedeset centi. Prodavačica mu daje vrećicu i kaže: "Ugodan dan!" Marko odgovara: "Hvala, također!"',
-        en: 'Marko pays four euros and fifty cents. The shop assistant gives him a bag and says: "Have a nice day!" Marko replies: "Thanks, you too!"',
+        en: 'Marko pays four euros and fifty cents. The salesperson gives him a bag and says: "Have a nice day!" Marko replies: "Thanks, you too!"',
       },
       {
         hr: 'Doma Marko pije kavu i jede topli burek. Njegova sestra jede pecivo s marmeladom. Doručak je najvažniji obrok u danu, kaže njihova mama.',
-        en: 'At home Marko drinks coffee and eats the warm burek. His sister eats a roll with jam. Breakfast is the most important meal of the day, says their mum.',
+        en: 'At home Marko drinks coffee and eats the warm burek. His sister eats a roll with jam. Breakfast is the most important meal of the day, says their mom.',
       },
     ],
     vocabulary: [
@@ -2743,7 +2743,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što kaže mama o doručku?',
-        qEn: 'What does mum say about breakfast?',
+        qEn: 'What does mom say about breakfast?',
         opts: [
           'Doručak je skup',
           'Doručak je uvijek topao',
@@ -2770,11 +2770,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Zovem se Lucija i imam veliku obitelj. Moj tata se zove Ivan i radi kao vozač autobusa. Moja mama se zove Marija i ona je učiteljica u školi.',
-        en: 'My name is Lucija and I have a big family. My dad is called Ivan and he works as a bus driver. My mum is called Marija and she is a teacher at a school.',
+        en: 'My name is Lucija and I have a big family. My dad is called Ivan and he works as a bus driver. My mom is called Marija and she is a teacher at a school.',
       },
       {
         hr: 'Imam jednog brata. On se zove Petar i ima deset godina. Petar voli sport, posebno nogomet. Svaki dan igra nogomet u parku s prijateljima.',
-        en: 'I have one brother. His name is Petar and he is ten years old. Petar loves sport, especially football. Every day he plays football in the park with his friends.',
+        en: 'I have one brother. His name is Petar and he is ten years old. Petar loves sport, especially soccer. Every day he plays soccer in the park with his friends.',
       },
       {
         hr: 'Naša baka živi s nama. Ona odlično kuha — njezina juha je najbolja na svijetu! Baka svako popodne pije kavu i čita novine na balkonu.',
@@ -2836,11 +2836,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Djeca se igraju na igralištu. Tata i mama sjede na klupi i razgovaraju. Pas Rex trči po travi i lovi lopticu. Svi su sretni.',
-        en: 'The children play on the playground. Dad and mum sit on a bench and talk. Rex the dog runs on the grass and chases the little ball. Everyone is happy.',
+        en: 'The children play on the playground. Dad and mom sit on a bench and talk. Rex the dog runs on the grass and chases the little ball. Everyone is happy.',
       },
       {
         hr: 'Poslije igre svi jedu sladoled. Mali Petar želi dva sladoleda, ali mama kaže: "Jedan je dovoljan!" Petar bira čokoladu, a Lucija jagodu.',
-        en: 'After playing, everyone eats ice cream. Little Petar wants two ice creams, but mum says: "One is enough!" Petar chooses chocolate, and Lucija strawberry.',
+        en: 'After playing, everyone eats ice cream. Little Petar wants two ice creams, but mom says: "One is enough!" Petar chooses chocolate, and Lucija strawberry.',
       },
       {
         hr: 'Odjednom Rex skače u jezero! Voda je hladna, ali Rex je sretan. Tata se smije: "Rex također želi sladoled!" Svi se smiju. Kakva lijepa nedjelja!',
@@ -2964,7 +2964,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Mama peče veliku tortu od čokolade. Lucija i Petar ukrašavaju dnevnu sobu balonima. Tata kupuje cvijeće — baka najviše voli ruže.',
-        en: 'Mum is baking a big chocolate cake. Lucija and Petar are decorating the living room with balloons. Dad is buying flowers — grandma loves roses the most.',
+        en: 'Mom is baking a big chocolate cake. Lucija and Petar are decorating the living room with balloons. Dad is buying flowers — grandma loves roses the most.',
       },
       {
         hr: 'U pet sati svi viču: "Sretan rođendan!" Baka je jako sretna. Djeca joj daju poklon: veliki album sa starim fotografijama obitelji.',
@@ -3016,7 +3016,7 @@ export const GRADED_STORIES = [
     title: 'Dan na plaži',
     titleEn: 'A Day at the Beach',
     duration: 4,
-    focus: 'Present tense • Summer & sea vocabulary • Colours',
+    focus: 'Present tense • Summer & sea vocabulary • Colors',
     intro: 'A hot July day on the Adriatic — swimming, sandcastles and the bluest sea.',
     paragraphs: [
       {
@@ -3029,7 +3029,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U podne obitelj sjedi u hladu pod suncobranom. Jedu sendviče i lubenicu. Mama kaže: "Poslije ručka jedan sat bez plivanja!" Djeca grade dvorac od pijeska.',
-        en: 'At noon the family sits in the shade under the parasol. They eat sandwiches and watermelon. Mum says: "After lunch, one hour without swimming!" The children build a sandcastle.',
+        en: 'At noon the family sits in the shade under the parasol. They eat sandwiches and watermelon. Mom says: "After lunch, one hour without swimming!" The children build a sandcastle.',
       },
       {
         hr: 'Navečer svi gledaju zalazak sunca. Nebo je narančasto i ružičasto. "More je najljepše navečer," kaže tata. Sutra dolaze opet!',
@@ -3082,7 +3082,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Subota je, rano ujutro. Ana ide u kafić u centru grada. Tamo je čeka njezina najbolja prijateljica Ivana. One piju kavu zajedno svake subote.',
-        en: 'It is Saturday, early in the morning. Ana goes to a café in the city centre. Her best friend Ivana is waiting for her there. They drink coffee together every Saturday.',
+        en: 'It is Saturday, early in the morning. Ana goes to a café in the city center. Her best friend Ivana is waiting for her there. They drink coffee together every Saturday.',
       },
       {
         hr: '"Bog, Ivana! Kako si?" pita Ana.\n"Odlično! Sjedni. Što piješ danas?"\n"Kavu s mlijekom, kao i uvijek," smije se Ana.\nKonobar dolazi i one naručuju dvije kave i čašu vode.',
@@ -3140,22 +3140,22 @@ export const GRADED_STORIES = [
     levelBg: '#dcfce7',
     icon: '🏠',
     title: 'Naš stan',
-    titleEn: 'Our Flat',
+    titleEn: 'Our Apartment',
     duration: 4,
     focus: 'Present tense • Rooms & furniture • Locative (u/na + location)',
-    intro: "A tour of the family flat, room by room — and everyone's favourite corner.",
+    intro: "A tour of the family apartment, room by room — and everyone's favorite corner.",
     paragraphs: [
       {
         hr: 'Živimo u stanu na trećem katu. Stan nije velik, ali je svijetao i udoban. Imamo dnevnu sobu, kuhinju, dvije spavaće sobe i kupaonicu.',
-        en: 'We live in a flat on the third floor. The flat is not big, but it is bright and comfortable. We have a living room, a kitchen, two bedrooms and a bathroom.',
+        en: 'We live in an apartment on the third floor. The apartment is not big, but it is bright and comfortable. We have a living room, a kitchen, two bedrooms and a bathroom.',
       },
       {
         hr: 'U dnevnoj sobi je velika siva sofa i televizor. Tata navečer tamo gleda vijesti. Na zidu su fotografije obitelji i jedna slika mora.',
-        en: 'In the living room there is a big grey sofa and a television. Dad watches the news there in the evening. On the wall there are family photographs and one painting of the sea.',
+        en: 'In the living room there is a big gray sofa and a television. Dad watches the news there in the evening. On the wall there are family photographs and one painting of the sea.',
       },
       {
         hr: 'Kuhinja je mamino kraljevstvo. Tamo uvijek nešto lijepo miriše. Na stolu je uvijek svježe voće, a u pećnici često kolač.',
-        en: "The kitchen is mum's kingdom. Something always smells nice there. There is always fresh fruit on the table, and often a cake in the oven.",
+        en: "The kitchen is mom's kingdom. Something always smells nice there. There is always fresh fruit on the table, and often a cake in the oven.",
       },
       {
         hr: 'Moja soba je mala, ali je moja! U njoj su krevet, radni stol i police pune knjiga. Na balkonu imamo cvijeće i dvije stolice. Tu čitam kad je lijepo vrijeme.',
@@ -3163,7 +3163,7 @@ export const GRADED_STORIES = [
       },
     ],
     vocabulary: [
-      { hr: 'kat', en: 'floor / storey', ex: 'Stan je na trećem katu.' },
+      { hr: 'kat', en: 'floor / story', ex: 'Stan je na trećem katu.' },
       { hr: 'udoban', en: 'comfortable', ex: 'Sofa je udobna.' },
       { hr: 'dnevna soba', en: 'living room', ex: 'Televizor je u dnevnoj sobi.' },
       { hr: 'zid', en: 'wall', ex: 'Slika je na zidu.' },
@@ -3175,7 +3175,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Na kojem katu je stan?',
-        qEn: 'On which floor is the flat?',
+        qEn: 'On which floor is the apartment?',
         opts: ['Na drugom', 'Na prvom', 'Na trećem', 'Na četvrtom'],
         correct: 2,
       },
@@ -3208,7 +3208,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Danas pada kiša cijeli dan. Nebo je sivo i puše jak vjetar. Nitko ne ide van. "Što radimo danas?" pita Petar tužno.',
-        en: 'Today it is raining all day. The sky is grey and a strong wind is blowing. Nobody is going outside. "What are we doing today?" asks Petar sadly.',
+        en: 'Today it is raining all day. The sky is gray and a strong wind is blowing. Nobody is going outside. "What are we doing today?" asks Petar sadly.',
       },
       {
         hr: '"Igramo društvene igre!" kaže Lucija. Ona donosi karte i "Čovječe, ne ljuti se". Cijela obitelj sjedi za stolom i igra. Tata gubi tri puta i svi se smiju.',
@@ -3216,7 +3216,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Popodne mama radi palačinke s marmeladom i orasima. Djeca piju topli kakao. Vani i dalje pada kiša, ali unutra je toplo i veselo.',
-        en: 'In the afternoon mum makes pancakes with jam and walnuts. The children drink hot cocoa. Outside it is still raining, but inside it is warm and cheerful.',
+        en: 'In the afternoon mom makes pancakes with jam and walnuts. The children drink hot cocoa. Outside it is still raining, but inside it is warm and cheerful.',
       },
       {
         hr: 'Navečer svi zajedno gledaju stari film. Rex spava pokraj sofe. "Kišni dani nisu tako loši," kaže Petar. "Posebno kad ima palačinki!"',
@@ -3248,7 +3248,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što mama radi popodne?',
-        qEn: 'What does mum make in the afternoon?',
+        qEn: 'What does mom make in the afternoon?',
         opts: ['Sendviče', 'Palačinke', 'Tortu', 'Juhu'],
         correct: 1,
       },
@@ -3262,30 +3262,30 @@ export const GRADED_STORIES = [
     levelBg: '#dcfce7',
     icon: '🍽️',
     title: 'Večera kod susjeda',
-    titleEn: 'Dinner at the Neighbours',
+    titleEn: 'Dinner at the Neighbors',
     duration: 4,
     focus: 'Present tense • Being a guest • Polite phrases',
-    intro: 'The neighbours invite the family over — a first lesson in Croatian hospitality.',
+    intro: 'The neighbors invite the family over — a first lesson in Croatian hospitality.',
     paragraphs: [
       {
         hr: 'Susjedi Horvat zovu obitelj na večeru. "Dođite u sedam!" kaže gospođa Horvat. Mama nosi bocu vina i kutiju čokolade — u Hrvatskoj gost nikad ne dolazi praznih ruku.',
-        en: 'The Horvat neighbours invite the family to dinner. "Come at seven!" says Mrs Horvat. Mum brings a bottle of wine and a box of chocolates — in Croatia a guest never arrives empty-handed.',
+        en: 'The Horvat neighbors invite the family to dinner. "Come at seven!" says Mrs. Horvat. Mom brings a bottle of wine and a box of chocolates — in Croatia a guest never arrives empty-handed.',
       },
       {
         hr: '"Dobra večer! Dobro došli!" kaže gospodin Horvat na vratima. "Izvolite, uđite." Stan lijepo miriše. Na stolu je juha, pečena piletina i salata.',
-        en: '"Good evening! Welcome!" says Mr Horvat at the door. "Please, come in." The flat smells lovely. On the table there is soup, roast chicken and salad.',
+        en: '"Good evening! Welcome!" says Mr. Horvat at the door. "Please, come in." The apartment smells lovely. On the table there is soup, roast chicken and salad.',
       },
       {
         hr: '"Jedite, jedite! Ima još!" govori gospođa Horvat cijelu večer. Tata kaže: "Sve je jako ukusno!" Gospođa Horvat se smiješi: "Uzmite još malo piletine!"',
-        en: '"Eat, eat! There is more!" says Mrs Horvat all evening. Dad says: "Everything is delicious!" Mrs Horvat smiles: "Take a little more chicken!"',
+        en: '"Eat, eat! There is more!" says Mrs. Horvat all evening. Dad says: "Everything is delicious!" Mrs. Horvat smiles: "Take a little more chicken!"',
       },
       {
         hr: 'Poslije večere odrasli piju kavu, a djeca se igraju. U deset sati obitelj ide kući. "Hvala na svemu! Sljedeći put vi dođite k nama!" kaže mama. Tako to ide među dobrim susjedima.',
-        en: 'After dinner the adults drink coffee and the children play. At ten o\'clock the family goes home. "Thank you for everything! Next time you come to us!" says mum. That is how it goes between good neighbours.',
+        en: 'After dinner the adults drink coffee and the children play. At ten o\'clock the family goes home. "Thank you for everything! Next time you come to us!" says mom. That is how it goes between good neighbors.',
       },
     ],
     vocabulary: [
-      { hr: 'susjed', en: 'neighbour', ex: 'Susjedi su jako dragi.' },
+      { hr: 'susjed', en: 'neighbor', ex: 'Susjedi su jako dragi.' },
       { hr: 'gost', en: 'guest', ex: 'Gost ne dolazi praznih ruku.' },
       { hr: 'boca', en: 'bottle', ex: 'Boca vina je poklon.' },
       { hr: 'dobro došli', en: 'welcome', ex: 'Dobro došli u naš dom!' },
@@ -3297,13 +3297,13 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Što mama nosi susjedima?',
-        qEn: 'What does mum bring to the neighbours?',
+        qEn: 'What does mom bring to the neighbors?',
         opts: ['Bocu vina i čokoladu', 'Palačinke', 'Ništa', 'Tortu i cvijeće'],
         correct: 0,
       },
       {
         q: 'Što gospođa Horvat govori cijelu večer?',
-        qEn: 'What does Mrs Horvat say all evening?',
+        qEn: 'What does Mrs. Horvat say all evening?',
         opts: ['"Jedite, jedite!"', '"Kako ste?"', '"Laku noć!"', '"Doviđenja!"'],
         correct: 0,
       },
@@ -3335,11 +3335,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Ivana je jučer imala prvi dan na novom poslu. Ustala je već u šest sati jer je bila jako nervozna. Obukla je bijelu košulju i crne hlače, popila kavu i krenula autobusom u ured.',
-        en: "Yesterday Ivana had her first day at a new job. She got up at six o'clock already because she was very nervous. She put on a white shirt and black trousers, drank a coffee and set off by bus to the office.",
+        en: "Yesterday Ivana had her first day at a new job. She got up at six o'clock already because she was very nervous. She put on a white shirt and black pants, drank a coffee and set off by bus to the office.",
       },
       {
         hr: 'U uredu ju je dočekala šefica, gospođa Novak. "Dobro došli u naš tim!" rekla je i pokazala Ivani njezin radni stol. Kolege su se predstavili: Marko iz računovodstva, Petra iz marketinga i Davor, koji sjedi pokraj nje.',
-        en: 'At the office the boss, Mrs Novak, welcomed her. "Welcome to our team!" she said and showed Ivana her desk. The colleagues introduced themselves: Marko from accounting, Petra from marketing and Davor, who sits next to her.',
+        en: 'At the office the boss, Mrs. Novak, welcomed her. "Welcome to our team!" she said and showed Ivana her desk. The colleagues introduced themselves: Marko from accounting, Petra from marketing and Davor, who sits next to her.',
       },
       {
         hr: 'Prije podneva Ivana je napravila malu pogrešku — poslala je e-poštu krivoj osobi. Jako se zabrinula, ali Davor se nasmijao: "Ne brini! Svi smo prvi dan nešto krivo napravili. Ja sam prve godine izbrisao važan dokument!"',
@@ -3351,7 +3351,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Navečer je Ivana nazvala mamu. "Kako je bilo?" pitala je mama. "Iskreno — počelo je s pogreškom, ali završilo je odlično. Mislim da ću biti sretna tamo," odgovorila je Ivana s osmijehom.',
-        en: 'In the evening Ivana called her mum. "How was it?" asked mum. "Honestly — it started with a mistake, but it ended great. I think I will be happy there," Ivana answered with a smile.',
+        en: 'In the evening Ivana called her mom. "How was it?" asked mom. "Honestly — it started with a mistake, but it ended great. I think I will be happy there," Ivana answered with a smile.',
       },
     ],
     vocabulary: [
@@ -3484,8 +3484,7 @@ export const GRADED_STORIES = [
     titleEn: "At the Doctor's",
     duration: 5,
     focus: 'Past tense • Health & body • Giving advice (imperative)',
-    intro:
-      'Marko wakes up ill and visits the doctor — symptoms, advice and a week without football.',
+    intro: 'Marko wakes up ill and visits the doctor — symptoms, advice and a week without soccer.',
     paragraphs: [
       {
         hr: 'Marko se u ponedjeljak probudio s temperaturom. Boljelo ga je grlo i imao je jaku glavobolju. "Ne ideš danas na posao," rekla je njegova žena. "Idi liječnici!"',
@@ -3505,7 +3504,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: '"A nogomet u četvrtak?" pitao je Marko tiho. Liječnica se nasmijala: "Nikakav sport ovaj tjedan! Zdravlje je na prvom mjestu." Marko je uzdahnuo, kupio lijekove u ljekarni i otišao doma u krevet.',
-        en: '"And football on Thursday?" asked Marko quietly. The doctor laughed: "No sport this week! Health comes first." Marko sighed, bought the medicine at the pharmacy and went home to bed.',
+        en: '"And soccer on Thursday?" asked Marko quietly. The doctor laughed: "No sport this week! Health comes first." Marko sighed, bought the medicine at the pharmacy and went home to bed.',
       },
     ],
     vocabulary: [
@@ -3534,7 +3533,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što liječnica kaže o nogometu?',
-        qEn: 'What does the doctor say about football?',
+        qEn: 'What does the doctor say about soccer?',
         opts: [
           'Nikakav sport ovaj tjedan',
           'Nogomet je zdrav',
@@ -3557,19 +3556,19 @@ export const GRADED_STORIES = [
     duration: 5,
     focus: 'Past tense • Home & furniture • Helping verbs',
     intro:
-      'Boxes everywhere! The family moves to a bigger flat — with a little help from their friends.',
+      'Boxes everywhere! The family moves to a bigger apartment — with a little help from their friends.',
     paragraphs: [
       {
         hr: 'Obitelj Babić se prošli vikend selila u veći stan. Novi stan ima tri spavaće sobe i veliki balkon s pogledom na park. Cijeli tjedan prije selidbe pakirali su stvari u kutije.',
-        en: 'Last weekend the Babić family moved to a bigger flat. The new flat has three bedrooms and a big balcony with a view of the park. The whole week before the move they packed things into boxes.',
+        en: 'Last weekend the Babić family moved to a bigger apartment. The new apartment has three bedrooms and a big balcony with a view of the park. The whole week before the move they packed things into boxes.',
       },
       {
         hr: 'U subotu ujutro došli su prijatelji pomoći. Šest ljudi je nosilo kutije, sofu, krevete i veliki ormar. "Ovaj ormar je težak kao slon!" šalio se ujak Tomislav. Stubište je bilo usko pa su morali biti jako oprezni.',
-        en: 'On Saturday morning friends came to help. Six people carried boxes, the sofa, beds and the big wardrobe. "This wardrobe is as heavy as an elephant!" joked uncle Tomislav. The staircase was narrow so they had to be very careful.',
+        en: 'On Saturday morning friends came to help. Six people carried boxes, the sofa, beds and the big closet. "This closet is as heavy as an elephant!" joked uncle Tomislav. The staircase was narrow so they had to be very careful.',
       },
       {
         hr: 'Mama je organizirala sve: "Kutije s knjigama u dnevnu sobu! Posuđe u kuhinju! Igračke u dječju sobu!" Do podneva su prenijeli sve stvari. Onda je mama naručila pizzu za sve.',
-        en: 'Mum organized everything: "Boxes with books to the living room! Dishes to the kitchen! Toys to the children\'s room!" By noon they had carried everything over. Then mum ordered pizza for everyone.',
+        en: 'Mom organized everything: "Boxes with books to the living room! Dishes to the kitchen! Toys to the children\'s room!" By noon they had carried everything over. Then mom ordered pizza for everyone.',
       },
       {
         hr: 'Popodne su slagali namještaj. Tata je tri sata sastavljao krevet i na kraju su mu ostala dva vijka. "To je normalno," smijao se prijatelj Darko. "Uvijek ostane nekoliko vijaka!"',
@@ -3577,7 +3576,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Navečer su svi sjedili na podu među kutijama, jeli pizzu i pili sok. Stan je još bio pun neraspakiranih stvari, ali već su se u njemu osjećali kao kod kuće. "Za naš novi dom!" rekao je tata. "Živjeli!"',
-        en: 'In the evening they all sat on the floor among the boxes, ate pizza and drank juice. The flat was still full of unpacked things, but they already felt at home in it. "To our new home!" said dad. "Cheers!"',
+        en: 'In the evening they all sat on the floor among the boxes, ate pizza and drank juice. The apartment was still full of unpacked things, but they already felt at home in it. "To our new home!" said dad. "Cheers!"',
       },
     ],
     vocabulary: [
@@ -3594,13 +3593,13 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Koliko spavaćih soba ima novi stan?',
-        qEn: 'How many bedrooms does the new flat have?',
+        qEn: 'How many bedrooms does the new apartment have?',
         opts: ['Jednu', 'Četiri', 'Dvije', 'Tri'],
         correct: 3,
       },
       {
         q: 'S čime ujak Tomislav uspoređuje ormar?',
-        qEn: 'What does uncle Tomislav compare the wardrobe to?',
+        qEn: 'What does uncle Tomislav compare the closet to?',
         opts: ['S autom', 'S konjem', 'S kućom', 'Sa slonom'],
         correct: 3,
       },
@@ -3636,11 +3635,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Gosti su dolazili iz cijele Europe: Nijemci, Talijani, Francuzi... Luka je s njima govorio engleski, ali hrvatski gosti su mu bili najdraži. "Mali, donesi još pola litre!" vikali su domaći s velikog stola svaku večer.',
-        en: 'Guests came from all over Europe: Germans, Italians, French... Luka spoke English with them, but the Croatian guests were his favourites. "Kid, bring another half litre!" the locals shouted from the big table every evening.',
+        en: 'Guests came from all over Europe: Germans, Italians, French... Luka spoke English with them, but the Croatian guests were his favorites. "Kid, bring another half liter!" the locals shouted from the big table every evening.',
       },
       {
         hr: 'Najljepši dio dana bio je zalazak sunca. Oko osam sati more bi postalo zlatno i svi gosti bi utihnuli na trenutak. Čak i šef bi stao i pogledao prema moru. "Zbog ovoga živimo ovdje," rekao je jednom.',
-        en: 'The most beautiful part of the day was the sunset. Around eight o\'clock the sea would turn golden and all the guests would fall silent for a moment. Even the boss would stop and look towards the sea. "This is why we live here," he said once.',
+        en: 'The most beautiful part of the day was the sunset. Around eight o\'clock the sea would turn golden and all the guests would fall silent for a moment. Even the boss would stop and look toward the sea. "This is why we live here," he said once.',
       },
       {
         hr: 'Krajem kolovoza Luka je zaradio dovoljno za novi laptop i put u Berlin. Šef mu je na rastanku rekao: "Dogodine te opet čekam. Sada si pravi konobar!" Luka se vratio na fakultet umoran, preplanuo i ponosan.',
@@ -3653,7 +3652,7 @@ export const GRADED_STORIES = [
       { hr: 'zapamtiti', en: 'to memorize', ex: 'Zapamtio je cijeli jelovnik.' },
       { hr: 'jelovnik', en: 'menu', ex: 'Jelovnik je na stolu.' },
       { hr: 'jelo', en: 'dish / meal', ex: 'Donio je krivo jelo.' },
-      { hr: 'najdraži', en: 'favourite / dearest', ex: 'Domaći gosti su mu najdraži.' },
+      { hr: 'najdraži', en: 'favorite / dearest', ex: 'Domaći gosti su mu najdraži.' },
       { hr: 'utihnuti', en: 'to fall silent', ex: 'Svi su utihnuli na trenutak.' },
       { hr: 'rastanak', en: 'parting / farewell', ex: 'Na rastanku su se rukovali.' },
       { hr: 'preplanuo', en: 'tanned', ex: 'Vratio se preplanuo s mora.' },
@@ -3713,7 +3712,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Putovanje je trajalo šest sati, ali Ani nije bilo dosadno. Gospođa Marica joj je pričala o svom životu: radila je četrdeset godina kao krojačica, ima petero unučadi i svako ljeto putuje na more istim vlakom.',
-        en: 'The journey took six hours, but Ana was not bored. Mrs Marica told her about her life: she worked for forty years as a seamstress, has five grandchildren and travels to the seaside every summer on the same train.',
+        en: 'The journey took six hours, but Ana was not bored. Mrs. Marica told her about her life: she worked for forty years as a seamstress, has five grandchildren and travels to the seaside every summer on the same train.',
       },
       {
         hr: 'Poslije Gospića krajolik se promijenio. Vlak je prošao kroz duge tunele, a onda odjednom — more! Cijeli vagon je uzviknuo: "Eno mora!" To je tradicija: tko prvi vidi more, taj ima sreću cijelo ljeto.',
@@ -3721,7 +3720,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U Splitu je Anu čekala sestra. "Kako je bilo na putu?" pitala je. "Prekrasno! Upoznala sam gospođu Maricu, čula njezinu cijelu životnu priču i prva vidjela more," smijala se Ana. "Ovo će biti sretno ljeto!"',
-        en: 'In Split her sister was waiting for Ana. "How was the journey?" she asked. "Wonderful! I met Mrs Marica, heard her whole life story and was first to see the sea," laughed Ana. "This will be a lucky summer!"',
+        en: 'In Split her sister was waiting for Ana. "How was the journey?" she asked. "Wonderful! I met Mrs. Marica, heard her whole life story and was first to see the sea," laughed Ana. "This will be a lucky summer!"',
       },
     ],
     vocabulary: [
@@ -3744,7 +3743,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što je gospođa Marica radila četrdeset godina?',
-        qEn: 'What did Mrs Marica do for forty years?',
+        qEn: 'What did Mrs. Marica do for forty years?',
         opts: ['Bila je liječnica', 'Bila je krojačica', 'Bila je učiteljica', 'Bila je kuharica'],
         correct: 1,
       },
@@ -3772,11 +3771,11 @@ export const GRADED_STORIES = [
     titleEn: 'The Week Before the Exam',
     duration: 5,
     focus: 'Past tense + future • Studying • Daily schedule',
-    intro: 'Lucija has a big maths exam — a week of studying, one crisis and a well-earned reward.',
+    intro: 'Lucija has a big math exam — a week of studying, one crisis and a well-earned reward.',
     paragraphs: [
       {
         hr: 'Lucija sljedeći petak piše veliki ispit iz matematike. Napravila je plan: svaki dan poslije škole učit će dva sata. "Bez mobitela dok učiš!" rekla je mama i stavila telefon u ladicu.',
-        en: 'Next Friday Lucija is taking a big maths exam. She made a plan: every day after school she will study for two hours. "No phone while you study!" said mum and put the phone in a drawer.',
+        en: 'Next Friday Lucija is taking a big math exam. She made a plan: every day after school she will study for two hours. "No phone while you study!" said mom and put the phone in a drawer.',
       },
       {
         hr: 'Prva tri dana su prošla dobro. Lucija je rješavala zadatke, ponavljala formule i pisala bilješke u bilježnicu. Ali u srijedu je došla kriza — nije razumjela zadatke s postotcima i počela je plakati.',
@@ -3788,7 +3787,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Odjednom je Luciji sve postalo jasno! "Pa to je lako!" uzviknula je. U četvrtak je cijeli dan vježbala i riješila trideset zadataka. Navečer je mirno zaspala — bila je spremna.',
-        en: 'Suddenly everything became clear to Lucija! "But that is easy!" she exclaimed. On Thursday she practised all day and solved thirty problems. In the evening she fell asleep peacefully — she was ready.',
+        en: 'Suddenly everything became clear to Lucija! "But that is easy!" she exclaimed. On Thursday she practiced all day and solved thirty problems. In the evening she fell asleep peacefully — she was ready.',
       },
       {
         hr: 'U petak poslije ispita Lucija je izašla iz škole s velikim osmijehom. "Mislim da sam sve točno riješila!" Sljedeći tjedan je stigla ocjena: odličan! Za nagradu, cijela obitelj je otišla na sladoled. Lucija je naručila najveći.',
@@ -3851,11 +3850,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Za stolom sjedi jedanaest ljudi: baka, njezina dva sina s obiteljima i teta Vesna iz Osijeka. Svi pričaju u isto vrijeme — o poslu, o politici, o nogometu. "Tiše malo, juha se hladi!" viče baka iz kuhinje.',
-        en: 'Eleven people sit at the table: grandma, her two sons with their families and aunt Vesna from Osijek. Everyone talks at the same time — about work, politics, football. "Quiet down a bit, the soup is getting cold!" shouts grandma from the kitchen.',
+        en: 'Eleven people sit at the table: grandma, her two sons with their families and aunt Vesna from Osijek. Everyone talks at the same time — about work, politics, soccer. "Quiet down a bit, the soup is getting cold!" shouts grandma from the kitchen.',
       },
       {
         hr: 'Mali Ivan ne voli sarmu. "Moraš probati barem jednu," kaže mama. Ivan proba i — čudo! — pojede tri sarme. Baka je sretna: "Vidiš! Bakina sarma je najbolja na svijetu." Svi se slažu, i to nije prvi put.',
-        en: 'Little Ivan does not like sarma. "You have to try at least one," says mum. Ivan tries and — a miracle! — eats three sarmas. Grandma is happy: "You see! Grandma\'s sarma is the best in the world." Everyone agrees, and not for the first time.',
+        en: 'Little Ivan does not like sarma. "You have to try at least one," says mom. Ivan tries and — a miracle! — eats three sarmas. Grandma is happy: "You see! Grandma\'s sarma is the best in the world." Everyone agrees, and not for the first time.',
       },
       {
         hr: 'Poslije ručka muškarci gledaju utakmicu, žene piju kavu, a djeca se igraju u dvorištu. Oko šest sati svi polako idu doma — s punim trbusima i vrećicama kolača za ponijeti. "Vidimo se sljedeće nedjelje!" To se ne mora ni reći.',
@@ -3902,30 +3901,30 @@ export const GRADED_STORIES = [
     levelBg: '#dbeafe',
     icon: '🎁',
     title: 'Poklon za mamu',
-    titleEn: 'A Present for Mum',
+    titleEn: 'A Present for Mom',
     duration: 5,
     focus: 'Past tense • Shopping • Making decisions',
-    intro: 'Two kids, twenty euros and a mission: find the perfect birthday present for mum.',
+    intro: 'Two kids, twenty euros and a mission: find the perfect birthday present for mom.',
     paragraphs: [
       {
         hr: 'Mamin rođendan je u subotu. Lucija i Petar su štedjeli džeparac dva mjeseca i skupili dvadeset eura. "Što ćemo joj kupiti?" pitala je Lucija. "Nešto savršeno," rekao je Petar ozbiljno.',
-        en: 'Mum\'s birthday is on Saturday. Lucija and Petar saved their pocket money for two months and collected twenty euros. "What shall we buy her?" asked Lucija. "Something perfect," said Petar seriously.',
+        en: 'Mom\'s birthday is on Saturday. Lucija and Petar saved their pocket money for two months and collected twenty euros. "What shall we buy her?" asked Lucija. "Something perfect," said Petar seriously.',
       },
       {
         hr: 'U četvrtak poslije škole otišli su u trgovački centar. Prvo su gledali parfeme — preskupi. Onda šalove — "Mama ima pet šalova," rekla je Lucija. Onda knjige — "Ali koju? Ne znamo što je već pročitala."',
-        en: 'On Thursday after school they went to the shopping centre. First they looked at perfumes — too expensive. Then scarves — "Mum has five scarves," said Lucija. Then books — "But which one? We don\'t know what she has already read."',
+        en: 'On Thursday after school they went to the shopping center. First they looked at perfumes — too expensive. Then scarves — "Mom has five scarves," said Lucija. Then books — "But which one? We don\'t know what she has already read."',
       },
       {
         hr: 'Poslije sat vremena bili su umorni i bez ideje. Sjeli su na klupu. Odjednom je Petar pokazao na mali dućan preko puta: "Pogledaj!" U izlogu je bila šalica s natpisom "Najbolja mama na svijetu" — ali to nije bilo to.',
-        en: 'After an hour they were tired and out of ideas. They sat on a bench. Suddenly Petar pointed at a small shop across the way: "Look!" In the window was a mug with the inscription "Best mum in the world" — but that was not it.',
+        en: 'After an hour they were tired and out of ideas. They sat on a bench. Suddenly Petar pointed at a small shop across the way: "Look!" In the window was a mug with the inscription "Best mom in the world" — but that was not it.',
       },
       {
         hr: 'Pokraj šalice stajala je mala srebrna ogrlica s privjeskom u obliku srca. "To je to!" rekli su u isto vrijeme. Ogrlica je koštala osamnaest eura. Prodavačica ju je lijepo zamotala u plavi papir s vrpcom.',
-        en: 'Next to the mug stood a small silver necklace with a heart-shaped pendant. "That\'s it!" they said at the same time. The necklace cost eighteen euros. The shop assistant wrapped it nicely in blue paper with a ribbon.',
+        en: 'Next to the mug stood a small silver necklace with a heart-shaped pendant. "That\'s it!" they said at the same time. The necklace cost eighteen euros. The salesperson wrapped it nicely in blue paper with a ribbon.',
       },
       {
         hr: 'U subotu ujutro donijeli su mami doručak u krevet i poklon. Mama je otvorila kutijicu i oči su joj se napunile suzama. "Ovo je najljepši poklon koji sam ikad dobila," rekla je i zagrlila ih oboje. Petar je šapnuo Luciji: "Rekao sam ti — savršeno."',
-        en: 'On Saturday morning they brought mum breakfast in bed and the present. Mum opened the little box and her eyes filled with tears. "This is the most beautiful present I have ever received," she said and hugged them both. Petar whispered to Lucija: "I told you — perfect."',
+        en: 'On Saturday morning they brought mom breakfast in bed and the present. Mom opened the little box and her eyes filled with tears. "This is the most beautiful present I have ever received," she said and hugged them both. Petar whispered to Lucija: "I told you — perfect."',
       },
     ],
     vocabulary: [
@@ -3989,11 +3988,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Baka im pokazuje svoj vrt kroz kameru: rajčice, papriku, cvijeće. "Ove godine imam najbolje rajčice u selu!" Onda pita: "Kada dolazite? Kuham vam štrukle čim sletite!" Tata odgovara: "U srpnju, mama. Već smo kupili karte."',
-        en: 'Grandma shows them her garden through the camera: tomatoes, peppers, flowers. "This year I have the best tomatoes in the village!" Then she asks: "When are you coming? I will cook you štrukli as soon as you land!" Dad answers: "In July, mum. We have already bought the tickets."',
+        en: 'Grandma shows them her garden through the camera: tomatoes, peppers, flowers. "This year I have the best tomatoes in the village!" Then she asks: "When are you coming? I will cook you štrukli as soon as you land!" Dad answers: "In July, mom. We have already bought the tickets."',
       },
       {
         hr: 'Mama i baka onda pola sata razgovaraju o receptima. Baka objašnjava kako se radi prava zagorska juha, a mama zapisuje. "U Americi nema takvog vrhnja," žali se mama. "Onda dođi po njega!" odgovara baka. Svi se smiju.',
-        en: 'Mum and grandma then talk about recipes for half an hour. Grandma explains how real Zagorje soup is made, and mum writes it down. "In America there is no cream like that," complains mum. "Then come and get it!" answers grandma. Everyone laughs.',
+        en: 'Mom and grandma then talk about recipes for half an hour. Grandma explains how real Zagorje soup is made, and mom writes it down. "In America there is no cream like that," complains mom. "Then come and get it!" answers grandma. Everyone laughs.',
       },
       {
         hr: 'Na kraju poziva svi mašu ekranu. "Volim vas! Vidimo se u srpnju!" kaže baka. Tomislav nakon poziva pita: "Tata, koliko još ima do srpnja?" Tata ga zagrli: "Još malo, sine. Još samo malo." Domovina je daleko, ali nedjeljom je uvijek blizu.',
@@ -4158,11 +4157,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Moj bratić Luka igra veznog. Cijeli tjedan radi u očevoj radionici, a subotom navečer rano liježe, što je kod nas prava senzacija. Mama mu nosi čistu opremu, a djed, koji je i sam nekad igrao, daje mu iste savjete već deset godina: „Gledaj loptu, a ne publiku."',
-        en: 'My cousin Luka plays midfield. All week he works in his father’s workshop, and on Saturday evenings he goes to bed early, which around here is a real sensation. His mum brings him clean kit, and grandpa, who once played himself, has been giving him the same advice for ten years: "Watch the ball, not the crowd."',
+        en: 'My cousin Luka plays midfield. All week he works in his father’s workshop, and on Saturday evenings he goes to bed early, which around here is a real sensation. His mom brings him clean kit, and grandpa, who once played himself, has been giving him the same advice for ten years: "Watch the ball, not the crowd."',
       },
       {
         hr: 'Danas igramo protiv susjednog sela. To je derbi u kojem rezultat znači manje od časti. Kad je sudac dosudio jedanaesterac protiv nas, pola tribine je skočilo na noge. Gol smo primili, ali smo do kraja izjednačili — i slavili kao da smo osvojili prvenstvo.',
-        en: 'Today we play against the neighbouring village. It’s a derby in which the result means less than honour. When the referee awarded a penalty against us, half the stand jumped to their feet. We conceded the goal, but equalized by the end — and celebrated as if we had won the championship.',
+        en: 'Today we play against the neighboring village. It’s a derby in which the result means less than honor. When the referee awarded a penalty against us, half the stand jumped to their feet. We conceded the goal, but equalized by the end — and celebrated as if we had won the championship.',
       },
       {
         hr: 'Poslije utakmice svi zajedno idemo u dom na kobasice i gemišt. Igrači obiju momčadi sjede za istim stolom. Sljedeće nedjelje sve ispočetka — i neka tako ostane.',
@@ -4207,7 +4206,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'čast',
-        en: 'honour',
+        en: 'honor',
         ex: 'Rezultat znači manje od časti.',
       },
     ],
@@ -4260,11 +4259,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Najteže mi je bilo parkiranje unatrag. Zvone je imao metodu: „Kad retrovizorom uhvatiš drugi stup ograde, vrti volan do kraja." Vježbali smo na parkiralištu iza trgovačkog centra dok nisam mogla parkirati i zatvorenih očiju — što, naravno, ne smijem raditi.',
-        en: 'Reverse parking was hardest for me. Zvone had a method: "When you catch the second fence post in your mirror, turn the wheel all the way." We practised in the car park behind the shopping centre until I could park with my eyes closed — which, of course, I’m not allowed to do.',
+        en: 'Reverse parking was hardest for me. Zvone had a method: "When you catch the second fence post in your mirror, turn the wheel all the way." We practiced in the parking lot behind the shopping center until I could park with my eyes closed — which, of course, I’m not allowed to do.',
       },
       {
         hr: 'Na dan ispita ruke su mi se tresle. Ispitivač je bio strog, ali pravedan. Kad je na kraju rekao „Položili ste", prvo sam nazvala mamu, a onda Zvonu. Rekao je: „Znao sam. Sad polako — i nikad ne žuri na žuto."',
-        en: 'On exam day my hands were shaking. The examiner was strict but fair. When at the end he said "You have passed", I first called my mum, and then Zvone. He said: "I knew it. Take it easy now — and never rush an amber light."',
+        en: 'On exam day my hands were shaking. The examiner was strict but fair. When at the end he said "You have passed", I first called my mom, and then Zvone. He said: "I knew it. Take it easy now — and never rush an amber light."',
       },
     ],
     vocabulary: [
@@ -4438,7 +4437,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Zub me bolio tjedan dana, a ja sam se pravio da ne postoji. Pio sam hladno na drugu stranu usta i žvakao samo lijevo. Moja žena je na kraju rekla: „Ili zubar ili spavaš u dnevnom boravku." Nazvao sam ordinaciju isti dan.',
-        en: 'My tooth had been aching for a week, and I pretended it didn’t exist. I drank cold drinks on the other side of my mouth and chewed only on the left. In the end my wife said: "Either the dentist or you sleep in the living room." I called the surgery that same day.',
+        en: 'My tooth had been aching for a week, and I pretended it didn’t exist. I drank cold drinks on the other side of my mouth and chewed only on the left. In the end my wife said: "Either the dentist or you sleep in the living room." I called the doctor\'s office that same day.',
       },
       {
         hr: 'U čekaonici je sjedio dječak od možda osam godina, potpuno miran. Ja sam prelistao sve časopise i dvaput izašao „na zrak". Kad me sestra prozvala, dječak mi je rekao: „Ne boj se, striček, doktorica je super." Zemlja, otvori se.',
@@ -4461,7 +4460,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'ordinacija',
-        en: 'doctor’s office, surgery',
+        en: 'doctor’s office',
         ex: 'Nazvao sam ordinaciju isti dan.',
       },
       {
@@ -4531,7 +4530,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Cijelo ljeto nakon mature Petra je osvježavala stranicu s rang-listama. Prijavila je tri studija: pravo u Zagrebu, psihologiju u Rijeci i — na mamino inzistiranje — ekonomiju „za svaki slučaj". Bodovi s državne mature bili su dobri, ali za psihologiju je gužva svake godine.',
-        en: 'All summer after her school-leaving exams Petra kept refreshing the ranking-list page. She had applied for three programmes: law in Zagreb, psychology in Rijeka and — at her mum’s insistence — economics "just in case". Her matura points were good, but for psychology it’s crowded every year.',
+        en: 'All summer after her school-leaving exams Petra kept refreshing the ranking-list page. She had applied for three programs: law in Zagreb, psychology in Rijeka and — at her mom’s insistence — economics "just in case". Her matura points were good, but for psychology it’s crowded every year.',
       },
       {
         hr: 'Djed je navijao za pravo: „U ovoj obitelji nitko još nije bio odvjetnik, a svima bi nam trebao." Tata je šutio, što kod njega znači da ima mišljenje, ali čeka da ga netko pita. Kad ga je Petra napokon pitala, rekao je samo: „Biraj ono zbog čega ćeš ustajati bez budilice."',
@@ -4539,7 +4538,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Objava je stigla u srpnju u devet ujutro: psihologija, Rijeka, četrnaesto mjesto od šezdeset. Petra je vrištala, mama je plakala, a djed je rekao da će joj oprostiti što neće biti odvjetnica — ako mu jednog dana objasni zašto njegov susjed stalno pomiče ogradu.',
-        en: 'The announcement came in July at nine in the morning: psychology, Rijeka, fourteenth place out of sixty. Petra screamed, mum cried, and grandpa said he would forgive her for not becoming a lawyer — if one day she explains to him why his neighbour keeps moving the fence.',
+        en: 'The announcement came in July at nine in the morning: psychology, Rijeka, fourteenth place out of sixty. Petra screamed, mom cried, and grandpa said he would forgive her for not becoming a lawyer — if one day she explains to him why his neighbor keeps moving the fence.',
       },
       {
         hr: 'U rujnu je potpisala ugovor o studiranju i našla sobu s pogledom na Učku. Prvi kolegij zove se Uvod u psihologiju. Kaže da se malo boji statistike, ali da se prvi put u životu veseli ponedjeljku.',
@@ -4559,7 +4558,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'prijaviti (studij)',
-        en: 'to apply for (a programme)',
+        en: 'to apply for (a program)',
         ex: 'Prijavila je tri studija.',
       },
       {
@@ -4629,7 +4628,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Zadnje subote u rujnu u našoj se obitelji ne pita ništa: ide se u Zagorje, na berbu. Djedov vinograd nije velik — tristo trsova na brijegu iznad kuće — ali svake godine okupi tridesetak ljudi: rodbinu, susjede i dvoje-troje zalutalih prijatelja koji su „samo došli pomoći".',
-        en: 'On the last Saturday of September, no questions are asked in our family: we go to Zagorje, to the harvest. Grandpa’s vineyard isn’t big — three hundred vines on the hill above the house — but every year it gathers thirty-odd people: relatives, neighbours and two or three stray friends who "just came to help".',
+        en: 'On the last Saturday of September, no questions are asked in our family: we go to Zagorje, to the harvest. Grandpa’s vineyard isn’t big — three hundred vines on the hill above the house — but every year it gathers thirty-odd people: relatives, neighbors and two or three stray friends who "just came to help".',
       },
       {
         hr: 'Radi se u parovima: jedan reže grozdove škarama, drugi drži kantu. Baka nadgleda sve s vrha reda i nepogrešivo primjećuje svaki preskočeni trs. Do podneva su nam ruke ljepljive od soka, a netko svake godine sjedne na punu kantu — ove godine bio je to stric Ivo.',
@@ -4641,7 +4640,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Navečer se mošt već cijedi u podrumu, a mi umorni sjedimo na klupi i računamo: ako godina bude dobra, bit će oko petsto litara. Ali prava računica je drukčija — jedan dan berbe vrijedi više od svih litara ovoga svijeta.',
-        en: 'In the evening the must is already draining in the cellar, and we sit tired on the bench doing the maths: if it’s a good year, there will be about five hundred litres. But the real calculation is different — one day of harvest is worth more than all the litres in this world.',
+        en: 'In the evening the must is already draining in the cellar, and we sit tired on the bench doing the math: if it’s a good year, there will be about five hundred liters. But the real calculation is different — one day of harvest is worth more than all the liters in this world.',
       },
     ],
     vocabulary: [
@@ -4727,7 +4726,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Djed me budio u pet ujutro, uvijek istom rečenicom: „Riba ne čeka lijene." U luci bi već mirisalo na sol i dizel. Njegova barka zvala se Zvijezda i bila je starija od moje mame, ali motor je palio iz prve — jer ga je djed svake nedjelje čistio kao da je zlatan.',
-        en: 'Grandpa used to wake me at five in the morning, always with the same sentence: "Fish don’t wait for the lazy." The harbour would already smell of salt and diesel. His boat was called Zvijezda and was older than my mum, but the engine started first time — because grandpa cleaned it every Sunday as if it were made of gold.',
+        en: 'Grandpa used to wake me at five in the morning, always with the same sentence: "Fish don’t wait for the lazy." The harbor would already smell of salt and diesel. His boat was called Zvijezda and was older than my mom, but the engine started first time — because grandpa cleaned it every Sunday as if it were made of gold.',
       },
       {
         hr: 'Vozili bismo se do uvale koju je znao samo on. Tamo bi ugasio motor i rekao: „Sad slušaj." Slušao sam galebove, vodu o bok barke i ništa više. Trebale su mi godine da shvatim: upravo to ništa bilo je ono po što smo dolazili.',
@@ -4824,7 +4823,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prvo je pitala mladića sa slušalicama. Izvadio je jednu slušalicu, saslušao je i rekao: „Ilica je duga gotovo šest kilometara. Trebat će nam više podataka." Nasmijali su se i krenuli zajedno — jer u Zagrebu se put ne objašnjava, u Zagrebu te se otprati.',
-        en: 'First she asked a young man with earphones. He took out one earphone, heard her out and said: "Ilica is almost six kilometres long. We’re going to need more data." They laughed and set off together — because in Zagreb directions aren’t explained, in Zagreb you get walked there.',
+        en: 'First she asked a young man with earphones. He took out one earphone, heard her out and said: "Ilica is almost six kilometers long. We’re going to need more data." They laughed and set off together — because in Zagreb directions aren’t explained, in Zagreb you get walked there.',
       },
       {
         hr: 'Kod Britanskog trga pridružila im se gospođa s tržnice koja je „točno znala koja je to kavana". Usput je Emma saznala gdje se pije najbolja kava, zašto se špica subotom ne propušta i da se svog prezimena — Horvat — u Zagrebu ne treba sramiti, jer ga nosi pola grada.',
@@ -4913,7 +4912,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Kad se na Zrinjevcu upale lampice, u obitelji Novak počinje sezona koju tata zove „mjesec kuhanog vina", a mama „mjesec potrošenog novca". Djeca imaju svoj raspored: klizanje na Tomislavcu, fritule kod štanda do fontane i obavezno razgledavanje jaslica u katedrali.',
-        en: 'When the lights come on in Zrinjevac park, the Novak family begins the season dad calls "the month of mulled wine" and mum "the month of spent money". The children have their own schedule: skating at Tomislav Square, fritule at the stand by the fountain, and the obligatory viewing of the nativity scene at the cathedral.',
+        en: 'When the lights come on in Zrinjevac park, the Novak family begins the season dad calls "the month of mulled wine" and mom "the month of spent money". The children have their own schedule: skating at Tomislav Square, fritule at the stand by the fountain, and the obligatory viewing of the nativity scene at the cathedral.',
       },
       {
         hr: 'Baka Novak drži do tradicije: na prvu nedjelju adventa pali se prva svijeća na vijencu, a na stol dolazi pečena purica s mlincima. Unuci znaju da se prije ručka ništa ne grize, ma koliko mirisalo iz kuhinje — to je pravilo starije od svih njih zajedno.',
@@ -4921,7 +4920,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ove godine snijeg je pao baš na Badnjak. Cijela ulica izašla je van: susjedi su se grudali kao djeca, netko je iznio termosicu čaja, a gospodin Perić, koji inače ne pozdravlja nikoga, čistio je snijeg pred tuđim vratima i pjevušio.',
-        en: 'This year snow fell right on Christmas Eve. The whole street came outside: neighbours had a snowball fight like children, someone brought out a thermos of tea, and Mr Perić, who normally greets no one, was clearing snow in front of other people’s doors and humming.',
+        en: 'This year snow fell right on Christmas Eve. The whole street came outside: neighbors had a snowball fight like children, someone brought out a thermos of tea, and Mr. Perić, who normally greets no one, was clearing snow in front of other people’s doors and humming.',
       },
       {
         hr: 'Na Štefanje se obitelj okuplja kod bake. Stol se produžuje s dvije daske, jer nas je svake godine više. Kad se upali svijeća i digne čaša, baka kaže isto što i uvijek: „Da nam je svima ovako — i dogodine." I bude.',
@@ -5019,15 +5018,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Danas u staroj jezgri još uvijek žive ljudi — sve manje njih, ali žive. Gospođa Marija, čiji stan gleda ravno na Peristil, kaže da se na turiste navikneš kao na galebove: „Ujutro, prije osam, grad je samo naš. Popijem kavu na prozoru i gledam kako se kamen budi. Ta svjetlost — nju ni car nije mogao kupiti."',
-        en: 'Today people still live in the old core — fewer and fewer of them, but they live there. Mrs Marija, whose flat looks straight onto the Peristyle, says you get used to the tourists the way you get used to seagulls: "In the morning, before eight, the city is ours alone. I drink my coffee at the window and watch the stone wake up. That light — even the emperor couldn’t buy it."',
+        en: 'Today people still live in the old core — fewer and fewer of them, but they live there. Mrs. Marija, whose apartment looks straight onto the Peristyle, says you get used to the tourists the way you get used to seagulls: "In the morning, before eight, the city is ours alone. I drink my coffee at the window and watch the stone wake up. That light — even the emperor couldn’t buy it."',
       },
       {
         hr: 'No život u spomeniku ima i cijenu. Stanovi se sve češće pretvaraju u apartmane, mladi odlaze u kvartove gdje je život jeftiniji, a konzervatori i stanari vode beskrajne pregovore oko svake klime i svakog prozora. Split traži ravnotežu koju traže svi povijesni gradovi: kako živjeti od baštine, a ne potrošiti je.',
-        en: 'But life in a monument has its price. Flats are increasingly turned into holiday apartments, the young move to neighbourhoods where life is cheaper, and conservators and residents hold endless negotiations over every air-conditioning unit and every window. Split is seeking the balance all historic cities seek: how to live off heritage without using it up.',
+        en: 'But life in a monument has its price. Apartments are increasingly turned into vacation apartments, the young move to neighborhoods where life is cheaper, and conservators and residents hold endless negotiations over every air-conditioning unit and every window. Split is seeking the balance all historic cities seek: how to live off heritage without using it up.',
       },
       {
         hr: 'Ipak, kad se navečer upale svjetla i kamen poprimi boju meda, jasno je zašto se odavde teško odlazi. Dioklecijan je gradio za sebe, a ostavio svima. Malo koji car može reći da mu se u dnevnom boravku i danas — živi.',
-        en: 'Still, when the lights come on in the evening and the stone takes on the colour of honey, it is clear why this place is hard to leave. Diocletian built for himself and left it to everyone. Few emperors can say that people still — live in their living room.',
+        en: 'Still, when the lights come on in the evening and the stone takes on the color of honey, it is clear why this place is hard to leave. Diocletian built for himself and left it to everyone. Few emperors can say that people still — live in their living room.',
       },
     ],
     vocabulary: [
@@ -5215,19 +5214,19 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Kad je Marta rekla roditeljima da daje otkaz u zagrebačkoj banci i seli se na Korčulu, mama je tjedan dana kuhala u tišini. „A posao?" — „Nosim ga sa sobom." Marta programira za njemačku tvrtku: potreban joj je laptop, stabilan internet i mir. Sve troje na otoku ima — uz pogled kakav nijedan ured ne nudi.',
-        en: 'When Marta told her parents she was quitting her job at a Zagreb bank and moving to Korčula, her mum cooked in silence for a week. "And work?" — "I’m taking it with me." Marta codes for a German company: she needs a laptop, stable internet and peace. She has all three on the island — with a view no office can offer.',
+        en: 'When Marta told her parents she was quitting her job at a Zagreb bank and moving to Korčula, her mom cooked in silence for a week. "And work?" — "I’m taking it with me." Marta codes for a German company: she needs a laptop, stable internet and peace. She has all three on the island — with a view no office can offer.',
       },
       {
         hr: 'Hrvatska je 2021. među prvima u Europi uvela vizu za digitalne nomade, a otoci su počeli privlačiti ljude koji zarađuju u eurima, dolarima i funtama, a troše u lokalnom dućanu. Zimi, kad se apartmani isprazne, upravo oni drže kafiće otvorenima i školu punijom za koje dijete.',
-        en: 'In 2021 Croatia was among the first in Europe to introduce a digital-nomad visa, and the islands began attracting people who earn in euros, dollars and pounds, and spend in the local shop. In winter, when the holiday flats empty, it is they who keep the cafés open and the school fuller by a child or two.',
+        en: 'In 2021 Croatia was among the first in Europe to introduce a digital-nomad visa, and the islands began attracting people who earn in euros, dollars and pounds, and spend in the local shop. In winter, when the vacation apartments empty, it is they who keep the cafés open and the school fuller by a child or two.',
       },
       {
         hr: 'No slika nije samo razglednica. Cijene najma rastu i domaćima, internet zna pasti baš prije važnog sastanka, a trajekt po buri ne pita za rokove. Najteža je, kaže Marta, granica između posla i života: „Kad ti je ured deset koraka od plaže, uvijek si pomalo na poslu — i pomalo na godišnjem."',
-        en: 'But the picture is not just a postcard. Rents rise for locals too, the internet tends to drop right before an important meeting, and the ferry in a bura gale does not ask about deadlines. Hardest of all, says Marta, is the boundary between work and life: "When your office is ten steps from the beach, you are always slightly at work — and slightly on holiday."',
+        en: 'But the picture is not just a postcard. Rents rise for locals too, the internet tends to drop right before an important meeting, and the ferry in a bura gale does not ask about deadlines. Hardest of all, says Marta, is the boundary between work and life: "When your office is ten steps from the beach, you are always slightly at work — and slightly on vacation."',
       },
       {
         hr: 'Njezin susjed, umirovljeni ribar Frane, isprva je sumnjičavo gledao „malu koja cijeli dan tipka". Onda mu je pomogla postaviti internetsko oglašavanje apartmana i sad je najveći zagovornik novih susjeda. „Otok umire bez mladih", kaže. „Meni je svejedno tipka li netko ili krpa mreže — bitno da svijetli prozor."',
-        en: 'Her neighbour, the retired fisherman Frane, at first looked askance at "the girl who types all day". Then she helped him set up online advertising for his apartments, and now he is the biggest advocate of the new neighbours. "The island dies without the young," he says. "I don’t care whether someone types or mends nets — what matters is a lit window."',
+        en: 'Her neighbor, the retired fisherman Frane, at first looked askance at "the girl who types all day". Then she helped him set up online advertising for his apartments, and now he is the biggest advocate of the new neighbors. "The island dies without the young," he says. "I don’t care whether someone types or mends nets — what matters is a lit window."',
       },
       {
         hr: 'Marta ne zna hoće li ostati zauvijek. Zna samo da je prvi put u životu na kavi do devet, a na poslu do pet — i da joj se pojam „kvaliteta života" više ne čini kao fraza iz oglasa. Možda je budućnost rada zapravo vrlo stara ideja: raditi da bi se živjelo, a ne obrnuto.',
@@ -5317,7 +5316,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Sve je počelo nakon jedne zimske oluje, kad je jugo na žalo naplavilo brdo smeća: boce, vrećice, komade stiropora s uzgajališta. Mještani su ga skupljali tri vikenda. Na trećem je netko rekao ono što su svi mislili: „Čistiti možemo dovijeka. Ili možemo nešto promijeniti."',
-        en: 'It all began after a winter storm, when the southerly wind washed a mountain of rubbish onto the beach: bottles, bags, pieces of styrofoam from the fish farms. The locals spent three weekends collecting it. On the third, someone said what everyone was thinking: "We can clean forever. Or we can change something."',
+        en: 'It all began after a winter storm, when the southerly wind washed a mountain of trash onto the beach: bottles, bags, pieces of styrofoam from the fish farms. The locals spent three weekends collecting it. On the third, someone said what everyone was thinking: "We can clean forever. Or we can change something."',
       },
       {
         hr: 'Mjesni je odbor donio odluku kakvu dotad nije donio nijedan hrvatski otok: u trgovini se ukidaju plastične vrećice, kafići prelaze na povratne čaše, a na rivi se postavljaju spremnici za odvojeno prikupljanje otpada. Turistima se na trajektu dijeli platnena vrećica s natpisom „Otok se čuva — čuvaj ga i ti."',
@@ -5419,15 +5418,15 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'U obitelji Kovačević večera počinje istim ritualom: mobiteli u košaru na polici. Pravilo je uvela mama Sanja nakon što je shvatila da za stolom sjede četiri osobe i — četiri ekrana. „Nismo razgovarali, nego smo se dopisivali", kaže. Najteže se odvikavala, priznaje, ona sama.',
-        en: 'In the Kovačević family, dinner begins with the same ritual: phones into the basket on the shelf. Mum Sanja introduced the rule after realizing that four people were sitting at the table with — four screens. "We weren’t talking, we were messaging each other," she says. The hardest to wean off, she admits, was she herself.',
+        en: 'In the Kovačević family, dinner begins with the same ritual: phones into the basket on the shelf. Mom Sanja introduced the rule after realizing that four people were sitting at the table with — four screens. "We weren’t talking, we were messaging each other," she says. The hardest to wean off, she admits, was she herself.',
       },
       {
         hr: 'Prema nekim istraživanjima, hrvatski srednjoškolci na ekranima provode u prosjeku više od pet sati dnevno, a svaki četvrti kaže da bi se „teško ili nikako" mogao odvojiti od mobitela na jedan dan. Psihologinja Ivana Radić upozorava da problem nije ekran, nego ono što istiskuje: san, kretanje i dosadu — „a iz dosade se, začudo, rađaju najbolje ideje".',
-        en: 'According to some surveys, Croatian secondary-school pupils spend on average more than five hours a day on screens, and one in four says they could "hardly or not at all" part with their phone for a single day. Psychologist Ivana Radić warns that the problem is not the screen but what it crowds out: sleep, movement and boredom — "and out of boredom, oddly enough, the best ideas are born".',
+        en: 'According to some surveys, Croatian high school students spend on average more than five hours a day on screens, and one in four says they could "hardly or not at all" part with their phone for a single day. Psychologist Ivana Radić warns that the problem is not the screen but what it crowds out: sleep, movement and boredom — "and out of boredom, oddly enough, the best ideas are born".',
       },
       {
         hr: 'Šesnaestogodišnji Karlo na to ima protuargument koji roditelji nerado čuju: na mobitelu uči engleski, montira video-uratke i vodi grupu za pripremu mature. „Vi ste imali kvart, mi imamo internet. Nije pitanje koliko sam na ekranu, nego što na njemu radim." Njegova baka dodaje da se isto govorilo i o televiziji — pa su svi preživjeli.',
-        en: 'Sixteen-year-old Karlo has a counter-argument parents are reluctant to hear: on his phone he learns English, edits videos and runs a matura-prep group. "You had the neighbourhood, we have the internet. The question isn’t how long I’m on the screen, but what I do on it." His grandma adds that the same used to be said about television — and everyone survived.',
+        en: 'Sixteen-year-old Karlo has a counter-argument parents are reluctant to hear: on his phone he learns English, edits videos and runs a matura-prep group. "You had the neighborhood, we have the internet. The question isn’t how long I’m on the screen, but what I do on it." His grandma adds that the same used to be said about television — and everyone survived.',
       },
       {
         hr: 'Škole traže svoj put između zabrane i zanemarivanja. Neke su uvele „ladice za mobitele" na početku sata, druge medijsku pismenost kao izborni predmet. Profesorica informatike iz Osijeka sažima ono oko čega se struka uglavnom slaže: „Zabrana bez razgovora samo seli problem u hodnik."',
@@ -5483,7 +5482,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Koje je pravilo uvela mama Sanja?',
-        qEn: 'Which rule did mum Sanja introduce?',
+        qEn: 'Which rule did mom Sanja introduce?',
         opts: [
           'Mobitel tek nakon zadaće',
           'Mobiteli u košaru za vrijeme večere',
@@ -5534,11 +5533,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kava ima i svoju gramatiku. „Idemo na kavu" znači druženje. „Moramo na kavu" znači da postoji tema. „Naći ćemo se na kavi" može značiti bilo što između sutra i nikad. A najozbiljnija od svih poruka glasi: „Dođi na kavu, imam ti nešto reći" — tu se otkazuju svi drugi planovi.',
-        en: 'Coffee also has its own grammar. "Let’s go for coffee" means socializing. "We must go for coffee" means there is a topic. "We’ll meet for coffee" can mean anything between tomorrow and never. And the most serious message of all reads: "Come for coffee, I have something to tell you" — for that one, all other plans are cancelled.',
+        en: 'Coffee also has its own grammar. "Let’s go for coffee" means socializing. "We must go for coffee" means there is a topic. "We’ll meet for coffee" can mean anything between tomorrow and never. And the most serious message of all reads: "Come for coffee, I have something to tell you" — for that one, all other plans are canceled.',
       },
       {
         hr: 'Ekonomisti povremeno izračunaju koliko nas nacionalno ispijanje kave košta u radnim satima, i brojke su uvijek dramatične. Ali te tablice ne mjere ono najvažnije: da se uz kavu čuvaju brakovi, sklapaju poslovi, prebrode krize i drže na okupu kvartovi. Neke se investicije ne vide u proračunu.',
-        en: 'Economists occasionally calculate how much our national coffee-drinking costs in working hours, and the figures are always dramatic. But those tables do not measure what matters most: that over coffee marriages are saved, deals are made, crises are weathered and neighbourhoods held together. Some investments do not show up in the budget.',
+        en: 'Economists occasionally calculate how much our national coffee-drinking costs in working hours, and the figures are always dramatic. But those tables do not measure what matters most: that over coffee marriages are saved, deals are made, crises are weathered and neighborhoods held together. Some investments do not show up in the budget.',
       },
       {
         hr: 'Zato, ako vas netko u Hrvatskoj pozove na kavu — pristanite. Ne pijete li kavu, naručite čaj, sok ili ništa: nitko neće ni primijetiti. Kava je, kao što svaki domaći zna, samo izgovor. Ono pravo dolazi u razgovoru, negdje između druge i treće šalice koje niste ni popili.',
@@ -5764,7 +5763,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'apartmanizacija',
-        en: 'proliferation of holiday flats',
+        en: 'proliferation of vacation apartments',
         ex: 'Apartmanizacija guta prostor.',
       },
       {
@@ -6047,7 +6046,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Danas glagoljica živi drugim životom: studenti je uče kao izborni kolegij, dizajneri je nose na majicama, a Aleja glagoljaša između Roča i Huma — koji se naziva najmanjim gradom na svijetu — vodi putnika kroz kamene spomenike glagoljskoj baštini. Narod koji je vlastito ime prvi put zapisao vlastitim pismom to ne zaboravlja: glagoljica više nije sredstvo komunikacije, ali jest ono što je oduvijek bila — potpis.',
-        en: 'Today Glagolitic lives a second life: students take it as an elective course, designers put it on T-shirts, and the Glagolitic Alley between Roč and Hum — which is called the smallest town in the world — leads the traveller past stone monuments to the Glagolitic heritage. A people that first wrote down its own name in its own script does not forget that: Glagolitic is no longer a means of communication, but it remains what it always was — a signature.',
+        en: 'Today Glagolitic lives a second life: students take it as an elective course, designers put it on T-shirts, and the Glagolitic Alley between Roč and Hum — which is called the smallest town in the world — leads the traveler past stone monuments to the Glagolitic heritage. A people that first wrote down its own name in its own script does not forget that: Glagolitic is no longer a means of communication, but it remains what it always was — a signature.',
       },
     ],
     vocabulary: [
@@ -6146,11 +6145,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad te posljednji put vidjeh, sjeđaše na klupi pred kućom i gledaše u brijeg, onako kako se gleda u nešto što se zna napamet. Htjedoh ti reći sve — i ne rekoh ništa. Govorili smo o vremenu. O berbi. O susjedovu traktoru. Dva čovjeka koja su se cijeli život voljela na jeziku u kojem za tu ljubav nema riječi, ili je mi ne znadosmo naći.',
-        en: 'When I saw you for the last time, you were sitting on the bench in front of the house, looking at the hill the way one looks at something known by heart. I wanted to tell you everything — and said nothing. We spoke about the weather. About the harvest. About the neighbour’s tractor. Two men who loved each other all their lives in a language that has no words for that love — or we did not know how to find them.',
+        en: 'When I saw you for the last time, you were sitting on the bench in front of the house, looking at the hill the way one looks at something known by heart. I wanted to tell you everything — and said nothing. We spoke about the weather. About the harvest. About the neighbor’s tractor. Two men who loved each other all their lives in a language that has no words for that love — or we did not know how to find them.',
       },
       {
         hr: 'Sada je kasno za slanje, a nije kasno za pisanje; tek sada razumijem razliku. Tvoj kaput visi u mome ormaru, u tuđem gradu koji je postao moj. Kad ga obučem, ramena mi bivaju šira nego što jesu. Laku noć, oče. Vlak davno ode, peron opustje — ali evo me, napokon mašem.',
-        en: 'It is too late now for sending, but not too late for writing; only now do I understand the difference. Your coat hangs in my wardrobe, in a foreign city that has become mine. When I put it on, my shoulders become broader than they are. Good night, Father. The train left long ago, the platform emptied — but here I am, waving at last.',
+        en: 'It is too late now for sending, but not too late for writing; only now do I understand the difference. Your coat hangs in my closet, in a foreign city that has become mine. When I put it on, my shoulders become broader than they are. Good night, Father. The train left long ago, the platform emptied — but here I am, waving at last.',
       },
     ],
     vocabulary: [
@@ -6239,7 +6238,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ljeti 2022. Hrvatska je dobila most o kojem je sanjala pola stoljeća: dva i pol kilometra čelika preko Malostonskoga zaljeva, kojim je jug zemlje napokon spojen s njezinim tijelom. Na otvorenju su ljudi plakali, i to ne zbog prometa. Plakali su jer most na ovim prostorima nikad nije samo prečac: on je dokaz da se nešto veliko može i dovršiti, da obale, ma kako se dugo mimoilazile, na kraju ipak jedna drugoj — pripadnu.',
-        en: 'In the summer of 2022 Croatia received the bridge it had dreamed of for half a century: two and a half kilometres of steel across the Bay of Mali Ston, finally joining the country’s south to its body. At the opening, people wept — and not because of traffic. They wept because in these lands a bridge is never a mere shortcut: it is proof that something great can actually be finished, that shores, however long they pass each other by, in the end do belong to one another.',
+        en: 'In the summer of 2022 Croatia received the bridge it had dreamed of for half a century: two and a half kilometers of steel across the Bay of Mali Ston, finally joining the country’s south to its body. At the opening, people wept — and not because of traffic. They wept because in these lands a bridge is never a mere shortcut: it is proof that something great can actually be finished, that shores, however long they pass each other by, in the end do belong to one another.',
       },
       {
         hr: 'Svaki od nas gradi svoje mostove i svaki poneki sruši. Jezici su mostovi; isprike su mostovi; šutnja koja se prekine poslije dugih godina najuži je i najhrabriji od svih. Graditelji starih lukova znali su tajnu koju psihologija tek otkriva: luk stoji zato što se dvije polovice, naslonjene jedna na drugu, međusobno drže u zraku. Tako i ljudi. Most nije mjesto prelaska. Most je zagrljaj koji je naučio stajati.',
@@ -6342,7 +6341,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Postoji, dakako, zaborav kojega se valja bojati — onaj naručeni, kolektivni, koji briše nezgodna poglavlja i preimenuje ulice. Protiv njega pamćenje s pravom ratuje. No postoji i zaborav bez kojega zajednice ne mogu dalje: onaj koji nakon svađe, rata ili nesreće dopušta da se susjed ponovno pogleda u oči. Praštanje nije čin pamćenja nego njegova svjesnog stišavanja; tko kaže „oprostio sam, ali ne zaboravljam", najčešće nije učinio ni jedno ni drugo.',
-        en: 'There is, of course, a forgetting one should fear — the commissioned, collective kind that erases inconvenient chapters and renames streets. Against that kind, memory rightly wages war. But there is also a forgetting without which communities cannot go on: the kind that, after a quarrel, a war or a calamity, allows one to look a neighbour in the eye again. Forgiveness is not an act of memory but of its conscious quieting; whoever says "I have forgiven, but I do not forget" has usually done neither.',
+        en: 'There is, of course, a forgetting one should fear — the commissioned, collective kind that erases inconvenient chapters and renames streets. Against that kind, memory rightly wages war. But there is also a forgetting without which communities cannot go on: the kind that, after a quarrel, a war or a calamity, allows one to look a neighbor in the eye again. Forgiveness is not an act of memory but of its conscious quieting; whoever says "I have forgiven, but I do not forget" has usually done neither.',
       },
       {
         hr: 'Možda je mudrost upravo u tome: pamtiti ono što nas je izgradilo, zaboraviti ono što nas je samo ranilo — i ne brkati jedno s drugim. Starost, kažu, briše najprije imena, a najkasnije melodije. Kao da nam um na odlasku poručuje što je cijelo vrijeme bilo važno: ne kako se što zvalo, nego kako je — zvučalo. Blago onome tko na kraju zaboravi sve osim onoga što je volio. On nije izgubio pamćenje. On ga je dovršio.',
@@ -6432,11 +6431,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Bura se ne najavljuje. Jugo kuka danima, mijesi nebo u sivo tijesto, boli koljena i glave; bura dolazi kao presuda — preko noći, s Velebita, čista i bijela. Najprije zazviždi u žicama, zatim legne na zaljev i počne ga češljati protiv dlake. Ujutro je nebo oprano do modrine kakvu boje ne poznaju, a zrak tako oštar da se čini: udahneš li dublje, porezat ćeš se.',
-        en: 'The bura gives no notice. The southerly whines for days, kneading the sky into grey dough, aching in knees and heads; the bura arrives like a verdict — overnight, off the Velebit range, clean and white. First it whistles in the wires, then it lies down on the bay and begins combing it against the grain. By morning the sky is washed to a blue no paint knows, and the air is so sharp it seems that if you breathed in deeper, you would cut yourself.',
+        en: 'The bura gives no notice. The southerly whines for days, kneading the sky into gray dough, aching in knees and heads; the bura arrives like a verdict — overnight, off the Velebit range, clean and white. First it whistles in the wires, then it lies down on the bay and begins combing it against the grain. By morning the sky is washed to a blue no paint knows, and the air is so sharp it seems that if you breathed in deeper, you would cut yourself.',
       },
       {
         hr: 'Rađa se, kažu meteorolozi, iz hladnoga zraka koji se prelije preko planine i sruči niz padinu poput lavine; najjača je upravo pod Velebitom, u Senju, i na mostovima koje s užitkom zatvara. Njezini udari — refuli, kako ih zovu na obali — znaju prevrnuti kamion i odnijeti krov, pa se u senjskim kućama i danas grade vrata na zavjetrinu, a stare masline uz more rastu vodoravno, počešljane jednom zauvijek.',
-        en: 'It is born, meteorologists say, of cold air that spills over the mountain and crashes down the slope like an avalanche; it is strongest right under Velebit, in Senj, and on the bridges it delights in closing. Its gusts — refuli, as they call them on the coast — can overturn a lorry and carry off a roof, which is why doors in Senj houses are still built on the lee side, and the old olive trees by the sea grow horizontally, combed once and for all.',
+        en: 'It is born, meteorologists say, of cold air that spills over the mountain and crashes down the slope like an avalanche; it is strongest right under Velebit, in Senj, and on the bridges it delights in closing. Its gusts — refuli, as they call them on the coast — can overturn a truck and carry off a roof, which is why doors in Senj houses are still built on the lee side, and the old olive trees by the sea grow horizontally, combed once and for all.',
       },
       {
         hr: 'A opet, nitko o buri ne govori kao o neprijatelju. Ona suši pršut i meso na način koji nijedna komora ne zna oponašati; ona tjera vlagu iz kuća i mutljag iz uvala; ona, vele stari, „bistri more i pamet". Poslije tri dana bure svijet izgleda kao nov: otoci priđu bliže, Velebit se vidi do posljednje bore, a čovjek, koliko god ga izmučila, hoda uspravnije. Malo koja nepogoda ostavlja za sobom — red.',
@@ -6529,7 +6528,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Jer inat nije prkos. Prkos je reakcija; inat je svjetonazor. Iz inata se gradi kuća kraj susjedove veće, završava fakultet koji su svi otpisali, preživljava opsada. Inat je iracionalan, skup i ponekad autodestruktivan — i upravo zato dostojanstven: on je odbijanje da svijet ima zadnju riječ. Tko ne razumije inat, taj će povijest ovih prostora čitati kao niz nerazumnih odluka. Tko ga razumije, prepoznat će u njima — kralježnicu.',
-        en: 'For inat is not spite. Spite is a reaction; inat is a worldview. Out of inat one builds a house next to the neighbour’s bigger one, finishes the degree everyone had written off, survives a siege. Inat is irrational, costly and sometimes self-destructive — and precisely for that reason dignified: it is the refusal to let the world have the last word. Whoever does not understand inat will read the history of these lands as a series of unreasonable decisions. Whoever understands it will recognize in them — a backbone.',
+        en: 'For inat is not spite. Spite is a reaction; inat is a worldview. Out of inat one builds a house next to the neighbor’s bigger one, finishes the degree everyone had written off, survives a siege. Inat is irrational, costly and sometimes self-destructive — and precisely for that reason dignified: it is the refusal to let the world have the last word. Whoever does not understand inat will read the history of these lands as a series of unreasonable decisions. Whoever understands it will recognize in them — a backbone.',
       },
       {
         hr: 'Lingvisti će reći da neprevodive riječi ne dokazuju da narodi različito osjećaju, nego da su različite osjećaje smatrali vrijednima imenovanja. Upravo je to njihova draž: rječnik je popis onoga što je zajednici bilo dovoljno važno da dobije ime. Gdje Eskimi nijansiraju snijeg, Dalmatinci nijansiraju dokolicu; gdje njemački precizira strahove, hrvatski precizira otpore. Reci mi što ne možeš prevesti, i reći ću ti tko si.',
@@ -6645,7 +6644,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Poslije doručka djeca idu na plažu. Plaža je blizu, samo pet minuta hoda. More je toplo i vrlo plavo. Djeca plivaju i grade dvorce od pijeska. Tata igra nogomet s bratom na pijesku. Mama čita knjigu ispod velikog suncobrana. Baka sjedi na klupi i gleda unuke. Ona je sretna kad vidi njihov smijeh.',
-        en: 'After breakfast the children go to the beach. The beach is close, just a five-minute walk. The sea is warm and very blue. The children swim and build sandcastles. Dad plays football with his brother on the sand. Mom reads a book under a big beach umbrella. Grandma sits on a bench and watches her grandchildren. She is happy when she sees their laughter.',
+        en: 'After breakfast the children go to the beach. The beach is close, just a five-minute walk. The sea is warm and very blue. The children swim and build sandcastles. Dad plays soccer with his brother on the sand. Mom reads a book under a big beach umbrella. Grandma sits on a bench and watches her grandchildren. She is happy when she sees their laughter.',
       },
       {
         hr: 'Navečer cijela obitelj ide u šetnju. Selo je malo, ali vrlo lijepo. Kuće su bijele s crvenim krovovima. Ljudi sjede pred kućama i pričaju. Djeca pozdravljaju susjede i njihove pse. Baka poznaje sve ljude u selu. Ona pokazuje unucima staru crkvu na trgu. Crkva ima zvono staro sto godina.',
@@ -6872,7 +6871,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Poslijepodne se Bela probudi puna energije. Traži svoju omiljenu igračku, žutu gumenu loptu. Bacam joj loptu po hodniku, a ona je brzo donosi natrag. Ova igra joj se jako sviđa. Katkad lopta padne pod ormar i Bela cvili dok je ne izvadim. Onda opet veselo maše repom.',
-        en: 'In the afternoon Bela wakes up full of energy. She looks for her favorite toy, a yellow rubber ball. I throw the ball down the hallway and she quickly brings it back. She loves this game. Sometimes the ball rolls under the wardrobe and Bela whines until I fish it out. Then she happily wags her tail again.',
+        en: 'In the afternoon Bela wakes up full of energy. She looks for her favorite toy, a yellow rubber ball. I throw the ball down the hallway and she quickly brings it back. She loves this game. Sometimes the ball rolls under the closet and Bela whines until I fish it out. Then she happily wags her tail again.',
       },
       {
         hr: 'Navečer izlazimo na kratku šetnju prije spavanja. Ulice su tihe, a zrak je svjež i ugodan. Bela njuši svaki kutak jer je noć puna novih mirisa. Susjedi nas pozdravljaju i pitaju kako je Bela. Odgovaram da je danas bila živahna. Bela maše repom kad čuje svoje ime.',
@@ -7098,7 +7097,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Subota je, rano ujutro, i sunce sja. Obitelj Perić ide u zoološki vrt u Zagrebu. Mama, tata i dvoje djece sjede u autu. Djeca se jako vesele izletu. Zoološki vrt je u parku Maksimir. Tamo žive mnoge životinje iz cijelog svijeta.',
-        en: 'It is Saturday, early in the morning, and the sun is shining. The Perić family goes to the zoo in Zagreb. Mum, dad, and two children sit in the car. The children are looking forward to the trip. The zoo is in Maksimir Park. Many animals from all over the world live there.',
+        en: 'It is Saturday, early in the morning, and the sun is shining. The Perić family goes to the zoo in Zagreb. Mom, dad, and two children sit in the car. The children are looking forward to the trip. The zoo is in Maksimir Park. Many animals from all over the world live there.',
       },
       {
         hr: 'Tata kupuje karte na ulazu. Karta za odrasle stoji dvanaest eura. Karta za dijete stoji šest eura. Blagajnica se ljubazno smiješi i daje im karte. Obitelj dobiva i mali plan zoološkog vrta. Na planu vide gdje su lavovi i slonovi.',
@@ -7106,7 +7105,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prvo idu do kaveza s lavovima. Veliki lav lijeno leži na suncu. Lavica hoda polako pokraj ograde. Djeca gledaju životinje širom otvorenih očiju. Brat pita mamu zašto lav toliko spava. Mama objašnjava da su lavovi noćne životinje.',
-        en: 'First they go to the lion enclosure. The big lion lies lazily in the sun. The lioness walks slowly along the fence. The children watch the animals with wide eyes. The brother asks mum why the lion sleeps so much. Mum explains that lions are nocturnal animals.',
+        en: 'First they go to the lion enclosure. The big lion lies lazily in the sun. The lioness walks slowly along the fence. The children watch the animals with wide eyes. The brother asks mom why the lion sleeps so much. Mom explains that lions are nocturnal animals.',
       },
       {
         hr: 'Zatim obitelj gleda slonove i žirafe. Slon prska vodu svojom dugom surlom. Žirafa jede lišće s visokog drveta. Sestra se divi žirafinom dugom vratu. Slonovi polako hodaju po velikom prostoru. Čuvar zoološkog vrta priča djeci zanimljive činjenice.',
@@ -7126,7 +7125,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Poslijepodne obitelj sjeda na klupu u parku. Mama vadi sendviče i vodu iz torbe. Svi su gladni poslije duge šetnje. Djeca pričaju o svojim omiljenim životinjama. Brat kaže da mu se najviše sviđaju majmuni. Sestra više voli žirafe zbog dugog vrata.',
-        en: 'In the afternoon the family sits on a bench in the park. Mum takes sandwiches and water out of the bag. Everyone is hungry after the long walk. The children talk about their favorite animals. The brother says he likes the monkeys most. The sister prefers giraffes because of their long neck.',
+        en: 'In the afternoon the family sits on a bench in the park. Mom takes sandwiches and water out of the bag. Everyone is hungry after the long walk. The children talk about their favorite animals. The brother says he likes the monkeys most. The sister prefers giraffes because of their long neck.',
       },
       {
         hr: 'Na izlazu iz zoološkog vrta stoji mali kiosk. Tata kupuje sladoled za svu djecu. Sestra bira sladoled od čokolade i vanilije. Brat želi sladoled od jagode. Sladoled je hladan i jako sladak. Djeca sretno jedu sladoled na klupi.',
@@ -7134,7 +7133,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Navečer se obitelj vraća kući umorna, ali sretna. Djeca pokazuju baki fotografije životinja. Svi se slažu da je dan bio divan. Mama obećava da će opet doći u proljeće. Zoološki vrt u Zagrebu ostaje njihovo omiljeno mjesto za izlete.',
-        en: 'In the evening the family returns home tired but happy. The children show grandma the photos of the animals. Everyone agrees the day was wonderful. Mum promises they will come again in spring. The Zagreb Zoo remains their favorite place for outings.',
+        en: 'In the evening the family returns home tired but happy. The children show grandma the photos of the animals. Everyone agrees the day was wonderful. Mom promises they will come again in spring. The Zagreb Zoo remains their favorite place for outings.',
       },
     ],
     vocabulary: [
@@ -7201,7 +7200,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Brat Marko još spava dubokim snom. Ana ga budi i viče: 'Snijeg pada!' Marko brzo otvara oči i smiješi se. Oboje trče u kuhinju gdje je mama. Mama sprema toplu kašu za doručak. Poslije doručka djeca oblače tople jakne i kape.",
-        en: "Her brother Marko is still fast asleep. Ana wakes him and shouts, 'Snow is falling!' Marko quickly opens his eyes and smiles. Both of them run to the kitchen where mum is. Mum is making warm porridge for breakfast. After breakfast the children put on warm jackets and hats.",
+        en: "Her brother Marko is still fast asleep. Ana wakes him and shouts, 'Snow is falling!' Marko quickly opens his eyes and smiles. Both of them run to the kitchen where mom is. Mom is making warm porridge for breakfast. After breakfast the children put on warm jackets and hats.",
       },
       {
         hr: 'Cijela obitelj oblači tople čizme i debele rukavice. Tata uzima sanjke iz male garaže. Zajedno hodaju prema obližnjem parku. Snijeg glasno škripi pod njihovim nogama. Djeca su vrlo uzbuđena i brzo hodaju naprijed. U parku već ima mnogo djece i sanjki.',
@@ -7225,15 +7224,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kod kuće svi skidaju mokru odjeću i čizme. Mama vješa jakne pored peći da se osuše. Djeca oblače tople papuče i suhe čarape. Vani i dalje polako pada snijeg. Kroz prozor gledaju kako ulica postaje sve bjelja. Kuća je topla i mirisna.',
-        en: 'At home everyone takes off their wet clothes and boots. Mum hangs the jackets by the stove to dry. The children put on warm slippers and dry socks. Outside it keeps snowing slowly. Through the window they watch the street turn whiter and whiter. The house is warm and fragrant.',
+        en: 'At home everyone takes off their wet clothes and boots. Mom hangs the jackets by the stove to dry. The children put on warm slippers and dry socks. Outside it keeps snowing slowly. Through the window they watch the street turn whiter and whiter. The house is warm and fragrant.',
       },
       {
         hr: 'Mama sprema vruću čokoladu za svu djecu. Stavlja i malo šlaga na vrh. Marko i Ana sjede za stolom i piju čokoladu. Vruća čokolada grije ruke i dušu. Tata priča priču o snijegu iz svog djetinjstva. Svima je ugodno i toplo u kući.',
-        en: 'Mum makes hot chocolate for all the children. She adds a little whipped cream on top. Marko and Ana sit at the table and drink the chocolate. The hot chocolate warms their hands and their spirits. Dad tells a story about snow from his own childhood. Everyone feels cozy and warm in the house.',
+        en: 'Mom makes hot chocolate for all the children. She adds a little whipped cream on top. Marko and Ana sit at the table and drink the chocolate. The hot chocolate warms their hands and their spirits. Dad tells a story about snow from his own childhood. Everyone feels cozy and warm in the house.',
       },
       {
         hr: 'Navečer Ana gleda kroz prozor na snjegovića. Snjegović stoji ponosno ispred kuće. Ana se raduje sutrašnjem danu punom snijega. Nada se da će se opet sanjkati s bratom. Prije spavanja zahvaljuje mami na toploj čokoladi. Ovaj dan ostaje njezina najdraža zimska uspomena.',
-        en: 'In the evening Ana looks through the window at the snowman. The snowman stands proudly in front of the house. Ana looks forward to tomorrow, a day full of snow. She hopes to go sledding with her brother again. Before sleeping she thanks mum for the hot chocolate. This day remains her favorite winter memory.',
+        en: 'In the evening Ana looks through the window at the snowman. The snowman stands proudly in front of the house. Ana looks forward to tomorrow, a day full of snow. She hopes to go sledding with her brother again. Before sleeping she thanks mom for the hot chocolate. This day remains her favorite winter memory.',
       },
     ],
     vocabulary: [
@@ -7275,7 +7274,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što mama sprema djeci kod kuće?',
-        qEn: 'What does mum make for the children at home?',
+        qEn: 'What does mom make for the children at home?',
         opts: ['Topli čaj', 'Vruću čokoladu', 'Vruću juhu', 'Kakao s medom'],
         correct: 1,
       },
@@ -7292,7 +7291,7 @@ export const GRADED_STORIES = [
     duration: 9,
     focus: 'V-form politeness • Present tense • Salon vocabulary',
     intro:
-      'Ana visits the hairdresser for a new haircut before her birthday. Follow the appointment from booking to payment.',
+      'Ana visits the hairdresser for a new haircut before her birthday. Follow the appointment from reservation to payment.',
     paragraphs: [
       {
         hr: 'Ana ima dugu kosu. Kosa je gusta i neuredna. Ana želi novu frizuru za rođendan. Ona nazove frizerski salon telefonom. Frizerka pita: "Kada Vam odgovara termin?" Ana odabire subotu ujutro. Termin je zakazan za deset sati. Ana je vrlo zadovoljna.',
@@ -7404,7 +7403,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Moj grad je malen, ali vrlo lijep. Nalazi se u srcu Hrvatske. Svako jutro šetam kroz centar grada. Volim promatrati stare kuće i uske ulice. Grad ima dugu i zanimljivu povijest. Ljudi ovdje su ljubazni i vedri. Osjećam se ovdje kao kod kuće.',
-        en: "My town is small but very beautiful. It's located in the heart of Croatia. Every morning I walk through the town centre. I like watching the old houses and narrow streets. The town has a long and interesting history. People here are kind and cheerful. I feel at home here.",
+        en: "My town is small but very beautiful. It's located in the heart of Croatia. Every morning I walk through the town center. I like watching the old houses and narrow streets. The town has a long and interesting history. People here are kind and cheerful. I feel at home here.",
       },
       {
         hr: 'Prva postaja moje šetnje je glavni trg. Trg je uvijek pun ljudi i života. Ujutro trgovci prodaju voće i povrće. Djeca se igraju oko starog vodoskoka. Na trgu stoji velika gradska vijećnica. Ispred vijećnice nalazi se lijep kip. Volim sjediti ovdje s kavom.',
@@ -7416,19 +7415,19 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Od crkve idem prema rijeci. Rijeka teče polako kroz cijeli grad. Voda je čista i hladna. Uz obalu rastu visoke topole. Ribiči sjede tiho i love ribu. Preko rijeke vodi stari kameni most. S mosta se pruža prekrasan pogled.',
-        en: "From the church I walk towards the river. The river flows slowly through the whole town. The water is clean and cold. Tall poplars grow along the bank. Fishermen sit quietly and catch fish. An old stone bridge crosses the river. There's a wonderful view from the bridge.",
+        en: "From the church I walk toward the river. The river flows slowly through the whole town. The water is clean and cold. Tall poplars grow along the bank. Fishermen sit quietly and catch fish. An old stone bridge crosses the river. There's a wonderful view from the bridge.",
       },
       {
         hr: 'Nakon rijeke šetam prema staroj pekarnici. Pekarnica se zove "Kod Marije". Miris svježeg kruha širi se ulicom. Svako jutro peku tople kifle i pecivo. Ja uvijek kupujem burek sa sirom. Prodavačica me uvijek pozdravlja s osmijehom. Njezin kruh je najbolji u gradu.',
-        en: 'After the river I walk towards the old bakery. The bakery is called "Kod Marije". The smell of fresh bread spreads through the street. Every morning they bake warm rolls and pastries. I always buy a cheese burek. The shop assistant always greets me with a smile. Her bread is the best in town.',
+        en: 'After the river I walk toward the old bakery. The bakery is called "Kod Marije". The smell of fresh bread spreads through the street. Every morning they bake warm rolls and pastries. I always buy a cheese burek. The salesperson always greets me with a smile. Her bread is the best in town.',
       },
       {
         hr: 'Moje omiljeno mjesto je mali park pored škole. Park ima puno starog drveća i klupa. Tamo često čitam knjigu poslijepodne. Ptice pjevaju na granama iznad mene. Djeca se igraju loptom na travi. Ovaj park mi donosi mir i radost. Volim ovdje provoditi slobodno vrijeme.',
-        en: 'My favourite place is the small park next to the school. The park has lots of old trees and benches. There I often read a book in the afternoon. Birds sing on the branches above me. Children play ball on the grass. This park brings me peace and joy. I love spending my free time here.',
+        en: 'My favorite place is the small park next to the school. The park has lots of old trees and benches. There I often read a book in the afternoon. Birds sing on the branches above me. Children play ball on the grass. This park brings me peace and joy. I love spending my free time here.',
       },
       {
         hr: 'Navečer se vraćam kroz uske uličice starog grada. Kamene ploče na ulicama sjaje na večernjem suncu. Male trgovine prodaju suvenire i razglednice. Turisti fotografiraju stare zgrade i vrata. Ja pozdravljam susjede koje sretnem putem. Grad noću izgleda potpuno drugačije i tiho. Sve svjetiljke polako se pale.',
-        en: 'In the evening I go back through the narrow alleys of the old town. The stone slabs on the streets shine in the evening sun. Small shops sell souvenirs and postcards. Tourists photograph the old buildings and doors. I greet the neighbours I meet along the way. The town looks completely different and quiet at night. All the lamps slowly light up.',
+        en: 'In the evening I go back through the narrow alleys of the old town. The stone slabs on the streets shine in the evening sun. Small shops sell souvenirs and postcards. Tourists photograph the old buildings and doors. I greet the neighbors I meet along the way. The town looks completely different and quiet at night. All the lamps slowly light up.',
       },
       {
         hr: 'Na kraju šetnje sjedam na klupu na trgu. Gledam kako sunce zalazi iza crkvenog zvonika. Grad mi svaki put pokazuje nešto novo. Volim svoj grad zbog mira i ljepote. Ovdje imam obitelj, prijatelje i uspomene. Ovaj grad je zauvijek moj dom.',
@@ -8003,23 +8002,23 @@ export const GRADED_STORIES = [
     levelBg: '#dcfce7',
     icon: '🎬',
     title: 'Idemo u kino',
-    titleEn: "Let's Go to the Cinema",
+    titleEn: "Let's Go to the Movies",
     duration: 9,
     focus: 'Unatoč + dativ • Vokabular: kino i film • Prezent glagola kretanja',
     intro:
-      'A family heads to the cinema for movie night, from choosing a film to sharing popcorn in the dark theater. Afterward they walk home talking about their favorite scenes.',
+      'A family heads to the movies for movie night, from choosing a film to sharing popcorn in the dark theater. Afterward they walk home talking about their favorite scenes.',
     paragraphs: [
       {
         hr: 'Obitelj Kovač planira izlazak u kino. Petak je, poslije večere. Iva i Filip vrlo su uzbuđeni. Tata predlaže da idu odmah. Mama provjerava raspored filmova na internetu. U kinu danas prikazuju tri filma. Iva želi gledati crtani film. Filip radije bira avanturistički film.',
-        en: 'The Kovač family plans a trip to the cinema. It is Friday, after dinner. Iva and Filip are very excited. Dad suggests they go right away. Mom checks the movie schedule online. Three films are showing at the cinema today. Iva wants to watch a cartoon. Filip prefers an adventure film.',
+        en: 'The Kovač family plans a trip to the movies. It is Friday, after dinner. Iva and Filip are very excited. Dad suggests they go right away. Mom checks the movie schedule online. Three films are showing at the movie theater today. Iva wants to watch a cartoon. Filip prefers an adventure film.',
       },
       {
         hr: 'Iva i Filip se ne slažu odmah. Mama predlaže da svi glasaju zajedno. Tata glasa za Ivin crtani film. Mama se slaže s tatinim izborom. Filip je malo tužan zbog odluke. Mama mu obećava sladoled poslije filma. Filip se odmah razveseli tom prijedlogu. Svi zajedno odlučuju krenuti prema kinu.',
-        en: "Iva and Filip don't agree right away. Mom suggests everyone vote together. Dad votes for Iva's cartoon. Mom agrees with dad's choice. Filip is a little sad about the decision. Mom promises him ice cream after the film. Filip immediately cheers up at that suggestion. Together they decide to head to the cinema.",
+        en: "Iva and Filip don't agree right away. Mom suggests everyone vote together. Dad votes for Iva's cartoon. Mom agrees with dad's choice. Filip is a little sad about the decision. Mom promises him ice cream after the film. Filip immediately cheers up at that suggestion. Together they decide to head to the movies.",
       },
       {
         hr: 'Kino je puno ljudi tog petka. Tata stoji u redu za ulaznice. Blagajnica pita koliko ulaznica trebaju. Tata kaže da trebaju četiri ulaznice. Mama bira mjesta u sredini dvorane. Iva plaća svojim džeparcem dio karte. Ulaznice su jeftinije za djecu. Svi zajedno idu prema dvorani broj dva.',
-        en: 'The cinema is full of people that Friday. Dad stands in line for tickets. The cashier asks how many tickets they need. Dad says they need four tickets. Mom chooses seats in the middle of the hall. Iva pays part of the ticket with her allowance. Tickets are cheaper for children. They all go together toward hall number two.',
+        en: 'The movie theater is full of people that Friday. Dad stands in line for tickets. The cashier asks how many tickets they need. Dad says they need four tickets. Mom chooses seats in the middle of the hall. Iva pays part of the ticket with her allowance. Tickets are cheaper for children. They all go together toward hall number two.',
       },
       {
         hr: 'Prije filma kupuju veliku kutiju kokica. Filip želi slane kokice s maslacem. Iva radije bira slatke kokice sa šećerom. Mama kupuje i četiri velika soka. Tata pažljivo nosi pladanj s kokicama. Miris svježih kokica širi se dvoranom. Djeca jedva čekaju ući u dvoranu.',
@@ -8110,7 +8109,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Poslije Luna ulazi u moju sobu i gleda krevet. Skače na jastuk i njuši moju igračku. Onda trči prema hodniku i istražuje ormar za cipele. Mačka je vrlo znatiželjna i brza. Prati svaki zvuk u stanu ušima. Mislim da joj se naš dom sviđa.',
-        en: 'Afterwards Luna enters my room and looks at the bed. She jumps onto the pillow and sniffs my toy. Then she runs toward the hallway and explores the shoe closet. The cat is very curious and fast. She listens to every sound in the apartment with her ears. I think she likes our home.',
+        en: 'Afterward Luna enters my room and looks at the bed. She jumps onto the pillow and sniffs my toy. Then she runs toward the hallway and explores the shoe closet. The cat is very curious and fast. She listens to every sound in the apartment with her ears. I think she likes our home.',
       },
       {
         hr: 'Poslije istraživanja Luna je gladna i umorna. Mama joj priprema malo mokre hrane u zdjelici. Luna njuška hranu prije nego počne jesti. Jede polako i tiho prede dok jede. Ja sjedim kraj nje i gledam je s osmijehom. Poslije obroka Luna lizanjem čisti svoje šape.',
@@ -8571,7 +8570,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Navečer obitelj sjedi na terasi i gleda zalazak sunca. Tata kaže da je vožnja bila duga, ali vrijedna truda. Mama sprema večeru dok djeca još trče po pijesku. Svi su umorni, ali sretni što su konačno na moru. Prvi dan odmora završava mirno uz šum valova.',
-        en: 'In the evening the family sits on the terrace and watches the sunset. Dad says the drive was long but worth the effort. Mom prepares dinner while the children still run around on the sand. Everyone is tired but happy to finally be at the sea. The first day of the holiday ends peacefully with the sound of the waves.',
+        en: 'In the evening the family sits on the terrace and watches the sunset. Dad says the drive was long but worth the effort. Mom prepares dinner while the children still run around on the sand. Everyone is tired but happy to finally be at the sea. The first day of vacation ends peacefully with the sound of the waves.',
       },
     ],
     vocabulary: [
@@ -8807,7 +8806,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Baka i unuka Lucija šeću prema maloj slastičarnici u centru. Sunčano je poslijepodne i ulice su pune ljudi. Lucija veselo priča o školi cijelim putem do trga. Baka joj obećava da danas mogu birati bilo koji kolač. Lucija jedva čeka vidjeti sve slatkiše u izlogu.',
-        en: 'Grandma and her granddaughter Lucija walk toward a small pastry shop downtown. It is a sunny afternoon and the streets are full of people. Lucija talks cheerfully about school the whole way to the square. Grandma promises that today they can choose any cake they want. Lucija can hardly wait to see all the sweets in the window.',
+        en: 'Grandma and her granddaughter Lucija walk toward a small pastry shop downtown. It is a sunny afternoon and the streets are full of people. Lucija talks cheerfully about school the whole way to the square. Grandma promises that today they can choose any cake they want. Lucija can hardly wait to see all the desserts in the window.',
       },
       {
         hr: 'Kad uđu unutra, zvonce na vratima veselo zazvoni. Slastičarnica miriše na vaniliju, čokoladu i svježe pečeno tijesto. Iza staklene vitrine poredani su razni kolači i torte. Lucija prilijepi nos na staklo i pažljivo gleda svaki slatkiš. Baka se smiješi i kaže da ima vremena za odluku.',
@@ -8815,7 +8814,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U vitrini stoji čokoladna torta s debelim slojem kreme. Pored nje je žuta limunska torta posuta sitnim šećerom. Lucija vidi i male kolače s jagodama i vrhnjem. Boje slatkiša su smeđe, žute, crvene i bijele poput duge. Teško je odabrati samo jedan kolač između toliko izbora.',
-        en: "In the display case stands a chocolate cake with a thick layer of cream. Next to it is a yellow lemon cake dusted with fine sugar. Lucija also sees small pastries with strawberries and whipped cream. The colors of the sweets are brown, yellow, red, and white like a rainbow. It's hard to choose just one cake among so many options.",
+        en: "In the display case stands a chocolate cake with a thick layer of cream. Next to it is a yellow lemon cake dusted with fine sugar. Lucija also sees small pastries with strawberries and whipped cream. The colors of the desserts are brown, yellow, red, and white like a rainbow. It's hard to choose just one cake among so many options.",
       },
       {
         hr: 'Prodavačica iza pulta strpljivo čeka da se Lucija odluči. Lucija pokazuje prstom prvo na čokoladnu, pa na limunsku tortu. Baka predlaže da uzmu jedan komad i podijele ga zajedno. Lucija se složi i konačno bira čokoladnu tortu s kremom. Prodavačica pažljivo reže komad i stavlja ga na tanjur.',
@@ -8831,7 +8830,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad pojedu cijeli komad torte, obje su vrlo site. Baka zahvaljuje ljubaznoj prodavačici na kolaču. Lucija još jednom pogleda vitrinu i sve slatkiše unutra. Obećava sebi da će sljedeći put probati limunsku tortu. Zajedno ustaju od stola i polako kreću prema izlazu.',
-        en: 'When they finish the whole piece of cake, they are both quite full. Grandma thanks the kind saleswoman for the cake. Lucija looks at the display case once more and all the sweets inside. She promises herself she will try the lemon cake next time. Together they get up from the table and slowly head for the exit.',
+        en: 'When they finish the whole piece of cake, they are both quite full. Grandma thanks the kind saleswoman for the cake. Lucija looks at the display case once more and all the desserts inside. She promises herself she will try the lemon cake next time. Together they get up from the table and slowly head for the exit.',
       },
       {
         hr: 'Vani je zrak svjež i ulice su još uvijek pune ljudi. Baka i Lucija drže se za ruke i polako hodaju kući. Lucija priča kako joj je krema na torti bila najbolja. Baka se smije i kaže da će opet doći zajedno sljedeći mjesec.',
@@ -8924,19 +8923,19 @@ export const GRADED_STORIES = [
     levelBg: '#dcfce7',
     icon: '🎒',
     title: 'Prvi dan praznika',
-    titleEn: 'The First Day of Holidays',
+    titleEn: 'The First Day of Vacation',
     duration: 9,
     focus: 'škola • praznici • prijatelji',
     intro:
-      'The school year ends and summer holidays begin. A boy wakes up to a whole free day with no plans at all.',
+      'The school year ends and summer vacation begin. A boy wakes up to a whole free day with no plans at all.',
     paragraphs: [
       {
         hr: 'Danas je posljednji dan škole prije ljetnih praznika. Učiteljica dijeli svjedodžbe i čestita djeci na uspjehu. Filip pažljivo stavlja svjedodžbu u svoju praznu torbu. Razred je pun smijeha, buke i uzbuđenja zbog praznika. Svi jedva čekaju zvono koje označava kraj školske godine.',
-        en: 'Today is the last day of school before summer holidays. The teacher hands out report cards and congratulates the children on their success. Filip carefully puts his report card into his empty bag. The classroom is full of laughter, noise, and excitement about the holidays. Everyone can hardly wait for the bell marking the end of the school year.',
+        en: 'Today is the last day of school before summer vacation. The teacher hands out report cards and congratulates the children on their success. Filip carefully puts his report card into his empty bag. The classroom is full of laughter, noise, and excitement about vacation. Everyone can hardly wait for the bell marking the end of the school year.',
       },
       {
         hr: 'Kad zvono napokon zazvoni, djeca glasno viču od sreće. Filip trči prema izlazu s praznom torbom na leđima. Nema više knjiga, bilježnica ni domaćih zadaća do jeseni. Torba je danas laka jer u njoj gotovo ništa nema. Filip osjeća veliko olakšanje dok izlazi iz školske zgrade.',
-        en: "When the bell finally rings, the children shout loudly with joy. Filip runs toward the exit with an empty bag on his back. There are no more books, notebooks, or homework until autumn. The bag is light today because there's almost nothing in it. Filip feels great relief as he walks out of the school building.",
+        en: "When the bell finally rings, the children shout loudly with joy. Filip runs toward the exit with an empty bag on his back. There are no more books, notebooks, or homework until fall. The bag is light today because there's almost nothing in it. Filip feels great relief as he walks out of the school building.",
       },
       {
         hr: 'Navečer Filip stavlja budilicu daleko u ormar, ne na stol. Sutra ne mora ustati rano niti žuriti u školu. Prvi put nakon mjeseci može spavati koliko god želi. Mama mu kaže laku noć i gasi svjetlo u sobi. Filip zaspi sretan misleći na dugo ljeto pred sobom.',
@@ -8948,7 +8947,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Za doručkom Filip jede palačinke koje mama danas posebno peče. Tata čita novine i pita ga za planove za praznike. Filip kaže da danas ne planira baš ništa određeno. Prvi dan praznika želi samo uživati bez ikakve žurbe. Mama se smiješi i kaže da to zvuči savršeno.',
-        en: "At breakfast Filip eats pancakes that mom is making specially today. Dad reads the newspaper and asks him about his plans for the holidays. Filip says he doesn't plan anything specific for today. On the first day of the holidays he just wants to relax without any rush. Mom smiles and says that sounds perfect.",
+        en: "At breakfast Filip eats pancakes that mom is making specially today. Dad reads the newspaper and asks him about his plans for vacation. Filip says he doesn't plan anything specific for today. On the first day of vacation he just wants to relax without any rush. Mom smiles and says that sounds perfect.",
       },
       {
         hr: 'Poslije doručka Filip zove svog prijatelja Ivana telefonom. Ivan također ima slobodan dan i veselo se javlja. Dogovaraju se da se nađu poslijepodne kod obližnjeg igrališta. Filip brzo oblači kratke hlače i majicu za van. Osjeća se sretno jer zna da ga cijelo ljeto čeka zabava.',
@@ -8956,15 +8955,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Na igralištu Filip i Ivan igraju nogomet do ručka. Sunce jako grije, pa poslije igre piju hladnu vodu. Pričaju o tome što žele raditi tijekom cijelog ljeta. Ivan želi ići na more, a Filip u planine. Oboje se slažu da će praznici biti dugi i lijepi.',
-        en: 'At the playground Filip and Ivan play soccer until lunchtime. The sun is very hot, so after playing they drink cold water. They talk about what they want to do during the whole summer. Ivan wants to go to the seaside, while Filip wants to go to the mountains. Both agree the holidays will be long and wonderful.',
+        en: 'At the playground Filip and Ivan play soccer until lunchtime. The sun is very hot, so after playing they drink cold water. They talk about what they want to do during the whole summer. Ivan wants to go to the seaside, while Filip wants to go to the mountains. Both agree vacation will be long and wonderful.',
       },
       {
         hr: 'Navečer se Filip vraća kući umoran, ali vrlo zadovoljan danom. Priča mami i tati o igri i planovima s Ivanom. Torba mu i dalje stoji prazna u kutu sobe. Neće mu trebati do jeseni, kad počne nova školska godina. Filip zna da ga čekaju dugi i bezbrižni ljetni dani.',
-        en: "In the evening Filip comes home tired but very pleased with the day. He tells mom and dad about the game and his plans with Ivan. His bag still sits empty in the corner of the room. He won't need it until autumn, when the new school year begins. Filip knows long, carefree summer days await him.",
+        en: "In the evening Filip comes home tired but very pleased with the day. He tells mom and dad about the game and his plans with Ivan. His bag still sits empty in the corner of the room. He won't need it until fall, when the new school year begins. Filip knows long, carefree summer days await him.",
       },
       {
         hr: 'Prije spavanja Filip gleda kroz prozor u zvjezdano nebo. Sutra planira opet ići na igralište s prijateljima. Osjeća da će ovo ljeto biti puno igre i sunca. Zaspi miran, bez brige o školi ili budilici. Prvi dan praznika bio je točno onakav kakav je zamišljao.',
-        en: 'Before falling asleep Filip looks out the window at the starry sky. Tomorrow he plans to go to the playground again with friends. He feels this summer will be full of play and sunshine. He falls asleep peacefully, without worrying about school or the alarm clock. The first day of the holidays was exactly as he had imagined.',
+        en: 'Before falling asleep Filip looks out the window at the starry sky. Tomorrow he plans to go to the playground again with friends. He feels this summer will be full of play and sunshine. He falls asleep peacefully, without worrying about school or the alarm clock. The first day of vacation was exactly as he had imagined.',
       },
     ],
     vocabulary: [
@@ -8981,7 +8980,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'praznici',
-        en: 'holidays',
+        en: 'vacation',
         ex: 'Danas je posljednji dan škole prije ljetnih praznika.',
       },
       {
@@ -9083,7 +9082,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prije povratka kući, obitelj je stala u malom selu blizu parka. Kupili su domaći sir i med od lokalnih seljaka. Prodavačica im je pričala o jezeru. Rekla je da će park uskoro biti još ljepši u jesen. Djeca su obećala da će opet doći sljedeće godine. Majka je fotografirala cijelu obitelj ispred stare vodenice.',
-        en: 'Before heading home, the family stopped in a small village near the park. They bought homemade cheese and honey from local farmers. The saleswoman told them about the lake. She said the park would soon be even more beautiful in autumn. The children promised they would come again next year. Mom photographed the whole family in front of an old watermill.',
+        en: 'Before heading home, the family stopped in a small village near the park. They bought homemade cheese and honey from local farmers. The saleswoman told them about the lake. She said the park would soon be even more beautiful in fall. The children promised they would come again next year. Mom photographed the whole family in front of an old watermill.',
       },
       {
         hr: 'Na putu kući, djeca su pričala o svojim omiljenim vodopadima. Otac je vozio polako jer je cesta bila puna zavoja. Majka je rekla da će sljedeći put ostati duže. Svi su se složili da su Plitvice čudesne. Kad su stigli u Zagreb, bili su umorni ali sretni. Vikend na Plitvicama ostat će dugo u sjećanju.',
@@ -9209,7 +9208,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Nakon kolača i kave, svi su izašli u vrt. Djeca su igrala nogomet, a odrasli su sjedili i razgovarali. Sunce je polako zalazilo iza susjednih brežuljaka. Baka Zora je gledala svoju obitelj s velikim ponosom. Ovaj nedjeljni ručak bio je poseban jer je spojio generacije. Filip je otputovao sljedeći dan, ali obećanje je ostalo.',
-        en: 'After cake and coffee, everyone went out into the garden. The children played football while the adults sat and talked. The sun slowly set behind the neighboring hills. Grandma Zora watched her family with great pride. This Sunday lunch was special because it brought the generations together. Filip left the next day, but the promise remained.',
+        en: 'After cake and coffee, everyone went out into the garden. The children played soccer while the adults sat and talked. The sun slowly set behind the neighboring hills. Grandma Zora watched her family with great pride. This Sunday lunch was special because it brought the generations together. Filip left the next day, but the promise remained.',
       },
     ],
     vocabulary: [
@@ -9452,7 +9451,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Svake jeseni baka Zora poziva unuku Lauru da joj pomogne oko zimnice. Ove godine Laura je prvi put ozbiljno sudjelovala u cijelom procesu. Rano ujutro stigla je k baki na selo, gdje su je čekale vreće svježe paprike. Baka je već pripremila veliki lonac i daske za rezanje. Kuhinja je mirisala na papriku i češnjak.',
-        en: "Every autumn, Grandma Zora invites her granddaughter Laura to help her with the winter preserves. This year, Laura took part in the whole process seriously for the first time. She arrived early in the morning at her grandmother's village house, where sacks of fresh peppers were waiting for her. Grandma had already prepared a big pot and cutting boards. The kitchen smelled of peppers and garlic.",
+        en: "Every fall, Grandma Zora invites her granddaughter Laura to help her with the winter preserves. This year, Laura took part in the whole process seriously for the first time. She arrived early in the morning at her grandmother's village house, where sacks of fresh peppers were waiting for her. Grandma had already prepared a big pot and cutting boards. The kitchen smelled of peppers and garlic.",
       },
       {
         hr: 'Prvi zadatak bio je oprati papriku pod hladnom vodom. Laura je pažljivo prala svaku papriku, a baka je provjeravala je li dovoljno čista. Zatim su zajedno pekle papriku na velikom pladnju u pećnici. Kad je koža paprike postala tamna i mjehurasta, baka ju je izvadila i pokrila krpom da se ohladi.',
@@ -9741,7 +9740,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Kad je stiglo proljeće, obitelj Kovač je odlučila napraviti mali vrt na balkonu. Balkon je bio prilično malen, ali sunčan cijeli dan. Mama je predložila da posade rajčice i začinsko bilje. Djeca su bila oduševljena idejom vlastitog vrta. Tata je kupio nekoliko drvenih sanduka za sadnju. Svi su zajedno otišli u vrtni centar po sjeme.',
-        en: 'When spring arrived, the Kovač family decided to make a small garden on the balcony. The balcony was rather small, but sunny all day. Mum suggested they plant tomatoes and herbs. The children were thrilled by the idea of their own garden. Dad bought several wooden crates for planting. They all went together to the garden center for seeds.',
+        en: 'When spring arrived, the Kovač family decided to make a small garden on the balcony. The balcony was rather small, but sunny all day. Mom suggested they plant tomatoes and herbs. The children were thrilled by the idea of their own garden. Dad bought several wooden crates for planting. They all went together to the garden center for seeds.',
       },
       {
         hr: 'U vrtnom centru prodavačica im je pomogla odabrati sjeme. Kupili su sjeme rajčice, bosiljka i peršina. Prodavačica im je savjetovala da kupe i malo zemlje za lonce. Tata je platio račun od dvadeset i pet eura. Kod kuće su djeca s velikim veseljem raspakirala vrećice sjemena. Odmah su htjeli početi sa sadnjom.',
@@ -9749,11 +9748,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prvi vikend u travnju posvetili su sadnji. Mama je napunila sanduke crnom zemljom. Marko je pažljivo stavljao sjemenke rajčice u zemlju. Sestra Lucija je sadila bosiljak i peršin u male lonce. Tata je sve zalio vodom iz kante. Na kraju su sanduke poredali uz ogradu balkona.',
-        en: 'They devoted the first weekend of April to planting. Mum filled the crates with black soil. Marko carefully placed the tomato seeds into the soil. Sister Lucija planted basil and parsley in small pots. Dad watered everything from a watering can. In the end they lined the crates up along the balcony railing.',
+        en: 'They devoted the first weekend of April to planting. Mom filled the crates with black soil. Marko carefully placed the tomato seeds into the soil. Sister Lucija planted basil and parsley in small pots. Dad watered everything from a watering can. In the end they lined the crates up along the balcony railing.',
       },
       {
         hr: 'Sljedećih dana obitelj je uspostavila rutinu zalijevanja. Svako jutro prije škole Lucija je zalijevala biljke. Marko je navečer provjeravao je li zemlja suha. Djeca su se izmjenjivala tko će zalijevati vikendom. Ponekad su zaboravljali, pa je mama podsjećala djecu. Polako su prve zelene mladice počele nicati iz zemlje.',
-        en: 'Over the following days the family established a watering routine. Every morning before school Lucija watered the plants. In the evening Marko checked whether the soil was dry. The children took turns watering on weekends. Sometimes they forgot, so mum would remind the children. Slowly the first green shoots began to sprout from the soil.',
+        en: 'Over the following days the family established a watering routine. Every morning before school Lucija watered the plants. In the evening Marko checked whether the soil was dry. The children took turns watering on weekends. Sometimes they forgot, so mom would remind the children. Slowly the first green shoots began to sprout from the soil.',
       },
       {
         hr: 'Sredinom svibnja jaka oluja pogodila je grad. Vjetar je gotovo srušio jedan drveni sanduk s balkona. Tata je brzo pritrčao i pridržao sanduke rukama. Obitelj je premjestila najosjetljivije biljke bliže zidu. Poslije oluje provjerili su je li koja biljka oštećena. Srećom, samo je nekoliko listova bilo slomljeno.',
@@ -9769,7 +9768,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Krajem srpnja obitelj je konačno obrala prve rajčice. Ubrali su i svježi bosiljak za večeru. Mama je od rajčica napravila ukusnu salatu. Djeca su bila ponosna na svoj prvi urod. Tata je fotografirao sanduke pune zrelih rajčica. Svi su se složili da su te rajčice najslađe koje su ikad jeli.',
-        en: 'At the end of July the family finally picked the first tomatoes. They also picked fresh basil for dinner. Mum made a delicious salad from the tomatoes. The children were proud of their first harvest. Dad photographed the crates full of ripe tomatoes. Everyone agreed those were the sweetest tomatoes they had ever eaten.',
+        en: 'At the end of July the family finally picked the first tomatoes. They also picked fresh basil for dinner. Mom made a delicious salad from the tomatoes. The children were proud of their first harvest. Dad photographed the crates full of ripe tomatoes. Everyone agreed those were the sweetest tomatoes they had ever eaten.',
       },
       {
         hr: 'Obitelj je odlučila podijeliti urod sa susjedima. Lucija je odnijela košaricu rajčica susjedi Ivani. Ivana im je zahvalila na lijepom daru. Susjed s prvog kata dobio je svežanj svježeg bosiljka. Svi susjedi su pohvalili okus domaćeg povrća. Obitelj Kovač već planira veći vrt sljedećeg proljeća.',
@@ -9853,7 +9852,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Prošle nedjelje cijela obitelj otišla je u gradski muzej. Tata je predložio izlet još u petak navečer. Mama je odmah pristala jer voli povijest. Djeca su bila malo manje oduševljena isprva. Ipak, svi su se zajedno spremili ujutro. Muzej se nalazi u središtu starog grada. Stigli smo autobusom oko deset sati.',
-        en: "Last Sunday the whole family went to the city museum. Dad had suggested the trip already on Friday evening. Mom agreed at once because she loves history. The children were a little less enthusiastic at first. Still, everyone got ready together in the morning. The museum is located in the centre of the old town. We arrived by bus around ten o'clock.",
+        en: "Last Sunday the whole family went to the city museum. Dad had suggested the trip already on Friday evening. Mom agreed at once because she loves history. The children were a little less enthusiastic at first. Still, everyone got ready together in the morning. The museum is located in the center of the old town. We arrived by bus around ten o'clock.",
       },
       {
         hr: 'Na ulazu smo kupili karte na blagajni. Djelatnica je objasnila da postoji popust za obitelji. Tata je platio karticom, a mama je uzela brošuru. Karte su uključivale i audio-vodič na hrvatskom jeziku. Djeca su dobila male bilježnice za bilješke. Svi smo bili spremni za istraživanje izložbe.',
@@ -9861,7 +9860,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prva prostorija bila je posvećena antičkoj povijesti grada. Vidjeli smo stare novčiće, posuđe i nakit. Svaki eksponat imao je malu pločicu s objašnjenjem. Sin je bio oduševljen starim rimskim mačem. Kćer je najviše voljela staklene perle iz groba. Proveli smo tamo skoro pola sata gledajući eksponate.',
-        en: 'The first room was dedicated to the ancient history of the town. We saw old coins, pottery, and jewellery. Every exhibit had a small plaque with an explanation. Our son was thrilled by an old Roman sword. Our daughter loved the glass beads from a grave the most. We spent almost half an hour there looking at the exhibits.',
+        en: 'The first room was dedicated to the ancient history of the town. We saw old coins, pottery, and jewelry. Every exhibit had a small plaque with an explanation. Our son was thrilled by an old Roman sword. Our daughter loved the glass beads from a grave the most. We spent almost half an hour there looking at the exhibits.',
       },
       {
         hr: 'Zatim nam se pridružila turistička vodičica. Predstavila se kao Marija i pozdravila sve goste. Ispričala je priču o osnutku grada prije mnogo stoljeća. Objasnila je kako je grad preživio potrese i ratove. Njezina priča bila je zanimljiva i puna detalja. Djeca su pažljivo slušala svaku njezinu riječ.',
@@ -9869,11 +9868,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Vodičica nas je odvela u dvoranu sa srednjovjekovnim oklopima. Ispričala je legendu o vitezu koji je branio grad. Prema legendi, vitez je pobijedio neprijatelja lukavstvom, a ne mačem. Djeca su bila oduševljena tom pričom o hrabrosti. Tata je postavio nekoliko pitanja o oružju. Vodičica je strpljivo odgovorila na sva pitanja.',
-        en: 'The guide took us to a hall with medieval armour. She told a legend about a knight who defended the town. According to the legend, the knight defeated the enemy with cunning, not with a sword. The children were thrilled by this story of courage. Dad asked a few questions about the weapons. The guide patiently answered all the questions.',
+        en: 'The guide took us to a hall with medieval armor. She told a legend about a knight who defended the town. According to the legend, the knight defeated the enemy with cunning, not with a sword. The children were thrilled by this story of courage. Dad asked a few questions about the weapons. The guide patiently answered all the questions.',
       },
       {
         hr: 'Nakon dvorane s oklopima ušli smo u umjetničku galeriju. Na zidovima su visjele slike poznatih hrvatskih slikara. Mama je najduže stajala ispred jedne velike morske slike. Rekla je da je boje podsjećaju na djetinjstvo u Dalmaciji. Kćer je fotografirala nekoliko slika za školski zadatak. Svi smo uživali u tišini galerije.',
-        en: 'After the armour hall we entered the art gallery. Paintings by famous Croatian painters hung on the walls. Mom stood the longest in front of a large seascape. She said the colours reminded her of her childhood in Dalmatia. Our daughter photographed several paintings for a school assignment. We all enjoyed the quiet of the gallery.',
+        en: 'After the armor hall we entered the art gallery. Paintings by famous Croatian painters hung on the walls. Mom stood the longest in front of a large seascape. She said the colors reminded her of her childhood in Dalmatia. Our daughter photographed several paintings for a school assignment. We all enjoyed the quiet of the gallery.',
       },
       {
         hr: 'Obilazak je završio u dvorani s modelom starog grada. Model je pokazivao kako je grad izgledao prije dva stoljeća. Vodičica je objasnila koje su zgrade srušene, a koje sačuvane. Sin je na modelu pronašao našu ulicu i kuću. Svi smo se nasmijali kad je to primijetio. Vodičica je zahvalila na pažnji i pozdravila se.',
@@ -9977,7 +9976,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Prošle subote ujutro nestala je internetska veza u cijeloj kući. Sin je odmah pokušao ponovno pokrenuti router. Nažalost, ni to nije pomoglo nimalo. Kćer je bila jako ljuta jer nije mogla gledati serije. Mama je nazvala davatelja usluga i čekala na liniji. Rekli su da je kvar u cijelom naselju.',
-        en: "Last Saturday morning the internet connection in the whole house went out. The son immediately tried to restart the router. Unfortunately, that didn't help at all. The daughter was very angry because she couldn't watch her shows. Mom called the service provider and waited on the line. They said there was a fault across the whole neighbourhood.",
+        en: "Last Saturday morning the internet connection in the whole house went out. The son immediately tried to restart the router. Unfortunately, that didn't help at all. The daughter was very angry because she couldn't watch her shows. Mom called the service provider and waited on the line. They said there was a fault across the whole neighborhood.",
       },
       {
         hr: 'Tata je predložio da isključe sve uređaje i "prežive" dan. Djeca su isprva mislila da je to loša ideja. Nisu znali što raditi bez mobitela i televizora. Mama je predložila da potraže staru kutiju s igrama. Pronašli su društvenu igru "Čovječe, ne ljuti se". Svi su sjeli za stol u dnevnoj sobi.',
@@ -10009,7 +10008,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Sljedeći tjedan pričali su prijateljima o svom neobičnom danu. Prijatelji su bili iznenađeni i pomalo ljubomorni na njih. Nekolicina je odmah odlučila isprobati isto kod kuće. Obitelj je zaključila da im tehnologija ipak ne nedostaje previše. Od tada svaka subota ima barem jedan sat bez ekrana. Taj mali obred postao je omiljeni dio tjedna.',
-        en: "The following week they told their friends about their unusual day. Their friends were surprised and a little envious of them. A few of them immediately decided to try the same at home. The family concluded that they didn't really miss technology that much. Since then every Saturday has at least one hour without a screen. That little ritual has become a favourite part of the week.",
+        en: "The following week they told their friends about their unusual day. Their friends were surprised and a little envious of them. A few of them immediately decided to try the same at home. The family concluded that they didn't really miss technology that much. Since then every Saturday has at least one hour without a screen. That little ritual has become a favorite part of the week.",
       },
     ],
     vocabulary: [
@@ -10101,11 +10100,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U subotu ujutro Ivana je otvorila veliki ormar u hodniku. Unutra je našla stare cipele, zimske jakne i nekoliko kutija. Neke stvari nije koristila već godinama. Odlučila je da mora biti stroža prema sebi. Sve što nije nosila dvije godine stavila je u vreću za doniranje. Ormar je polako postajao prazniji i pregledniji.',
-        en: "On Saturday morning Ivana opened the big wardrobe in the hallway. Inside she found old shoes, winter jackets and several boxes. She hadn't used some things for years. She decided she had to be stricter with herself. Everything she hadn't worn in two years she put into a bag for donation. The wardrobe slowly became emptier and tidier.",
+        en: "On Saturday morning Ivana opened the big closet in the hallway. Inside she found old shoes, winter jackets and several boxes. She hadn't used some things for years. She decided she had to be stricter with herself. Everything she hadn't worn in two years she put into a bag for donation. The closet slowly became emptier and tidier.",
       },
       {
         hr: 'Nakon ormara, Ivana je prešla na policu s knjigama. Knjige su bile prekrivene tankim slojem prašine. Obrisala je svaku policu vlažnom krpom. Poredala je knjige po veličini i temi. Neke stare udžbenike odlučila je pokloniti susjedovoj kćeri. Djevojčica je upravo krenula u srednju školu. Ivana se obradovala što knjige neće samo stajati nekorištene.',
-        en: "After the wardrobe, Ivana moved on to the bookshelf. The books were covered in a thin layer of dust. She wiped every shelf with a damp cloth. She arranged the books by size and topic. She decided to give some old textbooks to her neighbor's daughter. The girl had just started high school. Ivana was glad the books wouldn't just sit unused.",
+        en: "After the closet, Ivana moved on to the bookshelf. The books were covered in a thin layer of dust. She wiped every shelf with a damp cloth. She arranged the books by size and topic. She decided to give some old textbooks to her neighbor's daughter. The girl had just started high school. Ivana was glad the books wouldn't just sit unused.",
       },
       {
         hr: 'Ispod hrpe starih časopisa, Ivana je pronašla nešto neočekivano. Bio je to stari album s fotografijama, koji je pripadao njezinoj baki. Baka je preminula prije pet godina. Ivana je sjela na pod i polako listala stranice. Na fotografijama su bili baka, djed i cijela obitelj. Neke slike Ivana nikada prije nije vidjela.',
@@ -10113,11 +10112,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Jedna fotografija posebno je dirnula Ivanu. Na njoj je bila baka kao mlada žena, nasmijana na moru. Ivana se sjetila ljetnih praznika kod bake u Dalmaciji. Odlučila je album ne baciti, nego ga pažljivo spremiti. Stavila je album u posebnu kutiju s natpisom 'Obiteljske uspomene'. Osjećala se sretno što je nešto tako vrijedno pronašla.",
-        en: "One photograph moved Ivana especially. In it was her grandmother as a young woman, smiling by the sea. Ivana remembered summer holidays at her grandmother's in Dalmatia. She decided not to throw away the album, but to keep it carefully. She put the album into a special box labeled 'Family Memories'. She felt happy to have found something so valuable.",
+        en: "One photograph moved Ivana especially. In it was her grandmother as a young woman, smiling by the sea. Ivana remembered summer vacation at her grandmother's in Dalmatia. She decided not to throw away the album, but to keep it carefully. She put the album into a special box labeled 'Family Memories'. She felt happy to have found something so valuable.",
       },
       {
         hr: 'Poslije albuma, Ivana je nastavila s ormarom pored kreveta. Tamo je čuvala odjeću koju odavno nije nosila. Izdvojila je nekoliko jakni, majica i traperica. Odjeću je pažljivo složila u velike vreće. Sutra planira sve odnijeti u dobrotvornu udrugu blizu tržnice. Sada joj je važnije da netko drugi ima korist od odjeće.',
-        en: "After the album, Ivana continued with the wardrobe by the bed. There she kept clothes she hadn't worn in a long time. She set aside a few jackets, shirts and jeans. She carefully packed the clothes into large bags. Tomorrow she plans to take everything to a charity near the market. Now it matters more to her that someone else benefits from the clothes.",
+        en: "After the album, Ivana continued with the closet by the bed. There she kept clothes she hadn't worn in a long time. She set aside a few jackets, shirts and jeans. She carefully packed the clothes into large bags. Tomorrow she plans to take everything to a charity near the market. Now it matters more to her that someone else benefits from the clothes.",
       },
       {
         hr: 'Popodne je Ivana očistila kuhinju i dnevni boravak. Oprala je prozore i obrisala prašinu s polica. Usisala je tepihe i pomela pod. Posložila je jastuke na kauču lijepo i uredno. Stan je počeo mirisati na limun. Ivana je osjećala umor, ali i veliko zadovoljstvo.',
@@ -10224,7 +10223,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Drugog dana Petra je opet došla u isto vrijeme. Hrana iz zdjelice bila je pojedena preko noći. To je značilo da je Mica bila tamo. Petra je opet napunila zdjelicu svježom hranom. Sjela je tiho na pod i pričekala nekoliko minuta. Iz ormara su je promatrala dva mala svijetla oka. Mica ju je promatrala.',
-        en: 'On the second day Petra came again at the same time. The food from the bowl had been eaten overnight. That meant Mica had been there. Petra filled the bowl again with fresh food. She sat quietly on the floor and waited a few minutes. From inside the wardrobe, two small shining eyes were watching her. Mica was watching her.',
+        en: 'On the second day Petra came again at the same time. The food from the bowl had been eaten overnight. That meant Mica had been there. Petra filled the bowl again with fresh food. She sat quietly on the floor and waited a few minutes. From inside the closet, two small shining eyes were watching her. Mica was watching her.',
       },
       {
         hr: 'Trećeg dana Petra je donijela i igračku za Micu. Bacila je malu lopticu preko sobe. Mica je znatiželjno gledala loptu, ali ostala je skrivena. Petra je sjela na pod i tiho pričala s njom. Govorila je Mici da je sve u redu. Polako je pomaknula ruku prema hrani. Mica je prvi put prišla bliže.',
@@ -10762,7 +10761,7 @@ export const GRADED_STORIES = [
     duration: 10,
     focus: 'Perfekt narrative, travel and family vocabulary, coastal city landmarks',
     intro:
-      'A young woman spends a weekend visiting her aunt in Rijeka, strolling the Korzo, browsing the seaside market, and watching a ferry leave the harbour.',
+      'A young woman spends a weekend visiting her aunt in Rijeka, strolling the Korzo, browsing the seaside market, and watching a ferry leave the harbor.',
     paragraphs: [
       {
         hr: 'U petak popodne sam sjela na autobus za Rijeku. Putovanje je trajalo tri sata, a ja sam uživala u pogledu na planine. Moja teta Vesna živi u Rijeci već dvadeset godina i uvijek me rado poziva u posjet. Jako sam se veselila vikendu s njom.',
@@ -10834,7 +10833,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'luka',
-        en: 'harbour',
+        en: 'harbor',
         ex: 'Navečer smo hodale do luke da gledamo brodove prije večere.',
       },
       {
@@ -11197,7 +11196,7 @@ export const GRADED_STORIES = [
     duration: 10,
     focus: 'Perfekt narrative, furniture assembly vocabulary, problem-solving language',
     intro:
-      'A young woman assembles flat-pack furniture alone, facing confusing instructions and a missing screw before finishing with a proud, straight shelf.',
+      'A young woman assembles furniture from a box alone, facing confusing instructions and a missing screw before finishing with a proud, straight shelf.',
     paragraphs: [
       {
         hr: 'Prošle subote sam kupila novu policu za knjige u velikoj trgovini namještaja. Polica je bila spakirana u ravnu kutiju i trebala sam je sastaviti kod kuće. Kad sam donijela kutiju u sobu, bila je iznenađujuće teška za tanku kutiju. Otvorila sam je s uzbuđenjem i znatiželjom.',
@@ -11355,7 +11354,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Ana i Marko su mladi bračni par iz Splita koji je prošle jeseni odlučio zamijeniti stan u gradu za kamenu kuću u malom selu na Korčuli. Kuću je Ani ostavila baka, no zgrada je gotovo dvadeset godina stajala prazna i uvelike je propadala. Kad su prvi put otvorili teška drvena vrata, osjetili su miris vlage i starog kamena.',
-        en: 'Ana and Marko are a young married couple from Split who decided last autumn to trade their city apartment for a stone house in a small village on Korčula. The house was left to Ana by her grandmother, but the building had stood empty for almost twenty years and was falling into serious disrepair. When they first opened the heavy wooden door, they smelled damp and old stone.',
+        en: 'Ana and Marko are a young married couple from Split who decided last fall to trade their city apartment for a stone house in a small village on Korčula. The house was left to Ana by her grandmother, but the building had stood empty for almost twenty years and was falling into serious disrepair. When they first opened the heavy wooden door, they smelled damp and old stone.',
       },
       {
         hr: 'Iako su oboje imali stalne poslove u Splitu, Marko je uzeo neplaćeni dopust kako bi cijelo ljeto proveo na otoku. Ana je nastavila raditi na daljinu, jer joj poslodavac dopušta rad izvan ureda. Odlučili su da će sami obaviti dio radova, dok će za teže poslove, poput krova, unajmiti lokalne majstore.',
@@ -11492,7 +11491,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Filip je student ekonomije u Zagrebu koji je odlučio ljetne praznike provesti radeći kod tetke Slavice u njezinu vinogradu nedaleko od Iloka. Tetka je svake godine tražila pomoć oko berbe grožđa, a ove je godine, budući da joj je sin otišao studirati u inozemstvo, ostala bez jednog para ruku. Filip se odmah javio da pomogne.',
-        en: 'Filip is an economics student in Zagreb who decided to spend his summer holiday working for his aunt Slavica in her vineyard near Ilok. Every year his aunt needed help with the grape harvest, and this year, since her son had gone abroad to study, she was left without an extra pair of hands. Filip immediately offered to help.',
+        en: 'Filip is an economics student in Zagreb who decided to spend his summer vacation working for his aunt Slavica in her vineyard near Ilok. Every year his aunt needed help with the grape harvest, and this year, since her son had gone abroad to study, she was left without an extra pair of hands. Filip immediately offered to help.',
       },
       {
         hr: 'Kad je stigao vlakom u Vukovar, a odatle autobusom do sela, Filipa je iznenadila tišina koja je vladala uokolo, tako drugačija od zagrebačke vreve. Vinograd se prostirao na blagoj padini iznad sela, a redovi trsova bili su savršeno poravnani, kao da ih je netko izmjerio ravnalom.',
@@ -12517,11 +12516,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Drugi tjedan učili su korake valcera. Vlado je brojao naglas: 'Jedan, dva, tri', dok je par po par prolazio dvoranom. Iva je brzo upamtila slijed koraka, ali Marko je stalno brkao okret ulijevo s okretom udesno. 'Okreni se prema meni, ne od mene!', vikala mu je Iva u šali, a on se samo smijao svojoj nespretnosti.",
-        en: "In the second week they learned the waltz steps. Vlado counted aloud, 'One, two, three,' as couple after couple crossed the hall. Iva quickly memorised the sequence of steps, but Marko kept confusing turning left with turning right. 'Turn toward me, not away from me!' Iva jokingly shouted at him, and he just laughed at his own clumsiness.",
+        en: "In the second week they learned the waltz steps. Vlado counted aloud, 'One, two, three,' as couple after couple crossed the hall. Iva quickly memorized the sequence of steps, but Marko kept confusing turning left with turning right. 'Turn toward me, not away from me!' Iva jokingly shouted at him, and he just laughed at his own clumsiness.",
       },
       {
         hr: "Kod kuće su svaku večer brojali korake naglas. Susjed ispod njih jednom je pokucao na vrata i pitao u šali izvode li iznad njega neku vrstu marša. Nisu odustali od vježbanja. Treći tjedan Vlado je uveo brži ples, nazvan 'jednostavni cha-cha korak', prilagođen početnicima.",
-        en: "At home they counted steps aloud every evening. Their downstairs neighbour once knocked on the door and jokingly asked whether some kind of march was being staged above him. They didn't give up practising. In the third week Vlado introduced a faster dance called the 'simple cha-cha step,' adapted for beginners.",
+        en: "At home they counted steps aloud every evening. Their downstairs neighbor once knocked on the door and jokingly asked whether some kind of march was being staged above him. They didn't give up practicing. In the third week Vlado introduced a faster dance called the 'simple cha-cha step,' adapted for beginners.",
       },
       {
         hr: "'Ne mislite previše, samo osjetite ritam', savjetovao je Vlado. Marko je isprva bio siguran da mu tijelo ne može tako brzo reagirati, no nakon nekoliko pokušaja uspio je zapamtiti osnovni obrazac koraka. Dva tjedna prije vjenčanja Iva je kupila niske cipele s mekim potplatom, prikladnije za vrtnju po parketu, a Marko je posudio smoking od brata.",
@@ -12529,7 +12528,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Na posljednjem satu prije vjenčanja Vlado ih je promatrao kako plešu valcer bez njegovih uputa. 'Konačno se ne gledate u noge', rekao je zadovoljno. 'Sad plešete jedno s drugim, a ne jedno pored drugoga.' Iva i Marko su se pogledali i shvatili da su, gotovo neprimjetno, postali pravi plesni par.",
-        en: "At the last lesson before the wedding, Vlado watched them dance the waltz without his instructions. 'You're finally not looking at your feet,' he said with satisfaction. 'Now you're dancing with each other, not just next to each other.' Iva and Marko looked at each other and realised that, almost imperceptibly, they had become a real dancing couple.",
+        en: "At the last lesson before the wedding, Vlado watched them dance the waltz without his instructions. 'You're finally not looking at your feet,' he said with satisfaction. 'Now you're dancing with each other, not just next to each other.' Iva and Marko looked at each other and realized that, almost imperceptibly, they had become a real dancing couple.",
       },
       {
         hr: 'Vjenčanje je bilo prekrasno. Petra je plakala od sreće, a nakon večere počeo je prvi ples. Kad je voditelj pozvao sve uzvanike na plesni podij, Iva i Marko nisu oklijevali. Uhvatili su ritam, zapamtili korake i zavrtjeli se po podiju kao da su plesali cijeli život. Prijatelji su ih promatrali s čuđenjem, jer su nekoć znali za njihove nespretne pokušaje.',
@@ -12607,7 +12606,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Tko je pokucao na vrata dok su vježbali kod kuće?',
-        qEn: 'Who knocked on the door while they were practising at home?',
+        qEn: 'Who knocked on the door while they were practicing at home?',
         opts: ['Vlado', 'Petra', 'Susjed ispod njih', 'Ivin brat'],
         correct: 2,
       },
@@ -12639,19 +12638,19 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Baka Zorka živjela je u istoj kući na selu više od pedeset godina. Ondje je odgojila djecu, sadila povrće i poznavala svakog susjeda po imenu. No otkako je djed umro, kuća joj se činila prevelika i pretiha. Djeca su joj već godinama govorila da bi bilo lakše da živi bliže njima, u gradu.',
-        en: 'Grandma Zorka had lived in the same village house for more than fifty years. There she had raised her children, grown vegetables and knew every neighbour by name. But ever since her husband died, the house had felt too big and too quiet to her. For years her children had been telling her it would be easier if she lived closer to them, in the city.',
+        en: 'Grandma Zorka had lived in the same village house for more than fifty years. There she had raised her children, grown vegetables and knew every neighbor by name. But ever since her husband died, the house had felt too big and too quiet to her. For years her children had been telling her it would be easier if she lived closer to them, in the city.',
       },
       {
         hr: "Napokon je pristala. Njezina kćer Marija pronašla joj je mali stan blizu svoje zgrade, s balkonom okrenutim prema jugu. Baki se stan svidio na prvi pogled, iako je bio mnogo manji od kuće na koju je navikla. 'Manje prostora znači manje čišćenja', rekla je Marija, pokušavajući joj olakšati odluku.",
-        en: "Finally she agreed. Her daughter Marija found her a small flat close to her own building, with a balcony facing south. Grandma liked the flat at first sight, even though it was much smaller than the house she was used to. 'Less space means less cleaning,' Marija said, trying to make the decision easier for her.",
+        en: "Finally she agreed. Her daughter Marija found her a small apartment close to her own building, with a balcony facing south. Grandma liked the apartment at first sight, even though it was much smaller than the house she was used to. 'Less space means less cleaning,' Marija said, trying to make the decision easier for her.",
       },
       {
         hr: 'Pakiranje je bilo najteži dio selidbe. Baka Zorka morala je odlučiti što će ponijeti, a što ostaviti. Zadržala je djedovu fotografiju s vjenčanja, staru drvenu škrinju i vezene stolnjake koje je sama izradila. Odrekla se velikog kredenca, starih lonaca i alata iz staje, jer u novom stanu jednostavno nije bilo mjesta za sve to.',
-        en: "Packing was the hardest part of the move. Grandma Zorka had to decide what to bring and what to leave behind. She kept her husband's wedding photograph, an old wooden chest and the embroidered tablecloths she had made herself. She gave up the big cupboard, the old pots and the tools from the barn, because there simply wasn't room for all of it in the new flat.",
+        en: "Packing was the hardest part of the move. Grandma Zorka had to decide what to bring and what to leave behind. She kept her husband's wedding photograph, an old wooden chest and the embroidered tablecloths she had made herself. She gave up the big cupboard, the old pots and the tools from the barn, because there simply wasn't room for all of it in the new apartment.",
       },
       {
         hr: "Unucima je posebno teško padalo rastajanje s bakinim vrtom. 'Tko će sad brati jabuke?', pitao je najmlađi unuk, sedmogodišnji Luka. Baka mu je obećala da će mu svake godine donositi jabuke, čak i kad više ne bude živjela ondje. Susjedi su joj priredili malu oproštajnu večeru i poklonili joj sadnicu ružmarina za novi balkon.",
-        en: "The grandchildren found it especially hard to part with grandma's garden. 'Who will pick the apples now?' asked the youngest grandson, seven-year-old Luka. Grandma promised him she would bring him apples every year, even after she no longer lived there. The neighbours held a small farewell dinner for her and gave her a rosemary seedling for the new balcony.",
+        en: "The grandchildren found it especially hard to part with grandma's garden. 'Who will pick the apples now?' asked the youngest grandson, seven-year-old Luka. Grandma promised him she would bring him apples every year, even after she no longer lived there. The neighbors held a small farewell dinner for her and gave her a rosemary seedling for the new balcony.",
       },
       {
         hr: 'Selidba se dogodila jednog sunčanog nedjeljnog jutra. Sin Ivan i zet Tomo utovarili su namještaj u kombi, dok je baka sjedila na klupi i promatrala kako joj cijeli život odlazi u kutijama. Suza joj je pala niz obraz, ali nije ništa rekla. Samo je tiho pomilovala vrata kuće prije nego što je sjela u auto.',
@@ -12659,15 +12658,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U gradu joj je isprva sve bilo strano. Nedostajali su joj mirisi sela, pijetlovi ujutro i tišina navečer. Umjesto toga čula je promet, tramvaje i glasove susjeda iz zgrade. Marija joj je svaki dan dolazila u posjet, a i unuci su navraćali nakon škole, što je baki bilo veliko olakšanje.',
-        en: 'In the city, everything at first felt foreign to her. She missed the smells of the village, the roosters in the morning and the quiet in the evening. Instead she heard traffic, trams and the voices of neighbours in the building. Marija visited her every day, and the grandchildren dropped by after school too, which was a great relief for grandma.',
+        en: 'In the city, everything at first felt foreign to her. She missed the smells of the village, the roosters in the morning and the quiet in the evening. Instead she heard traffic, trams and the voices of neighbors in the building. Marija visited her every day, and the grandchildren dropped by after school too, which was a great relief for grandma.',
       },
       {
         hr: 'Trebalo joj je nekoliko tjedana da se navikne na nove navike. Umjesto ranog ustajanja radi stoke, sada je ustajala kasnije i pila kavu na balkonu, gledajući prolaznike. Marija joj je pokazala gdje je najbliža tržnica, ljekarna i park s klupama, gdje su se okupljale starije žene iz susjedstva.',
-        en: 'It took her a few weeks to get used to new habits. Instead of getting up early for the livestock, she now got up later and drank coffee on the balcony, watching passers-by. Marija showed her where the nearest market, pharmacy and park with benches were, where the older women from the neighbourhood gathered.',
+        en: 'It took her a few weeks to get used to new habits. Instead of getting up early for the livestock, she now got up later and drank coffee on the balcony, watching passers-by. Marija showed her where the nearest market, pharmacy and park with benches were, where the older women from the neighborhood gathered.',
       },
       {
         hr: 'Balkon joj je postao najvažniji dio stana. Ondje je posadila ružmarin koji su joj poklonili susjedi, a uz njega bosiljak, papriku u loncu i nekoliko cvjetova nevena. Svako jutro zalijevala je biljke i razgovarala s njima kao da su joj društvo. Susjedi su joj čestitali na lijepom balkonskom vrtu i tražili savjete za svoje biljke.',
-        en: 'The balcony became the most important part of her flat. There she planted the rosemary the neighbours had given her, along with basil, peppers in a pot and a few marigolds. Every morning she watered the plants and talked to them as if they were company. Neighbours complimented her lovely balcony garden and asked her for advice about their own plants.',
+        en: 'The balcony became the most important part of her apartment. There she planted the rosemary the neighbors had given her, along with basil, peppers in a pot and a few marigolds. Every morning she watered the plants and talked to them as if they were company. Neighbors complimented her lovely balcony garden and asked her for advice about their own plants.',
       },
       {
         hr: 'Nedjeljom bi cijela obitelj dolazila k njoj na ručak. Baka je i dalje kuhala kao nekad, iako je sada kuhinja bila upola manja. Unucima je pripovijedala priče o selu, o djedu i o starim vremenima, a oni su je slušali širom otvorenih očiju, iako su te priče već znali napamet.',
@@ -12731,7 +12730,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Tko je baki pronašao stan u gradu?',
-        qEn: 'Who found grandma the flat in the city?',
+        qEn: 'Who found grandma the apartment in the city?',
         opts: ['Susjedi', 'Unuk Luka', 'Kćer Marija', 'Sin Ivan'],
         correct: 2,
       },
@@ -12748,7 +12747,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što su joj susjedi poklonili prije selidbe?',
-        qEn: 'What did the neighbours give her before the move?',
+        qEn: 'What did the neighbors give her before the move?',
         opts: ['Novi lonac', 'Vezeni stolnjak', 'Fotografiju', 'Sadnicu ružmarina'],
         correct: 3,
       },
@@ -13274,7 +13273,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kada se avion smirio na visini leta, i moje se disanje polako smirilo. Stjuardesa je ponudila piće i keks, a ja sam prihvatila sok od naranče drhtavom rukom. Gledala sam kroz prozor kako oblaci polako mijenjaju oblik, i po prvi put od polijetanja osjetila sam nešto nalik opuštenosti.',
-        en: 'When the plane settled at cruising altitude, my breathing slowly calmed too. The flight attendant offered a drink and a biscuit, and I accepted an orange juice with a trembling hand. I watched through the window as the clouds slowly changed shape, and for the first time since takeoff I felt something like relaxation.',
+        en: 'When the plane settled at cruising altitude, my breathing slowly calmed too. The flight attendant offered a drink and a cookie, and I accepted an orange juice with a trembling hand. I watched through the window as the clouds slowly changed shape, and for the first time since takeoff I felt something like relaxation.',
       },
       {
         hr: 'Slijetanje je bilo iznenađujuće glatko. Pilot je najavio spuštanje, a ja sam osjetila samo blagi trzaj kada su kotači dodirnuli pistu. Putnici u kabini nisu pljeskali, ali ja sam u sebi slavila taj trenutak kao veliku pobjedu. Avion je usporio i polako se dokotrljao do terminala.',
@@ -13414,7 +13413,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Naša voditeljica brzo je nazvala domara zgrade sa svojeg mobitela. Rekao joj je da je kvar na transformatoru u susjednoj ulici i da bi popravak mogao potrajati sat ili dva. Kolege su se pogledale zbunjeno, ne znajući što raditi bez računala. Netko je u šali predložio da svi jednostavno idemo kući.',
-        en: 'Our manager quickly called the building caretaker from her mobile phone. He told her there was a fault at the transformer in the next street and that the repair might take an hour or two. Colleagues exchanged confused looks, not knowing what to do without computers. Someone joked that we should all just go home.',
+        en: 'Our manager quickly called the building caretaker from her cell phone. He told her there was a fault at the transformer in the next street and that the repair might take an hour or two. Colleagues exchanged confused looks, not knowing what to do without computers. Someone joked that we should all just go home.',
       },
       {
         hr: 'Umjesto da čekamo besposleni, voditeljica je predložila da nastavimo raditi na papiru. Izvadili smo stare bilježnice i kemijske olovke iz ladica koje nitko nije koristio godinama. Ja sam ručno prepisivala brojke iz izvještaja, dok je moj kolega crtao tablicu na velikom papiru flomasterom. Osjećaj je bio čudno nostalgičan.',
@@ -13737,7 +13736,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ivan priznaje da se posao uvelike promijenio otkako je počeo raditi, jer je uspinjača nekada uglavnom prevozila stanovnike Gornjeg grada, dok danas njome dominiraju turisti iz cijelog svijeta. Unatoč tome, ponosan je što je dio nasljeđa koje bi, da nije održavano s toliko pažnje, moglo odavno biti zamijenjeno običnim stubama ili liftom.',
-        en: 'Ivan admits the job has changed a great deal since he started, since the funicular once mainly carried residents of the Upper Town, while today it is dominated by tourists from all over the world. Still, he is proud to be part of a heritage that, had it not been maintained with such care, could long ago have been replaced by ordinary stairs or a lift.',
+        en: 'Ivan admits the job has changed a great deal since he started, since the funicular once mainly carried residents of the Upper Town, while today it is dominated by tourists from all over the world. Still, he is proud to be part of a heritage that, had it not been maintained with such care, could long ago have been replaced by ordinary stairs or an elevator.',
       },
       {
         hr: 'Kada se navečer vrata zatvore za posljednjim putnicima, Ivan ponovno prolazi kroz sustav provjera, bilježi eventualne nepravilnosti te isključuje pogon prije nego što ode kući. Taj posljednji krug, kaže, obavlja gotovo automatski, no nikada ga ne preskače, jer zna da bi i najmanji previd sutradan mogao prouzročiti veći problem.',
@@ -14313,11 +14312,11 @@ export const GRADED_STORIES = [
     levelBg: '#f3e8ff',
     icon: '👞',
     title: 'Susjedstvo koje nestaje',
-    titleEn: "A Neighbourhood That's Disappearing",
+    titleEn: "A Neighborhood That's Disappearing",
     duration: 12,
     focus: 'Susjedstvo • Promjena • Sjećanje',
     intro:
-      "Returning to his childhood neighbourhood, Marko finds the old shoemaker's shop closed and the corner café turned into a souvenir shop for tourists. A long-time resident shows him that the neighbourhood hasn't vanished - it has simply gone quieter.",
+      "Returning to his childhood neighborhood, Marko finds the old shoemaker's shop closed and the corner café turned into a souvenir shop for tourists. A long-time resident shows him that the neighborhood hasn't vanished - it has simply gone quieter.",
     paragraphs: [
       {
         hr: 'Vrativši se nakon nekoliko godina u ulicu u kojoj je odrastao, Marko jedva da je prepoznao pročelja zgrada. Iako su kamene fasade ostale iste, izlozi iza njih pripadali su posve drugom svijetu. Ondje gdje je nekad stajala mala postolarska radnja sada je blistala izložba kožnih torbica namijenjenih turistima koji jedva zastaju dulje od pet minuta.',
@@ -14459,11 +14458,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Koordinatorica, žena imenom Dijana, odmah joj je rekla da kasni deset minuta i da na festivalu nema mjesta za neozbiljnost. Objasnila je da svaki volonter mora poznavati raspored do minute i da improvizacija nije opcija. Lucija je kimnula, iako je u sebi pomislila da tjedan neće biti nimalo lagan.',
-        en: 'The coordinator, a woman named Dijana, immediately told her she was ten minutes late and that there was no room for carelessness at the festival. She explained that every volunteer had to know the schedule to the minute and that improvisation was not an option. Lucija nodded, though she privately thought the week would not be easy at all.',
+        en: 'The coordinator, a woman named Dijana, immediately told her she was ten minutes late and that there was no room for carelessness at the festival. She explained that every volunteer had to know the schedule to the minute and that improvization was not an option. Lucija nodded, though she privately thought the week would not be easy at all.',
       },
       {
         hr: 'Prvog dana kaos je bio veći nego što je itko očekivao. Isporuka opreme za ozvučenje je kasnila zbog gužve na cesti, a jedan od organizatora je javio da su dvije projekcije zamijenjene u rasporedu bez najave. Volonteri su trčali između pozornice i šatora s garderobom, pokušavajući riješiti probleme koji su nastajali svakih pola sata.',
-        en: 'On the first day the chaos was bigger than anyone expected. The delivery of sound equipment was delayed because of traffic, and one of the organizers reported that two screenings had been swapped in the schedule without notice. Volunteers ran between the stage and the wardrobe tent, trying to solve problems that kept arising every half hour.',
+        en: 'On the first day the chaos was bigger than anyone expected. The delivery of sound equipment was delayed because of traffic, and one of the organizers reported that two screenings had been swapped in the schedule without notice. Volunteers ran between the stage and the costume tent, trying to solve problems that kept arising every half hour.',
       },
       {
         hr: 'Iscrpljena od trčanja gore-dolje, Lucija je oko podneva shvatila da joj nitko nije objasnio gdje se nalazi rezervni generator. Pitajući starije volontere, saznala je da se generator čuva iza glavne pozornice, sakriven ispod cerade. Ta informacija se pokazala dragocjenom već sljedećeg dana.',
@@ -14622,7 +14621,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Nekoliko je puta djed odložio telefon na stol, tvrdeći da mu prsti nikad neće naučiti pogoditi malena slova na zaslonu. Ana mu je predložila veći font i tipkovnicu s krupnijim tipkama, što je odmah uvelike olakšalo pisanje poruka. Djed je priznao da se osjeća kao da je u prvom razredu osnovne škole.',
-        en: 'Several times grandfather set the phone down on the table, insisting his fingers would never learn to hit the tiny letters on the screen. Ana suggested a bigger font and a keyboard with larger keys, which immediately made typing messages much easier. Grandfather admitted he felt like he was back in the first grade of primary school.',
+        en: 'Several times grandfather set the phone down on the table, insisting his fingers would never learn to hit the tiny letters on the screen. Ana suggested a bigger font and a keyboard with larger keys, which immediately made typing messages much easier. Grandfather admitted he felt like he was back in the first grade of elementary school.',
       },
       {
         hr: 'Sljedećih tjedana Ana je djedu pokazala kako fotografirati vrt i kako spremiti slike u posebnu mapu. Djed se toliko oduševio da je počeo fotografirati svaku ružu i svako mače koje bi naišlo dvorištem. Ana mu je morala objasniti da telefon ima ograničen prostor za pohranu i da ne mora slikati doslovno sve.',
@@ -14634,7 +14633,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ubrzo se pridružila i unučad koja živi s ocem u inozemstvu, pa je djed napokon vidio koliko je porasla. Pitao ih je vole li još uvijek nogomet i obećao im je da će doći u posjet čim mu ozdravi koljeno. Cijeli je razgovor trajao sat vremena, iako je djed tvrdio da nema strpljenja za "moderne gluposti".',
-        en: 'Soon the grandchildren living abroad with their father joined in too, so grandfather finally saw how much they had grown. He asked them if they still loved football and promised that he would come to visit as soon as his knee healed. The whole conversation lasted an hour, even though grandfather claimed he had no patience for "modern nonsense."',
+        en: 'Soon the grandchildren living abroad with their father joined in too, so grandfather finally saw how much they had grown. He asked them if they still loved soccer and promised that he would come to visit as soon as his knee healed. The whole conversation lasted an hour, even though grandfather claimed he had no patience for "modern nonsense."',
       },
       {
         hr: 'Otad je djed provjeravao telefon prije prve kave, što je Anu zabavljalo i ganulo. Naučio je slati emotikone, iako je ponekad miješao onaj nasmijani sa suzama radosnicama s onim koji plače od tuge. Obitelj se dogovorila da nitko neće ispravljati djedove emotikone jer poruka uvijek stigne s istom količinom ljubavi.',
@@ -14766,7 +14765,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: "Lana i Filip štedjeli su gotovo šest godina za prvi stan. Svaki mjesec odvajali su dio plaće na poseban račun, izbjegavajući nepotrebne troškove. Unatoč tome, ušteđevina im nikad nije bila dovoljna, jer su cijene nekretnina rasle brže nego njihova plaća. 'Da smo barem prije pet godina kupili stan, sad bismo plaćali upola manje', uzdahnula je Lana jedne večeri.",
-        en: "Lana and Filip had been saving for nearly six years for their first flat. Every month they set aside part of their salary into a separate account, avoiding unnecessary expenses. Even so, their savings were never enough, since property prices were rising faster than their salary. 'If only we'd bought a flat five years ago, we'd be paying half as much now,' Lana sighed one evening.",
+        en: "Lana and Filip had been saving for nearly six years for their first apartment. Every month they set aside part of their salary into a separate account, avoiding unnecessary expenses. Even so, their savings were never enough, since property prices were rising faster than their salary. 'If only we'd bought an apartment five years ago, we'd be paying half as much now,' Lana sighed one evening.",
       },
       {
         hr: "Odlučili su konzultirati kreditnog savjetnika. On im je objasnio uvjete stambenog kredita: kolika bi bila kamata, koliko bi bilo učešće i na koliko bi godina mogli otplaćivati kredit. 'Kad biste uzeli kredit na dvadeset godina, rata bi bila podnošljiva, ali ukupno biste banci vratili znatno više nego što ste posudili', upozorio ih je savjetnik. Lana i Filip su se zabrinuto pogledali.",
@@ -14774,23 +14773,23 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Počeli su pregledavati oglase za stanove, no ubrzo su shvatili koliko su njihova očekivanja nerealna. Htjeli su stan od šezdeset kvadrata u centru, s balkonom i parkirnim mjestom, no takav bi stan koštao više nego što su mogli priuštiti. 'Da smo spremni na kompromis, možda bismo brže našli nešto prihvatljivo', primijetio je Filip nakon nekoliko razočaravajućih razgledavanja.",
-        en: "They started browsing listings for flats, but soon realised how unrealistic their expectations were. They wanted a sixty-square-metre flat in the centre, with a balcony and a parking space, but such a flat would cost more than they could afford. 'If we were ready to compromise, we might find something acceptable faster,' Filip remarked after several disappointing viewings.",
+        en: "They started browsing listings for apartments, but soon realized how unrealistic their expectations were. They wanted a sixty-square-meter apartment in the center, with a balcony and a parking space, but such an apartment would cost more than they could afford. 'If we were ready to compromise, we might find something acceptable faster,' Filip remarked after several disappointing viewings.",
       },
       {
         hr: 'Napokon su prihvatili da centar nije opcija za njihov proračun. Proširili su potragu na naselja dalje od centra, gdje su cijene po kvadratu bile znatno niže. Pronašli su dvosobni stan od četrdeset pet kvadrata, na trećem katu zgrade bez lifta, dvadeset minuta tramvajem od centra. Stan je bio manji nego što su zamišljali, ali cijena je napokon odgovarala njihovim mogućnostima.',
-        en: "They finally accepted that the centre wasn't an option for their budget. They expanded their search to neighbourhoods farther from the centre, where prices per square metre were considerably lower. They found a two-room flat of forty-five square metres, on the third floor of a building without a lift, twenty minutes by tram from the centre. The flat was smaller than they had imagined, but the price finally matched what they could afford.",
+        en: "They finally accepted that the center wasn't an option for their budget. They expanded their search to neighborhoods farther from the center, where prices per square meter were considerably lower. They found a two-room apartment of forty-five square meters, on the third floor of a building without an elevator, twenty minutes by tram from the center. The apartment was smaller than they had imagined, but the price finally matched what they could afford.",
       },
       {
         hr: "Prije potpisivanja ugovora trebalo je urediti mnogo papirologije. Vlasnik stana morao je dostaviti dokaz o vlasništvu, a Lana i Filip su morali podnijeti dokaze o prihodima banci koja im je odobravala kredit. 'Kad bi sve išlo brže, ovaj bi proces bio manje stresan', požalio se Filip, listajući hrpu dokumenata na kuhinjskom stolu.",
-        en: "Before signing the contract, a great deal of paperwork had to be sorted out. The owner of the flat had to provide proof of ownership, while Lana and Filip had to submit proof of income to the bank approving their loan. 'If everything moved faster, this process would be less stressful,' Filip complained, leafing through a pile of documents on the kitchen table.",
+        en: "Before signing the contract, a great deal of paperwork had to be sorted out. The owner of the apartment had to provide proof of ownership, while Lana and Filip had to submit proof of income to the bank approving their loan. 'If everything moved faster, this process would be less stressful,' Filip complained, leafing through a pile of documents on the kitchen table.",
       },
       {
         hr: 'Ugovor o kupoprodaji potpisan je kod javnog bilježnika, koji je provjerio identitete obiju strana i ovjerio potpise. Bez te ovjere ugovor ne bi mogao biti upisan u zemljišne knjige, objasnio im je bilježnik strpljivo, dok su Lana i Filip nervozno čekali red. Nakon potpisivanja slijedila je uknjižba u zemljišne knjige, korak koji je potvrdio da su Lana i Filip službeno vlasnici stana.',
-        en: "The sales contract was signed at the public notary's office, who verified the identities of both parties and certified the signatures. Without that certification the contract could not be entered in the land registry, the notary patiently explained to them, while Lana and Filip nervously waited their turn. After the signing came the land registry entry, the step that confirmed Lana and Filip were officially the owners of the flat.",
+        en: "The sales contract was signed at the public notary's office, who verified the identities of both parties and certified the signatures. Without that certification the contract could not be entered in the land registry, the notary patiently explained to them, while Lana and Filip nervously waited their turn. After the signing came the land registry entry, the step that confirmed Lana and Filip were officially the owners of the apartment.",
       },
       {
         hr: 'Selidba je uslijedila brzo, jer su dotad bili podstanari i stari su stan morali napustiti do određenog datuma. Kutije su se gomilale u novom stanu brže nego što su ih stizali raspakirati. Filip je sastavljao ormar do kasno navečer, dok je Lana pokušavala pronaći gdje su pospremili posteljinu. Cijeli je stan izgledao poput skladišta, a ne doma.',
-        en: 'The move followed quickly, since they had been renting until then and had to vacate the old flat by a certain date. Boxes piled up in the new flat faster than they managed to unpack them. Filip assembled the wardrobe until late in the evening, while Lana tried to find where they had packed the bedding. The whole flat looked more like a warehouse than a home.',
+        en: 'The move followed quickly, since they had been renting until then and had to vacate the old apartment by a certain date. Boxes piled up in the new apartment faster than they managed to unpack them. Filip assembled the closet until late in the evening, while Lana tried to find where they had packed the bedding. The whole apartment looked more like a warehouse than a home.',
       },
       {
         hr: "Te prve noći krevet još nije bio sastavljen, pa su spustili madrac na pod dnevne sobe, okruženi kutijama sa svih strana. 'Da smo barem sastavili krevet prije selidbe', promrmljala je Lana umorno, pokušavajući zaspati usred nereda. No unatoč umoru, oboje su osjećali čudno zadovoljstvo. Prvi put u životu ležali su u prostoru koji je bio isključivo njihov.",
@@ -14798,7 +14797,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Filip je, gledajući u strop obasjan uličnom svjetiljkom, rekao Lani da mu se kat bez lifta više uopće ne čini kao problem. 'Kad bismo se sad vratili u prošlost, opet bismo odabrali ovaj stan', rekla je Lana i nasmiješila se u mraku. Šest godina štednje, kredita i papirologije napokon se pretvorilo u dom.",
-        en: "Filip, looking at the ceiling lit by the street lamp, told Lana that the floor without a lift no longer seemed like a problem to him at all. 'If we went back in time now, we'd choose this flat again,' Lana said, smiling in the dark. Six years of saving, loans and paperwork had finally turned into a home.",
+        en: "Filip, looking at the ceiling lit by the street lamp, told Lana that the floor without an elevator no longer seemed like a problem to him at all. 'If we went back in time now, we'd choose this apartment again,' Lana said, smiling in the dark. Six years of saving, loans and paperwork had finally turned into a home.",
       },
     ],
     vocabulary: [
@@ -14820,7 +14819,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'kvadrat',
-        en: 'square metre (colloquial)',
+        en: 'square meter (colloquial)',
         ex: 'Htjeli su stan od šezdeset kvadrata u centru, s balkonom i parkirnim mjestom, no takav bi stan koštao više nego što su mogli priuštiti.',
       },
       {
@@ -14852,7 +14851,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Koliko su dugo Lana i Filip štedjeli za prvi stan?',
-        qEn: 'How long had Lana and Filip been saving for their first flat?',
+        qEn: 'How long had Lana and Filip been saving for their first apartment?',
         opts: ['Gotovo šest godina', 'Dvije godine', 'Deset godina', 'Godinu dana'],
         correct: 0,
       },
@@ -14869,7 +14868,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Kakav su stan na kraju kupili?',
-        qEn: 'What kind of flat did they end up buying?',
+        qEn: 'What kind of apartment did they end up buying?',
         opts: [
           'Stan od šezdeset kvadrata u centru',
           'Studio u centru',
@@ -14886,7 +14885,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Gdje su Lana i Filip spavali prve noći u novom stanu?',
-        qEn: 'Where did Lana and Filip sleep the first night in the new flat?',
+        qEn: 'Where did Lana and Filip sleep the first night in the new apartment?',
         opts: [
           'Na madracu na podu dnevne sobe',
           'Kod roditelja',
@@ -14905,18 +14904,18 @@ export const GRADED_STORIES = [
     levelBg: '#f3e8ff',
     icon: '⚽',
     title: 'Trener malih nogometaša',
-    titleEn: 'Coach of the Little Footballers',
+    titleEn: 'Coach of the Little Soccer players',
     focus: 'reported speech • subordination • youth sport values',
     intro:
-      "A man volunteers to coach a children's football team and survives a chaotic first practice. A shy boy blossoms over the season, parents watch from the sidelines, and the team learns what winning really means at nine years old.",
+      "A man volunteers to coach a children's soccer team and survives a chaotic first practice. A shy boy blossoms over the season, parents watch from the sidelines, and the team learns what winning really means at nine years old.",
     paragraphs: [
       {
         hr: 'Kad je klub objavio da traži volontera koji bi vodio ekipu devetogodišnjih dječaka, Damir se odmah javio. Igrao je nogomet cijeli život, iako nikad profesionalno, i mislio je da će mu biti lako prenijeti djeci osnove igre. Predsjednik kluba rekao mu je da će prvi trening biti već sljedeće subote i da je najvažnije da se djeca zabave.',
-        en: 'When the club announced it was looking for a volunteer to coach a team of nine-year-old boys, Damir immediately signed up. He had played football his whole life, though never professionally, and thought it would be easy to teach children the basics of the game. The club president told him the first practice would already be next Saturday and that the most important thing was for the children to have fun.',
+        en: 'When the club announced it was looking for a volunteer to coach a team of nine-year-old boys, Damir immediately signed up. He had played soccer his whole life, though never professionally, and thought it would be easy to teach children the basics of the game. The club president told him the first practice would already be next Saturday and that the most important thing was for the children to have fun.',
       },
       {
         hr: 'Prvi trening bio je potpuni kaos. Petnaestorica dječaka trčala su za loptom u jednoj gomili, dok su neki od njih zaboravili obući dresove. Jedan je dječak plakao jer mu nitko nije dodavao loptu, dok je drugi vikao da je pravilo ofsajda nepošteno, iako ga nije razumio. Damir je shvatio da mu treba drugačiji plan.',
-        en: "The first practice was total chaos. Fifteen boys were running after the ball in one clump, while some of them had forgotten to put on their jerseys. One boy cried because no one was passing him the ball, while another shouted that the offside rule was unfair, even though he didn't understand it. Damir realised he needed a different plan.",
+        en: "The first practice was total chaos. Fifteen boys were running after the ball in one clump, while some of them had forgotten to put on their jerseys. One boy cried because no one was passing him the ball, while another shouted that the offside rule was unfair, even though he didn't understand it. Damir realized he needed a different plan.",
       },
       {
         hr: 'Roditelji su stajali sa strane igrališta, neki snimajući svaku akciju mobitelom, drugi dovikujući upute koje su se sudarale s Damirovima. Jedna majka rekla mu je da njezin sin mora igrati u napadu, jer je navodno najbolji strijelac u razredu. Damir je pristojno odgovorio da će svi dječaci probati različite pozicije, kako bi naučili igru u cjelini.',
@@ -14940,11 +14939,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Na kraju sezone klub je organizirao malu proslavu za mlađe uzraste. Damir je pozvao Luku da stane u prvi red, jer je, kako je rekao pred svima, najviše napredovao od svih dječaka u ekipi. Luka je pocrvenio, ali osmijeh mu nije silazio s lica. Njegova mu je majka kasnije zahvalila suznih očiju, rekavši da ga tako sretnog nije vidjela godinama.',
-        en: "At the end of the season the club organised a small celebration for the youth age groups. Damir invited Luka to stand in the front row, since, as he said in front of everyone, he had improved the most of all the boys on the team. Luka blushed, but the smile didn't leave his face. His mother later thanked Damir with tearful eyes, saying she hadn't seen him that happy in years.",
+        en: "At the end of the season the club organized a small celebration for the youth age groups. Damir invited Luka to stand in the front row, since, as he said in front of everyone, he had improved the most of all the boys on the team. Luka blushed, but the smile didn't leave his face. His mother later thanked Damir with tearful eyes, saying she hadn't seen him that happy in years.",
       },
       {
         hr: 'Te večeri, vraćajući se kući, Damir je razmišljao o tome što je naučio te sezone. Shvatio je da pobjeda u devetoj godini ne znači konačan rezultat na semaforu, nego napredak svakog djeteta i radost igranja s prijateljima. Odlučio je da će sljedeće sezone opet prihvatiti ulogu trenera, jer mu je to iskustvo vrijedilo više od bilo kojeg pehara.',
-        en: "That evening, on his way home, Damir reflected on what he had learned that season. He realised that winning at nine years old doesn't mean the final score on the scoreboard, but rather each child's progress and the joy of playing with friends. He decided he would take on the coaching role again next season, because that experience was worth more to him than any trophy.",
+        en: "That evening, on his way home, Damir reflected on what he had learned that season. He realized that winning at nine years old doesn't mean the final score on the scoreboard, but rather each child's progress and the joy of playing with friends. He decided he would take on the coaching role again next season, because that experience was worth more to him than any trophy.",
       },
     ],
     vocabulary: [
@@ -15065,11 +15064,11 @@ export const GRADED_STORIES = [
     duration: 11,
     focus: 'potrošačke navike • samodisciplina • štednja',
     intro:
-      'A first-person account of a self-imposed year without buying new clothes, tracing the impulses it curbed, the mending and borrowing habits it built, and the wardrobe and savings it left behind.',
+      'A first-person account of a self-imposed year without buying new clothes, tracing the impulses it curbed, the mending and borrowing habits it built, and the closet and savings it left behind.',
     paragraphs: [
       {
         hr: 'Prvog siječnja odlučila sam da neću kupiti nijedan novi komad odjeće sljedećih dvanaest mjeseci. Ormar mi je bio pretrpan, a s nekoliko haljina nikada nisam ni skinula etiketu. Umjesto uobičajenog novogodišnjeg obećanja o vježbanju, postavila sam si pravilo koje je u početku zvučalo gotovo smiješno. Prijateljice su me isprva gledale sa sumnjičavim osmijehom, uvjerene da neću izdržati ni mjesec dana.',
-        en: "On the first of January, I decided not to buy a single new piece of clothing for the next twelve months. My wardrobe was overstuffed, and several dresses had never even had their tags removed. Instead of the usual New Year's resolution about exercising, I set myself a rule that at first sounded almost ridiculous. My friends at first looked at me with a doubtful smile, convinced I wouldn't last even a month.",
+        en: "On the first of January, I decided not to buy a single new piece of clothing for the next twelve months. My closet was overstuffed, and several dresses had never even had their tags removed. Instead of the usual New Year's resolution about exercising, I set myself a rule that at first sounded almost ridiculous. My friends at first looked at me with a doubtful smile, convinced I wouldn't last even a month.",
       },
       {
         hr: 'Najteže je bilo prepoznati trenutke kad me želja za novom stvari uopće hvata. Umor nakon napornog dana, dosada u trgovačkom centru, tuđa fotografija na društvenim mrežama - sve me je gurkalo prema izlogu. Naučila sam da impuls obično nestane sam od sebe ako pričekam samo nekoliko dana prije nego što nešto kupim.',
@@ -15089,7 +15088,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad me pozvala na vjenčanje sestrična, pomislila sam da bih možda trebala napraviti iznimku. Da nisam imala prikladnu haljinu u ormaru, vjerojatno bih popustila. Umjesto toga, posudila sam broš od majke i staru haljinu preradila kod krojačice, pa sam na fotografijama izgledala svečanije nego što sam očekivala. Nitko na vjenčanju nije ni primijetio da haljina zapravo ima nekoliko godina.',
-        en: 'When my cousin invited me to her wedding, I thought I should perhaps make an exception. Had I not had a suitable dress in my wardrobe, I probably would have given in. Instead, I borrowed a brooch from my mother and had an old dress altered by the seamstress, and in the photos I looked more elegant than I expected. No one at the wedding even noticed that the dress was actually several years old.',
+        en: 'When my cousin invited me to her wedding, I thought I should perhaps make an exception. Had I not had a suitable dress in my closet, I probably would have given in. Instead, I borrowed a brooch from my mother and had an old dress altered by the seamstress, and in the photos I looked more elegant than I expected. No one at the wedding even noticed that the dress was actually several years old.',
       },
       {
         hr: 'Nakon šest mjeseci primijetila sam da provodim manje vremena listajući internetske trgovine, jer jednostavno više nisam u potrazi za idealnim komadom. Novac koji sam prije trošila na impulzivne kupnje počela sam odvajati na štedni račun, pa je do ljeta na njemu bilo gotovo tisuću eura više nego lani.',
@@ -15097,7 +15096,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Na kraju godine ormar mi je bio manji, ali svaki komad u njemu nosila sam stvarno rado. Naučila sam kombinirati iste stvari na desetke načina, a nekoliko haljina koje sam mislila da više ne volim ponovno su mi postale omiljene čim sam ih izvadila s dna ladice.',
-        en: 'By the end of the year my wardrobe was smaller, but I genuinely loved wearing every piece in it. I learned to combine the same things in dozens of ways, and several dresses I thought I no longer liked became favorites again the moment I pulled them out from the back of the drawer.',
+        en: 'By the end of the year my closet was smaller, but I genuinely loved wearing every piece in it. I learned to combine the same things in dozens of ways, and several dresses I thought I no longer liked became favorites again the moment I pulled them out from the back of the drawer.',
       },
       {
         hr: 'Na štednom računu našlo se gotovo tisuću i pol eura, iznos koji prije nisam ni zamišljala da mogu uštedjeti. Zanimljivije od brojke bio je osjećaj mirnoće kad uđem u trgovinu i ne poželim ništa. Unatoč početnim sumnjama, pravilo koje je zvučalo apsurdno postalo je najbolja odluka te godine.',
@@ -15217,15 +15216,15 @@ export const GRADED_STORIES = [
     levelBg: '#f3e8ff',
     icon: '🎶',
     title: 'Bučni susjed',
-    titleEn: 'The Noisy Neighbour',
+    titleEn: 'The Noisy Neighbor',
     focus:
       'vokabular sukoba i pomirenja, kondicional, izražavanje frustracije, empatije i kompromisa',
     intro:
-      "Weeks of sleepless nights over a neighbour's late-night music lead to a confrontation gone wrong — and then to a conversation that reveals more than either of them expected.",
+      "Weeks of sleepless nights over a neighbor's late-night music lead to a confrontation gone wrong — and then to a conversation that reveals more than either of them expected.",
     paragraphs: [
       {
         hr: 'Prije otprilike dva mjeseca u stan iznad mojega uselio se novi stanar, i otad moje noći više nisu iste. Gotovo svake večeri, negdje oko ponoći, kroz strop bi počela dopirati basovska linija toliko snažna da su mi čaše na polici tiho zveckale. Isprva sam mislila da je riječ o jednokratnoj zabavi, no glazba se ponavljala iz noći u noć.',
-        en: "About two months ago a new tenant moved into the flat above mine, and my nights haven't been the same since. Almost every evening, around midnight, a bass line so strong that it made the glasses on my shelf softly rattle would start coming through the ceiling. At first I thought it was a one-off party, but the music kept repeating night after night.",
+        en: "About two months ago a new tenant moved into the apartment above mine, and my nights haven't been the same since. Almost every evening, around midnight, a bass line so strong that it made the glasses on my shelf softly rattle would start coming through the ceiling. At first I thought it was a one-off party, but the music kept repeating night after night.",
       },
       {
         hr: 'Nakon nekoliko tjedana neprospavanih noći, počela sam osjećati posljedice na poslu. Teško mi se bilo koncentrirati na sastancima, a kolege su primijetile da sam razdražljivija nego inače. Kupila sam čepiće za uši, no oni su prigušivali samo visoke tonove, dok bi bas i dalje prodirao kroz zidove poput otkucaja srca koji ne pripada meni.',
@@ -15233,11 +15232,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Jedne noći, iscrpljena i bijesna, odlučila sam otići gore i suočiti se sa susjedom. Pokucala sam prilično oštro, spremna izreći sve što sam danima uvježbavala u glavi. Kada je otvorio vrata, umjesto isprike, počela sam vikati o poštovanju i tuđem miru, a on je samo stajao zatečen, ne stigavši ni riječ izustiti.',
-        en: "One night, exhausted and furious, I decided to go upstairs and confront the neighbour. I knocked rather sharply, ready to say everything I'd been rehearsing in my head for days. When he opened the door, instead of an apology, I started shouting about respect and other people's peace, and he just stood there startled, not managing to get a word out.",
+        en: "One night, exhausted and furious, I decided to go upstairs and confront the neighbor. I knocked rather sharply, ready to say everything I'd been rehearsing in my head for days. When he opened the door, instead of an apology, I started shouting about respect and other people's peace, and he just stood there startled, not managing to get a word out.",
       },
       {
         hr: 'Razgovor je krenuo po zlu gotovo od prve rečenice. Optužila sam ga da mu je svejedno za susjede, a on se, uvrijeđen mojim tonom, branio govoreći da ima pravo slušati glazbu u svojem stanu. Vrata su se zalupila, a ja sam se vratila dolje ljuća nego prije, uvjerena da smo sada u otvorenom sukobu.',
-        en: 'The conversation went wrong almost from the first sentence. I accused him of not caring about the neighbours, and he, offended by my tone, defended himself by saying he had the right to listen to music in his own flat. The door slammed, and I went back downstairs angrier than before, convinced we were now in an open conflict.',
+        en: 'The conversation went wrong almost from the first sentence. I accused him of not caring about the neighbors, and he, offended by my tone, defended himself by saying he had the right to listen to music in his own apartment. The door slammed, and I went back downstairs angrier than before, convinced we were now in an open conflict.',
       },
       {
         hr: 'Nekoliko dana poslije, na stubištu smo se ponovno susreli, i oboje smo, pomalo posramljeni zbog prošlog razgovora, odlučili pokušati iznova. Predložio je kavu, a ja sam, iako još uvijek oprezna, pristala, radoznala hoće li mi konačno objasniti zašto glazba svira baš u to doba noći kada većina ljudi pokušava spavati.',
@@ -15253,11 +15252,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Zajedno smo dogovorili raspored koji bi odgovarao oboma. Pristao je vježbati uz slušalice poslije ponoći, a glasnu vježbu ostavljati za rana poslijepodneva vikendom, kada sam obično izvan stana. Zauzvrat sam mu obećala da ću, ako me nešto ipak probudi, prvo pokucati mirno umjesto da odmah planem kao prošli put.',
-        en: "Together we agreed on a schedule that would work for both of us. He agreed to practice with headphones after midnight, and to save loud practice for early weekend afternoons, when I'm usually out of the flat. In return I promised that if something did wake me, I'd knock calmly first instead of flaring up right away like last time.",
+        en: "Together we agreed on a schedule that would work for both of us. He agreed to practice with headphones after midnight, and to save loud practice for early weekend afternoons, when I'm usually out of the apartment. In return I promised that if something did wake me, I'd knock calmly first instead of flaring up right away like last time.",
       },
       {
         hr: 'Otkako smo uspostavili taj dogovor, noći su mi postale mirnije, a odnos sa susjedom neočekivano prijateljski. Ponekad me pozdravi na stubištu i našali se kako je napokon naučio ugoditi glasnoću basa. Priznajem da mi je nelagodno kada se sjetim koliko sam brzo bila spremna suditi prije nego što sam uopće čula njegovu stranu priče.',
-        en: "Since we set up that arrangement, my nights have become quieter, and my relationship with the neighbour unexpectedly friendly. Sometimes he greets me on the stairs and jokes that he's finally learned to tune the bass volume. I admit I feel uneasy remembering how quickly I was ready to judge him before I'd even heard his side of the story.",
+        en: "Since we set up that arrangement, my nights have become quieter, and my relationship with the neighbor unexpectedly friendly. Sometimes he greets me on the stairs and jokes that he's finally learned to tune the bass volume. I admit I feel uneasy remembering how quickly I was ready to judge him before I'd even heard his side of the story.",
       },
       {
         hr: 'Ta mi je situacija pokazala koliko je lako pretpostaviti najgore o nepoznatoj osobi iza zida, umjesto da jednostavno pokucamo i pitamo. Danas, kad začujem tihe tonove glasovira dopirati odozgo, više me ne živcira - naprotiv, gotovo mi je drago znati da netko iznad mene marljivo radi na svojem snu, baš kao što i ja radim na svojemu.',
@@ -15330,7 +15329,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Kako je prošao prvi razgovor sa susjedom?',
-        qEn: 'How did the first conversation with the neighbour go?',
+        qEn: 'How did the first conversation with the neighbor go?',
         opts: [
           'Mirno su se dogovorili odmah',
           'Susjed se odmah ispričao',
@@ -15341,7 +15340,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Čime se susjed bavi tijekom dana i noći?',
-        qEn: 'What does the neighbour do during the day and night?',
+        qEn: 'What does the neighbor do during the day and night?',
         opts: [
           'Studira na glazbenoj akademiji i radi večernje smjene u bolnici',
           'Radi kao noćni čuvar u zgradi',
@@ -15352,7 +15351,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što su dvoje susjeda dogovorili na kraju?',
-        qEn: 'What did the two neighbours agree on in the end?',
+        qEn: 'What did the two neighbors agree on in the end?',
         opts: [
           'Da će se jedno od njih preseliti',
           'Da će susjed prestati svirati zauvijek',
@@ -15390,7 +15389,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Kada sam prije deset godina napustila fakultet zbog posla koji mi se tada činio prilikom koju ne smijem propustiti, nisam ni slutila da ću se jednog dana vratiti u klupe predavaonice. Ove jeseni, s trideset godina, ponovno sam upisala studij koji sam nekoć ostavila nedovršenim, ovaj put s jasnijom idejom zašto mi je diploma važna.',
-        en: "When I left university ten years ago for a job that seemed at the time like an opportunity I couldn't miss, I never imagined I'd one day return to a lecture hall's benches. This autumn, at thirty, I re-enrolled in the degree I once left unfinished, this time with a clearer idea of why the degree matters to me.",
+        en: "When I left university ten years ago for a job that seemed at the time like an opportunity I couldn't miss, I never imagined I'd one day return to a lecture hall's benches. This fall, at thirty, I re-enrolled in the degree I once left unfinished, this time with a clearer idea of why the degree matters to me.",
       },
       {
         hr: 'Prvi dan predavanja osjećala sam se čudno neusklađeno s okolinom. Većina mojih kolega imala je dvadesetak godina, nosili su ruksake i razgovarali o zabavama kojima ja odavno nisam prisustvovala. Sjela sam u zadnji red, pomalo posramljena, pitajući se hoće li itko primijetiti da sam gotovo deset godina starija od prosjeka u dvorani.',
@@ -15720,7 +15719,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Klapa se rađa ondje gdje instrumenti šute: u konobama, na rivama, u brodskim potpalubljima, gdje su mornari i težaci, ne raspolažući ničim osim glasa, pjevajući nakon posla, otkrili da se pjesma može graditi kao kuća — kamen na kamen, glas na glas. Premda je danas klapsko pjevanje UNESCO-ova baština, njegov je izvor posve neslužben: potreba da se umor izreče na način koji riječi same ne dopuštaju.',
-        en: "Klapa is born where instruments fall silent: in taverns, on seafronts, in ships' holds, where sailors and labourers, possessing nothing but their voice, singing after work, discovered that a song can be built like a house — stone upon stone, voice upon voice. Though klapa singing is today a UNESCO heritage, its origin is entirely unofficial: the need to voice exhaustion in a way that words alone do not allow.",
+        en: "Klapa is born where instruments fall silent: in taverns, on seafronts, in ships' holds, where sailors and laborers, possessing nothing but their voice, singing after work, discovered that a song can be built like a house — stone upon stone, voice upon voice. Though klapa singing is today a UNESCO heritage, its origin is entirely unofficial: the need to voice exhaustion in a way that words alone do not allow.",
       },
       {
         hr: 'Klapa nema kapelnika, ali ima strogu, nepisanu hijerarhiju. Prvi tenor nosi melodiju, ali ne smije je nositi sam; drugi tenor prati, umekšavajući oštrine; bariton ispunjava sredinu, dok bas, spuštajući se ispod svih ostalih, drži temelj na kojem počiva cijela građevina. Nitko od njih, pjevajući zajedno, ne smije se nametnuti: umijeće klape jest umijeće povlačenja, ne isticanja.',
@@ -15732,7 +15731,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Klapa prati zajednicu kroz sve njezine prijelaze: pjeva na vjenčanju, na sprovodu, na blagdan sveca zaštitnika, uz predstojeći dolazak proljeća ili uz oproštaj od ljeta. Ondje gdje bi drugi narod unajmio orkestar, dalmatinsko selo okupi vlastite glasove, jer je pjesma, dijeljena među susjedima, vrjednija od pjesme kupljene. Tako klapa postaje ne priredba, nego obred.',
-        en: 'Klapa accompanies the community through all its transitions: it sings at weddings, at funerals, on the feast of the patron saint, at the approaching arrival of spring or the farewell to summer. Where another people would hire an orchestra, a Dalmatian village gathers its own voices, because a song shared among neighbours is worth more than a song that is bought. Thus klapa becomes not an event, but a rite.',
+        en: 'Klapa accompanies the community through all its transitions: it sings at weddings, at funerals, on the feast of the patron saint, at the approaching arrival of spring or the farewell to summer. Where another people would hire an orchestra, a Dalmatian village gathers its own voices, because a song shared among neighbors is worth more than a song that is bought. Thus klapa becomes not an event, but a rite.',
       },
       {
         hr: 'U tome je klapa, možda nesvjesno, politički čin: dokazuje da sklad ne zahtijeva vladara. Nema dirigenta koji određuje tempo, nema ravnatelja koji propisuje dinamiku; sve što klapu drži na okupu jest zajednički osjećaj za trenutak, stečen godinama pjevanja jednih uz druge. Stoga klapa uspijeva upravo ondje gdje formalne institucije zakazuju — u nesavršenom, ali živom dogovoru glasova.',
@@ -15896,11 +15895,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Jesen na Palagružu dolazi naglo, s prvom burom koja opskrbni brod otkazuje bez najave. Ivan tada prebrojava zalihe, procjenjuje hoće li kruha i ulja biti dovoljno, i zna da, ne stigne li brod tjedan dana, ne smije dopustiti da ga obuzme panika. Bura mu je, s vremenom, postala gotovo drag glas — grub, ali pouzdan, jer se barem najavljuje, za razliku od tišine.',
-        en: 'Autumn arrives on Palagruža abruptly, with the first bora that cancels the supply boat without warning. Ivan then counts his supplies, gauges whether there will be enough bread and oil, and knows that, should the boat fail to arrive for a week, he must not let panic take hold of him. Over time the bora became almost a dear voice to him — harsh, but reliable, for at least it announces itself, unlike the silence.',
+        en: 'Fall arrives on Palagruža abruptly, with the first bora that cancels the supply boat without warning. Ivan then counts his supplies, gauges whether there will be enough bread and oil, and knows that, should the boat fail to arrive for a week, he must not let panic take hold of him. Over time the bora became almost a dear voice to him — harsh, but reliable, for at least it announces itself, unlike the silence.',
       },
       {
         hr: 'Slijedom toga, počeo je jesen doživljavati ne kao gubitak ljeta, nego kao povratak sebi: dani se skraćuju, posjeti se prorjeđuju, a on, prepušten samo sebi i mehanizmu koji mora vrtjeti, otkriva da samoća, kad se izabere, prestaje biti kazna. Postaje, umjesto toga, oblik discipline koji malo tko izvana razumije.',
-        en: 'Consequently, he began to experience autumn not as the loss of summer, but as a return to himself: the days grow shorter, visits grow sparser, and he, left to himself and the mechanism he must keep turning, discovers that solitude, when chosen, ceases to be a punishment. It becomes, instead, a form of discipline that few outsiders understand.',
+        en: 'Consequently, he began to experience fall not as the loss of summer, but as a return to himself: the days grow shorter, visits grow sparser, and he, left to himself and the mechanism he must keep turning, discovers that solitude, when chosen, ceases to be a punishment. It becomes, instead, a form of discipline that few outsiders understand.',
       },
       {
         hr: 'Zima donosi valove koji se, udarajući o hrid, penju gotovo do vrata kućice, i noći u kojima svjetlo mora gorjeti unatoč vjetru koji prijeti da ugasi sve što gori. Provjeravajući generator po treći put te noći, Ivan zna da od njegove budnosti ovisi brod koji možda nikad neće vidjeti, ali čiji će kapetan, prolazeći kroz tjesnac, pouzdano potražiti baš njegovo svjetlo.',
@@ -15981,7 +15980,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što bura, prema tekstu, predstavlja Ivanu jeseni?',
-        qEn: 'According to the text, what does the bora represent to Ivan in autumn?',
+        qEn: 'According to the text, what does the bora represent to Ivan in fall?',
         opts: [
           'Znak da mora zauvijek napustiti otok',
           'Prijetnju kojoj se boji suprotstaviti',
@@ -16056,11 +16055,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Prošle je jeseni, čisteći donji rub freske, naišla na trag ranije intervencije: premaz boje kojim je neki prijašnji majstor prekrio oštećenje umjesto da ga sanira. Mogla ga je ukloniti, no odlučila ga je zadržati kao svjedočanstvo da freska ima vlastitu povijest brige, ne samo povijest nastanka. Time je priznala da autentičnost nije zamrznuto stanje, nego niz odluka donesenih kroz stoljeća.',
-        en: "Last autumn, cleaning the fresco's lower edge, she found a trace of an earlier intervention: a patch of color with which some previous master had covered damage instead of repairing it. She could have removed it, but chose to keep it as testimony that the fresco has its own history of care, not just a history of creation. In doing so she acknowledged that authenticity is not a frozen state but a series of decisions made across centuries.",
+        en: "Last fall, cleaning the fresco's lower edge, she found a trace of an earlier intervention: a patch of color with which some previous master had covered damage instead of repairing it. She could have removed it, but chose to keep it as testimony that the fresco has its own history of care, not just a history of creation. In doing so she acknowledged that authenticity is not a frozen state but a series of decisions made across centuries.",
       },
       {
         hr: 'Sate provedene na skeli tijelo pamti drukčije nego um: ukočen vrat, prašina koja peče oči, vlaga koja se hladnim dahom uvlači pod kožu. Rad u polumraku crkve stvara osjećaj redovničke izdvojenosti od vanjskog svijeta, koji ne sluti da netko gore, centimetar po centimetru, vraća boju licima što su ih naslikali davno umrli slikari. Kad siđe sa skele, hod joj je nesiguran, kao da se vraća iz drugog stoljeća.',
-        en: "Hours spent on the scaffold are remembered by the body differently than by the mind: a stiff neck, dust that stings the eyes, damp that creeps under the skin with a cold breath. Working in the church's half-light creates a feeling of monastic isolation from the outside world, which has no idea that someone up there is restoring colour, centimeter by centimeter, to faces painted by long-dead painters. When she climbs down from the scaffold, her steps are unsteady, as though returning from another century.",
+        en: "Hours spent on the scaffold are remembered by the body differently than by the mind: a stiff neck, dust that stings the eyes, damp that creeps under the skin with a cold breath. Working in the church's half-light creates a feeling of monastic isolation from the outside world, which has no idea that someone up there is restoring color, centimeter by centimeter, to faces painted by long-dead painters. When she climbs down from the scaffold, her steps are unsteady, as though returning from another century.",
       },
       {
         hr: 'Norma je nemilosrdna i istodobno oslobađajuća: jedan kvadratni centimetar dnevno, jer je žurba jedini pravi neprijatelj konzervatora. U toj usporenosti vrijeme se ne mjeri satima nego dovršenim poljima, a dan koji je drugima prazan njoj donosi vidljiv pomak. Naučila je da strpljenje nije vrlina koju netko posjeduje od rođenja, nego vještina koja se, poput poteza kista, uvježbava ponavljanjem.',
@@ -16335,7 +16334,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Pod Velebitom, gdje se vapnenac spušta prema moru u dugim, sivim policama, živi čovjek čiji se cijeli godišnji ritam ravna prema pčelama. Njegovo poznavanje vremena ne proizlazi iz kalendara, nego iz mirisa cvjetanja, iz promjene zujanja s temperaturom zraka i iz načina na koji se pčele predvečer vraćaju u košnicu.',
-        en: "Below Mount Velebit, where limestone descends toward the sea in long, grey shelves, lives a man whose entire yearly rhythm is set by his bees. His sense of time comes not from a calendar but from the scent of blossoming, the way the humming changes with the air's temperature, and how the bees return to the hive at dusk.",
+        en: "Below Mount Velebit, where limestone descends toward the sea in long, gray shelves, lives a man whose entire yearly rhythm is set by his bees. His sense of time comes not from a calendar but from the scent of blossoming, the way the humming changes with the air's temperature, and how the bees return to the hive at dusk.",
       },
       {
         hr: 'Proljeće je vrijeme najveće neizvjesnosti. Kada zajednica u košnici naraste iznad određene mjere, dio pčela odlučuje, vođen signalima matice i dostupnošću prostora, napustiti dom i osnovati novi roj. Pčelar tada mora prepoznati znakove prije nego što se to dogodi: gušće komešanje na letu, izgradnju matičnjaka, promjenu tona zujanja koja najavljuje rastanak zajednice.',
@@ -16347,7 +16346,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'S dolaskom jeseni prestaje vrcanje meda i počinje priprema zajednice za razdoblje mirovanja. Pčelar procjenjuje snagu svake košnice: broj pčela, količinu zaliha, zdravlje matice. Uz to, dopunjuje zalihe šećernim sirupom ondje gdje ih je ljeto ostavilo nedovoljnima, jer zajednica koja u zimu uđe oslabljena rijetko dočeka proljeće.',
-        en: "With autumn's arrival, honey extraction stops and the colony's preparation for its resting period begins. The beekeeper assesses each hive's strength: the number of bees, the size of the stores, the queen's health. He also tops up the stores with sugar syrup wherever summer left them wanting, because a colony that enters winter weakened rarely makes it to spring.",
+        en: "With fall's arrival, honey extraction stops and the colony's preparation for its resting period begins. The beekeeper assesses each hive's strength: the number of bees, the size of the stores, the queen's health. He also tops up the stores with sugar syrup wherever summer left them wanting, because a colony that enters winter weakened rarely makes it to spring.",
       },
       {
         hr: 'Zima od pčelara traži strpljenje umjesto djelovanja. Košnice se ne otvaraju bez nužde, jer svaki gubitak topline pčelama otežava održavanje klupka u kojemu zajednički griju maticu i sebe. Pčelar sluša, ne gleda: prisloni uho uz stijenku i po tihom, ravnomjernom zujanju prepozna da je zajednica živa i mirna.',
@@ -16355,7 +16354,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Sušne godine najviše kazuju o krhkosti tog sustava. Kad kiše izostanu, a cvjetanje potraje kratko i bez obilja nektara, pčele troše više energije na potragu nego što uspijevaju nadoknaditi. Pčelar tada mora odlučiti hoće li dohranjivati zajednicu ranije nego obično ili prihvatiti manji prinos meda kako bi zajednica uopće preživjela do jeseni.',
-        en: 'Drought years reveal most clearly how fragile this system is. When the rains fail and the blossoming is brief and thin in nectar, the bees spend more energy searching than they manage to recover. The beekeeper then has to decide whether to feed the colony earlier than usual, or accept a smaller honey yield so that the colony survives at all until autumn.',
+        en: 'Drought years reveal most clearly how fragile this system is. When the rains fail and the blossoming is brief and thin in nectar, the bees spend more energy searching than they manage to recover. The beekeeper then has to decide whether to feed the colony earlier than usual, or accept a smaller honey yield so that the colony survives at all until fall.',
       },
       {
         hr: 'Sjeća se godine kada je suša potrajala od svibnja do kolovoza, a nekoliko slabijih zajednica jednostavno nije dočekalo rujan. Te je godine naučio da opstanak pčelinjaka ne ovisi o jednoj snažnoj košnici, nego o ravnoteži cijelog niza zajednica koje međusobno, posredno, dijele izvore hrane na istom području.',
@@ -16363,7 +16362,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Iz takvih iskustava proizlazi njegovo uvjerenje da pčelarstvo nije upravljanje pčelama nego prilagođavanje njihovu ritmu. Odluke koje donosi – kada dohraniti, kada premjestiti košnicu bliže cvatu, kada jednostavno pričekati i ne miješati se – uvijek slijede ono što zajednica već pokazuje svojim ponašanjem, a rijetko joj nameću vlastiti raspored ili žurbu čovjeka koji bi htio brže rezultate.',
-        en: 'From such experiences comes his conviction that beekeeping is not managing bees but adapting to their rhythm. The decisions he makes — when to feed, when to move a hive closer to the bloom, when simply to wait and not interfere — always follow what the colony is already showing through its behaviour, rarely imposing on it his own schedule or the impatience of a man wanting faster results.',
+        en: 'From such experiences comes his conviction that beekeeping is not managing bees but adapting to their rhythm. The decisions he makes — when to feed, when to move a hive closer to the bloom, when simply to wait and not interfere — always follow what the colony is already showing through its behavior, rarely imposing on it his own schedule or the impatience of a man wanting faster results.',
       },
       {
         hr: 'Znanje koje posjeduje uglavnom nije zapisano ni u jednoj knjizi. Prenosi ga sinu praktičnim putem, pokazujući mu kako razlikovati miris zdrave košnice od bolesne, kako čitati gustoću oblaka pčela u letu i kako procijeniti, samo prema zvuku zujanja, treba li zajednici pomoći ili joj jednostavno treba mira i vremena.',
@@ -16371,7 +16370,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Posljedično, njegov je odnos prema pčelama postao model za razumijevanje šireg poretka: nijedna pčela sama ne stvara med niti preživljava zimu, a nijedna zajednica ne opstaje potpuno neovisno o susjednim pčelinjacima, o cvjetnom bilju koje ne sadi čovjek i o klimi na koju nitko od njih ne može utjecati.',
-        en: 'Consequently, his relationship with the bees has become a model for understanding a larger order: no single bee makes honey or survives winter alone, and no colony survives fully independent of neighbouring apiaries, of wildflowers no one planted, and of a climate none of them can influence.',
+        en: 'Consequently, his relationship with the bees has become a model for understanding a larger order: no single bee makes honey or survives winter alone, and no colony survives fully independent of neighboring apiaries, of wildflowers no one planted, and of a climate none of them can influence.',
       },
       {
         hr: 'Predvečer, kada posljednje pčele uđu u košnicu i zujanje utihne, pčelar često samo sjedi kraj pčelinjaka i promatra kako se dolina ispod Velebita polako gasi u sumrak. U tom trenutku, kaže, najjasnije vidi da njegov posao nije proizvodnja meda, nego sudjelovanje u nečemu što je bilo tu i prije njega, a ostat će i poslije.',
@@ -16455,7 +16454,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što pčelar radi u jesen kako bi pripremio zajednicu za zimu?',
-        qEn: 'What does the beekeeper do in autumn to prepare the colony for winter?',
+        qEn: 'What does the beekeeper do in fall to prepare the colony for winter?',
         opts: [
           'Premješta sve košnice u zatvoreni prostor',
           'Mijenja maticu u svakoj košnici',
@@ -16511,11 +16510,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Za mnoge čitatelje dolazak kombija jedini je društveni događaj tog tjedna. Razgovor obično traje dulje od same posudbe knjiga: pita se za zdravlje, za susjeda koji odavno nije izašao iz kuće, za unuka koji se javio iz inozemstva. Knjiga je povod za razgovor, no rijetko i jedini razlog dolaska na cestu.',
-        en: "For many readers, the van's arrival is the only social event of the week. The conversation usually lasts longer than the actual borrowing of books: there are questions about health, about a neighbour who hasn't left the house in ages, about a grandchild who called from abroad. The book is the occasion for talk, but rarely the only reason to come out to the road.",
+        en: "For many readers, the van's arrival is the only social event of the week. The conversation usually lasts longer than the actual borrowing of books: there are questions about health, about a neighbor who hasn't left the house in ages, about a grandchild who called from abroad. The book is the occasion for talk, but rarely the only reason to come out to the road.",
       },
       {
         hr: 'Poneki čitatelj naruči knjigu tjednima unaprijed, pismom ili preko susjeda koji ima telefon, pa je vozač posebno doveze iz gradske knjižnice u dolini, makar mu to znači dodatnih pola sata vožnje. Drugi jednostavno uzimaju što god vozač taj tjedan donese, vjerujući njegovu ukusu više nego vlastitom izboru s police.',
-        en: 'Some readers order a book weeks in advance, by letter or through a neighbour who has a phone, so that it is specially brought from the town library down in the valley, even though that means an extra half-hour of driving for him. Others simply take whatever the driver brings that week, trusting his taste more than their own choice from the shelf.',
+        en: 'Some readers order a book weeks in advance, by letter or through a neighbor who has a phone, so that it is specially brought from the town library down in the valley, even though that means an extra half-hour of driving for him. Others simply take whatever the driver brings that week, trusting his taste more than their own choice from the shelf.',
       },
       {
         hr: 'U selu se zna reći da je knjižnica na kotačima jedina ustanova koja dolazi ljudima, umjesto da od njih traži da dođu k njoj. Ta se rečenica ponavlja toliko često da je gotovo postala izreka, iako je nitko ne pripisuje određenom mještaninu koji ju je prvi izgovorio.',
@@ -16523,7 +16522,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Vozač pamti zimu kada je snijeg zatvorio zadnjih dvjesto metara ceste do kuće starice koja nije mogla hodati po ledu. Te je godine, dok su ostali čekali proljeće, on sam nosio vreću knjiga preko zaleđenog puta kad god se moglo, a pojedini tjedni jednostavno nisu dopuštali ni pokušaj.',
-        en: "The driver remembers a winter when snow closed off the last two hundred metres of road to an old woman's house, who could not walk on the ice. That year, while everyone else waited for spring, he himself carried a bag of books across the icy path whenever it was possible, while some weeks didn't allow even an attempt.",
+        en: "The driver remembers a winter when snow closed off the last two hundred meters of road to an old woman's house, who could not walk on the ice. That year, while everyone else waited for spring, he himself carried a bag of books across the icy path whenever it was possible, while some weeks didn't allow even an attempt.",
       },
       {
         hr: 'Inače, svakog utorka nosi knjige do vrata onih koji više ne mogu hodati do kombija parkiranog na trgu, dok mlađi i pokretljiviji sami dolaze birati naslove. Ta razlika u pristupu, uvijek ista iz tjedna u tjedan, postala je dio rasporeda kojeg se pridržava gotovo automatski.',
@@ -16531,7 +16530,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Knjige koje najviše kruže nisu nužno najnovija izdanja, nego naslovi za koje se u selu zna da ih čitaju svi: povijesni romani, životopisi putnika, poneka zbirka poezije. Razmjena mišljenja o pročitanom postala je, u nedostatku drugih prilika za druženje, gotovo jedina zajednička tema razgovora među susjedima koji se inače rijetko viđaju.',
-        en: "The books that circulate most aren't necessarily the newest releases, but titles known in the village as ones everyone reads: historical novels, travellers' memoirs, the occasional poetry collection. Exchanging opinions about what's been read has become, for lack of other occasions to socialize, almost the only shared topic of conversation among neighbours who otherwise rarely see each other.",
+        en: "The books that circulate most aren't necessarily the newest releases, but titles known in the village as ones everyone reads: historical novels, travelers' memoirs, the occasional poetry collection. Exchanging opinions about what's been read has become, for lack of other occasions to socialize, almost the only shared topic of conversation among neighbors who otherwise rarely see each other.",
       },
       {
         hr: 'Prorjeđivanje poštanskih usluga i zatvaranje trgovina učinili su knjižnicu na kotačima jednom od rijetkih niti koje ta sela još drže povezanima sa svijetom izvan doline. Gdje god autobus više ne stane, a liječnik dolazi jednom mjesečno, dolazak kombija sa štivom nosi težinu veću od same knjige.',
@@ -16991,7 +16990,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Kad se prije zore probudi u planinarskom domu na tisuću i pol metara nadmorske visine, prvo što učini jest pogledati kroz prozor: je li magla legla na dolinu ili se nebo razvedrilo. Taj kratki pogled, kaže, vrijedi više od bilo koje prognoze, jer joj gorski krajolik govori jezikom koji je naučila čitati tek nakon godina provedenih na toj visini.',
-        en: 'When she wakes before dawn in the mountain hut at fifteen hundred metres, the first thing she does is look out the window: has fog settled over the valley, or has the sky cleared. That brief glance, she says, is worth more than any forecast, because the mountain landscape speaks a language she learned to read only after years spent at that altitude.',
+        en: 'When she wakes before dawn in the mountain hut at fifteen hundred meters, the first thing she does is look out the window: has fog settled over the valley, or has the sky cleared. That brief glance, she says, is worth more than any forecast, because the mountain landscape speaks a language she learned to read only after years spent at that altitude.',
       },
       {
         hr: 'Opskrba planinarskog doma nikad nije jednostavna zadaća. Ljeti dio robe donose nosači, dio stiže žičarom do najbliže postaje, a ono najteže — plinske boce, drva, konzerve — prevozi se helikopterom kad vrijeme dopusti, najviše dva do tri puta godišnje. Zimi, kad su prilazi zatrpani snijegom, mora unaprijed procijeniti koliko će zaliha hrane i goriva trebati da dom preživi mjesece bez dopreme.',
@@ -17147,15 +17146,15 @@ export const GRADED_STORIES = [
     duration: 12,
     focus: 'kazališna rasvjeta • nevidljiv zanat • trenutak premijere',
     intro:
-      'A portrait of a theatre lighting master — rigging above the stage, painting mood with light that is invisible only when it is perfect, and the tension of watching a premiere from the control booth.',
+      'A portrait of a theater lighting master — rigging above the stage, painting mood with light that is invisible only when it is perfect, and the tension of watching a premiere from the control booth.',
     paragraphs: [
       {
         hr: 'Malo tko u gledalištu primijeti da postoji čovjek zadužen za to da svjetlo na pozornici izgleda kao da se samo pojavljuje. Njegov posao počinje danima prije premijere, u praznom kazalištu, kad se rasvjetni pult tek pali i reflektori vise nad pozornicom poput uspavanih ptica koje čekaju da ih netko probudi.',
-        en: 'Hardly anyone in the audience notices that there is a person responsible for making the light on stage look as if it simply appears. His work begins days before the premiere, in an empty theatre, when the lighting console is only just switched on and the spotlights hang above the stage like sleeping birds waiting for someone to wake them.',
+        en: 'Hardly anyone in the audience notices that there is a person responsible for making the light on stage look as if it simply appears. His work begins days before the premiere, in an empty theater, when the lighting console is only just switched on and the spotlights hang above the stage like sleeping birds waiting for someone to wake them.',
       },
       {
         hr: 'Postavljanje rasvjete iznad pozornice zahtijeva penjanje na mostove i rešetke skrivene iznad kulisa, gdje se svaki reflektor mora učvrstiti, usmjeriti i markirati vrpcom određene boje. Pogreška od nekoliko centimetara u kutu nagiba može značiti da glumac u ključnoj sceni ostane napola u sjeni, a to se na premijeri više ne smije dogoditi.',
-        en: 'Rigging the lights above the stage means climbing onto bridges and gratings hidden above the flats, where every spotlight must be fastened, aimed, and marked with tape of a particular colour. An error of a few centimetres in the tilt angle can mean an actor in a key scene is left half in shadow — something that must never happen on opening night.',
+        en: 'Rigging the lights above the stage means climbing onto bridges and gratings hidden above the apartments, where every spotlight must be fastened, aimed, and marked with tape of a particular color. An error of a few centimeters in the tilt angle can mean an actor in a key scene is left half in shadow — something that must never happen on opening night.',
       },
       {
         hr: 'Svjetlo se, tvrdi, ne postavlja nego se piše, kao što se piše rečenica: hladna plava boja slika osamljenost, topla jantarna navodi na intimu, a oštar bočni snop stvara napetost prije nego što glumac izgovori ijednu riječ. Ta je vještina nevidljiva samo kad je izvedena besprijekorno; svaka pogreška odmah postaje vidljiva svima, čak i onima koji ne razmišljaju o oblikovanju svjetla.',
@@ -17171,7 +17170,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Svjetlo mora surađivati s kulisama i kostimima, a ne natjecati se s njima: previše jaka rasvjeta može poništiti pažljivo obojenu scenografiju, dok preslaba ostavlja kostime bez sjaja koji im je scenograf pomno namijenio. Zato prije svake premijere provodi sate usklađujući nijanse reflektora s bojama koje zapravo vidi tek kad se sve sastavi na pozornici.',
-        en: "Light must cooperate with the sets and costumes, not compete with them: too strong a wash can wash out carefully coloured scenery, while too weak a one leaves costumes without the shimmer the designer intended for them. So before every premiere he spends hours matching the spotlights' hues to the colours he only truly sees once everything comes together on stage.",
+        en: "Light must cooperate with the sets and costumes, not compete with them: too strong a wash can wash out carefully colored scenery, while too weak a one leaves costumes without the shimmer the designer intended for them. So before every premiere he spends hours matching the spotlights' hues to the colors he only truly sees once everything comes together on stage.",
       },
       {
         hr: 'Na dan premijere sjedi u malenoj kontrolnoj kabini iznad gledališta, s prstima na tipkama pulta i pogledom uprtim u monitor koji prikazuje pozornicu. Dok publika prati radnju, on prati vlastiti scenarij svjetla, pritišćući tipke u točno određenim trenucima, svjestan da svaka pogrešna sekunda mijenja dojam cijele scene.',
@@ -17183,11 +17182,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad ga netko upita čime se bavi, često odgovori jednostavno da radi u kazalištu, izbjegavajući dugo objašnjenje koje bi zahtijevalo desetke pojmova nepoznatih izvan struke. Nagrada njegova posla nije aplauz upućen njemu — taj uvijek pripada glumcima — nego tišina u kojoj publika, ne znajući zašto, osjeti da je nešto na pozornici bilo istinito.',
-        en: "When someone asks what he does for a living, he often simply answers that he works in the theatre, avoiding an explanation that would require dozens of terms unknown outside the trade. The reward of his work isn't applause directed at him — that always belongs to the actors — but the silence in which the audience, without knowing why, senses that something on stage was true.",
+        en: "When someone asks what he does for a living, he often simply answers that he works in the theater, avoiding an explanation that would require dozens of terms unknown outside the trade. The reward of his work isn't applause directed at him — that always belongs to the actors — but the silence in which the audience, without knowing why, senses that something on stage was true.",
       },
       {
         hr: 'Nakon posljednje izvedbe te sezone, kad se zavjesa spusti i gledalište isprazni, ostaje sam u kabini još nekoliko minuta, gaseći reflektore jedan po jedan, kao da svaki zaslužuje pristojan pozdrav prije nego što pozornica utone u mrak do sljedeće probe, a kazalište, do jutra, opet postane samo tiha, prazna zgrada.',
-        en: "After the season's last performance, once the curtain falls and the house empties, he stays alone in the booth a few more minutes, switching off the spotlights one by one, as if each deserved a proper goodbye before the stage sinks into darkness until the next rehearsal, and the theatre, by morning, becomes just a quiet, empty building again.",
+        en: "After the season's last performance, once the curtain falls and the house empties, he stays alone in the booth a few more minutes, switching off the spotlights one by one, as if each deserved a proper goodbye before the stage sinks into darkness until the next rehearsal, and the theater, by morning, becomes just a quiet, empty building again.",
       },
     ],
     vocabulary: [
@@ -17793,7 +17792,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'U školskoj zgradi na rubu sela, sagrađenoj još prije osamdesetak godina, svako jutro istim praznim hodnikom odjekuju koraci samo petero učenika, djece koja se međusobno poznaju bolje nego rođena braća i sestre. Učiteljica Ana Perić predaje u kombiniranom razrednom odjelu u kojem se pod istim krovom, u istoj učionici, istodobno nalaze prvi, drugi, treći i četvrti razred.',
-        en: 'In the school building at the edge of the village, built some eighty years ago, every morning the same empty hallway echoes with the footsteps of only five pupils, children who know one another better than siblings do. Teacher Ana Perić teaches in a combined-grade classroom where, under one roof, in one room, the first, second, third, and fourth grades are all present at once.',
+        en: 'In the school building at the edge of the village, built some eighty years ago, every morning the same empty hallway echoes with the footsteps of only five students, children who know one another better than siblings do. Teacher Ana Perić teaches in a combined-grade classroom where, under one roof, in one room, the first, second, third, and fourth grades are all present at once.',
       },
       {
         hr: 'Dok jedna skupina rješava zadatke iz matematike, druga uz njezinu pomoć uvježbava čitanje, a treća samostalno piše sastavak, pa se satovi organiziraju kao slagalica u kojoj svaki dio mora sjesti na svoje mjesto. Individualizacija nastave ovdje nije metodička preporuka iz priručnika, nego svakodnevna nužnost bez koje sat jednostavno ne bi funkcionirao.',
@@ -17801,7 +17800,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Priprema za takav dan traje dulje nego za redovni razred, jer Ana za svaki dan mora osmisliti četiri različita plana rada koji se međusobno isprepliću, a da nijedna dobna skupina ne ostane zapostavljena. Uz to prati i napredak svakog djeteta pojedinačno, jer je razred premalen da bi prosjek išta govorio, pa se svaki učenik promatra zasebno.',
-        en: "Preparing for such a day takes longer than for a regular class, since Ana must devise four different work plans every day that intertwine with one another, so that no age group is left neglected. She also tracks each child's progress individually, since a class too small to average requires that every pupil be observed separately.",
+        en: "Preparing for such a day takes longer than for a regular class, since Ana must devise four different work plans every day that intertwine with one another, so that no age group is left neglected. She also tracks each child's progress individually, since a class too small to average requires that every student be observed separately.",
       },
       {
         hr: 'Osim škole, u selu više ne postoji ni trgovina ni ambulanta, pa je škola posljednja ustanova koja selu daje razlog da se ujutro uopće nešto događa. Roditelji dolaze po djecu ispred istih vrata pred kojima su i sami nekoć čekali, a taj kontinuitet mnogima znači više od same nastave.',
@@ -17809,7 +17808,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Škola organizira i priredbe povodom blagdana na koje dolazi gotovo cijelo selo, ne samo roditelji učenika, jer je to jedina prigoda kad se svi susjedi okupe pod istim krovom izvan crkve. Ana tvrdi da upravo ti trenuci pokazuju koliko je ustanova, unatoč malenom broju učenika, još uvijek žila kucavica zajednice.',
-        en: "The school also organizes holiday programs that draw almost the whole village, not just the pupils' parents, since it's the only occasion when all the neighbors gather under one roof outside of church. Ana claims these are exactly the moments that show how, despite its small number of pupils, the institution is still the lifeblood of the community.",
+        en: "The school also organizes vacation programs that draw almost the whole village, not just the students' parents, since it's the only occasion when all the neighbors gather under one roof outside of church. Ana claims these are exactly the moments that show how, despite its small number of students, the institution is still the lifeblood of the community.",
       },
       {
         hr: 'Broj upisane djece svake se godine smanjuje, pa se s vremena na vrijeme u općini otvara pitanje bi li školu trebalo pripojiti većoj ustanovi u susjednom mjestu. Za roditelje to ne bi značilo samo dulji put autobusom svako jutro, nego i gubitak posljednjeg mjesta gdje se selo još uvijek prepoznaje kao zajednica.',
@@ -17825,11 +17824,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Budući da su generacije djece male, Ana prati učenike od prvog razreda sve do odlaska u peti razred u veću školu, pa poznaje ne samo njihove ocjene nego i obiteljske prilike, strahove i darove koje tek otkrivaju. Ta bliskost, kaže, donosi odgovornost kakvu nastavnik u velikom gradskom razredu rijetko iskusi u tolikoj mjeri.',
-        en: 'Because the generations of children are small, Ana follows her pupils from first grade until they leave for fifth grade at a larger school, so she knows not only their grades but also their family circumstances, fears, and the talents they are only just discovering. That closeness, she says, brings a responsibility a teacher in a large city classroom rarely experiences to the same degree.',
+        en: 'Because the generations of children are small, Ana follows her students from first grade until they leave for fifth grade at a larger school, so she knows not only their grades but also their family circumstances, fears, and the talents they are only just discovering. That closeness, she says, brings a responsibility a teacher in a large city classroom rarely experiences to the same degree.',
       },
       {
         hr: 'Naposljetku, Ana ističe da škola u malom selu ne odgaja samo djecu, nego održava na životu i samo selo, jer ustanova bez učenika prestaje postojati, a selo bez ustanove polako gubi svoj identitet. Zato se, unatoč svim izazovima, i dalje bori da odjel ostane otvoren, uvjerena da vrijedi truda, makar to značilo dodatne sate rada bez ikakve naknade.',
-        en: "Finally, Ana points out that a school in a small village doesn't only educate children — it keeps the village itself alive, because an institution without pupils ceases to exist, and a village without an institution slowly loses its identity. That is why, despite all the challenges, she keeps fighting to keep the classroom open, convinced it is worth the effort, even if that means extra hours of unpaid work.",
+        en: "Finally, Ana points out that a school in a small village doesn't only educate children — it keeps the village itself alive, because an institution without students ceases to exist, and a village without an institution slowly loses its identity. That is why, despite all the challenges, she keeps fighting to keep the classroom open, convinced it is worth the effort, even if that means extra hours of unpaid work.",
       },
     ],
     vocabulary: [
@@ -17957,11 +17956,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Rijetko koji uzorak nosi toliko značenja u tako malo poteza kao šahovnica: dva polja, dvije boje, jedan ritam koji se ponavlja u beskonačnost. Bijaše, kažu legende, štit još iz srednjovjekovlja, kad se heraldika služila bojom ondje gdje riječi ne bi dopirale — na bojnom polju, gdje se plemić morao prepoznati s udaljenosti prije nego što bi ga itko upitao za ime.',
-        en: 'Few patterns carry as much meaning in so few strokes as the chequy shield: two fields, two colours, one rhythm repeating into infinity. It was, legends say, a shield already in the Middle Ages, when heraldry used colour where words could not reach — on the battlefield, where a nobleman had to be recognised from a distance before anyone could ask his name.',
+        en: 'Few patterns carry as much meaning in so few strokes as the chequy shield: two fields, two colors, one rhythm repeating into infinity. It was, legends say, a shield already in the Middle Ages, when heraldry used color where words could not reach — on the battlefield, where a nobleman had to be recognized from a distance before anyone could ask his name.',
       },
       {
         hr: 'Crveno i bijelo, u jeziku heraldike, nisu tek boje nego tvrdnje: crveno govori o hrabrosti, bijelo o čistoći namjere, a njihovo izmjenično slaganje, red do reda, tvrdi nešto treće — postojanost koja se ne mijenja bez obzira odakle joj se pristupi. Grb koji je nekoć krasio štitove nekolicine plemićkih obitelji, stoljećima kasnije postade znak čitava naroda, a taj je prijelaz, od pojedinačnoga k zajedničkome, sam po sebi priča o tome kako se simboli demokratiziraju.',
-        en: 'Red and white, in the language of heraldry, are not merely colours but assertions: red speaks of courage, white of purity of intent, and their alternation, row upon row, asserts a third thing — a constancy that does not change regardless of the angle from which it is approached. A crest that once adorned the shields of a handful of noble families became, centuries later, the emblem of an entire people, and that transition, from the individual to the shared, is itself a story about how symbols become democratized.',
+        en: 'Red and white, in the language of heraldry, are not merely colors but assertions: red speaks of courage, white of purity of intent, and their alternation, row upon row, asserts a third thing — a constancy that does not change regardless of the angle from which it is approached. A crest that once adorned the shields of a handful of noble families became, centuries later, the emblem of an entire people, and that transition, from the individual to the shared, is itself a story about how symbols become democratized.',
       },
       {
         hr: 'Šahovnica se, unatoč promjenjivim gospodarima ovih prostora, održala u pečatima, novcu i grbovima stoljećima prije negoli je itko pomislio da bi mogla postati zastava. U tome je njezina osobita snaga: nije nastala kao parola za trenutak, nego kao uzorak koji je nadživio sve prilike u kojima je izmišljen, ravnodušan prema tome tko trenutačno drži pečat. Arhivi to potvrđuju šutke, bez ijednog manifesta: isti crveno-bijeli raspored ponavlja se na kamenim pločama i pergamentima nastalima u razmaku od nekoliko stoljeća, kao da je uzorak čekao, strpljiviji od bilo koje vlasti koja ga je posudila.',
@@ -17973,7 +17972,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Danas isti uzorak krasi dresove nogometaša i turističke suvenire, magnete na hladnjacima i etikete boca, pa se s pravom postavlja pitanje troši li se ponavljanjem njegovo dostojanstvo. Odgovor je, čini se, dvostruk: kvadratić na majici navijača ne umanjuje kvadratić na grobu palog vojnika, jer kontekst, ne uzorak sam, određuje registar u kojem znak progovara — isto slovo, drukčija rečenica.',
-        en: "Today the same pattern adorns footballers' jerseys and tourist souvenirs, fridge magnets and bottle labels, so the question rightly arises whether repetition wears down its dignity. The answer, it seems, is twofold: the little square on a fan's shirt does not diminish the little square on a fallen soldier's grave, because context, not the pattern itself, determines the register in which the sign speaks — the same letter, a different sentence.",
+        en: "Today the same pattern adorns soccer players' jerseys and tourist souvenirs, fridge magnets and bottle labels, so the question rightly arises whether repetition wears down its dignity. The answer, it seems, is twofold: the little square on a fan's shirt does not diminish the little square on a fallen soldier's grave, because context, not the pattern itself, determines the register in which the sign speaks — the same letter, a different sentence.",
       },
       {
         hr: 'U tome je i najdublja analogija: šahovnica funkcionira kao gramatika, ne kao rječnik. Rječnik nudi značenja; gramatika nudi poredak, pravilo po kojem se značenja slažu. Šahovnica ne kazuje ništa određeno svojim promatračima — ne priča priču, ne navodi datum, ne imenuje junaka — nego uspostavlja obrazac prepoznavanja koji djeluje prije nego što se itko sjeti pitati što uzorak doista znači. Baš zato je otporna na tumačenja koja joj nameću dnevne prilike: gramatika se ne da ucijeniti trenutnim značenjem, jer njezina zadaća nije da nešto tvrdi, nego da omogući da se nešto uopće izgovori.',
@@ -17981,7 +17980,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Iseljenik koji na dalekom kontinentu ugleda šahovnicu na nečijoj majici ili naljepnici automobila ne razmišlja o povijesti heraldike; prepoznaje, prije bilo kakve misli, nešto što mu je blisko, kao što se prepoznaje rukopis roditelja i prije čitanja same poruke. U tom trenu uzorak djeluje brže od jezika: gramatika koja se čita okom, ne umom.',
-        en: "An emigrant who, on a distant continent, catches sight of the chequy pattern on someone's shirt or car sticker does not think about the history of heraldry; he recognises, before any thought, something close to him, the way one recognises a parent's handwriting even before reading the message itself. In that instant the pattern acts faster than language: a grammar read by the eye, not the mind.",
+        en: "An emigrant who, on a distant continent, catches sight of the chequy pattern on someone's shirt or car sticker does not think about the history of heraldry; he recognizes, before any thought, something close to him, the way one recognizes a parent's handwriting even before reading the message itself. In that instant the pattern acts faster than language: a grammar read by the eye, not the mind.",
       },
       {
         hr: 'Ipak, svaka gramatika trpi zloporabu kad se rabi bez sluha za kontekst: uzorak nabačen ondje gdje bi umjesnija bila tišina djeluje kao rečenica izvikana ondje gdje bi dolikovao šapat. Dostojanstvo šahovnice, poput dostojanstva bilo kojeg starog znaka, ne štiti se zabranom uporabe, nego mjerom — znanjem kada zavrjeđuje svečanost, a kada tek dekorativnu uzgrednost.',
@@ -18084,7 +18083,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Zašto iseljenik, prema tekstu, prepozna šahovnicu prije nego što o njoj uopće promisli?',
-        qEn: 'According to the text, why does an emigrant recognise the pattern before even thinking about it?',
+        qEn: 'According to the text, why does an emigrant recognize the pattern before even thinking about it?',
         opts: [
           'Jer je prethodno detaljno proučio heraldiku',
           'Jer mu je netko prethodno objasnio značenje',
@@ -18133,11 +18132,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Fjaka, sestra pomala, ne pripada volji nego tijelu: ona dođe sama, obično oko podneva, kad sunce postane pretežak teret za bilo kakav pothvat. Onaj tko je nikad nije osjetio pomisli da je riječ o lijenosti; onaj tko jest, zna da je riječ o obrani — tijelo koje odbija sudjelovati u ritmu koji mu ne odgovara.',
-        en: "Fjaka, pomalo's sister, belongs not to the will but to the body: it comes uninvited, usually around noon, when the sun becomes too heavy a burden for any undertaking. Whoever has never felt it assumes it is a matter of laziness; whoever has, knows it is a matter of defence — a body refusing to take part in a rhythm that does not suit it.",
+        en: "Fjaka, pomalo's sister, belongs not to the will but to the body: it comes uninvited, usually around noon, when the sun becomes too heavy a burden for any undertaking. Whoever has never felt it assumes it is a matter of laziness; whoever has, knows it is a matter of defense — a body refusing to take part in a rhythm that does not suit it.",
       },
       {
         hr: 'Riva sama, ta uska pruga kamena između kuća i mora, nema službene svrhe, a upravo zato ispunjava toliko njih: ondje se šeće bez cilja, sjedi bez razloga, razgovara bez dnevnog reda. Nitko na rivi ne pita koliko je sati, jer bi pitanje odalo da još uvijek pripada onom drugom, bržem svijetu.',
-        en: 'The riva itself, that narrow strip of stone between the houses and the sea, has no official purpose, and precisely for that reason fulfils so many: there one walks without aim, sits without reason, talks without an agenda. No one on the riva asks what time it is, because the question would betray that he still belongs to that other, faster world.',
+        en: 'The riva itself, that narrow strip of stone between the houses and the sea, has no official purpose, and precisely for that reason fulfills so many: there one walks without aim, sits without reason, talks without an agenda. No one on the riva asks what time it is, because the question would betray that he still belongs to that other, faster world.',
       },
       {
         hr: 'Riva mijenja lice ovisno o dobu dana, ali nikad svoj tempo: ujutro njome prolaze ribari noseći mrežu, u podne je prazna zbog fjake, navečer se puni obiteljima koje ne idu nikamo određeno, nego jednostavno šeću, korzo za korzom, kao da sam čin hodanja bez cilja treba obnavljati svaku večer iznova, poput obreda koji nitko nije propisao, a svi ga poštuju.',
@@ -18157,7 +18156,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Turisti, promatrajući mještane na rivi, ponekad povjeruju da gledaju besposlicu vrijednu fotografije, ne shvaćajući da svjedoče najzahtjevnijoj vještini koju je ovaj kraj razvio: sposobnosti da se, usprkos svakom pritisku izvana, ne žuri. Ironija je potpuna kad isti turist, snimivši prizor, požuri natrag u red za trajekt.',
-        en: 'Tourists, watching the locals on the riva, sometimes believe they are looking at an idleness worth photographing, not realising they are witnessing the most demanding skill this region has developed: the ability, despite every pressure from outside, not to hurry. The irony is complete when that same tourist, having filmed the scene, hurries back to the ferry queue.',
+        en: 'Tourists, watching the locals on the riva, sometimes believe they are looking at an idleness worth photographing, not realizing they are witnessing the most demanding skill this region has developed: the ability, despite every pressure from outside, not to hurry. The irony is complete when that same tourist, having filmed the scene, hurries back to the ferry line.',
       },
       {
         hr: 'Riva, dakle, nije nostalgija niti zaostatak, nego tih oblik otpora: podsjetnik da je vrijeme, prije nego što je postalo roba, bilo jednostavno ono što čovjek proživi, a ne ono što od njega netko drugi oduzme. Tko nauči sjediti na rivi ne gledajući na sat, naučio je nešto što se nijednom aplikacijom ne da preuzeti.',
@@ -18177,7 +18176,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'pothvat',
-        en: 'undertaking, endeavour',
+        en: 'undertaking, endeavor',
         ex: 'Sunce postane pretežak teret za bilo kakav pothvat.',
       },
       {
@@ -18621,7 +18620,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Naslijediti maslinik stoga znači naslijediti i obvezu prema ljudima koje nikad nismo upoznali: prema pradjedu koji je krčio kamenjar, prema svima koji su plodove brali prije nas, a čijih se imena više ni ne sjećamo, premda nam je njihov trud, doslovno, u korijenju svakog stabla. Taj se dug ne otplaćuje novcem, nego brigom o istim redovima godinu za godinom.',
-        en: 'To inherit a grove, then, is to inherit an obligation toward people we never met: toward the great-grandfather who cleared the stony ground, toward everyone who picked its fruit before us and whose names we no longer even remember, though their labour is, quite literally, in the roots of every tree. That debt is repaid not in money, but in tending the same rows year after year.',
+        en: 'To inherit a grove, then, is to inherit an obligation toward people we never met: toward the great-grandfather who cleared the stony ground, toward everyone who picked its fruit before us and whose names we no longer even remember, though their labor is, quite literally, in the roots of every tree. That debt is repaid not in money, but in tending the same rows year after year.',
       },
       {
         hr: 'U svijetu koji uspjeh mjeri kvartalnim izvještajima i tjednim ciljevima, takav nasad djeluje gotovo kao anakronizam. Ne može ga se požuriti obilnijim zalijevanjem niti nagovoriti da rodi prije vremena koje mu je određeno vlastitom, nepromjenjivom naravi, koliko god vlasnik bio nestrpljiv, a upravo je ta otpornost prema ubrzavanju ono što ga čini dragocjenim.',
@@ -18637,7 +18636,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad prvi put te jeseni okusim novo ulje, prepoznajem u njemu okus koji se od djetinjstva gotovo nije promijenio: gorčinu koja isprva zapeče u grlu, a zatim ostavi trag zelenog, gotovo paprenog mirisa. Taj je okus, čini mi se, jedina stvar koju mogu dijeliti s djedom premda ga više nema. To je, mislim, jedina veza koja ne ovisi o riječima.',
-        en: "When I first taste the new oil that autumn, I recognize in it a flavour almost unchanged since childhood: a bitterness that first catches at the throat, then leaves a trace of green, almost peppery aroma. That taste, it seems to me, is the one thing I can still share with my grandfather, even though he is gone. It is, I think, the one bond that doesn't depend on words.",
+        en: "When I first taste the new oil that fall, I recognize in it a flavor almost unchanged since childhood: a bitterness that first catches at the throat, then leaves a trace of green, almost peppery aroma. That taste, it seems to me, is the one thing I can still share with my grandfather, even though he is gone. It is, I think, the one bond that doesn't depend on words.",
       },
       {
         hr: 'Ono što me maslinik najviše uči nije, dakle, strpljivost sama po sebi, nego skromnija istina: da posjedovanje zemlje nikad nije potpuno, jer svaki vlasnik samo privremeno čuva ono što je bilo tu prije njega i ostat će poslije. Vlasništvo je, u najboljem slučaju, oblik odgovornosti, a ne prava na trajno raspolaganje.',
@@ -18925,11 +18924,11 @@ export const GRADED_STORIES = [
     levelBg: '#fce7f3',
     icon: '🌳',
     title: 'Susjedova smokva',
-    titleEn: "The Neighbour's Fig Tree",
+    titleEn: "The Neighbor's Fig Tree",
     duration: 12,
     focus: 'susjedstvo i velikodušnost • granice vlasništva • nepisana pravila zajednice',
     intro:
-      'A literary essay on a fig tree whose branches cross a property line, and on the quiet, unwritten customs by which neighbours share its fruit. It reflects on what such small negotiations reveal about generosity and boundaries.',
+      'A literary essay on a fig tree whose branches cross a property line, and on the quiet, unwritten customs by which neighbors share its fruit. It reflects on what such small negotiations reveal about generosity and boundaries.',
     paragraphs: [
       {
         hr: 'Smokva što raste uz među nije zasađena s namjerom da postane predmet spora; nitko se više i ne sjeća je li je zasadio djed sadašnjeg vlasnika ili netko prije njega, a to pitanje, začudo, nikoga u ovom kraju istinski ne zanima. Stablo jednostavno jest, staro koliko i sama ograda, možda i starije.',
@@ -18945,23 +18944,23 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Priča se da su, kad je stablo bilo tek mladica, dvojica susjeda jednom, uz čašu vina na razdjelnici dvaju dvorišta, dogovorila da ono što padne na jednu stranu ostaje toj strani, bez daljnjih uvjeta i bez potrebe da se ikad više o tome govori. Otad se dogovor obnavlja šutnjom, iz naraštaja u naraštaj.',
-        en: 'It is said that, when the tree was still a sapling, two neighbours once agreed, over a glass of wine at the line dividing their two yards, that whatever fell on one side would belong to that side, with no further conditions and no need to ever speak of it again. Since then the agreement has been renewed in silence, generation after generation.',
+        en: 'It is said that, when the tree was still a sapling, two neighbors once agreed, over a glass of wine at the line dividing their two yards, that whatever fell on one side would belong to that side, with no further conditions and no need to ever speak of it again. Since then the agreement has been renewed in silence, generation after generation.',
       },
       {
         hr: "Jednog kolovoza, kad se grane objesiše gotovo do zemlje pod teretom neobično bogate berbe, susjed s druge strane ograde osu na naš prag punu vreću najzrelijih plodova, ne tražeći ništa zauzvrat, samo uz kratku poruku da mu smokve 's naše strane' ionako više nisu stale u kuhinju.",
-        en: "One August, when the branches sagged nearly to the ground under the weight of an unusually rich harvest, the neighbour on the other side of the fence poured out onto our doorstep a full sack of the ripest fruit, asking nothing in return, with only a brief note that the figs 'from our side' no longer fit in his kitchen anyway.",
+        en: "One August, when the branches sagged nearly to the ground under the weight of an unusually rich harvest, the neighbor on the other side of the fence poured out onto our doorstep a full sack of the ripest fruit, asking nothing in return, with only a brief note that the figs 'from our side' no longer fit in his kitchen anyway.",
       },
       {
         hr: 'Takva gesta ne traži uzvrat u istom trenutku, no obvezuje: idućeg proljeća stiže vreća mladog luka, u jesen tegla domaćeg pekmeza, i tako se, plod po plod, usluga po usluga, tka mreža uzajamnosti koju nijedan ugovor ne bi mogao jednako precizno urediti, a dugovi se namiruju ne novcem nego pažnjom.',
-        en: 'Such a gesture demands no immediate return, yet it obliges: the following spring a sack of young onions arrives, in autumn a jar of homemade jam, and so, fruit by fruit, favour by favour, a web of reciprocity is woven that no contract could arrange with equal precision, and debts are settled not in money but in attention.',
+        en: 'Such a gesture demands no immediate return, yet it obliges: the following spring a sack of young onions arrives, in fall a jar of homemade jam, and so, fruit by fruit, favor by favor, a web of reciprocity is woven that no contract could arrange with equal precision, and debts are settled not in money but in attention.',
       },
       {
         hr: 'Postoji, doduše, i onaj susjed koji bi radije obrezao grane do same međe, uskraćujući i sjenu i plod, samo kako bi obranio svako pravo na milimetar vlastita zemljišta. Takav se, međutim, u selu brzo prepozna: o njemu se ne govori zlobno, ali mu se, suptilno, uskraćuje ono što se drugima daje samo od sebe.',
-        en: 'There is, admittedly, also the kind of neighbour who would rather prune the branches back to the exact boundary, denying both shade and fruit, just to defend every millimetre of his own land. Such a person, however, is quickly recognized in the village: no one speaks ill of him, but he is, subtly, denied what is given to others as a matter of course.',
+        en: 'There is, admittedly, also the kind of neighbor who would rather prune the branches back to the exact boundary, denying both shade and fruit, just to defend every millimetre of his own land. Such a person, however, is quickly recognized in the village: no one speaks ill of him, but he is, subtly, denied what is given to others as a matter of course.',
       },
       {
         hr: 'Zakon, formalno, ne ostavlja mnogo prostora za nijanse: susjed ima pravo obrezati grane koje prelaze na njegovo zemljište, sve do same međe. No u praksi rijetko tko poseže za tim pravom, jer bi time priznao da živi tek pored ljudi, a ne među njima.',
-        en: 'The law, formally, leaves little room for nuance: a neighbour has the right to prune back branches that cross onto his land, right up to the boundary line. In practice, though, few reach for that right, since doing so would be to admit that one lives merely beside people rather than among them.',
+        en: 'The law, formally, leaves little room for nuance: a neighbor has the right to prune back branches that cross onto his land, right up to the boundary line. In practice, though, few reach for that right, since doing so would be to admit that one lives merely beside people rather than among them.',
       },
       {
         hr: "Djeca s obiju strana ograde odrastaju uz tu smokvu ne znajući točno gdje prestaje 'naše', a počinje 'njihovo', i upravo u toj nejasnoći, čini se, uče nešto što se u školi ne predaje: da granica može biti crta na katastarskom planu, a istodobno gotovo nevažna u stvarnom životu među ljudima.",
@@ -18973,7 +18972,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kad jednog dana ograda propadne ili se zamijeni novom, stablo će nastaviti bacati sjenu na obje strane, posve ravnodušno prema tome tko je vlasnik, a tko susjed, podsjećajući, iz godine u godinu, da neke granice postoje samo dok ih ljudi odluče poštovati kao takve, makar bile ucrtane u najtočniji plan.',
-        en: 'When one day the fence falls apart or is replaced with a new one, the tree will go on casting its shade over both sides, entirely indifferent to who is the owner and who the neighbour, reminding everyone, year after year, that some boundaries exist only for as long as people choose to respect them as such, however precisely they may be drawn on the most accurate of plans.',
+        en: 'When one day the fence falls apart or is replaced with a new one, the tree will go on casting its shade over both sides, entirely indifferent to who is the owner and who the neighbor, reminding everyone, year after year, that some boundaries exist only for as long as people choose to respect them as such, however precisely they may be drawn on the most accurate of plans.',
       },
     ],
     vocabulary: [
@@ -19045,7 +19044,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Kako susjed reagira kad grane provisnu pod obilnom berbom?',
-        qEn: 'How does the neighbour react when the branches sag under an abundant harvest?',
+        qEn: 'How does the neighbor react when the branches sag under an abundant harvest?',
         opts: [
           'Šalje susjedima vreću najzrelijih plodova ne tražeći ništa zauzvrat',
           'Traži da mu se nadoknadi šteta od otpalog voća',
@@ -19089,11 +19088,11 @@ export const GRADED_STORIES = [
     duration: 12,
     focus: 'prostor kao roba • gubitak javnog dobra • tko još gleda more besplatno',
     intro:
-      'An essay on the sea view as a commodity, sold by the square metre and the degree of horizon, and on what a town loses when its most democratic asset becomes a private product.',
+      'An essay on the sea view as a commodity, sold by the square meter and the degree of horizon, and on what a town loses when its most democratic asset becomes a private product.',
     paragraphs: [
       {
         hr: "U prodajnim oglasima duž jadranske obale odavno se ne prodaje samo stan, nego pogled: 'apartman s pogledom na more' postao je zasebnim artiklom, s vlastitom cijenom po kvadratu koja nadmašuje cijenu samih zidova. Pogled se, drugim riječima, odvojio od krajolika i postao robom koju je moguće izmjeriti, uokviriti i naplatiti.",
-        en: "In real-estate listings along the Adriatic coast, what is sold is no longer just an apartment but a view: 'apartment with a sea view' has become a separate line item, with its own price per square metre that exceeds the price of the walls themselves. The view, in other words, has detached itself from the landscape and become a commodity that can be measured, framed, and charged for.",
+        en: "In real-estate listings along the Adriatic coast, what is sold is no longer just an apartment but a view: 'apartment with a sea view' has become a separate line item, with its own price per square meter that exceeds the price of the walls themselves. The view, in other words, has detached itself from the landscape and become a commodity that can be measured, framed, and charged for.",
       },
       {
         hr: 'Razlika u cijeni između dva gotovo identična stana, jednog s pogledom na unutrašnje dvorište i drugog s pogledom na otvoreno more, ponekad premašuje pedeset posto ukupne vrijednosti nekretnine. Investitori su to odavno prepoznali, pa se noviji objekti grade sve viši, katkad upravo zato da bi gornji katovi ukrali obzor onima ispod.',
@@ -19101,7 +19100,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: "U prodajnim razgovorima posrednici katkad doslovno mjere širinu pogleda u stupnjevima, kao da prodaju metre horizonta, a ne kvadrate poda: 'čisti pogled bez zaklona', 'sto osamdeset stupnjeva mora', 'pogled koji se ne može oduzeti planom susjedne gradnje' postali su formulacijama jednako važnim kao broj soba ili kvadratura stana.",
-        en: "In sales conversations, agents sometimes literally measure the width of a view in degrees, as if selling metres of horizon rather than square metres of floor: phrases like 'unobstructed view', 'a hundred and eighty degrees of sea', and 'a view that no neighbouring construction plan can take away' have become formulations as important as the number of rooms or the floor area.",
+        en: "In sales conversations, agents sometimes literally measure the width of a view in degrees, as if selling meters of horizon rather than square meters of floor: phrases like 'unobstructed view', 'a hundred and eighty degrees of sea', and 'a view that no neighboring construction plan can take away' have become formulations as important as the number of rooms or the floor area.",
       },
       {
         hr: 'Apartmanizacija obale tako nije samo pitanje broja kreveta ili turističkih ležajeva, nego preslagivanje samoga prostora: balkoni se okreću moru, terase se šire prema rubu litice, a stražnje strane zgrada, one bez pogleda, prepuštaju se servisnim prostorijama i parkiralištima, kao da ne zaslužuju ni prozor, kao da unutrašnjost grada i nije dio istog krajolika.',
@@ -19144,7 +19143,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'kvadrat',
-        en: 'square metre (price unit)',
+        en: 'square meter (price unit)',
         ex: 's vlastitom cijenom po kvadratu koja nadmašuje cijenu samih zidova',
       },
       {
@@ -19417,11 +19416,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Na dnu ladice, među starim računima, često se pronađe kartica ispisana bakinim rukopisom: recept za kolač, s mrljom masti u kutu i riječju „malo“ umjesto točne mjere, jer je znala da će ruka koja ga jednom pripremi znati prepoznati što „malo“ znači. Taj listić papira vrijedi više od bilo kojeg digitalnog recepta s preciznim gramažama.',
-        en: 'At the bottom of a drawer, among old bills, one often finds a card written in a grandmother\'s hand: a cake recipe, with a grease stain in the corner and the word "a little" instead of an exact measure, because she knew the hand that would one day make it would recognise what "a little" meant. That scrap of paper is worth more than any digital recipe with precise gram amounts.',
+        en: 'At the bottom of a drawer, among old bills, one often finds a card written in a grandmother\'s hand: a cake recipe, with a grease stain in the corner and the word "a little" instead of an exact measure, because she knew the hand that would one day make it would recognize what "a little" meant. That scrap of paper is worth more than any digital recipe with precise gram amounts.',
       },
       {
         hr: 'Postupno napuštanje nastave pisanog slova u osnovnim školama diljem svijeta jedan je od najtiših, a možda i najtrajnijih kulturnih gubitaka posljednjih desetljeća. Djeca danas uče tipkati prije nego što uopće savladaju vezano pismo, a mnogi odrasli koji su nekoć pisali kaligrafske vježbe u bilježnicama s linijama danas pišu rukom samo kad potpisuju dokument.',
-        en: 'The gradual abandonment of cursive instruction in primary schools around the world is one of the quietest, and perhaps most lasting, cultural losses of recent decades. Children today learn to type before they even master joined-up writing, and many adults who once practised calligraphy exercises in lined notebooks now write by hand only when signing a document.',
+        en: 'The gradual abandonment of cursive instruction in primary schools around the world is one of the quietest, and perhaps most lasting, cultural losses of recent decades. Children today learn to type before they even master joined-up writing, and many adults who once practiced calligraphy exercises in lined notebooks now write by hand only when signing a document.',
       },
       {
         hr: 'Potpis je posljednji preživjeli oblik rukopisa u životu većine odraslih ljudi: ostatak vještine svedene na nekoliko poteza koje ruka izvodi gotovo mehanički, bez svjesnog oblikovanja slova. Upravo zato što je toliko osiromašen, potpis je istovremeno i najosobniji trag koji netko ostavlja — jedini rukom napisan znak u moru tipkanih obrazaca.',
@@ -19565,11 +19564,11 @@ export const GRADED_STORIES = [
     duration: 12,
     focus: 'društvene norme • pravednost • digitalizacija svakodnevice',
     intro:
-      'An essay on the queue as an unwritten social institution, examining its fairness, the sanctions against jumping it, and what digital skip-the-line services quietly dissolve.',
+      'An essay on the line as an unwritten social institution, examining its fairness, the sanctions against jumping it, and what digital skip-the-line services quietly dissolve.',
     paragraphs: [
       {
         hr: 'Red čekanja jedna je od rijetkih društvenih institucija koje nemaju ni statut ni nadzorno tijelo, a ipak se poštuju s gotovo pravnom strogošću. Njegova snaga ne proizlazi iz zakona nego iz prešutnog dogovora: tko je prije došao, ima prednost, i to je pravilo koje nitko ne mora izgovoriti da bi vrijedilo. Ta se pravila prenose s generacije na generaciju, naučena isključivo promatranjem.',
-        en: "The queue is one of the few social institutions that have neither a charter nor a supervisory body, yet are observed with almost legal strictness. Its power doesn't come from law but from a tacit agreement: whoever arrived first has priority, a rule no one needs to state aloud for it to hold. These rules are passed down from generation to generation, learned solely through observation.",
+        en: "The line is one of the few social institutions that have neither a charter nor a supervisory body, yet are observed with almost legal strictness. Its power doesn't come from law but from a tacit agreement: whoever arrived first has priority, a rule no one needs to state aloud for it to hold. These rules are passed down from generation to generation, learned solely through observation.",
       },
       {
         hr: 'Pred pekarnicom u sedam ujutro red se formira gotovo sam od sebe, bez ijedne oznake na podu. Netko zapamti da je iza umirovljenice s ceradnom torbom, netko drugi iza čovjeka u radničkom kombinezonu, i ta se mentalna karta pamti savršeno, čak i kad se red na trenutak razdvoji zbog prolaska automobila.',
@@ -19577,11 +19576,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Nepisani zakon reda dopušta kratkotrajno napuštanje mjesta - odlazak po novčanik zaboravljen u autu, kratak razgovor sa susjedom - pod uvjetom da se netko od preostalih sjeća tvog položaja. Prekoračenje te nevidljive granice trenutačno se kažnjava mrštenjem, glasnim uzdahom ili, u krajnjem slučaju, javnom primjedbom.',
-        en: "The unwritten law of the queue allows a brief absence from one's spot - going to fetch a wallet forgotten in the car, a short chat with a neighbor - provided that someone among those remaining remembers your position. Crossing that invisible boundary is instantly punished with a frown, a loud sigh, or, in extreme cases, an open remark.",
+        en: "The unwritten law of the line allows a brief absence from one's spot - going to fetch a wallet forgotten in the car, a short chat with a neighbor - provided that someone among those remaining remembers your position. Crossing that invisible boundary is instantly punished with a frown, a loud sigh, or, in extreme cases, an open remark.",
       },
       {
         hr: 'U čekaonici obiteljskog liječnika red čekanja postaje nešto više od organizacijskog alata: ondje se, makar nakratko, izjednačavaju direktor tvrtke i sezonski radnik, jer im broj na cedulji ne priznaje ni titulu ni imovinu. Ta privremena ravnopravnost jedan je od rijetkih trenutaka u kojima društveni poredak stvarno zašuti. Nitko u čekaonici ne pita drugoga čime se bavi - broj u ruci jedina je hijerarhija koja vrijedi.',
-        en: "In a family doctor's waiting room, the queue becomes something more than an organizational tool: there, if only briefly, a company director and a seasonal laborer are equalized, because the number on their slip acknowledges neither title nor wealth. That temporary equality is one of the rare moments in which the social order truly falls silent. No one in the waiting room asks another what they do for a living - the number in hand is the only hierarchy that counts.",
+        en: "In a family doctor's waiting room, the line becomes something more than an organizational tool: there, if only briefly, a company director and a seasonal laborer are equalized, because the number on their slip acknowledges neither title nor wealth. That temporary equality is one of the rare moments in which the social order truly falls silent. No one in the waiting room asks another what they do for a living - the number in hand is the only hierarchy that counts.",
       },
       {
         hr: 'Preskakanje reda, s druge strane, ostaje jedan od najsigurnijih načina da se čovjek u sekundi pretvori u predmet kolektivnog prijezira. Sankcija rijetko dolazi u obliku otvorenog sukoba; češće je riječ o dugom, hladnom pogledu koji se prenosi od jedne osobe do druge poput nečujnog glasa koji svima priopćava istu presudu.',
@@ -19593,19 +19592,19 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Digitalizacija je toj drevnoj koreografiji dodala novu mogućnost: usluge koje, uz nadoplatu, omogućuju preskakanje reda bez fizičkog čekanja i bez pogleda ostalih. Aplikacija za rezervaciju termina ili unaprijed plaćena ulaznica bez čekanja pretvara vrijeme čekanja u robu koju, poput svake druge, mogu kupiti oni koji si to mogu priuštiti. Ono što je nekoć bilo pitanje strpljenja postaje pitanje proračuna.',
-        en: "Digitalization has added a new possibility to this ancient choreography: services that, for a surcharge, allow one to skip the line without physical waiting and without the others' gaze. A booking app or a pre-paid skip-the-line ticket turns waiting time into a commodity that, like any other, can be bought by those who can afford it. What was once a matter of patience becomes a matter of budget.",
+        en: "Digitalization has added a new possibility to this ancient choreography: services that, for a surcharge, allow one to skip the line without physical waiting and without the others' gaze. A reservation app or a pre-paid skip-the-line ticket turns waiting time into a commodity that, like any other, can be bought by those who can afford it. What was once a matter of patience becomes a matter of budget.",
       },
       {
         hr: 'Time se rastače upravo ono što je red činio vrijednim: privremeno poništavanje razlika među ljudima. Kad netko plati preskakanje, ne krši se nepisano pravilo javno, pred svjedocima, nego se izbjegava sam susret s redom, pa nestaje i prilika za onaj hladan pogled koji je nekoć bio jedina, ali djelotvorna sankcija.',
-        en: 'This dissolves precisely what made the queue valuable: the temporary erasure of differences among people. When someone pays to skip ahead, the unwritten rule is not broken openly, before witnesses; rather, the encounter with the line itself is avoided, and with it the chance for that cold stare that was once the sole, but effective, sanction.',
+        en: 'This dissolves precisely what made the line valuable: the temporary erasure of differences among people. When someone pays to skip ahead, the unwritten rule is not broken openly, before witnesses; rather, the encounter with the line itself is avoided, and with it the chance for that cold stare that was once the sole, but effective, sanction.',
       },
       {
         hr: 'Nestanak reda čekanja, paradoksalno, ne znači nestanak čekanja samog, nego njegovo preseljenje - iz javnog, vidljivog prostora u nevidljivu pozadinu sustava, gdje ga čeka onaj tko si nadoplatu ne može priuštiti. Vidljiva jednakost pretvara se u nevidljivu nejednakost, o kojoj se, za razliku od reda pred pekarnicom, više ne može pregovarati. Ta nejednakost, jer je nevidljiva, teže se i osporava.',
-        en: "The disappearance of the physical queue, paradoxically, doesn't mean the disappearance of waiting itself, but its relocation - from a public, visible space into the invisible background of the system, where it awaits whoever cannot afford the surcharge. Visible equality turns into invisible inequality, about which, unlike the line in front of the bakery, there is no longer anything to negotiate. That inequality, precisely because it is invisible, is also harder to challenge.",
+        en: "The disappearance of the physical line, paradoxically, doesn't mean the disappearance of waiting itself, but its relocation - from a public, visible space into the invisible background of the system, where it awaits whoever cannot afford the surcharge. Visible equality turns into invisible inequality, about which, unlike the line in front of the bakery, there is no longer anything to negotiate. That inequality, precisely because it is invisible, is also harder to challenge.",
       },
       {
         hr: 'Unatoč svemu, red se čekanja i dalje svakog jutra iznova sastavlja pred pekarnicom, u čekaonici, na šalteru pošte, kao tiha potvrda da postoji poredak koji ne ovisi o novcu ni o statusu. Dokle god netko bude čekao iza umirovljenice s ceradnom torbom, ta će institucija, makar krhka, opstati.',
-        en: 'Despite everything, the queue still forms anew every morning in front of the bakery, in the waiting room, at the post office counter, as a quiet confirmation that an order exists which depends neither on money nor on status. As long as someone waits behind the retiree with the canvas bag, that institution, however fragile, will survive.',
+        en: 'Despite everything, the line still forms anew every morning in front of the bakery, in the waiting room, at the post office counter, as a quiet confirmation that an order exists which depends neither on money nor on status. As long as someone waits behind the retiree with the canvas bag, that institution, however fragile, will survive.',
       },
     ],
     vocabulary: [
@@ -19707,7 +19706,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Što, prema zaključku teksta, red čekanja i dalje predstavlja unatoč digitalizaciji?',
-        qEn: "What, according to the text's conclusion, does the queue still represent despite digitalization?",
+        qEn: "What, according to the text's conclusion, does the line still represent despite digitalization?",
         opts: [
           'Zastarjelu naviku koja će uskoro nestati',
           'Tihu potvrdu postojanja poretka neovisnog o novcu i statusu',
@@ -19729,31 +19728,31 @@ export const GRADED_STORIES = [
     focus:
       'Extended nominal style, spatial metaphor, and social register in an essay on the balcony as threshold space.',
     intro:
-      'An essayistic meditation on the balcony as a Croatian urban institution — a threshold between private and public life, a stage for silent neighbourly diplomacy, and a vantage point the city increasingly forgets how to use.',
+      'An essayistic meditation on the balcony as a Croatian urban institution — a threshold between private and public life, a stage for silent neighborly diplomacy, and a vantage point the city increasingly forgets how to use.',
     paragraphs: [
       {
         hr: 'Balkon je u hrvatskome stanovanju čudna naprava: ni sasvim kuća, ni sasvim ulica, nego stražarnica postavljena između privatnosti i javnosti. Tko izađe na balkon, izlazi samo napola. Ostaje u kućnim papučama, a ipak je izložen pogledima prolaznika i susjeda, cijeloj ulici što teče ispod poput rijeke koja ne prestaje teći, kao da dom nikada nije posve zatvoren.',
-        en: 'In Croatian urban housing, the balcony is a strange contraption: not quite house, not quite street, but a watch post set between privacy and publicness. Whoever steps onto the balcony steps out only halfway. They remain in house slippers, yet are exposed to the eyes of passers-by and neighbours, to the whole street flowing beneath like a river that never stops, as though the home were never entirely closed.',
+        en: 'In Croatian urban housing, the balcony is a strange contraption: not quite house, not quite street, but a watch post set between privacy and publicness. Whoever steps onto the balcony steps out only halfway. They remain in house slippers, yet are exposed to the eyes of passers-by and neighbors, to the whole street flowing beneath like a river that never stops, as though the home were never entirely closed.',
       },
       {
         hr: 'Najprije dolazi rublje. Prostrto na žici između dva stupa, ono je prvi jezik kojim balkon govori susjedstvu: čije su plahte oprane danas, čija se posteljina suši treći put ovoga tjedna, tko je kupio novu majicu. Ništa se ne kaže naglas, a svi znaju. Rublje je diplomacija tišine, izvještaj bez riječi, a ta prešutna razmjena vijesti traje iz dana u dan.',
-        en: 'First comes the laundry. Spread on a line between two posts, it is the first language by which the balcony speaks to the neighbourhood: whose sheets were washed today, whose bedding is drying for the third time this week, who bought a new shirt. Nothing is said aloud, yet everyone knows. Laundry is a diplomacy of silence, a report without words, and that unspoken exchange of news continues day after day.',
+        en: 'First comes the laundry. Spread on a line between two posts, it is the first language by which the balcony speaks to the neighborhood: whose sheets were washed today, whose bedding is drying for the third time this week, who bought a new shirt. Nothing is said aloud, yet everyone knows. Laundry is a diplomacy of silence, a report without words, and that unspoken exchange of news continues day after day.',
       },
       {
         hr: 'Zatim dolaze razgovori preko ograde. Nisu duboki ni planirani; rađaju se slučajno, dok netko zalijeva geranije ili trese stolnjak. Pitanje o vremenu prerasta u pitanje o zdravlju, pa u ogovaranje trećega susjeda koji upravo prolazi ulicom i ne sluti da je tema. Balkon omogućuje blizinu bez obveze posjeta, i tako svaki dan iznova ispisuje nevidljivu kroniku ulice.',
-        en: 'Then come conversations across the railing. They are neither deep nor planned; they arise by accident, while someone waters the geraniums or shakes out a tablecloth. A question about the weather grows into a question about health, then into gossip about a third neighbour who is just then passing by, unaware that he is the topic. The balcony allows closeness without the obligation of a visit, and so it writes an invisible chronicle of the street anew each day.',
+        en: 'Then come conversations across the railing. They are neither deep nor planned; they arise by accident, while someone waters the geraniums or shakes out a tablecloth. A question about the weather grows into a question about health, then into gossip about a third neighbor who is just then passing by, unaware that he is the topic. The balcony allows closeness without the obligation of a visit, and so it writes an invisible chronicle of the street anew each day.',
       },
       {
         hr: 'Postoji, dakako, i hijerarhija visine. Prizemlje vidi premalo, previsoki kat prevladava odozgo pa gubi toplinu razgovora. Idealan je drugi ili treći kat: dovoljno visok za pregled, dovoljno nizak da se ne mora vikati. Stanari toga kata, ne znajući, postaju neslužbeni čuvari ulice, njezine povijesti i njezinih tajni, a susjedi se, i ne primjećujući to, oslanjaju upravo na njih.',
-        en: 'There is, of course, a hierarchy of height. The ground floor sees too little; too high a floor dominates from above and loses the warmth of conversation. The second or third floor is ideal: high enough for a good view, low enough that no one has to shout. The residents of that floor, without realising it, become the unofficial keepers of the street, of its history and its secrets, and the neighbours, without noticing, come to rely precisely on them.',
+        en: 'There is, of course, a hierarchy of height. The ground floor sees too little; too high a floor dominates from above and loses the warmth of conversation. The second or third floor is ideal: high enough for a good view, low enough that no one has to shout. The residents of that floor, without realizing it, become the unofficial keepers of the street, of its history and its secrets, and the neighbors, without noticing, come to rely precisely on them.',
       },
       {
         hr: 'Balkon je i kazališna loža na ulicu. S njega se prati predstava koja se svakodnevno ponavlja: poštar koji kasni, dijete koje se vraća iz škole sportskim korakom, susjed koji parkira po treći put jer mu se ne sviđa kut. Gledatelj na balkonu ne plaća kartu, a ipak dobiva najbolje mjesto, i to mjesto nitko mu ne može oduzeti.',
-        en: 'The balcony is also a theatre box onto the street. From it one follows the performance repeated daily: the postman running late, a child returning from school with an athletic stride, a neighbour parking for the third time because he dislikes the angle. The spectator on the balcony pays no admission, yet gets the best seat, and no one can ever take that seat from him.',
+        en: 'The balcony is also a theater box onto the street. From it one follows the performance repeated daily: the postman running late, a child returning from school with an athletic stride, a neighbor parking for the third time because he dislikes the angle. The spectator on the balcony pays no admission, yet gets the best seat, and no one can ever take that seat from him.',
       },
       {
         hr: 'U ljetnim večerima balkon postaje produžetkom dnevne sobe. Iznose se stolice, kava se pije polako, a razgovor traje dulje nego što bi trajao za zatvorenim prozorom. Vrućina tjera ljude van, ali ono što ih zadržava jest osjećaj da vani, makar i na nekoliko četvornih metara, život teče vidljivije i iskrenije, kao da su zidovi stana toga dana postali suvišni.',
-        en: 'On summer evenings the balcony becomes an extension of the living room. Chairs are brought out, coffee is drunk slowly, and conversation lasts longer than it would behind a closed window. The heat drives people outside, but what keeps them there is the sense that out here, even within a few square metres, life flows more visibly and more honestly, as if the walls of the flat had become superfluous for the day.',
+        en: 'On summer evenings the balcony becomes an extension of the living room. Chairs are brought out, coffee is drunk slowly, and conversation lasts longer than it would behind a closed window. The heat drives people outside, but what keeps them there is the sense that out here, even within a few square meters, life flows more visibly and more honestly, as if the walls of the apartment had become superfluous for the day.',
       },
       {
         hr: 'Nasuprot tome, zimski balkon prazni se i šuti. Cvijeće se povlači unutra, stolice nestaju, a ograda ostaje gola poput kostura ljeta koje je prošlo. Ipak, i prazan balkon nešto govori: svjedoči da su iza njega ljudi koji su odlučili sačuvati taj rub prostora za dan kad se sunce ponovno vrati.',
@@ -19761,11 +19760,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Ono što balkon čuva jest granica koju grad inače briše. U stanu bez balkona nestaje posrednički prostor: čovjek je ili potpuno unutra, sam sa svojim zidovima, ili potpuno vani, izložen bez zaklona. Balkon nudi treću mogućnost, onu polovičnu, u kojoj se može promatrati a da se ne mora sudjelovati, i ta razlika, koliko god sitna izgledala, oblikuje cijeli način stanovanja.',
-        en: 'What the balcony preserves is a boundary the city otherwise erases. In a flat without a balcony, the intermediary space disappears: a person is either entirely inside, alone with their walls, or entirely outside, exposed without shelter. The balcony offers a third possibility, the half-possibility, in which one can observe without having to participate, and that distinction, however small it may seem, shapes an entire way of living.',
+        en: 'What the balcony preserves is a boundary the city otherwise erases. In an apartment without a balcony, the intermediary space disappears: a person is either entirely inside, alone with their walls, or entirely outside, exposed without shelter. The balcony offers a third possibility, the half-possibility, in which one can observe without having to participate, and that distinction, however small it may seem, shapes an entire way of living.',
       },
       {
         hr: 'Zato stanari balkon brane žešće nego što bi branili sam stan. Zastakljivanje balkona, česta praksa posljednjih desetljeća, donosi nekoliko četvornih metara, ali oduzima upravo tu funkciju lože prema ulici. Onaj tko zastakli balkon, dobiva sobu, a gubi mjesto odakle se vidjelo i čulo cijelo susjedstvo u jednom pogledu, i taj gubitak mnogi kasnije gorko požale.',
-        en: 'That is why residents defend the balcony more fiercely than they would defend the flat itself. Glazing in the balcony, a common practice of recent decades, adds a few square metres but takes away precisely that function of a box overlooking the street. Whoever glazes in the balcony gains a room, but loses the vantage point from which the whole neighbourhood could once be seen and heard in a single glance, a loss many later bitterly regret.',
+        en: 'That is why residents defend the balcony more fiercely than they would defend the apartment itself. Glazing in the balcony, a common practice of recent decades, adds a few square meters but takes away precisely that function of a box overlooking the street. Whoever glazes in the balcony gains a room, but loses the vantage point from which the whole neighborhood could once be seen and heard in a single glance, a loss many later bitterly regret.',
       },
       {
         hr: 'Balkon, naposljetku, nije arhitektonski dodatak nego društveni ugovor: obećanje da će netko uvijek gledati van, primijetiti kad je nešto neobično, javiti se preko ograde kad zatreba pomoć. U gradu koji sve više šuti iza zatvorenih vrata, balkon ostaje jedno od rijetkih mjesta gdje se ulica i dom još uvijek gledaju u oči, i ta razmjena ne treba pisani ugovor.',
@@ -19790,7 +19789,7 @@ export const GRADED_STORIES = [
       },
       { hr: 'geranije', en: 'geraniums', ex: 'dok netko zalijeva geranije ili trese stolnjak' },
       { hr: 'hijerarhija', en: 'hierarchy', ex: 'Postoji, dakako, i hijerarhija visine.' },
-      { hr: 'kazališna loža', en: 'theatre box', ex: 'Balkon je i kazališna loža na ulicu.' },
+      { hr: 'kazališna loža', en: 'theater box', ex: 'Balkon je i kazališna loža na ulicu.' },
       {
         hr: 'produžetak',
         en: 'extension',
@@ -19815,7 +19814,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Što rublje prostrto na balkonu, prema tekstu, zapravo priopćuje susjedstvu?',
-        qEn: 'What does laundry hung on the balcony actually communicate to the neighbourhood, according to the text?',
+        qEn: 'What does laundry hung on the balcony actually communicate to the neighborhood, according to the text?',
         opts: [
           'Financijsko stanje obitelji',
           'Svakodnevne pojedinosti bez izgovorene riječi',
@@ -19848,7 +19847,7 @@ export const GRADED_STORIES = [
       },
       {
         q: 'Kako se balkon opisuje u odnosu na kazalište?',
-        qEn: 'How is the balcony described in relation to theatre?',
+        qEn: 'How is the balcony described in relation to theater?',
         opts: [
           'Kao pozornica na kojoj stanar izvodi predstavu',
           'Kao garderoba u kojoj se stanar priprema za izlazak',
@@ -19890,19 +19889,19 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Svijeće se pale ne zato što je propisano, nego zato što plamen nešto znači: da netko dolazi, da grob nije zaboravljen, da veza traje unatoč vremenu koje prolazi. Krizanteme, cvijet koji u drugim kulturama nosi drukčije značenje, ovdje su gotovo sinonim za groblje, boja jeseni prenesena na kamen, i taj prizor nitko više ne doživljava kao neobičan.',
-        en: "Candles are lit not because it is prescribed, but because the flame means something: that someone has come, that the grave is not forgotten, that the bond endures despite the time that passes. Chrysanthemums, a flower that carries different connotations in other cultures, are here almost synonymous with the cemetery, autumn's colour transferred onto stone, and no one any longer perceives that sight as unusual.",
+        en: "Candles are lit not because it is prescribed, but because the flame means something: that someone has come, that the grave is not forgotten, that the bond endures despite the time that passes. Chrysanthemums, a flower that carries different connotations in other cultures, are here almost synonymous with the cemetery, fall's color transferred onto stone, and no one any longer perceives that sight as unusual.",
       },
       {
         hr: 'Čišćenje groba nije puko održavanje, nego čin razgovora bez riječi. Skida se osušeno lišće, briše se prašina s fotografije, ravna se zemlja oko ruba. Dok ruke rade, misli odlaze prema pokojniku: što bi rekao o unuku koji je porastao, o kući koja se obnavlja, o susjedu koji se preselio, a razgovor, iako nečujan, zna trajati dulje od bilo koje molitve.',
-        en: 'Tidying a grave is not mere maintenance but an act of wordless conversation. Dried leaves are cleared away, dust is wiped from the photograph, the soil around the edge is smoothed. While the hands work, thoughts turn to the deceased: what would they say about the grandchild who has grown, the house being renovated, the neighbour who has moved away, and that conversation, though silent, can last longer than any prayer.',
+        en: 'Tidying a grave is not mere maintenance but an act of wordless conversation. Dried leaves are cleared away, dust is wiped from the photograph, the soil around the edge is smoothed. While the hands work, thoughts turn to the deceased: what would they say about the grandchild who has grown, the house being renovated, the neighbor who has moved away, and that conversation, though silent, can last longer than any prayer.',
       },
       {
         hr: 'Groblje nedjeljom postaje, paradoksalno, mjestom najveće društvenosti u selu. Susreću se rodbina koja se inače rijetko vidi, bivši susjedi, školski kolege razdvojeni desetljećima. Razgovor počinje kraj groba, a nastavlja se na stazi prema izlazu, gdje se dogovaraju kave koje nikada ne bi bile dogovorene da nije bilo toga groba, a ti susreti, premda kratki, hrane zajednicu jednako kao i blagdani.',
-        en: "The Sunday cemetery paradoxically becomes the village's site of greatest sociability. Relatives who otherwise rarely meet, former neighbours, schoolmates separated by decades, all come together. Conversation begins at the grave and continues along the path to the exit, where coffees are arranged that would never have been arranged had it not been for that grave, and these encounters, however brief, nourish the community just as festivals do.",
+        en: "The Sunday cemetery paradoxically becomes the village's site of greatest sociability. Relatives who otherwise rarely meet, former neighbors, schoolmates separated by decades, all come together. Conversation begins at the grave and continues along the path to the exit, where coffees are arranged that would never have been arranged had it not been for that grave, and these encounters, however brief, nourish the community just as festivals do.",
       },
       {
         hr: 'U tom smislu groblje funkcionira kao drugi seoski trg, samo tiši i s drukčijim pravilima ponašanja. Dok se na pravome trgu razgovara stojeći, ovdje se razgovara pognuto, s kantom u ruci, glasom spuštenim za pola tona. Ipak, informacije koje kruže jednako su svježe kao i one s trga, i baš ta prigušenost razlikuje groblje od bučnijih mjesta okupljanja.',
-        en: "In this sense the cemetery functions as the village's second square, only quieter and governed by different rules of behaviour. Where conversation on the real square happens standing, here it happens bent over, bucket in hand, voice lowered by half a tone. Yet the information circulating is just as fresh as that on the square, and it is precisely that hush which sets the cemetery apart from noisier gathering places.",
+        en: "In this sense the cemetery functions as the village's second square, only quieter and governed by different rules of behavior. Where conversation on the real square happens standing, here it happens bent over, bucket in hand, voice lowered by half a tone. Yet the information circulating is just as fresh as that on the square, and it is precisely that hush which sets the cemetery apart from noisier gathering places.",
       },
       {
         hr: 'Djeca koja prate roditelje na groblje uče, a da to ne primjećuju, temeljnu lekciju: da mrtvi ostaju dio obitelji, da se o njima govori u sadašnjem vremenu, da grob nije mjesto straha nego mjesto posjeta poput bilo kojeg drugog. Ta pouka vrijedi više od bilo kojeg poučavanja izgovorenog za stolom, premda im to nitko izrijekom ne objašnjava.',
@@ -19914,7 +19913,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Neki grobovi, nažalost, ostaju bez posjetitelja: obitelj se iselila, loza je izumrla, sjećanje je izblijedjelo. Ti grobovi prepoznaju se po suhoj travi i napukloj ploči, po odsutnosti svijeće ondje gdje bi ona trebala gorjeti. Posjetitelji susjednih grobova ponekad, iz pristojnosti, ostave i njima jednu svijeću, kao dug prema zajednici, a upravo ta gesta pokazuje da zajedništvo ne priznaje granice zaborava.',
-        en: 'Some graves, unfortunately, remain without visitors: the family has emigrated, the line has died out, memory has faded. Such graves are recognisable by dry grass and a cracked headstone, by the absence of a candle where one ought to be burning. Visitors to neighbouring graves sometimes, out of decency, leave a candle for them too, as a debt owed to the community, and that very gesture shows that solidarity does not recognise the boundaries of forgetting.',
+        en: 'Some graves, unfortunately, remain without visitors: the family has emigrated, the line has died out, memory has faded. Such graves are recognizable by dry grass and a cracked headstone, by the absence of a candle where one ought to be burning. Visitors to neighboring graves sometimes, out of decency, leave a candle for them too, as a debt owed to the community, and that very gesture shows that solidarity does not recognize the boundaries of forgetting.',
       },
       {
         hr: 'Groblje nedjeljom uči i o vremenu koje ne teče jednako za sve. Datumi na pločama pokazuju živote skraćene ratom ili bolešću, ili starošću dovedene do kraja, a posjetitelj, prolazeći, nesvjesno mjeri vlastiti život prema tim brojkama. Ta tiha aritmetika nije mračna, nego podsjeća na razmjere onoga što se ima, i ta se računica jednako odnosi na svakoga posjetitelja.',
@@ -20051,11 +20050,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Svaka kuća ima miris koji njezini stanovnici više ne osjećaju, jer su na njega navikli do potpune nevidljivosti, dok ga svaki gost prepozna već na vratima. Taj miris nije parfem niti sredstvo za čišćenje, nego zbroj godina: drva, hrane, vlage, tekstila, svega što je u prostoru živjelo i trošilo se polako, a taj potpis ostaje posve neprimjetan onima koji u kući žive.',
-        en: 'Every house has a smell its inhabitants no longer notice, having grown so accustomed to it that it becomes invisible, while every guest recognises it already at the door. That smell is not perfume nor cleaning product, but a sum of years: of wood, food, damp, textiles, of everything that has lived and slowly worn away in the space, and that signature remains entirely unnoticed by those who live in the house.',
+        en: 'Every house has a smell its inhabitants no longer notice, having grown so accustomed to it that it becomes invisible, while every guest recognizes it already at the door. That smell is not perfume nor cleaning product, but a sum of years: of wood, food, damp, textiles, of everything that has lived and slowly worn away in the space, and that signature remains entirely unnoticed by those who live in the house.',
       },
       {
         hr: 'Bakina kuhinja ostaje najjasniji primjer. Mješavina pečenog kruha, kuhanog povrća, drvenog ormara i malo starog papira stvara potpis koji se ne da opisati jednom riječju, a prepoznaje se u trenu. Godinama nakon što je baka preminula, taj miris zna iznenada iskrsnuti negdje sasvim drugdje, i tada se vrijeme na trenutak zaustavi, i baš je ta neopisivost ono što čini miris toliko snažnim.',
-        en: "Grandmother's kitchen remains the clearest example. A mixture of baked bread, cooked vegetables, wooden cupboard and a touch of old paper creates a signature that cannot be described in a single word, yet is recognised instantly. Years after grandmother has died, that smell can suddenly surface somewhere entirely different, and time momentarily stops, and it is precisely that indescribability that makes the smell so powerful.",
+        en: "Grandmother's kitchen remains the clearest example. A mixture of baked bread, cooked vegetables, wooden cupboard and a touch of old paper creates a signature that cannot be described in a single word, yet is recognized instantly. Years after grandmother has died, that smell can suddenly surface somewhere entirely different, and time momentarily stops, and it is precisely that indescribability that makes the smell so powerful.",
       },
       {
         hr: 'Poznat je fenomen da se isti miris osjeti u stubištu posve nepoznate zgrade, kod potpunog stranca. Netko tko nikada nije upoznao vašu baku odjednom miriše kao ona: možda zbog istog sapuna, iste vrste drva na ormaru, istog načina kuhanja koji se prenosi kroz generacije bez svjesnog učenja. Nos tada zna više od pamćenja.',
@@ -20063,11 +20062,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Za razliku od fotografije, koja s vremenom blijedi i postaje ravna, miris ne stari na isti način. Fotografija zahtijeva da je netko pogleda; miris napada bez najave, kroz otvorena vrata dizala ili kroz tuđu kuhinju, i vraća cijelu scenu odjednom, prije nego što je razum stigao reagirati, i upravo ta neposrednost čini miris opasnijim i iskrenijim od slike.',
-        en: "Unlike a photograph, which fades with time and becomes flat, smell does not age the same way. A photograph requires someone to look at it; smell strikes without warning, through an open lift door or through someone else's kitchen, and brings back the whole scene at once, before reason has had time to react, and it is precisely that immediacy that makes smell more dangerous, and more honest, than a picture.",
+        en: "Unlike a photograph, which fades with time and becomes flat, smell does not age the same way. A photograph requires someone to look at it; smell strikes without warning, through an open elevator door or through someone else's kitchen, and brings back the whole scene at once, before reason has had time to react, and it is precisely that immediacy that makes smell more dangerous, and more honest, than a picture.",
       },
       {
         hr: 'Znanost to objašnjava blizinom njušnog centra mozga i područja zaduženih za emocije i pamćenje, no objašnjenje ne umanjuje snagu iskustva. Miris ne prolazi kroz analizu poput slike; on ulazi izravno, neposredno, kao da tijelo prepoznaje prije nego što svijest stigne postaviti pitanje otkuda mu je taj osjećaj poznat, a to iskustvo ostaje jednako snažno koliko se god puta ponovi.',
-        en: 'Science explains this through the proximity of the olfactory centre of the brain to the areas responsible for emotion and memory, though the explanation does not diminish the power of the experience. Smell does not pass through analysis the way an image does; it enters directly, immediately, as though the body recognises before consciousness has time to ask where this feeling is familiar from, and that experience remains just as powerful no matter how many times it repeats.',
+        en: 'Science explains this through the proximity of the olfactory center of the brain to the areas responsible for emotion and memory, though the explanation does not diminish the power of the experience. Smell does not pass through analysis the way an image does; it enters directly, immediately, as though the body recognizes before consciousness has time to ask where this feeling is familiar from, and that experience remains just as powerful no matter how many times it repeats.',
       },
       {
         hr: 'Svaka je kuća, prema tome, potpisana nevidljivim rukopisom koji njeni ukućani ne mogu pročitati, jer su unutar njega. Tek odlazak, pa povratak nakon duljeg izbivanja, otkriva taj potpis: čovjek uđe u vlastiti dom i na trenutak, prije nego što se prilagodi, osjeti ga onako kako ga osjeća gost, i ta razlika postaje očita tek u trenutku ponovnog dolaska.',
@@ -20079,11 +20078,11 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Nove zgrade, naprotiv, gotovo da nemaju miris, ili imaju samo jedan, zajednički svima: miris svježeg betona, ljepila za pod i plastike iz novog namještaja. Taj miris nestaje za nekoliko mjeseci, a stanovi ostanu bezmirisni dulje vrijeme, dok se u njima ne nakupi dovoljno godina života da bi dobili vlastiti potpis, a stanari toga razdoblja često i sami primjećuju tu prazninu.',
-        en: 'New buildings, by contrast, have almost no smell, or only one shared by all: the smell of fresh concrete, floor adhesive and plastic from new furniture. That smell disappears within a few months, and the flats remain scentless for a long time, until enough years of living have accumulated in them to acquire their own signature, and residents of that period often notice that emptiness themselves.',
+        en: 'New buildings, by contrast, have almost no smell, or only one shared by all: the smell of fresh concrete, floor adhesive and plastic from new furniture. That smell disappears within a few months, and the apartments remain scentless for a long time, until enough years of living have accumulated in them to acquire their own signature, and residents of that period often notice that emptiness themselves.',
       },
       {
         hr: 'Bezmirisnost novih stanova nije nedostatak higijene, nego jednostavno manjak vremena. Miris kuće ne može se ubrzati, kupiti ni proizvesti unaprijed; on nastaje isključivo kao nusprodukt življenja, kao trag koji svaki obrok, svaka zima, svaka otvorena i zatvorena knjiga ostavlja u zraku, sloj po sloj, godinama, jer se vrijeme ne može posuditi ni ubrzati.',
-        en: 'The scentlessness of new flats is not a lack of hygiene but simply a lack of time. The smell of a home cannot be sped up, bought, or produced in advance; it arises solely as a by-product of living, as a trace that every meal, every winter, every book opened and closed leaves in the air, layer upon layer, over years, because time, unlike money, cannot be borrowed or hurried.',
+        en: 'The scentlessness of new apartments is not a lack of hygiene but simply a lack of time. The smell of a home cannot be sped up, bought, or produced in advance; it arises solely as a by-product of living, as a trace that every meal, every winter, every book opened and closed leaves in the air, layer upon layer, over years, because time, unlike money, cannot be borrowed or hurried.',
       },
       {
         hr: 'Zato je gubitak kuće u kojoj se odraslo uvijek i gubitak mirisa, ne samo prostora. Novi stanari, koliko god pažljivo obnovili zidove, ne mogu naslijediti taj sastojak; on odlazi zajedno s posljednjim stanarom. Ono što ostaje jest samo sjećanje na miris, blijeđe od izvornika, ali ipak sposobno da u trenutku vrati cijelu kuću.',
@@ -20216,11 +20215,11 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Pred vratima hrvatske kuće gotovo se redovito nalazi red cipela: dječje čizmice, velike muške cipele, papuče različitih boja poredane bez vidljivog reda, a ipak prepoznatljive svakome tko u toj kući živi. Taj red obuće, iako nikad namjerno postavljen kao izložba, funkcionira kao neka vrsta obiteljskog portreta pred vratima, i taj se portret mijenja gotovo svakoga tjedna.',
-        en: "In front of a Croatian home there is almost always a row of shoes: children's boots, large men's shoes, slippers of various colours lined up with no visible order, yet recognisable to anyone who lives in that house. This row of footwear, though never deliberately arranged as a display, functions as a kind of family portrait at the door, and that portrait changes almost every week.",
+        en: "In front of a Croatian home there is almost always a row of shoes: children's boots, large men's shoes, slippers of various colors lined up with no visible order, yet recognizable to anyone who lives in that house. This row of footwear, though never deliberately arranged as a display, functions as a kind of family portrait at the door, and that portrait changes almost every week.",
       },
       {
         hr: 'Svaki par nešto govori: nove sportske tenisice odaju da je netko upravo počeo trenirati, izlizane radne cipele odaju posao koji troši potplate, male sandale u kutu odaju da je u kući dijete koje je iz njih već izraslo. Bez ijedne riječi, red obuće ispisuje kratku kroniku ukućana, a ta se kronika čita brže od bilo kojeg dnevnika.',
-        en: 'Every pair says something: new trainers reveal that someone has just taken up exercise, worn-out work shoes reveal a job that wears down soles, small sandals in the corner reveal that there is a child in the house who has just outgrown them. Without a single word, the row of footwear writes a brief chronicle of the household, and that chronicle reads faster than any diary.',
+        en: 'Every pair says something: new sneakers reveal that someone has just taken up exercise, worn-out work shoes reveal a job that wears down soles, small sandals in the corner reveal that there is a child in the house who has just outgrown them. Without a single word, the row of footwear writes a brief chronicle of the household, and that chronicle reads faster than any diary.',
       },
       {
         hr: 'Skidanje cipela na pragu nije samo pitanje higijene, iako se često tako opravdava. To je granični obred: korak kojim se gost, ili čak ukućanin koji se vraća s posla, svjesno odriče vanjskog svijeta prije nego što uđe u prostor koji pripada samo obitelji. Bosa ili čarapama obuvena noga ulazi u drukčiji režim, i taj korak, koliko god malen, mijenja cijelo držanje tijela.',
@@ -20240,15 +20239,15 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'U stanovima s hodnikom, cipele se često nakupljaju u tolikoj mjeri da postaju vlastita mala arheologija: stare planinarske čizme nikad nošene, sandale zaboravljene iz prošlog ljeta, jedna jedina cipela čiji je par odavno nestao. Nitko ih ne baca, jer svaka nosi priču koju bi bilo lakše zaboraviti nego riješiti se predmeta, i ta nespremnost da se stvari bace čini hodnik pravim arhivom.',
-        en: 'In flats with a hallway, shoes often accumulate to such an extent that they become their own small archaeology: old hiking boots never worn, sandals forgotten from last summer, a single shoe whose pair vanished long ago. No one throws them away, because each carries a story it would be easier to forget than to part with the object, and that reluctance to throw anything away makes the hallway a true archive.',
+        en: 'In apartments with a hallway, shoes often accumulate to such an extent that they become their own small archaeology: old hiking boots never worn, sandals forgotten from last summer, a single shoe whose pair vanished long ago. No one throws them away, because each carries a story it would be easier to forget than to part with the object, and that reluctance to throw anything away makes the hallway a true archive.',
       },
       {
         hr: 'Prag, taj tanki rub između hodnika zgrade i unutrašnjosti stana, tako postaje mjestom tranzicije opremljenim svojim vlastitim pravilima. Onaj tko ta pravila ne poznaje, lako pogriješi: uđe obuven u kuću u kojoj se to nikad ne čini, ili se izuje ondje gdje domaćin, iz uljudnosti, to uopće nije očekivao, a ta pravila nitko nikada ne zapisuje, no svi ih znaju.',
-        en: "The threshold, that thin edge between the building's corridor and the interior of the flat, thus becomes a transition point equipped with its own rules. Whoever does not know these rules easily errs: entering shod into a house where that is never done, or taking off shoes where the host, out of courtesy, never expected it at all, and these rules are never written down, yet everyone knows them.",
+        en: "The threshold, that thin edge between the building's corridor and the interior of the apartment, thus becomes a transition point equipped with its own rules. Whoever does not know these rules easily errs: entering shod into a house where that is never done, or taking off shoes where the host, out of courtesy, never expected it at all, and these rules are never written down, yet everyone knows them.",
       },
       {
         hr: 'Ovaj običaj, naizgled sitan, čuva nešto što suvremeni stanovi sve češće gube: jasnu razliku između vanjskoga i unutarnjega, između uloge koju netko igra na poslu i osobe kakva jest kod kuće. Izuti se znači, makar simbolički, ostaviti tu ulogu pred vratima i ući onakav kakav jesi, i upravo ta razlika čini dom utočištem, a ne pozornicom.',
-        en: "This custom, seemingly small, preserves something contemporary flats increasingly lose: a clear distinction between the outer and the inner, between the role someone plays at work and the person they are at home. Taking off one's shoes means, if only symbolically, leaving that role at the door and entering as who you truly are, and it is precisely that distinction which makes a home a refuge rather than a stage.",
+        en: "This custom, seemingly small, preserves something contemporary apartments increasingly lose: a clear distinction between the outer and the inner, between the role someone plays at work and the person they are at home. Taking off one's shoes means, if only symbolically, leaving that role at the door and entering as who you truly are, and it is precisely that distinction which makes a home a refuge rather than a stage.",
       },
       {
         hr: 'Zato red cipela pred vratima nije nered koji treba počistiti prije dolaska gostiju, nego dokaz da je kuća živa i naseljena. Kad bi netko jednoga dana zatekao prazan hodnik, bez ijednog para obuće, to bi značilo da je kuća, makar privremeno, ostala bez onih čiji su koraci tu obuću iznosili i unosili svaki dan.',

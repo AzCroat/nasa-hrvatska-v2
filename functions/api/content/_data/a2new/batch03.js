@@ -22,7 +22,7 @@ export const SPINE = [
     prerequisites: ['work-jobs', 'feelings'],
     objectives: [
       'Say what is going wrong at work or at home: Imam problem sa šefom, Računalo ne radi',
-      'Complain mildly about the workload, the pay or the neighbours',
+      'Complain mildly about the workload, the pay or the neighbors',
       'Answer a friend with sympathy: Žao mi je, Razumijem te, To je grozno',
     ],
   },
@@ -96,7 +96,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Kako je na poslu?',
-        body: 'Sooner or later every conversation with a friend reaches "How is work?" — and the honest answer is often a problem: too much work, a difficult boss, a computer that will not start, neighbours who play music all night. This lesson gives you the words to say what is wrong, and the words a good friend uses to answer.',
+        body: 'Sooner or later every conversation with a friend reaches "How is work?" — and the honest answer is often a problem: too much work, a difficult boss, a computer that will not start, neighbors who play music all night. This lesson gives you the words to say what is wrong, and the words a good friend uses to answer.',
         icon: '😩',
       },
       {
@@ -108,7 +108,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Something Does Not Work, Something Is Missing',
-        body: 'For a machine: Računalo ne radi. Printer opet ne radi. Auto je u kvaru (out of order). For something missing, use nema + the genitive, exactly as you learned in A1: U stanu nema tople vode. (There is no hot water in the flat.) Nema struje. (There is no electricity.) And for where it happens, the locative adjectives you just learned: u našem uredu, u novom stanu, na prošlom poslu.',
+        body: 'For a machine: Računalo ne radi. Printer opet ne radi. Auto je u kvaru (out of order). For something missing, use nema + the genitive, exactly as you learned in A1: U stanu nema tople vode. (There is no hot water in the apartment.) Nema struje. (There is no electricity.) And for where it happens, the locative adjectives you just learned: u našem uredu, u novom stanu, na prošlom poslu.',
         highlight: 'nema + genitive',
       },
       {
@@ -128,7 +128,7 @@ export const LESSONS = [
           ['Imam problem s kolegom.', 'I have a problem with a colleague.', 'Što se dogodilo?'],
           ['Računalo opet ne radi.', "The computer isn't working again.", 'Nazovi informatičara!'],
           ['Boli me glava od stresa.', 'My head hurts from stress.', 'Odmori se malo.'],
-          ['Susjedi su glasni svaku noć.', 'The neighbours are loud every night.', 'To je grozno!'],
+          ['Susjedi su glasni svaku noć.', 'The neighbors are loud every night.', 'To je grozno!'],
         ],
       },
       {
@@ -148,7 +148,7 @@ export const LESSONS = [
           },
           {
             hr: 'Šef mi je dao previše posla i moram raditi vikendom.',
-            en: 'My boss gave me too much work and I have to work at weekends.',
+            en: 'My boss gave me too much work and I have to work on weekends.',
             note: 'mi = to me, the dative pronoun',
           },
           {
@@ -174,12 +174,12 @@ export const LESSONS = [
         items: [
           {
             hr: 'Imam problem sa susjedima. Svaku noć slušaju glasnu glazbu.',
-            en: 'I have a problem with the neighbours. Every night they listen to loud music.',
+            en: 'I have a problem with the neighbors. Every night they listen to loud music.',
             note: 'sa susjedima — instrumental plural',
           },
           {
             hr: 'U našem stanu nema tople vode već tri dana.',
-            en: 'There has been no hot water in our flat for three days.',
+            en: 'There has been no hot water in our apartment for three days.',
             note: 'nema + genitive: tople vode',
           },
           {
@@ -346,7 +346,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Goodbye',
-        body: 'Javi se! (Get in touch!) Piši mi! (Write to me!) Vidimo se uskoro! (See you soon!) Pozdravi mamu i tatu! (Say hi to your mum and dad! — pozdraviti takes the accusative.) Then the closing: Pozdrav! or Puno pozdrava! (literally "many greetings"), Grlim te! (a hug). Sign with tvoj or tvoja — it agrees with YOU, the writer: Tvoj Marko, Tvoja Ana.',
+        body: 'Javi se! (Get in touch!) Piši mi! (Write to me!) Vidimo se uskoro! (See you soon!) Pozdravi mamu i tatu! (Say hi to your mom and dad! — pozdraviti takes the accusative.) Then the closing: Pozdrav! or Puno pozdrava! (literally "many greetings"), Grlim te! (a hug). Sign with tvoj or tvoja — it agrees with YOU, the writer: Tvoj Marko, Tvoja Ana.',
         highlight: 'Puno pozdrava!',
       },
       {
@@ -406,7 +406,7 @@ export const LESSONS = [
           },
           {
             hr: 'Pozdravi mamu i tatu i piši mi!',
-            en: 'Say hi to your mum and dad, and write to me!',
+            en: 'Say hi to your mom and dad, and write to me!',
             note: 'pozdravi — the imperative of pozdraviti',
           },
           {
@@ -485,10 +485,10 @@ export const LESSONS = [
           {
             q: 'What does "Pozdravi mamu!" mean at the end of an email?',
             options: [
-              'Say hi to your mum!',
-              'Call your mum!',
-              'Mum says hi!',
-              'Write to your mum!',
+              'Say hi to your mom!',
+              'Call your mom!',
+              'Mom says hi!',
+              'Write to your mom!',
             ],
             correct: 0,
             explanation:
@@ -526,7 +526,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Every Verb Has a Partner',
-        body: 'In the last lesson you met aspect: the imperfective verb (nesvršeni glagol) describes the process — doing it, how long, right now; the perfective verb (svršeni glagol) describes one finished result. Most verbs come as a pair. This lesson is about the practical part: the pairs you need every day, and how to recognise which partner is which.',
+        body: 'In the last lesson you met aspect: the imperfective verb (nesvršeni glagol) describes the process — doing it, how long, right now; the perfective verb (svršeni glagol) describes one finished result. Most verbs come as a pair. This lesson is about the practical part: the pairs you need every day, and how to recognize which partner is which.',
         icon: '🔗',
       },
       {
@@ -632,7 +632,7 @@ export const LESSONS = [
           {
             hr: 'Vlak dolazi u osam.',
             en: 'The train arrives at eight.',
-            note: 'dolazi — the timetable, a regular event',
+            note: 'dolazi — the schedule, a regular event',
           },
           {
             hr: 'Doći ću sutra navečer.',
@@ -1017,7 +1017,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Ja bih išao u kino.',
-            en: 'I would go to the cinema.',
+            en: 'I would go to the movies.',
             note: 'ja + bih + išao (a man)',
           },
           {
@@ -1042,7 +1042,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oni bi radili vikendom.',
-            en: 'They would work at weekends.',
+            en: 'They would work on weekends.',
             note: 'oni → bi, participle radili',
           },
         ],
@@ -1078,7 +1078,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oni ne bi kupili taj stan.',
-            en: "They wouldn't buy that flat.",
+            en: "They wouldn't buy that apartment.",
             note: 'oni ne bi',
           },
         ],
@@ -1231,7 +1231,7 @@ export const LESSONS = [
           ['Hoću kavu.', 'Htio / Htjela bih kavu.', "I'd like a coffee."],
           ['Dodaj mi sol.', 'Bi li mi dodao sol?', 'Would you pass me the salt?'],
           ['Pomozite mi.', 'Biste li mi mogli pomoći?', 'Could you help me?'],
-          ['Idemo u kino!', 'Mogli bismo ići u kino.', 'We could go to the cinema.'],
+          ['Idemo u kino!', 'Mogli bismo ići u kino.', 'We could go to the movies.'],
           ['Odmori se!', 'Trebao bi se odmoriti.', 'You should rest.'],
           ['Želim putovati.', 'Volio / Voljela bih putovati.', "I'd love to travel."],
         ],
@@ -1293,7 +1293,7 @@ export const LESSONS = [
           },
           {
             hr: 'Mogli bismo ići u kino večeras.',
-            en: 'We could go to the cinema tonight.',
+            en: 'We could go to the movies tonight.',
             note: 'a suggestion: mogli bismo',
           },
           {
@@ -1363,10 +1363,10 @@ export const LESSONS = [
           {
             q: 'What does "Mogli bismo ići u kino" mean?',
             options: [
-              'We could go to the cinema.',
-              'We went to the cinema.',
-              'We must go to the cinema.',
-              'We are going to the cinema.',
+              'We could go to the movies.',
+              'We went to the movie theater.',
+              'We must go to the movies.',
+              'We are going to the movies.',
             ],
             correct: 0,
             explanation: 'mogli bismo = we could: a suggestion.',
@@ -1412,8 +1412,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Naming the Problem',
-        problem: 'Prevedi: "I have a problem with the neighbours."',
-        en: 'Translate: I have a problem with the neighbours.',
+        problem: 'Prevedi: "I have a problem with the neighbors."',
+        en: 'Translate: I have a problem with the neighbors.',
         steps: [
           {
             label: 'Find the pattern',
@@ -1432,8 +1432,8 @@ export const PRACTICE = {
       },
       {
         title: 'Something Is Missing',
-        problem: 'Prevedi: "There is no hot water in the flat."',
-        en: 'Translate: There is no hot water in the flat.',
+        problem: 'Prevedi: "There is no hot water in the apartment."',
+        en: 'Translate: There is no hot water in the apartment.',
         steps: [
           {
             label: 'There is no…',
@@ -1445,7 +1445,7 @@ export const PRACTICE = {
           },
           {
             label: 'Where',
-            text: 'In the flat: u + locative, stan → u stanu.',
+            text: 'In the apartment: u + locative, stan → u stanu.',
           },
         ],
         answer: 'U stanu nema tople vode.',
@@ -1555,7 +1555,7 @@ export const PRACTICE = {
         options: ['s', 'u', 'na', 'sa'],
         correct: 3,
         explanation:
-          'The problem is with the neighbour: s + instrumental, and before s it becomes sa.',
+          'The problem is with the neighbor: s + instrumental, and before s it becomes sa.',
       },
       {
         q: 'Complete: "Već tri dana nema ___." (electricity)',
@@ -1609,7 +1609,7 @@ export const PRACTICE = {
       ['stres', 'stress', 'Na poslu imam puno stresa.'],
       ['umoran', 'tired', 'Stalno sam umoran.'],
       ['u kvaru', 'broken, out of order', 'Auto je opet u kvaru.'],
-      ['susjed', 'neighbour', 'Susjedi su glasni svaku noć.'],
+      ['susjed', 'neighbor', 'Susjedi su glasni svaku noć.'],
       ['žao mi je', 'I am sorry', 'Žao mi je, to je grozno.'],
       ['grozno', 'awful', 'Joj, to je grozno!'],
     ],
@@ -1782,7 +1782,7 @@ export const PRACTICE = {
         explanation: 'Draga Ana is warm and personal; the others are formal.',
       },
       {
-        q: 'Complete: "Pozdravi ___ i tatu!" (your mum)',
+        q: 'Complete: "Pozdravi ___ i tatu!" (your mom)',
         options: ['mama', 'mami', 'mamu', 'mamom'],
         correct: 2,
         explanation: 'pozdraviti takes the accusative: mamu.',
@@ -1909,7 +1909,7 @@ export const PRACTICE = {
           q: 'The imperfective partner of doći:',
           options: ['dolaziti', 'dohoditi', 'dočiti', 'dolaćati'],
           correct: 0,
-          hint: 'It is irregular; think of the train timetable: Vlak … u osam.',
+          hint: 'It is irregular; think of the train schedule: Vlak … u osam.',
           explanation: 'dolaziti (dolazim, dolaziš…).',
         },
         {
@@ -2614,10 +2614,10 @@ export const PRACTICE = {
       {
         q: 'What does "Trebala bi nazvati mamu" mean, said to a friend?',
         options: [
-          'You called your mum.',
-          'You should call your mum.',
-          'You must not call your mum.',
-          'You are calling your mum.',
+          'You called your mom.',
+          'You should call your mom.',
+          'You must not call your mom.',
+          'You are calling your mom.',
         ],
         correct: 1,
         explanation: 'trebala bi = you should — advice to a woman.',

@@ -168,7 +168,7 @@ describe('the plan itself rebuilds at the lower level', () => {
     expect(result.current.session.date).toBe('2026-09-23');
     expect(result.current.session.activities.length).toBeGreaterThan(0);
     // NOT `activities !== before`: the two plans could legitimately coincide on
-    // a quiet day, and a pass/fail line at the mean of a randomised behaviour is
+    // a quiet day, and a pass/fail line at the mean of a randomised behavior is
     // the coin flip #490 warned about. The PROPERTY is what matters — nothing in
     // the rebuilt plan may sit above the level the learner now holds. `screenCefr`
     // is the same gate the builder itself applies, so this asks the builder's own

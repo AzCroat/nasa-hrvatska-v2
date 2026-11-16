@@ -21,7 +21,7 @@ export default function B1VerbsVatiJemDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1verbsvatijem"
       title="davati → dajem, stati → stanem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERBS_VATI_JEM_MODE_LABELS}
       data={VERBS_VATI_JEM_DRILL_DATA}
       praise={{

@@ -29,7 +29,7 @@ export const SPINE = [
     objectives: [
       'Conjugate any -ati verb: gledam, gledaš, gleda, gledamo, gledate, gledaju',
       'Use the international -irati verbs: studiram, telefoniram, organiziram',
-      'Tell studirati (study at university) from učiti (learn)',
+      'Tell studirati (study in college) from učiti (learn)',
     ],
   },
   {
@@ -50,7 +50,7 @@ export const SPINE = [
     objectives: [
       'Check in politely: Dobar dan, imam rezervaciju',
       'Ask for a room: Imate li slobodnu dvokrevetnu sobu?',
-      'Ask about breakfast, the lift and the wifi, and report what does not work',
+      'Ask about breakfast, the elevator and the wifi, and report what does not work',
     ],
   },
   {
@@ -104,7 +104,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'One Pattern, Hundreds of Verbs',
-        body: 'You already know gledati → gledam (I watch). That same pattern also carries a large family of international verbs ending in -irati: studirati (to study at university), telefonirati (to phone), organizirati (to organise). If you can guess the English, you can often guess the Croatian — and every one of them conjugates exactly like gledati.',
+        body: 'You already know gledati → gledam (I watch). That same pattern also carries a large family of international verbs ending in -irati: studirati (to study in college), telefonirati (to phone), organizirati (to organize). If you can guess the English, you can often guess the Croatian — and every one of them conjugates exactly like gledati.',
         icon: '📚',
       },
       {
@@ -116,7 +116,7 @@ export const LESSONS = [
       {
         type: 'table',
         title: 'Three Verbs, One Pattern',
-        headers: ['Person', 'gledati (watch)', 'studirati (study)', 'organizirati (organise)'],
+        headers: ['Person', 'gledati (watch)', 'studirati (study)', 'organizirati (organize)'],
         rows: [
           ['ja', 'gledam', 'studiram', 'organiziram'],
           ['ti', 'gledaš', 'studiraš', 'organiziraš'],
@@ -129,7 +129,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The -irati Verbs Are International',
-        body: 'Croatian borrowed many verbs from Latin, German and French and gave them the ending -irati. studirati — to study (at university). telefonirati — to phone. organizirati — to organise. rezervirati — to book. trenirati — to train. parkirati — to park. fotografirati — to take photos. kontrolirati — to check. The -ir- stays in every form: studiram, never "studam". And every -irati verb is regular, so the table above is all you need.',
+        body: 'Croatian borrowed many verbs from Latin, German and French and gave them the ending -irati. studirati — to study (in college). telefonirati — to phone. organizirati — to organize. rezervirati — to book. trenirati — to train. parkirati — to park. fotografirati — to take photos. kontrolirati — to check. The -ir- stays in every form: studiram, never "studam". And every -irati verb is regular, so the table above is all you need.',
         highlight: '-irati → -iram',
       },
       {
@@ -141,7 +141,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Studirati or Učiti?',
-        body: 'English "study" covers two Croatian verbs. studirati means studying a subject at university: Studiram pravo. (I study law.) učiti means learning in general — a language, for a test, at home: Učim hrvatski. (I am learning Croatian.) učiti belongs to the -iti family you already know: učim, učiš, uči. A university student does both: Studiram pravo i učim svaki dan.',
+        body: 'English "study" covers two Croatian verbs. studirati means studying a subject in college: Studiram pravo. (I study law.) učiti means learning in general — a language, for a test, at home: Učim hrvatski. (I am learning Croatian.) učiti belongs to the -iti family you already know: učim, učiš, uči. A university student does both: Studiram pravo i učim svaki dan.',
         highlight: 'Učim hrvatski.',
       },
       {
@@ -155,17 +155,17 @@ export const LESSONS = [
           },
           {
             hr: 'Mama telefonira svaki dan.',
-            en: 'Mum phones every day.',
+            en: 'Mom phones every day.',
             note: 'ona → telefonira, no ending added',
           },
           {
             hr: 'Ivan organizira izlet.',
-            en: 'Ivan is organising a trip.',
+            en: 'Ivan is organizing a trip.',
             note: 'organizirati → organizira',
           },
           {
             hr: 'Večeras rezerviramo stol.',
-            en: 'Tonight we are booking a table.',
+            en: 'Tonight we are reserving a table.',
             note: 'mi → rezerviramo',
           },
           { hr: 'Gdje parkiraš auto?', en: 'Where do you park the car?', note: 'ti → parkiraš' },
@@ -181,7 +181,7 @@ export const LESSONS = [
           },
           {
             hr: 'Sutra organiziramo koncert.',
-            en: 'Tomorrow we are organising a concert.',
+            en: 'Tomorrow we are organizing a concert.',
             note: 'mi → organiziramo',
           },
         ],
@@ -237,7 +237,7 @@ export const LESSONS = [
         options: ['Studiraju hrvatski.', 'Učim hrvatski.', 'Studiram pravo.'],
         correct: 1,
         explanation:
-          'Learning in general is učiti: Učim hrvatski. studirati is for a subject at university.',
+          'Learning in general is učiti: Učim hrvatski. studirati is for a subject in college.',
       },
       {
         type: 'rule',
@@ -279,7 +279,7 @@ export const LESSONS = [
             explanation: 'ti → -š: gledaš, studiraš.',
           },
           {
-            q: 'Which verb means "to study at university"?',
+            q: 'Which verb means "to study in college"?',
             options: ['učiti', 'studirati', 'čitati', 'gledati'],
             correct: 1,
             explanation: 'studirati is university study; učiti is learning in general.',
@@ -322,7 +322,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'The One Question to Ask',
-        body: 'In the last lesson you met the object form (the accusative — the form a noun takes when the verb acts on it). Feminine -a became -u, and neuter nouns never changed. Masculine nouns are the interesting ones: before choosing the ending you ask one question — is it alive? A brother, a friend, a dog: yes. A table, a car, a film: no. This lesson practises that question until it is automatic.',
+        body: 'In the last lesson you met the object form (the accusative — the form a noun takes when the verb acts on it). Feminine -a became -u, and neuter nouns never changed. Masculine nouns are the interesting ones: before choosing the ending you ask one question — is it alive? A brother, a friend, a dog: yes. A table, a car, a film: no. This lesson practices that question until it is automatic.',
         icon: '🧍',
       },
       {
@@ -334,7 +334,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Who Counts as Alive',
-        body: 'People: brat → brata, prijatelj → prijatelja, susjed (neighbour) → susjeda. Names: Ivan → Ivana, Marko → Marka. Jobs: konobar (waiter) → konobara, liječnik (doctor) → liječnika, profesor → profesora. Animals: konj (horse) → konja, pas → psa. Everything else that is masculine — stol, auto, grad, film, mobitel — stays exactly as it is.',
+        body: 'People: brat → brata, prijatelj → prijatelja, susjed (neighbor) → susjeda. Names: Ivan → Ivana, Marko → Marka. Jobs: konobar (waiter) → konobara, liječnik (doctor) → liječnika, profesor → profesora. Animals: konj (horse) → konja, pas → psa. Everything else that is masculine — stol, auto, grad, film, mobitel — stays exactly as it is.',
         highlight: 'Ivan → Ivana',
       },
       {
@@ -401,10 +401,10 @@ export const LESSONS = [
           },
           {
             hr: 'Poznaješ li mog susjeda?',
-            en: 'Do you know my neighbour?',
+            en: 'Do you know my neighbor?',
             note: 'moj → mog, susjed → susjeda',
           },
-          { hr: 'Volim tatu i mamu.', en: 'I love Dad and Mum.', note: 'tata ends in -a → tatu' },
+          { hr: 'Volim tatu i mamu.', en: 'I love Dad and Mom.', note: 'tata ends in -a → tatu' },
           {
             hr: 'Danas upoznajem novog kolegu.',
             en: 'Today I am meeting a new colleague.',
@@ -423,8 +423,8 @@ export const LESSONS = [
         items: [
           {
             hr: 'Vidim novi auto i novog susjeda.',
-            en: 'I see a new car and a new neighbour.',
-            note: 'the car stays, the neighbour changes',
+            en: 'I see a new car and a new neighbor.',
+            note: 'the car stays, the neighbor changes',
           },
           {
             hr: 'Gledam film, a ne glumca.',
@@ -499,7 +499,7 @@ export const LESSONS = [
             explanation: 'tata ends in -a, so it changes like a feminine noun: tatu.',
           },
           {
-            q: 'Which sentence says "I know your new neighbour" (a man)?',
+            q: 'Which sentence says "I know your new neighbor" (a man)?',
             options: [
               'Poznajem tvoj novi susjed.',
               'Poznajem tvoga novog susjeda.',
@@ -555,7 +555,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Your First Conversation at Reception',
-        body: 'A hotel reception is the perfect first real conversation: it always follows the same steps. You greet, you say you have a booking or ask for a room, you hand over your passport, you get a key. Everything you need is already in your toolbox — imati, the object form, and the polite Vi.',
+        body: 'A hotel reception is the perfect first real conversation: it always follows the same steps. You greet, you say you have a reservation or ask for a room, you hand over your passport, you get a key. Everything you need is already in your toolbox — imati, the object form, and the polite Vi.',
         icon: '🏨',
       },
       {
@@ -575,7 +575,7 @@ export const LESSONS = [
         title: 'Reception Phrases',
         headers: ['Croatian', 'English'],
         rows: [
-          ['Imam rezervaciju.', 'I have a booking.'],
+          ['Imam rezervaciju.', 'I have a reservation.'],
           ['Na koje ime?', 'Under what name?'],
           ['Vašu putovnicu, molim.', 'Your passport, please.'],
           ['Izvolite ključ.', 'Here is your key.'],
@@ -602,7 +602,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Dobar dan, imam rezervaciju.',
-            en: 'Good afternoon, I have a booking.',
+            en: 'Good afternoon, I have a reservation.',
             note: 'rezervacija → rezervaciju',
           },
           {
@@ -658,7 +658,7 @@ export const LESSONS = [
           },
           {
             hr: 'Gdje je lift? — Lift je tamo, lijevo.',
-            en: 'Where is the lift? — The lift is over there, on the left.',
+            en: 'Where is the elevator? — The elevator is over there, on the left.',
             note: 'lijevo / desno — left / right',
           },
           {
@@ -724,7 +724,7 @@ export const LESSONS = [
             q: 'Complete: "Imam ___ na ime Horvat." (a booking)',
             options: ['rezervacija', 'rezervaciju', 'rezervacije', 'rezervacijom'],
             correct: 1,
-            explanation: 'The booking is what you have: rezervacija → rezervaciju.',
+            explanation: 'The reservation is what you have: rezervacija → rezervaciju.',
           },
           {
             q: 'Complete: "Ostajemo samo ___." (one night)',
@@ -818,13 +818,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Asking What Someone Needs',
-        body: 'Ask with the same verb. Što trebaš? (What do you need?) — to a friend. Što trebate? — politely, as a shop assistant asks you. Trebaš li pomoć? (Do you need help?) — the verb first, then li. Answer with the same verb: Trebam kruh i mlijeko. Or say you need nothing: Ne trebam ništa, hvala.',
+        body: 'Ask with the same verb. Što trebaš? (What do you need?) — to a friend. Što trebate? — politely, as a salesperson asks you. Trebaš li pomoć? (Do you need help?) — the verb first, then li. Answer with the same verb: Trebam kruh i mlijeko. Or say you need nothing: Ne trebam ništa, hvala.',
         highlight: 'Što trebaš?',
       },
       {
         type: 'rule',
         title: 'Treba Without a Person',
-        body: 'treba on its own, with no person, means "it is necessary" or "one should": Treba kupiti kruh. (We need to buy bread / Bread needs buying.) And the shortest polite refusal in the language is Ne treba, hvala. (No need, thanks.) — for a waiter offering more, or a shop assistant offering a bag.',
+        body: 'treba on its own, with no person, means "it is necessary" or "one should": Treba kupiti kruh. (We need to buy bread / Bread needs buying.) And the shortest polite refusal in the language is Ne treba, hvala. (No need, thanks.) — for a waiter offering more, or a salesperson offering a bag.',
         highlight: 'Ne treba, hvala.',
       },
       {
@@ -1072,7 +1072,7 @@ export const LESSONS = [
             en: 'Are you allowed to watch a film tonight?',
             note: 'ti → smiješ',
           },
-          { hr: 'Mama kaže da smijem.', en: 'Mum says I am allowed.', note: 'da — that' },
+          { hr: 'Mama kaže da smijem.', en: 'Mom says I am allowed.', note: 'da — that' },
         ],
       },
       {
@@ -1448,7 +1448,7 @@ export const PRACTICE = {
       {
         title: 'A New -irati Verb',
         problem: 'Dopuni: Mi ___ izlet. (organizirati)',
-        en: 'We are organising a trip.',
+        en: 'We are organizing a trip.',
         steps: [
           {
             label: 'Remove -ti',
@@ -1602,9 +1602,9 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['studirati', 'to study (at university)', 'Studiram pravo.'],
+      ['studirati', 'to study (in college)', 'Studiram pravo.'],
       ['telefonirati', 'to phone', 'Mama telefonira svaki dan.'],
-      ['organizirati', 'to organise', 'Ivan organizira izlet.'],
+      ['organizirati', 'to organize', 'Ivan organizira izlet.'],
       ['rezervirati', 'to book', 'Večeras rezerviramo stol.'],
       ['trenirati', 'to train', 'Ana trenira tenis.'],
       ['parkirati', 'to park', 'Gdje parkiraš auto?'],
@@ -1620,12 +1620,12 @@ export const PRACTICE = {
       {
         title: 'A Person as the Object',
         problem: 'Dopuni: Čekam ___. (susjed)',
-        en: 'I am waiting for my neighbour.',
+        en: 'I am waiting for my neighbor.',
         steps: [
           { label: 'Find the object', text: 'The one being waited for: susjed.' },
           {
             label: 'Ask the question',
-            text: 'Masculine — is it alive? A neighbour is a person: yes.',
+            text: 'Masculine — is it alive? A neighbor is a person: yes.',
           },
           { label: 'The ending', text: 'A living masculine noun adds -a.' },
         ],
@@ -1799,7 +1799,7 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['susjed', 'neighbour', 'Čekam susjeda.'],
+      ['susjed', 'neighbor', 'Čekam susjeda.'],
       ['konobar', 'waiter', 'Tražim konobara.'],
       ['liječnik', 'doctor', 'Tražimo liječnika.'],
       ['profesor', 'professor, teacher', 'Slušamo profesora.'],
@@ -1831,12 +1831,12 @@ export const PRACTICE = {
       },
       {
         title: 'Reporting a Problem',
-        problem: '"Excuse me, the lift does not work."',
-        en: 'Excuse me, the lift does not work.',
+        problem: '"Excuse me, the elevator does not work."',
+        en: 'Excuse me, the elevator does not work.',
         steps: [
           { label: 'Start politely', text: 'Oprostite — excuse me.' },
           { label: 'The verb', text: 'raditi means to work, for machines too.' },
-          { label: 'The person', text: 'The lift is "it", so ne radi.' },
+          { label: 'The person', text: 'The elevator is "it", so ne radi.' },
         ],
         answer: 'Oprostite, lift ne radi.',
       },
@@ -1946,7 +1946,7 @@ export const PRACTICE = {
         q: 'Which question asks "Under what name?"',
         options: ['Na koje ime?', 'Kako se zoveš?', 'Kada je doručak?', 'Koja je lozinka?'],
         correct: 0,
-        explanation: 'Na koje ime? — what the receptionist asks about a booking.',
+        explanation: 'Na koje ime? — what the receptionist asks about a reservation.',
       },
       {
         q: 'Complete: "Ostajem ___." (the whole week)',
@@ -1955,10 +1955,10 @@ export const PRACTICE = {
         explanation: 'tjedan is a masculine thing: cijeli tjedan.',
       },
       {
-        q: 'The lift is broken. What do you say?',
+        q: 'The elevator is broken. What do you say?',
         options: ['Lift ne radim.', 'Lift ne rade.', 'Oprostite, lift ne radi.', 'Lift nije radi.'],
         correct: 2,
-        explanation: 'The lift is "it": ne radi.',
+        explanation: 'The elevator is "it": ne radi.',
       },
       {
         q: 'Which sentence is the polite question to a receptionist?',
@@ -2038,7 +2038,7 @@ export const PRACTICE = {
           explanation: 'Trebaš učiti.',
         },
         {
-          q: 'A shop assistant offers you a bag you do not want.',
+          q: 'A salesperson offers you a bag you do not want.',
           options: [
             'Ne treba, hvala.',
             'Trebam, hvala.',

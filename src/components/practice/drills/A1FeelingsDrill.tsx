@@ -18,7 +18,7 @@ export default function A1FeelingsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1feelings"
       title="How Do You Feel?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FEELINGS_MODE_LABELS}
       data={FEELINGS_DRILL_DATA}
       praise={{

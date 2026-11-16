@@ -181,7 +181,7 @@ export const NOUNS_EN_ET_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Učiteljica zna ____ svih učenika.',
-    en: 'The teacher knows the names of all the pupils.',
+    en: 'The teacher knows the names of all the students.',
     opts: ['imena', 'imenu', 'imenima', 'imene'],
     answer: 'imena',
     tip: 'The plural of ime is imena — also in the accusative.',
@@ -189,7 +189,7 @@ export const NOUNS_EN_ET_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'U stara ____ ljudi su putovali pješice.',
-    en: 'In the old days people travelled on foot.',
+    en: 'In the old days people traveled on foot.',
     opts: ['vremena', 'vrijemena', 'vremenu', 'vrijeme'],
     answer: 'vremena',
     tip: 'Plural vremena, with ije shortened to je.',

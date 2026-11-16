@@ -21,7 +21,7 @@ export default function A1LocativePronounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1locativepronouns"
       title="About Me, About You"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={LOCATIVE_PRONOUNS_MODE_LABELS}
       data={LOCATIVE_PRONOUNS_DRILL_DATA}
       praise={{

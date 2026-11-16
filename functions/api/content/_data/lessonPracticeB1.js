@@ -1163,7 +1163,7 @@ export const PRACTICE_B1 = {
           explanation: 'na stolu — locative for a static location.',
         },
         {
-          q: 'Zahvalio sam ___ na pomoći. (the neighbour — susjed)',
+          q: 'Zahvalio sam ___ na pomoći. (the neighbor — susjed)',
           options: ['susjeda', 'susjedu', 'susjed', 'susjedom'],
           correct: 1,
           hint: 'You thank TO someone in Croatian: the person thanked is the receiver.',
@@ -1171,7 +1171,7 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Pomogla sam ____ nositi torbe. (the neighbour — susjeda)',
+          q: 'Pomogla sam ____ nositi torbe. (the neighbor — susjeda)',
           answer: 'susjedi',
           hint: 'pomoći takes the dative; susjeda is feminine.',
           explanation: 'susjedi — dative of susjeda: the one who is helped.',
@@ -1313,8 +1313,8 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'With Someone: s or sa?',
-        problem: 'Reci: I went to the cinema with Željko.',
-        en: 'I went to the cinema with Željko.',
+        problem: 'Reci: I went to the movie theater with Željko.',
+        en: 'I went to the movie theater with Željko.',
         steps: [
           {
             label: 'Company',
@@ -1926,7 +1926,7 @@ export const PRACTICE_B1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Nedostaje mi ___. (I miss my mum — mama)',
+          q: 'Nedostaje mi ___. (I miss my mom — mama)',
           options: ['mama', 'mamu', 'mami', 'mame'],
           correct: 0,
           hint: 'Croatian turns it round: the person missed is the SUBJECT, and you are already in the dative.',
@@ -2356,7 +2356,7 @@ export const PRACTICE_B1 = {
           options: ['upisala', 'ispisala', 'opisala', 'potpisala'],
           correct: 0,
           hint: 'Your name is written INTO the register — the prefix that matches the preposition "into".',
-          explanation: 'upisala se — u- + pisati: to enrol. Ispisati se is to withdraw.',
+          explanation: 'upisala se — u- + pisati: to enroll. Ispisati se is to withdraw.',
         },
         {
           q: 'Možeš li mi ___ čašu vode? (bring — to me)',
@@ -2450,7 +2450,7 @@ export const PRACTICE_B1 = {
         options: [
           'Sign my town.',
           'Copy your town.',
-          'Enrol in your town.',
+          'Enroll in your town.',
           'Describe your town to me.',
         ],
         correct: 3,
@@ -2489,7 +2489,7 @@ export const PRACTICE_B1 = {
     vocab: [
       ['potpisati', 'to sign', 'Moraš potpisati ugovor.'],
       ['opisati', 'to describe', 'Opiši mi svoj novi stan.'],
-      ['upisati se', 'to enrol', 'Upisao sam se na tečaj hrvatskog.'],
+      ['upisati se', 'to enroll', 'Upisao sam se na tečaj hrvatskog.'],
       ['zapisati', 'to note down', 'Zapisala sam tvoj broj.'],
       ['raspakirati', 'to unpack', 'Još nisam raspakirala kofer.'],
       ['prepisati', 'to copy out', 'Prepisao je zadaću od prijatelja.'],
@@ -2730,12 +2730,12 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'Different Subject: a da-Clause',
-        problem: 'Reci: Mum wants us to call her more often.',
-        en: 'Mum wants us to call her more often.',
+        problem: 'Reci: Mom wants us to call her more often.',
+        en: 'Mom wants us to call her more often.',
         steps: [
           {
             label: 'Who wants, who calls?',
-            text: 'Mum wants; we call. Two different subjects.',
+            text: 'Mom wants; we call. Two different subjects.',
           },
           {
             label: 'Apply the test',
@@ -3074,7 +3074,7 @@ export const PRACTICE_B1 = {
           'He must not park.',
           'You may park here.',
           'Parking is not allowed.',
-          'The car park is full.',
+          'The parking lot is full.',
         ],
         correct: 2,
         explanation: 'Modal + se is a rule for everyone: parking is not allowed.',
@@ -3268,7 +3268,7 @@ export const PRACTICE_B1 = {
           'stići is perfective, so a future time clause takes its present: Kad stignemo…',
       },
       {
-        q: "Complete: 'Dok je mama ___, tata je postavljao stol.' (While mum was cooking…)",
+        q: "Complete: 'Dok je mama ___, tata je postavljao stol.' (While mom was cooking…)",
         options: ['skuhala', 'skuha', 'kuhala', 'kuhati'],
         correct: 2,
         explanation: 'dok + an ongoing action: the imperfective kuhala.',
@@ -3549,12 +3549,12 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'Stating a Purpose',
-        problem: 'Reci: I am saving money so that I can buy a flat.',
-        en: 'I am saving money so that I can buy a flat.',
+        problem: 'Reci: I am saving money so that I can buy an apartment.',
+        en: 'I am saving money so that I can buy an apartment.',
         steps: [
           {
             label: 'Cause or aim?',
-            text: 'Buying a flat is what you are aiming at — a purpose, looking forward.',
+            text: 'Buying an apartment is what you are aiming at — a purpose, looking forward.',
           },
           {
             label: 'The connector',
@@ -3955,11 +3955,11 @@ export const PRACTICE_B1 = {
       {
         title: 'Whose',
         problem: 'Spoji: To je susjed. Njegov pas stalno laje.',
-        en: 'Join: That is the neighbour. His dog barks all the time.',
+        en: 'Join: That is the neighbor. His dog barks all the time.',
         steps: [
           {
             label: 'A possessor',
-            text: 'The dog belongs to the neighbour, so the relative is čiji (whose).',
+            text: 'The dog belongs to the neighbor, so the relative is čiji (whose).',
           },
           {
             label: 'Agreement',
@@ -4861,10 +4861,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Čekao sam u ____ više od sat vremena. (in the queue — red)',
+          q: 'Čekao sam u ____ više od sat vremena. (in line — red)',
           answer: 'redu',
-          hint: 'Being in the queue: u + the locative.',
-          explanation: 'u redu — in the queue.',
+          hint: 'Being in line: u + the locative.',
+          explanation: 'u redu — in line.',
         },
         {
           type: 'type',
@@ -4968,7 +4968,7 @@ export const PRACTICE_B1 = {
         title: 'Reading an Advert',
         problem:
           'Oglas: "Iznajmljuje se namješten jednosoban stan, 40 m², 450 € + režije." Što se nudi?',
-        en: 'Advert: furnished one-room flat, 40 m², €450 + utilities. What is on offer?',
+        en: 'Advert: furnished one-room apartment, 40 m², €450 + utilities. What is on offer?',
         steps: [
           {
             label: 'Count the rooms',
@@ -4988,8 +4988,8 @@ export const PRACTICE_B1 = {
       {
         title: 'Asking the Landlord',
         problem:
-          'Pitaj: Does the building have a lift, and can I move in on the first of the month?',
-        en: 'Does the building have a lift, and can I move in on the first of the month?',
+          'Pitaj: Does the building have an elevator, and can I move in on the first of the month?',
+        en: 'Does the building have an elevator, and can I move in on the first of the month?',
         steps: [
           {
             label: 'Yes/no questions',
@@ -5018,7 +5018,7 @@ export const PRACTICE_B1 = {
           explanation: 'bez balkona — masculine genitive -a.',
         },
         {
-          q: 'Stan ima ___. (70 square metres — kvadrat)',
+          q: 'Stan ima ___. (70 square meters — kvadrat)',
           options: [
             'sedamdeset kvadrati',
             'sedamdeset kvadrat',
@@ -5108,7 +5108,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Stan ima veliki balkon i pedeset ___.' (fifty square metres — kvadrat)",
+        q: "Complete: 'Stan ima veliki balkon i pedeset ___.' (fifty square meters — kvadrat)",
         options: ['kvadrat', 'kvadrata', 'kvadrati', 'kvadratu'],
         correct: 1,
         explanation: 'After pet and above, the genitive plural: pedeset kvadrata.',
@@ -5166,7 +5166,7 @@ export const PRACTICE_B1 = {
       ['polog', 'deposit', 'Polog je jedna mjesečna najamnina.'],
       ['namješten', 'furnished', 'Tražim namješten stan.'],
       ['garsonijera', 'studio flat', 'Garsonijera ima kuhinjski kutak.'],
-      ['kat', 'floor, storey', 'Stan je na trećem katu.'],
+      ['kat', 'floor, story', 'Stan je na trećem katu.'],
       ['useliti se', 'to move in', 'Kada se mogu useliti?'],
       ['iseliti se', 'to move out', 'Polog vraćamo kad se iselite.'],
       ['vlasnik', 'owner, landlord', 'Vlasnik ne dopušta kućne ljubimce.'],
@@ -5446,7 +5446,7 @@ export const PRACTICE_B1 = {
           q: 'Prema ___, u nesreći nema žrtava. (According to the police — policija)',
           options: ['policija', 'policije', 'policiji', 'policiju'],
           correct: 2,
-          hint: 'prema (according to, towards) takes the dative.',
+          hint: 'prema (according to, toward) takes the dative.',
           explanation: 'prema policiji — dative.',
         },
         {
@@ -5597,8 +5597,8 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'The Written Word',
-        problem: 'Napiši u službenom e-mailu: The computer does not recognise the keyboard.',
-        en: 'The computer does not recognise the keyboard.',
+        problem: 'Napiši u službenom e-mailu: The computer does not recognize the keyboard.',
+        en: 'The computer does not recognize the keyboard.',
         steps: [
           {
             label: 'Which word?',
@@ -5876,7 +5876,7 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Katamaran je ostao u ____ zbog vjetra. (in the harbour — luka)',
+          q: 'Katamaran je ostao u ____ zbog vjetra. (in the harbor — luka)',
           answer: 'luci',
           hint: 'u + the locative; the k changes before -i.',
           explanation: 'u luci — luka, with k → c.',
@@ -6110,7 +6110,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Ulijte litru ___.' (Pour in a litre of milk — mlijeko)",
+        q: "Complete: 'Ulijte litru ___.' (Pour in a liter of milk — mlijeko)",
         options: ['mlijeko', 'mlijeka', 'mlijekom', 'mlijeku'],
         correct: 1,
         explanation: 'What is measured goes in the genitive: litru mlijeka.',

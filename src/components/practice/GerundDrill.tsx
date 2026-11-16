@@ -21,7 +21,7 @@ const DATA = [
     q: "Glagolski prilog sadašnji od 'putovati' glasi:",
     opts: ['putujući', 'putovavši', 'putovajući', 'putujuvši'],
     answer: 'putujući',
-    en: 'travelling / while travelling',
+    en: 'traveling / while traveling',
     tip: '3. l. mn. prezenta minus -u, plus -ći: putuju → putujući. Samo nesvršeni glagoli.',
   },
   {
@@ -94,7 +94,7 @@ const DATA = [
     q: '„____ posao, otišla je na zasluženi odmor.” (radnja dovršena prije)',
     opts: ['Završivši', 'Završavajući', 'Završavati', 'Završila'],
     answer: 'Završivši',
-    en: 'Having finished the job, she went on a well-earned holiday.',
+    en: 'Having finished the job, she went on a well-earned vacation.',
     tip: 'Prethodnost → prošli prilog od svršenoga glagola (završivši).',
   },
   {
@@ -102,7 +102,7 @@ const DATA = [
     q: '„____ prema moru, razgovarali su o svemu.”',
     opts: ['Hodajući', 'Dohodavši', 'Hodavši', 'Došavši'],
     answer: 'Hodajući',
-    en: 'Walking towards the sea, they talked about everything.',
+    en: 'Walking toward the sea, they talked about everything.',
     tip: 'Radnje teku usporedno → sadašnji prilog (hodajući).',
   },
   {
@@ -110,7 +110,7 @@ const DATA = [
     q: '„____ sve račune, shvatio je koliko troši.”',
     opts: ['Zbrojivši', 'Zbrajajući', 'Zbrojiti', 'Zbrojen'],
     answer: 'Zbrojivši',
-    en: 'Having added up all the bills, he realised how much he spends.',
+    en: 'Having added up all the bills, he realized how much he spends.',
     tip: 'Najprije je zbrojio, ONDA shvatio → prošli prilog (zbrojivši).',
   },
   {

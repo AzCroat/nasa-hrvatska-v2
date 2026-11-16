@@ -377,14 +377,14 @@ Dictionaries mark it with an acute: á, é, í, ó, ú. The accusative of many s
         hr: 'Lúka',
         en: 'Luka (a name)',
         audio: 'Luka',
-        note: 'Contrast lȕka (harbour), short falling.',
+        note: 'Contrast lȕka (harbor), short falling.',
       },
     ],
     minimalPairs: [
       {
         word1: { hr: 'Lúka', en: 'Luka (a name)', accent: 'á' },
-        word2: { hr: 'lȕka', en: 'harbour', accent: 'ȁ' },
-        note: 'Long rising for the name, short falling for the harbour.',
+        word2: { hr: 'lȕka', en: 'harbor', accent: 'ȁ' },
+        note: 'Long rising for the name, short falling for the harbor.',
       },
       {
         word1: { hr: 'rúka', en: 'hand (nominative)', accent: 'á' },
@@ -511,7 +511,7 @@ For production, start with two things: never put the accent on the last syllable
       {
         q: 'Which is the best long-term way to acquire the accents?',
         opts: [
-          'Memorising the marks for every word',
+          'Memorizing the marks for every word',
           'Extensive listening to Croatian speech',
           'Avoiding words until the accent is perfect',
           'Stressing the last syllable for clarity',

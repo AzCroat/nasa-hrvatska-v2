@@ -163,7 +163,7 @@ export const POSITION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: 'Spremi kaput u ____.',
-    en: 'Put the coat away in the wardrobe.',
+    en: 'Put the coat away in the closet.',
     opts: ['ormar', 'ormaru', 'ormara', 'ormarom'],
     answer: 'ormar',
     tip: 'The coat arrives there, so accusative.',
@@ -171,7 +171,7 @@ export const POSITION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: 'Kaput visi u ____. (ormar)',
-    en: 'The coat hangs in the wardrobe.',
+    en: 'The coat hangs in the closet.',
     opts: ['ormaru', 'ormar', 'ormara', 'ormarom'],
     answer: 'ormaru',
     tip: 'It is already there and staying, so locative.',

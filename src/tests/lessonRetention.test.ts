@@ -106,7 +106,7 @@ describe('the re-check ladder', () => {
     const rec = readRetention().lessons['plural']!;
     expect(rec.stage).toBe(0);
     expect(rec.due).toBe('2026-09-15');
-    // The coupling queue is how the app already routes "practise this concept".
+    // The coupling queue is how the app already routes "practice this concept".
     expect(recordLessonTaught).toHaveBeenCalledWith('plural');
     // The lesson is never un-passed — the learner did pass it once.
     expect(rec.passedAt).toBe('2026-09-01');

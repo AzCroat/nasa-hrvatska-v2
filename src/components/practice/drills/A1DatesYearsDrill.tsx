@@ -21,7 +21,7 @@ export default function A1DatesYearsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1datesyears"
       title="Years and Full Dates"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DATES_YEARS_MODE_LABELS}
       data={DATES_YEARS_DRILL_DATA}
       praise={{

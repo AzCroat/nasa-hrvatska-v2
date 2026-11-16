@@ -21,7 +21,7 @@ export default function A2ConditionalWishesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2conditionalwishes"
       title="Wishes and Polite Requests"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CONDITIONAL_WISHES_MODE_LABELS}
       data={CONDITIONAL_WISHES_DRILL_DATA}
       praise={{

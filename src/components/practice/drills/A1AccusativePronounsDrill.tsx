@@ -21,7 +21,7 @@ export default function A1AccusativePronounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1accusativepronouns"
       title="Me, You, Him, Her"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ACCUSATIVE_PRONOUNS_MODE_LABELS}
       data={ACCUSATIVE_PRONOUNS_DRILL_DATA}
       praise={{

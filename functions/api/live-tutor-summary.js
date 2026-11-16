@@ -83,7 +83,7 @@ function staticFallback(durationSecs, turnCount, origin) {
       summary:
         'Odlično! We had a great practice session together. I really enjoyed our conversation and could see you working hard throughout.',
       strength: 'You stayed engaged and kept the conversation flowing.',
-      nextStep: 'Try to use what we practised today in your next flashcard or writing session.',
+      nextStep: 'Try to use what we practiced today in your next flashcard or writing session.',
       xpEarned: calcXp(durationSecs, turnCount),
     },
     origin,

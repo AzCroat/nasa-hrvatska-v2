@@ -21,7 +21,7 @@ export default function C1DepersonalizationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1depersonalization"
       title="Saying It Without a Subject"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DEPERSONALIZATION_MODE_LABELS}
       data={DEPERSONALIZATION_DRILL_DATA}
       praise={{

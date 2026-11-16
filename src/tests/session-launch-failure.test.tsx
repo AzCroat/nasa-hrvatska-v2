@@ -333,7 +333,7 @@ describe('SessionCard — launch-failure error strip', () => {
 // ── Regression guard: V must come from the source that actually has it ────────
 //
 // The production 'empty-pool' alert of 2026-07-25 was NOT an empty content
-// catalogue. Vocabulary moved server-side to /api/content/core (core.js KEYS[0]),
+// catalog. Vocabulary moved server-side to /api/content/core (core.js KEYS[0]),
 // and data/content.tsx destructures V for internal use WITHOUT re-exporting it —
 // so the launcher's `(await _getData()).V` was permanently undefined, every pool
 // was empty, and flashcards / mcgame / match / speaking bailed with 'empty-pool'

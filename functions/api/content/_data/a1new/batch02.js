@@ -42,7 +42,7 @@ export const SPINE = [
     prerequisites: ['masculine-plural-ovi'],
     objectives: [
       'Change k → c, g → z, h → s before the plural -i: vojnik → vojnici',
-      'Recognise when nothing changes: vlak → vlakovi, majka → majke',
+      'Recognize when nothing changes: vlak → vlakovi, majka → majke',
       'Read and say the plurals of everyday nouns in -k, -g and -h',
     ],
   },
@@ -61,9 +61,9 @@ export const SPINE = [
     masterOrder: 22,
     prerequisites: ['gender', 'plural-nouns', 'fleeting-a'],
     objectives: [
-      'Name eleven colours in Croatian',
-      'Make a colour agree with its noun in gender and number: Kuća je crvena. Krovovi su crveni.',
-      'Ask and answer "What colour is this?"',
+      'Name eleven colors in Croatian',
+      'Make a color agree with its noun in gender and number: Kuća je crvena. Krovovi su crveni.',
+      'Ask and answer "What color is this?"',
     ],
   },
   {
@@ -181,7 +181,7 @@ const ZVATI_SE = {
         {
           hr: 'Kako se zove ova ulica? — Zove se Ilica.',
           en: 'What is this street called? — It is called Ilica.',
-          note: 'Ilica is a long street in the centre of Zagreb',
+          note: 'Ilica is a long street in the center of Zagreb',
         },
         {
           hr: 'Prezivam se Kovač. Kako se prezivate?',
@@ -506,7 +506,7 @@ const SIBILARIZATION = {
     {
       type: 'rule',
       title: 'The Three Pairs',
-      body: 'k → c, g → z, h → s — when the plural -i comes straight after them. vojnik (soldier) → vojnici, učenik (pupil) → učenici, jezik (language) → jezici, bubreg (kidney) → bubrezi, dijalog (dialogue) → dijalozi, orah (walnut) → orasi, Čeh (Czech man) → Česi. Remember c sounds like "ts" in "cats".',
+      body: 'k → c, g → z, h → s — when the plural -i comes straight after them. vojnik (soldier) → vojnici, učenik (student) → učenici, jezik (language) → jezici, bubreg (kidney) → bubrezi, dijalog (dialogue) → dijalozi, orah (walnut) → orasi, Čeh (Czech man) → Česi. Remember c sounds like "ts" in "cats".',
       highlight: 'k → c, g → z, h → s',
     },
     {
@@ -518,7 +518,7 @@ const SIBILARIZATION = {
     {
       type: 'rule',
       title: 'Only Directly Before -i',
-      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. A few short nouns do take a plain -i and so do change: đak (pupil) → đaci, Čeh (Czech) → Česi.',
+      body: 'If anything stands between the consonant and the -i, nothing changes. One-syllable nouns put -ov- in the middle, so the k, g or h stays: vlak (train) → vlakovi, vrh (peak) → vrhovi, rog (horn) → rogovi. And feminine nouns end in -e in the plural, so they never change: majka → majke, knjiga → knjige. A few short nouns do take a plain -i and so do change: đak (student) → đaci, Čeh (Czech) → Česi.',
       highlight: 'vlak → vlakovi',
     },
     {
@@ -544,7 +544,7 @@ const SIBILARIZATION = {
       items: [
         {
           hr: 'Ovo je učenik. Ovo su učenici.',
-          en: 'This is a pupil. These are pupils.',
+          en: 'This is a student. These are students.',
           note: 'k → c',
         },
         {
@@ -559,7 +559,7 @@ const SIBILARIZATION = {
         },
         {
           hr: 'Gdje su đaci? Đaci su tamo.',
-          en: 'Where are the pupils? The pupils are there.',
+          en: 'Where are the students? The students are there.',
           note: 'đak → đaci',
         },
         {
@@ -569,7 +569,7 @@ const SIBILARIZATION = {
         },
         {
           hr: 'Česi i Slovaci su susjedi.',
-          en: 'Czechs and Slovaks are neighbours.',
+          en: 'Czechs and Slovaks are neighbors.',
           note: 'Čeh → Česi (h → s), Slovak → Slovaci (k → c)',
         },
         {
@@ -879,8 +879,8 @@ const FLEETING_A = {
 // ─────────────────────────────────────────────────────────
 const COLOURS = {
   id: 'colours',
-  title: 'Colours',
-  subtitle: 'crven, crvena, crveno — colours that agree with their noun',
+  title: 'Colors',
+  subtitle: 'crven, crvena, crveno — colors that agree with their noun',
   icon: '🎨',
   level: 'A1',
   duration: '~6 min',
@@ -889,26 +889,26 @@ const COLOURS = {
   slides: [
     {
       type: 'intro',
-      title: 'What Colour Is It?',
-      body: 'Colour words are adjectives — words that describe a noun. In English they never change: a red car, a red house, red apples. In Croatian they change their ending to match the noun. Learn the colours and you also learn how every Croatian describing word agrees.',
+      title: 'What Color Is It?',
+      body: 'Color words are adjectives — words that describe a noun. In English they never change: a red car, a red house, red apples. In Croatian they change their ending to match the noun. Learn the colors and you also learn how every Croatian describing word agrees.',
       icon: '🎨',
     },
     {
       type: 'rule',
-      title: 'The Colours',
-      body: 'crven (red), plav (blue), zelen (green), žut (yellow), bijel (white), crn (black), siv (grey), smeđ (brown), narančast (orange), ljubičast (purple), ružičast (pink). This is the masculine form, the one a dictionary lists. The word for colour itself is boja.',
+      title: 'The Colors',
+      body: 'crven (red), plav (blue), zelen (green), žut (yellow), bijel (white), crn (black), siv (gray), smeđ (brown), narančast (orange), ljubičast (purple), ružičast (pink). This is the masculine form, the one a dictionary lists. The word for color itself is boja.',
       highlight: 'crven, plav, zelen',
     },
     {
       type: 'rule',
       title: 'Matching One Thing',
-      body: 'A colour takes the gender of its noun: nothing added for masculine, -a for feminine, -o for neuter. Auto je crven. Kuća je crvena. Vino je crveno. The noun decides and the colour follows. Careful with auto: it ends in -o but is masculine, so it is crven.',
+      body: 'A color takes the gender of its noun: nothing added for masculine, -a for feminine, -o for neuter. Auto je crven. Kuća je crvena. Vino je crveno. The noun decides and the color follows. Careful with auto: it ends in -o but is masculine, so it is crven.',
       highlight: 'Kuća je crvena.',
     },
     {
       type: 'rule',
       title: 'Matching Many',
-      body: 'In the plural the endings are -i for masculine, -e for feminine and -a for neuter — the same vowels the nouns themselves take. Oblaci su sivi (oblak → oblaci). Kuće su bijele. Jaja su smeđa. A plural noun needs a plural colour and the plural verb su.',
+      body: 'In the plural the endings are -i for masculine, -e for feminine and -a for neuter — the same vowels the nouns themselves take. Oblaci su sivi (oblak → oblaci). Kuće su bijele. Jaja su smeđa. A plural noun needs a plural color and the plural verb su.',
       highlight: 'Kuće su bijele.',
     },
     {
@@ -919,7 +919,7 @@ const COLOURS = {
     },
     {
       type: 'table',
-      title: 'Six Colours, Six Forms',
+      title: 'Six Colors, Six Forms',
       headers: ['m.', 'f.', 'n.', 'm. pl.', 'f. pl.', 'n. pl.'],
       rows: [
         ['crven', 'crvena', 'crveno', 'crveni', 'crvene', 'crvena'],
@@ -932,13 +932,13 @@ const COLOURS = {
     },
     {
       type: 'rule',
-      title: 'Asking About Colour',
-      body: 'Koja je ovo boja? — What colour is this? Answer with the colour and boja, which is feminine: Ovo je zelena boja. To check a guess, ask with je li: Je li auto crven? — Ne, auto je plav.',
+      title: 'Asking About Color',
+      body: 'Koja je ovo boja? — What color is this? Answer with the color and boja, which is feminine: Ovo je zelena boja. To check a guess, ask with je li: Je li auto crven? — Ne, auto je plav.',
       highlight: 'Koja je ovo boja?',
     },
     {
       type: 'example',
-      title: 'Colours Everywhere',
+      title: 'Colors Everywhere',
       items: [
         {
           hr: 'Nebo je plavo, a trava je zelena.',
@@ -962,7 +962,7 @@ const COLOURS = {
         },
         {
           hr: 'Oblaci su sivi, a more je plavo.',
-          en: 'The clouds are grey, and the sea is blue.',
+          en: 'The clouds are gray, and the sea is blue.',
           note: 'masculine plural -i, neuter -o',
         },
         {
@@ -982,7 +982,7 @@ const COLOURS = {
         },
         {
           hr: 'Koja je ovo boja? Ovo je ljubičasta boja.',
-          en: 'What colour is this? This is purple.',
+          en: 'What color is this? This is purple.',
           note: 'boja is feminine',
         },
         {
@@ -998,7 +998,7 @@ const COLOURS = {
       q: 'Complete: "Kuća je ___." (white)',
       options: ['bijel', 'bijela', 'bijelo', 'bijele'],
       correct: 1,
-      explanation: 'kuća ends in -a, so it is feminine, and the colour adds -a: bijela.',
+      explanation: 'kuća ends in -a, so it is feminine, and the color adds -a: bijela.',
     },
     {
       type: 'quiz',
@@ -1006,12 +1006,12 @@ const COLOURS = {
       q: 'Complete: "Jabuke su ___." (red)',
       options: ['crveni', 'crvena', 'crvene', 'crven'],
       correct: 2,
-      explanation: 'jabuke is a feminine plural, so the colour takes -e: crvene.',
+      explanation: 'jabuke is a feminine plural, so the color takes -e: crvene.',
     },
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'English colours never change, so the first instinct is one form for everything: "Kuća je crven" — but kuća is feminine, so Kuća je crvena. Second, the noun\'s ending can mislead: auto ends in -o yet is masculine, so it is Auto je crven, not "crveno". Third, a plural noun needs a plural colour: Jabuke su crvene, never "Jabuke su crven".',
+      body: 'English colors never change, so the first instinct is one form for everything: "Kuća je crven" — but kuća is feminine, so Kuća je crvena. Second, the noun\'s ending can mislead: auto ends in -o yet is masculine, so it is Auto je crven, not "crveno". Third, a plural noun needs a plural color: Jabuke su crvene, never "Jabuke su crven".',
       highlight: 'Kuća je crvena',
     },
     {
@@ -1031,16 +1031,16 @@ const COLOURS = {
           explanation: 'trava is feminine: zelena.',
         },
         {
-          q: 'Complete: "Oblaci su ___." (grey)',
+          q: 'Complete: "Oblaci su ___." (gray)',
           options: ['sivi', 'sive', 'siva', 'siv'],
           correct: 0,
-          explanation: 'oblaci is a masculine plural, so the colour takes -i: sivi.',
+          explanation: 'oblaci is a masculine plural, so the color takes -i: sivi.',
         },
         {
           q: 'Which sentence is correct?',
           options: ['Auto je crveno.', 'Auto je crvena.', 'Auto su crven.', 'Auto je crven.'],
           correct: 3,
-          explanation: 'auto is masculine despite its -o, so the colour has no ending: crven.',
+          explanation: 'auto is masculine despite its -o, so the color has no ending: crven.',
         },
         {
           q: 'Complete: "Oči su ___." (brown — oči is a feminine plural)',
@@ -1058,7 +1058,7 @@ const COLOURS = {
     },
     {
       type: 'summary',
-      title: 'Colours — Key Takeaways',
+      title: 'Colors — Key Takeaways',
       points: [
         'crven, plav, zelen, žut, bijel, crn, siv, smeđ, narančast, ljubičast, ružičast',
         'One thing: -∅ / -a / -o — crven, crvena, crveno',
@@ -1147,7 +1147,7 @@ const POSSESSIVE_ADJ = {
         },
         {
           hr: 'Sestrina kuća je velika, a bratov stan je mali.',
-          en: "The sister's house is big, and the brother's flat is small.",
+          en: "The sister's house is big, and the brother's apartment is small.",
           note: 'sestra → sestrin, brat → bratov',
         },
         {
@@ -1168,7 +1168,7 @@ const POSSESSIVE_ADJ = {
         },
         {
           hr: 'Tatin auto je plav, a mamin auto je zelen.',
-          en: "Dad's car is blue, and Mum's car is green.",
+          en: "Dad's car is blue, and Mom's car is green.",
           note: 'tata → tatin, mama → mamin',
         },
         {
@@ -2014,19 +2014,19 @@ export const PRACTICE = {
         en: 'Say: The house is red.',
         steps: [
           { label: 'Gender of the noun', text: 'kuća ends in -a, so it is feminine.' },
-          { label: 'The feminine ending', text: 'A colour describing a feminine noun adds -a.' },
+          { label: 'The feminine ending', text: 'A color describing a feminine noun adds -a.' },
           { label: 'Put it together', text: 'crven + a, after the verb je.' },
         ],
         answer: 'Kuća je crvena.',
       },
       {
         title: 'A Masculine Plural',
-        problem: 'Say: The clouds are grey.',
-        en: 'Say: The clouds are grey.',
+        problem: 'Say: The clouds are gray.',
+        en: 'Say: The clouds are gray.',
         steps: [
           { label: 'The noun', text: 'oblak → oblaci: a masculine plural.' },
           { label: 'The plural verb', text: 'Several things take su.' },
-          { label: 'The colour', text: 'Masculine plural adds -i: siv + i.' },
+          { label: 'The color', text: 'Masculine plural adds -i: siv + i.' },
         ],
         answer: 'Oblaci su sivi.',
       },
@@ -2077,24 +2077,24 @@ export const PRACTICE = {
           explanation: 'Jaja su bijela.',
         },
         {
-          q: 'Which question asks "What colour is this?"',
+          q: 'Which question asks "What color is this?"',
           options: ['Koja je ovo boja?', 'Što je ovo?', 'Je li ovo boja?', 'Gdje je boja?'],
           correct: 0,
-          hint: 'boja means colour, and the question word means "which".',
-          explanation: 'Koja je ovo boja? — which colour is this.',
+          hint: 'boja means color, and the question word means "which".',
+          explanation: 'Koja je ovo boja? — which color is this.',
         },
         {
           type: 'type',
           q: 'Trava je ____. (green)',
           answer: 'zelena',
-          hint: 'trava ends in -a, so the colour does too.',
+          hint: 'trava ends in -a, so the color does too.',
           explanation: 'Trava je zelena.',
         },
         {
           type: 'type',
           q: 'More je ____. (blue)',
           answer: 'plavo',
-          hint: 'more is neuter: the colour ends in -o.',
+          hint: 'more is neuter: the color ends in -o.',
           explanation: 'More je plavo.',
         },
         {
@@ -2154,24 +2154,24 @@ export const PRACTICE = {
       {
         q: '"Koja je ovo boja?" means…',
         options: [
-          'What colour is this?',
+          'What color is this?',
           'Whose is this?',
           'Where is the paint?',
-          'Is this a colour?',
+          'Is this a color?',
         ],
         correct: 0,
-        explanation: 'koja = which, boja = colour.',
+        explanation: 'koja = which, boja = color.',
       },
     ],
     vocab: [
-      ['boja', 'colour', 'Koja je ovo boja?'],
+      ['boja', 'color', 'Koja je ovo boja?'],
       ['crven', 'red', 'Jabuke su crvene.'],
       ['plav', 'blue; fair (hair)', 'Nebo je plavo.'],
       ['zelen', 'green', 'Trava je zelena.'],
       ['žut', 'yellow', 'Banane su žute.'],
       ['bijel', 'white', 'Snijeg je bijel.'],
       ['crn', 'black', 'Mačka je crna.'],
-      ['siv', 'grey', 'Oblaci su sivi.'],
+      ['siv', 'gray', 'Oblaci su sivi.'],
       ['smeđ', 'brown', 'Oči su smeđe.'],
       ['ljubičast', 'purple', 'Ovo je ljubičasta boja.'],
     ],
@@ -2337,7 +2337,7 @@ export const PRACTICE = {
       ['djed', 'grandfather', 'Djedova kuća je stara.'],
       ['baka', 'grandmother', 'Bakin vrt je velik.'],
       ['tata', 'dad', 'Tatin auto je plav.'],
-      ['mama', 'mum', 'Mamin auto je zelen.'],
+      ['mama', 'mom', 'Mamin auto je zelen.'],
       ['stric', "uncle (father's brother)", 'Očev brat je moj stric.'],
       ['prijatelj', 'friend', 'Prijateljev pas je crn.'],
     ],

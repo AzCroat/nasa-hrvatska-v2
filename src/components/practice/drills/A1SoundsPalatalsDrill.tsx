@@ -21,7 +21,7 @@ export default function A1SoundsPalatalsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1soundspalatals"
       title="The Soft Sounds: Č Ć Dž Đ Lj Nj"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SOUNDS_PALATALS_MODE_LABELS}
       data={SOUNDS_PALATALS_DRILL_DATA}
       praise={{

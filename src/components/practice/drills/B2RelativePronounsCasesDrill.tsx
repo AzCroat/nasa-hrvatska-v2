@@ -21,7 +21,7 @@ export default function B2RelativePronounsCasesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2relativepronounscases"
       title="Koji, Kojeg, Kojem, Kojim"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={RELATIVE_PRONOUNS_CASES_MODE_LABELS}
       data={RELATIVE_PRONOUNS_CASES_DRILL_DATA}
       praise={{

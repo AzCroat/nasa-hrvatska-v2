@@ -33,7 +33,7 @@ const DATA = [
     q: '„Radim u ____ .” (HNK)',
     opts: ['HNK-u', 'HNKu', 'HNK', 'HNK-i'],
     answer: 'HNK-u',
-    en: 'I work at the Croatian National Theatre',
+    en: 'I work at the Croatian National Theater',
     tip: 'Lokativ: u HNK-u (spojnica + nastavak).',
   },
   {

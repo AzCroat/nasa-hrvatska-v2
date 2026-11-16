@@ -165,7 +165,7 @@ const DATA = [
     q: '„Obrana im je ____ peta.”',
     opts: ['Ahilova', 'Pirova', 'Judina', 'Tantalova'],
     answer: 'Ahilova',
-    en: 'their defence is their ___ heel',
+    en: 'their defense is their ___ heel',
     tip: 'Slabost sustava → Ahilova peta.',
   },
   {

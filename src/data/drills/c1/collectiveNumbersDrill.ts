@@ -131,7 +131,7 @@ export const COLLECTIVE_NUMBERS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'priblizni',
     q: 'Do grada ima ____ kilometara.',
-    en: 'It is about fifteen kilometres to town.',
+    en: 'It is about fifteen kilometers to town.',
     opts: ['petnaestak', 'petnaest', 'petnaestero', 'petnaestica'],
     answer: 'petnaestak',
     tip: 'petnaest + -ak.',
@@ -188,7 +188,7 @@ export const COLLECTIVE_NUMBERS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pluralia',
     q: 'U ormaru su ____ hlače.',
-    en: 'There are two pairs of trousers in the wardrobe.',
+    en: 'There are two pairs of pants in the closet.',
     opts: ['dvoje', 'dvije', 'dvoja', 'dva'],
     answer: 'dvoje',
     tip: 'A feminine plural-only noun takes the numeral adjective in -oje.',

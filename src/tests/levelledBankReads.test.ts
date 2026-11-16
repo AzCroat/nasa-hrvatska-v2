@@ -147,7 +147,7 @@ function deriveSelectingUses(banks: Bank[]): Use[] {
 const NOT_A_ROUND = new Map<string, string>([
   [
     'MEDIA@src/components/croatia/MediaTab.tsx',
-    'a browse catalogue of real Croatian radio, TV and podcasts with its own filter chips — the learner chooses what to open, the flagged use is the recently-opened "Continue" row looked up by name, and an item\'s level is advisory metadata on a card rather than a question\'s difficulty',
+    'a browse catalog of real Croatian radio, TV and podcasts with its own filter chips — the learner chooses what to open, the flagged use is the recently-opened "Continue" row looked up by name, and an item\'s level is advisory metadata on a card rather than a question\'s difficulty',
   ],
 ]);
 

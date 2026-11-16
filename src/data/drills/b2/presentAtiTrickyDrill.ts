@@ -210,7 +210,7 @@ export const PRESENT_ATI_TRICKY_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'tenses',
     q: 'Mama je ____ kad je čula vijest.',
-    en: 'Mum cried when she heard the news.',
+    en: 'Mom cried when she heard the news.',
     opts: ['plačela', 'plakla', 'plačila', 'plakala'],
     answer: 'plakala',
     tip: 'The past comes from plakati — no č.',

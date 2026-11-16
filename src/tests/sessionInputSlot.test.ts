@@ -117,7 +117,7 @@ describe('the kind alternates by what was served less recently', () => {
     expect(selectGuaranteedInput('B1', new Set(), [], CTX)!.kind).toBe('listening');
   });
 
-  it('the whole session honours it: a reading day at A1 serves the graded reader', () => {
+  it('the whole session honors it: a reading day at A1 serves the graded reader', () => {
     served({ listening_comprehension: '2026-09-03', listening: '2026-09-03' });
     const [input] = inputActivities(buildSessionActivities('A1'));
     expect(inputKindOf(input!.category)).toBe('reading');
@@ -126,7 +126,7 @@ describe('the kind alternates by what was served less recently', () => {
 
   it('a fresh session later the same day serves the other kind', () => {
     // The first build records its listening screens under today; a "keep going"
-    // session built afterwards sees listening as the more recent kind. Two
+    // session built afterward sees listening as the more recent kind. Two
     // sessions in one day covering both kinds is the intended shape.
     const first = inputActivities(buildSessionActivities('B1'))[0]!;
     const second = inputActivities(buildSessionActivities('B1'))[0]!;
@@ -184,14 +184,14 @@ describe('the mastery ledger steers the kind when it has measured one', () => {
     expect(pick.reason).toBe('Reading is the skill your practice says needs the most work.');
   });
 
-  it('still SERVES the weaker skill when it has never been practised — but says so', () => {
+  it('still SERVES the weaker skill when it has never been practiced — but says so', () => {
     // The commonest early state, and the one the old wording got wrong: the
     // slot should still follow an unmeasured skill (that is why it is weakest),
     // and the reason must not claim a measurement behind it.
     vi.mocked(weakestReceptiveKind).mockReturnValue('reading');
     const pick = selectGuaranteedInput('B2', new Set(), [], CTX)!;
     expect(pick.kind).toBe('reading');
-    expect(pick.reason).toBe("You haven't practised reading yet.");
+    expect(pick.reason).toBe("You haven't practiced reading yet.");
   });
 
   it('a weaker listening skill gets listening even after listening was served yesterday', () => {

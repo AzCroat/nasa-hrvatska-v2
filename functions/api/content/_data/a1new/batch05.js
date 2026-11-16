@@ -53,7 +53,7 @@ export const SPINE = [
     prerequisites: ['verbs-iti-jeti', 'present-tense-verbs'],
     objectives: [
       'Conjugate -ovati verbs: putovati → putujem, kupovati → kupujem',
-      'Recognise -ivati verbs that do the same: pokazivati → pokazujem',
+      'Recognize -ivati verbs that do the same: pokazivati → pokazujem',
       'Keep ordinary -ati verbs apart: crtati → crtam, gledati → gledam',
     ],
   },
@@ -72,7 +72,7 @@ export const SPINE = [
     masterOrder: 54,
     prerequisites: ['prepositions-place', 'adjectives-basic'],
     objectives: [
-      'Name the rooms of a flat and the furniture in them',
+      'Name the rooms of an apartment and the furniture in them',
       'Say where things are with u and na + the locative: u ormaru, na polici',
       'Describe a flat: Stan je velik. Kuhinja je mala. Stan ima balkon.',
     ],
@@ -136,7 +136,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'What the Waiter Says',
-        body: 'Learn to recognise the waiter (konobar) or waitress (konobarica). "Što želite?" — What would you like? "Što želite piti?" — What would you like to drink? "Želite li još nešto?" — Would you like anything else? When the food comes: "Dobar tek!" — Enjoy your meal. A short "Hvala" back is all it needs.',
+        body: 'Learn to recognize the waiter (konobar) or waitress (konobarica). "Što želite?" — What would you like? "Što želite piti?" — What would you like to drink? "Želite li još nešto?" — Would you like anything else? When the food comes: "Dobar tek!" — Enjoy your meal. A short "Hvala" back is all it needs.',
         highlight: 'Želite li još nešto?',
       },
       {
@@ -423,7 +423,7 @@ export const LESSONS = [
           },
           {
             hr: 'Mama kuha ručak, a tata nosi vino.',
-            en: 'Mum is cooking lunch and dad is carrying the wine.',
+            en: 'Mom is cooking lunch and dad is carrying the wine.',
             note: 'kuha (-ati) beside nosi (-iti)',
           },
           {
@@ -808,7 +808,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Spot It by -ovati',
-        body: 'The signal is the whole ending -ovati, not just -ati. stanovati → stanujem (I live), doručkovati → doručkujem (I have breakfast), ljetovati → ljetujem (I spend the summer holiday), darovati → darujem (I give as a present), sudjelovati → sudjelujem (I take part). An ordinary -ati verb without -ov- keeps -am: crtati → crtam, gledati → gledam. And -irati verbs keep their -ir-: studirati → studiram.',
+        body: 'The signal is the whole ending -ovati, not just -ati. stanovati → stanujem (I live), doručkovati → doručkujem (I have breakfast), ljetovati → ljetujem (I spend the summer vacation), darovati → darujem (I give as a present), sudjelovati → sudjelujem (I take part). An ordinary -ati verb without -ov- keeps -am: crtati → crtam, gledati → gledam. And -irati verbs keep their -ir-: studirati → studiram.',
         highlight: 'crtati → crtam, kupovati → kupujem',
       },
       {
@@ -819,7 +819,7 @@ export const LESSONS = [
       },
       {
         type: 'example',
-        title: 'Travelling and Shopping',
+        title: 'Traveling and Shopping',
         items: [
           {
             hr: 'Često putujem u Hrvatsku.',
@@ -829,13 +829,13 @@ export const LESSONS = [
           { hr: 'Gdje kupuješ kruh?', en: 'Where do you buy bread?', note: 'kupovati → kupuješ' },
           {
             hr: 'Mama kupuje voće na tržnici.',
-            en: 'Mum buys fruit at the market.',
+            en: 'Mom buys fruit at the market.',
             note: 'kupuje',
           },
           { hr: 'Stanujemo u Zagrebu.', en: 'We live in Zagreb.', note: 'stanovati → stanujemo' },
           {
             hr: 'Gdje ljetujete?',
-            en: 'Where do you spend your summer holiday?',
+            en: 'Where do you spend your summer vacation?',
             note: 'ljetovati → ljetujete',
           },
           { hr: 'Oni puno putuju.', en: 'They travel a lot.', note: 'they: putuju' },
@@ -986,7 +986,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Croatia Has Its Own Month Names',
-        body: 'Most European languages take their month names from Latin: January, Januar, janvier. Croatian does not. Its months have old Slavic names, many of them describing what happens in nature at that time of year. They look unfamiliar at first, but they are worth learning properly — you will see them on every calendar, ticket and timetable in Croatia.',
+        body: 'Most European languages take their month names from Latin: January, Januar, janvier. Croatian does not. Its months have old Slavic names, many of them describing what happens in nature at that time of year. They look unfamiliar at first, but they are worth learning properly — you will see them on every calendar, ticket and schedule in Croatia.',
         icon: '📅',
       },
       {
@@ -1085,7 +1085,7 @@ export const LESSONS = [
           },
           {
             hr: 'Putujemo u Zadar u travnju.',
-            en: 'We are travelling to Zadar in April.',
+            en: 'We are traveling to Zadar in April.',
             note: 'u Zadar is motion, u travnju is time',
           },
           {
@@ -1204,8 +1204,8 @@ export const LESSONS = [
     slides: [
       {
         type: 'intro',
-        title: 'A Tour of the Flat',
-        body: 'Most people in Croatian towns live in a stan, a flat. In this lesson you learn the rooms, the main furniture, and how to say where things are with u (in) and na (on) plus the locative — the case you already use for where something is.',
+        title: 'A Tour of the Apartment',
+        body: 'Most people in Croatian towns live in a stan, an apartment. In this lesson you learn the rooms, the main furniture, and how to say where things are with u (in) and na (on) plus the locative — the case you already use for where something is.',
         icon: '🏠',
       },
       {
@@ -1230,19 +1230,19 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Furniture, and u or na',
-        body: 'krevet (bed), ormar (wardrobe), stol (table), stolica (chair), polica (shelf), kauč (sofa), hladnjak (fridge), tepih (rug), slika (picture), zid (wall), pod (floor), prozor (window). Use u for inside something and na for on a surface: Odjeća je u ormaru. Knjiga je na polici. Masculine nouns take -u, feminine -a becomes -i — and remember k → c before -i: slika → na slici.',
+        body: 'krevet (bed), ormar (closet), stol (table), stolica (chair), polica (shelf), kauč (sofa), hladnjak (fridge), tepih (rug), slika (picture), zid (wall), pod (floor), prozor (window). Use u for inside something and na for on a surface: Odjeća je u ormaru. Knjiga je na polici. Masculine nouns take -u, feminine -a becomes -i — and remember k → c before -i: slika → na slici.',
         highlight: 'u ormaru · na polici',
       },
       {
         type: 'rule',
         title: 'Balcony, Wall, Floor: Always na',
-        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (on a floor, on a storey of the building — "upstairs" itself is gore). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
+        body: 'Some places take na even where English says "in" or "on" without thinking: na balkonu (on the balcony), na zidu (on the wall), na podu (on the floor), na katu (on a floor, on a story of the building — "upstairs" itself is gore). Rooms take u: u kuhinji, u sobi, u hodniku. Learn each place with its preposition.',
         highlight: 'na balkonu',
       },
       {
         type: 'rule',
         title: 'Describing the Flat',
-        body: 'An adjective after je agrees with its noun, as you learned: Stan je velik. Kuhinja je mala. Kupaonica je nova. Soba je svijetla (bright). To say what a flat has, use imati: Stan ima balkon. And to say what is in a room, start with the place: U kuhinji je stol. U sobi je krevet.',
+        body: 'An adjective after je agrees with its noun, as you learned: Stan je velik. Kuhinja je mala. Kupaonica je nova. Soba je svijetla (bright). To say what an apartment has, use imati: Stan ima balkon. And to say what is in a room, start with the place: U kuhinji je stol. U sobi je krevet.',
         highlight: 'Stan ima balkon.',
       },
       {
@@ -1251,12 +1251,12 @@ export const LESSONS = [
         items: [
           {
             hr: 'Imam mali stan u gradu.',
-            en: 'I have a small flat in town.',
+            en: 'I have a small apartment in town.',
             note: 'u gradu: locative',
           },
           {
             hr: 'Stan ima kuhinju, kupaonicu i balkon.',
-            en: 'The flat has a kitchen, a bathroom and a balcony.',
+            en: 'The apartment has a kitchen, a bathroom and a balcony.',
             note: 'imati + accusative',
           },
           {
@@ -1264,7 +1264,7 @@ export const LESSONS = [
             en: 'The kitchen is small but bright.',
             note: 'feminine adjectives',
           },
-          { hr: 'Mama je u kuhinji.', en: 'Mum is in the kitchen.', note: 'kuhinja → kuhinji' },
+          { hr: 'Mama je u kuhinji.', en: 'Mom is in the kitchen.', note: 'kuhinja → kuhinji' },
           {
             hr: 'Navečer sjedimo na balkonu.',
             en: 'In the evening we sit on the balcony.',
@@ -1272,7 +1272,7 @@ export const LESSONS = [
           },
           {
             hr: 'U sobi je krevet, ormar i stol.',
-            en: 'In the room there is a bed, a wardrobe and a table.',
+            en: 'In the room there is a bed, a closet and a table.',
             note: 'the place first',
           },
         ],
@@ -1281,7 +1281,7 @@ export const LESSONS = [
         type: 'example',
         title: 'Where Everything Is',
         items: [
-          { hr: 'Odjeća je u ormaru.', en: 'The clothes are in the wardrobe.', note: 'inside: u' },
+          { hr: 'Odjeća je u ormaru.', en: 'The clothes are in the closet.', note: 'inside: u' },
           { hr: 'Knjiga je na polici.', en: 'The book is on the shelf.', note: 'polica → polici' },
           {
             hr: 'Mlijeko je u hladnjaku.',
@@ -1813,7 +1813,7 @@ export const PRACTICE = {
           explanation: 'Mama misli o tebi.',
         },
         {
-          q: 'Čitam o ___. (on — a footballer)',
+          q: 'Čitam o ___. (on — a soccer player)',
           options: ['njemu', 'njega', 'on', 'njim'],
           correct: 0,
           hint: 'The locative of on starts with nj- and ends like the locative of a masculine noun.',
@@ -1978,7 +1978,7 @@ export const PRACTICE = {
   'verbs-ovati': {
     worked: [
       {
-        title: 'Travelling',
+        title: 'Traveling',
         problem: '"I travel to Split."',
         en: 'I travel to Split.',
         steps: [
@@ -2147,7 +2147,7 @@ export const PRACTICE = {
       ['kupovati', 'to buy, to shop', 'Gdje kupuješ kruh?'],
       ['stanovati', 'to live (somewhere)', 'Stanujemo u Zagrebu.'],
       ['doručkovati', 'to have breakfast', 'Doručkujem u sedam.'],
-      ['ljetovati', 'to spend the summer holiday', 'Gdje ljetujete?'],
+      ['ljetovati', 'to spend the summer vacation', 'Gdje ljetujete?'],
       ['sudjelovati', 'to take part', 'Djeca sudjeluju u igri.'],
       ['pokazivati', 'to show', 'Vodič pokazuje grad.'],
       ['posjećivati', 'to visit', 'Svaki tjedan posjećujem baku.'],
@@ -2339,8 +2339,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Inside Something',
-        problem: '"The clothes are in the wardrobe."',
-        en: 'The clothes are in the wardrobe.',
+        problem: '"The clothes are in the closet."',
+        en: 'The clothes are in the closet.',
         steps: [
           { label: 'In or on', text: 'Inside the wardrobe: u.' },
           { label: 'The case', text: 'Nothing is moving, so the locative.' },
@@ -2406,14 +2406,14 @@ export const PRACTICE = {
           explanation: 'Slika je na zidu.',
         },
         {
-          q: 'Which sentence is correct? (The flat is big.)',
+          q: 'Which sentence is correct? (The apartment is big.)',
           options: ['Stan je velika.', 'Stan je velik.', 'Stan je veliko.', 'Stan je velike.'],
           correct: 1,
           hint: 'stan is masculine.',
           explanation: 'Stan je velik.',
         },
         {
-          q: 'Stan ___ balkon. (The flat has a balcony.)',
+          q: 'Stan ___ balkon. (The apartment has a balcony.)',
           options: ['ima', 'je', 'imam', 'imaju'],
           correct: 0,
           hint: 'The verb for having, in the it form.',

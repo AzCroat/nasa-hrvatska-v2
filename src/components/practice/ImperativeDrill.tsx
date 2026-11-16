@@ -178,7 +178,7 @@ export default function ImperativeDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Flawless! Command the language! 🏆',
         good: 'Strong work on imperatives! 💪',
-        more: 'Keep practising those command forms!',
+        more: 'Keep practicing those command forms!',
       }}
       goBack={goBack}
       award={award}

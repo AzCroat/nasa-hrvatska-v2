@@ -247,7 +247,7 @@ function goToDone(award = vi.fn()) {
  * The clear has to happen BEFORE the transition, not after: since sweep 139 the credit
  * fires on REACHING the done view rather than on the Continue click, because the view
  * also carries a Back button and the TabBar, and paying only through Continue lost the
- * whole round for anyone who left another way. Two tests here cleared afterwards and
+ * whole round for anyone who left another way. Two tests here cleared afterward and
  * so wiped the very call they then asserted — the defect encoded as a test premise.
  */
 function goToDoneIsolated(award = vi.fn()) {

@@ -471,7 +471,7 @@ export default function WritingScreen({ goBack, award }: WritingScreenProps) {
             type="text"
             value={customTopic}
             onChange={(e) => setCustomTopic(e.target.value)}
-            placeholder="e.g. My last holiday, My job, My favourite food..."
+            placeholder="e.g. My last holiday, My job, My favorite food..."
             style={{
               width: '100%',
               padding: '10px 12px',

@@ -79,10 +79,10 @@ export const SVOJ_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izbor',
     q: 'Oni su prodali ____ kuću. (susjedovu)',
-    en: 'They sold his house. (the neighbour’s)',
+    en: 'They sold his house. (the neighbor’s)',
     opts: ['njegovu', 'svoju', 'njihovu', 'našu'],
     answer: 'njegovu',
-    tip: 'The house is the neighbour’s, not the subject’s → njegovu, not svoju.',
+    tip: 'The house is the neighbor’s, not the subject’s → njegovu, not svoju.',
   },
   {
     mode: 'izbor',

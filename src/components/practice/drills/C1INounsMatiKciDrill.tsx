@@ -21,7 +21,7 @@ export default function C1INounsMatiKciDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1inounsmatikci"
       title="With Joy, at Night, to My Daughter"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={I_NOUNS_MATI_KCI_MODE_LABELS}
       data={I_NOUNS_MATI_KCI_DRILL_DATA}
       praise={{

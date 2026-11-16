@@ -110,7 +110,7 @@ export const DEPERSONALIZATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'osjecaj',
     q: '____ na radiju da je autocesta zatvorena.',
-    en: 'It is being reported on the radio that the motorway is closed.',
+    en: 'It is being reported on the radio that the highway is closed.',
     opts: ['Javljaju', 'Javljati', 'Javljam', 'Javljajući'],
     answer: 'Javljaju',
     tip: 'The news formula: the subjectless third person plural. (Javlja se … would also be correct Croatian — the se-construction — so it is not offered here.)',

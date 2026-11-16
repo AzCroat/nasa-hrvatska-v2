@@ -21,7 +21,7 @@ export default function B2ConcessionContrastDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2concessioncontrast"
       title="Unatoč Kiši: Concession and Contrast"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CONCESSION_CONTRAST_MODE_LABELS}
       data={CONCESSION_CONTRAST_DRILL_DATA}
       praise={{

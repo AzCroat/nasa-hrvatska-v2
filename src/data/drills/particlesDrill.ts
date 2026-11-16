@@ -98,10 +98,10 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'znacenja',
     q: 'Koja čestica NE izriče stav nego vezu?',
-    en: 'Which links rather than colours?',
+    en: 'Which links rather than colors?',
     opts: ['naime', 'ma', 'valjda', 'eto'],
     answer: 'naime',
-    tip: 'naime and uostalom structure the argument; the rest colour it.',
+    tip: 'naime and uostalom structure the argument; the rest color it.',
   },
 
   // ── valjda ────────────────────────────────────────────────────────────────

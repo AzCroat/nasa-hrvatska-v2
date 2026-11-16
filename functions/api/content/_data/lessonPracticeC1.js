@@ -487,7 +487,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Waving Away an Apology',
         problem: 'Prijatelj se ispričava što kasni pet minuta. Odgovori toplo i opušteno.',
-        en: 'A friend apologises for being five minutes late. Reply warmly and casually.',
+        en: 'A friend apologizes for being five minutes late. Reply warmly and casually.',
         steps: [
           {
             label: 'Set the register',
@@ -519,7 +519,7 @@ export const PRACTICE_C1 = {
         {
           q: '"Opozicija je vladi bacila rukavicu." What happened?',
           options: [
-            'the opposition apologised to the government',
+            'the opposition apologized to the government',
             'the opposition challenged the government',
             'the opposition lost a vote',
             'the opposition joined the government',
@@ -747,7 +747,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'The figures',
-            text: 'Written in figures, the ordinal carries a full stop: 3. ožujka.',
+            text: 'Written in figures, the ordinal carries a period: 3. ožujka.',
           },
         ],
         answer: 'trećeg ožujka — 3. ožujka',
@@ -782,11 +782,11 @@ export const PRACTICE_C1 = {
         },
         {
           q: 'What is a „zračna luka“?',
-          options: ['a harbour', 'an air vent', 'a lighthouse', 'an airport'],
+          options: ['a harbor', 'an air vent', 'a lighthouse', 'an airport'],
           correct: 3,
           hint: 'Read it in two parts: an adjective from zrak (air) and the noun for a port.',
           explanation:
-            'zračna luka is an "air harbour" — the native term for an airport, the purist tradition at work, like zrakoplov.',
+            'zračna luka is an "air harbor" — the native term for an airport, the purist tradition at work, like zrakoplov.',
         },
         {
           q: 'What does Croatian "nedjelja" mean?',
@@ -803,7 +803,7 @@ export const PRACTICE_C1 = {
           explanation: 'glagoljica.',
         },
         {
-          q: 'Which word is shared by Croatian and its neighbours?',
+          q: 'Which word is shared by Croatian and its neighbors?',
           options: ['bolnica', 'vlak', 'tisuća', 'tjedan'],
           correct: 0,
           hint: 'One of these is used identically across the region.',
@@ -904,7 +904,7 @@ export const PRACTICE_C1 = {
       ['vlak', 'train', 'Vlakom od Zagreba do Splita putuje se nekoliko sati.'],
       ['tisuća', 'thousand', 'Na koncertu je bilo tisuću ljudi.'],
       ['tjedan', 'week', 'Sljedeći tjedan idemo na more.'],
-      ['zrakoplov', 'aeroplane', 'Zrakoplov slijeće u zadarsku zračnu luku.'],
+      ['zrakoplov', 'airplane', 'Zrakoplov slijeće u zadarsku zračnu luku.'],
       ['sveučilište', 'university', 'Sveučilište u Zagrebu osnovano je 1669. godine.'],
       ['glagoljica', 'Glagolitic script', 'Glagoljica je naš otisak prsta u povijesti.'],
       ['jezikoslovac', 'linguist', 'Šulek je bio jezikoslovac koji je stvorio mnoge riječi.'],
@@ -1225,7 +1225,7 @@ export const PRACTICE_C1 = {
         },
         {
           q: 'What is a "zlatar"?',
-          options: ['a gold coin', 'a goldsmith', 'the colour gold', 'a gold mine'],
+          options: ['a gold coin', 'a goldsmith', 'the color gold', 'a gold mine'],
           correct: 1,
           hint: '-ar marks a trade.',
           explanation: 'zlato → zlatar, like knjiga → knjižar.',
@@ -1283,10 +1283,10 @@ export const PRACTICE_C1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Molim Vas, ___ se na tečaj do petka." (enrol — from pisati)',
+        q: 'Complete: "Molim Vas, ___ se na tečaj do petka." (enroll — from pisati)',
         options: ['potpišite', 'upišite', 'opišite', 'prepišite'],
         correct: 1,
-        explanation: 'u- (into) + pisati: upisati se, to enrol.',
+        explanation: 'u- (into) + pisati: upisati se, to enroll.',
       },
       {
         q: 'You meet „slušatelj“ for the first time. What is it most likely?',
@@ -1319,7 +1319,7 @@ export const PRACTICE_C1 = {
       },
       {
         q: 'What does "opisati" mean, from o- + pisati?',
-        options: ['to sign', 'to copy', 'to describe', 'to enrol'],
+        options: ['to sign', 'to copy', 'to describe', 'to enroll'],
         correct: 2,
         explanation: 'o- (around, about) + pisati: to describe.',
       },
@@ -1329,7 +1329,7 @@ export const PRACTICE_C1 = {
       ['predmetak', 'prefix', 'Predmetak pre- često znači ponavljanje ili prijenos.'],
       ['dometak', 'suffix', 'Dometak -telj označava vršitelja radnje.'],
       ['potpisati', 'to sign', 'Potpišite ugovor na dnu stranice.'],
-      ['upisati se', 'to enrol', 'Upisala se na sveučilište u Splitu.'],
+      ['upisati se', 'to enroll', 'Upisala se na sveučilište u Splitu.'],
       ['prepisati', 'to copy', 'Prepisao je zadaću od prijatelja.'],
       ['slušatelj', 'listener', 'Slušatelji su pozorno pratili predavanje.'],
       ['hrabrost', 'courage', 'Za takvu odluku treba mnogo hrabrosti.'],
@@ -1568,7 +1568,7 @@ export const PRACTICE_C1 = {
       },
     ],
     vocab: [
-      ['naglasiti', 'to emphasise', 'Želio sam naglasiti da nisam ja kriv.'],
+      ['naglasiti', 'to emphasize', 'Želio sam naglasiti da nisam ja kriv.'],
       ['isticati', 'to highlight, stress', 'Hrvatski ističe novu informaciju na kraju rečenice.'],
       ['suprotnost', 'contrast, opposite', 'Stavio je knjigu na početak da naglasi suprotnost.'],
       ['razbiti', 'to break, smash', 'Prozor je razbio Ivan, a ne Marko.'],
@@ -1730,7 +1730,7 @@ export const PRACTICE_C1 = {
           q: 'Na izlet je otišlo ____ učenika. (about twenty — one approximate word)',
           answer: 'dvadesetak',
           hint: 'Add the approximating suffix to the round number.',
-          explanation: 'dvadesetak učenika — about twenty pupils, with a neuter singular verb.',
+          explanation: 'dvadesetak učenika — about twenty students, with a neuter singular verb.',
         },
       ],
     },
@@ -1822,8 +1822,8 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'One Verb, Two Meanings',
-        problem: 'Prevedi: "The new timetable suits me. I will answer the letter tomorrow."',
-        en: 'Translate: The new timetable suits me. I will answer the letter tomorrow.',
+        problem: 'Prevedi: "The new schedule suits me. I will answer the letter tomorrow."',
+        en: 'Translate: The new schedule suits me. I will answer the letter tomorrow.',
         steps: [
           {
             label: 'Spot the verb',
@@ -3985,7 +3985,7 @@ export const PRACTICE_C1 = {
       {
         q: 'What does the lesson advise about the four accents?',
         options: [
-          'memorise the notation first',
+          'memorize the notation first',
           'acquire them by ear, and read the marks when a dictionary gives them',
           'ignore them in speech and writing',
           'stress the final syllable for emphasis',
@@ -4016,7 +4016,7 @@ export const PRACTICE_C1 = {
         title: 'One Sentence, Attributed',
         problem:
           'Sažmi u jednu rečenicu: članak tvrdi da se mladi sele iz malih gradova jer je stanovanje skupo.',
-        en: 'Summarise in one sentence: the article claims young people are leaving small towns because housing is expensive.',
+        en: 'Summarize in one sentence: the article claims young people are leaving small towns because housing is expensive.',
         steps: [
           {
             label: 'Attribute',
@@ -4206,7 +4206,7 @@ export const PRACTICE_C1 = {
     ],
     vocab: [
       ['sažetak', 'summary', 'Napiši sažetak teksta u pet rečenica.'],
-      ['sažeti', 'to summarise', 'Pokušaj sažeti članak u dvije rečenice.'],
+      ['sažeti', 'to summarize', 'Pokušaj sažeti članak u dvije rečenice.'],
       ['parafraza', 'paraphrase', 'Dobra parafraza mijenja strukturu, a ne samo riječi.'],
       ['tvrditi', 'to claim', 'Autor tvrdi da je motivacija važnija od dobi.'],
       ['navoditi', 'to state, list', 'Članak navodi tri razloga.'],
@@ -4222,7 +4222,7 @@ export const PRACTICE_C1 = {
         title: 'From "I" to the Impersonal',
         problem:
           'Prepiši u akademskom registru: "U ovom radu ja analiziram utjecaj dobi na učenje."',
-        en: 'Rewrite in academic register: In this paper I analyse the influence of age on learning.',
+        en: 'Rewrite in academic register: In this paper I analyze the influence of age on learning.',
         steps: [
           {
             label: 'Remove the first person',
@@ -4332,7 +4332,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'U ovom se radu ____ utjecaj dobi na usvajanje jezika. (is analysed — analizirati)',
+          q: 'U ovom se radu ____ utjecaj dobi na usvajanje jezika. (is analyzed — analizirati)',
           answer: 'analizira',
           hint: 'The impersonal se construction with the present, 3rd singular.',
           explanation: 'U ovom se radu analizira…',
@@ -4407,7 +4407,7 @@ export const PRACTICE_C1 = {
         explanation: 'sažetak — the abstract.',
       },
       {
-        q: 'Complete: "Cilj je ovoga rada ___ utjecaj dobi na učenje." (to analyse)',
+        q: 'Complete: "Cilj je ovoga rada ___ utjecaj dobi na učenje." (to analyze)',
         options: ['analizirati', 'analizira', 'analiziran', 'analiza'],
         correct: 0,
         explanation: 'Cilj je … + infinitive.',
@@ -4973,7 +4973,7 @@ export const PRACTICE_C1 = {
           explanation: 'patetičan = pompous, overblown. "Pathetic" in the English sense is jadan.',
         },
         {
-          q: 'Which is better Croatian for "We analysed the samples"?',
+          q: 'Which is better Croatian for "We analyzed the samples"?',
           options: [
             'Izvršili smo analizu uzoraka.',
             'Analizirali smo uzorke.',
@@ -5039,7 +5039,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Tim je ____ podatke. (analysed — instead of "izvršio analizu")',
+          q: 'Tim je ____ podatke. (analyzed — instead of "izvršio analizu")',
           answer: 'analizirao',
           hint: 'Replace the light-verb phrase with the plain verb, masculine past.',
           explanation: 'Tim je analizirao podatke.',
@@ -5605,7 +5605,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'The numbers',
-            text: 'Article and paragraph numbers are ordinals, so each carries a full stop.',
+            text: 'Article and paragraph numbers are ordinals, so each carries a period.',
           },
           { label: 'Abbreviate', text: 'članak → čl., stavak → st.: čl. 7. st. 3.' },
         ],
@@ -6152,7 +6152,7 @@ export const PRACTICE_C1 = {
       },
     ],
     vocab: [
-      ['kazalište', 'theatre', 'Idemo u kazalište u subotu.'],
+      ['kazalište', 'theater', 'Idemo u kazalište u subotu.'],
       ['predstava', 'play, performance', 'Predstava je bila potresna.'],
       ['redatelj', 'director', 'Redatelj se odlučio za sveden pristup.'],
       ['izložba', 'exhibition', 'Izložba traje do kraja mjeseca.'],
@@ -6182,7 +6182,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Ikavian to Standard',
         problem: 'Djed kaže: "Lipo je vidit dicu u selu." Napiši standardnim oblicima.',
-        en: 'Grandad says it is lovely to see children in the village. Write it in standard forms.',
+        en: 'Grandpa says it is lovely to see children in the village. Write it in standard forms.',
         steps: [
           {
             label: 'Find the ikavian',
@@ -6606,7 +6606,7 @@ export const PRACTICE_C1 = {
         steps: [
           {
             label: 'The first gap follows putovati',
-            text: 'Travelling is movement, so it needs the direction adverb: onamo.',
+            text: 'Traveling is movement, so it needs the direction adverb: onamo.',
           },
           {
             label: 'The second gap follows upoznati',
@@ -7486,7 +7486,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Mixed Genders',
         problem: 'Dopuni: Profesorica i njezin asistent ___ (otputovati) u Pulu.',
-        en: 'Fill in: The professor (f.) and her assistant travelled to Pula.',
+        en: 'Fill in: The professor (f.) and her assistant traveled to Pula.',
         steps: [
           {
             label: 'Find the whole subject',
@@ -7743,7 +7743,7 @@ export const PRACTICE_C1 = {
           q: 'Dopuni: Šetali smo ___ do svjetionika. (obala — along the shore)',
           options: ['obalom', 's obalom', 'obali', 'obalu'],
           correct: 0,
-          hint: 'A route travelled along is a bare case, with no preposition.',
+          hint: 'A route traveled along is a bare case, with no preposition.',
           explanation:
             'obalom — the bare instrumental of route. s obalom would make the shore a companion.',
         },
@@ -7842,7 +7842,7 @@ export const PRACTICE_C1 = {
         options: ['s trajektom', 'trajekta', 'trajektom', 'od trajekta'],
         correct: 2,
         explanation:
-          'A bare instrumental gives the means: putovati trajektom. With s the ferry would become a travelling companion.',
+          'A bare instrumental gives the means: putovati trajektom. With s the ferry would become a traveling companion.',
       },
       {
         q: 'Which sentence means "pour me some milk"?',

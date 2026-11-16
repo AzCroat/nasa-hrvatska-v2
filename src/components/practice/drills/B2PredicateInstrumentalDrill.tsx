@@ -21,7 +21,7 @@ export default function B2PredicateInstrumentalDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2predicateinstrumental"
       title="Bio je učitelj, postao je ravnateljem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PREDICATE_INSTRUMENTAL_MODE_LABELS}
       data={PREDICATE_INSTRUMENTAL_DRILL_DATA}
       praise={{

@@ -24,7 +24,7 @@
  * These tests pin the POLICY (which cache names are reclaimable, and the cap
  * against the real chunk count) by reading sw.js and vite.config.js. The SW's
  * event wiring itself is not unit-testable without a full ServiceWorkerGlobalScope,
- * and the skill's checklist calls for verifying update behaviour against a real
+ * and the skill's checklist calls for verifying update behavior against a real
  * previous-version client — that part is a manual step, not something this file
  * claims to cover.
  */

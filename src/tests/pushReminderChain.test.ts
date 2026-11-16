@@ -1,15 +1,15 @@
 /**
- * pushReminderChain.test.ts — the streak reminder must know when you practised.
+ * pushReminderChain.test.ts — the streak reminder must know when you practiced.
  *
  * TWO DEFECTS, ONE CHAIN
  * ----------------------
  * 1. A SNAPSHOT READ AS LIVE STATE. /api/push-subscribe stamped
  *    `lastPracticed: today` on every write, from nothing but the arrival of a
  *    registration. The scheduled worker then read that field as the answer to
- *    "has this person practised today?" and to "how many days have they been
+ *    "has this person practiced today?" and to "how many days have they been
  *    gone?". It was never live: registerPushWithServer was throttled to 85 days
  *    client-side, so after the subscribe day the date simply froze. The skip
- *    stopped firing, and learners who practised every single day were told that
+ *    stopped firing, and learners who practiced every single day were told that
  *    night that their streak was at risk — with a streak count from weeks
  *    earlier and a `daysSince` counting up toward three months.
  *
@@ -22,7 +22,7 @@
  *    by every hourly cron.
  *
  * The endpoint and the worker are exercised directly against stub KV rather than
- * grepped, because every one of these is a behaviour — what gets stored, what is
+ * grepped, because every one of these is a behavior — what gets stored, what is
  * preserved, what expiry accompanies the write.
  */
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -216,7 +216,7 @@ describe('the scheduled worker keeps the record mortal', () => {
     expect((put.value as { lastNotified: string }).lastNotified).toBe('2026-08-04');
   });
 
-  it('does not send to someone who practised today', async () => {
+  it('does not send to someone who practiced today', async () => {
     const kv = makeKv({ [KV_KEY]: { ...dueRecord, lastPracticed: '2026-08-04' } });
     await runCron(kv);
     expect(fetch).not.toHaveBeenCalled();
@@ -236,7 +236,7 @@ describe('the scheduled worker keeps the record mortal', () => {
 
   it('compares in the subscriber’s calendar, not UTC — the western-evening case', async () => {
     // 2026-08-04T04:30Z is still Monday 2026-08-03, 21:30 in Los Angeles. A
-    // learner who practised that Monday evening is NOT due a "streak at risk"
+    // learner who practiced that Monday evening is NOT due a "streak at risk"
     // push, but a UTC comparison sees lastPracticed=2026-08-03 against
     // today=2026-08-04 and sends anyway. This is the whole reason the dates are
     // local: it is the ordinary case for most of this app's audience.

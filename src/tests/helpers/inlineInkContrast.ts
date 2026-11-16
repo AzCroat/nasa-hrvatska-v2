@@ -3,7 +3,7 @@
 // AN INLINE `color:` LANDS ON WHATEVER THE THEME PAINTED (2026-09-26).
 //
 // The mirror of `themedInlineBackground`. There an element painted a BACKGROUND and
-// inherited the text colour; here it sets a COLOUR and inherits the background. In
+// inherited the text color; here it sets a COLOR and inherits the background. In
 // dark mode that background is `--card` (#1e293b), so a hardcoded DARK brand hex is
 // dark-on-dark. Measured with axe's color-contrast rule over all 430 routes in both
 // themes before the fix: **dark 4,354 failing nodes across 348 routes; light 932
@@ -18,7 +18,7 @@
 //
 // WHAT IS OUT OF SCOPE, AND MEASURED RATHER THAN ASSUMED. An element that paints its
 // own OPAQUE background owns both halves of its contrast: a green chip with dark green
-// ink is correct in either theme, and rewriting its ink would put a light colour on a
+// ink is correct in either theme, and rewriting its ink would put a light color on a
 // light chip. 251 such sites exist; 25 of them fail their own size-appropriate AA
 // threshold regardless of theme, which is a separate and much milder class (3.3:1
 // badges, not 1.2:1 invisible ink) recorded in AUDIT-STATE rather than fixed here.
@@ -51,7 +51,7 @@ export function parseColor(raw: string): [number, number, number] | null {
   const fn = /^rgba?\(([^)]+)\)$/i.exec(v);
   if (fn) {
     const p = fn[1]!.split(',').map((x) => parseFloat(x));
-    // A TRANSLUCENT colour composites over whatever the class painted and therefore
+    // A TRANSLUCENT color composites over whatever the class painted and therefore
     // tracks the theme; it is not a hardcoded ink and must not be reported as one.
     if (p.length >= 3 && p.every((x) => Number.isFinite(x)) && (p.length < 4 || p[3]! >= 0.9)) {
       return [p[0]!, p[1]!, p[2]!];
@@ -152,8 +152,8 @@ export function isOpaqueSurface(raw: string): boolean {
   const hex8 = /^#[0-9a-f]{6}([0-9a-f]{2})$/i.exec(v);
   if (hex8) return parseInt(hex8[1]!, 16) >= 230;
   // AND THE ALPHA CAN BE APPENDED BY CONCATENATION, which is how this codebase writes a
-  // tint of a DATA colour: `catInfo.color + '18'`, `t.color + '15'`, `accent + '99'` — 58
-  // such sites. The base is a variable, so the value is unparseable as a colour and the
+  // tint of a DATA color: `catInfo.color + '18'`, `t.color + '15'`, `accent + '99'` — 58
+  // such sites. The base is a variable, so the value is unparseable as a color and the
   // fallback below reads it as opaque; but `18` is 24/255, a 9% wash that the theme shows
   // straight through. /crmap's category pills were exempted on exactly this and stayed
   // dark-on-dark after every other clause was right.
@@ -243,14 +243,14 @@ export function findDarkModeInk(files?: string[]): InkFinding[] {
     const src = readFileSync(f, 'utf8');
     for (const { index, body } of styleObjects(src)) {
       // `(?<![a-zA-Z])` is what keeps `borderColor:` and `backgroundColor:` out. It is
-      // load-bearing: without it every border colour in the app is reported, and
+      // load-bearing: without it every border color in the app is reported, and
       // sweep 156 already settled that a border is a different question.
       //
       // THE VALUE IS SCANNED, NOT JUST A LEADING LITERAL (2026-09-27). The first version
       // required a quote immediately after `color:`, so a CONDITIONAL ink was invisible:
       // `color: passed ? '#16a34a' : '#dc2626'` matched nothing, and fourteen such sites
       // sat outside the guard while it read green — including /learn's correct/incorrect
-      // feedback and LearnPath's checkpoint markers. Every quoted colour the expression
+      // feedback and LearnPath's checkpoint markers. Every quoted color the expression
       // can resolve to is judged, because a ternary paints BOTH of them.
       // THE ES6 SHORTHAND HAS NO COLON AT ALL. `{ background: color + '18', color }` is
       // `color: color`, and 54 sites in the app write it that way — the category chip on

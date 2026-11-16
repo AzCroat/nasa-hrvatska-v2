@@ -21,7 +21,7 @@ export default function C1TemporalLocativeIdiomsDrill({ goBack, award }: Props) 
     <ModeDrill
       id="c1temporallocativeidioms"
       title="Time and Fixed Phrases in the Locative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TEMPORAL_LOCATIVE_IDIOMS_MODE_LABELS}
       data={TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA}
       praise={{

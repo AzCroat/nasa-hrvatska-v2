@@ -185,7 +185,7 @@ const DECLENSION_REVIEW = {
         },
         {
           hr: 'Idem u kino s bratom.',
-          en: 'I am going to the cinema with my brother.',
+          en: 'I am going to the movies with my brother.',
           note: 'bratom — instrumental: with whom?',
         },
       ],
@@ -352,7 +352,7 @@ const RELATIONAL_ADJ = {
     {
       type: 'rule',
       title: 'The Rarer -ški and -ćki',
-      body: 'A stem in s or z usually just takes -ki, and the two sounds merge into one: Rus → ruski, Francuz → francuski. A few words are exceptions and give -ški: Pariz → pariški, and a stem in g does the same: Prag → praški. Learn those few as words rather than as a rule. A stem in ć keeps it: Gospić → gospićki, plemić → plemićki. You will read these more often than you write them; recognising them is enough at this stage.',
+      body: 'A stem in s or z usually just takes -ki, and the two sounds merge into one: Rus → ruski, Francuz → francuski. A few words are exceptions and give -ški: Pariz → pariški, and a stem in g does the same: Prag → praški. Learn those few as words rather than as a rule. A stem in ć keeps it: Gospić → gospićki, plemić → plemićki. You will read these more often than you write them; recognizing them is enough at this stage.',
       highlight: 'Pariz → pariški',
     },
     {
@@ -693,7 +693,7 @@ const POSSESSIVE_CASES = {
         },
         {
           hr: 'Kupili smo poklon za mamin rođendan.',
-          en: "We bought a present for mum's birthday.",
+          en: "We bought a present for mom's birthday.",
           note: 'mamin — za + accusative; rođendan is a thing',
         },
         {
@@ -1105,7 +1105,7 @@ const ACCUSATIVE_ADJ = {
         },
         {
           hr: 'Moja mama ima crnu mačku i bijelog psa.',
-          en: 'My mum has a black cat and a white dog.',
+          en: 'My mom has a black cat and a white dog.',
           note: 'crnu — feminine; bijelog — a living masculine object',
         },
         {
@@ -1316,7 +1316,7 @@ const CLITIC_ORDER = {
         },
         {
           hr: 'Mama mi ga je kupila za rođendan, a tata mi ga je donio kući.',
-          en: 'Mum bought it for me for my birthday, and Dad brought it home for me.',
+          en: 'Mom bought it for me for my birthday, and Dad brought it home for me.',
           note: 'mi, then ga, then je — in both halves',
         },
       ],
@@ -1427,8 +1427,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Find the Question, Then the Ending',
-        problem: 'Prevedi: "I am going to the cinema with my brother."',
-        en: 'I am going to the cinema with my brother.',
+        problem: 'Prevedi: "I am going to the movies with my brother."',
+        en: 'I am going to the movies with my brother.',
         steps: [
           {
             label: 'Where to?',
@@ -1584,7 +1584,7 @@ export const PRACTICE = {
           'Where? — u + locative: u Splitu. The locative never stands without its preposition.',
       },
       {
-        q: 'Complete: "Volim razgovarati sa ___." (the neighbours — women)',
+        q: 'Complete: "Volim razgovarati sa ___." (the neighbors — women)',
         options: ['susjedama', 'susjede', 'susjeda', 'susjedi'],
         correct: 0,
         explanation: 'With whom? — the feminine instrumental plural: susjedama.',
@@ -1604,7 +1604,7 @@ export const PRACTICE = {
       ['nastavak', 'ending', 'Dativ i lokativ imaju isti nastavak.'],
       ['pitanje', 'question', 'Svaki padež odgovara na jedno pitanje.'],
       ['selo', 'village', 'Moja baka živi na selu.'],
-      ['susjed', 'neighbour', 'Čekam susjeda ispred zgrade.'],
+      ['susjed', 'neighbor', 'Čekam susjeda ispred zgrade.'],
       ['zgrada', 'building', 'Djeca se igraju ispred zgrade.'],
     ],
   },
@@ -1796,7 +1796,7 @@ export const PRACTICE = {
       ['europski', 'European', 'Hrvatska je europska zemlja.'],
       ['jezik', 'language', 'Koji jezik govoriš?'],
       ['županija', 'county', 'Splitsko-dalmatinska županija je velika.'],
-      ['luka', 'port, harbour', 'Brod ulazi u luku.'],
+      ['luka', 'port, harbor', 'Brod ulazi u luku.'],
     ],
   },
 
@@ -1860,7 +1860,7 @@ export const PRACTICE = {
           explanation: 's sestrinim bratom — masculine instrumental.',
         },
         {
-          q: "Gledam ___ fotografije. (mum's)",
+          q: "Gledam ___ fotografije. (mom's)",
           options: ['mamina', 'maminih', 'mamine', 'maminim'],
           correct: 2,
           hint: 'Fotografije is a feminine plural object.',
@@ -1917,7 +1917,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: "Volim ____ kolače. (mum's)",
+          q: "Volim ____ kolače. (mom's)",
           answer: 'mamine',
           hint: 'Kolači is a masculine plural, and here it is the object.',
           explanation: 'mamine kolače — masculine plural accusative -e.',
@@ -1975,7 +1975,7 @@ export const PRACTICE = {
       ['bakin', "grandma's", 'Volim bakinu juhu.'],
       ['djedov', "grandpa's", 'Sjedim na djedovoj stolici.'],
       ['tatin', "dad's", 'Ovo je tatin bicikl.'],
-      ['mamin', "mum's", 'Svi vole mamine kolače.'],
+      ['mamin', "mom's", 'Svi vole mamine kolače.'],
       ['stolica', 'chair', 'Stolica je u kuhinji.'],
     ],
   },
@@ -2169,8 +2169,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Living Object',
-        problem: 'Prevedi: "I met a new neighbour." (a man speaking)',
-        en: 'I met a new neighbour.',
+        problem: 'Prevedi: "I met a new neighbor." (a man speaking)',
+        en: 'I met a new neighbor.',
         steps: [
           { label: 'The object', text: 'susjed is the object, and he is alive.' },
           { label: 'The noun', text: 'A living masculine accusative: susjeda.' },
@@ -2337,7 +2337,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['prijatelj', 'friend', 'Upoznala sam novog prijatelja.'],
-      ['susjed', 'neighbour', 'Pozdravljam našeg susjeda.'],
+      ['susjed', 'neighbor', 'Pozdravljam našeg susjeda.'],
       ['čovjek', 'man, person', 'Poznaješ li tog čovjeka?'],
       ['haljina', 'dress', 'Kupujem novu haljinu.'],
       ['stol', 'table', 'Trebamo novi stol.'],

@@ -156,7 +156,7 @@ describe('applyRemoteProgress — name + onboarding', () => {
   });
 });
 
-describe('applyRemoteProgress — favourites merge', () => {
+describe('applyRemoteProgress — favorites merge', () => {
   beforeEach(clearLS);
   afterEach(clearLS);
 
@@ -754,7 +754,7 @@ describe('applyRemoteProgress — checkpoints and custom words', () => {
     // asserted here (union across devices, one entry per phrase) is unchanged;
     // only the container is. Note this fixture always used phrase STRINGS while
     // the screen actually stored positional indices, which is a large part of
-    // why the index bug survived so long: nothing modelled the real shape.
+    // why the index bug survived so long: nothing modeled the real shape.
     localStorage.setItem('nh_saved_phrases', JSON.stringify(['Dobar dan!']));
     const setters = makeSetters();
     applyRemoteProgress({ nh_saved_phrases: ['Dobar dan!', 'Hvala!'] }, setters);

@@ -6,7 +6,7 @@
 // `codeql.yml` triggered on `pull_request` and a weekly Monday 06:00 schedule
 // and nothing else. A PR analysis reports against the PR's MERGE COMMIT, not
 // against `refs/heads/master`, and GitHub tracks code-scanning alerts PER REF —
-// so the default branch was analysed once a week. Two consequences, both silent:
+// so the default branch was analyzed once a week. Two consequences, both silent:
 // merged code sat up to seven days unscanned, and an alert a merge actually
 // FIXED stayed open on master until the next Monday.
 //
@@ -165,7 +165,7 @@ describe('everything that publishes to code scanning runs on the branch we deplo
     for (const { file, src } of scanningWorkflows) {
       const push = branchesFor(onBlock(src), 'push');
       if (push === null) {
-        bad.push(`${file}: no push trigger — master is analysed only on a schedule`);
+        bad.push(`${file}: no push trigger — master is analyzed only on a schedule`);
       } else if (push.length > 0 && !push.includes(branch)) {
         bad.push(`${file}: push trigger excludes ${branch} (has ${push.join(', ') || 'none'})`);
       }

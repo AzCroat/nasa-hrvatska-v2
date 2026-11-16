@@ -7,7 +7,7 @@
  * Three of the screen's values read fields that no code in the app produces:
  *
  *   s.vc            — never written anywhere. The "Vocabulary" bar sat empty
- *                     while its five neighbours filled.
+ *                     while its five neighbors filled.
  *   s.longestStreak — never written anywhere. Rendered as a 🏆 "BEST STREAK"
  *                     tile via `s.longestStreak || streak`, so "best" was just a
  *                     second copy of "current".
@@ -24,7 +24,7 @@
  *                     had the identical defect; the fix above named the class in
  *                     a comment and did not look at the next entry. A guard
  *                     scoped to the field in front of you says nothing about its
- *                     neighbour. Reading is now counted from the `reading_*`
+ *                     neighbor. Reading is now counted from the `reading_*`
  *                     markers ReadingScreen writes into `stats.vs`, through the
  *                     one helper the read3 badge also uses.
  *

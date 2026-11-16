@@ -81,7 +81,7 @@ export const VERBS_VATI_JEM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'jem',
     q: 'Dobro ____ svoje susjede.',
-    en: 'We know our neighbours well.',
+    en: 'We know our neighbors well.',
     opts: ['poznajemo', 'poznavamo', 'poznaju', 'poznavajemo'],
     answer: 'poznajemo',
     tip: 'The mi form of poznavati.',

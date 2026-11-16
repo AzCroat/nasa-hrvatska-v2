@@ -138,7 +138,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Da + Present: Things That Are Not True',
-        body: 'For a condition that is plainly not true right now — I do not have the money, I am not you — Croatian has a second frame: da + the PRESENT tense, then the conditional result. Da imam novca, kupio bih stan. (If I had money — but I do not — I would buy a flat.) Da znam, rekao bih ti. (If I knew, I would tell you.) Da sam na tvom mjestu, ne bih išao. (If I were you, I would not go.) After da the verb is the ordinary present: da imam, da znam, da sam, da nisam. Kad bih imao novca says almost the same thing; da + present makes it clearer that the condition is not real.',
+        body: 'For a condition that is plainly not true right now — I do not have the money, I am not you — Croatian has a second frame: da + the PRESENT tense, then the conditional result. Da imam novca, kupio bih stan. (If I had money — but I do not — I would buy an apartment.) Da znam, rekao bih ti. (If I knew, I would tell you.) Da sam na tvom mjestu, ne bih išao. (If I were you, I would not go.) After da the verb is the ordinary present: da imam, da znam, da sam, da nisam. Kad bih imao novca says almost the same thing; da + present makes it clearer that the condition is not real.',
         highlight: 'Da imam novca, kupio bih stan.',
       },
       {
@@ -189,7 +189,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Da imam novca, kupio bih stan u Zagrebu.',
-            en: 'If I had money, I would buy a flat in Zagreb.',
+            en: 'If I had money, I would buy an apartment in Zagreb.',
             note: 'da imam: the present, not the conditional',
           },
           {
@@ -199,7 +199,7 @@ export const LESSONS = [
           },
           {
             hr: 'Da nisam umorna, išla bih s vama u kino.',
-            en: 'If I were not tired, I would go to the cinema with you.',
+            en: 'If I were not tired, I would go to the movies with you.',
             note: 'da nisam: the present of biti, negated',
           },
           {
@@ -398,7 +398,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Gospodin Horvat je ovdje. — Neka uđe.',
-            en: 'Mr Horvat is here. — Let him come in.',
+            en: 'Mr. Horvat is here. — Let him come in.',
             note: 'neka + uđe, the present of ući',
           },
           {
@@ -847,13 +847,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Key Words',
-        body: 'volontirati (to volunteer) is an -irati verb: volontiram, volontiraš, volontiraju. The person is a volonter (a man) or a volonterka (a woman), and the work is volontiranje. Most volunteering is organised by an udruga (an association, a non-profit) or as a humanitarna akcija (a charity drive). Volontiram u udruzi za zaštitu životinja. (I volunteer at an animal-protection association.) Notice u udruzi: g becomes z before the -i of the locative.',
+        body: 'volontirati (to volunteer) is an -irati verb: volontiram, volontiraš, volontiraju. The person is a volonter (a man) or a volonterka (a woman), and the work is volontiranje. Most volunteering is organized by an udruga (an association, a non-profit) or as a humanitarna akcija (a charity drive). Volontiram u udruzi za zaštitu životinja. (I volunteer at an animal-protection association.) Notice u udruzi: g becomes z before the -i of the locative.',
         highlight: 'volontiram u udruzi',
       },
       {
         type: 'rule',
         title: 'Helping: pomagati + Dative',
-        body: 'To help someone is pomagati (imperfective) or pomoći (perfective), and the person you help goes in the dative, the "to whom" case: Pomažem djeci. (I help children.) Pomažemo ljudima u potrebi. (We help people in need.) Pomogla sam susjedi. (I helped my neighbour.) Pomagati drugima — to help others — is the phrase you will hear most.',
+        body: 'To help someone is pomagati (imperfective) or pomoći (perfective), and the person you help goes in the dative, the "to whom" case: Pomažem djeci. (I help children.) Pomažemo ljudima u potrebi. (We help people in need.) Pomogla sam susjedi. (I helped my neighbor.) Pomagati drugima — to help others — is the phrase you will hear most.',
         highlight: 'Pomažemo ljudima u potrebi.',
       },
       {
@@ -1379,7 +1379,7 @@ export const LESSONS = [
           },
           {
             hr: 'Dajem poklon našem malom susjedu.',
-            en: 'I am giving a present to our little neighbour.',
+            en: 'I am giving a present to our little neighbor.',
             note: 'našem and malom: masculine dative',
           },
           {
@@ -1410,7 +1410,7 @@ export const LESSONS = [
           },
           {
             hr: 'Idem prema glavnom trgu.',
-            en: 'I am walking towards the main square.',
+            en: 'I am walking toward the main square.',
             note: 'prema takes the dative: glavnom',
           },
           {
@@ -2293,7 +2293,7 @@ export const PRACTICE = {
         explanation: 'brat is on, so volontira.',
       },
       {
-        q: 'Complete: "Ana pomaže ___." (her neighbour — susjeda)',
+        q: 'Complete: "Ana pomaže ___." (her neighbor — susjeda)',
         options: ['susjeda', 'susjedu', 'susjedi', 'susjedom'],
         correct: 2,
         explanation: 'pomagati takes the dative: susjeda → susjedi.',
@@ -2732,9 +2732,9 @@ export const PRACTICE = {
       ['vjerovati', 'to trust, to believe', 'Vjerujem svom liječniku.'],
       ['poklon', 'present, gift', 'Dajem poklon bratu.'],
       ['gost', 'guest', 'Pokazali smo grad našim gostima.'],
-      ['susjed', 'neighbour', 'Pomažem starom susjedu.'],
+      ['susjed', 'neighbor', 'Pomažem starom susjedu.'],
       ['ljubazan', 'kind', 'Ona je ljubazna žena.'],
-      ['prema', 'towards', 'Idem prema glavnom trgu.'],
+      ['prema', 'toward', 'Idem prema glavnom trgu.'],
       ['cvijeće', 'flowers', 'Kupio sam cvijeće majci.'],
       ['kolega', 'colleague', 'Odgovorio sam novom kolegi.'],
     ],

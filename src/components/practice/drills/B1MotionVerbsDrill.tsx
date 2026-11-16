@@ -21,7 +21,7 @@ export default function B1MotionVerbsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1motionverbs"
       title="Ući, izaći, otići — Motion Verbs"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={MOTION_VERBS_MODE_LABELS}
       data={MOTION_VERBS_DRILL_DATA}
       praise={{

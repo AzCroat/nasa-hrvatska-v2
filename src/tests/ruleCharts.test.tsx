@@ -422,7 +422,7 @@ describe('the rendered rule charts', () => {
     render(<LessonVisualSlide slide={chartOf('clitics')} lesson={LESSON} />);
     expect(screen.getAllByRole('rowheader').map((h) => h.textContent)[0]).toMatch(/^1\. li/);
   });
-  it('underlines the verb ending in text, not only colour', () => {
+  it('underlines the verb ending in text, not only color', () => {
     render(<LessonVisualSlide slide={chartOf('present-tense-verbs')} lesson={LESSON} />);
     const ja = screen.getAllByRole('row')[1]!;
     const ends = within(ja)
@@ -444,7 +444,7 @@ describe('the rendered rule charts', () => {
     // beside BOTH partners, so the two columns' lines stay level
     expect(screen.getAllByText('to write')).toHaveLength(2);
   });
-  it('the chart module uses theme tokens only (no colour literal)', () => {
+  it('the chart module uses theme tokens only (no color literal)', () => {
     const src = readFileSync('functions/api/content/_data/ruleCharts.js', 'utf8');
     expect(src).not.toMatch(/#[0-9a-fA-F]{3,8}\b/);
   });

@@ -21,7 +21,7 @@ export default function A1BitiQuestionsNegationDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1bitiquestionsnegation"
       title="Am I? I Am Not: Questions and No with biti"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={BITI_QUESTIONS_NEGATION_MODE_LABELS}
       data={BITI_QUESTIONS_NEGATION_DRILL_DATA}
       praise={{

@@ -106,7 +106,7 @@ export const LOCATIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblici',
     q: 'Mama misli o ____.',
-    en: 'Mum is thinking about us.',
+    en: 'Mom is thinking about us.',
     opts: ['nama', 'nas', 'mi', 'nami'],
     answer: 'nama',
     tip: 'misliti o + locative.',
@@ -172,7 +172,7 @@ export const LOCATIVE_PRONOUNS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlozi',
     q: 'Ovo je ormar. U ____ je odjeća.',
-    en: 'This is the wardrobe. The clothes are in it.',
+    en: 'This is the closet. The clothes are in it.',
     opts: ['njemu', 'njega', 'njoj', 'on'],
     answer: 'njemu',
     tip: 'ormar is masculine: u njemu.',

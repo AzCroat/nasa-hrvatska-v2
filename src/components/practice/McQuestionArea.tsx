@@ -22,7 +22,7 @@ const CATEGORY_HINTS = {
   numbers:
     'Numbers 1–4 take special case agreement with nouns. From 5 onward, nouns take the genitive plural.',
   colours:
-    "Colours in Croatian are adjectives — they agree with the noun's gender: crveni (m), crvena (f), crveno (n).",
+    "Colors in Croatian are adjectives — they agree with the noun's gender: crveni (m), crvena (f), crveno (n).",
   family:
     'Croatian family terms distinguish gender strictly: "brat" (brother), "sestra" (sister). There\'s no gender-neutral equivalent.',
   body: 'Body parts are mostly feminine (-a ending: ruka, noga) or masculine (nos, prst). Gender determines adjective endings.',

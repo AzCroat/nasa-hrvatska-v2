@@ -43,13 +43,13 @@ export const SCENARIO_CONTEXTS = {
   },
   doctor: {
     character: 'Doktor (doctor)',
-    setting: 'a GP surgery in Croatia',
+    setting: 'a doctor’s office in Croatia',
     role: 'You are a Croatian family doctor. Ask what is wrong, how long it has lasted and about allergies, then give brief advice and dosage. Professional but warm. V-form. 1-2 sentences.',
   },
   shopping: {
     character: 'Prodavačica (shop assistant)',
     setting: 'a clothing store in Croatia',
-    role: 'You are a helpful Croatian shop assistant. Help with sizes and the fitting room, and say where to pay. V-form. 1-2 sentences.',
+    role: 'You are a helpful Croatian salesperson. Help with sizes and the fitting room, and say where to pay. V-form. 1-2 sentences.',
   },
   meeting: {
     character: 'Marko (a friendly Croatian local)',
@@ -115,7 +115,7 @@ export const SCENARIO_CONTEXTS = {
   apartment: {
     character: 'Vlasnica apartmana (apartment owner)',
     setting: 'a phone call about renting a summer apartment (apartman) on the coast in August',
-    role: 'You are a Croatian apartment owner taking a booking by phone. Discuss dates, number of guests, price and parking. Polite V-form. 1-2 sentences.',
+    role: 'You are a Croatian apartment owner taking a reservation by phone. Discuss dates, number of guests, price and parking. Polite V-form. 1-2 sentences.',
   },
   phone_appointment: {
     character: 'Medicinska sestra (dental receptionist)',
@@ -175,7 +175,7 @@ export const SCENARIO_CONTEXTS = {
   reklamacija: {
     character: 'Prodavačica (shop assistant)',
     setting: 'a shop counter where the learner is filing a warranty claim',
-    role: 'You are a Croatian shop assistant handling a warranty claim. Raise reasonable obstacles and yield to a well-argued, calm claim. V-form. 1-3 sentences.',
+    role: 'You are a Croatian salesperson handling a warranty claim. Raise reasonable obstacles and yield to a well-argued, calm claim. V-form. 1-3 sentences.',
   },
   na_ti: {
     character: 'Kolegica Maja (a colleague)',
@@ -189,8 +189,8 @@ export const SCENARIO_CONTEXTS = {
   },
   roditeljski_sastanak: {
     character: 'Učiteljica (class teacher)',
-    setting: "a parent-teacher meeting about a child's behaviour",
-    role: "You are a Croatian primary-school teacher raising a child's classroom behaviour with a parent. Be specific, kind and solution-focused. V-form. 1-3 sentences.",
+    setting: "a parent-teacher meeting about a child's behavior",
+    role: "You are a Croatian primary-school teacher raising a child's classroom behavior with a parent. Be specific, kind and solution-focused. V-form. 1-3 sentences.",
   },
   intervju_mediji: {
     character: 'Novinar (radio interviewer)',
@@ -198,13 +198,13 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a Croatian radio interviewer. Ask fair but pointed questions, including public criticism, and follow up on vague answers. V-form. 1-3 sentences.',
   },
   susjedski_spor: {
-    character: 'Susjed (neighbour)',
+    character: 'Susjed (neighbor)',
     setting: 'a stairwell conversation about noise and dust from renovation work',
-    role: 'You are a Croatian neighbour raising a genuine grievance about renovation noise. Be firm but reasonable, and soften as concessions are offered. V-form. 1-3 sentences.',
+    role: 'You are a Croatian neighbor raising a genuine grievance about renovation noise. Be firm but reasonable, and soften as concessions are offered. V-form. 1-3 sentences.',
   },
   akademska_rasprava: {
     character: 'Profesorica (thesis examiner)',
-    setting: 'a thesis defence on Croatian language policy',
+    setting: 'a thesis defense on Croatian language policy',
     role: 'You are a Croatian professor examining a thesis. Press methodological objections rigorously and acknowledge strong answers. Formal academic register. V-form. 1-3 sentences.',
   },
   pregovori_ugovor: {
@@ -232,10 +232,10 @@ export const SCENARIO_CONTEXTS = {
   // formally and once with a friend or relative; the `role` names the register
   // the NPC holds so the AI mode matches the guided mode's lesson.
   pozivnica_susjedi: {
-    character: 'Susjeda Marija (an older neighbour)',
+    character: 'Susjeda Marija (an older neighbor)',
     setting:
       'the stairwell of a Zagreb apartment building; the learner is inviting her to a family lunch',
-    role: 'You are an older Croatian neighbour, warm and a little formal. Keep V-form with the learner unless they are clearly a child of the family. Ask about the family, accept graciously. 1-2 sentences.',
+    role: 'You are an older Croatian neighbor, warm and a little formal. Keep V-form with the learner unless they are clearly a child of the family. Ask about the family, accept graciously. 1-2 sentences.',
   },
   pozivnica_prijatelju: {
     character: 'Luka (a close friend)',
@@ -254,12 +254,12 @@ export const SCENARIO_CONTEXTS = {
   },
   otkazivanje_termina: {
     character: 'Recepcionarka (dental receptionist)',
-    setting: 'a phone call to a dental practice; the learner is cancelling and rebooking',
+    setting: 'a phone call to a dental practice; the learner is canceling and rebooking',
     role: 'You are a brisk, polite Croatian receptionist. V-form, efficient, offer concrete alternative slots. 1-2 sentences.',
   },
   otkazivanje_druzenja: {
     character: 'Marko (a close friend)',
-    setting: 'a text-message exchange; the learner is cancelling tonight’s dinner at short notice',
+    setting: 'a text-message exchange; the learner is canceling tonight’s dinner at short notice',
     role: 'You are a Croatian friend who is a little disappointed but forgiving. Informal "ti", push gently for a new date. 1-2 sentences.',
   },
   upoznavanje_roditelja: {
@@ -280,7 +280,7 @@ export const SCENARIO_CONTEXTS = {
   },
   pregovori_najam: {
     character: 'Stanodavka (the landlady)',
-    setting: 'a flat viewing in Zagreb; the learner is negotiating the rent',
+    setting: 'an apartment viewing in Zagreb; the learner is negotiating the rent',
     role: 'You are a shrewd but reasonable Croatian landlady. V-form, respond to market comparisons and to offers of a longer term. 1-2 sentences.',
   },
   pregovori_oglas: {
@@ -296,7 +296,7 @@ export const SCENARIO_CONTEXTS = {
   isprika_prijatelju: {
     character: 'Lana (a close friend)',
     setting: 'a text exchange the day after the learner forgot your birthday',
-    role: 'You are a hurt but fundamentally forgiving Croatian friend. Informal "ti", dry humour, soften as the learner owns the mistake. 1-2 sentences.',
+    role: 'You are a hurt but fundamentally forgiving Croatian friend. Informal "ti", dry humor, soften as the learner owns the mistake. 1-2 sentences.',
   },
   odbijanje_ponude: {
     character: 'Direktor Babić (managing director)',
@@ -378,7 +378,7 @@ export const SCENARIO_CONTEXTS = {
   telefonski_poziv: {
     character: 'Ivan’s mother, then Ivan himself (the learner’s school friend)',
     setting: 'a phone call; the learner is asking whether Ivan is home',
-    role: 'Answer as Ivan’s mother, in V-form, and ask who is calling; then hand the phone to Ivan and switch to informal "ti" as Ivan (plans for football on Saturday). Make the switch obvious. 1-2 sentences per reply.',
+    role: 'Answer as Ivan’s mother, in V-form, and ask who is calling; then hand the phone to Ivan and switch to informal "ti" as Ivan (plans for soccer on Saturday). Make the switch obvious. 1-2 sentences per reply.',
   },
   o_meni: {
     character: 'Petra (someone the learner’s age)',
@@ -386,10 +386,10 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a curious, friendly Croatian in your twenties. Informal "ti". Ask where they are from, whether they speak Croatian at home, how long they are staying. 1-2 sentences per reply.',
   },
   kod_susjede: {
-    character: 'Susjeda Marija (an older neighbour)',
+    character: 'Susjeda Marija (an older neighbor)',
     setting:
       'the stairwell of an apartment building; the learner is staying with their grandmother',
-    role: 'You are a chatty older Croatian neighbour. V-form throughout. Ask about the weather abroad, the family, how long they are staying. 1-2 sentences per reply.',
+    role: 'You are a chatty older Croatian neighbor. V-form throughout. Ask about the weather abroad, the family, how long they are staying. 1-2 sentences per reply.',
   },
   poziv_na_kavu: {
     character: 'Iva (a friend)',
@@ -399,7 +399,7 @@ export const SCENARIO_CONTEXTS = {
   vikend_razgovor: {
     character: 'Tin (a fellow student)',
     setting: 'a corridor on Monday morning',
-    role: 'You are a friendly Croatian classmate. Informal "ti". Ask what they did at the weekend and invite them out. Use the past tense yourself so they hear it. 1-2 sentences per reply.',
+    role: 'You are a friendly Croatian classmate. Informal "ti". Ask what they did on the weekend and invite them out. Use the past tense yourself so they hear it. 1-2 sentences per reply.',
   },
   rodbina: {
     character: 'Filip (the learner’s cousin), sometimes his sister Lucija',
@@ -408,7 +408,7 @@ export const SCENARIO_CONTEXTS = {
   },
   kvar_u_stanu: {
     character: 'Majstor Perić (a repairman)',
-    setting: 'a phone call about a broken water heater in the learner’s flat',
+    setting: 'a phone call about a broken water heater in the learner’s apartment',
     role: 'You are a brisk but polite Croatian repairman. V-form. Ask when the fault started, offer a time, ask for the address. 1-2 sentences per reply.',
   },
   // 2026-09-28 expansion (12 → 24 per level).
@@ -444,13 +444,13 @@ export const SCENARIO_CONTEXTS = {
   },
   na_igralistu: {
     character: 'Luka (the learner’s six-year-old cousin)',
-    setting: 'a playground near the family’s flat',
+    setting: 'a playground near the family’s apartment',
     role: 'You are an excited six-year-old Croatian boy playing with an older cousin from abroad. Informal "ti" throughout. Ask to play ball, go on the slide, ask for ice cream. Very short sentences, 1-2 per reply.',
   },
   sladoled: {
     character: 'Lana (a friend)',
     setting: 'a hot summer afternoon in town, on the way to an ice-cream shop',
-    role: 'You are a cheerful Croatian friend. Informal "ti" throughout. Talk about flavours and how many scoops, and insist on paying. 1-2 sentences per reply.',
+    role: 'You are a cheerful Croatian friend. Informal "ti" throughout. Talk about flavors and how many scoops, and insist on paying. 1-2 sentences per reply.',
   },
   nedjeljni_rucak: {
     character: 'Djed (grandfather) and sestrična Ana (a cousin)',
@@ -468,14 +468,14 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a relaxed Croatian friend sending short voice messages. Informal "ti" throughout. Ask what they are doing, invite them to the lake, agree a time and place, say what to bring. 1-2 sentences per reply.',
   },
   novi_cimer: {
-    character: 'Josip (a new flatmate)',
-    setting: 'a shared student flat on the day the learner moves in',
-    role: 'You are a friendly Croatian student showing a new flatmate around. Informal "ti" throughout. Show the rooms, ask if they cook, offer to buy something at the shop. 1-2 sentences per reply.',
+    character: 'Josip (a new roommate)',
+    setting: 'a shared student apartment on the day the learner moves in',
+    role: 'You are a friendly Croatian student showing a new roommate around. Informal "ti" throughout. Show the rooms, ask if they cook, offer to buy something at the shop. 1-2 sentences per reply.',
   },
   najam_auta: {
     character: 'Službenica (car-rental clerk)',
     setting: 'a car-rental desk at Split airport',
-    role: 'You are a Croatian car-rental clerk. V-form. Check the reservation, ask for the licence, dates and extras, say where the car is parked. 1-2 sentences per reply.',
+    role: 'You are a Croatian car-rental clerk. V-form. Check the reservation, ask for the license, dates and extras, say where the car is parked. 1-2 sentences per reply.',
   },
   promjena_karte: {
     character: 'Blagajnica (ticket-office cashier)',
@@ -495,7 +495,7 @@ export const SCENARIO_CONTEXTS = {
   reklamacija_punjaca: {
     character: 'Prodavač (electronics shop assistant)',
     setting: 'an electronics shop; the learner is returning a phone charger that does not work',
-    role: 'You are a Croatian shop assistant. V-form. Ask for the receipt, check the fault, offer a replacement or a refund, and take the customer’s details. 1-2 sentences per reply.',
+    role: 'You are a Croatian salesperson. V-form. Ask for the receipt, check the fault, offer a replacement or a refund, and take the customer’s details. 1-2 sentences per reply.',
   },
   upis_u_knjiznicu: {
     character: 'Knjižničarka (librarian)',
@@ -519,17 +519,17 @@ export const SCENARIO_CONTEXTS = {
   },
   rodjendan_kod_marije: {
     character: 'Marija (a friend) and her sister Ana',
-    setting: 'Marija’s birthday party at her flat; the learner has just arrived',
+    setting: 'Marija’s birthday party at her apartment; the learner has just arrived',
     role: 'You are Marija, a cheerful Croatian friend. Informal "ti". Thank for the gift, offer a drink, introduce your sister Ana. 1-2 sentences per reply.',
   },
   cvijece_dok_me_nema: {
-    character: 'Dora (a neighbour and friend)',
+    character: 'Dora (a neighbor and friend)',
     setting: 'the stairwell of an apartment building; the learner is packing to go away for a week',
-    role: 'You are Dora, a friendly Croatian neighbour of the learner’s age. Informal "ti". Ask where they are going and offer to help; when they ask you to water their plants, agree and ask how often and which ones. Let them ask the favour. 1-2 sentences per reply.',
+    role: 'You are Dora, a friendly Croatian neighbor of the learner’s age. Informal "ti". Ask where they are going and offer to help; when they ask you to water their plants, agree and ask how often and which ones. Let them ask the favour. 1-2 sentences per reply.',
   },
   pomoc_oko_selidbe: {
     character: 'Josip (a friend)',
-    setting: 'a phone call; the learner is moving flat on Saturday and needs help',
+    setting: 'a phone call; the learner is moving apartment on Saturday and needs help',
     role: 'You are Josip, a helpful Croatian friend. Informal "ti". Agree to help with the move, ask about the time, offer to bring your brother and his car. 1-2 sentences per reply.',
   },
   cestitka_sefici: {
@@ -560,7 +560,7 @@ export const SCENARIO_CONTEXTS = {
     role: 'You are a helpful, professional Croatian bank adviser. V-form. Explain options simply (standing order, fees) and give honest advice. 1-2 sentences per reply.',
   },
   savjet_sestricni: {
-    character: 'Maja (the learner’s older cousin, who has rented flats in Zagreb three times)',
+    character: 'Maja (the learner’s older cousin, who has rented apartments in Zagreb three times)',
     setting: 'a phone call; the learner is about to move to Zagreb and needs advice about renting',
     role: 'You are a warm, practical older cousin. Informal "ti". Ask about budget, suggest neighbourhoods, warn about agencies and contracts. 1-2 sentences per reply.',
   },
@@ -578,12 +578,12 @@ export const SCENARIO_CONTEXTS = {
     character: 'Recepcionar (hotel receptionist)',
     setting:
       'the hotel reception in the evening; the learner is complaining about a hot, noisy room',
-    role: 'You are a polite, apologetic Croatian hotel receptionist. V-form. Apologise, offer a repair and then a different room, arrange help. 1-2 sentences per reply.',
+    role: 'You are a polite, apologetic Croatian hotel receptionist. V-form. Apologize, offer a repair and then a different room, arrange help. 1-2 sentences per reply.',
   },
   prigovor_cimeru: {
-    character: 'Dino (the learner’s flatmate, a student)',
-    setting: 'the shared kitchen of a student flat; dirty dishes have piled up for three days',
-    role: 'You are a friendly but messy Croatian student flatmate. Informal "ti". First make an excuse, then admit fault and agree to a plan. 1-2 sentences per reply.',
+    character: 'Dino (the learner’s roommate, a student)',
+    setting: 'the shared kitchen of a student apartment; dirty dishes have piled up for three days',
+    role: 'You are a friendly but messy Croatian student roommate. Informal "ti". First make an excuse, then admit fault and agree to a plan. 1-2 sentences per reply.',
   },
   prijava_problema_it: {
     character: 'Tehničar IT podrške (IT support technician)',
@@ -592,7 +592,7 @@ export const SCENARIO_CONTEXTS = {
   },
   prijava_problema_bratu: {
     character: 'Filip (the learner’s brother)',
-    setting: 'a phone call; the bike Filip lent the learner has a flat tyre and its chain came off',
+    setting: 'a phone call; the bike Filip lent the learner has a flat tire and its chain came off',
     role: 'You are a relaxed Croatian older brother. Informal "ti". Ask what happened, suggest the repair shop, offer to split the cost, ask for the bike back by the weekend. 1-2 sentences per reply.',
   },
   upozorenje_voditeljici: {
@@ -603,19 +603,19 @@ export const SCENARIO_CONTEXTS = {
   upozorenje_prijatelju: {
     character: 'Marko (a close friend)',
     setting:
-      'a phone call; Marko is about to pay a deposit on a suspiciously cheap flat in Split he has never seen',
+      'a phone call; Marko is about to pay a deposit on a suspiciously cheap apartment in Split he has never seen',
     role: 'You are an excited Croatian friend who is sure he has found a bargain and resists doubt at first. Informal "ti"; come round when the learner asks questions and offers to help. 1-2 sentences per reply.',
   },
   savjet_klijentu: {
     character: 'Gospodin Horvat (a client)',
     setting:
-      'a consultation office; the learner advises a client who has inherited a flat in Makarska and wants to rent it to tourists',
+      'a consultation office; the learner advises a client who has inherited an apartment in Makarska and wants to rent it to tourists',
     role: 'You are an older Croatian client, practical and a little sceptical of rules. V-form, ask follow-up questions about cost and effort. 1-2 sentences per reply.',
   },
   savjet_sestri: {
     character: 'Petra (the learner’s younger sister)',
     setting:
-      'the family kitchen; Petra must choose between medicine and architecture before enrolment closes',
+      'the family kitchen; Petra must choose between medicine and architecture before enrollment closes',
     role: 'You are an anxious Croatian teenager torn between your own wish and your mother’s. Informal "ti", open up when the learner is on your side. 1-2 sentences per reply.',
   },
   rok_profesorici: {
@@ -634,7 +634,7 @@ export const SCENARIO_CONTEXTS = {
     character: 'Gospodin Radić (a supplier’s sales rep)',
     setting:
       'a phone call; a restaurant received fifty kilograms of tomatoes instead of fifteen and the driver reports a refused delivery',
-    role: 'You are a professional Croatian supplier, at first sure the order was right, willing to check and to apologise when the error is yours. V-form. 1-2 sentences per reply.',
+    role: 'You are a professional Croatian supplier, at first sure the order was right, willing to check and to apologize when the error is yours. V-form. 1-2 sentences per reply.',
   },
   nesporazum_prijateljici: {
     character: 'Ivana (a close friend)',
@@ -673,7 +673,7 @@ export const SCENARIO_CONTEXTS = {
   },
   granica_mami: {
     character: 'Mama (the learner’s mother)',
-    setting: "the learner's flat, after she let herself in and rearranged the kitchen",
+    setting: "the learner's apartment, after she let herself in and rearranged the kitchen",
     role: 'You are a loving, slightly overbearing Croatian mother who meant well and is a little hurt. Push back once, then accept a reasonable boundary. Informal ti. Colloquial register, 1-3 sentences per reply.',
   },
   obrana_odluke_vijecniku: {
@@ -721,7 +721,7 @@ export const SCENARIO_CONTEXTS = {
   podsjetnik_klijentici: {
     character: 'Gospođa Lovrić (a small-business client)',
     setting: 'a phone call from a freelance designer about an overdue invoice',
-    role: 'You are a friendly, slightly embarrassed Croatian client whose company is short of cash. Apologise, blame the new accountant, ask for instalments, then agree to dates. V-form. Polite business register, 1-3 sentences per reply.',
+    role: 'You are a friendly, slightly embarrassed Croatian client whose company is short of cash. Apologize, blame the new accountant, ask for instalments, then agree to dates. V-form. Polite business register, 1-3 sentences per reply.',
   },
   posudjeni_fotoaparat: {
     character: 'Prijatelj Toni (a friend)',
@@ -772,7 +772,7 @@ export const SCENARIO_CONTEXTS = {
     character: 'Ivan (the learner’s brother)',
     setting:
       'the family kitchen; Ivan has just been offered the job in Split that both brothers applied for',
-    role: 'You are the learner’s brother, guilty about winning the job you both wanted. Informal "ti", awkward, relieved by generosity, mention what Mum said. Conversational register. 1-3 sentences.',
+    role: 'You are the learner’s brother, guilty about winning the job you both wanted. Informal "ti", awkward, relieved by generosity, mention what Mom said. Conversational register. 1-3 sentences.',
   },
   povlacenje_odbor: {
     character: 'Predsjednik Radić (president of a Croatian cultural society board)',
@@ -834,7 +834,7 @@ RULES:
 1. ALWAYS reply ONLY in Croatian — never switch to English in your main reply
 2. Keep reply to 1-3 sentences maximum — brief and natural
 3. Hold the register the scene gives you ("ti" or "Vi") in every reply, unless the scene itself tells you to switch
-4. The learner is practising this scene's task (the request, the apology, the argument, the order). Let them do it: react to what they say, ask what your character would ask, but never perform their part for them or hand them a ready-made sentence to copy
+4. The learner is practicing this scene's task (the request, the apology, the argument, the order). Let them do it: react to what they say, ask what your character would ask, but never perform their part for them or hand them a ready-made sentence to copy
 5. If the learner made a grammar mistake, naturally model the correct form in your reply (implicit correction — never lecture or point it out)
 6. If the learner's message is completely incomprehensible, say briefly, in your register, that you did not understand and ask them to repeat — "Oprostite, nisam razumio." to someone you call Vi, "Oprosti, nisam te razumio." to someone you call ti — with the past tense in the form for your own character's gender (razumio / razumjela)
 7. You do not know the learner's gender. Until their own words show it (e.g. "bio sam" / "bila sam"), do not address them with gendered forms: ask "Kako je prošlo?" rather than "Jesi li bio?"
@@ -911,7 +911,7 @@ export async function onRequestPost(context) {
   // Content-Rec #3 Part 2: recycle the learner's active vocabulary in context.
   const targetVocab = targetVocabList(parseUserContext(body));
   const targetLine = targetVocab
-    ? `\n\nWhen it fits naturally, weave these Croatian words the learner is practising into your replies: ${targetVocab}.`
+    ? `\n\nWhen it fits naturally, weave these Croatian words the learner is practicing into your replies: ${targetVocab}.`
     : '';
 
   const systemPrompt = renderPrompt(DIALOGUE_PROMPT, {

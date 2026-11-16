@@ -21,7 +21,7 @@ export default function B1TellingStoryDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1tellingstory"
       title="Pričanje priče"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TELLING_STORY_MODE_LABELS}
       data={TELLING_STORY_DRILL_DATA}
       praise={{

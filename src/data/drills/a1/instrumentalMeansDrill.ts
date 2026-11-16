@@ -29,7 +29,7 @@ export const INSTRUMENTAL_MEANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijevoz',
     q: 'Putujem u Split ____.',
-    en: 'I am travelling to Split by train.',
+    en: 'I am traveling to Split by train.',
     opts: ['vlak', 'vlakom', 'vlaku', 'vlakem'],
     answer: 'vlakom',
     tip: 'The means of travel: instrumental. K is not soft, so -om.',
@@ -193,7 +193,7 @@ export const INSTRUMENTAL_MEANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nastavak',
     q: 'Idem u kino ____.',
-    en: 'I am going to the cinema with my brother.',
+    en: 'I am going to the movies with my brother.',
     opts: ['bratom', 's bratom', 'brata', 'bratu'],
     answer: 's bratom',
     tip: 'Company needs s; the bare instrumental would make your brother a vehicle.',
@@ -201,7 +201,7 @@ export const INSTRUMENTAL_MEANS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nastavak',
     q: 'Idem u kino ____.',
-    en: 'I am going to the cinema by car.',
+    en: 'I am going to the movies by car.',
     opts: ['auto', 'autu', 'autom', 'auta'],
     answer: 'autom',
     tip: 'The means: bare instrumental.',

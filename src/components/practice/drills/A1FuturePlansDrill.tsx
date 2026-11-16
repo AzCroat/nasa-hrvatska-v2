@@ -21,7 +21,7 @@ export default function A1FuturePlansDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1futureplans"
       title="Making Plans"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FUTURE_PLANS_MODE_LABELS}
       data={FUTURE_PLANS_DRILL_DATA}
       praise={{

@@ -30,7 +30,7 @@ const ERROR_META: Record<string, ErrorMetaEntry> = {
     label: 'Missing reflexive "se/si"',
     desc: 'Reflexive verbs in Croatian require the particle se or si. It cannot be dropped.',
     example: { wrong: 'Zovem Marko.', right: 'Zovem se Marko.' },
-    tip: 'Memorise reflexive verbs as a unit: "zvati se", "sjetiti se", "sjećati se".',
+    tip: 'Memorize reflexive verbs as a unit: "zvati se", "sjetiti se", "sjećati se".',
     screen: 'typing',
     icon: '↩️',
   },
@@ -105,56 +105,56 @@ const ERROR_META: Record<string, ErrorMetaEntry> = {
   phoneme_č: {
     label: 'Pronouncing Č (hard CH)',
     desc: 'Your spoken Č scored low. Č is the harder, more forward "ch" — tongue tip toward the ridge behind the upper teeth.',
-    tip: 'Like "ch" in "church", firmer than Ć. Practise: čaj, čovjek, večer.',
+    tip: 'Like "ch" in "church", firmer than Ć. Practice: čaj, čovjek, večer.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_ć: {
     label: 'Pronouncing Ć (soft CH)',
     desc: 'Your spoken Ć scored low. Ć is softer and more palatal than Č — the blade of the tongue touches the hard palate, lips spread.',
-    tip: 'Like a quick "ty", softer than Č. Practise: kuća, noć, ćevapi.',
+    tip: 'Like a quick "ty", softer than Č. Practice: kuća, noć, ćevapi.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_š: {
     label: 'Pronouncing Š (SH)',
     desc: 'Your spoken Š scored low. Tongue raised toward the ridge behind the upper teeth, air flowing over it with friction.',
-    tip: 'Like "sh" in "shoe". Practise: šuma, škola, miš.',
+    tip: 'Like "sh" in "shoe". Practice: šuma, škola, miš.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_ž: {
     label: 'Pronouncing Ž (ZH)',
     desc: 'Your spoken Ž scored low. Same position as Š but voiced — add vibration in your throat.',
-    tip: 'Like "s" in "measure" or French "j" in "jour". Practise: žena, život, može.',
+    tip: 'Like "s" in "measure" or French "j" in "jour". Practice: žena, život, može.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_đ: {
     label: 'Pronouncing Đ (soft J)',
     desc: 'Your spoken Đ scored low. It is the voiced partner of Ć — tongue blade on the hard palate, lips spread, vocal cords on.',
-    tip: 'Like "j" in "judge" but softer — a voiced Ć. Practise: đak, nađi.',
+    tip: 'Like "j" in "judge" but softer — a voiced Ć. Practice: đak, nađi.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_lj: {
     label: 'Pronouncing LJ',
     desc: 'Your spoken LJ scored low. It is ONE liquid sound, not "l" + "j" — the tongue body presses flat against the hard palate.',
-    tip: 'Like "lli" in "million" as one sound. Practise: ljubav, ljeto, polje.',
+    tip: 'Like "lli" in "million" as one sound. Practice: ljubav, ljeto, polje.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_nj: {
     label: 'Pronouncing NJ',
     desc: 'Your spoken NJ scored low. It is ONE nasal sound, not "n" + "j" — tongue to the palate, air through the nose.',
-    tip: 'Like "ñ" in Spanish "mañana". Practise: njega, knjiga, konj.',
+    tip: 'Like "ñ" in Spanish "mañana". Practice: njega, knjiga, konj.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
   phoneme_r: {
     label: 'Pronouncing the rolled R',
     desc: 'Your spoken R scored low. Croatian R is trilled — the tongue tip vibrates against the ridge behind the upper teeth, not the English curled R.',
-    tip: 'Relax the tongue and let air flutter the tip. Practise: ruka, more, srce, krk.',
+    tip: 'Relax the tongue and let air flutter the tip. Practice: ruka, more, srce, krk.',
     screen: 'phoneme_practice',
     icon: '🎙️',
   },
@@ -799,12 +799,12 @@ export default function CroatianErrorInsights() {
                 style={{ fontSize: 14, fontWeight: 800, color: 'var(--heading)', marginBottom: 6 }}
               >
                 {topicEvidence.measured > 0
-                  ? `No weak topics among the ${topicEvidence.measured} you have practised — great work!`
+                  ? `No weak topics among the ${topicEvidence.measured} you have practiced — great work!`
                   : 'Nothing measured yet.'}
               </div>
               <div style={{ fontSize: 12, color: 'var(--subtext)', lineHeight: 1.6 }}>
                 {topicEvidence.measured > 0
-                  ? 'Practise more topics to widen what this can see.'
+                  ? 'Practice more topics to widen what this can see.'
                   : `A topic needs a few answers before this can say anything about it${
                       topicEvidence.thin > 0
                         ? ` — ${topicEvidence.thin} ${topicEvidence.thin === 1 ? 'is' : 'are'} part way there`

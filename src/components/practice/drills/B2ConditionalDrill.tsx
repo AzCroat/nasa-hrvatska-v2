@@ -21,7 +21,7 @@ export default function B2ConditionalDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2conditional"
       title="Kad Bih… The Conditional"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CONDITIONAL_B2_MODE_LABELS}
       data={CONDITIONAL_B2_DRILL_DATA}
       praise={{

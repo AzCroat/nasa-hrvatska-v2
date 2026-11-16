@@ -81,7 +81,7 @@ export const INVITATIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poziv',
     q: 'Idemo u ____?',
-    en: 'Shall we go to the cinema?',
+    en: 'Shall we go to the movies?',
     opts: ['kino', 'kinu', 'kina', 'kinom'],
     answer: 'kino',
     tip: 'Going there → accusative, and kino is neuter and does not change.',
@@ -173,7 +173,7 @@ export const INVITATIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'dogovor',
     q: 'Nalazimo se ispred ____. (kino)',
-    en: 'We are meeting in front of the cinema.',
+    en: 'We are meeting in front of the movie theater.',
     opts: ['kina', 'kino', 'kinu', 'kinom'],
     answer: 'kina',
     tip: 'Ispred is a position word → GENITIVE: ispred kina.',
@@ -192,12 +192,12 @@ export const INVITATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'See you at half past six.',
     opts: ['pola', 'polovicu', 'pola do', 'polu'],
     answer: 'pola',
-    tip: 'U pola sedam is HALF PAST SIX — Croatian counts towards the coming hour.',
+    tip: 'U pola sedam is HALF PAST SIX — Croatian counts toward the coming hour.',
   },
   {
     mode: 'dogovor',
     q: 'Nalazimo se kod ____. (kazalište)',
-    en: 'We are meeting by the theatre.',
+    en: 'We are meeting by the theater.',
     opts: ['kazališta', 'kazalište', 'kazalištu', 'kazalištem'],
     answer: 'kazališta',
     tip: 'kod plus the genitive.',

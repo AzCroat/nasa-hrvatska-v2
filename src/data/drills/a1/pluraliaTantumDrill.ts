@@ -199,7 +199,7 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'brojenje',
     q: 'U ormaru su tri para ____.',
-    en: 'There are three pairs of trousers in the wardrobe.',
+    en: 'There are three pairs of pants in the closet.',
     opts: ['hlača', 'hlače', 'hlačama', 'hlaču'],
     answer: 'hlača',
     tip: 'After par, the genitive plural: the -e drops off.',
@@ -218,6 +218,6 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which word exists only in the plural?',
     opts: ['škare', 'knjiga', 'stol', 'olovka'],
     answer: 'škare',
-    tip: 'Scissors — like trousers and glasses — are plural-only.',
+    tip: 'Scissors — like pants and glasses — are plural-only.',
   },
 ];

@@ -1076,7 +1076,7 @@ const REFLEXIVE = {
       en: 'to shower',
       present: { hr: 'Tuširam se svako jutro.', en: 'I shower every morning.' },
       past: { hr: 'Tuširao sam se prije treninga.', en: 'I showered before training.' },
-      future: { hr: 'Tuširat ću se poslije.', en: 'I will shower afterwards.' },
+      future: { hr: 'Tuširat ću se poslije.', en: 'I will shower afterward.' },
       negative: { hr: 'Ne tuširam se hladnom vodom.', en: "I don't shower in cold water." },
     },
     {

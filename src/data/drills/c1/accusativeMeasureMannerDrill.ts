@@ -23,7 +23,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kolicina',
     q: 'Kupili su ____ vina za večeru.',
-    en: 'They bought a litre of wine for dinner.',
+    en: 'They bought a liter of wine for dinner.',
     opts: ['litru', 'litra', 'litri', 'litrom'],
     answer: 'litru',
     tip: 'A quantity in the bare accusative: litru vina.',
@@ -79,7 +79,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kolicina',
     q: 'Ne bih prodao vikendicu ni po ____ cijenu.',
-    en: 'I would not sell the holiday house at any price.',
+    en: 'I would not sell the vacation house at any price.',
     opts: ['koju', 'koja', 'kojoj', 'kojom'],
     answer: 'koju',
     tip: 'po + accusative of price: ni po koju cijenu.',
@@ -89,7 +89,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Do posla pješačim tri ____.',
-    en: 'I walk three kilometres to work.',
+    en: 'I walk three kilometers to work.',
     opts: ['kilometra', 'kilometre', 'kilometar', 'kilometara'],
     answer: 'kilometra',
     tip: 'After tri, the genitive singular.',
@@ -97,7 +97,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Prepješačili smo dvadeset ____.',
-    en: 'We hiked twenty kilometres.',
+    en: 'We hiked twenty kilometers.',
     opts: ['kilometara', 'kilometra', 'kilometre', 'kilometrima'],
     answer: 'kilometara',
     tip: 'After twenty, the genitive plural.',
@@ -129,7 +129,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Zid je visok dva ____.',
-    en: 'The wall is two metres high.',
+    en: 'The wall is two meters high.',
     opts: ['metra', 'metar', 'metre', 'metara'],
     answer: 'metra',
     tip: 'After dva, the genitive singular.',
@@ -203,7 +203,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nacin',
     q: 'Kupili smo stan na ____.',
-    en: 'We bought the flat on credit.',
+    en: 'We bought the apartment on credit.',
     opts: ['kredit', 'kreditu', 'kredita', 'kreditom'],
     answer: 'kredit',
     tip: 'A fixed manner phrase: na kredit, na rate — na + accusative.',

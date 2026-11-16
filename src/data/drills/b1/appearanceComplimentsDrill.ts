@@ -48,7 +48,7 @@ export const APPEARANCE_COMPLIMENTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izgled',
     q: 'Djed ima sijedu kosu i bijelu ____.',
-    en: 'Grandad has grey hair and a white beard.',
+    en: 'Grandpa has gray hair and a white beard.',
     opts: ['bradu', 'brada', 'bradi', 'brade'],
     answer: 'bradu',
     tip: 'Accusative after imati.',
@@ -96,7 +96,7 @@ export const APPEARANCE_COMPLIMENTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kompliment',
     q: 'Ova boja ____ lijepo stoji.',
-    en: 'This colour suits her nicely.',
+    en: 'This color suits her nicely.',
     opts: ['joj', 'je', 'nju', 'ona'],
     answer: 'joj',
     tip: 'The short dative of ona.',
@@ -208,7 +208,7 @@ export const APPEARANCE_COMPLIMENTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'odgovor',
     q: 'Ta ti boja stoji. — Hvala, drago ____ je.',
-    en: 'That colour suits you. — Thanks, I am glad.',
+    en: 'That color suits you. — Thanks, I am glad.',
     opts: ['mi', 'me', 'ja', 'meni'],
     answer: 'mi',
     tip: 'drago + the short dative.',

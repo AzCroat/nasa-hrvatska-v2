@@ -745,7 +745,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Ti',
         text: 'Snaga mi je organiziranost. Slabost — ponekad sam perfekcionist.',
-        en: "My strength is organisation. Weakness — I'm sometimes a perfectionist.",
+        en: "My strength is organization. Weakness — I'm sometimes a perfectionist.",
         you: true,
       },
       {
@@ -790,7 +790,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Vlasnik',
         text: 'Naravno. Stan ima 50 kvadrata, dvije sobe i balkon.',
-        en: 'Of course. The apartment is 50 square metres, two rooms and a balcony.',
+        en: 'Of course. The apartment is 50 square meters, two rooms and a balcony.',
       },
       {
         speaker: 'Ti',
@@ -847,7 +847,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Prijatelj',
         text: 'Moglo bi se izaći na večeru negdje u centru.',
-        en: 'We could go out for dinner somewhere in the centre.',
+        en: 'We could go out for dinner somewhere in the center.',
       },
       {
         speaker: 'Ti',
@@ -880,7 +880,7 @@ export const ROLEPLAY = [
       {
         speaker: 'Prijatelj',
         text: 'Recimo u osam. A poslije bi mogli na piće.',
-        en: "Let's say at eight. And afterwards we could go for drinks.",
+        en: "Let's say at eight. And afterward we could go for drinks.",
       },
       {
         speaker: 'Ti',
@@ -1345,7 +1345,7 @@ export const STORIES = [
     scenes: [
       {
         text: 'Ulaziš na poštu. Ima red — čekaš. Konačno si na šalteru. Djelatnik pita: "Izvolite?"',
-        en: 'You enter the post office. There is a queue — you wait. Finally you are at the counter. The clerk asks: "How can I help?"',
+        en: 'You enter the post office. There is a line — you wait. Finally you are at the counter. The clerk asks: "How can I help?"',
         choices: [
           { text: 'Želim poslati paket.', next: 1 },
           { text: 'Trebam kupiti marke.', next: 2 },
@@ -1454,7 +1454,7 @@ export const STORIES = [
     scenes: [
       {
         text: "Zoveš agenciju za nekretnine. Agent se javlja: 'Dobar dan, agencija Sunce, izvolite?' Tražiš stan za iznajmljivanje u centru grada.",
-        en: "You call a real estate agency. An agent answers: 'Good day, Sunce Agency, how can I help?' You are looking for a rental apartment in the city centre.",
+        en: "You call a real estate agency. An agent answers: 'Good day, Sunce Agency, how can I help?' You are looking for a rental apartment in the city center.",
         choices: [
           { text: 'Tražim jednosobni stan, do 500 eura.', next: 1 },
           { text: 'Zanima me dvosobni stan, po mogućnosti namješten.', next: 2 },
@@ -1490,7 +1490,7 @@ export const STORIES = [
     scenes: [
       {
         text: 'Ulaziš u banku i uzimeš broj na čekaonici. Broj 47 — tvoj. Na šalteru sjedi referentica.',
-        en: 'You enter the bank and take a number from the queue dispenser. Number 47 — yours. At the counter sits a bank clerk.',
+        en: 'You enter the bank and take a number from the line dispenser. Number 47 — yours. At the counter sits a bank clerk.',
         choices: [
           { text: 'Dobar dan. Želim otvoriti tekući račun.', next: 1 },
           { text: 'Trebam napraviti međunarodni transfer.', next: 2 },
@@ -1623,7 +1623,7 @@ export const STORIES = [
       },
       {
         text: "Doktor kaže: 'Preporučujem aerobnu aktivnost trideset minuta dnevno i smanjenje soli. Ako se tlak ne normalizira za mjesec dana, razgovarat ćemo o terapiji.' Prihvaćaš preporuke.",
-        en: "The doctor says: 'I recommend thirty minutes of aerobic activity daily and reducing salt intake. If the blood pressure does not normalise in a month, we will discuss medication.' You accept the recommendations.",
+        en: "The doctor says: 'I recommend thirty minutes of aerobic activity daily and reducing salt intake. If the blood pressure does not normalize in a month, we will discuss medication.' You accept the recommendations.",
         choices: [],
       },
     ],
@@ -1665,7 +1665,7 @@ export const STORIES = [
       },
       {
         text: "Šef kaže: 'Naravno. Pripremi nam pisani sažetak svojih prioriteta do sljedećeg ponedjeljka i formalizirat ćemo dogovor.' Zadovoljan/Zadovoljna si ishodom razgovora.",
-        en: "Your boss says: 'Of course. Prepare a written summary of your priorities by next Monday and we will formalise the agreement.' You are satisfied with the outcome of the conversation.",
+        en: "Your boss says: 'Of course. Prepare a written summary of your priorities by next Monday and we will formalize the agreement.' You are satisfied with the outcome of the conversation.",
         choices: [],
       },
     ],
@@ -1673,7 +1673,7 @@ export const STORIES = [
   // ── C1 Scenarios ────────────────────────────────────────────────────────────
   {
     title: 'Akademska Obrana',
-    tEn: 'Academic Defence',
+    tEn: 'Academic Defense',
     cefr: 'C1',
     scenes: [
       {
@@ -1732,7 +1732,7 @@ export const STORIES = [
     scenes: [
       {
         text: "Na književnoj večeri u Zagrebu razgovaraš s književnicom Anom Šimić. Pita te: 'Što misliš o utjecaju globalizacije na regionalnu književnost?'",
-        en: "At a literary evening in Zagreb you are talking to author Ana Šimić. She asks you: 'What do you think about the impact of globalisation on regional literature?'",
+        en: "At a literary evening in Zagreb you are talking to author Ana Šimić. She asks you: 'What do you think about the impact of globalization on regional literature?'",
         choices: [
           {
             text: 'Mislim da globalizacija paradoksalno potiče regionalne identitete jer ih stavlja u kontrast s globalnim.',
@@ -1839,7 +1839,7 @@ export const STORIES = [
       },
       {
         text: "Drugi panelist dodaje: 'No, strukturalni odnosi moći unutar EU-a i dalje favoriziraju veće ekonomije.' Repliciraš...",
-        en: "Another panelist adds: 'But structural power relations within the EU still favour larger economies.' You reply...",
+        en: "Another panelist adds: 'But structural power relations within the EU still favor larger economies.' You reply...",
         choices: [
           {
             text: 'Slažem se, ali soft power diplomacija i tematska stručnost mogu kompenzirati veličinu.',

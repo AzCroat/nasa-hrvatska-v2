@@ -21,7 +21,7 @@ export default function B1ComparativeAdverbsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1comparativeadverbs"
       title="Faster, Better, More"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COMPARATIVE_ADVERBS_MODE_LABELS}
       data={COMPARATIVE_ADVERBS_DRILL_DATA}
       praise={{

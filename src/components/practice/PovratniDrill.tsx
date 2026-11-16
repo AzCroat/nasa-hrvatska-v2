@@ -144,7 +144,7 @@ const DATA = [
     q: 'Sutra ćemo ____ ispred kazališta u osam.',
     opts: ['se naći', 'naći', 'pronaći', 'naći sebe'],
     answer: 'se naći',
-    en: 'we will meet in front of the theatre at eight',
+    en: 'we will meet in front of the theater at eight',
     tip: 'Naći se = sastati se; naći (što) = pronaći izgubljeno.',
   },
   {

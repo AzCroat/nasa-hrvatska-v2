@@ -21,7 +21,7 @@ export default function B2FilmAndMusicDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2filmandmusic"
       title="Like in the Movies: Film and Music"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FILM_AND_MUSIC_MODE_LABELS}
       data={FILM_AND_MUSIC_DRILL_DATA}
       praise={{

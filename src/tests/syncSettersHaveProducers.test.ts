@@ -12,7 +12,7 @@
  * `RemoteProgressSetters` is the exact population that can go that way: the app
  * state the sync layer writes. This asks of each one the question nothing asked —
  * **does anything else ever set it?** Measured when written: 4 of 6 have real
- * producers (`usePreferences` toggles favourites, `AIConversation`/`AppRouter` add
+ * producers (`usePreferences` toggles favorites, `AIConversation`/`AppRouter` add
  * journal words, `AppModals` completes onboarding, `WelcomeScreen` sets the name);
  * the daily-challenge pair does not.
  *
@@ -100,7 +100,7 @@ describe('the sync layer is a conduit: every setter it writes has a real produce
     expect(nonSyncCallers('sDchlA')).toEqual([]);
     expect(nonSyncCallers('setNoSuchSetterAnywhere')).toEqual([]);
     // THE CLEAR-EXCLUSION, PINNED ON REAL DATA. `App.tsx` calls `setFavs([])` on
-    // sign-out and nothing else there produces favourites, so App.tsx must NOT
+    // sign-out and nothing else there produces favorites, so App.tsx must NOT
     // count as a producer. Without this assertion the exclusion survives its own
     // mutation: the orphan test only fails at ZERO callers, so dropping the clause
     // is invisible until a real producer ALSO disappears (measured — removing the

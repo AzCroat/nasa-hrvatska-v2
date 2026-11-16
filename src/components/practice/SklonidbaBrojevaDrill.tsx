@@ -134,7 +134,7 @@ const DATA = [
     q: 'S ____ prijatelja idem na put. (2, mješovito)',
     opts: ['dvoje', 'dvojicom', 'dvama', 'dvjema'],
     answer: 'dvoje',
-    en: 'I am travelling with two friends',
+    en: 'I am traveling with two friends',
     tip: 'Mješovita skupina: s dvoje prijatelja.',
   },
   {

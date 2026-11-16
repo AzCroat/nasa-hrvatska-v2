@@ -8,7 +8,7 @@
 // to spend years inside.
 //
 // The gap was not "more grammar". The CEFR C2 descriptor says a learner can
-// SUMMARISE INFORMATION FROM DIFFERENT SOURCES, RECONSTRUCT ARGUMENTS, and
+// SUMMARIZE INFORMATION FROM DIFFERENT SOURCES, RECONSTRUCT ARGUMENTS, and
 // DIFFERENTIATE FINER SHADES OF MEANING — and none of those three had a lesson
 // anywhere in the app. Nor did:
 //
@@ -72,7 +72,7 @@ describe('C2 teaches the CEFR descriptors themselves', () => {
   // These four are the level definition, almost word for word, and not one of
   // them had a lesson before this wave.
   const DESCRIPTOR = [
-    'sinteza-izvora', // summarise information from different sources
+    'sinteza-izvora', // summarize information from different sources
     'rekonstrukcija-argumenta', // reconstructing arguments and accounts
     'precizno-nijansiranje', // differentiating finer shades of meaning
     'spontani-govor', // expresses him/herself spontaneously
@@ -320,7 +320,7 @@ describe('teach → practice coupling stays HONEST at C2', () => {
     // means for every level" — worth checking rather than inheriting. It does
     // not: `idioms` keeps `frazeologija`, `prenesena`, `eponimi` and
     // `poslovice`, its route is unchanged, and it is not in ALL_CATEGORIES, so
-    // no scheduler behaviour depends on the membership. What moves is
+    // no scheduler behavior depends on the membership. What moves is
     // ATTRIBUTION — finishing the precision drill now credits precision instead
     // of idioms, which is the honest statement.
     'precizno-nijansiranje': 'precision',

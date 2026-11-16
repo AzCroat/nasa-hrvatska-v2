@@ -154,7 +154,7 @@ export const ADVERBS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ucestalost',
     q: '____ idem u kino. (sometimes)',
-    en: 'I sometimes go to the cinema.',
+    en: 'I sometimes go to the movies.',
     opts: ['Ponekad', 'Nikad', 'Uvijek', 'Rijetko'],
     answer: 'Ponekad',
     tip: 'ponekad — now and then.',
@@ -183,7 +183,7 @@ export const ADVERBS_DRILL_DATA: ModeDrillItem[] = [
     en: 'well → better',
     opts: ['bolje', 'dobrije', 'najbolje', 'više dobro'],
     answer: 'bolje',
-    tip: 'Irregular, and worth memorising outright.',
+    tip: 'Irregular, and worth memorizing outright.',
   },
   {
     mode: 'stupanj',

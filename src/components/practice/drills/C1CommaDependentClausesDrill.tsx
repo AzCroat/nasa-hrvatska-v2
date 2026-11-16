@@ -21,7 +21,7 @@ export default function C1CommaDependentClausesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1commadependentclauses"
       title="Mislim da… — Kad dođeš, …"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COMMA_DEPENDENT_CLAUSES_MODE_LABELS}
       data={COMMA_DEPENDENT_CLAUSES_DRILL_DATA}
       praise={{

@@ -27,7 +27,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Many trees grow in the park, for example oaks and beeches.',
     opts: ['npr.', 'npr', 'n.pr.', 'Npr.'],
     answer: 'npr.',
-    tip: 'A kratica: small letters and one full stop.',
+    tip: 'A kratica: small letters and one period.',
   },
   {
     mode: 'kratice',
@@ -35,7 +35,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'He stayed two years, that is, twenty-four months.',
     opts: ['tj.', 't.j.', 'tj', 'TJ.'],
     answer: 'tj.',
-    tip: 'to jest → tj., with one full stop.',
+    tip: 'to jest → tj., with one period.',
   },
   {
     mode: 'kratice',
@@ -43,7 +43,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'We bought bread, milk, cheese and so on.',
     opts: ['itd.', 'i.t.d.', ', itd.', 'itd..'],
     answer: 'itd.',
-    tip: 'No comma before itd., and its full stop also ends the sentence.',
+    tip: 'No comma before itd., and its period also ends the sentence.',
   },
   {
     mode: 'kratice',
@@ -98,7 +98,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pokrate',
     q: 'Gledali smo operu u ____.',
-    en: 'We watched an opera at the Croatian National Theatre.',
+    en: 'We watched an opera at the Croatian National Theater.',
     opts: ['HNK-u', 'HNKu', 'H.N.K.-u', 'Hnk-u'],
     answer: 'HNK-u',
     tip: 'Capitals, no full stops, the ending after a hyphen.',
@@ -157,14 +157,14 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Professor Horvat is giving the lecture.',
     opts: ['prof.', 'prof', 'Prof.', 'p.r.o.f.'],
     answer: 'prof.',
-    tip: 'Inside a sentence the title is written in small letters, with a full stop.',
+    tip: 'Inside a sentence the title is written in small letters, with a period.',
   },
 
   // ── mjere ─────────────────────────────────────────────────────────────────
   {
     mode: 'mjere',
     q: 'Do vrha imamo još 5 ____ hoda.',
-    en: 'We still have five kilometres to walk to the summit.',
+    en: 'We still have five kilometers to walk to the summit.',
     opts: ['km', 'km.', 'Km', 'K.M.'],
     answer: 'km',
     tip: 'A unit symbol: small letters, no full stop.',
@@ -183,7 +183,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'The ten o’clock meeting will be held in the main hall.',
     opts: ['h', 'h.', 'H', 'H.'],
     answer: 'h',
-    tip: 'The symbol for the hour: h, no full stop.',
+    tip: 'The symbol for the hour: h, no period.',
   },
   {
     mode: 'mjere',
@@ -191,7 +191,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'He ran for thirty minutes without a break.',
     opts: ['min', 'min.', 'Min', 'MIN.'],
     answer: 'min',
-    tip: 'min is a symbol: no full stop.',
+    tip: 'min is a symbol: no period.',
   },
   {
     mode: 'mjere',
@@ -215,7 +215,7 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'Croatia joined the European Union on the first of July 2013.',
     opts: ['1.', '1', '1-og', '1-vog'],
     answer: '1.',
-    tip: 'An ordinal number takes a full stop.',
+    tip: 'An ordinal number takes a period.',
   },
   {
     mode: 'mjere',
@@ -223,6 +223,6 @@ export const ABBREVIATIONS_DRILL_DATA: ModeDrillItem[] = [
     en: 'That church is from the fifteenth century.',
     opts: ['15.', '15', '15-og', '15-tog'],
     answer: '15.',
-    tip: 'The ordinal takes a full stop and no ending.',
+    tip: 'The ordinal takes a period and no ending.',
   },
 ];

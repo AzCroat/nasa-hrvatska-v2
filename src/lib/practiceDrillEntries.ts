@@ -465,7 +465,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   },
   {
     id: 'humor',
-    label: 'Humour & tone',
+    label: 'Humor & tone',
     screen: 'humor',
     cefr: 'B2',
     category: 'humour',

@@ -39,7 +39,7 @@ export const SPINE = [
     prerequisites: ['imperative-basic', 'object-pronouns'],
     objectives: [
       'Tell someone not to do something with nemoj, nemojte and nemojmo + infinitive',
-      'Recognise and use ne + imperative for quick warnings: Ne diraj! Ne brini!',
+      'Recognize and use ne + imperative for quick warnings: Ne diraj! Ne brini!',
       'Put the little words in the right place: Nemoj mi reći, Nemojte se brinuti',
       'Say what someone else should do with neka + the present: Neka čeka, Neka on plati',
     ],
@@ -405,7 +405,7 @@ const FEELINGS = {
         },
         {
           hr: 'Mama je ljuta jer nisam oprao suđe.',
-          en: "Mum is angry because I didn't wash the dishes.",
+          en: "Mom is angry because I didn't wash the dishes.",
           note: 'mama → ljuta',
         },
         {
@@ -538,7 +538,7 @@ const FEELINGS = {
           explanation: 'Bojati se takes the genitive: mraka.',
         },
         {
-          q: 'Which sentence means "I am looking forward to the holiday"?',
+          q: 'Which sentence means "I am looking forward to the vacation"?',
           options: [
             'Veselim se odmoru.',
             'Veselim se odmor.',
@@ -907,7 +907,7 @@ const INFINITIVE_CI = {
         },
         {
           hr: 'Što kažeš na kino večeras?',
-          en: 'How about the cinema tonight?',
+          en: 'How about the movies tonight?',
           note: 'literally "what do you say to"',
         },
       ],
@@ -952,9 +952,9 @@ const INFINITIVE_CI = {
       title: 'One More',
       q: 'What does "Što kažeš na kino?" mean?',
       options: [
-        'How about the cinema?',
-        'What did you say at the cinema?',
-        'Where is the cinema?',
+        'How about the movies?',
+        'What did you say at the movie theater?',
+        'Where is the movie theater?',
         'I said cinema.',
       ],
       correct: 0,
@@ -1091,7 +1091,7 @@ const FORMAL_ADDRESS = {
       items: [
         {
           hr: 'Dobar dan, gospođo Kovač, kako ste?',
-          en: 'Good afternoon, Mrs Kovač, how are you?',
+          en: 'Good afternoon, Mrs. Kovač, how are you?',
           note: 'vocative gospođo + ste',
         },
         {
@@ -1127,7 +1127,7 @@ const FORMAL_ADDRESS = {
       items: [
         {
           hr: 'Poštovana gospođo Kovač, zahvaljujem Vam na odgovoru.',
-          en: 'Dear Mrs Kovač, thank you for your reply.',
+          en: 'Dear Mrs. Kovač, thank you for your reply.',
           note: 'opening of a formal email',
         },
         {
@@ -1167,7 +1167,7 @@ const FORMAL_ADDRESS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'First, mixing the two in one sentence: "Vi si ljubazni". Vi takes the plural verb: Vi ste jako ljubazni. Second, addressing someone with the subject form: "Dobar dan, gospođa". When you speak to her, use the vocative: Dobar dan, gospođo. Third, "Kako si?" to a shop assistant or an older stranger. Use Kako ste? until they offer ti.',
+      body: 'First, mixing the two in one sentence: "Vi si ljubazni". Vi takes the plural verb: Vi ste jako ljubazni. Second, addressing someone with the subject form: "Dobar dan, gospođa". When you speak to her, use the vocative: Dobar dan, gospođo. Third, "Kako si?" to a salesperson or an older stranger. Use Kako ste? until they offer ti.',
       highlight: 'Vi ste',
     },
     {
@@ -1175,7 +1175,7 @@ const FORMAL_ADDRESS = {
       title: 'Mastery Check',
       items: [
         {
-          q: "You meet your neighbour's elderly mother. Which greeting fits?",
+          q: "You meet your neighbor's elderly mother. Which greeting fits?",
           options: [
             'Bog, kako si?',
             'Dobar dan, kako ste?',
@@ -1302,7 +1302,7 @@ const TRAVEL_CROATIA = {
       items: [
         {
           hr: 'Prošlog ljeta putovali smo po Hrvatskoj.',
-          en: 'Last summer we travelled around Croatia.',
+          en: 'Last summer we traveled around Croatia.',
           note: 'past, po + locative',
         },
         {
@@ -1440,7 +1440,7 @@ const TRAVEL_CROATIA = {
     },
     {
       type: 'summary',
-      title: 'Travelling in Croatia — Key Takeaways',
+      title: 'Traveling in Croatia — Key Takeaways',
       points: [
         'going: u / na + accusative (u Split, na Hvar); being: + locative (u Splitu, na Hvaru)',
         'islands take na; cities and regions take u',
@@ -1705,7 +1705,7 @@ export const PRACTICE = {
           q: '___ mi je, ne mogu doći. (I am sorry)',
           options: ['Drago', 'Žao', 'Dosadno', 'Hladno'],
           correct: 1,
-          hint: 'The fixed phrase for apologising.',
+          hint: 'The fixed phrase for apologizing.',
           explanation: 'Žao mi je, ne mogu doći.',
         },
         {
@@ -2264,8 +2264,8 @@ export const PRACTICE = {
       },
       {
         title: 'Opening an Email',
-        problem: 'Open an email to Mrs Kovač and thank her for her reply.',
-        en: 'Dear Mrs Kovač, thank you for your reply.',
+        problem: 'Open an email to Mrs. Kovač and thank her for her reply.',
+        en: 'Dear Mrs. Kovač, thank you for your reply.',
         steps: [
           {
             label: 'The opening',

@@ -44,7 +44,7 @@ const STRUCTURAL_GROUPS = ['case', 'verb', 'syntax'] as const;
  *
  * This is the one place a hard-coded list belongs. It is NOT a restatement of
  * production data — that is the mistake `a2Curriculum.test.ts` made — it is the
- * previous behaviour, frozen, so the claim "deriving loses nothing" is an
+ * previous behavior, frozen, so the claim "deriving loses nothing" is an
  * assertion a reader can re-run rather than a sentence in a commit message.
  * Never regenerate it from the production set; that would make it vacuous.
  */
@@ -159,7 +159,7 @@ describe('the grammar-lesson exclusion', () => {
   });
 
   it('keeps LESSONS out of the guaranteed-DRILL slot', () => {
-    // The reason for the exclusion, stated as behaviour rather than intent.
+    // The reason for the exclusion, stated as behavior rather than intent.
     // P2.7's job is to guarantee a structure drill; P0 already opens every
     // session with a lesson. `grammarexplainer` is AI-dependent besides, and a
     // guarantee that can fail to generate is not a guarantee.

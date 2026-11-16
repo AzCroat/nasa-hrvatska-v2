@@ -8,7 +8,7 @@
 // them is invisible from a green run: a workflow that grew a `schedule:`
 // trigger, or that interpolated a dispatch input into its own shell, would
 // pass CI forever and be discovered the way this repo discovers things —
-// afterwards, from the outside.
+// afterward, from the outside.
 //
 // The five properties below are each the kind a reviewer would have to
 // remember to check. The sixth is the one that keeps the DESIGN honest: the

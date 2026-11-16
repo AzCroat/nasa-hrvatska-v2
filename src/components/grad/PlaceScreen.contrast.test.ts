@@ -29,7 +29,7 @@ describe('PlaceScreen CEFR lock pill — WCAG contrast', () => {
     expect(ratio).toBeGreaterThanOrEqual(4.5);
   });
 
-  it('sanity-checks the helper against the known-bad previous colour', () => {
+  it('sanity-checks the helper against the known-bad previous color', () => {
     // The old foreground failed AA — proves the test would have caught it.
     expect(contrastRatio('#8a7f68', LOCK_PILL_BG)).toBeLessThan(4.5);
   });

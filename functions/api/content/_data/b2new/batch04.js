@@ -339,7 +339,7 @@ const HEALTH_PREVENTION = {
     {
       type: 'rule',
       title: 'Addiction: o + Locative, od + Genitive',
-      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o nikotinu, o alkoholu, o kocki (gambling), o šećeru. Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counselling centre).',
+      body: 'An addiction is ovisnost, and what you are addicted TO follows o with the locative: ovisnost o nikotinu, o alkoholu, o kocki (gambling), o šećeru. Someone addicted is ovisan (m) / ovisna (f) o nečemu. To quit is prestati + infinitive: prestati pušiti. To wean yourself off is odviknuti se od + genitive: odviknuti se od cigareta. Help comes from a liječnik or a savjetovalište (counseling center).',
       highlight: 'ovisnost o alkoholu',
     },
     {
@@ -351,7 +351,7 @@ const HEALTH_PREVENTION = {
     {
       type: 'rule',
       title: 'A Heat Wave',
-      body: 'In summer Croatia regularly has a toplinski val (heat wave). Public health advice is simple: drink water often, even when you are not thirsty; stay in the shade and avoid going out in the hottest part of the day, roughly from 11 to 17; wear light clothing and a hat; never leave children or pets in a parked car; and check on older neighbours who live alone. Sunčanica is sunstroke, toplinski udar heatstroke.',
+      body: 'In summer Croatia regularly has a toplinski val (heat wave). Public health advice is simple: drink water often, even when you are not thirsty; stay in the shade and avoid going out in the hottest part of the day, roughly from 11 to 17; wear light clothing and a hat; never leave children or pets in a parked car; and check on older neighbors who live alone. Sunčanica is sunstroke, toplinski udar heatstroke.',
       highlight: 'toplinski val',
     },
     {
@@ -411,7 +411,7 @@ const HEALTH_PREVENTION = {
         },
         {
           hr: 'Trebali biste posjetiti staru susjedu i pitati treba li joj što.',
-          en: 'You should visit the old neighbour and ask whether she needs anything.',
+          en: 'You should visit the old neighbor and ask whether she needs anything.',
           note: 'trebali biste — conditional advice, softer than an order',
         },
         {
@@ -539,7 +539,7 @@ const HEALTH_PREVENTION = {
           ],
           correct: 3,
           explanation:
-            'Checking on older neighbours is standard heat-wave advice. The other three give dangerous advice.',
+            'Checking on older neighbors is standard heat-wave advice. The other three give dangerous advice.',
         },
       ],
     },
@@ -580,7 +580,7 @@ const AGREEMENT_SPECIAL = {
     {
       type: 'rule',
       title: 'Type tata: Masculine Nouns in -a',
-      body: 'Tata, kolega (colleague), vođa (leader), sluga (servant), gazda (boss, landlord) and men’s names such as Luka, Nikola and Ivica are masculine, though they decline like žena: tata, tate, tati, tatu, tatom. In the SINGULAR every word that agrees is masculine: naš tata je došao, dragi kolega, kod mog tate, s našim tatom, novom kolegi. In the plural (kolege, vođe) you will meet both masculine and feminine agreement — naši kolege and naše kolege are both used — so this lesson practises the singular.',
+      body: 'Tata, kolega (colleague), vođa (leader), sluga (servant), gazda (boss, landlord) and men’s names such as Luka, Nikola and Ivica are masculine, though they decline like žena: tata, tate, tati, tatu, tatom. In the SINGULAR every word that agrees is masculine: naš tata je došao, dragi kolega, kod mog tate, s našim tatom, novom kolegi. In the plural (kolege, vođe) you will meet both masculine and feminine agreement — naši kolege and naše kolege are both used — so this lesson practices the singular.',
       highlight: 'naš tata je došao',
     },
     {
@@ -1015,7 +1015,7 @@ const FAMILY_CHANGES = {
     {
       type: 'intro',
       title: 'Three Generations Under One Roof?',
-      body: 'For a long time the typical Croatian family was large, and often three generations lived in one house: grandparents, parents and children. Much of that has changed. People marry later, have fewer children, and many young people move abroad for work. Other things have stayed: grandparents still look after grandchildren, and family remains at the centre of people’s lives. This lesson gives you the words to describe these changes and the phrases to discuss them at B2 level.',
+      body: 'For a long time the typical Croatian family was large, and often three generations lived in one house: grandparents, parents and children. Much of that has changed. People marry later, have fewer children, and many young people move abroad for work. Other things have stayed: grandparents still look after grandchildren, and family remains at the center of people’s lives. This lesson gives you the words to describe these changes and the phrases to discuss them at B2 level.',
       icon: '👨‍👩‍👧',
     },
     {
@@ -1033,7 +1033,7 @@ const FAMILY_CHANGES = {
     {
       type: 'rule',
       title: 'What Has Changed',
-      body: 'Croats today marry and have their first child later than their parents did. The birth rate is low, below the level needed to keep the population stable, and many young people have emigrated for work. Young adults in Croatia leave their parents’ home later than in most EU countries, often around thirty, because housing is expensive. And grandparents play a big part in raising children — so much so that the joking colloquial name for it is "baka servis", the granny service.',
+      body: 'Croats today marry and have their first child later than their parents did. The birth rate is low, below the level needed to keep the population stable, and many young people have emigrated for work. Young adults in Croatia leave their parents’ home later than in most EU countries, often around thirty, because housing is expensive. And grandparents play a big part in raising children — so much so that the joking colloquial name for it is "baka servis", the grandma service.',
       highlight: 'baka servis',
     },
     {
@@ -1089,7 +1089,7 @@ const FAMILY_CHANGES = {
         },
         {
           hr: 'S jedne strane, mladi su slobodniji, a s druge strane, teže dolaze do stana.',
-          en: 'On the one hand young people are freer, and on the other, it is harder for them to get a flat.',
+          en: 'On the one hand young people are freer, and on the other, it is harder for them to get an apartment.',
           note: 's jedne strane… s druge strane — weighing two sides',
         },
         {
@@ -1637,7 +1637,7 @@ export const PRACTICE = {
           'drink water often',
           'stay in the shade',
           'leave a dog in a parked car',
-          'check on older neighbours',
+          'check on older neighbors',
         ],
         correct: 2,
         explanation: 'A parked car heats up quickly; never leave children or animals in it.',
@@ -2004,7 +2004,7 @@ export const PRACTICE = {
         options: ['upisao', 'upisalo', 'upisale', 'upisala'],
         correct: 2,
         explanation:
-          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enrol at university).',
+          'After obje a feminine noun takes the participle in -e: upisale se (upisati se na fakultet — to enroll in college).',
       },
       {
         q: 'Complete: "Dvoje djece ___ u bazenu."',

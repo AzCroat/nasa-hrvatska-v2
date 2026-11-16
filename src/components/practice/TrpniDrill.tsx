@@ -192,7 +192,7 @@ const DATA = [
     q: 'Stan je ____ prošle godine. (prodati)',
     opts: ['prodan', 'prodavši', 'prodavan', 'prodajen'],
     answer: 'prodan',
-    en: 'the flat was sold last year',
+    en: 'the apartment was sold last year',
     tip: 'Prodati → prodan (prodavan = nesvršeno, više puta).',
   },
   {

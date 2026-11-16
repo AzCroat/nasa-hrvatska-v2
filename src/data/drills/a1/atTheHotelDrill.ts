@@ -24,7 +24,7 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijava',
     q: 'Dobar dan, imam ____.',
-    en: 'Good afternoon, I have a booking.',
+    en: 'Good afternoon, I have a reservation.',
     opts: ['rezervacija', 'rezervaciju', 'rezervacije', 'rezervaciji'],
     answer: 'rezervaciju',
     tip: 'What you have is an object: -a → -u.',
@@ -64,7 +64,7 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijava',
     q: '____ li rezervaciju? (the receptionist to you)',
-    en: 'Do you have a booking?',
+    en: 'Do you have a reservation?',
     opts: ['Imaš', 'Imam', 'Imate', 'Imaju'],
     answer: 'Imate',
     tip: 'Staff and guests use polite vi.',
@@ -193,7 +193,7 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: '____ je lift? — Tamo, lijevo.',
-    en: 'Where is the lift? — Over there, on the left.',
+    en: 'Where is the elevator? — Over there, on the left.',
     opts: ['Kada', 'Koliko', 'Gdje', 'Tko'],
     answer: 'Gdje',
     tip: 'A place answer: Gdje?',
@@ -209,7 +209,7 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: 'Which sentence is correct?',
-    en: 'Excuse me, the lift does not work.',
+    en: 'Excuse me, the elevator does not work.',
     opts: [
       'Oprostite, lift ne radi.',
       'Oprostite, lift nije radi.',
@@ -217,7 +217,7 @@ export const AT_THE_HOTEL_DRILL_DATA: ModeDrillItem[] = [
       'Oprostite, lift ne radimo.',
     ],
     answer: 'Oprostite, lift ne radi.',
-    tip: 'The lift is "it": ne radi.',
+    tip: 'The elevator is "it": ne radi.',
   },
   {
     mode: 'problem',

@@ -7,7 +7,7 @@
 // `present-tense-verbs` and the daily session would carry on serving vocabulary
 // and case drills, because the session builder had no idea a lesson had
 // happened. That is also WHY the A1 verb hole stayed invisible for so long —
-// nothing connected "taught this" to "never practised it".
+// nothing connected "taught this" to "never practiced it".
 //
 // This module is the connective tissue:
 //   1. A lesson finishes  → recordLessonTaught(id) queues the category it taught.
@@ -682,7 +682,7 @@ function categoriesRoutedTo(screenKey: string): SkillCategory[] {
  * cleared — so the entry sat for its full 14-day TTL and re-claimed a session
  * slot every single day, serving the same drill over and over.
  *
- * The queue is a list of INTENTIONS ("taught this, not yet practised"), and the
+ * The queue is a list of INTENTIONS ("taught this, not yet practiced"), and the
  * coupling's own definition of practising X is "do the drill CATEGORY_SCREEN_MAP
  * points at for X". So if the app's own router says the drill for X is screen S
  * and the learner finished S, the intention is discharged by construction. This

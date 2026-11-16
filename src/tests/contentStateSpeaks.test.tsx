@@ -124,7 +124,7 @@ function walk(dir: string, out: string[] = []): string[] {
 /**
  * Read the brace-balanced body that follows `if (<content state>)`, up to the
  * end of its returned expression. A fixed character window would run past the
- * end of the block and read the neighbouring code — the harness defect
+ * end of the block and read the neighboring code — the harness defect
  * registryMatchesScreen records.
  */
 function guardBodies(src: string): string[] {

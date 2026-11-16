@@ -61,7 +61,7 @@ export const WORD_FORMATION_AGENTS_DRILL_DATA: ModeDrillItem[] = [
     en: 'A man who teaches children at school.',
     opts: ['učitelj', 'učenik', 'učionica', 'udžbenik'],
     answer: 'učitelj',
-    tip: 'učiti + -telj; učenik is the pupil.',
+    tip: 'učiti + -telj; učenik is the student.',
   },
   {
     mode: 'vrsitelj',

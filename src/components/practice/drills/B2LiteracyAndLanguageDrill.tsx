@@ -21,7 +21,7 @@ export default function B2LiteracyAndLanguageDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2literacyandlanguage"
       title="Pismenost"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={LITERACY_AND_LANGUAGE_MODE_LABELS}
       data={LITERACY_AND_LANGUAGE_DRILL_DATA}
       praise={{

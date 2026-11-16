@@ -119,7 +119,7 @@ export const DATA = [
     q: 'Ženski rod (nom sg): ___',
     opts: ['Mama', 'Mami', 'Mamom', 'Mame'],
     answer: 'Mama',
-    en: 'Feminine, nominative singular (mum).',
+    en: 'Feminine, nominative singular (mom).',
     tip: 'Fem nouns in nom sg typically end in -a — mama.',
   },
   {
@@ -376,7 +376,7 @@ export default function NominativeDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Nominative mastered! 🏆',
         good: 'Great work! Nominative is the foundation!',
-        more: 'Keep practising — nominative tells you who or what is doing the action!',
+        more: 'Keep practicing — nominative tells you who or what is doing the action!',
       }}
       goBack={goBack}
       award={award}

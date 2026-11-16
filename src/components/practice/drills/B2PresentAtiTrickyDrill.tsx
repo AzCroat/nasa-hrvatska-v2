@@ -21,7 +21,7 @@ export default function B2PresentAtiTrickyDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2presentatitricky"
       title="Pišem, Šaljem, Zovem"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PRESENT_ATI_TRICKY_MODE_LABELS}
       data={PRESENT_ATI_TRICKY_DRILL_DATA}
       praise={{

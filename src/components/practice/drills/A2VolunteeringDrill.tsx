@@ -21,7 +21,7 @@ export default function A2VolunteeringDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2volunteering"
       title="Helping Out: Volunteering"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VOLUNTEERING_MODE_LABELS}
       data={VOLUNTEERING_DRILL_DATA}
       praise={{

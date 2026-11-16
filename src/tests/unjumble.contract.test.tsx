@@ -4,7 +4,7 @@
  * This file used to open: "tiles persist after clicking, so a generic render-driver
  * cannot reliably build the CORRECT sentence to clear the 75% completion gate. We
  * therefore verify the contract at the source level." That premise was FALSE, and it
- * is what kept this screen's real behaviour untested for as long as the file existed:
+ * is what kept this screen's real behavior untested for as long as the file existed:
  * the bank's own `correct` string gives the tile order, so a driver that reads the
  * English prompt, finds its entry and taps the tiles in that order clears the gate
  * every time. `creditSurvivesLeavingResults.test.tsx` does exactly that and drives

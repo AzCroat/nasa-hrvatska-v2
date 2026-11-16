@@ -21,7 +21,7 @@ export default function A2RelationalAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2relationaladjectives"
       title="Zagrebački, Splitski, Riječki"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={RELATIONAL_ADJECTIVES_MODE_LABELS}
       data={RELATIONAL_ADJECTIVES_DRILL_DATA}
       praise={{

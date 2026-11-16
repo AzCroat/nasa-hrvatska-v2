@@ -21,7 +21,7 @@ export default function B1GenitiveAdjectivesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1genitiveadjectives"
       title="Iz mojeg starog grada — Adjectives in the Genitive"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_ADJECTIVES_MODE_LABELS}
       data={GENITIVE_ADJECTIVES_DRILL_DATA}
       praise={{

@@ -37,7 +37,7 @@ export default function AlphabetScreen({ goBack, award }: Props) {
   // Everything below kept its original ordering and reasoning from the finish handler:
   //
   // `recordScreenPractised` sits BEFORE the already-awarded guard on purpose: the
-  // queue holds an intention ("practise the alphabet"), and a learner who retakes the
+  // queue holds an intention ("practice the alphabet"), and a learner who retakes the
   // quiz has satisfied it whether or not the XP was banked the first time. Same
   // ordering as completeExercise, which clears before its own already-credited early
   // return.

@@ -1,5 +1,5 @@
 /**
- * dark-mode-ink.spec.js — in dark mode, no text may be painted with a DARK colour.
+ * dark-mode-ink.spec.js — in dark mode, no text may be painted with a DARK color.
  *
  * WHY NOT axe. `route-render-sweep`'s axe pass counts `color-contrast` and asserts
  * nothing about it ("contrast aside"), and it could not judge this class even if it
@@ -81,12 +81,12 @@ test.describe('dark mode paints light ink', () => {
    * ASSERTION because the route walk below can only say a page is clean today.
    *
    * A <button> does not inherit `color` — the UA stylesheet gives it `buttontext` — so
-   * setting a base colour on body and on the theme wrapper fixed nothing for them.
+   * setting a base color on body and on the theme wrapper fixed nothing for them.
    * Measured over all 430 routes in dark mode, 214 of 437 offending elements were text
-   * inside a button that sets no colour of its own. This pins the normalisation that
+   * inside a button that sets no color of its own. This pins the normalisation that
    * fixes it, at the level that matters: what a real engine computes.
    */
-  test('a <button> with no colour of its own follows the theme', async ({ page }) => {
+  test('a <button> with no color of its own follows the theme', async ({ page }) => {
     test.setTimeout(90_000);
     await page.goto('/verbdrill');
     await page.waitForLoadState('networkidle').catch(() => {});
@@ -104,7 +104,7 @@ test.describe('dark mode paints light ink', () => {
     });
     expect(
       black,
-      'A form control that sets no colour of its own must INHERIT the theme. The UA ' +
+      'A form control that sets no color of its own must INHERIT the theme. The UA ' +
         'stylesheet gives it `buttontext`, which is black, so in dark mode it is black ' +
         'on a dark card — that was 214 of 437 offending elements app-wide, including ' +
         'every conjugated form on this screen. `button,input,optgroup,select,textarea ' +
@@ -178,7 +178,7 @@ const DARK_ON_DARK =
 
 const LIGHT_ON_LIGHT =
   'Each of these elements paints LIGHT (themed) text on a LIGHT surface an ancestor ' +
-  'paints with a hardcoded colour or gradient — the ink followed the theme and the ' +
+  'paints with a hardcoded color or gradient — the ink followed the theme and the ' +
   'surface did not. Paint the surface with a theme token (--card, --surface-mute, ' +
   '--success-bg-strong, --grad-*), or give it a FIXED dark ink so the pair is fixed.';
 

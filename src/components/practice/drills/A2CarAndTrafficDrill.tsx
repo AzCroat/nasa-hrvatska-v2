@@ -21,7 +21,7 @@ export default function A2CarAndTrafficDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2carandtraffic"
       title="My Car Broke Down: Cars and Traffic"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CAR_AND_TRAFFIC_MODE_LABELS}
       data={CAR_AND_TRAFFIC_DRILL_DATA}
       praise={{

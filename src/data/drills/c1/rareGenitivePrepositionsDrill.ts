@@ -33,7 +33,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'znacenje',
     q: 'Netko je ostavio bicikl ____ pločnika.',
-    en: 'Someone left a bicycle in the middle of the pavement.',
+    en: 'Someone left a bicycle in the middle of the sidewalk.',
     opts: ['nasred', 'uoči', 'prigodom', 'umjesto'],
     answer: 'nasred',
     tip: 'The middle of a surface: nasred.',
@@ -115,7 +115,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Umjesto ____ putovali smo vlakom do Splita.',
-    en: 'Instead of by bus, we travelled to Split by train.',
+    en: 'Instead of by bus, we traveled to Split by train.',
     opts: ['autobus', 'autobusu', 'autobusom', 'autobusa'],
     answer: 'autobusa',
     tip: 'Umjesto + genitive: autobusa.',
@@ -173,7 +173,7 @@ export const RARE_GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zbog',
     q: 'Let je otkazan ____ magle.',
-    en: 'The flight was cancelled because of the fog.',
+    en: 'The flight was canceled because of the fog.',
     opts: ['radi', 'zbog', 'unatoč', 'prigodom'],
     answer: 'zbog',
     tip: 'The fog is the cause: zbog.',

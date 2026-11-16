@@ -41,7 +41,7 @@ describe('the A1 practice hole stays closed', () => {
     const verbAtA1 = a1.filter((e) => verbCats.includes(e.category));
     expect(
       verbAtA1.map((e) => e.id),
-      'A1 teaches verbs (present-tense-verbs, pronouns-biti) — it must be able to practise them. ' +
+      'A1 teaches verbs (present-tense-verbs, pronouns-biti) — it must be able to practice them. ' +
         'A1 cannot inherit from higher levels, so a verb drill AT A1 is the only way.',
     ).not.toEqual([]);
   });
@@ -88,7 +88,7 @@ describe('present-tense drill content', () => {
       expect(
         shared,
         `"${item.q}" options ${JSON.stringify(item.opts)} must share a verb stem — ` +
-          'mixing verbs lets the learner answer by recognising the word instead of the ending.',
+          'mixing verbs lets the learner answer by recognizing the word instead of the ending.',
       ).toBeGreaterThanOrEqual(2);
     }
   });

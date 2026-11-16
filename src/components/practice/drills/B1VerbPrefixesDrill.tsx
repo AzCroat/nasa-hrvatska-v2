@@ -21,7 +21,7 @@ export default function B1VerbPrefixesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1verbprefixes"
       title="ući, izaći, potpisati — Verb Prefixes"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VERB_PREFIXES_MODE_LABELS}
       data={VERB_PREFIXES_DRILL_DATA}
       praise={{

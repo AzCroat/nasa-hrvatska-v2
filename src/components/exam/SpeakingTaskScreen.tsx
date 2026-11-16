@@ -86,7 +86,7 @@ export default function SpeakingTaskScreen({
 
   // Assess exactly once when the recorder produces a finished blob. Depends only on
   // the recorder outputs (which change once per recording) — never on parent-supplied
-  // callbacks — so a re-render can't cancel an in-flight assessment. The `cancelled`
+  // callbacks — so a re-render can't cancel an in-flight assessment. The `canceled`
   // flag now guards solely against genuine unmount.
   useEffect(() => {
     if (rec.state !== 'done' || !rec.audioBlob) return;

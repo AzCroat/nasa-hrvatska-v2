@@ -93,7 +93,7 @@ export const INSTRUMENTAL_B1_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'drustvo',
     q: 'Idem u kino ____. (Ana)',
-    en: 'I am going to the cinema with Ana.',
+    en: 'I am going to the movies with Ana.',
     opts: ['s Anom', 'sa Anom', 's Ana', 'Anom'],
     answer: 's Anom',
     tip: 'Company needs s; sa only before s, š, z, ž.',
@@ -167,7 +167,7 @@ export const INSTRUMENTAL_B1_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjesto',
     q: 'Čekam te pred ____. (kino)',
-    en: 'I will wait for you in front of the cinema.',
+    en: 'I will wait for you in front of the movie theater.',
     opts: ['kinom', 'kino', 'kinu', 'kina'],
     answer: 'kinom',
     tip: 'pred (in front of) + instrumental.',

@@ -31,7 +31,7 @@
  *  A. A perfect run credits — `award` once, and the `vs` key written (read by APPLYING the
  *     `setStats` updater, not by matching its source).
  *  B. **The credit is already recorded when the results view first renders**, asserted
- *     BEFORE any exit is pressed. That ordering is the whole clause: checking afterwards
+ *     BEFORE any exit is pressed. That ordering is the whole clause: checking afterward
  *     cannot tell "credited on finishing" from "credited by that button", which is exactly
  *     how twenty-six hand-written screens passed their own contract tests while losing a
  *     learner's whole round to the header Back or the ever-present TabBar.

@@ -203,7 +203,7 @@ export const PROOFREADING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Is it an irregularity?',
     opts: ['ne, slijedi pravilo jata', 'da', 'ovisi o riječi', 'ovisi o narječju'],
     answer: 'ne, slijedi pravilo jata',
-    tip: 'Which turns a list to memorise into one alternation to know.',
+    tip: 'Which turns a list to memorize into one alternation to know.',
   },
   {
     mode: 'pravopis',

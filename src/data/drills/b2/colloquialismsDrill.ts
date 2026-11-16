@@ -123,7 +123,7 @@ export const COLLOQUIALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Idem u kino sa svojom ____.',
-    en: 'I am going to the cinema with my girlfriend.',
+    en: 'I am going to the movies with my girlfriend.',
     opts: ['cura', 'curu', 'cure', 'curom'],
     answer: 'curom',
     tip: 'With s, the instrumental: curom, like ženom.',

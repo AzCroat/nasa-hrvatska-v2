@@ -58,7 +58,7 @@ export const GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Naš stan je blizu ____. (more)',
-    en: 'Our flat is near the sea.',
+    en: 'Our apartment is near the sea.',
     opts: ['moru', 'more', 'mora', 'morem'],
     answer: 'mora',
     tip: 'blizu + genitive: neuter -a.',
@@ -74,7 +74,7 @@ export const GENITIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Autobus ide do ____. (centar)',
-    en: 'The bus goes to the centre.',
+    en: 'The bus goes to the center.',
     opts: ['centru', 'centar', 'centra', 'centara'],
     answer: 'centra',
     tip: 'do + genitive; centar loses its a: centra.',

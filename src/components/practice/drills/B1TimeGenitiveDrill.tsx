@@ -21,7 +21,7 @@ export default function B1TimeGenitiveDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1timegenitive"
       title="Prošle godine, svakog dana — Time in the Genitive"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TIME_GENITIVE_MODE_LABELS}
       data={TIME_GENITIVE_DRILL_DATA}
       praise={{

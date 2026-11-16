@@ -11,7 +11,7 @@
 // But every Cloudflare step was gated on `github.event_name == 'push'`. So the
 // lever's first real use, on the #549 merge, produced a run with every check
 // green that deployed NOTHING — and, because the concurrency group cancels
-// in-progress runs, it cancelled the real push run it had replaced. Production
+// in-progress runs, it canceled the real push run it had replaced. Production
 // sat on the previous build behind a wall of green checkmarks. A retry button
 // that cannot retry the thing that failed is worse than no button: it reports
 // success for work it did not do.

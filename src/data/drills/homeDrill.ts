@@ -31,7 +31,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prostorije',
     q: 'Živim u ____. (stan)',
-    en: 'I live in a flat.',
+    en: 'I live in an apartment.',
     opts: ['stanu', 'stan', 'stana', 'stanom'],
     answer: 'stanu',
     tip: 'Nothing is moving, so u takes the LOCATIVE: u stanu.',
@@ -50,7 +50,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which word is the emotional one?',
     opts: ['dom', 'kuća', 'stan', 'soba'],
     answer: 'dom',
-    tip: 'Dom is home. Kuća is the building, stan is the flat.',
+    tip: 'Dom is home. Kuća is the building, stan is the apartment.',
   },
   {
     mode: 'prostorije',
@@ -97,7 +97,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kat',
     q: 'Stan je na ____ katu. (treći)',
-    en: 'The flat is on the third floor.',
+    en: 'The apartment is on the third floor.',
     opts: ['trećem', 'treći', 'trećeg', 'tri'],
     answer: 'trećem',
     tip: 'The floor is an ORDINAL in the locative: na trećem katu.',
@@ -195,7 +195,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjestaj',
     q: 'Knjiga je u ____. (ormar)',
-    en: 'The book is in the wardrobe.',
+    en: 'The book is in the closet.',
     opts: ['ormaru', 'ormar', 'ormara', 'ormarom'],
     answer: 'ormaru',
     tip: 'u ormaru — locative, because the book is not going anywhere.',
@@ -203,7 +203,7 @@ export const HOME_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjestaj',
     q: 'Stavljam knjigu u ____.',
-    en: 'I am putting the book in the wardrobe.',
+    en: 'I am putting the book in the closet.',
     opts: ['ormar', 'ormaru', 'ormara', 'ormarom'],
     answer: 'ormar',
     tip: 'Now it IS moving → accusative. Same preposition, different case.',

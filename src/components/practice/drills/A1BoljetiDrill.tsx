@@ -18,7 +18,7 @@ export default function A1BoljetiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1boljeti"
       title="What Hurts? — boljeti"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={BOLJETI_MODE_LABELS}
       data={BOLJETI_DRILL_DATA}
       praise={{

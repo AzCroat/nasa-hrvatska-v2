@@ -114,7 +114,7 @@ export const ARGUMENT_DRILL_DATA: ModeDrillItem[] = [
     en: 'The problem is that we do not have time.',
     opts: ['u tome što', 'na tome što', 'zato što', 'u toga što'],
     answer: 'u tome što',
-    tip: 'Memorise it whole. The shape is not guessable from its parts.',
+    tip: 'Memorize it whole. The shape is not guessable from its parts.',
   },
   {
     mode: 'utomesto',

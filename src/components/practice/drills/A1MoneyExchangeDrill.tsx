@@ -21,7 +21,7 @@ export default function A1MoneyExchangeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1moneyexchange"
       title="Money and Exchange"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={MONEY_EXCHANGE_MODE_LABELS}
       data={MONEY_EXCHANGE_DRILL_DATA}
       praise={{

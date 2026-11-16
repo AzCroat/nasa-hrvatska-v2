@@ -24,7 +24,7 @@
  * a fixed character window instead invented `boje` and lost `speaking`.
  * Splitting the router on `currentScreen === '` and attributing each segment to
  * the screen it names is right by construction: a screen with several blocks
- * gets all of them, and no segment can be credited to its neighbour.
+ * gets all of them, and no segment can be credited to its neighbor.
  */
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { readFileSync } from 'node:fs';
@@ -107,7 +107,7 @@ describe('every guarded screen is either launched properly or not listed', () =>
     // Comments are stripped first, and that is load-bearing: the block's own
     // note explains WHY the session launcher is not used and names it, so a raw
     // `toContain` failed against correct code. Prose about a thing is not a use
-    // of it — the same trap that made the phase-2 catalogue guard decorative.
+    // of it — the same trap that made the phase-2 catalog guard decorative.
     const code = block.replace(/^\s*\/\/.*$/gm, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
     expect(code).not.toContain('launchSessionActivity');
     expect(code).toContain('launchFlashcards');
@@ -115,7 +115,7 @@ describe('every guarded screen is either launched properly or not listed', () =>
 });
 
 // ───────────────────────────────────────────────────────────────────────────
-// The behaviour, driven through the real screen
+// The behavior, driven through the real screen
 // ───────────────────────────────────────────────────────────────────────────
 
 vi.mock('../context/StatsContext', () => ({

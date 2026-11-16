@@ -119,7 +119,7 @@ describe('useRecorder playback does not stack', () => {
 
   it('the implementation holds the element and stops it before replaying', () => {
     // A SOURCE assertion, because the stacking only happens with a real audioUrl,
-    // which needs a MediaRecorder jsdom does not have. The behaviour above covers
+    // which needs a MediaRecorder jsdom does not have. The behavior above covers
     // the no-recording path; this covers the path the owner actually hit.
     const src = readFileSync('src/hooks/useRecorder.ts', 'utf8');
     const body = src.replace(/(^|[^:])\/\/[^\n]*/g, '$1').replace(/\/\*[\s\S]*?\*\//g, '');

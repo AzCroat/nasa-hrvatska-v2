@@ -29,7 +29,7 @@
  * never moved with the code.
  *
  * `_data/core.js` now holds `CORE_PAYLOAD_KEYS` and all three read it. The etag
- * was re-generated afterwards and is UNCHANGED (`core(1a4e3e6f…)` before and
+ * was re-generated afterward and is UNCHANGED (`core(1a4e3e6f…)` before and
  * after), which is the check that this is a de-duplication and not a payload
  * change.
  *

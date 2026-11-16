@@ -21,7 +21,7 @@ export default function A2QualityOfLifeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2qualityoflife"
       title="Kvaliteta života"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={QUALITY_OF_LIFE_MODE_LABELS}
       data={QUALITY_OF_LIFE_DRILL_DATA}
       praise={{

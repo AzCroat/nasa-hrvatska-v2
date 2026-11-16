@@ -508,7 +508,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     modelEn:
       'I live in a small town near the sea. ' +
       'The town is not big, but it is very pretty. ' +
-      'In the centre there is an old church and a big market. ' +
+      'In the center there is an old church and a big market. ' +
       'There are a few cafés and one library. ' +
       'What I like most is that the sea is close.',
     structures: [
@@ -541,7 +541,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'U centru je stara crkva.',
-        en: 'In the centre there is an old church.',
+        en: 'In the center there is an old church.',
         why: 'Croatian has no word for "there is" — the verb "je" does the work.',
       },
     ],
@@ -818,7 +818,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     usefulPhrases: ['Jesi li slobodan/slobodna?', 'Možemo…', 'Odgovara mi.', 'Vidimo se!', 'Bog!'],
     build: [
       {
-        cue: "Say: Let's meet in front of the theatre.",
+        cue: "Say: Let's meet in front of the theater.",
         answer: 'Nađimo se ispred kazališta.',
         focus: {
           lemma: 'kazalište',
@@ -861,7 +861,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Kupi kartu na autobusnom kolodvoru: reci kamo putuješ, pitaj koliko košta i kada ide autobus.',
     promptEn:
-      'Buy a ticket at the bus station: say where you are travelling, ask how much it costs and when the bus leaves.',
+      'Buy a ticket at the bus station: say where you are traveling, ask how much it costs and when the bus leaves.',
     minWords: 15,
     model:
       'Dobar dan! Molim Vas jednu kartu do Splita. Koliko košta? ' +
@@ -902,7 +902,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Kada ide autobus za Zagreb?',
         en: 'When does the bus for Zagreb leave?',
-        why: '"za" + accusative names the destination on a sign or a timetable — Zagreb does not change here.',
+        why: '"za" + accusative names the destination on a sign or a schedule — Zagreb does not change here.',
       },
     ],
     usefulPhrases: [
@@ -925,7 +925,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         },
       },
       {
-        cue: 'Say: I am travelling from Zagreb to Split.',
+        cue: 'Say: I am traveling from Zagreb to Split.',
         answer: 'Putujem iz Zagreba u Split.',
         accept: ['Idem iz Zagreba u Split.'],
         focus: {
@@ -1277,7 +1277,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'U nedjelju sam se vratio kući. Bilo je super, samo prekratko.',
     modelEn:
       'Last weekend I was in Zagreb at a friend’s place. ' +
-      'We travelled by train on Friday evening. ' +
+      'We traveled by train on Friday evening. ' +
       'On Saturday we walked around the upper town and had coffee on the square. ' +
       'In the evening we went to a concert, but it was packed so we left quickly. ' +
       'On Sunday I came home. It was great, just too short.',
@@ -1289,7 +1289,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'Putovali smo vlakom',
-        en: 'We travelled by train',
+        en: 'We traveled by train',
         why: 'How you travel is the instrumental with no preposition: vlak → vlakom.',
       },
       {
@@ -1550,7 +1550,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Hvala vam na pomoći.',
     modelEn:
       'Good day. I bought this T-shirt here last week. ' +
-      'Unfortunately it is too big for me and the colour is not like in the picture. ' +
+      'Unfortunately it is too big for me and the color is not like in the picture. ' +
       'Here is the receipt. Could I exchange it for a smaller one? ' +
       'If you do not have a smaller one, is a refund possible? ' +
       'Thank you for your help.',
@@ -1568,7 +1568,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Hvala vam na pomoći',
         en: 'Thank you for your help',
-        why: '"hvala na" always takes the locative: pomoć → na pomoći. This is a fixed pattern worth memorising.',
+        why: '"hvala na" always takes the locative: pomoć → na pomoći. This is a fixed pattern worth memorizing.',
       },
     ],
     rehearse: [
@@ -1669,7 +1669,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     rehearse: [
       {
         hr: 'Radim kao učitelj u osnovnoj školi.',
-        en: 'I work as a teacher in a primary school.',
+        en: 'I work as a teacher in a elementary school.',
         why: '"kao" + nominative for the job, "u" + locative for the place.',
       },
       {
@@ -1873,7 +1873,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     usefulPhrases: ['ljetos', 'zimus', 'najprije', 'jedan dan', 'najljepše', 'ponovno'],
     build: [
       {
-        cue: 'Say: We travelled by train.',
+        cue: 'Say: We traveled by train.',
         answer: 'Putovali smo vlakom.',
         focus: {
           lemma: 'vlak',
@@ -2005,7 +2005,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Na kolodvoru si. Kupi kartu za Split: reci kamo putuješ i kada, pitaj koliko košta i s kojeg perona polazi vlak.',
     promptEn:
-      'You are at the station. Buy a ticket to Split: say where you are travelling and when, ask how much it costs and which platform the train leaves from.',
+      'You are at the station. Buy a ticket to Split: say where you are traveling and when, ask how much it costs and which platform the train leaves from.',
     minWords: 15,
     model:
       'Dobar dan. Htio bih jednu kartu za Split, molim Vas, za sutra ujutro. ' +
@@ -2113,11 +2113,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'a2-favour',
     level: 'A2',
-    title: 'Ask a neighbour for a favour',
+    title: 'Ask a neighbor for a favour',
     prompt:
       'Ideš na put na pet dana. Zamoli stariju susjedu, na Vi, da ti nahrani mačku i zalije cvijeće, i reci gdje je ključ.',
     promptEn:
-      'You are going away for five days. Ask your older neighbour, politely in the Vi form, to feed your cat and water the flowers, and say where the key is.',
+      'You are going away for five days. Ask your older neighbor, politely in the Vi form, to feed your cat and water the flowers, and say where the key is.',
     minWords: 15,
     model:
       'Dobar dan, gospođo Kovač, imate li minutu? Idem u Zagreb na pet dana, znate, bit ću kod sestre. ' +
@@ -2125,9 +2125,9 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Samo jednom dnevno, nije puno posla. Ključ je kod susjede Marije, na drugom katu. ' +
       'Puno Vam hvala na pomoći, donijet ću Vam nešto iz Zagreba!',
     modelEn:
-      'Good day, Mrs Kovač, do you have a minute? I am going to Zagreb for five days, you know, I will be staying at my sister’s. ' +
+      'Good day, Mrs. Kovač, do you have a minute? I am going to Zagreb for five days, you know, I will be staying at my sister’s. ' +
       'Could you feed my cat and water the flowers? ' +
-      'Just once a day, it is not much work. The key is with our neighbour Marija, on the second floor. ' +
+      'Just once a day, it is not much work. The key is with our neighbor Marija, on the second floor. ' +
       'Thank you very much for your help, I will bring you something from Zagreb!',
     structures: [
       {
@@ -2142,7 +2142,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'Ključ je kod susjede Marije',
-        en: 'The key is with the neighbour Marija',
+        en: 'The key is with the neighbor Marija',
         why: 'Again "kod" + genitive for a location with a person; both the noun and the name change their ending.',
       },
       {
@@ -2159,7 +2159,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'Ključ je kod susjede.',
-        en: 'The key is with the neighbour.',
+        en: 'The key is with the neighbor.',
         why: 'Location with a person: "kod" plus the genitive, no movement.',
       },
       {
@@ -2188,7 +2188,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         },
       },
       {
-        cue: 'Say: The key is with the neighbour (a woman).',
+        cue: 'Say: The key is with the neighbor (a woman).',
         answer: 'Ključ je kod susjede.',
         focus: {
           lemma: 'susjeda',
@@ -2271,7 +2271,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Svako ljeto išli smo baki.',
         en: 'Every summer we went to grandma’s.',
-        why: 'Motion towards a person is the bare dative — the commonest "kod" mistake avoided.',
+        why: 'Motion toward a person is the bare dative — the commonest "kod" mistake avoided.',
       },
       {
         hr: 'Kupali smo se u rijeci.',
@@ -2327,7 +2327,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'a2-food-opinion',
     level: 'A2',
-    title: 'Your favourite Croatian dish',
+    title: 'Your favorite Croatian dish',
     prompt:
       'Reci koje hrvatsko jelo najviše voliš i zašto, tko ga u tvojoj obitelji najbolje priprema i kada ga jedete.',
     promptEn:
@@ -2344,7 +2344,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Grandma makes it with sauerkraut and lots of meat, and it is always better the next day. ' +
       'We eat it in winter, usually at Christmas, when the whole family gets together. ' +
       'I like it more than pizza, honestly, because it reminds me of my childhood. ' +
-      'And what is your favourite dish?',
+      'And what is your favorite dish?',
     structures: [
       {
         hr: 'najviše volim sarmu',
@@ -2441,7 +2441,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'U tvom gradu žele zabraniti automobile u centru. Reci što misliš, navedi dva razloga i priznaj jedan protuargument.',
     promptEn:
-      'Your town wants to ban cars from the centre. Say what you think, give two reasons and acknowledge one counter-argument.',
+      'Your town wants to ban cars from the center. Say what you think, give two reasons and acknowledge one counter-argument.',
     minWords: 12,
     model:
       'Mislim da bi to bila dobra odluka, iako razumijem zašto se ljudi bune. ' +
@@ -2451,7 +2451,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Kad sam bio u Ljubljani, vidio sam da to funkcionira.',
     modelEn:
       'I think it would be a good decision, although I understand why people object. ' +
-      'On the one hand, the centre would be much quieter and safer for children. ' +
+      'On the one hand, the center would be much quieter and safer for children. ' +
       'On the other hand, cafés and shops live off the people who come by car. ' +
       'Still, I believe that could be solved with better transport and car parks on the edge of town. ' +
       'When I was in Ljubljana, I saw that it works.',
@@ -2744,7 +2744,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Bio bih vam zahvalan kad biste poslali majstora ovaj tjedan. ' +
       'Kod kuće sam svaki dan poslije pet, pa mi javite kad odgovara.',
     modelEn:
-      'Good day, I am calling about the flat in Ulica kralja Zvonimira. ' +
+      'Good day, I am calling about the apartment in Ulica kralja Zvonimira. ' +
       'The heating has not worked for a week, and the temperature at night is around twelve degrees. ' +
       'On top of that, water is leaking under the sink so I am afraid the floor will be damaged. ' +
       'I would be grateful if you could send someone this week. ' +
@@ -2914,11 +2914,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'b1-apology',
     level: 'B1',
-    title: 'Apologise and put it right',
+    title: 'Apologize and put it right',
     prompt:
       'Zaboravio si na dogovor i netko te čekao. Ispričaj se, objasni bez izgovora i predloži kako ćeš to popraviti.',
     promptEn:
-      'You forgot an arrangement and someone was waiting for you. Apologise, explain without making excuses and propose how you will put it right.',
+      'You forgot an arrangement and someone was waiting for you. Apologize, explain without making excuses and propose how you will put it right.',
     minWords: 18,
     model:
       'Jako mi je žao zbog jučer, stvarno nemam opravdanje. ' +
@@ -2928,7 +2928,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Sljedeći put častim ja, ako mi daš još jednu priliku.',
     modelEn:
       'I am very sorry about yesterday, I really have no excuse. ' +
-      'I wrote the wrong date in my calendar and only realised in the evening. ' +
+      'I wrote the wrong date in my calendar and only realized in the evening. ' +
       'I know you waited half an hour for me and that it ruined your afternoon. ' +
       'I will not leave it like this — I will call tomorrow and arrange a new time. ' +
       'Next time it is on me, if you give me another chance.',
@@ -2969,7 +2969,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     usefulPhrases: ['Žao mi je zbog…', 'Nemam opravdanje.', 'Znam da…', 'Neću to tako ostaviti.'],
     build: [
       {
-        cue: 'Say: I apologise for the delay.',
+        cue: 'Say: I apologize for the delay.',
         answer: 'Ispričavam se zbog kašnjenja.',
         focus: {
           lemma: 'kašnjenje',
@@ -2997,7 +2997,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
     ],
     checklist: [
-      { id: 'sorry', label: 'Apologise clearly', words: ['žao', 'ispričavam', 'oprosti'] },
+      { id: 'sorry', label: 'Apologize clearly', words: ['žao', 'ispričavam', 'oprosti'] },
       { id: 'fix', label: 'Propose a concrete fix', words: ['javit', 'dogovorit', 'sljedeći put'] },
       { id: 'len', label: 'Speak at least 18 words', minWords: 18 },
     ],
@@ -3009,7 +3009,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Biraš između dva stana. Usporedi ih po cijeni, lokaciji i veličini, pa reci koji biraš i zašto.',
     promptEn:
-      'You are choosing between two flats. Compare them on price, location and size, then say which you choose and why.',
+      'You are choosing between two apartments. Compare them on price, location and size, then say which you choose and why.',
     minWords: 20,
     model:
       'Prvi je stan jeftiniji za dvjesto eura, ali je puno dalje od centra. ' +
@@ -3018,11 +3018,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ako gledam samo cijenu, prvi je bolji izbor. ' +
       'Ipak bih uzeo drugi, zato što bih svaki dan gubio sat vremena na putovanje.',
     modelEn:
-      'The first flat is two hundred euros cheaper, but it is much further from the centre. ' +
+      'The first apartment is two hundred euros cheaper, but it is much further from the center. ' +
       'The second is smaller, however it has a balcony and is close to the tram. ' +
       'As for noise, the first is quieter because it faces the courtyard. ' +
       'If I look only at the price, the first is the better choice. ' +
-      'Still, I would take the second, because I would lose an hour a day travelling.',
+      'Still, I would take the second, because I would lose an hour a day traveling.',
     structures: [
       {
         hr: 'jeftiniji za dvjesto eura',
@@ -3043,13 +3043,13 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     rehearse: [
       {
         hr: 'Prvi je jeftiniji, ali je dalje od centra.',
-        en: 'The first is cheaper, but it is further from the centre.',
+        en: 'The first is cheaper, but it is further from the center.',
         why: 'Two comparatives, and "od" + genitive for what you compare against.',
       },
       {
         hr: 'Što se tiče buke, prvi je mirniji.',
         en: 'As for noise, the first is quieter.',
-        why: 'The genitive after "što se tiče" — practise it until it comes automatically.',
+        why: 'The genitive after "što se tiče" — practice it until it comes automatically.',
       },
       {
         hr: 'Ipak bih uzeo drugi zato što ima balkon.',
@@ -3067,7 +3067,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     ],
     build: [
       {
-        cue: 'Say: This flat is near the centre.',
+        cue: 'Say: This apartment is near the center.',
         answer: 'Ovaj stan je blizu centra.',
         focus: {
           lemma: 'centar',
@@ -3116,7 +3116,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Spominjali su i da mladi sve kasnije odlaze od roditelja. ' +
       'Mene je najviše iznenadilo to što se najviše gradi izvan grada, gdje ljudi ionako ne žele živjeti.',
     modelEn:
-      'Yesterday I read an article about flat prices in Zagreb. ' +
+      'Yesterday I read an article about apartment prices in Zagreb. ' +
       'It said that prices had risen by fifteen per cent in a year. ' +
       'Experts say the reason is a shortage of new construction, and not only tourism. ' +
       'They also mentioned that young people are leaving their parents’ homes later and later. ' +
@@ -3266,7 +3266,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Hvala Vam na strpljenju.',
         en: 'Thank you for your patience.',
-        why: '"hvala na" + locative, in the capitalised V-form.',
+        why: '"hvala na" + locative, in the capitalized V-form.',
       },
     ],
     usefulPhrases: [
@@ -3338,7 +3338,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Hi Luka, I have a favour to ask, so feel free to tell me if you cannot. ' +
       'You know I am moving next week? Well, on Saturday I need help with the move, just a couple of hours, mostly boxes. ' +
       'And if it is no trouble, could you look after my dog while we carry things? ' +
-      'Honestly I would be really grateful. Of course, pizza and beer afterwards are on me. ' +
+      'Honestly I would be really grateful. Of course, pizza and beer afterward are on me. ' +
       'What do you say, can you?',
     structures: [
       {
@@ -3409,7 +3409,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         focus: {
           lemma: 'selidba',
           requiredCase: 'I',
-          why: '"s/sa" takes the instrumental, and before an s- it is spelt "sa".',
+          why: '"s/sa" takes the instrumental, and before an s- it is spelled "sa".',
         },
       },
       {
@@ -3452,7 +3452,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ja se stvarno radujem putovanju. Što mislite, odgovara li vam to?',
     modelEn:
       'Right, I would suggest we go to Istria, so for two days. ' +
-      'I propose we leave on Friday after work, because on Saturday morning there is heavy traffic on the motorway. ' +
+      'I propose we leave on Friday after work, because on Saturday morning there is heavy traffic on the highway. ' +
       'We could sleep in Rovinj, and on Saturday see Pula and Motovun. ' +
       'Actually I am only afraid of the crowds and the heat, so I would rather go at the end of September. ' +
       'I am really looking forward to the trip. What do you think, does that suit you?',
@@ -3997,7 +3997,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'The number of people working remotely rose sharply after 2020. ' +
       'In our field that share jumped from around ten per cent to almost half. ' +
       'Over the last two years the growth has slowed, but there has been no return to how it was. ' +
-      'The cause is not only technology; flats in big cities became unaffordable, so people are moving. ' +
+      'The cause is not only technology; apartments in big cities became unaffordable, so people are moving. ' +
       'It is interesting that the companies which allowed working from home first are the biggest today. ' +
       'I expect it to continue, only more slowly than before.',
     structures: [
@@ -4922,7 +4922,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         focus: {
           lemma: 'liječnik',
           requiredCase: 'G',
-          why: 'kod means being AT someone’s and takes the genitive — never for motion towards.',
+          why: 'kod means being AT someone’s and takes the genitive — never for motion toward.',
         },
       },
       {
@@ -4975,7 +4975,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'I argue that free university is not a question of generosity, but of arithmetic. ' +
       'Since the population is shrinking, every educated person who stays is worth more than ten years ago. ' +
       'The strongest counter-argument is not that it is expensive, but that the money flows to those who would study anyway, while nothing changes for children from small places. ' +
-      'I concede that: a waived enrolment fee does not pay rent in Zagreb. ' +
+      'I concede that: a waived enrollment fee does not pay rent in Zagreb. ' +
       'That is precisely why I think the question is wrongly framed. ' +
       'It is not about whether tuition is zero, but about whether the state covers what studying actually costs.',
     structures: [
@@ -5061,11 +5061,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'c1-summarise',
     level: 'C1',
-    title: 'Summarise and close a discussion',
+    title: 'Summarize and close a discussion',
     prompt:
       'Vodio si sastanak na kojem se nisu svi složili. Sažmi što je rečeno, razdvoji dogovoreno od otvorenog i zaključi s konkretnim koracima.',
     promptEn:
-      'You chaired a meeting where people did not all agree. Summarise what was said, separate what was agreed from what is open and close with concrete steps.',
+      'You chaired a meeting where people did not all agree. Summarize what was said, separate what was agreed from what is open and close with concrete steps.',
     minWords: 20,
     model:
       'Sažeo bih ovako. Oko dviju stvari postoji suglasnost: da postojeći raspored ne funkcionira i da odluku ne možemo odgađati do jeseni. ' +
@@ -5075,7 +5075,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Vraćamo se na ovo u utorak i tada odlučujemo, s podacima ili bez njih. ' +
       'Ako se netko ne slaže s ovakvim sažetkom, sada je trenutak da to kaže.',
     modelEn:
-      'Let me summarise. There is agreement on two things: that the current schedule does not work and that we cannot postpone the decision until autumn. ' +
+      'Let me summarize. There is agreement on two things: that the current schedule does not work and that we cannot postpone the decision until fall. ' +
       'What remains open is who takes over supervision and which budget pays for it. ' +
       'Ana raised the concern that the load would simply shift onto a smaller team, and so far that has not been refuted. ' +
       'I propose the following: Marko prepares a cost estimate by Friday, Ana lists the risks, and I ask the legal department for an opinion. ' +
@@ -5287,7 +5287,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zato bih se čuvao ocjene koja je kultura pristojnija; pitanje je samo gdje se sukob obavlja.',
     modelEn:
       'I would say the difference is not in how direct people are, but in where disagreement is allowed to show. ' +
-      'When I worked in Canada, I learned that you nod in the meeting, and the objection arrives afterwards, in a message. ' +
+      'When I worked in Canada, I learned that you nod in the meeting, and the objection arrives afterward, in a message. ' +
       'Here the objection is voiced immediately, loudly, and fifteen minutes later everyone goes for coffee together. ' +
       'It took me quite a while to grasp that this is not a quarrel but a way of working. ' +
       'What counts as honesty here would sound rude elsewhere, and the other way round. ' +
@@ -5915,7 +5915,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Suradnik vam je poslao izvještaj koji je temeljit, ali predug i bez jasnog zaključka. Recite mu što valja, što treba promijeniti i zašto — bez uvijanja, ali i bez uvrede.',
     promptEn:
-      'A colleague has sent you a report that is thorough but too long and without a clear conclusion. Tell him what works, what needs to change and why — without hedging, but without offence.',
+      'A colleague has sent you a report that is thorough but too long and without a clear conclusion. Tell him what works, what needs to change and why — without hedging, but without offense.',
     minWords: 30,
     model:
       'Prije svega, hvala na izvještaju — vidi se da si u njega uložio puno rada, i podaci su baš temeljiti. ' +
@@ -6371,7 +6371,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Ako se ništa ne promijeni, sljedeći ćemo put biti brži — u izmišljanju rokova.',
     modelEn:
       'I would say the project finished moderately successfully, if by success we mean that it finished at all. ' +
-      'The deadlines were, admittedly, respected — only not the ones in the contract, but the ones we invented afterwards. ' +
+      'The deadlines were, admittedly, respected — only not the ones in the contract, but the ones we invented afterward. ' +
       'I am not sure anyone reckoned that what would cost us the most time would be meetings about how to save time. ' +
       'I blame nobody in this; every one of us at some point proposed one more meeting. ' +
       'What really worries me is not this project but how quickly it became normal to us. ' +
@@ -6450,7 +6450,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     checklist: [
       {
         id: 'indirect',
-        label: 'Criticise without accusing',
+        label: 'Criticize without accusing',
         words: ['doduše', 'ako', 'nisam siguran'],
       },
       {
@@ -6468,7 +6468,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     prompt:
       'Tri izvora govore o istoj temi i ne slažu se. Sažmi ih, pokaži gdje se točno razilaze i reci što se iz svega zajedno može zaključiti.',
     promptEn:
-      'Three sources address the same topic and disagree. Summarise them, show exactly where they diverge and say what can be concluded from all of them together.',
+      'Three sources address the same topic and disagree. Summarize them, show exactly where they diverge and say what can be concluded from all of them together.',
     minWords: 26,
     model:
       'Sva tri izvora slažu se oko činjenice: broj učenika pada već desetljeće. ' +
@@ -6478,7 +6478,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zaključak koji bih izveo skromniji je nego što bi svi željeli: prije rasprave o uzroku potrebna nam je jedinstvena metodologija. ' +
       'Dotad svaka strana citira brojku koja joj odgovara, i to posve iskreno.',
     modelEn:
-      'All three sources agree on the fact: pupil numbers have been falling for a decade. ' +
+      'All three sources agree on the fact: student numbers have been falling for a decade. ' +
       'They diverge, however, on what that fact means. ' +
       'The ministry reads it as a demographic problem the school system cannot solve; the union as a consequence of investment, or rather the lack of it; while the university study offers no cause at all, but warns that the county-level data are not comparable. ' +
       'To me the last claim matters most, because if we are measuring different things, the first two cannot even be settled. ' +
@@ -6649,7 +6649,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         },
       },
       {
-        cue: 'Say: This leads us towards an agreement.',
+        cue: 'Say: This leads us toward an agreement.',
         answer: 'Ovo nas vodi prema dogovoru.',
         focus: {
           lemma: 'dogovor',
@@ -6794,7 +6794,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'I would ask that this be reconsidered before publication. ' +
       'To a friend I would say this: listen, this schedule does not hold water. ' +
       'It turns out nobody can take Saturday off, and nobody will last a month like that. ' +
-      'Tell them before they publish it, because afterwards nobody will want to reopen it. ' +
+      'Tell them before they publish it, because afterward nobody will want to reopen it. ' +
       'The message is the same; what differs is who is allowed to hear that I am angry.',
     structures: [
       {
@@ -7208,15 +7208,15 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Jeste li vi imali takvog djeda?',
     modelEn:
       'Do you know the one about my grandfather and the bill? ' +
-      'So — Split, summer, the waiter brings the bill, and grandad looks at it, and looks, and says: “Son, this is a mistake.” ' +
+      'So — Split, summer, the waiter brings the bill, and grandpa looks at it, and looks, and says: “Son, this is a mistake.” ' +
       'The waiter goes red, leaves, comes back, and says everything is correct. ' +
-      'And grandad, perfectly calm: “I know. The mistake is that I came.” ' +
+      'And grandpa, perfectly calm: “I know. The mistake is that I came.” ' +
       'And that is that. Nobody at the table said a word — grandma just paid. ' +
       'Did you have a grandfather like that?',
     structures: [
       {
         hr: 'konobar donese račun, a djed ga gleda, gleda, pa kaže',
-        en: 'the waiter brings the bill, and grandad looks at it, and looks, and says',
+        en: 'the waiter brings the bill, and grandpa looks at it, and looks, and says',
         why: 'The perfective PRESENT (donese, kaže) is the spoken narrative tense, and repeating "gleda, gleda" slows the tempo right before the line that matters.',
       },
       {
@@ -7344,7 +7344,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Tu ste u pravu.',
         en: 'You are right about that.',
-        why: 'The concession said whole, with a full stop after it — no "ali".',
+        why: 'The concession said whole, with a period after it — no "ali".',
       },
       {
         hr: 'Priznajem to bez zadrške.',

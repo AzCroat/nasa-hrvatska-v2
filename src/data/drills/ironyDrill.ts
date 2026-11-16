@@ -234,7 +234,7 @@ export const IRONY_DRILL_DATA: ModeDrillItem[] = [
       'samo među izvornim govornicima',
     ],
     answer: 'ne, cilj je prepoznati sredstvo',
-    tip: 'Recognising the device is the achievable goal; catching every instance is not.',
+    tip: 'Recognizing the device is the achievable goal; catching every instance is not.',
   },
   {
     mode: 'pisano',

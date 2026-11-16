@@ -22,7 +22,7 @@
  * shape by derivation, and `creditSurvivesLeavingResults.test.tsx` drives two of
  * these screens' siblings end to end, which is what the premise said was impossible.
  * The lesson is general: a reason for not driving a screen is where that screen's
- * real behaviour goes to die.
+ * real behavior goes to die.
  */
 import { readFileSync } from 'fs';
 import { join } from 'path';

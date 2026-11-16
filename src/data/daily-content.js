@@ -957,7 +957,7 @@ export const PHRASE_OF_DAY_POOL = [
   },
   {
     hr: 'Ugodan odmor!',
-    en: 'Have a pleasant holiday!',
+    en: 'Have a nice vacation!',
     note: 'Said before someone goes on vacation',
     ph: 'OO-goh-dahn OHD-mohr',
   },
@@ -2163,7 +2163,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'krumpir', en: 'potato', ph: 'KROOM-peer', cat: 'food' },
 
   // Family
-  { hr: 'mama', en: 'mum / mom', ph: 'MAH-mah', cat: 'family' },
+  { hr: 'mama', en: 'mom / mom', ph: 'MAH-mah', cat: 'family' },
   { hr: 'tata', en: 'dad', ph: 'TAH-tah', cat: 'family' },
   { hr: 'brat', en: 'brother', ph: 'braht', cat: 'family' },
   { hr: 'sestra', en: 'sister', ph: 'SEHS-trah', cat: 'family' },
@@ -2236,7 +2236,7 @@ export const WORD_OF_DAY_POOL = [
   { hr: 'smeđa', en: 'brown', ph: 'SMEH-dyah', cat: 'colors' },
   { hr: 'bijela', en: 'white', ph: 'bee-YEH-lah', cat: 'colors' },
   { hr: 'crna', en: 'black', ph: 'TSER-nah', cat: 'colors' },
-  { hr: 'siva', en: 'grey', ph: 'SEE-vah', cat: 'colors' },
+  { hr: 'siva', en: 'gray', ph: 'SEE-vah', cat: 'colors' },
   { hr: 'zlatna', en: 'golden', ph: 'ZLAHT-nah', cat: 'colors' },
   { hr: 'srebrna', en: 'silver', ph: 'SREH-br-nah', cat: 'colors' },
 

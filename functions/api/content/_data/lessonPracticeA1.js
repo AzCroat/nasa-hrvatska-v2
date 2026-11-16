@@ -197,7 +197,7 @@ export const PRACTICE_A1 = {
         options: ['krv (blood)', 'kraj (end)', 'rak (crab)', 'brod (ship)'],
         correct: 0,
         explanation:
-          'krv — k-r-v has no vowel letter; the rolled r is the centre of the syllable, as in prst and trg.',
+          'krv — k-r-v has no vowel letter; the rolled r is the center of the syllable, as in prst and trg.',
       },
     ],
     vocab: [
@@ -223,7 +223,7 @@ export const PRACTICE_A1 = {
         steps: [
           {
             label: 'Who is it?',
-            text: 'A shop assistant you do not know — a stranger, so the greeting is formal.',
+            text: 'A salesperson you do not know — a stranger, so the greeting is formal.',
           },
           {
             label: 'What time is it?',
@@ -348,7 +348,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'You meet your new neighbour, an older man, at 10 am. Which greeting fits best?',
+        q: 'You meet your new neighbor, an older man, at 10 am. Which greeting fits best?',
         options: [
           'Bog, kako si?',
           'Dobro jutro, kako ste?',
@@ -933,7 +933,7 @@ export const PRACTICE_A1 = {
         explanation: 'sinovi — a one-syllable masculine noun grows: sin → sinovi.',
       },
       {
-        q: 'Which sentence is correct? (The pupils are here — "đak".)',
+        q: 'Which sentence is correct? (The students are here — "đak".)',
         options: ['Đaci su ovdje.', 'Đaki su ovdje.', 'Đakovi su ovdje.', 'Đake su ovdje.'],
         correct: 0,
         explanation: 'Đaci — before the plural -i, k softens to c: đak → đaci.',
@@ -2177,7 +2177,7 @@ export const PRACTICE_A1 = {
           explanation: 'Njegova žena je učiteljica.',
         },
         {
-          q: 'Your mum’s sister is your ___.',
+          q: 'Your mom’s sister is your ___.',
           options: ['ujna', 'teta', 'unuka', 'baka'],
           correct: 1,
           hint: 'The everyday word for an aunt works on either side of the family.',
@@ -2201,7 +2201,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Your mum’s brother is your…',
+        q: 'Your mom’s brother is your…',
         options: ['stric', 'djed', 'ujak', 'tetak'],
         correct: 2,
         explanation: "ujak — your mother's brother. stric is your father's brother.",
@@ -2249,7 +2249,7 @@ export const PRACTICE_A1 = {
     ],
     vocab: [
       ['obitelj', 'family', 'Ovo je moja obitelj.'],
-      ['mama', 'mum', 'Mama je ovdje.'],
+      ['mama', 'mom', 'Mama je ovdje.'],
       ['tata', 'dad', 'Tata je liječnik.'],
       ['sin', 'son', 'Moj sin je student.'],
       ['kći', 'daughter', 'Moja kći je studentica.'],
@@ -2383,7 +2383,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Mama je ___." (Mum is Italian.)',
+        q: 'Complete: "Mama je ___." (Mom is Italian.)',
         options: ['Talijan', 'Talijanka', 'talijanski', 'Italija'],
         correct: 1,
         explanation: "Talijanka — the woman's nationality form. Talijan is a man.",
@@ -3138,7 +3138,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Volim ___." (I love my mum — "mama".)',
+        q: 'Complete: "Volim ___." (I love my mom — "mama".)',
         options: ['mama', 'mamu', 'mame', 'mami'],
         correct: 1,
         explanation: 'Volim mamu. — the object: feminine -a becomes -u.',
@@ -3610,7 +3610,7 @@ export const PRACTICE_A1 = {
           explanation: 'Stavljam knjigu na stol.',
         },
         {
-          q: 'Idemo u ___. (to the cinema)',
+          q: 'Idemo u ___. (to the movie theater)',
           options: ['kinu', 'kina', 'kino', 'kinom'],
           correct: 2,
           hint: 'Going takes the accusative; a neuter noun looks the same as its dictionary form there.',
@@ -3683,7 +3683,7 @@ export const PRACTICE_A1 = {
     },
     checkB: [
       {
-        q: 'Complete: "Večeras idemo ___." (to the cinema)',
+        q: 'Complete: "Večeras idemo ___." (to the movie theater)',
         options: ['u kinu', 'u kino', 'u kina', 'u kinom'],
         correct: 1,
         explanation: 'u kino — going takes the accusative.',
@@ -3889,7 +3889,7 @@ export const PRACTICE_A1 = {
       },
       {
         q: 'Which job is the genitive doing in "Nemam novca" (I have no money)?',
-        options: ['belonging', 'quantity', 'absence', 'motion towards'],
+        options: ['belonging', 'quantity', 'absence', 'motion toward'],
         correct: 2,
         explanation: 'Absence — what is not there takes the genitive.',
       },
@@ -4042,7 +4042,7 @@ export const PRACTICE_A1 = {
         explanation: 'učiteljice — nouns in -ica take -e, not -o.',
       },
       {
-        q: 'Which is correct? (Mr Kovač, do you have a moment?)',
+        q: 'Which is correct? (Mr. Kovač, do you have a moment?)',
         options: [
           'Gospodino Kovačo, imate li trenutak?',
           'Gospodine Kovaču, imate li trenutak?',
@@ -4947,7 +4947,7 @@ export const PRACTICE_A1 = {
           type: 'type',
           q: 'Pijemo ____ vino. (red)',
           answer: 'crno',
-          hint: 'The colour that describes red wine, neuter to match vino.',
+          hint: 'The color that describes red wine, neuter to match vino.',
           explanation: 'Pijemo crno vino.',
         },
         {
@@ -5046,7 +5046,7 @@ export const PRACTICE_A1 = {
         steps: [
           {
             label: 'The question',
-            text: 'Imate li…? — do you have…? (V-form for a shop assistant).',
+            text: 'Imate li…? — do you have…? (V-form for a salesperson).',
           },
           { label: 'The object', text: 'The bag is what you ask for, so it takes the accusative.' },
           { label: 'The ending', text: 'Feminine -a becomes -u: vrećicu.' },
@@ -5528,7 +5528,7 @@ export const PRACTICE_A1 = {
         q: 'What does "u proljeće" mean?',
         options: ['in winter', 'in spring', 'in summer', 'in autumn'],
         correct: 1,
-        explanation: 'in spring — spring and autumn take u; summer and winter have ljeti and zimi.',
+        explanation: 'in spring — spring and fall take u; summer and winter have ljeti and zimi.',
       },
       {
         q: 'How do you ask what the weather is like today?',

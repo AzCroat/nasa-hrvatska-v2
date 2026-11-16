@@ -21,7 +21,7 @@ export default function A1Numbers11To1000Drill({ goBack, award }: Props) {
     <ModeDrill
       id="a1numbers11to1000"
       title="From Eleven to a Thousand"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NUMBERS_11_1000_MODE_LABELS}
       data={NUMBERS_11_1000_DRILL_DATA}
       praise={{

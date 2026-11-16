@@ -276,7 +276,7 @@ describe('form analysis states EVERY reading the ending permits', () => {
     expect(g).toContain('f');
   });
 
-  it('an infinitive is recognised as one', () => {
+  it('an infinitive is recognized as one', () => {
     expect(analyzeForm('raditi').candidates[0]).toMatchObject({
       pos: 'verb',
       tense: 'infinitive',

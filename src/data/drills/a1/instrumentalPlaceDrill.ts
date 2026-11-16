@@ -89,7 +89,7 @@ export const INSTRUMENTAL_PLACE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'oblik',
     q: 'Sastanak je pred ____. (kino)',
-    en: 'The meeting is in front of the cinema.',
+    en: 'The meeting is in front of the movie theater.',
     opts: ['kinu', 'kinom', 'kina', 'kino'],
     answer: 'kinom',
     tip: 'Neuter -o becomes -om.',

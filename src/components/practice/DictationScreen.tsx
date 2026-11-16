@@ -104,7 +104,7 @@ export const DICTATION_DATA = [
     level: 'A2',
   },
   { text: 'Moja sestra živi u Splitu.', en: 'My sister lives in Split.', level: 'A2' },
-  { text: 'Kupio sam poklon za mamu.', en: 'I bought a present for mum.', level: 'A2' },
+  { text: 'Kupio sam poklon za mamu.', en: 'I bought a present for mom.', level: 'A2' },
   { text: 'Vlak kasni dvadeset minuta.', en: 'The train is twenty minutes late.', level: 'A2' },
   {
     text: 'Kad završim posao, idem na trening.',
@@ -119,13 +119,13 @@ export const DICTATION_DATA = [
   },
   {
     text: 'Prošle godine smo putovali po Europi.',
-    en: 'Last year we travelled around Europe.',
+    en: 'Last year we traveled around Europe.',
     level: 'B1',
   },
   { text: 'Sviđa mi se kako pjevaš.', en: 'I like the way you sing.', level: 'B1' },
   {
     text: 'Unatoč umoru, nastavili smo hodati prema vrhu.',
-    en: 'Despite the fatigue, we kept walking towards the summit.',
+    en: 'Despite the fatigue, we kept walking toward the summit.',
     level: 'B2',
   },
   {

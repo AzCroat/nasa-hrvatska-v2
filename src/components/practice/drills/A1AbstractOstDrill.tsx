@@ -21,7 +21,7 @@ export default function A1AbstractOstDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1abstractost"
       title="Qualities as Nouns"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ABSTRACT_OST_MODE_LABELS}
       data={ABSTRACT_OST_DRILL_DATA}
       praise={{

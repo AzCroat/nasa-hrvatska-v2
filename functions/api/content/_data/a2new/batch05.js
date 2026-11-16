@@ -64,7 +64,7 @@ export const SPINE = [
     prerequisites: ['travel-transport', 'travel-croatia', 'ici-going'],
     objectives: [
       'Buy a ticket one way or return: Jednu povratnu kartu do Splita, molim.',
-      'Read a timetable and ask about departures and delays: Kad polazi? Vlak kasni.',
+      'Read a schedule and ask about departures and delays: Kad polazi? Vlak kasni.',
       'Ask where to get off and where to change: Gdje moram sići? Morate presjesti.',
       'Say how you travel with the instrumental alone: Idem tramvajem.',
     ],
@@ -106,7 +106,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Dative Says Whose',
-        body: 'Put the owner in the dative and leave the thing in the nominative. Brat mi je student. (My brother is a student.) Kuća joj je velika. (Her house is big.) Stan nam je mali. (Our flat is small.) Both ways are correct Croatian: Moj brat je student says the same as Brat mi je student. The dative version is the one you will hear most in conversation, especially about family and about things that belong to you.',
+        body: 'Put the owner in the dative and leave the thing in the nominative. Brat mi je student. (My brother is a student.) Kuća joj je velika. (Her house is big.) Stan nam je mali. (Our apartment is small.) Both ways are correct Croatian: Moj brat je student says the same as Brat mi je student. The dative version is the one you will hear most in conversation, especially about family and about things that belong to you.',
         highlight: 'Brat mi je student.',
       },
       {
@@ -115,7 +115,7 @@ export const LESSONS = [
         headers: ['Owner', 'Short dative', 'Example', 'Meaning'],
         rows: [
           ['ja', 'mi', 'Sestra mi je u Zagrebu.', 'My sister is in Zagreb.'],
-          ['ti', 'ti', 'Kako ti je mama?', 'How is your mum?'],
+          ['ti', 'ti', 'Kako ti je mama?', 'How is your mom?'],
           ['on', 'mu', 'Otac mu je kuhar.', 'His father is a cook.'],
           ['ona', 'joj', 'Kuća joj je velika.', 'Her house is big.'],
           ['mi', 'nam', 'Stan nam je mali.', 'Our flat is small.'],
@@ -571,7 +571,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Any Person, Any Noun',
-        body: 'Put whoever feels it in the dative — a pronoun or a noun. Mami je hladno. (Mum is cold.) Djeci je dosadno. (The children are bored.) Baki je loše. (Grandma isn’t well.) For contrast use the long form; then it can open the sentence: Meni je vruće, a tebi? (I’m hot — and you?) Add an infinitive to say what is easy or hard: Teško mi je ustati rano. (It is hard for me to get up early.)',
+        body: 'Put whoever feels it in the dative — a pronoun or a noun. Mami je hladno. (Mom is cold.) Djeci je dosadno. (The children are bored.) Baki je loše. (Grandma isn’t well.) For contrast use the long form; then it can open the sentence: Meni je vruće, a tebi? (I’m hot — and you?) Add an infinitive to say what is easy or hard: Teško mi je ustati rano. (It is hard for me to get up early.)',
         highlight: 'Meni je vruće, a tebi?',
       },
       {
@@ -644,7 +644,7 @@ export const LESSONS = [
           },
           {
             hr: 'Bit će ti vruće u tom džemperu.',
-            en: 'You will be hot in that jumper.',
+            en: 'You will be hot in that sweater.',
             note: 'bit će for the future',
           },
           {
@@ -670,7 +670,7 @@ export const LESSONS = [
           },
           {
             hr: 'Ide li ti se u kino večeras?',
-            en: 'Do you feel like going to the cinema tonight?',
+            en: 'Do you feel like going to the movies tonight?',
             note: 'li, then ti, then se',
           },
           {
@@ -737,7 +737,7 @@ export const LESSONS = [
             explanation: 'No subject, so the neuter bilo.',
           },
           {
-            q: 'Which sentence says "My mum feels sick"?',
+            q: 'Which sentence says "My mom feels sick"?',
             options: ['Mama je zlo.', 'Mamu je zlo.', 'Mami su zlo.', 'Mami je zlo.'],
             correct: 3,
             explanation:
@@ -790,7 +790,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'On the Road',
-        body: 'Sooner or later a car lets you down: a flat tyre on the way to the coast, a battery that will not start on a cold morning. This lesson gives you the parts of a car, the sentences for when something goes wrong — they use the dative you just learned — and the words for traffic, parking and petrol.',
+        body: 'Sooner or later a car lets you down: a flat tire on the way to the coast, a battery that will not start on a cold morning. This lesson gives you the parts of a car, the sentences for when something goes wrong — they use the dative you just learned — and the words for traffic, parking and gas.',
         icon: '🚗',
       },
       {
@@ -799,7 +799,7 @@ export const LESSONS = [
         headers: ['Croatian', 'English', 'Example'],
         rows: [
           ['motor', 'engine', 'Motor je bučan.'],
-          ['guma', 'tyre', 'Guma je prazna.'],
+          ['guma', 'tire', 'Guma je prazna.'],
           ['kočnice', 'brakes', 'Kočnice ne rade dobro.'],
           ['svjetla', 'lights', 'Upali svjetla!'],
           ['akumulator', 'car battery', 'Akumulator je prazan.'],
@@ -811,7 +811,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'When It Breaks: mi + se',
-        body: 'Croatian says that the car broke down "on you": the thing is the subject, se shows it happened by itself, and the dative says whose it is. Auto mi se pokvario. (My car has broken down.) Probušila mi se guma. (I have a flat tyre.) Pregrijao mu se motor. (His engine has overheated.) The dative comes before se. auto is masculine, so it is pokvario, not pokvarila.',
+        body: 'Croatian says that the car broke down "on you": the thing is the subject, se shows it happened by itself, and the dative says whose it is. Auto mi se pokvario. (My car has broken down.) Probušila mi se guma. (I have a flat tire.) Pregrijao mu se motor. (His engine has overheated.) The dative comes before se. auto is masculine, so it is pokvario, not pokvarila.',
         highlight: 'Auto mi se pokvario.',
       },
       {
@@ -823,13 +823,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Traffic and Rules',
-        body: 'A traffic jam is gužva, traffic lights are semafor, a junction is raskrižje and a roundabout is kružni tok. In Croatia you drive on the right. The speed limit is 50 km/h in towns and 130 km/h on the motorway (autocesta), where you pay a toll, cestarina. Signs use the se-impersonal you know: Ovdje se ne smije parkirati. (No parking here.) A fine is kazna.',
+        body: 'A traffic jam is gužva, traffic lights are semafor, a junction is raskrižje and a roundabout is kružni tok. In Croatia you drive on the right. The speed limit is 50 km/h in towns and 130 km/h on the highway (autocesta), where you pay a toll, cestarina. Signs use the se-impersonal you know: Ovdje se ne smije parkirati. (No parking here.) A fine is kazna.',
         highlight: 'Ovdje se ne smije parkirati.',
       },
       {
         type: 'rule',
         title: 'Petrol',
-        body: 'You buy petrol at a benzinska postaja. Petrol is benzin, diesel is dizel. To fill up yourself: Natočio sam benzin. To ask the attendant to fill the tank: Napunite, molim. To ask where: Oprostite, gdje je benzinska postaja?',
+        body: 'You buy gas at a benzinska postaja. Gas is benzin, diesel is dizel. To fill up yourself: Natočio sam benzin. To ask the attendant to fill the tank: Napunite, molim. To ask where: Oprostite, gdje je benzinska postaja?',
         highlight: 'Napunite, molim.',
       },
       {
@@ -838,7 +838,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Probušila mi se guma na autocesti.',
-            en: 'I got a flat tyre on the motorway.',
+            en: 'I got a flat tire on the highway.',
             note: 'probušila agrees with guma',
           },
           {
@@ -907,7 +907,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you say "I have a flat tyre"?',
+        q: 'How do you say "I have a flat tire"?',
         options: [
           'Probušila mi se guma.',
           'Probušio mi se guma.',
@@ -944,11 +944,11 @@ export const LESSONS = [
               'The dative comes before se in the cluster: mi se. me is the accusative, and without se the sentence no longer says the car broke down.',
           },
           {
-            q: 'Complete: "Probušila mi se ___." (I have a flat tyre.)',
+            q: 'Complete: "Probušila mi se ___." (I have a flat tire.)',
             options: ['guma', 'gume', 'gumu', 'gumom'],
             correct: 0,
             explanation:
-              'The tyre is the subject, so it is in the nominative: guma. That is also why the verb is feminine, probušila.',
+              'The tire is the subject, so it is in the nominative: guma. That is also why the verb is feminine, probušila.',
           },
           {
             q: 'You ask the mechanic when the car will be ready. Which is correct?',
@@ -981,7 +981,7 @@ export const LESSONS = [
               'The impersonal: se, then ne smije, then the infinitive. The first sign says parking IS allowed; the others mix up the order or the person.',
           },
           {
-            q: 'Complete: "Na autocesti se plaća ___." (On the motorway you pay a toll.)',
+            q: 'Complete: "Na autocesti se plaća ___." (On the highway you pay a toll.)',
             options: ['cestarina', 'cestarinu', 'cestarine', 'cestarini'],
             correct: 0,
             explanation:
@@ -1019,13 +1019,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Getting Around Without a Car',
-        body: 'In Zagreb the blue trams of ZET (Zagrebački električni tramvaj) and its buses take you almost everywhere. Between cities there are trains and coaches. This lesson covers the whole journey: buying the right ticket, reading the timetable, asking which tram goes where, and — the question every visitor needs — where to get off.',
+        body: 'In Zagreb the blue trams of ZET (Zagrebački električni tramvaj) and its buses take you almost everywhere. Between cities there are trains and coaches. This lesson covers the whole journey: buying the right ticket, reading the schedule, asking which tram goes where, and — the question every visitor needs — where to get off.',
         icon: '🚋',
       },
       {
         type: 'rule',
         title: 'Buying a Ticket',
-        body: 'A ticket is a karta (or a vozna karta). Ask for it in the accusative: Jednu kartu do Splita, molim. A one-way ticket is a karta u jednom smjeru; a return ticket is a povratna karta. Koliko košta povratna karta do Rijeke? In Zagreb you buy tram tickets at a kiosk or, for more money, from the driver, and you must validate the ticket — poništiti kartu — when you get on.',
+        body: 'A ticket is a karta (or a vozna karta). Ask for it in the accusative: Jednu kartu do Splita, molim. A one-way ticket is a karta u jednom smjeru; a round-trip ticket is a povratna karta. Koliko košta povratna karta do Rijeke? In Zagreb you buy tram tickets at a kiosk or, for more money, from the driver, and you must validate the ticket — poništiti kartu — when you get on.',
         highlight: 'Jednu kartu do Splita, molim.',
       },
       {
@@ -1130,7 +1130,7 @@ export const LESSONS = [
         options: ['kartu u jednom smjeru', 'mjesečnu kartu', 'povratnu kartu', 'vozni red'],
         correct: 2,
         explanation:
-          'povratna karta — a return ticket. u jednom smjeru is one way, a mjesečna karta is a monthly pass, and vozni red is the timetable.',
+          'povratna karta — a round-trip ticket. u jednom smjeru is one way, a mjesečna karta is a monthly pass, and vozni red is the schedule.',
       },
       {
         type: 'quiz',
@@ -1263,7 +1263,7 @@ export const LESSONS = [
           },
           {
             hr: 'Dobar dan, ovdje Ivana Perić. Mogu li razgovarati s gospođom Novak?',
-            en: 'Good morning, this is Ivana Perić. May I speak to Mrs Novak?',
+            en: 'Good morning, this is Ivana Perić. May I speak to Mrs. Novak?',
             note: 's gospođom Novak is instrumental',
           },
           {
@@ -1273,7 +1273,7 @@ export const LESSONS = [
           },
           {
             hr: 'Nažalost, gospođa Novak je danas na sastanku.',
-            en: 'Unfortunately Mrs Novak is in a meeting today.',
+            en: 'Unfortunately Mrs. Novak is in a meeting today.',
             note: 'na sastanku is locative',
           },
           {
@@ -1322,7 +1322,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'How do you ask "May I speak to Mr Horvat?"',
+        q: 'How do you ask "May I speak to Mr. Horvat?"',
         options: [
           'Mogu li razgovarati s gospodin Horvat?',
           'Mogu li razgovarati s gospodinom Horvatom?',
@@ -1364,7 +1364,7 @@ export const LESSONS = [
               'A formal answer gives the company, a greeting and izvolite. The others are for friends, or simply rude.',
           },
           {
-            q: 'Ask politely to speak to Mr Kovač.',
+            q: 'Ask politely to speak to Mr. Kovač.',
             options: [
               'Mogu li razgovarati s gospodin Kovač?',
               'Mogu li razgovarati gospodina Kovača?',
@@ -1601,7 +1601,7 @@ export const PRACTICE = {
         explanation: 'The owner in the dative: Marku.',
       },
       {
-        q: 'Complete: "Kako ___ je mama?" (How is your mum? — to a friend)',
+        q: 'Complete: "Kako ___ je mama?" (How is your mom? — to a friend)',
         options: ['te', 'ti', 'tvoj', 'vam'],
         correct: 1,
         explanation: 'The short dative of ti is ti.',
@@ -2022,7 +2022,7 @@ export const PRACTICE = {
       items: [
         {
           q: 'What are "kočnice"?',
-          options: ['tyres', 'brakes', 'lights', 'wipers'],
+          options: ['tires', 'brakes', 'lights', 'wipers'],
           correct: 1,
           hint: 'You press them to stop.',
           explanation: 'kočnice — brakes.',
@@ -2061,14 +2061,14 @@ export const PRACTICE = {
           explanation: 'gužva — a traffic jam (or a crowd).',
         },
         {
-          q: 'At the petrol station, which asks for a full tank?',
+          q: 'At the gas station, which asks for a full tank?',
           options: ['Napunim, molim.', 'Napuni se, molim.', 'Napunite, molim.', 'Napunio, molim.'],
           correct: 2,
           hint: 'The polite imperative.',
           explanation: 'Napunite, molim.',
         },
         {
-          q: 'Choose: "Možete li pogledati ___?" (Can you look at the tyres?)',
+          q: 'Choose: "Možete li pogledati ___?" (Can you look at the tires?)',
           options: ['gume', 'guma', 'gumama', 'gumom'],
           correct: 0,
           hint: 'Accusative plural.',
@@ -2097,7 +2097,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Na autocesti se plaća ____. (On the motorway you pay a toll.)',
+          q: 'Na autocesti se plaća ____. (On the highway you pay a toll.)',
           answer: 'cestarina',
           hint: 'The word for toll; in a se-sentence it is the subject.',
           explanation: 'Na autocesti se plaća cestarina.',
@@ -2125,7 +2125,7 @@ export const PRACTICE = {
         explanation: 'auto is the subject, third person: ne pali.',
       },
       {
-        q: 'At the petrol station, which asks for a full tank?',
+        q: 'At the gas station, which asks for a full tank?',
         options: ['Napunim, molim.', 'Napuni se, molim.', 'Napunite, molim.', 'Napunio, molim.'],
         correct: 2,
         explanation: 'The polite imperative: Napunite, molim.',
@@ -2151,7 +2151,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['motor', 'engine', 'Pregrijao mi se motor.'],
-      ['guma', 'tyre', 'Probušila mi se guma.'],
+      ['guma', 'tire', 'Probušila mi se guma.'],
       ['kočnice', 'brakes', 'Kočnice ne rade dobro.'],
       ['akumulator', 'car battery', 'Akumulator mi je prazan.'],
       ['mehaničar', 'mechanic', 'Zvao sam mehaničara.'],
@@ -2167,8 +2167,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Buying a Ticket',
-        problem: 'Ask for one return ticket to Split.',
-        en: 'Ask at the window for one return ticket to Split.',
+        problem: 'Ask for one round-trip ticket to Split.',
+        en: 'Ask at the window for one round-trip ticket to Split.',
         steps: [
           { label: 'What you want', text: 'A ticket, in the accusative: jednu kartu.' },
           { label: 'Which kind', text: 'Return → povratnu, agreeing with kartu.' },
@@ -2224,7 +2224,7 @@ export const PRACTICE = {
             'The train is late.',
             'The train is full.',
             'The train is leaving.',
-            'The train is cancelled.',
+            'The train is canceled.',
           ],
           correct: 0,
           hint: 'kasno means late.',
@@ -2360,7 +2360,7 @@ export const PRACTICE = {
       {
         title: 'Asking for Someone',
         problem: 'Ask politely: May I speak to Mrs Novak?',
-        en: 'Ask politely to speak to Mrs Novak.',
+        en: 'Ask politely to speak to Mrs. Novak.',
         steps: [
           { label: 'The polite frame', text: 'Mogu li razgovarati — may I speak.' },
           { label: 'With whom', text: 'razgovarati s + instrumental.' },
@@ -2536,7 +2536,7 @@ export const PRACTICE = {
         explanation: 'Oprostite, pogriješio sam broj.',
       },
       {
-        q: 'Complete politely: "___ razgovarati s gospođom Novak." (I would like to speak to Mrs Novak.)',
+        q: 'Complete politely: "___ razgovarati s gospođom Novak." (I would like to speak to Mrs. Novak.)',
         options: ['Htio bi', 'Hoću bih', 'Htio bih', 'Htjeli bih'],
         correct: 2,
         explanation: 'The conditional for ja: htio bih (a woman says htjela bih).',

@@ -21,7 +21,7 @@ export default function C1TextConnectorsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1textconnectors"
       title="Naime, Osim Toga, U Tu Svrhu"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={TEXT_CONNECTORS_MODE_LABELS}
       data={TEXT_CONNECTORS_DRILL_DATA}
       praise={{

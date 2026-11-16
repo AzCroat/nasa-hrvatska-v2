@@ -206,7 +206,7 @@ describe('every B1 lesson is a usable lesson', () => {
 describe('teach → practice coupling stays HONEST at B1', () => {
   const EXPECTED: Record<string, string> = {
     // Book-alignment pass (2026-11-13): these three were coupled to drills that did not
-    // practise their lesson — the aspect drill had no prefix items, the cloze bank was
+    // practice their lesson — the aspect drill had no prefix items, the cloze bank was
     // mixed cases with one past-tense item in 67, and relpron is plain koji with case
     // labels. Each now has a B1 bank written for the lesson (as do instrumental,
     // motion-verbs and numbers-nouns).

@@ -21,7 +21,7 @@ export default function A1ImperativeNegativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1imperativenegative"
       title="Don't! Negative Commands"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={IMPERATIVE_NEGATIVE_MODE_LABELS}
       data={IMPERATIVE_NEGATIVE_DRILL_DATA}
       praise={{

@@ -44,7 +44,7 @@ describe('listening as a scheduled adaptive category', () => {
   });
 
   it('adaptive pick routes listening to the authored graded-story bank', () => {
-    // Mark every other category as freshly practised and not due, leaving
+    // Mark every other category as freshly practiced and not due, leaving
     // listening never-seen → starved → front of the queue.
     const now = Date.now();
     const cats: Record<string, unknown> = {};

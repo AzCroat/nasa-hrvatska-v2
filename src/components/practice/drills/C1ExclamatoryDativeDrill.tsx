@@ -21,7 +21,7 @@ export default function C1ExclamatoryDativeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1exclamatorydative"
       title="Blago tebi! The Exclamatory and Emphatic Dative"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={EXCLAMATORY_DATIVE_MODE_LABELS}
       data={EXCLAMATORY_DATIVE_DRILL_DATA}
       praise={{

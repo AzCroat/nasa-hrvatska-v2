@@ -21,7 +21,7 @@ export default function C1CapitalsNamesGeographyDrill({ goBack, award }: Props) 
     <ModeDrill
       id="c1capitalsnamesgeography"
       title="Capital Letters in Names and on the Map"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CAPITALS_NAMES_GEOGRAPHY_MODE_LABELS}
       data={CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA}
       praise={{

@@ -48,7 +48,7 @@ export const FEELINGS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'povratni',
     q: 'Veselim se ____. (odmor)',
-    en: 'I am looking forward to the holiday.',
+    en: 'I am looking forward to the vacation.',
     opts: ['odmoru', 'odmor', 'odmora', 'odmorom'],
     answer: 'odmoru',
     tip: 'Dative: veselim se odmoru.',

@@ -43,7 +43,7 @@ export const GENITIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'muski',
     q: 'Kod ____ susjeda je zabava.',
-    en: 'There is a party at our neighbour’s.',
+    en: 'There is a party at our neighbor’s.',
     opts: ['našeg', 'našog', 'našem', 'našim'],
     answer: 'našeg',
     tip: 'Naš has a soft stem, so the ending is -eg: našeg.',
@@ -205,7 +205,7 @@ export const GENITIVE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Imamo puno ____ susjeda.',
-    en: 'We have a lot of kind neighbours.',
+    en: 'We have a lot of kind neighbors.',
     opts: ['ljubaznih', 'ljubaznim', 'ljubazni', 'ljubazne'],
     answer: 'ljubaznih',
     tip: 'Puno + the genitive plural: ljubaznih susjeda.',

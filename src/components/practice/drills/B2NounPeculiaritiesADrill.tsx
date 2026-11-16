@@ -21,7 +21,7 @@ export default function B2NounPeculiaritiesADrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2nounpeculiaritiesa"
       title="Gradovi, Ljudi, Oči"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NOUN_PECULIARITIES_A_MODE_LABELS}
       data={NOUN_PECULIARITIES_A_DRILL_DATA}
       praise={{

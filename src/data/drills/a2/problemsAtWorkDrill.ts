@@ -41,7 +41,7 @@ export const PROBLEMS_AT_WORK_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: 'U stanu nema ____.',
-    en: 'There is no hot water in the flat.',
+    en: 'There is no hot water in the apartment.',
     opts: ['tople vode', 'topla voda', 'toplu vodu', 'toplom vodom'],
     answer: 'tople vode',
     tip: 'After nema the missing thing goes into the genitive, adjective and noun together.',
@@ -73,7 +73,7 @@ export const PROBLEMS_AT_WORK_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: 'Imam problem sa ____.',
-    en: 'I have a problem with the neighbours.',
+    en: 'I have a problem with the neighbors.',
     opts: ['susjedima', 'susjedi', 'susjede', 'susjeda'],
     answer: 'susjedima',
     tip: 'Instrumental plural -ima; sa because the noun begins with s.',
@@ -151,10 +151,10 @@ export const PROBLEMS_AT_WORK_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'posao',
     q: 'Moram raditi ____.',
-    en: 'I have to work at weekends.',
+    en: 'I have to work on weekends.',
     opts: ['vikendom', 'vikend', 'vikenda', 'vikendu'],
     answer: 'vikendom',
-    tip: 'At weekends, as a habit: the instrumental used as an adverb — vikendom.',
+    tip: 'On weekends, as a habit: the instrumental used as an adverb — vikendom.',
   },
   // ── suosjecanje ───────────────────────────────────────────────────────────
   {

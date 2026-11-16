@@ -1,5 +1,5 @@
 /**
- * A STATUS TOKEN IS A SURFACE COLOUR, NOT AN INK (2026-09-27).
+ * A STATUS TOKEN IS A SURFACE COLOR, NOT AN INK (2026-09-27).
  *
  * Measured over all 430 routes in the LIGHT theme with a real browser (ink composited
  * over the nearest opaque surface, size-appropriate AA threshold): 451 elements on 43
@@ -7,7 +7,7 @@
  * `color: var(--success)`. `--success` (#16a34a) is 3.30:1 on white, `--warning`
  * (#d97706) 3.19:1, and `--error` (#dc2626) 3.95:1 on its own tint. About 190 of the 451
  * were those three, on the answer feedback of the drills a learner meets every day
- * (VocativeScreen's "Marijo!", ReflexiveScreen's "✗ WRONG", Boje's colour words).
+ * (VocativeScreen's "Marijo!", ReflexiveScreen's "✗ WRONG", Boje's color words).
  *
  * `inlineInkContrast` could not see it: it judges LITERALS, and a `var(--…)` is exactly
  * what that guard tells you to write. The token was right for a badge background and
@@ -88,7 +88,7 @@ describe('status tokens have ink twins that clear AA', () => {
     );
     for (const [token, twin] of Object.entries(STATUS_INK)) {
       expect(accentInk(token)).toBe(twin);
-      // the alpha form must not bypass the mapping — the token path never honoured alpha
+      // the alpha form must not bypass the mapping — the token path never honored alpha
       expect(accentInk(token, 0.6)).toBe(twin);
     }
   });

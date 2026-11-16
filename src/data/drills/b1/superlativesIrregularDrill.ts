@@ -81,7 +81,7 @@ export const SUPERLATIVES_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'komparativ',
     q: 'Ovaj stan je ____ nego onaj.',
-    en: 'This flat is more expensive than that one.',
+    en: 'This apartment is more expensive than that one.',
     opts: ['skupiji', 'skuplji', 'skupši', 'skuplja'],
     answer: 'skuplji',
     tip: 'After p an l appears: skup → skuplji.',
@@ -145,7 +145,7 @@ export const SUPERLATIVES_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'superlativ',
     q: 'Ana je ____ učenica u razredu.',
-    en: 'Ana is the best pupil in the class.',
+    en: 'Ana is the best student in the class.',
     opts: ['najbolji', 'najbolja', 'bolja', 'najboljoj'],
     answer: 'najbolja',
     tip: 'Feminine nominative for učenica.',
@@ -153,7 +153,7 @@ export const SUPERLATIVES_IRREGULAR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: 'Živimo u ____ stanu nego prije.',
-    en: 'We live in a bigger flat than before.',
+    en: 'We live in a bigger apartment than before.',
     opts: ['veći', 'većem', 'većoj', 'veća'],
     answer: 'većem',
     tip: 'u + locative, masculine: the soft ending -em.',

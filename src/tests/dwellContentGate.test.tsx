@@ -232,7 +232,7 @@ describe('the dwell timer does not credit a page the learner could not read', ()
     await act(async () => {
       vi.advanceTimersByTime(20_000 * 5);
     });
-    expect(p.award, 'a cancelled dwell still paid out').not.toHaveBeenCalled();
+    expect(p.award, 'a canceled dwell still paid out').not.toHaveBeenCalled();
   });
 });
 

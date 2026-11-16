@@ -75,7 +75,7 @@ export const HUMOUR_DRILL_DATA: ModeDrillItem[] = [
     en: 'Why is ma hard?',
     opts: ['nema doslovno značenje', 'rijetko je', 'formalno je', 'ima mnogo oblika'],
     answer: 'nema doslovno značenje',
-    tip: 'There is nothing to translate — only a function to recognise.',
+    tip: 'There is nothing to translate — only a function to recognize.',
   },
   {
     mode: 'ma',
@@ -104,7 +104,7 @@ export const HUMOUR_DRILL_DATA: ModeDrillItem[] = [
       'No signal',
     ],
     answer: 'Never mind, it does not matter',
-    tip: 'Reassurance, not indifference — an important difference when apologising.',
+    tip: 'Reassurance, not indifference — an important difference when apologizing.',
   },
 
   // ── podcijeni ─────────────────────────────────────────────────────────────
@@ -233,7 +233,7 @@ export const HUMOUR_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'ton',
     q: 'Zašto humor stiže posljednji?',
-    en: 'Why does humour arrive last?',
+    en: 'Why does humor arrive last?',
     opts: [
       'traži da čujete i ono što nije rečeno',
       'rječnik je težak',

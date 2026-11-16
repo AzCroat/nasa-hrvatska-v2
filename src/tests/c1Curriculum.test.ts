@@ -316,9 +316,9 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     recordLessonTaught('verb-government');
     expect(pendingTaughtCategories()).toContain('verb-government');
 
-    const practised = categoryForScreen('rekcija');
-    expect(practised).toBe('verb-government');
-    recordCategoryPractised(practised!);
+    const practiced = categoryForScreen('rekcija');
+    expect(practiced).toBe('verb-government');
+    recordCategoryPractised(practiced!);
     expect(pendingTaughtCategories()).not.toContain('verb-government');
     clearTaughtQueue();
   });
@@ -342,15 +342,15 @@ describe('teach → practice coupling stays HONEST at C1', () => {
     // The constraint that shapes that bank, pinned so it cannot be relaxed by
     // someone making the drill "match the lesson better".
     //
-    // The LESSON teaches the contrast with a neighbouring standard and holds the
+    // The LESSON teaches the contrast with a neighboring standard and holds the
     // one sanctioned CONTRASTIVE_LESSONS carve-out in lintCroatianText.mjs,
-    // because there the form is a labelled comparison column. A DRILL cannot do
+    // because there the form is a labeled comparison column. A DRILL cannot do
     // that: its options are clickable, so the same content would put a
-    // neighbouring standard's word in front of a learner as a live choice —
+    // neighboring standard's word in front of a learner as a live choice —
     // which the 2026-08-26 distractor directive forbids and the carve-out was
     // written NOT to cover.
     //
-    // The bank therefore covers the lesson's second objective (recognise the
+    // The bank therefore covers the lesson's second objective (recognize the
     // lexical choices that mark a text as Croatian) from the Croatian side, and
     // the Croatian lint is what enforces it — the same lint caught an ekavian
     // distractor in the regional and language-history banks on their first runs.

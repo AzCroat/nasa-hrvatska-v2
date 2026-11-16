@@ -94,7 +94,7 @@ describe('_headers covers the path the document is actually served at', () => {
   // Pages redirects /index.html → / and matches _headers rules on the REQUEST
   // path, so a no-store rule on /index.html alone never applies to the URL
   // users load. This is a text assertion because there is no Cloudflare to run
-  // in a unit test — the deployed behaviour is what production smoke checks.
+  // in a unit test — the deployed behavior is what production smoke checks.
   const src = readFileSync('public/_headers', 'utf8');
 
   it('has an exact rule for "/" with no-store', () => {

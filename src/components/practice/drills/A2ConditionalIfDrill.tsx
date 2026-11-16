@@ -21,7 +21,7 @@ export default function A2ConditionalIfDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2conditionalif"
       title="If I Had the Time: Kad bih… bih"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CONDITIONAL_IF_MODE_LABELS}
       data={CONDITIONAL_IF_DRILL_DATA}
       praise={{

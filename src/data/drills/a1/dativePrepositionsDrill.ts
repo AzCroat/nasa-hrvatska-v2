@@ -51,7 +51,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'k',
     q: 'Djeca trče k ____.',
-    en: 'The children are running to mum.',
+    en: 'The children are running to mom.',
     opts: ['mami', 'mamu', 'mama', 'mame'],
     answer: 'mami',
     tip: 'k + dative: mama → mami.',
@@ -93,7 +93,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Hodamo prema ____.',
-    en: 'We are walking towards the sea.',
+    en: 'We are walking toward the sea.',
     opts: ['moru', 'more', 'mora', 'morem'],
     answer: 'moru',
     tip: 'prema takes the dative: neuter -u.',
@@ -101,7 +101,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Vlak ide prema ____.',
-    en: 'The train is going towards Zagreb.',
+    en: 'The train is going toward Zagreb.',
     opts: ['Zagrebu', 'Zagreb', 'Zagreba', 'Zagrebom'],
     answer: 'Zagrebu',
     tip: 'prema + dative: masculine -u.',
@@ -109,7 +109,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Turisti šeću prema ____.',
-    en: 'The tourists are walking towards the river.',
+    en: 'The tourists are walking toward the river.',
     opts: ['rijeci', 'rijeki', 'rijeku', 'rijeka'],
     answer: 'rijeci',
     tip: 'Feminine -i, and k before i becomes c: rijeci.',
@@ -125,7 +125,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Idemo prema ____.',
-    en: 'We are going towards the centre.',
+    en: 'We are going toward the center.',
     opts: ['centru', 'centar', 'centra', 'centaru'],
     answer: 'centru',
     tip: 'centar loses its a when an ending is added: centru.',
@@ -149,7 +149,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prema',
     q: 'Autobus vozi prema ____.',
-    en: 'The bus is driving towards Split.',
+    en: 'The bus is driving toward Split.',
     opts: ['Splitu', 'Splita', 'Splitom', 'Splite'],
     answer: 'Splitu',
     tip: 'prema + dative: masculine -u.',
@@ -175,7 +175,7 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nasuprot',
     q: 'Naš stan je nasuprot ____.',
-    en: 'Our flat is opposite the park.',
+    en: 'Our apartment is opposite the park.',
     opts: ['parku', 'park', 'parka', 'parkom'],
     answer: 'parku',
     tip: 'nasuprot + dative: masculine -u.',
@@ -207,14 +207,14 @@ export const DATIVE_PREPOSITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nasuprot',
     q: 'Što znači "nasuprot"?',
-    opts: ['opposite', 'despite', 'towards', 'behind'],
+    opts: ['opposite', 'despite', 'toward', 'behind'],
     answer: 'opposite',
     tip: 'Banka je nasuprot pošti — the bank is opposite the post office.',
   },
   {
     mode: 'nasuprot',
     q: 'Što znači "unatoč"?',
-    opts: ['despite', 'opposite', 'towards', 'to a person'],
+    opts: ['despite', 'opposite', 'toward', 'to a person'],
     answer: 'despite',
     tip: 'Idemo van unatoč kiši — we are going out despite the rain.',
   },

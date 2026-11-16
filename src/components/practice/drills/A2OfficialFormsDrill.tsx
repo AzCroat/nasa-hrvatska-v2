@@ -21,7 +21,7 @@ export default function A2OfficialFormsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2officialforms"
       title="Filling In a Form"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={OFFICIAL_FORMS_MODE_LABELS}
       data={OFFICIAL_FORMS_DRILL_DATA}
       praise={{

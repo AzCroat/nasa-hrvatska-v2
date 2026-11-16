@@ -56,7 +56,7 @@ export const POSSESSIVE_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenica',
     q: 'Kako ____ je mama?',
-    en: 'How is your mum? (to a friend)',
+    en: 'How is your mom? (to a friend)',
     opts: ['te', 'ti', 'tebe', 'tvoj'],
     answer: 'ti',
     tip: 'The short dative of ti is also ti.',
@@ -229,7 +229,7 @@ export const POSSESSIVE_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'imenica',
     q: 'Probušila ____ se guma.',
-    en: 'His tyre went flat.',
+    en: 'His tire went flat.',
     opts: ['ga', 'njega', 'mu', 'on'],
     answer: 'mu',
     tip: 'His → mu, before se.',

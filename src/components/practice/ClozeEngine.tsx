@@ -216,7 +216,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Mi idemo u kino večeras.',
     blank: 'idemo',
     options: ['idemo', 'idem', 'idu', 'ide'],
-    translation: 'We are going to the cinema tonight.',
+    translation: 'We are going to the movies tonight.',
     hint: 'Verb conjugation — mi + idemo (1st person plural)',
   },
   {
@@ -300,7 +300,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Boja njezine haljine je plava.',
     blank: 'haljine',
     options: ['haljine', 'haljina', 'haljinu', 'haljini'],
-    translation: 'The colour of her dress is blue.',
+    translation: 'The color of her dress is blue.',
     hint: 'Genitive — possession (of the dress)',
   },
   {
@@ -363,7 +363,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Putujem vlakom do Rijeke.',
     blank: 'vlakom',
     options: ['vlakom', 'vlak', 'vlaka', 'vlaku'],
-    translation: 'I am travelling by train to Rijeka.',
+    translation: 'I am traveling by train to Rijeka.',
     hint: 'Instrumental — means of transport',
     cat: 'instrumental',
   },
@@ -453,7 +453,7 @@ const SENTENCE_BANK: ClozeSentence[] = [
     sentence: 'Jučer smo gledali film u kinu.',
     blank: 'gledali',
     options: ['gledali', 'gledamo', 'gledat ćemo', 'gledao'],
-    translation: 'Yesterday we watched a film at the cinema.',
+    translation: 'Yesterday we watched a film at the movie theater.',
     hint: 'Past tense — perfekt (plural)',
   },
   {

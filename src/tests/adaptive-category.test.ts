@@ -108,7 +108,7 @@ describe('getDueCategoryQueue', () => {
     for (const c of ALL_CATEGORIES) {
       catData[c] = { stability: 7, recentAccuracy: 0.9, due: now - 1000, lastSeen: now };
     }
-    // accusative last practised 20 days ago (> 14-day floor) → starved.
+    // accusative last practiced 20 days ago (> 14-day floor) → starved.
     catData['accusative'] = {
       stability: 7,
       recentAccuracy: 0.9,

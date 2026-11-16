@@ -282,7 +282,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     title: 'Where I live',
     prompt: 'Opiši gdje živiš: u kući ili u stanu, koliko soba imaš i koja ti je soba najdraža.',
     promptEn:
-      'Describe where you live: a house or a flat, how many rooms you have and which room is your favourite.',
+      'Describe where you live: a house or an apartment, how many rooms you have and which room is your favorite.',
     minWords: 20,
     model:
       'Živim u stanu na drugom katu. Stan nije velik, ali je svijetao. ' +
@@ -290,24 +290,24 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Najdraža mi je kuhinja jer ondje pijem kavu s obitelji. ' +
       'Na balkonu imam cvijeće. Ispred zgrade je mali park.',
     modelEn:
-      'I live in a flat on the second floor. The flat is not big, but it is bright. ' +
+      'I live in an apartment on the second floor. The apartment is not big, but it is bright. ' +
       'I have a kitchen, a living room, a bedroom and a bathroom. ' +
-      'The kitchen is my favourite because I drink coffee there with my family. ' +
+      'The kitchen is my favorite because I drink coffee there with my family. ' +
       'On the balcony I have flowers. In front of the building there is a small park.',
     structures: [
       {
         hr: 'Živim u stanu na drugom katu.',
-        en: 'I live in a flat on the second floor.',
+        en: 'I live in an apartment on the second floor.',
         why: '"u" and "na" + locative for where something is: stan → u stanu, drugi kat → na drugom katu.',
       },
       {
         hr: 'Stan nije velik, ali je svijetao.',
-        en: 'The flat is not big, but it is bright.',
+        en: 'The apartment is not big, but it is bright.',
         why: 'Negate with "nije" and contrast with "ali" — two ideas in one sentence.',
       },
       {
         hr: 'Najdraža mi je kuhinja',
-        en: 'The kitchen is my favourite',
+        en: 'The kitchen is my favorite',
         why: '"mi" (to me) sits in second position — literally "the kitchen is dearest to me".',
       },
     ],
@@ -353,7 +353,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Najviše volim sladoled od čokolade.',
     modelEn:
       'I like eating fish and salad. I do not like meat. For breakfast I eat bread with cheese and drink tea. ' +
-      'My mum cooks an excellent soup. On Sundays we eat pancakes with jam. ' +
+      'My mom cooks an excellent soup. On Sundays we eat pancakes with jam. ' +
       'Most of all I like chocolate ice cream.',
     structures: [
       {
@@ -419,8 +419,8 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Imaš li vremena poslije posla? Možemo se vidjeti u šest ispred kina. ' +
       'Javi mi! Vidimo se.',
     modelEn:
-      'Hi Marko! I am in the centre, having coffee with Ana. What are you doing? ' +
-      'Do you have time after work? We can meet at six in front of the cinema. ' +
+      'Hi Marko! I am in the center, having coffee with Ana. What are you doing? ' +
+      'Do you have time after work? We can meet at six in front of the movie theater. ' +
       'Let me know! See you.',
     structures: [
       {
@@ -483,13 +483,13 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Poslijepodne idem k prijatelju. Igramo nogomet u parku. ' +
       'Navečer gledamo film kod mene.',
     modelEn:
-      'On Saturday I go to the market with my mum. We buy fruit and cheese. Afterwards we go to a café for coffee. ' +
-      'In the afternoon I go to a friend’s. We play football in the park. ' +
+      'On Saturday I go to the market with my mom. We buy fruit and cheese. Afterward we go to a café for coffee. ' +
+      'In the afternoon I go to a friend’s. We play soccer in the park. ' +
       'In the evening we watch a film at my place.',
     structures: [
       {
         hr: 'idem na tržnicu s mamom',
-        en: 'I go to the market with my mum',
+        en: 'I go to the market with my mom',
         why: 'Movement TO a place: "na/u" + accusative (tržnica → na tržnicu); "s" + instrumental for company: mama → s mamom.',
       },
       {
@@ -499,7 +499,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Igramo nogomet u parku.',
-        en: 'We play football in the park.',
+        en: 'We play soccer in the park.',
         why: 'Being AT a place: "u" + locative — park → u parku. Compare "idem u park" (going there).',
       },
     ],
@@ -613,7 +613,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'a1-season',
     level: 'A1',
-    title: 'My favourite season',
+    title: 'My favorite season',
     prompt:
       'Napiši koje godišnje doba najviše voliš: kakvo je vrijeme, što tada radiš i zašto ti se sviđa.',
     promptEn:
@@ -625,20 +625,20 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Zimu ne volim jer je hladno i pada snijeg. ' +
       'Jesen je lijepa, ali kratka. A proljeće? Proljeće je dobro za šetnju.',
     modelEn:
-      'My favourite season is summer. In summer it is warm and sunny. ' +
+      'My favorite season is summer. In summer it is warm and sunny. ' +
       'I go to the seaside and swim every day. I like ice cream and long evenings. ' +
       'I do not like winter because it is cold and it snows. ' +
-      'Autumn is beautiful, but short. And spring? Spring is good for a walk.',
+      'Fall is beautiful, but short. And spring? Spring is good for a walk.',
     structures: [
       {
         hr: 'Moje najdraže godišnje doba je ljeto.',
-        en: 'My favourite season is summer.',
-        why: '"najdraže" is the superlative of "drag" (dear) — the everyday way to say "favourite". It agrees with the neuter "doba".',
+        en: 'My favorite season is summer.',
+        why: '"najdraže" is the superlative of "drag" (dear) — the everyday way to say "favorite". It agrees with the neuter "doba".',
       },
       {
         hr: 'Idem na more',
         en: 'I go to the seaside',
-        why: '"na" + accusative for movement TOWARDS a place: more stays "more" here because neuter nouns look the same in the accusative.',
+        why: '"na" + accusative for movement TOWARD a place: more stays "more" here because neuter nouns look the same in the accusative.',
       },
       {
         hr: 'Zimu ne volim jer je hladno',
@@ -769,7 +769,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'Dear Aunt Marija, thank you for the present! The book is very beautiful and I read it every day. ' +
       'Thank you also for lunch on Sunday. The soup was excellent. ' +
-      'Everything is fine with us. Mum and Dad send their greetings. ' +
+      'Everything is fine with us. Mom and Dad send their greetings. ' +
       'See you soon! Kiss, Ivana',
     structures: [
       {
@@ -784,7 +784,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Mama i tata te pozdravljaju.',
-        en: 'Mum and Dad send you their greetings.',
+        en: 'Mom and Dad send you their greetings.',
         why: 'The short pronoun "te" (you) sits in second position, right after the first phrase — never at the very start of the sentence.',
       },
     ],
@@ -899,7 +899,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Kuham sarmu, a za desert imamo palačinke. Ponesi samo dobru volju! Javi mi možeš li doći. ' +
       'Vidimo se!',
     modelEn:
-      'Hi Ivan! Come to our place for lunch on Saturday. We are meeting at my flat at noon. ' +
+      'Hi Ivan! Come to our place for lunch on Saturday. We are meeting at my apartment at noon. ' +
       'I am cooking sarma, and for dessert we have pancakes. Bring only your good mood! Let me know if you can come. ' +
       'See you!',
     structures: [
@@ -966,7 +966,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Vraćamo se u nedjelju navečer. Puno pozdrava!',
     modelEn:
       'Dear Marija, greetings from Dubrovnik! The weather is wonderful — sunny and warm. ' +
-      'This morning we walked through the old town and climbed the walls. Afterwards we ate fish by the sea. ' +
+      'This morning we walked through the old town and climbed the walls. Afterward we ate fish by the sea. ' +
       'We are coming back on Sunday evening. Many greetings!',
     structures: [
       {
@@ -1098,7 +1098,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Kad imam problem, ona me prva sasluša.',
     modelEn:
       'My best friend is called Ivana. She is tall and has long brown hair and green eyes. ' +
-      'She is always cheerful and never late. We have known each other since primary school. ' +
+      'She is always cheerful and never late. We have known each other since elementary school. ' +
       'We like walking along the river together and talking about everything. ' +
       'When I have a problem, she is the first to listen to me.',
     structures: [
@@ -1114,7 +1114,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Poznajemo se od osnovne škole.',
-        en: 'We have known each other since primary school.',
+        en: 'We have known each other since elementary school.',
         why: '"od" + genitive for "since": osnovna škola → od osnovne škole.',
       },
     ],
@@ -1234,7 +1234,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     title: 'Giving directions',
     prompt: 'Prijatelj dolazi k tebi prvi put. Napiši mu kako doći od stanice do tvog stana.',
     promptEn:
-      'A friend is coming to your place for the first time. Write how to get from the station to your flat.',
+      'A friend is coming to your place for the first time. Write how to get from the station to your apartment.',
     minWords: 30,
     model:
       'Kad iziđeš iz tramvaja, skreni lijevo i idi ravno do semafora. ' +
@@ -1244,8 +1244,8 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'When you get off the tram, turn left and go straight to the traffic lights. ' +
       'At the lights cross the road and continue past the bakery. ' +
-      'After a hundred metres you will see a big white building opposite the park. That is my building. ' +
-      'The flat is on the third floor, left of the lift. Call me if you get lost!',
+      'After a hundred meters you will see a big white building opposite the park. That is my building. ' +
+      'The apartment is on the third floor, left of the elevator. Call me if you get lost!',
     structures: [
       {
         hr: 'skreni lijevo i idi ravno do semafora',
@@ -1308,7 +1308,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Nisi došao ili došla na dogovor s prijateljem. Napiši mu poruku: ispričaj se, objasni što se dogodilo i predloži novi termin.',
     promptEn:
-      'You missed a meeting with a friend. Write them a message: apologise, explain what happened and suggest a new time.',
+      'You missed a meeting with a friend. Write them a message: apologize, explain what happened and suggest a new time.',
     minWords: 30,
     model:
       'Bog Petra, jako mi je žao što jučer nisam došla na kavu. ' +
@@ -1362,7 +1362,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       { id: 'len', label: 'At least 30 words', minWords: 30 },
       {
         id: 'sorry',
-        label: 'Apologise with "žao mi je" or "oprosti"',
+        label: 'Apologize with "žao mi je" or "oprosti"',
         words: ['žao mi je', 'mi je žao', 'oprosti', 'ispričavam se'],
       },
       { id: 'why', label: 'Explain what happened in the past tense', words: [' sam ', ' je '] },
@@ -1385,7 +1385,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'This summer I will travel to Croatia with my family. First we will visit relatives in Zagreb, ' +
       'and then we will go to the island of Brač. There we will swim, eat fresh fish and walk by the sea. ' +
-      'I will practise Croatian with my grandma every day. I hope the weather will be nice. ' +
+      'I will practice Croatian with my grandma every day. I hope the weather will be nice. ' +
       'It will be the best summer!',
     structures: [
       {
@@ -1493,7 +1493,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         answer: 'k nama',
         accept: ['nama'],
         after: 'u Kanadu!',
-        hint: 'Movement towards a person: "k" plus the dative pronoun.',
+        hint: 'Movement toward a person: "k" plus the dative pronoun.',
       },
     ],
     connectives: ['hvala na', 'najviše', 'i', 'sada', 'sljedeće ljeto'],
@@ -1520,11 +1520,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'a2-flat-enquiry',
     level: 'A2',
-    title: 'Asking about a flat to rent',
+    title: 'Asking about an apartment to rent',
     prompt:
       'Vidio si ili vidjela si oglas za stan u Splitu. Napiši poruku vlasniku: predstavi se, pitaj tri stvari o stanu i predloži kada bi ga mogao ili mogla pogledati.',
     promptEn:
-      'You saw an advert for a flat in Split. Write to the owner: introduce yourself, ask three things about the flat and suggest when you could view it.',
+      'You saw an advert for an apartment in Split. Write to the owner: introduce yourself, ask three things about the apartment and suggest when you could view it.',
     minWords: 30,
     model:
       'Poštovani gospodine Marić, zovem se Ivan Novak i javljam se zbog oglasa za stan na Bačvicama. ' +
@@ -1533,10 +1533,10 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Htio bih doći pogledati stan u petak poslije podne, ako Vam odgovara. ' +
       'Unaprijed hvala na odgovoru. S poštovanjem, Ivan Novak',
     modelEn:
-      'Dear Mr Marić, my name is Ivan Novak and I am writing about the advert for the flat in Bačvice. ' +
-      'I would like to know whether the flat is still available and how much the rent is per month. ' +
-      'Are the utilities included in the price? Does the flat have a parking space? ' +
-      'I would like to come and see the flat on Friday afternoon, if that suits you. ' +
+      'Dear Mr. Marić, my name is Ivan Novak and I am writing about the advert for the apartment in Bačvice. ' +
+      'I would like to know whether the apartment is still available and how much the rent is per month. ' +
+      'Are the utilities included in the price? Does the apartment have a parking space? ' +
+      'I would like to come and see the apartment on Friday afternoon, if that suits you. ' +
       'Thank you in advance for your reply. Yours faithfully, Ivan Novak',
     structures: [
       {
@@ -1546,12 +1546,12 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Zanima me je li stan još slobodan',
-        en: 'I would like to know whether the flat is still free',
+        en: 'I would like to know whether the apartment is still free',
         why: '"Zanima me" (it interests me) + "je li" makes a polite indirect question; "me" sits in second position.',
       },
       {
         hr: 'Htio bih doći pogledati stan',
-        en: 'I would like to come and see the flat',
+        en: 'I would like to come and see the apartment',
         why: '"htio bih" (a woman writes "htjela bih") is the polite conditional for a request; the infinitives follow it directly.',
       },
       {
@@ -1621,7 +1621,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'Last Saturday grandma celebrated her eightieth birthday. ' +
       'The whole family came: aunts, uncles and about ten cousins from Zagreb and Australia. ' +
-      'Mum baked a big cake, and grandpa opened a bottle of home-made rakija. ' +
+      'Mom baked a big cake, and grandpa opened a bottle of home-made rakija. ' +
       'After lunch we sang old songs and grandma cried with happiness. ' +
       'It was the most beautiful day of the year.',
     structures: [
@@ -1864,7 +1864,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'I have been doing photography for five years. It started by accident: on a trip I borrowed my brother’s camera ' +
       'and did not want to give it back. Photography taught me to look at the world more carefully — ' +
-      'light, colours and small moments we usually miss. ' +
+      'light, colors and small moments we usually miss. ' +
       'On weekends I often get up before dawn to catch the best light. ' +
       'That hobby gives me peace and reminds me that beauty exists all around us.',
     structures: [
@@ -1947,7 +1947,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'Poštovani, ... S poštovanjem',
         en: 'Dear Sir or Madam, ... Respectfully',
-        why: 'The formal frame; the capitalised "Vam/Vaše" keeps the V-form register.',
+        why: 'The formal frame; the capitalized "Vam/Vaše" keeps the V-form register.',
       },
     ],
     frames: [
@@ -2082,7 +2082,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Last year something happened to me that I still tell people about. ' +
       'I was waiting for a bus at the station in Split and talking on my phone. ' +
       'When the bus arrived, I got on, sat down and continued the conversation. ' +
-      'Only after twenty minutes did I realise we were going the wrong way — towards Dubrovnik instead of Zagreb! ' +
+      'Only after twenty minutes did I realize we were going the wrong way — toward Dubrovnik instead of Zagreb! ' +
       'The driver laughed for a long time, and then left me at the first stop. ' +
       'Since then I always check the bus number twice.',
     structures: [
@@ -2098,8 +2098,8 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Tek nakon dvadeset minuta shvatila sam',
-        en: 'Only after twenty minutes did I realise',
-        why: '"tek" (only, not until) delays the realisation — the hinge of every anecdote.',
+        en: 'Only after twenty minutes did I realize',
+        why: '"tek" (only, not until) delays the realization — the hinge of every anecdote.',
       },
     ],
     frames: [
@@ -2121,7 +2121,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         before: '',
         answer: 'Tek',
         after: 'nakon sat vremena shvatio sam pogrešku.',
-        hint: 'The word for "only / not until" that delays the realisation.',
+        hint: 'The word for "only / not until" that delays the realization.',
       },
     ],
     connectives: ['jednom', 'odjednom', 'tek', 'a onda', 'od tada'],
@@ -2161,9 +2161,9 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Što god odlučiš, imaš moju podršku.',
     modelEn:
       'Dear Tomislav, I understand your fear, but I think this is an opportunity you should not miss. ' +
-      'In your place I would first go for a month and see how I like everyday life, not just a holiday. ' +
+      'In your place I would first go for a month and see how I like everyday life, not just a vacation. ' +
       'I advise you to start looking for a job online already now and to get in touch with relatives in Zagreb. ' +
-      'You should also enrol in a language course — you speak well, but you will need writing at work. ' +
+      'You should also enroll in a language course — you speak well, but you will need writing at work. ' +
       'Whatever you decide, you have my support.',
     structures: [
       {
@@ -2178,7 +2178,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Trebao bi se i upisati na tečaj',
-        en: 'You should also enrol in a course',
+        en: 'You should also enroll in a course',
         why: '"trebao bi" (you should) + infinitive; the reflexive "se" joins the "bi" cluster.',
       },
     ],
@@ -2313,7 +2313,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'In my family Christmas Eve is more important than Christmas itself. ' +
       'In the morning the tree is decorated, and straw and three candles are placed on the table. ' +
-      'Grandma bakes cod, because no meat is eaten on Christmas Eve, and Mum makes fritule. ' +
+      'Grandma bakes cod, because no meat is eaten on Christmas Eve, and Mom makes fritule. ' +
       'In the evening we all go to midnight Mass together, even those who do not usually go to church. ' +
       'When we return, we open presents. ' +
       'That custom matters to me because then, once a year, the whole family ends up in the same place.',
@@ -2379,7 +2379,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Želite upisati ljetni tečaj hrvatskoga jezika. Napišite upit školi: što Vas zanima, koja pitanja imate i zamolite za odgovor.',
     promptEn:
-      'You want to enrol in a summer Croatian course. Write an enquiry to the school: what interests you, what questions you have, and ask for a reply.',
+      'You want to enroll in a summer Croatian course. Write an enquiry to the school: what interests you, what questions you have, and ask for a reply.',
     minWords: 50,
     model:
       'Poštovani, zanima me ljetni tečaj hrvatskoga jezika koji organizirate u srpnju. ' +
@@ -2389,16 +2389,16 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Ako postoji popust za rane prijave, bio bih Vam zahvalan na informaciji. ' +
       'Unaprijed hvala na odgovoru. S poštovanjem, Marko Kovač',
     modelEn:
-      'Dear Sir or Madam, I am interested in the summer Croatian course you are organising in July. ' +
+      'Dear Sir or Madam, I am interested in the summer Croatian course you are organizing in July. ' +
       'I have been learning Croatian for two years and would like to improve it before visiting family in Croatia. ' +
-      'Could you send me the class timetable and the price of the course? ' +
+      'Could you send me the class schedule and the price of the course? ' +
       'I would also like to know whether accommodation is included in the price or whether I have to find it myself. ' +
       'If there is a discount for early registration, I would be grateful for the information. ' +
       'Thank you in advance for your reply. Respectfully, Marko Kovač',
     structures: [
       {
         hr: 'tečaj hrvatskoga jezika koji organizirate',
-        en: 'the Croatian course which you are organising',
+        en: 'the Croatian course which you are organizing',
         why: 'The relative pronoun "koji" agrees with "tečaj" (masculine singular) and lets you add detail without starting a new sentence.',
       },
       {
@@ -2409,7 +2409,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'bio bih Vam zahvalan na informaciji',
         en: 'I would be grateful to you for the information',
-        why: '"zahvalan na" takes the locative (informacija → informaciji), and the capitalised "Vam" keeps the formal register.',
+        why: '"zahvalan na" takes the locative (informacija → informaciji), and the capitalized "Vam" keeps the formal register.',
       },
       {
         hr: 'Poštovani, ... S poštovanjem',
@@ -2484,7 +2484,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Radujem se našem druženju! Puno pozdrava, Ana',
     modelEn:
       'Dear Petra, next Saturday I am celebrating my thirtieth birthday and I would be really glad if you came. ' +
-      'We are gathering at my place around seven, and afterwards we are going to the restaurant you recommended to me last year. ' +
+      'We are gathering at my place around seven, and afterward we are going to the restaurant you recommended to me last year. ' +
       'If it suits you, you could come a little earlier and help me with the cake. ' +
       'You do not have to bring anything — it is enough that you come. ' +
       'Let me know by Thursday whether you can, because I have to book a table. ' +
@@ -2854,9 +2854,9 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'upisala sam tečaj hrvatskoga. Taj me posjet naučio da jezik nije samo gramatika, ' +
       'nego most prema ljudima koje volimo.',
     modelEn:
-      'A few years ago I travelled alone to Croatia for the first time, to the village my family comes from. ' +
+      'A few years ago I traveled alone to Croatia for the first time, to the village my family comes from. ' +
       'As I walked down the street my grandmother once walked, I felt strange — at home, ' +
-      'although I was a stranger there. A neighbour recognised me by my surname and invited me for coffee. ' +
+      'although I was a stranger there. A neighbor recognized me by my surname and invited me for coffee. ' +
       'We talked for hours, and I understood only half. After I returned, ' +
       'I enrolled in a Croatian course. That visit taught me that language is not just grammar, ' +
       'but a bridge to the people we love.',
@@ -2920,7 +2920,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Prijavljujete se za ljetnu školu hrvatskoga jezika u Zagrebu. Napišite motivacijsko pismo: tko ste, zašto se prijavljujete i što očekujete od programa.',
     promptEn:
-      'You are applying for a Croatian summer school in Zagreb. Write a motivation letter: who you are, why you are applying and what you expect from the programme.',
+      'You are applying for a Croatian summer school in Zagreb. Write a motivation letter: who you are, why you are applying and what you expect from the program.',
     minWords: 80,
     model:
       'Poštovani, zovem se Luka Kovačević i javljam se na natječaj za ljetnu školu hrvatskoga jezika. ' +
@@ -2934,7 +2934,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Dear Sir or Madam, my name is Luka Kovačević and I am applying for the Croatian language summer school. ' +
       'I grew up in Australia in a family of Croatian emigrants, so I understand Croatian, ' +
       'but I would like to significantly improve my speaking and writing. ' +
-      'Since I plan to study in Zagreb, this programme would give me both language preparation ' +
+      'Since I plan to study in Zagreb, this program would give me both language preparation ' +
       'and my first longer stay in Croatia. I am especially interested in the workshops on culture and everyday communication. ' +
       'I am convinced I would contribute to the group with my effort and motivation. ' +
       'Thank you for considering my application; I remain available for any questions. Respectfully, Luka Kovačević',
@@ -2986,7 +2986,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'b2-report',
     level: 'B2',
-    title: 'Summarise an article',
+    title: 'Summarize an article',
     prompt:
       'Pročitali ste članak o tome da mladi u Hrvatskoj sve kasnije odlaze od roditelja. Napišite sažetak članka za prijatelja: o čemu je riječ, koji se podaci navode i što autorica zaključuje.',
     promptEn:
@@ -3004,7 +3004,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'According to the data the author cites, the average age of leaving the family home is thirty-three, among the highest in Europe. ' +
       'As the main reasons the author points to high housing prices, insecure jobs and strong family ties. ' +
       'Interestingly, most respondents see this not as a problem but as an advantage. ' +
-      'The author nonetheless concludes that the state should make the path to a first flat easier for young people, ' +
+      'The author nonetheless concludes that the state should make the path to a first apartment easier for young people, ' +
       'because otherwise other life decisions are postponed too — marriage, children, moving for work.',
     structures: [
       {
@@ -3074,7 +3074,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'U stanu koji unajmljujete već tjedan dana ne radi grijanje. Napišite službenu poruku stanodavcu: opišite problem, podsjetite na ugovor i zatražite popravak u određenom roku.',
     promptEn:
-      'The heating in the flat you rent has not worked for a week. Write a formal message to the landlord: describe the problem, refer to the contract and request a repair within a set deadline.',
+      'The heating in the apartment you rent has not worked for a week. Write a formal message to the landlord: describe the problem, refer to the contract and request a repair within a set deadline.',
     minWords: 80,
     model:
       'Poštovani gospodine Horvat, obraćam Vam se u vezi s grijanjem u stanu u Vukovarskoj 12, koji unajmljujem od rujna. ' +
@@ -3085,11 +3085,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'U protivnom ću biti prisiljena angažirati servis sama i trošak odbiti od najamnine. ' +
       'Zahvaljujem na razumijevanju i očekujem Vaš odgovor. S poštovanjem, Maja Perić',
     modelEn:
-      'Dear Mr Horvat, I am writing to you regarding the heating in the flat at Vukovarska 12, which I have rented since September. ' +
+      'Dear Mr. Horvat, I am writing to you regarding the heating in the apartment at Vukovarska 12, which I have rented since September. ' +
       'For a week now the radiators have not worked, although I informed you of this by phone last Monday. ' +
-      'Since temperatures have dropped below zero, the flat has become almost unfit to live in. ' +
+      'Since temperatures have dropped below zero, the apartment has become almost unfit to live in. ' +
       'I remind you that under Article 5 of the contract, maintenance of installations is the landlord’s obligation. ' +
-      'I therefore ask you to organise the repair within three days. ' +
+      'I therefore ask you to organize the repair within three days. ' +
       'Otherwise I will be forced to hire a service myself and deduct the cost from the rent. ' +
       'Thank you for your understanding; I await your reply. Respectfully, Maja Perić',
     structures: [
@@ -3105,7 +3105,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Stoga Vas molim da popravak organizirate u roku od tri dana.',
-        en: 'I therefore ask you to organise the repair within three days.',
+        en: 'I therefore ask you to organize the repair within three days.',
         why: '"stoga" draws the consequence; "u roku od" + genitive sets a deadline.',
       },
     ],
@@ -3121,7 +3121,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         before: 'Iako sam',
         answer: 'Vas',
         after: 'obavijestila telefonom, ništa se nije promijenilo.',
-        hint: 'The formal "you" as object — accusative, capitalised, inside the clitic cluster.',
+        hint: 'The formal "you" as object — accusative, capitalized, inside the clitic cluster.',
       },
       {
         before: 'Molim Vas da popravak organizirate u roku',
@@ -3332,7 +3332,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Dear Nina, since you asked me for advice, I will compare Zagreb and Split, because I know both well. ' +
       'Zagreb offers more jobs, better healthcare and a richer cultural life, while Split has the sea, the sun and that Mediterranean rhythm people fall in love with. ' +
       'Unlike Split, where jobs are mostly seasonal, in Zagreb you will more easily find permanent employment in your profession. ' +
-      'On the other hand, life in Zagreb is more expensive, and the winters are long and grey. ' +
+      'On the other hand, life in Zagreb is more expensive, and the winters are long and gray. ' +
       'All in all, I would recommend Zagreb to start with: once you find your feet and gain experience, the sea is not going anywhere.',
     structures: [
       {
@@ -3606,7 +3606,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Bili ste na sastanku suvlasnika zgrade o obnovi krova. Napišite kratak zapisnik za susjede koji nisu došli: tko je što rekao, koje su odluke donesene i što slijedi.',
     promptEn:
-      'You attended a meeting of the building’s co-owners about renovating the roof. Write short minutes for the neighbours who did not come: who said what, which decisions were taken and what happens next.',
+      'You attended a meeting of the building’s co-owners about renovating the roof. Write short minutes for the neighbors who did not come: who said what, which decisions were taken and what happens next.',
     minWords: 80,
     model:
       'Zapisnik sa sastanka suvlasnika održanog 12. listopada. ' +
@@ -3618,9 +3618,9 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Zaključeno je da će se sljedeći sastanak održati za mjesec dana, a ponude će suvlasnicima biti poslane e-poštom najkasnije do kraja tjedna.',
     modelEn:
       'Minutes of the co-owners’ meeting held on 12 October. ' +
-      'Twenty co-owners attended, and the meeting was chaired by the residents’ representative, Mr Barić. ' +
+      'Twenty co-owners attended, and the meeting was chaired by the residents’ representative, Mr. Barić. ' +
       'At the start he explained that the roof had been inspected and that its condition is worse than expected: two beams are damaged and the insulation has almost completely worn out. ' +
-      'Mrs Novak asked whether the renovation could be paid from the reserve fund, to which the answer was that the fund covers roughly half the cost. ' +
+      'Mrs. Novak asked whether the renovation could be paid from the reserve fund, to which the answer was that the fund covers roughly half the cost. ' +
       'Although several co-owners were against additional payments, the majority agreed that the work must not be postponed. ' +
       'Given the size of the costs, it was decided to collect two more quotes before a final decision. ' +
       'It was concluded that the next meeting will be held in a month, and the quotes will be sent to the co-owners by e-mail no later than the end of the week.',
@@ -3632,7 +3632,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Gospođa Novak pitala je hoće li se obnova moći platiti',
-        en: 'Mrs Novak asked whether the renovation could be paid',
+        en: 'Mrs. Novak asked whether the renovation could be paid',
         why: 'A reported yes/no question keeps "li" — "pitala je hoće li" — with the future exactly as it was asked; Croatian does not shift the tense.',
       },
       {
@@ -3705,11 +3705,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'b2-car-free',
     level: 'B2',
-    title: 'Cars out of the city centre?',
+    title: 'Cars out of the city center?',
     prompt:
       'Gradska uprava predlaže da se središte grada zatvori za automobile. Napišite kratak esej: iznesite argumente za i protiv, priznajte protuargument i zauzmite stav.',
     promptEn:
-      'The city council proposes closing the city centre to cars. Write a short essay: give the arguments for and against, acknowledge the counter-argument and take a position.',
+      'The city council proposes closing the city center to cars. Write a short essay: give the arguments for and against, acknowledge the counter-argument and take a position.',
     minWords: 80,
     model:
       'Prijedlog da se središte grada zatvori za automobile podijelio je građane. ' +
@@ -3720,12 +3720,12 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Ako bi se središte zatvorilo odjednom, otpor bi bio prevelik; ako se zatvara ulica po ulica, građani se mogu naviknuti. ' +
       'Unatoč prosvjedima, dugoročna korist za sve veća je od kratkoročne neugodnosti.',
     modelEn:
-      'The proposal to close the city centre to cars has divided the citizens. ' +
-      'Supporters point out that a centre without traffic would be quieter, safer and more pleasant for pedestrians: the fewer cars, the cleaner the air. ' +
+      'The proposal to close the city center to cars has divided the citizens. ' +
+      'Supporters point out that a center without traffic would be quieter, safer and more pleasant for pedestrians: the fewer cars, the cleaner the air. ' +
       'Opponents, however, warn that shopkeepers could lose customers, and older people would find it harder to reach a doctor or a pharmacy. ' +
       'Although those fears are justified, the experience of other cities shows that footfall in shops usually rises after a closure, because people spend more time there. ' +
-      'Given that public transport is already well organised, I believe the proposal should be accepted, but gradually. ' +
-      'If the centre were closed all at once, the resistance would be too great; if it is closed street by street, people can get used to it. ' +
+      'Given that public transport is already well organized, I believe the proposal should be accepted, but gradually. ' +
+      'If the center were closed all at once, the resistance would be too great; if it is closed street by street, people can get used to it. ' +
       'Despite the protests, the long-term benefit for everyone outweighs the short-term inconvenience.',
     structures: [
       {
@@ -3745,7 +3745,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Ako bi se središte zatvorilo odjednom, otpor bi bio prevelik',
-        en: 'If the centre were closed all at once, the resistance would be too great',
+        en: 'If the center were closed all at once, the resistance would be too great',
         why: '"ako" with the conditional in both clauses describes a possible policy and its likely result — standard Croatian, never an error.',
       },
       {
@@ -3829,11 +3829,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'The debate on mandatory school uniforms is not seldom reduced to a question of taste, ' +
       'but I believe it is a deeper social issue. ' +
-      'Uniforms reduce the visible differences between pupils from different economic backgrounds, ' +
+      'Uniforms reduce the visible differences between students from different economic backgrounds, ' +
       'which softens the peer pressure that expensive clothing inevitably creates. ' +
       'Opponents rightly point out that this limits freedom of expression. ' +
       'But that argument overlooks a key fact: identity is not built by a brand of sneakers, ' +
-      'but by knowledge, attitudes and relationships. Moreover, it is precisely the uniform that frees pupils ' +
+      'but by knowledge, attitudes and relationships. Moreover, it is precisely the uniform that frees students ' +
       'from the daily race of dressing up. In conclusion, the advantages prevail: school should be a place ' +
       'where your worth is determined by what you know, not what you wear. ' +
       'In that sense a uniform is not a restriction, but a liberation.',
@@ -3900,7 +3900,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite recenziju knjige ili filma koji vas se dojmio: sažmite djelo, ocijenite njegove jake i slabe strane i dajte preporuku.',
     promptEn:
-      'Write a review of a book or film that made an impression on you: summarise the work, assess its strengths and weaknesses and give a recommendation.',
+      'Write a review of a book or film that made an impression on you: summarize the work, assess its strengths and weaknesses and give a recommendation.',
     minWords: 100,
     model:
       'Riječ je o romanu koji se čita u dahu, ali dugo ne zaboravlja. ' +
@@ -3915,7 +3915,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'This is a novel you read in one breath but do not forget for a long time. ' +
       'The plot follows three generations of a family between Dalmatia and foreign lands, ' +
-      'and the narration skilfully alternates between past and present. ' +
+      'and the narration skillfully alternates between past and present. ' +
       'The novel’s greatest strength is precisely its language: spare, precise, without needless ornament. ' +
       'Weaknesses do exist — the ending feels rushed, as if the author ran out of space, ' +
       'and certain minor characters remain mere sketches. ' +
@@ -3980,7 +3980,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite prijedlog gradskoj upravi: predložite konkretno poboljšanje u svom kvartu, obrazložite ga i predvidite moguće prigovore.',
     promptEn:
-      'Write a proposal to the city administration: propose a concrete improvement in your neighbourhood, justify it and anticipate possible objections.',
+      'Write a proposal to the city administration: propose a concrete improvement in your neighborhood, justify it and anticipate possible objections.',
     minWords: 100,
     model:
       'Poštovani, obraćam Vam se s prijedlogom uređenja zapuštenog parka u Vukovarskoj ulici. ' +
@@ -3994,13 +3994,13 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Zahvaljujem na pozornosti i rado ću sudjelovati u javnoj raspravi. S poštovanjem, Marin Jurić',
     modelEn:
       'Dear Sir or Madam, I am writing to you with a proposal to restore the neglected park on Vukovarska Street. ' +
-      'The park was once the heart of the neighbourhood, but in recent years it serves mostly as a shortcut and a car park. ' +
+      'The park was once the heart of the neighborhood, but in recent years it serves mostly as a shortcut and a parking lot. ' +
       'I propose three interventions: renovating the playground, installing public lighting ' +
       'and planting a line of trees along the southern edge. ' +
       'The costs should be seen as an investment, not an expense: ' +
-      'a maintained park increases safety, encourages neighbours to socialise and raises the value of the whole district. ' +
+      'a maintained park increases safety, encourages neighbors to socialise and raises the value of the whole district. ' +
       'I am aware one might object that the budget does not allow new projects. ' +
-      'I therefore propose phased implementation, whereby the first phase could be financed from the existing green-spaces programme. ' +
+      'I therefore propose phased implementation, whereby the first phase could be financed from the existing green-spaces program. ' +
       'Thank you for your attention; I will gladly take part in the public consultation. Respectfully, Marin Jurić',
     structures: [
       {
@@ -4334,7 +4334,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Prevaga stoga ovisi o namjeri: za onoga tko planira karijeru u Hrvatskoj, dvije godine vani i povratak čine se boljim putem od oba čista rješenja.',
     modelEn:
       'The decision to study abroad is rarely made on a single criterion, so here too it should be broken down. ' +
-      'While foreign universities offer a wider choice of programmes and more frequent placements, domestic ones offer something brochures do not show: a network of people that remains after graduation. ' +
+      'While foreign universities offer a wider choice of programs and more frequent placements, domestic ones offer something brochures do not show: a network of people that remains after graduation. ' +
       'Financially, the difference is smaller than it seems, because high tuition fees are as a rule offset by scholarships and part-time work. ' +
       'Decisive, however, is a third criterion — return. ' +
       'Whoever leaves without intending to come back gains experience but loses context; whoever stays keeps the context but lacks comparison. ' +
@@ -4342,7 +4342,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     structures: [
       {
         hr: 'Dok strani fakulteti nude širi izbor programa i češće prakse u struci, dotle domaći nude',
-        en: 'While foreign universities offer a wider choice of programmes and more frequent placements, domestic ones offer',
+        en: 'While foreign universities offer a wider choice of programs and more frequent placements, domestic ones offer',
         why: 'The correlative "dok ... dotle" holds two options in one balanced sentence — analytical prose at its most compact.',
       },
       {
@@ -4424,7 +4424,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Dear Editor, I read with attention the article "Summer Croats" published on 14 July, and I feel the need to present the other side. ' +
       'The author rightly notes that some emigrants return to the homeland only for holidays; it does not follow, however, that this is all the diaspora gives. ' +
       'Allow me three examples. The Croatian Catholic mission in Toronto has taught children Croatian every Saturday for fifty years, without a single euro from Croatia. ' +
-      'More than a thousand doctors and engineers from the diaspora took part last year in professional programmes with Croatian universities. ' +
+      'More than a thousand doctors and engineers from the diaspora took part last year in professional programs with Croatian universities. ' +
       'Finally, emigrants’ remittances amount to more than five per cent of GDP. ' +
       'I am not asking the author to change his mind, but to complete it. ' +
       'The emigrant who returns only in summer and the one who carries the homeland all year are often the same person. Respectfully, Josip Barić, Toronto',
@@ -4518,7 +4518,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Indeed, in the period when the department lost two experienced staff, she took over their tasks without a single complaint and finished them on time. ' +
       'I would single out her ability to reduce complex problems to a few clear questions, thanks to which the meetings she chaired took half as long. ' +
       'I therefore hold that with her arrival your institution would gain a professional who does not wait for instructions but shapes them. ' +
-      'I remain at your disposal for any further information. Respectfully, Dr Marko Horvat',
+      'I remain at your disposal for any further information. Respectfully, Dr. Marko Horvat',
     structures: [
       {
         hr: 'Vodeći tim od šest suradnika, uspjela je skratiti rokove isporuke',
@@ -4717,7 +4717,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
         answer: 'analizira',
         accept: ['istražuje', 'razmatra', 'ispituje'],
         after: 'utjecaj rada od kuće na produktivnost.',
-        hint: 'The impersonal "se" form of "to analyse" — the academic way of saying "the paper analyses".',
+        hint: 'The impersonal "se" form of "to analyze" — the academic way of saying "the paper analyses".',
       },
       {
         before: 'Uprave koje inzistiraju na stalnom',
@@ -4952,7 +4952,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite novinsku kolumnu o svakodnevnoj pojavi koja vas istodobno zabavlja i ljuti (npr. redovi, mobiteli za stolom, "samo pet minuta"). Dopuštena je ironija.',
     promptEn:
-      'Write a newspaper column about an everyday phenomenon that both amuses and irritates you (e.g. queues, phones at the table, "just five minutes"). Irony is allowed.',
+      'Write a newspaper column about an everyday phenomenon that both amuses and irritates you (e.g. lines, phones at the table, "just five minutes"). Irony is allowed.',
     minWords: 120,
     model:
       'Postoji rečenica kojom u ovoj zemlji počinje svako čekanje: "Samo malo, odmah sam kod vas." ' +
@@ -5062,7 +5062,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'than children exposed only to Saturday school. ' +
       'Furthermore, a strong correlation was established between parents’ linguistic confidence and the persistence of transmission. ' +
       'It is concluded that everyday, emotionally rooted language use is more decisive than grammatical accuracy, ' +
-      'and it is proposed that diaspora programmes shift their focus from instruction to encouraging family communication.',
+      'and it is proposed that diaspora programs shift their focus from instruction to encouraging family communication.',
     structures: [
       {
         hr: 'U radu se istražuje ... Polazi se od pretpostavke',
@@ -5119,7 +5119,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite portret ili nekrolog osobe iz vaše zajednice koja je ostavila trag (učiteljica, svećenik, susjed, trener): ne životopis, nego sliku čovjeka kroz nekoliko točno odabranih detalja.',
     promptEn:
-      'Write a portrait or obituary of someone from your community who left a mark (a teacher, priest, neighbour, coach): not a CV, but a picture of the person through a few precisely chosen details.',
+      'Write a portrait or obituary of someone from your community who left a mark (a teacher, priest, neighbor, coach): not a CV, but a picture of the person through a few precisely chosen details.',
     minWords: 120,
     model:
       'Gospođa Zdenka predavala je hrvatski u subotnjoj školi trideset i jednu godinu, i nitko od nas nije nikad doznao koliko ima godina. ' +
@@ -5130,13 +5130,13 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Umrla je u utorak, u snu, s naočalama na čelu i otvorenom bilježnicom na krilu. ' +
       'U njoj je, urednim rukopisom, stajao popis učenika za sljedeću subotu. Subota je došla; popis je ostao.',
     modelEn:
-      'Mrs Zdenka taught Croatian at the Saturday school for thirty-one years, and none of us ever found out how old she was. ' +
-      'She arrived first, left last and carried a bag from which, as needed, came pencils, biscuits and our grandmothers’ birth certificates. ' +
+      'Mrs. Zdenka taught Croatian at the Saturday school for thirty-one years, and none of us ever found out how old she was. ' +
+      'She arrived first, left last and carried a bag from which, as needed, came pencils, cookies and our grandmothers’ birth certificates. ' +
       'She did not teach us grammar; she taught us that the word "kuća" is pronounced differently when you are inside it and when you are far from it. ' +
       'When we made mistakes she did not correct us — she repeated the sentence correctly, quietly, as if she had only just heard it. ' +
       'In her last years she forgot names, but not cases. ' +
       'She died on a Tuesday, in her sleep, with her glasses on her forehead and an open notebook on her lap. ' +
-      'In it, in neat handwriting, was the list of pupils for the following Saturday. Saturday came; the list remained.',
+      'In it, in neat handwriting, was the list of students for the following Saturday. Saturday came; the list remained.',
     structures: [
       {
         hr: 'Nije nas učila gramatiku; učila nas je da',
@@ -5150,7 +5150,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'U njoj je, urednim rukopisom, stajao popis učenika',
-        en: 'In it, in neat handwriting, was the list of pupils',
+        en: 'In it, in neat handwriting, was the list of students',
         why: 'The instrumental of manner ("urednim rukopisom") set off by commas — the detail that closes a portrait.',
       },
     ],
@@ -5225,7 +5225,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Every speaker of Croatian has at least once been corrected for something the whole street says. ' +
       'That everyday scene sums up an old question: is the norm a record of what is said, or an order about what ought to be said? ' +
       'The purist will say the latter, the relativist the former; both, it seems, miss. ' +
-      'Take an example: the norm prescribes "u vezi s time", and the vast majority of speakers say "u vezi toga" — in offices, in the media, at university. ' +
+      'Take an example: the norm prescribes "u vezi s time", and the vast majority of speakers say "u vezi toga" — in offices, in the media, in college. ' +
       'The purist sees in this the decay of the language, the relativist proof that the rule is dead. ' +
       'Both overlook a third possibility: the rule lives precisely because someone still keeps it, and usage has not replaced it but joined it as a stylistically weaker variant. ' +
       'The norm, then, is neither a photograph nor a law, but a contract that is periodically renewed. ' +
@@ -5298,11 +5298,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'c2-headline',
     level: 'C2',
-    title: 'Analyse a headline',
+    title: 'Analyze a headline',
     prompt:
       'Analizirajte naslov i uvod jednog novinskog članka po izboru: što se tvrdi izravno, što se sugerira, koje su riječi vrijednosno obojene i komu se tekst obraća. Pišite kao analitičar, ne kao komentator.',
     promptEn:
-      'Analyse the headline and lead of a news article of your choice: what is claimed outright, what is implied, which words are value-laden and whom the text addresses. Write as an analyst, not a commentator.',
+      'Analyze the headline and lead of a news article of your choice: what is claimed outright, what is implied, which words are value-laden and whom the text addresses. Write as an analyst, not a commentator.',
     minWords: 120,
     model:
       'Naslov "Iseljenici opet preplavili obalu" na prvi pogled prenosi vijest, a zapravo donosi ocjenu. ' +
@@ -5370,7 +5370,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       { id: 'len', label: 'At least 120 words', minWords: 120 },
       {
         id: 'word',
-        label: 'Analyse at least one specific word in quotation marks',
+        label: 'Analyze at least one specific word in quotation marks',
         words: ['"', '„', 'glagol', 'prilog', 'imenic', 'pridjev'],
       },
       {
@@ -5392,7 +5392,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Kao stručnjak za nastavu jezika dobili ste na ocjenu prijedlog programa hrvatskoga za iseljeničke škole. Napišite stručno mišljenje: ocijenite prijedlog po kriterijima, navedite prednosti i nedostatke i dajte obrazloženu preporuku.',
     promptEn:
-      'As a language-teaching expert you have been asked to assess a proposed Croatian programme for diaspora schools. Write an expert opinion: evaluate the proposal against criteria, list strengths and weaknesses and give a reasoned recommendation.',
+      'As a language-teaching expert you have been asked to assess a proposed Croatian program for diaspora schools. Write an expert opinion: evaluate the proposal against criteria, list strengths and weaknesses and give a reasoned recommendation.',
     minWords: 120,
     model:
       'Predmet ocjene: Prijedlog programa hrvatskoga jezika za dopunske škole u iseljeništvu, verzija 2. ' +
@@ -5403,13 +5403,13 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Preporučujem stoga usvajanje prijedloga uz dvije izmjene: uvođenje dijagnostičkog testa na početku svake razine i smanjenje gradiva u razinama B1 i B2 za otprilike trećinu. ' +
       'Bez tih izmjena program bi na papiru bio uzoran, a u učionici neizvediv.',
     modelEn:
-      'Subject of assessment: Proposed Croatian language programme for supplementary schools in the diaspora, version 2. ' +
+      'Subject of assessment: Proposed Croatian language program for supplementary schools in the diaspora, version 2. ' +
       'I assess the proposal against three criteria: alignment with the Common European Framework of Reference, suitability for the target group, and feasibility. ' +
-      'As regards the first, the programme is consistently developed from A1 to B2 and its outcomes are measurable, which deserves praise. ' +
-      'Suitability, however, is questionable: the programme assumes learners with no prior knowledge, whereas most children in the diaspora understand Croatian but do not speak it — they are, in other words, heritage speakers, who need different entry tasks. ' +
-      'Feasibility depends on a timetable of two hours a week, which is insufficient for the planned scope, especially at the higher levels. ' +
+      'As regards the first, the program is consistently developed from A1 to B2 and its outcomes are measurable, which deserves praise. ' +
+      'Suitability, however, is questionable: the program assumes learners with no prior knowledge, whereas most children in the diaspora understand Croatian but do not speak it — they are, in other words, heritage speakers, who need different entry tasks. ' +
+      'Feasibility depends on a schedule of two hours a week, which is insufficient for the planned scope, especially at the higher levels. ' +
       'I therefore recommend adopting the proposal with two amendments: a diagnostic test at the start of each level, and a reduction of the material at B1 and B2 by roughly a third. ' +
-      'Without those amendments the programme would be exemplary on paper and unworkable in the classroom.',
+      'Without those amendments the program would be exemplary on paper and unworkable in the classroom.',
     structures: [
       {
         hr: 'Prijedlog ocjenjujem prema trima kriterijima',
@@ -5495,7 +5495,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'The seafront at seven in the morning still belongs to those who clean it. ' +
       'A man in an orange vest pushes a broom from one lamppost to the next without lifting his eyes, as if counting the stone slabs rather than the litter. ' +
-      'Behind him the sea is smooth and grey, the colour of unwashed windows; the gulls sit on the bollards in a row as if waiting their turn. ' +
+      'Behind him the sea is smooth and gray, the color of unwashed windows; the gulls sit on the bollards in a row as if waiting their turn. ' +
       'From the bakery on the corner comes a warm smell that has no customer yet. ' +
       'The man stops, leans the broom on his knee and takes his phone out of his pocket — not to read anything, but to check the time. ' +
       'Then he puts it back, takes the broom and goes on, a little faster now, because the sun has already touched the top of the bell tower and in half an hour the seafront will no longer be his. ' +
@@ -5508,7 +5508,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'glatko i sivo, boje neopranih prozora',
-        en: 'smooth and grey, the colour of unwashed windows',
+        en: 'smooth and gray, the color of unwashed windows',
         why: 'The genitive of quality ("boje neopranih prozora") — precision without another adjective.',
       },
       {
@@ -5567,7 +5567,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite otvoreno pismo gradskoj vlasti o odluci koja pogađa vaš kvart. Recite zašto pišete javno, iznesite činjenice i brojke, priznajte što protivnoj strani stoji, pa zatražite konkretnu odgodu ili izmjenu — službeno, bez povišenog tona.',
     promptEn:
-      'Write an open letter to the city authorities about a decision that affects your neighbourhood. Say why you are writing publicly, give the facts and figures, concede what the other side has right, then ask for a specific postponement or amendment — formally, without raising your voice.',
+      'Write an open letter to the city authorities about a decision that affects your neighborhood. Say why you are writing publicly, give the facts and figures, concede what the other side has right, then ask for a specific postponement or amendment — formally, without raising your voice.',
     minWords: 120,
     model:
       'Poštovani gradonačelniče, poštovani vijećnici, ' +
@@ -5584,7 +5584,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Dear Mayor, dear Councillors, ' +
       'I am addressing you publicly because private letters over the past six months have gone unanswered. ' +
       'This concerns the announced closure of the library in Trnje, which the explanatory note calls a “rationalisation of the network”. ' +
-      'More than two thousand residents have signed a petition against that decision, among them some two hundred pupils of the nearby school, for whom that reading room is the only quiet place to study. ' +
+      'More than two thousand residents have signed a petition against that decision, among them some two hundred students of the nearby school, for whom that reading room is the only quiet place to study. ' +
       'Despite this, the proposal has been sent to a vote without public consultation. ' +
       'I do not dispute that the city must save; I dispute that it is saving where the saving is smallest and the damage greatest. ' +
       'Had the administration published the figures, we could discuss them; as it is, we can only guess. ' +
@@ -5653,11 +5653,11 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
   {
     id: 'c2-review',
     level: 'C2',
-    title: 'A theatre review',
+    title: 'A theater review',
     prompt:
       'Napišite kazališnu kritiku predstave koju ste (stvarno ili izmišljeno) gledali. Opišite redateljski postupak, recite što je najbolje, a što slabije, i završite ocjenom koja obvezuje — bez prepričavanja radnje.',
     promptEn:
-      'Write a theatre review of a production you have (really or fictionally) seen. Describe the director’s approach, say what is best and what is weaker, and end with a verdict that commits you — without retelling the plot.',
+      'Write a theater review of a production you have (really or fictionally) seen. Describe the director’s approach, say what is best and what is weaker, and end with a verdict that commits you — without retelling the plot.',
     minWords: 120,
     model:
       'Nova produkcija zagrebačkoga nezavisnog kazališta „Skladište“ traje sat i četrdeset minuta i u tom vremenu ne dopušta nijedan udoban trenutak. ' +
@@ -5669,14 +5669,14 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Ovako je vrlo dobra, što je u sezoni prosječnih premijera više nego dovoljno. ' +
       'Preporučujem je onima koji od kazališta ne traže utjehu.',
     modelEn:
-      'The new production by the Zagreb independent theatre “Skladište” runs an hour and forty minutes and in that time allows not one comfortable moment. ' +
+      'The new production by the Zagreb independent theater “Skladište” runs an hour and forty minutes and in that time allows not one comfortable moment. ' +
       'The director has set a classic text about a family inheritance in an empty hall with a single table, and denied the actors everything that usually hides a weak script: costumes, music, lighting effects. ' +
       'Only words and pauses remain. ' +
       'The pauses are precisely what is best in the production: in them you can hear that the characters do not believe one another even when they tell the truth. ' +
       'The second part is weaker; in it the director, as if frightened by her own severity, allows two shouting scenes that explain what the audience has already understood. ' +
       'Had the production ended twenty minutes earlier, it would have been almost perfect. ' +
       'As it is, it is very good, which in a season of average premieres is more than enough. ' +
-      'I recommend it to those who do not go to the theatre for comfort.',
+      'I recommend it to those who do not go to the theater for comfort.',
     structures: [
       {
         hr: 'glumcima uskratila sve čime se obično prikriva slab tekst',
@@ -5760,8 +5760,8 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'The pipe burst at around five o’clock, and by the time the crews arrived the water had flooded three basements. ' +
       'Residents say they had been reporting the fault since last winter. ' +
       'The company says the street will be passable by Friday. ' +
-      'Literary style: The street woke up with a river in place of a pavement. ' +
-      'The water flowed slowly, almost politely, skirting the lampposts as if apologising, and carried with it everything the city otherwise hides so well: marbles, a single key, a shoe without its pair. ' +
+      'Literary style: The street woke up with a river in place of a sidewalk. ' +
+      'The water flowed slowly, almost politely, skirting the lampposts as if apologizing, and carried with it everything the city otherwise hides so well: marbles, a single key, a shoe without its pair. ' +
       'People stood at the edge and watched as if it were none of their business, while the water was already up to their knees.',
     structures: [
       {
@@ -5776,7 +5776,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'Voda je tekla polako, gotovo pristojno, zaobilazeći stupove kao da se ispričava',
-        en: 'The water flowed slowly, almost politely, skirting the lampposts as if apologising',
+        en: 'The water flowed slowly, almost politely, skirting the lampposts as if apologizing',
         why: 'The literary voice: a present gerund ("zaobilazeći") hangs a second action on the first, and "kao da" lets the water have manners without anyone claiming it does.',
       },
     ],
@@ -5852,7 +5852,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'The question is not merely a game: it shows how much in a language is decision and how much is fate. ' +
       'Zagreb would today write the way it speaks, and “kaj” would be a mark not of home but of the norm. ' +
       'Dalmatia and Slavonia would learn the school language as something foreign, as Zagorje today learns its own. ' +
-      'We would probably have less in common with our neighbours, but also fewer misunderstandings about whose language is whose. ' +
+      'We would probably have less in common with our neighbors, but also fewer misunderstandings about whose language is whose. ' +
       'Would we be richer? Hard to say. ' +
       'A language nobody has to learn soon stops developing, and a language everybody has to learn is never entirely anyone’s own. ' +
       'Gaj chose the majority, and that was a political, not a linguistic, choice. ' +

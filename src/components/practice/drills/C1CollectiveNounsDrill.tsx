@@ -21,7 +21,7 @@ export default function C1CollectiveNounsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1collectivenouns"
       title="Leaves, Brothers, Calves"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COLLECTIVE_NOUNS_MODE_LABELS}
       data={COLLECTIVE_NOUNS_DRILL_DATA}
       praise={{

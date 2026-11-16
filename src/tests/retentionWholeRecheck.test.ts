@@ -135,7 +135,7 @@ describe('a due re-check is served whole or not at all', () => {
 
   it('PROPERTY — across many store shapes, no re-check is ever served partial', () => {
     // Hand-built scenarios kept encoding MY assumptions rather than the
-    // scheduler's behaviour: two of them asserted a re-check would be crowded
+    // scheduler's behavior: two of them asserted a re-check would be crowded
     // out on a cumulative day, and it was not. The invariant is simple and
     // worth asserting directly — a served re-check has exactly
     // MIN_CHECK_ITEMS items, whatever else is competing for the sitting.

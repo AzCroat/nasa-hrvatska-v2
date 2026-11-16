@@ -45,8 +45,8 @@ export const PRACTICE_B2 = {
       },
       {
         title: 'Where Does Je Go After Se?',
-        problem: 'Složi: Marko / je / joj / se / ispričao (Marko apologised to her)',
-        en: 'Put in order: Marko apologised to her.',
+        problem: 'Složi: Marko / je / joj / se / ispričao (Marko apologized to her)',
+        en: 'Put in order: Marko apologized to her.',
         steps: [
           {
             label: 'Sort the clitics',
@@ -228,7 +228,7 @@ export const PRACTICE_B2 = {
       ['sviđati se', 'to be liked (someone likes something)', 'Sviđa mi se ovaj grad.'],
       ['sjećati se', 'to remember', 'Sjećaš li se našeg prvog putovanja?'],
       ['javiti se', 'to get in touch, to call back', 'Javit ću ti se kad stignem.'],
-      ['ispričati se', 'to apologise', 'Ispričao joj se zbog kašnjenja.'],
+      ['ispričati se', 'to apologize', 'Ispričao joj se zbog kašnjenja.'],
       ['nasmijati se', 'to laugh (burst out laughing)', 'Nasmijala se kad je čula šalu.'],
       ['zabaviti se', 'to have fun', 'Dobro smo se zabavili na koncertu.'],
       ['pokazati', 'to show (pf.)', 'Pokazat ću ti ga sutra.'],
@@ -271,7 +271,7 @@ export const PRACTICE_B2 = {
         steps: [
           {
             label: 'Find the person',
-            text: 'mi — first person plural — takes bismo in careful Croatian, not the flat bi.',
+            text: 'mi — first person plural — takes bismo in careful Croatian, not the apartment bi.',
           },
           {
             label: 'The participles',
@@ -569,7 +569,7 @@ export const PRACTICE_B2 = {
           explanation: 'Učim hrvatski jer mi je baka iz Splita.',
         },
         {
-          q: "Dopuni: 'Čovjek s ___ sam razgovarao moj je susjed.' (The man I talked to is my neighbour.)",
+          q: "Dopuni: 'Čovjek s ___ sam razgovarao moj je susjed.' (The man I talked to is my neighbor.)",
           options: ['koji', 'kojeg', 'kojim', 'kojem'],
           correct: 2,
           hint: 'S meaning "with" takes the instrumental.',
@@ -745,7 +745,7 @@ export const PRACTICE_B2 = {
           explanation: 'nema mlijeka — the genitive of negation.',
         },
         {
-          q: 'Your flatmate keeps leaving the windows open. Make it a standing rule.',
+          q: 'Your roommate keeps leaving the windows open. Make it a standing rule.',
           options: [
             'Ne ostavi prozore otvorene!',
             'Nemoj ostavljaš prozore otvorene!',
@@ -1096,7 +1096,7 @@ export const PRACTICE_B2 = {
       {
         title: 'From Chat to Official Notice',
         problem: 'Pretvori u službeni stil: "Zbog kiše su otkazali koncert."',
-        en: 'Rewrite formally: "They cancelled the concert because of the rain."',
+        en: 'Rewrite formally: "They canceled the concert because of the rain."',
         steps: [
           {
             label: 'Remove the vague "they"',
@@ -1694,7 +1694,7 @@ export const PRACTICE_B2 = {
           'Odgovarati is the imperfective of odgovoriti; with godinama it means repeatedly.',
       },
       {
-        q: "Complete: 'Konačno smo ___ stan.' (We finally sold the flat.)",
+        q: "Complete: 'Konačno smo ___ stan.' (We finally sold the apartment.)",
         options: ['prodavali', 'prodali', 'prodajemo', 'prodavivali'],
         correct: 1,
         explanation: 'One completed sale takes the perfective prodati: prodali smo.',
@@ -1904,7 +1904,7 @@ export const PRACTICE_B2 = {
         explanation: 'Prestati takes only the imperfective infinitive: prestanite vikati.',
       },
       {
-        q: "Complete: 'Zaboravio sam ___ mamu.' (I forgot to call mum.)",
+        q: "Complete: 'Zaboravio sam ___ mamu.' (I forgot to call mom.)",
         options: ['nazvati', 'zvati', 'nazovem', 'zovući'],
         correct: 0,
         explanation:
@@ -2296,7 +2296,7 @@ export const PRACTICE_B2 = {
           'The -vši adverb is built from the perfective verb, so "having come" is došavši.',
       },
       {
-        q: "Mum is cooking and the children are playing. Why is 'Kuhajući ručak, djeca su se igrala' wrong?",
+        q: "Mom is cooking and the children are playing. Why is 'Kuhajući ručak, djeca su se igrala' wrong?",
         options: [
           'kuhajući must be kuhavši',
           'djeca must be dijete',
@@ -2747,7 +2747,7 @@ export const PRACTICE_B2 = {
         options: [
           'a real condition',
           'an order',
-          'a warm wish about the past — if only grandad had seen this',
+          'a warm wish about the past — if only grandpa had seen this',
           'a question about grandad',
         ],
         correct: 2,
@@ -2793,7 +2793,7 @@ export const PRACTICE_B2 = {
       {
         title: 'Must as a Deduction',
         problem: 'U stanu gore svjetla. Zaključi: "They must be at home."',
-        en: 'The lights are on in the flat. Conclude: They must be at home.',
+        en: 'The lights are on in the apartment. Conclude: They must be at home.',
         steps: [
           {
             label: 'Obligation or probability?',
@@ -2815,7 +2815,7 @@ export const PRACTICE_B2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'A notice in a lift: "Djeca mlađa od 12 godina ne ___ sama ulaziti u dizalo." (are not allowed to)',
+          q: 'A notice in an elevator: "Djeca mlađa od 12 godina ne ___ sama ulaziti u dizalo." (are not allowed to)',
           options: ['mogu', 'smiju', 'trebaju', 'moraju'],
           correct: 1,
           hint: 'A notice forbids; it is about permission, not ability or necessity.',
@@ -3010,7 +3010,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'First gap',
-            text: 'gurnuo — pushed, movement towards: accusative, krevet.',
+            text: 'gurnuo — pushed, movement toward: accusative, krevet.',
           },
           {
             label: 'Second gap',
@@ -3289,7 +3289,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: '____, stan je malen, ali pogled je prekrasan.' (Admittedly, the flat is small…)",
+          q: "Dopuni: '____, stan je malen, ali pogled je prekrasan.' (Admittedly, the apartment is small…)",
           answer: 'Doduše',
           hint: 'The word that grants a point in advance.',
           explanation: 'Doduše, stan je malen, ali…',
@@ -3457,7 +3457,7 @@ export const PRACTICE_B2 = {
           explanation: 'Sve manje mladih — sve + comparative.',
         },
         {
-          q: 'Dopuni: "Što ___ vježbaš, to ćeš brže napredovati." (the more you practise)',
+          q: 'Dopuni: "Što ___ vježbaš, to ćeš brže napredovati." (the more you practice)',
           options: ['puno', 'više', 'najviše', 'previše'],
           correct: 1,
           hint: 'Both halves of the correlative take a comparative, not a plain adverb or a superlative.',
@@ -3506,7 +3506,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Ove hlače su mi ____.' (These trousers are too big for me — velik)",
+          q: "Dopuni: 'Ove hlače su mi ____.' (These pants are too big for me — velik)",
           answer: 'prevelike',
           hint: 'Pre- plus the adjective, agreeing with hlače (feminine plural).',
           explanation: 'Hlače su prevelike.',
@@ -3731,7 +3731,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ne samo…, nego i…',
         },
         {
-          q: "Dopuni: 'Ni u Zagrebu ni u Rijeci ___ stan.' (Neither in Zagreb nor in Rijeka did we find a flat.)",
+          q: "Dopuni: 'Ni u Zagrebu ni u Rijeci ___ stan.' (Neither in Zagreb nor in Rijeka did we find an apartment.)",
           options: ['smo našli', 'nismo našli', 'našli smo', 'bismo našli'],
           correct: 1,
           hint: 'The double-negative rule still applies after ni… ni…',
@@ -4434,7 +4434,7 @@ export const PRACTICE_B2 = {
       {
         title: 'Opening to a Named Woman',
         problem: 'Započni službenu e-poruku gospođi Marić, koju ne poznaješ.',
-        en: 'Open a formal email to Mrs Marić, whom you do not know.',
+        en: 'Open a formal email to Mrs. Marić, whom you do not know.',
         steps: [
           {
             label: 'Register and gender',
@@ -5272,7 +5272,7 @@ export const PRACTICE_B2 = {
         en: 'The host says: "It is nothing special, just a bit of sarma." Answer as expected.',
         steps: [
           {
-            label: 'Recognise the move',
+            label: 'Recognize the move',
             text: 'Self-deprecation is not a request for agreement — it invites warm contradiction.',
           },
           {
@@ -5303,7 +5303,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ma daj! = "Oh come on!" — disbelief, usually affectionate.',
         },
         {
-          q: 'The ferry has just been cancelled. Which remark is sarcastic?',
+          q: 'The ferry has just been canceled. Which remark is sarcastic?',
           options: [
             'Baš lijepo, sad čekamo do sutra.',
             'Nema veze, riješit ćemo.',
@@ -5312,7 +5312,7 @@ export const PRACTICE_B2 = {
           ],
           correct: 0,
           hint: 'Look for praise attached to an obviously bad situation.',
-          explanation: '"Baš lijepo" about a cancelled ferry means the opposite.',
+          explanation: '"Baš lijepo" about a canceled ferry means the opposite.',
         },
         {
           q: 'Dopuni: "Ma ___, nema šanse!" (No way, not a chance!)',
@@ -5373,7 +5373,7 @@ export const PRACTICE_B2 = {
           options: [
             'take it as warm praise',
             'look disappointed',
-            'apologise',
+            'apologize',
             'ask for the truth',
           ],
           correct: 0,
@@ -5388,7 +5388,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ma kakvi — no way.',
         },
         {
-          q: 'Which phrase is reassurance after someone apologises?',
+          q: 'Which phrase is reassurance after someone apologizes?',
           options: ['Baš ti hvala.', 'Super, samo to mi je trebalo.', 'Nema veze.', 'Ma daj!'],
           correct: 2,
           hint: 'Look for "it does not matter".',
@@ -5404,7 +5404,7 @@ export const PRACTICE_B2 = {
         explanation: 'Ma dismisses what came before: Ma pusti.',
       },
       {
-        q: "A friend back from holiday says 'Nije loše' about the hotel. What does it usually mean?",
+        q: "A friend back from vacation says 'Nije loše' about the hotel. What does it usually mean?",
         options: [
           'The hotel was bad.',
           'They did not stay there.',
@@ -5572,7 +5572,7 @@ export const PRACTICE_B2 = {
           explanation: 'Hrvatsko gospodarstvo.',
         },
         {
-          q: "Dopuni: 'Na ___ je sve više stanova za najam.' (There are more and more flats to rent on the market — tržište)",
+          q: "Dopuni: 'Na ___ je sve više stanova za najam.' (There are more and more apartments to rent on the market — tržište)",
           options: ['tržište', 'tržišta', 'tržištu', 'tržištem'],
           correct: 2,
           hint: 'Na + locative for location.',

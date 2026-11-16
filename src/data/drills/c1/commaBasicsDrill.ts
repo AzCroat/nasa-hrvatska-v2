@@ -201,7 +201,7 @@ export const COMMA_BASICS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vokativ',
     q: Q,
-    en: 'Mum, where are my keys?',
+    en: 'Mom, where are my keys?',
     opts: [
       'Mama, gdje su moji ključevi?',
       'Mama gdje su moji ključevi?',
@@ -307,7 +307,7 @@ export const COMMA_BASICS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'umetanje',
     q: Q,
-    en: 'Mrs Horvat, our neighbour, is a doctor.',
+    en: 'Mrs. Horvat, our neighbor, is a doctor.',
     opts: [
       'Gospođa Horvat, naša susjeda liječnica je.',
       'Gospođa Horvat naša susjeda, liječnica je.',

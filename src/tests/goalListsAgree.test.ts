@@ -8,7 +8,7 @@
  *   GoalSetterModal              4  heritage fluent travel culture
  *   GoalSelectorSection (Me)     5  heritage family travel culture fluent
  *
- * So onboarding offered `elders` and `partner` and neither picker afterwards
+ * So onboarding offered `elders` and `partner` and neither picker afterward
  * could select them. A learner who chose either — and this app is FOR the
  * diaspora, so the people-shaped goals are the common ones — opened the Me tab
  * picker, saw five options with their own missing, and any choice overwrote

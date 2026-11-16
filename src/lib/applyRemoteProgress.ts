@@ -379,7 +379,7 @@ export function applyRemoteProgress(fp: any, setters: RemoteProgressSetters): vo
       // because the first attempt is the entire signal.
       writeAttempts(mergeLessonAttempts(readAttempts(), fp.nh_lesson_attempts));
     }
-    // A passed lesson's words (2026-09-29): union, the EARLIER enrolment wins.
+    // A passed lesson's words (2026-09-29): union, the EARLIER enrollment wins.
     if (fp.nh_lesson_words && typeof fp.nh_lesson_words === 'object') {
       applyRemoteLessonWords(fp.nh_lesson_words);
     }

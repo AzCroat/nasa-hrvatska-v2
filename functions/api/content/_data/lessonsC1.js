@@ -406,7 +406,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Organizirali smo konferenciju prošle godine i organiziramo je opet u svibnju.',
-            en: 'We organised the conference last year and are organising it again in May.',
+            en: 'We organized the conference last year and are organizing it again in May.',
             note: 'organizirati — biaspectual; context alone decides',
           },
           {
@@ -592,7 +592,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Where You Will Meet It',
-        body: 'Administrative and legal writing is built almost entirely from this — "temeljem odluke", "u svrhu provođenja", "nakon isteka roka". Academic writing uses it heavily. Journalism uses it in headlines. Recognising the pattern turns a wall of nouns into a sentence you can unpack back into clauses.',
+        body: 'Administrative and legal writing is built almost entirely from this — "temeljem odluke", "u svrhu provođenja", "nakon isteka roka". Academic writing uses it heavily. Journalism uses it in headlines. Recognizing the pattern turns a wall of nouns into a sentence you can unpack back into clauses.',
         highlight: 'temeljem odluke · nakon isteka roka',
       },
       {
@@ -855,7 +855,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Augmentatives Cut Both Ways',
-        body: '"Čovječina" is affectionate — a big, decent bloke. "Ženturača" is not. The suffix -ina has no fixed tone: čovječina is warm, nosina mocking, psina either, so the word and the situation decide. -erina (kućerina) is similar, while -etina, -urina and -ura lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognising confidently before producing them.',
+        body: '"Čovječina" is affectionate — a big, decent bloke. "Ženturača" is not. The suffix -ina has no fixed tone: čovječina is warm, nosina mocking, psina either, so the word and the situation decide. -erina (kućerina) is similar, while -etina, -urina and -ura lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognizing confidently before producing them.',
         highlight: '-ina: tone from context · -urina pejorative',
       },
       {
@@ -1202,7 +1202,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Ostavio sam ključ pod otiračem kako bi ga susjeda mogla uzeti dok me nema.',
-            en: 'I left the key under the mat so that the neighbour could take it while I am away.',
+            en: 'I left the key under the mat so that the neighbor could take it while I am away.',
             note: 'purpose (kako bi) plus a time clause (dok) in one sentence',
           },
           {
@@ -1248,7 +1248,7 @@ export const LESSONS_C1 = [
         options: ['ne znati', 'ne zna', 'neće znati', 'ne znajući'],
         correct: 1,
         explanation:
-          'Knowing nothing is simultaneous with the behaviour, so the present stays even after a past main clause. "Kao da ništa nije znao" would place the not-knowing earlier; an infinitive or a verbal adverb cannot follow kao da, and the future says something else.',
+          'Knowing nothing is simultaneous with the behavior, so the present stays even after a past main clause. "Kao da ništa nije znao" would place the not-knowing earlier; an infinitive or a verbal adverb cannot follow kao da, and the future says something else.',
       },
       {
         type: 'rule',
@@ -1335,7 +1335,7 @@ export const LESSONS_C1 = [
               '"Ma gdje", like "ma koliko", "ma što" and "ma tko", is a concessive: no matter where. Ma gdje bio, javi se.',
           },
           {
-            q: 'Complete: "Dođi ___, želim ti nešto pokazati." (here, towards me)',
+            q: 'Complete: "Dođi ___, želim ti nešto pokazati." (here, toward me)',
             options: ['ovdje', 'ovamo', 'odavde', 'ondje'],
             correct: 1,
             explanation:
@@ -1492,7 +1492,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Radije putujem vlakom nego automobilom, jer ne volim satima stajati u koloni.',
-            en: 'I would rather travel by train than by car, because I do not like standing in a queue for hours.',
+            en: 'I would rather travel by train than by car, because I do not like standing in line for hours.',
             note: 'radije … nego — two nouns in the same case (vlakom, automobilom)',
           },
           {
@@ -1924,7 +1924,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Some Are Fixed Phrases Outright',
-        body: 'A tier beyond collocation: "voditi računa o" (take care over), "imati na umu" (bear in mind), "doći do izražaja" (come to the fore), "u pravilu" (as a rule), "s obzirom na" (given, in view of). These behave as single units and are best memorised whole, since their parts do not predict their meaning.',
+        body: 'A tier beyond collocation: "voditi računa o" (take care over), "imati na umu" (bear in mind), "doći do izražaja" (come to the fore), "u pravilu" (as a rule), "s obzirom na" (given, in view of). These behave as single units and are best memorized whole, since their parts do not predict their meaning.',
         highlight: 'imati na umu · s obzirom na',
       },
       {
@@ -1984,7 +1984,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Imajte na umu da stroga pravila vrijede i vikendom.',
-            en: 'Bear in mind that the strict rules apply at weekends too.',
+            en: 'Bear in mind that the strict rules apply on weekends too.',
             note: 'imati na umu, stroga pravila; vrijediti = to apply',
           },
           {
@@ -1994,7 +1994,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Njegova je upornost došla do izražaja tek u posljednjem kilometru utrke.',
-            en: 'His persistence came to the fore only in the last kilometre of the race.',
+            en: 'His persistence came to the fore only in the last kilometer of the race.',
             note: 'doći do izražaja — a fixed phrase',
           },
         ],
@@ -2103,7 +2103,7 @@ export const LESSONS_C1 = [
           'English make/take/do/have map onto many different Croatian verbs',
           'Translating the light verb directly is the commonest C1 error',
           'Record the PAIR when reading, not the individual word',
-          'imati na umu, voditi računa o, s obzirom na — memorise whole',
+          'imati na umu, voditi računa o, s obzirom na — memorize whole',
         ],
       },
     ],
@@ -2125,7 +2125,7 @@ export const LESSONS_C1 = [
       {
         type: 'intro',
         title: 'Where the Implicit Meaning Lives',
-        body: 'The C1 descriptor talks about recognising implicit meaning. In Croatian a great deal of it sits in words a dictionary struggles to define — pa, ma, baš, valjda, naime, uostalom. They carry almost no propositional content and a great deal of attitude, and missing them means missing what the speaker actually thought.',
+        body: 'The C1 descriptor talks about recognizing implicit meaning. In Croatian a great deal of it sits in words a dictionary struggles to define — pa, ma, baš, valjda, naime, uostalom. They carry almost no propositional content and a great deal of attitude, and missing them means missing what the speaker actually thought.',
         icon: '🎵',
       },
       {
@@ -2474,7 +2474,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Stranac koji naglasi zadnji slog u riječi „govoriti“ odmah se prepozna po tome.',
-            en: 'A foreigner who stresses the last syllable of "govoriti" is recognised immediately by it.',
+            en: 'A foreigner who stresses the last syllable of "govoriti" is recognized immediately by it.',
             note: 'final stress is the clearest foreign marker',
           },
           {
@@ -2748,7 +2748,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Glavna je poanta da rješenje nije u novim cestama, nego u boljem redu vožnje.',
-            en: 'The main point is that the solution lies not in new roads but in a better timetable.',
+            en: 'The main point is that the solution lies not in new roads but in a better schedule.',
             note: 'glavna je poanta; nije u… nego u',
           },
           {
@@ -2765,7 +2765,7 @@ export const LESSONS_C1 = [
         options: ['o', 'za', 'na', 'od'],
         correct: 0,
         explanation:
-          '"Riječ je o" plus the locative is the standard opener for saying what something is about. The preposition is fixed and the phrase is worth memorising whole.',
+          '"Riječ je o" plus the locative is the standard opener for saying what something is about. The preposition is fixed and the phrase is worth memorizing whole.',
       },
       {
         type: 'quiz',
@@ -2938,7 +2938,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'A Convention That Differs',
-        body: 'Croatian academic writing signposts more heavily than English, and what would read as over-explaining in an English paper is expected here. Explicit "U prvom dijelu rada… U drugom dijelu…" is normal rather than clumsy. If you are transferring English habits, the adjustment is usually towards MORE signposting, not less.',
+        body: 'Croatian academic writing signposts more heavily than English, and what would read as over-explaining in an English paper is expected here. Explicit "U prvom dijelu rada… U drugom dijelu…" is normal rather than clumsy. If you are transferring English habits, the adjustment is usually toward MORE signposting, not less.',
         highlight: 'U prvom dijelu rada…',
       },
       {
@@ -2947,7 +2947,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Cilj je ovoga rada analizirati utjecaj dobi na usvajanje jezika.',
-            en: 'The aim of this paper is to analyse the influence of age on language acquisition.',
+            en: 'The aim of this paper is to analyze the influence of age on language acquisition.',
             note: 'utjecaj NA + accusative',
           },
           {
@@ -3096,7 +3096,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'What would read as over-explaining in an English paper is expected in a Croatian one. Transferring English habits means adjusting towards more signposting.',
+              'What would read as over-explaining in an English paper is expected in a Croatian one. Transferring English habits means adjusting toward more signposting.',
           },
           {
             q: 'Complete: "Iz navedenog ___ da su potrebna daljnja istraživanja."',
@@ -3481,7 +3481,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Poštovani uzvanici, drage kolegice i kolege, čast mi je što vas mogu pozdraviti u ime cijelog odjela.',
-            en: 'Distinguished guests, dear colleagues, it is an honour to greet you on behalf of the whole department.',
+            en: 'Distinguished guests, dear colleagues, it is an honor to greet you on behalf of the whole department.',
             note: 'čast mi je što — the formal opener; u ime + genitive',
           },
           {
@@ -3623,7 +3623,7 @@ export const LESSONS_C1 = [
           'nazdraviti takes the DATIVE: Nazdravljam mladencima.',
           'Condolences are sućut, and only sućut',
           'Address, reason, wish — two or three sentences is the convention',
-          'Apologising for your Croatian is disarming, not embarrassing',
+          'Apologizing for your Croatian is disarming, not embarrassing',
         ],
       },
     ],
@@ -3708,7 +3708,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Analizirali smo podatke.',
-            en: 'We analysed the data.',
+            en: 'We analyzed the data.',
             note: 'not vršili smo analizu podataka',
           },
           {
@@ -3979,7 +3979,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Zatim gledam rekciju: „hvala na pozivu“, „radujem se odmoru“, „bojim se pada“.',
-            en: 'Then I look at government: "thanks for the invitation", "I look forward to the holiday", "I fear a fall".',
+            en: 'Then I look at government: "thanks for the invitation", "I look forward to the vacation", "I fear a fall".',
             note: 'locative, dative, genitive — one verb at a time',
           },
           {
@@ -4215,7 +4215,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Uvedene su nove naknade za parkiranje u središtu grada, doznaje naš portal.',
-            en: 'New parking charges have been introduced in the city centre, our portal learns.',
+            en: 'New parking charges have been introduced in the city center, our portal learns.',
             note: 'participle passive plus "doznaje" — no agent, unnamed source',
           },
           {
@@ -4271,7 +4271,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is reading navodno and tobože as the same "allegedly": navodno is neutral distance, tobože is the writer telling you it is false — a learner who misses that misses the editorial. The second is not noticing the missing agent: došlo je do smanjenja is read as an event, when the question is who reduced what. The third is treating an unnamed source as a fact: kako doznajemo and prema neslužbenim informacijama mean the paper does not vouch for it, and a summary that drops the qualifier turns a rumour into a report.',
+        body: 'The first is reading navodno and tobože as the same "allegedly": navodno is neutral distance, tobože is the writer telling you it is false — a learner who misses that misses the editorial. The second is not noticing the missing agent: došlo je do smanjenja is read as an event, when the question is who reduced what. The third is treating an unnamed source as a fact: kako doznajemo and prema neslužbenim informacijama mean the paper does not vouch for it, and a summary that drops the qualifier turns a rumor into a report.',
         highlight: 'došlo je do smanjenja',
       },
       {
@@ -4395,7 +4395,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Članak and Stavak',
-        body: 'A Croatian law is divided into "članci" (articles), each with numbered "stavci" (paragraphs). A citation looks like "članak 5. stavak 2." and is abbreviated "čl. 5. st. 2." — note the full stops after the numerals, which mark them as ordinals. Recognising this notation is most of what is needed to follow a reference.',
+        body: 'A Croatian law is divided into "članci" (articles), each with numbered "stavci" (paragraphs). A citation looks like "članak 5. stavak 2." and is abbreviated "čl. 5. st. 2." — note the full stops after the numerals, which mark them as ordinals. Recognizing this notation is most of what is needed to follow a reference.',
         highlight: 'čl. 5. st. 2.',
       },
       {
@@ -4436,7 +4436,7 @@ export const LESSONS_C1 = [
           {
             hr: 'Temeljem članka 12. Zakona o vlasništvu…',
             en: 'Pursuant to article 12 of the Ownership Act…',
-            note: 'temeljem + genitive, and the ordinal full stop',
+            note: 'temeljem + genitive, and the ordinal period',
           },
           {
             hr: 'Ugovor stupa na snagu danom potpisa.',
@@ -4512,7 +4512,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is mixing the two formulas: "sukladno članka" and "temeljem odredbama" — temeljem takes the genitive (temeljem članka 12.) and sukladno the dative (sukladno odredbama), and they do not swap. The second is dropping the ordinal full stop: "članak 5 stavak 2" — the numbers are ordinals and are written čl. 5. st. 2. The third is reading past the rok: a learner who understands every word and misses "u roku od 15 dana" has understood nothing that matters.',
+        body: 'The first is mixing the two formulas: "sukladno članka" and "temeljem odredbama" — temeljem takes the genitive (temeljem članka 12.) and sukladno the dative (sukladno odredbama), and they do not swap. The second is dropping the ordinal period: "članak 5 stavak 2" — the numbers are ordinals and are written čl. 5. st. 2. The third is reading past the rok: a learner who understands every word and misses "u roku od 15 dana" has understood nothing that matters.',
         highlight: 'temeljem članka 12.',
       },
       {
@@ -4538,7 +4538,7 @@ export const LESSONS_C1 = [
             options: ['čl. 5 st. 2', 'čl. 5. st. 2.', 'čl 5, st 2', 'članak 5, stavak 2'],
             correct: 1,
             explanation:
-              'The numerals are ordinals and carry a full stop: čl. 5. st. 2. — article five, paragraph two.',
+              'The numerals are ordinals and carry a period: čl. 5. st. 2. — article five, paragraph two.',
           },
           {
             q: 'Decode into plain Croatian: "Smatra se da je zahtjev uredan."',
@@ -4670,7 +4670,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Numbers and Units',
-        body: 'Decimals use a COMMA, not a point: 3,14. Thousands are separated by a space or a full stop: 10 000 or 10.000. Units follow the number with a space: 25 °C, 3 kg. And "posto" is percent — "tri posto" or "3 %". Getting the decimal comma wrong in a technical document is a real error, not a stylistic one.',
+        body: 'Decimals use a COMMA, not a point: 3,14. Thousands are separated by a space or a period: 10 000 or 10.000. Units follow the number with a space: 25 °C, 3 kg. And "posto" is percent — "tri posto" or "3 %". Getting the decimal comma wrong in a technical document is a real error, not a stylistic one.',
         highlight: '3,14 — comma, not point',
       },
       {
@@ -4855,7 +4855,7 @@ export const LESSONS_C1 = [
   {
     id: 'arts-culture',
     title: 'Arts and Culture',
-    subtitle: 'Theatre, film and music — and how to say what you thought of it',
+    subtitle: 'Theater, film and music — and how to say what you thought of it',
     icon: '🎭',
     level: 'C1',
     duration: '~5 min',
@@ -4873,7 +4873,7 @@ export const LESSONS_C1 = [
         title: 'The Forms',
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
-          ['kazalište', 'theatre', 'predstava', 'a play, performance'],
+          ['kazalište', 'theater', 'predstava', 'a play, performance'],
           ['redatelj', 'director', 'gluma', 'acting'],
           ['izložba', 'exhibition', 'galerija', 'gallery'],
           ['skladatelj', 'composer', 'zbor', 'choir'],
@@ -4910,13 +4910,13 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Klapa, and Why It Matters',
-        body: 'One cultural item worth knowing: "klapa" is Dalmatian a cappella close-harmony singing, traditionally by a group of men, and it is on the UNESCO intangible heritage list. It is not folk music in the museum sense — klape are active, competitive and everywhere on the coast in summer. Recognising the word marks you as someone who has actually been there.',
+        body: 'One cultural item worth knowing: "klapa" is Dalmatian a cappella close-harmony singing, traditionally by a group of men, and it is on the UNESCO intangible heritage list. It is not folk music in the museum sense — klape are active, competitive and everywhere on the coast in summer. Recognizing the word marks you as someone who has actually been there.',
         highlight: 'klapa',
       },
       {
         type: 'rule',
         title: 'What Is On',
-        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian cinema and theatre are small and well known to their audience, which means an informed remark goes a long way.',
+        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian movie theater and theater are small and well known to their audience, which means an informed remark goes a long way.',
         highlight: 'Dubrovačke ljetne igre',
       },
       {
@@ -5000,7 +5000,7 @@ export const LESSONS_C1 = [
         title: 'One More',
         q: 'What is "klapa"?',
         options: [
-          'a type of theatre',
+          'a type of theater',
           'Dalmatian close-harmony singing',
           'a film festival',
           'a folk dance',
@@ -5079,7 +5079,7 @@ export const LESSONS_C1 = [
           {
             q: 'What is "klapa"?',
             options: [
-              'a theatre company',
+              'a theater company',
               'Dalmatian a cappella close-harmony singing',
               'a film festival in Istria',
               'a folk dance from Slavonia',
@@ -5206,7 +5206,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Baka iz Zagorja rekla bi „Kaj buš jel?“, a mama u Splitu „Ča ćeš jist?“, a oboje znači isto.',
-            en: 'Grandma from Zagorje would say "Kaj buš jel?", and mum in Split "Ča ćeš jist?", and both mean the same thing.',
+            en: 'Grandma from Zagorje would say "Kaj buš jel?", and mom in Split "Ča ćeš jist?", and both mean the same thing.',
             note: 'kajkavian and čakavian side by side: what will you eat?',
           },
           {
@@ -5511,7 +5511,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is answering "Odakle si?" with a passport: "Iz Kanade" ends the conversation, because the question is about zavičaj — the answer they want is iz Kanade, ali obitelj mi je iz Sinja. The second is apologising instead of speaking: "Ispričavam se, moj hrvatski je loš" as an opener invites the switch to English; say govorim s greškama, ali govorim and carry on. The third is the reflexive possessive: "prenijeti jezik na moju djecu" — when the owner is the subject, the standard prefers svoju djecu.',
+        body: 'The first is answering "Odakle si?" with a passport: "Iz Kanade" ends the conversation, because the question is about zavičaj — the answer they want is iz Kanade, ali obitelj mi je iz Sinja. The second is apologizing instead of speaking: "Ispričavam se, moj hrvatski je loš" as an opener invites the switch to English; say govorim s greškama, ali govorim and carry on. The third is the reflexive possessive: "prenijeti jezik na moju djecu" — when the owner is the subject, the standard prefers svoju djecu.',
         highlight: 'iz Kanade, ali obitelj mi je iz Sinja',
       },
       {
@@ -5714,7 +5714,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Dugo je živio u vlažnom stanu. Uslijed toga se teško razbolio.',
-            en: 'He lived in a damp flat for a long time. As a result he fell seriously ill.',
+            en: 'He lived in a damp apartment for a long time. As a result he fell seriously ill.',
             note: 'uslijed toga — formal',
           },
         ],
@@ -5735,7 +5735,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Prestani jesti te slatkiše! Inače će ti opet biti zlo.',
-            en: 'Stop eating those sweets, or you will be sick again.',
+            en: 'Stop eating those candy, or you will be sick again.',
             note: 'inače — or else',
           },
           {
@@ -5755,7 +5755,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Stan je velik i svijetao. Osim toga ima prekrasan pogled na more.',
-            en: 'The flat is large and bright. Besides, it has a wonderful sea view.',
+            en: 'The apartment is large and bright. Besides, it has a wonderful sea view.',
             note: 'addition',
           },
         ],

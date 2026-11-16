@@ -137,7 +137,7 @@ const REFLEXIVE_SEBE = {
       items: [
         {
           hr: 'Gledam sebe u ogledalu i jedva se prepoznajem.',
-          en: 'I look at myself in the mirror and barely recognise myself.',
+          en: 'I look at myself in the mirror and barely recognize myself.',
           note: 'sebe — the long accusative, stressed; se — the short accusative',
         },
         {
@@ -157,7 +157,7 @@ const REFLEXIVE_SEBE = {
         },
         {
           hr: 'Djeca su podijelila slatkiše među sobom.',
-          en: 'The children shared the sweets among themselves.',
+          en: 'The children shared the candy among themselves.',
           note: 'sobom — instrumental after među',
         },
         {
@@ -319,7 +319,7 @@ const VERBAL_NOUNS_INTRO = {
     {
       type: 'rule',
       title: 'How to Build It',
-      body: 'Verbs in -ati keep the a and add -nje: čitati → čitanje, pisati → pisanje, kuhati → kuhanje, plivati → plivanje. Verbs in -ovati keep -ova-: putovati → putovanje, stanovati → stanovanje. Verbs in -iti and -jeti end in -enje: učiti → učenje, govoriti → govorenje. Before -enje some consonants soften, exactly as in the passive participle you learnt: nositi → nošenje, roditi → rođenje, misliti → mišljenje, vidjeti → viđenje — the same word as in Do viđenja (until seeing again).',
+      body: 'Verbs in -ati keep the a and add -nje: čitati → čitanje, pisati → pisanje, kuhati → kuhanje, plivati → plivanje. Verbs in -ovati keep -ova-: putovati → putovanje, stanovati → stanovanje. Verbs in -iti and -jeti end in -enje: učiti → učenje, govoriti → govorenje. Before -enje some consonants soften, exactly as in the passive participle you learned: nositi → nošenje, roditi → rođenje, misliti → mišljenje, vidjeti → viđenje — the same word as in Do viđenja (until seeing again).',
       highlight: 'Do viđenja',
     },
     {
@@ -329,7 +329,7 @@ const VERBAL_NOUNS_INTRO = {
       rows: [
         ['čitati', 'čitanje', 'reading'],
         ['pisati', 'pisanje', 'writing'],
-        ['putovati', 'putovanje', 'travelling, a trip'],
+        ['putovati', 'putovanje', 'traveling, a trip'],
         ['učiti', 'učenje', 'learning, studying'],
         ['misliti', 'mišljenje', 'thinking, an opinion'],
         ['roditi', 'rođenje', 'birth'],
@@ -530,13 +530,13 @@ const HIGHER_EDUCATION = {
     {
       type: 'intro',
       title: 'Obrazovanje za sve',
-      body: 'The University of Zagreb was founded in 1669 and is the oldest continuously operating university in Croatia (Zadar had a university as early as 1396). Today there are public universities in Zagreb, Split, Rijeka, Osijek, Zadar, Pula and Dubrovnik, among others, plus veleučilišta and visoke škole (polytechnics and colleges) that offer professional study programmes. This lesson gives you the words to talk about how Croatians get into university, what they study and how — and about learning that does not stop at graduation.',
+      body: 'The University of Zagreb was founded in 1669 and is the oldest continuously operating university in Croatia (Zadar had a university as early as 1396). Today there are public universities in Zagreb, Split, Rijeka, Osijek, Zadar, Pula and Dubrovnik, among others, plus veleučilišta and visoke škole (polytechnics and colleges) that offer professional study programs. This lesson gives you the words to talk about how Croatians get into university, what they study and how — and about learning that does not stop at graduation.',
       icon: '🎓',
     },
     {
       type: 'rule',
       title: 'The Bologna Process',
-      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the prijediplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programmes, such as medicine and law, are integrated — one long programme of five or six years. Since the 2022 law on higher education this is its official name; before that it was the preddiplomski studij, a name you will still hear.',
+      body: 'Croatia joined the Bologna Process in 2001, and from the 2005/2006 academic year its universities moved to the European three-cycle system. The first cycle is the prijediplomski studij (usually three years); the second is the diplomski studij (usually two years); the third is the poslijediplomski studij, above all the doktorski studij (usually three years). Some programs, such as medicine and law, are integrated — one long program of five or six years. Since the 2022 law on higher education this is its official name; before that it was the preddiplomski studij, a name you will still hear.',
       highlight: 'prijediplomski studij',
     },
     {
@@ -548,13 +548,13 @@ const HIGHER_EDUCATION = {
     {
       type: 'rule',
       title: 'The State Matura',
-      body: 'Since 2010 students finishing secondary school sit the državna matura, a national school-leaving exam organised by the Nacionalni centar za vanjsko vrednovanje obrazovanja. Three subjects are compulsory — hrvatski jezik, matematika and a strani jezik — each at a basic or a higher level, and students add elective subjects. Universities rank applicants by their matura results together with their school grades. Note the aspect pair: polagati maturu means to sit it, položiti maturu means to pass it.',
+      body: 'Since 2010 students finishing high school sit the državna matura, a national school-leaving exam organized by the Nacionalni centar za vanjsko vrednovanje obrazovanja. Three subjects are compulsory — hrvatski jezik, matematika and a strani jezik — each at a basic or a higher level, and students add elective subjects. Universities rank applicants by their matura results together with their school grades. Note the aspect pair: polagati maturu means to sit it, položiti maturu means to pass it.',
       highlight: 'polagati maturu',
     },
     {
       type: 'rule',
       title: 'Education for Everyone',
-      body: 'Students with disabilities (studenti s invaliditetom) can ask for adapted conditions at the matura and at university exams — more time, adapted materials, an assistant — and universities have offices or coordinators to support them. Learning also continues after school: cjeloživotno učenje (lifelong learning) is the official term. Pučka otvorena učilišta (adult education centres) run courses for adults, and programmes called sveučilište za treću životnu dob (university of the third age) offer courses in languages, history and computing for older people.',
+      body: 'Students with disabilities (studenti s invaliditetom) can ask for adapted conditions at the matura and in college exams — more time, adapted materials, an assistant — and universities have offices or coordinators to support them. Learning also continues after school: cjeloživotno učenje (lifelong learning) is the official term. Pučka otvorena učilišta (adult education centers) run courses for adults, and programs called sveučilište za treću životnu dob (university of the third age) offer courses in languages, history and computing for older people.',
       highlight: 'cjeloživotno učenje',
     },
     {
@@ -562,7 +562,7 @@ const HIGHER_EDUCATION = {
       title: 'Words of Student Life',
       headers: ['Croatian', 'English'],
       rows: [
-        ['upisati fakultet', 'to enrol at a faculty'],
+        ['upisati fakultet', 'to enroll at a faculty'],
         ['predavanje', 'a lecture'],
         ['kolokvij', 'a test during the semester'],
         ['ispitni rok', 'an exam period'],
@@ -584,7 +584,7 @@ const HIGHER_EDUCATION = {
         },
         {
           hr: 'Nakon prijediplomskog studija studenti mogu upisati diplomski studij.',
-          en: 'After the first cycle, students can enrol in the second cycle.',
+          en: 'After the first cycle, students can enroll in the second cycle.',
         },
         {
           hr: 'Jedna akademska godina nosi šezdeset ECTS bodova.',
@@ -597,7 +597,7 @@ const HIGHER_EDUCATION = {
         {
           hr: 'Rezultati mature važni su za upis na fakultet.',
           en: 'The matura results matter for admission to a faculty.',
-          note: 'upis — a noun: enrolment, admission',
+          note: 'upis — a noun: enrollment, admission',
         },
         {
           hr: 'Moja sestra je prošle godine položila maturu s odličnim uspjehom.',
@@ -695,7 +695,7 @@ const HIGHER_EDUCATION = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) studirati for exam preparation: "Studiram za ispit" — studirati means to be a university student of a field (Studiram pravo); preparing for an exam is učiti: Učim za ispit. (2) Mixing the aspects of polagati: "Sutra položim ispit" — sitting it is imperfective, Sutra polažem ispit; passing it is perfective, Položio sam ispit. (3) Reading fakultet as "faculty" in the sense of teaching staff: a fakultet is a school within a university (Filozofski fakultet); the staff are nastavnici. (4) Reading gimnazija as a gym: it is an academic secondary school; a gym is teretana.',
+      body: '(1) studirati for exam preparation: "Studiram za ispit" — studirati means to be a university student of a field (Studiram pravo); preparing for an exam is učiti: Učim za ispit. (2) Mixing the aspects of polagati: "Sutra položim ispit" — sitting it is imperfective, Sutra polažem ispit; passing it is perfective, Položio sam ispit. (3) Reading fakultet as "faculty" in the sense of teaching staff: a fakultet is a school within a university (Filozofski fakultet); the staff are nastavnici. (4) Reading gimnazija as a gym: it is an academic high school; a gym is teretana.',
       highlight: 'Učim za ispit',
     },
     {
@@ -755,7 +755,7 @@ const HIGHER_EDUCATION = {
           ],
           correct: 3,
           explanation:
-            'A kolokvij is a test during the semester; passing it can count towards the final exam.',
+            'A kolokvij is a test during the semester; passing it can count toward the final exam.',
         },
         {
           q: 'Complete: "Učenje u svakoj životnoj dobi zove se ___ učenje."',
@@ -796,7 +796,7 @@ const ITERATIVE_CONDITIONAL = {
     {
       type: 'intro',
       title: 'English "would" Does Two Jobs',
-      body: 'English "would" can be a hypothesis — If I had money, I would buy a car — or a habit in the past — When I was little, we would go to the seaside every summer. The Croatian conditional does exactly the same two jobs. You learnt the first in the conditional lesson. This lesson is the second: the conditional of repeated past events, the way Croatians tell how life used to be.',
+      body: 'English "would" can be a hypothesis — If I had money, I would buy a car — or a habit in the past — When I was little, we would go to the seaside every summer. The Croatian conditional does exactly the same two jobs. You learned the first in the conditional lesson. This lesson is the second: the conditional of repeated past events, the way Croatians tell how life used to be.',
       icon: '🕰️',
     },
     {
@@ -865,7 +865,7 @@ const ITERATIVE_CONDITIONAL = {
         },
         {
           hr: 'Kad god bismo prošli pokraj pekare, mama bi nam kupila kiflu.',
-          en: 'Whenever we walked past the bakery, Mum would buy us a bread roll.',
+          en: 'Whenever we walked past the bakery, Mom would buy us a bread roll.',
           note: 'kad god — whenever, the habit is unmistakable',
         },
       ],
@@ -876,7 +876,7 @@ const ITERATIVE_CONDITIONAL = {
       items: [
         {
           hr: 'Kad bih sutra imao vremena, otišao bih u kino.',
-          en: 'If I had time tomorrow, I would go to the cinema.',
+          en: 'If I had time tomorrow, I would go to the movies.',
           note: 'sutra — a hypothesis, not a habit',
         },
         {
@@ -1023,7 +1023,7 @@ const WORD_FORMATION_AGENTS = {
     {
       type: 'rule',
       title: 'And the Women: -ica, -ka',
-      body: 'The commonest female suffix is -ica: učiteljica, gledateljica, ravnateljica, nositeljica, vozačica, pjevačica, prodavačica. A noun in -ik loses its k before -ica: radnik → radnica, učenik → učenica, putnik → putnica. Some nouns take -ka: novinar → novinarka, Splićanin → Splićanka. A few are irregular and must be learnt: pisac → spisateljica, borac → borkinja.',
+      body: 'The commonest female suffix is -ica: učiteljica, gledateljica, ravnateljica, nositeljica, vozačica, pjevačica, prodavačica. A noun in -ik loses its k before -ica: radnik → radnica, učenik → učenica, putnik → putnica. Some nouns take -ka: novinar → novinarka, Splićanin → Splićanka. A few are irregular and must be learned: pisac → spisateljica, borac → borkinja.',
       highlight: 'radnik → radnica',
     },
     {
@@ -1041,7 +1041,7 @@ const WORD_FORMATION_AGENTS = {
     {
       type: 'rule',
       title: 'Big: Augmentatives',
-      body: 'An augmentative (uvećanica) means big — and usually adds a tone of surprise, humour or rudeness. Common suffixes are -ina, -erina and -etina, -urda: nos → nosina, momak → momčina, kuća → kućerina, ruka → ručerina, žena → ženetina, glava → glavurda. Kakva kućerina! is an impressed (or mocking) "What a huge house!". For a neutral description say velika kuća — an augmentative is never neutral.',
+      body: 'An augmentative (uvećanica) means big — and usually adds a tone of surprise, humor or rudeness. Common suffixes are -ina, -erina and -etina, -urda: nos → nosina, momak → momčina, kuća → kućerina, ruka → ručerina, žena → ženetina, glava → glavurda. Kakva kućerina! is an impressed (or mocking) "What a huge house!". For a neutral description say velika kuća — an augmentative is never neutral.',
       highlight: 'never neutral',
     },
     {
@@ -1063,7 +1063,7 @@ const WORD_FORMATION_AGENTS = {
       items: [
         {
           hr: 'Moja sestra je učiteljica u osnovnoj školi u Osijeku.',
-          en: 'My sister is a teacher at a primary school in Osijek.',
+          en: 'My sister is a teacher at a elementary school in Osijek.',
           note: 'učiteljica — učitelj with the female -ica',
         },
         {
@@ -1082,7 +1082,7 @@ const WORD_FORMATION_AGENTS = {
         },
         {
           hr: 'U mladosti je puno putovao, a u starosti piše knjige.',
-          en: 'In his youth he travelled a lot, and in old age he writes books.',
+          en: 'In his youth he traveled a lot, and in old age he writes books.',
           note: 'mladost, starost — qualities from mlad and star',
         },
         {
@@ -1120,7 +1120,7 @@ const WORD_FORMATION_AGENTS = {
         },
         {
           hr: 'Vidi kakvu su kućerinu sagradili susjedi!',
-          en: 'Look what a huge house the neighbours have built!',
+          en: 'Look what a huge house the neighbors have built!',
           note: 'kućerina — the augmentative, said with surprise',
         },
         {
@@ -1416,7 +1416,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['ogledalo', 'mirror', 'Pogledaj se u ogledalo prije izlaska.'],
-      ['prepoznati', 'to recognise', 'Na staroj fotografiji nisam se prepoznao.'],
+      ['prepoznati', 'to recognize', 'Na staroj fotografiji nisam se prepoznao.'],
       ['podijeliti', 'to share out, to divide', 'Podijelili su kolač među sobom.'],
       ['kišobran', 'umbrella', 'Uvijek nosim kišobran sa sobom.'],
       ['sebičan', 'selfish', 'On je sebičan, misli samo na sebe.'],
@@ -1772,7 +1772,7 @@ export const PRACTICE = {
         q: 'What does "gimnazija" mean?',
         options: ['a gym', 'a sports hall', 'a university', 'an academic secondary school'],
         correct: 3,
-        explanation: 'A gimnazija is an academic secondary school; a gym is teretana.',
+        explanation: 'A gimnazija is an academic high school; a gym is teretana.',
       },
     ],
     vocab: [
@@ -1791,7 +1791,7 @@ export const PRACTICE = {
       ['državna matura', 'state school-leaving exam', 'Državnu maturu polažu svi maturanti.'],
       ['ECTS bod', 'ECTS credit', 'Ovaj kolegij nosi šest ECTS bodova.'],
       ['stipendija', 'scholarship', 'Dobio je stipendiju za izvrsnost.'],
-      ['upis', 'enrolment, admission', 'Upis na fakultet je u srpnju.'],
+      ['upis', 'enrollment, admission', 'Upis na fakultet je u srpnju.'],
       ['kolokvij', 'a test during the semester', 'Sutra pišemo kolokvij iz kemije.'],
       ['cjeloživotno učenje', 'lifelong learning', 'Cjeloživotno učenje važno je u svakoj dobi.'],
     ],

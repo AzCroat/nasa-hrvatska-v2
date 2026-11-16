@@ -21,7 +21,7 @@ export default function B2DependentClausesB2Drill({ goBack, award }: Props) {
     <ModeDrill
       id="b2dependentclausesb2"
       title="Because, So That, As, If: Dependent Clauses"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DEPENDENT_CLAUSES_B2_MODE_LABELS}
       data={DEPENDENT_CLAUSES_B2_DRILL_DATA}
       praise={{

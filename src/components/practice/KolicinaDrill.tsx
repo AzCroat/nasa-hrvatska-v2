@@ -81,7 +81,7 @@ const DATA = [
     q: 'Litra ____ , molim. (ulje)',
     opts: ['ulja', 'ulje', 'ulju', 'uljem'],
     answer: 'ulja',
-    en: 'a litre of oil, please',
+    en: 'a liter of oil, please',
     tip: 'Mjerne jedinice + G: litra ulja, metar tkanine.',
   },
   {
@@ -97,7 +97,7 @@ const DATA = [
     q: 'Vrećica ____ , molim. (bomboni)',
     opts: ['bombona', 'bombone', 'bombonima', 'bomboni'],
     answer: 'bombona',
-    en: 'a bag of sweets, please',
+    en: 'a bag of candy, please',
     tip: 'Vrećica + G mn: vrećica bombona.',
   },
   {

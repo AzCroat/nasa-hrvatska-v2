@@ -439,7 +439,7 @@ describe('one path for everyone', () => {
   // The owner directive, asserted through the real resolver: a learner the old
   // sequencer would have started at B1 lesson 1 starts at Unit 1 like anybody else.
   // Nothing in this module can read a CEFR level, so this holds by construction —
-  // the assertion is here because that is the behaviour the directive names.
+  // the assertion is here because that is the behavior the directive names.
   it('starts a learner with a high CEFR at Unit 1', () => {
     writeCurriculumSpine(SPINE);
     localStorage.setItem('nh_level', 'C1');

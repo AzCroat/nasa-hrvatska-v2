@@ -61,7 +61,7 @@ export function buildMemorySummary(memories) {
     '',
     'Use this memory naturally: warmly reference past sessions when relevant ' +
       '("Prošli put smo vježbali..."), build on vocabulary they already know, ' +
-      'and find organic moments to practise their documented weak areas within ' +
+      'and find organic moments to practice their documented weak areas within ' +
       "this scenario. Don't lecture — weave it into the conversation.",
   ].join('\n');
 }

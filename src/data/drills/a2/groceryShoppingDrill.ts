@@ -25,7 +25,7 @@ export const GROCERY_SHOPPING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'genitiv',
     q: 'Trebam litru ____.',
-    en: 'I need a litre of milk.',
+    en: 'I need a liter of milk.',
     opts: ['mlijeka', 'mlijeko', 'mlijeku', 'mlijekom'],
     answer: 'mlijeka',
     tip: 'After an amount word the food is genitive; milk is not counted, so singular.',
@@ -146,7 +146,7 @@ export const GROCERY_SHOPPING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kolicina',
     q: 'Molim vas, ____ mlijeka.',
-    en: 'A litre of milk, please.',
+    en: 'A liter of milk, please.',
     opts: ['litru', 'litra', 'litre', 'litri'],
     answer: 'litru',
     tip: 'What you ask for is the object: accusative.',

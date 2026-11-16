@@ -21,7 +21,7 @@ export default function B2NounPeculiaritiesEDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2nounpeculiaritiese"
       title="Sestara, Majci, Učiteljice"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={NOUN_PECULIARITIES_E_MODE_LABELS}
       data={NOUN_PECULIARITIES_E_DRILL_DATA}
       praise={{

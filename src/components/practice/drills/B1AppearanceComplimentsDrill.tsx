@@ -21,7 +21,7 @@ export default function B1AppearanceComplimentsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1appearancecompliments"
       title="You Look Great!"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={APPEARANCE_COMPLIMENTS_MODE_LABELS}
       data={APPEARANCE_COMPLIMENTS_DRILL_DATA}
       praise={{

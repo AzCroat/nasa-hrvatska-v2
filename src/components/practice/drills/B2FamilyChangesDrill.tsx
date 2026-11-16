@@ -21,7 +21,7 @@ export default function B2FamilyChangesDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2familychanges"
       title="Obitelj nekad i danas"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FAMILY_CHANGES_MODE_LABELS}
       data={FAMILY_CHANGES_DRILL_DATA}
       praise={{

@@ -107,13 +107,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Č and Dž: the Hard Pair',
-        body: 'č is the "ch" in church: the tongue tip is raised and the lips push forward a little. dž is the same mouth position with your voice switched on — the "j" in jam. They are partners: č is the quiet one, dž the voiced one. čaj (tea), čaša (glass), ključ (key); džep (pocket), džem (jam), džemper (jumper). dž is written with two letters but it is one letter of the alphabet and one sound.',
+        body: 'č is the "ch" in church: the tongue tip is raised and the lips push forward a little. dž is the same mouth position with your voice switched on — the "j" in jam. They are partners: č is the quiet one, dž the voiced one. čaj (tea), čaša (glass), ključ (key); džep (pocket), džem (jam), džemper (sweater). dž is written with two letters but it is one letter of the alphabet and one sound.',
         highlight: 'č = church, dž = jam',
       },
       {
         type: 'rule',
         title: 'Ć and Đ: the Soft Pair',
-        body: 'ć is softer than č: the tongue tip rests low behind the bottom teeth and the middle of the tongue touches the roof of the mouth. It sits close to the "t" a British speaker says in "tune". đ is its voiced partner, close to the "d" in a British "duke". kuća (house), noć (night), sreća (luck); đak (pupil), rođendan (birthday), anđeo (angel). The family names that end in -ić — Babić, Perić — end in this soft ć.',
+        body: 'ć is softer than č: the tongue tip rests low behind the bottom teeth and the middle of the tongue touches the roof of the mouth. It sits close to the "t" a British speaker says in "tune". đ is its voiced partner, close to the "d" in a British "duke". kuća (house), noć (night), sreća (luck); đak (student), rođendan (birthday), anđeo (angel). The family names that end in -ić — Babić, Perić — end in this soft ć.',
         highlight: 'ć = soft, đ = its voiced partner',
       },
       {
@@ -188,7 +188,7 @@ export const LESSONS = [
           },
           {
             hr: 'đak, rođendan, anđeo, rođak, Đakovo, smeđ',
-            en: 'pupil, birthday, angel, cousin, a town in Slavonia, brown',
+            en: 'student, birthday, angel, cousin, a town in Slavonia, brown',
             note: 'đ — the voiced partner of ć',
           },
           {
@@ -230,7 +230,7 @@ export const LESSONS = [
           },
           {
             hr: 'čaj i kuća, ključ i noć, džem i đak',
-            en: 'tea and a house, a key and the night, jam and a pupil',
+            en: 'tea and a house, a key and the night, jam and a student',
             note: 'read them aloud slowly, then fast: č, ć, dž, đ in turn',
           },
         ],
@@ -393,7 +393,7 @@ export const LESSONS = [
           },
           {
             hr: 'Jeste li Vi gospodin Horvat? — Da, jesam.',
-            en: 'Are you Mr Horvat? — Yes, I am.',
+            en: 'Are you Mr. Horvat? — Yes, I am.',
             note: 'Vi takes jeste li',
           },
           {
@@ -774,7 +774,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: '-telj and -ač Add -ica',
-        body: "Jobs ending in -telj or -ač add -ica for a woman. učitelj → učiteljica (teacher), ravnatelj → ravnateljica (head teacher), vozač → vozačica (driver), prodavač → prodavačica (shop assistant), pjevač → pjevačica (singer). The man's word stays whole and -ica goes on the end.",
+        body: "Jobs ending in -telj or -ač add -ica for a woman. učitelj → učiteljica (teacher), ravnatelj → ravnateljica (head teacher), vozač → vozačica (driver), prodavač → prodavačica (salesperson), pjevač → pjevačica (singer). The man's word stays whole and -ica goes on the end.",
         highlight: 'učitelj → učiteljica',
       },
       {
@@ -1482,7 +1482,7 @@ export const PRACTICE = {
           options: ['ć', 'đ', 'č', 'ž'],
           correct: 2,
           hint: 'The hard one, with the tongue raised.',
-          explanation: 'č is the hard "church" sound; ć is its soft neighbour.',
+          explanation: 'č is the hard "church" sound; ć is its soft neighbor.',
         },
         {
           q: 'Which letter is the voiced partner of ć?',
@@ -1535,7 +1535,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Type the word for "pupil" (starts with the voiced soft sound): ____',
+          q: 'Type the word for "student" (starts with the voiced soft sound): ____',
           answer: 'đak',
           hint: 'The partner of ć, then a, then k.',
           explanation: 'đak — never "djak".',
@@ -1752,7 +1752,7 @@ export const PRACTICE = {
         explanation: 'nisam — "I am not".',
       },
       {
-        q: 'Ask: Are you (polite) Mrs Horvat?',
+        q: 'Ask: Are you (polite) Mrs. Horvat?',
         options: [
           'Jesi li Vi gospođa Horvat?',
           'Je li Vi gospođa Horvat?',

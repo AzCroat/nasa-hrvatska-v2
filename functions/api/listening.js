@@ -169,7 +169,7 @@ export async function onRequestPost(context) {
     `lines combined) must total NO MORE THAN ${TTS_TEXT_BUDGET} characters. ` +
     `Stay well within that — a listening exercise is a short passage, not an essay. ` +
     (targetVocab
-      ? `When it fits naturally, feature these Croatian words the learner is practising: ${targetVocab}. `
+      ? `When it fits naturally, feature these Croatian words the learner is practicing: ${targetVocab}. `
       : '') +
     `Include 3 comprehension questions with 4 multiple-choice options each (exactly one correct). ` +
     `Return JSON with this exact structure: { ` +

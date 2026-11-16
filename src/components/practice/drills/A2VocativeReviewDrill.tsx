@@ -21,7 +21,7 @@ export default function A2VocativeReviewDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2vocativereview"
       title="Calling People: The Vocative Revisited"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VOCATIVE_REVIEW_MODE_LABELS}
       data={VOCATIVE_REVIEW_DRILL_DATA}
       praise={{

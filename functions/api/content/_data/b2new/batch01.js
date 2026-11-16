@@ -46,7 +46,7 @@ export const SPINE = [
     masterOrder: 4,
     prerequisites: ['noun-peculiarities-a', 'adjective-agreement', 'school-studies'],
     objectives: [
-      'Recognise the false friends that trip English speakers: aktualan, eventualno, simpatičan, gimnazija',
+      'Recognize the false friends that trip English speakers: aktualan, eventualno, simpatičan, gimnazija',
       'Choose the Croatian word for what you actually mean: pravi razlog, na kraju, teretana, dokaz',
       'Use the words of school, health and renting correctly: lektira, ordinacija, ambulanta, kaucija, tvornica',
     ],
@@ -162,7 +162,7 @@ const NOUN_A = {
         },
         {
           hr: 'Svi muževi iz naše ulice nedjeljom igraju nogomet.',
-          en: 'All the husbands from our street play football on Sundays.',
+          en: 'All the husbands from our street play soccer on Sundays.',
           note: 'muževi — after the soft ž of muž the insert is -ev-',
         },
         {
@@ -177,7 +177,7 @@ const NOUN_A = {
         },
         {
           hr: 'U ovom razredu svi učenici dobro govore engleski.',
-          en: 'In this class all the pupils speak English well.',
+          en: 'In this class all the students speak English well.',
           note: 'učenici — the k of učenik becomes c before -i',
         },
         {
@@ -258,7 +258,7 @@ const NOUN_A = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Giving every short noun -ovi: "danovi, gostovi" — the plurals are dani and gosti. (2) Using the genitive plural for the singular: "Upoznao sam simpatičnog momaka" — one young man is momka; momaka is the genitive plural. (3) Changing the consonant where there is no -i: "Vidim učenice" for male pupils — the accusative plural keeps the k: učenike. (4) Treating oči as masculine: "plavi oči" — the plural of oko is feminine: plave oči.',
+      body: '(1) Giving every short noun -ovi: "danovi, gostovi" — the plurals are dani and gosti. (2) Using the genitive plural for the singular: "Upoznao sam simpatičnog momaka" — one young man is momka; momaka is the genitive plural. (3) Changing the consonant where there is no -i: "Vidim učenice" for male students — the accusative plural keeps the k: učenike. (4) Treating oči as masculine: "plavi oči" — the plural of oko is feminine: plave oči.',
       highlight: 'plave oči',
     },
     {
@@ -597,13 +597,13 @@ const FALSE_FRIENDS = {
     {
       type: 'rule',
       title: 'People and Places',
-      body: 'Simpatičan means likeable, pleasant: simpatičan konobar. The English "sympathetic" is suosjećajan or pun razumijevanja. A gimnazija is a school — the academic secondary school that prepares pupils for university; a gym is teretana (with weights) or dvorana (a sports hall). An ordinacija is a doctor’s or dentist’s surgery; an ambulanta is a local outpatient clinic, and an ambulance is the vozilo hitne pomoći — you call hitna pomoć on 194 or 112.',
+      body: 'Simpatičan means likeable, pleasant: simpatičan konobar. The English "sympathetic" is suosjećajan or pun razumijevanja. A gimnazija is a school — the academic high school that prepares students for university; a gym is teretana (with weights) or dvorana (a sports hall). An ordinacija is a doctor’s or dentist’s office; an ambulanta is a local outpatient clinic, and an ambulance is the vozilo hitne pomoći — you call hitna pomoć on 194 or 112.',
       highlight: 'gimnazija',
     },
     {
       type: 'rule',
       title: 'School, Work and Renting',
-      body: 'Lektira is the list of books pupils must read at school, or a book on it; a lecture is predavanje. A kompozicija is a musical composition (and a set of railway carriages); a school composition is a sastavak. Evidencija means records, a register: voditi evidenciju (to keep records); evidence is dokaz. Kaucija is a deposit (for a flat) or bail; caution is oprez. A novela is a short story or novella; a novel is roman. A factory is a tvornica.',
+      body: 'Lektira is the list of books students must read at school, or a book on it; a lecture is predavanje. A kompozicija is a musical composition (and a set of railway carriages); a school composition is a sastavak. Evidencija means records, a register: voditi evidenciju (to keep records); evidence is dokaz. Kaucija is a deposit (for an apartment) or bail; caution is oprez. A novela is a short story or novella; a novel is roman. A factory is a tvornica.',
       highlight: 'Lektira',
     },
     {
@@ -660,12 +660,12 @@ const FALSE_FRIENDS = {
         },
         {
           hr: 'Liječnička ordinacija radi od osam do dva.',
-          en: 'The doctor’s surgery is open from eight to two.',
-          note: 'ordinacija — a surgery, a practice',
+          en: 'The doctor’s office is open from eight to two.',
+          note: 'ordinacija — an office, a practice',
         },
         {
           hr: 'Za stan smo platili kauciju od tisuću eura.',
-          en: 'We paid a deposit of a thousand euros for the flat.',
+          en: 'We paid a deposit of a thousand euros for the apartment.',
           note: 'kauciju — a deposit, not "caution"',
         },
         {
@@ -695,7 +695,7 @@ const FALSE_FRIENDS = {
       options: ['gimnazija', 'teretana', 'ordinacija'],
       correct: 1,
       explanation:
-        'A gimnazija is a school; the gym is teretana. An ordinacija is a doctor’s surgery.',
+        'A gimnazija is a school; the gym is teretana. An ordinacija is a doctor’s office.',
     },
     {
       type: 'rule',
@@ -717,7 +717,7 @@ const FALSE_FRIENDS = {
           q: 'Complete: "Moja kći ide u ___ — želi studirati medicinu." (an academic secondary school)',
           options: ['teretanu', 'ordinaciju', 'gimnaziju', 'ambulantu'],
           correct: 2,
-          explanation: 'A gimnazija is the academic secondary school that leads to university.',
+          explanation: 'A gimnazija is the academic high school that leads to university.',
         },
         {
           q: 'Which sentence means "Eventually we found the hotel"?',
@@ -759,7 +759,7 @@ const FALSE_FRIENDS = {
         'eventualno = possibly; "eventually" = na kraju, konačno',
         'simpatičan = likeable; "sympathetic" = suosjećajan',
         'gimnazija is a school; a gym is teretana',
-        'ordinacija is a surgery, ambulanta an outpatient clinic, hitna pomoć the ambulance',
+        'ordinacija is an office, ambulanta an outpatient clinic, hitna pomoć the ambulance',
         'lektira = required reading, evidencija = records, kaucija = deposit, roman = novel',
       ],
     },
@@ -885,11 +885,11 @@ const LITERACY = {
         },
         {
           hr: 'Prijateljica me je nagovorila da upišem tečaj.',
-          en: 'My friend persuaded me to enrol in the course.',
+          en: 'My friend persuaded me to enroll in the course.',
         },
         {
           hr: 'Susjed stalno prigovara djeci zbog buke.',
-          en: 'The neighbour keeps complaining at the children about the noise.',
+          en: 'The neighbor keeps complaining at the children about the noise.',
           note: 'prigovarati takes the dative: djeci',
         },
         {
@@ -1745,7 +1745,7 @@ export const PRACTICE = {
         q: 'Complete: "Najmodavac traži ___ od tisuću eura." (a deposit)',
         options: ['kauciju', 'evidenciju', 'kompoziciju', 'lektiru'],
         correct: 0,
-        explanation: 'A deposit for a flat is kaucija.',
+        explanation: 'A deposit for an apartment is kaucija.',
       },
       {
         q: 'What is the Croatian for "a novel"?',
@@ -1768,7 +1768,7 @@ export const PRACTICE = {
         q: 'Who works in an ordinacija?',
         options: ['a lawyer', 'a doctor or dentist', 'a priest', 'a teacher'],
         correct: 1,
-        explanation: 'An ordinacija is a doctor’s or dentist’s surgery.',
+        explanation: 'An ordinacija is a doctor’s or dentist’s office.',
       },
     ],
     vocab: [

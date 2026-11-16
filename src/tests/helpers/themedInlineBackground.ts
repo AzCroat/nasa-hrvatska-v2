@@ -19,7 +19,7 @@
 // whatever the class painted — and fine when the element also sets `color`, because
 // then it owns both halves. Only an OPAQUE LIGHT literal with no inline `color` is
 // a defect. Widening it to "no inline background at all" would flag five correct
-// translucent sites and `VocativeScreen`, which sets its own colour; a rule that is
+// translucent sites and `VocativeScreen`, which sets its own color; a rule that is
 // mostly false alarms is one everybody learns to ignore (the 123-false-positive
 // lesson).
 //
@@ -48,7 +48,7 @@ export function themedClasses(css: string): Set<string> {
 }
 
 /**
- * Is this colour literal an OPAQUE LIGHT paint?
+ * Is this color literal an OPAQUE LIGHT paint?
  *
  * `white`, or a hex whose every channel is ≥ 0xcc. A translucent `rgba()` is not:
  * it composites over the class's own background and therefore tracks the theme.
@@ -124,7 +124,7 @@ export function findThemedInlineBackgrounds(files?: string[]): Finding[] {
       const classes = (cm[1] ?? cm[2] ?? '').split(/\s+/).filter(Boolean);
       const hit = classes.filter((c) => themed.has(c));
       if (!hit.length) continue;
-      // an element that sets its OWN colour owns both halves and is fine
+      // an element that sets its OWN color owns both halves and is fine
       if (/(?:^|[,{\s])color\s*:/.test(tag.text)) continue;
       const bg = /\b(?:background|backgroundColor)\s*:([\s\S]*?)(?:,\s*[a-zA-Z]+\s*:|\}\})/.exec(
         tag.text,

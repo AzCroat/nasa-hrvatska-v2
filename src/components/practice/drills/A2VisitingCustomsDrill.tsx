@@ -21,7 +21,7 @@ export default function A2VisitingCustomsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2visitingcustoms"
       title="U gostima"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={VISITING_CUSTOMS_MODE_LABELS}
       data={VISITING_CUSTOMS_DRILL_DATA}
       praise={{

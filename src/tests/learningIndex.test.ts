@@ -6,7 +6,7 @@
  *
  * The three doors to content that existed before this index were all hand-listed,
  * and every one of them decayed silently: `BrowseContentModal` reached 26 of 180
- * lessons, `buildSearchIndex` reached 0 of 180 while being labelled "Search
+ * lessons, `buildSearchIndex` reached 0 of 180 while being labeled "Search
  * lessons…", and `GrammarReference` held five hand-written topics that linked to
  * nothing. Nothing failed, because a list cannot report what it fails to mention
  * — the identical shape as the hardcoded 56-name vocabulary list that left 1,030
@@ -28,14 +28,14 @@
  *
  *   * THE SOURCE ASSEMBLY. Which catalogues feed the index is decided by the
  *     caller, and in this phase the only caller is this file. A production
- *     assembler — and a guard that it names every catalogue — lands with the UI.
- *   * 54 ROUTED SCREENS IN NO CATALOGUE AT ALL. Measured against the real
+ *     assembler — and a guard that it names every catalog — lands with the UI.
+ *   * 54 ROUTED SCREENS IN NO CATALOG AT ALL. Measured against the real
  *     router: about twenty are infrastructure (dashboard, profile, privacy) and
  *     correctly absent, but the rest are genuine teaching content that no pool
  *     lists — `grammar_track`, `readlist`, `slang`, `pitch_accent`, `scenes`,
  *     `conjlab` among them. They are missing from the Learning Center because
- *     they are missing from every catalogue the app keeps, which is a content-
- *     organisation gap and not an index one. Fixing it means pooling them, and
+ *     they are missing from every catalog the app keeps, which is a content-
+ *     organization gap and not an index one. Fixing it means pooling them, and
  *     that changes what the daily session can serve — a separate decision with
  *     its own measurement, not a tidy-up to fold in here.
  */
@@ -157,7 +157,7 @@ describe('the index is derived from the app’s own catalogues', () => {
     // catalogues carry DIFFERENT optional fields (Croatia entries may omit
     // `cefr`, production entries add `micRequired`/`kind`, only the CEFR pool
     // sets `reference`), so a builder that quietly required any one of them
-    // would drop a whole catalogue. Making `cefr` mandatory fails this.
+    // would drop a whole catalog. Making `cefr` mandatory fails this.
     const screens = new Set(
       index.filter((e) => e.target.kind === 'screen').map((e) => e.target.screen),
     );
@@ -245,7 +245,7 @@ describe('the lookup a learner actually performs', () => {
   });
 
   it('folds \u0111 in real content, not just in a unit test', () => {
-    // `odredjenost` is labelled "Odre\u0111eni i neodre\u0111eni vid". A learner typing the
+    // `odredjenost` is labeled "Odre\u0111eni i neodre\u0111eni vid". A learner typing the
     // ASCII form must reach it. This is the assertion that makes foldCroatian's
     // explicit map load-bearing in SEARCH: under an NFD-only fold the label keeps
     // its \u0111, "odredeni" matches nothing, and only the isolated unit test notices.
@@ -434,7 +434,7 @@ describe('the syllabus view', () => {
     expect(ordered[0]?.order).toBe(1);
   });
 
-  it('degrades to fewer rows when a catalogue is absent, never to a throw', () => {
+  it('degrades to fewer rows when a catalog is absent, never to a throw', () => {
     // The spine is a cached fetch and can legitimately be missing on a cold
     // offline start. A Centre still listing every drill beats one that errors.
     expect(() => buildLearningIndex({})).not.toThrow();

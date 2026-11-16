@@ -43,7 +43,7 @@ describe('the source list is what the owner asked for', () => {
 
   it('mentions no removed source anywhere a learner can read it', () => {
     // The endpoint's own comment records the removal; that is the record, not a
-    // mention. Everything else — the media catalogue, the reading-practice
+    // mention. Everything else — the media catalog, the reading-practice
     // prompt on CivicScreen, the offline fallback's attributions — is copy.
     const files = [
       'src/data/cultural/media.js',

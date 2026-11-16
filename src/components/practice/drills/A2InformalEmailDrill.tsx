@@ -21,7 +21,7 @@ export default function A2InformalEmailDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2informalemail"
       title="Writing to a Friend"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INFORMAL_EMAIL_MODE_LABELS}
       data={INFORMAL_EMAIL_DRILL_DATA}
       praise={{

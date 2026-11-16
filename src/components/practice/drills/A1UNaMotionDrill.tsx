@@ -21,7 +21,7 @@ export default function A1UNaMotionDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1unamotion"
       title="U or Na? Going Places"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={U_NA_MOTION_MODE_LABELS}
       data={U_NA_MOTION_DRILL_DATA}
       praise={{

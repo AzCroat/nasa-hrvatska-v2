@@ -134,7 +134,7 @@ describe('the exercise wrapper refuses a zero total — the division never happe
     // THIS ASSERTS THE OUTCOME, NOT A LINE, and the distinction is measured:
     // removing `total <= 0` from `recordExerciseOutcome` leaves this GREEN, because
     // the finiteness check above now catches the 0/0 it produces. That is the
-    // property wanted — the invariant is defended twice and neither defence alone
+    // property wanted — the invariant is defended twice and neither defense alone
     // is load-bearing — so this test must not claim to pin that line. Before this
     // file, the `total <= 0` return was the ONLY thing standing between every
     // `score / questions.length` in the app and a poisoned cell, and nothing

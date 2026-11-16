@@ -21,7 +21,7 @@ export default function B1GenitivePluralSpecialDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1genitivepluralspecial"
       title="Pet djevojaka, deset prstiju — the Genitive Plural’s Special Forms"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={GENITIVE_PLURAL_SPECIAL_MODE_LABELS}
       data={GENITIVE_PLURAL_SPECIAL_DRILL_DATA}
       praise={{

@@ -21,7 +21,7 @@ export default function B1CharacterTraitsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1charactertraits"
       title="What Kind of Person?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={CHARACTER_TRAITS_MODE_LABELS}
       data={CHARACTER_TRAITS_DRILL_DATA}
       praise={{

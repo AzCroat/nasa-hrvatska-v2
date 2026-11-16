@@ -194,7 +194,7 @@ describe('the receptive picker cannot latch on an unmeasurable skill', () => {
     const p = getMasteryProfile('B1');
     expect(p.listening?.tested).toBe(true);
     expect(p.reading?.tested, 'reading never became tested — the hole is back').toBe(true);
-    // null hands the slot back to its own alternation, which is the behaviour
+    // null hands the slot back to its own alternation, which is the behavior
     // the comprehension guarantee was measured against.
     expect(weakestReceptiveKind('B1')).toBeNull();
   });

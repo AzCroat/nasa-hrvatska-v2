@@ -403,7 +403,7 @@ describe('Wave 1 — pool registration integrity', () => {
   });
 });
 
-// ── Discovery slot behaviour ─────────────────────────────────────────────────
+// ── Discovery slot behavior ─────────────────────────────────────────────────
 import { buildSessionActivities } from '../hooks/useDailySession';
 
 describe('Wave 1 — discovery slot', () => {

@@ -207,7 +207,7 @@ export const FORMAL_ADDRESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pismo',
     q: 'U pismu se "Vi" često piše velikim slovom iz ____.',
-    en: 'In letters the polite you is often capitalised out of…',
+    en: 'In letters the polite you is often capitalized out of…',
     opts: ['poštovanja', 'navike', 'pogreške', 'žurbe'],
     answer: 'poštovanja',
     tip: 'The capital is a courtesy, a mark of respect.',

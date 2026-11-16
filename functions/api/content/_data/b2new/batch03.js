@@ -22,7 +22,7 @@ export const SPINE = [
     objectives: [
       'Say what someone is in the everyday way: Ona je liječnica',
       'Use the instrumental after postati, smatrati, proglasiti and imenovati: Smatram ga prijateljem',
-      'Recognise the bookish instrumental after biti, and keep the nominative after kao and zvati se',
+      'Recognize the bookish instrumental after biti, and keep the nominative after kao and zvati se',
     ],
   },
   {
@@ -89,7 +89,7 @@ const PREDICATE_INSTRUMENTAL = {
     {
       type: 'rule',
       title: 'After biti: The Nominative Is Normal',
-      body: 'The noun after biti that says what someone is — the predicate nominative — stays in the nominative: Ona je liječnica. Moj otac je bio učitelj. This is the everyday, natural form, and it is never wrong. You will also read the instrumental after biti: Bio je učiteljem dvadeset godina. That is correct too, but bookish — it sounds written, and often suggests a role held for a time. Say the nominative yourself; recognise the instrumental when you meet it.',
+      body: 'The noun after biti that says what someone is — the predicate nominative — stays in the nominative: Ona je liječnica. Moj otac je bio učitelj. This is the everyday, natural form, and it is never wrong. You will also read the instrumental after biti: Bio je učiteljem dvadeset godina. That is correct too, but bookish — it sounds written, and often suggests a role held for a time. Say the nominative yourself; recognize the instrumental when you meet it.',
       highlight: 'Ona je liječnica',
     },
     {
@@ -349,7 +349,7 @@ const COMPARATIVE_IDIOMS = {
       items: [
         {
           hr: 'Djed ima devedeset godina, a zdrav je kao dren.',
-          en: 'Grandad is ninety, and he is in excellent health.',
+          en: 'Grandpa is ninety, and he is in excellent health.',
           note: 'zdrav kao dren — very healthy',
         },
         {
@@ -390,7 +390,7 @@ const COMPARATIVE_IDIOMS = {
         },
         {
           hr: 'Nova šefica je prema svima hladna kao led.',
-          en: 'The new boss is as cold as ice towards everyone.',
+          en: 'The new boss is as cold as ice toward everyone.',
           note: 'hladna agrees with šefica',
         },
         {
@@ -573,7 +573,7 @@ const READING_CULTURE = {
         },
         {
           hr: 'Na putovanjima čitam e-knjige jer je čitač lagan.',
-          en: 'When travelling I read e-books because the e-reader is light.',
+          en: 'When traveling I read e-books because the e-reader is light.',
           note: 'čitač — the device, not the person',
         },
         {
@@ -826,7 +826,7 @@ const INDEFINITE_CASES = {
         },
         {
           hr: 'Čekam nekoga ispred kina.',
-          en: 'I am waiting for someone in front of the cinema.',
+          en: 'I am waiting for someone in front of the movie theater.',
           note: 'nekoga — accusative of netko',
         },
         {
@@ -1067,7 +1067,7 @@ const BODY_PART_NOUNS = {
       rows: [
         ['u četiri oka', 'in private, just the two of us'],
         ['zaljubljen do ušiju', 'head over heels in love'],
-        ['imati zlatne ruke', 'to be very skilful with one’s hands'],
+        ['imati zlatne ruke', 'to be very skillful with one’s hands'],
         ['padati s nogu', 'to be dead tired'],
         ['ne vjerovati svojim očima', 'not to believe one’s eyes'],
         ['ruku na srce', 'hand on heart, honestly'],
@@ -1120,8 +1120,8 @@ const BODY_PART_NOUNS = {
         },
         {
           hr: 'Djed ima zlatne ruke, sve popravi sam.',
-          en: 'Grandad is very good with his hands; he fixes everything himself.',
-          note: 'zlatne ruke — skilful hands',
+          en: 'Grandpa is very good with his hands; he fixes everything himself.',
+          note: 'zlatne ruke — skillful hands',
         },
         {
           hr: 'O tome ćemo razgovarati u četiri oka.',
@@ -1258,8 +1258,8 @@ export const PRACTICE = {
       },
       {
         title: 'Was, Then Became',
-        problem: 'Prevedi: "My father was a teacher, and then he became headmaster."',
-        en: 'My father was a teacher, and then he became headmaster.',
+        problem: 'Prevedi: "My father was a teacher, and then he became principal."',
+        en: 'My father was a teacher, and then he became principal.',
         steps: [
           {
             label: 'Was a teacher',
@@ -2112,7 +2112,7 @@ export const PRACTICE = {
           q: 'Djed sve popravi sam, ima zlatne ____. (hands)',
           answer: 'ruke',
           hint: 'The plural of ruka.',
-          explanation: 'zlatne ruke — skilful hands.',
+          explanation: 'zlatne ruke — skillful hands.',
         },
         {
           type: 'type',
@@ -2140,7 +2140,7 @@ export const PRACTICE = {
         q: 'Complete: "Djed ima zlatne ___, sve popravi sam."',
         options: ['noge', 'oči', 'ruke', 'uši'],
         correct: 2,
-        explanation: 'Imati zlatne ruke — to be very skilful with one’s hands.',
+        explanation: 'Imati zlatne ruke — to be very skillful with one’s hands.',
       },
       {
         q: 'Complete: "Ne mogu vjerovati svojim ___!"',

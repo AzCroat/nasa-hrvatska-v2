@@ -63,7 +63,7 @@ export const DECLENSION_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'jednina',
     q: 'Idem u kino s ____.',
-    en: 'I am going to the cinema with my husband.',
+    en: 'I am going to the movies with my husband.',
     opts: ['muž', 'muža', 'mužom', 'mužem'],
     answer: 'mužem',
     tip: 'After a soft ž the instrumental is -em.',
@@ -96,7 +96,7 @@ export const DECLENSION_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mnozina',
     q: 'Rado pomažem ____.',
-    en: 'I am glad to help my neighbours.',
+    en: 'I am glad to help my neighbors.',
     opts: ['susjedi', 'susjede', 'susjeda', 'susjedima'],
     answer: 'susjedima',
     tip: 'Pomagati takes the dative — here plural.',
@@ -196,7 +196,7 @@ export const DECLENSION_REVIEW_DRILL_DATA: ModeDrillItem[] = [
     en: 'In the sentence meaning "I am going to town", which case is the noun?',
     opts: ['akuzativu', 'lokativu', 'genitivu', 'dativu'],
     answer: 'akuzativu',
-    tip: 'Motion towards a place: u + accusative.',
+    tip: 'Motion toward a place: u + accusative.',
   },
   {
     mode: 'pitanja',

@@ -111,7 +111,7 @@ const L_VERBS_NUTI = {
         },
         {
           hr: 'Vikendom često ostanemo kod kuće.',
-          en: 'At weekends we often stay at home.',
+          en: 'On weekends we often stay at home.',
           note: 'ostanemo — the mi form of ostati',
         },
         {
@@ -485,7 +485,7 @@ const P_VERBS_NUTI = {
 const L_WEEKEND_PLANS = {
   id: 'weekend-plans',
   title: 'Planovi za vikend',
-  subtitle: 'What are you doing at the weekend — and where will you sleep?',
+  subtitle: 'What are you doing on the weekend — and where will you sleep?',
   icon: '🏖️',
   level: 'A2',
   duration: '~6 min',
@@ -507,7 +507,7 @@ const L_WEEKEND_PLANS = {
     {
       type: 'rule',
       title: 'Time Words for the Weekend',
-      body: 'Days take u + accusative: u petak, u subotu, u nedjelju — add navečer, ujutro or popodne for the part of the day: u petak navečer. "This weekend" and "next weekend" need no preposition at all: ovaj vikend, sljedeći vikend. "At the weekend" in general is za vikend, and "every weekend" is vikendom.',
+      body: 'Days take u + accusative: u petak, u subotu, u nedjelju — add navečer, ujutro or popodne for the part of the day: u petak navečer. "This weekend" and "next weekend" need no preposition at all: ovaj vikend, sljedeći vikend. "On the weekend" in general is za vikend, and "every weekend" is vikendom.',
       highlight: 'za vikend',
     },
     {
@@ -519,7 +519,7 @@ const L_WEEKEND_PLANS = {
     {
       type: 'rule',
       title: 'Hotel or Private Accommodation?',
-      body: 'A hotel has a reception (recepcija), often a pool (bazen), and breakfast in the price. Privatni smještaj means rooms (sobe) or a flat (apartman) let by a private owner: the host meets you and gives you the key, and an apartman usually has its own kitchen. On the coast you will see houses with signs reading "Sobe" or "Apartmani". Either way a small tourist tax, boravišna pristojba, is added per person per night.',
+      body: 'A hotel has a reception (recepcija), often a pool (bazen), and breakfast in the price. Privatni smještaj means rooms (sobe) or an apartment (apartman) let by a private owner: the host meets you and gives you the key, and an apartman usually has its own kitchen. On the coast you will see houses with signs reading "Sobe" or "Apartmani". Either way a small tourist tax, boravišna pristojba, is added per person per night.',
       highlight: 'privatni smještaj',
     },
     {
@@ -544,7 +544,7 @@ const L_WEEKEND_PLANS = {
       type: 'example',
       title: 'Talking About the Weekend',
       items: [
-        { hr: 'Što radiš za vikend?', en: 'What are you doing at the weekend?' },
+        { hr: 'Što radiš za vikend?', en: 'What are you doing on the weekend?' },
         {
           hr: 'U subotu idemo na izlet na Plitvice.',
           en: 'On Saturday we are going on a trip to Plitvice.',
@@ -557,7 +557,7 @@ const L_WEEKEND_PLANS = {
         },
         {
           hr: 'Ovaj vikend putujemo u Zadar kod prijatelja.',
-          en: 'This weekend we are travelling to Zadar to stay with friends.',
+          en: 'This weekend we are traveling to Zadar to stay with friends.',
           note: 'ovaj vikend — no preposition',
         },
         {
@@ -566,7 +566,7 @@ const L_WEEKEND_PLANS = {
         },
         {
           hr: 'U petak navečer idem u kino s Anom.',
-          en: 'On Friday evening I am going to the cinema with Ana.',
+          en: 'On Friday evening I am going to the movies with Ana.',
         },
       ],
     },
@@ -591,7 +591,7 @@ const L_WEEKEND_PLANS = {
         },
         {
           hr: 'Rezervirali smo mali apartman s kuhinjom.',
-          en: 'We have booked a small flat with a kitchen.',
+          en: 'We have booked a small apartment with a kitchen.',
         },
         {
           hr: 'Koliko košta noćenje s doručkom?',
@@ -655,7 +655,7 @@ const L_WEEKEND_PLANS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Leaving the adjective in its basic form after a verb with an object: "Imate li slobodna soba?" — the room is the object, so both words take the accusative: Imate li slobodnu sobu? (2) Putting ću in the wrong place: "U subotu ići ću na more" — ću must be second: U subotu ću ići na more. (3) Saying "u vikend" for "at the weekend" — the phrase is za vikend, or vikendom for "every weekend".',
+      body: '(1) Leaving the adjective in its basic form after a verb with an object: "Imate li slobodna soba?" — the room is the object, so both words take the accusative: Imate li slobodnu sobu? (2) Putting ću in the wrong place: "U subotu ići ću na more" — ću must be second: U subotu ću ići na more. (3) Saying "u vikend" for "on the weekend" — the phrase is za vikend, or vikendom for "every weekend".',
       highlight: 'Imate li slobodnu sobu?',
     },
     {
@@ -706,7 +706,7 @@ const L_WEEKEND_PLANS = {
           explanation: 'Uključen means "included", and u cijenu is "in the price".',
         },
         {
-          q: 'Which phrase means "at the weekend"?',
+          q: 'Which phrase means "on the weekend"?',
           options: ['u vikendu', 'na vikendu', 'za vikend', 'do vikenda'],
           correct: 2,
           explanation: 'Croatian says za vikend. Do vikenda means "until the weekend".',
@@ -803,10 +803,10 @@ const P_WEEKEND_PLANS = {
         explanation: 'U nedjelju ću ostati kod kuće.',
       },
       {
-        q: 'Što radiš ___? (at the weekend)',
+        q: 'Što radiš ___? (on the weekend)',
         options: ['u vikend', 'za vikend', 'na vikendu', 'vikendu'],
         correct: 1,
-        hint: 'One preposition is used with vikend for "at the weekend".',
+        hint: 'One preposition is used with vikend for "on the weekend".',
         explanation: 'za vikend.',
       },
       {
@@ -846,7 +846,7 @@ const P_WEEKEND_PLANS = {
       },
       {
         type: 'type',
-        q: 'Ovaj vikend ____ u Split. (we are travelling)',
+        q: 'Ovaj vikend ____ u Split. (we are traveling)',
         answer: 'putujemo',
         hint: 'The present of putovati, mi form.',
         explanation: 'putujemo — putovati → putuj- + -emo.',
@@ -855,7 +855,7 @@ const P_WEEKEND_PLANS = {
         q: 'Which kind of accommodation usually has its own kitchen?',
         options: ['hotelska soba', 'apartman', 'recepcija', 'bazen'],
         correct: 1,
-        hint: 'Think of a flat let by a private host.',
+        hint: 'Think of an apartment let by a private host.',
         explanation: 'An apartman usually has a kitchen.',
       },
     ],
@@ -896,7 +896,7 @@ const P_WEEKEND_PLANS = {
       options: [
         'a big hotel',
         'a campsite',
-        'rooms or a flat let by a private owner',
+        'rooms or an apartment let by a private owner',
         'a youth hostel',
       ],
       correct: 2,
@@ -929,7 +929,7 @@ const P_WEEKEND_PLANS = {
 const L_GROCERY_SHOPPING = {
   id: 'grocery-shopping',
   title: 'U trgovini i na tržnici',
-  subtitle: 'A kilo of apples, a litre of milk, half a kilo of cheese',
+  subtitle: 'A kilo of apples, a liter of milk, half a kilo of cheese',
   icon: '🛒',
   level: 'A2',
   duration: '~6 min',
@@ -956,7 +956,7 @@ const L_GROCERY_SHOPPING = {
         ['kilogram (kila) jabuka', 'a kilo of apples'],
         ['pola kile sira', 'half a kilo of cheese'],
         ['deset deka šunke', '100 grams of ham'],
-        ['litra mlijeka', 'a litre of milk'],
+        ['litra mlijeka', 'a liter of milk'],
         ['boca vode', 'a bottle of water'],
         ['kutija jaja', 'a box of eggs'],
         ['paket tjestenine', 'a packet of pasta'],
@@ -1024,7 +1024,7 @@ const L_GROCERY_SHOPPING = {
       items: [
         {
           hr: 'Trebamo litru mlijeka, kruh i bocu ulja.',
-          en: 'We need a litre of milk, bread and a bottle of oil.',
+          en: 'We need a liter of milk, bread and a bottle of oil.',
           note: 'litru, bocu — accusative, as objects of trebamo',
         },
         {
@@ -1090,7 +1090,7 @@ const L_GROCERY_SHOPPING = {
           explanation: 'Apples are counted, so the genitive plural: jabuka.',
         },
         {
-          q: 'Complete: "Molim vas, ___ mlijeka." (a litre — as the object)',
+          q: 'Complete: "Molim vas, ___ mlijeka." (a liter — as the object)',
           options: ['litra', 'litre', 'litri', 'litru'],
           correct: 3,
           explanation: 'As the object, litra takes the accusative litru.',
@@ -1160,8 +1160,8 @@ const P_GROCERY_SHOPPING = {
     },
     {
       title: 'A Shopping List',
-      problem: 'Prevedi: "We need a litre of milk and a box of eggs."',
-      en: 'We need a litre of milk and a box of eggs.',
+      problem: 'Prevedi: "We need a liter of milk and a box of eggs."',
+      en: 'We need a liter of milk and a box of eggs.',
       steps: [
         {
           label: 'The verb',
@@ -1465,7 +1465,7 @@ const L_VISITING_CUSTOMS = {
       title: 'Mastery Check',
       items: [
         {
-          q: 'You arrive late. Which sentence apologises?',
+          q: 'You arrive late. Which sentence apologizes?',
           options: [
             'Oprostite što kasnim.',
             'Oprostite što kasnite.',
@@ -1807,7 +1807,7 @@ const L_LOCATIVE_ADJECTIVES = {
         },
         {
           hr: 'U našem stanu nema balkona.',
-          en: 'There is no balcony in our flat.',
+          en: 'There is no balcony in our apartment.',
           note: 'našem — naš has a soft stem, so -em',
         },
         {
@@ -2184,7 +2184,7 @@ const L_QUALITY_OF_LIFE = {
     {
       type: 'rule',
       title: 'The Words of the Topic',
-      body: 'Kvaliteta života (quality of life — the Croatian word is feminine: kvaliteta). Plaća (salary), troškovi života (the cost of living), najam stana (rent), slobodno vrijeme (free time), odmor (rest, holiday), zdravlje (health), stres (stress), javni prijevoz (public transport), priroda (nature), sigurnost (safety), zadovoljan / zadovoljna (satisfied).',
+      body: 'Kvaliteta života (quality of life — the Croatian word is feminine: kvaliteta). Plaća (salary), troškovi života (the cost of living), najam stana (rent), slobodno vrijeme (free time), odmor (rest, vacation), zdravlje (health), stres (stress), javni prijevoz (public transport), priroda (nature), sigurnost (safety), zadovoljan / zadovoljna (satisfied).',
       highlight: 'kvaliteta života',
     },
     {
@@ -2271,7 +2271,7 @@ const L_QUALITY_OF_LIFE = {
         },
         {
           hr: 'Mislim da nije dobro raditi vikendom.',
-          en: 'I don’t think it is good to work at weekends.',
+          en: 'I don’t think it is good to work on weekends.',
           note: 'Croatian puts the "not" after da: mislim da nije',
         },
         {
@@ -2316,7 +2316,7 @@ const L_QUALITY_OF_LIFE = {
         },
         {
           hr: 'Ona voli crni humor.',
-          en: 'She likes black humour.',
+          en: 'She likes black humor.',
           note: 'crni humor — jokes about dark things',
         },
         {
@@ -2669,7 +2669,7 @@ export const SPINE = [
     prerequisites: ['formal-address', 'vi-vs-ti', 'food-drink', 'verbs-nuti'],
     objectives: [
       'Know what to bring to a Croatian home — and what not to',
-      'Apologise for being late and greet hosts at the door',
+      'Apologize for being late and greet hosts at the door',
       'Accept and refuse food politely, and give a toast',
       'Take leave and thank the hosts: Hvala na pozivu',
     ],

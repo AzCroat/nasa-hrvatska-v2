@@ -18,8 +18,8 @@ const DATA = [
     q: 'putovati → ___ (the travel/journey)',
     opts: ['putovanje', 'putnik', 'putovao', 'put'],
     answer: 'putovanje',
-    en: 'travelling / journey',
-    tip: 'putova-nje (verbal noun); "putnik" = traveller, "put" = road/trip.',
+    en: 'traveling / journey',
+    tip: 'putova-nje (verbal noun); "putnik" = traveler, "put" = road/trip.',
   },
   {
     mode: 'nje',
@@ -223,7 +223,7 @@ export default function NominalizationDrill({ goBack, award }: Props) {
       praise={{
         perfect: 'Perfect! Nominal style mastered! 🏆',
         good: 'Great work! 💪',
-        more: 'Keep practising — deverbal nouns take time!',
+        more: 'Keep practicing — deverbal nouns take time!',
       }}
       goBack={goBack}
       award={award}

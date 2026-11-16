@@ -21,7 +21,7 @@ export default function A1SmjetiPermissionDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1smjetipermission"
       title="Smjeti: May I?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SMJETI_PERMISSION_MODE_LABELS}
       data={SMJETI_PERMISSION_DRILL_DATA}
       praise={{

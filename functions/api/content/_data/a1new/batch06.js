@@ -57,7 +57,7 @@ export const SPINE = [
     objectives: [
       'Go to a person with k / ka: Idem k liječniku.',
       'Say which way something goes with prema: Hodamo prema moru.',
-      'Recognise nasuprot (opposite) and unatoč (despite) with the dative',
+      'Recognize nasuprot (opposite) and unatoč (despite) with the dative',
     ],
   },
   {
@@ -198,7 +198,7 @@ export const LESSONS = [
           },
           {
             hr: 'Trenutak, molim. Gospodin Horvat je na sastanku.',
-            en: 'One moment, please. Mr Horvat is in a meeting.',
+            en: 'One moment, please. Mr. Horvat is in a meeting.',
             note: 'sastanak → na sastanku',
           },
           {
@@ -283,7 +283,7 @@ export const LESSONS = [
               '"Tko je na telefonu?" asks who is on the line. The others ask where the phone is, what your number is, and whether something is a phone.',
           },
           {
-            q: 'Complete: "Gospođa Kovač je na ___." (Mrs Kovač is in a meeting.)',
+            q: 'Complete: "Gospođa Kovač je na ___." (Mrs. Kovač is in a meeting.)',
             options: ['sastanak', 'sastanku', 'sastanka', 'sastanaku'],
             correct: 1,
             explanation:
@@ -427,7 +427,7 @@ export const LESSONS = [
           },
           {
             hr: 'Mama i tata su došli u subotu.',
-            en: 'Mum and dad came on Saturday.',
+            en: 'Mom and dad came on Saturday.',
             note: 'a mixed group: došli',
           },
         ],
@@ -836,13 +836,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Talking About Tomorrow',
-        body: 'You have met the future: ću, ćeš, će plus an infinitive. Now you will use it the way people actually do — to ask a friend what they are doing at the weekend, to say what you plan for the summer, to turn an invitation down politely. The one new thing to master is WHERE ću goes, because that decides whether the verb is written long (raditi) or short (radit).',
+        body: 'You have met the future: ću, ćeš, će plus an infinitive. Now you will use it the way people actually do — to ask a friend what they are doing on the weekend, to say what you plan for the summer, to turn an invitation down politely. The one new thing to master is WHERE ću goes, because that decides whether the verb is written long (raditi) or short (radit).',
         icon: '🗓️',
       },
       {
         type: 'rule',
         title: 'The Question Everyone Asks',
-        body: 'Što ćeš raditi sutra? — What will you do tomorrow? Što ćeš raditi za vikend? — What will you do at the weekend? (za + accusative, which you know.) To a stranger or more than one person: Što ćete raditi? The answer uses the same ću: Radit ću. / Ići ću na more. / Učit ću hrvatski.',
+        body: 'Što ćeš raditi sutra? — What will you do tomorrow? Što ćeš raditi za vikend? — What will you do on the weekend? (za + accusative, which you know.) To a stranger or more than one person: Što ćete raditi? The answer uses the same ću: Radit ću. / Ići ću na more. / Učit ću hrvatski.',
         highlight: 'Što ćeš raditi sutra?',
       },
       {
@@ -888,12 +888,12 @@ export const LESSONS = [
         items: [
           {
             hr: 'Što ćeš raditi za vikend?',
-            en: 'What will you do at the weekend?',
+            en: 'What will you do on the weekend?',
             note: 'question word first, then ćeš',
           },
           {
             hr: 'U subotu ću čistiti stan.',
-            en: 'On Saturday I will clean the flat.',
+            en: 'On Saturday I will clean the apartment.',
             note: 'time first → full čistiti',
           },
           {
@@ -966,7 +966,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'One More',
-        q: 'How do you say "I will go to the cinema" starting with the verb?',
+        q: 'How do you say "I will go to the movies" starting with the verb?',
         options: ['Ić ću u kino.', 'Ići ću u kino.', 'Ićit ću u kino.', 'Ću ići u kino.'],
         correct: 1,
         explanation: 'ići is a -ći verb and never shortens: Ići ću u kino.',
@@ -1011,7 +1011,7 @@ export const LESSONS = [
             explanation: 'A -ći verb never shortens: Ići ćemo na more.',
           },
           {
-            q: 'How do you ask a friend "What will you do at the weekend?"',
+            q: 'How do you ask a friend "What will you do on the weekend?"',
             options: [
               'Što radiš jučer?',
               'Što ćeš raditi za vikend?',
@@ -1020,7 +1020,7 @@ export const LESSONS = [
             ],
             correct: 1,
             explanation:
-              'You (ti) → ćeš, and za vikend is "at the weekend". "Što si radio" asks about the past, "Što ću" asks about yourself.',
+              'You (ti) → ćeš, and za vikend is "on the weekend". "Što si radio" asks about the past, "Što ću" asks about yourself.',
           },
           {
             q: 'Which sentence says "I will not work tomorrow"?',
@@ -1079,7 +1079,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Four Small Exceptions',
-        body: 'In the last lesson the dative had no preposition: Dajem knjigu Ani. That is true almost all the time. A handful of prepositions, however, are followed by the dative, and two of them are everyday words: k (to a person) and prema (towards). The endings are the ones you already know — -u for masculine and neuter, -i for feminine — so the only new thing is which words call for them.',
+        body: 'In the last lesson the dative had no preposition: Dajem knjigu Ani. That is true almost all the time. A handful of prepositions, however, are followed by the dative, and two of them are everyday words: k (to a person) and prema (toward). The endings are the ones you already know — -u for masculine and neuter, -i for feminine — so the only new thing is which words call for them.',
         icon: '🧭',
       },
       {
@@ -1096,8 +1096,8 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'prema: Towards',
-        body: '"prema" means towards, in the direction of: Hodamo prema moru. (We are walking towards the sea.) Autobus ide prema Zagrebu. (The bus is going towards Zagreb.) It does not say you arrive — only which way you are heading. It also means "according to": prema planu (according to the plan), prema prognozi (according to the forecast).',
+        title: 'prema: Toward',
+        body: '"prema" means toward, in the direction of: Hodamo prema moru. (We are walking toward the sea.) Autobus ide prema Zagrebu. (The bus is going toward Zagreb.) It does not say you arrive — only which way you are heading. It also means "according to": prema planu (according to the plan), prema prognozi (according to the forecast).',
         highlight: 'Hodamo prema moru.',
       },
       {
@@ -1112,7 +1112,7 @@ export const LESSONS = [
         headers: ['Preposition', 'Meaning', 'Example'],
         rows: [
           ['k / ka', 'to (a person)', 'Idem k frizeru.'],
-          ['prema', 'towards; according to', 'Idemo prema centru.'],
+          ['prema', 'toward; according to', 'Idemo prema centru.'],
           ['nasuprot', 'opposite', 'Kafić je nasuprot crkvi.'],
           ['unatoč', 'despite', 'Radimo unatoč vrućini.'],
         ],
@@ -1141,17 +1141,17 @@ export const LESSONS = [
             en: "Tomorrow I am going to my colleague's.",
             note: 'ka before k-',
           },
-          { hr: 'Djeca trče k mami.', en: 'The children are running to mum.', note: 'mama → mami' },
+          { hr: 'Djeca trče k mami.', en: 'The children are running to mom.', note: 'mama → mami' },
         ],
       },
       {
         type: 'example',
         title: 'prema, nasuprot, unatoč',
         items: [
-          { hr: 'Hodamo prema moru.', en: 'We are walking towards the sea.', note: 'more → moru' },
+          { hr: 'Hodamo prema moru.', en: 'We are walking toward the sea.', note: 'more → moru' },
           {
             hr: 'Ovaj vlak ide prema Splitu.',
-            en: 'This train is going towards Split.',
+            en: 'This train is going toward Split.',
             note: 'Split → Splitu',
           },
           {
@@ -1161,7 +1161,7 @@ export const LESSONS = [
           },
           {
             hr: 'Naš stan je nasuprot parku.',
-            en: 'Our flat is opposite the park.',
+            en: 'Our apartment is opposite the park.',
             note: 'park → parku',
           },
           {
@@ -1176,7 +1176,7 @@ export const LESSONS = [
           },
           {
             hr: 'Turisti šeću prema rijeci.',
-            en: 'The tourists are walking towards the river.',
+            en: 'The tourists are walking toward the river.',
             note: 'rijeka → rijeci',
           },
         ],
@@ -1216,7 +1216,7 @@ export const LESSONS = [
               'k takes the dative; feminine -a becomes -i: k baki. "Baku" is the accusative.',
           },
           {
-            q: 'Complete: "Hodamo prema ___." (We are walking towards the sea.)',
+            q: 'Complete: "Hodamo prema ___." (We are walking toward the sea.)',
             options: ['more', 'mora', 'moru', 'morem'],
             correct: 2,
             explanation: 'prema takes the dative; neuter more → moru.',
@@ -1229,7 +1229,7 @@ export const LESSONS = [
           },
           {
             q: 'What does "nasuprot" mean?',
-            options: ['despite', 'opposite', 'towards', 'behind'],
+            options: ['despite', 'opposite', 'toward', 'behind'],
             correct: 1,
             explanation: 'nasuprot — opposite: Banka je nasuprot pošti.',
           },
@@ -1240,7 +1240,7 @@ export const LESSONS = [
             explanation: 'unatoč takes the dative; kiša → kiši.',
           },
           {
-            q: 'Complete: "Turisti idu prema ___." (towards the river — rijeka)',
+            q: 'Complete: "Turisti idu prema ___." (toward the river — rijeka)',
             options: ['rijeki', 'rijeku', 'rijeci', 'rijeka'],
             correct: 2,
             explanation:
@@ -1255,7 +1255,7 @@ export const LESSONS = [
           'Most datives have no preposition — these four are the exceptions',
           'k / ka — to a person: Idem k liječniku. ka before k- and g-: ka kolegi',
           'Places take u / na + accusative; people take k + dative',
-          'prema — towards, or according to: prema moru, prema prognozi',
+          'prema — toward, or according to: prema moru, prema prognozi',
           'nasuprot — opposite; unatoč — despite',
           'Endings: -u for masculine and neuter, -i for feminine (rijeka → rijeci)',
         ],
@@ -1279,13 +1279,13 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Two Objects in One Sentence',
-        body: 'Some verbs naturally have two objects: WHAT you give and WHO gets it. "I give mum flowers." "I send my brother a message." "I show my friend the town." In Croatian the WHAT is the accusative and the WHO is the dative — and with both cases now in your hands, you can build these sentences in the present, the past and the future.',
+        body: 'Some verbs naturally have two objects: WHAT you give and WHO gets it. "I give mom flowers." "I send my brother a message." "I show my friend the town." In Croatian the WHAT is the accusative and the WHO is the dative — and with both cases now in your hands, you can build these sentences in the present, the past and the future.',
         icon: '🎁',
       },
       {
         type: 'rule',
         title: 'Who Gets It: the Dative',
-        body: 'The person who receives is the dative: -u for masculine (bratu, prijatelju), -i for feminine (mami, sestri, Ani). The thing is the accusative: poruka → poruku, knjiga → knjigu, cvijeće stays cvijeće. So: Dajem mami cvijeće. (I give mum flowers.) Šaljem bratu poruku. (I send my brother a message.) The question for the receiver is "Komu?" — Komu šalješ poruku? (Who are you sending a message to?)',
+        body: 'The person who receives is the dative: -u for masculine (bratu, prijatelju), -i for feminine (mami, sestri, Ani). The thing is the accusative: poruka → poruku, knjiga → knjigu, cvijeće stays cvijeće. So: Dajem mami cvijeće. (I give mom flowers.) Šaljem bratu poruku. (I send my brother a message.) The question for the receiver is "Komu?" — Komu šalješ poruku? (Who are you sending a message to?)',
         highlight: 'Dajem mami cvijeće.',
       },
       {
@@ -1343,7 +1343,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Za rođendan dajem mami cvijeće.',
-            en: 'For her birthday I give mum flowers.',
+            en: 'For her birthday I give mom flowers.',
             note: 'mama → mami',
           },
           {
@@ -1379,7 +1379,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Mama mi daje novac za kino.',
-            en: 'Mum gives me money for the cinema.',
+            en: 'Mom gives me money for the movie theater.',
             note: 'mi = to me, in second place',
           },
           { hr: 'Dat ću ti moj broj.', en: 'I will give you my number.', note: 'ću before ti' },
@@ -1421,7 +1421,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, putting the receiver in the accusative: "Dajem mamu cvijeće" makes mum the thing being given; the receiver is the dative: Dajem mami cvijeće. Second, swapping the two pronouns: "Dao sam ga mu" — the dative always comes before the accusative: Dao sam mu ga. Third, starting with a short word: "Mu šaljem poruku" — short words never stand first: Šaljem mu poruku.',
+        body: 'First, putting the receiver in the accusative: "Dajem mamu cvijeće" makes mom the thing being given; the receiver is the dative: Dajem mami cvijeće. Second, swapping the two pronouns: "Dao sam ga mu" — the dative always comes before the accusative: Dao sam mu ga. Third, starting with a short word: "Mu šaljem poruku" — short words never stand first: Šaljem mu poruku.',
         highlight: 'Dao sam mu ga.',
       },
       {
@@ -2240,7 +2240,7 @@ export const PRACTICE = {
         explanation: 'You (more than one) → ćete.',
       },
       {
-        q: 'Which sentence means "We will not go to the cinema"?',
+        q: 'Which sentence means "We will not go to the movies"?',
         options: [
           'Ne ćemo ići u kino.',
           'Ćemo ne ići u kino.',
@@ -2286,10 +2286,10 @@ export const PRACTICE = {
       },
       {
         title: 'Heading Somewhere',
-        problem: 'Say: "The bus is going towards the river." (rijeka)',
-        en: 'The bus is going towards the river.',
+        problem: 'Say: "The bus is going toward the river." (rijeka)',
+        en: 'The bus is going toward the river.',
         steps: [
-          { label: 'Which word?', text: 'Towards, without saying you arrive → prema.' },
+          { label: 'Which word?', text: 'Toward, without saying you arrive → prema.' },
           { label: 'The ending', text: 'prema takes the dative: feminine -a becomes -i.' },
           { label: 'The sound change', text: 'k before -i becomes c: rijeka → rijeci.' },
         ],
@@ -2336,7 +2336,7 @@ export const PRACTICE = {
         },
         {
           q: 'What does "unatoč" mean?',
-          options: ['towards', 'despite', 'opposite', 'to (a person)'],
+          options: ['toward', 'despite', 'opposite', 'to (a person)'],
           correct: 1,
           hint: 'You do something even though something is in the way.',
           explanation: 'unatoč — despite: unatoč kiši.',
@@ -2400,7 +2400,7 @@ export const PRACTICE = {
         explanation: 'k takes the dative; masculine → zubaru.',
       },
       {
-        q: 'Complete: "Hodamo prema ___." (towards the park)',
+        q: 'Complete: "Hodamo prema ___." (toward the park)',
         options: ['park', 'parku', 'parka', 'parkom'],
         correct: 1,
         explanation: 'prema takes the dative; park → parku.',
@@ -2434,7 +2434,7 @@ export const PRACTICE = {
       ['liječnik', 'doctor', 'Sutra idem k liječniku.'],
       ['frizer', 'hairdresser', 'Ana ide k frizeru.'],
       ['kolega', 'colleague', 'Idem ka kolegi.'],
-      ['prema', 'towards; according to', 'Hodamo prema moru.'],
+      ['prema', 'toward; according to', 'Hodamo prema moru.'],
       ['nasuprot', 'opposite', 'Banka je nasuprot pošti.'],
       ['unatoč', 'despite', 'Idemo van unatoč kiši.'],
       ['kiša', 'rain', 'Idemo na plažu unatoč kiši.'],
@@ -2473,10 +2473,10 @@ export const PRACTICE = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dajem ___ cvijeće. (to mum)',
+          q: 'Dajem ___ cvijeće. (to mom)',
           options: ['mamu', 'mami', 'mama', 'mamom'],
           correct: 1,
-          hint: 'Mum receives the flowers.',
+          hint: 'Mom receives the flowers.',
           explanation: 'Dajem mami cvijeće. — the receiver is the dative.',
         },
         {

@@ -21,7 +21,7 @@ export default function C1CommaBasicsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="c1commabasics"
       title="The Comma: Basic Rules"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COMMA_BASICS_MODE_LABELS}
       data={COMMA_BASICS_DRILL_DATA}
       praise={{

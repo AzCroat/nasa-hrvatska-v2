@@ -21,7 +21,7 @@ export default function B2InterjectionsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2interjections"
       title="Joj, Uf, Bravo! Interjections"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={INTERJECTIONS_MODE_LABELS}
       data={INTERJECTIONS_DRILL_DATA}
       praise={{

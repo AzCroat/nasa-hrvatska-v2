@@ -112,7 +112,7 @@ describe('failure classification', () => {
 
 describe('a superseded play is not a failure', () => {
   it('the first of two overlapping plays resolves "superseded" with no event and no report', async () => {
-    // fetch honours the abort signal: the first request hangs until stopAudio()
+    // fetch honors the abort signal: the first request hangs until stopAudio()
     // aborts it when the second speak() starts; the second gets a 429 so the
     // whole sequence ends without a real audio element (jsdom has none).
     let calls = 0;

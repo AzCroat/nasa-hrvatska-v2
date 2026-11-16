@@ -18,7 +18,7 @@ export default function A1ZvatiSeDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1zvatise"
       title="What Is Your Name?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={ZVATI_SE_MODE_LABELS}
       data={ZVATI_SE_DRILL_DATA}
       praise={{

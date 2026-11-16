@@ -22,7 +22,7 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gender',
     q: '____ organizacija pomaže djeci.',
-    en: 'That organisation helps children.',
+    en: 'That organization helps children.',
     opts: ['Taj', 'Ta', 'To', 'Te'],
     answer: 'Ta',
     tip: '-cija words are feminine: ta organizacija.',
@@ -46,7 +46,7 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'gender',
     q: 'Matematika mi je uvijek bila ____.',
-    en: 'Maths has always been difficult for me.',
+    en: 'Math has always been difficult for me.',
     opts: ['teška', 'težak', 'teško', 'teški'],
     answer: 'teška',
     tip: '-ika words are feminine: teška.',
@@ -135,7 +135,7 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'forms',
     q: 'Oni ____ tečaj hrvatskog jezika.',
-    en: 'They are organising a Croatian language course.',
+    en: 'They are organizing a Croatian language course.',
     opts: ['organiziraju', 'organiziravaju', 'organiziruju', 'organizire'],
     answer: 'organiziraju',
     tip: '-irati verbs are regular: -iram, -iraju.',
@@ -168,10 +168,10 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'native',
     q: 'Večeras idemo u ____ na predstavu.',
-    en: 'Tonight we are going to the theatre to see a play.',
+    en: 'Tonight we are going to the theater to see a play.',
     opts: ['kazalište', 'računalo', 'zrakoplov', 'glazbu'],
     answer: 'kazalište',
-    tip: 'kazalište — the native word for a theatre.',
+    tip: 'kazalište — the native word for a theater.',
   },
   {
     mode: 'native',
@@ -192,7 +192,7 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'native',
     q: 'Koja je hrvatska riječ za avion?',
-    en: 'Which is the native Croatian word for an aeroplane?',
+    en: 'Which is the native Croatian word for an airplane?',
     opts: ['računalo', 'zrakoplov', 'tvrtka', 'glazba'],
     answer: 'zrakoplov',
     tip: 'avion — zrakoplov.',
@@ -200,7 +200,7 @@ export const INTERNATIONALISMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'native',
     q: 'Koja je hrvatska riječ za teatar?',
-    en: 'Which is the native Croatian word for a theatre?',
+    en: 'Which is the native Croatian word for a theater?',
     opts: ['zemljopis', 'glazba', 'računalo', 'kazalište'],
     answer: 'kazalište',
     tip: 'teatar — kazalište.',

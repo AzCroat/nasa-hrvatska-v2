@@ -55,7 +55,7 @@ export const BITI_QUESTIONS_NEGATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nijecanje',
     q: 'Vi ____ gospodin Horvat?',
-    en: 'You are not Mr Horvat?',
+    en: 'You are not Mr. Horvat?',
     opts: ['nisi', 'nismo', 'niste', 'nije'],
     answer: 'niste',
     tip: 'vi and polite Vi → niste.',
@@ -104,7 +104,7 @@ export const BITI_QUESTIONS_NEGATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pitanja',
     q: '____ li Vi gospođa Kovač?',
-    en: 'Are you Mrs Kovač?',
+    en: 'Are you Mrs. Kovač?',
     opts: ['Jesi', 'Jesu', 'Ste', 'Jeste'],
     answer: 'Jeste',
     tip: 'Polite Vi → Jeste li.',

@@ -18,7 +18,7 @@ export default function B1FutureIiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b1futureii"
       title="When I Have Time — Future II"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={FUTURE_II_MODE_LABELS}
       data={FUTURE_II_DRILL_DATA}
       praise={{

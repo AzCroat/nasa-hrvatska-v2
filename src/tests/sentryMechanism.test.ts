@@ -82,7 +82,7 @@ describe('the mechanism gate matches the installed SDK', () => {
     for (const type of types) {
       expect(
         isBenignAbortRejection(event({ type: 'AbortError', value: 'Fetch is aborted' }, type)),
-        `SDK emits ${type} but the filter does not recognise it`,
+        `SDK emits ${type} but the filter does not recognize it`,
       ).toBe(true);
     }
   });

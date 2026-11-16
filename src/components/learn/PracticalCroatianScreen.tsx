@@ -883,7 +883,7 @@ function QuizView({ scenario, onBack }: { scenario: Scenario; onBack: () => void
             {perfect
               ? 'Perfect score! Excellent Croatian!'
               : correct >= 2
-                ? 'Great work! Keep practising.'
+                ? 'Great work! Keep practicing.'
                 : 'Good effort — try again to improve!'}
           </div>
           <div

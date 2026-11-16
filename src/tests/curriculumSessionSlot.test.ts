@@ -458,7 +458,7 @@ describe('teaching leads straight into doing', () => {
     //
     // This used `alphabet` as its unmapped fixture until 2026-08-30, when that
     // lesson was coupled and the curriculum map went TOTAL — there is no real
-    // unmapped lesson left to point at. The behaviour still matters for the
+    // unmapped lesson left to point at. The behavior still matters for the
     // next lesson someone adds without a coupling, so it is exercised with a
     // synthetic id instead: chosen BECAUSE no lesson can be called that, which
     // is what stops it going stale the way the real name did.

@@ -205,7 +205,7 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
       'Daj mi to.',
     ],
     answer: 'Molim Vas da dostavite…',
-    tip: 'And the capitalised Vi stays capitalised from the first word to the last.',
+    tip: 'And the capitalized Vi stays capitalized from the first word to the last.',
   },
   {
     mode: 'dosljedno',

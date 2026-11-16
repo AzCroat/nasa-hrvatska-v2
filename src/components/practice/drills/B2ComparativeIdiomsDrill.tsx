@@ -21,7 +21,7 @@ export default function B2ComparativeIdiomsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2comparativeidioms"
       title="Zdrav kao dren"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={COMPARATIVE_IDIOMS_MODE_LABELS}
       data={COMPARATIVE_IDIOMS_DRILL_DATA}
       praise={{

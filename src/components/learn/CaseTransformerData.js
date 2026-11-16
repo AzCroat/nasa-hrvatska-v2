@@ -21,7 +21,7 @@ export const NOUN_LIBRARY = [
   { hr: 'knjiga', en: 'book', gender: 'f' },
   { hr: 'voda', en: 'water', gender: 'f' },
   { hr: 'kuća', en: 'house', gender: 'f' },
-  { hr: 'mama', en: 'mum', gender: 'f' },
+  { hr: 'mama', en: 'mom', gender: 'f' },
   { hr: 'škola', en: 'school', gender: 'f' },
   { hr: 'ulica', en: 'street', gender: 'f' },
   { hr: 'ruka', en: 'hand/arm', gender: 'f' },

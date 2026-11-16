@@ -167,7 +167,7 @@ const DISJUNCTIVE_GRADATIONAL = {
         },
         {
           hr: 'Bilo da se odlučite za more bilo za planine, rezervaciju treba napraviti na vrijeme.',
-          en: 'Whether you choose the sea or the mountains, the booking has to be made in good time.',
+          en: 'Whether you choose the sea or the mountains, the reservation has to be made in good time.',
           note: 'bilo… bilo — the choice does not change the outcome',
         },
         {
@@ -641,7 +641,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         ],
         [
           'potkraj',
-          'towards the end of',
+          'toward the end of',
           'Potkraj godine dobili smo povišicu.',
           'also: krajem godine',
         ],
@@ -682,7 +682,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         },
         {
           hr: 'Kamion se pokvario nasred ceste i promet je stajao satima.',
-          en: 'The lorry broke down in the middle of the road and traffic stood still for hours.',
+          en: 'The truck broke down in the middle of the road and traffic stood still for hours.',
           note: 'nasred ceste — on the surface of the road',
         },
         {
@@ -697,7 +697,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         },
         {
           hr: 'Prigodom stote obljetnice škole učenici su pripremili izložbu.',
-          en: 'To mark the school’s hundredth anniversary, the pupils prepared an exhibition.',
+          en: 'To mark the school’s hundredth anniversary, the students prepared an exhibition.',
           note: 'prigodom — the occasion being marked (povodom is also standard and very common)',
         },
         {
@@ -905,7 +905,7 @@ const COMMA_DEPENDENT = {
         },
         {
           hr: 'Nije mi rekla zašto je otkazala putovanje u posljednji trenutak.',
-          en: 'She did not tell me why she cancelled the trip at the last minute.',
+          en: 'She did not tell me why she canceled the trip at the last minute.',
           note: 'an indirect question after the main clause — no comma',
         },
         {

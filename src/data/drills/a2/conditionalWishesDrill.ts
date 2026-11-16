@@ -155,7 +155,7 @@ export const CONDITIONAL_WISHES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlozi',
     q: 'Mogli ____ ići u kino.',
-    en: 'We could go to the cinema.',
+    en: 'We could go to the movies.',
     opts: ['bismo', 'bi', 'biste', 'bih'],
     answer: 'bismo',
     tip: 'mi → bismo: a suggestion.',
@@ -171,7 +171,7 @@ export const CONDITIONAL_WISHES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'prijedlozi',
     q: '____ bi nazvati mamu.',
-    en: 'You should call your mum. (to a friend, a woman)',
+    en: 'You should call your mom. (to a friend, a woman)',
     opts: ['Trebala', 'Trebao', 'Trebali', 'Trebalo'],
     answer: 'Trebala',
     tip: 'The participle agrees with the friend, a woman.',

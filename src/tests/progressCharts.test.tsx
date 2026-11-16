@@ -16,7 +16,7 @@
  *
  * 2. THE TREND INHERITED IT. `lastWeek` summed those same deltas: 1000 against
  *    a truth of 240–280, a 3.6x overstatement, feeding "vs Last Week" directly.
- *    A learner practising identically every week saw a large red drop precisely
+ *    A learner practicing identically every week saw a large red drop precisely
  *    because the earlier window had contained a gap — the number punished the
  *    consistency it was there to report.
  *
@@ -69,7 +69,7 @@ function barHeights(): number[] {
   );
 }
 
-describe('the XP bars read each day, and a gap cannot inflate its neighbour', () => {
+describe('the XP bars read each day, and a gap cannot inflate its neighbor', () => {
   beforeEach(() => localStorage.clear());
 
   it('a steady learner with two missed days renders steady bars', () => {

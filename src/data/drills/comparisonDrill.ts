@@ -167,7 +167,7 @@ export const COMPARISON_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nepravilni',
     q: 'Koliko nepravilnih komparativa treba znati napamet?',
-    en: 'How many irregulars must you memorise?',
+    en: 'How many irregulars must you memorize?',
     opts: ['nekolicinu', 'nijedan', 'sve pridjeve', 'desetke'],
     answer: 'nekolicinu',
     tip: 'A handful — dobar, zao/loš, velik, malen, dug. Everything else follows -iji, -ji or -ši.',

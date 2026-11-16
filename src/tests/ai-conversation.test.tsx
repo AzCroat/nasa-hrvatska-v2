@@ -503,7 +503,7 @@ describe('AIConversation — duplicate logError guard', () => {
 // This asserts the EFFECT — the body actually handed to _aiPost — rather than
 // pinning the source line. A source pin would survive the value being computed
 // correctly and then dropped before the request, which is precisely the class
-// of miss this file's neighbours keep finding.
+// of miss this file's neighbors keep finding.
 describe('AIConversation — isHeritage reaches the request body', () => {
   beforeEach(() => {
     vi.clearAllMocks();

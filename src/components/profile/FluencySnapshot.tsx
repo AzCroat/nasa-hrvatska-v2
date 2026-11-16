@@ -12,7 +12,7 @@ import { getProductionReps } from '../../hooks/useDailySession';
  * reading) measure exactly those skills but lived as three scattered cards.
  * This consolidates them into one panel that shows this-week balance across the
  * three fluency-building practice types and nudges the lightest one — turning
- * "I did something" into "I'm practising all the skills, and here's the gap".
+ * "I did something" into "I'm practicing all the skills, and here's the gap".
  *
  * Pure read-only aggregation of metrics that already exist — no new content,
  * no new persistence.

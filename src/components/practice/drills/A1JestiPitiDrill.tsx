@@ -21,7 +21,7 @@ export default function A1JestiPitiDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1jestipiti"
       title="Eating and Drinking"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={JESTI_PITI_MODE_LABELS}
       data={JESTI_PITI_DRILL_DATA}
       praise={{

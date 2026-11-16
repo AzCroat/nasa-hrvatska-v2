@@ -190,7 +190,7 @@ export const LANGUAGE_SOCIETY_DRILL_DATA: ModeDrillItem[] = [
       'samo prema starijima',
     ],
     answer: 'da, to je uljudni oblik za jedninu',
-    tip: 'Plural in form, singular in reference — and capitalised in writing.',
+    tip: 'Plural in form, singular in reference — and capitalized in writing.',
   },
 
   // ── medij ─────────────────────────────────────────────────────────────────

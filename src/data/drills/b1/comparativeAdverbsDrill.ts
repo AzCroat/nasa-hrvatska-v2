@@ -176,7 +176,7 @@ export const COMPARATIVE_ADVERBS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'izrazi',
     q: '____ više vježbaš, to manje griješiš.',
-    en: 'The more you practise, the fewer mistakes you make.',
+    en: 'The more you practice, the fewer mistakes you make.',
     opts: ['Što', 'Sve', 'To', 'Nego'],
     answer: 'Što',
     tip: 'The first half opens with što.',

@@ -64,7 +64,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'uzrok',
     q: 'Marko je pao ispit. ____ mora ponovno upisati predmet.',
-    en: 'Marko failed the exam. Because of that, he has to enrol in the course again.',
+    en: 'Marko failed the exam. Because of that, he has to enroll in the course again.',
     opts: ['Zbog toga', 'Radi toga', 'Naime', 'Onamo'],
     answer: 'Zbog toga',
     tip: 'zbog gives a cause; radi gives a purpose.',
@@ -122,7 +122,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjesto',
     q: 'Bili smo u Indiji prošle godine. ____ uvijek rado putujemo.',
-    en: 'We were in India last year. We always enjoy travelling there.',
+    en: 'We were in India last year. We always enjoy traveling there.',
     opts: ['Onamo', 'Ondje', 'Odande', 'Ovdje'],
     answer: 'Onamo',
     tip: 'Direction, where to: the dynamic adverb.',
@@ -203,7 +203,7 @@ export const TEXT_CONNECTORS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'nacin',
     q: 'Stan je velik i svijetao. Pored ____ ima lijep pogled na more.',
-    en: 'The flat is large and bright. It also has a lovely sea view.',
+    en: 'The apartment is large and bright. It also has a lovely sea view.',
     opts: ['toga', 'to', 'tome', 'tim'],
     answer: 'toga',
     tip: 'pored + genitive.',

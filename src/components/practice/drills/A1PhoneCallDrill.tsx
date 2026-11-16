@@ -21,7 +21,7 @@ export default function A1PhoneCallDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a1phonecall"
       title="On the Phone"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={PHONE_CALL_MODE_LABELS}
       data={PHONE_CALL_DRILL_DATA}
       praise={{

@@ -6,7 +6,7 @@
  * `nh_saved_phrases` stored POSITIONAL INDICES. HeritageModeScreen rendered
  * `BAKA_PHRASES.map((p, i) => ...)` and saved the loop counter, so what was
  * recorded was "slot 4", not "this phrase". Insert one phrase near the top and
- * every bookmark below it silently points at its neighbour — the learner's list
+ * every bookmark below it silently points at its neighbor — the learner's list
  * rewrites itself with no error and nothing to notice until they open it.
  *
  * The entries have carried a unique stable key all along (`hr`); it was simply

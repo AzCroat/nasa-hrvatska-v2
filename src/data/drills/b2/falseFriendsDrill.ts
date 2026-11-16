@@ -46,7 +46,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
     q: 'Što je „gimnazija”?',
     opts: ['a gym', 'a sports club', 'an academic secondary school', 'a gymnastics class'],
     answer: 'an academic secondary school',
-    tip: 'A gimnazija prepares pupils for university. A gym is teretana.',
+    tip: 'A gimnazija prepares students for university. A gym is teretana.',
   },
   {
     mode: 'meaning',
@@ -135,7 +135,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
     en: 'My daughter goes to grammar school because she wants to study medicine.',
     opts: ['teretanu', 'ordinaciju', 'gimnaziju', 'ambulantu'],
     answer: 'gimnaziju',
-    tip: 'The academic secondary school is gimnazija.',
+    tip: 'The academic high school is gimnazija.',
   },
   {
     mode: 'context',
@@ -156,7 +156,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'context',
     q: 'Na fakultetu slušamo zanimljivo ____ o povijesti.',
-    en: 'At university we are attending an interesting lecture on history.',
+    en: 'In college we are attending an interesting lecture on history.',
     opts: ['lektiru', 'predavanje', 'kompoziciju', 'evidenciju'],
     answer: 'predavanje',
     tip: 'A lecture is predavanje; lektira is required reading.',
@@ -180,15 +180,15 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'context',
     q: 'Kad me boli zub, idem u zubarsku ____.',
-    en: 'When I have toothache, I go to the dentist’s surgery.',
+    en: 'When I have toothache, I go to the dentist’s office.',
     opts: ['ordinaciju', 'gimnaziju', 'teretanu', 'evidenciju'],
     answer: 'ordinaciju',
-    tip: 'A dentist’s surgery is an ordinacija.',
+    tip: 'A dentist’s office is an ordinacija.',
   },
   {
     mode: 'context',
     q: 'Moja susjeda je vrlo ____ kad netko ima problem — uvijek razumije.',
-    en: 'My neighbour is very sympathetic when someone has a problem — she always understands.',
+    en: 'My neighbor is very sympathetic when someone has a problem — she always understands.',
     opts: ['simpatična', 'aktualna', 'suosjećajna', 'eventualna'],
     answer: 'suosjećajna',
     tip: '"Sympathetic" is suosjećajan; simpatičan only means likeable.',
@@ -196,7 +196,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'context',
     q: 'Za stan smo platili ____ od tisuću eura.',
-    en: 'We paid a deposit of a thousand euros for the flat.',
+    en: 'We paid a deposit of a thousand euros for the apartment.',
     opts: ['kauciju', 'evidenciju', 'oprez', 'lektiru'],
     answer: 'kauciju',
     tip: 'A deposit is kaucija.',

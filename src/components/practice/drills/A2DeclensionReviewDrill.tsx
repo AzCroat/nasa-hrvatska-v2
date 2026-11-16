@@ -21,7 +21,7 @@ export default function A2DeclensionReviewDrill({ goBack, award }: Props) {
     <ModeDrill
       id="a2declensionreview"
       title="All Seven Cases, One Table"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={DECLENSION_REVIEW_MODE_LABELS}
       data={DECLENSION_REVIEW_DRILL_DATA}
       praise={{

@@ -7,7 +7,7 @@
 //
 // The institution is the *Sabor*. Not *parlament* — the word exists but is not
 // what anyone says or writes, so a reader looking for "parliament" in a
-// headline will not find it. Same for *Vlada* (the Government, capitalised) and
+// headline will not find it. Same for *Vlada* (the Government, capitalized) and
 // *predsjednik Vlade* for the prime minister, which is a different person from
 // the *predsjednik*.
 //

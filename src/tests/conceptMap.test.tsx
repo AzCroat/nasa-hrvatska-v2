@@ -6,7 +6,7 @@
 //      the drill offered for a concept is the one the session's teach→practice
 //      coupling would route to. A state the data does not support is the
 //      fabrication rule (NEVER DO 13).
-//   2. The WIRING — the card is mounted in the Me tab and its Practise button
+//   2. The WIRING — the card is mounted in the Me tab and its Practice button
 //      launches the real screen. A component test that supplies its own props
 //      cannot see whether the app is connected to it (the `award` finding).
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -351,7 +351,7 @@ describe('the card', () => {
     fireEvent.click(within(row).getByTestId('concept-learn'));
     expect(setScr).toHaveBeenCalledWith('learning_center');
     expect(consumeLessonLookup()).toEqual([id]);
-    // Reading is not credit, exactly as Practise awards nothing by existing.
+    // Reading is not credit, exactly as Practice awards nothing by existing.
     expect(JSON.stringify(localStorage)).toBe(before);
   });
 

@@ -257,7 +257,7 @@ describe('CI installs the same value on both sides', () => {
 
   it('installs the Pages half BEFORE the Pages deploy', () => {
     // A Pages secret reaches Functions through a NEW deployment, not the running
-    // one — installed afterwards it would sit unused until the next push, and
+    // one — installed afterward it would sit unused until the next push, and
     // the deploy that "fixed" the outage would not have.
     const install = ciSrc.indexOf('pages secret put MANAGED_CRON_SECRET');
     const deploy = ciSrc.indexOf('wrangler@3 pages deploy');
@@ -304,7 +304,7 @@ describe('CI installs the same value on both sides', () => {
       -1,
     );
     // Sliced to the NEXT step at the same indent, so the scan cannot spill
-    // into a neighbour that legitimately tolerates failure (Lighthouse does).
+    // into a neighbor that legitimately tolerates failure (Lighthouse does).
     const next = ciSrc.indexOf('\n      - name:', start + 10);
     return ciSrc.slice(start, next === -1 ? undefined : next);
   };

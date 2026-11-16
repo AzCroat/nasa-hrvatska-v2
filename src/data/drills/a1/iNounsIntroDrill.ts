@@ -177,7 +177,7 @@ export const I_NOUNS_INTRO_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'fraze',
     q: 'U ____ sam puno putovao.',
-    en: 'In my youth I travelled a lot.',
+    en: 'In my youth I traveled a lot.',
     opts: ['mladosti', 'mladost', 'mladostu', 'mladosta'],
     answer: 'mladosti',
     tip: 'u + the locative: -i.',

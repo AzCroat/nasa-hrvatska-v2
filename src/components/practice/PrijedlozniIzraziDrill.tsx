@@ -81,7 +81,7 @@ const DATA = [
     q: 'Neutralnom standardu bliže je: „____ oluje otkazani su letovi.”',
     opts: ['Zbog', 'Uslijed', 'Kroz', 'Preko'],
     answer: 'Zbog',
-    en: 'the flights were cancelled because of the storm',
+    en: 'the flights were canceled because of the storm',
     tip: '„Uslijed” je birokratizam — neutralno je zbog.',
   },
   {
@@ -89,7 +89,7 @@ const DATA = [
     q: 'Ostavi rezervni ključ ____ susjede.',
     opts: ['kod', 'pri', 'na', 'pored'],
     answer: 'kod',
-    en: 'leave the spare key with the neighbour',
+    en: 'leave the spare key with the neighbor',
     tip: 'Kod + G = u čijem domu/čuvanju.',
   },
   {
@@ -137,7 +137,7 @@ const DATA = [
     q: 'Stan se nalazi ____ samog centra.',
     opts: ['blizu', 'blizu od', 'pokraj od', 'uz do'],
     answer: 'blizu',
-    en: 'the flat is close to the very centre',
+    en: 'the apartment is close to the very center',
     tip: 'Blizu + G bez „od”: blizu centra.',
   },
   {
@@ -201,7 +201,7 @@ const DATA = [
     q: 'Usred ____ zazvonio je telefon. (predavanje)',
     opts: ['predavanja', 'predavanju', 'predavanjem', 'predavanje'],
     answer: 'predavanja',
-    en: 'the phone rang in the middle of the lecture',
+    en: 'the phone called in the middle of the lecture',
     tip: 'Usred + GENITIV.',
   },
 ];

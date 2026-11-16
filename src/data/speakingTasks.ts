@@ -34,7 +34,7 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
     {
       id: 'a1-home',
       prompt: 'Opišite gdje stanujete. Kakav je vaš stan ili kuća?',
-      promptEn: 'Describe where you live. What is your flat or house like?',
+      promptEn: 'Describe where you live. What is your apartment or house like?',
       seconds: 30,
     },
     {
@@ -86,7 +86,7 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
     {
       id: 'b1-hobby',
       prompt: 'Opišite svoj omiljeni hobi i objasnite zašto vam je važan.',
-      promptEn: 'Describe your favourite hobby and explain why it matters to you.',
+      promptEn: 'Describe your favorite hobby and explain why it matters to you.',
       seconds: 45,
     },
     {
@@ -184,7 +184,7 @@ export const SPEAKING_TASKS: Partial<Record<CefrLevel, SpeakingTask[]>> = {
       prompt:
         'Sažmite glavne argumente za i protiv uvođenja četverodnevnoga radnog tjedna te procijenite koje bi skupine najviše dobile, a koje izgubile.',
       promptEn:
-        'Summarise the main arguments for and against a four-day working week, and assess which groups would gain most and which would lose.',
+        'Summarize the main arguments for and against a four-day working week, and assess which groups would gain most and which would lose.',
       seconds: 90,
     },
     {

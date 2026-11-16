@@ -162,7 +162,7 @@ describe('one format for Azure: 16 kHz mono WAV', () => {
     expect(out?.size).toBe(44 + 0.5 * WAV_SAMPLE_RATE * 2);
   });
 
-  it('the assessment is sent the converted WAV, labelled as such', async () => {
+  it('the assessment is sent the converted WAV, labeled as such', async () => {
     const w = window as unknown as Record<string, unknown>;
     w.OfflineAudioContext = FakeOffline;
     postMock.mockResolvedValue(azureFor('Bog', ''));
@@ -320,7 +320,7 @@ describe('SpeakCheck appending: each take is scored on the words it added', () =
     const last = onCheck.mock.calls.filter((c) => c[0]).pop()![0] as { words: { word: string }[] };
     expect(last.words.map((w) => w.word)).toEqual(['Živim', 'u', 'Zagrebu', 'i', 'volim', 'more']);
     expect(unconfirmedWords(last as never)).toEqual(['Zagrebu']);
-    // Mid-take text is not an edit; a real edit afterwards is.
+    // Mid-take text is not an edit; a real edit afterward is.
     expect(screen.queryByTestId('gs-speak-check-stale')).toBeNull();
     fireEvent.change(screen.getByTestId('h-text'), { target: { value: 'nešto drugo' } });
     expect(screen.getByTestId('gs-speak-check-stale')).toBeTruthy();

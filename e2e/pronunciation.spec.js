@@ -14,7 +14,7 @@
  *  6. All words completed → summary screen shown
  *  7. Microphone permission denied error handling
  *  8. No-speech timeout handling
- *  9. Score display and colour thresholds
+ *  9. Score display and color thresholds
  * 10. "Try Again" resets scorer state
  * 11. Slow-play TTS button present
  * 12. Back navigation exits speaking screen
@@ -346,7 +346,7 @@ test.describe('English-translation recognition (browser returns the meaning)', (
     await expect(page.getByTestId('webspeech-result')).toBeVisible({ timeout: 6_000 });
 
     // No acoustic score is claimed for a translation match — the panel says the
-    // meaning was recognised instead of inventing a percentage (NEVER-DO 13).
+    // meaning was recognized instead of inventing a percentage (NEVER-DO 13).
     await expect(page.getByTestId('webspeech-result')).toContainText(/recogni[sz]ed|matched the meaning/i);
     await expect(page.locator('body')).not.toContainText('🔴 Try again');
   });
@@ -567,7 +567,7 @@ test.describe('Streak mechanics', () => {
     // Earn-back banner or token should be visible
     // `if (body includes earn) expect(body to match earn)` is a tautology: it
     // cannot fail, whatever Home renders. Seeded with a streak that broke
-    // yesterday, the recovery offer is the behaviour under test, so assert it.
+    // yesterday, the recovery offer is the behavior under test, so assert it.
     await expect(page.locator('body')).toContainText(/earn|recover|repair|restore/i, {
       timeout: 8_000,
     });
@@ -642,7 +642,7 @@ test.describe('Streak mechanics', () => {
 test.describe('Audio system', () => {
   // These used to click "the first 🔊 button on the home screen", inside a
   // visibility guard, and assert nothing when there wasn't one. The speaker
-  // this file is actually about is the one beside the word being practised.
+  // this file is actually about is the one beside the word being practiced.
   test.beforeEach(async ({ page }) => {
     await page.addInitScript(SR_MOCK_SCRIPT);
     await seedAuth(page);

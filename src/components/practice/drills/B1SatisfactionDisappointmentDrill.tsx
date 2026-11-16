@@ -21,7 +21,7 @@ export default function B1SatisfactionDisappointmentDrill({ goBack, award }: Pro
     <ModeDrill
       id="b1satisfactiondisappointment"
       title="Zadovoljan, oduševljen, razočaran — How Did It Go?"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={SATISFACTION_DISAPPOINTMENT_MODE_LABELS}
       data={SATISFACTION_DISAPPOINTMENT_DRILL_DATA}
       praise={{

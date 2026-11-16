@@ -27,7 +27,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { onRequest } from '../../functions/_middleware.js';
 
-// Minimal stand-in for `caches.default`. Honours max-age so the test can prove
+// Minimal stand-in for `caches.default`. Honors max-age so the test can prove
 // the window closes on the bucket rather than on TTL luck.
 function makeCache() {
   const store = new Map();

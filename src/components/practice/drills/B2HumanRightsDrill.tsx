@@ -21,7 +21,7 @@ export default function B2HumanRightsDrill({ goBack, award }: Props) {
     <ModeDrill
       id="b2humanrights"
       title="Ljudska prava"
-      subtitle="Practise what the lesson taught"
+      subtitle="Practice what the lesson taught"
       modeLabels={HUMAN_RIGHTS_MODE_LABELS}
       data={HUMAN_RIGHTS_DRILL_DATA}
       praise={{
