@@ -161,7 +161,7 @@ const DATA = [
     q: 'Da se nisi javio, ____ se zabrinuli.',
     opts: ['bili bismo', 'bit ćemo', 'budemo', 'smo bili'],
     answer: 'bili bismo',
-    en: 'had you not called, we would have got worried',
+    en: 'had you not called, we would have gotten worried',
     tip: 'Kondicional II u glavnoj surečenici.',
   },
   {

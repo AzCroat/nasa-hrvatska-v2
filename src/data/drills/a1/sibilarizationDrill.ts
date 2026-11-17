@@ -32,7 +32,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'k',
     q: 'Plural of "učenik":',
-    en: 'Plural of pupil.',
+    en: 'Plural of student.',
     opts: ['učenici', 'učeniki', 'učenikovi', 'učenika'],
     answer: 'učenici',
     tip: 'k before -i becomes c.',
@@ -56,7 +56,7 @@ export const SIBILARIZATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'k',
     q: 'Plural of "đak":',
-    en: 'Plural of pupil (school pupil).',
+    en: 'Plural of student (school student).',
     opts: ['đaci', 'đaki', 'đakovi', 'đaka'],
     answer: 'đaci',
     tip: 'đak is short but takes a plain -i, so the k changes.',

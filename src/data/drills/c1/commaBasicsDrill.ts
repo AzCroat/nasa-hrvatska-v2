@@ -214,7 +214,7 @@ export const COMMA_BASICS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vokativ',
     q: Q,
-    en: 'Come in, please, Mr Horvat.',
+    en: 'Come in, please, Mr. Horvat.',
     opts: [
       'Uđite molim vas gospodine Horvat.',
       'Uđite, molim vas gospodine Horvat.',

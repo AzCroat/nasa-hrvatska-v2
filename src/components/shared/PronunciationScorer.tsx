@@ -382,7 +382,7 @@ export default function PronunciationScorer({
       // COACH ON THE ATTEMPT, NOT THE TARGET. Passing `targetText` as `spoken`
       // told the coach the learner had said the phrase perfectly, so its phoneme
       // comparison ran a string against itself and the only input that varied
-      // between attempts was the score band — identical advice for ever. Azure
+      // between attempts was the score band — identical advice forever. Azure
       // measured the real thing; send that.
       if (overallScore !== null)
         fetchCoaching(recognizedTextOf(data) || targetText, overallScore, {

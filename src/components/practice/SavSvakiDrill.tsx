@@ -80,7 +80,7 @@ const DATA = [
     q: '„____ učenik dobiva knjigu.” (pojedinačno)',
     opts: ['Svaki', 'Sav', 'Svi', 'Sam'],
     answer: 'Svaki',
-    en: 'each pupil gets a book',
+    en: 'each student gets a book',
     tip: 'Svaki = pojedinačno, jedan po jedan.',
   },
   {

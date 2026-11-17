@@ -194,7 +194,7 @@ export const TRAVEL_DRILL_DATA: ModeDrillItem[] = [
     mode: 'karta',
     q: 'Što je "vozni red"?',
     en: 'What is vozni red?',
-    opts: ['timetable', 'platform', 'queue', 'route map'],
+    opts: ['timetable', 'platform', 'line', 'route map'],
     answer: 'timetable',
     tip: 'vozni red.',
   },

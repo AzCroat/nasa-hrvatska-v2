@@ -184,8 +184,8 @@ export const HOBBIES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kada',
-    q: 'Kako se kaže "at weekends"?',
-    en: 'at weekends',
+    q: 'Kako se kaže "on weekends"?',
+    en: 'on weekends',
     opts: ['vikendom', 'u vikend', 'na vikend', 'vikende'],
     answer: 'vikendom',
     tip: 'vikendom — same instrumental.',

@@ -706,7 +706,7 @@ export const GRADED_STORIES_LONG = [
         ex: 'Argumenti prijevoznika objavljeni su u dokumentu.',
       },
       { hr: 'premašiti', en: 'to exceed', ex: 'Trošak po putniku premašio je trideset eura.' },
-      { hr: 'nogostup', en: 'pavement, sidewalk', ex: 'Cesta nema nogostup.' },
+      { hr: 'nogostup', en: 'sidewalk', ex: 'Cesta nema nogostup.' },
       { hr: 'osporiti', en: 'to dispute, contest', ex: 'Brojke je teško osporiti.' },
       { hr: 'sufinancirati', en: 'to co-finance', ex: 'Općine bi sufinancirale jutarnji vlak.' },
       { hr: 'prilagoditi se', en: 'to adapt', ex: 'Selo se prilagođava.' },
@@ -1196,7 +1196,7 @@ export const GRADED_STORIES_LONG = [
     paragraphs: [
       {
         hr: 'Petra i Ivan traže stan već četiri mjeseca. Oboje rade — ona u knjigovodstvu, on u IT tvrtki — i zajedno zarađuju iznad zagrebačkog prosjeka. Ipak, svaki tjedan pišu desetak poruka na oglase i dobiju dva-tri odgovora, a na razgledavanju ih redovito čeka još petnaest parova. "Osjećamo se kao na audiciji", kaže Petra. "Nosimo potvrde o plaći, preporuke bivšeg stanodavca, čak i fotografiju mačke, da vide da je mirna. I onda stan dobije netko tko je ponudio pedeset eura više."',
-        en: 'Petra and Ivan have been looking for an apartment for four months. Both work — she in bookkeeping, he in an IT company — and together they earn above the Zagreb average. Yet every week they write a dozen messages to adverts and get two or three replies, and at the viewing another fifteen couples are regularly waiting. "We feel like we\'re at an audition," says Petra. "We bring salary certificates, references from our former landlord, even a photo of the cat, so they can see she\'s quiet. And then the apartment goes to someone who offered fifty euros more."',
+        en: 'Petra and Ivan have been looking for an apartment for four months. Both work — she in bookkeeping, he in an IT company — and together they earn above the Zagreb average. Yet every week they write a dozen messages to ads and get two or three replies, and at the viewing another fifteen couples are regularly waiting. "We feel like we\'re at an audition," says Petra. "We bring salary certificates, references from our former landlord, even a photo of the cat, so they can see she\'s quiet. And then the apartment goes to someone who offered fifty euros more."',
       },
       {
         hr: 'Brojke potvrđuju dojam. Prosječna najamnina za dvosobni stan u Zagrebu u deset se godina udvostručila, dok su plaće porasle za otprilike polovicu toga. Ponuda stanova za dugoročni najam istodobno se smanjila: prema procjenama agencija, gotovo trećina stanova koji su se prije iznajmljivali studentima i mladim obiteljima danas se iznajmljuje turistima, po danu, preko platformi. Hrvatska pritom ima jednu od najviših stopa vlasništva nad stanovima u Europi — više od devedeset posto kućanstava živi u vlastitom — pa je tržište najma malo, nesređeno i, kako kaže jedan ekonomist, "prepušteno pojedinačnim živcima".',
@@ -1232,7 +1232,7 @@ export const GRADED_STORIES_LONG = [
       },
       {
         hr: 'Petra i Ivan stan su na kraju našli — ne preko oglasa, nego preko Ivanove kolegice čija je teta tražila "nekoga normalnog". Stanarina je nešto viša nego što su planirali, ugovor je na godinu, a teta je tražila dva mjeseca unaprijed umjesto tri, "jer ste mladi". Pitam ih jesu li zadovoljni. Ivan sliježe ramenima. "Zadovoljni smo što je gotovo. Ali nešto je čudno u gradu u kojem stan dobiješ jer poznaješ nekoga, a ne zato što ga možeš platiti." Petra dodaje: "I u kojem gospođa koja nam ga daje ima isti strah kao mi. Samo s druge strane vrata."',
-        en: 'Petra and Ivan found an apartment in the end — not through an advert but through Ivan\'s colleague whose aunt was looking for "someone normal". The rent is somewhat higher than they planned, the contract is for a year, and the aunt asked for two months in advance instead of three, "because you\'re young". I ask whether they are satisfied. Ivan shrugs. "We\'re satisfied that it\'s over. But there\'s something odd about a city where you get an apartment because you know someone, not because you can pay for it." Petra adds: "And where the lady giving it to us has the same fear we have. Just from the other side of the door."',
+        en: 'Petra and Ivan found an apartment in the end — not through an ad but through Ivan\'s colleague whose aunt was looking for "someone normal". The rent is somewhat higher than they planned, the contract is for a year, and the aunt asked for two months in advance instead of three, "because you\'re young". I ask whether they are satisfied. Ivan shrugs. "We\'re satisfied that it\'s over. But there\'s something odd about a city where you get an apartment because you know someone, not because you can pay for it." Petra adds: "And where the lady giving it to us has the same fear we have. Just from the other side of the door."',
       },
     ],
     vocabulary: [
@@ -1606,7 +1606,7 @@ export const GRADED_STORIES_LONG = [
     paragraphs: [
       {
         hr: 'Kino "Sloboda" ima dvjesto sjedala, od kojih sto sedamdeset radi, platno iz 1978. i projektor iz 2012., kupljen kad su se filmovi prestali distribuirati na vrpci. Nalazi se u središtu grada od osam tisuća stanovnika, između pošte i pekarnice, i tri je generacije bilo mjesto na koje se išlo — na prvi spoj, na školsku predstavu, na nedjeljnu matineju s djecom. Od siječnja ove godine zatvoreno je, "privremeno", što u malim gradovima obično znači zauvijek.',
-        en: 'The "Sloboda" movie theater has two hundred seats, of which a hundred and seventy work, a screen from 1978 and a projector from 2012, bought when films stopped being distributed on reels. It stands in the center of a town of eight thousand, between the post office and the bakery, and for three generations it was the place one went — on a first date, to the school play, to the Sunday matinée with the children. Since January this year it has been closed, "temporarily", which in small towns usually means for ever.',
+        en: 'The "Sloboda" movie theater has two hundred seats, of which a hundred and seventy work, a screen from 1978 and a projector from 2012, bought when films stopped being distributed on reels. It stands in the center of a town of eight thousand, between the post office and the bakery, and for three generations it was the place one went — on a first date, to the school play, to the Sunday matinée with the children. Since January this year it has been closed, "temporarily", which in small towns usually means forever.',
       },
       {
         hr: 'Razlog zatvaranja nije tajna i nije jedan. Grad, koji je vlasnik zgrade, više nije mogao pokrivati gubitak od tridesetak tisuća eura godišnje. Publika se smanjivala: s prosječno šezdeset gledatelja po projekciji prije deset godina na petnaestak lani. Distributeri filmova sve su češće tražili da se novi naslovi prikazuju u više termina tjedno, što kino s jednim zaposlenim nije moglo. A najveći konkurent nije bilo drugo kino — najbliže je pedeset kilometara daleko — nego dnevna soba: prema anketi, tri četvrtine kućanstava u gradu plaća barem jednu uslugu za gledanje filmova na zahtjev.',
@@ -1648,10 +1648,10 @@ export const GRADED_STORIES_LONG = [
     vocabulary: [
       {
         hr: 'kinodvorana',
-        en: 'cinema hall',
+        en: 'movie theater',
         ex: 'Posljednja kinodvorana u gradu zatvorena je u siječnju.',
       },
-      { hr: 'platno', en: 'screen (cinema)', ex: 'Platno je iz 1978. godine.' },
+      { hr: 'platno', en: 'screen (movie theater)', ex: 'Platno je iz 1978. godine.' },
       { hr: 'matineja', en: 'matinée', ex: 'Nedjeljom se išlo na matineju s djecom.' },
       {
         hr: 'na zahtjev',
@@ -1660,7 +1660,7 @@ export const GRADED_STORIES_LONG = [
       },
       { hr: 'usuditi se', en: 'to dare', ex: 'Pitali su kako smo se usudili zatvoriti kino.' },
       { hr: 'drskost', en: 'arrogance, impertinence', ex: 'Jedni su u rečenici vidjeli drskost.' },
-      { hr: 'blagajna', en: 'box office, till', ex: 'Učiteljica je stajala na blagajni.' },
+      { hr: 'blagajna', en: 'box office, register', ex: 'Učiteljica je stajala na blagajni.' },
       { hr: 'prkos', en: 'defiance', ex: 'Nekoliko ih je došlo iz prkosa.' },
       { hr: 'zlonamjeran', en: 'malicious', ex: 'Skeptici nisu svi zlonamjerni.' },
       {
@@ -2488,7 +2488,7 @@ export const GRADED_STORIES_LONG = [
       { hr: 'kurikulum', en: 'curriculum', ex: 'Novi kurikulum ima naslov, datum i ministra.' },
       {
         hr: 'raspored',
-        en: 'arrangement, timetable, layout',
+        en: 'arrangement, schedule, layout',
         ex: 'Raspored učionice je raspored tvornice.',
       },
       {
@@ -2738,7 +2738,7 @@ export const GRADED_STORIES_LONG = [
       },
       {
         hr: 'Prije ulaska, "otići van" značilo je prijelaz — iz jednog svijeta u drugi, s vizom, s odlukom, s osjećajem da se nešto ostavlja. Za generaciju koja je odrasla u Uniji, otići u Beč, Dublin ili Utrecht znači otprilike ono što je za njihove roditelje značilo otići u Zagreb: promjenu adrese, ne svijeta. Studij u inozemstvu, koji je nekad bio privilegij, danas je opcija koju razmatra velik dio maturanata. To ima cijenu — o iseljavanju je bilo riječi — ali ima i učinak koji se rjeđe vidi: Hrvatska je prestala biti mjesto koje se ili nikad ne napušta ili se napušta zauvijek. Postala je mjesto iz kojeg se odlazi i u koje se vraća, i taj promet ljudi, ideja i navika mijenja zemlju polaganije od bilo koje reforme, ali trajnije.',
-        en: 'Before accession, "going abroad" meant a crossing — from one world to another, with a visa, with a decision, with a sense of leaving something behind. For the generation that grew up in the Union, going to Vienna, Dublin or Utrecht means roughly what going to Zagreb meant for their parents: a change of address, not of world. Study abroad, once a privilege, is today an option many school-leavers consider. That has a price — emigration has been discussed — but it also has an effect seen less often: Croatia has stopped being a place one either never leaves or leaves for ever. It has become a place one leaves and returns to, and that traffic of people, ideas and habits changes the country more slowly than any reform, but more lastingly.',
+        en: 'Before accession, "going abroad" meant a crossing — from one world to another, with a visa, with a decision, with a sense of leaving something behind. For the generation that grew up in the Union, going to Vienna, Dublin or Utrecht means roughly what going to Zagreb meant for their parents: a change of address, not of world. Study abroad, once a privilege, is today an option many school-leavers consider. That has a price — emigration has been discussed — but it also has an effect seen less often: Croatia has stopped being a place one either never leaves or leaves forever. It has become a place one leaves and returns to, and that traffic of people, ideas and habits changes the country more slowly than any reform, but more lastingly.',
       },
       {
         hr: 'Druga je promjena u tome kako se o Hrvatskoj govori vani, i kako se to odražava na način na koji Hrvati govore o sebi. Devedesetih je Hrvatska u stranim medijima bila zemlja rata; dvijetisućitih zemlja tranzicije, što je uljudan izraz za zemlju koja još nije ono što bi trebala biti; danas je zemlja nogometnih uspjeha, Schengena i eura — dosadna na način na koji su dosadne zemlje koje funkcioniraju. To je golem pomak, i nije ga napravila Unija sama, ali ga bez Unije ne bi bilo. Njegov je unutarnji učinak da je hrvatski javni govor izgubio jednu od svojih najstarijih tema: pitanje pripadamo li Europi. Pripadamo, formalno i nepovratno, i o tome se više ne raspravlja. Energija koja je desetljećima išla u to pitanje sada je slobodna za druga — i to je, čini mi se, najveći dobitak koji nitko ne broji.',
@@ -4626,7 +4626,7 @@ export const GRADED_STORIES_LONG = [
       },
       {
         hr: 'Baka je saslušala, natočila kavu i počela od početka, jer je to jedini način na koji je znala pričati. Kralj je bio kralj, o njemu se u kući nije govorilo ni dobro ni loše, i ulica se tako zvala kad je ona naučila čitati, pa je to ime za nju zauvijek ostalo "pravo", kao što je prvi jezik pravi. Vojskovođa je došao 1941., s pločom koju su postavili noću, i o njemu se u kući govorilo tiho, a poslije rata nikako. General je došao 1945. i ostao najdulje, četrdeset i pet godina, dovoljno da Katica pod tim imenom rodi dvoje djece, sahrani muža i ode u mirovinu, i to ime, rekla je, "nije bilo ni dobro ni loše, nego dugo, a dugo je ono što ulice pamte". Datum je došao 1990. i potrajao jedva godinu dana, toliko kratko da se nitko nije stigao sjetiti što se toga dana dogodilo. Pjesnik je došao 1991., s cvijećem i govorima, i njegovo je ime baka jedino zapamtila s ponosom, jer je pjesme učila u školi, a "pjesme se ne mijenjaju kad se promijeni ploča".',
-        en: 'Grandma listened, poured coffee and began from the beginning, because that was the only way she knew how to tell things. The king was a king; in the house he was spoken of neither well nor ill, and the street bore his name when she learned to read, so that name remained for her for ever "the real one", as a first language is the real one. The military commander came in 1941, with a plaque they put up at night, and he was spoken of in the house quietly, and after the war not at all. The general came in 1945 and stayed longest, forty-five years, long enough for Katica under that name to bear two children, bury a husband and retire, and that name, she said, "was neither good nor bad, but long, and long is what streets remember". The date came in 1990 and lasted barely a year, so briefly that nobody got round to remembering what had happened on that day. The poet came in 1991, with flowers and speeches, and his was the only name Grandma remembered with pride, because she had learned his poems at school, and "poems don\'t change when the plaque changes".',
+        en: 'Grandma listened, poured coffee and began from the beginning, because that was the only way she knew how to tell things. The king was a king; in the house he was spoken of neither well nor ill, and the street bore his name when she learned to read, so that name remained for her forever "the real one", as a first language is the real one. The military commander came in 1941, with a plaque they put up at night, and he was spoken of in the house quietly, and after the war not at all. The general came in 1945 and stayed longest, forty-five years, long enough for Katica under that name to bear two children, bury a husband and retire, and that name, she said, "was neither good nor bad, but long, and long is what streets remember". The date came in 1990 and lasted barely a year, so briefly that nobody got round to remembering what had happened on that day. The poet came in 1991, with flowers and speeches, and his was the only name Grandma remembered with pride, because she had learned his poems at school, and "poems don\'t change when the plaque changes".',
       },
       {
         hr: 'Ines je zapisivala, iz navike, i onda prestala, jer je shvatila da zapisuje krivu stvar. Baka nije govorila o imenima nego o onome što se pod svakim imenom događalo u kući broj sedam: o bratu koji je otišao pod vojskovođom i nije se vratio; o susjedu koji je pod generalom prijavio drugog susjeda i s kojim je poslije, pod pjesnikom, pila kavu jer "nije bilo drugoga s kime"; o kestenu koji su htjeli srušiti pod svakim režimom i koji je svaki režim preživio jer se uvijek našao netko tko je stanovao preko puta i imao rođaka u uredu. "Ulica se zove kako se zove", rekla je baka. "Kuća se zove po ljudima koji u njoj stanuju. To ne piše ni na jednoj ploči."',

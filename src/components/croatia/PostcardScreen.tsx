@@ -308,7 +308,7 @@ export default function PostcardScreen({
       // credit, and through award() the daily-session slot, used to sit behind
       // Download and Share on step 3: a learner who wrote the postcard, read the
       // correction and left by Back or a tab was paid nothing and stranded the slot,
-      // and a canvas that never became ready kept both buttons disabled for ever.
+      // and a canvas that never became ready kept both buttons disabled forever.
       if (!awardFired.current) {
         awardFired.current = true;
         if (typeof award === 'function') award(15, false, 'culture');

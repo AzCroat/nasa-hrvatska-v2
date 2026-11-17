@@ -1250,7 +1250,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Asking the Price',
-        body: 'Koliko košta? (How much does it cost?) — for one thing. Koliko je to? (How much is that?) — at the till, for everything together. The answer you will read on a price tag or a screen is a number with the € sign: 3 €, 15,50 €. Croatians write a comma where English writes a point: 1,20 € is one euro and twenty cents.',
+        body: 'Koliko košta? (How much does it cost?) — for one thing. Koliko je to? (How much is that?) — at the register, for everything together. The answer you will read on a price tag or a screen is a number with the € sign: 3 €, 15,50 €. Croatians write a comma where English writes a point: 1,20 € is one euro and twenty cents.',
         highlight: 'Koliko košta?',
       },
       {
@@ -1743,7 +1743,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Čekam gospodina ____. (Horvat — Mr Horvat)',
+          q: 'Čekam gospodina ____. (Horvat — Mr. Horvat)',
           answer: 'Horvata',
           hint: "A man's surname changes like any living masculine noun.",
           explanation: 'Čekam gospodina Horvata.',
@@ -2414,7 +2414,7 @@ export const PRACTICE = {
           explanation: 'Koliko košta kava?',
         },
         {
-          q: 'At the till, for everything together: "Koliko je ___?"',
+          q: 'At the register, for everything together: "Koliko je ___?"',
           options: ['taj', 'ta', 'to', 'tu'],
           correct: 2,
           hint: 'The word for "that" which points at no particular noun.',
@@ -2499,7 +2499,7 @@ export const PRACTICE = {
     },
     checkB: [
       {
-        q: 'A screen at the till shows 15,50 €. What do you pay?',
+        q: 'A screen at the register shows 15,50 €. What do you pay?',
         options: [
           'fifteen euros fifty',
           'one thousand five hundred and fifty euros',

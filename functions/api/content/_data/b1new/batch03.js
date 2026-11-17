@@ -38,7 +38,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
     {
       type: 'rule',
       title: 'An a Slips In Between Two Consonants',
-      body: 'When the stem of a noun ends in two consonants, Croatian puts an a between them in the genitive plural, because the -a ending alone would leave the word hard to say. djevojka (stem djevojk-) → djevojaka; sestra (sestr-) → sestara; olovka (pencil) → olovaka; marka (stamp) → maraka; igra (game) → igara; zemlja (country) → zemalja; pismo (letter) → pisama; student → studenata; koncert → koncerata. This a is the same fleeting a you met in A1 — and nouns that lost it in the plural get it back here: muškarac → muškarci → muškaraca; stranac (foreigner) → stranaca; momak (lad) → momaka; Amerikanac → Amerikanaca.',
+      body: 'When the stem of a noun ends in two consonants, Croatian puts an a between them in the genitive plural, because the -a ending alone would leave the word hard to say. djevojka (stem djevojk-) → djevojaka; sestra (sestr-) → sestara; olovka (pencil) → olovaka; marka (stamp) → maraka; igra (game) → igara; zemlja (country) → zemalja; pismo (letter) → pisama; student → studenata; koncert → koncerata. This a is the same fleeting a you met in A1 — and nouns that lost it in the plural get it back here: muškarac → muškarci → muškaraca; stranac (foreigner) → stranaca; momak (young man) → momaka; Amerikanac → Amerikanaca.',
       highlight: 'djevojka → djevojaka',
     },
     {
@@ -53,7 +53,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
         ['pismo (letter)', 'pisma', 'pisama', 'puno pisama'],
         ['student', 'studenti', 'studenata', 'sto studenata'],
         ['muškarac (man)', 'muškarci', 'muškaraca', 'pet muškaraca'],
-        ['momak (lad)', 'momci', 'momaka', 'nekoliko momaka'],
+        ['momak (young man)', 'momci', 'momaka', 'nekoliko momaka'],
       ],
     },
     {
@@ -99,7 +99,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
       items: [
         {
           hr: 'Na izletu je bilo deset djevojaka i osam momaka.',
-          en: 'There were ten girls and eight lads on the trip.',
+          en: 'There were ten girls and eight guys on the trip.',
           note: 'djevojaka and momaka — genitive plural after a number, with the a slipped in',
         },
         {
@@ -518,7 +518,7 @@ const L_TIME_GENITIVE = {
         ['preksutra (prekosutra)', 'the day after tomorrow', 'Preksutra putujemo u Split.'],
         ['ponedjeljkom, utorkom…', 'on Mondays, on Tuesdays…', 'Ponedjeljkom imam tečaj.'],
         ['oduvijek', 'always (since ever)', 'Oduvijek volim more.'],
-        ['zauvijek', 'for ever', 'Ostat ćemo prijatelji zauvijek.'],
+        ['zauvijek', 'forever', 'Ostat ćemo prijatelji zauvijek.'],
       ],
     },
     {
@@ -874,7 +874,7 @@ const P_TIME_GENITIVE = {
     ['travanj', 'April (gen. travnja)', 'Rođen je dvadesetog travnja.'],
     ['sjećanje', 'memory', 'To je moje najljepše sjećanje.'],
     ['prekjučer', 'the day before yesterday', 'Prekjučer sam bila kod bake.'],
-    ['zauvijek', 'for ever', 'Ostat ćemo prijatelji zauvijek.'],
+    ['zauvijek', 'forever', 'Ostat ćemo prijatelji zauvijek.'],
   ],
 };
 
@@ -971,7 +971,7 @@ const L_VERBS_WITH_GENITIVE = {
         },
         {
           hr: 'Sjećaš li me se? Bili smo zajedno u školi.',
-          en: 'Do you remember me? We were at school together.',
+          en: 'Do you remember me? We were in school together.',
           note: 'me — the short genitive, before se',
         },
       ],
@@ -1007,7 +1007,7 @@ const L_VERBS_WITH_GENITIVE = {
         },
         {
           hr: 'Mačka leži na suncu, a pas trči po vrtu.',
-          en: 'The cat is lying in the sun and the dog is running round the garden.',
+          en: 'The cat is lying in the sun and the dog is running around the yard.',
           note: 'leži and trči — -ati → -im verbs',
         },
       ],

@@ -1997,7 +1997,7 @@ const LESSONS_CORE = [
         items: [
           {
             hr: 'Gospodine Babiću, možete li mi pomoći?',
-            en: 'Mr Babić, could you help me?',
+            en: 'Mr. Babić, could you help me?',
             note: 'Vi-form možete + vocative Babiću — polite to a stranger',
           },
           {
@@ -2032,7 +2032,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Hvala ti, stari, spasio si me!',
-            en: 'Thanks, mate, you saved me!',
+            en: 'Thanks, buddy, you saved me!',
             note: 'ti-form and a nickname — close friends only',
           },
         ],
@@ -3944,7 +3944,7 @@ const LESSONS_CORE = [
             en: "my sister's key",
             note: 'moja sestra → moje sestre (fem. gen.)',
           },
-          { hr: 'centar grada', en: 'the city centre', note: 'grad → grada (masc. gen.)' },
+          { hr: 'centar grada', en: 'the city center', note: 'grad → grada (masc. gen.)' },
           { hr: 'boja mora', en: 'the color of the sea', note: 'more → mora (neut. gen.)' },
           { hr: 'soba moje sestre', en: "my sister's room", note: 'sestra → sestre (fem. gen.)' },
         ],
@@ -4142,7 +4142,7 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Genitive — Four Core Uses',
         points: [
-          "Possession: ključ moje sestre (my sister's key), centar grada (city centre); with one name: Anin ključ",
+          "Possession: ključ moje sestre (my sister's key), centar grada (city center); with one name: Anin ključ",
           "Nema + genitive: Nema kave. (There's no coffee.)",
           'After quantity words: mnogo prijatelja, malo vremena',
           'After numbers 5+: pet boca, deset dana',
@@ -8310,7 +8310,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Kad su ga pohvalili, bio je crven kao rak.',
-            en: 'When they praised him, he went as red as a beetroot.',
+            en: 'When they praised him, he went as red as a beet.',
             note: 'crven kao rak — idiom, literally "red as a crab"',
           },
           {

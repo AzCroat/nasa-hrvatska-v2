@@ -81,7 +81,7 @@ export const GENITIVE_PLURAL_SPECIAL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'umetnuto',
     q: 'Ispred kafića stoji nekoliko ____.',
-    en: 'A few lads are standing in front of the café.',
+    en: 'A few guys are standing in front of the café.',
     opts: ['momaka', 'momci', 'momka', 'momcima'],
     answer: 'momaka',
     tip: 'Momak → momci → momaka: the fleeting a comes back.',

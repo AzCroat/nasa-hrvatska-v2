@@ -571,7 +571,7 @@ export const PRACTICE_C2 = {
           correct: 0,
           hint: 'The less neutral word is not wrong — ask which reader expects a relaxed register.',
           explanation:
-            'In conversation dućan is entirely natural. An advert, a report and a law choose the neutral trgovina.',
+            'In conversation dućan is entirely natural. An ad, a report and a law choose the neutral trgovina.',
         },
         {
           q: 'Koja je rečenica pravilna?',
@@ -1416,7 +1416,7 @@ export const PRACTICE_C2 = {
           'Bila bih došla — feminine participles and the first person bih. Bila sam would make it a real pluperfect.',
       },
       {
-        q: 'Complete: "___ javio, ali nisam imao tvoj broj." (I would have got in touch with you)',
+        q: 'Complete: "___ javio, ali nisam imao tvoj broj." (I would have gotten in touch with you)',
         options: ['Bio bih ti se', 'Bio ti bih se', 'Bio se bih ti', 'Bih ti se bio'],
         correct: 0,
         explanation: 'Bio bih ti se javio — the cluster runs auxiliary, dative, then se.',
@@ -4632,7 +4632,7 @@ export const PRACTICE_C2 = {
         q: 'Which handling of "dom zdravlja" misinforms an English reader?',
         options: [
           'a hospital',
-          'dom zdravlja (primary health-care centre)',
+          'dom zdravlja (primary health-care center)',
           'a primary health-care institution',
           'dom zdravlja, kept with a gloss',
         ],
@@ -4971,7 +4971,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Find the allusion',
-            text: 'Sisyphus, rolling the stone uphill for ever: sizifov posao.',
+            text: 'Sisyphus, rolling the stone uphill forever: sizifov posao.',
           },
           {
             label: 'Use it once, unexplained',
@@ -5546,7 +5546,7 @@ export const PRACTICE_C2 = {
       {
         q: 'Where is dropping diacritics acceptable?',
         options: [
-          'in a CV',
+          'in a résumé',
           'in a quick message to a friend',
           'in a letter to the tax office',
           'in a thesis',

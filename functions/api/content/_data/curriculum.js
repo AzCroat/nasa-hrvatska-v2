@@ -1026,7 +1026,7 @@ export const CURRICULUM = [
     order: 47,
     prerequisites: ['bureaucracy'],
     objectives: [
-      'Read a rental advert and understand what it is actually offering',
+      'Read a rental ad and understand what it is actually offering',
       'Know that rooms are counted without the kitchen and bathroom',
       'Ask the questions that matter: režije, polog, ugovor',
     ],
@@ -1037,7 +1037,7 @@ export const CURRICULUM = [
     order: 16,
     prerequisites: ['work-jobs'],
     objectives: [
-      'Write a Croatian CV and covering letter',
+      'Write a Croatia résumé and cover letter',
       'Talk about your experience with the participle agreeing with you',
       'Answer an interview question with a reason attached',
     ],

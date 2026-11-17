@@ -73,7 +73,7 @@ const DATA = [
     q: 'Kratica „gđa” (gospođa) piše se:',
     opts: ['bez točke (gđa)', 's točkom (gđa.)', 'velikim (GĐA)', 'sa spojnicom (g-đa)'],
     answer: 'bez točke (gđa)',
-    en: 'writing the abbreviation for Mrs',
+    en: 'writing the abbreviation for Mrs.',
     tip: 'Sažete kratice (početak i kraj riječi) pišu se bez točke: gđa, gđica; kratice koje odsijecaju kraj riječi imaju točku: dr., prof., npr.',
   },
   {

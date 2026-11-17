@@ -11754,7 +11754,7 @@ export const PHONOLOGY = {
       ipa: '/dʑ/',
       like: "Like 'dj' in 'djinn' or 'j' in English 'yes' but voiced — a soft D+J blend",
       examples: [
-        { hr: 'đak', en: 'pupil / student' },
+        { hr: 'đak', en: 'student' },
         { hr: 'đavao', en: 'devil' },
         { hr: 'međunarodni', en: 'international' },
       ],

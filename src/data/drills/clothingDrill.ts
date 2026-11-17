@@ -105,7 +105,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slaganje',
     q: 'Kupujem ____ hlače. (nov)',
-    en: 'I am buying new trousers.',
+    en: 'I am buying new pants.',
     opts: ['nove', 'novu', 'novi', 'novo'],
     answer: 'nove',
     tip: 'Plural noun → plural adjective: nove hlače.',
@@ -121,7 +121,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'slaganje',
     q: '____ hlače su skupe.',
-    en: 'These trousers are expensive.',
+    en: 'These pants are expensive.',
     opts: ['Ove', 'Ova', 'Ovaj', 'Ovo'],
     answer: 'Ove',
     tip: 'The demonstrative agrees too: ove hlače su skupe.',
@@ -172,7 +172,7 @@ export const CLOTHING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ducan',
     q: 'Što je "kabina"?',
     en: 'What is kabina?',
-    opts: ['fitting room', 'till', 'shelf', 'entrance'],
+    opts: ['fitting room', 'register', 'shelf', 'entrance'],
     answer: 'fitting room',
     tip: 'Gdje je kabina?',
   },

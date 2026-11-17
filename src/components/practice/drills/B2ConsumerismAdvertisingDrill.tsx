@@ -20,7 +20,7 @@ export default function B2ConsumerismAdvertisingDrill({ goBack, award }: Props) 
   return (
     <ModeDrill
       id="b2consumerismadvertising"
-      title="Buy, Buy, Buy: Consumers and Adverts"
+      title="Buy, Buy, Buy: Consumers and Ads"
       subtitle="Practice what the lesson taught"
       modeLabels={CONSUMERISM_ADVERTISING_MODE_LABELS}
       data={CONSUMERISM_ADVERTISING_DRILL_DATA}

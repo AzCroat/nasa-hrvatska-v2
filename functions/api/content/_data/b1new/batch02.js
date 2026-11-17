@@ -724,7 +724,7 @@ const P_VERBS_WITH_INSTRUMENTAL = {
           text: 'A yes–no question with biti: Jesi li …? and the adjective follows.',
         },
         {
-          label: 'The flat',
+          label: 'The apartment',
           text: 'Stan is masculine: svojim novim stanom (tvojim novim stanom is also fine with ti).',
         },
       ],
@@ -978,7 +978,7 @@ const L_JOB_APPLICATION = {
     {
       type: 'rule',
       title: 'The Closing Lines',
-      body: 'Four fixed phrases close almost every application. U prilogu šaljem životopis i presliku diplome (Attached I send my CV and a copy of my diploma). Za sve dodatne informacije stojim Vam na raspolaganju (I am at your disposal for any further information). Zahvaljujem na pažnji (Thank you for your attention). Nadam se Vašem pozitivnom odgovoru (I hope for a positive reply). Then: S poštovanjem, and your name.',
+      body: 'Four fixed phrases close almost every application. U prilogu šaljem životopis i presliku diplome (Attached I send my résumé and a copy of my diploma). Za sve dodatne informacije stojim Vam na raspolaganju (I am at your disposal for any further information). Zahvaljujem na pažnji (Thank you for your attention). Nadam se Vašem pozitivnom odgovoru (I hope for a positive reply). Then: S poštovanjem, and your name.',
       highlight: 'S poštovanjem,',
     },
     {
@@ -1011,7 +1011,7 @@ const L_JOB_APPLICATION = {
         },
         {
           hr: 'Poštovana gospođo Kovač,',
-          en: 'Dear Mrs Kovač,',
+          en: 'Dear Mrs. Kovač,',
           note: 'Kovač — a woman’s surname does not change',
         },
         {
@@ -1052,7 +1052,7 @@ const L_JOB_APPLICATION = {
         },
         {
           hr: 'U prilogu šaljem životopis i presliku svjedodžbe.',
-          en: 'Attached I send my CV and a copy of my school certificate.',
+          en: 'Attached I send my résumé and a copy of my school certificate.',
           note: 'u prilogu — literally "in the attachment"',
         },
         {
@@ -1378,7 +1378,7 @@ const P_JOB_APPLICATION = {
     ['radno mjesto', 'post, position', 'Tražim radno mjesto vozača.'],
     ['prijava', 'application', 'Poslala sam prijavu na natječaj.'],
     ['molba', 'application letter, request', 'Napisao je molbu za posao.'],
-    ['životopis', 'CV', 'U prilogu šaljem životopis.'],
+    ['životopis', 'résumé', 'U prilogu šaljem životopis.'],
     ['prilog', 'attachment', 'Životopis je u prilogu.'],
     ['svjedodžba', 'school certificate', 'Šaljem presliku svjedodžbe.'],
     ['iskustvo', 'experience', 'Imam tri godine iskustva.'],
@@ -1659,7 +1659,7 @@ const P_SATISFACTION_DISAPPOINTMENT = {
           text: 'Oduševljen takes the instrumental with no preposition.',
         },
         {
-          label: 'The flat',
+          label: 'The apartment',
           text: 'Stan is masculine: tvojim novim stanom, with -im on both words in front.',
         },
       ],

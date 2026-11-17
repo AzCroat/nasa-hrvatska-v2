@@ -25,7 +25,7 @@ const DATA = [
     q: '„Netko kuca. ____ je poštar.”',
     opts: ['Bit će da', 'Neka', 'Čim', 'Makar'],
     answer: 'Bit će da',
-    en: 'that will be the postman',
+    en: 'that will be the mail carrier',
     tip: 'Pretpostavka o sadašnjem: bit će da je.',
   },
   {

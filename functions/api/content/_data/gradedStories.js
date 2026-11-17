@@ -4093,7 +4093,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'red',
-        en: 'line, queue',
+        en: 'line',
         ex: 'Trebalo je čekati u redu.',
       },
       {
@@ -4590,7 +4590,7 @@ export const GRADED_STORIES = [
     quiz: [
       {
         q: 'Koji je studij Petra upisala?',
-        qEn: 'Which programme did Petra get into?',
+        qEn: 'Which program did Petra get into?',
         opts: ['Pravo u Zagrebu', 'Medicinu', 'Ekonomiju', 'Psihologiju u Rijeci'],
         correct: 3,
       },
@@ -8042,7 +8042,7 @@ export const GRADED_STORIES = [
       },
     ],
     vocabulary: [
-      { hr: 'kino', en: 'cinema', ex: 'Obitelj Kovač planira izlazak u kino.' },
+      { hr: 'kino', en: 'movie theater', ex: 'Obitelj Kovač planira izlazak u kino.' },
       { hr: 'ulaznica', en: 'ticket', ex: 'Tata kaže da trebaju četiri ulaznice.' },
       { hr: 'kokice', en: 'popcorn', ex: 'Prije filma kupuju veliku kutiju kokica.' },
       { hr: 'dvorana', en: 'hall', ex: 'Dvorana je mračna i vrlo velika.' },
@@ -9000,7 +9000,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'jesen',
-        en: 'autumn',
+        en: 'fall',
         ex: 'Neće mu trebati do jeseni, kad počne nova školska godina.',
       },
       {
@@ -15550,11 +15550,11 @@ export const GRADED_STORIES = [
     focus:
       'vokabular zapošljavanja i poslovnog razgovora, izražavanje empatije, kontrast formalnog i stvarnog dojma',
     intro:
-      "Asked to help interview candidates for the first time, she finds the nerves reversed — and one candidate's honesty teaches her more than any CV ever could.",
+      "Asked to help interview candidates for the first time, she finds the nerves reversed — and one candidate's honesty teaches her more than any résumé ever could.",
     paragraphs: [
       {
         hr: 'Kad me voditeljica odjela prošli mjesec zamolila da joj pomognem provesti razgovore za posao za mjesto pripravnika, prihvatila sam s oduševljenjem, ne shvaćajući koliko će mi to iskustvo promijeniti pogled na cijeli proces zapošljavanja. Dotad sam samo sjedila s druge strane stola, kao kandidatkinja, nervozno stišćući svoj životopis.',
-        en: 'When my department head asked me last month to help her conduct job interviews for an intern position, I accepted enthusiastically, not realizing how much that experience would change my view of the whole hiring process. Until then I had only ever sat on the other side of the table, as a candidate, nervously clutching my CV.',
+        en: 'When my department head asked me last month to help her conduct job interviews for an intern position, I accepted enthusiastically, not realizing how much that experience would change my view of the whole hiring process. Until then I had only ever sat on the other side of the table, as a candidate, nervously clutching my résumé.',
       },
       {
         hr: 'Prije prvog razgovora provela sam sate čitajući životopise i motivacijska pisma desetak kandidata. Neki su bili besprijekorno sročeni, puni impresivnih naslova i vještina, dok su drugi djelovali škrto, kao da autor nije bio siguran što uopće napisati o sebi. Nisam očekivala koliko će mi biti teško procijeniti osobu na temelju papira.',
@@ -15562,7 +15562,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Kada je prvi kandidat ušao u prostoriju za razgovore, primijetila sam da su mu ruke lagano drhtale dok je pružao svoj životopis. Odjednom sam se sjetila vlastite nervoze prije nekoliko godina, kada sam sjedila upravo na njegovom mjestu, uvježbavajući odgovore na pitanja koja sam noć prije zamišljala u glavi.',
-        en: 'When the first candidate walked into the interview room, I noticed his hands were shaking slightly as he handed over his CV. I suddenly remembered my own nervousness from a few years earlier, when I sat in exactly his seat, rehearsing answers to questions I had imagined the night before.',
+        en: 'When the first candidate walked into the interview room, I noticed his hands were shaking slightly as he handed over his résumé. I suddenly remembered my own nervousness from a few years earlier, when I sat in exactly his seat, rehearsing answers to questions I had imagined the night before.',
       },
       {
         hr: 'Ironično, ja sam bila ta koja se osjećala nervozno, iako sam sada bila na strani koja postavlja pitanja. Bojala sam se da ću zaboraviti pitanja s papira ili da ću djelovati previše strogo. Voditeljica pored mene primijetila je moju napetost i tiho mi šapnula da razgovor vodim znatno bolje nego što mislim.',
@@ -15570,7 +15570,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Jedan kandidat posebno mi je ostao u sjećanju. Njegov životopis nije bio ni najimpresivniji ni najbolje sročen, ali način na koji je govorio o vlastitim pogreškama i onome što je iz njih naučio podsjetio me na sebe u tim godinama. Osjetila sam gotovo majčinsku želju da mu damo priliku, bez obzira na manjak formalnog iskustva.',
-        en: "One candidate in particular stuck in my memory. His CV was neither the most impressive nor the best written, but the way he talked about his own mistakes and what he'd learned from them reminded me of myself at that age. I felt an almost motherly urge to give him a chance, regardless of his lack of formal experience.",
+        en: "One candidate in particular stuck in my memory. His résumé was neither the most impressive nor the best written, but the way he talked about his own mistakes and what he'd learned from them reminded me of myself at that age. I felt an almost motherly urge to give him a chance, regardless of his lack of formal experience.",
       },
       {
         hr: 'Kada sam ga pitala zašto se prijavio baš za ovo mjesto, odgovorio je iskreno da mu je ovo prva ozbiljna prilika nakon niza odbijenica, i da zna da mu nedostaje iskustva, ali ne i volje da uči brzo. Ta iskrenost, umjesto da ga diskvalificira, djelovala je osvježavajuće u usporedbi s uvježbanim odgovorima drugih kandidata.',
@@ -15578,7 +15578,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Nakon razgovora, dok smo s voditeljicom uspoređivale dojmove, shvatila sam koliko životopis zapravo malo govori o osobi. Papir ne pokazuje kako netko reagira kad ne zna odgovor, hoće li priznati neznanje ili pokušati blefirati, niti kakav je osjećaj za humor ili suradnju - stvari koje sam mogla procijeniti tek uživo, licem u lice.',
-        en: "After the interviews, while the manager and I compared impressions, I realized how little a CV actually reveals about a person. Paper doesn't show how someone reacts when they don't know an answer, whether they'll admit ignorance or try to bluff, nor what their sense of humor or teamwork is like - things I could only judge in person, face to face.",
+        en: "After the interviews, while the manager and I compared impressions, I realized how little a résumé actually reveals about a person. Paper doesn't show how someone reacts when they don't know an answer, whether they'll admit ignorance or try to bluff, nor what their sense of humor or teamwork is like - things I could only judge in person, face to face.",
       },
       {
         hr: 'Neki kandidati s besprijekornim životopisima djelovali su uživo kruto i nesigurno, dok su oni sa skromnijim iskustvom pokazivali iznenađujuću snalažljivost i toplinu u razgovoru. Shvatila sam da papir i osoba pred nama ponekad pripovijedaju sasvim različite priče, i da bi oslanjanje samo na formalne kvalifikacije značilo propustiti prave talente.',
@@ -15601,7 +15601,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'životopis',
-        en: 'CV / resume',
+        en: 'résumé',
         ex: 'Prije prvog razgovora provela sam sate čitajući životopise i motivacijska pisma desetak kandidata.',
       },
       {
@@ -17788,7 +17788,7 @@ export const GRADED_STORIES = [
     focus:
       'Professional register and nominalization in a portrait of rural education and institutional continuity (school vocabulary, discourse connectors).',
     intro:
-      "Meet Ana Perić, who teaches four grades at once in a five-pupil village school. This C1 portrait explores the individualized teaching a combined classroom demands and what the school's possible closure would mean for the village.",
+      "Meet Ana Perić, who teaches four grades at once in a five-student village school. This C1 portrait explores the individualized teaching a combined classroom demands and what the school's possible closure would mean for the village.",
     paragraphs: [
       {
         hr: 'U školskoj zgradi na rubu sela, sagrađenoj još prije osamdesetak godina, svako jutro istim praznim hodnikom odjekuju koraci samo petero učenika, djece koja se međusobno poznaju bolje nego rođena braća i sestre. Učiteljica Ana Perić predaje u kombiniranom razrednom odjelu u kojem se pod istim krovom, u istoj učionici, istodobno nalaze prvi, drugi, treći i četvrti razred.',
@@ -19610,7 +19610,7 @@ export const GRADED_STORIES = [
     vocabulary: [
       {
         hr: 'red čekanja',
-        en: 'queue, line',
+        en: 'line',
         ex: 'Red čekanja jedna je od rijetkih društvenih institucija koje nemaju ni statut ni nadzorno tijelo',
       },
       {

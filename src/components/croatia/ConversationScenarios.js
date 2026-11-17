@@ -146,7 +146,7 @@ export const SCENARIOS = [
     color: '#1d4ed8',
     bg: '#eff6ff',
     aiName: 'Radnik Krešo',
-    aiRole: 'petrol station attendant',
+    aiRole: 'gas station attendant',
     context:
       'You are Krešo, working at an INA gas station. A customer pulls up needing gas, perhaps a car wash, and maybe directions. Be direct and efficient but friendly.',
   },

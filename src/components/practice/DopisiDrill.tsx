@@ -3,8 +3,8 @@ import ModeDrill from './ModeDrill';
 
 // C2 official-documents drill (C2 tranche 9, 2026-08-15): the job
 // application (formulas, enclosures, date format), the appeal/complaint
-// (citing the decision, tone, evidence) and the CV (reverse chronology,
-// CEFR language levels, cover letter vs CV).
+// (citing the decision, tone, evidence) and the résumé (reverse chronology,
+// CEFR language levels, cover letter vs résumé).
 const MODE_LABEL: Record<string, string> = {
   molba: '📨 Molba',
   zalba: '⚖️ Žalba',
@@ -59,7 +59,7 @@ const DATA = [
     q: '„U prilogu dostavljam ____.”',
     opts: ['životopis', 'život', 'životopisa', 'životopisom'],
     answer: 'životopis',
-    en: 'I enclose my CV',
+    en: 'I enclose my résumé',
     tip: 'Dostavljam + A: životopis, preslike.',
   },
   {
@@ -180,7 +180,7 @@ const DATA = [
     q: 'Suvremeni životopis (CV) je:',
     opts: ['tabličan i sažet (1-2 stranice)', 'esej od deset stranica', 'pjesma', 'popis želja'],
     answer: 'tabličan i sažet (1-2 stranice)',
-    en: 'what a modern CV looks like',
+    en: 'what a modern résumé looks like',
     tip: 'Europass ili uredan vlastiti format.',
   },
   {
@@ -209,7 +209,7 @@ const DATA = [
     q: 'Znanje jezika u životopisu označavamo:',
     opts: ['ZEROJ razinama (A1-C2)', 'zvjezdicama', 'postotcima', 'opisno „super”'],
     answer: 'ZEROJ razinama (A1-C2)',
-    en: 'how language skills are shown in a CV',
+    en: 'how language skills are shown in a résumé',
     tip: 'Hrvatski naziv: ZEROJ (ZEROJ/CEFR A1-C2).',
   },
   {
@@ -217,7 +217,7 @@ const DATA = [
     q: 'Fotografija u životopisu:',
     opts: ['nije obvezna; ako ide — poslovna', 'obavezna s plaže', 'selfie', 'iz osobne'],
     answer: 'nije obvezna; ako ide — poslovna',
-    en: 'the photo in a CV',
+    en: 'the photo in a résumé',
     tip: 'Standard struke.',
   },
   {
@@ -225,20 +225,20 @@ const DATA = [
     q: '„Vozačka dozvola ____ kategorije”',
     opts: ['B', 'B-ove', 'be', 'bé'],
     answer: 'B',
-    en: 'a driving-licence category, written in a CV',
+    en: 'a driver’s-license category, written in a résumé',
     tip: 'Vozačka dozvola B kategorije.',
   },
   {
     mode: 'zivotopis',
     q: 'Motivacijsko pismo prema životopisu:',
     opts: [
-      'objašnjava zašto baš vi — CV nabraja činjenice',
+      'objašnjava zašto baš vi — résumé nabraja činjenice',
       'ponavlja CV doslovno',
       'duže je od 5 stranica',
       'nepotrebno je uvijek',
     ],
-    answer: 'objašnjava zašto baš vi — CV nabraja činjenice',
-    en: 'how a cover letter differs from a CV',
+    answer: 'objašnjava zašto baš vi — résumé nabraja činjenice',
+    en: 'how a cover letter differs from a résumé',
     tip: 'Dva dokumenta, dvije uloge.',
   },
   {
@@ -251,7 +251,7 @@ const DATA = [
       'društvene mreže sve',
     ],
     answer: 'e-adresa i telefon, uredno na vrhu',
-    en: 'contact details in a CV',
+    en: 'contact details in a résumé',
     tip: 'Provjerite da je e-adresa ozbiljna.',
   },
 ];

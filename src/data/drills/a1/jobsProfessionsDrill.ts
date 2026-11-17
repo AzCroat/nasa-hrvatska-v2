@@ -80,7 +80,7 @@ export const JOBS_PROFESSIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zenski',
     q: 'prodavač → ____',
-    en: 'shop assistant (a woman)',
+    en: 'salesperson (a woman)',
     opts: ['prodavačka', 'prodavača', 'prodavačinja', 'prodavačica'],
     answer: 'prodavačica',
     tip: '-ač adds -ica.',

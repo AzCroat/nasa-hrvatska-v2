@@ -618,7 +618,7 @@ export const READ = {
       vocab: [
         ['prijatelji', 'friends'],
         ['zajedno', 'together'],
-        ['kino', 'cinema'],
+        ['kino', 'movie theater'],
         ['izleti', 'outings'],
         ['va\u017eni', 'important'],
       ],
@@ -1713,7 +1713,7 @@ export const READ = {
       text: 'Ana ima dvadeset šest godina i nedavno je završila fakultet. Studirala je ekonomiju na Sveučilištu u Zagrebu. Sada traži posao. Svaki dan pregledava oglase na internetu i šalje životopise. Prošli tjedan imala je intervju u jednoj marketinškoj agenciji. Morala je pripremiti kratku prezentaciju o sebi i odgovarati na pitanja o svojim iskustvima. Intervju je trajao sat vremena. Na kraju su joj rekli da će se javiti za tjedan dana. Ana je nervozna ali optimistična. Nada se da će dobiti taj posao jer je plaća dobra i radno okruženje izgleda ugodno.',
       vocab: [
         ['oglas', 'advertisement/job listing'],
-        ['životopis', 'CV / résumé'],
+        ['životopis', 'résumé'],
         ['iskustvo', 'experience'],
         ['radno okruženje', 'work environment'],
         ['optimistična', 'optimistic'],

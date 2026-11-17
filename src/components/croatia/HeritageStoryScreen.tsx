@@ -426,7 +426,7 @@ export default function HeritageStoryScreen({
   // A RESTORED STORY HAS ALREADY BEEN READ, so it must not pay again. The award
   // fires after three parts are read, and `awardFired` is per-mount — so without
   // this, restoring would turn "open the screen, tap three parts, leave" into 20
-  // XP and a culture quest on every visit, for ever, with no AI call in the way.
+  // XP and a culture quest on every visit, forever, with no AI call in the way.
   // The Save button is only reachable from the story phase, so a saved story is
   // one the learner reached and read; the cost of this line is that someone who
   // saved before reading three parts forgoes that one award, which is the safe

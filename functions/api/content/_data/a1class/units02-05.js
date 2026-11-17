@@ -2787,7 +2787,7 @@ export const CLASS_A1_U02_05 = {
         {
           who: 'Prodavačica',
           hr: 'A momci tamo? Jesu li i oni stranci?',
-          en: 'And the lads over there? Are they foreigners too?',
+          en: 'And the guys over there? Are they foreigners too?',
         },
         {
           who: 'Prodavač',
@@ -2806,8 +2806,8 @@ export const CLASS_A1_U02_05 = {
             'Nobody: there are no foreigners',
           ],
           correct: 0,
-          hint: 'The lads over there are Luka and Ivan — and they are not foreigners.',
-          explanation: 'To su Nijemci i Amerikanci. Luka and Ivan are local lads with their dogs.',
+          hint: 'The guys over there are Luka and Ivan — and they are not foreigners.',
+          explanation: 'To su Nijemci i Amerikanci. Luka and Ivan are local guys with their dogs.',
         },
         {
           q: 'One customer is "kupac" and one pot is "lonac". In the dialogue the plurals are "kupci" and "lonci". What happened to the a?',
@@ -2907,7 +2907,7 @@ export const CLASS_A1_U02_05 = {
         type: 'listen',
         audio: 'Psi su tamo, a mačke su ovdje.',
         q: 'Who is here?',
-        options: ['The cats', 'The dogs', 'The customers', 'The lads'],
+        options: ['The cats', 'The dogs', 'The customers', 'The guys'],
         correct: 0,
         explanation: 'Psi su tamo — the dogs are over there. Mačke su ovdje — the cats are here.',
       },

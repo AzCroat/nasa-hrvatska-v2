@@ -1814,7 +1814,7 @@ export const PRACTICE_C1 = {
       ['peron', 'platform', 'Vlak stiže na drugi peron.'],
       ['desetak', 'about ten', 'Na sastanak je došlo desetak ljudi.'],
       ['stotinjak', 'about a hundred', 'U dvorani je sjedilo stotinjak studenata.'],
-      ['hlače', 'trousers', 'Kupio sam dvoje hlače.'],
+      ['hlače', 'pants', 'Kupio sam dvoje hlače.'],
     ],
   },
 
@@ -3354,7 +3354,7 @@ export const PRACTICE_C1 = {
       ['izgraditi', 'to build', 'Most je izgrađen 2022. godine.'],
       ['proračun', 'budget', 'Gradsko vijeće usvojilo je proračun.'],
       ['šalter', 'service counter', 'Dokumenti se predaju na šalteru broj tri.'],
-      ['blagajna', 'box office, till', 'Karte se prodaju na blagajni.'],
+      ['blagajna', 'box office, register', 'Karte se prodaju na blagajni.'],
       ['rasprodan', 'sold out', 'Ulaznice su već rasprodane.'],
     ],
   },
@@ -5953,7 +5953,7 @@ export const PRACTICE_C1 = {
         q: 'What does "-pis" mean in "životopis"?',
         options: ['a measurer', 'a conduit', 'writing, description', 'life'],
         correct: 2,
-        explanation: 'život + pis: a life described — a CV.',
+        explanation: 'život + pis: a life described — a résumé.',
       },
     ],
     vocab: [

@@ -14,7 +14,7 @@
  * in during the content window (measured at ~9 s in the E2E harness) or after a
  * failed fetch met an EMPTY PAGE with an arrow, with the two causes rendered
  * byte-identically. Weather had no error branch at all, so a failed fetch left
- * that page blank for ever.
+ * that page blank forever.
  *
  * This is a component rather than five more inline copies because a sixth
  * screen is what the census keeps finding; `contentStateSpeaks.test.ts` derives

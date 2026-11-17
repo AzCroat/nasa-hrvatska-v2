@@ -979,7 +979,7 @@ export const LESSONS = [
         title: 'People and Places',
         headers: ['Person', 'Meaning', 'Where'],
         rows: [
-          ['učenik / učenica', 'pupil (school)', 'u školi'],
+          ['učenik / učenica', 'student (school)', 'u školi'],
           ['student / studentica', 'university student', 'na fakultetu'],
           ['učitelj / učiteljica', 'primary-school teacher', 'u školi'],
           [
@@ -1004,12 +1004,12 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'From School to a First Job',
-        body: "Croatian children go to osnovna škola (elementary school, eight years) and then to srednja škola (high school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. High school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a CV), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
+        body: "Croatian children go to osnovna škola (elementary school, eight years) and then to srednja škola (high school, usually four years). A gimnazija prepares you for university; a strukovna škola teaches a trade. High school ends with the matura, the state school-leaving exam, and the maturalna zabava, the leavers' ball. Then you go na fakultet, or you look for a job: you write a životopis (a résumé), you apply for an advertised post — prijavljuješ se na natječaj — and you go na razgovor za posao (a job interview), where they ask about your iskustvo (experience).",
         highlight: 'Sutra idem na razgovor za posao.',
       },
       {
         type: 'example',
-        title: 'Matura, a CV and an Interview',
+        title: 'Matura, a résumé and an Interview',
         items: [
           {
             hr: 'Moja kći ide u gimnaziju.',
@@ -1017,7 +1017,7 @@ export const LESSONS = [
           },
           { hr: 'U lipnju imam maturu.', en: 'In June I have my school-leaving exam.' },
           { hr: 'Maturalna zabava je u petak.', en: "The leavers' ball is on Friday." },
-          { hr: 'Večeras pišem životopis.', en: 'Tonight I am writing my CV.' },
+          { hr: 'Večeras pišem životopis.', en: 'Tonight I am writing my résumé.' },
           {
             hr: 'Prijavila sam se na natječaj.',
             en: 'I applied for an advertised job.',
@@ -1161,7 +1161,7 @@ export const LESSONS = [
           'učiti — learn, study anything; studirati — study a degree',
           'Studying FOR an exam is always učiti: Učim za ispit',
           'u školu / u školi, but na fakultet / na fakultetu',
-          'učenik (pupil), student, učitelj (primary teacher), profesor',
+          'učenik (school student), student (college student), učitelj (primary teacher), profesor',
           'predmet, domaća zadaća, ispit — Imam ispit u petak',
         ],
       },
@@ -2279,7 +2279,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Za razgovor za posao pišem ____. (a CV)',
+          q: 'Za razgovor za posao pišem ____. (a résumé)',
           answer: 'životopis',
           hint: 'The document that lists your schooling and your jobs — literally a description of a life.',
           explanation: 'Za razgovor za posao pišem životopis.',
@@ -2313,7 +2313,12 @@ export const PRACTICE = {
       },
       {
         q: 'What does "učenica" mean?',
-        options: ['a female teacher', 'a female pupil', 'a female student in college', 'a school'],
+        options: [
+          'a female teacher',
+          'a female student',
+          'a female student in college',
+          'a school',
+        ],
         correct: 1,
         explanation: 'učenica — a girl at school, a student.',
       },
@@ -2335,7 +2340,7 @@ export const PRACTICE = {
       ['fakultet', 'faculty, university', 'Studiram na fakultetu.'],
       ['učiti', 'to learn, to study', 'Učim za ispit.'],
       ['studirati', 'to study (a degree)', 'Studiram medicinu.'],
-      ['učenik', 'pupil', 'Ja sam učenik.'],
+      ['učenik', 'student', 'Ja sam učenik.'],
       ['student', 'university student', 'Moj brat je student.'],
       ['učitelj', 'primary-school teacher', 'Učitelj nam daje zadaću.'],
       ['predmet', 'school subject', 'Moj omiljeni predmet je povijest.'],
@@ -2343,7 +2348,7 @@ export const PRACTICE = {
       ['domaća zadaća', 'homework', 'Pišem domaću zadaću.'],
       ['gimnazija', 'academic secondary school', 'Moja kći ide u gimnaziju.'],
       ['matura', 'school-leaving exam', 'U lipnju imam maturu.'],
-      ['životopis', 'CV, résumé', 'Večeras pišem životopis.'],
+      ['životopis', 'résumé', 'Večeras pišem životopis.'],
       ['razgovor za posao', 'job interview', 'Sutra idem na razgovor za posao.'],
       ['iskustvo', 'experience', 'Na razgovoru za posao pitaju me o iskustvu.'],
     ],

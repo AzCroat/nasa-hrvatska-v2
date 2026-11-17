@@ -48,7 +48,7 @@ export const POSSESSIVE_DATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zamjenica',
     q: 'Stan ____ je mali.',
-    en: 'Our flat is small.',
+    en: 'Our apartment is small.',
     opts: ['nas', 'mi', 'nam', 'naš'],
     answer: 'nam',
     tip: 'Our → the short dative of mi (we), nam.',

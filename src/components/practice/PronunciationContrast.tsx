@@ -100,10 +100,10 @@ export const DATA = [
     tip: "'Gospodin' — note 'gospođa' (Mrs) uses đ (soft)",
   },
   {
-    q: "'Mrs/Madam' in Croatian:",
+    q: "'Mrs./Madam' in Croatian:",
     opts: ['gospođa', 'gospoda', 'gospóda', 'gospéda'],
     answer: 'gospođa',
-    en: 'Mrs/Madam',
+    en: 'Mrs./Madam',
     tip: "'Gospođa' uses đ (soft d). 'Gospodin' (Mr) uses d",
   },
   {

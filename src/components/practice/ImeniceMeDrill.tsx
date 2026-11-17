@@ -134,7 +134,7 @@ const DATA = [
     q: 'Zbirna množina od „momče” (mladić) je:',
     opts: ['momčad', 'momci', 'momčeta', 'momčevi'],
     answer: 'momčad',
-    en: 'the lads / the team',
+    en: 'the guys / the team',
     tip: 'Momče → momčad — otuda i sportska momčad!',
   },
   {

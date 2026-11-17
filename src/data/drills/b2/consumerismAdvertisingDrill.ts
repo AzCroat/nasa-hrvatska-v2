@@ -41,7 +41,7 @@ export const CONSUMERISM_ADVERTISING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kupnja',
     q: 'Reklame utječu na ____.',
-    en: 'Adverts influence consumers.',
+    en: 'Ads influence consumers.',
     opts: ['potrošačima', 'potrošače', 'potrošačem', 'potrošači'],
     answer: 'potrošače',
     tip: 'utjecati na + accusative.',
@@ -122,7 +122,7 @@ export const CONSUMERISM_ADVERTISING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Seize the opportunity!',
     opts: ['Iskoristite', 'Iskoristili', 'Iskoristiti', 'Iskorištenu'],
     answer: 'Iskoristite',
-    tip: 'Adverts speak in the polite imperative.',
+    tip: 'Ads speak in the polite imperative.',
   },
   {
     mode: 'reklama',

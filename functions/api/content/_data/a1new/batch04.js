@@ -1190,7 +1190,7 @@ export const LESSONS = [
           },
           {
             q: 'What is a "povratna karta"?',
-            options: ['a one-way ticket', 'a return ticket', 'a ferry', 'a timetable'],
+            options: ['a one-way ticket', 'a return ticket', 'a ferry', 'a schedule'],
             correct: 1,
             explanation:
               'povratna karta is a round-trip ticket. A one-way ticket is jednosmjerna karta.',
@@ -1762,7 +1762,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Idemo u ____ u petak. (the cinema)',
+          q: 'Idemo u ____ u petak. (the movie theater)',
           answer: 'kino',
           hint: 'A neuter noun: it does not change.',
           explanation: 'Idemo u kino u petak.',
@@ -2402,7 +2402,7 @@ export const PRACTICE = {
       },
       {
         q: 'What does "jednosmjerna karta" mean?',
-        options: ['a one-way ticket', 'a return ticket', 'a bus timetable', 'a hotel room'],
+        options: ['a one-way ticket', 'a return ticket', 'a bus schedule', 'a hotel room'],
         correct: 0,
         explanation:
           'jednosmjerna karta is a one-way ticket; a round-trip ticket is povratna karta.',

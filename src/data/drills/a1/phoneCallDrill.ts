@@ -107,7 +107,7 @@ export const PHONE_CALL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'trazim',
     q: 'Tražim ____ Horvata.',
-    en: 'I am looking for Mr Horvat.',
+    en: 'I am looking for Mr. Horvat.',
     opts: ['gospodina', 'gospodin', 'gospodinu', 'gospodinom'],
     answer: 'gospodina',
     tip: 'Both words are masculine and alive, so both take -a.',
@@ -115,7 +115,7 @@ export const PHONE_CALL_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'trazim',
     q: 'Tražim ____ Kovač.',
-    en: 'I am looking for Mrs Kovač.',
+    en: 'I am looking for Mrs. Kovač.',
     opts: ['gospođu', 'gospođa', 'gospođi', 'gospođom'],
     answer: 'gospođu',
     tip: 'gospođa → gospođu. A woman’s surname ending in a consonant does not change at all.',

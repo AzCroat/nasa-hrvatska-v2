@@ -24,7 +24,7 @@ const SCENARIOS = [
         note: 'Market shopping',
       },
       { hr: 'To je preskupo.', en: 'That is too expensive.', note: 'Polite haggling' },
-      { hr: 'Gdje je kasa?', en: 'Where is the checkout?', note: 'Finding the till' },
+      { hr: 'Gdje je kasa?', en: 'Where is the checkout?', note: 'Finding the register' },
       {
         hr: 'Hvala, doviđenja.',
         en: 'Thank you, goodbye.',

@@ -65,7 +65,7 @@ export const CAN_DO_B1: Readonly<Record<string, readonly string[]>> = {
   ],
   // bureaucracy · renting-flat · technology-internet · environment-nature · food-cooking
   'B1-10': [
-    'I can deal with a bank, a post office or a council and read a rental advert.',
+    'I can deal with a bank, a post office or a council and read a rental ad.',
     'I can talk about technology and the environment using Croatian words.',
     'I can follow a Croatian recipe and name regional dishes.',
   ],

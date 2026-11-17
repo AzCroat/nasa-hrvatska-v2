@@ -56,7 +56,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kvar',
     q: 'Akumulator mi je ____.',
-    en: 'My battery is flat.',
+    en: 'My battery is dead.',
     opts: ['prazna', 'prazno', 'prazan', 'prazni'],
     answer: 'prazan',
     tip: 'akumulator is masculine.',

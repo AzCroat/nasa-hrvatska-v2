@@ -25,7 +25,7 @@ export const PHONE_CALLS_A2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poziv',
     q: 'Mogu li razgovarati s ____ Novak?',
-    en: 'May I speak to Mrs Novak?',
+    en: 'May I speak to Mrs. Novak?',
     opts: ['gospođa', 'gospođu', 'gospođom', 'gospođi'],
     answer: 'gospođom',
     tip: 'razgovarati s + instrumental.',
@@ -33,7 +33,7 @@ export const PHONE_CALLS_A2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poziv',
     q: 'Mogu li razgovarati s gospodinom ____?',
-    en: 'May I speak to Mr Kovač?',
+    en: 'May I speak to Mr. Kovač?',
     opts: ['Kovač', 'Kovača', 'Kovačem', 'Kovaču'],
     answer: 'Kovačem',
     tip: 'A man’s surname declines too: s gospodinom Kovačem.',
@@ -128,7 +128,7 @@ export const PHONE_CALLS_A2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'problem',
     q: 'Baterija ____ je prazna.',
-    en: 'My battery is flat.',
+    en: 'My battery is dead.',
     opts: ['me', 'mi', 'moja', 'ja'],
     answer: 'mi',
     tip: 'The possessive dative: mi.',

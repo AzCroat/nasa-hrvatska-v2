@@ -70,7 +70,7 @@ export const SOUNDS_PALATALS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'parovi',
-    q: '__ak (pupil)',
+    q: '__ak (student)',
     en: 'The voiced soft sound is missing.',
     opts: ['dž', 'đ', 'ž', 'dj'],
     answer: 'đ',

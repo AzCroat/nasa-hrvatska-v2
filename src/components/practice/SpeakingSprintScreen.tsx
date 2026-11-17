@@ -305,7 +305,7 @@ const SR_SUPPORTED = isSpeechRecognitionSupported();
 // a module-level function can call it with no hook and no plumbing.
 //
 // This screen picked the learner's PROMPT POOL from the stale value, so a learner
-// placed at A2 who has since reached C1 drew A2 sprint prompts for ever, and one
+// placed at A2 who has since reached C1 drew A2 sprint prompts forever, and one
 // who skipped placement drew B1 whoever they were.
 function pickPrompt(): SprintPrompt {
   const levelKey = getGenerationCefr() as keyof typeof PROMPTS;

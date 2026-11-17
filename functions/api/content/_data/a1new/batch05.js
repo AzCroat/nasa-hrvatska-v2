@@ -74,7 +74,7 @@ export const SPINE = [
     objectives: [
       'Name the rooms of an apartment and the furniture in them',
       'Say where things are with u and na + the locative: u ormaru, na polici',
-      'Describe a flat: Stan je velik. Kuhinja je mala. Stan ima balkon.',
+      'Describe an apartment: Stan je velik. Kuhinja je mala. Stan ima balkon.',
     ],
   },
 ];
@@ -2500,7 +2500,7 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['stan', 'flat, apartment', 'Imam mali stan u gradu.'],
+      ['stan', 'apartment', 'Imam mali stan u gradu.'],
       ['kuhinja', 'kitchen', 'Mama je u kuhinji.'],
       ['kupaonica', 'bathroom', 'Tata je u kupaonici.'],
       ['hodnik', 'hallway', 'Ključevi su u hodniku.'],

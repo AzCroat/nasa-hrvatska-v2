@@ -27,7 +27,7 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'glagol',
     q: 'Moje hlače ____ nove.',
-    en: 'My trousers are new.',
+    en: 'My pants are new.',
     opts: ['su', 'je', 'si', 'sam'],
     answer: 'su',
     tip: 'hlače is plural, so the verb is plural.',
@@ -83,7 +83,7 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'glagol',
     q: 'Ove ____ su skupe.',
-    en: 'These trousers are expensive.',
+    en: 'These pants are expensive.',
     opts: ['hlače', 'hlača', 'hlaču', 'hlačom'],
     answer: 'hlače',
     tip: 'The word exists only in the plural.',
@@ -93,7 +93,7 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pridjev',
     q: 'Moje hlače su ____.',
-    en: 'My trousers are black.',
+    en: 'My pants are black.',
     opts: ['crne', 'crna', 'crni', 'crno'],
     answer: 'crne',
     tip: 'Feminine plural: -e.',
@@ -159,7 +159,7 @@ export const PLURALIA_TANTUM_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'brojenje',
     q: 'Kupila sam ____ hlače.',
-    en: 'I bought one pair of trousers.',
+    en: 'I bought one pair of pants.',
     opts: ['jedne', 'jednu', 'jedna', 'jedan'],
     answer: 'jedne',
     tip: 'jedan has a plural form for plural-only words.',

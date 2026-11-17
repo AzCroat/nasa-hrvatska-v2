@@ -91,7 +91,7 @@ const DATA = [
     opts: ['učenje', 'učenik', 'učio', 'učitelj'],
     answer: 'učenje',
     en: 'learning',
-    tip: '-iti verbs take -enje: uči-ti → uč-enje. "učenik" = pupil, "učitelj" = teacher.',
+    tip: '-iti verbs take -enje: uči-ti → uč-enje. "učenik" = student, "učitelj" = teacher.',
   },
   {
     mode: 'nje',

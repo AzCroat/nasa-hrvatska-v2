@@ -258,7 +258,7 @@ export default function AdvancedVocabScreen({ goBack, award }: Props) {
           >
             {/* A SEARCH THAT RAN AGAINST NOTHING FOUND NOTHING. V_B2/C1/C2 arrive
                 with the payload, so this line told an advanced learner their query
-                had no matches before the tiers existed — and for ever after a
+                had no matches before the tiers existed — and forever after a
                 failed fetch. poolLaunchBlock is the one classifier; content is
                 decided before emptiness. */}
             {poolLaunchBlock(content, contentLoading, words) === 'loading'

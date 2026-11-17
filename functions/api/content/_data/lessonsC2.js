@@ -1809,7 +1809,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Bila bih se javila ranije, ali nisam imala tvoj broj.',
-            en: 'I would have got in touch earlier, but I did not have your number.',
+            en: 'I would have gotten in touch earlier, but I did not have your number.',
             note: 'Feminine speaker: bila bih; se joins the clitic cluster after bih',
           },
           {

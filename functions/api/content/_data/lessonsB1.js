@@ -3260,7 +3260,7 @@ export const LESSONS_B1 = [
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
           ['banka', 'bank', 'šalter', 'counter, window'],
-          ['pošta', 'post office', 'red', 'queue'],
+          ['pošta', 'post office', 'red', 'line'],
           ['ured', 'office', 'broj', 'number (ticket)'],
           ['matični ured', 'registry office', 'obrazac', 'form'],
           ['policijska postaja', 'police station', 'potvrda', 'certificate, receipt'],
@@ -3274,7 +3274,7 @@ export const LESSONS_B1 = [
         rows: [
           ['osobna iskaznica', 'ID card'],
           ['putovnica', 'passport'],
-          ['vozačka dozvola', 'driving licence'],
+          ['vozačka dozvola', 'driver’s license'],
           ['boravišna dozvola', 'residence permit'],
           ['rodni list', 'birth certificate'],
           ['OIB', 'personal identification number'],
@@ -3478,7 +3478,7 @@ export const LESSONS_B1 = [
           },
           {
             q: 'Which document is the "boravišna dozvola"?',
-            options: ['driving licence', 'birth certificate', 'passport', 'residence permit'],
+            options: ['driver’s license', 'birth certificate', 'passport', 'residence permit'],
             correct: 3,
             explanation:
               '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving license is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
@@ -3500,12 +3500,12 @@ export const LESSONS_B1 = [
   },
 
   // ─────────────────────────────────────────────────────────
-  // Renting a Flat
+  // Renting an Apartment
   // ─────────────────────────────────────────────────────────
   {
     id: 'renting-flat',
-    title: 'Renting a Flat',
-    subtitle: 'Reading an advert, viewing a place, agreeing terms',
+    title: 'Renting an Apartment',
+    subtitle: 'Reading an ad, viewing a place, agreeing terms',
     icon: '🔑',
     level: 'B1',
     duration: '~5 min',
@@ -3515,17 +3515,17 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'One of the First Real Tasks',
-        body: 'Finding somewhere to live is where a learner first has to read compressed, abbreviated Croatian and then negotiate about money. The adverts have their own shorthand, and knowing it turns an intimidating page of text into something scannable.',
+        body: 'Finding somewhere to live is where a learner first has to read compressed, abbreviated Croatian and then negotiate about money. The ads have their own shorthand, and knowing it turns an intimidating page of text into something scannable.',
         icon: '🔑',
       },
       {
         type: 'table',
-        title: 'Reading the Advert',
+        title: 'Reading the Ad',
         headers: ['Croatian', 'English'],
         rows: [
           ['iznajmljuje se', 'for rent'],
-          ['garsonijera', 'studio flat'],
-          ['dvosoban stan', 'two-room flat'],
+          ['garsonijera', 'studio apartment'],
+          ['dvosoban stan', 'two-room apartment'],
           ['namješten / nenamješten', 'furnished / unfurnished'],
           ['kvadrata (m²)', 'square meters'],
           ['najamnina', 'rent'],
@@ -3542,7 +3542,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Rent Plus Režije',
-        body: '"Najamnina" is the rent itself. "Režije" — always plural — are the running costs: water, electricity, heating, building maintenance. An advert quoting 500 eura will usually mean plus režije, which can add a meaningful amount in winter. The question to ask is simply: Jesu li režije uključene?',
+        body: '"Najamnina" is the rent itself. "Režije" — always plural — are the running costs: water, electricity, heating, building maintenance. An ad quoting 500 eura will usually mean plus režije, which can add a meaningful amount in winter. The question to ask is simply: Jesu li režije uključene?',
         highlight: 'Jesu li režije uključene?',
       },
       {
@@ -3550,7 +3550,7 @@ export const LESSONS_B1 = [
         title: 'Viewing and Asking',
         headers: ['Croatian', 'English'],
         rows: [
-          ['Mogu li pogledati stan?', 'Can I view the flat?'],
+          ['Mogu li pogledati stan?', 'Can I see the apartment?'],
           ['Koliko je najamnina?', 'How much is the rent?'],
           ['Jesu li režije uključene?', 'Are utilities included?'],
           ['Koliki je polog?', 'How much is the deposit?'],
@@ -3570,7 +3570,7 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Zovem u vezi s oglasom za stan.',
-            en: 'I am calling about the advert for the apartment.',
+            en: 'I am calling about the ad for the apartment.',
             note: 'u vezi s + instrumental',
           },
           {
@@ -3649,12 +3649,12 @@ export const LESSONS_B1 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'An advert says "dvosoban stan". Roughly what is it?',
+        q: 'An ad says "dvosoban stan". Roughly what is it?',
         options: [
           'a studio',
           'one bedroom plus a living room',
           'two bedrooms plus a living room',
-          'two flats',
+          'two apartments',
         ],
         correct: 1,
         explanation:
@@ -3687,11 +3687,11 @@ export const LESSONS_B1 = [
               '"Bez" (without) takes the genitive: bez lifta. The locative and instrumental follow other prepositions, and the bare nominative cannot follow bez.',
           },
           {
-            q: 'An advert says "trosoban stan, nenamješten". What is being offered?',
+            q: 'An ad says "trosoban stan, nenamješten". What is being offered?',
             options: [
               'three bedrooms, furnished',
               'a studio with three windows',
-              'three flats',
+              'three apartments',
               'three rooms not counting the kitchen and bathroom, unfurnished',
             ],
             correct: 3,
@@ -3775,7 +3775,7 @@ export const LESSONS_B1 = [
   {
     id: 'job-interview',
     title: 'Applying for a Job',
-    subtitle: 'The CV, the covering letter, and the interview',
+    subtitle: 'The résumé, the cover letter, and the interview',
     icon: '📄',
     level: 'B1',
     duration: '~6 min',
@@ -3793,9 +3793,9 @@ export const LESSONS_B1 = [
         title: 'The Documents',
         headers: ['Croatian', 'English'],
         rows: [
-          ['životopis', 'CV'],
-          ['zamolba / motivacijsko pismo', 'covering letter'],
-          ['natječaj / oglas za posao', 'job advert, vacancy'],
+          ['životopis', 'résumé'],
+          ['zamolba / motivacijsko pismo', 'cover letter'],
+          ['natječaj / oglas za posao', 'job ad, vacancy'],
           ['prijava', 'application'],
           ['radno iskustvo', 'work experience'],
           ['preporuka', 'reference'],
@@ -3804,7 +3804,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Životopis, Not Biografija',
-        body: 'A CV is a "životopis" — literally a life-writing, and another compound worth noticing. A "zamolba" is the covering letter; "motivacijsko pismo" is the more modern term and both are understood. The advert itself is an "oglas za posao", or a "natječaj" when it is a formal public competition, which is how most public-sector posts are advertised.',
+        body: 'A résumé is a "životopis" — literally a life-writing, and another compound worth noticing. A "zamolba" is the cover letter; "motivacijsko pismo" is the more modern term and both are understood. The ad itself is an "oglas za posao", or a "natječaj" when it is a formal public competition, which is how most public-sector posts are advertised.',
         highlight: 'životopis · zamolba',
       },
       {
@@ -3907,7 +3907,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Životopis i zamolbu šaljem u prilogu.',
-            en: 'I am sending my CV and covering letter as attachments.',
+            en: 'I am sending my résumé and cover letter as attachments.',
             note: 'u prilogu — the standard phrase',
           },
           {
@@ -3921,10 +3921,10 @@ export const LESSONS_B1 = [
         type: 'quiz',
         title: 'Quick Check',
         q: 'What is a "životopis"?',
-        options: ['a covering letter', 'a CV', 'a reference', 'a job advert'],
+        options: ['a cover letter', 'a résumé', 'a reference', 'a job ad'],
         correct: 1,
         explanation:
-          'A "životopis" is a CV — literally a life-writing. The covering letter is a "zamolba" or "motivacijsko pismo", and the advert is an "oglas za posao".',
+          'A "životopis" is a résumé — literally a life-writing. The cover letter is a "zamolba" or "motivacijsko pismo", and the ad is an "oglas za posao".',
       },
       {
         type: 'quiz',
@@ -3965,7 +3965,7 @@ export const LESSONS_B1 = [
               'The participle agrees with the writer — a man writes diplomirao — and "na" for where you studied takes the locative: na Ekonomskom fakultetu. "Diplomirali smo" would be several people.',
           },
           {
-            q: 'Complete: "Javljam se na ___ za mjesto prodavača." (I am applying for your advert…)',
+            q: 'Complete: "Javljam se na ___ za mjesto prodavača." (I am applying for your ad…)',
             options: ['vaš oglas', 'vašem oglasu', 'vašeg oglasa', 'vašim oglasom'],
             correct: 0,
             explanation:
@@ -3973,10 +3973,10 @@ export const LESSONS_B1 = [
           },
           {
             q: 'What is a "zamolba"?',
-            options: ['a CV', 'a reference', 'a covering letter', 'a job advert'],
+            options: ['a résumé', 'a reference', 'a cover letter', 'a job ad'],
             correct: 2,
             explanation:
-              'A zamolba (or motivacijsko pismo) is the covering letter. The CV is životopis, a reference is preporuka, and the advert is oglas za posao or natječaj.',
+              'A zamolba (or motivacijsko pismo) is the cover letter. The résumé is životopis, a reference is preporuka, and the ad is oglas za posao or natječaj.',
           },
           {
             q: 'Complete: "Javljam se na oglas ___ volim raditi s ljudima." (because)',
@@ -4005,7 +4005,7 @@ export const LESSONS_B1 = [
         type: 'summary',
         title: 'Job Applications — Key Takeaways',
         points: [
-          'životopis = CV · zamolba = covering letter · oglas za posao = advert',
+          'životopis = résumé · zamolba = cover letter · oglas za posao = ad',
           'Radio/Radila sam kao… — the participle agrees with you',
           'Imam pet godina iskustva · Zadužen sam za…',
           'Interview answers need a reason: Javljam se jer…; a wish takes the conditional: Želio bih…',
@@ -4423,7 +4423,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Punjač sam zaboravio kod kuće pa mi je baterija prazna.',
-            en: 'I left my charger at home so my battery is flat.',
+            en: 'I left my charger at home so my battery is dead.',
             note: 'kod kuće = at home; pa = so',
           },
         ],
