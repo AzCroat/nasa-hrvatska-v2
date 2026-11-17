@@ -105,11 +105,18 @@ test.describe('class-order screenshots', () => {
         expect(await stage()).toBe(to);
       };
       await advance('read');
-      await page.screenshot({ path: path.join(DIR, `${label} - 1 dialogue.png`), fullPage: true });
+      // The page must not be wider than the screen (a sideways scroll cuts the left edge).
+      const wide = await page.evaluate(() => ({
+        doc: document.documentElement.scrollWidth,
+        win: window.innerWidth,
+        x: window.scrollX,
+      }));
+      console.log(`WIDTH ${label}: page ${wide.doc}px, screen ${wide.win}px, scrolled ${wide.x}px`);
+      await page.screenshot({ path: path.join(DIR, `${label} - 1 dialogue.png`), fullPage: false });
       await advance('questions');
       await page.screenshot({
         path: path.join(DIR, `${label} - 2 question 1.png`),
-        fullPage: true,
+        fullPage: false,
       });
     };
 
