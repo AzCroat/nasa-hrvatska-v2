@@ -66,6 +66,8 @@ const TARGETS = [
   'functions/api/content/_data/b2class/units09-10.js',
   'functions/api/content/_data/b2class/units11-12.js',
   'functions/api/content/_data/b2class/units13.js',
+  'functions/api/content/_data/lessonClassC1.js',
+  'functions/api/content/_data/c1class/units01-02.js',
   'functions/api/content/_data/a1new/batch01.js',
   'functions/api/content/_data/a1new/batch02.js',
   'functions/api/content/_data/a1new/batch03.js',
