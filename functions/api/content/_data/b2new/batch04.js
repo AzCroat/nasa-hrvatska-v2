@@ -94,7 +94,7 @@ const COLLOQUIALISMS = {
     {
       type: 'intro',
       title: 'Two Ways to Say the Same Thing',
-      body: 'Among friends, at home, in text messages and in films, Croatians speak a relaxed register full of colloquialisms — kolokvijalizmi, words of everyday informal speech that are not part of the standard written language. "Nemam love" and "Nemam novca" both mean "I have no money"; the first is what you say to a friend, the second what you write to a bank. You need to UNDERSTAND these words to follow real conversation. You need to know their limits so that you never use them where they sound careless.',
+      body: 'Among friends, at home, in text messages and in movies, Croatians speak a relaxed register full of colloquialisms — kolokvijalizmi, words of everyday informal speech that are not part of the standard written language. "Nemam love" and "Nemam novca" both mean "I have no money"; the first is what you say to a friend, the second what you write to a bank. You need to UNDERSTAND these words to follow real conversation. You need to know their limits so that you never use them where they sound careless.',
       icon: '🗣️',
     },
     {
@@ -236,7 +236,7 @@ const COLLOQUIALISMS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Using a colloquialism in formal writing: "Molim vas da mi vratite lovu" in a complaint — write novac: Molim vas da mi vratite novac. (2) Treating faca as masculine because it describes a man: "On je veliki faca" — faca is a feminine noun, so the adjective is feminine: On je velika faca. (3) Reading brijati only as "shave": "Brijem da je zatvoreno" means "I reckon it is closed". (4) Mixing a colloquialism with the polite Vi-form: "Kužite li?" — say Razumijete li?',
+      body: '(1) Using a colloquialism in formal writing: "Molim Vas da mi vratite lovu" in a complaint — write novac: Molim Vas da mi vratite novac. (2) Treating faca as masculine because it describes a man: "On je veliki faca" — faca is a feminine noun, so the adjective is feminine: On je velika faca. (3) Reading brijati only as "shave": "Brijem da je zatvoreno" means "I reckon it is closed". (4) Mixing a colloquialism with the polite Vi-form: "Kužite li?" — say Razumijete li?',
       highlight: 'On je velika faca',
     },
     {
@@ -1411,9 +1411,9 @@ export const PRACTICE = {
       {
         q: 'Which sentence fits a letter to a bank?',
         options: [
-          'Molim vas da mi vratite lovu.',
+          'Molim Vas da mi vratite lovu.',
           'Kužite, nisam kriv.',
-          'Molim vas da mi vratite novac.',
+          'Molim Vas da mi vratite novac.',
           'Brijem da ste pogriješili.',
         ],
         correct: 2,
@@ -1550,7 +1550,7 @@ export const PRACTICE = {
           options: [
             'Nosite laganu odjeću i šešir.',
             'Trčite u podne.',
-            'Ostavite dijete u autu na kratko.',
+            'Ostavite dijete u autu nakratko.',
             'Pijte samo kavu.',
           ],
           correct: 0,

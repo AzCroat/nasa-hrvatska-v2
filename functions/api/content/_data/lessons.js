@@ -1391,7 +1391,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "English speakers put the clitics where English pronouns go, after the verb: 'Dao ga je mi' — the cluster is fixed, dative before accusative: 'Dao mi ga je'. Second, they anchor on the first word and keep the auxiliary ahead of the pronoun: 'Moj brat je mi rekao' — the auxiliary precedes the dative only when it is sam/si/smo/ste/su; with je the order is 'Moj brat mi je rekao', or the cluster may split the phrase, 'Moj mi je brat rekao'. Third, the order of se and je: 'je se' is always wrong — se comes first. In the third person 'je' is then usually dropped: 'Nasmijala se' is the everyday form, and 'Nasmijala se je' is also correct, only heavier.",
+        body: "English speakers put the clitics where English pronouns go, after the verb: 'Dao ga je mi' — the cluster is fixed, dative before accusative: 'Dao mi ga je'. Second, they anchor on the first word and keep the auxiliary ahead of the pronoun: 'Moj brat je mi rekao' — the auxiliary precedes the dative only when it is sam/si/smo/ste/su; with je the order is 'Moj brat mi je rekao', or the cluster may split the phrase, 'Moj mi je brat rekao'. Third, the order of se and je: 'je se' is always wrong — se comes first. In the third person 'je' is then dropped: 'Nasmijala se' is the standard form ('Nasmijala se je' is heard in some regions, but it is not the written standard).",
         highlight: "'je se' is always wrong",
       },
       {
@@ -1715,7 +1715,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Temporal Clauses — When, While, As Soon As',
-        body: "Key temporal conjunctions: kad/kada (when), dok (while), čim (as soon as), prije nego što (before), nakon što (after). Examples: 'Kad dođeš, nazovi me.' (When you arrive, call me.) 'Dok sam učio, slušao sam glazbu.' (While I was studying, I was listening to music.) 'Čim završim, idem.' (As soon as I finish, I'm going.) Key rule: use a perfective verb after 'kad' for future events.",
+        body: "Key temporal conjunctions: kad/kada (when), dok (while), čim (as soon as), prije nego što (before), nakon što (after). Examples: 'Kad dođeš, nazovi me.' (When you arrive, call me.) 'Dok sam učio, slušao sam glazbu.' (While I was studying, I was listening to music.) 'Čim završim, idem.' (As soon as I finish, I'm going.) Key rule: after 'kad', one completed future event takes the perfective present ('Kad dođeš…'); a lasting state takes the future II ('Kad budeš imao vremena…').",
         highlight: "perfective after 'kad' for future",
       },
       {
@@ -1903,7 +1903,7 @@ const LESSONS_CORE = [
         title: 'Complex Sentences — Complete!',
         points: [
           'Temporal: kad/kada (when), dok (while), čim (as soon as), prije nego što (before), nakon što (after)',
-          "Use perfective verb after 'kad' for future events: 'Kad dođeš...'",
+          "After 'kad', one completed future event takes the perfective present: 'Kad dođeš...'",
           'Causal/concessive: jer (because), iako (although), premda (even though), budući da (since)',
           'Relative clauses: koji/koja/koje agrees in gender with its antecedent',
           "Indirect speech: da + tense — NOT 'što' where 'da' is needed",
@@ -6987,7 +6987,7 @@ const LESSONS_CORE = [
           },
           {
             hr: 'Ulaz je zabranjen neovlaštenim osobama.',
-            en: 'Entry is forbidden to unauthorised persons.',
+            en: 'Entry is forbidden to unauthorized persons.',
             note: 'zabranjen + dative — a sign',
           },
         ],
@@ -7984,7 +7984,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Collective Numbers: dvoje, troje, četvero...',
-        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups and the young of people and animals. Dvoje (two — mixed group), troje (three — mixed), četvero/četvoro (four), petero/petoro (five), and so on. They are used with: children (djeca), neuter nouns for the young such as tele or pile, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). For a mixed group dvoje is the clearest choice (dvoje studenata — a man and a woman), though the masculine dva studenta is also standard; for children always use dvoje djece.',
+        body: 'Croatian has a special set of collective numbers for counting mixed-gender groups and the young of people and animals. Dvoje (two — mixed group), troje (three — mixed), četvero (four), petero (five), and so on. They are used with: children (djeca), neuter nouns for the young such as tele or pile, people of different genders together. "Imam dvoje djece" (I have two children — collective number + genitive of djeca). For a mixed group dvoje is the clearest choice (dvoje studenata — a man and a woman), though the masculine dva studenta is also standard; for children always use dvoje djece.',
         highlight: 'dvoje/troje for mixed groups & children',
       },
       {
@@ -8563,7 +8563,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Discourse Markers — Connecting Ideas Formally',
-        body: 'Formal Croatian uses specific discourse markers to connect ideas logically. These signal contrast, addition, explanation, and result. Key markers: međutim (however), naime (namely / you see — explains/clarifies), pritom (in doing so / meanwhile), stoga (therefore), ipak (nevertheless / yet), štoviše (moreover / furthermore), osim toga (in addition / besides), s obzirom na to (given that / considering). Using these correctly signals C1+ writing competence.',
+        body: 'Formal Croatian uses specific discourse markers to connect ideas logically. These signal contrast, addition, explanation, and result. Key markers: međutim (however), naime (namely / you see — explains/clarifies), pritom (in doing so / meanwhile), stoga (therefore), ipak (nevertheless / yet), štoviše (moreover / furthermore), osim toga (in addition / besides), s obzirom na to (given that / considering). Using these correctly signals advanced writing competence.',
         highlight: 'međutim / naime / stoga / štoviše',
       },
       {

@@ -369,7 +369,7 @@ const COMPARATIVE_IDIOMS = {
         },
         {
           hr: 'Prvi dan na plaži izgorio je na suncu pa je bio crven kao rak.',
-          en: 'On his first day at the beach he got sunburnt and was as red as a crab.',
+          en: 'On his first day at the beach he got sunburned and was as red as a crab.',
           note: 'crven kao rak — very red',
         },
         {
@@ -507,7 +507,7 @@ const COMPARATIVE_IDIOMS = {
 const READING_CULTURE = {
   id: 'reading-culture',
   title: 'Tko čita, ne skita',
-  subtitle: 'Libraries and bookshops, e-books and paper, Marulić and the book fairs',
+  subtitle: 'Libraries and bookstores, e-books and paper, Marulić and the book fairs',
   icon: '📚',
   level: 'B2',
   duration: '~8 min',
@@ -522,8 +522,8 @@ const READING_CULTURE = {
     },
     {
       type: 'rule',
-      title: 'Library or Bookshop?',
-      body: 'The classic trap: knjižnica is the LIBRARY, where you borrow books (posuditi knjigu) and return them (vratiti knjigu). Knjižara is the BOOKSHOP, where you buy them. A čitaonica is a reading room. The person who reads is a čitatelj (čitateljica); the device you read e-books on is a čitač. The person who works in a library is a knjižničar (knjižničarka).',
+      title: 'Library or Bookstore?',
+      body: 'The classic trap: knjižnica is the LIBRARY, where you borrow books (posuditi knjigu) and return them (vratiti knjigu). Knjižara is the BOOKSTORE, where you buy them. A čitaonica is a reading room. The person who reads is a čitatelj (čitateljica); the device you read e-books on is a čitač. The person who works in a library is a knjižničar (knjižničarka).',
       highlight: 'knjižnica is the LIBRARY',
     },
     {
@@ -568,8 +568,8 @@ const READING_CULTURE = {
         },
         {
           hr: 'Novi roman kupila sam u knjižari na glavnom trgu.',
-          en: 'I bought the new novel in the bookshop on the main square.',
-          note: 'knjižari — the bookshop, where you buy',
+          en: 'I bought the new novel in the bookstore on the main square.',
+          note: 'knjižari — the bookstore, where you buy',
         },
         {
           hr: 'Na putovanjima čitam e-knjige jer je čitač lagan.',
@@ -663,7 +663,7 @@ const READING_CULTURE = {
       q: 'Where do you borrow a book?',
       options: ['u knjižari', 'u knjižnici', 'u tiskari'],
       correct: 1,
-      explanation: 'You borrow in the knjižnica (library) and buy in the knjižara (bookshop).',
+      explanation: 'You borrow in the knjižnica (library) and buy in the knjižara (bookstore).',
     },
     {
       type: 'quiz',
@@ -681,7 +681,7 @@ const READING_CULTURE = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Confusing the two shops: "Kupio sam knjigu u knjižnici" — you buy in a knjižara; in a knjižnica you borrow. (2) Reading roman as "romance": Čitam roman means I am reading a novel of any kind. (3) Calling the device a čitatelj: the čitatelj is the person; the device is a čitač. (4) Capitalizing every word of a title: "Priče Iz Davnine" — Croatian writes Priče iz davnine.',
+      body: '(1) Confusing the two stores: "Kupio sam knjigu u knjižnici" — you buy in a knjižara; in a knjižnica you borrow. (2) Reading roman as "romance": Čitam roman means I am reading a novel of any kind. (3) Calling the device a čitatelj: the čitatelj is the person; the device is a čitač. (4) Capitalizing every word of a title: "Priče Iz Davnine" — Croatian writes Priče iz davnine.',
       highlight: 'you buy in a knjižara',
     },
     {
@@ -735,7 +735,7 @@ const READING_CULTURE = {
       type: 'summary',
       title: 'Reading Culture — Key Takeaways',
       points: [
-        'knjižnica = library (borrow); knjižara = bookshop (buy)',
+        'knjižnica = library (borrow); knjižara = bookstore (buy)',
         'roman = novel; čitatelj = reader; čitač = e-reader',
         'Marko Marulić of Split is the father of Croatian literature',
         'Judita, an epic poem, was finished in 1501',
@@ -1140,7 +1140,7 @@ const BODY_PART_NOUNS = {
         },
         {
           hr: 'Ruku na srce, film mi se nije svidio.',
-          en: 'Honestly, I did not like the film.',
+          en: 'Honestly, I did not like the movie.',
           note: 'ruku na srce — hand on heart',
         },
       ],
@@ -1266,7 +1266,7 @@ export const PRACTICE = {
             text: 'After biti the everyday choice is the nominative: bio je učitelj.',
           },
           {
-            label: 'Became headmaster',
+            label: 'Became principal',
             text: 'postati takes the instrumental here (the nominative, postao je ravnatelj, is also correct): ravnatelj → ravnateljem.',
           },
           { label: 'Join them', text: 'a zatim — and then.' },
@@ -1445,7 +1445,7 @@ export const PRACTICE = {
       ['smatrati', 'to consider', 'Smatram ga prijateljem.'],
       ['proglasiti', 'to declare, proclaim', 'Proglasili su ga pobjednikom.'],
       ['imenovati', 'to appoint', 'Imenovana je ministricom.'],
-      ['ravnatelj', 'headmaster, director', 'Ravnatelj škole je strog.'],
+      ['ravnatelj', 'principal, director', 'Ravnatelj škole je strog.'],
       ['pobjednik', 'winner', 'Pobjednik dobiva nagradu.'],
       ['veleposlanik', 'ambassador', 'Veleposlanik živi u Zagrebu.'],
       ['glasnogovornik', 'spokesperson', 'Glasnogovornik je dao izjavu.'],
@@ -1635,16 +1635,16 @@ export const PRACTICE = {
   'reading-culture': {
     worked: [
       {
-        title: 'Library or Bookshop?',
-        problem: 'Prevedi: "I borrow books in the library and buy them in the bookshop."',
-        en: 'I borrow books in the library and buy them in the bookshop.',
+        title: 'Library or Bookstore?',
+        problem: 'Prevedi: "I borrow books in the library and buy them in the bookstore."',
+        en: 'I borrow books in the library and buy them in the bookstore.',
         steps: [
           {
             label: 'Borrow',
             text: 'A habit, so the imperfective: posuđivati → posuđujem.',
           },
           { label: 'Library', text: 'knjižnica, and u + locative: u knjižnici.' },
-          { label: 'Bookshop', text: 'knjižara: u knjižari.' },
+          { label: 'Bookstore', text: 'knjižara: u knjižari.' },
           { label: 'Them', text: 'the books again, as a clitic: ih.' },
         ],
         answer: 'Knjige posuđujem u knjižnici, a kupujem ih u knjižari.',
@@ -1677,8 +1677,8 @@ export const PRACTICE = {
           q: 'Kupio sam novi roman u ___.',
           options: ['knjižnici', 'knjižari', 'čitaonici', 'arhivu'],
           correct: 1,
-          hint: 'A shop.',
-          explanation: 'knjižari — the bookshop.',
+          hint: 'A store.',
+          explanation: 'knjižari — the bookstore.',
         },
         {
           q: 'Marulića zovu ___ hrvatske književnosti.',
@@ -1764,13 +1764,13 @@ export const PRACTICE = {
         q: 'Where do you buy books?',
         options: ['u knjižnici', 'u knjižari', 'u čitaonici', 'u arhivu'],
         correct: 1,
-        explanation: 'Knjižara is the bookshop.',
+        explanation: 'Knjižara is the bookstore.',
       },
       {
         q: 'What is Judita?',
         options: [
           'a novel by August Šenoa',
-          'a modern film',
+          'a modern movie',
           'a collection of fairy tales',
           'an epic poem by Marko Marulić',
         ],
@@ -1804,7 +1804,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['knjižnica', 'library', 'Knjige posuđujem u gradskoj knjižnici.'],
-      ['knjižara', 'bookshop', 'Novi roman kupila sam u knjižari.'],
+      ['knjižara', 'bookstore', 'Novi roman kupila sam u knjižari.'],
       ['čitaonica', 'reading room', 'U čitaonici je uvijek tiho.'],
       ['čitatelj', 'reader', 'Ta knjiga ima puno čitatelja.'],
       ['čitač', 'e-reader', 'Na putovanje nosim čitač.'],

@@ -58,7 +58,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'The third-person rule',
-            text: 'In the third person singular the auxiliary je is usually dropped after se. "Marko joj se je ispričao" is also correct, only heavier; "Marko joj je se ispričao" is wrong, because se comes before je.',
+            text: 'In the third person singular the auxiliary je is usually dropped after se. "Marko joj se je ispričao" is regional, not the written standard; "Marko joj je se ispričao" is wrong, because se comes before je.',
           },
         ],
         answer: 'Marko joj se ispričao.',
@@ -130,7 +130,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Djed ____ nasmiješio.' (Grandad smiled at us — nasmiješiti se)",
+          q: "Dopuni: 'Djed ____ nasmiješio.' (Grandpa smiled at us — nasmiješiti se)",
           answer: 'nam se',
           hint: 'The dative for "us" sits before se; the third-person auxiliary drops out.',
           explanation: 'Djed nam se nasmiješio — dative nam, then se.',
@@ -143,7 +143,7 @@ export const PRACTICE_B2 = {
           explanation: 'Kupio bih ti ga — bih, then ti, then ga, after the first phrase.',
         },
         {
-          q: "Dopuni: 'Sviđa ___ taj film.' (I like that film.)",
+          q: "Dopuni: 'Sviđa ___ taj film.' (I like that movie.)",
           options: ['se mi', 'mi se', 'me se', 'mi je'],
           correct: 1,
           hint: 'The person who likes is in the dative, and the dative comes before se.',
@@ -452,7 +452,7 @@ export const PRACTICE_B2 = {
       ['moći', 'can, to be able (biste li mogli = could you)', 'Biste li mi mogli pomoći?'],
       ['trebati', 'to need; should (trebao bi = you should)', 'Trebao bi više spavati.'],
       ['radije', 'rather', 'Radije bih ostala kod kuće.'],
-      ['zahvalan', 'grateful', 'Bio bih vam zahvalan na brzom odgovoru.'],
+      ['zahvalan', 'grateful', 'Bio bih Vam zahvalan na brzom odgovoru.'],
       ['preporučiti', 'to recommend (pf.)', 'Biste li mi mogli preporučiti dobar restoran?'],
       ['rezervirati', 'to book, to reserve', 'Rezervirali smo sobu s pogledom na more.'],
       ['posjetiti', 'to visit (pf.)', 'Posjetit ćemo baku u nedjelju.'],
@@ -541,7 +541,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Mislim ____ je film odličan.' (I think that the film is excellent.)",
+          q: "Dopuni: 'Mislim ____ je film odličan.' (I think that the movie is excellent.)",
           answer: 'da',
           hint: 'The conjunction that introduces what you think or say — not the word for "what".',
           explanation: 'Mislim da je film odličan.',
@@ -1000,7 +1000,7 @@ export const PRACTICE_B2 = {
           explanation: 'Račun je plaćen.',
         },
         {
-          q: "A notice on a door: 'Ulaz ___ neovlaštenim osobama.' (Entry forbidden to unauthorised persons.)",
+          q: "A notice on a door: 'Ulaz ___ neovlaštenim osobama.' (Entry forbidden to unauthorized persons.)",
           options: ['je zabranjen', 'je zabranila', 'se zabranjen', 'su zabranjeni'],
           correct: 0,
           hint: 'Ulaz is masculine singular: biti + passive participle.',
@@ -1795,7 +1795,7 @@ export const PRACTICE_B2 = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Prestani ____ taj film, kasno je.' (Stop watching that film.)",
+          q: "Dopuni: 'Prestani ____ taj film, kasno je.' (Stop watching that movie.)",
           answer: 'gledati',
           hint: 'A phase verb takes only the imperfective infinitive.',
           explanation: 'Prestani gledati — imperfective after prestati.',
@@ -2036,7 +2036,7 @@ export const PRACTICE_B2 = {
           explanation: 'Napraviti → napravljen.',
         },
         {
-          q: "Dopuni: 'Dućani su ___ nedjeljom.' (The shops are closed on Sundays.)",
+          q: "Dopuni: 'Dućani su ___ nedjeljom.' (The stores are closed on Sundays.)",
           options: ['zatvoren', 'zatvorena', 'zatvoreni', 'zatvoreno'],
           correct: 2,
           hint: 'Dućani is masculine plural.',
@@ -2387,7 +2387,7 @@ export const PRACTICE_B2 = {
             'Da smo na moru, kupali bismo se — da for the unreal, bismo + participle, then se.',
         },
         {
-          q: 'Dopuni: "Da ___ ranije, uhvatio bih vlak." (If I had got up earlier)',
+          q: 'Dopuni: "Da ___ ranije, uhvatio bih vlak." (If I had gotten up earlier)',
           options: ['bih ustao', 'ću ustati', 'sam ustao', 'ustao'],
           correct: 2,
           hint: 'The unreal condition goes into the perfect; the conditional belongs to the other half.',
@@ -2748,7 +2748,7 @@ export const PRACTICE_B2 = {
           'a real condition',
           'an order',
           'a warm wish about the past — if only grandpa had seen this',
-          'a question about grandad',
+          'a question about grandpa',
         ],
         correct: 2,
         explanation: 'Kamo sreće da… is the warm, emphatic "if only".',
@@ -2943,7 +2943,7 @@ export const PRACTICE_B2 = {
         explanation: 'A prohibition is ne smjeti; ne mogu would mean they are unable.',
       },
       {
-        q: 'Which sentence is a deduction — the shop is probably closed?',
+        q: 'Which sentence is a deduction — the store is probably closed?',
         options: [
           'Dućan je sigurno zatvoren.',
           'Dućan mora zatvoriti.',
@@ -3471,7 +3471,7 @@ export const PRACTICE_B2 = {
           explanation: 'preuske — pre- glued on, feminine plural -e.',
         },
         {
-          q: 'You found the film fine — not great, not bad. Which fits?',
+          q: 'You found the movie fine — not great, not bad. Which fits?',
           options: [
             'Film je bio krajnje zanimljiv.',
             'Film je bio prilično zanimljiv.',
@@ -3512,7 +3512,7 @@ export const PRACTICE_B2 = {
           explanation: 'Hlače su prevelike.',
         },
         {
-          q: "Dopuni: 'To je ___ dobar film — ništa posebno, ali gledljiv.' (a fairly good film)",
+          q: "Dopuni: 'To je ___ dobar film — ništa posebno, ali gledljiv.' (a fairly good movie)",
           options: ['krajnje', 'prilično', 'izuzetno', 'jedva'],
           correct: 1,
           hint: 'You want the middle of the scale.',
@@ -4004,7 +4004,7 @@ export const PRACTICE_B2 = {
         q: "Which closer compresses the argument — 'in short'?",
         options: ['Na kraju krajeva', 'Ukratko', 'Doduše', 'Što se tiče'],
         correct: 1,
-        explanation: 'Ukratko compresses; na kraju krajeva concedes limits.',
+        explanation: 'Ukratko compresses; na kraju krajeva gives the bottom line.',
       },
       {
         q: "Which phrase means 'That depends on…'?",
@@ -4089,7 +4089,7 @@ export const PRACTICE_B2 = {
           explanation: 'Uglavnom = mostly, generally.',
         },
         {
-          q: 'You think the shop is probably closed, but you are not certain. Which fits?',
+          q: 'You think the store is probably closed, but you are not certain. Which fits?',
           options: [
             'Vjerojatno je trgovina zatvorena.',
             'Sigurno je trgovina zatvorena.',
@@ -4185,7 +4185,7 @@ export const PRACTICE_B2 = {
         explanation: 'Dative mi, then se, after the verb in first position: Čini mi se da…',
       },
       {
-        q: "Complete: '___, trgovina je nedjeljom zatvorena.' (As far as I know, the shop is closed on Sundays.)",
+        q: "Complete: '___, trgovina je nedjeljom zatvorena.' (As far as I know, the store is closed on Sundays.)",
         options: ['Kako ja znam', 'Kad ja znam', 'Koliko ja znam', 'Koji ja znam'],
         correct: 2,
         explanation: 'Koliko ja znam limits the claim to your own knowledge.',
@@ -5165,7 +5165,7 @@ export const PRACTICE_B2 = {
           explanation: 'Da razmislim — let me think.',
         },
         {
-          q: "Dopuni: 'Nešto ___ mala trgovina na uglu.' (Something like a little shop on the corner.)",
+          q: "Dopuni: 'Nešto ___ mala trgovina na uglu.' (Something like a little store on the corner.)",
           options: ['kako', 'što', 'kao', 'kad'],
           correct: 2,
           hint: 'The word for "like" in a comparison.',
@@ -5181,7 +5181,7 @@ export const PRACTICE_B2 = {
           ],
           correct: 3,
           hint: 'In Croatian conversation the listener is expected to make noise.',
-          explanation: 'Short reactions show you are listening; silence reads as scepticism.',
+          explanation: 'Short reactions show you are listening; silence reads as skepticism.',
         },
       ],
     },
@@ -5467,8 +5467,8 @@ export const PRACTICE_B2 = {
     worked: [
       {
         title: 'Rising TO a Level',
-        problem: 'Reci: "Prices rose to two euros per litre."',
-        en: 'Say: Prices rose to two euros per litre.',
+        problem: 'Reci: "Prices rose to two euros per liter."',
+        en: 'Say: Prices rose to two euros per liter.',
         steps: [
           {
             label: 'Agree the verb',
@@ -5778,7 +5778,7 @@ export const PRACTICE_B2 = {
         },
         {
           q: "What does 'gradonačelnik' mean?",
-          options: ['county prefect', 'minister', 'MP', 'mayor'],
+          options: ['county prefect', 'minister', 'member of parliament', 'mayor'],
           correct: 3,
           hint: 'Grad is "town, city".',
           explanation: 'Gradonačelnik — mayor; župan is the county prefect.',
@@ -5846,7 +5846,11 @@ export const PRACTICE_B2 = {
       ['izbori', 'elections (plural)', 'Izbori su bili u nedjelju.'],
       ['izglasati', 'to pass (a law) by vote (pf.)', 'Zakon je izglasan velikom većinom.'],
       ['stranka', 'political party', 'Nova stranka ušla je u Sabor.'],
-      ['zastupnik', 'MP, representative', 'Zastupnici su raspravljali do ponoći.'],
+      [
+        'zastupnik',
+        'member of parliament, representative',
+        'Zastupnici su raspravljali do ponoći.',
+      ],
       ['birač', 'voter', 'Odaziv birača bio je nizak.'],
       ['glasovati', 'to vote', 'Glasovao sam na lokalnim izborima.'],
       ['članica', 'member (state)', 'Hrvatska je članica Europske unije.'],
@@ -5913,7 +5917,7 @@ export const PRACTICE_B2 = {
           correct: 1,
           hint: 'Of a native word and a loanword, which one does written, formal Croatian prefer?',
           explanation:
-            'računalo is the native standard word; kompjutor is understood but colloquial, kompjuter is not the Croatian spelling, and mašina means "machine".',
+            'računalo is the native standard word; kompjutor and kompjuter are two spellings of the international word (dictionaries prefer kompjutor), and mašina means "machine".',
         },
         {
           q: 'Who gave the Croatian Latin alphabet its diacritics (č, ž, š)?',

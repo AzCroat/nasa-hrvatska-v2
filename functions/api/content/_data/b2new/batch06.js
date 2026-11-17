@@ -65,7 +65,7 @@ export const SPINE = [
     objectives: [
       'Talk about film and music festivals in Croatia and Europe',
       'Know the Zagreb School of Animated Film and its Oscar',
-      'Recognize dialect words in Croatian films and say what they mean',
+      'Recognize dialect words in Croatian movies and say what they mean',
     ],
   },
 ];
@@ -347,7 +347,7 @@ export const LESSONS = [
       },
       {
         type: 'example',
-        title: 'At the Shops',
+        title: 'At the Stores',
         items: [
           {
             hr: 'Otišla sam u trgovački centar i kupila sam nove cipele.',
@@ -366,7 +366,7 @@ export const LESSONS = [
           },
           {
             hr: 'Ne kupujem na internetu, nego u malim dućanima.',
-            en: 'I do not shop online but in small shops.',
+            en: 'I do not shop online but in small stores.',
             note: 'nego — corrects what was just denied',
           },
           {
@@ -382,7 +382,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Prvo smo razgledali izloge pa smo ušli u knjižaru.',
-            en: 'First we looked at the shop windows and then we went into the bookshop.',
+            en: 'First we looked at the store windows and then we went into the bookstore.',
             note: 'pa — what came next; smo follows pa directly',
           },
           {
@@ -589,7 +589,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Know Your Register',
-        body: 'The left-hand column is colloquial: you will hear it among friends and in films, and using it there sounds natural. In an essay, a complaint to a shop or a job interview it sounds careless, so use the standard word. "Potrošio sam svu lovu" is fine with a friend; in writing, Potrošio sam sav novac.',
+        body: 'The left-hand column is colloquial: you will hear it among friends and in movies, and using it there sounds natural. In an essay, a complaint to a store or a job interview it sounds careless, so use the standard word. "Potrošio sam svu lovu" is fine with a friend; in writing, Potrošio sam sav novac.',
         highlight: 'Potrošio sam sav novac.',
       },
       {
@@ -737,7 +737,7 @@ export const LESSONS = [
               'A day of big discounts',
               'A day on which people try to buy nothing at all',
               'The first day of the summer sales',
-              'A day when shops are closed by law',
+              'A day when stores are closed by law',
             ],
             correct: 1,
             explanation:
@@ -773,7 +773,7 @@ export const LESSONS = [
               'an illness caught in a shopping center',
               'the urge to keep buying things we do not need',
               'a rise in prices',
-              'a shop closing down',
+              'a store closing down',
             ],
             correct: 1,
             explanation: 'Consumer fever: buying for the sake of buying, fed by sales and ads.',
@@ -859,7 +859,7 @@ export const LESSONS = [
           },
           {
             hr: 'Budući da je film na engleskom, gledat ćemo ga s titlovima.',
-            en: 'Since the film is in English, we will watch it with subtitles.',
+            en: 'Since the movie is in English, we will watch it with subtitles.',
             note: 'budući da — opens the sentence',
           },
           {
@@ -869,12 +869,12 @@ export const LESSONS = [
           },
           {
             hr: 'Došla sam da zajedno pogledamo novi film.',
-            en: 'I came so that we could watch the new film together.',
+            en: 'I came so that we could watch the new movie together.',
             note: 'da + present — purpose',
           },
           {
             hr: 'Kraj filma bio je upravo kao što sam očekivao.',
-            en: 'The end of the film was exactly as I had expected.',
+            en: 'The end of the movie was exactly as I had expected.',
             note: 'kao što — manner',
           },
         ],
@@ -885,7 +885,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Ako karte budu rasprodane, gledat ćemo film kod kuće.',
-            en: 'If the tickets are sold out, we will watch a film at home.',
+            en: 'If the tickets are sold out, we will watch a movie at home.',
             note: 'ako + future II — a real condition',
           },
           {
@@ -1064,7 +1064,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Animafest and Pula',
-        body: 'Animafest Zagreb, founded in 1972, is one of the oldest festivals of animated film in the world. The Pula Film Festival has screened films in the Roman amphitheatre since 1954, so thousands of people watch a premiere under the open sky in a building almost two thousand years old. Among the great European festivals, Venice is the oldest; Cannes and Berlin followed after the Second World War.',
+        body: 'Animafest Zagreb, founded in 1972, is one of the oldest festivals of animated film in the world. The Pula Film Festival has screened films in the Roman amphitheater since 1954, so thousands of people watch a premiere under the open sky in a building almost two thousand years old. Among the great European festivals, Venice is the oldest; Cannes and Berlin followed after the Second World War.',
         highlight: 'Animafest Zagreb',
       },
       {
@@ -1088,13 +1088,13 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Dialect in Films',
-        body: 'Croatian films often let characters speak their own dialect, because it tells you at once where they are from. In Tko pjeva zlo ne misli (1970, directed by Krešo Golik), set in 1930s Zagreb, the family speaks with a kajkavian flavor; films set in Dalmatia are full of fjaka and đir. These words are dialect, not standard Croatian: understand them, enjoy them, and use the standard word when you write.',
+        title: 'Dialect in Movies',
+        body: 'Croatian movies often let characters speak their own dialect, because it tells you at once where they are from. In Tko pjeva zlo ne misli (1970, directed by Krešo Golik), set in 1930s Zagreb, the family speaks with a kajkavian flavor; movies set in Dalmatia are full of fjaka and đir. These words are dialect, not standard Croatian: understand them, enjoy them, and use the standard word when you write.',
         highlight: 'Tko pjeva zlo ne misli',
       },
       {
         type: 'example',
-        title: 'Talking About Films',
+        title: 'Talking About Movies',
         items: [
           {
             hr: 'Surogat je prvi animirani film izvan Amerike koji je dobio Oscara.',
@@ -1108,17 +1108,17 @@ export const LESSONS = [
           },
           {
             hr: 'Budući da se festival održava u Areni, film gledamo pod vedrim nebom.',
-            en: 'Since the festival is held in the Arena, we watch the film under the open sky.',
+            en: 'Since the festival is held in the Arena, we watch the movie under the open sky.',
             note: 'budući da — opens the sentence',
           },
           {
             hr: 'Redatelj je snimio film na otoku kako bi glumci govorili pravim dijalektom.',
-            en: 'The director shot the film on an island so that the actors would speak the real dialect.',
+            en: 'The director shot the movie on an island so that the actors would speak the real dialect.',
             note: 'kako bi — purpose, glumci is third person',
           },
           {
             hr: 'U tom filmu likovi govore kajkavski, kao što se govorilo u starom Zagrebu.',
-            en: 'In that film the characters speak kajkavian, as people spoke in old Zagreb.',
+            en: 'In that movie the characters speak kajkavian, as people spoke in old Zagreb.',
             note: 'kao što — manner',
           },
         ],
@@ -1139,7 +1139,7 @@ export const LESSONS = [
           },
           {
             hr: 'Film smo gledali u kinu, a poslije smo o njemu pričali do ponoći.',
-            en: 'We watched the film at the movie theater, and afterward we talked about it until midnight.',
+            en: 'We watched the movie at the theater, and afterward we talked about it until midnight.',
             note: 'u kinu — at the movie theater takes u',
           },
           {
@@ -1198,7 +1198,7 @@ export const LESSONS = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'Which film won the Oscar for the best animated short film in 1962?',
+        q: 'Which movie won the Oscar for the best animated short film in 1962?',
         options: ['Profesor Baltazar', 'Surogat', 'Tko pjeva zlo ne misli', 'Animafest'],
         correct: 1,
         explanation:
@@ -1224,7 +1224,7 @@ export const LESSONS = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Who directed the Oscar-winning film Surogat?',
+            q: 'Who directed the Oscar-winning movie Surogat?',
             options: ['Krešo Golik', 'Dušan Vukotić', 'Zlatko Grgić', 'Antun Vrdoljak'],
             correct: 1,
             explanation: 'Dušan Vukotić, of the Zagreb School of Animated Film.',
@@ -1234,11 +1234,11 @@ export const LESSONS = [
             options: [
               'in a modern movie theater',
               'in a theater in Zagreb',
-              'in the Roman amphitheatre, the Arena',
+              'in the Roman amphitheater, the Arena',
               'on a ship',
             ],
             correct: 2,
-            explanation: 'Films are screened in the Arena, the Roman amphitheatre in Pula.',
+            explanation: 'Films are screened in the Arena, the Roman amphitheater in Pula.',
           },
           {
             q: 'Complete: "Sinoć smo gledali film ___ kinu."',
@@ -1688,7 +1688,7 @@ export const PRACTICE = {
       ['te', 'and (formal)', 'Ugovor je potpisan te je projekt počeo.'],
       ['stoga', 'therefore', 'Kasnimo, stoga moramo požuriti.'],
       ['jedino', 'only, except that', 'Sve je spremno, jedino nemamo kruha.'],
-      ['izlog', 'shop window', 'U izlogu je bila lijepa jakna.'],
+      ['izlog', 'store window', 'U izlogu je bila lijepa jakna.'],
       ['trgovački centar', 'shopping center', 'Subotom je trgovački centar pun ljudi.'],
       ['na rate', 'in installments', 'Televizor smo kupili na rate.'],
     ],
@@ -1798,8 +1798,8 @@ export const PRACTICE = {
           q: 'Where would "papreno" be out of place?',
           options: [
             'in a chat with a friend',
-            'in a formal complaint to a shop',
-            'in a film dialogue',
+            'in a formal complaint to a store',
+            'in a movie dialogue',
             'in a text message',
           ],
           correct: 1,
@@ -2204,7 +2204,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Pulski filmski festival održava se u ____.' (the Roman amphitheatre — Arena)",
+          q: "Dopuni: 'Pulski filmski festival održava se u ____.' (the Roman amphitheater — Arena)",
           answer: 'Areni',
           accept: ['areni'],
           hint: 'Locative of the feminine noun.',

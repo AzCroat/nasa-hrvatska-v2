@@ -465,7 +465,7 @@ export const PRACTICE_B1 = {
       {
         title: 'Setting the Scene',
         problem: 'Dopuni: Dok je Ivana ___ (kuhati) večeru, djeca su se igrala u vrtu.',
-        en: 'While Ivana was cooking dinner, the children were playing in the garden.',
+        en: 'While Ivana was cooking dinner, the children were playing in the yard.',
         steps: [
           {
             label: 'What kind of action?',
@@ -937,7 +937,7 @@ export const PRACTICE_B1 = {
           },
           {
             label: 'The form',
-            text: 'karta → karata: an a slips in to break up the -rt- cluster. Više adds "any more".',
+            text: 'karta → karata: an a slips in to break up the -rt- cluster. Više adds "anymore".',
           },
         ],
         answer: 'Nema više karata.',
@@ -1212,7 +1212,7 @@ export const PRACTICE_B1 = {
           explanation: 'Radujem se ljetu — dative after radovati se.',
         },
         {
-          q: "Which sentence says 'I am going INTO the shop' (motion)?",
+          q: "Which sentence says 'I am going INTO the store' (motion)?",
           options: [
             'Idem u trgovinu.',
             'Idem u trgovini.',
@@ -1547,10 +1547,10 @@ export const PRACTICE_B1 = {
           explanation: 'otišao — perfective: the leaving is finished and its result stands.',
         },
         {
-          q: 'Molim vas, ___ u sobu. (come in — polite)',
+          q: 'Molim Vas, ___ u sobu. (come in — polite)',
           options: ['izađite', 'ući', 'uđite', 'uđi'],
           correct: 2,
-          hint: 'Into the room — find the prefix that matches the preposition u — and molim vas needs the Vi-form.',
+          hint: 'Into the room — find the prefix that matches the preposition u — and molim Vas needs the Vi-form.',
           explanation: 'uđite — u- (into) + ići, polite imperative. Uđi is the ti-form.',
         },
         {
@@ -1650,7 +1650,7 @@ export const PRACTICE_B1 = {
         explanation: 'Motion to a place takes the accusative: Idemo na plažu.',
       },
       {
-        q: "Complete: '___ smo cijeli otok za jedan dan.' (We went all round the island.)",
+        q: "Complete: '___ smo cijeli otok za jedan dan.' (We went all around the island.)",
         options: ['Obišli', 'Ušli', 'Izašli', 'Došli'],
         correct: 0,
         explanation: 'ob- means around: obići, past obišli.',
@@ -1667,7 +1667,7 @@ export const PRACTICE_B1 = {
       ['otići', 'to leave, to go away', 'Otišao je na posao u sedam.'],
       ['dolaziti', 'to come (regularly)', 'Roditelji dolaze svako ljeto.'],
       ['doći', 'to come, to arrive', 'Došli su prije sat vremena.'],
-      ['ući', 'to go in, to enter', 'Uđite, molim vas.'],
+      ['ući', 'to go in, to enter', 'Uđite, molim Vas.'],
       ['izaći', 'to go out', 'Izašli smo iz grada prije mraka.'],
       ['prijeći', 'to cross', 'Prešli smo cestu na semaforu.'],
       ['vraćati se / vratiti se', 'to come back', 'Vraćam se u nedjelju.'],
@@ -1929,7 +1929,7 @@ export const PRACTICE_B1 = {
           q: 'Nedostaje mi ___. (I miss my mom — mama)',
           options: ['mama', 'mamu', 'mami', 'mame'],
           correct: 0,
-          hint: 'Croatian turns it round: the person missed is the SUBJECT, and you are already in the dative.',
+          hint: 'Croatian turns it around: the person missed is the SUBJECT, and you are already in the dative.',
           explanation: 'Nedostaje mi mama — she is the subject, in the nominative.',
         },
         {
@@ -2137,7 +2137,7 @@ export const PRACTICE_B1 = {
           explanation: 'mjesec dana — duration is the bare accusative. Za would mean "in a month".',
         },
         {
-          q: '"I don\'t live there any more."',
+          q: '"I don\'t live there anymore."',
           options: [
             'Još živim tamo.',
             'Više ne živim tamo.',
@@ -2199,10 +2199,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: '____ ne pušim. (I do not smoke any more — the first word)',
+          q: '____ ne pušim. (I do not smoke anymore — the first word)',
           answer: 'Više',
-          hint: 'The word that, with ne, means “not any more”.',
-          explanation: 'Više ne pušim — not any more.',
+          hint: 'The word that, with ne, means “not anymore”.',
+          explanation: 'Više ne pušim — not anymore.',
         },
         {
           q: "Which sentence says 'I waited for the bus for an hour'?",
@@ -2329,8 +2329,8 @@ export const PRACTICE_B1 = {
       },
       {
         title: 'In and Out',
-        problem: 'Reci: He went into the shop and came out after five minutes.',
-        en: 'He went into the shop and came out after five minutes.',
+        problem: 'Reci: He went into the store and came out after five minutes.',
+        en: 'He went into the store and came out after five minutes.',
         steps: [
           {
             label: 'Into',
@@ -2342,7 +2342,7 @@ export const PRACTICE_B1 = {
           },
           {
             label: 'Case',
-            text: 'Motion into the shop takes the accusative: u trgovinu. After five minutes is nakon pet minuta.',
+            text: 'Motion into the store takes the accusative: u trgovinu. After five minutes is nakon pet minuta.',
           },
         ],
         answer: 'Ušao je u trgovinu i izašao nakon pet minuta.',
@@ -2454,10 +2454,10 @@ export const PRACTICE_B1 = {
           'Describe your town to me.',
         ],
         correct: 3,
-        explanation: 'o- around + pisati: to write round something — to describe.',
+        explanation: 'o- around + pisati: to write around something — to describe.',
       },
       {
-        q: "Complete: 'Molim vas, ___ u zgradu.' (please go into the building)",
+        q: "Complete: 'Molim Vas, ___ u zgradu.' (please go into the building)",
         options: ['izađite', 'prijeđite', 'uđite', 'obiđite'],
         correct: 2,
         explanation: 'u- into + ići: uđite.',
@@ -2537,7 +2537,7 @@ export const PRACTICE_B1 = {
           },
           {
             label: 'The state takes the locative',
-            text: 'Nothing is moving any more: na polici.',
+            text: 'Nothing is moving anymore: na polici.',
           },
         ],
         answer: 'Stavio sam vazu na policu i sada stoji na polici.',
@@ -2561,7 +2561,7 @@ export const PRACTICE_B1 = {
           explanation: 'na vješalicu — accusative after a verb of change.',
         },
         {
-          q: 'Tanjuri ___ u ormariću. (are in the cupboard)',
+          q: 'Tanjuri ___ u ormariću. (are in the cabinet)',
           options: ['stavljaju', 'stave', 'stanu', 'stoje'],
           correct: 3,
           hint: 'The plates are just there — no one is putting anything, and there is no object.',
@@ -2694,7 +2694,7 @@ export const PRACTICE_B1 = {
       },
     ],
     vocab: [
-      ['sjesti', 'to sit down', 'Sjednite, molim vas.'],
+      ['sjesti', 'to sit down', 'Sjednite, molim Vas.'],
       ['sjediti', 'to be sitting', 'Sjedimo u kavani već sat vremena.'],
       ['leći', 'to lie down', 'Legao sam u deset.'],
       ['ležati', 'to be lying', 'Cijelo popodne ležao je na plaži.'],
@@ -2703,7 +2703,7 @@ export const PRACTICE_B1 = {
       ['objesiti', 'to hang up', 'Objesila sam sliku na zid.'],
       ['visjeti', 'to hang, to be hanging', 'Slika visi na zidu.'],
       ['polica', 'shelf', 'Naočale su na polici.'],
-      ['ormar', 'wardrobe, cupboard', 'Kaput visi u ormaru.'],
+      ['ormar', 'closet, cabinet', 'Kaput visi u ormaru.'],
     ],
   },
   'infinitive-vs-da': {
@@ -3274,7 +3274,7 @@ export const PRACTICE_B1 = {
         explanation: 'dok + an ongoing action: the imperfective kuhala.',
       },
       {
-        q: "Which correctly says 'We will wait until the film ends'?",
+        q: "Which correctly says 'We will wait until the movie ends'?",
         options: [
           'Čekat ćemo dok film završava.',
           'Čekat ćemo dok film ne završi.',
@@ -3673,7 +3673,7 @@ export const PRACTICE_B1 = {
     },
     checkB: [
       {
-        q: "Complete: 'Nisam došao ___ sam bio bolestan.' (…because I was ill.)",
+        q: "Complete: 'Nisam došao ___ sam bio bolestan.' (…because I was sick.)",
         options: ['zbog', 'radi', 'jer', 'zato'],
         correct: 2,
         explanation: 'A whole clause follows, so jer.',
@@ -4604,7 +4604,7 @@ export const PRACTICE_B1 = {
           explanation: 'Pokvarila se perilica — reporting the fault, no culprit.',
         },
         {
-          q: 'Hvala vam na ___. (for your help — pomoć)',
+          q: 'Hvala Vam na ___. (for your help — pomoć)',
           options: ['pomoć', 'pomoćom', 'pomoći', 'pomoću'],
           correct: 2,
           hint: 'hvala na takes the locative, and pomoć is a feminine noun ending in a consonant.',
@@ -4717,10 +4717,10 @@ export const PRACTICE_B1 = {
         explanation: 'One completed event: dobio sam.',
       },
       {
-        q: "Spot the error: 'Hvala vam na pomoć.'",
+        q: "Spot the error: 'Hvala Vam na pomoć.'",
         options: [
           'hvala should be hvale',
-          'vam should be vas',
+          'Vam should be Vas',
           'Nothing is wrong',
           'pomoć should be pomoći — hvala na takes the locative',
         ],
@@ -4755,7 +4755,7 @@ export const PRACTICE_B1 = {
       ['popraviti', 'to repair', 'Majstor će to popraviti sutra.'],
       ['majstor', 'repairman', 'Majstor dolazi sutra ujutro.'],
       ['zamijeniti', 'to exchange', 'Htjela bih zamijeniti ovu jaknu.'],
-      ['razumijevanje', 'understanding', 'Hvala vam na razumijevanju.'],
+      ['razumijevanje', 'understanding', 'Hvala Vam na razumijevanju.'],
     ],
   },
   bureaucracy: {
@@ -4840,7 +4840,7 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Uzmite ____ i pričekajte da vas prozovu. (a ticket number)',
+          q: 'Uzmite ____ i pričekajte da Vas prozovu. (a ticket number)',
           answer: 'broj',
           hint: 'The ticket you take from the machine — a masculine noun whose accusative looks like its nominative.',
           explanation: 'Uzmite broj — take a number.',
@@ -4925,7 +4925,7 @@ export const PRACTICE_B1 = {
         options: [
           'The application is submitted in person.',
           'The request is personal.',
-          'Send the application by post.',
+          'Send the application by mail.',
           'The application was rejected.',
         ],
         correct: 0,
@@ -5141,7 +5141,7 @@ export const PRACTICE_B1 = {
         explanation: 'režije are the running costs, always plural.',
       },
       {
-        q: "Complete: 'Tražim ___ stan blizu centra.' (a furnished flat)",
+        q: "Complete: 'Tražim ___ stan blizu centra.' (a furnished apartment)",
         options: ['namješten', 'namještena', 'namještenog', 'namještenom'],
         correct: 0,
         explanation: 'The adjective agrees with stan, masculine accusative inanimate: namješten.',
@@ -5158,7 +5158,7 @@ export const PRACTICE_B1 = {
         explanation: 'The object of dopuštati is accusative plural: kućne ljubimce.',
       },
       {
-        q: "What does 'Polog vam vraćamo kad se iselite.' mean?",
+        q: "What does 'Polog Vam vraćamo kad se iselite.' mean?",
         options: [
           'We return your deposit when you move out.',
           'We keep the deposit.',
@@ -5216,14 +5216,14 @@ export const PRACTICE_B1 = {
           },
           {
             label: 'Register',
-            text: 'An interview is formal: vaša tvrtka.',
+            text: 'An interview is formal: Vaša tvrtka.',
           },
           {
             label: 's or sa?',
             text: 'The next word starts with s, so sa + the instrumental plural: sa stranim klijentima.',
           },
         ],
-        answer: 'Javljam se jer vaša tvrtka radi sa stranim klijentima.',
+        answer: 'Javljam se jer Vaša tvrtka radi sa stranim klijentima.',
       },
     ],
     practice: {
@@ -5387,8 +5387,8 @@ export const PRACTICE_B1 = {
       ['diplomirati', 'to graduate', 'Diplomirao sam na Pravnom fakultetu.'],
       ['zadužen', 'responsible (for)', 'Zadužena sam za odnose s klijentima.'],
       ['tečno', 'fluently', 'Tečno govorim engleski.'],
-      ['prednost', 'advantage, strength', 'Koje su vaše prednosti?'],
-      ['očekivanje', 'expectation', 'Kakva su vaša očekivanja?'],
+      ['prednost', 'advantage, strength', 'Koje su Vaše prednosti?'],
+      ['očekivanje', 'expectation', 'Kakva su Vaša očekivanja?'],
       ['tvrtka', 'company', 'Radila sam u maloj tvrtki.'],
     ],
   },

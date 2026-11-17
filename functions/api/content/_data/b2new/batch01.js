@@ -218,7 +218,7 @@ const NOUN_A = {
         },
         {
           hr: 'Druže, gdje si bio cijeli dan?',
-          en: 'Mate, where have you been all day?',
+          en: 'Buddy, where have you been all day?',
           note: 'druže — drug in the vocative: g becomes ž',
         },
         {
@@ -433,7 +433,7 @@ const PRESENT_ATI = {
       title: 'Prefixes, Commands and the Past',
       items: [
         {
-          hr: 'Molim vas, potpišite ovdje i ovdje.',
+          hr: 'Molim Vas, potpišite ovdje i ovdje.',
           en: 'Please sign here and here.',
           note: 'potpišite — potpisati keeps the š of pisati',
         },
@@ -467,7 +467,7 @@ const PRESENT_ATI = {
     {
       type: 'rule',
       title: 'The Other -ati Subgroups: -jem and -im',
-      body: 'Two more groups hide behind -ati. After a vowel, some take -jem: grijati → grijem, sijati → sijem, smijati se → smijem se, and pljuvati → pljujem. Verbs in -avati with a short root take -ajem: davati → dajem, prodavati → prodajem, ustajati → ustajem. A third group behaves like govoriti and takes -im, usually after č, ž, j or a soft consonant: bježati → bježim, držati → držim, trčati → trčim, and stajati → stojim, where the vowel changes too.',
+      body: 'Two more groups hide behind -ati. After a vowel, some take -jem: grijati → grijem, sijati → sijem, smijati se → smijem se, and pljuvati → pljujem. Verbs built on dati and stati take -jem: davati → dajem, prodavati → prodajem, ustajati → ustajem. A third group behaves like govoriti and takes -im, usually after č, ž, j or a soft consonant: bježati → bježim, držati → držim, trčati → trčim, and stajati → stojim, where the vowel changes too.',
       highlight: 'grijati → grijem · držati → držim · stajati → stojim',
     },
     {
@@ -603,7 +603,7 @@ const FALSE_FRIENDS = {
     {
       type: 'rule',
       title: 'School, Work and Renting',
-      body: 'Lektira is the list of books students must read at school, or a book on it; a lecture is predavanje. A kompozicija is a musical composition (and a set of railway carriages); a school composition is a sastavak. Evidencija means records, a register: voditi evidenciju (to keep records); evidence is dokaz. Kaucija is a deposit (for an apartment) or bail; caution is oprez. A novela is a short story or novella; a novel is roman. A factory is a tvornica.',
+      body: 'Lektira is the list of books students must read at school, or a book on it; a lecture is predavanje. A kompozicija is a musical composition (and a set of train cars); a school composition is a sastavak. Evidencija means records, a register: voditi evidenciju (to keep records); evidence is dokaz. Kaucija is a deposit (for an apartment) or bail; caution is oprez. A novela is a short story or novella; a novel is roman. A factory is a tvornica.',
       highlight: 'Lektira',
     },
     {
@@ -614,8 +614,8 @@ const FALSE_FRIENDS = {
         ['aktualan', 'current, topical', 'actual', 'pravi, stvaran'],
         ['eventualno', 'possibly', 'eventually', 'na kraju, konačno'],
         ['simpatičan', 'likeable', 'sympathetic', 'suosjećajan'],
-        ['gimnazija', 'academic secondary school', 'gym', 'teretana'],
-        ['ordinacija', 'doctor’s surgery', 'ordination', 'ređenje'],
+        ['gimnazija', 'academic high school', 'gym', 'teretana'],
+        ['ordinacija', 'doctor’s office', 'ordination', 'ređenje'],
         ['ambulanta', 'outpatient clinic', 'ambulance', 'vozilo hitne pomoći'],
         ['lektira', 'required reading', 'lecture', 'predavanje'],
         ['kompozicija', 'musical composition', 'school composition', 'sastavak'],
@@ -714,7 +714,7 @@ const FALSE_FRIENDS = {
           explanation: 'Aktualan means current or topical. "Actual" is pravi or stvaran.',
         },
         {
-          q: 'Complete: "Moja kći ide u ___ — želi studirati medicinu." (an academic secondary school)',
+          q: 'Complete: "Moja kći ide u ___ — želi studirati medicinu." (an academic high school)',
           options: ['teretanu', 'ordinaciju', 'gimnaziju', 'ambulantu'],
           correct: 2,
           explanation: 'A gimnazija is the academic high school that leads to university.',
@@ -794,7 +794,7 @@ const LITERACY = {
     {
       type: 'rule',
       title: 'Month Names From Nature and Work',
-      body: 'Standard Croatian, like Czech and Polish, uses its own month names rather than the Latin ones. Several name what happens in nature or on the farm: travanj comes from trava (grass), svibanj from svib (dogwood), lipanj from lipa (the lime tree, in flower in June), srpanj from srp (the sickle of the harvest), kolovoz from kolo and voziti (carts carrying the harvest), listopad from list and pasti (leaves falling), studeni from studen (cold). Siječanj is usually linked to sjeći, to cut, as the time for felling wood. For veljača, ožujak, rujan and prosinac several explanations exist and none is certain.',
+      body: 'Standard Croatian, like Czech and Polish, uses its own month names rather than the Latin ones. Several name what happens in nature or on the farm: travanj comes from trava (grass), svibanj from svib (dogwood), lipanj from lipa (the linden tree, in flower in June), srpanj from srp (the sickle of the harvest), kolovoz from kolo and voziti (carts carrying the harvest), listopad from list and pasti (leaves falling), studeni from studen (cold). Siječanj is usually linked to sjeći, to cut, as the time for felling wood. For veljača, ožujak, rujan and prosinac several explanations exist and none is certain.',
       highlight: 'listopad',
     },
     {
@@ -848,7 +848,7 @@ const LITERACY = {
         },
         {
           hr: 'Lipa cvjeta u lipnju, a lišće pada u listopadu.',
-          en: 'The lime tree flowers in June, and the leaves fall in October.',
+          en: 'The linden tree flowers in June, and the leaves fall in October.',
           note: 'u lipnju, u listopadu — u + locative',
         },
         {
@@ -901,11 +901,11 @@ const LITERACY = {
     {
       type: 'quiz',
       title: 'Quick Check',
-      q: 'Which month is named after the lime tree?',
+      q: 'Which month is named after the linden tree?',
       options: ['lipanj', 'listopad', 'srpanj'],
       correct: 0,
       explanation:
-        'Lipanj comes from lipa, the lime tree, which flowers in June. Listopad is about falling leaves.',
+        'Lipanj comes from lipa, the linden tree, which flowers in June. Listopad is about falling leaves.',
     },
     {
       type: 'quiz',
@@ -1438,7 +1438,7 @@ export const PRACTICE = {
           },
           { label: 'By e-mail', text: 'The means takes the instrumental: e-poštom.' },
         ],
-        answer: 'Molim vas, potpišite ovdje i pošaljite obrazac e-poštom.',
+        answer: 'Molim Vas, potpišite ovdje i pošaljite obrazac e-poštom.',
       },
     ],
     practice: {
@@ -1590,7 +1590,7 @@ export const PRACTICE = {
       ['zvati', 'to call', 'Zovem mamu svaki dan.'],
       ['brati', 'to pick, to gather', 'U rujnu beremo grožđe.'],
       ['lagati', 'to lie (tell lies)', 'Ne volim kad mi netko laže.'],
-      ['potpisati', 'to sign', 'Molim vas, potpišite ugovor.'],
+      ['potpisati', 'to sign', 'Molim Vas, potpišite ugovor.'],
     ],
   },
 
@@ -1660,7 +1660,7 @@ export const PRACTICE = {
           options: ['ordinaciju', 'gimnaziju', 'teretanu', 'lektiru'],
           correct: 0,
           hint: 'The word that looks like "ordination".',
-          explanation: 'ordinaciju — a dentist’s surgery.',
+          explanation: 'ordinaciju — a dentist’s office.',
         },
         {
           q: 'Svaki dan poslije posla vježbam u ___. (a gym)',
@@ -1775,9 +1775,9 @@ export const PRACTICE = {
       ['aktualan', 'current, topical', 'To je vrlo aktualna tema.'],
       ['eventualno', 'possibly, if need be', 'Eventualno ću doći kasnije.'],
       ['simpatičan', 'likeable, pleasant', 'Konobar je bio jako simpatičan.'],
-      ['gimnazija', 'academic secondary school', 'Moja sestra ide u gimnaziju.'],
+      ['gimnazija', 'academic high school', 'Moja sestra ide u gimnaziju.'],
       ['teretana', 'gym', 'Tri puta tjedno idem u teretanu.'],
-      ['ordinacija', 'doctor’s surgery, practice', 'Ordinacija radi do dva.'],
+      ['ordinacija', 'doctor’s office, practice', 'Ordinacija radi do dva.'],
       ['lektira', 'required reading', 'Za lektiru čitamo jedan roman.'],
       ['kaucija', 'deposit, bail', 'Platili smo kauciju za stan.'],
       ['tvornica', 'factory', 'Moj djed je radio u tvornici.'],
