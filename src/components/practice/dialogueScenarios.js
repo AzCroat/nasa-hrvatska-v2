@@ -2564,7 +2564,7 @@ export const SCENARIOS = [
   {
     id: 'molba_prijatelju',
     title: '🌱 Molba prijateljici',
-    subtitle: 'Ask a friend a favour — casual, but still with a please and a thank-you',
+    subtitle: 'Ask a friend a favor — casual, but still with a please and a thank-you',
     difficulty: 'B1',
     turns: [
       {
@@ -7348,7 +7348,7 @@ export const SCENARIOS = [
   {
     id: 'rok_prijatelju',
     title: '📝 Treba mi još malo vremena',
-    subtitle: 'Ask a friend for two more days on a favour you promised him',
+    subtitle: 'Ask a friend for two more days on a favor you promised him',
     difficulty: 'B2',
     turns: [
       {
@@ -8028,7 +8028,7 @@ export const SCENARIOS = [
           'Drago mi je što si me se sjetila, profesorice. Prijavljujem se za doktorski studij u Zagrebu i bila bi mi velika čast kad bi mi napisala preporuku.',
         ],
         answer: 0,
-        tip: "'sjetiti se' takes the genitive, and the cluster runs auxiliary–pronoun–se: 'ste me se sjetili'. 'Kad biste…' frames the request as a favour, not a demand.",
+        tip: "'sjetiti se' takes the genitive, and the cluster runs auxiliary–pronoun–se: 'ste me se sjetili'. 'Kad biste…' frames the request as a favor, not a demand.",
       },
       {
         speaker: 'Profesorica Radić',
@@ -8128,7 +8128,7 @@ export const SCENARIOS = [
           'Dugujem vam i večeru i puno više. Hvala vam, Davore — a ako ne prođem, večera je opet na meni, jer ste se potrudili.',
         ],
         answer: 0,
-        tip: "'Večera je na meni' — dinner's on me — takes the locative. Offering dinner whatever the outcome says you are thanking him for the favour, not the job.",
+        tip: "'Večera je na meni' — dinner's on me — takes the locative. Offering dinner whatever the outcome says you are thanking him for the favor, not the job.",
       },
     ],
   },
@@ -8412,7 +8412,7 @@ export const SCENARIOS = [
       {
         speaker: 'Klijentica Lovrić',
         line: 'Može. Samo, iskreno, ove smo godine malo tanki s novcem. Bi li bilo moguće u dvije rate?',
-        en: "Fine. Only, honestly, we're a bit stretched for money this year. Would two instalments be possible?",
+        en: "Fine. Only, honestly, we're a bit stretched for money this year. Would two installments be possible?",
         opts: [
           'Moguće je, uz jedan uvjet: prvu ratu uplatite do kraja ovog mjeseca, a drugu do petnaestog idućeg. Tako ćemo oboje imati jasan plan.',
           'Moguće je, uz jedan uvjet: prvu ratu uplatite do kraja ovog mjeseca, a drugu do petnaestog idućeg. Tako ćemo obojica imati jasan plan.',
@@ -8420,7 +8420,7 @@ export const SCENARIOS = [
           'Moguće je, uz jedan uvjet: prvu ratu uplati do kraja ovog mjeseca, a drugu do petnaestog idućeg. Tako ćemo oboje imati jasan plan.',
         ],
         answer: 0,
-        tip: "'oboje' is the word for a mixed pair — you and her; 'obojica' would be two men. Instalments with dates attached keep a concession from becoming an open-ended delay.",
+        tip: "'oboje' is the word for a mixed pair — you and her; 'obojica' would be two men. Installments with dates attached keep a concession from becoming an open-ended delay.",
       },
       {
         speaker: 'Klijentica Lovrić',

@@ -2113,7 +2113,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'a2-favour',
     level: 'A2',
-    title: 'Ask a neighbor for a favour',
+    title: 'Ask a neighbor for a favor',
     prompt:
       'Ideš na put na pet dana. Zamoli stariju susjedu, na Vi, da ti nahrani mačku i zalije cvijeće, i reci gdje je ključ.',
     promptEn:
@@ -2155,7 +2155,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Biste li mogli nahraniti moju mačku?',
         en: 'Could you feed my cat?',
-        why: 'The softest way to ask an older person for a favour — conditional plus Vi.',
+        why: 'The softest way to ask an older person for a favor — conditional plus Vi.',
       },
       {
         hr: 'Ključ je kod susjede.',
@@ -3117,7 +3117,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Mene je najviše iznenadilo to što se najviše gradi izvan grada, gdje ljudi ionako ne žele živjeti.',
     modelEn:
       'Yesterday I read an article about apartment prices in Zagreb. ' +
-      'It said that prices had risen by fifteen per cent in a year. ' +
+      'It said that prices had risen by fifteen percent in a year. ' +
       'Experts say the reason is a shortage of new construction, and not only tourism. ' +
       'They also mentioned that young people are leaving their parents’ homes later and later. ' +
       'What surprised me most is that most building is happening outside the city, where people do not want to live anyway.',
@@ -3129,7 +3129,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'porasle za petnaest posto',
-        en: 'risen by fifteen per cent',
+        en: 'risen by fifteen percent',
         why: '"za" + accusative for the size of a change — the same pattern as "jeftiniji za dvjesto eura".',
       },
       {
@@ -3141,7 +3141,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
     rehearse: [
       {
         hr: 'Pisalo je da su cijene porasle za petnaest posto.',
-        en: 'It said that prices had risen by fifteen per cent.',
+        en: 'It said that prices had risen by fifteen percent.',
         why: 'Reported speech with a percentage — tense unchanged inside "da".',
       },
       {
@@ -3322,11 +3322,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'b1-favour',
     level: 'B1',
-    title: 'Ask a friend for a favour',
+    title: 'Ask a friend for a favor',
     prompt:
       'Zamoli prijatelja za uslugu: objasni situaciju, reci točno što trebaš, ponudi nešto u zamjenu i zahvali mu.',
     promptEn:
-      'Ask a friend for a favour: explain the situation, say exactly what you need, offer something in return and thank him.',
+      'Ask a friend for a favor: explain the situation, say exactly what you need, offer something in return and thank him.',
     minWords: 20,
     model:
       'Bog, Luka, imam jednu molbu, pa mi reci slobodno ako ne možeš. ' +
@@ -3335,7 +3335,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Zapravo bih ti bio jako zahvalan. Naravno, ja plaćam pizzu i pivo poslije. ' +
       'Što kažeš, možeš li?',
     modelEn:
-      'Hi Luka, I have a favour to ask, so feel free to tell me if you cannot. ' +
+      'Hi Luka, I have a favor to ask, so feel free to tell me if you cannot. ' +
       'You know I am moving next week? Well, on Saturday I need help with the move, just a couple of hours, mostly boxes. ' +
       'And if it is no trouble, could you look after my dog while we carry things? ' +
       'Honestly I would be really grateful. Of course, pizza and beer afterward are on me. ' +
@@ -3359,13 +3359,13 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'reci slobodno ako ne možeš',
         en: 'feel free to tell me if you cannot',
-        why: 'Giving the other person a way out first is how a favour is asked between friends — it makes a yes easier.',
+        why: 'Giving the other person a way out first is how a favor is asked between friends — it makes a yes easier.',
       },
     ],
     rehearse: [
       {
         hr: 'Imam jednu molbu.',
-        en: 'I have a favour to ask.',
+        en: 'I have a favor to ask.',
         why: 'The opener that signals a request is coming.',
       },
       {
@@ -3995,7 +3995,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       'Očekujem da će se to nastaviti, samo sporije nego dosad.',
     modelEn:
       'The number of people working remotely rose sharply after 2020. ' +
-      'In our field that share jumped from around ten per cent to almost half. ' +
+      'In our field that share jumped from around ten percent to almost half. ' +
       'Over the last two years the growth has slowed, but there has been no return to how it was. ' +
       'The cause is not only technology; apartments in big cities became unaffordable, so people are moving. ' +
       'It is interesting that the companies which allowed working from home first are the biggest today. ' +
@@ -4008,7 +4008,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 's desetak posto skočio na gotovo polovicu',
-        en: 'jumped from around ten per cent to almost half',
+        en: 'jumped from around ten percent to almost half',
         why: 'A range needs both ends: "s" + genitive for the start, "na" + accusative for the finish.',
       },
       {
@@ -4025,7 +4025,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       },
       {
         hr: 'Udio je skočio s deset na pedeset posto.',
-        en: 'The share jumped from ten to fifty per cent.',
+        en: 'The share jumped from ten to fifty percent.',
         why: 'Both ends of a range, each with its own case.',
       },
       {
@@ -5198,7 +5198,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Ono što se … ne može znati jest',
         en: 'What cannot be known is',
-        why: 'A nominalised clause as the subject, with "jest" for emphasis — the register that marks C1.',
+        why: 'A nominalized clause as the subject, with "jest" for emphasis — the register that marks C1.',
       },
     ],
     rehearse: [
@@ -5215,7 +5215,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Ono što se ne može znati jest bi li tržište čekalo.',
         en: 'What cannot be known is whether the market would have waited.',
-        why: 'Nominalised subject plus an embedded conditional question with "li".',
+        why: 'Nominalized subject plus an embedded conditional question with "li".',
       },
     ],
     usefulPhrases: [
@@ -5376,11 +5376,11 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
   {
     id: 'c1-persuade',
     level: 'C1',
-    title: 'Persuade a sceptical audience',
+    title: 'Persuade a skeptical audience',
     prompt:
       'Uvjeri publiku koja ti ne vjeruje da vrijedi uložiti u nešto što se ne isplati odmah. Priznaj njihovu sumnju i ponudi provjerljiv korak.',
     promptEn:
-      'Persuade a sceptical audience that something without an immediate payoff is worth investing in. Acknowledge their doubt and offer a verifiable step.',
+      'Persuade a skeptical audience that something without an immediate payoff is worth investing in. Acknowledge their doubt and offer a verifiable step.',
     minWords: 26,
     model:
       'Ne tražim od vas da mi vjerujete na riječ, i razumijem zašto ste oprezni. ' +
@@ -5410,7 +5410,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'odluka da se ništa ne mijenja također je odluka',
         en: 'the decision to change nothing is also a decision',
-        why: 'A nominalised clause as the subject. It refuses the audience their neutral option without accusing anyone.',
+        why: 'A nominalized clause as the subject. It refuses the audience their neutral option without accusing anyone.',
       },
     ],
     rehearse: [
@@ -5427,7 +5427,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Odluka da se ništa ne mijenja također je odluka.',
         en: 'The decision to change nothing is also a decision.',
-        why: 'A nominalised subject with a reflexive verb inside it.',
+        why: 'A nominalized subject with a reflexive verb inside it.',
       },
     ],
     usefulPhrases: [
@@ -5943,7 +5943,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'Nije riječ o tome da je nešto pogrešno, nego o tome da',
         en: 'It is not that anything is wrong; it is that',
-        why: '"nije riječ o tome da … nego o tome da" separates a fault from a judgement — the frame that makes criticism hearable.',
+        why: '"nije riječ o tome da … nego o tome da" separates a fault from a judgment — the frame that makes criticism hearable.',
       },
     ],
     rehearse: [
@@ -6805,7 +6805,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
       {
         hr: 'ovaj raspored ne drži vodu',
         en: 'this schedule does not hold water',
-        why: 'The same judgement as above, in an idiom. Register lives in the idioms, not only in the pronouns.',
+        why: 'The same judgment as above, in an idiom. Register lives in the idioms, not only in the pronouns.',
       },
       {
         hr: 'razlikuje se tko smije čuti da sam ljut',

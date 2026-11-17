@@ -65,8 +65,8 @@ export const SPINE = [
     prerequisites: ['countries-languages', 'ethnonyms'],
     objectives: [
       'Write personal names, nicknames and rulers correctly: Karlo Veliki, Petar Krešimir IV., kralj Tomislav',
-      'Capitalise every word of a town or state name: Slavonski Brod, Biograd na Moru, Republika Hrvatska',
-      'Capitalise only the first word of other geographic names: Jadransko more, Hrvatsko zagorje',
+      'Capitalize every word of a town or state name: Slavonski Brod, Biograd na Moru, Republika Hrvatska',
+      'Capitalize only the first word of other geographic names: Jadransko more, Hrvatsko zagorje',
     ],
   },
 ];
@@ -555,7 +555,7 @@ const ETHNONYMS = {
     {
       type: 'rule',
       title: 'The Sound Changes Do the Work',
-      body: 'The suffix triggers changes you know from elsewhere. Voicing: b before č becomes p, so Zagreb gives Zagrepčanin. Palatalisation: k becomes č, so Osijek gives Osječanin and Rijeka gives Riječanin. Jotation: t + j becomes ć and l + j becomes lj, so Split gives Splićanin and Pula gives Puljanin. A fleeting a drops out: Zadar gives Zadranin. And a long ije shortens to je: Rijeka → Riječanin, Osijek → osječki.',
+      body: 'The suffix triggers changes you know from elsewhere. Voicing: b before č becomes p, so Zagreb gives Zagrepčanin. Palatalization: k becomes č, so Osijek gives Osječanin and Rijeka gives Riječanin. Jotation: t + j becomes ć and l + j becomes lj, so Split gives Splićanin and Pula gives Puljanin. A fleeting a drops out: Zadar gives Zadranin. And a long ije shortens to je: Rijeka → Riječanin, Osijek → osječki.',
       highlight: 'Zagreb → Zagrepčanin',
     },
     {
@@ -662,7 +662,7 @@ const ETHNONYMS = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first mistake is building the name on the bare town name without the sound change: "Splitanin", "Zagrebčanin". The suffix changes the consonant before it, so it is Splićanin and Zagrepčanin. The second is keeping -in in the plural: "Zagrepčanini" — the plural is Zagrepčani. The third is capitalising the adjective or the language: "Zagrebački tramvaj", "govori Hrvatski" — only the people are capitalised: Zagrepčanin, but zagrebački tramvaj and hrvatski jezik.',
+      body: 'The first mistake is building the name on the bare town name without the sound change: "Splitanin", "Zagrebčanin". The suffix changes the consonant before it, so it is Splićanin and Zagrepčanin. The second is keeping -in in the plural: "Zagrepčanini" — the plural is Zagrepčani. The third is capitalizing the adjective or the language: "Zagrebački tramvaj", "govori Hrvatski" — only the people are capitalized: Zagrepčanin, but zagrebački tramvaj and hrvatski jezik.',
       highlight: 'Zagrepčani',
     },
     {
@@ -950,7 +950,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
     {
       type: 'intro',
       title: 'Which Words Get a Capital',
-      body: 'English capitalises every important word of a name: the Adriatic Sea, the Plitvice Lakes. Croatian does not. Hrvatski pravopis divides names into groups: in personal names and in the names of towns, states and continents every word is capitalised; in other geographic names only the first word and any word that is itself a name. Knowing which group a name belongs to is the whole rule.',
+      body: 'English capitalizes every important word of a name: the Adriatic Sea, the Plitvice Lakes. Croatian does not. Hrvatski pravopis divides names into groups: in personal names and in the names of towns, states and continents every word is capitalized; in other geographic names only the first word and any word that is itself a name. Knowing which group a name belongs to is the whole rule.',
       icon: '🗺️',
     },
     {
@@ -989,25 +989,25 @@ const CAPITALS_NAMES_GEOGRAPHY = {
     {
       type: 'rule',
       title: 'People, Nicknames and Rulers',
-      body: 'Every part of a personal name is capitalised, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski, Richard Lavljeg Srca. The exception is a preposition or a conjunction inside the name, which stays small: Ivan bez Zemlje, Vincent iz Kastva. A ruler’s number is a Roman numeral with a period, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
+      body: 'Every part of a personal name is capitalized, and so is a nickname that has become part of a name: Karlo Veliki, Ludovik Veliki, Nikola Šubić Zrinski, Richard Lavljeg Srca. The exception is a preposition or a conjunction inside the name, which stays small: Ivan bez Zemlje, Vincent iz Kastva. A ruler’s number is a Roman numeral with a period, because it is an ordinal: Petar Krešimir IV., Ivan Pavao II. Titles and the word sveti before a name take a small letter: kralj Zvonimir, papa Ivan Pavao II., sveti Vlaho.',
       highlight: 'Petar Krešimir IV.',
     },
     {
       type: 'rule',
       title: 'Towns, States and Continents: Every Word',
-      body: 'In the name of a settlement every word is capitalised except prepositions and conjunctions: Slavonski Brod, Novi Vinodolski, Stari Grad, Vela Luka, Sveti Ivan Zelina, Biograd na Moru. The names of continents and the official names of states work the same way: Sjeverna Amerika, Južna Amerika, Republika Hrvatska, Sjedinjene Američke Države, Bosna i Hercegovina. So do descriptive names that stand for a state or a town: Zemlja Izlazećeg Sunca (Japan), Vječni Grad (Rome).',
+      body: 'In the name of a settlement every word is capitalized except prepositions and conjunctions: Slavonski Brod, Novi Vinodolski, Stari Grad, Vela Luka, Sveti Ivan Zelina, Biograd na Moru. The names of continents and the official names of states work the same way: Sjeverna Amerika, Južna Amerika, Republika Hrvatska, Sjedinjene Američke Države, Bosna i Hercegovina. So do descriptive names that stand for a state or a town: Zemlja Izlazećeg Sunca (Japan), Vječni Grad (Rome).',
       highlight: 'Biograd na Moru',
     },
     {
       type: 'rule',
       title: 'Everything Else: Only the First Word',
-      body: 'Seas, lakes, rivers, mountains, islands and regions capitalise only their first word — and any later word that is itself a name: Jadransko more, Plitvička jezera, Hrvatsko zagorje, Gorski kotar, Dugi otok, Bliski istok. Sjeverna Amerika keeps Amerika capital because Amerika is a name. Counties follow the first-word rule too: Splitsko-dalmatinska županija.',
+      body: 'Seas, lakes, rivers, mountains, islands and regions capitalize only their first word — and any later word that is itself a name: Jadransko more, Plitvička jezera, Hrvatsko zagorje, Gorski kotar, Dugi otok, Bliski istok. Sjeverna Amerika keeps Amerika capital because Amerika is a name. Counties follow the first-word rule too: Splitsko-dalmatinska županija.',
       highlight: 'Hrvatsko zagorje',
     },
     {
       type: 'rule',
       title: 'Grad Zagreb and grad Zagreb',
-      body: 'A common noun in front of a name keeps its small letter: grad Zagreb, rijeka Sava, otok Krk, planina Velebit. When the whole phrase is the official name of a unit, the first word is capitalised: Grad Zagreb is the administrative unit, as in "Gradska skupština Grada Zagreba". In everyday writing about the city itself, write grad Zagreb.',
+      body: 'A common noun in front of a name keeps its small letter: grad Zagreb, rijeka Sava, otok Krk, planina Velebit. When the whole phrase is the official name of a unit, the first word is capitalized: Grad Zagreb is the administrative unit, as in "Gradska skupština Grada Zagreba". In everyday writing about the city itself, write grad Zagreb.',
       highlight: 'grad Zagreb',
     },
     {
@@ -1032,7 +1032,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
         {
           hr: 'Iz Biograda na Moru svakoga jutra polaze izletnički brodovi prema Kornatima.',
           en: 'Every morning excursion boats leave Biograd na Moru for the Kornati.',
-          note: 'a settlement: every word but the preposition capitalised',
+          note: 'a settlement: every word but the preposition capitalized',
         },
       ],
     },
@@ -1043,7 +1043,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
         {
           hr: 'Ljeto provodimo na Dugom otoku, a zimu u Gorskom kotaru.',
           en: 'We spend the summer on Dugi otok and the winter in Gorski kotar.',
-          note: 'island and region: only the first word capitalised',
+          note: 'island and region: only the first word capitalized',
         },
         {
           hr: 'Plitvička jezera najstariji su nacionalni park u Republici Hrvatskoj.',
@@ -1068,7 +1068,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
       q: 'Which is spelled correctly?',
       options: ['Hrvatsko Zagorje', 'hrvatsko zagorje', 'Hrvatsko zagorje', 'Hrvatsko-zagorje'],
       correct: 2,
-      explanation: 'A region capitalises only its first word: Hrvatsko zagorje.',
+      explanation: 'A region capitalizes only its first word: Hrvatsko zagorje.',
     },
     {
       type: 'quiz',
@@ -1076,12 +1076,12 @@ const CAPITALS_NAMES_GEOGRAPHY = {
       q: 'Which is spelled correctly?',
       options: ['Slavonski brod', 'Slavonski Brod', 'slavonski Brod', 'Slavonski-Brod'],
       correct: 1,
-      explanation: 'A town capitalises every word: Slavonski Brod.',
+      explanation: 'A town capitalizes every word: Slavonski Brod.',
     },
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: 'The first mistake is English-style capitals on every word of a geographic name: "Jadransko More", "Plitvička Jezera", "Hrvatsko Zagorje". Only the first word is capitalised: Jadransko more. The second is the opposite mistake with towns: "Slavonski brod", "Vela luka" — a town capitalises every word. The third is a capital on a title: "Kralj Tomislav" in the middle of a sentence — write kralj Tomislav.',
+      body: 'The first mistake is English-style capitals on every word of a geographic name: "Jadransko More", "Plitvička Jezera", "Hrvatsko Zagorje". Only the first word is capitalized: Jadransko more. The second is the opposite mistake with towns: "Slavonski brod", "Vela luka" — a town capitalizes every word. The third is a capital on a title: "Kralj Tomislav" in the middle of a sentence — write kralj Tomislav.',
       highlight: 'Jadransko more',
     },
     {
@@ -1092,19 +1092,19 @@ const CAPITALS_NAMES_GEOGRAPHY = {
           q: 'The region north of Zagreb. Which is spelled correctly?',
           options: ['Hrvatsko Zagorje', 'hrvatsko zagorje', 'Hrvatsko zagorje', 'HRVATSKO zagorje'],
           correct: 2,
-          explanation: 'A region capitalises only its first word.',
+          explanation: 'A region capitalizes only its first word.',
         },
         {
           q: 'The town on the Sava in Slavonia. Which is spelled correctly?',
           options: ['Slavonski brod', 'Slavonski Brod', 'slavonski Brod', 'Slavonski-Brod'],
           correct: 1,
-          explanation: 'A settlement capitalises every word.',
+          explanation: 'A settlement capitalizes every word.',
         },
         {
           q: 'The sea off the Croatian coast. Which is spelled correctly?',
           options: ['Jadransko more', 'Jadransko More', 'jadransko more', 'Jadransko-more'],
           correct: 0,
-          explanation: 'A sea capitalises only its first word.',
+          explanation: 'A sea capitalizes only its first word.',
         },
         {
           q: 'Complete: "Na trgu stoji spomenik ___."',
@@ -1116,14 +1116,14 @@ const CAPITALS_NAMES_GEOGRAPHY = {
           q: 'The coastal town near Zadar. Which is spelled correctly?',
           options: ['Biograd Na Moru', 'Biograd na moru', 'Biograd na Moru', 'biograd na Moru'],
           correct: 2,
-          explanation: 'A settlement capitalises every word except the preposition.',
+          explanation: 'A settlement capitalizes every word except the preposition.',
         },
         {
           q: 'The continent. Which is spelled correctly?',
           options: ['Sjeverna amerika', 'sjeverna Amerika', 'SJEVERNA Amerika', 'Sjeverna Amerika'],
           correct: 3,
           explanation:
-            'The name of a continent capitalises every word, like the name of a state: Sjeverna Amerika.',
+            'The name of a continent capitalizes every word, like the name of a state: Sjeverna Amerika.',
         },
       ],
     },
@@ -1630,7 +1630,7 @@ export const PRACTICE = {
             'On je englez i govori hrvatski.',
           ],
           correct: 1,
-          hint: 'People are capitalised; languages are not.',
+          hint: 'People are capitalized; languages are not.',
           explanation: 'Englez with a capital, hrvatski with a small letter.',
         },
         {
@@ -1947,11 +1947,11 @@ export const PRACTICE = {
         steps: [
           {
             label: 'The town',
-            text: 'A settlement capitalises every word: Novi Vinodolski.',
+            text: 'A settlement capitalizes every word: Novi Vinodolski.',
           },
           {
             label: 'The county',
-            text: 'A county is not a settlement: only its first word is capitalised, and the second half of the hyphenated adjective stays small.',
+            text: 'A county is not a settlement: only its first word is capitalized, and the second half of the hyphenated adjective stays small.',
           },
           {
             label: 'The case',
@@ -1972,11 +1972,11 @@ export const PRACTICE = {
           },
           {
             label: 'The sea',
-            text: 'A sea capitalises only its first word: Jadranskoga mora.',
+            text: 'A sea capitalizes only its first word: Jadranskoga mora.',
           },
           {
             label: 'The town',
-            text: 'A settlement capitalises every word: iz Staroga Grada.',
+            text: 'A settlement capitalizes every word: iz Staroga Grada.',
           },
         ],
         answer:
@@ -1991,7 +1991,7 @@ export const PRACTICE = {
           options: ['Dugi Otok', 'dugi otok', 'Dugi otok', 'Dugi-otok'],
           correct: 2,
           hint: 'An island, not a settlement.',
-          explanation: 'Only the first word is capitalised.',
+          explanation: 'Only the first word is capitalized.',
         },
         {
           q: 'The state in North America. Which is spelled correctly?',
@@ -2002,8 +2002,8 @@ export const PRACTICE = {
             'Sjedinjene Američke države',
           ],
           correct: 1,
-          hint: 'State names capitalise every word.',
-          explanation: 'Every word of an official state name is capitalised.',
+          hint: 'State names capitalize every word.',
+          explanation: 'Every word of an official state name is capitalized.',
         },
         {
           q: 'Which sentence is spelled correctly?',
@@ -2022,21 +2022,21 @@ export const PRACTICE = {
           options: ['Stari grad', 'stari Grad', 'Stari Grad', 'Stari-Grad'],
           correct: 2,
           hint: 'It is a settlement.',
-          explanation: 'Every word of a settlement name is capitalised.',
+          explanation: 'Every word of a settlement name is capitalized.',
         },
         {
           q: 'The Croatian-Hungarian king known as the Great. Which is spelled correctly?',
           options: ['Ludovik veliki', 'ludovik Veliki', 'Ludovik-Veliki', 'Ludovik Veliki'],
           correct: 3,
           hint: 'A nickname that has become part of a name.',
-          explanation: 'Every part of a personal name, nickname included, is capitalised.',
+          explanation: 'Every part of a personal name, nickname included, is capitalized.',
         },
         {
           q: 'The sea north of Turkey. Which is spelled correctly?',
           options: ['Crno More', 'crno more', 'Crno more', 'Crno-more'],
           correct: 2,
           hint: 'A sea is not a settlement.',
-          explanation: 'Only the first word is capitalised.',
+          explanation: 'Only the first word is capitalized.',
         },
         {
           q: 'Which sentence is spelled correctly?',
@@ -2069,7 +2069,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Biograd na ____ (the town near Zadar)',
           answer: 'Moru',
-          hint: 'A settlement capitalises every word except the preposition.',
+          hint: 'A settlement capitalizes every word except the preposition.',
           explanation: 'Biograd na Moru.',
         },
         {
@@ -2093,7 +2093,7 @@ export const PRACTICE = {
         q: 'The lakes in Lika. Which is spelled correctly?',
         options: ['Plitvička Jezera', 'plitvička jezera', 'Plitvička jezera', 'Plitvičkajezera'],
         correct: 2,
-        explanation: 'A lake name capitalises only its first word.',
+        explanation: 'A lake name capitalizes only its first word.',
       },
       {
         q: 'The official name of the state. Which is spelled correctly?',
@@ -2104,7 +2104,7 @@ export const PRACTICE = {
           'Republika-Hrvatska',
         ],
         correct: 2,
-        explanation: 'A state name capitalises every word.',
+        explanation: 'A state name capitalizes every word.',
       },
       {
         q: 'Which sentence is spelled correctly?',
@@ -2115,25 +2115,25 @@ export const PRACTICE = {
           'Zagreb leži na Rijeci savi.',
         ],
         correct: 1,
-        explanation: 'rijeka is a common noun; only the name is capitalised.',
+        explanation: 'rijeka is a common noun; only the name is capitalized.',
       },
       {
         q: 'The town on Korčula. Which is spelled correctly?',
         options: ['Vela Luka', 'Vela luka', 'vela Luka', 'Vela-Luka'],
         correct: 0,
-        explanation: 'A settlement capitalises every word.',
+        explanation: 'A settlement capitalizes every word.',
       },
       {
         q: 'The Frankish emperor. Which is spelled correctly?',
         options: ['Karlo veliki', 'karlo Veliki', 'Karlo Veliki', 'Karlo-Veliki'],
         correct: 2,
-        explanation: 'A nickname that is part of a name is capitalised.',
+        explanation: 'A nickname that is part of a name is capitalized.',
       },
       {
         q: 'The mountain region between Zagreb and Rijeka. Which is spelled correctly?',
         options: ['Gorski Kotar', 'gorski kotar', 'Gorski-kotar', 'Gorski kotar'],
         correct: 3,
-        explanation: 'A region capitalises only its first word.',
+        explanation: 'A region capitalizes only its first word.',
       },
     ],
     vocab: [

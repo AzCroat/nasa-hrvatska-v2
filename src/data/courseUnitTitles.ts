@@ -326,12 +326,12 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'C1-7': {
     title: 'Names, Passives and Word Building',
     subtitle:
-      'Use the genitive after a noun, capitalise names and places, choose the right passive, build words, and count groups of men.',
+      'Use the genitive after a noun, capitalize names and places, choose the right passive, build words, and count groups of men.',
   },
   'C1-8': {
     title: 'Exceptions, Groups and Tone',
     subtitle:
-      'Decline the nouns that break the rules, count mixed groups, use the ethical dative, capitalise institutions, and hear tone.',
+      'Decline the nouns that break the rules, count mixed groups, use the ethical dative, capitalize institutions, and hear tone.',
   },
   'C1-9': {
     title: 'Particles, Idioms and Nuance',

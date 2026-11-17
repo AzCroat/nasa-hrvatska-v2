@@ -121,7 +121,7 @@ const DATA = [
     q: 'Većina ____ glasala je za. (zastupnici)',
     opts: ['zastupnika', 'zastupnici', 'zastupnicima', 'zastupnike'],
     answer: 'zastupnika',
-    en: 'most representatives voted in favour',
+    en: 'most representatives voted in favor',
     tip: 'Većina/manjina + G mn.',
   },
   {

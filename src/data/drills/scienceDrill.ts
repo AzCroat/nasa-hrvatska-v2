@@ -192,7 +192,7 @@ export const SCIENCE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'brojke',
     q: 'Rezultat iznosi ____ posto. (37)',
-    en: 'The result is 37 per cent.',
+    en: 'The result is 37 percent.',
     opts: ['trideset sedam', 'trideset sedmi', 'trideset sedma', 'trideseti sedmi'],
     answer: 'trideset sedam',
     tip: 'A cardinal — the ordinal would name a position, not a quantity.',

@@ -20,7 +20,7 @@ export default function DiminutivesC1Drill({ goBack, award }: Props) {
     <ModeDrill
       id="deminutivi"
       title="🐣 Umanjenice i uvećanice"
-      subtitle="kavica is not a small coffee — size, warmth and judgement"
+      subtitle="kavica is not a small coffee — size, warmth and judgment"
       modeLabels={DIMINUTIVES_C1_MODE_LABELS}
       data={DIMINUTIVES_C1_DRILL_DATA}
       praise={{

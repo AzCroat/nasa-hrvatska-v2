@@ -214,7 +214,7 @@ export const ARGUMENT_DRILL_DATA: ModeDrillItem[] = [
       'tako traži gramatika',
     ],
     answer: 'pokazuje da ste razmotrili obje strane',
-    tip: 'It reads as judgement rather than advocacy — which is the B2 descriptor.',
+    tip: 'It reads as judgment rather than advocacy — which is the B2 descriptor.',
   },
   {
     mode: 'zakljucak',

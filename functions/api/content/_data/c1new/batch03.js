@@ -946,7 +946,7 @@ const COMMA_DEPENDENT = {
         },
         {
           hr: 'Sutra stiže novi ravnatelj, čije ime još nitko ne zna.',
-          en: 'The new head teacher, whose name nobody knows yet, arrives tomorrow.',
+          en: 'The new principal, whose name nobody knows yet, arrives tomorrow.',
           note: 'a non-restrictive clause at the end still takes its comma',
         },
       ],

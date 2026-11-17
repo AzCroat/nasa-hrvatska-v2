@@ -132,7 +132,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'When the Line Is Bad',
-        body: 'Three sentences rescue almost any call. Ne čujem Vas dobro. (I cannot hear you well — "Vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialled you by mistake, say simply: Pogrešan broj. (Wrong number.)',
+        body: 'Three sentences rescue almost any call. Ne čujem Vas dobro. (I cannot hear you well — "Vas" is the polite you, as an object.) Možete li ponoviti, molim? (Can you repeat, please?) Veza je loša. (The connection is bad.) And if someone has dialed you by mistake, say simply: Pogrešan broj. (Wrong number.)',
         highlight: 'Možete li ponoviti, molim?',
       },
       {
@@ -1583,7 +1583,7 @@ export const PRACTICE = {
           explanation: 'u uredu.',
         },
         {
-          q: 'Someone has dialled you by mistake. You say:',
+          q: 'Someone has dialed you by mistake. You say:',
           options: ['Pogrešan broj.', 'Hvala na pozivu.', 'Trenutak, molim.', 'Ovdje Ana.'],
           correct: 0,
           hint: 'Pogrešan means wrong.',

@@ -467,7 +467,7 @@ export const PRACTICE_C1 = {
         steps: [
           {
             label: 'Set the register',
-            text: 'A landlord is a business relationship: the Vi-form, and in writing the pronoun is capitalised — Vam, Vas.',
+            text: 'A landlord is a business relationship: the Vi-form, and in writing the pronoun is capitalized — Vam, Vas.',
           },
           {
             label: 'Choose the softener',
@@ -4083,7 +4083,7 @@ export const PRACTICE_C1 = {
           correct: 1,
           hint: 'Keep the claim and its main consequences, attribute them, and add nothing of your own.',
           explanation:
-            'The second keeps the claim and both sides of the result, attributed. The first and third keep fragments; the last adds a judgement the text never made.',
+            'The second keeps the claim and both sides of the result, attributed. The first and third keep fragments; the last adds a judgment the text never made.',
         },
         {
           q: 'Which opener signals that what follows compresses everything before it?',
@@ -4969,7 +4969,7 @@ export const PRACTICE_C1 = {
             'the speech was short',
           ],
           correct: 0,
-          hint: 'Another false friend: it criticises excess, not weakness.',
+          hint: 'Another false friend: it criticizes excess, not weakness.',
           explanation: 'patetičan = pompous, overblown. "Pathetic" in the English sense is jadan.',
         },
         {
@@ -5368,7 +5368,7 @@ export const PRACTICE_C1 = {
         en: 'Report neutrally, taking no position: The mayor allegedly knew about the problem.',
         steps: [
           {
-            label: 'Neutral or sceptical?',
+            label: 'Neutral or skeptical?',
             text: 'The report must not take a side, so the neutral distancer navodno — not tobože, which says the writer disbelieves it.',
           },
           {
@@ -5489,7 +5489,7 @@ export const PRACTICE_C1 = {
           type: 'type',
           q: '____ neovisna komisija opet je zakazala. (Supposedly — the writer thinks it false)',
           answer: 'Tobože',
-          hint: 'The sceptical adverb, not the neutral one.',
+          hint: 'The skeptical adverb, not the neutral one.',
           explanation: 'Tobože neovisna komisija…',
         },
         {
@@ -5506,7 +5506,7 @@ export const PRACTICE_C1 = {
         q: '"Došlo je do povećanja cijena." What is missing?',
         options: ['what rose', 'who raised them', 'by how much', 'when'],
         correct: 1,
-        explanation: 'The nominalisation removes the actor.',
+        explanation: 'The nominalization removes the actor.',
       },
       {
         q: "Which word signals the writer's scepticism?",
@@ -5556,7 +5556,7 @@ export const PRACTICE_C1 = {
     ],
     vocab: [
       ['navodno', 'allegedly, reportedly', 'Navodno su pregovori propali.'],
-      ['tobože', 'supposedly (sceptical)', 'Tobože neovisno tijelo donijelo je zaključak.'],
+      ['tobože', 'supposedly (skeptical)', 'Tobože neovisno tijelo donijelo je zaključak.'],
       ['takozvani', 'so-called', 'Takozvana reforma svela se na ukidanje škola.'],
       ['izvor', 'source', 'Informaciju smo dobili iz neslužbenih izvora.'],
       ['prosvjed', 'protest', 'Prosvjed je protekao mirno.'],
@@ -6009,7 +6009,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Which adjective criticises a plot you could see coming?',
+          q: 'Which adjective criticizes a plot you could see coming?',
           options: ['duhovit', 'predvidljiv', 'nadahnut', 'dojmljiv'],
           correct: 1,
           hint: 'The word is built from the verb for "foresee".',
@@ -7236,7 +7236,7 @@ export const PRACTICE_C1 = {
   'brojevi-norma': {
     worked: [
       {
-        title: 'Points or Per Cent?',
+        title: 'Points or Percent?',
         problem: 'Udio mladih birača porastao je s 20 % na 25 %. Za koliko je porastao?',
         en: 'The share of young voters rose from 20 % to 25 %. By how much did it rise?',
         steps: [
@@ -7246,7 +7246,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'The relative change',
-            text: '5 out of the original 20 is a quarter: a rise of 25 per cent. That is a different number and a different claim.',
+            text: '5 out of the original 20 is a quarter: a rise of 25 percent. That is a different number and a different claim.',
           },
           {
             label: 'Get the grammar right',
@@ -7382,7 +7382,7 @@ export const PRACTICE_C1 = {
           correct: 1,
           hint: 'Percentage points apply only when the quantity is itself a percentage.',
           explanation:
-            'A rise of 50 on 200 is 25 per cent. Postotni bodovi would only apply if the price were a percentage.',
+            'A rise of 50 on 200 is 25 percent. Postotni bodovi would only apply if the price were a percentage.',
         },
       ],
     },
@@ -7435,7 +7435,7 @@ export const PRACTICE_C1 = {
         ],
         correct: 1,
         explanation:
-          'Two percentage points (postotna boda) — which is a fall of twenty per cent, a fifth of the starting value.',
+          'Two percentage points (postotna boda) — which is a fall of twenty percent, a fifth of the starting value.',
       },
       {
         q: 'How is "3,250.40 euros" written in a Croatian document?',

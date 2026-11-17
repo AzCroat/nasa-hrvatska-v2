@@ -922,13 +922,13 @@ export const READ = {
       text: 'Zima je stigla. Pada snijeg i sve je bijelo. Oblačim toplu jaknu, kapu i rukavice. Djeca se sankaju na brdu. Pravimo snjegovića ispred kuće. Unutra je toplo i ugodno. Mama kuha toplu juhu. Volim zimske večeri kraj vatre.',
       vocab: [
         ['snijeg', 'snow'],
-        ['sankaju se', 'they sledge'],
+        ['sankaju se', 'they sled'],
         ['snjegovića', 'snowman'],
         ['ugodno', 'cozy/pleasant'],
         ['vatra', 'fire'],
       ],
       qs: [
-        { q: 'What do children do on the hill?', o: ['Ski', 'Sledge', 'Build snowman'], c: 1 },
+        { q: 'What do children do on the hill?', o: ['Ski', 'Sled', 'Build snowman'], c: 1 },
         {
           q: 'Where do they build a snowman?',
           o: ['In the park', 'In front of the house', 'At school'],
@@ -1161,7 +1161,7 @@ export const READ = {
         },
         {
           q: 'What did the doctor advise?',
-          o: ['To stay home, drink tea and sleep', 'To go to hospital', 'To exercise more'],
+          o: ['To stay home, drink tea and sleep', 'To go to the hospital', 'To exercise more'],
           c: 0,
         },
         {
@@ -1274,7 +1274,7 @@ export const READ = {
       text: 'Putujemo vlakom iz Zagreba do Splita. Vlak polazi u sedam ujutro. Na kolodvoru kupujemo karte na blagajni. Vožnja traje šest sati. Prolazimo kroz planine i polja. U vagonu pijemo kavu i jedemo sendviče. Kad stignem u Split vidim more za prvu.',
       vocab: [
         ['vlak', 'train'],
-        ['kolodvor', 'railway station'],
+        ['kolodvor', 'train station'],
         ['karte', 'tickets'],
         ['vožnja', 'journey'],
         ['stigne', 'arrives'],
@@ -1397,7 +1397,7 @@ export const READ = {
         ['budućnost', 'future'],
         ['informatika', 'computer science'],
         ['arhitektura', 'architecture'],
-        ['savjetnik', 'counsellor/advisor'],
+        ['savjetnik', 'counselor/advisor'],
         ['zaključujemo', 'we conclude'],
       ],
       qs: [
@@ -1408,7 +1408,7 @@ export const READ = {
         },
         {
           q: 'What does mom suggest?',
-          o: ['Choosing immediately', 'Talking to a school counsellor', 'Going abroad'],
+          o: ['Choosing immediately', 'Talking to a school counselor', 'Going abroad'],
           c: 1,
         },
         { q: 'How does he feel after talking?', o: ['Stressed', 'Better', 'Confused'], c: 1 },
@@ -2226,7 +2226,7 @@ export const READ = {
           c: 1,
         },
         {
-          q: 'What was the Encyclopaedia of Yugoslavia?',
+          q: 'What was the Encyclopedia of Yugoslavia?',
           o: ['A dictionary', 'A monumental cultural project', 'A travel guide'],
           c: 1,
         },
@@ -2898,7 +2898,7 @@ export const READ = {
         {
           q: 'How does the author characterize the Baška tablet?',
           o: [
-            'As a mere museum artefact',
+            'As a mere museum artifact',
             'As proof that literacy here was a matter of self-awareness, not mere administration',
             'As a purely administrative record',
           ],

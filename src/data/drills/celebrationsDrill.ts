@@ -149,7 +149,7 @@ export const CELEBRATIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'kalendar',
-    q: 'Kako se kaže "bank holiday"?',
+    q: 'Kako se kaže "public holiday"?',
     en: 'a public holiday',
     opts: ['blagdan', 'praznik rada', 'odmor', 'slobodan dan'],
     answer: 'blagdan',

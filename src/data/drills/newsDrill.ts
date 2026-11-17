@@ -133,8 +133,8 @@ export const NEWS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'mediji',
     q: 'Što je "feljton"?',
     en: 'What is a feljton?',
-    opts: ['a serialised newspaper feature', 'a headline', 'a TV channel', 'a radio presenter'],
-    answer: 'a serialised newspaper feature',
+    opts: ['a serialized newspaper feature', 'a headline', 'a TV channel', 'a radio presenter'],
+    answer: 'a serialized newspaper feature',
     tip: 'A longer piece published in parts, often on history or culture.',
   },
   {

@@ -181,7 +181,7 @@ export const TEMPORAL_LOCATIVE_IDIOMS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'padez',
     q: '____ nismo imali mobitele.',
-    en: 'At that time we did not have mobile phones.',
+    en: 'At that time we did not have cell phones.',
     opts: ['U to vrijeme', 'U tom vrijeme', 'Na to vrijeme', 'U toga vremena'],
     answer: 'U to vrijeme',
     tip: 'u to vrijeme: u + accusative.',

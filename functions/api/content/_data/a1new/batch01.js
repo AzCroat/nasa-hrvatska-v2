@@ -774,7 +774,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: '-telj and -ač Add -ica',
-        body: "Jobs ending in -telj or -ač add -ica for a woman. učitelj → učiteljica (teacher), ravnatelj → ravnateljica (head teacher), vozač → vozačica (driver), prodavač → prodavačica (salesperson), pjevač → pjevačica (singer). The man's word stays whole and -ica goes on the end.",
+        body: "Jobs ending in -telj or -ač add -ica for a woman. učitelj → učiteljica (teacher), ravnatelj → ravnateljica (principal), vozač → vozačica (driver), prodavač → prodavačica (salesperson), pjevač → pjevačica (singer). The man's word stays whole and -ica goes on the end.",
         highlight: 'učitelj → učiteljica',
       },
       {
@@ -846,7 +846,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Ivana je učiteljica, a Josip je ravnatelj.',
-            en: 'Ivana is a teacher, and Josip is the head teacher.',
+            en: 'Ivana is a teacher, and Josip is the principal.',
             note: '-telj for a man, -teljica for a woman',
           },
           {

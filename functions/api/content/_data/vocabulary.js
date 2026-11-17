@@ -943,7 +943,7 @@ export const V = {
     ['arhitekt', 'architect'],
     ['umjetnik', 'artist'],
     ['profesor', 'professor / teacher (secondary)'],
-    ['ravnatelj', 'director / headteacher'],
+    ['ravnatelj', 'director / principal'],
     ['tajnik / tajnica', 'secretary (m/f)'],
     ['računovođa', 'accountant'],
     ['veterinar', 'veterinarian'],
@@ -2244,7 +2244,7 @@ export const V = {
     ['pomesti', 'to sweep', 'Pomeo sam kuhinju poslije ručka.'],
     ['metla', 'broom', 'Metla je iza vrata.'],
     ['krpa', 'cloth, rag', 'Obriši stol mokrom krpom.'],
-    ['kanta za smeće', 'rubbish bin', 'Kanta za smeće je puna.'],
+    ['kanta za smeće', 'trash can', 'Kanta za smeće je puna.'],
     ['iznijeti smeće', 'to take out the trash', 'Možeš li iznijeti smeće?'],
     ['pospremiti', 'to tidy up', 'Pospremi sobu prije gostiju.'],
     ['nered', 'mess', 'U dječjoj sobi je veliki nered.'],
@@ -2409,7 +2409,7 @@ export const V = {
   ],
   grad_ulica: [
     ['pločnik', 'pavement, sidewalk', 'Hodaj pločnikom, ne cestom.'],
-    ['zebra', 'zebra crossing (colloquial)', 'Prijeđi cestu na zebri.'],
+    ['zebra', 'crosswalk (colloquial)', 'Prijeđi cestu na zebri.'],
     ['ugao', 'corner', 'Pekarnica je iza ugla.'],
     ['trafika', 'newsstand (colloquial)', 'Na trafici kupim kartu za bus.'],
     ['stajalište', 'stop (bus, tram)', 'Čekamo na stajalištu pet minuta.'],
@@ -2427,7 +2427,7 @@ export const V = {
     ['šetalište', 'promenade', 'Nedjeljom šećemo šetalištem uz rijeku.'],
     ['haustor', 'entrance hall (Zagreb colloquial)', 'Bicikli stoje u haustoru.'],
     ['ograda', 'fence', 'Mačka je preskočila ogradu.'],
-    ['poštanski sandučić', 'letterbox', 'Pismo je u poštanskom sandučiću.'],
+    ['poštanski sandučić', 'mailbox', 'Pismo je u poštanskom sandučiću.'],
     ['smjer', 'direction', 'U kojem je smjeru more?'],
     ['prečac', 'shortcut', 'Znam prečac kroz park.'],
     ['zaobilazno', 'the long way around', 'Išli smo zaobilazno jer je ulica zatvorena.'],
@@ -6397,7 +6397,7 @@ export const V_C1 = {
     ],
     [
       'starenje stanovništva',
-      'population ageing',
+      'population aging',
       'Starenje stanovništva opterećuje mirovinski sustav.',
     ],
     ['priljev', 'influx', 'Priljev turista preopterećuje infrastrukturu.'],
@@ -6930,7 +6930,7 @@ export const V_C1 = {
   ],
   'craft & industry': [
     ['proizvodna traka', 'assembly line', 'Radio je za proizvodnom trakom.'],
-    ['kalup', 'mould, cast', 'Sve po istom kalupu — bez duše.'],
+    ['kalup', 'mold, cast', 'Sve po istom kalupu — bez duše.'],
     ['zavarivač', 'welder', 'Zavarivači su na cijeni u brodogradnji.'],
     ['tokar', 'lathe operator, turner', 'Tokar stare škole, milimetar mu je zakon.'],
     ['šegrt', 'apprentice', 'Počeo je kao šegrt kod strica.'],
@@ -7530,7 +7530,7 @@ export const V_C1 = {
     ],
     [
       'anuitet',
-      'loan instalment (annuity)',
+      'loan installment (annuity)',
       'Nakon rasta kamatnih stopa mjesečni anuitet porastao je za stotinu eura.',
     ],
     [
@@ -8355,7 +8355,7 @@ export const V_C1 = {
     ],
     [
       'paušalan',
-      'sweeping, blanket (of a claim or judgement)',
+      'sweeping, blanket (of a claim or judgment)',
       'Paušalne ocjene ne mogu zamijeniti ozbiljnu analizu.',
     ],
     ['neutemeljen', 'unfounded', 'Optužbe su se pokazale potpuno neutemeljenima.'],
@@ -8670,7 +8670,7 @@ export const V_C1 = {
     ],
     [
       'prosudba',
-      'judgement, assessment',
+      'judgment, assessment',
       'Odluku je prepustio njezinoj prosudbi jer ona bolje poznaje ljude.',
     ],
     ['introspekcija', 'introspection', 'Dnevnik mu je godinama služio kao sredstvo introspekcije.'],
@@ -10395,7 +10395,7 @@ export const V_C2 = {
     ['koliko-toliko', 'more or less, to some degree', 'Stanje se koliko-toliko smirilo.'],
     ['malo sutra', 'yeah right (dismissive)', 'On će platiti? Malo sutra!'],
   ],
-  'moral & ethical judgement': [
+  'moral & ethical judgment': [
     ['čestitost', 'integrity, probity', 'Čestitost mu nitko ne osporava.'],
     ['poštenje', 'honesty, decency', 'Na poštenju se gradi povjerenje.'],
     ['licemjerje', 'hypocrisy', 'Javno licemjerje najviše boli mlade.'],
@@ -10527,7 +10527,7 @@ export const V_C2 = {
     ],
     [
       'razbor',
-      'good sense, sound judgement',
+      'good sense, sound judgment',
       'Strast je nadvladala razbor pa je postupio nepromišljeno.',
     ],
     ['samospoznaja', 'self-knowledge', 'Za Sokrata je samospoznaja bila početak svake mudrosti.'],
@@ -10713,7 +10713,7 @@ export const V_C2 = {
   'value & worth': [
     [
       'vrijednosni sud',
-      'value judgement',
+      'value judgment',
       'Znanstveni opis treba jasno odvojiti od vrijednosnih sudova.',
     ],
     [
@@ -11662,7 +11662,7 @@ export const V_C2 = {
     ['plahovit', 'hot-headed, impetuous', 'Plahovit mladić brzo plane, ali se jednako brzo smiri.'],
     [
       'jogunast',
-      'wilful, obstinate (esp. of a child)',
+      'willful, obstinate (esp. of a child)',
       'Jogunasto dijete uporno odbija obući jaknu.',
     ],
     ['zadrt', 'pig-headed, bigoted', 'Toliko je zadrt da ne sluša ni vlastite liječnike.'],
@@ -12436,7 +12436,7 @@ export const V_C2 = {
     ['odsjaj', 'reflection, glint', 'Odsjaj mjesečine drhtao je na mirnoj površini vode.'],
     ['treptaj', 'flicker, blink; an instant', 'U treptaju oka sve se promijenilo.'],
     ['plamsaj', 'flare, flash of flame (also fig.)', 'U njegovim se očima vidio plamsaj bijesa.'],
-    ['tinjati', 'to smoulder (also fig.)', 'U pepelu je još tinjala posljednja iskra nade.'],
+    ['tinjati', 'to smolder (also fig.)', 'U pepelu je još tinjala posljednja iskra nade.'],
     ['ljeskati se', 'to shimmer, glisten', 'More se ljeskalo na podnevnom suncu.'],
     ['svjetlucati', 'to twinkle, glimmer', 'Zvijezde su svjetlucale nad uspavanim selom.'],
     ['treperiti', 'to quiver, flicker', 'Plamen svijeće treperio je na propuhu.'],

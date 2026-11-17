@@ -48,7 +48,7 @@ const B1_RESOURCES = [
     name: 'Speaking Sprint — Hear · Speak · Compare',
     url: 'Practice → Speaking Sprint',
     what: 'At B1 you have enough language to produce real speech. The Speaking Sprint plays native audio, records your response, then shows you the phonetic gap — exactly where your pronunciation diverges from standard Croatian.',
-    tip: 'Do 1 sprint per day (15 min). Errors you notice in speaking — especially cases and verb aspect — are your highest-priority study targets. Follow with the Shadowing exercise to internalise the rhythm.',
+    tip: 'Do 1 sprint per day (15 min). Errors you notice in speaking — especially cases and verb aspect — are your highest-priority study targets. Follow with the Shadowing exercise to internalize the rhythm.',
     level: 'B1+',
   },
   {

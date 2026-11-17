@@ -714,7 +714,7 @@ export const EXERCISES = {
             opts: [
               'I am paying in cash, not by card.',
               'I am paying by card, not with cash.',
-              'She is paying in instalments, not upfront.',
+              'She is paying in installments, not upfront.',
               'He prefers cash over contactless payment.',
             ],
           },
@@ -984,7 +984,7 @@ export const EXERCISES = {
             hr: 'Propisala mi je lijekove i savjetovala mirovanje kod kuće.',
             en: 'She prescribed me medicine and advised rest at home.',
             opts: [
-              'She prescribed me medicine and advised a trip to hospital.',
+              'She prescribed me medicine and advised a trip to the hospital.',
               'She prescribed me medicine and advised rest at home.',
               'She advised rest at home but no medicine.',
               'She prescribed me medicine and advised more exercise.',
@@ -2775,7 +2775,7 @@ export const EXERCISES = {
               'Citizens have been invited to voice their own opinions through a public consultation before the final vote.',
               'Citizens have been barred from expressing any opinion before the vote.',
               'Citizens will vote directly on the measure without any consultation.',
-              'Citizens were informed the decision had already been finalised.',
+              'Citizens were informed the decision had already been finalized.',
             ],
           },
         ],
@@ -3300,11 +3300,11 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Unatoč povoljnim makroekonomskim pokazateljima objavljenim ovog tromjesečja, brojni analitičari upozoravaju da se iza naizgled solidnog rasta krije zabrinjavajuća neravnoteža.',
-            en: 'Despite the favourable macroeconomic indicators published this quarter, numerous analysts warn that a worrying imbalance lies behind the seemingly solid growth.',
+            en: 'Despite the favorable macroeconomic indicators published this quarter, numerous analysts warn that a worrying imbalance lies behind the seemingly solid growth.',
             opts: [
-              'Because of the favourable indicators, analysts see no cause for concern at all.',
-              'Despite the favourable macroeconomic indicators published this quarter, numerous analysts warn that a worrying imbalance lies behind the seemingly solid growth.',
-              "The indicators published this quarter were unfavourable, confirming analysts' fears.",
+              'Because of the favorable indicators, analysts see no cause for concern at all.',
+              'Despite the favorable macroeconomic indicators published this quarter, numerous analysts warn that a worrying imbalance lies behind the seemingly solid growth.',
+              "The indicators published this quarter were unfavorable, confirming analysts' fears.",
               'Analysts published macroeconomic indicators that contradict all previous forecasts.',
             ],
           },
@@ -3358,11 +3358,11 @@ export const EXERCISES = {
         questions: [
           {
             hr: 'Sve izraženija komercijalizacija medijskog prostora dovela je do toga da senzacionalizam sve češće nadjačava temeljitost novinarskog istraživanja.',
-            en: 'The growing commercialisation of the media space has led sensationalism to increasingly overshadow the thoroughness of journalistic research.',
+            en: 'The growing commercialization of the media space has led sensationalism to increasingly overshadow the thoroughness of journalistic research.',
             opts: [
-              'The growing commercialisation of media has strengthened the thoroughness of journalistic research.',
+              'The growing commercialization of media has strengthened the thoroughness of journalistic research.',
               'Sensationalism has disappeared from the media thanks to stricter regulation.',
-              'The growing commercialisation of the media space has led sensationalism to increasingly overshadow the thoroughness of journalistic research.',
+              'The growing commercialization of the media space has led sensationalism to increasingly overshadow the thoroughness of journalistic research.',
               'Journalistic research has become more thorough due to commercial pressure.',
             ],
           },
@@ -3371,7 +3371,7 @@ export const EXERCISES = {
             en: 'Instead of analytical pieces, editorial offices are increasingly turning to content designed for quick sharing on social media.',
             opts: [
               'Instead of analytical pieces, editorial offices are increasingly turning to content designed for quick sharing on social media.',
-              'Editorial offices have abandoned social media entirely in favour of analytical pieces.',
+              'Editorial offices have abandoned social media entirely in favor of analytical pieces.',
               'Analytical pieces have become more popular than social media content.',
               'Instead of social media content, editorial offices now focus solely on analytical pieces.',
             ],
@@ -3441,7 +3441,7 @@ export const EXERCISES = {
               'According to the lead researcher, the data so far suggest that the concentration of particles is rising faster than previously assumed.',
               'According to the lead researcher, particle concentration is decreasing steadily.',
               'According to the lead researcher, the data confirm earlier predictions exactly.',
-              'According to the lead researcher, particle concentration has stabilised completely.',
+              'According to the lead researcher, particle concentration has stabilized completely.',
             ],
           },
           {

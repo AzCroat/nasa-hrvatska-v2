@@ -4066,7 +4066,7 @@ export const LESSONS_B1 = [
         rows: [
           ['žuti tisak', 'the yellow press, tabloids'],
           ['sapunica', 'soap opera'],
-          ['feljton', 'a serialised feature (in a newspaper)'],
+          ['feljton', 'a serialized feature (in a newspaper)'],
           ['glavni lik', 'main character'],
           ['sporedni lik', 'minor character'],
           ['časopis', 'magazine'],
@@ -4258,7 +4258,7 @@ export const LESSONS_B1 = [
             options: ['feljton', 'dnevnik', 'žuti tisak', 'sapunica'],
             correct: 3,
             explanation:
-              'A soap opera is a sapunica. Feljton is a serialised newspaper feature, dnevnik the news bulletin, and žuti tisak the tabloid press.',
+              'A soap opera is a sapunica. Feljton is a serialized newspaper feature, dnevnik the news bulletin, and žuti tisak the tabloid press.',
           },
         ],
       },

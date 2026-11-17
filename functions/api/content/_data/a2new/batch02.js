@@ -31,7 +31,7 @@ const L_VERBS_NUTI = {
     {
       type: 'rule',
       title: 'Group 1: -nuti → -nem',
-      body: 'Take away -uti, keep the n, and add the ordinary -em endings: krenuti (to set off) → krenem, kreneš, krene, krenemo, krenete, krenu. The same pattern serves skrenuti (to turn off a road), okrenuti (to turn round), maknuti (to move something away), dignuti (to lift) and viknuti (to shout).',
+      body: 'Take away -uti, keep the n, and add the ordinary -em endings: krenuti (to set off) → krenem, kreneš, krene, krenemo, krenete, krenu. The same pattern serves skrenuti (to turn off a road), okrenuti (to turn around), maknuti (to move something away), dignuti (to raise) and viknuti (to shout).',
       highlight: 'krenuti → krenem',
     },
     {
@@ -75,7 +75,7 @@ const L_VERBS_NUTI = {
     {
       type: 'rule',
       title: 'When Do You Use This Present?',
-      body: 'All of these verbs name one finished step — the moment you set off, arrive, find. So their present is used in two places. (1) Routines: Obično krenem u sedam (I usually set off at seven). Svaki petak odem kod bake (Every Friday I go round to Grandma’s). (2) After kad (when), čim (as soon as) and ako (if), when you talk about one step that comes first: Kad dođeš, nazovi me. Čim dođemo, krenemo na plažu. Ako skrenete desno, vidjet ćete crkvu. Directions and plans are full of this. For one plain plan for tomorrow, use the future with the infinitive: Krenut ću u sedam. Doći ću sutra. Note the spelling: krenuti drops its final -i before ću (krenut ću), but doći keeps its whole form (doći ću).',
+      body: 'All of these verbs name one finished step — the moment you set off, arrive, find. So their present is used in two places. (1) Routines: Obično krenem u sedam (I usually set off at seven). Svaki petak odem k baki (Every Friday I go to Grandma’s). (2) After kad (when), čim (as soon as) and ako (if), when you talk about one step that comes first: Kad dođeš, nazovi me. Čim dođemo, krenemo na plažu. Ako skrenete desno, vidjet ćete crkvu. Directions and plans are full of this. For one plain plan for tomorrow, use the future with the infinitive: Krenut ću u sedam. Doći ću sutra. Note the spelling: krenuti drops its final -i before ću (krenut ću), but doći keeps its whole form (doći ću).',
       highlight: 'Kad dođeš, nazovi me.',
     },
     {
@@ -101,7 +101,7 @@ const L_VERBS_NUTI = {
         },
         {
           hr: 'Kod pošte skrenite lijevo, a zatim idite ravno.',
-          en: 'Turn left at the post office, and then go straight on.',
+          en: 'Turn left at the post office, and then go straight ahead.',
           note: 'skrenite — the vi command of skrenuti',
         },
         {
@@ -115,8 +115,8 @@ const L_VERBS_NUTI = {
           note: 'ostanemo — the mi form of ostati',
         },
         {
-          hr: 'Svaki petak odem kod bake na ručak.',
-          en: 'Every Friday I go round to my grandmother’s for lunch.',
+          hr: 'Svaki petak odem k baki na ručak.',
+          en: 'Every Friday I go to my grandmother’s for lunch.',
           note: 'odem — the ja form of otići',
         },
         {
@@ -343,7 +343,7 @@ const P_VERBS_NUTI = {
         explanation: 'Skrenite — skreni is for a friend.',
       },
       {
-        q: 'Svaki petak ___ kod prijatelja. (I go round)',
+        q: 'Svaki petak ___ k prijatelju. (I go over)',
         options: ['odem', 'ode', 'odu', 'otim'],
         correct: 0,
         hint: 'Take the SHORT present of otići — the one that starts od-; ja ends in -em.',
@@ -385,7 +385,7 @@ const P_VERBS_NUTI = {
         explanation: 'uđu — the oni form of ući.',
       },
       {
-        q: 'Sutra ___ kod tebe. (I will come)',
+        q: 'Sutra ___ k tebi. (I will come)',
         options: ['ću doći', 'doći ću', 'ću dođem', 'dođem ću'],
         correct: 0,
         hint: 'After Sutra, the little future word must come second; the infinitive stays whole.',
@@ -473,7 +473,7 @@ const P_VERBS_NUTI = {
     ['ostati', 'to stay', 'Vikendom ostanemo kod kuće.'],
     ['postati', 'to become', 'Moj brat je postao liječnik.'],
     ['doći', 'to come, to arrive', 'Sestra uvijek dođe kasno.'],
-    ['otići', 'to leave, to go away', 'Svaki petak odem kod bake.'],
+    ['otići', 'to leave, to go away', 'Svaki petak odem k baki.'],
     ['naći', 'to find', 'Uvijek nađem parking.'],
     ['ući', 'to go in, to enter', 'Djeca uđu u učionicu.'],
   ],
@@ -524,7 +524,7 @@ const L_WEEKEND_PLANS = {
     },
     {
       type: 'rule',
-      title: 'Booking: the Adjective Goes Into the Accusative',
+      title: 'Reserving a Room: the Adjective Goes Into the Accusative',
       body: 'When you ask for a room, the room is the object of your verb, so the adjective moves into the accusative with it: slobodna soba → Imate li slobodnu sobu? Mirna soba → Tražim mirnu sobu. A masculine thing that is not alive keeps its basic form: Tražimo jeftin smještaj. Rezervirali smo mali apartman.',
       highlight: 'Imate li slobodnu sobu?',
     },
@@ -556,7 +556,7 @@ const L_WEEKEND_PLANS = {
           note: 'ću stands second, after U nedjelju',
         },
         {
-          hr: 'Ovaj vikend putujemo u Zadar kod prijatelja.',
+          hr: 'Ovaj vikend putujemo k prijateljima u Zadar.',
           en: 'This weekend we are traveling to Zadar to stay with friends.',
           note: 'ovaj vikend — no preposition',
         },
@@ -722,7 +722,7 @@ const L_WEEKEND_PLANS = {
         'Ću stands second: U nedjelju ću ostati… / Ostat ću…',
         'Time words: u petak navečer, ovaj vikend, sljedeći vikend, za vikend',
         'Hotel or privatni smještaj: sobe and apartmani let by a private host',
-        'Booking puts the adjective in the accusative: slobodnu sobu, jeftin smještaj',
+        'A reservation puts the adjective in the accusative: slobodnu sobu, jeftin smještaj',
       ],
     },
   ],
@@ -914,7 +914,7 @@ const P_WEEKEND_PLANS = {
     ['izlet', 'trip, outing', 'U subotu idemo na izlet.'],
     ['smještaj', 'accommodation', 'Tražimo jeftin smještaj.'],
     ['privatni smještaj', 'private accommodation', 'Privatni smještaj je često jeftin.'],
-    ['apartman', 'holiday flat', 'Rezervirali smo mali apartman.'],
+    ['apartman', 'vacation apartment', 'Rezervirali smo mali apartman.'],
     ['dvokrevetna soba', 'double room', 'Želim dvokrevetnu sobu.'],
     ['noćenje', 'overnight stay', 'Koliko košta noćenje?'],
     ['doručak', 'breakfast', 'Doručak je uključen u cijenu.'],
@@ -986,7 +986,7 @@ const L_GROCERY_SHOPPING = {
     {
       type: 'rule',
       title: 'At the Market and in the Supermarket',
-      body: 'At the market (tržnica, in Zagreb also called plac) you buy from a stall and ask: Koliko košta kilogram rajčica? Dajte mi pola kile, molim vas. The seller asks: Je li to sve? In the supermarket you take a basket (košarica) or a trolley (kolica), pay at the checkout (blagajna), and are asked: Trebate li vrećicu? You can answer: Platit ću karticom.',
+      body: 'At the market (tržnica, in Zagreb also called plac) you buy from a stall and ask: Koliko košta kilogram rajčica? Dajte mi pola kile, molim Vas. The seller asks: Je li to sve? In the supermarket you take a basket (košarica) or a shopping cart (kolica), pay at the checkout (blagajna), and are asked: Trebate li vrećicu? You can answer: Platit ću karticom.',
       highlight: 'Je li to sve?',
     },
     {
@@ -999,7 +999,7 @@ const L_GROCERY_SHOPPING = {
           note: 'rajčica — genitive plural after kilogram',
         },
         {
-          hr: 'Dajte mi kilu jabuka i pola kile grožđa, molim vas.',
+          hr: 'Dajte mi kilu jabuka i pola kile grožđa, molim Vas.',
           en: 'Give me a kilo of apples and half a kilo of grapes, please.',
           note: 'kilu — the object, so kila takes the accusative',
         },
@@ -1061,7 +1061,7 @@ const L_GROCERY_SHOPPING = {
     {
       type: 'quiz',
       title: 'One More',
-      q: 'Complete: "Dajte mi ___ jabuka, molim vas." (a kilo)',
+      q: 'Complete: "Dajte mi ___ jabuka, molim Vas." (a kilo)',
       options: ['kila', 'kilu', 'kile', 'kilom'],
       correct: 1,
       explanation:
@@ -1090,14 +1090,14 @@ const L_GROCERY_SHOPPING = {
           explanation: 'Apples are counted, so the genitive plural: jabuka.',
         },
         {
-          q: 'Complete: "Molim vas, ___ mlijeka." (a liter — as the object)',
+          q: 'Complete: "Molim Vas, ___ mlijeka." (a liter — as the object)',
           options: ['litra', 'litre', 'litri', 'litru'],
           correct: 3,
           explanation: 'As the object, litra takes the accusative litru.',
         },
         {
           q: 'What is "deset deka šunke"?',
-          options: ['ten slices of ham', '100 grams of ham', 'ten kilos of ham', 'a tin of ham'],
+          options: ['ten slices of ham', '100 grams of ham', 'ten kilos of ham', 'a can of ham'],
           correct: 1,
           explanation: 'One deka is ten grams, so ten deka is 100 grams.',
         },
@@ -1145,7 +1145,7 @@ const P_GROCERY_SHOPPING = {
       steps: [
         {
           label: 'The request',
-          text: 'To a seller: Dajte mi…, molim vas.',
+          text: 'To a seller: Dajte mi…, molim Vas.',
         },
         {
           label: 'The amount',
@@ -1156,7 +1156,7 @@ const P_GROCERY_SHOPPING = {
           text: 'After any amount, the food is genitive: krumpir → krumpira.',
         },
       ],
-      answer: 'Dajte mi dvije kile krumpira, molim vas.',
+      answer: 'Dajte mi dvije kile krumpira, molim Vas.',
     },
     {
       title: 'A Shopping List',
@@ -1197,7 +1197,7 @@ const P_GROCERY_SHOPPING = {
         explanation: 'boca ulja.',
       },
       {
-        q: 'Dajte mi ___ sira, molim vas. (half a kilo)',
+        q: 'Dajte mi ___ sira, molim Vas. (half a kilo)',
         options: ['pola kile', 'pola kila', 'pola kilu', 'pola kilom'],
         correct: 0,
         hint: 'Pola is an amount word too, so kila after it goes into the genitive.',
@@ -1205,10 +1205,10 @@ const P_GROCERY_SHOPPING = {
       },
       {
         q: 'Koliko košta kilogram ___? (oranges)',
-        options: ['naranču', 'naranče', 'narančom', 'naranča'],
+        options: ['naranču', 'naranče', 'narančom', 'naranača'],
         correct: 3,
-        hint: 'Oranges are counted; the genitive plural here looks just like the basic form.',
-        explanation: 'kilogram naranča — the genitive plural looks like the basic form.',
+        hint: 'Oranges are counted, so this is the genitive plural — and here it gains an extra a.',
+        explanation: 'kilogram naranača — the genitive plural of naranča (naranči is also used).',
       },
       {
         q: 'Kupila sam pet ___ vode. (bottles)',
@@ -1221,7 +1221,7 @@ const P_GROCERY_SHOPPING = {
         q: 'Gdje plaćate u supermarketu?',
         options: ['na blagajni', 'na štandu', 'u košarici', 'na tržnici'],
         correct: 0,
-        hint: 'It is the place with the till.',
+        hint: 'It is the place with the register.',
         explanation: 'na blagajni — at the checkout.',
       },
       {
@@ -1282,7 +1282,7 @@ const P_GROCERY_SHOPPING = {
       explanation: 'Tomatoes are counted: genitive plural rajčica.',
     },
     {
-      q: 'Complete: "Dajte mi ___ ulja, molim vas." (a bottle)',
+      q: 'Complete: "Dajte mi ___ ulja, molim Vas." (a bottle)',
       options: ['boca', 'bocu', 'boce', 'bocom'],
       correct: 1,
       explanation: 'The bottle is the object of dajte mi: accusative bocu.',
@@ -1309,12 +1309,12 @@ const P_GROCERY_SHOPPING = {
   vocab: [
     ['tržnica', 'market (open-air)', 'Na tržnici je voće svježe.'],
     ['kilogram', 'kilogram', 'Koliko košta kilogram jabuka?'],
-    ['litra', 'litre', 'Trebam litru mlijeka.'],
+    ['litra', 'liter', 'Trebam litru mlijeka.'],
     ['boca', 'bottle', 'Uzet ću bocu vina.'],
     ['kutija', 'box', 'Kupila sam kutiju jaja.'],
     ['staklenka', 'jar', 'Staklenka meda je na stolu.'],
     ['limenka', 'can', 'Tri limenke soka, molim.'],
-    ['blagajna', 'checkout, till', 'Platit ću na blagajni.'],
+    ['blagajna', 'checkout, register', 'Platit ću na blagajni.'],
     ['košarica', 'shopping basket', 'Uzmi košaricu.'],
     ['vrećica', 'small bag', 'Trebate li vrećicu?'],
   ],
@@ -2184,7 +2184,7 @@ const L_QUALITY_OF_LIFE = {
     {
       type: 'rule',
       title: 'The Words of the Topic',
-      body: 'Kvaliteta života (quality of life — the Croatian word is feminine: kvaliteta). Plaća (salary), troškovi života (the cost of living), najam stana (rent), slobodno vrijeme (free time), odmor (rest, vacation), zdravlje (health), stres (stress), javni prijevoz (public transport), priroda (nature), sigurnost (safety), zadovoljan / zadovoljna (satisfied).',
+      body: 'Kvaliteta života (quality of life — the Croatian word is feminine: kvaliteta). Plaća (salary), troškovi života (the cost of living), najam stana (rent), slobodno vrijeme (free time), odmor (rest, vacation), zdravlje (health), stres (stress), javni prijevoz (public transportation), priroda (nature), sigurnost (safety), zadovoljan / zadovoljna (satisfied).',
       highlight: 'kvaliteta života',
     },
     {
@@ -2276,7 +2276,7 @@ const L_QUALITY_OF_LIFE = {
         },
         {
           hr: 'Čini mi se da je javni prijevoz ovdje odličan.',
-          en: 'It seems to me that public transport here is excellent.',
+          en: 'It seems to me that public transportation here is excellent.',
         },
         {
           hr: 'Mislim da imaš pravo, novac nije sve.',
@@ -2620,7 +2620,7 @@ const P_QUALITY_OF_LIFE = {
     ['zadovoljan', 'satisfied', 'Zadovoljan sam poslom.'],
     ['mišljenje', 'opinion', 'Po mom mišljenju, to je skupo.'],
     ['misliti', 'to think', 'Mislim da imaš pravo.'],
-    ['javni prijevoz', 'public transport', 'Javni prijevoz je odličan.'],
+    ['javni prijevoz', 'public transportation', 'Javni prijevoz je odličan.'],
   ],
 };
 

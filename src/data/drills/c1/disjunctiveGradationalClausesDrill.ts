@@ -221,7 +221,7 @@ export const DISJUNCTIVE_GRADATIONAL_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pravopis',
     q: 'Ugovor je povoljan, ____, potpisan je bez ijedne izmjene.',
-    en: 'The contract is favourable; what is more, it was signed without a single change.',
+    en: 'The contract is favorable; what is more, it was signed without a single change.',
     opts: ['što više', 'štoviše', 'što više,', 'štovišće'],
     answer: 'štoviše',
     tip: 'Štoviše comments on the whole clause and is set off by commas.',

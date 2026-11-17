@@ -332,7 +332,7 @@ export async function onRequestPost(context) {
     'audio/mpeg',
     'audio/mp4',
   ]);
-  // Normalise: lowercase, strip extra whitespace
+  // Normalize: lowercase, strip extra whitespace
   const normMime = String(audioMimeType).toLowerCase().replace(/\s+/g, ' ').trim();
   const azureContentType = ALLOWED_MIME_TYPES.has(normMime) ? normMime : 'audio/wav';
 

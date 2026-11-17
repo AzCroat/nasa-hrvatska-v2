@@ -33,7 +33,7 @@ export const CONSUMERISM_ADVERTISING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kupnja',
     q: 'Novi televizor kupili smo na ____.',
-    en: 'We bought the new TV in instalments.',
+    en: 'We bought the new TV in installments.',
     opts: ['rate', 'ratama', 'rata', 'ratu'],
     answer: 'rate',
     tip: 'kupiti na rate — accusative plural after na.',
@@ -49,7 +49,7 @@ export const CONSUMERISM_ADVERTISING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kupnja',
     q: 'Studenti imaju ____ od deset posto.',
-    en: 'Students get a ten per cent discount.',
+    en: 'Students get a ten percent discount.',
     opts: ['popust', 'račun', 'ormar', 'potrošač'],
     answer: 'popust',
     tip: 'The reduction you get off a price.',

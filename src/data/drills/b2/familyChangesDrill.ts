@@ -65,7 +65,7 @@ export const FAMILY_CHANGES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'obitelj',
     q: 'Baka svako jutro vodi ____ u vrtić.',
-    en: 'Grandma takes the grandchildren to nursery every morning.',
+    en: 'Grandma takes the grandchildren to preschool every morning.',
     opts: ['unuci', 'unuke', 'unucima', 'unuka'],
     answer: 'unuke',
     tip: 'A direct object in the plural: accusative.',

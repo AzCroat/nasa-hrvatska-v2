@@ -30,7 +30,7 @@ export const SPINE = [
     prerequisites: ['verbs-with-dative', 'dative-locative', 'possessive-dative'],
     objectives: [
       'Say you miss someone the Croatian way: Nedostaješ mi.',
-      'Use smetati and odgovarati: Smeta li vam glazba? Odgovara li vam u pet?',
+      'Use smetati and odgovarati: Smeta li Vam glazba? Odgovara li Vam u pet?',
       'Thank, congratulate and believe someone in the dative: Zahvalio sam joj, Čestitam ti',
       'Make the verb agree with the thing, and keep the dative in the clitic cluster',
     ],
@@ -63,7 +63,7 @@ export const SPINE = [
     masterOrder: 47,
     prerequisites: ['travel-transport', 'travel-croatia', 'ici-going'],
     objectives: [
-      'Buy a ticket one way or return: Jednu povratnu kartu do Splita, molim.',
+      'Buy a ticket one way or round trip: Jednu povratnu kartu do Splita, molim.',
       'Read a schedule and ask about departures and delays: Kad polazi? Vlak kasni.',
       'Ask where to get off and where to change: Gdje moram sići? Morate presjesti.',
       'Say how you travel with the instrumental alone: Idem tramvajem.',
@@ -118,8 +118,8 @@ export const LESSONS = [
           ['ti', 'ti', 'Kako ti je mama?', 'How is your mom?'],
           ['on', 'mu', 'Otac mu je kuhar.', 'His father is a cook.'],
           ['ona', 'joj', 'Kuća joj je velika.', 'Her house is big.'],
-          ['mi', 'nam', 'Stan nam je mali.', 'Our flat is small.'],
-          ['vi / Vi', 'vam', 'Kako vam je obitelj?', 'How is your family?'],
+          ['mi', 'nam', 'Stan nam je mali.', 'Our apartment is small.'],
+          ['vi / Vi', 'vam', 'Kako Vam je obitelj?', 'How is your family?'],
           ['oni / one', 'im', 'Sin im je u školi.', 'Their son is at school.'],
         ],
       },
@@ -340,7 +340,7 @@ export const LESSONS = [
         headers: ['Verb', 'Meaning', 'Example', 'In English'],
         rows: [
           ['nedostajati', 'to be missed by', 'Nedostaješ mi.', 'I miss you.'],
-          ['smetati', 'to bother', 'Smeta li vam dim?', 'Does the smoke bother you?'],
+          ['smetati', 'to bother', 'Smeta li Vam dim?', 'Does the smoke bother you?'],
           ['odgovarati', 'to suit', 'Odgovara mi u pet.', 'Five o’clock suits me.'],
           ['čestitati', 'to congratulate', 'Čestitam ti rođendan!', 'Happy birthday to you!'],
           ['zahvaliti', 'to thank', 'Zahvalio sam joj na pomoći.', 'I thanked her for the help.'],
@@ -362,13 +362,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Odgovarati Has Two Meanings',
-        body: 'odgovarati means "to answer" and also "to suit". Both take the person in the dative. Odgovara li vam sutra u deset? (Does tomorrow at ten suit you?) Ne odgovara mi, radim. (It doesn’t suit me, I’m working.) Odgovorio sam joj na poruku. (I answered her message.) For a meeting time, Odgovara li ti…? is the most natural question there is.',
-        highlight: 'Odgovara li vam sutra u deset?',
+        body: 'odgovarati means "to answer" and also "to suit". Both take the person in the dative. Odgovara li Vam sutra u deset? (Does tomorrow at ten suit you?) Ne odgovara mi, radim. (It doesn’t suit me, I’m working.) Odgovorio sam joj na poruku. (I answered her message.) For a meeting time, Odgovara li ti…? is the most natural question there is.',
+        highlight: 'Odgovara li Vam sutra u deset?',
       },
       {
         type: 'rule',
         title: 'The Dative in the Clitic Cluster',
-        body: 'The short dative stands second and follows the order you learned: li first, then sam/si/smo/ste/su, then the dative, then je last. Smeta li vam glazba? (li, then vam.) Nedostajao si mi. (si, then mi.) Zahvalili smo im. (smo, then im.) Smetala mu je buka. (mu, then je.) With a reason for thanking, add na and the locative: Hvala ti na pomoći. Zahvalio sam mu na savjetu.',
+        body: 'The short dative stands second and follows the order you learned: li first, then sam/si/smo/ste/su, then the dative, then je last. Smeta li Vam glazba? (li, then vam.) Nedostajao si mi. (si, then mi.) Zahvalili smo im. (smo, then im.) Smetala mu je buka. (mu, then je.) With a reason for thanking, add na and the locative: Hvala ti na pomoći. Zahvalio sam mu na savjetu.',
         highlight: 'Nedostajao si mi.',
       },
       {
@@ -386,7 +386,7 @@ export const LESSONS = [
             note: 'nedostajala agrees with obitelj, a feminine noun',
           },
           {
-            hr: 'Smeta li vam ako otvorim prozor?',
+            hr: 'Smeta li Vam ako otvorim prozor?',
             en: 'Do you mind if I open the window?',
             note: 'smeta li vam — the polite way to ask permission',
           },
@@ -417,7 +417,7 @@ export const LESSONS = [
             note: 'smo before mu',
           },
           {
-            hr: 'Čestitam vam na diplomi!',
+            hr: 'Čestitam Vam na diplomi!',
             en: 'Congratulations on your degree!',
             note: 'čestitati + na + locative for the achievement',
           },
@@ -489,14 +489,14 @@ export const LESSONS = [
           {
             q: 'Which sentence asks "Does the music bother you?" (polite)',
             options: [
-              'Smeta li vam glazba?',
+              'Smeta li Vam glazba?',
               'Smeta li Vi glazba?',
               'Smetate li glazbu?',
-              'Smeta li vam glazbu?',
+              'Smeta li Vam glazbu?',
             ],
             correct: 0,
             explanation:
-              'The music is the subject (glazba, nominative) and the person bothered is in the dative (vam).',
+              'The music is the subject (glazba, nominative) and the person bothered is in the dative (Vam).',
           },
           {
             q: 'Complete: "Odgovara li ___ sutra u deset?" (Does tomorrow at ten suit you? — to a friend)',
@@ -675,7 +675,7 @@ export const LESSONS = [
           },
           {
             hr: 'Jede mi se nešto slatko.',
-            en: 'I fancy something sweet.',
+            en: 'I feel like having something sweet.',
             note: 'the thing is the subject of jede',
           },
           {
@@ -804,8 +804,8 @@ export const LESSONS = [
           ['svjetla', 'lights', 'Upali svjetla!'],
           ['akumulator', 'car battery', 'Akumulator je prazan.'],
           ['volan', 'steering wheel', 'Volan je s lijeve strane.'],
-          ['prtljažnik', 'boot, trunk', 'Kofer je u prtljažniku.'],
-          ['brisači', 'windscreen wipers', 'Brisači ne rade.'],
+          ['prtljažnik', 'trunk', 'Kofer je u prtljažniku.'],
+          ['brisači', 'windshield wipers', 'Brisači ne rade.'],
         ],
       },
       {
@@ -823,7 +823,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Traffic and Rules',
-        body: 'A traffic jam is gužva, traffic lights are semafor, a junction is raskrižje and a roundabout is kružni tok. In Croatia you drive on the right. The speed limit is 50 km/h in towns and 130 km/h on the highway (autocesta), where you pay a toll, cestarina. Signs use the se-impersonal you know: Ovdje se ne smije parkirati. (No parking here.) A fine is kazna.',
+        body: 'A traffic jam is gužva, traffic lights are semafor, an intersection is raskrižje and a roundabout is kružni tok. In Croatia you drive on the right. The speed limit is 50 km/h in towns and 130 km/h on the highway (autocesta), where you pay a toll, cestarina. Signs use the se-impersonal you know: Ovdje se ne smije parkirati. (No parking here.) A fine is kazna.',
         highlight: 'Ovdje se ne smije parkirati.',
       },
       {
@@ -843,7 +843,7 @@ export const LESSONS = [
           },
           {
             hr: 'Auto mi ne pali, akumulator mi je prazan.',
-            en: 'My car won’t start — the battery is flat.',
+            en: 'My car won’t start — the battery is dead.',
             note: 'mi twice: my car, my battery',
           },
           {
@@ -922,7 +922,7 @@ export const LESSONS = [
         type: 'quiz',
         title: 'One More',
         q: 'What is "kružni tok"?',
-        options: ['a traffic jam', 'a motorway', 'a roundabout', 'a car park'],
+        options: ['a traffic jam', 'a highway', 'a roundabout', 'a parking lot'],
         correct: 2,
         explanation: 'kružni — circular, tok — flow: a roundabout.',
       },
@@ -964,7 +964,7 @@ export const LESSONS = [
           },
           {
             q: 'What is a "semafor"?',
-            options: ['a roundabout', 'traffic lights', 'a car park', 'a toll'],
+            options: ['a roundabout', 'traffic lights', 'a parking lot', 'a toll'],
             correct: 1,
             explanation: 'semafor — traffic lights.',
           },
@@ -1019,7 +1019,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Getting Around Without a Car',
-        body: 'In Zagreb the blue trams of ZET (Zagrebački električni tramvaj) and its buses take you almost everywhere. Between cities there are trains and coaches. This lesson covers the whole journey: buying the right ticket, reading the schedule, asking which tram goes where, and — the question every visitor needs — where to get off.',
+        body: 'In Zagreb the blue trams of ZET (Zagrebački električni tramvaj) and its buses take you almost everywhere. Between cities there are trains and long-distance buses. This lesson covers the whole journey: buying the right ticket, reading the schedule, asking which tram goes where, and — the question every visitor needs — where to get off.',
         icon: '🚋',
       },
       {
@@ -1034,10 +1034,10 @@ export const LESSONS = [
         headers: ['Croatian', 'English'],
         rows: [
           ['tramvajska stanica', 'tram stop'],
-          ['autobusni kolodvor', 'bus (coach) station'],
-          ['željeznički kolodvor', 'railway station'],
+          ['autobusni kolodvor', 'bus station'],
+          ['željeznički kolodvor', 'train station'],
           ['peron', 'platform'],
-          ['vozni red', 'timetable'],
+          ['vozni red', 'schedule'],
           ['polazak / dolazak', 'departure / arrival'],
           ['vozač / kontrolor', 'driver / ticket inspector'],
           ['mjesečna karta', 'monthly pass'],
@@ -1067,7 +1067,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Dobar dan, jednu povratnu kartu do Splita, molim.',
-            en: 'Good afternoon, one return ticket to Split, please.',
+            en: 'Good afternoon, one round-trip ticket to Split, please.',
             note: 'kartu is accusative, povratnu agrees with it',
           },
           {
@@ -1160,7 +1160,7 @@ export const LESSONS = [
             q: 'You want a ticket there and back. Which do you ask for?',
             options: ['vozni red', 'kartu u jednom smjeru', 'povratnu kartu', 'mjesečnu kartu'],
             correct: 2,
-            explanation: 'povratna karta — return ticket.',
+            explanation: 'povratna karta — round-trip ticket.',
           },
           {
             q: 'Complete: "Gdje moram ___?" (Where do I have to get off?)',
@@ -1214,7 +1214,7 @@ export const LESSONS = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'phone-calls-a2',
-    title: 'Can I Speak to Mrs Novak? Phone Calls',
+    title: 'Can I Speak to Mrs. Novak? Phone Calls',
     subtitle: 'Loše se čuje · Prekinula se veza · leaving a message',
     icon: '📞',
     level: 'A2',
@@ -1231,26 +1231,26 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Answering and Asking for Someone',
-        body: 'At home people answer Halo? or Molim? At work they say the company and offer help: Hotel Adria, dobar dan, izvolite. Say who you are: Ovdje Ana Horvat. Then ask for the person with s + instrumental: Mogu li razgovarati s gospođom Novak? More polite still, with the conditional: Htio bih razgovarati s gospodinom Kovačem. The answer may be: Trenutak, spajam vas. (One moment, I’ll put you through.) or Tko ga treba? (Who is asking for him?)',
+        body: 'At home people answer Halo? or Molim? At work they say the company and offer help: Hotel Adria, dobar dan, izvolite. Say who you are: Ovdje Ana Horvat. Then ask for the person with s + instrumental: Mogu li razgovarati s gospođom Novak? More polite still, with the conditional: Htio bih razgovarati s gospodinom Kovačem. The answer may be: Trenutak, spajam Vas. (One moment, I’ll put you through.) or Tko ga treba? (Who is asking for him?)',
         highlight: 'Mogu li razgovarati s gospođom Novak?',
       },
       {
         type: 'rule',
         title: 'When They Are Not There',
-        body: 'Nažalost, trenutno nije u uredu. (Unfortunately she isn’t in the office right now.) Možete li nazvati kasnije? (Can you call later?) Želite li ostaviti poruku? (Would you like to leave a message?) You can answer: Hvala, nazvat ću ponovno. Or leave a message: Recite mu, molim vas: zvala je Ana Horvat.',
+        body: 'Nažalost, trenutno nije u uredu. (Unfortunately she isn’t in the office right now.) Možete li nazvati kasnije? (Can you call later?) Želite li ostaviti poruku? (Would you like to leave a message?) You can answer: Hvala, nazvat ću ponovno. Or leave a message: Recite mu, molim Vas: zvala je Ana Horvat.',
         highlight: 'Želite li ostaviti poruku?',
       },
       {
         type: 'rule',
         title: 'A Bad Line, a Dropped Call',
-        body: 'If you cannot hear well: Loše se čuje. (The line is bad.) Ne čujem vas dobro. (I can’t hear you well.) Biste li mogli ponoviti? (Could you repeat that?) If the call drops, the next call starts with: Prekinula se veza. (We got cut off.) And a reason you may need: Baterija mi je prazna. (My battery is flat.) Nemam signala. (I have no signal.)',
+        body: 'If you cannot hear well: Loše se čuje. (The line is bad.) Ne čujem Vas dobro. (I can’t hear you well.) Biste li mogli ponoviti? (Could you repeat that?) If the call drops, the next call starts with: Prekinula se veza. (We got cut off.) And a reason you may need: Baterija mi je prazna. (My battery is dead.) Nemam signala. (I have no signal.)',
         highlight: 'Prekinula se veza.',
       },
       {
         type: 'rule',
         title: 'Leaving a Voicemail',
-        body: 'A voicemail greeting says: Ostavite poruku nakon zvučnog signala. Your message needs four things, in this order: greeting and name (Dobar dan, ovdje Marko Babić), the reason (Zovem zbog sastanka u petak), what you want (Molim vas, nazovite me), and your number and goodbye (Moj broj je 091 234 5678. Hvala, doviđenja). If you dialled the wrong number: Oprostite, pogriješio sam broj.',
-        highlight: 'Molim vas, nazovite me.',
+        body: 'A voicemail greeting says: Ostavite poruku nakon zvučnog signala. Your message needs four things, in this order: greeting and name (Dobar dan, ovdje Marko Babić), the reason (Zovem zbog sastanka u petak), what you want (Molim Vas, nazovite me), and your number and goodbye (Moj broj je 091 234 5678. Hvala, doviđenja). If you dialed the wrong number: Oprostite, pogriješio sam broj.',
+        highlight: 'Molim Vas, nazovite me.',
       },
       {
         type: 'example',
@@ -1267,7 +1267,7 @@ export const LESSONS = [
             note: 's gospođom Novak is instrumental',
           },
           {
-            hr: 'Trenutak, molim, spajam vas.',
+            hr: 'Trenutak, molim, spajam Vas.',
             en: 'One moment, please, I’ll put you through.',
             note: 'spajati — to connect',
           },
@@ -1294,7 +1294,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oprostite, prekinula se veza. Baterija mi je bila prazna.',
-            en: 'Sorry, we got cut off. My battery was flat.',
+            en: 'Sorry, we got cut off. My battery was dead.',
             note: 'bila agrees with baterija',
           },
           {
@@ -1303,13 +1303,13 @@ export const LESSONS = [
             note: 'zbog sastanka is genitive',
           },
           {
-            hr: 'Molim vas, nazovite me na broj 091 234 5678. Hvala, doviđenja.',
+            hr: 'Molim Vas, nazovite me na broj 091 234 5678. Hvala, doviđenja.',
             en: 'Please call me on 091 234 5678. Thank you, goodbye.',
             note: 'nazovite — polite imperative',
           },
           {
             hr: 'Oprostite, pogriješio sam broj.',
-            en: 'Sorry, I dialled the wrong number.',
+            en: 'Sorry, I dialed the wrong number.',
             note: 'pogriješiti broj — to get the number wrong',
           },
           {
@@ -1406,10 +1406,10 @@ export const LESSONS = [
           {
             q: 'In a voicemail, how do you ask to be called back?',
             options: [
-              'Molim vas, nazovete me.',
-              'Molim vas, nazovite me.',
-              'Molim vas, nazovite mi.',
-              'Molim vas, nazvali me.',
+              'Molim Vas, nazovete me.',
+              'Molim Vas, nazovite me.',
+              'Molim Vas, nazovite mi.',
+              'Molim Vas, nazvali me.',
             ],
             correct: 1,
             explanation: 'The polite imperative nazovite, and nazvati takes the accusative me.',
@@ -1530,10 +1530,10 @@ export const PRACTICE = {
         },
         {
           q: 'Choose: "Kako ___ je obitelj?" (How is your family? — polite)',
-          options: ['vas', 'Vi', 'vam', 'vaš'],
+          options: ['Vas', 'Vi', 'Vam', 'Vaš'],
           correct: 2,
           hint: 'The short dative of vi.',
-          explanation: 'Kako vam je obitelj?',
+          explanation: 'Kako Vam je obitelj?',
         },
         {
           type: 'type',
@@ -1616,7 +1616,7 @@ export const PRACTICE = {
     vocab: [
       ['novčanik', 'wallet', 'Ukrali su mi novčanik.'],
       ['torba', 'bag', 'Pala joj je torba.'],
-      ['mobitel', 'mobile phone', 'Razbio mi se mobitel.'],
+      ['mobitel', 'cell phone', 'Razbio mi se mobitel.'],
       ['ukrasti', 'to steal', 'Netko mu je ukrao bicikl.'],
       ['pasti', 'to fall', 'Pala mi je kapa u more.'],
       ['razbiti se', 'to break (by itself)', 'Razbila mi se čaša.'],
@@ -1708,10 +1708,10 @@ export const PRACTICE = {
         },
         {
           q: 'Choose: "Odgovara li ___ u pet?" (Does five suit you? — polite)',
-          options: ['vam', 'vas', 'Vi', 'vaš'],
+          options: ['Vam', 'Vas', 'Vi', 'Vaš'],
           correct: 0,
           hint: 'odgovarati takes the dative.',
-          explanation: 'Odgovara li vam u pet?',
+          explanation: 'Odgovara li Vam u pet?',
         },
         {
           q: 'Choose: "Ovaj kišobran pripada ___." (This umbrella belongs to my brother.)',
@@ -1790,14 +1790,14 @@ export const PRACTICE = {
     ],
     vocab: [
       ['nedostajati', 'to be missed by', 'Nedostaješ mi.'],
-      ['smetati', 'to bother', 'Smeta li vam dim?'],
+      ['smetati', 'to bother', 'Smeta li Vam dim?'],
       ['odgovarati', 'to suit; to answer', 'Odgovara li ti u pet?'],
       ['čestitati', 'to congratulate', 'Čestitam ti rođendan!'],
       ['zahvaliti', 'to thank', 'Zahvalio sam joj na pomoći.'],
       ['pripadati', 'to belong to', 'Kuća pripada mojoj obitelji.'],
       ['buka', 'noise', 'Smeta mi buka.'],
       ['savjet', 'advice', 'Hvala ti na savjetu.'],
-      ['diploma', 'degree, diploma', 'Čestitam vam na diplomi.'],
+      ['diploma', 'degree, diploma', 'Čestitam Vam na diplomi.'],
     ],
   },
 
@@ -1928,7 +1928,7 @@ export const PRACTICE = {
           explanation: 'Ne radi mi se / Danas mi se ne radi.',
         },
         {
-          q: 'Complete: "Jedu ___ se trešnje." (I fancy cherries.)',
+          q: 'Complete: "Jedu ___ se trešnje." (I feel like having cherries.)',
           options: ['me', 'mi', 'ja', 'moj'],
           correct: 1,
           hint: 'The person who feels like it goes in the short dative.',
@@ -2029,10 +2029,10 @@ export const PRACTICE = {
         },
         {
           q: 'What is a "prtljažnik"?',
-          options: ['the boot', 'the engine', 'the steering wheel', 'the battery'],
+          options: ['the trunk', 'the engine', 'the steering wheel', 'the battery'],
           correct: 0,
           hint: 'prtljaga is luggage.',
-          explanation: 'prtljažnik — the boot (trunk).',
+          explanation: 'prtljažnik — the trunk.',
         },
         {
           q: 'Choose: "Pregrijao ___ se motor." (His engine overheated.)',
@@ -2055,7 +2055,7 @@ export const PRACTICE = {
         },
         {
           q: 'What is a "gužva" on the road?',
-          options: ['a toll', 'a traffic jam', 'a junction', 'a fine'],
+          options: ['a toll', 'a traffic jam', 'an intersection', 'a fine'],
           correct: 1,
           hint: 'Too many cars in one place.',
           explanation: 'gužva — a traffic jam (or a crowd).',
@@ -2090,7 +2090,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Akumulator mi je ____. (My battery is flat.)',
+          q: 'Akumulator mi je ____. (My battery is dead.)',
           answer: 'prazan',
           hint: 'Empty, masculine, to agree with akumulator.',
           explanation: 'Akumulator mi je prazan.',
@@ -2132,7 +2132,7 @@ export const PRACTICE = {
       },
       {
         q: 'What is a "kružni tok"?',
-        options: ['a traffic jam', 'a roundabout', 'a junction with lights', 'a car park'],
+        options: ['a traffic jam', 'a roundabout', 'an intersection with lights', 'a parking lot'],
         correct: 1,
         explanation: 'kružni tok — a roundabout.',
       },
@@ -2158,7 +2158,7 @@ export const PRACTICE = {
       ['gužva', 'traffic jam', 'Na cesti je velika gužva.'],
       ['semafor', 'traffic lights', 'Na semaforu skreni desno.'],
       ['kružni tok', 'roundabout', 'U kružnom toku uzmi drugi izlaz.'],
-      ['cestarina', 'motorway toll', 'Cestarina se plaća na izlazu.'],
+      ['cestarina', 'highway toll', 'Cestarina se plaća na izlazu.'],
       ['kazna', 'fine', 'Dobio sam kaznu za parkiranje.'],
     ],
   },
@@ -2199,10 +2199,10 @@ export const PRACTICE = {
       items: [
         {
           q: 'What is a "vozni red"?',
-          options: ['a queue', 'the timetable', 'the platform', 'a ticket'],
+          options: ['a line', 'the schedule', 'the platform', 'a ticket'],
           correct: 1,
           hint: 'It tells you when things leave and arrive.',
-          explanation: 'vozni red — the timetable.',
+          explanation: 'vozni red — the schedule.',
         },
         {
           q: 'Choose: "Idemo na more ___." (We are going to the seaside by bus.)',
@@ -2324,9 +2324,9 @@ export const PRACTICE = {
       },
       {
         q: 'What is a "vozni red"?',
-        options: ['a platform', 'a queue', 'the driver', 'the timetable'],
+        options: ['a platform', 'a line', 'the driver', 'the schedule'],
         correct: 3,
-        explanation: 'vozni red — the timetable.',
+        explanation: 'vozni red — the schedule.',
       },
       {
         q: 'Complete: "Idemo u Zagreb ___." (We are going to Zagreb by train.)',
@@ -2343,8 +2343,8 @@ export const PRACTICE = {
     ],
     vocab: [
       ['karta', 'ticket', 'Jednu kartu do Splita, molim.'],
-      ['povratna karta', 'return ticket', 'Koliko košta povratna karta?'],
-      ['vozni red', 'timetable', 'Pogledaj vozni red.'],
+      ['povratna karta', 'round-trip ticket', 'Koliko košta povratna karta?'],
+      ['vozni red', 'schedule', 'Pogledaj vozni red.'],
       ['stanica', 'stop (tram, bus)', 'Siđite na sljedećoj stanici.'],
       ['kolodvor', 'station', 'Vlak stiže na Glavni kolodvor.'],
       ['peron', 'platform', 'Vlak polazi s drugog perona.'],
@@ -2359,7 +2359,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Asking for Someone',
-        problem: 'Ask politely: May I speak to Mrs Novak?',
+        problem: 'Ask politely: May I speak to Mrs. Novak?',
         en: 'Ask politely to speak to Mrs. Novak.',
         steps: [
           { label: 'The polite frame', text: 'Mogu li razgovarati — may I speak.' },
@@ -2380,11 +2380,11 @@ export const PRACTICE = {
           { label: 'Reason', text: 'zbog + genitive: Zovem zbog sastanka u petak.' },
           {
             label: 'Request',
-            text: 'Polite imperative + accusative: Molim vas, nazovite me. Hvala, doviđenja.',
+            text: 'Polite imperative + accusative: Molim Vas, nazovite me. Hvala, doviđenja.',
           },
         ],
         answer:
-          'Dobar dan, ovdje Marko Babić. Zovem zbog sastanka u petak. Molim vas, nazovite me. Hvala, doviđenja.',
+          'Dobar dan, ovdje Marko Babić. Zovem zbog sastanka u petak. Molim Vas, nazovite me. Hvala, doviđenja.',
       },
     ],
     practice: {
@@ -2410,7 +2410,7 @@ export const PRACTICE = {
           explanation: 'Mogu li razgovarati s Ivanom?',
         },
         {
-          q: 'What does "Trenutak, spajam vas." mean?',
+          q: 'What does "Trenutak, spajam Vas." mean?',
           options: [
             'Sorry, wrong number.',
             'One moment, I’ll put you through.',
@@ -2441,7 +2441,7 @@ export const PRACTICE = {
           explanation: 'Biste li mogli ponoviti?',
         },
         {
-          q: 'You dialled the wrong number. You say:',
+          q: 'You dialed the wrong number. You say:',
           options: [
             'Oprostite, pogriješio broj sam.',
             'Oprostite, pogriješio sam brojem.',
@@ -2460,7 +2460,7 @@ export const PRACTICE = {
           explanation: 'Čujemo se! — talk soon.',
         },
         {
-          q: 'Which sentence says "My battery is flat"?',
+          q: 'Which sentence says "My battery is dead"?',
           options: [
             'Baterija me je prazna.',
             'Baterija mi je prazan.',
@@ -2487,10 +2487,10 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Molim vas, nazovite ____. (Please call me.)',
+          q: 'Molim Vas, nazovite ____. (Please call me.)',
           answer: 'me',
           hint: 'nazvati takes the accusative; the short form of ja.',
-          explanation: 'Molim vas, nazovite me.',
+          explanation: 'Molim Vas, nazovite me.',
         },
         {
           type: 'type',
@@ -2525,7 +2525,7 @@ export const PRACTICE = {
         explanation: 'nije for her, u uredu for where.',
       },
       {
-        q: 'You dialled the wrong number. You say:',
+        q: 'You dialed the wrong number. You say:',
         options: [
           'Oprostite, pogriješio broj sam.',
           'Oprostite, pogriješio sam brojem.',
@@ -2548,7 +2548,7 @@ export const PRACTICE = {
         explanation: 'Čujemo se! — we will hear each other: talk soon.',
       },
       {
-        q: 'Your phone battery is flat. You say:',
+        q: 'Your phone battery is dead. You say:',
         options: [
           'Baterija mi je prazna.',
           'Baterija me je prazna.',
@@ -2561,7 +2561,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['razgovarati', 'to talk, speak', 'Mogu li razgovarati s gospođom Novak?'],
-      ['spojiti', 'to put through', 'Trenutak, spojit ću vas.'],
+      ['spojiti', 'to put through', 'Trenutak, spojit ću Vas.'],
       ['poruka', 'message', 'Želite li ostaviti poruku?'],
       ['veza', 'connection, line', 'Prekinula se veza.'],
       ['nazvati', 'to call', 'Nazovite me sutra.'],

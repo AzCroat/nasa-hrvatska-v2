@@ -448,7 +448,7 @@ export default function HeritageModeScreen({
               style={{ fontSize: 13, color: 'var(--subtext)', lineHeight: 1.6, marginBottom: 14 }}
             >
               {knownCount >= 12
-                ? "You're already speaking Croatian — you just need to formalise it. Your passive knowledge is your superpower."
+                ? "You're already speaking Croatian — you just need to formalize it. Your passive knowledge is your superpower."
                 : knownCount >= 6
                   ? "You have a solid foundation from growing up with the language. Let's build on what you know."
                   : "Every word you recognize is a head start. You've absorbed more than you think — even from just a few family visits."}

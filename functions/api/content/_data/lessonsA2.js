@@ -669,7 +669,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Moj brat se bavi nogometom.',
-            en: 'My brother plays football.',
+            en: 'My brother plays soccer.',
             note: 'baviti se + instrumental: nogometom',
           },
           {
@@ -911,7 +911,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Pokaži mi svoj novi stan!',
-            en: 'Show me your new flat!',
+            en: 'Show me your new apartment!',
             note: 'the subject "you" owns the apartment → svoj',
           },
           {
@@ -2132,7 +2132,7 @@ export const LESSONS_A2 = [
         title: 'Adverbs at Work',
         items: [
           {
-            hr: 'Možete li govoriti polako, molim vas?',
+            hr: 'Možete li govoriti polako, molim Vas?',
             en: 'Could you speak slowly, please?',
             note: 'polako — slowly; the most useful sentence in this lesson',
           },
@@ -2299,7 +2299,7 @@ export const LESSONS_A2 = [
               'The first "dobro" agrees with the neuter noun "vino" and is an adjective; the second describes HOW he cooks and is the adverb. Same word, two jobs.',
           },
           {
-            q: 'Complete: "Molim vas, govorite ___." (Please speak quietly — tih.)',
+            q: 'Complete: "Molim Vas, govorite ___." (Please speak quietly — tih.)',
             options: ['tih', 'tiho', 'tihi', 'tiha'],
             correct: 1,
             explanation:
@@ -3091,7 +3091,7 @@ export const LESSONS_A2 = [
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
           ['kuća', 'house', 'kupaonica', 'bathroom'],
-          ['stan', 'flat, apartment', 'spavaća soba', 'bedroom'],
+          ['stan', 'apartment', 'spavaća soba', 'bedroom'],
           ['soba', 'room', 'dnevni boravak', 'living room'],
           ['kuhinja', 'kitchen', 'blagovaonica', 'dining room'],
           ['hodnik', 'hallway', 'balkon', 'balcony'],
@@ -3109,7 +3109,7 @@ export const LESSONS_A2 = [
         title: 'Furniture and Things',
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
-          ['stol', 'table', 'ormar', 'wardrobe'],
+          ['stol', 'table', 'ormar', 'closet'],
           ['stolica', 'chair', 'polica', 'shelf'],
           ['krevet', 'bed', 'tepih', 'carpet, rug'],
           ['kauč', 'sofa', 'prozor', 'window'],
@@ -3636,11 +3636,11 @@ export const LESSONS_A2 = [
         rows: [
           ['majica', 'T-shirt', 'jakna', 'jacket'],
           ['košulja', 'shirt', 'kaput', 'coat'],
-          ['hlače', 'trousers', 'cipele', 'shoes'],
-          ['traperice', 'jeans', 'tenisice', 'trainers'],
+          ['hlače', 'pants', 'cipele', 'shoes'],
+          ['traperice', 'jeans', 'tenisice', 'sneakers'],
           ['suknja', 'skirt', 'čarape', 'socks'],
           ['haljina', 'dress', 'šal', 'scarf'],
-          ['džemper', 'jumper', 'kapa', 'hat, cap'],
+          ['džemper', 'sweater', 'kapa', 'hat, cap'],
         ],
       },
       {
@@ -3686,7 +3686,7 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Tražim crne hlače, broj četrdeset.',
-            en: 'I am looking for black trousers, size forty.',
+            en: 'I am looking for black pants, size forty.',
             note: 'hlače is plural → crne',
           },
           {
@@ -3769,7 +3769,7 @@ export const LESSONS_A2 = [
       {
         type: 'quiz',
         title: 'One More',
-        q: 'Complete: "Tražim ___ hlače." (I am looking for black trousers.)',
+        q: 'Complete: "Tražim ___ hlače." (I am looking for black pants.)',
         options: ['crn', 'crna', 'crno', 'crne'],
         correct: 3,
         explanation:
@@ -4175,7 +4175,7 @@ export const LESSONS_A2 = [
           ['kuhar', 'kuharica', 'cook'],
           ['vozač', 'vozačica', 'driver'],
           ['odvjetnik', 'odvjetnica', 'lawyer'],
-          ['prodavač', 'prodavačica', 'shop assistant'],
+          ['prodavač', 'prodavačica', 'salesperson'],
         ],
       },
       {
@@ -4417,10 +4417,10 @@ export const LESSONS_A2 = [
         title: 'The System',
         headers: ['Croatian', 'English', 'Who goes'],
         rows: [
-          ['vrtić', 'nursery', 'dijete'],
-          ['osnovna škola', 'primary school', 'učenik / učenica'],
-          ['srednja škola', 'secondary school', 'učenik / učenica'],
-          ['gimnazija', 'grammar school', 'učenik / učenica'],
+          ['vrtić', 'preschool', 'dijete'],
+          ['osnovna škola', 'elementary school', 'učenik / učenica'],
+          ['srednja škola', 'high school', 'učenik / učenica'],
+          ['gimnazija', 'academic high school', 'učenik / učenica'],
           ['fakultet', 'university faculty', 'student / studentica'],
           ['sveučilište', 'university', 'student / studentica'],
         ],
@@ -4437,7 +4437,7 @@ export const LESSONS_A2 = [
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
           ['predmet', 'subject', 'ispit', 'exam'],
-          ['predavanje', 'lecture', 'ocjena', 'mark, grade'],
+          ['predavanje', 'lecture', 'ocjena', 'grade'],
           ['zadaća', 'homework', 'knjižnica', 'library'],
           ['razred', 'class, year', 'diplomirati', 'to graduate'],
         ],
@@ -4505,12 +4505,12 @@ export const LESSONS_A2 = [
           },
           {
             hr: 'Položila sam ispit iz povijesti s odličnim.',
-            en: 'I passed the history exam with an excellent mark.',
+            en: 'I passed the history exam with an excellent grade.',
             note: 'ispit iz + genitive',
           },
           {
             hr: 'Profesorica predaje hrvatski jezik u gimnaziji.',
-            en: 'The teacher teaches Croatian in a grammar school.',
+            en: 'The teacher teaches Croatian in a high school.',
             note: 'predavati — to teach',
           },
           {
@@ -4604,11 +4604,11 @@ export const LESSONS_A2 = [
               '"Predavati" is to teach or lecture: Predaje na fakultetu. Learning is "učiti", studying in college "studirati", and graduating "diplomirati".',
           },
           {
-            q: 'Which word means "mark, grade"?',
+            q: 'Which word means "grade"?',
             options: ['zadaća', 'predmet', 'ispit', 'ocjena'],
             correct: 3,
             explanation:
-              '"Ocjena" is a mark or grade. "Zadaća" is homework, "predmet" a subject, and "ispit" an exam.',
+              '"Ocjena" is a grade. "Zadaća" is homework, "predmet" a subject, and "ispit" an exam.',
           },
           {
             q: 'Complete: "Studiram ___ Filozofskom fakultetu."',
@@ -4623,7 +4623,7 @@ export const LESSONS_A2 = [
         type: 'summary',
         title: 'School — Key Takeaways',
         points: [
-          'učiti = learn/study generally, studirati = study at university',
+          'učiti = learn/study generally, studirati = study in college',
           'učenik is a school student; student is in college',
           'osnovna škola, srednja škola, gimnazija, fakultet, sveučilište',
           'u školi but na fakultetu — learned as phrases',
@@ -4905,7 +4905,7 @@ export const LESSONS_A2 = [
         headers: ['Croatian', 'English', 'By…'],
         rows: [
           ['vlak', 'train', 'vlakom'],
-          ['autobus', 'bus, coach', 'autobusom'],
+          ['autobus', 'bus, intercity bus', 'autobusom'],
           ['avion', 'plane', 'avionom'],
           ['trajekt', 'car ferry', 'trajektom'],
           ['brod', 'boat, ship', 'brodom'],
@@ -4925,9 +4925,9 @@ export const LESSONS_A2 = [
         headers: ['Croatian', 'English', 'Croatian', 'English'],
         rows: [
           ['kolodvor', 'station', 'peron', 'platform'],
-          ['zračna luka', 'airport', 'vozni red', 'timetable'],
+          ['zračna luka', 'airport', 'vozni red', 'schedule'],
           ['karta', 'ticket', 'prtljaga', 'luggage'],
-          ['povratna karta', 'return ticket', 'kofer', 'suitcase'],
+          ['povratna karta', 'round-trip ticket', 'kofer', 'suitcase'],
           ['jednosmjerna karta', 'one-way ticket', 'kašnjenje', 'delay'],
           ['rezervacija', 'reservation', 'polazak', 'departure'],
         ],
@@ -4944,7 +4944,7 @@ export const LESSONS_A2 = [
         items: [
           {
             hr: 'Jednu povratnu kartu za Split, molim.',
-            en: 'One return ticket to Split, please.',
+            en: 'One round-trip ticket to Split, please.',
             note: 'accusative: jednu povratnu kartu',
           },
           {
@@ -5413,13 +5413,13 @@ export const LESSONS_A2 = [
         title: 'The Year',
         headers: ['Croatian', 'English', 'When'],
         rows: [
-          ['Nova godina', 'New Year', '1 January'],
+          ['Nova godina', 'New Year', 'January 1'],
           ['Uskrs', 'Easter', 'spring'],
-          ['Dan državnosti', 'Statehood Day', '30 May'],
-          ['Velika Gospa', 'Assumption', '15 August'],
-          ['Svi sveti', 'All Saints', '1 November'],
-          ['Badnjak', 'Christmas Eve', '24 December'],
-          ['Božić', 'Christmas', '25 December'],
+          ['Dan državnosti', 'Statehood Day', 'May 30'],
+          ['Velika Gospa', 'Assumption', 'August 15'],
+          ['Svi sveti', 'All Saints', 'November 1'],
+          ['Badnjak', 'Christmas Eve', 'December 24'],
+          ['Božić', 'Christmas', 'December 25'],
         ],
       },
       {
@@ -5431,7 +5431,7 @@ export const LESSONS_A2 = [
       {
         type: 'rule',
         title: 'The Name Day Is Real',
-        body: 'Croatians celebrate an "imendan" — the feast day of the saint they are named after — alongside their birthday, and for older generations it can matter more. If you know an Ivan, his day is 24 June; every Ana has 26 July. "Sretan imendan!" on the right day is the kind of thing that lands very well and costs nothing.',
+        body: 'Croatians celebrate an "imendan" — the feast day of the saint they are named after — alongside their birthday, and for older generations it can matter more. If you know an Ivan, his day is June 24; every Ana has July 26. "Sretan imendan!" on the right day is the kind of thing that lands very well and costs nothing.',
         highlight: 'Sretan imendan!',
       },
       {

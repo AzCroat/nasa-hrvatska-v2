@@ -538,7 +538,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Way 2: Change the Suffix',
-        body: 'Here the PERFECTIVE is usually the shorter verb, and the imperfective is stretched with an extra syllable: kupiti → kupovati, dati → davati, otvoriti → otvarati, zatvoriti → zatvarati, vratiti → vraćati. So in these pairs the longer verb is the imperfective: kupujem (I buy, I am buying) comes from kupovati.',
+        body: 'Here the two verbs differ in the middle, not at the front: kupiti → kupovati, dati → davati, otvoriti → otvarati, zatvoriti → zatvarati, vratiti → vraćati. The perfective ends in -iti (or is the short dati); the imperfective ends in -ati or -ovati: kupujem (I buy, I am buying) comes from kupovati.',
         highlight: 'kupiti → kupovati',
       },
       {
@@ -722,7 +722,7 @@ export const LESSONS = [
         title: 'Aspect Pairs — Key Takeaways',
         points: [
           'Prefix pairs: pisati/napisati, čitati/pročitati, učiti/naučiti, piti/popiti',
-          'Suffix pairs: kupovati/kupiti, davati/dati, otvarati/otvoriti — the longer one is imperfective',
+          'Suffix pairs: kupovati/kupiti, davati/dati, otvarati/otvoriti — the -ati / -ovati verb is imperfective',
           'Different words: govoriti/reći; irregular: dolaziti/doći',
           'Right now and how long: imperfective — Sad pišem. Moram dva sata učiti.',
           'One finished result: perfective — Moram napisati e-mail.',
@@ -2425,7 +2425,7 @@ export const PRACTICE = {
       ['bismo', 'would (with mi)', 'Mi bismo došli u subotu.'],
       ['biste', 'would (with vi)', 'Biste li došli sutra?'],
       ['rado', 'gladly', 'Rado bih se odmorio.'],
-      ['kino', 'cinema', 'Išla bih u kino.'],
+      ['kino', 'movie theater', 'Išla bih u kino.'],
       ['kišobran', 'umbrella', 'Ne bih išla bez kišobrana.'],
       ['pomoći', 'to help', 'Bi li mi pomogao?'],
       ['odmoriti se', 'to rest', 'Rado bih se malo odmorio.'],
@@ -2548,7 +2548,7 @@ export const PRACTICE = {
           type: 'type',
           q: '____ bih kavu, molim. (I would like — a man)',
           answer: 'Htio',
-          accept: ['htio'],
+          accept: ['htio', 'Želio', 'želio'],
           hint: 'The participle of htjeti for a man.',
           explanation: 'Htio bih kavu, molim.',
         },
@@ -2556,6 +2556,7 @@ export const PRACTICE = {
           type: 'type',
           q: 'Ja bih ____ živjeti na moru. (love to — a woman)',
           answer: 'voljela',
+          accept: ['željela'],
           hint: 'The participle of voljeti for a woman — mind the lj.',
           explanation: 'Ja bih voljela živjeti na moru.',
         },

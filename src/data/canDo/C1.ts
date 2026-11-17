@@ -47,14 +47,14 @@ export const CAN_DO_C1: Readonly<Record<string, readonly string[]>> = {
   // objective-genitive · capitals-names-geography · passive-choices · tvorba-rijeci · hypocoristics-dvojica
   'C1-7': [
     'I can use the genitive after a noun, as in zaštita okoliša or čovjek velikog srca.',
-    'I can capitalise personal and place names correctly, as in Slavonski Brod.',
+    'I can capitalize personal and place names correctly, as in Slavonski Brod.',
     'I can choose the passive a Croatian writer would use and count men with dvojica and trojica.',
   ],
   // sklonidba-iznimke · collective-numbers · ethical-dative · capitals-institutions · diminutives-augmentatives
   'C1-8': [
     'I can decline foreign names and the nouns that break the usual pattern.',
     'I can count mixed groups with dvoje and troje and use the ethical dative: Kako ti je mama?',
-    'I can capitalise institutions such as Hrvatsko narodno kazalište and use diminutives with the right tone.',
+    'I can capitalize institutions such as Hrvatsko narodno kazalište and use diminutives with the right tone.',
   ],
   // indefinite-adjectives · exclamatory-dative · comparison-advanced · discourse-particles · idioms-register
   'C1-9': [

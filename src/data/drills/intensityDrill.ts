@@ -199,7 +199,7 @@ export const INTENSITY_DRILL_DATA: ModeDrillItem[] = [
     en: 'What does pre- express?',
     opts: ['prekomjernost', 'najviši stupanj', 'usporedbu', 'umanjenicu'],
     answer: 'prekomjernost',
-    tip: 'Excess. It is a judgement, not a measurement.',
+    tip: 'Excess. It is a judgment, not a measurement.',
   },
   {
     mode: 'prefiks',
@@ -215,7 +215,7 @@ export const INTENSITY_DRILL_DATA: ModeDrillItem[] = [
     en: 'Is "vrlo dobro" a problem?',
     opts: ['ne', 'da', 'ovisi', 'uvijek'],
     answer: 'ne',
-    tip: 'No — only pre- carries the "more than it should be" judgement.',
+    tip: 'No — only pre- carries the "more than it should be" judgment.',
   },
   {
     mode: 'prefiks',

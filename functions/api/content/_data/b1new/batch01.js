@@ -42,7 +42,7 @@ export const SPINE = [
     objectives: [
       'Describe what someone is like: vrijedan, iskren, strpljiv, tvrdoglav',
       'Compare two people’s characters with the comparative',
-      'Soften or sharpen a judgement with malo, pomalo, previše, jako',
+      'Soften or sharpen a judgment with malo, pomalo, previše, jako',
     ],
   },
   {
@@ -611,13 +611,13 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Comparing Characters',
-        body: 'Traits are ordinary adjectives, so they take the regular comparative -iji: strpljiv → strpljiviji, iskren → iskreniji, tvrdoglav → tvrdoglaviji, ljubazan → ljubazniji, hrabar → hrabriji, duhovit → duhovitiji. Ona je strpljivija od mene. Moj brat je tvrdoglaviji nego ja. To soften or sharpen a judgement put a word in front: malo or pomalo (a bit), jako or vrlo (very), previše (too): Pomalo je tvrdoglav. Previše je ozbiljan.',
+        body: 'Traits are ordinary adjectives, so they take the regular comparative -iji: strpljiv → strpljiviji, iskren → iskreniji, tvrdoglav → tvrdoglaviji, ljubazan → ljubazniji, hrabar → hrabriji, duhovit → duhovitiji. Ona je strpljivija od mene. Moj brat je tvrdoglaviji nego ja. To soften or sharpen a judgment put a word in front: malo or pomalo (a bit), jako or vrlo (very), previše (too): Pomalo je tvrdoglav. Previše je ozbiljan.',
         highlight: 'Ona je strpljivija od mene.',
       },
       {
         type: 'rule',
         title: 'Words That Look Alike but Judge Differently',
-        body: 'Croatian, like English, has pairs where one word praises and the other criticises the same behavior. štedljiv (thrifty) is a compliment; škrt (stingy) is not. duhovit means witty — someone who makes you laugh on purpose; smiješan can mean funny, but said of a person it often means ridiculous. siguran u sebe (self-confident) is good; umišljen (conceited) is not. Choosing the right one is half of describing someone fairly.',
+        body: 'Croatian, like English, has pairs where one word praises and the other criticizes the same behavior. štedljiv (thrifty) is a compliment; škrt (stingy) is not. duhovit means witty — someone who makes you laugh on purpose; smiješan can mean funny, but said of a person it often means ridiculous. siguran u sebe (self-confident) is good; umišljen (conceited) is not. Choosing the right one is half of describing someone fairly.',
         highlight: 'štedljiv, not škrt',
       },
       {
@@ -784,7 +784,7 @@ export const LESSONS = [
               'He is more stubborn than me.',
             ],
             correct: 2,
-            explanation: 'pomalo softens a judgement: a bit, somewhat.',
+            explanation: 'pomalo softens a judgment: a bit, somewhat.',
           },
           {
             q: 'Complete: "Ona je hrabra kao ___." (as brave as a lion)',
@@ -802,7 +802,7 @@ export const LESSONS = [
           'Many opposites take ne-: nestrpljiv, neiskren, nepouzdan; vrijedan ↔ lijen',
           'The a of -an / -ar drops: ljubazna, vrijedna, hrabra',
           'Compare with -iji: strpljiviji, iskreniji, tvrdoglaviji',
-          'pomalo, jako, previše soften or sharpen; štedljiv praises, škrt criticises',
+          'pomalo, jako, previše soften or sharpen; štedljiv praises, škrt criticizes',
           'Similes: vrijedan kao mrav, hrabar kao lav, tvrdoglav kao magarac — the animal stays nominative',
         ],
       },
@@ -1709,7 +1709,7 @@ export const PRACTICE = {
         answer: 'Moja sestra je strpljivija od brata.',
       },
       {
-        title: 'A Fair Judgement',
+        title: 'A Fair Judgment',
         problem: 'Reci: She is kind, but a bit stubborn.',
         en: 'She is kind, but a bit stubborn.',
         steps: [

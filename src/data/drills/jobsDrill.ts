@@ -197,7 +197,7 @@ export const JOBS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'ured',
     q: 'Što je "godišnji odmor"?',
     en: 'What is godišnji odmor?',
-    opts: ['annual leave', 'a day off', 'a bank holiday', 'a lunch break'],
+    opts: ['annual leave', 'a day off', 'a public holiday', 'a lunch break'],
     answer: 'annual leave',
     tip: 'Usually shortened to godišnji: Idem na godišnji.',
   },

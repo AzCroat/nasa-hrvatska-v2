@@ -1926,7 +1926,7 @@ export const PRACTICE = {
       ['tvrditi', 'to claim', 'Tvrdi da nije ništa vidio.'],
       ['dodati', 'to add', 'Dodala je da će zakasniti.'],
       ['priznati', 'to admit', 'Priznao je da je pogriješio.'],
-      ['zamoliti', 'to ask (a favour)', 'Zamolila me je da joj pomognem.'],
+      ['zamoliti', 'to ask (a favor)', 'Zamolila me je da joj pomognem.'],
       ['objasniti', 'to explain', 'Objasnio nam je kako doći do hotela.'],
       ['upozoriti', 'to warn', 'Upozorio nas je da je cesta zatvorena.'],
       ['poruka', 'message', 'Reci mu neka mi pošalje poruku.'],

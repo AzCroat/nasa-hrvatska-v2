@@ -237,6 +237,6 @@ export const NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'Where is the boundary most interesting?',
     opts: ['ondje gdje se razilaze', 'ondje gdje se slažu', 'u pravopisu', 'u rječniku'],
     answer: 'ondje gdje se razilaze',
-    tip: 'They agree almost everywhere; the C2 judgement lives in the gap.',
+    tip: 'They agree almost everywhere; the C2 judgment lives in the gap.',
   },
 ];

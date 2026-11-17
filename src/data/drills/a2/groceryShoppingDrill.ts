@@ -195,7 +195,7 @@ export const GROCERY_SHOPPING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'kupnja',
     q: 'U supermarketu uzmem košaricu ili ____.',
-    en: 'In the supermarket I take a basket or a trolley.',
+    en: 'In the supermarket I take a basket or a shopping cart.',
     opts: ['kolica', 'kolicu', 'kolicom', 'kolice'],
     answer: 'kolica',
     tip: 'Kolica is plural only; its accusative is kolica.',

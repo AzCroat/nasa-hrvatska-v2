@@ -371,7 +371,7 @@ export const LESSONS = [
           },
           {
             hr: 'Možeš platiti odmah ili možeš platiti na rate.',
-            en: 'You can pay now or you can pay in instalments.',
+            en: 'You can pay now or you can pay in installments.',
             note: 'ili — a choice; no comma before it',
           },
         ],
@@ -538,7 +538,7 @@ export const LESSONS = [
           ['popust', 'discount'],
           ['sniženje / rasprodaja', 'reduction / sale'],
           ['impulzivna kupnja', 'impulse buying'],
-          ['kupiti na rate', 'to buy in instalments'],
+          ['kupiti na rate', 'to buy in installments'],
           ['reklama / oglas', 'advert / advertisement'],
         ],
       },
@@ -618,8 +618,8 @@ export const LESSONS = [
           },
           {
             hr: 'Novi mobitel kupio sam na rate jer nisam imao dovoljno novca.',
-            en: 'I bought the new phone in instalments because I did not have enough money.',
-            note: 'kupiti na rate — to buy in instalments',
+            en: 'I bought the new phone in installments because I did not have enough money.',
+            note: 'kupiti na rate — to buy in installments',
           },
         ],
       },
@@ -750,10 +750,10 @@ export const LESSONS = [
             explanation: '"Keš" is colloquial for gotovina (cash). The other three are standard.',
           },
           {
-            q: 'Complete: "Kupio sam perilicu ___ rate." (I bought the washing machine in instalments.)',
+            q: 'Complete: "Kupio sam perilicu ___ rate." (I bought the washing machine in installments.)',
             options: ['na', 'u', 'za', 'po'],
             correct: 0,
-            explanation: 'You buy na rate — in instalments.',
+            explanation: 'You buy na rate — in installments.',
           },
           {
             q: 'Which slogan uses the superlative?',
@@ -1042,7 +1042,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'The Zagreb School of Animated Film',
-        body: "In the late 1950s artists at the studio Zagreb film developed a new style of cartoon: simple, stylised drawings, few movements and stories for adults as much as for children. Critics called it the Zagreb School of Animated Film (Zagrebačka škola crtanog filma). In 1962 Dušan Vukotić's short film Surogat won the Oscar for the best animated short film — the first animated film made outside the United States to win it. Profesor Baltazar, the friendly inventor of the later TV series, also comes from Zagreb film.",
+        body: "In the late 1950s artists at the studio Zagreb film developed a new style of cartoon: simple, stylized drawings, few movements and stories for adults as much as for children. Critics called it the Zagreb School of Animated Film (Zagrebačka škola crtanog filma). In 1962 Dušan Vukotić's short film Surogat won the Oscar for the best animated short film — the first animated film made outside the United States to win it. Profesor Baltazar, the friendly inventor of the later TV series, also comes from Zagreb film.",
         highlight: 'Zagrebačka škola crtanog filma',
       },
       {
@@ -1690,7 +1690,7 @@ export const PRACTICE = {
       ['jedino', 'only, except that', 'Sve je spremno, jedino nemamo kruha.'],
       ['izlog', 'shop window', 'U izlogu je bila lijepa jakna.'],
       ['trgovački centar', 'shopping centre', 'Subotom je trgovački centar pun ljudi.'],
-      ['na rate', 'in instalments', 'Televizor smo kupili na rate.'],
+      ['na rate', 'in installments', 'Televizor smo kupili na rate.'],
     ],
   },
 
@@ -1808,7 +1808,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: "Dopuni: 'Kupio sam perilicu na ____.' (in instalments)",
+          q: "Dopuni: 'Kupio sam perilicu na ____.' (in installments)",
           answer: 'rate',
           hint: 'The plural of rata, accusative after na.',
           explanation: 'kupiti na rate.',

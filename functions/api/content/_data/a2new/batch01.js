@@ -890,7 +890,7 @@ const OFFICIAL_FORMS = {
           en: 'I am a nurse by profession.',
         },
         {
-          hr: 'Moj OIB ima jedanaest brojeva.',
+          hr: 'Moj OIB ima jedanaest znamenaka.',
           en: 'My OIB has eleven digits.',
         },
         {
@@ -1019,7 +1019,7 @@ const ACCUSATIVE_ADJ = {
     {
       type: 'rule',
       title: 'A Masculine Thing: Nothing Changes',
-      body: 'If the masculine noun is a THING, the accusative is the same as the subject form — for the noun and for every word with it: novi stol → Kupujem novi stol. Taj grad → Volim taj grad. Moj auto → Perem moj auto. The same is true of every neuter noun: novo pismo → Čitam novo pismo; to selo → Volim to selo.',
+      body: 'If the masculine noun is a THING, the accusative is the same as the subject form — for the noun and for every word with it: novi stol → Kupujem novi stol. Taj grad → Volim taj grad. Tvoj auto → Vidim tvoj auto. The same is true of every neuter noun: novo pismo → Čitam novo pismo; to selo → Volim to selo.',
       highlight: 'Kupujem novi stol',
     },
     {
@@ -1536,7 +1536,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Razgovaram s ____. (sestra)',
+          q: 'Razgovaram sa ____. (sestra)',
           answer: 'sestrom',
           hint: 'With whom? — feminine instrumental.',
           explanation: 'sestrom — the feminine instrumental ends in -om.',
@@ -1853,11 +1853,12 @@ export const PRACTICE = {
           explanation: 's Lukinom mačkom — feminine instrumental -om.',
         },
         {
-          q: "Putujem s ___ bratom. (the sister's)",
+          q: "Putujem sa ___ bratom. (the sister's)",
           options: ['sestrin', 'sestrinim', 'sestrinom', 'sestrina'],
           correct: 1,
           hint: 'A masculine noun in the instrumental — the possessive ends in -im.',
-          explanation: 's sestrinim bratom — masculine instrumental.',
+          explanation:
+            'sa sestrinim bratom — masculine instrumental; s becomes sa before another s.',
         },
         {
           q: "Gledam ___ fotografije. (mom's)",
@@ -1984,7 +1985,7 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Answering "Kada i gdje ste rođeni?"',
-        problem: 'A woman born in Pula on 7 June 1992 answers: "Kada i gdje ste rođeni?"',
+        problem: 'A woman born in Pula on June 7, 1992 answers: "Kada i gdje ste rođeni?"',
         en: 'I was born on the seventh of June 1992 in Pula.',
         steps: [
           { label: 'Who is speaking', text: 'A woman: rođena sam.' },
@@ -2477,9 +2478,9 @@ export const PRACTICE = {
       {
         q: 'Which order is correct for "I showed them to you"? (Vi, a man speaking)',
         options: [
-          'Pokazao sam ih vam.',
-          'Pokazao vam sam ih.',
-          'Pokazao sam vam ih.',
+          'Pokazao sam ih Vam.',
+          'Pokazao Vam sam ih.',
+          'Pokazao sam Vam ih.',
           'Vam sam ih pokazao.',
         ],
         correct: 2,

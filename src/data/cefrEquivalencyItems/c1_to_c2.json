@@ -16,122 +16,67 @@
     },
     {
       "q": "What does 'neizbježnost' mean in formal register?",
-      "o": [
-        "Inevitability",
-        "Indifference",
-        "Inadequacy",
-        "Independence"
-      ],
+      "o": ["Inevitability", "Indifference", "Inadequacy", "Independence"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does the abstract noun 'proizvoljnost' mean?",
-      "o": [
-        "Productivity",
-        "Arbitrariness",
-        "Proportionality",
-        "Provisionality"
-      ],
+      "o": ["Productivity", "Arbitrariness", "Proportionality", "Provisionality"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In a literary essay, what does 'opora istina' connote?",
-      "o": [
-        "A sweet truth",
-        "A harsh / astringent truth",
-        "A trivial truth",
-        "A hidden truth"
-      ],
+      "o": ["A sweet truth", "A harsh / astringent truth", "A trivial truth", "A hidden truth"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Choose the most appropriate formal synonym for 'reći' in a parliamentary debate context:",
-      "o": [
-        "kazati",
-        "ustvrditi",
-        "lupati",
-        "brbljati"
-      ],
+      "o": ["kazati", "ustvrditi", "lupati", "brbljati"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does the literary verb 'sažimati' mean?",
-      "o": [
-        "To bury",
-        "To condense / summarize",
-        "To squander",
-        "To wander"
-      ],
+      "o": ["To bury", "To condense / summarize", "To squander", "To wander"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'krhkost' denote in essayistic register?",
-      "o": [
-        "Cruelty",
-        "Fragility",
-        "Clarity",
-        "Curiosity"
-      ],
+      "o": ["Cruelty", "Fragility", "Clarity", "Curiosity"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In a Dalmatian text the word 'pjat' appears. What does it mean in standard Croatian?",
-      "o": [
-        "tanjur (plate)",
-        "trg (square)",
-        "ploča (board)",
-        "klupa (bench)"
-      ],
+      "o": ["tanjur (plate)", "trg (square)", "ploča (board)", "klupa (bench)"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "The Kajkavian-flavoured word 'kaj' corresponds in standard Croatian to:",
-      "o": [
-        "tko",
-        "što",
-        "kako",
-        "gdje"
-      ],
+      "o": ["tko", "što", "kako", "gdje"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In a Čakavian poem the form 'ča' appears. It corresponds to standard:",
-      "o": [
-        "što",
-        "tko",
-        "čiji",
-        "kada"
-      ],
+      "o": ["što", "tko", "čiji", "kada"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does the literary adjective 'jezgrovit' mean (e.g., 'jezgrovit stil')?",
-      "o": [
-        "Verbose",
-        "Pithy / concise and pointed",
-        "Jagged",
-        "Ornate"
-      ],
+      "o": ["Verbose", "Pithy / concise and pointed", "Jagged", "Ornate"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In the fixed expression 'iz petnih žila', what does it mean?",
-      "o": [
-        "Half-heartedly",
-        "With all one's might",
-        "On the side",
-        "By chance"
-      ],
+      "o": ["Half-heartedly", "With all one's might", "On the side", "By chance"],
       "c": 1,
       "skill": "vocab"
     },
@@ -148,56 +93,31 @@
     },
     {
       "q": "The phrase 'gledati kroz prste' idiomatically means:",
-      "o": [
-        "To stare angrily",
-        "To turn a blind eye / overlook",
-        "To be jealous",
-        "To be afraid"
-      ],
+      "o": ["To stare angrily", "To turn a blind eye / overlook", "To be jealous", "To be afraid"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The legal/formal verb 'razvidjeti' in 'razvidjeti činjenice' means:",
-      "o": [
-        "To dismiss",
-        "To ascertain / consider in detail",
-        "To deny",
-        "To delay"
-      ],
+      "o": ["To dismiss", "To ascertain / consider in detail", "To deny", "To delay"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The abstract noun 'dvojbenost' means:",
-      "o": [
-        "Duplicity",
-        "Dubiousness / questionability",
-        "Duality of role",
-        "Doubling"
-      ],
+      "o": ["Duplicity", "Dubiousness / questionability", "Duality of role", "Doubling"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "In academic Croatian, 'tumačiti' most closely means:",
-      "o": [
-        "To shake",
-        "To interpret / expound",
-        "To trade",
-        "To threaten"
-      ],
+      "o": ["To shake", "To interpret / expound", "To trade", "To threaten"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The literary noun 'sjeta' refers to:",
-      "o": [
-        "Wistful melancholy",
-        "Sudden anger",
-        "Bright joy",
-        "Fierce envy"
-      ],
+      "o": ["Wistful melancholy", "Sudden anger", "Bright joy", "Fierce envy"],
       "c": 0,
       "skill": "vocab"
     },
@@ -214,23 +134,13 @@
     },
     {
       "q": "In Croatian academic writing, 'neosporno' means:",
-      "o": [
-        "Disputed",
-        "Indisputably",
-        "Negotiable",
-        "Provisional"
-      ],
+      "o": ["Disputed", "Indisputably", "Negotiable", "Provisional"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does the literary noun 'tlapnja' mean?",
-      "o": [
-        "A solemn vow",
-        "A delusion / vain illusion",
-        "A loud quarrel",
-        "A heavy burden"
-      ],
+      "o": ["A solemn vow", "A delusion / vain illusion", "A loud quarrel", "A heavy burden"],
       "c": 1,
       "skill": "vocab"
     },
@@ -269,12 +179,7 @@
     },
     {
       "q": "The collocation 'nepokolebljiva odlučnost' means:",
-      "o": [
-        "Wavering hesitation",
-        "Unshakeable resolve",
-        "Reluctant agreement",
-        "Sudden impulse"
-      ],
+      "o": ["Wavering hesitation", "Unshakeable resolve", "Reluctant agreement", "Sudden impulse"],
       "c": 1,
       "skill": "vocab"
     },
@@ -379,12 +284,7 @@
     },
     {
       "q": "In literary register, 'suton' most evocatively denotes:",
-      "o": [
-        "Dawn",
-        "Dusk / twilight",
-        "Noon",
-        "Midnight"
-      ],
+      "o": ["Dawn", "Dusk / twilight", "Noon", "Midnight"],
       "c": 1,
       "skill": "vocab"
     },
@@ -412,12 +312,7 @@
     },
     {
       "q": "The noun 'predumišljaj' (legal register) means:",
-      "o": [
-        "Premeditation",
-        "Negligence",
-        "Self-defence",
-        "Confession"
-      ],
+      "o": ["Premeditation", "Negligence", "Self-defence", "Confession"],
       "c": 0,
       "skill": "vocab"
     },
@@ -456,23 +351,13 @@
     },
     {
       "q": "What does the literary adjective 'mrzovoljan' mean?",
-      "o": [
-        "Cheerful",
-        "Sullen / ill-tempered",
-        "Generous",
-        "Talkative"
-      ],
+      "o": ["Cheerful", "Sullen / ill-tempered", "Generous", "Talkative"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The collocation 'oštrouman' describes a person who is:",
-      "o": [
-        "Sharp-witted / perspicacious",
-        "Stubborn",
-        "Absent-minded",
-        "Hot-tempered"
-      ],
+      "o": ["Sharp-witted / perspicacious", "Stubborn", "Absent-minded", "Hot-tempered"],
       "c": 0,
       "skill": "vocab"
     },
@@ -489,12 +374,7 @@
     },
     {
       "q": "The verb 'razobličiti' in critical prose means:",
-      "o": [
-        "To disguise",
-        "To expose / unmask",
-        "To beautify",
-        "To duplicate"
-      ],
+      "o": ["To disguise", "To expose / unmask", "To beautify", "To duplicate"],
       "c": 1,
       "skill": "vocab"
     },
@@ -533,45 +413,25 @@
     },
     {
       "q": "The adjective 'suvisao' (e.g. 'suvisao odgovor') means:",
-      "o": [
-        "Coherent / sensible and to the point",
-        "Lengthy",
-        "Hesitant",
-        "Aggressive"
-      ],
+      "o": ["Coherent / sensible and to the point", "Lengthy", "Hesitant", "Aggressive"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "The idiom 'lije kao iz kabla' describes:",
-      "o": [
-        "A drought",
-        "Pouring rain",
-        "A gentle breeze",
-        "Dense fog"
-      ],
+      "o": ["A drought", "Pouring rain", "A gentle breeze", "Dense fog"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'okosnica' mean (e.g. 'okosnica argumenta')?",
-      "o": [
-        "A weak point",
-        "The backbone / core framework",
-        "A digression",
-        "A footnote"
-      ],
+      "o": ["A weak point", "The backbone / core framework", "A digression", "A footnote"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The verb 'posvjedočiti' in formal register means:",
-      "o": [
-        "To bear witness / attest",
-        "To deny under oath",
-        "To consecrate",
-        "To forecast"
-      ],
+      "o": ["To bear witness / attest", "To deny under oath", "To consecrate", "To forecast"],
       "c": 0,
       "skill": "vocab"
     },
@@ -610,12 +470,7 @@
     },
     {
       "q": "In elevated register, 'zaludu' means:",
-      "o": [
-        "In vain / to no avail",
-        "On purpose",
-        "At once",
-        "By chance"
-      ],
+      "o": ["In vain / to no avail", "On purpose", "At once", "By chance"],
       "c": 0,
       "skill": "vocab"
     },
@@ -632,12 +487,7 @@
     },
     {
       "q": "The verb 'opovrgnuti' means:",
-      "o": [
-        "To confirm",
-        "To refute / rebut",
-        "To postpone",
-        "To summarize"
-      ],
+      "o": ["To confirm", "To refute / rebut", "To postpone", "To summarize"],
       "c": 1,
       "skill": "vocab"
     },
@@ -665,100 +515,55 @@
     },
     {
       "q": "Choose the correct active past participle (glagolski pridjev radni) of 'doći' in m.sg.:",
-      "o": [
-        "došavši",
-        "došao",
-        "dolazeći",
-        "dolazivši"
-      ],
+      "o": ["došavši", "došao", "dolazeći", "dolazivši"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct passive participle (glagolski pridjev trpni) of 'napisati' in n.sg.:",
-      "o": [
-        "napisano",
-        "napisavši",
-        "pisajući",
-        "pišući"
-      ],
+      "o": ["napisano", "napisavši", "pisajući", "pišući"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct present gerund (glagolski prilog sadašnji) of 'čitati':",
-      "o": [
-        "čitavši",
-        "pročitavši",
-        "čitajući",
-        "čitan"
-      ],
+      "o": ["čitavši", "pročitavši", "čitajući", "čitan"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct past gerund (glagolski prilog prošli) of 'završiti':",
-      "o": [
-        "završavajući",
-        "završivši",
-        "završen",
-        "završio"
-      ],
+      "o": ["završavajući", "završivši", "završen", "završio"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete: 'Kad ___ pismo, odmah ću ti javiti.' (use futur II of 'primiti')",
-      "o": [
-        "budem primao",
-        "budem primio",
-        "primio sam",
-        "primam"
-      ],
+      "o": ["budem primao", "budem primio", "primio sam", "primam"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete: 'Da je tada postupio drukčije, danas ___.' (kondicional II)",
-      "o": [
-        "bio bi sretniji",
-        "bio bi bio sretniji",
-        "bit će sretniji",
-        "bio sretniji"
-      ],
+      "o": ["bio bi sretniji", "bio bi bio sretniji", "bit će sretniji", "bio sretniji"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Which aspect pair is suppletive (with no morphological derivation between the members)?",
-      "o": [
-        "pisati / napisati",
-        "govoriti / reći",
-        "čitati / pročitati",
-        "raditi / uraditi"
-      ],
+      "o": ["pisati / napisati", "govoriti / reći", "čitati / pročitati", "raditi / uraditi"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Which is the correct perfective counterpart of 'dolaziti'?",
-      "o": [
-        "dohoditi",
-        "dolazivati",
-        "doći",
-        "doletjeti"
-      ],
+      "o": ["dohoditi", "dolazivati", "doći", "doletjeti"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the most natural and most formal word order: 'Predsjednik je jučer ___ govor u parlamentu.'",
-      "o": [
-        "održao značajan",
-        "značajan održao",
-        "održao je značajan",
-        "značajan je održao"
-      ],
+      "o": ["održao značajan", "značajan održao", "održao je značajan", "značajan je održao"],
       "c": 0,
       "skill": "grammar"
     },
@@ -775,45 +580,25 @@
     },
     {
       "q": "Choose the correct enclitic order: 'Knjigu ___ jučer.'",
-      "o": [
-        "sam mu je dao",
-        "mu sam je dao",
-        "je mu sam dao",
-        "sam je mu dao"
-      ],
+      "o": ["sam mu je dao", "mu sam je dao", "je mu sam dao", "sam je mu dao"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "In a 19th-century literary text appears: 'I reče mu starac...'. What verb form is 'reče'?",
-      "o": [
-        "3rd sg. present",
-        "3rd sg. aorist",
-        "3rd sg. imperfect",
-        "3rd sg. imperative"
-      ],
+      "o": ["3rd sg. present", "3rd sg. aorist", "3rd sg. imperfect", "3rd sg. imperative"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the grammatically correct passive construction: 'Zakon ___ jednoglasno.'",
-      "o": [
-        "je donio",
-        "je donesen",
-        "donosi se bivši",
-        "biva donijevši"
-      ],
+      "o": ["je donio", "je donesen", "donosi se bivši", "biva donijevši"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct relative clause: 'Pisac, ___ djelo razmatramo, rođen je u Zagrebu.'",
-      "o": [
-        "kojeg",
-        "čije",
-        "koje",
-        "kojem"
-      ],
+      "o": ["kojeg", "čije", "koje", "kojem"],
       "c": 1,
       "skill": "grammar"
     },
@@ -830,34 +615,19 @@
     },
     {
       "q": "In the Croatian 4-accent system, which pair of diacritics marks long-falling (dugosilazni) and short-rising (kratkouzlazni) respectively?",
-      "o": [
-        "◌̏ and ◌̀",
-        "◌̑ and ◌̀",
-        "◌̀ and ◌̑",
-        "◌̏ and ◌̑"
-      ],
+      "o": ["◌̏ and ◌̀", "◌̑ and ◌̀", "◌̀ and ◌̑", "◌̏ and ◌̑"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Which marker indicates a post-tonic unstressed length, used in standard Croatian prosody?",
-      "o": [
-        "◌̏",
-        "◌̑",
-        "◌̄ (macron)",
-        "◌̀"
-      ],
+      "o": ["◌̏", "◌̑", "◌̄ (macron)", "◌̀"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct case after 'unatoč': 'Unatoč ___ stigli su na vrijeme.'",
-      "o": [
-        "kiše",
-        "kišu",
-        "kiši",
-        "kišom"
-      ],
+      "o": ["kiše", "kišu", "kiši", "kišom"],
       "c": 2,
       "skill": "grammar"
     },
@@ -885,78 +655,43 @@
     },
     {
       "q": "Complete with the correct case after the preposition 'usprkos': 'Usprkos ___, projekt je dovršen.'",
-      "o": [
-        "svim poteškoćama",
-        "svih poteškoća",
-        "sve poteškoće",
-        "svim poteškoća"
-      ],
+      "o": ["svim poteškoćama", "svih poteškoća", "sve poteškoće", "svim poteškoća"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the standard genitive plural: 'Nemamo dovoljno ___.'",
-      "o": [
-        "zadataka",
-        "zadatka",
-        "zadatci",
-        "zadace"
-      ],
+      "o": ["zadataka", "zadatka", "zadatci", "zadace"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which form correctly completes the comparative of quality: 'Ovaj je tekst ___ od prethodnoga.' (use 'dobar')",
-      "o": [
-        "dobriji",
-        "bolji",
-        "najbolji",
-        "boljiji"
-      ],
+      "o": ["dobriji", "bolji", "najbolji", "boljiji"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct aspect: 'Dok sam ___ pismo, zazvonio je telefon.'",
-      "o": [
-        "napisao",
-        "pisao",
-        "napišem",
-        "napisavši"
-      ],
+      "o": ["napisao", "pisao", "napišem", "napisavši"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct aspect: 'Čim ___ pismo, izašao je iz sobe.'",
-      "o": [
-        "je pisao",
-        "je napisao",
-        "piše",
-        "bi pisao"
-      ],
+      "o": ["je pisao", "je napisao", "piše", "bi pisao"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct instrumental of accompaniment: 'Razgovarao je ___.'",
-      "o": [
-        "s prijateljem",
-        "prijateljem",
-        "s prijatelja",
-        "prijatelju"
-      ],
+      "o": ["s prijateljem", "prijateljem", "s prijatelja", "prijatelju"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct instrumental of means (no preposition): 'Pisao je ___.'",
-      "o": [
-        "s olovkom",
-        "olovkom",
-        "olovku",
-        "olovke"
-      ],
+      "o": ["s olovkom", "olovkom", "olovku", "olovke"],
       "c": 1,
       "skill": "grammar"
     },
@@ -973,23 +708,13 @@
     },
     {
       "q": "Complete with the grammatically required negative genitive: 'Nemam ___.'",
-      "o": [
-        "vremena",
-        "vrijeme",
-        "vremenom",
-        "vremenu"
-      ],
+      "o": ["vremena", "vrijeme", "vremenom", "vremenu"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct vocative: 'Dragi ___, hvala vam na pozivu.' (use 'prijatelj')",
-      "o": [
-        "prijatelje",
-        "prijatelju",
-        "prijatelja",
-        "prijatelji"
-      ],
+      "o": ["prijatelje", "prijatelju", "prijatelja", "prijatelji"],
       "c": 1,
       "skill": "grammar"
     },
@@ -1006,12 +731,7 @@
     },
     {
       "q": "Choose the correct conditional in a polite request: '___ li mi pomoći?'",
-      "o": [
-        "Hoćete",
-        "Biste",
-        "Budete",
-        "Htjedoste"
-      ],
+      "o": ["Hoćete", "Biste", "Budete", "Htjedoste"],
       "c": 1,
       "skill": "grammar"
     },
@@ -1028,199 +748,109 @@
     },
     {
       "q": "Complete with the correct case after 'radi' (purpose): 'Otišao je ___ posla.'",
-      "o": [
-        "radi",
-        "zbog",
-        "za",
-        "po"
-      ],
+      "o": ["radi", "zbog", "za", "po"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which preposition is correct for cause here: '___ kiše utakmica je odgođena.'",
-      "o": [
-        "radi",
-        "zbog",
-        "uslijed čega",
-        "zaradi"
-      ],
+      "o": ["radi", "zbog", "uslijed čega", "zaradi"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct form: 'Govorio je o ___ knjigama.' (use 'svoj')",
-      "o": [
-        "svojim",
-        "svojima",
-        "svoje",
-        "svojih"
-      ],
+      "o": ["svojim", "svojima", "svoje", "svojih"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which sentence correctly distinguishes 'svoj' from 'njegov'? 'Ivan je uzeo ___ kaput (his own).'",
-      "o": [
-        "njegov",
-        "svoj",
-        "njegovog",
-        "svojega ga"
-      ],
+      "o": ["njegov", "svoj", "njegovog", "svojega ga"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Complete with the locative after 'po': 'Šetali su ___ gradu.'",
-      "o": [
-        "po grad",
-        "po gradu",
-        "po grada",
-        "po gradom"
-      ],
+      "o": ["po grad", "po gradu", "po grada", "po gradom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Which numeral construction is standard: 'U sobi su bila ___.'",
-      "o": [
-        "dva prozora",
-        "dvije prozora",
-        "dva prozori",
-        "dvaju prozora"
-      ],
+      "o": ["dva prozora", "dvije prozora", "dva prozori", "dvaju prozora"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct genitive after the number 'pet': 'U razredu je ___.'",
-      "o": [
-        "pet učenika",
-        "pet učenici",
-        "pet učenik",
-        "pet učenicima"
-      ],
+      "o": ["pet učenika", "pet učenici", "pet učenik", "pet učenicima"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which sentence shows correct past-tense agreement with a feminine plural subject?",
-      "o": [
-        "Žene su došle.",
-        "Žene su došli.",
-        "Žene su došla.",
-        "Žene je došlo."
-      ],
+      "o": ["Žene su došle.", "Žene su došli.", "Žene su došla.", "Žene je došlo."],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct comparative adverb: 'Radi ___ nego prije.' (use 'brzo')",
-      "o": [
-        "brže",
-        "brzije",
-        "najbrže",
-        "brzlje"
-      ],
+      "o": ["brže", "brzije", "najbrže", "brzlje"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which sentence correctly uses the aorist for vivid narration?",
-      "o": [
-        "Ustadoh i iziđoh.",
-        "Ustao iziđoh.",
-        "Ustadoh i izaći.",
-        "Ustanem i iziđoh."
-      ],
+      "o": ["Ustadoh i iziđoh.", "Ustao iziđoh.", "Ustadoh i izaći.", "Ustanem i iziđoh."],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the standard form of the imperfect of 'biti' (3rd sg.):",
-      "o": [
-        "bijaše",
-        "bivši",
-        "budnem",
-        "bijati"
-      ],
+      "o": ["bijaše", "bivši", "budnem", "bijati"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct supine-like infinitive of intent after 'ići': 'Idem ___ kruh.' (most natural standard)",
-      "o": [
-        "kupiti",
-        "kupivši",
-        "kupujući",
-        "kupovati da"
-      ],
+      "o": ["kupiti", "kupivši", "kupujući", "kupovati da"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which is the correct dative of 'ja' in 'Daj ___ knjigu.'?",
-      "o": [
-        "mi",
-        "me",
-        "mnom",
-        "meni je"
-      ],
+      "o": ["mi", "me", "mnom", "meni je"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct clitic placement after a sentence-initial conjunction: 'Ako ___ vremena, doći ću.'",
-      "o": [
-        "budem imao",
-        "imam budem",
-        "budem imati",
-        "imati budem"
-      ],
+      "o": ["budem imao", "imam budem", "budem imati", "imati budem"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which sentence correctly uses 'trebati' impersonally? ('One should rest.')",
-      "o": [
-        "Treba se odmoriti.",
-        "Treba odmoriti se.",
-        "Treba da odmara se.",
-        "Trebaju odmoriti."
-      ],
+      "o": ["Treba se odmoriti.", "Treba odmoriti se.", "Treba da odmara se.", "Trebaju odmoriti."],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Complete with the correct genitive after 'tijekom': 'Tijekom ___ mnogo se promijenilo.'",
-      "o": [
-        "godine",
-        "godinu",
-        "godini",
-        "godinom"
-      ],
+      "o": ["godine", "godinu", "godini", "godinom"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which form is the standard l-participle of 'htjeti' (m.sg.)?",
-      "o": [
-        "htio",
-        "htjeo",
-        "hoćao",
-        "htijao"
-      ],
+      "o": ["htio", "htjeo", "hoćao", "htijao"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct reflexive passive (se-passive): 'Ovdje ___ hrvatski.'",
-      "o": [
-        "govori se",
-        "se govoriti",
-        "je govoren",
-        "govoreći se"
-      ],
+      "o": ["govori se", "se govoriti", "je govoren", "govoreći se"],
       "c": 0,
       "skill": "grammar"
     },
@@ -1237,56 +867,31 @@
     },
     {
       "q": "Complete with the negated existential: 'U sobi ___ nikoga.'",
-      "o": [
-        "nema",
-        "ne ima",
-        "nije ima",
-        "nemaju"
-      ],
+      "o": ["nema", "ne ima", "nije ima", "nemaju"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which is the standard accusative of 'tko' in 'Koga si vidio?'?",
-      "o": [
-        "Koga",
-        "Kome",
-        "Kim",
-        "Tko"
-      ],
+      "o": ["Koga", "Kome", "Kim", "Tko"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct construction: 'Nadam se ___ ćeš uspjeti.'",
-      "o": [
-        "da",
-        "kako da",
-        "neka",
-        "li"
-      ],
+      "o": ["da", "kako da", "neka", "li"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Which sentence places the second-position clitic correctly with an object fronted for emphasis? ('I gave THE BOOK to him.')",
-      "o": [
-        "Knjigu sam mu dao.",
-        "Knjigu mu sam dao.",
-        "Knjigu dao sam mu.",
-        "Sam knjigu mu dao."
-      ],
+      "o": ["Knjigu sam mu dao.", "Knjigu mu sam dao.", "Knjigu dao sam mu.", "Sam knjigu mu dao."],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Complete with the standard genitive plural of 'sestra': 'Imam pet ___.'",
-      "o": [
-        "sestara",
-        "sestri",
-        "sestre",
-        "sestrah"
-      ],
+      "o": ["sestara", "sestri", "sestre", "sestrah"],
       "c": 0,
       "skill": "grammar"
     },
@@ -1303,12 +908,7 @@
     },
     {
       "q": "Choose the correct case after 'protiv': 'Glasovao je protiv ___.' (use 'prijedlog')",
-      "o": [
-        "prijedloga",
-        "prijedlog",
-        "prijedlogu",
-        "prijedlogom"
-      ],
+      "o": ["prijedloga", "prijedlog", "prijedlogu", "prijedlogom"],
       "c": 0,
       "skill": "grammar"
     },
@@ -1564,7 +1164,7 @@
       "passage": "Svaka nova udobnost dolazi s neviđenim računom koji se plaća na rate, gotovo neprimjetno. Kad smo prepustili pamćenje brojeva uređajima, oslobodili smo um — ali smo ujedno zaboravili kako se pamti. Kad su nas algoritmi počeli voditi kroz grad, prestali smo graditi unutarnju kartu prostora. Ništa od toga nije katastrofa, niti poziv na povratak u prošlost; bilo bi smiješno odricati se onoga što olakšava život. Riječ je tek o tome da budemo svjesni razmjene: za svaku stvar koju stroj preuzme, jedna se naša sposobnost tiho povlači u stranu. Pitanje nije trebamo li takve alate, nego znamo li još i bez njih."
     },
     {
-      "q": "The metaphor 'račun koji se plaća na rate' (a bill paid in instalments) conveys that the cost of convenience is:",
+      "q": "The metaphor 'račun koji se plaća na rate' (a bill paid in installments) conveys that the cost of convenience is:",
       "o": [
         "Paid all at once and immediately obvious.",
         "Incurred gradually and almost imperceptibly over time.",
@@ -1663,7 +1263,7 @@
       "q": "What is the author's main point about the popular phrase 'samo iznosim činjenice' ('I'm just stating facts')?",
       "o": [
         "Facts can indeed be presented entirely free of interpretation.",
-        "The very selection and arrangement of 'facts' already embeds a judgement, so the claim of pure neutrality is itself a rhetorical move.",
+        "The very selection and arrangement of 'facts' already embeds a judgment, so the claim of pure neutrality is itself a rhetorical move.",
         "Facts are always false and should be distrusted.",
         "Only experts are entitled to state facts in public debate."
       ],

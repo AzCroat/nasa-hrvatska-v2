@@ -316,7 +316,7 @@ export const PRACTICE_A2 = {
           correct: 1,
           hint: 'A teacher gets the polite form — and hvala takes the dative, not the accusative.',
           explanation:
-            'Hvala Vam na pomoći — the polite Vi, in the dative after hvala. Writing to one person, it is capitalised as a courtesy.',
+            'Hvala Vam na pomoći — the polite Vi, in the dative after hvala. Writing to one person, it is capitalized as a courtesy.',
         },
         {
           q: 'Pitaš dijete u parku kako se zove.',
@@ -426,7 +426,7 @@ export const PRACTICE_A2 = {
     },
     checkB: [
       {
-        q: 'You ask a waiter you do not know for the bill. Complete: "___ li mi donijeti račun?"',
+        q: 'You ask a waiter you do not know for the check. Complete: "___ li mi donijeti račun?"',
         options: ['Možeš', 'Može', 'Možete', 'Možemo'],
         correct: 2,
         explanation:
@@ -479,8 +479,8 @@ export const PRACTICE_A2 = {
       },
     ],
     vocab: [
-      ['gospodin', 'Mr, sir', 'Gospodine, izvolite sjesti.'],
-      ['gospođa', 'Mrs, madam', 'Gospođo Marić, kako ste?'],
+      ['gospodin', 'Mr., sir', 'Gospodine, izvolite sjesti.'],
+      ['gospođa', 'Mrs., madam', 'Gospođo Marić, kako ste?'],
       ['oprostite', 'excuse me (polite)', 'Oprostite, gdje je pošta?'],
       ['izvolite', 'here you are, please (polite)', 'Izvolite, Vaša kava.'],
       ['molim', 'please; pardon?', 'Molim Vas, pričekajte trenutak.'],
@@ -1302,7 +1302,7 @@ export const PRACTICE_A2 = {
       ['trgovina', 'shop', 'Idem u trgovinu po kruh.'],
       ['kafić', 'café', 'Nađimo se u kafiću.'],
       ['restoran', 'restaurant', 'Večeras idemo u restoran.'],
-      ['ormar', 'wardrobe', 'Torba je u ormaru.'],
+      ['ormar', 'closet', 'Torba je u ormaru.'],
       ['šećer', 'sugar', 'Kava bez šećera, molim.'],
       ['vrt', 'garden', 'Baka sjedi u vrtu.'],
     ],
@@ -2461,7 +2461,7 @@ export const PRACTICE_A2 = {
           type: 'type',
           q: 'Pomažem ____ bratu. (my own — dative)',
           answer: 'svojem',
-          accept: ['svom', 'svojemu'],
+          accept: ['svom', 'svome', 'svojemu'],
           hint: 'The owner is the subject, and bratu is a masculine dative.',
           explanation: 'svojem (or svom) bratu — svoj in the dative, like mojem/mom.',
         },
@@ -2971,7 +2971,7 @@ export const PRACTICE_A2 = {
       ['previše', 'too much, too many', 'Ljeti je previše turista.'],
       ['koliko', 'how much, how many', 'Koliko košta ova torba?'],
       ['kilogram', 'kilogram', 'Kupila sam kilogram jabuka.'],
-      ['litra', 'litre', 'Treba nam litra mlijeka.'],
+      ['litra', 'liter', 'Treba nam litra mlijeka.'],
       ['šalica', 'cup', 'Popila sam šalicu kave.'],
       ['boca', 'bottle', 'Donio je bocu vina.'],
       ['komad', 'piece', 'Pojeo sam komad torte.'],
@@ -4287,7 +4287,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Živim u ____. (a flat — stan)',
+          q: 'Živim u ____. (an apartment — stan)',
           answer: 'stanu',
           hint: 'Where you live is a position, so u takes the locative.',
           explanation: 'u stanu — masculine locative -u.',
@@ -4397,7 +4397,7 @@ export const PRACTICE_A2 = {
     ],
     vocab: [
       ['kuća', 'house', 'Živimo u kući s vrtom.'],
-      ['stan', 'flat, apartment', 'Moj stan je na trećem katu.'],
+      ['stan', 'apartment', 'Moj stan je na trećem katu.'],
       ['soba', 'room', 'Ovo je moja soba.'],
       ['kuhinja', 'kitchen', 'Mama kuha u kuhinji.'],
       ['kupaonica', 'bathroom', 'Kupaonica je mala.'],
@@ -4625,7 +4625,7 @@ export const PRACTICE_A2 = {
             text: 'košulja is feminine and the object: bijela košulja → bijelu košulju.',
           },
           {
-            label: 'The trousers',
+            label: 'The pants',
             text: 'hlače is always feminine plural; its object form does not change, and the color takes -e: sive hlače.',
           },
         ],
@@ -4801,7 +4801,7 @@ export const PRACTICE_A2 = {
     vocab: [
       ['majica', 'T-shirt', 'Nosim crvenu majicu.'],
       ['košulja', 'shirt', 'Brat nosi bijelu košulju.'],
-      ['hlače', 'trousers', 'Ove hlače su nove.'],
+      ['hlače', 'pants', 'Ove hlače su nove.'],
       ['traperice', 'jeans', 'Kupila sam nove traperice.'],
       ['suknja', 'skirt', 'Nosi crnu suknju.'],
       ['haljina', 'dress', 'Ovo je lijepa haljina.'],
@@ -5268,10 +5268,10 @@ export const PRACTICE_A2 = {
           explanation: 'predaje — predavati is to teach or lecture.',
         },
         {
-          q: 'U školi sam dobio dobru ___. (mark)',
+          q: 'U školi sam dobio dobru ___. (grade)',
           options: ['ocjenu', 'ocjena', 'ocjeni', 'ocjene'],
           correct: 0,
-          hint: 'The mark is what you received — the object, and the word is feminine.',
+          hint: 'The grade is what you received — the object, and the word is feminine.',
           explanation: 'dobru ocjenu — feminine accusative.',
         },
         {
@@ -5297,7 +5297,7 @@ export const PRACTICE_A2 = {
         },
         {
           type: 'type',
-          q: 'Moj brat je ____. (a school pupil)',
+          q: 'Moj brat je ____. (a school student)',
           answer: 'učenik',
           hint: 'A school student is not called a student in Croatian.',
           explanation: 'učenik — student is only for university.',
@@ -5348,7 +5348,7 @@ export const PRACTICE_A2 = {
           'Learning in general, on your own, is učiti: učim. studirati claims a university course, and predavati is teaching.',
       },
       {
-        q: 'Complete: "Kći je ___ osnovnoj školi." (in primary school)',
+        q: 'Complete: "Kći je ___ osnovnoj školi." (in elementary school)',
         options: ['na', 'u', 'kod', 'do'],
         correct: 1,
         explanation: 'škola pairs with u: u osnovnoj školi. na belongs with fakultet.',
@@ -5394,12 +5394,12 @@ export const PRACTICE_A2 = {
       ['učiti', 'to learn, to study', 'Učim hrvatski svaki dan.'],
       ['studirati', 'to study in college', 'Ana studira pravo.'],
       ['predavati', 'to teach, to lecture', 'Profesor predaje na fakultetu.'],
-      ['učenik', 'school pupil', 'Moj sin je učenik.'],
+      ['učenik', 'school student', 'Moj sin je učenik.'],
       ['student', 'university student', 'Ona je studentica.'],
       ['škola', 'school', 'Djeca su u školi.'],
       ['fakultet', 'faculty, university', 'Idem na fakultet.'],
       ['ispit', 'exam', 'Sutra imam ispit iz povijesti.'],
-      ['ocjena', 'mark, grade', 'Dobio sam dobru ocjenu.'],
+      ['ocjena', 'grade', 'Dobio sam dobru ocjenu.'],
       ['predmet', 'subject', 'Koji predmet voliš?'],
       ['zadaća', 'homework', 'Djeca pišu zadaću.'],
       ['knjižnica', 'library', 'Učim u knjižnici.'],
@@ -5581,7 +5581,7 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'What does "vikendom" mean?',
-        options: ['this weekend', 'last weekend', 'until the weekend', 'at weekends, regularly'],
+        options: ['this weekend', 'last weekend', 'until the weekend', 'on weekends, regularly'],
         correct: 3,
         explanation:
           'The instrumental of a time word means "regularly, on those days": vikendom = on weekends.',
@@ -5787,7 +5787,7 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'What does "kašnjenje" mean?',
-        options: ['departure', 'arrival', 'delay', 'timetable'],
+        options: ['departure', 'arrival', 'delay', 'schedule'],
         correct: 2,
         explanation:
           'kašnjenje is a delay. Departure is polazak, arrival dolazak, schedule vozni red.',
@@ -5799,9 +5799,9 @@ export const PRACTICE_A2 = {
       ['kolodvor', 'station', 'Nađimo se na kolodvoru.'],
       ['zračna luka', 'airport', 'Zračna luka je izvan grada.'],
       ['karta', 'ticket', 'Jednu kartu za Zagreb, molim.'],
-      ['povratna karta', 'return ticket', 'Trebam povratnu kartu.'],
+      ['povratna karta', 'round-trip ticket', 'Trebam povratnu kartu.'],
       ['peron', 'platform', 'Vlak polazi s drugog perona.'],
-      ['vozni red', 'timetable', 'Pogledaj vozni red.'],
+      ['vozni red', 'schedule', 'Pogledaj vozni red.'],
       ['prtljaga', 'luggage', 'Gdje je moja prtljaga?'],
       ['polaziti', 'to depart', 'Autobus polazi u deset.'],
       ['dolaziti', 'to arrive', 'Vlak dolazi u pet.'],
@@ -6008,7 +6008,7 @@ export const PRACTICE_A2 = {
     vocab: [
       ['slobodan', 'free', 'Jesi li slobodan u subotu?'],
       ['plan', 'plan', 'Imaš li planove za vikend?'],
-      ['kino', 'cinema', 'Idemo u kino?'],
+      ['kino', 'movie theater', 'Idemo u kino?'],
       ['kazalište', 'theater', 'Večeras idemo u kazalište.'],
       ['nalaziti se', 'to meet (up)', 'Nalazimo se u osam.'],
       ['ispred', 'in front of', 'Čekam te ispred kina.'],
@@ -6068,11 +6068,11 @@ export const PRACTICE_A2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'It is 24 June and you meet Ivan. What do you say?',
+          q: 'It is June 24 and you meet Ivan. What do you say?',
           options: ['Sretan rođendan!', 'Sretan imendan!', 'Sretna imendan!', 'Sretno imendan!'],
           correct: 1,
           hint: "Ivan's saint's day falls in June — and the adjective agrees with a masculine noun.",
-          explanation: 'Sretan imendan! 24 June is the feast of St John — Ivan.',
+          explanation: 'Sretan imendan! June 24 is the feast of St John — Ivan.',
         },
         {
           q: '___ Badnjak!',
@@ -6128,14 +6128,14 @@ export const PRACTICE_A2 = {
           q: 'Svaki Ivan slavi ____ 24. lipnja. (name day)',
           answer: 'imendan',
           hint: 'The feast of the saint you are named after.',
-          explanation: "imendan — Ivan's is 24 June.",
+          explanation: "imendan — Ivan's is June 24.",
         },
         {
           q: 'Which holiday is on August 15?',
           options: ['Svi sveti', 'Velika Gospa', 'Badnjak', 'Dan državnosti'],
           correct: 1,
           hint: 'It is in the middle of summer.',
-          explanation: 'Velika Gospa — the Assumption, 15 August.',
+          explanation: 'Velika Gospa — the Assumption, August 15.',
         },
         {
           q: 'Which is the other common toast besides "Živjeli!"?',
@@ -6149,7 +6149,7 @@ export const PRACTICE_A2 = {
           options: ['New Year', 'Christmas Eve', 'Easter', 'All Saints'],
           correct: 1,
           hint: 'It is the day before Božić.',
-          explanation: 'Badnjak is Christmas Eve, 24 December.',
+          explanation: 'Badnjak is Christmas Eve, December 24.',
         },
       ],
     },
@@ -6185,10 +6185,10 @@ export const PRACTICE_A2 = {
       },
       {
         q: 'When is Božić?',
-        options: ['24 December', '25 December', '1 January', '15 August'],
+        options: ['December 24', 'December 25', 'January 1', 'August 15'],
         correct: 1,
         explanation:
-          'Božić is Christmas, 25 December. 24 December is Badnjak, 15 August Velika Gospa.',
+          'Božić is Christmas, December 25. December 24 is Badnjak, August 15 Velika Gospa.',
       },
       {
         q: 'What does "Dobar tek!" mean, and when is it said?',

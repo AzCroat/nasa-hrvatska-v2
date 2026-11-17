@@ -775,7 +775,7 @@ export const PRACTICE_C2 = {
       ],
       [
         'ujednačiti',
-        'to standardise, make uniform',
+        'to standardize, make uniform',
         'Lektorica je ujednačila pravopis u cijeloj knjizi.',
       ],
     ],
@@ -818,7 +818,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'The institution',
-            text: 'Only the first word of a multi-word proper name is capitalised: Ministarstvo pravosuđa, here in the locative after u.',
+            text: 'Only the first word of a multi-word proper name is capitalized: Ministarstvo pravosuđa, here in the locative after u.',
           },
         ],
         answer: 'u utorak, 3. ožujka 2026., u Ministarstvu pravosuđa',
@@ -3066,7 +3066,7 @@ export const PRACTICE_C2 = {
         q: 'In a novel set in Split an old man says "Ča ćeš?". A reader "corrects" it to "Što ćeš?". What has gone wrong?',
         options: [
           'Nothing — it is a typo',
-          'They have erased dialect used as characterisation',
+          'They have erased dialect used as characterization',
           'The novel is in Slovene',
           'The character is uneducated',
         ],
@@ -3142,7 +3142,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Set the register',
-            text: 'A client: V-form, capitalised in writing to one person, with a polite formula — molim Vas da…',
+            text: 'A client: V-form, capitalized in writing to one person, with a polite formula — molim Vas da…',
           },
           {
             label: 'Rephrase the concession',
@@ -3384,7 +3384,7 @@ export const PRACTICE_C2 = {
             text: 'bijaše is the imperfect of biti — a sustained past state, not a new word.',
           },
           {
-            label: 'Modernise',
+            label: 'Modernize',
             text: 'bijaše → je bila, agreeing with noć (feminine).',
           },
         ],
@@ -4469,7 +4469,7 @@ export const PRACTICE_C2 = {
           },
           {
             label: 'Use the Croatian formulas',
-            text: 'Poštovani gospodine + surname, the capitalised Vam, and the closing radujemo se suradnji.',
+            text: 'Poštovani gospodine + surname, the capitalized Vam, and the closing radujemo se suradnji.',
           },
         ],
         answer:
@@ -4586,7 +4586,7 @@ export const PRACTICE_C2 = {
           options: ['jednako dug', 'dvostruko dulji', 'kraći', 'oko 15 posto dulji'],
           correct: 3,
           hint: 'Think of subtitles and layout.',
-          explanation: 'About fifteen per cent longer — plan layout and subtitle timing for it.',
+          explanation: 'About fifteen percent longer — plan layout and subtitle timing for it.',
         },
         {
           q: 'Koja je završna provjera prijevoda?',
@@ -5383,7 +5383,7 @@ export const PRACTICE_C2 = {
         steps: [
           {
             label: 'Choose the register',
-            text: 'Formal: Vi, capitalised because you are writing to one person, and full diacritics.',
+            text: 'Formal: Vi, capitalized because you are writing to one person, and full diacritics.',
           },
           {
             label: 'The address',

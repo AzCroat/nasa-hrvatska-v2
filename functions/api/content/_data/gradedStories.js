@@ -859,7 +859,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Naručili su dalmatinske specijalitete. Petra je jela dagnje na buzaru — kuhane s češnjakom i vinom. Marko je naručio brancina na žaru s blitvom i krumpirom. Za desert, dijelili su fritule — male dalmatinske krofne posute šećerom.',
-        en: 'They ordered Dalmatian specialities. Petra ate mussels in buzara sauce — cooked with garlic and wine. Marko ordered grilled sea bass with chard and potatoes. For dessert, they shared fritule — small Dalmatian doughnuts dusted with sugar.',
+        en: 'They ordered Dalmatian specialties. Petra ate mussels in buzara sauce — cooked with garlic and wine. Marko ordered grilled sea bass with chard and potatoes. For dessert, they shared fritule — small Dalmatian doughnuts dusted with sugar.',
       },
       {
         hr: 'Večera je bila odlična. Petra je rekla da su fritule bile najbolji desert koji je ikada jela. Marko se smiješio i bio je sretan što je odabrao taj restoran. Platili su sto dvadeset eura, ali vrijedilo je svake lipe.',
@@ -1289,7 +1289,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Uz književni rad, Krleža je bio glavni urednik Enciklopedije Jugoslavije, monumentalnog projekta koji je obilježio zlatno doba jugoslavenske leksikografije. Godine 1967. potpisao je "Deklaraciju o nazivu i položaju hrvatskog književnog jezika" — dokument koji je zahtijevao ravnopravnost hrvatskog jezika u odnosu na srpski, što mu je donijelo sukob s vlastima. Krleža je ostao kontroverzna figura: na Zapadu cijenjen kao autor europskog formata, u Hrvatskoj poštovan i osporavan istovremeno. Njegova djela i danas se čitaju, igraju i tumače na nove načine, svjedočeći o njihovoj trajnoj aktualnosti.',
-        en: 'Alongside his literary work, Krleža was chief editor of the Encyclopaedia of Yugoslavia, a monumental project that marked the golden age of Yugoslav lexicography. In 1967 he signed the "Declaration on the Name and Status of the Croatian Literary Language" — a document demanding equal status for Croatian in relation to Serbian, which brought him into conflict with the authorities. Krleža remains a controversial figure: valued in the West as a writer of European stature, simultaneously revered and contested in Croatia. His works are still read, performed and interpreted in new ways today, testifying to their enduring relevance.',
+        en: 'Alongside his literary work, Krleža was chief editor of the Encyclopedia of Yugoslavia, a monumental project that marked the golden age of Yugoslav lexicography. In 1967 he signed the "Declaration on the Name and Status of the Croatian Literary Language" — a document demanding equal status for Croatian in relation to Serbian, which brought him into conflict with the authorities. Krleža remains a controversial figure: valued in the West as a writer of European stature, simultaneously revered and contested in Croatia. His works are still read, performed and interpreted in new ways today, testifying to their enduring relevance.',
       },
     ],
     vocabulary: [
@@ -1796,7 +1796,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Čitati Krležu danas znači suočiti se i s pitanjima koja nisu zastarjela: klasna napetost, ambivalentnost intelektualca u politički opterećenim vremenima, somatska i psihička cijena modernizacije. Njegova Enciklopedija — monumentalni projekt koji je Krleža vodio desetljećima — svjedoči o razlogu zbog kojega je bio toliko omiljen kod jugoslavenskih vlasti koliko i sumnjičav prema njima: bio je prevelik, presložen i previše proturječan da bi se smjestio u bilo kakvu ideološku šablonu. Taj paradoks čini ga možda najpotpunijim hrvatskim intelektualcem 20. stoljeća.',
-        en: 'To read Krleža today means confronting questions that have not aged: class tension, the ambivalence of the intellectual in politically burdened times, the somatic and psychological cost of modernization. His Encyclopaedia — a monumental project that Krleža led for decades — bears witness to the reason he was as beloved by Yugoslav authorities as he was suspicious of them: he was too large, too complex and too contradictory to fit into any ideological template. This paradox makes him perhaps the most complete Croatian intellectual of the 20th century.',
+        en: 'To read Krleža today means confronting questions that have not aged: class tension, the ambivalence of the intellectual in politically burdened times, the somatic and psychological cost of modernization. His Encyclopedia — a monumental project that Krleža led for decades — bears witness to the reason he was as beloved by Yugoslav authorities as he was suspicious of them: he was too large, too complex and too contradictory to fit into any ideological template. This paradox makes him perhaps the most complete Croatian intellectual of the 20th century.',
       },
     ],
     vocabulary: [
@@ -1814,7 +1814,7 @@ export const GRADED_STORIES = [
         en: 'ambivalence',
         ex: 'Ambivalentnost intelektualca je vječna tema.',
       },
-      { hr: 'šablona', en: 'template / mould', ex: 'Ne uklapa se ni u jednu ideološku šablonu.' },
+      { hr: 'šablona', en: 'template / mold', ex: 'Ne uklapa se ni u jednu ideološku šablonu.' },
       { hr: 'paradoks', en: 'paradox', ex: 'To je temeljni paradoks njegova lika.' },
       {
         hr: 'poetički',
@@ -2436,7 +2436,7 @@ export const GRADED_STORIES = [
     paragraphs: [
       {
         hr: 'Malo je pitanja koja toliko zaokupljaju hrvatsku javnost kao iseljavanje i s njime povezano starenje stanovništva. Ulaskom u Europsku uniju 2013. godine otvorilo se tržište rada cijeloga kontinenta, a posljedica je bila odljev mladih i obrazovanih ljudi razmjera kakav suvremena Hrvatska dotad nije zabilježila. Riječ je o procesu koji se ne može svesti na pojedinačne odluke, nego ga treba promatrati kao splet gospodarskih, institucionalnih i psiholoških čimbenika.',
-        en: 'Few questions preoccupy the Croatian public as much as emigration and the population ageing connected with it. With entry into the European Union in 2013, the labor market of the entire continent opened up, and the consequence was an outflow of young and educated people of a scale that contemporary Croatia had not previously recorded. This is a process that cannot be reduced to individual decisions, but should be observed as a web of economic, institutional and psychological factors.',
+        en: 'Few questions preoccupy the Croatian public as much as emigration and the population aging connected with it. With entry into the European Union in 2013, the labor market of the entire continent opened up, and the consequence was an outflow of young and educated people of a scale that contemporary Croatia had not previously recorded. This is a process that cannot be reduced to individual decisions, but should be observed as a web of economic, institutional and psychological factors.',
       },
       {
         hr: 'Ono što zabrinjava demografe nije toliko brojčani gubitak koliko njegova struktura. Odlaze prvenstveno ljudi u najproduktivnijoj dobi, često s visokim stupnjem obrazovanja, a upravo bi oni trebali biti nositelji budućega gospodarskog rasta i punitelji mirovinskoga sustava. Njihovim odlaskom slabi porezna osnovica, a istodobno raste udio umirovljenika — kombinacija koja dugoročno dovodi u pitanje održivost javnih financija.',
@@ -2456,7 +2456,7 @@ export const GRADED_STORIES = [
       { hr: 'odljev', en: 'outflow / drain', ex: 'Odljev obrazovanih ljudi slabi gospodarstvo.' },
       {
         hr: 'starenje stanovništva',
-        en: 'population ageing',
+        en: 'population aging',
         ex: 'Starenje stanovništva opterećuje mirovinski sustav.',
       },
       { hr: 'čimbenik', en: 'factor', ex: 'Riječ je o spletu više čimbenika.' },
@@ -14769,7 +14769,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: "Odlučili su konzultirati kreditnog savjetnika. On im je objasnio uvjete stambenog kredita: kolika bi bila kamata, koliko bi bilo učešće i na koliko bi godina mogli otplaćivati kredit. 'Kad biste uzeli kredit na dvadeset godina, rata bi bila podnošljiva, ali ukupno biste banci vratili znatno više nego što ste posudili', upozorio ih je savjetnik. Lana i Filip su se zabrinuto pogledali.",
-        en: "They decided to consult a loan advisor. He explained to them the terms of the housing loan: what the interest rate would be, how large the down payment would need to be, and over how many years they could repay the loan. 'If you took out a loan for twenty years, the instalment would be bearable, but in total you'd repay the bank considerably more than you borrowed,' the advisor warned them. Lana and Filip looked at each other, worried.",
+        en: "They decided to consult a loan advisor. He explained to them the terms of the housing loan: what the interest rate would be, how large the down payment would need to be, and over how many years they could repay the loan. 'If you took out a loan for twenty years, the installment would be bearable, but in total you'd repay the bank considerably more than you borrowed,' the advisor warned them. Lana and Filip looked at each other, worried.",
       },
       {
         hr: "Počeli su pregledavati oglase za stanove, no ubrzo su shvatili koliko su njihova očekivanja nerealna. Htjeli su stan od šezdeset kvadrata u centru, s balkonom i parkirnim mjestom, no takav bi stan koštao više nego što su mogli priuštiti. 'Da smo spremni na kompromis, možda bismo brže našli nešto prihvatljivo', primijetio je Filip nakon nekoliko razočaravajućih razgledavanja.",
@@ -16994,7 +16994,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Opskrba planinarskog doma nikad nije jednostavna zadaća. Ljeti dio robe donose nosači, dio stiže žičarom do najbliže postaje, a ono najteže — plinske boce, drva, konzerve — prevozi se helikopterom kad vrijeme dopusti, najviše dva do tri puta godišnje. Zimi, kad su prilazi zatrpani snijegom, mora unaprijed procijeniti koliko će zaliha hrane i goriva trebati da dom preživi mjesece bez dopreme.',
-        en: 'Supplying a mountain hut is never a simple task. In summer some goods come up with porters, some arrive by cable car to the nearest station, and the heaviest items — gas canisters, firewood, tinned food — are flown in by helicopter when weather allows, at most two or three times a year. In winter, when the approaches are buried in snow, she must estimate in advance how much food and fuel the hut will need to survive months without deliveries.',
+        en: 'Supplying a mountain hut is never a simple task. In summer some goods come up with porters, some arrive by cable car to the nearest station, and the heaviest items — gas canisters, firewood, canned food — are flown in by helicopter when weather allows, at most two or three times a year. In winter, when the approaches are buried in snow, she must estimate in advance how much food and fuel the hut will need to survive months without deliveries.',
       },
       {
         hr: 'Vrijeme u gorju nije podatak nego svakodnevno pregovaranje. Svako jutro provjerava nekoliko prognoza, uspoređuje ih s onim što vidi na obzoru i donosi odluku koja može promijeniti nečiji dan, a ponekad i sudbinu: hoće li staze prema vrhu biti prohodne, hoće li se magla spustiti prije podneva, je li vjetar na grebenu dovoljno jak da obeshrabri i najupornije planinare.',
@@ -18191,7 +18191,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'unajmiti',
-        en: 'to rent, hire (take on hire)',
+        en: 'to rent',
         ex: 'Vrijeme koje poslodavac unajmljuje.',
       },
       {
@@ -18956,7 +18956,7 @@ export const GRADED_STORIES = [
       },
       {
         hr: 'Postoji, doduše, i onaj susjed koji bi radije obrezao grane do same međe, uskraćujući i sjenu i plod, samo kako bi obranio svako pravo na milimetar vlastita zemljišta. Takav se, međutim, u selu brzo prepozna: o njemu se ne govori zlobno, ali mu se, suptilno, uskraćuje ono što se drugima daje samo od sebe.',
-        en: 'There is, admittedly, also the kind of neighbor who would rather prune the branches back to the exact boundary, denying both shade and fruit, just to defend every millimetre of his own land. Such a person, however, is quickly recognized in the village: no one speaks ill of him, but he is, subtly, denied what is given to others as a matter of course.',
+        en: 'There is, admittedly, also the kind of neighbor who would rather prune the branches back to the exact boundary, denying both shade and fruit, just to defend every millimeter of his own land. Such a person, however, is quickly recognized in the village: no one speaks ill of him, but he is, subtly, denied what is given to others as a matter of course.',
       },
       {
         hr: 'Zakon, formalno, ne ostavlja mnogo prostora za nijanse: susjed ima pravo obrezati grane koje prelaze na njegovo zemljište, sve do same međe. No u praksi rijetko tko poseže za tim pravom, jer bi time priznao da živi tek pored ljudi, a ne među njima.',

@@ -49,7 +49,7 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
     en: 'What has been removed?',
     opts: ['vršitelj — radnja ostaje kao imenica', 'i vršitelj i radnja', 'samo vrijeme', 'ništa'],
     answer: 'vršitelj — radnja ostaje kao imenica',
-    tip: 'The reduction is still named, as a noun (smanjenje); what is gone is who reduced. The nominalisation hides the actor even better than the passive.',
+    tip: 'The reduction is still named, as a noun (smanjenje); what is gone is who reduced. The nominalization hides the actor even better than the passive.',
   },
   {
     mode: 'agens',
@@ -259,6 +259,6 @@ export const MEDIA_ANALYSIS_DRILL_DATA: ModeDrillItem[] = [
       'nije jezična',
     ],
     answer: 'okvir se gradi gramatikom i leksikom',
-    tip: 'Passive, nominalisation and near-synonym — three grammatical choices.',
+    tip: 'Passive, nominalization and near-synonym — three grammatical choices.',
   },
 ];

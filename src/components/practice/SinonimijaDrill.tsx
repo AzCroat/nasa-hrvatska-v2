@@ -17,7 +17,7 @@ const DATA = [
     q: 'S novim stanarima održavamo dobre ____ odnose.',
     opts: ['susjedske', 'susjedne', 'susjednje', 'susjedovske'],
     answer: 'susjedske',
-    en: 'we maintain good neighbourly relations',
+    en: 'we maintain good neighborly relations',
     tip: 'Susjedski = svojstven susjedima (odnosi); susjedni = koji je pokraj (susjedna zgrada).',
   },
   {

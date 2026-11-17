@@ -172,7 +172,7 @@ export const SUMMARISING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'preoblika',
     q: '"Vlada je donijela odluku" → imenski oblik:',
-    en: 'Nominalise it.',
+    en: 'Nominalize it.',
     opts: [
       'donošenje odluke Vlade',
       'Vlada donosi odluku',
@@ -228,6 +228,6 @@ export const SUMMARISING_DRILL_DATA: ModeDrillItem[] = [
     en: 'Which transformation compresses most?',
     opts: ['glagol → imenica', 'imenica → glagol', 'jednina → množina', 'prezent → futur'],
     answer: 'glagol → imenica',
-    tip: 'Nominalisation packs a whole clause into a phrase — the C1 condensation skill.',
+    tip: 'Nominalization packs a whole clause into a phrase — the C1 condensation skill.',
   },
 ];
