@@ -321,7 +321,7 @@ S ponosom,
 Tvoj Djed Ivan 🇭🇷`,
     words: [
       { hr: 'ugljenokop', en: 'coal mine' },
-      { hr: 'častan', en: 'honourable / dignified' },
+      { hr: 'častan', en: 'honorable / dignified' },
       { hr: 'hrabrost', en: 'courage / bravery' },
       { hr: 'glagoljica', en: "Glagolitic script (Croatia's medieval alphabet)" },
       { hr: 'slobodan', en: 'free / independent' },

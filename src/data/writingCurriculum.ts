@@ -3998,7 +3998,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'I propose three interventions: renovating the playground, installing public lighting ' +
       'and planting a line of trees along the southern edge. ' +
       'The costs should be seen as an investment, not an expense: ' +
-      'a maintained park increases safety, encourages neighbors to socialise and raises the value of the whole district. ' +
+      'a maintained park increases safety, encourages neighbors to socialize and raises the value of the whole district. ' +
       'I am aware one might object that the budget does not allow new projects. ' +
       'I therefore propose phased implementation, whereby the first phase could be financed from the existing green-spaces program. ' +
       'Thank you for your attention; I will gladly take part in the public consultation. Respectfully, Marin Jurić',
@@ -4425,7 +4425,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'The author rightly notes that some emigrants return to the homeland only for holidays; it does not follow, however, that this is all the diaspora gives. ' +
       'Allow me three examples. The Croatian Catholic mission in Toronto has taught children Croatian every Saturday for fifty years, without a single euro from Croatia. ' +
       'More than a thousand doctors and engineers from the diaspora took part last year in professional programs with Croatian universities. ' +
-      'Finally, emigrants’ remittances amount to more than five per cent of GDP. ' +
+      'Finally, emigrants’ remittances amount to more than five percent of GDP. ' +
       'I am not asking the author to change his mind, but to complete it. ' +
       'The emigrant who returns only in summer and the one who carries the homeland all year are often the same person. Respectfully, Josip Barić, Toronto',
     structures: [
@@ -4688,12 +4688,12 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'It further emerged that managements which insist on constant supervision record higher staff turnover. ' +
       'In the interviews, supervision was consistently read as distrust. ' +
       'It is therefore concluded that investing in task definition would yield more than investing in monitoring systems. ' +
-      'The study’s limitation is its focus on a single sector, for which reason the findings cannot be generalised without reservation.',
+      'The study’s limitation is its focus on a single sector, for which reason the findings cannot be generalized without reservation.',
     structures: [
       {
         hr: 'U radu se analizira utjecaj rada od kuće na produktivnost',
         en: 'The paper analyses the effect of working from home on productivity',
-        why: 'Academic Croatian hides the author: the "se" passive ("analizira se") plus the nominalisation "utjecaj X na Y" turns a whole sentence into a noun phrase.',
+        why: 'Academic Croatian hides the author: the "se" passive ("analizira se") plus the nominalization "utjecaj X na Y" turns a whole sentence into a noun phrase.',
       },
       {
         hr: 'Polazeći od pretpostavke da se učinak ne može mjeriti',
@@ -4782,7 +4782,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'On 14 May at about 9.30 a forklift driven by employee M. K. struck a rack in the third row, after which three pallets of packaging fell from the top shelf. ' +
       'There were no injuries, since nobody was in the aisle at that moment. ' +
       'On arriving at the scene, the shift leader switched off the power in that part of the warehouse and asked for the aisle to be closed until the rack had been checked. ' +
-      'The inspection established that the rack had been overloaded and that the marked load capacity had been exceeded by roughly forty per cent. ' +
+      'The inspection established that the rack had been overloaded and that the marked load capacity had been exceeded by roughly forty percent. ' +
       'The employee was interviewed and stated that nobody had warned him of the limit. ' +
       'I therefore propose that the load capacity be visibly marked on every rack and that all shifts be briefed again on the rules for stacking goods. ' +
       'Report compiled by: Tomislav Perić, warehouse manager.',
@@ -5235,7 +5235,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'je li norma zapis onoga što se govori ili nalog o tome što bi se trebalo govoriti',
         en: 'is the norm a record of what is said, or an order about what ought to be said',
-        why: 'A framed alternative question ("je li X ili Y") with two nominalised clauses — how an essay states its problem in one breath.',
+        why: 'A framed alternative question ("je li X ili Y") with two nominalized clauses — how an essay states its problem in one breath.',
       },
       {
         hr: 'Purist će reći drugo, a relativist prvo; obojica, čini se, promašuju.',
@@ -5313,7 +5313,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Nije stoga riječ o vijesti o povratku, nego o vijesti o smetnji. ' +
       'Sama činjenica — da je u srpnju stiglo više ljudi nego lani — mogla je nositi i naslov "Dijaspora se vraća". Da nije, nije odluka jezika, nego urednika.',
     modelEn:
-      'The headline "Emigrants flood the coast again" appears at first glance to convey news, but in fact delivers a judgement. ' +
+      'The headline "Emigrants flood the coast again" appears at first glance to convey news, but in fact delivers a judgment. ' +
       'The verb "preplaviti" (to flood) belongs to the vocabulary of natural disasters; through it, people coming home are turned into a mass of water — into something one does not welcome but defends against. ' +
       'The adverb "opet" (again) adds a note of weariness, as if this were the repetition of something unwanted. ' +
       'The lead states that "the numbers are record-breaking", but the source of those numbers is not named — the statistic is a rhetorical device, not a datum. ' +
@@ -5323,7 +5323,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     structures: [
       {
         hr: 'na prvi pogled prenosi vijest, a zapravo donosi ocjenu',
-        en: 'appears at first glance to convey news, but in fact delivers a judgement',
+        en: 'appears at first glance to convey news, but in fact delivers a judgment',
         why: 'The analyst’s opening antithesis: "na prvi pogled ... a zapravo" — surface versus function.',
       },
       {
@@ -5419,7 +5419,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       {
         hr: 'Primjerenost je, međutim, upitna',
         en: 'Suitability, however, is questionable',
-        why: 'A nominalised criterion as subject + "je" in second position + parenthetical "međutim" — the register of assessment.',
+        why: 'A nominalized criterion as subject + "je" in second position + parenthetical "međutim" — the register of assessment.',
       },
       {
         hr: 'Preporučujem stoga usvajanje prijedloga uz dvije izmjene',
@@ -5583,7 +5583,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     modelEn:
       'Dear Mayor, dear Councillors, ' +
       'I am addressing you publicly because private letters over the past six months have gone unanswered. ' +
-      'This concerns the announced closure of the library in Trnje, which the explanatory note calls a “rationalisation of the network”. ' +
+      'This concerns the announced closure of the library in Trnje, which the explanatory note calls a “rationalization of the network”. ' +
       'More than two thousand residents have signed a petition against that decision, among them some two hundred students of the nearby school, for whom that reading room is the only quiet place to study. ' +
       'Despite this, the proposal has been sent to a vote without public consultation. ' +
       'I do not dispute that the city must save; I dispute that it is saving where the saving is smallest and the damage greatest. ' +

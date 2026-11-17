@@ -44,9 +44,9 @@ export const SPINE = [
     masterOrder: 34,
     prerequisites: ['adjective-agreement'],
     objectives: [
-      'Capitalise names of streets and squares: Ulica kralja Zvonimira, Trg bana Josipa Jelačića',
-      'Capitalise names of buildings, institutions and organizations: Hrvatsko narodno kazalište',
-      'Capitalise names of historical events: Domovinski rat, Drugi svjetski rat',
+      'Capitalize names of streets and squares: Ulica kralja Zvonimira, Trg bana Josipa Jelačića',
+      'Capitalize names of buildings, institutions and organizations: Hrvatsko narodno kazalište',
+      'Capitalize names of historical events: Domovinski rat, Drugi svjetski rat',
     ],
   },
   {
@@ -583,7 +583,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'The First Word, Then Only Names',
-        body: 'English capitalises every major word of a name: the Croatian National Theater, the Second World War. Croatian capitalises the FIRST word, and after that only the words that are names in their own right: Hrvatsko narodno kazalište, Drugi svjetski rat, Trg bana Josipa Jelačića. This lesson follows the current Hrvatski pravopis of the Institut za hrvatski jezik i jezikoslovlje.',
+        body: 'English capitalizes every major word of a name: the Croatian National Theater, the Second World War. Croatian capitalizes the FIRST word, and after that only the words that are names in their own right: Hrvatsko narodno kazalište, Drugi svjetski rat, Trg bana Josipa Jelačića. This lesson follows the current Hrvatski pravopis of the Institut za hrvatski jezik i jezikoslovlje.',
         icon: '🏛️',
       },
       {
@@ -740,7 +740,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'English habits cause most of the errors. The first is capitalising every word: "Sveučilište U Zagrebu", "Drugi Svjetski Rat" — only the first word and real names take capitals. The second is capitalising a title: "Ulica Kralja Zvonimira" — kralja is lower case. The third is a capital where nothing is named: "Sutra idem u Kazalište" — any theater is kazalište, with a small k.',
+        body: 'English habits cause most of the errors. The first is capitalizing every word: "Sveučilište U Zagrebu", "Drugi Svjetski Rat" — only the first word and real names take capitals. The second is capitalizing a title: "Ulica Kralja Zvonimira" — kralja is lower case. The third is a capital where nothing is named: "Sutra idem u Kazalište" — any theater is kazalište, with a small k.',
         highlight: 'only the first word and real names',
       },
       {
@@ -798,12 +798,12 @@ export const LESSONS = [
             explanation: 'No particular theater is named, so kazalište is lower case.',
           },
           {
-            q: 'In "Vlada Republike Hrvatske", why is Republike capitalised?',
+            q: 'In "Vlada Republike Hrvatske", why is Republike capitalized?',
             options: [
-              'every word of an institution is capitalised',
+              'every word of an institution is capitalized',
               'it is the first word',
               'Republika Hrvatska is itself a name',
-              'titles are capitalised',
+              'titles are capitalized',
             ],
             correct: 2,
             explanation: 'A name inside a name keeps its capitals.',

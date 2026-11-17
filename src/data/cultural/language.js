@@ -230,7 +230,7 @@ export const SHADOWING = [
   },
   {
     hr: 'Ma koliko se okolnosti činile nepovoljnima, ne smijemo posustati.',
-    en: 'However unfavourable the circumstances may seem, we must not falter.',
+    en: 'However unfavorable the circumstances may seem, we must not falter.',
     tip: 'ma koliko + instrumental predicate — elevated register',
     level: 'C2',
   },

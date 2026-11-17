@@ -3940,7 +3940,7 @@ export const PRACTICE_B1 = {
     vocab: [
       ['reći', 'to say, to tell', 'Rekao je da dolazi.'],
       ['pitati', 'to ask', 'Pitao me gdje radim.'],
-      ['zamoliti', 'to ask (a favour)', 'Zamolila me da joj pomognem.'],
+      ['zamoliti', 'to ask (a favor)', 'Zamolila me da joj pomognem.'],
       ['odgovoriti', 'to answer', 'Odgovorio je da ne zna.'],
       ['tvrditi', 'to claim', 'Tvrdi da je bio kod kuće.'],
       ['objasniti', 'to explain', 'Objasnila nam je kako doći.'],

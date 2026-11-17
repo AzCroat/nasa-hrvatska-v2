@@ -702,7 +702,7 @@ const LEVELS = {
     border: '#f9a8d4',
     text: '#9d174d',
     emoji: '🏔️',
-    desc: 'Literary tenses, rhetoric, irony and near-native judgement',
+    desc: 'Literary tenses, rhetoric, irony and near-native judgment',
     questions: [
       {
         q: "'____, vidjeh, pobijedih.' — complete Caesar's boast:",
@@ -743,7 +743,7 @@ const LEVELS = {
           'Dogovor je važan za standard.',
         ],
         answer: 0,
-        tip: 'Parallel predication X je A, a Y je B — the aphoristic mould.',
+        tip: 'Parallel predication X je A, a Y je B — the aphoristic mold.',
       },
       {
         q: "'Sve što bijaše obećao, pokazalo se istinitim.' — 'bijaše obećao' is:",

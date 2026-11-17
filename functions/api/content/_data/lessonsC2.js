@@ -77,7 +77,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Hypercorrection Is Its Own Error',
-        body: 'The commonest C2 mistake is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told to avoid the da-construction writes infinitives where Croatian would not use one. A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgement produces sentences no native speaker would write, and they are more conspicuous than the original error.',
+        body: 'The commonest C2 mistake is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told to avoid the da-construction writes infinitives where Croatian would not use one. A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgment produces sentences no native speaker would write, and they are more conspicuous than the original error.',
         highlight: 's sestrom ✗ → sa sestrom ✓',
       },
       {
@@ -154,7 +154,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'The da-construction after trebati is widespread in speech across the region and perfectly comprehensible, but the Croatian standard prefers the infinitive in writing. "Marked, not wrong" is the honest description — and it is exactly the kind of judgement C2 is about.',
+          'The da-construction after trebati is widespread in speech across the region and perfectly comprehensible, but the Croatian standard prefers the infinitive in writing. "Marked, not wrong" is the honest description — and it is exactly the kind of judgment C2 is about.',
       },
       {
         type: 'quiz',
@@ -317,7 +317,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Capitals: Croatian Is Sparer Than English',
-        body: 'Croatian capitalises the first word of a multi-word proper name and any proper noun inside it: Republika Hrvatska, Ministarstvo znanosti i obrazovanja, Trg bana Jelačića. Days, months, nationalities as adjectives and languages are lower case: ponedjeljak, siječanj, hrvatski jezik. In polite address, Vi and its forms are capitalised in letters to one person, and this is one of the few places where the capital carries meaning.',
+        body: 'Croatian capitalizes the first word of a multi-word proper name and any proper noun inside it: Republika Hrvatska, Ministarstvo znanosti i obrazovanja, Trg bana Jelačića. Days, months, nationalities as adjectives and languages are lower case: ponedjeljak, siječanj, hrvatski jezik. In polite address, Vi and its forms are capitalized in letters to one person, and this is one of the few places where the capital carries meaning.',
         highlight: 'hrvatski jezik, ponedjeljak, siječanj — lower case',
       },
       {
@@ -399,7 +399,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Poštujemo Vaše mišljenje i zahvaljujemo Vam na strpljenju.',
             en: 'We respect your opinion and thank you for your patience.',
-            note: 'Vaše, Vam capitalised in a letter to one person; zahvaljivati na + locative',
+            note: 'Vaše, Vam capitalized in a letter to one person; zahvaljivati na + locative',
           },
         ],
       },
@@ -487,7 +487,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Months and language names are lower case in Croatian. Capitalising either is English interference and is among the most frequent errors in otherwise excellent writing.',
+              'Months and language names are lower case in Croatian. Capitalizing either is English interference and is among the most frequent errors in otherwise excellent writing.',
           },
           {
             q: 'A document uses "pogreška" in chapter one and "pogrješka" in chapter two. What is the honest verdict?',
@@ -656,7 +656,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Braća su se posvađala oko nasljedstva, a oči su im bile pune suza.',
-            en: 'The brothers quarrelled over the inheritance, and their eyes were full of tears.',
+            en: 'The brothers quarreled over the inheritance, and their eyes were full of tears.',
             note: 'braća is a collective (participle in -a); oči keeps the old dual',
           },
           {
@@ -839,7 +839,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Postotak and Postotni Bod Are Different Things',
-        body: 'A rise from 10 % to 13 % is a rise of three PERCENTAGE POINTS (postotna boda) and of thirty per cent (posto). Croatian keeps the distinction as carefully as English does, and getting it wrong in a report about anything measured is a substantive error rather than a linguistic one. Posto is invariable; postotak declines.',
+        body: 'A rise from 10 % to 13 % is a rise of three PERCENTAGE POINTS (postotna boda) and of thirty percent (posto). Croatian keeps the distinction as carefully as English does, and getting it wrong in a report about anything measured is a substantive error rather than a linguistic one. Posto is invariable; postotak declines.',
         highlight: 'postotni bod ≠ posto',
       },
       {
@@ -858,7 +858,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Očekujemo da će rast usporiti na 3 do 4 posto.',
-            en: 'We expect growth to slow to 3 to 4 per cent.',
+            en: 'We expect growth to slow to 3 to 4 percent.',
             note: 'posto invariable; the range written with do',
           },
         ],
@@ -911,14 +911,14 @@ export const LESSONS_C2 = [
         type: 'quiz',
         q: 'An index moves from 20 % to 25 %. What has risen by five?',
         options: [
-          'Postotak — it rose by five per cent',
-          'Postotni bodovi — it rose by five percentage points, which is a rise of 25 per cent',
+          'Postotak — it rose by five percent',
+          'Postotni bodovi — it rose by five percentage points, which is a rise of 25 percent',
           'Both expressions mean the same thing',
           'Neither — the change cannot be expressed in Croatian',
         ],
         correct: 1,
         explanation:
-          'Five percentage points, twenty-five per cent. Croatian marks the difference exactly as English does, and conflating them in a report misstates the finding rather than merely the wording.',
+          'Five percentage points, twenty-five percent. Croatian marks the difference exactly as English does, and conflating them in a report misstates the finding rather than merely the wording.',
       },
       {
         type: 'rule',
@@ -990,7 +990,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Two percentage points, which is a fifty per cent rise. Conflating postotni bod and posto misstates the finding rather than merely the wording.',
+              'Two percentage points, which is a fifty percent rise. Conflating postotni bod and posto misstates the finding rather than merely the wording.',
           },
           {
             q: 'How is "20 % of 1,000 euros" written?',
@@ -1504,7 +1504,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'A Negated Imperative Is Always Imperfective',
-        body: 'This is the hardest rule to internalise because it overrides meaning. Positive: Zatvori vrata (perfective, close the door). Negated: Ne zatvaraj vrata — imperfective, even though you are forbidding a single completed act. Nemoj otvarati. Ne govori mu. The perfective in a negated imperative is not a shade of meaning, it is an error, and it is one of the most audible mistakes a foreign speaker makes.',
+        body: 'This is the hardest rule to internalize because it overrides meaning. Positive: Zatvori vrata (perfective, close the door). Negated: Ne zatvaraj vrata — imperfective, even though you are forbidding a single completed act. Nemoj otvarati. Ne govori mu. The perfective in a negated imperative is not a shade of meaning, it is an error, and it is one of the most audible mistakes a foreign speaker makes.',
         highlight: 'Zatvori vrata → Ne zatvaraj vrata',
       },
       {
@@ -2202,7 +2202,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Vary the Length Deliberately',
-        body: 'Croatian prose favours a long sentence followed by a short one. The long sentence carries the argument, with subordination and apposition; the short one lands it. Three long sentences in a row exhaust a reader, and three short ones in a row read as a list. The rhythm is not decoration — it tells the reader which sentence matters.',
+        body: 'Croatian prose favors a long sentence followed by a short one. The long sentence carries the argument, with subordination and apposition; the short one lands it. Three long sentences in a row exhaust a reader, and three short ones in a row read as a list. The rhythm is not decoration — it tells the reader which sentence matters.',
         highlight: 'long, long, SHORT — the short one is the point',
       },
       {
@@ -2380,7 +2380,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Croatian prose favours a long sentence followed by a short one; the short one is the point. Three short sentences in a row would read as a list, three long ones exhaust the reader.',
+              'Croatian prose favors a long sentence followed by a short one; the short one is the point. Three short sentences in a row would read as a list, three long ones exhaust the reader.',
           },
           {
             q: 'Which sentence has the clitic in the wrong place?',
@@ -2949,7 +2949,7 @@ export const LESSONS_C2 = [
           [
             'izvor blizak istrazi',
             'a source close to the investigation',
-            'Calque, now fully naturalised',
+            'Calque, now fully naturalized',
           ],
           ['kako doznajemo', 'as we learn', 'First person plural — the paper as a voice'],
           ['navodno', 'allegedly', 'Distances the paper from the claim'],
@@ -2971,7 +2971,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'The Nominal Style Creeps In',
-        body: 'Journalism borrows the administrative style\'s nominalisations for compression — "zbog povećanja cijena" rather than "jer su cijene porasle" — because a headline has no room for a clause. It also borrows its agentlessness, and that is where the reader should be alert: "donesena je odluka" says a decision was made without saying by whom, and in a news text that omission is sometimes deliberate.',
+        body: 'Journalism borrows the administrative style\'s nominalizations for compression — "zbog povećanja cijena" rather than "jer su cijene porasle" — because a headline has no room for a clause. It also borrows its agentlessness, and that is where the reader should be alert: "donesena je odluka" says a decision was made without saying by whom, and in a news text that omission is sometimes deliberate.',
         highlight: 'donesena je odluka — by whom?',
       },
       {
@@ -3023,7 +3023,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Zbog povećanja cijena goriva prijevoznici najavljuju poskupljenje karata od 1. rujna.',
             en: 'Because of the rise in fuel prices, carriers announce a fare increase from 1 September.',
-            note: 'Nominalisation (povećanja, poskupljenje) compresses a clause into a phrase',
+            note: 'Nominalization (povećanja, poskupljenje) compresses a clause into a phrase',
           },
           {
             hr: 'Sabor izglasao proračun; oporba napustila dvoranu.',
@@ -3039,7 +3039,7 @@ export const LESSONS_C2 = [
       },
       {
         type: 'quiz',
-        q: 'An article says "Oporba tvrdi da…" rather than "Oporba kaže da…". What has the paper signalled?',
+        q: 'An article says "Oporba tvrdi da…" rather than "Oporba kaže da…". What has the paper signaled?',
         options: [
           'Nothing — the two verbs are interchangeable',
           'That it regards the claim as contested or unproven',
@@ -3268,7 +3268,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'U zaključku se sažimaju nalazi, a u literaturi se navode svi citirani radovi.',
-            en: 'The conclusion summarises the findings, and the references list every cited work.',
+            en: 'The conclusion summarizes the findings, and the references list every cited work.',
             note: 'zaključak and literatura — the section names, with the se-passive',
           },
           {
@@ -3415,7 +3415,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Free Indirect Style',
-        body: "Croatian, like English, lets a narrator slide into a character's thoughts without quotation marks or a reporting verb: \"Sjeo je i pogledao kroz prozor. Kako je sve to postalo besmisleno.\" The second sentence is the character thinking, in the narrator's grammar. Missing the shift means attributing a character's judgement to the author, which changes the meaning of whole chapters.",
+        body: "Croatian, like English, lets a narrator slide into a character's thoughts without quotation marks or a reporting verb: \"Sjeo je i pogledao kroz prozor. Kako je sve to postalo besmisleno.\" The second sentence is the character thinking, in the narrator's grammar. Missing the shift means attributing a character's judgment to the author, which changes the meaning of whole chapters.",
         highlight: "the narrator's grammar, the character's thought",
       },
       {
@@ -3434,7 +3434,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Dialect in Dialogue Places a Character',
-        body: "A novel set in Zagreb will give a character kajkavian speech; one set on an island will give čakavian. This is characterisation, not local color: the reader is told the character's origin, class and generation in a single line. Krleža does it constantly. A learner who skips the dialect passages loses exactly the information the author put there.",
+        body: "A novel set in Zagreb will give a character kajkavian speech; one set on an island will give čakavian. This is characterization, not local color: the reader is told the character's origin, class and generation in a single line. Krleža does it constantly. A learner who skips the dialect passages loses exactly the information the author put there.",
         highlight: 'dialect in dialogue = biography in one line',
       },
       {
@@ -3511,7 +3511,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          "A judgement or resolution appearing in the narrator's grammar immediately after a character's action is the signature of free indirect style. Reading it as the narrator's own assertion attributes the character's certainty to the author.",
+          "A judgment or resolution appearing in the narrator's grammar immediately after a character's action is the signature of free indirect style. Reading it as the narrator's own assertion attributes the character's certainty to the author.",
       },
       {
         type: 'quiz',
@@ -3524,7 +3524,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Dialect in dialogue is characterisation — it carries biography compactly. It is not a judgement about education: kajkavian is the everyday speech of a large and entirely educated part of the country, including Zagreb.',
+          'Dialect in dialogue is characterization — it carries biography compactly. It is not a judgment about education: kajkavian is the everyday speech of a large and entirely educated part of the country, including Zagreb.',
       },
       {
         type: 'rule',
@@ -3560,13 +3560,13 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              "A judgement in the narrator's grammar immediately after the character's action, with no reporting verb or quotation marks, is the signature of free indirect style.",
+              "A judgment in the narrator's grammar immediately after the character's action, with no reporting verb or quotation marks, is the signature of free indirect style.",
           },
           {
             q: 'A reader takes "Kaj ti je?" in a Zagreb novel as a typo for "Što ti je?". What has gone wrong?',
             options: [
               'Nothing — it is a typo',
-              'They have missed dialect used as characterisation',
+              'They have missed dialect used as characterization',
               'The novel is in Slovene',
               'The character is uneducated',
             ],
@@ -4010,7 +4010,7 @@ export const LESSONS_C2 = [
         ],
         correct: 1,
         explanation:
-          'Čakavian and kajkavian both carried complete literary traditions before the nineteenth-century standardisation. Treating them as substandard reads the choice of štokavian backwards onto three centuries that had not yet made it.',
+          'Čakavian and kajkavian both carried complete literary traditions before the nineteenth-century standardization. Treating them as substandard reads the choice of štokavian backwards onto three centuries that had not yet made it.',
       },
       {
         type: 'rule',
@@ -4116,7 +4116,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Descriptor, Taught Directly',
-        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarising ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
+        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarizing ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
         icon: '🧵',
       },
       {
@@ -4404,7 +4404,7 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Iz toga zaključuje da je uzorak reprezentativan i da se nalaz može poopćiti.',
-            en: 'From this he concludes that the sample is representative and the finding can be generalised.',
+            en: 'From this he concludes that the sample is representative and the finding can be generalized.',
             note: 'The inference and the conclusion, in order',
           },
           {
@@ -5052,7 +5052,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'Beyond Avoiding the Traps',
-        body: 'C1 taught you the structures that do not survive translation. This lesson is about the work itself: deciding what a translation is FOR, handling terms with no equivalent, keeping register across a whole document, and the specific problems Croatian poses to and from English — starting with the fact that Croatian is around fifteen per cent longer.',
+        body: 'C1 taught you the structures that do not survive translation. This lesson is about the work itself: deciding what a translation is FOR, handling terms with no equivalent, keeping register across a whole document, and the specific problems Croatian poses to and from English — starting with the fact that Croatian is around fifteen percent longer.',
         icon: '🔁',
       },
       {
@@ -6103,7 +6103,7 @@ export const LESSONS_C2 = [
           {
             hr: 'Poštovana gospođo Kovač, zahvaljujem Vam na brzom odgovoru i ostajem s poštovanjem.',
             en: 'Dear Mrs. Kovač, thank you for your prompt reply; yours sincerely.',
-            note: 'Vam capitalised in a letter to one person; zahvaljivati na + locative',
+            note: 'Vam capitalized in a letter to one person; zahvaljivati na + locative',
           },
           {
             hr: 'Možemo na ti? — predložila je šefica nakon drugog sastanka.',
@@ -6178,7 +6178,7 @@ export const LESSONS_C2 = [
             options: ['Vi', 'Vam', 'ti', 'Vas'],
             correct: 1,
             explanation:
-              'zahvaljivati takes the dative, and in a letter to one person the polite form is capitalised: Vam. ti is the wrong register, and Vi and Vas the wrong case.',
+              'zahvaljivati takes the dative, and in a letter to one person the polite form is capitalized: Vam. ti is the wrong register, and Vi and Vas the wrong case.',
           },
           {
             q: 'Complete: "Hvala Vam ___ strpljenju."',
@@ -6197,7 +6197,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Vi, capitalised, with full diacritics. The third option has the right register and no diacritics, which reads as carelessness; the other two are message-register.',
+              'Vi, capitalized, with full diacritics. The third option has the right register and no diacritics, which reads as carelessness; the other two are message-register.',
           },
           {
             q: 'Where is a message-register form out of place?',

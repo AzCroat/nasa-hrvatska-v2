@@ -98,7 +98,7 @@ export const COORDINATE_CLAUSES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vrste',
     q: 'Možeš platiti odmah ____ možeš platiti na rate.',
-    en: 'You can pay now or you can pay in instalments.',
+    en: 'You can pay now or you can pay in installments.',
     opts: ['nego', 'ili', 'zato', 'samo'],
     answer: 'ili',
     tip: 'A choice: ili.',

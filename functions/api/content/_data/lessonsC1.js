@@ -164,7 +164,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Nisam mu vjerovao, ali sada sumnjam u vlastitu procjenu.',
-            en: 'I did not believe him, but now I doubt my own judgement.',
+            en: 'I did not believe him, but now I doubt my own judgment.',
             note: 'vjerovati + dative; sumnjati u + accusative',
           },
           {
@@ -2515,7 +2515,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'The first is final stress carried over from English or from French loanwords — "restoRAN", "kompjuTOR" — but a Croatian polysyllable is never accented on its last syllable, so the stress moves back. The second is giving every syllable the same length, which erases the distinction that keeps žena (one woman) and žena (of women) apart. The third is trying to produce the four accents from the marks instead of from the ear — a learner who listens to Croatian radio for a month does better than one who memorises the notation.',
+        body: 'The first is final stress carried over from English or from French loanwords — "restoRAN", "kompjuTOR" — but a Croatian polysyllable is never accented on its last syllable, so the stress moves back. The second is giving every syllable the same length, which erases the distinction that keeps žena (one woman) and žena (of women) apart. The third is trying to produce the four accents from the marks instead of from the ear — a learner who listens to Croatian radio for a month does better than one who memorizes the notation.',
         highlight: 'never accented on its last syllable',
       },
       {
@@ -2628,7 +2628,7 @@ export const LESSONS_C1 = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'summarising-paraphrase',
-    title: 'Summarising and Paraphrase',
+    title: 'Summarizing and Paraphrase',
     subtitle: 'Saying the same thing shorter, and in your own words',
     icon: '✂️',
     level: 'C1',
@@ -2639,7 +2639,7 @@ export const LESSONS_C1 = [
       {
         type: 'intro',
         title: 'A Skill, Not a Vocabulary',
-        body: 'Summarising is the exam skill at C1 and the useful skill in life — reporting what a document said, catching a colleague up, condensing an argument. It draws on the condensation lesson and adds a set of framing phrases, and it is the fastest way to make what you already know go further.',
+        body: 'Summarizing is the exam skill at C1 and the useful skill in life — reporting what a document said, catching a colleague up, condensing an argument. It draws on the condensation lesson and adds a set of framing phrases, and it is the fastest way to make what you already know go further.',
         icon: '✂️',
       },
       {
@@ -2693,7 +2693,7 @@ export const LESSONS_C1 = [
       },
       {
         type: 'example',
-        title: 'Summarising',
+        title: 'Summarizing',
         items: [
           {
             hr: 'Riječ je o istraživanju o učenju jezika.',
@@ -2859,7 +2859,7 @@ export const LESSONS_C1 = [
       },
       {
         type: 'summary',
-        title: 'Summarising — Key Takeaways',
+        title: 'Summarizing — Key Takeaways',
         points: [
           'Riječ je o + locative — the standard opener',
           'Attribute constantly: Autor tvrdi da…, Prema članku…',
@@ -3754,7 +3754,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Škola je uvela nova pravila, a ravnatelj ih je sam objasnio roditeljima.',
-            en: 'The school introduced new rules, and the headteacher himself explained them to the parents.',
+            en: 'The school introduced new rules, and the principal himself explained them to the parents.',
             note: 'agents as subjects — no od strane anywhere',
           },
           {
@@ -4164,7 +4164,7 @@ export const LESSONS_C1 = [
         type: 'rule',
         title: 'Tobože Is Not Navodno',
         body: 'A distinction worth having. "Navodno" is neutral reporting — allegedly, and I take no position. "Tobože" and "takozvani" carry the writer\'s scepticism: tobože nezavisna komisija is a supposedly independent commission the writer does not believe is independent. Reading the two as equivalent misses an opinion the text is expressing.',
-        highlight: 'navodno neutral · tobože sceptical',
+        highlight: 'navodno neutral · tobože skeptical',
       },
       {
         type: 'rule',
@@ -4174,7 +4174,7 @@ export const LESSONS_C1 = [
       },
       {
         type: 'rule',
-        title: 'Nominalisation Removes the Actor Too',
+        title: 'Nominalization Removes the Actor Too',
         body: 'The condensation you learned has a rhetorical use. "Došlo je do smanjenja sredstava" — a reduction in funds occurred — has no one doing the reducing. Compare "Ministarstvo je smanjilo sredstva." Both are correct Croatian; only one says who acted. Bureaucratic and political writing prefers the first for exactly that reason.',
         highlight: 'Došlo je do smanjenja…',
       },
@@ -4200,7 +4200,7 @@ export const LESSONS_C1 = [
           {
             hr: 'Došlo je do smanjenja proračuna.',
             en: 'A reduction in the budget occurred.',
-            note: 'nominalised — nobody reduced anything',
+            note: 'nominalized — nobody reduced anything',
           },
           {
             hr: 'Kako doznajemo iz neslužbenih izvora…',
@@ -4283,7 +4283,7 @@ export const LESSONS_C1 = [
             options: ['what was reduced', 'who reduced it', 'by how much', 'when'],
             correct: 1,
             explanation:
-              'Nominalisation removes the actor: a reduction "occurred". The budget is named; the agent is not.',
+              'Nominalization removes the actor: a reduction "occurred". The budget is named; the agent is not.',
           },
           {
             q: 'Which word tells you the writer rejects the label?',
@@ -4351,7 +4351,7 @@ export const LESSONS_C1 = [
           'Ask who disappeared into the passive',
           "navodno is neutral; tobože and takozvani carry the writer's doubt",
           'Near-synonyms frame: mjere or rezovi, prosvjed or nemiri',
-          'Nominalisation removes the actor: Došlo je do smanjenja…',
+          'Nominalization removes the actor: Došlo je do smanjenja…',
           'Notice the word that was NOT chosen',
         ],
       },
@@ -5395,7 +5395,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Gastarbajter Is Historical, and Loaded',
-        body: 'The word — from German Gastarbeiter — refers to the Croatians who went to Germany and Austria for work from the 1960s onward. It is used matter-of-factly by the generation it describes and can sound dismissive from an outsider. "Moj djed je bio gastarbajter u Njemačkoj" is a perfectly ordinary sentence from a grandchild; the same word used to characterise someone else may not be.',
+        body: 'The word — from German Gastarbeiter — refers to the Croatians who went to Germany and Austria for work from the 1960s onward. It is used matter-of-factly by the generation it describes and can sound dismissive from an outsider. "Moj djed je bio gastarbajter u Njemačkoj" is a perfectly ordinary sentence from a grandchild; the same word used to characterize someone else may not be.',
         highlight: 'gastarbajter — historical, use with care',
       },
       {

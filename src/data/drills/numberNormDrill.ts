@@ -178,7 +178,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
     en: 'By how many percentage points?',
     opts: ['jedan', 'dvadeset pet', 'pet', 'četiri'],
     answer: 'jedan',
-    tip: 'One percentage point — and twenty-five per cent. Two numbers, both true.',
+    tip: 'One percentage point — and twenty-five percent. Two numbers, both true.',
   },
   {
     mode: 'bodovi',

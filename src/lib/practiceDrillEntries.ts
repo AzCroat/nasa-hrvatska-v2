@@ -205,7 +205,7 @@ export const PRACTICE_PROGRAMME_ENTRIES: CefrPoolEntry[] = [
   },
   {
     id: 'sazimanje',
-    label: 'Summarising & paraphrase',
+    label: 'Summarizing & paraphrase',
     screen: 'sazimanje',
     cefr: 'C1',
     category: 'summarising',

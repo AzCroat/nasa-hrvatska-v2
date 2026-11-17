@@ -655,7 +655,7 @@ const FALSE_FRIENDS = {
         },
         {
           hr: 'Moj sin ide u gimnaziju, a poslije škole u teretanu.',
-          en: 'My son goes to grammar school, and after school to the gym.',
+          en: 'My son goes to high school, and after school to the gym.',
           note: 'gimnaziju is a school, teretanu a gym',
         },
         {
@@ -918,7 +918,7 @@ const LITERACY = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Capitalising months: "u Siječnju" — Croatian writes them with a small letter: u siječnju. (2) Mixing up two prefixes: "Dogovorio je na pitanje" — answering is odgovoriti na pitanje; dogovoriti se means to agree on something. (3) Leaving out the preposition: "odgovoriti pitanje" — it is odgovoriti na pitanje. (4) Treating studeni as a noun: "u studeniju" — it declines like an adjective: u studenome.',
+      body: '(1) Capitalizing months: "u Siječnju" — Croatian writes them with a small letter: u siječnju. (2) Mixing up two prefixes: "Dogovorio je na pitanje" — answering is odgovoriti na pitanje; dogovoriti se means to agree on something. (3) Leaving out the preposition: "odgovoriti pitanje" — it is odgovoriti na pitanje. (4) Treating studeni as a noun: "u studeniju" — it declines like an adjective: u studenome.',
       highlight: 'odgovoriti na pitanje',
     },
     {

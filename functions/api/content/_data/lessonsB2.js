@@ -2675,7 +2675,7 @@ export const LESSONS_B2 = [
         options: ['više više ljudi', 'sve više ljudi', 'što više ljudi', 'previše ljudi'],
         correct: 1,
         explanation:
-          '"Sve" plus a comparative expresses an increasing quantity: sve više ljudi. "Previše ljudi" would mean too many people, which is a judgement rather than a trend.',
+          '"Sve" plus a comparative expresses an increasing quantity: sve više ljudi. "Previše ljudi" would mean too many people, which is a judgment rather than a trend.',
       },
       {
         type: 'quiz',
@@ -3100,7 +3100,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'The Structure Carries More Than the Vocabulary',
-        body: 'A B2 argument that names one advantage, one drawback, and then decides is more convincing than one that lists five points in favour — because it shows you considered the other side. The concession lesson supplies the joins; this one supplies the frame. Together they are the difference between arguing and asserting.',
+        body: 'A B2 argument that names one advantage, one drawback, and then decides is more convincing than one that lists five points in favor — because it shows you considered the other side. The concession lesson supplies the joins; this one supplies the frame. Together they are the difference between arguing and asserting.',
         highlight: 'one for, one against, then decide',
       },
       {
@@ -3160,7 +3160,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Ukratko, prednosti nadmašuju nedostatke, pa bih se odlučio za selidbu.',
-            en: 'In short, the advantages outweigh the drawbacks, so I would decide in favour of moving.',
+            en: 'In short, the advantages outweigh the drawbacks, so I would decide in favor of moving.',
             note: 'ukratko compresses; odlučiti se za + accusative',
           },
           {
@@ -3299,7 +3299,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'The Difference Between Confident and Careless',
-        body: 'A learner who states everything with equal certainty sounds either arrogant or naive. Croatian has a rich set of qualifiers, and using them is what makes a B2 speaker sound like someone whose judgement you would trust — which is a large part of what "fluency" actually means at this level.',
+        body: 'A learner who states everything with equal certainty sounds either arrogant or naive. Croatian has a rich set of qualifiers, and using them is what makes a B2 speaker sound like someone whose judgment you would trust — which is a large part of what "fluency" actually means at this level.',
         icon: '🎯',
       },
       {
@@ -3574,8 +3574,8 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'The V-Form Throughout, and Capitalised',
-        body: 'Formal correspondence uses the V-form from the first word to the last. In writing, the polite pronoun is traditionally CAPITALISED as a mark of respect: Molim Vas, Vaš dopis, Obraćam Vam se. Lowercase is increasingly accepted in email, but the capital is never wrong and in a letter to an institution it is still expected.',
+        title: 'The V-Form Throughout, and Capitalized',
+        body: 'Formal correspondence uses the V-form from the first word to the last. In writing, the polite pronoun is traditionally CAPITALIZED as a mark of respect: Molim Vas, Vaš dopis, Obraćam Vam se. Lowercase is increasingly accepted in email, but the capital is never wrong and in a letter to an institution it is still expected.',
         highlight: 'Molim Vas · Vaš dopis',
       },
       {
@@ -3696,7 +3696,7 @@ export const LESSONS_B2 = [
             options: ['ti', 'Vam', 'Vas', 'tebi'],
             correct: 1,
             explanation:
-              '"Obraćati se" takes the dative, and in formal writing the V-form is capitalised: Obraćam Vam se. "Vas" is the accusative and "ti" the wrong register.',
+              '"Obraćati se" takes the dative, and in formal writing the V-form is capitalized: Obraćam Vam se. "Vas" is the accusative and "ti" the wrong register.',
           },
           {
             q: 'Complete: "U ___ šaljem životopis." (Please find my CV attached.)',
@@ -3758,7 +3758,7 @@ export const LESSONS_B2 = [
         points: [
           'Poštovani / Poštovana opens; the comma and a new line follow',
           'Obraćam vam se u vezi… / U prilogu šaljem… / Unaprijed hvala.',
-          'V-form throughout, and traditionally capitalised: Molim Vas',
+          'V-form throughout, and traditionally capitalized: Molim Vas',
           'S poštovanjem for institutions; Lijep pozdrav for ordinary email',
           'Going straight in with no greeting reads as rude in Croatian',
         ],
@@ -4572,7 +4572,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Understatement Is the House Style',
-        body: 'Croatian, especially on the coast, favours understatement in both directions. "Nije loše" (not bad) about something excellent is high praise. "Moglo bi biti gore" (could be worse) is a genuinely positive report. Taking these literally will make you think people are unimpressed when they are not.',
+        body: 'Croatian, especially on the coast, favors understatement in both directions. "Nije loše" (not bad) about something excellent is high praise. "Moglo bi biti gore" (could be worse) is a genuinely positive report. Taking these literally will make you think people are unimpressed when they are not.',
         highlight: 'Nije loše. = it is very good',
       },
       {
@@ -4788,7 +4788,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'Talking About Things You Cannot Point At',
-        body: 'B2 is where conversation stops being about what happened and starts being about what it means. That needs abstract nouns — and Croatian builds most of them from adjectives with a handful of suffixes, so this is far less memorisation than it first appears.',
+        body: 'B2 is where conversation stops being about what happened and starts being about what it means. That needs abstract nouns — and Croatian builds most of them from adjectives with a handful of suffixes, so this is far less memorization than it first appears.',
         icon: '🧠',
       },
       {
@@ -5587,7 +5587,7 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'The Illyrian Movement and Standardisation',
+        title: 'The Illyrian Movement and Standardization',
         body: 'In the 1830s and 40s a group around Ljudevit Gaj set out to unify Croatian writing — Gaj gave the alphabet most of its diacritics (č, ć, š, ž; đ came later), which is why it is called "gajica", and the movement settled on štokavski as the basis for a shared standard. Almost every spelling convention you have learned dates from that period rather than from anything older.',
         highlight: 'gajica — Gaj’s alphabet',
       },

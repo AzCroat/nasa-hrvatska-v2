@@ -460,7 +460,7 @@ export const CULTURE_DEEP_DIVES = {
         },
         {
           hr: 'Purizam pritom nije novost nego konstanta: hrvatski je jezik stoljećima kovao vlastite riječi ondje gdje su drugi posuđivali. Zrakoplov, kolodvor, veleposlanstvo — sve su to uspjele kovanice; samovoz i brzoglas podsjećaju da norma ne može sve. Jezikoslovci se spore oko granice: gdje prestaje briga za jezik, a počinje njegovo discipliniranje?',
-          en: 'Purism, moreover, is not a novelty but a constant: for centuries Croatian has coined its own words where others borrowed. Zrakoplov (airplane), kolodvor (railway station), veleposlanstvo (embassy) — all successful coinages; samovoz (motor car) and brzoglas (telephone) remind us that the norm cannot do everything. Linguists dispute the boundary: where does care for the language end and its disciplining begin?',
+          en: 'Purism, moreover, is not a novelty but a constant: for centuries Croatian has coined its own words where others borrowed. Zrakoplov (airplane), kolodvor (train station), veleposlanstvo (embassy) — all successful coinages; samovoz (motor car) and brzoglas (telephone) remind us that the norm cannot do everything. Linguists dispute the boundary: where does care for the language end and its disciplining begin?',
         },
         {
           hr: 'Godine 2013. objavljen je pravopis Instituta za hrvatski jezik, zamišljen kao pomirbeni — s dvostrukostima ondje gdje se struka nije mogla usuglasiti. Kompromis, dakako, nije zadovoljio nikoga do kraja, što je možda i najhrvatskiji mogući ishod. U međuvremenu jezik živi svoj život: mladi pišu poruke bez dijakritika, anglizmi naviru, a pravopisna se strast seli na društvene mreže. Ratovi jenjavaju; jezik, kao i uvijek, pobjeđuje sve svoje čuvare.',

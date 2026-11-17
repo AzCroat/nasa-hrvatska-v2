@@ -113,7 +113,7 @@ const DATA = [
     q: 'Profesor ____ na gimnaziji.',
     opts: ['povijesti', 'historije', 'istorije', 'povjesnice'],
     answer: 'povijesti',
-    en: 'a history teacher at the grammar school',
+    en: 'a history teacher at the high school',
     tip: 'Standard: povijest (historija/istorija nestandardno).',
   },
   {

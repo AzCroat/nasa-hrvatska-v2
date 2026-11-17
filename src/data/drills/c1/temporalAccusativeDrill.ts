@@ -163,7 +163,7 @@ export const TEMPORAL_ACCUSATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'razlika',
     q: 'Bio je u bolnici ____.',
-    en: 'He was in hospital for two weeks.',
+    en: 'He was in the hospital for two weeks.',
     opts: ['dva tjedna', 'za dva tjedna', 'dvaju tjedana', 'pred dva tjedna'],
     answer: 'dva tjedna',
     tip: 'A length that actually passed: the bare accusative.',

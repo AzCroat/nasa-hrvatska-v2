@@ -5,441 +5,241 @@
   "items": [
     {
       "q": "What does 'iskustvo' mean?",
-      "o": [
-        "habit",
-        "experience",
-        "opportunity",
-        "decision"
-      ],
+      "o": ["habit", "experience", "opportunity", "decision"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'prilika' mean?",
-      "o": [
-        "opportunity",
-        "promise",
-        "problem",
-        "permission"
-      ],
+      "o": ["opportunity", "promise", "problem", "permission"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'susjedstvo' mean?",
-      "o": [
-        "friendship",
-        "neighborhood",
-        "relationship",
-        "partnership"
-      ],
+      "o": ["friendship", "neighborhood", "relationship", "partnership"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'navika' mean?",
-      "o": [
-        "news",
-        "habit",
-        "advice",
-        "favour"
-      ],
+      "o": ["news", "habit", "advice", "favor"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'neophodno' mean?",
-      "o": [
-        "optional",
-        "unusual",
-        "necessary",
-        "impossible"
-      ],
+      "o": ["optional", "unusual", "necessary", "impossible"],
       "c": 2,
       "skill": "vocab"
     },
     {
       "q": "What does 'odlučiti' mean?",
-      "o": [
-        "to delay",
-        "to decide",
-        "to deserve",
-        "to depart"
-      ],
+      "o": ["to delay", "to decide", "to deserve", "to depart"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to remember' in Croatian?",
-      "o": [
-        "zaboraviti",
-        "zapamtiti",
-        "razumjeti",
-        "predstaviti"
-      ],
+      "o": ["zaboraviti", "zapamtiti", "razumjeti", "predstaviti"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'health' in Croatian?",
-      "o": [
-        "zdravlje",
-        "bolest",
-        "lijek",
-        "tijelo"
-      ],
+      "o": ["zdravlje", "bolest", "lijek", "tijelo"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'okolina' mean?",
-      "o": [
-        "environment",
-        "occasion",
-        "outcome",
-        "ownership"
-      ],
+      "o": ["environment", "occasion", "outcome", "ownership"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'razlog' mean?",
-      "o": [
-        "result",
-        "reason",
-        "rule",
-        "remark"
-      ],
+      "o": ["result", "reason", "rule", "remark"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Fill in the blank: 'Moram ___ ovaj projekt do petka.' (finish, perfective)",
-      "o": [
-        "završavati",
-        "završiti",
-        "počinjati",
-        "raditi"
-      ],
+      "o": ["završavati", "završiti", "počinjati", "raditi"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'pokušati' mean?",
-      "o": [
-        "to try",
-        "to push",
-        "to prove",
-        "to praise"
-      ],
+      "o": ["to try", "to push", "to prove", "to praise"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'advice' in Croatian?",
-      "o": [
-        "savjest",
-        "savjet",
-        "sastanak",
-        "sažetak"
-      ],
+      "o": ["savjest", "savjet", "sastanak", "sažetak"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'putovanje' mean?",
-      "o": [
-        "passport",
-        "journey",
-        "package",
-        "purpose"
-      ],
+      "o": ["passport", "journey", "package", "purpose"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Fill in: 'Nadam se da ću dobiti dobru ___ za posao.' (opportunity)",
-      "o": [
-        "priliku",
-        "prilika",
-        "prilici",
-        "prilikom"
-      ],
+      "o": ["priliku", "prilika", "prilici", "prilikom"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'mišljenje' mean?",
-      "o": [
-        "mission",
-        "opinion",
-        "meeting",
-        "mistake"
-      ],
+      "o": ["mission", "opinion", "meeting", "mistake"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to compare' in Croatian?",
-      "o": [
-        "usporediti",
-        "uspjeti",
-        "ustati",
-        "uvjeriti"
-      ],
+      "o": ["usporediti", "uspjeti", "ustati", "uvjeriti"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'dogovor' mean?",
-      "o": [
-        "disagreement",
-        "agreement",
-        "document",
-        "direction"
-      ],
+      "o": ["disagreement", "agreement", "document", "direction"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Fill in: 'Vježbanje je ___ za dobro zdravlje.' (necessary)",
-      "o": [
-        "neobično",
-        "nemoguće",
-        "neophodno",
-        "nepoznato"
-      ],
+      "o": ["neobično", "nemoguće", "neophodno", "nepoznato"],
       "c": 2,
       "skill": "vocab"
     },
     {
       "q": "What does 'sjećanje' mean?",
-      "o": [
-        "meeting",
-        "memory",
-        "message",
-        "moment"
-      ],
+      "o": ["meeting", "memory", "message", "moment"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Choose the correct aspect: 'Svako jutro ___ kavu prije posla.'",
-      "o": [
-        "popijem",
-        "pijem",
-        "popio sam",
-        "popit ću"
-      ],
+      "o": ["popijem", "pijem", "popio sam", "popit ću"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect: 'Jučer sam ___ cijelu knjigu u jednom danu.'",
-      "o": [
-        "čitao",
-        "pročitao",
-        "čitam",
-        "čitat ću"
-      ],
+      "o": ["čitao", "pročitao", "čitam", "čitat ću"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conditional: 'Da imam vremena, ___ ti pomogao.'",
-      "o": [
-        "budem",
-        "bih",
-        "ću",
-        "sam"
-      ],
+      "o": ["budem", "bih", "ću", "sam"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case (instrumental): 'Putujem u Split ___.'",
-      "o": [
-        "auto",
-        "auta",
-        "autom",
-        "autu"
-      ],
+      "o": ["auto", "auta", "autom", "autu"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case (genitive plural): 'U ovom gradu ima mnogo ___.'",
-      "o": [
-        "studenti",
-        "studente",
-        "studenata",
-        "studentima"
-      ],
+      "o": ["studenti", "studente", "studenata", "studentima"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case (locative): 'Razgovarali smo o ___.'",
-      "o": [
-        "politika",
-        "politiku",
-        "politici",
-        "politikom"
-      ],
+      "o": ["politika", "politiku", "politici", "politikom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case (dative): 'Pomažem ___ s domaćom zadaćom.'",
-      "o": [
-        "sestra",
-        "sestru",
-        "sestri",
-        "sestre"
-      ],
+      "o": ["sestra", "sestru", "sestri", "sestre"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative pronoun: 'To je čovjek ___ sam ti spominjao.'",
-      "o": [
-        "koji",
-        "kojeg",
-        "kojem",
-        "kojim"
-      ],
+      "o": ["koji", "kojeg", "kojem", "kojim"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative pronoun: 'Knjiga ___ ti dajem je vrlo zanimljiva.'",
-      "o": [
-        "koja",
-        "koje",
-        "koju",
-        "kojoj"
-      ],
+      "o": ["koja", "koje", "koju", "kojoj"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct modal form: 'Ne ___ pušiti u restoranu.'",
-      "o": [
-        "smiješ",
-        "moraš",
-        "trebaš",
-        "možeš"
-      ],
+      "o": ["smiješ", "moraš", "trebaš", "možeš"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct form: 'Trebao bih ___ liječniku.'",
-      "o": [
-        "ići",
-        "idem",
-        "išao",
-        "idi"
-      ],
+      "o": ["ići", "idem", "išao", "idi"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conditional: 'Što ___ napravio na mom mjestu?'",
-      "o": [
-        "bi",
-        "biste",
-        "bih",
-        "bismo"
-      ],
+      "o": ["bi", "biste", "bih", "bismo"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect (future plan, perfective): 'Sutra ću ___ pismo.'",
-      "o": [
-        "pisati",
-        "napisati",
-        "pišem",
-        "pisao"
-      ],
+      "o": ["pisati", "napisati", "pišem", "pisao"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case (accusative of motion vs locative): 'Idemo u ___.'",
-      "o": [
-        "kazalištu",
-        "kazalište",
-        "kazališta",
-        "kazalištem"
-      ],
+      "o": ["kazalištu", "kazalište", "kazališta", "kazalištem"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct word order with clitics: 'Jučer ___ ga vidio u parku.'",
-      "o": [
-        "sam",
-        "bih",
-        "ću",
-        "sam ja"
-      ],
+      "o": ["sam", "bih", "ću", "sam ja"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conjunction: 'Učim hrvatski ___ bih bolje razumio obitelj.'",
-      "o": [
-        "jer",
-        "ako",
-        "da",
-        "kad"
-      ],
+      "o": ["jer", "ako", "da", "kad"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative form: 'Grad u ___ živim je vrlo lijep.'",
-      "o": [
-        "koji",
-        "kojem",
-        "kojeg",
-        "kojim"
-      ],
+      "o": ["koji", "kojem", "kojeg", "kojim"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect: 'Dok sam ___ ručak, zazvonio je telefon.'",
-      "o": [
-        "spremio",
-        "spremao",
-        "spremim",
-        "spremiti"
-      ],
+      "o": ["spremio", "spremao", "spremim", "spremiti"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conjunction: 'Ne znam ___ je istina ili nije.'",
-      "o": [
-        "da",
-        "što",
-        "je li",
-        "kako"
-      ],
+      "o": ["da", "što", "je li", "kako"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct vocative form: '___, dođi ovamo!' (calling Marija)",
-      "o": [
-        "Marija",
-        "Marijo",
-        "Mariju",
-        "Mariji"
-      ],
+      "o": ["Marija", "Marijo", "Mariju", "Mariji"],
       "c": 1,
       "skill": "grammar"
     },
@@ -553,343 +353,188 @@
     },
     {
       "q": "What does Petra find most difficult about Croatian?",
-      "o": [
-        "Pronunciation",
-        "Vocabulary",
-        "Cases",
-        "Verb tenses"
-      ],
+      "o": ["Pronunciation", "Vocabulary", "Cases", "Verb tenses"],
       "c": 2,
       "skill": "reading",
       "passage": "Petra živi u Kanadi, ali njezini djed i baka došli su iz Hrvatske. Iako razumije osnovne riječi, željela bi naučiti hrvatski dovoljno dobro da može razgovarati s rođacima kad ih posjeti. Svaki dan koristi jednu aplikaciju na mobitelu petnaest minuta prije spavanja. Kaže da joj se najviše sviđa što može učiti kad god ima vremena, čak i u autobusu na putu do posla. Najteže joj padaju padeži, ali misli da će uz redovito vježbanje uspjeti."
     },
     {
       "q": "What does 'utjecaj' mean?",
-      "o": [
-        "influence",
-        "entrance",
-        "escape",
-        "outcome"
-      ],
+      "o": ["influence", "entrance", "escape", "outcome"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'svrha' mean?",
-      "o": [
-        "surface",
-        "purpose",
-        "summary",
-        "survey"
-      ],
+      "o": ["surface", "purpose", "summary", "survey"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'nedostatak' mean?",
-      "o": [
-        "advantage",
-        "necessity",
-        "disadvantage / shortcoming",
-        "agreement"
-      ],
+      "o": ["advantage", "necessity", "disadvantage / shortcoming", "agreement"],
       "c": 2,
       "skill": "vocab"
     },
     {
       "q": "What does 'prednost' mean?",
-      "o": [
-        "advantage",
-        "preference only",
-        "front door",
-        "prediction"
-      ],
+      "o": ["advantage", "preference only", "front door", "prediction"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'iskreno' mean?",
-      "o": [
-        "surprisingly",
-        "honestly / sincerely",
-        "carefully",
-        "unfortunately"
-      ],
+      "o": ["surprisingly", "honestly / sincerely", "carefully", "unfortunately"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'društvo' mean?",
-      "o": [
-        "destiny",
-        "society / company",
-        "duty",
-        "decade"
-      ],
+      "o": ["destiny", "society / company", "duty", "decade"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'vlast' mean?",
-      "o": [
-        "property",
-        "authority / power (government)",
-        "loyalty",
-        "freedom"
-      ],
+      "o": ["property", "authority / power (government)", "loyalty", "freedom"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to develop' in Croatian?",
-      "o": [
-        "razviti",
-        "razdvojiti",
-        "raspraviti",
-        "razmisliti"
-      ],
+      "o": ["razviti", "razdvojiti", "raspraviti", "razmisliti"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to achieve' in Croatian?",
-      "o": [
-        "postići",
-        "postojati",
-        "postaviti",
-        "postupiti"
-      ],
+      "o": ["postići", "postojati", "postaviti", "postupiti"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'svjestan' mean?",
-      "o": [
-        "worldly",
-        "aware / conscious",
-        "fresh",
-        "festive"
-      ],
+      "o": ["worldly", "aware / conscious", "fresh", "festive"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'pretpostaviti' mean?",
-      "o": [
-        "to present",
-        "to postpone",
-        "to assume / suppose",
-        "to prepare"
-      ],
+      "o": ["to present", "to postpone", "to assume / suppose", "to prepare"],
       "c": 2,
       "skill": "vocab"
     },
     {
       "q": "What does 'zahtjev' mean?",
-      "o": [
-        "request / demand",
-        "gratitude",
-        "warmth",
-        "achievement"
-      ],
+      "o": ["request / demand", "gratitude", "warmth", "achievement"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'sposobnost' mean?",
-      "o": [
-        "possibility",
-        "ability",
-        "responsibility",
-        "personality"
-      ],
+      "o": ["possibility", "ability", "responsibility", "personality"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'okolnost' mean?",
-      "o": [
-        "surroundings",
-        "circumstance",
-        "occasion",
-        "boundary"
-      ],
+      "o": ["surroundings", "circumstance", "occasion", "boundary"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to suggest / propose' in Croatian?",
-      "o": [
-        "predložiti",
-        "predstaviti",
-        "predvidjeti",
-        "preuzeti"
-      ],
+      "o": ["predložiti", "predstaviti", "predvidjeti", "preuzeti"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'posljedica' mean?",
-      "o": [
-        "consequence",
-        "sequence",
-        "possession",
-        "position"
-      ],
+      "o": ["consequence", "sequence", "possession", "position"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'nažalost' mean?",
-      "o": [
-        "luckily",
-        "unfortunately",
-        "definitely",
-        "frankly"
-      ],
+      "o": ["luckily", "unfortunately", "definitely", "frankly"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'zabrinut' mean?",
-      "o": [
-        "bored",
-        "worried / concerned",
-        "entertained",
-        "abandoned"
-      ],
+      "o": ["bored", "worried / concerned", "entertained", "abandoned"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'znanje' mean?",
-      "o": [
-        "science",
-        "knowledge",
-        "sign",
-        "meaning"
-      ],
+      "o": ["science", "knowledge", "sign", "meaning"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to notice' in Croatian?",
-      "o": [
-        "primijetiti",
-        "primiti",
-        "pripremiti",
-        "približiti"
-      ],
+      "o": ["primijetiti", "primiti", "pripremiti", "približiti"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'iznenađenje' mean?",
-      "o": [
-        "disappointment",
-        "surprise",
-        "annoyance",
-        "excitement"
-      ],
+      "o": ["disappointment", "surprise", "annoyance", "excitement"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'troškovi' mean?",
-      "o": [
-        "traces",
-        "costs / expenses",
-        "trophies",
-        "tracks"
-      ],
+      "o": ["traces", "costs / expenses", "trophies", "tracks"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "How do you say 'to allow / permit' in Croatian?",
-      "o": [
-        "dopustiti",
-        "dopuniti",
-        "dopisati",
-        "doputovati"
-      ],
+      "o": ["dopustiti", "dopuniti", "dopisati", "doputovati"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "What does 'cilj' mean?",
-      "o": [
-        "circle",
-        "goal / aim",
-        "ceiling",
-        "value"
-      ],
+      "o": ["circle", "goal / aim", "ceiling", "value"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "What does 'ponašanje' mean?",
-      "o": [
-        "offering",
-        "behavior",
-        "repetition",
-        "ownership"
-      ],
+      "o": ["offering", "behavior", "repetition", "ownership"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Choose the word that best means 'although / even though' to start a concessive clause:",
-      "o": [
-        "zato",
-        "iako",
-        "dakle",
-        "naime"
-      ],
+      "o": ["zato", "iako", "dakle", "naime"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Which connector best expresses 'therefore / for that reason'?",
-      "o": [
-        "međutim",
-        "stoga",
-        "premda",
-        "usprkos"
-      ],
+      "o": ["međutim", "stoga", "premda", "usprkos"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Which connector means 'however' (contrast)?",
-      "o": [
-        "jer",
-        "naime",
-        "međutim",
-        "čim"
-      ],
+      "o": ["jer", "naime", "međutim", "čim"],
       "c": 2,
       "skill": "vocab"
     },
     {
       "q": "What is the most precise meaning of 'uglavnom'?",
-      "o": [
-        "mainly / for the most part",
-        "immediately",
-        "rarely",
-        "by chance"
-      ],
+      "o": ["mainly / for the most part", "immediately", "rarely", "by chance"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "The phrase 'imati pravo' most commonly means:",
-      "o": [
-        "to have the law",
-        "to be right (correct)",
-        "to have a lawyer",
-        "to go straight"
-      ],
+      "o": ["to have the law", "to be right (correct)", "to have a lawyer", "to go straight"],
       "c": 1,
       "skill": "vocab"
     },
@@ -906,12 +551,7 @@
     },
     {
       "q": "Which word fits a formal register for 'to obtain / acquire'?",
-      "o": [
-        "zgrabiti",
-        "steći",
-        "ukrasti",
-        "uzeti"
-      ],
+      "o": ["zgrabiti", "steći", "ukrasti", "uzeti"],
       "c": 1,
       "skill": "vocab"
     },
@@ -928,56 +568,31 @@
     },
     {
       "q": "Which is the closest synonym for 'gotovo' in the sense of 'almost'?",
-      "o": [
-        "potpuno",
-        "skoro",
-        "uvijek",
-        "rijetko"
-      ],
+      "o": ["potpuno", "skoro", "uvijek", "rijetko"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "The verb 'odustati' means:",
-      "o": [
-        "to stand up",
-        "to give up / quit",
-        "to stay",
-        "to insist"
-      ],
+      "o": ["to stand up", "to give up / quit", "to stay", "to insist"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Which best captures the nuance of 'zapravo'?",
-      "o": [
-        "actually / in fact",
-        "right away",
-        "on purpose",
-        "by the way"
-      ],
+      "o": ["actually / in fact", "right away", "on purpose", "by the way"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "'Sumnjati' means:",
-      "o": [
-        "to summarize",
-        "to doubt / suspect",
-        "to assume",
-        "to sum up"
-      ],
+      "o": ["to summarize", "to doubt / suspect", "to assume", "to sum up"],
       "c": 1,
       "skill": "vocab"
     },
     {
       "q": "Which adjective best means 'reliable' (a person you can count on)?",
-      "o": [
-        "pouzdan",
-        "poslušan",
-        "ponosan",
-        "popularan"
-      ],
+      "o": ["pouzdan", "poslušan", "ponosan", "popularan"],
       "c": 0,
       "skill": "vocab"
     },
@@ -994,408 +609,223 @@
     },
     {
       "q": "Which word means 'on the contrary, instead' and links two clauses, as in 'Ne ljutim se, ___ mi je drago'?",
-      "o": [
-        "nego",
-        "jer",
-        "ali ipak",
-        "dok"
-      ],
+      "o": ["nego", "jer", "ali ipak", "dok"],
       "c": 0,
       "skill": "vocab"
     },
     {
       "q": "Choose the correct aspect: 'Obično ___ ručak oko podne, ali danas neću stići.'",
-      "o": [
-        "pojedem",
-        "jedem",
-        "pojeo sam",
-        "pojesti"
-      ],
+      "o": ["pojedem", "jedem", "pojeo sam", "pojesti"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect: 'Čim ___ pismo, javit ću ti se.' (as soon as I write/finish it)",
-      "o": [
-        "pišem",
-        "napišem",
-        "pisao",
-        "pisati"
-      ],
+      "o": ["pišem", "napišem", "pisao", "pisati"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect: 'Svaki put kad ga ___, sjetim se djetinjstva.' (whenever I see/hear it — repeated, imperfective)",
-      "o": [
-        "čujem",
-        "začujem",
-        "čuti",
-        "čuo"
-      ],
+      "o": ["čujem", "začujem", "čuti", "čuo"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct verb form after 'bojati se' (to fear): 'Bojim se ___.'",
-      "o": [
-        "mrak",
-        "mraka",
-        "mraku",
-        "mrakom"
-      ],
+      "o": ["mrak", "mraka", "mraku", "mrakom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'radovati se' (to look forward to): 'Radujem se ___.'",
-      "o": [
-        "ljeto",
-        "ljeta",
-        "ljetu",
-        "ljetom"
-      ],
+      "o": ["ljeto", "ljeta", "ljetu", "ljetom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'sjećati se' (to remember): 'Sjećam se ___.'",
-      "o": [
-        "taj dan",
-        "tog dana",
-        "tom danu",
-        "tim danom"
-      ],
+      "o": ["taj dan", "tog dana", "tom danu", "tim danom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'baviti se' (to be engaged in): 'Bavim se ___.'",
-      "o": [
-        "sport",
-        "sporta",
-        "sportu",
-        "sportom"
-      ],
+      "o": ["sport", "sporta", "sportu", "sportom"],
       "c": 3,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conditional: 'Da sam znao, ___ ti rekao ranije.'",
-      "o": [
-        "budem",
-        "bih",
-        "bi",
-        "ću"
-      ],
+      "o": ["budem", "bih", "bi", "ću"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conditional for 'they would help': 'Oni ___ pomogli kad bi mogli.'",
-      "o": [
-        "bi",
-        "bih",
-        "bismo",
-        "biste"
-      ],
+      "o": ["bi", "bih", "bismo", "biste"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conditional in the polite request: '___ li mi pomoći?' (Would you (formal) help me?)",
-      "o": [
-        "Bi",
-        "Biste",
-        "Bih",
-        "Bismo"
-      ],
+      "o": ["Bi", "Biste", "Bih", "Bismo"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative pronoun (accusative, masc. inanimate object): 'Ovo je film ___ sam gledao jučer.'",
-      "o": [
-        "koji",
-        "kojeg",
-        "kojem",
-        "kojim"
-      ],
+      "o": ["koji", "kojeg", "kojem", "kojim"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative pronoun (animate object): 'To je prijatelj ___ sam upoznao u Splitu.'",
-      "o": [
-        "koji",
-        "kojeg",
-        "kojem",
-        "kojim"
-      ],
+      "o": ["koji", "kojeg", "kojem", "kojim"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative form (instrumental): 'Olovka ___ pišem je nova.'",
-      "o": [
-        "koja",
-        "koju",
-        "kojom",
-        "kojoj"
-      ],
+      "o": ["koja", "koju", "kojom", "kojoj"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct relative form (dative): 'Žena ___ sam dao knjigu je profesorica.'",
-      "o": [
-        "koja",
-        "koju",
-        "kojoj",
-        "kojom"
-      ],
+      "o": ["koja", "koju", "kojoj", "kojom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Reported speech: 'Rekao je da ___ sutra doći.' (He said he would come tomorrow.)",
-      "o": [
-        "ću",
-        "će",
-        "bi",
-        "je"
-      ],
+      "o": ["ću", "će", "bi", "je"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Reported speech: 'Pitala me ___ sam gladan.' (She asked me whether I was hungry.)",
-      "o": [
-        "da",
-        "što",
-        "jesam li",
-        "je li"
-      ],
+      "o": ["da", "što", "jesam li", "je li"],
       "c": 3,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'bez' (without): 'Ne mogu živjeti bez ___.'",
-      "o": [
-        "glazba",
-        "glazbu",
-        "glazbe",
-        "glazbom"
-      ],
+      "o": ["glazba", "glazbu", "glazbe", "glazbom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'prema' (toward): 'Idemo prema ___.'",
-      "o": [
-        "centar",
-        "centra",
-        "centru",
-        "centrom"
-      ],
+      "o": ["centar", "centra", "centru", "centrom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'zbog' (because of): 'Kasnim zbog ___.'",
-      "o": [
-        "promet",
-        "prometa",
-        "prometu",
-        "prometom"
-      ],
+      "o": ["promet", "prometa", "prometu", "prometom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'tijekom' (during): 'Tijekom ___ puno smo naučili.'",
-      "o": [
-        "godina",
-        "godine",
-        "godinu",
-        "godinom"
-      ],
+      "o": ["godina", "godine", "godinu", "godinom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct comparative: 'Ova knjiga je ___ od one.' (more interesting)",
-      "o": [
-        "zanimljiva",
-        "zanimljivija",
-        "najzanimljivija",
-        "zanimljivo"
-      ],
+      "o": ["zanimljiva", "zanimljivija", "najzanimljivija", "zanimljivo"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct superlative: 'To je ___ grad u Hrvatskoj.' (the biggest)",
-      "o": [
-        "velik",
-        "veći",
-        "najveći",
-        "velikom"
-      ],
+      "o": ["velik", "veći", "najveći", "velikom"],
       "c": 2,
       "skill": "grammar"
     },
     {
       "q": "Choose the irregular comparative of 'dobar' (good): 'Danas mi je ___ nego jučer.'",
-      "o": [
-        "dobrije",
-        "bolje",
-        "najbolje",
-        "dobro"
-      ],
+      "o": ["dobrije", "bolje", "najbolje", "dobro"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct form: 'Što više čitam, to ___ razumijem.' (the more I understand)",
-      "o": [
-        "više",
-        "najviše",
-        "mnogo",
-        "puno"
-      ],
+      "o": ["više", "najviše", "mnogo", "puno"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct reflexive/passive: 'Hrvatski jezik ___ u školi.' (Croatian is studied/learned at school.)",
-      "o": [
-        "uči",
-        "uči se",
-        "učimo",
-        "učen"
-      ],
+      "o": ["uči", "uči se", "učimo", "učen"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conjunction: 'Ostat ću kod kuće ___ pada kiša.' (because)",
-      "o": [
-        "jer",
-        "da",
-        "iako",
-        "ako"
-      ],
+      "o": ["jer", "da", "iako", "ako"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conjunction: '___ budem imao vremena, doći ću.' (If — open/real condition)",
-      "o": [
-        "Da",
-        "Ako",
-        "Iako",
-        "Jer"
-      ],
+      "o": ["Da", "Ako", "Iako", "Jer"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct conjunction: '___ je bilo kasno, nastavili smo raditi.' (Although)",
-      "o": [
-        "Jer",
-        "Iako",
-        "Dakle",
-        "Čim"
-      ],
+      "o": ["Jer", "Iako", "Dakle", "Čim"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct clitic order: 'On ___ jučer dao knjigu.' (He gave me the book yesterday — 'mi je')",
-      "o": [
-        "mi je",
-        "je mi",
-        "mi sam",
-        "je me"
-      ],
+      "o": ["mi je", "je mi", "mi sam", "je me"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct order of clitics: 'Nadam se da ___ vidjeti sutra.' (that we will see each other — 'ćemo se')",
-      "o": [
-        "se ćemo",
-        "ćemo se",
-        "ćemo si",
-        "se hoćemo"
-      ],
+      "o": ["se ćemo", "ćemo se", "ćemo si", "se hoćemo"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct past tense agreement: 'Djevojke ___ u kino.' (The girls went.)",
-      "o": [
-        "je otišao",
-        "su otišle",
-        "su otišli",
-        "je otišla"
-      ],
+      "o": ["je otišao", "su otišle", "su otišli", "je otišla"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct number agreement: 'U sobi su bila ___ djeteta.' (three children)",
-      "o": [
-        "tri",
-        "trojica",
-        "troje",
-        "tre"
-      ],
+      "o": ["tri", "trojica", "troje", "tre"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct case after 'pet' (numbers 5+): 'Imam pet ___.' (five books)",
-      "o": [
-        "knjige",
-        "knjiga",
-        "knjigu",
-        "knjigama"
-      ],
+      "o": ["knjige", "knjiga", "knjigu", "knjigama"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct verb government: 'Trebam ___ za putovanje.' (I need money — accusative object)",
-      "o": [
-        "novac",
-        "novca",
-        "novcu",
-        "novcem"
-      ],
+      "o": ["novac", "novca", "novcu", "novcem"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct form: 'Volio bih da ___ sa mnom.' (that you would come — informal)",
-      "o": [
-        "dođeš",
-        "dolaziš",
-        "doći",
-        "došao"
-      ],
+      "o": ["dođeš", "dolaziš", "doći", "došao"],
       "c": 0,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct aspect: 'Dvije sam ga godine ___ svaki tjedan.' (I visited him every week — habitual past, imperfective)",
-      "o": [
-        "posjetio",
-        "posjećivao",
-        "posjetiti",
-        "posjeti"
-      ],
+      "o": ["posjetio", "posjećivao", "posjetiti", "posjeti"],
       "c": 1,
       "skill": "grammar"
     },
@@ -1412,34 +842,19 @@
     },
     {
       "q": "Choose the correct case after 'protiv' (against): 'Glasali su protiv ___.' (against the proposal)",
-      "o": [
-        "prijedlog",
-        "prijedloga",
-        "prijedlogu",
-        "prijedlogom"
-      ],
+      "o": ["prijedlog", "prijedloga", "prijedlogu", "prijedlogom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the correct verb government: 'Sve ovisi o ___.' (It all depends on you — locative after 'ovisiti o')",
-      "o": [
-        "tebe",
-        "tebi",
-        "ti",
-        "tobom"
-      ],
+      "o": ["tebe", "tebi", "ti", "tobom"],
       "c": 1,
       "skill": "grammar"
     },
     {
       "q": "Choose the grammatically correct sentence:",
-      "o": [
-        "Veselim se na ljeto.",
-        "Veselim se ljetu.",
-        "Veselim se ljeta.",
-        "Veselim ljeto."
-      ],
+      "o": ["Veselim se na ljeto.", "Veselim se ljetu.", "Veselim se ljeta.", "Veselim ljeto."],
       "c": 1,
       "skill": "grammar"
     },
@@ -1541,12 +956,7 @@
     },
     {
       "q": "When does the regular schedule return?",
-      "o": [
-        "Next Monday",
-        "Next Saturday",
-        "In five to ten minutes",
-        "It does not say"
-      ],
+      "o": ["Next Monday", "Next Saturday", "In five to ten minutes", "It does not say"],
       "c": 1,
       "skill": "reading",
       "passage": "Obavještavamo putnike da će zbog radova na cesti autobusna linija broj 12 od ponedjeljka do petka voziti izmijenjenim putem. Tijekom tog razdoblja autobus neće stajati na stanici kod tržnice, već na privremenoj stanici ispred pošte. Molimo putnike da računaju na moguća kašnjenja od pet do deset minuta. Redovan raspored vraća se sljedeće subote. Zahvaljujemo na razumijevanju."
@@ -1613,12 +1023,7 @@
     },
     {
       "q": "Which possible negative effect of overuse is NOT mentioned in the text?",
-      "o": [
-        "Sleep",
-        "Concentration",
-        "Mood",
-        "Eyesight"
-      ],
+      "o": ["Sleep", "Concentration", "Mood", "Eyesight"],
       "c": 3,
       "skill": "reading",
       "passage": "Društvene mreže danas su dio gotovo svakodnevice. One nam omogućuju da ostanemo u kontaktu s prijateljima koji žive daleko i da brzo dođemo do informacija. No mnogi stručnjaci upozoravaju da pretjerano korištenje može utjecati na san, koncentraciju pa čak i raspoloženje. Ključ nije u tome da ih potpuno izbjegavamo, nego da budemo svjesni koliko vremena na njima provodimo. Ako ih koristimo s mjerom, mogu biti koristan alat, a ne teret."
@@ -1685,12 +1090,7 @@
     },
     {
       "q": "Listen. Why did the speaker change jobs?",
-      "o": [
-        "Better salary",
-        "Shorter commute",
-        "More interesting work",
-        "Problems with the boss"
-      ],
+      "o": ["Better salary", "Shorter commute", "More interesting work", "Problems with the boss"],
       "c": 2,
       "skill": "listening",
       "audioText": "Promijenio sam posao prije svega zato što mi je stari postao dosadan. Sada radim nešto puno zanimljivije, iako plaća nije veća."
@@ -1793,12 +1193,7 @@
     },
     {
       "q": "Listen. What is the speaker complaining about?",
-      "o": [
-        "A late delivery",
-        "A damaged product",
-        "A wrong invoice",
-        "A rude employee"
-      ],
+      "o": ["A late delivery", "A damaged product", "A wrong invoice", "A rude employee"],
       "c": 2,
       "skill": "listening",
       "audioText": "Zovem jer sam na računu primijetila pogrešku. Naplatili ste mi uslugu koju nikad nisam naručila."

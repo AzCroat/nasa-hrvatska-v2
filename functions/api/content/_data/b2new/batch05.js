@@ -1078,7 +1078,7 @@ const WORD_FORMATION_AGENTS = {
         },
         {
           hr: 'Ravnateljica škole održala je kratak govor.',
-          en: 'The head teacher gave a short speech.',
+          en: 'The principal gave a short speech.',
         },
         {
           hr: 'U mladosti je puno putovao, a u starosti piše knjige.',

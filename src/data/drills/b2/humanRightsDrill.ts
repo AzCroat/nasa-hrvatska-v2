@@ -69,7 +69,7 @@ export const HUMAN_RIGHTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'words',
     q: 'Globalizacija ima i prednosti i ____.',
-    en: 'Globalisation has both advantages and disadvantages.',
+    en: 'Globalization has both advantages and disadvantages.',
     opts: ['nedostatak', 'nedostataka', 'nedostacima', 'nedostatke'],
     answer: 'nedostatke',
     tip: 'The object of ima, plural: nedostatke.',
@@ -151,7 +151,7 @@ export const HUMAN_RIGHTS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'formal',
     q: '____ da je globalizacija donijela više koristi nego štete.',
-    en: 'I believe globalisation has brought more benefit than harm.',
+    en: 'I believe globalization has brought more benefit than harm.',
     opts: ['Smatrati', 'Smatram', 'Smatrajući', 'Smatran'],
     answer: 'Smatram',
     tip: 'Smatram da… — the formal way to give a view.',

@@ -132,7 +132,7 @@ export const FALSE_FRIENDS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'context',
     q: 'Moja kći ide u ____ jer želi studirati medicinu.',
-    en: 'My daughter goes to grammar school because she wants to study medicine.',
+    en: 'My daughter goes to a college-prep high school because she wants to study medicine.',
     opts: ['teretanu', 'ordinaciju', 'gimnaziju', 'ambulantu'],
     answer: 'gimnaziju',
     tip: 'The academic high school is gimnazija.',

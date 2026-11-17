@@ -51,7 +51,7 @@ export const SPINE = [
     objectives: [
       'Talk about rights and freedoms: pravo na obrazovanje, boriti se za prava',
       'Describe the national minorities of Croatia and their rights',
-      'Discuss globalisation in a formal register: Smatram da…, Djelomično se slažem, ali…',
+      'Discuss globalization in a formal register: Smatram da…, Djelomično se slažem, ali…',
     ],
   },
   {
@@ -766,7 +766,7 @@ const INTERNATIONALISMS = {
 const HUMAN_RIGHTS = {
   id: 'human-rights',
   title: 'Ljudska prava',
-  subtitle: 'Rights, freedoms and minorities — and how to argue about globalisation formally',
+  subtitle: 'Rights, freedoms and minorities — and how to argue about globalization formally',
   icon: '⚖️',
   level: 'B2',
   duration: '~10 min',
@@ -810,7 +810,7 @@ const HUMAN_RIGHTS = {
     },
     {
       type: 'rule',
-      title: 'Globalisation: For and Against',
+      title: 'Globalization: For and Against',
       body: 'Globalizacija is a typical B2 discussion topic. For: slobodna trgovina (free trade), jeftinija roba (cheaper goods), lakše putovanje i razmjena ideja. Against: male lokalne tvrtke propadaju (go under), lokalna kultura se gubi, razlike između bogatih i siromašnih rastu. Talk about it in the formal register: complete sentences, Vi with a capital in writing, and the phrases on the next slide.',
       highlight: 'globalizacija',
     },
@@ -858,11 +858,11 @@ const HUMAN_RIGHTS = {
     },
     {
       type: 'example',
-      title: 'A Formal Discussion on Globalisation',
+      title: 'A Formal Discussion on Globalization',
       items: [
         {
           hr: 'Smatram da je globalizacija donijela više koristi nego štete.',
-          en: 'I believe globalisation has brought more benefit than harm.',
+          en: 'I believe globalization has brought more benefit than harm.',
           note: 'Smatram da… — giving a view',
         },
         {
@@ -1795,8 +1795,8 @@ export const PRACTICE = {
       {
         title: 'A Polite Disagreement',
         problem:
-          'Prevedi (formally): "I partly agree with you, but globalisation also has disadvantages."',
-        en: 'I partly agree with you, but globalisation also has disadvantages.',
+          'Prevedi (formally): "I partly agree with you, but globalization also has disadvantages."',
+        en: 'I partly agree with you, but globalization also has disadvantages.',
         steps: [
           { label: 'Partly agree', text: 'Djelomično se slažem…' },
           {
@@ -1956,7 +1956,7 @@ export const PRACTICE = {
       ['dostojanstvo', 'dignity', 'Svaki čovjek ima svoje dostojanstvo.'],
       ['manjina', 'minority', 'Talijanska manjina živi uglavnom u Istri.'],
       ['diskriminacija', 'discrimination', 'Diskriminacija je zabranjena zakonom.'],
-      ['globalizacija', 'globalisation', 'Globalizacija ima prednosti i nedostatke.'],
+      ['globalizacija', 'globalization', 'Globalizacija ima prednosti i nedostatke.'],
       ['boriti se', 'to fight', 'Bore se za bolje uvjete rada.'],
       ['smatrati', 'to believe, to consider', 'Smatram da ste u pravu.'],
     ],

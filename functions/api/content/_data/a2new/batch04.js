@@ -676,7 +676,7 @@ export const LESSONS = [
           },
           {
             hr: 'Konobaru, račun, molim!',
-            en: 'Waiter, the bill, please!',
+            en: 'Waiter, the check, please!',
             note: 'konobar → konobaru',
           },
           {
@@ -691,7 +691,7 @@ export const LESSONS = [
           },
           {
             hr: 'Oprostite, gospođo Kovač!',
-            en: 'Excuse me, Mrs Kovač!',
+            en: 'Excuse me, Mrs. Kovač!',
             note: 'gospođa → gospođo; the surname Kovač stays',
           },
         ],
@@ -886,7 +886,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Signing Up',
-        body: 'To sign up is prijaviti se, with se: Prijavio sam se kao volonter. Prijavila sam se na akciju čišćenja plaže. Many associations give a potvrda o volontiranju, a certificate of your hours that you can show a school or an employer. The International Volunteer Day, Međunarodni dan volontera, is on 5 December.',
+        body: 'To sign up is prijaviti se, with se: Prijavio sam se kao volonter. Prijavila sam se na akciju čišćenja plaže. Many associations give a potvrda o volontiranju, a certificate of your hours that you can show a school or an employer. The International Volunteer Day, Međunarodni dan volontera, is on December 5.',
         highlight: 'Prijavio sam se kao volonter.',
       },
       {
@@ -1203,7 +1203,7 @@ export const LESSONS = [
           },
           {
             hr: 'Baš naprotiv, javni prijevoz je jeftin i brz.',
-            en: 'Quite the opposite, public transport is cheap and fast.',
+            en: 'Quite the opposite, public transportation is cheap and fast.',
             note: 'baš naprotiv — a strong counter',
           },
         ],
@@ -2062,8 +2062,9 @@ export const PRACTICE = {
           type: 'type',
           q: '____, račun, molim! (konobar)',
           answer: 'konobaru',
-          hint: 'Job words in -ar do not take -e.',
-          explanation: 'konobar → konobaru.',
+          accept: ['konobare'],
+          hint: 'For job words in -ar the lesson teaches the ending that is not -e.',
+          explanation: 'konobar → konobaru (konobare is also correct).',
         },
         {
           q: 'Start a talk to your students:',
@@ -2131,8 +2132,8 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['gospodin', 'sir; Mr', 'Dobar dan, gospodine!'],
-      ['gospođa', 'madam; Mrs', 'Izvolite, gospođo!'],
+      ['gospodin', 'sir; Mr.', 'Dobar dan, gospodine!'],
+      ['gospođa', 'madam; Mrs.', 'Izvolite, gospođo!'],
       ['prijatelj', 'friend', 'Hvala, prijatelju!'],
       ['konobar', 'waiter', 'Konobaru, račun, molim!'],
       ['čovjek', 'man; person', 'Čovječe, što radiš?'],

@@ -73,7 +73,7 @@ export const PREFERENCES_DRILL_DATA: ModeDrillItem[] = [
     en: 'To your spouse of twenty years:',
     opts: ['voljeti', 'sviđati se', 'oboje jednako', 'nijedno'],
     answer: 'voljeti',
-    tip: 'Volim te. Sviđaš mi se is a good deal lighter — closer to "I fancy you".',
+    tip: 'Volim te. Sviđaš mi se is a good deal lighter — closer to "I like you".',
   },
   {
     mode: 'voljeti',

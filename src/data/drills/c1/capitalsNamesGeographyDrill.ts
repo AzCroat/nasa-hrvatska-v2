@@ -105,7 +105,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The town on the Sava in Slavonia.',
     opts: ['Slavonski Brod', 'Slavonski brod', 'slavonski Brod', 'Slavonski-Brod'],
     answer: 'Slavonski Brod',
-    tip: 'A settlement capitalises every word.',
+    tip: 'A settlement capitalizes every word.',
   },
   {
     mode: 'naselja',
@@ -121,7 +121,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The town on the island of Korčula.',
     opts: ['Vela Luka', 'Vela luka', 'vela Luka', 'Vela-Luka'],
     answer: 'Vela Luka',
-    tip: 'A settlement capitalises every word.',
+    tip: 'A settlement capitalizes every word.',
   },
   {
     mode: 'naselja',
@@ -145,7 +145,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The official name of our state.',
     opts: ['Republika Hrvatska', 'Republika hrvatska', 'republika Hrvatska', 'Republika-Hrvatska'],
     answer: 'Republika Hrvatska',
-    tip: 'A state name capitalises every word.',
+    tip: 'A state name capitalizes every word.',
   },
   {
     mode: 'naselja',
@@ -180,7 +180,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The sea off the Croatian coast.',
     opts: ['Jadransko more', 'Jadransko More', 'jadransko more', 'Jadransko-more'],
     answer: 'Jadransko more',
-    tip: 'A sea capitalises only its first word.',
+    tip: 'A sea capitalizes only its first word.',
   },
   {
     mode: 'zemljopis',
@@ -220,7 +220,7 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     en: 'The region around the eastern Mediterranean.',
     opts: ['Bliski istok', 'Bliski Istok', 'bliski istok', 'BLISKI istok'],
     answer: 'Bliski istok',
-    tip: 'A region capitalises only its first word.',
+    tip: 'A region capitalizes only its first word.',
   },
   {
     mode: 'zemljopis',

@@ -67,7 +67,7 @@ const L_DEPERSONALIZATION = {
     {
       type: 'rule',
       title: 'Feelings With a Dative: Spava mi se',
-      body: "A neighboring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I fancy a coffee). The person does not act; the urge happens to them. In the past the verb is neuter singular when there is no nominative noun — Spavalo mi se cijeli dan — but agrees with one when there is: Pila mi se kava.",
+      body: "A neighboring construction puts the person in the dative and the verb impersonally with se: Spava mi se (I feel sleepy). Ne da mi se (I can't be bothered). Plače joj se (she feels like crying). Pije mi se kava (I feel like a coffee). The person does not act; the urge happens to them. In the past the verb is neuter singular when there is no nominative noun — Spavalo mi se cijeli dan — but agrees with one when there is: Pila mi se kava.",
       highlight: 'Spava mi se',
     },
     {

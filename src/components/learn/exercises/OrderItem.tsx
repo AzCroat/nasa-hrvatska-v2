@@ -5,7 +5,15 @@ import { card, chipStyle, Feedback, PromptCard, useAttempts } from './shared';
 import { seededOrder } from './seeded';
 import type { ItemProps, OrderExercise } from './types';
 
-const norm = (s: string) => s.replace(/\s+/g, ' ').trim();
+// Capitals and punctuation ride on the tiles ("Sutra", "kino."), so another correct
+// order built from the same tiles can never equal an accepted sentence letter for
+// letter. The ORDER of the words is what is tested: compare without case or punctuation.
+const norm = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/[.,!?;:"'„”“]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 export default function OrderItem({
   item,

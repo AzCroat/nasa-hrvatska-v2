@@ -398,7 +398,7 @@ export const LESSONS = [
         items: [
           {
             hr: 'Ja radim u bolnici, a moj muž predaje u gimnaziji.',
-            en: 'I work at a hospital, and my husband teaches at a grammar school.',
+            en: 'I work at a hospital, and my husband teaches at a high school.',
             note: 'a: two facts side by side',
           },
           {

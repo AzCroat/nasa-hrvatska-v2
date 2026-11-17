@@ -1073,7 +1073,7 @@ const FAMILY_CHANGES = {
         },
         {
           hr: 'Baka svako jutro vodi unuke u vrtić.',
-          en: 'Grandma takes the grandchildren to nursery every morning.',
+          en: 'Grandma takes the grandchildren to preschool every morning.',
           note: 'unuke — accusative plural of unuk',
         },
       ],

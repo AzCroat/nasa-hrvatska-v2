@@ -52,7 +52,7 @@ const DATA = [
     q: '„Sudac je ____ presudu u korist tužitelja.”',
     opts: ['izrekao', 'rekao', 'izgovorio', 'iznio'],
     answer: 'izrekao',
-    en: 'The judge pronounced a verdict in favour of the plaintiff.',
+    en: 'The judge pronounced a verdict in favor of the plaintiff.',
     tip: 'Izreći presudu/kaznu/opomenu. Izgovoriti se odnosi na artikulaciju riječi.',
   },
   {

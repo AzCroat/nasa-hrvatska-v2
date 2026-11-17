@@ -1107,7 +1107,7 @@ export const PRACTICE_B2 = {
             text: 'otkazati → otkazan, masculine to agree with koncert: Koncert je otkazan.',
           },
           {
-            label: 'Nominalise the cause',
+            label: 'Nominalize the cause',
             text: 'zbog kiše is fine in speech; formal writing prefers the fuller noun phrase: zbog loših vremenskih uvjeta.',
           },
         ],
@@ -1143,7 +1143,7 @@ export const PRACTICE_B2 = {
           options: ['provoditi', 'provođenje', 'provodi', 'provođen'],
           correct: 1,
           hint: 'Formal writing turns the verb into a verbal noun, with the -enje suffix and the usual softening of d.',
-          explanation: 'provođenje — the nominalisation of provoditi, the object of za.',
+          explanation: 'provođenje — the nominalization of provoditi, the object of za.',
         },
         {
           q: 'The library is posting a notice about its closure. Which line would it print?',
@@ -1177,7 +1177,7 @@ export const PRACTICE_B2 = {
           q: "Dopuni službeno: 'Za ____ istraživanja potrebna su dodatna sredstva.' (financing — financirati)",
           answer: 'financiranje',
           hint: 'Turn the verb into a noun with -anje.',
-          explanation: 'Za financiranje istraživanja — a nominalisation.',
+          explanation: 'Za financiranje istraživanja — a nominalization.',
         },
         {
           type: 'type',
@@ -1201,7 +1201,7 @@ export const PRACTICE_B2 = {
           explanation: 'Ovim putem — hereby.',
         },
         {
-          q: "Which is the nominalisation of 'zapošljavati' (to employ)?",
+          q: "Which is the nominalization of 'zapošljavati' (to employ)?",
           options: ['zaposlen', 'zapošljavanje', 'zaposlenik', 'zapošljavajući'],
           correct: 1,
           hint: 'Look for the -anje noun.',
@@ -1258,7 +1258,7 @@ export const PRACTICE_B2 = {
         ],
         correct: 2,
         explanation:
-          'A nominalised cause (zbog nedostatka…) and no colloquialisms: formal register.',
+          'A nominalized cause (zbog nedostatka…) and no colloquialisms: formal register.',
       },
       {
         q: "Spot the register error: 'Poštovana gospođo Kovač, molim te da mi pošalješ račun.'",
@@ -1272,7 +1272,7 @@ export const PRACTICE_B2 = {
         explanation: 'Once the letter opens formally, every verb and pronoun stays Vi.',
       },
       {
-        q: "Which is the nominalisation of 'istraživati' (to research)?",
+        q: "Which is the nominalization of 'istraživati' (to research)?",
         options: ['istraživač', 'istraživanje', 'istražen', 'istražujući'],
         correct: 1,
         explanation: 'Verb + -anje: istraživanje, research.',
@@ -2972,7 +2972,7 @@ export const PRACTICE_B2 = {
         explanation: 'Possibility is the impersonal conditional of moći: moglo bi zahladiti.',
       },
       {
-        q: 'In a meeting, which sentence criticises without pointing at anyone?',
+        q: 'In a meeting, which sentence criticizes without pointing at anyone?',
         options: [
           'Trebao si to provjeriti.',
           'Moraš to provjeriti.',
@@ -4458,7 +4458,7 @@ export const PRACTICE_B2 = {
         steps: [
           {
             label: 'The frame',
-            text: 'molim Vas da + a present-tense clause — with Vas capitalised as a mark of respect.',
+            text: 'molim Vas da + a present-tense clause — with Vas capitalized as a mark of respect.',
           },
           {
             label: 'The verb',
@@ -4491,16 +4491,16 @@ export const PRACTICE_B2 = {
             'Zahvaljujem Vas na odgovoru.',
           ],
           correct: 1,
-          hint: 'zahvaljivati takes the person in the dative and the thing after na in the locative; a formal letter capitalises the polite pronoun.',
+          hint: 'zahvaljivati takes the person in the dative and the thing after na in the locative; a formal letter capitalizes the polite pronoun.',
           explanation:
-            'Zahvaljujem Vam na odgovoru — dative Vam (capitalised), na + locative odgovoru.',
+            'Zahvaljujem Vam na odgovoru — dative Vam (capitalized), na + locative odgovoru.',
         },
         {
           q: 'Dopuni: "Unaprijed zahvaljujem na ___ odgovoru." (for your prompt reply)',
           options: ['Vaš brzi', 'Vašeg brzog', 'Vašem brzom', 'Vašim brzim'],
           correct: 2,
           hint: 'zahvaljivati na takes the locative, the same case as hvala na.',
-          explanation: 'na Vašem brzom odgovoru — locative, with the polite Vaš capitalised.',
+          explanation: 'na Vašem brzom odgovoru — locative, with the polite Vaš capitalized.',
         },
         {
           q: 'After "Poštovani gospodine Horvat," which first line keeps the register?',
@@ -4525,7 +4525,7 @@ export const PRACTICE_B2 = {
           type: 'type',
           q: "Dopuni: 'Molim ____ da mi pošaljete ponudu.' (I ask you to send me an offer — formal)",
           answer: 'Vas',
-          hint: 'The polite pronoun in the accusative, traditionally capitalised.',
+          hint: 'The polite pronoun in the accusative, traditionally capitalized.',
           explanation: 'Molim Vas da mi pošaljete ponudu.',
         },
         {
@@ -5256,7 +5256,7 @@ export const PRACTICE_B2 = {
           },
           {
             label: 'The house style',
-            text: 'Croatian — especially on the coast — favours understatement, so "not bad" is praise.',
+            text: 'Croatian — especially on the coast — favors understatement, so "not bad" is praise.',
           },
           {
             label: 'Read it correctly',
@@ -5704,7 +5704,7 @@ export const PRACTICE_B2 = {
           q: 'Dopuni: "Zastupnici su glasovali ___." (for the law)',
           options: ['za zakona', 'za zakonu', 'za zakon', 'o zakon'],
           correct: 2,
-          hint: 'za meaning "in favour of" takes the accusative.',
+          hint: 'za meaning "in favor of" takes the accusative.',
           explanation: 'glasovati za zakon — za + accusative.',
         },
         {

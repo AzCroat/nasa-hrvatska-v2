@@ -687,7 +687,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners regularise 'moći' into 'možem' — the ja form is 'mogu' (možeš, može, možemo, možete, mogu). Second, verbs in -ovati get conjugated straight from the infinitive, 'kupovam', 'putovam' — the -ova- becomes -uje-: kupujem, putujem. Third, 'htjeti' is fitted to the -im pattern as 'htjem' — it is 'hoću, hoćeš, hoće', and its negative is the single word 'neću', never 'ne hoću'.",
+        body: "Learners regularize 'moći' into 'možem' — the ja form is 'mogu' (možeš, može, možemo, možete, mogu). Second, verbs in -ovati get conjugated straight from the infinitive, 'kupovam', 'putovam' — the -ova- becomes -uje-: kupujem, putujem. Third, 'htjeti' is fitted to the -im pattern as 'htjem' — it is 'hoću, hoćeš, hoće', and its negative is the single word 'neću', never 'ne hoću'.",
         highlight: 'the -ova- becomes -uje-',
       },
       {
@@ -2098,7 +2098,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners translate 'you' as 'ti' everywhere and address a shopkeeper or a doctor with 'možeš' — a stranger in a service or official setting is Vi: 'možete', 'izvolite'. The opposite error is keeping Vi after a friend has said 'možemo na ti' — that reads as distance, not politeness. Third, in writing the polite form is capitalised: 'Hvala Vam', 'Molim Vas' in a message to one person; lower-case 'vi' means several people.",
+        body: "Learners translate 'you' as 'ti' everywhere and address a shopkeeper or a doctor with 'možeš' — a stranger in a service or official setting is Vi: 'možete', 'izvolite'. The opposite error is keeping Vi after a friend has said 'možemo na ti' — that reads as distance, not politeness. Third, in writing the polite form is capitalized: 'Hvala Vam', 'Molim Vas' in a message to one person; lower-case 'vi' means several people.",
         highlight: 'that reads as distance, not politeness',
       },
       {
@@ -6300,7 +6300,7 @@ const LESSONS_CORE = [
           {
             hr: 'Moj telefon je nula devet osam, jedan jedan tri, četiri dva pet.',
             en: 'My phone number is 098 113 425.',
-            note: '098 is a mobile number',
+            note: '098 is a cell number',
           },
           {
             hr: 'Moja adresa je Ilica deset, Zagreb.',
@@ -7127,13 +7127,13 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: 'The Calendar in Croatian',
-        body: 'This lesson gives you the days of the week, the twelve months, the four seasons and the everyday time words — danas, sutra, jučer. You will also learn how to say ON a day (u subotu), which uses the accusative you already know. Days and months are not capitalised in Croatian.',
+        body: 'This lesson gives you the days of the week, the twelve months, the four seasons and the everyday time words — danas, sutra, jučer. You will also learn how to say ON a day (u subotu), which uses the accusative you already know. Days and months are not capitalized in Croatian.',
         icon: '📅',
       },
       {
         type: 'rule',
         title: 'Days of the Week',
-        body: 'Days of the week are NOT capitalised in Croatian. They are: ponedjeljak (Monday), utorak (Tuesday), srijeda (Wednesday), četvrtak (Thursday), petak (Friday), subota (Saturday), nedjelja (Sunday). The week starts on Monday in Croatia. "Danas je..." = Today is... "Sutra je..." = Tomorrow is...',
+        body: 'Days of the week are NOT capitalized in Croatian. They are: ponedjeljak (Monday), utorak (Tuesday), srijeda (Wednesday), četvrtak (Thursday), petak (Friday), subota (Saturday), nedjelja (Sunday). The week starts on Monday in Croatia. "Danas je..." = Today is... "Sutra je..." = Tomorrow is...',
         highlight: 'not capitalized',
       },
       {
@@ -7159,7 +7159,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Months of the Year',
-        body: 'Months are also NOT capitalised in Croatian, and Croatian uses its own Slavic month names, not the Latin ones. Many come from nature and farm work: travanj from trava (grass), lipanj from lipa (the linden tree), srpanj from srp (the sickle of the harvest), listopad from list + pad (leaf-fall), studeni from studen (cold). For now learn the names; how to say IN a month comes in the months lesson.',
+        body: 'Months are also NOT capitalized in Croatian, and Croatian uses its own Slavic month names, not the Latin ones. Many come from nature and farm work: travanj from trava (grass), lipanj from lipa (the linden tree), srpanj from srp (the sickle of the harvest), listopad from list + pad (leaf-fall), studeni from studen (cold). For now learn the names; how to say IN a month comes in the months lesson.',
         highlight: 'Slavic month names',
       },
       {
@@ -7276,7 +7276,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "English speakers capitalise days and months — 'Ponedjeljak', 'Svibanj' — but in Croatian they are lower-case unless they open a sentence. Second, 'on Monday' comes out as a bare noun, 'ponedjeljak imam ispit' — the day needs u: 'u ponedjeljak'. Third, a feminine day keeps its -a after u, 'u subota' — but after u it changes like any feminine object: u srijedu, u subotu, u nedjelju.",
+        body: "English speakers capitalize days and months — 'Ponedjeljak', 'Svibanj' — but in Croatian they are lower-case unless they open a sentence. Second, 'on Monday' comes out as a bare noun, 'ponedjeljak imam ispit' — the day needs u: 'u ponedjeljak'. Third, a feminine day keeps its -a after u, 'u subota' — but after u it changes like any feminine object: u srijedu, u subotu, u nedjelju.",
         highlight: 'u srijedu, u subotu, u nedjelju',
       },
       {
@@ -7300,7 +7300,7 @@ const LESSONS_CORE = [
             ],
             correct: 1,
             explanation:
-              'Days are lower-case in Croatian; only the first word of the sentence is capitalised.',
+              'Days are lower-case in Croatian; only the first word of the sentence is capitalized.',
           },
           {
             q: 'Which is the correct order of the first three months?',
@@ -7348,7 +7348,7 @@ const LESSONS_CORE = [
         type: 'summary',
         title: 'Days, Months and Seasons — Key Takeaways',
         points: [
-          'Days and months are NOT capitalised in Croatian',
+          'Days and months are NOT capitalized in Croatian',
           'On a day: u + the day — u petak, u srijedu, u subotu, u nedjelju',
           'Croatian months have Slavic names: siječanj, veljača, ožujak…',
           'Seasons: proljeće, ljeto, jesen, zima — ljeti, zimi',
@@ -8619,7 +8619,7 @@ const LESSONS_CORE = [
           {
             hr: 'Poštovana gospođo Kovač, javljam Vam se u vezi s natječajem.',
             en: 'Dear Mrs. Kovač, I am writing to you regarding the competition.',
-            note: 'formal opening; Vam capitalised; u vezi s + instrumental',
+            note: 'formal opening; Vam capitalized; u vezi s + instrumental',
           },
           {
             hr: 'Bog, Ana, jesi za kavu sutra?',
@@ -8721,7 +8721,7 @@ const LESSONS_CORE = [
             ],
             correct: 0,
             explanation:
-              'The se-passive, the nominalisation prodaja and the formula do daljnjega mark the administrative register. The others are speech.',
+              'The se-passive, the nominalization prodaja and the formula do daljnjega mark the administrative register. The others are speech.',
           },
           {
             q: "Spot the register error: 'Poštovani profesore, možeš li mi poslati prezentaciju? S poštovanjem, Ana'",
@@ -8751,13 +8751,13 @@ const LESSONS_CORE = [
             q: 'Which feature marks the FORMAL register?',
             options: [
               'short sentences and ti',
-              'nominalisations and the biti-passive',
+              'nominalizations and the biti-passive',
               'diminutives (kavica)',
               'discourse markers like ono, znači',
             ],
             correct: 1,
             explanation:
-              'Formal Croatian favours verbal nouns and biti + participle; the other three are marks of informal speech.',
+              'Formal Croatian favors verbal nouns and biti + participle; the other three are marks of informal speech.',
           },
           {
             q: "Complete: 'Molimo Vas ___ potvrdite dolazak.'",
@@ -10743,7 +10743,7 @@ const LESSONS_CORE = [
             ],
             correct: 1,
             explanation:
-              'se-passive, nominalisations (dostavlja, zaprimanja) and the u roku od formula are the marks of the register. The others are speech.',
+              'se-passive, nominalizations (dostavlja, zaprimanja) and the u roku od formula are the marks of the register. The others are speech.',
           },
           {
             q: "Spot the error: 'Žalba se podnosi u roku od 15 dana od dana dostavu.'",
@@ -11259,7 +11259,7 @@ const LESSONS_CORE = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: "Learners build 'more' with a separate word, 'više lijep' — Croatian changes the adjective itself: 'ljepši'. Second, the irregulars get regularised, 'dobriji', 'velikiji' — they are 'bolji' and 'veći', and the superlative simply adds naj-: 'najbolji'. Third, 'od' is followed by the nominative, 'veći od ja' — od takes the genitive, 'veći od mene', while 'nego' keeps the case of the first term: 'veći nego ja'.",
+        body: "Learners build 'more' with a separate word, 'više lijep' — Croatian changes the adjective itself: 'ljepši'. Second, the irregulars get regularized, 'dobriji', 'velikiji' — they are 'bolji' and 'veći', and the superlative simply adds naj-: 'najbolji'. Third, 'od' is followed by the nominative, 'veći od ja' — od takes the genitive, 'veći od mene', while 'nego' keeps the case of the first term: 'veći nego ja'.",
         highlight: 'Croatian changes the adjective itself',
       },
       {

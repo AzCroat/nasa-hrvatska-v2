@@ -153,7 +153,7 @@ export const JOBS_PROFESSIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'recenica',
     q: 'Ivana je učiteljica, a Josip je ____.',
-    en: 'Ivana is a teacher, and Josip is the head teacher.',
+    en: 'Ivana is a teacher, and Josip is the principal.',
     opts: ['ravnateljica', 'ravnatelji', 'ravnatelj', 'ravnateljice'],
     answer: 'ravnatelj',
     tip: 'Josip is a man: ravnatelj.',

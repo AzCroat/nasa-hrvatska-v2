@@ -186,7 +186,7 @@ export const PHONE_CALLS_A2_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'poruka',
     q: 'Oprostite, pogriješio sam ____.',
-    en: 'Sorry, I dialled the wrong number.',
+    en: 'Sorry, I dialed the wrong number.',
     opts: ['broj', 'broja', 'brojem', 'broju'],
     answer: 'broj',
     tip: 'pogriješiti + accusative.',

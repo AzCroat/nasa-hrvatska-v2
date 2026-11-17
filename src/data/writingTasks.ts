@@ -143,7 +143,7 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
       prompt:
         'Uredništvo vas je zamolilo za kritički osvrt na suvremeni hrvatski film ili roman po vašem izboru. Napišite recenziju: smjestite djelo u kontekst, ocijenite njegove domete i stilske postupke te obrazložite konačan sud.',
       promptEn:
-        'An editorial board has asked you for a critical review of a contemporary Croatian film or novel of your choice. Write the review: place the work in context, assess its achievements and stylistic devices, and justify your final judgement.',
+        'An editorial board has asked you for a critical review of a contemporary Croatian film or novel of your choice. Write the review: place the work in context, assess its achievements and stylistic devices, and justify your final judgment.',
       minWords: 150,
     },
     {

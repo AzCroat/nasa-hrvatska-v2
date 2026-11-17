@@ -26,10 +26,10 @@ interface Finding {
 }
 
 const REVIEWED_USAGE: Record<string, number> = {
-  flat: 133, // level ground, a flat tire, a flat tone, the tongue held flat
+  flat: 134, // level ground, a flat tire, a flat tone, the tongue held flat
   flats: 4, // salt flats, tidal flats
-  holiday: 19, // public and religious holidays
-  holidays: 14,
+  holiday: 20, // public and religious holidays
+  holidays: 15,
   rang: 19, // the phone / the doorbell rang
   lift: 13, // Croatian "lift", a ski lift, the verb
   sweets: 6,
@@ -40,6 +40,9 @@ const REVIEWED_USAGE: Record<string, number> = {
   litre: 2, // Croatian genitive "litre" quoted in English prose
   kilometre: 1, // Croatian form quoted
   surgery: 1, // an operation
+  nursery: 2, // a fish nursery (seagrass), both copies of geography
+  boot: 1, // a shoemaker's boot
+  fancy: 2, // "take a fancy to"
 };
 
 const files: string[] = (ROOTS as string[]).flatMap((r) => walk(r));

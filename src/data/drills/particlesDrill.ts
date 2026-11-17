@@ -127,7 +127,7 @@ export const PARTICLES_DRILL_DATA: ModeDrillItem[] = [
     en: 'What is the difference?',
     opts: ['je li govornik procijenio', 'stupanj uljudnosti', 'vrijeme radnje', 'registar'],
     answer: 'je li govornik procijenio',
-    tip: 'One reports a judgement; the other reports the absence of one.',
+    tip: 'One reports a judgment; the other reports the absence of one.',
   },
   {
     mode: 'valjda',

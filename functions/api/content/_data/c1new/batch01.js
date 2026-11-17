@@ -410,7 +410,7 @@ export const LESSONS = [
           ['na prvi pogled', 'na + accusative', 'at first sight'],
           ['u dlaku', 'u + accusative', 'exactly, to a hair'],
           ['u jedan glas', 'u + accusative', 'in unison'],
-          ['na kredit, na rate', 'na + accusative', 'on credit, in instalments'],
+          ['na kredit, na rate', 'na + accusative', 'on credit, in installments'],
           ['ruku pod ruku', 'accusative, fixed', 'arm in arm'],
           ['rame uz rame', 'accusative, fixed', 'shoulder to shoulder'],
           ['oči u oči', 'accusative, fixed', 'face to face'],

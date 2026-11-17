@@ -106,7 +106,7 @@ const DATA = [
     opts: ['Hvala Vam.', 'Hvala ti puno.', 'Fala.', 'Hvala, stari.'],
     answer: 'Hvala Vam.',
     en: 'Thank you. (formal)',
-    tip: "Formal address switches ti → Vi, and 'Vam' is capitalised in writing.",
+    tip: "Formal address switches ti → Vi, and 'Vam' is capitalized in writing.",
   },
   {
     mode: 'formalno',

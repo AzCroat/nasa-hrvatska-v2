@@ -127,7 +127,7 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'servis',
     q: 'Kofer je u ____.',
-    en: 'The suitcase is in the boot.',
+    en: 'The suitcase is in the trunk.',
     opts: ['prtljažnik', 'prtljažnika', 'prtljažnikom', 'prtljažniku'],
     answer: 'prtljažniku',
     tip: 'u + locative for where it is.',
@@ -137,8 +137,8 @@ export const CAR_AND_TRAFFIC_DRILL_DATA: ModeDrillItem[] = [
     q: 'What are the parts below called in English?',
     lead: 'brisači',
     en: 'Choose the English word.',
-    opts: ['windscreen wipers', 'brakes', 'headlights', 'mirrors'],
-    answer: 'windscreen wipers',
+    opts: ['windshield wipers', 'brakes', 'headlights', 'mirrors'],
+    answer: 'windshield wipers',
     tip: 'brisati — to wipe.',
   },
   {

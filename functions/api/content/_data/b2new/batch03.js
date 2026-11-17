@@ -681,7 +681,7 @@ const READING_CULTURE = {
     {
       type: 'rule',
       title: 'Common Mistakes',
-      body: '(1) Confusing the two shops: "Kupio sam knjigu u knjižnici" — you buy in a knjižara; in a knjižnica you borrow. (2) Reading roman as "romance": Čitam roman means I am reading a novel of any kind. (3) Calling the device a čitatelj: the čitatelj is the person; the device is a čitač. (4) Capitalising every word of a title: "Priče Iz Davnine" — Croatian writes Priče iz davnine.',
+      body: '(1) Confusing the two shops: "Kupio sam knjigu u knjižnici" — you buy in a knjižara; in a knjižnica you borrow. (2) Reading roman as "romance": Čitam roman means I am reading a novel of any kind. (3) Calling the device a čitatelj: the čitatelj is the person; the device is a čitač. (4) Capitalizing every word of a title: "Priče Iz Davnine" — Croatian writes Priče iz davnine.',
       highlight: 'you buy in a knjižara',
     },
     {
@@ -1790,7 +1790,7 @@ export const PRACTICE = {
         explanation: 'S jedne strane… s druge strane — both genitive.',
       },
       {
-        q: 'Which title is capitalised correctly in Croatian?',
+        q: 'Which title is capitalized correctly in Croatian?',
         options: ['Priče Iz Davnine', 'Priče iz Davnine', 'priče iz davnine', 'Priče iz davnine'],
         correct: 3,
         explanation: 'Only the first word of a title (and names) takes a capital.',

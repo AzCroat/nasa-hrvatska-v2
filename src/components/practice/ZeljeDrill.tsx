@@ -145,7 +145,7 @@ const DATA = [
     q: '„____ te zamoliti za uslugu.” (uljudno)',
     opts: ['Htio bih', 'Hoću', 'Moram', 'Trebam sad'],
     answer: 'Htio bih',
-    en: 'I would like to ask you a favour',
+    en: 'I would like to ask you a favor',
     tip: 'Kondicional želje: htio/htjela bih.',
   },
   {

@@ -4258,7 +4258,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Languages Are Lower Case',
-        body: 'Croatian capitalises the country and the nationality but NOT the language: Hrvatska, Hrvat, but hrvatski. The same goes for adjectives made from place names — hrvatska glazba (Croatian music), zagrebačke ulice (Zagreb streets). English capitalises all of them, so this is a habit worth breaking early if you plan to write anything.',
+        body: 'Croatian capitalizes the country and the nationality but NOT the language: Hrvatska, Hrvat, but hrvatski. The same goes for adjectives made from place names — hrvatska glazba (Croatian music), zagrebačke ulice (Zagreb streets). English capitalizes all of them, so this is a habit worth breaking early if you plan to write anything.',
         highlight: 'Hrvat, but hrvatski',
       },
       {
@@ -4371,7 +4371,7 @@ export const LESSONS_A1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'First, using the country or the language for the person: "Ja sam Hrvatska", "Ja sam hrvatski" — the person is Hrvat or Hrvatica. Second, capitalising the language as English does: "Govorim Hrvatski" — languages are lower case: hrvatski. Third, giving a woman the word for a man: "Ona je Nijemac" — a German woman is Njemica.',
+        body: 'First, using the country or the language for the person: "Ja sam Hrvatska", "Ja sam hrvatski" — the person is Hrvat or Hrvatica. Second, capitalizing the language as English does: "Govorim Hrvatski" — languages are lower case: hrvatski. Third, giving a woman the word for a man: "Ona je Nijemac" — a German woman is Njemica.',
         highlight: 'Hrvat or Hrvatica',
       },
       {

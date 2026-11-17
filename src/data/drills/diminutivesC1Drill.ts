@@ -159,7 +159,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
     en: 'Why use augmentatives carefully?',
     opts: ['nose stav, ne samo veličinu', 'nisu standardne', 'preduge su', 'nemaju množinu'],
     answer: 'nose stav, ne samo veličinu',
-    tip: 'You may broadcast a judgement you did not intend.',
+    tip: 'You may broadcast a judgment you did not intend.',
   },
 
   // ── pragmatika ────────────────────────────────────────────────────────────

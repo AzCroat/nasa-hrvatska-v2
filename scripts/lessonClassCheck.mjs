@@ -88,22 +88,35 @@ function answerLeaks(id, label, items) {
       for (let k = 0; k < i; k++) {
         const prev = items[k];
         if (!prev || typeof prev !== 'object') continue;
+        // EVERYTHING an earlier item puts on screen counts, not only its question:
+        // sort items and group names, match pairs, fix and order tiles, the heard
+        // sentence. (2026-11-16: the A2 reviewers found ~60 answers given away by
+        // exactly these, and by EXISTING items placed by index — none of which this
+        // check looked at.)
         const seen = [
           prev.q,
           prev.hint,
           prev.explanation,
           prev.answer,
           prev.from,
+          prev.audio,
           ...(prev.options || []),
+          ...(prev.accept || []),
+          ...(prev.groups || []),
+          ...(prev.words || []),
+          ...(prev.pairs || []).flat(),
+          ...(prev.items || []).map((x) => x && x.hr),
         ]
           .filter((x) => typeof x === 'string')
           .map(norm)
           .join(' | ');
-        if (wholeWord(seen, n))
+        if (wholeWord(seen, n)) {
           warn(
             id,
             `${label} ${i}: the answer "${a}" is printed by earlier item ${k} of the same sequence`,
           );
+          break;
+        }
       }
     }
   });
@@ -171,11 +184,7 @@ for (const [id, entry] of Object.entries(data)) {
   const mc = items.filter((it) => !it.type);
   if (mc.length >= 2 && new Set(mc.map((it) => it.correct)).size < 2)
     fail(id, 'the multiple-choice items all have their answer at the same position');
-  answerLeaks(
-    id,
-    'mix item',
-    mix.filter((m) => m && typeof m === 'object'),
-  );
+  answerLeaks(id, 'mix item', items);
 }
 
 console.log(`\n${Object.keys(data).length} lessons checked — ${fails} FAIL, ${warns} WARN`);
