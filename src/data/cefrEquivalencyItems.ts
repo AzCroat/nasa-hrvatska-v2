@@ -419,7 +419,7 @@ const A1_TO_A2_ITEMS: EquivalencyItem[] = [
   },
   {
     q: "The word 'stan' means:",
-    o: ['house', 'flat / apartment', 'room', 'garden'],
+    o: ['house', 'apartment', 'room', 'garden'],
     c: 1,
     skill: 'vocab',
   },

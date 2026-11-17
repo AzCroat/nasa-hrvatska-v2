@@ -5,17 +5,17 @@
 // One fact in this lesson costs money if it is missed: Croatian counts rooms
 // WITHOUT the kitchen and bathroom, and the count includes the living room. A
 // *dvosoban stan* is not a two-bedroom flat — it is a living room plus one
-// bedroom. A learner reading adverts in English arithmetic will view the wrong
+// bedroom. A learner reading ads in English arithmetic will view the wrong
 // flats for a month.
 //
 // The second is that the advertised *najamnina* is not what you pay. *Režije* —
 // utilities — are usually separate, and *Jesu li režije uključene?* is the
-// question that decides whether an advert is cheap or not. Then the *polog*,
+// question that decides whether an ad is cheap or not. Then the *polog*,
 // and an *ugovor o najmu*, which a residence-permit application will want to
 // see.
 //
 // Three modes:
-//   oglas         — reading the advert
+//   oglas         — reading the ad
 //   sobe          — how the rooms are counted, and what the rent covers
 //   razgledavanje — the viewing, and the questions that matter
 
@@ -41,8 +41,8 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
     mode: 'oglas',
     q: 'Što je "garsonijera"?',
     en: 'What is a garsonijera?',
-    opts: ['studio flat', 'two-room flat', 'shared room', 'attic room'],
-    answer: 'studio flat',
+    opts: ['studio apartment', 'two-room apartment', 'shared room', 'attic room'],
+    answer: 'studio apartment',
     tip: 'One room with everything in it.',
   },
   {
@@ -179,7 +179,7 @@ export const RENTING_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'razgledavanje',
     q: 'Mogu li ____ stan?',
-    en: 'Can I view the flat?',
+    en: 'Can I see the apartment?',
     opts: ['pogledati', 'pogledam', 'gledati', 'pogled'],
     answer: 'pogledati',
     tip: 'The infinitive after a modal.',

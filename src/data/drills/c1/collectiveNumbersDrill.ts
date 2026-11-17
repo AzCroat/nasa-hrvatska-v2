@@ -172,7 +172,7 @@ export const COLLECTIVE_NUMBERS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pluralia',
     q: 'Kupila sam ____ hlače.',
-    en: 'I bought one pair of trousers.',
+    en: 'I bought one pair of pants.',
     opts: ['jedne', 'jedna', 'jednu', 'jedan'],
     answer: 'jedne',
     tip: 'hlače exists only in the plural, so it is counted with a plural form.',

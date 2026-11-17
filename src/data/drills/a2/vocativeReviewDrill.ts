@@ -97,7 +97,7 @@ export const VOCATIVE_REVIEW_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'zenski',
     q: 'Oprostite, ____ Kovač!',
-    en: 'Excuse me, Mrs Kovač!',
+    en: 'Excuse me, Mrs. Kovač!',
     opts: ['gospođo', 'gospođa', 'gospođe', 'gospođu'],
     answer: 'gospođo',
     tip: 'gospođa takes -o; the surname does not change.',

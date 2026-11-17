@@ -67,7 +67,7 @@ const GENRE_VOCAB = {
   tv: [
     { hr: 'vijesti', en: 'news' },
     { hr: 'voditeljica', en: 'presenter (f)' },
-    { hr: 'emisija', en: 'show / programme' },
+    { hr: 'emisija', en: 'show / program' },
     { hr: 'prilog', en: 'report / segment' },
     { hr: 'prognoza', en: 'forecast' },
     { hr: 'gledati', en: 'to watch' },

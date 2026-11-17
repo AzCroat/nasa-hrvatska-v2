@@ -76,7 +76,7 @@ export const VERB_PREFIXES_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'smjer',
     q: 'Molim te, ____ smeće.',
-    en: 'Please take the rubbish out.',
+    en: 'Please take the trash out.',
     opts: ['iznesi', 'unesi', 'donesi', 'prenesi'],
     answer: 'iznesi',
     tip: 'iz- out of: iznijeti, imperative iznesi.',

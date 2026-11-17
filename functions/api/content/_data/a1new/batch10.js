@@ -703,7 +703,7 @@ const IMPERATIVE_NEGATIVE = {
       items: [
         {
           hr: 'Gospodin Horvat je stigao. — Neka čeka pet minuta.',
-          en: 'Mr Horvat has arrived. — Let him wait five minutes.',
+          en: 'Mr. Horvat has arrived. — Let him wait five minutes.',
           note: 'neka + the on form: čeka',
         },
         {
@@ -1132,7 +1132,7 @@ const FORMAL_ADDRESS = {
         },
         {
           hr: 'Molim Vas da mi pošaljete raspored.',
-          en: 'Please send me the timetable.',
+          en: 'Please send me the schedule.',
           note: 'capital Vas: one person, politely',
         },
         {
@@ -2424,8 +2424,8 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['gospodin', 'Mr; sir', 'Oprostite, gospodine!'],
-      ['gospođa', 'Mrs; madam', 'Dobar dan, gospođo Kovač.'],
+      ['gospodin', 'Mr.; sir', 'Oprostite, gospodine!'],
+      ['gospođa', 'Mrs.; madam', 'Dobar dan, gospođo Kovač.'],
       ['gospođica', 'Miss', 'Gospođice, je li ovo Vaše?'],
       ['poštovani', 'dear (opening a formal letter)', 'Poštovani gospodine,'],
       ['s poštovanjem', 'yours sincerely', 'S poštovanjem, Ivana Horvat'],

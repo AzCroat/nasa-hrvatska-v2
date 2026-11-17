@@ -84,7 +84,7 @@ export default function DeclensionScreen({ goBack, award }: Props) {
    * START A FRESH ATTEMPT (2026-09-26). `mode` and `quizDone` are independent, and
    * the `quizDone` branch is tested BEFORE quiz mode — so "↻ Review & retry" (which
    * set `mode` and nothing else) walked the learner to the reference table and back
-   * to the SAME failed results, for ever. A retry that cannot retry is worse than no
+   * to the SAME failed results, forever. A retry that cannot retry is worse than no
    * retry button. `finishFired` resets too: a first attempt that failed recorded
    * nothing, so a second that passes must still be able to credit.
    */

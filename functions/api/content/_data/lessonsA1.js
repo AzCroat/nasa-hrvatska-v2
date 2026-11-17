@@ -2163,7 +2163,7 @@ export const LESSONS_A1 = [
           ['grad (town)', 'u', 'u gradu', 'u grad'],
           ['škola (school)', 'u', 'u školi', 'u školu'],
           ['kuća (house)', 'u', 'u kući', 'u kuću'],
-          ['kino (cinema)', 'u', 'u kinu', 'u kino'],
+          ['kino (movie theater)', 'u', 'u kinu', 'u kino'],
           ['more (sea, seaside)', 'na', 'na moru', 'na more'],
           ['posao (work)', 'na', 'na poslu', 'na posao'],
           ['tržnica (market)', 'na', 'na tržnici', 'na tržnicu'],
@@ -4967,7 +4967,7 @@ export const LESSONS_A1 = [
           ['crkva', 'church', 'bolnica', 'hospital'],
           ['tržnica', 'market', 'kavana', 'café'],
           ['muzej', 'museum', 'restoran', 'restaurant'],
-          ['park', 'park', 'kino', 'cinema'],
+          ['park', 'park', 'kino', 'movie theater'],
         ],
       },
       {
@@ -5252,7 +5252,7 @@ export const LESSONS_A1 = [
         rows: [
           ['proljeće', 'spring', 'u proljeće'],
           ['ljeto', 'summer', 'ljeti'],
-          ['jesen', 'autumn', 'u jesen'],
+          ['jesen', 'fall', 'u jesen'],
           ['zima', 'winter', 'zimi'],
         ],
       },
@@ -5335,7 +5335,7 @@ export const LESSONS_A1 = [
           {
             hr: 'U jesen često pada kiša.',
             en: 'In fall it often rains.',
-            note: 'u jesen — autumn takes u',
+            note: 'u jesen — fall takes u',
           },
           {
             hr: 'Vruće je, idemo na plažu!',
@@ -5417,7 +5417,7 @@ export const LESSONS_A1 = [
           },
           {
             q: 'What does "ljeti" mean?',
-            options: ['in spring', 'in summer', 'in autumn', 'in winter'],
+            options: ['in spring', 'in summer', 'in the fall', 'in winter'],
             correct: 1,
             explanation:
               '"Ljeti" is the single-word form for "in summer"; "zimi" is its winter twin. Spring and fall use u instead: u proljeće, u jesen.',

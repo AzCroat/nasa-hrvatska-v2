@@ -6343,7 +6343,7 @@ export const SCENARIOS = [
       {
         speaker: 'Gospođa Novak',
         line: 'Hvala vam! Priznajem, još se nisam naviknula na novu ulogu.',
-        en: "Thank you! I admit I haven't got used to the new role yet.",
+        en: "Thank you! I admit I haven't gotten used to the new role yet.",
         opts: [
           'Uvjerena sam da ćete se brzo snaći. Cijeli tim vam želi puno uspjeha.',
           'Uvjerena sam da ćete brzo snaći. Cijeli tim vam želi puno uspjeha.',
@@ -7354,7 +7354,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijatelj Tomislav',
         line: 'Bog! Kako ide prijevod životopisa? Prijavu predajem u ponedjeljak.',
-        en: "Hi! How's the CV translation going? I'm handing in the application on Monday.",
+        en: "Hi! How's the résumé translation going? I'm handing in the application on Monday.",
         opts: [
           'Bog! Baš sam te htio nazvati. Neugodno mi je, ali trebao bih još dva dana — ovaj tjedan me je posao potpuno pojeo.',
           'Bog! Baš te sam htio nazvati. Neugodno mi je, ali trebao bih još dva dana — ovaj tjedan me je posao potpuno pojeo.',
@@ -7715,7 +7715,7 @@ export const SCENARIOS = [
       {
         speaker: 'Prijatelj Dino',
         line: 'Ej, stari! Što ima? Dugo se nismo čuli.',
-        en: "Hey, mate! What's up? We haven't talked in ages.",
+        en: "Hey, buddy! What's up? We haven't talked in ages.",
         opts: [
           'Ej! Sve po starom. Slušaj, neugodno mi je pitati, ali sjećaš li se onih dvjesto eura od travnja?',
           'Ej! Sve po starom. Slušaj, neugodno me je pitati, ali sjećaš li se onih dvjesto eura od travnja?',

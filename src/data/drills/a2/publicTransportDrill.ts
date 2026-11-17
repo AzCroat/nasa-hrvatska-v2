@@ -7,7 +7,7 @@
 // transport in the bare instrumental (tramvajem, never "s tramvajem").
 //
 // Three modes:
-//   karta  — buying the ticket and reading the timetable
+//   karta  — buying the ticket and reading the schedule
 //   voznja — on board: getting off, changing, which line
 //   kako   — how you travel
 
@@ -74,8 +74,8 @@ export const PUBLIC_TRANSPORT_DRILL_DATA: ModeDrillItem[] = [
     q: 'What is the phrase below in English?',
     lead: 'vozni red',
     en: 'Choose the English word.',
-    opts: ['the timetable', 'a platform', 'a queue', 'a return ticket'],
-    answer: 'the timetable',
+    opts: ['the schedule', 'a platform', 'a line', 'a return ticket'],
+    answer: 'the schedule',
     tip: 'It tells you when things leave and arrive.',
   },
   {

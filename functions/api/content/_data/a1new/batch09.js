@@ -1063,7 +1063,7 @@ export const LESSONS = [
         title: 'Plural-Only Nouns',
         headers: ['Word', 'English', 'Type', 'With a describing word'],
         rows: [
-          ['hlače', 'trousers', 'feminine plural', 'nove hlače'],
+          ['hlače', 'pants', 'feminine plural', 'nove hlače'],
           ['traperice', 'jeans', 'feminine plural', 'plave traperice'],
           ['naočale', 'glasses', 'feminine plural', 'moje naočale'],
           ['škare', 'scissors', 'feminine plural', 'oštre škare'],
@@ -1101,7 +1101,7 @@ export const LESSONS = [
         type: 'example',
         title: 'Plural Everywhere',
         items: [
-          { hr: 'Moje hlače su nove.', en: 'My trousers are new.' },
+          { hr: 'Moje hlače su nove.', en: 'My pants are new.' },
           { hr: 'Gdje su moje naočale?', en: 'Where are my glasses?' },
           { hr: 'Vrata su otvorena.', en: 'The door is open.', note: 'neuter plural: -a' },
           {
@@ -2371,7 +2371,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Nosim nove ____. (trousers)',
+          q: 'Nosim nove ____. (pants)',
           answer: 'hlače',
           hint: 'The plural-only word for pants, in the object form.',
           explanation: 'Nosim nove hlače.',
@@ -2385,7 +2385,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'U ormaru imam tri para ____. (trousers)',
+          q: 'U ormaru imam tri para ____. (pants)',
           answer: 'hlača',
           hint: 'After par, the genitive plural: the -e drops off.',
           explanation: 'tri para hlača.',
@@ -2448,7 +2448,7 @@ export const PRACTICE = {
       },
     ],
     vocab: [
-      ['hlače', 'trousers', 'Moje hlače su nove.'],
+      ['hlače', 'pants', 'Moje hlače su nove.'],
       ['traperice', 'jeans', 'Nosim plave traperice.'],
       ['naočale', 'glasses', 'Gdje su moje naočale?'],
       ['škare', 'scissors', 'Trebam škare.'],

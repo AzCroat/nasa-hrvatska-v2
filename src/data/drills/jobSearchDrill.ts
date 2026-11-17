@@ -5,11 +5,11 @@
 // The structure is the past participle, and this is the first place a learner
 // has to get it right about THEMSELVES in a document somebody else will read.
 // *Radio sam* if you are a man, *radila sam* if you are a woman — and the same
-// for *diplomirao / diplomirala*, *bio / bila*, *završio / završila*. A CV is
+// for *diplomirao / diplomirala*, *bio / bila*, *završio / završila*. A résumé is
 // wall-to-wall past participles about one person, so a single wrong ending is
 // not a slip; it is visible on every line.
 //
-// Two lexical traps carry real weight here. A CV is a *životopis*, not a
+// Two lexical traps carry real weight here. A résumé is a *životopis*, not a
 // *biografija* — a biografija is a book about somebody's life. And the covering
 // letter is a *zamolba* or *motivacijsko pismo*.
 //
@@ -35,8 +35,8 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
   // ── papiri ────────────────────────────────────────────────────────────────
   {
     mode: 'papiri',
-    q: 'Kako se na hrvatskom kaže "CV"?',
-    en: 'CV',
+    q: 'Kako se na hrvatskom kaže "résumé"?',
+    en: 'résumé',
     opts: ['životopis', 'biografija', 'osobni list', 'prijavnica'],
     answer: 'životopis',
     tip: 'Biografija is a book about someone’s life, not a document you send.',
@@ -45,16 +45,16 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
     mode: 'papiri',
     q: 'Što je "zamolba"?',
     en: 'What is a zamolba?',
-    opts: ['covering letter', 'application form', 'reference', 'contract'],
-    answer: 'covering letter',
+    opts: ['cover letter', 'application form', 'reference', 'contract'],
+    answer: 'cover letter',
     tip: 'Also called motivacijsko pismo.',
   },
   {
     mode: 'papiri',
     q: 'Što je "natječaj"?',
     en: 'What is a natječaj?',
-    opts: ['job advert, vacancy', 'competition prize', 'interview', 'probation'],
-    answer: 'job advert, vacancy',
+    opts: ['job ad, vacancy', 'competition prize', 'interview', 'probation'],
+    answer: 'job ad, vacancy',
     tip: 'Also oglas za posao. A natječaj is the formal, published version.',
   },
   {
@@ -121,7 +121,7 @@ export const JOB_SEARCH_DRILL_DATA: ModeDrillItem[] = [
     en: 'A woman writes: I graduated from…',
     opts: ['Diplomirala', 'Diplomirao', 'Diplomirali', 'Diplomiralo'],
     answer: 'Diplomirala',
-    tip: 'Every past-tense line in a CV carries this ending.',
+    tip: 'Every past-tense line in a résumé carries this ending.',
   },
   {
     mode: 'particip',

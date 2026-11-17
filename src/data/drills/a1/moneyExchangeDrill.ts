@@ -33,7 +33,7 @@ export const MONEY_EXCHANGE_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'cijena',
-    q: 'Koliko je ____? (at the till, for everything)',
+    q: 'Koliko je ____? (at the register, for everything)',
     en: 'How much is that?',
     opts: ['taj', 'ta', 'to', 'tu'],
     answer: 'to',

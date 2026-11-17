@@ -222,7 +222,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'B1-10': {
     title: 'Daily Life: Offices to Kitchens',
     subtitle:
-      'Deal with offices and rental adverts, use digital vocabulary, discuss nature, and follow a Croatian recipe.',
+      'Deal with offices and rental ads, use digital vocabulary, discuss nature, and follow a Croatian recipe.',
   },
 
   // ── B2 ──────────────────────────────────────────────────────────────────────
@@ -269,7 +269,7 @@ export const COURSE_UNIT_TITLES: Readonly<Record<string, CourseUnitTitle>> = {
   'B2-9': {
     title: 'Linking Clauses and Conceding',
     subtitle:
-      'Join and nest clauses, concede before disagreeing, read adverts critically, and use prepositions with two cases.',
+      'Join and nest clauses, concede before disagreeing, read ads critically, and use prepositions with two cases.',
   },
   'B2-10': {
     title: 'Wishes, Regrets and Unreal Ifs',

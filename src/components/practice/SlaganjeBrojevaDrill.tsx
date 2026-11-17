@@ -200,7 +200,7 @@ const DATA = [
     q: 'Svih ____ učenika položilo je ispit.',
     opts: ['petero', 'petima', 'petorica', 'peterima'],
     answer: 'petero',
-    en: 'all five pupils passed the exam',
+    en: 'all five students passed the exam',
     tip: 'Svih petero + G mn. — zbirni broj s bezličnim predikatom.',
   },
 ];

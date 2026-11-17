@@ -164,7 +164,7 @@ export default function WordSprint({ sh, award, goBack }: WordSprintProps) {
     const cats = selectedCats.length > 0 ? selectedCats : catList.slice(0, 5);
     const pool = buildPool(V, cats, sh);
     // A TAP EITHER OPENS IT OR SAYS WHY. This was a bare `return`, so "Start
-    // Sprint ⚡" did nothing at all while the payload was in flight — and for ever
+    // Sprint ⚡" did nothing at all while the payload was in flight — and forever
     // after a failed fetch, since `V` comes from it. Sweep 97 fixed the surfaces
     // that import a payload BUILDER and its own note named this shape as
     // uncovered: a screen that builds its own list by hand.

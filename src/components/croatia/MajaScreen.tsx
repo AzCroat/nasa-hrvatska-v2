@@ -298,7 +298,7 @@ export default function MajaScreen() {
       const blob = await res.blob();
       // Use base64 data URL — blob: URLs fail silently on some Android OEM WebViews.
       // `onerror`/`onabort` are NOT optional here: without them a FileReader
-      // failure never settles this promise, so the await hangs for ever, the
+      // failure never settles this promise, so the await hangs forever, the
       // TTS queue never drains, the phase never leaves 'maja-speaking' and the
       // mic never comes back. Baka Mara simply stops, mid-conversation, with no
       // error anywhere — which is the worst shape of "wasn't reading properly".

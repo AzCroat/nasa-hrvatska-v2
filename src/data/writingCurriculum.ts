@@ -1524,7 +1524,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Vidio si ili vidjela si oglas za stan u Splitu. Napiši poruku vlasniku: predstavi se, pitaj tri stvari o stanu i predloži kada bi ga mogao ili mogla pogledati.',
     promptEn:
-      'You saw an advert for an apartment in Split. Write to the owner: introduce yourself, ask three things about the apartment and suggest when you could view it.',
+      'You saw an ad for an apartment in Split. Write to the owner: introduce yourself, ask three things about the apartment and suggest when you could view it.',
     minWords: 30,
     model:
       'Poštovani gospodine Marić, zovem se Ivan Novak i javljam se zbog oglasa za stan na Bačvicama. ' +
@@ -1533,7 +1533,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       'Htio bih doći pogledati stan u petak poslije podne, ako Vam odgovara. ' +
       'Unaprijed hvala na odgovoru. S poštovanjem, Ivan Novak',
     modelEn:
-      'Dear Mr. Marić, my name is Ivan Novak and I am writing about the advert for the apartment in Bačvice. ' +
+      'Dear Mr. Marić, my name is Ivan Novak and I am writing about the ad for the apartment in Bačvice. ' +
       'I would like to know whether the apartment is still available and how much the rent is per month. ' +
       'Are the utilities included in the price? Does the apartment have a parking space? ' +
       'I would like to come and see the apartment on Friday afternoon, if that suits you. ' +
@@ -1541,7 +1541,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     structures: [
       {
         hr: 'javljam se zbog oglasa',
-        en: 'I am writing about the advert',
+        en: 'I am writing about the ad',
         why: '"zbog" (because of, regarding) always takes the genitive — "oglas" becomes "oglasa".',
       },
       {
@@ -2946,7 +2946,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
       },
       {
         hr: 'ovaj bi mi program omogućio',
-        en: 'this programme would give me',
+        en: 'this program would give me',
         why: 'Conditional + clitic cluster: bi + mi, both in second position.',
       },
       {
@@ -5119,7 +5119,7 @@ export const WRITING_CURRICULUM: WritingUnit[] = [
     prompt:
       'Napišite portret ili nekrolog osobe iz vaše zajednice koja je ostavila trag (učiteljica, svećenik, susjed, trener): ne životopis, nego sliku čovjeka kroz nekoliko točno odabranih detalja.',
     promptEn:
-      'Write a portrait or obituary of someone from your community who left a mark (a teacher, priest, neighbor, coach): not a CV, but a picture of the person through a few precisely chosen details.',
+      'Write a portrait or obituary of someone from your community who left a mark (a teacher, priest, neighbor, coach): not a résumé, but a picture of the person through a few precisely chosen details.',
     minWords: 120,
     model:
       'Gospođa Zdenka predavala je hrvatski u subotnjoj školi trideset i jednu godinu, i nitko od nas nije nikad doznao koliko ima godina. ' +

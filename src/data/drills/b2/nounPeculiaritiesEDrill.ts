@@ -179,7 +179,7 @@ export const NOUN_PECULIARITIES_E_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vocative',
     q: '____ Kovač, izvolite sjesti.',
-    en: 'Mrs Kovač, please sit down.',
+    en: 'Mrs. Kovač, please sit down.',
     opts: ['Gospođi', 'Gospođe', 'Gospođu', 'Gospođo'],
     answer: 'Gospođo',
     tip: 'gospođa → gospođo.',

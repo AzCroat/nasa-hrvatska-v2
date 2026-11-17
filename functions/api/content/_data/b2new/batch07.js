@@ -1717,7 +1717,7 @@ export const PRACTICE = {
       },
       {
         q: 'What is "odvajanje otpada"?',
-        options: ['burning rubbish', 'sorting waste', 'a rubbish dump', 'buying less'],
+        options: ['burning trash', 'sorting waste', 'a garbage dump', 'buying less'],
         correct: 1,
         explanation: 'Odvajanje otpada — separating paper, plastic, glass and the rest.',
       },
@@ -2279,7 +2279,12 @@ export const PRACTICE = {
       },
       {
         q: 'Who is Davor Rostuhar?',
-        options: ['a footballer', 'a travel writer and photographer', 'a politician', 'a singer'],
+        options: [
+          'a soccer player',
+          'a travel writer and photographer',
+          'a politician',
+          'a singer',
+        ],
         correct: 1,
         explanation: 'Davor Rostuhar is a Croatian travel writer and photographer.',
       },

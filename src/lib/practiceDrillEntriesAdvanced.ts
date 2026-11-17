@@ -198,7 +198,7 @@ export const ADVANCED_LESSON_DRILL_ENTRIES: CefrPoolEntry[] = [
   },
   {
     id: 'b2consumerismadvertising',
-    label: 'Buy, Buy, Buy: Consumers and Adverts',
+    label: 'Buy, Buy, Buy: Consumers and Ads',
     screen: 'b2consumerismadvertising',
     cefr: 'B2',
     category: 'b2-consumerism-advertising',

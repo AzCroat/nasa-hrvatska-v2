@@ -39,6 +39,9 @@ const HOMONYMS: Record<string, string> = {
   braću: 'accusative of braća, "brothers"',
   radiću: 'vocative of the surname Radić',
   // `Vlastelin je … tražio tlaku i daće` (C2 vocabulary): `dat će` makes `da` a stem.
+  // 2026-11-17: `spavat ću` in a B1 dialogue made `spava` a stem.
+  spavaće: 'adjective spavaći, "sleeping" (spavaće sobe, bedrooms)',
+  spavaću: 'accusative of spavaća (spavaću sobu)',
   daće: 'accusative plural of daća, "feudal levy, tribute" (hist.)',
 };
 

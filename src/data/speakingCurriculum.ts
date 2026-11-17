@@ -3076,7 +3076,7 @@ export const SPEAKING_CURRICULUM: SpeakingUnit[] = [
         },
       },
       {
-        cue: 'Say: I am choosing between two flats.',
+        cue: 'Say: I am choosing between two apartments.',
         answer: 'Biram između dva stana.',
         focus: {
           lemma: 'stan',

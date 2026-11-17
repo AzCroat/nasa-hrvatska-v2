@@ -513,7 +513,7 @@ export const LESSONS = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'consumerism-advertising',
-    title: 'Buy, Buy, Buy: Consumers and Adverts',
+    title: 'Buy, Buy, Buy: Consumers and Ads',
     subtitle: 'Shopping fever, Buy Nothing Day and the language of advertising',
     icon: '🛍️',
     level: 'B2',
@@ -524,7 +524,7 @@ export const LESSONS = [
       {
         type: 'intro',
         title: 'Kupujmo, kupujmo',
-        body: 'Discounts, sales, "only today", "two for the price of one" — modern shopping runs on persuasion. This lesson gives you the words to talk about your own shopping habits, to describe the phenomenon of consumer fever, and to see how an advert works on you. It ends with the colloquial words people really use when they talk about money and shopping, clearly marked so you know where not to use them.',
+        body: 'Discounts, sales, "only today", "two for the price of one" — modern shopping runs on persuasion. This lesson gives you the words to talk about your own shopping habits, to describe the phenomenon of consumer fever, and to see how an ad works on you. It ends with the colloquial words people really use when they talk about money and shopping, clearly marked so you know where not to use them.',
         icon: '🛍️',
       },
       {
@@ -539,13 +539,13 @@ export const LESSONS = [
           ['sniženje / rasprodaja', 'reduction / sale'],
           ['impulzivna kupnja', 'impulse buying'],
           ['kupiti na rate', 'to buy in installments'],
-          ['reklama / oglas', 'advert / advertisement'],
+          ['reklama / oglas', 'ad / advertisement'],
         ],
       },
       {
         type: 'rule',
         title: 'Potrošačka groznica',
-        body: '"Potrošačka groznica" — consumer fever — is the urge to keep buying things we do not need, fed by sales, adverts and the feeling that everyone else has the newest model. Before the holidays and on Black Friday (Crni petak) it reaches its peak. The phrase is common in Croatian newspapers, usually with a critical tone.',
+        body: '"Potrošačka groznica" — consumer fever — is the urge to keep buying things we do not need, fed by sales, ads and the feeling that everyone else has the newest model. Before the holidays and on Black Friday (Crni petak) it reaches its peak. The phrase is common in Croatian newspapers, usually with a critical tone.',
         highlight: 'potrošačka groznica',
       },
       {
@@ -569,8 +569,8 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'How an Advert Persuades',
-        body: 'Most Croatian adverts speak to you directly in the polite imperative (Kupite, Iskoristite, Probajte), promise something with a superlative (najbolji, najjeftiniji, najbrži), and add pressure with time: samo danas, do isteka zaliha (while stocks last). Reklame utječu na kupce (adverts influence buyers) less through facts than through feelings — a happy family, a beautiful beach, a sense of belonging.',
+        title: 'How an Ad Persuades',
+        body: 'Most Croatian ads speak to you directly in the polite imperative (Kupite, Iskoristite, Probajte), promise something with a superlative (najbolji, najjeftiniji, najbrži), and add pressure with time: samo danas, do isteka zaliha (while stocks last). Reklame utječu na kupce (ads influence buyers) less through facts than through feelings — a happy family, a beautiful beach, a sense of belonging.',
         highlight: 'Reklame utječu na kupce.',
       },
       {
@@ -608,7 +608,7 @@ export const LESSONS = [
           },
           {
             hr: 'Reklame utječu na djecu više nego na odrasle.',
-            en: 'Adverts influence children more than adults.',
+            en: 'Ads influence children more than adults.',
             note: 'utjecati na + accusative: na djecu',
           },
           {
@@ -635,7 +635,7 @@ export const LESSONS = [
           {
             hr: 'Ponuda vrijedi samo do isteka zaliha, stoga požurite!',
             en: 'The offer is valid only while stocks last, so hurry!',
-            note: 'stoga — the advert draws its conclusion for you',
+            note: 'stoga — the ad draws its conclusion for you',
           },
           {
             hr: 'Ovaj šampon nije najjeftiniji, ali je najbolji za vašu kosu.',
@@ -726,7 +726,7 @@ export const LESSONS = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Reklame utječu na ___." (Adverts influence young people.)',
+            q: 'Complete: "Reklame utječu na ___." (Ads influence young people.)',
             options: ['mladima', 'mladih', 'mlade', 'mladi'],
             correct: 2,
             explanation: 'Utjecati na takes the accusative: na mlade.',
@@ -776,16 +776,16 @@ export const LESSONS = [
               'a shop closing down',
             ],
             correct: 1,
-            explanation: 'Consumer fever: buying for the sake of buying, fed by sales and adverts.',
+            explanation: 'Consumer fever: buying for the sake of buying, fed by sales and ads.',
           },
         ],
       },
       {
         type: 'summary',
-        title: 'Consumers and Adverts — Key Takeaways',
+        title: 'Consumers and Ads — Key Takeaways',
         points: [
           'potrošač, potrošnja, popust, sniženje, rasprodaja, kupiti na rate',
-          'Adverts use the polite imperative, the superlative and urgency',
+          'Ads use the polite imperative, the superlative and urgency',
           'Reklame utječu na kupce — utjecati na + accusative',
           'Dan bez kupnje: one day of buying nothing, in late November',
           'lova, keš, šoping, švorc, spiskati, papreno are colloquial — keep them out of formal writing',
@@ -1689,7 +1689,7 @@ export const PRACTICE = {
       ['stoga', 'therefore', 'Kasnimo, stoga moramo požuriti.'],
       ['jedino', 'only, except that', 'Sve je spremno, jedino nemamo kruha.'],
       ['izlog', 'shop window', 'U izlogu je bila lijepa jakna.'],
-      ['trgovački centar', 'shopping centre', 'Subotom je trgovački centar pun ljudi.'],
+      ['trgovački centar', 'shopping center', 'Subotom je trgovački centar pun ljudi.'],
       ['na rate', 'in installments', 'Televizor smo kupili na rate.'],
     ],
   },
@@ -1717,13 +1717,13 @@ export const PRACTICE = {
         answer: 'U kupovini sam potrošio sav novac.',
       },
       {
-        title: 'Reading an Advert',
+        title: 'Reading an Ad',
         problem: 'Analiziraj: "Iskoristite priliku! Najbolje cijene u gradu — samo danas!"',
         en: 'Analyze: Seize the chance! The best prices in town — today only!',
         steps: [
           {
             label: 'Iskoristite',
-            text: 'A polite imperative (Vi form) — the advert tells you what to do.',
+            text: 'A polite imperative (Vi form) — the ad tells you what to do.',
           },
           {
             label: 'Najbolje',
@@ -1886,7 +1886,7 @@ export const PRACTICE = {
       ['popust', 'discount', 'Studenti imaju popust od deset posto.'],
       ['rasprodaja', 'sale', 'Na rasprodaji je sve upola cijene.'],
       ['sniženje', 'price reduction', 'Sniženje vrijedi do kraja mjeseca.'],
-      ['reklama', 'advert', 'Ta reklama prikazuje sretnu obitelj.'],
+      ['reklama', 'ad', 'Ta reklama prikazuje sretnu obitelj.'],
       ['utjecati na', 'to influence', 'Reklame utječu na naše odluke.'],
       ['impulzivna kupnja', 'impulse buying', 'Impulzivna kupnja često završi u ormaru.'],
       ['ponuda', 'offer', 'Ponuda vrijedi samo danas.'],

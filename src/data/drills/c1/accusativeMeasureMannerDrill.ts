@@ -145,7 +145,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'mjera',
     q: 'Kamion teži jednu ____.',
-    en: 'The lorry weighs one tonne.',
+    en: 'The truck weighs one tonne.',
     opts: ['tonu', 'tona', 'toni', 'tone'],
     answer: 'tonu',
     tip: 'Weight in the accusative; tona is feminine.',

@@ -185,12 +185,12 @@ const NAMES = {
         },
         {
           hr: 'Razgovarao sam s gospodinom Horvatom.',
-          en: 'I talked with Mr Horvat.',
+          en: 'I talked with Mr. Horvat.',
           note: 'a man’s surname declines: Horvatom',
         },
         {
           hr: 'Razgovarao sam i s gospođom Horvat.',
-          en: 'I also talked with Mrs Horvat.',
+          en: 'I also talked with Mrs. Horvat.',
           note: 'a woman’s surname in a consonant stays Horvat',
         },
         {
@@ -331,7 +331,7 @@ const NAMES_P = {
       answer: 'Sin je dobio ime po djedu Josipu.',
     },
     {
-      title: 'Mr and Mrs Babić',
+      title: 'Mr and Mrs. Babić',
       problem: 'Reci: I had lunch with Mr. Babić and Mrs. Babić.',
       en: 'I had lunch with Mr. Babić and Mrs. Babić.',
       steps: [
@@ -465,7 +465,7 @@ const NAMES_P = {
       },
       {
         type: 'type',
-        q: 'Razgovarao sam s gospodinom ____. (Mr Horvat)',
+        q: 'Razgovarao sam s gospodinom ____. (Mr. Horvat)',
         answer: 'Horvatom',
         hint: 'A man’s surname declines: s + the instrumental.',
         explanation: 's gospodinom Horvatom.',
@@ -1975,7 +1975,7 @@ const ABROAD = {
         ['Faust Vrančić', 'Šibenik', 'described an early parachute in his book of machines'],
         ['Nikola Tesla', 'born in Smiljan, Lika', 'alternating current; worked in America'],
         ['Ivan Vučetić', 'born on Hvar', 'fingerprint identification, developed in Argentina'],
-        ['Luka Modrić', 'Zadar', 'footballer, Ballon d’Or (Zlatna lopta) 2018'],
+        ['Luka Modrić', 'Zadar', 'soccer player, Ballon d’Or (Zlatna lopta) 2018'],
       ],
     },
     {

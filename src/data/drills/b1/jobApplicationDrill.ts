@@ -46,7 +46,7 @@ export const JOB_APPLICATION_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pismo',
     q: 'U ____ šaljem životopis.',
-    en: 'Attached I am sending my CV.',
+    en: 'Attached I am sending my résumé.',
     opts: ['prilogu', 'prilog', 'prilogom', 'priloga'],
     answer: 'prilogu',
     tip: 'U prilogu — u + the locative, a fixed phrase.',

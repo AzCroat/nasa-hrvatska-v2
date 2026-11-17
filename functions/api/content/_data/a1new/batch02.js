@@ -527,7 +527,7 @@ const SIBILARIZATION = {
       headers: ['Singular', 'Plural', 'What happens'],
       rows: [
         ['vojnik (soldier)', 'vojnici', 'k → c'],
-        ['učenik (pupil)', 'učenici', 'k → c'],
+        ['učenik (student)', 'učenici', 'k → c'],
         ['jezik (language)', 'jezici', 'k → c'],
         ['bubreg (kidney)', 'bubrezi', 'g → z'],
         ['dijalog (dialogue)', 'dijalozi', 'g → z'],
@@ -715,7 +715,7 @@ const FLEETING_A = {
     {
       type: 'rule',
       title: 'How to Spot It',
-      body: 'Nouns ending in -ac with two or more syllables nearly always lose the a: Nijemac (German man) → Nijemci, Amerikanac → Amerikanci, lovac (hunter) → lovci, starac (old man) → starci. Nouns in -ak are mixed, so learn the plural with the word: momak (lad) → momci loses it, korak (step) → koraci keeps it.',
+      body: 'Nouns ending in -ac with two or more syllables nearly always lose the a: Nijemac (German man) → Nijemci, Amerikanac → Amerikanci, lovac (hunter) → lovci, starac (old man) → starci. Nouns in -ak are mixed, so learn the plural with the word: momak (young man) → momci loses it, korak (step) → koraci keeps it.',
       highlight: 'Nijemac → Nijemci',
     },
     {
@@ -735,7 +735,7 @@ const FLEETING_A = {
         ['lonac (pot)', 'lonci', 'a drops'],
         ['Nijemac (German man)', 'Nijemci', 'a drops'],
         ['vrabac (sparrow)', 'vrapci', 'a drops, b → p'],
-        ['momak (lad)', 'momci', 'a drops, k → c'],
+        ['momak (young man)', 'momci', 'a drops, k → c'],
         ['otac (father)', 'očevi', 'a and t drop, -evi'],
         ['san (dream)', 'snovi', 'a drops, -ovi'],
         ['korak (step)', 'koraci', 'a STAYS, k → c'],
@@ -763,7 +763,7 @@ const FLEETING_A = {
         },
         {
           hr: 'Momci su tamo, a djevojke su ovdje.',
-          en: 'The lads are there, and the girls are here.',
+          en: 'The guys are there, and the girls are here.',
           note: 'momak → momci: a drops, k → c',
         },
         {
@@ -827,7 +827,7 @@ const FLEETING_A = {
           explanation: 'The fleeting a drops: kupci.',
         },
         {
-          q: 'What is the plural of "momak" (lad)?',
+          q: 'What is the plural of "momak" (young man)?',
           options: ['momki', 'momaci', 'momakovi', 'momci'],
           correct: 3,
           explanation: 'The a drops (momk-), then k touches -i and becomes c: momci.',
@@ -1659,7 +1659,7 @@ export const PRACTICE = {
       {
         title: 'k Before -i',
         problem: 'Put into the plural: učenik',
-        en: 'Make it plural: pupil',
+        en: 'Make it plural: student',
         steps: [
           { label: 'Length', text: 'učenik has three syllables, so it takes a plain -i.' },
           { label: 'What touches the -i?', text: 'The -i would come straight after k.' },
@@ -1725,7 +1725,7 @@ export const PRACTICE = {
           explanation: 'majka → majke: no change.',
         },
         {
-          q: '___ su tamo. (The pupils — đak)',
+          q: '___ su tamo. (The students — đak)',
           options: ['Đaki', 'Đakovi', 'Đaci', 'Đake'],
           correct: 2,
           hint: 'đak is short but takes a plain -i, so the k is touched.',
@@ -1815,7 +1815,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['vojnik', 'soldier (plural vojnici)', 'Vojnici su tamo.'],
-      ['učenik', 'pupil (plural učenici)', 'Učenici su ovdje.'],
+      ['učenik', 'student (plural učenici)', 'Učenici su ovdje.'],
       ['jezik', 'language (plural jezici)', 'Hrvatski i njemački su jezici.'],
       ['radnik', 'worker (plural radnici)', 'Radnici su ovdje.'],
       ['liječnik', 'doctor (plural liječnici)', 'Liječnici su tamo.'],
@@ -1846,7 +1846,7 @@ export const PRACTICE = {
       {
         title: 'The A Drops, Then K Changes',
         problem: 'Put into the plural: momak',
-        en: 'Make it plural: lad',
+        en: 'Make it plural: young man',
         steps: [
           { label: 'Drop the a', text: 'momak loses its a: momk-.' },
           { label: 'Add -i', text: 'Now the k stands right before the plural -i.' },
@@ -1997,7 +1997,7 @@ export const PRACTICE = {
       ['otac', 'father (plural očevi)', 'Očevi i sinovi su ovdje.'],
       ['stranac', 'foreigner (plural stranci)', 'Stranci su ovdje.'],
       ['kupac', 'customer (plural kupci)', 'Kupci su tamo.'],
-      ['momak', 'lad, young man (plural momci)', 'Momci su tamo.'],
+      ['momak', 'young man (plural momci)', 'Momci su tamo.'],
       ['lonac', 'pot (plural lonci)', 'Lonci su ovdje.'],
       ['vrabac', 'sparrow (plural vrapci)', 'Ovo su vrapci.'],
       ['korak', 'step (plural koraci)', 'Ovo su koraci.'],
@@ -2213,7 +2213,7 @@ export const PRACTICE = {
           explanation: 'Markov auto.',
         },
         {
-          q: '"The sister\'s flat" (stan = flat)',
+          q: '"The sister\'s apartment" (stan = apartment)',
           options: ['sestrina stan', 'sestrin stan', 'sestrino stan', 'sestrov stan'],
           correct: 1,
           hint: 'sestra ends in -a; stan is masculine.',

@@ -193,7 +193,7 @@ export const LESSONS = [
           },
           {
             hr: 'Tražim gospodina Horvata, molim.',
-            en: 'I am looking for Mr Horvat, please.',
+            en: 'I am looking for Mr. Horvat, please.',
             note: 'both words are alive and masculine: gospodina Horvata',
           },
           {
@@ -1628,7 +1628,7 @@ export const PRACTICE = {
     },
     checkB: [
       {
-        q: 'Complete: "Tražim ___." (I am looking for Mr Babić — "gospodin Babić".)',
+        q: 'Complete: "Tražim ___." (I am looking for Mr. Babić — "gospodin Babić".)',
         options: ['gospodin Babić', 'gospodina Babića', 'gospodinu Babiću', 'gospodinom Babićem'],
         correct: 1,
         explanation: 'Both words are masculine and alive, so both take -a: gospodina Babića.',

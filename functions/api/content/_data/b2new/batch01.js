@@ -303,7 +303,7 @@ const NOUN_A = {
           explanation: 'Before the vocative -e, k becomes č: čovječe.',
         },
         {
-          q: 'Complete: "Profesor razgovara s ___." (the pupils)',
+          q: 'Complete: "Profesor razgovara s ___." (the students)',
           options: ['učenike', 'učenikima', 'učenicima', 'učenika'],
           correct: 2,
           explanation:
@@ -1114,7 +1114,7 @@ const NOUN_E = {
         },
         {
           hr: 'Gospođo Kovač, izvolite sjesti.',
-          en: 'Mrs Kovač, please sit down.',
+          en: 'Mrs. Kovač, please sit down.',
           note: 'gospođo — the vocative of gospođa',
         },
         {
@@ -1387,7 +1387,7 @@ export const PRACTICE = {
         explanation: 'Before the vocative -e, k becomes č: vojniče.',
       },
       {
-        q: 'Complete: "Svi ___ su stigli na vrijeme." (the pupils)',
+        q: 'Complete: "Svi ___ su stigli na vrijeme." (the students)',
         options: ['učeniki', 'učenike', 'učenici', 'učenika'],
         correct: 2,
         explanation: 'The nominative plural ends in -i, so k becomes c: učenici.',
@@ -1397,7 +1397,7 @@ export const PRACTICE = {
       ['sin', 'son', 'Imam dva sina i jednu kćer.'],
       ['muž', 'husband', 'Njezin muž radi u bolnici.'],
       ['gost', 'guest', 'Na vjenčanju je bilo sto gostiju.'],
-      ['momak', 'young man, lad', 'Taj momak dobro igra nogomet.'],
+      ['momak', 'young man', 'Taj momak dobro igra nogomet.'],
       ['vjetar', 'wind', 'Danas puše jak vjetar.'],
       ['čovjek', 'person, man', 'Na trgu je bilo mnogo ljudi.'],
       ['oko', 'eye', 'Ima lijepe plave oči.'],

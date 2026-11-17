@@ -660,7 +660,7 @@ const HIGHER_EDUCATION = {
         },
         {
           hr: 'Odučio sam se kasno lijegati.',
-          en: 'I have got out of the habit of going to bed late.',
+          en: 'I have gotten out of the habit of going to bed late.',
           note: 'odučiti se + infinitive',
         },
         {
@@ -1648,7 +1648,7 @@ export const PRACTICE = {
           q: 'Jedna godina studija nosi ___ ECTS bodova.',
           options: ['trideset', 'šezdeset', 'sto', 'deset'],
           correct: 1,
-          hint: 'A three-year programme carries 180.',
+          hint: 'A three-year program carries 180.',
           explanation: 'šezdeset — 60 credits a year.',
         },
         {
@@ -2007,7 +2007,7 @@ export const PRACTICE = {
       {
         title: 'From Verb to Person',
         problem: 'Kako se zove žena koja prodaje u trgovini?',
-        en: 'a female shop assistant',
+        en: 'a female salesperson',
         steps: [
           { label: 'The verb', text: 'The activity is prodavati.' },
           { label: 'The person', text: 'Add the agent suffix -ač: prodavač.' },

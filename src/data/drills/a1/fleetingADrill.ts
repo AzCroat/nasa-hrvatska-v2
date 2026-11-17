@@ -151,7 +151,7 @@ export const FLEETING_A_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'susret',
     q: 'Which sentence is correct?',
-    en: 'The lads are there.',
+    en: 'The guys are there.',
     opts: ['Momki su tamo.', 'Momaci su tamo.', 'Momci su tamo.', 'Momci je tamo.'],
     answer: 'Momci su tamo.',
     tip: 'momak → momci, with su.',

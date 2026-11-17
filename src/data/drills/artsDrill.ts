@@ -43,7 +43,7 @@ export const ARTS_DRILL_DATA: ModeDrillItem[] = [
     mode: 'nazivi',
     q: 'Što je "kazalište"?',
     en: 'What is a kazalište?',
-    opts: ['theater', 'cinema', 'concert hall', 'stage'],
+    opts: ['theater', 'movie theater', 'concert hall', 'stage'],
     answer: 'theater',
     tip: 'The movie theater is kino; the stage is pozornica.',
   },

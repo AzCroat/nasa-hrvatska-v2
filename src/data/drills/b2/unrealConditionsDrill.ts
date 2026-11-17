@@ -118,7 +118,7 @@ export const UNREAL_CONDITIONS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'proslost',
     q: 'Da smo krenuli ranije, ne ____ zapeli u gužvi.',
-    en: 'If we had set off earlier, we would not have got stuck in the traffic.',
+    en: 'If we had set off earlier, we would not have gotten stuck in the traffic.',
     opts: ['bismo', 'smo', 'ćemo', 'biste'],
     answer: 'bismo',
     tip: 'mi → bismo. The same conditional covers "would" and "would have".',

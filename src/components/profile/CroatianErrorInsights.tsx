@@ -61,7 +61,7 @@ const ERROR_META: Record<string, ErrorMetaEntry> = {
   dj_diacritics: {
     label: 'Writing Đ as "dj"',
     desc: 'Đ is a single Croatian letter, not "dj". Using "dj" is a common diaspora habit that marks non-native spelling.',
-    example: { wrong: 'djak', right: 'đak (pupil)' },
+    example: { wrong: 'djak', right: 'đak (student)' },
     tip: 'Think of Đ like the "j" in French "jour" but voiced. Practice on keyboard.',
     screen: 'pronunciation_course',
     icon: '🗣️',

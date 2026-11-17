@@ -223,7 +223,7 @@ export const IMPERATIVE_NEGATIVE_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'neka',
     q: 'Gospodin Horvat je stigao. — ____ čeka pet minuta.',
-    en: 'Mr Horvat has arrived. — Let him wait five minutes.',
+    en: 'Mr. Horvat has arrived. — Let him wait five minutes.',
     opts: ['Neka', 'Nemoj', 'Čekaj', 'Nemojte'],
     answer: 'Neka',
     tip: 'For someone else, not "you": neka + the present.',

@@ -1160,7 +1160,7 @@ export const BUSINESS_REGISTER = {
     // ── 2026-07 depth expansion (+6) ──
     {
       q: 'Oslovljavanje: "Poštovana gospođo ____," (prezime Kovač)',
-      qEn: 'Addressing Ms Kovač formally:',
+      qEn: 'Addressing Ms. Kovač formally:',
       opts: ['Kovač', 'Kovačice', 'Kovaču', 'Kovačo'],
       correct: 0,
       explain: 'Ženska se prezimena u pravilu ne sklanjaju: gospođo Kovač.',

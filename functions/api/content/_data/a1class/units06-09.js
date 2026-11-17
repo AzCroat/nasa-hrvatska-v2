@@ -2018,7 +2018,7 @@ export const CLASS_A1_U06_09 = {
         type: 'dictate',
         audio: 'Koliko je to?',
         answer: 'Koliko je to?',
-        hint: 'Three short words: what you ask at the till.',
+        hint: 'Three short words: what you ask at the register.',
         explanation: 'Koliko je to? — "How much is that?"',
       },
     ],

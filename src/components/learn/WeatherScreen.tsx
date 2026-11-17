@@ -192,7 +192,7 @@ function WeatherScreen({ goBack }: { goBack: () => void }) {
   const { content, loading, error } = useContent();
   const [tab, setTab] = useState('Vocabulary');
   // Weather had NO error branch: a failed fetch leaves `content` null, so the
-  // loading sentence below would have claimed "one moment" for ever. The other
+  // loading sentence below would have claimed "one moment" forever. The other
   // four screens fixed in this sweep already separated the two causes.
   if (error)
     return (

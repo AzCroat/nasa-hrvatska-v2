@@ -1378,7 +1378,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Da smo krenuli ranije, ne bismo zapeli u gužvi na autocesti.',
-            en: 'If we had set off earlier, we would not have got stuck in the traffic on the highway.',
+            en: 'If we had set off earlier, we would not have gotten stuck in the traffic on the highway.',
             note: 'da + perfect, then ne bismo + participle',
           },
           {
@@ -3612,7 +3612,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'U prilogu šaljem životopis i zamolbu.',
-            en: 'Please find my CV and covering letter attached.',
+            en: 'Please find my résumé and cover letter attached.',
             note: 'u prilogu — the standard phrase',
           },
           {
@@ -3699,7 +3699,7 @@ export const LESSONS_B2 = [
               '"Obraćati se" takes the dative, and in formal writing the V-form is capitalized: Obraćam Vam se. "Vas" is the accusative and "ti" the wrong register.',
           },
           {
-            q: 'Complete: "U ___ šaljem životopis." (Please find my CV attached.)',
+            q: 'Complete: "U ___ šaljem životopis." (Please find my résumé attached.)',
             options: ['prilog', 'priloga', 'prilogu', 'prilogom'],
             correct: 2,
             explanation:

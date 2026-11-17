@@ -87,7 +87,7 @@ export const FORMAL_ADDRESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vokativ',
     q: 'Dobar dan, ____ Kovač.',
-    en: 'Good afternoon, Mrs Kovač.',
+    en: 'Good afternoon, Mrs. Kovač.',
     opts: ['gospođo', 'gospođa', 'gospođu', 'gospođi'],
     answer: 'gospođo',
     tip: 'The vocative; the surname stays.',
@@ -143,7 +143,7 @@ export const FORMAL_ADDRESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'vokativ',
     q: 'Doviđenja, ____ Babić!',
-    en: 'Goodbye, Mrs Babić!',
+    en: 'Goodbye, Mrs. Babić!',
     opts: ['gospođo', 'gospođa', 'gospođe', 'gospođi'],
     answer: 'gospođo',
     tip: "The vocative; a woman's surname does not change.",
@@ -151,7 +151,7 @@ export const FORMAL_ADDRESS_DRILL_DATA: ModeDrillItem[] = [
   {
     mode: 'pismo',
     q: '____ gospođo Kovač,',
-    en: 'Dear Mrs Kovač, (a formal letter)',
+    en: 'Dear Mrs. Kovač, (a formal letter)',
     opts: ['Poštovana', 'Poštovani', 'Poštovano', 'Poštovanu'],
     answer: 'Poštovana',
     tip: 'Poštovana agrees with a woman.',

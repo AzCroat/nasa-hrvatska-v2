@@ -1679,8 +1679,8 @@ export const PRACTICE_B1 = {
     worked: [
       {
         title: 'The Last Digit Decides',
-        problem: 'Reci: Our class has twenty-two pupils.',
-        en: 'Our class has twenty-two pupils.',
+        problem: 'Reci: Our class has twenty-two students.',
+        en: 'Our class has twenty-two students.',
         steps: [
           {
             label: 'Look at the last digit',
@@ -4889,7 +4889,7 @@ export const PRACTICE_B1 = {
         },
         {
           q: "What is a 'pečat'?",
-          options: ['a stamp', 'a queue', 'a receipt', 'a form'],
+          options: ['a stamp', 'a line', 'a receipt', 'a form'],
           correct: 0,
           hint: 'The thing an official presses onto a document.',
           explanation: 'pečat — an official stamp.',
@@ -4944,7 +4944,7 @@ export const PRACTICE_B1 = {
       },
       {
         q: "Which document is the 'rodni list'?",
-        options: ['passport', 'birth certificate', 'ID card', 'driving licence'],
+        options: ['passport', 'birth certificate', 'ID card', 'driver’s license'],
         correct: 1,
         explanation: 'rodni list — birth certificate.',
       },
@@ -4965,10 +4965,10 @@ export const PRACTICE_B1 = {
   'renting-flat': {
     worked: [
       {
-        title: 'Reading an Advert',
+        title: 'Reading an Ad',
         problem:
           'Oglas: "Iznajmljuje se namješten jednosoban stan, 40 m², 450 € + režije." Što se nudi?',
-        en: 'Advert: furnished one-room apartment, 40 m², €450 + utilities. What is on offer?',
+        en: 'Ad: furnished one-room apartment, 40 m², €450 + utilities. What is on offer?',
         steps: [
           {
             label: 'Count the rooms',
@@ -5031,10 +5031,15 @@ export const PRACTICE_B1 = {
         },
         {
           q: 'Što je garsonijera?',
-          options: ['a studio flat', 'a two-room flat', 'a garage', 'an unfurnished flat'],
+          options: [
+            'a studio apartment',
+            'a two-room apartment',
+            'a garage',
+            'an unfurnished apartment',
+          ],
           correct: 0,
           hint: 'One single living space with a kitchen corner.',
-          explanation: 'garsonijera = a studio flat.',
+          explanation: 'garsonijera = a studio apartment.',
         },
         {
           q: 'Je li dopušteno držati ___? (pets — kućni ljubimci)',
@@ -5045,10 +5050,10 @@ export const PRACTICE_B1 = {
         },
         {
           type: 'type',
-          q: 'Zovem u vezi s ____ za stan. (the advert — oglas)',
+          q: 'Zovem u vezi s ____ za stan. (the ad — oglas)',
           answer: 'oglasom',
           hint: 's + the instrumental.',
-          explanation: 'u vezi s oglasom — about the advert.',
+          explanation: 'u vezi s oglasom — about the ad.',
         },
         {
           type: 'type',
@@ -5115,7 +5120,12 @@ export const PRACTICE_B1 = {
       },
       {
         q: "What is a 'garsonijera'?",
-        options: ['a two-room flat', 'a studio flat', 'a house with a garden', 'a garage'],
+        options: [
+          'a two-room apartment',
+          'a studio apartment',
+          'a house with a garden',
+          'a garage',
+        ],
         correct: 1,
         explanation: 'garsonijera — a studio: one space with a kitchen corner.',
       },
@@ -5165,7 +5175,7 @@ export const PRACTICE_B1 = {
       ['režije', 'utilities', 'Jesu li režije uključene?'],
       ['polog', 'deposit', 'Polog je jedna mjesečna najamnina.'],
       ['namješten', 'furnished', 'Tražim namješten stan.'],
-      ['garsonijera', 'studio flat', 'Garsonijera ima kuhinjski kutak.'],
+      ['garsonijera', 'studio apartment', 'Garsonijera ima kuhinjski kutak.'],
       ['kat', 'floor, story', 'Stan je na trećem katu.'],
       ['useliti se', 'to move in', 'Kada se mogu useliti?'],
       ['iseliti se', 'to move out', 'Polog vraćamo kad se iselite.'],
@@ -5342,9 +5352,9 @@ export const PRACTICE_B1 = {
       },
       {
         q: "What is a 'životopis'?",
-        options: ['a covering letter', 'a CV', 'a reference', 'an interview'],
+        options: ['a cover letter', 'a résumé', 'a reference', 'an interview'],
         correct: 1,
-        explanation: 'životopis — a CV, literally “life-writing”.',
+        explanation: 'životopis — a résumé, literally “life-writing”.',
       },
       {
         q: "Spot the error: 'Bila sam zadužen za organizaciju sastanaka.' (a woman)",
@@ -5370,8 +5380,8 @@ export const PRACTICE_B1 = {
       },
     ],
     vocab: [
-      ['životopis', 'CV', 'Šaljem životopis u prilogu.'],
-      ['zamolba', 'covering letter', 'Napisala sam zamolbu za posao.'],
+      ['životopis', 'résumé', 'Šaljem životopis u prilogu.'],
+      ['zamolba', 'cover letter', 'Napisala sam zamolbu za posao.'],
       ['natječaj', 'public job competition', 'Javljam se na natječaj.'],
       ['iskustvo', 'experience', 'Imam pet godina iskustva.'],
       ['diplomirati', 'to graduate', 'Diplomirao sam na Pravnom fakultetu.'],

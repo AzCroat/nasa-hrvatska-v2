@@ -2351,8 +2351,8 @@ export const PRACTICE_B2 = {
       },
       {
         title: 'Contrary to Fact, in the Past',
-        problem: 'Reci: "If she had taken an umbrella, she would not have got wet."',
-        en: 'Say: If she had taken an umbrella, she would not have got wet.',
+        problem: 'Reci: "If she had taken an umbrella, she would not have gotten wet."',
+        en: 'Say: If she had taken an umbrella, she would not have gotten wet.',
         steps: [
           {
             label: 'Unreal past',
@@ -4633,7 +4633,7 @@ export const PRACTICE_B2 = {
       ['na raspolaganju', 'at your disposal', 'Stojim Vam na raspolaganju za sva pitanja.'],
       ['s poštovanjem', 'yours sincerely', 'S poštovanjem, Ivan Horvat'],
       ['lijep pozdrav', 'kind regards', 'Lijep pozdrav iz Zagreba.'],
-      ['životopis', 'CV, résumé', 'Poslala sam životopis na tri adrese.'],
+      ['životopis', 'résumé', 'Poslala sam životopis na tri adrese.'],
       ['natječaj', 'job vacancy, call for applications', 'Natječaj je otvoren do kraja mjeseca.'],
     ],
   },
@@ -5518,7 +5518,7 @@ export const PRACTICE_B2 = {
           explanation: 'smanjiti porez — accusative, identical to the nominative.',
         },
         {
-          q: 'Dopuni: "U Zagrebu raste ___ za stanovima." (demand for flats)',
+          q: 'Dopuni: "U Zagrebu raste ___ za stanovima." (demand for apartments)',
           options: ['potražnja', 'ponuda', 'dobit', 'izvoz'],
           correct: 0,
           hint: 'Of supply and demand, you need the half that wants to buy.',

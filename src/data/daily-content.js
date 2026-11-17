@@ -2303,7 +2303,7 @@ export const WORD_OF_DAY_POOL = [
 
   // Home
   { hr: 'kuća', en: 'house', ph: 'KOO-chah', cat: 'home' },
-  { hr: 'stan', en: 'apartment / flat', ph: 'stahn', cat: 'home' },
+  { hr: 'stan', en: 'apartment', ph: 'stahn', cat: 'home' },
   { hr: 'soba', en: 'room', ph: 'SOH-bah', cat: 'home' },
   { hr: 'kuhinja', en: 'kitchen', ph: 'koo-HEE-nyah', cat: 'home' },
   { hr: 'spavaća soba', en: 'bedroom', ph: 'SPAH-vah-chah SOH-bah', cat: 'home' },
@@ -2481,7 +2481,7 @@ export const WORD_OF_DAY_POOL = [
 
   // Clothing
   { hr: 'majica', en: 't-shirt', ph: 'MAH-yee-tsah', cat: 'clothing' },
-  { hr: 'hlače', en: 'trousers / pants', ph: 'HLAH-cheh', cat: 'clothing' },
+  { hr: 'hlače', en: 'pants', ph: 'HLAH-cheh', cat: 'clothing' },
   { hr: 'suknja', en: 'skirt', ph: 'SOOK-nyah', cat: 'clothing' },
   { hr: 'haljina', en: 'dress', ph: 'HAH-lyee-nah', cat: 'clothing' },
   { hr: 'jakna', en: 'jacket', ph: 'YAHK-nah', cat: 'clothing' },
