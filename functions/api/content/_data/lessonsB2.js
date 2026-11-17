@@ -375,7 +375,7 @@ export const LESSONS_B2 = [
           ['objašnjavati', 'objašnjavam', 'objašnjava', '-avati → -avam'],
           ['otvarati', 'otvaram', 'otvara', '-ati → -am'],
           ['davati', 'dajem', 'daje', 'davati → dajem'],
-          ['dobivati', 'dobivam', 'dobiva', 'a few -ivati verbs keep -ivam'],
+          ['dobivati', 'dobivam', 'dobiva', 'built on dobiti + -vati, so -am, not -ujem'],
         ],
       },
       {
@@ -621,7 +621,7 @@ export const LESSONS_B2 = [
       },
       {
         type: 'rule',
-        title: 'Uspjeti Is Always Perfective',
+        title: 'Uspjeti Is Usually Perfective',
         body: '"Uspjeti" means to manage to, to succeed in — and succeeding is a result, so it takes a perfective. Uspio sam završiti na vrijeme. Nisam uspio doći. The same logic runs through "zaboraviti" (forget to do something specific) and "stići" (get round to): all of them are about outcomes.',
         highlight: 'Uspio sam završiti.',
       },
@@ -882,7 +882,7 @@ export const LESSONS_B2 = [
         items: [
           {
             hr: 'Dućan je zatvoren nedjeljom.',
-            en: 'The shop is closed on Sundays.',
+            en: 'The store is closed on Sundays.',
             note: 'nedjeljom — the instrumental of time',
           },
           {
@@ -1358,7 +1358,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Kad bih bio bogat, kupio bih kuću na moru.',
             en: 'If I were rich, I would buy a house by the sea.',
-            note: 'kad bih — the formal alternative',
+            note: 'kad bih — the other frame for the same meaning',
           },
           {
             hr: 'Da barem imam više vremena!',
@@ -2104,7 +2104,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Pričamo o filmu. / Udario je glavom o zid.',
-            en: 'We are talking about the film. / He hit his head against the wall.',
+            en: 'We are talking about the movie. / He hit his head against the wall.',
             note: 'locative topic, accusative impact',
           },
           {
@@ -2769,7 +2769,7 @@ export const LESSONS_B2 = [
           'sve + comparative = more and more: sve bolje, sve više',
           'Što… to… = the more… the more: Što prije, to bolje.',
           'jedva, pomalo, prilično, vrlo, izuzetno, krajnje',
-          'jako is spoken, vrlo is written, veoma is literary',
+          'jako is the everyday word, vrlo is neutral, veoma is literary',
           'pre- on an adjective means too: preskup, prevelik, prekasno',
         ],
       },
@@ -3094,7 +3094,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Concluding Without Repeating',
-        body: 'Croatian closers do more than restate: "Zaključno" (in conclusion) is formal and written; "Sve u svemu" (all in all) weighs what came before; "Ukratko" (in short) compresses; "Na kraju krajeva" (at the end of the day) concedes that the argument has limits. Choosing the right one tells a reader what kind of conclusion they are getting.',
+        body: 'Croatian closers do more than restate: "Zaključno" (in conclusion) is formal and written; "Sve u svemu" (all in all) weighs what came before; "Ukratko" (in short) compresses; "Na kraju krajeva" (when all is said and done) gives the bottom line. Choosing the right one tells a reader what kind of conclusion they are getting.',
         highlight: 'Sve u svemu… · Zaključno…',
       },
       {
@@ -3166,7 +3166,7 @@ export const LESSONS_B2 = [
           {
             hr: 'Na kraju krajeva, svatko mora sam odlučiti gdje želi živjeti.',
             en: 'At the end of the day, everyone has to decide for themselves where they want to live.',
-            note: 'na kraju krajeva — a conclusion that concedes limits',
+            note: 'na kraju krajeva — the bottom line',
           },
         ],
       },
@@ -3260,7 +3260,7 @@ export const LESSONS_B2 = [
             options: [
               'a formal written one',
               'one that compresses the argument',
-              'one that concedes the argument has limits — at the end of the day',
+              'one that gives the bottom line — when all is said and done',
               'an opening on a new topic',
             ],
             correct: 2,
@@ -3537,7 +3537,7 @@ export const LESSONS_B2 = [
       {
         type: 'intro',
         title: 'A Genre With Fixed Furniture',
-        body: 'Croatian formal correspondence is more conventionalised than English. The opening, the closing and several connecting phrases are near-fixed, which is good news: learn six phrases and the frame of any formal email is done, leaving you to write only the part that is actually yours.',
+        body: 'Croatian formal correspondence is more conventionalized than English. The opening, the closing and several connecting phrases are near-fixed, which is good news: learn six phrases and the frame of any formal email is done, leaving you to write only the part that is actually yours.',
         icon: '✉️',
       },
       {
@@ -3564,12 +3564,12 @@ export const LESSONS_B2 = [
         title: 'The Body',
         headers: ['Croatian', 'English'],
         rows: [
-          ['Obraćam vam se u vezi…', 'I am contacting you regarding…'],
-          ['Molim vas za informaciju o…', 'I would like information about…'],
+          ['Obraćam Vam se u vezi…', 'I am contacting you regarding…'],
+          ['Molim Vas za informaciju o…', 'I would like information about…'],
           ['U prilogu šaljem…', 'Please find attached…'],
-          ['Bio bih vam zahvalan ako…', 'I would be grateful if…'],
+          ['Bio bih Vam zahvalan ako…', 'I would be grateful if…'],
           ['Unaprijed hvala.', 'Thank you in advance.'],
-          ['Stojim vam na raspolaganju.', 'I remain at your disposal.'],
+          ['Stojim Vam na raspolaganju.', 'I remain at your disposal.'],
         ],
       },
       {
@@ -3606,8 +3606,8 @@ export const LESSONS_B2 = [
             note: 'comma, then a new line',
           },
           {
-            hr: 'Obraćam vam se u vezi s natječajem objavljenim 15. rujna.',
-            en: 'I am contacting you regarding the vacancy advertised on 15 September.',
+            hr: 'Obraćam Vam se u vezi s natječajem objavljenim 15. rujna.',
+            en: 'I am contacting you regarding the vacancy advertised on September 15.',
             note: 'u vezi s + instrumental; objavljenim is a participle agreeing with natječajem',
           },
           {
@@ -3616,7 +3616,7 @@ export const LESSONS_B2 = [
             note: 'u prilogu — the standard phrase',
           },
           {
-            hr: 'Bio bih vam zahvalan na povratnoj informaciji.',
+            hr: 'Bio bih Vam zahvalan na povratnoj informaciji.',
             en: 'I would be grateful for your response.',
             note: 'conditional + zahvalan na + locative',
           },
@@ -3757,7 +3757,7 @@ export const LESSONS_B2 = [
         title: 'Formal Correspondence — Key Takeaways',
         points: [
           'Poštovani / Poštovana opens; the comma and a new line follow',
-          'Obraćam vam se u vezi… / U prilogu šaljem… / Unaprijed hvala.',
+          'Obraćam Vam se u vezi… / U prilogu šaljem… / Unaprijed hvala.',
           'V-form throughout, and traditionally capitalized: Molim Vas',
           'S poštovanjem for institutions; Lijep pozdrav for ordinary email',
           'Going straight in with no greeting reads as rude in Croatian',
@@ -4343,7 +4343,7 @@ export const LESSONS_B2 = [
       {
         type: 'rule',
         title: 'Silence Reads as Disagreement',
-        body: 'In Croatian conversation the listener is expected to make noise — short reactions every few sentences. An English speaker\'s attentive silence can read as scepticism or boredom rather than politeness. "Aha", "jasno", "stvarno" and "da, da" cost nothing and do a great deal of work.',
+        body: 'In Croatian conversation the listener is expected to make noise — short reactions every few sentences. An English speaker\'s attentive silence can read as skepticism or boredom rather than politeness. "Aha", "jasno", "stvarno" and "da, da" cost nothing and do a great deal of work.',
         highlight: 'aha · jasno · da, da',
       },
       {
@@ -4393,7 +4393,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Ne mogu se sjetiti riječi, nešto kao mala trgovina na uglu.',
-            en: 'I cannot remember the word, something like a little shop on the corner.',
+            en: 'I cannot remember the word, something like a little store on the corner.',
             note: 'describing round a missing word',
           },
           {
@@ -4477,7 +4477,7 @@ export const LESSONS_B2 = [
             options: [
               'Nothing — silence is polite',
               'You should interrupt with "Ne slažem se"',
-              'Silence reads as scepticism; react with aha, jasno, stvarno',
+              'Silence reads as skepticism; react with aha, jasno, stvarno',
               'You should switch to English',
             ],
             correct: 2,
@@ -4525,7 +4525,7 @@ export const LESSONS_B2 = [
           'Pa is the default answer-opener and is entirely unmarked',
           'Kako se ono kaže… keeps you in the conversation when a word will not come',
           'React constantly: stvarno, jasno, aha, ma nemoj',
-          'Attentive silence reads as scepticism, not politeness',
+          'Attentive silence reads as skepticism, not politeness',
         ],
       },
     ],
@@ -5250,7 +5250,7 @@ export const LESSONS_B2 = [
             q: '"Kako je bila sezona?" asked on the coast is asking about:',
             options: [
               'the weather in summer',
-              'the football season',
+              'the soccer season',
               'the fishing season',
               'the tourist season — a question with real economic weight',
             ],
@@ -5341,7 +5341,7 @@ export const LESSONS_B2 = [
           ['glasati / glasovati', 'to vote'],
           ['birač', 'voter'],
           ['stranka', 'political party'],
-          ['zastupnik', 'MP, representative'],
+          ['zastupnik', 'member of parliament, representative'],
           ['zakon', 'law, act'],
           ['izglasati', 'to pass (a law)'],
         ],
@@ -5400,7 +5400,7 @@ export const LESSONS_B2 = [
           },
           {
             hr: 'Zastupnici u Saboru raspravljali su o novom zakonu do kasno u noć.',
-            en: 'MPs in the Sabor debated the new law until late at night.',
+            en: 'Members of parliament in the Sabor debated the new law until late at night.',
             note: 'u Saboru — locative; o + locative',
           },
           {
@@ -5520,7 +5520,7 @@ export const LESSONS_B2 = [
             ],
             correct: 1,
             explanation:
-              'A "župan" heads a županija (county) and a "gradonačelnik" heads a city. The others are national offices, MP and voter, and president and party.',
+              'A "župan" heads a županija (county) and a "gradonačelnik" heads a city. The others are national offices, member of parliament and voter, and president and party.',
           },
         ],
       },

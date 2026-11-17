@@ -124,7 +124,7 @@ const L_GENITIVE_PLURAL_SPECIAL = {
         },
         {
           hr: 'Moram kupiti puno stvari, a nemam dovoljno torbi.',
-          en: 'I have to buy a lot of things, and I haven’t got enough bags.',
+          en: 'I have to buy a lot of things, and I don’t have enough bags.',
           note: 'stvari and torbi — genitive plural in -i',
         },
       ],
@@ -1348,7 +1348,7 @@ const L_NOUNS_EN_ET = {
     {
       type: 'rule',
       title: 'Dijete and the Young: -et-',
-      body: 'Nouns for the young of people and animals add -et-: dijete → djeteta, djetetu, djetetom (ije shortens to je, as in vrijeme). The same with tele (calf) → teleta, pile (chick) → pileta, janje (lamb) → janjeta, prase (piglet) → praseta, mače (kitten) → mačeta, štene (puppy) → šteneta, unuče (grandchild) → unučeta, pače (duckling) → pačeta, lane (fawn) → laneta, jare (kid goat) → jareta, kumče (godchild) → kumčeta, novorođenče (newborn) → novorođenčeta, siroče (orphan) → siročeta. A few words that are not young beings do it too: uže (rope) → užeta, jaje (egg) → jajeta, dugme (button) → dugmeta, drvo (tree) → drveta.',
+      body: 'Nouns for the young of people and animals add -et-: dijete → djeteta, djetetu, djetetom (ije shortens to je, as in vrijeme). The same with tele (calf) → teleta, pile (chick) → pileta, janje (lamb) → janjeta, prase (piglet) → praseta, mače (kitten) → mačeta, štene (puppy) → šteneta, unuče (grandchild) → unučeta, pače (duckling) → pačeta, lane (fawn) → laneta, jare (kid goat) → jareta, kumče (godchild) → kumčeta, novorođenče (newborn) → novorođenčeta, siroče (orphan) → siročeta. A few words that are not young beings do it too: uže (rope) → užeta, jaje (egg) → jajeta, drvo (tree) → drveta (drva is also standard).',
       highlight: 'dijete → djeteta, djetetu, djetetom',
     },
     {
@@ -1630,7 +1630,7 @@ const P_NOUNS_EN_ET = {
         options: ['djecama', 'djecom', 'djeci', 'djecima'],
         correct: 1,
         hint: 'Djeca is declined like the singular of žena.',
-        explanation: 's djecom — like s ženom.',
+        explanation: 's djecom — like sa ženom.',
       },
       {
         q: 'Kokoš je izvela ___. (her chicks, as one group)',
@@ -1725,7 +1725,7 @@ const P_NOUNS_EN_ET = {
     ['mače', 'kitten (gen. mačeta)', 'Igra se s mačetom.'],
     ['unuče', 'grandchild (gen. unučeta)', 'Ovo je soba mog unučeta.'],
     ['na vrijeme', 'on time', 'Stigli smo na vrijeme.'],
-    ['prezime', 'surname (gen. prezimena)', 'Kako se piše vaše prezime?'],
+    ['prezime', 'surname (gen. prezimena)', 'Kako se piše Vaše prezime?'],
     ['djeca', 'children (declined like žena: djeci, djecom)', 'Idem u park s djecom.'],
   ],
 };

@@ -47,7 +47,7 @@ export const LESSONS_B1 = [
       {
         type: 'intro',
         title: 'The Small Words That Place Events',
-        body: 'You can say what happened and what will happen. This lesson is about locating those events relative to now, and to each other — two days ago, in an hour, for three years, since Monday, still, already, not any more. They are short words, they are used constantly, and most of them govern a case.',
+        body: 'You can say what happened and what will happen. This lesson is about locating those events relative to now, and to each other — two days ago, in an hour, for three years, since Monday, still, already, not anymore. They are short words, they are used constantly, and most of them govern a case.',
         icon: '⏳',
       },
       {
@@ -83,13 +83,13 @@ export const LESSONS_B1 = [
       },
       {
         type: 'table',
-        title: 'Still, Already, Not Any More',
+        title: 'Still, Already, Not Anymore',
         headers: ['Croatian', 'English', 'Example'],
         rows: [
           ['još', 'still', 'Još radim.'],
           ['već', 'already, for (now)', 'Već sam gotov.'],
           ['tek', 'only just', 'Tek sam stigao.'],
-          ['više ne', 'not any more', 'Više ne pušim.'],
+          ['više ne', 'not anymore', 'Više ne pušim.'],
           ['još ne', 'not yet', 'Još nisam gotov.'],
           ['uskoro', 'soon', 'Uskoro dolazim.'],
         ],
@@ -126,7 +126,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Više ne živim u Zagrebu.',
-            en: 'I do not live in Zagreb any more.',
+            en: 'I do not live in Zagreb anymore.',
             note: 'više ne — and the verb is negated',
           },
           {
@@ -264,11 +264,11 @@ export const LESSONS_B1 = [
               'I do not smoke yet.',
               'I smoke more now.',
               'I still smoke.',
-              'I do not smoke any more.',
+              'I do not smoke anymore.',
             ],
             correct: 3,
             explanation:
-              '"Više ne" plus a negated verb means "not any more". "Not yet" is još ne, and "still" is još with a positive verb.',
+              '"Više ne" plus a negated verb means "not anymore". "Not yet" is još ne, and "still" is još with a positive verb.',
           },
           {
             q: 'Complete: "Tijekom ___ rijetko izlazim." (During the winter — zima)',
@@ -423,11 +423,11 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Došla je kući, pogledala poštu i odmah otišla na posao.',
-            en: 'She came home, glanced at the post and left for work straight away.',
+            en: 'She came home, glanced at the mail and left for work straight away.',
             note: 'do- arrive · po- briefly · ot- away',
           },
           {
-            hr: 'Molim vas, ispišite mi račun i potpišite ga.',
+            hr: 'Molim Vas, ispišite mi račun i potpišite ga.',
             en: 'Please print me out the bill and sign it.',
             note: 'iz- (out) + pisati; pot- (under) + pisati',
           },
@@ -611,7 +611,7 @@ export const LESSONS_B1 = [
         title: 'In Practice',
         items: [
           {
-            hr: 'Sjednite, molim vas.',
+            hr: 'Sjednite, molim Vas.',
             en: 'Please take a seat.',
             note: 'change of state — polite imperative',
           },
@@ -731,7 +731,7 @@ export const LESSONS_B1 = [
               '"Visjeti" is a state — the coat is already there — so u takes the locative: u ormaru. "U ormar" would be where you hang it (objesiti).',
           },
           {
-            q: 'Which sentence correctly says "Put the plates in the cupboard"?',
+            q: 'Which sentence correctly says "Put the plates in the cabinet"?',
             options: [
               'Stavi tanjure u ormarić.',
               'Stoji tanjure u ormarić.',
@@ -1126,7 +1126,7 @@ export const LESSONS_B1 = [
           {
             hr: 'Ovdje se govori hrvatski i engleski.',
             en: 'Croatian and English are spoken here.',
-            note: 'impersonal se — the wording of a shop sign',
+            note: 'impersonal se — the wording of a store sign',
           },
           {
             hr: 'Kasno je, treba ići kući.',
@@ -1375,7 +1375,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Nakon što je završio fakultet, zaposlio se u banci.',
-            en: 'After he finished university, he got a job at a bank.',
+            en: 'After he finished college, he got a job at a bank.',
             note: 'nakon što + perfective past',
           },
           {
@@ -1590,12 +1590,12 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Kad završim fakultet, tražit ću posao.',
-            en: 'When I finish university, I will look for a job.',
+            en: 'When I finish college, I will look for a job.',
             note: 'kad — it is going to happen',
           },
           {
             hr: 'Ako pada kiša, utakmica se odgađa.',
-            en: 'If it rains, the match is postponed.',
+            en: 'If it rains, the game is postponed.',
             note: 'a general rule, both present',
           },
           {
@@ -1693,7 +1693,7 @@ export const LESSONS_B1 = [
               'The budem-form (the future perfect) is Croatian\'s own future condition: ako bude padala kiša — bude plus the past participle, never bude plus the infinitive. "Će" would put an ordinary future in the if-clause, which Croatian avoids.',
           },
           {
-            q: 'Which says "If it rains, the match is postponed" as a general rule?',
+            q: 'Which says "If it rains, the game is postponed" as a general rule?',
             options: [
               'Ako pada kiša, utakmica se odgađa.',
               'Ako će padati kiša, utakmica se odgađa.',
@@ -1829,7 +1829,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Idem u dućan kupiti mlijeko.',
-            en: 'I am going to the shop to buy milk.',
+            en: 'I am going to the store to buy milk.',
             note: 'the simple purpose infinitive after motion',
           },
           {
@@ -1850,7 +1850,7 @@ export const LESSONS_B1 = [
         items: [
           {
             hr: 'Nisam došao na sastanak jer sam bio bolestan.',
-            en: 'I did not come to the meeting because I was ill.',
+            en: 'I did not come to the meeting because I was sick.',
             note: 'jer + a clause with its own verb',
           },
           {
@@ -1870,7 +1870,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Budući da je trgovina zatvorena, kupit ćemo kruh sutra.',
-            en: 'Since the shop is closed, we will buy bread tomorrow.',
+            en: 'Since the store is closed, we will buy bread tomorrow.',
             note: 'budući da opens the sentence',
           },
           {
@@ -1888,7 +1888,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Zato and Zato Što Are Not the Same',
-        body: 'One letter of difference, opposite directions. "Zato što" introduces the CAUSE: Ostajem doma zato što pada kiša. "Zato" alone introduces the CONSEQUENCE: Pada kiša, zato ostajem doma. Reading them the wrong way round inverts the sentence, so it is worth a moment now.',
+        body: 'One letter of difference, opposite directions. "Zato što" introduces the CAUSE: Ostajem doma zato što pada kiša. "Zato" alone introduces the CONSEQUENCE: Pada kiša, zato ostajem doma. Reading them the wrong way around inverts the sentence, so it is worth a moment now.',
         highlight: 'zato što = because · zato = so',
       },
       {
@@ -1924,7 +1924,7 @@ export const LESSONS_B1 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Ne mogu doći ___ sam bolestan." (I cannot come because I am ill.)',
+            q: 'Complete: "Ne mogu doći ___ sam bolestan." (I cannot come because I am sick.)',
             options: ['zbog', 'jer', 'radi', 'zato'],
             correct: 1,
             explanation:
@@ -3028,7 +3028,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Opening Politely',
-        body: 'Start with "Oprostite" and then state the problem, not the person. Oprostite, imam problem sa sobom. Oprostite, mislim da je došlo do greške. Adding "molim vas" and using the V-form throughout keeps the whole exchange civil, and in practice it gets things fixed faster than the alternative.',
+        body: 'Start with "Oprostite" and then state the problem, not the person. Oprostite, imam problem sa sobom. Oprostite, mislim da je došlo do greške. Adding "molim Vas" and using the V-form throughout keeps the whole exchange civil, and in practice it gets things fixed faster than the alternative.',
         highlight: 'Oprostite, imam problem…',
       },
       {
@@ -3075,7 +3075,7 @@ export const LESSONS_B1 = [
             note: 'doći do + genitive — an impersonal event',
           },
           {
-            hr: 'Hvala vam na razumijevanju.',
+            hr: 'Hvala Vam na razumijevanju.',
             en: 'Thank you for your understanding.',
             note: 'hvala na + locative — how to close',
           },
@@ -3143,8 +3143,8 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) Blaming the person the way English can: Vi ste pokvarili klimu sounds like an accusation — report the fault instead, Ne radi klima or Pokvarila se klima. (2) The wrong case after hvala na: Hvala vam na razumijevanje is wrong; hvala na takes the locative, Hvala vam na razumijevanju. (3) Losing the conditional: Hoću razgovarati s voditeljem is a demand; the polite and still firm version is Htio bih razgovarati s voditeljem.',
-        highlight: 'Hvala vam na razumijevanju',
+        body: '(1) Blaming the person the way English can: Vi ste pokvarili klimu sounds like an accusation — report the fault instead, Ne radi klima or Pokvarila se klima. (2) The wrong case after hvala na: Hvala Vam na razumijevanje is wrong; hvala na takes the locative, Hvala Vam na razumijevanju. (3) Losing the conditional: Hoću razgovarati s voditeljem is a demand; the polite and still firm version is Htio bih razgovarati s voditeljem.',
+        highlight: 'Hvala Vam na razumijevanju',
       },
       {
         type: 'check',
@@ -3177,16 +3177,16 @@ export const LESSONS_B1 = [
               'The conditional htio bih turns a demand into a request. "Hoću" is a bare "I want", "htjela bih" is the form a woman uses, and "htio sam" is the past — I wanted.',
           },
           {
-            q: 'Spot the error: "Hvala vam na razumijevanje."',
+            q: 'Spot the error: "Hvala Vam na razumijevanje."',
             options: [
               'Nothing is wrong',
-              'It should be hvala vam u razumijevanju',
+              'It should be hvala Vam u razumijevanju',
               'hvala na takes the locative: na razumijevanju',
-              'It should be hvala vas',
+              'It should be hvala Vas',
             ],
             correct: 2,
             explanation:
-              '"Hvala na" governs the locative, so the noun ends in -u: na razumijevanju. The person thanked is dative (vam), never accusative.',
+              '"Hvala na" governs the locative, so the noun ends in -u: na razumijevanju. The person thanked is dative (Vam), never accusative.',
           },
           {
             q: 'What does "Došlo je do greške." mean?',
@@ -3229,7 +3229,7 @@ export const LESSONS_B1 = [
           'Open with Oprostite and use the V-form throughout',
           'Nema tople vode / Pokvario se / Došlo je do greške',
           'The conditional keeps you firm without being rude: Htio bih…',
-          'Close with Hvala vam na razumijevanju.',
+          'Close with Hvala Vam na razumijevanju.',
         ],
       },
     ],
@@ -3320,7 +3320,7 @@ export const LESSONS_B1 = [
             note: 'V-form throughout',
           },
           {
-            hr: 'Uzmite broj i pričekajte da vas prozovu.',
+            hr: 'Uzmite broj i pričekajte da Vas prozovu.',
             en: 'Take a number and wait to be called.',
             note: 'da + present — a different subject',
           },
@@ -3453,7 +3453,7 @@ export const LESSONS_B1 = [
               'The osobni identifikacijski broj is the eleven-digit number every resident and taxpayer has, and almost nothing official can be done without it.',
           },
           {
-            q: 'Spot the error: "Molim vas, napunite ovaj obrazac."',
+            q: 'Spot the error: "Molim Vas, napunite ovaj obrazac."',
             options: [
               'Nothing is wrong',
               'The V-form is wrong',
@@ -3465,7 +3465,7 @@ export const LESSONS_B1 = [
               '"Napuniti" fills a container or charges a battery. Completing a form is ispuniti or popuniti, and obrazac stays accusative, identical to the nominative.',
           },
           {
-            q: 'What does "Uzmite broj i pričekajte da vas prozovu." mean?',
+            q: 'What does "Uzmite broj i pričekajte da Vas prozovu." mean?',
             options: [
               'Take a number and wait to be called.',
               'Take the form and wait for the stamp.',
@@ -3474,14 +3474,14 @@ export const LESSONS_B1 = [
             ],
             correct: 0,
             explanation:
-              '"Uzeti broj" is to take a ticket number, and "da vas prozovu" is a clause with a different subject — they will call you.',
+              '"Uzeti broj" is to take a ticket number, and "da Vas prozovu" is a clause with a different subject — they will call you.',
           },
           {
             q: 'Which document is the "boravišna dozvola"?',
             options: ['driver’s license', 'birth certificate', 'passport', 'residence permit'],
             correct: 3,
             explanation:
-              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driving license is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
+              '"Boravišna dozvola" is the residence permit, from boraviti — to reside. The driver’s license is vozačka dozvola, the birth certificate rodni list, and the passport putovnica.',
           },
         ],
       },
@@ -3625,7 +3625,7 @@ export const LESSONS_B1 = [
             note: 'impersonal se; na + accusative for a term',
           },
           {
-            hr: 'Polog vam vraćamo kad se iselite.',
+            hr: 'Polog Vam vraćamo kad se iselite.',
             en: 'We return the deposit to you when you move out.',
             note: 'iseliti se — the opposite of useliti se',
           },
@@ -3680,7 +3680,7 @@ export const LESSONS_B1 = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Stan je na drugom katu, bez ___." (…with no lift.)',
+            q: 'Complete: "Stan je na drugom katu, bez ___." (…with no elevator.)',
             options: ['lift', 'lifta', 'liftu', 'liftom'],
             correct: 1,
             explanation:
@@ -3804,7 +3804,7 @@ export const LESSONS_B1 = [
       {
         type: 'rule',
         title: 'Životopis, Not Biografija',
-        body: 'A résumé is a "životopis" — literally a life-writing, and another compound worth noticing. A "zamolba" is the cover letter; "motivacijsko pismo" is the more modern term and both are understood. The ad itself is an "oglas za posao", or a "natječaj" when it is a formal public competition, which is how most public-sector posts are advertised.',
+        body: 'A résumé is a "životopis" — literally a life-writing, and another compound worth noticing. A "zamolba" is the cover letter; "motivacijsko pismo" is the more modern term and both are understood. The ad itself is an "oglas za posao", or a "natječaj" when it is a formal public competition, which is how most public-sector positions are advertised.',
         highlight: 'životopis · zamolba',
       },
       {
@@ -3832,10 +3832,10 @@ export const LESSONS_B1 = [
         headers: ['Croatian', 'English'],
         rows: [
           ['Recite nam nešto o sebi.', 'Tell us something about yourself.'],
-          ['Zašto se javljate na ovo mjesto?', 'Why are you applying for this post?'],
-          ['Koje su vaše prednosti?', 'What are your strengths?'],
+          ['Zašto se javljate na ovo mjesto?', 'Why are you applying for this position?'],
+          ['Koje su Vaše prednosti?', 'What are your strengths?'],
           ['Gdje se vidite za pet godina?', 'Where do you see yourself in five years?'],
-          ['Kakva su vaša očekivanja?', 'What are your expectations?'],
+          ['Kakva su Vaša očekivanja?', 'What are your expectations?'],
           ['Imate li pitanja za nas?', 'Do you have any questions for us?'],
         ],
       },
@@ -3850,8 +3850,8 @@ export const LESSONS_B1 = [
         title: 'An Application',
         items: [
           {
-            hr: 'Javljam se na vaš oglas za mjesto prevoditelja.',
-            en: 'I am applying for your advertised translator post.',
+            hr: 'Javljam se na Vaš oglas za mjesto prevoditelja.',
+            en: 'I am applying for your advertised translator position.',
             note: 'javljati se na + accusative',
           },
           {
@@ -3866,7 +3866,7 @@ export const LESSONS_B1 = [
           },
           {
             hr: 'Zanima me ovo mjesto jer volim raditi s ljudima.',
-            en: 'I am interested in this post because I like working with people.',
+            en: 'I am interested in this position because I like working with people.',
             note: 'zanima me — the thing is the subject',
           },
           {
@@ -3966,10 +3966,10 @@ export const LESSONS_B1 = [
           },
           {
             q: 'Complete: "Javljam se na ___ za mjesto prodavača." (I am applying for your ad…)',
-            options: ['vaš oglas', 'vašem oglasu', 'vašeg oglasa', 'vašim oglasom'],
+            options: ['Vaš oglas', 'Vašem oglasu', 'Vašeg oglasa', 'Vašim oglasom'],
             correct: 0,
             explanation:
-              '"Javljati se na" takes the accusative: na vaš oglas. Oglas is masculine and not alive, so the accusative looks like the nominative.',
+              '"Javljati se na" takes the accusative: na Vaš oglas. Oglas is masculine and not alive, so the accusative looks like the nominative.',
           },
           {
             q: 'What is a "zamolba"?',
@@ -4041,7 +4041,7 @@ export const LESSONS_B1 = [
         rows: [
           ['vijesti', 'news', 'naslov', 'headline'],
           ['novine', 'newspaper', 'članak', 'article'],
-          ['emisija', 'programme', 'novinar', 'journalist'],
+          ['emisija', 'program', 'novinar', 'journalist'],
           ['izvještaj', 'report', 'izvor', 'source'],
           ['dnevnik', 'TV news bulletin', 'intervju', 'interview'],
           ['objaviti', 'to publish', 'javiti', 'to report'],
@@ -4302,7 +4302,7 @@ export const LESSONS_B1 = [
         headers: ['Croatian', 'English', 'Built from'],
         rows: [
           ['računalo', 'computer', 'računati — to calculate'],
-          ['zaslon', 'screen', 'zaslon — a shield'],
+          ['zaslon', 'screen', 'zaslon — from zasloniti, to screen off'],
           ['tipkovnica', 'keyboard', 'tipka — a key'],
           ['miš', 'mouse', 'the animal, as in English'],
           ['preglednik', 'browser', 'pregledati — to look through'],
@@ -4342,7 +4342,7 @@ export const LESSONS_B1 = [
         title: 'Phones and Connection',
         headers: ['Croatian', 'English'],
         rows: [
-          ['mobitel', 'mobile phone'],
+          ['mobitel', 'cell phone'],
           ['aplikacija', 'app'],
           ['punjač', 'charger'],
           ['baterija', 'battery'],
@@ -4513,7 +4513,7 @@ export const LESSONS_B1 = [
             options: ['zaslon', 'miš', 'punjač', 'tražilica'],
             correct: 0,
             explanation:
-              '"Zaslon" is the screen (originally a shield). Miš is the mouse, punjač the charger, tražilica the search engine.',
+              '"Zaslon" is the screen (from zasloniti, to screen off). Miš is the mouse, punjač the charger, tražilica the search engine.',
           },
         ],
       },
@@ -4922,7 +4922,7 @@ export const LESSONS_B1 = [
             note: 'impersonal se; puno + genitive',
           },
           {
-            hr: 'Uzmite još malo, molim vas! — Ne mogu više, hvala, sve je bilo odlično.',
+            hr: 'Uzmite još malo, molim Vas! — Ne mogu više, hvala, sve je bilo odlično.',
             en: 'Have a little more, please! — I cannot manage any more, thank you, everything was excellent.',
             note: 'the expected exchange at a Croatian table',
           },

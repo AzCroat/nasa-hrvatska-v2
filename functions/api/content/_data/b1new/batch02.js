@@ -560,12 +560,12 @@ const L_VERBS_WITH_INSTRUMENTAL = {
       items: [
         {
           hr: 'Brat se stalno hvali svojim novim mobitelom.',
-          en: 'My brother keeps boasting about his new mobile phone.',
+          en: 'My brother keeps boasting about his new cell phone.',
           note: 'svojim novim mobitelom — instrumental after hvaliti se',
         },
         {
           hr: 'Jako sam zadovoljan svojim novim stanom.',
-          en: 'I am very pleased with my new flat.',
+          en: 'I am very pleased with my new apartment.',
           note: 'zadovoljan — a man speaking; stanom is instrumental',
         },
         {
@@ -749,7 +749,7 @@ const P_VERBS_WITH_INSTRUMENTAL = {
         explanation: 'kuhanjem — the neuter instrumental -em.',
       },
       {
-        q: 'Kako se služiš ovim ___? (mobile phone)',
+        q: 'Kako se služiš ovim ___? (cell phone)',
         options: ['mobitel', 'mobitelu', 'mobitelom', 'mobitela'],
         correct: 2,
         hint: 'Ovim already shows the case: the noun has to match it.',
@@ -844,7 +844,7 @@ const P_VERBS_WITH_INSTRUMENTAL = {
   },
   checkB: [
     {
-      q: 'Complete: "Čime se bavi tvoj brat?" — "Bavi se ___." (football)',
+      q: 'Complete: "Čime se bavi tvoj brat?" — "Bavi se ___." (soccer)',
       options: ['nogomet', 'nogometom', 'nogometa', 'nogometu'],
       correct: 1,
       explanation: 'Baviti se + instrumental: nogometom.',
@@ -919,7 +919,7 @@ const L_JOB_APPLICATION = {
     {
       type: 'intro',
       title: 'A Letter With Fixed Rules',
-      body: 'In Croatia a job usually starts with a written application: a molba (or zamolba) za posao, or a prijava na natječaj when the post is advertised publicly. It is short, formal and built from a set of fixed phrases. Learn the frame once — the greeting, the opening sentence, the closing lines — and you only have to fill in your own story in the middle.',
+      body: 'In Croatia a job usually starts with a written application: a molba (or zamolba) za posao, or a prijava na natječaj when the position is advertised publicly. It is short, formal and built from a set of fixed phrases. Learn the frame once — the greeting, the opening sentence, the closing lines — and you only have to fill in your own story in the middle.',
       icon: '📝',
     },
     {
@@ -960,7 +960,7 @@ const L_JOB_APPLICATION = {
     {
       type: 'rule',
       title: 'The Opening Sentence',
-      body: 'Javljati se na (to respond to, to apply for) takes the accusative: Javljam se na Vaš natječaj. The post is radno mjesto, and the job title after it goes into the genitive: radno mjesto prodavača (of a salesperson), konobara (of a waiter), vozača (of a driver), kuhara (of a cook). Together: Javljam se na Vaš natječaj za radno mjesto prodavača.',
+      body: 'Javljati se na (to respond to, to apply for) takes the accusative: Javljam se na Vaš natječaj. The position is radno mjesto, and the job title after it goes into the genitive: radno mjesto prodavača (of a salesperson), konobara (of a waiter), vozača (of a driver), kuhara (of a cook). Together: Javljam se na Vaš natječaj za radno mjesto prodavača.',
       highlight: 'Javljam se na Vaš natječaj za radno mjesto prodavača.',
     },
     {
@@ -984,7 +984,7 @@ const L_JOB_APPLICATION = {
     {
       type: 'rule',
       title: 'Prilozi: the List Under Your Name',
-      body: 'Under the signature a Croatian application lists what is enclosed, after the heading Prilozi: (Enclosures:). For example: Prilozi: životopis, preslika diplome, potvrda o nekažnjavanju. The last one is a certificate that you have no criminal record; many employers, and every public-sector post, ask for it.',
+      body: 'Under the signature a Croatian application lists what is enclosed, after the heading Prilozi: (Enclosures:). For example: Prilozi: životopis, preslika diplome, potvrda o nekažnjavanju. The last one is a certificate that you have no criminal record; many employers, and every public-sector position, ask for it.',
       highlight: 'Prilozi:',
     },
     {
@@ -1006,7 +1006,7 @@ const L_JOB_APPLICATION = {
       items: [
         {
           hr: 'Predmet: Prijava na natječaj za radno mjesto prodavača',
-          en: 'Subject: Application for the post of salesperson',
+          en: 'Subject: Application for the position of salesperson',
           note: 'prodavača — the job title in the genitive',
         },
         {
@@ -1026,7 +1026,7 @@ const L_JOB_APPLICATION = {
         },
         {
           hr: 'Radila sam tri godine kao prodavačica u maloj trgovini u centru grada.',
-          en: 'I worked for three years as a salesperson in a small shop in the town center.',
+          en: 'I worked for three years as a salesperson in a small store in the town center.',
           note: 'prodavačica — the feminine job title after kao',
         },
         {
@@ -1173,16 +1173,16 @@ const P_JOB_APPLICATION = {
   worked: [
     {
       title: 'The Opening Sentence',
-      problem: 'Napiši uvodnu rečenicu: you are applying for the advertised post of waiter.',
-      en: 'Write the opening sentence: you are applying for the advertised post of waiter.',
+      problem: 'Napiši uvodnu rečenicu: you are applying for the advertised position of waiter.',
+      en: 'Write the opening sentence: you are applying for the advertised position of waiter.',
       steps: [
         {
           label: 'The verb',
-          text: 'To apply for an advertised post is javljati se na + accusative: Javljam se na Vaš natječaj.',
+          text: 'To apply for an advertised position is javljati se na + accusative: Javljam se na Vaš natječaj.',
         },
         {
-          label: 'The post',
-          text: 'The post is za radno mjesto, and the job title that follows goes into the genitive.',
+          label: 'The position',
+          text: 'The position is za radno mjesto, and the job title that follows goes into the genitive.',
         },
         {
           label: 'The job',
@@ -1375,7 +1375,7 @@ const P_JOB_APPLICATION = {
   ],
   vocab: [
     ['natječaj', 'public job advertisement, vacancy', 'Javljam se na Vaš natječaj.'],
-    ['radno mjesto', 'post, position', 'Tražim radno mjesto vozača.'],
+    ['radno mjesto', 'position, job', 'Tražim radno mjesto vozača.'],
     ['prijava', 'application', 'Poslala sam prijavu na natječaj.'],
     ['molba', 'application letter, request', 'Napisao je molbu za posao.'],
     ['životopis', 'résumé', 'U prilogu šaljem životopis.'],
@@ -1534,7 +1534,7 @@ const L_SATISFACTION_DISAPPOINTMENT = {
         },
         {
           hr: 'Film mi se nije svidio, kraj je bio dosadan.',
-          en: 'I didn’t like the film, the ending was boring.',
+          en: 'I didn’t like the movie, the ending was boring.',
           note: 'svidio — masculine, because film is masculine',
         },
         {
@@ -1753,9 +1753,10 @@ const P_SATISFACTION_DISAPPOINTMENT = {
       },
       {
         type: 'type',
-        q: 'Šef je zadovoljan ____ radom. (your — polite vi)',
-        answer: 'vašim',
-        hint: 'Rad is masculine, in the instrumental; the possessive comes from vi.',
+        q: 'Šef je zadovoljan ____ radom. (your — polite Vi)',
+        answer: 'Vašim',
+        accept: ['vašim'],
+        hint: 'Rad is masculine, in the instrumental; the possessive comes from Vi.',
         explanation: 'Vašim radom.',
       },
       {
@@ -1774,7 +1775,7 @@ const P_SATISFACTION_DISAPPOINTMENT = {
       },
       {
         type: 'type',
-        q: 'Razočarana sam ____. (the film)',
+        q: 'Razočarana sam ____. (the movie)',
         answer: 'filmom',
         hint: 'Film is masculine, and razočaran takes the instrumental.',
         explanation: 'filmom.',
@@ -1960,7 +1961,7 @@ const L_GENITIVE_ADJECTIVES = {
         },
         {
           hr: 'Kraj ovog filma je jako tužan.',
-          en: 'The end of this film is very sad.',
+          en: 'The end of this movie is very sad.',
           note: 'ovog — masculine -og',
         },
         {

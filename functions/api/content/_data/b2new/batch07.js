@@ -333,7 +333,7 @@ const CLIMATE_ENVIRONMENT = {
     {
       type: 'rule',
       title: 'Climate and Waste',
-      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (trash), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian shops you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
+      body: 'Klimatske promjene (climate change), globalno zatopljenje (global warming), zagađenje (pollution), okoliš (the environment). For waste: otpad (waste), smeće (trash), odvajanje otpada (sorting waste), reciklirati (to recycle), spremnik (a container), plastika, staklo, papir. In Croatian stores you can return empty drink bottles and get a small refund — povratna naknada. Dan planeta Zemlje (Earth Day) is 22 April; Svjetski dan hrane (World Food Day) is 16 October.',
       highlight: 'odvajanje otpada',
     },
     {
@@ -422,13 +422,13 @@ const CLIMATE_ENVIRONMENT = {
         },
         {
           hr: 'Prazne boce nosimo u trgovinu i dobijemo povratnu naknadu.',
-          en: 'We take empty bottles to the shop and get a refund.',
+          en: 'We take empty bottles to the store and get a refund.',
           note: 'povratna naknada — the bottle refund',
         },
         {
           hr: 'Na Dan planeta Zemlje učenici čiste obalu i parkove.',
           en: 'On Earth Day students clean up the coast and the parks.',
-          note: 'Dan planeta Zemlje — 22 April',
+          note: 'Dan planeta Zemlje — April 22',
         },
         {
           hr: 'Svjetski dan hrane podsjeća nas da ne bacamo hranu.',
@@ -562,11 +562,11 @@ const CLIMATE_ENVIRONMENT = {
           explanation: 'Zar opens a surprised negative question: Zar ne znaš…? — Don’t you know…?',
         },
         {
-          q: 'Which town was struck by a strong earthquake on 29 December 2020?',
+          q: 'Which town was struck by a strong earthquake on December 29, 2020?',
           options: ['Split', 'Petrinja', 'Osijek', 'Zadar'],
           correct: 1,
           explanation:
-            'The Petrinja earthquake of 29 December 2020 was even stronger than the Zagreb earthquake of March that year.',
+            'The Petrinja earthquake of December 29, 2020 was even stronger than the Zagreb earthquake of March that year.',
         },
       ],
     },
@@ -575,7 +575,7 @@ const CLIMATE_ENVIRONMENT = {
       title: 'Climate and Environment — Key Takeaways',
       points: [
         'Disasters: potres, poplava, požar, suša, oluja, tuča',
-        'Zagreb (22 March 2020) and Petrinja (29 December 2020) were hit by earthquakes',
+        'Zagreb (March 22, 2020) and Petrinja (December 29, 2020) were hit by earthquakes',
         'Waste: odvajanje otpada, spremnik, povratna naknada',
         'Ne stands right before its verb; short words follow: Ne bojim se.',
         'Zar ne znaš? — a surprised question; Vruće je, zar ne? — a tag',
@@ -716,12 +716,12 @@ const REPORTED_SPEECH_B2 = {
         },
         {
           hr: 'Ana je rekla da će mi ga poslati poštom.',
-          en: 'Ana said she would send it to me by post.',
+          en: 'Ana said she would send it to me by mail.',
           note: 'da, then će, mi, ga',
         },
         {
           hr: 'Pitali su me je li mi se film svidio.',
-          en: 'They asked me whether I had liked the film.',
+          en: 'They asked me whether I had liked the movie.',
           note: 'je li, then mi, then se',
         },
       ],
@@ -900,7 +900,7 @@ const INTERJECTIONS = {
         },
         {
           hr: 'Jao, opekao sam prst na tavi!',
-          en: 'Ow, I burnt my finger on the pan!',
+          en: 'Ow, I burned my finger on the pan!',
           note: 'jao — sharp pain',
         },
         {
@@ -941,7 +941,7 @@ const INTERJECTIONS = {
         },
         {
           hr: 'Pst, djeco, film počinje!',
-          en: 'Shh, children, the film is starting!',
+          en: 'Shh, children, the movie is starting!',
           note: 'djeco — the vocative of djeca',
         },
         {
@@ -978,7 +978,7 @@ const INTERJECTIONS = {
       headers: ['Croatian', 'What makes it', 'English'],
       rows: [
         ['vau-vau', 'a dog', 'woof'],
-        ['mijau', 'a cat', 'miaow'],
+        ['mijau', 'a cat', 'meow'],
         ['kukuriku', 'a rooster', 'cock-a-doodle-doo'],
         ['tras', 'something falling, crashing', 'crash, bang'],
         ['škljoc', 'a camera, a lock', 'click'],
@@ -1343,8 +1343,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'There Was No…',
-        problem: 'Prevedi: "There was no bread in the shop yesterday."',
-        en: 'There was no bread in the shop yesterday.',
+        problem: 'Prevedi: "There was no bread in the store yesterday."',
+        en: 'There was no bread in the store yesterday.',
         steps: [
           {
             label: 'There was no',
@@ -1566,8 +1566,8 @@ export const PRACTICE = {
       },
       {
         title: 'A Surprised Question',
-        problem: 'Prevedi: "Didn’t you know that bottles can be returned to the shop?"',
-        en: 'Didn’t you know that bottles can be returned to the shop?',
+        problem: 'Prevedi: "Didn’t you know that bottles can be returned to the store?"',
+        en: 'Didn’t you know that bottles can be returned to the store?',
         steps: [
           { label: 'Surprise', text: 'Start with zar, which shows the speaker is surprised.' },
           { label: 'The negative verb', text: 'nisi znao — the fused form of ne + si.' },
@@ -1625,14 +1625,14 @@ export const PRACTICE = {
         {
           q: '"Čega sve nema u ovom dućanu!" means:',
           options: [
-            'The shop is empty.',
-            'The shop has everything!',
-            'Is the shop closed?',
+            'The store is empty.',
+            'The store has everything!',
+            'Is the store closed?',
             'Nothing here is fresh.',
           ],
           correct: 1,
           hint: 'In this exclamation the negation stresses how much.',
-          explanation: 'It means the shop has all sorts of things.',
+          explanation: 'It means the store has all sorts of things.',
         },
         {
           q: 'Complete the tag: "Ljeta su sve toplija, ___?"',
@@ -1711,9 +1711,9 @@ export const PRACTICE = {
       },
       {
         q: 'When is Earth Day — Dan planeta Zemlje?',
-        options: ['16 October', '22 March', '22 April', '29 December'],
+        options: ['October 16', 'March 22', 'April 22', 'December 29'],
         correct: 2,
-        explanation: 'Earth Day is 22 April; World Food Day is 16 October.',
+        explanation: 'Earth Day is April 22; World Food Day is October 16.',
       },
       {
         q: 'What is "odvajanje otpada"?',
@@ -1751,8 +1751,8 @@ export const PRACTICE = {
     worked: [
       {
         title: 'A Question, Reported',
-        problem: 'Prevedi: "She asked me whether I had seen the film."',
-        en: 'She asked me whether I had seen the film.',
+        problem: 'Prevedi: "She asked me whether I had seen the movie."',
+        en: 'She asked me whether I had seen the movie.',
         steps: [
           { label: 'The direct question', text: '"Jesi li vidio film?"' },
           { label: 'Change the person', text: 'jesi (you) becomes jesam (I).' },
@@ -2273,7 +2273,7 @@ export const PRACTICE = {
       },
       {
         q: 'Which sport did Dražen Petrović play?',
-        options: ['tennis', 'football', 'basketball', 'handball'],
+        options: ['tennis', 'soccer', 'basketball', 'handball'],
         correct: 2,
         explanation: 'Basketball — for Cibona, Real Madrid and in the NBA.',
       },

@@ -111,6 +111,37 @@ test.describe('class-order screenshots', () => {
         win: window.innerWidth,
         x: window.scrollX,
       }));
+      // The dialogue card itself must sit inside the screen: a long title once pushed it
+      // wider than the phone and an inner container scrolled sideways.
+      const box = await text.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        let sc = null;
+        for (let n = el.parentElement; n; n = n.parentElement)
+          if (n.scrollLeft > 0 || n.scrollWidth > n.clientWidth + 1)
+            sc = `${n.tagName}.${n.className || n.id} scrollLeft=${n.scrollLeft} scrollWidth=${n.scrollWidth} clientWidth=${n.clientWidth}`;
+        return { left: Math.round(r.left), right: Math.round(r.right), sc };
+      });
+      if (process.env.CLASS_SHOTS_PROBE) {
+        const wide = await page.evaluate(() => {
+          const w = window.innerWidth;
+          const out = [];
+          for (const el of document.querySelectorAll('body *')) {
+            const r = el.getBoundingClientRect();
+            if (
+              r.width > 0 &&
+              (r.right > w + 1 || r.left < -1 || el.scrollWidth > el.clientWidth + 1)
+            ) {
+              const cs = getComputedStyle(el);
+              out.push(
+                `${el.tagName}#${el.id}.${String(el.className).slice(0, 30)}[${el.getAttribute('data-testid') || ''}] ${Math.round(r.left)}..${Math.round(r.right)} sw=${el.scrollWidth} cw=${el.clientWidth} ox=${cs.overflowX} pos=${cs.position}`,
+              );
+            }
+          }
+          return out.slice(0, 14);
+        });
+        console.log(`PROBE ${label}\n  ` + wide.join('\n  '));
+      }
+      console.log(`BOX ${label}: card ${box.left}..${box.right}px ${box.sc || ''}`);
       console.log(`WIDTH ${label}: page ${wide.doc}px, screen ${wide.win}px, scrolled ${wide.x}px`);
       await page.screenshot({ path: path.join(DIR, `${label} - 1 dialogue.png`), fullPage: false });
       await advance('questions');

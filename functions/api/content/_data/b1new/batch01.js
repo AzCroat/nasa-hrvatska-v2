@@ -216,7 +216,7 @@ export const LESSONS = [
           },
           {
             hr: 'U najboljoj slastičarnici u gradu uvijek je gužva.',
-            en: 'There is always a crowd in the best cake shop in town.',
+            en: 'There is always a crowd in the best bakery in town.',
             note: 'najboljoj — feminine locative',
           },
           {
@@ -392,7 +392,7 @@ export const LESSONS = [
             note: 'nego + nominative ja — the same meaning',
           },
           {
-            hr: 'Molim vas, govorite malo sporije.',
+            hr: 'Molim Vas, govorite malo sporije.',
             en: 'Please speak a little more slowly.',
             note: 'sporije — the sentence every learner needs',
           },
@@ -493,7 +493,7 @@ export const LESSONS = [
         title: 'Mastery Check',
         items: [
           {
-            q: 'Complete: "Molim vas, govorite ___." (more slowly)',
+            q: 'Complete: "Molim Vas, govorite ___." (more slowly)',
             options: ['spor', 'sporiji', 'sporije', 'najsporiji'],
             correct: 2,
             explanation:
@@ -1157,7 +1157,7 @@ export const LESSONS = [
           {
             hr: 'Ako budete imali pitanja, slobodno se javite.',
             en: 'If you have any questions, feel free to get in touch.',
-            note: 'budete imali — the polite vi form',
+            note: 'budete imali — the polite Vi form',
           },
           {
             hr: 'Dok budeš živio kod nas, nećeš plaćati stanarinu.',
@@ -1675,7 +1675,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['brže', 'faster', 'Ivan trči brže od mene.'],
-      ['sporije', 'more slowly', 'Govorite sporije, molim vas.'],
+      ['sporije', 'more slowly', 'Govorite sporije, molim Vas.'],
       ['bolje', 'better', 'Govoriš sve bolje.'],
       ['više', 'more', 'Više volim čaj nego kavu.'],
       ['manje', 'less', 'Moramo jesti manje šećera.'],
@@ -2029,7 +2029,7 @@ export const PRACTICE = {
         },
         {
           q: "A stranger asks what you think of a politician's looks. Which reply avoids giving an opinion?",
-          options: ['Baš me briga.', 'Teško je reći.', 'Lijepo izgleda.', 'Hvala, i vama.'],
+          options: ['Baš me briga.', 'Teško je reći.', 'Lijepo izgleda.', 'Hvala, i Vama.'],
           correct: 1,
           hint: 'You want to step aside politely, not be rude and not praise.',
           explanation: 'Teško je reći — it is hard to say.',
@@ -2163,10 +2163,10 @@ export const PRACTICE = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Complete: "Ako ___ pitanja, javite se." (you have — vi)',
+          q: 'Complete: "Ako ___ pitanja, javite se." (you have — Vi)',
           options: ['ćete imati', 'budete imali', 'budete imati', 'ste imali'],
           correct: 1,
-          hint: 'ako pointing ahead, the polite vi form, and a participle.',
+          hint: 'ako pointing ahead, the polite Vi form, and a participle.',
           explanation: 'budete imali.',
         },
         {

@@ -738,7 +738,7 @@ const HIGHER_EDUCATION = {
           options: [
             'the teaching staff',
             'a faculty — one school within a university',
-            'a secondary school',
+            'a high school',
             'a student hall of residence',
           ],
           correct: 1,
@@ -748,7 +748,7 @@ const HIGHER_EDUCATION = {
         {
           q: 'What is a "kolokvij"?',
           options: [
-            'a summer holiday',
+            'a summer vacation',
             'a student canteen',
             'a scholarship',
             'a test taken during the semester',
@@ -1181,7 +1181,7 @@ const WORD_FORMATION_AGENTS = {
           options: ['knjigić', 'knjižnica', 'knjižara', 'knjižica'],
           correct: 3,
           explanation:
-            'knjiga + -ica, with g softening to ž: knjižica. knjižnica is a library, knjižara a bookshop.',
+            'knjiga + -ica, with g softening to ž: knjižica. knjižnica is a library, knjižara a bookstore.',
         },
         {
           q: 'What does "kućerina" suggest?',
@@ -1770,7 +1770,7 @@ export const PRACTICE = {
       },
       {
         q: 'What does "gimnazija" mean?',
-        options: ['a gym', 'a sports hall', 'a university', 'an academic secondary school'],
+        options: ['a gym', 'a sports hall', 'a university', 'an academic high school'],
         correct: 3,
         explanation: 'A gimnazija is an academic high school; a gym is teretana.',
       },

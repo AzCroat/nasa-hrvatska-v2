@@ -202,7 +202,7 @@ const PRESENT_IVATI_NUTI = {
     {
       type: 'rule',
       title: '-iti, -jeti, -ijeti and -ći',
-      body: 'Most -iti verbs give -im, like govoriti. But a few short ones with a vowel before -ti give -jem: piti → pijem, biti (to beat) → bijem, kriti → krijem, šiti → šijem. Verbs in -jeti mostly give -im: letjeti → letim, vidjeti → vidim, živjeti → živim. The -nijeti verbs hide an s: donijeti → donesem, odnijeti → odnesem, ponijeti → ponesem. And verbs in -ći show their consonant in the present: pomoći → pomognem, peći → pečem, ići → idem, doći → dođem. Pozivati and dobivati are -ivati verbs that keep -ivam: pozivam, dobivam.',
+      body: 'Most -iti verbs give -im, like govoriti. But a few short ones with a vowel before -ti give -jem: piti → pijem, biti (to beat) → bijem, kriti → krijem, šiti → šijem. Verbs in -jeti mostly give -im: letjeti → letim, vidjeti → vidim, živjeti → živim. The -nijeti verbs hide an s: donijeti → donesem, odnijeti → odnesem, ponijeti → ponesem. And verbs in -ći show their consonant in the present: pomoći → pomognem, peći → pečem, ići → idem, doći → dođem. Pozivati and dobivati only look like -ivati verbs — they are built on pozvati and dobiti — so they keep -am: pozivam, dobivam.',
       highlight: 'piti → pijem · donijeti → donesem · pomoći → pomognem',
     },
     {
@@ -328,7 +328,7 @@ const INTERNET_SOCIETY = {
       rows: [
         ['računalo', 'computer', 'Radim na računalu.'],
         ['prijenosno računalo', 'laptop', 'Na putovanja nosim prijenosno računalo.'],
-        ['mobitel, pametni telefon', 'mobile phone, smartphone', 'Mobitel mi je uvijek u džepu.'],
+        ['mobitel, pametni telefon', 'cell phone, smartphone', 'Mobitel mi je uvijek u džepu.'],
         ['društvene mreže', 'social networks', 'Koristiš li društvene mreže?'],
         ['objava', 'post', 'Pročitao sam njezinu novu objavu.'],
         ['pratitelj', 'follower', 'Ima tisuću pratitelja.'],
@@ -582,7 +582,7 @@ const INTERNATIONALISMS = {
     {
       type: 'rule',
       title: '-izam and -ist: Masculine',
-      body: 'A word in -izam names an idea or a movement and is masculine: turizam, optimizam, realizam, socijalizam. In every other case the a before m drops: turizma, u turizmu, s optimizmom. A word in -ist names a man who does or believes something: turist, aktivist, pijanist, biciklist; plural turisti, genitive plural turista. A woman takes -istica: turistica, aktivistica, pijanistica.',
+      body: 'A word in -izam names an idea or a movement and is masculine: turizam, optimizam, realizam, socijalizam. Whenever an ending is added, the a before m drops: turizma, u turizmu, s optimizmom. A word in -ist names a man who does or believes something: turist, aktivist, pijanist, biciklist; plural turisti, genitive plural turista. A woman takes -istica: turistica, aktivistica, pijanistica.',
       highlight: 'turizma, u turizmu',
     },
     {
@@ -776,7 +776,7 @@ const HUMAN_RIGHTS = {
     {
       type: 'intro',
       title: 'Opća deklaracija o ljudskim pravima',
-      body: 'On 10 December 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practices the formal phrases of a discussion.',
+      body: 'On December 10, 1948 the General Assembly of the United Nations adopted the Universal Declaration of Human Rights — in Croatian, Opća deklaracija o ljudskim pravima. Its first article begins: Sva ljudska bića rađaju se slobodna i jednaka u dostojanstvu i pravima. This lesson gives you the language of rights and freedoms, tells you about the national minorities of Croatia, and practices the formal phrases of a discussion.',
       icon: '⚖️',
     },
     {
@@ -980,7 +980,7 @@ const HUMAN_RIGHTS = {
       type: 'summary',
       title: 'Human Rights — Key Takeaways',
       points: [
-        'Opća deklaracija o ljudskim pravima — 10 December 1948',
+        'Opća deklaracija o ljudskim pravima — December 10, 1948',
         'pravo na + accusative: pravo na obrazovanje, na rad',
         'boriti se za / zalagati se za + accusative',
         'Croatia’s Constitution names 22 national minorities',
@@ -1322,7 +1322,7 @@ export const PRACTICE = {
           explanation: 'postane — postati → postanem, postaneš, postane.',
         },
         {
-          q: 'Molim vas, ___ ovdje. (stati — a polite command)',
+          q: 'Molim Vas, ___ ovdje. (stati — a polite command)',
           options: ['statite', 'stanete', 'stanite', 'stanjite'],
           correct: 2,
           hint: 'Build the command on the present stem, which has an n.',
@@ -1917,7 +1917,7 @@ export const PRACTICE = {
         q: 'When was the Universal Declaration of Human Rights adopted?',
         options: ['1918', '1945', '1990', '1948'],
         correct: 3,
-        explanation: 'On 10 December 1948, by the UN General Assembly.',
+        explanation: 'On December 10, 1948, by the UN General Assembly.',
       },
       {
         q: 'Which sentence is correct?',

@@ -595,7 +595,7 @@ const LOVE = {
     {
       type: 'rule',
       title: 'Falling In Love Goes INTO Someone',
-      body: 'zaljubiti se takes u + the accusative — you fall into love with someone, so it is movement: Zaljubio se u Anu. The state keeps the same case: Zaljubljen je u Anu. svidjeti se turns the English round: the person who is liked is the SUBJECT and the one who likes is in the dative — Ana se svidjela Marku (Marko liked Ana), or with a clitic: Svidjela mu se. And hodati s takes the instrumental: Hoda s Markom već godinu dana.',
+      body: 'zaljubiti se takes u + the accusative — you fall into love with someone, so it is movement: Zaljubio se u Anu. The state keeps the same case: Zaljubljen je u Anu. svidjeti se turns the English around: the person who is liked is the SUBJECT and the one who likes is in the dative — Ana se svidjela Marku (Marko liked Ana), or with a clitic: Svidjela mu se. And hodati s takes the instrumental: Hoda s Markom već godinu dana.',
       highlight: 'Zaljubio se u Anu.',
     },
     {
@@ -1124,8 +1124,8 @@ const FOREIGN = {
           note: 'o + the locative: hobi becomes hobiju',
         },
         {
-          hr: 'Sutra idem kod Huga na ručak.',
-          en: 'Tomorrow I am going to Hugo’s for lunch.',
+          hr: 'Sutra sam kod Huga na ručku.',
+          en: 'Tomorrow I am at Hugo’s for lunch.',
           note: 'kod + the genitive: Hugo becomes Huga',
         },
         {
@@ -1166,7 +1166,7 @@ const FOREIGN = {
         },
         {
           hr: 'U prvom dijelu filma ništa se ne događa.',
-          en: 'Nothing happens in the first part of the film.',
+          en: 'Nothing happens in the first part of the movie.',
           note: 'dio becomes dijelu',
         },
         {
@@ -1430,7 +1430,7 @@ const FOREIGN_P = {
       },
       {
         type: 'type',
-        q: 'Sutra idem kod ____ na ručak. (Hugo)',
+        q: 'Sutra sam kod ____ na ručku. (Hugo)',
         answer: 'Huga',
         hint: 'kod + the genitive; the -o drops.',
         explanation: 'kod Huga.',
@@ -1592,7 +1592,7 @@ const VATI = {
         },
         {
           hr: 'U ovom dućanu prodaju samo domaće proizvode.',
-          en: 'In this shop they sell only local products.',
+          en: 'In this store they sell only local products.',
           note: 'prodavati becomes prodaju',
         },
       ],
