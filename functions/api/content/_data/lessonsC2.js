@@ -44,7 +44,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'A Different Kind of Question',
-        body: 'Up to C1 the question was always "is this correct?". At C2 it stops being useful, because the interesting cases are the ones where two forms are both defensible and the choice says something. Croatian has an unusually explicit standard — codified grammars, an orthography, a long tradition of language advice — and an everyday usage that does not always match it. Knowing where they diverge is the difference between writing correctly and writing deliberately.',
+        body: 'Until now the question was always "is this correct?". From here on it stops being useful, because the interesting cases are the ones where two forms are both defensible and the choice says something. Croatian has an unusually explicit standard — codified grammars, an orthography, a long tradition of language advice — and an everyday usage that does not always match it. Knowing where they diverge is the difference between writing correctly and writing deliberately.',
         icon: '⚖️',
       },
       {
@@ -59,9 +59,9 @@ export const LESSONS_C2 = [
         headers: ['The norm prefers', 'Usage often has', 'Where it matters'],
         rows: [
           [
-            'trebam raditi',
-            'trebam da radim',
-            'The da-construction is marked; avoid it in writing',
+            'ja bih došao',
+            'ja bi došao',
+            'bi for every person is everyday speech; writing keeps bih, bismo, biste',
           ],
           ['dvoje djece', 'dvojica djece', 'dvojica is for men only — the norm is strict here'],
           ['gdje si bio?', 'di si bio?', 'Purely spoken; never written outside dialogue'],
@@ -77,13 +77,13 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Hypercorrection Is Its Own Error',
-        body: 'The commonest C2 mistake is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told to avoid the da-construction writes infinitives where Croatian would not use one. A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgment produces sentences no native speaker would write, and they are more conspicuous than the original error.',
+        body: 'The commonest mistake at this level is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told that the passive sounds official writes "Od strane uprave donesena je odluka" where Croatian simply says "Uprava je donijela odluku". A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgment produces sentences no native speaker would write, and they are more conspicuous than the original error.',
         highlight: 's sestrom ✗ → sa sestrom ✓',
       },
       {
         type: 'rule',
         title: 'Choose For the Reader',
-        body: 'The practical rule at C2: identify the register the reader expects, then write within it consistently. A legal submission and a column in Jutarnji list have different norms and both are professional. What never works is mixing them — an administrative nominal phrase inside a chatty paragraph reads as a mistake even when every word is correct.',
+        body: 'The practical rule: identify the register the reader expects, then write within it consistently. A legal submission and a column in Jutarnji list have different norms and both are professional. What never works is mixing them — an administrative nominal phrase inside a chatty paragraph reads as a mistake even when every word is correct.',
         highlight: 'consistency inside a register beats correctness across registers',
       },
       {
@@ -138,23 +138,23 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Nije pogrešno reći da idem u dućan, ali u oglasu trgovine pisat će trgovina, jer je ta riječ neutralnija.',
-            en: "It is not wrong to say I am going to the dućan, but a shop's advertisement will say trgovina, because that word is more neutral.",
+            en: "It is not wrong to say I am going to the dućan, but a store's advertisement will say trgovina, because that word is more neutral.",
             note: 'Less standard is not wrong — choose for the reader',
           },
         ],
       },
       {
         type: 'quiz',
-        q: 'A colleague writes "Trebam da završim izvještaj" in a report. What is the accurate thing to say about it?',
+        q: 'A colleague writes "Ja bi to završio do petka" in a report. What is the accurate thing to say about it?',
         options: [
-          'It is ungrammatical and must be corrected',
-          'It is understood everywhere but marked; the norm prefers "Trebam završiti izvještaj" in writing',
+          'Nobody says it, so it must be a typing mistake',
+          'It is what most people say, but in writing the norm keeps the first-person form: "Ja bih to završio do petka"',
           'It is the preferred standard form',
-          'It is a Serbian construction and must never appear',
+          'It is a regional form heard only on the coast',
         ],
         correct: 1,
         explanation:
-          'The da-construction after trebati is widespread in speech across the region and perfectly comprehensible, but the Croatian standard prefers the infinitive in writing. "Marked, not wrong" is the honest description — and it is exactly the kind of judgment C2 is about.',
+          'In everyday speech bi serves for every person, and nobody misunderstands it. The standard keeps a form for each person — bih, bi, bi, bismo, biste, bi — and a report is written in the standard. "Usual in speech, not written in a report" is the honest description, and it is exactly the kind of judgment this lesson is about.',
       },
       {
         type: 'quiz',
@@ -172,7 +172,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors this lesson\'s learners make. First, treating every non-standard form as wrong: "trebam da radim" is marked, not ungrammatical — say the norm prefers "trebam raditi". Second, hypercorrecting the preposition: sa mnom · sa sestrom — never s mnom, because the "s not sa" rule stops exactly where pronunciation demands sa. Third, mixing registers inside one text: "Odbili su mi zahtjev" inside an administrative letter reads as a slip even though every word is correct — keep "Zahtjev je odbijen" throughout.',
+        body: 'Three errors this lesson\'s learners make. First, treating every non-standard form as wrong: "di si" in a message to a friend is spoken, not a mistake — say the norm prefers "gdje" in writing. Second, hypercorrecting the preposition: sa mnom · sa sestrom — never s mnom, because the "s not sa" rule stops exactly where pronunciation demands sa. Third, mixing registers inside one text: "Odbili su mi zahtjev" inside an administrative letter reads as a slip even though every word is correct — keep "Zahtjev je odbijen" throughout.',
         highlight: 'sa mnom · sa sestrom — never s mnom',
       },
       {
@@ -251,7 +251,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Norma is prescribed; uzus is observed usage. The interesting C2 cases are the ones where the two diverge and the choice says something about the writer.',
+              'Norma is prescribed; uzus is observed usage. The interesting cases are the ones where the two diverge and the choice says something about the writer.',
           },
         ],
       },
