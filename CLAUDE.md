@@ -1335,7 +1335,7 @@ dialogue | shadowing | cityofday` — the starred extra is the ADAPTIVE pick.
   styles, media analysis, dialectology and orthography are not grammar drills,
   and a level about register and nuance should look like that.
   **A NEGATIVE RESULT STILL NEEDS PINNING**, or the next person re-runs the
-  survey. `c1Curriculum.test.ts` and `c2Curriculum.test.ts` record all 16 + 16
+  survey. `c1Curriculum.test.ts` (which absorbed the C2 file when C2 was folded into C1 on 2026-11-18) records all of them
   with reasons and drive the real builder, so a drill rewritten with structural
   content — or a row moved — fails the staleness half rather than passing
   silently.
