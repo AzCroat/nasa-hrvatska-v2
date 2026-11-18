@@ -301,7 +301,7 @@ export default function BakaSummer({ goBack, award, book }: BakaSummerProps) {
         >
           <div style={{ fontSize: 36, marginBottom: 8 }}>🏆</div>
           <div style={{ fontSize: 18, fontWeight: 800, color: 'var(--ink-warn)', marginBottom: 6 }}>
-            {allDone ? 'Završili ste cijelo Bakino Ljeto!' : `Završili ste knjigu „${meta.hr}“!`}
+            {allDone ? 'Završili ste cijelo Bakino Ljeto!' : `Završili ste knjigu „${meta.hr}”!`}
           </div>
           <div style={{ fontSize: 14, color: 'var(--ink-warn)', fontStyle: 'italic' }}>
             {allDone

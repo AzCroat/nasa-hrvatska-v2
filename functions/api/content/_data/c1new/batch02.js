@@ -575,7 +575,7 @@ export const LESSONS = [
         rows: [
           ['between the items of a list', 'Kupi kruh, mlijeko, sir i jaja.'],
           ['no comma before i or ili in a list', '… sir i jaja; čaj, kavu ili sok'],
-          ['around a vocative', 'Marko, dođi ovamo. Hvala vam, gospođo.'],
+          ['around a vocative', 'Marko, dođi ovamo. Hvala Vam, gospođo.'],
           [
             'after an interjection, or an answering da or ne',
             'Joj, zaboravio sam! Da, vidio sam ga.',
@@ -600,8 +600,8 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Appositions and Inserted Phrases',
-        body: 'A phrase that adds information about a noun already identified sits between two commas: Ivan Gundulić, dubrovački pjesnik, napisao je „Osmana“. Inserted words and phrases — naravno, dakle, naime, na primjer, po mom mišljenju — are set off in the same way: Mi smo, naravno, odmah pristali. The commas come in pairs: an apposition that is opened must also be closed.',
-        highlight: 'Ivan Gundulić, dubrovački pjesnik, napisao je „Osmana“.',
+        body: 'A phrase that adds information about a noun already identified sits between two commas: Ivan Gundulić, dubrovački pjesnik, napisao je „Osmana”. Inserted words and phrases — naravno, dakle, naime, na primjer, po mom mišljenju — are set off in the same way: Mi smo, naravno, odmah pristali. The commas come in pairs: an apposition that is opened must also be closed.',
+        highlight: 'Ivan Gundulić, dubrovački pjesnik, napisao je „Osmana”.',
       },
       {
         type: 'rule',
@@ -619,7 +619,7 @@ export const LESSONS = [
             note: 'a list: no comma before i',
           },
           {
-            hr: 'Gospođo Horvat, vaš je paket stigao jutros.',
+            hr: 'Gospođo Horvat, Vaš je paket stigao jutros.',
             en: 'Mrs. Horvat, your parcel arrived this morning.',
             note: 'the vocative at the start, then a comma',
           },
@@ -908,7 +908,7 @@ export const LESSONS = [
           },
           {
             hr: 'Ta je domaća pilad hranjena samo kukuruzom.',
-            en: 'Those home-reared chicks are fed only on maize.',
+            en: 'Those home-reared chicks are fed only on corn.',
             note: 'ta domaća pilad, hranjena — all feminine singular',
           },
           {
@@ -1667,7 +1667,7 @@ export const PRACTICE = {
       {
         title: 'An Apposition and a List',
         problem: 'Dodaj zareze: "Pula grad u Istri ima amfiteatar tržnicu i lijepu rivu."',
-        en: 'Add the commas: Pula, a town in Istria, has an amphitheatre, a market and a lovely waterfront.',
+        en: 'Add the commas: Pula, a town in Istria, has an amphitheater, a market and a lovely waterfront.',
         steps: [
           {
             label: 'The apposition',
@@ -1831,10 +1831,10 @@ export const PRACTICE = {
       {
         q: 'Which sentence is punctuated correctly?',
         options: [
-          'Hvala vam gospodine, na strpljenju.',
-          'Hvala vam, gospodine, na strpljenju.',
-          'Hvala vam gospodine na strpljenju.',
-          'Hvala, vam gospodine na strpljenju.',
+          'Hvala Vam gospodine, na strpljenju.',
+          'Hvala Vam, gospodine, na strpljenju.',
+          'Hvala Vam gospodine na strpljenju.',
+          'Hvala, Vam gospodine na strpljenju.',
         ],
         correct: 1,
         explanation: 'The vocative gospodine is set off on both sides.',
@@ -1881,7 +1881,7 @@ export const PRACTICE = {
     ],
     vocab: [
       ['zarez', 'comma', 'Iza vokativa dolazi zarez.'],
-      ['točka', 'full stop', 'Rečenica završava točkom.'],
+      ['točka', 'period', 'Rečenica završava točkom.'],
       ['nabrajanje', 'listing, enumeration', 'U nabrajanju se riječi odvajaju zarezima.'],
       ['vokativ', 'vocative', 'Vokativ se odvaja zarezom.'],
       ['apozicija', 'apposition', 'Apozicija stoji između dvaju zareza.'],

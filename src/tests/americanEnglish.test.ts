@@ -26,13 +26,13 @@ interface Finding {
 }
 
 const REVIEWED_USAGE: Record<string, number> = {
-  flat: 140, // level ground, a flat tire, a flat tone, the tongue held flat
+  flat: 141, // level ground, a flat tire, a flat tone, the tongue held flat
   flats: 4, // salt flats, tidal flats
   holiday: 20, // public and religious holidays
-  holidays: 15,
-  rang: 27, // the phone / the doorbell rang
+  holidays: 18,
+  rang: 28, // the phone / the doorbell rang
   lift: 16, // Croatian "lift", a ski lift, the verb
-  sweets: 6,
+  sweets: 9,
   booking: 5, // "booking a hotel"
   pavement: 4, // the road surface, Roman stone pavement
   queue: 3, // a software queue (the review queue)

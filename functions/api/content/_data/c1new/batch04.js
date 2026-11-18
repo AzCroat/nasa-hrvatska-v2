@@ -380,7 +380,7 @@ const CAUSE_CONSEQUENCE_CLAUSES = {
           note: 'causal kako, which must open the sentence',
         },
         {
-          hr: 'S obzirom na to da je rok za prijavu istekao, vaš zahtjev nije moguće razmotriti.',
+          hr: 'S obzirom na to da je rok za prijavu istekao, Vaš zahtjev nije moguće razmotriti.',
           en: 'Given that the application deadline has passed, your request cannot be considered.',
           note: 'a formal cause in an official letter',
         },
@@ -1026,7 +1026,7 @@ const CAPITALS_NAMES_GEOGRAPHY = {
         },
         {
           hr: 'Svake godine Dubrovčani na Stradunu slave svetoga Vlaha, zaštitnika grada.',
-          en: 'Every year the people of Dubrovnik celebrate St Blaise, the city’s patron, on the Stradun.',
+          en: 'Every year the people of Dubrovnik celebrate St. Blaise, the city’s patron, on the Stradun.',
           note: 'sveti before a saint’s name with a small letter',
         },
         {
@@ -1373,7 +1373,7 @@ export const PRACTICE = {
       {
         title: 'Time or Cause?',
         problem:
-          'Rewrite for an official letter: "Pošto nemamo vaše dokumente, ne možemo obraditi zahtjev."',
+          'Rewrite for an official letter: "Pošto nemamo Vaše dokumente, ne možemo obraditi zahtjev."',
         en: 'Rewrite for an official letter: Since we do not have your documents, we cannot process the request.',
         steps: [
           {
@@ -1389,7 +1389,7 @@ export const PRACTICE = {
             text: 'The fronted cause is closed by a comma before the main clause.',
           },
         ],
-        answer: 'S obzirom na to da nemamo vaše dokumente, ne možemo obraditi zahtjev.',
+        answer: 'S obzirom na to da nemamo Vaše dokumente, ne možemo obraditi zahtjev.',
       },
     ],
     practice: {
@@ -1456,7 +1456,7 @@ export const PRACTICE = {
           correct: 1,
           hint: 'A cause placed first, in the form the handbooks recommend.',
           explanation:
-            'budući da opens a cause in careful standard; pošto is temporal there, and jer cannot open the sentence.',
+            'budući da opens a cause in careful standard; pošto is temporal there, and jer normally follows the main clause.',
         },
         {
           type: 'type',

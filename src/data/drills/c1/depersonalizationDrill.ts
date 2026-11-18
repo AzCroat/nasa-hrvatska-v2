@@ -149,7 +149,7 @@ export const DEPERSONALIZATION_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'osjecaj',
-    q: "Koja rečenica kaže „I don't feel like working“?",
+    q: "Koja rečenica kaže „I don't feel like working”?",
     en: 'Choose the dative + se construction.',
     opts: ['Ne radi mi se.', 'Ne radim se.', 'Ne radi me se.', 'Ne radim mi se.'],
     answer: 'Ne radi mi se.',

@@ -49,7 +49,7 @@ export const SPINE = [
     prerequisites: ['coordinate-conclusive-clauses'],
     objectives: [
       'Write kratice with a period: npr., tj., itd., tzv., str., br., st.',
-      'Write pokrate in capitals without full stops and decline them with a hyphen: HNK-a, u EU-u',
+      'Write pokrate in capitals without periods and decline them with a hyphen: HNK-a, u EU-u',
       'Write units and symbols without a period, and ordinals and dates with one',
     ],
   },
@@ -527,7 +527,7 @@ export const LESSONS = [
               'Duration in the accusative; noć is feminine, so jednu. jedna is the nominative, jednoj the dative/locative.',
           },
           {
-            q: 'Complete: "Do škole hoda tri ___ svako jutro." (kilometre)',
+            q: 'Complete: "Do škole hoda tri ___ svako jutro." (kilometer)',
             options: ['kilometar', 'kilometra', 'kilometre', 'kilometara'],
             correct: 1,
             explanation:
@@ -827,8 +827,7 @@ export const LESSONS = [
   {
     id: 'abbreviations',
     title: 'npr., HNK-a, 5 km',
-    subtitle:
-      'Kratice and pokrate in Hrvatski pravopis — full stops, capitals, and how they decline',
+    subtitle: 'Kratice and pokrate in Hrvatski pravopis — periods, capitals, and how they decline',
     icon: '✒️',
     level: 'C1',
     duration: '~8 min',
@@ -843,7 +842,7 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Kratice Take a Full Stop',
+        title: 'Kratice Take a Period',
         body: 'A kratica is a word cut short, so it ends with a period: npr. (na primjer), tj. (to jest), itd. (i tako dalje), i sl. (i slično), tzv. (takozvani), str. (stranica), br. (broj), god. (godina), st. (stoljeće), sv. (sveti), dr. (doktor), prof. (profesor), pr. Kr. (prije Krista). They are written in small letters inside a sentence, and they do not take case endings: the full word they stand for is read with its ending. s dr. Horvatom is read s doktorom Horvatom.',
         highlight: 's dr. Horvatom',
       },
@@ -866,8 +865,8 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Pokrate: Capitals, No Full Stops',
-        body: 'A pokrata made from initial letters is written in capitals with no full stops: HNK (Hrvatsko narodno kazalište), HAZU (Hrvatska akademija znanosti i umjetnosti), EU (Europska unija), UN (Ujedinjeni narodi), HRT (Hrvatska radiotelevizija), NATO. A pokrata made from syllables and read as an ordinary word is often written like a name, with only a capital initial — Hina, the Croatian news agency — though organizations frequently write their own names in capitals.',
+        title: 'Pokrate: Capitals, No Periods',
+        body: 'A pokrata made from initial letters is written in capitals with no periods: HNK (Hrvatsko narodno kazalište), HAZU (Hrvatska akademija znanosti i umjetnosti), EU (Europska unija), UN (Ujedinjeni narodi), HRT (Hrvatska radiotelevizija), NATO. A pokrata made from syllables and read as an ordinary word is often written like a name, with only a capital initial — Hina, the Croatian news agency — though organizations frequently write their own names in capitals.',
         highlight: 'HNK, HAZU, EU, UN, HRT',
       },
       {
@@ -934,7 +933,7 @@ export const LESSONS = [
           },
           {
             hr: 'Hrvatska je postala članica EU-a 1. srpnja 2013.',
-            en: 'Croatia became a member of the European Union on 1 July 2013.',
+            en: 'Croatia became a member of the European Union on July 1, 2013.',
             note: 'EU-a — genitive; 1. — an ordinal; the year ends the sentence with one period',
           },
           {
@@ -968,7 +967,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) A period after a unit symbol: Hodali smo 8 km. do vrha is wrong — write 8 km do vrha. (2) Full stops inside an initialism: H.N.K. and E.U. are wrong — write HNK, EU. (3) An ending glued straight onto an initialism: HNKa and EUu are wrong — write HNK-a, u EU-u. (4) A comma before itd. or a doubled period at the end: kruh, mlijeko, itd.. is wrong — write kruh, mlijeko itd.',
+        body: '(1) A period after a unit symbol: Hodali smo 8 km. do vrha is wrong — write 8 km do vrha. (2) Periods inside an initialism: H.N.K. and E.U. are wrong — write HNK, EU. (3) An ending glued straight onto an initialism: HNKa and EUu are wrong — write HNK-a, u EU-u. (4) A comma before itd. or a doubled period at the end: kruh, mlijeko, itd.. is wrong — write kruh, mlijeko itd.',
         highlight: 'write HNK-a, u EU-u',
       },
       {
@@ -1029,7 +1028,7 @@ export const LESSONS = [
         title: 'Abbreviations — Key Takeaways',
         points: [
           'Kratice end with a period: npr., tj., itd., i sl., tzv., str., br., st.',
-          'Pokrate from initials: capitals, no full stops — HNK, EU, HRT',
+          'Pokrate from initials: capitals, no periods — HNK, EU, HRT',
           'Decline a pokrata with a hyphen: HNK-a, u HNK-u, u EU-u; kratice take no endings',
           'Symbols have no period: 5 km, 20 kg, 10 h; ordinals do: 21. st., 1. srpnja',
           'No comma before itd., and no second period at the end of a sentence',
@@ -1580,7 +1579,7 @@ export const PRACTICE = {
         },
         {
           type: 'type',
-          q: 'Hodali smo četiri ____ uz rijeku. (kilometre)',
+          q: 'Hodali smo četiri ____ uz rijeku. (kilometer)',
           answer: 'kilometra',
           hint: 'After četiri, the genitive singular.',
           explanation: 'četiri kilometra.',
@@ -1680,8 +1679,8 @@ export const PRACTICE = {
       },
       {
         title: 'Drawing the Conclusion',
-        problem: 'Reci: The shop is closed, so we will buy bread tomorrow.',
-        en: 'The shop is closed, so we will buy bread tomorrow.',
+        problem: 'Reci: The store is closed, so we will buy bread tomorrow.',
+        en: 'The store is closed, so we will buy bread tomorrow.',
         steps: [
           { label: 'The fact', text: 'First the reason: Trgovina je zatvorena.' },
           {
@@ -1867,10 +1866,10 @@ export const PRACTICE = {
     worked: [
       {
         title: 'Decline the Theater',
-        problem: 'Napiši: The premiere in the HNK will be on 12 November.',
-        en: 'The premiere in the Croatian National Theater will be on 12 November.',
+        problem: 'Napiši: The premiere in the HNK will be on November 12.',
+        en: 'The premiere in the Croatian National Theater will be on November 12.',
         steps: [
-          { label: 'The pokrata', text: 'HNK is made from initials: capitals, no full stops.' },
+          { label: 'The pokrata', text: 'HNK is made from initials: capitals, no periods.' },
           { label: 'The case', text: 'u + locative; the ending goes after a hyphen: HNK-u.' },
           {
             label: 'The date',
@@ -1904,16 +1903,17 @@ export const PRACTICE = {
         },
         {
           q: 'Complete: "Radi u upravi ___." (the oil company INA)',
-          options: ['INA-e', 'INA-a', 'INE', 'INA'],
+          options: ['INA-e', 'INA-a', 'INA-u', 'INA'],
           correct: 0,
           hint: 'An abbreviation ending in -a declines like an e-noun.',
-          explanation: 'INA-e, read ine — like žena, žene.',
+          explanation:
+            'INA-e, read ine — like žena, žene. (Written out as a word, Ine is equally standard.)',
         },
         {
           q: 'Which is the abbreviation of "takozvani"?',
           options: ['tkzv.', 'tzv.', 't.z.v.', 'tzv'],
           correct: 1,
-          hint: 'Three letters and one full stop.',
+          hint: 'Three letters and one period.',
           explanation: 'tzv. — so-called.',
         },
         {
@@ -2074,7 +2074,7 @@ export const PRACTICE = {
     vocab: [
       ['kratica', 'abbreviation (shortened word)', 'Npr. je kratica za na primjer.'],
       ['pokrata', 'acronym, initialism', 'HNK je pokrata.'],
-      ['točka', 'full stop', 'Iza kratice pišemo točku.'],
+      ['točka', 'period', 'Iza kratice pišemo točku.'],
       ['spojnica', 'hyphen', 'Nastavak dolazi iza spojnice: HNK-a.'],
       ['zarez', 'comma', 'Ispred itd. ne pišemo zarez.'],
       ['veliko slovo', 'capital letter', 'Pokrate pišemo velikim slovima.'],

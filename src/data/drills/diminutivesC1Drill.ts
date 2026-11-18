@@ -81,7 +81,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'umanjenice',
-    q: 'Nose li umanjenice uvijek značenje „malo“?',
+    q: 'Nose li umanjenice uvijek značenje „malo”?',
     en: 'Do diminutives always mean small?',
     opts: ['ne, često znače naklonost', 'da, uvijek', 'samo u množini', 'samo za predmete'],
     answer: 'ne, često znače naklonost',
@@ -89,7 +89,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'umanjenice',
-    q: 'Što znači „kavica“?',
+    q: 'Što znači „kavica”?',
     en: 'What does kavica mean?',
     opts: ['opuštena kava', 'mala kava', 'loša kava', 'jaka kava'],
     answer: 'opuštena kava',
@@ -123,7 +123,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uvecanice',
-    q: 'Je li „-ina“ uvijek pogrdno?',
+    q: 'Je li „-ina” uvijek pogrdno?',
     en: 'Is -ina always pejorative?',
     opts: ['ne, može biti i divljenje', 'da, uvijek', 'samo za ljude', 'samo u govoru'],
     answer: 'ne, može biti i divljenje',
@@ -131,7 +131,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uvecanice',
-    q: 'Što znači „ljudina“?',
+    q: 'Što znači „ljudina”?',
     en: 'What does ljudina mean?',
     opts: ['čovjek vrijedan divljenja', 'krupan i nespretan', 'gomila ljudi', 'stranac'],
     answer: 'čovjek vrijedan divljenja',
@@ -189,7 +189,7 @@ export const DIMINUTIVES_C1_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'pragmatika',
-    q: 'Što signalizira „Idemo na pivce“?',
+    q: 'Što signalizira „Idemo na pivce”?',
     en: 'What does that signal?',
     opts: ['opuštenost', 'malu količinu', 'žurbu', 'formalnost'],
     answer: 'opuštenost',

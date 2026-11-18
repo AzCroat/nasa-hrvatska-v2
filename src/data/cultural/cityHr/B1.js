@@ -339,7 +339,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Donja Stubica': {
     introHr:
-      'Donja Stubica je malo zagorsko mjesto koje je u hrvatsku povijest ušlo 1573. godine, kada je Matija Gubec poveo veliku seljačku bunu protiv feudalne gospode u Zagorju i Sloveniji. Bila je to najveća seljačka buna u hrvatskoj povijesti: vojska od oko deset tisuća seljaka poražena je u bitki kod Stubice 9. veljače 1573. Gubec je zarobljen, odveden u Zagreb i pogubljen; prema legendi, na glavu su mu stavili užarenu željeznu krunu, kao „kralju seljaka“. Ostao je hrvatski narodni junak, a njegovo ime danas nose škole, ulice i pjesme. Kraj ima i mirniju stranu: obližnje Stubičke Toplice najveći su termalni kompleks u Hrvatskoj.',
+      'Donja Stubica je malo zagorsko mjesto koje je u hrvatsku povijest ušlo 1573. godine, kada je Matija Gubec poveo veliku seljačku bunu protiv feudalne gospode u Zagorju i Sloveniji. Bila je to najveća seljačka buna u hrvatskoj povijesti: vojska od oko deset tisuća seljaka poražena je u bitki kod Stubice 9. veljače 1573. Gubec je zarobljen, odveden u Zagreb i pogubljen; prema legendi, na glavu su mu stavili užarenu željeznu krunu, kao „kralju seljaka”. Ostao je hrvatski narodni junak, a njegovo ime danas nose škole, ulice i pjesme. Kraj ima i mirniju stranu: obližnje Stubičke Toplice najveći su termalni kompleks u Hrvatskoj.',
   },
   Đurđevac: {
     introHr:
@@ -355,7 +355,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Nova Gradiška': {
     introHr:
-      'Nova Gradiška je slavonski grad koji nije nastao postupno, nego je izgrađen planski, 1748. godine, kao naselje Habsburške Vojne krajine namijenjeno obrani od osmanskih upada. Ime „Nova“ razlikovalo ju je od starije, obližnje Stare Gradiške. Vojna krajina stvorila je desetke takvih naselja u Slavoniji i Lici, a ova je među najpažljivije uređenima: pravilna mreža ulica, središnji trg i vojna arhitektura gotovo su savršeno očuvani, jedan od najboljih hrvatskih primjera planskog grada osamnaestog stoljeća. Odavde su vojnici odlazili prema granici na Savi. Iznad grada diže se Psunj, s 984 metra najviša planina Slavonije, a ovdje počinje i slavonska vinska cesta kroz požeške brežuljke.',
+      'Nova Gradiška je slavonski grad koji nije nastao postupno, nego je izgrađen planski, 1748. godine, kao naselje Habsburške Vojne krajine namijenjeno obrani od osmanskih upada. Ime „Nova” razlikovalo ju je od starije, obližnje Stare Gradiške. Vojna krajina stvorila je desetke takvih naselja u Slavoniji i Lici, a ova je među najpažljivije uređenima: pravilna mreža ulica, središnji trg i vojna arhitektura gotovo su savršeno očuvani, jedan od najboljih hrvatskih primjera planskog grada osamnaestog stoljeća. Odavde su vojnici odlazili prema granici na Savi. Iznad grada diže se Psunj, s 984 metra najviša planina Slavonije, a ovdje počinje i slavonska vinska cesta kroz požeške brežuljke.',
   },
   Županja: {
     introHr:
@@ -531,7 +531,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Pučišća: {
     introHr:
-      'Pučišća su naselje na sjevernoj obali Brača i središte otočke kamenarske tradicije. Brački vapnenac vadi se od rimskog doba; kamenolomi oko Pučišća dali su kamen za Dioklecijanovu palaču i za mletačke palače u Splitu, a u novije doba i za Bijelu kuću u Washingtonu. U napuštenim kamenolomima još se vide tragovi alata rimskih klesara. Kamen je poseban i zato što nakon vađenja na zraku postaje tvrđi i bjelji, pa se kaže da je „živ“. Godine 1909. u Pučišćima je osnovana Klesarska škola, jedina takva u Hrvatskoj, koja i danas školuje majstore klesare i čuva tradiciju staru dvije tisuće godina.',
+      'Pučišća su naselje na sjevernoj obali Brača i središte otočke kamenarske tradicije. Brački vapnenac vadi se od rimskog doba; kamenolomi oko Pučišća dali su kamen za Dioklecijanovu palaču i za mletačke palače u Splitu, a u novije doba i za Bijelu kuću u Washingtonu. U napuštenim kamenolomima još se vide tragovi alata rimskih klesara. Kamen je poseban i zato što nakon vađenja na zraku postaje tvrđi i bjelji, pa se kaže da je „živ”. Godine 1909. u Pučišćima je osnovana Klesarska škola, jedina takva u Hrvatskoj, koja i danas školuje majstore klesare i čuva tradiciju staru dvije tisuće godina.',
   },
   Vrboska: {
     introHr:
@@ -679,7 +679,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Ilovik: {
     introHr:
-      'Ilovik je najjužniji kvarnerski otok, sićušan i bez automobila, poznat kao „otok cvijeća“ zbog iznimne gustoće cvijeća i aromatičnih biljaka. Okolni otoci štite ga od bure, pa u njegovoj blagoj klimi cijele godine cvjetaju ruže, oleandri i suptropske biljke; čak i u prosincu, kad su hrvatski gradovi sivi i hladni, ilovičke ruže još cvjetaju. Otok je naseljen od antičkih vremena, a rimsko naselje proizvodilo je amfore pronađene po cijelom Jadranu. Danas ima manje od sto stalnih stanovnika i jedna je od najizoliranijih hrvatskih zajednica, ali je njegovo sidrište jedno od najomiljenijih na kvarnerskoj jedriličarskoj ruti.',
+      'Ilovik je najjužniji kvarnerski otok, sićušan i bez automobila, poznat kao „otok cvijeća” zbog iznimne gustoće cvijeća i aromatičnih biljaka. Okolni otoci štite ga od bure, pa u njegovoj blagoj klimi cijele godine cvjetaju ruže, oleandri i suptropske biljke; čak i u prosincu, kad su hrvatski gradovi sivi i hladni, ilovičke ruže još cvjetaju. Otok je naseljen od antičkih vremena, a rimsko naselje proizvodilo je amfore pronađene po cijelom Jadranu. Danas ima manje od sto stalnih stanovnika i jedna je od najizoliranijih hrvatskih zajednica, ali je njegovo sidrište jedno od najomiljenijih na kvarnerskoj jedriličarskoj ruti.',
   },
   Susak: {
     introHr:
@@ -699,7 +699,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Udbina: {
     introHr:
-      'Udbina je mali lički grad na visoravni Krbavskog polja, jednog od najvećih krških polja u Hrvatskoj — ravnog, vjetrovitog i povijesno važnog. Ovdje se 9. rujna 1493. odigrala Krbavska bitka, najteži vojni poraz u hrvatskoj povijesti: osmanska je vojska gotovo uništila hrvatsko plemstvo, a poginulo je oko 10.000 hrvatskih vojnika i većina plemićkog staleža. Poraz je otvorio Liku i Slavoniju osmanskom osvajanju, pa se to mjesto pamti kao „hrvatsko Kosovo“, a 9. rujna jedan je od najtužnijih datuma hrvatske povijesti. Nakon bitke papa Aleksandar VI. nazvao je Hrvate „predziđem kršćanstva“. Vojna prisutnost stoljećima obilježava visoravan — danas je u Udbini baza Hrvatskog ratnog zrakoplovstva.',
+      'Udbina je mali lički grad na visoravni Krbavskog polja, jednog od najvećih krških polja u Hrvatskoj — ravnog, vjetrovitog i povijesno važnog. Ovdje se 9. rujna 1493. odigrala Krbavska bitka, najteži vojni poraz u hrvatskoj povijesti: osmanska je vojska gotovo uništila hrvatsko plemstvo, a poginulo je oko 10.000 hrvatskih vojnika i većina plemićkog staleža. Poraz je otvorio Liku i Slavoniju osmanskom osvajanju, pa se to mjesto pamti kao „hrvatsko Kosovo”, a 9. rujna jedan je od najtužnijih datuma hrvatske povijesti. Nakon bitke papa Aleksandar VI. nazvao je Hrvate „predziđem kršćanstva”. Vojna prisutnost stoljećima obilježava visoravan — danas je u Udbini baza Hrvatskog ratnog zrakoplovstva.',
   },
   'Donji Lapac': {
     introHr:
@@ -715,7 +715,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Hrvatska Kostajnica': {
     introHr:
-      'Hrvatska Kostajnica pogranični je gradić na rijeci Uni, točno nasuprot Bosanskoj Kostajnici u Bosni i Hercegovini. Njegov srednjovjekovni dvorac iz 14. stoljeća stoji na otoku u rijeci, a granica prolazi sredinom otoka, pa je jedan kraj u Hrvatskoj, a drugi u Bosni — jedan od najneobičnijih položaja dvorca u Hrvatskoj. Grad je 1991. bio na prvoj crti bojišnice i teško je oštećen, no dvorac je obnovljen. Una je ovdje iznimno bistra i lijepa, jedna od najčišćih hrvatskih rijeka, poznata po pastrvi i lipljenu, a malo uzvodno tvori dramatičan kanjon. Ime joj, prema predaji, dolazi od latinskog: rimski su je doseljenici zvali „Una“, jedina.',
+      'Hrvatska Kostajnica pogranični je gradić na rijeci Uni, točno nasuprot Bosanskoj Kostajnici u Bosni i Hercegovini. Njegov srednjovjekovni dvorac iz 14. stoljeća stoji na otoku u rijeci, a granica prolazi sredinom otoka, pa je jedan kraj u Hrvatskoj, a drugi u Bosni — jedan od najneobičnijih položaja dvorca u Hrvatskoj. Grad je 1991. bio na prvoj crti bojišnice i teško je oštećen, no dvorac je obnovljen. Una je ovdje iznimno bistra i lijepa, jedna od najčišćih hrvatskih rijeka, poznata po pastrvi i lipljenu, a malo uzvodno tvori dramatičan kanjon. Ime joj, prema predaji, dolazi od latinskog: rimski su je doseljenici zvali „Una”, jedina.',
   },
   Glina: {
     introHr:
@@ -759,15 +759,15 @@ export const CITY_INTRO_HR_B1 = {
   },
   'Mošćenička Draga': {
     introHr:
-      'Mošćenička Draga malo je ljetovalište na Kvarnerskoj rivijeri, smješteno pod brdskim starim selom Mošćenicama. Mošćenice su jedno od najbolje očuvanih srednjovjekovnih utvrđenih sela na klisuri iznad mora u Hrvatskoj, a njihove obrambene zidine iz 13. stoljeća još su gotovo posve cjelovite. Novija Mošćenička Draga — „draga“ znači mala dolina ili uvala — razvila se ispod za potrebe turizma, a njezina šljunčana plaža poznata je po vrlo čistom i bistrom moru. Kraj je poznat i po maslinovom ulju: zadruga Zora iz Mošćenica više je puta osvojila nagradu Flos Olei, jedno od najvažnijih svjetskih natjecanja maslinovih ulja.',
+      'Mošćenička Draga malo je ljetovalište na Kvarnerskoj rivijeri, smješteno pod brdskim starim selom Mošćenicama. Mošćenice su jedno od najbolje očuvanih srednjovjekovnih utvrđenih sela na klisuri iznad mora u Hrvatskoj, a njihove obrambene zidine iz 13. stoljeća još su gotovo posve cjelovite. Novija Mošćenička Draga — „draga” znači mala dolina ili uvala — razvila se ispod za potrebe turizma, a njezina šljunčana plaža poznata je po vrlo čistom i bistrom moru. Kraj je poznat i po maslinovom ulju: zadruga Zora iz Mošćenica više je puta osvojila nagradu Flos Olei, jedno od najvažnijih svjetskih natjecanja maslinovih ulja.',
   },
   Lošinj: {
     introHr:
-      'Lošinj, s Malim Lošinjem kao glavnim mjestom, poznat je kao „otok vitalnosti“. Njegovu iznimnu mikroklimu, aromatične biljke i čisto more prepoznali su već u 19. stoljeću austrougarski liječnici, koji su boravak na otoku preporučivali oboljelima od dišnih bolesti; 1892. Austrougarsko liječničko društvo proglasilo je Lošinj lječilišnim otokom. Lošinjski pomorski kapetani plovili su u 18. i 19. stoljeću svjetskim oceanima i donosili biljke iz dalekih krajeva, koje su se u blagoj klimi udomaćile, pa otok danas ima više od 1100 biljnih vrsta — više nego mnoge daleko veće zemlje. Od 1987. Jadranski projekt dupina prati stalnu populaciju dobrih dupina u lošinjskim vodama.',
+      'Lošinj, s Malim Lošinjem kao glavnim mjestom, poznat je kao „otok vitalnosti”. Njegovu iznimnu mikroklimu, aromatične biljke i čisto more prepoznali su već u 19. stoljeću austrougarski liječnici, koji su boravak na otoku preporučivali oboljelima od dišnih bolesti; 1892. Austrougarsko liječničko društvo proglasilo je Lošinj lječilišnim otokom. Lošinjski pomorski kapetani plovili su u 18. i 19. stoljeću svjetskim oceanima i donosili biljke iz dalekih krajeva, koje su se u blagoj klimi udomaćile, pa otok danas ima više od 1100 biljnih vrsta — više nego mnoge daleko veće zemlje. Od 1987. Jadranski projekt dupina prati stalnu populaciju dobrih dupina u lošinjskim vodama.',
   },
   'Veli Lošinj': {
     introHr:
-      'Veli Lošinj — „Veliki Lošinj“ — starije je i manje od dvaju glavnih naselja otoka Lošinja: mirnije od Malog Lošinja, sa šarmantnom lukom i venecijanskim tornjem iz 14. stoljeća iznad nje. Poznato je i po jednom od najneobičnijih hrvatskih muzeja, Muzeju Apoksiomena. Antički grčki brončani kip Apoksiomena pronašao je 1999. godine austrijski ronilac na rekreativnom zaronu, na dubini od samo 45 metara. Original iz 2. stoljeća prije Krista, izgubljen u moru 2100 godina, pažljivo je restauriran i danas se ubraja među najljepše antičke bronce na svijetu. Muzej u Velom Lošinju posebno je izgrađen kako bi kip bio izložen u najboljim uvjetima čuvanja.',
+      'Veli Lošinj — „Veliki Lošinj” — starije je i manje od dvaju glavnih naselja otoka Lošinja: mirnije od Malog Lošinja, sa šarmantnom lukom i venecijanskim tornjem iz 14. stoljeća iznad nje. Poznato je i po jednom od najneobičnijih hrvatskih muzeja, Muzeju Apoksiomena. Antički grčki brončani kip Apoksiomena pronašao je 1999. godine austrijski ronilac na rekreativnom zaronu, na dubini od samo 45 metara. Original iz 2. stoljeća prije Krista, izgubljen u moru 2100 godina, pažljivo je restauriran i danas se ubraja među najljepše antičke bronce na svijetu. Muzej u Velom Lošinju posebno je izgrađen kako bi kip bio izložen u najboljim uvjetima čuvanja.',
   },
   'Dubrovačko primorje': {
     introHr:
@@ -791,7 +791,7 @@ export const CITY_INTRO_HR_B1 = {
   },
   Buje: {
     introHr:
-      "Buje su glavni grad sjeverozapadne Istre — srednjovjekovni gradić na brdu okružen vinogradima i maslinicima, koji se smatra središtem istarskog vinarstva. Okolica daje malvaziju i teran, dvije istarske sorte po kojima je poluotok najpoznatiji, a kroz brežuljke oko Buja prolazi istarska Vinska cesta s nekim od najcjenjenijih hrvatskih vinarija. Na brdu je utvrda postojala još od rimskih vremena, a zbog širokog pogleda na okolni kraj grad je nekoć nosio nadimak „Stražarica Istre“ (Vedeta dell'Istria). Crkva svetog Servula ima venecijansku ložu i zvonik. Na bujske tržnice redovito dolaze talijanski gastronomski turisti iz Venecije i Trsta kako bi kupili vino, tartufe i maslinovo ulje.",
+      "Buje su glavni grad sjeverozapadne Istre — srednjovjekovni gradić na brdu okružen vinogradima i maslinicima, koji se smatra središtem istarskog vinarstva. Okolica daje malvaziju i teran, dvije istarske sorte po kojima je poluotok najpoznatiji, a kroz brežuljke oko Buja prolazi istarska Vinska cesta s nekim od najcjenjenijih hrvatskih vinarija. Na brdu je utvrda postojala još od rimskih vremena, a zbog širokog pogleda na okolni kraj grad je nekoć nosio nadimak „Stražarica Istre” (Vedeta dell'Istria). Crkva svetog Servula ima venecijansku ložu i zvonik. Na bujske tržnice redovito dolaze talijanski gastronomski turisti iz Venecije i Trsta kako bi kupili vino, tartufe i maslinovo ulje.",
   },
   'Imotski region': {
     introHr:

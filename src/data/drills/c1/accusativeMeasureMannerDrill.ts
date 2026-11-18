@@ -218,7 +218,7 @@ export const ACCUSATIVE_MEASURE_MANNER_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'nacin',
-    q: 'Djeca su u jedan ____ viknula: „Bravo!“',
+    q: 'Djeca su u jedan ____ viknula: „Bravo!”',
     en: 'The children shouted in unison: "Bravo!"',
     opts: ['glas', 'glasu', 'glasa', 'glasom'],
     answer: 'glas',

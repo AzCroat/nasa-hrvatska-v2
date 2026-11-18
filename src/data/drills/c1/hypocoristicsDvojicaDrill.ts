@@ -216,7 +216,7 @@ export const HYPOCORISTICS_DVOJICA_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'skupine',
-    q: 'Koga brojimo imenicom „petorica“?',
+    q: 'Koga brojimo imenicom „petorica”?',
     en: 'Whom do we count with this noun?',
     opts: ['pet muškaraca', 'pet žena', 'pet djece', 'pet stolova'],
     answer: 'pet muškaraca',

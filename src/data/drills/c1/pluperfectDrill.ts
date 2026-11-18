@@ -111,7 +111,7 @@ export const PLUPERFECT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'knjizevni',
-    q: 'Koji je oblik književni pluskvamperfekt za „ona je bila otišla“?',
+    q: 'Koji je oblik književni pluskvamperfekt za „ona je bila otišla”?',
     en: 'The literary pluperfect of "she had left".',
     opts: ['bijaše otišla', 'bila je otišla', 'bi otišla', 'otide'],
     answer: 'bijaše otišla',
@@ -143,7 +143,7 @@ export const PLUPERFECT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'knjizevni',
-    q: 'Koji je glagolski oblik „bijaše otišao“?',
+    q: 'Koji je glagolski oblik „bijaše otišao”?',
     en: 'Which tense is this form?',
     opts: ['pluskvamperfekt', 'aorist', 'imperfekt', 'perfekt'],
     answer: 'pluskvamperfekt',
@@ -197,7 +197,7 @@ export const PLUPERFECT_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'uporaba',
-    q: 'Koji događaj nosi pluskvamperfekt u rečenici „Kad je stigla policija, lopovi su već bili pobjegli“?',
+    q: 'Koji događaj nosi pluskvamperfekt u rečenici „Kad je stigla policija, lopovi su već bili pobjegli”?',
     en: 'Which event takes the pluperfect in this sentence?',
     opts: [
       'bijeg lopova, raniji događaj',

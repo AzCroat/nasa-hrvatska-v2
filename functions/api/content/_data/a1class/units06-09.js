@@ -135,7 +135,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'tf',
-        q: 'Tom: „Nemam auto.“ — True or false: Tom ima auto.',
+        q: 'Tom: „Nemam auto.” — True or false: Tom ima auto.',
         answer: false,
         hint: 'Nemam is imam with "ne" joined on.',
         explanation: 'Nemam auto. — "I do not have a car." So Tom nema auto.',
@@ -320,7 +320,7 @@ export const CLASS_A1_U06_09 = {
       4,
       {
         type: 'tf',
-        q: 'Ivan: „Ne studiram, radim.“ — True or false: Ivan je student.',
+        q: 'Ivan: „Ne studiram, radim.” — True or false: Ivan je student.',
         answer: false,
         hint: 'What does Ivan say he does NOT do?',
         explanation: 'Ne studiram — "I do not study". Ivan works, so he is not a student.',
@@ -683,7 +683,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'tf',
-        q: 'Ana: „Ne gledam film, čitam knjigu.“ — True or false: Ana čita knjigu.',
+        q: 'Ana: „Ne gledam film, čitam knjigu.” — True or false: Ana čita knjigu.',
         answer: true,
         hint: 'Read the second half of what Ana says.',
         explanation: 'Čitam knjigu. — Ana is reading a book; she is not watching a movie.',
@@ -869,7 +869,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'tf',
-        q: 'Ivan: „Volim psa, a ne mačku.“ — True or false: Ivan voli mačku.',
+        q: 'Ivan: „Volim psa, a ne mačku.” — True or false: Ivan voli mačku.',
         answer: false,
         hint: '"a ne" means "and not".',
         explanation: 'Ivan loves the dog, not the cat. pas is alive, so as an object it is psa.',
@@ -1044,7 +1044,7 @@ export const CLASS_A1_U06_09 = {
       4,
       {
         type: 'tf',
-        q: 'Tom: „Imam psa, ali nemam mačku.“ — True or false: Tom ima psa i mačku.',
+        q: 'Tom: „Imam psa, ali nemam mačku.” — True or false: Tom ima psa i mačku.',
         answer: false,
         hint: 'Which of the two animals does Tom say "nemam" about?',
         explanation: 'Tom has a dog, but no cat: nemam mačku.',
@@ -1237,7 +1237,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'tf',
-        q: 'Tom: „Ostajem cijeli tjedan.“ — True or false: Tom is staying for one night only.',
+        q: 'Tom: „Ostajem cijeli tjedan.” — True or false: Tom is staying for one night only.',
         answer: false,
         hint: 'tjedan is seven days.',
         explanation: 'cijeli tjedan — the whole week. One night would be jednu noć.',
@@ -1420,7 +1420,7 @@ export const CLASS_A1_U06_09 = {
       6,
       {
         type: 'tf',
-        q: 'Tom: „Znam plivati, ali danas ne mogu.“ — True or false: Tom ne zna plivati.',
+        q: 'Tom: „Znam plivati, ali danas ne mogu.” — True or false: Tom ne zna plivati.',
         answer: false,
         hint: 'znati is about a skill; moći is about being able to right now.',
         explanation: 'Tom knows how to swim (Znam plivati) — he just cannot today (danas ne mogu).',
@@ -1600,7 +1600,7 @@ export const CLASS_A1_U06_09 = {
       5,
       {
         type: 'tf',
-        q: 'Ana: „Hvala, ne trebam ništa.“ — True or false: Ana needs help.',
+        q: 'Ana: „Hvala, ne trebam ništa.” — True or false: Ana needs help.',
         answer: false,
         hint: 'ništa means "nothing" — and the verb is negative too.',
         explanation: 'Ne trebam ništa. — "I do not need anything."',
@@ -1788,7 +1788,7 @@ export const CLASS_A1_U06_09 = {
       4,
       {
         type: 'tf',
-        q: 'Mama: „Ne moraš doći, ali smiješ.“ — True or false: you are allowed to come.',
+        q: 'Mama: „Ne moraš doći, ali smiješ.” — True or false: you are allowed to come.',
         answer: true,
         hint: 'Read the second half: what does smiješ mean?',
         explanation: 'You do not have to come (ne moraš), but you may (smiješ).',
@@ -2305,7 +2305,7 @@ export const CLASS_A1_U06_09 = {
       },
       {
         type: 'tf',
-        q: 'Tom: „Danas ne idem van, bolestan sam.“ — True or false: Tom is going out today.',
+        q: 'Tom: „Danas ne idem van, bolestan sam.” — True or false: Tom is going out today.',
         answer: false,
         hint: 'Look for the little word "ne".',
         explanation:
@@ -2509,7 +2509,7 @@ export const CLASS_A1_U06_09 = {
       },
       {
         type: 'tf',
-        q: 'Ana: „Sutra idem na Krk.“ — True or false: Ana is going to an island.',
+        q: 'Ana: „Sutra idem na Krk.” — True or false: Ana is going to an island.',
         answer: true,
         hint: 'Which little word does Ana use — the one for towns, or the other one?',
         explanation: 'Krk is an island, which is why Ana says na Krk and not "u Krk".',
@@ -2719,7 +2719,7 @@ export const CLASS_A1_U06_09 = {
       14,
       {
         type: 'tf',
-        q: 'Tom: „Idem po kruh.“ — True or false: Tom is going out to get bread.',
+        q: 'Tom: „Idem po kruh.” — True or false: Tom is going out to get bread.',
         answer: true,
         hint: 'After a verb of going, po means fetching something.',
         explanation:
@@ -2851,7 +2851,7 @@ export const CLASS_A1_U06_09 = {
       },
       {
         type: 'tf',
-        q: 'Ana: „Marko me zove.“ — True or false: Ana is calling Marko.',
+        q: 'Ana: „Marko me zove.” — True or false: Ana is calling Marko.',
         answer: false,
         hint: 'Who is the subject, and who is "me"?',
         explanation:
@@ -3067,7 +3067,7 @@ export const CLASS_A1_U06_09 = {
       11,
       {
         type: 'tf',
-        q: 'Tom: „Molim Vas jednosmjernu kartu za Zagreb.“ — True or false: Tom can come back with the same ticket.',
+        q: 'Tom: „Molim Vas jednosmjernu kartu za Zagreb.” — True or false: Tom can come back with the same ticket.',
         answer: false,
         hint: 'Which kind of ticket is good for the way back too?',
         explanation:
@@ -3233,7 +3233,7 @@ export const CLASS_A1_U06_09 = {
       11,
       {
         type: 'tf',
-        q: 'Ana: „Ne jedem meso, jedem ribu.“ — True or false: Ana jede ribu.',
+        q: 'Ana: „Ne jedem meso, jedem ribu.” — True or false: Ana jede ribu.',
         answer: true,
         hint: 'Read the second half of what Ana says.',
         explanation: 'Ana does not eat meat, but she eats fish: jedem ribu.',
@@ -3439,7 +3439,7 @@ export const CLASS_A1_U06_09 = {
       10,
       {
         type: 'tf',
-        q: 'Ana: „Hvala, ne jedem meso.“ — True or false: Ana jede meso.',
+        q: 'Ana: „Hvala, ne jedem meso.” — True or false: Ana jede meso.',
         answer: false,
         hint: 'Look for the little word "ne".',
         explanation: 'Ne jedem meso. — "I do not eat meat."',
@@ -3614,7 +3614,7 @@ export const CLASS_A1_U06_09 = {
       3,
       {
         type: 'tf',
-        q: 'Tom: „Zajedno, molim. Ja plaćam.“ — True or false: Tom is paying for everybody.',
+        q: 'Tom: „Zajedno, molim. Ja plaćam.” — True or false: Tom is paying for everybody.',
         answer: true,
         hint: 'Ja plaćam means "I am paying".',
         explanation: 'Zajedno — together: one check, and Tom pays it.',

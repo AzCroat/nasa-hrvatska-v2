@@ -65,7 +65,7 @@ If unsure, use "other". This field is required.`,
 );
 
 /** Punctuation the writing evaluator must never grade (owner directive, 2026-09-29). */
-const PUNCTUATION_RE = /[.,;:!?¿¡"'„“”‚‘’«»()[\]{}…–—\-]/g;
+const PUNCTUATION_RE = /[.,;:!?¿¡"'„””‚‘’«»()[\]{}…–—\-]/g;
 
 /** A text with its punctuation removed and its spacing collapsed, for comparison. */
 export function withoutPunctuation(text) {

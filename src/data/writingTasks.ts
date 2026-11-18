@@ -149,7 +149,7 @@ export const WRITING_TASKS: Partial<Record<CefrLevel, WritingTask[]>> = {
     {
       id: 'c2-w3',
       prompt:
-        '„Jezik je jedina domovina.“ Napišite esej u kojem tu misao potvrđujete, osporavate ili preoblikujete, oslanjajući se na vlastito iskustvo dvojezičnosti ili života između kultura.',
+        '„Jezik je jedina domovina.” Napišite esej u kojem tu misao potvrđujete, osporavate ili preoblikujete, oslanjajući se na vlastito iskustvo dvojezičnosti ili života između kultura.',
       promptEn:
         '“Language is the only homeland.” Write an essay confirming, contesting or reshaping this thought, drawing on your own experience of bilingualism or life between cultures.',
       minWords: 150,

@@ -32,7 +32,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   // ── interpunkcija ─────────────────────────────────────────────────────────
   {
     mode: 'interpunkcija',
-    q: 'Kako se brojkama piše „tisuću petsto cijelih sedamdeset pet“?',
+    q: 'Kako se brojkama piše „tisuću petsto cijelih sedamdeset pet”?',
     en: '1500.75 in Croatian:',
     opts: ['1.500,75', '1,500.75', '1 500.75', '1500.75'],
     answer: '1.500,75',
@@ -64,7 +64,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'interpunkcija',
-    q: 'Kako se u tekstu piše „the thirties“?',
+    q: 'Kako se u tekstu piše „the thirties”?',
     en: 'the thirties, in prose:',
     opts: ['tridesetih godina', '30.-ih godina', "30'ih godina", '30ih godina'],
     answer: 'tridesetih godina',
@@ -190,7 +190,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Što mjeri „postotni bod“?',
+    q: 'Što mjeri „postotni bod”?',
     en: 'What does a percentage point measure?',
     opts: [
       'razliku između dvaju postotaka',
@@ -219,7 +219,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Kako se čita „3,14“?',
+    q: 'Kako se čita „3,14”?',
     en: 'How is 3,14 read?',
     opts: [
       'tri cijela četrnaest',
@@ -232,7 +232,7 @@ export const NUMBER_NORM_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'bodovi',
-    q: 'Što je „promil“?',
+    q: 'Što je „promil”?',
     en: 'What is a promil?',
     opts: ['tisućina', 'stotina', 'desetina', 'milijuntina'],
     answer: 'tisućina',

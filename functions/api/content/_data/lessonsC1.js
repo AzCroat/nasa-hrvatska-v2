@@ -173,7 +173,7 @@ export const LESSONS_C1 = [
             note: 'temeljiti se na + locative; sastojati se od + genitive',
           },
           {
-            hr: 'Smeta li vam ako se koristim vašim rječnikom dok odgovaram na pitanja?',
+            hr: 'Smeta li Vam ako se koristim Vašim rječnikom dok odgovaram na pitanja?',
             en: 'Do you mind if I use your dictionary while I answer the questions?',
             note: 'smetati + dative; koristiti se + instrumental; odgovarati na + accusative',
           },
@@ -355,7 +355,7 @@ export const LESSONS_C1 = [
         items: [
           {
             hr: 'Tko je otvarao moju poštu?',
-            en: 'Who has been opening my post?',
+            en: 'Who has been opening my mail?',
             note: 'imperfective — repeated, and resealed',
           },
           {
@@ -855,7 +855,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Augmentatives Cut Both Ways',
-        body: '"Čovječina" is affectionate — a big, decent bloke. "Ženturača" is not. The suffix -ina has no fixed tone: čovječina is warm, nosina mocking, psina either, so the word and the situation decide. -erina (kućerina) is similar, while -etina, -urina and -ura lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognizing confidently before producing them.',
+        body: '"Čovječina" is affectionate — a big, decent guy. "Ženturača" is not. The suffix -ina has no fixed tone: čovječina is warm, nosina mocking, psina either, so the word and the situation decide. -erina (kućerina) is similar, while -etina, -urina and -ura lean pejorative. Because the same machinery produces praise and insult, augmentatives are worth recognizing confidently before producing them.',
         highlight: '-ina: tone from context · -urina pejorative',
       },
       {
@@ -875,7 +875,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Imaš minuticu?',
-            en: 'Have you got a minute?',
+            en: 'Do you have a minute?',
             note: 'softening an imposition',
           },
           {
@@ -900,7 +900,7 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Baka mi je uvijek govorila: „Pojedi još malo juhice, sinko.“',
+            hr: 'Baka mi je uvijek govorila: „Pojedi još malo juhice, sinko.”',
             en: 'Grandma always said to me: "Have a little more soup, son."',
             note: 'juhica and sinko — affection, not portion size',
           },
@@ -920,7 +920,7 @@ export const LESSONS_C1 = [
             note: 'knjižurina — weary, mildly mocking',
           },
           {
-            hr: 'Sudac je izrekao presudu, a ne „presudicu“: u sudnici diminutiv zvuči podrugljivo.',
+            hr: 'Sudac je izrekao presudu, a ne „presudicu”: u sudnici diminutiv zvuči podrugljivo.',
             en: 'The judge handed down a judgment, not a "little judgment": in a courtroom the diminutive sounds mocking.',
             note: 'the diminutive that turns a serious sentence comic',
           },
@@ -1383,7 +1383,7 @@ export const LESSONS_C1 = [
       {
         type: 'intro',
         title: 'More Than Od and Nego',
-        body: 'A2 gave you "od" and "nego" for than. Croatian has a considerably richer comparison system than that, and using only two of it is one of the things that keeps advanced writing sounding flat.',
+        body: 'A2 gave you "od" and "nego" for than. Croatian has a considerably richer comparison system than that, and using only two of its tools is one of the things that keeps advanced writing sounding flat.',
         icon: '⚖️',
       },
       {
@@ -1670,7 +1670,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'If You Need the Agent, Use the Active',
-        body: 'Croatian passives are agentless by design, and constructions that force an agent into them read as heavy translationese. Where English writes "the decision was taken by the committee", Croatian prefers the plain active: "Odbor je donio odluku." If the agent matters enough to name, name it as the subject — the sentence will be shorter and better.',
+        body: 'Croatian passives are usually agentless, and an agent forced into them (od strane…) reads as heavy, bookish style. Where English writes "the decision was taken by the committee", Croatian prefers the plain active: "Odbor je donio odluku." If the agent matters enough to name, name it as the subject — the sentence will be shorter and better.',
         highlight: 'Odbor je donio odluku.',
       },
       {
@@ -1730,7 +1730,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Ovdje se ne puši, a pse treba držati na uzici.',
-            en: 'No smoking here, and dogs must be kept on a lead.',
+            en: 'No smoking here, and dogs must be kept on a leash.',
             note: 'impersonal se; treba + infinitive for an obligation with no agent',
           },
           {
@@ -1766,7 +1766,7 @@ export const LESSONS_C1 = [
         ],
         correct: 2,
         explanation:
-          'Croatian passives are agentless by design, so when the agent matters the active is both shorter and more natural: Odbor je donio odluku.',
+          'Croatian passives are usually agentless, so when the agent matters the active is both shorter and more natural: Odbor je donio odluku.',
       },
       {
         type: 'rule',
@@ -1814,7 +1814,7 @@ export const LESSONS_C1 = [
             ],
             correct: 1,
             explanation:
-              'Croatian passives are agentless by design; naming the agent means using the active. "Od strane" is the calque style guides have objected to for decades.',
+              'Croatian passives are usually agentless; naming the agent is more natural in the active. "Od strane" is the calque style guides have objected to for decades.',
           },
           {
             q: '"Kažu da će sutra padati snijeg." Which construction is this?',
@@ -2134,7 +2134,7 @@ export const LESSONS_C1 = [
         headers: ['Particle', 'What it signals'],
         rows: [
           ['pa', 'well — buys a moment, or mild objection'],
-          ['ma', 'dismissal, affectionate scepticism'],
+          ['ma', 'dismissal, affectionate skepticism'],
           ['baš', 'exactly, precisely — emphasis'],
           ['valjda', 'presumably — the speaker is not sure'],
           ['naime', 'namely — an explanation follows'],
@@ -2458,7 +2458,7 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Kad kažeš „grad“, misliš li na Zagreb ili na tuču koja je sinoć potukla vinograde?',
+            hr: 'Kad kažeš „grad”, misliš li na Zagreb ili na tuču koja je sinoć potukla vinograde?',
             en: 'When you say "grad", do you mean Zagreb or the hail that battered the vineyards last night?',
             note: 'grȃd (city) and grȁd (hail) — one spelling, two accents',
           },
@@ -2473,17 +2473,17 @@ export const LESSONS_C1 = [
             note: 'the distributional rule, stated in Croatian',
           },
           {
-            hr: 'Stranac koji naglasi zadnji slog u riječi „govoriti“ odmah se prepozna po tome.',
+            hr: 'Stranac koji naglasi zadnji slog u riječi „govoriti” odmah se prepozna po tome.',
             en: 'A foreigner who stresses the last syllable of "govoriti" is recognized immediately by it.',
             note: 'final stress is the clearest foreign marker',
           },
           {
-            hr: 'Rečenica „Došlo je pet žena“ ima dugi zadnji slog, iako se piše jednako kao nominativ.',
+            hr: 'Rečenica „Došlo je pet žena” ima dugi zadnji slog, iako se piše jednako kao nominativ.',
             en: 'The sentence "Five women came" has a long final syllable, though it is written the same as the nominative.',
             note: 'post-accentual length on the genitive plural žénā',
           },
           {
-            hr: 'Riječ „Hrvatska“ ima kratkosilazni naglasak, a silazni naglasak može stajati samo na prvom slogu.',
+            hr: 'Riječ „Hrvatska” ima kratkosilazni naglasak, a silazni naglasak može stajati samo na prvom slogu.',
             en: 'The word "Hrvatska" has a short falling accent, and a falling accent can stand only on the first syllable.',
             note: 'Hȑvātskā — falling accents stand on the first syllable only',
           },
@@ -3723,7 +3723,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Svakodnevno provjeravam poštu.',
-            en: 'I check the post daily.',
+            en: 'I check the mail daily.',
             note: 'not na dnevnoj bazi',
           },
         ],
@@ -3784,7 +3784,7 @@ export const LESSONS_C1 = [
         ],
         correct: 1,
         explanation:
-          'The active with the agent as subject is shorter and more natural. "Od strane" is a long-criticised calque and "vršiti analizu" replaces a plain verb with an empty light verb plus a noun.',
+          'The active with the agent as subject is shorter and more natural. "Od strane" is a long-criticized calque and "vršiti analizu" replaces a plain verb with an empty light verb plus a noun.',
       },
       {
         type: 'rule',
@@ -3973,12 +3973,12 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Prvo provjeravam slaganje: „nova zgrada“, „novi most“, „novo naselje“ — pridjev prati imenicu.',
+            hr: 'Prvo provjeravam slaganje: „nova zgrada”, „novi most”, „novo naselje” — pridjev prati imenicu.',
             en: 'First I check agreement: "new building", "new bridge", "new estate" — the adjective follows its noun.',
             note: 'the agreement pass, in that order',
           },
           {
-            hr: 'Zatim gledam rekciju: „hvala na pozivu“, „radujem se odmoru“, „bojim se pada“.',
+            hr: 'Zatim gledam rekciju: „hvala na pozivu”, „radujem se odmoru”, „bojim se pada”.',
             en: 'Then I look at government: "thanks for the invitation", "I look forward to the vacation", "I fear a fall".',
             note: 'locative, dative, genitive — one verb at a time',
           },
@@ -3993,12 +3993,12 @@ export const LESSONS_C1 = [
             note: 'sa before s-, s before b-',
           },
           {
-            hr: 'Riječi „vrijeme“ i „vremena“ pišu se različito jer je jat u drugoj kratak.',
+            hr: 'Riječi „vrijeme” i „vremena” pišu se različito jer je jat u drugoj kratak.',
             en: 'The words "vrijeme" and "vremena" are spelled differently because the jat in the second is short.',
             note: 'the ije/je rule applied',
           },
           {
-            hr: 'Lektorica je precrtala zarez ispred „da“ i vratila ga ispred „ali“.',
+            hr: 'Lektorica je precrtala zarez ispred „da” i vratila ga ispred „ali”.',
             en: 'The editor crossed out the comma before "da" and put it back before "ali".',
             note: 'the comma rule, as a lektor applies it',
           },
@@ -4163,7 +4163,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Tobože Is Not Navodno',
-        body: 'A distinction worth having. "Navodno" is neutral reporting — allegedly, and I take no position. "Tobože" and "takozvani" carry the writer\'s scepticism: tobože nezavisna komisija is a supposedly independent commission the writer does not believe is independent. Reading the two as equivalent misses an opinion the text is expressing.',
+        body: 'A distinction worth having. "Navodno" is neutral reporting — allegedly, and I take no position. "Tobože" and "takozvani" carry the writer\'s skepticism: tobože nezavisna komisija is a supposedly independent commission the writer does not believe is independent. Reading the two as equivalent misses an opinion the text is expressing.',
         highlight: 'navodno neutral · tobože skeptical',
       },
       {
@@ -4195,7 +4195,7 @@ export const LESSONS_C1 = [
           {
             hr: 'Tobože neovisno tijelo donijelo je zaključak.',
             en: 'A supposedly independent body reached a conclusion.',
-            note: 'the writer is signalling doubt',
+            note: 'the writer is signaling doubt',
           },
           {
             hr: 'Došlo je do smanjenja proračuna.',
@@ -4248,7 +4248,7 @@ export const LESSONS_C1 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'A report says "tobože neovisna komisija". What is the writer signalling?',
+        q: 'A report says "tobože neovisna komisija". What is the writer signaling?',
         options: [
           'the commission is independent',
           'they doubt it is independent',
@@ -4257,7 +4257,7 @@ export const LESSONS_C1 = [
         ],
         correct: 1,
         explanation:
-          '"Tobože" carries the writer\'s scepticism, unlike the neutral "navodno". Reading them as equivalent misses an opinion the text is actually expressing.',
+          '"Tobože" carries the writer\'s skepticism, unlike the neutral "navodno". Reading them as equivalent misses an opinion the text is actually expressing.',
       },
       {
         type: 'quiz',
@@ -4395,7 +4395,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'Članak and Stavak',
-        body: 'A Croatian law is divided into "članci" (articles), each with numbered "stavci" (paragraphs). A citation looks like "članak 5. stavak 2." and is abbreviated "čl. 5. st. 2." — note the full stops after the numerals, which mark them as ordinals. Recognizing this notation is most of what is needed to follow a reference.',
+        body: 'A Croatian law is divided into "članci" (articles), each with numbered "stavci" (paragraphs). A citation looks like "članak 5. stavak 2." and is abbreviated "čl. 5. st. 2." — note the periods after the numerals, which mark them as ordinals. Recognizing this notation is most of what is needed to follow a reference.',
         highlight: 'čl. 5. st. 2.',
       },
       {
@@ -4485,9 +4485,9 @@ export const LESSONS_C1 = [
             note: 'na neodređeno vrijeme; otkazni rok',
           },
           {
-            hr: 'Ovo rješenje stupa na snagu danom donošenja, a primjenjuje se od 1. siječnja.',
-            en: 'This decision comes into force on the day it is issued and applies from 1 January.',
-            note: 'stupa na snagu; primjenjuje se — two dates, two verbs',
+            hr: 'Ove izmjene stupaju na snagu danom donošenja, a primjenjuju se od 1. siječnja.',
+            en: 'These amendments come into force on the day they are adopted and apply from January 1.',
+            note: 'stupaju na snagu; primjenjuju se — two dates, two verbs',
           },
         ],
       },
@@ -4595,7 +4595,7 @@ export const LESSONS_C1 = [
         title: 'Legal Croatian — Key Takeaways',
         points: [
           'zakon, propis, uredba, članak, stavak, rješenje, presuda, žalba',
-          'Citations look like čl. 5. st. 2. — the full stops mark ordinals',
+          'Citations look like čl. 5. st. 2. — the periods mark ordinals',
           'temeljem + genitive · sukladno + dative',
           'The style is nominal and impersonal — unpack it into clauses to check',
           'Find the rok first; a missed deadline is usually irreversible',
@@ -4734,7 +4734,7 @@ export const LESSONS_C1 = [
             note: 'reporting a result impersonally; odstupanje, pogreška',
           },
           {
-            hr: 'U stručnoj literaturi piše „lingvistika“, a u školskom udžbeniku „jezikoslovlje“.',
+            hr: 'U stručnoj literaturi piše „lingvistika”, a u školskom udžbeniku „jezikoslovlje”.',
             en: 'In the specialist literature it says "lingvistika", and in the school textbook "jezikoslovlje".',
             note: 'borrowed and coined terms coexist by register',
           },
@@ -4878,7 +4878,7 @@ export const LESSONS_C1 = [
           ['izložba', 'exhibition', 'galerija', 'gallery'],
           ['skladatelj', 'composer', 'zbor', 'choir'],
           ['glazba', 'music', 'nastup', 'a performance, gig'],
-          ['film', 'film', 'scenarij', 'screenplay'],
+          ['film', 'movie', 'scenarij', 'screenplay'],
         ],
       },
       {
@@ -4916,7 +4916,7 @@ export const LESSONS_C1 = [
       {
         type: 'rule',
         title: 'What Is On',
-        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian movie theater and theater are small and well known to their audience, which means an informed remark goes a long way.',
+        body: 'A few anchors for conversation: the Dubrovačke ljetne igre (Dubrovnik Summer Festival, since 1950, plays staged in the city itself), INmusic in Zagreb, and the Motovun film festival in Istria. Croatian film and theater are small and well known to their audience, which means an informed remark goes a long way.',
         highlight: 'Dubrovačke ljetne igre',
       },
       {
@@ -4971,7 +4971,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Film je duhovit u prvoj polovici, a onda postane predvidljiv i prenapuhan.',
-            en: 'The film is witty in the first half, and then it becomes predictable and overblown.',
+            en: 'The movie is witty in the first half, and then it becomes predictable and overblown.',
             note: 'the evaluative range beyond dobro and loše',
           },
           {
@@ -5120,7 +5120,7 @@ export const LESSONS_C1 = [
       {
         type: 'intro',
         title: 'The Standard Is Not What People Speak',
-        body: 'You have learned standard Croatian, and it is the right thing to have learned. But almost nobody speaks it at home. A learner arriving in Split or Zagreb meets something recognisably different, and knowing what to expect turns a disorienting experience into an interesting one.',
+        body: 'You have learned standard Croatian, and it is the right thing to have learned. But almost nobody speaks it at home. A learner arriving in Split or Zagreb meets something recognizably different, and knowing what to expect turns a disorienting experience into an interesting one.',
         icon: '🗺️',
       },
       {
@@ -5154,7 +5154,7 @@ export const LESSONS_C1 = [
           ['tanjur', 'tanjur', 'pjat'],
           ['kuhinja', 'kuhinja', 'kužina'],
           ['gdje', 'gdje / di', 'di'],
-          ['što ćeš raditi', 'kaj buš delal', 'ča ćeš delat'],
+          ['što ćeš kuhati', 'kaj buš kuhal', 'ča ćeš kuhat'],
         ],
       },
       {
@@ -5174,8 +5174,8 @@ export const LESSONS_C1 = [
         title: 'Hearing the Difference',
         items: [
           {
-            hr: 'Kaj buš delal danas?',
-            en: 'What are you going to do today? (Zagreb)',
+            hr: 'Kaj buš kuhal danas?',
+            en: 'What are you going to cook today? (Zagreb)',
             note: 'kaj + the bum/buš future',
           },
           {
@@ -5205,17 +5205,17 @@ export const LESSONS_C1 = [
         title: 'More Examples in Context',
         items: [
           {
-            hr: 'Baka iz Zagorja rekla bi „Kaj buš jel?“, a mama u Splitu „Ča ćeš jist?“, a oboje znači isto.',
+            hr: 'Baka iz Zagorja rekla bi „Kaj buš jel?”, a mama u Splitu „Ča ćeš jist?”, a oboje znači isto.',
             en: 'Grandma from Zagorje would say "Kaj buš jel?", and mom in Split "Ča ćeš jist?", and both mean the same thing.',
             note: 'kajkavian and čakavian side by side: what will you eat?',
           },
           {
-            hr: 'U standardu kažemo „kuhinja“ i „tanjur“, ali na otoku ćete čuti „kužina“ i „pjat“.',
+            hr: 'U standardu kažemo „kuhinja” i „tanjur”, ali na otoku ćete čuti „kužina” i „pjat”.',
             en: 'In the standard we say "kuhinja" and "tanjur", but on the island you will hear "kužina" and "pjat".',
             note: 'Venetian loans on the coast, with their standard equivalents',
           },
           {
-            hr: 'Moj djed govori ikavski, pa kaže „misto“ i „dite“, a ja sam u školi naučio „mjesto“ i „dijete“.',
+            hr: 'Moj djed govori ikavski, pa kaže „misto” i „dite”, a ja sam u školi naučio „mjesto” i „dijete”.',
             en: 'My grandfather speaks ikavian, so he says "misto" and "dite", while I learned "mjesto" and "dijete" at school.',
             note: 'ikavian -i- for standard -ije-/-je-; both are Croatian',
           },
@@ -5225,7 +5225,7 @@ export const LESSONS_C1 = [
             note: 'a heritage form is a regional form, not an error',
           },
           {
-            hr: 'Zagrepčanin će reći „idem na špicu“, a u Splitu se ide „na rivu“.',
+            hr: 'Zagrepčanin će reći „idem na špicu”, a u Splitu se ide „na rivu”.',
             en: 'A Zagreb local will say "idem na špicu", while in Split one goes "na rivu".',
             note: 'špica (Zagreb) and riva (coast) — two local words for the Saturday stroll',
           },
@@ -5239,7 +5239,7 @@ export const LESSONS_C1 = [
       {
         type: 'quiz',
         title: 'Quick Check',
-        q: 'You hear "Kaj buš delal?" Where are you?',
+        q: 'You hear "Kaj buš kuhal?" Where are you?',
         options: ['Split', 'Zagreb', 'Dubrovnik', 'an island'],
         correct: 1,
         explanation:
@@ -5479,7 +5479,7 @@ export const LESSONS_C1 = [
             note: 'povratnica; u zavičaju — locative',
           },
           {
-            hr: 'U iseljeništvu smo miješali jezike, pa sam za „hladnjak“ dugo govorio „fridž“.',
+            hr: 'U iseljeništvu smo miješali jezike, pa sam za „hladnjak” dugo govorio „fridž”.',
             en: 'In the diaspora we mixed languages, so for "hladnjak" I long said "fridž".',
             note: 'a diaspora form beside the homeland standard',
           },
@@ -5492,7 +5492,7 @@ export const LESSONS_C1 = [
         options: [
           'a country',
           'the specific place your family is from',
-          'a holiday home',
+          'a vacation home',
           'a dialect',
         ],
         correct: 1,
@@ -5735,7 +5735,7 @@ export const LESSONS_C1 = [
           },
           {
             hr: 'Prestani jesti te slatkiše! Inače će ti opet biti zlo.',
-            en: 'Stop eating those candy, or you will be sick again.',
+            en: 'Stop eating that candy, or you will be sick again.',
             note: 'inače — or else',
           },
           {

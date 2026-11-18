@@ -68,6 +68,12 @@ const TARGETS = [
   'functions/api/content/_data/b2class/units13.js',
   'functions/api/content/_data/lessonClassC1.js',
   'functions/api/content/_data/c1class/units01-02.js',
+  'functions/api/content/_data/c1class/units03-04.js',
+  'functions/api/content/_data/c1class/units05-06.js',
+  'functions/api/content/_data/c1class/units07-08.js',
+  'functions/api/content/_data/c1class/units09-10.js',
+  'functions/api/content/_data/c1class/units11-12.js',
+  'functions/api/content/_data/c1class/units13.js',
   'functions/api/content/_data/a1new/batch01.js',
   'functions/api/content/_data/a1new/batch02.js',
   'functions/api/content/_data/a1new/batch03.js',
@@ -1385,7 +1391,10 @@ import { exerciseStrings, textSlideStrings } from './lessonExerciseStrings.mjs';
 // contrast appears in a highlight and a summary point. That is a real cost: a
 // genuine Serbism inside this one lesson would now pass. It is accepted here and
 // should not be accepted casually — this list can only shrink.
-const CONTRASTIVE_LESSONS = new Set(['language-identity', 'dijalekti-dubinski']);
+// 2026-11-18 (owner): the language-identity lesson no longer prints Serbian forms at all —
+// its comparison table was replaced by Croatian's own native/international pairs — so it
+// is linted like every other lesson.
+const CONTRASTIVE_LESSONS = new Set(['dijalekti-dubinski']);
 
 function* lessonStrings() {
   for (const l of LESSONS) {

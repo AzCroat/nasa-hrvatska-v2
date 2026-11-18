@@ -90,12 +90,12 @@ export const CAPITALS_NAMES_GEOGRAPHY_DRILL_DATA: ModeDrillItem[] = [
     q: 'Koja je rečenica pravilno napisana?',
     en: 'Which sentence is spelled correctly?',
     opts: [
-      'Ivan Gundulić napisao je „Osmana“.',
-      'Ivan gundulić napisao je „Osmana“.',
-      'ivan Gundulić napisao je „Osmana“.',
+      'Ivan Gundulić napisao je „Osmana”.',
+      'Ivan gundulić napisao je „Osmana”.',
+      'ivan Gundulić napisao je „Osmana”.',
       'Ivan Gundulić napisao je osmana.',
     ],
-    answer: 'Ivan Gundulić napisao je „Osmana“.',
+    answer: 'Ivan Gundulić napisao je „Osmana”.',
     tip: 'Every part of a personal name, and a work’s title, begins with a capital.',
   },
   // ── naselja ───────────────────────────────────────────────────────────────

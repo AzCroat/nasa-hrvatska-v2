@@ -66,7 +66,7 @@ export function frameMatches(input: string, answer: string, accept?: string[]): 
     s
       .toLowerCase()
       .trim()
-      .replace(/[.,!?;:'"„“”]/g, '')
+      .replace(/[.,!?;:'"„””]/g, '')
       .replace(/\s+/g, ' ');
   const got = norm(input);
   if (!got) return false;
@@ -439,7 +439,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
                     cursor: 'pointer',
                   }}
                 >
-                  <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}“</div>
+                  <div style={{ fontSize: 14, fontWeight: 700 }}>„{st.hr}”</div>
                   <div style={{ fontSize: 12, color: 'var(--ink-muted)' }}>{st.en}</div>
                   {openStructure === i && (
                     <div style={{ fontSize: 13, color: 'var(--ink-error)', marginTop: 6 }}>
@@ -548,7 +548,7 @@ export default function GuidedWritingScreen({ goBack, award }: GuidedWritingScre
             )}
             {(frameState === 'right' || revealed) && (
               <div style={{ fontSize: 13, color: 'var(--ink-green)', marginTop: 8 }}>
-                {revealed ? `The answer: „${frame.answer}“ — say it once, then move on.` : 'Točno!'}
+                {revealed ? `The answer: „${frame.answer}” — say it once, then move on.` : 'Točno!'}
               </div>
             )}
           </div>

@@ -133,7 +133,7 @@ export const LEGAL_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'rekcija',
-    q: 'Što znači zapis „čl. 5. st. 2.“?',
+    q: 'Što znači zapis „čl. 5. st. 2.”?',
     en: 'What does that citation mean?',
     opts: ['članak 5., stavak 2.', 'članak 5. do 2.', 'stranica 5., stavak 2.', 'članak 52.'],
     answer: 'članak 5., stavak 2.',

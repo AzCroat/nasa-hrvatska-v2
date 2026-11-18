@@ -95,7 +95,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   // ── oblici ────────────────────────────────────────────────────────────────
   {
     mode: 'oblici',
-    q: 'Kratki genitiv neodređenog oblika pridjeva „nov“: ____',
+    q: 'Kratki genitiv neodređenog oblika pridjeva „nov”: ____',
     en: 'The short genitive of the indefinite form.',
     opts: ['nova', 'novu', 'novi', 'novim'],
     answer: 'nova',
@@ -103,7 +103,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Kratki dativ neodređenog oblika pridjeva „nov“: ____',
+    q: 'Kratki dativ neodređenog oblika pridjeva „nov”: ____',
     en: 'The short dative of the indefinite form.',
     opts: ['novu', 'nova', 'novi', 'novo'],
     answer: 'novu',
@@ -135,7 +135,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva „teški“: ____',
+    q: 'Neodređeni oblik pridjeva „teški”: ____',
     en: 'The indefinite form of the adjective meaning heavy or hard.',
     opts: ['težak', 'teška', 'teško', 'teškog'],
     answer: 'težak',
@@ -143,7 +143,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva „mali“: ____',
+    q: 'Neodređeni oblik pridjeva „mali”: ____',
     en: 'The indefinite form of the adjective meaning small.',
     opts: ['malen', 'mal', 'malo', 'mala'],
     answer: 'malen',
@@ -151,7 +151,7 @@ export const INDEFINITE_ADJECTIVES_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'oblici',
-    q: 'Neodređeni oblik pridjeva „svijetli“: ____',
+    q: 'Neodređeni oblik pridjeva „svijetli”: ____',
     en: 'The indefinite form of the adjective meaning bright.',
     opts: ['svijetao', 'svijetal', 'svijetla', 'svijetlo'],
     answer: 'svijetao',

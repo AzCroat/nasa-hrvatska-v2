@@ -159,13 +159,14 @@ export const PRACTICE_C1 = {
           q: 'Je ____ rekao istinu? (did he tell you (sg.) the truth — the question particle and the dative)',
           answer: 'li ti',
           hint: 'The question particle comes straight after je; then the dative pronoun.',
-          explanation: 'Je li ti rekao istinu? li always takes the first slot after the verb.',
+          explanation:
+            'Je li ti rekao istinu? li takes the first slot, straight after the verb that opens the question.',
         },
         {
           type: 'type',
           q: 'Obećala ____ da će doći. (she promised me — the dative clitic and the third-person auxiliary)',
           answer: 'mi je',
-          hint: 'The pronoun goes first; the third-person auxiliary always closes the cluster.',
+          hint: 'The pronoun goes first; the third-person auxiliary closes the cluster.',
           explanation:
             'Obećala mi je — unlike sam, the third-person je never goes ahead of the pronoun.',
         },
@@ -671,7 +672,7 @@ export const PRACTICE_C1 = {
         explanation: 'An idiom about someone being a bit odd.',
       },
       {
-        q: '„Plaća mu je za plakanje.“ What is this?',
+        q: '„Plaća mu je za plakanje.” What is this?',
         options: [
           'a formal complaint',
           'colloquial hyperbole — his salary is pitiful',
@@ -730,8 +731,8 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'A Date the Croatian Way',
-        problem: 'Napiši datum "on 3 March" riječima i brojkama.',
-        en: 'Write the date "on 3 March" in words and in figures.',
+        problem: 'Napiši datum "on March 3" riječima i brojkama.',
+        en: 'Write the date "on March 3" in words and in figures.',
         steps: [
           {
             label: 'The month',
@@ -757,7 +758,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'A heritage speaker writes „Vidimo se sljedeće nedjelje“, meaning next week. What will a Croatian reader understand?',
+          q: 'A heritage speaker writes „Vidimo se sljedeće nedjelje”, meaning next week. What will a Croatian reader understand?',
           options: ['next Sunday', 'next week', 'next weekend', 'next month'],
           correct: 0,
           hint: 'In the standard this word names a single day, not a span of seven.',
@@ -781,7 +782,7 @@ export const PRACTICE_C1 = {
             'mlijeko — a long yat gives -ije-. mliko is the ikavian dialect form; the other two are misspellings.',
         },
         {
-          q: 'What is a „zračna luka“?',
+          q: 'What is a „zračna luka”?',
           options: ['a harbor', 'an air vent', 'a lighthouse', 'an airport'],
           correct: 3,
           hint: 'Read it in two parts: an adjective from zrak (air) and the noun for a port.',
@@ -960,7 +961,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: '„Uđoše u crkvu.“ What form is uđoše?',
+          q: '„Uđoše u crkvu.” What form is uđoše?',
           options: [
             'aorist, 3rd plural',
             'imperfekt, 3rd plural',
@@ -1106,7 +1107,7 @@ export const PRACTICE_C1 = {
         explanation: 'The 1st singular aorist ends in -h: uđoh, like sjedoh.',
       },
       {
-        q: 'What does the imperfekt „gledaše“ convey?',
+        q: 'What does the imperfekt „gledaše” convey?',
         options: [
           'a sudden completed look',
           'a future action',
@@ -1117,7 +1118,7 @@ export const PRACTICE_C1 = {
         explanation: 'The imperfekt paints what was going on; the aorist would be pogleda.',
       },
       {
-        q: 'What is „rekoše“?',
+        q: 'What is „rekoše”?',
         options: [
           'the aorist of reći, 3rd plural',
           'the imperfekt of reći',
@@ -1221,7 +1222,7 @@ export const PRACTICE_C1 = {
           correct: 3,
           hint: 'You want the masculine diminutive suffix.',
           explanation:
-            'papirić — papir + -ić. papirnica is a stationery shop and papirnat the adjective "made of paper".',
+            'papirić — papir + -ić. papirnica is a stationery store and papirnat the adjective "made of paper".',
         },
         {
           q: 'What is a "zlatar"?',
@@ -1289,7 +1290,7 @@ export const PRACTICE_C1 = {
         explanation: 'u- (into) + pisati: upisati se, to enroll.',
       },
       {
-        q: 'You meet „slušatelj“ for the first time. What is it most likely?',
+        q: 'You meet „slušatelj” for the first time. What is it most likely?',
         options: ['a small ear', 'the act of listening', 'someone who listens', 'a device only'],
         correct: 2,
         explanation: '-telj makes a doer from a verb: slušati → slušatelj.',
@@ -1507,7 +1508,7 @@ export const PRACTICE_C1 = {
     },
     checkB: [
       {
-        q: 'Someone asks „Što je Ana kupila?“. Which answer has the native order?',
+        q: 'Someone asks „Što je Ana kupila?”. Which answer has the native order?',
         options: [
           'Kruh je kupila Ana.',
           'Ana je kupila kruh.',
@@ -1519,7 +1520,7 @@ export const PRACTICE_C1 = {
           'The question is about what she bought, so kruh — the new information — goes last.',
       },
       {
-        q: 'Complete for contrast: „___ se to ne sviđa, a tebi se sviđa.“ (HIM it does not please)',
+        q: 'Complete for contrast: „___ se to ne sviđa, a tebi se sviđa.” (HIM it does not please)',
         options: ['On', 'Mu', 'Njemu', 'Njega'],
         correct: 2,
         explanation:
@@ -1561,7 +1562,7 @@ export const PRACTICE_C1 = {
         explanation: 'A dropped pronoun is neutral; saying it aloud adds emphasis or contrast.',
       },
       {
-        q: 'Complete: „Čekali su ___, a ne nju.“ (HIM)',
+        q: 'Complete: „Čekali su ___, a ne nju.” (HIM)',
         options: ['ga', 'njega', 'mu', 'on'],
         correct: 1,
         explanation: 'Under contrast the full accusative njega replaces the clitic ga.',
@@ -2230,7 +2231,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Clause to Phrase',
-        problem: 'Sažmi za izvješće: „Kad je projekt završio, tim je podnio izvješće.“',
+        problem: 'Sažmi za izvješće: „Kad je projekt završio, tim je podnio izvješće.”',
         en: 'Condense for a report: When the project ended, the team submitted a report.',
         steps: [
           {
@@ -2491,7 +2492,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'A Diminutive in the Wrong Room',
-        problem: 'Ispravi službeni e-mail banci: „Molim Vas za sastančić u vezi s ugovorčićem.“',
+        problem: 'Ispravi službeni e-mail banci: „Molim Vas za sastančić u vezi s ugovorčićem.”',
         en: 'Correct an official email to the bank: I would ask you for a "little meeting" about the "little contract".',
         steps: [
           {
@@ -2596,7 +2597,7 @@ export const PRACTICE_C1 = {
           type: 'type',
           q: 'Pričekaj ____, samo da nađem ključeve. (a moment — trenutak; the diminutive)',
           answer: 'trenutačak',
-          hint: 'The diminutive of trenutak adds -čak.',
+          hint: 'The diminutive of trenutak takes -ak, and the k in front of it softens.',
           explanation: 'trenutačak — a tiny moment, softening the request.',
         },
         {
@@ -3055,7 +3056,7 @@ export const PRACTICE_C1 = {
           type: 'type',
           q: 'Poput ____, i ona svira klavir. (her mother — njezina majka)',
           answer: 'njezine majke',
-          accept: ['svoje majke'],
+          accept: ['svoje majke', 'njene majke'],
           hint: 'poput governs the genitive; the possessive agrees too.',
           explanation: 'Poput njezine (svoje) majke.',
         },
@@ -3112,7 +3113,7 @@ export const PRACTICE_C1 = {
           'kao is a conjunction; the noun keeps the case it would have — nominative here.',
       },
       {
-        q: 'How do you say "one of the best films"?',
+        q: 'How do you say "one of the best movies"?',
         options: [
           'jedan od najboljih filmova',
           'jedan najboljih filmova',
@@ -3163,7 +3164,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'When the Agent Matters',
-        problem: 'Popravi prijevod: „Novi most je otvoren od strane gradonačelnika.“',
+        problem: 'Popravi prijevod: „Novi most je otvoren od strane gradonačelnika.”',
         en: 'Fix the translation: The new bridge was opened by the mayor.',
         steps: [
           {
@@ -3561,7 +3562,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Explaining What You Just Said',
-        problem: 'Spoji: „Nisam došao na sastanak.“ + objašnjenje: pokvario mi se auto.',
+        problem: 'Spoji: „Nisam došao na sastanak.” + objašnjenje: pokvario mi se auto.',
         en: 'Join: I did not come to the meeting. + the explanation: my car broke down.',
         steps: [
           {
@@ -3659,7 +3660,7 @@ export const PRACTICE_C1 = {
           ],
           correct: 1,
           hint: 'The speaker is waving the matter away.',
-          explanation: 'ma — dismissal, affectionate scepticism.',
+          explanation: 'ma — dismissal, affectionate skepticism.',
         },
         {
           q: 'Complete: "___ tako, sad znaš sve." (There you go)',
@@ -3764,7 +3765,7 @@ export const PRACTICE_C1 = {
       },
     ],
     vocab: [
-      ['čestica', 'particle', 'Čestica „valjda“ izražava nesigurnost.'],
+      ['čestica', 'particle', 'Čestica „valjda” izražava nesigurnost.'],
       ['valjda', 'presumably, I suppose', 'Valjda će doći na vrijeme.'],
       ['naime', 'namely, you see', 'Nije došao. Naime, bio je bolestan.'],
       ['uostalom', 'besides, after all', 'Uostalom, to i nije bilo važno.'],
@@ -3779,7 +3780,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Where the Accent Can Go',
-        problem: 'Gdje nosi naglasak riječ „planina“, i kakav je to naglasak?',
+        problem: 'Gdje nosi naglasak riječ „planina”, i kakav je to naglasak?',
         en: 'Where does "planina" carry its accent, and of what kind?',
         steps: [
           {
@@ -3803,7 +3804,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'Reading a Minimal Pair',
-        problem: 'U rječniku stoji „pȁs“ i „pȃs“. Koji znači pojas?',
+        problem: 'U rječniku stoji „pȁs” i „pȃs”. Koji znači pojas?',
         en: 'The dictionary lists pȁs and pȃs. Which one means belt or waist?',
         steps: [
           {
@@ -4035,7 +4036,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'Paraphrase by Structure',
-        problem: 'Parafraziraj strukturom, ne sinonimom: „Grad je odlučio zatvoriti knjižnicu.“',
+        problem: 'Parafraziraj strukturom, ne sinonimom: „Grad je odlučio zatvoriti knjižnicu.”',
         en: 'Paraphrase by structure, not synonym: The city decided to close the library.',
         steps: [
           {
@@ -4699,7 +4700,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Complete: "Zahvaljujem ___ na pomoći." (the organisers — organizatori)',
+          q: 'Complete: "Zahvaljujem ___ na pomoći." (the organizers — organizatori)',
           options: ['organizatorima', 'organizatore', 'organizatora', 'za organizatore'],
           correct: 0,
           hint: 'zahvaljivati takes the person thanked in the dative, and the reason with na + locative.',
@@ -4912,7 +4913,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'Three Calques in One Sentence',
-        problem: 'Popravi: „Po pitanju plaćanja, izvršit ćemo provjeru na dnevnoj bazi.“',
+        problem: 'Popravi: „Po pitanju plaćanja, izvršit ćemo provjeru na dnevnoj bazi.”',
         en: 'Fix: As regards payment, we will carry out a check on a daily basis.',
         steps: [
           {
@@ -5062,7 +5063,7 @@ export const PRACTICE_C1 = {
         explanation: 'The body part is the subject and the person the object: bole me leđa.',
       },
       {
-        q: 'Complete: "U selu ___ ni trgovine." (there is not even a shop)',
+        q: 'Complete: "U selu ___ ni trgovine." (there is not even a store)',
         options: ['nije', 'nema', 'ne ima', 'nisu'],
         correct: 1,
         explanation: 'Existential "there is not" is nema, with the genitive.',
@@ -5123,7 +5124,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Three Passes Over One Sentence',
-        problem: 'Lektoriraj: „Rekla je, da je nova knjižnica lijep i da će doći sa bratom.“',
+        problem: 'Lektoriraj: „Rekla je, da je nova knjižnica lijep i da će doći sa bratom.”',
         en: 'Proofread: She said that the new library is beautiful and that she will come with her brother.',
         steps: [
           {
@@ -5143,7 +5144,7 @@ export const PRACTICE_C1 = {
       },
       {
         title: 'The ije / je Check',
-        problem: 'Ispravi pravopis: „Nemam vrijemena, a dijeca čekaju mlijeko.“',
+        problem: 'Ispravi pravopis: „Nemam vrijemena, a dijeca čekaju mlijeko.”',
         en: 'Correct the spelling: I have no time, and the children are waiting for the milk.',
         steps: [
           {
@@ -5403,7 +5404,7 @@ export const PRACTICE_C1 = {
           q: 'Complete — the writer believes the claim is false: "___ besplatan program građane stoji milijune."',
           options: ['Navodno', 'Tobože', 'Naime', 'Sigurno'],
           correct: 1,
-          hint: 'You need the word that carries the writer’s scepticism, not neutral distance.',
+          hint: 'You need the word that carries the writer’s skepticism, not neutral distance.',
           explanation:
             'Tobože besplatan — "supposedly free", and the writer thinks it is not. navodno would stay neutral.',
         },
@@ -5509,7 +5510,7 @@ export const PRACTICE_C1 = {
         explanation: 'The nominalization removes the actor.',
       },
       {
-        q: "Which word signals the writer's scepticism?",
+        q: "Which word signals the writer's skepticism?",
         options: ['navodno', 'kako doznajemo', 'bez komentara', 'tobože'],
         correct: 3,
         explanation: 'tobože — supposedly, and the writer does not believe it.',
@@ -5570,7 +5571,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Reading a Deadline Sentence',
-        problem: 'Raspakiraj: „Žalba se podnosi u roku od 8 dana od dana primitka rješenja.“',
+        problem: 'Raspakiraj: „Žalba se podnosi u roku od 8 dana od dana primitka rješenja.”',
         en: 'Unpack: An appeal is lodged within 8 days of the date of receipt of the decision.',
         steps: [
           {
@@ -5724,7 +5725,7 @@ export const PRACTICE_C1 = {
         q: 'Which citation is written correctly?',
         options: ['čl. 12. st. 3.', 'čl. 12 st. 3', 'čl 12, st 3', 'članak 12, st. 3'],
         correct: 0,
-        explanation: 'The full stops mark the numbers as ordinals.',
+        explanation: 'The periods mark the numbers as ordinals.',
       },
       {
         q: 'What is a "presuda"?',
@@ -5777,7 +5778,7 @@ export const PRACTICE_C1 = {
     worked: [
       {
         title: 'Decoding a Coined Term',
-        problem: 'Što je „brzinomjer“?',
+        problem: 'Što je „brzinomjer”?',
         en: 'What is a brzinomjer?',
         steps: [
           {
@@ -5973,7 +5974,7 @@ export const PRACTICE_C1 = {
       {
         title: 'A Verdict With a Reason',
         problem: 'Reci što misliš o filmu: svidio ti se jer glumci nikad ne pretjeruju.',
-        en: 'Say what you thought of the film: you liked it because the actors never overdo it.',
+        en: 'Say what you thought of the movie: you liked it because the actors never overdo it.',
         steps: [
           {
             label: 'Avoid the bare verdict',
@@ -6069,7 +6070,7 @@ export const PRACTICE_C1 = {
           q: 'Which word means "screenplay"?',
           options: ['scena', 'scenarij', 'scenografija', 'scenski'],
           correct: 1,
-          hint: 'The written text a film is shot from.',
+          hint: 'The written text a movie is shot from.',
           explanation: 'scenarij.',
         },
         {
@@ -6114,7 +6115,7 @@ export const PRACTICE_C1 = {
         q: 'What is a "redatelj"?',
         options: ['an actor', 'a composer', 'a director', 'a critic'],
         correct: 2,
-        explanation: 'redatelj — the director of a film or play.',
+        explanation: 'redatelj — the director of a movie or play.',
       },
       {
         q: 'Complete: "Izložba ___ do kraja mjeseca." (runs)',
@@ -6815,7 +6816,7 @@ export const PRACTICE_C1 = {
           },
           {
             label: 'Never both auxiliaries',
-            text: 'bijaše REPLACES je bila; „je bijaše prestala“ doubles the auxiliary and is an error.',
+            text: 'bijaše REPLACES je bila; „je bijaše prestala” doubles the auxiliary and is an error.',
           },
         ],
         answer: 'Kad uđosmo u selo, kiša već bijaše prestala.',
@@ -6825,7 +6826,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dopuni: Kad je liječnik stigao, bolesnik ___ zaspao.',
+          q: 'Complete: Kad je liječnik stigao, bolesnik ___ zaspao.',
           options: ['je već bio', 'je već bila', 'bi već bio', 'sam već bio'],
           correct: 0,
           hint: 'The patient fell asleep first. Use the perfekt of biti, and make it agree with a masculine singular subject in the third person.',
@@ -6854,7 +6855,7 @@ export const PRACTICE_C1 = {
             'bijahu pobjegli. bijaše is singular, su bijahu doubles the auxiliary, pobjegle is feminine.',
         },
         {
-          q: 'Koja rečenica s veznikom „nakon što“ zvuči prirodno u pažljivoj prozi?',
+          q: 'Which sentence with „nakon što” sounds natural in careful prose?',
           options: [
             'Nakon što je završio fakultet, zaposlio se u Rijeci.',
             'Nakon što je bio završio fakultet, bio se zaposlio u Rijeci.',
@@ -6868,35 +6869,35 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni pluskvamperfektom: Kad sam stigao, on je već ____ otišao. (biti, m.)',
+          q: 'Complete with the pluperfect: Kad sam stigao, on je već ____ otišao. (biti, m.)',
           answer: 'bio',
           hint: 'The participle of biti, agreeing with a masculine subject.',
           explanation: 'je već bio otišao — perfekt of biti + the participle.',
         },
         {
           type: 'type',
-          q: 'Dopuni pluskvamperfektom: Kad smo ušli, predstava je već ____ počela. (biti, f.)',
+          q: 'Complete with the pluperfect: Kad smo ušli, predstava je već ____ počela. (biti, f.)',
           answer: 'bila',
           hint: 'The participle of biti agrees with predstava.',
           explanation: 'je već bila počela — both participles feminine singular.',
         },
         {
           type: 'type',
-          q: 'Dopuni književnim oblikom: Sunce ____ zašlo kad stigosmo. (imperfekt of biti, 3rd sg.)',
+          q: 'Complete with the literary form: Sunce ____ zašlo kad stigosmo. (imperfekt of biti, 3rd sg.)',
           answer: 'bijaše',
           hint: 'The literary pluperfect uses the imperfekt of biti instead of the perfekt.',
           explanation: 'bijaše zašlo — the literary pluperfect, beside the aorist stigosmo.',
         },
         {
           type: 'type',
-          q: 'Dopuni književnim oblikom: Gosti ____ otišli kad se vratismo. (imperfekt of biti, 3rd pl.)',
+          q: 'Complete with the literary form: Gosti ____ otišli kad se vratismo. (imperfekt of biti, 3rd pl.)',
           answer: 'bijahu',
           hint: 'The third person plural of the imperfekt of biti.',
           explanation: 'bijahu otišli — the literary pluperfect in the plural.',
         },
         {
           type: 'type',
-          q: 'Dopuni pluskvamperfektom: Djeca su već ____ zaspala kad smo došli. (biti)',
+          q: 'Complete with the pluperfect: Djeca su već ____ zaspala kad smo došli. (biti)',
           answer: 'bila',
           hint: 'djeca takes the participle in -a.',
           explanation: 'su već bila zaspala — both participles agree with djeca.',
@@ -6915,7 +6916,7 @@ export const PRACTICE_C1 = {
             'bijah zaboravila — bijah is the first person; bila bih is the second conditional.',
         },
         {
-          q: 'Koja je rečenica pogrešna?',
+          q: 'Which sentence is wrong?',
           options: ['Bio sam rekao.', 'Bijah rekao.', 'Bijah sam rekao.', 'Bila sam rekla.'],
           correct: 2,
           hint: 'One of these uses two auxiliaries at once.',
@@ -6923,7 +6924,7 @@ export const PRACTICE_C1 = {
             '"Bijah sam rekao" doubles the auxiliary: it is either bio sam rekao or bijah rekao.',
         },
         {
-          q: 'Koja rečenica prirodno koristi pluskvamperfekt za pozadinu?',
+          q: 'Which sentence naturally uses the pluperfect for the background?',
           options: [
             'Policija je uhitila ženu koja je bila ukrala auto.',
             'Policija je bila uhitila ženu koja je ukrala auto.',
@@ -6983,7 +6984,7 @@ export const PRACTICE_C1 = {
           'je bila izgubila — perfekt of biti followed by the participle, both feminine; je bio izgubila breaks the agreement.',
       },
       {
-        q: 'Why is the pluperfect optional in „Nakon što je doručkovao, otišao je na posao“?',
+        q: 'Why is the pluperfect optional in „Nakon što je doručkovao, otišao je na posao”?',
         options: [
           'because nakon što already fixes the order',
           'because doručkovati has no pluperfect',
@@ -7009,7 +7010,7 @@ export const PRACTICE_C1 = {
       ['imperfekt', 'imperfect tense', 'Imperfekt glagola biti je bijah, bijaše, bijahu.'],
       ['aorist', 'aorist tense', 'U starijoj prozi aorist se često javlja uz pluskvamperfekt.'],
       ['prethoditi', 'to precede', 'Radnja u pluskvamperfektu prethodi drugoj prošloj radnji.'],
-      ['redoslijed', 'order, sequence', 'Veznik „nakon što“ jasno određuje redoslijed događaja.'],
+      ['redoslijed', 'order, sequence', 'Veznik „nakon što” jasno određuje redoslijed događaja.'],
       ['pripovijedanje', 'narration', 'U pripovijedanju pluskvamperfekt označava pozadinu.'],
       ['pozadina', 'background', 'Ranija radnja često je samo pozadina glavnom događaju.'],
     ],
@@ -7020,7 +7021,7 @@ export const PRACTICE_C1 = {
       {
         title: 'Three Foreign Names',
         problem: 'Dopuni: Gledali smo film s ___ (Tom Hanks) i ___ (Emma Thompson).',
-        en: 'Fill in: We watched a film with Tom Hanks and Emma Thompson.',
+        en: 'Fill in: We watched a movie with Tom Hanks and Emma Thompson.',
         steps: [
           {
             label: 'The case',
@@ -7062,14 +7063,14 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dopuni: Čitali smo pisma ___. (Henry Ford)',
+          q: 'Complete: Čitali smo pisma ___. (Henry Ford)',
           options: ['Henryja Ford', 'Henrya Forda', 'Henryja Forda', 'Henry Forda'],
           correct: 2,
           hint: 'A final -y needs a linking consonant before the ending, and a man’s consonant-final surname declines too.',
           explanation: 'Henryja Forda — linking -j- after the y, and Ford takes the genitive -a.',
         },
         {
-          q: 'Dopuni: Intervju s ___ bio je dug. (Theresa May)',
+          q: 'Complete: Intervju s ___ bio je dug. (Theresa May)',
           options: ['Theresom May', 'Theresa May', 'Theresom Mayjem', 'Theresi May'],
           correct: 0,
           hint: 'Her first name ends in -a and declines; her surname has no feminine paradigm to enter.',
@@ -7077,7 +7078,7 @@ export const PRACTICE_C1 = {
             'Theresom May — instrumental on the first name only. Declining the surname forces it into a masculine paradigm.',
         },
         {
-          q: 'Dopuni: Bojim se tvog ___. (pas)',
+          q: 'Complete: Bojim se tvog ___. (pas)',
           options: ['psa', 'pasa', 'pasu', 'psu'],
           correct: 0,
           hint: 'bojati se takes the genitive singular, and this noun loses a vowel when it takes an ending.',
@@ -7093,14 +7094,14 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Razgovarali smo o ____ Obami. (Barack)',
+          q: 'Complete: Razgovarali smo o ____ Obami. (Barack)',
           answer: 'Baracku',
           hint: 'A man’s consonant-final first name takes the ordinary masculine locative ending.',
           explanation: 'o Baracku Obami — both names decline; o takes the locative.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Knjiga je posvećena ____ Hugu. (Victor)',
+          q: 'Complete: Knjiga je posvećena ____ Hugu. (Victor)',
           answer: 'Victoru',
           hint: 'Keep the original spelling and add the dative ending.',
           explanation:
@@ -7108,7 +7109,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Ovo je portret ____ Merkel. (Angela)',
+          q: 'Complete: Ovo je portret ____ Merkel. (Angela)',
           answer: 'Angele',
           hint: 'Only one of the two names has a paradigm to enter.',
           explanation:
@@ -7116,7 +7117,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Na trgu je bilo mnogo ____. (čovjek)',
+          q: 'Complete: Na trgu je bilo mnogo ____. (čovjek)',
           answer: 'ljudi',
           hint: 'The plural of this noun comes from a different root.',
           explanation:
@@ -7124,13 +7125,13 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Na satu smo govorili o ____. (Zola, the writer)',
+          q: 'Complete: Na satu smo govorili o ____. (Zola, the writer)',
           answer: 'Zoli',
           hint: 'A name ending in -a declines like a feminine noun, whoever bears it.',
           explanation: 'o Zoli — a man called Zola still declines like a feminine in -a.',
         },
         {
-          q: 'Koji je oblik pravilan?',
+          q: 'Which form is correct?',
           options: [
             'Živimo u Dugoj Resa.',
             'Živimo u Duga Resi.',
@@ -7142,7 +7143,7 @@ export const PRACTICE_C1 = {
           explanation: 'u Dugoj Resi — the adjective and the noun both take the locative.',
         },
         {
-          q: 'Dopuni: Djevojčica ima velike plave ___. (oko)',
+          q: 'Complete: Djevojčica ima velike plave ___. (oko)',
           options: ['oka', 'očiju', 'oči', 'okove'],
           correct: 2,
           hint: 'Body-part pairs kept an old dual form.',
@@ -7150,7 +7151,7 @@ export const PRACTICE_C1 = {
             'plave oči — the eyes in your head are oči, a feminine plural; oka are the eyes of a net.',
         },
         {
-          q: 'Dopuni: Pisao sam o ___. (William Shakespeare)',
+          q: 'Complete: Pisao sam o ___. (William Shakespeare)',
           options: [
             'Williamu Shakespeareu',
             'William Shakespeareu',
@@ -7203,7 +7204,7 @@ export const PRACTICE_C1 = {
         ],
         correct: 3,
         explanation:
-          '„četiri satova“ is wrong: after četiri the noun is genitive singular (četiri sata), and satovi means clocks or lessons, not hours.',
+          '„četiri satova” is wrong: after četiri the noun is genitive singular (četiri sata), and satovi means clocks or lessons, not hours.',
       },
       {
         q: 'Complete: "Vratili smo se iz ___." (Oslo)',
@@ -7214,16 +7215,16 @@ export const PRACTICE_C1 = {
     ],
     vocab: [
       ['sklonidba', 'declension', 'Sklonidba stranih imena često zbunjuje i izvorne govornike.'],
-      ['iznimka', 'exception', 'Riječ „čovjek“ iznimka je jer množinu tvori od drugog korijena.'],
+      ['iznimka', 'exception', 'Riječ „čovjek” iznimka je jer množinu tvori od drugog korijena.'],
       ['prezime', 'surname', 'Žensko prezime na suglasnik ne sklanja se: o Angeli Merkel.'],
       ['nesklonjiv', 'indeclinable', 'Prezime Merkel u ženskom je rodu nesklonjivo.'],
       [
         'zbirna imenica',
         'collective noun',
-        'Zbirna imenica „djeca“ slaže se s glagolom u množini.',
+        'Zbirna imenica „djeca” slaže se s glagolom u množini.',
       ],
-      ['množina', 'plural', 'Množina od „sat“ u značenju sati razlikuje se od množine „satovi“.'],
-      ['nepostojani a', 'fleeting a', 'U riječi „pas“ nepostojani a nestaje: psa, psu.'],
+      ['množina', 'plural', 'Množina od „sat” u značenju sati razlikuje se od množine „satovi”.'],
+      ['nepostojani a', 'fleeting a', 'U riječi „pas” nepostojani a nestaje: psa, psu.'],
       ['mjesno ime', 'place name', 'Mjesno ime Vinkovci ima oblik množine: Vinkovci su lijepi.'],
       [
         'preuzeti',
@@ -7280,7 +7281,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Kako se u dopisu piše "at 9 o’clock on 1 May 2026"?',
+          q: 'In an official letter, how do you write "at 9 o’clock on May 1, 2026"?',
           options: [
             '1. svibnja 2026. u 9 sati',
             '1 svibanj 2026 u 9:00 sati',
@@ -7293,14 +7294,14 @@ export const PRACTICE_C1 = {
             '1. svibnja 2026. u 9 sati — sati replaces the second half of the clock time.',
         },
         {
-          q: 'Dopuni: Na natječaj su se prijavile četiri ___, a sedam ___ nije se javilo.',
+          q: 'Complete: Na natječaj su se prijavile četiri ___, a sedam ___ nije se javilo.',
           options: ['osobe / osoba', 'osoba / osobe', 'osobe / osobe', 'osoba / osoba'],
           correct: 0,
           hint: 'Two to four take the genitive singular; five and above the genitive plural.',
           explanation: 'četiri osobe (genitive singular), sedam osoba (genitive plural).',
         },
         {
-          q: 'Koja rečenica ne poštuje stilsku preporuku o brojkama?',
+          q: 'Which sentence breaks the style recommendation on numerals?',
           options: [
             'Dvanaest ljudi čekalo je pred vratima.',
             '12 ljudi čekalo je pred vratima.',
@@ -7313,7 +7314,7 @@ export const PRACTICE_C1 = {
             'Style manuals advise against beginning a sentence with a numeral: spell it out or reorder, as the other three do.',
         },
         {
-          q: 'U službenom rješenju: Komisija je odlučila o ___ zahtjevima.',
+          q: 'In an official decision: Komisija je odlučila o ___ zahtjevima.',
           options: ['dva', 'dvama', 'dvije', 'dvaju'],
           correct: 1,
           hint: 'The noun after o is already declined; the numeral must agree with it in case.',
@@ -7322,49 +7323,49 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Na natječaj su stigle tri ____. (prijava)',
+          q: 'Complete: Na natječaj su stigle tri ____. (prijava)',
           answer: 'prijave',
           hint: 'After dva, tri and četiri a feminine noun takes the genitive singular.',
           explanation: 'tri prijave — genitive singular after tri.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Ispit je položilo dvadeset ____. (student)',
+          q: 'Complete: Ispit je položilo dvadeset ____. (student)',
           answer: 'studenata',
           hint: 'From five upward the counted noun stands in the genitive plural.',
           explanation: 'dvadeset studenata — the genitive plural, with the inserted a.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Sastanak počinje u 10 ____. (the word that replaces ":00")',
+          q: 'Complete: Sastanak počinje u 10 ____. (the word that replaces ":00")',
           answer: 'sati',
           hint: 'Croatian names the hour with a word instead of the minutes after a colon.',
           explanation: 'u 10 sati — the word replaces the ":00"; "u 10:00 sati" says it twice.',
         },
         {
           type: 'type',
-          q: 'Dopuni datum: Ugovor je potpisan 12. ____ 2026. (March)',
+          q: 'Complete the date: Ugovor je potpisan 12. ____ 2026. (March)',
           answer: 'ožujka',
           hint: 'After an ordinal day the month stands in the genitive, in lower case.',
           explanation: '12. ožujka 2026. — the month in the genitive, with ordinal dots.',
         },
         {
           type: 'type',
-          q: 'U službenom rješenju: Komisija je raspravila o ____ prijedlozima. (4, declined)',
+          q: 'In an official decision: Komisija je raspravila o ____ prijedlozima. (4, declined)',
           answer: 'četirima',
           hint: 'Administrative writing keeps the declined form of the numeral in the same case as the noun.',
           explanation:
             'o četirima prijedlozima — the formal locative of četiri; in journalism o četiri prijedloga.',
         },
         {
-          q: 'Kako se piše "a 15 % discount"?',
+          q: 'How do you write "a 15 % discount"?',
           options: ['popust od 15%', 'popust od 15 posto%', 'popust od 15 %', 'popust od 15,%'],
           correct: 2,
           hint: 'Think of the space before a unit.',
           explanation: 'popust od 15 % — a space before the percent sign, as before every unit.',
         },
         {
-          q: 'Kako se u prozi piše "in the 1990s"?',
+          q: 'In running text, how do you write "in the 1990s"?',
           options: ['90-tih godina', 'devedesetih godina', '90tih godina', 'Devedesetih Godina'],
           correct: 1,
           hint: 'Decades in running text are not left as figures.',
@@ -7372,7 +7373,7 @@ export const PRACTICE_C1 = {
             'devedesetih godina — written out, in lower case. With figures it is 90-ih, never 90-tih or 90tih.',
         },
         {
-          q: 'Cijena raste s 200 na 250 eura. Što je točno?',
+          q: 'Cijena raste s 200 na 250 eura. Which statement is correct?',
           options: [
             'Porasla je za 50 posto.',
             'Porasla je za 25 posto.',
@@ -7455,7 +7456,7 @@ export const PRACTICE_C1 = {
       [
         'brojevni izraz',
         'number expression, quantifier',
-        'Iza brojevnog izraza „nekoliko“ dolazi genitiv množine.',
+        'Iza brojevnog izraza „nekoliko” dolazi genitiv množine.',
       ],
       ['desetljeće', 'decade', 'U prozi desetljeće pišemo slovima: sedamdesetih godina.'],
     ],
@@ -7508,21 +7509,21 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Dopuni: Tri knjige ___ na stolu.',
+          q: 'Complete: Tri knjige ___ na stolu.',
           options: ['su ležali', 'su ležala', 'su ležale', 'je ležala'],
           correct: 2,
           hint: 'Two, three and four keep a plural verb, and the participle agrees with the gender of the noun.',
           explanation: 'Tri knjige su ležale — feminine plural participle with a feminine noun.',
         },
         {
-          q: 'Dopuni: Mnogo je putnika ___ na polazak.',
+          q: 'Complete: Mnogo je putnika ___ na polazak.',
           options: ['čekalo', 'čekali', 'čekala', 'čekao'],
           correct: 0,
           hint: 'The quantity word controls the verb and gives it one particular gender and number.',
           explanation: 'Mnogo je putnika čekalo — a quantity subject takes a neuter singular.',
         },
         {
-          q: 'Koja rečenica pušta glagol da se slaže s najbližom imenicom?',
+          q: 'Which sentence lets the verb agree with the nearest noun?',
           options: [
             'Ni otac ni njegove kćeri nisu došli.',
             'Ni otac ni njegove kćeri nisu došle.',
@@ -7535,7 +7536,7 @@ export const PRACTICE_C1 = {
             'nisu došle copies kćeri. With a mixed subject the verb is masculine plural: nisu došli.',
         },
         {
-          q: 'Dopuni: Ana i Marija ___ kasno.',
+          q: 'Complete: Ana i Marija ___ kasno.',
           options: ['su stigle', 'su stigli', 'je stiglo', 'su stigla'],
           correct: 0,
           hint: 'When every member of the subject is feminine, the unmarked masculine is not needed.',
@@ -7543,7 +7544,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Mnogo ljudi ____ na koncert. (doći, perfekt)',
+          q: 'Complete: Mnogo ljudi ____ na koncert. (doći, perfekt)',
           answer: 'je došlo',
           accept: ['došlo je'],
           hint: 'The quantity word, not the noun, controls the verb.',
@@ -7551,7 +7552,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Dva prijatelja ____ zajedno. (putovati, perfekt)',
+          q: 'Complete: Dva prijatelja ____ zajedno. (putovati, perfekt)',
           answer: 'su putovala',
           accept: ['putovala su'],
           hint: 'Two, three and four keep a plural auxiliary, and the participle has the old dual ending.',
@@ -7559,7 +7560,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Pet žena ____ u zboru. (pjevati, perfekt)',
+          q: 'Complete: Pet žena ____ u zboru. (pjevati, perfekt)',
           answer: 'je pjevalo',
           accept: ['pjevalo je'],
           hint: 'The boundary is at five.',
@@ -7567,7 +7568,7 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Ivana i Petar ____ na izlet. (otići, perfekt)',
+          q: 'Complete: Ivana i Petar ____ na izlet. (otići, perfekt)',
           answer: 'su otišli',
           accept: ['otišli su'],
           hint: 'One woman and one man: which gender is the unmarked plural?',
@@ -7575,14 +7576,14 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: Dvije djevojke ____ na vrijeme. (stići, perfekt)',
+          q: 'Complete: Dvije djevojke ____ na vrijeme. (stići, perfekt)',
           answer: 'su stigle',
           accept: ['stigle su'],
           hint: 'Below five the verb is plural, and the noun is feminine.',
           explanation: 'Dvije djevojke su stigle — plural verb, feminine participle.',
         },
         {
-          q: 'Dopuni: Većina putnika ___ u vlaku.',
+          q: 'Complete: Većina putnika ___ u vlaku.',
           options: ['su spavali', 'je spavala', 'su spavale', 'je spavao'],
           correct: 1,
           hint: 'većina is itself a feminine singular noun.',
@@ -7590,7 +7591,7 @@ export const PRACTICE_C1 = {
             'Većina putnika je spavala — the verb agrees with većina, a feminine singular.',
         },
         {
-          q: 'Koja rečenica ima pravilno slaganje?',
+          q: 'Which sentence has correct agreement?',
           options: [
             'Nekoliko djece su plakali.',
             'Nekoliko djece je plakala.',
@@ -7603,7 +7604,7 @@ export const PRACTICE_C1 = {
             'Nekoliko djece je plakalo — a quantity subject takes a neuter singular verb.',
         },
         {
-          q: 'Dopuni: Četiri stolca ___ u kutu.',
+          q: 'Complete: Četiri stolca ___ u kutu.',
           options: ['je stajalo', 'je stajao', 'su stajala', 'su stajale'],
           correct: 2,
           hint: 'Four, not five: the old dual pattern.',
@@ -7650,7 +7651,7 @@ export const PRACTICE_C1 = {
         ],
         correct: 1,
         explanation:
-          '„nije došla“ agrees with majka alone. The subject as a whole is plural and mixed, so the verb is nisu došli.',
+          '„nije došla” agrees with majka alone. The subject as a whole is plural and mixed, so the verb is nisu došli.',
       },
       {
         q: 'Complete: "Nekoliko turista ___ na plaži."',
@@ -7681,7 +7682,7 @@ export const PRACTICE_C1 = {
         'the dual (grammatical number)',
         'Oblik "dva studenta" ostatak je stare dvojine.',
       ],
-      ['zbirna imenica', 'collective noun', 'Zbirna imenica „braća“ traži glagol u množini.'],
+      ['zbirna imenica', 'collective noun', 'Zbirna imenica „braća” traži glagol u množini.'],
     ],
   },
 
@@ -7732,7 +7733,7 @@ export const PRACTICE_C1 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Koja rečenica znači "bring some wine"?',
+          q: 'Which sentence means "bring some wine"?',
           options: ['Donesi vino.', 'Donesi vina.', 'Donesi s vinom.', 'Donesi vinom.'],
           correct: 1,
           hint: '"Some" is carried by the case — the partitive — not by a separate word.',
@@ -7740,7 +7741,7 @@ export const PRACTICE_C1 = {
             'Donesi vina — the partitive genitive. Donesi vino asks for the particular wine in question.',
         },
         {
-          q: 'Dopuni: Šetali smo ___ do svjetionika. (obala — along the shore)',
+          q: 'Complete: Šetali smo ___ do svjetionika. (obala — along the shore)',
           options: ['obalom', 's obalom', 'obali', 'obalu'],
           correct: 0,
           hint: 'A route traveled along is a bare case, with no preposition.',
@@ -7748,14 +7749,14 @@ export const PRACTICE_C1 = {
             'obalom — the bare instrumental of route. s obalom would make the shore a companion.',
         },
         {
-          q: 'Dopuni: ___ radim od kuće, a utorkom idem u ured.',
+          q: 'Complete: ___ radim od kuće, a utorkom idem u ured.',
           options: ['U ponedjeljku', 'Na ponedjeljak', 'Ponedjeljak', 'Ponedjeljkom'],
           correct: 3,
           hint: 'A habit that repeats every week uses the same bare case as utorkom later in the sentence.',
           explanation: 'Ponedjeljkom — the instrumental of repetition, matching utorkom.',
         },
         {
-          q: 'Dopuni: Danas nema ___ u uredu.',
+          q: 'Complete: Danas nema ___ u uredu.',
           options: ['direktor', 'direktoru', 'direktora', 'direktorom'],
           correct: 2,
           hint: 'nema meaning "there is no" governs one case, always.',
@@ -7763,41 +7764,41 @@ export const PRACTICE_C1 = {
         },
         {
           type: 'type',
-          q: 'Dopuni: ____ čitam, a danju radim. (at night)',
+          q: 'Complete: ____ čitam, a danju radim. (at night)',
           answer: 'noću',
           hint: 'A bare instrumental of a time word, like its partner danju.',
           explanation: 'Noću — "at night", a bare case with no preposition.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Prošli smo ____ do sela. (polje — through the field)',
+          q: 'Complete: Prošli smo ____ do sela. (polje — through the field)',
           answer: 'poljem',
           hint: 'The route takes a bare instrumental, no preposition.',
           explanation: 'poljem — the instrumental gives the way through: prošli smo poljem.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Kupi mi ____ na tržnici. (sir — some cheese)',
+          q: 'Complete: Kupi mi ____ na tržnici. (sir — some cheese)',
           answer: 'sira',
           hint: '"Some" of a mass noun is a bare genitive.',
           explanation: 'Kupi mi sira — the partitive genitive; sir would be a particular cheese.',
         },
         {
           type: 'type',
-          q: 'Dopuni: Vratili smo se ____ godine. (prošli — last year)',
+          q: 'Complete: Vratili smo se ____ godine. (prošli — last year)',
           answer: 'prošle',
           hint: 'A point in time takes a bare genitive, and godina is feminine.',
           explanation: 'prošle godine — the genitive of a point in time, with no preposition.',
         },
         {
           type: 'type',
-          q: 'Dopuni: U hladnjaku nema ____. (mlijeko)',
+          q: 'Complete: U hladnjaku nema ____. (mlijeko)',
           answer: 'mlijeka',
           hint: 'Existential nema governs one case only.',
           explanation: 'nema mlijeka — nema takes the genitive.',
         },
         {
-          q: 'Koja rečenica kaže da je putovala zajedno s bratom?',
+          q: 'Which sentence says that she traveled together with her brother?',
           options: [
             'Putovala je bratom.',
             'Putovala je s bratom.',
@@ -7809,14 +7810,14 @@ export const PRACTICE_C1 = {
           explanation: 's bratom — with the preposition the instrumental means accompaniment.',
         },
         {
-          q: 'Dopuni: Radili smo ___ bez odmora. (the whole week)',
+          q: 'Complete: Radili smo ___ bez odmora. (the whole week)',
           options: ['cijeli tjedan', 'cijelim tjednom', 'cijelom tjednu', 'za cijeli tjedan'],
           correct: 0,
           hint: 'Duration takes a bare accusative.',
           explanation: 'cijeli tjedan — the accusative of duration, with no preposition.',
         },
         {
-          q: 'Koja rečenica prirodno kaže "his grandmother died"?',
+          q: 'Which sentence naturally says "his grandmother died"?',
           options: [
             'Umro mu je baka.',
             'Umrla je baka od njega.',
@@ -7870,7 +7871,7 @@ export const PRACTICE_C1 = {
         explanation: 'The bare instrumental marks repetition: nedjeljom, "on Sundays".',
       },
       {
-        q: 'What does the dative "joj" express in „Sin joj živi u Kanadi“?',
+        q: 'What does the dative "joj" express in „Sin joj živi u Kanadi”?',
         options: [
           'That the son lives there because of her',
           'The person the son belongs to — her son',

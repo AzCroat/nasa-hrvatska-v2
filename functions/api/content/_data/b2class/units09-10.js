@@ -688,7 +688,7 @@ export const CLASS_B2_U09_10 = {
           en: 'Every year at the end of November, consumer fever takes hold of us.',
         },
         {
-          hr: 'Izlozi viču: „Samo danas!“, „Ne propustite!“, „Sve je sniženo!“',
+          hr: 'Izlozi viču: „Samo danas!”, „Ne propustite!”, „Sve je sniženo!”',
           en: 'The store windows shout: "Today only!", "Don’t miss it!", "Everything is reduced!"',
         },
         {
@@ -1817,7 +1817,7 @@ export const CLASS_B2_U09_10 = {
           en: 'The main movie is the story of a fisherman from Vis who has dreamed all his life of singing in a klapa.',
         },
         {
-          hr: 'Likovi govore dalmatinski pa sam prvih deset minuta jedva razumjela što je „ćakula“ i zašto svi idu „na đir“.',
+          hr: 'Likovi govore dalmatinski pa sam prvih deset minuta jedva razumjela što je „ćakula” i zašto svi idu „na đir”.',
           en: 'The characters speak Dalmatian, so for the first ten minutes I barely understood what a "ćakula" is and why everyone goes "na đir".',
         },
         {

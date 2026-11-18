@@ -30,7 +30,7 @@ export function normalizeTyped(s: string): string {
     .replace(/[“”„‟]/g, '"')
     .replace(/\s+/g, ' ')
     .trim()
-    .replace(/^[\s.,!?;:"'()«»„“”-]+|[\s.,!?;:"'()«»„“”-]+$/g, '');
+    .replace(/^[\s.,!?;:"'()«»„””-]+|[\s.,!?;:"'()«»„””-]+$/g, '');
 }
 
 /** Diacritics removed (after normalising). `dj` and `đ` both fold to `d`/`dj`. */

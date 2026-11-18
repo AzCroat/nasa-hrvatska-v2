@@ -161,7 +161,7 @@ const DISJUNCTIVE_GRADATIONAL = {
           note: 'a single ili — an open choice, and no comma before it',
         },
         {
-          hr: 'Ili ćete platiti račun do petka ili ćemo vam isključiti struju.',
+          hr: 'Ili ćete platiti račun do petka ili ćemo Vam isključiti struju.',
           en: 'Either you pay the bill by Friday, or we will cut off your electricity.',
           note: 'ili… ili — a demand; no comma before the second ili either',
         },
@@ -446,7 +446,7 @@ const IRREGULAR_NOUNS = {
         },
         {
           hr: 'Od starog lista ostao je samo pepeo u peći.',
-          en: 'Only ash was left of the old letter in the stove.',
+          en: 'Only ash was left of the old newspaper in the stove.',
           note: 'pepeo — nominative; the genitive would be pepela',
         },
         {
@@ -580,7 +580,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
         ['putem', 'via, through, by way of', 'putem interneta'],
         ['umjesto', 'instead of', 'umjesto kave'],
         ['poput', 'like, such as', 'gradovi poput Zadra'],
-        ['glede', 'regarding (formal)', 'glede vašeg upita'],
+        ['glede', 'regarding (formal)', 'glede Vašeg upita'],
         ['mimo', 'past, by (space); contrary to', 'mimo moje kuće, mimo pravila'],
         ['radi', 'for the purpose of', 'radi posla'],
       ],
@@ -656,7 +656,7 @@ const RARE_GENITIVE_PREPOSITIONS = {
     {
       type: 'rule',
       title: 'Relation: Umjesto, Poput, Glede, Mimo',
-      body: 'Umjesto replaces one thing with another: Umjesto kave popio je čaj. Poput compares or gives examples: Pjeva poput slavuja. Gradovi poput Zadra i Šibenika privlače sve više turista. Glede means regarding and belongs to letters and documents: Glede vašeg upita, obavještavamo vas da… — in speech, u vezi s + instrumental is more natural. Mimo has two meanings. In space it means past, by — and, said of two people, past each other in opposite directions: Prošli su mimo moje kuće. Prošli su jedan mimo drugoga. Figuratively it means outside of or contrary to: Odluka je donesena mimo pravila. Mimo svih očekivanja, pobijedili su.',
+      body: 'Umjesto replaces one thing with another: Umjesto kave popio je čaj. Poput compares or gives examples: Pjeva poput slavuja. Gradovi poput Zadra i Šibenika privlače sve više turista. Glede means regarding and belongs to letters and documents: Glede Vašeg upita, obavještavamo Vas da… — in speech, u vezi s + instrumental is more natural. Mimo has two meanings. In space it means past, by — and, said of two people, past each other in opposite directions: Prošli su mimo moje kuće. Prošli su jedan mimo drugoga. Figuratively it means outside of or contrary to: Odluka je donesena mimo pravila. Mimo svih očekivanja, pobijedili su.',
       highlight: 'Prošli su mimo moje kuće.',
     },
     {
@@ -914,7 +914,7 @@ const COMMA_DEPENDENT = {
           note: 'inverted order — the comma closes the čim clause',
         },
         {
-          hr: 'Ako vam termin ne odgovara, javite nam se najkasnije dan ranije.',
+          hr: 'Ako Vam termin ne odgovara, javite nam se najkasnije dan ranije.',
           en: 'If the appointment does not suit you, let us know a day in advance at the latest.',
           note: 'inverted order — comma after the ako clause',
         },
@@ -1119,7 +1119,7 @@ const EMPHATIC_GENITIVE = {
     {
       type: 'rule',
       title: 'Žali Bože + Genitive',
-      body: 'Žali Bože + genitive says that something was wasted on a thing not worth it: Žali Bože truda! (A pity about all that effort.) Žali Bože vremena koje smo potrošili na taj film. (What a waste of the time we spent on that film.) It is fixed — the words never change — and it is spoken, slightly old-fashioned Croatian.',
+      body: 'Žali Bože + genitive says that something was wasted on a thing not worth it: Žali Bože truda! (A pity about all that effort.) Žali Bože vremena koje smo potrošili na taj film. (What a waste of the time we spent on that movie.) It is fixed — the words never change — and it is spoken, slightly old-fashioned Croatian.',
       highlight: 'Žali Bože vremena',
     },
     {
@@ -1357,7 +1357,7 @@ export const PRACTICE = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Možemo ići na Plitvice ___ na Krku. (open choice)',
+          q: 'Možemo ići na Plitvice ___ na Krk. (open choice)',
           options: ['ili', 'a kamoli', 'samo', 'štoviše'],
           correct: 0,
           hint: 'One small word leaves both choices open.',

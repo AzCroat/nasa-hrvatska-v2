@@ -355,7 +355,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Nova Gradiška': {
     introHrA2:
-      'Nova Gradiška je grad u Slavoniji koji nije rastao polako, nego je izgrađen po planu 1748. godine. Podigla ga je Habsburška Vojna krajina zbog obrane od osmanskih upada. Ulice su ravne i čine pravilnu mrežu, a u sredini je veliki trg. Taj je raster ulica gotovo savršeno očuvan do danas. Odavde su vojnici odlazili prema granici na Savi. Ime „Nova“ razlikuje grad od starije Stare Gradiške u blizini. Iznad grada diže se Psunj, s 984 metra najviša planina u Slavoniji, prekrivena šumama. Ovdje počinje i slavonska vinska cesta.',
+      'Nova Gradiška je grad u Slavoniji koji nije rastao polako, nego je izgrađen po planu 1748. godine. Podigla ga je Habsburška Vojna krajina zbog obrane od osmanskih upada. Ulice su ravne i čine pravilnu mrežu, a u sredini je veliki trg. Taj je raster ulica gotovo savršeno očuvan do danas. Odavde su vojnici odlazili prema granici na Savi. Ime „Nova” razlikuje grad od starije Stare Gradiške u blizini. Iznad grada diže se Psunj, s 984 metra najviša planina u Slavoniji, prekrivena šumama. Ovdje počinje i slavonska vinska cesta.',
   },
   Županja: {
     introHrA2:
@@ -755,11 +755,11 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Punta Križa': {
     introHrA2:
-      'Punta Križa je malo selo na južnom vrhu otoka Cresa. Do sela se dolazi samo brodom ili dugom vožnjom preko cijeloga otoka, pa je ovdje vrlo mirno. U selu živi manje od sto stalnih stanovnika, ali ljeti u uvalu dolaze jedriličari. More je iznimno bistro i dno se vidi na trideset metara dubine. Oko sela rastu masline, a maslinovo ulje s Cresa jedno je od najboljih na Kvarneru. Ime „punta“ dolazi iz venecijanskoga i znači rt.',
+      'Punta Križa je malo selo na južnom vrhu otoka Cresa. Do sela se dolazi samo brodom ili dugom vožnjom preko cijeloga otoka, pa je ovdje vrlo mirno. U selu živi manje od sto stalnih stanovnika, ali ljeti u uvalu dolaze jedriličari. More je iznimno bistro i dno se vidi na trideset metara dubine. Oko sela rastu masline, a maslinovo ulje s Cresa jedno je od najboljih na Kvarneru. Ime „punta” dolazi iz venecijanskoga i znači rt.',
   },
   'Mošćenička Draga': {
     introHrA2:
-      'Mošćenička Draga je malo ljetovalište na Kvarnerskoj rivijeri. Ima šljunčanu plažu i vrlo čisto, bistro more. Iznad mjesta, na klisuri, stoji staro selo Mošćenice s obrambenim zidinama iz 13. stoljeća, koje su gotovo cijele sačuvane. Riječ „draga“ znači malu dolinu ili uvalu, pa mjesto nosi ime po dolini u kojoj leži, između mora i brda. Novo je naselje izraslo dolje zbog turizma. U okolici Mošćenica rastu maslinici, a ljudi ovdje beru masline već stoljećima. Ovdašnje maslinovo ulje dobiva međunarodne nagrade.',
+      'Mošćenička Draga je malo ljetovalište na Kvarnerskoj rivijeri. Ima šljunčanu plažu i vrlo čisto, bistro more. Iznad mjesta, na klisuri, stoji staro selo Mošćenice s obrambenim zidinama iz 13. stoljeća, koje su gotovo cijele sačuvane. Riječ „draga” znači malu dolinu ili uvalu, pa mjesto nosi ime po dolini u kojoj leži, između mora i brda. Novo je naselje izraslo dolje zbog turizma. U okolici Mošćenica rastu maslinici, a ljudi ovdje beru masline već stoljećima. Ovdašnje maslinovo ulje dobiva međunarodne nagrade.',
   },
   Lošinj: {
     introHrA2:
@@ -767,7 +767,7 @@ export const CITY_INTRO_HR_A2 = {
   },
   'Veli Lošinj': {
     introHrA2:
-      'Veli Lošinj je mirno mjesto na otoku Lošinju. Njegovo ime znači „Veliki Lošinj“, iako je manje i mirnije od susjednoga Maloga Lošinja. Iznad luke stoji venecijanski toranj iz 14. stoljeća. U mjestu je poseban muzej u kojem se čuva Apoksiomen, grčki brončani kip atleta iz 2. stoljeća prije Krista. Kip je 1999. godine u moru pronašao austrijski ronilac, na dubini od samo 45 metara. Prije toga je u moru proveo više od dvije tisuće godina. Muzej je izgrađen posebno za njega, da bi kip bio dobro sačuvan.',
+      'Veli Lošinj je mirno mjesto na otoku Lošinju. Njegovo ime znači „Veliki Lošinj”, iako je manje i mirnije od susjednoga Maloga Lošinja. Iznad luke stoji venecijanski toranj iz 14. stoljeća. U mjestu je poseban muzej u kojem se čuva Apoksiomen, grčki brončani kip atleta iz 2. stoljeća prije Krista. Kip je 1999. godine u moru pronašao austrijski ronilac, na dubini od samo 45 metara. Prije toga je u moru proveo više od dvije tisuće godina. Muzej je izgrađen posebno za njega, da bi kip bio dobro sačuvan.',
   },
   'Dubrovačko primorje': {
     introHrA2:

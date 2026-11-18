@@ -99,7 +99,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   // ── supletivi ─────────────────────────────────────────────────────────────
   {
     mode: 'supletivi',
-    q: 'Množina od „čovjek“ je ____.',
+    q: 'Množina od „čovjek” je ____.',
     en: 'plural of čovjek',
     opts: ['ljudi', 'čovjeci', 'čovjekovi', 'čovječi'],
     answer: 'ljudi',
@@ -115,7 +115,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Kojeg je roda „djeca“ u slaganju s pridjevom?',
+    q: 'Kojeg je roda „djeca” u slaganju s pridjevom?',
     en: 'What gender does djeca take with an adjective?',
     opts: ['ženskog jednine', 'srednjeg množine', 'muškog množine', 'srednjeg jednine'],
     answer: 'ženskog jednine',
@@ -123,7 +123,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od „brat“ je ____.',
+    q: 'Množina od „brat” je ____.',
     en: 'plural of brat',
     opts: ['braća', 'brati', 'bratovi', 'bratja'],
     answer: 'braća',
@@ -131,7 +131,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Genitiv jednine od „pas“ je ____.',
+    q: 'Genitiv jednine od „pas” je ____.',
     en: 'genitive singular of pas',
     opts: ['psa', 'pasa', 'pasu', 'pas'],
     answer: 'psa',
@@ -139,7 +139,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od „oko“ (dio tijela) je ____.',
+    q: 'Množina od „oko” (dio tijela) je ____.',
     en: 'plural of oko',
     opts: ['oči', 'oka', 'okovi', 'okna'],
     answer: 'oči',
@@ -147,7 +147,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Kojeg su roda „oči“ i „uši“?',
+    q: 'Kojeg su roda „oči” i „uši”?',
     en: 'What gender are they?',
     opts: ['ženskog', 'srednjeg', 'muškog', 'nemaju rod'],
     answer: 'ženskog',
@@ -155,7 +155,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'supletivi',
-    q: 'Množina od „dijete“ je ____.',
+    q: 'Množina od „dijete” je ____.',
     en: 'plural of dijete',
     opts: ['djeca', 'djeteta', 'dijeteta', 'djetići'],
     answer: 'djeca',
@@ -189,7 +189,7 @@ export const DECLENSION_EXCEPTIONS_DRILL_DATA: ModeDrillItem[] = [
   },
   {
     mode: 'dvamnozine',
-    q: 'Koja je množina za „clocks, lessons“?',
+    q: 'Koja je množina za „clocks, lessons”?',
     en: 'Which plural means clocks or lessons?',
     opts: ['satovi', 'sati', 'sate', 'satima'],
     answer: 'satovi',
