@@ -1569,7 +1569,7 @@ export const PRACTICE_C2 = {
             'Direktore, sastanak počinje u devet.',
             'Gospodine direktore, šaljem Vam izvješće.',
             'Direktor je stigao na sastanak.',
-            'Gospodine direktore, izvolite vaš sok — rekla je sestra bratu od šest godina.',
+            'Gospodine direktore, izvolite Vaš sok — rekla je sestra bratu od šest godina.',
           ],
           correct: 3,
           hint: 'The formality has to be out of place for the person addressed.',
@@ -2223,14 +2223,14 @@ export const PRACTICE_C2 = {
       title: 'Guided Practice',
       items: [
         {
-          q: 'Stari tekst ima "kucha". Koja je to riječ?',
+          q: 'Stari tekst ima „kucha”. Koja je to riječ?',
           options: ['kuća', 'kuča', 'kuha', 'kusa'],
           correct: 0,
           hint: 'In this spelling, ch stands for the softer of the two ch-sounds.',
           explanation: 'kuća — ch = ć in pre-Gaj Hungarian-style spelling.',
         },
         {
-          q: 'Što znači "jur" u rečenici: Jur je svanulo.',
+          q: 'Što znači „jur” u rečenici „Jur je svanulo”?',
           options: ['još', 'već', 'uvijek', 'tek'],
           correct: 1,
           hint: 'The dawn has come — and the word tells you it has happened sooner than expected.',
@@ -2253,21 +2253,21 @@ export const PRACTICE_C2 = {
         },
         {
           type: 'type',
-          q: 'Napiši modernim pravopisom stari zapis "chovjek": ____',
+          q: 'Napiši modernim pravopisom stari zapis „chovjek”: ____',
           answer: 'čovjek',
           hint: 'Read it aloud: ch here is the sound č.',
           explanation: 'chovjek → čovjek — the spelling is borrowed, the word is Croatian.',
         },
         {
           type: 'type',
-          q: 'Napiši modernim pravopisom stari zapis "szunce": ____',
+          q: 'Napiši modernim pravopisom stari zapis „szunce”: ____',
           answer: 'sunce',
           hint: 'In Hungarian-style spelling sz stood for a plain s.',
           explanation: 'szunce → sunce.',
         },
         {
           type: 'type',
-          q: 'Zamijeni arhaizam suvremenom riječju: "Jur je svanulo." → "____ je svanulo."',
+          q: 'Zamijeni arhaizam suvremenom riječju: „Jur je svanulo.” → „____ je svanulo.”',
           answer: 'Već',
           hint: 'jur is an old word for "already".',
           explanation: 'jur = već.',
@@ -2280,7 +2280,7 @@ export const PRACTICE_C2 = {
           explanation: 'sjedoše — "they sat down", the narrative tense of older prose.',
         },
         {
-          q: 'Stari tekst ima "Bijaše noć tiha". Što je "bijaše"?',
+          q: 'Stari tekst ima „Bijaše noć tiha”. Što je „bijaše”?',
           options: ['imperfekt glagola biti', 'aorist glagola biti', 'nova riječ', 'pogreška'],
           correct: 0,
           hint: 'It is a form of a verb you use every day.',
@@ -2307,7 +2307,7 @@ export const PRACTICE_C2 = {
             'Verbs first — they carry the tense system — then the spelling, then only the words that block.',
         },
         {
-          q: 'Što je "dođoše"?',
+          q: 'Što je „dođoše”?',
           options: ['imperfekt', 'aorist, 3. lice množine', 'prezent', 'tiskarska pogreška'],
           correct: 1,
           hint: 'A sudden completed act in older narration.',
@@ -2514,7 +2514,7 @@ export const PRACTICE_C2 = {
           explanation: 'Obje autorice — the feminine form.',
         },
         {
-          q: 'Kako se zove pogreška: jedan odlomak po izvoru, povezan s "a drugi autor kaže"?',
+          q: 'Kako se zove pogreška: jedan odlomak po izvoru, povezan s „a drugi autor kaže”?',
           options: ['popis sažetaka umjesto sinteze', 'dobra sinteza', 'citiranje', 'parafraza'],
           correct: 0,
           hint: 'What is the structure organized by?',
@@ -2522,7 +2522,7 @@ export const PRACTICE_C2 = {
             'Organized by source, it is a list of summaries; a synthesis is organized by idea.',
         },
         {
-          q: 'Izvor piše: "Ovo bi moglo dovesti do ozbiljne krize." Koji glagol točno prenosi taj ton?',
+          q: 'Izvor piše: „Ovo bi moglo dovesti do ozbiljne krize.” Koji glagol točno prenosi taj ton?',
           options: ['primjećuje', 'slaže se', 'upozorava', 'poriče'],
           correct: 2,
           hint: 'Vary the verb for meaning: what is the source doing?',
@@ -2674,7 +2674,7 @@ export const PRACTICE_C2 = {
             'Ako sam Vas dobro razumio… je li tako? — it protects you from refuting something nobody said.',
         },
         {
-          q: 'U rečenici "Budući da su troškovi porasli, projekt treba odgoditi" što je zaključak?',
+          q: 'U rečenici „Budući da su troškovi porasli, projekt treba odgoditi” što je zaključak?',
           options: ['troškovi su porasli', 'projekt treba odgoditi', 'budući da', 'nema zaključka'],
           correct: 1,
           hint: 'The premise is introduced by the connective; the conclusion is what follows from it.',
@@ -2738,7 +2738,7 @@ export const PRACTICE_C2 = {
           explanation: 'Ako sam Vas dobro razumio… — checking before objecting.',
         },
         {
-          q: 'Što je "zaključak" u argumentu?',
+          q: 'Što je „zaključak” u argumentu?',
           options: ['tvrdnja koja slijedi iz premisa', 'polazna pretpostavka', 'prigovor', 'citat'],
           correct: 0,
           hint: 'What comes at the end of the inference?',

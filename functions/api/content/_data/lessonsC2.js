@@ -338,7 +338,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Pick a Side and Stay There',
-        body: 'On the genuinely contested points nobody can call you wrong. What they can call you is inconsistent. Write pogreška throughout or pogrješka throughout; zadaci throughout or zadatci throughout. A document that alternates announces that nobody read it end to end, which is the impression a C2 writer is trying hardest to avoid.',
+        body: 'On the genuinely contested points nobody can call you wrong. What they can call you is inconsistent. Write pogreška throughout or pogrješka throughout; zadaci throughout or zadatci throughout. A document that alternates announces that nobody read it end to end, which is the impression a careful writer is trying hardest to avoid.',
         highlight: 'consistency is the rule where the rule is contested',
       },
       {
@@ -1492,7 +1492,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'A Form Most Learners Never Meet',
-        body: 'Croatian has a second conditional — kondicional drugi — built from the conditional of biti plus the participle: bio bih došao. It is rare in speech, alive in literature and careful writing, and almost never taught, so learners reach C2 able to say "I would come" and unable to say "I would have come" except by implication. This lesson closes that.',
+        body: 'Croatian has a second conditional — kondicional drugi — built from the conditional of biti plus the participle: bio bih došao. It is rare in speech, alive in literature and careful writing, and almost never taught, so learners reach this level able to say "I would come" and unable to say "I would have come" except by implication. This lesson closes that.',
         icon: '🕰️',
       },
       {
@@ -1718,7 +1718,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'Correct Prose That Is Still Hard to Read',
-        body: 'A C2 learner writes sentences that are all correct and all the same length, and the result is flat. Croatian rhythm is built differently from English rhythm because word order is freer and the clitics have a fixed slot, so the tools available are different — and once you can hear them, the same content becomes readable or unreadable at will.',
+        body: 'A learner at this level often writes sentences that are all correct and all the same length, and the result is flat. Croatian rhythm is built differently from English rhythm because word order is freer and the clitics have a fixed slot, so the tools available are different — and once you can hear them, the same content becomes readable or unreadable at will.',
         icon: '🎼',
       },
       {
@@ -1980,12 +1980,6 @@ export const LESSONS_C2 = [
           ['e pa', 'E pa, hvala lijepa.', 'Resigned, often sarcastic'],
           ['taman posla', 'Taman posla!', 'Absolutely not — indignant refusal'],
         ],
-      },
-      {
-        type: 'rule',
-        title: 'Baš Is the Workhorse',
-        body: 'Baš intensifies, and intensified praise in a context where praise is not deserved becomes sarcasm: "Baš si pametan" is either "you really are clever" or its exact opposite, and only the situation decides. The construction is identical. If you cannot yet hear which is meant, the safe reading in a tense exchange is the sarcastic one.',
-        highlight: 'Baš si mi pomogao. — thanks for nothing',
       },
       {
         type: 'rule',
@@ -2434,7 +2428,7 @@ export const LESSONS_C2 = [
           'Case endings can be the trap, because the ending fixes the role',
           'A diminutive applied to something large is the standard comic mismatch',
           'A switch into kajkavian or a marked accent is a comic register, not mockery',
-          'Missing a joke is normal at C2; recognizing the device is the achievable goal',
+          'Missing a joke is normal at this level; recognizing the device is the achievable goal',
         ],
       },
     ],
@@ -2975,7 +2969,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'A Practical Order of Attack',
-        body: 'Read for the verbs first — they carry the tense system and most of the difficulty. Then resolve the spelling by sound. Then look up only the words that block the sentence, not every unfamiliar one. Most nineteenth-century Croatian is readable at C2 on a second pass; sixteenth-century Croatian usually needs an edition with notes, and using one is not a failure.',
+        body: 'Read for the verbs first — they carry the tense system and most of the difficulty. Then resolve the spelling by sound. Then look up only the words that block the sentence, not every unfamiliar one. Most nineteenth-century Croatian is readable on a second pass at the level you have reached; sixteenth-century Croatian usually needs an edition with notes, and using one is not a failure.',
         highlight: 'verbs → sound out the spelling → look up only what blocks',
       },
       {
@@ -3154,7 +3148,7 @@ export const LESSONS_C2 = [
   // ── 22. Synthesis across sources ──────────────────────────────────────────
   {
     id: 'sinteza-izvora',
-    title: 'Synthesising Several Sources',
+    title: 'Synthesizing Several Sources',
     level: 'C1',
     subtitle: 'Turning three texts that disagree into one coherent account',
     icon: '🧵',
@@ -3165,7 +3159,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Descriptor, Taught Directly',
-        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarizing ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
+        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is how the CEFR describes the highest level of proficiency, and it names a skill no earlier lesson has taught. Summarizing ONE text you have already practiced. Synthesizing several — especially several that disagree — needs its own vocabulary and its own structure.',
         icon: '🧵',
       },
       {
@@ -3357,7 +3351,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'What no source addresses is real content. Learners suppress it as an admission of incompleteness; in fact it is the part of the work only the synthesiser can do.',
+              'What no source addresses is real content. Learners suppress it as an admission of incompleteness; in fact it is the part of the work only the person who read every source can do.',
           },
           {
             q: 'Complete: "___ autora polaze od iste pretpostavke." (both)',
@@ -3634,7 +3628,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Phrase the Descriptor Uses',
-        body: '"Differentiating finer shades of meaning even in the most complex situations." At C2 vocabulary stops being about knowing more words and becomes about choosing between words you already know — where a dictionary gives you three Croatian options for one English word and does not say which one a native speaker would use here.',
+        body: '"Differentiating finer shades of meaning even in the most complex situations." At this level vocabulary stops being about knowing more words and becomes about choosing between words you already know — where a dictionary gives you three Croatian options for one English word and does not say which one a native speaker would use here.',
         icon: '🔎',
       },
       {
@@ -3916,7 +3910,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Simplify Under Pressure, Deliberately',
-        body: 'The C2 move is not to reach for the most complex structure available but to notice when a complex one is failing and drop to a simpler one without stopping. A stalled subordinate clause can always become two short sentences. Nobody notices the simplification; everybody notices the stall.',
+        body: 'The skilled move is not to reach for the most complex structure available but to notice when a complex one is failing and drop to a simpler one without stopping. A stalled subordinate clause can always become two short sentences. Nobody notices the simplification; everybody notices the stall.',
         highlight: 'when a clause stalls, make it two sentences',
       },
       {
@@ -4060,7 +4054,7 @@ export const LESSONS_C2 = [
               "It parks a point without losing it, which keeps the listener's trust and buys the speaker time to finish the current thought.",
           },
           {
-            q: 'A subordinate clause stalls mid-answer. What is the C2 move?',
+            q: 'A subordinate clause stalls mid-answer. What is the skilled move?',
             options: [
               'Stop and restart',
               'Finish it wrongly',
@@ -4147,7 +4141,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Control the Impression Deliberately',
-        body: 'The C2 endpoint is not speaking one perfect Croatian. It is having several and choosing between them: standard for the report, relaxed for the coffee, a diminutive where warmth is wanted, the native coinage where precision is. When you can do that, the language has stopped being something you are learning and has become something you are using.',
+        body: 'The endpoint is not speaking one perfect Croatian. It is having several and choosing between them: standard for the report, relaxed for the coffee, a diminutive where warmth is wanted, the native coinage where precision is. When you can do that, the language has stopped being something you are learning and has become something you are using.',
         highlight: 'several Croatians, chosen deliberately',
       },
       {
@@ -4311,7 +4305,7 @@ export const LESSONS_C2 = [
               'Start with Vi and switch when the other person switches or proposes it. Offering it upward is still presumptuous, however fast the line has moved in general.',
           },
           {
-            q: 'What is the C2 endpoint according to this lesson?',
+            q: 'What is the endpoint according to this lesson?',
             options: [
               'One perfect standard Croatian',
               'Several Croatians, chosen deliberately by setting',
@@ -4332,7 +4326,7 @@ export const LESSONS_C2 = [
           'Anglicisms and native coinages sit on an axis of age and setting, not correctness',
           'Messaging Croatian drops diacritics; professional writing never does',
           'Heritage forms are the language of a place and time, not errors',
-          'The C2 endpoint is having several Croatians and choosing between them',
+          'The endpoint is having several Croatians and choosing between them',
         ],
       },
     ],

@@ -10355,7 +10355,7 @@ const LESSONS_CORE = [
   // ─────────────────────────────────────────────────────────
   {
     id: 'stilske-figure',
-    title: 'C2: Rhetorical Figures & Style',
+    title: 'Rhetorical Figures & Style',
     subtitle: 'metafora, gradacija, antiteza — read and write with intent',
     icon: '🎭',
     level: 'C1',
@@ -10366,7 +10366,7 @@ const LESSONS_CORE = [
       {
         type: 'intro',
         title: 'Style Is a System, Not Decoration',
-        body: 'Croatian essays, speeches and journalism lean on a classical toolkit of figures — and C2 exams expect you to NAME them, spot them, and deploy them. This lesson covers the seven you will actually meet: metafora, metonimija, hiperbola, gradacija, antiteza, ironija, retoričko pitanje.',
+        body: 'Croatian essays, speeches and journalism lean on a classical toolkit of figures — and at this level you are expected to NAME them, spot them, and deploy them. This lesson covers the seven you will actually meet: metafora, metonimija, hiperbola, gradacija, antiteza, ironija, retoričko pitanje.',
         icon: '🎭',
       },
       {
@@ -10592,7 +10592,7 @@ const LESSONS_CORE = [
           'gradacija climbs stepwise — order from weakest to strongest',
           'antiteza collides opposites in parallel syntax',
           'hiperbola exaggerates; ironija inverts; retoričko pitanje asks without asking',
-          'Spotting figures by name is a standard C2 reading-exam task',
+          'Spotting figures by name is a standard task in advanced reading exams',
         ],
       },
     ],
