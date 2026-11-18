@@ -846,14 +846,14 @@ export const LESSONS = [
       },
       {
         type: 'rule',
-        title: 'Agreement: One Feminine Noun, a Singular Verb',
-        body: 'Because the noun is a feminine singular, everything agrees with it as one: the verb is singular, an adjective is feminine singular, and a past participle is feminine singular. Momčad je dobro uvježbana. Momčad je pobijedila. Unučad je došla na ručak. Mala je mačad popila mlijeko. Štenad je cijelu noć lajala. English says "the grandchildren have come" in the plural; Croatian keeps the singular: Unučad je došla.',
+        title: 'Agreement: One Feminine Noun, Usually a Singular Verb',
+        body: 'Because the noun is a feminine singular, an adjective beside it is feminine singular, and the verb is usually singular with a feminine singular participle. Momčad je dobro uvježbana. Momčad je pobijedila. Unučad je došla na ručak. Mala je mačad popila mlijeko. Štenad je cijelu noć lajala. English says "the grandchildren have come" in the plural; Croatian usually keeps the singular: Unučad je došla. Because the noun names many, a plural auxiliary is also standard — but the participle keeps its -a shape: Telad su pasla. Unučad su došla. What is never right is the masculine plural participle: "Unučad su došli".',
         highlight: 'Unučad je došla na ručak.',
       },
       {
         type: 'rule',
         title: 'Only Momčad Has a Plural',
-        body: 'The -ad nouns already mean a group, so they have no plural — with one exception. Momčad also means a single team, and teams can be counted: Sve momčadi trebaju doći na stadion. Igra u domaćim momčadima. Two teams are dvije momčadi. The others cannot be counted at all: to count grandchildren or chicks, use the countable noun — dva unuka, tri unuke, pet pilića.',
+        body: 'The -ad nouns already mean a group, so they have no plural — with one exception. Momčad also means a single team, and teams can be counted: Sve momčadi trebaju doći na stadion. Igra u domaćim momčadima. Two teams are dvije momčadi. The others do not take an ordinary number ("dvije unučadi" is wrong). To count grandchildren or chicks, use the countable noun — dva unuka, tri unuke, pet pilića — or a collective number with the genitive: troje unučadi, petero piladi.',
         highlight: 'Sve momčadi trebaju doći na stadion.',
       },
       {
@@ -938,7 +938,7 @@ export const LESSONS = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: '(1) A plural verb: "Unučad su došli" is wrong — the noun is one feminine singular: Unučad je došla. (2) Neuter agreement, copied from tele or pile: "Telad je paslo" is wrong — telad is feminine: Telad je pasla. (3) Declining it like žena: "s momčadom", "o siročadu" are wrong — it declines like stvar: s momčadi, o siročadi. (4) A plural of the other -ad nouns: "dvije unučadi" is wrong — to count, use the countable noun: dva unuka.',
+        body: '(1) A masculine plural participle: "Unučad su došli" is wrong — the noun is one feminine singular: Unučad je došla (with a plural auxiliary the participle still ends in -a: Unučad su došla). (2) Neuter agreement, copied from tele or pile: "Telad je paslo" is wrong — telad is feminine: Telad je pasla. (3) Declining it like žena: "s momčadom", "o siročadu" are wrong — it declines like stvar: s momčadi, o siročadi. (4) A plural of the other -ad nouns: "dvije unučadi" is wrong — to count, use the countable noun (dva unuka) or a collective number (troje unučadi).',
         highlight: 'Unučad je došla',
       },
       {
@@ -996,9 +996,10 @@ export const LESSONS = [
         points: [
           'From the young in -e: pile → pilad, tele → telad, unuče → unučad, siroče → siročad',
           'One feminine noun of the stvar type: dobra momčad, dobre momčadi, s dobrom momčadi',
-          'Singular verb, feminine agreement: Unučad je došla, Momčad je pobijedila',
+          'Usually a singular verb with feminine agreement: Unučad je došla, Momčad je pobijedila',
+          'A plural auxiliary is also standard, with the participle in -a: Telad su pasla — never "su pasli"',
           'Only momčad has a plural: sve momčadi, dvije momčadi',
-          'To count, use the countable noun: dva unuka, pet pilića',
+          'To count, use the countable noun (dva unuka, pet pilića) or a collective number (troje unučadi)',
         ],
       },
     ],
@@ -1564,8 +1565,9 @@ export const PRACTICE = {
           type: 'type',
           q: 'Bilo je skupo, ____ smo ga kupili. (but — against expectation)',
           answer: 'ali',
+          accept: ['ipak'],
           hint: 'The commonest connector of opposition. (no cannot stand before a clitic.)',
-          explanation: 'ali — expensive, but we bought it.',
+          explanation: 'ali — expensive, but we bought it. (ipak also fits here.)',
         },
         {
           type: 'type',
@@ -1906,7 +1908,7 @@ export const PRACTICE = {
           },
           {
             label: 'The verbs',
-            text: 'Singular, with feminine participles: je stigla, igrala se.',
+            text: 'Usually singular, with feminine participles: je stigla, igrala se.',
           },
         ],
         answer: 'Unučad je jučer stigla i igrala se u vrtu.',
@@ -1983,8 +1985,9 @@ export const PRACTICE = {
           q: 'How do you count grandchildren?',
           options: ['dvije unučadi', 'dva unuka', 'dvoje unučad', 'dva unučada'],
           correct: 1,
-          hint: 'The collective cannot be counted; use the countable noun.',
-          explanation: 'dva unuka — the countable noun unuk.',
+          hint: 'An ordinary number cannot stand before the collective; one option uses the countable noun.',
+          explanation:
+            'dva unuka — the countable noun unuk. (A collective number also works: troje unučadi.)',
         },
         {
           q: 'Complete: "Novorođenčad je bila ___ cijelu noć."',

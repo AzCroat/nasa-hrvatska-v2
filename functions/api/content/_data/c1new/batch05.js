@@ -1829,14 +1829,14 @@ export const PRACTICE = {
           type: 'type',
           q: 'Stanujem u ____ Ivana Gundulića. (ulica)',
           answer: 'Ulici',
-          hint: 'Locative after u; the first word of the name keeps its capital.',
+          hint: 'The locative of ulica after u. (As the first word of the street name it is written with a capital; capitals are not checked in a typed answer.)',
           explanation: 'u Ulici Ivana Gundulića.',
         },
         {
           type: 'type',
           q: 'Nađimo se na ____ kralja Tomislava. (trg)',
           answer: 'Trgu',
-          hint: 'Locative after na.',
+          hint: 'The locative of trg after na. (As the first word of the square name it is written with a capital; capitals are not checked in a typed answer.)',
           explanation: 'na Trgu kralja Tomislava.',
         },
         {
