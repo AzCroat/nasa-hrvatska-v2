@@ -26,7 +26,7 @@ interface Finding {
 }
 
 const REVIEWED_USAGE: Record<string, number> = {
-  flat: 141, // level ground, a flat tire, a flat tone, the tongue held flat
+  flat: 142, // level ground, a flat tire, a flat tone, the tongue held flat
   flats: 4, // salt flats, tidal flats
   holiday: 20, // public and religious holidays
   holidays: 18,

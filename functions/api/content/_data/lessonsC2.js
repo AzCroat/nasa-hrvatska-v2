@@ -44,7 +44,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'A Different Kind of Question',
-        body: 'Up to C1 the question was always "is this correct?". At C2 it stops being useful, because the interesting cases are the ones where two forms are both defensible and the choice says something. Croatian has an unusually explicit standard — codified grammars, an orthography, a long tradition of language advice — and an everyday usage that does not always match it. Knowing where they diverge is the difference between writing correctly and writing deliberately.',
+        body: 'Until now the question was always "is this correct?". From here on it stops being useful, because the interesting cases are the ones where two forms are both defensible and the choice says something. Croatian has an unusually explicit standard — codified grammars, an orthography, a long tradition of language advice — and an everyday usage that does not always match it. Knowing where they diverge is the difference between writing correctly and writing deliberately.',
         icon: '⚖️',
       },
       {
@@ -59,9 +59,9 @@ export const LESSONS_C2 = [
         headers: ['The norm prefers', 'Usage often has', 'Where it matters'],
         rows: [
           [
-            'trebam raditi',
-            'trebam da radim',
-            'The da-construction is marked; avoid it in writing',
+            'ja bih došao',
+            'ja bi došao',
+            'bi for every person is everyday speech; writing keeps bih, bismo, biste',
           ],
           ['dvoje djece', 'dvojica djece', 'dvojica is for men only — the norm is strict here'],
           ['gdje si bio?', 'di si bio?', 'Purely spoken; never written outside dialogue'],
@@ -77,13 +77,13 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Hypercorrection Is Its Own Error',
-        body: 'The commonest C2 mistake is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told to avoid the da-construction writes infinitives where Croatian would not use one. A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgment produces sentences no native speaker would write, and they are more conspicuous than the original error.',
+        body: 'The commonest mistake at this level is overshooting. A learner who has been told the nominal style is formal writes "vršenje provođenja nadzora". A learner told that the passive sounds official writes "Od strane uprave donesena je odluka" where Croatian simply says "Uprava je donijela odluku". A learner told "sa" is wrong writes "s sestrom" instead of "sa sestrom". Correction applied without judgment produces sentences no native speaker would write, and they are more conspicuous than the original error.',
         highlight: 's sestrom ✗ → sa sestrom ✓',
       },
       {
         type: 'rule',
         title: 'Choose For the Reader',
-        body: 'The practical rule at C2: identify the register the reader expects, then write within it consistently. A legal submission and a column in Jutarnji list have different norms and both are professional. What never works is mixing them — an administrative nominal phrase inside a chatty paragraph reads as a mistake even when every word is correct.',
+        body: 'The practical rule: identify the register the reader expects, then write within it consistently. A legal submission and a column in Jutarnji list have different norms and both are professional. What never works is mixing them — an administrative nominal phrase inside a chatty paragraph reads as a mistake even when every word is correct.',
         highlight: 'consistency inside a register beats correctness across registers',
       },
       {
@@ -138,23 +138,23 @@ export const LESSONS_C2 = [
           },
           {
             hr: 'Nije pogrešno reći da idem u dućan, ali u oglasu trgovine pisat će trgovina, jer je ta riječ neutralnija.',
-            en: "It is not wrong to say I am going to the dućan, but a shop's advertisement will say trgovina, because that word is more neutral.",
+            en: "It is not wrong to say I am going to the dućan, but a store's advertisement will say trgovina, because that word is more neutral.",
             note: 'Less standard is not wrong — choose for the reader',
           },
         ],
       },
       {
         type: 'quiz',
-        q: 'A colleague writes "Trebam da završim izvještaj" in a report. What is the accurate thing to say about it?',
+        q: 'A colleague writes "Ja bi to završio do petka" in a report. What is the accurate thing to say about it?',
         options: [
-          'It is ungrammatical and must be corrected',
-          'It is understood everywhere but marked; the norm prefers "Trebam završiti izvještaj" in writing',
+          'Nobody says it, so it must be a typing mistake',
+          'It is what most people say, but in writing the norm keeps the first-person form: "Ja bih to završio do petka"',
           'It is the preferred standard form',
-          'It is a Serbian construction and must never appear',
+          'It is a regional form heard only on the coast',
         ],
         correct: 1,
         explanation:
-          'The da-construction after trebati is widespread in speech across the region and perfectly comprehensible, but the Croatian standard prefers the infinitive in writing. "Marked, not wrong" is the honest description — and it is exactly the kind of judgment C2 is about.',
+          'In everyday speech bi serves for every person, and nobody misunderstands it. The standard keeps a form for each person — bih, bi, bi, bismo, biste, bi — and a report is written in the standard. "Usual in speech, not written in a report" is the honest description, and it is exactly the kind of judgment this lesson is about.',
       },
       {
         type: 'quiz',
@@ -172,7 +172,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Common Mistakes',
-        body: 'Three errors this lesson\'s learners make. First, treating every non-standard form as wrong: "trebam da radim" is marked, not ungrammatical — say the norm prefers "trebam raditi". Second, hypercorrecting the preposition: sa mnom · sa sestrom — never s mnom, because the "s not sa" rule stops exactly where pronunciation demands sa. Third, mixing registers inside one text: "Odbili su mi zahtjev" inside an administrative letter reads as a slip even though every word is correct — keep "Zahtjev je odbijen" throughout.',
+        body: 'Three errors this lesson\'s learners make. First, treating every non-standard form as wrong: "di si" in a message to a friend is spoken, not a mistake — say the norm prefers "gdje" in writing. Second, hypercorrecting the preposition: sa mnom · sa sestrom — never s mnom, because the "s not sa" rule stops exactly where pronunciation demands sa. Third, mixing registers inside one text: "Odbili su mi zahtjev" inside an administrative letter reads as a slip even though every word is correct — keep "Zahtjev je odbijen" throughout.',
         highlight: 'sa mnom · sa sestrom — never s mnom',
       },
       {
@@ -251,7 +251,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'Norma is prescribed; uzus is observed usage. The interesting C2 cases are the ones where the two diverge and the choice says something about the writer.',
+              'Norma is prescribed; uzus is observed usage. The interesting cases are the ones where the two diverge and the choice says something about the writer.',
           },
         ],
       },
@@ -338,7 +338,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Pick a Side and Stay There',
-        body: 'On the genuinely contested points nobody can call you wrong. What they can call you is inconsistent. Write pogreška throughout or pogrješka throughout; zadaci throughout or zadatci throughout. A document that alternates announces that nobody read it end to end, which is the impression a C2 writer is trying hardest to avoid.',
+        body: 'On the genuinely contested points nobody can call you wrong. What they can call you is inconsistent. Write pogreška throughout or pogrješka throughout; zadaci throughout or zadatci throughout. A document that alternates announces that nobody read it end to end, which is the impression a careful writer is trying hardest to avoid.',
         highlight: 'consistency is the rule where the rule is contested',
       },
       {
@@ -1492,7 +1492,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'A Form Most Learners Never Meet',
-        body: 'Croatian has a second conditional — kondicional drugi — built from the conditional of biti plus the participle: bio bih došao. It is rare in speech, alive in literature and careful writing, and almost never taught, so learners reach C2 able to say "I would come" and unable to say "I would have come" except by implication. This lesson closes that.',
+        body: 'Croatian has a second conditional — kondicional drugi — built from the conditional of biti plus the participle: bio bih došao. It is rare in speech, alive in literature and careful writing, and almost never taught, so learners reach this level able to say "I would come" and unable to say "I would have come" except by implication. This lesson closes that.',
         icon: '🕰️',
       },
       {
@@ -1718,7 +1718,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'Correct Prose That Is Still Hard to Read',
-        body: 'A C2 learner writes sentences that are all correct and all the same length, and the result is flat. Croatian rhythm is built differently from English rhythm because word order is freer and the clitics have a fixed slot, so the tools available are different — and once you can hear them, the same content becomes readable or unreadable at will.',
+        body: 'A learner at this level often writes sentences that are all correct and all the same length, and the result is flat. Croatian rhythm is built differently from English rhythm because word order is freer and the clitics have a fixed slot, so the tools available are different — and once you can hear them, the same content becomes readable or unreadable at will.',
         icon: '🎼',
       },
       {
@@ -1980,12 +1980,6 @@ export const LESSONS_C2 = [
           ['e pa', 'E pa, hvala lijepa.', 'Resigned, often sarcastic'],
           ['taman posla', 'Taman posla!', 'Absolutely not — indignant refusal'],
         ],
-      },
-      {
-        type: 'rule',
-        title: 'Baš Is the Workhorse',
-        body: 'Baš intensifies, and intensified praise in a context where praise is not deserved becomes sarcasm: "Baš si pametan" is either "you really are clever" or its exact opposite, and only the situation decides. The construction is identical. If you cannot yet hear which is meant, the safe reading in a tense exchange is the sarcastic one.',
-        highlight: 'Baš si mi pomogao. — thanks for nothing',
       },
       {
         type: 'rule',
@@ -2434,7 +2428,7 @@ export const LESSONS_C2 = [
           'Case endings can be the trap, because the ending fixes the role',
           'A diminutive applied to something large is the standard comic mismatch',
           'A switch into kajkavian or a marked accent is a comic register, not mockery',
-          'Missing a joke is normal at C2; recognizing the device is the achievable goal',
+          'Missing a joke is normal at this level; recognizing the device is the achievable goal',
         ],
       },
     ],
@@ -2975,7 +2969,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'A Practical Order of Attack',
-        body: 'Read for the verbs first — they carry the tense system and most of the difficulty. Then resolve the spelling by sound. Then look up only the words that block the sentence, not every unfamiliar one. Most nineteenth-century Croatian is readable at C2 on a second pass; sixteenth-century Croatian usually needs an edition with notes, and using one is not a failure.',
+        body: 'Read for the verbs first — they carry the tense system and most of the difficulty. Then resolve the spelling by sound. Then look up only the words that block the sentence, not every unfamiliar one. Most nineteenth-century Croatian is readable on a second pass at the level you have reached; sixteenth-century Croatian usually needs an edition with notes, and using one is not a failure.',
         highlight: 'verbs → sound out the spelling → look up only what blocks',
       },
       {
@@ -3154,7 +3148,7 @@ export const LESSONS_C2 = [
   // ── 22. Synthesis across sources ──────────────────────────────────────────
   {
     id: 'sinteza-izvora',
-    title: 'Synthesising Several Sources',
+    title: 'Synthesizing Several Sources',
     level: 'C1',
     subtitle: 'Turning three texts that disagree into one coherent account',
     icon: '🧵',
@@ -3165,7 +3159,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Descriptor, Taught Directly',
-        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is the CEFR definition of C2, and it names a skill nothing in this app had taught. Summarizing ONE text was C1. Synthesising several — especially several that disagree — needs its own vocabulary and its own structure.',
+        body: '"Can summarize information from different spoken and written sources, reconstructing arguments and accounts in a coherent presentation." That sentence is how the CEFR describes the highest level of proficiency, and it names a skill no earlier lesson has taught. Summarizing ONE text you have already practiced. Synthesizing several — especially several that disagree — needs its own vocabulary and its own structure.',
         icon: '🧵',
       },
       {
@@ -3357,7 +3351,7 @@ export const LESSONS_C2 = [
             ],
             correct: 1,
             explanation:
-              'What no source addresses is real content. Learners suppress it as an admission of incompleteness; in fact it is the part of the work only the synthesiser can do.',
+              'What no source addresses is real content. Learners suppress it as an admission of incompleteness; in fact it is the part of the work only the person who read every source can do.',
           },
           {
             q: 'Complete: "___ autora polaze od iste pretpostavke." (both)',
@@ -3634,7 +3628,7 @@ export const LESSONS_C2 = [
       {
         type: 'intro',
         title: 'The Phrase the Descriptor Uses',
-        body: '"Differentiating finer shades of meaning even in the most complex situations." At C2 vocabulary stops being about knowing more words and becomes about choosing between words you already know — where a dictionary gives you three Croatian options for one English word and does not say which one a native speaker would use here.',
+        body: '"Differentiating finer shades of meaning even in the most complex situations." At this level vocabulary stops being about knowing more words and becomes about choosing between words you already know — where a dictionary gives you three Croatian options for one English word and does not say which one a native speaker would use here.',
         icon: '🔎',
       },
       {
@@ -3916,7 +3910,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Simplify Under Pressure, Deliberately',
-        body: 'The C2 move is not to reach for the most complex structure available but to notice when a complex one is failing and drop to a simpler one without stopping. A stalled subordinate clause can always become two short sentences. Nobody notices the simplification; everybody notices the stall.',
+        body: 'The skilled move is not to reach for the most complex structure available but to notice when a complex one is failing and drop to a simpler one without stopping. A stalled subordinate clause can always become two short sentences. Nobody notices the simplification; everybody notices the stall.',
         highlight: 'when a clause stalls, make it two sentences',
       },
       {
@@ -4060,7 +4054,7 @@ export const LESSONS_C2 = [
               "It parks a point without losing it, which keeps the listener's trust and buys the speaker time to finish the current thought.",
           },
           {
-            q: 'A subordinate clause stalls mid-answer. What is the C2 move?',
+            q: 'A subordinate clause stalls mid-answer. What is the skilled move?',
             options: [
               'Stop and restart',
               'Finish it wrongly',
@@ -4147,7 +4141,7 @@ export const LESSONS_C2 = [
       {
         type: 'rule',
         title: 'Control the Impression Deliberately',
-        body: 'The C2 endpoint is not speaking one perfect Croatian. It is having several and choosing between them: standard for the report, relaxed for the coffee, a diminutive where warmth is wanted, the native coinage where precision is. When you can do that, the language has stopped being something you are learning and has become something you are using.',
+        body: 'The endpoint is not speaking one perfect Croatian. It is having several and choosing between them: standard for the report, relaxed for the coffee, a diminutive where warmth is wanted, the native coinage where precision is. When you can do that, the language has stopped being something you are learning and has become something you are using.',
         highlight: 'several Croatians, chosen deliberately',
       },
       {
@@ -4311,7 +4305,7 @@ export const LESSONS_C2 = [
               'Start with Vi and switch when the other person switches or proposes it. Offering it upward is still presumptuous, however fast the line has moved in general.',
           },
           {
-            q: 'What is the C2 endpoint according to this lesson?',
+            q: 'What is the endpoint according to this lesson?',
             options: [
               'One perfect standard Croatian',
               'Several Croatians, chosen deliberately by setting',
@@ -4332,7 +4326,7 @@ export const LESSONS_C2 = [
           'Anglicisms and native coinages sit on an axis of age and setting, not correctness',
           'Messaging Croatian drops diacritics; professional writing never does',
           'Heritage forms are the language of a place and time, not errors',
-          'The C2 endpoint is having several Croatians and choosing between them',
+          'The endpoint is having several Croatians and choosing between them',
         ],
       },
     ],

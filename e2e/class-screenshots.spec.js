@@ -168,6 +168,15 @@ test.describe('class-order screenshots', () => {
 
     // CLASS_SHOTS_FIRST=1: only the first unit (a sample lesson shown before a level is written).
     const last = process.env.CLASS_SHOTS_FIRST ? 5 : lessons.length;
+    // CLASS_SHOTS_UNIT=13: only that unit's first lesson (a sample from the middle of a level).
+    if (process.env.CLASS_SHOTS_UNIT) {
+      const u = Number(process.env.CLASS_SHOTS_UNIT) - 1;
+      const lesson = lessons[u * 5];
+      const label = `Unit ${String(u + 1).padStart(2, '0')} - ${lesson.id}`;
+      await shoot(lesson, `${LEVEL}-${u + 1}`, label, false);
+      await shoot(lesson, `${LEVEL}-${u + 1}`, `Small phone (360x640) - ${label}`, true);
+      return;
+    }
     for (let u = 0; u * 5 < last; u++) {
       const lesson = lessons[u * 5];
       const label = `Unit ${String(u + 1).padStart(2, '0')} - ${lesson.id}`;
